@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EDAAC760
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 17:52:38 +0200 (CEST)
-Received: from localhost ([::1]:35790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7A0AC782
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 18:06:13 +0200 (CEST)
+Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6d0v-0008TQ-QH
-	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 11:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48811)
+	id 1i6dE4-0008U8-CB
+	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 12:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50633)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <th.huth@gmail.com>) id 1i6cwS-0003no-WD
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:48:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1i6d8u-0004w8-Q3
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:00:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1i6cwR-0007l6-LK
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:48:00 -0400
-Received: from mail-wr1-f47.google.com ([209.85.221.47]:45599)
+ (envelope-from <bounces@canonical.com>) id 1i6d8t-0000yY-5M
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:00:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38796)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1i6cwR-0007kA-DU
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:47:59 -0400
-Received: by mail-wr1-f47.google.com with SMTP id l16so9423230wrv.12
- for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 08:47:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2jdSbx0h06goM+ImaeVDWGxaOiMgDN9DDo/rfIrNBMs=;
- b=fVG90uJWr/Z0K4IlV4QC8+AArLO1I+LrxM/3/uN6OjQXjk+Mr4qLtzezzb/f4Aj0GM
- 6iD4dSqKQ7Pxo7CYq+vuabOjoUATlsu0MSAIHIz3ycP8No50bGVD3pA3hc87tlmOrmXJ
- 4t9KEkqyS3Vs7LSvZEkLRp3rG5wsUXV56JPendhkBp/cxAnQoCBKAaax1M+2ZidUYBWI
- coh6U8XUWQXq3kJKo5BKiho1vkSV0WNE+RgxxTsHrEDWncFlAzfcRTxwVYftzj3h00YQ
- S7ckgrppKwctI+l2vbOqHYkEmLHVW3oKKOFxylWsTMi4JF7excdPYx+R3B0Zsmaczhel
- mX8g==
-X-Gm-Message-State: APjAAAUZYUlqzwuYFJT1zLLUX2Nqs1QcCPGaXwEvzxda2UJMe/XWrvpV
- X0rhFlhGZDfhfHgFW912AJ5TVLkh
-X-Google-Smtp-Source: APXvYqzoz6gsUshQXQNmY2BLVuO+CGYnK9qQ4Z2Zv6IVm+Wa0phykY4HlCVAdCo3IYcLGhVCzOfzTg==
-X-Received: by 2002:a5d:6b0f:: with SMTP id v15mr10884118wrw.19.1567871278515; 
- Sat, 07 Sep 2019 08:47:58 -0700 (PDT)
-Received: from thl530.multi.box (pD9E8385F.dip0.t-ipconnect.de.
- [217.232.56.95])
- by smtp.gmail.com with ESMTPSA id s19sm17173418wrb.14.2019.09.07.08.47.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Sep 2019 08:47:58 -0700 (PDT)
-From: Thomas Huth <huth@tuxfamily.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Date: Sat,  7 Sep 2019 17:47:44 +0200
-Message-Id: <20190907154744.4136-9-huth@tuxfamily.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190907154744.4136-1-huth@tuxfamily.org>
-References: <20190907154744.4136-1-huth@tuxfamily.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i6d8s-0000vz-Hs
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:00:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i6d8q-0000Lr-Ci
+ for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 16:00:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5BA6A2E80C7
+ for <qemu-devel@nongnu.org>; Sat,  7 Sep 2019 16:00:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 07 Sep 2019 15:51:20 -0000
+From: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade?=
+ <paulo.cesar.pereira.de.andrade@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paulo-cesar-pereira-de-andrade
+X-Launchpad-Bug-Reporter: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade_=28?=
+ =?utf-8?q?paulo-cesar-pereira-de-andrade=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade_=28?=
+ =?utf-8?q?paulo-cesar-pereira-de-andrade=29?=
+Message-Id: <156787148109.29148.9145557698070556446.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f90a0c694c439693a4a45bcd61528b34c842f28e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.47
-Subject: [Qemu-devel] [PULL 8/8] .travis.yml: Let the avocado job run the
- NeXTcube tests
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1843133] [NEW] Possibly incorrect branch in
+ qemu-system-hppa
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,46 +66,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1843133 <1843133@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Public bug reported:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20190813134921.30602-3-philmd@redhat.com>
-[huth: Rebased patch to master branch]
-Signed-off-by: Thomas Huth <huth@tuxfamily.org>
----
- .travis.yml | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+I plan to release a new GNU Lightning soon.
+I no longer have access to any physical HPPA, but code that
+was tested some years ago did work on HPPA/HP-UX, and now it
+appears qemu-system-hppa incorrectly branches in code generated
+by GNU Lightning. Currently only 32 bit hppa jit generation
+supported.
 
-diff --git a/.travis.yml b/.travis.yml
-index 92b00927d4..106f9b5d01 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -232,15 +232,20 @@ matrix:
- 
-     # Acceptance (Functional) tests
-     - env:
--        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc64-softmmu"
-+        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc64-softmmu,m68k-softmmu"
-         - TEST_CMD="make check-acceptance"
-       after_failure:
-         - cat tests/results/latest/job.log
-       addons:
-         apt:
-           packages:
-+            - python3-pil
-             - python3-pip
-             - python3.5-venv
-+            - tesseract-ocr
-+            - tesseract-ocr-eng
-+
-+
-     # Using newer GCC with sanitizers
-     - addons:
-         apt:
--- 
-2.21.0
+In the lightning check/test tool, the code would be:
 
+.code
+    prolog
+    movi %r0 0x7fffffff
+    movi %r1 1
+    boaddr L0 %r0 %r1
+    calli @abort
+L0:
+    ret
+    epilog
+
+The code/debug information looks like this:
+            movi r4 0x7fffffff
+            0xf8ef5018      ldil L%7ffff800,r4
+            0xf8ef501c      ldo 7ff(r4),r4
+            movi r5 0x1
+            0xf8ef5020      ldi 1,r5
+        boaddr L1 r4 r5
+            0xf8ef5024      addb,sv,n r5,r4,0xf8ef5044 :a.tst:291
+            0xf8ef5028      nop
+        calli 0xf8eeb68a
+            [...]
+    L1:
+
+Apparently it is not understanding 0x7fffffff + 1 is a signed overflow.
+
+Tested in Fedora with qemu-system-hppa-3.1.1-2.fc30.x86_64 and using
+the debian-10 image.
+
+To make it a bit easier to test (partially transformed the
+not so optimized code generated by lightning to gcc -S output):
+# cat a.s
+	.LEVEL 1.1
+	.text
+	.align 4
+.globl main
+	.type	main, @function
+main:
+	.PROC
+	.CALLINFO FRAME=3D64,NO_CALLS,SAVE_SP,ENTRY_GR=3D3
+	.ENTRY
+	copy %r3,%r1
+	copy %r30,%r3
+	stwm %r1,64(%r30)
+	zdepi -1,31,31,%r23
+	ldi 1,%r24
+	addb,sv,n %r24,%r23,.L0
+	nop
+	ldi 1,%r28
+	b,n .L1
+	nop
+.L0:
+	ldi 0,%r28
+.L1:
+	ldo 64(%r3),%r30
+	ldwm -64(%r30),%r3
+	bv,n %r0(%r2)
+	.EXIT
+	.PROCEND
+	.size	main, .-main
+
+# gcc a.s
+# ./a.out; echo $?
+1
+
+It should have returned 0.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1843133
+
+Title:
+  Possibly incorrect branch in qemu-system-hppa
+
+Status in QEMU:
+  New
+
+Bug description:
+  I plan to release a new GNU Lightning soon.
+  I no longer have access to any physical HPPA, but code that
+  was tested some years ago did work on HPPA/HP-UX, and now it
+  appears qemu-system-hppa incorrectly branches in code generated
+  by GNU Lightning. Currently only 32 bit hppa jit generation
+  supported.
+
+  In the lightning check/test tool, the code would be:
+
+  .code
+      prolog
+      movi %r0 0x7fffffff
+      movi %r1 1
+      boaddr L0 %r0 %r1
+      calli @abort
+  L0:
+      ret
+      epilog
+
+  The code/debug information looks like this:
+              movi r4 0x7fffffff
+              0xf8ef5018      ldil L%7ffff800,r4
+              0xf8ef501c      ldo 7ff(r4),r4
+              movi r5 0x1
+              0xf8ef5020      ldi 1,r5
+          boaddr L1 r4 r5
+              0xf8ef5024      addb,sv,n r5,r4,0xf8ef5044 :a.tst:291
+              0xf8ef5028      nop
+          calli 0xf8eeb68a
+              [...]
+      L1:
+
+  Apparently it is not understanding 0x7fffffff + 1 is a signed
+  overflow.
+
+  Tested in Fedora with qemu-system-hppa-3.1.1-2.fc30.x86_64 and using
+  the debian-10 image.
+
+  To make it a bit easier to test (partially transformed the
+  not so optimized code generated by lightning to gcc -S output):
+  # cat a.s
+  	.LEVEL 1.1
+  	.text
+  	.align 4
+  .globl main
+  	.type	main, @function
+  main:
+  	.PROC
+  	.CALLINFO FRAME=3D64,NO_CALLS,SAVE_SP,ENTRY_GR=3D3
+  	.ENTRY
+  	copy %r3,%r1
+  	copy %r30,%r3
+  	stwm %r1,64(%r30)
+  	zdepi -1,31,31,%r23
+  	ldi 1,%r24
+  	addb,sv,n %r24,%r23,.L0
+  	nop
+  	ldi 1,%r28
+  	b,n .L1
+  	nop
+  .L0:
+  	ldi 0,%r28
+  .L1:
+  	ldo 64(%r3),%r30
+  	ldwm -64(%r30),%r3
+  	bv,n %r0(%r2)
+  	.EXIT
+  	.PROCEND
+  	.size	main, .-main
+
+  # gcc a.s
+  # ./a.out; echo $?
+  1
+
+  It should have returned 0.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1843133/+subscriptions
 
