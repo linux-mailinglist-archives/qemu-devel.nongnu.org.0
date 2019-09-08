@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F77AD0CA
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 23:29:43 +0200 (CEST)
-Received: from localhost ([::1]:50694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F46CAD0CC
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 23:29:53 +0200 (CEST)
+Received: from localhost ([::1]:50698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i74kg-0002Ic-BG
-	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 17:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46343)
+	id 1i74kp-0002aT-Vq
+	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 17:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74dt-0005Rw-Lg
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:44 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i74dv-0005Um-2u
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74dr-0005oB-9Y
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:41 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:46640)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i74ds-0005ox-CZ
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:42 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:44768)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i74dq-0005mt-4I
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:38 -0400
-Received: by mail-qt1-x844.google.com with SMTP id v11so13752102qto.13
- for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 14:22:36 -0700 (PDT)
+ id 1i74ds-0005oe-5N
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:40 -0400
+Received: by mail-qt1-x842.google.com with SMTP id u40so13809386qth.11
+ for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 14:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DqChsnZIXAGMvroXVL0MQvbI8g2z6bOPhBgHC6Jjg7E=;
- b=Y44vKvtKU2mgLemYMAQ4uc++tShUwkLhJ3jxo7YZv4QpytQaQwTt+J7ZCK7VENOfxm
- qBHTWKUArB7lJiNnWfbHBlZN03RUZncHmpEehgjNkNA6qe47DH5iwChGHzZGYENjp8bz
- WpcIqk5H1VwYKwiZXsjH8s6TnYoMgZ+NaKdLkNTddhSTetCxXD6zbWL6R11FpcuwAYcH
- SGxrXJJMtYG0rUHftK5EQ95q76GSUHNs7sKc4PrS3P63GMWsZTU4KtcGS3exrhkgJSAb
- Utl/F9qD/UgOzEwzBNQqI4rgCu5Xcb5iCKGeOIaviYf4D00F/DK7j7AcA6AKNHUt/w7L
- amhA==
+ bh=7w2gX1DAdz26iZcW6QwSqMe8XqKC0r+fYCyVXZLBSRg=;
+ b=HkCU1X6uKedoA7/RQ70TT9GGUwNzZ8gCzmstk+UTOhLCMDxR+YO1I/qp0S3jYoBz+/
+ E2iQ344mN8f6rmkeras+sotaGXk9KfS6wvcGDTraUu9u7Vhh4AmNdBVdJL6oyl3GbaUp
+ /47UKkfP4+wJGKQcv1KCPb0EymxDZ7PezuwmmhWqivGBQSIr04t7qY79JLeB//CN0FH2
+ Gx98JfAf1jvWyH7Ep+1IZ+KMhipx+aLT4OyrXVc5Y+xchNaRhvZutSuu73hrclRXw4mU
+ 8wkoJ0kj8gWd1wBp3XIVhvM/elzjgz1EzcFW2Irb8vFWdYAv0UukV/N4+y+zVhsZyyU9
+ l+HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DqChsnZIXAGMvroXVL0MQvbI8g2z6bOPhBgHC6Jjg7E=;
- b=kwcgHE+W9p6GdiUwyZuRaw0++EkU6Fen/pU1+ZWuWxDqCe2J6SWY0QLh9VWb1MMim9
- zOd6JNBR2vDMObG7mfxQkCpLKWqSbWC7RVZum7Ywh2P81U0WxZFAxKJCw5OHdIi2OaIr
- efjybhEce3CrOQJ+YEOz+2YzXuPhc937qXPYr2KwErVaR8HsnJD6ffHdKWD+kKhgjCjq
- 2VGs/AWLDBQqVmvlywQJfa7xndpZZd17pX/MGrvxRnz01p/1rqakbs1hAOWgBJKpC+hG
- 95v7xQM/nLEXmtkgXNjgqAF/QFcrf2E50EnArmcr2tgBNcDT8Bt7dE2FVVTSvyv6YPxU
- 1a1g==
-X-Gm-Message-State: APjAAAVeAjgnLo0Fv/6hmb8pckvjrzzbb8cLLxFH7NieTyQqnBrsTUes
- sIqRzROz+gdtd+5GRrlW2VIOJ83g
-X-Google-Smtp-Source: APXvYqz3XPzj6vsjUbatiR4awQAz+eoNhnT3mFrW+LcsK+mPMWs5385ITsi79n3+tUDdQPolmmVxeg==
-X-Received: by 2002:ac8:7101:: with SMTP id z1mr7800315qto.367.1567977756480; 
- Sun, 08 Sep 2019 14:22:36 -0700 (PDT)
+ bh=7w2gX1DAdz26iZcW6QwSqMe8XqKC0r+fYCyVXZLBSRg=;
+ b=nmmIeAkczHquXb9TFRJhVs5dI2M/WHSMdjK9V0vJKDrZd+u6ZCDjWH6n9c6iXP1co0
+ OB5TI5tEPgI6s00Nuf7SJFBmQayYlftarxKu0jBqcWzsfsdYM9MLNnkRGMI03pNs7ijn
+ qwMoGTedfQCAKodHluArz2nM4dmoRLcntuiYkf5P3I5x7BWrL1bGooNcyYAFAp5bi2aP
+ ykB4uKCMprs7d2YSn9n6nHpHF7RAWHhwLYVmmjjUItKNwtUcifZRmlpq1BrLV8+Rrvz4
+ 50ExO7guelr9tg+C4ujAxpuwNsYPzZ7yFN3h0eGG2eX40zTlnGWN7zCUBstiJxp41FBy
+ 1Trw==
+X-Gm-Message-State: APjAAAXQiEBbHzbdnRkS0tgwdun+DKVzT/4+YL2wWYAhyNNCUU8qqIu6
+ hlT2nTnBh3rVJUX7UvBewAoCI1r1
+X-Google-Smtp-Source: APXvYqygYq/K3kiTaoji/KowSuGZD7TH/FMLBR+H9cmZGUMSY2EpRXXU5l2G1vr2J3zVdxZeq8iRwA==
+X-Received: by 2002:ac8:1768:: with SMTP id u37mr19489086qtk.89.1567977759437; 
+ Sun, 08 Sep 2019 14:22:39 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-6ea8-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:6ea8::5])
- by smtp.gmail.com with ESMTPSA id e2sm5488112qkg.38.2019.09.08.14.22.35
+ by smtp.gmail.com with ESMTPSA id e2sm5488112qkg.38.2019.09.08.14.22.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Sep 2019 14:22:36 -0700 (PDT)
+ Sun, 08 Sep 2019 14:22:39 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sun,  8 Sep 2019 23:22:08 +0200
-Message-Id: <0fb21a31b645b0d84fa7979f770aaecd60ccca3c.1567965065.git.DirtY.iCE.hu@gmail.com>
+Date: Sun,  8 Sep 2019 23:22:11 +0200
+Message-Id: <80ed6f958ab8c12c0af3d67617e1bcfd117d308d.1567965065.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
@@ -70,8 +70,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::844
-Subject: [Qemu-devel] [PATCH v2 08/24] sdlaudio: port to the new audio
+X-Received-From: 2607:f8b0:4864:20::842
+Subject: [Qemu-devel] [PATCH v2 11/24] audio: remove remains of the old
  backend api
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,134 +90,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/sdlaudio.c | 87 +++++++++++++++++++++++-------------------------
- 1 file changed, 42 insertions(+), 45 deletions(-)
+ audio/audio.c     | 42 ++++++------------------------------------
+ audio/audio_int.h |  7 -------
+ 2 files changed, 6 insertions(+), 43 deletions(-)
 
-diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-index 14b11f0335..f7ac8cd101 100644
---- a/audio/sdlaudio.c
-+++ b/audio/sdlaudio.c
-@@ -41,8 +41,6 @@
- 
- typedef struct SDLVoiceOut {
-     HWVoiceOut hw;
--    size_t live;
--    size_t decr;
- } SDLVoiceOut;
- 
- static struct SDLAudioState {
-@@ -184,62 +182,59 @@ static void sdl_callback (void *opaque, Uint8 *buf, int len)
-     SDLVoiceOut *sdl = opaque;
-     SDLAudioState *s = &glob_sdl;
-     HWVoiceOut *hw = &sdl->hw;
--    size_t samples = len >> hw->info.shift;
--    size_t to_mix, decr;
- 
--    if (s->exit || !sdl->live) {
-+    if (s->exit) {
-         return;
-     }
- 
-     /* dolog ("in callback samples=%zu live=%zu\n", samples, sdl->live); */
- 
--    to_mix = MIN(samples, sdl->live);
--    decr = to_mix;
--    while (to_mix) {
--        size_t chunk = MIN(to_mix, hw->samples - hw->rpos);
--        struct st_sample *src = hw->mix_buf + hw->rpos;
--
--        /* dolog ("in callback to_mix %zu, chunk %zu\n", to_mix, chunk); */
--        hw->clip(buf, src, chunk);
--        hw->rpos = (hw->rpos + chunk) % hw->samples;
--        to_mix -= chunk;
--        buf += chunk << hw->info.shift;
-+    while (hw->pending_emul && len) {
-+        size_t write_len;
-+        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-+        if (start < 0) {
-+            start += hw->size_emul;
-+        }
-+        assert(start >= 0 && start < hw->size_emul);
-+
-+        write_len = MIN(MIN(hw->pending_emul, len),
-+                        hw->size_emul - start);
-+
-+        memcpy(buf, hw->buf_emul + start, write_len);
-+        hw->pending_emul -= write_len;
-+        len -= write_len;
-+        buf += write_len;
-     }
--    samples -= decr;
--    sdl->live -= decr;
--    sdl->decr += decr;
- 
--    /* dolog ("done len=%zu\n", len); */
--
--    /* SDL2 does not clear the remaining buffer for us, so do it on our own */
--    if (samples) {
--        memset(buf, 0, samples << hw->info.shift);
-+    /* clear remaining buffer that we couldn't fill with data */
-+    if (len) {
-+        memset(buf, 0, len);
-     }
+diff --git a/audio/audio.c b/audio/audio.c
+index f5a5942da9..c945f23724 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -541,7 +541,7 @@ static size_t audio_pcm_hw_find_min_in (HWVoiceIn *hw)
+     return m;
  }
  
--static size_t sdl_run_out(HWVoiceOut *hw, size_t live)
--{
--    size_t decr;
--    SDLVoiceOut *sdl = (SDLVoiceOut *) hw;
--
--    SDL_LockAudio();
--
--    if (sdl->decr > live) {
--        ldebug ("sdl->decr %d live %d sdl->live %d\n",
--                sdl->decr,
--                live,
--                sdl->live);
-+#define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args, fail, unlock) \
-+    static ret_type glue(sdl_, name)args_decl                           \
-+    {                                                                   \
-+        ret_type ret;                                                   \
-+                                                                        \
-+        SDL_LockAudio();                                                \
-+                                                                        \
-+        ret = glue(audio_generic_, name)args;                           \
-+                                                                        \
-+        SDL_UnlockAudio();                                              \
-+        return ret;                                                     \
-     }
- 
--    decr = MIN (sdl->decr, live);
--    sdl->decr -= decr;
--
--    sdl->live = live;
-+SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
-+                 (hw, size), *size = 0, sdl_unlock)
-+SDL_WRAPPER_FUNC(put_buffer_out_nowrite, size_t,
-+                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-+                 /*nothing*/, sdl_unlock_and_post)
-+SDL_WRAPPER_FUNC(write, size_t,
-+                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-+                 /*nothing*/, sdl_unlock_and_post)
- 
--    SDL_UnlockAudio();
--
--    return decr;
--}
-+#undef SDL_WRAPPER_FUNC
- 
- static void sdl_fini_out (HWVoiceOut *hw)
+-size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
++static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
  {
-@@ -336,7 +331,9 @@ static void sdl_audio_fini (void *opaque)
- static struct audio_pcm_ops sdl_pcm_ops = {
-     .init_out = sdl_init_out,
-     .fini_out = sdl_fini_out,
--    .run_out  = sdl_run_out,
-+    .write    = sdl_write,
-+    .get_buffer_out = sdl_get_buffer_out,
-+    .put_buffer_out = sdl_put_buffer_out_nowrite,
-     .ctl_out  = sdl_ctl_out,
- };
+     size_t live = hw->total_samples_captured - audio_pcm_hw_find_min_in (hw);
+     if (audio_bug(__func__, live > hw->samples)) {
+@@ -551,29 +551,7 @@ size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+     return live;
+ }
+ 
+-size_t audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf,
+-                             size_t live, size_t pending)
+-{
+-    size_t left = hw->samples - pending;
+-    size_t len = MIN (left, live);
+-    size_t clipped = 0;
+-
+-    while (len) {
+-        struct st_sample *src = hw->mix_buf + hw->rpos;
+-        uint8_t *dst = advance (pcm_buf, hw->rpos << hw->info.shift);
+-        size_t samples_till_end_of_buf = hw->samples - hw->rpos;
+-        size_t samples_to_clip = MIN (len, samples_till_end_of_buf);
+-
+-        hw->clip (dst, src, samples_to_clip);
+-
+-        hw->rpos = (hw->rpos + samples_to_clip) % hw->samples;
+-        len -= samples_to_clip;
+-        clipped += samples_to_clip;
+-    }
+-    return clipped;
+-}
+-
+-static void audio_pcm_hw_clip_out2(HWVoiceOut *hw, void *pcm_buf, size_t len)
++static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
+ {
+     size_t clipped = 0;
+     size_t pos = hw->rpos;
+@@ -1078,7 +1056,7 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+         void *buf = hw->pcm_ops->get_buffer_out(hw, &size);
+ 
+         decr = MIN(size >> hw->info.shift, live);
+-        audio_pcm_hw_clip_out2(hw, buf, decr);
++        audio_pcm_hw_clip_out(hw, buf, decr);
+         proc = hw->pcm_ops->put_buffer_out(hw, buf, decr << hw->info.shift) >>
+             hw->info.shift;
+ 
+@@ -1141,11 +1119,7 @@ static void audio_run_out (AudioState *s)
+         }
+ 
+         prev_rpos = hw->rpos;
+-        if (hw->pcm_ops->run_out) {
+-            played = hw->pcm_ops->run_out(hw, live);
+-        } else {
+-            played = audio_pcm_hw_run_out(hw, live);
+-        }
++        played = audio_pcm_hw_run_out(hw, live);
+         replay_audio_out(&played);
+         if (audio_bug(__func__, hw->rpos >= hw->samples)) {
+             dolog("hw->rpos=%zu hw->samples=%zu played=%zu\n",
+@@ -1242,12 +1216,8 @@ static void audio_run_in (AudioState *s)
+         size_t captured = 0, min;
+ 
+         if (replay_mode != REPLAY_MODE_PLAY) {
+-            if (hw->pcm_ops->run_in) {
+-                captured = hw->pcm_ops->run_in(hw);
+-            } else {
+-                captured = audio_pcm_hw_run_in(
+-                    hw, hw->samples - audio_pcm_hw_get_live_in(hw));
+-            }
++            captured = audio_pcm_hw_run_in(
++                hw, hw->samples - audio_pcm_hw_get_live_in(hw));
+         }
+         replay_audio_in(&captured, hw->conv_buf, &hw->wpos, hw->samples);
+ 
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 8fb1ca8a8d..c76d7c39e8 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -153,7 +153,6 @@ struct audio_driver {
+ struct audio_pcm_ops {
+     int    (*init_out)(HWVoiceOut *hw, audsettings *as, void *drv_opaque);
+     void   (*fini_out)(HWVoiceOut *hw);
+-    size_t (*run_out)(HWVoiceOut *hw, size_t live);
+     size_t (*write)   (HWVoiceOut *hw, void *buf, size_t size);
+     /*
+      * get a buffer that after later can be passed to put_buffer_out; optional
+@@ -171,7 +170,6 @@ struct audio_pcm_ops {
+ 
+     int    (*init_in) (HWVoiceIn *hw, audsettings *as, void *drv_opaque);
+     void   (*fini_in) (HWVoiceIn *hw);
+-    size_t (*run_in)(HWVoiceIn *hw);
+     size_t (*read)    (HWVoiceIn *hw, void *buf, size_t size);
+     void  *(*get_buffer_in)(HWVoiceIn *hw, size_t *size);
+     void   (*put_buffer_in)(HWVoiceIn *hw, void *buf, size_t size);
+@@ -237,11 +235,6 @@ audio_driver *audio_driver_lookup(const char *name);
+ void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as);
+ void audio_pcm_info_clear_buf (struct audio_pcm_info *info, void *buf, int len);
+ 
+-size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw);
+-
+-size_t audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf,
+-                             size_t live, size_t pending);
+-
+ int audio_bug (const char *funcname, int cond);
+ void *audio_calloc (const char *funcname, int nmemb, size_t size);
  
 -- 
 2.23.0
