@@ -2,60 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FA9ACA63
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 04:36:30 +0200 (CEST)
-Received: from localhost ([::1]:46646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8B1ACB2F
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 08:19:58 +0200 (CEST)
+Received: from localhost ([::1]:47186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6n41-00018U-8M
-	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 22:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40057)
+	id 1i6qYH-0007Md-Fa
+	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 02:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41773)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i6n37-0000hW-C8
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:35:34 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1i6qUH-0002mS-0n
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i6n36-00044h-8A
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:35:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53880)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1i6qUF-0002Oq-Ma
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:48 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45293)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i6n36-00042r-2E
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:35:32 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i6n33-0000Qk-Pq
- for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 02:35:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BFD292E80C7
- for <qemu-devel@nongnu.org>; Sun,  8 Sep 2019 02:35:29 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Sep 2019 02:27:06 -0000
-From: James Harvey <jamespharvey20@gmail.com>
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1i6qUF-0002OR-AZ
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:47 -0400
+Received: by mail-wr1-x443.google.com with SMTP id l16so10356406wrv.12
+ for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 23:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eWXWkg3EvXYUxOonSyJWRsvHKIjYDZYYfDquolDEb3M=;
+ b=bIOIp1mRGXtAS6aft80fWANxuw0g+f/u5sn+f4gzEcHOjip0kL6joImgFEE/CTVSGI
+ jU+sSry1TtKD0C6lD+IQ3EBAO/oyj/i1UFFS3FUvTGqDMzXhhDYDZlhkEDZ8ucnCGXs9
+ Jj9Aui65L1zQ0+k5zzjgzF7Dzicc1Tn6t1d4WSw/MGASU2pIkqy7z3V60Aa4k/AkIFL3
+ xnY16/49gU/1I+zUEIXYPE7+sqRRnDUuJjec/lqvMX2XAQFh6BiLAG67MISwEOe2m00F
+ tkeqRaKqHmjMifrC2KyjwrQ/+B84fI9KC4vQId2mrAGLgvimbyVcMbgvd+fkg+nfSZoi
+ 8D4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=eWXWkg3EvXYUxOonSyJWRsvHKIjYDZYYfDquolDEb3M=;
+ b=AvHk4YjwAfvpsLQfyA5XiOoNcX2NqvgXYDtA/Z8TihJzsfl6JBnmmy3mETDSAVfVTq
+ wQi25k2NAjzFYSUiVXO82qgcj8kO2B7/CKcHCKw2CdJ+K0uiXwNywDvgv9VL798aYuNb
+ oFPuUlKjc8305Xz3ayxInS7sLQYC4Sasu2r6TRqxaVpX1phdxfYfxc27IrHWfLjCX5+I
+ +WR7p5ZhzbxsReuUbZzirG7OZ7Sosw9czkHd3NUusJ7oAnjCsC2AouzbBRPRnfg1PYMH
+ zwhQEtspWUIit7X6x/oT417i24jmXabMOOQX/jhqjZljLqH+iGvPRybxZONBpiatxaJD
+ 5z1Q==
+X-Gm-Message-State: APjAAAXOhQBUC/eFhobI3jIHZTIqPOmXIwSrCh9GdXIZ8+ZOWR7fSj44
+ gUMTPvrCrVSW+7Z429kpA7qha4xK
+X-Google-Smtp-Source: APXvYqwux68RLUnfx5yvA93OG2joTsAXvPIKncRfQlxe0Lf4YaF1dImoD5ISgekSUVRjb57O3GoLlg==
+X-Received: by 2002:a5d:4c41:: with SMTP id n1mr1669772wrt.4.1567923345696;
+ Sat, 07 Sep 2019 23:15:45 -0700 (PDT)
+Received: from localhost.localdomain
+ (251.red-88-10-102.dynamicip.rima-tde.net. [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id g201sm15616552wmg.34.2019.09.07.23.15.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Sep 2019 23:15:44 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20
-X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
-X-Launchpad-Bug-Modifier: James Harvey (jamespharvey20)
-References: <156790812963.29382.11232177290822294099.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156790962711.28927.17088702192858274636.launchpad@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19044";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 725700570d7c6074769601724ad4457f3625205b
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1843151] Re: Regression: QEMU 4.1.0 qxl and KMS
- resoluiton only 4x10
+Date: Sun,  8 Sep 2019 08:15:35 +0200
+Message-Id: <20190908061543.25136-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v6 0/8] linux-user: strace improvements
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,66 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843151 <1843151@bugs.launchpad.net>
+Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+Hi Laurent,
 
-- Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.
-+ Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.  virt-viewer 8.0.
-  =
+Few patches I'v been writting while trying to figure out this issue:
+http://lists.nongnu.org/archive/html/qemu-arm/2018-01/msg00514.html
 
-  Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
-  =
+As usual with linux-user files, this series will trigger some checkpatch
+benign warnings.
 
-  Have replicated this both on a system using amdgpu and one using
-  integrated ASPEED graphics.
-  =
+Regards,
 
-  Downgrading from 4.1.0 to 4.0.0 works as usual, see:
-  https://www.youtube.com/watch?v=3DNyMdcYwOCvY
-  =
+Phil.
 
-  Going back to 4.1.0 reproduces, see:
-  https://www.youtube.com/watch?v=3DH3nGG2Mk6i0
-  =
+Since v5:
+- dropped 'Verify recvfrom(addr)' since failing LTP testsuite (see [1])
+- also define print_sockfd() for bind() (patches #6 and #7)
 
-  4.1.0 displays fine until KMS kicks in.
-  =
+Since v4:
+- rebased on master (no change)
 
-  Using 4.1.0 with virtio-vga doesn't cause this.
+Since v3:
+- addressed Laurent comments
+- added print_sockfd()
+- removed the print_sockaddr_ptr() patch, also the two
+  getsockname()/recvfrom() patches for after 3.0.
 
--- =
+Since v2:
+- display invalid pointer in print_timeval() and print_timezone()
+- do not display gettimeofday() arguments
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843151
+Since v1:
+- addressed Laurent comments
+- added 'last' argument to print_sockaddr()
+- reordered series, so patches already correct can get applied directly
+- dropped "linux-user/syscall: simplify recvfrom()" for now
 
-Title:
-  Regression: QEMU 4.1.0 qxl and KMS resoluiton only 4x10
+v1: http://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg05855.html
+v2: http://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08216.html
+v3: http://lists.nongnu.org/archive/html/qemu-devel/2018-07/msg00411.html
+v5: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02067.html
+[1] https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02807.html
 
-Status in QEMU:
-  New
+Philippe Mathieu-Daudé (8):
+  linux-user/strace: Display invalid pointer in print_timeval()
+  linux-user/strace: Add print_timezone()
+  linux-user/strace: Improve settimeofday()
+  linux-user/syscall: Introduce target_sockaddr_nl
+  linux-user/strace: Dump AF_NETLINK sockaddr content
+  linux-user/strace: Add print_sockfd()
+  linux-user/strace: Improve bind() output
+  linux-user/strace: Let print_sockaddr() have a 'last' argument
 
-Bug description:
-  Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.  virt-viewer 8.0.
+ linux-user/strace.c       | 121 ++++++++++++++++++++++++++++++++++----
+ linux-user/strace.list    |   4 +-
+ linux-user/syscall.c      |   6 +-
+ linux-user/syscall_defs.h |   7 +++
+ 4 files changed, 121 insertions(+), 17 deletions(-)
 
-  Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
+-- 
+2.20.1
 
-  Have replicated this both on a system using amdgpu and one using
-  integrated ASPEED graphics.
-
-  Downgrading from 4.1.0 to 4.0.0 works as usual, see:
-  https://www.youtube.com/watch?v=3DNyMdcYwOCvY
-
-  Going back to 4.1.0 reproduces, see:
-  https://www.youtube.com/watch?v=3DH3nGG2Mk6i0
-
-  4.1.0 displays fine until KMS kicks in.
-
-  Using 4.1.0 with virtio-vga doesn't cause this.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843151/+subscriptions
 
