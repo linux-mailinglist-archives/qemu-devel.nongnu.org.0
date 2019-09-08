@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B06AD0E0
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 23:47:19 +0200 (CEST)
-Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6338AD0D9
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 23:40:52 +0200 (CEST)
+Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i751h-00014D-KR
-	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 17:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46471)
+	id 1i74vS-00051n-22
+	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 17:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46529)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74e3-0005cK-Ak
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:52 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i74e7-0005hU-NP
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74e2-0005vH-7y
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:51 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:44769)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i74e6-0005xc-JR
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:55 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:44770)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i74e1-0005v0-Va
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:50 -0400
-Received: by mail-qt1-x841.google.com with SMTP id u40so13809653qth.11
- for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 14:22:49 -0700 (PDT)
+ id 1i74e6-0005xV-F9
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:54 -0400
+Received: by mail-qt1-x841.google.com with SMTP id u40so13809787qth.11
+ for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 14:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CtjKKyn1WE+uGIJpF5emUL6aD8nQttfLcRsN/KEPtcI=;
- b=pJGtId1NkDb0qe0VwYjNaydQ3M4uiSm+V0F40+XACKaR+Gi8HDz0T5kDqJuwRASOdn
- 4+XCSb+HdmThFeZ5TXWr10tPBeYC5/u0c4Jl83bBvz8vg+fOQNWN8JJ1p/K4Tw1SyQfR
- b/bNUIdAI6SkRNX6iKJ4IkE4I76ztliZx40jkDamOnEZXLQ5CHzGy3/i05VKiJmiXvs3
- /K1+eWXGLX72YwOq4fmOCjsGrve95H0TORfscK4GJFG/fHGeeBB2DphappgtronzgKB1
- VYkkYgeungAnG92XxDmh5gUw7nVWxhYywWWDrTghfi6zTfb+fZud2YuzB7rKB6x0EHLr
- 7ENA==
+ bh=csUz3G+oANfAghQDvskgbpzawb3MHELRqPU8L59Mp1o=;
+ b=OcsyunjJNtAkuPt7vpVd6jf0lKMKzGLk3bCqAQhFP23C6Q86UcQTj1KMhXP0Uubac3
+ lO6UDBv5ftdUIuZmO8V+qAjgLGXwvrzwwrYdM35yGJcRPQYdcvguhUZae0/JTzeoHE2E
+ rjXPoLbL3uzRZIjCPlC5h5J9+M8Sfi3A+k89YBRVKoWqNcZKLIgZmCQ9F2r6wTtq/I+0
+ MH5zFaU/DmQnhzZeCmqQqfeL8eYjvVk7ac5IJMfc563JxyR4+XYwxqu/JKJYQ4OMTOqP
+ B319XiP28lE3TIWKJETMQyIoW9A8uJ6VL+h5X0RFV9h8TldbRvz3atzq9CRfmC+V73c4
+ HupA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CtjKKyn1WE+uGIJpF5emUL6aD8nQttfLcRsN/KEPtcI=;
- b=Es9RJzrpExldKd639S81JPxh5lgsZ/ay5NgSJ89/HGOR5F6LCBzCkKIQheZCMfFIqv
- SsF5I1UoYoSH/CjyGTmXE9gKuvxY6boIANMOYv1oBeFXUih6bKGy3NtKujB2KSkNbr6O
- /HYLscrlHa/CrSYK96sEh3ASCO2oEGxRBmHpv1J6gCKg5P9DlNr+qYYcAzd9RTkEmfD5
- codGXHfWPnepD3Xv+hxa1LF4bi9slY8VB/6nqWYABf8zUp9Pc5DjasyTdWp/PA1AX4/c
- ugPvmGEuNAW/GV6Nlp5NNENROyTE4om3i3AzczaPhvTylYrI10l9RuEoJQUgrWZz/jyC
- /7Bg==
-X-Gm-Message-State: APjAAAWfIJQX1ECopnTYGwXmtHRzTRx1oR6KfwqngenUn9DZTLW6Gwwa
- tuwKyd+5cNiWNXvM35YuvR+m5ZcP
-X-Google-Smtp-Source: APXvYqw/eKdN3mWh9ITnjmE6SbjG/p+5madrT1PnHi7eaXRU/P4YXgwSwJDZXtLSxDktAAFf9kDF5w==
-X-Received: by 2002:ac8:1102:: with SMTP id c2mr20936817qtj.340.1567977769504; 
- Sun, 08 Sep 2019 14:22:49 -0700 (PDT)
+ bh=csUz3G+oANfAghQDvskgbpzawb3MHELRqPU8L59Mp1o=;
+ b=INvpDlFdoNRp2ywq08D14WmKNMolll4p7arW9rke0mjfD5XuPfHO+y/WEJVKrWNAuS
+ beno+2Hpdktt4A9JKxOOCJmqdmZJYcqaj7NIdNibMknLKQx+cS5MG92LwUahWnJ1tKAi
+ kznvuKv/HDd7JlIxXYg7yDGH6z3Jy8kQ6CftVVkNa9nLVXVwiKGtkheTXUonD8A3/I1s
+ IezyXZE8nAWptPAqoCoLvN/YdvEt2l115StcZL/I6xDDURNQ5mvlGwc+alWy1HOE19NF
+ 6JHG2fmBBsUN+w0+ENJbw5s42wIc3J6UrIsZTHmUsNQs/KZtHtq3k+v44zH6rt/zkr4W
+ 52PA==
+X-Gm-Message-State: APjAAAXcTuYZ1MU0GXtqv5AH6UTz6/ph3YBK02IfHbJRa1zWA/1MxTeq
+ N5rm/vubrnQ/lczSLUwTLFhZItIu
+X-Google-Smtp-Source: APXvYqywry0X/CCyH+QYCkgaETwsDnr/Mf25VUB9Ra3PqE1ejKeL6POjySaM/t/C9+Z8eOL2PuOFmQ==
+X-Received: by 2002:ac8:7157:: with SMTP id h23mr19976859qtp.72.1567977773998; 
+ Sun, 08 Sep 2019 14:22:53 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-6ea8-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:6ea8::5])
- by smtp.gmail.com with ESMTPSA id e2sm5488112qkg.38.2019.09.08.14.22.48
+ by smtp.gmail.com with ESMTPSA id e2sm5488112qkg.38.2019.09.08.14.22.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Sep 2019 14:22:49 -0700 (PDT)
+ Sun, 08 Sep 2019 14:22:53 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sun,  8 Sep 2019 23:22:20 +0200
-Message-Id: <fbc093cea392d1b05489030f817a74fe68a046b0.1567965065.git.DirtY.iCE.hu@gmail.com>
+Date: Sun,  8 Sep 2019 23:22:24 +0200
+Message-Id: <4fa7311ce7888ed6bbb155b73c74b646a7974ec6.1567965065.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
@@ -71,8 +71,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::841
-Subject: [Qemu-devel] [PATCH v2 20/24] audio: basic support for multichannel
- audio
+Subject: [Qemu-devel] [PATCH v2 24/24] usbaudio: change playback counters to
+ 64 bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,46 +88,69 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Which currently only means removing some checks.  Old code won't require
-more than two channels, but new code will need it.
+With stereo playback, they need about 375 minutes of continuous audio
+playback to overflow, which is usually not a problem (as stopping and
+later resuming playback resets the counters).  But with 7.1 audio, they
+only need about 95 minutes to overflow.
+
+After the overflow, the buf->prod % USBAUDIO_PACKET_SIZE(channels)
+assertion no longer holds true, which will result in overflowing the
+buffer.  With 64 bit variables, it would take about 762000 years to
+overflow.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/alsaaudio.c | 7 -------
- audio/audio.c     | 2 +-
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ hw/usb/dev-audio.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index eddf013a53..f37ce1ce85 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -493,13 +493,6 @@ static int alsa_open(bool in, struct alsa_params_req *req,
-         goto err;
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index e42bdfbdc1..ea604bbb8e 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -578,9 +578,9 @@ static const USBDesc desc_audio_multi = {
+ 
+ struct streambuf {
+     uint8_t *data;
+-    uint32_t size;
+-    uint32_t prod;
+-    uint32_t cons;
++    size_t size;
++    uint64_t prod;
++    uint64_t cons;
+ };
+ 
+ static void streambuf_init(struct streambuf *buf, uint32_t size,
+@@ -601,7 +601,7 @@ static void streambuf_fini(struct streambuf *buf)
+ 
+ static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t channels)
+ {
+-    uint32_t free = buf->size - (buf->prod - buf->cons);
++    int64_t free = buf->size - (buf->prod - buf->cons);
+ 
+     if (free < USBAUDIO_PACKET_SIZE(channels)) {
+         return 0;
+@@ -610,6 +610,8 @@ static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t channels)
+         return 0;
      }
  
--    if (nchannels != 1 && nchannels != 2) {
--        alsa_logerr2 (err, typ,
--                      "Can not handle obtained number of channels %d\n",
--                      nchannels);
--        goto err;
--    }
--
-     if (apdo->buffer_length) {
-         int dir = 0;
-         unsigned int btime = apdo->buffer_length;
-diff --git a/audio/audio.c b/audio/audio.c
-index 7821365a85..6a5979f262 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -242,7 +242,7 @@ static int audio_validate_settings (struct audsettings *as)
++    /* can happen if prod overflows */
++    assert(buf->prod % USBAUDIO_PACKET_SIZE(channels) == 0);
+     usb_packet_copy(p, buf->data + (buf->prod % buf->size),
+                     USBAUDIO_PACKET_SIZE(channels));
+     buf->prod += USBAUDIO_PACKET_SIZE(channels);
+@@ -618,10 +620,10 @@ static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t channels)
+ 
+ static uint8_t *streambuf_get(struct streambuf *buf, size_t *len)
  {
-     int invalid;
+-    uint32_t used = buf->prod - buf->cons;
++    int64_t used = buf->prod - buf->cons;
+     uint8_t *data;
  
--    invalid = as->nchannels != 1 && as->nchannels != 2;
-+    invalid = as->nchannels < 1;
-     invalid |= as->endianness != 0 && as->endianness != 1;
- 
-     switch (as->fmt) {
+-    if (!used) {
++    if (used <= 0) {
+         *len = 0;
+         return NULL;
+     }
 -- 
 2.23.0
 
