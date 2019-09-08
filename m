@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A860ACA55
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 04:11:32 +0200 (CEST)
-Received: from localhost ([::1]:46598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FA9ACA63
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 04:36:30 +0200 (CEST)
+Received: from localhost ([::1]:46646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6mfq-0006YT-Lw
-	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 22:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
+	id 1i6n41-00018U-8M
+	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 22:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40057)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i6mf8-00068r-7v
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:10:47 -0400
+ (envelope-from <bounces@canonical.com>) id 1i6n37-0000hW-C8
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:35:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i6mf7-0006B4-0r
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:10:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53254)
+ (envelope-from <bounces@canonical.com>) id 1i6n36-00044h-8A
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:35:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53880)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i6mf6-0006A3-RS
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:10:44 -0400
+ id 1i6n36-00042r-2E
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 22:35:32 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i6mf5-0007wy-DT
- for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 02:10:43 +0000
+ id 1i6n33-0000Qk-Pq
+ for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 02:35:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5D2992E80C7
- for <qemu-devel@nongnu.org>; Sun,  8 Sep 2019 02:10:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BFD292E80C7
+ for <qemu-devel@nongnu.org>; Sun,  8 Sep 2019 02:35:29 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Sep 2019 02:02:09 -0000
+Date: Sun, 08 Sep 2019 02:27:06 -0000
 From: James Harvey <jamespharvey20@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,16 +42,17 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: jamespharvey20
 X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
 X-Launchpad-Bug-Modifier: James Harvey (jamespharvey20)
-Message-Id: <156790812963.29382.11232177290822294099.malonedeb@chaenomeles.canonical.com>
+References: <156790812963.29382.11232177290822294099.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156790962711.28927.17088702192858274636.launchpad@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19044";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 95da25d5a5c758b07aac0ef1629ec774cbac4978
+X-Launchpad-Hash: 725700570d7c6074769601724ad4457f3625205b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1843151] [NEW] Regression: QEMU 4.1.0 qxl and KMS
+Subject: [Qemu-devel] [Bug 1843151] Re: Regression: QEMU 4.1.0 qxl and KMS
  resoluiton only 4x10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,32 +68,10 @@ Reply-To: Bug 1843151 <1843151@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.
-
-Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
-
-Have replicated this both on a system using amdgpu and one using
-integrated ASPEED graphics.
-
-Downgrading from 4.1.0 to 4.0.0 works as usual, see:
-https://www.youtube.com/watch?v=3DNyMdcYwOCvY
-
-Going back to 4.1.0 reproduces, see:
-https://www.youtube.com/watch?v=3DH3nGG2Mk6i0
-
-4.1.0 displays fine until KMS kicks in.
-
-Using 4.1.0 with virtio-vga doesn't cause this.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
 ** Description changed:
 
-  Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.
+- Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.
++ Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.  virt-viewer 8.0.
   =
 
   Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
@@ -111,9 +90,9 @@ Using 4.1.0 with virtio-vga doesn't cause this.
   =
 
   4.1.0 displays fine until KMS kicks in.
-+ =
+  =
 
-+ Using 4.1.0 with virtio-vga doesn't cause this.
+  Using 4.1.0 with virtio-vga doesn't cause this.
 
 -- =
 
@@ -128,7 +107,7 @@ Status in QEMU:
   New
 
 Bug description:
-  Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.
+  Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.  virt-viewer 8.0.
 
   Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
 
