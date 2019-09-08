@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A549BACB4A
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 09:15:17 +0200 (CEST)
-Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25D2ACC45
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 12:53:58 +0200 (CEST)
+Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6rPo-0006uR-6c
-	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 03:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49735)
+	id 1i6upS-0004m1-0e
+	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 06:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i6rOz-0006Tc-P0
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 03:14:27 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i6ukH-0003bD-VZ
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 06:48:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i6rOy-00039o-28
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 03:14:25 -0400
-Resent-Date: Sun, 08 Sep 2019 03:14:25 -0400
-Resent-Message-Id: <E1i6rOy-00039o-28@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21561)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i6rOx-00037F-Ns
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 03:14:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1567924112; cv=none; d=zoho.com; s=zohoarc; 
- b=nXbkFDUFRk5GEVHdCUTGKQC6M1XQW0vMPEaTcLvx0rGV63IJbAnr0Z7PcHt1/mGcgScQX2Sf2JGJUpRSt2mKK8v9fFyzSWQgfxdprujFQiNqPr8qskJUynXwEGuACDCKUSb9WeHKmpF/IfJhvwrcobVXXdT8msXZ4DCwhykSsjE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1567924112;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=svdS+K4B+5I80kc1Kuzo9a0DUS90eETXqDv8wLrEezk=; 
- b=jhQwDOqZX0G/katYhy3co3ALC9ci+uG1salM8hljuebmVecqTtc5RAZGvEjTkKXR4eEyQjmO2SIWI6ZWf64PbJ70W90M+KdEodweRqWGA3jms3RaqBhet6+NPugnKBhVsY6piFieSBBXkOSwft1cxORtsgq/u4KlA7v55X1Np70=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1567924110027563.7607110848959;
- Sat, 7 Sep 2019 23:28:30 -0700 (PDT)
-In-Reply-To: <20190908061543.25136-1-f4bug@amsat.org>
-Message-ID: <156792410867.16498.10933662795528772615@5dec9699b7de>
+ (envelope-from <laurent@vivier.eu>) id 1i6ukG-0004dD-V0
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 06:48:37 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:59915)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i6ukG-0004aW-LL
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 06:48:36 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MRnTQ-1hjDyx0i30-00TFdD; Sun, 08 Sep 2019 12:48:21 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Sun,  8 Sep 2019 12:48:15 +0200
+Message-Id: <20190908104816.20713-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: f4bug@amsat.org
-Date: Sat, 7 Sep 2019 23:28:30 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:KoCgvAiafcQ9otrq6itW9xO115jMTh2G5idkN0FZKSZgNixM/j/
+ t97GUVtETzL3SqqB4RAfg0VzT2TocwkUjuWDQ3/0atAJNZs6/bv4qGeWjVogqZVWlSPuknB
+ KRHVbdOEVIwa6FtzO/w4Rdtzy3vUjMqrxaVkgGEjMWjF684ALbGO35CXoGBtUtE7GKohbvn
+ sQt8vuaH6jRhuzZiYz64g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RykH3zLm6Yc=:qUogJkeoFF2k63T2V6fX9e
+ OcSWk2BaSAPiHVjXqn4djzY9bz/z4kUwbLWth35gBh4Xgi3yEQoTekaKVgoKTIrV9P7fzQQZK
+ gigaTQ8VxQJkaCJmRX7T6Nd3hr3T6KUznvj8gO9AybLSGsY4sNt5Av+49At6brQ9mkr2UrN6b
+ AKOHvWt6LVWSD1naiIkoaaDvZq5azmXWUQw4Dus8puFf2qpAOVnPmdblfTP61eUOIKLU1zb4k
+ 6a6s52oVYFujeVLgxFEQEDVynjzCZLPRd2MN5onI/lSQaeNSc9WyxN0wiy4hrCCg6ROwThPZq
+ uWNtxZaCNSogKURA7wM3QvzZ25wQ1UZGVnQRAxsJVBQL5eiduozrjN4Pyz3b/Zb9mDjTbl0sJ
+ 4xHXooIq0c3roFVCaE83LiySwkB00XnY0XjeRL6t8iTFP+PJbvbdoowwPJM2Mn/VcXbA3Xc5W
+ 3qr6ha4Ayz8yQVI1SeSqua4dRrjIurI9YIykFwxQMsCXbsG7DAvFuPfqYhKZi+DxhV0LZ/h3q
+ RRc+Krq5jp2CLMcDCfAT2l1RRmBsYG920RWL/0LcvMRUiOICeB8I6pmrOFY8spP8ieZBNdBjZ
+ hCC3nXONDKCBLgQZ75J6/bGFbYZSu0Lt5i2auh83I1isg/vMq5MgIGop9i0yAix/PbPIfQsQ3
+ W1JTvjZIbRXDQo6UcjnmhYMO6OPeAvP72epakaOD10wLubsi/vfQ7DP3oGZ8gnKcLYofHVW0o
+ GUi9EEJqse0MYJpSWu930URP1NBtIizENiQB+PArvlrHnRPntP/7i6LHYi1WYOt1cWlCAqSBE
+ v6ceuBE4TpZXXbRr9/HQn8NUOTSVdHJL54QO14ijEQoeMA4wbU=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH v6 0/8] linux-user: strace improvements
+X-Received-From: 217.72.192.74
+Subject: [Qemu-devel] [PATCH v2 1/2] linux-user: remove useless variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,61 +61,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: agx@sigxcpu.org, riku.voipio@iki.fi, qemu-devel@nongnu.org, f4bug@amsat.org,
- laurent@vivier.eu
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkwODA2MTU0My4yNTEz
-Ni0xLWY0YnVnQGFtc2F0Lm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKTWVzc2FnZS1pZDogMjAxOTA5MDgwNjE1NDMuMjUxMzYtMS1mNGJ1Z0BhbXNhdC5v
-cmcKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2NiAwLzhdIGxpbnV4LXVzZXI6IHN0cmFj
-ZSBpbXByb3ZlbWVudHMKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
-L2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
-ZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQou
-L3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQg
-RU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4
-NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmQyMDE1ZTIgbGludXgtdXNlci9zdHJh
-Y2U6IExldCBwcmludF9zb2NrYWRkcigpIGhhdmUgYSAnbGFzdCcgYXJndW1lbnQKNGM3ZGY0YiBs
-aW51eC11c2VyL3N0cmFjZTogSW1wcm92ZSBiaW5kKCkgb3V0cHV0CjY1MjNhNDMgbGludXgtdXNl
-ci9zdHJhY2U6IEFkZCBwcmludF9zb2NrZmQoKQowNzNmNmZkIGxpbnV4LXVzZXIvc3RyYWNlOiBE
-dW1wIEFGX05FVExJTksgc29ja2FkZHIgY29udGVudAoyYWJkMzEyIGxpbnV4LXVzZXIvc3lzY2Fs
-bDogSW50cm9kdWNlIHRhcmdldF9zb2NrYWRkcl9ubAowZjVlOGVkIGxpbnV4LXVzZXIvc3RyYWNl
-OiBJbXByb3ZlIHNldHRpbWVvZmRheSgpCjE5MjMzZGYgbGludXgtdXNlci9zdHJhY2U6IEFkZCBw
-cmludF90aW1lem9uZSgpCmJlMDk4YTEgbGludXgtdXNlci9zdHJhY2U6IERpc3BsYXkgaW52YWxp
-ZCBwb2ludGVyIGluIHByaW50X3RpbWV2YWwoKQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS84IENo
-ZWNraW5nIGNvbW1pdCBiZTA5OGExMzk4MDcgKGxpbnV4LXVzZXIvc3RyYWNlOiBEaXNwbGF5IGlu
-dmFsaWQgcG9pbnRlciBpbiBwcmludF90aW1ldmFsKCkpCjIvOCBDaGVja2luZyBjb21taXQgMTky
-MzNkZjhjNWRhIChsaW51eC11c2VyL3N0cmFjZTogQWRkIHByaW50X3RpbWV6b25lKCkpCkVSUk9S
-OiBzdG9yYWdlIGNsYXNzIHNob3VsZCBiZSBhdCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBkZWNsYXJh
-dGlvbgojMTk6IEZJTEU6IGxpbnV4LXVzZXIvc3RyYWNlLmM6NjY6CitVTlVTRUQgc3RhdGljIHZv
-aWQgcHJpbnRfdGltZXpvbmUoYWJpX3Vsb25nLCBpbnQpOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdh
-cm5pbmdzLCAzMyBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzggaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KCjMvOCBDaGVja2luZyBjb21taXQgMGY1ZThlZDk1M2JmIChsaW51eC11c2VyL3N0cmFj
-ZTogSW1wcm92ZSBzZXR0aW1lb2ZkYXkoKSkKNC84IENoZWNraW5nIGNvbW1pdCAyYWJkMzEyNjA3
-MjIgKGxpbnV4LXVzZXIvc3lzY2FsbDogSW50cm9kdWNlIHRhcmdldF9zb2NrYWRkcl9ubCkKNS84
-IENoZWNraW5nIGNvbW1pdCAwNzNmNmZkZmUzMzggKGxpbnV4LXVzZXIvc3RyYWNlOiBEdW1wIEFG
-X05FVExJTksgc29ja2FkZHIgY29udGVudCkKNi84IENoZWNraW5nIGNvbW1pdCA2NTIzYTQzMjgx
-YzQgKGxpbnV4LXVzZXIvc3RyYWNlOiBBZGQgcHJpbnRfc29ja2ZkKCkpCjcvOCBDaGVja2luZyBj
-b21taXQgNGM3ZGY0YjNiOGM3IChsaW51eC11c2VyL3N0cmFjZTogSW1wcm92ZSBiaW5kKCkgb3V0
-cHV0KQo4LzggQ2hlY2tpbmcgY29tbWl0IGQyMDE1ZTI0ZTA4YyAobGludXgtdXNlci9zdHJhY2U6
-IExldCBwcmludF9zb2NrYWRkcigpIGhhdmUgYSAnbGFzdCcgYXJndW1lbnQpCkVSUk9SOiBzdG9y
-YWdlIGNsYXNzIHNob3VsZCBiZSBhdCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBkZWNsYXJhdGlvbgoj
-MjI6IEZJTEU6IGxpbnV4LXVzZXIvc3RyYWNlLmM6NzA6CitVTlVTRUQgc3RhdGljIHZvaWQgcHJp
-bnRfc29ja2FkZHIoYWJpX3Vsb25nIGFkZHIsIGFiaV9sb25nIGFkZHJsZW4sIGludCk7Cgp0b3Rh
-bDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDQwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvOCBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQg
-ZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDov
-L3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MDgwNjE1NDMuMjUxMzYtMS1mNGJ1Z0BhbXNhdC5vcmcv
-dGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0
-b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5k
-IHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+filename is only used to open the file if AT_EXECFD is not provided.
+But exec_path already contains the path of the file to open.
+Remove filename as it is only used in main.c whereas exec_path is
+also used in syscall.c.
+
+Fixes: d088d664f201 ("linux-user: identify running binary in /proc/self/exe")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/main.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 47917bbb20fc..28f0065b6ddf 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -49,7 +49,6 @@
+ char *exec_path;
+ 
+ int singlestep;
+-static const char *filename;
+ static const char *argv0;
+ static int gdbstub_port;
+ static envlist_t *envlist;
+@@ -586,7 +585,6 @@ static int parse_args(int argc, char **argv)
+         exit(EXIT_FAILURE);
+     }
+ 
+-    filename = argv[optind];
+     exec_path = argv[optind];
+ 
+     return optind;
+@@ -657,9 +655,9 @@ int main(int argc, char **argv, char **envp)
+ 
+     execfd = qemu_getauxval(AT_EXECFD);
+     if (execfd == 0) {
+-        execfd = open(filename, O_RDONLY);
++        execfd = open(exec_path, O_RDONLY);
+         if (execfd < 0) {
+-            printf("Error while loading %s: %s\n", filename, strerror(errno));
++            printf("Error while loading %s: %s\n", exec_path, strerror(errno));
+             _exit(EXIT_FAILURE);
+         }
+     }
+@@ -784,10 +782,10 @@ int main(int argc, char **argv, char **envp)
+     cpu->opaque = ts;
+     task_settid(ts);
+ 
+-    ret = loader_exec(execfd, filename, target_argv, target_environ, regs,
++    ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+         info, &bprm);
+     if (ret != 0) {
+-        printf("Error while loading %s: %s\n", filename, strerror(-ret));
++        printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
+         _exit(EXIT_FAILURE);
+     }
+ 
+-- 
+2.21.0
 
 
