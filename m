@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C92AD0CB
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 23:29:51 +0200 (CEST)
-Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560A4AD0C4
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 23:25:49 +0200 (CEST)
+Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i74kn-0002XO-Ri
-	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 17:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
+	id 1i74gt-0007Bd-Ub
+	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 17:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74dq-0005Oq-6Q
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:41 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i74dq-0005Op-5b
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74dm-0005lt-Lt
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i74dm-0005mB-O1
  for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:37 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:35182)
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:41466)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i74dj-0005k5-AC
+ id 1i74dl-0005kR-Al
  for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:33 -0400
-Received: by mail-qk1-x743.google.com with SMTP id d26so11180286qkk.2
- for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 14:22:30 -0700 (PDT)
+Received: by mail-qt1-x844.google.com with SMTP id j10so13799321qtp.8
+ for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 14:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lDG6NNDECQDn4/nyyITVRisGzx5VHFjiAPGOHzavck0=;
- b=JCM+4KXUf8jS9hjJYriOruDfrocNM5TylzCga72esJsGBwNu7pMrNzFogSa40Pxefn
- 127Y8/svl0FBPPhhbIo2MzCqWN+5wmJR2kfVOwYr0IV51MJUulEk/2UijyB+ebxKo4QR
- +/IK+lrk+hpedVX/M+V7cdx74gFIR9rg11PBeglY2o6MVvDbFGLk21XUPk2SHnFtWTRV
- I3wwSPPNgKc3Wj8oSpt34pKrGnBVD64g6rHeJ6FpLli+5+Mda0xr1y5yhFwkxYeOHrWG
- x3lnAGPZ0tcxBF0HoB4DXDJ0svaiXvA4QmQAuyUrq475GtXhfHQrJoNkv9qIdmIlnCDm
- oGBA==
+ bh=P1Yx/dZ4rieO/0gJLGQ3xdgMx3pyBcyEnZuiP7yaO78=;
+ b=gcChDqJxRVfycP6KDb41yNEmL+C9AteDt5VX5SI11waqW+cxPmrdGRZpUD2NynG5S4
+ pyQ8ibhbS7+LK2V7R+z9gq0fGqqvL/7UJOp5IFc1oMqN4OvERflRzVPp3YP5Fwtes4VP
+ x55XPLErtTR5XJPjHCRKuARud4/mm1M5B3DKiMg1zaMdsm2ngNoyQVMVVJAuh34rS86X
+ l0hs3hIw1JPRwamxu2i4cFn78BNr5PK2vWMOqu8MMI5Biakl4DqDRK9DmWwMZTWsr07X
+ NLoZQpGTG/aENN58RK30NGHky7HtISWTpW1YAWjxgv2gMCrkjDS6/jvtUna3Hkm6OXRb
+ k76Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lDG6NNDECQDn4/nyyITVRisGzx5VHFjiAPGOHzavck0=;
- b=RiwzLnh/vnL1EYPrW42372J9xQZxGSKZiQhttzUdu7Zuf1h+9RdTaTr9DgzAio3oku
- PsRybSQeE5Ne/B4uNQr+ncFFWvc6N3LeSDwlL365NONLKB4v2uwfyYFbHBa+fowFkDhU
- 0TEDDwNvgU2/8hXMOyOmRELi92nAXqaRAMGEmaeearzQFInkNIGXZrOXF3Ve7Be2FrnP
- l1R5sy+bijtuAGvNjMev+NpKfPPJ0D+sctjz2CG1VtPRpARrpBeotk3+DvSQ9W9fPjOB
- FDyQrha78xBzXd5ElhuX2g1weyRGU6Zh79AfawM2HNetdYo5Vv/x3pLlTMjzlgej/JL+
- gkXg==
-X-Gm-Message-State: APjAAAV97w9lui7UJRCSq1U6LPQwvJV0N+SwX3uHasyf5G7asngRoxIZ
- jFFB0UG5KzayQ0yOSwx0G4vJVH8F
-X-Google-Smtp-Source: APXvYqw+s6sL/xD/EjI6uKo2mYeKeHFqZ64F3F74Ql3HYxQX5DeCjPnpj4MtEj+f3pZUD+wM1NOU5g==
-X-Received: by 2002:a37:714:: with SMTP id 20mr20098715qkh.32.1567977750333;
- Sun, 08 Sep 2019 14:22:30 -0700 (PDT)
+ bh=P1Yx/dZ4rieO/0gJLGQ3xdgMx3pyBcyEnZuiP7yaO78=;
+ b=jTZD9aQ/MUFyCXLRVZFawfiiZrasjPD0sWCtOg/wtzUD7ADeK9Rtj+e+wAO0ZVaozI
+ BIftZwJiqoI21yo0NAOlMWnU9CdLVifpx8Aq/G6FZecfSh6CMMFYzoJwWiJ/Z7sH24D0
+ QQR9Y1q2li+yHdk1BQXOX1PD+zcfYy1jrS95fZCs7+/f8rrPznRebdVgBtlVarLj3Hoj
+ 0mhxJrwE6e1Q+/dTFN8XBKmJM45NgmUw4MC2fkvQoRsHMFlUNOuQKPnhvzHauXr+iFKR
+ KvDNwcSY8irAG6JzdtZkQp6yLdGU2NuHIq//L8Z9Ejdprg/ZUXVWn56YE23CC+ymvrk0
+ N+KA==
+X-Gm-Message-State: APjAAAW9AFuvi9CaYQP0li426A0onB9ZjLTbSYv11yk2KdM+97KPAU2V
+ zwAaejY8X1T/nNuL98cEafMfA2XA
+X-Google-Smtp-Source: APXvYqwt98odPSHTjaIx9p4s9l9uAWYjvipU3QZvKOedJt6K2igOPXJKLM9Rrag3CUA93POXdRtpjQ==
+X-Received: by 2002:ac8:5458:: with SMTP id d24mr19529919qtq.54.1567977751303; 
+ Sun, 08 Sep 2019 14:22:31 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-6ea8-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:6ea8::5])
- by smtp.gmail.com with ESMTPSA id e2sm5488112qkg.38.2019.09.08.14.22.29
+ by smtp.gmail.com with ESMTPSA id e2sm5488112qkg.38.2019.09.08.14.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Sep 2019 14:22:30 -0700 (PDT)
+ Sun, 08 Sep 2019 14:22:31 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sun,  8 Sep 2019 23:22:02 +0200
-Message-Id: <6570b7aad800eeb49152711f5ea960aa28177ddb.1567965065.git.DirtY.iCE.hu@gmail.com>
+Date: Sun,  8 Sep 2019 23:22:03 +0200
+Message-Id: <8f5919244f4edf49abacc0de8c8e133ebda570fd.1567965065.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
@@ -70,8 +70,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::743
-Subject: [Qemu-devel] [PATCH v2 02/24] alsaaudio: port to the new audio
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: [Qemu-devel] [PATCH v2 03/24] coreaudio: port to the new audio
  backend api
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,395 +90,200 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/alsaaudio.c | 302 ++++++++++++----------------------------------
- 1 file changed, 80 insertions(+), 222 deletions(-)
+ audio/coreaudio.c | 130 ++++++++++++++++++++++++----------------------
+ 1 file changed, 69 insertions(+), 61 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 591344dccd..19124d09d8 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -44,9 +44,6 @@ struct pollhlp {
+diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+index d1be58b40a..5cde42f982 100644
+--- a/audio/coreaudio.c
++++ b/audio/coreaudio.c
+@@ -43,9 +43,6 @@ typedef struct coreaudioVoiceOut {
+     UInt32 audioDevicePropertyBufferFrameSize;
+     AudioStreamBasicDescription outputStreamBasicDescription;
+     AudioDeviceIOProcID ioprocid;
+-    size_t live;
+-    size_t decr;
+-    size_t rpos;
+ } coreaudioVoiceOut;
  
- typedef struct ALSAVoiceOut {
-     HWVoiceOut hw;
--    int wpos;
--    int pending;
--    void *pcm_buf;
-     snd_pcm_t *handle;
-     struct pollhlp pollhlp;
-     Audiodev *dev;
-@@ -55,7 +52,6 @@ typedef struct ALSAVoiceOut {
- typedef struct ALSAVoiceIn {
-     HWVoiceIn hw;
-     snd_pcm_t *handle;
--    void *pcm_buf;
-     struct pollhlp pollhlp;
-     Audiodev *dev;
- } ALSAVoiceIn;
-@@ -602,102 +598,64 @@ static int alsa_open(bool in, struct alsa_params_req *req,
-     return -1;
+ #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+@@ -397,31 +394,29 @@ static int coreaudio_unlock (coreaudioVoiceOut *core, const char *fn_name)
+     return 0;
  }
  
--static snd_pcm_sframes_t alsa_get_avail (snd_pcm_t *handle)
-+static size_t alsa_write(HWVoiceOut *hw, void *buf, size_t len)
- {
--    snd_pcm_sframes_t avail;
--
--    avail = snd_pcm_avail_update (handle);
--    if (avail < 0) {
--        if (avail == -EPIPE) {
--            if (!alsa_recover (handle)) {
--                avail = snd_pcm_avail_update (handle);
--            }
--        }
--
--        if (avail < 0) {
--            alsa_logerr (avail,
--                         "Could not obtain number of available frames\n");
--            return -1;
--        }
--    }
-+    ALSAVoiceOut *alsa = (ALSAVoiceOut *) hw;
-+    size_t pos = 0;
-+    size_t len_frames = len >> hw->info.shift;
-+
-+    while (len_frames) {
-+        char *src = advance(buf, pos);
-+        snd_pcm_sframes_t written;
-+
-+        written = snd_pcm_writei(alsa->handle, src, len_frames);
-+
-+        if (written <= 0) {
-+            switch (written) {
-+            case 0:
-+                trace_alsa_wrote_zero(len_frames);
-+                return pos;
-+
-+            case -EPIPE:
-+                if (alsa_recover(alsa->handle)) {
-+                    alsa_logerr(written, "Failed to write %zu frames\n",
-+                                len_frames);
-+                    return pos;
-+                }
-+                trace_alsa_xrun_out();
-+                continue;
-+
-+            case -ESTRPIPE:
-+                /*
-+                 * stream is suspended and waiting for an application
-+                 * recovery
-+                 */
-+                if (alsa_resume(alsa->handle)) {
-+                    alsa_logerr(written, "Failed to write %zu frames\n",
-+                                len_frames);
-+                    return pos;
-+                }
-+                trace_alsa_resume_out();
-+                continue;
- 
--    return avail;
--}
-+            case -EAGAIN:
-+                return pos;
- 
--static void alsa_write_pending (ALSAVoiceOut *alsa)
+-static size_t coreaudio_run_out(HWVoiceOut *hw, size_t live)
 -{
--    HWVoiceOut *hw = &alsa->hw;
--
--    while (alsa->pending) {
--        int left_till_end_samples = hw->samples - alsa->wpos;
--        int len = MIN (alsa->pending, left_till_end_samples);
--        char *src = advance (alsa->pcm_buf, alsa->wpos << hw->info.shift);
--
--        while (len) {
--            snd_pcm_sframes_t written;
--
--            written = snd_pcm_writei (alsa->handle, src, len);
--
--            if (written <= 0) {
--                switch (written) {
--                case 0:
--                    trace_alsa_wrote_zero(len);
--                    return;
--
--                case -EPIPE:
--                    if (alsa_recover (alsa->handle)) {
--                        alsa_logerr (written, "Failed to write %d frames\n",
--                                     len);
--                        return;
--                    }
--                    trace_alsa_xrun_out();
--                    continue;
--
--                case -ESTRPIPE:
--                    /* stream is suspended and waiting for an
--                       application recovery */
--                    if (alsa_resume (alsa->handle)) {
--                        alsa_logerr (written, "Failed to write %d frames\n",
--                                     len);
--                        return;
--                    }
--                    trace_alsa_resume_out();
--                    continue;
--
--                case -EAGAIN:
--                    return;
--
--                default:
--                    alsa_logerr (written, "Failed to write %d frames from %p\n",
--                                 len, src);
--                    return;
--                }
-+            default:
-+                alsa_logerr(written, "Failed to write %zu frames from %p\n",
-+                            len, src);
-+                return pos;
-             }
--
--            alsa->wpos = (alsa->wpos + written) % hw->samples;
--            alsa->pending -= written;
--            len -= written;
-         }
--    }
--}
--
--static size_t alsa_run_out(HWVoiceOut *hw, size_t live)
--{
--    ALSAVoiceOut *alsa = (ALSAVoiceOut *) hw;
 -    size_t decr;
--    snd_pcm_sframes_t avail;
- 
--    avail = alsa_get_avail (alsa->handle);
--    if (avail < 0) {
--        dolog ("Could not get number of available playback frames\n");
+-    coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
+-
+-    if (coreaudio_lock (core, "coreaudio_run_out")) {
 -        return 0;
-+        pos += written << hw->info.shift;
-+        if (written < len_frames) {
-+            break;
-+        }
-+        len_frames -= written;
++#define COREAUDIO_WRAPPER_FUNC(name, ret_type, args_decl, args) \
++    static ret_type glue(coreaudio_, name)args_decl             \
++    {                                                           \
++        coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;     \
++        ret_type ret;                                           \
++                                                                \
++        if (coreaudio_lock(core, "coreaudio_" #name)) {         \
++            return 0;                                           \
++        }                                                       \
++                                                                \
++        ret = glue(audio_generic_, name)args;                   \
++                                                                \
++        coreaudio_unlock(core, "coreaudio_" #name);             \
++        return ret;                                             \
      }
- 
--    decr = MIN (live, avail);
--    decr = audio_pcm_hw_clip_out (hw, alsa->pcm_buf, decr, alsa->pending);
--    alsa->pending += decr;
--    alsa_write_pending (alsa);
+-
+-    if (core->decr > live) {
+-        ldebug ("core->decr %d live %d core->live %d\n",
+-                core->decr,
+-                live,
+-                core->live);
+-    }
+-
+-    decr = MIN (core->decr, live);
+-    core->decr -= decr;
+-
+-    core->live = live - decr;
+-    hw->rpos = core->rpos;
+-
+-    coreaudio_unlock (core, "coreaudio_run_out");
 -    return decr;
-+    return pos;
- }
+-}
++COREAUDIO_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
++                       (hw, size))
++COREAUDIO_WRAPPER_FUNC(put_buffer_out_nowrite, size_t,
++                       (HWVoiceOut *hw, void *buf, size_t size),
++                       (hw, buf, size))
++COREAUDIO_WRAPPER_FUNC(write, size_t, (HWVoiceOut *hw, void *buf, size_t size),
++                       (hw, buf, size))
++#undef COREAUDIO_WRAPPER_FUNC
  
- static void alsa_fini_out (HWVoiceOut *hw)
-@@ -706,9 +664,6 @@ static void alsa_fini_out (HWVoiceOut *hw)
- 
-     ldebug ("alsa_fini\n");
-     alsa_anal_close (&alsa->handle, &alsa->pollhlp);
--
--    g_free(alsa->pcm_buf);
--    alsa->pcm_buf = NULL;
- }
- 
- static int alsa_init_out(HWVoiceOut *hw, struct audsettings *as,
-@@ -737,14 +692,6 @@ static int alsa_init_out(HWVoiceOut *hw, struct audsettings *as,
-     audio_pcm_init_info (&hw->info, &obt_as);
-     hw->samples = obt.samples;
- 
--    alsa->pcm_buf = audio_calloc(__func__, obt.samples, 1 << hw->info.shift);
--    if (!alsa->pcm_buf) {
--        dolog("Could not allocate DAC buffer (%zu samples, each %d bytes)\n",
--              hw->samples, 1 << hw->info.shift);
--        alsa_anal_close1 (&handle);
--        return -1;
--    }
--
-     alsa->pollhlp.s = hw->s;
-     alsa->handle = handle;
-     alsa->dev = dev;
-@@ -839,14 +786,6 @@ static int alsa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-     audio_pcm_init_info (&hw->info, &obt_as);
-     hw->samples = obt.samples;
- 
--    alsa->pcm_buf = audio_calloc(__func__, hw->samples, 1 << hw->info.shift);
--    if (!alsa->pcm_buf) {
--        dolog("Could not allocate ADC buffer (%zu samples, each %d bytes)\n",
--              hw->samples, 1 << hw->info.shift);
--        alsa_anal_close1 (&handle);
--        return -1;
--    }
--
-     alsa->pollhlp.s = hw->s;
-     alsa->handle = handle;
-     alsa->dev = dev;
-@@ -858,129 +797,48 @@ static void alsa_fini_in (HWVoiceIn *hw)
-     ALSAVoiceIn *alsa = (ALSAVoiceIn *) hw;
- 
-     alsa_anal_close (&alsa->handle, &alsa->pollhlp);
--
--    g_free(alsa->pcm_buf);
--    alsa->pcm_buf = NULL;
- }
- 
--static size_t alsa_run_in(HWVoiceIn *hw)
-+static size_t alsa_read(HWVoiceIn *hw, void *buf, size_t len)
+ /* callback to feed audiooutput buffer */
+ static OSStatus audioDeviceIOProc(
+@@ -433,19 +428,11 @@ static OSStatus audioDeviceIOProc(
+     const AudioTimeStamp* inOutputTime,
+     void* hwptr)
  {
-     ALSAVoiceIn *alsa = (ALSAVoiceIn *) hw;
--    int hwshift = hw->info.shift;
--    int i;
--    size_t live = audio_pcm_hw_get_live_in (hw);
--    size_t dead = hw->samples - live;
--    size_t decr;
--    struct {
--        size_t add;
--        size_t len;
--    } bufs[2] = {
--        { .add = hw->wpos, .len = 0 },
--        { .add = 0,        .len = 0 }
--    };
--    snd_pcm_sframes_t avail;
--    snd_pcm_uframes_t read_samples = 0;
--
--    if (!dead) {
--        return 0;
--    }
-+    size_t pos = 0;
+-    UInt32 frame, frameCount;
+-    float *out = outOutputData->mBuffers[0].mData;
++    UInt32 frameCount, pending_frames;
++    void *out = outOutputData->mBuffers[0].mData;
+     HWVoiceOut *hw = hwptr;
+     coreaudioVoiceOut *core = (coreaudioVoiceOut *) hwptr;
+-    int rpos, live;
+-    struct st_sample *src;
+-#ifndef FLOAT_MIXENG
+-#ifdef RECIPROCAL
+-    const float scale = 1.f / UINT_MAX;
+-#else
+-    const float scale = UINT_MAX;
+-#endif
+-#endif
++    size_t len;
  
--    avail = alsa_get_avail (alsa->handle);
--    if (avail < 0) {
--        dolog ("Could not get number of captured frames\n");
--        return 0;
--    }
--
--    if (!avail) {
--        snd_pcm_state_t state;
--
--        state = snd_pcm_state (alsa->handle);
--        switch (state) {
--        case SND_PCM_STATE_PREPARED:
--            avail = hw->samples;
--            break;
--        case SND_PCM_STATE_SUSPENDED:
--            /* stream is suspended and waiting for an application recovery */
--            if (alsa_resume (alsa->handle)) {
--                dolog ("Failed to resume suspended input stream\n");
--                return 0;
--            }
--            trace_alsa_resume_in();
--            break;
--        default:
--            trace_alsa_no_frames(state);
--            return 0;
--        }
--    }
-+    while (len) {
-+        void *dst = advance(buf, pos);
-+        snd_pcm_sframes_t nread;
- 
--    decr = MIN(dead, avail);
--    if (!decr) {
--        return 0;
--    }
-+        nread = snd_pcm_readi(alsa->handle, dst, len >> hw->info.shift);
- 
--    if (hw->wpos + decr > hw->samples) {
--        bufs[0].len = (hw->samples - hw->wpos);
--        bufs[1].len = (decr - (hw->samples - hw->wpos));
--    }
--    else {
--        bufs[0].len = decr;
--    }
-+        if (nread <= 0) {
-+            switch (nread) {
-+            case 0:
-+                trace_alsa_read_zero(len);
-+                return pos;;
- 
--    for (i = 0; i < 2; ++i) {
--        void *src;
--        struct st_sample *dst;
--        snd_pcm_sframes_t nread;
--        snd_pcm_uframes_t len;
--
--        len = bufs[i].len;
--
--        src = advance (alsa->pcm_buf, bufs[i].add << hwshift);
--        dst = hw->conv_buf + bufs[i].add;
--
--        while (len) {
--            nread = snd_pcm_readi (alsa->handle, src, len);
--
--            if (nread <= 0) {
--                switch (nread) {
--                case 0:
--                    trace_alsa_read_zero(len);
--                    goto exit;
--
--                case -EPIPE:
--                    if (alsa_recover (alsa->handle)) {
--                        alsa_logerr (nread, "Failed to read %ld frames\n", len);
--                        goto exit;
--                    }
--                    trace_alsa_xrun_in();
--                    continue;
--
--                case -EAGAIN:
--                    goto exit;
--
--                default:
--                    alsa_logerr (
--                        nread,
--                        "Failed to read %ld frames from %p\n",
--                        len,
--                        src
--                        );
--                    goto exit;
-+            case -EPIPE:
-+                if (alsa_recover(alsa->handle)) {
-+                    alsa_logerr(nread, "Failed to read %zu frames\n", len);
-+                    return pos;
-                 }
--            }
-+                trace_alsa_xrun_in();
-+                continue;
- 
--            hw->conv (dst, src, nread);
-+            case -EAGAIN:
-+                return pos;
- 
--            src = advance (src, nread << hwshift);
--            dst += nread;
--
--            read_samples += nread;
--            len -= nread;
-+            default:
-+                alsa_logerr(nread, "Failed to read %zu frames to %p\n",
-+                            len, dst);
-+                return pos;;
-+            }
-         }
-+
-+        pos += nread << hw->info.shift;
-+        len -= nread << hw->info.shift;
+     if (coreaudio_lock (core, "audioDeviceIOProc")) {
+         inInputTime = 0;
+@@ -453,42 +440,51 @@ static OSStatus audioDeviceIOProc(
      }
  
-- exit:
--    hw->wpos = (hw->wpos + read_samples) % hw->samples;
--    return read_samples;
-+    return pos;
+     frameCount = core->audioDevicePropertyBufferFrameSize;
+-    live = core->live;
++    pending_frames = hw->pending_emul >> hw->info.shift;
+ 
+     /* if there are not enough samples, set signal and return */
+-    if (live < frameCount) {
++    if (pending_frames < frameCount) {
+         inInputTime = 0;
+         coreaudio_unlock (core, "audioDeviceIOProc(empty)");
+         return 0;
+     }
+ 
+-    rpos = core->rpos;
+-    src = hw->mix_buf + rpos;
++    len = frameCount << hw->info.shift;
++    while (len) {
++        size_t write_len;
++        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
++        if (start < 0) {
++            start += hw->size_emul;
++        }
++        assert(start >= 0 && start < hw->size_emul);
+ 
+-    /* fill buffer */
+-    for (frame = 0; frame < frameCount; frame++) {
+-#ifdef FLOAT_MIXENG
+-        *out++ = src[frame].l; /* left channel */
+-        *out++ = src[frame].r; /* right channel */
+-#else
+-#ifdef RECIPROCAL
+-        *out++ = src[frame].l * scale; /* left channel */
+-        *out++ = src[frame].r * scale; /* right channel */
+-#else
+-        *out++ = src[frame].l / scale; /* left channel */
+-        *out++ = src[frame].r / scale; /* right channel */
+-#endif
+-#endif
+-    }
++        write_len = MIN(MIN(hw->pending_emul, len),
++                        hw->size_emul - start);
+ 
+-    rpos = (rpos + frameCount) % hw->samples;
+-    core->decr += frameCount;
+-    core->rpos = rpos;
++        memcpy(out, hw->buf_emul + start, write_len);
++        hw->pending_emul -= write_len;
++        len -= write_len;
++        out += write_len;
++    }
+ 
+     coreaudio_unlock (core, "audioDeviceIOProc");
+     return 0;
  }
  
- static int alsa_ctl_in (HWVoiceIn *hw, int cmd, ...)
-@@ -1065,12 +923,12 @@ static void alsa_audio_fini (void *opaque)
- static struct audio_pcm_ops alsa_pcm_ops = {
-     .init_out = alsa_init_out,
-     .fini_out = alsa_fini_out,
--    .run_out  = alsa_run_out,
-+    .write    = alsa_write,
-     .ctl_out  = alsa_ctl_out,
++static UInt32 coreaudio_get_flags(struct audio_pcm_info *info,
++                                  struct audsettings *as)
++{
++    UInt32 flags = info->sign ? kAudioFormatFlagIsSignedInteger : 0;
++    if (as->endianness) { /* 0 = little, 1 = big */
++        flags |= kAudioFormatFlagIsBigEndian;
++    }
++
++    if (flags == 0) { /* must not be 0 */
++        flags = kAudioFormatFlagsAreAllClear;
++    }
++    return flags;
++}
++
+ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+                               void *drv_opaque)
+ {
+@@ -576,6 +572,16 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
  
-     .init_in  = alsa_init_in,
-     .fini_in  = alsa_fini_in,
--    .run_in   = alsa_run_in,
-+    .read     = alsa_read,
-     .ctl_in   = alsa_ctl_in,
+     /* set Samplerate */
+     core->outputStreamBasicDescription.mSampleRate = (Float64) as->freq;
++    core->outputStreamBasicDescription.mFormatID = kAudioFormatLinearPCM;
++    core->outputStreamBasicDescription.mFormatFlags =
++        coreaudio_get_flags(&hw->info, as);
++    core->outputStreamBasicDescription.mBytesPerPacket =
++        core->outputStreamBasicDescription.mBytesPerFrame =
++        hw->info.nchannels * hw->info.bits / 8;
++    core->outputStreamBasicDescription.mFramesPerPacket = 1;
++    core->outputStreamBasicDescription.mChannelsPerFrame = hw->info.nchannels;
++    core->outputStreamBasicDescription.mBitsPerChannel = hw->info.bits;
++
+     status = coreaudio_set_streamformat(core->outputDeviceID,
+                                         &core->outputStreamBasicDescription);
+     if (status != kAudioHardwareNoError) {
+@@ -686,7 +692,9 @@ static void coreaudio_audio_fini (void *opaque)
+ static struct audio_pcm_ops coreaudio_pcm_ops = {
+     .init_out = coreaudio_init_out,
+     .fini_out = coreaudio_fini_out,
+-    .run_out  = coreaudio_run_out,
++    .write    = coreaudio_write,
++    .get_buffer_out = coreaudio_get_buffer_out,
++    .put_buffer_out = coreaudio_put_buffer_out_nowrite,
+     .ctl_out  = coreaudio_ctl_out
  };
  
 -- 
