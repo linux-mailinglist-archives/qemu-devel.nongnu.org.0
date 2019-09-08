@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FE1ACB2E
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 08:18:49 +0200 (CEST)
-Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE64BACB30
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 08:19:58 +0200 (CEST)
+Received: from localhost ([::1]:47188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6qXA-0005d6-Js
-	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 02:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41821)
+	id 1i6qYH-0007N9-VZ
+	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 02:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i6qUK-0002mw-Ai
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:53 -0400
+ id 1i6qUN-0002sJ-K2
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i6qUJ-0002S7-6Y
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:52 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43262)
+ id 1i6qUM-0002Tx-ER
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:55 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55295)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i6qUI-0002Rt-W9
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:51 -0400
-Received: by mail-wr1-x443.google.com with SMTP id q17so5683789wrx.10
- for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 23:15:50 -0700 (PDT)
+ id 1i6qUM-0002TM-7z
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 02:15:54 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k2so10292375wmj.4
+ for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 23:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KlFoUbPbPZiP4pvhxHBf1+0jcfgH410uCz6LOEH3SZs=;
- b=I/Y0YaGMILHA8UZK4Cx19K1VKhwsD8BSDBaqYNyBlbLl5qVWfig5ItERbLSbN4MIoq
- +Pu+m/KgukqIuml1QGrY4cbJ+zvoTnbkMaDR9VXAMmhXuXQ3hbtlDD/OaJBnhAwjPvhO
- QotlZfvGpH0W1D99RU/nKevKTe29VsBmTslDqNW5l6cfl/yx+RW27024doFz7Zk0nC6p
- +m9ezyBy0ojOpTo1y/jQRc2EQsEeC6m7sJxPsIuqIwXHAsoAthU7pkDzZ5Gpwmrn3CG/
- 6exSTM3cIe3BfR1YbbYlMywikfEW5KsNa0o295IgEezywHCCuZpvu50pcDSzCdewbIUO
- 0wNA==
+ bh=BJIzbQfX7Qshpa375lFrVbD2cYPQAWdO4ETlc0n+5+0=;
+ b=FtCUmK4uBd9gRjhauIen6xjX+YtWczC/JCSn3g/lAKO9vuhnQKCJ0NHakFGQafw6Yj
+ U2ITX2g3e1LrDjjrzT/zxZ5sKU+fPdp0DhhUtqWP3xOpMJA5jiz/Ao3XdRr/Rwj7oxIN
+ j+jjf67c78eefIbdRpgZq1SqIuUrrVYVMrCuM0y6Lq9JzJubeJaX/GR8iHe0XmbaPYiK
+ 1DiRw+hS1bJufwMbqn08u9c9Xl4xFGYY1COyRgpIYLeVZsKyCYByHWFJbEIf7MwSxWeX
+ RgMbPYlLyMIYIw8ULb/HXZAsD4l74IEdQ4Q4cSCvY/Lj/CgssObBhl5X/nEsx2J35SLY
+ 2upQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KlFoUbPbPZiP4pvhxHBf1+0jcfgH410uCz6LOEH3SZs=;
- b=V0cctJugNUY9dXv3dV8GHMt9l3yE+rUu8x7BXIB3fX5otSUOs6lQ3T1W5aUjVbc5Gg
- iOOPfyreKLWVXMqh6LszCNfKSMNXAz6KmqUSaGqABaYZwtgngRZDp91rhYF0QCvo8akB
- djyvL7coNqcApgFVWaV7fMbh1Deh1SZeYxKhLSGSHQlhk73Sce/ilQoEA+AGsvO7Dgz0
- 0+J0Wh+8M1xd4Vw/TbyS2nMI/9Ijoh+9FWO6MXU4PNZBbc8HasIq+JXN24I4gPKuILjj
- 6NTOqFZqzcpVbRCtHyzx1p5gVUdf0wXzcSNhDjwBXIvAy2mb4mcX7SJBf8M8iTQoEKhb
- KoeA==
-X-Gm-Message-State: APjAAAWpnmi8wTCm0yBxqvD56hI3XoExgIqlH2qAMczgVUBggAc0VKGo
- unSJUcFLHjiAAo/gevfs8Rgyk6X8
-X-Google-Smtp-Source: APXvYqzJpiaaFMMWtYgRwiyozx79yQbkQBC5a/RaGFDlHJb8+HLiHlinx6rs3NocvZTqvukEmfAjxQ==
-X-Received: by 2002:adf:fe07:: with SMTP id n7mr13961871wrr.90.1567923349925; 
- Sat, 07 Sep 2019 23:15:49 -0700 (PDT)
+ bh=BJIzbQfX7Qshpa375lFrVbD2cYPQAWdO4ETlc0n+5+0=;
+ b=OPw0glMfnR3YMdvX2XgksozhALc929zO0yjkj+/3ODWR5cxT1BSbIEaxVPoL2A1r6R
+ c6RXa7Ay1ltrCijIEKu+NgNfwc8W3vb+IUI9Y3sR6P0d66B9q/H0o17vXaRKdOOs1tki
+ fxoBFI6Jyq1N/ieTe6OTHNydta+EUzD7oo0OHZ8YpOzoUULGMgTBGt3gxn6uZF6XukfC
+ qehpnxBNweuiGjCQsqaGtn1r8J0Q4yIZt/xbarXHbkPROc1HQ1maqsicB+sxRKghxG3D
+ q2Oqm9seE6yC0eXEgY/dPaWyYp5j+5Dm1wexG6sNW5lBErBd6Qq/qP+OTBGFgxNaHqgH
+ k0iA==
+X-Gm-Message-State: APjAAAXT5qBbw4vot3LP7FBhL8AcPuAv3vE8ZJLBWCqmEgJTwXt+BBaw
+ UYE0mlautN+u1OTyfcnEpQ0PXiKN
+X-Google-Smtp-Source: APXvYqyAoovqFgd7oHBx9w2nv031JAJ7SB6b3Qnk39jehDYpbalDVR7+FXX6WGRpnUspqf00qiujXg==
+X-Received: by 2002:a1c:a003:: with SMTP id j3mr13639825wme.42.1567923353102; 
+ Sat, 07 Sep 2019 23:15:53 -0700 (PDT)
 Received: from localhost.localdomain
  (251.red-88-10-102.dynamicip.rima-tde.net. [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id g201sm15616552wmg.34.2019.09.07.23.15.49
+ by smtp.gmail.com with ESMTPSA id g201sm15616552wmg.34.2019.09.07.23.15.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Sep 2019 23:15:49 -0700 (PDT)
+ Sat, 07 Sep 2019 23:15:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Sun,  8 Sep 2019 08:15:39 +0200
-Message-Id: <20190908061543.25136-5-f4bug@amsat.org>
+Date: Sun,  8 Sep 2019 08:15:42 +0200
+Message-Id: <20190908061543.25136-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190908061543.25136-1-f4bug@amsat.org>
 References: <20190908061543.25136-1-f4bug@amsat.org>
@@ -69,9 +69,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH v6 4/8] linux-user/syscall: Introduce
- target_sockaddr_nl
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH v6 7/8] linux-user/strace: Improve bind() output
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,45 +91,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-By: Guido Günther <agx@sigxcpu.org>
 ---
- linux-user/syscall.c      | 6 ++++--
- linux-user/syscall_defs.h | 7 +++++++
- 2 files changed, 11 insertions(+), 2 deletions(-)
+v6: use TARGET_NR_socketcall || TARGET_NR_bind (lvivier)
+---
+ linux-user/strace.c    | 15 ++++++++++++++-
+ linux-user/strace.list |  2 +-
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8b41a03901..5128312db5 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1494,8 +1494,10 @@ static inline abi_long host_to_target_sockaddr(abi_ulong target_addr,
-         sizeof(target_saddr->sa_family)) {
-         target_saddr->sa_family = tswap16(addr->sa_family);
-     }
--    if (addr->sa_family == AF_NETLINK && len >= sizeof(struct sockaddr_nl)) {
--        struct sockaddr_nl *target_nl = (struct sockaddr_nl *)target_saddr;
-+    if (addr->sa_family == AF_NETLINK &&
-+        len >= sizeof(struct target_sockaddr_nl)) {
-+        struct target_sockaddr_nl *target_nl =
-+               (struct target_sockaddr_nl *)target_saddr;
-         target_nl->nl_pid = tswap32(target_nl->nl_pid);
-         target_nl->nl_groups = tswap32(target_nl->nl_groups);
-     } else if (addr->sa_family == AF_PACKET) {
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 0662270300..fcedd0d0fb 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -153,6 +153,13 @@ struct target_sockaddr_un {
-     uint8_t sun_path[108];
- };
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 8a1df12e67..a1e971ac8a 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1708,7 +1708,7 @@ print_socket(const struct syscallname *name,
  
-+struct target_sockaddr_nl {
-+    uint16_t nl_family;     /* AF_NETLINK */
-+    uint16_t __pad;
-+    uint32_t nl_pid;
-+    uint32_t nl_groups;
-+};
+ #endif
+ 
+-#if defined(TARGET_NR_socketcall)
++#if defined(TARGET_NR_socketcall) || defined(TARGET_NR_bind)
+ 
+ static void print_sockfd(abi_long sockfd, int last)
+ {
+@@ -2055,6 +2055,19 @@ print_socketcall(const struct syscallname *name,
+ }
+ #endif
+ 
++#if defined(TARGET_NR_bind)
++static void
++print_bind(const struct syscallname *name,
++           abi_long arg0, abi_long arg1, abi_long arg2,
++           abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_sockfd(arg0, 0);
++    print_sockaddr(arg1, arg2, 1);
++    print_syscall_epilogue(name);
++}
++#endif
 +
- struct target_in_addr {
-     uint32_t s_addr; /* big endian */
- };
+ #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) || \
+     defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64)
+ static void
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 1ff9168369..957aa720af 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -41,7 +41,7 @@
+ { TARGET_NR_bdflush, "bdflush" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_bind
+-{ TARGET_NR_bind, "bind" , NULL, NULL, NULL },
++{ TARGET_NR_bind, "bind" , NULL, print_bind, NULL },
+ #endif
+ #ifdef TARGET_NR_bpf
+ { TARGET_NR_bpf, "bpf" , NULL, NULL, NULL },
 -- 
 2.20.1
 
