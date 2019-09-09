@@ -2,108 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0CD8ADD74
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 18:46:56 +0200 (CEST)
-Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEADADDA5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 18:57:06 +0200 (CEST)
+Received: from localhost ([::1]:59134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7MoZ-0001rG-Nc
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 12:46:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40331)
+	id 1i7MyP-0005YM-Kk
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 12:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7Mme-00013R-VI
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:44:57 -0400
+ (envelope-from <bounces@canonical.com>) id 1i7Mx5-0004dG-F0
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:55:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7Mmd-0007Op-IO
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:44:56 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:48425)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i7Mmd-0007Nr-9J; Mon, 09 Sep 2019 12:44:55 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MC3L9-1hzzK31Ajd-00CQ7j; Mon, 09 Sep 2019 18:44:10 +0200
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190909155813.27760-1-laurent@vivier.eu>
- <20190909155813.27760-9-laurent@vivier.eu>
- <CAL1e-=jf=oaMfNf6jivroDLMywaNbcbKL9QuVp7K65bc-tRLuw@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <93f25688-a940-d889-7f62-ee6aefeeec55@vivier.eu>
-Date: Mon, 9 Sep 2019 18:44:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bounces@canonical.com>) id 1i7Mx4-0005aE-0g
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:55:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52970)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i7Mx3-0005Zw-RX
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:55:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i7Mx2-0001SR-Cb
+ for <qemu-devel@nongnu.org>; Mon, 09 Sep 2019 16:55:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 544312E80CC
+ for <qemu-devel@nongnu.org>; Mon,  9 Sep 2019 16:55:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=jf=oaMfNf6jivroDLMywaNbcbKL9QuVp7K65bc-tRLuw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:spThFmJPGhVbwFDJpCyB686z6sDvxV+Ydf8zUdwIgXBUFIcolAG
- aAGfH1zygiaGHkKwo5Q2Ur8JYnrLBYb5Ga6n7HGgRnDZsfGZiO7hOa7XcxD9CihC6Znt8y/
- YLGgXNDWo27HcmI0Q0KlQMRuqtuzxv7IISSoh7x57xVaXsqtG86gZ5Nel2IxkJrWQ+y69Yw
- +KqxIRBsCeUKR3dlG54Gw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:D5fQjkC76OA=:ZSdddogUNwvMN5PgKf/L0x
- q1mxnJTGjNzxAuPavRhY702wSNo6VfDV5whxwWao3RMSx/Zx0XPxpisGIKWbl+FDxhAoxMejC
- +Hox+oWHTyRUihPQQSjF88cobX+v4CysgQuxZybNPAfB3Nn1H8tOZDBn27Ha4TN1Zn1M+OlBu
- KY2iv6mcJX/T488TMcUBWoXv9Ar5xSeshAbnzid0w8N5n5fZ2AFBmYxsCh41E1brEB6UPReiG
- Xq6cjtCMxVknk/tDQkMyP1N9BAaQyTejClJYaNOhx2q0AmZ9WTC7wsj5xrw45Edf3bqGD3Vei
- rngX7WL2xlAhLJSJTuvGhwbYmr5PyYcZGOdM8b2ZONjEGthDyhZmEsDFSZFe54nNmntdFj/KY
- I3bHIWBQm9a5pEfjvTP1gx9mZMdy19pqOr/+ehn6abyvvGyCHyZDgUDhnY0/qyG/BVJiGs9in
- Vs0XmKu9MuP8UogaJOnJiXN4TUTGjTKRAZzWg0vBaIPYKjOZMYxAh/LCEDqsVK+NMSii6pd6K
- TufmAThIntS3tw+kyV8aR7o6nnGs7RVHUcP7if8Qo0eAqcs1hHDuwQNu+A4o2v0jrJkOp75YI
- cxqfVL5C1kSIqmR5EBOLvevx/4Wj/WYtZo1g/9A3qMZQWhqNEkdn6gFDKWUEj+q3lHFKq/w23
- 49ZWW0dnxBB5nU+CWEw6hIGFY2FoSWC7paSKrCcQdnFIQzsaM1zv6wjG+N+l8qaLeeP3ta8SR
- 1Ygt71Zbvx1pIDnV1VeIeDc9auI7KliNVtLmJPqr4B22bMmEq0nzbcLLj2HNEFpbYv1Sv2QI6
- zmME4ILgH5HOqReKfblaXuLkVUlrv0ww4rj3mjmHWwIMDEogrI=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Sep 2019 16:47:25 -0000
+From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=In Progress; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dannf jnsnow lizhengui rafaeldtinoco
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <156804764550.6967.6905216437390357307.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 127d0b69198e863a258fef22809b38cf25395c18
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
-Subject: Re: [Qemu-devel] [PATCH v9 8/9] hw/m68k: add a dummy SWIM floppy
- controller
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1805256] Re: qemu-img hangs on high core count
+ ARM system
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -112,52 +68,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/09/2019 à 18:32, Aleksandar Markovic a écrit :
-> 
-> 09.09.2019. 18.03, "Laurent Vivier" <laurent@vivier.eu
-> <mailto:laurent@vivier.eu>> је написао/ла:
->>
->> Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk
-> <mailto:mark.cave-ayland@ilande.co.uk>>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk
-> <mailto:mark.cave-ayland@ilande.co.uk>>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu
-> <mailto:laurent@vivier.eu>>
->> Reviewed-by: Hervé Poussineau <hpoussin@reactos.org
-> <mailto:hpoussin@reactos.org>>
->> ---
-> 
-> Laurent, hi!
-> 
-> I am not sure how "Co-developed-by:" fits in our workflow. There was
-> some recent talk on restricting those marks to only a handful of them,
-> and preventing new ones from introducing (the starter example was
-> something like "Regression-tested-by:"). Perhaps a final sentence "This
-> patch was co-developed with Mark..." would be better?
-> 
+Alright, with a d06 aarch64 machine I was able to reproduce it after 8
+attempts.I'll debug it today and provide feedback on my findings.
 
-"Co-developed-by:" is described in
-linux/Documentation/process/submitting-patches.rst [1] whereas
-"Regression-tested-by:" is not.
+(gdb) bt full
+#0  0x0000ffffb0b2181c in __GI_ppoll (fds=3D0xaaaace5ab770, nfds=3D4, timeo=
+ut=3D<optimized out>, timeout@entry=3D0x0,
+    sigmask=3Dsigmask@entry=3D0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:39
+        _x3tmp =3D 0
+        _x0tmp =3D 187650583213936
+        _x0 =3D 187650583213936
+        _x3 =3D 0
+        _x4tmp =3D 8
+        _x1tmp =3D 4
+        _x1 =3D 4
+        _x4 =3D 8
+        _x2tmp =3D <optimized out>
+        _x2 =3D 0
+        _x8 =3D 73
+        _sys_result =3D <optimized out>
+        _sys_result =3D <optimized out>
+        sc_cancel_oldtype =3D 0
+        sc_ret =3D <optimized out>
+        tval =3D {tv_sec =3D 0, tv_nsec =3D 187650583137792}
+#1  0x0000aaaacd2a773c in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<opt=
+imized out>, __fds=3D<optimized out>)
+    at /usr/include/aarch64-linux-gnu/bits/poll2.h:77
+No locals.
+#2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, timeout=3D=
+timeout@entry=3D-1) at ./util/qemu-timer.c:322
+No locals.
+#3  0x0000aaaacd2a8764 in os_host_main_loop_wait (timeout=3D-1) at ./util/m=
+ain-loop.c:233
+        context =3D 0xaaaace599d90
+        ret =3D <optimized out>
+        context =3D <optimized out>
+        ret =3D <optimized out>
+#4  main_loop_wait (nonblocking=3D<optimized out>) at ./util/main-loop.c:497
+        ret =3D <optimized out>
+        timeout =3D 4294967295
+        timeout_ns =3D <optimized out>
+#5  0x0000aaaacd1df454 in convert_do_copy (s=3D0xfffff9b2b1d8) at ./qemu-im=
+g.c:1981
+        ret =3D <optimized out>
+        i =3D <optimized out>
+        n =3D <optimized out>
+        sector_num =3D <optimized out>
+        ret =3D <optimized out>
+        i =3D <optimized out>
+        n =3D <optimized out>
+        sector_num =3D <optimized out>
+#6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at ./qemu-=
+img.c:2457
+        c =3D <optimized out>
+        bs_i =3D <optimized out>
+        flags =3D 16898
+        src_flags =3D 0
+        fmt =3D 0xfffff9b2bad1 "qcow2"
+        out_fmt =3D <optimized out>
+        cache =3D 0xaaaacd2cb1c8 "unsafe"
+        src_cache =3D 0xaaaacd2ca9c0 "writeback"
+        out_baseimg =3D <optimized out>
+        out_filename =3D <optimized out>
+        out_baseimg_param =3D <optimized out>
+        snapshot_name =3D 0x0
+        drv =3D <optimized out>
+        proto_drv =3D <optimized out>
+        bdi =3D {cluster_size =3D 65536, vm_state_offset =3D 32212254720, i=
+s_dirty =3D false, unallocated_blocks_are_zero =3D true,
+          needs_compressed_writes =3D false}
+        out_bs =3D <optimized out>
+        opts =3D 0xaaaace5ab390
+        sn_opts =3D 0x0
+        create_opts =3D 0xaaaace5ab0c0
+        open_opts =3D <optimized out>
+        options =3D 0x0
+        local_err =3D 0x0
+        writethrough =3D false
+        src_writethrough =3D false
+        quiet =3D <optimized out>
+        image_opts =3D false
+        skip_create =3D false
+        progress =3D <optimized out>
+        tgt_image_opts =3D false
+        ret =3D <optimized out>
+        force_share =3D false
+        explict_min_sparse =3D false
+        s =3D {src =3D 0xaaaace577240, src_sectors =3D 0xaaaace577300, src_=
+num =3D 1, total_sectors =3D 62914560,allocated_sectors =3D 9572096, alloca=
+ted_done =3D 6541440, sector_num =3D 8863744, wr_offs =3D 8859776, status =
+=3D BLK_DATA, sector_next_status =3D 8863744, target =3D 0xaaaace5bd2a0, ha=
+s_zero_init =3D true,compressed =3D false, unallocated_blocks_are_zero =3D =
+true, target_has_backing =3D false, target_backing_sectors =3D -1, wr_in_or=
+der =3D true, copy_range =3D false, min_sparse =3D 8, alignment =3D 8,clust=
+er_sectors =3D 128, buf_sectors =3D 4096, num_coroutines =3D 8, running_cor=
+outines =3D 8, co =3D {0xaaaace5ceda0,0xaaaace5cef50, 0xaaaace5cf100, 0xaaa=
+ace5cf2b0, 0xaaaace5cf460, 0xaaaace5cf610, 0xaaaace5cf7c0,0xaaaace5cf970, 0=
+x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, wait_sector_num =3D {-1, 8859904, 8=
+860928, 8863360,8861952, 8862976, 8862592, 8861440, 0, 0, 0, 0, 0, 0, 0, 0}=
+, lock =3D {locked =3D 0, ctx =3D 0x0, from_push =3D {slh_first =3D 0x0}, t=
+o_pop =3D {slh_first =3D 0x0}, handoff =3D 0, sequence =3D 0, holder =3D 0x=
+0}, ret =3D -115}
+        __PRETTY_FUNCTION__ =3D "img_convert"
+#7  0x0000aaaacd1d8400 in main (argc=3D7, argv=3D<optimized out>) at ./qemu=
+-img.c:4976
+        cmd =3D 0xaaaacd34ad78 <img_cmds+80>
+        cmdname =3D <optimized out>
+        local_error =3D 0x0
+        trace_file =3D 0x0
+        c =3D <optimized out>
+        long_options =3D {{name =3D 0xaaaacd2cbbb0 "help", has_arg =3D 0, f=
+lag =3D 0x0, val =3D 104}, {
+            name =3D 0xaaaacd2cbc78 "version", has_arg =3D 0, flag =3D 0x0,=
+ val =3D 86}, {name =3D 0xaaaacd2cbc80 "trace",
+            has_arg =3D 1, flag =3D 0x0, val =3D 84}, {name =3D 0x0, has_ar=
+g =3D 0, flag =3D 0x0, val =3D 0}}
 
-So as I'm not aware of the discussions you point out, are we in the same
-situation here?
+-- =
 
-Thanks,
-Laurent
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
 
-[1] https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html
+Title:
+  qemu-img hangs on high core count ARM system
+
+Status in QEMU:
+  Confirmed
+Status in qemu package in Ubuntu:
+  In Progress
+
+Bug description:
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760, =
+
+      timeout=3D<optimized out>, timeout@entry=3D0x0, sigmask=3D0xffffc123b=
+950)
+      at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>, =
+
+      __fds=3D<optimized out>) at /usr/include/aarch64-linux-gnu/bits/poll2=
+.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, =
+
+      timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+      at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1805256/+subscriptions
 
