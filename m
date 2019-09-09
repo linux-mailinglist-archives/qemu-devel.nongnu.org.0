@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EE7ADCE5
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 18:16:36 +0200 (CEST)
-Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFACCADCDC
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 18:14:18 +0200 (CEST)
+Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7MLD-0000wm-VT
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 12:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60106)
+	id 1i7MIz-0006iz-0v
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 12:14:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33964)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1i7M5u-0001sE-Ef
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:00:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i7MGt-0005bz-LK
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:12:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1i7M5r-0002Yc-EY
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:00:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:6395)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i7M5r-0002YJ-85
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:00:43 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9577C8D65C3;
- Mon,  9 Sep 2019 16:00:42 +0000 (UTC)
-Received: from localhost (ovpn-117-107.ams2.redhat.com [10.36.117.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 238C260BF3;
- Mon,  9 Sep 2019 16:00:41 +0000 (UTC)
-Date: Mon, 9 Sep 2019 18:00:39 +0200
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Message-ID: <20190909160039.GC20875@stefanha-x1.localdomain>
-References: <20190902121233.13382-1-johannes@sipsolutions.net>
- <20190902121233.13382-2-johannes@sipsolutions.net>
- <fe517ef6c6a8e2df9675388be9454b5863c7fc55.camel@sipsolutions.net>
+ (envelope-from <peter.maydell@linaro.org>) id 1i7MGs-0002Xk-MP
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:12:07 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36926)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i7MGs-0002We-IV
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:12:06 -0400
+Received: by mail-ot1-x341.google.com with SMTP id s28so12986106otd.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Sep 2019 09:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RTch4eV1jmX5zX4OJNUCOx4ZHCwcI/CURdtAAQ1gGgc=;
+ b=Y6xy4anvu44Nz+DXzP1XjZnSaEoArfxdtdlpGEDqOHPPoFfMpIKBViqzzME4MDtfTE
+ 9f+htdLqF8LKzG2gSWcgx2v1rKOY1/bXdafgtS6sJSgfqYhqoVyOMI2x4hwh96Wd35e+
+ tdFbFu7VRJbnOomRUGotlgJ8ic+ZwgSPCGRywk6iCE6B2wqRInJQ2idUA9QY0tIoP5YW
+ zMwLt/xEOAqk+Pk0LQTxF88YpjvUCfx0Z0Pb909q0rRGpcg0TSLovC+Gdg4NW1AyM1ir
+ yE5aEQMkEBMaXni3jsNeNgRLjPG0I9V6wb5Cer73CWYVqKWiePyMdDl4Nqzzcr3z5x3N
+ 4/9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RTch4eV1jmX5zX4OJNUCOx4ZHCwcI/CURdtAAQ1gGgc=;
+ b=d7DoaVyC4H+s/BVmQwgdni0VBNuU19+HDXfQjvjnJsxRXyEmXVWxNb91Vsatww9dcB
+ w7jsmR2ft66wa4Utkg9FHU8GMOteHeJ/0GfXzcQ4kPqjwaZMDNQz46ixjsrJTUSjbZNV
+ nyxURxM3iHuVQfIAvE9c4rkwRq6lzXfONpPqCahB2/x2mUccvMu1zrZ05gpReBGt+Qin
+ jTw6POmDI8+aTgyWCHR6d5ysZeaHOOb7TCiJhDmNUd/sB3EZL59TlX0xdk96e59Nsdv0
+ GYMCMZr0QDTELAivm7AIJ1gpNaWACFc9VHYv6SHxqjLIfYFTzqIfnZrxZweHWLcsT4pW
+ ut4A==
+X-Gm-Message-State: APjAAAXYewlRKqHPe7L0ur+fxVmH148ru7dLbUN3eUS7sFu9D8gkMk7s
+ 2ISE1gkbTSCyBTdC53/qziUPYIW4dZNJ91Fc3e3n5g==
+X-Google-Smtp-Source: APXvYqyv/DyqJF9yvSKzLvBuxVYTkQEvOTweF8309LzLunRQY+pF/neGTsD9j5EJoLtY5KCq6Nk2S05GtXih+1PRqGA=
+X-Received: by 2002:a9d:5e10:: with SMTP id d16mr20719827oti.91.1568045524898; 
+ Mon, 09 Sep 2019 09:12:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eRtJSFbw+EEWtPj3"
-Content-Disposition: inline
-In-Reply-To: <fe517ef6c6a8e2df9675388be9454b5863c7fc55.camel@sipsolutions.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Mon, 09 Sep 2019 16:00:42 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] docs: vhost-user: add in-band kick/call
- messages
+References: <20190909155813.27760-1-laurent@vivier.eu>
+ <20190909155813.27760-9-laurent@vivier.eu>
+In-Reply-To: <20190909155813.27760-9-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 9 Sep 2019 17:11:53 +0100
+Message-ID: <CAFEAcA9NiHrGekrEte7__aGKSz-JBObdbWdMxmxduYozngDUNQ@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v9 8/9] hw/m68k: add a dummy SWIM floppy
+ controller
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,75 +75,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Thomas Huth <huth@tuxfamily.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 9 Sep 2019 at 17:05, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
 
---eRtJSFbw+EEWtPj3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +static void sysbus_swim_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
+> +
+> +    dc->realize =3D sysbus_swim_realize;
+> +}
 
-On Thu, Sep 05, 2019 at 10:28:33PM +0200, Johannes Berg wrote:
-> =20
-> > +``VHOST_USER_VQ_CALL``
-> > +  :id: 34
-> > +  :equivalent ioctl: N/A
-> > +  :slave payload: vring state description
-> > +  :master payload: N/A
->=20
-> Oops. This message should be called VHOST_USER_VRING_KICK.
->=20
-> This file doesn't take about virtqueues, just vrings, and I inverted the
-> call/kick.
->=20
-> [...]
-> =20
-> > +``VHOST_USER_VQ_KICK``
-> > +  :id: 4
-> > +  :equivalent ioctl: N/A
-> > +  :slave payload: vring state description
-> > +  :master payload: N/A
->=20
-> Similarly, that should be called VHOST_USER_SLAVE_VRING_CALL.
->=20
-> Anyway, some comments would be appreciated. I'm working on an
-> implementation now for my simulation environment, and I guess I can keep
-> that private etc. but if there's interest I can submit an (optional)
-> implementation of this for libvhost-user too, I think.
+Missing reset and VMState for migration. These should be
+baseline requirements for adding new device models to the
+tree, because in an ideal world every device would support
+both -- we should be gradually fixing the existing devices
+which are missing these, and not letting new devices in,
+so the situation gets gradually better, not worse.
 
-Is this really necessary?  Can the simulation interpose between the
-call/kick eventfds in order to control when events happen?
-
-  CPU --cpu_kickfd--> Simulation --vhost_kickfd--> vhost-user device
-
-and:
-
-  vhost-user device --vhost_callfd--> Simulation -->cpu_callfd-> CPU
-
-The simluation controls when the CPU's kick is seen by the device and
-also when the call is seen by the CPU.
-
-I don't understand why new vhost-user protocol messages are required.
-
-Stefan
-
---eRtJSFbw+EEWtPj3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl12dycACgkQnKSrs4Gr
-c8jJrAf/R5S4NkRhfiO0/hE/XvufZy/HI1Aic6J2lzULw1XX6agVQSGkquvb5yOn
-7bMlSTs+6bTixkF7P0/32t8tisQlDcKJAkQ+jpYhKfRD92zS5RpJaWrDYEDw401Y
-fqfuByu+GzPK9EtrTJCG4Pm1qkGoBpHddFOTKl1uU7TXuBqqra+R1bSiWFefWeJy
-fbkQGgZ7CwX9WvaNTG/s5J3pgpt2iElPo5xa/YjuGLwI2132cqjzNaEAOwa02bjM
-5vdwAzWxE3HHrjkm7NOLThpyI5AiuzdutHoavsfZVh6AM+AVRWXA8vpiCRYdeG0v
-Q6PkIwIpBp7PvKAlCZczsZDle+4poA==
-=vtrr
------END PGP SIGNATURE-----
-
---eRtJSFbw+EEWtPj3--
+thanks
+-- PMM
 
