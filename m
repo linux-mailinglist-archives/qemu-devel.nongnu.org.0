@@ -2,79 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C433EAD3EE
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 09:32:50 +0200 (CEST)
-Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF728AD40B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 09:40:51 +0200 (CEST)
+Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7EAL-00033W-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 03:32:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40482)
+	id 1i7EI6-000646-Mv
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 03:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1i7E3A-0006Pe-49
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 03:25:26 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i7EGe-0005WF-Sq
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 03:39:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1i7E38-0007oK-93
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 03:25:24 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11588
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
- id 1i7E34-0007me-8C; Mon, 09 Sep 2019 03:25:18 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x897M3l7108006; Mon, 9 Sep 2019 03:25:07 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2uwgscc552-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Sep 2019 03:25:07 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x897OkN6014984;
- Mon, 9 Sep 2019 07:25:06 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 2uv466mjyd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Sep 2019 07:25:06 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x897P5NL8061510
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 9 Sep 2019 07:25:05 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8488028058;
- Mon,  9 Sep 2019 07:25:05 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A55E528067;
- Mon,  9 Sep 2019 07:25:03 +0000 (GMT)
-Received: from [127.0.1.1] (unknown [9.124.31.235])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon,  9 Sep 2019 07:25:03 +0000 (GMT)
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-To: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
-Date: Mon, 09 Sep 2019 12:55:02 +0530
-Message-ID: <156801390267.24362.17017161761742932333.stgit@aravinda>
-In-Reply-To: <156801373576.24362.1904051970114447107.stgit@aravinda>
-References: <156801373576.24362.1904051970114447107.stgit@aravinda>
-User-Agent: StGit/0.17.1-dirty
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-09_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1909090081
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v13 6/6] migration: Include migration support
- for machine check handling
+ (envelope-from <kraxel@redhat.com>) id 1i7EGb-0005vE-WC
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 03:39:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40156)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i7EGa-0005tU-Lh
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 03:39:17 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DAE03A46C32
+ for <qemu-devel@nongnu.org>; Mon,  9 Sep 2019 07:39:14 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-59.ams2.redhat.com
+ [10.36.117.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50D945C1D8;
+ Mon,  9 Sep 2019 07:39:12 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8AB7E268; Mon,  9 Sep 2019 09:39:11 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  9 Sep 2019 09:39:11 +0200
+Message-Id: <20190909073911.24787-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Mon, 09 Sep 2019 07:39:14 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] ui/egl: fix framebuffer reads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,180 +53,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, aravinda@linux.vnet.ibm.com, groug@kaod.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch includes migration support for machine check
-handling. Especially this patch blocks VM migration
-requests until the machine check error handling is
-complete as (i) these errors are specific to the source
-hardware and is irrelevant on the target hardware,
-(ii) these errors cause data corruption and should
-be handled before migration.
+Fix egl_fb_read() to use the (destination) surface size instead of the
+(source) framebuffer source for glReadPixels.  Pass the DisplaySurface
+instead of the pixeldata pointer to egl_fb_read() to make this possible.
 
-Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+With that in place framebuffer reads work fine even if the surface and
+framebuffer sizes don't match, so we can remove the guest-triggerable
+asserts in egl_scanout_flush().
+
+Buglink: https://bugzilla.redhat.com//show_bug.cgi?id=1749659
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/ppc/spapr.c         |   44 ++++++++++++++++++++++++++++++++++++++++++++
- hw/ppc/spapr_events.c  |   14 ++++++++++++++
- hw/ppc/spapr_rtas.c    |    2 ++
- include/hw/ppc/spapr.h |    2 ++
- 4 files changed, 62 insertions(+)
+ include/ui/egl-helpers.h | 2 +-
+ ui/egl-headless.c        | 4 +---
+ ui/egl-helpers.c         | 6 +++---
+ 3 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 1c0908e..f6262f0 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -46,6 +46,7 @@
- #include "migration/qemu-file-types.h"
- #include "migration/global_state.h"
- #include "migration/register.h"
-+#include "migration/blocker.h"
- #include "mmu-hash64.h"
- #include "mmu-book3s-v3.h"
- #include "cpu-models.h"
-@@ -1829,6 +1830,8 @@ static void spapr_machine_reset(MachineState *machine)
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index dad19e9873fb..94a4b3e6f3bd 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -25,7 +25,7 @@ void egl_fb_setup_for_tex(egl_fb *fb, int width, int height,
+                           GLuint texture, bool delete);
+ void egl_fb_setup_new_tex(egl_fb *fb, int width, int height);
+ void egl_fb_blit(egl_fb *dst, egl_fb *src, bool flip);
+-void egl_fb_read(void *dst, egl_fb *src);
++void egl_fb_read(DisplaySurface *dst, egl_fb *src);
  
-     /* Signal all vCPUs waiting on this condition */
-     qemu_cond_broadcast(&spapr->mc_delivery_cond);
-+
-+    migrate_del_blocker(spapr->fwnmi_migration_blocker);
- }
- 
- static void spapr_create_nvram(SpaprMachineState *spapr)
-@@ -2119,6 +2122,42 @@ static const VMStateDescription vmstate_spapr_dtb = {
-     },
- };
- 
-+static bool spapr_fwnmi_needed(void *opaque)
-+{
-+    SpaprMachineState *spapr = (SpaprMachineState *)opaque;
-+
-+    return spapr->guest_machine_check_addr != -1;
-+}
-+
-+static int spapr_fwnmi_post_load(void *opaque, int version_id)
-+{
-+    SpaprMachineState *spapr = (SpaprMachineState *)opaque;
-+
-+    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_ON) {
-+
-+        if (kvmppc_has_cap_ppc_fwnmi()) {
-+            return 0;
-+        }
-+
-+        return kvmppc_set_fwnmi();
-+    }
-+
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_spapr_machine_check = {
-+    .name = "spapr_machine_check",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = spapr_fwnmi_needed,
-+    .post_load = spapr_fwnmi_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
-+        VMSTATE_INT32(mc_status, SpaprMachineState),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
- static const VMStateDescription vmstate_spapr = {
-     .name = "spapr",
-     .version_id = 3,
-@@ -2152,6 +2191,7 @@ static const VMStateDescription vmstate_spapr = {
-         &vmstate_spapr_dtb,
-         &vmstate_spapr_cap_large_decr,
-         &vmstate_spapr_cap_ccf_assist,
-+        &vmstate_spapr_machine_check,
-         NULL
-     }
- };
-@@ -2948,6 +2988,10 @@ static void spapr_machine_init(MachineState *machine)
-             exit(1);
-         }
- 
-+        /* Create the error string for live migration blocker */
-+        error_setg(&spapr->fwnmi_migration_blocker,
-+            "Live migration not supported during machine check handling");
-+
-         /* Register ibm,nmi-register and ibm,nmi-interlock RTAS calls */
-         spapr_fwnmi_register();
-     }
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index ecc3d68..83f0a22 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -43,6 +43,7 @@
- #include "qemu/main-loop.h"
- #include "hw/ppc/spapr_ovec.h"
- #include <libfdt.h>
-+#include "migration/blocker.h"
- 
- #define RTAS_LOG_VERSION_MASK                   0xff000000
- #define   RTAS_LOG_VERSION_6                    0x06000000
-@@ -844,6 +845,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-     CPUState *cs = CPU(cpu);
-+    int ret;
-+    Error *local_err = NULL;
- 
-     if (spapr->guest_machine_check_addr == -1) {
-         /*
-@@ -857,6 +860,17 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+ void egl_texture_blit(QemuGLShader *gls, egl_fb *dst, egl_fb *src, bool flip);
+ void egl_texture_blend(QemuGLShader *gls, egl_fb *dst, egl_fb *src, bool flip,
+diff --git a/ui/egl-headless.c b/ui/egl-headless.c
+index 05b2e7d7b17f..fe2a0d1eab98 100644
+--- a/ui/egl-headless.c
++++ b/ui/egl-headless.c
+@@ -133,8 +133,6 @@ static void egl_scanout_flush(DisplayChangeListener *dcl,
+     if (!edpy->guest_fb.texture || !edpy->ds) {
          return;
      }
+-    assert(surface_width(edpy->ds)  == edpy->guest_fb.width);
+-    assert(surface_height(edpy->ds) == edpy->guest_fb.height);
+     assert(surface_format(edpy->ds) == PIXMAN_x8r8g8b8);
  
-+    ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_err);
-+    if (ret < 0) {
-+        /*
-+         * We don't want to abort and let the migration to continue. In a
-+         * rare case, the machine check handler will run on the target
-+         * hardware. Though this is not preferable, it is better than aborting
-+         * the migration or killing the VM.
-+         */
-+        warn_report_err(local_err);
-+    }
-+
-     while (spapr->mc_status != -1) {
-         /*
-          * Check whether the same CPU got machine check error
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index d892583..b682cc2 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -50,6 +50,7 @@
- #include "hw/ppc/fdt.h"
- #include "target/ppc/mmu-hash64.h"
- #include "target/ppc/mmu-book3s-v3.h"
-+#include "migration/blocker.h"
- 
- static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                    uint32_t token, uint32_t nargs,
-@@ -438,6 +439,7 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-          */
-         spapr->mc_status = -1;
-         qemu_cond_signal(&spapr->mc_delivery_cond);
-+        migrate_del_blocker(spapr->fwnmi_migration_blocker);
-         rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+     if (edpy->cursor_fb.texture) {
+@@ -149,7 +147,7 @@ static void egl_scanout_flush(DisplayChangeListener *dcl,
+         egl_fb_blit(&edpy->blit_fb, &edpy->guest_fb, edpy->y_0_top);
      }
+ 
+-    egl_fb_read(surface_data(edpy->ds), &edpy->blit_fb);
++    egl_fb_read(edpy->ds, &edpy->blit_fb);
+     dpy_gfx_update(edpy->dcl.con, x, y, w, h);
  }
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index dada821..ea7625e 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -217,6 +217,8 @@ struct SpaprMachineState {
  
-     unsigned gpu_numa_id;
-     SpaprTpmProxy *tpm_proxy;
-+
-+    Error *fwnmi_migration_blocker;
- };
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index edc53f6d3464..7c530c2825be 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -102,12 +102,12 @@ void egl_fb_blit(egl_fb *dst, egl_fb *src, bool flip)
+                       GL_COLOR_BUFFER_BIT, GL_LINEAR);
+ }
  
- #define H_SUCCESS         0
+-void egl_fb_read(void *dst, egl_fb *src)
++void egl_fb_read(DisplaySurface *dst, egl_fb *src)
+ {
+     glBindFramebuffer(GL_READ_FRAMEBUFFER, src->framebuffer);
+     glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);
+-    glReadPixels(0, 0, src->width, src->height,
+-                 GL_BGRA, GL_UNSIGNED_BYTE, dst);
++    glReadPixels(0, 0, surface_width(dst), surface_height(dst),
++                 GL_BGRA, GL_UNSIGNED_BYTE, surface_data(dst));
+ }
+ 
+ void egl_texture_blit(QemuGLShader *gls, egl_fb *dst, egl_fb *src, bool flip)
+-- 
+2.18.1
 
 
