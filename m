@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6338AD0D9
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 23:40:52 +0200 (CEST)
-Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB7FAD180
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 03:25:08 +0200 (CEST)
+Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i74vS-00051n-22
-	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 17:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46529)
+	id 1i78QP-00009f-Bv
+	for lists+qemu-devel@lfdr.de; Sun, 08 Sep 2019 21:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49385)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74e7-0005hU-NP
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:56 -0400
+ (envelope-from <bounces@canonical.com>) id 1i7832-0004mM-Kr
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 21:00:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i74e6-0005xc-JR
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:55 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:44770)
+ (envelope-from <bounces@canonical.com>) id 1i7831-0001KW-17
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 21:00:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48956)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i74e6-0005xV-F9
- for qemu-devel@nongnu.org; Sun, 08 Sep 2019 17:22:54 -0400
-Received: by mail-qt1-x841.google.com with SMTP id u40so13809787qth.11
- for <qemu-devel@nongnu.org>; Sun, 08 Sep 2019 14:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=csUz3G+oANfAghQDvskgbpzawb3MHELRqPU8L59Mp1o=;
- b=OcsyunjJNtAkuPt7vpVd6jf0lKMKzGLk3bCqAQhFP23C6Q86UcQTj1KMhXP0Uubac3
- lO6UDBv5ftdUIuZmO8V+qAjgLGXwvrzwwrYdM35yGJcRPQYdcvguhUZae0/JTzeoHE2E
- rjXPoLbL3uzRZIjCPlC5h5J9+M8Sfi3A+k89YBRVKoWqNcZKLIgZmCQ9F2r6wTtq/I+0
- MH5zFaU/DmQnhzZeCmqQqfeL8eYjvVk7ac5IJMfc563JxyR4+XYwxqu/JKJYQ4OMTOqP
- B319XiP28lE3TIWKJETMQyIoW9A8uJ6VL+h5X0RFV9h8TldbRvz3atzq9CRfmC+V73c4
- HupA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=csUz3G+oANfAghQDvskgbpzawb3MHELRqPU8L59Mp1o=;
- b=INvpDlFdoNRp2ywq08D14WmKNMolll4p7arW9rke0mjfD5XuPfHO+y/WEJVKrWNAuS
- beno+2Hpdktt4A9JKxOOCJmqdmZJYcqaj7NIdNibMknLKQx+cS5MG92LwUahWnJ1tKAi
- kznvuKv/HDd7JlIxXYg7yDGH6z3Jy8kQ6CftVVkNa9nLVXVwiKGtkheTXUonD8A3/I1s
- IezyXZE8nAWptPAqoCoLvN/YdvEt2l115StcZL/I6xDDURNQ5mvlGwc+alWy1HOE19NF
- 6JHG2fmBBsUN+w0+ENJbw5s42wIc3J6UrIsZTHmUsNQs/KZtHtq3k+v44zH6rt/zkr4W
- 52PA==
-X-Gm-Message-State: APjAAAXcTuYZ1MU0GXtqv5AH6UTz6/ph3YBK02IfHbJRa1zWA/1MxTeq
- N5rm/vubrnQ/lczSLUwTLFhZItIu
-X-Google-Smtp-Source: APXvYqywry0X/CCyH+QYCkgaETwsDnr/Mf25VUB9Ra3PqE1ejKeL6POjySaM/t/C9+Z8eOL2PuOFmQ==
-X-Received: by 2002:ac8:7157:: with SMTP id h23mr19976859qtp.72.1567977773998; 
- Sun, 08 Sep 2019 14:22:53 -0700 (PDT)
-Received: from nullptr.home.dirty-ice.org
- (2a01-036c-0113-6ea8-0000-0000-0000-0005.pool6.digikabel.hu.
- [2a01:36c:113:6ea8::5])
- by smtp.gmail.com with ESMTPSA id e2sm5488112qkg.38.2019.09.08.14.22.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Sep 2019 14:22:53 -0700 (PDT)
-From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
- <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
- <DirtY.iCE.hu@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Sun,  8 Sep 2019 23:22:24 +0200
-Message-Id: <4fa7311ce7888ed6bbb155b73c74b646a7974ec6.1567965065.git.DirtY.iCE.hu@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
-References: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i7830-0001Is-Qu
+ for qemu-devel@nongnu.org; Sun, 08 Sep 2019 21:00:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i782y-0006fm-VP
+ for <qemu-devel@nongnu.org>; Mon, 09 Sep 2019 01:00:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E6FA02E80C7
+ for <qemu-devel@nongnu.org>; Mon,  9 Sep 2019 01:00:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::841
-Subject: [Qemu-devel] [PATCH v2 24/24] usbaudio: change playback counters to
- 64 bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Sep 2019 00:51:58 -0000
+From: Alexander Huszagh <ahuszagh@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: fmod
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahuszagh
+X-Launchpad-Bug-Reporter: Alexander Huszagh (ahuszagh)
+X-Launchpad-Bug-Modifier: Alexander Huszagh (ahuszagh)
+Message-Id: <156799031829.6257.13539682604144427187.malonedeb@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: cf6a4ce75da77e2e8e3998390af34318ffeb57f5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Sun, 08 Sep 2019 21:24:12 -0400
+Subject: [Qemu-devel] [Bug 1843205] [NEW] Inaccurate Fmod on i386
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,74 +64,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Bug 1843205 <1843205@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With stereo playback, they need about 375 minutes of continuous audio
-playback to overflow, which is usually not a problem (as stopping and
-later resuming playback resets the counters).  But with 7.1 audio, they
-only need about 95 minutes to overflow.
+Public bug reported:
 
-After the overflow, the buf->prod % USBAUDIO_PACKET_SIZE(channels)
-assertion no longer holds true, which will result in overflowing the
-buffer.  With 64 bit variables, it would take about 762000 years to
-overflow.
+# Qemu Version
 
-Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
----
- hw/usb/dev-audio.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+```bash
+$ qemu-i386 --version
+qemu-i386 version 3.0.1 (qemu-3.0.1-4.fc29)
+Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+```
 
-diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
-index e42bdfbdc1..ea604bbb8e 100644
---- a/hw/usb/dev-audio.c
-+++ b/hw/usb/dev-audio.c
-@@ -578,9 +578,9 @@ static const USBDesc desc_audio_multi = {
- 
- struct streambuf {
-     uint8_t *data;
--    uint32_t size;
--    uint32_t prod;
--    uint32_t cons;
-+    size_t size;
-+    uint64_t prod;
-+    uint64_t cons;
- };
- 
- static void streambuf_init(struct streambuf *buf, uint32_t size,
-@@ -601,7 +601,7 @@ static void streambuf_fini(struct streambuf *buf)
- 
- static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t channels)
- {
--    uint32_t free = buf->size - (buf->prod - buf->cons);
-+    int64_t free = buf->size - (buf->prod - buf->cons);
- 
-     if (free < USBAUDIO_PACKET_SIZE(channels)) {
-         return 0;
-@@ -610,6 +610,8 @@ static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t channels)
-         return 0;
-     }
- 
-+    /* can happen if prod overflows */
-+    assert(buf->prod % USBAUDIO_PACKET_SIZE(channels) == 0);
-     usb_packet_copy(p, buf->data + (buf->prod % buf->size),
-                     USBAUDIO_PACKET_SIZE(channels));
-     buf->prod += USBAUDIO_PACKET_SIZE(channels);
-@@ -618,10 +620,10 @@ static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t channels)
- 
- static uint8_t *streambuf_get(struct streambuf *buf, size_t *len)
- {
--    uint32_t used = buf->prod - buf->cons;
-+    int64_t used = buf->prod - buf->cons;
-     uint8_t *data;
- 
--    if (!used) {
-+    if (used <= 0) {
-         *len = 0;
-         return NULL;
-     }
--- 
-2.23.0
+# Failing Source Code (C)
 
+```c
+#include <math.h>
+#include <stdio.h>
+
+int main()
+{
+    double x =3D 29860476080414620.0;
+    double y =3D 17.0;
+    double z =3D fmod(x, y);
+    printf("%f\n", z);
+    return 0;
+}
+```
+
+The code was compiled with GCC (8.3.1) on x86-64 with the flags `-O3
+-m32 -lm -static`.
+
+# Emitted (Annotated) Assembly
+
+In order to facilitate debugging the issue, the following assembly was
+generated to show nothing unusual occurred during compilation. The
+assembly was generated with flags `-S -O3 -m32 -lm`, and then annotated
+to show the operands to fmod.
+
+```asm
+	.file	"a.c"
+	.text
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC2:
+	.string	"%f\n"
+	.section	.text.startup,"ax",@progbits
+	.p2align 4,,15
+	.globl	main
+	.type	main, @function
+main:
+.LFB16:
+	.cfi_startproc
+	leal	4(%esp), %ecx
+	.cfi_def_cfa 1, 0
+	andl	$-16, %esp
+	pushl	-4(%ecx)
+	pushl	%ebp
+	.cfi_escape 0x10,0x5,0x2,0x75,0
+	movl	%esp, %ebp
+	pushl	%ecx
+	.cfi_escape 0xf,0x3,0x75,0x7c,0x6
+	subl	$4, %esp
+	pushl	$1076953088				; high 32-bits of double for y
+	pushl	$0 						; low 32-bits of double for y
+	pushl	$1130005884				; high 32-bits of double for x
+	pushl	$2003187687				; low 32-bits of double for x
+	call	fmod
+	movl	$.LC2, (%esp)
+	fstpl	4(%esp)
+	call	printf
+	movl	-4(%ebp), %ecx
+	.cfi_def_cfa 1, 0
+	addl	$16, %esp
+	xorl	%eax, %eax
+	leave
+	.cfi_restore 5
+	leal	-4(%ecx), %esp
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE16:
+	.size	main, .-main
+	.ident	"GCC: (GNU) 8.3.1 20190223 (Red Hat 8.3.1-2)"
+	.section	.note.GNU-stack,"",@progbits
+```
+
+# Result
+
+Running the compiled binary on x86_64 produces the expected value of
+`15.000000`, while using `qemu-i386 <binary>` produces the unexpected
+result of `-4.000000`.
+
+This was tested against:
+
+1. Qemu 3.0.1 for Fedora 29.
+2. Qemu 4.1.0 built from source, downloaded from https://download.qemu.org/=
+qemu-4.1.0.tar.xz
+3. Qemu built-from-source against commit 90b1e3afd33226b6078fec6d77a1837371=
+2a975c.
+
+# Building Qemu
+
+Qemu built-from-source was compiled as follows:
+
+```bash
+mkdir build && cd build
+../configure --disable-kvm --target-list=3D"i386-linux-user"
+make -j 5
+```
+
+# Results
+
+All built versions of Qemu running the 32-bit failed to produce the
+accurate result. Using qemu-x86_64 against an x86_64 binary built from
+the same C source code produces correct results. Running the 32-bit
+binary natively produces the correct result.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: fmod
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1843205
+
+Title:
+  Inaccurate Fmod on i386
+
+Status in QEMU:
+  New
+
+Bug description:
+  # Qemu Version
+
+  ```bash
+  $ qemu-i386 --version
+  qemu-i386 version 3.0.1 (qemu-3.0.1-4.fc29)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+  ```
+
+  # Failing Source Code (C)
+
+  ```c
+  #include <math.h>
+  #include <stdio.h>
+
+  int main()
+  {
+      double x =3D 29860476080414620.0;
+      double y =3D 17.0;
+      double z =3D fmod(x, y);
+      printf("%f\n", z);
+      return 0;
+  }
+  ```
+
+  The code was compiled with GCC (8.3.1) on x86-64 with the flags `-O3
+  -m32 -lm -static`.
+
+  # Emitted (Annotated) Assembly
+
+  In order to facilitate debugging the issue, the following assembly was
+  generated to show nothing unusual occurred during compilation. The
+  assembly was generated with flags `-S -O3 -m32 -lm`, and then
+  annotated to show the operands to fmod.
+
+  ```asm
+  	.file	"a.c"
+  	.text
+  	.section	.rodata.str1.1,"aMS",@progbits,1
+  .LC2:
+  	.string	"%f\n"
+  	.section	.text.startup,"ax",@progbits
+  	.p2align 4,,15
+  	.globl	main
+  	.type	main, @function
+  main:
+  .LFB16:
+  	.cfi_startproc
+  	leal	4(%esp), %ecx
+  	.cfi_def_cfa 1, 0
+  	andl	$-16, %esp
+  	pushl	-4(%ecx)
+  	pushl	%ebp
+  	.cfi_escape 0x10,0x5,0x2,0x75,0
+  	movl	%esp, %ebp
+  	pushl	%ecx
+  	.cfi_escape 0xf,0x3,0x75,0x7c,0x6
+  	subl	$4, %esp
+  	pushl	$1076953088				; high 32-bits of double for y
+  	pushl	$0 						; low 32-bits of double for y
+  	pushl	$1130005884				; high 32-bits of double for x
+  	pushl	$2003187687				; low 32-bits of double for x
+  	call	fmod
+  	movl	$.LC2, (%esp)
+  	fstpl	4(%esp)
+  	call	printf
+  	movl	-4(%ebp), %ecx
+  	.cfi_def_cfa 1, 0
+  	addl	$16, %esp
+  	xorl	%eax, %eax
+  	leave
+  	.cfi_restore 5
+  	leal	-4(%ecx), %esp
+  	.cfi_def_cfa 4, 4
+  	ret
+  	.cfi_endproc
+  .LFE16:
+  	.size	main, .-main
+  	.ident	"GCC: (GNU) 8.3.1 20190223 (Red Hat 8.3.1-2)"
+  	.section	.note.GNU-stack,"",@progbits
+  ```
+
+  # Result
+
+  Running the compiled binary on x86_64 produces the expected value of
+  `15.000000`, while using `qemu-i386 <binary>` produces the unexpected
+  result of `-4.000000`.
+
+  This was tested against:
+
+  1. Qemu 3.0.1 for Fedora 29.
+  2. Qemu 4.1.0 built from source, downloaded from https://download.qemu.or=
+g/qemu-4.1.0.tar.xz
+  3. Qemu built-from-source against commit 90b1e3afd33226b6078fec6d77a18373=
+712a975c.
+
+  # Building Qemu
+
+  Qemu built-from-source was compiled as follows:
+
+  ```bash
+  mkdir build && cd build
+  ../configure --disable-kvm --target-list=3D"i386-linux-user"
+  make -j 5
+  ```
+
+  # Results
+
+  All built versions of Qemu running the 32-bit failed to produce the
+  accurate result. Using qemu-x86_64 against an x86_64 binary built from
+  the same C source code produces correct results. Running the 32-bit
+  binary natively produces the correct result.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1843205/+subscriptions
 
