@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEC5ADE13
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 19:35:10 +0200 (CEST)
-Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA38CADE16
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 19:36:25 +0200 (CEST)
+Received: from localhost ([::1]:59568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7NZG-0002dW-3y
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 13:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1i7NaS-0003bI-VX
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 13:36:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crobinso@redhat.com>) id 1i7NYH-0001sY-Sy
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 13:34:11 -0400
+ (envelope-from <johannes@sipsolutions.net>) id 1i7NYd-0002Gy-5O
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 13:34:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crobinso@redhat.com>) id 1i7NYG-0006by-D7
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 13:34:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51756)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crobinso@redhat.com>) id 1i7NYG-0006bQ-80
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 13:34:08 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E8E4B8980EE;
- Mon,  9 Sep 2019 17:34:06 +0000 (UTC)
-Received: from worklaptop.redhat.com (ovpn-122-2.rdu2.redhat.com [10.10.122.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60E265D6B7;
- Mon,  9 Sep 2019 17:34:01 +0000 (UTC)
-From: Cole Robinson <crobinso@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  9 Sep 2019 13:34:10 -0400
-Message-Id: <e73e6edff68fd30d69c6a1d02c9ef9192f773c63.1568049871.git.crobinso@redhat.com>
+ (envelope-from <johannes@sipsolutions.net>) id 1i7NYb-0006mW-Q9
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 13:34:30 -0400
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:51664
+ helo=sipsolutions.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
+ id 1i7NYb-0006ky-Js
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 13:34:29 -0400
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <johannes@sipsolutions.net>)
+ id 1i7NYX-0002j5-Jj; Mon, 09 Sep 2019 19:34:25 +0200
+Message-ID: <d095bafedcd4bcc5d76279785e5bd523aef62b58.camel@sipsolutions.net>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Mon, 09 Sep 2019 19:34:24 +0200
+In-Reply-To: <20190909160039.GC20875@stefanha-x1.localdomain>
+References: <20190902121233.13382-1-johannes@sipsolutions.net>
+ <20190902121233.13382-2-johannes@sipsolutions.net>
+ <fe517ef6c6a8e2df9675388be9454b5863c7fc55.camel@sipsolutions.net>
+ <20190909160039.GC20875@stefanha-x1.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Mon, 09 Sep 2019 17:34:06 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] hw/i386: Move CONFIG_ACPI_PCI to CONFIG_PC
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:191:4433::2
+Subject: Re: [Qemu-devel] [RFC] docs: vhost-user: add in-band kick/call
+ messages
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,48 +55,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cole Robinson <crobinso@redhat.com>,
- richardw.yang@linux.intel.com, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CONFIG_ACPI_PCI is a hard requirement of acpi-build.c, which is built
-unconditionally for x86 target. Putting it in default-configs/ suggests
-that it can be easily disabled, which isn't true.
+On Mon, 2019-09-09 at 18:00 +0200, Stefan Hajnoczi wrote:
 
-Relocate the symbol with the other acpi-build.c requirements, under
-'config PC'. This is similar to what is done for the arm 'virt' machine
-type and CONFIG_ACPI_PCI
+> Is this really necessary?  
 
-Signed-off-by: Cole Robinson <crobinso@redhat.com>
----
- default-configs/i386-softmmu.mak | 1 -
- hw/i386/Kconfig                  | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+Yes* :)
 
-diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-soft=
-mmu.mak
-index cd5ea391e8..ba3fb3ff50 100644
---- a/default-configs/i386-softmmu.mak
-+++ b/default-configs/i386-softmmu.mak
-@@ -25,4 +25,3 @@
- CONFIG_ISAPC=3Dy
- CONFIG_I440FX=3Dy
- CONFIG_Q35=3Dy
--CONFIG_ACPI_PCI=3Dy
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 6350438036..c7a9d6315c 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -29,6 +29,7 @@ config PC
-     select MC146818RTC
-     # For ACPI builder:
-     select SERIAL_ISA
-+    select ACPI_PCI
-     select ACPI_VMGENID
-     select VIRTIO_PMEM_SUPPORTED
-=20
---=20
-2.21.0
+> Can the simulation interpose between the
+> call/kick eventfds in order to control when events happen?
+> 
+>   CPU --cpu_kickfd--> Simulation --vhost_kickfd--> vhost-user device
+> 
+> and:
+> 
+>   vhost-user device --vhost_callfd--> Simulation -->cpu_callfd-> CPU
+> 
+> The simluation controls when the CPU's kick is seen by the device and
+> also when the call is seen by the CPU.
+
+The point isn't to let the simulation know about anything that happens.
+The CPU and the device are *part* of the simulation.
+
+> I don't understand why new vhost-user protocol messages are required.
+
+I guess I haven't really explained it well then :-)
+
+So let's say, WLOG, I have a simulated network and a bunch of Linux
+machines that are running on simulation time. Today I can do that only
+with user-mode Linux, but we'll see.
+
+Now in order to run everything on simulation time, *everything* that
+happens in the simulation needs to request a simulation calendar entry,
+and gets told when that entry is scheduled.
+
+So think, for example, you have
+
+CPU ---[kick]---> device
+
+Now, this is essentially triggering an interrupt in the device. However,
+the simulation code has to ensure that the simulated device's interrupt
+handling only happens at a scheduler entry. Fundamentally, the
+simulation serializes all processing, contrary to what you want in a
+real system.
+
+Now, this means that the CPU (that's part of the simulation) has to
+*wait* for the device to add an entry to the simulation calendar in
+response to the kick... That means that it really has to look like
+
+CPU               device                   calendar
+     ---[kick]-->
+                         ---[add entry]-->
+                         <---[return]-----
+     <-[return]--
+
+so that the CPU won't get to idle or some other processing where it asks
+the simulation calendar for its own next entry...
+
+Yes, like I said before, I realize that all of this is completely
+opposed to what you want in a real system, but then in a real system you
+also have real timeouts, and don't just skip time forward when the
+simulation calendar says so ...
+
+
+* Now, of course I lied, this is software after all. The *concept* is
+necessary, but it's not strictly necessary to do this in-band in the
+vhost-user protocol.
+We could do an out-of-band simulation socket for the kick signal and
+just pretend we're using polling mode as far as the vhost-user protocol
+is concerned, but it'd probably be harder to implement, and we couldn't
+do it in a way that we could actually contribute anything upstream.
+There are quite a few papers proposing such simulation systems, I only
+found the VMSimInt one publishing their code, but even that is some
+hacks on top of qemu 1.6.0...
+
+johannes
 
 
