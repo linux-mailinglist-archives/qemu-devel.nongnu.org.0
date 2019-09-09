@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F7DAD9E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 15:22:12 +0200 (CEST)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A299AD9E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 15:23:18 +0200 (CEST)
+Received: from localhost ([::1]:56556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7JcR-0001qI-IT
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 09:22:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
+	id 1i7JdV-00039V-7P
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 09:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1i7Ja5-0000hh-Sz
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 09:19:46 -0400
+ (envelope-from <philmd@redhat.com>) id 1i7JbG-0001sg-5W
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 09:20:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1i7Ja4-0004d0-Cl
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 09:19:45 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:43942)
+ (envelope-from <philmd@redhat.com>) id 1i7JbE-000500-Ct
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 09:20:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49366)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
- id 1i7Ja3-0004ci-Vx
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 09:19:44 -0400
-Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
- [IPv6:2a02:6b8:0:1402::301])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 8A8E72E14E2;
- Mon,  9 Sep 2019 16:19:42 +0300 (MSK)
-Received: from localhost (localhost [::1])
- by mxbackcorp1g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- OCyEYT7YAP-JeCih66W; Mon, 09 Sep 2019 16:19:42 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1568035182; bh=plX4OqAkVskW/z7abEG4oaoiDJifpihDA/o54WeHG8M=;
- h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
- b=e2DJudU5mRDX5qqhalkaTlH257TPB3y32DhZFkglGoi4Di6Sz9zLFgq11K5IKPrir
- Ps0SICcl6PPmDD8cZWRw+ZhP5y+1Cax/ksG1d97oauGHZDtejahHSy15WurjGBtcYr
- YjJCK7GkVT9pwBfmSnhnyJ0KulxVe3uCARtKmuuU=
-Authentication-Results: mxbackcorp1g.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-X-Yandex-Sender-Uid: 1120000000071945
-X-Yandex-Avir: 1
-Received: from mxbackcorp1o.mail.yandex.net (localhost [::1])
- by mxbackcorp1o.mail.yandex.net with LMTP id TcoldGdW8H-DJNwPVh7
- for <yury-kotov@yandex-team.ru>; Mon, 09 Sep 2019 16:19:30 +0300
-Received: by vla1-6bb9290e4d68.qloud-c.yandex.net with HTTP;
- Mon, 09 Sep 2019 16:19:30 +0300
-From: Yury Kotov <yury-kotov@yandex-team.ru>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Dr. David Alan Gilbert <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>
-In-Reply-To: <08fe56ae-7f8c-2223-f3cd-4b4b118586bf@redhat.com>
-References: <20190909104948.30253-1-yury-kotov@yandex-team.ru>
- <08fe56ae-7f8c-2223-f3cd-4b4b118586bf@redhat.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i7JbE-0004zs-5h
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 09:20:56 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2BB1E2A09BA
+ for <qemu-devel@nongnu.org>; Mon,  9 Sep 2019 13:20:55 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id c1so7352277wrb.12
+ for <qemu-devel@nongnu.org>; Mon, 09 Sep 2019 06:20:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rcMcroHw7g5/7GCIUYB9C5IhA/wa/ZMggUaVgdExPo4=;
+ b=fYlEA1lxoeQaunovPpaX1xl87t/k6W+2z3GkFZle5MsB1CZbQ8biUQwj3IlmZgxNIL
+ su3cSTuzRxaA13+3EiDJzq1XR/m5UadARb28R2d7u7mKn7FvteQsq/JvlL/y4qOoDIXT
+ cXUEs4G2rczrJj7jAWctsp4Sh9ut/zdTDTxJwpK1XWm8v0YOhCF63mvohrzEXLMdwYsI
+ hjm56ZqiQ5/xl/QgwZnrnKV7CxG91VaW+F5eRwKenyW84K3yJ5dTvwr9ff3FxUUi48DD
+ v68BaAqL8kTWwkVbE+XHNbCyrMCrSRF6aejGD4NphGLeOd5FHd7I6x3hpZJ4lpVJwhda
+ M3TQ==
+X-Gm-Message-State: APjAAAXx9Ir0ubxuHrpaD14X5WhnF+bcgVFTSVd9OYC69px/bjNuGBYN
+ boYzt2rT1jDyLiLt1vKkpz/zKmRF2hgDqw956KAknv3e8hy1h3m+xZtikRhPFMpFGN9UF4JHPkT
+ FeS4gH5F9VTvzsDY=
+X-Received: by 2002:a7b:c445:: with SMTP id l5mr19275349wmi.93.1568035253900; 
+ Mon, 09 Sep 2019 06:20:53 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxTTvkP2zn6w6+MgYTf917mAQepclws9sJ9VdBA+mpp/fWS7pCXsdwgMYd7oX1bv/3j1X70DQ==
+X-Received: by 2002:a7b:c445:: with SMTP id l5mr19275326wmi.93.1568035253726; 
+ Mon, 09 Sep 2019 06:20:53 -0700 (PDT)
+Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
+ [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id d12sm13303337wme.33.2019.09.09.06.20.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Sep 2019 06:20:53 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190829165036.9773-1-berrange@redhat.com>
+ <20190829165036.9773-2-berrange@redhat.com>
+ <15ffac7c-e7f2-17e4-f4e5-e54500ae3ecb@redhat.com>
+ <20190909131510.GG24509@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <429ee8e3-e6ce-5a37-f4fe-a8408b1cc7b9@redhat.com>
+Date: Mon, 9 Sep 2019 15:20:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Mon, 09 Sep 2019 16:19:40 +0300
-Message-Id: <3404511568035170@vla1-6bb9290e4d68.qloud-c.yandex.net>
+In-Reply-To: <20190909131510.GG24509@redhat.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 77.88.29.217
-Subject: Re: [Qemu-devel] [PATCH v6 0/3] High downtime with 95+ throttle pct
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 1/4] docs: convert README,
+ CODING_STYLE and HACKING to RST syntax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,88 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 9/9/19 3:15 PM, Daniel P. Berrang=C3=A9 wrote:
+> On Mon, Sep 09, 2019 at 02:57:08PM +0200, Philippe Mathieu-Daud=C3=A9 w=
+rote:
+>> On 8/29/19 6:50 PM, Daniel P. Berrang=C3=A9 wrote:
+>>> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>>> ---
+>>>  CODING_STYLE =3D> CODING_STYLE.rst | 121 +++++++++++++++++++--------=
+---
+>>>  HACKING =3D> HACKING.rst           | 123 +++++++++++++++++++++------=
+----
+>>>  README =3D> README.rst             |  47 +++++++-----
+>>>  scripts/checkpatch.pl            |   2 +-
+>>>  4 files changed, 191 insertions(+), 102 deletions(-)
+>>>  rename CODING_STYLE =3D> CODING_STYLE.rst (72%)
+>>>  rename HACKING =3D> HACKING.rst (79%)
+>>>  rename README =3D> README.rst (84%)
+>>
+>> This change broke the NSIS build:
+>>
+>> (cd /tmp/qemu-nsis; \
+>>          for i in qemu-system-*.exe; do \
+>>            arch=3D${i%.exe}; \
+>>            arch=3D${arch#qemu-system-}; \
+>>            echo Section \"$arch\" Section_$arch; \
+>>            echo SetOutPath \"\$INSTDIR\"; \
+>>            echo File \"\${BINDIR}\\$i\"; \
+>>            echo SectionEnd; \
+>>          done \
+>>         ) >/tmp/qemu-nsis/system-emulations.nsh
+>> makensis -V2 -NOCD \
+>>                 -DCONFIG_DOCUMENTATION=3D"y" \
+>>                 -DCONFIG_GTK=3D"y" \
+>>                 -DBINDIR=3D"/tmp/qemu-nsis" \
+>>                  \
+>>                 -DSRCDIR=3D"/tmp/qemu-test/src" \
+>>                 -DOUTFILE=3D"qemu-setup-4.1.50.exe" \
+>>                 -DDISPLAYVERSION=3D"4.1.50" \
+>>                 /tmp/qemu-test/src/qemu.nsi
+>> File: "/tmp/qemu-test/src\README" -> no files found.
+>> Usage: File [/nonfatal] [/a] ([/r] [/x filespec [...]] filespec [...] =
+|
+>>    /oname=3Doutfile one_file_only)
+>> Error in script "/tmp/qemu-test/src/qemu.nsi" on line 122 -- aborting
+>> creation process
+>> make: *** [Makefile:1083: qemu-setup-4.1.50.exe] Error 1
+>>
+>> I'll send a fix.
+>=20
+> Doh. If we care about NSIS, we really need to have it being tested by
+> some part of our CI system, and by pre-merge build tests.
 
-Sorry, patchew found a leak in the auto converge test. I fixed it in v7.
+I believe Stefan Weil does, since he regularly sends fixes or opens LP
+bugs during freeze time.
 
-Also, there are two other fails, but it seems these are not related to
-my changes:
+We do build nsis/win32 with CI, but for some reason patchew was down.
 
-Fail 1:
-https://patchew.org/logs/20190909104948.30253-1-yury-kotov@yandex-team.ru=
-/testing.docker-mingw@fedora/?type=3Dmessage
-...
-                /tmp/qemu-test/src/qemu.nsi
-File: "/tmp/qemu-test/src\README" -> no files found.
-Usage: File [/nonfatal] [/a] ([/r] [/x filespec [...]] filespec [...] |
-   /oname=3Doutfile one_file_only)
-Error in script "/tmp/qemu-test/src/qemu.nsi" on line 122 -- aborting cre=
-ation process
-...
-
-Fail 2:
-https://patchew.org/logs/20190909104948.30253-1-yury-kotov@yandex-team.ru=
-/testing.asan/?type=3Dmessage
-...
-SUMMARY: AddressSanitizer: stack-use-after-scope /tmp/qemu-test/src/tests=
-/test-char.c:762:50 in char_socket_server_test
-...
-
-Regards,
-Yury
-
-09.09.2019, 14:31, "Paolo Bonzini" <pbonzini@redhat.com>:
-> On 09/09/19 12:49, Yury Kotov wrote:
->> =C2=A0Hi,
->>
->> =C2=A0V6:
->> =C2=A0* Fix "Add qemu_cond_timedwait" patch:
->> =C2=A0=C2=A0=C2=A0- Changed return type for qemu_cond_timedwait (void =
--> bool)
->> =C2=A0=C2=A0=C2=A0- Added details in commit message
->>
->> =C2=A0V5:
->> =C2=A0* Updated sleep loop in throttle_thread at the suggestion of Pao=
-lo Bonzini
->> =C2=A0* Fixed hanging of test
->>
->> =C2=A0V4:
->> =C2=A0* The test was simplified to prevent false fails.
->>
->> =C2=A0V3:
->> =C2=A0* Rebase fixes (migrate_set_parameter -> migrate_set_parameter_i=
-nt)
->>
->> =C2=A0V2:
->> =C2=A0* Added a test
->> =C2=A0* Fixed qemu_cond_timedwait for qsp
->>
->> =C2=A0I wrote a test for migration auto converge and found out a stran=
-ge thing:
->> =C2=A01. Enable auto converge
->> =C2=A02. Set max-bandwidth 1Gb/s
->> =C2=A03. Set downtime-limit 1ms
->> =C2=A04. Run standard test (just writes a byte per page)
->> =C2=A05. Wait for converge
->> =C2=A06. It's converged with 99% throttle percentage
->> =C2=A07. The result downtime was about 300-600ms <<<<
->>
->> =C2=A0It's much higher than expected 1ms. I figured out that cpu_throt=
-tle_thread()
->> =C2=A0function sleeps for 100ms+ for high throttle percentage (>=3D95%=
-) in VCPU thread.
->> =C2=A0And it sleeps even after a cpu kick.
->>
->> =C2=A0Fixed it by using timedwait for ms part of sleep.
->> =C2=A0E.g timedwait(halt_cond, 1ms) + usleep(500).
->
-> Queued, thanks.
->
-> Paolo
-
+I'm not sure we should duplicate the build on another CI, we should
+rather setup something to watch patchew and warn us when it goes down.
 
