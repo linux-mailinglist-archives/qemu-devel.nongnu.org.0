@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B49FAD753
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 12:54:45 +0200 (CEST)
-Received: from localhost ([::1]:55040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046EEAD768
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 12:58:32 +0200 (CEST)
+Received: from localhost ([::1]:55062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7HJk-0001t7-EA
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 06:54:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60303)
+	id 1i7HNP-0003iw-3T
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 06:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i7HGd-0007ne-19
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 06:51:32 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i7HM2-0003DR-TD
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 06:57:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i7HGa-0008K3-Ol
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 06:51:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38644)
+ (envelope-from <kwolf@redhat.com>) id 1i7HM1-0004AO-RR
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 06:57:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33290)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i7HGa-0008Hv-GI
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 06:51:28 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i7HLz-00045i-0F; Mon, 09 Sep 2019 06:57:03 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 933CF4E83E
- for <qemu-devel@nongnu.org>; Mon,  9 Sep 2019 10:51:26 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id v15so7223104wrg.13
- for <qemu-devel@nongnu.org>; Mon, 09 Sep 2019 03:51:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wjMYv2IyPeANagrLLEdk0F0dpH4o+VFMYivZWjd96Oc=;
- b=ob2M0N2+pSzSLKTx0Lo1k/g3c7Zm2FPJQRGrULzHGSsBDvmZ//IfU46RgcGppr9Syh
- AekcXWMIrRyth7yPGgAqADlEEDeB+tKr1kBW2gJJWAUjQiv+i3SaHlIjENXqmQva1UQb
- KLfqV/sHiV+Flrk2YS7M5KN83+btfrISMZfMwdNND+uMe/wrSt1qwRkHhFyQrrGuy9vC
- UVeLNvJbzX2SmzeEdA8y4orJT0vEiVCOxcJAjKa4pBaxKNZMz0Ra6Eb+dDqDF3dbK65J
- PAN3KJ1Iw7Dzu45dJaHc5104uYDUGO8qNTb1eR/UmuQNkebQ/AhxauEOAtCUulhjkLA7
- TrhQ==
-X-Gm-Message-State: APjAAAU/P2Gv/bxq+WuhBHOoUU8z8BGtbB0ZVqEduSQESqHZOEPOi+26
- Ptqh6gTGvuZIYlk6hVBd2Yr+yDwBaHOB+G8iY+6gr+5KgibffRKShdR8LjnFgBjPDc84jnBz9tQ
- 8bCFDMkiSi4CAVio=
-X-Received: by 2002:adf:dd04:: with SMTP id a4mr18336038wrm.340.1568026285381; 
- Mon, 09 Sep 2019 03:51:25 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw9MlFIGsDytK5YQqxbESpEwAUBoV067xaSpmnkeOV5ngCGgSKEZYp8gUP+eh5iFVNKwwWdRg==
-X-Received: by 2002:adf:dd04:: with SMTP id a4mr18336031wrm.340.1568026285211; 
- Mon, 09 Sep 2019 03:51:25 -0700 (PDT)
-Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id k6sm29418331wrg.0.2019.09.09.03.51.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Sep 2019 03:51:24 -0700 (PDT)
-To: Samuel Thibault <samuel.thibault@gnu.org>,
- Chris Heinze <c.heinze@precibake.com>
-References: <0115e29c-2254-09c3-13d5-6dfb5307d968@precibake.com>
- <20190907232924.a2maha6jyf7u6xbb@function>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <47bad7a1-8fae-b464-7c74-b458d02a6174@redhat.com>
-Date: Mon, 9 Sep 2019 12:51:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id E5C37806A41;
+ Mon,  9 Sep 2019 10:57:01 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-198.ams2.redhat.com
+ [10.36.117.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2463960BF3;
+ Mon,  9 Sep 2019 10:56:56 +0000 (UTC)
+Date: Mon, 9 Sep 2019 12:56:55 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190909105655.GE17606@localhost.localdomain>
+References: <20190906173201.7926-1-mlevitsk@redhat.com>
+ <20190906173201.7926-3-mlevitsk@redhat.com>
+ <3ac8c65d-4bca-372c-d863-1f794292f5cb@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190907232924.a2maha6jyf7u6xbb@function>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="SFyWQ0h3ruR435lw"
+Content-Disposition: inline
+In-Reply-To: <3ac8c65d-4bca-372c-d863-1f794292f5cb@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Mon, 09 Sep 2019 10:57:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] slirp, incoming packets get truncated
+Subject: Re: [Qemu-devel] [PATCH 2/3] block/qcow2: fix the corruption when
+ rebasing luks encrypted files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,136 +61,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Samuel,
 
-On 9/8/19 1:29 AM, Samuel Thibault wrote:
->
-> Now, with MTU set to 9000, the packets just don't go at all. Could you
-> try the attached patch? The lowest layer of slirp was indeed limited to
-> 1600-byte frames for no good reason. With this and the virtio driver, I
-> could exchange 9000-byte packets.
+--SFyWQ0h3ruR435lw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Am 06.09.2019 um 21:17 hat Eric Blake geschrieben:
+> > -        assert((offset_in_cluster & ~BDRV_SECTOR_MASK) =3D=3D 0);
+> > +        assert((guest_offset & ~BDRV_SECTOR_MASK) =3D=3D 0);
+> > +        assert((host_offset & ~BDRV_SECTOR_MASK) =3D=3D 0);
+> >          assert((bytes & ~BDRV_SECTOR_MASK) =3D=3D 0);
 >=20
-> Samuel
+> Pre-existing, but we could use QEMU_IS_ALIGNED(x, BDRV_SECTOR_SIZE) for
+> slightly more legibility than open-coding the bit operation.
 >=20
-> diff --git a/src/slirp.c b/src/slirp.c
-> index b0194cb..3fd6f68 100644
-> --- a/src/slirp.c
-> +++ b/src/slirp.c
-> @@ -890,20 +890,22 @@ static int if_encap6(Slirp *slirp, struct mbuf
-*ifm, struct ethhdr *eh,
->   */
->  int if_encap(Slirp *slirp, struct mbuf *ifm)
->  {
-> -    uint8_t buf[1600];
-> -    struct ethhdr *eh =3D (struct ethhdr *)buf;
-> +    uint8_t *buf;
-> +    struct ethhdr *eh;
->      uint8_t ethaddr[ETH_ALEN];
->      const struct ip *iph =3D (const struct ip *)ifm->m_data;
->      int ret;
->
-> -    if (ifm->m_len + ETH_HLEN > sizeof(buf)) {
-> -        return 1;
-> -    }
-> +    buf =3D g_malloc(ifm->m_len + ETH_HLEN);
+> Neat trick about power-of-2 alignment checks:
+>=20
+> assert(QEMU_IS_ALIGNED(offset_in_cluster | guest_offset |
+>                        host_offset | bytes, BDRV_SECTOR_SIZE));
+>=20
+> gives the same result in one assertion.  (I've used it elsewhere in the
+> code base, but I'm not opposed to one assert per variable if you think
+> batching is too dense.)
 
-Since g_malloc() aborts on failure, you want g_try_malloc() here.
+A possible downside of this is that if a user reports an assertion
+failure, you can't tell any more which of the variables ended up in a
+bad state.
 
-> +    if (!buf)
-> +        return 0;
-> +    eh =3D (struct ethhdr *)buf;
->
->      switch (iph->ip_v) {
->      case IPVERSION:
->          ret =3D if_encap4(slirp, ifm, eh, ethaddr);
->          if (ret < 2) {
-> +            g_free(buf);
->              return ret;
->          }
->          break;
-> @@ -911,6 +913,7 @@ int if_encap(Slirp *slirp, struct mbuf *ifm)
->      case IP6VERSION:
->          ret =3D if_encap6(slirp, ifm, eh, ethaddr);
->          if (ret < 2) {
-> +            g_free(buf);
->              return ret;
->          }
->          break;
-> @@ -929,6 +932,7 @@ int if_encap(Slirp *slirp, struct mbuf *ifm)
->                eh->h_dest[5]);
->      memcpy(buf + sizeof(struct ethhdr), ifm->m_data, ifm->m_len);
->      slirp_send_packet_all(slirp, buf, ifm->m_len + ETH_HLEN);
-> +    g_free(buf);
->      return 1;
->  }
+If you're lucky, you can still tell in gdb at least if the bug is
+reproducible, but I wouldn't be surprised if in release builds, half of
+the variables were actually optimised away, so that even this wouldn't
+work.
 
-Eventually easier to review using less exit points, i.e.:
+Kevin
 
--- >8 --
-@@ -903,16 +903,10 @@ int if_encap(Slirp *slirp, struct mbuf *ifm)
-     switch (iph->ip_v) {
-     case IPVERSION:
-         ret =3D if_encap4(slirp, ifm, eh, ethaddr);
--        if (ret < 2) {
--            return ret;
--        }
-         break;
+--SFyWQ0h3ruR435lw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-     case IP6VERSION:
-         ret =3D if_encap6(slirp, ifm, eh, ethaddr);
--        if (ret < 2) {
--            return ret;
--        }
-         break;
+-----BEGIN PGP SIGNATURE-----
 
-     default:
-@@ -920,16 +914,21 @@ int if_encap(Slirp *slirp, struct mbuf *ifm)
-         break;
-     }
+iQIcBAEBAgAGBQJddi/3AAoJEH8JsnLIjy/Wci0P/1DSiFGPnBQMqzfw66xqlhk+
+U58zMN0WtPUC8W2eFu+TlQYTUbEKSyToFh09wdHtteVC/eY3VYT6F7oGouZ2eKlv
+iJ92Ln1GgLLuyBG/HY9TPfB1fBFqplJiP35KTQv99XaVWkQnNedbP5Ej7vOX6g5P
+uKKvRp3E446d5Pl0dsE4ItbEY0Vr0o3UbzAgp7xPxs7V0v29YnhN+/I9205hBABZ
+6Uz2EsUJnW/XxGmfz0rfVCRdYJL1SBTMRpbbTBd69xA9cH7Me6UpFO4qbZl75PyK
+hRWy4qvyBuBsQxN27ytpCkaiZLSAajzRtcctFLm/PeCALCt4M8+JdYkv2AQuJcCM
+JqFvMfqgQ6O1qPFz5DtJnIrhKJCUe7VUfvTZ/6Ko8/TR36EBeECCggFzbojnaTCP
+7yff3CJipQExxBJU3Dzf78d9HyG9vdmPd8m4ZZZdHWdDAGi2TZLFX/uI5GlvnPaU
+l7mZgs16b6RrebjgeTGO72yre/wXRWXryHd5roSlkce+QOHQxBMDOxIX47pbu4Fq
+Lxab0alX+uEx+z09P5ThYd4P6rGrTJ4ZsWZo03a+9UA7vY2ZK2HXYITpThZAsnY0
+nisK3v6A5y3AfBu1Z8SXy9HeLo9NiZBn5kXm8AUgsl6DQOZlDAZPXCrJV/fj/xEu
+TJnES8oY8sZfiqfJ/NMT
+=rVaQ
+-----END PGP SIGNATURE-----
 
--    memcpy(eh->h_dest, ethaddr, ETH_ALEN);
--    DEBUG_ARG("src =3D %02x:%02x:%02x:%02x:%02x:%02x", eh->h_source[0],
--              eh->h_source[1], eh->h_source[2], eh->h_source[3],
--              eh->h_source[4], eh->h_source[5]);
--    DEBUG_ARG("dst =3D %02x:%02x:%02x:%02x:%02x:%02x", eh->h_dest[0],
--              eh->h_dest[1], eh->h_dest[2], eh->h_dest[3], eh->h_dest[4]=
-,
--              eh->h_dest[5]);
--    memcpy(buf + sizeof(struct ethhdr), ifm->m_data, ifm->m_len);
--    slirp_send_packet_all(slirp, buf, ifm->m_len + ETH_HLEN);
--    return 1;
-+    if (ret >=3D 2) {
-+        memcpy(eh->h_dest, ethaddr, ETH_ALEN);
-+        DEBUG_ARG("src =3D %02x:%02x:%02x:%02x:%02x:%02x", eh->h_source[=
-0],
-+                  eh->h_source[1], eh->h_source[2], eh->h_source[3],
-+                  eh->h_source[4], eh->h_source[5]);
-+        DEBUG_ARG("dst =3D %02x:%02x:%02x:%02x:%02x:%02x", eh->h_dest[0]=
-,
-+                  eh->h_dest[1], eh->h_dest[2], eh->h_dest[3],
-eh->h_dest[4],
-+                  eh->h_dest[5]);
-+        memcpy(buf + sizeof(struct ethhdr), ifm->m_data, ifm->m_len);
-+        slirp_send_packet_all(slirp, buf, ifm->m_len + ETH_HLEN);
-+        ret =3D 1;
-+    }
-+
-+    g_free(buf);
-+    return ret;
- }
----
-
-Anyhow, if you plan to properly (with your S-o-b) commit your patch to
-the libslirp repository, using g_try_malloc() you can add:
-
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
-Regards,
-
-Phil.
+--SFyWQ0h3ruR435lw--
 
