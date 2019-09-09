@@ -2,126 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2273DADDA2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 18:57:01 +0200 (CEST)
-Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE798ADDB2
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 19:00:31 +0200 (CEST)
+Received: from localhost ([::1]:59164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7MyJ-0005Ou-Nd
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 12:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42446)
+	id 1i7N1i-0007K1-Po
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 13:00:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1i7Mx1-0004bK-KX
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:55:40 -0400
+ (envelope-from <no-reply@patchew.org>) id 1i7N0r-0006sH-LK
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:59:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1i7Mwz-0005Z1-Ik
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:55:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52860)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1i7Mwz-0005XN-Ak
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:55:37 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A6584308219E;
- Mon,  9 Sep 2019 16:55:36 +0000 (UTC)
-Received: from [10.18.17.230] (dhcp-17-230.bos.redhat.com [10.18.17.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EF605D9D6;
- Mon,  9 Sep 2019 16:55:35 +0000 (UTC)
-To: Toe Dev <devtoe82@gmail.com>, qemu-devel@nongnu.org
-References: <CAN+O=T+HN6ueMMq-Dt2X1mB2e8a9BdEFg3gnkgcNAcKHw78UEg@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
- IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
- vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
- rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
- 1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
- ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
- 3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
- h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
- T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
- LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
- KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
- BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
- qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
- LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
- ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
- J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
- vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
- il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
- 1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
- tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
- 1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
- 3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
- d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
- 5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
- MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
- NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
- TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
- L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
- JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
- /5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
- nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
- 9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
- Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
- e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
- ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
- vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
- C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
- fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
- rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
- TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
- PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
- Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
- E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
- Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
- rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
- cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
- wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
- jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
- vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
- eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
- RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
- CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
- AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
- VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
- XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
- Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
- y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
- sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
- HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
- 8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
- 6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
- y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
- uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
- YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
- 2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
- Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
- TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
- TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
- GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
- rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
- i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
- RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
- glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <a4bd9d6a-4aa2-a912-db16-80d558e6c5b3@redhat.com>
-Date: Mon, 9 Sep 2019 12:55:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <no-reply@patchew.org>) id 1i7N0q-0007qf-0Z
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 12:59:37 -0400
+Resent-Date: Mon, 09 Sep 2019 12:59:37 -0400
+Resent-Message-Id: <E1i7N0q-0007qf-0Z@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21490)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1i7N0p-0007pW-P0; Mon, 09 Sep 2019 12:59:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1568048344; cv=none; d=zoho.com; s=zohoarc; 
+ b=YMsSmXGagq9FsOxpDkzCtg6MXjHhFxpkzgAYCdFyJK8veFzCufAUkW0vZ6HbmhCNvawenRwFjBi9svGfvlu5neXxE6IRwmBOse8H7vkq/dbvYvoc9QGkdvVWaokDF0K4AxKX7XLPD3EPHPS2nC1n2Ce2syRNy+pJxmN0jtK18dc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1568048344;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=CUJ4kCHzXUBJ4VxnmMMdskOB2iA24iN3923ixoN95zQ=; 
+ b=eAoLz20BcVBb82SEtB9/Jpvk95R/1bzLGxLofRJ2d0CoTGmrh8YkBNIEAfzzOrZoSCLbDFOC9PfnBvtWWEEVlWS8IuM0YdNpmd2sBnPMVq44PI36W8oevslLTTi3iqhRQhxAZ966lXY81TIcrLI5jnf2Xmhr4WXWvaU4eAXZ1IE=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1568048341663807.2956444599296;
+ Mon, 9 Sep 2019 09:59:01 -0700 (PDT)
+In-Reply-To: <20190909155813.27760-1-laurent@vivier.eu>
+Message-ID: <156804833939.9541.13868273102848513200@5dec9699b7de>
 MIME-Version: 1.0
-In-Reply-To: <CAN+O=T+HN6ueMMq-Dt2X1mB2e8a9BdEFg3gnkgcNAcKHw78UEg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 09 Sep 2019 16:55:36 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: laurent@vivier.eu
+Date: Mon, 9 Sep 2019 09:59:01 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Greetings qemu folks
+X-Received-From: 136.143.188.54
+Subject: Re: [Qemu-devel] [PATCH v9 0/9] hw/m68k: add Apple Machintosh
+ Quadra 800 machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -133,57 +61,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org, huth@tuxfamily.org,
+ jasowang@redhat.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, hpoussin@reactos.org, kraxel@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, mreitz@redhat.com,
+ aurelien@aurel32.net, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkwOTE1NTgxMy4yNzc2
+MC0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHY5IDAvOV0gaHcvbTY4azog
+YWRkIEFwcGxlIE1hY2hpbnRvc2ggUXVhZHJhIDgwMCBtYWNoaW5lCk1lc3NhZ2UtaWQ6IDIwMTkw
+OTA5MTU1ODEzLjI3NzYwLTEtbGF1cmVudEB2aXZpZXIuZXUKVHlwZTogc2VyaWVzCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYv
+bnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQg
+Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+YWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJh
+c2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIx
+NjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXBy
+b2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMTkwOTA2MTEzNTM0LjEw
+OTA3LTEtdGh1dGhAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMTkwOTA2MTEzNTM0LjEwOTA3LTEt
+dGh1dGhAcmVkaGF0LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMTkwOTA2MTEz
+OTIwLjExMjcxLTEtdGh1dGhAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMTkwOTA2MTEzOTIwLjEx
+MjcxLTEtdGh1dGhAcmVkaGF0LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMTkw
+OTA2MTUyNjI0LjE0Nzg0LTEtdGh1dGhAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMTkwOTA2MTUy
+NjI0LjE0Nzg0LTEtdGh1dGhAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
+LzIwMTkwOTA5MTU1ODEzLjI3NzYwLTEtbGF1cmVudEB2aXZpZXIuZXUgLT4gcGF0Y2hldy8yMDE5
+MDkwOTE1NTgxMy4yNzc2MC0xLWxhdXJlbnRAdml2aWVyLmV1ClN3aXRjaGVkIHRvIGEgbmV3IGJy
+YW5jaCAndGVzdCcKMGQ4YTgwNSBody9tNjhrOiBkZWZpbmUgTWFjaW50b3NoIFF1YWRyYSA4MDAK
+MmU4MDlmOCBody9tNjhrOiBhZGQgYSBkdW1teSBTV0lNIGZsb3BweSBjb250cm9sbGVyCjlkYjFh
+ODMgaHcvbTY4azogYWRkIE51YnVzIHN1cHBvcnQgZm9yIG1hY2ZiIHZpZGVvIGNhcmQKOWQ4MjE0
+OCBody9tNjhrOiBhZGQgTnVidXMgc3VwcG9ydAphYmUzNGY1IGh3L202OGs6IGFkZCBtYWNmYiB2
+aWRlbyBjYXJkCjM1NWU5YWIgaHcvbTY4azogaW1wbGVtZW50IEFEQiBidXMgc3VwcG9ydCBmb3Ig
+dmlhCjFkMThiYTYgaHcvbTY4azogYWRkIHZpYSBzdXBwb3J0CmZiYjFlY2YgZHA4MzkzeDogbWFu
+YWdlIGJpZyBlbmRpYW4gYnVzCmQ2MGU2YTkgZXNwOiBhZGQgcHNldWRvLURNQSBhcyB1c2VkIGJ5
+IE1hY2ludG9zaAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS85IENoZWNraW5nIGNvbW1pdCBkNjBl
+NmE5NGFjMGIgKGVzcDogYWRkIHBzZXVkby1ETUEgYXMgdXNlZCBieSBNYWNpbnRvc2gpCjIvOSBD
+aGVja2luZyBjb21taXQgZmJiMWVjZmU2NjFmIChkcDgzOTN4OiBtYW5hZ2UgYmlnIGVuZGlhbiBi
+dXMpCjMvOSBDaGVja2luZyBjb21taXQgMWQxOGJhNjdhOGZmIChody9tNjhrOiBhZGQgdmlhIHN1
+cHBvcnQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJ
+TlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzM5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9S
+OiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgJyYmJyAoY3R4Old4VykKIzM4NzogRklMRTog
+aHcvbWlzYy9tYWNfdmlhLmM6MzQ0OgorICAgICAgICBpZiAoISh2MXMtPmxhc3RfYiAmIFZJQTFC
+X3ZSVENDbGspICYmIChzLT5iICYgVklBMUJfdlJUQ0NsaykpIHsKICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3Ms
+IDgxNCBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+CjQvOSBDaGVja2luZyBjb21taXQgMzU1ZTlhYjg0MTNlIChody9tNjhrOiBpbXBsZW1lbnQgQURC
+IGJ1cyBzdXBwb3J0IGZvciB2aWEpCjUvOSBDaGVja2luZyBjb21taXQgYWJlMzRmNTM2NjdiICho
+dy9tNjhrOiBhZGQgbWFjZmIgdmlkZW8gY2FyZCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
+bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTM6IApuZXcg
+ZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1MDQgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggNS85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjYvOSBDaGVja2lu
+ZyBjb21taXQgOWQ4MjE0ODBkOGQ5IChody9tNjhrOiBhZGQgTnVidXMgc3VwcG9ydCkKV0FSTklO
+RzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVk
+IHVwZGF0aW5nPwojMzg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAx
+IHdhcm5pbmdzLCA1MTggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi85IGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCjcvOSBDaGVja2luZyBjb21taXQgOWRiMWE4Mzk5MTljIChody9tNjhrOiBhZGQg
+TnVidXMgc3VwcG9ydCBmb3IgbWFjZmIgdmlkZW8gY2FyZCkKOC85IENoZWNraW5nIGNvbW1pdCAy
+ZTgwOWY4MDA2MDkgKGh3L202OGs6IGFkZCBhIGR1bW15IFNXSU0gZmxvcHB5IGNvbnRyb2xsZXIp
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzM3OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVy
+cm9ycywgMSB3YXJuaW5ncywgNTEwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvOSBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgo5LzkgQ2hlY2tpbmcgY29tbWl0IDBkOGE4MDUzODk2OCAoaHcvbTY4
+azogZGVmaW5lIE1hY2ludG9zaCBRdWFkcmEgODAwKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3Ig
+ZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM5NjogCm5l
+dyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUzOSBsaW5l
+cyBjaGVja2VkCgpQYXRjaCA5LzkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBV
+VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
+ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MDkxNTU4MTMu
+Mjc3NjAtMS1sYXVyZW50QHZpdmllci5ldS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
-
-On 9/7/19 9:58 AM, Toe Dev wrote:
-> I am new in QEMU developing and I have general questions about QEMU source
-> code as I could not find any guidelines about it.
-> 
-
-Hi, welcome!
-
-> 1) I have no success running qemu in nographic mode.
->    The internet says using chardev driver to redirect kernel output to host
-> OS...
->    what is the right way to do that?
-
-What have you tried and what were the results?
-
-For me, with standard Fedora installations, I can usually just pass
-`-monitor stdio` and get a console in my terminal (along with a GTK window.)
-
-`-nographic` also seems to work just fine.
-
-Post your command line, QEMU version, and the version of the guest OS
-you're trying to boot. The guest OS may or may not need to be configured
-to actually send output to the console.
-
-> 
-> 2) My main target is to output a lot of this to console cause I new to qemu
-> and I want fast                    feedback on stuff like this. I try start
-> qemu with -D option but the log files never have been              written
-> by qemu, but either no success.
-> 
-
-QEMU doesn't output a lot of information by default, `-D` might be kind
-of misleading. (Actually, I've never used it...)
-
-We have a tracing subsystem, but it might differ from logging in that
-you enable tracepoints on a per-trace basis.
-
-Take a look at qemu/docs/devel/tracing.txt for information on driving
-the tracing module.
-
-> 3) What is the right way to do logging in qemu for development purposes?
-> 
-
-The tracing subsystem.
-
-> Best Regards,
-> 
-> Yali.
-> 
 
