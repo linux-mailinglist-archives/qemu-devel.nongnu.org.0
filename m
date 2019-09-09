@@ -2,55 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D1DADEFA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 20:30:46 +0200 (CEST)
-Received: from localhost ([::1]:59962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CADADF16
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Sep 2019 20:42:38 +0200 (CEST)
+Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7OR3-0001iR-8w
-	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 14:30:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33548)
+	id 1i7OcX-0004j9-Aa
+	for lists+qemu-devel@lfdr.de; Mon, 09 Sep 2019 14:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i7OPj-0001Cm-Sc
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 14:29:25 -0400
+ (envelope-from <junio@pobox.com>) id 1i7Obk-0004KX-4k
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 14:41:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i7OPh-0003he-PG
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 14:29:23 -0400
-Resent-Date: Mon, 09 Sep 2019 14:29:23 -0400
-Resent-Message-Id: <E1i7OPh-0003he-PG@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21478)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i7OPh-0003fy-HY
- for qemu-devel@nongnu.org; Mon, 09 Sep 2019 14:29:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568053729; cv=none; d=zoho.com; s=zohoarc; 
- b=ZxnP1oD88zxZHZP0XvKCbJy/YfWNlxd4KSPuXhs5gqYl1dPxrB7evG//tk5EcGLjXoJJlaC/yiKu6xVD8BHs3fwkzJrbEannXeaNgL+2sMomoG3TDHYwnt3nsZzFj3uI7kFtkd3JzpMBXY5gmmFPHDJbfXe+J1+Ki2xD6OG9jwo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568053729;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=Ra2iFvB8/j6evMyO3qTrONbCee1R6he+nafThodhpNo=; 
- b=UB5Rj/01dwcqSsZRy08CjNA/vcv174JKoeZ49JkbrKlhLlNSzcMaCZoc/Xrx0kGdFnSiB8lTHGL+clN4FFDVne5FOOl6GdU7eqyETsFnmEWEahCBX+qEvqvXXRIltyyLCTwlMdFfv2WzL0Gq5WT/rl+k7gArMHjOI4Nnai5Lbgo=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568053724364791.4551469660178;
- Mon, 9 Sep 2019 11:28:44 -0700 (PDT)
-In-Reply-To: <1568049517-10261-1-git-send-email-andychiu@synology.com>
-Message-ID: <156805372302.9541.8008050001960377135@5dec9699b7de>
+ (envelope-from <junio@pobox.com>) id 1i7Obj-0006Mb-1E
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 14:41:48 -0400
+Received: from pb-smtp21.pobox.com ([173.228.157.53]:51915)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <junio@pobox.com>) id 1i7Obi-0006KU-Jr
+ for qemu-devel@nongnu.org; Mon, 09 Sep 2019 14:41:46 -0400
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+ by pb-smtp21.pobox.com (Postfix) with ESMTP id 2F06C92EBA;
+ Mon,  9 Sep 2019 14:41:44 -0400 (EDT) (envelope-from junio@pobox.com)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=from:to:cc
+ :subject:references:date:in-reply-to:message-id:mime-version
+ :content-type; s=sasl; bh=eGoqGbkXpH+RlUFjrqlrGn1HdPI=; b=Rku79b
+ mf123UWHnerKJRPeaBf9UPMNurVOrW9XLOjlNee3WatswBqmsSjeU7zG5TlkWHi8
+ o26XqOJSujBCdH/LJ7WOuz8zfLzjpxHg2Bu3KHJfg7pjN4IcXqNxmWfOTkWy1xWb
+ ABtZ0VVHK9S32V1LDAz8aN5i8IVdXIWWuIyJU=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=pobox.com; h=from:to:cc
+ :subject:references:date:in-reply-to:message-id:mime-version
+ :content-type; q=dns; s=sasl; b=JOmhdzv1gI0Q/241xsvek5VyRmAK7iZZ
+ gZzsN/s3WHDOY25H7ti7Bx40MBb9a7xxk8A5qS0nKTIekICT2X+bVHzbtgyQgod7
+ P//t+11Uq8QAnuFLGpig2npBFE48LKeTWJ6VGxcR7vjB1hV1xLOsXWtC/LmKDgn7
+ PgCsUujHnbM=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+ by pb-smtp21.pobox.com (Postfix) with ESMTP id 2832192EB9;
+ Mon,  9 Sep 2019 14:41:44 -0400 (EDT) (envelope-from junio@pobox.com)
+Received: from pobox.com (unknown [34.76.80.147])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 3C7A292EB5;
+ Mon,  9 Sep 2019 14:41:41 -0400 (EDT) (envelope-from junio@pobox.com)
+From: Junio C Hamano <gitster@pobox.com>
+To: Eric Blake <eblake@redhat.com>
+References: <cover.1566503584.git.qemu_oss@crudebyte.com>
+ <46fe6c73-961f-d72a-77de-88491b6f223c@redhat.com>
+ <4642438.ai5u8AxThJ@silver> <1897173.eDCz7oYxVq@silver>
+ <305577c2-709a-b632-4056-6582771176ac@redhat.com>
+Date: Mon, 09 Sep 2019 11:41:39 -0700
+In-Reply-To: <305577c2-709a-b632-4056-6582771176ac@redhat.com> (Eric Blake's
+ message of "Mon, 9 Sep 2019 09:05:45 -0500")
+Message-ID: <xmqqd0g9jorg.fsf@gitster-ct.c.googlers.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Mon, 9 Sep 2019 11:28:44 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain
+X-Pobox-Relay-ID: 76DE39FE-D331-11E9-A20F-8D86F504CC47-77302942!pb-smtp21.pobox.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.54
-Subject: Re: [Qemu-devel] [PATCH] ahci: enable pci bus master MemoryRegion
- before loading ahci engines
+ [fuzzy]
+X-Received-From: 173.228.157.53
+Subject: Re: [Qemu-devel] [PATCH v6 0/4] 9p: Fix file ID collisions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,42 +72,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, andychiu@synology.com
+Cc: berrange@redhat.com, stefanha@gmail.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, antonios.motakis@huawei.com,
+ git@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTY4MDQ5NTE3LTEwMjYxLTEt
-Z2l0LXNlbmQtZW1haWwtYW5keWNoaXVAc3lub2xvZ3kuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVz
-IHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVs
-b3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIXSBh
-aGNpOiBlbmFibGUgcGNpIGJ1cyBtYXN0ZXIgTWVtb3J5UmVnaW9uIGJlZm9yZSBsb2FkaW5nIGFo
-Y2kgZW5naW5lcwpNZXNzYWdlLWlkOiAxNTY4MDQ5NTE3LTEwMjYxLTEtZ2l0LXNlbmQtZW1haWwt
-YW5keWNoaXVAc3lub2xvZ3kuY29tClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0g
-W3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDE5MDkwOTE1NTgxMy4yNzc2MC0xLWxhdXJlbnRA
-dml2aWVyLmV1IC0+IHBhdGNoZXcvMjAxOTA5MDkxNTU4MTMuMjc3NjAtMS1sYXVyZW50QHZpdmll
-ci5ldQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjMwNzM2NzIgYWhjaTogZW5hYmxl
-IHBjaSBidXMgbWFzdGVyIE1lbW9yeVJlZ2lvbiBiZWZvcmUgbG9hZGluZyBhaGNpIGVuZ2luZXMK
-Cj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5n
-bGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IGFuZHljaGl1IHZpYSBRZW11LWRl
-dmVsIDxxZW11LWRldmVsQG5vbmdudS5vcmc+Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3Ms
-IDY5IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCAzMDczNjcyMzhlOGYgKGFoY2k6IGVuYWJsZSBwY2kg
-YnVzIG1hc3RlciBNZW1vcnlSZWdpb24gYmVmb3JlIGxvYWRpbmcgYWhjaSBlbmdpbmVzKSBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
-eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
-cGF0Y2hldy5vcmcvbG9ncy8xNTY4MDQ5NTE3LTEwMjYxLTEtZ2l0LXNlbmQtZW1haWwtYW5keWNo
-aXVAc3lub2xvZ3kuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
-aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
-Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
-bQ==
+Eric Blake <eblake@redhat.com> writes:
 
+> How hard would it be to improve 'git format-patch'/'git send-email' to
+> have an option to ALWAYS output a From: line in the body, even when the
+> sender is the author, for the case of a mailing list that munges the
+> mail headers due to DMARC/DKIM reasons?
+
+I'd say that it shouldn't be so hard to implement than realizing
+what ahd why it is needed, designing what the end-user interaction
+would be (i.e.  command line options?  configuration variables?
+should it be per send-email destination?) and stating all of the
+above clearly in the documentation and the proposed commit log
+message.
+
+The reason you are asking is...?  Am I smelling a volunteer?
 
