@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA85AE512
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:04:32 +0200 (CEST)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B561AE52A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:11:39 +0200 (CEST)
+Received: from localhost ([::1]:34940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7b8Z-0003Qf-TJ
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55859)
+	id 1i7bFS-0005XM-GN
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:11:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57249)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i7b7Z-0002m3-5v
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:03:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i7bEQ-0004t9-EJ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:10:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i7b7Y-0004BJ-5K
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:03:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57258)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i7b7X-0004Az-W7
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:03:28 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 17A21307D930;
- Tue, 10 Sep 2019 08:03:27 +0000 (UTC)
-Received: from redhat.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFEFB608C2;
- Tue, 10 Sep 2019 08:03:22 +0000 (UTC)
-Date: Tue, 10 Sep 2019 09:03:19 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <20190910080319.GA8215@redhat.com>
-References: <20190910075943.12977-1-vsementsov@virtuozzo.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i7bEL-0008CK-FD
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:10:34 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45530)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i7bEL-0008CC-8w
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:10:29 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 41so13315120oti.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:10:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5aZZHaOR/q1ew560tIOVXX/K5sdO4XPq6kuj4HUPH88=;
+ b=c8aAYOeTziPQYijE9Y2HBqRoFTQMFMliNKVL8JWXfu0GQ8Vd5fyk39KT+i1+wpvxG5
+ AkcFtGuOfoMzh67yefpk2S09s0ldmZOAgd/x9o8EJRMUzeMI6P3Mt38kr+PL89J3TNpT
+ EvY1LgQO7GrSGZKdIZwJlstNORMGM2SqZBvDFNtAlQXSCnejb92td6wVWnsZVs1KHOEn
+ ICkC2Bi3fGomm+8E79jswhFh9e2ZVQsLDWv4x6gYYp5tAdH4p4DGVTRVa19pp8hDnIMv
+ iZwq+I25NcYK51Bnw8ZhfrM+C/yjzVzMqNii3xK1YysIBdH2UQWNrHArOVNOUr/zjeXR
+ s/3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5aZZHaOR/q1ew560tIOVXX/K5sdO4XPq6kuj4HUPH88=;
+ b=iThR3cygCBfUzv63sL3Is/a1gsGK7Tvi9qJjpnwZoWPsAY1y+v8rlY7GnA/AaZvQ1w
+ NIMNJwnYHTrtNIP2dVJilzfw3/ZsihzjimyitcIGlx+77QU+5vJjc2y+7un8fb9UrdcN
+ jF6kpgqfdPLYVusdOjmL98Pdki5qzjMBggU0rzvTt8qJ8JUGMxmQPvLn0nyCeH4UEq9P
+ KuPnVwBYoa8g6SE0YTvcEXPjyaTdwhboQTJEPt1NEo6jW8AsPVc7zB6fORgE58Y0hVVJ
+ T4YXxZsGsdJZgF2jCF//hLwYm7lqYW6v1Ldjn2BpEMqX1fH5rSmghK0QTAFy9YehDLOb
+ w/Nw==
+X-Gm-Message-State: APjAAAVlx0lXj+2ir8YQOIVBuNAbno/Ehs1yMFGRJ+Buk4+4Yyxrymhr
+ tsIyr0zcWc8z/9dkHRJBeNzs+wq15AX8jMKsuK0hBg==
+X-Google-Smtp-Source: APXvYqwLeVdNqE1cRA/gAmHTnxJoWYJKa1dlvRqty+z0xDS8EDuz+PUYB+c8bmwFgLqmpZQqgt87GsjjS0T0xKg/DQE=
+X-Received: by 2002:a9d:5e11:: with SMTP id d17mr1385459oti.135.1568103028277; 
+ Tue, 10 Sep 2019 01:10:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190910075943.12977-1-vsementsov@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 10 Sep 2019 08:03:27 +0000 (UTC)
+References: <20190815183039.4264-1-eblake@redhat.com>
+ <20190815183039.4264-2-eblake@redhat.com>
+ <CAFEAcA-ic=jdSvzOiNCEWmuhXythc2MQGYZYgV=3CBBT2RkEoQ@mail.gmail.com>
+ <1722e8ab-1a2b-311e-63fb-d89387b72c2f@virtuozzo.com>
+In-Reply-To: <1722e8ab-1a2b-311e-63fb-d89387b72c2f@virtuozzo.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 10 Sep 2019 09:10:17 +0100
+Message-ID: <CAFEAcA_rUx8XJ5W0qGJ+-HDQ+B=3i4uK+u50AN-VZt3gSauCrQ@mail.gmail.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] util/qemu-sockets: fix keep_alive handling
- in inet_connect_saddr
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PULL 1/9] qapi: Add InetSocketAddress member
+ keep-alive
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,34 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: den@openvz.org, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- kraxel@redhat.com
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 10, 2019 at 10:59:43AM +0300, Vladimir Sementsov-Ogievskiy wr=
-ote:
-> In "if (saddr->keep_alive) {" we may already be on error path, with
-> invalid sock < 0. Fix it by returning error earlier.
->=20
-> Reported-by: Coverity (CID 1405300)
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  util/qemu-sockets.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+On Tue, 10 Sep 2019 at 08:56, Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
+>
+> 09.09.2019 20:32, Peter Maydell wrote:
+> > On Thu, 15 Aug 2019 at 19:34, Eric Blake <eblake@redhat.com> wrote:
+> >>
+> >> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >>
+> >> It's needed to provide keepalive for nbd client to track server
+> >> availability.
+> >>
+> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >> Message-Id: <20190725094937.32454-1-vsementsov@virtuozzo.com>
+> >> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> >> Acked-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> >> [eblake: Fix error message typo]
+> >> Signed-off-by: Eric Blake <eblake@redhat.com>
+> >
+> > Hi; Coverity spots a bug in this change (CID 1405300):
+>
+> Two coverity bugs on my patches, I'm sorry :(
+>
+> How can I run this coverity locally?
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+You can't -- it's the online free 'Coverity Scan' service
+that Coverity provide for open source projects, and it
+only runs on master once patches have been committed.
+So we sort of expect that it will catch some of these minor
+things after the fact -- it's not a problem.
 
+(I guess if you happen to own a copy of the commercial
+Coverity product it is possible to do a local scan but I
+wouldn't know how.)
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+thanks
+-- PMM
 
