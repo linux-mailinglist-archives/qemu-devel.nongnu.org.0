@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0440CAE949
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 13:39:46 +0200 (CEST)
-Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1B6AE95E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 13:47:25 +0200 (CEST)
+Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7eUp-0002RF-Nk
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 07:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46330)
+	id 1i7ecG-0000mE-7L
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 07:47:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46338)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7ePl-0007Sc-Cx
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:34:32 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7ePn-0007Sm-9G
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:34:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7ePd-0003jA-GC
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:34:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:47131)
+ (envelope-from <laurent@vivier.eu>) id 1i7ePg-0003kR-Sc
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:34:29 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:56861)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i7ePK-0003dU-GQ; Tue, 10 Sep 2019 07:34:02 -0400
+ id 1i7ePL-0003eF-OU; Tue, 10 Sep 2019 07:34:04 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mwwhv-1iMAFF0RlD-00yPfY; Tue, 10 Sep 2019 13:33:38 +0200
+ id 1McH1Q-1iho5x34VI-00ck55; Tue, 10 Sep 2019 13:33:34 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 13:33:20 +0200
-Message-Id: <20190910113323.17324-7-laurent@vivier.eu>
+Date: Tue, 10 Sep 2019 13:33:17 +0200
+Message-Id: <20190910113323.17324-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910113323.17324-1-laurent@vivier.eu>
 References: <20190910113323.17324-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zGntiaqI9XY/pEkLw2VLFZ9u9Mia2DUm0PetZL/d/QSK/Z+UBHj
- EyLpLIQx/negjVQfNXWdPokwPrJGyPYBRUgnWJy+fb5SEJoAbzP3qinMrHDczd3ZQA73iD5
- iKagL9qoW9rmwIhGCgrKPQAcgMNqj3Ay+831mC4CN0XPuj3qi1iart1h/kCysopDWEzqytM
- l+swgNs2jiyELIPM3MtLQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mw7I74rem7I=:Jhw7N6zDSgb98R0/wjxzYT
- MDLfEEfyyXeQM1Hi89BmRgiCrPoQURJElIrUdLorqHnEeJPedi+lx3brwR3zQ9F36h4lQqOln
- uXip2eZzU7tQuu7OfOYiBBbPAmucHaHB4iCU1IVY00u5BrUkBFyLSs/O0cdYGcAF3LbM1AAoD
- TlSSTY2tlxMZ3c9t/iJhU2wsXRY843Aih5Szz+k6dYrhyYpju7SAav/vpCnxVOmPpaCDY35Hg
- 3ufaWoHqkEO2z9tdU1B0H6IE4dXISg3cH41mtfSnVZHCBaWUF6VUuWiaNDZ1zl8vVgoFM7z6k
- CwU5+BAPGQx9nbZt1vorOqnH2+0pANwz6+opB1dfiIGvku9qKU/9VhV5D0QsvE8VsFPfWAoym
- xtVeu5u78cgNQ4wcw2ud6nVqF1/B7y7LoEhYXSMM1/XTO5jOwmVLzRbNhPddkOT2OotfEwKac
- D4yuep9xnneDz5szDv2C8k+n+McOYyWZBk65jnWpbnmXG3Air6b8k6FG7o6SGzx9fcK+7y+sU
- ixOk7s/aBB33FfolJG6eEnUWbGnPRmzjIfeXYjiBeWDIU17avXZA1TE/GukiNCSuBdCMDseka
- 4Jg9JBDmAJUnQtCnaR8yiwnZHkKTdbkaYXFlyAQtgtmXQQqLceafiamp0pK/79nG7pOSvFp1l
- xF6lQTr8/1XQaxeBvlb2UILUme2fq/Bt/ropGuS3ZraELy5LAYLE3D3+3jDOXAYH/oIyDxdXN
- g7qLzNAJAUmnXkwZnopnt29VBD15/nHt6FtwzsFXFAM1m6vQD0aqsL8pjeFKprWSNtBF4bYIy
- C9bfWFaVVTBUKc0DG7GmkE0HY4jluHITjrkp+XsraniCaL0wiY/2l1BxjLuFCT4rAaHmZN8l1
- mcqYQPL3+9OdGtLzq4W2uExX2koOF7XOlOyfs4Cls=
+X-Provags-ID: V03:K1:u2/4XsAJIivegiWrabvgzCshpFHCUAqb6u1LJxrnxO1cQMjhU6D
+ NBY5L6c3LpHMzy1waYgqiDg2Mjp0PS9YeMCHfu6gq0SRw/Z3IzrjCoHOyIPbZ9eAAFcGMTn
+ Kfzxmx+uURvjLv2eJv98/WIqmschocWsUABgtAuXiTzGSCLwIdYBc9RhKnyfk/2ih17PFUQ
+ a0043lxd0CKsNZ4GA2TjQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CLZ7xM3UDg0=:kFs1da3k4YeSvo9Oqj7Ex+
+ IiV8tx3np2vLfwuvhCeJLDDTGpvglsYjYY6yVZ/bzJddDDKJlV+0N1fBokJPIrRTkTKGJJCGg
+ XPCLiQcRO1Ggg8h92KZ1kbxhC1RAow18RfA/zwHS/EJr8pTjaqLb4vJzJLuaMwwcMMX4C2Bhn
+ VaeFxj9dz75ZfKvXSxefW33jfJ3je7x84UIFIiRbUOVK4i4JSCJqimsZnWue/1QCDsKqCu6ya
+ OPgM3u114R+l+eK3SMLUNT7YNxDoXwoleeVyfHUCO1ifK774VhczsgIlvGfmawhUW5hswllfi
+ C8Z9mbd4PHxeYT3As0ssqVYKIcGzdEg3/nDz4OxlwNkMeMpYLXxTJy4tFpfc4GY+tiy59arof
+ i0hdhsOWbDQtUJcZfWUGdWg6U+HVkAtjxTEBTXKyISE/vGGo2V2eT/r/i4UDeN862XSR8w3nz
+ snPPjfAZhrn2qQvihKyoTvKg4NZ7Qyqw4ui7lqKxPRHyMt6UYE5kNc8EsfINOnibfR8V/KHvs
+ b7G+xWQXUMoCaUeo6Ja9Bm2za+Z4JGAx2N7YcNKKJOY4PcOPE0QFXayik2IC0lLoM33jce6oQ
+ N4PUcAetxajHBl2w9v44/TPEkLeyuPXu+2p2Ai3yCaxnkUhOQ1BnOoIhzE1ZvcdfM8agO8bVt
+ 5wYvdB7r6/umx1n2qjeaAXCfOm66M5Xj4qf6mEMSY0ffiTQLqRKQPRn1TXCb0KfalkEE6MB/w
+ 9YxV3UyIuxCljc7zhrLcEv4NrGnpjCnLLxwUX3Z40X7KzyZDtuBxQcw3tJv2oIqXhbPRhGf2d
+ FkIosSgJQx7gC/zTc1cyWkPQ2OmsBtP4npFnQP0ytkJBov3PFehS1YUciIni+fT4VQ+YN0jbo
+ rCqE2HjR8XoKx7c616QxoES2gDXoJP/Nk1FwZzvmk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: [Qemu-devel] [PATCH v10 6/9] hw/m68k: add Nubus support
+X-Received-From: 212.227.126.131
+Subject: [Qemu-devel] [PATCH v10 3/9] hw/m68k: add via support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,628 +82,921 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
 ---
- MAINTAINERS                         |   2 +
- hw/Kconfig                          |   1 +
- hw/Makefile.objs                    |   1 +
- hw/m68k/Kconfig                     |   1 +
- hw/nubus/Kconfig                    |   2 +
- hw/nubus/Makefile.objs              |   4 +
- hw/nubus/mac-nubus-bridge.c         |  45 ++++++
- hw/nubus/nubus-bridge.c             |  34 +++++
- hw/nubus/nubus-bus.c                | 111 ++++++++++++++
- hw/nubus/nubus-device.c             | 215 ++++++++++++++++++++++++++++
- include/hw/nubus/mac-nubus-bridge.h |  24 ++++
- include/hw/nubus/nubus.h            |  69 +++++++++
- 12 files changed, 509 insertions(+)
- create mode 100644 hw/nubus/Kconfig
- create mode 100644 hw/nubus/Makefile.objs
- create mode 100644 hw/nubus/mac-nubus-bridge.c
- create mode 100644 hw/nubus/nubus-bridge.c
- create mode 100644 hw/nubus/nubus-bus.c
- create mode 100644 hw/nubus/nubus-device.c
- create mode 100644 include/hw/nubus/mac-nubus-bridge.h
- create mode 100644 include/hw/nubus/nubus.h
+ MAINTAINERS                      |   6 +
+ default-configs/m68k-softmmu.mak |   1 +
+ hw/m68k/Kconfig                  |   4 +
+ hw/misc/Kconfig                  |   4 +
+ hw/misc/Makefile.objs            |   1 +
+ hw/misc/mac_via.c                | 722 +++++++++++++++++++++++++++++++
+ include/hw/misc/mac_via.h        | 107 +++++
+ 7 files changed, 845 insertions(+)
+ create mode 100644 hw/misc/mac_via.c
+ create mode 100644 include/hw/misc/mac_via.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 6b5fc50aef..4f6b2b037a 100644
+index 50eaf005f4..b01826ba39 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -922,8 +922,10 @@ M: Laurent Vivier <laurent@vivier.eu>
- S: Maintained
- F: hw/misc/mac_via.c
- F: hw/display/macfb.c
-+F: hw/nubus/*
- F: include/hw/misc/mac_via.h
- F: include/hw/display/macfb.h
-+F: include/hw/nubus/*
+@@ -917,6 +917,12 @@ F: hw/m68k/next-*.c
+ F: hw/display/next-fb.c
+ F: include/hw/m68k/next-cube.h
  
++q800
++M: Laurent Vivier <laurent@vivier.eu>
++S: Maintained
++F: hw/misc/mac_via.c
++F: include/hw/misc/mac_via.h
++
  MicroBlaze Machines
  -------------------
-diff --git a/hw/Kconfig b/hw/Kconfig
-index b45db3c813..0501a55315 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -21,6 +21,7 @@ source isa/Kconfig
- source mem/Kconfig
- source misc/Kconfig
- source net/Kconfig
-+source nubus/Kconfig
- source nvram/Kconfig
- source pci-bridge/Kconfig
- source pci-host/Kconfig
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index ece6cc3755..457b95e28d 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -37,6 +37,7 @@ devices-dirs-y += virtio/
- devices-dirs-y += watchdog/
- devices-dirs-y += xen/
- devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
-+devices-dirs-$(CONFIG_NUBUS) += nubus/
- devices-dirs-y += semihosting/
- devices-dirs-y += smbios/
- endif
+ petalogix_s3adsp1800
+diff --git a/default-configs/m68k-softmmu.mak b/default-configs/m68k-softmmu.mak
+index d67ab8b96d..6629fd2aa3 100644
+--- a/default-configs/m68k-softmmu.mak
++++ b/default-configs/m68k-softmmu.mak
+@@ -7,3 +7,4 @@ CONFIG_SEMIHOSTING=y
+ CONFIG_AN5206=y
+ CONFIG_MCF5208=y
+ CONFIG_NEXTCUBE=y
++CONFIG_Q800=y
 diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
-index 58c39ec1a9..9133919bb8 100644
+index a74fac5abd..22a357609c 100644
 --- a/hw/m68k/Kconfig
 +++ b/hw/m68k/Kconfig
-@@ -17,3 +17,4 @@ config Q800
+@@ -12,3 +12,7 @@ config NEXTCUBE
      bool
-     select MAC_VIA
-     select MACFB
-+    select NUBUS
-diff --git a/hw/nubus/Kconfig b/hw/nubus/Kconfig
-new file mode 100644
-index 0000000000..8fb8b22189
---- /dev/null
-+++ b/hw/nubus/Kconfig
-@@ -0,0 +1,2 @@
-+config NUBUS
+     select FRAMEBUFFER
+     select ESCC
++
++config Q800
 +    bool
-diff --git a/hw/nubus/Makefile.objs b/hw/nubus/Makefile.objs
++    select MAC_VIA
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 51754bb47c..18a5dc9c09 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -120,4 +120,8 @@ config AUX
+ config UNIMP
+     bool
+ 
++config MAC_VIA
++    bool
++    select MOS6522
++
+ source macio/Kconfig
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index e4aad707fb..c4836dd5c3 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -76,6 +76,7 @@ obj-$(CONFIG_PVPANIC) += pvpanic.o
+ obj-$(CONFIG_AUX) += auxbus.o
+ obj-$(CONFIG_ASPEED_SOC) += aspeed_xdma.o
+ obj-$(CONFIG_ASPEED_SOC) += aspeed_scu.o aspeed_sdmc.o
++obj-$(CONFIG_MAC_VIA) += mac_via.o
+ obj-$(CONFIG_MSF2) += msf2-sysreg.o
+ obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
+ 
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
 new file mode 100644
-index 0000000000..135ba7878d
+index 0000000000..a052259613
 --- /dev/null
-+++ b/hw/nubus/Makefile.objs
-@@ -0,0 +1,4 @@
-+common-obj-y += nubus-device.o
-+common-obj-y += nubus-bus.o
-+common-obj-y += nubus-bridge.o
-+common-obj-$(CONFIG_Q800) += mac-nubus-bridge.o
-diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
-new file mode 100644
-index 0000000000..7c329300b8
---- /dev/null
-+++ b/hw/nubus/mac-nubus-bridge.c
-@@ -0,0 +1,45 @@
++++ b/hw/misc/mac_via.c
+@@ -0,0 +1,722 @@
 +/*
-+ *  Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
++ * QEMU m68k Macintosh VIA device support
++ *
++ * Copyright (c) 2011-2018 Laurent Vivier
++ * Copyright (c) 2018 Mark Cave-Ayland
++ *
++ * Some parts from hw/misc/macio/cuda.c
++ *
++ * Copyright (c) 2004-2007 Fabrice Bellard
++ * Copyright (c) 2007 Jocelyn Mayer
++ *
++ * some parts from linux-2.6.29, arch/m68k/include/asm/mac_via.h
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
-+ *
 + */
 +
 +#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "migration/vmstate.h"
 +#include "hw/sysbus.h"
-+#include "hw/nubus/mac-nubus-bridge.h"
-+
-+
-+static void mac_nubus_bridge_init(Object *obj)
-+{
-+    MacNubusState *s = MAC_NUBUS_BRIDGE(obj);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+
-+    s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
-+
-+    sysbus_init_mmio(sbd, &s->bus->super_slot_io);
-+    sysbus_init_mmio(sbd, &s->bus->slot_io);
-+}
-+
-+static void mac_nubus_bridge_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->desc = "Nubus bridge";
-+}
-+
-+static const TypeInfo mac_nubus_bridge_info = {
-+    .name          = TYPE_MAC_NUBUS_BRIDGE,
-+    .parent        = TYPE_NUBUS_BRIDGE,
-+    .instance_init = mac_nubus_bridge_init,
-+    .instance_size = sizeof(MacNubusState),
-+    .class_init    = mac_nubus_bridge_class_init,
-+};
-+
-+static void mac_nubus_bridge_register_types(void)
-+{
-+    type_register_static(&mac_nubus_bridge_info);
-+}
-+
-+type_init(mac_nubus_bridge_register_types)
-diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
-new file mode 100644
-index 0000000000..cd8c6a91eb
---- /dev/null
-+++ b/hw/nubus/nubus-bridge.c
-@@ -0,0 +1,34 @@
-+/*
-+ * QEMU Macintosh Nubus
-+ *
-+ * Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/sysbus.h"
-+#include "hw/nubus/nubus.h"
-+
-+static void nubus_bridge_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->fw_name = "nubus";
-+}
-+
-+static const TypeInfo nubus_bridge_info = {
-+    .name          = TYPE_NUBUS_BRIDGE,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(SysBusDevice),
-+    .class_init    = nubus_bridge_class_init,
-+};
-+
-+static void nubus_register_types(void)
-+{
-+    type_register_static(&nubus_bridge_info);
-+}
-+
-+type_init(nubus_register_types)
-diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-new file mode 100644
-index 0000000000..942a6d5342
---- /dev/null
-+++ b/hw/nubus/nubus-bus.c
-@@ -0,0 +1,111 @@
-+/*
-+ * QEMU Macintosh Nubus
-+ *
-+ * Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/nubus/nubus.h"
-+#include "hw/sysbus.h"
++#include "hw/irq.h"
++#include "qemu/timer.h"
++#include "hw/misc/mac_via.h"
++#include "hw/misc/mos6522.h"
++#include "hw/input/adb.h"
++#include "sysemu/runstate.h"
 +#include "qapi/error.h"
++#include "qemu/cutils.h"
 +
 +
-+static NubusBus *nubus_find(void)
-+{
-+    /* Returns NULL unless there is exactly one nubus device */
-+    return NUBUS_BUS(object_resolve_path_type("", TYPE_NUBUS_BUS, NULL));
-+}
-+
-+static void nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
-+                             unsigned int size)
-+{
-+    /* read only */
-+}
-+
-+
-+static uint64_t nubus_slot_read(void *opaque, hwaddr addr,
-+                                unsigned int size)
-+{
-+    return 0;
-+}
-+
-+static const MemoryRegionOps nubus_slot_ops = {
-+    .read  = nubus_slot_read,
-+    .write = nubus_slot_write,
-+    .endianness = DEVICE_BIG_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+};
-+
-+static void nubus_super_slot_write(void *opaque, hwaddr addr, uint64_t val,
-+                                   unsigned int size)
-+{
-+    /* read only */
-+}
-+
-+static uint64_t nubus_super_slot_read(void *opaque, hwaddr addr,
-+                                      unsigned int size)
-+{
-+    return 0;
-+}
-+
-+static const MemoryRegionOps nubus_super_slot_ops = {
-+    .read  = nubus_super_slot_read,
-+    .write = nubus_super_slot_write,
-+    .endianness = DEVICE_BIG_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+};
-+
-+static void nubus_realize(BusState *bus, Error **errp)
-+{
-+    if (!nubus_find()) {
-+        error_setg(errp, "at most one %s device is permitted", TYPE_NUBUS_BUS);
-+        return;
-+    }
-+}
-+
-+static void nubus_init(Object *obj)
-+{
-+    NubusBus *nubus = NUBUS_BUS(obj);
-+
-+    memory_region_init_io(&nubus->super_slot_io, obj, &nubus_super_slot_ops,
-+                          nubus, "nubus-super-slots",
-+                          NUBUS_SUPER_SLOT_NB * NUBUS_SUPER_SLOT_SIZE);
-+
-+    memory_region_init_io(&nubus->slot_io, obj, &nubus_slot_ops,
-+                          nubus, "nubus-slots",
-+                          NUBUS_SLOT_NB * NUBUS_SLOT_SIZE);
-+
-+    nubus->current_slot = NUBUS_FIRST_SLOT;
-+}
-+
-+static void nubus_class_init(ObjectClass *oc, void *data)
-+{
-+    BusClass *bc = BUS_CLASS(oc);
-+
-+    bc->realize = nubus_realize;
-+}
-+
-+static const TypeInfo nubus_bus_info = {
-+    .name = TYPE_NUBUS_BUS,
-+    .parent = TYPE_BUS,
-+    .instance_size = sizeof(NubusBus),
-+    .instance_init = nubus_init,
-+    .class_init = nubus_class_init,
-+};
-+
-+static void nubus_register_types(void)
-+{
-+    type_register_static(&nubus_bus_info);
-+}
-+
-+type_init(nubus_register_types)
-diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-new file mode 100644
-index 0000000000..01ccad9e8e
---- /dev/null
-+++ b/hw/nubus/nubus-device.c
-@@ -0,0 +1,215 @@
 +/*
-+ * QEMU Macintosh Nubus
-+ *
-+ * Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
++ * VIAs: There are two in every machine,
 + */
 +
-+#include "qemu/osdep.h"
-+#include "hw/nubus/nubus.h"
-+#include "qapi/error.h"
++#define VIA_SIZE (0x2000)
++
++/*
++ * Not all of these are true post MacII I think.
++ * CSA: probably the ones CHRP marks as 'unused' change purposes
++ * when the IWM becomes the SWIM.
++ * http://www.rs6000.ibm.com/resource/technology/chrpio/via5.mak.html
++ * ftp://ftp.austin.ibm.com/pub/technology/spec/chrp/inwork/CHRP_IORef_1.0.pdf
++ *
++ * also, http://developer.apple.com/technotes/hw/hw_09.html claims the
++ * following changes for IIfx:
++ * VIA1A_vSccWrReq not available and that VIA1A_vSync has moved to an IOP.
++ * Also, "All of the functionality of VIA2 has been moved to other chips".
++ */
++
++#define VIA1A_vSccWrReq 0x80   /*
++                                * SCC write. (input)
++                                * [CHRP] SCC WREQ: Reflects the state of the
++                                * Wait/Request pins from the SCC.
++                                * [Macintosh Family Hardware]
++                                * as CHRP on SE/30,II,IIx,IIcx,IIci.
++                                * on IIfx, "0 means an active request"
++                                */
++#define VIA1A_vRev8     0x40   /*
++                                * Revision 8 board ???
++                                * [CHRP] En WaitReqB: Lets the WaitReq_L
++                                * signal from port B of the SCC appear on
++                                * the PA7 input pin. Output.
++                                * [Macintosh Family] On the SE/30, this
++                                * is the bit to flip screen buffers.
++                                * 0=alternate, 1=main.
++                                * on II,IIx,IIcx,IIci,IIfx this is a bit
++                                * for Rev ID. 0=II,IIx, 1=IIcx,IIci,IIfx
++                                */
++#define VIA1A_vHeadSel  0x20   /*
++                                * Head select for IWM.
++                                * [CHRP] unused.
++                                * [Macintosh Family] "Floppy disk
++                                * state-control line SEL" on all but IIfx
++                                */
++#define VIA1A_vOverlay  0x10   /*
++                                * [Macintosh Family] On SE/30,II,IIx,IIcx
++                                * this bit enables the "Overlay" address
++                                * map in the address decoders as it is on
++                                * reset for mapping the ROM over the reset
++                                * vector. 1=use overlay map.
++                                * On the IIci,IIfx it is another bit of the
++                                * CPU ID: 0=normal IIci, 1=IIci with parity
++                                * feature or IIfx.
++                                * [CHRP] En WaitReqA: Lets the WaitReq_L
++                                * signal from port A of the SCC appear
++                                * on the PA7 input pin (CHRP). Output.
++                                * [MkLinux] "Drive Select"
++                                *  (with 0x20 being 'disk head select')
++                                */
++#define VIA1A_vSync     0x08   /*
++                                * [CHRP] Sync Modem: modem clock select:
++                                * 1: select the external serial clock to
++                                *    drive the SCC's /RTxCA pin.
++                                * 0: Select the 3.6864MHz clock to drive
++                                *    the SCC cell.
++                                * [Macintosh Family] Correct on all but IIfx
++                                */
++
++/*
++ * Macintosh Family Hardware sez: bits 0-2 of VIA1A are volume control
++ * on Macs which had the PWM sound hardware.  Reserved on newer models.
++ * On IIci,IIfx, bits 1-2 are the rest of the CPU ID:
++ * bit 2: 1=IIci, 0=IIfx
++ * bit 1: 1 on both IIci and IIfx.
++ * MkLinux sez bit 0 is 'burnin flag' in this case.
++ * CHRP sez: VIA1A bits 0-2 and 5 are 'unused': if programmed as
++ * inputs, these bits will read 0.
++ */
++#define VIA1A_vVolume   0x07    /* Audio volume mask for PWM */
++#define VIA1A_CPUID0    0x02    /* CPU id bit 0 on RBV, others */
++#define VIA1A_CPUID1    0x04    /* CPU id bit 0 on RBV, others */
++#define VIA1A_CPUID2    0x10    /* CPU id bit 0 on RBV, others */
++#define VIA1A_CPUID3    0x40    /* CPU id bit 0 on RBV, others */
++
++/*
++ * Info on VIA1B is from Macintosh Family Hardware & MkLinux.
++ * CHRP offers no info.
++ */
++#define VIA1B_vSound   0x80    /*
++                                * Sound enable (for compatibility with
++                                * PWM hardware) 0=enabled.
++                                * Also, on IIci w/parity, shows parity error
++                                * 0=error, 1=OK.
++                                */
++#define VIA1B_vMystery 0x40    /*
++                                * On IIci, parity enable. 0=enabled,1=disabled
++                                * On SE/30, vertical sync interrupt enable.
++                                * 0=enabled. This vSync interrupt shows up
++                                * as a slot $E interrupt.
++                                */
++#define VIA1B_vADBS2   0x20    /* ADB state input bit 1 (unused on IIfx) */
++#define VIA1B_vADBS1   0x10    /* ADB state input bit 0 (unused on IIfx) */
++#define VIA1B_vADBInt  0x08    /* ADB interrupt 0=interrupt (unused on IIfx)*/
++#define VIA1B_vRTCEnb  0x04    /* Enable Real time clock. 0=enabled. */
++#define VIA1B_vRTCClk  0x02    /* Real time clock serial-clock line. */
++#define VIA1B_vRTCData 0x01    /* Real time clock serial-data line. */
++
++/*
++ *    VIA2 A register is the interrupt lines raised off the nubus
++ *    slots.
++ *      The below info is from 'Macintosh Family Hardware.'
++ *      MkLinux calls the 'IIci internal video IRQ' below the 'RBV slot 0 irq.'
++ *      It also notes that the slot $9 IRQ is the 'Ethernet IRQ' and
++ *      defines the 'Video IRQ' as 0x40 for the 'EVR' VIA work-alike.
++ *      Perhaps OSS uses vRAM1 and vRAM2 for ADB.
++ */
++
++#define VIA2A_vRAM1    0x80    /* RAM size bit 1 (IIci: reserved) */
++#define VIA2A_vRAM0    0x40    /* RAM size bit 0 (IIci: internal video IRQ) */
++#define VIA2A_vIRQE    0x20    /* IRQ from slot $E */
++#define VIA2A_vIRQD    0x10    /* IRQ from slot $D */
++#define VIA2A_vIRQC    0x08    /* IRQ from slot $C */
++#define VIA2A_vIRQB    0x04    /* IRQ from slot $B */
++#define VIA2A_vIRQA    0x02    /* IRQ from slot $A */
++#define VIA2A_vIRQ9    0x01    /* IRQ from slot $9 */
++
++/*
++ * RAM size bits decoded as follows:
++ * bit1 bit0  size of ICs in bank A
++ *  0    0    256 kbit
++ *  0    1    1 Mbit
++ *  1    0    4 Mbit
++ *  1    1   16 Mbit
++ */
++
++/*
++ *    Register B has the fun stuff in it
++ */
++
++#define VIA2B_vVBL    0x80    /*
++                               * VBL output to VIA1 (60.15Hz) driven by
++                               * timer T1.
++                               * on IIci, parity test: 0=test mode.
++                               * [MkLinux] RBV_PARODD: 1=odd,0=even.
++                               */
++#define VIA2B_vSndJck 0x40    /*
++                               * External sound jack status.
++                               * 0=plug is inserted.  On SE/30, always 0
++                               */
++#define VIA2B_vTfr0   0x20    /* Transfer mode bit 0 ack from NuBus */
++#define VIA2B_vTfr1   0x10    /* Transfer mode bit 1 ack from NuBus */
++#define VIA2B_vMode32 0x08    /*
++                               * 24/32bit switch - doubles as cache flush
++                               * on II, AMU/PMMU control.
++                               *   if AMU, 0=24bit to 32bit translation
++                               *   if PMMU, 1=PMMU is accessing page table.
++                               * on SE/30 tied low.
++                               * on IIx,IIcx,IIfx, unused.
++                               * on IIci/RBV, cache control. 0=flush cache.
++                               */
++#define VIA2B_vPower  0x04   /*
++                              * Power off, 0=shut off power.
++                              * on SE/30 this signal sent to PDS card.
++                              */
++#define VIA2B_vBusLk  0x02   /*
++                              * Lock NuBus transactions, 0=locked.
++                              * on SE/30 sent to PDS card.
++                              */
++#define VIA2B_vCDis   0x01   /*
++                              * Cache control. On IIci, 1=disable cache card
++                              * on others, 0=disable processor's instruction
++                              * and data caches.
++                              */
++
++/* interrupt flags */
++
++#define IRQ_SET         0x80
++
++/* common */
++
++#define VIA_IRQ_TIMER1      0x40
++#define VIA_IRQ_TIMER2      0x20
++
++/*
++ * Apple sez: http://developer.apple.com/technotes/ov/ov_04.html
++ * Another example of a valid function that has no ROM support is the use
++ * of the alternate video page for page-flipping animation. Since there
++ * is no ROM call to flip pages, it is necessary to go play with the
++ * right bit in the VIA chip (6522 Versatile Interface Adapter).
++ * [CSA: don't know which one this is, but it's one of 'em!]
++ */
++
++/*
++ *    6522 registers - see databook.
++ * CSA: Assignments for VIA1 confirmed from CHRP spec.
++ */
++
++/* partial address decode.  0xYYXX : XX part for RBV, YY part for VIA */
++/* Note: 15 VIA regs, 8 RBV regs */
++
++#define vBufB    0x0000  /* [VIA/RBV]  Register B */
++#define vBufAH   0x0200  /* [VIA only] Buffer A, with handshake. DON'T USE! */
++#define vDirB    0x0400  /* [VIA only] Data Direction Register B. */
++#define vDirA    0x0600  /* [VIA only] Data Direction Register A. */
++#define vT1CL    0x0800  /* [VIA only] Timer one counter low. */
++#define vT1CH    0x0a00  /* [VIA only] Timer one counter high. */
++#define vT1LL    0x0c00  /* [VIA only] Timer one latches low. */
++#define vT1LH    0x0e00  /* [VIA only] Timer one latches high. */
++#define vT2CL    0x1000  /* [VIA only] Timer two counter low. */
++#define vT2CH    0x1200  /* [VIA only] Timer two counter high. */
++#define vSR      0x1400  /* [VIA only] Shift register. */
++#define vACR     0x1600  /* [VIA only] Auxilary control register. */
++#define vPCR     0x1800  /* [VIA only] Peripheral control register. */
++                         /*
++                          *           CHRP sez never ever to *write* this.
++                          *            Mac family says never to *change* this.
++                          * In fact we need to initialize it once at start.
++                          */
++#define vIFR     0x1a00  /* [VIA/RBV]  Interrupt flag register. */
++#define vIER     0x1c00  /* [VIA/RBV]  Interrupt enable register. */
++#define vBufA    0x1e00  /* [VIA/RBV] register A (no handshake) */
++
++/* from linux 2.6 drivers/macintosh/via-macii.c */
++
++/* Bits in ACR */
++
++#define VIA1ACR_vShiftCtrl         0x1c        /* Shift register control bits */
++#define VIA1ACR_vShiftExtClk       0x0c        /* Shift on external clock */
++#define VIA1ACR_vShiftOut          0x10        /* Shift out if 1 */
++
++/*
++ * Apple Macintosh Family Hardware Refenece
++ * Table 19-10 ADB transaction states
++ */
++
++#define VIA1B_vADB_StateMask    (VIA1B_vADBS1 | VIA1B_vADBS2)
++#define VIA1B_vADB_StateShift   4
++
++#define VIA_TIMER_FREQ (783360)
++
++/* VIA returns time offset from Jan 1, 1904, not 1970 */
++#define RTC_OFFSET 2082844800
 +
 +
-+/* The Format Block Structure */
-+
-+#define FBLOCK_DIRECTORY_OFFSET 0
-+#define FBLOCK_LENGTH           4
-+#define FBLOCK_CRC              8
-+#define FBLOCK_REVISION_LEVEL   12
-+#define FBLOCK_FORMAT           13
-+#define FBLOCK_TEST_PATTERN     14
-+#define FBLOCK_RESERVED         18
-+#define FBLOCK_BYTE_LANES       19
-+
-+#define FBLOCK_SIZE             20
-+#define FBLOCK_PATTERN_VAL      0x5a932bc7
-+
-+static uint64_t nubus_fblock_read(void *opaque, hwaddr addr, unsigned int size)
++static void via1_VBL(void *opaque)
 +{
-+    NubusDevice *dev = opaque;
-+    uint64_t val;
++    MacVIAState *m = opaque;
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(&m->mos6522_via1);
++    MOS6522State *s = MOS6522(v1s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
 +
-+#define BYTE(v, b) (((v) >> (24 - 8 * (b))) & 0xff)
-+    switch (addr) {
-+    case FBLOCK_BYTE_LANES:
-+        val = dev->byte_lanes;
-+        val |= (val ^ 0xf) << 4;
-+        break;
-+    case FBLOCK_RESERVED:
-+        val = 0x00;
-+        break;
-+    case FBLOCK_TEST_PATTERN...FBLOCK_TEST_PATTERN + 3:
-+        val = BYTE(FBLOCK_PATTERN_VAL, addr - FBLOCK_TEST_PATTERN);
-+        break;
-+    case FBLOCK_FORMAT:
-+        val = dev->rom_format;
-+        break;
-+    case FBLOCK_REVISION_LEVEL:
-+        val = dev->rom_rev;
-+        break;
-+    case FBLOCK_CRC...FBLOCK_CRC + 3:
-+        val = BYTE(dev->rom_crc, addr - FBLOCK_CRC);
-+        break;
-+    case FBLOCK_LENGTH...FBLOCK_LENGTH + 3:
-+        val = BYTE(dev->rom_length, addr - FBLOCK_LENGTH);
-+        break;
-+    case FBLOCK_DIRECTORY_OFFSET...FBLOCK_DIRECTORY_OFFSET + 3:
-+        val = BYTE(dev->directory_offset, addr - FBLOCK_DIRECTORY_OFFSET);
-+        break;
-+    default:
-+        val = 0;
-+        break;
-+    }
-+    return val;
++    s->ifr |= VIA1_IRQ_VBLANK;
++    mdc->update_irq(s);
++
++    timer_mod(m->VBL_timer, (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630)
++              / 16630 * 16630);
 +}
 +
-+static void nubus_fblock_write(void *opaque, hwaddr addr, uint64_t val,
-+                               unsigned int size)
++static void via1_one_second(void *opaque)
 +{
-+    /* read only */
++    MacVIAState *m = opaque;
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(&m->mos6522_via1);
++    MOS6522State *s = MOS6522(v1s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
++
++    s->ifr |= VIA1_IRQ_ONE_SECOND;
++    mdc->update_irq(s);
++
++    timer_mod(m->one_second_timer, (qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL)
++              + 1000) / 1000 * 1000);
 +}
 +
-+static const MemoryRegionOps nubus_format_block_ops = {
-+    .read = nubus_fblock_read,
-+    .write = nubus_fblock_write,
-+    .endianness = DEVICE_BIG_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    }
-+};
-+
-+static void nubus_register_format_block(NubusDevice *dev)
++static void via1_irq_request(void *opaque, int irq, int level)
 +{
-+    char *fblock_name;
++    MOS6522Q800VIA1State *v1s = opaque;
++    MOS6522State *s = MOS6522(v1s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
 +
-+    fblock_name = g_strdup_printf("nubus-slot-%d-format-block",
-+                                  dev->slot_nb);
-+
-+    hwaddr fblock_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE;
-+    memory_region_init_io(&dev->fblock_io, NULL, &nubus_format_block_ops,
-+                          dev, fblock_name, FBLOCK_SIZE);
-+    memory_region_add_subregion(&dev->slot_mem, fblock_offset,
-+                                &dev->fblock_io);
-+
-+    g_free(fblock_name);
-+}
-+
-+static void mac_nubus_rom_write(void *opaque, hwaddr addr, uint64_t val,
-+                                       unsigned int size)
-+{
-+    /* read only */
-+}
-+
-+static uint64_t mac_nubus_rom_read(void *opaque, hwaddr addr,
-+                                    unsigned int size)
-+{
-+    NubusDevice *dev = opaque;
-+
-+    return dev->rom[addr];
-+}
-+
-+static const MemoryRegionOps mac_nubus_rom_ops = {
-+    .read  = mac_nubus_rom_read,
-+    .write = mac_nubus_rom_write,
-+    .endianness = DEVICE_BIG_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+};
-+
-+
-+void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
-+                        int revision, int format, uint8_t byte_lanes)
-+{
-+    hwaddr rom_offset;
-+    char *rom_name;
-+
-+    /* FIXME : really compute CRC */
-+    dev->rom_length = 0;
-+    dev->rom_crc = 0;
-+
-+    dev->rom_rev = revision;
-+    dev->rom_format = format;
-+
-+    dev->byte_lanes = byte_lanes;
-+    dev->directory_offset = -size;
-+
-+    /* ROM */
-+
-+    dev->rom = rom;
-+    rom_name = g_strdup_printf("nubus-slot-%d-rom", dev->slot_nb);
-+    memory_region_init_io(&dev->rom_io, NULL, &mac_nubus_rom_ops,
-+                          dev, rom_name, size);
-+    memory_region_set_readonly(&dev->rom_io, true);
-+
-+    rom_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE +
-+                 dev->directory_offset;
-+    memory_region_add_subregion(&dev->slot_mem, rom_offset, &dev->rom_io);
-+
-+    g_free(rom_name);
-+}
-+
-+static void nubus_device_realize(DeviceState *dev, Error **errp)
-+{
-+    NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(DEVICE(dev)));
-+    NubusDevice *nd = NUBUS_DEVICE(dev);
-+    char *name;
-+    hwaddr slot_offset;
-+
-+    if (nubus->current_slot < NUBUS_FIRST_SLOT ||
-+            nubus->current_slot > NUBUS_LAST_SLOT) {
-+        error_setg(errp, "Cannot register nubus card, not enough slots");
-+        return;
-+    }
-+
-+    nd->slot_nb = nubus->current_slot++;
-+    name = g_strdup_printf("nubus-slot-%d", nd->slot_nb);
-+
-+    if (nd->slot_nb < NUBUS_FIRST_SLOT) {
-+        /* Super */
-+        slot_offset = (nd->slot_nb - 6) * NUBUS_SUPER_SLOT_SIZE;
-+
-+        memory_region_init(&nd->slot_mem, OBJECT(dev), name,
-+                           NUBUS_SUPER_SLOT_SIZE);
-+        memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
-+                                    &nd->slot_mem);
++    if (level) {
++        s->ifr |= 1 << irq;
 +    } else {
-+        /* Normal */
-+        slot_offset = nd->slot_nb * NUBUS_SLOT_SIZE;
-+
-+        memory_region_init(&nd->slot_mem, OBJECT(dev), name, NUBUS_SLOT_SIZE);
-+        memory_region_add_subregion(&nubus->slot_io, slot_offset,
-+                                    &nd->slot_mem);
++        s->ifr &= ~(1 << irq);
 +    }
 +
-+    g_free(name);
-+    nubus_register_format_block(nd);
++    mdc->update_irq(s);
 +}
 +
-+static void nubus_device_class_init(ObjectClass *oc, void *data)
++static void via2_irq_request(void *opaque, int irq, int level)
++{
++    MOS6522Q800VIA2State *v2s = opaque;
++    MOS6522State *s = MOS6522(v2s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
++
++    if (level) {
++        s->ifr |= 1 << irq;
++    } else {
++        s->ifr &= ~(1 << irq);
++    }
++
++    mdc->update_irq(s);
++}
++
++static void via1_rtc_update(MacVIAState *m)
++{
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(&m->mos6522_via1);
++    MOS6522State *s = MOS6522(v1s);
++
++    if (s->b & VIA1B_vRTCEnb) {
++        return;
++    }
++
++    if (s->dirb & VIA1B_vRTCData) {
++        /* send bits to the RTC */
++        if (!(v1s->last_b & VIA1B_vRTCClk) && (s->b & VIA1B_vRTCClk)) {
++            m->data_out <<= 1;
++            m->data_out |= s->b & VIA1B_vRTCData;
++            m->data_out_cnt++;
++        }
++    } else {
++        /* receive bits from the RTC */
++        if ((v1s->last_b & VIA1B_vRTCClk) &&
++            !(s->b & VIA1B_vRTCClk) &&
++            m->data_in_cnt) {
++            s->b = (s->b & ~VIA1B_vRTCData) |
++                   ((m->data_in >> 7) & VIA1B_vRTCData);
++            m->data_in <<= 1;
++            m->data_in_cnt--;
++        }
++    }
++
++    if (m->data_out_cnt == 8) {
++        m->data_out_cnt = 0;
++
++        if (m->cmd == 0) {
++            if (m->data_out & 0x80) {
++                /* this is a read command */
++                uint32_t time = m->tick_offset +
++                               (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) /
++                               NANOSECONDS_PER_SECOND);
++                if (m->data_out == 0x81) {        /* seconds register 0 */
++                    m->data_in = time & 0xff;
++                    m->data_in_cnt = 8;
++                } else if (m->data_out == 0x85) { /* seconds register 1 */
++                    m->data_in = (time >> 8) & 0xff;
++                    m->data_in_cnt = 8;
++                } else if (m->data_out == 0x89) { /* seconds register 2 */
++                    m->data_in = (time >> 16) & 0xff;
++                    m->data_in_cnt = 8;
++                } else if (m->data_out == 0x8d) { /* seconds register 3 */
++                    m->data_in = (time >> 24) & 0xff;
++                    m->data_in_cnt = 8;
++                } else if ((m->data_out & 0xf3) == 0xa1) {
++                    /* PRAM address 0x10 -> 0x13 */
++                    int addr = (m->data_out >> 2) & 0x03;
++                    m->data_in = v1s->PRAM[addr];
++                    m->data_in_cnt = 8;
++                } else if ((m->data_out & 0xf3) == 0xa1) {
++                    /* PRAM address 0x00 -> 0x0f */
++                    int addr = (m->data_out >> 2) & 0x0f;
++                    m->data_in = v1s->PRAM[addr];
++                    m->data_in_cnt = 8;
++                } else if ((m->data_out & 0xf8) == 0xb8) {
++                    /* extended memory designator and sector number */
++                    m->cmd = m->data_out;
++                }
++            } else {
++                /* this is a write command */
++                m->cmd = m->data_out;
++            }
++        } else {
++            if (m->cmd & 0x80) {
++                if ((m->cmd & 0xf8) == 0xb8) {
++                    /* extended memory designator and sector number */
++                    int sector = m->cmd & 0x07;
++                    int addr = (m->data_out >> 2) & 0x1f;
++
++                    m->data_in = v1s->PRAM[sector * 8 + addr];
++                    m->data_in_cnt = 8;
++                }
++            } else if (!m->wprotect) {
++                /* this is a write command */
++                if (m->alt != 0) {
++                    /* extended memory designator and sector number */
++                    int sector = m->cmd & 0x07;
++                    int addr = (m->alt >> 2) & 0x1f;
++
++                    v1s->PRAM[sector * 8 + addr] = m->data_out;
++
++                    m->alt = 0;
++                } else if (m->cmd == 0x01) { /* seconds register 0 */
++                    /* FIXME */
++                } else if (m->cmd == 0x05) { /* seconds register 1 */
++                    /* FIXME */
++                } else if (m->cmd == 0x09) { /* seconds register 2 */
++                    /* FIXME */
++                } else if (m->cmd == 0x0d) { /* seconds register 3 */
++                    /* FIXME */
++                } else if (m->cmd == 0x31) {
++                    /* Test Register */
++                } else if (m->cmd == 0x35) {
++                    /* Write Protect register */
++                    m->wprotect = m->data_out & 1;
++                } else if ((m->cmd & 0xf3) == 0xa1) {
++                    /* PRAM address 0x10 -> 0x13 */
++                    int addr = (m->cmd >> 2) & 0x03;
++                    v1s->PRAM[addr] = m->data_out;
++                } else if ((m->cmd & 0xf3) == 0xa1) {
++                    /* PRAM address 0x00 -> 0x0f */
++                    int addr = (m->cmd >> 2) & 0x0f;
++                    v1s->PRAM[addr] = m->data_out;
++                } else if ((m->cmd & 0xf8) == 0xb8) {
++                    /* extended memory designator and sector number */
++                    m->alt = m->cmd;
++                }
++            }
++        }
++        m->data_out = 0;
++    }
++}
++
++static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
++{
++    MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
++    MOS6522State *ms = MOS6522(s);
++
++    addr = (addr >> 9) & 0xf;
++    return mos6522_read(ms, addr, size);
++}
++
++static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
++                                    unsigned size)
++{
++    MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
++    MOS6522State *ms = MOS6522(s);
++
++    addr = (addr >> 9) & 0xf;
++    mos6522_write(ms, addr, val, size);
++}
++
++static const MemoryRegionOps mos6522_q800_via1_ops = {
++    .read = mos6522_q800_via1_read,
++    .write = mos6522_q800_via1_write,
++    .endianness = DEVICE_BIG_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++static uint64_t mos6522_q800_via2_read(void *opaque, hwaddr addr, unsigned size)
++{
++    MOS6522Q800VIA2State *s = MOS6522_Q800_VIA2(opaque);
++    MOS6522State *ms = MOS6522(s);
++
++    addr = (addr >> 9) & 0xf;
++    return mos6522_read(ms, addr, size);
++}
++
++static void mos6522_q800_via2_write(void *opaque, hwaddr addr, uint64_t val,
++                                    unsigned size)
++{
++    MOS6522Q800VIA2State *s = MOS6522_Q800_VIA2(opaque);
++    MOS6522State *ms = MOS6522(s);
++
++    addr = (addr >> 9) & 0xf;
++    mos6522_write(ms, addr, val, size);
++}
++
++static const MemoryRegionOps mos6522_q800_via2_ops = {
++    .read = mos6522_q800_via2_read,
++    .write = mos6522_q800_via2_write,
++    .endianness = DEVICE_BIG_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++static void mac_via_reset(DeviceState *dev)
++{
++    MacVIAState *m = MAC_VIA(dev);
++
++    timer_mod(m->VBL_timer, (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630)
++              / 16630 * 16630);
++
++    timer_mod(m->one_second_timer, (qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL)
++              + 1000) / 1000 * 1000);
++}
++
++static void mac_via_realize(DeviceState *dev, Error **errp)
++{
++    MacVIAState *m = MAC_VIA(dev);
++    MOS6522State *ms;
++    struct tm tm;
++
++    /* Init VIAs 1 and 2 */
++    sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
++                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
++
++    sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
++                          sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2);
++
++    /* Pass through mos6522 output IRQs */
++    ms = MOS6522(&m->mos6522_via1);
++    object_property_add_alias(OBJECT(dev), "irq[0]", OBJECT(ms),
++                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
++    ms = MOS6522(&m->mos6522_via2);
++    object_property_add_alias(OBJECT(dev), "irq[1]", OBJECT(ms),
++                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
++
++    /* Pass through mos6522 input IRQs */
++    qdev_pass_gpios(DEVICE(&m->mos6522_via1), dev, "via1-irq");
++    qdev_pass_gpios(DEVICE(&m->mos6522_via2), dev, "via2-irq");
++
++    /* VIA 1 */
++    m->one_second_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, via1_one_second, m);
++    m->VBL_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via1_VBL, m);
++
++    qemu_get_timedate(&tm, 0);
++    m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
++}
++
++static void mac_via_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    MacVIAState *m = MAC_VIA(obj);
++
++    /* MMIO */
++    memory_region_init(&m->mmio, obj, "mac-via", 2 * VIA_SIZE);
++    sysbus_init_mmio(sbd, &m->mmio);
++
++    memory_region_init_io(&m->via1mem, obj, &mos6522_q800_via1_ops,
++                          &m->mos6522_via1, "via1", VIA_SIZE);
++    memory_region_add_subregion(&m->mmio, 0x0, &m->via1mem);
++
++    memory_region_init_io(&m->via2mem, obj, &mos6522_q800_via2_ops,
++                          &m->mos6522_via2, "via2", VIA_SIZE);
++    memory_region_add_subregion(&m->mmio, VIA_SIZE, &m->via2mem);
++
++    /* ADB */
++    qbus_create_inplace((BusState *)&m->adb_bus, sizeof(m->adb_bus),
++                        TYPE_ADB_BUS, DEVICE(obj), "adb.0");
++}
++
++static const VMStateDescription vmstate_mac_via = {
++    .name = "mac-via",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        /* VIAs */
++        VMSTATE_STRUCT(mos6522_via1.parent_obj, MacVIAState, 0, vmstate_mos6522,
++                       MOS6522State),
++        VMSTATE_UINT8(mos6522_via1.last_b, MacVIAState),
++        VMSTATE_BUFFER(mos6522_via1.PRAM, MacVIAState),
++        VMSTATE_STRUCT(mos6522_via2.parent_obj, MacVIAState, 0, vmstate_mos6522,
++                       MOS6522State),
++        /* RTC */
++        VMSTATE_UINT32(tick_offset, MacVIAState),
++        VMSTATE_UINT8(data_out, MacVIAState),
++        VMSTATE_INT32(data_out_cnt, MacVIAState),
++        VMSTATE_UINT8(data_in, MacVIAState),
++        VMSTATE_UINT8(data_in_cnt, MacVIAState),
++        VMSTATE_UINT8(cmd, MacVIAState),
++        VMSTATE_INT32(wprotect, MacVIAState),
++        VMSTATE_INT32(alt, MacVIAState),
++        /* external timers */
++        VMSTATE_TIMER_PTR(one_second_timer, MacVIAState),
++        VMSTATE_TIMER_PTR(VBL_timer, MacVIAState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void mac_via_class_init(ObjectClass *oc, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(oc);
 +
-+    dc->realize = nubus_device_realize;
-+    dc->bus_type = TYPE_NUBUS_BUS;
++    dc->realize = mac_via_realize;
++    dc->reset = mac_via_reset;
++    dc->vmsd = &vmstate_mac_via;
 +}
 +
-+static const TypeInfo nubus_device_type_info = {
-+    .name = TYPE_NUBUS_DEVICE,
-+    .parent = TYPE_DEVICE,
-+    .abstract = true,
-+    .instance_size = sizeof(NubusDevice),
-+    .class_init = nubus_device_class_init,
++static TypeInfo mac_via_info = {
++    .name = TYPE_MAC_VIA,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MacVIAState),
++    .instance_init = mac_via_init,
++    .class_init = mac_via_class_init,
 +};
 +
-+static void nubus_register_types(void)
++/* VIA 1 */
++static void mos6522_q800_via1_portB_write(MOS6522State *s)
 +{
-+    type_register_static(&nubus_device_type_info);
++    MOS6522Q800VIA1State *v1s = container_of(s, MOS6522Q800VIA1State,
++                                             parent_obj);
++    MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
++
++    via1_rtc_update(m);
++
++    v1s->last_b = s->b;
 +}
 +
-+type_init(nubus_register_types)
-diff --git a/include/hw/nubus/mac-nubus-bridge.h b/include/hw/nubus/mac-nubus-bridge.h
++static void mos6522_q800_via1_reset(DeviceState *dev)
++{
++    MOS6522State *ms = MOS6522(dev);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(ms);
++
++    mdc->parent_reset(dev);
++
++    ms->timers[0].frequency = VIA_TIMER_FREQ;
++    ms->timers[1].frequency = VIA_TIMER_FREQ;
++
++    ms->b = VIA1B_vADB_StateMask | VIA1B_vADBInt | VIA1B_vRTCEnb;
++}
++
++static void mos6522_q800_via1_init(Object *obj)
++{
++    qdev_init_gpio_in_named(DEVICE(obj), via1_irq_request, "via1-irq",
++                            VIA1_IRQ_NB);
++}
++
++static void mos6522_q800_via1_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_CLASS(oc);
++
++    dc->reset = mos6522_q800_via1_reset;
++    mdc->portB_write = mos6522_q800_via1_portB_write;
++}
++
++static const TypeInfo mos6522_q800_via1_type_info = {
++    .name = TYPE_MOS6522_Q800_VIA1,
++    .parent = TYPE_MOS6522,
++    .instance_size = sizeof(MOS6522Q800VIA1State),
++    .instance_init = mos6522_q800_via1_init,
++    .class_init = mos6522_q800_via1_class_init,
++};
++
++/* VIA 2 */
++static void mos6522_q800_via2_portB_write(MOS6522State *s)
++{
++    if (s->dirb & VIA2B_vPower && (s->b & VIA2B_vPower) == 0) {
++        /* shutdown */
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    }
++}
++
++static void mos6522_q800_via2_reset(DeviceState *dev)
++{
++    MOS6522State *ms = MOS6522(dev);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(ms);
++
++    mdc->parent_reset(dev);
++
++    ms->timers[0].frequency = VIA_TIMER_FREQ;
++    ms->timers[1].frequency = VIA_TIMER_FREQ;
++
++    ms->dirb = 0;
++    ms->b = 0;
++}
++
++static void mos6522_q800_via2_init(Object *obj)
++{
++    qdev_init_gpio_in_named(DEVICE(obj), via2_irq_request, "via2-irq",
++                            VIA2_IRQ_NB);
++}
++
++static void mos6522_q800_via2_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_CLASS(oc);
++
++    dc->reset = mos6522_q800_via2_reset;
++    mdc->portB_write = mos6522_q800_via2_portB_write;
++}
++
++static const TypeInfo mos6522_q800_via2_type_info = {
++    .name = TYPE_MOS6522_Q800_VIA2,
++    .parent = TYPE_MOS6522,
++    .instance_size = sizeof(MOS6522Q800VIA2State),
++    .instance_init = mos6522_q800_via2_init,
++    .class_init = mos6522_q800_via2_class_init,
++};
++
++static void mac_via_register_types(void)
++{
++    type_register_static(&mos6522_q800_via1_type_info);
++    type_register_static(&mos6522_q800_via2_type_info);
++    type_register_static(&mac_via_info);
++}
++
++type_init(mac_via_register_types);
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
 new file mode 100644
-index 0000000000..ce9c789d99
+index 0000000000..69bdecabb0
 --- /dev/null
-+++ b/include/hw/nubus/mac-nubus-bridge.h
-@@ -0,0 +1,24 @@
++++ b/include/hw/misc/mac_via.h
+@@ -0,0 +1,107 @@
 +/*
-+ * Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
++ *
++ * Copyright (c) 2011-2018 Laurent Vivier
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
-+ *
 + */
 +
-+#ifndef HW_NUBUS_MAC_H
-+#define HW_NUBUS_MAC_H
++#ifndef HW_MISC_MAC_VIA_H
++#define HW_MISC_MAC_VIA_H
 +
-+#include "hw/nubus/nubus.h"
++#include "exec/memory.h"
++#include "hw/sysbus.h"
++#include "hw/misc/mos6522.h"
 +
-+#define TYPE_MAC_NUBUS_BRIDGE "mac-nubus-bridge"
-+#define MAC_NUBUS_BRIDGE(obj) OBJECT_CHECK(MacNubusState, (obj), \
-+                                           TYPE_MAC_NUBUS_BRIDGE)
 +
-+typedef struct MacNubusState {
-+    SysBusDevice sysbus_dev;
++/* VIA 1 */
++#define VIA1_IRQ_ONE_SECOND_BIT 0
++#define VIA1_IRQ_VBLANK_BIT     1
++#define VIA1_IRQ_ADB_READY_BIT  2
++#define VIA1_IRQ_ADB_DATA_BIT   3
++#define VIA1_IRQ_ADB_CLOCK_BIT  4
 +
-+    NubusBus *bus;
-+} MacNubusState;
++#define VIA1_IRQ_NB             8
 +
-+#endif
-diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-new file mode 100644
-index 0000000000..a8634e54c5
---- /dev/null
-+++ b/include/hw/nubus/nubus.h
-@@ -0,0 +1,69 @@
-+/*
-+ * Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
++#define VIA1_IRQ_ONE_SECOND (1 << VIA1_IRQ_ONE_SECOND_BIT)
++#define VIA1_IRQ_VBLANK     (1 << VIA1_IRQ_VBLANK_BIT)
++#define VIA1_IRQ_ADB_READY  (1 << VIA1_IRQ_ADB_READY_BIT)
++#define VIA1_IRQ_ADB_DATA   (1 << VIA1_IRQ_ADB_DATA_BIT)
++#define VIA1_IRQ_ADB_CLOCK  (1 << VIA1_IRQ_ADB_CLOCK_BIT)
 +
-+#ifndef HW_NUBUS_NUBUS_H
-+#define HW_NUBUS_NUBUS_H
 +
-+#include "hw/qdev-properties.h"
-+#include "exec/address-spaces.h"
++#define TYPE_MOS6522_Q800_VIA1 "mos6522-q800-via1"
++#define MOS6522_Q800_VIA1(obj)  OBJECT_CHECK(MOS6522Q800VIA1State, (obj), \
++                                    TYPE_MOS6522_Q800_VIA1)
 +
-+#define NUBUS_SUPER_SLOT_SIZE 0x10000000U
-+#define NUBUS_SUPER_SLOT_NB   0x9
++typedef struct MOS6522Q800VIA1State {
++    /*< private >*/
++    MOS6522State parent_obj;
 +
-+#define NUBUS_SLOT_SIZE       0x01000000
-+#define NUBUS_SLOT_NB         0xF
++    qemu_irq irqs[VIA1_IRQ_NB];
++    uint8_t last_b;
++    uint8_t PRAM[256];
++} MOS6522Q800VIA1State;
 +
-+#define NUBUS_FIRST_SLOT      0x9
-+#define NUBUS_LAST_SLOT       0xF
 +
-+#define TYPE_NUBUS_DEVICE "nubus-device"
-+#define NUBUS_DEVICE(obj) \
-+     OBJECT_CHECK(NubusDevice, (obj), TYPE_NUBUS_DEVICE)
++/* VIA 2 */
++#define VIA2_IRQ_SCSI_DATA_BIT  0
++#define VIA2_IRQ_SLOT_BIT       1
++#define VIA2_IRQ_UNUSED_BIT     2
++#define VIA2_IRQ_SCSI_BIT       3
++#define VIA2_IRQ_ASC_BIT        4
 +
-+#define TYPE_NUBUS_BUS "nubus-bus"
-+#define NUBUS_BUS(obj) OBJECT_CHECK(NubusBus, (obj), TYPE_NUBUS_BUS)
++#define VIA2_IRQ_NB             8
 +
-+#define TYPE_NUBUS_BRIDGE "nubus-bridge"
-+#define NUBUS_BRIDGE(obj) OBJECT_CHECK(NubusBridge, (obj), TYPE_NUBUS_BRIDGE)
++#define VIA2_IRQ_SCSI_DATA  (1 << VIA2_IRQ_SCSI_DATA_BIT)
++#define VIA2_IRQ_SLOT       (1 << VIA2_IRQ_SLOT_BIT)
++#define VIA2_IRQ_UNUSED     (1 << VIA2_IRQ_SCSI_BIT)
++#define VIA2_IRQ_SCSI       (1 << VIA2_IRQ_UNUSED_BIT)
++#define VIA2_IRQ_ASC        (1 << VIA2_IRQ_ASC_BIT)
 +
-+typedef struct NubusBus {
-+    BusState qbus;
++#define TYPE_MOS6522_Q800_VIA2 "mos6522-q800-via2"
++#define MOS6522_Q800_VIA2(obj)  OBJECT_CHECK(MOS6522Q800VIA2State, (obj), \
++                                    TYPE_MOS6522_Q800_VIA2)
 +
-+    MemoryRegion super_slot_io;
-+    MemoryRegion slot_io;
++typedef struct MOS6522Q800VIA2State {
++    /*< private >*/
++    MOS6522State parent_obj;
++} MOS6522Q800VIA2State;
 +
-+    int current_slot;
-+} NubusBus;
 +
-+typedef struct NubusDevice {
-+    DeviceState qdev;
++#define TYPE_MAC_VIA "mac_via"
++#define MAC_VIA(obj)   OBJECT_CHECK(MacVIAState, (obj), TYPE_MAC_VIA)
 +
-+    int slot_nb;
-+    MemoryRegion slot_mem;
++typedef struct MacVIAState {
++    SysBusDevice busdev;
 +
-+    /* Format Block */
++    /* MMIO */
++    MemoryRegion mmio;
++    MemoryRegion via1mem;
++    MemoryRegion via2mem;
 +
-+    MemoryRegion fblock_io;
++    /* VIAs */
++    MOS6522Q800VIA1State mos6522_via1;
++    MOS6522Q800VIA2State mos6522_via2;
 +
-+    uint32_t rom_length;
-+    uint32_t rom_crc;
-+    uint8_t rom_rev;
-+    uint8_t rom_format;
-+    uint8_t byte_lanes;
-+    int32_t directory_offset;
++    /* RTC */
++    uint32_t tick_offset;
 +
-+    /* ROM */
++    uint8_t data_out;
++    int data_out_cnt;
++    uint8_t data_in;
++    uint8_t data_in_cnt;
++    uint8_t cmd;
++    int wprotect;
++    int alt;
 +
-+    MemoryRegion rom_io;
-+    const uint8_t *rom;
-+} NubusDevice;
++    /* ADB */
++    ADBBusState adb_bus;
 +
-+void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
-+                        int revision, int format, uint8_t byte_lanes);
++    /* external timers */
++    QEMUTimer *one_second_timer;
++    QEMUTimer *VBL_timer;
++
++} MacVIAState;
 +
 +#endif
 -- 
