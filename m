@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79297AEE38
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:12:14 +0200 (CEST)
-Received: from localhost ([::1]:41246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F2AAEE49
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:14:46 +0200 (CEST)
+Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hoT-0001in-Gr
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59097)
+	id 1i7hqv-0003sD-Vp
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i7hnC-0000eC-VE
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:10:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1i7hp5-0002zE-0I
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:12:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i7hnA-0002zY-A3
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:10:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57876)
+ (envelope-from <eblake@redhat.com>) id 1i7hp3-0004bO-Tz
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:12:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48214)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7hnA-0002xQ-1O
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:10:52 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7hp3-0004ac-Lk
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:12:49 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EF56C81F0F;
- Tue, 10 Sep 2019 15:10:49 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E5E411108;
+ Tue, 10 Sep 2019 15:12:48 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5853C6013A;
- Tue, 10 Sep 2019 15:10:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCFE7194B2;
+ Tue, 10 Sep 2019 15:12:43 +0000 (UTC)
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-5-armbru@redhat.com>
+ <20190910063724.28470-6-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <06d179fd-e96a-7560-4fcc-a2271ab0b4b7@redhat.com>
-Date: Tue, 10 Sep 2019 10:10:41 -0500
+Message-ID: <16792fc8-b513-e934-7ca6-41a5cc10aac0@redhat.com>
+Date: Tue, 10 Sep 2019 10:12:42 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190910063724.28470-5-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-6-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="M4OUwGPTAuZqOxoOOmUBay1J2nJ3733Ec"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ boundary="Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 10 Sep 2019 15:10:50 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Tue, 10 Sep 2019 15:12:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 04/16] docs/devel/qapi-code-gen: Minor
- specification fixes
+Subject: Re: [Qemu-devel] [PATCH v2 05/16] tests/qapi-schema: Demonstrate
+ bad reporting of funny characters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,118 +90,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---M4OUwGPTAuZqOxoOOmUBay1J2nJ3733Ec
-Content-Type: multipart/mixed; boundary="ar1dRGhhvx8fW3Rf4iZa1UTAyNh6tNQ0t";
+--Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB
+Content-Type: multipart/mixed; boundary="zIV2NwHws6D0dawA6TtZHfjDns7PtyWxS";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <06d179fd-e96a-7560-4fcc-a2271ab0b4b7@redhat.com>
-Subject: Re: [PATCH v2 04/16] docs/devel/qapi-code-gen: Minor specification
- fixes
+Message-ID: <16792fc8-b513-e934-7ca6-41a5cc10aac0@redhat.com>
+Subject: Re: [PATCH v2 05/16] tests/qapi-schema: Demonstrate bad reporting of
+ funny characters
 References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-5-armbru@redhat.com>
-In-Reply-To: <20190910063724.28470-5-armbru@redhat.com>
+ <20190910063724.28470-6-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-6-armbru@redhat.com>
 
---ar1dRGhhvx8fW3Rf4iZa1UTAyNh6tNQ0t
+--zIV2NwHws6D0dawA6TtZHfjDns7PtyWxS
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/10/19 1:37 AM, Markus Armbruster wrote:
-> The specification claims "Each expression that isn't an include
-> directive may be preceded by a documentation block", but the code also
-> rejects them for pragma directives.  The code is correct.  Fix the
-> specification.
+> Invalid name 'not\\possible' is reported as 'not\possible'.  Control
+> characters (quoted or not) are even more confusing.  Mark FIXME.
 >=20
-> The specification reserves member names starting with 'has_', but the
-> code also reserves name 'u'.  Fix the specification.
-
-Reservation of 'u' was done in 5e59baf9 (and claimed we could add a
-munge to q_u in the future if we ever needed a name 'u' after all).
-
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  tests/qapi-schema/enum-bad-name.err  | 2 +-
+>  tests/qapi-schema/enum-bad-name.json | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 >=20
-> The specification claims "The string 'max' is not allowed as an enum
-> value".  Untrue.  Fix the specification.  While there, delete the
-> naming advice, because it's redundant with the naming rules in section
-> "Schema overview"
+> diff --git a/tests/qapi-schema/enum-bad-name.err b/tests/qapi-schema/en=
+um-bad-name.err
+> index 9c3c1002b7..26a09f84ad 100644
+> --- a/tests/qapi-schema/enum-bad-name.err
+> +++ b/tests/qapi-schema/enum-bad-name.err
+> @@ -1 +1 @@
+> -tests/qapi-schema/enum-bad-name.json:2: Member of enum 'MyEnum' uses i=
+nvalid name 'not^possible'
+> +tests/qapi-schema/enum-bad-name.json:3: Member of enum 'MyEnum' uses i=
+nvalid name 'not\possible'
+> diff --git a/tests/qapi-schema/enum-bad-name.json b/tests/qapi-schema/e=
+num-bad-name.json
+> index 8506562b31..b233fdc825 100644
+> --- a/tests/qapi-schema/enum-bad-name.json
+> +++ b/tests/qapi-schema/enum-bad-name.json
+> @@ -1,2 +1,3 @@
+>  # we ensure all enum names can map to C
+> -{ 'enum': 'MyEnum', 'data': [ 'not^possible' ] }
+> +# FIXME reports 'not\posible' instead of 'not\\possible'
 
-Used to be true; missed when commit 7fb1cf16 got rid of the collision.
+s/posible/possible/
 
->=20
-> The specification claims "No branch of the union can be named 'max',
-> as this would collide with the implicit enum".  Untrue.  Fix the
-> specification.
+(Is it bad when you have a typo in demonstrating that the code has a typo=
+?)
 
-Fixed around the same time (although I didn't check if it was in the
-same commit)
-
->=20
-> The specification claims "It is not allowed to name an event 'MAX',
-> since the generator also produces a C enumeration of all event names
-> with a generated _MAX value at the end."  Untrue.  Fix the
-> specification.
-
-And similar comment.
-
-I don't know if you want to do exact commit ids where all of these doc
-problems were introduced (because of code patches that lifted the
-limitations).
-
->=20
-> The specification claims "All branches of the union must be complex
-> types", but the code permits only struct types.  The code is correct.
-> Fix the specification.
->=20
-> The specification claims a command's return type "must be the string
-> name of a complex or built-in type, a one-element array containing the
-> name of a complex or built-in type" unless the command is in pragma
-> 'returns-whitelist'.  The code does not permit built-in types.  Fix
-> the specification.
-
-Umm:
-
-qapi/migration.json:{ 'command': 'query-migrate-cache-size', 'returns':
-'int' }
-
-I don't know if we use an array of a built-in-type, but we definitely
-have unfortunate commands that return a non-JSON-object.  [1]
-
->  A flat union definition avoids nesting on the wire, and specifies a
->  set of common members that occur in all variants of the union.  The
->  'base' key must specify either a type name (the type must be a
->  struct, not a union), or a dictionary representing an anonymous type.
-> -All branches of the union must be complex types, and the top-level
-> +All branches of the union must be struct types, and the top-level
-
-We have hit cases where it might have been nicer to permit a flat union
-whose branch is itself another flat union.  But until we actually code
-that up to work, this is accurate.
-
-
-> @@ -578,8 +578,8 @@ The 'returns' member describes what will appear in =
-the "return" member
->  of a Client JSON Protocol reply on successful completion of a command.=
-
->  The member is optional from the command declaration; if absent, the
->  "return" member will be an empty dictionary.  If 'returns' is present,=
-
-> -it must be the string name of a complex or built-in type, a
-> -one-element array containing the name of a complex or built-in type.
-> +it must be the string name of a complex type, or a
-> +one-element array containing the name of a complex type.
->  To return anything else, you have to list the command in pragma
->  'returns-whitelist'.  If you do this, the command cannot be extended
->  to return additional information in the future.  Use of
-
-[1] Aha - it's 'returns-whitelist' that makes the difference.  Okay,
-your wording change here makes sense: a built-in is NOT permitted UNLESS
-you whitelist it.
-
-Summary: you may want to improve the commit message with git
-archaeology, but the wording changes themselves make sense.
+With that fixed,
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> +{ 'enum': 'MyEnum', 'data': [ 'not\\possible' ] }
+>=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -209,24 +156,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---ar1dRGhhvx8fW3Rf4iZa1UTAyNh6tNQ0t--
+--zIV2NwHws6D0dawA6TtZHfjDns7PtyWxS--
 
---M4OUwGPTAuZqOxoOOmUBay1J2nJ3733Ec
+--Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl13vPEACgkQp6FrSiUn
-Q2o3mgf/QFXGYkXxveBYAYF62cVoMT5QlIWrUUfVLOrNxtwvk5HYH6wwpg2R0RbF
-9lci0Pp0s9euYoZNPHBRdYX1hS52Db30/E5ql9CxMOrLq2PxzGUflWzAHdn0+snK
-mD/z48mdN2vR78X89VAfP/cVAGRhILvObhHCnyYOgBjdp14UFb2tNN9z5kf+hxjt
-KooJcQrmsoo7B9OeMfHwDao0AHolu8Yc/TH7N7+2PCTlS6hDIWsS2k42JHgWVEOC
-bvnyTLjtM5kweqME7LjJdWiy8HF5wNbN78qgbTP0kT8ddDIQc3lQ2zC5MiL13Efn
-uKcfOa5LMVbn/4m0HCfKkDtGImcrbg==
-=wawN
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl13vWoACgkQp6FrSiUn
+Q2rR+ggAhCQFJ9pQ0qq/czzBIQ504ZAt4BP4sO1NYFrM4YpjcTM51XDdLAB6l4vg
+T0qHt8euO+jteQ5qqMHklQts92qatBuqabfQEvr2k+F5FkhGg0eBISVSzdU9u2nZ
+sa1AGK5BwU5buqshkJwUFFp3ZDT3owAO980dwibeBKcgB8IhicYN1r6MvxMZFA8S
+6X2N9WAT4mGMpeEnPYVoGp/4UJcvsjMzBeWJ5Z7gyGlSWdF0EnLZZ0LZYYjioUH1
+byaQ/5bOu+8dPfxOW+ybgLTy642uxWe1oKME19RMf9Et4TPVQXVG/HuuEWWGoQxI
+o/EsB+ImLHcvSPlk7uhsue/2uZd3gw==
+=1cv5
 -----END PGP SIGNATURE-----
 
---M4OUwGPTAuZqOxoOOmUBay1J2nJ3733Ec--
+--Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB--
 
