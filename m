@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A97AE613
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:53:16 +0200 (CEST)
-Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39FBAE615
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:54:37 +0200 (CEST)
+Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7bti-0002iR-Qt
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:53:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
+	id 1i7bv2-0004cg-NC
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bki-0003KY-Vm
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bkj-0003Ka-7M
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bkh-0006Hy-N5
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:56 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38320)
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bki-0006II-4S
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:57 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34251)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bkh-0006H3-Fj
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:55 -0400
-Received: by mail-wr1-x431.google.com with SMTP id l11so18361477wrx.5
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:43:54 -0700 (PDT)
+ id 1i7bkh-0006HO-UW
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:56 -0400
+Received: by mail-wr1-x434.google.com with SMTP id a11so8601999wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KDgxLmV9jVX5RP5KnrkpNStJOerKcWSl/8g+dS8UE6M=;
- b=v1KkF/sPspWW2Ysrrka2Ve23e/7jaXrViTHbCnDciHiCW4xmE4rJHaOfcV5aCLuXxx
- 8Va8MvNQlIW8SUOv3cvCeDPSDuTEvubMB61NuWp8Gu/FEUghVOiTxAZ3TyYu4JoODuq8
- etcziCWLJxQlK7pbFIYaUYUEVsgCojCos9xS6Bcf8tbnExCR1a1aHBpP7irxXICM8sZ/
- GZIiKPxs6mZT5W6ZBe5gRpMTmxfuWyvUX6kdpKCq0vfsnDqIN/1oUqbawVoVVMjM7Cdm
- 8QZjstABrwgClOPIY+b4nrlaw8NtdhZS51ql9JCQyd9PAfcwAWt2lsUCIDgW8X7/NT5e
- jtkg==
+ bh=ecFZo3SIq2Qf/hgLz+PBuSmYc5fnSAsalqfNQ/ik5mE=;
+ b=OSQdQetjxPXfUYAoh6rJU+QZXwg65HfCX0FvaiGQX8tAJen+suNgxBvP4cVaeV8Rjo
+ umPg2pg6mIZ0iKFW8xH8C3uNDsyGU8QMqAqcWkKChDdGLE04SMpTr7LVi8ngwZiaavvT
+ xMHAo0zB1ZE/YD4CB6321H1wz/qKb2lfiMAxP3r7Aywkhb8dmHrPtYgj2MOBwqf26Fh1
+ gJCAcMc4tYHTz5Rjn85pD1wlaWfoCop9nSErBrfS6Cia7FAr9J5b5+jM5TnmCzI9Vyvq
+ YsAQPvLSD0KQOfq8b8KMOtv/6QRyOtYBJvi1Yj3guf50Xo+05ZC0fJzoo13P7Y18G/LW
+ FByQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KDgxLmV9jVX5RP5KnrkpNStJOerKcWSl/8g+dS8UE6M=;
- b=YHyR1iORF3nm6OpDo2nnuupOXm0GdMCFY3EnYBL5+IUbs8e2ZIMnUArqFMU44MJLVg
- wb6T3+XFdVcwPx9X6L5IxuCYc2Rur6EfiCmDPYb1rZw0c5U6oNBXf4VmBdirzHqGls0F
- JLZkiKSrZeXYv/otAJOlvKmmGgZlhXVV6EQxF1XlZ4kJU9CojwsaqlX02spflvYvc3fl
- grO7an6Vz7Wj7G5AvPGPdzi19wlj5wPVZKxHVZgpIRnYDI1+RGI0x0KAw/hRTaW6kEQg
- Jv47PhLhj2bwRLgQO0oKgVhhyyfsLQlP6h3PG76EbWIJZaatwnby+2NSf8kvTbwaas+X
- VfGQ==
-X-Gm-Message-State: APjAAAVDth8YlRlwHVqaBUt99RzbzBWmo5UpX0ErmVRBip1T25fuiCX3
- 2cOG423a5DfC6G+lJhLAbqoQOQ==
-X-Google-Smtp-Source: APXvYqwuyJAZAcQphSVuso4ZPR4MdgJnG6O8ADgCZEKPRMluaNfe82JPwv1+DsAe8KCkfBIdbw3jYw==
-X-Received: by 2002:adf:a382:: with SMTP id l2mr23749721wrb.194.1568105033594; 
- Tue, 10 Sep 2019 01:43:53 -0700 (PDT)
+ bh=ecFZo3SIq2Qf/hgLz+PBuSmYc5fnSAsalqfNQ/ik5mE=;
+ b=iNYCGrB0U2GuE19B8dgNvenHzy78k6j0UKVFSY4zVcr3fupd1aLmRuuky4ACmn9Rfa
+ u0wwq6Ak3Cz+AMB8jw39lkMUCT3IHHSqwcNArKbi4FxXZEVvmTr7z216L7y2Zb2+mhk0
+ IaIgJW/Z5jzpPjOf0Mr1TK1PzKK5tt5p6OXJUnDdizbeqHN9iaTp1wWObdaFtDDPHqxO
+ gz6tHT0eJEOc0Vbf7y4/aeckvg7weIJTTRI5NCLyzoiYL/t+mo4s40fZonUrKRTn9AoL
+ EFBypGv3/NmP+ROQWX6c6fJOQ2J8ugoIxve7ee8W04AzfDtc0W3zMrrldx+8EHH6LJmf
+ L/HA==
+X-Gm-Message-State: APjAAAUjepykhE56PKyHys4h6dI7EeyR7ngW41bLeoczfhaHnQwTcDw9
+ UZJ7ZfyY9Y0koT/kLwFf31FXBw==
+X-Google-Smtp-Source: APXvYqxAnmnY7w2awcrgSrYHz39+i8Rdb5sGzaSH/XEUPPbGTBo/V054jKZuh/Cs2WlDX6zyhT9qgw==
+X-Received: by 2002:adf:b612:: with SMTP id f18mr14163731wre.97.1568105034847; 
+ Tue, 10 Sep 2019 01:43:54 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n8sm3476630wma.7.2019.09.10.01.43.50
+ by smtp.gmail.com with ESMTPSA id z1sm28989942wre.40.2019.09.10.01.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 01:43:50 -0700 (PDT)
+ Tue, 10 Sep 2019 01:43:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C52871FF91;
+ by zen.linaroharston (Postfix) with ESMTP id DBAD31FF92;
  Tue, 10 Sep 2019 09:43:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:08 +0100
-Message-Id: <20190910084349.28817-5-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 09:43:09 +0100
+Message-Id: <20190910084349.28817-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
 References: <20190910084349.28817-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
-Subject: [Qemu-devel] [PULL 04/45] tests/docker: fix "cc" command to work
- with podman
+X-Received-From: 2a00:1450:4864:20::434
+Subject: [Qemu-devel] [PULL 05/45] tests/docker: handle missing encoding
+ keyword for subprocess.check_output
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,90 +88,40 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Podman requires a little bit of additional magic to the uid mapping
-which was already done for the normal RunCommand. We simplify the
-logic by pushing it directly into the Docker::run method to avoid
-instantiating an extra Docker() object and ensure the CC command
-always runs as the current user.
+This was only added in Python 3.6 and not all the build hosts have
+that recent a python3. However we still need to ensure everything is
+returns as a unicode string so checks higher up the call chain don't
+barf.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
+fixup! tests/docker: handle missing encoding keyword for subprocess.check_output
+
 diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 064026c8af8..1620293ac84 100755
+index 1620293ac84..417b0cdce13 100755
 --- a/tests/docker/docker.py
 +++ b/tests/docker/docker.py
-@@ -318,10 +318,18 @@ class Docker(object):
-             return False
-         return checksum == _text_checksum(_dockerfile_preprocess(dockerfile))
+@@ -258,10 +258,16 @@ class Docker(object):
+         return self._do_kill_instances(True)
  
--    def run(self, cmd, keep, quiet):
-+    def run(self, cmd, keep, quiet, as_user=False):
-         label = uuid.uuid1().hex
-         if not keep:
-             self._instances.append(label)
+     def _output(self, cmd, **kwargs):
+-        return subprocess.check_output(self._command + cmd,
+-                                       stderr=subprocess.STDOUT,
+-                                       encoding='utf-8',
+-                                       **kwargs)
++        if sys.version_info[1] >= 6:
++            return subprocess.check_output(self._command + cmd,
++                                           stderr=subprocess.STDOUT,
++                                           encoding='utf-8',
++                                           **kwargs)
++        else:
++            return subprocess.check_output(self._command + cmd,
++                                           stderr=subprocess.STDOUT,
++                                           **kwargs).decode('utf-8')
 +
-+        if as_user:
-+            uid = os.getuid()
-+            cmd = [ "-u", str(uid) ] + cmd
-+            # podman requires a bit more fiddling
-+            if self._command[0] == "podman":
-+                argv.insert(0, '--userns=keep-id')
-+
-         ret = self._do_check(["run", "--label",
-                              "com.qemu.instance.uuid=" + label] + cmd,
-                              quiet=quiet)
-@@ -364,13 +372,8 @@ class RunCommand(SubCommand):
-                             help="Run container using the current user's uid")
  
-     def run(self, args, argv):
--        if args.run_as_current_user:
--            uid = os.getuid()
--            argv = [ "-u", str(uid) ] + argv
--            docker = Docker()
--            if docker._command[0] == "podman":
--                argv.insert(0, '--userns=keep-id')
--        return Docker().run(argv, args.keep, quiet=args.quiet)
-+        return Docker().run(argv, args.keep, quiet=args.quiet,
-+                            as_user=args.run_as_current_user)
- 
- 
- class BuildCommand(SubCommand):
-@@ -554,8 +557,6 @@ class CcCommand(SubCommand):
-                             help="The docker image in which to run cc")
-         parser.add_argument("--cc", default="cc",
-                             help="The compiler executable to call")
--        parser.add_argument("--user",
--                            help="The user-id to run under")
-         parser.add_argument("--source-path", "-s", nargs="*", dest="paths",
-                             help="""Extra paths to (ro) mount into container for
-                             reading sources""")
-@@ -569,11 +570,10 @@ class CcCommand(SubCommand):
-         if args.paths:
-             for p in args.paths:
-                 cmd += ["-v", "%s:%s:ro,z" % (p, p)]
--        if args.user:
--            cmd += ["-u", args.user]
-         cmd += [args.image, args.cc]
-         cmd += argv
--        return Docker().command("run", cmd, args.quiet)
-+        return Docker().run(cmd, False, quiet=args.quiet,
-+                            as_user=True)
- 
- 
- class CheckCommand(SubCommand):
-diff --git a/tests/tcg/Makefile.include b/tests/tcg/Makefile.include
-index 73b5626fc5f..210f8428237 100644
---- a/tests/tcg/Makefile.include
-+++ b/tests/tcg/Makefile.include
-@@ -41,7 +41,7 @@ ifneq ($(DOCKER_IMAGE),)
- # We also need the Docker make rules to depend on
- include $(SRC_PATH)/tests/docker/Makefile.include
- 
--DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc --user $(shell id -u) \
-+DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
- 		--cc $(DOCKER_CROSS_COMPILER) \
- 		-i qemu:$(DOCKER_IMAGE) \
- 		-s $(SRC_PATH) -- "
+     def inspect_tag(self, tag):
+         try:
 -- 
 2.20.1
 
