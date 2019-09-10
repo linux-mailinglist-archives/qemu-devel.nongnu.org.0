@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444A7AEE06
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:01:57 +0200 (CEST)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD32EAEE14
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:04:42 +0200 (CEST)
+Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7heW-0005NY-3F
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:01:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55854)
+	id 1i7hhB-0007zL-JY
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:04:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i7hX1-0007CJ-PT
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:54:12 -0400
+ (envelope-from <bala24@linux.ibm.com>) id 1i7hYL-0000cG-BJ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:55:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i7hX0-0001Rd-8Q
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:54:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:15945)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7hX0-0001RN-0C
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:54:10 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 40EA230043E1;
- Tue, 10 Sep 2019 14:54:09 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 117865D6B2;
- Tue, 10 Sep 2019 14:54:03 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-4-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <bc97fbdf-7b12-c315-5247-9102bd6951e7@redhat.com>
-Date: Tue, 10 Sep 2019 09:54:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bala24@linux.ibm.com>) id 1i7hYK-00021G-2a
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:55:33 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5370)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
+ id 1i7hYJ-00020h-RD
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:55:32 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8AEqkFd043089
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 10:55:30 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2uxbyym1tc-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 10:55:29 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
+ Tue, 10 Sep 2019 15:55:25 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 10 Sep 2019 15:55:21 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8AEtKCB48562240
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Sep 2019 14:55:20 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B467642042;
+ Tue, 10 Sep 2019 14:55:20 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5333C42041;
+ Tue, 10 Sep 2019 14:55:19 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.124.35.221])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 10 Sep 2019 14:55:19 +0000 (GMT)
+Date: Tue, 10 Sep 2019 20:25:17 +0530
+From: Balamuruhan S <bala24@linux.ibm.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+References: <20190910071019.16689-1-bala24@linux.ibm.com>
+ <20190910071019.16689-4-bala24@linux.ibm.com>
+ <5aace97f-5a34-7e05-9cdc-65e17613033e@kaod.org>
+ <20190910103054.GB16391@localhost.localdomain>
+ <f0a5499f-4a76-85b8-db74-0c83a0587974@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20190910063724.28470-4-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="u2qaR4QKqxLbtxWXd7cbnHGRgToEjV5cO"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 10 Sep 2019 14:54:09 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 03/16] qapi: Drop support for boxed
- alternate arguments
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <f0a5499f-4a76-85b8-db74-0c83a0587974@kaod.org>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19091014-0008-0000-0000-00000313E9F1
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19091014-0009-0000-0000-00004A32525B
+Message-Id: <20190910145517.GB25854@localhost.localdomain>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-10_10:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1909100144
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id x8AEqkFd043089
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PATCH v1 3/3] hw/ppc/pnv_homer: add PowerNV homer
+ device model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,81 +98,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: maddy@linux.vnet.ibm.com, groug@kaod.org, qemu-devel@nongnu.org,
+ anju@linux.vnet.ibm.com, qemu-ppc@nongnu.org, hari@linux.vnet.ibm.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---u2qaR4QKqxLbtxWXd7cbnHGRgToEjV5cO
-Content-Type: multipart/mixed; boundary="IVmfUuR27wdSwA3NN9Vyv0SQOTYIDKpG4";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <bc97fbdf-7b12-c315-5247-9102bd6951e7@redhat.com>
-Subject: Re: [PATCH v2 03/16] qapi: Drop support for boxed alternate arguments
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-4-armbru@redhat.com>
-In-Reply-To: <20190910063724.28470-4-armbru@redhat.com>
-
---IVmfUuR27wdSwA3NN9Vyv0SQOTYIDKpG4
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 9/10/19 1:37 AM, Markus Armbruster wrote:
-> Commands and events can define their argument type inline (default) or
-> by referring to another type ('boxed': true, since commit c818408e44
-> "qapi: Implement boxed types for commands/events", v2.7.0).  The
-> unboxed inline definition is an (anonymous) struct type.  The boxed
-> type may be a struct, union, or alternate type.
+On Tue, Sep 10, 2019 at 01:00:54PM +0200, C=E9dric Le Goater wrote:
+> >>> +
+> >>> +    object_initialize_child(obj, "homer",  &chip9->homer, sizeof(c=
+hip9->homer),
+> >>> +                            TYPE_PNV9_HOMER, &error_abort, NULL);
+> >>> +    object_property_add_const_link(OBJECT(&chip9->homer), "chip", =
+obj,
+> >>> +                                   &error_abort);
+> >>
+> >> Does HOMER need the chip ? It is not used but we might want to in th=
+e=20
+> >> core_max_array() ?=20
+> >=20
+> > sorry, no it is not required, I will remove it.
 >=20
-> The latter is problematic: docs/interop/qemu-spec.txt requires the
-> value of the 'data' key to be a json-object, but any non-degenerate
-> alternate type has at least one branch that isn't.
+> It seems you will need the chip in core_max_array(). I would keep it.=20
+> See below,
 
-Good catch.
+Thanks Cedric, I was not aware of how to use it,
 
 >=20
-> Fortunately, we haven't made use of alternates in this context outside
-> tests/.  Drop support for them.
+> [ ... ]=20
 >=20
-> QAPISchemaAlternateType.is_empty() is now unused.  Drop it, too.
+> >>> +static bool core_max_array(void *opaque, hwaddr addr)
 >=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  docs/devel/qapi-code-gen.txt            | 12 ++++++------
->  scripts/qapi/common.py                  | 15 ++++-----------
->  tests/qapi-schema/qapi-schema-test.json |  2 +-
->  tests/qapi-schema/qapi-schema-test.out  |  2 +-
->  4 files changed, 12 insertions(+), 19 deletions(-)
+> Please change the 'void *opaque' function parameter in 'PnvHOMER *homer=
+'
+>=20
+> >>> +{
+> >>> +    PnvHOMER *homer =3D PNV_HOMER(opaque);
+> >>> +    PnvHOMERClass *homer_class =3D PNV_HOMER_GET_CLASS(homer);
+> >>> +
+> >>> +    MachineState *ms =3D MACHINE(qdev_get_machine());
+> >>
+> >> Do you need the whole machine or only the chip ? =20
+> >=20
+> > yes, I see it is for active cores in the chip, I can use `nr_cores`
+> > defined in PnvChip.
+>=20
+>=20
+> If you keep the QOM link above, you can grab it in the realize handler =
+of
+> the HOMER model with : =20
+>=20
+>     Object *obj;
+>     Error *local_err =3D NULL;
+>=20
+>     obj =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
+>     if (!obj) {
+>         error_propagate(errp, local_err);
+>         error_prepend(errp, "required link 'chip' not found: ");
+>         return;
+>     }
+>=20
+>     homer->chip =3D PNV_CHIP(obj);
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+sure, :+1:
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>=20
+> [ ... ]=20
+>=20
+> >>> +
+> >>> +/* P9 Pstate table */
+> >>> +
+> >>
+> >> no version ?=20
+> >=20
+> > PNV9_OCC_PSTATE_MAJOR_VERSION is the P9 pstate version.
+>=20
+> why isn't it in the switch statement below ?=20
 
+it is there in the switch statement,
 
---IVmfUuR27wdSwA3NN9Vyv0SQOTYIDKpG4--
+::
++    case PNV9_OCC_PSTATE_MAJOR_VERSION:
++        return 0x90;
+::
 
---u2qaR4QKqxLbtxWXd7cbnHGRgToEjV5cO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+>=20
+> [ ... ]=20
+> =20
+> >>> +typedef struct PnvHOMER {
+> >>> +    DeviceState parent;
+> >>> +
+> >>> +    MemoryRegion homer_regs;
+> >>
+> >> the homer_ prefix is not useful.
+> >=20
+> > okay, I will change it to `hregs`.
+>=20
+> I would just remove the prefix
 
------BEGIN PGP SIGNATURE-----
+will make the change as suggested by removing the prefix.
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl13uQoACgkQp6FrSiUn
-Q2plQAf+I50CtqeE9UvfMHB4s9stUMZVOWmJp1cS0y7Svv46p+wQCAiZeZEanBQP
-013WdwEW2RBpOro8sA+K0pCES+JnoANR+ypGzHSBWaY1uYS2t9d2OPEmKHwPIIhG
-6g3Ty1kNg/aehAzMgEdneByWhc1JlzwgTwHCSYe3F0/Mzlo/hYXN+omTvcAd7vZ4
-v8OUx20PuXqor325Afz6ADRKw9kxOoNW9l1+n0oZEemTLvggn6DYtgkJfKhHXVFf
-fHkgbAMZwUiD26rT2329UWRgPMfwlU+8mbLwONFLur+3MBFeVg0pgaa0Gkv2IevP
-FBfBSAjb3nTVLCtFhiJpaiy7Z4h41Q==
-=IyGO
------END PGP SIGNATURE-----
+-- Bala
 
---u2qaR4QKqxLbtxWXd7cbnHGRgToEjV5cO--
+>=20
+> Thanks,
+>=20
+> C.=20
+>=20
+
 
