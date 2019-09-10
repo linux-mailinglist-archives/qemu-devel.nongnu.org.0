@@ -2,46 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B9EAEB13
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 15:05:21 +0200 (CEST)
-Received: from localhost ([::1]:39542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4408AEB1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 15:07:34 +0200 (CEST)
+Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7fpg-0003Ay-Pr
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 09:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
+	id 1i7frp-0005dj-Ov
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 09:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i7fjr-0000kN-8U
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:59:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i7fqn-000587-PO
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 09:06:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i7fjp-0006Rw-U8
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:59:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49952)
+ (envelope-from <mreitz@redhat.com>) id 1i7fqm-00024I-J9
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 09:06:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45148)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i7fjk-0006OL-EL; Tue, 10 Sep 2019 08:59:13 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1i7fqj-0001yg-TX; Tue, 10 Sep 2019 09:06:26 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ABC1419B1143;
- Tue, 10 Sep 2019 12:59:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2A0613023080;
+ Tue, 10 Sep 2019 13:06:25 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-117-90.ams2.redhat.com
  [10.36.117.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2112E6012C;
- Tue, 10 Sep 2019 12:59:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A53AE100194E;
+ Tue, 10 Sep 2019 13:06:23 +0000 (UTC)
 To: Kevin Wolf <kwolf@redhat.com>
 References: <20190809161407.11920-1-mreitz@redhat.com>
- <20190809161407.11920-5-mreitz@redhat.com>
- <20190904161658.GD21246@localhost.localdomain>
- <b1c56a8b-b4e4-c32a-f577-89a5e2da743e@redhat.com>
- <20190909093604.GB13841@localhost.localdomain>
- <38c0ff7e-dfd3-189e-6026-3642d78e5029@redhat.com>
- <20190909161314.GJ17606@localhost.localdomain>
- <89984d52-881f-a1e4-c14a-2bf05fc789d0@redhat.com>
- <20190910104748.GC4446@localhost.localdomain>
- <00aa6729-5fa0-31e0-8af5-1a91ae034f28@redhat.com>
- <20190910124805.GF4446@localhost.localdomain>
+ <20190809161407.11920-21-mreitz@redhat.com>
+ <20190910115620.GE4446@localhost.localdomain>
+ <4fd84192-0078-07e9-b972-2f10030fb15f@redhat.com>
+ <20190910124949.GG4446@localhost.localdomain>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -68,21 +62,21 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <fa2bf3a5-a440-bc89-1896-87f0802e974d@redhat.com>
-Date: Tue, 10 Sep 2019 14:59:08 +0200
+Message-ID: <1bf4b123-9157-bc94-4d74-c335f0c5e841@redhat.com>
+Date: Tue, 10 Sep 2019 15:06:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190910124805.GF4446@localhost.localdomain>
+In-Reply-To: <20190910124949.GG4446@localhost.localdomain>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="dqvUwYoTb4xnDlrWNgsAEsh0c0EFYfkss"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Tue, 10 Sep 2019 12:59:11 +0000 (UTC)
+ boundary="2jrjhvgV2zXsNzygY23x3oYviEKAoQ9vI"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 10 Sep 2019 13:06:25 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 04/42] block: Add child access functions
+Subject: Re: [Qemu-devel] [PATCH v6 20/42] block/snapshot: Fix fallback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,174 +94,142 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dqvUwYoTb4xnDlrWNgsAEsh0c0EFYfkss
-Content-Type: multipart/mixed; boundary="JRLkyrclJRJLXYi0SetKIWiOeIIGMA3e3";
+--2jrjhvgV2zXsNzygY23x3oYviEKAoQ9vI
+Content-Type: multipart/mixed; boundary="QC7tqKkPal4CQY4IzxdYqbA0CkqzAbURZ";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
 Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <fa2bf3a5-a440-bc89-1896-87f0802e974d@redhat.com>
-Subject: Re: [PATCH v6 04/42] block: Add child access functions
+Message-ID: <1bf4b123-9157-bc94-4d74-c335f0c5e841@redhat.com>
+Subject: Re: [PATCH v6 20/42] block/snapshot: Fix fallback
 References: <20190809161407.11920-1-mreitz@redhat.com>
- <20190809161407.11920-5-mreitz@redhat.com>
- <20190904161658.GD21246@localhost.localdomain>
- <b1c56a8b-b4e4-c32a-f577-89a5e2da743e@redhat.com>
- <20190909093604.GB13841@localhost.localdomain>
- <38c0ff7e-dfd3-189e-6026-3642d78e5029@redhat.com>
- <20190909161314.GJ17606@localhost.localdomain>
- <89984d52-881f-a1e4-c14a-2bf05fc789d0@redhat.com>
- <20190910104748.GC4446@localhost.localdomain>
- <00aa6729-5fa0-31e0-8af5-1a91ae034f28@redhat.com>
- <20190910124805.GF4446@localhost.localdomain>
-In-Reply-To: <20190910124805.GF4446@localhost.localdomain>
+ <20190809161407.11920-21-mreitz@redhat.com>
+ <20190910115620.GE4446@localhost.localdomain>
+ <4fd84192-0078-07e9-b972-2f10030fb15f@redhat.com>
+ <20190910124949.GG4446@localhost.localdomain>
+In-Reply-To: <20190910124949.GG4446@localhost.localdomain>
 
---JRLkyrclJRJLXYi0SetKIWiOeIIGMA3e3
+--QC7tqKkPal4CQY4IzxdYqbA0CkqzAbURZ
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 10.09.19 14:48, Kevin Wolf wrote:
-> Am 10.09.2019 um 13:36 hat Max Reitz geschrieben:
->> On 10.09.19 12:47, Kevin Wolf wrote:
->>> Am 10.09.2019 um 11:14 hat Max Reitz geschrieben:
->>>> Maybe we should stop declaring Quorum a filter and then rename the
->>>> bdrv_recurse_is_first_non_filter() to, I don=E2=80=99t know,
->>>> bdrv_recurse_can_be_replaced_by_mirror()?
+On 10.09.19 14:49, Kevin Wolf wrote:
+> Am 10.09.2019 um 14:04 hat Max Reitz geschrieben:
+>> On 10.09.19 13:56, Kevin Wolf wrote:
+>>> Am 09.08.2019 um 18:13 hat Max Reitz geschrieben:
+>>>> If the top node's driver does not provide snapshot functionality and=
+ we
+>>>> want to fall back to a node down the chain, we need to snapshot all
+>>>> non-COW children.  For simplicity's sake, just do not fall back if t=
+here
+>>>> is more than one such child.
+>>>>
+>>>> bdrv_snapshot_goto() becomes a bit weird because we may have to redi=
+rect
+>>>> the actual child pointer, so it only works if the fallback child is
+>>>> bs->file or bs->backing (and then we have to find out which it is).
+>>>>
+>>>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com=
+>
+>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>> ---
+>>>>  block/snapshot.c | 100 +++++++++++++++++++++++++++++++++++++-------=
+---
+>>>>  1 file changed, 79 insertions(+), 21 deletions(-)
+>>>>
+>>>> diff --git a/block/snapshot.c b/block/snapshot.c
+>>>> index f2f48f926a..35403c167f 100644
+>>>> --- a/block/snapshot.c
+>>>> +++ b/block/snapshot.c
+>>>> @@ -146,6 +146,32 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDri=
+verState *bs,
+>>>>      return ret;
+>>>>  }
+>>>> =20
+>>>> +/**
+>>>> + * Return the child BDS to which we can fall back if the given BDS
+>>>> + * does not support snapshots.
+>>>> + * Return NULL if there is no BDS to (safely) fall back to.
+>>>> + */
+>>>> +static BlockDriverState *bdrv_snapshot_fallback(BlockDriverState *b=
+s)
+>>>> +{
+>>>> +    BlockDriverState *child_bs =3D NULL;
+>>>> +    BdrvChild *child;
+>>>> +
+>>>> +    QLIST_FOREACH(child, &bs->children, next) {
+>>>> +        if (child =3D=3D bdrv_filtered_cow_child(bs)) {
+>>>> +            /* Ignore: COW children need not be included in snapsho=
+ts */
+>>>> +            continue;
+>>>> +        }
+>>>> +
+>>>> +        if (child_bs) {
+>>>> +            /* Cannot fall back to a single child if there are mult=
+iple */
+>>>> +            return NULL;
+>>>> +        }
+>>>> +        child_bs =3D child->bs;
+>>>> +    }
+>>>> +
+>>>> +    return child_bs;
+>>>> +}
 >>>
->>> Why not.
+>>> Why do we return child->bs here when bdrv_snapshot_goto() then needs =
+to
+>>> reconstruct what the associated BdrvChild was? Wouldn't it make more
+>>> sense to return BdrvChild** from here and maybe have a small wrapper =
+for
+>>> the other functions that only need a BDS?
 >>
->> It feels difficult to do in this series because this is a whole new ca=
-n
->> of worms.
->>
->> In patch 35, I actually replace the mirror use case by
->> is_filtered_child().  So it looks to me as if that should not be done,=
-
->> because I should instead fix bdrv_recurse_is_first_non_filter() (and
->> rename it), because quorum does allow replacing its children by mirror=
-,
->> even if it does not act as a filter for them.
->>
->> OTOH, there are other users of bdrv_is_first_non_filter().  Those are
->> qmp_block_resize() and external_snapshot_prepare(), who throw an error=
-
->> if that returns false.
->>
->> I think that=E2=80=99s just wrong.  First of all, I don=E2=80=99t even=
- know why we have
->> that restriction anymore (I can imagine why it used to make sense befo=
-re
->> the permission system).  qmp_block_resize() should always work as long=
-
->> as it can get BLK_PERM_RESIZE; and I don=E2=80=99t know why the parent=
-s of some
->> node would care if you take a snapshot of their child.
+>> What would you return instead?  &child doesn=E2=80=99t work.
 >=20
-> Hm, doesn't it make sense in a way for qmp_block_resize() at least? It
-> means that you can't resize just a filter, but you need to resize the
-> image that actually provides the data for the filter.
-
-Filters generally implement .bdrv_truncate() by passing it through, so
-it should be fine.
-
-> Of course, there is no reason for it to be the _first_ non-filter as
-> long as BLK_PERM_RESIZE is shared, but just some non-filter node.
+> Oops, brain fart. :-)
 >=20
-> Two more random observations:
->=20
-> * quorum uses bdrv_filter_default_perms(), which allows BLK_PERM_RESIZE=
-=2E
->   I think this is wrong and quorum should make sure that all children a=
-re
->   always the same size because otherwise it can't tell what its own siz=
-e
->   is. (Or vote on size...? :-/) Probably not a problem in practice as
->   long as we check bdrv_is_first_non_filter().
-
-(=E2=80=9CQuorum is broken=E2=80=9D seems to be a recurring observation.)=
-
-
-I agree, it shouldn=E2=80=99t share that permission.
-
-> * child_file and child_backing don't implement .resize. So if you resiz=
-e
->   a non-top-level image, parents (in particular filters) don't get thei=
-r
->   size adjusted. This is probably a bug, too, but one that isn't
->   prevented by bdrv_is_first_non_filter() and should be visible today.
-
-Hm. :-/
-
-The good news is that I can try to fix this independently of this series.=
-
-
-[...]
-
->> We have come to two results, as far as I can see:
->>
->> First, naming COW backing nodes =E2=80=9CCOW filtered children=E2=80=9D=
- clashes with our
->> existing use of =E2=80=9Dfilter=E2=80=9D.  There is no point in forcin=
-g the =E2=80=9Dfilter=E2=80=9D
->> label on everything.  We can just keep calling (R/W) filters filters a=
-nd
->> COW backing children COW children.  The names are succinct enough.
->>
->> In some cases, we don=E2=80=99t care whether something is a COW or fil=
-tered
->> child, in such a case a caller can be bothered to use the slightly
->> longer bdrv_cow_or_filtered_child().
->=20
-> Aye.
->=20
->> Second, most of the time we want a filter node to have a clear and
->> unique path to go down.  This is the important property of filters: Th=
-at
->> you can skip them and go to the node that actually has the data.
->>
->> Quorum breaks this by having multiple children, and nobody knows which=
-
->> of them has the data we will see on the next read operation.
->>
->> All =E2=80=9Cfilters=E2=80=9D who could have multiple children would h=
-ave this problem.
->>  Hence a filter must always have a single unique data child.  I think.=
-
->=20
-> I agree, and this is the condition that I mentioned somewhere above, bu=
+>> We could limit ourselves to bs->file and bs->backing.  It just seemed
+>> like a bit of an artificial limit to me, because we only really have i=
 t
-> failed to actually find guaranteed somewhere. We should probably make
-> this explicit.
+>> for bdrv_snapshot_goto().
 >=20
-> Of course, quorum and similar things intend all their children to
-> provide the same data, but the whole point of the driver is that this i=
-s
-> not always guaranteed, so they aren't actually filters.
+> Hm, but then, what use is supporting other children for creating a
+> snapshot when you can't load it any more afterwards?
 
-OK, great, I=E2=80=99ll get cracking then.
+Well, the snapshot is still there, it=E2=80=99s just on a different node.=
+  So in
+theory, you could take a snapshot in a live VM (where the snapshotting
+node is not at the top), and then later revert to it with qemu-img (by
+accessing the file with the snapshot directly).
+
+Though in practice this is just a fallback anyway, and I don=E2=80=99t th=
+ink we
+currently have anything where it would make sense to fall through some
+node to any child but .file or .backing.  So why not.  It would be
+shorter, too.  (Well, plus the short comment why looking at .file and
+=2Ebacking is sufficient.)
 
 Max
 
 
---JRLkyrclJRJLXYi0SetKIWiOeIIGMA3e3--
+--QC7tqKkPal4CQY4IzxdYqbA0CkqzAbURZ--
 
---dqvUwYoTb4xnDlrWNgsAEsh0c0EFYfkss
+--2jrjhvgV2zXsNzygY23x3oYviEKAoQ9vI
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl13nhwACgkQ9AfbAGHV
-z0AMHgf+JaaRsV6tsDqQMQH2WbQsaXuAykrfdPPdxSfjq+Jdg9PVIoDgx2ZGdLHr
-2GPSCBjrIqAK94gtT1mWQhH8fbeCHwpG4NdefJ/qlkp1L2gX3c7gBfjV4mNNy+7q
-Igz7QeAeHgHQvBfWg6rTKREmm+F9UBbr8D81hfuoKzkdfTqAJRgfcf5z0EIjxcZr
-7MpZ5PKkFFFdHbkG/Rm6o1Cw8VM2Zggdz+EAeijb3Sv0wzEf1NUrYrVD98Go0bYP
-E/+d1Gn5qcnOoncbeWgT1SjnOzCQYa6XVuOyGUwUrGS/7Xuj4iNO2vqkjSyRTMc4
-8SSj4/Ph+rfPvwyYG/Vgguq47y+QYQ==
-=MbFk
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl13n80ACgkQ9AfbAGHV
+z0D0Ngf8DPVXn4XRbyUPZJjYg/Gq/cLlJYZalpSCa+Kh4GgqPvKgeNyJL3/0vvAR
+uzHkfBFUx45DQ8kUt0cwO3NGZEMDSN2xiW0IjoxvCqN9cd0iOwwFUZhRHZ6lWBW8
+2TWrUpl2e9JvUZLfkBmy11ZGrxfpE9CRMcmtgjNH6WpAH9l0vxRJK81BcctBz2ok
+veinw70G+WnfqoT6c/D9tCPJJSBBNQnQKL6ByUAwBZLLuvipcFoQodb8/uFRypvA
+S2wKS6HQwwhKml5XGgmzyO2jore8HkpKUEGDePYq5XgDjINg8gpl+LXzGLvY/Ln+
+X5d/gQiNere7thpPvhcOmV4ZUF4GTA==
+=/FYm
 -----END PGP SIGNATURE-----
 
---dqvUwYoTb4xnDlrWNgsAEsh0c0EFYfkss--
+--2jrjhvgV2zXsNzygY23x3oYviEKAoQ9vI--
 
