@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2395DAF815
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 10:37:01 +0200 (CEST)
-Received: from localhost ([::1]:47936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C982CAF802
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 10:32:18 +0200 (CEST)
+Received: from localhost ([::1]:47874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7y7X-0002QG-Vv
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 04:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56998)
+	id 1i7y2z-0005HP-Ds
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 04:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57026)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7xvh-0007Nt-JH
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:24:46 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7xvj-0007QA-67
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:24:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7xvg-0006PY-Gr
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:24:45 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35153)
+ (envelope-from <palmer@dabbelt.com>) id 1i7xvh-0006QO-QL
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:24:47 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:44645)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xvg-0006P1-AX
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:24:44 -0400
-Received: by mail-wr1-f66.google.com with SMTP id g7so23512325wrx.2
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:24:44 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xvh-0006Pr-KD
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:24:45 -0400
+Received: by mail-wr1-f65.google.com with SMTP id k6so11297140wrn.11
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:24:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=YvM1ymkGWX0+m24LnKUHducTTIF5LG0mv+vTnIqq7DA=;
- b=A0nZuH3JigCORhZrkukakwWqlrjRY/MXN5FjCN+0qa3KEwkjP1FS8T3/BaHgO+xTVV
- FlC3W/MRY57gQI6C/xDcrahpLYjsfHfmusg9XkbCjCXyxaleO0nRk12hyuvrsUYvxo3K
- Cb/CAmBZsRS/ctA1dEUhoKZobJ35nnNt3EMUZKSJ9Jzs8YfqKthJdbL51COqruIA4mNK
- mgKQxy6kjHJgGnSbMB2dqd30438lMJaPkDHTisKKgZVOGcBZKcG3Dx9BiMiHC+n4zQkC
- 1WLqHgIL5H1nCFDKFHJ8yCDtxVuO5rKYjTclN5/BjvoNl453GA0ZvlbSZU3BsFwbAJdJ
- tUoQ==
-X-Gm-Message-State: APjAAAUIkEL1ElS4/9beghpqRyoUZfEeDegiydyqpMS1WOVRwPk7y4Cq
- ez6F4fxIrrck7XN++gf9Wq0YIg==
-X-Google-Smtp-Source: APXvYqxy5fpZopc+f1qtTSV2jQTPByTRnfx5LgPLOOLaFvcnEDddwjxJEgtY7QCtHkjl5U5/RP52yQ==
-X-Received: by 2002:a5d:6043:: with SMTP id j3mr29708111wrt.337.1568190282998; 
- Wed, 11 Sep 2019 01:24:42 -0700 (PDT)
+ bh=VVLPooXrObjSXN8iGYUKJfx4X6XcaPyBT78UkS+kalU=;
+ b=gm37Qa0znVh0twLYYUQ1fVxAnihK8W5UPuV5cmMtSYCLBFbV9pxJFKk0DMhYycJQ7D
+ LGLHKYySHzRqkc/vyvs30j49lohwTJPFqmO30VbhblVfL0jRzOt9YBUoTALl+ezrXUKK
+ 4meqTIyyWUC0ET8aCM1E+6mSmNYVvYd1lCqhqfGq6AqvZPcCzoTrKUbMQE3oBX/7UvTZ
+ TRU8SWcUqE4JTEMMIYJgzBbpJC2TUAMgZhiIiK2ceSwolwn4VsNS1G0BMZUNkHn22lM+
+ VJDfXJ3xVL0vznB+C1lRw7ds33OHe0gPghGT1rb4IWprfRgBMAoXM6tubehcMiaes6Jx
+ MNWw==
+X-Gm-Message-State: APjAAAWIY6dTqDIIApqbzMAqe+t4U5hnraf47FSSS2NUD+hcf9ZUkiuF
+ pI4VpF3d6nGrxZZZcrnYDRGO2A==
+X-Google-Smtp-Source: APXvYqzf9+Up7afotEpbYaTXcMjjlM/bJhX75hcz6JpKDkR7ZVMfWXtIDq1u9YRcVmHACbMhy4LOXQ==
+X-Received: by 2002:adf:ed44:: with SMTP id u4mr15755wro.185.1568190284463;
+ Wed, 11 Sep 2019 01:24:44 -0700 (PDT)
 Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id 207sm3149520wme.17.2019.09.11.01.24.42
+ by smtp.gmail.com with ESMTPSA id u22sm38979755wru.72.2019.09.11.01.24.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 01:24:42 -0700 (PDT)
-Date: Tue, 10 Sep 2019 12:04:32 -0700
-Message-Id: <20190910190513.21160-7-palmer@sifive.com>
+ Wed, 11 Sep 2019 01:24:43 -0700 (PDT)
+Date: Tue, 10 Sep 2019 12:04:33 -0700
+Message-Id: <20190910190513.21160-8-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910190513.21160-1-palmer@sifive.com>
 References: <20190910190513.21160-1-palmer@sifive.com>
@@ -54,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: [Qemu-devel] [PULL 06/47] riscv: plic: Remove unused interrupt
- functions
+X-Received-From: 209.85.221.65
+Subject: [Qemu-devel] [PULL 07/47] target/riscv: Create function to test if
+ FP is enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,62 +69,163 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
- qemu-devel@nongnu.org, Jonathan Behrens <fintelia@gmail.com>,
- Chih-Min Chao <chihmin.chao@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
  ilippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
+Let's create a function that tests if floating point support is
+enabled. We can then protect all floating point operations based on if
+they are enabled.
+
+This patch so far doesn't change anything, it's just preparing for the
+Hypervisor support for floating point operations.
+
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Jonathan Behrens <fintelia@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_plic.c         | 12 ------------
- include/hw/riscv/sifive_plic.h |  3 ---
- 2 files changed, 15 deletions(-)
+ target/riscv/cpu.h        |  6 +++++-
+ target/riscv/cpu_helper.c | 10 ++++++++++
+ target/riscv/csr.c        | 20 +++++++++++---------
+ 3 files changed, 26 insertions(+), 10 deletions(-)
 
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index 64a1a10380..98e4304b66 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -162,18 +162,6 @@ static void sifive_plic_update(SiFivePLICState *plic)
-     }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 18d91d0920..16efe8c860 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -255,6 +255,7 @@ void riscv_cpu_do_interrupt(CPUState *cpu);
+ int riscv_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
++bool riscv_cpu_fp_enabled(CPURISCVState *env);
+ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+@@ -298,7 +299,10 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+ #ifdef CONFIG_USER_ONLY
+     *flags = TB_FLAGS_MSTATUS_FS;
+ #else
+-    *flags = cpu_mmu_index(env, 0) | (env->mstatus & MSTATUS_FS);
++    *flags = cpu_mmu_index(env, 0);
++    if (riscv_cpu_fp_enabled(env)) {
++        *flags |= env->mstatus & MSTATUS_FS;
++    }
+ #endif
  }
  
--void sifive_plic_raise_irq(SiFivePLICState *plic, uint32_t irq)
--{
--    sifive_plic_set_pending(plic, irq, true);
--    sifive_plic_update(plic);
--}
--
--void sifive_plic_lower_irq(SiFivePLICState *plic, uint32_t irq)
--{
--    sifive_plic_set_pending(plic, irq, false);
--    sifive_plic_update(plic);
--}
--
- static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
- {
-     int i, j;
-diff --git a/include/hw/riscv/sifive_plic.h b/include/hw/riscv/sifive_plic.h
-index b0edba2884..4421e81249 100644
---- a/include/hw/riscv/sifive_plic.h
-+++ b/include/hw/riscv/sifive_plic.h
-@@ -69,9 +69,6 @@ typedef struct SiFivePLICState {
-     uint32_t aperture_size;
- } SiFivePLICState;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index e32b6126af..96373b67d8 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -71,6 +71,16 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  
--void sifive_plic_raise_irq(SiFivePLICState *plic, uint32_t irq);
--void sifive_plic_lower_irq(SiFivePLICState *plic, uint32_t irq);
--
- DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-     uint32_t num_sources, uint32_t num_priorities,
-     uint32_t priority_base, uint32_t pending_base,
+ #if !defined(CONFIG_USER_ONLY)
+ 
++/* Return true is floating point support is currently enabled */
++bool riscv_cpu_fp_enabled(CPURISCVState *env)
++{
++    if (env->mstatus & MSTATUS_FS) {
++        return true;
++    }
++
++    return false;
++}
++
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+ {
+     CPURISCVState *env = &cpu->env;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index e0d4586760..2789215b5e 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -46,7 +46,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
+ static int fs(CPURISCVState *env, int csrno)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+-    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
++    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+         return -1;
+     }
+ #endif
+@@ -108,7 +108,7 @@ static int pmp(CPURISCVState *env, int csrno)
+ static int read_fflags(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+-    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
++    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+         return -1;
+     }
+ #endif
+@@ -119,7 +119,7 @@ static int read_fflags(CPURISCVState *env, int csrno, target_ulong *val)
+ static int write_fflags(CPURISCVState *env, int csrno, target_ulong val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+-    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
++    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+         return -1;
+     }
+     env->mstatus |= MSTATUS_FS;
+@@ -131,7 +131,7 @@ static int write_fflags(CPURISCVState *env, int csrno, target_ulong val)
+ static int read_frm(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+-    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
++    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+         return -1;
+     }
+ #endif
+@@ -142,7 +142,7 @@ static int read_frm(CPURISCVState *env, int csrno, target_ulong *val)
+ static int write_frm(CPURISCVState *env, int csrno, target_ulong val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+-    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
++    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+         return -1;
+     }
+     env->mstatus |= MSTATUS_FS;
+@@ -154,7 +154,7 @@ static int write_frm(CPURISCVState *env, int csrno, target_ulong val)
+ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+-    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
++    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+         return -1;
+     }
+ #endif
+@@ -166,7 +166,7 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
+ static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+-    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
++    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+         return -1;
+     }
+     env->mstatus |= MSTATUS_FS;
+@@ -307,6 +307,7 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
+ {
+     target_ulong mstatus = env->mstatus;
+     target_ulong mask = 0;
++    int dirty;
+ 
+     /* flush tlb on mstatus fields that affect VM */
+     if (env->priv_ver <= PRIV_VERSION_1_09_1) {
+@@ -340,8 +341,9 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
+ 
+     mstatus = (mstatus & ~mask) | (val & mask);
+ 
+-    int dirty = ((mstatus & MSTATUS_FS) == MSTATUS_FS) |
+-                ((mstatus & MSTATUS_XS) == MSTATUS_XS);
++    dirty = (riscv_cpu_fp_enabled(env) &&
++             ((mstatus & MSTATUS_FS) == MSTATUS_FS)) |
++            ((mstatus & MSTATUS_XS) == MSTATUS_XS);
+     mstatus = set_field(mstatus, MSTATUS_SD, dirty);
+     env->mstatus = mstatus;
+ 
 -- 
 2.21.0
 
