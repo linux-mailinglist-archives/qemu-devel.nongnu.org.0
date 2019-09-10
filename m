@@ -2,54 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD74CAF88A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:10:09 +0200 (CEST)
-Received: from localhost ([::1]:48348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83D3AF892
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:12:03 +0200 (CEST)
+Received: from localhost ([::1]:48386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7ydc-0008UD-62
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
+	id 1i7yfS-0002ay-5D
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i7yBO-0000pj-U9
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:41:00 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7xwa-0000FS-7j
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i7yBN-0008FP-35
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:40:58 -0400
-Resent-Date: Wed, 11 Sep 2019 04:40:58 -0400
-Resent-Message-Id: <E1i7yBN-0008FP-35@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21862)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i7yBM-0008Ef-TH
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:40:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568191234; cv=none; d=zoho.com; s=zohoarc; 
- b=WGoNoMZe/nxNTWmVS5yEDI9MNSaGv10A0dHXw4zZHnM3MX1AQ/gqdeHeXJr57nBFB7FAMHgMKQEFeTZlRASicwZ7JyxAoIRHuWGSs3XzjZ3ph+SHlZ5eNz9pFd0r9s10qnun0oNbalIboGbhxYrOyK3tTNvydc9Rvxqzd39R6j8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568191234;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=aTYaFs4wgiziJTG0ji8GTrz9u/fG7XFglHIlsglRMEw=; 
- b=YG3Ll+CDSDFIsRwq2oCO1oVWGKdjbiskvfVuQmkw2qYz0PgwfeJoOWbk+ccwpMMHI7JzEOKfNwRph0boreNJC6cKLbp7ad7hV4HAiCG3s0X+sn5coWas37vkGB1DHi8ZVtV3ZLTWaGfLfY9jKSYGjgkrpwnV28L4+Avh7FJX5DQ=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568191233000908.0023094851477;
- Wed, 11 Sep 2019 01:40:33 -0700 (PDT)
-In-Reply-To: <20190910163600.19971-1-laurent@vivier.eu>
-Message-ID: <156819123182.18674.16345102059641214447@5dec9699b7de>
+ (envelope-from <palmer@dabbelt.com>) id 1i7xwY-0006z8-UG
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:40 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:55446)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xwY-0006yg-Nj
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:38 -0400
+Received: by mail-wm1-f67.google.com with SMTP id g207so2322223wmg.5
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding:cc:from:to;
+ bh=9GK2Bf5OnfdKtfsKMa0SLxJhchcsTnh1ghEkn9cP/2k=;
+ b=bGzlaDSTpROVxea19CvHLHZkKsUtB/DDExlw0nBZWehuhkSzXc7g9cyRt7wazEJGf+
+ kfrhs+aLhaXmy1Fkk59hiLKzmq2lkhTZcnrWwHYOJukKrcyKkvy7fdwqMico973BvEhI
+ dpfiIIzXtCCEl3ZlXN5q89R9+111+7Bji4xrOeqKQciClVDCBMmebcphO2kDOz0mshBj
+ GH27xYv8pimCCk66PTbSL2HgYvhWBgqTjL1WRe2e0hu9PgTCYn2Ibuf5Uoe8sDnkRzAh
+ gUdo4Wi+26Dt+n8F39s0zOw/vhD3yjmSKxV+IKQKS6byhJtmeLpvbwKkKbO5vryl2DF2
+ oK8w==
+X-Gm-Message-State: APjAAAVpRxpZBI4LFJJwYfzeeWYEd+Vm5NvR0ywfEn3WW5W5R+W5+p/1
+ NsxTP1Ts6ibMYRte/cufiFOC4X4qtV88BQ==
+X-Google-Smtp-Source: APXvYqx4b8fcm6+z2J9BVueXQJB06f9sWQr/czlXgu6hflbrH2E7AjcsVWjE2V0klFemMixIpkLP1g==
+X-Received: by 2002:a1c:1acc:: with SMTP id a195mr2834573wma.106.1568190337504; 
+ Wed, 11 Sep 2019 01:25:37 -0700 (PDT)
+Received: from localhost ([148.69.85.38])
+ by smtp.gmail.com with ESMTPSA id x17sm2039918wmj.19.2019.09.11.01.25.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Sep 2019 01:25:37 -0700 (PDT)
+Date: Tue, 10 Sep 2019 12:05:11 -0700
+Message-Id: <20190910190513.21160-46-palmer@sifive.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190910190513.21160-1-palmer@sifive.com>
+References: <20190910190513.21160-1-palmer@sifive.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Wed, 11 Sep 2019 01:40:33 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.58
-Subject: Re: [Qemu-devel] [PULL 00/15] Linux user for 4.2 patches
+ [fuzzy]
+X-Received-From: 209.85.128.67
+Subject: [Qemu-devel] [PULL 45/47] target/riscv: Use both register name and
+ ABI name
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,89 +67,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: jcmvbkbc@gmail.com, riku.voipio@iki.fi, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
+ qemu-devel@nongnu.org, Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMDE2MzYwMC4xOTk3
-MS0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BVTEwgMDAvMTVdIExpbnV4IHVzZXIg
-Zm9yIDQuMiBwYXRjaGVzCk1lc3NhZ2UtaWQ6IDIwMTkwOTEwMTYzNjAwLjE5OTcxLTEtbGF1cmVu
-dEB2aXZpZXIuZXUKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jp
-bi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZp
-ZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
-bWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Nj
-cmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5E
-ID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApG
-cm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0
-ZV0gICAgICBwYXRjaGV3L2NvdmVyLjE1NjY2MDM0MTIuZ2l0LmFsaXN0YWlyLmZyYW5jaXNAd2Rj
-LmNvbSAtPiBwYXRjaGV3L2NvdmVyLjE1NjY2MDM0MTIuZ2l0LmFsaXN0YWlyLmZyYW5jaXNAd2Rj
-LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3L2NvdmVyLjE1NjgxNzA5OTQuZ2l0Lm1h
-b3pob25neWlAY21zcy5jaGluYW1vYmlsZS5jb20gLT4gcGF0Y2hldy9jb3Zlci4xNTY4MTcwOTk0
-LmdpdC5tYW96aG9uZ3lpQGNtc3MuY2hpbmFtb2JpbGUuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJy
-YW5jaCAndGVzdCcKYmUyMmI5NSBsaW51eC11c2VyOiBBZGQgc3VwcG9ydCBmb3IgRkRSRVNFVCwg
-RkRSQVdDTUQsIEZEVFdBRERMRSwgYW5kIEZERUpFQ1QgaW9jdGxzCjE4MTIxNjYgbGludXgtdXNl
-cjogQWRkIHN1cHBvcnQgZm9yIEZETVNHT04gYW5kIEZETVNHT0ZGIGlvY3Rscwo0MDg4NGVkIGxp
-bnV4LXVzZXI6IEFkZCBzdXBwb3J0IGZvciBGREZMVVNIIGlvY3RsCmQ1NzRiM2EgbGludXgtdXNl
-cjogQWRkIHN1cHBvcnQgZm9yIEZJT0dFVE9XTiBhbmQgRklPU0VUT1dOIGlvY3RscwplMTZiOGRk
-IGxpbnV4LXVzZXI6IEFkZCBzdXBwb3J0IGZvciBSTkRSRVNFRURDUk5HIGlvY3RsCjkyMjY2OWQg
-bGludXgtdXNlcjogZHJvcCByZWR1bmRhbnQgaGFuZGxpbmcgb2YgZW52aXJvbm1lbnQgdmFyaWFi
-bGVzCmRlYjE4ZGIgdGFyZ2V0L3h0ZW5zYTogbGludXgtdXNlcjogYWRkIGNhbGwwIEFCSSBzdXBw
-b3J0CmE3MGRmOGEgbGludXgtdXNlcjogU3VwcG9ydCBnZGIgJ3FPZmZzZXRzJyBxdWVyeSBmb3Ig
-RUxGCjJhZDNjNjggbGludXgtdXNlci9hcm06IEFkanVzdCBNQVhfUkVTRVJWRURfVkEgZm9yIE0t
-cHJvZmlsZQpiNGFiNGFjIGxpbnV4LXVzZXI6IFBhc3MgQ1BVU3RhdGUgdG8gTUFYX1JFU0VSVkVE
-X1ZBCmE1OWQ3ODggbGludXgtdXNlcjogYWRkIG1lbWZkX2NyZWF0ZQphNjg5MjEwIGxpbnV4LXVz
-ZXI6IGZhaWwgYW5kIHJlcG9ydCBvbiBiYWQgZGZpbHRlciBzcGVjcwphNTAxOGRlIGxpbnV4LXVz
-ZXI6IGVycm9uZW91cyBmZF90cmFuc191bnJlZ2lzdGVyIGNhbGwKZDNkY2Y5OSBsaW51eC11c2Vy
-OiBBZGQgQVRfSFdDQVAyIGZvciBhYXJjaDY0LWxpbnV4LXVzZXIKMzM3OGE0MyBsaW51eC11c2Vy
-OiByZW1vdmUgdXNlbGVzcyB2YXJpYWJsZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xNSBDaGVj
-a2luZyBjb21taXQgMzM3OGE0MzJhNGZjIChsaW51eC11c2VyOiByZW1vdmUgdXNlbGVzcyB2YXJp
-YWJsZSkKMi8xNSBDaGVja2luZyBjb21taXQgZDNkY2Y5OTkzZjkwIChsaW51eC11c2VyOiBBZGQg
-QVRfSFdDQVAyIGZvciBhYXJjaDY0LWxpbnV4LXVzZXIpCjMvMTUgQ2hlY2tpbmcgY29tbWl0IGE1
-MDE4ZGU4YzYxMiAobGludXgtdXNlcjogZXJyb25lb3VzIGZkX3RyYW5zX3VucmVnaXN0ZXIgY2Fs
-bCkKRVJST1I6IEF1dGhvciBlbWFpbCBhZGRyZXNzIGlzIG1hbmdsZWQgYnkgdGhlIG1haWxpbmcg
-bGlzdAojMjogCkF1dGhvcjogU2h1LUNodW4gV2VuZyB2aWEgUWVtdS1kZXZlbCA8cWVtdS1kZXZl
-bEBub25nbnUub3JnPgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA3IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDMvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjQvMTUgQ2hlY2tpbmcg
-Y29tbWl0IGE2ODkyMTA3NjdkMiAobGludXgtdXNlcjogZmFpbCBhbmQgcmVwb3J0IG9uIGJhZCBk
-ZmlsdGVyIHNwZWNzKQo1LzE1IENoZWNraW5nIGNvbW1pdCBhNTlkNzg4NjMyMjcgKGxpbnV4LXVz
-ZXI6IGFkZCBtZW1mZF9jcmVhdGUpCkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5n
-bGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IFNodS1DaHVuIFdlbmcgdmlhIFFl
-bXUtZGV2ZWwgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJu
-aW5ncywgNDIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8xNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoKNi8xNSBDaGVja2luZyBjb21taXQgYjRhYjRhY2VjNjViIChsaW51eC11c2VyOiBQYXNz
-IENQVVN0YXRlIHRvIE1BWF9SRVNFUlZFRF9WQSkKNy8xNSBDaGVja2luZyBjb21taXQgMmFkM2M2
-ODAwM2QzIChsaW51eC11c2VyL2FybTogQWRqdXN0IE1BWF9SRVNFUlZFRF9WQSBmb3IgTS1wcm9m
-aWxlKQo4LzE1IENoZWNraW5nIGNvbW1pdCBhNzBkZjhhZjhkM2MgKGxpbnV4LXVzZXI6IFN1cHBv
-cnQgZ2RiICdxT2Zmc2V0cycgcXVlcnkgZm9yIEVMRikKRVJST1I6IEF1dGhvciBlbWFpbCBhZGRy
-ZXNzIGlzIG1hbmdsZWQgYnkgdGhlIG1haWxpbmcgbGlzdAojMjogCkF1dGhvcjogSm9zaCBLdW56
-IHZpYSBRZW11LWRldmVsIDxxZW11LWRldmVsQG5vbmdudS5vcmc+Cgp0b3RhbDogMSBlcnJvcnMs
-IDAgd2FybmluZ3MsIDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8xNSBoYXMgc3R5bGUgcHJvYmxl
-bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
-dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
-SU5UQUlORVJTLgoKOS8xNSBDaGVja2luZyBjb21taXQgZGViMThkYjQzYzJhICh0YXJnZXQveHRl
-bnNhOiBsaW51eC11c2VyOiBhZGQgY2FsbDAgQUJJIHN1cHBvcnQpCjEwLzE1IENoZWNraW5nIGNv
-bW1pdCA5MjI2NjlkMWFkNDcgKGxpbnV4LXVzZXI6IGRyb3AgcmVkdW5kYW50IGhhbmRsaW5nIG9m
-IGVudmlyb25tZW50IHZhcmlhYmxlcykKMTEvMTUgQ2hlY2tpbmcgY29tbWl0IGUxNmI4ZGRmODJl
-YiAobGludXgtdXNlcjogQWRkIHN1cHBvcnQgZm9yIFJORFJFU0VFRENSTkcgaW9jdGwpCjEyLzE1
-IENoZWNraW5nIGNvbW1pdCBkNTc0YjNhM2VkNzUgKGxpbnV4LXVzZXI6IEFkZCBzdXBwb3J0IGZv
-ciBGSU9HRVRPV04gYW5kIEZJT1NFVE9XTiBpb2N0bHMpCjEzLzE1IENoZWNraW5nIGNvbW1pdCA0
-MDg4NGVkYmM0NWQgKGxpbnV4LXVzZXI6IEFkZCBzdXBwb3J0IGZvciBGREZMVVNIIGlvY3RsKQox
-NC8xNSBDaGVja2luZyBjb21taXQgMTgxMjE2NjljOTY1IChsaW51eC11c2VyOiBBZGQgc3VwcG9y
-dCBmb3IgRkRNU0dPTiBhbmQgRkRNU0dPRkYgaW9jdGxzKQoxNS8xNSBDaGVja2luZyBjb21taXQg
-YmUyMmI5NTlkNjZmIChsaW51eC11c2VyOiBBZGQgc3VwcG9ydCBmb3IgRkRSRVNFVCwgRkRSQVdD
-TUQsIEZEVFdBRERMRSwgYW5kIEZERUpFQ1QgaW9jdGxzKQo9PT0gT1VUUFVUIEVORCA9PT0KClRl
-c3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJs
-ZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDkxMDE2MzYwMC4xOTk3MS0xLWxhdXJl
-bnRAdml2aWVyLmV1L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
-Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
-LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+From: Atish Patra <atish.patra@wdc.com>
+
+Use both the generic register name and ABI name for the general purpose
+registers and floating point registers.
+
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+---
+ target/riscv/cpu.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 6d52f97d7c..f13e298a36 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -34,17 +34,20 @@
+ static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+ 
+ const char * const riscv_int_regnames[] = {
+-  "zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
+-  "s0",   "s1", "a0",  "a1",  "a2", "a3", "a4", "a5",
+-  "a6",   "a7", "s2",  "s3",  "s4", "s5", "s6", "s7",
+-  "s8",   "s9", "s10", "s11", "t3", "t4", "t5", "t6"
++  "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
++  "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
++  "x14/a4",  "x15/a5", "x16/a6", "x17/a7", "x18/s2", "x19/s3",  "x20/s4",
++  "x21/s5",  "x22/s6", "x23/s7", "x24/s8", "x25/s9", "x26/s10", "x27/s11",
++  "x28/t3",  "x29/t4", "x30/t5", "x31/t6"
+ };
+ 
+ const char * const riscv_fpr_regnames[] = {
+-  "ft0", "ft1", "ft2",  "ft3",  "ft4", "ft5", "ft6",  "ft7",
+-  "fs0", "fs1", "fa0",  "fa1",  "fa2", "fa3", "fa4",  "fa5",
+-  "fa6", "fa7", "fs2",  "fs3",  "fs4", "fs5", "fs6",  "fs7",
+-  "fs8", "fs9", "fs10", "fs11", "ft8", "ft9", "ft10", "ft11"
++  "f0/ft0",   "f1/ft1",  "f2/ft2",   "f3/ft3",   "f4/ft4",  "f5/ft5",
++  "f6/ft6",   "f7/ft7",  "f8/fs0",   "f9/fs1",   "f10/fa0", "f11/fa1",
++  "f12/fa2",  "f13/fa3", "f14/fa4",  "f15/fa5",  "f16/fa6", "f17/fa7",
++  "f18/fs2",  "f19/fs3", "f20/fs4",  "f21/fs5",  "f22/fs6", "f23/fs7",
++  "f24/fs8",  "f25/fs9", "f26/fs10", "f27/fs11", "f28/ft8", "f29/ft9",
++  "f30/ft10", "f31/ft11"
+ };
+ 
+ const char * const riscv_excp_names[] = {
+-- 
+2.21.0
 
 
