@@ -2,73 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782F7AE751
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:51:51 +0200 (CEST)
-Received: from localhost ([::1]:36920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF578AE75E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:55:03 +0200 (CEST)
+Received: from localhost ([::1]:36952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7coQ-0005JQ-J8
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:51:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49722)
+	id 1i7crX-0006pt-0M
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7cnD-0004jI-Ia
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:50:36 -0400
+ (envelope-from <berrange@redhat.com>) id 1i7cqP-0006Ly-SZ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:53:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7cnC-0007nh-BX
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:50:35 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39927)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7cnC-0007mT-4b
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:50:34 -0400
-Received: by mail-wr1-x443.google.com with SMTP id t16so18818529wra.6
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 02:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=FUE9oJukkj1jq3GkCNRc0sekgNPaHnQq4gG4He90fw0=;
- b=ZT+Lio8pMng0N6sfnB2Rfrno91+uLOprLl3KQIUZGdZMRcFpyYU857MOLPQCPFm+uD
- 0hr6q/p2RPH3OOUhRi+NdpyqpIamfATby/EK1bF8HrwptRhltWHCNUBcsOsTybP69gO9
- 7+Y/G/K3ZuAlx7Hoa0o9kwStrAClk0EoMSD4MeNFRJG0ONGpN/+bGIrLArwDFbdxjrDj
- tQ/V5QxP5BetKr4ze/UQUbqEO3BiUHcTscieeoR1PkDuiF1B+SFwqmC6BcMX1uLE+p70
- llvUvX9brBV922fwkCNhXGQVG20292ZJtnYm6ofUjM49BOzsItUnZ8EmHqIk4j/Hbhyq
- tJwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=FUE9oJukkj1jq3GkCNRc0sekgNPaHnQq4gG4He90fw0=;
- b=rfx1ynyj0Ee6sGhNT5a5Td34DKV6EhJ14/jC7F4cyYXYJftAI+I1+/6Sra+PTWmjPA
- U8Mzox/40ASMRhSkn/4N30DO3lnDOzJhUz2ZFxhaGK4qMtcImVMLKK2ffCoEa4AAlrOb
- VrKnygJODbeZqupwYE7B3ITorwj6Cm4pGIyhyzSbksAd8EoPr6ROsgNnhoIoy1WGjE4H
- BSTDr2hL75QYXpGbUXTBh2v+K3HZ12008HTVxbdtFaPY1/4HzuBfeOxhJt8VAjXovVMe
- k5X6teHrGoC9v9tTeUZZDpdO5BZmnDZGYuhFd9ESFQw9xiHg2ZROxw5hgsCUEueXMaTK
- Pq4w==
-X-Gm-Message-State: APjAAAWARXmzP0aBCAIt/uuBSCs28CeZN2sXii2K2HeBYJDecR/OkiKp
- 3f1e/y4LTdxrUUjxkBhNBBuzJA==
-X-Google-Smtp-Source: APXvYqwFSUEKfOjRnSLPqhK1DGdlGhCLyQC8TJ3n6APjp8ftdfn6gX/4P2Aofogx8IBY2vH+h+QoQA==
-X-Received: by 2002:a5d:678d:: with SMTP id v13mr6583942wru.133.1568109031826; 
- Tue, 10 Sep 2019 02:50:31 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t25sm2188649wmj.29.2019.09.10.02.50.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 02:50:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C3481FF87;
- Tue, 10 Sep 2019 10:50:30 +0100 (BST)
+ (envelope-from <berrange@redhat.com>) id 1i7cqO-0001Hd-O2
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:53:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52794)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i7cqO-0001H2-Ip
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:53:52 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0B9E710E7A36;
+ Tue, 10 Sep 2019 09:53:51 +0000 (UTC)
+Received: from redhat.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AE29100194E;
+ Tue, 10 Sep 2019 09:53:49 +0000 (UTC)
+Date: Tue, 10 Sep 2019 10:53:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Message-ID: <20190910095346.GD8583@redhat.com>
 References: <20190910090821.28327-1-sgarzare@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190910090821.28327-1-sgarzare@redhat.com>
-Date: Tue, 10 Sep 2019 10:50:30 +0100
-Message-ID: <87mufc1nvd.fsf@linaro.org>
+ <87mufc1nvd.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87mufc1nvd.fsf@linaro.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Tue, 10 Sep 2019 09:53:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH] elf-ops.h: fix int overflow in load_elf()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,72 +58,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Sep 10, 2019 at 10:50:30AM +0100, Alex Benn=C3=A9e wrote:
+>=20
+> Stefano Garzarella <sgarzare@redhat.com> writes:
+>=20
+> > This patch fixes a possible integer overflow when we calculate
+> > the total size of ELF segments loaded.
+> >
+> > Reported-by: Coverity (CID 1405299)
+> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> > ---
+> > Now we are limited to INT_MAX, should load_elf() returns ssize_t
+> > to support bigger ELFs?
+> > ---
+> >  include/hw/elf_ops.h | 6 ++++++
+> >  hw/core/loader.c     | 1 +
+> >  2 files changed, 7 insertions(+)
+> >
+> > diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+> > index 1496d7e753..46dd3bf413 100644
+> > --- a/include/hw/elf_ops.h
+> > +++ b/include/hw/elf_ops.h
+> > @@ -485,6 +485,12 @@ static int glue(load_elf, SZ)(const char *name, =
+int fd,
+> >                  }
+> >              }
+> >
+> > +            if (mem_size > INT_MAX - total_size) {
+> > +                error_report("ELF total segments size is too big to =
+load "
+> > +                             "max is %d)", INT_MAX);
+> > +                goto fail;
+> > +            }
+> > +
+>=20
+> Seem sensible enough (although gah, I hate these glue bits). Would the
+> large amount of goto fail logic be something that could be cleaned up
+> with the automatic cleanup functions we recently mentioned in
+> CODING_STYLE.rst?
 
-Stefano Garzarella <sgarzare@redhat.com> writes:
+The target has this:
 
-> This patch fixes a possible integer overflow when we calculate
-> the total size of ELF segments loaded.
->
-> Reported-by: Coverity (CID 1405299)
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> ---
-> Now we are limited to INT_MAX, should load_elf() returns ssize_t
-> to support bigger ELFs?
-> ---
->  include/hw/elf_ops.h | 6 ++++++
->  hw/core/loader.c     | 1 +
->  2 files changed, 7 insertions(+)
->
-> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-> index 1496d7e753..46dd3bf413 100644
-> --- a/include/hw/elf_ops.h
-> +++ b/include/hw/elf_ops.h
-> @@ -485,6 +485,12 @@ static int glue(load_elf, SZ)(const char *name, int =
-fd,
->                  }
->              }
->
-> +            if (mem_size > INT_MAX - total_size) {
-> +                error_report("ELF total segments size is too big to load=
- "
-> +                             "max is %d)", INT_MAX);
-> +                goto fail;
-> +            }
-> +
-
-Seem sensible enough (although gah, I hate these glue bits). Would the
-large amount of goto fail logic be something that could be cleaned up
-with the automatic cleanup functions we recently mentioned in
-CODING_STYLE.rst?
-
-Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-
->              /* address_offset is hack for kernel images that are
->                 linked at the wrong physical address.  */
->              if (translate_fn) {
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index 32f7cc7c33..feda52fa88 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -44,6 +44,7 @@
->
->  #include "qemu/osdep.h"
->  #include "qemu-common.h"
-> +#include "qemu/error-report.h"
->  #include "qapi/error.h"
->  #include "hw/hw.h"
->  #include "disas/disas.h"
+ fail:
+    g_mapped_file_unref(mapped_file);
+    g_free(phdr);
+    return ret;
 
 
---
-Alex Benn=C3=A9e
+
+GMappedFIle supports the  g_autoptr cleanup, and g_free is trivially
+done with g_autofree.
+
+So yes, you can entirely kill the goto's in this function using
+auto cleanup
+
+>=20
+> Anyway:
+>=20
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>=20
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
