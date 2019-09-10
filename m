@@ -2,75 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283DEAF1F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:41:18 +0200 (CEST)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C90AF207
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:48:59 +0200 (CEST)
+Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7m0q-0007tl-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58996)
+	id 1i7m8H-0007c4-SH
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7lu8-00011y-Rq
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:25 -0400
+ (envelope-from <groug@kaod.org>) id 1i7lwS-0003dr-DP
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:36:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7lu2-0006mA-HM
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:20 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37267)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7lu2-0006kU-1p
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:14 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i1so21292514wro.4
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 12:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JsFRcEl2DcaLcclzT+IneVbnyOOq8rTFO8lmcuTBMe4=;
- b=ONaqj+CTn8G/i9Wqg/GAlSrM6b5cEGQJ4mOkSayNCso6uG+jEBpjjIl7udMbVkrnvB
- m+vuDQWalK0ekS1bf6DokDDiN+I2tH8uc1q7PP501nMiDbNrvl4tjjuyqSFZ4z3HmUce
- IsEpHQER17KsAtzm2gaM6poRNSL+aF/qxEOtdNyX1wyctkhn3jBM9zWM+vNgrdnu2+uf
- KNPNIchpw4Qrq3uQdjQjdqrhebhUK4fw2AEKvQh31IHGXG+ESKxhmG4vwNuOF6+Q0Crg
- 3QB5Yvs885z5/UBD6QtksZK1oVtE1SU3BPMHzsAM0SUQCsxP3wy5F29ItDJ8KpmgkwKP
- l9KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JsFRcEl2DcaLcclzT+IneVbnyOOq8rTFO8lmcuTBMe4=;
- b=KmqZRWU/yKsCwd0VlBLw/gzgetktxR5rWPa5tOqxPy/05uhZRkQLlJHsQbbz9mo5in
- sry1/c7pECCgFMewaQJDly/iCc+8wK8Qvm1zD54mLNxtjEziPVho7zfx9o7/B/YXxe5I
- 2YTfYHaPxgjLvrLMGz9ga21MIotuQv/YmBPyiKOXWGp0/A/69gakMZuF4q1ukumHvNtd
- XfUuBNJTKBrbCaDRXMhCaMkca0CIcQjgfCPboaPVGT68aAu2aV3RLckDv91V45BC+Gew
- VlzzuGCHf69pRN1DwVF2i58QAzDx69EHb6vNBzGRaLCxwexYPaxPsSazQePEBca192iS
- iQ/w==
-X-Gm-Message-State: APjAAAUa0x3GehkSVg7RdVDXpNSnaOCOQmyLvFc3QYkDsnAgLsqSQw7J
- Nf/ENNLCjBoJXn0yS8z149D7UA==
-X-Google-Smtp-Source: APXvYqzXRGV/EoI/8ddatC6iRcUwwBxRDVwmDX8VH+TU784R4+XXm4estppoH+KeFR4TaoUscX6SYQ==
-X-Received: by 2002:adf:e4cd:: with SMTP id v13mr9918723wrm.165.1568144052158; 
- Tue, 10 Sep 2019 12:34:12 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m17sm21089285wrs.9.2019.09.10.12.34.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 12:34:11 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3CB221FF8F;
- Tue, 10 Sep 2019 20:34:09 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 20:34:06 +0100
-Message-Id: <20190910193408.28917-3-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190910193408.28917-1-alex.bennee@linaro.org>
-References: <20190910193408.28917-1-alex.bennee@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1i7lwQ-00084R-AS
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:36:44 -0400
+Received: from 4.mo68.mail-out.ovh.net ([46.105.59.63]:50116)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i7lwQ-00080c-4s
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:36:42 -0400
+Received: from player770.ha.ovh.net (unknown [10.108.35.124])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 4C301142339
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 21:36:33 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player770.ha.ovh.net (Postfix) with ESMTPSA id 250509AC1393;
+ Tue, 10 Sep 2019 19:36:27 +0000 (UTC)
+Date: Tue, 10 Sep 2019 21:36:25 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Message-ID: <20190910213625.14078565@bahia.lan>
+In-Reply-To: <20190910061326.25366-1-clg@kaod.org>
+References: <20190910061326.25366-1-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v1 2/4] elf: move elf.h to elf/elf.h and split
- out types
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 18104470503655381387
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrtddtgdduudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.59.63
+Subject: Re: [Qemu-devel] [PATCH] spapr/irq: Only claim VALID interrupts at
+ the KVM level
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,1055 +56,365 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
- Palmer Dabbelt <palmer@sifive.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
- Jia Liu <proljc@gmail.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- Helge Deller <deller@gmx.de>, David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, Fabien Chouteau <chouteau@adacore.com>,
- "open list:S390-ccw boot" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
- Stafford Horne <shorne@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Michael Walle <michael@walle.cc>, "open list:PReP" <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the users of elf.h just want the standard Elf definitions. The
-couple that want more than that want an expansion based on ELF_CLASS
-which can be used for size agnostic code. The later is moved into
-elf/elf-types.inc.h to make it clearer what it is for. While doing
-that I also removed the whitespace damage.
+On Tue, 10 Sep 2019 08:13:26 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- bsd-user/elfload.c               |  2 +-
- contrib/elf2dmp/qemu_elf.h       |  2 +-
- disas.c                          |  2 +-
- dump/dump.c                      |  2 +-
- dump/win_dump.c                  |  2 +-
- hw/alpha/dp264.c                 |  2 +-
- hw/arm/armv7m.c                  |  2 +-
- hw/arm/boot.c                    |  2 +-
- hw/core/loader.c                 |  3 +-
- hw/cris/axis_dev88.c             |  2 +-
- hw/cris/boot.c                   |  2 +-
- hw/hppa/machine.c                |  2 +-
- hw/i386/multiboot.c              |  2 +-
- hw/i386/pc.c                     |  2 +-
- hw/lm32/lm32_boards.c            |  2 +-
- hw/lm32/milkymist.c              |  2 +-
- hw/m68k/an5206.c                 |  2 +-
- hw/m68k/mcf5208.c                |  2 +-
- hw/microblaze/boot.c             |  2 +-
- hw/mips/mips_fulong2e.c          |  2 +-
- hw/mips/mips_malta.c             |  2 +-
- hw/mips/mips_mipssim.c           |  2 +-
- hw/mips/mips_r4k.c               |  2 +-
- hw/moxie/moxiesim.c              |  2 +-
- hw/nios2/boot.c                  |  2 +-
- hw/openrisc/openrisc_sim.c       |  2 +-
- hw/pci-host/prep.c               |  2 +-
- hw/ppc/e500.c                    |  2 +-
- hw/ppc/mac_newworld.c            |  2 +-
- hw/ppc/mac_oldworld.c            |  2 +-
- hw/ppc/ppc440_bamboo.c           |  2 +-
- hw/ppc/prep.c                    |  2 +-
- hw/ppc/sam460ex.c                |  2 +-
- hw/ppc/spapr.c                   |  2 +-
- hw/ppc/spapr_vio.c               |  2 +-
- hw/ppc/virtex_ml507.c            |  2 +-
- hw/riscv/boot.c                  |  2 +-
- hw/s390x/ipl.c                   |  2 +-
- hw/sparc/leon3.c                 |  2 +-
- hw/sparc/sun4m.c                 |  2 +-
- hw/sparc64/sun4u.c               |  2 +-
- hw/tricore/tricore_testboard.c   |  2 +-
- hw/xtensa/sim.c                  |  2 +-
- hw/xtensa/xtfpga.c               |  2 +-
- include/elf/elf-types.inc.h      | 63 ++++++++++++++++++++++++++++++++
- include/{ => elf}/elf.h          | 42 ---------------------
- include/hw/core/generic-loader.h |  2 +-
- linux-user/arm/cpu_loop.c        |  2 +-
- linux-user/elfload.c             |  5 +--
- linux-user/main.c                |  2 +-
- linux-user/mips/cpu_loop.c       |  2 +-
- linux-user/riscv/cpu_loop.c      |  2 +-
- target/arm/arch_dump.c           |  2 +-
- target/i386/arch_dump.c          |  2 +-
- target/ppc/arch_dump.c           |  2 +-
- target/ppc/kvm.c                 |  2 +-
- target/s390x/arch_dump.c         |  2 +-
- tcg/arm/tcg-target.inc.c         |  2 +-
- tcg/ppc/tcg-target.inc.c         |  2 +-
- tcg/s390/tcg-target.inc.c        |  2 +-
- tcg/tcg.c                        |  5 ++-
- util/getauxval.c                 |  2 +-
- 62 files changed, 128 insertions(+), 104 deletions(-)
- create mode 100644 include/elf/elf-types.inc.h
- rename include/{ => elf}/elf.h (98%)
+> A typical pseries VM with 16 vCPUs, one disk, one network adapater
+> uses less than 100 interrupts but the whole IRQ number space of the
+> QEMU machine is allocated at reset time and it is 8K wide. This is
+> wasting considerably the global IRQ space of the overall system which
+> has 1M interrupts per socket on a POWER9.
+>=20
+> To optimise the HW resources, only request at the KVM level interrupts
+> which have been claimed. This will help up increase the maximum number
+> of VMs per system.
+>=20
+> To keep migration compatibility, we introduce a machine class
+> attribute to adapt the reset behavior on older pseries machines.
+>=20
 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 32378af7b2e..321ee98b86b 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -509,7 +509,7 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- #define bswaptls(ptr) bswap32s(ptr)
- #endif
- 
--#include "elf.h"
-+#include "elf/elf.h"
- 
- struct exec
- {
-diff --git a/contrib/elf2dmp/qemu_elf.h b/contrib/elf2dmp/qemu_elf.h
-index b2f0d9cbc9b..060d148d7f0 100644
---- a/contrib/elf2dmp/qemu_elf.h
-+++ b/contrib/elf2dmp/qemu_elf.h
-@@ -7,7 +7,7 @@
- #ifndef ELF2DMP_QEMU_ELF_H
- #define ELF2DMP_QEMU_ELF_H
- 
--#include "elf.h"
-+#include "elf/elf.h"
- 
- typedef struct QEMUCPUSegment {
-     uint32_t selector;
-diff --git a/disas.c b/disas.c
-index 3e2bfa572b1..6f2370cfda7 100644
---- a/disas.c
-+++ b/disas.c
-@@ -1,7 +1,7 @@
- /* General "disassemble this chunk" code.  Used for debugging. */
- #include "qemu/osdep.h"
- #include "disas/dis-asm.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "qemu/qemu-print.h"
- 
- #include "cpu.h"
-diff --git a/dump/dump.c b/dump/dump.c
-index 6fb6e1245ad..6b084a21a2a 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -14,7 +14,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu/cutils.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "cpu.h"
- #include "exec/hwaddr.h"
- #include "monitor/monitor.h"
-diff --git a/dump/win_dump.c b/dump/win_dump.c
-index eda2a489742..8232c3cb6b3 100644
---- a/dump/win_dump.c
-+++ b/dump/win_dump.c
-@@ -11,7 +11,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu/cutils.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "cpu.h"
- #include "exec/hwaddr.h"
- #include "monitor/monitor.h"
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index 51feee85581..87e5c77c69c 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -9,7 +9,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "cpu.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/loader.h"
- #include "alpha_sys.h"
- #include "qemu/error-report.h"
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 7a3c48f0026..559586fa527 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -15,7 +15,7 @@
- #include "hw/arm/boot.h"
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "qemu/error-report.h"
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index bf97ef3e339..7818e5b5518 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -20,7 +20,7 @@
- #include "hw/boards.h"
- #include "sysemu/reset.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/device_tree.h"
- #include "qemu/config-file.h"
- #include "qemu/option.h"
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 32f7cc7c33c..e0c6563e643 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -59,6 +59,7 @@
- #include "hw/boards.h"
- #include "qemu/cutils.h"
- #include "sysemu/runstate.h"
-+#include "elf/elf.h"
- 
- #include <zlib.h>
- 
-@@ -295,7 +296,7 @@ static void *load_at(int fd, off_t offset, size_t size)
- #endif
- 
- #define ELF_CLASS   ELFCLASS32
--#include "elf.h"
-+#include "elf/elf-types.inc.h"
- 
- #define SZ		32
- #define elf_word        uint32_t
-diff --git a/hw/cris/axis_dev88.c b/hw/cris/axis_dev88.c
-index 940c7dd1226..31dc391a637 100644
---- a/hw/cris/axis_dev88.c
-+++ b/hw/cris/axis_dev88.c
-@@ -32,7 +32,7 @@
- #include "hw/boards.h"
- #include "hw/cris/etraxfs.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "boot.h"
- #include "exec/address-spaces.h"
- #include "sysemu/qtest.h"
-diff --git a/hw/cris/boot.c b/hw/cris/boot.c
-index 2d2cc0c7a53..0b8008ca0b2 100644
---- a/hw/cris/boot.c
-+++ b/hw/cris/boot.c
-@@ -25,7 +25,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "boot.h"
- #include "qemu/cutils.h"
- #include "sysemu/reset.h"
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 2736ce835ee..3c121f1a645 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -6,7 +6,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "cpu.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/loader.h"
- #include "hw/boards.h"
- #include "qemu/error-report.h"
-diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
-index 9a59f954972..54a7e5f048e 100644
---- a/hw/i386/multiboot.c
-+++ b/hw/i386/multiboot.c
-@@ -28,7 +28,7 @@
- #include "hw/nvram/fw_cfg.h"
- #include "multiboot.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/sysemu.h"
- #include "qemu/error-report.h"
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index bad866fe44f..e84710a944a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -39,7 +39,7 @@
- #include "hw/timer/hpet.h"
- #include "hw/firmware/smbios.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "migration/vmstate.h"
- #include "multiboot.h"
- #include "hw/timer/mc146818rtc.h"
-diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
-index 5ae308bfcfb..12c60ad9b74 100644
---- a/hw/lm32/lm32_boards.c
-+++ b/hw/lm32/lm32_boards.c
-@@ -26,7 +26,7 @@
- #include "hw/block/flash.h"
- #include "hw/boards.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "lm32_hwsetup.h"
- #include "lm32.h"
- #include "exec/address-spaces.h"
-diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
-index 460d322de57..9f3a2f2ff5f 100644
---- a/hw/lm32/milkymist.c
-+++ b/hw/lm32/milkymist.c
-@@ -31,7 +31,7 @@
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "milkymist-hw.h"
- #include "hw/display/milkymist_tmu2.h"
- #include "lm32.h"
-diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
-index 54ccbe1a822..12664b872bc 100644
---- a/hw/m68k/an5206.c
-+++ b/hw/m68k/an5206.c
-@@ -12,7 +12,7 @@
- #include "hw/m68k/mcf.h"
- #include "hw/boards.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
- #include "sysemu/qtest.h"
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index 012710d057d..42d79bd2f03 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -25,7 +25,7 @@
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/sysbus.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "exec/address-spaces.h"
- 
- #define SYS_FREQ 166666666
-diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
-index bade4d22c00..0c1020cd373 100644
---- a/hw/microblaze/boot.c
-+++ b/hw/microblaze/boot.c
-@@ -34,7 +34,7 @@
- #include "sysemu/reset.h"
- #include "sysemu/sysemu.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "qemu/cutils.h"
- 
- #include "boot.h"
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index cf537dd7e63..4ba670cc909 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -37,7 +37,7 @@
- #include "qemu/log.h"
- #include "hw/loader.h"
- #include "hw/ide.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/isa/vt82c686.h"
- #include "hw/timer/mc146818rtc.h"
- #include "hw/timer/i8254.h"
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 4d9c64b36ab..1c841298363 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -44,7 +44,7 @@
- #include "hw/ide.h"
- #include "hw/irq.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/timer/mc146818rtc.h"
- #include "hw/timer/i8254.h"
- #include "exec/address-spaces.h"
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-index 282bbecb24e..d6acd53b3e3 100644
---- a/hw/mips/mips_mipssim.c
-+++ b/hw/mips/mips_mipssim.c
-@@ -38,7 +38,7 @@
- #include "hw/boards.h"
- #include "hw/mips/bios.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/sysbus.h"
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index bc0be265441..7fc2fc51fee 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -27,7 +27,7 @@
- #include "hw/mips/bios.h"
- #include "hw/ide.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/timer/mc146818rtc.h"
- #include "hw/input/i8042.h"
- #include "hw/timer/i8254.h"
-diff --git a/hw/moxie/moxiesim.c b/hw/moxie/moxiesim.c
-index 57af1b48912..bc1cc8b0bf8 100644
---- a/hw/moxie/moxiesim.c
-+++ b/hw/moxie/moxiesim.c
-@@ -37,7 +37,7 @@
- #include "hw/loader.h"
- #include "hw/char/serial.h"
- #include "exec/address-spaces.h"
--#include "elf.h"
-+#include "elf/elf.h"
- 
- #define PHYS_MEM_BASE 0x80000000
- #define FIRMWARE_BASE 0x1000
-diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
-index d78bc9ed0e2..ec1eb15bcaa 100644
---- a/hw/nios2/boot.c
-+++ b/hw/nios2/boot.c
-@@ -39,7 +39,7 @@
- #include "sysemu/reset.h"
- #include "sysemu/sysemu.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- 
- #include "boot.h"
- 
-diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index 79e70493fc7..f21a2962a90 100644
---- a/hw/openrisc/openrisc_sim.c
-+++ b/hw/openrisc/openrisc_sim.c
-@@ -24,7 +24,7 @@
- #include "cpu.h"
- #include "hw/irq.h"
- #include "hw/boards.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/char/serial.h"
- #include "net/net.h"
- #include "hw/loader.h"
-diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-index 85d7ba90374..9568746d8e2 100644
---- a/hw/pci-host/prep.c
-+++ b/hw/pci-host/prep.c
-@@ -37,7 +37,7 @@
- #include "hw/loader.h"
- #include "hw/or-irq.h"
- #include "exec/address-spaces.h"
--#include "elf.h"
-+#include "elf/elf.h"
- 
- #define TYPE_RAVEN_PCI_DEVICE "raven"
- #define TYPE_RAVEN_PCI_HOST_BRIDGE "raven-pcihost"
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 91cd4c26f91..add6277ad6c 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -36,7 +36,7 @@
- #include "hw/ppc/ppc.h"
- #include "hw/qdev-properties.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/sysbus.h"
- #include "exec/address-spaces.h"
- #include "qemu/host-utils.h"
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index c5bbcc74335..50babbb7a67 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -65,7 +65,7 @@
- #include "hw/ide.h"
- #include "hw/loader.h"
- #include "hw/fw-path-provider.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 0fa680b7499..64fe33cd1f3 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -44,7 +44,7 @@
- #include "hw/ide.h"
- #include "hw/loader.h"
- #include "hw/fw-path-provider.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 4d95c0f8a88..15f39b332a8 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -23,7 +23,7 @@
- #include "kvm_ppc.h"
- #include "sysemu/device_tree.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "exec/address-spaces.h"
- #include "hw/char/serial.h"
- #include "hw/ppc/ppc.h"
-diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-index 4f3c6bf1901..8bd3209dec7 100644
---- a/hw/ppc/prep.c
-+++ b/hw/ppc/prep.c
-@@ -49,7 +49,7 @@
- #include "sysemu/reset.h"
- #include "exec/address-spaces.h"
- #include "trace.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "qemu/units.h"
- #include "kvm_ppc.h"
- 
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 437e214210b..982b80e5bad 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -22,7 +22,7 @@
- #include "sysemu/device_tree.h"
- #include "sysemu/block-backend.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "exec/address-spaces.h"
- #include "exec/memory.h"
- #include "ppc440.h"
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 222a325056c..57f8041ec81 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -36,7 +36,7 @@
- #include "sysemu/runstate.h"
- #include "qemu/log.h"
- #include "hw/fw-path-provider.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "net/net.h"
- #include "sysemu/device_tree.h"
- #include "sysemu/cpus.h"
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index 0803649658f..6d90322db0b 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -26,7 +26,7 @@
- #include "hw/irq.h"
- #include "qemu/log.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/sysbus.h"
- #include "sysemu/kvm.h"
- #include "sysemu/device_tree.h"
-diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-index 68625522d8a..ede7da4bbc2 100644
---- a/hw/ppc/virtex_ml507.c
-+++ b/hw/ppc/virtex_ml507.c
-@@ -35,7 +35,7 @@
- #include "hw/boards.h"
- #include "sysemu/device_tree.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "qemu/option.h"
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 4c63b5cf8a8..9a7b4a5ca87 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -25,7 +25,7 @@
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/riscv/boot.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/qtest.h"
- 
- #if defined(TARGET_RISCV32)
-diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-index ca544d64c5e..cf4e06b633e 100644
---- a/hw/s390x/ipl.c
-+++ b/hw/s390x/ipl.c
-@@ -19,7 +19,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/tcg.h"
- #include "cpu.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
- #include "hw/boards.h"
-diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-index c5f1b1ee72e..735a823fd56 100644
---- a/hw/sparc/leon3.c
-+++ b/hw/sparc/leon3.c
-@@ -37,7 +37,7 @@
- #include "sysemu/reset.h"
- #include "hw/boards.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "trace.h"
- #include "exec/address-spaces.h"
- 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 6c5a17a0205..d542a6c203c 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -49,7 +49,7 @@
- #include "hw/empty_slot.h"
- #include "hw/irq.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "trace.h"
- 
- /*
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 1ded2a4c9ab..79b15c8aec3 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -54,7 +54,7 @@
- #include "hw/ide/pci.h"
- #include "hw/loader.h"
- #include "hw/fw-path-provider.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "trace.h"
- 
- #define KERNEL_LOAD_ADDR     0x00404000
-diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
-index aef3289f8c3..84e8d7b429f 100644
---- a/hw/tricore/tricore_testboard.c
-+++ b/hw/tricore/tricore_testboard.c
-@@ -26,7 +26,7 @@
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "exec/address-spaces.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/tricore/tricore.h"
- #include "qemu/error-report.h"
- 
-diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
-index 981dbb7bbeb..f8d96fc452c 100644
---- a/hw/xtensa/sim.c
-+++ b/hw/xtensa/sim.c
-@@ -32,7 +32,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/boards.h"
- #include "hw/loader.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "exec/memory.h"
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
-diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
-index 8220c7a3794..5e3ed738fa8 100644
---- a/hw/xtensa/xtfpga.c
-+++ b/hw/xtensa/xtfpga.c
-@@ -33,7 +33,7 @@
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "exec/memory.h"
- #include "exec/address-spaces.h"
- #include "hw/char/serial.h"
-diff --git a/include/elf/elf-types.inc.h b/include/elf/elf-types.inc.h
-new file mode 100644
-index 00000000000..35163adb2b5
---- /dev/null
-+++ b/include/elf/elf-types.inc.h
-@@ -0,0 +1,63 @@
-+/*
-+ * Elf Type Specialisation
-+ *
-+ * Copyright (c) 2019
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * This code is licensed under the GNU .
-+ */
-+
-+#ifndef _ELF_TYPES_INC_H_
-+#define _ELF_TYPES_INC_H_
-+
-+#ifndef ELF_CLASS
-+#error you must define ELF_CLASS before including elf-types.inc.h
-+#else
-+
-+#if ELF_CLASS == ELFCLASS32
-+
-+#define elfhdr      elf32_hdr
-+#define elf_phdr    elf32_phdr
-+#define elf_note    elf32_note
-+#define elf_shdr    elf32_shdr
-+#define elf_sym     elf32_sym
-+#define elf_addr_t  Elf32_Off
-+#define elf_rela    elf32_rela
-+
-+#ifdef ELF_USES_RELOCA
-+# define ELF_RELOC  Elf32_Rela
-+#else
-+# define ELF_RELOC  Elf32_Rel
-+#endif
-+
-+#ifndef ElfW
-+#  define ElfW(x)   Elf32_ ## x
-+#  define ELFW(x)   ELF32_ ## x
-+#endif
-+
-+#else /* ELF_CLASS == ELFCLASS64 */
-+
-+#define elfhdr      elf64_hdr
-+#define elf_phdr    elf64_phdr
-+#define elf_note    elf64_note
-+#define elf_shdr    elf64_shdr
-+#define elf_sym     elf64_sym
-+#define elf_addr_t  Elf64_Off
-+#define elf_rela    elf64_rela
-+
-+#ifdef ELF_USES_RELOCA
-+# define ELF_RELOC  Elf64_Rela
-+#else
-+# define ELF_RELOC  Elf64_Rel
-+#endif
-+
-+#ifndef ElfW
-+#  define ElfW(x)   Elf64_ ## x
-+#  define ELFW(x)   ELF64_ ## x
-+#endif
-+
-+#endif /* ELF_CLASS == ELFCLASS64 */
-+#endif /* ELF_CLASS */
-+#else
-+#error elf-types.inc.h should not be included twice in one compilation unit
-+#endif /* _ELF_TYPES_INC_H_ */
-diff --git a/include/elf.h b/include/elf/elf.h
-similarity index 98%
-rename from include/elf.h
-rename to include/elf/elf.h
-index 3501e0c8d03..2e264c1a7a0 100644
---- a/include/elf.h
-+++ b/include/elf/elf.h
-@@ -1696,49 +1696,7 @@ struct elf32_fdpic_loadmap {
- };
- 
- #ifdef ELF_CLASS
--#if ELF_CLASS == ELFCLASS32
--
--#define elfhdr		elf32_hdr
--#define elf_phdr	elf32_phdr
--#define elf_note	elf32_note
--#define elf_shdr	elf32_shdr
--#define elf_sym		elf32_sym
--#define elf_addr_t	Elf32_Off
--#define elf_rela  elf32_rela
--
--#ifdef ELF_USES_RELOCA
--# define ELF_RELOC      Elf32_Rela
--#else
--# define ELF_RELOC      Elf32_Rel
--#endif
--
--#else
--
--#define elfhdr		elf64_hdr
--#define elf_phdr	elf64_phdr
--#define elf_note	elf64_note
--#define elf_shdr	elf64_shdr
--#define elf_sym		elf64_sym
--#define elf_addr_t	Elf64_Off
--#define elf_rela  elf64_rela
--
--#ifdef ELF_USES_RELOCA
--# define ELF_RELOC      Elf64_Rela
--#else
--# define ELF_RELOC      Elf64_Rel
--#endif
--
--#endif /* ELF_CLASS */
- 
--#ifndef ElfW
--# if ELF_CLASS == ELFCLASS32
--#  define ElfW(x)  Elf32_ ## x
--#  define ELFW(x)  ELF32_ ## x
--# else
--#  define ElfW(x)  Elf64_ ## x
--#  define ELFW(x)  ELF64_ ## x
--# endif
--#endif
- 
- #endif /* ELF_CLASS */
- 
-diff --git a/include/hw/core/generic-loader.h b/include/hw/core/generic-loader.h
-index 9ffce1c5a30..ca97affd8e1 100644
---- a/include/hw/core/generic-loader.h
-+++ b/include/hw/core/generic-loader.h
-@@ -18,7 +18,7 @@
- #ifndef GENERIC_LOADER_H
- #define GENERIC_LOADER_H
- 
--#include "elf.h"
-+#include "elf/elf.h"
- #include "hw/qdev-core.h"
- 
- typedef struct GenericLoaderState {
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index 8d65de5b9f4..970fff8b1bc 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -20,7 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "cpu_loop-common.h"
- 
- #define get_user_code_u32(x, gaddr, env)                \
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 3365e192eb3..59a0d21c6f1 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -7,6 +7,7 @@
- 
- #include "qemu.h"
- #include "disas/disas.h"
-+#include "elf/elf.h"
- #include "qemu/path.h"
- #include "qemu/queue.h"
- #include "qemu/guest-random.h"
-@@ -1317,8 +1318,6 @@ static inline void init_thread(struct target_pt_regs *regs,
- #define ELF_DATA	ELFDATA2MSB
- #define ELF_ARCH	EM_S390
- 
--#include "elf.h"
--
- #define ELF_HWCAP get_elf_hwcap()
- 
- #define GET_FEATURE(_feat, _hwcap) \
-@@ -1512,7 +1511,7 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
- #define bswaptls(ptr) bswap32s(ptr)
- #endif
- 
--#include "elf.h"
-+#include "elf/elf-types.inc.h"
- 
- struct exec
- {
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 47917bbb20f..c796a15700d 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -40,7 +40,7 @@
- #include "qemu/timer.h"
- #include "qemu/envlist.h"
- #include "qemu/guest-random.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "trace/control.h"
- #include "target_elf.h"
- #include "cpu_loop-common.h"
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 39915b3fde2..0d3f0738b58 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -21,7 +21,7 @@
- #include "qemu-common.h"
- #include "qemu.h"
- #include "cpu_loop-common.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "internal.h"
- 
- # ifdef TARGET_ABI_MIPSO32
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index 12aa3c0f16e..f9f5beef431 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -22,7 +22,7 @@
- #include "qemu/error-report.h"
- #include "qemu.h"
- #include "cpu_loop-common.h"
--#include "elf.h"
-+#include "elf/elf.h"
- 
- void cpu_loop(CPURISCVState *env)
- {
-diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
-index 26a2c098687..c05a2845883 100644
---- a/target/arm/arch_dump.c
-+++ b/target/arm/arch_dump.c
-@@ -20,7 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/dump.h"
- 
- /* struct user_pt_regs from arch/arm64/include/uapi/asm/ptrace.h */
-diff --git a/target/i386/arch_dump.c b/target/i386/arch_dump.c
-index 004141fc042..9eb1e2a8bcf 100644
---- a/target/i386/arch_dump.c
-+++ b/target/i386/arch_dump.c
-@@ -14,7 +14,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "sysemu/dump.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/memory_mapping.h"
- 
- #define ELF_NOTE_SIZE(hdr_size, name_size, desc_size)   \
-diff --git a/target/ppc/arch_dump.c b/target/ppc/arch_dump.c
-index 9ab04b2c38f..0e102be1ed5 100644
---- a/target/ppc/arch_dump.c
-+++ b/target/ppc/arch_dump.c
-@@ -14,7 +14,7 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/dump.h"
- #include "sysemu/kvm.h"
- #include "exec/helper-proto.h"
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 8c5b1f25cc9..c2e5f72ab0d 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -48,7 +48,7 @@
- #include "qemu/cutils.h"
- #include "qemu/main-loop.h"
- #include "qemu/mmap-alloc.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/kvm_int.h"
- 
- #define PROC_DEVTREE_CPU      "/proc/device-tree/cpus/"
-diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-index 50fa0ae4b67..5fe9519d26c 100644
---- a/target/s390x/arch_dump.c
-+++ b/target/s390x/arch_dump.c
-@@ -14,7 +14,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "internal.h"
--#include "elf.h"
-+#include "elf/elf.h"
- #include "sysemu/dump.h"
- 
- 
-diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-index 94d80d79d1f..e04f726e4a6 100644
---- a/tcg/arm/tcg-target.inc.c
-+++ b/tcg/arm/tcg-target.inc.c
-@@ -22,7 +22,7 @@
-  * THE SOFTWARE.
-  */
- 
--#include "elf.h"
-+#include "elf/elf.h"
- #include "tcg-pool.inc.c"
- 
- int arm_arch = __ARM_ARCH;
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index 815edac077f..4886f8c0d39 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -22,7 +22,7 @@
-  * THE SOFTWARE.
-  */
- 
--#include "elf.h"
-+#include "elf/elf.h"
- #include "tcg-pool.inc.c"
- 
- #if defined _CALL_DARWIN || defined __APPLE__
-diff --git a/tcg/s390/tcg-target.inc.c b/tcg/s390/tcg-target.inc.c
-index 8aaa4cebe8d..82a81d2d94d 100644
---- a/tcg/s390/tcg-target.inc.c
-+++ b/tcg/s390/tcg-target.inc.c
-@@ -30,7 +30,7 @@
- #endif
- 
- #include "tcg-pool.inc.c"
--#include "elf.h"
-+#include "elf/elf.h"
- 
- /* ??? The translation blocks produced by TCG are generally small enough to
-    be entirely reachable with a 16-bit displacement.  Leaving the option for
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 16b2d0e0ece..b8e2c7956b7 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -50,6 +50,8 @@
- 
- #include "tcg-op.h"
- 
-+#include "elf/elf.h"
-+
- #if UINTPTR_MAX == UINT32_MAX
- # define ELF_CLASS  ELFCLASS32
- #else
-@@ -61,7 +63,8 @@
- # define ELF_DATA   ELFDATA2LSB
- #endif
- 
--#include "elf.h"
-+#include "elf/elf-types.inc.h"
-+
- #include "exec/log.h"
- #include "sysemu/sysemu.h"
- 
-diff --git a/util/getauxval.c b/util/getauxval.c
-index 36afdfb9e62..ee216c81c0b 100644
---- a/util/getauxval.c
-+++ b/util/getauxval.c
-@@ -36,7 +36,7 @@ unsigned long qemu_getauxval(unsigned long key)
-     return getauxval(key);
- }
- #elif defined(__linux__)
--#include "elf.h"
-+#include "elf/elf.h"
- 
- /* Our elf.h doesn't contain Elf32_auxv_t and Elf64_auxv_t, which is ok because
-    that just makes it easier to define it properly for the host here.  */
--- 
-2.20.1
+This can be achieved in a simpler way, see below.
+
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  include/hw/ppc/spapr.h      |  1 +
+>  include/hw/ppc/spapr_xive.h |  1 +
+>  include/hw/ppc/xics.h       |  6 ++++++
+>  hw/intc/spapr_xive.c        |  1 +
+>  hw/intc/spapr_xive_kvm.c    | 34 +++++++++++++++++++++++++++++++---
+>  hw/intc/xics.c              |  1 +
+>  hw/intc/xics_kvm.c          | 14 ++++++++++++++
+>  hw/ppc/spapr.c              |  1 +
+>  hw/ppc/spapr_irq.c          | 13 +++++++------
+>  9 files changed, 63 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 03111fd55bc8..6c622954a60c 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -131,6 +131,7 @@ struct SpaprMachineClass {
+>      SpaprResizeHpt resize_hpt_default;
+>      SpaprCapabilities default_caps;
+>      SpaprIrq *irq;
+> +    bool irq_reset_all;
+>  };
+> =20
+>  /**
+> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> index bfd40f01d882..b33913eb0f28 100644
+> --- a/include/hw/ppc/spapr_xive.h
+> +++ b/include/hw/ppc/spapr_xive.h
+> @@ -45,6 +45,7 @@ typedef struct SpaprXive {
+>      void          *tm_mmap;
+>      MemoryRegion  tm_mmio_kvm;
+>      VMChangeStateEntry *change;
+> +    bool          reset_all;
+>  } SpaprXive;
+> =20
+>  /*
+> diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+> index f2a8d6a4b4f9..856815362406 100644
+> --- a/include/hw/ppc/xics.h
+> +++ b/include/hw/ppc/xics.h
+> @@ -117,6 +117,7 @@ struct ICSState {
+>      DeviceState parent_obj;
+>      /*< public >*/
+>      uint32_t nr_irqs;
+> +    bool reset_all;
+>      uint32_t offset;
+>      ICSIRQState *irqs;
+>      XICSFabric *xics;
+> @@ -179,6 +180,11 @@ void ics_simple_write_xive(ICSState *ics, int nr, in=
+t server,
+>                             uint8_t priority, uint8_t saved_priority);
+>  void ics_simple_set_irq(void *opaque, int srcno, int val);
+> =20
+> +static inline bool ics_irq_free(ICSState *ics, uint32_t srcno)
+> +{
+> +    return !(ics->irqs[srcno].flags & XICS_FLAGS_IRQ_MASK);
+> +}
+> +
+>  void ics_set_irq_type(ICSState *ics, int srcno, bool lsi);
+>  void icp_pic_print_info(ICPState *icp, Monitor *mon);
+>  void ics_pic_print_info(ICSState *ics, Monitor *mon);
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index c1c97192a7d2..b717d9e09314 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -492,6 +492,7 @@ static Property spapr_xive_properties[] =3D {
+>      DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
+>      DEFINE_PROP_UINT64("vc-base", SpaprXive, vc_base, SPAPR_XIVE_VC_BASE=
+),
+>      DEFINE_PROP_UINT64("tm-base", SpaprXive, tm_base, SPAPR_XIVE_TM_BASE=
+),
+> +    DEFINE_PROP_BOOL("reset-all", ICSState, reset_all, false),
+
+s/ICSState/SpaprXive
+
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> =20
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index 17af4d19f54e..225abce36270 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -253,13 +253,23 @@ void kvmppc_xive_source_reset_one(XiveSource *xsrc,=
+ int srcno, Error **errp)
+>                        true, errp);
+>  }
+> =20
+> +static bool xive_source_skip_reset(SpaprXive *xive, int srcno)
+> +{
+> +    return !xive->reset_all && !xive_eas_is_valid(&xive->eat[srcno]);
+> +}
+> +
+>  static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
+>  {
+> +    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+>      int i;
+> =20
+>      for (i =3D 0; i < xsrc->nr_irqs; i++) {
+>          Error *local_err =3D NULL;
+> =20
+> +        if (xive_source_skip_reset(xive, i)) {
+> +            continue;
+> +        }
+> +
+>          kvmppc_xive_source_reset_one(xsrc, i, &local_err);
+>          if (local_err) {
+>              error_propagate(errp, local_err);
+> @@ -328,11 +338,18 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int s=
+rcno, uint32_t offset,
+> =20
+>  static void kvmppc_xive_source_get_state(XiveSource *xsrc)
+>  {
+> +    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+>      int i;
+> =20
+>      for (i =3D 0; i < xsrc->nr_irqs; i++) {
+> +        uint8_t pq;
+> +
+> +        if (xive_source_skip_reset(xive, i)) {
+
+This looks a bit weird to "skip reset" in a function that isn't
+supposed to reset anything... Is it really necessary to check the
+reset_all flag actually ? I guess checking the EAS is valid should
+be enough.
+
+> +            continue;
+> +        }
+> +
+>          /* Perform a load without side effect to retrieve the PQ bits */
+> -        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> +        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> =20
+>          /* and save PQ locally */
+>          xive_source_esb_set(xsrc, i, pq);
+> @@ -521,9 +538,14 @@ static void kvmppc_xive_change_state_handler(void *o=
+paque, int running,
+>       */
+>      if (running) {
+>          for (i =3D 0; i < xsrc->nr_irqs; i++) {
+> -            uint8_t pq =3D xive_source_esb_get(xsrc, i);
+> +            uint8_t pq;
+>              uint8_t old_pq;
+> =20
+> +            if (xive_source_skip_reset(xive, i)) {
+
+Same here ?
+
+> +                continue;
+> +            }
+> +
+> +            pq =3D xive_source_esb_get(xsrc, i);
+>              old_pq =3D xive_esb_read(xsrc, i, XIVE_ESB_SET_PQ_00 + (pq <=
+< 8));
+> =20
+>              /*
+> @@ -545,7 +567,13 @@ static void kvmppc_xive_change_state_handler(void *o=
+paque, int running,
+>       * migration is in progress.
+>       */
+>      for (i =3D 0; i < xsrc->nr_irqs; i++) {
+> -        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> +        uint8_t pq;
+> +
+> +        if (xive_source_skip_reset(xive, i)) {
+
+and here ?
+
+> +            continue;
+> +        }
+> +
+> +        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> =20
+>          /*
+>           * PQ is set to PENDING to possibly catch a triggered
+> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+> index b2fca2975cc4..ae3f83cf0aad 100644
+> --- a/hw/intc/xics.c
+> +++ b/hw/intc/xics.c
+> @@ -746,6 +746,7 @@ static const VMStateDescription vmstate_ics_base =3D {
+> =20
+>  static Property ics_base_properties[] =3D {
+>      DEFINE_PROP_UINT32("nr-irqs", ICSState, nr_irqs, 0),
+> +    DEFINE_PROP_BOOL("reset-all", ICSState, reset_all, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> =20
+> diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+> index a4d2e876cc5f..aa017b99801c 100644
+> --- a/hw/intc/xics_kvm.c
+> +++ b/hw/intc/xics_kvm.c
+> @@ -177,6 +177,12 @@ void icp_kvm_realize(DeviceState *dev, Error **errp)
+>  /*
+>   * ICS-KVM
+>   */
+> +
+> +static bool ics_irq_skip_reset(ICSState *ics, int srcno)
+> +{
+> +    return !ics->reset_all && ics_irq_free(ics, srcno);
+> +}
+> +
+>  void ics_get_kvm_state(ICSState *ics)
+>  {
+>      uint64_t state;
+> @@ -190,6 +196,10 @@ void ics_get_kvm_state(ICSState *ics)
+>      for (i =3D 0; i < ics->nr_irqs; i++) {
+>          ICSIRQState *irq =3D &ics->irqs[i];
+> =20
+> +        if (ics_irq_skip_reset(ics, i)) {
+
+And here ?
+
+> +            continue;
+> +        }
+> +
+>          kvm_device_access(kernel_xics_fd, KVM_DEV_XICS_GRP_SOURCES,
+>                            i + ics->offset, &state, false, &error_fatal);
+> =20
+> @@ -301,6 +311,10 @@ int ics_set_kvm_state(ICSState *ics, Error **errp)
+>          Error *local_err =3D NULL;
+>          int ret;
+> =20
+> +        if (ics_irq_skip_reset(ics, i)) {
+> +            continue;
+> +        }
+> +
+>          ret =3D ics_set_kvm_state_one(ics, i, &local_err);
+>          if (ret < 0) {
+>              error_propagate(errp, local_err);
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 7124053b43b7..af89f3b6c698 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4594,6 +4594,7 @@ static void spapr_machine_4_1_class_options(Machine=
+Class *mc)
+>      smc->linux_pci_probe =3D false;
+>      compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len);
+>      compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+> +    smc->irq_reset_all =3D true;
+
+Drop this property and add two lines in compat static:
+
+    static GlobalProperty compat[] =3D {
+        /* Only allow 4kiB and 64kiB IOMMU pagesizes */
+        { TYPE_SPAPR_PCI_HOST_BRIDGE, "pgsz", "0x11000" },
+        { TYPE_SPAPR_XIVE, "reset-all", "on" },
+        { TYPE_ICS_BASE, "reset-all", "on" },
+    };
+
+This ensures that any instance of SpaprXive or ICSState created by
+a pseries-4.1 machine has reset_all set to true.
+
+>  }
+> =20
+>  DEFINE_SPAPR_MACHINE(4_1, "4.1", false);
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index 06fe2432bae5..8c3682613404 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -97,11 +97,13 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
+apr, int nr_irqs,
+>  {
+>      Object *obj;
+>      Error *local_err =3D NULL;
+> +    bool reset_all =3D SPAPR_MACHINE_GET_CLASS(spapr)->irq_reset_all;
+> =20
+
+... and you can drop all the propagation code here...
+
+>      obj =3D object_new(TYPE_ICS_SIMPLE);
+>      object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
+>      object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
+>                                     &error_fatal);
+> +    object_property_set_bool(obj, reset_all, "reset-all",  &error_fatal);
+>      object_property_set_int(obj, nr_irqs, "nr-irqs",  &error_fatal);
+>      object_property_set_bool(obj, true, "realized", &local_err);
+>      if (local_err) {
+> @@ -114,9 +116,6 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
+apr, int nr_irqs,
+>      xics_spapr_init(spapr);
+>  }
+> =20
+> -#define ICS_IRQ_FREE(ics, srcno)   \
+> -    (!((ics)->irqs[(srcno)].flags & (XICS_FLAGS_IRQ_MASK)))
+> -
+>  static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool =
+lsi,
+>                                  Error **errp)
+>  {
+> @@ -129,7 +128,7 @@ static int spapr_irq_claim_xics(SpaprMachineState *sp=
+apr, int irq, bool lsi,
+>          return -1;
+>      }
+> =20
+> -    if (!ICS_IRQ_FREE(ics, irq - ics->offset)) {
+> +    if (!ics_irq_free(ics, irq - ics->offset)) {
+>          error_setg(errp, "IRQ %d is not free", irq);
+>          return -1;
+>      }
+> @@ -147,7 +146,7 @@ static void spapr_irq_free_xics(SpaprMachineState *sp=
+apr, int irq, int num)
+>      if (ics_valid_irq(ics, irq)) {
+>          trace_spapr_irq_free(0, irq, num);
+>          for (i =3D srcno; i < srcno + num; ++i) {
+> -            if (ICS_IRQ_FREE(ics, i)) {
+> +            if (ics_irq_free(ics, i)) {
+>                  trace_spapr_irq_free_warn(0, i);
+>              }
+>              memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
+> @@ -270,9 +269,11 @@ static void spapr_irq_init_xive(SpaprMachineState *s=
+papr, int nr_irqs,
+>  {
+>      uint32_t nr_servers =3D spapr_max_server_number(spapr);
+>      DeviceState *dev;
+> +    bool reset_all =3D SPAPR_MACHINE_GET_CLASS(spapr)->irq_reset_all;
+
+... and here.
+
+>      int i;
+> =20
+>      dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
+> +    object_property_set_bool(OBJECT(dev), reset_all, "reset-all", &error=
+_fatal);
+>      qdev_prop_set_uint32(dev, "nr-irqs", nr_irqs);
+>      /*
+>       * 8 XIVE END structures per CPU. One for each available priority
+> @@ -767,7 +768,7 @@ static int ics_find_free_block(ICSState *ics, int num=
+, int alignnum)
+>              return -1;
+>          }
+>          for (i =3D first; i < first + num; ++i) {
+> -            if (!ICS_IRQ_FREE(ics, i)) {
+> +            if (!ics_irq_free(ics, i)) {
+>                  break;
+>              }
+>          }
 
 
