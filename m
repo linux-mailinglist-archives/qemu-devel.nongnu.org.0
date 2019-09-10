@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C968AE7BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:16:36 +0200 (CEST)
-Received: from localhost ([::1]:37414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4984AE7D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:19:54 +0200 (CEST)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7dCM-0002bL-KC
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:16:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54991)
+	id 1i7dFZ-0004FT-QZ
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55044)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i7dAl-0001jb-NG
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:14:56 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1i7dAt-0001qE-Pw
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:15:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i7dAk-0005Ij-MX
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:14:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57890)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i7dAf-0005Em-Vj; Tue, 10 Sep 2019 06:14:50 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6547A300BCE9;
- Tue, 10 Sep 2019 10:14:48 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-90.ams2.redhat.com
- [10.36.117.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E07E6012D;
- Tue, 10 Sep 2019 10:14:32 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190830161228.54238-1-vsementsov@virtuozzo.com>
- <20190830161228.54238-5-vsementsov@virtuozzo.com>
- <ae856032-2d6f-adb8-939b-410708dea596@redhat.com>
- <01bc8974-b9a5-8312-fe24-e2fbe87ab13d@virtuozzo.com>
- <e94365cd-3bdf-4055-10de-abad4f65225b@redhat.com>
- <d4b6869a-a711-f911-2b29-c7062aa44aa6@virtuozzo.com>
- <80720d39-b9d6-d693-0f6a-0a078d6056e0@redhat.com>
- <577ab66d-ea14-a363-0b8a-92932198c284@virtuozzo.com>
- <310835ca-4aa9-0c4f-5d18-1a89e2e0be74@redhat.com>
- <c6859d2b-e530-8e5a-375d-87954c974e0d@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <079112b9-7a54-1c10-6f89-145d866115f2@redhat.com>
-Date: Tue, 10 Sep 2019 12:14:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <lukasstraub2@web.de>) id 1i7dAs-0005Mp-OB
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:15:03 -0400
+Received: from mout.web.de ([212.227.17.11]:42137)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1i7dAs-0005L3-FF
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:15:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1568110484;
+ bh=lS0He1ZjyrE6labtN6cAGz+FTFA0a9A2XqfoJ6l9fU0=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=KmuhNGzSSrMt/P+mXLYvXYKmZbJRZEFJ3uQLEAK0vl6KfqpC8et6D5fYxYCboGlIB
+ u10r2HsIjgPPolwEjQVoJHSfKBhVNXZIh471yKQWcItfbvEvVpaSQhdZkyT20fMT2G
+ jsrV3g5jGDCsIKJYrbTF/iSJnWKgjdqTS9q9orJM=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.217]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M7bQ3-1iIwst12Jz-00xIB6; Tue, 10
+ Sep 2019 12:14:44 +0200
+Date: Tue, 10 Sep 2019 12:14:43 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <e3f1e1ec5b2bd2ce2c9a6c7669284a3fc2fdbaaa.1568110100.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1568110100.git.lukasstraub2@web.de>
+References: <cover.1568110100.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <c6859d2b-e530-8e5a-375d-87954c974e0d@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="O0Sz8lfYHJOs2dTjmizr5PJmIxdipLmbA"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 10 Sep 2019 10:14:48 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sruv98jCmnOTW47dHXGQy8xBKNBqgqYaV3jtF5ALZIWASbfo5w/
+ MCsusuWPSoEpnw1HNVOHUjzvsarON6tY331MfETg+Rt1GIUfFR2/Wvj1FViDbWmRobWFkMi
+ fYfK4j658VTgf0Q8V9/WRogOZHleRtYmPKlE/RuJTIRpQ0+Goju+SLPDH6QNuQzgbjz/RQg
+ nErt+bUXjecOcISIS3rlA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5RDTty9+CSM=:2qmcC3/HMH4UBKbTw1AfIM
+ rEp8VYC3KtN4Aphf9/frvu7wFR35MQDigzgcmfB9E5IUZH0BhrtZn2PtuyMmtE79sdrdcOezT
+ IUA8yOCtJXaZPxAAzimVl+1/cCW46mX8S0xVQAIzlS0PmfuzBeZO99lB+CdfodPWnzsnCpvOv
+ aaYyfocmENg11N+rikX94WG9T16Z/N4kVfIVdrTD9WZ/gnb16SCsivG98+sgfbrmFxyU9igz/
+ ecZoN4HiQFknrgYqNCMeMDEAX0+6jLE/vMTfsKFVwaBfhKXg7L98kR1SXy5LvrepMOw9RacCT
+ rZUcp0QfDsKUnQr86WAdF3QIs+H9OXyLabY0RbHbEbRUglPyagi6ots5lGLb1uZnlFCIwNNrX
+ zKr3+aWUffYtkhpdCptkj1UDdI6NZOPHrrh05rrFxgN/GL6eeknGnHD+x8qVuR+xuG3v1dW0p
+ ZJGWoSbDFuqpQwJInAYOSxkQ5LsRLveeQr/lYUos7YQUGSgQfJ05CG86Jgyjwva29Av3Eb2HS
+ Fk4zCErZNMpwjOWV70CR8TpaUY8dHu66EaxeSMtZDj0DhsgFdDfFjfJe/2l54quP+YFXe6nAl
+ Po4GjzYF9AMnGII5tqDalsSFiJwmqTG9Tq3wxTNIQgs+8SQ7eIDDdMQWHIwyHy+U3XivJPr63
+ ReAjQksilsYyDToA/yDbuyJCEf9mufFgrTU4yMAVBBW+6lpe3BdFdMuByRRoMKgutXJmWF+sf
+ +FYMB8k7Oszv6JCfnlKO6qqMfleNA2IV7XV3ycMYb3Ii+rdVi2+SrVW64Z31njDuCi2xWz5KR
+ 6WWsg0w6YfGx7N34YOSkVDmoFXWnucsqvKIlkCVO3okYDBVDd1QB0iUALZLyrIw5A81jWaujl
+ NkNtrQhxi7FpEFljIlD7J23+eAuY0GPYTSHf/q8SpFPvSzL8BenIKsKmS0CeH0lCuFUOmRjxA
+ CgQDV3SJ8B6K36Lg1hymp9mIQoP98QriA3cRwNoJmqdtH6h8HZHYFGfAyK13hxwfbhdyzSruJ
+ LQZpkAzQKZGWBlCl+84SgrwLUZ+CbxSkKXDsxarylSdX7k9l6Vuzn2U3yKUFLHYVl0BrnVj+e
+ jhUFzzZRzR4V0O4aImvvp2SxrBj/htVHw31nvPoBv5PrQgYOqJGi7ipkTw/x/foI51NgSKYiu
+ L8zFvg0cY2s5p1DY98ootyCr9kFTes3s2esr26VLv6Efx0ZEnX1J6oHSmCKIl0Kij7pymqzWl
+ 45HR3OSxftZYhoVfV
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v10 04/14] block/backup: introduce
- BlockCopyState
+X-Received-From: 212.227.17.11
+Subject: [Qemu-devel] [PATCH v4 2/4] tests/test-replication.c: Add test for
+ ignoring requests after failover
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,140 +78,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
- "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: kwolf@redhat.com, Wen Congyang <wencongyang2@huawei.com>,
+ Jason Wang <jasowang@redhat.com>, mreitz@redhat.com,
+ Zhang Chen <chen.zhang@intel.com>, Xie Changlong <xiechanglong.d@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---O0Sz8lfYHJOs2dTjmizr5PJmIxdipLmbA
-Content-Type: multipart/mixed; boundary="YK6N2L8jKNq9AhkwQWlfeSIPAsP4egR0w";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
- "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
- "fam@euphon.net" <fam@euphon.net>, "stefanha@redhat.com"
- <stefanha@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
- "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>
-Message-ID: <079112b9-7a54-1c10-6f89-145d866115f2@redhat.com>
-Subject: Re: [PATCH v10 04/14] block/backup: introduce BlockCopyState
-References: <20190830161228.54238-1-vsementsov@virtuozzo.com>
- <20190830161228.54238-5-vsementsov@virtuozzo.com>
- <ae856032-2d6f-adb8-939b-410708dea596@redhat.com>
- <01bc8974-b9a5-8312-fe24-e2fbe87ab13d@virtuozzo.com>
- <e94365cd-3bdf-4055-10de-abad4f65225b@redhat.com>
- <d4b6869a-a711-f911-2b29-c7062aa44aa6@virtuozzo.com>
- <80720d39-b9d6-d693-0f6a-0a078d6056e0@redhat.com>
- <577ab66d-ea14-a363-0b8a-92932198c284@virtuozzo.com>
- <310835ca-4aa9-0c4f-5d18-1a89e2e0be74@redhat.com>
- <c6859d2b-e530-8e5a-375d-87954c974e0d@virtuozzo.com>
-In-Reply-To: <c6859d2b-e530-8e5a-375d-87954c974e0d@virtuozzo.com>
+This simulates the case that happens when we resume COLO after failover.
 
---YK6N2L8jKNq9AhkwQWlfeSIPAsP4egR0w
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+=2D--
+ tests/test-replication.c | 52 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-On 10.09.19 11:22, Vladimir Sementsov-Ogievskiy wrote:
+diff --git a/tests/test-replication.c b/tests/test-replication.c
+index f085d1993a..5addfc2227 100644
+=2D-- a/tests/test-replication.c
++++ b/tests/test-replication.c
+@@ -489,6 +489,56 @@ static void test_secondary_stop(void)
+     teardown_secondary();
+ }
 
-[...]
++static void test_secondary_failover_then_ignore_requests(void)
++{
++    BlockBackend *top_blk, *local_blk;
++    Error *local_err =3D NULL;
++
++    top_blk =3D start_secondary();
++    replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
++    g_assert(!local_err);
++
++    /* write 0x22 to s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
++    local_blk =3D blk_by_name(S_LOCAL_DISK_ID);
++    test_blk_write(local_blk, 0x22, IMG_SIZE / 2, IMG_SIZE / 2, false);
++
++    /* replication will backup s_local_disk to s_hidden_disk */
++    test_blk_read(top_blk, 0x11, IMG_SIZE / 2,
++                  IMG_SIZE / 2, 0, IMG_SIZE, false);
++
++    /* write 0x33 to s_active_disk (0, IMG_SIZE / 2) */
++    test_blk_write(top_blk, 0x33, 0, IMG_SIZE / 2, false);
++
++    /* do failover (active commit) */
++    replication_stop_all(true, &local_err);
++    g_assert(!local_err);
++
++    /* it should ignore all requests from now on */
++
++    /* start after failover */
++    replication_start_all(REPLICATION_MODE_PRIMARY, &local_err);
++    g_assert(!local_err);
++
++    /* checkpoint */
++    replication_do_checkpoint_all(&local_err);
++    g_assert(!local_err);
++
++    /* stop */
++    replication_stop_all(true, &local_err);
++    g_assert(!local_err);
++
++    /* read from s_local_disk (0, IMG_SIZE / 2) */
++    test_blk_read(top_blk, 0x33, 0, IMG_SIZE / 2,
++                  0, IMG_SIZE / 2, false);
++
++
++    /* read from s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
++    test_blk_read(top_blk, 0x22, IMG_SIZE / 2,
++                  IMG_SIZE / 2, 0, IMG_SIZE, false);
++
++    teardown_secondary();
++}
++
+ static void test_secondary_do_checkpoint(void)
+ {
+     BlockBackend *top_blk, *local_blk;
+@@ -584,6 +634,8 @@ int main(int argc, char **argv)
+     g_test_add_func("/replication/secondary/write", test_secondary_write)=
+;
+     g_test_add_func("/replication/secondary/start", test_secondary_start)=
+;
+     g_test_add_func("/replication/secondary/stop",  test_secondary_stop);
++    g_test_add_func("/replication/secondary/failover_then_ignore_requests=
+",
++                    test_secondary_failover_then_ignore_requests);
+     g_test_add_func("/replication/secondary/do_checkpoint",
+                     test_secondary_do_checkpoint);
+     g_test_add_func("/replication/secondary/get_error_all",
+=2D-
+2.20.1
 
-> Ok, than
->=20
-> 4. Postpone improvements for a follow-up (anyway, finally, block-copy s=
-hould
-> use block_status to copy by larger chunks, like mirror does), and impro=
-ve the
-> comment like this:
->=20
-> """
-> Used for job sync=3Dtop mode, which currently works as follows (the siz=
-e of the
-> comment definitely shows unclean design, but this is a TODO to improve =
-it):
-> If job started in sync=3Dtop mode, which means that we want to copy onl=
-y parts
-> allocated in top layer, job should behave like this:
->=20
-> 1. Create block-copy state with skip_unallocated =3D true.
-> 2. Then, block_copy() will automatically check for allocation in top la=
-yer,
-> and do not copy areas which are not allocated in top layer. So, for exa=
-mple,
-> copy-before-write operations in backup works correctly even before [3.]=
-
-> 3. Sequentially call block_copy_reset_unallocated() to cover the whole =
-source
-> node, copy_bitmap will be updated correspondingly.
-> 4. Unset skip_unallocated variable in block-copy state, to avoid extra =
-(as
-> everything is covered by [3.]) block-status queries in block_copy() cal=
-ls
-> 5. Do sequential copying by loop of block_copy() calls, all needed allo=
-cation
-> information is already in copy_bitmap.
->=20
->  From block_copy() side, it behaves like this:
-> If skip_unallocated is set, block_copy() will reset in copy_bitmap area=
-s
-> unallocated in top image (so they will not be copied). Whenever any suc=
-h
-> area is cleared, progress_reset_callback will be invoked. Note, that
-> progress_reset_callback is called from block_copy_reset_unallocated() t=
-oo.
-> """
-
-Can this not be simplified?
-
-"""
-Used by sync=3Dtop jobs, which first scan the source node for unallocated=
-
-areas and clear them in the copy_bitmap.  During this process, the
-bitmap is thus not fully initialized: It may still have bits set for
-areas that are unallocated and should actually not be copied.
-
-This is indicated by skip_unallocated.
-
-In this case, block_copy() will query the source=E2=80=99s allocation sta=
-tus,
-skip unallocated regions, clear them in the copy_bitmap, and invoke
-block_copy_reset_unallocated() every time it does.
-
-Otherwise, block_copy() copies everything that=E2=80=99s dirty in the cop=
-y_bitmap.
-"""
-
-Max
-
-
---YK6N2L8jKNq9AhkwQWlfeSIPAsP4egR0w--
-
---O0Sz8lfYHJOs2dTjmizr5PJmIxdipLmbA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl13d4YACgkQ9AfbAGHV
-z0Autwf/WOo1WyxhxN5W/cvHcGlcPDK8dh/66ZPDpHY61NZlxMEpw3c+Ei/pnc0s
-kqNNaTVibjpX4qOe4/L0Emn8EuGpXE1d1oRtK9fGZdYOm1EkfUIdPo+EE/4ytLHm
-xCUk3KFF4u89JXJ6+xZoDEkr6BN4TN703fuc7tkj/4yM7jFf7dicurIjzzYu41qs
-xFt2i4UnlBdh99qBS0+jMAWvn4wGR5jY634wAz2hJWk6cWSCVX6fKCu7p3cFJ9n0
-DWBmus4qGjk5HanZ0ZX/7bV92XHDAUgE99H4iEevXT9Pi2fOJjVSVGgRKghN00OR
-Np22QORjqeVcFBeQmvC7QMXLGzcflA==
-=wn0M
------END PGP SIGNATURE-----
-
---O0Sz8lfYHJOs2dTjmizr5PJmIxdipLmbA--
 
