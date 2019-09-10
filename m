@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F301AE77D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:02:19 +0200 (CEST)
-Received: from localhost ([::1]:37112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA068AE784
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:03:24 +0200 (CEST)
+Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7cyX-0003wW-Rb
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51204)
+	id 1i7czc-0005XO-0R
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i7cud-000212-UF
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:58:17 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i7cwf-0003v2-N7
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:00:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i7cuc-0003Ij-EK
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:58:15 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:46612)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i7cwa-0004Hr-BM
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:00:21 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43558)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i7cuc-0003IJ-6W
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:58:14 -0400
-Received: by mail-ot1-x335.google.com with SMTP id g19so17552270otg.13
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 02:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IKGpWCaETjPlg4PmIa7agkONcgwBkgwoaMc5lc1/opk=;
- b=QBYstw5CEqweG9s5o43XrFkTUcgQ6mDkWWDkGWkOvr9zhDFNvvlPMPga6ffbmenZi2
- Wqlc+MN/QI4KuUFPoetFHVXjKA1Fjhj+RMGS0VuBOzt7jJDwEJI1OyB1xXOa/8dLkG5Q
- 1kOhATlowIsIR14yDTSyRzuQLpWcfl0u0Uni1s8kf+YXVizbDgM2dCL9HOq5vblDKKFn
- 2DYLuVRRNwmhZYBhZl+3ZepPq/zNKzzY0S8cm+ATQwzafkHrTzkBjP3fHFYqVb3jTC3z
- typvvW7CEiR2ndC3KMidTlRSrCRmkjJ5fkty2/rBh995fuHNS8GJqPqXIEwl23xCRtPE
- 45IQ==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1i7cwa-0004Ha-64
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:00:16 -0400
+Received: by mail-ot1-x341.google.com with SMTP id b2so17572533otq.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 03:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=B2vUgFL+PBKxcYfupd3lUlGVVA6OPP2KnpD66Q48rsI=;
+ b=t+k7q5oegnRmjlnVOPWtgfflGnHTHqV20m803eZve8myN4Y5SSAMbDurpBu3YXYw1p
+ ser7yOBFVfMXArO0MdOzuLrPkPp64ls70ejJL6My+/c9uhC9CyCHXvabFcOKlm7b3glF
+ cPamdHG7Ye9JVrNkG9dpXp250W4U2QtknGIx0IMF4Y2CAi+vrGOjv3aDhesmalh5NeGQ
+ +wq7LT5iBinCNI9ytrn13F6SK2t7InXg5cUo2TtYiThDjJ7GQsbstf7IJVkQOB/h++0f
+ 6QVRBWrWXwL7krRZuIi5HEpxSbVRDmDv8cEN9AEm8XwQ22+CZHYmWK4r5QVjjARSB1i8
+ yHRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IKGpWCaETjPlg4PmIa7agkONcgwBkgwoaMc5lc1/opk=;
- b=ezXo3vwKbvy5YDTVNnpIhA8SGDWJExvIVXSicpLcM2s3FvXbyJMZgFTti5AOjIl6v+
- EQsBQagBlgMg5q6A8iZLpHYB+Zs4QWV/J3V/vm2NrAXThVie4rjGI0m++RjlQ+PylIar
- +MDYpEy0BrAnxkAC+ggZ0z+whnlOf6/h5XVWNgrwTOVGVR8TNBT+y3W+9AbJBAymv86a
- mkNhXvziCPAmIi5NYuZ5/T3j72Tt7uG0rPpuBa8VSa1y5/6c7gzK6DwryVe2mrDPQkMC
- WUqcDHgpNyGXVCsK8ofqzW0nGXfepL/RNWYNa+2n+VNqqk/HghvyF50zpdV89WRqc8gt
- Xprw==
-X-Gm-Message-State: APjAAAWU+9rtFv7Etiq3Zj4OrQq6YKnhTurKYjYnZ7cG4sZDgLTPoe/z
- V0gO/q1rT5DRrTWtvSVd9ShbkY4snjTKcCyDJIViF4u+KHY=
-X-Google-Smtp-Source: APXvYqxkpzXlzDEZD2hxAcRF2jjs0ojrhwtrPPK1mv/rz2ruzfHbuOF0zl9gUmPW6bjGdnHITtDnx6odXcNy71FOC1Y=
-X-Received: by 2002:a9d:68d6:: with SMTP id i22mr15973920oto.232.1568109493320; 
- Tue, 10 Sep 2019 02:58:13 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=B2vUgFL+PBKxcYfupd3lUlGVVA6OPP2KnpD66Q48rsI=;
+ b=oaUDVBPVgXhyZXm+wUeoDMEEJmJK/ZtaMqLX6QTsmn/OD2tQl+Cs1PU8/SZBDaHnhc
+ jOwlYyJ1LV8d1xpURCNxS/revQ4wNPGnLL70eutJj8enY5IZGb661lZ0Ewb/b4l5m0PT
+ cjT7wvvaycegQF+0SyyQ2uEBDXjvaBf2rHxCXbU10+Sn0BaQRqUU3KpB8jH6ttJ3Vxq0
+ aW9S55lHs/O9g+cBX+cVOGMWQNaN0/miHFCAfVMG7vUcr6gLBxyJo1wi1UWVfVEEGSF8
+ YS/uBDLmmdEWP60ks74AlnwDDvBNcisZf9CvamowpPtza7E8VXNUMPsI8OGcBQ4LJCI4
+ BzNw==
+X-Gm-Message-State: APjAAAWRMptkmwfKLpkRdxpbFWSpxtS/9FK0wMbMgoS6hh0aWP5SYY3S
+ XCWgLshzn4jzWNNiNRL81wPUWEiT1XS4sk4DWtQ=
+X-Google-Smtp-Source: APXvYqwIotWTfgK4P0VB4WZ8hz8mvKcgOEzZiezFjBC1ICZW+ljzkzFSyDe1vIE7oRlkbFuiWLDMSybV9jrTy6iYO3A=
+X-Received: by 2002:a9d:5f09:: with SMTP id f9mr12041633oti.341.1568109615281; 
+ Tue, 10 Sep 2019 03:00:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190910084349.28817-1-alex.bennee@linaro.org>
-In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Sep 2019 10:58:02 +0100
-Message-ID: <CAFEAcA_rB21=KXr_kJinkeDa0i3=LAhAYDg50YQC_7v07TKXjA@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Tue, 10 Sep 2019 03:00:14
+ -0700 (PDT)
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Tue, 10 Sep 2019 03:00:14
+ -0700 (PDT)
+In-Reply-To: <08c834fe-2b04-9ca3-56b0-4774d5bca739@vivier.eu>
+References: <1567601968-26946-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1567601968-26946-4-git-send-email-aleksandar.markovic@rt-rk.com>
+ <08c834fe-2b04-9ca3-56b0-4774d5bca739@vivier.eu>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 10 Sep 2019 12:00:14 +0200
+Message-ID: <CAL1e-=ikDhqP_qPggeCtXBw8WXkrh8MphyDVJd4TvD5LHSbE7g@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::335
-Subject: Re: [Qemu-devel] [PULL 00/45] testing updates (fixes, upgrades,
- caching)
+X-Received-From: 2607:f8b0:4864:20::341
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v6 3/8] linux-user: Add support for
+ FIOGETOWN and FIOSETOWN ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,64 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, riku.voipio@iki.fi,
+ qemu-devel@nongnu.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Sep 2019 at 09:43, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+10.09.2019. 10.35, "Laurent Vivier" <laurent@vivier.eu> =D1=98=D0=B5 =D0=BD=
+=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 >
-> The following changes since commit 89ea03a7dc83ca36b670ba7f787802791fcb04=
-b1:
+> Le 04/09/2019 =C3=A0 14:59, Aleksandar Markovic a =C3=A9crit :
+> > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> >
+> > FIOGETOWN and FIOSETOWN ioctls have platform-specific definitions,
+> > hence non-standard definition in QEMU too.
+> >
+> > Other than that, they both have a single integer argument, and their
+> > functionality is emulated in a straightforward way.
+> >
+> > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > ---
+> >  linux-user/ioctls.h       | 2 ++
+> >  linux-user/syscall_defs.h | 4 ++++
+> >  2 files changed, 6 insertions(+)
+> >
+> > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> > index cd9b6f9..1830de9 100644
+> > --- a/linux-user/ioctls.h
+> > +++ b/linux-user/ioctls.h
+> > @@ -177,6 +177,8 @@
+> >  #endif
+> >  #endif /* CONFIG_USBFS */
+> >
+> > +  IOCTL(FIOGETOWN, IOC_R, MK_PTR(TYPE_INT))
+> > +  IOCTL(FIOSETOWN, IOC_W, MK_PTR(TYPE_INT))
+> >    IOCTL(SIOCATMARK, IOC_R, MK_PTR(TYPE_INT))
+> >    IOCTL(SIOCGIFNAME, IOC_RW, MK_PTR(MK_STRUCT(STRUCT_int_ifreq)))
+> >    IOCTL(SIOCGIFFLAGS, IOC_W | IOC_R,
+MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
+> > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> > index 19a1d39..498223b 100644
+> > --- a/linux-user/syscall_defs.h
+> > +++ b/linux-user/syscall_defs.h
+> > @@ -758,10 +758,14 @@ struct target_pollfd {
+> >
+> >  #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) ||
+defined(TARGET_SH4) ||    \
+> >         defined(TARGET_XTENSA)
+> > +#define TARGET_FIOGETOWN       TARGET_IOR('f', 123, int)
+> > +#define TARGET_FIOSETOWN       TARGET_IOW('f', 124, int)
+> >  #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
+> >  #define TARGET_SIOCSPGRP       TARGET_IOW('s', 8, pid_t)
+> >  #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
+> >  #else
+> > +#define TARGET_FIOGETOWN       0x8903
+> > +#define TARGET_FIOSETOWN       0x8901
+> >  #define TARGET_SIOCATMARK      0x8905
+> >  #define TARGET_SIOCSPGRP       0x8902
+> >  #define TARGET_SIOCGPGRP       0x8904
+> >
 >
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/m68k-pull-2019-0=
-9-07' into staging (2019-09-09 09:48:34 +0100)
+> Applied to my linux-user branch.
 >
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-next-100919-1
->
-> for you to fetch changes up to 4cf22bac5b22a36adf23dc9ec4628c66bbc6f209:
->
->   travis.yml: Install libcap-dev for testing virito-9p (2019-09-10 09:39:=
-09 +0100)
->
-> ----------------------------------------------------------------
-> Testing fixes:
->
->   - podman cleanups
->   - docker.py python3 fixes (encode)
->   - DEF_TARGET_LIST applied to cross build images
->   - move a bunch to Buster based images
->   - enable Travis caching
->   - more common objs for faster builds
->   - stable URLs for acceptance tests
->   - additional travis dependencies
 
-Hi; this seems to break 'check-tcg' (for a linux-user static config):
+Thank you!
 
-[...]
-  CHECK   debian-ppc64-cross
-  BUILD   ppc64-linux-user guest-tests with docker qemu:debian-ppc64-cross
-  RUN     tests for ppc64
-  TEST    test-mmap (default) on ppc64
-  TEST    sha1 on ppc64
-  TEST    linux-test on ppc64
-  TEST    testthread on ppc64
-  BUILD   TCG tests for ppc64abi32-linux-user
-  BUILD   ppc64abi32-linux-user guest-tests with powerpc-linux-gnu-gcc
-  RUN     TCG tests for ppc64abi32-linux-user
-  BUILD   ppc64abi32-linux-user guest-tests with powerpc-linux-gnu-gcc
-  RUN     tests for ppc64abi32
-  TEST    test-mmap (default) on ppc64abi32
-  TEST    sha1 on ppc64abi32
-  TEST    linux-test on ppc64abi32
-qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-timeout: the monitored command dumped core
-Segmentation fault
-../Makefile.target:116: recipe for target 'run-linux-test' failed
+This (and other instances of your applying individual patches to your
+branch) will clean up my pending linux user series significantly, and make
+further work clearer and easier.
 
+Aleksandar
 
-thanks
--- PMM
-
+> Thanks,
+> Laurent
+>
