@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1308AEFD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:45:24 +0200 (CEST)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40403AEFE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:47:12 +0200 (CEST)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jGd-000594-E0
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:45:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53089)
+	id 1i7jIM-00073C-S0
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7j7q-0004VY-Go
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:19 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7j80-0004kk-Na
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7j7p-000214-FZ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:54549)
+ (envelope-from <laurent@vivier.eu>) id 1i7j7z-0002DN-AT
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:48975)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7p-0001zX-6l
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:17 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7z-0002CC-1q
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:27 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MYehP-1hc3TT3cWp-00VeZS; Tue, 10 Sep 2019 18:36:13 +0200
+ id 1M3D7V-1i8Z8K2Mur-003gFE; Tue, 10 Sep 2019 18:36:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 18:35:52 +0200
-Message-Id: <20190910163600.19971-8-laurent@vivier.eu>
+Date: Tue, 10 Sep 2019 18:35:53 +0200
+Message-Id: <20190910163600.19971-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910163600.19971-1-laurent@vivier.eu>
 References: <20190910163600.19971-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NrnoZuyyvRcyXw1YmJnEBT5z5hd9yw8C+ku7f8wk+z9qKrAlHck
- uCVbZz7r6GrkavrDF4ketOG9NLa70mg8LNA6VvR1+h8inYuG+LSc+5AOimViH1QqOAc1zu6
- QvfleKpfOoVL3VIuK/P15SXBUkgd/bBuEVNWkTgH1GJjbC02C/rKSVKN1QVq9CUKNH9rdbl
- NuUOiF2kSSPo8ZJv01eSw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:INcU2wQI8OU=:Ff0ZBHMdaNTC0/POC9Fpdm
- QntY9sG9OO+S9w0NXg+kBTPA5kZp/Qmt9sBdUysiKhamNP2zoY78Pcez4Nujqt/9qBHtZ1xoS
- L2t4eC57uH8k/6EBi2+l6L3en6rr9VKJnKOVNiPN5Yu8RTpLdBesaRBuYYnlj2Pdn4VJQG7Xq
- 3gLZ5s19Rza3BJcHTLbhq+L2A7msjhNezC3C7VooNTxZbCSH/rjawtdUSDeHe7hlynntnQMWx
- 3F9SVuNzAAb5YGc+Ir79CSMpwXnCC5NVvqATn1WsNuzSZBYI23BkkCIY/vyvLX8YKvFdJu8oc
- UwmlkstbMt5P8ecUPJJpWl5pqnVV3sERYHj2E5f4Ph1kgk0AwBZS6zYsBE4KRzCRm5qkRFMhy
- C9FANKi0SpPDEcLP6XbBcL126EzBHXsa6bm8C0PLMjHnph81Eqa9UQIup2f/CAWfi7mpjEyxX
- fbS3go4CA/NyVpRsmdvcldEnH7uAwoqqekXyRX0yoTDG+YJ5Zf1Iz9GZQdvo3uyxOrycG4nat
- Z1NZvseb2dfsanDIsMoaq+ZzLfKCRXfyH0fnuw5I0T/1fxiDJb21PV6u1qx2fiDhnz4oF001r
- rnXW1E+tzKasdhoPPNrbogoT3M0HHo0NHhc4NqtR3FSLDG9GlukaS7giO5NdBdk09jsfs135U
- 4S6Eiv0ylbkNweq/EFfVXMnUIJAA5hXDnTDj8EQgZNdqdPEkBkEjUyacdCUIL1DwEZEJmUiDA
- PPHt6nMbveX0MwJIio+T3nzV2/+Bk0h/Y4176HgLcAypWPldwdAD6i39cu0xZdvoYL5GzEAPy
- IvuBGfFp1iL1RKAUErHEqb8JpLPwSbRwpe7EgDSEB/mPcItlZ8=
+X-Provags-ID: V03:K1:8PuUuQxpps+wGdANSUaUT5KRfXwI2yvSl82GB/fy8bNwTtWQ/25
+ Rt2kjnf70qVUBpL76pgVd/F1VpC/GGwwP/a6TWZo7APfgMlZ8EfVEmubDa+3BZJnQHm574x
+ ZyB6WGnz9uCGB4ZG9TPJ2jGdbWVlPqIs0+vzkcOiF8sMH0r3Kbwm6ue3ywmEjtg6jFK/nWZ
+ GEGsu5wxTqtLki0L1cG/w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:T9nXBAJdT98=:fSoo2oRLEhiZ4orgYZh4Hy
+ myTMbFW44J8cWZakmnlJPPs4JEh9qYh9E3Ii5qsgDyyae+duGUT5NMnKTBTt94JkZy8kk0bTw
+ OUUlTrLplIF/Ii0Qm+ht+4qs66VpYvqZ/GB2tediG3InHvi54lJZXUiWbc5quRa2zrJN+Nv1Q
+ z+IbYA0LMFiZfzenm+GrBZJU71xglsbE30N2uc+9XGPcg6qfmzw96maXlw4jc5VbiUeuaEm+s
+ IOyaLs6kEAWL4//eozSoq6EfzsKwMsH8nMn43BwCXq5qr91ZAl2YakQT1R0AHXI1YlNS/2vaO
+ vO0hvMwYrNqhfDnsCw9IY2WlTgc3x/yqdBby0Or+xGKqs0NMUasSrSQzC4ryMYmoTEMlPfN53
+ iIkNHGIW7qCoMQ1T2+7MVZQtYoa/sKdHqf4j2yom7berMIWpcrQccRz1vjPe02s66CdYpvQXU
+ wYQYonVFZq9hhgjiIX9fdgDeP0lbiQuWvTV8GnZA3MGrFOcWaaH1uV+n52lfl0BFVd7ncil3S
+ tOXo6soIq409AV5Tcmoz4BqVgYi7G7LBXLgAIlDeUwzhTftpRZlKp3rBcH9ApcR5SVwnbBiPc
+ EDktiWauoS41U1u6vgytnSF0yw6JsJ3Gs3/ntEAhbAzcrEHr8jdGIRq2Se+2CAXH3HeX6iy46
+ nFP9JOSOVYFQ6qZnXkFTQknGzCRbnfpDj1S7jqM/DDE3v+9IHRbsNTKVlv1VXkDS3NN9MR/LO
+ y8Ruj+I1XyLL1JicO8mrHQe6AerPBmAlt4hhKHIZaBtClRkb/BEuz1kZiJSDXeiXdLjFbtTZl
+ 1xdFFA0mBR/UZWEpVXdH8okcqLUplCvnxC0H24ETenomai/i7c=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: [Qemu-devel] [PULL 07/15] linux-user/arm: Adjust MAX_RESERVED_VA
- for M-profile
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PULL 08/15] linux-user: Support gdb 'qOffsets' query
+ for ELF
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,60 +66,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Peter Maydell <peter.maydell@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Josh Kunz <jkz@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Josh Kunz via Qemu-devel <qemu-devel@nongnu.org>
 
-Limit the virtual address space for M-profile cpus to 2GB,
-so that we avoid all of the magic addresses in the top half
-of the M-profile system map.
+This is needed to support debugging PIE ELF binaries running under QEMU
+user mode. Currently, `code_offset` and `data_offset` remain unset for
+all ELF binaries, so GDB is unable to correctly locate the position of
+the binary's text and data.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20190822185929.16891-3-richard.henderson@linaro.org>
+The fields `code_offset`, and `data_offset` were originally added way
+back in 2006 to support debugging of bFMT executables (978efd6aac6),
+and support was just never added for ELF. Since non-PIE binaries are
+loaded at exactly the address specified in the binary, GDB does not need
+to relocate any symbols, so the buggy behavior is not normally observed.
+
+http://sourceware.org/gdb/onlinedocs/gdb/General-Query-Packets.html#index-qOffsets-packet
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1528239
+Signed-off-by: Josh Kunz <jkz@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190816233422.16715-1-jkz@google.com>
+[lv: added link to documentation]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/arm/target_cpu.h | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ linux-user/elfload.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/arm/target_cpu.h b/linux-user/arm/target_cpu.h
-index 279ea532d5b7..3f79356a07fc 100644
---- a/linux-user/arm/target_cpu.h
-+++ b/linux-user/arm/target_cpu.h
-@@ -19,9 +19,27 @@
- #ifndef ARM_TARGET_CPU_H
- #define ARM_TARGET_CPU_H
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 43c16a846d33..f6693e576098 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2403,6 +2403,8 @@ static void load_elf_image(const char *image_name, int image_fd,
+     }
  
--/* We need to be able to map the commpage.
--   See validate_guest_space in linux-user/elfload.c.  */
--#define MAX_RESERVED_VA(CPU)  0xffff0000ul
-+static inline unsigned long arm_max_reserved_va(CPUState *cs)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+
-+    if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
-+        /*
-+         * There are magic return addresses above 0xfe000000,
-+         * and in general a lot of M-profile system stuff in
-+         * the high addresses.  Restrict linux-user to the
-+         * cached write-back RAM in the system map.
-+         */
-+        return 0x80000000ul;
-+    } else {
-+        /*
-+         * We need to be able to map the commpage.
-+         * See validate_guest_space in linux-user/elfload.c.
-+         */
-+        return 0xffff0000ul;
-+    }
-+}
-+#define MAX_RESERVED_VA  arm_max_reserved_va
- 
- static inline void cpu_clone_regs(CPUARMState *env, target_ulong newsp)
- {
+     info->load_bias = load_bias;
++    info->code_offset = load_bias;
++    info->data_offset = load_bias;
+     info->load_addr = load_addr;
+     info->entry = ehdr->e_entry + load_bias;
+     info->start_code = -1;
 -- 
 2.21.0
 
