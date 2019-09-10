@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6A0AE605
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:49:49 +0200 (CEST)
-Received: from localhost ([::1]:35682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF7AAE60E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:51:11 +0200 (CEST)
+Received: from localhost ([::1]:35702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7bqO-0007Ld-81
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35708)
+	id 1i7brh-0008T3-Nn
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:51:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35557)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i7bkT-0003DK-CP
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:42 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i7bju-0002XM-Rr
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i7bkS-0006BJ-3L
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33447)
+ (envelope-from <mreitz@redhat.com>) id 1i7bjs-00060R-QW
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33824)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i7bkP-0006AP-Rk; Tue, 10 Sep 2019 04:43:38 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1i7bi9-00053l-Ps; Tue, 10 Sep 2019 04:42:56 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2EEDC30A922E;
- Tue, 10 Sep 2019 08:43:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1C27A10C093F;
+ Tue, 10 Sep 2019 08:41:17 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-117-90.ams2.redhat.com
  [10.36.117.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 974325C21E;
- Tue, 10 Sep 2019 08:43:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 137FF5D9D6;
+ Tue, 10 Sep 2019 08:41:12 +0000 (UTC)
 To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
 References: <20190729213559.20913-1-jsnow@redhat.com>
- <20190729213559.20913-3-jsnow@redhat.com>
- <2466ccba-bfb9-eca6-5e40-fc7db4e66114@redhat.com>
- <1104dbc8-0535-d893-3200-07c6db964120@redhat.com>
+ <20190729213559.20913-2-jsnow@redhat.com>
+ <b7cf5a8e-9199-8405-8a32-470cd5437b9e@redhat.com>
+ <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -61,22 +61,21 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <a5432cc7-4a4a-b5a3-62cf-5c3df774549a@redhat.com>
-Date: Tue, 10 Sep 2019 10:43:30 +0200
+Message-ID: <c1818aa9-f0bd-5f42-5ded-1939704474db@redhat.com>
+Date: Tue, 10 Sep 2019 10:41:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1104dbc8-0535-d893-3200-07c6db964120@redhat.com>
+In-Reply-To: <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="UmGmfnlAiuPWomoLFzTJwatlKad6Mgfzz"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 10 Sep 2019 08:43:37 +0000 (UTC)
+ boundary="jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Tue, 10 Sep 2019 08:41:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/3] iotests: add protocol support to
- initialization info
+Subject: Re: [Qemu-devel] [PATCH v2 1/3] iotests: add script_initialize
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,83 +92,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UmGmfnlAiuPWomoLFzTJwatlKad6Mgfzz
-Content-Type: multipart/mixed; boundary="BZbD1RqkyGSmGwvLFy46uHvqRYXrxgbSG";
+--jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c
+Content-Type: multipart/mixed; boundary="66T0HA99yT6CalJwYmGRUXZqTJN3by2rd";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com
-Message-ID: <a5432cc7-4a4a-b5a3-62cf-5c3df774549a@redhat.com>
-Subject: Re: [PATCH v2 2/3] iotests: add protocol support to initialization
- info
+Message-ID: <c1818aa9-f0bd-5f42-5ded-1939704474db@redhat.com>
+Subject: Re: [PATCH v2 1/3] iotests: add script_initialize
 References: <20190729213559.20913-1-jsnow@redhat.com>
- <20190729213559.20913-3-jsnow@redhat.com>
- <2466ccba-bfb9-eca6-5e40-fc7db4e66114@redhat.com>
- <1104dbc8-0535-d893-3200-07c6db964120@redhat.com>
-In-Reply-To: <1104dbc8-0535-d893-3200-07c6db964120@redhat.com>
+ <20190729213559.20913-2-jsnow@redhat.com>
+ <b7cf5a8e-9199-8405-8a32-470cd5437b9e@redhat.com>
+ <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
+In-Reply-To: <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
 
---BZbD1RqkyGSmGwvLFy46uHvqRYXrxgbSG
+--66T0HA99yT6CalJwYmGRUXZqTJN3by2rd
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 09.09.19 20:45, John Snow wrote:
+On 09.09.19 20:25, John Snow wrote:
 >=20
 >=20
-> On 9/9/19 6:09 AM, Max Reitz wrote:
+> On 9/9/19 6:06 AM, Max Reitz wrote:
 >> On 29.07.19 23:35, John Snow wrote:
->>> This will add supported_protocols and unsupported_protocols to all of=
-
->>> iotests.main, iotests.script_main, and iotests.script_initialize.
+>>> Like script_main, but doesn't require a single point of entry.
+>>> Replace all existing initialization sections with this drop-in replac=
+ement.
 >>>
+>>> This brings debug support to all existing script-style iotests.
+>>>
+>>> Note: supported_oses=3D['linux'] was omitted, as it is a default argu=
+ment.
 >>> Signed-off-by: John Snow <jsnow@redhat.com>
 >>> ---
->>>  tests/qemu-iotests/207        | 4 ++--
->>>  tests/qemu-iotests/210        | 4 ++--
->>>  tests/qemu-iotests/211        | 4 ++--
->>>  tests/qemu-iotests/212        | 4 ++--
->>>  tests/qemu-iotests/213        | 4 ++--
->>>  tests/qemu-iotests/iotests.py | 5 ++++-
->>>  6 files changed, 14 insertions(+), 11 deletions(-)
 >>
->> Hm...  Most of the other script-style tests that do not pass
->> supported_protocols yet should probably do so, actually.  I=E2=80=99m =
-fairly
->> certain most of them actually only support 'file'.
+>> Looks good to me, but I=E2=80=99m afraid I looked at this series too l=
+ate (that
+>> is, now), so I sent my own version of your 2/3, sorry. :-/
+>>
 >=20
-> Sounds like a follow-up patch.
+> You're replying to v2; there was a v3.
 
-Why not.  I think it fits well into this series, but either way works
-for me.
-
-> I guess the protocol information patch you talked about is not at
-> origin/master yet. Can you point me to it if I need to rebase on top of=
- it?
-
-It=E2=80=99s in Kevin=E2=80=99s branch: git://repo.or.cz/qemu/kevin.git b=
-lock
+Yes, I noticed later, sorry.  Still, my (vpc) series is in Kevin=E2=80=99=
+s
+branch already, so I then thought to myself =E2=80=9CWell, the comment ab=
+out
+some rebasing still applies, in a sense=E2=80=9D.
 
 Max
 
+> I'll rebase V3 and re-send, especially if your version of 2/3 already
+> hit master.
 
---BZbD1RqkyGSmGwvLFy46uHvqRYXrxgbSG--
 
---UmGmfnlAiuPWomoLFzTJwatlKad6Mgfzz
+--66T0HA99yT6CalJwYmGRUXZqTJN3by2rd--
+
+--jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl13YjIACgkQ9AfbAGHV
-z0AW6QgAmzXjsZsxl026RSnBmioX7MrmHhN0tetwfsr4+WHI0SJ0327vv2aArZlE
-yJO1xNS4/zO5g0wlsI5pN59R6gzKMj2id7wAfeuJL/CkfAEOg8TjLUZ4ATTLrjT+
-HZa08/6GEfdRh99Nd8QP1JwlhqPvZsUeI3cOynC5zIYEATsU1WDYSW56oS8mevus
-in2OuPx/aznRbi++iFx09BCI/emw9AvMdWUEC6UuISLXMXJALtNhbOd+KsZ42o9P
-8VAEp+Y7vBCqzmSMF+3rza2pnHVfCwGVwwkQQ9/Kt4X+S3RCS9owCQ/43oPyW5Rx
-V1fzfwh/CfiQYlYyy3/uYQ7dkriwbQ==
-=yXOA
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl13YacACgkQ9AfbAGHV
+z0D9vAgAwqk0avPdTH2vIADlrcnK8skatwAcs/P+fJODuYU/Hlom5Msuqjr3yMqF
+PMNpUEL8O4Vqw0+NIwpEsU1tp/d/KUj40FpSvRsJIJx1t7ANn8O0WgCfeBIDeDQP
+7xFYWRB9dhfBrzzCaSLmaA0m07YcBksLb1WofaQJXGJ4LbdX5cQoMdHd3OqY0cP/
+L3QJaOxtPGbX7N2uISgNcst6cFb9FjvJ4nOjR7fQB88VfoVTWKBhCcZS7pPM/3d4
+LNEzRT+9W7JtK4126SChBnh4zgg3NQnVa8H4i9m5fTS6Web9e1BWbpGIMzTebbKy
+4HGkgVwN74BPFyphkoqEn6+NayccHA==
+=UT6G
 -----END PGP SIGNATURE-----
 
---UmGmfnlAiuPWomoLFzTJwatlKad6Mgfzz--
+--jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c--
 
