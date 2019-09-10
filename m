@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C36AE897
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:46:51 +0200 (CEST)
-Received: from localhost ([::1]:37800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC90AE885
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:42:37 +0200 (CEST)
+Received: from localhost ([::1]:37743 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7dfe-00070j-2m
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:46:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36415)
+	id 1i7dbY-0002Sp-57
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i7dX4-00072U-IH
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:38:02 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i7dZD-0000ud-TX
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:40:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i7dX2-0001yJ-Iz
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:37:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48094)
+ (envelope-from <mlevitsk@redhat.com>) id 1i7dZC-0002g6-I7
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:40:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54870)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i7dWv-0001tl-8F; Tue, 10 Sep 2019 06:37:50 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1i7dZA-0002fA-9x; Tue, 10 Sep 2019 06:40:08 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 031AA30BCB87;
- Tue, 10 Sep 2019 10:37:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9A034806A4D;
+ Tue, 10 Sep 2019 10:40:07 +0000 (UTC)
 Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBCE15DA5B;
- Tue, 10 Sep 2019 10:37:39 +0000 (UTC)
-Message-ID: <b15947a62510325bddec093a2f80e86704a81641.camel@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E2585C22F;
+ Tue, 10 Sep 2019 10:40:03 +0000 (UTC)
+Message-ID: <f4fa4bbd538e0a6356948f394dfef33aea5af218.camel@redhat.com>
 From: Maxim Levitsky <mlevitsk@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 13:37:38 +0300
-In-Reply-To: <5608ea37-e3d4-0e9c-039c-5311c8b8d531@redhat.com>
-References: <676393243dbf38470b514a8dc11024380ff836d8.camel@redhat.com>
- <5608ea37-e3d4-0e9c-039c-5311c8b8d531@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Date: Tue, 10 Sep 2019 13:40:02 +0300
+In-Reply-To: <5c843f00-eb9f-8442-fb0c-e99aa423c5a9@redhat.com>
+References: <20190712173600.14554-1-mreitz@redhat.com>
+ <84a35d4dd5a915fb879a313b0d5cd30bfa6aaa67.camel@redhat.com>
+ <5c843f00-eb9f-8442-fb0c-e99aa423c5a9@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 10 Sep 2019 10:37:43 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Tue, 10 Sep 2019 10:40:07 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] IOTEST 162
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/7] block: Generic file
+ creation fallback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,154 +58,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2019-09-09 at 13:24 -0400, John Snow wrote:
-> 
-> On 9/6/19 1:25 PM, Maxim Levitsky wrote:
+On Tue, 2019-09-10 at 11:16 +0200, Max Reitz wrote:
+> On 05.09.19 15:30, Maxim Levitsky wrote:
+> > On Fri, 2019-07-12 at 19:35 +0200, Max Reitz wrote:
+> > > Hi,
+> > >=20
+> > > Kevin commented on my RFC, so I got what an RFC wants, and he didn=E2=
+=80=99t
+> > > object to the creation fallback part.  So I suppose I can go down t=
+hat
+> > > route at least.  (Which was actually the more important part of the
+> > > series.)
+> > >=20
+> > > So as in the RFC, this series adds a fallback path for creating fil=
+es
+> > > (on the protocol layer) if the protocol driver does not support fil=
+e
+> > > creation, but the file already exists.
+> > >=20
+> >=20
 > > Hi!
-> > 
-> > I just had a very fun rabbit hole dive, and I want to share it with you.
-> > 
-> > I notice for some time that iotest 162 fails with that:
-> > 
-> > -qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket: Invalid argument
-> > +qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket:
-> > Connection timed out
-> > 
-> > 
-> > I didn't bother to report it yet as it started failing more or less when qemu 4.2 merge window opened,
-> > so I thought that maybe something got broken, or maybe something broken in my environment 
-> > (ahem, AF_UNIX path is too long, ahem)
-> > 
-> > I just didn't had enough time to pay attention to this. Until today.
-> > 
-> > So I asked Kevin Wolf today, just by the way why I see for some time that
-> > iotest 162 fails. for me.
-> > 
-> > 
-> > He told me that it works for him.
-> > So I look at the test and I see that it just does
-> > 
-> > qemu-img info 'json:{"driver": "nbd", "host": 42}'
-> > 
-> > Supposedly it should fail because 42 is not quoted, and it 
-> > doesn't look like a valid host name.
-> > 
-> > I try with disto's qemu-img (2.11) and I still see that I get the 'Connection timed out'
-> > 
-> > Then I ask him to try on his system with '42' quoted and it still passes.
-> > 
-> > All right - this means that this 42 is parsed. He also mentions that he uses fedora 29 and I still
-> > use fedora 28. So I start a VM with fedora 30, and yep, there it does work correctly.
-> > 
-> > All right, that 42 must be parsed as a host name. Yep. 'ping 42' on my machine tries to ping 0.0.0.42,
-> > and in VM exits immediately with 'Invalid argument'
-> > All right, lets ping 0.0.0.42. Maybe something in hostname parsing changed, maybe something parses this on DNS level?
-> > Nope, ping 0.0.0.42 works on my machine, fails with invalid argument in VM...
-> > 
-> > All right lets strace it
-> > 
-> > connect(5, {sa_family=AF_INET, sin_port=htons(1025), sin_addr=inet_addr("0.0.0.42")}, 16) = -1 EINVAL (Invalid argument)
-> > 
-> > Same thing passes on my machine....
-> > 
-> > Hmm... this is something in the kernel. Maybe something in iptables/etc. I don't yet know that
-> > area that well to be honest.
-> > 
-> > So I googled a bit and look what I found:
-> > 
-> > https://lwn.net/Articles/791086/
-> > 
-> > And yes, while my machine runs fedora 28, it as usual runs vanilla git master
-> > kernel, which I compile from time to time. Currently I am on 5.3.0-rc4+.
-> > 
-> > So I must say that nothing less but kernel 5.3.0, breaks iotest 162.
-> > 
-> > I''l prepare a patch soon to fix this.
-> 
-> I wonder if I am seeing some related problems, though I am running
-> 5.2.11 right now and not 5.3.x:
-> 
-> 162 is failing in this way:
-> 
-> -qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost",
-> "port": "0", "path": "/foo"}': Failed to connect socket: Connection refused
-> -qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo':
-> Failed to connect socket: Connection refused
-> +qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost",
-> "port": "0", "path": "/foo"}': Failed to connect socket: Connection
-> timed out
-> +qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo':
-> Failed to connect socket: Connection timed out
->  qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost",
-> "port": 0.42, "path": "/foo"}': Parameter 'port' expects a number
->  qemu-img: Could not open
-> 'driver=ssh,host=localhost,port=0.42,path=/foo': Parameter 'port'
-> expects a number
+> > Do you have any update on this patch series by a chance?
+>=20
+> Unfortunately, no.  I was on PTO, and before that, there was just too
+> much else going on.  (And frankly, there=E2=80=99s still too much else =
+going on.)
 
-This must be the same issue, although here it fails like that:
+No problem!
 
-
-[mlevitsk@maximlenovopc ~/qemu/tests/qemu-iotests]$./check -qcow2 162
-QEMU          -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64" -nodefaults -display none -machine accel=qtest
-QEMU_IMG      -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../qemu-img" 
-QEMU_IO       -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../qemu-io"  --cache writeback -f qcow2
-QEMU_NBD      -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../qemu-nbd" 
-IMGFMT        -- qcow2 (compat=1.1)
-IMGPROTO      -- file
-PLATFORM      -- Linux/x86_64 maximlenovopc 5.3.0-rc4+
-TEST_DIR      -- /home/mlevitsk/qemu/tests/qemu-iotests/scratch
-SOCKET_SCM_HELPER -- /home/mlevitsk/qemu/tests/qemu-iotests/socket_scm_helper
-
-162      fail       [12:25:07] [12:27:18]                    output mismatch (see 162.out.bad)
---- /home/mlevitsk/USERSPACE/qemu/src/tests/qemu-iotests/162.out	2019-04-07 16:37:54.656311574 +0300
-+++ /home/mlevitsk/qemu/tests/qemu-iotests/162.out.bad	2019-09-10 12:27:18.032903571 +0300
-@@ -1,7 +1,7 @@
- QA output created by 162
- 
- === NBD ===
--qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket: Invalid argument
-+qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket: Connection timed out
- image: nbd://localhost:PORT
- image: nbd+unix://?socket=42
- 
-Failures: 162
-Failed 1 of 1 tests
-
-
-
-Test 147 passes for me with both raw and qcow2 format.
 
 Best regards,
 	Maxim Levitsky
-
-
-> 
-> 
-> and 147 is failing this way:
-> 
-> +  File "147", line 243, in test_inet6
-> +    if self._try_server_up(address):
-> +  File "147", line 156, in _try_server_up
-> +    self.assert_qmp(result, 'return', {})
-> +  File "/home/bos/jhuston/src/qemu/tests/qemu-iotests/iotests.py", line
-> 685, in assert_qmp
-> +    result = self.dictpath(d, path)
-> +  File "/home/bos/jhuston/src/qemu/tests/qemu-iotests/iotests.py", line
-> 661, in dictpath
-> +    self.fail('failed path traversal for "%s" in "%s"' % (path, str(d)))
-> +AssertionError: failed path traversal for "return" in "{'error':
-> {'class': 'GenericError', 'desc': 'Failed to bind socket: Cannot assign
-> requested address'}}"
-> 
-> 
-> 
-> I'm not sure when the failure started -- this is the first time I'm
-> seeing it -- I'm fairly certain I ran these tests Thursday or Friday
-> last week.
-
 
 
