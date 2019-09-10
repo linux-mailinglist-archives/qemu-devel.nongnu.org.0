@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88393AEDA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:49:00 +0200 (CEST)
-Received: from localhost ([::1]:40824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A99AEDC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:52:10 +0200 (CEST)
+Received: from localhost ([::1]:40908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hRy-0007t3-9e
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54009)
+	id 1i7hV3-00032i-3T
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53878)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i7hNo-0005Sx-8E
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:41 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i7hNi-0005Ku-CW
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i7hNm-00051D-Rc
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:39 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40572)
+ (envelope-from <peter.maydell@linaro.org>) id 1i7hNg-0004xP-UT
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:34 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36619)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i7hNm-00050t-Lt
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:38 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w13so20818660wru.7
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:44:38 -0700 (PDT)
+ id 1i7hNg-0004wn-Ku
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:32 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id y19so20838250wrd.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=YWOXDYdgItfE8+407vkIvvnaRwn01B+C3RlPpmYpG/U=;
- b=CPOae9hgzuSC0OuDGe9BwP3BNIZQOP1fwo3SjCfxBWaL621js/y1AppTZuhJF3YbXx
- TEQZHopJll6otD2jmKBXQ6+eldWQm2EOTurJXMwBt9IPolSIWRkthFi6Q6m25paKoNfI
- M+yvPrZXHR8w5y69dXowBN/1N22jRoAM61LgnZClKts3ccSs+x+hpFUJM+7wUiHUzWtN
- tG56sqp6K7DNFTHkrgKnQhZV/Z848IvOOQZe6ENchdYbKhzLdNeGGQP9NHQacBaeIddc
- V0XIDgJa7uBgT+7HH1etQGK45TbEws3VGphBaZ63UTv1Wm21qXQ0rcWZFw2nZJsTp1ub
- M39A==
+ bh=xTjf3hmMk5rbmJgPO5PWGWbjlNL8080SfY7U6rGODTo=;
+ b=bUqpQ6K5odLPzxzHikD/LNM/4ehLGw8tz+HBXQ0FQgvStfMhmDKDw6wucYPtuA6b7d
+ zGolzHBXoKBxsjjwtTwGFC8Lvp40WGguivRLGy5FLcETEC3s6It/ln/p9jlpORdW7rSP
+ uTdudX+i8cuT5qcLNC5MYrneALDOYc943GcHHU/6YrHiVlUZFxD7z340hcyvSJtmETE9
+ IK/NRc5hA0Cl3aJXA/2a6WUPAii3gS/VlLJHyxJOZ500ZJ1vpM0fcKyhBfapeEZjtIPh
+ z1Cu00+Qi0T5cLrzcNfr8f++HZdLToAvDZeBtVfKXBWdR4YFIyIPaHQ6Y1Sh2xqLQHK+
+ ylGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YWOXDYdgItfE8+407vkIvvnaRwn01B+C3RlPpmYpG/U=;
- b=uOtIsAqxKp/97xw4fttffkhPwZq5lH7EfVgkS5f/vWigjFnqehgqQoI1CmJtzbuQjl
- bs+3vj3VFvtyCE4+IFAQAU6szpAXCjDg2ui2oz3LmpTlQQTYz6aIvopCiqUlzYaBNYIH
- qwbj4VuuzYkpIgg6TuZiOczENut7nfZld6MJmaNQ1MZoT4JjMCvguEq4pbl3ElNHSFjQ
- 7K7c7ZOJCERnlBZJZfFJ7lO5PGQHmN19VaL3v9pEN+6JS/KLlrmxNbU5KDquNIfjjXg7
- UiI5BEbLDL6dJLq1rqchtbSoG2MTbuA2j0TzPtIbNoIFEPK5002wSk+Mo6ezSdH1fhtD
- /JYw==
-X-Gm-Message-State: APjAAAVVwkO1aQCSyxlvqG5fA9pp6ze9W81cNTgYOpjQ+/+4K4oU8Tb3
- mQhPGYSsnse8tX54VUusQpKnUg==
-X-Google-Smtp-Source: APXvYqxKsofOQZNo4pBVTaX1Za9eMs/R4U9WqJQdmm4UaZ99Zyq+vzjvdWa9QsTphSX1fARW9MZVCw==
-X-Received: by 2002:a5d:548d:: with SMTP id h13mr9677544wrv.215.1568126677826; 
- Tue, 10 Sep 2019 07:44:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xTjf3hmMk5rbmJgPO5PWGWbjlNL8080SfY7U6rGODTo=;
+ b=Gp7AW8ovZ0pNTRwA/BDM/OC+CBRr/3fu5a2entQPRdHcyw7Oox3D/FfAaUhs8U/smb
+ XicULdj1d5X/vJnzE7YkRMAlQRmf8FmNkApS1f0tW1kLYtUX7NUlKHaZLt6m2kyoGl0D
+ Tq8KMTwwsILYW4qAjAlZOif26U1TqpStMwjG4mbGUBAwGmA3X0Nci5pf+jSJiICMV2O4
+ rpVoWU+Itj3yP/1F3XiiD+dD2QNSrHEhp16sWXr+8JIA9hIbJOQdBRZ54nvQC2ehgKM2
+ mgXYsWadPup3kaO2rSz9Lfg9hMeQm+1IGJ4Jw4z/PSVnNuhhUQMLMZXchPzgCf/49SLa
+ ilIw==
+X-Gm-Message-State: APjAAAU3m+6IoWpN2sYU74ZmLn4YNDD3FhW68yYRnVnqkSdh+d028ixP
+ vPNFxJ32Sz2V4MSFZ3uUdZOCZQ==
+X-Google-Smtp-Source: APXvYqy2DW/PTCIhH6eGxV3ioXMM2UKzrw+zK2KM1HdkOcPTwURxC+qSNInGMcjaiiTMuCWvd7z0JA==
+X-Received: by 2002:adf:e2d0:: with SMTP id d16mr15254677wrj.245.1568126671179; 
+ Tue, 10 Sep 2019 07:44:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a192sm5703814wma.1.2019.09.10.07.44.36
+ by smtp.gmail.com with ESMTPSA id a192sm5703814wma.1.2019.09.10.07.44.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 07:44:37 -0700 (PDT)
+ Tue, 10 Sep 2019 07:44:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 15:44:21 +0100
-Message-Id: <20190910144428.32597-7-peter.maydell@linaro.org>
+Date: Tue, 10 Sep 2019 15:44:15 +0100
+Message-Id: <20190910144428.32597-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190910144428.32597-1-peter.maydell@linaro.org>
-References: <20190910144428.32597-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 06/13] target/arm/arm-semi: Factor out
- implementation of SYS_WRITE
+X-Received-From: 2a00:1450:4864:20::42b
+Subject: [Qemu-devel] [PATCH 00/13] target/arm: Implement semihosting v2.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,113 +79,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor out the implementation of SYS_WRITE via the
-new function tables.
+This patchset implements support in QEMU for v2.0 of the
+Arm semihosting specification:
+ https://developer.arm.com/docs/100863/latest/preface
 
-The #ifdef around the declaration/initialization of the
-local 'env' variable is unfortunate but necessary, because
-the softmmu-semi.h version of lock_user implicitly uses 'env',
-but the user-only version doesn't need it. Without the ifdefs
-we'd get a warning about the unused variable for the user-only
-compilation.
+Specifically, v2.0 has:
+ * a mechanism for detection of optional extra features,
+   which works by allowing the guest to open a magic file
+   named ":semihosting-features" and read some feature
+   flags from it
+ * two defined extensions:
+  - STDOUT_STDERR lets the guest separately open stdout and
+    stderr via the ":tt" magic filename (v1.0 only allowed
+    access to stdout)
+  - EXIT_EXTENDED lets A32/T32 guests exit with a specified
+    exit status (otherwise only available to A64 guests).
+    This is something that people have been complaining
+    about for a long time.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/arm-semi.c | 53 ++++++++++++++++++++++++++++---------------
- 1 file changed, 35 insertions(+), 18 deletions(-)
+(Technically some of the things we already support, like
+having an A64 semihosting interface at all, are also part of
+the v2.0 spec.)
 
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index f3e0bf77cd3..0dec4c04e2f 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -345,27 +345,61 @@ static target_ulong arm_gdb_syscall(ARMCPU *cpu, gdb_syscall_complete_cb cb,
-  * setting the guest errno if appropriate.
-  */
- typedef uint32_t sys_closefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf);
-+typedef uint32_t sys_writefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
-+                             target_ulong buf, uint32_t len);
- 
- static uint32_t host_closefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
- {
-     return set_swi_errno(ts, close(gf->hostfd));
- }
- 
-+static uint32_t host_writefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
-+                             target_ulong buf, uint32_t len)
-+{
-+    uint32_t ret;
-+#ifndef CONFIG_USER_ONLY
-+    CPUARMState *env = &cpu->env;
-+#endif
-+    char *s = lock_user(VERIFY_READ, buf, len, 1);
-+    if (!s) {
-+        /* Return bytes not written on error */
-+        return len;
-+    }
-+    ret = set_swi_errno(ts, write(gf->hostfd, s, len));
-+    unlock_user(s, buf, 0);
-+    if (ret == (uint32_t)-1) {
-+        ret = 0;
-+    }
-+    /* Return bytes not written */
-+    return len - ret;
-+}
-+
- static uint32_t gdb_closefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
- {
-     return arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", gf->hostfd);
- }
- 
-+static uint32_t gdb_writefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
-+                            target_ulong buf, uint32_t len)
-+{
-+    arm_semi_syscall_len = len;
-+    return arm_gdb_syscall(cpu, arm_semi_cb, "write,%x,%x,%x",
-+                           gf->hostfd, buf, len);
-+}
-+
- typedef struct GuestFDFunctions {
-     sys_closefn *closefn;
-+    sys_writefn *writefn;
- } GuestFDFunctions;
- 
- static const GuestFDFunctions guestfd_fns[] = {
-     [GuestFDHost] = {
-         .closefn = host_closefn,
-+        .writefn = host_writefn,
-     },
-     [GuestFDGDB] = {
-         .closefn = gdb_closefn,
-+        .writefn = gdb_writefn,
-     },
- };
- 
-@@ -504,24 +538,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             return set_swi_errno(ts, -1);
-         }
- 
--        if (use_gdb_syscalls()) {
--            arm_semi_syscall_len = len;
--            return arm_gdb_syscall(cpu, arm_semi_cb, "write,%x,%x,%x",
--                                   gf->hostfd, arg1, len);
--        } else {
--            s = lock_user(VERIFY_READ, arg1, len, 1);
--            if (!s) {
--                /* Return bytes not written on error */
--                return len;
--            }
--            ret = set_swi_errno(ts, write(gf->hostfd, s, len));
--            unlock_user(s, arg1, 0);
--            if (ret == (uint32_t)-1) {
--                ret = 0;
--            }
--            /* Return bytes not written */
--            return len - ret;
--        }
-+        return guestfd_fns[gf->type].writefn(ts, cpu, gf, arg1, len);
-     case TARGET_SYS_READ:
-         GET_ARG(0);
-         GET_ARG(1);
+This patchset:
+ * fixes some bugs relating to errnos in some cases
+ * makes semihosting hand out its own filedescriptors rather
+   than just passing out host fd numbers
+ * abstracts out the fd-related semihosting calls so they
+   indirect via a function table based on the type of the fd
+ * adds a new type of fd representing the magic file
+   ":semihosting-features" which is used for feature-detection
+ * implements both of the extensions defined by the v2.0 spec
+
+I've tested this by improving my semihosting test suite:
+ https://git.linaro.org/people/peter.maydell/semihosting-tests.git/
+(if people have other guest binaries that make much use of
+semihosting then testing would certainly be welcome.)
+
+thanks
+-- PMM
+
+Peter Maydell (13):
+  target/arm/arm-semi: Capture errno in softmmu version of
+    set_swi_errno()
+  target/arm/arm-semi: Always set some kind of errno for failed calls
+  target/arm/arm-semi: Make semihosting code hand out its own file
+    descriptors
+  target/arm/arm-semi: clean up TaskState* usage in non-user-only code
+  target/arm/arm-semi: Factor out implementation of SYS_CLOSE
+  target/arm/arm-semi: Factor out implementation of SYS_WRITE
+  target/arm/arm-semi: Factor out implementation of SYS_READ
+  target/arm/arm-semi: Factor out implementation of SYS_ISTTY
+  target/arm/arm-semi: Factor out implementation of SYS_SEEK
+  target/arm/arm-semi: Factor out implementation of SYS_FLEN
+  target/arm/arm-semi: Implement support for semihosting feature
+    detection
+  target/arm/arm-semi: Implement SH_EXT_STDOUT_STDERR extension
+  target/arm/arm-semi: Implement SH_EXT_EXIT_EXTENDED extension
+
+ target/arm/arm-semi.c | 613 +++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 513 insertions(+), 100 deletions(-)
+
 -- 
 2.20.1
 
