@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE1BAE896
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:46:20 +0200 (CEST)
-Received: from localhost ([::1]:37782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C36AE897
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:46:51 +0200 (CEST)
+Received: from localhost ([::1]:37800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7df8-0004Wc-Kc
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:46:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35305)
+	id 1i7dfe-00070j-2m
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:46:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1i7dSw-0002ff-UK
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:33:44 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i7dX4-00072U-IH
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:38:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1i7dSv-0008I3-80
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:33:42 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:34882)
+ (envelope-from <mlevitsk@redhat.com>) id 1i7dX2-0001yJ-Iz
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:37:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48094)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1i7dSu-0008Gp-Mz
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:33:41 -0400
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 44A1596F53;
- Tue, 10 Sep 2019 10:33:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1568111617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7cmSYdqiPJ5xRzAsYP5CLn+qxleOls451ytuNUmEygM=;
- b=c1Irdjr05QIGRcFhCVWP2MESiTcFBIf6GZwEQIuKiiUZjL252oTzX/DR7NkWl3qmkZMXRF
- Kc/bhrlntw+dgTS+l+OTp3wr41ZxjOJjRLTMNZLtJ2gEfAlc+xWPS8ltcXIz5xkoV0fH4Q
- EdcmtXo/av89wmZbnCSIhoialHsgwV0=
-To: qemu-devel@nongnu.org
-References: <20190821163341.16309-1-damien.hedde@greensocs.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <930be578-ab77-178f-0055-a04541249eca@greensocs.com>
-Date: Tue, 10 Sep 2019 12:33:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.0
-MIME-Version: 1.0
-In-Reply-To: <20190821163341.16309-1-damien.hedde@greensocs.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1i7dWv-0001tl-8F; Tue, 10 Sep 2019 06:37:50 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 031AA30BCB87;
+ Tue, 10 Sep 2019 10:37:43 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBCE15DA5B;
+ Tue, 10 Sep 2019 10:37:39 +0000 (UTC)
+Message-ID: <b15947a62510325bddec093a2f80e86704a81641.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Date: Tue, 10 Sep 2019 13:37:38 +0300
+In-Reply-To: <5608ea37-e3d4-0e9c-039c-5311c8b8d531@redhat.com>
+References: <676393243dbf38470b514a8dc11024380ff836d8.camel@redhat.com>
+ <5608ea37-e3d4-0e9c-039c-5311c8b8d531@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1568111617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7cmSYdqiPJ5xRzAsYP5CLn+qxleOls451ytuNUmEygM=;
- b=LXMk17gZBvi4xpU7oVIWQSlfh3GDJQNrqDvHaBDGW/bcRM+0UmVwQ2fvNe5teITSTOQRkQ
- a26rCyQ9NfDcTQGv5m6tIrfoxM7fZIgXaJgArjjr5sRNDDWl8p0sXycuXwN3nXlVg5Q5mY
- Okpy//ppztYhvnCmL600M7tIgXJocMU=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1568111617; a=rsa-sha256; cv=none;
- b=asNTp2/l4pM3rDw6Babo7GC0GK72PhI9Vp2/ecZ8LKg/UOjfsb6mB9HN81RDQ7RBq7C3S/
- JVMxMtqnUyBZwk7S8NM09AftpBO5pPeNpcUB8jbDpYfI31rfmPemRziAjlNUwCjtu/GaXQ
- /TEb7AczUjgNFi7xC7qJ4NcuUiF1u0I=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 10 Sep 2019 10:37:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: Re: [Qemu-devel] [PATCH v4 00/10] Multi-phase reset mechanism
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] IOTEST 162
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,128 +56,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, berrange@redhat.com,
- ehabkost@redhat.com, mark.burton@greensocs.com, pbonzini@redhat.com,
- philmd@redhat.com, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping !
+On Mon, 2019-09-09 at 13:24 -0400, John Snow wrote:
+> 
+> On 9/6/19 1:25 PM, Maxim Levitsky wrote:
+> > Hi!
+> > 
+> > I just had a very fun rabbit hole dive, and I want to share it with you.
+> > 
+> > I notice for some time that iotest 162 fails with that:
+> > 
+> > -qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket: Invalid argument
+> > +qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket:
+> > Connection timed out
+> > 
+> > 
+> > I didn't bother to report it yet as it started failing more or less when qemu 4.2 merge window opened,
+> > so I thought that maybe something got broken, or maybe something broken in my environment 
+> > (ahem, AF_UNIX path is too long, ahem)
+> > 
+> > I just didn't had enough time to pay attention to this. Until today.
+> > 
+> > So I asked Kevin Wolf today, just by the way why I see for some time that
+> > iotest 162 fails. for me.
+> > 
+> > 
+> > He told me that it works for him.
+> > So I look at the test and I see that it just does
+> > 
+> > qemu-img info 'json:{"driver": "nbd", "host": 42}'
+> > 
+> > Supposedly it should fail because 42 is not quoted, and it 
+> > doesn't look like a valid host name.
+> > 
+> > I try with disto's qemu-img (2.11) and I still see that I get the 'Connection timed out'
+> > 
+> > Then I ask him to try on his system with '42' quoted and it still passes.
+> > 
+> > All right - this means that this 42 is parsed. He also mentions that he uses fedora 29 and I still
+> > use fedora 28. So I start a VM with fedora 30, and yep, there it does work correctly.
+> > 
+> > All right, that 42 must be parsed as a host name. Yep. 'ping 42' on my machine tries to ping 0.0.0.42,
+> > and in VM exits immediately with 'Invalid argument'
+> > All right, lets ping 0.0.0.42. Maybe something in hostname parsing changed, maybe something parses this on DNS level?
+> > Nope, ping 0.0.0.42 works on my machine, fails with invalid argument in VM...
+> > 
+> > All right lets strace it
+> > 
+> > connect(5, {sa_family=AF_INET, sin_port=htons(1025), sin_addr=inet_addr("0.0.0.42")}, 16) = -1 EINVAL (Invalid argument)
+> > 
+> > Same thing passes on my machine....
+> > 
+> > Hmm... this is something in the kernel. Maybe something in iptables/etc. I don't yet know that
+> > area that well to be honest.
+> > 
+> > So I googled a bit and look what I found:
+> > 
+> > https://lwn.net/Articles/791086/
+> > 
+> > And yes, while my machine runs fedora 28, it as usual runs vanilla git master
+> > kernel, which I compile from time to time. Currently I am on 5.3.0-rc4+.
+> > 
+> > So I must say that nothing less but kernel 5.3.0, breaks iotest 162.
+> > 
+> > I''l prepare a patch soon to fix this.
+> 
+> I wonder if I am seeing some related problems, though I am running
+> 5.2.11 right now and not 5.3.x:
+> 
+> 162 is failing in this way:
+> 
+> -qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost",
+> "port": "0", "path": "/foo"}': Failed to connect socket: Connection refused
+> -qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo':
+> Failed to connect socket: Connection refused
+> +qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost",
+> "port": "0", "path": "/foo"}': Failed to connect socket: Connection
+> timed out
+> +qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo':
+> Failed to connect socket: Connection timed out
+>  qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost",
+> "port": 0.42, "path": "/foo"}': Parameter 'port' expects a number
+>  qemu-img: Could not open
+> 'driver=ssh,host=localhost,port=0.42,path=/foo': Parameter 'port'
+> expects a number
 
-Any comments ?
+This must be the same issue, although here it fails like that:
 
-Thanks,
-Damien
 
-On 8/21/19 6:33 PM, Damien Hedde wrote:
-> Hi all,
-> 
-> Here's the 4th version of the multi-phase reset proposal patches.
-> Previous version can be found here:
-> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06365.html
-> 
-> The purpose of this series is to split the current reset procedure into
-> multiple phases. This will help to solve some ordering difficulties we have
-> during reset. Please see patch 4 which adds documentation for more details.
-> 
-> Compared to previous version, I've reduced the scope of the series to
-> multi-phase basics. In particular, I've removed migration-related features
-> which can be added and discussed later when we've settled the api. I've also
-> not included the change to the new api for the ~20 impacted files because it
-> highly depends on whether we handle cold vs warm reset difference or not. I'll
-> handle them when we'll advance on this point.
-> 
-> I've isolated in patch 2 to 4, the multi-phase base mechanism handling only
-> cold reset as suggested by David.
-> Patches 5 and 6 do trivial modifications related to the registration of reset
-> handler in the main system reset.
-> Patch 7 handles the hotplug device reset case.
-> These first 7 patches form a multi-phase basics independent subset; the first 6
-> do not modify the behavior. I'd really like to move forward on them as we have
-> things depending on the basic multi-phase capability only (in particular the
-> clock-tree support).
-> 
-> Nevertheless I've kept in this series the addition of warm reset (in patches 8
-> to 10) so we can continue the discussion. Even if we don't introduce warm
-> reset, it allows discussion about multiple reset type support.
-> Maybe I should have put these 3 patches in their own (rfc ?) series, since
-> there was lot of questioning about the warm reset and talking about handling
-> other resets like bus specific ones.
-> 
-> I've tested that the actual reset order was not modified by these patches by
-> tracing calls to individual reset method after and before applying the series.
+[mlevitsk@maximlenovopc ~/qemu/tests/qemu-iotests]$./check -qcow2 162
+QEMU          -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64" -nodefaults -display none -machine accel=qtest
+QEMU_IMG      -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../qemu-img" 
+QEMU_IO       -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../qemu-io"  --cache writeback -f qcow2
+QEMU_NBD      -- "/home/mlevitsk/qemu/tests/qemu-iotests/../../qemu-nbd" 
+IMGFMT        -- qcow2 (compat=1.1)
+IMGPROTO      -- file
+PLATFORM      -- Linux/x86_64 maximlenovopc 5.3.0-rc4+
+TEST_DIR      -- /home/mlevitsk/qemu/tests/qemu-iotests/scratch
+SOCKET_SCM_HELPER -- /home/mlevitsk/qemu/tests/qemu-iotests/socket_scm_helper
+
+162      fail       [12:25:07] [12:27:18]                    output mismatch (see 162.out.bad)
+--- /home/mlevitsk/USERSPACE/qemu/src/tests/qemu-iotests/162.out	2019-04-07 16:37:54.656311574 +0300
++++ /home/mlevitsk/qemu/tests/qemu-iotests/162.out.bad	2019-09-10 12:27:18.032903571 +0300
+@@ -1,7 +1,7 @@
+ QA output created by 162
+ 
+ === NBD ===
+-qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket: Invalid argument
++qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to connect socket: Connection timed out
+ image: nbd://localhost:PORT
+ image: nbd+unix://?socket=42
+ 
+Failures: 162
+Failed 1 of 1 tests
+
+
+
+Test 147 passes for me with both raw and qcow2 format.
+
+Best regards,
+	Maxim Levitsky
+
+
 > 
 > 
-> Changes v3 -> v4
-> general:
->     + various comments and typos
-> patch 1: add device_legacy_reset function to prepare for reset api change
->     + squash of 2 patches from v3 (asked by Peter and David)
-> patch 2: Create Resettable QOM interface
->     + ResetType enum (only cold for now) (David and Philippe's remark)
->     + ResetState to factorize most of the code (to address David's concern)
->     + all phases order is now children-to-parent (Peter's remark)
->     + assert/deassert removed to isolate migration related features
-> patch 3: add Resettable interface in Bus and Device classes
->     + squash of 2 patches (make Device and Bus Resettable & switch to
->       resettable api) since patch 2 has reduced their size.
->     + adaptation to patch 2 changes (warm reset, state and methods)
->     + isolate hotplug reset change into patch 7 (Peter's remark)
->     + fix qdev/qbus_reset_not doing a cold reset (Peter's remark)
->     + call helper device_reset_cold instead of device_reset (David's remark)
-> patch 4: docs/devel/reset.txt: create doc about Resettable interface
->     + various improvements
->     + in this patch, doc is reduced to cold multi-phase reset with no "in reset"
->       state (other parts are kept for following commits)
-> patch 5: vl.c: replace deprecated qbus_reset_all registration
->     + suggested comment improvement from Peter
-> patch 6: hw/s390x/ipl.c: replace deprecated qbus_reset_all registration
->     + suggested comment improvement from Peter
+> and 147 is failing this way:
 > 
-> Thanks for your feedback,
-> Damien
+> +  File "147", line 243, in test_inet6
+> +    if self._try_server_up(address):
+> +  File "147", line 156, in _try_server_up
+> +    self.assert_qmp(result, 'return', {})
+> +  File "/home/bos/jhuston/src/qemu/tests/qemu-iotests/iotests.py", line
+> 685, in assert_qmp
+> +    result = self.dictpath(d, path)
+> +  File "/home/bos/jhuston/src/qemu/tests/qemu-iotests/iotests.py", line
+> 661, in dictpath
+> +    self.fail('failed path traversal for "%s" in "%s"' % (path, str(d)))
+> +AssertionError: failed path traversal for "return" in "{'error':
+> {'class': 'GenericError', 'desc': 'Failed to bind socket: Cannot assign
+> requested address'}}"
 > 
-> Damien Hedde (10):
->   add device_legacy_reset function to prepare for reset api change
->   hw/core: create Resettable QOM interface
->   hw/core: add Resettable interface in Bus and Device classes
->   docs/devel/reset.txt: create doc about Resettable interface
->   vl.c: replace deprecated qbus_reset_all registration
->   hw/s390x/ipl.c: replace deprecated qbus_reset_all registration
->   hw/core/qdev: replace deprecated device_legacy_reset when hotplugging
->     device
->   hw/core/resettable: add support for warm reset
->   hw/core/: add warm reset helpers for devices and buses
->   docs/devel/reset.txt: add documentation about warm reset
 > 
->  Makefile.objs            |   1 +
->  docs/devel/reset.txt     | 284 +++++++++++++++++++++++++++++++++++++++
->  hw/audio/intel-hda.c     |   2 +-
->  hw/core/Makefile.objs    |   1 +
->  hw/core/bus.c            |  64 +++++++++
->  hw/core/qdev.c           |  86 +++++++++---
->  hw/core/resettable.c     | 199 +++++++++++++++++++++++++++
->  hw/core/trace-events     |  36 +++++
->  hw/hyperv/hyperv.c       |   2 +-
->  hw/i386/pc.c             |   2 +-
->  hw/ide/microdrive.c      |   8 +-
->  hw/intc/spapr_xive.c     |   2 +-
->  hw/ppc/pnv_psi.c         |   2 +-
->  hw/ppc/spapr_pci.c       |   2 +-
->  hw/ppc/spapr_vio.c       |   2 +-
->  hw/s390x/ipl.c           |  10 +-
->  hw/s390x/s390-pci-inst.c |   2 +-
->  hw/scsi/vmw_pvscsi.c     |   2 +-
->  hw/sd/omap_mmc.c         |   2 +-
->  hw/sd/pl181.c            |   2 +-
->  include/hw/qdev-core.h   | 100 +++++++++++++-
->  include/hw/resettable.h  | 171 +++++++++++++++++++++++
->  tests/Makefile.include   |   1 +
->  vl.c                     |  10 +-
->  24 files changed, 949 insertions(+), 44 deletions(-)
->  create mode 100644 docs/devel/reset.txt
->  create mode 100644 hw/core/resettable.c
->  create mode 100644 hw/core/trace-events
->  create mode 100644 include/hw/resettable.h
 > 
+> I'm not sure when the failure started -- this is the first time I'm
+> seeing it -- I'm fairly certain I ran these tests Thursday or Friday
+> last week.
+
+
 
