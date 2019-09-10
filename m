@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6C1AF33F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 01:28:42 +0200 (CEST)
-Received: from localhost ([::1]:45446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8996FAF33B
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 01:27:41 +0200 (CEST)
+Received: from localhost ([::1]:45438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7pYv-0007DB-Nj
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 19:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37432)
+	id 1i7pXw-0005vY-Jp
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 19:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWl-00052W-AT
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:28 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWm-00052o-UG
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWk-000511-Cl
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:27 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:41159)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWl-000521-Uz
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:28 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:34397)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i7pWk-00050h-93
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:26 -0400
-Received: by mail-qt1-x843.google.com with SMTP id j10so22904831qtp.8
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 16:26:26 -0700 (PDT)
+ id 1i7pWl-00051q-RZ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:27 -0400
+Received: by mail-qt1-x844.google.com with SMTP id j1so10224901qth.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 16:26:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8xjLznpUdjiS3wFXti0oZrmHBPX6ZNgdzcIw0ChVDDk=;
- b=ZOZqGd3oi/gIr+vNH4dut0PKGvIQHkcWj2uJQwQif/AvIdOE2MHMq5gyEa/8RER9d6
- eDYws+7yKrIT+Jw+2OLV57L5Rm0JWN29J1NI9qHR5chTK6Ec/Uomv6IzNskdxM8KhZCz
- QVH2ZP9WSjJY1MlwYv3Ikx/wq4bQ083nusnmKng/kVba7tkcQkoqXsdNgrxECSdiR90O
- TkH2Uv0YwULeGj0QjNIzfXUDZ1xGtK8AIZkNvC/tZHCvlFOmSkaUtoQNnE9UIIKfdYjQ
- f1Dc3Sho4eU+VDEvmpDo2pH30rd9i0k50roIe+BMAUmMeQBwClj3xmPF0kao+/YISEY2
- BEuA==
+ bh=QPvAIEyjbdHkgFa3D8BV/iy/+lVvKr2RpSl+66ez4lg=;
+ b=ZveI0hNHksiNF9IdOHTlNSsfUaGFtEz4dwuFXR8UFDL9DB5cGxgrE/wR6FXXy79Pa+
+ 42BI4IszZWx2tZhFZ2GI/SLRwSwj9KciufaFEyYzT1AG/JjWX+kmF/TGq55bTRL64pOX
+ nezPkQ3GrRtCuJ98Cz7ixHS8IVdOZ7aCQxdqWdf2k+oKPnzY/8WzvEQ/CtUOIOrhrlUZ
+ V+WR7T7fgMAMbEZe/TpZyrQYoD9iCh6+aVK94zV4MjS8BW4AtQkFatQ93rtYUA6C9DKQ
+ FAmL+WhHB6K27Ei/JUcVTGMjn4kAMcO1cXRK5gR7hjap7bGBCfjjTDvCZBeI8jte6Dvq
+ YTsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8xjLznpUdjiS3wFXti0oZrmHBPX6ZNgdzcIw0ChVDDk=;
- b=W+IodYOs7+EH7NTXSQBXUooSO3JdcUXgVfrOADeOSvBVmD8oQ2UmUF92sOBYOchDDo
- GMZOHQcs5sOVigNYCIUJoqhS6UJqdTKVE/KKVf3uzWfQyF+J2FKiptjlP19Ck2aMpWDU
- FRKvATuaF//XGW9BfAgvtqgoLtmTofiZF8y/bASEsbrcxJ/8884Mz/txOC98xqdSJcSA
- 6LHPvXjHVpQ1+hV9aW6AHkYqY7taFnPlsAMwg5MzNCrwsiwN6RCp/7op8gdlLbRdf3EW
- hwcINh8bxE/gIYpuEeK6+i6PosDQU0CTJH2L5WJi2Br5S7FeZWEQtOBNNt04YQdKPl8L
- wKSQ==
-X-Gm-Message-State: APjAAAXNweQ+PZh3BUAq8C0zGNfZNQIe0SK3EH8sDE1k4rjI8vqJTAY/
- xrJ86z/Gn7bq9iAnnvuQVF0DkiSZ
-X-Google-Smtp-Source: APXvYqxEH5X+fSHvuKwo33CsQAawDcb4zlR9MxmhFTuTeWR3T20SKJbtHvARSO9swlmUT2YN3PnI5w==
-X-Received: by 2002:ac8:7504:: with SMTP id u4mr31682384qtq.81.1568157985570; 
- Tue, 10 Sep 2019 16:26:25 -0700 (PDT)
+ bh=QPvAIEyjbdHkgFa3D8BV/iy/+lVvKr2RpSl+66ez4lg=;
+ b=cSZxKvQzZTFORbvkZgD9QUereZEGMkgVyxfAP5ZDuIptY3TayAnQnibocOCxswnlWV
+ 7VNFOv64aWgS8rctp54qRxpTU40njMzVxjwH3hNuIRZRttVFsFRPBj1CsnSdb5KB95rs
+ wcN+rVkTqAaPxzQ1sc5WYewtv8XwAja+YpNB3yK+UuIBgZwjIPOcvQT/asbj/O1v675m
+ UuhLyckLPR5d8nuLxk66LsgEFZqs49zvQFt2B+T2x8lqHaj54c+1qzf1Ncnhcr8qZ6EF
+ Fx9BPjWtem3c8RYBcnUMNxapt62y3SE/1LHEmXSq1H7KnBHhWoO9l2E2q3jGzH28cjsw
+ 2uNQ==
+X-Gm-Message-State: APjAAAV2ev7G3qN/98r+1cXs3hZnirItyynAbdtGH6x83Nv/OWhfRV9c
+ cjmbbI7mRqrPLCSeDxFf1Vw5DwR/
+X-Google-Smtp-Source: APXvYqwzqJ8w+LK9f7Yiqd/p0i8LO6dbh9EP05vgwHTUzXiXscLJMC3iME0MbJtE1nktaszU/AQWbw==
+X-Received: by 2002:ac8:6746:: with SMTP id n6mr32342947qtp.128.1568157987238; 
+ Tue, 10 Sep 2019 16:26:27 -0700 (PDT)
 Received: from decltype.home.dirty-ice.org
  (2a01-036c-0113-6ea8-0001-0000-0000-00d3.pool6.digikabel.hu.
  [2a01:36c:113:6ea8:1::d3])
- by smtp.gmail.com with ESMTPSA id z5sm8804535qki.55.2019.09.10.16.26.24
+ by smtp.gmail.com with ESMTPSA id z5sm8804535qki.55.2019.09.10.16.26.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 16:26:25 -0700 (PDT)
+ Tue, 10 Sep 2019 16:26:26 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 01:26:18 +0200
-Message-Id: <0eadcc88b8421bb86ce2d68ac70517f920c3ad6c.1568157545.git.DirtY.iCE.hu@gmail.com>
+Date: Wed, 11 Sep 2019 01:26:19 +0200
+Message-Id: <3d139426031a400a68d440608ba5e43f0e116cd8.1568157545.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568157545.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568157545.git.DirtY.iCE.hu@gmail.com>
@@ -70,9 +70,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Subject: [Qemu-devel] [PATCH 1/3] audio: fix parameter dereference before
- NULL check
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: [Qemu-devel] [PATCH 2/3] audio: paaudio: fix connection and stream
+ name
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,38 +88,65 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should fix Coverity issues CID 1405305 and 1405301.
+Connection name was previously erroneously set to the server socket
+path, while connection names were simply "qemu".  After this patch, the
+connection name will be the vm name (falling back to "qemu" if not
+specified), while stream names will be the audiodev's id.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/audio_template.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ audio/paaudio.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index 2562bf5f00..cc4b53b5d7 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -428,8 +428,8 @@ SW *glue (AUD_open_, TYPE) (
-     struct audsettings *as
-     )
- {
--    AudioState *s = card->state;
--    AudiodevPerDirectionOptions *pdo = glue(audio_get_pdo_, TYPE)(s->dev);
-+    AudioState *s;
-+    AudiodevPerDirectionOptions *pdo;
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index bfef9acaad..19b7e39092 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -2,6 +2,7 @@
  
-     if (audio_bug(__func__, !card || !name || !callback_fn || !as)) {
-         dolog ("card=%p name=%p callback_fn=%p as=%p\n",
-@@ -437,6 +437,9 @@ SW *glue (AUD_open_, TYPE) (
+ #include "qemu/osdep.h"
+ #include "qemu/module.h"
++#include "qemu-common.h"
+ #include "audio.h"
+ #include "qapi/opts-visitor.h"
+ 
+@@ -562,7 +563,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
+ 
+     pa->stream = qpa_simple_new (
+         c,
+-        "qemu",
++        g->dev->id,
+         PA_STREAM_PLAYBACK,
+         ppdo->has_name ? ppdo->name : NULL,
+         &ss,
+@@ -630,7 +631,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+ 
+     pa->stream = qpa_simple_new (
+         c,
+-        "qemu",
++        g->dev->id,
+         PA_STREAM_RECORD,
+         ppdo->has_name ? ppdo->name : NULL,
+         &ss,
+@@ -857,6 +858,7 @@ static int qpa_validate_per_direction_opts(Audiodev *dev,
+ /* common */
+ static void *qpa_conn_init(const char *server)
+ {
++    const char *vm_name;
+     PAConnection *c = g_malloc0(sizeof(PAConnection));
+     QTAILQ_INSERT_TAIL(&pa_conns, c, list);
+ 
+@@ -865,8 +867,9 @@ static void *qpa_conn_init(const char *server)
          goto fail;
      }
  
-+    s = card->state;
-+    pdo = glue(audio_get_pdo_, TYPE)(s->dev);
-+
-     ldebug ("open %s, freq %d, nchannels %d, fmt %d\n",
-             name, as->freq, as->nchannels, as->fmt);
- 
++    vm_name = qemu_get_vm_name();
+     c->context = pa_context_new(pa_threaded_mainloop_get_api(c->mainloop),
+-                                server);
++                                vm_name ? vm_name : "qemu");
+     if (!c->context) {
+         goto fail;
+     }
 -- 
 2.23.0
 
