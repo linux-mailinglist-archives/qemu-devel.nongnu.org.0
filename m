@@ -2,54 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D1AAE8D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 13:04:57 +0200 (CEST)
-Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F6CAE8D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 13:07:55 +0200 (CEST)
+Received: from localhost ([::1]:38052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7dxA-0000XN-DI
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 07:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40813)
+	id 1i7e02-0003kk-He
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 07:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1i7dtd-0007vP-0B
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:01:17 -0400
+ (envelope-from <guoheyi@huawei.com>) id 1i7duB-000858-Ps
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:01:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1i7dtb-0004MY-KF
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:01:16 -0400
-Received: from 4.mo2.mail-out.ovh.net ([87.98.172.75]:43532)
+ (envelope-from <guoheyi@huawei.com>) id 1i7duA-0004eU-M9
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:01:51 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:51524 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i7dtX-0004Jq-0J
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:01:15 -0400
-Received: from player774.ha.ovh.net (unknown [10.108.54.72])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 9E5421ABA05
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 13:01:05 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player774.ha.ovh.net (Postfix) with ESMTPSA id D77FA9A20A6C;
- Tue, 10 Sep 2019 11:00:55 +0000 (UTC)
-To: Balamuruhan S <bala24@linux.ibm.com>
-References: <20190910071019.16689-1-bala24@linux.ibm.com>
- <20190910071019.16689-4-bala24@linux.ibm.com>
- <5aace97f-5a34-7e05-9cdc-65e17613033e@kaod.org>
- <20190910103054.GB16391@localhost.localdomain>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <f0a5499f-4a76-85b8-db74-0c83a0587974@kaod.org>
-Date: Tue, 10 Sep 2019 13:00:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>) id 1i7du9-0004cl-1L
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 07:01:49 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 2EFE53F170FA29A0E8BB;
+ Tue, 10 Sep 2019 19:01:41 +0800 (CST)
+Received: from [127.0.0.1] (10.133.216.73) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Tue, 10 Sep 2019
+ 19:01:23 +0800
+To: <qemu-devel@nongnu.org>
+From: Guoheyi <guoheyi@huawei.com>
+Message-ID: <95584103-950c-2870-b0a1-1108d54190f2@huawei.com>
+Date: Tue, 10 Sep 2019 19:01:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190910103054.GB16391@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 9399293900483496786
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrtddtgdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-Originating-IP: [10.133.216.73]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.172.75
-Subject: Re: [Qemu-devel] [PATCH v1 3/3] hw/ppc/pnv_homer: add PowerNV homer
- device model
+X-Received-From: 45.249.212.35
+Subject: [Qemu-devel] hw/vfio/pci: duplicated invocation of
+ vfio_msix_vector_release() in vfio_msix_disable()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,86 +52,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: maddy@linux.vnet.ibm.com, groug@kaod.org, qemu-devel@nongnu.org,
- anju@linux.vnet.ibm.com, qemu-ppc@nongnu.org, hari@linux.vnet.ibm.com,
- david@gibson.dropbear.id.au
+Cc: wanghaibin 00208455 <wanghaibin.wang@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> +
->>> +    object_initialize_child(obj, "homer",  &chip9->homer, sizeof(chip9->homer),
->>> +                            TYPE_PNV9_HOMER, &error_abort, NULL);
->>> +    object_property_add_const_link(OBJECT(&chip9->homer), "chip", obj,
->>> +                                   &error_abort);
->>
->> Does HOMER need the chip ? It is not used but we might want to in the 
->> core_max_array() ? 
-> 
-> sorry, no it is not required, I will remove it.
+Hi folks,
 
-It seems you will need the chip in core_max_array(). I would keep it. 
-See below,
+Recently we found there are 2 invocations of vfio_msix_vector_release() 
+in vfio_msix_disable(). The 1st one is in msix_unset_vector_notifiers(), 
+for we set device's msix_vector_release_notifier to 
+vfio_msix_vector_release() in vfio_msix_enable(), while the 2nd is the 
+explicit one in vfio_msix_disable(). Both invocations switch VFIO to use 
+the non-bypass eventfd.
 
-[ ... ] 
-
->>> +static bool core_max_array(void *opaque, hwaddr addr)
-
-Please change the 'void *opaque' function parameter in 'PnvHOMER *homer'
-
->>> +{
->>> +    PnvHOMER *homer = PNV_HOMER(opaque);
->>> +    PnvHOMERClass *homer_class = PNV_HOMER_GET_CLASS(homer);
->>> +
->>> +    MachineState *ms = MACHINE(qdev_get_machine());
->>
->> Do you need the whole machine or only the chip ?  
-> 
-> yes, I see it is for active cores in the chip, I can use `nr_cores`
-> defined in PnvChip.
-
-
-If you keep the QOM link above, you can grab it in the realize handler of
-the HOMER model with :  
-
-    Object *obj;
-    Error *local_err = NULL;
-
-    obj = object_property_get_link(OBJECT(dev), "chip", &local_err);
-    if (!obj) {
-        error_propagate(errp, local_err);
-        error_prepend(errp, "required link 'chip' not found: ");
-        return;
-    }
-
-    homer->chip = PNV_CHIP(obj);
-
-[ ... ] 
-
->>> +
->>> +/* P9 Pstate table */
->>> +
->>
->> no version ? 
-> 
-> PNV9_OCC_PSTATE_MAJOR_VERSION is the P9 pstate version.
-
-why isn't it in the switch statement below ? 
-
-[ ... ] 
- 
->>> +typedef struct PnvHOMER {
->>> +    DeviceState parent;
->>> +
->>> +    MemoryRegion homer_regs;
->>
->> the homer_ prefix is not useful.
-> 
-> okay, I will change it to `hregs`.
-
-I would just remove the prefix
+Is there any special reason for doing this? Or can we remove one of them?
 
 Thanks,
 
-C. 
+Heyi
+
 
 
