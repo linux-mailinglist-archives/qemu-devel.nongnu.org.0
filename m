@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19393AEFFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:54:35 +0200 (CEST)
-Received: from localhost ([::1]:43424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1939AF004
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:56:37 +0200 (CEST)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jPW-00083T-5X
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:54:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
+	id 1i7jRU-0002Bn-UR
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58524)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7jLB-0002tq-6O
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:50:06 -0400
+ (envelope-from <eblake@redhat.com>) id 1i7jLl-0003fi-DN
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:50:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7jLA-0000kj-2A
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:50:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:36263)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7jL9-0000k8-PT
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:50:04 -0400
-Received: from [192.168.100.43] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.168]) with ESMTPSA (Nemesis) id
- 1MuUvS-1iOZlU2kba-00rWmQ; Tue, 10 Sep 2019 18:49:50 +0200
-To: Shu-Chun Weng <scw@google.com>
-References: <CAFEAcA-GWR6_wGCMWkMHttU3ARJPqfADvNTnqQUU_OzcWgHHuQ@mail.gmail.com>
- <20190819180947.180725-1-scw@google.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <e5523e4b-1cf3-7b96-c064-7872def37c4f@vivier.eu>
-Date: Tue, 10 Sep 2019 18:49:46 +0200
+ (envelope-from <eblake@redhat.com>) id 1i7jLk-00010S-0f
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:50:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60742)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7jLj-00010C-OZ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:50:39 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 206D0302C066;
+ Tue, 10 Sep 2019 16:50:39 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0380360166;
+ Tue, 10 Sep 2019 16:50:33 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190910063724.28470-1-armbru@redhat.com>
+ <20190910063724.28470-15-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <608a5ab7-eed6-6f09-95e2-5c28bdeec158@redhat.com>
+Date: Tue, 10 Sep 2019 11:50:32 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190819180947.180725-1-scw@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:5zYmv0Msmq0dgWzER3ts7tVUz0/UuhA8fpGhr3csQ2ZCAEmzNyy
- TxsL47gHpaLhXUzxApscriDdrVOx1u64wO6EuWFjuIETq3/YVKuY/ISHIryebR51GVhTJ4W
- N+jKfsXR8E78FDk6yN9wPL0NZi8YShbcv/9C4HwcD1oGYcmTKapssui/m0IOJ7ZIj05ZFjw
- OrmHJ4EGarilKB4ymYBlg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8xJpkKGAWfM=:MiuBape0COFJyXzROjrflL
- Sccvy8vGGVEw36qLReTka1SmUxJjywwv9fqxGTjN0lUJ4pXYbK/3rQy7LyqUXVS/OJ4mkJq6Y
- sanT5Iq2b6pAWRC0ZmmmVJV9qzDL0sCLdtAmcGMr7ny6ik51LySu4KJsCa2VoIm4OCC5UAUdJ
- WswOvFLoLGU9iKSS+rYVtnzIgcRLaMr3eNYFGeD8DuY+Q+vR14mOggIAyNTb8dqa34JsgkEXe
- zrGpeC3BMQ5At+mrk2syboP+W3FzFxcTvyoYDO/0FE3FSirLE31r2iCUtVhvx4ajjHNasVhJ9
- KUPkRN1KESim1JFo8vvzlHwxnpwdljxMFJpFMGynd4ocn9Pn+3vkpfJeThbPWOjgT29mgVjZf
- nBZW6tTlwF7Z+wltaEm2l5KTBvupB7MVz5fXrZb/iospqiuLWo54bRM2O+2VafMQwJEx7wmqM
- Jn4Ik2ke1MKRfD0Kz2vAQ0CgrUEM+QY1AwK551YKfAllBqbmjkILIHd8Ot+nREqQDDLKfSYeg
- kaDh29nHDeu3bh/GNgoiY/GALfhMgOAPQ2J8Rm4yGOpb0TPP02D1XGAYsbNldQIyHH0uK+yow
- ByMZaD50Nc28CgUJ66CMHhrhliYDPJVqQVmKmzdEeHX0hVoBygbE336fUt6Ww24SLw84Y6oUy
- 7kWBBxAbjqiMg3HtYB9ZRY13H5PE9OdZ47XeUUL78K9a1/QWqVgg1zJPwIhTvcHo1hNJeluSA
- BRYe7PK+4M6tI6HjeZmrI6AcmLcwoAFulhMcyvTDSpyIjsX3JYA2OzSd88v/Ri7rXFr25s1Dr
- jTTyos0zYPdLV1CO+Q9pN0TESJ7x9HdejrjVHUTx3zT0Ig6pcuO9MOFlJW3hXJsWmUwsn1vx5
- 5IlqocEOXC/hUVqrVQpl65Z5mnUvHnnaucdG0w3fk=
+In-Reply-To: <20190910063724.28470-15-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="lJeViVfEOCXTApUhLjqP6GvoCtQmCNJte"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Tue, 10 Sep 2019 16:50:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: Re: [Qemu-devel] [PATCH v3] linux-user: add memfd_create
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 14/16] docs/devel/qapi-code-gen: Rewrite
+ introduction to schema
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,26 +85,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arunkaly@google.com, riku.voipio@iki.fi, marcandre.lureau@gmail.com,
- qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/08/2019 20:09, Shu-Chun Weng wrote:
-> Add support for the memfd_create syscall. If the host does not have the
-> libc wrapper, translate to a direct syscall with NC-macro.
-> 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
-> Signed-off-by: Shu-Chun Weng <scw@google.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--lJeViVfEOCXTApUhLjqP6GvoCtQmCNJte
+Content-Type: multipart/mixed; boundary="XZTLqiaxflhEeXM5rwieTxNKmrrrAdyLH";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
+Message-ID: <608a5ab7-eed6-6f09-95e2-5c28bdeec158@redhat.com>
+Subject: Re: [PATCH v2 14/16] docs/devel/qapi-code-gen: Rewrite introduction
+ to schema
+References: <20190910063724.28470-1-armbru@redhat.com>
+ <20190910063724.28470-15-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-15-armbru@redhat.com>
+
+--XZTLqiaxflhEeXM5rwieTxNKmrrrAdyLH
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 9/10/19 1:37 AM, Markus Armbruster wrote:
+> The introduction to the QAPI schema is somewhat rambling.  Rewrite for
+> clarity.
+
+The curse of additions over time.  Thanks for tackling this.
+
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  include/qemu/memfd.h |  4 ++++
->  linux-user/syscall.c | 12 ++++++++++++
->  util/memfd.c         |  2 +-
->  3 files changed, 17 insertions(+), 1 deletion(-)
+>  docs/devel/qapi-code-gen.txt | 106 ++++++++++++++++-------------------=
 
-A nice follow up to this patch would be to implement the file-sealing
-APIs provided by fnctl (see memfd_create(2) and fcntl(2), File sealing).
+>  1 file changed, 47 insertions(+), 59 deletions(-)
+>=20
 
-Thanks,
-Laurent
+> +=3D=3D=3D Schema syntax =3D=3D=3D
+> +
+> +Syntax is loosely based on JSON (http://www.ietf.org/rfc/rfc8259.txt).=
+
+> +Differences:
+> +
+> +* Comments: start with a hash character (#) that is not part of a
+> +  string, and extend to the end of the line.
+> +
+> +* Strings are enclosed in 'single quotes', not "double quotes".
+> +
+> +* Strings are restricted to ASCII.  All control characters must be
+> +  escaped, even DEL.
+
+Or rather, control characters are not permitted.  (May affect the
+earlier 7/16...)
+
+> +
+> +* Numbers are not supported.
+
+Yet. But if we allow default values, it won't be much longer before we
+get there.  (Doesn't affect this patch)
+
+> +
+> +A QAPI schema consists of a series of top-level expressions (JSON
+> +objects).  Their order does not matter.
+
+Does the order of 'include' and/or 'pragma' matter?
+
+Touchups seem minor enough that I trust you, so you can add:
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--XZTLqiaxflhEeXM5rwieTxNKmrrrAdyLH--
+
+--lJeViVfEOCXTApUhLjqP6GvoCtQmCNJte
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl131FgACgkQp6FrSiUn
+Q2rF4wf/SwSWTbsZKwuZhR5pFTz/1tA0pL5t9ReTMPpa7KaQIt4R3m+oxUS+Sbhk
+FG0yB/I/YnJ8QM118bvMlB9H9WK8PvOBsB4QFEduBEu9RoTXjk2CZVfHb521AQtP
+701wUjFU56J1e9yrFfF7lCowFjPuEvTy8+stiRhPaFrWg417d5alqBbM+nHS0wVX
+EA9rX4biESsKU8r+kSxGGMYnlr2hb3C13An8fAYhmseovRoSt2KLGHQmA5zr2Hiz
+GF/NUoHnDNdhQKjHZ6klHWXcp/fCbzeHKdey+c9KiYQd9Ze4An+gdFzFcjRWKSuw
+XsA+FWs6KDoERhVMxDwO/n3dGOGm7w==
+=BVBY
+-----END PGP SIGNATURE-----
+
+--lJeViVfEOCXTApUhLjqP6GvoCtQmCNJte--
 
