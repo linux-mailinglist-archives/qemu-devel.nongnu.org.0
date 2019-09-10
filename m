@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44193AF835
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 10:46:12 +0200 (CEST)
-Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A09DAF83E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 10:50:17 +0200 (CEST)
+Received: from localhost ([::1]:48080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yGQ-000484-W0
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 04:46:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57554)
+	id 1i7yKO-0000VN-0n
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 04:50:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7xwD-000887-I9
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:18 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7xw3-0007uc-Ly
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7xwC-0006l5-8I
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:17 -0400
-Received: from mail-wm1-f43.google.com ([209.85.128.43]:34142)
+ (envelope-from <palmer@dabbelt.com>) id 1i7xw2-0006bX-Fk
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:07 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53224)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xwB-0006kl-W0
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:16 -0400
-Received: by mail-wm1-f43.google.com with SMTP id y135so1612949wmc.1
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:15 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xw2-0006bA-A8
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:06 -0400
+Received: by mail-wm1-f67.google.com with SMTP id t17so2327385wmi.2
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=jdvh8xkCNZRDIokZ6zUfPGYGT6cGVGf9KSyR16yXLxg=;
- b=B3WnJ3BA33l07/ymIuFtLYjMUYVuGCF3TI7juQERk38T06ipLCH1gbGdkIjKSr1JP9
- Mtgu5VqbqIBFDKGgaKthRpRi0PFPz5/NLOHXMeAnU2dHbnseraboKIPInPpGscNVN5aM
- 5qCUBTHwJrBdZBv+vxFCFNeicGcyFSQ7RHTa9z/DKHhKctxB4zVcBhxVfGfmQOfrjBQg
- eXMfzkKd/6XKO0Vp/Kpg6UX+Z+QUS5wICkqVmtKuasL8kAaQMRJI9Q5bKHyalIUJ22OR
- 85mqXNRHssTDQET9AfByuVMNQpiaGabX2VGEADYE7heSlSXZyXIzi36LRkUSew7o7s1W
- s0dg==
-X-Gm-Message-State: APjAAAUWcMm3oJKv1I1rTftn1xceA3FZRK6fxlVlXJ0cStH/jdxjVWDH
- H+1UunkOWhc86wYj1AIsa4KnLg==
-X-Google-Smtp-Source: APXvYqyvI/hFeUULiisVcfr0Fe30VwCopLWKMe0X3k3w2AkbCESPz7S7w4gYXd+5TtcpouJRLGtC0g==
-X-Received: by 2002:a1c:7f4f:: with SMTP id a76mr2849590wmd.117.1568190314812; 
- Wed, 11 Sep 2019 01:25:14 -0700 (PDT)
+ bh=xpkGcRJRYadCT6ocDlVxXul15aD8WH0BAO94YOt7Pqc=;
+ b=ItzxcOZG2KFnG7OFR6kHWOlaivdkoVN3TjBqqCVhDIR17o+N5yJdICjBbDE3Hb8ybL
+ rZU7If2njmU8CH129BcZCrL8iRx/3he2YgZY8zas4C0ZWeybGwunDHeHs2chN2kBu5rc
+ W/cpUvnI6onpC1NPcXPEOD40J7gHzf2Rdbo+aLgCsmgqw6vZpeaTIYSKOmd51ZWp6rbb
+ SwadmiuM7soy7lOVOxonIZgm//yM/4O5xWva9Sy9QojagDNx29dzR4ObsaNF8LN/RnAi
+ FJf/EXvss3Hn4hczOEEJ/0jJLsbI3jQDPubhLfZsD4X1mgDnjHIdsDwH/6KM792paamN
+ ckhA==
+X-Gm-Message-State: APjAAAVyiHta8Uq0xeg0vGsKUG48laUTUEgIF1DTTWcEKK/pKSSzu7vW
+ aDDIausaeOhvaChuhpG9xfSfrg==
+X-Google-Smtp-Source: APXvYqzDhdmOI63MeSG7Zaf8rYsFyJLwfBkokVlm4fpS6B6eKDfzOaKebcOB3ioRvDz1zwUNSWVY3w==
+X-Received: by 2002:a7b:cc8e:: with SMTP id p14mr2802161wma.124.1568190305158; 
+ Wed, 11 Sep 2019 01:25:05 -0700 (PDT)
 Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id f186sm4653054wmg.21.2019.09.11.01.25.14
+ by smtp.gmail.com with ESMTPSA id q14sm43929897wrc.77.2019.09.11.01.25.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 01:25:14 -0700 (PDT)
-Date: Tue, 10 Sep 2019 12:04:55 -0700
-Message-Id: <20190910190513.21160-30-palmer@sifive.com>
+ Wed, 11 Sep 2019 01:25:04 -0700 (PDT)
+Date: Tue, 10 Sep 2019 12:04:48 -0700
+Message-Id: <20190910190513.21160-23-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910190513.21160-1-palmer@sifive.com>
 References: <20190910190513.21160-1-palmer@sifive.com>
@@ -53,9 +53,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.43
-Subject: [Qemu-devel] [PULL 29/47] riscv: hart: Add a "hartid-base" property
- to RISC-V hart array
+X-Received-From: 209.85.128.67
+Subject: [Qemu-devel] [PULL 22/47] riscv: sifive_u: Remove the unnecessary
+ include of prci header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,54 +75,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-At present each hart's hartid in a RISC-V hart array is assigned
-the same value of its index in the hart array. But for a system
-that has multiple hart arrays, this is not the case any more.
-
-Add a new "hartid-base" property so that hartid number can be
-assigned based on the property value.
+sifive_u machine does not use PRCI as of today. Remove the prci
+header inclusion.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/riscv_hart.c         | 3 ++-
- include/hw/riscv/riscv_hart.h | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index 6620e41cb7..5b98227db6 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -29,6 +29,7 @@
- 
- static Property riscv_harts_props[] = {
-     DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
-+    DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
-     DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -47,7 +48,7 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
-     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
-                             sizeof(RISCVCPU), cpu_type,
-                             &error_abort, NULL);
--    s->harts[idx].env.mhartid = idx;
-+    s->harts[idx].env.mhartid = s->hartid_base + idx;
-     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
-     object_property_set_bool(OBJECT(&s->harts[idx]), true,
-                              "realized", &err);
-diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
-index 3b52b50571..c75856fa73 100644
---- a/include/hw/riscv/riscv_hart.h
-+++ b/include/hw/riscv/riscv_hart.h
-@@ -35,6 +35,7 @@ typedef struct RISCVHartArrayState {
- 
-     /*< public >*/
-     uint32_t num_harts;
-+    uint32_t hartid_base;
-     char *cpu_type;
-     RISCVCPU *harts;
- } RISCVHartArrayState;
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 32d8cee335..2947e06f71 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -38,7 +38,6 @@
+ #include "hw/riscv/sifive_plic.h"
+ #include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/sifive_uart.h"
+-#include "hw/riscv/sifive_prci.h"
+ #include "hw/riscv/sifive_u.h"
+ #include "hw/riscv/boot.h"
+ #include "chardev/char.h"
 -- 
 2.21.0
 
