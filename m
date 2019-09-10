@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBDFAE68E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:18:32 +0200 (CEST)
-Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6B7AE673
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:15:18 +0200 (CEST)
+Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7cIA-00083d-9E
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37313)
+	id 1i7cF2-00047Z-MP
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqx-0000pr-HH
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqs-0000id-2x
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqw-0000dI-34
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:23 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40309)
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqq-0000aI-VM
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:17 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37403)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bqv-0000cp-Sa
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:22 -0400
-Received: by mail-wm1-x336.google.com with SMTP id t9so537654wmi.5
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:21 -0700 (PDT)
+ id 1i7bqq-0000Zq-Ov
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:16 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id i1so17824193wro.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8rTETEcYS3jec87Xegg9zkrdJAv4L7q/upZyeHVm888=;
- b=SXEhvKZ4ufCoC5U2GFzjNNG0fEz8wM/gTZAUi8ZHJ+sgORW7fJXwvP21GYrJO4QEeW
- FWj0ZTrxg7ixt+NwftTgJhID33PyNYherJA06jgg0GJUHNgOmPvLcDfvv9Lk2tbsph5V
- CcmWqvnXh1FBIj6GyHG18PGRuiUWA8AYk22B0OnuGrlLJJe2jGJq68MR1T4+Ln9LNYIv
- zV/akguiL85hO7PcP5kaTGO5xbb8pVLVPAgdYYDi0P/yFLDx3flq/D9SvFYISHxLpeax
- VOfOrovZTdiYXscii+clkxp2XPUZgLbrsr/NFMMiUpIhm52gIJNAx/9mOdQX0CSxnN8x
- nhSA==
+ bh=7YP0ftcr2FXQMfJCJokh8qETOMycMBIgpMRzzjrBHa8=;
+ b=SdYcgGAlDAUfWySmmBRMQ8zKSlz1Et8GLZpxhkxt94ntclGNGDgo+REt+KAVjlJ8Ym
+ OckDW9vwwGRfVscd0W5jGDJR4G0ysH4bUocxVUwp/9ldQerTDk4COTo0urucOPgHWw1I
+ juexghakBQTwEkshy2s6DsSezYHoNcUVqQDqiHKRyeq6ClkjvSEDEmNFRkx1Idi7QYjE
+ uf/Tr5wnzl1w+H1vjXHPdbufOWLWR8gpPRGhQiXooyFle51ZN2CO3yLl30V0ftvvpZGf
+ SUOKbVGZk2ECkLBmMrXLku4O9m5VI0SKQAIXHl6gHjru2P86M4gZ3pgkncCPM2Gy3zk1
+ Pu1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8rTETEcYS3jec87Xegg9zkrdJAv4L7q/upZyeHVm888=;
- b=XqFqxA/dSng3rcOKE9phRFGJGWOtY9/fHyTniN2ZgNhyLsz7xVQZi6kz4+z9TbDArs
- /XRV842CMYCO8FnneMT7bDPCi5kPUjqEKSZ6VmehF8z32QdwqVTdpTo5nRqWSkpvdIc6
- lH6JBuon5TZf1qJwuJk+QCdt+3TPuYNJpDG09+vHd1NJBZjfecSWXjYK6qKIh/x//24v
- wCy/6Io73AHT6lG0vMY7rUzF8HORo+USH+4Q/NChXf3Epgee4MZ1tO3R07Nnf98bMhvj
- lZ/Yi/VunXrafZXbApi1IZ99V8/SJSW10/U1Gsy8gTSL++ch4vv0NUAWKEaZTYKbfbO0
- OHWg==
-X-Gm-Message-State: APjAAAX7QnhAZq+ogKCO75YdBc5jZs72cPagIOlHeVL8IUOC4iNg5mDn
- zG7KCYPpIPfjDfiTwJA7vjOXiCt0Yrs=
-X-Google-Smtp-Source: APXvYqyiuCs/UIXCJakqOj3yn1nqwUoE4N8IQImYORMpvvNzIJKcVm4UzvvHZOp/mf6arbLWQRFfrg==
-X-Received: by 2002:a05:600c:23cd:: with SMTP id
- p13mr255098wmb.148.1568105420715; 
- Tue, 10 Sep 2019 01:50:20 -0700 (PDT)
+ bh=7YP0ftcr2FXQMfJCJokh8qETOMycMBIgpMRzzjrBHa8=;
+ b=byXvEyla4Z5gXPt/2YfWIbV9Rrgay0cFvfyoCuxERrYuVpPJdPhk6Dvru30su7HQPi
+ 1O1RldAg1EvIRIuc1L1jGrL0ncPnU8MKhso7QXHnoOCOrZJ2qfik9LfqxD6piFo3TiyI
+ fnxKV0AJYmFs09/FugF9uvBdABi5QQTTx5I/jlewD0gA645vp01fpCPbMR7wl0z3dp7e
+ 4ndrcGaH1uyE0SzvisEVbF5ryqbj7hfeVEhDlO1IlaZVezSIjP1VIw956yOqSOogHZ/C
+ rmFTilFIdpz4Gk/kHO/TRSXEIuYoBoi12t72Ze7OYl/Fz1thtaTNNz7vwZXDtNEuxPFE
+ s51g==
+X-Gm-Message-State: APjAAAVrh86KpKBSM7Yp1VxKGpXZnKx/+FXmXUGZ4sRSuwfhMbdy094s
+ BSuiLpfPL5hISs+OoVgbjlFXvw==
+X-Google-Smtp-Source: APXvYqwA3HPPH4cFG2s6VJ/RhptlJduEOsVpP5jyCUKpgsUtMCWHz3WBC9INwgUaO71K7U4ystxn8A==
+X-Received: by 2002:a5d:6ac8:: with SMTP id u8mr24670009wrw.104.1568105415725; 
+ Tue, 10 Sep 2019 01:50:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z189sm3154475wmc.25.2019.09.10.01.50.15
+ by smtp.gmail.com with ESMTPSA id s3sm1679008wmj.48.2019.09.10.01.50.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 01:50:19 -0700 (PDT)
+ Tue, 10 Sep 2019 01:50:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA20D1FF9C;
- Tue, 10 Sep 2019 09:43:50 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 6D9FA1FFA9;
+ Tue, 10 Sep 2019 09:43:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:16 +0100
-Message-Id: <20190910084349.28817-13-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 09:43:24 +0100
+Message-Id: <20190910084349.28817-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
 References: <20190910084349.28817-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
-Subject: [Qemu-devel] [PULL 12/45] tests/docker: set DEF_TARGET_LIST for
- some containers
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PULL 20/45] tests/docker: move our sh4 cross compile
+ to Buster
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,97 +88,45 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You can assume the failures most people are interested in are the
-cross-compile failures that are specific to the cross compile target.
-Set DEF_TARGET_LIST based on what we use for shippable, the user can
-always override by calling with TARGET_LIST set.
+Now Buster is released we can stop relying on the movable feast that
+is Sid for our cross-compiler for building tests.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
-index 7c2cc93daf8..6b59ef0843a 100644
---- a/tests/docker/dockerfiles/debian-arm64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
-@@ -17,6 +17,7 @@ RUN apt update && \
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 50c5e64212a..e946aae14fa 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -103,9 +103,9 @@ docker-image-debian-arm64-cross: docker-image-debian10
+ docker-image-debian-hppa-cross: docker-image-debian10
+ docker-image-debian-m68k-cross: docker-image-debian10
+ docker-image-debian-powerpc-cross: docker-image-debian10
++docker-image-debian-sh4-cross: docker-image-debian10
+ docker-image-debian-sparc64-cross: docker-image-debian10
  
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=aarch64-linux-gnu-
-+ENV DEF_TARGET_LIST aarch64-softmmu,aarch64-linux-user
- 
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
-index d866fe5d75b..363a162a253 100644
---- a/tests/docker/dockerfiles/debian-armel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armel-cross.docker
-@@ -15,6 +15,7 @@ RUN dpkg --add-architecture armel && \
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabi-
-+ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
- 
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
-index 2b8627673c3..d5365881e79 100644
---- a/tests/docker/dockerfiles/debian-armhf-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
-@@ -17,6 +17,7 @@ RUN apt update && \
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
-+ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
+-docker-image-debian-sh4-cross: docker-image-debian-sid
+ docker-image-debian-mips64-cross: docker-image-debian-sid
+ docker-image-debian-riscv64-cross: docker-image-debian-sid
+ docker-image-debian-ppc64-cross: docker-image-debian-sid
+diff --git a/tests/docker/dockerfiles/debian-sh4-cross.docker b/tests/docker/dockerfiles/debian-sh4-cross.docker
+index 29983b2d75b..9d7663764e4 100644
+--- a/tests/docker/dockerfiles/debian-sh4-cross.docker
++++ b/tests/docker/dockerfiles/debian-sh4-cross.docker
+@@ -1,10 +1,9 @@
+ #
+ # Docker cross-compiler target
+ #
+-# This docker target builds on the debian sid base image which
+-# contains cross compilers for Debian "ports" targets.
++# This docker target builds on the debian Buster base image.
+ #
+-FROM qemu:debian-sid
++FROM qemu:debian10
  
  RUN apt update && \
      DEBIAN_FRONTEND=noninteractive eatmydata \
-diff --git a/tests/docker/dockerfiles/debian-mips-cross.docker b/tests/docker/dockerfiles/debian-mips-cross.docker
-index 3c4d6f9ec1f..a54efa7253a 100644
---- a/tests/docker/dockerfiles/debian-mips-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips-cross.docker
-@@ -20,6 +20,7 @@ RUN apt update && \
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips-linux-gnu-
-+ENV DEF_TARGET_LIST mips-softmmu,mipsel-linux-user
- 
- # Install extra libraries to increase code coverage
- RUN apt update && \
-diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-index 34b0b828957..a1481e16e2c 100644
---- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-@@ -21,6 +21,7 @@ RUN apt update && \
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips64el-linux-gnuabi64-
-+ENV DEF_TARGET_LIST mips64el-softmmu,mips64el-linux-user
- 
- # Install extra libraries to increase code coverage
- RUN apt update && \
-diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-index fc056d7bc35..f10883c8188 100644
---- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-@@ -16,6 +16,7 @@ RUN apt update && \
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=powerpc64le-linux-gnu-
-+ENV DEF_TARGET_LIST ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
- 
- # Install extra libraries to increase code coverage
- RUN apt update && \
-diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
-index 6732f9ec789..efa346007d6 100644
---- a/tests/docker/dockerfiles/debian-s390x-cross.docker
-+++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
-@@ -21,6 +21,7 @@ RUN apt update && \
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=s390x-linux-gnu-
-+ENV DEF_TARGET_LIST s390x-softmmu,s390x-linux-user
- 
- # Install extra libraries to increase code coverage
- RUN apt update && \
 -- 
 2.20.1
 
