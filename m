@@ -2,91 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD32EAEE14
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:04:42 +0200 (CEST)
-Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E8AAEE29
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:09:55 +0200 (CEST)
+Received: from localhost ([::1]:41212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hhB-0007zL-JY
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:04:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56261)
+	id 1i7hmE-00076x-HQ
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1i7hYL-0000cG-BJ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:55:34 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i7ha5-0002d5-0Z
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:57:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1i7hYK-00021G-2a
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:55:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5370)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1i7hYJ-00020h-RD
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:55:32 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8AEqkFd043089
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 10:55:30 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2uxbyym1tc-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 10:55:29 -0400
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Tue, 10 Sep 2019 15:55:25 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Sep 2019 15:55:21 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8AEtKCB48562240
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Sep 2019 14:55:20 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B467642042;
- Tue, 10 Sep 2019 14:55:20 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5333C42041;
- Tue, 10 Sep 2019 14:55:19 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.124.35.221])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Tue, 10 Sep 2019 14:55:19 +0000 (GMT)
-Date: Tue, 10 Sep 2019 20:25:17 +0530
-From: Balamuruhan S <bala24@linux.ibm.com>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-References: <20190910071019.16689-1-bala24@linux.ibm.com>
- <20190910071019.16689-4-bala24@linux.ibm.com>
- <5aace97f-5a34-7e05-9cdc-65e17613033e@kaod.org>
- <20190910103054.GB16391@localhost.localdomain>
- <f0a5499f-4a76-85b8-db74-0c83a0587974@kaod.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <f0a5499f-4a76-85b8-db74-0c83a0587974@kaod.org>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19091014-0008-0000-0000-00000313E9F1
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091014-0009-0000-0000-00004A32525B
-Message-Id: <20190910145517.GB25854@localhost.localdomain>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-10_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1909100144
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x8AEqkFd043089
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [PATCH v1 3/3] hw/ppc/pnv_homer: add PowerNV homer
- device model
+ (envelope-from <mlevitsk@redhat.com>) id 1i7ha3-00039d-Ue
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:57:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:29312)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1i7ha1-000364-SA; Tue, 10 Sep 2019 10:57:17 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 12581109EFC0;
+ Tue, 10 Sep 2019 14:57:17 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB2CA60925;
+ Tue, 10 Sep 2019 14:57:14 +0000 (UTC)
+Message-ID: <5316dd60d3490e2cf6f1550a2b45532ce1be9049.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>, Max
+ Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Date: Tue, 10 Sep 2019 17:57:13 +0300
+In-Reply-To: <363ba60f-3efd-b7fc-27ab-b3a864073686@redhat.com>
+References: <20190825071541.10389-1-mlevitsk@redhat.com>
+ <20190825071541.10389-3-mlevitsk@redhat.com>
+ <0618bc5b-6c0b-d154-dc7c-77398a7eb031@redhat.com>
+ <798ede8632285382a9d54dc9e3a75be046387b7d.camel@redhat.com>
+ <58a0f856b958bcb90df6d5f778c8ca0eaefaf8f9.camel@redhat.com>
+ <58a83617-9ffd-b775-976b-ccfbc87d65c1@redhat.com>
+ <3967d83b-2637-8020-a3b6-f1fa995ad34f@redhat.com>
+ <ad6938d5-0584-55bd-1eb3-1f04bafde126@redhat.com>
+ <363ba60f-3efd-b7fc-27ab-b3a864073686@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Tue, 10 Sep 2019 14:57:17 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/2] block/nvme: add support for discard
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,112 +64,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: maddy@linux.vnet.ibm.com, groug@kaod.org, qemu-devel@nongnu.org,
- anju@linux.vnet.ibm.com, qemu-ppc@nongnu.org, hari@linux.vnet.ibm.com,
- david@gibson.dropbear.id.au
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, John Ferlan <jferlan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 10, 2019 at 01:00:54PM +0200, C=E9dric Le Goater wrote:
-> >>> +
-> >>> +    object_initialize_child(obj, "homer",  &chip9->homer, sizeof(c=
-hip9->homer),
-> >>> +                            TYPE_PNV9_HOMER, &error_abort, NULL);
-> >>> +    object_property_add_const_link(OBJECT(&chip9->homer), "chip", =
-obj,
-> >>> +                                   &error_abort);
-> >>
-> >> Does HOMER need the chip ? It is not used but we might want to in th=
-e=20
-> >> core_max_array() ?=20
-> >=20
-> > sorry, no it is not required, I will remove it.
->=20
-> It seems you will need the chip in core_max_array(). I would keep it.=20
-> See below,
+On Tue, 2019-09-10 at 16:49 +0200, Paolo Bonzini wrote:
+> On 09/09/19 19:03, John Snow wrote:
+> > 
+> > 
+> > On 9/9/19 5:25 AM, Max Reitz wrote:
+> > > On 05.09.19 19:27, John Snow wrote:
+> > > 
+> > > [...]
+> > > 
+> > > > You also probably require review (or at least an ACK) from Keith Busch
+> > > > who maintains this file.
+> > > 
+> > > Keith actually maintains the NVMe guest device; technically, Fam is the
+> > > NVMe block driver maintainer.
+> > 
+> > W h o o p s. Thanks for correcting me.
+> > 
+> > Well, if it's Fam -- he seems a little busier lately -- it's probably
+> > not so crucial to gate on his approval. I thought it'd be nice to at
+> > least get an ACK from someone who has used this module before, because I
+> > haven't -- I was just giving some style review to help push it along.
+> > 
+> > (On that note, if you felt like my style review was wrong or isn't worth
+> > doing -- it is always perfectly fair to just say so, along with some
+> > reason as to why you won't -- that way patches won't rot on the list
+> > when people may have gotten the impression that a V2 is warranted.)
+Absolutely not, your review was fine! I just was/is a bit lazy to send next version of the patches
+before I get some kind of indication if anything else is needed for this to be merged,
+since the module doesn't have currently an active maintainer.
 
-Thanks Cedric, I was not aware of how to use it,
 
->=20
-> [ ... ]=20
->=20
-> >>> +static bool core_max_array(void *opaque, hwaddr addr)
->=20
-> Please change the 'void *opaque' function parameter in 'PnvHOMER *homer=
-'
->=20
-> >>> +{
-> >>> +    PnvHOMER *homer =3D PNV_HOMER(opaque);
-> >>> +    PnvHOMERClass *homer_class =3D PNV_HOMER_GET_CLASS(homer);
-> >>> +
-> >>> +    MachineState *ms =3D MACHINE(qdev_get_machine());
-> >>
-> >> Do you need the whole machine or only the chip ? =20
-> >=20
-> > yes, I see it is for active cores in the chip, I can use `nr_cores`
-> > defined in PnvChip.
->=20
->=20
-> If you keep the QOM link above, you can grab it in the realize handler =
-of
-> the HOMER model with : =20
->=20
->     Object *obj;
->     Error *local_err =3D NULL;
->=20
->     obj =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
->     if (!obj) {
->         error_propagate(errp, local_err);
->         error_prepend(errp, "required link 'chip' not found: ");
->         return;
->     }
->=20
->     homer->chip =3D PNV_CHIP(obj);
+> 
+> Looks good to me with the changes you pointed out (especially res30;
+> leaving out the unused macros is not so important).
 
-sure, :+1:
+All right, I'll send an updated version of those two patches soon.
 
->=20
-> [ ... ]=20
->=20
-> >>> +
-> >>> +/* P9 Pstate table */
-> >>> +
-> >>
-> >> no version ?=20
-> >=20
-> > PNV9_OCC_PSTATE_MAJOR_VERSION is the P9 pstate version.
->=20
-> why isn't it in the switch statement below ?=20
+Best regards,
+	Maxim Levitsky
 
-it is there in the switch statement,
-
-::
-+    case PNV9_OCC_PSTATE_MAJOR_VERSION:
-+        return 0x90;
-::
-
->=20
-> [ ... ]=20
-> =20
-> >>> +typedef struct PnvHOMER {
-> >>> +    DeviceState parent;
-> >>> +
-> >>> +    MemoryRegion homer_regs;
-> >>
-> >> the homer_ prefix is not useful.
-> >=20
-> > okay, I will change it to `hregs`.
->=20
-> I would just remove the prefix
-
-will make the change as suggested by removing the prefix.
-
--- Bala
-
->=20
-> Thanks,
->=20
-> C.=20
->=20
 
 
