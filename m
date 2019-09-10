@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8F3AE652
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:09:19 +0200 (CEST)
-Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74944AE64B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:06:31 +0200 (CEST)
+Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7c9G-0004QY-6s
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
+	id 1i7c6X-0000qP-NT
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqx-0000q3-Jj
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqv-0000mw-DX
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqw-0000ea-Gl
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:23 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44459)
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqu-0000cN-73
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:21 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33087)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bqw-0000dA-AJ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:22 -0400
-Received: by mail-wr1-x435.google.com with SMTP id k6so6265148wrn.11
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:22 -0700 (PDT)
+ id 1i7bqu-0000bg-0H
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:20 -0400
+Received: by mail-wr1-x430.google.com with SMTP id u16so18454301wrr.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l8xD4JKTs5aV1GPbbelxFIDDOIFZEGHKpHk8K7Sxfm0=;
- b=WtQUS8RGkW54NVZMDmj+tsszuXxUnh2t/ouVeaAn+bZ7w/O7TCclqPDEFlqSM1+ZGv
- Hbs38bAfSYbBr8d1sGJo9rV9ce2kPdX65/komC4p+9awc0KvX7lZv69Ej/x0HVRgsxk9
- c4eAFD8MRluy+qg8qoSqLoeTom5CghEx8nqGLQ43oJLinFg+YCDm4dgEk23Jz6eTfo5O
- OHAWrRd1u7T9AcsPiP/Kz3JPASYv2dLxHB4tBbuO75BmG4naYVLGwOwsFqPCpeyoTgcu
- OIsM3oGh4z28gg07GwKcUac01KfF6uf+2Rhwtj0qaZqA94f3kAcyoanXFl7JHJJNcun7
- hZuA==
+ bh=I86s17YWZNBBJTM3o+byHjhL/ANYpndSLZTN6qLv0h4=;
+ b=zyiR2EhtYIoe+jLx9GExD4a60IMvdrKaIC721l0qv/bibnVps8sUx6o+aLV9+dct3y
+ mPszUiH2oHMpZ5ORiOORmDnXFQksmQN7jKIjuubH+dqhqY0O10MaxObsHhZXlI7Th127
+ qP2DK8y9rvI+qDUNPD7IKyXumyp81OHDkZVy+gi2A9DykXpZAFr0dIbcl2lMeudcFU6V
+ H8izwbmUBog2p/zWUp2XxFHxGfQwOvFtOYadwAMrnbMctsjC4GQZasR5RSklBuK3bWXl
+ iCMeD2IdanfCO6Ng6STPXbWwXPm1IdgWk3Wm4dzu4WTVhIidGLw3nWQECMRFNUvAUDj3
+ Vdsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l8xD4JKTs5aV1GPbbelxFIDDOIFZEGHKpHk8K7Sxfm0=;
- b=MlZu2X1MpbF51XbgSEiALmyi7LLPVPCfwccaw/aKdHRBUNIbRonkhtBuLJe7FFyY30
- 9T1wm/Teh84DogzxOOwr4n3UCM3XikaMN9v7z/X7vInqehpNDTQqob4wF4cck1m8oj0Q
- CaoUEGancySVOhRPMQE7UzPcg2DvsZP3eHJKv8H+7jCEFJnjbKTcxiTGIU3L7kpXPKUV
- Oaooapk3vgWA1BgWRtIf0yJw7BJeJwzBAkOOoDnfde9yb/2iu0S1GZyx/TQjy97Q6nuT
- qMeFoDehDJL1mrhDzN7dAClXVBNcM2VSMWOfYDRiFf7hc0d7owF2o2ltZeYm7jBZYQZv
- EJ9g==
-X-Gm-Message-State: APjAAAWX3fgunyOCesO21ES61EGbX27kdEnWESfEf91EuO0cNvcSs/WS
- mYE9vKi4PHj0ei2sThiYKy7zGA==
-X-Google-Smtp-Source: APXvYqyhwdvQiYNcwFwtmbVpshEPnAmiCqMXJQxqG9EvppAjxYUZ84x29ei/PgNlaNKLvrj9GUglZg==
-X-Received: by 2002:adf:bc84:: with SMTP id g4mr24879833wrh.135.1568105421337; 
- Tue, 10 Sep 2019 01:50:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e3sm24590515wrh.12.2019.09.10.01.50.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=I86s17YWZNBBJTM3o+byHjhL/ANYpndSLZTN6qLv0h4=;
+ b=GVSTeSuq82+S74gXco+uXu3frZIHfbwC6HE2aztIj2v6q8yL/TJ7j2e5aP5Zh4q3bc
+ 2IUMGs2Jx0lEfswqbK/qmko0ajz0mJh2FmyRD0iIwylRLlfx5o6XpU4T7wn0dAqEz3YE
+ 0j5D63B/n0+7HwFMCKYD6/nVLGkp3EDlAmRI2aS5N4nU2TFH5vo9Ua0F0/mg0LeSh5mW
+ /1MTnEXakLWzYpgqfd7xB3uNnvhx89qYyPWwTZA9iR0Z7hhMlFdsd0ndby6nO9ujn3Tc
+ 9s1Ap730NvU+y5+bHz2tlc4k/IIxZn4ajUXsh4I+DqPrWHTRdXhhG7NWsYYjqwXhCut8
+ XTOg==
+X-Gm-Message-State: APjAAAWdXTa9vn46MWpV37DZnG5mRwFij8zH97nbpYot1KGEYIE3uCmj
+ WGvmbvAnNp9PtVwf5DP0eBcmAQ==
+X-Google-Smtp-Source: APXvYqwo6E4ZZEmt1uVWM5+4MnGKGRoSNNAiUKPUAt6K8WlAFejOzZswyF+BuZR/81Jk6Kr0z9TThQ==
+X-Received: by 2002:a5d:66d2:: with SMTP id k18mr24602491wrw.7.1568105419022; 
  Tue, 10 Sep 2019 01:50:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b18sm418252wrr.21.2019.09.10.01.50.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Sep 2019 01:50:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B7D621FFBA;
- Tue, 10 Sep 2019 09:43:52 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0434E1FFBD;
+ Tue, 10 Sep 2019 09:43:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:38 +0100
-Message-Id: <20190910084349.28817-35-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 09:43:41 +0100
+Message-Id: <20190910084349.28817-38-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
 References: <20190910084349.28817-1-alex.bennee@linaro.org>
@@ -68,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
-Subject: [Qemu-devel] [PULL 34/45] .travis.yml: Enable multiple caching
- features
+X-Received-From: 2a00:1450:4864:20::430
+Subject: [Qemu-devel] [PULL 37/45] .travis.yml: Cache Avocado cache
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,35 +82,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Using the 'multiple caching features' means explode the YAML array,
-thus it eases the git workflow (it is easier to move patches around).
+Avocado tests download artifacts from various sources.
+These sources sometime have network issues resulting in build
+failures. Cache Avocado cache to reduce build failure.
 
-See https://docs.travis-ci.com/user/caching#enabling-multiple-caching-features
+See https://docs.travis-ci.com/user/caching/#arbitrary-directories
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20170809202712.6951-4-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 diff --git a/.travis.yml b/.travis.yml
-index 106f9b5d01e..c60cf2ec135 100644
+index 0e3c2b0021c..097a844d68b 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -5,7 +5,8 @@ dist: xenial
- language: c
- compiler:
-   - gcc
--cache: ccache
-+cache:
-+  ccache: true
+@@ -9,6 +9,8 @@ cache:
+   timeout: 1200
+   ccache: true
+   pip: true
++  directories:
++  - $HOME/avocado/data/cache
  
  
  addons:
