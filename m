@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B5CAF20D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:51:39 +0200 (CEST)
-Received: from localhost ([::1]:44624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35FFAF214
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:55:16 +0200 (CEST)
+Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7mAs-0002kn-EW
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60965)
+	id 1i7mEO-0007Mf-4t
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1i7m2i-0002lL-GL
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:43:13 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7m4q-00055m-Si
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:45:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1i7m2f-0003W4-Rm
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:43:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48449)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i7m2f-0003V5-KK
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:43:09 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 96C2A3172D87;
- Tue, 10 Sep 2019 19:43:07 +0000 (UTC)
-Received: from localhost (ovpn-116-55.gru2.redhat.com [10.97.116.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0F531001B07;
- Tue, 10 Sep 2019 19:43:01 +0000 (UTC)
-Date: Tue, 10 Sep 2019 16:43:00 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Message-ID: <20190910194300.GD4617@habkost.net>
-References: <20190904005218.12536-1-crosa@redhat.com>
- <20190910084120.GA8583@redhat.com>
- <20190910122924.GA22968@localhost.localdomain>
+ (envelope-from <alex.bennee@linaro.org>) id 1i7m4p-0004rG-I1
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:45:24 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43058)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i7m4p-0004qi-BU
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:45:23 -0400
+Received: by mail-wr1-x441.google.com with SMTP id q17so17202694wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 12:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=L3sZdVGe93Oonobk9LL1HKyzZUDu1a8yg31vgo6Uk6Y=;
+ b=B/nSaijhrP9B1QRhTYNY44TiN5BpeXnlEQOnG/7IhSac0i68oDlOQV6lqiRxr2MH/V
+ C4Qm+rCLI9KCq1jTZZJOpR4SOYpNqIkELaOynxo+X+ehTlqozU1i9/QzLD0pl3HBwVS2
+ VnOq2Ke/d0Go1DDwxYpOe98p+GeZmrwHlwY0mfSPP9Jv0+S8U2j7BHa2S2S1Gu713i4I
+ Dp4ycI4KasSB2c4Ay0tM40RiM/Cj4yU+41pOiMCi1sa/PAeAwnlpTlGNUTU8Uw+uZ0Sc
+ QTaQ0ZWPBtzVHaQmDWytxAbzf8WdmzMxLz/YPHVfLodHEZ4WC0U8XthEYCQIx1QZ0mom
+ B0cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=L3sZdVGe93Oonobk9LL1HKyzZUDu1a8yg31vgo6Uk6Y=;
+ b=cmJyMuNKeTgPf57kYuVRvmT6yQr+ot8VSASlatv8ehkrX/ynIquIIrKxiXR6uumcxd
+ PYppOiiBuFk6Fha4sdMBslHhZo5UXlmRsBWgkUpt40MjBBH3DJn/m/YPGlaMUI2yT0eK
+ haqh9zc6DoSd7lSYxj1+2cCVNML1axP/9jTKNXZ5GVDJGMeuokmWsfXeM4aNUFiW2abm
+ 8uliYAqFnDW7/DO/J4h3tjlwXLbOvNcxVA2L5u3np7AhyRA/4Tbk0D38P7ph0NrCHRIn
+ Jw6sDRYNPvo7fpHok9i+mEKPiZwX9L+fAFUWiY5f1djBU2Liy8BO1JS3J0iTBa8ERbLW
+ 3YeA==
+X-Gm-Message-State: APjAAAWiVhKXsr8lU+r58yZ9nlrx4hDRT+ZPMPS6ui3aTd9KLu1c1RfM
+ epOVnzlSq7vT35nRGlTG6QUSjg==
+X-Google-Smtp-Source: APXvYqybEwomVc8pG6BfUE2aHjwNOVwDovA6VkVR09/n2GvyiCK/fd+pNEsxsjFDWjFVV61FcLfSOA==
+X-Received: by 2002:a5d:4382:: with SMTP id i2mr28688299wrq.297.1568144721620; 
+ Tue, 10 Sep 2019 12:45:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q14sm39334451wrc.77.2019.09.10.12.45.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Sep 2019 12:45:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 615F41FF87;
+ Tue, 10 Sep 2019 20:45:20 +0100 (BST)
+References: <20190910193408.28917-1-alex.bennee@linaro.org>
+ <20190910193408.28917-2-alex.bennee@linaro.org>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+In-reply-to: <20190910193408.28917-2-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 20:45:20 +0100
+Message-ID: <87blvs0wbz.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190910122924.GA22968@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 10 Sep 2019 19:43:07 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] Fedora images: use URLs from stable
- "archives.fedoraproject.org"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v1 1/4] target/ppc: fix signal delivery for
+ ppc64abi32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,84 +83,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yash Mankad <ymankad@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Fam Zheng <fam@euphon.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 10, 2019 at 08:29:24AM -0400, Cleber Rosa wrote:
-> On Tue, Sep 10, 2019 at 09:41:20AM +0100, Daniel P. Berrang=E9 wrote:
-> > On Tue, Sep 03, 2019 at 08:52:18PM -0400, Cleber Rosa wrote:
-> > > The LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16 te=
-st,
-> > > from tests/acceptance/linux_initrd.py, is currently failing to fetc=
-h
-> > > the "vmlinuz" file.  The reason for the failure is that the Fedora
-> > > project retires older versions from the "dl.fedoraproject.org" URL,
-> > > and keeps them in "archives.fedoraproject.org".  As an added note,
-> > > that test uses a Fedora 28 image, because of the specific Linux ker=
-nel
-> > > version requirements of the test.
-> > >=20
-> > > For the sake of stability, let's use URLs from the archived and
-> > > supposedely ever stable URLs.  The good news is that the currently
-> > > supported versions are also hosted on the later.  This change limit=
-s
-> > > itself to change the URLs, while keeping the fetched files the same
-> > > (as can be evidenced by the unchanged hashes).
-> >=20
-> > The download.fedoraproject.org site we're (mostly) currently using
-> > is serviced by the Fedora mirrors which is very desirable as it
-> > spreads the load.
-> >=20
-> > The archive.fedoraproject.org site is the master Fedora hosting
-> > server(s). dl.fedoraproject.org is the same master hosting service
-> > that is intended for use by the mirror sites to sync their content
-> > from.  Projects really shouldn't use either of these URLs for getting
-> > any content which is available via the mirror service as it places
-> > uncessary load on the Fedora master servers.
-> >=20
-[...]
-> > > @@ -360,8 +364,9 @@ class BootLinuxConsole(Test):
-> > >          :avocado: tags=3Darch:ppc64
-> > >          :avocado: tags=3Dmachine:pseries
-> > >          """
-> > > -        kernel_url =3D ('https://download.fedoraproject.org/pub/fe=
-dora-secondary/'
-> > > -                      'releases/29/Everything/ppc64le/os/ppc/ppc64=
-/vmlinuz')
-> > > +        kernel_url =3D ('https://archives.fedoraproject.org/pub/ar=
-chive'
-> > > +                      '/fedora-secondary/releases/29/Everything/pp=
-c64le/os'
-> > > +                      '/ppc/ppc64/vmlinuz')
-> > >          kernel_hash =3D '3fe04abfc852b66653b8c3c897a59a689270bc77'
-> > >          kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3D=
-kernel_hash)
-> >=20
-> > Don't change these URLs. We can update to Fedora 30 though if you wan=
-t
-> > to.
-> >=20
->=20
-> I believe your suggestion to not change the URLs is based solely on you=
-r
-> perspective on the load on the "archives" server, right?
->=20
-> You should know that there's a number of counter points.  One is that
-> these tests are used on environments, which are maintained for a much
-> longer time than the lifespan of the currently maintained Fedora
-> versions.  We really need to make it stable and reliable, and IMO it
-> should be done upstream, for the benefit of all.
 
-We're trying to offload the costs of long term hosting for our
-test cases to a third party (Fedora Project), but we need to know
-if that's really acceptable usage of archives.fedoraproject.org.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
---=20
-Eduardo
+> We were incorrectly setting NIP resulting in a segfault. This fixes
+> linux-test for this ABI.
+
+Oops, that was at the bottom of my tree for fixing ppc64abi32 which
+showed up broken when testing/next enabled the TCG tests for it.
+
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  linux-user/ppc/signal.c             | 4 +++-
+>  tests/tcg/configure.sh              | 1 +
+>  tests/tcg/multiarch/Makefile.target | 5 -----
+>  3 files changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+> index 619a56950df..5b82af6cb62 100644
+> --- a/linux-user/ppc/signal.c
+> +++ b/linux-user/ppc/signal.c
+> @@ -501,7 +501,9 @@ void setup_rt_frame(int sig, struct target_sigaction =
+*ka,
+>      int i, err =3D 0;
+>  #if defined(TARGET_PPC64)
+>      struct target_sigcontext *sc =3D 0;
+> +#if !defined(TARGET_ABI32)
+>      struct image_info *image =3D ((TaskState *)thread_cpu->opaque)->info;
+> +#endif
+>  #endif
+>
+>      rt_sf_addr =3D get_sigframe(ka, env, sizeof(*rt_sf));
+> @@ -557,7 +559,7 @@ void setup_rt_frame(int sig, struct target_sigaction =
+*ka,
+>      env->gpr[5] =3D (target_ulong) h2g(&rt_sf->uc);
+>      env->gpr[6] =3D (target_ulong) h2g(rt_sf);
+>
+> -#if defined(TARGET_PPC64)
+> +#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
+>      if (get_ppc64_abi(image) < 2) {
+>          /* ELFv1 PPC64 function pointers are pointers to OPD entries. */
+>          struct target_func_ptr *handler =3D
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index 6c4a471aeae..e8a1a1495fc 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -54,6 +54,7 @@ fi
+>  : ${cross_cc_cflags_ppc=3D"-m32"}
+>  : ${cross_cc_ppc64=3D"powerpc-linux-gnu-gcc"}
+>  : ${cross_cc_cflags_ppc64=3D"-m64"}
+> +: ${cross_cc_cflags_ppc64abi32=3D"-mcpu=3Dpower8"}
+>  : ${cross_cc_ppc64le=3D"powerpc64le-linux-gnu-gcc"}
+>  : ${cross_cc_cflags_s390x=3D"-m64"}
+>  : ${cross_cc_cflags_sparc=3D"-m32 -mv8plus -mcpu=3Dultrasparc"}
+> diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Ma=
+kefile.target
+> index 6b1e30e2fec..e6893b2e283 100644
+> --- a/tests/tcg/multiarch/Makefile.target
+> +++ b/tests/tcg/multiarch/Makefile.target
+> @@ -12,11 +12,6 @@ VPATH 		+=3D $(MULTIARCH_SRC)
+>  MULTIARCH_SRCS   =3D$(notdir $(wildcard $(MULTIARCH_SRC)/*.c))
+>  MULTIARCH_TESTS  =3D$(MULTIARCH_SRCS:.c=3D)
+>
+> -# FIXME: ppc64abi32 linux-test seems to have issues but the other basic =
+tests work
+> -ifeq ($(TARGET_NAME),ppc64abi32)
+> -BROKEN_TESTS =3D linux-test
+> -endif
+> -
+>  # Update TESTS
+>  TESTS		+=3D $(filter-out $(BROKEN_TESTS), $(MULTIARCH_TESTS))
+
+
+--
+Alex Benn=C3=A9e
 
