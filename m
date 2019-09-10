@@ -2,50 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EFCAF187
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:05:34 +0200 (CEST)
-Received: from localhost ([::1]:44154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9ECAF1AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:08:11 +0200 (CEST)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7lSH-000635-3F
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53259)
+	id 1i7lUo-0008V5-Pk
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:08:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i7lM0-00006r-9B
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 14:59:08 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i7lM8-0000IM-Cl
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 14:59:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i7lLw-0006I6-A4
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 14:59:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42454)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i7lLv-0006Gz-Tu
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 14:59:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3CDBC3082B67;
- Tue, 10 Sep 2019 18:58:58 +0000 (UTC)
-Received: from thuth.com (ovpn-117-98.ams2.redhat.com [10.36.117.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C865619C58;
- Tue, 10 Sep 2019 18:58:56 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>,
-	qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 20:58:39 +0200
-Message-Id: <20190910185839.19682-8-thuth@redhat.com>
-In-Reply-To: <20190910185839.19682-1-thuth@redhat.com>
-References: <20190910185839.19682-1-thuth@redhat.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i7lM6-0006MM-TV
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 14:59:12 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40461)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1i7lM6-0006M4-MG
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 14:59:10 -0400
+Received: by mail-ot1-x343.google.com with SMTP id y39so20050409ota.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 11:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=dHjd4R7/iGOg1mIXFltrPlXk9szHTttqLQ4yu4gKw0A=;
+ b=OEkeGmzTl+VIQGLAmJO5jB/MmOuE2z/wGSrEuf94gcwsSD/N5iPtKSbpUy/3EcSm1d
+ uVzG3rUSbDi/YCrmAzT4dQwsbJul3uOu0QsIYMgSwFTFkzsg/d5l2TlhePk7bPqdfa8v
+ spyF0iSIpxh3EjrX+AwLLOza6ivSZBNqCcQrnjmYeSLtQnpG9ESPeXkGKVMLpQcEiY87
+ BBARce4Yroi8o7PnUmXmRYFJKGz/S5s1dARBljip2BJSgutpygQT6Hsu8M0gMr1lo0fn
+ aIHzMg2Rn2TTQn6tP6GaBn9a8db/SV+OG7cB/PnxPpYYHyUI5Bq5ulTFe7oq0HIKYzr/
+ E8hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=dHjd4R7/iGOg1mIXFltrPlXk9szHTttqLQ4yu4gKw0A=;
+ b=bghPcSXVvkXfUj8V/+PgwuI8ifYCwRYG8nUooO/qfCa4Oko/qqodxiXgcnbaUn25q3
+ aCShEsSS3LGdDCBZ7jKd6g7Irq1HPrk6FgnQYUHnBAiDhFxztGW30JTfKB16pSkgYR0N
+ xvQdjbeKLpF7q0woVPgBtyGO2DYx/9jexJEAhfLZKODnQyEnRmvkK1B+D8dw/rAcV+8K
+ rj21aGALPhn2qfTBaZliYge5qizRhEqsOqO1yPcfwVb+F8OkwZDeRk6EC+ZvqVG0aPoA
+ P4/MBDSABIfu7qAYPSPqhgiCZ/DC0c/WbIoil41u/3hWBkV6COh9SnyHoodiXm2V4bwn
+ 0T7A==
+X-Gm-Message-State: APjAAAWpzr3TOJQvyoMk7VrMKCVeRA2IP8NvoBDmcfT0QLxYLbmCwRkC
+ qu7ufiZIhIgrsV/Svt+3kP/zfBJOU5TkrYPP6fc=
+X-Google-Smtp-Source: APXvYqzb5icIWTFE6dMQIRfVeXk5gXFzBPMisQUXwbjpCxkUJo/ChqKdUUfvLxylmipRSZFFGBx0wdjwlyjzuPxQJ88=
+X-Received: by 2002:a9d:5f09:: with SMTP id f9mr1547685oti.341.1568141949856; 
+ Tue, 10 Sep 2019 11:59:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 10 Sep 2019 18:58:58 +0000 (UTC)
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Tue, 10 Sep 2019 11:59:09
+ -0700 (PDT)
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Tue, 10 Sep 2019 11:59:09
+ -0700 (PDT)
+In-Reply-To: <2d5e7f28-7fa4-7637-c512-b443848eb61b@vivier.eu>
+References: <1567601968-26946-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1567601968-26946-9-git-send-email-aleksandar.markovic@rt-rk.com>
+ <2d5e7f28-7fa4-7637-c512-b443848eb61b@vivier.eu>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 10 Sep 2019 20:59:09 +0200
+Message-ID: <CAL1e-=id9tL4-6eLgkd2SQ2W-5yU6Zp7WgVj0YFJ83wdG1qG6w@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 7/7] tests/libqos: Move the libqos files under
- tests/qtest/
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v6 8/8] linux-user: Add support for
+ FDSETEMSGTRESH, FDSETMAXERRS, and FDGETMAXERRS ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,622 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, riku.voipio@iki.fi,
+ qemu-devel@nongnu.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qos stuff belongs to qtest, so move it into that directory, too.
+06.09.2019. 12.47, "Laurent Vivier" <laurent@vivier.eu> =D1=98=D0=B5 =D0=BD=
+=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> Le 04/09/2019 =C3=A0 14:59, Aleksandar Markovic a =C3=A9crit :
+> > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> >
+> > FDSETEMSGTRESH, FDSETMAXERRS, and FDGETMAXERRS ioctls are commands
+> > for controlling error reporting of a floppy drive.
+> >
+> > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > ---
+> >  linux-user/ioctls.h        |  2 ++
+> >  linux-user/syscall_defs.h  | 19 +++++++++++++++++++
+> >  linux-user/syscall_types.h |  7 +++++++
+> >  3 files changed, 28 insertions(+)
+> >
+> > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> > index 622874b..0c75d03 100644
+> > --- a/linux-user/ioctls.h
+> > +++ b/linux-user/ioctls.h
+> > @@ -118,6 +118,8 @@
+> >       IOCTL(FDFMTTRK, IOC_W, MK_PTR(MK_STRUCT(STRUCT_format_descr)))
+> >       IOCTL(FDFMTEND, 0, TYPE_NULL)
+> >       IOCTL(FDFLUSH, 0, TYPE_NULL)
+> > +     IOCTL(FDSETMAXERRS, IOC_W,
+MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
+> > +     IOCTL(FDGETMAXERRS, IOC_R,
+MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
+>
+> where is FDSETEMSGTRESH?
+>
+> >       IOCTL(FDRESET, 0, TYPE_NULL)
+> >       IOCTL(FDRAWCMD, 0, TYPE_NULL)
+> >       IOCTL(FDTWADDLE, 0, TYPE_NULL)
+> > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> > index 834a085..7c5b614 100644
+> > --- a/linux-user/syscall_defs.h
+> > +++ b/linux-user/syscall_defs.h
+> > @@ -890,12 +890,31 @@ struct target_pollfd {
+> >
+> >  /* From <linux/fd.h> */
+> >
+> > +struct target_floppy_max_errors {
+> > +    abi_uint        abort;
+> > +    abi_uint        read_track;
+> > +    abi_uint        reset;
+> > +    abi_uint        recal;
+> > +    abi_uint        reporting;
+> > +};
+>
+> You don't need this, you can use floppy_max_errors from <linux/fd.h>.
+>
+> But you can define it if you want because it is used to know the size of
+> the target structure (and if alignment or data types differ it can
+> mismatch. With "int" it's not the case).
+>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS                                   |  9 +--
- configure                                     |  2 +-
- tests/Makefile.include                        |  2 +-
- tests/qtest/Makefile.include                  | 78 +++++++++----------
- .../libqos/aarch64-xlnx-zcu102-machine.c      |  0
- tests/{ =3D> qtest}/libqos/ahci.c               |  0
- tests/{ =3D> qtest}/libqos/ahci.h               |  0
- .../libqos/arm-imx25-pdk-machine.c            |  0
- tests/{ =3D> qtest}/libqos/arm-n800-machine.c   |  0
- tests/{ =3D> qtest}/libqos/arm-raspi2-machine.c |  0
- .../libqos/arm-sabrelite-machine.c            |  0
- .../{ =3D> qtest}/libqos/arm-smdkc210-machine.c |  0
- tests/{ =3D> qtest}/libqos/arm-virt-machine.c   |  0
- .../libqos/arm-xilinx-zynq-a9-machine.c       |  0
- tests/{ =3D> qtest}/libqos/e1000e.c             |  0
- tests/{ =3D> qtest}/libqos/e1000e.h             |  0
- tests/{ =3D> qtest}/libqos/fw_cfg.c             |  0
- tests/{ =3D> qtest}/libqos/fw_cfg.h             |  0
- tests/{ =3D> qtest}/libqos/i2c-imx.c            |  0
- tests/{ =3D> qtest}/libqos/i2c-omap.c           |  0
- tests/{ =3D> qtest}/libqos/i2c.c                |  0
- tests/{ =3D> qtest}/libqos/i2c.h                |  0
- tests/{ =3D> qtest}/libqos/libqos-pc.c          |  0
- tests/{ =3D> qtest}/libqos/libqos-pc.h          |  0
- tests/{ =3D> qtest}/libqos/libqos-spapr.c       |  0
- tests/{ =3D> qtest}/libqos/libqos-spapr.h       |  0
- tests/{ =3D> qtest}/libqos/libqos.c             |  0
- tests/{ =3D> qtest}/libqos/libqos.h             |  0
- tests/{ =3D> qtest}/libqos/malloc-pc.c          |  0
- tests/{ =3D> qtest}/libqos/malloc-pc.h          |  0
- tests/{ =3D> qtest}/libqos/malloc-spapr.c       |  0
- tests/{ =3D> qtest}/libqos/malloc-spapr.h       |  0
- tests/{ =3D> qtest}/libqos/malloc.c             |  0
- tests/{ =3D> qtest}/libqos/malloc.h             |  0
- tests/{ =3D> qtest}/libqos/pci-pc.c             |  0
- tests/{ =3D> qtest}/libqos/pci-pc.h             |  0
- tests/{ =3D> qtest}/libqos/pci-spapr.c          |  0
- tests/{ =3D> qtest}/libqos/pci-spapr.h          |  0
- tests/{ =3D> qtest}/libqos/pci.c                |  0
- tests/{ =3D> qtest}/libqos/pci.h                |  0
- .../libqos/ppc64_pseries-machine.c            |  0
- tests/{ =3D> qtest}/libqos/qgraph.c             |  0
- tests/{ =3D> qtest}/libqos/qgraph.h             |  0
- tests/{ =3D> qtest}/libqos/qgraph_internal.h    |  0
- tests/{ =3D> qtest}/libqos/rtas.c               |  0
- tests/{ =3D> qtest}/libqos/rtas.h               |  0
- tests/{ =3D> qtest}/libqos/sdhci.c              |  0
- tests/{ =3D> qtest}/libqos/sdhci.h              |  0
- tests/{ =3D> qtest}/libqos/tpci200.c            |  0
- tests/{ =3D> qtest}/libqos/usb.c                |  0
- tests/{ =3D> qtest}/libqos/usb.h                |  0
- tests/{ =3D> qtest}/libqos/virtio-9p.c          |  0
- tests/{ =3D> qtest}/libqos/virtio-9p.h          |  0
- tests/{ =3D> qtest}/libqos/virtio-balloon.c     |  0
- tests/{ =3D> qtest}/libqos/virtio-balloon.h     |  0
- tests/{ =3D> qtest}/libqos/virtio-blk.c         |  0
- tests/{ =3D> qtest}/libqos/virtio-blk.h         |  0
- tests/{ =3D> qtest}/libqos/virtio-mmio.c        |  0
- tests/{ =3D> qtest}/libqos/virtio-mmio.h        |  0
- tests/{ =3D> qtest}/libqos/virtio-net.c         |  0
- tests/{ =3D> qtest}/libqos/virtio-net.h         |  0
- tests/{ =3D> qtest}/libqos/virtio-pci.c         |  0
- tests/{ =3D> qtest}/libqos/virtio-pci.h         |  0
- tests/{ =3D> qtest}/libqos/virtio-rng.c         |  0
- tests/{ =3D> qtest}/libqos/virtio-rng.h         |  0
- tests/{ =3D> qtest}/libqos/virtio-scsi.c        |  0
- tests/{ =3D> qtest}/libqos/virtio-scsi.h        |  0
- tests/{ =3D> qtest}/libqos/virtio-serial.c      |  0
- tests/{ =3D> qtest}/libqos/virtio-serial.h      |  0
- tests/{ =3D> qtest}/libqos/virtio.c             |  0
- tests/{ =3D> qtest}/libqos/virtio.h             |  0
- tests/{ =3D> qtest}/libqos/x86_64_pc-machine.c  |  0
- 72 files changed, 45 insertions(+), 46 deletions(-)
- rename tests/{ =3D> qtest}/libqos/aarch64-xlnx-zcu102-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/ahci.c (100%)
- rename tests/{ =3D> qtest}/libqos/ahci.h (100%)
- rename tests/{ =3D> qtest}/libqos/arm-imx25-pdk-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/arm-n800-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/arm-raspi2-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/arm-sabrelite-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/arm-smdkc210-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/arm-virt-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/arm-xilinx-zynq-a9-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/e1000e.c (100%)
- rename tests/{ =3D> qtest}/libqos/e1000e.h (100%)
- rename tests/{ =3D> qtest}/libqos/fw_cfg.c (100%)
- rename tests/{ =3D> qtest}/libqos/fw_cfg.h (100%)
- rename tests/{ =3D> qtest}/libqos/i2c-imx.c (100%)
- rename tests/{ =3D> qtest}/libqos/i2c-omap.c (100%)
- rename tests/{ =3D> qtest}/libqos/i2c.c (100%)
- rename tests/{ =3D> qtest}/libqos/i2c.h (100%)
- rename tests/{ =3D> qtest}/libqos/libqos-pc.c (100%)
- rename tests/{ =3D> qtest}/libqos/libqos-pc.h (100%)
- rename tests/{ =3D> qtest}/libqos/libqos-spapr.c (100%)
- rename tests/{ =3D> qtest}/libqos/libqos-spapr.h (100%)
- rename tests/{ =3D> qtest}/libqos/libqos.c (100%)
- rename tests/{ =3D> qtest}/libqos/libqos.h (100%)
- rename tests/{ =3D> qtest}/libqos/malloc-pc.c (100%)
- rename tests/{ =3D> qtest}/libqos/malloc-pc.h (100%)
- rename tests/{ =3D> qtest}/libqos/malloc-spapr.c (100%)
- rename tests/{ =3D> qtest}/libqos/malloc-spapr.h (100%)
- rename tests/{ =3D> qtest}/libqos/malloc.c (100%)
- rename tests/{ =3D> qtest}/libqos/malloc.h (100%)
- rename tests/{ =3D> qtest}/libqos/pci-pc.c (100%)
- rename tests/{ =3D> qtest}/libqos/pci-pc.h (100%)
- rename tests/{ =3D> qtest}/libqos/pci-spapr.c (100%)
- rename tests/{ =3D> qtest}/libqos/pci-spapr.h (100%)
- rename tests/{ =3D> qtest}/libqos/pci.c (100%)
- rename tests/{ =3D> qtest}/libqos/pci.h (100%)
- rename tests/{ =3D> qtest}/libqos/ppc64_pseries-machine.c (100%)
- rename tests/{ =3D> qtest}/libqos/qgraph.c (100%)
- rename tests/{ =3D> qtest}/libqos/qgraph.h (100%)
- rename tests/{ =3D> qtest}/libqos/qgraph_internal.h (100%)
- rename tests/{ =3D> qtest}/libqos/rtas.c (100%)
- rename tests/{ =3D> qtest}/libqos/rtas.h (100%)
- rename tests/{ =3D> qtest}/libqos/sdhci.c (100%)
- rename tests/{ =3D> qtest}/libqos/sdhci.h (100%)
- rename tests/{ =3D> qtest}/libqos/tpci200.c (100%)
- rename tests/{ =3D> qtest}/libqos/usb.c (100%)
- rename tests/{ =3D> qtest}/libqos/usb.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-9p.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-9p.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-balloon.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-balloon.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-blk.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-blk.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-mmio.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-mmio.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-net.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-net.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-pci.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-pci.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-rng.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-rng.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-scsi.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-scsi.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-serial.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio-serial.h (100%)
- rename tests/{ =3D> qtest}/libqos/virtio.c (100%)
- rename tests/{ =3D> qtest}/libqos/virtio.h (100%)
- rename tests/{ =3D> qtest}/libqos/x86_64_pc-machine.c (100%)
+Laurent, thanks for the review, I'll correct this in the next version.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ac4ca180b..cb97fa967f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1083,9 +1083,9 @@ F: pc-bios/slof.bin
- F: docs/specs/ppc-spapr-hcalls.txt
- F: docs/specs/ppc-spapr-hotplug.txt
- F: tests/spapr*
--F: tests/libqos/*spapr*
-+F: tests/qtest/qos/*spapr*
- F: tests/rtas*
--F: tests/libqos/rtas*
-+F: tests/qtest/qos/rtas*
-=20
- PowerNV (Non-Virtualized)
- M: C=C3=A9dric Le Goater <clg@kaod.org>
-@@ -1328,7 +1328,7 @@ F: hw/block/hd-geometry.c
- F: tests/qtest/ide-test.c
- F: tests/qtest/ahci-test.c
- F: tests/qtest/cdrom-test.c
--F: tests/libqos/ahci*
-+F: tests/qtest/qos/ahci*
- T: git https://github.com/jnsnow/qemu.git ide
-=20
- IPMI
-@@ -1724,7 +1724,7 @@ F: hw/nvram/fw_cfg.c
- F: stubs/fw_cfg.c
- F: include/hw/nvram/fw_cfg.h
- F: include/standard-headers/linux/qemu_fw_cfg.h
--F: tests/libqos/fw_cfg.c
-+F: tests/qtest/qos/fw_cfg.c
- F: tests/qtest/fw_cfg-test.c
- T: git https://github.com/philmd/qemu.git fw_cfg-next
-=20
-@@ -2085,7 +2085,6 @@ S: Maintained
- F: qtest.c
- F: accel/qtest.c
- F: tests/libqtest*
--F: tests/libqos/
- F: tests/qtest/
-=20
- Register API
-diff --git a/configure b/configure
-index 59e7397916..2f0a495dcd 100755
---- a/configure
-+++ b/configure
-@@ -7928,7 +7928,7 @@ fi
- # tests might fail. Prefer to keep the relevant files in their own
- # directory and symlink the directory instead.
- DIRS=3D"tests tests/tcg tests/tcg/cris tests/tcg/lm32 tests/tcg/xtensa"
--DIRS=3D"$DIRS tests/libqos tests/qtest tests/qapi-schema tests/qemu-iote=
-sts"
-+DIRS=3D"$DIRS tests/qtest tests/qtest/libqos tests/qapi-schema tests/qem=
-u-iotests"
- DIRS=3D"$DIRS tests/fp tests/vm"
- DIRS=3D"$DIRS docs docs/interop fsdev scsi"
- DIRS=3D"$DIRS pc-bios/optionrom pc-bios/spapr-rtas pc-bios/s390-ccw"
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index d68b2d68a8..b1df761932 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -881,6 +881,6 @@ all: $(QEMU_IOTESTS_HELPERS-y)
-=20
- -include $(wildcard tests/*.d)
- -include $(wildcard tests/qtest/*.d)
---include $(wildcard tests/libqos/*.d)
-+-include $(wildcard tests/qtest/qos/*.d)
-=20
- endif
-diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index 54e1d6fb6c..bf324e8c16 100644
---- a/tests/qtest/Makefile.include
-+++ b/tests/qtest/Makefile.include
-@@ -145,51 +145,51 @@ check-qtest-s390x-y +=3D cpu-plug-test
- check-qtest-s390x-y +=3D migration-test
-=20
- # libqos / qgraph :
--libqgraph-obj-y =3D tests/libqos/qgraph.o
--
--libqos-obj-y =3D $(libqgraph-obj-y) tests/libqos/pci.o tests/libqos/fw_c=
-fg.o
--libqos-obj-y +=3D tests/libqos/malloc.o
--libqos-obj-y +=3D tests/libqos/libqos.o
--libqos-spapr-obj-y =3D $(libqos-obj-y) tests/libqos/malloc-spapr.o
--libqos-spapr-obj-y +=3D tests/libqos/libqos-spapr.o
--libqos-spapr-obj-y +=3D tests/libqos/rtas.o
--libqos-spapr-obj-y +=3D tests/libqos/pci-spapr.o
--libqos-pc-obj-y =3D $(libqos-obj-y) tests/libqos/pci-pc.o
--libqos-pc-obj-y +=3D tests/libqos/malloc-pc.o tests/libqos/libqos-pc.o
--libqos-pc-obj-y +=3D tests/libqos/ahci.o
--libqos-usb-obj-y =3D $(libqos-spapr-obj-y) $(libqos-pc-obj-y) tests/libq=
-os/usb.o
-+libqgraph-obj-y =3D tests/qtest/libqos/qgraph.o
-+
-+libqos-obj-y =3D $(libqgraph-obj-y) tests/qtest/libqos/pci.o tests/qtest=
-/libqos/fw_cfg.o
-+libqos-obj-y +=3D tests/qtest/libqos/malloc.o
-+libqos-obj-y +=3D tests/qtest/libqos/libqos.o
-+libqos-spapr-obj-y =3D $(libqos-obj-y) tests/qtest/libqos/malloc-spapr.o
-+libqos-spapr-obj-y +=3D tests/qtest/libqos/libqos-spapr.o
-+libqos-spapr-obj-y +=3D tests/qtest/libqos/rtas.o
-+libqos-spapr-obj-y +=3D tests/qtest/libqos/pci-spapr.o
-+libqos-pc-obj-y =3D $(libqos-obj-y) tests/qtest/libqos/pci-pc.o
-+libqos-pc-obj-y +=3D tests/qtest/libqos/malloc-pc.o tests/qtest/libqos/l=
-ibqos-pc.o
-+libqos-pc-obj-y +=3D tests/qtest/libqos/ahci.o
-+libqos-usb-obj-y =3D $(libqos-spapr-obj-y) $(libqos-pc-obj-y) tests/qtes=
-t/libqos/usb.o
-=20
- # qos devices:
- qos-test-obj-y =3D tests/qtest/qos-test.o $(libqgraph-obj-y)
- qos-test-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
--qos-test-obj-y +=3D tests/libqos/e1000e.o
--qos-test-obj-y +=3D tests/libqos/i2c.o
--qos-test-obj-y +=3D tests/libqos/i2c-imx.o
--qos-test-obj-y +=3D tests/libqos/i2c-omap.o
--qos-test-obj-y +=3D tests/libqos/sdhci.o
--qos-test-obj-y +=3D tests/libqos/tpci200.o
--qos-test-obj-y +=3D tests/libqos/virtio.o
--qos-test-obj-$(CONFIG_VIRTFS) +=3D tests/libqos/virtio-9p.o
--qos-test-obj-y +=3D tests/libqos/virtio-balloon.o
--qos-test-obj-y +=3D tests/libqos/virtio-blk.o
--qos-test-obj-y +=3D tests/libqos/virtio-mmio.o
--qos-test-obj-y +=3D tests/libqos/virtio-net.o
--qos-test-obj-y +=3D tests/libqos/virtio-pci.o
--qos-test-obj-y +=3D tests/libqos/virtio-rng.o
--qos-test-obj-y +=3D tests/libqos/virtio-scsi.o
--qos-test-obj-y +=3D tests/libqos/virtio-serial.o
-+qos-test-obj-y +=3D tests/qtest/libqos/e1000e.o
-+qos-test-obj-y +=3D tests/qtest/libqos/i2c.o
-+qos-test-obj-y +=3D tests/qtest/libqos/i2c-imx.o
-+qos-test-obj-y +=3D tests/qtest/libqos/i2c-omap.o
-+qos-test-obj-y +=3D tests/qtest/libqos/sdhci.o
-+qos-test-obj-y +=3D tests/qtest/libqos/tpci200.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio.o
-+qos-test-obj-$(CONFIG_VIRTFS) +=3D tests/qtest/libqos/virtio-9p.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-balloon.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-blk.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-mmio.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-net.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-pci.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-rng.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-scsi.o
-+qos-test-obj-y +=3D tests/qtest/libqos/virtio-serial.o
-=20
- # qos machines:
--qos-test-obj-y +=3D tests/libqos/aarch64-xlnx-zcu102-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-imx25-pdk-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-n800-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-raspi2-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-sabrelite-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-smdkc210-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-virt-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-xilinx-zynq-a9-machine.o
--qos-test-obj-y +=3D tests/libqos/ppc64_pseries-machine.o
--qos-test-obj-y +=3D tests/libqos/x86_64_pc-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/aarch64-xlnx-zcu102-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/arm-imx25-pdk-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/arm-n800-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/arm-raspi2-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/arm-sabrelite-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/arm-smdkc210-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/arm-virt-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/arm-xilinx-zynq-a9-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/ppc64_pseries-machine.o
-+qos-test-obj-y +=3D tests/qtest/libqos/x86_64_pc-machine.o
-=20
- # qos tests:
- qos-test-obj-y +=3D tests/qtest/ac97-test.o
-diff --git a/tests/libqos/aarch64-xlnx-zcu102-machine.c b/tests/qtest/lib=
-qos/aarch64-xlnx-zcu102-machine.c
-similarity index 100%
-rename from tests/libqos/aarch64-xlnx-zcu102-machine.c
-rename to tests/qtest/libqos/aarch64-xlnx-zcu102-machine.c
-diff --git a/tests/libqos/ahci.c b/tests/qtest/libqos/ahci.c
-similarity index 100%
-rename from tests/libqos/ahci.c
-rename to tests/qtest/libqos/ahci.c
-diff --git a/tests/libqos/ahci.h b/tests/qtest/libqos/ahci.h
-similarity index 100%
-rename from tests/libqos/ahci.h
-rename to tests/qtest/libqos/ahci.h
-diff --git a/tests/libqos/arm-imx25-pdk-machine.c b/tests/qtest/libqos/ar=
-m-imx25-pdk-machine.c
-similarity index 100%
-rename from tests/libqos/arm-imx25-pdk-machine.c
-rename to tests/qtest/libqos/arm-imx25-pdk-machine.c
-diff --git a/tests/libqos/arm-n800-machine.c b/tests/qtest/libqos/arm-n80=
-0-machine.c
-similarity index 100%
-rename from tests/libqos/arm-n800-machine.c
-rename to tests/qtest/libqos/arm-n800-machine.c
-diff --git a/tests/libqos/arm-raspi2-machine.c b/tests/qtest/libqos/arm-r=
-aspi2-machine.c
-similarity index 100%
-rename from tests/libqos/arm-raspi2-machine.c
-rename to tests/qtest/libqos/arm-raspi2-machine.c
-diff --git a/tests/libqos/arm-sabrelite-machine.c b/tests/qtest/libqos/ar=
-m-sabrelite-machine.c
-similarity index 100%
-rename from tests/libqos/arm-sabrelite-machine.c
-rename to tests/qtest/libqos/arm-sabrelite-machine.c
-diff --git a/tests/libqos/arm-smdkc210-machine.c b/tests/qtest/libqos/arm=
--smdkc210-machine.c
-similarity index 100%
-rename from tests/libqos/arm-smdkc210-machine.c
-rename to tests/qtest/libqos/arm-smdkc210-machine.c
-diff --git a/tests/libqos/arm-virt-machine.c b/tests/qtest/libqos/arm-vir=
-t-machine.c
-similarity index 100%
-rename from tests/libqos/arm-virt-machine.c
-rename to tests/qtest/libqos/arm-virt-machine.c
-diff --git a/tests/libqos/arm-xilinx-zynq-a9-machine.c b/tests/qtest/libq=
-os/arm-xilinx-zynq-a9-machine.c
-similarity index 100%
-rename from tests/libqos/arm-xilinx-zynq-a9-machine.c
-rename to tests/qtest/libqos/arm-xilinx-zynq-a9-machine.c
-diff --git a/tests/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-similarity index 100%
-rename from tests/libqos/e1000e.c
-rename to tests/qtest/libqos/e1000e.c
-diff --git a/tests/libqos/e1000e.h b/tests/qtest/libqos/e1000e.h
-similarity index 100%
-rename from tests/libqos/e1000e.h
-rename to tests/qtest/libqos/e1000e.h
-diff --git a/tests/libqos/fw_cfg.c b/tests/qtest/libqos/fw_cfg.c
-similarity index 100%
-rename from tests/libqos/fw_cfg.c
-rename to tests/qtest/libqos/fw_cfg.c
-diff --git a/tests/libqos/fw_cfg.h b/tests/qtest/libqos/fw_cfg.h
-similarity index 100%
-rename from tests/libqos/fw_cfg.h
-rename to tests/qtest/libqos/fw_cfg.h
-diff --git a/tests/libqos/i2c-imx.c b/tests/qtest/libqos/i2c-imx.c
-similarity index 100%
-rename from tests/libqos/i2c-imx.c
-rename to tests/qtest/libqos/i2c-imx.c
-diff --git a/tests/libqos/i2c-omap.c b/tests/qtest/libqos/i2c-omap.c
-similarity index 100%
-rename from tests/libqos/i2c-omap.c
-rename to tests/qtest/libqos/i2c-omap.c
-diff --git a/tests/libqos/i2c.c b/tests/qtest/libqos/i2c.c
-similarity index 100%
-rename from tests/libqos/i2c.c
-rename to tests/qtest/libqos/i2c.c
-diff --git a/tests/libqos/i2c.h b/tests/qtest/libqos/i2c.h
-similarity index 100%
-rename from tests/libqos/i2c.h
-rename to tests/qtest/libqos/i2c.h
-diff --git a/tests/libqos/libqos-pc.c b/tests/qtest/libqos/libqos-pc.c
-similarity index 100%
-rename from tests/libqos/libqos-pc.c
-rename to tests/qtest/libqos/libqos-pc.c
-diff --git a/tests/libqos/libqos-pc.h b/tests/qtest/libqos/libqos-pc.h
-similarity index 100%
-rename from tests/libqos/libqos-pc.h
-rename to tests/qtest/libqos/libqos-pc.h
-diff --git a/tests/libqos/libqos-spapr.c b/tests/qtest/libqos/libqos-spap=
-r.c
-similarity index 100%
-rename from tests/libqos/libqos-spapr.c
-rename to tests/qtest/libqos/libqos-spapr.c
-diff --git a/tests/libqos/libqos-spapr.h b/tests/qtest/libqos/libqos-spap=
-r.h
-similarity index 100%
-rename from tests/libqos/libqos-spapr.h
-rename to tests/qtest/libqos/libqos-spapr.h
-diff --git a/tests/libqos/libqos.c b/tests/qtest/libqos/libqos.c
-similarity index 100%
-rename from tests/libqos/libqos.c
-rename to tests/qtest/libqos/libqos.c
-diff --git a/tests/libqos/libqos.h b/tests/qtest/libqos/libqos.h
-similarity index 100%
-rename from tests/libqos/libqos.h
-rename to tests/qtest/libqos/libqos.h
-diff --git a/tests/libqos/malloc-pc.c b/tests/qtest/libqos/malloc-pc.c
-similarity index 100%
-rename from tests/libqos/malloc-pc.c
-rename to tests/qtest/libqos/malloc-pc.c
-diff --git a/tests/libqos/malloc-pc.h b/tests/qtest/libqos/malloc-pc.h
-similarity index 100%
-rename from tests/libqos/malloc-pc.h
-rename to tests/qtest/libqos/malloc-pc.h
-diff --git a/tests/libqos/malloc-spapr.c b/tests/qtest/libqos/malloc-spap=
-r.c
-similarity index 100%
-rename from tests/libqos/malloc-spapr.c
-rename to tests/qtest/libqos/malloc-spapr.c
-diff --git a/tests/libqos/malloc-spapr.h b/tests/qtest/libqos/malloc-spap=
-r.h
-similarity index 100%
-rename from tests/libqos/malloc-spapr.h
-rename to tests/qtest/libqos/malloc-spapr.h
-diff --git a/tests/libqos/malloc.c b/tests/qtest/libqos/malloc.c
-similarity index 100%
-rename from tests/libqos/malloc.c
-rename to tests/qtest/libqos/malloc.c
-diff --git a/tests/libqos/malloc.h b/tests/qtest/libqos/malloc.h
-similarity index 100%
-rename from tests/libqos/malloc.h
-rename to tests/qtest/libqos/malloc.h
-diff --git a/tests/libqos/pci-pc.c b/tests/qtest/libqos/pci-pc.c
-similarity index 100%
-rename from tests/libqos/pci-pc.c
-rename to tests/qtest/libqos/pci-pc.c
-diff --git a/tests/libqos/pci-pc.h b/tests/qtest/libqos/pci-pc.h
-similarity index 100%
-rename from tests/libqos/pci-pc.h
-rename to tests/qtest/libqos/pci-pc.h
-diff --git a/tests/libqos/pci-spapr.c b/tests/qtest/libqos/pci-spapr.c
-similarity index 100%
-rename from tests/libqos/pci-spapr.c
-rename to tests/qtest/libqos/pci-spapr.c
-diff --git a/tests/libqos/pci-spapr.h b/tests/qtest/libqos/pci-spapr.h
-similarity index 100%
-rename from tests/libqos/pci-spapr.h
-rename to tests/qtest/libqos/pci-spapr.h
-diff --git a/tests/libqos/pci.c b/tests/qtest/libqos/pci.c
-similarity index 100%
-rename from tests/libqos/pci.c
-rename to tests/qtest/libqos/pci.c
-diff --git a/tests/libqos/pci.h b/tests/qtest/libqos/pci.h
-similarity index 100%
-rename from tests/libqos/pci.h
-rename to tests/qtest/libqos/pci.h
-diff --git a/tests/libqos/ppc64_pseries-machine.c b/tests/qtest/libqos/pp=
-c64_pseries-machine.c
-similarity index 100%
-rename from tests/libqos/ppc64_pseries-machine.c
-rename to tests/qtest/libqos/ppc64_pseries-machine.c
-diff --git a/tests/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
-similarity index 100%
-rename from tests/libqos/qgraph.c
-rename to tests/qtest/libqos/qgraph.c
-diff --git a/tests/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
-similarity index 100%
-rename from tests/libqos/qgraph.h
-rename to tests/qtest/libqos/qgraph.h
-diff --git a/tests/libqos/qgraph_internal.h b/tests/qtest/libqos/qgraph_i=
-nternal.h
-similarity index 100%
-rename from tests/libqos/qgraph_internal.h
-rename to tests/qtest/libqos/qgraph_internal.h
-diff --git a/tests/libqos/rtas.c b/tests/qtest/libqos/rtas.c
-similarity index 100%
-rename from tests/libqos/rtas.c
-rename to tests/qtest/libqos/rtas.c
-diff --git a/tests/libqos/rtas.h b/tests/qtest/libqos/rtas.h
-similarity index 100%
-rename from tests/libqos/rtas.h
-rename to tests/qtest/libqos/rtas.h
-diff --git a/tests/libqos/sdhci.c b/tests/qtest/libqos/sdhci.c
-similarity index 100%
-rename from tests/libqos/sdhci.c
-rename to tests/qtest/libqos/sdhci.c
-diff --git a/tests/libqos/sdhci.h b/tests/qtest/libqos/sdhci.h
-similarity index 100%
-rename from tests/libqos/sdhci.h
-rename to tests/qtest/libqos/sdhci.h
-diff --git a/tests/libqos/tpci200.c b/tests/qtest/libqos/tpci200.c
-similarity index 100%
-rename from tests/libqos/tpci200.c
-rename to tests/qtest/libqos/tpci200.c
-diff --git a/tests/libqos/usb.c b/tests/qtest/libqos/usb.c
-similarity index 100%
-rename from tests/libqos/usb.c
-rename to tests/qtest/libqos/usb.c
-diff --git a/tests/libqos/usb.h b/tests/qtest/libqos/usb.h
-similarity index 100%
-rename from tests/libqos/usb.h
-rename to tests/qtest/libqos/usb.h
-diff --git a/tests/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-similarity index 100%
-rename from tests/libqos/virtio-9p.c
-rename to tests/qtest/libqos/virtio-9p.c
-diff --git a/tests/libqos/virtio-9p.h b/tests/qtest/libqos/virtio-9p.h
-similarity index 100%
-rename from tests/libqos/virtio-9p.h
-rename to tests/qtest/libqos/virtio-9p.h
-diff --git a/tests/libqos/virtio-balloon.c b/tests/qtest/libqos/virtio-ba=
-lloon.c
-similarity index 100%
-rename from tests/libqos/virtio-balloon.c
-rename to tests/qtest/libqos/virtio-balloon.c
-diff --git a/tests/libqos/virtio-balloon.h b/tests/qtest/libqos/virtio-ba=
-lloon.h
-similarity index 100%
-rename from tests/libqos/virtio-balloon.h
-rename to tests/qtest/libqos/virtio-balloon.h
-diff --git a/tests/libqos/virtio-blk.c b/tests/qtest/libqos/virtio-blk.c
-similarity index 100%
-rename from tests/libqos/virtio-blk.c
-rename to tests/qtest/libqos/virtio-blk.c
-diff --git a/tests/libqos/virtio-blk.h b/tests/qtest/libqos/virtio-blk.h
-similarity index 100%
-rename from tests/libqos/virtio-blk.h
-rename to tests/qtest/libqos/virtio-blk.h
-diff --git a/tests/libqos/virtio-mmio.c b/tests/qtest/libqos/virtio-mmio.=
-c
-similarity index 100%
-rename from tests/libqos/virtio-mmio.c
-rename to tests/qtest/libqos/virtio-mmio.c
-diff --git a/tests/libqos/virtio-mmio.h b/tests/qtest/libqos/virtio-mmio.=
-h
-similarity index 100%
-rename from tests/libqos/virtio-mmio.h
-rename to tests/qtest/libqos/virtio-mmio.h
-diff --git a/tests/libqos/virtio-net.c b/tests/qtest/libqos/virtio-net.c
-similarity index 100%
-rename from tests/libqos/virtio-net.c
-rename to tests/qtest/libqos/virtio-net.c
-diff --git a/tests/libqos/virtio-net.h b/tests/qtest/libqos/virtio-net.h
-similarity index 100%
-rename from tests/libqos/virtio-net.h
-rename to tests/qtest/libqos/virtio-net.h
-diff --git a/tests/libqos/virtio-pci.c b/tests/qtest/libqos/virtio-pci.c
-similarity index 100%
-rename from tests/libqos/virtio-pci.c
-rename to tests/qtest/libqos/virtio-pci.c
-diff --git a/tests/libqos/virtio-pci.h b/tests/qtest/libqos/virtio-pci.h
-similarity index 100%
-rename from tests/libqos/virtio-pci.h
-rename to tests/qtest/libqos/virtio-pci.h
-diff --git a/tests/libqos/virtio-rng.c b/tests/qtest/libqos/virtio-rng.c
-similarity index 100%
-rename from tests/libqos/virtio-rng.c
-rename to tests/qtest/libqos/virtio-rng.c
-diff --git a/tests/libqos/virtio-rng.h b/tests/qtest/libqos/virtio-rng.h
-similarity index 100%
-rename from tests/libqos/virtio-rng.h
-rename to tests/qtest/libqos/virtio-rng.h
-diff --git a/tests/libqos/virtio-scsi.c b/tests/qtest/libqos/virtio-scsi.=
-c
-similarity index 100%
-rename from tests/libqos/virtio-scsi.c
-rename to tests/qtest/libqos/virtio-scsi.c
-diff --git a/tests/libqos/virtio-scsi.h b/tests/qtest/libqos/virtio-scsi.=
-h
-similarity index 100%
-rename from tests/libqos/virtio-scsi.h
-rename to tests/qtest/libqos/virtio-scsi.h
-diff --git a/tests/libqos/virtio-serial.c b/tests/qtest/libqos/virtio-ser=
-ial.c
-similarity index 100%
-rename from tests/libqos/virtio-serial.c
-rename to tests/qtest/libqos/virtio-serial.c
-diff --git a/tests/libqos/virtio-serial.h b/tests/qtest/libqos/virtio-ser=
-ial.h
-similarity index 100%
-rename from tests/libqos/virtio-serial.h
-rename to tests/qtest/libqos/virtio-serial.h
-diff --git a/tests/libqos/virtio.c b/tests/qtest/libqos/virtio.c
-similarity index 100%
-rename from tests/libqos/virtio.c
-rename to tests/qtest/libqos/virtio.c
-diff --git a/tests/libqos/virtio.h b/tests/qtest/libqos/virtio.h
-similarity index 100%
-rename from tests/libqos/virtio.h
-rename to tests/qtest/libqos/virtio.h
-diff --git a/tests/libqos/x86_64_pc-machine.c b/tests/qtest/libqos/x86_64=
-_pc-machine.c
-similarity index 100%
-rename from tests/libqos/x86_64_pc-machine.c
-rename to tests/qtest/libqos/x86_64_pc-machine.c
---=20
-2.18.1
+Just a follow-up question:
 
+If the structure of related to a (not-yet-supported in QEMU) ioctl was:
 
+struct hd_geometry {
+      unsigned char heads;
+      unsigned char sectors;
+      unsigned short cylinders;
+      unsigned long start;
+};
+
+... would "target_hd_geometry" be needed, or not?
+
+Regards,
+
+Aleksandar
+
+> > +struct target_format_descr {
+> > +    abi_uint        device;
+> > +    abi_uint        head;
+> > +    abi_uint        track;
+> > +};
+> > +
+>
+> This one is for the previous patch. Same comment as above.
+>
+> Thanks,
+> Laurent
+>
