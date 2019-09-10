@@ -2,78 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F2AAEE49
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:14:46 +0200 (CEST)
-Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D1AAEE5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:18:17 +0200 (CEST)
+Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hqv-0003sD-Vp
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59526)
+	id 1i7huK-000720-Uv
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i7hp5-0002zE-0I
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:12:52 -0400
+ (envelope-from <johannes@sipsolutions.net>) id 1i7hr0-0004en-9G
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:14:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i7hp3-0004bO-Tz
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:12:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48214)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7hp3-0004ac-Lk
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:12:49 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E5E411108;
- Tue, 10 Sep 2019 15:12:48 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCFE7194B2;
- Tue, 10 Sep 2019 15:12:43 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-6-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <16792fc8-b513-e934-7ca6-41a5cc10aac0@redhat.com>
-Date: Tue, 10 Sep 2019 10:12:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <johannes@sipsolutions.net>) id 1i7hqv-0005ri-46
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:14:50 -0400
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:55756
+ helo=sipsolutions.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
+ id 1i7hqt-0005nV-6W
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:14:44 -0400
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <johannes@sipsolutions.net>)
+ id 1i7hqn-0000aF-QK; Tue, 10 Sep 2019 17:14:37 +0200
+Message-ID: <e114b68dffecd9b4c4666327b15a28098c83f7ec.camel@sipsolutions.net>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Tue, 10 Sep 2019 17:14:36 +0200
+In-Reply-To: <20190910150319.GB31674@stefanha-x1.localdomain>
+References: <20190902121233.13382-1-johannes@sipsolutions.net>
+ <20190902121233.13382-2-johannes@sipsolutions.net>
+ <fe517ef6c6a8e2df9675388be9454b5863c7fc55.camel@sipsolutions.net>
+ <20190909160039.GC20875@stefanha-x1.localdomain>
+ <d095bafedcd4bcc5d76279785e5bd523aef62b58.camel@sipsolutions.net>
+ <20190910150319.GB31674@stefanha-x1.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-In-Reply-To: <20190910063724.28470-6-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 10 Sep 2019 15:12:48 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 05/16] tests/qapi-schema: Demonstrate
- bad reporting of funny characters
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:191:4433::2
+Subject: Re: [Qemu-devel] [RFC] docs: vhost-user: add in-band kick/call
+ messages
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,95 +57,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB
-Content-Type: multipart/mixed; boundary="zIV2NwHws6D0dawA6TtZHfjDns7PtyWxS";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <16792fc8-b513-e934-7ca6-41a5cc10aac0@redhat.com>
-Subject: Re: [PATCH v2 05/16] tests/qapi-schema: Demonstrate bad reporting of
- funny characters
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-6-armbru@redhat.com>
-In-Reply-To: <20190910063724.28470-6-armbru@redhat.com>
+On Tue, 2019-09-10 at 17:03 +0200, Stefan Hajnoczi wrote:
+> 
+> > Now, this means that the CPU (that's part of the simulation) has to
+> > *wait* for the device to add an entry to the simulation calendar in
+> > response to the kick... That means that it really has to look like
+> > 
+> > CPU               device                   calendar
+> >      ---[kick]-->
+> >                          ---[add entry]-->
+> >                          <---[return]-----
+> 
+> What are the semantics of returning from the calendar?  Does it mean
+> "it's now your turn to run?", "your entry has been added and you'll be
+> notified later when it's time to run?", or something else?
 
---zIV2NwHws6D0dawA6TtZHfjDns7PtyWxS
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+The latter - the entry was added, and you'll be notified when it's time
+to run; but we need to have that state on the calendar so the CPU won't
+converse with the calendar before that state is committed.
 
-On 9/10/19 1:37 AM, Markus Armbruster wrote:
-> Invalid name 'not\\possible' is reported as 'not\possible'.  Control
-> characters (quoted or not) are even more confusing.  Mark FIXME.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  tests/qapi-schema/enum-bad-name.err  | 2 +-
->  tests/qapi-schema/enum-bad-name.json | 3 ++-
->  2 files changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/tests/qapi-schema/enum-bad-name.err b/tests/qapi-schema/en=
-um-bad-name.err
-> index 9c3c1002b7..26a09f84ad 100644
-> --- a/tests/qapi-schema/enum-bad-name.err
-> +++ b/tests/qapi-schema/enum-bad-name.err
-> @@ -1 +1 @@
-> -tests/qapi-schema/enum-bad-name.json:2: Member of enum 'MyEnum' uses i=
-nvalid name 'not^possible'
-> +tests/qapi-schema/enum-bad-name.json:3: Member of enum 'MyEnum' uses i=
-nvalid name 'not\possible'
-> diff --git a/tests/qapi-schema/enum-bad-name.json b/tests/qapi-schema/e=
-num-bad-name.json
-> index 8506562b31..b233fdc825 100644
-> --- a/tests/qapi-schema/enum-bad-name.json
-> +++ b/tests/qapi-schema/enum-bad-name.json
-> @@ -1,2 +1,3 @@
->  # we ensure all enum names can map to C
-> -{ 'enum': 'MyEnum', 'data': [ 'not^possible' ] }
-> +# FIXME reports 'not\posible' instead of 'not\\possible'
+> >      <-[return]--
+> 
+> What are the semantics of returning to the CPU?  Does it mean the
+> submitted I/O request is now complete?
 
-s/posible/possible/
+No, it just means that the interrupt was triggered; it will be handled
+once the calendar decide that it's the device's turn to run its
+interrupt processing event.
 
-(Is it bad when you have a typo in demonstrating that the code has a typo=
-?)
+The I/O request completion will be done later in a very similar fashion
+(just inverting the participants, and replacing "kick" by "call").
 
-With that fixed,
+> Sorry for these questions.  If this becomes tedious for you I will look
+> into the paper you linked.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+No no, don't worry, it's fine. Also, the paper doesn't really concern
+itself with issues such as this, they just assume everything is
+synchronous and make their code that way - they have a simulated device
+in qemu that they wrote themselves, and it just happens to be
+synchronous by way of their implementation...
 
-> +{ 'enum': 'MyEnum', 'data': [ 'not\\possible' ] }
->=20
+What I'm trying to do here now is not really replicate that paper or
+anything, but - because I'm working on similar things and simulation -
+get some pieces into the upstreams (qemu for vhost-user, Linux for user-
+mode-Linux running in a simulation) so (a) I don't have to maintain it
+out-of-tree, and (b) it's available for others for use without a monster
+patch to an ancient version of the software stack :-)
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Happy to answer any questions.
+
+Aside from the interrupt processing semantics in UML which I'll work on
+next I do have the whole simulation calendar working etc., i.e. I have
+full UML "VM" controlled entirely by the simulation calendar, also over
+virtio.
 
 
---zIV2NwHws6D0dawA6TtZHfjDns7PtyWxS--
 
---Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Btw, that reminds me ... there's yet another process to add a virtio
+device ID. I'm currently defining a virtio simulation calendar protocol
+like this:
 
------BEGIN PGP SIGNATURE-----
++/*
++ * A message passed on either of the VQs (input and output).
++ */
++struct virtio_simtime_msg {
++       __u64 op;               /* see below */
++       __u64 time;             /* time in nanoseconds */
++};
++
++/**
++ * enum virtio_simtime_ops - Operation codes
++ */
++enum virtio_simtime_ops {
++       /**
++        * @VIRTIO_SIMTIME_REQUEST: request from device to run at the given time
++        */
++       VIRTIO_SIMTIME_REQUEST          = 1,
++
++       /**
++        * @VIRTIO_SIMTIME_WAIT: wait for the requested runtime, new requests
++        *      may be made while waiting (due to interrupts); the time field
++        *      is ignored
++        */
++       VIRTIO_SIMTIME_WAIT             = 2,
++
++       /**
++        * @VIRTIO_SIMTIME_GET: ask device to fill the buffer with the current
++        *      simulation time
++        */
++       VIRTIO_SIMTIME_GET              = 3,
++
++       /**
++        * @VIRTIO_SIMTIME_UPDATE: time update to/from the control device
++        */
++       VIRTIO_SIMTIME_UPDATE           = 4,
++
++       /**
++        * @VIRTIO_SIMTIME_RUN: run time request granted, current time is in
++        *      the time field
++        */
++       VIRTIO_SIMTIME_RUN              = 5,
++
++       /**
++        * @VIRTIO_SIMTIME_FREE_UNTIL: enable free-running until the given time,
++        *      this is a messag from the device telling the user that it can do
++        *      its own scheduling for anything before the given time
++        */
++       VIRTIO_SIMTIME_FREE_UNTIL       = 6,
++};
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl13vWoACgkQp6FrSiUn
-Q2rR+ggAhCQFJ9pQ0qq/czzBIQ504ZAt4BP4sO1NYFrM4YpjcTM51XDdLAB6l4vg
-T0qHt8euO+jteQ5qqMHklQts92qatBuqabfQEvr2k+F5FkhGg0eBISVSzdU9u2nZ
-sa1AGK5BwU5buqshkJwUFFp3ZDT3owAO980dwibeBKcgB8IhicYN1r6MvxMZFA8S
-6X2N9WAT4mGMpeEnPYVoGp/4UJcvsjMzBeWJ5Z7gyGlSWdF0EnLZZ0LZYYjioUH1
-byaQ/5bOu+8dPfxOW+ybgLTy642uxWe1oKME19RMf9Et4TPVQXVG/HuuEWWGoQxI
-o/EsB+ImLHcvSPlk7uhsue/2uZd3gw==
-=1cv5
------END PGP SIGNATURE-----
 
---Sv0KKxejvCo5hixLmC8PTxi0tFjROmkfB--
+Above, I've basically only described _REQUEST, _WAIT and _RUN, I'm
+pretty sure I need _GET for interrupt handling (or maybe more
+efficiently a _REQUEST_NOW, rather than using _GET && _REQUEST); I think
+I need _UPDATE before a "kick" to the device if I have _FREE_UNTIL which
+is an optimization to not have to talk to the calendar all the time.
+
+
+Is any of you familiar with the process of getting a virtio device ID
+assigned, and if so, do you think it'd be feasible? Without that, it'd
+probably be difficult to upstream the patch to support this protocol to
+user-mode Linux.
+
+Thanks,
+johannes
+
 
