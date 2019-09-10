@@ -2,39 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F0AAEF9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:34:40 +0200 (CEST)
-Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E2FAEFB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:37:55 +0200 (CEST)
+Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7j6F-00018m-5j
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45830)
+	id 1i7j9N-00057o-9e
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:37:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i7izN-0004tn-Ir
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:27:35 -0400
+ (envelope-from <eblake@redhat.com>) id 1i7j0U-0006Ll-4M
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:28:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i7izL-0003VH-Qn
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:27:33 -0400
-Received: from relay.sw.ru ([185.231.240.75]:44318)
+ (envelope-from <eblake@redhat.com>) id 1i7j0N-00048x-5u
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:28:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39782)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i7izH-0003Q4-C2; Tue, 10 Sep 2019 12:27:27 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1i7izE-0001NT-GJ; Tue, 10 Sep 2019 19:27:24 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Date: Tue, 10 Sep 2019 19:27:24 +0300
-Message-Id: <20190910162724.79574-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190910162724.79574-1-vsementsov@virtuozzo.com>
-References: <20190910162724.79574-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 3/3] block/qcow2: proper locking on bitmap
- add/remove paths
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7j0K-00046z-Uq
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:28:34 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C457CC0885FA;
+ Tue, 10 Sep 2019 16:28:30 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08B2D6C8FC;
+ Tue, 10 Sep 2019 16:28:24 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190910063724.28470-1-armbru@redhat.com>
+ <20190910063724.28470-9-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <6f758f7d-3b98-5cbe-af4b-64218fecf994@redhat.com>
+Date: Tue, 10 Sep 2019 11:28:18 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190910063724.28470-9-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="IslWt3fuQiXUA2dg1NlZ12ockuJgoVN1P"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 10 Sep 2019 16:28:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 08/16] qapi: Permit 'boxed' with empty
+ type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,347 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- armbru@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qmp_block_dirty_bitmap_add and do_block_dirty_bitmap_remove do acquire
-aio context since 0a6c86d024c52b. But this is not enough: we also must
-lock qcow2 mutex when access in-image metadata. Especially it concerns
-freeing qcow2 clusters.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--IslWt3fuQiXUA2dg1NlZ12ockuJgoVN1P
+Content-Type: multipart/mixed; boundary="zlQe4oyKwi0OSbit12eiSVyvMxBa3HTz8";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
+Message-ID: <6f758f7d-3b98-5cbe-af4b-64218fecf994@redhat.com>
+Subject: Re: [PATCH v2 08/16] qapi: Permit 'boxed' with empty type
+References: <20190910063724.28470-1-armbru@redhat.com>
+ <20190910063724.28470-9-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-9-armbru@redhat.com>
 
-To achieve this, move qcow2_can_store_new_dirty_bitmap and
-qcow2_remove_persistent_dirty_bitmap to coroutine context.
+--zlQe4oyKwi0OSbit12eiSVyvMxBa3HTz8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Since we work in coroutines in correct aio context, we don't need
-context acquiring in blockdev.c anymore, drop it.
+On 9/10/19 1:37 AM, Markus Armbruster wrote:
+> We reject empty types with 'boxed': true.  We don't really need that
+> to work, but making it work is actually simpler than rejecting it, so
+> do that.
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/qcow2.h             |  11 ++--
- include/block/block_int.h |  10 ++--
- block/dirty-bitmap.c      | 102 +++++++++++++++++++++++++++++++++++---
- block/qcow2-bitmap.c      |  22 +++++---
- block/qcow2.c             |   5 +-
- blockdev.c                |  27 +++-------
- 6 files changed, 130 insertions(+), 47 deletions(-)
+>  11 files changed, 19 insertions(+), 25 deletions(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 99ee88f802..27e20c9b4a 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -743,12 +743,13 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp);
- int qcow2_truncate_bitmaps_check(BlockDriverState *bs, Error **errp);
- void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp);
- int qcow2_reopen_bitmaps_ro(BlockDriverState *bs, Error **errp);
--bool qcow2_can_store_new_dirty_bitmap(BlockDriverState *bs,
--                                      const char *name,
--                                      uint32_t granularity,
--                                      Error **errp);
--int qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-+bool qcow2_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
-+                                         const char *name,
-+                                         uint32_t granularity,
-                                          Error **errp);
-+int qcow2_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-+                                            const char *name,
-+                                            Error **errp);
- 
- ssize_t coroutine_fn
- qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 503ac9e3cd..1e54486ad1 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -552,13 +552,13 @@ struct BlockDriver {
-      * field of BlockDirtyBitmap's in case of success.
-      */
-     int (*bdrv_reopen_bitmaps_rw)(BlockDriverState *bs, Error **errp);
--    bool (*bdrv_can_store_new_dirty_bitmap)(BlockDriverState *bs,
--                                            const char *name,
--                                            uint32_t granularity,
--                                            Error **errp);
--    int (*bdrv_remove_persistent_dirty_bitmap)(BlockDriverState *bs,
-+    bool (*bdrv_co_can_store_new_dirty_bitmap)(BlockDriverState *bs,
-                                                const char *name,
-+                                               uint32_t granularity,
-                                                Error **errp);
-+    int (*bdrv_co_remove_persistent_dirty_bitmap)(BlockDriverState *bs,
-+                                                  const char *name,
-+                                                  Error **errp);
- 
-     /**
-      * Register/unregister a buffer for I/O. For example, when the driver is
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index a52b83b619..f50c682308 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -26,6 +26,7 @@
- #include "trace.h"
- #include "block/block_int.h"
- #include "block/blockjob.h"
-+#include "qemu/main-loop.h"
- 
- struct BdrvDirtyBitmap {
-     QemuMutex *mutex;
-@@ -455,18 +456,59 @@ void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs)
-  * not fail.
-  * This function doesn't release corresponding BdrvDirtyBitmap.
-  */
--int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                        Error **errp)
-+static int coroutine_fn
-+bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                       Error **errp)
- {
--    if (bs->drv && bs->drv->bdrv_remove_persistent_dirty_bitmap) {
--        return bs->drv->bdrv_remove_persistent_dirty_bitmap(bs, name, errp);
-+    if (bs->drv && bs->drv->bdrv_co_remove_persistent_dirty_bitmap) {
-+        return bs->drv->bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
-     }
- 
-     return -ENOTSUP;
- }
- 
--bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                     uint32_t granularity, Error **errp)
-+typedef struct BdrvRemovePersistentDirtyBitmapCo {
-+    BlockDriverState *bs;
-+    const char *name;
-+    Error **errp;
-+    int ret;
-+} BdrvRemovePersistentDirtyBitmapCo;
-+
-+static void coroutine_fn
-+bdrv_co_remove_persistent_dirty_bitmap_entry(void *opaque)
-+{
-+    BdrvRemovePersistentDirtyBitmapCo *s = opaque;
-+
-+    s->ret = bdrv_co_remove_persistent_dirty_bitmap(s->bs, s->name, s->errp);
-+    aio_wait_kick();
-+}
-+
-+int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                        Error **errp)
-+{
-+    if (qemu_in_coroutine()) {
-+        return bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
-+    } else {
-+        Coroutine *co;
-+        BdrvRemovePersistentDirtyBitmapCo s = {
-+            .bs = bs,
-+            .name = name,
-+            .errp = errp,
-+            .ret = -EINPROGRESS,
-+        };
-+
-+        co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
-+                                   &s);
-+        bdrv_coroutine_enter(bs, co);
-+        BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
-+
-+        return s.ret;
-+    }
-+}
-+
-+static bool coroutine_fn
-+bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                   uint32_t granularity, Error **errp)
- {
-     BlockDriver *drv = bs->drv;
- 
-@@ -477,14 +519,58 @@ bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-         return false;
-     }
- 
--    if (!drv->bdrv_can_store_new_dirty_bitmap) {
-+    if (!drv->bdrv_co_can_store_new_dirty_bitmap) {
-         error_setg_errno(errp, ENOTSUP,
-                          "Can't store persistent bitmaps to %s",
-                          bdrv_get_device_or_node_name(bs));
-         return false;
-     }
- 
--    return drv->bdrv_can_store_new_dirty_bitmap(bs, name, granularity, errp);
-+    return drv->bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
-+}
-+
-+typedef struct BdrvCanStoreNewDirtyBitmapCo {
-+    BlockDriverState *bs;
-+    const char *name;
-+    uint32_t granularity;
-+    Error **errp;
-+    bool ret;
-+
-+    bool in_progress;
-+} BdrvCanStoreNewDirtyBitmapCo;
-+
-+static void coroutine_fn bdrv_co_can_store_new_dirty_bitmap_entry(void *opaque)
-+{
-+    BdrvCanStoreNewDirtyBitmapCo *s = opaque;
-+
-+    s->ret = bdrv_co_can_store_new_dirty_bitmap(s->bs, s->name, s->granularity,
-+                                                s->errp);
-+    s->in_progress = false;
-+    aio_wait_kick();
-+}
-+
-+bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                     uint32_t granularity, Error **errp)
-+{
-+    if (qemu_in_coroutine()) {
-+        return bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
-+    } else {
-+        Coroutine *co;
-+        BdrvCanStoreNewDirtyBitmapCo s = {
-+            .bs = bs,
-+            .name = name,
-+            .granularity = granularity,
-+            .errp = errp,
-+            .in_progress = true,
-+        };
-+
-+        co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
-+                                   &s);
-+        bdrv_coroutine_enter(bs, co);
-+        BDRV_POLL_WHILE(bs, s.in_progress);
-+
-+        return s.ret;
-+    }
- }
- 
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 1aaedb3b55..4829053cec 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1404,8 +1404,9 @@ static Qcow2Bitmap *find_bitmap_by_name(Qcow2BitmapList *bm_list,
-     return NULL;
- }
- 
--int qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                         Error **errp)
-+int coroutine_fn qcow2_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-+                                                         const char *name,
-+                                                         Error **errp)
- {
-     int ret = 0;
-     BDRVQcow2State *s = bs->opaque;
-@@ -1418,10 +1419,13 @@ int qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-         return 0;
-     }
- 
-+    qemu_co_mutex_lock(&s->lock);
-+
-     bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
-                                s->bitmap_directory_size, errp);
-     if (bm_list == NULL) {
--        return -EIO;
-+        ret = -EIO;
-+        goto out;
-     }
- 
-     bm = find_bitmap_by_name(bm_list, name);
-@@ -1441,6 +1445,8 @@ int qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-     free_bitmap_clusters(bs, &bm->table);
- 
- out:
-+    qemu_co_mutex_unlock(&s->lock);
-+
-     bitmap_free(bm);
-     bitmap_list_free(bm_list);
- 
-@@ -1615,10 +1621,10 @@ int qcow2_reopen_bitmaps_ro(BlockDriverState *bs, Error **errp)
-     return 0;
- }
- 
--bool qcow2_can_store_new_dirty_bitmap(BlockDriverState *bs,
--                                      const char *name,
--                                      uint32_t granularity,
--                                      Error **errp)
-+bool coroutine_fn qcow2_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
-+                                                      const char *name,
-+                                                      uint32_t granularity,
-+                                                      Error **errp)
- {
-     BDRVQcow2State *s = bs->opaque;
-     bool found;
-@@ -1655,8 +1661,10 @@ bool qcow2_can_store_new_dirty_bitmap(BlockDriverState *bs,
-         goto fail;
-     }
- 
-+    qemu_co_mutex_lock(&s->lock);
-     bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
-                                s->bitmap_directory_size, errp);
-+    qemu_co_mutex_unlock(&s->lock);
-     if (bm_list == NULL) {
-         goto fail;
-     }
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 0882ff6e92..488738f499 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -5258,8 +5258,9 @@ BlockDriver bdrv_qcow2 = {
-     .bdrv_attach_aio_context  = qcow2_attach_aio_context,
- 
-     .bdrv_reopen_bitmaps_rw = qcow2_reopen_bitmaps_rw,
--    .bdrv_can_store_new_dirty_bitmap = qcow2_can_store_new_dirty_bitmap,
--    .bdrv_remove_persistent_dirty_bitmap = qcow2_remove_persistent_dirty_bitmap,
-+    .bdrv_co_can_store_new_dirty_bitmap = qcow2_co_can_store_new_dirty_bitmap,
-+    .bdrv_co_remove_persistent_dirty_bitmap =
-+            qcow2_co_remove_persistent_dirty_bitmap,
- };
- 
- static void bdrv_qcow2_init(void)
-diff --git a/blockdev.c b/blockdev.c
-index 0813adfb2b..228ce94a88 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2898,16 +2898,10 @@ void qmp_block_dirty_bitmap_add(const char *node, const char *name,
-         disabled = false;
-     }
- 
--    if (persistent) {
--        AioContext *aio_context = bdrv_get_aio_context(bs);
--        bool ok;
--
--        aio_context_acquire(aio_context);
--        ok = bdrv_can_store_new_dirty_bitmap(bs, name, granularity, errp);
--        aio_context_release(aio_context);
--        if (!ok) {
--            return;
--        }
-+    if (persistent &&
-+        !bdrv_can_store_new_dirty_bitmap(bs, name, granularity, errp))
-+    {
-+        return;
-     }
- 
-     bitmap = bdrv_create_dirty_bitmap(bs, granularity, name, errp);
-@@ -2939,17 +2933,10 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
-         return NULL;
-     }
- 
--    if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
--        int ret;
--        AioContext *aio_context = bdrv_get_aio_context(bs);
--
--        aio_context_acquire(aio_context);
--        ret = bdrv_remove_persistent_dirty_bitmap(bs, name, errp);
--        aio_context_release(aio_context);
--
--        if (ret < 0) {
-+    if (bdrv_dirty_bitmap_get_persistence(bitmap) &&
-+        bdrv_remove_persistent_dirty_bitmap(bs, name, errp) < 0)
-+    {
-             return NULL;
--        }
-     }
- 
-     if (release) {
--- 
-2.18.0
+Diffstat agrees with your assessment.
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--zlQe4oyKwi0OSbit12eiSVyvMxBa3HTz8--
+
+--IslWt3fuQiXUA2dg1NlZ12ockuJgoVN1P
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl13zyMACgkQp6FrSiUn
+Q2qCtQf/Z1fe3ij4/V6IdP6qZ/9WSAuxLQdMb2f5ZRjheOwh7YdOmY2BxPQKCQFJ
+lDVSsLhJPC6NXq8HaF4FADovWnfk+EOSxU1LKMSQHJX+Nd795WqfJJk33ZQke6lJ
+8gtGM+P1i5vLgqSVdrivKJUQF92/rOvdC/2rk3kQAUgG/hlHlcWgaSNnfFtk5KFA
+kLjK1LEzWGjz8XH3j7Q4v0EcVYp0uQNJIMdCXdVNDnzhN39+NiFe+UbOtHL4Ep9S
+HYqIjpYlZULHNSW7pXN8tHWjyv/y9NbdRE1sWUuhY1UxKYXzeZ46s9uaF5lY59YO
+AW8xAU2mpL4Ep5RRnDK3roxBuzxO2g==
+=CKiV
+-----END PGP SIGNATURE-----
+
+--IslWt3fuQiXUA2dg1NlZ12ockuJgoVN1P--
 
