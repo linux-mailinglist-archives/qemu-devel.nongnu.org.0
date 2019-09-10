@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EA8AE647
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:02:55 +0200 (CEST)
-Received: from localhost ([::1]:36050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F9BAE64E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:07:39 +0200 (CEST)
+Received: from localhost ([::1]:36140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7c33-0005c4-SP
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:02:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37214)
+	id 1i7c7d-0002gd-T6
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36799)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqs-0000j3-Dd
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:20 -0400
+ (envelope-from <groug@kaod.org>) id 1i7bp8-0007RJ-BN
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:48:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqq-0000a2-F4
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:18 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36007)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bqq-0000ZQ-7z
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:16 -0400
-Received: by mail-wm1-x334.google.com with SMTP id p13so574206wmh.1
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XZ6K4vUbyReKzpC03BdsNhH31lJ6dRz1tPBlaHFb3eo=;
- b=iVfN9MxXXcdHroPlOO0unpD6eNM04ozUZgWucrfY71JHufO9hy9d/qKoCzfXLc691M
- YmaNXbIypx919a/uRA+t9zXx0Aq30bwybV+t/J6S5UjjTY1KxK/bctKIkoT3OlON+60s
- p3cSVtdRllaqIAzkPZqM2A/SithIIbTseA2fsErgBCPXFemY0Jd2Jb5owKUlHii+5y+J
- mTMwPn93C4DghlEtTEobZo0T4cZB7squ5x2t4B1yNcp6F3ZP0FozOFfTJtJXHHgVLx/h
- OOorcQIu8M1TRORTrjEUzACDNNn41WId/QdJ8N203SNfTkpMdV26hlX20SpXty/brhVy
- nJGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XZ6K4vUbyReKzpC03BdsNhH31lJ6dRz1tPBlaHFb3eo=;
- b=elHY+b4NytkUPwFWPZ/oaEWdP4WvXWQCWdvMgHaSndXT+k/CgDAXTLkx5zfujkeFQc
- KdNTZB+/oPeC694nTysy9Mcj9WQbLVs80jEY5wB3E8FWhIETeRapWh4WnYXwfDuwMTSQ
- Zp8d4cJZWa470a+kminYhSwh3Cu74TMjpmVcPLaNCiVn5OvMobCVYII4HOUnUYpF8cjt
- ADfqUYnKCL/6eGlhai6aUIn71nZyWpFTirvGhkP749rxtfgcYOF9VP+aGSc1zujMaVhd
- aEFDhHt9hE+w3CdAPu/6FXMv8fDX9VJkZWhEXAVUy6deecH9S0fkKyu+gk1xJSvUyOUI
- MjVQ==
-X-Gm-Message-State: APjAAAUW+//sDivF0+q9VSLXR03xcGtZdr440PMtIhpC3vKh05hCihIc
- dCX7FOwuCKssN8IFFhu+bKKKbQ==
-X-Google-Smtp-Source: APXvYqztYJhAztOSyO3WvSP9mzw4KuYn18mtTnGrX3rlvjAgMnCfGUrmfBWJA4elmLIAzOzO6sUuDg==
-X-Received: by 2002:a7b:ca50:: with SMTP id m16mr267509wml.158.1568105414866; 
- Tue, 10 Sep 2019 01:50:14 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f186sm3582355wmg.21.2019.09.10.01.50.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 01:50:11 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 982801FF91;
- Tue, 10 Sep 2019 09:43:53 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:48 +0100
-Message-Id: <20190910084349.28817-45-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
-References: <20190910084349.28817-1-alex.bennee@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1i7bp5-0008CZ-UU
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:48:29 -0400
+Received: from 9.mo5.mail-out.ovh.net ([178.32.96.204]:41474)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i7bp4-0008BE-D7
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:48:26 -0400
+Received: from player796.ha.ovh.net (unknown [10.108.42.239])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id F021524AEA5
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 10:48:23 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player796.ha.ovh.net (Postfix) with ESMTPSA id 6FD18988AF01;
+ Tue, 10 Sep 2019 08:48:15 +0000 (UTC)
+Date: Tue, 10 Sep 2019 10:48:14 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190910104814.6bd89cec@bahia.lan>
+In-Reply-To: <156801390267.24362.17017161761742932333.stgit@aravinda>
+References: <156801373576.24362.1904051970114447107.stgit@aravinda>
+ <156801390267.24362.17017161761742932333.stgit@aravinda>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 44/45] Fedora images: use URLs from stable
- "archives.fedoraproject.org"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 7158190133393594772
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudekkedgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.32.96.204
+Subject: Re: [Qemu-devel] [PATCH v13 6/6] migration: Include migration
+ support for machine check handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,156 +57,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yash Mankad <ymankad@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, paulus@ozlabs.org,
+ qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cleber Rosa <crosa@redhat.com>
+Hi Aravinda,
 
-The LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16 test,
-from tests/acceptance/linux_initrd.py, is currently failing to fetch
-the "vmlinuz" file.  The reason for the failure is that the Fedora
-project retires older versions from the "dl.fedoraproject.org" URL,
-and keeps them in "archives.fedoraproject.org".  As an added note,
-that test uses a Fedora 28 image, because of the specific Linux kernel
-version requirements of the test.
+Sorry for not being able to review the whole series in one pass,
+and thus forcing you to poste more versions... but I have some
+more remarks about migration.
 
-For the sake of stability, let's use URLs from the archived and
-supposedely ever stable URLs.  The good news is that the currently
-supported versions are also hosted on the later.  This change limits
-itself to change the URLs, while keeping the fetched files the same
-(as can be evidenced by the unchanged hashes).
+On Mon, 09 Sep 2019 12:55:02 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
 
-Documentation and the "vm tests" fedora definition were also updated.
+> This patch includes migration support for machine check
+> handling. Especially this patch blocks VM migration
+> requests until the machine check error handling is
+> complete as (i) these errors are specific to the source
+> hardware and is irrelevant on the target hardware,
+> (ii) these errors cause data corruption and should
+> be handled before migration.
+> 
+> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> ---
+>  hw/ppc/spapr.c         |   44 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/ppc/spapr_events.c  |   14 ++++++++++++++
+>  hw/ppc/spapr_rtas.c    |    2 ++
+>  include/hw/ppc/spapr.h |    2 ++
+>  4 files changed, 62 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 1c0908e..f6262f0 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -46,6 +46,7 @@
+>  #include "migration/qemu-file-types.h"
+>  #include "migration/global_state.h"
+>  #include "migration/register.h"
+> +#include "migration/blocker.h"
+>  #include "mmu-hash64.h"
+>  #include "mmu-book3s-v3.h"
+>  #include "cpu-models.h"
+> @@ -1829,6 +1830,8 @@ static void spapr_machine_reset(MachineState *machine)
+>  
+>      /* Signal all vCPUs waiting on this condition */
+>      qemu_cond_broadcast(&spapr->mc_delivery_cond);
+> +
+> +    migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>  }
+>  
+>  static void spapr_create_nvram(SpaprMachineState *spapr)
+> @@ -2119,6 +2122,42 @@ static const VMStateDescription vmstate_spapr_dtb = {
+>      },
+>  };
+>  
+> +static bool spapr_fwnmi_needed(void *opaque)
+> +{
+> +    SpaprMachineState *spapr = (SpaprMachineState *)opaque;
+> +
+> +    return spapr->guest_machine_check_addr != -1;
+> +}
+> +
+> +static int spapr_fwnmi_post_load(void *opaque, int version_id)
+> +{
+> +    SpaprMachineState *spapr = (SpaprMachineState *)opaque;
+> +
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_ON) {
+> +
+> +        if (kvmppc_has_cap_ppc_fwnmi()) {
+> +            return 0;
+> +        }
+> +
+> +        return kvmppc_set_fwnmi();
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static const VMStateDescription vmstate_spapr_machine_check = {
+> +    .name = "spapr_machine_check",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = spapr_fwnmi_needed,
+> +    .post_load = spapr_fwnmi_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> +        VMSTATE_INT32(mc_status, SpaprMachineState),
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+>  static const VMStateDescription vmstate_spapr = {
+>      .name = "spapr",
+>      .version_id = 3,
+> @@ -2152,6 +2191,7 @@ static const VMStateDescription vmstate_spapr = {
+>          &vmstate_spapr_dtb,
+>          &vmstate_spapr_cap_large_decr,
+>          &vmstate_spapr_cap_ccf_assist,
+> +        &vmstate_spapr_machine_check,
+>          NULL
+>      }
+>  };
+> @@ -2948,6 +2988,10 @@ static void spapr_machine_init(MachineState *machine)
+>              exit(1);
+>          }
+>  
+> +        /* Create the error string for live migration blocker */
+> +        error_setg(&spapr->fwnmi_migration_blocker,
+> +            "Live migration not supported during machine check handling");
+> +
+>          /* Register ibm,nmi-register and ibm,nmi-interlock RTAS calls */
+>          spapr_fwnmi_register();
+>      }
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index ecc3d68..83f0a22 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -43,6 +43,7 @@
+>  #include "qemu/main-loop.h"
+>  #include "hw/ppc/spapr_ovec.h"
+>  #include <libfdt.h>
+> +#include "migration/blocker.h"
+>  
+>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+>  #define   RTAS_LOG_VERSION_6                    0x06000000
+> @@ -844,6 +845,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>  {
+>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>      CPUState *cs = CPU(cpu);
+> +    int ret;
+> +    Error *local_err = NULL;
+>  
+>      if (spapr->guest_machine_check_addr == -1) {
+>          /*
+> @@ -857,6 +860,17 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>          return;
+>      }
+>  
+> +    ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_err);
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Yash Mankad <ymankad@redhat.com>
-Message-Id: <20190904005218.12536-1-crosa@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+If an MCE is already being handled, this adds yet another blocker. IIUC only
+the vCPU handling the previous MCE is supposed to call "ibm,nmi-interlock"
+and clear the blocker. This might cause a blocker to be leaked. I think
+migrate_add_blocker() should only be called when we know that the vCPU
+does handle the MCE, ie, after the loop.
 
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index 4d828a5135f..b47e89cfca6 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -451,15 +451,15 @@ of <protocol>.
- 
- Example: boot from a remote Fedora 20 live ISO image
- @example
--@value{qemu_system_x86} --drive media=cdrom,file=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
-+@value{qemu_system_x86} --drive media=cdrom,file=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
- 
--@value{qemu_system_x86} --drive media=cdrom,file.driver=http,file.url=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
-+@value{qemu_system_x86} --drive media=cdrom,file.driver=http,file.url=http://archives.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
- @end example
- 
- Example: boot from a remote Fedora 20 cloud image using a local overlay for
- writes, copy-on-read, and a readahead of 64k
- @example
--qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"https://dl.fedoraproject.org/pub/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
-+qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
- 
- @value{qemu_system_x86} -drive file=/tmp/Fedora-x86_64-20-20131211.1-sda.qcow2,copy-on-read=on
- @end example
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 2504ef01507..8a9a314ab49 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -76,8 +76,9 @@ class BootLinuxConsole(Test):
-         :avocado: tags=arch:x86_64
-         :avocado: tags=machine:pc
-         """
--        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
--                      'releases/29/Everything/x86_64/os/images/pxeboot/vmlinuz')
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
-+                      '/vmlinuz')
-         kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
- 
-@@ -250,8 +251,9 @@ class BootLinuxConsole(Test):
-         :avocado: tags=arch:aarch64
-         :avocado: tags=machine:virt
-         """
--        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
--                      'releases/29/Everything/aarch64/os/images/pxeboot/vmlinuz')
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
-+                      '/vmlinuz')
-         kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
- 
-@@ -271,8 +273,9 @@ class BootLinuxConsole(Test):
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:virt
-         """
--        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
--                      'releases/29/Everything/armhfp/os/images/pxeboot/vmlinuz')
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
-+                      '/vmlinuz')
-         kernel_hash = 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
- 
-@@ -318,8 +321,9 @@ class BootLinuxConsole(Test):
-         :avocado: tags=arch:s390x
-         :avocado: tags=machine:s390_ccw_virtio
-         """
--        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
--                      'releases/29/Everything/s390x/os/images/kernel.img')
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-+                      '/fedora-secondary/releases/29/Everything/s390x/os/images'
-+                      '/kernel.img')
-         kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
- 
-@@ -360,8 +364,9 @@ class BootLinuxConsole(Test):
-         :avocado: tags=arch:ppc64
-         :avocado: tags=machine:pseries
-         """
--        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
--                      'releases/29/Everything/ppc64le/os/ppc/ppc64/vmlinuz')
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-+                      '/fedora-secondary/releases/29/Everything/ppc64le/os'
-+                      '/ppc/ppc64/vmlinuz')
-         kernel_hash = '3fe04abfc852b66653b8c3c897a59a689270bc77'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
- 
-diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_initrd.py
-index 23be5a63aa8..c61d9826a45 100644
---- a/tests/acceptance/linux_initrd.py
-+++ b/tests/acceptance/linux_initrd.py
-@@ -54,8 +54,9 @@ class LinuxInitrd(Test):
-         QEMU has supported up to 4 GiB initrd for recent kernel
-         Expect guest can reach 'Unpacking initramfs...'
-         """
--        kernel_url = ('https://mirrors.kernel.org/fedora/releases/28/'
--                      'Everything/x86_64/os/images/pxeboot/vmlinuz')
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/28/Everything/x86_64/os/images/pxeboot/'
-+                      'vmlinuz')
-         kernel_hash = '238e083e114c48200f80d889f7e32eeb2793e02a'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-         max_size = 2 * (1024 ** 3) + 1
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-index e8fa5bf0d21..7fec1479fb7 100755
---- a/tests/vm/fedora
-+++ b/tests/vm/fedora
-@@ -23,7 +23,7 @@ class FedoraVM(basevm.BaseVM):
-     name = "fedora"
-     arch = "x86_64"
- 
--    base = "http://dl.fedoraproject.org/pub/fedora/linux/releases/30/"
-+    base = "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/30/"
-     link = base + "Server/x86_64/iso/Fedora-Server-netinst-x86_64-30-1.2.iso"
-     repo = base + "Server/x86_64/os/"
-     full = base + "Everything/x86_64/os/"
--- 
-2.20.1
+Also, please note that migrate_add_blocker() can fail for two reasons:
+(1) migration is already in progress (-EBUSY)
+(2) QEMU was started with -only-migratable (-EACCES)
+
+> +    if (ret < 0) {
+> +        /*
+> +         * We don't want to abort and let the migration to continue. In a
+> +         * rare case, the machine check handler will run on the target
+> +         * hardware. Though this is not preferable, it is better than aborting
+> +         * the migration or killing the VM.
+> +         */
+
+This seems correct for case (1).
+
+> +        warn_report_err(local_err);
+
+The warning would be:
+
+disallowing migration blocker (migration in progress) for:
+ Live migration not supported during machine check handling
+
+This rather looks rather cryptic for the average user. Maybe
+better to ignore the generic message, ie, pass NULL to
+migrate_add_blocker, and output a more meaningul warning
+with warn_report() directly. Something like:
+
+"A machine check is being handled during migration. This may
+cause data corruption or abusive poisoning of some of the
+guest memory on the destination"
+
+Case (2) is different. There isn't any migration in progress: the idea
+behind the -only-migratable QEMU option is to avoid configurations that
+can block migration. If migration doesn't happen while the MCE is being
+handled, I don't think we should output a warning at all. But a warning
+(same as above?) should be printed if migration happens before the vCPU
+did call "ibm,nmi-interlock", by checking mc_status in spapr_pre_save()
+for example.
+
+> +    }
+> +
+>      while (spapr->mc_status != -1) {
+>          /*
+>           * Check whether the same CPU got machine check error
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index d892583..b682cc2 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -50,6 +50,7 @@
+>  #include "hw/ppc/fdt.h"
+>  #include "target/ppc/mmu-hash64.h"
+>  #include "target/ppc/mmu-book3s-v3.h"
+> +#include "migration/blocker.h"
+>  
+>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>                                     uint32_t token, uint32_t nargs,
+> @@ -438,6 +439,7 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>           */
+>          spapr->mc_status = -1;
+>          qemu_cond_signal(&spapr->mc_delivery_cond);
+> +        migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>      }
+>  }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index dada821..ea7625e 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -217,6 +217,8 @@ struct SpaprMachineState {
+>  
+>      unsigned gpu_numa_id;
+>      SpaprTpmProxy *tpm_proxy;
+> +
+> +    Error *fwnmi_migration_blocker;
+>  };
+>  
+>  #define H_SUCCESS         0
+> 
 
 
