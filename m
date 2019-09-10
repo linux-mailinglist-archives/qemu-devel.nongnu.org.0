@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B56FAEFCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:42:32 +0200 (CEST)
-Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD65EAEFDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:46:18 +0200 (CEST)
+Received: from localhost ([::1]:43238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jDq-000262-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53239)
+	id 1i7jHV-0005qN-3U
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:46:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7j7x-0004fS-F1
+ (envelope-from <laurent@vivier.eu>) id 1i7j7x-0004fa-Hq
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7j7w-00029R-By
+ (envelope-from <laurent@vivier.eu>) id 1i7j7w-00029X-Ce
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:50289)
+Received: from mout.kundenserver.de ([212.227.126.135]:48109)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7w-00028h-2q
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7w-00028g-3y
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:24 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mbzhv-1ih4sB2VsF-00dZ1m; Tue, 10 Sep 2019 18:36:08 +0200
+ id 1MEmMt-1hvvnu1rh5-00GJZm; Tue, 10 Sep 2019 18:36:09 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 18:35:46 +0200
-Message-Id: <20190910163600.19971-2-laurent@vivier.eu>
+Date: Tue, 10 Sep 2019 18:35:47 +0200
+Message-Id: <20190910163600.19971-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910163600.19971-1-laurent@vivier.eu>
 References: <20190910163600.19971-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3R9/nrf6F1+CkOxpfuZXTiwuoLi5+ZCthPICIeKxQmd0X1UvGFI
- MQmzmbiT/3J+WnCW6EqF81pvOlc3TzWWY37E+FojlVlnQfUN+O7bVrOQkpJsNDh5wANfigX
- CaHHcknek7lf/z2cNEXB1/bPjYqZSM5pd+K0vwCw4/aW7OKUXjY22SQnNP3yzNIqb0R8UoF
- RJnInhWrsHAPV3z/SLnxg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UvcckU/Hz6g=:6lal6D9cpfbS/ftM1T8tvo
- dN3z4J0yjaeCS3Uj76R5rRNSPOFtomsNK0n5Q489+P7P0OrPMSp+qavKVbKaiu7v5CmxY/gW8
- kp2juFqUy6Fpiqs1/x0fbhGxFNUy85owI8QMQITeR76BF+AYcFVGivIbUB6O0QonWH/WkFkKZ
- 75VGcTldsBkmb7QpcNexPgasZMS4p8m3FTdR7cSIei6F7veyLiXfq1uQ56Q2TYaV+3laeBpEH
- Kr+MvQQOokx2SR6gX3iBbCUFSTQYbzT65Ni21odrW0TRlpHppCHJnR/Pm2pGrEDVmJv5SQ1tz
- dAIDTvtxBET7PtGCwyjsW6PmxVrlACmDqNL5I2uhSMyjRCcloGgnnKBnwSTLfRW4sid3e4if6
- CUxqeWiZ0W+2ZmeaCaHBpiqt04092H65c95422SbeZRmD8ubE1K8lZ7GXwlg2E0lS9Gv1nmd1
- ekU0V2GubZan6F3ggM/OG5eH//ZvQU7vKjCh8Hjh0z21+gECJgG5be9ClM22tXpjk4STkWRg+
- hQV9XxZq+TlWfxOpt16gqxDmYy3SzPey9gTqX9B0jLqhzyBKunqvKmqLrz6Jz3W2w8V5WMxYp
- XcOUo90PtOGoBKqs3GuVD7Ntiw2QV/c/i3m+5WY+W0p3tqyJWPAYOIlQfC2rUvhN37dDF80Vq
- OtWkqF3htZYjC7KI2PAELMiaf6/OgAK47MAdh5MpGZpPbVKGG0QQIPMb4LbQ3snLN018txDpQ
- 8MxHgeQeEN+gP5nRa8X2sRvcaCtcKKXEXOC02eTgl48fnAszyPdhJ/XEn5ZnHEjbbSgD2/EUT
- A5EQbUnNVKIQWx5dBFksaqPGQVzXww0LrBu433CH65dICWrAc8=
+X-Provags-ID: V03:K1:0KXaXHtt6r83pzwF5arVoOGeOG2MJZuwiWfdj6t9LUAuKaYJDOi
+ KsXZfV/1poENgUcxzfe3k6IpKK2jX6ZTcTo3x5gQqnkKdQavG+p5K2aAK6Cxa5EOlnSgERM
+ 5d+l3DtXNeSrmJXmG4RuGsIAyNvOnMobh78rYctUyOVT4JfUVw1dTLgCe7eqzPJKYVuXklH
+ MMYLLmkRVcUX7J48+l7yA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S01fj9U4d/k=:gRbZXPngHBiiycGGbUtTrB
+ g1+PyRCWvXGj9g95EuHEM3B09b2N3CQK5qeNq/Xbp4PikkuzX3e3kaeUjqz7uozjTMK18D27O
+ KCR6AKdzPiEfFF8Mj/jIabT/CAhNvgPgBv3fsAH6xCn9Ve5GXnzujem9UVx0dg62sCLhH+Cjj
+ 4HxlKeR3Shii4y2E41tuw5sLOjqy3xEfJBGSU/sy9FoOerw87wPeQIWx9P3X+lMidNX3S9Q6Q
+ PEbxme2e7v7XnAvbJ35e7mx4dE8XnZQ77PNeFMg8Php6ylHBbRA68KPrgaYb2kwJsip9q9FYZ
+ rTdpxIxWaPFz02+tmu/d1ZNN7sfZoQFhw57dRQ5HCCv7iY3C/xYmpaFzI2vufEBjcrK9bb5vL
+ AkuH9MXnboS0BtCU8zXO8xW0OyRqq7ByuvYLYhv7biR68XBbfOHrjmF7JXvYn2RsnW2ElF7uE
+ t7Mf2b1097DdTfqtAdhe+3HKxzOdXmUwT1IS+J04cX3x2ZZIvdcF+x0n2PlE+965xVOtq36Yc
+ 4CYExUP8PphzAbWl/uL2XvI+rIpqD7lhGV0yeNGZEGzEivSuI6MEJv8B4AwShgyR0rxrWP73E
+ l5va/CQhQi+V8j4NXIljjqkXXe5zZcGcmVtANhBOTgTrJtrQuYWaC5FLgbgc8ID4xBu6EzXqI
+ 3X6gV8g5ELSLx48K4f9IJNVruP3Y2UihlVLQlOon8US8AEW6fxcxqi0tlBtaivwk0U+/tr9fU
+ 1gOMo45DrKFVk38nZpnG658xLXbjloGxaZM2C1BZla5PHE5hTbqF67ls7mKjboaJUnxfsyeoi
+ o/nnITporo6yuO5CFPFsGNUQnV1IfgXNntx7DZRCAKxvk44+Fg=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
-Subject: [Qemu-devel] [PULL 01/15] linux-user: remove useless variable
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PULL 02/15] linux-user: Add AT_HWCAP2 for
+ aarch64-linux-user
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,70 +65,85 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Stefano Garzarella <sgarzare@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-filename is only used to open the file if AT_EXECFD is not provided.
-But exec_path already contains the path of the file to open.
-Remove filename as it is only used in main.c whereas exec_path is
-also used in syscall.c.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Fixes: d088d664f201 ("linux-user: identify running binary in /proc/self/exe")
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190714134028.315-1-laurent@vivier.eu>
+Add the HWCAP2_* bits from kernel version v5.3-rc3.
+Enable the bits corresponding to ARMv8.5-CondM and ARMv8.5-FRINT.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20190809171156.3476-1-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/main.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ linux-user/elfload.c | 31 +++++++++++++++++++++++++++----
+ 1 file changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 47917bbb20fc..28f0065b6ddf 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -49,7 +49,6 @@
- char *exec_path;
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 3365e192eb3f..43c16a846d33 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -607,9 +607,23 @@ enum {
+     ARM_HWCAP_A64_SB            = 1 << 29,
+     ARM_HWCAP_A64_PACA          = 1 << 30,
+     ARM_HWCAP_A64_PACG          = 1UL << 31,
++
++    ARM_HWCAP2_A64_DCPODP       = 1 << 0,
++    ARM_HWCAP2_A64_SVE2         = 1 << 1,
++    ARM_HWCAP2_A64_SVEAES       = 1 << 2,
++    ARM_HWCAP2_A64_SVEPMULL     = 1 << 3,
++    ARM_HWCAP2_A64_SVEBITPERM   = 1 << 4,
++    ARM_HWCAP2_A64_SVESHA3      = 1 << 5,
++    ARM_HWCAP2_A64_SVESM4       = 1 << 6,
++    ARM_HWCAP2_A64_FLAGM2       = 1 << 7,
++    ARM_HWCAP2_A64_FRINT        = 1 << 8,
+ };
  
- int singlestep;
--static const char *filename;
- static const char *argv0;
- static int gdbstub_port;
- static envlist_t *envlist;
-@@ -586,7 +585,6 @@ static int parse_args(int argc, char **argv)
-         exit(EXIT_FAILURE);
-     }
+-#define ELF_HWCAP get_elf_hwcap()
++#define ELF_HWCAP   get_elf_hwcap()
++#define ELF_HWCAP2  get_elf_hwcap2()
++
++#define GET_FEATURE_ID(feat, hwcap) \
++    do { if (cpu_isar_feature(feat, cpu)) { hwcaps |= hwcap; } } while (0)
  
--    filename = argv[optind];
-     exec_path = argv[optind];
+ static uint32_t get_elf_hwcap(void)
+ {
+@@ -621,8 +635,6 @@ static uint32_t get_elf_hwcap(void)
+     hwcaps |= ARM_HWCAP_A64_CPUID;
  
-     return optind;
-@@ -657,9 +655,9 @@ int main(int argc, char **argv, char **envp)
+     /* probe for the extra features */
+-#define GET_FEATURE_ID(feat, hwcap) \
+-    do { if (cpu_isar_feature(feat, cpu)) { hwcaps |= hwcap; } } while (0)
  
-     execfd = qemu_getauxval(AT_EXECFD);
-     if (execfd == 0) {
--        execfd = open(filename, O_RDONLY);
-+        execfd = open(exec_path, O_RDONLY);
-         if (execfd < 0) {
--            printf("Error while loading %s: %s\n", filename, strerror(errno));
-+            printf("Error while loading %s: %s\n", exec_path, strerror(errno));
-             _exit(EXIT_FAILURE);
-         }
-     }
-@@ -784,10 +782,10 @@ int main(int argc, char **argv, char **envp)
-     cpu->opaque = ts;
-     task_settid(ts);
+     GET_FEATURE_ID(aa64_aes, ARM_HWCAP_A64_AES);
+     GET_FEATURE_ID(aa64_pmull, ARM_HWCAP_A64_PMULL);
+@@ -645,11 +657,22 @@ static uint32_t get_elf_hwcap(void)
+     GET_FEATURE_ID(aa64_sb, ARM_HWCAP_A64_SB);
+     GET_FEATURE_ID(aa64_condm_4, ARM_HWCAP_A64_FLAGM);
  
--    ret = loader_exec(execfd, filename, target_argv, target_environ, regs,
-+    ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
-         info, &bprm);
-     if (ret != 0) {
--        printf("Error while loading %s: %s\n", filename, strerror(-ret));
-+        printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
-         _exit(EXIT_FAILURE);
-     }
+-#undef GET_FEATURE_ID
++    return hwcaps;
++}
++
++static uint32_t get_elf_hwcap2(void)
++{
++    ARMCPU *cpu = ARM_CPU(thread_cpu);
++    uint32_t hwcaps = 0;
++
++    GET_FEATURE_ID(aa64_condm_5, ARM_HWCAP2_A64_FLAGM2);
++    GET_FEATURE_ID(aa64_frint, ARM_HWCAP2_A64_FRINT);
+ 
+     return hwcaps;
+ }
+ 
++#undef GET_FEATURE_ID
++
+ #endif /* not TARGET_AARCH64 */
+ #endif /* TARGET_ARM */
  
 -- 
 2.21.0
