@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA4CAEE18
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:06:18 +0200 (CEST)
-Received: from localhost ([::1]:41140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C9EAEE1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:08:01 +0200 (CEST)
+Received: from localhost ([::1]:41176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hij-0001c3-GM
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:06:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54052)
+	id 1i7hkO-0004RC-3f
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i7hNp-0005VF-Pe
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i7hNu-0005bU-7l
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i7hNo-00052a-MJ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:41 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43945)
+ (envelope-from <peter.maydell@linaro.org>) id 1i7hNs-00055f-ME
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:45 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43947)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i7hNo-000520-EV
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:40 -0400
-Received: by mail-wr1-x443.google.com with SMTP id q17so16120282wrx.10
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:44:40 -0700 (PDT)
+ id 1i7hNs-000558-FA
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:44 -0400
+Received: by mail-wr1-x443.google.com with SMTP id q17so16120736wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LQ3XAKoDLhaOzqFCNhsIdDGJrHIQSVj/rNDcC6T2wTA=;
- b=CMo+23GR2ChsncBNW3AD8r9qGAl4f70kTqLT5aG9Jjdja+WFEdwIgiGRU3vUBkHmHK
- 6g7IHhCCIViRQ7itY+uX+uRkmdTbS6jFCe2GDsFiA+7VDFOPFiQxYrl3BdRIIszrHHQI
- 8xqKeC4nzfmjr0TuAA0vuez+W9rFcMyhKQLuda3bYuEg3kZ+5c5H0L88rNXiV72liMKa
- fx4/GDxi3zM6HrfmGQuymVW60BsHXb/JZcHUkYlhonw3vnfSqs/qmJJkUk4FDln6Bghu
- P/oCKXVqQvg1E+IBmwlHkY5bMUnoQJ4gMXT4SRE28PB1FLi+l7PL7ihgxIe/QOPEkN4F
- p4tg==
+ bh=HFFhnwi1XTh3mteeZB/9qILvDTOSvSbdeT/3s5BHyng=;
+ b=z0OXDxHK0OAM37pLD3qWAdkOd2MXOAjoEsXOa6/rmAaP3RxEgFPj+MkEEe2R5xmLyT
+ N6Dmh4rlbm6D6Vet9Hp894dXJC+t8qEmC71ryNd0RW+HVcQDe5iCzPxr5Rqn49TAm3BQ
+ AnCXv1eZ/FxwkMeZZ3G9yrEB+uCz53JO9cRicduZQO+8o3IkG/xVTlzDVLZ73oYpZ/2C
+ yyIn7kMqwf0R0pQ+jLcrTC9Xvh8cokBxF0bN/XtySXYZs1gcf+J/ah3cg1+P6ypD+r9H
+ KYb6pKaqYnMWJMv7iiwLor32Ucz7L46Y+P7Myse0E7ivB/R5AWUPYDJMzRPmgZNFIxWE
+ kdbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LQ3XAKoDLhaOzqFCNhsIdDGJrHIQSVj/rNDcC6T2wTA=;
- b=B2w7VyLQ16nPCj8Dedmjnwmsa7IczSkKa5GJNaU1Y5XgDy1TdzBJAWm6Z5CU206ogW
- dJKVdGQBtWKrouCA4krjuJKAtQGCHKiyxMmgdc6bV6i42mZ/trCx6v7jLDhfmn2yQxPS
- ak8yq/D10VGiVQCOr7A97qD8HsohYmbTfuQYo+dVoHoAWB27bdMumwVxGqRsG/U9PIts
- oQ8ntCfJs5y4YnKfjYKrfh2GDfDI9Gh11dnCdqbLR4y1QbeTdmq8ip6EsNUrbaKU8X+D
- af1UukRg87ysF4ZdFxc79zDF3/Ht58Hczi9Hjiv4fOljp5G4Ym0aw7jfe8tZM3vM0bEa
- DdzA==
-X-Gm-Message-State: APjAAAVcc6FG1CpeKgLPS1uS/YDZW6PL7w+9MFa3+vZULFO0mJtfT6HX
- k4/NwhhLurPI89KG3/JK2mtUyk0Pe1rhFg==
-X-Google-Smtp-Source: APXvYqwTSuSRoBntgDj/KzQenDx0sbxiUbk6vUV45WbULXuar7eWM9Ap2TYHPR6H7uvWX1QSDJ/FbQ==
-X-Received: by 2002:a5d:45c3:: with SMTP id b3mr27791244wrs.207.1568126679618; 
- Tue, 10 Sep 2019 07:44:39 -0700 (PDT)
+ bh=HFFhnwi1XTh3mteeZB/9qILvDTOSvSbdeT/3s5BHyng=;
+ b=MQf6IAKMOqSPT4xVnmOKEdYQJaviyo/HFtt8MhhGOXWbvzk5Oii4mJJnUfEoIuNjgI
+ Evg4Jz0t5TbWJFv2EF9YDdRRDeTcQeWHMrc4EyPqCyXxnOZEyW85m0uh7B1YVVc373Rp
+ D+X0EUgZ87Invt8PEKg5y/PHe0TGQCMV/VROWm//ktLO1TvGp3aPana7L3jYV8998kub
+ kctEHdG1d+cyqS0eiciVabE8r0s0ItSNuc0yzKGW0HgJaaosbIOzCteVBQNV/JO3Dlr6
+ UiiE2JGkwAa76cc6jlVInHuaRpcpYHZaYRU/0UJGeu0tW+chvQ0xAtojbYA9jLla4cq5
+ UjSg==
+X-Gm-Message-State: APjAAAXnza2FlBCFPistzKbP/pR8YHfLCIxKUZ4xU584+O7dtEYFl/jh
+ XMe+AYo9fHnSwuAmdXVTPok5jQ==
+X-Google-Smtp-Source: APXvYqxOpSw0ENil0jtjZ3fVle80ExjXe/59M0PvW6ehdObFPjGLayobeFcun36dpUL6hl0rRdWCXA==
+X-Received: by 2002:adf:f543:: with SMTP id j3mr8291026wrp.243.1568126683569; 
+ Tue, 10 Sep 2019 07:44:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a192sm5703814wma.1.2019.09.10.07.44.38
+ by smtp.gmail.com with ESMTPSA id a192sm5703814wma.1.2019.09.10.07.44.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 07:44:39 -0700 (PDT)
+ Tue, 10 Sep 2019 07:44:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 15:44:23 +0100
-Message-Id: <20190910144428.32597-9-peter.maydell@linaro.org>
+Date: Tue, 10 Sep 2019 15:44:26 +0100
+Message-Id: <20190910144428.32597-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910144428.32597-1-peter.maydell@linaro.org>
 References: <20190910144428.32597-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH 08/13] target/arm/arm-semi: Factor out
- implementation of SYS_ISTTY
+Subject: [Qemu-devel] [PATCH 11/13] target/arm/arm-semi: Implement support
+ for semihosting feature detection
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,82 +82,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor out the implementation of SYS_ISTTY via the new function
-tables.
+Version 2.0 of the semihosting specification added support for
+allowing a guest to detect whether the implementation supported
+particular features. This works by the guest opening a magic
+file ":semihosting-features", which contains a fixed set of
+data with some magic numbers followed by a sequence of bytes
+with feature flags. The file is expected to behave sensibly
+for the various semihosting calls which operate on files
+(SYS_FLEN, SYS_SEEK, etc).
+
+Implement this as another kind of guest FD using our function
+table dispatch mechanism. Initially we report no extended
+features, so we have just one feature flag byte which is zero.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/arm-semi.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ target/arm/arm-semi.c | 107 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 106 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index 48a10dd3c3a..64ed39fc075 100644
+index f9019b00b8d..531084b7799 100644
 --- a/target/arm/arm-semi.c
 +++ b/target/arm/arm-semi.c
-@@ -349,6 +349,7 @@ typedef uint32_t sys_writefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
-                              target_ulong buf, uint32_t len);
- typedef uint32_t sys_readfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
-                             target_ulong buf, uint32_t len);
-+typedef uint32_t sys_isattyfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf);
+@@ -117,6 +117,7 @@ typedef enum GuestFDType {
+     GuestFDUnused = 0,
+     GuestFDHost = 1,
+     GuestFDGDB = 2,
++    GuestFDFeatureFile = 3,
+ } GuestFDType;
  
- static uint32_t host_closefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
- {
-@@ -399,6 +400,11 @@ static uint32_t host_readfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
-     return len - ret;
+ /*
+@@ -125,7 +126,10 @@ typedef enum GuestFDType {
+  */
+ typedef struct GuestFD {
+     GuestFDType type;
+-    int hostfd;
++    union {
++        int hostfd;
++        target_ulong featurefile_offset;
++    };
+ } GuestFD;
+ 
+ static GArray *guestfd_array;
+@@ -467,6 +471,87 @@ static uint32_t gdb_flenfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
+                            gf->hostfd, arm_flen_buf(cpu));
  }
  
-+static uint32_t host_isattyfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
++#define SHFB_MAGIC_0 0x53
++#define SHFB_MAGIC_1 0x48
++#define SHFB_MAGIC_2 0x46
++#define SHFB_MAGIC_3 0x42
++
++static const uint8_t featurefile_data[] = {
++    SHFB_MAGIC_0,
++    SHFB_MAGIC_1,
++    SHFB_MAGIC_2,
++    SHFB_MAGIC_3,
++    0, /* Feature byte 0 */
++};
++
++static void init_featurefile_guestfd(int guestfd)
 +{
-+    return isatty(gf->hostfd);
++    GuestFD *gf = do_get_guestfd(guestfd);
++
++    assert(gf);
++    gf->type = GuestFDFeatureFile;
++    gf->featurefile_offset = 0;
 +}
 +
- static uint32_t gdb_closefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
- {
-     return arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", gf->hostfd);
-@@ -420,10 +426,16 @@ static uint32_t gdb_readfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
-                            gf->hostfd, buf, len);
- }
- 
-+static uint32_t gdb_isattyfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
++static uint32_t featurefile_closefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
 +{
-+    return arm_gdb_syscall(cpu, arm_semi_cb, "isatty,%x", gf->hostfd);
++    /* Nothing to do */
++    return 0;
++}
++
++static uint32_t featurefile_writefn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
++                                    target_ulong buf, uint32_t len)
++{
++    /* This fd can never be open for writing */
++    errno = EBADF;
++    return set_swi_errno(ts, -1);
++}
++
++static uint32_t featurefile_readfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
++                                   target_ulong buf, uint32_t len)
++{
++    uint32_t i;
++#ifndef CONFIG_USER_ONLY
++    CPUARMState *env = &cpu->env;
++#endif
++    char *s;
++
++    s = lock_user(VERIFY_WRITE, buf, len, 0);
++    if (!s) {
++        return len;
++    }
++
++    for (i = 0; i < len; i++) {
++        if (gf->featurefile_offset >= sizeof(featurefile_data)) {
++            break;
++        }
++        s[i] = featurefile_data[gf->featurefile_offset];
++        gf->featurefile_offset++;
++    }
++
++    unlock_user(s, buf, len);
++
++    /* Return number of bytes not read */
++    return len - i;
++}
++
++static uint32_t featurefile_isattyfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
++{
++    return 0;
++}
++
++static uint32_t featurefile_seekfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf,
++                                   target_ulong offset)
++{
++    gf->featurefile_offset = offset;
++    return 0;
++}
++
++static uint32_t featurefile_flenfn(TaskState *ts, ARMCPU *cpu, GuestFD *gf)
++{
++    return sizeof(featurefile_data);
 +}
 +
  typedef struct GuestFDFunctions {
      sys_closefn *closefn;
      sys_writefn *writefn;
-     sys_readfn *readfn;
-+    sys_isattyfn *isattyfn;
- } GuestFDFunctions;
- 
- static const GuestFDFunctions guestfd_fns[] = {
-@@ -431,11 +443,13 @@ static const GuestFDFunctions guestfd_fns[] = {
-         .closefn = host_closefn,
-         .writefn = host_writefn,
-         .readfn = host_readfn,
-+        .isattyfn = host_isattyfn,
+@@ -493,6 +578,14 @@ static const GuestFDFunctions guestfd_fns[] = {
+         .seekfn = gdb_seekfn,
+         .flenfn = gdb_flenfn,
      },
-     [GuestFDGDB] = {
-         .closefn = gdb_closefn,
-         .writefn = gdb_writefn,
-         .readfn = gdb_readfn,
-+        .isattyfn = gdb_isattyfn,
-     },
++    [GuestFDFeatureFile] = {
++        .closefn = featurefile_closefn,
++        .writefn = featurefile_writefn,
++        .readfn = featurefile_readfn,
++        .isattyfn = featurefile_isattyfn,
++        .seekfn = featurefile_seekfn,
++        .flenfn = featurefile_flenfn,
++    },
  };
  
-@@ -600,11 +614,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             return set_swi_errno(ts, -1);
+ /* Read the input value from the argument block; fail the semihosting
+@@ -586,6 +679,18 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+             unlock_user(s, arg0, 0);
+             return guestfd;
          }
- 
--        if (use_gdb_syscalls()) {
--            return arm_gdb_syscall(cpu, arm_semi_cb, "isatty,%x", gf->hostfd);
--        } else {
--            return isatty(gf->hostfd);
--        }
-+        return guestfd_fns[gf->type].isattyfn(ts, cpu, gf);
-     case TARGET_SYS_SEEK:
-         GET_ARG(0);
-         GET_ARG(1);
++        if (strcmp(s, ":semihosting-features") == 0) {
++            unlock_user(s, arg0, 0);
++            /* We must fail opens for modes other than 0 ('r') or 1 ('rb') */
++            if (arg1 != 0 && arg1 != 1) {
++                dealloc_guestfd(guestfd);
++                errno = EINVAL;
++                return set_swi_errno(ts, -1);
++            }
++            init_featurefile_guestfd(guestfd);
++            return guestfd;
++        }
++
+         if (use_gdb_syscalls()) {
+             ret = arm_gdb_syscall(cpu, arm_semi_cb, "open,%s,%x,1a4", arg0,
+                                   (int)arg2+1, gdb_open_modeflags[arg1]);
 -- 
 2.20.1
 
