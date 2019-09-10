@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE3EAEAEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 14:57:14 +0200 (CEST)
-Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC9AAEB17
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 15:05:46 +0200 (CEST)
+Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7fhp-0006NE-Dn
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 08:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60816)
+	id 1i7fq5-0003cK-4N
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 09:05:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1i7fZQ-00081Q-Nd
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:48:33 -0400
+ (envelope-from <crosa@redhat.com>) id 1i7fVJ-0004sQ-Ct
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:44:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1i7fZP-0008JQ-EQ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:48:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33974)
+ (envelope-from <crosa@redhat.com>) id 1i7fVI-00063l-Ah
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:44:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53650)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1i7fZP-0008J3-9S
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:48:31 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i7fVI-00063O-59
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 08:44:16 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 884CAA2FC4E;
- Tue, 10 Sep 2019 12:48:30 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-117-150.ams2.redhat.com
- [10.36.117.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1469F5D6B2;
- Tue, 10 Sep 2019 12:48:28 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 14:48:28 +0200
-Message-Id: <20190910124828.39794-1-sgarzare@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 75CEB4FCDF;
+ Tue, 10 Sep 2019 12:44:15 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-121-171.rdu2.redhat.com
+ [10.10.121.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0509160BE2;
+ Tue, 10 Sep 2019 12:44:06 +0000 (UTC)
+Date: Tue, 10 Sep 2019 08:44:05 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190910124405.GA27485@localhost.localdomain>
+References: <20190904005218.12536-1-crosa@redhat.com>
+ <CAFEAcA_TB4c6T2ZGu8xCx_H2Uzs8j2Jcs9ZbASTgXfv87KdSwg@mail.gmail.com>
+ <CAFEAcA_tPYRmCW+2u4Ae883iKGXoo1eJVTTmDohhku04DmksPw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Tue, 10 Sep 2019 12:48:30 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_tPYRmCW+2u4Ae883iKGXoo1eJVTTmDohhku04DmksPw@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Tue, 10 Sep 2019 12:44:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2] elf-ops.h: fix int overflow in load_elf()
+Subject: Re: [Qemu-devel] [PATCH] Fedora images: use URLs from stable
+ "archives.fedoraproject.org"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,74 +60,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Yash Mankad <ymankad@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes a possible integer overflow when we calculate
-the total size of ELF segments loaded.
+On Tue, Sep 10, 2019 at 09:38:55AM +0100, Peter Maydell wrote:
+> On Tue, 10 Sep 2019 at 09:31, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Wed, 4 Sep 2019 at 01:52, Cleber Rosa <crosa@redhat.com> wrote:
+> > >
+> > > The LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16 test,
+> > > from tests/acceptance/linux_initrd.py, is currently failing to fetch
+> > > the "vmlinuz" file.  The reason for the failure is that the Fedora
+> > > project retires older versions from the "dl.fedoraproject.org" URL,
+> > > and keeps them in "archives.fedoraproject.org".  As an added note,
+> > > that test uses a Fedora 28 image, because of the specific Linux kernel
+> > > version requirements of the test.
+> > >
+> > > For the sake of stability, let's use URLs from the archived and
+> > > supposedely ever stable URLs.  The good news is that the currently
+> > > supported versions are also hosted on the later.  This change limits
+> > > itself to change the URLs, while keeping the fetched files the same
+> > > (as can be evidenced by the unchanged hashes).
+> > >
+> > > Documentation and the "vm tests" fedora definition were also updated.
+> > >
+> > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > > ---
+> >
+> > I was planning to apply this to master to fix the Travis builds,
+> > but it doesn't apply -- conflicts in qemu-doc.texi. Could you respin?
+> 
+> Ah, never mind -- Alex tells me he's already picked this patch up
+> in a pending pull request and has done the rebase and fixup there.
+> 
+> thanks
+> -- PMM
 
-Reported-by: Coverity (CID 1405299)
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
-v2:
- - not use error_report in load_elf() [Peter]
- - return ELF_LOAD_TOO_BIG
- - add Alex's R-b
----
- include/hw/elf_ops.h | 5 +++++
- include/hw/loader.h  | 1 +
- hw/core/loader.c     | 2 ++
- 3 files changed, 8 insertions(+)
+Oh, OK, good!
 
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 1496d7e753..e07d276df7 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -485,6 +485,11 @@ static int glue(load_elf, SZ)(const char *name, int =
-fd,
-                 }
-             }
-=20
-+            if (mem_size > INT_MAX - total_size) {
-+                ret =3D ELF_LOAD_TOO_BIG;
-+                goto fail;
-+            }
-+
-             /* address_offset is hack for kernel images that are
-                linked at the wrong physical address.  */
-             if (translate_fn) {
-diff --git a/include/hw/loader.h b/include/hw/loader.h
-index 07fd9286e7..48a96cd559 100644
---- a/include/hw/loader.h
-+++ b/include/hw/loader.h
-@@ -89,6 +89,7 @@ int load_image_gzipped(const char *filename, hwaddr add=
-r, uint64_t max_sz);
- #define ELF_LOAD_NOT_ELF      -2
- #define ELF_LOAD_WRONG_ARCH   -3
- #define ELF_LOAD_WRONG_ENDIAN -4
-+#define ELF_LOAD_TOO_BIG      -5
- const char *load_elf_strerror(int error);
-=20
- /** load_elf_ram_sym:
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 32f7cc7c33..75eb56ddbb 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -338,6 +338,8 @@ const char *load_elf_strerror(int error)
-         return "The image is from incompatible architecture";
-     case ELF_LOAD_WRONG_ENDIAN:
-         return "The image has incorrect endianness";
-+    case ELF_LOAD_TOO_BIG:
-+        return "The image segments are too big to load";
-     default:
-         return "Unknown error";
-     }
---=20
-2.21.0
-
+Thanks!
+- Cleber.
 
