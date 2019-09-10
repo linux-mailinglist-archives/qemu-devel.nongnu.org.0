@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C078AEFF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:51:36 +0200 (CEST)
-Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2435AEFFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:54:22 +0200 (CEST)
+Received: from localhost ([::1]:43422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jMc-0003pB-VE
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53355)
+	id 1i7jPJ-0007kE-L2
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53319)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7j81-0004n1-TX
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:30 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7j80-0002FG-PM
+ (envelope-from <laurent@vivier.eu>) id 1i7j80-0004kY-NL
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:29 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:58527)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j80-0002Da-FC
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <laurent@vivier.eu>) id 1i7j7y-0002CM-Gg
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:60739)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7y-0002A6-6c
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:26 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MS43X-1higAc3LD9-00TQZi; Tue, 10 Sep 2019 18:36:18 +0200
+ id 1MCKSA-1hyPjj0ll4-009Qkh; Tue, 10 Sep 2019 18:36:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 18:35:57 +0200
-Message-Id: <20190910163600.19971-13-laurent@vivier.eu>
+Date: Tue, 10 Sep 2019 18:36:00 +0200
+Message-Id: <20190910163600.19971-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910163600.19971-1-laurent@vivier.eu>
 References: <20190910163600.19971-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8P4zXj3D1FoRmVr4ARkgUOLDysmxAr2oo5mxX/cqvbMQ72UFX1E
- WTpPieRqowiT+XKtRZZwwhWN9BHVc9F4S+WiIOBeluOQ+Mr+DcoFQQu4a6yFb9xuR4+SEv9
- kJyXJ6tld/NoVu2ZSD1BM29r8ZxaEG3jairY1CkNQbgIEDixVRPP7ctGBrD3HxeNvdnIWNf
- jYyLi3/05ymrP/p9Lqx1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PTOslLJNI5M=:UfFzEj1m6etqI0qeTQa/Q6
- DWf9Bpzbkt9WaPRu2BH9CZ7IMrJC1fOtMJ0+XqwwajGG5Msi3Pnxu6WdWn4tZbO3wfi45Xzn4
- DCEm8OP+14NoxuMJ4AxeK3yRq2sV9pJEgVuJ2/yVQvGxTaH8p5wBy63ZnI2OTIb23CqD7dOzn
- 3qNyjMDt80JqH449cRsW//fFA7uwUZva6P/KAtdvGsLpLItbomBqSc8Q7n0XItLJqNhfxcpJA
- cUFCBsDp3aX/VX4GMCZW2m+w3VjuKVmUNRRvYXNP1mtA7MwcnlRByltSl34hTGhXIPEnOOsHS
- 1QKcUVWp5QBWbIH3ZmtjTOJqq7exz81yPb0SrqJcnq3Vc2yGsz1p5jeStyAHOXkF0ZfvcNmTN
- +u9PLmioGTYmz3titc5L6sALjBO9utYUL8gCDdH2Yj84XRFN4XDrBLaeY94fXnizU4iIWeEf8
- SUKRrrKfYkBWmzfeLlgJyrV6ClNyX3HqszoRI5+n30sxCJmzCfJOLnDhhhO7LATbeU+VBoUJD
- xxFnykRixHvT5lT1ke70HjrW+cprsRo4U1HZhQVGQn129taLQl+HtCJtmhZ46aj0XZzc2as+L
- lKbrpBBrxLhklFv305PMXYW7hqC+QyfdezeIAFspCyX33YvDD8hbgrnW4o6Knjr5+39EU8uBb
- 02OjILrPC+Q4YKxHumy92o6f6sATnZo8Ofj+sWxJkitrAMMJ/mxetZdjB6C/7+ItjCMpIybzz
- 6iXIOWAKon4iefS94C82/PwhikLd1/7HRV6yVTfurlnlaLIRCz4EuSxjCeKgeHcvrihWVkZR1
- q5R/4vj1rCUKwxGN9+epUa7+WZxtWjQ/abQp62o9GP6rJXf7yw=
+X-Provags-ID: V03:K1:ulRcokUfmXdMbuiGnDuBpfBvI+ZopA0SBBBNyQnDkISRpg6SGTm
+ 8Z6PeQZxTTCGX4wcPaG2yH1DtPGItUI04WkkSJl4RxyaDnZKqN9/letktg1GrcsITV+Kacg
+ n8M90wF1ciZsC1BMZ02UWlRD/a5rkLNQAOcrC/pEZeY5/fQYxhIMGlO2rq/5IB/zNyDpeqH
+ DqElenvUr8QknxPVP0sRQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hK/tHS/D818=:UQaPQow9eglUooyDRVejIr
+ NDzTA7j1S10WZaiLqBIbDppIHFcdhCZC4OVtX4ymSDfKdL5191d0afqtCvEXAXlHYaL6AM8mr
+ C74dKVKq8PogupkoO1LfX4pHIXtIzyoODEdFEA38o4TEgSHFzeKCN6BgQVqJTyD+ncSmahrCl
+ Tnbwwt6mOWSp7+3MClq/8hlqjVePKvCSxvNocNWIzoxC4AbiqgwMKfQFPOr5rBA/JV+76947k
+ byBpBrMUJu7+24KrzsgRbi1MfLihI/IYmScR9+IWDets+CE505eIjK6LztnKGRzWeY8b/+KxH
+ D7rF/udx71QKyRqR7Jo3isL3qovv7X0hQmuZi8FdgWywvN2UAx07tbOdMsVbgZpKOiA/nAAsJ
+ eN39PNAC0viDT+gGOlaqEuoqhUIq0pkCY4Pxk8hksrvyAfP1RzpohpNiuB0D8dGLACZ9isg8B
+ 3NyL8BwO8b+sJb4aFcyDcAGPakLeLkfffU1k9LN65s0t1AbkdqLtD6lphjvNRL8ZpXV7uoVDe
+ +VrdEu9tb1WSAoxJUrSQqfVOtERz9raJXU2lQo8ozxzb+F14nH9y6aFMNRBXXUKtrJjOHTVBl
+ kKXU9JYJrdEYh0cI0j2oO2wNF1RxloXk/NEdkP4HjasjsmfuYu+pAZIre1b+6EkuM2n3ljEf6
+ U3Qe7XBbKl5BDpRAild7YbUkdti7IW7nR6SyAEQExOPg8owxioMp5uKYehOOczWsJ3HFa42g+
+ bb4tiOCr+elx6RIswuUFettKBpKG/XKeOzEZUMfztg3uq2N08gnZGp6C6GIO5PaW2nyGW0ccd
+ HfE0HL5Ag3fmpSAFyEGd4Id1QJIEPJoEVt56KIqUv9vWzmv/Ng=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: [Qemu-devel] [PULL 12/15] linux-user: Add support for FIOGETOWN and
- FIOSETOWN ioctls
+X-Received-From: 212.227.126.187
+Subject: [Qemu-devel] [PULL 15/15] linux-user: Add support for FDRESET,
+ FDRAWCMD, FDTWADDLE, and FDEJECT ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,53 +72,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-FIOGETOWN and FIOSETOWN ioctls have platform-specific definitions,
-hence non-standard definition in QEMU too.
-
-Other than that, they both have a single integer argument, and their
-functionality is emulated in a straightforward way.
+FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT ioctls are misc commands
+for controlling a floppy drive.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1567601968-26946-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1567601968-26946-7-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h       | 2 ++
+ linux-user/ioctls.h       | 4 ++++
  linux-user/syscall_defs.h | 4 ++++
- 2 files changed, 6 insertions(+)
+ 2 files changed, 8 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index cd9b6f9a8d45..1830de96e12b 100644
+index b253469999ee..c6b9d6ad6653 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -177,6 +177,8 @@
- #endif
- #endif /* CONFIG_USBFS */
+@@ -115,6 +115,10 @@
+      IOCTL(FDMSGON, 0, TYPE_NULL)
+      IOCTL(FDMSGOFF, 0, TYPE_NULL)
+      IOCTL(FDFLUSH, 0, TYPE_NULL)
++     IOCTL(FDRESET, 0, TYPE_NULL)
++     IOCTL(FDRAWCMD, 0, TYPE_NULL)
++     IOCTL(FDTWADDLE, 0, TYPE_NULL)
++     IOCTL(FDEJECT, 0, TYPE_NULL)
  
-+  IOCTL(FIOGETOWN, IOC_R, MK_PTR(TYPE_INT))
-+  IOCTL(FIOSETOWN, IOC_W, MK_PTR(TYPE_INT))
-   IOCTL(SIOCATMARK, IOC_R, MK_PTR(TYPE_INT))
-   IOCTL(SIOCGIFNAME, IOC_RW, MK_PTR(MK_STRUCT(STRUCT_int_ifreq)))
-   IOCTL(SIOCGIFFLAGS, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
+ #ifdef FIBMAP
+      IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 19a1d39cbc82..498223b77787 100644
+index 4e33ef396be4..fa69c6ab8d01 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -758,10 +758,14 @@ struct target_pollfd {
+@@ -893,6 +893,10 @@ struct target_pollfd {
+ #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
+ #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
+ #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
++#define TARGET_FDRESET        TARGET_IO(2, 0x54)
++#define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
++#define TARGET_FDTWADDLE      TARGET_IO(2, 0x59)
++#define TARGET_FDEJECT        TARGET_IO(2, 0x5a)
  
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-        defined(TARGET_XTENSA)
-+#define TARGET_FIOGETOWN       TARGET_IOR('f', 123, int)
-+#define TARGET_FIOSETOWN       TARGET_IOW('f', 124, int)
- #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
- #define TARGET_SIOCSPGRP       TARGET_IOW('s', 8, pid_t)
- #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
- #else
-+#define TARGET_FIOGETOWN       0x8903
-+#define TARGET_FIOSETOWN       0x8901
- #define TARGET_SIOCATMARK      0x8905
- #define TARGET_SIOCSPGRP       0x8902
- #define TARGET_SIOCGPGRP       0x8904
+ #define TARGET_FIBMAP     TARGET_IO(0x00,1)  /* bmap access */
+ #define TARGET_FIGETBSZ   TARGET_IO(0x00,2)  /* get the block size used for bmap */
 -- 
 2.21.0
 
