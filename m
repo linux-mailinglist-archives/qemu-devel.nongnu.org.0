@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9FAAEE27
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:09:35 +0200 (CEST)
-Received: from localhost ([::1]:41210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6729AEE15
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:04:56 +0200 (CEST)
+Received: from localhost ([::1]:41110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hlu-0006dg-NL
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54801)
+	id 1i7hhP-0008L1-Bv
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7hRC-0000M9-5M
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:12 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7hRH-0000Q3-PM
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7hRB-0006PA-0Z
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:09 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33794)
+ (envelope-from <palmer@dabbelt.com>) id 1i7hRF-0006Ra-2j
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:15 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46193)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hRA-0006Ok-Rw
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:08 -0400
-Received: by mail-wr1-f66.google.com with SMTP id a11so11093836wrx.1
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:08 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hRE-0006Qm-EM
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:12 -0400
+Received: by mail-wr1-f68.google.com with SMTP id d17so8092519wrq.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
  :mime-version:content-transfer-encoding;
- bh=2V9FK9K2t1PGHm8vRzp0SynOI3GiSjvt1CUWvjkDi+w=;
- b=t0mmVLEp7c3dHxAdAoYi+LliW59G/rjiP7GkkR17Nq0SKaObNlT+xJ/U2r9beYvtgc
- SqdGelbui2zCFtz2Ylp5jt9shsRiHDjLhaGCxONZ7vrc22U2rdaJSeKXHVzQAR2IJuoe
- UgGzbqGf5EQjDKNClIYMfZJiBX0DvFq8vHw039R/cG+PQkERf76u4/6XBQVGw1KE0rjT
- 6sSEzOCCOEhBI3n1ncrP39ehiKQjQVZ2AYASk9PWG1SMHldQWhkY2Usz1ldZyHo80Cmh
- 29N4wQFvxgqcrej7/1lGW6MWJeqsOn+xbwXsUhhwezpH6rjW9wfVYU4SDPySwIQVMCdI
- ji7Q==
-X-Gm-Message-State: APjAAAUN9Z5GjBQV65ZjCUEWJz4m9pYeStB6hG7HbzZcCm4HPXpExwMB
- aeDcyyruSYbsqdbu8eaEpe628cAsnGL/6w==
-X-Google-Smtp-Source: APXvYqz5JBu/oMgO5Kj5C1A5/crLiTqrqJFjGGogbNk7IfMk8kScCpt3XAAVeUyq9koCvT19p55xbA==
-X-Received: by 2002:adf:db47:: with SMTP id f7mr26273520wrj.1.1568126887533;
- Tue, 10 Sep 2019 07:48:07 -0700 (PDT)
+ bh=sX5dnt1H0NPzA1MYbZxhDL297HTdjTWHoyxd1DtQJi0=;
+ b=TLdaYrLS77uFfCNsWg8xkpjEraimzp0YBRQFreK4dymSXm5gn+zDM9QgzVb6jK1gqT
+ Ml3/wxHDK21yFEqNyCn3/SgMvcRoCP6Kt2yUSF3K+A0EelbjT4Hd6XAkvesZue9HK+iD
+ S47dc40jg2IBYD2Z030oRjz81DNIiYHyVCwvR3Xt0FRQaBnhP298HkHJodDUov2QqPgV
+ DmIMrjkn0iUgtr18tnLuyGHvr4av+4R3LRHEiqqdrI5INBMYuMTpgCScVIYGZ78t/VNb
+ +lEEdJmh9Pkq4mhpVsMfOnIf8MVYo0fzdbVXxGKMyD3m0NiUFUEi69RA+EyLXTYf/lWC
+ kdDQ==
+X-Gm-Message-State: APjAAAWret3U15hxdjw8ebEplkCGEvTobNoWz/TPij8p9VsJbGjuOg7R
+ w9aD/4tDOjYCum4NDuABEau3nvqO8JJfTA==
+X-Google-Smtp-Source: APXvYqy2OaAQT8quyLVWn0c0t6YpVOHaynKV1QGiG1AE+5k7B8QeSG+SEh9KhTHOkhK1ZtgQsvGtww==
+X-Received: by 2002:a5d:6585:: with SMTP id q5mr25320303wru.162.1568126890787; 
+ Tue, 10 Sep 2019 07:48:10 -0700 (PDT)
 Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id b144sm3646416wmb.3.2019.09.10.07.48.06
+ by smtp.gmail.com with ESMTPSA id p23sm3240563wma.18.2019.09.10.07.48.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 07:48:07 -0700 (PDT)
-Date: Tue, 10 Sep 2019 07:48:07 -0700 (PDT)
-X-Google-Original-Date: Tue, 10 Sep 2019 07:43:50 PDT (-0700)
-In-Reply-To: <413539f43f6b9c120efd4c882ce7341ef3530b81.1566603412.git.alistair.francis@wdc.com>
+ Tue, 10 Sep 2019 07:48:10 -0700 (PDT)
+Date: Tue, 10 Sep 2019 07:48:10 -0700 (PDT)
+X-Google-Original-Date: Tue, 10 Sep 2019 07:44:36 PDT (-0700)
+In-Reply-To: <bc32540efd592bc56ef8c4a59ecc142d8dc594a0.1566603412.git.alistair.francis@wdc.com>
 From: Palmer Dabbelt <palmer@sifive.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-16fd87b6-4cf3-45ec-bcc5-12bd4463aa06@palmer-si-x1e>
+Message-ID: <mhng-295434c5-b526-4ca5-ae7a-107a7126954f@palmer-si-x1e>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v1 06/28] target/riscv: Print priv and virt
- in disas log
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v1 08/28] target/riscv: Add Hypervisor CSR
+ access functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,31 +73,105 @@ Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Aug 2019 16:38:05 PDT (-0700), Alistair Francis wrote:
+On Fri, 23 Aug 2019 16:38:10 PDT (-0700), Alistair Francis wrote:
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  target/riscv/translate.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  target/riscv/csr.c | 68 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 68 insertions(+)
 >
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index adeddb85f6..8ac72c6470 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -810,7 +810,15 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
->
->  static void riscv_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
->  {
-> +#ifndef CONFIG_USER_ONLY
-> +    RISCVCPU *rvcpu = RISCV_CPU(cpu);
-> +    CPURISCVState *env = &rvcpu->env;
-> +#endif
-> +
->      qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
-> +#ifndef CONFIG_USER_ONLY
-> +    qemu_log("Priv: "TARGET_FMT_ld"; Virt: "TARGET_FMT_ld"\n", env->priv, env->virt);
-> +#endif
->      log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 471f23a1d0..388775d45a 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -98,6 +98,20 @@ static int smode(CPURISCVState *env, int csrno)
+>      return -!riscv_has_ext(env, RVS);
 >  }
+>
+> +static int hmode(CPURISCVState *env, int csrno)
+> +{
+> +    if (riscv_has_ext(env, RVS) &&
+> +        riscv_has_ext(env, RVH)) {
+> +        /* Hypervisor extension is supported */
+> +        if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+> +            env->priv == PRV_M) {
+> +            return 0;
+> +        }
+> +    }
+> +
+> +    return -1;
+> +}
+> +
+>  static int pmp(CPURISCVState *env, int csrno)
+>  {
+>      return -!riscv_feature(env, RISCV_FEATURE_PMP);
+> @@ -754,6 +768,55 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
+>      return 0;
+>  }
+>
+> +/* Hypervisor Extensions */
+> +static int read_hstatus(CPURISCVState *env, int csrno, target_ulong *val)
+> +{
+> +    *val = env->hstatus;
+> +    return 0;
+> +}
+> +
+> +static int write_hstatus(CPURISCVState *env, int csrno, target_ulong val)
+> +{
+> +    env->hstatus = val;
+> +    return 0;
+> +}
+> +
+> +static int read_hedeleg(CPURISCVState *env, int csrno, target_ulong *val)
+> +{
+> +    *val = env->hedeleg;
+> +    return 0;
+> +}
+> +
+> +static int write_hedeleg(CPURISCVState *env, int csrno, target_ulong val)
+> +{
+> +    env->hedeleg = val;
+> +    return 0;
+> +}
+> +
+> +static int read_hideleg(CPURISCVState *env, int csrno, target_ulong *val)
+> +{
+> +    *val = env->hideleg;
+> +    return 0;
+> +}
+> +
+> +static int write_hideleg(CPURISCVState *env, int csrno, target_ulong val)
+> +{
+> +    env->hideleg = val;
+> +    return 0;
+> +}
+> +
+> +static int read_hgatp(CPURISCVState *env, int csrno, target_ulong *val)
+> +{
+> +    *val = env->hgatp;
+> +    return 0;
+> +}
+> +
+> +static int write_hgatp(CPURISCVState *env, int csrno, target_ulong val)
+> +{
+> +    env->hgatp = val;
+> +    return 0;
+> +}
+> +
+>  /* Physical Memory Protection */
+>  static int read_pmpcfg(CPURISCVState *env, int csrno, target_ulong *val)
+>  {
+> @@ -950,6 +1013,11 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      /* Supervisor Protection and Translation */
+>      [CSR_SATP] =                { smode, read_satp,        write_satp        },
+>
+> +    [CSR_HSTATUS] =             { hmode,   read_hstatus,     write_hstatus    },
+> +    [CSR_HEDELEG] =             { hmode,   read_hedeleg,     write_hedeleg    },
+> +    [CSR_HIDELEG] =             { hmode,   read_hideleg,     write_hideleg    },
+> +    [CSR_HGATP] =               { hmode,   read_hgatp,       write_hgatp      },
+> +
+>      /* Physical Memory Protection */
+>      [CSR_PMPCFG0  ... CSR_PMPADDR9] =  { pmp,   read_pmpcfg,  write_pmpcfg   },
+>      [CSR_PMPADDR0 ... CSR_PMPADDR15] = { pmp,   read_pmpaddr, write_pmpaddr  },
 
 Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 
