@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE34DAE65A
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:11:02 +0200 (CEST)
-Received: from localhost ([::1]:36206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59E8AE65F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:12:29 +0200 (CEST)
+Received: from localhost ([::1]:36238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7cAv-0006xr-Jq
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37155)
+	id 1i7cCK-0000cv-Mw
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqp-0000eD-6i
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqp-0000et-M2
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqn-0000Xe-LE
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:14 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35695)
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqo-0000YQ-Fw
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:15 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44454)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bqn-0000Ws-DL
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:13 -0400
-Received: by mail-wr1-x430.google.com with SMTP id g7so18461940wrx.2
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:13 -0700 (PDT)
+ id 1i7bqo-0000Xi-9I
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:14 -0400
+Received: by mail-wr1-x432.google.com with SMTP id k6so6264231wrn.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uAN7rc3XuPCMzWFwqeyrIQC5X91wCicNm0Fvw4/6E2E=;
- b=C8zN5YF2bIZOiJufd/kkJiysepEecK5RksYzGW+69AD94dU5gkZMuellz18zv7ca2r
- 72ZYZrSdqvIrNiiuLk1BBX9t/RrEd/y9aosQTuVLNPdus60Lg/76w4vdmf2oPpcc0UwQ
- CrKM6fiob9VpxS+Em3eqT6TNJ4Lh6ExpZEVlILDeb0MLsvUV//hfU3RUTJMm16iQg1PX
- JfWJ+NmliFGEGcFT4ulZpbopadqMjf/n2KqtPU6REtRbZF9qjmsDmA1fwh1otWU5t/vD
- NBJboCMbs0JPcfggegop3Z9cge/GXrshaSU4pI+FnVGfFe+X9dHeciBzbO7/liCC8njG
- Vt3A==
+ bh=GNd2ZKncMfCUSVKpijAHXvsP8/P4bKfNh6VELcXjcfM=;
+ b=rnPmBxMp0EDP43bQOIjGDCrXLzosyMdd0JG3AHGpRwvOAaZwN+j3C4uzXl4pnPFhh0
+ EQ70dGdnhQaIpp7I6DHmQ5MN7B64IIsPwg/ta/NJN3RzHLfCIJ77u/lZe1dJps1d8QYB
+ PLqBXcvpcXqpCYAlPBnOirShYRUm8cw0SpbLagW+4JZmsUPSo+rhTWDdfiizWiGeN/e5
+ xARnI2WtjTnz8o64RBAWQuvJCUfZrX6WBnrWZLESS8DIM5EyOlos8t6UUGbKlOLncQqr
+ KLPPvT5KW/4hmlVch/UCeqt5/82GOz1Ylj7XGDal7wyEHUoPksXacqke0r8Qe7n2hFBq
+ z+Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uAN7rc3XuPCMzWFwqeyrIQC5X91wCicNm0Fvw4/6E2E=;
- b=ntFvb3EtnEtMprq3FN8khu2OSeZLQWchV02YW8/WTVw7te98lHiW+N9XqL8ucCgp29
- WYYa8A5ya9V3PEWuXbElewyf+ilt+aCUtEYGBbID+NcvSCGuTB4GQnE7kpIOHc5/44tn
- INLLKI29NTvsE4s2kN4r9Q0v9B8LG0//oUGhI7pwUvQGix2NOfFE8lTqt4uOuMiqOTbW
- e8pY//fEgf1uoTyrT/QJk5m4xpXbDtQmocCzcBuVj0VLpugdbTzmBqPabGv+0ymFUU4M
- QYKgyqv1GSSqJv06cHsAT+RN9FDqJRh9N19smx+2D9ay0ptWUcDc7jF0SDqNH2uM3hb+
- e1Lg==
-X-Gm-Message-State: APjAAAWeJcfQO/iaMjj6iU3bs5qoxhT7E8PIx9u93zJl3YdP/nb/j2El
- IziAeWlPARQkRNjXflun1nW6SA==
-X-Google-Smtp-Source: APXvYqx0TLtx0PUI7+X37UN8zeR2Ta52Q1m/6sOkzSc/CaWPS8pZLTO+/p3b5uvJ1r7EXoWqNBtEJg==
-X-Received: by 2002:adf:f284:: with SMTP id k4mr9706420wro.294.1568105412064; 
- Tue, 10 Sep 2019 01:50:12 -0700 (PDT)
+ bh=GNd2ZKncMfCUSVKpijAHXvsP8/P4bKfNh6VELcXjcfM=;
+ b=JIMPb7KhSOgGRl9Hk0wpSoK/OgwYb6js2UBTKSbq4xfUbsa/EVBoz/isTmig7CQPMy
+ IqLYoOHeckKx0i/ChUBsvsY2QJEYiL+4tJnCn0Dy0b/4fvq2S+QoqQjgULp6hZF1yEiI
+ uiiHCFfTGv+PUvbGxtjfZsBMbWdDfvKpeMliG6n5zycoluublhxSyXSq3boOaLFNO0Lo
+ ztjDf9rI+nuOG1qQDKhM+fo10AErO5obT6/rHA24iz5j9uHsXlI/Q99kqUX6Vh1L/1uK
+ BitcaLzbOvy104Lh0/o458fyS6nMGcvNdAMw7WYHxQGufErInWrW2qPlt+WzzxJ1jftE
+ TqJQ==
+X-Gm-Message-State: APjAAAXHsFjFjGrIf7JFYefGV8e7MLQTYl6KMxXNkRS1ivJNoCdzOmQN
+ NkmUwSPb8eTSdgZLCEFBYbJQbA==
+X-Google-Smtp-Source: APXvYqwYWYh+biRhi/FAYsizPEJqonP9oJMsjtEh8QIb9zXEZzQEj47rkML5tPqIjwSEJ5jlA1WOoA==
+X-Received: by 2002:a5d:6ac8:: with SMTP id u8mr24669749wrw.104.1568105413205; 
+ Tue, 10 Sep 2019 01:50:13 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b3sm14403871wrw.4.2019.09.10.01.50.11
+ by smtp.gmail.com with ESMTPSA id q14sm36461356wrc.77.2019.09.10.01.50.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 10 Sep 2019 01:50:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57EB21FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 6BDBA1FFC1;
  Tue, 10 Sep 2019 09:43:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:45 +0100
-Message-Id: <20190910084349.28817-42-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 09:43:46 +0100
+Message-Id: <20190910084349.28817-43-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
 References: <20190910084349.28817-1-alex.bennee@linaro.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PULL 41/45] .travis.yml: Cache Linux/GCC 'debug
+X-Received-From: 2a00:1450:4864:20::432
+Subject: [Qemu-devel] [PULL 42/45] .travis.yml: Cache Linux/GCC 'non-debug
  profile' jobs together
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,23 +98,89 @@ Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 diff --git a/.travis.yml b/.travis.yml
-index 51c7d19c071..d2da12580f3 100644
+index d2da12580f3..74f10d352fe 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -120,11 +120,13 @@ matrix:
+@@ -101,15 +101,18 @@ matrix:
+   include:
+     - env:
+         - CONFIG="--disable-system --static"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ 
+ 
+     # we split the system builds as it takes a while to build them all
+     - env:
+         - CONFIG="--disable-user --target-list=${MAIN_SOFTMMU_TARGETS}"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ 
+ 
+     - env:
+         - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ 
+ 
+     # Just build tools and run minimal unit and softfloat checks
+@@ -117,6 +120,8 @@ matrix:
+         - BASE_CONFIG="--enable-tools"
+         - CONFIG="--disable-user --disable-system"
+         - TEST_CMD="make check-unit check-softfloat -j3"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++
  
      - env:
          - CONFIG="--enable-debug --enable-debug-tcg --disable-user"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
- 
- 
-     # TCG debug can be run just on it's own and is mostly agnostic to user/softmmu distinctions
+@@ -136,6 +141,7 @@ matrix:
+     # Module builds are mostly of interest to major distros
      - env:
-         - CONFIG="--enable-debug-tcg --disable-system"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
+         - CONFIG="--enable-modules --target-list=${MAIN_SOFTMMU_TARGETS}"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
  
+ 
+     # Alternate coroutines implementations are only really of interest to KVM users
+@@ -155,6 +161,7 @@ matrix:
+         - BUILD_DIR="out-of-tree/build/dir" SRC_DIR="../../.."
+         - BASE_CONFIG="--enable-tools --enable-docs"
+         - CONFIG="--target-list=x86_64-softmmu,aarch64-linux-user"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+       addons:
+         apt:
+           packages:
+@@ -196,6 +203,7 @@ matrix:
+     # We manually include builds which we disable "make check" for
+     - env:
+         - CONFIG="--without-default-devices --disable-user"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+         - TEST_CMD=""
+ 
+ 
+@@ -239,6 +247,7 @@ matrix:
+     # Python builds
+     - env:
+         - CONFIG="--target-list=x86_64-softmmu"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+       language: python
+       python:
+         - "3.4"
+@@ -246,6 +255,7 @@ matrix:
  
      - env:
+         - CONFIG="--target-list=x86_64-softmmu"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+       language: python
+       python:
+         - "3.6"
+@@ -317,8 +327,11 @@ matrix:
+     - env:
+         - CONFIG="--disable-system"
+         - TEST_CMD="make -j3 check-tcg V=1"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++
+ 
+     # Run check-tcg against softmmu targets
+     - env:
+         - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+         - TEST_CMD="make -j3 check-tcg V=1"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
 -- 
 2.20.1
 
