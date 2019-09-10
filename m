@@ -2,60 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5645BAEE3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:12:30 +0200 (CEST)
-Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7D1AEE4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:14:57 +0200 (CEST)
+Received: from localhost ([::1]:41266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hoj-00025D-F7
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54911)
+	id 1i7hr7-00049x-1F
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55618)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7hRL-0000Qj-KL
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:21 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i7hVT-0004sr-OA
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:52:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7hRH-0006T8-M5
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:17 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40379)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hRF-0006Rg-PR
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:15 -0400
-Received: by mail-wr1-f66.google.com with SMTP id w13so20844898wru.7
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=RiTHrpgU3B0MiYSbYNW6lylv7KMy24cPo0VecPYJQkA=;
- b=fM9ZpvBgnsJRc7Hp3St3GccBsg0atRpFQTJzKhGId7Dmx4NLRhPBi7PD1DS3mQb29V
- kdj75sdMb5U8bNqibnBQSiEPEkLfPaD1+g2++6HV9KTFuJdebMZtsLJEh5cFlafLeCJJ
- dChX/8JHU0E6Dhex/mo5JZ5y/1W+0D5ffQ8UOSBD+hv+hsylbmxoSyoe37EwWWFn0Reo
- 1W3HmIeQH1xvOfSdkaTl9chkzFvSQZV2/zQp1Q6PRSX+ED81eMAOxKcaTdA+EwMjV29m
- 4C0U2/8cpJ4z3kauPpoKYpSkMBDx2M5o1/feLMenCFXqycj0GITjicF92SDmlnHgwy8W
- S6HQ==
-X-Gm-Message-State: APjAAAU8Vl5UnoI4lkZtd0c0TYPniVeeC+TafdUELMLz4DA1r6+npKSO
- W7GFUo3K64ez+XlpfQtajaTKUgiA6KHEcA==
-X-Google-Smtp-Source: APXvYqyk30GG6CN5yzq25be7Wl4lo1Q7sQMlBluWqN9jOgkuuuiwaF3xbnILXB92D5MMGUudcgnGSA==
-X-Received: by 2002:a5d:5689:: with SMTP id f9mr24923813wrv.224.1568126892404; 
- Tue, 10 Sep 2019 07:48:12 -0700 (PDT)
-Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id c8sm5502766wrr.49.2019.09.10.07.48.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 07:48:11 -0700 (PDT)
-Date: Tue, 10 Sep 2019 07:48:11 -0700 (PDT)
-X-Google-Original-Date: Tue, 10 Sep 2019 07:44:50 PDT (-0700)
-In-Reply-To: <01efc597b0d12ec51e6bb829b4bfe0f6c4dca2a4.1566603412.git.alistair.francis@wdc.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-f51d57a7-0e18-4749-aad6-938b2f9f9ecf@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (envelope-from <kwolf@redhat.com>) id 1i7hVS-0000kY-K9
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:52:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53806)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i7hVQ-0000jg-7I; Tue, 10 Sep 2019 10:52:32 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8C4B93082B40;
+ Tue, 10 Sep 2019 14:52:31 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-217.ams2.redhat.com
+ [10.36.116.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 822A960BF3;
+ Tue, 10 Sep 2019 14:52:30 +0000 (UTC)
+Date: Tue, 10 Sep 2019 16:52:29 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190910145229.GI4446@localhost.localdomain>
+References: <20190809161407.11920-1-mreitz@redhat.com>
+ <20190809161407.11920-23-mreitz@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190809161407.11920-23-mreitz@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 10 Sep 2019 14:52:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v1 09/28] target/riscv: Add Hypervisor
- virtual CSRs accesses
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 22/42] block: Fix
+ bdrv_get_allocated_file_size's fallback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,178 +59,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
- qemu-devel@nongnu.org, Atish Patra <Atish.Patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Aug 2019 16:38:13 PDT (-0700), Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu_bits.h |  11 ++++
->  target/riscv/csr.c      | 119 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 130 insertions(+)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 204d9d9a79..78067901a2 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -191,6 +191,17 @@
->  #define HGATP_PPN            SATP64_PPN
->  #endif
->
-> +/* Virtual CSRs */
-> +#define CSR_VSSTATUS        0x200
-> +#define CSR_VSIE            0x204
-> +#define CSR_VSTVEC          0x205
-> +#define CSR_VSSCRATCH       0x240
-> +#define CSR_VSEPC           0x241
-> +#define CSR_VSCAUSE         0x242
-> +#define CSR_VSTVAL          0x243
-> +#define CSR_VSIP            0x244
-> +#define CSR_VSATP           0x280
-> +
->  /* Physical Memory Protection */
->  #define CSR_PMPCFG0         0x3a0
->  #define CSR_PMPCFG1         0x3a1
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 388775d45a..e2e908fbc0 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -817,6 +817,115 @@ static int write_hgatp(CPURISCVState *env, int csrno, target_ulong val)
->      return 0;
->  }
->
-> +/* Virtual CSR Registers */
-> +static int read_vsstatus(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vsstatus;
-> +    return 0;
-> +}
-> +
-> +static int write_vsstatus(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vsstatus = val;
-> +    return 0;
-> +}
-> +
-> +static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vsie;
-> +    return 0;
-> +}
-> +
-> +static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vsie = val;
-> +    return 0;
-> +}
-> +
-> +static int read_vstvec(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vstvec;
-> +    return 0;
-> +}
-> +
-> +static int write_vstvec(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vstvec = val;
-> +    return 0;
-> +}
-> +
-> +static int read_vsscratch(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vsscratch;
-> +    return 0;
-> +}
-> +
-> +static int write_vsscratch(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vsscratch = val;
-> +    return 0;
-> +}
-> +
-> +static int read_vsepc(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vsepc;
-> +    return 0;
-> +}
-> +
-> +static int write_vsepc(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vsepc = val;
-> +    return 0;
-> +}
-> +
-> +static int read_vscause(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vscause;
-> +    return 0;
-> +}
-> +
-> +static int write_vscause(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vscause = val;
-> +    return 0;
-> +}
-> +
-> +static int read_vstval(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vstval;
-> +    return 0;
-> +}
-> +
-> +static int write_vstval(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vstval = val;
-> +    return 0;
-> +}
-> +
-> +static int read_vsip(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = (target_ulong)atomic_read(&env->vsip);
-> +    return 0;
-> +}
-> +
-> +static int write_vsip(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    atomic_set(&env->vsip, val);
-> +    return 0;
-> +}
-> +
-> +static int read_vsatp(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vsatp;
-> +    return 0;
-> +}
-> +
-> +static int write_vsatp(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vsatp = val;
-> +    return 0;
-> +}
-> +
->  /* Physical Memory Protection */
->  static int read_pmpcfg(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> @@ -1018,6 +1127,16 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_HIDELEG] =             { hmode,   read_hideleg,     write_hideleg    },
->      [CSR_HGATP] =               { hmode,   read_hgatp,       write_hgatp      },
->
-> +    [CSR_VSSTATUS] =            { hmode,   read_vsstatus,    write_vsstatus   },
-> +    [CSR_VSIE] =                { hmode,   read_vsie,        write_vsie       },
-> +    [CSR_VSTVEC] =              { hmode,   read_vstvec,      write_vstvec     },
-> +    [CSR_VSSCRATCH] =           { hmode,   read_vsscratch,   write_vsscratch  },
-> +    [CSR_VSEPC] =               { hmode,   read_vsepc,       write_vsepc      },
-> +    [CSR_VSCAUSE] =             { hmode,   read_vscause,     write_vscause    },
-> +    [CSR_VSTVAL] =              { hmode,   read_vstval,      write_vstval     },
-> +    [CSR_VSIP] =                { hmode,   read_vsip,        write_vsip       },
-> +    [CSR_VSATP] =               { hmode,   read_vsatp,       write_vsatp      },
-> +
->      /* Physical Memory Protection */
->      [CSR_PMPCFG0  ... CSR_PMPADDR9] =  { pmp,   read_pmpcfg,  write_pmpcfg   },
->      [CSR_PMPADDR0 ... CSR_PMPADDR15] = { pmp,   read_pmpaddr, write_pmpaddr  },
+Am 09.08.2019 um 18:13 hat Max Reitz geschrieben:
+> If the driver does not implement bdrv_get_allocated_file_size(), we
+> should fall back to cumulating the allocated size of all non-COW
+> children instead of just bs->file.
+> 
+> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+This smells like an overgeneralisation, but if we want to count all vmdk
+extents, the qcow2 external data file, etc. it's an improvement anyway.
+A driver that has a child that should not be counted must just remember
+to implement the callback.
+
+Let me think of an example... How about quorum, for a change? :-)
+Or the second blkverify child.
+
+Or eventually the block job filter nodes.
+
+Ehm... Maybe I should just take back what I said first. It almost feels
+like it would be better if qcow2 and vmdk explicitly used a handler that
+counts all children (could still be a generic one in block.c) rather
+than having to remember to disable the functionality everywhere where we
+don't want to have it.
+
+And please adjust the comment for bdrv_get_allocated_file_size(), it
+only talks about a single file as if trees didn't exist. Actually, it
+doesn't even seem so easy to define. Maybe primary node + storage nodes?
+Then vmdk needs to expose its extents as storage nodes (plural!), but
+in the long run that might be needed anyway.
+
+Kevin
 
