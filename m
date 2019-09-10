@@ -2,111 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6A8AECD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:19:27 +0200 (CEST)
-Received: from localhost ([::1]:40326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD77AECF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:27:20 +0200 (CEST)
+Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7gzO-0001ie-QG
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
+	id 1i7h70-0005nZ-Mw
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i7gxh-0000fI-J9
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:17:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1i7h5t-0005NW-4z
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:26:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i7gxf-0008KY-Ji
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:17:41 -0400
-Received: from mail-eopbgr20123.outbound.protection.outlook.com
- ([40.107.2.123]:33454 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i7gxV-0008Fn-7x; Tue, 10 Sep 2019 10:17:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gUvzLG6mG82Pt4C2+pyHQ6dirqLGW23YofsScmQ1LkCm4AdNjwBzPZrl34D1cPjyC7i566oqo+EUF1WkH7obQa9uOZgOG62qUqwPyrKWsPzM80+JnL7sLWtj7DDKxzerGPWlYBBUq+jlCbwjyFwBgEo1F1eIPFt4SRkMLnSYZ5IJg+pypCGLdp7OLSNz3UOQFAHb7N48W0xsBlXE7Y5Teuw4csgunSWr/oz461A3Lgt4Vjn6eL2pwBtNIH8IQXh5f11KdEOod3LPTdNRNvFyvdV+a2NSgiN+d7e7AYiDA0VQkxqzT2UjsMp4PyKK8jfHiGQCUsoYYuXB9MQbdkKhew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7W94aMgJ7KcisHu2Uj3ISe/fj5DpWbYENn5v1Pox+Dg=;
- b=GKcsSH7Z/H+5ZjYUZbAaAQCrJdHpZE0vVyztVICrpTgfgtWmjWovb51uk15jGTdGVDceUpuyHwcOfaPei5s+HIV575fEVX7OqgbJWyhfvoU/pv4fitQ6qfBint2icZbZckNt2Fpsq4s7pvlNGGR0d8UYTY5x1SHYOFlMZyTSRjMlU2gRBG4sRwZRoiC9qQEeLWD741G1OdjqJ7RNhsHwg9XvUSy3GUO0dPO8kiIqUqiB3rCNNfDIVkJN7Ka6Wa5yqrKHLVhgUY5F4ZyveQY2vOkYCnfhKNPHp0vGc1x7ozZVZ5DsVoEitjRMwf+amEl3p+VamZQVOG8Y6fssqzD04Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7W94aMgJ7KcisHu2Uj3ISe/fj5DpWbYENn5v1Pox+Dg=;
- b=wLcM5Lo8GrZVkGNeXg9VrkiGuEmJggsKqooEEPX3wnW8BnvfFcgzDkQpS8zwj/PBI8WvVYnjw3e94ZMfVUQ70MZKch3RxSJv3OIQijwhrJd+tQNreJyISoyhfmhg/0ritjSyHhPl0GUT+jsPhPopfCb4BHIcf5pC1tXQTMVEc/M=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5419.eurprd08.prod.outlook.com (52.133.241.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2241.18; Tue, 10 Sep 2019 14:17:27 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2241.018; Tue, 10 Sep 2019
- 14:17:26 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 1/3] block/qcow2: refactoring of threaded encryption
- code
-Thread-Index: AQHVZO1jU8Wsr4Od2EySuqG2u22JMqcglVOAgARIMwCAAB2NAA==
-Date: Tue, 10 Sep 2019 14:17:26 +0000
-Message-ID: <a21dc942-404c-6fc5-08c5-88be1d01508b@virtuozzo.com>
-References: <20190906195750.17651-1-mlevitsk@redhat.com>
- <20190906195750.17651-2-mlevitsk@redhat.com>
- <7634baef-f42f-4603-2ec9-3f4aa6cfe278@virtuozzo.com>
- <dd0b472186f651823a3ba7a74111a8361235109a.camel@redhat.com>
-In-Reply-To: <dd0b472186f651823a3ba7a74111a8361235109a.camel@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P191CA0022.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::32)
- To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190910171724274
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d4d8921a-5a56-44ba-98a7-08d735f99b54
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5419; 
-x-ms-traffictypediagnostic: DB8PR08MB5419:
-x-microsoft-antispam-prvs: <DB8PR08MB54192A5A85F90E7693CEE847C1B60@DB8PR08MB5419.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 01565FED4C
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(366004)(39840400004)(376002)(396003)(346002)(199004)(189003)(52314003)(51914003)(5660300002)(81156014)(6436002)(66556008)(66066001)(386003)(6506007)(2501003)(71200400001)(229853002)(71190400001)(6486002)(486006)(478600001)(31686004)(476003)(2616005)(11346002)(446003)(6116002)(26005)(186003)(256004)(36756003)(102836004)(86362001)(31696002)(99286004)(316002)(2906002)(25786009)(14454004)(52116002)(30864003)(76176011)(110136005)(54906003)(6512007)(6246003)(305945005)(7736002)(14444005)(8936002)(4326008)(81166006)(66476007)(53936002)(66446008)(66946007)(3846002)(64756008)(8676002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5419;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: sQVQrJ+ROpKE1pbAZ8rMd+HwL+cvU4lk18vJ5Wkpyg+AsEjLaWgu/WN9SRoAn085/jyhx6h8re7vqAQ8Afru+ZoS5uqKUq9iC4HzXSq/mWTNab/S2Kkk7kWS2lTL4Z628O63/zrIMXCvRijqT+1Sh/vSPGzFy1ovp7QFFKYzi9ZK+AYm0RN+FX1c/g88aEBYWJj1QV4/cNYw+zMzZV4L1YpiCE62tAcXetR/lZ/nuOUpBD/TUoVYNOA4N3kivm871M3uYgwCT87VnKBvsGkQZ6gcDJ2+JC3kyfdDXNvp744CSN7ktV+pdVIE03P4CNR4HmZrrUZ8+YpnoGhSjP28RAPRK44T1fN7hhgtzgAWXW9tQl4UbjbeBXNaM4dEywBeQpgAR2dqooYfFCZ24vkVyjSWD0sJYzy2v6zvlXdU+jM=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3CA3E97938746248835552DBA45445BC@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1i7h5r-0004bI-6a
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:26:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43478)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i7h5r-0004ag-0X
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:26:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i7h5n-00046V-L4
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 14:26:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 44D772E80D9
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 14:26:02 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4d8921a-5a56-44ba-98a7-08d735f99b54
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Sep 2019 14:17:26.7977 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: F959fhI7/cbR7z1chNA1zPMGgYXzsQTqm1tbPpIzaqGq6E217xVVd0Uft4U63clR2CntpGjVfCGqtjh5jtlZ3hnkx5RwNhhAsnrnERZzF5g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5419
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.2.123
-Subject: Re: [Qemu-devel] [PATCH v2 1/3] block/qcow2: refactoring of
- threaded encryption code
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Sep 2019 14:16:48 -0000
+From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=In Progress; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dannf jnsnow lizhengui rafaeldtinoco
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <156812500849.592.15082482903371865706.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8d6d35b99dcb9a9c56da5610f7671f84c14454fb
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1805256] Re: qemu-img hangs on high core count
+ ARM system
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -115,216 +68,325 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?utf-8?B?RGFuaWVsIFAgLiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- qemu-stable <qemu-stable@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTAuMDkuMjAxOSAxNTozMSwgTWF4aW0gTGV2aXRza3kgd3JvdGU6DQo+IE9uIFNhdCwgMjAxOS0w
-OS0wNyBhdCAxOTowOCArMDAwMCwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToN
-Cj4+IDA2LjA5LjIwMTkgMjI6NTcsIE1heGltIExldml0c2t5IHdyb3RlOg0KPj4+IFRoaXMgY29t
-bWl0IHRyaWVzIHRvIGNsYXJpZnkgZmV3IGZ1bmN0aW9uIGFyZ3VtZW50cywNCj4+PiBhbmQgYWRk
-IGNvbW1lbnRzIGRlc2NyaWJpbmcgdGhlIGVuY3J5cHQvZGVjcnlwdCBpbnRlcmZhY2UNCj4+Pg0K
-Pj4+IFNpZ25lZC1vZmYtYnk6IE1heGltIExldml0c2t5IDxtbGV2aXRza0ByZWRoYXQuY29tPg0K
-Pj4+IC0tLQ0KPj4+ICAgIGJsb2NrL3Fjb3cyLWNsdXN0ZXIuYyB8IDEwICsrKy0tLS0NCj4+PiAg
-ICBibG9jay9xY293Mi10aHJlYWRzLmMgfCA2MSArKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrLS0tLS0tLS0tDQo+Pj4gICAgMiBmaWxlcyBjaGFuZ2VkLCA1MyBpbnNlcnRpb25zKCsp
-LCAxOCBkZWxldGlvbnMoLSkNCj4+Pg0KPj4+IGRpZmYgLS1naXQgYS9ibG9jay9xY293Mi1jbHVz
-dGVyLmMgYi9ibG9jay9xY293Mi1jbHVzdGVyLmMNCj4+PiBpbmRleCBmMDljYzk5MmFmLi4xOTg5
-YjQyM2RhIDEwMDY0NA0KPj4+IC0tLSBhL2Jsb2NrL3Fjb3cyLWNsdXN0ZXIuYw0KPj4+ICsrKyBi
-L2Jsb2NrL3Fjb3cyLWNsdXN0ZXIuYw0KPj4+IEBAIC00NjMsOCArNDYzLDggQEAgc3RhdGljIGlu
-dCBjb3JvdXRpbmVfZm4gZG9fcGVyZm9ybV9jb3dfcmVhZChCbG9ja0RyaXZlclN0YXRlICpicywN
-Cj4+PiAgICB9DQo+Pj4gICAgDQo+Pj4gICAgc3RhdGljIGJvb2wgY29yb3V0aW5lX2ZuIGRvX3Bl
-cmZvcm1fY293X2VuY3J5cHQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsDQo+Pj4gLSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IHNyY19jbHVzdGVy
-X29mZnNldCwNCj4+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgdWludDY0X3QgY2x1c3Rlcl9vZmZzZXQsDQo+Pj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IGd1ZXN0X2NsdXN0ZXJfb2Zmc2V0
-LA0KPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1
-aW50NjRfdCBob3N0X2NsdXN0ZXJfb2Zmc2V0LA0KPj4+ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIG9mZnNldF9pbl9jbHVzdGVyLA0K
-Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVp
-bnQ4X3QgKmJ1ZmZlciwNCj4+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB1bnNpZ25lZCBieXRlcykNCj4+PiBAQCAtNDc0LDggKzQ3NCw4IEBAIHN0
-YXRpYyBib29sIGNvcm91dGluZV9mbiBkb19wZXJmb3JtX2Nvd19lbmNyeXB0KEJsb2NrRHJpdmVy
-U3RhdGUgKmJzLA0KPj4+ICAgICAgICAgICAgYXNzZXJ0KChvZmZzZXRfaW5fY2x1c3RlciAmIH5C
-RFJWX1NFQ1RPUl9NQVNLKSA9PSAwKTsNCj4+PiAgICAgICAgICAgIGFzc2VydCgoYnl0ZXMgJiB+
-QkRSVl9TRUNUT1JfTUFTSykgPT0gMCk7DQo+Pj4gICAgICAgICAgICBhc3NlcnQocy0+Y3J5cHRv
-KTsNCj4+PiAtICAgICAgICBpZiAocWNvdzJfY29fZW5jcnlwdChicywgY2x1c3Rlcl9vZmZzZXQs
-DQo+Pj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3JjX2NsdXN0ZXJfb2Zmc2V0ICsg
-b2Zmc2V0X2luX2NsdXN0ZXIsDQo+Pj4gKyAgICAgICAgaWYgKHFjb3cyX2NvX2VuY3J5cHQoYnMs
-IGhvc3RfY2x1c3Rlcl9vZmZzZXQsDQo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-Z3Vlc3RfY2x1c3Rlcl9vZmZzZXQgKyBvZmZzZXRfaW5fY2x1c3RlciwNCj4+PiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGJ1ZmZlciwgYnl0ZXMpIDwgMCkgew0KPj4+ICAgICAgICAg
-ICAgICAgIHJldHVybiBmYWxzZTsNCj4+PiAgICAgICAgICAgIH0NCj4+PiBAQCAtNDk2LDcgKzQ5
-Niw3IEBAIHN0YXRpYyBpbnQgY29yb3V0aW5lX2ZuIGRvX3BlcmZvcm1fY293X3dyaXRlKEJsb2Nr
-RHJpdmVyU3RhdGUgKmJzLA0KPj4+ICAgICAgICB9DQo+Pj4gICAgDQo+Pj4gICAgICAgIHJldCA9
-IHFjb3cyX3ByZV93cml0ZV9vdmVybGFwX2NoZWNrKGJzLCAwLA0KPj4+IC0gICAgICAgICAgICBj
-bHVzdGVyX29mZnNldCArIG9mZnNldF9pbl9jbHVzdGVyLCBxaW92LT5zaXplLCB0cnVlKTsNCj4+
-PiArICAgICAgICAgICAgICBjbHVzdGVyX29mZnNldCArIG9mZnNldF9pbl9jbHVzdGVyLCBxaW92
-LT5zaXplLCB0cnVlKTsNCj4+DQo+Pg0KPj4gSG1tLCB1bnJlbGF0ZWQgaHVuay4NCj4gDQo+IEkg
-d2FzIGFza2VkIHRvIGRvIHRoaXMgdG8gZml4IGNvZGluZyBzdHlsZSwgc28gdGhhdCB3cmFwcGVk
-IGxpbmUsDQo+IGlzIDQgY2hhcmFjdGVycyBzaGlmdGVkIHRvIHRoZSByaWdodC4NCg0KQUZBSVMs
-IEVyaWMgYXNrZWQgb25seSBhYm91dCBxY293Ml9jb19lbmNkZWMgY2FsbHMgYW5kIGRlZmluaXRp
-b24uLiBJdCdzIE9LIHRvIGZpeCBzdHlsZSBpbiBjb2RlDQp5b3UgdG91Y2ggaW4geW91IHBhdGNo
-IGFueXdheSwgYnV0IG5vIHJlYXNvbiB0byBmaXggc3R5bGUgc29tZXdoZXJlIGVsc2UsIGl0IGRp
-cnRpZXMgcGF0Y2ggZm9yDQpubyByZWFzb24sIG1ha2luZyBpdCBtb3JlIGRpZmZpY3VsdCAoYSBi
-aXQsIGJ1dCBzdGlsbCkgdG8gcmV2aWV3IGFuZCBtb3JlIGRpZmZpY3VsdCB0byBiYWNrcG9ydC4u
-DQoNCj4gDQo+Pg0KPj4+ICAgICAgICBpZiAocmV0IDwgMCkgew0KPj4+ICAgICAgICAgICAgcmV0
-dXJuIHJldDsNCj4+PiAgICAgICAgfQ0KPj4+IGRpZmYgLS1naXQgYS9ibG9jay9xY293Mi10aHJl
-YWRzLmMgYi9ibG9jay9xY293Mi10aHJlYWRzLmMNCj4+PiBpbmRleCAzYjFlNjNmZTQxLi5jM2Nk
-YTBjNmE1IDEwMDY0NA0KPj4+IC0tLSBhL2Jsb2NrL3Fjb3cyLXRocmVhZHMuYw0KPj4+ICsrKyBi
-L2Jsb2NrL3Fjb3cyLXRocmVhZHMuYw0KPj4+IEBAIC0yMzQsMTUgKzIzNCwxOSBAQCBzdGF0aWMg
-aW50IHFjb3cyX2VuY2RlY19wb29sX2Z1bmModm9pZCAqb3BhcXVlKQ0KPj4+ICAgIH0NCj4+PiAg
-ICANCj4+PiAgICBzdGF0aWMgaW50IGNvcm91dGluZV9mbg0KPj4+IC1xY293Ml9jb19lbmNkZWMo
-QmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2NF90IGZpbGVfY2x1c3Rlcl9vZmZzZXQsDQo+Pj4g
-LSAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IG9mZnNldCwgdm9pZCAqYnVmLCBzaXplX3QgbGVu
-LCBRY293MkVuY0RlY0Z1bmMgZnVuYykNCj4+PiArcWNvdzJfY29fZW5jZGVjKEJsb2NrRHJpdmVy
-U3RhdGUgKmJzLCB1aW50NjRfdCBob3N0X2NsdXN0ZXJfb2Zmc2V0LA0KPj4+ICsgICAgICAgICAg
-ICAgICAgdWludDY0X3QgZ3Vlc3Rfb2Zmc2V0LCB2b2lkICpidWYsIHNpemVfdCBsZW4sDQo+Pj4g
-KyAgICAgICAgICAgICAgICBRY293MkVuY0RlY0Z1bmMgZnVuYykNCj4+PiAgICB7DQo+Pj4gICAg
-ICAgIEJEUlZRY293MlN0YXRlICpzID0gYnMtPm9wYXF1ZTsNCj4+PiArDQo+Pj4gKyAgICB1aW50
-NjRfdCBvZmZzZXQgPSBzLT5jcnlwdF9waHlzaWNhbF9vZmZzZXQgPw0KPj4+ICsgICAgICAgIGhv
-c3RfY2x1c3Rlcl9vZmZzZXQgKyBvZmZzZXRfaW50b19jbHVzdGVyKHMsIGd1ZXN0X29mZnNldCkg
-Og0KPj4+ICsgICAgICAgIGd1ZXN0X29mZnNldDsNCj4+PiArDQo+Pj4gICAgICAgIFFjb3cyRW5j
-RGVjRGF0YSBhcmcgPSB7DQo+Pj4gICAgICAgICAgICAuYmxvY2sgPSBzLT5jcnlwdG8sDQo+Pj4g
-LSAgICAgICAgLm9mZnNldCA9IHMtPmNyeXB0X3BoeXNpY2FsX29mZnNldCA/DQo+Pj4gLSAgICAg
-ICAgICAgICAgICAgICAgICBmaWxlX2NsdXN0ZXJfb2Zmc2V0ICsgb2Zmc2V0X2ludG9fY2x1c3Rl
-cihzLCBvZmZzZXQpIDoNCj4+PiAtICAgICAgICAgICAgICAgICAgICAgIG9mZnNldCwNCj4+PiAr
-ICAgICAgICAub2Zmc2V0ID0gb2Zmc2V0LA0KPj4+ICAgICAgICAgICAgLmJ1ZiA9IGJ1ZiwNCj4+
-PiAgICAgICAgICAgIC5sZW4gPSBsZW4sDQo+Pj4gICAgICAgICAgICAuZnVuYyA9IGZ1bmMsDQo+
-Pj4gQEAgLTI1MSwxOCArMjU1LDQ5IEBAIHFjb3cyX2NvX2VuY2RlYyhCbG9ja0RyaXZlclN0YXRl
-ICpicywgdWludDY0X3QgZmlsZV9jbHVzdGVyX29mZnNldCwNCj4+PiAgICAgICAgcmV0dXJuIHFj
-b3cyX2NvX3Byb2Nlc3MoYnMsIHFjb3cyX2VuY2RlY19wb29sX2Z1bmMsICZhcmcpOw0KPj4+ICAg
-IH0NCj4+PiAgICANCj4+PiArDQo+Pj4gKy8qDQo+Pj4gKyAqIHFjb3cyX2NvX2VuY3J5cHQoKQ0K
-Pj4+ICsgKg0KPj4+ICsgKiBFbmNyeXB0cyBvbmUgb3IgbW9yZSBjb250aWd1b3VzIGFsaWduZWQg
-c2VjdG9ycw0KPj4+ICsgKg0KPj4+ICsgKiBAaG9zdF9jbHVzdGVyX29mZnNldCAtIG9uIGRpc2sg
-b2Zmc2V0IG9mIHRoZSBmaXJzdCBjbHVzdGVyIGluIHdoaWNoDQo+Pj4gKyAqIHRoZSBlbmNyeXB0
-ZWQgZGF0YSB3aWxsIGJlIHdyaXR0ZW4NCj4+DQo+Pg0KPj4gSXQncyBub3QgcXVpdGUgcmlnaHQs
-IGl0J3Mgbm90IG9uIGRpc2ssIGJ1dCBvbiAuZmlsZSBjaGlsZCBvZiBxY293MiBub2RlLCB3aGlj
-aA0KPj4gbWF5IGJlIGFueSBvdGhlciBmb3JtYXQgb3IgcHJvdG9jb2wgbm9kZS4uIFNvLCBJIGNh
-bGxlZCBpdCBmaWxlX2NsdXN0ZXJfb2Zmc2V0Lg0KPj4gQnV0IEknbSBPSyB3aXRoIG5ldyBuYW1p
-bmcgYW55d2F5LiBBbmQgaXQgbWF5IGJlIGJldHRlciBmb3IgZW5jcnlwdGlvbiByZWxhdGVkDQo+
-PiBsb2dpYy4uDQo+IA0KPiBZZXMsIHRoZSAuZmlsZSBpcyB0aGUgdW5kZXJseWluZyBzdG9yYWdl
-IGZvciBib3RoIHFjb3cyIG1ldGFkYXRhIGFuZCB0aGUgZGF0YSwNCj4gYW5kIGl0IGlzIHVubGlr
-ZWx5IGJlIGFub3RoZXIgcWNvdzIgZmlsZS4gVXN1YWxseSBpdCB3aWxsIGJlIGEgcmF3IGZpbGUs
-DQo+IGFjY2Vzc2VkIHdpdGggc29tZSBwcm90b2NvbC4NCj4gSSB3aWxsIGNoYW5nZSB0aGUgd29y
-ZGluZyB0byBub3QgaW5jbHVkZSB0aGUgJ2Rpc2snIHdvcmQgdGhvdWdoLg0KPiANCj4gDQo+IFRv
-IGJlIHJlYWxseSBob25lc3QsIHRoZSBiZXN0IG5hbWluZyBoZXJlIHdvdWxkIGJlIG9uZSB0aGF0
-IGZvbGxvd3MgdGhlIHZpcnR1YWwgbWVtb3J5IGNvbmNlcHRzLg0KPiBBIHZpcnR1YWwgYmxvY2sv
-Y2x1c3RlciBhZGRyZXNzIGFuZCBhIHBoeXNpY2FsIGJsb2NrL2NsdXN0ZXIgYWRkcmVzcy4NCj4g
-SG93ZXZlciB3ZSB0YWxrZWQgd2l0aCBLZXZpbiByZWNlbnRseSBhbmQgSSBhbHNvIHN0dWRpZWQg
-cXVpdGUgYSBsb3Qgb2YgcWNvdzIgY29kZSwNCj4gYW5kIHRoZSB1c3VhbCBjb252ZW50aW9uIGlz
-IGd1ZXN0IGNsdXN0ZXIgb2Zmc2V0IGFuZCBob3N0IGNsdXN0ZXIgb2Zmc2V0LA0KPiBhbmQgb2Z0
-ZW4gZ3Vlc3Qgb2Zmc2V0cyBhcmUganVzdCBjYWxsZWQgb2Zmc2V0cywgd2hpY2ggaXMgdmVyeSBj
-b25mdXNpbmcgSU1ITy4NCg0KSXQgZG9uJ3QgY29uZnVzZSBtZSwgYXMgaXQncyBhbiBpbnRlcmZh
-Y2Ugb2YgYmxvY2stbGF5ZXIuIEludGVyZmFjZSB1c2VyIGp1c3Qgd3JpdGVzIGF0IHNvbWUgb2Zm
-c2V0Lg0KQW5kIHRoZSBmYWN0IHRoYXQgaW50ZXJuYWxseSwgd2UgY29uc2lkZXIgaW50ZXJmYWNl
-IHBhcmFtZXRlciAib2Zmc2V0IiBhcyAiZ3Vlc3Qgb2Zmc2V0IiBhbmQgbWFwIGl0DQp0byBzb21l
-IHBoeXNpY2FsIG9mZnNldCAtIGl0J3MgYW4gaW1wbGVtZW50YXRpb24gZGV0YWlscy4gSW4gb3Ro
-ZXIgd29yZHMsIGd1ZXN0IGRvbid0IGtub3cgdGhhdCBpdA0Kd3JpdGVzIGF0ICJndWVzdCBvZmZz
-ZXQiLCBpdCBqdXN0IHdyaXRlcyBhdCAib2Zmc2V0IiBhbmQgZG9uJ3QgY2FyZS4NCg0KPiANCj4g
-DQo+Pg0KPj4gICA+ICsgKiBVc2VkIGFzIGFuIGluaXRpYWxpemF0aW9uIHZlY3RvciBmb3IgZW5j
-cnlwdGlvbg0KPj4NCj4+IEhtbSwgaXMgaXQgZGVmYXVsdCBub3c/DQo+IA0KPiANCj4gTW9zdCBv
-ZiBibG9jayBjcnlwdG8gaW1wbGVtZW50YXRpb25zIGhhdmUgSVYgd2hpY2ggZGVyaXZlDQo+IHNv
-bWUgd2F5IG9yIGFub3RoZXIgZnJvbSB0aGUgc2VjdG9yIGFkZHJlc3MuDQo+IA0KPiAgRnJvbSB3
-aGF0IEkgc2VlLCB0aGUgYmxvY2sgYWRkcmVzcyBpcyBlaXRoZXIgdXNlZCBhcyBpcywNCj4gb3Ig
-ZW5jcnlwdGVkIGl0c2VsZiB3aXRoIHNhbWUgZW5jcnlwdGlvbiBrZXksDQo+IGFuZCB0aGUgcmVz
-dWx0IGlzIHVzZWQgYXMgSVYuIEV2ZW4gdGhlIGxlZ2FjeSBxY293DQo+IGVuY3J5cHRpb24gdXNl
-cyB0aGlzLCBhbHRob3VnaCBpdCB1c2VzIHRoZSB2aXJ0dWFsIGJsb2NrDQo+IGFkZHJlc3MsIGFu
-ZCBhcHBhcmVudGx5IHRoaXMgaXMgb25lIG9mIGl0cyBzZWN1cml0eSBmbGF3cy4NCj4gDQo+IElm
-IHlvdSBkb24ndCB1c2UgYW55IElWLCB5b3UgZW5kIHVwIHdpdGggbWFqb3Igc2VjdXJpdHkNCj4g
-aG9sZSAtIHNlY3RvcnMgb2YgdGhlIHNhbWUgY29udGVudCB3aWxsIGJlIGVuY3J5cHRlZA0KPiB0
-byB0aGUgc2FtZSBjaXBlcnRleHQuDQo+IA0KPiBJIGFkZGVkIHRoaXMgY29tbWVudCB0byBjbGFy
-aWZ5IHRoZSB1c2FnZSBvZiBvZmZzZXQsDQo+IHNpbmNlIG90aGVyIHRoYXQgdGhpcyBhc3BlY3Qg
-b2YgSVYgZ2VuZXJhdGlvbiwNCj4gdGhlIGNyeXB0byByb3V0aW5lcyBvbmx5IG5lZWQgdGhlIGRh
-dGEgdG8gYmUgZW5jcnlwdGVkIGFuZA0KPiB0aGUgZW5jcnlwdGlvbiBrZXkgd2hpY2ggaXMgc3Rv
-cmVkIGluIHRoZSBjcnlwdG8gY29udGV4dC4NCj4gDQo+IA0KPj4NCj4+PiArICoNCj4+PiArICog
-QGd1ZXN0X29mZnNldCAtIGd1ZXN0ICh2aXJ0dWFsKSBvZmZzZXQgb2YgdGhlIGZpcnN0IHNlY3Rv
-ciBvZiB0aGUNCj4+PiArICogZGF0YSB0byBiZSBlbmNyeXB0ZWQNCj4+DQo+PiBIbW0sIHN0b3Au
-IEl0J3Mgd3JvbmcuIERhdGEgdG8gYmUgZW5jcnlwdGVkIGlzIGluIGJ1ZmZlciwgc28sIGl0J3Mg
-bm90IGZpcnN0IHNlY3RvciBvZg0KPj4gdGhlIGRhdGEgdG8gYmUgZW5jcnlwdGVkLCBidXQgZmly
-c3Qgc2VjdG9yIGluIHdoaWNoIGd1ZXN0IHdyaXRlcyBkYXRhICh0byBiZSBlbmNyeXB0ZWQNCj4+
-IGluIG1lYW50aW1lKS4NCj4gTm8gbm8gbm8hDQo+IA0KPiBndWVzdF9vZmZzZXQgaXMgbGl0ZXJh
-bGx5IHRoZSBndWVzdCdzIGRpc2sgYWRkcmVzcyBvZiB0aGUgZmlyc3Qgc2VjdG9yIHRoYXQgaXMg
-aW4gdGhlIGJ1ZmZlci4NCj4gVGhlIHFjb3cyX2NvX2VuY3J5cHQgaXMgY2FsbGVkIGZyb20gMiBw
-bGFjZXM6DQo+IA0KPiAxLiBxY293Ml9jb19wd3JpdGV2X3BhcnQgLSBoZXJlIGluZGVlZCB0aGUg
-YWN0dWFsbHkgZ3Vlc3Qgd3JpdHRlbiBkYXRhDQo+IGlzIGVuY3J5cHRlZCwgYW5kIHRoZSAnb2Zm
-c2V0JyBpcyBwYXNzZWQgd2hpY2ggaXMgdGhlIG9mZnNldCBvbiB3aGljaCBwd3JpdGV2IHdhcyBj
-YWxsZWQNCg0KSSBtZWFuLCB0aGF0IGluIHRoaXMgY2FzZSB5b3VyIGNvbW1lbnQgZm9yIG1lIHNv
-dW5kcyBsaWtlICJkYXRhIHRvIGJlIGVuY3J5cHRlZCBpcyBvbiBkaXNrLCBhdCB0aGlzIG9mZnNl
-dCIuDQpidXQgaXQncyBub3QgYWN0dWFsbHkgb24gZGlzaywgZGF0YSBpcyBpbiBidWZmZXIuIEFu
-ZCB3aGF0IGlzIG9uIGRpc2sgd2UgZG9uJ3Qga25vdywgd2UgYXJlIGdvaW5nIHRvDQp3cml0ZS4u
-Lg0KDQpCdXQgSSBkb24ndCByZWFsbHkgY2FyZS4gSG9wZSBpdCdzIGFjdHVhbGx5IG9idmlvdXMg
-Zm9yIGF2ZXJ5b25lLCB3aGVyZSBpcyBkYXRhIG9uIHdyaXRlIHBhdGguDQoNCj4gDQo+IA0KPiAy
-LiBkb19wZXJmb3JtX2Nvd19lbmNyeXB0IC0gaGVyZSB0aGUganVzdCByZWFkIGRhdGEgZnJvbSBi
-ZWZvcmUgb3IgYWZ0ZXIgYWN0dWFsbHkgd3JpdHRlbiBndWVzdA0KPiBkYXRhIGlzIGVuY3J5cHRl
-ZCwgYW5kIHRoZSBndWVzdF9vZmZzZXQgcmVwcmVzZW50cyB0aGUgYWRkcmVzcyBvZiB0aGF0IGRh
-dGEuDQo+IEkgY2hhbmdlZCB0aGUgZG9fcGVyZm9ybV9jb3dfZW5jcnlwdCwgc28gdGhhdCBpdCBy
-ZWNlaXZlcyBmcm9tIHRoZSBjYWxsZXIgdGhlIGhvc3QgYW5kIGd1ZXN0IG9mZnNldA0KPiBvZiB0
-aGUgZGF0YSB0byBiZSBlbmNyeXB0ZWQuIEl0IHRoZW4gYWxpZ25zIHRoZSBob3N0IG9mZnNldCBv
-biBzdGFydCBvZiB0aGUgY2x1c3RlciwgYW5kIHBhc3Nlcw0KPiB0aGUgZ3Vlc3Qgb2Zmc2V0IGFz
-IGlzLCBzbyB0aGF0IGl0IGRvZXMgdGhlIHNhbWUgYXMgcWNvdzJfY29fcHdyaXRldl9wYXJ0Lg0K
-PiANCj4gDQo+IFNvIHdoYXQgaXMgd3JvbmcgaGVyZT8NCj4gDQo+PiAgIA0KPj4NCj4+PiArICog
-VXNlZCBhcyBhbiBpbml0aWFsaXphdGlvbiB2ZWN0b3IgZm9yIG9sZGVyLCBxY293MiBuYXRpdmUg
-ZW5jcnlwdGlvbg0KPj4+ICsgKg0KPj4+ICsgKiBAYnVmIC0gYnVmZmVyIHdpdGggdGhlIGRhdGEg
-dG8gZW5jcnlwdA0KPj4+ICsgKiBAbGVuIC0gbGVuZ3RoIG9mIHRoZSBidWZmZXIgKGluIHNlY3Rv
-ciBzaXplIG11bHRpcGxpZXMpDQo+Pj4gKyAqDQo+Pj4gKyAqIE5vdGUgdGhhdCB0aGUgZ3JvdXAg
-b2YgdGhlIHNlY3RvcnMsIGRvbid0IGhhdmUgdG8gYmUgYWxpZ25lZA0KPj4+ICsgKiBvbiBjbHVz
-dGVyIGJvdW5kYXJ5IGFuZCBjYW4gYWxzbyBjcm9zcyBhIGNsdXN0ZXIgYm91bmRhcnkuDQo+Pg0K
-Pj4gQW5kIEkgZG91YnQgaW4gaXQgbm93LiBJJ20gYWZyYWlkIHRoYXQgaWYgd2UgY2FsbCBxY293
-Ml9jb19lbmNyeXB0IGZvciBhIGdyb3VwDQo+PiBvZiB0aGUgc2VjdG9ycyBjcm9zc2luZyBhIGNs
-dXN0ZXIgYm91bmRhcnksIHdlIHdpbGwgZmluaXNoIHVwIHdpdGggc2ltaWxhciBidWc6IHdlJ2xs
-DQo+PiB1c2UgZmlyc3QgY2x1c3RlciBvZmZzZXQgYXMgYSB2ZWN0b3IgZm9yIGFsbCB0aGUgc2Vj
-dG9ycy4gV2Ugc3RpbGwgbmV2ZXIgZG8gaXQuLiBTbywNCj4+IEkgdGhpbmsgaXQgd29ydGggYXNz
-ZXJ0aW9uIGFuZCBjb3JyZXNwb25kaW5nIGNvbW1lbnQuDQo+Pg0KPj4gT3IgaXMgaXQgY29ycmVj
-dD8NCj4gDQo+IENyeXB0byBjb2RlIHJlY2VpdmVzIHRoZSBkYXRhIHRvIGJlIGVuY3J5cHRlZCBh
-bmQgZGVjcnlwdGVkLA0KPiBhbmQgb2Zmc2V0IG9mIGZpcnN0IHNlY3RvciAoNTEyIGJ5dGVzIGFs
-aWduZWQpIG9mIHRoYXQgZGF0YSAoZm9yIElWIGNhbGN1bGF0aW9uKS4NCj4gSWYgdGhlIGRhdGEg
-c3BhbnMgbXVsdGlwbGUgc2VjdG9ycyAodGhpcyBoYXBwZW5zIGFscmVhZHkgYSBsb3QpDQoNCkFo
-LCB5ZXMsIHRoYXQncyBPSywgc29ycnkuDQoNCj4gdGhlbiBpdCBhYmxlIHRvIGhhbmRsZSB0aGlz
-IHNpbmNlIHRoZSBjb2RlIHdvcmtzLg0KPiBUaGUgcmVsZXZhbnQgY29kZSBpcyBpbiBkb19xY3J5
-cHRvX2Jsb2NrX2NpcGhlcl9lbmNkZWMsIGFuZA0KPiBpcyBhY3R1YWxseSBnZW5lcmljIGZvciBh
-bGwgdGhlIGNyeXB0byBtb2Rlcy4NCj4gDQo+IFNvIHRoZXJlIHNob3VsZCBub3QgYmUgYW55dGhp
-bmcgc3BlY2lhbCBhYm91dCBjcm9zc2luZyB0aGUgY2x1c3Rlcg0KPiBib3VuZGFyeSwgb3RoZXIg
-dGhhdCBub3RpbmcgdGhpcyBoZXJlLCBqdXN0IGluIGNhc2UuDQo+IA0KPiBObyBvbmx5IHRoYXQg
-Y29kZSBjYW4gY3Jvc3MgYSBjbHVzdGVyIGJvdW5kYXJ5LCBidXQgaXQgY2FuIGV2ZW4gYmUNCj4g
-Y2FsbGVkIGZvciBtb3JlIHRoYXQgb25lIGNsdXN0ZXIgYXQgb25jZS4gSXQgbG9va3MgbGlrZSBx
-Y293MiBjb2RlIGxpbWl0cyBhbGwNCj4gdGhlIElPIGluIGNhc2UgY3J5cHRvIGlzIHVzZWQgdG8g
-UUNPV19NQVhfQ1JZUFRfQ0xVU1RFUlMsIHdoaWNoIGlzIDMyDQo+IGN1cnJlbnRseS4gSSBkb24n
-dCBrbm93IHdoeSB0byBiZSBob25lc3QuDQo+IA0KPiBSZW1lbWJlciB0aGF0IGNyeXB0byBjb2Rl
-IGhhcyBubyBub3Rpb24gb2YgY2x1c3RlcnMuIEl0IHdvcmtzIHB1cmVseQ0KPiBvbiBzZWN0b3Ig
-KDUxMiBieXRlcykgbGV2ZWwsIGFuZCBlYWNoIHNlY3RvciB3aWxsIGhhdmUgaXRzIG93biBJViBj
-YWxjdWxhdGVkLA0KPiBiYXNlZCBvbiBpdHMgc2VjdG9yIGFkZHJlc3MuDQo+IA0KPj4NCj4+PiAr
-ICoNCj4+PiArICoNCj4+PiArICovDQo+Pj4gICAgaW50IGNvcm91dGluZV9mbg0KPj4+IC1xY293
-Ml9jb19lbmNyeXB0KEJsb2NrRHJpdmVyU3RhdGUgKmJzLCB1aW50NjRfdCBmaWxlX2NsdXN0ZXJf
-b2Zmc2V0LA0KPj4+IC0gICAgICAgICAgICAgICAgIHVpbnQ2NF90IG9mZnNldCwgdm9pZCAqYnVm
-LCBzaXplX3QgbGVuKQ0KPj4+ICtxY293Ml9jb19lbmNyeXB0KEJsb2NrRHJpdmVyU3RhdGUgKmJz
-LCB1aW50NjRfdCBob3N0X2NsdXN0ZXJfb2Zmc2V0LA0KPj4+ICsgICAgICAgICAgICAgICAgIHVp
-bnQ2NF90IGd1ZXN0X29mZnNldCwgdm9pZCAqYnVmLCBzaXplX3QgbGVuKQ0KPj4+ICAgIHsNCj4+
-PiAtICAgIHJldHVybiBxY293Ml9jb19lbmNkZWMoYnMsIGZpbGVfY2x1c3Rlcl9vZmZzZXQsIG9m
-ZnNldCwgYnVmLCBsZW4sDQo+Pj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcWNyeXB0
-b19ibG9ja19lbmNyeXB0KTsNCj4+PiArICAgIHJldHVybiBxY293Ml9jb19lbmNkZWMoYnMsIGhv
-c3RfY2x1c3Rlcl9vZmZzZXQsIGd1ZXN0X29mZnNldCwgYnVmLCBsZW4sDQo+Pj4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHFjcnlwdG9fYmxvY2tfZW5jcnlwdCk7DQo+Pj4gICAgfQ0KPj4+
-ICAgIA0KPj4+ICsNCj4+PiArLyoNCj4+PiArICogcWNvdzJfY29fZGVjcnlwdCgpDQo+Pj4gKyAq
-DQo+Pj4gKyAqIERlY3J5cHRzIG9uZSBvciBtb3JlIGNvbnRpZ3VvdXMgYWxpZ25lZCBzZWN0b3Jz
-DQo+Pj4gKyAqIFNhbWUgZnVuY3Rpb24gYXMgcWNvdzJfY29fZW5jcnlwdA0KPj4NCj4+IEhtbSwg
-bm90IGV4YWN0bHkgc2FtZSA6KQ0KPiBJJ2xsIGZpeCB0aGF0Lg0KPiANCj4gDQo+Pg0KPj4+ICsg
-Kg0KPj4+ICsgKi8NCj4+PiArDQo+Pj4gICAgaW50IGNvcm91dGluZV9mbg0KPj4+IC1xY293Ml9j
-b19kZWNyeXB0KEJsb2NrRHJpdmVyU3RhdGUgKmJzLCB1aW50NjRfdCBmaWxlX2NsdXN0ZXJfb2Zm
-c2V0LA0KPj4+IC0gICAgICAgICAgICAgICAgIHVpbnQ2NF90IG9mZnNldCwgdm9pZCAqYnVmLCBz
-aXplX3QgbGVuKQ0KPj4+ICtxY293Ml9jb19kZWNyeXB0KEJsb2NrRHJpdmVyU3RhdGUgKmJzLCB1
-aW50NjRfdCBob3N0X2NsdXN0ZXJfb2Zmc2V0LA0KPj4+ICsgICAgICAgICAgICAgICAgIHVpbnQ2
-NF90IGd1ZXN0X29mZnNldCwgdm9pZCAqYnVmLCBzaXplX3QgbGVuKQ0KPj4+ICAgIHsNCj4+PiAt
-ICAgIHJldHVybiBxY293Ml9jb19lbmNkZWMoYnMsIGZpbGVfY2x1c3Rlcl9vZmZzZXQsIG9mZnNl
-dCwgYnVmLCBsZW4sDQo+Pj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcWNyeXB0b19i
-bG9ja19kZWNyeXB0KTsNCj4+PiArICAgIHJldHVybiBxY293Ml9jb19lbmNkZWMoYnMsIGhvc3Rf
-Y2x1c3Rlcl9vZmZzZXQsIGd1ZXN0X29mZnNldCwgYnVmLCBsZW4sDQo+Pj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHFjcnlwdG9fYmxvY2tfZGVjcnlwdCk7DQo+Pj4gICAgfQ0KPj4+DQo+
-Pg0KPiANCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gCVRoYW5rcyBmb3IgdGhlIHJldmlldywNCj4g
-CQlNYXhpbSBMZXZpdHNreQ0KPiANCj4+DQo+PiAtLSANCj4+IEJlc3QgcmVnYXJkcywNCj4+IFZs
-YWRpbWlyDQo+IA0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+Alright, here is what is happening:
+
+Whenever program is stuck, thread #2 backtrace is this:
+
+(gdb) bt
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000aaaaaabd41b0 in qemu_futex_wait (val=3D<optimized out>, f=3D<opti=
+mized out>) at ./util/qemu-thread-posix.c:438
+#2  qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac87ce8 <rcu_call_ready_event>)=
+ at ./util/qemu-thread-posix.c:442
+#3  0x0000aaaaaabee03c in call_rcu_thread (opaque=3Dopaque@entry=3D0x0) at =
+./util/rcu.c:261
+#4  0x0000aaaaaabd34c8 in qemu_thread_start (args=3D<optimized out>) at ./u=
+til/qemu-thread-posix.c:498
+#5  0x0000ffffbf26a880 in start_thread (arg=3D0xfffffffff5bf) at pthread_cr=
+eate.c:486
+#6  0x0000ffffbf1c4b9c in thread_start () at ../sysdeps/unix/sysv/linux/aar=
+ch64/clone.S:78
+
+Meaning that code is waiting for a futex inside kernel.
+
+(gdb) print rcu_call_ready_event
+$4 =3D {value =3D 4294967295, initialized =3D true}
+
+The QemuEvent "rcu_call_ready_event->value" is set to INT_MAX and I
+don't know why yet.
+
+rcu_call_ready_event->value is only touched by:
+
+qemu_event_init() -> bool init ? EV_SET : EV_FREE
+qemu_event_reset() -> atomic_or(&ev->value, EV_FREE)
+qemu_event_set() -> atomic_xchg(&ev->value, EV_SET)
+qemu_event_wait() -> atomic_cmpxchg(&ev->value, EV_FREE, EV_BUSY)'
+
+And there should be no 0x7fff value for "ev->value".
+
+qemu_event_init() is the one initializing the global:
+
+    static QemuEvent rcu_call_ready_event;
+
+and it is called by "rcu_init_complete()" which is called by
+"rcu_init()":
+
+    static void __attribute__((__constructor__)) rcu_init(void)
+
+a constructor function.
+
+So, "fixing" this issue by:
+
+    (gdb) print rcu_call_ready_event
+    $8 =3D {value =3D 4294967295, initialized =3D true}
+    =
+
+    (gdb) watch rcu_call_ready_event
+    Hardware watchpoint 1: rcu_call_ready_event
+    =
+
+    (gdb) set rcu_call_ready_event.initialized =3D 1
+    =
+
+    (gdb) set rcu_call_ready_event.value =3D 0
+
+and note that I added a watchpoint to rcu_call_ready_event global:
+
+<HANG>
+
+Thread 1 "qemu-img" received signal SIGINT, Interrupt.
+(gdb) thread 2
+[Switching to thread 2 (Thread 0xffffbec61d90 (LWP 33625))]
+
+(gdb) bt
+#0  0x0000aaaaaabd4110 in qemu_event_reset (ev=3Dev@entry=3D0xaaaaaac87ce8 =
+<rcu_call_ready_event>)
+#1  0x0000aaaaaabedff8 in call_rcu_thread (opaque=3Dopaque@entry=3D0x0) at =
+./util/rcu.c:255
+#2  0x0000aaaaaabd34c8 in qemu_thread_start (args=3D<optimized out>) at ./u=
+til/qemu-thread-posix.c:498
+#3  0x0000ffffbf26a880 in start_thread (arg=3D0xfffffffff5bf) at pthread_cr=
+eate.c:486
+#4  0x0000ffffbf1c4b9c in thread_start () at ../sysdeps/unix/sysv/linux/aar=
+ch64/clone.S:78
+(gdb) print rcu_call_ready_event
+$9 =3D {value =3D 0, initialized =3D true}
+
+You can see I advanced in the qemu_event_{reset,set,wait} logic.
+
+    (gdb) disassemble /m 0x0000aaaaaabd4110
+    Dump of assembler code for function qemu_event_reset:
+    408     in ./util/qemu-thread-posix.c
+
+    409     in ./util/qemu-thread-posix.c
+
+    410     in ./util/qemu-thread-posix.c
+    411     in ./util/qemu-thread-posix.c
+       0x0000aaaaaabd40f0 <+0>:     ldrb    w1, [x0, #4]
+       0x0000aaaaaabd40f4 <+4>:     cbz     w1, 0xaaaaaabd411c <qemu_event_=
+reset+44>
+       0x0000aaaaaabd411c <+44>:    stp     x29, x30, [sp, #-16]!
+       0x0000aaaaaabd4120 <+48>:    adrp    x3, 0xaaaaaac20000
+       0x0000aaaaaabd4124 <+52>:    add     x3, x3, #0x908
+       0x0000aaaaaabd4128 <+56>:    mov     x29, sp
+       0x0000aaaaaabd412c <+60>:    adrp    x1, 0xaaaaaac20000
+       0x0000aaaaaabd4130 <+64>:    adrp    x0, 0xaaaaaac20000
+       0x0000aaaaaabd4134 <+68>:    add     x3, x3, #0x290
+       0x0000aaaaaabd4138 <+72>:    add     x1, x1, #0xc00
+       0x0000aaaaaabd413c <+76>:    add     x0, x0, #0xd40
+       0x0000aaaaaabd4140 <+80>:    mov     w2, #0x19b    // #411
+       0x0000aaaaaabd4144 <+84>:    bl      0xaaaaaaaff190 <__assert_fail@p=
+lt>
+
+    412     in ./util/qemu-thread-posix.c
+       0x0000aaaaaabd40f8 <+8>:     ldr     w1, [x0]
+
+    413     in ./util/qemu-thread-posix.c
+       0x0000aaaaaabd40fc <+12>:    dmb     ishld
+
+    414     in ./util/qemu-thread-posix.c
+       0x0000aaaaaabd4100 <+16>:    cbz     w1, 0xaaaaaabd4108 <qemu_event_=
+reset+24>
+       0x0000aaaaaabd4104 <+20>:    ret
+       0x0000aaaaaabd4108 <+24>:    ldaxr   w1, [x0]
+       0x0000aaaaaabd410c <+28>:    orr     w1, w1, #0x1
+    =3D> 0x0000aaaaaabd4110 <+32>:    stlxr   w2, w1, [x0]
+       0x0000aaaaaabd4114 <+36>:    cbnz    w2, 0xaaaaaabd4108 <qemu_event_=
+reset+24>
+       0x0000aaaaaabd4118 <+40>:    ret
+
+And I'm currently inside the STLXR and LDAXR logic. To make sure my program=
+ counter is advancing, I added a breakpoint at 0x0000aaaaaabd4108, so CBNZ =
+instruction would branch indefinitely into LDXAR instruction again, until t=
+he
+LDAXR<->STLXR logic is satisfied (inside qemu_event_wait()).
+
+(gdb) break *(0x0000aaaaaabd4108)
+Breakpoint 2 at 0xaaaaaabd4108: file ./util/qemu-thread-posix.c, line 414.
+
+which is basically this:
+
+    if (value =3D=3D EV_SET) {                        EV_SET =3D=3D 0
+        atomic_or(&ev->value, EV_FREE);           EV_FREE =3D 1
+    }
+    =
+
+and we can see that this logic being called one time after another:
+
+(gdb) c
+Thread 2 "qemu-img" hit Breakpoint 3, 0x0000aaaaaabd4108 in qemu_event_rese=
+t (
+    ev=3Dev@entry=3D0xaaaaaac87ce8 <rcu_call_ready_event>) at ./util/qemu-t=
+hread-posix.c:414
+
+(gdb) c
+Thread 2 "qemu-img" hit Breakpoint 3, 0x0000aaaaaabd4108 in qemu_event_rese=
+t (
+    ev=3Dev@entry=3D0xaaaaaac87ce8 <rcu_call_ready_event>) at ./util/qemu-t=
+hread-posix.c:414
+    =
+
+(gdb) c
+Thread 2 "qemu-img" hit Breakpoint 3, 0x0000aaaaaabd4108 in qemu_event_rese=
+t (
+    ev=3Dev@entry=3D0xaaaaaac87ce8 <rcu_call_ready_event>) at ./util/qemu-t=
+hread-posix.c:414
+
+EVEN when rcu_call_ready_event->value is already EV_SET (0):
+
+(gdb) print rcu_call_ready_event
+$11 =3D {value =3D 0, initialized =3D true}
+
+(gdb) info break
+Num     Type           Disp Enb Address            What
+1       hw watchpoint  keep y                      rcu_call_ready_event
+3       breakpoint     keep n   0x0000aaaaaabd4108 qemu-thread-posix.c:414
+        breakpoint already hit 23 times
+4       breakpoint     keep y   0x0000aaaaaabd4148 qemu-thread-posix.c:424
+
+IF I enable only rcu_call_ready_event HW watchpoint, nothing is
+triggered.
+
+(gdb) watch *(rcu_call_ready_event->value)
+Hardware watchpoint 6: *(rcu_call_ready_event->value)
+
+not if I set it directly to QemuEvent->value...
+
+    assert(ev->initialized);
+    value =3D atomic_read(&ev->value);
+    smp_mb_acquire();
+    if (value =3D=3D EV_SET) {
+        atomic_or(&ev->value, EV_FREE);
+    }
+
+meaning that "value" and "ev->value" might have a diff value... is that
+so ?
+
+(gdb) print value
+$14 =3D <optimized out>
+
+can't say.. checking registers AND stack:
+
+       0x0000aaaaaabd4100 <+16>:    cbz     w1, 0xaaaaaabd4108 <qemu_event_=
+reset+24>
+       0x0000aaaaaabd4104 <+20>:    ret
+       0x0000aaaaaabd4108 <+24>:    ldaxr   w1, [x0]
+       0x0000aaaaaabd410c <+28>:    orr     w1, w1, #0x1
+    =3D> 0x0000aaaaaabd4110 <+32>:    stlxr   w2, w1, [x0]
+       0x0000aaaaaabd4114 <+36>:    cbnz    w2, 0xaaaaaabd4108 =
+
+       =
+
+
+x0             0xaaaaaac87ce8      187649986428136
+x1             0x1                 1
+x2             0x1                 1
+x3             0x0                 0
+x4             0xffffbec61e98      281473882398360
+x5             0xffffbec61c90      281473882397840
+x6             0xffffbec61c90      281473882397840
+x7             0x1                 1
+x8             0x65                101
+x9             0x0                 0
+x10            0x0                 0
+x11            0x0                 0
+x12            0xffffbec61d90      281473882398096
+x13            0x0                 0
+x14            0x0                 0
+x15            0x2                 2
+x16            0xffffbf67ccf0      281473892994288
+x17            0xffffbf274938      281473888766264
+x18            0x23f               575
+x19            0x0                 0
+x20            0xaaaaaac87ce8      187649986428136
+x21            0x0                 0
+x22            0xfffffffff5bf      281474976708031
+x23            0xaaaaaac87ce0      187649986428128
+x24            0xaaaaaac29000      187649986039808
+x25            0xfffffffff658      281474976708184
+x26            0x1000              4096
+x27            0xffffbf28c000      281473888862208
+x28            0xffffbec61d90      281473882398096
+x29            0xffffbec61420      281473882395680
+x30            0xaaaaaabedff8      187649985798136
+sp             0xffffbec61420      0xffffbec61420
+pc             0xaaaaaabd4110      0xaaaaaabd4110 <qemu_event_reset+32>
+cpsr           0x0                 [ EL=3D0 ]
+fpsr           0x0                 0
+fpcr           0x0                 0
+
+AND the ORR instruction is ALWAYS being executed against 0x1 (not 0x0,
+which is what I just changed by changing .value):
+
+(gdb) print value
+$14 =3D <optimized out>
+
+       0x0000aaaaaabd410c <+28>:    orr     w1, w1, #0x1
+       =
+
+#0x1 is being used instead of contents of "value" local variable (volatile).
+
+I'll recompile QEMU flagging all those local "unsigned value" variables
+as being volatile and check if optimization changes. Or even try to
+disable optimizations.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on high core count ARM system
+
+Status in QEMU:
+  Confirmed
+Status in qemu package in Ubuntu:
+  In Progress
+
+Bug description:
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760, =
+
+      timeout=3D<optimized out>, timeout@entry=3D0x0, sigmask=3D0xffffc123b=
+950)
+      at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>, =
+
+      __fds=3D<optimized out>) at /usr/include/aarch64-linux-gnu/bits/poll2=
+.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, =
+
+      timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+      at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1805256/+subscriptions
 
