@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E56AAE64C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:07:00 +0200 (CEST)
-Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8F3AE652
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:09:19 +0200 (CEST)
+Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7c71-0001e2-1W
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35973)
+	id 1i7c9G-0004QY-6s
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bkt-0003Xe-2W
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:44:08 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqx-0000q3-Jj
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bkr-0006QY-Sj
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:44:06 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:32982)
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqw-0000ea-Gl
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:23 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44459)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bkr-0006Q4-MH
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:44:05 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id u16so18412998wrr.0
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:44:05 -0700 (PDT)
+ id 1i7bqw-0000dA-AJ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:22 -0400
+Received: by mail-wr1-x435.google.com with SMTP id k6so6265148wrn.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KqEnFRpupENR9kNbZVcJtQySlE8FhTwxtFose9RX2lY=;
- b=UD0bd3+58ih9vuVTEMcBwAH9je9j3ZtsaBmTQo1cmHZCWxM0jx0GYsEqPF/v+o0pAR
- V8VNZZFFgPB5B+orcXvLVvFFdAuQD44P2K2vszwR5Rff5Od1DhMhCgjGA9csYWZdMt7F
- m/XnAoTu3pDz/NV/XXXUOlJ+BrODFEn44EUgr2hdfcfgAujsgExnSNvUqgDic2Z0s4HZ
- Hw5pjQBDy8NArYAJF4d4wCbGtB4ZNTyozo4z0gfcCLJaoTYGyennHU6D/9xJKRw1RZGw
- bX0KruxKeTtsc9fh7TwxT1KSfZS8lCJ1zvup2deWsR5NENanVIhwWAAF5/OCfDHZ0P+q
- m6Ng==
+ bh=l8xD4JKTs5aV1GPbbelxFIDDOIFZEGHKpHk8K7Sxfm0=;
+ b=WtQUS8RGkW54NVZMDmj+tsszuXxUnh2t/ouVeaAn+bZ7w/O7TCclqPDEFlqSM1+ZGv
+ Hbs38bAfSYbBr8d1sGJo9rV9ce2kPdX65/komC4p+9awc0KvX7lZv69Ej/x0HVRgsxk9
+ c4eAFD8MRluy+qg8qoSqLoeTom5CghEx8nqGLQ43oJLinFg+YCDm4dgEk23Jz6eTfo5O
+ OHAWrRd1u7T9AcsPiP/Kz3JPASYv2dLxHB4tBbuO75BmG4naYVLGwOwsFqPCpeyoTgcu
+ OIsM3oGh4z28gg07GwKcUac01KfF6uf+2Rhwtj0qaZqA94f3kAcyoanXFl7JHJJNcun7
+ hZuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KqEnFRpupENR9kNbZVcJtQySlE8FhTwxtFose9RX2lY=;
- b=d+SxTds639uHyLViITCZEowRNznwLnJ7CiXnNIRwP7ufsZHU4sZxxVi2MYqD6fuVHO
- Cog7yGeJOjJkJisSpzhv+fDiJCVulTbl60vgy2hFeEt94bkErkt+JZZYUdAn+1nTEZuw
- He+PHcBJbTz2DLWef2bagisSl9sosfLIYKpd4YOLyX1Vw8TPGhpTTfsNDqkTQU3pv1g2
- y1gYr/MHWTSdqq/evyqfeCDnzmuho2RMssWIg8xqtUBKradbPdqkunXFx48Oly/Q2vtw
- bGxwPStqOQXpHDoHvRD83P/+/ZiUkSJ37JXVnqZIL+B/m1PRcWVPnddGXkQVTKfiG55+
- 8Xeg==
-X-Gm-Message-State: APjAAAWCrxz/n6rsQn5MR22lRlTctyvxf9QTTIW/7Z23e3L87pJ4Ib8r
- bF3zg9wxgiLgCapdZslx5GK+22mGC9g=
-X-Google-Smtp-Source: APXvYqycPxV73n4wsbBAgi22t/ZXHSVBRjZ/3KOhASR2F1S+ttncATh+pq0IJH8XkgOTdZhmdqF0Cg==
-X-Received: by 2002:adf:e7c4:: with SMTP id e4mr17159506wrn.62.1568105044669; 
- Tue, 10 Sep 2019 01:44:04 -0700 (PDT)
+ bh=l8xD4JKTs5aV1GPbbelxFIDDOIFZEGHKpHk8K7Sxfm0=;
+ b=MlZu2X1MpbF51XbgSEiALmyi7LLPVPCfwccaw/aKdHRBUNIbRonkhtBuLJe7FFyY30
+ 9T1wm/Teh84DogzxOOwr4n3UCM3XikaMN9v7z/X7vInqehpNDTQqob4wF4cck1m8oj0Q
+ CaoUEGancySVOhRPMQE7UzPcg2DvsZP3eHJKv8H+7jCEFJnjbKTcxiTGIU3L7kpXPKUV
+ Oaooapk3vgWA1BgWRtIf0yJw7BJeJwzBAkOOoDnfde9yb/2iu0S1GZyx/TQjy97Q6nuT
+ qMeFoDehDJL1mrhDzN7dAClXVBNcM2VSMWOfYDRiFf7hc0d7owF2o2ltZeYm7jBZYQZv
+ EJ9g==
+X-Gm-Message-State: APjAAAWX3fgunyOCesO21ES61EGbX27kdEnWESfEf91EuO0cNvcSs/WS
+ mYE9vKi4PHj0ei2sThiYKy7zGA==
+X-Google-Smtp-Source: APXvYqyhwdvQiYNcwFwtmbVpshEPnAmiCqMXJQxqG9EvppAjxYUZ84x29ei/PgNlaNKLvrj9GUglZg==
+X-Received: by 2002:adf:bc84:: with SMTP id g4mr24879833wrh.135.1568105421337; 
+ Tue, 10 Sep 2019 01:50:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b194sm4098036wmg.46.2019.09.10.01.43.55
+ by smtp.gmail.com with ESMTPSA id e3sm24590515wrh.12.2019.09.10.01.50.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 01:44:02 -0700 (PDT)
+ Tue, 10 Sep 2019 01:50:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8CEA91FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id B7D621FFBA;
  Tue, 10 Sep 2019 09:43:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:36 +0100
-Message-Id: <20190910084349.28817-33-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 09:43:38 +0100
+Message-Id: <20190910084349.28817-35-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
 References: <20190910084349.28817-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [PULL 32/45] tests/docker: --disable-libssh on
- ubuntu1804 builds
+X-Received-From: 2a00:1450:4864:20::435
+Subject: [Qemu-devel] [PULL 34/45] .travis.yml: Enable multiple caching
+ features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,31 +84,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently this stops the mega:
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  make docker-test-build
+Using the 'multiple caching features' means explode the YAML array,
+thus it eases the git workflow (it is easier to move patches around).
 
-from working. Once the source is patched to deal with the case this
-workaround can be removed.
+See https://docs.travis-ci.com/user/caching#enabling-multiple-caching-features
 
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20170809202712.6951-4-f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 44bbf0f77ae..883f9bcf31c 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -56,3 +56,6 @@ RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
- ENV FEATURES clang pyyaml sdl2
-+
-+# https://bugs.launchpad.net/qemu/+bug/1838763
-+ENV QEMU_CONFIGURE_OPTS --disable-libssh
+diff --git a/.travis.yml b/.travis.yml
+index 106f9b5d01e..c60cf2ec135 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -5,7 +5,8 @@ dist: xenial
+ language: c
+ compiler:
+   - gcc
+-cache: ccache
++cache:
++  ccache: true
+ 
+ 
+ addons:
 -- 
 2.20.1
 
