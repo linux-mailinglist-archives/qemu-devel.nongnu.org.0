@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9596BAF825
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 10:41:34 +0200 (CEST)
-Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA800AF836
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 10:46:22 +0200 (CEST)
+Received: from localhost ([::1]:48042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yBx-0008TK-An
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 04:41:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57321)
+	id 1i7yGb-0004EI-N8
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 04:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7xw1-0007qx-0X
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:05 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7xw2-0007st-D0
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7xvz-0006a5-UK
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:04 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36200)
+ (envelope-from <palmer@dabbelt.com>) id 1i7xw1-0006ax-9m
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:06 -0400
+Received: from mail-wm1-f48.google.com ([209.85.128.48]:40231)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xvz-0006Zp-Ov
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:03 -0400
-Received: by mail-wm1-f66.google.com with SMTP id p13so2381377wmh.1
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xw1-0006aR-2v
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:05 -0400
+Received: by mail-wm1-f48.google.com with SMTP id t9so2378169wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=G7Nvco3Ed4SzCOF6c1+pxFi6zNWbYlWlCIq1YYzo3nE=;
- b=un0w8ItPBNKr1h3aZQ27I7BJN4HnRrZBbfG7vsW6jb6zmtat/o9KW7uxO4aD/RLXFH
- glCnkoQqCRzEsHs9HlbuymKitdIudBArSyl2VnJiAio/WUrQVUaetVR26ePtOkpbTWQX
- BdMKyAkP5HfkElNxY2UsC+C8C5v16LFoTaAl8JaEdGfP3cUzFy+KuVzFh+E/aG/8LFHU
- EHtCNVyLH9CrIzco/RydU2yOuW6cfX98qe1M3mQ1z20O/ZmUWMrWUWS7yAesSsDm1FvA
- 1ETl0xRw0249XtivurpT1JZoVQHeUcqdDCNA5FDh25Bs2z3TUgexYxfu3MeR39CwnY0A
- jzrQ==
-X-Gm-Message-State: APjAAAUlXMRjAiPRvIYko3rLF+LBNjq6rEhNKnNrEzUAAdlQDqOXFwxs
- oXHIiu1E8ecDURN9uE2AcsmjYw==
-X-Google-Smtp-Source: APXvYqzxKbgwqMTxlGKJx5isQSoFqeEhAIV1/KRpQk9IvBNwmsmFa3kHYM8H2K1HZT6SGTB2sth3jg==
-X-Received: by 2002:a7b:c392:: with SMTP id s18mr3095160wmj.25.1568190302679; 
- Wed, 11 Sep 2019 01:25:02 -0700 (PDT)
+ bh=0zhLpxGbfvJYXKDT6JDUoSPfFak+q70sNluuZCqQPHw=;
+ b=ZVNrDsB9RxU8uPOyht9rm4d8XFm4+HtwGQR6UNt7CDnS7UwejCGh7PHg4QUh//aIeL
+ gLSfTLtj1EL1iD1//j2JTlh8CwZ6+Y02JpANe/0YEcrqgY1MUnnB8THCYWx2IHYsg7ww
+ 2gJo22iuMB+d0DB6SRGayjBPXjuaoPOiPtWMgb7+pZ6SmL1G3v+mr1rKJ9QYf9RAEOVe
+ 1HLnHpwYUAXoNZoIYQYNAV+mjwYKwK+F/bOZoewTHbJEYXcY0r+/S9HKEYeE4n0p/eRE
+ FHAJtFVhx6l1kOx6Lt/UOuI7rPrX/qREmXXa2kzEVYg5C+BKLW2rqHc2Hs7PsahnNBr1
+ FSoQ==
+X-Gm-Message-State: APjAAAXFWfsaRhQmh35M4R5dvwv2tRR/3/MLXx3Bp4WrMjRHB93cQjjR
+ IQzYTXHd5/+ZkTgw/zK6eyviWA==
+X-Google-Smtp-Source: APXvYqzM5/Y2LKArQlJacpDa9q5tJDwufts+l7/1u5PKAO1U1GIbmK6/1nbI5glE/i4h0CQ0vyu0AQ==
+X-Received: by 2002:a1c:cb83:: with SMTP id b125mr2997937wmg.43.1568190303900; 
+ Wed, 11 Sep 2019 01:25:03 -0700 (PDT)
 Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id l62sm3821040wml.13.2019.09.11.01.25.01
+ by smtp.gmail.com with ESMTPSA id y12sm12645165wrn.74.2019.09.11.01.25.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 01:25:02 -0700 (PDT)
-Date: Tue, 10 Sep 2019 12:04:46 -0700
-Message-Id: <20190910190513.21160-21-palmer@sifive.com>
+ Wed, 11 Sep 2019 01:25:03 -0700 (PDT)
+Date: Tue, 10 Sep 2019 12:04:47 -0700
+Message-Id: <20190910190513.21160-22-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910190513.21160-1-palmer@sifive.com>
 References: <20190910190513.21160-1-palmer@sifive.com>
@@ -53,9 +53,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: [Qemu-devel] [PULL 20/47] riscv: hw: Remove the unnecessary include
- of target/riscv/cpu.h
+X-Received-From: 209.85.128.48
+Subject: [Qemu-devel] [PULL 21/47] riscv: roms: Remove executable attribute
+ of opensbi images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,54 +75,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-The inclusion of "target/riscv/cpu.h" is unnecessary in various
-sifive model drivers.
+Like other binary files, the executable attribute of opensbi images
+should not be set.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_prci.c | 1 -
- hw/riscv/sifive_test.c | 1 -
- hw/riscv/sifive_uart.c | 1 -
- 3 files changed, 3 deletions(-)
+ pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin
+ pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin
+ pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ mode change 100755 => 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+ mode change 100755 => 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+ mode change 100755 => 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
 
-diff --git a/hw/riscv/sifive_prci.c b/hw/riscv/sifive_prci.c
-index 982fbb26fd..c413f0cb76 100644
---- a/hw/riscv/sifive_prci.c
-+++ b/hw/riscv/sifive_prci.c
-@@ -22,7 +22,6 @@
- #include "hw/sysbus.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
--#include "target/riscv/cpu.h"
- #include "hw/hw.h"
- #include "hw/riscv/sifive_prci.h"
- 
-diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-index aa544e7428..339195c6ff 100644
---- a/hw/riscv/sifive_test.c
-+++ b/hw/riscv/sifive_test.c
-@@ -23,7 +23,6 @@
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "sysemu/runstate.h"
--#include "target/riscv/cpu.h"
- #include "hw/hw.h"
- #include "hw/riscv/sifive_test.h"
- 
-diff --git a/hw/riscv/sifive_uart.c b/hw/riscv/sifive_uart.c
-index 215990b443..a403ae90f5 100644
---- a/hw/riscv/sifive_uart.c
-+++ b/hw/riscv/sifive_uart.c
-@@ -22,7 +22,6 @@
- #include "hw/sysbus.h"
- #include "chardev/char.h"
- #include "chardev/char-fe.h"
--#include "target/riscv/cpu.h"
- #include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/riscv/sifive_uart.h"
+diff --git a/pc-bios/opensbi-riscv32-virt-fw_jump.bin b/pc-bios/opensbi-riscv32-virt-fw_jump.bin
+old mode 100755
+new mode 100644
+diff --git a/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin b/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+old mode 100755
+new mode 100644
+diff --git a/pc-bios/opensbi-riscv64-virt-fw_jump.bin b/pc-bios/opensbi-riscv64-virt-fw_jump.bin
+old mode 100755
+new mode 100644
 -- 
 2.21.0
 
