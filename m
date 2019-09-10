@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8996FAF33B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 01:27:41 +0200 (CEST)
-Received: from localhost ([::1]:45438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE89AF340
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 01:29:41 +0200 (CEST)
+Received: from localhost ([::1]:45452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7pXw-0005vY-Jp
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 19:27:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37444)
+	id 1i7pZs-0008OP-9n
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 19:29:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWm-00052o-UG
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:29 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWo-00054m-PD
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWl-000521-Uz
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:28 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:34397)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i7pWn-00053A-S1
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:30 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:45869)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i7pWl-00051q-RZ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:27 -0400
-Received: by mail-qt1-x844.google.com with SMTP id j1so10224901qth.1
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 16:26:27 -0700 (PDT)
+ id 1i7pWn-00052y-OE
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 19:26:29 -0400
+Received: by mail-qt1-x843.google.com with SMTP id r15so22922300qtn.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 16:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QPvAIEyjbdHkgFa3D8BV/iy/+lVvKr2RpSl+66ez4lg=;
- b=ZveI0hNHksiNF9IdOHTlNSsfUaGFtEz4dwuFXR8UFDL9DB5cGxgrE/wR6FXXy79Pa+
- 42BI4IszZWx2tZhFZ2GI/SLRwSwj9KciufaFEyYzT1AG/JjWX+kmF/TGq55bTRL64pOX
- nezPkQ3GrRtCuJ98Cz7ixHS8IVdOZ7aCQxdqWdf2k+oKPnzY/8WzvEQ/CtUOIOrhrlUZ
- V+WR7T7fgMAMbEZe/TpZyrQYoD9iCh6+aVK94zV4MjS8BW4AtQkFatQ93rtYUA6C9DKQ
- FAmL+WhHB6K27Ei/JUcVTGMjn4kAMcO1cXRK5gR7hjap7bGBCfjjTDvCZBeI8jte6Dvq
- YTsw==
+ bh=uwyGdjJlG7jF1gyRPno8QuHyS6nZmBhawgXlLsE85NM=;
+ b=afSA5kaJoc7EBZHMHQ3prQDBdLdjfcNDk3m89wnw858t8SZS/aGcm6unqkd9ubuE78
+ uc+fJfRQMYmgAeYnK8y9lDLTsayzXsS181Lufa/p+R3fAr5NLqPYgdxTq0L0UzHwcRxD
+ r00MvbeOMAHKnZnipaH7N+ejawo+Em5ZC0WxJW2+xeOj7rjPqaqqGF6oT6VznrCCbDRD
+ 1MulHlFhESvgoY1vfP595ccw30YEYeJ8T7pSb8pIW5Frrlecr/QhbaMn7CWZ9g4kNzi/
+ 55tJuSj87AOCodwCvh5zWzJh+1kXNhEmQfz/zfu5kl9tI5eO5SnZztO4XO+6MiZ2EFAF
+ gjOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QPvAIEyjbdHkgFa3D8BV/iy/+lVvKr2RpSl+66ez4lg=;
- b=cSZxKvQzZTFORbvkZgD9QUereZEGMkgVyxfAP5ZDuIptY3TayAnQnibocOCxswnlWV
- 7VNFOv64aWgS8rctp54qRxpTU40njMzVxjwH3hNuIRZRttVFsFRPBj1CsnSdb5KB95rs
- wcN+rVkTqAaPxzQ1sc5WYewtv8XwAja+YpNB3yK+UuIBgZwjIPOcvQT/asbj/O1v675m
- UuhLyckLPR5d8nuLxk66LsgEFZqs49zvQFt2B+T2x8lqHaj54c+1qzf1Ncnhcr8qZ6EF
- Fx9BPjWtem3c8RYBcnUMNxapt62y3SE/1LHEmXSq1H7KnBHhWoO9l2E2q3jGzH28cjsw
- 2uNQ==
-X-Gm-Message-State: APjAAAV2ev7G3qN/98r+1cXs3hZnirItyynAbdtGH6x83Nv/OWhfRV9c
- cjmbbI7mRqrPLCSeDxFf1Vw5DwR/
-X-Google-Smtp-Source: APXvYqwzqJ8w+LK9f7Yiqd/p0i8LO6dbh9EP05vgwHTUzXiXscLJMC3iME0MbJtE1nktaszU/AQWbw==
-X-Received: by 2002:ac8:6746:: with SMTP id n6mr32342947qtp.128.1568157987238; 
- Tue, 10 Sep 2019 16:26:27 -0700 (PDT)
+ bh=uwyGdjJlG7jF1gyRPno8QuHyS6nZmBhawgXlLsE85NM=;
+ b=rwWNBDyx274ClDDs7m3pfe4oEKEpB2eomLVTjO7tLKsXVmido/LF5BRw+UEH/GsrF7
+ epBrjW9JmQqHEP1US4styi3wI9CC8vTHQRgi5r8YEzeZRI54IkBQujRoWHQ9KYTT/i4c
+ btZN/+i0cu4IvC1D23V9Q/PeG0oKw3FLb/sb9xOhxumJuU83zCu85K2ORTCDEppBNHZg
+ T9ChAwiV44qs3BzOEPyA5rRR8zhTng9I3teC0duAv0Ih+U7wWrEM0bDpEuGujZFjvf2K
+ Zuo3LR2phdw3jIJNdV8cqlc1HBZYwkNGgw8hXoCVXskH9a+7vEgxfFc6b4fWzqomtpzK
+ d7Gw==
+X-Gm-Message-State: APjAAAW5BYpX7dlLVZfXOYjpWWbzClGs4L96t2tF9nj4JhbbO0vhQxYe
+ W8XwbPOoNEDTV59SSkk54iWzUGhl
+X-Google-Smtp-Source: APXvYqynxefTpNIKyL4VutnTiZvduSvsA0k2Dko3LUJu7Lt2cjhecFqfBZdFTtAjCA5/JIpntbAqUg==
+X-Received: by 2002:a0c:e946:: with SMTP id n6mr20483055qvo.214.1568157989212; 
+ Tue, 10 Sep 2019 16:26:29 -0700 (PDT)
 Received: from decltype.home.dirty-ice.org
  (2a01-036c-0113-6ea8-0001-0000-0000-00d3.pool6.digikabel.hu.
  [2a01:36c:113:6ea8:1::d3])
- by smtp.gmail.com with ESMTPSA id z5sm8804535qki.55.2019.09.10.16.26.25
+ by smtp.gmail.com with ESMTPSA id z5sm8804535qki.55.2019.09.10.16.26.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 16:26:26 -0700 (PDT)
+ Tue, 10 Sep 2019 16:26:28 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 01:26:19 +0200
-Message-Id: <3d139426031a400a68d440608ba5e43f0e116cd8.1568157545.git.DirtY.iCE.hu@gmail.com>
+Date: Wed, 11 Sep 2019 01:26:20 +0200
+Message-Id: <2d6e337c474ac84172d0809e6959c26b21d48120.1568157545.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568157545.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568157545.git.DirtY.iCE.hu@gmail.com>
@@ -70,8 +70,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::844
-Subject: [Qemu-devel] [PATCH 2/3] audio: paaudio: fix connection and stream
+X-Received-From: 2607:f8b0:4864:20::843
+Subject: [Qemu-devel] [PATCH 3/3] audio: paaudio: ability to specify stream
  name
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,69 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connection name was previously erroneously set to the server socket
-path, while connection names were simply "qemu".  After this patch, the
-connection name will be the vm name (falling back to "qemu" if not
-specified), while stream names will be the audiodev's id.
+This can be used to identify stream in tools like pavucontrol when one
+creates multiple -audiodevs or runs multiple qemu instances.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/paaudio.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ audio/paaudio.c | 4 ++--
+ qapi/audio.json | 6 ++++++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/audio/paaudio.c b/audio/paaudio.c
-index bfef9acaad..19b7e39092 100644
+index 19b7e39092..d9cff9a2be 100644
 --- a/audio/paaudio.c
 +++ b/audio/paaudio.c
-@@ -2,6 +2,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-+#include "qemu-common.h"
- #include "audio.h"
- #include "qapi/opts-visitor.h"
- 
-@@ -562,7 +563,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
+@@ -563,7 +563,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
  
      pa->stream = qpa_simple_new (
          c,
--        "qemu",
-+        g->dev->id,
+-        g->dev->id,
++        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
          PA_STREAM_PLAYBACK,
          ppdo->has_name ? ppdo->name : NULL,
          &ss,
-@@ -630,7 +631,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+@@ -631,7 +631,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
  
      pa->stream = qpa_simple_new (
          c,
--        "qemu",
-+        g->dev->id,
+-        g->dev->id,
++        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
          PA_STREAM_RECORD,
          ppdo->has_name ? ppdo->name : NULL,
          &ss,
-@@ -857,6 +858,7 @@ static int qpa_validate_per_direction_opts(Audiodev *dev,
- /* common */
- static void *qpa_conn_init(const char *server)
- {
-+    const char *vm_name;
-     PAConnection *c = g_malloc0(sizeof(PAConnection));
-     QTAILQ_INSERT_TAIL(&pa_conns, c, list);
+diff --git a/qapi/audio.json b/qapi/audio.json
+index 9fefdf5186..e45218f081 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -206,6 +206,11 @@
+ #
+ # @name: name of the sink/source to use
+ #
++# @stream-name: name of the PulseAudio stream created by qemu.  Can be
++#               used to identify the stream in PulseAudio when you
++#               create multiple PulseAudio devices or run multiple qemu
++#               instances (default: audiodev's id, since 4.2)
++#
+ # @latency: latency you want PulseAudio to achieve in microseconds
+ #           (default 15000)
+ #
+@@ -215,6 +220,7 @@
+   'base': 'AudiodevPerDirectionOptions',
+   'data': {
+     '*name': 'str',
++    '*stream-name': 'str',
+     '*latency': 'uint32' } }
  
-@@ -865,8 +867,9 @@ static void *qpa_conn_init(const char *server)
-         goto fail;
-     }
- 
-+    vm_name = qemu_get_vm_name();
-     c->context = pa_context_new(pa_threaded_mainloop_get_api(c->mainloop),
--                                server);
-+                                vm_name ? vm_name : "qemu");
-     if (!c->context) {
-         goto fail;
-     }
+ ##
 -- 
 2.23.0
 
