@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A6CAEFE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:48:45 +0200 (CEST)
-Received: from localhost ([::1]:43272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B56FAEFCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:42:32 +0200 (CEST)
+Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jJr-0000LV-LH
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53159)
+	id 1i7jDq-000262-Sz
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7j7t-0004ZN-FP
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:22 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7j7x-0004fS-F1
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7j7s-00023V-A3
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:21 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:33503)
+ (envelope-from <laurent@vivier.eu>) id 1i7j7w-00029R-By
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:50289)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7s-00022P-15
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:20 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7w-00028h-2q
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:24 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M3UlW-1i7B9p1GiY-000fJH; Tue, 10 Sep 2019 18:36:07 +0200
+ id 1Mbzhv-1ih4sB2VsF-00dZ1m; Tue, 10 Sep 2019 18:36:08 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 18:35:45 +0200
-Message-Id: <20190910163600.19971-1-laurent@vivier.eu>
+Date: Tue, 10 Sep 2019 18:35:46 +0200
+Message-Id: <20190910163600.19971-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190910163600.19971-1-laurent@vivier.eu>
+References: <20190910163600.19971-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:w68c7TCAGMBgj66/OgsHBcrJQm0tigPSKk1Uxugi5UZF0oQsmM6
- dtKt4EYbtSFquPzeMdPPQ4SZljtDCJGL04qHVI4GW+5W+Ij5832JfyGHN4WPt6uX6zqxS4+
- pY4+1krbhPURobo3LRohDAlE7L2gsfwbs+2zQaBt/CmQ4F0l+rKkgaj+rAGG2bGNFFdjPYF
- PyxWCSXRyzhOuSRGqfmGw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RbkYoJvXPig=:YsiTZTDuJnIVq/qS5ah82Y
- nfzGcaV4ILZo0fn1R703mBEIqK9xyWC52PAk2mdn+sfe2s+o97uoHDkogciDxIzJ8c+lZmAQH
- WOVr/JTqWt35cIxw0MA3TFnq1CNvfnLEyDbXybq0gAZK1xhlx/z7FZFivESk6xwY0PN2kLKnN
- Q1g1M6YSkg1FBPtFMPG1d5zrPF7tXKgncpqb4KsnscFtrYjWGyqbAIUezBYLY9bDBUxW/+coo
- Vzdn3aBb464Jt+h1ahGC7OyfGwTlJXPJK8K3BKHCPcIBkh+6YZCHCs2cI7Ga1vcrkSKO7sRhl
- ydYnUyID0tDHGB5O0Tx8MkyqbWQSGeX3OupFk8xDodBYoQ4vZsyyKFJNUjQ7bEXOW6gBj+S+C
- mHY0sVbtarZaDjc5yu0GxnYWNOaP+qpQMzMQCgp9J+pD9DIq4vL6ULenI3qazJIn7S8ZN6/rN
- CZjqmQLc5IXkw4aitV6B5MyI0CYn/H1FwRyUgyJqSYWD4q8PgQt7Ftjg2lu0cFLhm6+FGZDJT
- X9A0cXny8cG2K74RMJjZKJQ+stXmKyqSPP7+y2I1h0IEl3ug1cfspF9MyYIm33DTJG1OpmBSa
- 9wa/tplvlg9T9mzknciZ2IvICKx30Ydter0byyxnzgLgEpIgK/IqVRA2A/kzv/dbNELEpdd2a
- fvWBAaDLtO0eqmUf8WO/RcGo6ofuZmTqk/IyOFdZ/YNvhM0XPDJVF0j12OVI7WaZGejX69TKs
- qEfyMKGHMNu2pRYyJvfN8nJsx8JM2bHvv+J5gd++jC54AYhFMbkHwtP9IqTUaxykgqRXLioKQ
- 2MHtWYqb8Qe/SwhqzIlPYgmw4F6Tz1HalJoRTXIeJxDSCsXr1I=
+X-Provags-ID: V03:K1:3R9/nrf6F1+CkOxpfuZXTiwuoLi5+ZCthPICIeKxQmd0X1UvGFI
+ MQmzmbiT/3J+WnCW6EqF81pvOlc3TzWWY37E+FojlVlnQfUN+O7bVrOQkpJsNDh5wANfigX
+ CaHHcknek7lf/z2cNEXB1/bPjYqZSM5pd+K0vwCw4/aW7OKUXjY22SQnNP3yzNIqb0R8UoF
+ RJnInhWrsHAPV3z/SLnxg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UvcckU/Hz6g=:6lal6D9cpfbS/ftM1T8tvo
+ dN3z4J0yjaeCS3Uj76R5rRNSPOFtomsNK0n5Q489+P7P0OrPMSp+qavKVbKaiu7v5CmxY/gW8
+ kp2juFqUy6Fpiqs1/x0fbhGxFNUy85owI8QMQITeR76BF+AYcFVGivIbUB6O0QonWH/WkFkKZ
+ 75VGcTldsBkmb7QpcNexPgasZMS4p8m3FTdR7cSIei6F7veyLiXfq1uQ56Q2TYaV+3laeBpEH
+ Kr+MvQQOokx2SR6gX3iBbCUFSTQYbzT65Ni21odrW0TRlpHppCHJnR/Pm2pGrEDVmJv5SQ1tz
+ dAIDTvtxBET7PtGCwyjsW6PmxVrlACmDqNL5I2uhSMyjRCcloGgnnKBnwSTLfRW4sid3e4if6
+ CUxqeWiZ0W+2ZmeaCaHBpiqt04092H65c95422SbeZRmD8ubE1K8lZ7GXwlg2E0lS9Gv1nmd1
+ ekU0V2GubZan6F3ggM/OG5eH//ZvQU7vKjCh8Hjh0z21+gECJgG5be9ClM22tXpjk4STkWRg+
+ hQV9XxZq+TlWfxOpt16gqxDmYy3SzPey9gTqX9B0jLqhzyBKunqvKmqLrz6Jz3W2w8V5WMxYp
+ XcOUo90PtOGoBKqs3GuVD7Ntiw2QV/c/i3m+5WY+W0p3tqyJWPAYOIlQfC2rUvhN37dDF80Vq
+ OtWkqF3htZYjC7KI2PAELMiaf6/OgAK47MAdh5MpGZpPbVKGG0QQIPMb4LbQ3snLN018txDpQ
+ 8MxHgeQeEN+gP5nRa8X2sRvcaCtcKKXEXOC02eTgl48fnAszyPdhJ/XEn5ZnHEjbbSgD2/EUT
+ A5EQbUnNVKIQWx5dBFksaqPGQVzXww0LrBu433CH65dICWrAc8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: [Qemu-devel] [PULL 00/15] Linux user for 4.2 patches
+X-Received-From: 212.227.126.131
+Subject: [Qemu-devel] [PULL 01/15] linux-user: remove useless variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,75 +65,71 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 89ea03a7dc83ca36b670ba7f787802791fcb04b1:
+filename is only used to open the file if AT_EXECFD is not provided.
+But exec_path already contains the path of the file to open.
+Remove filename as it is only used in main.c whereas exec_path is
+also used in syscall.c.
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/m68k-pull-2019-09-07' into staging (2019-09-09 09:48:34 +0100)
+Fixes: d088d664f201 ("linux-user: identify running binary in /proc/self/exe")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20190714134028.315-1-laurent@vivier.eu>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/main.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-are available in the Git repository at:
-
-  git://github.com/vivier/qemu.git tags/linux-user-for-4.2-pull-request
-
-for you to fetch changes up to a11ac305687965b0b556b3703c376b4127413a40:
-
-  linux-user: Add support for FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT ioctls (2019-09-10 10:53:12 +0200)
-
-----------------------------------------------------------------
-Add several floppy drive ioctl,
-xtensa call0 ABI support, arm MAX_RESERVED_VA for M-profile,
-aarch64 AT_HWCAP2, qOffsets' query for ELF, memfd_create,
-and some code cleanup
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (4):
-  linux-user: Add support for RNDRESEEDCRNG ioctl
-  linux-user: Add support for FIOGETOWN and FIOSETOWN ioctls
-  linux-user: Add support for FDMSGON and FDMSGOFF ioctls
-  linux-user: Add support for FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT
-    ioctls
-
-Alex Bennée (1):
-  linux-user: fail and report on bad dfilter specs
-
-Josh Kunz via Qemu-devel (1):
-  linux-user: Support gdb 'qOffsets' query for ELF
-
-Laurent Vivier (1):
-  linux-user: remove useless variable
-
-Max Filippov (2):
-  target/xtensa: linux-user: add call0 ABI support
-  linux-user: drop redundant handling of environment variables
-
-Richard Henderson (3):
-  linux-user: Add AT_HWCAP2 for aarch64-linux-user
-  linux-user: Pass CPUState to MAX_RESERVED_VA
-  linux-user/arm: Adjust MAX_RESERVED_VA for M-profile
-
-Shu-Chun Weng via Qemu-devel (2):
-  linux-user: erroneous fd_trans_unregister call
-  linux-user: add memfd_create
-
-YunQiang Su (1):
-  linux-user: Add support for FDFLUSH ioctl
-
- include/qemu/memfd.h        |  4 +++
- linux-user/arm/target_cpu.h | 24 +++++++++++--
- linux-user/elfload.c        | 33 +++++++++++++++---
- linux-user/ioctls.h         | 13 +++++++
- linux-user/main.c           | 69 +++++++++++++++++++++----------------
- linux-user/syscall.c        | 14 +++++++-
- linux-user/syscall_defs.h   | 15 ++++++++
- linux-user/xtensa/signal.c  | 25 +++++++++-----
- target/xtensa/cpu.c         | 24 ++++++++++---
- target/xtensa/cpu.h         |  3 ++
- util/memfd.c                |  2 +-
- 11 files changed, 175 insertions(+), 51 deletions(-)
-
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 47917bbb20fc..28f0065b6ddf 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -49,7 +49,6 @@
+ char *exec_path;
+ 
+ int singlestep;
+-static const char *filename;
+ static const char *argv0;
+ static int gdbstub_port;
+ static envlist_t *envlist;
+@@ -586,7 +585,6 @@ static int parse_args(int argc, char **argv)
+         exit(EXIT_FAILURE);
+     }
+ 
+-    filename = argv[optind];
+     exec_path = argv[optind];
+ 
+     return optind;
+@@ -657,9 +655,9 @@ int main(int argc, char **argv, char **envp)
+ 
+     execfd = qemu_getauxval(AT_EXECFD);
+     if (execfd == 0) {
+-        execfd = open(filename, O_RDONLY);
++        execfd = open(exec_path, O_RDONLY);
+         if (execfd < 0) {
+-            printf("Error while loading %s: %s\n", filename, strerror(errno));
++            printf("Error while loading %s: %s\n", exec_path, strerror(errno));
+             _exit(EXIT_FAILURE);
+         }
+     }
+@@ -784,10 +782,10 @@ int main(int argc, char **argv, char **envp)
+     cpu->opaque = ts;
+     task_settid(ts);
+ 
+-    ret = loader_exec(execfd, filename, target_argv, target_environ, regs,
++    ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+         info, &bprm);
+     if (ret != 0) {
+-        printf("Error while loading %s: %s\n", filename, strerror(-ret));
++        printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
+         _exit(EXIT_FAILURE);
+     }
+ 
 -- 
 2.21.0
 
