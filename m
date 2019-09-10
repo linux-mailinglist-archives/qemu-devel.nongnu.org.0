@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CF5AE5C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:42:01 +0200 (CEST)
-Received: from localhost ([::1]:35478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EAFAE5D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:45:25 +0200 (CEST)
+Received: from localhost ([::1]:35642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7biq-0000ri-SU
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35166)
+	id 1i7bm8-0003gI-6U
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7bhL-000800-Ub
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:40:28 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7bjq-0002WF-Uu
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7bhJ-0004l1-6Y
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:40:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:49895)
+ (envelope-from <laurent@vivier.eu>) id 1i7bjl-0005uK-Bi
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:02 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:60717)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7bhI-0004kQ-36
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:40:25 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7bir-0005Ye-MO
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:42:57 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N8oKc-1iAPn01vny-015oL8; Tue, 10 Sep 2019 10:40:04 +0200
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MGQSj-1hvECC2pET-00GtON; Tue, 10 Sep 2019 10:41:45 +0200
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1567601968-26946-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1567601968-26946-5-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1567601968-26946-6-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -70,36 +70,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <cdbc48a4-7431-7c63-3a4d-6ca9a589b3d4@vivier.eu>
-Date: Tue, 10 Sep 2019 10:39:58 +0200
+Message-ID: <292272b5-3501-0e03-2d43-26d8e20ba1f3@vivier.eu>
+Date: Tue, 10 Sep 2019 10:41:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1567601968-26946-5-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1567601968-26946-6-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:N8Wmyhk6K8IwBJGQUerbMqXAmWtAnXmC03Z/n3yalJar4N7xPWw
- o74r7nLbSjXt0PDewcReHNBVRXsuN6ESZ98iNy1T9lrQYqN/94V0DjARldF5ljPL6LBbBV/
- x40Hi2+0Owovq5zO+0c3i4Vjcnvgkcg5harAmixhbsf85PWPz3LlkCQ5w0Euf2oNEf5vury
- OYk8+E+EOv2zqiKxsO0XA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KPZjECOiXw0=:gYEzDGKgPlTyPOZeNWQFJl
- rBX8VgE/M14YXsudJxsO9KZGOVYJ9eDDWLnNlrqzcHk122X1U6D80cJDK8ZpV2ZA7vG2EdESw
- vmjtL7xb2b/iqQs6rwH7QiT5OECTzNevPPIweKcJkkE412RONW/C4bxp71tvGVOKGrM1ugCmO
- oGk+2VtgKkpf1b/paKuQBl75NxCxj0k2TlB9FNPf0XSxeTlXt5h6Q8bPTA7Ll3HG8AIxyJSdW
- 3u6yuPwFSazR/jfSRwIt95xf3YbPK6SqN/34eRnZPdBSQwftRgvSzsBi5HT0xIinMEhGbT5kG
- Fsz2MtMB/dQEa8d+OiAiJHsp/aWJmXTFFtePRcdxBgPZrJBl3yC7kNaXnmyeuIYd5cEvfkuuw
- DckA/iojPrJQ6tsCZP5PYWnBBPPzSvXpmZt9dIscihA1GoUZx7Z9DG9U/5xBhwaYmQvowQGb+
- FMc13SvtoQdQpJws6mOBzZIdFu4CtFCHos1fRkkk0U0GMWEJmrWA3f4wj6nbYemVuJhURRUDr
- wuc1yD/KkKj2roWcMW1flOpl7UmjkGcuXAc6u1AMmseTZfbg/gvK+v/lI0lPYAnfQPzEH1YDb
- /VzTQhDnppl9ngr0ohGT1QQwuGSSBenP/LasCM4+ViKEKqKJcKs6hPEnjR0Ipe80BB+SfjRWJ
- fwRly2LEeUp8Xz6hzy50VHlaTYrtSgxCbrP1snLOE36AicKo3SOtdaAZUrTNnrnsDbbXqdy1V
- gwqkt6jF/MeuxFaCdc+YDvZ/kbs1P4WJSB/P+eMDvno7JC/pQEOQgGP532mBhps0fAXk0PVdY
- 09wAbAmY/qlYGl43I2BUvPrdCYzBhrPS/Ijwsicy5K1na4jaaA=
+X-Provags-ID: V03:K1:1kpRJ7uo5ZWoLZgDUADx3SVWDIec+Swvr8E14HIKhgshVMGtfIB
+ FMvO3+EhrrwsKyL1bFCTWQRgt7k/+TFYzNdipm2wWW86M51v9p/ujVdNDOcEc6AWIE0Us3r
+ gJ5bsGnvQ1bCO6RVKJW2hUh39Yf0OMSkCYVhEMJQg9r9vjlRbsRSZm3pN88g+mdjP2ZoMLL
+ Vg/P059HBa8uR3OK5vQmA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:r6D9Jnh0zVk=:FKK7HHKAcyoIhpo5kmh4eW
+ PtiPPInvbsUdz2gzhl0dJplUP2ri6ETdMtxG1huOme8TKvhSC75ascucq/Ux8tHFLaFDJOa+x
+ 6k/XpVlVp6q9MEzbHTYREKXUMi+7rriJRwwh0YdNuabhDgHp69Sqkrlw391CpWR9fnrBh4TI1
+ f/gxvybyO5qeTe6fuSg5aBCG7Wp0U21ZnW4zIyznPd0FAXq20RnYX5PQpwmrSCmwS32cCLCxH
+ SbBIJdzhPk/yslxn6gTxQ2buBZ6jeliKRgKaWDaBb4Vh/F4B9t2LfKZLUP4W0prqHGJSXnO8C
+ PT7TmCgWh6tRImsWfvMknlkj9767groUFJOY/Ken6OUr6HQ/9cyKZfhhpaLMdmZYeiLZcnOdf
+ Z5x8yR/CyZTxukk3Octp7iN7LL3dvmRxYIrRufsZZHaRKVLy1hqK655KlxH6gW76aDhKL7GxM
+ trVLyKTp18X673N0qEkQlJ7hg16/F00ArLtpUz2/NmYhILGRehLulXHCXIWTxK2zp6jb3lXJY
+ NI4vbkLgPsqWGGVnq+Do4DCFKx+OkZWFFU18WjhuCajUrUlKeAxUAKsfUnOG30ZO4Roku0Syk
+ 0XxFGvcJwQgDD2moF37K9o0D2VbJAjE41+7+ZBBLLYBU3MqIcp2cbEyZYauFCWmN4nNTxieHC
+ eDaImnVFVPY/QPPBTXs7qQsMZDCwaS5akCuNOWlbKrBf5xpFG7EakYbMOq7KJKUzY+B/lrTx6
+ u8Y2OzuglC3Qaw9VKcEu4RAf3kTBn18HiJ0mFkgP/vLXpUJ0t2ZEEfUOfUuxs53yGQLouvQXG
+ Y9g0JGvThGu7oYkTsZAGIpb3xR5Jz/qWCbScxztpkiUovqo5HI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
-Subject: Re: [Qemu-devel] [PATCH v6 4/8] linux user: Add support for FDFLUSH
- ioctl
+X-Received-From: 212.227.126.130
+Subject: Re: [Qemu-devel] [PATCH v6 5/8] linux-user: Add support for FDMSGON
+ and FDMSGOFF ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,61 +116,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 04/09/2019 à 14:59, Aleksandar Markovic a écrit :
-> From: Yunqiang Su <ysu@wavecomp.com>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> FDFLUSH is used for flushing buffers of floppy drives. Support in
-> QEMU is needed because some of Debian packages use this ioctl while
-> running post-build tests. One such example is 'tar' package.
+> FDMSGON and FDMSGOFF switch informational messages of floppy drives
+> on and off.
 > 
-> Signed-off-by: Yunqiang Su <ysu@wavecomp.com>
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > ---
 >  linux-user/ioctls.h       | 2 ++
->  linux-user/syscall.c      | 1 +
->  linux-user/syscall_defs.h | 4 ++++
->  3 files changed, 7 insertions(+)
+>  linux-user/syscall_defs.h | 2 ++
+>  2 files changed, 4 insertions(+)
 > 
 > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 1830de9..bc19448 100644
+> index bc19448..b253469 100644
 > --- a/linux-user/ioctls.h
 > +++ b/linux-user/ioctls.h
 > @@ -112,6 +112,8 @@
 >       IOCTL(BLKZEROOUT, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
 >  #endif
 >  
-> +     IOCTL(FDFLUSH, 0, TYPE_NULL)
-> +
+> +     IOCTL(FDMSGON, 0, TYPE_NULL)
+> +     IOCTL(FDMSGOFF, 0, TYPE_NULL)
+>       IOCTL(FDFLUSH, 0, TYPE_NULL)
+>  
 >  #ifdef FIBMAP
->       IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
->  #endif
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index b5bc6e4..6825458 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -87,6 +87,7 @@
->  #include <linux/kd.h>
->  #include <linux/mtio.h>
->  #include <linux/fs.h>
-> +#include <linux/fd.h>
->  #if defined(CONFIG_FIEMAP)
->  #include <linux/fiemap.h>
->  #endif
 > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 498223b..917202a 100644
+> index 917202a..4e33ef3 100644
 > --- a/linux-user/syscall_defs.h
 > +++ b/linux-user/syscall_defs.h
-> @@ -888,6 +888,10 @@ struct target_pollfd {
->  #define TARGET_BLKROTATIONAL TARGET_IO(0x12, 126)
->  #define TARGET_BLKZEROOUT TARGET_IO(0x12, 127)
+> @@ -890,6 +890,8 @@ struct target_pollfd {
 >  
-> +/* From <linux/fd.h> */
-> +
-> +#define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
-> +
+>  /* From <linux/fd.h> */
+>  
+> +#define TARGET_FDMSGON        TARGET_IO(2, 0x45)
+> +#define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
+>  #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
+>  
 >  #define TARGET_FIBMAP     TARGET_IO(0x00,1)  /* bmap access */
->  #define TARGET_FIGETBSZ   TARGET_IO(0x00,2)  /* get the block size used for bmap */
->  
 > 
 
 Applied to my linux-user branch.
