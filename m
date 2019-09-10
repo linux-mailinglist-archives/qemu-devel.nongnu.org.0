@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA45AEDE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:57:31 +0200 (CEST)
-Received: from localhost ([::1]:41002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE182AEDC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:53:18 +0200 (CEST)
+Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7haD-0001Uc-HQ
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54202)
+	id 1i7hW9-0004bf-DY
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i7hNv-0005e6-Nf
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:48 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7hR8-0000IC-AZ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i7hNu-00057E-Je
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:47 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33653)
+ (envelope-from <palmer@dabbelt.com>) id 1i7hR6-0006Mm-Ry
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:05 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39808)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i7hNu-00056k-EE
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:44:46 -0400
-Received: by mail-wr1-x444.google.com with SMTP id u16so20875157wrr.0
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:44:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=YNt4rzxDLZvJ3mLelApZg/g3aGU83zBv6U6suQNcbas=;
- b=FpfoOZur9SeiO5+ovdwDYbHq6hgY6rbpK/dv9x8sQf3BJy2GaAu7MQuZ1a2E3E0XDT
- YVs0B5uMpkF9uag6dPn7MlYSKCo0zmuLggIJJVhvKllv10u96rc05E5vWgsdlLN4VaHZ
- sI15QxR7jvaDBR6COKIkQSCcPXZ6QSB2ssG4UvWxNzTLBT5x7GQ+mnRZLv2s0V5YQ3xI
- hpEvXUl3qo4W5YzjIBteUUC1YjXlUtpNrzrg3lzLyc6htpvPMs4D1YfpiL4sFYc9H4Hz
- +LUox7B3Sdu084rI+Z7jZqdkeE97Uj6xVJaObKt0+NwX34vUCz+rgQb5NlRVDXbyN38b
- W2Iw==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hR6-0006ML-Mb
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:04 -0400
+Received: by mail-wr1-f66.google.com with SMTP id t16so20857433wra.6
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YNt4rzxDLZvJ3mLelApZg/g3aGU83zBv6U6suQNcbas=;
- b=D6bEWIWeM1BtUe1giOFQTMZ00geRL16d/GW7jCeA/OdzNtI2E7OS8mRnWYM59RA2wi
- 5LpyjfxLd6nfLAeR7Dzfq0+NAXei69DSAwPNjGdJBSiVOgDCbIZsXgzGandkge5iUPCk
- DKadir44vyYqkD4KWX45MY39L8hthH8PFr4romXW3SSphoB7ZqUjogqwpVHu96xbULXZ
- 9zPjPv1IHHQK1zBdSY829iAe64be0Q4QBiBnfHvfpPqJz6SKnQrNJM3eviA1cdJYFpwO
- dGWo7UBy8AQ/F8WrvZbsr+E6Ge7LPSciCPKtpH020ZkP8AWBs0uycElPxqc67RjtHCMO
- M/bg==
-X-Gm-Message-State: APjAAAUbuAd4RwGYZVdRquUqvqLg0g4AZin9esjP2yYc62P2PAD5D9pJ
- Ek0PvBPLMVa6gFr4Mr5Uibzw8Q==
-X-Google-Smtp-Source: APXvYqwx169BXXSViKCvBrdjzswbjoKZruNrZlvFksLoy7E9pkzfI/C8dUbG9BwTNzoNOA/Qd5jcmg==
-X-Received: by 2002:a05:6000:1189:: with SMTP id
- g9mr28272944wrx.117.1568126685607; 
- Tue, 10 Sep 2019 07:44:45 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a192sm5703814wma.1.2019.09.10.07.44.44
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=SNqQ5iSCtzp/WVbo2V5ehi/imLB/wYtVNdyCk97INlY=;
+ b=IL4CViR7l1uGMMfG7npP5u0TjXCWaR51a/2+1JsF0JxwuXDaF2+rn973cysEvsQKAu
+ 8ZwDxwRNFEpLpiIIv8MmQAqdQnMstA16tfvKLLO3xRhUW/PmyEfamOBKRrfxnvg9q46Z
+ esGgrGPwJlhALW4EboecbCKh2PgfWnkCJb8Ab7HIIPNINZJe7XcwweSjh5X8HOmlJaz/
+ aMZhG3lIcggF8XdIF/jnqAU3c/a6SV3Rdwbp7Ryk8S3vQhshDdVNsFKU+2bBKvynPkYd
+ h/oTqwJ+SzXBMdiCROtcfpBucLCug2b9O/be5n7Jq31L7GqNgSRXHIBxFD2sp62GLDQD
+ WysQ==
+X-Gm-Message-State: APjAAAWoto4kvqGx/lDceLZnuL0DkXebLoccmdd8BdCFofI1qjAi5uiK
+ kjrSfE9Z9W+14jAlX/V/JFq+OSRZE/bj8A==
+X-Google-Smtp-Source: APXvYqxOQWTiFTDBNpQ8QWTAiBllYYUNBOREQyUcxzSfN4Z7kRfiD46MIiQJEghwqFk6BlgFTSHC1w==
+X-Received: by 2002:a05:6000:152:: with SMTP id
+ r18mr17461067wrx.153.1568126883156; 
+ Tue, 10 Sep 2019 07:48:03 -0700 (PDT)
+Received: from localhost ([148.69.85.38])
+ by smtp.gmail.com with ESMTPSA id z17sm15741391wrw.23.2019.09.10.07.48.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 07:44:45 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 15:44:28 +0100
-Message-Id: <20190910144428.32597-14-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190910144428.32597-1-peter.maydell@linaro.org>
-References: <20190910144428.32597-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
+ Tue, 10 Sep 2019 07:48:02 -0700 (PDT)
+Date: Tue, 10 Sep 2019 07:48:02 -0700 (PDT)
+X-Google-Original-Date: Tue, 10 Sep 2019 07:17:44 PDT (-0700)
+In-Reply-To: <9db2403d223b3e6d2d20086176a975dffabb175b.1566603412.git.alistair.francis@wdc.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-6653e02a-9a32-4c17-b9dc-9375e22fe7d1@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 13/13] target/arm/arm-semi: Implement
- SH_EXT_EXIT_EXTENDED extension
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v1 03/28] target/riscv: Add the force HS
+ exception mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,73 +68,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
+ qemu-devel@nongnu.org, Atish Patra <Atish.Patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SH_EXT_EXIT_EXTENDED is a v2.0 semihosting extension: it
-indicates that the implementation supports the SYS_EXIT_EXTENDED
-function. This function allows both A64 and A32/T32 guests to
-exit with a specified exit status, unlike the older SYS_EXIT
-function which only allowed this for A64 guests. Implement
-this extension.
+On Fri, 23 Aug 2019 16:37:57 PDT (-0700), Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/arm-semi.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+There's really no description of what this does, either in the commit message
+or as a comment.
 
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index 0df8d4d69d6..3900bd4e1e6 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -66,6 +66,7 @@ typedef void TaskState;
- #define TARGET_SYS_HEAPINFO    0x16
- #define TARGET_SYS_EXIT        0x18
- #define TARGET_SYS_SYNCCACHE   0x19
-+#define TARGET_SYS_EXIT_EXTENDED 0x20
- 
- /* ADP_Stopped_ApplicationExit is used for exit(0),
-  * anything else is implemented as exit(1) */
-@@ -485,7 +486,7 @@ static const uint8_t featurefile_data[] = {
-     SHFB_MAGIC_1,
-     SHFB_MAGIC_2,
-     SHFB_MAGIC_3,
--    SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
-+    SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
- };
- 
- static void init_featurefile_guestfd(int guestfd)
-@@ -1026,11 +1027,14 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             return 0;
-         }
-     case TARGET_SYS_EXIT:
--        if (is_a64(env)) {
-+    case TARGET_SYS_EXIT_EXTENDED:
-+        if (nr == TARGET_SYS_EXIT_EXTENDED || is_a64(env)) {
-             /*
--             * The A64 version of this call takes a parameter block,
-+             * The A64 version of SYS_EXIT takes a parameter block,
-              * so the application-exit type can return a subcode which
-              * is the exit status code from the application.
-+             * SYS_EXIT_EXTENDED is an a new-in-v2.0 optional function
-+             * which allows A32/T32 guests to also provide a status code.
-              */
-             GET_ARG(0);
-             GET_ARG(1);
-@@ -1042,8 +1046,10 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             }
-         } else {
-             /*
--             * ARM specifies only Stopped_ApplicationExit as normal
--             * exit, everything else is considered an error
-+             * The A32/T32 version of SYS_EXIT specifies only
-+             * Stopped_ApplicationExit as normal exit, but does not
-+             * allow the guest to specify the exit status code.
-+             * Everything else is considered an error.
-              */
-             ret = (args == ADP_Stopped_ApplicationExit) ? 0 : 1;
-         }
--- 
-2.20.1
-
+> ---
+>  target/riscv/cpu.h        |  2 ++
+>  target/riscv/cpu_bits.h   |  6 ++++++
+>  target/riscv/cpu_helper.c | 23 +++++++++++++++++++++++
+>  3 files changed, 31 insertions(+)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0ef1ecb0e0..3a95c41428 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -261,6 +261,8 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+>  bool riscv_cpu_fp_enabled(CPURISCVState *env);
+>  bool riscv_cpu_virt_enabled(CPURISCVState *env);
+>  void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
+> +bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
+> +void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
+>  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+>  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>  void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 1fbde516be..204d9d9a79 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -428,6 +428,12 @@
+>  #define VIRT_MODE_SHIFT     0
+>  #define VIRT_MODE_MASK      (1 << VIRT_MODE_SHIFT)
+>
+> +/* HS-level exception modes */
+> +#define CLEAR_HS_EXCEP        0
+> +#define FORCE_HS_EXCEP        1
+> +#define FORCE_HS_EXCEP_SHIFT  1
+> +#define FORCE_HS_EXCEP_MASK   (1 << FORCE_HS_EXCEP_SHIFT)
+> +
+>  /* RV32 satp CSR field masks */
+>  #define SATP32_MODE         0x80000000
+>  #define SATP32_ASID         0x7fc00000
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 7b0bb14c01..5bcfc2e090 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -104,6 +104,29 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+>      env->virt |= enable << VIRT_MODE_SHIFT;
+>  }
+>
+> +bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
+> +{
+> +    bool tmp;
+> +
+> +    if (!riscv_has_ext(env, RVH)) {
+> +        return false;
+> +    }
+> +
+> +    tmp = (env->virt & FORCE_HS_EXCEP_MASK) >> FORCE_HS_EXCEP_SHIFT;
+> +
+> +    return tmp == FORCE_HS_EXCEP;
+> +}
+> +
+> +void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable)
+> +{
+> +    if (!riscv_has_ext(env, RVH)) {
+> +        return;
+> +    }
+> +
+> +    env->virt &= ~FORCE_HS_EXCEP_MASK;
+> +    env->virt |= enable << FORCE_HS_EXCEP_SHIFT;
+> +}
+> +
+>  int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+>  {
+>      CPURISCVState *env = &cpu->env;
 
