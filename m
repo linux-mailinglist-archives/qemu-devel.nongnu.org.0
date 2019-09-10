@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89307AE76B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:58:34 +0200 (CEST)
-Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE355AE76A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:58:33 +0200 (CEST)
+Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7cuv-0001Np-Ff
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50761)
+	id 1i7cuu-0001ND-NW
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50766)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1i7ct0-0008P7-KH
+ (envelope-from <beata.michalska@linaro.org>) id 1i7ct0-0008P8-PW
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:56:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1i7csz-0002XS-8H
+ (envelope-from <beata.michalska@linaro.org>) id 1i7csz-0002Xf-LQ
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:56:34 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44191)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33382)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1i7csz-0002WZ-33
+ id 1i7csz-0002X6-Fs
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:56:33 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k6so6705501wrn.11
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 02:56:32 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id u16so18897042wrr.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 02:56:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=64ABiwabwec/jyTMQAJqG7C3XJSwzw/xE4Vr+VwrIq0=;
- b=HY+4w06fNHu9p5eTBDH4d87As1kJdg76FLXuQIHE98gT3eXg/DmyN8qL4wYS+oBMcg
- k4hes7VfpHH4EB24sfS4VoUWEwlbv7A6nikbFbCGdwzlgK3oZXrjD2mzLi2OyCvjuYS8
- SZapcfZTiySy29M23mwTRbzcxQQTCciM23G7ulYzUTGzHKlB+3uUPqcZcfcSNiG9x8tr
- XtKuy+0Q6LhA647UIHNLSJW0lxUvVYA/190bNN/KG75rtbeKuIiqUjJJnTdTyw+mTt1K
- owmgiZZjQRJDHAUlygmIAyyifM0UPbzGXuNXJrmsGXebGEBpxkiZ1JPi6otEePMy+7is
- nfQA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=V8rbWEWlHyHd4UbRaLskqjLUrYsGkHiX8TMo3VrUG1s=;
+ b=MHABNx7DC1/9SGQ/iNb/c4Dte1b/++/wKMVMg8NIdcJVi0cLj517karVPxy6+Oc4eA
+ YObSxH1pfn7gVTBaVjWWJlOWpueDwr+CyvAfxdMqoPajh0Tl4DMj5TPNZeP9zXU1bF/5
+ keKzi/I/CGz6Uo9BCdEqly97R3w5TUXAzM2FwXQ8rzO784ExZV7E8XkzWZzldm2CMA2I
+ xc7Aqf2x0jBsFjrvODEAA+pYfL1sOuwfpZSM+4olFXGDxm5d1eN3xjSr46Avrm7Jp1MW
+ MIAOfVxbbK2pv8UEjFEYtnBzs9/oXpFlSyX2QVypvbhL4Cp+laFAYs8I7gfH4raERacn
+ pNKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=64ABiwabwec/jyTMQAJqG7C3XJSwzw/xE4Vr+VwrIq0=;
- b=bLtcjVUSvp50BLli+G9W1S1wF2K3uAv+jtd08dwawobj1r2RH1ncj4osg7cvrYbUXE
- WYg2C6JNNpXaJRbwur4n4mD34T1H3WshXqk9jLlniMEI+POEL7tMSQmu/hJuvqiFT/ir
- FselfVzvzWXTNSmyWJOyaKlSxWMiiNg7eDr2NFinFW7DwLlVr71zyTtIQj/v7bMT8UCc
- IYa6gpVBbfD7fSDMvXiuOomjGEZarER6wewJzG+7ZK6rzgP7vSQBvBfAmtnGkUXqL+t+
- cXeZx8caiUKnYil2Q0kfieFHc3ze7ZgKAT/mOtMlUttao28PU2jnKmHvHjnkjzJ0AIWJ
- QWHQ==
-X-Gm-Message-State: APjAAAUEo2iqtVhG+jOwLvwZxlMi0JlK0H6q4XF/kyzh4y44SIwSbiOj
- Ap/NK2jqPVHvsmSVYFZ9YbL9mhf97IP01g==
-X-Google-Smtp-Source: APXvYqxtf8XbZuKXoLr+kJxkZ9oAhQlOuvZQHftoytoQNxH1u0JIwm7Nt/ssO2oXmdEjFXtTu0Qeiw==
-X-Received: by 2002:a5d:5005:: with SMTP id e5mr24657511wrt.79.1568109391128; 
- Tue, 10 Sep 2019 02:56:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=V8rbWEWlHyHd4UbRaLskqjLUrYsGkHiX8TMo3VrUG1s=;
+ b=Ge7Iy8w/rLJg8Wq0kIDFdoL62X46ng1aMMKMhTTnvPmnYx6AYZ+ePnLHzx578BiBKw
+ gB6shkkK3IgkYv9+MHBT5mwAV3eYfzEkXomoGj+RIvtHc/xTfoHXImiZ8LC84oyicI5C
+ t7VijwlN4DVKWRMD3eAiJZC0Nzqm04sDQ7JPxO6FamgExezTL7O1nLq93SB00WrVf4CY
+ AY9EwJ6vH3XiTyCw4r0DePn1ARq9S6kbjOT0ezgqjrEZUlQtD5ymcVRgVhb/Ia5YDBuY
+ w7yoRPSLl7fvk3TFjnAcIk5mLlEYoFGvA3V8YdQtwCq/I2HNMhbqTJ5Tklf998zA23Gd
+ qRZg==
+X-Gm-Message-State: APjAAAUHCjofJWVpLi7ti87N91pCM+DFxKZ5X/P4GxEp1UPoJZLqxJVD
+ RK5qfC/wf53TToGUATEkltKn/ZVXjbrFcw==
+X-Google-Smtp-Source: APXvYqwg3AXsD02hm5Ty4zNk5Ux9pNgo/7utw4vI1Y476GoPt7vIaiHCepvkDYXDl1Sf4h3LfoArjA==
+X-Received: by 2002:adf:a4c8:: with SMTP id h8mr25265331wrb.293.1568109392396; 
+ Tue, 10 Sep 2019 02:56:32 -0700 (PDT)
 Received: from moi-XPS-13-9350.arm.com
  (host86-144-13-57.range86-144.btcentralplus.com. [86.144.13.57])
- by smtp.gmail.com with ESMTPSA id e30sm32403540wra.48.2019.09.10.02.56.30
+ by smtp.gmail.com with ESMTPSA id e30sm32403540wra.48.2019.09.10.02.56.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 02:56:30 -0700 (PDT)
+ Tue, 10 Sep 2019 02:56:31 -0700 (PDT)
 From: Beata Michalska <beata.michalska@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 11:56:06 +0200
-Message-Id: <20190910095610.4546-1-beata.michalska@linaro.org>
+Date: Tue, 10 Sep 2019 11:56:07 +0200
+Message-Id: <20190910095610.4546-2-beata.michalska@linaro.org>
+In-Reply-To: <20190910095610.4546-1-beata.michalska@linaro.org>
+References: <20190910095610.4546-1-beata.michalska@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH 0/4] target/arm: Support for Data Cache Clean
- up to PoP
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 1/4] tcg: cputlb: Add probe_read
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,51 +81,31 @@ Cc: peter.maydell@linaro.org, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add probe_read alongside the write probing equivalent.
 
-ARMv8.2 introduced support for Data Cache Clean instructions to PoP
-(point-of-persistence) and PoDP (point-of-deep-persistence):
-ARMv8.2-DCCVAP &  ARMv8.2-DCCVADP respectively.
-This patch set adds support for emulating both, though there is no
-distinction between the two points: the PoDP is assumed to represent
-the same point of persistence as PoP. Case there is no such point specified
-for the considered memory system both will fall back to the DV CVAC inst
-(clean up to the point of coherency).
-The changes introduced include adding probe_read for validating read memory
-access to allow verification for mandatory read access for both cache
-clean instructions, along with support for writeback for requested memory
-regions through msync, if one is available, based otherwise on fsyncdata.
+Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
+---
+ include/exec/exec-all.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-As currently the virt platform is missing support for NVDIMM,
-the changes have been tested  with [1] & [2]
-
-
-[1] https://patchwork.kernel.org/cover/10830237/
-[2] https://patchwork.kernel.org/project/qemu-devel/list/?series=159441
-
-
-Beata Michalska (4):
-  tcg: cputlb: Add probe_read
-  Memory: Enable writeback for given memory region
-  migration: ram: Switch to ram block writeback
-  target/arm: Add support for DC CVAP & DC CVADP ins
-
- configure                  | 24 ++++++++++++++++++++++++
- exec.c                     | 38 ++++++++++++++++++++++++++++++++++++++
- include/exec/exec-all.h    |  6 ++++++
- include/exec/memory.h      |  6 ++++++
- include/exec/ram_addr.h    |  6 ++++++
- linux-user/elfload.c       | 18 +++++++++++++++++-
- memory.c                   | 12 ++++++++++++
- migration/ram.c            |  5 +----
- target/arm/cpu.h           | 13 ++++++++++++-
- target/arm/cpu64.c         |  1 +
- target/arm/helper.c        | 24 ++++++++++++++++++++++++
- target/arm/helper.h        |  1 +
- target/arm/op_helper.c     | 36 ++++++++++++++++++++++++++++++++++++
- target/arm/translate-a64.c |  5 +++++
- 14 files changed, 189 insertions(+), 6 deletions(-)
-
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 81b02eb2fe..e1785700c3 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -319,6 +319,12 @@ static inline void *probe_write(CPUArchState *env, target_ulong addr, int size,
+     return probe_access(env, addr, size, MMU_DATA_STORE, mmu_idx, retaddr);
+ }
+ 
++static inline void *probe_read(CPUArchState *env, target_ulong addr, int size,
++                               int mmu_idx, uintptr_t retaddr)
++{
++    return probe_access(env, addr, size, MMU_DATA_LOAD, mmu_idx, retaddr);
++}
++
+ #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
+ 
+ /* Estimated block size for TB allocation.  */
 -- 
-2.7.4
+2.17.1
 
 
