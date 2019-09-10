@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7992AAE66D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:14:31 +0200 (CEST)
-Received: from localhost ([::1]:36272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBDFAE68E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:18:32 +0200 (CEST)
+Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7cEH-00039H-WF
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37365)
+	id 1i7cIA-00083d-9E
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37313)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7br1-0000uY-FV
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqx-0000pr-HH
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7br0-0000gc-DS
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:27 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33089)
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bqw-0000dI-34
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:23 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40309)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7br0-0000gF-7I
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:26 -0400
-Received: by mail-wr1-x430.google.com with SMTP id u16so18455052wrr.0
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:26 -0700 (PDT)
+ id 1i7bqv-0000cp-Sa
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:22 -0400
+Received: by mail-wm1-x336.google.com with SMTP id t9so537654wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WUvbSCpVrhgaso7nfdw/Ni5/eDIE/oeaqBdvwq1XqL0=;
- b=vgUBdvJ8exFZxHNaJDMng5PKAdnamSm1Jey2SSNpsm+CWr07oXNisAIVCS2YwzOm80
- JjqoH5S9xLJH5uVER98YH+W/1mF5c03mQJ8Q+ulLPpM0EUTj0Fui7b1TpiVlXbFxgx1U
- uzHrqEAKFiRSmGjzSWVTZ4JwELIBmwgrAs7Z6SjsQIoFTZkbTvW8VM6OJIleZKdYJodj
- S4nPtyLvSxZjtR1dbHwVPoYikLp0G9usmW8gIjEPN2XDsObyk0vNQEpkq3a1eMZUIVIA
- HHL8jbu0bDj1HYXY+7765TwbMKZjKjijjeluNOhsO1VMzeleOG6eUOJwzycdeozobLve
- Wrhg==
+ bh=8rTETEcYS3jec87Xegg9zkrdJAv4L7q/upZyeHVm888=;
+ b=SXEhvKZ4ufCoC5U2GFzjNNG0fEz8wM/gTZAUi8ZHJ+sgORW7fJXwvP21GYrJO4QEeW
+ FWj0ZTrxg7ixt+NwftTgJhID33PyNYherJA06jgg0GJUHNgOmPvLcDfvv9Lk2tbsph5V
+ CcmWqvnXh1FBIj6GyHG18PGRuiUWA8AYk22B0OnuGrlLJJe2jGJq68MR1T4+Ln9LNYIv
+ zV/akguiL85hO7PcP5kaTGO5xbb8pVLVPAgdYYDi0P/yFLDx3flq/D9SvFYISHxLpeax
+ VOfOrovZTdiYXscii+clkxp2XPUZgLbrsr/NFMMiUpIhm52gIJNAx/9mOdQX0CSxnN8x
+ nhSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WUvbSCpVrhgaso7nfdw/Ni5/eDIE/oeaqBdvwq1XqL0=;
- b=nMfJbcNwxGZ/0ScDSkCUXFi6rvLgHKIuJNVMQzIaTCKX6vIhfVcE+EAPiP8S43xseL
- Xk+hJr8HrfYIvLCDKSzbcet6FQNbTaiihUHD+U4V+eYp4roQ5KJuk2c77hzCe+QaFxvv
- Kcw5xGuz6Q1lysU62UE3eXHPDcOl906LxkH6tP2g5kchjFJLb+YMSSgPS51ylZFafD6x
- LlRrU9u/dcCPlI+M2Dw70y6t5Ao1gfBoeJV1LxfFB01n8YGktejKyd9YN2peTXyyfrYU
- y8Q9oZb0yJX7tVJIO2LqMegt5mB6YUZBCndJrlHl4Bkq8smQ2sBlEnrr05rYEX9mzRdJ
- IrSA==
-X-Gm-Message-State: APjAAAWv+WP2op4F0S0fTIcc9zC4xKj7UOOLyGrrWyxCHVqFspTt3kzc
- hurGza0Uwup3EfFe5Y5Cxw4twg==
-X-Google-Smtp-Source: APXvYqxHdYLKHnYok1O6Mq5tM1k/qtGLykEsTnJFv74kwH9AeR3xdp0wZEtkkOSjzlNiYzInfYh2zA==
-X-Received: by 2002:adf:f502:: with SMTP id q2mr19501122wro.186.1568105425223; 
- Tue, 10 Sep 2019 01:50:25 -0700 (PDT)
+ bh=8rTETEcYS3jec87Xegg9zkrdJAv4L7q/upZyeHVm888=;
+ b=XqFqxA/dSng3rcOKE9phRFGJGWOtY9/fHyTniN2ZgNhyLsz7xVQZi6kz4+z9TbDArs
+ /XRV842CMYCO8FnneMT7bDPCi5kPUjqEKSZ6VmehF8z32QdwqVTdpTo5nRqWSkpvdIc6
+ lH6JBuon5TZf1qJwuJk+QCdt+3TPuYNJpDG09+vHd1NJBZjfecSWXjYK6qKIh/x//24v
+ wCy/6Io73AHT6lG0vMY7rUzF8HORo+USH+4Q/NChXf3Epgee4MZ1tO3R07Nnf98bMhvj
+ lZ/Yi/VunXrafZXbApi1IZ99V8/SJSW10/U1Gsy8gTSL++ch4vv0NUAWKEaZTYKbfbO0
+ OHWg==
+X-Gm-Message-State: APjAAAX7QnhAZq+ogKCO75YdBc5jZs72cPagIOlHeVL8IUOC4iNg5mDn
+ zG7KCYPpIPfjDfiTwJA7vjOXiCt0Yrs=
+X-Google-Smtp-Source: APXvYqyiuCs/UIXCJakqOj3yn1nqwUoE4N8IQImYORMpvvNzIJKcVm4UzvvHZOp/mf6arbLWQRFfrg==
+X-Received: by 2002:a05:600c:23cd:: with SMTP id
+ p13mr255098wmb.148.1568105420715; 
+ Tue, 10 Sep 2019 01:50:20 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g185sm4982521wme.10.2019.09.10.01.50.16
+ by smtp.gmail.com with ESMTPSA id z189sm3154475wmc.25.2019.09.10.01.50.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 01:50:23 -0700 (PDT)
+ Tue, 10 Sep 2019 01:50:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8CFFA1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id AA20D1FF9C;
  Tue, 10 Sep 2019 09:43:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:15 +0100
-Message-Id: <20190910084349.28817-12-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 09:43:16 +0100
+Message-Id: <20190910084349.28817-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
 References: <20190910084349.28817-1-alex.bennee@linaro.org>
@@ -68,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PULL 11/45] tests/docker: move DEF_TARGET_LIST
- setting to common.rc
+X-Received-From: 2a00:1450:4864:20::336
+Subject: [Qemu-devel] [PULL 12/45] tests/docker: set DEF_TARGET_LIST for
+ some containers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,63 +89,97 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We might as well not repeat ourselves. At the same time allow it to be
-overridden which we will use later from docker targets.
+You can assume the failures most people are interested in are the
+cross-compile failures that are specific to the cross compile target.
+Set DEF_TARGET_LIST based on what we use for shippable, the user can
+always override by calling with TARGET_LIST set.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index 4011561587a..512202b0a19 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -11,6 +11,10 @@
- # or (at your option) any later version. See the COPYING file in
- # the top-level directory.
+diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
+index 7c2cc93daf8..6b59ef0843a 100644
+--- a/tests/docker/dockerfiles/debian-arm64-cross.docker
++++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+@@ -17,6 +17,7 @@ RUN apt update && \
  
-+# This might be set by ENV of a docker container... it is always
-+# overriden by TARGET_LIST if the user sets it.
-+DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
-+
- requires()
- {
-     for c in $@; do
-diff --git a/tests/docker/test-build b/tests/docker/test-build
-index 22766cfacc0..2b2a7832f15 100755
---- a/tests/docker/test-build
-+++ b/tests/docker/test-build
-@@ -15,7 +15,6 @@
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=aarch64-linux-gnu-
++ENV DEF_TARGET_LIST aarch64-softmmu,aarch64-linux-user
  
- cd "$BUILD_DIR"
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
+index d866fe5d75b..363a162a253 100644
+--- a/tests/docker/dockerfiles/debian-armel-cross.docker
++++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+@@ -15,6 +15,7 @@ RUN dpkg --add-architecture armel && \
  
--DEF_TARGET_LIST="x86_64-softmmu,aarch64-softmmu"
- TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
- build_qemu
- install_qemu
-diff --git a/tests/docker/test-mingw b/tests/docker/test-mingw
-index fdb1c2c879d..c30eb654eb7 100755
---- a/tests/docker/test-mingw
-+++ b/tests/docker/test-mingw
-@@ -16,7 +16,6 @@
- requires mingw dtc
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabi-
++ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
  
- cd "$BUILD_DIR"
--DEF_TARGET_LIST="x86_64-softmmu,aarch64-softmmu"
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
+index 2b8627673c3..d5365881e79 100644
+--- a/tests/docker/dockerfiles/debian-armhf-cross.docker
++++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+@@ -17,6 +17,7 @@ RUN apt update && \
  
- for prefix in x86_64-w64-mingw32- i686-w64-mingw32-; do
-     TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
-diff --git a/tests/docker/test-quick b/tests/docker/test-quick
-index eee59c55fba..feee44b2476 100755
---- a/tests/docker/test-quick
-+++ b/tests/docker/test-quick
-@@ -15,7 +15,6 @@
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
++ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
  
- cd "$BUILD_DIR"
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+diff --git a/tests/docker/dockerfiles/debian-mips-cross.docker b/tests/docker/dockerfiles/debian-mips-cross.docker
+index 3c4d6f9ec1f..a54efa7253a 100644
+--- a/tests/docker/dockerfiles/debian-mips-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips-cross.docker
+@@ -20,6 +20,7 @@ RUN apt update && \
  
--DEF_TARGET_LIST="x86_64-softmmu,aarch64-softmmu"
- TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
- build_qemu
- check_qemu
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips-linux-gnu-
++ENV DEF_TARGET_LIST mips-softmmu,mipsel-linux-user
+ 
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
+diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+index 34b0b828957..a1481e16e2c 100644
+--- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+@@ -21,6 +21,7 @@ RUN apt update && \
+ 
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips64el-linux-gnuabi64-
++ENV DEF_TARGET_LIST mips64el-softmmu,mips64el-linux-user
+ 
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
+diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+index fc056d7bc35..f10883c8188 100644
+--- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+@@ -16,6 +16,7 @@ RUN apt update && \
+ 
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=powerpc64le-linux-gnu-
++ENV DEF_TARGET_LIST ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
+ 
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
+diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
+index 6732f9ec789..efa346007d6 100644
+--- a/tests/docker/dockerfiles/debian-s390x-cross.docker
++++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+@@ -21,6 +21,7 @@ RUN apt update && \
+ 
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=s390x-linux-gnu-
++ENV DEF_TARGET_LIST s390x-softmmu,s390x-linux-user
+ 
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
 -- 
 2.20.1
 
