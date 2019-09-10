@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1123EAE824
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:31:14 +0200 (CEST)
-Received: from localhost ([::1]:37588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2F2AE83F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:34:58 +0200 (CEST)
+Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7dQW-00063D-FU
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56599)
+	id 1i7dU8-0002am-NC
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56598)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i7dJK-0000S8-Hj
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i7dJK-0000S7-Ha
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:23:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i7dJI-0001uY-9D
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i7dJI-0001ul-Cc
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 06:23:45 -0400
-Received: from relay.sw.ru ([185.231.240.75]:60050)
+Received: from relay.sw.ru ([185.231.240.75]:60074)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i7dJB-0001oI-Ed; Tue, 10 Sep 2019 06:23:38 -0400
+ id 1i7dJB-0001oL-CN; Tue, 10 Sep 2019 06:23:37 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1i7dJ7-0007it-VG; Tue, 10 Sep 2019 13:23:34 +0300
+ id 1i7dJ8-0007it-2d; Tue, 10 Sep 2019 13:23:34 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Tue, 10 Sep 2019 13:23:29 +0300
-Message-Id: <20190910102332.20560-12-vsementsov@virtuozzo.com>
+Date: Tue, 10 Sep 2019 13:23:30 +0300
+Message-Id: <20190910102332.20560-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190910102332.20560-1-vsementsov@virtuozzo.com>
 References: <20190910102332.20560-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v11 11/14] block/io: refactor
- wait_serialising_requests
+Subject: [Qemu-devel] [PATCH v11 12/14] block: add lock/unlock range
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,68 +53,112 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out do_wait_serialising_requests with additional possibility to
-not actually wait but just check, that there is something to wait for.
+Introduce lock/unlock range functionality, based on serialized
+requests. This is needed to refactor backup, dropping local
+tracked-request-like synchronization.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/io.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ include/block/block_int.h |  4 ++++
+ block/io.c                | 44 ++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 0422acdf1c..b59011ca97 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -65,6 +65,7 @@ enum BdrvTrackedRequestType {
+     BDRV_TRACKED_WRITE,
+     BDRV_TRACKED_DISCARD,
+     BDRV_TRACKED_TRUNCATE,
++    BDRV_TRACKED_LOCK,
+ };
+ 
+ typedef struct BdrvTrackedRequest {
+@@ -968,6 +969,9 @@ int coroutine_fn bdrv_co_pwritev(BdrvChild *child,
+ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
+     int64_t offset, unsigned int bytes,
+     QEMUIOVector *qiov, size_t qiov_offset, BdrvRequestFlags flags);
++void *coroutine_fn bdrv_co_try_lock(BlockDriverState *bs,
++                                    int64_t offset, unsigned int bytes);
++void coroutine_fn bdrv_co_unlock(void *opaque);
+ 
+ static inline int coroutine_fn bdrv_co_pread(BdrvChild *child,
+     int64_t offset, unsigned int bytes, void *buf, BdrvRequestFlags flags)
 diff --git a/block/io.c b/block/io.c
-index 0fa10831ed..e909736349 100644
+index e909736349..b9dd578d56 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -786,12 +786,13 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
+@@ -786,6 +786,15 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
      bdrv_wakeup(bs);
  }
  
--static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
-+static bool coroutine_fn do_wait_serialising_requests(BdrvTrackedRequest *self,
-+                                                      bool wait)
- {
-     BlockDriverState *bs = self->bs;
-     BdrvTrackedRequest *req;
-     bool retry;
--    bool waited = false;
-+    bool found = false;
- 
-     if (!atomic_read(&bs->serialising_in_flight)) {
-         return false;
-@@ -817,11 +818,13 @@ static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
-                  * will wait for us as soon as it wakes up, then just go on
-                  * (instead of producing a deadlock in the former case). */
-                 if (!req->waiting_for) {
--                    self->waiting_for = req;
--                    qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
--                    self->waiting_for = NULL;
--                    retry = true;
--                    waited = true;
-+                    found = true;
-+                    if (wait) {
-+                        self->waiting_for = req;
-+                        qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
-+                        self->waiting_for = NULL;
-+                        retry = true;
-+                    }
-                     break;
-                 }
-             }
-@@ -829,7 +832,12 @@ static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
-         qemu_co_mutex_unlock(&bs->reqs_lock);
-     } while (retry);
- 
--    return waited;
-+    return found;
++static bool ignore_intersection(BdrvTrackedRequest *a, BdrvTrackedRequest *b)
++{
++    return a == b || (!a->serialising && !b->serialising) ||
++        (a->type == BDRV_TRACKED_LOCK && b->type == BDRV_TRACKED_READ &&
++         !b->serialising) ||
++        (b->type == BDRV_TRACKED_LOCK && a->type == BDRV_TRACKED_READ &&
++         !a->serialising);
 +}
 +
-+static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
-+{
-+    return do_wait_serialising_requests(self, true);
+ static bool coroutine_fn do_wait_serialising_requests(BdrvTrackedRequest *self,
+                                                       bool wait)
+ {
+@@ -802,7 +811,7 @@ static bool coroutine_fn do_wait_serialising_requests(BdrvTrackedRequest *self,
+         retry = false;
+         qemu_co_mutex_lock(&bs->reqs_lock);
+         QLIST_FOREACH(req, &bs->tracked_requests, list) {
+-            if (req == self || (!req->serialising && !self->serialising)) {
++            if (ignore_intersection(self, req)) {
+                 continue;
+             }
+             if (tracked_request_overlaps(req, self->overlap_offset,
+@@ -840,6 +849,12 @@ static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
+     return do_wait_serialising_requests(self, true);
  }
  
++static bool coroutine_fn should_wait_serialising_requests(
++        BdrvTrackedRequest *self)
++{
++    return do_wait_serialising_requests(self, false);
++}
++
  static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+                                    size_t size)
+ {
+@@ -3378,3 +3393,30 @@ int bdrv_truncate(BdrvChild *child, int64_t offset, PreallocMode prealloc,
+ 
+     return tco.ret;
+ }
++
++void *coroutine_fn bdrv_co_try_lock(BlockDriverState *bs,
++                                    int64_t offset, unsigned int bytes)
++{
++    BdrvTrackedRequest *req = g_new(BdrvTrackedRequest, 1);
++
++    tracked_request_begin(req, bs, offset, bytes, BDRV_TRACKED_LOCK);
++    mark_request_serialising(req, bdrv_get_cluster_size(bs));
++
++    if (should_wait_serialising_requests(req)) {
++        tracked_request_end(req);
++        g_free(req);
++        return NULL;
++    }
++
++    return req;
++}
++
++void coroutine_fn bdrv_co_unlock(void *opaque)
++{
++    BdrvTrackedRequest *req = opaque;
++
++    assert(req->type == BDRV_TRACKED_LOCK);
++
++    tracked_request_end(req);
++    g_free(req);
++}
 -- 
 2.18.0
 
