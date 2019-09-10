@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC36DAEFF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:52:11 +0200 (CEST)
-Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7B6AF001
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:55:36 +0200 (CEST)
+Received: from localhost ([::1]:43434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jNC-0004be-Jd
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
+	id 1i7jQV-0000z7-O3
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:55:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56053)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i7j8Q-0005Rc-ES
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:55 -0400
+ (envelope-from <eblake@redhat.com>) id 1i7jDz-0003YG-AF
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:42:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i7j8P-0002b4-7p
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45060)
+ (envelope-from <eblake@redhat.com>) id 1i7jDx-000604-VX
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:42:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34874)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7j8O-0002ZM-V2
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:53 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7jDx-0005zc-Lz
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:42:37 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3B711C0546D5;
- Tue, 10 Sep 2019 16:36:52 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AFB9A300BEAC;
+ Tue, 10 Sep 2019 16:42:36 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9AA66012C;
- Tue, 10 Sep 2019 16:36:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A2A85D9DC;
+ Tue, 10 Sep 2019 16:42:34 +0000 (UTC)
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-13-armbru@redhat.com>
+ <20190910063724.28470-14-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <69429e4b-3218-bedf-177e-da5b2b05e2c7@redhat.com>
-Date: Tue, 10 Sep 2019 11:36:48 -0500
+Message-ID: <60b61f7c-fe08-e78b-dd52-775959af99d9@redhat.com>
+Date: Tue, 10 Sep 2019 11:42:33 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190910063724.28470-13-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-14-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ boundary="rTgNV085A5fAp8vdPley3C2BjHEZiKZp0"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 10 Sep 2019 16:36:52 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Tue, 10 Sep 2019 16:42:36 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 12/16] docs/devel/qapi-code-gen: Reorder
- sections for readability
+Subject: Re: [Qemu-devel] [PATCH v2 13/16] docs/devel/qapi-code-gen: Rewrite
+ compatibility considerations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,48 +90,106 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb
-Content-Type: multipart/mixed; boundary="erYcS4a6bupZ2zFzKLMNxeTREn0ehWl5L";
+--rTgNV085A5fAp8vdPley3C2BjHEZiKZp0
+Content-Type: multipart/mixed; boundary="Y1lvbK758f6qRbHE6aZjNT52jPxyRmqLe";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <69429e4b-3218-bedf-177e-da5b2b05e2c7@redhat.com>
-Subject: Re: [PATCH v2 12/16] docs/devel/qapi-code-gen: Reorder sections for
- readability
+Message-ID: <60b61f7c-fe08-e78b-dd52-775959af99d9@redhat.com>
+Subject: Re: [PATCH v2 13/16] docs/devel/qapi-code-gen: Rewrite compatibility
+ considerations
 References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-13-armbru@redhat.com>
-In-Reply-To: <20190910063724.28470-13-armbru@redhat.com>
+ <20190910063724.28470-14-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-14-armbru@redhat.com>
 
---erYcS4a6bupZ2zFzKLMNxeTREn0ehWl5L
+--Y1lvbK758f6qRbHE6aZjNT52jPxyRmqLe
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/10/19 1:37 AM, Markus Armbruster wrote:
-> Section "QMP/Guest agent schema" starts with a brief introduction,
-> then subsection "Comments", then subsection "Schema overview" (more
-> elaborate introduction), and only then talks about schema entities
-> like types, commands, and so forth.
+> We have some compatibility advice buried in sections "Enumeration
+> types" and "Struct types".  Compatibility is actually about commands
+> and events.  It devolves to the types used there.  All kinds of types,
+> not just enumerations and structs.
 >=20
-> Subsection "Comments" is long and tiring: almost 500 words, mostly
-> about doc comments.  Move the doc comment part to its own subsection
-> "Documentation comments" at the very end of "QMP/Guest agent schema".
->=20
-> Subsection "Schema overview" explains naming rules at considerable
-> length: 250 words.  Move this part to its own subsection "Naming rules
-> and reserved names" right after the subsections on schema entities.
->=20
-> Subsection "Enumeration types" is wedged between "Struct types" and
-> "Union types".  Move it before "Struct types".
+> Replace the existing advice by a new section "Compatibility
+> considerations".
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  docs/devel/qapi-code-gen.txt | 436 ++++++++++++++++++-----------------=
+>  docs/devel/qapi-code-gen.txt | 95 +++++++++++++++++++++++-------------=
 
->  1 file changed, 221 insertions(+), 215 deletions(-)
+>  1 file changed, 60 insertions(+), 35 deletions(-)
+>=20
 
-Large patch, but mostly just shuffling sections.
+> +=3D=3D Compatibility considerations =3D=3D
+> +
+> +Maintaining backward compatibility at the Client JSON Protocol level
+> +while evolving the schema requires some care.  This section is about
+> +syntactic compatibility.  Necessary, but not sufficient for actual
+> +compatibility.
+
+This last sentence no verb.  Maybe:
+
+s/compatibility.  Necessary/compatibility, which is necessary/
+s/sufficient/sufficient,/
+
+> +
+> +Clients send commands with argument data, and receive command
+> +responses with return data and events with event data.
+> +
+> +Adding opt-in functionality to the send direction is backwards
+> +compatible: adding commands, optional arguments, enumeration values,
+> +union and alternate branches; turning an argument type into an
+> +alternate of that type; making mandatory arguments optional.  Clients
+> +oblivious of the new functionality continue to work.
+> +
+> +Incompatible changes include removing commands, command arguments,
+> +enumeration values, union and alternate branches, adding mandatory
+> +command arguments, and making optional arguments mandatory.
+> +
+> +The specified behavior of an absent optional argument should remain
+> +the same.  With proper documentation, this policy still allows some
+> +flexibility; for example, when an optional 'buffer-size' argument is
+> +specified to default to a sensible buffer size, the actual default
+> +value can still be changed.  The specified default behavior is not the=
+
+> +exact size of the buffer, only that the default size is sensible.
+> +
+> +Adding functionality to the receive direction is generally backwards
+> +compatible: adding events, adding return and event data members.
+> +Clients are expected to ignore the ones they don't know.
+> +
+> +Removing "unreachable" stuff like events that can't be triggered
+> +anymore, optional return or event data members that can't be sent
+> +anymore, and return or event data member (enumeration) values that
+> +can't be sent anymore makes no difference to clients, except for
+> +introspection.  The latter can conceivably confuse clients, so tread
+> +carefully.
+> +
+> +Incompatible changes include removing return and event data members.
+> +
+> +Any change to a command definition's 'data' or one of the types used
+> +there (recursively) needs to consider send direction compatibility.
+> +
+> +Any change to a command definition's 'return', an event definition's
+> +'data', or one of the types used there (recursively) needs to consider=
+
+> +receive direction compatibility.
+> +
+> +Any change to types used in both contexts need to consider both.
+> +
+> +Members of enumeration types, complex types and alternate types may be=
+
+> +reordered freely.  For enumerations and alternate types, this doesn't
+> +affect the wire encoding.  For complex types, this might make the
+> +implementation emit JSON object members in a different order, which
+> +the Client JSON Protocol permits.
+
+Worth mentioning that type names themselves are NOT part of the
+interface, and may be freely renamed?
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
@@ -141,24 +199,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---erYcS4a6bupZ2zFzKLMNxeTREn0ehWl5L--
+--Y1lvbK758f6qRbHE6aZjNT52jPxyRmqLe--
 
---mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb
+--rTgNV085A5fAp8vdPley3C2BjHEZiKZp0
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl130SAACgkQp6FrSiUn
-Q2pceQf+K4YNBSJjgtNT6L7TXWCp7BtGmak1a8GyhtoeVRxshiqVKQuatDwPqRUe
-0wWh25CmRhm+L5oAqjtPMwtpswz1UUbouXDB9pkq4ZaP6Ro4rOjXTIkeY5fK7nYG
-JfBUd27RDVXsbbYLAIZZSh9eAf7MNtvY+tBDxU8HKXOogixCCOLUvCDPXhX7cHhE
-ThH+YWciMZHtFGpHXWZy0a6fXcmcvqIKqWA7r7lJvHxq0S5ZnUZjkaXSxfE5186H
-pyJsII7RYTQbEVbC2OZwMJktIVXveOZhWXWa4EWBYY7DOd4FzhVS1nZpQikLojLZ
-92Dt2wbjebEF6JqN2g2prngGugyR6Q==
-=KyhR
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl130nkACgkQp6FrSiUn
+Q2rqSAgAsHdakyxwYhtIvgSgLG2s6sV9bfHR89ZhGSj0yo/uUN2iy/vSugYBZpcj
+90Hi8KOO3h2jnXCTKO0SIFV4/w/wCcPdnQ2yqi8j5xmGuhrE6/HPJ0p8RXHNU9nf
+4N0SYFjA6ZbKHyEXKU6bYrmqDcY+38V9rXbzZRQek57C3mjUhDYOt/u/vdedkaE5
+HBAhF4DWBPKdgDYmY2ntcq8AYBsE9B7lCpihZqInEQH+6Uxx4j9EeK+XWt1gF38h
+WlM5eapEYMEMep7OgOa3rA/2pfbvPe3oTrY2Y4iobpzzOUIaWpYvlMGYf454ZgfV
+3i/13ZytX+90oJMssIMPX0dQVOp5XQ==
+=x7ZW
 -----END PGP SIGNATURE-----
 
---mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb--
+--rTgNV085A5fAp8vdPley3C2BjHEZiKZp0--
 
