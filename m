@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84975AF85F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:00:49 +0200 (CEST)
-Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C229AF872
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:04:27 +0200 (CEST)
+Received: from localhost ([::1]:48284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yUZ-0004fc-LB
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
+	id 1i7yY5-00006c-SO
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7xwY-0000DR-SH
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:39 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7xwb-0000H3-Dd
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7xwX-0006yF-G0
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:38 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38217)
+ (envelope-from <palmer@dabbelt.com>) id 1i7xwa-0006zl-93
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:41 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36195)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xwX-0006xr-9E
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:37 -0400
-Received: by mail-wm1-f66.google.com with SMTP id o184so2378997wme.3
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:37 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xwa-0006zK-3D
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:40 -0400
+Received: by mail-wr1-f65.google.com with SMTP id y19so23456378wrd.3
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=hEFvw8Q4h+2ImCXdycbkvzEGKttDjRBeJ0Zb0arlL54=;
- b=OG7ZiqpCao8lbKUQkIXklFRp7UrG1XCLJHXZhC6gwR4X03JtL4hoWv9pyaIWc1BvWO
- pBJV8B5Qiwz+/xR4BjEcTZRaPwOWQIZewa8x6oFOTLDo9ZYWXPwvgIhi3peo1JoCVTIv
- 8+wG745n5ZOGPdo4Hi4at7f7cZzvqF8lcUonw7H0wSIrKTt79IXvB2F2RJM+uk/ziBvx
- bWMw9FN6tM16CChmargYCZ3624zjbEKDX0buIQz1w3ihjNvBPvByX+qplZZ7xz4O4PcQ
- 8D9Bxr/rYbr75846s2jWzwvHcdDg2hMcTaLQ2DpeD8RRpCBRkNcoIeVdGi+AnnPMRa85
- eVcA==
-X-Gm-Message-State: APjAAAV74fKHmsQaCR/OyXWrShrGQAKEHRSQXt8DIYoDjHDlNuapQEG7
- oLiwjLmQFVSrk/a5+DXZX3uvNA==
-X-Google-Smtp-Source: APXvYqxJd91LJ2r0TLiLCMTwuqBHyWBKum6LW94RLWS0d32rVYRadjk0whp7EmEmtm3V3XpCTkkHZg==
-X-Received: by 2002:a7b:c1cc:: with SMTP id a12mr2703067wmj.73.1568190336111; 
- Wed, 11 Sep 2019 01:25:36 -0700 (PDT)
+ bh=QB4DlvulPZzUlgaey1nZw8B8imJR4kB3iDL99emwfxg=;
+ b=WWBjGwfhHZ6W4t/btOMXTPLfpWkUzzoC28dPN7fm8dXhAu358Ry/LThB2+CIjT4tLX
+ 5y2dIRJgpMMTLv2Tfy7Hq7/ls7ymhrp7ABaE1d6YsEYwsaZPTXstPduhvmYerSsVsxK0
+ KeoqckF3nap+z/fWn09rnq+gfBdzBPg1E//LqfxD1co6+WxNoMeDRL13UXLGmCYA7kHf
+ x+z490UQpoI7P+QDU0qvSp8h6c1GNs64+VqzBwz89lbNQn8s1m02vT8pgTtfvaFcX2/K
+ cnouXc8pqrHXz8xc09kZomgeSK/917joFnu99SKU8YBqQDcxf973YM06ks3EXBdYD1ZU
+ q6iQ==
+X-Gm-Message-State: APjAAAXWPqzP3R9MmnKCqZ1L+kV62Xa2fmJl+J7/Yr3D/LUdT0IWvCFp
+ B7nabhGRwY8Bri43SAhIyySszQ==
+X-Google-Smtp-Source: APXvYqySMhkyTSZ60wpMMUzTTqVPElAoQ+8pTP4Z5PS3qMY7B5Jpmj8ilJUui7Jkqj8RGxs+aD90Vg==
+X-Received: by 2002:a5d:4b46:: with SMTP id w6mr20703928wrs.223.1568190338956; 
+ Wed, 11 Sep 2019 01:25:38 -0700 (PDT)
 Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id q19sm28409669wra.89.2019.09.11.01.25.35
+ by smtp.gmail.com with ESMTPSA id m18sm26670979wrg.97.2019.09.11.01.25.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 01:25:35 -0700 (PDT)
-Date: Tue, 10 Sep 2019 12:05:10 -0700
-Message-Id: <20190910190513.21160-45-palmer@sifive.com>
+ Wed, 11 Sep 2019 01:25:38 -0700 (PDT)
+Date: Tue, 10 Sep 2019 12:05:12 -0700
+Message-Id: <20190910190513.21160-47-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910190513.21160-1-palmer@sifive.com>
 References: <20190910190513.21160-1-palmer@sifive.com>
@@ -53,9 +53,8 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: [Qemu-devel] [PULL 44/47] riscv: sifive_u: Update model and
- compatible strings in device tree
+X-Received-From: 209.85.221.65
+Subject: [Qemu-devel] [PULL 46/47] target/riscv: Fix mstatus dirty mask
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,33 +72,31 @@ Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-This updates model and compatible strings to use the same strings
-as used in the Linux kernel device tree (hifive-unleashed-a00.dts).
+This is meant to mask off the hypervisor bits, but a typo caused it to
+mask MPP instead.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Fixes: 1f0419cb04 ("target/riscv: Allow setting mstatus virtulisation bits")
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_u.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/riscv/csr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 507a6e2fa9..ca9f7fea41 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -96,8 +96,9 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         exit(1);
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 2789215b5e..f767ad24be 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -335,7 +335,7 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
+              * RV32: MPV and MTL are not in mstatus. The current plan is to
+              * add them to mstatush. For now, we just don't support it.
+              */
+-            mask |= MSTATUS_MPP | MSTATUS_MPV;
++            mask |= MSTATUS_MTL | MSTATUS_MPV;
+ #endif
      }
- 
--    qemu_fdt_setprop_string(fdt, "/", "model", "ucbbar,spike-bare,qemu");
--    qemu_fdt_setprop_string(fdt, "/", "compatible", "ucbbar,spike-bare-dev");
-+    qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
-+    qemu_fdt_setprop_string(fdt, "/", "compatible",
-+                            "sifive,hifive-unleashed-a00");
-     qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x2);
-     qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x2);
  
 -- 
 2.21.0
