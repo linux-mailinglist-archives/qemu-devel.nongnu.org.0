@@ -2,57 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2435AEFFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:54:22 +0200 (CEST)
-Received: from localhost ([::1]:43422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC36DAEFF9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:52:11 +0200 (CEST)
+Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jPJ-0007kE-L2
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53319)
+	id 1i7jNC-0004be-Jd
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7j80-0004kY-NL
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:29 -0400
+ (envelope-from <eblake@redhat.com>) id 1i7j8Q-0005Rc-ES
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7j7y-0002CM-Gg
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:60739)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7y-0002A6-6c
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:26 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MCKSA-1hyPjj0ll4-009Qkh; Tue, 10 Sep 2019 18:36:21 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 18:36:00 +0200
-Message-Id: <20190910163600.19971-16-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190910163600.19971-1-laurent@vivier.eu>
-References: <20190910163600.19971-1-laurent@vivier.eu>
+ (envelope-from <eblake@redhat.com>) id 1i7j8P-0002b4-7p
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45060)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7j8O-0002ZM-V2
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:53 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3B711C0546D5;
+ Tue, 10 Sep 2019 16:36:52 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9AA66012C;
+ Tue, 10 Sep 2019 16:36:49 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190910063724.28470-1-armbru@redhat.com>
+ <20190910063724.28470-13-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <69429e4b-3218-bedf-177e-da5b2b05e2c7@redhat.com>
+Date: Tue, 10 Sep 2019 11:36:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ulRcokUfmXdMbuiGnDuBpfBvI+ZopA0SBBBNyQnDkISRpg6SGTm
- 8Z6PeQZxTTCGX4wcPaG2yH1DtPGItUI04WkkSJl4RxyaDnZKqN9/letktg1GrcsITV+Kacg
- n8M90wF1ciZsC1BMZ02UWlRD/a5rkLNQAOcrC/pEZeY5/fQYxhIMGlO2rq/5IB/zNyDpeqH
- DqElenvUr8QknxPVP0sRQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hK/tHS/D818=:UQaPQow9eglUooyDRVejIr
- NDzTA7j1S10WZaiLqBIbDppIHFcdhCZC4OVtX4ymSDfKdL5191d0afqtCvEXAXlHYaL6AM8mr
- C74dKVKq8PogupkoO1LfX4pHIXtIzyoODEdFEA38o4TEgSHFzeKCN6BgQVqJTyD+ncSmahrCl
- Tnbwwt6mOWSp7+3MClq/8hlqjVePKvCSxvNocNWIzoxC4AbiqgwMKfQFPOr5rBA/JV+76947k
- byBpBrMUJu7+24KrzsgRbi1MfLihI/IYmScR9+IWDets+CE505eIjK6LztnKGRzWeY8b/+KxH
- D7rF/udx71QKyRqR7Jo3isL3qovv7X0hQmuZi8FdgWywvN2UAx07tbOdMsVbgZpKOiA/nAAsJ
- eN39PNAC0viDT+gGOlaqEuoqhUIq0pkCY4Pxk8hksrvyAfP1RzpohpNiuB0D8dGLACZ9isg8B
- 3NyL8BwO8b+sJb4aFcyDcAGPakLeLkfffU1k9LN65s0t1AbkdqLtD6lphjvNRL8ZpXV7uoVDe
- +VrdEu9tb1WSAoxJUrSQqfVOtERz9raJXU2lQo8ozxzb+F14nH9y6aFMNRBXXUKtrJjOHTVBl
- kKXU9JYJrdEYh0cI0j2oO2wNF1RxloXk/NEdkP4HjasjsmfuYu+pAZIre1b+6EkuM2n3ljEf6
- U3Qe7XBbKl5BDpRAild7YbUkdti7IW7nR6SyAEQExOPg8owxioMp5uKYehOOczWsJ3HFa42g+
- bb4tiOCr+elx6RIswuUFettKBpKG/XKeOzEZUMfztg3uq2N08gnZGp6C6GIO5PaW2nyGW0ccd
- HfE0HL5Ag3fmpSAFyEGd4Id1QJIEPJoEVt56KIqUv9vWzmv/Ng=
+In-Reply-To: <20190910063724.28470-13-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 10 Sep 2019 16:36:52 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: [Qemu-devel] [PULL 15/15] linux-user: Add support for FDRESET,
- FDRAWCMD, FDTWADDLE, and FDEJECT ioctls
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 12/16] docs/devel/qapi-code-gen: Reorder
+ sections for readability
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,57 +85,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb
+Content-Type: multipart/mixed; boundary="erYcS4a6bupZ2zFzKLMNxeTREn0ehWl5L";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
+Message-ID: <69429e4b-3218-bedf-177e-da5b2b05e2c7@redhat.com>
+Subject: Re: [PATCH v2 12/16] docs/devel/qapi-code-gen: Reorder sections for
+ readability
+References: <20190910063724.28470-1-armbru@redhat.com>
+ <20190910063724.28470-13-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-13-armbru@redhat.com>
 
-FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT ioctls are misc commands
-for controlling a floppy drive.
+--erYcS4a6bupZ2zFzKLMNxeTREn0ehWl5L
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1567601968-26946-7-git-send-email-aleksandar.markovic@rt-rk.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/ioctls.h       | 4 ++++
- linux-user/syscall_defs.h | 4 ++++
- 2 files changed, 8 insertions(+)
+On 9/10/19 1:37 AM, Markus Armbruster wrote:
+> Section "QMP/Guest agent schema" starts with a brief introduction,
+> then subsection "Comments", then subsection "Schema overview" (more
+> elaborate introduction), and only then talks about schema entities
+> like types, commands, and so forth.
+>=20
+> Subsection "Comments" is long and tiring: almost 500 words, mostly
+> about doc comments.  Move the doc comment part to its own subsection
+> "Documentation comments" at the very end of "QMP/Guest agent schema".
+>=20
+> Subsection "Schema overview" explains naming rules at considerable
+> length: 250 words.  Move this part to its own subsection "Naming rules
+> and reserved names" right after the subsections on schema entities.
+>=20
+> Subsection "Enumeration types" is wedged between "Struct types" and
+> "Union types".  Move it before "Struct types".
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  docs/devel/qapi-code-gen.txt | 436 ++++++++++++++++++-----------------=
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index b253469999ee..c6b9d6ad6653 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -115,6 +115,10 @@
-      IOCTL(FDMSGON, 0, TYPE_NULL)
-      IOCTL(FDMSGOFF, 0, TYPE_NULL)
-      IOCTL(FDFLUSH, 0, TYPE_NULL)
-+     IOCTL(FDRESET, 0, TYPE_NULL)
-+     IOCTL(FDRAWCMD, 0, TYPE_NULL)
-+     IOCTL(FDTWADDLE, 0, TYPE_NULL)
-+     IOCTL(FDEJECT, 0, TYPE_NULL)
- 
- #ifdef FIBMAP
-      IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 4e33ef396be4..fa69c6ab8d01 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -893,6 +893,10 @@ struct target_pollfd {
- #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
- #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
- #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
-+#define TARGET_FDRESET        TARGET_IO(2, 0x54)
-+#define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
-+#define TARGET_FDTWADDLE      TARGET_IO(2, 0x59)
-+#define TARGET_FDEJECT        TARGET_IO(2, 0x5a)
- 
- #define TARGET_FIBMAP     TARGET_IO(0x00,1)  /* bmap access */
- #define TARGET_FIGETBSZ   TARGET_IO(0x00,2)  /* get the block size used for bmap */
--- 
-2.21.0
+>  1 file changed, 221 insertions(+), 215 deletions(-)
 
+Large patch, but mostly just shuffling sections.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--erYcS4a6bupZ2zFzKLMNxeTREn0ehWl5L--
+
+--mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl130SAACgkQp6FrSiUn
+Q2pceQf+K4YNBSJjgtNT6L7TXWCp7BtGmak1a8GyhtoeVRxshiqVKQuatDwPqRUe
+0wWh25CmRhm+L5oAqjtPMwtpswz1UUbouXDB9pkq4ZaP6Ro4rOjXTIkeY5fK7nYG
+JfBUd27RDVXsbbYLAIZZSh9eAf7MNtvY+tBDxU8HKXOogixCCOLUvCDPXhX7cHhE
+ThH+YWciMZHtFGpHXWZy0a6fXcmcvqIKqWA7r7lJvHxq0S5ZnUZjkaXSxfE5186H
+pyJsII7RYTQbEVbC2OZwMJktIVXveOZhWXWa4EWBYY7DOd4FzhVS1nZpQikLojLZ
+92Dt2wbjebEF6JqN2g2prngGugyR6Q==
+=KyhR
+-----END PGP SIGNATURE-----
+
+--mTw7yPRqfTBO7R5PLVgunIa8T0ENGcNOb--
 
