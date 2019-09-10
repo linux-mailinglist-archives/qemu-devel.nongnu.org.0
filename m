@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CBFAEDE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:55:49 +0200 (CEST)
-Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC95AEDF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:00:12 +0200 (CEST)
+Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hYa-00082i-9G
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:55:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54757)
+	id 1i7hcp-00041Z-5W
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:00:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7hR9-0000Ip-1s
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:08 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7hRE-0000OG-I6
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7hR8-0006NV-2a
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:06 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:43478)
+ (envelope-from <palmer@dabbelt.com>) id 1i7hRC-0006QO-Rl
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:12 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39836)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hR7-0006N4-SJ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:05 -0400
-Received: by mail-wr1-f65.google.com with SMTP id q17so16145742wrx.10
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:05 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hRC-0006Px-MW
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:10 -0400
+Received: by mail-wr1-f68.google.com with SMTP id t16so20858140wra.6
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
  :mime-version:content-transfer-encoding;
- bh=9r/tsin+WnzvHfmEc7iVPUi/buDct7somnXFCcxsN4M=;
- b=E0eKKq+C9H+NL0TCPGFKqjBp16BbBZe+cBtJbOMVMDzrMbe0LmrkppQQ6i6deuHBUe
- xgraZNtlcvD1+2/mjKNRTkdxp0AZob2LxV4KqUeKbF/ndVSwa05L7EibMSASScnJEIVv
- 5kyWDPvn1bNC0+p3OdUSJYtegseyYF7E0pZjza5/x9FP8ldXN7MbQrmPlWaxxLYvjHam
- YpVC7ffXPtyYdtFRGluD0dyfMnlOscJy5CzGSf+K8tG9mg/sYn+IQWJaPOzWzbXbgoxt
- M+W9L6kq0hp+69rHCHht/rWNT2t/hSvf/l0q6lPhOIFYwJODKwS3g9aCtAbaZxDpoD9w
- QUAg==
-X-Gm-Message-State: APjAAAULX0K2Y/MW0rWsja/3WRTGuZru49giAEhu1mtJnzhYLrwQ6JQG
- Jrd7tqvSR3b95vJYrvxBVTa4HYiL5Bu8zQ==
-X-Google-Smtp-Source: APXvYqx+MMVn21LPEsYVh4ZdCTqfuyQUbh76195ywvIFJ5C3yTWkYyr5hoeGjchAictUvs1bD59zqA==
-X-Received: by 2002:a5d:4ac5:: with SMTP id y5mr21240676wrs.179.1568126884538; 
- Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
+ bh=WH1RsL+ZdVST+XzQbljMHQiP6aO83DLlrXgF51Tok1Q=;
+ b=ASclyyPBKgJJhrcmxMU9Maph8p5kChbfkUTtTGfu4N6t5DeRWF43lkSZvlQ+SoMVId
+ KmRbTsUhcJvoRsXNTUmOLHBpD12fFPMKSQfDRfvZk/Do54uj8FFOoQ96nvaQZt9Kgk15
+ JCwzJ9jMr2LI1n6Gsw1fJ0qUZ6tSY9W9K3UE0itxSlAsqA/6hagYCqmnywF0SK9QNLJh
+ JhXg0cwe/FQ71dYV2Va0SbK6i2/gNn/bM20R35BuPJGwQPqecAwJzwj3N8SDpmj91gZJ
+ eDA5zpr20Vs91DE3sVLBKrh8fgQIDGI9/Pc8QN0smuBthUn+za/Jp/l2AUCuBJB1ihCI
+ 5OuA==
+X-Gm-Message-State: APjAAAWoJiqN8QMBBVp1Nehw0SBiytCNP8QQQaDfimH5ICiSfWIB8XIb
+ HwrEaj0eHoWWiN3E6GeIw3n7038ft2C01g==
+X-Google-Smtp-Source: APXvYqy0ERn8EWjnKJ+uVA3LC+L1HtJOv1RwmuEivZgZtzMDHMyefIKZQ49uutQWMDqP9QZNVmBwUQ==
+X-Received: by 2002:a5d:5606:: with SMTP id l6mr3720814wrv.108.1568126889190; 
+ Tue, 10 Sep 2019 07:48:09 -0700 (PDT)
 Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id a144sm5175207wme.13.2019.09.10.07.48.03
+ by smtp.gmail.com with ESMTPSA id k9sm34089428wrd.7.2019.09.10.07.48.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
-Date: Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
-X-Google-Original-Date: Tue, 10 Sep 2019 07:40:13 PDT (-0700)
-In-Reply-To: <a090bc437bf412c279b1254d05eae5c2d67225db.1566603412.git.alistair.francis@wdc.com>
+ Tue, 10 Sep 2019 07:48:08 -0700 (PDT)
+Date: Tue, 10 Sep 2019 07:48:08 -0700 (PDT)
+X-Google-Original-Date: Tue, 10 Sep 2019 07:44:11 PDT (-0700)
+In-Reply-To: <47e7fd90ce1d2373824799274376b29d751d56c3.1566603412.git.alistair.francis@wdc.com>
 From: Palmer Dabbelt <palmer@sifive.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-afa69c9b-17b7-4043-b204-512c92cf618a@palmer-si-x1e>
+Message-ID: <mhng-a0b8f877-5b70-413f-8f5f-5912f49ffcfd@palmer-si-x1e>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v1 04/28] target/riscv: Fix CSR perm
- checking for HS mode
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v1 07/28] target/riscv: Dump Hypervisor
+ registers if enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,59 +73,74 @@ Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Aug 2019 16:38:00 PDT (-0700), Alistair Francis wrote:
-> Update the CSR permission checking to work correctly when we are in
-> HS-mode.
+On Fri, 23 Aug 2019 16:38:07 PDT (-0700), Alistair Francis wrote:
+> Dump the Hypervisor registers and the current Hypervisor state.
+>
+> While we are editing this code let's also dump stvec and scause.
 >
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
 > ---
->  target/riscv/csr.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+>  target/riscv/cpu.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index f767ad24be..471f23a1d0 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -799,9 +799,15 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f13e298a36..be8f643fc2 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -220,18 +220,52 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>      CPURISCVState *env = &cpu->env;
+>      int i;
 >
->      /* check privileges and return -1 if check fails */
->  #if !defined(CONFIG_USER_ONLY)
-> -    int csr_priv = get_field(csrno, 0x300);
-> +    int csr_priv = env->priv;
-
-This isn't really "csr_priv" (ie, the priv needed to access the CSR) any more, 
-it's really the effective priv of the machine.  Leaving the variable with the 
-same name makes this hard to read, but I think it is correct.
-
->      int read_only = get_field(csrno, 0xC00) == 3;
-> -    if ((write_mask && read_only) || (env->priv < csr_priv)) {
-> +
-> +    if (riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
-> +        /* Plus 1 as we are in HS mode */
-
-The comment is useless, it doesn't say why we increment it.  Also, I don't 
-think this is correct: doesn't it allow U mode to access S CSRs when H is 
-present and V is disabled?
-
-Something like
-
-    riscv_effective_priv(CPURISCVState *env)
-    {
-        if (riscv_has_ext(env, RVH) && env->priv == PRIV_S && !riscv_cpu_virt_enabled(env)) {
-            return PRIV_HS;
-        }
-    
-        return env->priv;
-    }
-
-would probably be used in a handful of places, and would be a drop in for
-env->priv here.
-
-> +        csr_priv++;
+> +#if !defined(CONFIG_USER_ONLY)
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s %d\n", "V      =  ", riscv_cpu_virt_enabled(env));
 > +    }
-> +
-> +    if ((write_mask && read_only) || (csr_priv < get_field(csrno, 0x300))) {
->          return -1;
->      }
+> +#endif
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "pc      ", env->pc);
+>  #ifndef CONFIG_USER_ONLY
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mhartid ", env->mhartid);
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatus ", env->mstatus);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hstatus ", env->hstatus);
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "bstatus ", env->vsstatus);
+> +    }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ",
+>                   (target_ulong)atomic_read(&env->mip));
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsip    ",
+> +                     (target_ulong)atomic_read(&env->vsip));
+> +    }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsie    ", env->vsie);
+> +    }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mideleg ", env->mideleg);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hideleg ", env->hideleg);
+> +    }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "medeleg ", env->medeleg);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hedeleg ", env->hedeleg);
+> +    }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtvec   ", env->mtvec);
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stvec   ", env->stvec);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vstvec  ", env->vstvec);
+> +    }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mepc    ", env->mepc);
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "sepc    ", env->sepc);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsepc   ", env->vsepc);
+> +    }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mcause  ", env->mcause);
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "scause  ", env->scause);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vscause ", env->vscause);
+> +    }
 >  #endif
+>
+>      for (i = 0; i < 32; i++) {
+
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 
