@@ -2,75 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1ABEAE65B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:11:47 +0200 (CEST)
-Received: from localhost ([::1]:36224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB911AE67D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:17:27 +0200 (CEST)
+Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7cBe-00089K-9K
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:11:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37349)
+	id 1i7cH7-0006iU-UY
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:17:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqz-0000sk-Kw
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:26 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7bsK-0002ER-3N
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:51:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bqy-0000ff-LC
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:25 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45905)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bqy-0000fF-Es
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:50:24 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l16so18350541wrv.12
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:50:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SR2u2Njn4Tu4kLUbOMpSvZxbFz5v5AyikcOmiSFMewo=;
- b=OcR+lngg+nBYtk0Cexz9HssB64Nm7X4M5TOSGYSqfFfT/IRiCn668EnmUsKqaOic1R
- Av0qcdhL3CWw/fgAjOustWmnGem9BiTst9vzdv2dQ3QxpdxHtCdd3wkZ9NkfIa4A3sQa
- UPcsK+2jBak6B8S9ECkTtFiSnZmzXm+cRPSguLEFdlQ3KvjpPs67PgSNu35/558HbVkR
- luhVgpsfotOEvo/oYFfn+q1dqrhTgBXhLb9mA0VCazlRY8tYD3oxoTG6aS6JZCvasfGA
- iYKNKHGtU6qmJ+OiJVPZRQUKGpT8Hy+OcENdcRQculGIEdR3wcO3E02iMK2oLI5m/5vG
- sydA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SR2u2Njn4Tu4kLUbOMpSvZxbFz5v5AyikcOmiSFMewo=;
- b=OaHL6zhJ+DovKy6tnsMXOe33hpe5ZLeZdw3ysRz7EKbD/EqOGVGuCmDW3Osfd2e2T0
- hg0zuTxZT5eaXm0sOv96pUQ8PO5ApJW4AgBJsL6CrlyVxkc1Ciwn8VteO9e6l4VX0J6K
- QIJmzvIzc6L3D/HQ0v957N4bWQXaloSkguxbBEtlqTZSNVOAezsE3a6gsifVaLnZ2hUF
- 88VAePiEmdcY6IPLLBImnCJoc5u1BSVV2AocI/sGVeFzKtYPWTK8xCWfM4jWpsbCa2jP
- 5gN6FF/iXNu/3RY/YV2XksJDAgPEMH4rts23lG0hmQ5vfChqESp9ysDhu5qzXDEdpmwS
- JCBA==
-X-Gm-Message-State: APjAAAVZ2MxlQYbQ78k9+ki8eZQ2qINdKm9hCb/ICY4nEUYj3vPw86AD
- 1fdpOufZf+Q1r7nzqp+5hpO7OA==
-X-Google-Smtp-Source: APXvYqxCt4MAWdruIC8J9letz1xCf7QztqXiOxokYxcIlQkzwqNsg1RxyOz9Qbu+eAIVr0EANv1nsA==
-X-Received: by 2002:adf:eccd:: with SMTP id s13mr25287666wro.288.1568105423473; 
- Tue, 10 Sep 2019 01:50:23 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y12sm9499221wrn.74.2019.09.10.01.50.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 01:50:19 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B06A41FFC5;
- Tue, 10 Sep 2019 09:43:53 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:49 +0100
-Message-Id: <20190910084349.28817-46-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
-References: <20190910084349.28817-1-alex.bennee@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1i7bsJ-0001GF-0z
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:51:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:34129)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7bsI-0001FX-Oq
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:51:46 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MPK73-1hmOFz1oyL-00Pb9n; Tue, 10 Sep 2019 10:51:30 +0200
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20190908061543.25136-1-f4bug@amsat.org>
+ <20190908061543.25136-3-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
+ WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
+ SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
+ UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
+ Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
+ JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
+ q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
+ RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
+ 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
+ LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
+ dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
+ ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
+ HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
+ rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
+ jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
+ NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
+ WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
+ lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
+ BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
+ gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
+ +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
+ rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
+ 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
+ wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
+ ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
+ d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
+ 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
+ tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
+ inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
+ 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
+ VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
+ US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
+ w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
+ FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
+ hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
+ ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
+ ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
+ OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
+ JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
+ ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
+Message-ID: <46d65df5-b947-8e65-fd02-22da9c763b1a@vivier.eu>
+Date: Tue, 10 Sep 2019 10:51:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190908061543.25136-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42d
-Subject: [Qemu-devel] [PULL 45/45] travis.yml: Install libcap-dev for
- testing virito-9p
+X-Provags-ID: V03:K1:r+n20bXl2VC0wwGQBzK55YFA/xBrTJeuf/qwGLHSxbnJSsZuOgv
+ HCeo0BHRzICZnHSd8YGZY/kNB635Vvk1L/+VaIqm4HQrGLxW9JcvfTO5S3FczjXGUAppr65
+ Jm49VLeCZegXAgQi+IibxCWi1LpUmQ30bENLWlLlZfjOiSIa1PYIcBIeXfL48POxv37nQDY
+ bcUiGZDmCV6DUDcnmlVsA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l0atQ13zvkE=:9HAjx9V3HUFPiT8kQymYjX
+ shGYJrPd80nL2DXGbgc3b6NRD9IMRGl/sY6cPqi5t1hKo3vxBGojB6eqBo0yDGNyO0JfG8oX8
+ uWPh2bqtOqG3P1mwouxnuY4NbbN15H7EJCFSIIjukTDM1agcviOn+6mboOXFRcJOq4k2jOdfa
+ ef6oFJP/jgWYmhjZqfkzr15+rveujgVR39z6h5arDhiBb8TX1akoLOMCPxX3r+Ds0VC25Fhma
+ LPjC//82D4fF5GiOE9QIe0UxyaRKHNsyKSBQWNOlikR1a7reOssdJwPN0qshMQAGGWBQ5kAZ4
+ xJF4VDhFdGVZhBczKTrfEaH+C6CGUmUgQtw2E5swwMQ6J1/crpT2Tv5GbyZ8z0JAOyYxfAfkS
+ gmKhZn/wiqleYY/aEY+bOzXFaozyezoJLvf3CKNu/6dffVoUQQZK/i24t14eRFYyBkvf1PnV5
+ UEpLONDUchjElS03ShZIHeqFllq1zpRv2097GloIxRKC0plIE70RR3TXvVSBmOnXsG0lRuLgc
+ arIdBfD8nhqrydMdHjmGlvnUWJmUC8XXFu84HFKbnM3+xnVEa/q7ARY7YvP2OZB+1j/Qddmuo
+ QV/qoLTclSZQ0ezkY3wgM37RLR7XAbyFe/ujXOv8orNMxlKRnPEiw1+viedp2GOgk4SQthbdU
+ YlDZfsHbmwaTWMWkMFFmL5NzdPC36lqbzVFI7CTWoce6RfR4Su/2n3dAXzZ2GsTtGAydTzoTa
+ jpfeDfSF8Jb7podtA74IJbZxfVtFwFPHpvR3q0Kqhg4DzfdVCJtXSuUSh8UFe9skZxSz49X/E
+ o9BX3HmlRPMuZULaxrlIw4WqPhiCcoblKEosMvD0xSHn8xlUGA=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.133
+Subject: Re: [Qemu-devel] [PATCH v6 2/8] linux-user/strace: Add
+ print_timezone()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,38 +112,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
+ Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Le 08/09/2019 à 08:15, Philippe Mathieu-Daudé a écrit :
+> Suggested-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> checkpatch error:
+> ERROR: storage class should be at the beginning of the declaration
+> ---
+>  linux-user/strace.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index f326c357a2..5ee9d62c25 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -63,6 +63,7 @@ UNUSED static void print_string(abi_long, int);
+>  UNUSED static void print_buf(abi_long addr, abi_long len, int last);
+>  UNUSED static void print_raw_param(const char *, abi_long, int);
+>  UNUSED static void print_timeval(abi_ulong, int);
+> +UNUSED static void print_timezone(abi_ulong, int);
+>  UNUSED static void print_number(abi_long, int);
+>  UNUSED static void print_signal(abi_ulong, int);
+>  UNUSED static void print_sockaddr(abi_ulong addr, abi_long addrlen);
+> @@ -1254,6 +1255,26 @@ print_timeval(abi_ulong tv_addr, int last)
+>          gemu_log("NULL%s", get_comma(last));
+>  }
+>  
+> +static void
+> +print_timezone(abi_ulong tz_addr, int last)
+> +{
+> +    if (tz_addr) {
+> +        struct target_timezone *tz;
+> +
+> +        tz = lock_user(VERIFY_READ, tz_addr, sizeof(*tz), 1);
+> +        if (!tz) {
+> +            print_pointer(tz_addr, last);
+> +            return;
+> +        }
+> +        gemu_log("{" TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld "}%s",
+> +                 tswapal(tz->tz_minuteswest), tswapal(tz->tz_dsttime),
 
-So far we were not testing virtio-9p in Travis yet, since we forgot to
-install libcap-devel. Do it now to get some more test coverage.
+tz_minuteswest and tz_dsttime are abi_int, so it should be "%d" and
+tswap32().
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Tested-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190905113346.2473-1-thuth@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-diff --git a/.travis.yml b/.travis.yml
-index 1ff26205795..d0b9e099b9c 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -26,6 +26,7 @@ addons:
-       - libaio-dev
-       - libattr1-dev
-       - libbrlapi-dev
-+      - libcap-dev
-       - libcap-ng-dev
-       - libgcc-4.8-dev
-       - libgnutls-dev
--- 
-2.20.1
+> +                 get_comma(last));
+> +        unlock_user(tz, tz_addr, 0);
+> +    } else {
+> +        gemu_log("NULL%s", get_comma(last));
+> +    }
+> +}
+> +
+>  #undef UNUSED
+>  
+>  #ifdef TARGET_NR_accept
+> 
 
 
