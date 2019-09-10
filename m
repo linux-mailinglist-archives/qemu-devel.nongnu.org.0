@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB37AEFB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:36:16 +0200 (CEST)
-Received: from localhost ([::1]:42742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30139AEFBA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:39:24 +0200 (CEST)
+Received: from localhost ([::1]:42934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7j7n-0003GO-GD
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47512)
+	id 1i7jAo-00074O-NO
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:39:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i7j3x-00011i-Ty
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:32:19 -0400
+ (envelope-from <eblake@redhat.com>) id 1i7j5E-00028z-78
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i7j3w-0006Ks-Hk
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:32:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49936)
+ (envelope-from <eblake@redhat.com>) id 1i7j5C-0007d8-G5
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:33:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41972)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7j3v-0006JP-U0
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:32:16 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i7j5B-0007b7-TJ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:33:34 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F406B3082B40;
- Tue, 10 Sep 2019 16:32:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DEAFA316D76B;
+ Tue, 10 Sep 2019 16:33:32 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BCD561140;
- Tue, 10 Sep 2019 16:32:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ED351001948;
+ Tue, 10 Sep 2019 16:33:29 +0000 (UTC)
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-11-armbru@redhat.com>
+ <20190910063724.28470-12-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <90b7b3d0-7b25-ff1e-983e-2750d555f861@redhat.com>
-Date: Tue, 10 Sep 2019 11:32:13 -0500
+Message-ID: <a699e04c-9392-9be4-dac2-eb2cae98fb13@redhat.com>
+Date: Tue, 10 Sep 2019 11:33:29 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190910063724.28470-11-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-12-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="gXT2bg1okaPYVhBbWtyju9Bv3VqZpQgiv"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ boundary="b21ue1zSvAV2L7jFCnVNhM3aOMpPoseow"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 10 Sep 2019 16:32:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Tue, 10 Sep 2019 16:33:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 10/16] qapi: Permit omitting all flat
- union branches
+Subject: Re: [Qemu-devel] [PATCH v2 11/16] qapi: Adjust frontend errors to
+ say enum value, not member
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,31 +90,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---gXT2bg1okaPYVhBbWtyju9Bv3VqZpQgiv
-Content-Type: multipart/mixed; boundary="LSOqvfiwmeM4ylnVhXib05XRgmdbecXRI";
+--b21ue1zSvAV2L7jFCnVNhM3aOMpPoseow
+Content-Type: multipart/mixed; boundary="MBWPlmKchNf6iHFFem3jFV67RsSTOk7tD";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <90b7b3d0-7b25-ff1e-983e-2750d555f861@redhat.com>
-Subject: Re: [PATCH v2 10/16] qapi: Permit omitting all flat union branches
+Message-ID: <a699e04c-9392-9be4-dac2-eb2cae98fb13@redhat.com>
+Subject: Re: [PATCH v2 11/16] qapi: Adjust frontend errors to say enum value,
+ not member
 References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-11-armbru@redhat.com>
-In-Reply-To: <20190910063724.28470-11-armbru@redhat.com>
+ <20190910063724.28470-12-armbru@redhat.com>
+In-Reply-To: <20190910063724.28470-12-armbru@redhat.com>
 
---LSOqvfiwmeM4ylnVhXib05XRgmdbecXRI
+--MBWPlmKchNf6iHFFem3jFV67RsSTOk7tD
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/10/19 1:37 AM, Markus Armbruster wrote:
-> Absent flat union branches default to the empty struct (since commit
-> 800877bb16 "qapi: allow empty branches in flat unions").  But am
-> attempt to omit all of them is rejected with "Union 'FOO' has no
-> branches".  Harmless oddity, but it's easy to avoid, so do that.
+> For consistency with docs/devel/qapi-code-gen.txt.
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
+>  scripts/qapi/common.py                  | 11 ++++++++---
+>  tests/qapi-schema/enum-clash-member.err |  2 +-
+>  tests/qapi-schema/enum-member-case.err  |  2 +-
+>  3 files changed, 10 insertions(+), 5 deletions(-)
+>=20
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
 --=20
@@ -123,24 +126,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---LSOqvfiwmeM4ylnVhXib05XRgmdbecXRI--
+--MBWPlmKchNf6iHFFem3jFV67RsSTOk7tD--
 
---gXT2bg1okaPYVhBbWtyju9Bv3VqZpQgiv
+--b21ue1zSvAV2L7jFCnVNhM3aOMpPoseow
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl130A0ACgkQp6FrSiUn
-Q2oeLgf9HnH9T8zoJ/0OehPvLfR3DB1NkuirlQpAcCJmluUOqlSDwz3/IRHollu+
-t/tq83R+JgJJxLvrhI1OsW6i97xqBtsbZbRseWqYJ3GxnrsI1vSZJo6ZjHt53tF/
-s2QPqiVC71q2sci8znyV1DVmpvmFYH16NthEq1WNmfreGpmR5SwJKXMF7QTzSCsD
-yK63apuMwVdyLdvvixvpf79vqHxdfH1Xd6Ecp7MygjzmGeE36s46H8iXD+Vwr0yS
-iMRd2Affw6f7QJTvc2uphNs9YKezhmvw48kJTOkuR9b7OeQ+F7EL+nryQgWuXLl8
-UvKJ6N20qvJdUqHtJJVulQeuTwaNlw==
-=9z+5
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl130FkACgkQp6FrSiUn
+Q2rMbwf/R5g/DMhd5QwvEnAi9Jv9clJmu0/7o6uyQNfCBBVM1BXbAGboF5kpvN4K
+64K7OfzO5da4UFAvkx7PMJO+xj7miU0mgP4gY7Ru/jrQy1N3ntJn7O0k5ypcNAqu
+dnRz2siGVh0L8JPFteAfmmYLQXIn8vz99k/HVOVwzeOBV04+pRUMDvEC3SI82kxp
+H3r/RefNaFY8JxX9tQV4Vppzk29BZPtEzR7BLUw9G35qW1YBT1Af5KifliggE7zi
+H3C0CchdqhDq6DRzLYnPRSZR8ff17xig9nc1T/BhEgsnrIA/fMhbvmYAom5M4ltt
+x30hOLo7gjX151gCpLSHw/TNF6Lw3g==
+=ubN/
 -----END PGP SIGNATURE-----
 
---gXT2bg1okaPYVhBbWtyju9Bv3VqZpQgiv--
+--b21ue1zSvAV2L7jFCnVNhM3aOMpPoseow--
 
