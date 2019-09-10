@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01554AE629
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:59:39 +0200 (CEST)
-Received: from localhost ([::1]:35944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB21AE61D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:57:32 +0200 (CEST)
+Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7bzt-0002hs-FA
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35802)
+	id 1i7bxr-0008JP-0f
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bkj-0003Kt-Rq
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:58 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bkl-0003Mb-6f
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:44:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7bki-0006Ix-Lf
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:57 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42853)
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bkj-0006KK-Qj
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:59 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:32985)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7bki-0006I2-Ei
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:56 -0400
-Received: by mail-wr1-x429.google.com with SMTP id q14so18350524wrm.9
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:43:56 -0700 (PDT)
+ id 1i7bkj-0006Ir-9Z
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:57 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u16so18412070wrr.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lJs9UKE8HXcOx9xjKy24gbynY7ISo7SHYCDV/WLV+lc=;
- b=MsEINU9jvfhgqNyp2/SlybrJQelHOXbTLMKyRCpm1cagvMnr/aheTKikpc70WkT2Md
- elEjaatKEctqg0Kvk5KV/Vizd8mtcEuxhooeKBXVSXKgurV2PNuMqp2tAA3lHQB4yTha
- fANv8Yv8y3Gns3itbYRKC80OoNmDaq7E+Z/9jhYQQiXjo7yXJGZPXpPnlIxt+nCvMGKS
- GBIJJnebscjs++ARhIGXj5ws5VHX06WEphr34bLv+DhyIjBReAx8KXkwRMnwxYrMCTYP
- AAn4+jmbgoKkua+599Z5Qavk6F7jJTEH32FqR6590rLw4bYuk1KeLTUAGftw5kDniF1c
- L7Rg==
+ bh=PUVyEpIm8xDvUjx6imvtRp1EhVGxflCktIw84etrgf0=;
+ b=asDMx+rvf67LLEacPQF3cMJeUBogR6PQcI1iVWdneklvW0OcrX+/9Cy4YUIucVkphp
+ DDwjhcHo0umI+5HvWq/KzFooRL1JclR8Vb6HMNJ7PT+eEfq3zTzwrGmdCxnXo7jai0LJ
+ Dexq+FWbcFfWosT5ERXKao/HPkTBxdFtSczWlhERi+Su4hxinD8FCgXHMon1duMUJFO2
+ E9g40jL07/fxYVehj2ttT6kayOUn+naC0MEUAf5EH/clHvRKeuPWOJFVmpTEyDue22Q2
+ Gg/ADBot+Wf3M2Y8Z1klSF2+1TcvaKqqTfa7nMVKwgQ8J8hRwH/AQY3CCd/pUS4h3JUV
+ DL4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lJs9UKE8HXcOx9xjKy24gbynY7ISo7SHYCDV/WLV+lc=;
- b=e61W+jN7XqXy2Si8xcBokEEu/XZjsS/CM6O2IZ6aMCC7PbYfeu8DSeDjsY3JRyLsdM
- U3khJx+66yNSw3Xk3aPAETyUNoGpfz7gzDnyqRvpjIvk8w+3sepX8LPRQ2TQs6I6XrRf
- 1NGqigu4B8t6FmlzuJIYRVXDj4Adw3qXoFhmfTySyqFYTPQ3pYnnumr1cAPTGfirDBX+
- BJF7F5xMGd34Q0sEiCIkflqxj+tCxMnUUXhNYGWL/vMmX+TZ2br0SdENUihHPLiBNpLB
- CyZsRULBecRwcz/eOQgPBoSa4dpdGFuApK8zX56eIznIkU6SkETkv4ueS4h3v7qsPJqB
- Lfaw==
-X-Gm-Message-State: APjAAAW0NZti9zsEPR38VD+JU+8HAjuDGClyt+duqj89rq+9k3+Xcmh3
- v1BMUqJe4LJ0GY9+5bkEzRV76w==
-X-Google-Smtp-Source: APXvYqwIasS6CIUXaG8hZrSWpIZALJHNyZ759pJqaK0DOR3EIqg9t72NFlq4NeT9BxPQsLsMsYgTGg==
-X-Received: by 2002:adf:fc05:: with SMTP id i5mr19337868wrr.134.1568105035327; 
- Tue, 10 Sep 2019 01:43:55 -0700 (PDT)
+ bh=PUVyEpIm8xDvUjx6imvtRp1EhVGxflCktIw84etrgf0=;
+ b=cKhyZFGnP0f7VwEimPII7nm0aBHsliN19iw3M8ScsTrQkHZ8T2/kV1St7MIQYW0fPc
+ 2M9vnm1mu5lebXtDblQvi3zFUKlFpyd9hg1kNgxcG8BFZyB/loMWDNcHQzVA2LrNUXH9
+ NnfAOMz2V/quW++uWpBVYm5rKVY69vtRgSy1csZ2jNCOun4zRWBvNmuKC4HLeAhLbU8H
+ aBXKZycn7OSijH7+r0iId+vBqZcjCEq/KxaRYEru01aN5W+rARMLyKYgJcxDp7fRu7Hx
+ tRrCIuKGAy5/zWWpg2YxWijr9Fmlno1L8Jya0BFHm1q66+Ha+Rg8zNHFLEEeaTir7uu8
+ w1fA==
+X-Gm-Message-State: APjAAAUl+92JiNGfNNM9XGmVkhmPri0q84P+wgNqbx2lvg2S+37hgxAT
+ x1areup5ZbS+ca4JCQIKsdD1vA==
+X-Google-Smtp-Source: APXvYqzWDBpUaz+gV7Iv3UGmcuWbeSw69omo9hJM8xW1cfOftQZNiMAiECz0mTKpEAvXp128Z3Y6Tg==
+X-Received: by 2002:a5d:568c:: with SMTP id f12mr25080280wrv.248.1568105036125; 
+ Tue, 10 Sep 2019 01:43:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b16sm25580521wrh.5.2019.09.10.01.43.51
+ by smtp.gmail.com with ESMTPSA id o19sm23334877wro.50.2019.09.10.01.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 10 Sep 2019 01:43:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F0C501FF93;
- Tue, 10 Sep 2019 09:43:49 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 17E9D1FF96;
+ Tue, 10 Sep 2019 09:43:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 09:43:10 +0100
-Message-Id: <20190910084349.28817-7-alex.bennee@linaro.org>
+Date: Tue, 10 Sep 2019 09:43:11 +0100
+Message-Id: <20190910084349.28817-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190910084349.28817-1-alex.bennee@linaro.org>
 References: <20190910084349.28817-1-alex.bennee@linaro.org>
@@ -68,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
-Subject: [Qemu-devel] [PULL 06/45] tests/docker: fix final missing .encode
- when parsing solibs
+X-Received-From: 2a00:1450:4864:20::435
+Subject: [Qemu-devel] [PULL 07/45] tests/tcg: use EXTRA_CFLAGS everywhere
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,27 +81,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Paolo Bonzini <pbonzini@redhat.com>
+
+For i386 specifically, this allows using the host GCC
+to compile the i386 tests.  But, it should really be
+done for all targets, unless we want to pass $(EXTRA_CFLAGS)
+directly as part of $(CC).
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20190807143523.15917-2-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 417b0cdce13..29613afd489 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -111,7 +111,7 @@ def _get_so_libs(executable):
-     libs = []
-     ldd_re = re.compile(r"(/.*/)(\S*)")
-     try:
--        ldd_output = subprocess.check_output(["ldd", executable])
-+        ldd_output = subprocess.check_output(["ldd", executable]).decode('utf-8')
-         for line in ldd_output.split("\n"):
-             search = ldd_re.search(line)
-             if search and len(search.groups()) == 2:
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index 2e560e4d08e..4c4aaf61dd3 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -22,11 +22,11 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+ .PRECIOUS: $(CRT_OBJS)
+ 
+ %.o: $(CRT_PATH)/%.S
+-	$(CC) $(CFLAGS) -x assembler-with-cpp -c $< -o $@
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
+ 
+ # Build and link the tests
+ %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
+-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ 
+diff --git a/tests/tcg/alpha/Makefile.softmmu-target b/tests/tcg/alpha/Makefile.softmmu-target
+index 3c0f34cc692..09193a62d68 100644
+--- a/tests/tcg/alpha/Makefile.softmmu-target
++++ b/tests/tcg/alpha/Makefile.softmmu-target
+@@ -22,11 +22,11 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+ .PRECIOUS: $(CRT_OBJS)
+ 
+ %.o: $(CRT_PATH)/%.S
+-	$(CC) $(CFLAGS) -x assembler-with-cpp -c $< -o $@
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
+ 
+ # Build and link the tests
+ %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
+-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+ memory: CFLAGS+=-DCHECK_UNALIGNED=0
+ 
+diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
+index 49d48d8a1c3..2deb06e6e46 100644
+--- a/tests/tcg/arm/Makefile.softmmu-target
++++ b/tests/tcg/arm/Makefile.softmmu-target
+@@ -18,7 +18,7 @@ CFLAGS+=-Wl,--build-id=none -x assembler-with-cpp
+ LDFLAGS+=-nostdlib -N -static
+ 
+ %: %.S %.ld
+-	$(CC) $(CFLAGS) $(ASFLAGS) $< -o $@ $(LDFLAGS) -T $(ARM_SRC)/$@.ld
++	$(CC) $(CFLAGS) $(ASFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) -T $(ARM_SRC)/$@.ld
+ 
+ # Specific Test Rules
+ 
+diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
+index 0a4364868ce..cee342017e5 100644
+--- a/tests/tcg/i386/Makefile.softmmu-target
++++ b/tests/tcg/i386/Makefile.softmmu-target
+@@ -32,11 +32,11 @@ TESTS+=$(MULTIARCH_TESTS)
+ .PRECIOUS: $(CRT_OBJS)
+ 
+ %.o: $(CRT_PATH)/%.S
+-	$(CC) $(CFLAGS) -c $< -o $@
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
+ 
+ # Build and link the tests
+ %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
+-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ 
+diff --git a/tests/tcg/minilib/Makefile.target b/tests/tcg/minilib/Makefile.target
+index 3ed8077d0f9..c821d2806a9 100644
+--- a/tests/tcg/minilib/Makefile.target
++++ b/tests/tcg/minilib/Makefile.target
+@@ -18,4 +18,4 @@ MINILIB_INC=-isystem $(SYSTEM_MINILIB_SRC)
+ .PRECIOUS: $(MINILIB_OBJS)
+ 
+ %.o: $(SYSTEM_MINILIB_SRC)/%.c
+-	$(CC) $(CFLAGS) -c $< -o $@
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
+diff --git a/tests/tcg/xtensa/Makefile.softmmu-target b/tests/tcg/xtensa/Makefile.softmmu-target
+index 8212d96b81d..9530cac2ad9 100644
+--- a/tests/tcg/xtensa/Makefile.softmmu-target
++++ b/tests/tcg/xtensa/Makefile.softmmu-target
+@@ -34,9 +34,9 @@ $(XTENSA_USABLE_TESTS): linker.ld macros.inc $(CRT) Makefile.softmmu-target
+ 
+ # special rule for common blobs
+ %.o: %.S
+-	$(CC) $(XTENSA_INC) $($*_ASFLAGS) $(ASFLAGS) -c $< -o $@
++	$(CC) $(XTENSA_INC) $($*_ASFLAGS) $(ASFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
+ 
+ %: %.S
+-	$(CC) $(XTENSA_INC) $(ASFLAGS) $< -o $@ $(LDFLAGS) $(NOSTDFLAGS) $(CRT)
++	$(CC) $(XTENSA_INC) $(ASFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) $(NOSTDFLAGS) $(CRT)
+ 
+ endif
 -- 
 2.20.1
 
