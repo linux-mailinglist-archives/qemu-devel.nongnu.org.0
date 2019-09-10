@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7325BAE76C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 11:58:37 +0200 (CEST)
-Received: from localhost ([::1]:37066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A2DAE77E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 12:02:21 +0200 (CEST)
+Received: from localhost ([::1]:37118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7cuy-0001RG-BP
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 05:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50807)
+	id 1i7cya-0003yb-Ft
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 06:02:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50815)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1i7ct2-0008PV-6z
+ (envelope-from <beata.michalska@linaro.org>) id 1i7ct2-0008PX-Kl
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:56:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1i7ct0-0002YZ-LS
+ (envelope-from <beata.michalska@linaro.org>) id 1i7ct1-0002ZE-Ja
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:56:36 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44193)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41845)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1i7ct0-0002Xu-El
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:56:34 -0400
-Received: by mail-wr1-x444.google.com with SMTP id k6so6705762wrn.11
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 02:56:34 -0700 (PDT)
+ id 1i7ct1-0002Yr-EW
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 05:56:35 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h7so17835486wrw.8
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 02:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RoTSf3FoUt1H5Iax7flIjVdUuQGEjtJhhUG2AX/tyZA=;
- b=TIUC3OapXpTIMyBTSXw88+5YYYiuOjpw1waPasSA4fHt+r/TNJVMo/TuA2CdVgkGWK
- vheZBRtKoBDwua/BvD0AXMts6HZn5fs+U0+yFUegR1CqEPuZO41/LC6830ZXnD9mjedF
- MoTa7yhdTLSGRS9lTlop/AE9gqJ1g2zO1otBYUj1iM/kkqioQBEGN6MJaj8aPkJ5turp
- r/OMIwJ+te7+zrDX2/9yArr6p9ah+olPSIgLCl/UL1Z1c2Tly+WOYgGKzubHW6V1Cswy
- 6/979aoGNH/eQzQdCO65TmZnNVc9GOymVLZU++aUhbSLwSTgj0EOl8lblSF6DyewzLP1
- /cXw==
+ bh=H/RngVVAFC6u7kHobivBuj3t/ObQ9MDzihOX8Ue72qY=;
+ b=sOgF04CL48muksHqhI07dFayZIhWRLSf/gA5sLdj76AxYXFgCzJYG5ATkmGXGL/AVk
+ o2vSMPVxh/xYza11TbARaBim353aGDR1eXDWrUZri2cBSEYjpaXYwPTQwNWRBqr8qS4n
+ 5ruJjwYa+YBQ4CgX6mUqNgPYwfs065pf50IHBQr17V6WvJQIe9WgoW6LIey9y/Xc7FW5
+ kpKFTvJSoJy+Na2037p6Wd0jMhWwRg9CVtH27nuidwcYr8Uj8cMZanF6rlYXCDYL3hJ9
+ v2cOBro0+ND8ih3Yc7b3Ch1+jJfZzfNOVjzTDb0aCjdsKsn9WGfsShn6L4XegJWImRVm
+ zHZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=RoTSf3FoUt1H5Iax7flIjVdUuQGEjtJhhUG2AX/tyZA=;
- b=Rp8vyTlNhF8cbF/fKtCLWAc8mw3ZxBnka31RkJGbDucAULZh8e1Ycus9JufiLSo4k6
- WAWqvXFxKiK/EYWB3+x02rSlTg/Ei2aTwejfKgLT33J1aJYR05hKiixhFNvfEid1uvwb
- zCQ2pd2q0SeF1Lk/VPS39UdhfV4mfz+p786BMLW2Mrew/jmP0pl3lYXCBN4ny0d4/4UG
- VCVBzRxDKdAfpcIHyQh+BmhfRUqBsW8CmdYRSvNUyICd0R0rwX+O5dLp+SrS39fnEMKx
- tCyUKqRNLmpdeUKLavwU363MgUpclzf6lovIBIhnozgDrcxkL5Rs1gTOdJ8Vk9+k7HHW
- lNPA==
-X-Gm-Message-State: APjAAAV1ao5IShZGn5WMw3mjInzax4gV/LLEkRaDa4CDazdO2ABGsxM8
- 8FujVDf3LWQmZ59wxlxx8Qg24L9UnjPGJQ==
-X-Google-Smtp-Source: APXvYqxgl61O7oVO/OotBN0CpMCtL2QHMBFHRdRDVtFlrcquprLroTVuH8pD9V6Qky9cqAemRAuC8A==
-X-Received: by 2002:adf:dd0b:: with SMTP id a11mr26928177wrm.42.1568109393331; 
- Tue, 10 Sep 2019 02:56:33 -0700 (PDT)
+ bh=H/RngVVAFC6u7kHobivBuj3t/ObQ9MDzihOX8Ue72qY=;
+ b=rU9ZkDid0f8KMMotYIf4xxJA3TMftnO/l+Yn6BKAngjFoVQXb+yjoO7i6vpYU7qyeI
+ /m6NuI35zMA+jZ09qQZ491zhNd7xf3ii75pnWbun8O/g1qv7PVwc1vcsfsWkp8DVO0/k
+ CkWEbtcKj6Yr7V5vYBmWpgLPpS8DiA2nkRIWdTRt4p4XAfwPBUmPWokylNJLskNbgOtQ
+ HveZqfrELtT5f1FMwqrZM+bhoKH1dQSzeLp6zypD5nQgmMqoZd4fw95O8MdLDWsHOUFn
+ Ck9L2dSO3CxoODohz8edHBzDqbpbGWGOa4N1se6lEKi9ateJ1DgacFb0CRVjEfLXO+mV
+ 3liw==
+X-Gm-Message-State: APjAAAXh8gv3oOOiI/wngCGvfHilKLVLHAiHWtbRf9zmhQsc7popLlE8
+ 1fC5CRC0g5QjvmYxSURT2b5A5yoXg+Y=
+X-Google-Smtp-Source: APXvYqynw70k2L8t8RmowQsUvN0lBgXakfaLuEGPmfoG2F/QkQFiC2CaQbvl9xzj5KI2IW0HFQ+2Bw==
+X-Received: by 2002:adf:df8e:: with SMTP id z14mr26631987wrl.81.1568109394391; 
+ Tue, 10 Sep 2019 02:56:34 -0700 (PDT)
 Received: from moi-XPS-13-9350.arm.com
  (host86-144-13-57.range86-144.btcentralplus.com. [86.144.13.57])
- by smtp.gmail.com with ESMTPSA id e30sm32403540wra.48.2019.09.10.02.56.32
+ by smtp.gmail.com with ESMTPSA id e30sm32403540wra.48.2019.09.10.02.56.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 02:56:32 -0700 (PDT)
+ Tue, 10 Sep 2019 02:56:34 -0700 (PDT)
 From: Beata Michalska <beata.michalska@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 11:56:08 +0200
-Message-Id: <20190910095610.4546-3-beata.michalska@linaro.org>
+Date: Tue, 10 Sep 2019 11:56:09 +0200
+Message-Id: <20190910095610.4546-4-beata.michalska@linaro.org>
 In-Reply-To: <20190910095610.4546-1-beata.michalska@linaro.org>
 References: <20190910095610.4546-1-beata.michalska@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 2/4] Memory: Enable writeback for given memory
- region
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH 3/4] migration: ram: Switch to ram block
+ writeback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,183 +82,36 @@ Cc: peter.maydell@linaro.org, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an option to trigger memory writeback to sync given memory region
-with the corresponding backing store, case one is available.
-This extends the support for persistent memory, allowing syncing on-demand.
-
-Also, adding verification for msync support on host.
+Switch to ram block writeback for pmem migration.
 
 Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
 ---
- configure               | 24 ++++++++++++++++++++++++
- exec.c                  | 38 ++++++++++++++++++++++++++++++++++++++
- include/exec/memory.h   |  6 ++++++
- include/exec/ram_addr.h |  6 ++++++
- memory.c                | 12 ++++++++++++
- 5 files changed, 86 insertions(+)
+ migration/ram.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 95134c0180..bdb7dc47e9 100755
---- a/configure
-+++ b/configure
-@@ -5081,6 +5081,26 @@ if compile_prog "" "" ; then
-     fdatasync=yes
- fi
+diff --git a/migration/ram.c b/migration/ram.c
+index b01a37e7ca..8ea0bd63fc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -33,7 +33,6 @@
+ #include "qemu/bitops.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/main-loop.h"
+-#include "qemu/pmem.h"
+ #include "xbzrle.h"
+ #include "ram.h"
+ #include "migration.h"
+@@ -4064,9 +4063,7 @@ static int ram_load_cleanup(void *opaque)
+     RAMBlock *rb;
  
-+##########################################
-+# verify support for msyc
-+
-+msync=no
-+cat > $TMPC << EOF
-+#include <unistd.h>
-+#include <sys/mman.h>
-+int main(void) {
-+#if defined(_POSIX_MAPPED_FILES) && _POSIX_MAPPED_FILES > 0 \
-+&& defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
-+return msync(NULL,0, MS_SYNC);
-+#else
-+#error Not supported
-+#endif
-+}
-+EOF
-+if compile_prog "" "" ; then
-+    msync=yes
-+fi
-+
- ##########################################
- # check if we have madvise
+     RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
+-        if (ramblock_is_pmem(rb)) {
+-            pmem_persist(rb->host, rb->used_length);
+-        }
++        qemu_ram_block_writeback(rb);
+     }
  
-@@ -6413,6 +6433,7 @@ echo "fdt support       $fdt"
- echo "membarrier        $membarrier"
- echo "preadv support    $preadv"
- echo "fdatasync         $fdatasync"
-+echo "msync             $msync"
- echo "madvise           $madvise"
- echo "posix_madvise     $posix_madvise"
- echo "posix_memalign    $posix_memalign"
-@@ -6952,6 +6973,9 @@ fi
- if test "$fdatasync" = "yes" ; then
-   echo "CONFIG_FDATASYNC=y" >> $config_host_mak
- fi
-+if test "$msync" = "yes" ; then
-+    echo "CONFIG_MSYNC=y" >> $config_host_mak
-+fi
- if test "$madvise" = "yes" ; then
-   echo "CONFIG_MADVISE=y" >> $config_host_mak
- fi
-diff --git a/exec.c b/exec.c
-index 235d6bc883..5ed6908368 100644
---- a/exec.c
-+++ b/exec.c
-@@ -65,6 +65,8 @@
- #include "exec/ram_addr.h"
- #include "exec/log.h"
- 
-+#include "qemu/pmem.h"
-+
- #include "migration/vmstate.h"
- 
- #include "qemu/range.h"
-@@ -2182,6 +2184,42 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
-     return 0;
- }
- 
-+/*
-+ * Trigger sync on the given ram block for range [start, start + length]
-+ * with the backing store if available.
-+ * @Note: this is supposed to be a SYNC op.
-+ */
-+void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length)
-+{
-+    void *addr = ramblock_ptr(block, start);
-+
-+    /*
-+     * The requested range might spread up to the very end of the block
-+     */
-+    if ((start + length) > block->used_length) {
-+        error_report("%s: sync range outside the block boundires: "
-+                     "start: " RAM_ADDR_FMT " length: " RAM_ADDR_FMT
-+                     " block length: " RAM_ADDR_FMT " Narrowing down ..." ,
-+                     __func__, start, length, block->used_length);
-+        length = block->used_length - start;
-+    }
-+
-+#ifdef CONFIG_LIBPMEM
-+    /* The lack of support for pmem should not block the sync */
-+    if (ramblock_is_pmem(block)) {
-+        pmem_persist(addr, length);
-+    } else
-+#endif
-+    if (block->fd >= 0) {
-+#ifdef CONFIG_MSYNC
-+        msync((void *)((uintptr_t)addr & qemu_host_page_mask),
-+               HOST_PAGE_ALIGN(length), MS_SYNC);
-+#else
-+        qemu_fdatasync(block->fd);
-+#endif
-+    }
-+}
-+
- /* Called with ram_list.mutex held */
- static void dirty_memory_extend(ram_addr_t old_ram_size,
-                                 ram_addr_t new_ram_size)
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 2dd810259d..ff0d7937cf 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1242,6 +1242,12 @@ void *memory_region_get_ram_ptr(MemoryRegion *mr);
-  */
- void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize,
-                               Error **errp);
-+/**
-+ * memory_region_do_writeback: Trigger writeback for selected address range
-+ * [addr, addr + size]
-+ *
-+ */
-+void memory_region_do_writeback(MemoryRegion *mr, hwaddr addr, hwaddr size);
- 
- /**
-  * memory_region_set_log: Turn dirty logging on or off for a region.
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index a327a80cfe..d4bce81a03 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -180,6 +180,12 @@ void qemu_ram_free(RAMBlock *block);
- 
- int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp);
- 
-+void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length);
-+
-+/* Clear whole block of mem */
-+#define qemu_ram_block_writeback(rb)    \
-+    qemu_ram_writeback(rb, 0, rb->used_length)
-+
- #define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
- #define DIRTY_CLIENTS_NOCODE  (DIRTY_CLIENTS_ALL & ~(1 << DIRTY_MEMORY_CODE))
- 
-diff --git a/memory.c b/memory.c
-index 61a254c3f9..436eb64737 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2228,6 +2228,18 @@ void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize, Error **errp
-     qemu_ram_resize(mr->ram_block, newsize, errp);
- }
- 
-+
-+void memory_region_do_writeback(MemoryRegion *mr, hwaddr addr, hwaddr size)
-+{
-+    /*
-+     * Might be extended case needed to cover
-+     * different types of memory regions
-+     */
-+    if (mr->ram_block && mr->dirty_log_mask) {
-+        qemu_ram_writeback(mr->ram_block, addr, size);
-+    }
-+}
-+
- /*
-  * Call proper memory listeners about the change on the newly
-  * added/removed CoalescedMemoryRange.
+     xbzrle_load_cleanup();
 -- 
 2.17.1
 
