@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E13AF1F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:40:33 +0200 (CEST)
-Received: from localhost ([::1]:44466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E348EAF201
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:45:36 +0200 (CEST)
+Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7m08-000790-VF
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59118)
+	id 1i7m51-0003ql-EH
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:45:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59241)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7luK-0001FV-Qn
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:34 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7luT-0001RQ-JE
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7luJ-0006v7-4u
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:32 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:59847)
+ (envelope-from <laurent@vivier.eu>) id 1i7luR-0006zN-7S
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:41 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:37443)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i7luI-0006uS-R2; Tue, 10 Sep 2019 15:34:31 -0400
+ id 1i7luL-0006vs-EV; Tue, 10 Sep 2019 15:34:33 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M1INQ-1i9PWb3occ-002kaC; Tue, 10 Sep 2019 21:34:04 +0200
+ id 1MxVfj-1iMfG00NdB-00xteB; Tue, 10 Sep 2019 21:34:05 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 21:33:45 +0200
-Message-Id: <20190910193347.16000-8-laurent@vivier.eu>
+Date: Tue, 10 Sep 2019 21:33:46 +0200
+Message-Id: <20190910193347.16000-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910193347.16000-1-laurent@vivier.eu>
 References: <20190910193347.16000-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ywfP9Je1QGv2YW2SL3SYzkciLTYOti0qiJaFdqAowo5K4o2K8He
- UXrouTDOZ1c9F9LPGAbicg31xG0N+IBfhJwXcq6PYR0/iQI4JCnT9/CJF/vZWB8+m3liuqt
- e47abw250acl1zY5/0ZDY+wEzoqVfQRHVTCCbGGVGG6hwBDquzQIOK9gx67WU2BZgxpjEaj
- pnafZOzIznbXIaqiX9eqQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:L20w+FYEqV8=:8UWIk8j3GBLqGAzK4vkUjh
- 3+kNsyI9GScaPto0VCEH4cCbvPpHFpSfLUWqaKL/k7wGb5yG7DMymgmie09UmrQzya7pmnuJK
- eHLH1hRr7EIJ/oX+SyfUngS01ZSc8SPLBHULpuGrpTfzLJTR371y0YeXFixLPGsdrSzzvYIvl
- M2iEDRUAdWfJlrxqjfBotkU4mik8ALOPR9E22jyEVXFonJlVAAYOahrE9cbZt9pJAjhl8JQT5
- FbxeLuPTP5Zo9hyo+ALb4rO0kqfOT29Rxv+FUP8H/nE43zgQXvrIRPum6xsnER2bKyq6FpiO0
- sfy1Yl0rrAyh4+NMTnGb3HfDKeGUzUw4MMvdrxPbVlXSTppHdedwgcngQvDgR6FgLCe9mVyuK
- wvqhGcuz+azzo5ToSegk3YtPqrRWzTsjwtvDhIlaMNZyqhgo5D1numnlJNq9yayzDJ9XmZCHi
- INba4acrmaiwz2+FBkmytG5Fes1sFNH1vqyyAzClF6NbN9ipkWjkE8Bzycdus16i00YgCsivV
- JeyvfM5pgqb8LiYCJvBhsdy7uizK3ADu4bAKB0Qi40eSp+/srjvlbSFYVtJxvxt1afXF5HLmR
- YXcY7iMnu7/bH7j/F/WXKfZ7f+7mIn6SCCr6vmaVPuhtITV1mAoRhgc5gWoP9/JZE6onkecvF
- 3VUe0bYiS1E1Mejl9GiVONs7pxc3uStc8AH+uytZCOMuIna76XXDBr3QZrY8NP2b34NEs1x9V
- C/YZP0+3nvLQZBfMnx2hvCcD92neMGRMupqvkWzb8YHN6kk9L2izxTEuQC/RhReiQz1xgObya
- TQQOX6zLAFKInXL0+YHMHHZ+oTr+CPR4UdbZCl5/vv5d39vtXs=
+X-Provags-ID: V03:K1:2S0GPfgX55607N5gWwStCyRBO+Q0UybrrPPhncP41Z7D62v/fj9
+ ZE+ePrxqikIpE2bokWAiohw4o+ztDi69f4dto2HaTJOekCr/HOnZ1KBwELmpOHbPTU9U8QG
+ GU4wj8vhSx/LGSiVlYUpXKA8swUMDWDndnR/Nolkmp+VfTK/MKs+Jd9XX96ZzuTwv3TB7NB
+ SaP5xPMNYEqq3mQcN8D4g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mLEaRf+hfzk=:AVW+aMVXMY7qbES2kOKPQN
+ 927/u45UFAsjOG7hQFjVg9Lrimz3cY5zo/anf4JfswNkW3krpGxhpSN/DmseWK65HEwMtHqz1
+ EvMMxgxgBWXqYebkAMmhgvMoHCA65ljPHJHPDIcTVb99jussX4pwxyfr0TyZ+Gr0aj0OFt14K
+ pDlvAfSbvdEk+4Vv40sxP57UesSKEIBIoDz0qbjdkcZ/wnFDMbb9fWXe1Xth3keEnk1ZjNQtK
+ YV6KvmugvXaIB7UcZnmoQH6cH/96ZvkRyUM6rlDB/tuPyzoOjK81sX3YZjXroYWiSwJBTHnm/
+ L+TjGM9YYDS5mkwKsJFZ7gMT1Ny6R68jdCwBNzRZeZYqLeZNP5xJRDCGB8FrQPJJCEJYC/Fpi
+ Q2Ya6wSu8YvFOt9EPsWJaiFcZHtk9dPxPLE65HxL6sUzHTFYszvsoNvuJyFmbQ47OQXoVa8Sd
+ kyox6g789jVowBxC4Q0oIUOLVuqplqbBZz2T+WrQFwNcsLzNvHishxhLRV47qGbprLOcTgUka
+ BasxqJwhvZMILgtYxsRlFvMyz31tvF/3QQBhULpeBEvseloC5HOwdFHSelpH5eU4PG++2lljs
+ nr8me6Bjpr8E93/6IYO+j3C37orXyW77RpPraYLD+y83sz/vcsWudt2mx9FZZXsq1tVosQqHA
+ TjQ+xbvnMq5aHN6bxsdkVI1JIFnasovkVbsk77pGHLT4TTcFklh8kCp+2+fWqhxndudmpXr8l
+ xw1fBaR/JPBxL4/Q1syKWy+qTQ8dumBnsZ/51jYt8+svjKZd7BkgZc7CRouJs5bJbTBZ9CU/k
+ bzKw2U7LjrotnQH5656tauLAsba13VbZ0wqvw0RHf7bpRdmzfk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: [Qemu-devel] [PATCH v11 7/9] hw/m68k: add Nubus support for macfb
- video card
+X-Received-From: 217.72.192.75
+Subject: [Qemu-devel] [PATCH v11 8/9] hw/m68k: add a dummy SWIM floppy
+ controller
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,161 +78,644 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
 Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
 ---
- hw/display/Kconfig         |  1 +
- hw/display/macfb.c         | 56 ++++++++++++++++++++++++++++++++++++++
- include/hw/display/macfb.h | 21 ++++++++++++++
- 3 files changed, 78 insertions(+)
+ MAINTAINERS             |   2 +
+ hw/block/Kconfig        |   3 +
+ hw/block/Makefile.objs  |   1 +
+ hw/block/swim.c         | 487 ++++++++++++++++++++++++++++++++++++++++
+ hw/m68k/Kconfig         |   1 +
+ include/hw/block/swim.h |  76 +++++++
+ 6 files changed, 570 insertions(+)
+ create mode 100644 hw/block/swim.c
+ create mode 100644 include/hw/block/swim.h
 
-diff --git a/hw/display/Kconfig b/hw/display/Kconfig
-index 32e8d29003..c500d1fc6d 100644
---- a/hw/display/Kconfig
-+++ b/hw/display/Kconfig
-@@ -136,3 +136,4 @@ config ATI_VGA
- config MACFB
-     bool
-     select FRAMEBUFFER
-+    depends on NUBUS
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index d7c5ef296e..f4fa8e3206 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -15,6 +15,7 @@
- #include "hw/sysbus.h"
- #include "ui/console.h"
- #include "ui/pixel_ops.h"
-+#include "hw/nubus/nubus.h"
- #include "hw/display/macfb.h"
- #include "qapi/error.h"
- #include "hw/qdev-properties.h"
-@@ -382,12 +383,38 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4f6b2b037a..f85f11d83c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -923,9 +923,11 @@ S: Maintained
+ F: hw/misc/mac_via.c
+ F: hw/display/macfb.c
+ F: hw/nubus/*
++F: hw/block/swim.c
+ F: include/hw/misc/mac_via.h
+ F: include/hw/display/macfb.h
+ F: include/hw/nubus/*
++F: include/hw/block/swim.h
  
-+const uint8_t macfb_rom[] = {
-+    255, 0, 0, 0,
+ MicroBlaze Machines
+ -------------------
+diff --git a/hw/block/Kconfig b/hw/block/Kconfig
+index df96dc5dcc..2d17f481ad 100644
+--- a/hw/block/Kconfig
++++ b/hw/block/Kconfig
+@@ -37,3 +37,6 @@ config VHOST_USER_BLK
+     # Only PCI devices are provided for now
+     default y if VIRTIO_PCI
+     depends on VIRTIO && VHOST_USER && LINUX
++
++config SWIM
++    bool
+diff --git a/hw/block/Makefile.objs b/hw/block/Makefile.objs
+index f5f643f0cc..28c2495a00 100644
+--- a/hw/block/Makefile.objs
++++ b/hw/block/Makefile.objs
+@@ -8,6 +8,7 @@ common-obj-$(CONFIG_XEN) += xen-block.o
+ common-obj-$(CONFIG_ECC) += ecc.o
+ common-obj-$(CONFIG_ONENAND) += onenand.o
+ common-obj-$(CONFIG_NVME_PCI) += nvme.o
++common-obj-$(CONFIG_SWIM) += swim.o
+ 
+ obj-$(CONFIG_SH4) += tc58128.o
+ 
+diff --git a/hw/block/swim.c b/hw/block/swim.c
+new file mode 100644
+index 0000000000..80addcea9d
+--- /dev/null
++++ b/hw/block/swim.c
+@@ -0,0 +1,487 @@
++/*
++ * QEMU Macintosh floppy disk controller emulator (SWIM)
++ *
++ * Copyright (c) 2014-2018 Laurent Vivier <laurent@vivier.eu>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "qapi/error.h"
++#include "sysemu/block-backend.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "hw/block/block.h"
++#include "hw/block/swim.h"
++#include "hw/qdev-properties.h"
++
++/* IWM registers */
++
++#define IWM_PH0L                0
++#define IWM_PH0H                1
++#define IWM_PH1L                2
++#define IWM_PH1H                3
++#define IWM_PH2L                4
++#define IWM_PH2H                5
++#define IWM_PH3L                6
++#define IWM_PH3H                7
++#define IWM_MTROFF              8
++#define IWM_MTRON               9
++#define IWM_INTDRIVE            10
++#define IWM_EXTDRIVE            11
++#define IWM_Q6L                 12
++#define IWM_Q6H                 13
++#define IWM_Q7L                 14
++#define IWM_Q7H                 15
++
++/* SWIM registers */
++
++#define SWIM_WRITE_DATA         0
++#define SWIM_WRITE_MARK         1
++#define SWIM_WRITE_CRC          2
++#define SWIM_WRITE_PARAMETER    3
++#define SWIM_WRITE_PHASE        4
++#define SWIM_WRITE_SETUP        5
++#define SWIM_WRITE_MODE0        6
++#define SWIM_WRITE_MODE1        7
++
++#define SWIM_READ_DATA          8
++#define SWIM_READ_MARK          9
++#define SWIM_READ_ERROR         10
++#define SWIM_READ_PARAMETER     11
++#define SWIM_READ_PHASE         12
++#define SWIM_READ_SETUP         13
++#define SWIM_READ_STATUS        14
++#define SWIM_READ_HANDSHAKE     15
++
++#define REG_SHIFT               9
++
++#define SWIM_MODE_IWM  0
++#define SWIM_MODE_SWIM 1
++
++/* bits in phase register */
++
++#define SWIM_SEEK_NEGATIVE   0x074
++#define SWIM_STEP            0x071
++#define SWIM_MOTOR_ON        0x072
++#define SWIM_MOTOR_OFF       0x076
++#define SWIM_INDEX           0x073
++#define SWIM_EJECT           0x077
++#define SWIM_SETMFM          0x171
++#define SWIM_SETGCR          0x175
++#define SWIM_RELAX           0x033
++#define SWIM_LSTRB           0x008
++#define SWIM_CA_MASK         0x077
++
++/* Select values for swim_select and swim_readbit */
++
++#define SWIM_READ_DATA_0     0x074
++#define SWIM_TWOMEG_DRIVE    0x075
++#define SWIM_SINGLE_SIDED    0x076
++#define SWIM_DRIVE_PRESENT   0x077
++#define SWIM_DISK_IN         0x170
++#define SWIM_WRITE_PROT      0x171
++#define SWIM_TRACK_ZERO      0x172
++#define SWIM_TACHO           0x173
++#define SWIM_READ_DATA_1     0x174
++#define SWIM_MFM_MODE        0x175
++#define SWIM_SEEK_COMPLETE   0x176
++#define SWIM_ONEMEG_MEDIA    0x177
++
++/* Bits in handshake register */
++
++#define SWIM_MARK_BYTE       0x01
++#define SWIM_CRC_ZERO        0x02
++#define SWIM_RDDATA          0x04
++#define SWIM_SENSE           0x08
++#define SWIM_MOTEN           0x10
++#define SWIM_ERROR           0x20
++#define SWIM_DAT2BYTE        0x40
++#define SWIM_DAT1BYTE        0x80
++
++/* bits in setup register */
++
++#define SWIM_S_INV_WDATA     0x01
++#define SWIM_S_3_5_SELECT    0x02
++#define SWIM_S_GCR           0x04
++#define SWIM_S_FCLK_DIV2     0x08
++#define SWIM_S_ERROR_CORR    0x10
++#define SWIM_S_IBM_DRIVE     0x20
++#define SWIM_S_GCR_WRITE     0x40
++#define SWIM_S_TIMEOUT       0x80
++
++/* bits in mode register */
++
++#define SWIM_CLFIFO          0x01
++#define SWIM_ENBL1           0x02
++#define SWIM_ENBL2           0x04
++#define SWIM_ACTION          0x08
++#define SWIM_WRITE_MODE      0x10
++#define SWIM_HEDSEL          0x20
++#define SWIM_MOTON           0x80
++
++static void fd_recalibrate(FDrive *drive)
++{
++}
++
++static void swim_change_cb(void *opaque, bool load, Error **errp)
++{
++    FDrive *drive = opaque;
++
++    if (!load) {
++        blk_set_perm(drive->blk, 0, BLK_PERM_ALL, &error_abort);
++    } else {
++        if (!blkconf_apply_backend_options(drive->conf,
++                                           blk_is_read_only(drive->blk), false,
++                                           errp)) {
++            return;
++        }
++    }
++}
++
++static const BlockDevOps swim_block_ops = {
++    .change_media_cb = swim_change_cb,
 +};
 +
-+static void macfb_nubus_realize(DeviceState *dev, Error **errp)
-+{
-+    NubusDevice *nd = NUBUS_DEVICE(dev);
-+    MacfbNubusState *s = NUBUS_MACFB(dev);
-+    MacfbNubusDeviceClass *ndc = MACFB_NUBUS_GET_CLASS(dev);
-+    MacfbState *ms = &s->macfb;
-+
-+    ndc->parent_realize(dev, errp);
-+
-+    macfb_common_realize(dev, ms, errp);
-+    memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
-+    memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
-+
-+    nubus_register_rom(nd, macfb_rom, sizeof(macfb_rom), 1, 9, 0xf);
-+}
-+
- static void macfb_sysbus_reset(DeviceState *d)
- {
-     MacfbSysBusState *s = MACFB(d);
-     macfb_reset(&s->macfb);
- }
- 
-+static void macfb_nubus_reset(DeviceState *d)
-+{
-+    MacfbNubusState *s = NUBUS_MACFB(d);
-+    macfb_reset(&s->macfb);
-+}
-+
- static Property macfb_sysbus_properties[] = {
-     DEFINE_PROP_UINT32("width", MacfbSysBusState, macfb.width, 640),
-     DEFINE_PROP_UINT32("height", MacfbSysBusState, macfb.height, 480),
-@@ -395,6 +422,13 @@ static Property macfb_sysbus_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+static Property macfb_nubus_properties[] = {
-+    DEFINE_PROP_UINT32("width", MacfbNubusState, macfb.width, 640),
-+    DEFINE_PROP_UINT32("height", MacfbNubusState, macfb.height, 480),
-+    DEFINE_PROP_UINT8("depth", MacfbNubusState, macfb.depth, 8),
++static Property swim_drive_properties[] = {
++    DEFINE_PROP_INT32("unit", SWIMDrive, unit, -1),
++    DEFINE_BLOCK_PROPERTIES(SWIMDrive, conf),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
- static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -406,6 +440,19 @@ static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
-     dc->props = macfb_sysbus_properties;
- }
- 
-+static void macfb_nubus_class_init(ObjectClass *klass, void *data)
++static void swim_drive_realize(DeviceState *qdev, Error **errp)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    MacfbNubusDeviceClass *ndc = MACFB_NUBUS_DEVICE_CLASS(klass);
++    SWIMDrive *dev = SWIM_DRIVE(qdev);
++    SWIMBus *bus = SWIM_BUS(qdev->parent_bus);
++    FDrive *drive;
++    int ret;
 +
-+    device_class_set_parent_realize(dc, macfb_nubus_realize,
-+                                    &ndc->parent_realize);
-+    dc->desc = "Nubus Macintosh framebuffer";
-+    dc->reset = macfb_nubus_reset;
-+    dc->vmsd = &vmstate_macfb;
-+    dc->props = macfb_nubus_properties;
++    if (dev->unit == -1) {
++        for (dev->unit = 0; dev->unit < SWIM_MAX_FD; dev->unit++) {
++            drive = &bus->ctrl->drives[dev->unit];
++            if (!drive->blk) {
++                break;
++            }
++        }
++    }
++
++    if (dev->unit >= SWIM_MAX_FD) {
++        error_setg(errp, "Can't create floppy unit %d, bus supports "
++                   "only %d units", dev->unit, SWIM_MAX_FD);
++        return;
++    }
++
++    drive = &bus->ctrl->drives[dev->unit];
++    if (drive->blk) {
++        error_setg(errp, "Floppy unit %d is in use", dev->unit);
++        return;
++    }
++
++    if (!dev->conf.blk) {
++        /* Anonymous BlockBackend for an empty drive */
++        dev->conf.blk = blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
++        ret = blk_attach_dev(dev->conf.blk, qdev);
++        assert(ret == 0);
++    }
++
++    blkconf_blocksizes(&dev->conf);
++    if (dev->conf.logical_block_size != 512 ||
++        dev->conf.physical_block_size != 512)
++    {
++        error_setg(errp, "Physical and logical block size must "
++                   "be 512 for floppy");
++        return;
++    }
++
++    /*
++     * rerror/werror aren't supported by fdc and therefore not even registered
++     * with qdev. So set the defaults manually before they are used in
++     * blkconf_apply_backend_options().
++     */
++    dev->conf.rerror = BLOCKDEV_ON_ERROR_AUTO;
++    dev->conf.werror = BLOCKDEV_ON_ERROR_AUTO;
++
++    if (!blkconf_apply_backend_options(&dev->conf,
++                                       blk_is_read_only(dev->conf.blk),
++                                       false, errp)) {
++        return;
++    }
++
++    /*
++     * 'enospc' is the default for -drive, 'report' is what blk_new() gives us
++     * for empty drives.
++     */
++    if (blk_get_on_error(dev->conf.blk, 0) != BLOCKDEV_ON_ERROR_ENOSPC &&
++        blk_get_on_error(dev->conf.blk, 0) != BLOCKDEV_ON_ERROR_REPORT) {
++        error_setg(errp, "fdc doesn't support drive option werror");
++        return;
++    }
++    if (blk_get_on_error(dev->conf.blk, 1) != BLOCKDEV_ON_ERROR_REPORT) {
++        error_setg(errp, "fdc doesn't support drive option rerror");
++        return;
++    }
++
++    drive->conf = &dev->conf;
++    drive->blk = dev->conf.blk;
++    drive->swimctrl = bus->ctrl;
++
++    blk_set_dev_ops(drive->blk, &swim_block_ops, drive);
 +}
 +
- static TypeInfo macfb_sysbus_info = {
-     .name          = TYPE_MACFB,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-@@ -413,9 +460,18 @@ static TypeInfo macfb_sysbus_info = {
-     .class_init    = macfb_sysbus_class_init,
- };
- 
-+static TypeInfo macfb_nubus_info = {
-+    .name          = TYPE_NUBUS_MACFB,
-+    .parent        = TYPE_NUBUS_DEVICE,
-+    .instance_size = sizeof(MacfbNubusState),
-+    .class_init    = macfb_nubus_class_init,
-+    .class_size    = sizeof(MacfbNubusDeviceClass),
++static void swim_drive_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *k = DEVICE_CLASS(klass);
++    k->realize = swim_drive_realize;
++    set_bit(DEVICE_CATEGORY_STORAGE, k->categories);
++    k->bus_type = TYPE_SWIM_BUS;
++    k->props = swim_drive_properties;
++    k->desc = "virtual SWIM drive";
++}
++
++static const TypeInfo swim_drive_info = {
++    .name = TYPE_SWIM_DRIVE,
++    .parent = TYPE_DEVICE,
++    .instance_size = sizeof(SWIMDrive),
++    .class_init = swim_drive_class_init,
 +};
 +
- static void macfb_register_types(void)
- {
-     type_register_static(&macfb_sysbus_info);
-+    type_register_static(&macfb_nubus_info);
- }
- 
- type_init(macfb_register_types)
-diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index 3fe2592735..26367ae2c4 100644
---- a/include/hw/display/macfb.h
-+++ b/include/hw/display/macfb.h
-@@ -40,4 +40,25 @@ typedef struct {
-     MacfbState macfb;
- } MacfbSysBusState;
- 
-+#define MACFB_NUBUS_DEVICE_CLASS(class) \
-+    OBJECT_CLASS_CHECK(MacfbNubusDeviceClass, (class), TYPE_NUBUS_MACFB)
-+#define MACFB_NUBUS_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(MacfbNubusDeviceClass, (obj), TYPE_NUBUS_MACFB)
++static const TypeInfo swim_bus_info = {
++    .name = TYPE_SWIM_BUS,
++    .parent = TYPE_BUS,
++    .instance_size = sizeof(SWIMBus),
++};
 +
-+typedef struct MacfbNubusDeviceClass {
-+    DeviceClass parent_class;
++static void iwmctrl_write(void *opaque, hwaddr reg, uint64_t value,
++                          unsigned size)
++{
++    SWIMCtrl *swimctrl = opaque;
 +
-+    DeviceRealize parent_realize;
-+} MacfbNubusDeviceClass;
++    reg >>= REG_SHIFT;
 +
-+#define TYPE_NUBUS_MACFB "nubus-macfb"
-+#define NUBUS_MACFB(obj) \
-+    OBJECT_CHECK(MacfbNubusState, (obj), TYPE_NUBUS_MACFB)
++    swimctrl->regs[reg >> 1] = reg & 1;
 +
-+typedef struct {
-+    NubusDevice busdev;
++    if (swimctrl->regs[IWM_Q6] &&
++        swimctrl->regs[IWM_Q7]) {
++        if (swimctrl->regs[IWM_MTR]) {
++            /* data register */
++            swimctrl->iwm_data = value;
++        } else {
++            /* mode register */
++            swimctrl->iwm_mode = value;
++            /* detect sequence to switch from IWM mode to SWIM mode */
++            switch (swimctrl->iwm_switch) {
++            case 0:
++                if (value == 0x57) {
++                    swimctrl->iwm_switch++;
++                }
++                break;
++            case 1:
++                if (value == 0x17) {
++                    swimctrl->iwm_switch++;
++                }
++                break;
++            case 2:
++                if (value == 0x57) {
++                    swimctrl->iwm_switch++;
++                }
++                break;
++            case 3:
++                if (value == 0x57) {
++                    swimctrl->mode = SWIM_MODE_SWIM;
++                    swimctrl->iwm_switch = 0;
++                }
++                break;
++            }
++        }
++    }
++}
 +
-+    MacfbState macfb;
-+} MacfbNubusState;
++static uint64_t iwmctrl_read(void *opaque, hwaddr reg, unsigned size)
++{
++    SWIMCtrl *swimctrl = opaque;
 +
- #endif
++    reg >>= REG_SHIFT;
++
++    swimctrl->regs[reg >> 1] = reg & 1;
++
++    return 0;
++}
++
++static void swimctrl_write(void *opaque, hwaddr reg, uint64_t value,
++                           unsigned size)
++{
++    SWIMCtrl *swimctrl = opaque;
++
++    if (swimctrl->mode == SWIM_MODE_IWM) {
++        iwmctrl_write(opaque, reg, value, size);
++        return;
++    }
++
++    reg >>= REG_SHIFT;
++
++    switch (reg) {
++    case SWIM_WRITE_PHASE:
++        swimctrl->swim_phase = value;
++        break;
++    case SWIM_WRITE_MODE0:
++        swimctrl->swim_mode &= ~value;
++        break;
++    case SWIM_WRITE_MODE1:
++        swimctrl->swim_mode |= value;
++        break;
++    case SWIM_WRITE_DATA:
++    case SWIM_WRITE_MARK:
++    case SWIM_WRITE_CRC:
++    case SWIM_WRITE_PARAMETER:
++    case SWIM_WRITE_SETUP:
++        break;
++    }
++}
++
++static uint64_t swimctrl_read(void *opaque, hwaddr reg, unsigned size)
++{
++    SWIMCtrl *swimctrl = opaque;
++    uint32_t value = 0;
++
++    if (swimctrl->mode == SWIM_MODE_IWM) {
++        return iwmctrl_read(opaque, reg, size);
++    }
++
++    reg >>= REG_SHIFT;
++
++    switch (reg) {
++    case SWIM_READ_PHASE:
++        value = swimctrl->swim_phase;
++        break;
++    case SWIM_READ_HANDSHAKE:
++        if (swimctrl->swim_phase == SWIM_DRIVE_PRESENT) {
++            /* always answer "no drive present" */
++            value = SWIM_SENSE;
++        }
++        break;
++    case SWIM_READ_DATA:
++    case SWIM_READ_MARK:
++    case SWIM_READ_ERROR:
++    case SWIM_READ_PARAMETER:
++    case SWIM_READ_SETUP:
++    case SWIM_READ_STATUS:
++        break;
++    }
++
++    return value;
++}
++
++static const MemoryRegionOps swimctrl_mem_ops = {
++    .write = swimctrl_write,
++    .read = swimctrl_read,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void sysbus_swim_reset(DeviceState *d)
++{
++    SWIM *sys = SWIM(d);
++    SWIMCtrl *ctrl = &sys->ctrl;
++    int i;
++
++    ctrl->mode = 0;
++    ctrl->iwm_switch = 0;
++    for (i = 0; i < 8; i++) {
++        ctrl->regs[i] = 0;
++    }
++    ctrl->iwm_data = 0;
++    ctrl->iwm_mode = 0;
++    ctrl->swim_phase = 0;
++    ctrl->swim_mode = 0;
++    for (i = 0; i < SWIM_MAX_FD; i++) {
++        fd_recalibrate(&ctrl->drives[i]);
++    }
++}
++
++static void sysbus_swim_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    SWIM *sbs = SWIM(obj);
++    SWIMCtrl *swimctrl = &sbs->ctrl;
++
++    memory_region_init_io(&swimctrl->iomem, obj, &swimctrl_mem_ops, swimctrl,
++                          "swim", 0x2000);
++    sysbus_init_mmio(sbd, &swimctrl->iomem);
++}
++
++static void sysbus_swim_realize(DeviceState *dev, Error **errp)
++{
++    SWIM *sys = SWIM(dev);
++    SWIMCtrl *swimctrl = &sys->ctrl;
++
++    qbus_create_inplace(&swimctrl->bus, sizeof(SWIMBus), TYPE_SWIM_BUS, dev,
++                        NULL);
++    swimctrl->bus.ctrl = swimctrl;
++}
++
++static const VMStateDescription vmstate_fdrive = {
++    .name = "fdrive",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static const VMStateDescription vmstate_swim = {
++    .name = "swim",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_INT32(mode, SWIMCtrl),
++        /* IWM mode */
++        VMSTATE_INT32(iwm_switch, SWIMCtrl),
++        VMSTATE_UINT16_ARRAY(regs, SWIMCtrl, 8),
++        VMSTATE_UINT8(iwm_data, SWIMCtrl),
++        VMSTATE_UINT8(iwm_mode, SWIMCtrl),
++        /* SWIM mode */
++        VMSTATE_UINT8(swim_phase, SWIMCtrl),
++        VMSTATE_UINT8(swim_mode, SWIMCtrl),
++        /* Drives */
++        VMSTATE_STRUCT_ARRAY(drives, SWIMCtrl, SWIM_MAX_FD, 1,
++                             vmstate_fdrive, FDrive),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static const VMStateDescription vmstate_sysbus_swim = {
++    .name = "SWIM",
++    .version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(ctrl, SWIM, 0, vmstate_swim, SWIMCtrl),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void sysbus_swim_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->realize = sysbus_swim_realize;
++    dc->reset = sysbus_swim_reset;
++    dc->vmsd = &vmstate_sysbus_swim;
++}
++
++static const TypeInfo sysbus_swim_info = {
++    .name          = TYPE_SWIM,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SWIM),
++    .instance_init = sysbus_swim_init,
++    .class_init    = sysbus_swim_class_init,
++};
++
++static void swim_register_types(void)
++{
++    type_register_static(&sysbus_swim_info);
++    type_register_static(&swim_bus_info);
++    type_register_static(&swim_drive_info);
++}
++
++type_init(swim_register_types)
+diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
+index 9133919bb8..7aa830327c 100644
+--- a/hw/m68k/Kconfig
++++ b/hw/m68k/Kconfig
+@@ -18,3 +18,4 @@ config Q800
+     select MAC_VIA
+     select MACFB
+     select NUBUS
++    select SWIM
+diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
+new file mode 100644
+index 0000000000..6add3499d0
+--- /dev/null
++++ b/include/hw/block/swim.h
+@@ -0,0 +1,76 @@
++/*
++ * QEMU Macintosh floppy disk controller emulator (SWIM)
++ *
++ * Copyright (c) 2014-2018 Laurent Vivier <laurent@vivier.eu>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef SWIM_H
++#define SWIM_H
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++
++#define SWIM_MAX_FD            2
++
++typedef struct SWIMDrive SWIMDrive;
++typedef struct SWIMBus SWIMBus;
++typedef struct SWIMCtrl SWIMCtrl;
++
++#define TYPE_SWIM_DRIVE "swim-drive"
++#define SWIM_DRIVE(obj) OBJECT_CHECK(SWIMDrive, (obj), TYPE_SWIM_DRIVE)
++
++struct SWIMDrive {
++    DeviceState qdev;
++    int32_t     unit;
++    BlockConf   conf;
++};
++
++#define TYPE_SWIM_BUS "swim-bus"
++#define SWIM_BUS(obj) OBJECT_CHECK(SWIMBus, (obj), TYPE_SWIM_BUS)
++
++struct SWIMBus {
++    BusState bus;
++    struct SWIMCtrl *ctrl;
++};
++
++typedef struct FDrive {
++    SWIMCtrl *swimctrl;
++    BlockBackend *blk;
++    BlockConf *conf;
++} FDrive;
++
++struct SWIMCtrl {
++    MemoryRegion iomem;
++    FDrive drives[SWIM_MAX_FD];
++    int mode;
++    /* IWM mode */
++    int iwm_switch;
++    uint16_t regs[8];
++#define IWM_PH0   0
++#define IWM_PH1   1
++#define IWM_PH2   2
++#define IWM_PH3   3
++#define IWM_MTR   4
++#define IWM_DRIVE 5
++#define IWM_Q6    6
++#define IWM_Q7    7
++    uint8_t iwm_data;
++    uint8_t iwm_mode;
++    /* SWIM mode */
++    uint8_t swim_phase;
++    uint8_t swim_mode;
++    SWIMBus bus;
++};
++
++#define TYPE_SWIM "swim"
++#define SWIM(obj) OBJECT_CHECK(SWIM, (obj), TYPE_SWIM)
++
++typedef struct SWIM {
++    SysBusDevice parent_obj;
++    SWIMCtrl     ctrl;
++} SWIM;
++#endif
 -- 
 2.21.0
 
