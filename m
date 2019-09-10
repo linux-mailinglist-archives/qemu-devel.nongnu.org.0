@@ -2,45 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7599DAEEB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:43:07 +0200 (CEST)
-Received: from localhost ([::1]:41506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79ED1AEF05
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 17:53:33 +0200 (CEST)
+Received: from localhost ([::1]:41614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7iIM-0003XE-II
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36165)
+	id 1i7iSS-0001fd-5N
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 11:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38589)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pl@kamp.de>) id 1i7iGZ-0002FR-O2
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:41:16 -0400
+ (envelope-from <johannes@sipsolutions.net>) id 1i7iRd-00013X-Nn
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:52:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pl@kamp.de>) id 1i7iGY-0004RD-H4
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:41:15 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:60396)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pl@kamp.de>) id 1i7iGY-0004Po-3W
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:41:14 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 17:41:08 +0200
-Received: (qmail 7082 invoked from network); 10 Sep 2019 15:41:11 -0000
-Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
- (relay@kamp.de@::ffff:172.21.12.60)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
- 10 Sep 2019 15:41:11 -0000
-Received: by lieven-pc (Postfix, from userid 1060)
- id 7CF2813D878; Tue, 10 Sep 2019 17:41:11 +0200 (CEST)
-From: Peter Lieven <pl@kamp.de>
-To: qemu-block@nongnu.org
-Date: Tue, 10 Sep 2019 17:41:10 +0200
-Message-Id: <20190910154110.6905-3-pl@kamp.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190910154110.6905-1-pl@kamp.de>
-References: <20190910154110.6905-1-pl@kamp.de>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 195.62.97.192
-Subject: [Qemu-devel] [PATCH V2 2/2] block/nfs: add support for nfs_umount
+ (envelope-from <johannes@sipsolutions.net>) id 1i7iRc-0001Vu-NT
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:52:41 -0400
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:56420
+ helo=sipsolutions.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
+ id 1i7iRc-0001Tu-H3
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 11:52:40 -0400
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <johannes@sipsolutions.net>)
+ id 1i7iRZ-0001bK-AG; Tue, 10 Sep 2019 17:52:37 +0200
+Message-ID: <1f28c61e5caf6fc2a2125664043d1f7b9b769149.camel@sipsolutions.net>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Tue, 10 Sep 2019 17:52:36 +0200
+In-Reply-To: <d2e750aaec396bd0aa7ea8c05ef5705567d16595.camel@sipsolutions.net>
+References: <20190902121233.13382-1-johannes@sipsolutions.net>
+ <20190906121350.29202-1-johannes@sipsolutions.net>
+ <20190906102217-mutt-send-email-mst@kernel.org>
+ <be405c3ba658cdac7f68c91213c3b714ac24c1e3.camel@sipsolutions.net>
+ <20190906110340-mutt-send-email-mst@kernel.org>
+ <fe0f3f7bfa730088454790dc2d863285c4461134.camel@sipsolutions.net>
+ <20190908091207-mutt-send-email-mst@kernel.org>
+ <8a9cf8a1726afce7fed8992a4f19fc808004ef88.camel@sipsolutions.net>
+ <20190909083902-mutt-send-email-mst@kernel.org>
+ <89f25546ffa71c799c533e50658a3a58e066f436.camel@sipsolutions.net>
+ <20190909094609-mutt-send-email-mst@kernel.org>
+ <d2e750aaec396bd0aa7ea8c05ef5705567d16595.camel@sipsolutions.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:191:4433::2
+Subject: Re: [Qemu-devel] [RFC] libvhost-user: implement
+ VHOST_USER_PROTOCOL_F_KICK_CALL_MSGS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,35 +63,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- ronniesahlberg@gmail.com, mreitz@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libnfs recently added support for unmounting. Add support
-in Qemu too.
+On Mon, 2019-09-09 at 15:50 +0200, Johannes Berg wrote:
 
-Signed-off-by: Peter Lieven <pl@kamp.de>
----
- block/nfs.c | 3 +++
- 1 file changed, 3 insertions(+)
+> > We can document how to behave in case of inconsistent protocol features,
+> > yes.
+> 
+> OK.
 
-diff --git a/block/nfs.c b/block/nfs.c
-index 2c98508275..f39acfdb28 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -398,6 +398,9 @@ static void nfs_client_close(NFSClient *client)
-             nfs_close(client->context, client->fh);
-             client->fh = NULL;
-         }
-+#ifdef LIBNFS_FEATURE_UMOUNT
-+        nfs_umount(client->context);
-+#endif
-         nfs_destroy_context(client->context);
-         client->context = NULL;
-     }
--- 
-2.17.1
+Coming back to this, I was just looking at it.
 
+How/where would you like to see this done?
+
+There isn't really any section that lists and explains the various
+protocol features, there's only a list. I could add a new section for
+"Simulation" or something like that that explains it, but then most
+people would probably skip that and not ever read the text about how you
+shouldn't implement F_KICK_CALL_MSGS :-)
+
+Any thoughts?
+
+johannes
 
 
