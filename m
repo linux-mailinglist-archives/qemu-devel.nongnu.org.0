@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BA9AF1F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:37:15 +0200 (CEST)
-Received: from localhost ([::1]:44388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1021AF206
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 21:48:25 +0200 (CEST)
+Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7lww-0002vz-Dh
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58950)
+	id 1i7m7j-0006yf-OR
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 15:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7lu6-0000yq-5f
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:21 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7luJ-0001E1-CA
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7lu2-0006mV-NT
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:17 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40544)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7lu2-0006l8-Fg
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:14 -0400
-Received: by mail-wr1-x441.google.com with SMTP id w13so21872081wru.7
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 12:34:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3O9EXRDiG8lwCqPTGZE4nRj1SK0nw1gH8b5voet+7G4=;
- b=ok9sG2drhxGaTcRjHImZarNSTWYdKF6qlsF+2On5RfTVYyIHeDVPWG85Te9b1gxgLU
- SS2X+GjnELhF8uKHt3Mwn+NfaNb9WItgH3zpEfHo+mXkWp52xO33Cu5KKf3c1ly8f2oV
- DWLWdVMX7y3bnsyLUeftLXcFPYFbO5Kduz3//0W/5lexSUziXnSWnHlUoREZeUBvX28u
- LtYQ/BUWgIvPJMJ35nJ7ID4wAuSxygPVnx/0CSXyAfXllU9S0Iq8AkCfyr8d9Q0QukfW
- R/utiGzh6W7uqBU6QkOHEzqd4QZeWF8xQoWhI5lZjn8vfKpd/NxJY74VEXqUGydXIb4V
- 7QbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3O9EXRDiG8lwCqPTGZE4nRj1SK0nw1gH8b5voet+7G4=;
- b=UdvRkJ63jn+e/L2SPaXgxzXCFdWxXTlLb+1/1YimUjJQguTUT2whqVk2vRTlSdCX6M
- ra+xMCxOjIk2IF2yKgaVUXgL7OeWo2TVu2IG5F0OhZiPOQ/bnh8Ah/+BxDPpRmt9tksh
- FktvfFRmrUMW4VpHQz8gRIEY5k3OXAtxCHVQ13D0At/+AvscMyQs1b/Xw1aYiAaW6dL4
- 26KblyUEdaBZnqqdFdmQfjjvrWKkLgCVQ5ohKPaKgOnelK1gEs6Ww9+MtXknnQ1lIiHN
- 0DBtSkkIXzNs4dU3lN0vDOz0RBOUOf+9wzpxZ6e1OCLQNvhTcO/UMoImPSOSmNPsFZ91
- eb+g==
-X-Gm-Message-State: APjAAAUIaePi2dDQeM1kL1jP+ntxRSPFoNIuPW9rl1RS5UBINOJ/GVbJ
- L6m6SwyFFWf26ApQD5Xc2RvABA==
-X-Google-Smtp-Source: APXvYqymAt3lB0DcJAMvyPp9kWz/TrliaKxsGUMQsn/8SgqYWnNGDs1F7Kos5USgN1ll6UNhDqKA4g==
-X-Received: by 2002:a05:6000:49:: with SMTP id k9mr7739815wrx.21.1568144053125; 
- Tue, 10 Sep 2019 12:34:13 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b194sm925871wmg.46.2019.09.10.12.34.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 12:34:11 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6B4941FF91;
- Tue, 10 Sep 2019 20:34:09 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Tue, 10 Sep 2019 20:34:08 +0100
-Message-Id: <20190910193408.28917-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190910193408.28917-1-alex.bennee@linaro.org>
-References: <20190910193408.28917-1-alex.bennee@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1i7luH-0006tv-7W
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 15:34:31 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:50077)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1i7luD-0006rI-5c; Tue, 10 Sep 2019 15:34:25 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MXH7g-1hdOfv3Owg-00YlxY; Tue, 10 Sep 2019 21:33:54 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Tue, 10 Sep 2019 21:33:38 +0200
+Message-Id: <20190910193347.16000-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v1 4/4] elf: move ELF_ARCH definition to
- elf-arch.h
+X-Provags-ID: V03:K1:WeVpO40vHvCS0F+mrJAkA3AADUrCu11AglsNXQfv/pQdgJLb5R+
+ 20vfaJivAPAOUhl/+SUgFqAj63ozZzNF43+anfh0d7+rnSx/V3Jjt5bSR+vWqX2nTI+XAYk
+ 48uMgLIQmON2ZhUXpT45N1OEwY1/HBltXuYUA99HOG7/JKRlh8FJ+FXXHsEUEsm5/0W3wvc
+ Ch9dEVXuZ4XV8W9p2CetQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2zQHv2rLRFE=:qvJanMF4R7si+3uUQEIrt2
+ TktqrWYZ7s4Gra8MsqJ82+93C1XzaZxHXApesPkvSPiG9uIZk5kTgFUOXJ/xNN5gI9jYlR7so
+ UqzBGSXz1+4SJNKv+us2Ivg8zZJk9sYHkCwCQzCfCsgtmAUnNUlF1fkG4SnofkNMYe++eHx5J
+ UzETKp0z8WT2quWGGrH7vz7/DJRiM9qx/bQg/E4Oyxhq6WINQyhtVj7KYCRmOAQRgud5Jq5Bq
+ kZfm+w/XEfZP+P3WA2Q5SBp6MmfOwlKZbMoOshy2yQNUCQ/wOROgXk3lLhvxtlvBux7DJNUr5
+ QlE3YJ/jUHA9wCWY2WrkRVELKvB2tshQ6PRSdTg4NwlyAQlZYFNV3PrcvOsPooZftIRRZiU6C
+ CYP3jfznllsbx66qphAjcd/56x1/Q612GGV6zH08c2TltLma8RLX8nDFhOD4NWSiI84MaUVT7
+ M0b5TDq6r4ueHkniqgULz3rBLZv56Rq17UWKg63q3DmY/YxaDDIc+Tu3OkC+kBNONCLTZOOQg
+ TY+OZFOFlUVmm5jalNNcPfQafuqH4V7ETUiWOtvTk9KOOnjWOkjHO8dEYNgZ5tUjWwSbrtS9y
+ 2X5jCUcPaJ5XnwB8legfqBAA78rArCdYDmTFXTTFzPEvRdHaY2bglybGCgvdFkzD5FwY0SPwA
+ FfkH7YrW8sVbC9MhbOCdKUTPunHIe8MekFHFRZ9EorN1BXCI2FhdoWQRDOcYhukD8RFNbCkPu
+ G7nF2Xet1wopBjUQXh28ry+8C757AkQz1NU4E+wUgNYWE2CEvszbCX7u3+GFYXzXTMRx8xAp2
+ RjVQq7TqN1K4Rz4fhqkt0z61btfUyct5LhTkotOkc9LCp9xQ3E=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PATCH v11 0/9] hw/m68k: add Apple Machintosh Quadra
+ 800 machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,437 +63,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is preparatory for plugins which will want to report the
-architecture to plugins. Move the ELF_ARCH definition out of the
-loader and into its own header.
+I'm rebasing some of these patches for seven years now,
+too many years...
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- bsd-user/elfload.c     |  13 +----
- include/elf/elf-arch.h | 109 +++++++++++++++++++++++++++++++++++++++++
- linux-user/elfload.c   |  27 ++--------
- 3 files changed, 115 insertions(+), 34 deletions(-)
- create mode 100644 include/elf/elf-arch.h
+if you want to test the machine, I'm sorry, it doesn't boot
+a MacROM, but you can boot a linux kernel from the command line.
 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 321ee98b86b..adaae0e0dca 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -5,6 +5,7 @@
- #include "qemu.h"
- #include "disas/disas.h"
- #include "qemu/path.h"
-+#include "elf/elf-arch.h"
- 
- #ifdef _ARCH_PPC64
- #undef ARCH_DLINFO
-@@ -12,7 +13,6 @@
- #undef ELF_HWCAP
- #undef ELF_CLASS
- #undef ELF_DATA
--#undef ELF_ARCH
- #endif
- 
- /* from personality.h */
-@@ -115,7 +115,6 @@ static uint32_t get_elf_hwcap(void)
- 
- #define ELF_CLASS      ELFCLASS64
- #define ELF_DATA       ELFDATA2LSB
--#define ELF_ARCH       EM_X86_64
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -141,7 +140,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
-  */
- #define ELF_CLASS       ELFCLASS32
- #define ELF_DATA        ELFDATA2LSB
--#define ELF_ARCH        EM_386
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -176,7 +174,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- #else
- #define ELF_DATA        ELFDATA2LSB
- #endif
--#define ELF_ARCH        EM_ARM
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -231,7 +228,6 @@ enum
- 
- #define ELF_CLASS   ELFCLASS64
- #define ELF_DATA    ELFDATA2MSB
--#define ELF_ARCH    EM_SPARCV9
- 
- #define STACK_BIAS              2047
- 
-@@ -265,7 +261,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- 
- #define ELF_CLASS   ELFCLASS32
- #define ELF_DATA    ELFDATA2MSB
--#define ELF_ARCH    EM_SPARC
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -302,7 +297,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- #else
- #define ELF_DATA        ELFDATA2LSB
- #endif
--#define ELF_ARCH        EM_PPC
- 
- /*
-  * We need to put in some extra aux table entries to tell glibc what
-@@ -388,7 +382,6 @@ static inline void init_thread(struct target_pt_regs *_regs, struct image_info *
- #else
- #define ELF_DATA        ELFDATA2LSB
- #endif
--#define ELF_ARCH    EM_MIPS
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -410,7 +403,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- 
- #define ELF_CLASS ELFCLASS32
- #define ELF_DATA  ELFDATA2LSB
--#define ELF_ARCH  EM_SH
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -432,7 +424,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- 
- #define ELF_CLASS ELFCLASS32
- #define ELF_DATA  ELFDATA2LSB
--#define ELF_ARCH  EM_CRIS
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -452,7 +443,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- 
- #define ELF_CLASS       ELFCLASS32
- #define ELF_DATA        ELFDATA2MSB
--#define ELF_ARCH        EM_68K
- 
- /* ??? Does this need to do anything?
- #define ELF_PLAT_INIT(_r) */
-@@ -477,7 +467,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- 
- #define ELF_CLASS      ELFCLASS64
- #define ELF_DATA       ELFDATA2MSB
--#define ELF_ARCH       EM_ALPHA
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-diff --git a/include/elf/elf-arch.h b/include/elf/elf-arch.h
-new file mode 100644
-index 00000000000..9e052543c51
---- /dev/null
-+++ b/include/elf/elf-arch.h
-@@ -0,0 +1,109 @@
-+/*
-+ * Elf Architecture Definition
-+ *
-+ * This is a simple expansion to define common Elf types for the
-+ * various machines for the various places it's needed in the source
-+ * tree.
-+ *
-+ * Copyright (c) 2019 Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef _ELF_ARCH_H_
-+#define _ELF_ARCH_H_
-+
-+#include "elf/elf.h"
-+
-+#ifndef NEED_CPU_H
-+#error Needs an target definition
-+#endif
-+
-+#ifdef ELF_ARCH
-+#error ELF_ARCH should only be defined once in this file
-+#endif
-+
-+#ifdef TARGET_I386
-+#ifdef TARGET_X86_64
-+#define ELF_ARCH EM_X86_64
-+#else
-+#define ELF_ARCH EM_386
-+#endif
-+#endif
-+
-+#ifdef TARGET_ARM
-+#ifndef TARGET_AARCH64
-+#define ELF_ARCH EM_ARM
-+#else
-+#define ELF_ARCH EM_AARCH64
-+#endif
-+#endif
-+
-+#ifdef TARGET_SPARC
-+#ifdef TARGET_SPARC64
-+#define ELF_ARCH EM_SPARCV9
-+#else
-+#define ELF_ARCH EM_SPARC
-+#endif
-+#endif
-+
-+#ifdef TARGET_PPC
-+#define ELF_ARCH EM_PPC
-+#endif
-+
-+#ifdef TARGET_MIPS
-+#define ELF_ARCH EM_MIPS
-+#endif
-+
-+#ifdef TARGET_MICROBLAZE
-+#define ELF_ARCH EM_MICROBLAZE
-+#endif
-+
-+#ifdef TARGET_NIOS2
-+#define ELF_ARCH EM_ALTERA_NIOS2
-+#endif
-+
-+#ifdef TARGET_OPENRISC
-+#define ELF_ARCH EM_OPENRISC
-+#endif
-+
-+#ifdef TARGET_SH4
-+#define ELF_ARCH EM_SH
-+#endif
-+
-+#ifdef TARGET_CRIS
-+#define ELF_ARCH EM_CRIS
-+#endif
-+
-+#ifdef TARGET_M68K
-+#define ELF_ARCH EM_68K
-+#endif
-+
-+#ifdef TARGET_ALPHA
-+#define ELF_ARCH EM_ALPHA
-+#endif
-+
-+#ifdef TARGET_S390X
-+#define ELF_ARCH EM_S390
-+#endif
-+
-+#ifdef TARGET_TILEGX
-+#define ELF_ARCH EM_TILEGX
-+#endif
-+
-+#ifdef TARGET_RISCV
-+#define ELF_ARCH EM_RISCV
-+#endif
-+
-+#ifdef TARGET_HPPA
-+#define ELF_ARCH EM_PARISC
-+#endif
-+
-+#ifdef TARGET_XTENSA
-+#define ELF_ARCH EM_XTENSA
-+#endif
-+
-+#endif /* _ELF_ARCH_H_ */
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 59a0d21c6f1..3ac7016a7e3 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -8,10 +8,15 @@
- #include "qemu.h"
- #include "disas/disas.h"
- #include "elf/elf.h"
-+#include "elf/elf-arch.h"
- #include "qemu/path.h"
- #include "qemu/queue.h"
- #include "qemu/guest-random.h"
- 
-+#ifndef ELF_ARCH
-+#error something got missed
-+#endif
-+
- #ifdef _ARCH_PPC64
- #undef ARCH_DLINFO
- #undef ELF_PLATFORM
-@@ -19,7 +24,6 @@
- #undef ELF_HWCAP2
- #undef ELF_CLASS
- #undef ELF_DATA
--#undef ELF_ARCH
- #endif
- 
- #define ELF_OSABI   ELFOSABI_SYSV
-@@ -148,7 +152,6 @@ static uint32_t get_elf_hwcap(void)
- #define ELF_START_MMAP 0x2aaaaab000ULL
- 
- #define ELF_CLASS      ELFCLASS64
--#define ELF_ARCH       EM_X86_64
- 
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -211,7 +214,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
-  * These are used to set parameters in the core dumps.
-  */
- #define ELF_CLASS       ELFCLASS32
--#define ELF_ARCH        EM_386
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
-@@ -273,7 +275,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
- 
- #define ELF_START_MMAP 0x80000000
- 
--#define ELF_ARCH        EM_ARM
- #define ELF_CLASS       ELFCLASS32
- 
- static inline void init_thread(struct target_pt_regs *regs,
-@@ -539,7 +540,6 @@ static const char *get_elf_platform(void)
- /* 64 bit ARM definitions */
- #define ELF_START_MMAP 0x80000000
- 
--#define ELF_ARCH        EM_AARCH64
- #define ELF_CLASS       ELFCLASS64
- #ifdef TARGET_WORDS_BIGENDIAN
- # define ELF_PLATFORM    "aarch64_be"
-@@ -667,7 +667,6 @@ static uint32_t get_elf_hwcap(void)
- #endif
- 
- #define ELF_CLASS   ELFCLASS64
--#define ELF_ARCH    EM_SPARCV9
- 
- #define STACK_BIAS              2047
- 
-@@ -696,7 +695,6 @@ static inline void init_thread(struct target_pt_regs *regs,
-                     | HWCAP_SPARC_MULDIV)
- 
- #define ELF_CLASS   ELFCLASS32
--#define ELF_ARCH    EM_SPARC
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
-@@ -728,8 +726,6 @@ static inline void init_thread(struct target_pt_regs *regs,
- 
- #endif
- 
--#define ELF_ARCH        EM_PPC
--
- /* Feature masks for the Aux Vector Hardware Capabilities (AT_HWCAP).
-    See arch/powerpc/include/asm/cputable.h.  */
- enum {
-@@ -921,7 +917,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
- #else
- #define ELF_CLASS   ELFCLASS32
- #endif
--#define ELF_ARCH    EM_MIPS
- 
- #define elf_check_arch(x) ((x) == EM_MIPS || (x) == EM_NANOMIPS)
- 
-@@ -1014,7 +1009,6 @@ static uint32_t get_elf_hwcap(void)
- #define elf_check_arch(x) ( (x) == EM_MICROBLAZE || (x) == EM_MICROBLAZE_OLD)
- 
- #define ELF_CLASS   ELFCLASS32
--#define ELF_ARCH    EM_MICROBLAZE
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
-@@ -1053,7 +1047,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUMBState *env
- #define elf_check_arch(x) ((x) == EM_ALTERA_NIOS2)
- 
- #define ELF_CLASS   ELFCLASS32
--#define ELF_ARCH    EM_ALTERA_NIOS2
- 
- static void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-@@ -1107,7 +1100,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
- 
- #define ELF_START_MMAP 0x08000000
- 
--#define ELF_ARCH EM_OPENRISC
- #define ELF_CLASS ELFCLASS32
- #define ELF_DATA  ELFDATA2MSB
- 
-@@ -1146,7 +1138,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
- #define ELF_START_MMAP 0x80000000
- 
- #define ELF_CLASS ELFCLASS32
--#define ELF_ARCH  EM_SH
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
-@@ -1228,7 +1219,6 @@ static uint32_t get_elf_hwcap(void)
- #define ELF_START_MMAP 0x80000000
- 
- #define ELF_CLASS ELFCLASS32
--#define ELF_ARCH  EM_CRIS
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
-@@ -1245,7 +1235,6 @@ static inline void init_thread(struct target_pt_regs *regs,
- #define ELF_START_MMAP 0x80000000
- 
- #define ELF_CLASS       ELFCLASS32
--#define ELF_ARCH        EM_68K
- 
- /* ??? Does this need to do anything?
-    #define ELF_PLAT_INIT(_r) */
-@@ -1296,7 +1285,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUM68KState *e
- #define ELF_START_MMAP (0x30000000000ULL)
- 
- #define ELF_CLASS      ELFCLASS64
--#define ELF_ARCH       EM_ALPHA
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
-@@ -1316,7 +1304,6 @@ static inline void init_thread(struct target_pt_regs *regs,
- 
- #define ELF_CLASS	ELFCLASS64
- #define ELF_DATA	ELFDATA2MSB
--#define ELF_ARCH	EM_S390
- 
- #define ELF_HWCAP get_elf_hwcap()
- 
-@@ -1362,7 +1349,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
- 
- #define ELF_CLASS   ELFCLASS64
- #define ELF_DATA    ELFDATA2LSB
--#define ELF_ARCH    EM_TILEGX
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
-@@ -1379,7 +1365,6 @@ static inline void init_thread(struct target_pt_regs *regs,
- #ifdef TARGET_RISCV
- 
- #define ELF_START_MMAP 0x80000000
--#define ELF_ARCH  EM_RISCV
- 
- #ifdef TARGET_RISCV32
- #define ELF_CLASS ELFCLASS32
-@@ -1402,7 +1387,6 @@ static inline void init_thread(struct target_pt_regs *regs,
- 
- #define ELF_START_MMAP  0x80000000
- #define ELF_CLASS       ELFCLASS32
--#define ELF_ARCH        EM_PARISC
- #define ELF_PLATFORM    "PARISC"
- #define STACK_GROWS_DOWN 0
- #define STACK_ALIGNMENT  64
-@@ -1427,7 +1411,6 @@ static inline void init_thread(struct target_pt_regs *regs,
- #define ELF_START_MMAP 0x20000000
- 
- #define ELF_CLASS       ELFCLASS32
--#define ELF_ARCH        EM_XTENSA
- 
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
+You can install your own disk using debian-installer, with:
+
+    ...
+    -M q800 \
+    -serial none -serial mon:stdio \
+    -m 1000M \
+    -net nic,model=dp83932,addr=09:00:07:12:34:57 \
+    -append "console=ttyS0 vga=off" \
+    -kernel vmlinux-4.16.0-1-m68k \
+    -initrd initrd.gz \
+    -drive file=debian-10.0-m68k-NETINST-1.iso,media=cdrom \
+    -drive file=m68k.qcow2,format=qcow2 \
+    -nographic
+
+If you use a graphic adapter instead of "-nographic", you can use "-g" to set the
+size of the display (I use "-g 1600x800x24").
+
+You can get the ISO from:
+
+https://cdimage.debian.org/cdimage/ports/10.0/m68k/iso-cd/debian-10.0-m68k-NETINST-1.iso
+
+and extract the kernel and initrd.gz:
+
+guestfish --add debian-10.0-m68k-NETINST-1.iso --ro \
+          --mount /dev/sda:/ <<_EOF_
+copy-out /install/cdrom/initrd.gz .
+copy-out /install/kernels/vmlinux-4.16.0-1-m68k .
+_EOF_
+
+The mirror to use is: http://ftp.ports.debian.org/debian-ports/
+when it fails, continue without boot loader.
+
+In the same way, you can extract the kernel and the initramfs from the qcow2
+image to use it with "-kernel" and "-initrd":
+
+guestfish --add m68k.qcow2 --mount /dev/sda2:/ <<_EOF_
+copy-out /boot/vmlinux-4.16.0-1-m68k .
+copy-out /boot/initrd.img-4.16.0-1-m68k .
+_EOF_
+
+and boot with:
+
+   ...
+   -append "root=/dev/sda2 rw console=ttyS0 console=tty \
+   -kernel vmlinux-4.16.0-1-m68k \
+   -initrd initrd.img-4.16.0-1-m68k
+
+NOTE: DHCP doesn't work but you can assign a static IP address.
+      We need some patches for dp8393x that are not ready to be merged.
+      See http://patchwork.ozlabs.org/patch/927020/
+          http://patchwork.ozlabs.org/patch/927030/
+          http://patchwork.ozlabs.org/patch/927026/
+
+v11: Add VMState to migrate ESP PDMA
+
+     The new VMState structures cannot be tested because m68k is not
+     migratable and then Q800 is not either.
+     I've tested the ESP VMState is not broken by the change
+     with 'migrate "exec:cat > mig"' with qemu-system-sparc and
+     I have compared the result with/without the patch with
+     scripts/analyze-migrate.py: files desc.json are identical.
+
+v10: Add SWIM VMState and reset function
+     Add MacVIA VMState
+     rework Kconfig
+
+v9: Fix comments format
+    rebase on top of NeXTcube
+
+v8: rebase (new blk_new(), add "qemu-common.h")
+    update bootinfo information and license
+    add some braces
+    Rename Q800IRQState to GLUEState:
+    it's more like a Logic Unit than an IRQ controller,
+    and Apple calls it "GLUE" (Mark: I prefer to keep it
+    like this for the moment, in the future this part
+    need to be reworked, we have to review the IRQ levels
+    and to wire NUBUS IRQ. The implementation is really trivial
+    for the moment and we will move it to QOM in the future)
+
+v7: rebase and port to Kconfig
+    move IRQ controller back to q800.c (we don't need an object for this)
+    update log message for ESP changes and add some g_assert()
+    re-order patches: put esp, escc and dp8393x first
+
+v6: Rebase onto git master (this now includes the m68k EXCP_ILLEGAL fix required
+      for this patchset to boot)
+    Add Hervé's R-B tags
+    Drop ASC (Apple Sound Chip) device since the Linux driver is broken and
+      it is not required for a successful boot
+    Remove extra esp_raise_irq() from ESP pseudo-DMA patch (Hervé)
+    Remove "return" from unimplemented write functions and instead add a
+      "read only" comment (Hervé)
+    Rename MAX_FD to SWIM_MAX_FD in SWIM floppy controller patch to prevent
+      potential conflicts with other files (Hervé)
+
+v5: Rebase onto git master
+    Add Philippe's R-B to patch 10
+    Include the command line to boot a Linux kernel under the q800 machine in the
+    commit message for patch 11 (Philippe)
+    Fix up comments in hw/misc/mac_via.c (Thomas)
+    Add asserts to VIA ADB support to prevent potential buffer overflows (Thomas)
+    Move macfb surface/resolution checks to realise and remove hw_error (Thomas)
+    Move macfb draw_line functions inline and remove macfb-template.h (Mark)
+    Use guest address rather than source pointer in draw_line functions - this brings
+      macfb in line with the VGA device and can prevent a potential buffer overflow
+    Use g_strdup_printf() for memory region names in NuBus devices instead of
+      hardcoded length char arrays (Thomas)
+    Move NuBus QOM types from patch 7 to patch 8 (spotted by Thomas)
+    Move CONFIG_COLDFIRE sections together in hw/m68k/Makefile.objs (Thomas)
+    Remove obsolete comment from q800.c in patch 11 (Thomas)
+
+v4: Drop RFC from subject prefix as this is getting close to final
+    Rebased onto master (fixing ESP, rom_ptr() conflicts)
+    Reworked q800.c based upon Thomas' comments about cpu_init() and
+      qemu_check_nic_model()
+    Address Thomas' comments on using error_report() instead of hw_error()
+    Change the NuBus memory regions from DEVICE_NATIVE_ENDIAN to
+      DEVICE_BIG_ENDIAN
+    Split macfb Nubus support into separate commit
+    Change VMSTATE_BUFFER_UNSAFE() to VMSTATE_UINT8_ARRAY() in macfb.c as
+      suggested by David
+    Remove dummy Apple Sound Chip migration state as pointed out by David
+    Keep VIA ADB state and buffers in the mac_via device rather than adding
+      to existing ADBState (this matches the pattern used in the PPC CUDA/PMU
+      VIAs)
+    Remove blacklisting for q800 machine from "make check" as requested by
+      Thomas with the following fixes:
+        - Fix incorrect MemoryRegion owner in ASC device
+        - Add qtest_enabled() check in q800_init() to allow testing when no
+          kernel is specified
+        - Move some Mac VIA initialisation from init to realize
+    Remove legacy drive properties from SWIM floppy controller and instead
+      expose separate floppy bus and drive devices as requested by Kevin
+
+v3: fix subject prefix "C" -> "RFC"
+
+v2: remove the dp8393x fixes, because one of the patch breaks something
+    Update "dp8393x: manage big endian bus" with idea from Thomas
+    Mark has reworked most of the patches:
+    - use mos6522
+    - some code move, renamings and cleanup
+
+Laurent Vivier (8):
+  esp: add pseudo-DMA as used by Macintosh
+  dp8393x: manage big endian bus
+  hw/m68k: add via support
+  hw/m68k: implement ADB bus support for via
+  hw/m68k: add macfb video card
+  hw/m68k: add Nubus support
+  hw/m68k: add a dummy SWIM floppy controller
+  hw/m68k: define Macintosh Quadra 800
+
+Mark Cave-Ayland (1):
+  hw/m68k: add Nubus support for macfb video card
+
+ MAINTAINERS                         |  14 +
+ arch_init.c                         |   4 +
+ default-configs/m68k-softmmu.mak    |   1 +
+ hw/Kconfig                          |   1 +
+ hw/Makefile.objs                    |   1 +
+ hw/block/Kconfig                    |   3 +
+ hw/block/Makefile.objs              |   1 +
+ hw/block/swim.c                     | 487 +++++++++++++++
+ hw/display/Kconfig                  |   5 +
+ hw/display/Makefile.objs            |   1 +
+ hw/display/macfb.c                  | 477 +++++++++++++++
+ hw/m68k/Kconfig                     |  10 +
+ hw/m68k/Makefile.objs               |   1 +
+ hw/m68k/bootinfo.h                  | 114 ++++
+ hw/m68k/q800.c                      | 382 ++++++++++++
+ hw/misc/Kconfig                     |   5 +
+ hw/misc/Makefile.objs               |   1 +
+ hw/misc/mac_via.c                   | 918 ++++++++++++++++++++++++++++
+ hw/net/dp8393x.c                    |  88 ++-
+ hw/nubus/Kconfig                    |   2 +
+ hw/nubus/Makefile.objs              |   4 +
+ hw/nubus/mac-nubus-bridge.c         |  45 ++
+ hw/nubus/nubus-bridge.c             |  34 ++
+ hw/nubus/nubus-bus.c                | 111 ++++
+ hw/nubus/nubus-device.c             | 215 +++++++
+ hw/scsi/esp.c                       | 338 +++++++++-
+ include/hw/block/swim.h             |  76 +++
+ include/hw/display/macfb.h          |  64 ++
+ include/hw/misc/mac_via.h           | 114 ++++
+ include/hw/nubus/mac-nubus-bridge.h |  24 +
+ include/hw/nubus/nubus.h            |  69 +++
+ include/hw/scsi/esp.h               |  15 +
+ qemu-options.hx                     |   2 +-
+ vl.c                                |   3 +-
+ 34 files changed, 3568 insertions(+), 62 deletions(-)
+ create mode 100644 hw/block/swim.c
+ create mode 100644 hw/display/macfb.c
+ create mode 100644 hw/m68k/bootinfo.h
+ create mode 100644 hw/m68k/q800.c
+ create mode 100644 hw/misc/mac_via.c
+ create mode 100644 hw/nubus/Kconfig
+ create mode 100644 hw/nubus/Makefile.objs
+ create mode 100644 hw/nubus/mac-nubus-bridge.c
+ create mode 100644 hw/nubus/nubus-bridge.c
+ create mode 100644 hw/nubus/nubus-bus.c
+ create mode 100644 hw/nubus/nubus-device.c
+ create mode 100644 include/hw/block/swim.h
+ create mode 100644 include/hw/display/macfb.h
+ create mode 100644 include/hw/misc/mac_via.h
+ create mode 100644 include/hw/nubus/mac-nubus-bridge.h
+ create mode 100644 include/hw/nubus/nubus.h
+
 -- 
-2.20.1
+2.21.0
 
 
