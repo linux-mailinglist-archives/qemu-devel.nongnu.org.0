@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF7AAE60E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:51:11 +0200 (CEST)
-Received: from localhost ([::1]:35702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97056AE614
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:53:46 +0200 (CEST)
+Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7brh-0008T3-Nn
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35557)
+	id 1i7buD-0003cN-3g
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i7bju-0002XM-Rr
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:08 -0400
+ (envelope-from <berrange@redhat.com>) id 1i7bju-0002XO-Se
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i7bjs-00060R-QW
+ (envelope-from <berrange@redhat.com>) id 1i7bjl-0005ua-EO
  for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33824)
+Received: from mx1.redhat.com ([209.132.183.28]:56858)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i7bi9-00053l-Ps; Tue, 10 Sep 2019 04:42:56 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i7biM-0005Eo-3s
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:42:57 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1C27A10C093F;
- Tue, 10 Sep 2019 08:41:17 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-90.ams2.redhat.com
- [10.36.117.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 137FF5D9D6;
- Tue, 10 Sep 2019 08:41:12 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20190729213559.20913-1-jsnow@redhat.com>
- <20190729213559.20913-2-jsnow@redhat.com>
- <b7cf5a8e-9199-8405-8a32-470cd5437b9e@redhat.com>
- <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c1818aa9-f0bd-5f42-5ded-1939704474db@redhat.com>
-Date: Tue, 10 Sep 2019 10:41:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 6817BEB9A0;
+ Tue, 10 Sep 2019 08:41:29 +0000 (UTC)
+Received: from redhat.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A4FF36012A;
+ Tue, 10 Sep 2019 08:41:23 +0000 (UTC)
+Date: Tue, 10 Sep 2019 09:41:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Message-ID: <20190910084120.GA8583@redhat.com>
+References: <20190904005218.12536-1-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Tue, 10 Sep 2019 08:41:17 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190904005218.12536-1-crosa@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Tue, 10 Sep 2019 08:41:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/3] iotests: add script_initialize
+Subject: Re: [Qemu-devel] [PATCH] Fedora images: use URLs from stable
+ "archives.fedoraproject.org"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,83 +57,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Yash Mankad <ymankad@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c
-Content-Type: multipart/mixed; boundary="66T0HA99yT6CalJwYmGRUXZqTJN3by2rd";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com
-Message-ID: <c1818aa9-f0bd-5f42-5ded-1939704474db@redhat.com>
-Subject: Re: [PATCH v2 1/3] iotests: add script_initialize
-References: <20190729213559.20913-1-jsnow@redhat.com>
- <20190729213559.20913-2-jsnow@redhat.com>
- <b7cf5a8e-9199-8405-8a32-470cd5437b9e@redhat.com>
- <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
-In-Reply-To: <2eec15be-b631-0a7c-3bbe-3e47e4d0c06f@redhat.com>
+On Tue, Sep 03, 2019 at 08:52:18PM -0400, Cleber Rosa wrote:
+> The LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16 test,
+> from tests/acceptance/linux_initrd.py, is currently failing to fetch
+> the "vmlinuz" file.  The reason for the failure is that the Fedora
+> project retires older versions from the "dl.fedoraproject.org" URL,
+> and keeps them in "archives.fedoraproject.org".  As an added note,
+> that test uses a Fedora 28 image, because of the specific Linux kernel
+> version requirements of the test.
+> 
+> For the sake of stability, let's use URLs from the archived and
+> supposedely ever stable URLs.  The good news is that the currently
+> supported versions are also hosted on the later.  This change limits
+> itself to change the URLs, while keeping the fetched files the same
+> (as can be evidenced by the unchanged hashes).
 
---66T0HA99yT6CalJwYmGRUXZqTJN3by2rd
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+The download.fedoraproject.org site we're (mostly) currently using
+is serviced by the Fedora mirrors which is very desirable as it
+spreads the load.
 
-On 09.09.19 20:25, John Snow wrote:
->=20
->=20
-> On 9/9/19 6:06 AM, Max Reitz wrote:
->> On 29.07.19 23:35, John Snow wrote:
->>> Like script_main, but doesn't require a single point of entry.
->>> Replace all existing initialization sections with this drop-in replac=
-ement.
->>>
->>> This brings debug support to all existing script-style iotests.
->>>
->>> Note: supported_oses=3D['linux'] was omitted, as it is a default argu=
-ment.
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>
->> Looks good to me, but I=E2=80=99m afraid I looked at this series too l=
-ate (that
->> is, now), so I sent my own version of your 2/3, sorry. :-/
->>
->=20
-> You're replying to v2; there was a v3.
+The archive.fedoraproject.org site is the master Fedora hosting
+server(s). dl.fedoraproject.org is the same master hosting service
+that is intended for use by the mirror sites to sync their content
+from.  Projects really shouldn't use either of these URLs for getting
+any content which is available via the mirror service as it places
+uncessary load on the Fedora master servers.
 
-Yes, I noticed later, sorry.  Still, my (vpc) series is in Kevin=E2=80=99=
-s
-branch already, so I then thought to myself =E2=80=9CWell, the comment ab=
-out
-some rebasing still applies, in a sense=E2=80=9D.
+> Documentation and the "vm tests" fedora definition were also updated.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  qemu-doc.texi                          |  6 +++---
+>  tests/acceptance/boot_linux_console.py | 25 +++++++++++++++----------
+>  tests/acceptance/linux_initrd.py       |  5 +++--
+>  tests/vm/fedora                        |  2 +-
+>  4 files changed, 22 insertions(+), 16 deletions(-)
+> 
+> diff --git a/qemu-doc.texi b/qemu-doc.texi
+> index 577d1e8376..37795f86fb 100644
+> --- a/qemu-doc.texi
+> +++ b/qemu-doc.texi
+> @@ -440,15 +440,15 @@ of <protocol>.
+>  
+>  Example: boot from a remote Fedora 20 live ISO image
+>  @example
+> -qemu-system-x86_64 --drive media=cdrom,file=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+> +qemu-system-x86_64 --drive media=cdrom,file=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+>  
+> -qemu-system-x86_64 --drive media=cdrom,file.driver=http,file.url=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+> +qemu-system-x86_64 --drive media=cdrom,file.driver=http,file.url=http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+>  @end example
+>  
+>  Example: boot from a remote Fedora 20 cloud image using a local overlay for
+>  writes, copy-on-read, and a readahead of 64k
+>  @example
+> -qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"https://dl.fedoraproject.org/pub/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
+> +qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
+>  
+>  qemu-system-x86_64 -drive file=/tmp/Fedora-x86_64-20-20131211.1-sda.qcow2,copy-on-read=on
+>  @end example
 
-Max
+Nothing quite says "cutting edge" like examples pointing to 5+ years old
+software. Or to put it another way, we should update this to point to a
+modern OS release. ie Fedora 30.
 
-> I'll rebase V3 and re-send, especially if your version of 2/3 already
-> hit master.
+These should also be changed to download instead of dl.
 
 
---66T0HA99yT6CalJwYmGRUXZqTJN3by2rd--
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index 2504ef0150..8a9a314ab4 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -76,8 +76,9 @@ class BootLinuxConsole(Test):
+>          :avocado: tags=arch:x86_64
+>          :avocado: tags=machine:pc
+>          """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
+> -                      'releases/29/Everything/x86_64/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
+> +                      '/vmlinuz')
+>          kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
+>          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>  
+> @@ -250,8 +251,9 @@ class BootLinuxConsole(Test):
+>          :avocado: tags=arch:aarch64
+>          :avocado: tags=machine:virt
+>          """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
+> -                      'releases/29/Everything/aarch64/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+> +                      '/vmlinuz')
+>          kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
+>          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>  
+> @@ -271,8 +273,9 @@ class BootLinuxConsole(Test):
+>          :avocado: tags=arch:arm
+>          :avocado: tags=machine:virt
+>          """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
+> -                      'releases/29/Everything/armhfp/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
+> +                      '/vmlinuz')
+>          kernel_hash = 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
+>          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>  
+> @@ -318,8 +321,9 @@ class BootLinuxConsole(Test):
+>          :avocado: tags=arch:s390x
+>          :avocado: tags=machine:s390_ccw_virtio
+>          """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
+> -                      'releases/29/Everything/s390x/os/images/kernel.img')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+> +                      '/fedora-secondary/releases/29/Everything/s390x/os/images'
+> +                      '/kernel.img')
+>          kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
+>          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>  
+> @@ -360,8 +364,9 @@ class BootLinuxConsole(Test):
+>          :avocado: tags=arch:ppc64
+>          :avocado: tags=machine:pseries
+>          """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
+> -                      'releases/29/Everything/ppc64le/os/ppc/ppc64/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+> +                      '/fedora-secondary/releases/29/Everything/ppc64le/os'
+> +                      '/ppc/ppc64/vmlinuz')
+>          kernel_hash = '3fe04abfc852b66653b8c3c897a59a689270bc77'
+>          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
 
---jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Don't change these URLs. We can update to Fedora 30 though if you want
+to.
 
------BEGIN PGP SIGNATURE-----
+>  
+> diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_initrd.py
+> index 23be5a63aa..c61d9826a4 100644
+> --- a/tests/acceptance/linux_initrd.py
+> +++ b/tests/acceptance/linux_initrd.py
+> @@ -54,8 +54,9 @@ class LinuxInitrd(Test):
+>          QEMU has supported up to 4 GiB initrd for recent kernel
+>          Expect guest can reach 'Unpacking initramfs...'
+>          """
+> -        kernel_url = ('https://mirrors.kernel.org/fedora/releases/28/'
+> -                      'Everything/x86_64/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/28/Everything/x86_64/os/images/pxeboot/'
+> +                      'vmlinuz')
+>          kernel_hash = '238e083e114c48200f80d889f7e32eeb2793e02a'
+>          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>          max_size = 2 * (1024 ** 3) + 1
+> diff --git a/tests/vm/fedora b/tests/vm/fedora
+> index e8fa5bf0d2..7fec1479fb 100755
+> --- a/tests/vm/fedora
+> +++ b/tests/vm/fedora
+> @@ -23,7 +23,7 @@ class FedoraVM(basevm.BaseVM):
+>      name = "fedora"
+>      arch = "x86_64"
+>  
+> -    base = "http://dl.fedoraproject.org/pub/fedora/linux/releases/30/"
+> +    base = "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/30/"
+>      link = base + "Server/x86_64/iso/Fedora-Server-netinst-x86_64-30-1.2.iso"
+>      repo = base + "Server/x86_64/os/"
+>      full = base + "Everything/x86_64/os/"
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl13YacACgkQ9AfbAGHV
-z0D9vAgAwqk0avPdTH2vIADlrcnK8skatwAcs/P+fJODuYU/Hlom5Msuqjr3yMqF
-PMNpUEL8O4Vqw0+NIwpEsU1tp/d/KUj40FpSvRsJIJx1t7ANn8O0WgCfeBIDeDQP
-7xFYWRB9dhfBrzzCaSLmaA0m07YcBksLb1WofaQJXGJ4LbdX5cQoMdHd3OqY0cP/
-L3QJaOxtPGbX7N2uISgNcst6cFb9FjvJ4nOjR7fQB88VfoVTWKBhCcZS7pPM/3d4
-LNEzRT+9W7JtK4126SChBnh4zgg3NQnVa8H4i9m5fTS6Web9e1BWbpGIMzTebbKy
-4HGkgVwN74BPFyphkoqEn6+NayccHA==
-=UT6G
------END PGP SIGNATURE-----
+This should be changed to download instead of dl.
 
---jQJYJu9G6aJuEiWixHUFzsvzBZm54bE8c--
+> -- 
+> 2.21.0
+> 
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
