@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97056AE614
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:53:46 +0200 (CEST)
-Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D5CAE610
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 10:51:51 +0200 (CEST)
+Received: from localhost ([::1]:35810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7buD-0003cN-3g
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35559)
+	id 1i7bsL-0000wV-RC
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 04:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i7bju-0002XO-Se
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bki-0003K7-2A
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i7bjl-0005ua-EO
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56858)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i7biM-0005Eo-3s
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:42:57 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6817BEB9A0;
- Tue, 10 Sep 2019 08:41:29 +0000 (UTC)
-Received: from redhat.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4FF36012A;
- Tue, 10 Sep 2019 08:41:23 +0000 (UTC)
-Date: Tue, 10 Sep 2019 09:41:20 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Message-ID: <20190910084120.GA8583@redhat.com>
-References: <20190904005218.12536-1-crosa@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1i7bkg-0006Gy-1E
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:55 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35582)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i7bkf-0006GL-6F
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 04:43:53 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id g7so18420577wrx.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 01:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AdWgq4tRQb7WRwYVIuU3m8Ztq0cv+cQYX0f+UsriHMs=;
+ b=ybtewwPNaXzWXowa9eP1IShs5k2+CXNcTDM1zSKr63OXOMOu0C6GjkblGtsZSgU23S
+ 4oSY7oD/H4V/2Qd6rBToT8JejZo/cvzwepVIcQu5QlKuX4AHCoEA1CuEtu6oOz3zBzam
+ crApEPo+a8Zfj134ZZkyC1aJTSqZmHWBox3XAJOUeaaYehpdAyLD4E9pQQHB/0+IaVCw
+ 4Ol55+bD/65t9NjNopZMdFGBVjmZkCbi+ZcS/hOGK9i8MDUfmv2NBt20FlIr0LkFEFTJ
+ p3DgX8QCHk7U+PxWRKie2WifthYQZnE6HqU8WiriXs+dFb9PgVUu1Qfm/IKqoo9Wyaj1
+ dIvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AdWgq4tRQb7WRwYVIuU3m8Ztq0cv+cQYX0f+UsriHMs=;
+ b=MGKkuf7McNf2D5SIATasnN7j5ucqxBA5ROSxjCaEEMOqNkRXmdl5ZGN5if0YWJWd8a
+ w3vFctYpZwIlndhkjKB89gPpwcB9vpMO4co17iLuQfaAA2bLI1W3yGADhjzLW3r8rv9/
+ qIIzK/wQCt90c0myNe63NzizRTthghjDqfdQe5kLSeUqhzi/nbS9OCQjwoi4PGm2bBRP
+ yXZpeOwJl2velEa4XXSLpitXLR208VGr8G8hBZnh2jotDaw8BrPLYqVmxQad/+3y/1Jo
+ s9BVcV9iUMCuT8rjkOT/V8HnMpnoLLwg+gv8qnI0lCNRm7Jy/3/JirUGMUNgYNMyUcsN
+ Y5gQ==
+X-Gm-Message-State: APjAAAUWoSImcuQiarkDFQPphoXSALaOvfR3lymKC/7Mbf4sOt/yKVml
+ moASP/5M+ozjN7LMEmiTT2Fc2SbNTGI=
+X-Google-Smtp-Source: APXvYqwJFohWi8hcusK+g86TtGl9JP3BzQr2SiK/fP0r/4EWhuaDDiDatpxUrIdt4GzoVxcT6nQmyg==
+X-Received: by 2002:adf:d84f:: with SMTP id k15mr22949623wrl.70.1568105031500; 
+ Tue, 10 Sep 2019 01:43:51 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z189sm3131482wmc.25.2019.09.10.01.43.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Sep 2019 01:43:50 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 71A131FF87;
+ Tue, 10 Sep 2019 09:43:49 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Date: Tue, 10 Sep 2019 09:43:04 +0100
+Message-Id: <20190910084349.28817-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190904005218.12536-1-crosa@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 10 Sep 2019 08:41:29 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] Fedora images: use URLs from stable
- "archives.fedoraproject.org"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PULL 00/45] testing updates (fixes, upgrades, caching)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,192 +79,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Yash Mankad <ymankad@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Fam Zheng <fam@euphon.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 03, 2019 at 08:52:18PM -0400, Cleber Rosa wrote:
-> The LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16 test,
-> from tests/acceptance/linux_initrd.py, is currently failing to fetch
-> the "vmlinuz" file.  The reason for the failure is that the Fedora
-> project retires older versions from the "dl.fedoraproject.org" URL,
-> and keeps them in "archives.fedoraproject.org".  As an added note,
-> that test uses a Fedora 28 image, because of the specific Linux kernel
-> version requirements of the test.
-> 
-> For the sake of stability, let's use URLs from the archived and
-> supposedely ever stable URLs.  The good news is that the currently
-> supported versions are also hosted on the later.  This change limits
-> itself to change the URLs, while keeping the fetched files the same
-> (as can be evidenced by the unchanged hashes).
+The following changes since commit 89ea03a7dc83ca36b670ba7f787802791fcb04b1:
 
-The download.fedoraproject.org site we're (mostly) currently using
-is serviced by the Fedora mirrors which is very desirable as it
-spreads the load.
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/m68k-pull-2019-09-07' into staging (2019-09-09 09:48:34 +0100)
 
-The archive.fedoraproject.org site is the master Fedora hosting
-server(s). dl.fedoraproject.org is the same master hosting service
-that is intended for use by the mirror sites to sync their content
-from.  Projects really shouldn't use either of these URLs for getting
-any content which is available via the mirror service as it places
-uncessary load on the Fedora master servers.
+are available in the Git repository at:
 
-> Documentation and the "vm tests" fedora definition were also updated.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  qemu-doc.texi                          |  6 +++---
->  tests/acceptance/boot_linux_console.py | 25 +++++++++++++++----------
->  tests/acceptance/linux_initrd.py       |  5 +++--
->  tests/vm/fedora                        |  2 +-
->  4 files changed, 22 insertions(+), 16 deletions(-)
-> 
-> diff --git a/qemu-doc.texi b/qemu-doc.texi
-> index 577d1e8376..37795f86fb 100644
-> --- a/qemu-doc.texi
-> +++ b/qemu-doc.texi
-> @@ -440,15 +440,15 @@ of <protocol>.
->  
->  Example: boot from a remote Fedora 20 live ISO image
->  @example
-> -qemu-system-x86_64 --drive media=cdrom,file=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
-> +qemu-system-x86_64 --drive media=cdrom,file=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
->  
-> -qemu-system-x86_64 --drive media=cdrom,file.driver=http,file.url=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
-> +qemu-system-x86_64 --drive media=cdrom,file.driver=http,file.url=http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
->  @end example
->  
->  Example: boot from a remote Fedora 20 cloud image using a local overlay for
->  writes, copy-on-read, and a readahead of 64k
->  @example
-> -qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"https://dl.fedoraproject.org/pub/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
-> +qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
->  
->  qemu-system-x86_64 -drive file=/tmp/Fedora-x86_64-20-20131211.1-sda.qcow2,copy-on-read=on
->  @end example
+  https://github.com/stsquad/qemu.git tags/pull-testing-next-100919-1
 
-Nothing quite says "cutting edge" like examples pointing to 5+ years old
-software. Or to put it another way, we should update this to point to a
-modern OS release. ie Fedora 30.
+for you to fetch changes up to 4cf22bac5b22a36adf23dc9ec4628c66bbc6f209:
 
-These should also be changed to download instead of dl.
+  travis.yml: Install libcap-dev for testing virito-9p (2019-09-10 09:39:09 +0100)
 
+----------------------------------------------------------------
+Testing fixes:
 
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 2504ef0150..8a9a314ab4 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -76,8 +76,9 @@ class BootLinuxConsole(Test):
->          :avocado: tags=arch:x86_64
->          :avocado: tags=machine:pc
->          """
-> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
-> -                      'releases/29/Everything/x86_64/os/images/pxeboot/vmlinuz')
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
-> +                      '/vmlinuz')
->          kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->  
-> @@ -250,8 +251,9 @@ class BootLinuxConsole(Test):
->          :avocado: tags=arch:aarch64
->          :avocado: tags=machine:virt
->          """
-> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
-> -                      'releases/29/Everything/aarch64/os/images/pxeboot/vmlinuz')
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
-> +                      '/vmlinuz')
->          kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->  
-> @@ -271,8 +273,9 @@ class BootLinuxConsole(Test):
->          :avocado: tags=arch:arm
->          :avocado: tags=machine:virt
->          """
-> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
-> -                      'releases/29/Everything/armhfp/os/images/pxeboot/vmlinuz')
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
-> +                      '/vmlinuz')
->          kernel_hash = 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->  
-> @@ -318,8 +321,9 @@ class BootLinuxConsole(Test):
->          :avocado: tags=arch:s390x
->          :avocado: tags=machine:s390_ccw_virtio
->          """
-> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
-> -                      'releases/29/Everything/s390x/os/images/kernel.img')
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-> +                      '/fedora-secondary/releases/29/Everything/s390x/os/images'
-> +                      '/kernel.img')
->          kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->  
-> @@ -360,8 +364,9 @@ class BootLinuxConsole(Test):
->          :avocado: tags=arch:ppc64
->          :avocado: tags=machine:pseries
->          """
-> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
-> -                      'releases/29/Everything/ppc64le/os/ppc/ppc64/vmlinuz')
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-> +                      '/fedora-secondary/releases/29/Everything/ppc64le/os'
-> +                      '/ppc/ppc64/vmlinuz')
->          kernel_hash = '3fe04abfc852b66653b8c3c897a59a689270bc77'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+  - podman cleanups
+  - docker.py python3 fixes (encode)
+  - DEF_TARGET_LIST applied to cross build images
+  - move a bunch to Buster based images
+  - enable Travis caching
+  - more common objs for faster builds
+  - stable URLs for acceptance tests
+  - additional travis dependencies
 
-Don't change these URLs. We can update to Fedora 30 though if you want
-to.
+----------------------------------------------------------------
+Alex Bennée (28):
+      configure: clean-up container cross compile detect
+      tests/docker: fix "cc" command to work with podman
+      tests/docker: handle missing encoding keyword for subprocess.check_output
+      tests/docker: fix final missing .encode when parsing solibs
+      tests/tcg: add .gitignore for in source builds
+      tests/docker: move DEF_TARGET_LIST setting to common.rc
+      tests/docker: set DEF_TARGET_LIST for some containers
+      tests/docker: add Buster to DOCKER_PARTIAL_IMAGES
+      tests/docker: move our arm64 cross compile to Buster
+      tests/docker: move our powerpc cross compile to Buster
+      tests/docker: move our Alpha cross compile to Buster
+      tests/docker: move our HPPA cross compile to Buster
+      tests/docker: move our m68k cross compile to Buster
+      tests/docker: move our sparc64 cross compile to Buster
+      tests/docker: move our sh4 cross compile to Buster
+      tests/docker: move our mips64 cross compile to Buster
+      tests/docker: move our riscv64 cross compile to Buster
+      tests/docker: move our ppc64 cross compile to Buster
+      tests/docker: update Debian Sid image
+      tests/docker: pin powerpc-user-cross to a snapshot
+      tests/docker: add debian-xtensa-cross to DEBIAN_PARTIAL_IMAGES
+      tests/docker: add debian9-mxe to DEBIAN_PARTIAL_IMAGES
+      tests/docker: avoid $SHELL invoke bash directly
+      tests/docker: add debian-amd64-cross for non-x86 hosts
+      tests/docker: use --arch-only for installing deps
+      tests/docker: add more images to PARTIAL_IMAGES when not on x86_64
+      tests/docker: --disable-libssh on ubuntu1804 builds
+      configure: check if --no-pie is supported first
 
->  
-> diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_initrd.py
-> index 23be5a63aa..c61d9826a4 100644
-> --- a/tests/acceptance/linux_initrd.py
-> +++ b/tests/acceptance/linux_initrd.py
-> @@ -54,8 +54,9 @@ class LinuxInitrd(Test):
->          QEMU has supported up to 4 GiB initrd for recent kernel
->          Expect guest can reach 'Unpacking initramfs...'
->          """
-> -        kernel_url = ('https://mirrors.kernel.org/fedora/releases/28/'
-> -                      'Everything/x86_64/os/images/pxeboot/vmlinuz')
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/28/Everything/x86_64/os/images/pxeboot/'
-> +                      'vmlinuz')
->          kernel_hash = '238e083e114c48200f80d889f7e32eeb2793e02a'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->          max_size = 2 * (1024 ** 3) + 1
-> diff --git a/tests/vm/fedora b/tests/vm/fedora
-> index e8fa5bf0d2..7fec1479fb 100755
-> --- a/tests/vm/fedora
-> +++ b/tests/vm/fedora
-> @@ -23,7 +23,7 @@ class FedoraVM(basevm.BaseVM):
->      name = "fedora"
->      arch = "x86_64"
->  
-> -    base = "http://dl.fedoraproject.org/pub/fedora/linux/releases/30/"
-> +    base = "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/30/"
->      link = base + "Server/x86_64/iso/Fedora-Server-netinst-x86_64-30-1.2.iso"
->      repo = base + "Server/x86_64/os/"
->      full = base + "Everything/x86_64/os/"
+Cleber Rosa (1):
+      Fedora images: use URLs from stable "archives.fedoraproject.org"
 
-This should be changed to download instead of dl.
+John Snow (1):
+      tests/docker: Use --userns=keep-id for podman
 
-> -- 
-> 2.21.0
-> 
-> 
+Paolo Bonzini (3):
+      tests/tcg: use EXTRA_CFLAGS everywhere
+      tests/tcg: cleanup Makefile inclusions
+      tests/tcg: move configuration to a sub-shell script
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Philippe Mathieu-Daudé (10):
+      .travis.yml: Enable multiple caching features
+      .travis.yml: Increase cache timeout from 3min to 20min
+      .travis.yml: Cache Python PIP packages
+      .travis.yml: Cache Avocado cache
+      .travis.yml: Improve ccache use
+      .travis.yml: Enable ccache on OSX
+      .travis.yml: Document how the build matrix use caches
+      .travis.yml: Cache Linux/GCC 'debug profile' jobs together
+      .travis.yml: Cache Linux/GCC 'non-debug profile' jobs together
+      .travis.yml: Cache Linux/Clang jobs together
+
+Thomas Huth (2):
+      hw/misc: Mark most objects as "common" code to speed up compilation a litte bit
+      travis.yml: Install libcap-dev for testing virito-9p
+
+ .shippable.yml                                     |   2 +
+ .travis.yml                                        |  40 +++-
+ Makefile                                           |   1 +
+ Makefile.target                                    |   3 -
+ configure                                          | 168 ++-------------
+ hw/misc/Makefile.objs                              |  90 ++++----
+ qemu-doc.texi                                      |   6 +-
+ tests/Makefile.include                             |  25 ++-
+ tests/acceptance/boot_linux_console.py             |  25 ++-
+ tests/acceptance/linux_initrd.py                   |   5 +-
+ tests/docker/Makefile.include                      |  58 +++--
+ tests/docker/common.rc                             |   4 +
+ tests/docker/docker.py                             |  51 +++--
+ tests/docker/dockerfiles/debian-alpha-cross.docker |   7 +-
+ tests/docker/dockerfiles/debian-amd64-cross.docker |  22 ++
+ tests/docker/dockerfiles/debian-arm64-cross.docker |   7 +-
+ tests/docker/dockerfiles/debian-armel-cross.docker |   3 +-
+ tests/docker/dockerfiles/debian-armhf-cross.docker |   3 +-
+ .../dockerfiles/debian-buster-arm64-cross.docker   |  16 --
+ tests/docker/dockerfiles/debian-hppa-cross.docker  |   5 +-
+ tests/docker/dockerfiles/debian-m68k-cross.docker  |   5 +-
+ tests/docker/dockerfiles/debian-mips-cross.docker  |   7 +-
+ .../docker/dockerfiles/debian-mips64-cross.docker  |   5 +-
+ .../dockerfiles/debian-mips64el-cross.docker       |   3 +-
+ .../docker/dockerfiles/debian-mipsel-cross.docker  |   2 +-
+ .../docker/dockerfiles/debian-powerpc-cross.docker |   8 +-
+ .../dockerfiles/debian-powerpc-user-cross.docker   |   8 +-
+ tests/docker/dockerfiles/debian-ppc64-cross.docker |   7 +-
+ .../docker/dockerfiles/debian-ppc64el-cross.docker |   3 +-
+ .../docker/dockerfiles/debian-riscv64-cross.docker |   5 +-
+ tests/docker/dockerfiles/debian-s390x-cross.docker |   3 +-
+ tests/docker/dockerfiles/debian-sh4-cross.docker   |   5 +-
+ tests/docker/dockerfiles/debian-sid.docker         |  24 +--
+ .../docker/dockerfiles/debian-sparc64-cross.docker |   5 +-
+ tests/docker/dockerfiles/ubuntu1804.docker         |   3 +
+ tests/docker/run                                   |   4 +-
+ tests/docker/test-build                            |   1 -
+ tests/docker/test-mingw                            |   1 -
+ tests/docker/test-quick                            |   1 -
+ tests/tcg/.gitignore                               |   5 +
+ tests/tcg/Makefile.include                         |  88 --------
+ tests/tcg/Makefile.prereqs                         |  18 ++
+ tests/tcg/Makefile.probe                           |  31 ---
+ tests/tcg/Makefile.qemu                            |  95 +++++++++
+ tests/tcg/{Makefile => Makefile.target}            |  15 +-
+ tests/tcg/aarch64/Makefile.include                 |   8 -
+ tests/tcg/aarch64/Makefile.softmmu-target          |   4 +-
+ tests/tcg/aarch64/Makefile.target                  |  12 +-
+ tests/tcg/alpha/Makefile.include                   |   2 -
+ tests/tcg/alpha/Makefile.softmmu-target            |   4 +-
+ tests/tcg/arm/Makefile.include                     |   8 -
+ tests/tcg/arm/Makefile.softmmu-target              |   6 +-
+ tests/tcg/configure.sh                             | 234 +++++++++++++++++++++
+ tests/tcg/cris/Makefile.include                    |   6 -
+ tests/tcg/hppa/Makefile.include                    |   2 -
+ tests/tcg/i386/Makefile.include                    |   9 -
+ tests/tcg/i386/Makefile.softmmu-target             |  12 +-
+ tests/tcg/i386/Makefile.target                     |  13 +-
+ tests/tcg/m68k/Makefile.include                    |   2 -
+ tests/tcg/minilib/Makefile.target                  |   2 +-
+ tests/tcg/mips/Makefile.include                    |  20 --
+ tests/tcg/ppc/Makefile.include                     |  10 -
+ tests/tcg/riscv/Makefile.include                   |  10 -
+ tests/tcg/s390x/Makefile.include                   |   2 -
+ tests/tcg/sh4/Makefile.include                     |   4 -
+ tests/tcg/sparc64/Makefile.include                 |   2 -
+ tests/tcg/x86_64/Makefile.softmmu-target           |  36 ++++
+ tests/tcg/x86_64/Makefile.target                   |   7 +-
+ tests/tcg/xtensa/Makefile.include                  |  11 -
+ tests/tcg/xtensa/Makefile.softmmu-target           |   4 +-
+ tests/vm/fedora                                    |   2 +-
+ 71 files changed, 715 insertions(+), 610 deletions(-)
+ create mode 100644 tests/docker/dockerfiles/debian-amd64-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-buster-arm64-cross.docker
+ create mode 100644 tests/tcg/.gitignore
+ delete mode 100644 tests/tcg/Makefile.include
+ create mode 100644 tests/tcg/Makefile.prereqs
+ delete mode 100644 tests/tcg/Makefile.probe
+ create mode 100644 tests/tcg/Makefile.qemu
+ rename tests/tcg/{Makefile => Makefile.target} (90%)
+ delete mode 100644 tests/tcg/aarch64/Makefile.include
+ delete mode 100644 tests/tcg/alpha/Makefile.include
+ delete mode 100644 tests/tcg/arm/Makefile.include
+ create mode 100755 tests/tcg/configure.sh
+ delete mode 100644 tests/tcg/cris/Makefile.include
+ delete mode 100644 tests/tcg/hppa/Makefile.include
+ delete mode 100644 tests/tcg/i386/Makefile.include
+ delete mode 100644 tests/tcg/m68k/Makefile.include
+ delete mode 100644 tests/tcg/mips/Makefile.include
+ delete mode 100644 tests/tcg/ppc/Makefile.include
+ delete mode 100644 tests/tcg/riscv/Makefile.include
+ delete mode 100644 tests/tcg/s390x/Makefile.include
+ delete mode 100644 tests/tcg/sh4/Makefile.include
+ delete mode 100644 tests/tcg/sparc64/Makefile.include
+ create mode 100644 tests/tcg/x86_64/Makefile.softmmu-target
+ delete mode 100644 tests/tcg/xtensa/Makefile.include
+
+--
+2.20.1
+
 
