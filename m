@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE182AEDC9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:53:18 +0200 (CEST)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CBFAEDE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 16:55:49 +0200 (CEST)
+Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7hW9-0004bf-DY
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54739)
+	id 1i7hYa-00082i-9G
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 10:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54757)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7hR8-0000IC-AZ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:07 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i7hR9-0000Ip-1s
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7hR6-0006Mm-Ry
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:05 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:39808)
+ (envelope-from <palmer@dabbelt.com>) id 1i7hR8-0006NV-2a
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:06 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43478)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hR6-0006ML-Mb
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:04 -0400
-Received: by mail-wr1-f66.google.com with SMTP id t16so20857433wra.6
- for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7hR7-0006N4-SJ
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 10:48:05 -0400
+Received: by mail-wr1-f65.google.com with SMTP id q17so16145742wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Sep 2019 07:48:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
  :mime-version:content-transfer-encoding;
- bh=SNqQ5iSCtzp/WVbo2V5ehi/imLB/wYtVNdyCk97INlY=;
- b=IL4CViR7l1uGMMfG7npP5u0TjXCWaR51a/2+1JsF0JxwuXDaF2+rn973cysEvsQKAu
- 8ZwDxwRNFEpLpiIIv8MmQAqdQnMstA16tfvKLLO3xRhUW/PmyEfamOBKRrfxnvg9q46Z
- esGgrGPwJlhALW4EboecbCKh2PgfWnkCJb8Ab7HIIPNINZJe7XcwweSjh5X8HOmlJaz/
- aMZhG3lIcggF8XdIF/jnqAU3c/a6SV3Rdwbp7Ryk8S3vQhshDdVNsFKU+2bBKvynPkYd
- h/oTqwJ+SzXBMdiCROtcfpBucLCug2b9O/be5n7Jq31L7GqNgSRXHIBxFD2sp62GLDQD
- WysQ==
-X-Gm-Message-State: APjAAAWoto4kvqGx/lDceLZnuL0DkXebLoccmdd8BdCFofI1qjAi5uiK
- kjrSfE9Z9W+14jAlX/V/JFq+OSRZE/bj8A==
-X-Google-Smtp-Source: APXvYqxOQWTiFTDBNpQ8QWTAiBllYYUNBOREQyUcxzSfN4Z7kRfiD46MIiQJEghwqFk6BlgFTSHC1w==
-X-Received: by 2002:a05:6000:152:: with SMTP id
- r18mr17461067wrx.153.1568126883156; 
- Tue, 10 Sep 2019 07:48:03 -0700 (PDT)
+ bh=9r/tsin+WnzvHfmEc7iVPUi/buDct7somnXFCcxsN4M=;
+ b=E0eKKq+C9H+NL0TCPGFKqjBp16BbBZe+cBtJbOMVMDzrMbe0LmrkppQQ6i6deuHBUe
+ xgraZNtlcvD1+2/mjKNRTkdxp0AZob2LxV4KqUeKbF/ndVSwa05L7EibMSASScnJEIVv
+ 5kyWDPvn1bNC0+p3OdUSJYtegseyYF7E0pZjza5/x9FP8ldXN7MbQrmPlWaxxLYvjHam
+ YpVC7ffXPtyYdtFRGluD0dyfMnlOscJy5CzGSf+K8tG9mg/sYn+IQWJaPOzWzbXbgoxt
+ M+W9L6kq0hp+69rHCHht/rWNT2t/hSvf/l0q6lPhOIFYwJODKwS3g9aCtAbaZxDpoD9w
+ QUAg==
+X-Gm-Message-State: APjAAAULX0K2Y/MW0rWsja/3WRTGuZru49giAEhu1mtJnzhYLrwQ6JQG
+ Jrd7tqvSR3b95vJYrvxBVTa4HYiL5Bu8zQ==
+X-Google-Smtp-Source: APXvYqx+MMVn21LPEsYVh4ZdCTqfuyQUbh76195ywvIFJ5C3yTWkYyr5hoeGjchAictUvs1bD59zqA==
+X-Received: by 2002:a5d:4ac5:: with SMTP id y5mr21240676wrs.179.1568126884538; 
+ Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
 Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id z17sm15741391wrw.23.2019.09.10.07.48.02
+ by smtp.gmail.com with ESMTPSA id a144sm5175207wme.13.2019.09.10.07.48.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 07:48:02 -0700 (PDT)
-Date: Tue, 10 Sep 2019 07:48:02 -0700 (PDT)
-X-Google-Original-Date: Tue, 10 Sep 2019 07:17:44 PDT (-0700)
-In-Reply-To: <9db2403d223b3e6d2d20086176a975dffabb175b.1566603412.git.alistair.francis@wdc.com>
+ Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
+Date: Tue, 10 Sep 2019 07:48:04 -0700 (PDT)
+X-Google-Original-Date: Tue, 10 Sep 2019 07:40:13 PDT (-0700)
+In-Reply-To: <a090bc437bf412c279b1254d05eae5c2d67225db.1566603412.git.alistair.francis@wdc.com>
 From: Palmer Dabbelt <palmer@sifive.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-6653e02a-9a32-4c17-b9dc-9375e22fe7d1@palmer-si-x1e>
+Message-ID: <mhng-afa69c9b-17b7-4043-b204-512c92cf618a@palmer-si-x1e>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v1 03/28] target/riscv: Add the force HS
- exception mode
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH v1 04/28] target/riscv: Fix CSR perm
+ checking for HS mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,80 +73,59 @@ Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Aug 2019 16:37:57 PDT (-0700), Alistair Francis wrote:
+On Fri, 23 Aug 2019 16:38:00 PDT (-0700), Alistair Francis wrote:
+> Update the CSR permission checking to work correctly when we are in
+> HS-mode.
+>
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-
-There's really no description of what this does, either in the commit message
-or as a comment.
-
 > ---
->  target/riscv/cpu.h        |  2 ++
->  target/riscv/cpu_bits.h   |  6 ++++++
->  target/riscv/cpu_helper.c | 23 +++++++++++++++++++++++
->  3 files changed, 31 insertions(+)
+>  target/riscv/csr.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 >
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0ef1ecb0e0..3a95c41428 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -261,6 +261,8 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
->  bool riscv_cpu_fp_enabled(CPURISCVState *env);
->  bool riscv_cpu_virt_enabled(CPURISCVState *env);
->  void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
-> +bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
-> +void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
->  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
->  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 1fbde516be..204d9d9a79 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -428,6 +428,12 @@
->  #define VIRT_MODE_SHIFT     0
->  #define VIRT_MODE_MASK      (1 << VIRT_MODE_SHIFT)
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index f767ad24be..471f23a1d0 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -799,9 +799,15 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
 >
-> +/* HS-level exception modes */
-> +#define CLEAR_HS_EXCEP        0
-> +#define FORCE_HS_EXCEP        1
-> +#define FORCE_HS_EXCEP_SHIFT  1
-> +#define FORCE_HS_EXCEP_MASK   (1 << FORCE_HS_EXCEP_SHIFT)
+>      /* check privileges and return -1 if check fails */
+>  #if !defined(CONFIG_USER_ONLY)
+> -    int csr_priv = get_field(csrno, 0x300);
+> +    int csr_priv = env->priv;
+
+This isn't really "csr_priv" (ie, the priv needed to access the CSR) any more, 
+it's really the effective priv of the machine.  Leaving the variable with the 
+same name makes this hard to read, but I think it is correct.
+
+>      int read_only = get_field(csrno, 0xC00) == 3;
+> -    if ((write_mask && read_only) || (env->priv < csr_priv)) {
 > +
->  /* RV32 satp CSR field masks */
->  #define SATP32_MODE         0x80000000
->  #define SATP32_ASID         0x7fc00000
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 7b0bb14c01..5bcfc2e090 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -104,6 +104,29 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
->      env->virt |= enable << VIRT_MODE_SHIFT;
->  }
->
-> +bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
-> +{
-> +    bool tmp;
-> +
-> +    if (!riscv_has_ext(env, RVH)) {
-> +        return false;
+> +    if (riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
+> +        /* Plus 1 as we are in HS mode */
+
+The comment is useless, it doesn't say why we increment it.  Also, I don't 
+think this is correct: doesn't it allow U mode to access S CSRs when H is 
+present and V is disabled?
+
+Something like
+
+    riscv_effective_priv(CPURISCVState *env)
+    {
+        if (riscv_has_ext(env, RVH) && env->priv == PRIV_S && !riscv_cpu_virt_enabled(env)) {
+            return PRIV_HS;
+        }
+    
+        return env->priv;
+    }
+
+would probably be used in a handful of places, and would be a drop in for
+env->priv here.
+
+> +        csr_priv++;
 > +    }
 > +
-> +    tmp = (env->virt & FORCE_HS_EXCEP_MASK) >> FORCE_HS_EXCEP_SHIFT;
-> +
-> +    return tmp == FORCE_HS_EXCEP;
-> +}
-> +
-> +void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable)
-> +{
-> +    if (!riscv_has_ext(env, RVH)) {
-> +        return;
-> +    }
-> +
-> +    env->virt &= ~FORCE_HS_EXCEP_MASK;
-> +    env->virt |= enable << FORCE_HS_EXCEP_SHIFT;
-> +}
-> +
->  int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
->  {
->      CPURISCVState *env = &cpu->env;
+> +    if ((write_mask && read_only) || (csr_priv < get_field(csrno, 0x300))) {
+>          return -1;
+>      }
+>  #endif
 
