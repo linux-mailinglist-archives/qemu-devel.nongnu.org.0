@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D7FAEFF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:51:15 +0200 (CEST)
-Received: from localhost ([::1]:43385 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45534AEFFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Sep 2019 18:53:01 +0200 (CEST)
+Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7jMH-0003Qg-OV
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:51:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53205)
+	id 1i7jO0-00062d-B1
+	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 12:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7j7v-0004d0-TD
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:24 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7j7y-0004hq-UF
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7j7u-00027R-SS
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:23 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:57281)
+ (envelope-from <laurent@vivier.eu>) id 1i7j7x-0002AS-LF
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:56731)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7u-00026W-Jp
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:22 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7j7x-00029l-CL
+ for qemu-devel@nongnu.org; Tue, 10 Sep 2019 12:36:25 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MUGyh-1hgTKD29YJ-00REic; Tue, 10 Sep 2019 18:36:10 +0200
+ id 1M8QiW-1i3JGt2lYe-004XCH; Tue, 10 Sep 2019 18:36:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue, 10 Sep 2019 18:35:48 +0200
-Message-Id: <20190910163600.19971-4-laurent@vivier.eu>
+Date: Tue, 10 Sep 2019 18:35:50 +0200
+Message-Id: <20190910163600.19971-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190910163600.19971-1-laurent@vivier.eu>
 References: <20190910163600.19971-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TqnRmrny+VBJejcU8FarPvdXfnkbn9J5m5FZ5Ps8QM7oDgWSZ1r
- EqqE+cm1aOuZgoN5M1avIfIROAjj32cXAbiNWCnY2xV24IlzrLDk1F4tqKzHOzO+s1tdFsM
- UdN5i2CKJlWGhp49nV967Q8f/otyLIhYete8FWhkE5RrHQqp7eHfyhH4TKouy4ntucqfBZ4
- B50YzjbnVeUHnxtWYtz/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MkD7WgbsN68=:pT8d67nKJEn6QZI/RIPICO
- V7UFxYPUaB7fEAa+wAX++bGkqC7Vt1H4/hofP3MRvjcKf+D/fCzOkKGa3ugDkA4mWYYSrgmVn
- CocA6nqMNhJJpXr4XXxAGsQYV6oR7rUyfjEFj29hYLJN5jhjC+PNoz5MNT8XXUbdXV2TL7OJQ
- ciWE9jltG+IZmgrKl6QxpJzf9EgQH2DfEalWpF2rtHwm5ZIRcWKVNnpZCYnAv6oRIkLMIkqsb
- 9VbOvpKM0otkmL900Z0FH+mTM1oXDtSM2Tq2+Woy0DuBG1CfbdOABKTVMWs4XIZfEOuAg4jve
- 1weIcaYnvVYLS80gHRxD4PoBnYJ0IAAe1v3LiBu8hf5oalFvY5MAruBytLj8mKT/CvPackLlr
- FoxXoJPJ6nL2SgZAu22ery9RoTz3a2T412WV4M8Owf2IMKVp6t3JSAwXMEQoINY9hUmC7huXq
- gTamPsaSHxt7CBTcMU6LWPLTJ5P2nMTKmoDQmN4CjsiuxCyOtK5Kox/pKh+OD8llY+m+BXrkC
- loy1z/wUGrM9WV21mN5+clZxWF8O9GJ2N2sxUOag7Z4wDxcC6r8olnMBUhUmfOpIeiZ4xcYh7
- 8WWimXeFoFUaWjHBysKPCnLIS7QN7MOfYeV6jG9rfaYQolsktJZq/P6fvXG+/eGfej5kGQNaj
- Knax3RM4mQmp6xIlvIElHqFNklBbvMhspB37urpWtEco2w16XyWZnsgHu6VF0Jxo4MILN4itk
- mNG3YTWZp9tmYnHR76NWrazWYh+MUY5epNVHeOZKf1Q5il9r11el2RKTGs1/2JnR8/bWLO0UE
- C2dnpEWFQZ9TqxTz2KZaO4Ps2aDpP6hW11FPi6YifofnHlHfz4=
+X-Provags-ID: V03:K1:4eKavIKS2mpYouw47awiX+VDUg4EsMju00X+tqbb4u0JwD6/WKZ
+ kIanhMxOPY/qtkWvLq90yrR/Vn2u0Mjn3v024oOp4lwRatPznFIuiRYjgLgN3DgCDProIvv
+ jaMZtPudnmRjmNZTfBxSbigI+btK7RDg044bwCDpsDypxpy/1cRaeFY5pJeEARRF+g3n7Yx
+ zZcMFjRe1ZWWwU/hLXVXg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sQA5gutfdQA=:vhQhw5nNhmKq3ShLhRSrgA
+ 7vWJ5W7m2cJgQAlcTDPstRkdP59Efu5qooK5eY5cEeGumoBdT/R7i5RKmcw2nyoyKgWqKsB1v
+ UgUwK0XI3+ID/3ZdqOnNhG4Jlj3lDyRxlK2DKhCpcShm4gCREZ/AwZWCWNnzF5lZvnFBptsHN
+ iCltmwLWSBufjc9mUQ4FM/lWIEeeDFeB3U/1HKteRpEGcUAsrb3eeHcTVKlZPmiIu3PboRv45
+ St/3PI3FxI8BmrbV4e1Rp070vDbcFtsXscdKB+I4y3nwmNafFR8Jk/pSi+WD8xSzRtRQCDmLP
+ 0o8SNv5B78bRzFB1vFs+xOb4vFgveYFa0Xpd5dOU5a0o8DK9M78LmqN7LGjBmzX9/RWobsgFj
+ Hr8YFmUlf5QmVrD96tflGgtzEbIjr8BWjMfJ5DSIT4sIBS5DinxVIStnjtddRwoayxZ8vizzN
+ 0kD48lGq8n7ndig25tQhu5SpNPb5592uIkO8lu2h8oAXjzqOMUlc4UuKAEP1hv7P5ADw41lfO
+ 8W90OKFGCpkRedKgnjEhJyn/9mzTFkIOOBA6EE9T+7gpqSoY859mrA5g7pT7M1mkL0Nyvsyup
+ JZwXgGS4SsTPYJnjVa5ISfwy3dAsT4Uz2ekH4UsDJRqEWablo6blWO8YOJ6lCq9k0VUofyyJq
+ JQaV1hVrjNyfShed9HrrQA2ezcpR1PuWP2IkuaXEsHSwTGQZdpzEkqh08b0hTj2OZKxqCj2wF
+ iy59qANbTUZZTVx8mkEdQd2WGoYwYcK5ERc15EX4n3Je5fJZWIhHqNMcYM98z71J+aeO+poVl
+ 8Y6dV9qItEP2QO2okolbaWJpFJjNYqqKffhnbqV5jg9eVp0Ao8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
-Subject: [Qemu-devel] [PULL 03/15] linux-user: erroneous fd_trans_unregister
- call
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PULL 05/15] linux-user: add memfd_create
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,29 +70,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
 
-timer_getoverrun returns the "overrun count" for the timer, which is not
-a file descriptor and thus should not call fd_trans_unregister on it.
+Add support for the memfd_create syscall. If the host does not have the
+libc wrapper, translate to a direct syscall with NC-macro.
 
+Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
 Signed-off-by: Shu-Chun Weng <scw@google.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20190819185348.221825-1-scw@google.com>
+Message-Id: <20190819180947.180725-1-scw@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/qemu/memfd.h |  4 ++++
+ linux-user/syscall.c | 12 ++++++++++++
+ util/memfd.c         |  2 +-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
+diff --git a/include/qemu/memfd.h b/include/qemu/memfd.h
+index d551c28b6850..975b6bdb7797 100644
+--- a/include/qemu/memfd.h
++++ b/include/qemu/memfd.h
+@@ -32,6 +32,10 @@
+ #define MFD_HUGE_SHIFT 26
+ #endif
+ 
++#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
++int memfd_create(const char *name, unsigned int flags);
++#endif
++
+ int qemu_memfd_create(const char *name, size_t size, bool hugetlb,
+                       uint64_t hugetlbsize, unsigned int seals, Error **errp);
+ bool qemu_memfd_alloc_check(void);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8b41a03901d4..b42f59a32c8d 100644
+index b42f59a32c8d..6928f654ced3 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -11847,7 +11847,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             timer_t htimer = g_posix_timers[timerid];
-             ret = get_errno(timer_getoverrun(htimer));
-         }
--        fd_trans_unregister(ret);
-         return ret;
-     }
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
+ #include "qemu/path.h"
++#include "qemu/memfd.h"
+ #include "qemu/queue.h"
+ #include <elf.h>
+ #include <endian.h>
+@@ -11938,6 +11939,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         /* PowerPC specific.  */
+         return do_swapcontext(cpu_env, arg1, arg2, arg3);
  #endif
++#ifdef TARGET_NR_memfd_create
++    case TARGET_NR_memfd_create:
++        p = lock_user_string(arg1);
++        if (!p) {
++            return -TARGET_EFAULT;
++        }
++        ret = get_errno(memfd_create(p, arg2));
++        fd_trans_unregister(ret);
++        unlock_user(p, arg1, 0);
++        return ret;
++#endif
+ 
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+diff --git a/util/memfd.c b/util/memfd.c
+index 00334e5b218f..4a3c07e0bee6 100644
+--- a/util/memfd.c
++++ b/util/memfd.c
+@@ -35,7 +35,7 @@
+ #include <sys/syscall.h>
+ #include <asm/unistd.h>
+ 
+-static int memfd_create(const char *name, unsigned int flags)
++int memfd_create(const char *name, unsigned int flags)
+ {
+ #ifdef __NR_memfd_create
+     return syscall(__NR_memfd_create, name, flags);
 -- 
 2.21.0
 
