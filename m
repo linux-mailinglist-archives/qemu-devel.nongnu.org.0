@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515A5B00A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:55:40 +0200 (CEST)
-Received: from localhost ([::1]:52934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4AAB0099
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:55:05 +0200 (CEST)
+Received: from localhost ([::1]:52928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84y3-00059o-8P
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:55:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
+	id 1i84xU-0004Xn-8x
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:55:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1i84uK-0002HN-8g
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:51:49 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1i84uP-0002Jp-Rl
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:51:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1i84uI-00037e-Pc
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:51:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50088)
+ (envelope-from <eric.auger@redhat.com>) id 1i84uO-00039P-No
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:51:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55328)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1i84uE-00035N-3z; Wed, 11 Sep 2019 11:51:42 -0400
+ id 1i84uJ-00036x-A1; Wed, 11 Sep 2019 11:51:48 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6DA4B10CC1F1;
- Wed, 11 Sep 2019 15:51:41 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8477310F23E0;
+ Wed, 11 Sep 2019 15:51:44 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-168.ams2.redhat.com [10.36.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1304E60872;
- Wed, 11 Sep 2019 15:51:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF5B060852;
+ Wed, 11 Sep 2019 15:51:41 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Wed, 11 Sep 2019 17:51:24 +0200
-Message-Id: <20190911155125.11932-3-eric.auger@redhat.com>
+Date: Wed, 11 Sep 2019 17:51:25 +0200
+Message-Id: <20190911155125.11932-4-eric.auger@redhat.com>
 In-Reply-To: <20190911155125.11932-1-eric.auger@redhat.com>
 References: <20190911155125.11932-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Wed, 11 Sep 2019 15:51:41 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Wed, 11 Sep 2019 15:51:44 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v2 2/3] intc/arm_gic: Support IRQ injection for
- more than 256 vpus
+Subject: [Qemu-devel] [RFC v2 3/3] virt: Check KVM_CAP_ARM_IRQ_LINE_LAYOUT_2
+ for smp_cpus > 256
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,134 +60,106 @@ Cc: yuzenghui@huawei.com, maz@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Host kernels that expose the KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 capability
-allow injection of interrupts along with vcpu ids larger than 255.
-Let's encode the vpcu id on 12 bits according to the upgraded KVM_IRQ_LIN=
-E
-ABI when needed.
+Host kernel within [4.18, 5.3] report an erroneous KVM_MAX_VCPUS=3D512
+for ARM. The actual capability to instantiate more than 256 vcpus
+was fixed in 5.4 with the upgrade of the KVM_IRQ_LINE ABI to support
+vcpu id encoded on 12 bits instead of 8 and a redistributor consuming
+a single KVM IO device instead of 2.
 
-Given that we have two callsites that need to assemble
-the value for kvm_set_irq(), a new helper routine, kvm_arm_set_irq
-is introduced.
-
-Without that patch qemu exits with "kvm_set_irq: Invalid argument"
-message.
+So let's check this capability when attempting to use more than 256
+vcpus.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reported-by: Zenghui Yu <yuzenghui@huawei.com>
 ---
- hw/intc/arm_gic_kvm.c |  7 ++-----
- target/arm/cpu.c      | 10 ++++------
- target/arm/kvm.c      | 16 ++++++++++++++++
- target/arm/kvm_arm.h  |  1 +
- 4 files changed, 23 insertions(+), 11 deletions(-)
+ hw/arm/virt.c        |  4 ++++
+ target/arm/kvm.c     | 21 +++++++++++++++++++++
+ target/arm/kvm_arm.h | 15 +++++++++++++++
+ 3 files changed, 40 insertions(+)
 
-diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
-index b56fda144f..9deb15e7e6 100644
---- a/hw/intc/arm_gic_kvm.c
-+++ b/hw/intc/arm_gic_kvm.c
-@@ -55,7 +55,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, int=
- level)
-      * has separate fields in the irq number for type,
-      * CPU number and interrupt number.
-      */
--    int kvm_irq, irqtype, cpu;
-+    int irqtype, cpu;
-=20
-     if (irq < (num_irq - GIC_INTERNAL)) {
-         /* External interrupt. The kernel numbers these like the GIC
-@@ -72,10 +72,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, in=
-t level)
-         cpu =3D irq / GIC_INTERNAL;
-         irq %=3D GIC_INTERNAL;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 0d1629ccb3..465e3140f7 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1575,6 +1575,10 @@ static void machvirt_init(MachineState *machine)
+         virt_max_cpus =3D GIC_NCPU;
      }
--    kvm_irq =3D (irqtype << KVM_ARM_IRQ_TYPE_SHIFT)
--        | (cpu << KVM_ARM_IRQ_VCPU_SHIFT) | irq;
--
--    kvm_set_irq(kvm_state, kvm_irq, !!level);
-+    kvm_arm_set_irq(cpu, irqtype, irq, !!level);
- }
 =20
- static void kvm_arm_gicv2_set_irq(void *opaque, int irq, int level)
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2399c14471..13813fb213 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -576,16 +576,16 @@ static void arm_cpu_kvm_set_irq(void *opaque, int i=
-rq, int level)
-     ARMCPU *cpu =3D opaque;
-     CPUARMState *env =3D &cpu->env;
-     CPUState *cs =3D CPU(cpu);
--    int kvm_irq =3D KVM_ARM_IRQ_TYPE_CPU << KVM_ARM_IRQ_TYPE_SHIFT;
-     uint32_t linestate_bit;
-+    int irq_id;
-=20
-     switch (irq) {
-     case ARM_CPU_IRQ:
--        kvm_irq |=3D KVM_ARM_IRQ_CPU_IRQ;
-+        irq_id =3D KVM_ARM_IRQ_CPU_IRQ;
-         linestate_bit =3D CPU_INTERRUPT_HARD;
-         break;
-     case ARM_CPU_FIQ:
--        kvm_irq |=3D KVM_ARM_IRQ_CPU_FIQ;
-+        irq_id =3D KVM_ARM_IRQ_CPU_FIQ;
-         linestate_bit =3D CPU_INTERRUPT_FIQ;
-         break;
-     default:
-@@ -597,9 +597,7 @@ static void arm_cpu_kvm_set_irq(void *opaque, int irq=
-, int level)
-     } else {
-         env->irq_line_state &=3D ~linestate_bit;
-     }
--
--    kvm_irq |=3D cs->cpu_index << KVM_ARM_IRQ_VCPU_SHIFT;
--    kvm_set_irq(kvm_state, kvm_irq, level ? 1 : 0);
-+    kvm_arm_set_irq(cs->cpu_index, KVM_ARM_IRQ_TYPE_CPU, irq_id, !!level=
-);
- #endif
- }
-=20
++    if (kvm_arm_irq_line_layout_mismatch(MACHINE(vms), max_cpus)) {
++        exit(1);
++    }
++
+     if (max_cpus > virt_max_cpus) {
+         error_report("Number of SMP CPUs requested (%d) exceeds max CPUs=
+ "
+                      "supported by machine 'mach-virt' (%d)",
 diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index b2eaa50b8d..6cdfa2204f 100644
+index 6cdfa2204f..b601e2f35a 100644
 --- a/target/arm/kvm.c
 +++ b/target/arm/kvm.c
-@@ -744,6 +744,22 @@ int kvm_arm_vgic_probe(void)
-     }
+@@ -171,6 +171,27 @@ bool kvm_arm_pmu_supported(CPUState *cpu)
+     return kvm_check_extension(s, KVM_CAP_ARM_PMU_V3);
  }
 =20
-+int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level)
++bool kvm_arm_irq_line_layout_mismatch(MachineState *ms, int vcpus)
 +{
-+    int kvm_irq =3D 0;
++    KVMState *s;
++    bool ret;
 +
-+    kvm_irq =3D (irqtype << KVM_ARM_IRQ_TYPE_SHIFT) | irq;
-+
-+    if (cpu !=3D 0) {
-+        int cpu_idx2 =3D cpu / 256;
-+        int cpu_idx1 =3D cpu % 256;
-+
-+        kvm_irq |=3D (cpu_idx1 << KVM_ARM_IRQ_VCPU_SHIFT) |
-+           ((cpu_idx2 & KVM_ARM_IRQ_VCPU2_MASK) << KVM_ARM_IRQ_VCPU2_SHI=
-FT);
++    if (!kvm_enabled()) {
++        return false;
 +    }
-+    return kvm_set_irq(kvm_state, kvm_irq, !!level);
++
++    s =3D KVM_STATE(ms->accelerator);
++
++    ret =3D vcpus > 256 &&
++          !kvm_check_extension(s, KVM_CAP_ARM_IRQ_LINE_LAYOUT_2);
++
++    if (ret) {
++        error_report("Using more than 256 vcpus requires a host kernel "
++                     "with KVM_CAP_ARM_IRQ_LINE_LAYOUT_2");
++    }
++    return ret;
 +}
 +
- int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
-                              uint64_t address, uint32_t data, PCIDevice =
-*dev)
+ int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
  {
+     KVMState *s =3D KVM_STATE(ms->accelerator);
 diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index b3106c8600..b4e19457a0 100644
+index b4e19457a0..d893d950d8 100644
 --- a/target/arm/kvm_arm.h
 +++ b/target/arm/kvm_arm.h
-@@ -253,6 +253,7 @@ int kvm_arm_vgic_probe(void);
+@@ -233,6 +233,16 @@ bool kvm_arm_pmu_supported(CPUState *cs);
+  */
+ int kvm_arm_get_max_vm_ipa_size(MachineState *ms);
 =20
- void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
- void kvm_arm_pmu_init(CPUState *cs);
-+int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
++/**
++ * kvm_arm_irq_line_layout_mismatch - Returns whether the number of vcpu=
+s
++ * exceeds the limit imposed by the legacy KVM_IRQ_LINE ARM layout
++ * (without the vcpu2_index field).
++ *
++ * @ms: Machine state handle
++ * @vcpus: number of vcpus
++ */
++bool kvm_arm_irq_line_layout_mismatch(MachineState *ms, int vcpus);
++
+ /**
+  * kvm_arm_sync_mpstate_to_kvm
+  * @cpu: ARMCPU
+@@ -281,6 +291,11 @@ static inline int kvm_arm_get_max_vm_ipa_size(Machin=
+eState *ms)
+     return -ENOENT;
+ }
 =20
- #else
-=20
++static inline bool kvm_arm_irq_line_layout_mismatch(MachineState *ms, in=
+t vcpus)
++{
++    return false;
++}
++
+ static inline int kvm_arm_vgic_probe(void)
+ {
+     return 0;
 --=20
 2.20.1
 
