@@ -2,50 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD02AF8BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:20:36 +0200 (CEST)
-Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC73AF8CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:22:54 +0200 (CEST)
+Received: from localhost ([::1]:48748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yni-0003YI-O3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:20:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
+	id 1i7ypw-00070Y-VC
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1i7yM1-0003zV-L9
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:51:58 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i7yYd-0002Qv-Nb
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:05:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1i7yM0-0005tW-KX
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:51:57 -0400
-Received: from mga11.intel.com ([192.55.52.93]:49882)
+ (envelope-from <anthony.perard@citrix.com>) id 1i7yYc-0002pO-Hv
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:04:59 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:44370)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1i7yM0-0005qf-Ci
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:51:56 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2019 01:51:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="189612866"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga006.jf.intel.com with ESMTP; 11 Sep 2019 01:51:47 -0700
-Date: Wed, 11 Sep 2019 16:51:27 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190911085127.GA3910@richard>
-References: <20190801004053.7021-1-richardw.yang@linux.intel.com>
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1i7yYc-0002k7-9S
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:04:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1568192698;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5sbN3TEEay/RoYhYb2OignsfGcfyMckBkDNAdIZGzCQ=;
+ b=Yw6xq+uudwfsbXJlg5W46Jctt8j+8rCIEaqb0pLas/kBxc01gWemB1sC
+ 16TAUf26tpbhyG4DHBkNqwFpUrzEsUuq12GuUaTxoQ1mTzfyT1m6eqa0i
+ KDnvGu7acLQq3CdUk+Hv1h3KG5lu5szr9QV5f1YCirA8/VN2802/5Sp/p s=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa5.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: pD/GeX/iOziE3cVDhqMlAKUQ9MN8NEPeibEMXMW2Yu8qLJzYwxPukkFSuf/cP6aXPKKldejt4W
+ gWhukrvSw6jo9WEzUeDlxSwbh9S+eVjU9iylC84n2alL9zO/pNZX9PGGCevNANamEMtwriFgeu
+ /qYkd5ezRX/Fcvq67frz7swvNYgKFbnKCchrhP6bbjHDv12MxF5dfsUvIGlLpP9Ape0+ESvFpH
+ wXBp++FBUWVrqdBm17ugMFZZVACpumWN93tsRJqCVSlhZfHLMXLMQqY+Hnk5id7StQ6Vr7atxB
+ rJI=
+X-SBRS: 2.7
+X-MesageID: 5611795
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.64,492,1559534400"; 
+   d="scan'208";a="5611795"
+Date: Wed, 11 Sep 2019 10:04:51 +0100
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: Paul Durrant <paul.durrant@citrix.com>
+Message-ID: <20190911090451.GA1308@perard.uk.xensource.com>
+References: <20190910171753.3775-1-paul.durrant@citrix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20190801004053.7021-1-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
-Subject: Re: [Qemu-devel] [PATCH v2] docs/nvdimm: add example on persistent
- backend setup
+In-Reply-To: <20190910171753.3775-1-paul.durrant@citrix.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.155.168
+Subject: Re: [Qemu-devel] [PATCH] xen-bus: check whether the frontend is
+ active during device reset...
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,31 +96,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: pagupta@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, xiaoguangrong.eric@gmail.com
+Cc: Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 01, 2019 at 08:40:53AM +0800, Wei Yang wrote:
->Persistent backend setup requires some knowledge about nvdimm and ndctl
->tool. Some users report they may struggle to gather these knowledge and
->have difficulty to setup it properly.
->
->Here we provide two examples for persistent backend and gives the link
->to ndctl. By doing so, user could try it directly and do more
->investigation on persistent backend setup with ndctl.
->
->Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->Reviewed-by: Pankaj Gupta <pagupta@redhat.com>
->
+On Tue, Sep 10, 2019 at 06:17:53PM +0100, Paul Durrant wrote:
+> ...not the backend
+> 
+> Commit cb323146 "xen-bus: Fix backend state transition on device reset"
+> contained a subtle mistake. The hunk
+> 
+> @@ -539,11 +556,11 @@ static void xen_device_backend_changed(void *opaque)
+> 
+>      /*
+>       * If the toolstack (or unplug request callback) has set the backend
+> -     * state to Closing, but there is no active frontend (i.e. the
+> -     * state is not Connected) then set the backend state to Closed.
+> +     * state to Closing, but there is no active frontend then set the
+> +     * backend state to Closed.
+>       */
+>      if (xendev->backend_state == XenbusStateClosing &&
+> -        xendev->frontend_state != XenbusStateConnected) {
+> +        !xen_device_state_is_active(state)) {
+>          xen_device_backend_set_state(xendev, XenbusStateClosed);
+>      }
+> 
+> mistakenly replaced the check of 'xendev->frontend_state' with a check
+> (now in a helper function) of 'state', which actually equates to
+> 'xendev->backend_state'.
+> 
+> This patch fixes the mistake.
+> 
+> Fixes: cb3231460747552d70af9d546dc53d8195bcb796
+> Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
 
-Would someone pick up this one?
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 
-Thanks ~
-
+Thanks,
 
 -- 
-Wei Yang
-Help you, Help me
+Anthony PERARD
 
