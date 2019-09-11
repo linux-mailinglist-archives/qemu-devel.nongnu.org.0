@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A16AF638
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 08:57:49 +0200 (CEST)
-Received: from localhost ([::1]:47076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52D3AF63B
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 08:58:53 +0200 (CEST)
+Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wZX-0005xc-Rd
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 02:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40863)
+	id 1i7waa-0007Le-CW
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 02:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40859)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7wRh-00065N-Qv
+ (envelope-from <laurent@vivier.eu>) id 1i7wRh-00064l-Dc
  for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7wRg-0004Oi-EN
+ (envelope-from <laurent@vivier.eu>) id 1i7wRf-0004O7-R7
  for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:36063)
+Received: from mout.kundenserver.de ([212.227.126.187]:58579)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRg-0004Nl-4x
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:40 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRf-0004NP-Ho
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:39 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N2Dks-1iG9aT46rW-013eFZ; Wed, 11 Sep 2019 08:49:28 +0200
+ id 1Mfpf7-1iaeTz1CQb-00gHwg; Wed, 11 Sep 2019 08:49:30 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 08:49:10 +0200
-Message-Id: <20190911064920.1718-6-laurent@vivier.eu>
+Date: Wed, 11 Sep 2019 08:49:14 +0200
+Message-Id: <20190911064920.1718-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190911064920.1718-1-laurent@vivier.eu>
 References: <20190911064920.1718-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:n84p1J/+NgbBL4KSeiMwKyNItfyANhcsb9q3qPhMAKibBDdeeSg
- FFvSDv7PkbsYxJvRQSSxh9e6wtB/oaNseFyK/udsBEnnxgocSQca4O4stzjmY0in9Cjzahz
- +bo2iGmgPXbEwqX8WTr6//vuiDBXw0y0ZH5tL3IRAQfJ7iYm2n9er6LizgPFx6rxt+rKXLX
- sYSomXedZJ/6aRxlJFC9Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yssrlqachBQ=:ltXFK8C9bj8fp1aKPUSQBa
- QH2SHBZx90B7ePIis0RITZY9KyjZpSKjGjetRyARigM0ZG2ILJJDw5f1NI0czKzrW5geEA/wT
- m+YXokh0i/sA31NxKbxljjnCtPsogvuXvLQx3BLcTqV3hQgctOO4PNLcWr/QI2tRR9dsvsDYT
- YRbh2N9//aNNh7qbOHTRxLNxdwEgI9tjVwGiqbV9xsBgFjdna6+jPmqrEBctLhfo6Y4/2LWdx
- 1UKGd0qCLBuXJkdoiZa7e76pHuPODKSfl8EbLI7VpEud1OHdXlt0rbfhCLdzDRuCiW4554FGz
- KHRZY3ZbHjYhN65t2Ju3cG84794AgVZtiHN+M23Zz3ix41WqVwJHZ9KmSKJsUgEB4btcPoX2N
- aYWB9zKeqlVcWLPmweXL5htdTu4vDBXP2zuRAiCbmE2K9kwvIij/NWPcSG8glsjGbwylKrKVG
- LYk2Nn4s9rXFfW2iwmzWbRf7FaOdI6BpvmX31lrBQX6ybMnVEoVaiyxesGbwZsLTjiS90E9OR
- BBSSX/kr8VjDCqG7hvhWjq7iMNX64BmZ0q6NzjvtOUmfyW4WCX7W08DnVT9Tno+RpNAOuKp4i
- 65euaRFmCNzHw1Qarj1Yzm/swHE50tBu828Xne/njspoJ9MA5YtNalG7lq488Jv81aXymXCbU
- XnKubxofs4aBnam35sHGriU1SaJMt47QggEFTogRrV7loRK1JN4UnybyFwZajePi0phLoicsC
- 25/8f3O2uwz9s5Dv2pN/KijH/meLKIwRvIZSJq2HDro8fmSOqYmy3TbVkGDrLWz/ZmmV9Wv/J
- 2XykyZt8X4azkRAD7qKHShLI/Jm7NwaNGnF9OB0hpgtU49UEoI=
+X-Provags-ID: V03:K1:LnM+/PclvjTfbuUkA144zj60DLByuO/n4wuW+SnFLw1/dPskucT
+ lNgS1WFJdJUT1rZIZCzhuHHagE0aeYLhsVisDpxas/J4hPK2M3KhgTBXu3WGNAdgAhPkHs4
+ Ga1CvLwWVvsN0AkZJD8KUuZOdNrD0fki0XIOGpNEiN8WS4F49vFl0A8GzEjn7m4szQNtVo8
+ q9eN2XWqhkpZrLr9GKB7w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yGY4M75zvd0=:Nkj/MjvErwfFVrXx9X8Ko5
+ gLXUxgkwqxJx1O+HYyNxKQT62jGNzMuQ5L7tVKpXnHYSZ0+gtuyX6FDYztBz2OnKE/wTznatY
+ bQr5vjkWnaaef0u6z/yYse9wqGwB/95+p5kWTuxLc7kK8Rzl4Ee4s/7kunO8lytB50DaGUCoa
+ ClAnFzbDkbnXN+RMILMrZvmuDu0HF0sODTb4ja5roajqBmHZNL/L6ZJyiY/hJRiBpFsmCu3xO
+ 1CSc1hzjj/wcTqFO3OxlHyXBxS0FxkJ3FM9VYXIxdoTP9KdLNfWmz0RXzR8nrjvmEXAWbkKC+
+ CvJbJ/Iw7G+iFlz8mK3O0kKX/+PJd7NwMeWDKKT5Abt0QjhI9ouIUcyhT/oTrvL4FAXQfD5ZB
+ +zleJseX2kYkjni9luUucOqmfd9sLAGijyYNjxT2RmggEPBk5TtGQ3+XtVqvUWaBQJv28X68A
+ 2XAdAp0C6lYw+wIXpKi59JwzTALNlU9oazRpyLR+2ZqENecFOZGuXjo2lGyDAXjOW1dIpgwlE
+ l1Eg2q5oU164l1784TPj4NGyHlaWqgd7vHfUV3kCotwfvVYsqKqH8yvB85Dzl4f7GkYdUGDZx
+ m0P5NVt8SL4sxfomw/QsDBHec9+p1VJQxesFa81fSTftIhHx+8irpyeL/D4vhFs9D4WtA0t8i
+ FPoLY534yDUVnOpgCQshQ5UhOwIgx6j/rC5lyMzDkXMO+nTh5wPxQlAKv79oYdcejNGXXReB/
+ ni+jhgHlgYyqzAZVM/16iNVoxXWQ8s8meSqHHkGAyYcuW1bwbhJaMnXNZWJc00Msr8920/CdK
+ cvBXhdVFh0Bum/2RtAuzHdQEJ0jXMAD3p1OC7N8ReUMOGOW0Ow=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.187
-Subject: [Qemu-devel] [PULL v2 05/15] linux-user: add memfd_create
+Subject: [Qemu-devel] [PULL v2 09/15] target/xtensa: linux-user: add call0
+ ABI support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,84 +65,167 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shu-Chun Weng <scw@google.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
 
-Add support for the memfd_create syscall. If the host does not have the
-libc wrapper, translate to a direct syscall with NC-macro.
+Xtensa binaries built for call0 ABI don't rotate register window on
+function calls and returns. Invocation of signal handlers from the
+kernel is therefore different in windowed and call0 ABIs.
+There's currently no way to determine xtensa ELF binary ABI from the
+binary itself. Add handler for the -xtensa-abi-call0 command line
+parameter/QEMU_XTENSA_ABI_CALL0 envitonment variable to the qemu-user
+and record ABI choice. Use it to initialize PS.WOE in xtensa_cpu_reset.
+Check PS.WOE in setup_rt_frame to determine how a signal should be
+delivered.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
-Signed-off-by: Shu-Chun Weng <scw@google.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20190819180947.180725-1-scw@google.com>
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+Message-Id: <20190906165713.5558-1-jcmvbkbc@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/qemu/memfd.h |  4 ++++
- linux-user/syscall.c | 12 ++++++++++++
- util/memfd.c         |  2 +-
- 3 files changed, 17 insertions(+), 1 deletion(-)
+ linux-user/main.c          | 11 +++++++++++
+ linux-user/xtensa/signal.c | 25 +++++++++++++++++--------
+ target/xtensa/cpu.c        | 24 ++++++++++++++++++++----
+ target/xtensa/cpu.h        |  3 +++
+ 4 files changed, 51 insertions(+), 12 deletions(-)
 
-diff --git a/include/qemu/memfd.h b/include/qemu/memfd.h
-index d551c28b6850..975b6bdb7797 100644
---- a/include/qemu/memfd.h
-+++ b/include/qemu/memfd.h
-@@ -32,6 +32,10 @@
- #define MFD_HUGE_SHIFT 26
- #endif
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 24cb24f0bf8f..27d9a87bc83d 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -391,6 +391,13 @@ static void handle_arg_trace(const char *arg)
+     trace_file = trace_opt_parse(arg);
+ }
  
-+#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
-+int memfd_create(const char *name, unsigned int flags);
++#if defined(TARGET_XTENSA)
++static void handle_arg_abi_call0(const char *arg)
++{
++    xtensa_set_abi_call0();
++}
 +#endif
 +
- int qemu_memfd_create(const char *name, size_t size, bool hugetlb,
-                       uint64_t hugetlbsize, unsigned int seals, Error **errp);
- bool qemu_memfd_alloc_check(void);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b42f59a32c8d..6928f654ced3 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
- #include "qemu/path.h"
-+#include "qemu/memfd.h"
- #include "qemu/queue.h"
- #include <elf.h>
- #include <endian.h>
-@@ -11938,6 +11939,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         /* PowerPC specific.  */
-         return do_swapcontext(cpu_env, arg1, arg2, arg3);
- #endif
-+#ifdef TARGET_NR_memfd_create
-+    case TARGET_NR_memfd_create:
-+        p = lock_user_string(arg1);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
-+        ret = get_errno(memfd_create(p, arg2));
-+        fd_trans_unregister(ret);
-+        unlock_user(p, arg1, 0);
-+        return ret;
+ struct qemu_argument {
+     const char *argv;
+     const char *env;
+@@ -444,6 +451,10 @@ static const struct qemu_argument arg_table[] = {
+      "",           "[[enable=]<pattern>][,events=<file>][,file=<file>]"},
+     {"version",    "QEMU_VERSION",     false, handle_arg_version,
+      "",           "display version information and exit"},
++#if defined(TARGET_XTENSA)
++    {"xtensa-abi-call0", "QEMU_XTENSA_ABI_CALL0", false, handle_arg_abi_call0,
++     "",           "assume CALL0 Xtensa ABI"},
 +#endif
+     {NULL, NULL, false, NULL, NULL, NULL}
+ };
  
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-diff --git a/util/memfd.c b/util/memfd.c
-index 00334e5b218f..4a3c07e0bee6 100644
---- a/util/memfd.c
-+++ b/util/memfd.c
-@@ -35,7 +35,7 @@
- #include <sys/syscall.h>
- #include <asm/unistd.h>
+diff --git a/linux-user/xtensa/signal.c b/linux-user/xtensa/signal.c
+index 8d54ef3ae34b..590f0313ffe9 100644
+--- a/linux-user/xtensa/signal.c
++++ b/linux-user/xtensa/signal.c
+@@ -134,6 +134,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     abi_ulong frame_addr;
+     struct target_rt_sigframe *frame;
+     uint32_t ra;
++    bool abi_call0;
++    unsigned base;
+     int i;
  
--static int memfd_create(const char *name, unsigned int flags)
-+int memfd_create(const char *name, unsigned int flags)
+     frame_addr = get_sigframe(ka, env, sizeof(*frame));
+@@ -182,20 +184,27 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+         __put_user(0x00, &frame->retcode[5]);
+ #endif
+     }
+-    env->sregs[PS] = PS_UM | (3 << PS_RING_SHIFT);
+-    if (xtensa_option_enabled(env->config, XTENSA_OPTION_WINDOWED_REGISTER)) {
+-        env->sregs[PS] |= PS_WOE | (1 << PS_CALLINC_SHIFT);
+-    }
+     memset(env->regs, 0, sizeof(env->regs));
+     env->pc = ka->_sa_handler;
+     env->regs[1] = frame_addr;
+     env->sregs[WINDOW_BASE] = 0;
+     env->sregs[WINDOW_START] = 1;
+ 
+-    env->regs[4] = (ra & 0x3fffffff) | 0x40000000;
+-    env->regs[6] = sig;
+-    env->regs[7] = frame_addr + offsetof(struct target_rt_sigframe, info);
+-    env->regs[8] = frame_addr + offsetof(struct target_rt_sigframe, uc);
++    abi_call0 = (env->sregs[PS] & PS_WOE) == 0;
++    env->sregs[PS] = PS_UM | (3 << PS_RING_SHIFT);
++
++    if (abi_call0) {
++        base = 0;
++        env->regs[base] = ra;
++    } else {
++        env->sregs[PS] |= PS_WOE | (1 << PS_CALLINC_SHIFT);
++        base = 4;
++        env->regs[base] = (ra & 0x3fffffff) | 0x40000000;
++    }
++    env->regs[base + 2] = sig;
++    env->regs[base + 3] = frame_addr + offsetof(struct target_rt_sigframe,
++                                                info);
++    env->regs[base + 4] = frame_addr + offsetof(struct target_rt_sigframe, uc);
+     unlock_user_struct(frame, frame_addr, 1);
+     return;
+ 
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index 76db1741a796..c65dcf9dd782 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -53,6 +53,20 @@ static bool xtensa_cpu_has_work(CPUState *cs)
+ #endif
+ }
+ 
++#ifdef CONFIG_USER_ONLY
++static bool abi_call0;
++
++void xtensa_set_abi_call0(void)
++{
++    abi_call0 = true;
++}
++
++bool xtensa_abi_call0(void)
++{
++    return abi_call0;
++}
++#endif
++
+ /* CPUClass::reset() */
+ static void xtensa_cpu_reset(CPUState *s)
  {
- #ifdef __NR_memfd_create
-     return syscall(__NR_memfd_create, name, flags);
+@@ -70,10 +84,12 @@ static void xtensa_cpu_reset(CPUState *s)
+             XTENSA_OPTION_INTERRUPT) ? 0x1f : 0x10;
+     env->pending_irq_level = 0;
+ #else
+-    env->sregs[PS] =
+-        (xtensa_option_enabled(env->config,
+-                               XTENSA_OPTION_WINDOWED_REGISTER) ? PS_WOE : 0) |
+-        PS_UM | (3 << PS_RING_SHIFT);
++    env->sregs[PS] = PS_UM | (3 << PS_RING_SHIFT);
++    if (xtensa_option_enabled(env->config,
++                              XTENSA_OPTION_WINDOWED_REGISTER) &&
++        !xtensa_abi_call0()) {
++        env->sregs[PS] |= PS_WOE;
++    }
+ #endif
+     env->sregs[VECBASE] = env->config->vecbase;
+     env->sregs[IBREAKENABLE] = 0;
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index 0459243e6bb1..b363ffcf1066 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -673,6 +673,9 @@ static inline MemoryRegion *xtensa_get_er_region(CPUXtensaState *env)
+ {
+     return env->system_er;
+ }
++#else
++void xtensa_set_abi_call0(void);
++bool xtensa_abi_call0(void);
+ #endif
+ 
+ static inline uint32_t xtensa_replicate_windowstart(CPUXtensaState *env)
 -- 
 2.21.0
 
