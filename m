@@ -2,55 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B491B027A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 19:19:26 +0200 (CEST)
-Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CEBB02AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 19:27:54 +0200 (CEST)
+Received: from localhost ([::1]:54142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i86H7-00082z-DL
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 13:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48616)
+	id 1i86PJ-0004Yh-4m
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 13:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33210)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i86GF-0007Zz-SK
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:18:33 -0400
+ (envelope-from <vincenzo.muolo@angelcompany.com>) id 1i850q-0000WU-7L
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:58:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i86GE-00018l-EU
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:18:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56940)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i86GE-00018U-79
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:18:30 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8188A10C0937
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 17:18:29 +0000 (UTC)
-Received: from work-vm (ovpn-117-243.ams2.redhat.com [10.36.117.243])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75CDF6031D;
- Wed, 11 Sep 2019 17:18:28 +0000 (UTC)
-Date: Wed, 11 Sep 2019 18:18:26 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Message-ID: <20190911171826.GK2894@work-vm>
-References: <20190911164202.31136-1-dgilbert@redhat.com>
- <20190911164202.31136-2-dgilbert@redhat.com>
- <20190911165627.GG24295@redhat.com> <20190911170423.GH2894@work-vm>
- <20190911170933.GJ24295@redhat.com> <20190911171028.GI2894@work-vm>
- <20190911171614.GK24295@redhat.com>
+ (envelope-from <vincenzo.muolo@angelcompany.com>) id 1i850l-0006ke-Rx
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:58:32 -0400
+Received: from mail-ve1eur03on0623.outbound.protection.outlook.com
+ ([2a01:111:f400:fe09::623]:44870
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vincenzo.muolo@angelcompany.com>)
+ id 1i850c-0006do-De; Wed, 11 Sep 2019 11:58:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mfOG3BYVBfRo86WjHI+kbrjydCRKvSE5yPi6HeCtiaxozza2zlRWbSaetlISRHvojQnZtS4Y2n6vtwyozt6Ee2xztCGstyf+UjfjETR3spE/do3zRN6B8pIBG3XGbHaOeeM4qYo+Mjlqo9HFsdnwknHmIRQGe/x6pESk5U8X7QzUTLWenzsIGOQz8SYL/rf62M1e9zmSbQl1njlbvXV02DZ0Mly1g8m2wEOfnB8qmKTbdh+tsZ75EEP3XXOOv8j32iqKBpZ+vWWczZn0B1wc14FP/w/VJqkQmkMcCoaPtSkSN+tdOYlFCh68NXb0NCIbfwNX8kvNzm4KJOjnyRVDbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OQLeF8B4zSlUyz3EYx0AhtETesLsRmNk1sbUoh0UGFo=;
+ b=TnIHX/64hguMdgNPGalPWkUoIAV9fyB7zrqNl0fYBOBd/GPTPSoUZBSFlWB54laW9kylDBxSJiUfqEMzHblBPnaS09PNh1BTgLA2HSKPHmMGeIfNvnZdmpmWedV4ZMnMEfMzocIzVlfaMD/G0KmSmo1iLscKrk0+dL2BnjRpe3dVGWyUlDSCr+gwEA6+xmSKy9TNvjcr9O4BP1TYfzzV4m9NdBzaatcyCqcVzdDkAa+A225U8gTRq3FmdjdPTCOHDQxp8m51FJ5jPNCbI7V+ycuWLgZKvs6rgc6le1yP6M3ZLNDjtpx7xbKlLPJQaI4UeGKxIL57wf53JFWLj7D4UQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=angelcompany.com; dmarc=pass action=none
+ header.from=angelcompany.com; dkim=pass header.d=angelcompany.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=angelcompanygroup.onmicrosoft.com;
+ s=selector1-angelcompanygroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OQLeF8B4zSlUyz3EYx0AhtETesLsRmNk1sbUoh0UGFo=;
+ b=ITVxKlQfZ1YLKOBbklkk/TLe/OY0STaF1uqbWCuSXNL9WZBy4nTuUWWaZNAi+lMt0UZpsH8PecCqYiA4vZpZY8vD9UK/W1lnzUzyzbdlcpe18bbjf7mbW1yhSWDf5Oi+kFCMjlViVLTGyOvwQA2IzcQmaSaFIDeJUdB0eeXwUrM=
+Received: from VI1PR08MB4399.eurprd08.prod.outlook.com (20.179.28.141) by
+ VI1PR08MB3647.eurprd08.prod.outlook.com (20.177.61.86) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Wed, 11 Sep 2019 15:58:14 +0000
+Received: from VI1PR08MB4399.eurprd08.prod.outlook.com
+ ([fe80::5542:8398:f1bd:f8c7]) by VI1PR08MB4399.eurprd08.prod.outlook.com
+ ([fe80::5542:8398:f1bd:f8c7%6]) with mapi id 15.20.2199.027; Wed, 11 Sep 2019
+ 15:58:14 +0000
+From: "Muolo Vincenzo (S.I.)" <vincenzo.muolo@angelcompany.com>
+To: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Thread-Topic: issue related to boot aix 7.1 when I try to use qemu ppc64  
+Thread-Index: AdVouUhNGC1ZBUZSS1GZyGskmH5Zbw==
+Date: Wed, 11 Sep 2019 15:58:14 +0000
+Message-ID: <VI1PR08MB439957EF8E072A9A2A96B58DE5B10@VI1PR08MB4399.eurprd08.prod.outlook.com>
+Accept-Language: it-IT, en-US
+Content-Language: it-IT
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vincenzo.muolo@angelcompany.com; 
+x-originating-ip: [93.63.158.101]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 561b87c9-9040-4f27-2bdb-08d736d0dac5
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:VI1PR08MB3647; 
+x-ms-traffictypediagnostic: VI1PR08MB3647:
+x-microsoft-antispam-prvs: <VI1PR08MB36471F2718E41383DA991579E5B10@VI1PR08MB3647.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-forefront-prvs: 0157DEB61B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(376002)(39840400004)(136003)(396003)(366004)(189003)(199004)(54164003)(71190400001)(14454004)(71200400001)(66476007)(64756008)(66946007)(66446008)(66556008)(76116006)(478600001)(33656002)(52536014)(316002)(86362001)(15188155005)(8676002)(8936002)(2906002)(54906003)(81166006)(81156014)(2351001)(7736002)(2501003)(1730700003)(16799955002)(256004)(790700001)(6116002)(3846002)(19627235002)(66066001)(5660300002)(74316002)(6506007)(966005)(6916009)(6306002)(102836004)(26005)(486006)(7696005)(55016002)(186003)(9686003)(5640700003)(54896002)(25786009)(99286004)(476003)(6436002)(53936002)(4326008)(460985005);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR08MB3647;
+ H:VI1PR08MB4399.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: angelcompany.com does not
+ designate permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: O2BpDgmpE6KsBDFzo5JEgVCtP//cQN1dpMnvvSLJ1BhWv7WhQeWOONLVCAALhxxgvdqY0QXRsDaGCVp1I+WP1zyefpUQA/FzF83NhxzrkfSOJhchByPXnw1UL/K1PXLATJfFkOgIQPfIPtW6wq6j4c4xwBKY/fqlxYBIpH8U34aIQgk6vTBlwMUcPMdEQLTuiTyC8e3IRwFOWNfS429Jq2rLWeBigTL1bDfsYdMkueHXCrLwcCoAOtb2Xuxe2A/vYhk920Rt3gabFZ4ovnCEXSoo7ockocSMyIqI2x5SS43bTeCxNv8Pv05Zz14aPBPeHPM7ubpQE5oLG0CcTCTItA6kB7yOG0gc7aprIN5/SPs22O+75Ke4TG7j+LVJpDsMdRWULh9DlH4lFY6ZHKfDkwe97wyGVL8fG2gS4qAnSq8=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190911171614.GK24295@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Wed, 11 Sep 2019 17:18:29 +0000 (UTC)
+X-OriginatorOrg: angelcompany.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 561b87c9-9040-4f27-2bdb-08d736d0dac5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 15:58:14.6737 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c187ee01-4e4e-40c8-b342-f82c8d699421
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dbh/M+x/oUfs3ec6EUJBjzl8cdqs/Cu3Z2aQ+FZ9rhT3BNK0H1VzoiSIDuDGULfMQ9SS0Ixr6yvM72H6nEfWJfl5qVmga1DNPLjASQt+UAI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3647
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe09::623
+X-Mailman-Approved-At: Wed, 11 Sep 2019 13:26:22 -0400
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/3] rcu: Add automatically released
- rcu_read_lock variant
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: [Qemu-devel] issue related to boot aix 7.1 when I try to use qemu
+ ppc64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,121 +106,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> On Wed, Sep 11, 2019 at 06:10:28PM +0100, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> > > On Wed, Sep 11, 2019 at 06:04:23PM +0100, Dr. David Alan Gilbert wr=
-ote:
-> > > > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> > > > > On Wed, Sep 11, 2019 at 05:42:00PM +0100, Dr. David Alan Gilber=
-t (git) wrote:
-> > > > > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > > > >=20
-> > > > > > RCU_READ_LOCK_AUTO takes the rcu_read_lock  and then uses gli=
-b's
-> > > > > > g_auto infrastrcture (and thus whatever the compilers hooks a=
-re) to
-> > > > > > release it on all exits of the block.
-> > > > > >=20
-> > > > > > Note this macro has a variable declaration in, and hence is n=
-ot in
-> > > > > > a while loop.
-> > > > > >=20
-> > > > > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > > > ---
-> > > > > >  include/qemu/rcu.h | 12 ++++++++++++
-> > > > > >  1 file changed, 12 insertions(+)
-> > > > > >=20
-> > > > > > diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-> > > > > > index 22876d1428..6a25b27d28 100644
-> > > > > > --- a/include/qemu/rcu.h
-> > > > > > +++ b/include/qemu/rcu.h
-> > > > > > @@ -154,6 +154,18 @@ extern void call_rcu1(struct rcu_head *h=
-ead, RCUCBFunc *func);
-> > > > > >        }),                                                   =
-             \
-> > > > > >        (RCUCBFunc *)g_free);
-> > > > > > =20
-> > > > > > +typedef char rcu_read_auto_t;
-> > > > > > +static inline void rcu_read_auto_unlock(rcu_read_auto_t *r)
-> > > > > > +{
-> > > > > > +  rcu_read_unlock();
-> > > > > > +}
-> > > > > > +
-> > > > > > +G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(rcu_read_auto_t, rcu_read_a=
-uto_unlock)
-> > > > > >
-> > > > > > +#define RCU_READ_LOCK_AUTO g_auto(rcu_read_auto_t) \
-> > > > > > +    _rcu_read_auto =3D 'x'; \
-> > > > > > +    rcu_read_lock();
-> > > > > > +
-> > > > >=20
-> > > > > Functionally this works, but my gut feeling would be to follow
-> > > > > the design of GMutexLocker as-is:
-> > > > >=20
-> > > > >   https://developer.gnome.org/glib/stable/glib-Threads.html#g-m=
-utex-locker-new
-> > > > >=20
-> > > > > so you get a use pattern of
-> > > > >=20
-> > > > >   g_autoptr(rcu_read_locker) locker =3D rcu_read_locker_new();
-> > > > >=20
-> > > > > This makes it explicit that the code is creating a variable her=
-e, which
-> > > > > in turns means it is clear to force unlock early with
-> > > > >=20
-> > > > >   g_clear_pointer(&locker, rcu_read_locker_free)
-> > > >=20
-> > > > The difference compared to the g-mutex-locker is that I don't hav=
-e
-> > > > another object to use as my pointer; that uses the address of the=
- GMutex
-> > > > as the dummy pointer value.  I did try an experiment with g_autop=
-tr
-> > > > and found that it did need to return a non-NULL value for it to w=
-ork,
-> > > > which then lead me to think what value to use - while it seems to=
- work
-> > > > if I return (void *)1 it makes me nervous.
-> > >=20
-> > > Yeah, '(void*)1' would have been what I'd pick. The only thing that=
- the
-> > > value is used for is to pass to the rcu_read_locker_free() function
-> > > which ignores it, which seems safe enough.
-> >=20
-> > glib seems to be at least checking it; if you pass NULL the free'r
-> > doesn't get called; so it worries me that we'd be relying on the curr=
-ent
-> > definition.
->=20
-> This NULL check is part of the API semantics defined for
-> G_DEFINE_AUTO_CLEANUO_FREE_FUNC. It lets you define
-> what the "empty" value is, typically 'NULL', but
-> in fact you don't need to use a pointer type at all. You
-> can use an 'int', for example, and declare that '-1'
-> is your "empty" value:
->=20
->   https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.htm=
-l#G-DEFINE-AUTO-CLEANUP-FREE-FUNC:CAPS
+Hi to all
 
-Ah OK, yep that makes sense; I'll flip it around.
+I try to use ( into VM debian 10  running into VMWARE virtualization enviro=
+nment ) qemu ppc64  version to simulate an AIX 7.1 TL04  OS
 
-Dave
 
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
-ange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange=
-.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
-ange :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+root@vkvm-acmm:/AIX# qemu-system-ppc64  -version
+QEMU emulator version 3.1.0 (Debian 1:3.1+dfsg-8+deb10u2)
+Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
+
+
+I run the following commands into my linux DEB but after few time i have to=
+ following issue ( trap  interrupt kernel see to end .. ):
+
+qemu-system-ppc64 -cpu POWER8 -machine pseries -m 4096 -serial stdio -drive=
+ file=3Ddisk.img,if=3Dnone,id=3Ddrive-virtio-disk0 -device virtio-scsi-pci,=
+id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-disk0 -cdrom aix.iso -prom-e=
+nv "boot-command=3Ddev / 0 0 s\" ibm,aix-diagnostics\" property boot cdrom:=
+\ppc\chrp\bootfile.exe -s verbose" -net nic -net tap -display vnc=3D:1
+W: /etc/qemu-ifup: no bridge for guest interface found
+
+
+SLOF **********************************************************************
+QEMU Starting
+Build Date =3D Dec 28 2018 13:55:34
+FW Version =3D buildd@ release 20180702
+Press "s" to enter Open Firmware.
+
+Populating /vdevice methods
+Populating /vdevice/vty@71000000
+Populating /vdevice/nvram@71000001
+Populating /vdevice/l-lan@71000002
+Populating /vdevice/v-scsi@71000003
+       SCSI: Looking for devices
+          8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+Populating /pci@800000020000000
+                     00 0000 (D) : 1234 1111    qemu vga
+                     00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]
+                     00 1000 (D) : 1af4 1004    virtio [ scsi ]
+Populating /pci@800000020000000/scsi@2
+       SCSI: Looking for devices
+          100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+Installing QEMU fb
+
+
+
+Scanning USB
+  XHCI: Initializing
+    USB Keyboard
+    USB mouse
+No console specified using screen & keyboard
+
+  Welcome to Open Firmware
+
+  Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  This program and the accompanying materials are made available
+  under the terms of the BSD License available at
+  http://www.opensource.org/licenses/bsd-license.php
+
+
+Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@820000000000=
+0000:\ppc\chrp\bootfile.exe ...   Successfully loaded
+AIX
+StarLED{814}
+
+AIX Version 7.1
+exec(/etc/init){1,0}
+
+INIT: EXECUTING /sbin/rc.boot 1
+exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1179684,1}
+exec(/sbin/rc.boot,/sbin/rc.boot,1){1179684,1}
++ PHASE=3D1
++ + bootinfo -p
+exec(/usr/sbin/bootinfo,-p){1245222,1179684}
+PLATFORM=3Dchrp
++ [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
++ [ 1 -eq 1 ]
++ 1> /usr/lib/libc.a
++ init -c unlink /usr/lib/boot/bin/!(*_chrp)
+exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1245224,1179684}
++ chramfs -t
+exec(/usr/sbin/chramfs,-t){1245226,1179684}
++ init -c unlink /usr/sbin/chramfs
++ 1> /dev/null
+exec(/etc/init,-c,unlink /usr/sbin/chramfs){1245228,1179684}
++ + bootinfo -t
+exec(/usr/sbin/bootinfo,-t){1245230,1179684}
+BOOTYPE=3D3
++ [ 0 -ne 0 ]
++ [ -z 3 ]
++ unset pdev_to_ldev undolt native_netboot_cfg
++ unset disknet_odm_init config_ATM
++ /usr/lib/methods/showled 0x510 DEV CFG 1 START
+exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1245232,1179684}
++ cfgmgr -f -v
+exec(/usr/sbin/cfgmgr,-f,-v){1245234,1179684}
+cfgmgr is running in phase 1
+----------------
+Time: 0 LEDS: 0x538
+Invoking top level program -- "/etc/methods/defsys"
+exec(/bin/sh,-c,/etc/methods/defsys ){1310760,1245234}
+exec(/etc/methods/defsys){1310760,1245234}
+exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){137=
+6298,1310760}
+exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1376298,131076=
+0}
+Time: 0 LEDS: 0x539
+Return code =3D 0
+***** stdout *****
+sys0
+
+***** stderr *****
+MS 1376298 1310760 /usr/lib/methods/define_rspc -n -c sys -s node -t chrp
+M4 1376298 Defining device: uniquetype=3Dsys/node/chrp parent=3D connection=
+=3D
+M4 1376298 ..define_dvc()
+M4 1376298 ..generate_name()
+M4 1376298 Generated name: sys0
+M4 1376298 ..create_cudv()
+M4 1376298 Adding new CuDv
+M4 1376298 Defined device sys0
+
+----------------
+Attempting to configure device 'sys0'
+Time: 0 LEDS: 0x811
+Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
+exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1310762,1245234}
+Number of running methods: 1
+exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1310762,1245234}
+LED{A20}
+Illegal Trap Instruction Interrupt in Kernel
+05911ACC            tweqi    r0,0                r0=3D0
+KDB(0)>
+
+So how can I to proceed ? I must to try to use an different  kernel AIX ( 7=
+.2 ? ) or it's possibile to fix this one ?
+
+I'll  available to take a dump and so on ....
+
+Awaiting an feedback
+
+Thanks to all
+
+Vincenzo
 
