@@ -2,48 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F2DAF4D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 06:10:59 +0200 (CEST)
-Received: from localhost ([::1]:46402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A844AF4DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 06:20:32 +0200 (CEST)
+Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7ty6-00060C-JC
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 00:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46487)
+	id 1i7u7L-0002Xa-FX
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 00:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i7tsU-0000TR-1n
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 00:05:11 -0400
+ (envelope-from <no-reply@patchew.org>) id 1i7u6T-00021d-IO
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 00:19:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i7tsP-0002pJ-JH
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 00:05:08 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55205 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i7tsM-0002gc-AJ; Wed, 11 Sep 2019 00:05:04 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46SpFh1r6jz9sNk; Wed, 11 Sep 2019 14:04:56 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1568174696;
- bh=raU0a+JnIcBoqXKDb0A97AqcM6JTh7CnyZizdQL7HOI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hSPkDmkaJpS5sopLCZALIxirddQxijU+6iAXbPC424i7KX52BR7SKEGqbXWAzgxhB
- 7ydajdWwBYUsROz78QM1tAKFbnQjo8xnniNmu9fzL5XlJUAfNtfOF6Z+XCFh0AZiDl
- NUAxEYNIjI694Bb3gQhLZGyhNv8g86o2yjDb6KPU=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Date: Wed, 11 Sep 2019 14:04:52 +1000
-Message-Id: <20190911040452.8341-8-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190911040452.8341-1-david@gibson.dropbear.id.au>
-References: <20190911040452.8341-1-david@gibson.dropbear.id.au>
+ (envelope-from <no-reply@patchew.org>) id 1i7u6R-0003De-Qh
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 00:19:37 -0400
+Resent-Date: Wed, 11 Sep 2019 00:19:37 -0400
+Resent-Message-Id: <E1i7u6R-0003De-Qh@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21405)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1i7u6R-0003D4-JI
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 00:19:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1568175528; cv=none; d=zoho.com; s=zohoarc; 
+ b=KEpcH/juPneVqiSzLnj/yG9AHqIAzYc1O8RU/HFKhdYI04f3nX8Xbsc07AMl8G0ImArYufDH+0PbyPGc/P7uyYLfd4kpj/vfASfU9m006jqbdOnisRg11H0a9QhBOzAbJgb0nn1CCuhaXHedyDMpOwITCk1pNthjGJwYFZusQGY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1568175528;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=VupMcCHW4frebyIJ/8emva2a+4LGCIJRF/BsEYR/mLc=; 
+ b=Fp7LAbtS+3aHaoAW1fDukQ58jHdAxRwHxlk480pFxHZ1vy0tuhVJHa8yafIjPLOnxWfTss7y9PHiDbV/MZycLjYoYPGK7Pl7AWjjm2uHIs0drnKNuofxgRsAtRiEUavdWuCsevP79YtQRSw8ZBYHRIMDAo9RcJ+HhH0chaTBCcI=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1568175526720248.16919787877157;
+ Tue, 10 Sep 2019 21:18:46 -0700 (PDT)
+In-Reply-To: <20190910193347.16000-1-laurent@vivier.eu>
+Message-ID: <156817552448.15929.332993068977473511@5dec9699b7de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PATCH 7/7] spapr: Perform machine reset in a more
- sensible order
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: laurent@vivier.eu
+Date: Tue, 10 Sep 2019 21:18:46 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.54
+Subject: Re: [Qemu-devel] [PATCH v11 0/9] hw/m68k: add Apple Machintosh
+ Quadra 800 machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,106 +62,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, groug@kaod.org, clg@kaod.org,
- philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, huth@tuxfamily.org,
+ jasowang@redhat.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, hpoussin@reactos.org, kraxel@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, mreitz@redhat.com,
+ aurelien@aurel32.net, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We've made several changes in the past to the machine reset order to fix
-specific problems.  However, we've ended up with an order that doesn't ma=
-ke
-a lot of logical sense.  This is an attempt to rectify this.
-
-First we reset global CAS options, since that should depend on nothing
-else.  Then we reset the CPUs, which shouldn't depend on external devices=
-.
-Then the irq subsystem, then the bulk of devices (which might rely on
-irqs).  Finally we set up the entry state ready for boot, which could
-potentially rely on a bunch of other things.
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr.c | 47 +++++++++++++++++++++++++----------------------
- 1 file changed, 25 insertions(+), 22 deletions(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 5a919a6cc1..1560a11738 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1724,6 +1724,28 @@ static void spapr_machine_reset(MachineState *mach=
-ine)
-     void *fdt;
-     int rc;
-=20
-+    /*
-+     * If this reset wasn't generated by CAS, we should reset our
-+     * negotiated options and start from scratch
-+     */
-+    if (!spapr->cas_reboot) {
-+        spapr_ovec_cleanup(spapr->ov5_cas);
-+        spapr->ov5_cas =3D spapr_ovec_new();
-+
-+        ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
-+    }
-+
-+    /*
-+     * There is no CAS under qtest. Simulate one to please the code that
-+     * depends on spapr->ov5_cas. This is especially needed to test devi=
-ce
-+     * unplug, so we do that before resetting the DRCs.
-+     */
-+    if (qtest_enabled()) {
-+        spapr_ovec_cleanup(spapr->ov5_cas);
-+        spapr->ov5_cas =3D spapr_ovec_clone(spapr->ov5);
-+    }
-+
-+    /* Reset the CPUs */
-     spapr_caps_apply(spapr);
-=20
-     first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-@@ -1741,34 +1763,15 @@ static void spapr_machine_reset(MachineState *mac=
-hine)
-         spapr_setup_hpt_and_vrma(spapr);
-     }
-=20
--    qemu_devices_reset();
--
--    /*
--     * If this reset wasn't generated by CAS, we should reset our
--     * negotiated options and start from scratch
--     */
--    if (!spapr->cas_reboot) {
--        spapr_ovec_cleanup(spapr->ov5_cas);
--        spapr->ov5_cas =3D spapr_ovec_new();
--
--        ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
--    }
--
-+    /* Reset IRQ subsystem */
-     /*
-      * This is fixing some of the default configuration of the XIVE
-      * devices. To be called after the reset of the machine devices.
-      */
-     spapr_irq_reset(spapr, &error_fatal);
-=20
--    /*
--     * There is no CAS under qtest. Simulate one to please the code that
--     * depends on spapr->ov5_cas. This is especially needed to test devi=
-ce
--     * unplug, so we do that before resetting the DRCs.
--     */
--    if (qtest_enabled()) {
--        spapr_ovec_cleanup(spapr->ov5_cas);
--        spapr->ov5_cas =3D spapr_ovec_clone(spapr->ov5);
--    }
-+    /* Reset other devices */
-+    qemu_devices_reset();
-=20
-     /* DRC reset may cause a device to be unplugged. This will cause tro=
-ubles
-      * if this device is used by another device (eg, a running vhost bac=
-kend
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMDE5MzM0Ny4xNjAw
+MC0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHYxMSAwLzldIGh3L202OGs6
+IGFkZCBBcHBsZSBNYWNoaW50b3NoIFF1YWRyYSA4MDAgbWFjaGluZQpNZXNzYWdlLWlkOiAyMDE5
+MDkxMDE5MzM0Ny4xNjAwMC0xLWxhdXJlbnRAdml2aWVyLmV1ClR5cGU6IHNlcmllcwoKPT09IFRF
+U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
+L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
+LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
+YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
+MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
+cm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDE5MDkxMTAzNDMwMi4y
+OTEwOC0xLWFuZHJld0Bhai5pZC5hdSAtPiBwYXRjaGV3LzIwMTkwOTExMDM0MzAyLjI5MTA4LTEt
+YW5kcmV3QGFqLmlkLmF1ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYmEwNDk1NyBo
+dy9tNjhrOiBkZWZpbmUgTWFjaW50b3NoIFF1YWRyYSA4MDAKOTkwNjBjZiBody9tNjhrOiBhZGQg
+YSBkdW1teSBTV0lNIGZsb3BweSBjb250cm9sbGVyCmQxMDEyYmQgaHcvbTY4azogYWRkIE51YnVz
+IHN1cHBvcnQgZm9yIG1hY2ZiIHZpZGVvIGNhcmQKNzcxZGU2NCBody9tNjhrOiBhZGQgTnVidXMg
+c3VwcG9ydAo2NjRhMGQ0IGh3L202OGs6IGFkZCBtYWNmYiB2aWRlbyBjYXJkCmQ3NjNhNWUgaHcv
+bTY4azogaW1wbGVtZW50IEFEQiBidXMgc3VwcG9ydCBmb3IgdmlhCmM0MDA1YjggaHcvbTY4azog
+YWRkIHZpYSBzdXBwb3J0CjcwMzI3MDYgZHA4MzkzeDogbWFuYWdlIGJpZyBlbmRpYW4gYnVzCjlh
+ZDA5M2IgZXNwOiBhZGQgcHNldWRvLURNQSBhcyB1c2VkIGJ5IE1hY2ludG9zaAoKPT09IE9VVFBV
+VCBCRUdJTiA9PT0KMS85IENoZWNraW5nIGNvbW1pdCA5YWQwOTNiNmFiMTggKGVzcDogYWRkIHBz
+ZXVkby1ETUEgYXMgdXNlZCBieSBNYWNpbnRvc2gpCjIvOSBDaGVja2luZyBjb21taXQgNzAzMjcw
+Njg5YmFiIChkcDgzOTN4OiBtYW5hZ2UgYmlnIGVuZGlhbiBidXMpCjMvOSBDaGVja2luZyBjb21t
+aXQgYzQwMDViODkwOTVjIChody9tNjhrOiBhZGQgdmlhIHN1cHBvcnQpCldBUk5JTkc6IGFkZGVk
+LCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGlu
+Zz8KIzc3OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFm
+dGVyIHRoYXQgJyYmJyAoY3R4Old4VykKIzQyNjogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6MzQ1
+OgorICAgICAgICBpZiAoISh2MXMtPmxhc3RfYiAmIFZJQTFCX3ZSVENDbGspICYmIChzLT5iICYg
+VklBMUJfdlJUQ0NsaykpIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBeCgp0b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDg2NyBsaW5lcyBjaGVja2VkCgpQ
+YXRjaCAzLzkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjQvOSBDaGVja2luZyBjb21taXQg
+ZDc2M2E1ZWUwNjc2IChody9tNjhrOiBpbXBsZW1lbnQgQURCIGJ1cyBzdXBwb3J0IGZvciB2aWEp
+CjUvOSBDaGVja2luZyBjb21taXQgNjY0YTBkNDczYWZkIChody9tNjhrOiBhZGQgbWFjZmIgdmlk
+ZW8gY2FyZCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
+QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90
+YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1MTggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS85IGhh
+cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
+YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
+RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjYvOSBDaGVja2luZyBjb21taXQgNzcxZGU2NGY0YWEy
+IChody9tNjhrOiBhZGQgTnVidXMgc3VwcG9ydCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
+bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjI6IApuZXcg
+ZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1MzIgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggNi85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvOSBDaGVja2lu
+ZyBjb21taXQgZDEwMTJiZDNmMTExIChody9tNjhrOiBhZGQgTnVidXMgc3VwcG9ydCBmb3IgbWFj
+ZmIgdmlkZW8gY2FyZCkKOC85IENoZWNraW5nIGNvbW1pdCA5OTA2MGNmMGJiMWIgKGh3L202OGs6
+IGFkZCBhIGR1bW15IFNXSU0gZmxvcHB5IGNvbnRyb2xsZXIpCldBUk5JTkc6IGFkZGVkLCBtb3Zl
+ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzUz
+OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTkx
+IGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5Lzkg
+Q2hlY2tpbmcgY29tbWl0IGJhMDQ5NTdmNDJkZCAoaHcvbTY4azogZGVmaW5lIE1hY2ludG9zaCBR
+dWFkcmEgODAwKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM3MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
+b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUxOCBsaW5lcyBjaGVja2VkCgpQYXRjaCA5Lzkg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
+bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MTAxOTMzNDcuMTYwMDAtMS1sYXVyZW50QHZpdmll
+ci5ldS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRl
+ZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNl
+IHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
 
