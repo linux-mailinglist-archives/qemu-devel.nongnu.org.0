@@ -2,54 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAB0AF5CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 08:30:18 +0200 (CEST)
-Received: from localhost ([::1]:46796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C3CAF5F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 08:40:22 +0200 (CEST)
+Received: from localhost ([::1]:46874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7w8v-0005MC-E9
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 02:30:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37296)
+	id 1i7wIe-0003vs-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 02:40:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i7w80-0004wR-PE
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:29:22 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i7wDU-0006xB-Bd
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:35:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i7w7z-0005Lb-3d
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:29:20 -0400
-Resent-Date: Wed, 11 Sep 2019 02:29:20 -0400
-Resent-Message-Id: <E1i7w7z-0005Lb-3d@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21806)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i7w7y-0005Im-RB; Wed, 11 Sep 2019 02:29:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568183326; cv=none; d=zoho.com; s=zohoarc; 
- b=KZ2/wJqXlQJMETtOVKwqyqNXJgjs+7RSKL44BfLGYWhttFQHTZXUM8oh8dO+QTtkhJH4ZFpI3866iMoxW6+z4omhPRTIdimUOJ9yPgvfIEabI3bjSJxo6tqjQuFd8nx6dJLxB69kIFn7tCAyVmDcYmljyc0BuJjwllhRHqqnZg0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568183326;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=bJL/6/M5Zw0vscLrU0PInj/cCl3NJvQ1zA7lZnHYFd0=; 
- b=Fy+/7zlk1AN44hHwmGsEutnnCBcZcl1AV17ASELKQCFNY9+KmzgaT2JiKSdyn9yhl0vR6307dqL4c3SpQfJ6RgOZ0AL2HW5lcg4tmyMhpmgVIWfbnJks0kBohJzX7bI9asxRE5FMoJM6L07MCn9f/QAJEbAtG5MfCAWUIIDsnWM=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568183324722413.70603762163285;
- Tue, 10 Sep 2019 23:28:44 -0700 (PDT)
-In-Reply-To: <20190910193347.16000-1-laurent@vivier.eu>
-Message-ID: <156818332283.15929.8042793955974582048@5dec9699b7de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Tue, 10 Sep 2019 23:28:44 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.58
-Subject: Re: [Qemu-devel] [PATCH v11 0/9] hw/m68k: add Apple Machintosh
- Quadra 800 machine
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i7wDS-0007lv-UA
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:35:00 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:46051)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1i7wDS-0007iy-IE; Wed, 11 Sep 2019 02:34:58 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.03712995|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.6613-0.00789933-0.3308; FP=0|0|0|0|0|-1|-1|-1;
+ HT=e02c03307; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=11; RT=11; SR=0;
+ TI=SMTPD_---.FSRJyb1_1568183691; 
+Received: from localhost(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.FSRJyb1_1568183691)
+ by smtp.aliyun-inc.com(10.147.44.129);
+ Wed, 11 Sep 2019 14:34:51 +0800
+From: liuzhiwei <zhiwei_liu@c-sky.com>
+To: Alistair.Francis@wdc.com, palmer@sifive.com, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, riku.voipio@iki.fi, laurent@vivier.eu,
+ wenmeng_zhang@c-sky.com
+Date: Wed, 11 Sep 2019 14:25:27 +0800
+Message-Id: <1568183141-67641-4-git-send-email-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
+References: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 121.197.200.217
+Subject: [Qemu-devel] [PATCH v2 03/17] RISC-V: support vector extension csr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,80 +51,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, huth@tuxfamily.org,
- jasowang@redhat.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- dgilbert@redhat.com, hpoussin@reactos.org, kraxel@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, mreitz@redhat.com,
- aurelien@aurel32.net, laurent@vivier.eu
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wxy194768@alibaba-inc.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMDE5MzM0Ny4xNjAw
-MC0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHYxMSAwLzldIGh3L202OGs6
-IGFkZCBBcHBsZSBNYWNoaW50b3NoIFF1YWRyYSA4MDAgbWFjaGluZQpNZXNzYWdlLWlkOiAyMDE5
-MDkxMDE5MzM0Ny4xNjAwMC0xLWxhdXJlbnRAdml2aWVyLmV1ClR5cGU6IHNlcmllcwoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
-MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwph
-ODJjOWY5IGh3L202OGs6IGRlZmluZSBNYWNpbnRvc2ggUXVhZHJhIDgwMAo3OWRmNWIzIGh3L202
-OGs6IGFkZCBhIGR1bW15IFNXSU0gZmxvcHB5IGNvbnRyb2xsZXIKNmNmMjA4YSBody9tNjhrOiBh
-ZGQgTnVidXMgc3VwcG9ydCBmb3IgbWFjZmIgdmlkZW8gY2FyZAo1ZjM4OTM1IGh3L202OGs6IGFk
-ZCBOdWJ1cyBzdXBwb3J0CmJlMzkwM2EgaHcvbTY4azogYWRkIG1hY2ZiIHZpZGVvIGNhcmQKNzU0
-MzA4NCBody9tNjhrOiBpbXBsZW1lbnQgQURCIGJ1cyBzdXBwb3J0IGZvciB2aWEKMTI2ZmQzZSBo
-dy9tNjhrOiBhZGQgdmlhIHN1cHBvcnQKYjFiNWY1ZiBkcDgzOTN4OiBtYW5hZ2UgYmlnIGVuZGlh
-biBidXMKODFjNzIyZiBlc3A6IGFkZCBwc2V1ZG8tRE1BIGFzIHVzZWQgYnkgTWFjaW50b3NoCgo9
-PT0gT1VUUFVUIEJFR0lOID09PQoxLzkgQ2hlY2tpbmcgY29tbWl0IDgxYzcyMmZkZmQzMSAoZXNw
-OiBhZGQgcHNldWRvLURNQSBhcyB1c2VkIGJ5IE1hY2ludG9zaCkKMi85IENoZWNraW5nIGNvbW1p
-dCBiMWI1ZjVmMzI5YTIgKGRwODM5M3g6IG1hbmFnZSBiaWcgZW5kaWFuIGJ1cykKMy85IENoZWNr
-aW5nIGNvbW1pdCAxMjZmZDNlMjc2MjAgKGh3L202OGs6IGFkZCB2aWEgc3VwcG9ydCkKV0FSTklO
-RzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVk
-IHVwZGF0aW5nPwojNzc6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHNwYWNlIHByb2hp
-Yml0ZWQgYWZ0ZXIgdGhhdCAnJiYnIChjdHg6V3hXKQojNDI2OiBGSUxFOiBody9taXNjL21hY192
-aWEuYzozNDU6CisgICAgICAgIGlmICghKHYxcy0+bGFzdF9iICYgVklBMUJfdlJUQ0NsaykgJiYg
-KHMtPmIgJiBWSUExQl92UlRDQ2xrKSkgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgODY3IGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDMvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNC85IENoZWNraW5n
-IGNvbW1pdCA3NTQzMDg0YjE1MWMgKGh3L202OGs6IGltcGxlbWVudCBBREIgYnVzIHN1cHBvcnQg
-Zm9yIHZpYSkKNS85IENoZWNraW5nIGNvbW1pdCBiZTM5MDNhZTZlODcgKGh3L202OGs6IGFkZCBt
-YWNmYiB2aWRlbyBjYXJkKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMp
-LCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM2ODogCm5ldyBmaWxlIG1vZGUgMTAw
-NjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUxOCBsaW5lcyBjaGVja2VkCgpQYXRj
-aCA1LzkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNi85IENoZWNraW5nIGNvbW1pdCA1ZjM4
-OTM1MWE5OTEgKGh3L202OGs6IGFkZCBOdWJ1cyBzdXBwb3J0KQpXQVJOSU5HOiBhZGRlZCwgbW92
-ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM2
-MjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUz
-MiBsaW5lcyBjaGVja2VkCgpQYXRjaCA2LzkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNy85
-IENoZWNraW5nIGNvbW1pdCA2Y2YyMDhhOGU1NGIgKGh3L202OGs6IGFkZCBOdWJ1cyBzdXBwb3J0
-IGZvciBtYWNmYiB2aWRlbyBjYXJkKQo4LzkgQ2hlY2tpbmcgY29tbWl0IDc5ZGY1YjNhODU0YyAo
-aHcvbTY4azogYWRkIGEgZHVtbXkgU1dJTSBmbG9wcHkgY29udHJvbGxlcikKV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojNTM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
-bmdzLCA1OTEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCjkvOSBDaGVja2luZyBjb21taXQgYTgyYzlmOWZhZmRjIChody9tNjhrOiBkZWZpbmUgTWFj
-aW50b3NoIFF1YWRyYSA4MDApCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUo
-cyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzcwOiAKbmV3IGZpbGUgbW9kZSAx
-MDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTE4IGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDkvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRl
-c3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJs
-ZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDkxMDE5MzM0Ny4xNjAwMC0xLWxhdXJl
-bnRAdml2aWVyLmV1L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
-Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
-LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ target/riscv/cpu_bits.h | 15 ++++++++++++
+ target/riscv/csr.c      | 65 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 76 insertions(+), 4 deletions(-)
+
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 11f971a..9eb43ec 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -29,6 +29,14 @@
+ #define FSR_NXA             (FPEXC_NX << FSR_AEXC_SHIFT)
+ #define FSR_AEXC            (FSR_NVA | FSR_OFA | FSR_UFA | FSR_DZA | FSR_NXA)
+ 
++/* Vector Fixed-Point round model */
++#define FSR_VXRM_SHIFT      9
++#define FSR_VXRM            (0x3 << FSR_VXRM_SHIFT)
++
++/* Vector Fixed-Point saturation flag */
++#define FSR_VXSAT_SHIFT     8
++#define FSR_VXSAT           (0x1 << FSR_VXSAT_SHIFT)
++
+ /* Control and Status Registers */
+ 
+ /* User Trap Setup */
+@@ -48,6 +56,13 @@
+ #define CSR_FRM             0x002
+ #define CSR_FCSR            0x003
+ 
++/* User Vector CSRs */
++#define CSR_VSTART          0x008
++#define CSR_VXSAT           0x009
++#define CSR_VXRM            0x00a
++#define CSR_VL              0xc20
++#define CSR_VTYPE           0xc21
++
+ /* User Timers and Counters */
+ #define CSR_CYCLE           0xc00
+ #define CSR_TIME            0xc01
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index e0d4586..a6131ff 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -87,12 +87,12 @@ static int ctr(CPURISCVState *env, int csrno)
+     return 0;
+ }
+ 
+-#if !defined(CONFIG_USER_ONLY)
+ static int any(CPURISCVState *env, int csrno)
+ {
+     return 0;
+ }
+ 
++#if !defined(CONFIG_USER_ONLY)
+ static int smode(CPURISCVState *env, int csrno)
+ {
+     return -!riscv_has_ext(env, RVS);
+@@ -158,8 +158,10 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
+         return -1;
+     }
+ #endif
+-    *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
+-        | (env->frm << FSR_RD_SHIFT);
++    *val = (env->vfp.vxrm << FSR_VXRM_SHIFT)
++            | (env->vfp.vxsat << FSR_VXSAT_SHIFT)
++            | (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
++            | (env->frm << FSR_RD_SHIFT);
+     return 0;
+ }
+ 
+@@ -172,10 +174,60 @@ static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
+     env->mstatus |= MSTATUS_FS;
+ #endif
+     env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
++    env->vfp.vxrm = (val & FSR_VXRM) >> FSR_VXRM_SHIFT;
++    env->vfp.vxsat = (val & FSR_VXSAT) >> FSR_VXSAT_SHIFT;
+     riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
+     return 0;
+ }
+ 
++static int read_vtype(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vfp.vtype;
++    return 0;
++}
++
++static int read_vl(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vfp.vl;
++    return 0;
++}
++
++static int read_vxrm(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vfp.vxrm;
++    return 0;
++}
++
++static int read_vxsat(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vfp.vxsat;
++    return 0;
++}
++
++static int read_vstart(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vfp.vstart;
++    return 0;
++}
++
++static int write_vxrm(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vfp.vxrm = val;
++    return 0;
++}
++
++static int write_vxsat(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vfp.vxsat = val;
++    return 0;
++}
++
++static int write_vstart(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vfp.vstart = val;
++    return 0;
++}
++
+ /* User Timers and Counters */
+ static int read_instret(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+@@ -873,7 +925,12 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_FFLAGS] =              { fs,   read_fflags,      write_fflags      },
+     [CSR_FRM] =                 { fs,   read_frm,         write_frm         },
+     [CSR_FCSR] =                { fs,   read_fcsr,        write_fcsr        },
+-
++    /* Vector CSRs */
++    [CSR_VSTART] =              { any,   read_vstart,     write_vstart      },
++    [CSR_VXSAT] =               { any,   read_vxsat,      write_vxsat       },
++    [CSR_VXRM] =                { any,   read_vxrm,       write_vxrm        },
++    [CSR_VL] =                  { any,   read_vl                            },
++    [CSR_VTYPE] =               { any,   read_vtype                         },
+     /* User Timers and Counters */
+     [CSR_CYCLE] =               { ctr,  read_instret                        },
+     [CSR_INSTRET] =             { ctr,  read_instret                        },
+-- 
+2.7.4
 
 
