@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D63BB0544
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 23:36:53 +0200 (CEST)
-Received: from localhost ([::1]:56456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EB8B0548
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 23:38:58 +0200 (CEST)
+Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8AIG-00064L-Eo
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 17:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59486)
+	id 1i8AKH-0007Lv-6T
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 17:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i8AGx-0005OU-Bw
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 17:35:32 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i8AIh-0006t2-U8
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 17:37:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i8AGw-0002Uc-Df
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 17:35:31 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:36872)
+ (envelope-from <richard.henderson@linaro.org>) id 1i8AIh-00035i-3O
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 17:37:19 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:36484)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i8AGw-0002UN-8F
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 17:35:30 -0400
-Received: by mail-qt1-x842.google.com with SMTP id g13so26786070qtj.4
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 14:35:30 -0700 (PDT)
+ id 1i8AIg-00035Q-WC
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 17:37:19 -0400
+Received: by mail-qk1-x744.google.com with SMTP id s18so22457766qkj.3
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 14:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PLwu+yElRBy0J7XnVBdwXrjH//mUSQK+qcy8gyfNs9I=;
- b=R0yoHXeGDMedll+b0KbyybWqljcIN82GczGBWQ8AyIifdq9j2ObIlMcxbODd+28XiM
- Jg9DrUSLddDpH/h9xhtF7Cenqm4fY2groX1MiPBAJxlYYk2AWd+yn/5GgGwdzMHlNtFo
- Tnv2hyfrl9IZhGV0lOOW5E0XcBEFPleGfD+IdVbII1aQdEHWzMCKYR22PM4YVfJoOYZ+
- c+pDsDOtDeXX9zO2BcILZPxPf+WdoARaMFpHWN4bOd+Alj33M0/TrB+uYAtBDX4lDqUC
- h3huL4WfQ5BLomEje80mErGA2Nf7a4QgwIgfzs2ffWuJA75lFsgyr32vMzD3di/RbgyV
- rvPg==
+ bh=VjoGAPkzI76OHMq+wI3WO8RY7RMfm9D74OTV0WL6Z3Y=;
+ b=JnxHzc/Mysded3azuCSQ8lIo7Gb3QXRKTC8zGEHnJVTZoPwf+JOL4N5HScT51b9jqK
+ CWzXV75z0GwKza2dNO+KdDS6UntfRDFcuCC9jam9lHnj+cLUVsFyPXdrLjYr1Z7drKcp
+ cGKRpJI4khvuAEHIrCis6/FKe1QcRO2mZ6VgcQrK/2qoSqgQVlB6igtzZfv3A3QgNvDl
+ QZr1FrbZBGvPfYPmttVoKOfVeq7Q5w8uIMfbR9yzO8GxnRI81+nU7KVZORACKckNgddW
+ 1zpgABySSOO9BoWHtX9oES8rJl3ZXvd0RWz/W34W7v7QZWqQhW/cUVTUQ9cl5e2uuNTz
+ UmWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PLwu+yElRBy0J7XnVBdwXrjH//mUSQK+qcy8gyfNs9I=;
- b=hd7F+c4GtYelb3XLT3YkNacr0GAoC9XQtxd9kYbcAAfcfSOeUbx6mT9U4fss3+B0nf
- IukQ+Hlnjefat4+gMvY6C9ZO2I0+HMYzQIbi0Roh2uJhlQM/5STN6i6k9k1gtUfeC9X7
- VL8pQlsqWSPvr9UrKJmV7A80A3E2FCnLEUFIER16wDYZfffX6JkU6z0CbPrq68we6KiU
- BbOQ21kRCMP9u3+6X510crSrhGWPBSVh8KFMqa+RkTlgnU3bs/MlXs4elmdUqQOFOD1Y
- tRKvXpVl/VM7oxYXfn7vkyh0kOta+97sgPU17eNwKP6JE7hYDBbO7RS0Drp1XxDM0FMm
- /vTQ==
-X-Gm-Message-State: APjAAAWwf3HmeCMwtpAxqCh2VXPkGJVXebiCjgm+wMUP9CmA0oGLE/Kq
- 3F1fQU8+rWyzPPRPCCDAx/YUDtMOSxsDkw==
-X-Google-Smtp-Source: APXvYqyQ/8MLfv+FsykemAy3/7Ie1isrBv0lP4S2OXPXkSJj890I1ieJFnHTP7WRvl/Ccu4W3lW3oA==
-X-Received: by 2002:ac8:647:: with SMTP id e7mr17059129qth.78.1568237729591;
- Wed, 11 Sep 2019 14:35:29 -0700 (PDT)
+ bh=VjoGAPkzI76OHMq+wI3WO8RY7RMfm9D74OTV0WL6Z3Y=;
+ b=YccqYWCl40M4AFnFYlLdYXXw4FI9rAxGYEaSaFt1h7BIYFbIDG88g/8Ma8gmtG8AkY
+ nRneNYakpi/2+/6DVZ5Sqa3+mcPhgEfOogBZHTKk7Mbi/Q/0NcZy3JLJEGtOvJOTxtAy
+ V9yo4giaeJSkJrvBUZbKC4QgqHFih+p1yGMJh/jViXhHvfIDwS72+jv2mq33AwuDTYXe
+ iR07cFYUB+qgyiCvyeEJj36FVKQbfP8TYcy7+HioVKiN/swvx5mQIsnzzht9svrnwMkq
+ fuPAAQDeN/+eCTdF9Jm17j0FqzwnkMpiKO0CXIl3akaOH3Xd4UCwd1BVcLT9t+8AAnhT
+ XqJQ==
+X-Gm-Message-State: APjAAAUpZ82jxVYH7aNSV+/0SUjGEe1KefiBhBX4BFzajHPDjz/aVmpj
+ gmzUqOwonNCZHFq+IbGcSq9I7A==
+X-Google-Smtp-Source: APXvYqxkDDbWH5kkhqGXpRKLEvuZIz2XZRG/fv+Uktxdnt7ik+/TkrEmB39APOD0kexpuhpYU5iSKw==
+X-Received: by 2002:a37:a310:: with SMTP id m16mr37373084qke.123.1568237838111; 
+ Wed, 11 Sep 2019 14:37:18 -0700 (PDT)
 Received: from [172.20.5.51] ([67.69.50.154])
- by smtp.gmail.com with ESMTPSA id c137sm11367818qkg.110.2019.09.11.14.35.28
+ by smtp.gmail.com with ESMTPSA id c26sm13652673qtk.93.2019.09.11.14.37.17
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 14:35:28 -0700 (PDT)
+ Wed, 11 Sep 2019 14:37:17 -0700 (PDT)
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20190906075750.14791-1-david@redhat.com>
- <20190906075750.14791-24-david@redhat.com>
+ <20190906075750.14791-25-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <5bca0ec4-7903-c5e5-653a-f2a56cb5d798@linaro.org>
-Date: Wed, 11 Sep 2019 17:35:26 -0400
+Message-ID: <c622df54-b6be-a294-2499-473c670e711b@linaro.org>
+Date: Wed, 11 Sep 2019 17:37:15 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190906075750.14791-24-david@redhat.com>
+In-Reply-To: <20190906075750.14791-25-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::842
-Subject: Re: [Qemu-devel] [PATCH v2 23/28] s390x/tcg: MVCIN: Fault-safe
+X-Received-From: 2607:f8b0:4864:20::744
+Subject: Re: [Qemu-devel] [PATCH v2 24/28] s390x/tcg: MVN: Fault-safe
  handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,13 +91,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/6/19 3:57 AM, David Hildenbrand wrote:
-> We can process a maximum of 256 bytes, crossing two pages. Calculate the
-> accessed range upfront - src is accessed right-to-left.
+> We can process a maximum of 256 bytes, crossing two pages.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  target/s390x/mem_helper.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
+>  target/s390x/mem_helper.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
