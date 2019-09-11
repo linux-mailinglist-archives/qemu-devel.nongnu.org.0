@@ -2,39 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9105BAFFB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:13:18 +0200 (CEST)
-Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97193AFFC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:18:37 +0200 (CEST)
+Received: from localhost ([::1]:52378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84J3-0001H9-L3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49366)
+	id 1i84OC-0005jE-1n
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i847a-0000tC-4X
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:01:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i84DG-0005zf-SH
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:07:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i847Y-0003rQ-BG
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:01:25 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38492)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i847C-0003fc-B6; Wed, 11 Sep 2019 11:01:05 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1i8474-0002Ew-R5; Wed, 11 Sep 2019 18:00:54 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Date: Wed, 11 Sep 2019 18:00:53 +0300
-Message-Id: <20190911150054.90936-3-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190911150054.90936-1-vsementsov@virtuozzo.com>
-References: <20190911150054.90936-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 2/3] block/dirty-bitmap: return int from
- bdrv_remove_persistent_dirty_bitmap
+ (envelope-from <richard.henderson@linaro.org>) id 1i84DF-0006vK-TF
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:07:18 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:39548)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i84DF-0006uc-Oh
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:07:17 -0400
+Received: by mail-qt1-x841.google.com with SMTP id n7so25657122qtb.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 08:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=x7A7jDWxquOfq7qhXvyuRv3/zyVYTvutUxLFeg7VzTA=;
+ b=msdw71WiBESJXYfwZ3lNy8cOm/szzJUOhiIfDoIQlEv1TAdt5YJLUHH2hV3ihVaRqM
+ /smdO15BcIO8zluOK5bXL+J+3C9Lr2ia+/nFCaW6Dr697FH68XUz0OR7p6mH0n6jdNDm
+ /OTE2hW4t0x4LwBomG0OeQ6zrKbNzzq5MdOfHFoiHr0Yq1RflR8vriMhGqKbausFNeR3
+ Lwr5XrqBYP3UCI+yrbkLX5xN9JNtMGwkEODd+H02FCfb03iaNCjW0g28+7jzm24PwyP7
+ BesIOOQUaCDPMD7g6qP8h+pNdKFNVfbUxZu/nRfDmCfWXMxzD8scKbNQIfEmFsxoTBOQ
+ pbDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=x7A7jDWxquOfq7qhXvyuRv3/zyVYTvutUxLFeg7VzTA=;
+ b=tlMEXu9YTHtVHRDX32t7JUblhszUsda8ZHaVrvW37uV06Di3sHs+Jdhh21N4pe/v+2
+ g1+ORyk3Ir9Wf0UaaRuyU0O2j9pSIqPAlSDPhrUaTNS0Ezd+e+O3jP7b6oSWEdQLj2yx
+ jPDLVB3g8eBlCZg7GvjeDvpdZz/OZcE37hqmIb6wYM+FIch27RmGdTgCEUkv69D/638T
+ 5PWHIM7BgtFkZ64EkfPrCOEGcMkQfJ8TslFQeLy7lfBekZkrNf2P3izNWtbTaIZ98wMM
+ lnkvggUeC8SiLlbzJyyoEJtLfjVCYHxZBIv8LvS4BazesySvfRgIZcW57o4IDEj9AYk5
+ z94g==
+X-Gm-Message-State: APjAAAVqICzGXGQPefpo/0o4SMlJnsJgpbgasz3UULIQEOFBz5Orvk8A
+ 16qlkpLuZyNOMf1s/lQFCDMJ+w==
+X-Google-Smtp-Source: APXvYqyvbg9KrKPFFO0KwV0eiI9JrYqpKVG8jRU304SYNyE+tPbMVa92H9zPYIPLuQiVvOjNWofIjQ==
+X-Received: by 2002:a05:6214:12f1:: with SMTP id
+ w17mr1528031qvv.108.1568214437191; 
+ Wed, 11 Sep 2019 08:07:17 -0700 (PDT)
+Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
+ [64.229.69.35])
+ by smtp.gmail.com with ESMTPSA id c12sm1483684qkc.81.2019.09.11.08.07.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Sep 2019 08:07:16 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190906075750.14791-1-david@redhat.com>
+ <20190906075750.14791-5-david@redhat.com>
+ <7788b1b6-fbf0-3370-5563-1da4f7124999@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <905250c7-b249-6812-391c-408af69d9523@linaro.org>
+Date: Wed, 11 Sep 2019 11:07:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <7788b1b6-fbf0-3370-5563-1da4f7124999@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::841
+Subject: Re: [Qemu-devel] [PATCH v2 04/28] s390x/tcg: MVCL: Process max 2k
+ bytes at a time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,181 +87,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- armbru@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's more comfortable to not deal with local_err.
+On 9/11/19 10:52 AM, Richard Henderson wrote:
+> The code within Hercules breaks the action at every 2k address boundary -- for
+> both src and dest.  That's the only way that actually makes sense to me, as
+> otherwise we end up allowing userspace to read/write into a page without
+> permission.  Which is a security hole.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/qcow2.h                |  5 ++---
- include/block/block_int.h    |  6 +++---
- include/block/dirty-bitmap.h |  5 ++---
- block/dirty-bitmap.c         |  9 +++++----
- block/qcow2-bitmap.c         | 20 +++++++++++---------
- blockdev.c                   |  7 +++----
- 6 files changed, 26 insertions(+), 26 deletions(-)
+Also, doesn't "2k" come from the old esa/360 page size?
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 998bcdaef1..99ee88f802 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -747,9 +747,8 @@ bool qcow2_can_store_new_dirty_bitmap(BlockDriverState *bs,
-                                       const char *name,
-                                       uint32_t granularity,
-                                       Error **errp);
--void qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs,
--                                          const char *name,
--                                          Error **errp);
-+int qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                         Error **errp);
- 
- ssize_t coroutine_fn
- qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 0422acdf1c..503ac9e3cd 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -556,9 +556,9 @@ struct BlockDriver {
-                                             const char *name,
-                                             uint32_t granularity,
-                                             Error **errp);
--    void (*bdrv_remove_persistent_dirty_bitmap)(BlockDriverState *bs,
--                                                const char *name,
--                                                Error **errp);
-+    int (*bdrv_remove_persistent_dirty_bitmap)(BlockDriverState *bs,
-+                                               const char *name,
-+                                               Error **errp);
- 
-     /**
-      * Register/unregister a buffer for I/O. For example, when the driver is
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 4b4b731b46..07503b03b5 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -37,9 +37,8 @@ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
-                             Error **errp);
- void bdrv_release_dirty_bitmap(BlockDriverState *bs, BdrvDirtyBitmap *bitmap);
- void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs);
--void bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs,
--                                         const char *name,
--                                         Error **errp);
-+int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                        Error **errp);
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_enable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_enable_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap);
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 8f42015db9..a52b83b619 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -455,13 +455,14 @@ void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs)
-  * not fail.
-  * This function doesn't release corresponding BdrvDirtyBitmap.
-  */
--void bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs,
--                                         const char *name,
--                                         Error **errp)
-+int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                        Error **errp)
- {
-     if (bs->drv && bs->drv->bdrv_remove_persistent_dirty_bitmap) {
--        bs->drv->bdrv_remove_persistent_dirty_bitmap(bs, name, errp);
-+        return bs->drv->bdrv_remove_persistent_dirty_bitmap(bs, name, errp);
-     }
-+
-+    return -ENOTSUP;
- }
- 
- bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index b2487101ed..1aaedb3b55 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1404,11 +1404,10 @@ static Qcow2Bitmap *find_bitmap_by_name(Qcow2BitmapList *bm_list,
-     return NULL;
- }
- 
--void qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs,
--                                          const char *name,
--                                          Error **errp)
-+int qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-+                                         Error **errp)
- {
--    int ret;
-+    int ret = 0;
-     BDRVQcow2State *s = bs->opaque;
-     Qcow2Bitmap *bm;
-     Qcow2BitmapList *bm_list;
-@@ -1416,18 +1415,19 @@ void qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-     if (s->nb_bitmaps == 0) {
-         /* Absence of the bitmap is not an error: see explanation above
-          * bdrv_remove_persistent_dirty_bitmap() definition. */
--        return;
-+        return 0;
-     }
- 
-     bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
-                                s->bitmap_directory_size, errp);
-     if (bm_list == NULL) {
--        return;
-+        return -EIO;
-     }
- 
-     bm = find_bitmap_by_name(bm_list, name);
-     if (bm == NULL) {
--        goto fail;
-+        ret = -EINVAL;
-+        goto out;
-     }
- 
-     QSIMPLEQ_REMOVE(bm_list, bm, Qcow2Bitmap, entry);
-@@ -1435,14 +1435,16 @@ void qcow2_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-     ret = update_ext_header_and_dir(bs, bm_list);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Failed to update bitmap extension");
--        goto fail;
-+        goto out;
-     }
- 
-     free_bitmap_clusters(bs, &bm->table);
- 
--fail:
-+out:
-     bitmap_free(bm);
-     bitmap_list_free(bm_list);
-+
-+    return ret;
- }
- 
- void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
-diff --git a/blockdev.c b/blockdev.c
-index fbef6845c8..0813adfb2b 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2940,15 +2940,14 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
-     }
- 
-     if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
-+        int ret;
-         AioContext *aio_context = bdrv_get_aio_context(bs);
--        Error *local_err = NULL;
- 
-         aio_context_acquire(aio_context);
--        bdrv_remove_persistent_dirty_bitmap(bs, name, &local_err);
-+        ret = bdrv_remove_persistent_dirty_bitmap(bs, name, errp);
-         aio_context_release(aio_context);
- 
--        if (local_err != NULL) {
--            error_propagate(errp, local_err);
-+        if (ret < 0) {
-             return NULL;
-         }
-     }
--- 
-2.18.0
+Which means that we could break at 4k pages instead of 2k now
+and the program wouldn't really be able to tell the difference.
+
+
+r~
 
 
