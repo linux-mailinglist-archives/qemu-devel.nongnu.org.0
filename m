@@ -2,100 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C61AF8D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:23:18 +0200 (CEST)
-Received: from localhost ([::1]:48750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29E0AF8C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:21:37 +0200 (CEST)
+Received: from localhost ([::1]:48700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yqK-0007ZD-Rv
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40141)
+	id 1i7yoi-0005HG-KG
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:21:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i7ylG-0001qw-AD
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:18:03 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i7ymj-0003RJ-Rf
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:19:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i7ylF-0005sT-6B
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:18:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34132)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1i7ylC-0005p5-RX; Wed, 11 Sep 2019 05:17:59 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 284EB99C42;
- Wed, 11 Sep 2019 09:17:58 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-192.ams2.redhat.com [10.36.116.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45BB619C4F;
- Wed, 11 Sep 2019 09:17:56 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190910185839.19682-1-thuth@redhat.com>
- <4ce671ea-452b-39ac-ea2e-83b9d75a3b84@redhat.com>
- <20190911065857.GB4907@localhost.localdomain>
- <5711e370-1d92-4868-39c1-3423c2dd9f42@redhat.com>
- <20190911085447.GD4907@localhost.localdomain>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <c60f3e79-8b8d-4d03-b9f8-fe98a8e50991@redhat.com>
-Date: Wed, 11 Sep 2019 11:17:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1i7ymh-0006vZ-TI
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:19:33 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46610)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i7ymh-0006sy-M8
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:19:31 -0400
+Received: by mail-wr1-x444.google.com with SMTP id d17so10870281wrq.13
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 02:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=pF62HMpZmO2GC18uvn7ta+ZUSLM8vfweqMpRGxrF/lI=;
+ b=B3+bchj2G4FTEtlxFYX8D3lsFnr2MnxixJU5t2DctMQ3NcxRzCE5Cg6Q/+sgP+gYm7
+ LmRlnXwS+8wbh1PHBqe53kpkZ2ODSzlbU8EtiZ1JQi2djiu6xGsG6gMGmRR7GqQwapi8
+ Ruif994nU6/AIfJgvU4MRSJctDkjSu1VUbfiEWmaoYln88pa01AMIv3oJZ9WrHIgNWLY
+ 30FoK09BufnTV3JoWL6Gzoq92dP4legoDJc6OOsJQoUaG/0FNvyCF1YcpmuWUot1ee6v
+ TbILj8it5Gan77srfc7091zvdaQHPDHwmdo+BPCqK1/YzNzjCvnazpAae6JZ1+M3NOR8
+ ZWMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=pF62HMpZmO2GC18uvn7ta+ZUSLM8vfweqMpRGxrF/lI=;
+ b=OulzWGXDz4Z5VwUxvvLsIme54w+neEHUNk1BzBuEJs/oE8mNgPM6rCJy5VPb71SkW7
+ XSj09wovmOW+bnARxfDJiPsDcBLpQYDeOVyThKLcCHcyFoM2OvZhJFkVDLHtgiBW/JOx
+ C91sL7bYID5PQhn9ctLKeCoA31n7UDnqT7VfmEKnmOf1xocsyPJo+8lpIgY876YV0QgC
+ kPt8EijWmqtnWXy7T/tXMPzJopoRT51RqeFTU0Cg6zkOWsu+se//yuskjyI/lFeqSqzY
+ fqV2E6MXVvrGlPEryxcorld3/qYLPYDK3Ms9NKCm8eWanl+xhJcsGLtDcQB7OLHJb2GT
+ 0/vw==
+X-Gm-Message-State: APjAAAW25L83/P+VOoE6XZ30ts2q18GCaHpG6Bt/txCCOttrylS8vE2H
+ J/VJN0yWyTXFJHtblfCzR2Ov6Q==
+X-Google-Smtp-Source: APXvYqzTbsdsWmuo/+wIno+QXDyuGOaxoFjgRpv0I1GlP2v2tMUS4xIv10I7WUT4E4x5jL3ucKKwYA==
+X-Received: by 2002:a5d:5045:: with SMTP id h5mr829682wrt.312.1568193569995;
+ Wed, 11 Sep 2019 02:19:29 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z25sm2405620wmk.0.2019.09.11.02.19.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Sep 2019 02:19:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 834631FF87;
+ Wed, 11 Sep 2019 10:19:28 +0100 (BST)
+References: <20190910193408.28917-1-alex.bennee@linaro.org>
+ <20190910193408.28917-3-alex.bennee@linaro.org>
+ <alpine.BSF.2.21.9999.1909111015260.4726@zero.eik.bme.hu>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+In-reply-to: <alpine.BSF.2.21.9999.1909111015260.4726@zero.eik.bme.hu>
+Date: Wed, 11 Sep 2019 10:19:28 +0100
+Message-ID: <875zlz197j.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190911085447.GD4907@localhost.localdomain>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="IidXLmUIGJG5rIqGh13PD14ffbRfmgid9"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Wed, 11 Sep 2019 09:17:58 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/7] Move qtests to a separate
- folder
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v1 2/4] elf: move elf.h to elf/elf.h and
+ split out types
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,101 +84,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>, qemu-devel@nongnu.org,
+ "open list:S390-ccw boot" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
+ "open list:PReP" <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IidXLmUIGJG5rIqGh13PD14ffbRfmgid9
-Content-Type: multipart/mixed; boundary="ULJiBbpCjfsxQEiUz1hkOboOOcvWbwHGx";
- protected-headers="v1"
-From: Thomas Huth <thuth@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Message-ID: <c60f3e79-8b8d-4d03-b9f8-fe98a8e50991@redhat.com>
-Subject: Re: [Qemu-block] [PATCH 0/7] Move qtests to a separate folder
-References: <20190910185839.19682-1-thuth@redhat.com>
- <4ce671ea-452b-39ac-ea2e-83b9d75a3b84@redhat.com>
- <20190911065857.GB4907@localhost.localdomain>
- <5711e370-1d92-4868-39c1-3423c2dd9f42@redhat.com>
- <20190911085447.GD4907@localhost.localdomain>
-In-Reply-To: <20190911085447.GD4907@localhost.localdomain>
 
---ULJiBbpCjfsxQEiUz1hkOboOOcvWbwHGx
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+BALATON Zoltan <balaton@eik.bme.hu> writes:
 
-On 11/09/2019 10.54, Kevin Wolf wrote:
-> Am 11.09.2019 um 10:01 hat Thomas Huth geschrieben:
->> On 11/09/2019 08.58, Kevin Wolf wrote:
->>> Am 10.09.2019 um 21:07 hat Eric Blake geschrieben:
->>>> On 9/10/19 1:58 PM, Thomas Huth wrote:
->>>>> Our "tests" directory is very overcrowded - we store the qtests,
->>>>> unit test and other files there. That makes it difficult to
->>>>> determine which file belongs to each test subsystem, and the
->>>>> wildcards in the MAINTAINERS file are inaccurate, too.
->>>>>
->>>>> Let's clean up this mess. The first patches disentangle some
->>>>> dependencies, and the last three patches then move the qtests
->>>>> and libqos (which is a subsystem of the qtests) to a new folder
->>>>> called "tests/qtest/".
->>>>
->>>> I'd also welcome a rename of tests/qemu-iotests to tests/iotests.
->>>
->>> I might prefer if the directory were named "iotests" rather than
->>> "qemu-iotests" if we were only adding the code now.
->>>
->>> However, I'm not so sure if I'd like a rename now because a rename
->>> always comes with a cost and the benefits are rather limited in this
->>> case.
+> On Tue, 10 Sep 2019, Alex Benn=C3=A9e wrote:
+>> diff --git a/include/elf/elf-types.inc.h b/include/elf/elf-types.inc.h
+>> new file mode 100644
+>> index 00000000000..35163adb2b5
+>> --- /dev/null
+>> +++ b/include/elf/elf-types.inc.h
+>> @@ -0,0 +1,63 @@
+>> +/*
+>> + * Elf Type Specialisation
+>> + *
+>> + * Copyright (c) 2019
+>> + * Written by Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> + *
+>> + * This code is licensed under the GNU .
+>
+> You're missing end of licence sentence here. Also original file did
+> not have copyright and licence header so you may want to fix that too
+> or leave it out here as well for consistency,
+
+The fault of my header macro - I'll try and fix it up when it's
+expanding on the QEMU tree.
+
+I'm going to assume that is should be the whole project license (GPL
+v2). Most of the original file dates from 2003 and is Frabrice's commit
+with the occasional commit mentioning be copied from Linux.
+
+>
+>> + */
+>> +
+>> +#ifndef _ELF_TYPES_INC_H_
+>> +#define _ELF_TYPES_INC_H_
+>> +
+>> +#ifndef ELF_CLASS
+>> +#error you must define ELF_CLASS before including elf-types.inc.h
+>> +#else
+>> +
+>> +#if ELF_CLASS =3D=3D ELFCLASS32
+>> +
+>> +#define elfhdr      elf32_hdr
+>> +#define elf_phdr    elf32_phdr
+>> +#define elf_note    elf32_note
+>> +#define elf_shdr    elf32_shdr
+>> +#define elf_sym     elf32_sym
+>> +#define elf_addr_t  Elf32_Off
+>> +#define elf_rela    elf32_rela
+>> +
+>> +#ifdef ELF_USES_RELOCA
+>> +# define ELF_RELOC  Elf32_Rela
+>> +#else
+>> +# define ELF_RELOC  Elf32_Rel
+>> +#endif
+>> +
+>> +#ifndef ElfW
+>> +#  define ElfW(x)   Elf32_ ## x
+>> +#  define ELFW(x)   ELF32_ ## x
+>> +#endif
+>> +
+>> +#else /* ELF_CLASS =3D=3D ELFCLASS64 */
+>> +
+>> +#define elfhdr      elf64_hdr
+>> +#define elf_phdr    elf64_phdr
+>> +#define elf_note    elf64_note
+>> +#define elf_shdr    elf64_shdr
+>> +#define elf_sym     elf64_sym
+>> +#define elf_addr_t  Elf64_Off
+>> +#define elf_rela    elf64_rela
+>> +
+>> +#ifdef ELF_USES_RELOCA
+>> +# define ELF_RELOC  Elf64_Rela
+>> +#else
+>> +# define ELF_RELOC  Elf64_Rel
+>> +#endif
+>> +
+>> +#ifndef ElfW
+>> +#  define ElfW(x)   Elf64_ ## x
+>> +#  define ELFW(x)   ELF64_ ## x
+>> +#endif
+>> +
+>> +#endif /* ELF_CLASS =3D=3D ELFCLASS64 */
+>> +#endif /* ELF_CLASS */
+>> +#else
+>> +#error elf-types.inc.h should not be included twice in one compilation =
+unit
+>> +#endif /* _ELF_TYPES_INC_H_ */
+>> diff --git a/include/elf.h b/include/elf/elf.h
+>> similarity index 98%
+>> rename from include/elf.h
+>> rename to include/elf/elf.h
+>> index 3501e0c8d03..2e264c1a7a0 100644
+>> --- a/include/elf.h
+>> +++ b/include/elf/elf.h
+>> @@ -1696,49 +1696,7 @@ struct elf32_fdpic_loadmap {
+>> };
 >>
->> Well, if we all agree that it rather should be renamed, we should mayb=
-e
->> rather do it now than later. Later the cost might even be higher.
->=20
-> What I'm saying is that I'm not sure that it should be renamed. What
-> will we gain from the rename apart from saving five redundant character=
-s
-> in the path?
+>> #ifdef ELF_CLASS
+>> -#if ELF_CLASS =3D=3D ELFCLASS32
+>> -
+>> -#define elfhdr		elf32_hdr
+>> -#define elf_phdr	elf32_phdr
+>> -#define elf_note	elf32_note
+>> -#define elf_shdr	elf32_shdr
+>> -#define elf_sym		elf32_sym
+>> -#define elf_addr_t	Elf32_Off
+>> -#define elf_rela  elf32_rela
+>> -
+>> -#ifdef ELF_USES_RELOCA
+>> -# define ELF_RELOC      Elf32_Rela
+>> -#else
+>> -# define ELF_RELOC      Elf32_Rel
+>> -#endif
+>> -
+>> -#else
+>> -
+>> -#define elfhdr		elf64_hdr
+>> -#define elf_phdr	elf64_phdr
+>> -#define elf_note	elf64_note
+>> -#define elf_shdr	elf64_shdr
+>> -#define elf_sym		elf64_sym
+>> -#define elf_addr_t	Elf64_Off
+>> -#define elf_rela  elf64_rela
+>> -
+>> -#ifdef ELF_USES_RELOCA
+>> -# define ELF_RELOC      Elf64_Rela
+>> -#else
+>> -# define ELF_RELOC      Elf64_Rel
+>> -#endif
+>> -
+>> -#endif /* ELF_CLASS */
+>>
+>> -#ifndef ElfW
+>> -# if ELF_CLASS =3D=3D ELFCLASS32
+>> -#  define ElfW(x)  Elf32_ ## x
+>> -#  define ELFW(x)  ELF32_ ## x
+>> -# else
+>> -#  define ElfW(x)  Elf64_ ## x
+>> -#  define ELFW(x)  ELF64_ ## x
+>> -# endif
+>> -#endif
+>>
+>> #endif /* ELF_CLASS */
+>
+> Is there anything remaining in this #ifdef ELF_CLASS after this patch?
+> If not why do you keep it?
+>
+> Regards,
+> BALATON Zoltan
 
-Since the iotests are currently creating unix sockets in the
-tests/qemu-iotests/ directory, and the total length of the directory
-here is limited, it indeed makes a small difference. But well, that
-likely should be fixed instead by moving the sockets to /tmp/ instead.
 
- Thomas
-
-
---ULJiBbpCjfsxQEiUz1hkOboOOcvWbwHGx--
-
---IidXLmUIGJG5rIqGh13PD14ffbRfmgid9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJ7iIR+7gJQEY8+q5LtnXdP5wLbUFAl14u74ACgkQLtnXdP5w
-LbVFvxAAmkqlfwpKwxSu7/gaJ33AOQx8Cu5l8nQBqFww/kQvKvFeka9uhm9/JKcv
-JYb62FfPF9PFKWjT1UrnMuNi3l8px+5l1f0LOxcuGFAMKLVQhe/MXgFENnbY1lpn
-Sx7hjNF/0hQrBXIPP5gW8orvCGJJX9A1fdSCqQP0IZJ/Fydbe//5HJKgrg0Tcsl1
-nD29KlS2sH1YDmKCDIeVHDh0xQoog+714y+wFEzxse+rH3gp1qrja1BSsLYtmtyH
-a6H1hORAtCLpsBR6bQFaUerunKFj76mO27O5ThlxNuRcnFPdnoqZer5JP83y4Lw1
-QawGEbQy2XcU869mrd3U2d9m+KfY7/iLlH2F1pf7BIfoswR9xBTUPcZAIGSX514p
-knuW6aeIHRLa77jK6P2n16+IEcLgcZ/WOuCz4ws4u90tuhql3THjxo0PuAAdzRaR
-Okmf1q5ek9Beaz9bwcLi/rkSNWwV581TxmUoqU+mDBy3/0U1mUY7Ajy0aBj826R1
-SyZ9actbgMLeyzv623AtbaithT/9w3yApOmw7m9wtFqzXE+imvb2H/DiA29d4LTI
-vlZFp4UcI5e07f4nRPipyr2ws8KWrEvZv0rRHSwYIuAD4Xs2h1vG4EjJH6bhe9H+
-Tw67A821RBp33AS7s5B07XcuD+1bXIwUNSrPNsmEoC8kMe0E0LY=
-=p7bi
------END PGP SIGNATURE-----
-
---IidXLmUIGJG5rIqGh13PD14ffbRfmgid9--
+--
+Alex Benn=C3=A9e
 
