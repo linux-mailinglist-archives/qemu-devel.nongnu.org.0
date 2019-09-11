@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6FCB0220
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 18:52:54 +0200 (CEST)
-Received: from localhost ([::1]:53840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EB1B023F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 18:57:25 +0200 (CEST)
+Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i85rR-0000Jr-2X
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 12:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43569)
+	id 1i85vo-0005jX-AK
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 12:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44839)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i85ol-0006Wb-Lp
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:50:08 -0400
+ (envelope-from <berrange@redhat.com>) id 1i85uz-0004um-Vs
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:56:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i85ok-0004AU-67
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:50:07 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53732)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i85oj-00049a-Rz
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:50:06 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q18so4306269wmq.3
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 09:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AP1T2XSjOl2lJh+/fDSQgEAsr5iAzl9ejFzzWbjY7Ww=;
- b=Ff+00vDxm782CQz2NYha0vGGnSqPvqMC1mrq5f3BS497P9RqA0L6hs3rFIs6J2A3z5
- kwXN5pdHvH7xeLNOcuo+oQ+4lZApbgi2KqaB674LAq/FC7MZqQLetoG2u6JFjLAJegzJ
- bN3BEdt7K/dk7Pc3TuWVfBBMc19/52AFUZnKVS+sk/cOtCj+2QoWcr/hb+TJng0Qj/o4
- p9DYSwmUaOEVZsVD3pSZwTt7KJ4nryBWHr6NklmmJPjpqUrSntWLS8zAHKxa8Ce/CDO5
- JpFzCKug0mCtyNsu1FbHc92g7kLTRDtDn1RPukSG2rBfWFHSQAg6Cggwbdo9vviAcS/x
- OUNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AP1T2XSjOl2lJh+/fDSQgEAsr5iAzl9ejFzzWbjY7Ww=;
- b=b3SeBKUonriVF32AGoo6/XIu7y0k05GnwtVcg2S/gVVwBUUQGsNNbjD0eGt3YQKbYQ
- MgcgZ+JkGfYWL3kWwpakFVidJ8CYIwd9DwtjQKKc5ihfQ8Q9TMn3ePxChRlYs8EI1URJ
- VX3TpV3zoxi+XepYb/m8JEAIYGet1EEMxAcfEbHAgaHmg3QxaanCPNjDqdgIAW/Pegcb
- e0NRiEC/xM2+Hqn1H7NjTeRJd2sYfxsD3Qa5pRTKXvG55H8s5vvvZxcI8IlAcqz6BDMg
- F7B/zBTXw+BSaNdcZ1FyIIXKCkSi6/Lt8Zc0gLKXMlCWu7Sps4kSfu1neo1pf4XZvQYL
- VSLg==
-X-Gm-Message-State: APjAAAV2KRSH9DA47G9wBxnPM2iOhu4oNMhJrmq+x6SbA+Yv0FTwnra9
- 2VYm2pTSzGfDbg0tD0K4dy2nqrBzjD0=
-X-Google-Smtp-Source: APXvYqyeRSp9TG3FBnrSHlHbwtYm2DADlMAwRSpogk19p0AskfsfA1BN2+cFgthP1wjiBpbsquthCw==
-X-Received: by 2002:a05:600c:293:: with SMTP id
- 19mr4466815wmk.37.1568220604685; 
- Wed, 11 Sep 2019 09:50:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a7sm25915726wra.43.2019.09.11.09.50.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 09:50:01 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D3B691FF92;
- Wed, 11 Sep 2019 17:50:00 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Wed, 11 Sep 2019 17:49:59 +0100
-Message-Id: <20190911164959.11003-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190911164959.11003-1-alex.bennee@linaro.org>
-References: <20190911164959.11003-1-alex.bennee@linaro.org>
+ (envelope-from <berrange@redhat.com>) id 1i85ux-0008Le-Ox
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:56:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53976)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i85ux-0008L9-Jw
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:56:31 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6960BC08C33F
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 16:56:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93B9C19C6A;
+ Wed, 11 Sep 2019 16:56:29 +0000 (UTC)
+Date: Wed, 11 Sep 2019 17:56:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Message-ID: <20190911165627.GG24295@redhat.com>
+References: <20190911164202.31136-1-dgilbert@redhat.com>
+ <20190911164202.31136-2-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH v5 5/5] target/arm: remove run-time semihosting
- checks for linux-user
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190911164202.31136-2-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 11 Sep 2019 16:56:30 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/3] rcu: Add automatically released
+ rcu_read_lock variant
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,137 +58,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we do all our checking at translate time we can make cpu_loop a
-little bit simpler. We also introduce a simple linux-user semihosting
-test case to defend the functionality. The out-of-tree softmmu based
-semihosting tests are still more comprehensive.
+On Wed, Sep 11, 2019 at 05:42:00PM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> RCU_READ_LOCK_AUTO takes the rcu_read_lock  and then uses glib's
+> g_auto infrastrcture (and thus whatever the compilers hooks are) to
+> release it on all exits of the block.
+> 
+> Note this macro has a variable declaration in, and hence is not in
+> a while loop.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  include/qemu/rcu.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+> index 22876d1428..6a25b27d28 100644
+> --- a/include/qemu/rcu.h
+> +++ b/include/qemu/rcu.h
+> @@ -154,6 +154,18 @@ extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
+>        }),                                                                \
+>        (RCUCBFunc *)g_free);
+>  
+> +typedef char rcu_read_auto_t;
+> +static inline void rcu_read_auto_unlock(rcu_read_auto_t *r)
+> +{
+> +  rcu_read_unlock();
+> +}
+> +
+> +G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(rcu_read_auto_t, rcu_read_auto_unlock)
+>
+> +#define RCU_READ_LOCK_AUTO g_auto(rcu_read_auto_t) \
+> +    _rcu_read_auto = 'x'; \
+> +    rcu_read_lock();
+> +
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- linux-user/arm/cpu_loop.c         |  3 ---
- linux-user/arm/target_syscall.h   |  3 ---
- tests/tcg/aarch64/Makefile.target |  5 ++++
- tests/tcg/arm/Makefile.target     |  5 ++++
- tests/tcg/arm/semihosting.c       | 45 +++++++++++++++++++++++++++++++
- 5 files changed, 55 insertions(+), 6 deletions(-)
- create mode 100644 tests/tcg/arm/semihosting.c
+Functionally this works, but my gut feeling would be to follow
+the design of GMutexLocker as-is:
 
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index 8d65de5b9f4..e28c45cd4ab 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -325,9 +325,6 @@ void cpu_loop(CPUARMState *env)
- 
-                 if (n == ARM_NR_cacheflush) {
-                     /* nop */
--                } else if (n == ARM_NR_semihosting
--                           || n == ARM_NR_thumb_semihosting) {
--                    env->regs[0] = do_arm_semihosting (env);
-                 } else if (n == 0 || n >= ARM_SYSCALL_BASE || env->thumb) {
-                     /* linux syscall */
-                     if (env->thumb || n == 0) {
-diff --git a/linux-user/arm/target_syscall.h b/linux-user/arm/target_syscall.h
-index afc0772e194..f85cbdaf56f 100644
---- a/linux-user/arm/target_syscall.h
-+++ b/linux-user/arm/target_syscall.h
-@@ -18,9 +18,6 @@ struct target_pt_regs {
- #define ARM_NR_set_tls	  (ARM_NR_BASE + 5)
- #define ARM_NR_get_tls    (ARM_NR_BASE + 6)
- 
--#define ARM_NR_semihosting	  0x123456
--#define ARM_NR_thumb_semihosting  0xAB
--
- #if defined(TARGET_WORDS_BIGENDIAN)
- #define UNAME_MACHINE "armv5teb"
- #else
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 9758f89f905..509f1afa93d 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -21,4 +21,9 @@ run-fcvt: fcvt
- AARCH64_TESTS += pauth-1 pauth-2
- run-pauth-%: QEMU_OPTS += -cpu max
- 
-+# Semihosting smoke test for linux-user
-+AARCH64_TESTS += semihosting
-+run-semihosting: semihosting
-+	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
-+
- TESTS += $(AARCH64_TESTS)
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 7347d3d0adb..3b7fc9a64be 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -27,6 +27,11 @@ run-fcvt: fcvt
- 	$(call run-test,fcvt,$(QEMU) $<,"$< on $(TARGET_NAME)")
- 	$(call diff-out,fcvt,$(ARM_SRC)/fcvt.ref)
- 
-+# Semihosting smoke test for linux-user
-+ARM_TESTS += semihosting
-+run-semihosting: semihosting
-+	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
-+
- TESTS += $(ARM_TESTS)
- 
- # On ARM Linux only supports 4k pages
-diff --git a/tests/tcg/arm/semihosting.c b/tests/tcg/arm/semihosting.c
-new file mode 100644
-index 00000000000..09c89cb481a
---- /dev/null
-+++ b/tests/tcg/arm/semihosting.c
-@@ -0,0 +1,45 @@
-+/*
-+ * linux-user semihosting checks
-+ *
-+ * Copyright (c) 2019
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-3.0-or-later
-+ */
-+
-+#include <stdint.h>
-+
-+#define SYS_WRITE0      0x04
-+#define SYS_REPORTEXC   0x18
-+
-+void __semi_call(uintptr_t type, uintptr_t arg0)
-+{
-+#if defined(__arm__)
-+    register uintptr_t t asm("r0") = type;
-+    register uintptr_t a0 asm("r1") = arg0;
-+    asm("svc 0xab"
-+        : /* no return */
-+        : "r" (t), "r" (a0));
-+#else
-+    register uintptr_t t asm("x0") = type;
-+    register uintptr_t a0 asm("x1") = arg0;
-+    asm("hlt 0xf000"
-+        : /* no return */
-+        : "r" (t), "r" (a0));
-+#endif
-+}
-+
-+int main(int argc, char *argv[argc])
-+{
-+#if defined(__arm__)
-+    uintptr_t exit_code = 0x20026;
-+#else
-+    uintptr_t exit_block[2] = {0x20026, 0};
-+    uintptr_t exit_code = (uintptr_t) &exit_block;
-+#endif
-+
-+    __semi_call(SYS_WRITE0, (uintptr_t) "Hello World");
-+    __semi_call(SYS_REPORTEXC, exit_code);
-+    /* if we get here we failed */
-+    return -1;
-+}
+  https://developer.gnome.org/glib/stable/glib-Threads.html#g-mutex-locker-new
+
+so you get a use pattern of
+
+  g_autoptr(rcu_read_locker) locker = rcu_read_locker_new();
+
+This makes it explicit that the code is creating a variable here, which
+in turns means it is clear to force unlock early with
+
+  g_clear_pointer(&locker, rcu_read_locker_free)
+
+
+Regards,
+Daniel
 -- 
-2.20.1
-
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
