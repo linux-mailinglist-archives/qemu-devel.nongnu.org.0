@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67880AF648
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:01:28 +0200 (CEST)
-Received: from localhost ([::1]:47112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174D2AF660
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:06:23 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wd5-0001D8-C3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:01:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40791)
+	id 1i7whp-0005bl-6K
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7wRd-0005zV-Du
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:38 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7wRh-00064k-BS
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7wRc-0004Lw-E7
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:37 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:41639)
+ (envelope-from <laurent@vivier.eu>) id 1i7wRf-0004OM-V1
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:58283)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRc-0004LP-5r
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:36 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRf-0004NS-LU
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:39 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MQdtO-1hneOe3lJO-00Neb7; Wed, 11 Sep 2019 08:49:27 +0200
+ id 1MWRi7-1hbqgV2OPT-00XrjM; Wed, 11 Sep 2019 08:49:28 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 08:49:08 +0200
-Message-Id: <20190911064920.1718-4-laurent@vivier.eu>
+Date: Wed, 11 Sep 2019 08:49:11 +0200
+Message-Id: <20190911064920.1718-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190911064920.1718-1-laurent@vivier.eu>
 References: <20190911064920.1718-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BhFz3JGYOqV2oRqgFfYhck60WR/r0kySBhTCOvHWSxF7Kis7fKY
- vY2LdwEoDwQuO+ZKuMD/I0S53u1Ka1bi2Nibue/ONBiSPUKE56B7bVwyHppeBJFZQS09tz3
- XlZh3yw+W1K+78UchimIMpWdaqs6o5FKjC3OFLYKS5DgyxIPE0rw2dDhjmK721uCNYP/M86
- b/J0Xh2NVDALJLnxJvDMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XsCRCjD72+c=:1Uao9+BpcdNnoZK+wH3SOk
- t7HRE4ZvMFQqQtYDF/gUH0byvVWGl3QEvDj5AFjZYk854GTC+8BR+5rIUmdWVE1N6Xg7Suw9w
- ChfVnR/kbol6ypoKErMZsKj4en9f9GKb7t3Cknk0XMSHQntB6ey/kG/MzZ/uUo08AwMlt9cPY
- 45RQtVG+dxyhyhkMbjEoZPFBX4B5b1k9cYbXZ8Ef3eQZamHHqnCamUr4KybdxpSTEQfkV+6Ad
- TdF13sjcHAP+5r3xereYrThy3RVx393PT+B0PlApyF74FIM2vMpDrhB653yKPS5U0J8axNM7d
- dZc5lfdg3wwWRBuAfarizyCy4D4UYnhON5Zd8gIO0bQUVtB2/5npJQDgMDt/AN6vcxETCOUjF
- GElDgkMnULYKe9c+oZC7njDMugagM7cOnmb4kmwFjRVc2Mw7wwsXSR4zffmaHcs1s0oK7Ss1Z
- PNxUEaUUNbeD5FLjyQfT544qRTLhl5NOdB/6XSjWqhnlT3N6VIixsvaLHGe/9vQu6C7PrEOVI
- ZvgNdGAzl5J6mH/j0PFyIzk+q8dWs+dYVyUpeSi0/LnmFjtOL98VlO26Z5UKvnnODsyQkcqVV
- 5VA+su51z+ZcRHHdYDfpjCN0prX4Ci8gds0+edEoNPyw3vnCreADyE5I2IuKtTVNKVJ7/9mX3
- mlGBP7yGe9vqH9k2A2uQ2X8ihZ4qq2ii+2/ovSK5t25lqusYnuwkdif9uji7ebs5aQKt8NKK7
- 340CF1Tz9HrdDNUQfrEJvNTpTxs5pYbzhTVhqKfA5z6kwdIMuNQvS4hE6wFpFvFurGC2ifJ5A
- HDvPIZZAKhrRvS6OKZB9BF+Dc55Qec84YgMjFoBWP9P2ay1KL0=
+X-Provags-ID: V03:K1:lfv5mfUSpaYqspHFKcdASL7d5yzUy8SzbylCwkjxEMMQX0pt1dN
+ WQW6rI2nCkDkFAiWvSAPysNHfX2PU7Qe45U9dcp47ivUYgEMkwinEnwH99BvjT+2FN6x5kJ
+ HaKMksge0wZnCFb+vZSykuR1OZY6z5CuLtFggw1Ke6bMb6qpOTIhyxz5W2PPC3yJIM708ma
+ VYO0f0UNibC2KBd6NNcVA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6e6TxgXutMw=:kbGnVGt81wm7jYxVXxAjbh
+ 7zacYdDUQwMER/eSkAFZ7VNjWIMmi+wGzqcje5pVnhK2rj8gUuZbAhoPttcvXgkEOo+J8sJE1
+ WdgKjXPq1RKCbLiZVg96TuWPa7eMCOZvjwbuEmKEVF8e+OhgQrfkUbeCLr4G2qaYGRVCEqFel
+ LEh2aNkZ29T5TZN7Hub7v9Fccc7ULVpsTQzJfQ+xyUf7qpQ2ZN7/VVeFbSZrLNt6mrbTP4JkC
+ yoE6BIWIiiGhzV3cBEl0K220Pusr8G4t8YF7/KGrNA8vhwFRfp7YxrXB4yG6Y63yMZtdBmtoU
+ 5wmLHH4z1cctgqc6Y5WzGQwFtuKksqXFQDMTap0vxjejt5jz1bpSpUQfBZqccx7sqRVAhT733
+ ti/jwr0kBlH8r+Dc6KmVBBHEXly5tnawsq1qCvDPDOsQjx3Mg0eJThzuqfcj5nzzW9dzJjo1X
+ J3ATpSbz077Ar5Ei4O6uPp41DgCd0BLZHSEogvxlJGiVp7+cZu3z/j2hx25zbEOZnLxemXXFs
+ RTVqXDXNmMy/KuJWXxpv7Amlru0+yw8iwLHNvjK2qf6GB3ywkVHs5uYFhzL4sPbEuBgz5WeW1
+ IyYFbxqoyEBor0G9ifZwrzpNqiyD2qvGFI+lVDXfXBk7o37d/rIm2deRMwWhCJLdCRffkSKwT
+ lc3Ah5xDpopr2uurllzxPgEeyOznIEjuAAebtMg1SGTF8R4I/VcBnIZFVwQ8yLQvK5Ypz3j2l
+ q4p/D2Uw2t4tfyCSc7ICKxdvE7Q9C6EuLPl6i+73HRLph6nnhZsFQp2sIL7HWYRNcRypNHVre
+ i2VCQ2+JH7GTn4ec9/E6R9Bf1CUS9tghIMCopx3IF+Lrf8IxtE=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
-Subject: [Qemu-devel] [PULL v2 03/15] linux-user: erroneous
- fd_trans_unregister call
+X-Received-From: 212.227.126.187
+Subject: [Qemu-devel] [PULL v2 06/15] linux-user: Pass CPUState to
+ MAX_RESERVED_VA
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,35 +65,126 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shu-Chun Weng <scw@google.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-timer_getoverrun returns the "overrun count" for the timer, which is not
-a file descriptor and thus should not call fd_trans_unregister on it.
+Turn the scalar macro into a functional macro.  Move the creation
+of the cpu up a bit within main() so that we can pass it to the
+invocation of MAX_RESERVED_VA.  Delay the validation of the -R
+parameter until MAX_RESERVED_VA is computed.
 
-Signed-off-by: Shu-Chun Weng <scw@google.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20190819185348.221825-1-scw@google.com>
+So far no changes to any of the MAX_RESERVED_VA macros to actually
+use the cpu in any way, but ARM will need it.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20190822185929.16891-2-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 1 -
- 1 file changed, 1 deletion(-)
+ linux-user/arm/target_cpu.h |  2 +-
+ linux-user/main.c           | 43 +++++++++++++++++++++----------------
+ 2 files changed, 26 insertions(+), 19 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8b41a03901d4..b42f59a32c8d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -11847,7 +11847,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             timer_t htimer = g_posix_timers[timerid];
-             ret = get_errno(timer_getoverrun(htimer));
-         }
--        fd_trans_unregister(ret);
-         return ret;
-     }
+diff --git a/linux-user/arm/target_cpu.h b/linux-user/arm/target_cpu.h
+index 8a3764919ad9..279ea532d5b7 100644
+--- a/linux-user/arm/target_cpu.h
++++ b/linux-user/arm/target_cpu.h
+@@ -21,7 +21,7 @@
+ 
+ /* We need to be able to map the commpage.
+    See validate_guest_space in linux-user/elfload.c.  */
+-#define MAX_RESERVED_VA  0xffff0000ul
++#define MAX_RESERVED_VA(CPU)  0xffff0000ul
+ 
+ static inline void cpu_clone_regs(CPUARMState *env, target_ulong newsp)
+ {
+diff --git a/linux-user/main.c b/linux-user/main.c
+index c257b063dbc1..24cb24f0bf8f 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -77,12 +77,12 @@ int have_guest_base;
+       (TARGET_LONG_BITS == 32 || defined(TARGET_ABI32))
+ /* There are a number of places where we assign reserved_va to a variable
+    of type abi_ulong and expect it to fit.  Avoid the last page.  */
+-#   define MAX_RESERVED_VA  (0xfffffffful & TARGET_PAGE_MASK)
++#   define MAX_RESERVED_VA(CPU)  (0xfffffffful & TARGET_PAGE_MASK)
+ #  else
+-#   define MAX_RESERVED_VA  (1ul << TARGET_VIRT_ADDR_SPACE_BITS)
++#   define MAX_RESERVED_VA(CPU)  (1ul << TARGET_VIRT_ADDR_SPACE_BITS)
+ #  endif
+ # else
+-#  define MAX_RESERVED_VA  0
++#  define MAX_RESERVED_VA(CPU)  0
+ # endif
  #endif
+ 
+@@ -356,8 +356,7 @@ static void handle_arg_reserved_va(const char *arg)
+         unsigned long unshifted = reserved_va;
+         p++;
+         reserved_va <<= shift;
+-        if (reserved_va >> shift != unshifted
+-            || (MAX_RESERVED_VA && reserved_va > MAX_RESERVED_VA)) {
++        if (reserved_va >> shift != unshifted) {
+             fprintf(stderr, "Reserved virtual address too big\n");
+             exit(EXIT_FAILURE);
+         }
+@@ -605,6 +604,7 @@ int main(int argc, char **argv, char **envp)
+     int i;
+     int ret;
+     int execfd;
++    unsigned long max_reserved_va;
+ 
+     error_init(argv[0]);
+     module_call_init(MODULE_INIT_TRACE);
+@@ -670,24 +670,31 @@ int main(int argc, char **argv, char **envp)
+     /* init tcg before creating CPUs and to get qemu_host_page_size */
+     tcg_exec_init(0);
+ 
+-    /* Reserving *too* much vm space via mmap can run into problems
+-       with rlimits, oom due to page table creation, etc.  We will still try it,
+-       if directed by the command-line option, but not by default.  */
+-    if (HOST_LONG_BITS == 64 &&
+-        TARGET_VIRT_ADDR_SPACE_BITS <= 32 &&
+-        reserved_va == 0) {
+-        /* reserved_va must be aligned with the host page size
+-         * as it is used with mmap()
+-         */
+-        reserved_va = MAX_RESERVED_VA & qemu_host_page_mask;
+-    }
+-
+     cpu = cpu_create(cpu_type);
+     env = cpu->env_ptr;
+     cpu_reset(cpu);
+-
+     thread_cpu = cpu;
+ 
++    /*
++     * Reserving too much vm space via mmap can run into problems
++     * with rlimits, oom due to page table creation, etc.  We will
++     * still try it, if directed by the command-line option, but
++     * not by default.
++     */
++    max_reserved_va = MAX_RESERVED_VA(cpu);
++    if (reserved_va != 0) {
++        if (max_reserved_va && reserved_va > max_reserved_va) {
++            fprintf(stderr, "Reserved virtual address too big\n");
++            exit(EXIT_FAILURE);
++        }
++    } else if (HOST_LONG_BITS == 64 && TARGET_VIRT_ADDR_SPACE_BITS <= 32) {
++        /*
++         * reserved_va must be aligned with the host page size
++         * as it is used with mmap()
++         */
++        reserved_va = max_reserved_va & qemu_host_page_mask;
++    }
++
+     if (getenv("QEMU_STRACE")) {
+         do_strace = 1;
+     }
 -- 
 2.21.0
 
