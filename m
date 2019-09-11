@@ -2,44 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C82AAFF03
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:42:46 +0200 (CEST)
-Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30DFAFF1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:49:35 +0200 (CEST)
+Received: from localhost ([::1]:51858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i83pU-0006q4-6j
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44748)
+	id 1i83w6-0004OS-6w
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>) id 1i83m8-0003DM-Th
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:39:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i83p1-0007ei-Fk
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:42:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert@linux-m68k.org>) id 1i83m6-0001xk-R2
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:39:16 -0400
-Received: from xavier.telenet-ops.be ([2a02:1800:120:4::f00:14]:49474)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
- id 1i83m6-0001vH-FJ
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:39:14 -0400
-Received: from ramsan ([84.194.98.4]) by xavier.telenet-ops.be with bizsmtp
- id 0Ef42100405gfCL01Ef4Mv; Wed, 11 Sep 2019 16:39:10 +0200
-Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1i83lw-0006TC-16; Wed, 11 Sep 2019 16:39:04 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1i83lv-0003PI-VI; Wed, 11 Sep 2019 16:39:03 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date: Wed, 11 Sep 2019 16:38:58 +0200
-Message-Id: <20190911143858.13024-6-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190911143858.13024-1-geert+renesas@glider.be>
-References: <20190911143858.13024-1-geert+renesas@glider.be>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 2a02:1800:120:4::f00:14
-Subject: [Qemu-devel] [PATCH/RFC v2 5/5] gpio: Add GPIO Aggregator Driver
+ (envelope-from <richard.henderson@linaro.org>) id 1i83p0-0003Ai-En
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:42:15 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:41511)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i83p0-0003AR-9P
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:42:14 -0400
+Received: by mail-qt1-x844.google.com with SMTP id j10so25473564qtp.8
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OrqciU6SzLz+CiWco+/E8F545d1oKr5ISM5XzIw2qcE=;
+ b=PNOF4pylPjXX32D+7xa6NV/2d5H/6JoNgHZnnBgyDFREt2da1uoaoHOis0YtlCN12s
+ VQVJWxBMA3YPGlbG9ACFHw0uq2pEA7qyzvfhAfkXi3aiv8rg9oS3tYzVpq2nauXmIdUd
+ EYDgBHLVaHaeJWVW+EKutB/ZyWyjAkJRf8YW49JRcax1xRlIizlKSgPep8qTWStup50I
+ I4akt780xAbg7ha3Xx3wY1QHxeIWO04RmtCCTO6J8RSArW8nyyDbj1AcMmcs0zcn/V4D
+ i7lPBOPg8+wWBMQ8w5F+0isYIrwVn/0StDprzMIevG9GWNrTehwkCosayjhvOrIwF3lr
+ bfdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OrqciU6SzLz+CiWco+/E8F545d1oKr5ISM5XzIw2qcE=;
+ b=djjmW+MmNZtSH9N42+rZYI2swMmN3F7Ra7Sg1sFV5EElto4Zw4GjvsuftKX6AXyYeR
+ iSQnf7dCGcofkAfSh4oG2TJ1U+5HkDW463rRlmAjy+yyP9YOpm/5GT1SY13AHLqMPlXh
+ /8hTLmeuppI20nmhqC69vUxEMi6v7EN8NzcW8uxGMhxMdo4/rTnD9zpmSoPFx4ssZLWc
+ 7OOfztWhsupm4iLO58dxNCHKo9T5FI/wGVaOy7e5lVWqpJ8t6DFUHk5/5W46YmABNGYg
+ kidfKkfsGs+hc5pASJNR9bg/XajElxZfXv0VlRW3TRTzHdIr25RF8/z41qFCQsfS0gFo
+ Tz+w==
+X-Gm-Message-State: APjAAAVw3gQsEhwLBIuxKw3xOOz0AJypiC/MWIw5px6RyKFarrh+g/Ig
+ MBkYucvbw0UzrUQn4216hI3Giw==
+X-Google-Smtp-Source: APXvYqwLOJNcb7HgBhuz6C55KrF8PzyPsruSf4KkAVsEAV/9kQGmzuyFntMbb08bHiteL1uC7xNnHA==
+X-Received: by 2002:ac8:7b2a:: with SMTP id l10mr911192qtu.115.1568212933760; 
+ Wed, 11 Sep 2019 07:42:13 -0700 (PDT)
+Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
+ [64.229.69.35])
+ by smtp.gmail.com with ESMTPSA id f14sm2646452qtq.54.2019.09.11.07.42.12
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Sep 2019 07:42:13 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190906075750.14791-1-david@redhat.com>
+ <20190906075750.14791-4-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <2fedb734-2af5-bff0-f458-c36aa6bd5812@linaro.org>
+Date: Wed, 11 Sep 2019 10:42:10 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190906075750.14791-4-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: Re: [Qemu-devel] [PATCH v2 03/28] s390x/tcg: MVCL: Detect
+ destructive overlaps
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,446 +85,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Marc Zyngier <marc.zyngier@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- Alexander Graf <graf@amazon.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Harish Jenny K N <harish_kandiga@mentor.com>,
- Phil Reid <preid@electromag.com.au>
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GPIO controllers are exported to userspace using /dev/gpiochip*
-character devices.  Access control to these devices is provided by
-standard UNIX file system permissions, on an all-or-nothing basis:
-either a GPIO controller is accessible for a user, or it is not.
-Currently no mechanism exists to control access to individual GPIOs.
+On 9/6/19 3:57 AM, David Hildenbrand wrote:
+> We'll have to zero-out unused bit positions, so amke sure to write the
+> addresses back.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/mem_helper.c | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
+> 
 
-Hence add a GPIO driver to aggregate existing GPIOs, and expose them as
-a new gpiochip.  This is useful for implementing access control, and
-assigning a set of GPIOs to a specific user.
-Furthermore, this simplifies and hardens exporting GPIOs to a virtual
-machine, as the VM can just grab the full GPIO controller, and no longer
-needs to care about which GPIOs to grab and which not, reducing the
-attack surface.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Aggregated GPIO controllers are instantiated by writing to the
-"new_device" attribute file in sysfs:
-
-    $ echo [<gpioA>] [<gpiochipB> <offsets>] ...
-            > /sys/bus/platform/drivers/gpio-aggregator/new_device
-
-Where <gpioA> is a GPIO line name, <gpiochipB> is a GPIO chip label or
-name, and <offsets> is a comma-separated list of GPIO offsets and/or
-GPIO offset ranges.
-
-Likewise, aggregated GPIO controllers can be destroyed after use:
-
-    $ echo gpio-aggregator.<N> \
-            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Add missing initialization of i in gpio_virt_agg_probe(),
-  - Update for removed .need_valid_mask field and changed
-    .init_valid_mask() signature,
-  - Drop "virtual", rename to gpio-aggregator,
-  - Drop bogus FIXME related to gpiod_set_transitory() expectations,
-  - Use new GPIO Forwarder Helper,
-  - Lift limit on the maximum number of GPIOs,
-  - Improve parsing:
-      - add support for specifying GPIOs by line name,
-      - add support for specifying GPIO chips by ID,
-      - add support for GPIO offset ranges,
-      - names and offset specifiers must be separated by whitespace,
-      - GPIO offsets must separated by spaces,
-  - Use str_has_prefix() and kstrtouint().
-
-I didn't use argv_split(), as it doesn't support quoted strings yet,
-and GPIO line names can contain spaces.  Perhaps I should enhance
-argv_split() first, and use that?
----
- drivers/gpio/Kconfig           |   9 +
- drivers/gpio/Makefile          |   1 +
- drivers/gpio/gpio-aggregator.c | 333 +++++++++++++++++++++++++++++++++
- 3 files changed, 343 insertions(+)
- create mode 100644 drivers/gpio/gpio-aggregator.c
-
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index 29d3ce8debcca1f6..058aa68fd7015e7c 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -1483,6 +1483,15 @@ config GPIO_VIPERBOARD
- 
- endmenu
- 
-+config GPIO_AGGREGATOR
-+	tristate "GPIO Aggregator"
-+	select GPIOLIB_FWD
-+	help
-+	  This enabled the GPIO Aggregator, which provides a way to aggregate
-+	  existing GPIOs into a new GPIO device.
-+	  This is useful for assigning a collection of GPIOs to a user, or
-+	  exported them to a virtual machine.
-+
- config GPIO_MOCKUP
- 	tristate "GPIO Testing Driver"
- 	select IRQ_SIM
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index 8a0e685c92b69855..2ec9128bcfefa40a 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -26,6 +26,7 @@ obj-$(CONFIG_GPIO_74XX_MMIO)		+= gpio-74xx-mmio.o
- obj-$(CONFIG_GPIO_ADNP)			+= gpio-adnp.o
- obj-$(CONFIG_GPIO_ADP5520)		+= gpio-adp5520.o
- obj-$(CONFIG_GPIO_ADP5588)		+= gpio-adp5588.o
-+obj-$(CONFIG_GPIO_AGGREGATOR)		+= gpio-aggregator.o
- obj-$(CONFIG_GPIO_ALTERA_A10SR)		+= gpio-altera-a10sr.o
- obj-$(CONFIG_GPIO_ALTERA)  		+= gpio-altera.o
- obj-$(CONFIG_GPIO_AMD8111)		+= gpio-amd8111.o
-diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
-new file mode 100644
-index 0000000000000000..42485735bd823e02
---- /dev/null
-+++ b/drivers/gpio/gpio-aggregator.c
-@@ -0,0 +1,333 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// GPIO Aggregator
-+//
-+// Copyright (C) 2019 Glider bvba
-+
-+#include <linux/ctype.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/idr.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/string.h>
-+
-+#include "gpiolib.h"
-+#include "gpiolib-fwd.h"
-+
-+#define DRV_NAME	"gpio-aggregator"
-+
-+struct gpio_aggregator {
-+	struct platform_device *pdev;
-+};
-+
-+static DEFINE_MUTEX(gpio_aggregator_lock);	/* protects idr */
-+static DEFINE_IDR(gpio_aggregator_idr);
-+
-+static int gpiochip_match_label(struct gpio_chip *chip, void *data)
-+{
-+	return !strcmp(chip->label, data);
-+}
-+
-+static struct gpio_chip *gpiochip_find_by_label(const char *label)
-+{
-+	return gpiochip_find((void *)label, gpiochip_match_label);
-+}
-+
-+static int gpiochip_match_id(struct gpio_chip *chip, void *data)
-+{
-+	unsigned int id = (uintptr_t)data;
-+
-+	return id == chip->base || id == chip->gpiodev->id;
-+}
-+
-+static struct gpio_chip *gpiochip_find_by_id(const char *id)
-+{
-+	unsigned int x;
-+
-+	if (!str_has_prefix(id, "gpiochip"))
-+		return NULL;
-+
-+	if (kstrtouint(id + strlen("gpiochip"), 10, &x))
-+		return NULL;
-+
-+	return gpiochip_find((void *)(uintptr_t)x, gpiochip_match_id);
-+}
-+
-+static ssize_t new_device_store(struct device_driver *driver, const char *buf,
-+				size_t count)
-+{
-+	struct platform_device *pdev;
-+	struct gpio_aggregator *aggr;
-+	int res, id;
-+
-+	aggr = kzalloc(sizeof(*aggr), GFP_KERNEL);
-+	if (!aggr)
-+		return -ENOMEM;
-+
-+	mutex_lock(&gpio_aggregator_lock);
-+	id = idr_alloc(&gpio_aggregator_idr, aggr, 0, 0, GFP_KERNEL);
-+	mutex_unlock(&gpio_aggregator_lock);
-+
-+	if (id < 0) {
-+		res = id;
-+		goto free_ga;
-+	}
-+
-+	/* kernfs guarantees string termination, so count + 1 is safe */
-+	pdev = platform_device_register_data(NULL, DRV_NAME, id, buf,
-+					     count + 1);
-+	if (IS_ERR(pdev)) {
-+		res = PTR_ERR(pdev);
-+		goto remove_idr;
-+	}
-+
-+	aggr->pdev = pdev;
-+	return count;
-+
-+remove_idr:
-+	mutex_lock(&gpio_aggregator_lock);
-+	idr_remove(&gpio_aggregator_idr, id);
-+	mutex_unlock(&gpio_aggregator_lock);
-+free_ga:
-+	kfree(aggr);
-+	return res;
-+}
-+
-+static DRIVER_ATTR_WO(new_device);
-+
-+static ssize_t delete_device_store(struct device_driver *driver,
-+				   const char *buf, size_t count)
-+{
-+	struct gpio_aggregator *aggr;
-+	unsigned int id;
-+	int error;
-+
-+	if (!str_has_prefix(buf, DRV_NAME "."))
-+		return -EINVAL;
-+
-+	error = kstrtouint(buf + strlen(DRV_NAME "."), 10, &id);
-+	if (error)
-+		return error;
-+
-+	mutex_lock(&gpio_aggregator_lock);
-+	aggr = idr_remove(&gpio_aggregator_idr, id);
-+	mutex_unlock(&gpio_aggregator_lock);
-+	if (!aggr)
-+		return -ENOENT;
-+
-+	platform_device_unregister(aggr->pdev);
-+	kfree(aggr);
-+	return count;
-+}
-+static DRIVER_ATTR_WO(delete_device);
-+
-+static struct attribute *gpio_aggregator_attrs[] = {
-+	&driver_attr_new_device.attr,
-+	&driver_attr_delete_device.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(gpio_aggregator);
-+
-+static char *get_arg(struct device *dev, const char **args)
-+{
-+	const char *start = *args, *end;
-+	char *arg;
-+
-+	if (*start == '"') {
-+		/* Quoted arg */
-+		end = strchr(++start, '"');
-+		if (!end)
-+			return ERR_PTR(-EINVAL);
-+
-+		arg = devm_kasprintf(dev, GFP_KERNEL, "%.*s",
-+				     (int)(end++ - start), start);
-+	} else {
-+		/* Unquoted arg */
-+		for (end = start; *end && !isspace(*end); end++) ;
-+
-+		if (end == start)
-+			return ERR_PTR(-ENOENT);
-+
-+		arg = devm_kasprintf(dev, GFP_KERNEL, "%.*s",
-+				     (int)(end - start), start);
-+	}
-+	if (!arg)
-+		return ERR_PTR(-ENOMEM);
-+
-+	while (isspace(*end))
-+		end++;
-+
-+	*args = end;
-+	return arg;
-+}
-+
-+static int add_gpio(struct device *dev, struct gpio_desc ***descs,
-+		    unsigned int *n, struct gpio_desc *desc)
-+{
-+	struct gpio_desc **new_descs;
-+
-+	new_descs = devm_kmalloc_array(dev, *n + 1, sizeof(desc), GFP_KERNEL);
-+	if (!new_descs)
-+		return -ENOMEM;
-+
-+	if (*descs) {
-+		memcpy(new_descs, *descs, *n * sizeof(desc));
-+		devm_kfree(dev, *descs);
-+	}
-+
-+	new_descs[(*n)++] = desc;
-+	*descs = new_descs;
-+	return 0;
-+}
-+
-+static int gpio_aggregator_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	char *name, *offsets, *first, *last, *next;
-+	const char *args = dev_get_platdata(dev);
-+	struct gpio_desc **descs = NULL, *desc;
-+	unsigned int a, b, i, n = 0;
-+	struct gpiochip_fwd *fwd;
-+	struct gpio_chip *chip;
-+	int error;
-+
-+	while (isspace(*args))
-+		args++;
-+
-+	while (*args) {
-+		name = get_arg(dev, &args);
-+		if (IS_ERR(name)) {
-+			dev_err(dev, "Cannot get GPIO specifier: %ld\n",
-+				PTR_ERR(name));
-+			return PTR_ERR(name);
-+		}
-+
-+		desc = gpio_name_to_desc(name);
-+		if (desc) {
-+			/* Named GPIO line */
-+			error = add_gpio(dev, &descs, &n, desc);
-+			if (error)
-+				return error;
-+
-+			devm_kfree(dev, name);
-+			continue;
-+		}
-+
-+		/* GPIO chip + offsets */
-+		chip = gpiochip_find_by_label(name);
-+		if (!chip)
-+			chip = gpiochip_find_by_id(name);
-+		if (!chip) {
-+			dev_err(dev, "Cannot find gpiochip %s\n", name);
-+			return -EINVAL;
-+		}
-+
-+		offsets = get_arg(dev, &args);
-+		if (IS_ERR(offsets)) {
-+			dev_err(dev, "Cannot get GPIO offsets: %ld\n",
-+				PTR_ERR(offsets));
-+			return PTR_ERR(offsets);
-+		}
-+
-+		for (first = offsets; *first; first = next) {
-+			next = strchrnul(first, ',');
-+			if (*next)
-+				*next++ = '\0';
-+
-+			last = strchr(first, '-');
-+			if (last)
-+				*last++ = '\0';
-+
-+			if (kstrtouint(first, 10, &a)) {
-+				dev_err(dev, "Cannot parse gpio index %s\n",
-+					first);
-+				return -EINVAL;
-+			}
-+
-+			if (!last) {
-+				b = a;
-+			} else if (kstrtouint(last, 10, &b)) {
-+				dev_err(dev, "Cannot parse gpio index %s\n",
-+					last);
-+				return -EINVAL;
-+			}
-+
-+			for (i = a; i <= b; i++) {
-+				desc = gpiochip_get_desc(chip, i);
-+				if (IS_ERR(desc)) {
-+					dev_err(dev,
-+						"Cannot get GPIO %s/%u: %ld\n",
-+						name, i, PTR_ERR(desc));
-+					return PTR_ERR(desc);
-+				}
-+
-+				error = add_gpio(dev, &descs, &n, desc);
-+				if (error)
-+					return error;
-+			}
-+		}
-+
-+		devm_kfree(dev, offsets);
-+		devm_kfree(dev, name);
-+	}
-+
-+	if (!descs) {
-+		dev_err(dev, "No GPIOs specified\n");
-+		return -EINVAL;
-+	}
-+
-+	fwd = gpiochip_fwd_create(dev_name(dev), dev, n, descs);
-+	if (IS_ERR(fwd))
-+		return PTR_ERR(fwd);
-+
-+	platform_set_drvdata(pdev, fwd);
-+	return 0;
-+}
-+
-+static int gpio_aggregator_remove(struct platform_device *pdev)
-+{
-+	struct gpiochip_fwd *fwd = platform_get_drvdata(pdev);
-+
-+	return gpiochip_fwd_destroy(fwd);
-+}
-+
-+static struct platform_driver gpio_aggregator_driver = {
-+	.probe = gpio_aggregator_probe,
-+	.remove = gpio_aggregator_remove,
-+	.driver = {
-+		.name = DRV_NAME,
-+		.groups = gpio_aggregator_groups,
-+	},
-+};
-+
-+static int __init gpio_aggregator_init(void)
-+{
-+	return platform_driver_register(&gpio_aggregator_driver);
-+}
-+module_init(gpio_aggregator_init);
-+
-+static int __exit gpio_aggregator_idr_remove(int id, void *p, void *data)
-+{
-+	struct gpio_aggregator *aggr = p;
-+
-+	platform_device_unregister(aggr->pdev);
-+	kfree(aggr);
-+	return 0;
-+}
-+
-+static void __exit gpio_aggregator_exit(void)
-+{
-+	mutex_lock(&gpio_aggregator_lock);
-+	idr_for_each(&gpio_aggregator_idr, gpio_aggregator_idr_remove, NULL);
-+	idr_destroy(&gpio_aggregator_idr);
-+	mutex_unlock(&gpio_aggregator_lock);
-+
-+	platform_driver_unregister(&gpio_aggregator_driver);
-+}
-+module_exit(gpio_aggregator_exit);
-+
-+MODULE_AUTHOR("Geert Uytterhoeven <geert+renesas@glider.be>");
-+MODULE_DESCRIPTION("GPIO Aggregator");
-+MODULE_LICENSE("GPL v2");
--- 
-2.17.1
+r~
 
 
