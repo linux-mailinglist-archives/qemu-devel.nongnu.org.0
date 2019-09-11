@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6AAAFEC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:33:35 +0200 (CEST)
-Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80722AFECB
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:35:55 +0200 (CEST)
+Received: from localhost ([::1]:51670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i83gc-0004QH-NK
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:33:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42499)
+	id 1i83ir-0006nl-PE
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:35:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1i83do-0002Ol-VA
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:30:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i83gs-0005da-91
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:33:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1i83dn-0006zG-Gu
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:30:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22988
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1i83dn-0006ys-CY
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:30:39 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8BENoWo045113
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 10:30:39 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2uy1y022g8-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 10:30:38 -0400
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Wed, 11 Sep 2019 15:30:36 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 11 Sep 2019 15:30:34 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8BEUXac34471956
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Sep 2019 14:30:33 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A2681A406D;
- Wed, 11 Sep 2019 14:30:33 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0D5BA4040;
- Wed, 11 Sep 2019 14:30:31 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.85.70.190])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 11 Sep 2019 14:30:31 +0000 (GMT)
-From: Balamuruhan S <bala24@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 19:59:25 +0530
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20190911142925.19197-1-bala24@linux.ibm.com>
-References: <20190911142925.19197-1-bala24@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19091114-0028-0000-0000-0000039B08FA
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091114-0029-0000-0000-0000245D70D9
-Message-Id: <20190911142925.19197-5-bala24@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-11_08:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1909110135
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v2 4/4] hw/ppc/pnv: fix checkpatch.pl coding
- style warnings
+ (envelope-from <richard.henderson@linaro.org>) id 1i83gr-00083U-2S
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:33:49 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:41874)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i83gq-000834-T5
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:33:49 -0400
+Received: by mail-qk1-x741.google.com with SMTP id p10so2996234qkg.8
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=x3iyPwle4tJSzlcqPqOvcVP9WBz+Qjb7i4mIGZc9glQ=;
+ b=WbCb0yjPRrFaDn6ixON9zexQQdWK8o73RcVHXGKkY58b/zUGHI9SsD9rRg2533IaOf
+ Kn445AiGUSGFY+Fvo3wdolW2NpRW1UAmThQLn4yHooiqxBfw0jjqkvqctvs4pVoHfKOs
+ VBIKJSYvtO0OXtOT24KmX44Nd0qkuudPXPokIiV17DjjNu7oKTLJNg3CpsASV9+Scdcm
+ GhtIChy+LPxIt2t1cM3TLcwOT31oQDa4vbFGxB9ncJRHEEfwwWzBdir//teckkfMEgBs
+ L6YSYD493hF9v1wnwQ2FUJHmET/CJXITR+zM/C+nc6Pceeyox/A6uIRkUmQII3yYBTPl
+ zDVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=x3iyPwle4tJSzlcqPqOvcVP9WBz+Qjb7i4mIGZc9glQ=;
+ b=CGHX4HoTeThAIhs+a/GA9zB/u1lRHK6ZUGMLyJPlSrnaLLn258IqPQIPcIJhqGo/jn
+ JeTZK2DGznxG4b/BKQdEiLKwF3lzjgjW15nd5uEdWmOUNeDjWLRSvI6Bbgif71ROqBAg
+ KQstoY3WTezKVq4B+D375znAPycq4C8DscoELKaRJFYKTZJv50DqlGY/Sjsc/d4HGs4Q
+ +cgYAvMCVbq1zJsq++q3QADv766sQGDzTF2n1yoF9SSUVL8p/1WwVdzP2NHpzOHxQzzt
+ 0Rn+jTlFl3gXUpOdA7OpexKZPK8XFLVjuoG5HK2rGTJvV6ILLMuFj/KvZF3l+ZtkMrcO
+ v/7A==
+X-Gm-Message-State: APjAAAUb10eVFP5sQdpTmWUIPEi51dEUDoLLNtoWwRYY4f9LNpGnzyDN
+ 0GQCIJsazGH126x4rNX3Dtnwkw==
+X-Google-Smtp-Source: APXvYqzrH7uUhX4Mrr4YVzlaOyqasX0QedSD0PvIbWbQqnWkcp4xdje7BqmgTXN4YrOBpNvWzsXGtA==
+X-Received: by 2002:a37:ef16:: with SMTP id j22mr31050565qkk.198.1568212428056; 
+ Wed, 11 Sep 2019 07:33:48 -0700 (PDT)
+Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
+ [64.229.69.35])
+ by smtp.gmail.com with ESMTPSA id v2sm6762158qtv.22.2019.09.11.07.33.46
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Sep 2019 07:33:47 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190911093951.6244-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <8f76ef47-0cf8-c662-0100-d416f5f2e0c1@linaro.org>
+Date: Wed, 11 Sep 2019 10:33:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190911093951.6244-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::741
+Subject: Re: [Qemu-devel] [PATCH] target/ppc: fix signal delivery for
+ ppc64abi32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,155 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: maddy@linux.vnet.ibm.com, groug@kaod.org,
- Balamuruhan S <bala24@linux.ibm.com>, anju@linux.vnet.ibm.com,
- qemu-ppc@nongnu.org, clg@kaod.org, hari@linux.vnet.ibm.com,
- david@gibson.dropbear.id.au
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-ppc@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There were few trailing comments after `/*` instead in
-new line and line more than 80 character, these fixes are
-trivial and doesn't change any logic in code.
+On 9/11/19 5:39 AM, Alex Bennée wrote:
+> We were incorrectly setting NIP resulting in a segfault. This fixes
+> linux-test for this ABI.
 
-Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
----
- hw/ppc/pnv.c | 49 ++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 32 insertions(+), 17 deletions(-)
+Perhaps better:
+We were incorrectly using the 64-bit AIX ABI instead of the 32-bit SYSV ABI for
+setting NIP for the signal handler.
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index f249e72356..77a86c6a23 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -187,7 +187,8 @@ static void pnv_dt_core(PnvChip *chip, PnvCore *pc, void *fdt)
- 
-     _FDT((fdt_setprop_cell(fdt, offset, "timebase-frequency", tbfreq)));
-     _FDT((fdt_setprop_cell(fdt, offset, "clock-frequency", cpufreq)));
--    _FDT((fdt_setprop_cell(fdt, offset, "ibm,slb-size", cpu->hash64_opts->slb_size)));
-+    _FDT((fdt_setprop_cell(fdt, offset, "ibm,slb-size",
-+                           cpu->hash64_opts->slb_size)));
-     _FDT((fdt_setprop_string(fdt, offset, "status", "okay")));
-     _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
- 
-@@ -200,19 +201,23 @@ static void pnv_dt_core(PnvChip *chip, PnvCore *pc, void *fdt)
-                            segs, sizeof(segs))));
-     }
- 
--    /* Advertise VMX/VSX (vector extensions) if available
-+    /*
-+     * Advertise VMX/VSX (vector extensions) if available
-      *   0 / no property == no vector extensions
-      *   1               == VMX / Altivec available
--     *   2               == VSX available */
-+     *   2               == VSX available
-+     */
-     if (env->insns_flags & PPC_ALTIVEC) {
-         uint32_t vmx = (env->insns_flags2 & PPC2_VSX) ? 2 : 1;
- 
-         _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", vmx)));
-     }
- 
--    /* Advertise DFP (Decimal Floating Point) if available
-+    /*
-+     * Advertise DFP (Decimal Floating Point) if available
-      *   0 / no property == no DFP
--     *   1               == DFP available */
-+     *   1               == DFP available
-+     */
-     if (env->insns_flags2 & PPC2_DFP) {
-         _FDT((fdt_setprop_cell(fdt, offset, "ibm,dfp", 1)));
-     }
-@@ -424,7 +429,8 @@ static int pnv_dt_isa_device(DeviceState *dev, void *opaque)
-     return 0;
- }
- 
--/* The default LPC bus of a multichip system is on chip 0. It's
-+/*
-+ * The default LPC bus of a multichip system is on chip 0. It's
-  * recognized by the firmware (skiboot) using a "primary" property.
-  */
- static void pnv_dt_isa(PnvMachineState *pnv, void *fdt)
-@@ -442,8 +448,10 @@ static void pnv_dt_isa(PnvMachineState *pnv, void *fdt)
-     assert(phandle > 0);
-     _FDT((fdt_setprop_cell(fdt, isa_offset, "phandle", phandle)));
- 
--    /* ISA devices are not necessarily parented to the ISA bus so we
--     * can not use object_child_foreach() */
-+    /*
-+     * ISA devices are not necessarily parented to the ISA bus so we
-+     * can not use object_child_foreach()
-+     */
-     qbus_walk_children(BUS(pnv->isa_bus), pnv_dt_isa_device, NULL, NULL, NULL,
-                        &args);
- }
-@@ -545,7 +553,8 @@ static void pnv_reset(MachineState *machine)
- 
-     qemu_devices_reset();
- 
--    /* OpenPOWER systems have a BMC, which can be defined on the
-+    /*
-+     * OpenPOWER systems have a BMC, which can be defined on the
-      * command line with:
-      *
-      *   -device ipmi-bmc-sim,id=bmc0
-@@ -705,7 +714,8 @@ static void pnv_init(MachineState *machine)
- 
-         pnv->chips[i] = PNV_CHIP(chip);
- 
--        /* TODO: put all the memory in one node on chip 0 until we find a
-+        /*
-+         * TODO: put all the memory in one node on chip 0 until we find a
-          * way to specify different ranges for each chip
-          */
-         if (i == 0) {
-@@ -732,8 +742,10 @@ static void pnv_init(MachineState *machine)
-     /* Create an RTC ISA device too */
-     mc146818_rtc_init(pnv->isa_bus, 2000, NULL);
- 
--    /* OpenPOWER systems use a IPMI SEL Event message to notify the
--     * host to powerdown */
-+    /*
-+     * OpenPOWER systems use a IPMI SEL Event message to notify the
-+     * host to powerdown
-+     */
-     pnv->powerdown_notifier.notify = pnv_powerdown_notify;
-     qemu_register_powerdown_notifier(&pnv->powerdown_notifier);
- }
-@@ -803,7 +815,8 @@ static void pnv_chip_power9_intc_create(PnvChip *chip, PowerPCCPU *cpu,
-     pnv_cpu->intc = obj;
- }
- 
--/* Allowed core identifiers on a POWER8 Processor Chip :
-+/*
-+ * Allowed core identifiers on a POWER8 Processor Chip :
-  *
-  * <EX0 reserved>
-  *  EX1  - Venice only
-@@ -928,8 +941,10 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-                                             (uint64_t) PNV_XSCOM_BASE(chip),
-                                             PNV_XSCOM_LPC_BASE);
- 
--    /* Interrupt Management Area. This is the memory region holding
--     * all the Interrupt Control Presenter (ICP) registers */
-+    /*
-+     * Interrupt Management Area. This is the memory region holding
-+     * all the Interrupt Control Presenter (ICP) registers
-+     */
-     pnv_chip_icp_realize(chip8, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -1442,8 +1457,8 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
-     mc->init = pnv_init;
-     mc->reset = pnv_reset;
-     mc->max_cpus = MAX_CPUS;
--    mc->block_default_type = IF_IDE; /* Pnv provides a AHCI device for
--                                      * storage */
-+    /* Pnv provides a AHCI device for storage */
-+    mc->block_default_type = IF_IDE;
-     mc->no_parallel = 1;
-     mc->default_boot_order = NULL;
-     /*
--- 
-2.14.5
+?
 
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  linux-user/ppc/signal.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+
+Anyway,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
