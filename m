@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17934AF66A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:09:54 +0200 (CEST)
-Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D439AF671
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:11:24 +0200 (CEST)
+Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wlE-0001uT-VF
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42091)
+	id 1i7wmg-0004Fw-NW
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1i7wYh-0005zu-7w
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:56:56 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7wRs-0006J2-4G
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1i7wYg-0008G1-1L
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:56:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47404)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i7wYf-0008FR-OM
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:56:53 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DDCB618C427B;
- Wed, 11 Sep 2019 06:56:52 +0000 (UTC)
-Received: from localhost (ovpn-116-185.ams2.redhat.com [10.36.116.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52F6119C4F;
- Wed, 11 Sep 2019 06:56:45 +0000 (UTC)
-Date: Wed, 11 Sep 2019 08:56:39 +0200
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Message-ID: <20190911065639.GA4181@stefanha-x1.localdomain>
-References: <20190902121233.13382-1-johannes@sipsolutions.net>
- <20190902121233.13382-2-johannes@sipsolutions.net>
- <fe517ef6c6a8e2df9675388be9454b5863c7fc55.camel@sipsolutions.net>
- <20190909160039.GC20875@stefanha-x1.localdomain>
- <d095bafedcd4bcc5d76279785e5bd523aef62b58.camel@sipsolutions.net>
- <20190910150319.GB31674@stefanha-x1.localdomain>
- <e114b68dffecd9b4c4666327b15a28098c83f7ec.camel@sipsolutions.net>
- <20190910112937-mutt-send-email-mst@kernel.org>
- <f4d1a66f6ff407f9aaec77f1125effe5cf10467b.camel@sipsolutions.net>
+ (envelope-from <laurent@vivier.eu>) id 1i7wRr-0004UH-2a
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:33855)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRq-0004Tm-Qf
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:51 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MZTa2-1hesxP0TOo-00WUHl; Wed, 11 Sep 2019 08:49:33 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Wed, 11 Sep 2019 08:49:19 +0200
+Message-Id: <20190911064920.1718-15-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190911064920.1718-1-laurent@vivier.eu>
+References: <20190911064920.1718-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
-Content-Disposition: inline
-In-Reply-To: <f4d1a66f6ff407f9aaec77f1125effe5cf10467b.camel@sipsolutions.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Wed, 11 Sep 2019 06:56:53 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:mP/1VcsnpW5gwV8ZafAHCczu1tlzJhHJq+oJV2ymr+TY0WR9AoI
+ xeGL5NqoB07iiHqYsUlhVakkqQxy9tbXNPl1aq4oWWolCkrWL8D8cxOmme/EfX6b97gzXrM
+ aU+5aqHkpLJLt3b/A/IqiMwKAYcADvUTvTD2GE2+bPmo7Bm4xA6AjXNU8E6Zvtn8VfsSoLZ
+ 5WlWzovrlhSoQkKjuqWfA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UXTpGyXhbIk=:EfDKONfc16cTnmGZACmXBU
+ QWbbtFCaUuZgV4oE1N7tsrHC62L/6APPlMDIIDAcaHW8f5zHNcjOCPMnejsFSO/iZbpxNg9su
+ UOex/l0UTK3Mzqcd/EMWruy5Up65wtnIh6dJYBidZkJAoGUutHNDW1Uo6n6uiIJOgIWpMyQ+6
+ Z5uk0/KfEB0vDGYPb5jCLsSKWnVnMN4p49KqwiXvrUlLiFH30z8w4cF1xZkfpB4zYNdEe/lLe
+ Uh+1IkOMOszJxoI1INiFgcIwavS7XCbGNMF/ndbyerU5RFfgYPQZ9CsWQ2k12Hn7ocVKpVIZH
+ 2AS4hqQq1ok4nxb/OXP0sfz3/kR7i18Ae/zOI4oQ7tWs+4+loDOVM9fhJkqLgGV6x5aLJhM9C
+ KOFuCyvp/okRu3Tgr+o1fpGG4KyXgHzoI0lIX+NThuBXUa1lzWKUsHSl5vE3537N9mrvPRPlu
+ oT8G1X/wRzR7UbRdv9+jeubW9aaCkdTlKtbsi7PWJgFXmzo2GG7jwESXgeB4HwlyYNT+36mrz
+ XXNUiJLQh6AUYyqY3006M3fA1uJUb7eiclqAHLXatBppZIfRd3hv0y5boHeuHk4+HGZ8b2EZ/
+ Nc9RqEgKTZ1HTtq5trv5up91uQUT9gNDb7c1uxSmV6OiHOi+MYZWRhD8goFWwkO4+SdHj1766
+ I0VjvqqcQ02rrR9zZKXYq0berN9rZpp7cqfy8hRery+flrbN3pA/0pA40UpdXxcnf6Yc4zTFL
+ FkObg+N/BHVjT1xlHVfUE1EZ+7uAVw8SdyUxaf+GKXtFvUCdi0UT4zhxEsHOjWXcsuANcxZxu
+ Gdwbl9jp15B6BdlTeGeeVxUnYn+gQPikChqP84LlQ+60vS0svQ=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] docs: vhost-user: add in-band kick/call
- messages
+X-Received-From: 212.227.126.133
+Subject: [Qemu-devel] [PULL v2 14/15] linux-user: Add support for FDMSGON
+ and FDMSGOFF ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,88 +64,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
---CE+1k2dSO48ffgeK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+FDMSGON and FDMSGOFF switch informational messages of floppy drives
+on and off.
 
-On Tue, Sep 10, 2019 at 05:34:57PM +0200, Johannes Berg wrote:
-> On Tue, 2019-09-10 at 11:33 -0400, Michael S. Tsirkin wrote:
-> > On Tue, Sep 10, 2019 at 05:14:36PM +0200, Johannes Berg wrote:
-> > > Is any of you familiar with the process of getting a virtio device ID
-> > > assigned, and if so, do you think it'd be feasible? Without that, it'd
-> > > probably be difficult to upstream the patch to support this protocol =
-to
-> > > user-mode Linux.
-> >=20
-> > Sure, subscribe then send a patch to virtio-comment@lists.oasis-open.org
->=20
-> Ok, great.
->=20
-> > We do expect people to eventually get around to documenting the device
-> > and upstreaming it though. If there's no plan to do it at all, you might
-> > still be able to reuse the virtio code, in that case let's talk.
->=20
-> Right, no, I do want to and am working on the code now, but it's a bit
-> of a chicken & egg - without an ID I can't really send any code upstream
-> :-)
->=20
-> I can accompany the request for a new ID with working patches.
->=20
-> What kind of documentation beyond the header file should be added, and
-> where?
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1567601968-26946-6-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/ioctls.h       | 2 ++
+ linux-user/syscall_defs.h | 2 ++
+ 2 files changed, 4 insertions(+)
 
-You can reserve the device ID without any header files or documentation.
-Just a patch like this one will suffice:
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index bc1944804220..b253469999ee 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -112,6 +112,8 @@
+      IOCTL(BLKZEROOUT, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
+ #endif
+ 
++     IOCTL(FDMSGON, 0, TYPE_NULL)
++     IOCTL(FDMSGOFF, 0, TYPE_NULL)
+      IOCTL(FDFLUSH, 0, TYPE_NULL)
+ 
+ #ifdef FIBMAP
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 917202a2035d..4e33ef396be4 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -890,6 +890,8 @@ struct target_pollfd {
+ 
+ /* From <linux/fd.h> */
+ 
++#define TARGET_FDMSGON        TARGET_IO(2, 0x45)
++#define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
+ #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
+ 
+ #define TARGET_FIBMAP     TARGET_IO(0x00,1)  /* bmap access */
+-- 
+2.21.0
 
-  https://github.com/oasis-tcs/virtio-spec/commit/9454b568c29baab7f3e4b1a38=
-4627d0061f71eba
-
-I have checked that device ID 29 appears to be free so you could use it.
-
-For the actual VIRTIO device specification, please follow the same
-format as the other devices.  Here is the virtio-net section in the
-VIRTIO spec:
-
-  https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html=
-#x1-1940001
-
-It documents the virtqueues, configuration space layout, theory of
-operation, and also includes normative statements that compliant drivers
-and devices are expected to follow.
-
-The goal of the spec is to provide all the information needed by driver
-and device emulation authors to create an implementation from scratch
-(without studying existing code in Linux, QEMU, etc).
-
-The VIRTIO spec contains pseudo-C struct and constant definitions, but
-not a real header file.  The header file for a Linux driver would live
-in include/uapi/linux/virtio_foo.h (see existing devices for examples).
-This would be part of your Linux patches and separate from the virtio
-spec.
-
-Stefan
-
---CE+1k2dSO48ffgeK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl14mqcACgkQnKSrs4Gr
-c8hHyQgAtpFcm+238TskSyYaSv6jvpfyWx+DOidJ8yKMViGdPGqteCn/9UuJZRYn
-MFSHuj0qaDLivoFRySX7LncdPbUTLIdUvmZIVFdtBJM0UUlII01xgVwGuqQ1Xxup
-zOpcjIJBOmtPvB9zIQsSm+a0oYBbD+YKlPAOQ7DYfVnw6HyC+utKeg4cKs46Li45
-5M6oW+BZhws1wy+Mnc+2NI+RJQKAdNI5/BIIrGOlwEbRpIocaGKdsruNxyc15cYp
-A0bCejDo171c08O5jsBuTeo1rDmM1OBPb2DF7LyaoJDGpRRwaBEgrWhfq45z7Z2w
-rQJLf2HTC1nhfsHtczzPDJ0PRf+4uw==
-=BaWp
------END PGP SIGNATURE-----
-
---CE+1k2dSO48ffgeK--
 
