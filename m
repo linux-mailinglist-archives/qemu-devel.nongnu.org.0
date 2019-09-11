@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE00AB02A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 19:26:11 +0200 (CEST)
-Received: from localhost ([::1]:54128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8673B02B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 19:32:38 +0200 (CEST)
+Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i86Ne-00031D-Vg
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 13:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50131)
+	id 1i86Tt-0006HS-Nv
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 13:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i86Mi-0002U0-US
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:25:14 -0400
+ (envelope-from <lersek@redhat.com>) id 1i86SV-0005oM-5b
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:31:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i86Mh-00048T-RY
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:25:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36612)
+ (envelope-from <lersek@redhat.com>) id 1i86ST-0006d8-UH
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:31:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58601)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i86Mh-00048J-MZ
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:25:11 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1i86ST-0006c1-Mq
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 13:31:09 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 09D441057875
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 17:25:11 +0000 (UTC)
-Received: from work-vm (ovpn-117-243.ams2.redhat.com [10.36.117.243])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 073B95D9E2;
- Wed, 11 Sep 2019 17:25:09 +0000 (UTC)
-Date: Wed, 11 Sep 2019 18:25:07 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Message-ID: <20190911172507.GL2894@work-vm>
-References: <20190911164202.31136-1-dgilbert@redhat.com>
- <20190911164202.31136-3-dgilbert@redhat.com>
- <20190911165938.GI24295@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id B45CE10CC1EC;
+ Wed, 11 Sep 2019 17:31:06 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-127.ams2.redhat.com
+ [10.36.116.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE9B019C6A;
+ Wed, 11 Sep 2019 17:30:50 +0000 (UTC)
+To: Igor Mammedov <imammedo@redhat.com>
+References: <add488d0-df13-830f-28c5-c7232ccb741f@redhat.com>
+ <20190905154925.30478-1-imammedo@redhat.com>
+ <dbe8cc44-ef30-3104-2bd3-6a6fe4438ada@redhat.com>
+ <20190910175841.176b26e4@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <8ed1ab55-d5ee-9703-dd28-cf50fbda5408@redhat.com>
+Date: Wed, 11 Sep 2019 19:30:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190911165938.GI24295@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20190910175841.176b26e4@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Wed, 11 Sep 2019 17:25:11 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.65]); Wed, 11 Sep 2019 17:31:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/3] migration: Use automatic rcu_read
- unlock in ram.c
+Subject: Re: [Qemu-devel] [PATCH] q35: lpc: allow to lock down 128K RAM at
+ default SMBASE address
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,50 +63,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: yingwen.chen@intel.com, devel@edk2.groups.io, phillip.goerl@oracle.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, jiewen.yao@intel.com,
+ jun.nakajima@intel.com, michael.d.kinney@intel.com, pbonzini@redhat.com,
+ boris.ostrovsky@oracle.com, rfc@edk2.groups.io, joao.m.martins@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> On Wed, Sep 11, 2019 at 05:42:01PM +0100, Dr. David Alan Gilbert (git) =
-wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >=20
-> > Use the automatic read unlocker in migration/ram.c;
-> > only for the cases where the unlock is at the end of the function.
-> >=20
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  migration/ram.c | 25 +++++++++----------------
-> >  1 file changed, 9 insertions(+), 16 deletions(-)
-> >=20
-> > diff --git a/migration/ram.c b/migration/ram.c
-> > index b2bd618a89..750d198f37 100644
-> > --- a/migration/ram.c
-> > +++ b/migration/ram.c
-> > @@ -181,14 +181,14 @@ int foreach_not_ignored_block(RAMBlockIterFunc =
-func, void *opaque)
-> >      RAMBlock *block;
-> >      int ret =3D 0;
-> > =20
-> > -    rcu_read_lock();
-> > +    RCU_READ_LOCK_AUTO
->=20
-> FWIW, I'm not a fan of macros which are used without a trailing ';'
-> as I believe it can confuses editors' code indentation logic.
+On 09/10/19 17:58, Igor Mammedov wrote:
+> On Mon, 9 Sep 2019 21:15:44 +0200
+> Laszlo Ersek <lersek@redhat.com> wrote:
 
-Added.
+[...]
 
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
-ange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange=
-.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
-ange :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> It looks like fwcfg smi feature negotiation isn't reusable in this case.
+> I'd prefer not to add another device just for another SMI feature
+> negotiation/activation.
+
+I thought it could be a register on the new CPU hotplug controller that
+we're going to need anyway (if I understand correctly, at least).
+
+But:
+
+> How about stealing reserved register from pci-host similar to your
+> extended TSEG commit (2f295167 q35/mch: implement extended TSEG sizes)?
+> (Looking into spec can (ab)use 0x58 or 0x59 register)
+
+Yes, that should work.
+
+In fact, I had considered 0x58 / 0x59 when looking for unused registers
+for extended TSEG configuration:
+
+http://mid.mail-archive.com/d8802612-0b11-776f-b209-53bbdaf67515@redhat.com
+
+So I'm OK with this, thank you.
+
+More below:
+
+>> ... I've done some testing too. Applying the QEMU patch on top of
+>> 89ea03a7dc83, my plan was:
+>>
+>> - do not change OVMF, just see if it continues booting with the QEMU
+>> patch
+>>
+>> - then negotiate bit#1 too, in step (1a) -- this is when I'd expect (3a)
+>> to break.
+>>
+>> Unfortunately, the result is worse than that; even without negotiating
+>> bit#1 (i.e. in the baseline test), the firmware crashes (reboots) in
+>> step (3a). I've checked "info mtree", and all occurences of
+>> "smbase-blackhole" and "smbase-blackhole" are marked [disabled]. I'm not
+>> sure what's wrong with the baseline test (i.e. without negotiating
+>> bit#1). If I drop the patch (build QEMU at 89ea03a7dc83), then things
+>> work fine.
+> 
+> that was a bug in my code, which always made lock down effective on
+> feature_ok selection, which breaks relocation for reasons you've
+> explained above.
+> 
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index 17a8cd1b51..32ddf54fc2 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -383,7 +383,7 @@ static const MemoryRegionOps smbase_blackhole_ops = {
+>  
+>  static void ich9_lpc_smbase_locked_update(ICH9LPCState *lpc)
+>  {
+> -    bool en = lpc->smi_negotiated_features & ICH9_LPC_SMI_F_LOCKED_SMBASE_BIT;
+> +    bool en = lpc->smi_negotiated_features & (UINT64_C(1) << ICH9_LPC_SMI_F_LOCKED_SMBASE_BIT);
+>  
+>      memory_region_transaction_begin();
+>      memory_region_set_enabled(&lpc->smbase_blackhole, en);
+
+I see.
+
+ICH9_LPC_SMI_F_LOCKED_SMBASE_BIT is 1, with the intended value for
+bitmask checkin) being 1LLU<<1 == 2LLU.
+
+Due to the bug, the function would check value 1 in the bitmask -- which
+in fact corresponds to bit#0. Bit#0 happens to be
+ICH9_LPC_SMI_F_BROADCAST_BIT.
+
+And because OVMF would negotiate that feature (= broadcast SMI) even in
+the baseline test, it ended up enabling the "locked smbase" feature too.
+
+So ultimately I think we can consider this a valid test (= with
+meaningful result); the result is that we can't reuse these fw_cfg files
+for "locked smbase", as discussed above.
+
+Thanks!
+Laszlo
 
