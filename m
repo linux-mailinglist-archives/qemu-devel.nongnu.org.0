@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF7DAFD8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 15:17:44 +0200 (CEST)
-Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF127AFDA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 15:21:50 +0200 (CEST)
+Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i82VC-0002p7-HH
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 09:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57343)
+	id 1i82ZB-0006Ot-JL
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 09:21:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i82Sc-0001ab-09
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:15:03 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i82V0-0003uV-5K
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:17:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i82Sa-0003Ju-Eb
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:15:01 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36324)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i82Sa-0003JY-7S
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:15:00 -0400
-Received: by mail-wr1-x441.google.com with SMTP id y19so24525620wrd.3
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 06:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Tt17W8SjSdrHCnv+gdnh1e2BbNeEHnUakLSF7X1aRus=;
- b=FAXYuYAGF8Oiq/0LHb7caIM29DtxKdSAgeoK0NUhQ6z0SwyFzwnv123KawYuw+ymd6
- SEU8aKaIxDPT3bXgtvbY2RsNW9XMRWfvEAkaUm6EeSdIjKxDsDLHNhFSGI7v/kFXDILZ
- rmZCSRcNt2IfD6K3bkBNI974yZFcqWCNm8i4lCYPS6RVi48KL8Dn/pbotuQT7eHs5OrF
- K/kY5lbTigb4ceFY9sSr8s0oFol2E2JNzLa9abiihwy7PMwDxTPPWwQ3KLrd1UvmBQCI
- j+8NruBOt3CWA5bsLYvLZl43+HcFH9qr8j9G3JGtshUXLJIQvoSLH0eeRbDLGMYQ4iiB
- hqbA==
+ (envelope-from <pbonzini@redhat.com>) id 1i82Uy-0004S5-IM
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:17:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:22914)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i82Uw-0004QW-J5
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:17:27 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E6673C05686D
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 13:17:24 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id f63so1233978wma.7
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 06:17:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Tt17W8SjSdrHCnv+gdnh1e2BbNeEHnUakLSF7X1aRus=;
- b=kc9EXLRw23hBfUhJBfW+L3pEVbOvh7v9dq4VQsXK+j3HZhScP8qGvyFFgIi+lRkvuW
- oNjjckst1hJFm0uKXBr0uW5/lTJT81z/3RyVw8Lt8gGyvKT2PNBLKpPiazTUKW0CduMC
- 0A204+JihJtfImf8OpEOUtCmHgofJlT94ZbxwtShAQifj7EsPIkyoow/1di5ssoppLfs
- sKavKUbgqPFXbyAMIa0Ajqzhgx/MhLCfp/JqlrOfeRFD3KSoWUzWAfjRAHarsajHoyQS
- MNDZOe3HNSz8/KmwM0uLJe+drOY7ku+TWEfMfob1zoenXkoYHhiMS04t/cu3TGJ3Vzrm
- JM9g==
-X-Gm-Message-State: APjAAAXxE4yb2KYe42/dMgYZZawvYKcX8GR9CZidiYYbEl+lYW6zEnSl
- Xz2VbMJ3ZtvyWb8Xyn7GCCXpLQ==
-X-Google-Smtp-Source: APXvYqz1pEdSep0S9ZKlikmCcpmH2moe8wen+qfO3yd8bHJeH2SY/rwzOiE3M+ehsVZY19ykt4YdFA==
-X-Received: by 2002:a05:6000:1632:: with SMTP id
- v18mr33306970wrb.61.1568207698503; 
- Wed, 11 Sep 2019 06:14:58 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b7sm2441545wrj.28.2019.09.11.06.14.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 06:14:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 26A601FF87;
- Wed, 11 Sep 2019 14:14:57 +0100 (BST)
-References: <20190906202636.28642-1-alex.bennee@linaro.org>
- <CAFEAcA-DQ0Zq40Xnw5wkA6ojOUCf67xfX83nMEoKW_UrysJhjQ@mail.gmail.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA-DQ0Zq40Xnw5wkA6ojOUCf67xfX83nMEoKW_UrysJhjQ@mail.gmail.com>
-Date: Wed, 11 Sep 2019 14:14:56 +0100
-Message-ID: <871rwn0yb3.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hg4QsQhcOx5h8CrbLPif/0tiAy7CaVNkBUpMohnMFYQ=;
+ b=Q0xfpbDozjxzcYnZGS3a1xfqL76a9MS0H07k2iLtFg1BM7uA5XfUgokPsykTpUxuNi
+ qTSlGsnf79Vcu6VE3yx6KvLadT2zBzXZnuoneV6xEKBikdULTB9bREUHVVmN+ZLQSnd9
+ D13RtK+d3UB/eTbtGYh8jnxCKkM3kNQcaikHPjibqRispMDYMedXWLpKYPe9PrKvpSnQ
+ /7nv4PcRLu6D1XwNnGtjHREmkWjYt41DTm7xEhD5Tmisakb+z/mgIfpeQqndRc+5TPV8
+ KglynA3WmOTxiu9XX8r3o2Q9TOn24BldFJQiiH7vtXTnOlZUzOWLHLTyyxOHZktj+8iB
+ M8zA==
+X-Gm-Message-State: APjAAAWfxNVWhgbgt9IZI1B2WmKSsvVjHyO/lMmy55czd8SVofDMQwRM
+ IQ9mWktmZmDe2HSP19IUWbr3DSzICNFSZLmw7+txeopHcQiJQWFXAxiVsE/jP8mSQvd7t9oEjlk
+ APmXASCoqcOv2az0=
+X-Received: by 2002:adf:e986:: with SMTP id h6mr31565848wrm.59.1568207843469; 
+ Wed, 11 Sep 2019 06:17:23 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxn6WZQIKZHOQvj93lQdzh1MMi+BjkeG7n/P+IsSq+1ASTvsv66FMGixvN/Cc39OtVemidyYg==
+X-Received: by 2002:adf:e986:: with SMTP id h6mr31565815wrm.59.1568207843046; 
+ Wed, 11 Sep 2019 06:17:23 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:102b:3795:6714:7df6?
+ ([2001:b07:6468:f312:102b:3795:6714:7df6])
+ by smtp.gmail.com with ESMTPSA id q14sm45237767wrc.77.2019.09.11.06.17.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Sep 2019 06:17:22 -0700 (PDT)
+To: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>
+References: <cbe46ad6-ef6c-d155-e79a-672182c725ad@ubuntu.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d94f18f1-986f-ec19-02c0-e83e5e7af3d0@redhat.com>
+Date: Wed, 11 Sep 2019 15:17:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <cbe46ad6-ef6c-d155-e79a-672182c725ad@ubuntu.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v4 0/4] semihosting at translate time fixes
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2 possible
+ issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,64 +81,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers - ARM <qemu-arm@nongnu.org>,
+ lizhengui <lizhengui@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Note that the RCU thread is expected to sit most of the time doing 
+nothing, so I don't think this matters.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Fri, 6 Sep 2019 at 21:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->> Hi Peter,
->>
->> Hopefully this is the final version of the semihosting at translate
->> time patches. I've applied Richard's IS_USER changes and gated the SVN
->> for !M profile.
->>
->> Alex Benn=C3=A9e (3):
->>   target/arm: handle M-profile semihosting at translate time
->>   target/arm: handle A-profile semihosting at translate time
->>   target/arm: remove run time semihosting checks
->
-> Hi. I've just been looking at these, and I noticed that
-> they seem to accidentally extend the "no semihosting
-> in user mode" check that is currently for softmmu only
-> to also cover linux-user mode (where it would amount
-> to "never provide semihosting").
-
-I misread Richard's comments - he only actually said to drop the #ifndef
-CONFIG_USER while using !IS_USER for M profile. I'll return the #ifndef
-CONFIG_USER for A-profile.
-
-It does seem a bit weird that userspace linux-user does do semihosting
-whereas EL0 in softmmu doesn't. Is that because we are effectively
-short-circuiting what a real ARM kernel would be doing for EL0?
-
-> This is because we used
-> to do the check in the helper.c code which is only used
-> by softmmu, and not in the linux-user/arm/cpu_loop.c
-> equivalent that linux-user uses. But now we do the check
-> in translate.c, which is common to both.
->
-> There's also some missed cleanup in that the linux-user
-> code can also have the "maybe EXCP_BKPT/EXCP_SWI is a semihosting
-> call" checks deleted.
-
-I'll have a look at that.
-
->
->> Emilio G. Cota (1):
->>   atomic_template: fix indentation in GEN_ATOMIC_HELPER
->
-> I've taken the atomic_template fix into target-arm.next,
-> since it's unrelated.
->
-> thanks
-> -- PMM
+Zhengui's theory that notify_me doesn't work properly on ARM is more
+promising, but he couldn't provide a clear explanation of why he thought
+notify_me is involved.  In particular, I would have expected notify_me to
+be wrong if the qemu_poll_ns call came from aio_ctx_dispatch, for example:
 
 
---
-Alex Benn=C3=A9e
+    glib_pollfds_fill
+      g_main_context_prepare
+        aio_ctx_prepare
+          atomic_or(&ctx->notify_me, 1)
+    qemu_poll_ns
+    glib_pollfds_poll
+      g_main_context_check
+        aio_ctx_check
+          atomic_and(&ctx->notify_me, ~1)
+      g_main_context_dispatch
+        aio_ctx_dispatch
+          /* do something for event */
+            qemu_poll_ns 
+
+but all backtraces show thread 1 in os_host_main_loop_wait:
+
+Thread 1 (Thread 0x40000b573370 (LWP 27214)):
+#0  0x000040000a489020 in ppoll () from /lib64/libc.so.6
+#1  0x0000aaaaaadaefc0 in ppoll (__ss=0x0, __timeout=0x0, __nfds=<optimized out>, __fds=<optimized out>) at /usr/include/bits/poll2.h:77
+#2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>, timeout=<optimized out>) at qemu_timer.c:391
+#3  0x0000aaaaaadae014 in os_host_main_loop_wait (timeout=<optimized out>) at main_loop.c:272
+#4  0x0000aaaaaadae190 in main_loop_wait (nonblocking=<optimized out>) at main_loop.c:534
+#5  0x0000aaaaaad97be0 in convert_do_copy (s=0xffffdc32eb48) at qemu-img.c:1923
+#6  0x0000aaaaaada2d70 in img_convert (argc=<optimized out>, argv=<optimized out>) at qemu-img.c:2414
+#7  0x0000aaaaaad99ac4 in main (argc=7, argv=<optimized out>) at qemu-img.c:5305
+
+Can you place somewhere your util/async.o object file for me to look at it?
+
+Anyway:
+
+On 11/09/19 04:15, Rafael David Tinoco wrote:
+> I've caught the following stack trace after an HUNG in qemu-img convert:
+> 
+> (gdb) bt
+> #0 syscall ()
+> #1 0x0000aaaaaabd41cc in qemu_futex_wait
+> #2 qemu_event_wait (ev=ev@entry=0xaaaaaac86ce8 <rcu_call_ready_event>)
+> #3 0x0000aaaaaabed05c in call_rcu_thread
+> #4 0x0000aaaaaabd34c8 in qemu_thread_start
+> #5 0x0000ffffbf25c880 in start_thread
+> #6 0x0000ffffbf1b6b9c in thread_start ()
+> 
+> (gdb) print rcu_call_ready_event
+> $4 = {value = 4294967295, initialized = true}
+> 
+> value INT_MAX (4294967295) seems WRONG for qemu_futex_wait():
+
+This is UINT_MAX, not INT_MAX.  qemu_futex_wait() doesn't care of the 
+signedness of the value, which is why it is declared as void *.  (That said,
+changing "ev" to "&ev->value" would be nicer indeed).
+
+> - EV_BUSY, being -1, and passed as an argument qemu_futex_wait(void *,
+> unsigned), is a two's complement, making argument into a INT_MAX when
+> that's not what is expected (unless I missed something).
+> 
+> *** If that is the case, unsure if you, Paolo, prefer declaring
+> *(QemuEvent)->value as an integer or changing EV_BUSY to "2" would okay
+> here ***
+
+You could change it to 3, but it has to have all the bits in EV_FREE 
+(see atomic_or(&ev->value, EV_FREE) in qemu_event_reset).
+
+You could also change it to -1u, but I don't see a particular need to do so.
+
+> BUG: description:
+> https://bugs.launchpad.net/qemu/+bug/1805256/comments/15
+> 
+> ========
+> ISSUE #2
+> ========
+> 
+> I found this when debugging lockups while in futex() in a specific ARM64
+> server - https://bugs.launchpad.net/qemu/+bug/1805256 - which I'm still
+> investigating.
+> 
+> After fixing the issue above, I'm still getting stuck into:
+
+If you changed it to 2, it's wrong.
+
+> - Should qemu_event_set() check return code from
+> qemu_futex_wake()->qemu_futex()->syscall() in order to know if ANY
+> waiter was ever woken up ? Maybe even loop until at least 1 is awaken ?
+
+Why would it need to do so?
+
+Paolo
 
