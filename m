@@ -2,80 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97193AFFC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:18:37 +0200 (CEST)
-Received: from localhost ([::1]:52378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CF2AFFFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:27:57 +0200 (CEST)
+Received: from localhost ([::1]:52508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84OC-0005jE-1n
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:18:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50443)
+	id 1i84XE-0005wN-Rw
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i84DG-0005zf-SH
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:07:19 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i845B-0007Xb-P9
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i84DF-0006vK-TF
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:07:18 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:39548)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i84DF-0006uc-Oh
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:07:17 -0400
-Received: by mail-qt1-x841.google.com with SMTP id n7so25657122qtb.6
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 08:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x7A7jDWxquOfq7qhXvyuRv3/zyVYTvutUxLFeg7VzTA=;
- b=msdw71WiBESJXYfwZ3lNy8cOm/szzJUOhiIfDoIQlEv1TAdt5YJLUHH2hV3ihVaRqM
- /smdO15BcIO8zluOK5bXL+J+3C9Lr2ia+/nFCaW6Dr697FH68XUz0OR7p6mH0n6jdNDm
- /OTE2hW4t0x4LwBomG0OeQ6zrKbNzzq5MdOfHFoiHr0Yq1RflR8vriMhGqKbausFNeR3
- Lwr5XrqBYP3UCI+yrbkLX5xN9JNtMGwkEODd+H02FCfb03iaNCjW0g28+7jzm24PwyP7
- BesIOOQUaCDPMD7g6qP8h+pNdKFNVfbUxZu/nRfDmCfWXMxzD8scKbNQIfEmFsxoTBOQ
- pbDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x7A7jDWxquOfq7qhXvyuRv3/zyVYTvutUxLFeg7VzTA=;
- b=tlMEXu9YTHtVHRDX32t7JUblhszUsda8ZHaVrvW37uV06Di3sHs+Jdhh21N4pe/v+2
- g1+ORyk3Ir9Wf0UaaRuyU0O2j9pSIqPAlSDPhrUaTNS0Ezd+e+O3jP7b6oSWEdQLj2yx
- jPDLVB3g8eBlCZg7GvjeDvpdZz/OZcE37hqmIb6wYM+FIch27RmGdTgCEUkv69D/638T
- 5PWHIM7BgtFkZ64EkfPrCOEGcMkQfJ8TslFQeLy7lfBekZkrNf2P3izNWtbTaIZ98wMM
- lnkvggUeC8SiLlbzJyyoEJtLfjVCYHxZBIv8LvS4BazesySvfRgIZcW57o4IDEj9AYk5
- z94g==
-X-Gm-Message-State: APjAAAVqICzGXGQPefpo/0o4SMlJnsJgpbgasz3UULIQEOFBz5Orvk8A
- 16qlkpLuZyNOMf1s/lQFCDMJ+w==
-X-Google-Smtp-Source: APXvYqyvbg9KrKPFFO0KwV0eiI9JrYqpKVG8jRU304SYNyE+tPbMVa92H9zPYIPLuQiVvOjNWofIjQ==
-X-Received: by 2002:a05:6214:12f1:: with SMTP id
- w17mr1528031qvv.108.1568214437191; 
- Wed, 11 Sep 2019 08:07:17 -0700 (PDT)
-Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
- [64.229.69.35])
- by smtp.gmail.com with ESMTPSA id c12sm1483684qkc.81.2019.09.11.08.07.15
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 08:07:16 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190906075750.14791-1-david@redhat.com>
- <20190906075750.14791-5-david@redhat.com>
- <7788b1b6-fbf0-3370-5563-1da4f7124999@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <905250c7-b249-6812-391c-408af69d9523@linaro.org>
-Date: Wed, 11 Sep 2019 11:07:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <stefanha@redhat.com>) id 1i845A-0002ti-OF
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48190)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i845A-0002sl-J2
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:56 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 783A285360;
+ Wed, 11 Sep 2019 14:58:54 +0000 (UTC)
+Received: from localhost (ovpn-116-185.ams2.redhat.com [10.36.116.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3436608C2;
+ Wed, 11 Sep 2019 14:58:53 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 11 Sep 2019 16:58:18 +0200
+Message-Id: <20190911145818.18962-3-stefanha@redhat.com>
+In-Reply-To: <20190911145818.18962-1-stefanha@redhat.com>
+References: <20190911145818.18962-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7788b1b6-fbf0-3370-5563-1da4f7124999@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::841
-Subject: Re: [Qemu-devel] [PATCH v2 04/28] s390x/tcg: MVCL: Process max 2k
- bytes at a time
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Wed, 11 Sep 2019 14:58:54 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 2/2] audio: add -audiodev pa,
+ in|out.latency= to documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,24 +55,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
- qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Zolt=C3=A1n=20K=C5=91v=C3=A1g=C3=B3?= <DirtY.iCE.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/19 10:52 AM, Richard Henderson wrote:
-> The code within Hercules breaks the action at every 2k address boundary -- for
-> both src and dest.  That's the only way that actually makes sense to me, as
-> otherwise we end up allowing userspace to read/write into a page without
-> permission.  Which is a security hole.
+The "latency" parameter wasn't covered by the documentation.
 
-Also, doesn't "2k" come from the old esa/360 page size?
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+How is this parameter related to buffer-length?
+---
+ qemu-options.hx | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Which means that we could break at 4k pages instead of 2k now
-and the program wouldn't really be able to tell the difference.
-
-
-r~
+diff --git a/qemu-options.hx b/qemu-options.hx
+index a4f9f74f52..82154cecf8 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -470,6 +470,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+     "-audiodev pa,id=3Did[,prop[=3Dvalue][,...]]\n"
+     "                server=3D PulseAudio server address\n"
+     "                in|out.name=3D source/sink device name\n"
++    "                in|out.latency=3D desired latency in microseconds\n=
+"
+ #endif
+ #ifdef CONFIG_AUDIO_SDL
+     "-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]\n"
+@@ -630,6 +631,9 @@ Sets the PulseAudio @var{server} to connect to.
+ @item in|out.name=3D@var{sink}
+ Use the specified source/sink for recording/playback.
+=20
++@item in|out.latency=3D@var{usecs}
++Desired latency in microseconds.
++
+ @end table
+=20
+ @item -audiodev sdl,id=3D@var{id}[,@var{prop}[=3D@var{value}][,...]]
+--=20
+2.21.0
 
 
