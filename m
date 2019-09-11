@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81BCAF643
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:01:20 +0200 (CEST)
-Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EC3AF659
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:04:00 +0200 (CEST)
+Received: from localhost ([::1]:47126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wcw-0001Dg-Uf
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
+	id 1i7wfW-0003Bc-HF
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:03:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7wRj-00067t-OT
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:44 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7wRl-00069j-3S
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7wRi-0004QL-MI
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:52691)
+ (envelope-from <laurent@vivier.eu>) id 1i7wRk-0004RB-0j
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:44 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:50691)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRi-0004Pg-C3
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:42 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRj-0004QV-P7
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:43 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MmUYD-1iYVoo1gbB-00iWzi; Wed, 11 Sep 2019 08:49:31 +0200
+ id 1N0nvJ-1iMQzG3xrh-00wiMo; Wed, 11 Sep 2019 08:49:32 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 08:49:16 +0200
-Message-Id: <20190911064920.1718-12-laurent@vivier.eu>
+Date: Wed, 11 Sep 2019 08:49:17 +0200
+Message-Id: <20190911064920.1718-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190911064920.1718-1-laurent@vivier.eu>
 References: <20190911064920.1718-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:q0XKCvUSDgDm/LctnBRhQZeq/VpM7ByItFT/6TnzPuaB1V28WGn
- rsf9MbPl7I9FHSeOVIWp3/8wcFD6l7w0jgNi+SYI0WPnMMH74CNd3nExf3UycwONCaWFgBP
- d07KB6Ire9iMy13qYZs4WWDjQeQHE+sJvWQ4cOcfBpDJwiWVpPj0iVxxHl+wdXj3iUxvk1f
- Hq1aup40dGWl9QG7WO11A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xCnjN746qsA=:aVgGPonZMMmktz8h6Q4QvH
- jc3gUcADAgj6eP1luiT2/p7IaPLLugAQkQdZbAk1XW6IQYko8OTh4fd9bnm2sBk3Y0LqBceiG
- syt6auURbwTPL4AwBEa3Sc3LcAxzwzc6eigcsc3AnIJ8+5IR1kirmZULfge8hnCAH/AHoZ3y/
- HOKOvbl46xQuYSqf2fpEoRFhStSXKW/I1ElMZpzlZ2qK8c9MYvOPzAOfLPBeOrPz/ziWCKUaP
- TYYcbjmb6TRMVKCos6vEy2kHbUTJXZp4I/DFp+BKlAbmLJqB6MH4YgFFY7DUusmAHVbFSR2uf
- wFVxRDrTgLU2M68eZELkq4orXuMpYwD0dNRpt++lFLFPhwO/4O7Vjd1VDD1lnpCeFtHmTWuZ/
- IeAtymVYL1kpMVFoy5iCZ65oTfkj+xObw9TUlKfO55FX9U92lUwVjFjZmsdDRRLlJuGRym/O9
- pj31ecoInnRfd6ml5xoSQS9bsU9Spvb7WL+w5kFISAYuj3AHLJrzKYXwxE4FFZ0g5uMEWTizd
- O1kK0WWdUWxvsNWpzaUBS14sf3nOCaMSmzaPW6pN2wtIfJiguJbuOGGT5VkKYSax/UrQBvXW0
- RfAfzI2TmLrgLLFqojT6hDcgebqwcHkwFxze1oI5zdpjJOe02k7k+zJweYGG4M8F/RN09W0HC
- doALd3HzcZBnjGGvrlhHf5fSJBPi2wWx+tU2x2JfctGUarMmTTb65IkR+oggDtTjMhGUxNhxv
- 6Hu+Q79/4Yr7mn4OU+fXDTrDElMY85wMR4KW+/vj2ePWtAXWI1JQj5mvW8twv4rcKw4HK9gJW
- yyaLLd2IZjlNomuue9Dr4wsAsdvF3YAQ7VgxCQrVjbf/QIfrlQ=
+X-Provags-ID: V03:K1:rejogtgCx6V7rSfrGTma3x3K2crDjMlarfafrH3wIPBHhMkOCtT
+ 8SYw0Y929haq8seefGuywKLADFmW6kayfKZVT4291+LP9X/igg0MKGjW6eX+HLe8fgRO9M+
+ MefTjk1ikpTdXbhvDT6x2lUgm4nH7Fsasokg4VXoZYpcVIzJ7jfolgv8kQTRnBEvVl5aVcx
+ smsbI3WZDUOiW+Qfq+usA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D32bDUqB9lw=:0xq7qxp+a7oc7KV54q2nEH
+ z4YLalHDVuhmtfbz/uJsvrpz6sTPIIqVKeyCEVvoFk3o56PadvCnItIuSyW6DzzTWSMAOFfkl
+ u2s9z/LWHjoFPJPp2dW8MVLAQ9KUF58kZj5btT5mW2wost5q5Lbq/0mmTZ1JI/VD6bZPm0igo
+ YEa2EI5AJ+zyguhcfomYPN6vBx0ODSE/+VI8IZLhJrxzYnUl8O+w8Ctx1XXTvZtQVgCA5TcOL
+ koq0JSpmxJrO+SBHeBMm0W9+SNhp5DvDrFK+CRVy7vbZhF6PwN35PtUNnoQleXG1I3fJGOHeW
+ nUYiJL6vwL1WWlN2BVcbiI0E79FRzw19sXLHEdNNmGYXwO4OQHCxaRjS4xSjYdu95/yhwqDZN
+ L/Xq/KNap1mBLlxjDGRCPA7AOv7ELFnIjEQ+YZaxN6RLfKoCIj9YvKOIQAL0WkYhC2jm5DoMb
+ xB8OzVQKFVNH9z0nNjecdMAZ5iuFmp9OFSjPIE8pht7R9jLtidf7bz9T0bIpDlhR1rxhZyuHY
+ ioVhV/yLgCjR/4P+syC3bQ0lTPVABvx61gI8UpbOP+I/PYT6nAC+xLsNUKIvwbTXDiVNliuIk
+ gVM/5V2b/UuJO3IQRDnC+cxfLvu+SlIXxpup83Xlosi32cpGlZVfB+jPOB+Y6vOIJn5TA/yzQ
+ PMe+HrnHaGREXXe4aibUL5MfpJ0KAhniTQkSdS/p7376LqMQbVD0mNDZfFjbacoAthh3WW3Ol
+ RgDpc4dkMoM1wQClitiFbqOl64jY2vdovnbxfO9cfVQBx7fDtni4Pt+pgLrNRK7M3a6WWaNog
+ aBtAOsSHJRUtZJDyb0hEgSJ8+mMDoJ9QLXHZhrlW0qckTnFiv0=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: [Qemu-devel] [PULL v2 11/15] linux-user: Add support for
- RNDRESEEDCRNG ioctl
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PULL v2 12/15] linux-user: Add support for FIOGETOWN
+ and FIOSETOWN ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,44 +72,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-RNDRESEEDCRNG is a newer ioctl (added in kernel 4.17), and an
-"ifdef" guard is used for that reason in this patch.
+FIOGETOWN and FIOSETOWN ioctls have platform-specific definitions,
+hence non-standard definition in QEMU too.
+
+Other than that, they both have a single integer argument, and their
+functionality is emulated in a straightforward way.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1567601968-26946-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1567601968-26946-4-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h       | 3 +++
- linux-user/syscall_defs.h | 1 +
- 2 files changed, 4 insertions(+)
+ linux-user/ioctls.h       | 2 ++
+ linux-user/syscall_defs.h | 4 ++++
+ 2 files changed, 6 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 3281c97ca263..cd9b6f9a8d45 100644
+index cd9b6f9a8d45..1830de96e12b 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -246,6 +246,9 @@
-   IOCTL(RNDADDTOENTCNT, IOC_W, MK_PTR(TYPE_INT))
-   IOCTL(RNDZAPENTCNT, 0, TYPE_NULL)
-   IOCTL(RNDCLEARPOOL, 0, TYPE_NULL)
-+#ifdef RNDRESEEDCRNG
-+  IOCTL(RNDRESEEDCRNG, 0, TYPE_NULL)
-+#endif
+@@ -177,6 +177,8 @@
+ #endif
+ #endif /* CONFIG_USBFS */
  
-   IOCTL(CDROMPAUSE, 0, TYPE_NULL)
-   IOCTL(CDROMSTART, 0, TYPE_NULL)
++  IOCTL(FIOGETOWN, IOC_R, MK_PTR(TYPE_INT))
++  IOCTL(FIOSETOWN, IOC_W, MK_PTR(TYPE_INT))
+   IOCTL(SIOCATMARK, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(SIOCGIFNAME, IOC_RW, MK_PTR(MK_STRUCT(STRUCT_int_ifreq)))
+   IOCTL(SIOCGIFFLAGS, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 06622703008a..19a1d39cbc82 100644
+index 19a1d39cbc82..498223b77787 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -850,6 +850,7 @@ struct target_pollfd {
- #define TARGET_RNDADDTOENTCNT  TARGET_IOW('R', 0x01, int)
- #define TARGET_RNDZAPENTCNT    TARGET_IO('R', 0x04)
- #define TARGET_RNDCLEARPOOL    TARGET_IO('R', 0x06)
-+#define TARGET_RNDRESEEDCRNG   TARGET_IO('R', 0x07)
+@@ -758,10 +758,14 @@ struct target_pollfd {
  
- /* From <linux/fs.h> */
- 
+ #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
+        defined(TARGET_XTENSA)
++#define TARGET_FIOGETOWN       TARGET_IOR('f', 123, int)
++#define TARGET_FIOSETOWN       TARGET_IOW('f', 124, int)
+ #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
+ #define TARGET_SIOCSPGRP       TARGET_IOW('s', 8, pid_t)
+ #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
+ #else
++#define TARGET_FIOGETOWN       0x8903
++#define TARGET_FIOSETOWN       0x8901
+ #define TARGET_SIOCATMARK      0x8905
+ #define TARGET_SIOCSPGRP       0x8902
+ #define TARGET_SIOCGPGRP       0x8904
 -- 
 2.21.0
 
