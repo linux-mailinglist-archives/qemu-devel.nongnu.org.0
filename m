@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFC5B0064
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:41:34 +0200 (CEST)
-Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44788B007E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:48:04 +0200 (CEST)
+Received: from localhost ([::1]:52816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84kO-0001E6-Uc
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54921)
+	id 1i84qh-0006rn-8V
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:48:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chihmin.chao@sifive.com>) id 1i84V8-0005X0-U3
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:25:48 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i84ZJ-000067-F2
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:30:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chihmin.chao@sifive.com>) id 1i84V6-0000Pg-KT
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:25:46 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:39469)
+ (envelope-from <richard.henderson@linaro.org>) id 1i84ZI-0002VD-1H
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:30:04 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:37825)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
- id 1i84V6-0000PI-CE
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:25:44 -0400
-Received: by mail-io1-xd44.google.com with SMTP id d25so46770026iob.6
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 08:25:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WDXxo7RChx1Yedny8qFMElJwnL7cMFzyo3wfJ0zwgjk=;
- b=Zb0oQ47/+P1wa+mjC6AdQ3unyt/Z99GBT2SLffyBL8pROPEDPrc5RA2FkHfvBl5h8r
- L0fuKYYMYcRnY/KzS8fk9avB1uKW+Jq7nRs6G8+jLXq26r09M9Ist+O29/lYQ1vk8zLx
- VlFxOs18FXVW+9ScNZ3cqe4kz8qR4LZo9nda+TR55edmKGlMfyYqWI9819o0r+8O9LS+
- i3MsGxTNudvbRum6dJE6S6o7QwUq3FWnQTgomqC+xJklGAuHPzQEg36sarTyncB8OzyS
- nd6v1Kfhyuot5xdHebYVs6njJ1AsrSxm5iDzcrNsGiv7ySIfDpvOnuZeoZHsITotejn8
- 2Q+w==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i84ZH-0002Ud-Pw
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:30:03 -0400
+Received: by mail-qk1-x743.google.com with SMTP id u184so18312157qkd.4
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 08:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BO7GFqdrqAcKKpdSwrUpnV7FzHwEPwd3mFCKB7mnIyY=;
+ b=gISRMP7N8edhvw52S87oeSPqa3fanA/+Xs9P6nwaXWt7aNUOdpli3w8gjhAcGHG9EJ
+ bhAp8QhDXwB0JC4F4+MuDJ2Xj8AtVlru16DVLcrSU1HbtD9AVwKYywR4TggetNFlyCz+
+ ctwoLMdSjAxuchmN+b+Gj2KL3X5fdA9yFvgmfOR/rUcMvm4i0hIU3vfDe9yN4xFMdM8G
+ zgAa6O4yGXIeTmILPsFcSwSj15FKXDSPSZ0igbtYPbDSge81rbng5Wmnm2W+HF3tnNmP
+ 5Izu/VDcdTGXuPnr5M3tvs/nIQaStQQOYI4escWrzvoOFmOOV7ctIcgZb+Lf+LDp01EQ
+ kMlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WDXxo7RChx1Yedny8qFMElJwnL7cMFzyo3wfJ0zwgjk=;
- b=Sm4Seo0iFoI/39INaAMmsW27b6lY2R57GO7hAVRESpKHjzYDvPj2F+e/EKBCcN66iG
- 0n40EEgSXxEiPzS53m/ljtXHLUrRnhO+WLcNIqCrfKxvHjCb9QtpiL6jX0gKOgFKfj1h
- k0b+sdjHl+mDpz6pVFrnJ6d1DyPb7xFpz4rRUV+pXIPDJWatZzRQev4CY5zcpYH6RSlG
- +d1gtFlrFAX1EqQAcjIx4Q/LHSYLBfNSQ1HvtI1fVoXR+29HUV28rD9q5KjTbYuklWI+
- W3V6OLtMSzr+ZofM2s+tSzqcfMhrrv4fINVCqTd/9nPlENg3ovYFQJ4iZSfbaINJdcF1
- ejhQ==
-X-Gm-Message-State: APjAAAXgNyxd8aXYT/rZozgIs2d+sNw78dEQ+BW4ckNwr5NUx4FE7lpC
- YNU28im0tfHguRNl7ifkXA5yjcHnqpcHhNO3M+Nl9w==
-X-Google-Smtp-Source: APXvYqwmrchLaUawFJaNqlPBFrAFk1kmYTK8WctTcZDjfjl0TKZpAGBqbCj0a6yxPGpBLzbTsgJ2MZse2nprmURRtLk=
-X-Received: by 2002:a6b:ec16:: with SMTP id c22mr1362431ioh.185.1568215543429; 
- Wed, 11 Sep 2019 08:25:43 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BO7GFqdrqAcKKpdSwrUpnV7FzHwEPwd3mFCKB7mnIyY=;
+ b=gLpYyYTO8LwUEYIqDyL/7Vre7eb3SFbAwmCtUsYNjExb/691NfZxAuymIBC7Ec9Rh4
+ kQAJ/dWgyoEEpUMo1F2qQUdK/WQYe5t8ePruTAU/hP/Y7D7s7PqFdp6IZb1jYX4fqnNi
+ lrR1YkAGi3u68b+eNk+CqfF90F4uGBLIMdnC1IJfulJIgfxqaaW1LMD8yS4apUrad0D6
+ m8VZZ1swN3cJ4lHbq/wyb/QvXUJWyVoZmDvIg0F0Tpw4wzLaTJimXFZ0KDObNE2JK9dC
+ Nai+VIZ1jysxbqgyJkh8KNwBrJhlNdbGhntwifyUiHHo2CC7oLRpu8fkL3+TjGnd7+Mw
+ 2dVg==
+X-Gm-Message-State: APjAAAUygfUuc10HQok2jH9C+vLJu/Q46wng37f5GbuVZHQnzdayzJMr
+ KNSHczcyhD255YLYsAkF7mg5dg==
+X-Google-Smtp-Source: APXvYqxlal+DabqrVniDai4ezpSedikvWupNY8KXUKgN1Bv9mAfMkcK5qrNkShnBkwpaN3QtAO3LTw==
+X-Received: by 2002:a37:6651:: with SMTP id a78mr23240323qkc.474.1568215803031; 
+ Wed, 11 Sep 2019 08:30:03 -0700 (PDT)
+Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
+ [64.229.69.35])
+ by smtp.gmail.com with ESMTPSA id c29sm13906803qtc.89.2019.09.11.08.30.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Sep 2019 08:30:02 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190906075750.14791-1-david@redhat.com>
+ <20190906075750.14791-16-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <14ac2663-4ffc-7688-8662-19db0f775db0@linaro.org>
+Date: Wed, 11 Sep 2019 11:29:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
- <1568183141-67641-4-git-send-email-zhiwei_liu@c-sky.com>
-In-Reply-To: <1568183141-67641-4-git-send-email-zhiwei_liu@c-sky.com>
-From: Chih-Min Chao <chihmin.chao@sifive.com>
-Date: Wed, 11 Sep 2019 23:25:32 +0800
-Message-ID: <CAEiOBXUoYKPes+BoDCWdDw60nyaqzW2qtgTVAdQ4Sbf_QuNTJA@mail.gmail.com>
-To: liuzhiwei <zhiwei_liu@c-sky.com>
+In-Reply-To: <20190906075750.14791-16-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d44
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH v2 03/17] RISC-V: support
- vector extension csr
+X-Received-From: 2607:f8b0:4864:20::743
+Subject: Re: [Qemu-devel] [PATCH v2 15/28] s390x/tcg: Fault-safe memset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,183 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, riku.voipio@iki.fi,
- laurent@vivier.eu, wxy194768@alibaba-inc.com,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wenmeng_zhang@c-sky.com, Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 11, 2019 at 2:38 PM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
+On 9/6/19 3:57 AM, David Hildenbrand wrote:
+> +    if (likely(desta.haddr1)) {
+> +        memset(desta.haddr1, byte, desta.size1);
+> +    } else {
+> +        for (i = 0; i < desta.size1; i++) {
+> +            helper_ret_stb_mmu(env, desta.vaddr1 + i, byte, oi, ra);
+> +        }
 
-> From: LIU Zhiwei <zhiwei_liu@c-sky.com>
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/cpu_bits.h | 15 ++++++++++++
->  target/riscv/csr.c      | 65
-> ++++++++++++++++++++++++++++++++++++++++++++++---
->  2 files changed, 76 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 11f971a..9eb43ec 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -29,6 +29,14 @@
->  #define FSR_NXA             (FPEXC_NX << FSR_AEXC_SHIFT)
->  #define FSR_AEXC            (FSR_NVA | FSR_OFA | FSR_UFA | FSR_DZA |
-> FSR_NXA)
->
-> +/* Vector Fixed-Point round model */
-> +#define FSR_VXRM_SHIFT      9
-> +#define FSR_VXRM            (0x3 << FSR_VXRM_SHIFT)
-> +
-> +/* Vector Fixed-Point saturation flag */
-> +#define FSR_VXSAT_SHIFT     8
-> +#define FSR_VXSAT           (0x1 << FSR_VXSAT_SHIFT)
-> +
->  /* Control and Status Registers */
->
->  /* User Trap Setup */
-> @@ -48,6 +56,13 @@
->  #define CSR_FRM             0x002
->  #define CSR_FCSR            0x003
->
-> +/* User Vector CSRs */
-> +#define CSR_VSTART          0x008
-> +#define CSR_VXSAT           0x009
-> +#define CSR_VXRM            0x00a
-> +#define CSR_VL              0xc20
-> +#define CSR_VTYPE           0xc21
-> +
->  /* User Timers and Counters */
->  #define CSR_CYCLE           0xc00
->  #define CSR_TIME            0xc01
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e0d4586..a6131ff 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -87,12 +87,12 @@ static int ctr(CPURISCVState *env, int csrno)
->      return 0;
->  }
->
-> -#if !defined(CONFIG_USER_ONLY)
->  static int any(CPURISCVState *env, int csrno)
->  {
->      return 0;
->  }
->
-> +#if !defined(CONFIG_USER_ONLY)
->  static int smode(CPURISCVState *env, int csrno)
->  {
->      return -!riscv_has_ext(env, RVS);
-> @@ -158,8 +158,10 @@ static int read_fcsr(CPURISCVState *env, int csrno,
-> target_ulong *val)
->          return -1;
->      }
->  #endif
-> -    *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
-> -        | (env->frm << FSR_RD_SHIFT);
-> +    *val = (env->vfp.vxrm << FSR_VXRM_SHIFT)
-> +            | (env->vfp.vxsat << FSR_VXSAT_SHIFT)
-> +            | (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
-> +            | (env->frm << FSR_RD_SHIFT);
->      return 0;
->  }
->
-> @@ -172,10 +174,60 @@ static int write_fcsr(CPURISCVState *env, int csrno,
-> target_ulong val)
->      env->mstatus |= MSTATUS_FS;
->  #endif
->      env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
-> +    env->vfp.vxrm = (val & FSR_VXRM) >> FSR_VXRM_SHIFT;
-> +    env->vfp.vxsat = (val & FSR_VXSAT) >> FSR_VXSAT_SHIFT;
->      riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
->      return 0;
->  }
->
-> +static int read_vtype(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vfp.vtype;
-> +    return 0;
-> +}
-> +
-> +static int read_vl(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vfp.vl;
-> +    return 0;
-> +}
-> +
-> +static int read_vxrm(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vfp.vxrm;
-> +    return 0;
-> +}
-> +
-> +static int read_vxsat(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vfp.vxsat;
-> +    return 0;
-> +}
-> +
-> +static int read_vstart(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    *val = env->vfp.vstart;
-> +    return 0;
-> +}
-> +
-> +static int write_vxrm(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vfp.vxrm = val;
-> +    return 0;
-> +}
-> +
-> +static int write_vxsat(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vfp.vxsat = val;
-> +    return 0;
-> +}
-> +
-> +static int write_vstart(CPURISCVState *env, int csrno, target_ulong val)
-> +{
-> +    env->vfp.vstart = val;
-> +    return 0;
-> +}
-> +
->  /* User Timers and Counters */
->  static int read_instret(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> @@ -873,7 +925,12 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =
-> {
->      [CSR_FFLAGS] =              { fs,   read_fflags,      write_fflags
->   },
->      [CSR_FRM] =                 { fs,   read_frm,         write_frm
->    },
->      [CSR_FCSR] =                { fs,   read_fcsr,        write_fcsr
->   },
-> -
-> +    /* Vector CSRs */
-> +    [CSR_VSTART] =              { any,   read_vstart,     write_vstart
->   },
-> +    [CSR_VXSAT] =               { any,   read_vxsat,      write_vxsat
->    },
-> +    [CSR_VXRM] =                { any,   read_vxrm,       write_vxrm
->   },
-> +    [CSR_VL] =                  { any,   read_vl
->   },
-> +    [CSR_VTYPE] =               { any,   read_vtype
->    },
->      /* User Timers and Counters */
->      [CSR_CYCLE] =               { ctr,  read_instret
->   },
->      [CSR_INSTRET] =             { ctr,  read_instret
->   },
-> --
-> 2.7.4
->
->
->
-Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+The only thing perhaps that we could do better here is to re-check
+tlb_vaddr_to_host after a singe access.  This would handle NOTDIRTY with a
+single iotlb access and then fall back to memset, without re-checking host
+address for real mmio after every store.
+
+> +    if (likely(desta.haddr2)) {
+> +            memset(desta.haddr2, byte, desta.size2);
+
+Indentation.
+
+> +    } else {
+> +        for (i = 0; i < desta.size2; i++) {
+> +            helper_ret_stb_mmu(env, desta.vaddr2 + i, byte, oi, ra);
+>          }
+
+Likewise wrt NOTDIRTY, which suggests a subroutine to handle a single page?
+
+That said, what's here looks correct so
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
+
