@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9782B0088
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:50:15 +0200 (CEST)
-Received: from localhost ([::1]:52862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EDCB008C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:51:17 +0200 (CEST)
+Received: from localhost ([::1]:52870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84sp-0000Om-2y
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:50:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56877)
+	id 1i84to-0001We-GK
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:51:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57188)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <johannes@sipsolutions.net>) id 1i84ff-0005E8-23
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:36:40 -0400
+ (envelope-from <johannes@sipsolutions.net>) id 1i84ha-0007bj-4B
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:38:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <johannes@sipsolutions.net>) id 1i84fd-00067X-0j
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:36:38 -0400
-Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:59706
+ (envelope-from <johannes@sipsolutions.net>) id 1i84hZ-0006kt-As
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:38:38 -0400
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:59810
  helo=sipsolutions.net)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
- id 1i84fc-00066m-Jn
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:36:36 -0400
+ id 1i84hZ-0006ka-4Y
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:38:37 -0400
 Received: by sipsolutions.net with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <johannes@sipsolutions.net>)
- id 1i84fZ-0003Fz-EU; Wed, 11 Sep 2019 17:36:33 +0200
-Message-ID: <45d6dc06b9973aa231f1076a0de279fd5292d2d3.camel@sipsolutions.net>
+ id 1i84hY-0003J7-49; Wed, 11 Sep 2019 17:38:36 +0200
+Message-ID: <c46b3e33712e6edb4490f2b7695fd160ce614568.camel@sipsolutions.net>
 From: Johannes Berg <johannes@sipsolutions.net>
 To: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 11 Sep 2019 17:36:32 +0200
-In-Reply-To: <CAJSP0QXhOQg98FyLzcTnruG7B=b+uUqEd5HvevRKmuP3HhCSmw@mail.gmail.com>
- (sfid-20190911_173128_235736_D9071E83)
+Date: Wed, 11 Sep 2019 17:38:35 +0200
+In-Reply-To: <45d6dc06b9973aa231f1076a0de279fd5292d2d3.camel@sipsolutions.net>
 References: <20190902121233.13382-1-johannes@sipsolutions.net>
  <20190902121233.13382-2-johannes@sipsolutions.net>
  <CAJSP0QXhOQg98FyLzcTnruG7B=b+uUqEd5HvevRKmuP3HhCSmw@mail.gmail.com>
  (sfid-20190911_173128_235736_D9071E83)
+ <45d6dc06b9973aa231f1076a0de279fd5292d2d3.camel@sipsolutions.net>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
@@ -61,63 +61,17 @@ Cc: =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-09-11 at 17:31 +0200, Stefan Hajnoczi wrote:
-
-> > +``VHOST_USER_VQ_CALL``
+On Wed, 2019-09-11 at 17:36 +0200, Johannes Berg wrote:
+> On Wed, 2019-09-11 at 17:31 +0200, Stefan Hajnoczi wrote:
 > 
-> "call" should be "kick".  "kick" is the driver->device request
-> submission notification and "call" is the device->driver request
-> completion notification.
+> > > +``VHOST_USER_VQ_CALL``
 
-Ahrg, yes. I confuse this all the time, sorry, will fix.
+It should also be VRING, not VQ, but I did indeed fix that in v2 already
+along with the CALL<->KICK inversion.
 
-Btw, speaking of confusion ... this document may need some cleanup wrt.
-the "client" language since it states that both sides might be a socket
-server or client, but then goes on to talk about the "client" as though
-it was equivalent to "slave", where normally it's actually the other way
-around (the device is the one listening on the socket, i.e. it's the
-server). This is most pronounced in the section "Starting and stopping
-rings".
-
-IMHO, it'd be good to talk more about "device" and "host" instead of
-"slave" and "master" too since that's clearer, and just replace *all*
-that language accordingly, but YMMV.
-
-> > +  :id: 34
-> > +  :equivalent ioctl: N/A
-> > +  :slave payload: vring state description
-> > +  :master payload: N/A
-> > +
-> > +  When the ``VHOST_USER_PROTOCOL_F_KICK_CALL_MSGS`` protocol feature has
-> > +  been successfully negotiated, this message may be submitted by the master
-> > +  to indicate that a buffer was added to the vring instead of signalling it
-> > +  using the vring's event FD or having the slave rely on polling.
-> > +
-> > +  The state.num field is currently reserved and must be set to 0.
-> 
-> Please include an explanation of how this message is different from
-> the existing methods.  Maybe something like:
-> 
->   Unlike eventfd or polling, this message allows the master to control
-> precisely when virtqueue processing happens.  When the master uses
-> ``need_reply`` to receive a reply, it knows the device has become
-> aware of the virtqueue activity.
-
-Sure, thanks, I'll incorporate that.
-
-> >  Slave message types
-> >  -------------------
-> > 
-> > @@ -1246,6 +1265,19 @@ Slave message types
-> >    ``VHOST_USER_PROTOCOL_F_HOST_NOTIFIER`` protocol feature has been
-> >    successfully negotiated.
-> > 
-> > +``VHOST_USER_VQ_KICK``
-> 
-> s/KICK/CALL/
-
-Indeed. Wait, that should be VHOST_USER_SLAVE_VQ_CALL, actually. Maybe I
-already did fix that in v2?
+So I guess I just have to include the part about how it's different from
+existing methods, and solve the discussion with Michael about polling
+(and possibly use another flag there for message-based mode).
 
 johannes
 
