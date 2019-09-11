@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9C8AFFD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:21:53 +0200 (CEST)
-Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B5CAFFF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:26:35 +0200 (CEST)
+Received: from localhost ([::1]:52488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84RM-0008LM-3s
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52466)
+	id 1i84Vt-0004dP-B1
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:26:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1i84N9-0006Kc-W3
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:34 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1i84NL-0006S0-HK
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1i84N2-0003RD-14
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:28 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:33965)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1i84Mv-0003HC-8K; Wed, 11 Sep 2019 11:17:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=3ky7uFhm3UvyPJzrvpGfefSmyjPnMHqJz5qM17R8OTc=; 
- b=UxSmBBWH2XaGi6a/t7gK5Pysn0NT/O2ix7HcWT4XkpwrZMa20JWR8McYUIS8TuVRYyAGY3sHAF2NHD3i4mJ2q2kWh/rryqid/3AVzWK79M+NWdBcpqEH2x6yIOhZ3K3ffX8l2VBtxFVGY37YCaOfLw+FXLxXfXNRYetCNHwejUYzIkJZ7Anz0xcdy47VWjT2df4HGfnfw0vBWXZlCWim0QprQ2wIq8MWAgn8e28Kf5rPPXVVs5exSuXBkbf3IDM/R0DI0EZB98uDN+U8dK8eRAn50QcDlBPusyzoMJdupNDzr2KFKKoFDzSOTMOEbiqgeU/U1ttTr/UJYe9v+XQ8aw==;
-Received: from 82-181-154-206.bb.dnainternet.fi ([82.181.154.206]
- helo=perseus.local) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1i84Ma-0001ZJ-Sh; Wed, 11 Sep 2019 17:16:57 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1i84MC-0001mo-SS; Wed, 11 Sep 2019 18:16:32 +0300
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 18:16:26 +0300
-Message-Id: <20190911151626.6823-1-berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <tony.nguyen@bt.com>) id 1i84NK-0003ZM-B1
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:43 -0400
+Received: from nsstlmta09p.bpe.bigpond.com ([203.38.21.9]:47414)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i84NJ-0003VR-Mp
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:42 -0400
+Received: from smtp.telstra.com ([10.10.24.4])
+ by nsstlfep09p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190911151733.HBCD24695.nsstlfep09p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Thu, 12 Sep 2019 01:17:33 +1000
+X-RG-Spam: Unknown
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedufedrtdefgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepvfhonhihucfpghhuhigvnhcuoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecukfhppeehkedrudejfedrleekrdeikeenucfrrghrrghmpehhvghlohepihhmrggtrdhlohgtrghlpdhinhgvthepheekrddujeefrdelkedrieekpdhmrghilhhfrhhomhepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoehmrghrkhdrtggrvhgvqdgrhihlrghnugesihhlrghnuggvrdgtohdruhhkqedprhgtphhtthhopeeophgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrgheqnecuvehluhhsthgvrhfuihiivgeptd
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+X-RG-VS-CLASS: clean
+X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
+Received: from imac.local (58.173.98.68) by smtp.telstra.com (5.8.335)
+ (authenticated as tony.nguyen.git@bigpond.com)
+ id 5D36929213D109F6; Thu, 12 Sep 2019 01:17:33 +1000
+Date: Thu, 12 Sep 2019 01:17:25 +1000
+From: Tony Nguyen <tony.nguyen@bt.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190911151725.GA15659@imac.local>
+References: <20190911014353.5926-1-richard.henderson@linaro.org>
+ <20190911014353.5926-3-richard.henderson@linaro.org>
+ <20190911105509.GA42643@imac.local>
+ <299a576c-0264-95d2-e2fe-4dee41d87039@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: [Qemu-devel] [PATCH] qcow2: Stop overwriting compressed clusters
- one by one
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <299a576c-0264-95d2-e2fe-4dee41d87039@linaro.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 203.38.21.9
+Subject: Re: [Qemu-devel] [PATCH 2/3] cputlb: Replace switches in
+ load/store_helper with callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,68 +61,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-handle_alloc() tries to find as many contiguous clusters that need
-copy-on-write as possible in order to allocate all of them at the same
-time.
+On Wed, Sep 11, 2019 at 09:22:39AM -0400, Richard Henderson wrote:
+> I would be hesitant to call this just "lduw_be"; I think that's confusing when
+> it's calling lduw_be_p.  But perhaps "wrap_*" or "wide_*"?
 
-However, compressed clusters are only overwritten one by one, so let's
-say that we have an image with 1024 consecutive compressed clusters:
+Agree, some hamming distance is needed.
 
-   qemu-img create -f qcow2 hd.qcow2 64M
-   for f in `seq 0 64 65472`; do
-      qemu-io -c "write -c ${f}k 64k" hd.qcow2
-   done
-
-In this case trying to overwrite the whole image with one large write
-request results in 1024 separate allocations:
-
-   qemu-io -c "write 0 64M" hd.qcow2
-
-This restriction comes from commit 095a9c58ce12afeeb90c2 from 2018.
-Nowadays QEMU can overwrite multiple compressed clusters just fine,
-and in fact it already does: as long as the first cluster that
-handle_alloc() finds is not compressed, all other compressed clusters
-in the same batch will be overwritten in one go:
-
-   qemu-img create -f qcow2 hd.qcow2 64M
-   qemu-io -c "write -z 0 64k" hd.qcow2
-   for f in `seq 64 64 65472`; do
-      qemu-io -c "write -c ${f}k 64k" hd.qcow2
-   done
-
-Compared to the previous one, overwriting this image on my computer
-goes from 8.35s down to 230ms.
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2-cluster.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index f09cc992af..dcacd3c450 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1351,13 +1351,7 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
-     }
- 
-     entry = be64_to_cpu(l2_slice[l2_index]);
--
--    /* For the moment, overwrite compressed clusters one by one */
--    if (entry & QCOW_OFLAG_COMPRESSED) {
--        nb_clusters = 1;
--    } else {
--        nb_clusters = count_cow_clusters(bs, nb_clusters, l2_slice, l2_index);
--    }
-+    nb_clusters = count_cow_clusters(bs, nb_clusters, l2_slice, l2_index);
- 
-     /* This function is only called when there were no non-COW clusters, so if
-      * we can't find any unallocated or COW clusters either, something is
--- 
-2.20.1
-
+"wrap_*", "wide_*", or "direct_*" all works for me.
 
