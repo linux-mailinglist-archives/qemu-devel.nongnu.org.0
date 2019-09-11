@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61653AF668
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:08:56 +0200 (CEST)
-Received: from localhost ([::1]:47192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA66AF666
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:08:48 +0200 (CEST)
+Received: from localhost ([::1]:47188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wkJ-0000kC-1M
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:08:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40905)
+	id 1i7wkA-0000Tk-Sm
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:08:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7wRk-00068w-J5
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:45 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7wRm-0006Bq-Mm
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7wRj-0004Qc-13
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:44 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:53909)
+ (envelope-from <laurent@vivier.eu>) id 1i7wRl-0004Rz-Ne
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:55083)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRi-0004Pv-P2
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:42 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRl-0004Rd-Ev
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:45 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MF3Y8-1hsYDp3EXQ-00FVtr; Wed, 11 Sep 2019 08:49:30 +0200
+ id 1M5wc7-1i290j3Jj1-007V9s; Wed, 11 Sep 2019 08:49:30 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 08:49:13 +0200
-Message-Id: <20190911064920.1718-9-laurent@vivier.eu>
+Date: Wed, 11 Sep 2019 08:49:15 +0200
+Message-Id: <20190911064920.1718-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190911064920.1718-1-laurent@vivier.eu>
 References: <20190911064920.1718-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XctwPDcSm58FR8JIA/1GR/JKYqhEdsyYJBACwt7866Wxq36LhJo
- ExXa6FP1Ijad+wIKMsSoixv//jNPBC7RCf4cIQJUopfC49nf2dd89CgDlOIWfSieVZ5v3KT
- ZY1HadVsoeM7cbeqMsC2yAXBXYsSm0V/+CTRQ9XVEbK5zBx8o/J3USqFKkbWI/mj8BX9WSM
- ystkQ6HLtL36d3Mt5bGcQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Nh4AoSULLbY=:fhqEHJHpeFd6iS5Zi5PAAm
- O3lIEH2Az+zEY1X262R1pymeaOz89mU+NkjHhulGCl2AcpoOFlcc8oKTv5xJrcnmgYCDfrk9W
- nuiQyLrpGviSvq2tL3JAQoC37c/MgfxFAzjck7try7SIIzxltH4Mg9juY8fkgWvP5mABR/qmg
- YQ8GFc2kRE4CJfMo10HN8q+o6I//7Olgtjj/NH/bZBX8wVyIxKzOYa8EofRjdVHyDGwWIV/Tz
- heAxCN3AKHzqDgOHJphvgHmS2UxHcV87cwfDvEBOdZ698W8lY4YoBawfzieZuwX4UjqBB3bA+
- kuI8f9fguUwLCvqr09qc+VQrxFVYANDn1H0ozvsxZITzUihYxtgks2HQ1K4ZyoGw25cGfxNvz
- M3xsk0uphvhgw+4OA6ObVlnNucobcwMItlDf60hX4GWLXfQuYvgVucOna4NdRd8IAfqF1ydPe
- Jw8s9Md83QsvFKYjYyMbkCds1nJBB0b+2zp9QqxRVPpUxrAZNLaIKX3ksOQBQVWR3VpO2NtNz
- 8KPxhqdKliYiZhIr1fgIF27Y20nnxRnlNWZab79WzPAfza6hKiy1XV+wg3eAARY+zos1NaNU/
- 2+dwmH0wVwF12EAIlWNthay6G4smddkVLvpTWAkeH9ct4v/3FGknPwMgQwjTteJUKglHUZhH2
- Ho1p7o7zlAUOvYkp8e4k/hINrf1i2x7qKEYzR9mqPX56x5xIH8Z4tNtpbngHOUjtYW6pgjm3M
- wOfkws0l54thgqKIEkzIpG7tsydALHWbVhyAkOkA4Z3Gd9NErpJ09uOf4GfoRfEWl162g5WRP
- uo+hnX4o3wqGOvFXKg+5cfvc/yunovhw+d1HQUu9mGfgBYSNDA=
+X-Provags-ID: V03:K1:Su61+BnpKiccqNuEQD+A6HqyxIOzxrWccEsaFWHENjM9CIChd6C
+ a1w0VRCm+u9ubulRdzheD77DvR1dMe86Uu7EF6GTg6Mxzi472iPznSHK+1Pu8dG8WhpOHLI
+ kOpSdvJMKmVqyOT9SlzT15N2gLZsPqW1rh+aVQwI4vm8V7nd2hJs2wXS0NuIM5kyU68/uYy
+ +iH6Tfmo3cd5KtEO0Ywfw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1yOHbFUPko0=:6FR5lkRiUee9DSqImHk4Hw
+ fPv//MW6vE/U2s1MfdLTP/lzhUKUmVChtlDX9Uer+d2My0TIHNosk1xVkKs2mda59BhJNmYSw
+ 6K7Ew0dUhf7xDm+RgatrByO1nEViIlVjwgyAhS0c/BkouSkkWIpUHX7I5DuKkw3jm6rMdCPdp
+ JoTYHHpOjh2p8Yznks0NHAOFeb/DDHr4rzGV79CPg+J96FUBmxZm8V28jM++RR5rFAMVQksrg
+ xuymSp6F7XCIsQhos2PG6gfuNbmqIpbYV744LeRvo4UH9Om8Z68En624LJE/eaz7k3DmXKNZZ
+ GL3+zxmu3uuKFcHgtRytN7u1v6Lk26nEoKW2PTUXz8FFP4Xj2r+8+nJSwsjWriAcuQtOfNWkq
+ O8oBploh7cS7QAGl9ItA9bRYkMlmkvMbBOnPZfuCDy2fX5x+xT9QiUEoMuilQOqnNyKPD5SPS
+ WtSE3hiEvkteofoxzG54XSQwITLeZfZvoDhxQtrx5g+1tOM39/E5O/PwBj85M6g/Kpb71aRlc
+ WBAUASDo5pVmRDi+wn3Tau3tgIr8FvokockxLbNO+SgXYA5bhk6qz+bXR7fzbCnWcKZKlhwyg
+ NGKtEsgTxpEKJYxgbiH/5NcRWDSXEOh9dgpWq+8Zh3eRk0lG+F3CMW/MzIO0M93SbaE1putDC
+ YPIjyLTpBoSezqxqzBmGPts1zTDN7oP3Uj0dLhJsMa6WYITBehfdQ0sL8hG+dTHBw1Y6qRF/j
+ 6JBwPAtKH46QvEDQ2OlOqYyQbcW33CzVFS326+sR5voHnSPlL8q1P5lM09t2UWllapZdpY7Lb
+ BzC3kGRHMA2twDsXyRLYXsaYlAtSw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: [Qemu-devel] [PULL v2 08/15] linux-user: Support gdb 'qOffsets'
- query for ELF
+X-Received-From: 212.227.126.134
+Subject: [Qemu-devel] [PULL v2 10/15] linux-user: drop redundant handling of
+ environment variables
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,50 +65,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Josh Kunz <jkz@google.com>
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Josh Kunz <jkz@google.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
 
-This is needed to support debugging PIE ELF binaries running under QEMU
-user mode. Currently, `code_offset` and `data_offset` remain unset for
-all ELF binaries, so GDB is unable to correctly locate the position of
-the binary's text and data.
+QEMU_STRACE and QEMU_RAND_SEED are handled by the parse_args, no need to
+do it again in main.
 
-The fields `code_offset`, and `data_offset` were originally added way
-back in 2006 to support debugging of bFMT executables (978efd6aac6),
-and support was just never added for ELF. Since non-PIE binaries are
-loaded at exactly the address specified in the binary, GDB does not need
-to relocate any symbols, so the buggy behavior is not normally observed.
-
-http://sourceware.org/gdb/onlinedocs/gdb/General-Query-Packets.html#index-qOffsets-packet
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1528239
-Signed-off-by: Josh Kunz <jkz@google.com>
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190816233422.16715-1-jkz@google.com>
-[lv: added link to documentation]
+Message-Id: <20190906165736.5612-1-jcmvbkbc@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 2 ++
- 1 file changed, 2 insertions(+)
+ linux-user/main.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 43c16a846d33..f6693e576098 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2403,6 +2403,8 @@ static void load_elf_image(const char *image_name, int image_fd,
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 27d9a87bc83d..560d053f7249 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -706,13 +706,6 @@ int main(int argc, char **argv, char **envp)
+         reserved_va = max_reserved_va & qemu_host_page_mask;
      }
  
-     info->load_bias = load_bias;
-+    info->code_offset = load_bias;
-+    info->data_offset = load_bias;
-     info->load_addr = load_addr;
-     info->entry = ehdr->e_entry + load_bias;
-     info->start_code = -1;
+-    if (getenv("QEMU_STRACE")) {
+-        do_strace = 1;
+-    }
+-
+-    if (seed_optarg == NULL) {
+-        seed_optarg = getenv("QEMU_RAND_SEED");
+-    }
+     {
+         Error *err = NULL;
+         if (seed_optarg != NULL) {
 -- 
 2.21.0
 
