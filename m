@@ -2,65 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D84AF695
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:19:37 +0200 (CEST)
-Received: from localhost ([::1]:47291 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F99AF68D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:18:14 +0200 (CEST)
+Received: from localhost ([::1]:47284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wue-0003ku-Nt
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:19:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45192)
+	id 1i7wtJ-0001qy-78
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i7wrT-0001gZ-Mp
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 03:16:22 -0400
+ (envelope-from <clg@kaod.org>) id 1i7wlF-0003Cw-N1
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 03:09:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i7wrS-0001AR-D5
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 03:16:19 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46138)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i7wrS-00018x-84
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 03:16:18 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i7wrP-0001Uj-Oz
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:16:15 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BA98C2E80C9
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:16:15 +0000 (UTC)
+ (envelope-from <clg@kaod.org>) id 1i7wlE-0007Qi-0i
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 03:09:53 -0400
+Received: from 3.mo173.mail-out.ovh.net ([46.105.34.1]:57269)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i7wlD-0007Pn-Qy
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 03:09:51 -0400
+Received: from player734.ha.ovh.net (unknown [10.108.42.23])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 889F310FAAE
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 09:09:48 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id D364599CC69E;
+ Wed, 11 Sep 2019 07:09:39 +0000 (UTC)
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20190911040452.8341-1-david@gibson.dropbear.id.au>
+ <20190911040452.8341-2-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <cf4fd712-1130-a977-6adc-9eccd31b55a4@kaod.org>
+Date: Wed, 11 Sep 2019 09:09:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190911040452.8341-2-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 11365959560230308646
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrtddugdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Sep 2019 07:05:41 -0000
-From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rafaeldtinoco@kernelpath.com; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=In Progress; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
-X-Launchpad-Bug-Tags: qemu-img
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dannf jnsnow lizhengui rafaeldtinoco
-X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
-References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
- <cbe46ad6-ef6c-d155-e79a-672182c725ad@ubuntu.com>
-Message-Id: <c3bf1a4e-4fa7-2c13-35fb-f63429ee39d1@ubuntu.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19044";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cd93aa51b4b635f8069961ed2ce2552153499142
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1805256] Re: qemu_futex_wait() lockups in ARM64:
- 2 possible issues
+X-Received-From: 46.105.34.1
+Subject: Re: [Qemu-devel] [PATCH 1/7] spapr: Simplify handling of pre ISA
+ 3.0 guest workaround handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,144 +60,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
+Cc: aik@ozlabs.ru, lvivier@redhat.com, philmd@redhat.com, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quick update...
+On 11/09/2019 06:04, David Gibson wrote:
+> Certain old guest versions don't understand the radix MMU introduced wi=
+th
+> POWER ISA 3.0, but incorrectly select it if presented with the option a=
+t
+> CAS time.  We workaround this in qemu by explicitly excluding the radix
+> (and other ISA 3.0 linked) options if the guest doesn't explicitly note
+> support for ISA 3.0.
+>=20
+> This is handled by the 'cas_legacy_guest_workaround' flag, which is pre=
+tty
+> vague.  Rename it to 'cas_pre_isa3_guest' to be clearer about what it's=
+ for.
+>=20
+> In addition, we unnecessarily call spapr_populate_pa_features() with
+> different options when initially constructing the device tree and when
+> adjusting it at CAS time.  At the initial construct time cas_pre_isa3_g=
+uest
+> is already false, so we can still use the flag, rather than explicitly
+> overriding it to be false at the callsite.
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-> value INT_MAX (4294967295) seems WRONG for qemu_futex_wait():
-> =
 
-> - EV_BUSY, being -1, and passed as an argument qemu_futex_wait(void *,
-> unsigned), is a two's complement, making argument into a INT_MAX when
-> that's not what is expected (unless I missed something).
-> =
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-> *** If that is the case, unsure if you, Paolo, prefer declaring
-> *(QemuEvent)->value as an integer or changing EV_BUSY to "2" would okay
-> here ***
-> =
+Thanks,
 
-> BUG: description:
-> https://bugs.launchpad.net/qemu/+bug/1805256/comments/15
+C.
 
-I realized this might be intentional, but, still, I tried:
+> ---
+>  hw/ppc/spapr.c         | 10 ++++------
+>  hw/ppc/spapr_hcall.c   |  3 +--
+>  include/hw/ppc/spapr.h |  2 +-
+>  3 files changed, 6 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 7124053b43..c551001f86 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -218,8 +218,7 @@ static int spapr_fixup_cpu_numa_dt(void *fdt, int o=
+ffset, PowerPCCPU *cpu)
+>  /* Populate the "ibm,pa-features" property */
+>  static void spapr_populate_pa_features(SpaprMachineState *spapr,
+>                                         PowerPCCPU *cpu,
+> -                                       void *fdt, int offset,
+> -                                       bool legacy_guest)
+> +                                       void *fdt, int offset)
+>  {
+>      uint8_t pa_features_206[] =3D { 6, 0,
+>          0xf6, 0x1f, 0xc7, 0x00, 0x80, 0xc0 };
+> @@ -285,7 +284,7 @@ static void spapr_populate_pa_features(SpaprMachine=
+State *spapr,
+>      if ((spapr_get_cap(spapr, SPAPR_CAP_HTM) !=3D 0) && pa_size > 24) =
+{
+>          pa_features[24] |=3D 0x80;    /* Transactional memory support =
+*/
+>      }
+> -    if (legacy_guest && pa_size > 40) {
+> +    if (spapr->cas_pre_isa3_guest && pa_size > 40) {
+>          /* Workaround for broken kernels that attempt (guest) radix
+>           * mode when they can't handle it, if they see the radix bit s=
+et
+>           * in pa-features. So hide it from them. */
+> @@ -348,8 +347,7 @@ static int spapr_fixup_cpu_dt(void *fdt, SpaprMachi=
+neState *spapr)
+>              return ret;
+>          }
+> =20
+> -        spapr_populate_pa_features(spapr, cpu, fdt, offset,
+> -                                   spapr->cas_legacy_guest_workaround)=
+;
+> +        spapr_populate_pa_features(spapr, cpu, fdt, offset);
+>      }
+>      return ret;
+>  }
+> @@ -551,7 +549,7 @@ static void spapr_populate_cpu_dt(CPUState *cs, voi=
+d *fdt, int offset,
+>                            page_sizes_prop, page_sizes_prop_size)));
+>      }
+> =20
+> -    spapr_populate_pa_features(spapr, cpu, fdt, offset, false);
+> +    spapr_populate_pa_features(spapr, cpu, fdt, offset);
+> =20
+>      _FDT((fdt_setprop_cell(fdt, offset, "ibm,chip-id",
+>                             cs->cpu_index / vcpus_per_socket)));
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 23e4bdb829..3d3a67149a 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1765,8 +1765,7 @@ static target_ulong h_client_architecture_support=
+(PowerPCCPU *cpu,
+>              exit(EXIT_FAILURE);
+>          }
+>      }
+> -    spapr->cas_legacy_guest_workaround =3D !spapr_ovec_test(ov1_guest,
+> -                                                          OV1_PPC_3_00=
+);
+> +    spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV1_PPC_=
+3_00);
+>      spapr_ovec_cleanup(ov1_guest);
+>      if (!spapr->cas_reboot) {
+>          /* If spapr_machine_reset() did not set up a HPT but one is ne=
+cessary
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 03111fd55b..dfec8e8e76 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -175,7 +175,7 @@ struct SpaprMachineState {
+> =20
+>      /* ibm,client-architecture-support option negotiation */
+>      bool cas_reboot;
+> -    bool cas_legacy_guest_workaround;
+> +    bool cas_pre_isa3_guest;
+>      SpaprOptionVector *ov5;         /* QEMU-supported option vectors *=
+/
+>      SpaprOptionVector *ov5_cas;     /* negotiated (via CAS) option vec=
+tors */
+>      uint32_t max_compat_pvr;
+>=20
 
-    https://pastebin.ubuntu.com/p/6rkkY6fJdm/
-
-looking for anything that could have misbehaved in arm64 (specially
-concerned on casting and type conversions between the functions).
-
-> QUESTION:
-> =
-
-> - Should qemu_event_set() check return code from
-> qemu_futex_wake()->qemu_futex()->syscall() in order to know if ANY
-> waiter was ever woken up ? Maybe even loop until at least 1 is awaken ?
-
-And I also tried:
-
--    qemu_futex(f, FUTEX_WAKE, n, NULL, NULL, 0);
-+    while(qemu_futex(pval, FUTEX_WAKE, val, NULL, NULL, 0) =3D=3D 0)
-+        continue;
-
-and it made little difference (took way more time for me to reproduce
-the issue though):
-
-"""
-(gdb) run
-Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
-./disk01.ext4.qcow2 ./output.qcow2
-
-[New Thread 0xffffbec5ad90 (LWP 72839)]
-[New Thread 0xffffbe459d90 (LWP 72840)]
-[New Thread 0xffffbdb57d90 (LWP 72841)]
-[New Thread 0xffffacac9d90 (LWP 72859)]
-[New Thread 0xffffa7ffed90 (LWP 72860)]
-[New Thread 0xffffa77fdd90 (LWP 72861)]
-[New Thread 0xffffa6ffcd90 (LWP 72862)]
-[New Thread 0xffffa67fbd90 (LWP 72863)]
-[New Thread 0xffffa5ffad90 (LWP 72864)]
-
-[Thread 0xffffa5ffad90 (LWP 72864) exited]
-[Thread 0xffffa6ffcd90 (LWP 72862) exited]
-[Thread 0xffffa77fdd90 (LWP 72861) exited]
-[Thread 0xffffbdb57d90 (LWP 72841) exited]
-[Thread 0xffffa67fbd90 (LWP 72863) exited]
-[Thread 0xffffacac9d90 (LWP 72859) exited]
-[Thread 0xffffa7ffed90 (LWP 72860) exited]
-
-<HUNG w/ 3 threads in the stack trace showed before>
-"""
-
-All the tasks left are blocked in a system call, so no task left to call
-qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
-thread #1 (doing poll() in a pipe with thread #2).
-
-Those 7 threads exit before disk conversion is complete (sometimes in
-the beginning, sometimes at the end).
-
-I'll try to check why those tasks exited.
-
-Any thoughts ?
-
-Tks
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805256
-
-Title:
-  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
-  converting images
-
-Status in QEMU:
-  In Progress
-Status in qemu package in Ubuntu:
-  In Progress
-
-Bug description:
-  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
-  frequently hangs (~50% of the time) with this command:
-
-  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
-
-  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
-  qcow2->qcow2 conversion happens to be something uvtool does every time
-  it fetches images.
-
-  Once hung, attaching gdb gives the following backtrace:
-
-  (gdb) bt
-  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
-274213760, =
-
-      timeout=3D<optimized out>, timeout@entry=3D0x0, sigmask=3D0xffffc123b=
-950)
-      at ../sysdeps/unix/sysv/linux/ppoll.c:39
-  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
-ptimized out>, =
-
-      __fds=3D<optimized out>) at /usr/include/aarch64-linux-gnu/bits/poll2=
-.h:77
-  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, =
-
-      timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.c:322
-  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
-      at util/main-loop.c:233
-  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
-  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
-g.c:1980
-  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
-img.c:2456
-  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
--img.c:4975
-
-  Reproduced w/ latest QEMU git (@ 53744e0a182)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1805256/+subscriptions
 
