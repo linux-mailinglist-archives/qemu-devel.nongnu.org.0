@@ -2,111 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B064AFF2F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:52:09 +0200 (CEST)
-Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B02BAFF3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:54:53 +0200 (CEST)
+Received: from localhost ([::1]:51978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i83ya-0007Y5-15
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46369)
+	id 1i841D-0002Cx-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rafaeldtinoco@kernelpath.com>) id 1i83uq-0004n0-Eo
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:48:17 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1i83xu-0007kw-Pb
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:51:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rafaeldtinoco@kernelpath.com>) id 1i83uo-0006ow-Sr
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:48:16 -0400
-Received: from mail-qt1-f178.google.com ([209.85.160.178]:32887)
+ (envelope-from <chihmin.chao@sifive.com>) id 1i83xt-00087u-3M
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:51:26 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:45153)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rafaeldtinoco@kernelpath.com>)
- id 1i83uo-0006oY-Nw
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:48:14 -0400
-Received: by mail-qt1-f178.google.com with SMTP id r5so25585182qtd.0
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:48:14 -0700 (PDT)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1i83xs-00087C-Uv
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:51:25 -0400
+Received: by mail-io1-xd44.google.com with SMTP id f12so46361038iog.12
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DKg/pSa5KC6awsuIG5WpCszhbi2ykvLdh1jfm7RlOCU=;
+ b=frtVqm702iDRzV8joEeyIpQ9Pi1rDX+RygW3q+YfAQuJFhRn1nNM3JAZeJyaswBki1
+ aMAU3Q+jUeM+FQf1Nk90G2M5hjUlH88tZDjT/XuJYUdjRLpipXJJQRbCdw4aWXfr/e9f
+ AeNiKgY+8vIeVf20AT7zwXLK0U6vITabDzzdDDPLj0C+UJ8PNnVkrwP2ILrZieAHjEGH
+ xKW3kGJ3A9h7vIlLUyhsXuUYF/iqIdRFYpoGTj++Qm1/m9bgEeCnNTfJJ+G+9R1XeVPm
+ PZ9nxFXQ/kWIz6VtDFvzhSYGKffMl3nD/vRRlqJeKlmPSbLrMMh37AhIiNWiEHLBND9Q
+ e9Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/ydzx3tlEmRVCb7hSvYj2/nPOl0KK0uS6Z3E9ykG4nQ=;
- b=fTZrdWguSFEWoXn5kkG4DPD9lDcEvIMw3B21fmY01hA5G4UzW0ygnkaPldmfjV13CQ
- Qt8f3hwtnRXIdVaqTaA396iwTbzGVYDYmF00+cEy7HS3RvH3RsiK3QrzTQh2DX107o21
- CKzXFWdr7sWJ8Kcc6ly0dcVTomiaCrlcfU3tJgFVU6p8oilcRySILqa5nMvwwZH0Jc79
- b5hA/ybksJQiyID86wd3llcyqQy0XUtFQZQfU58nJzrSiWLV2EX9XoTsD4bkXmAWzelV
- mZDKTDk1ExIeJ+fa8CQGxJnsSsrjymRe2BXCKCV1+HMAWay66EhyX8gqAlEre3sQ2Vdb
- ZwsQ==
-X-Gm-Message-State: APjAAAVGn1tjaBK5sQQsD6jKNw2/AnF1KWxsumuQfqXZ5ya3mznSaUfa
- a+5vKsbPpB5EnBJG/+tkPEaA6w==
-X-Google-Smtp-Source: APXvYqyjRT4HzP1bVNJxFuelEA+fbk9c9Uzct/jZ05TjjvdzHZvf0MdN37AwYvPmnXyPtwIeJO89VQ==
-X-Received: by 2002:aed:3687:: with SMTP id f7mr19581087qtb.195.1568213294063; 
- Wed, 11 Sep 2019 07:48:14 -0700 (PDT)
-Received: from [192.168.100.24] ([191.177.180.119])
- by smtp.gmail.com with ESMTPSA id 64sm11110571qkk.63.2019.09.11.07.48.12
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 07:48:13 -0700 (PDT)
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <cbe46ad6-ef6c-d155-e79a-672182c725ad@ubuntu.com>
- <d94f18f1-986f-ec19-02c0-e83e5e7af3d0@redhat.com>
-From: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=rafaeldtinoco@ubuntu.com; keydata=
- mQINBFziBo8BEADHsbcl0wCbi6QltkV4rv/l4HXsYl+x781nSpJTm8gTa2KeeVEsUASLPfP8
- KqpX/UfA5XahEFnNPx2E5/KvnChDA26LrjlBmVKOxjmwwWBeDYKaG+Bi8L4iXkvxLgGvQ/Oh
- Me9xWptEg3Yzw4UOGHsAaXUcUM+6bvOSWzPgz725JTFmJ9e6wwcqUM08YHdkB6p1AlcNXUUe
- VPVUMakPBXpY/SWm1XzvebG5zfA/h37hQmLLwA5DdU60Hzo4jAxxTWV+kkWb2qFvOu/i12Kn
- DOczDeZeDjPIaGDCTVt5OXkEXw4PRitX+KpABEAEunn4qiBNCGSq9B7EqCrN8DMYswUh2u7T
- 9rF79o3L1+rHM/4HZB98d61wBwAXse1ieAIAEuBsp7BuolWXiqzj34312Cg7DrvwRJt4UYQ5
- t28n84TGba7VQNklE5e+5ezRi2wrCnTbnDpWMW+d+cfwAnUYj0nFAoqaGgLVC9lqRrsK1Jb1
- hZwOBNQ6w9ehV+3tJIWmUtq7bJgtiswyY7Hs4ESFXizZSiY+u0gH+/P6A0LDqg6B8ZB6ymUm
- 4lQ6cPUxyLKcENQ5UDoTQw3/fWF0yN5c5WRqzzfQtWBQ2kDH8snh7TpOldIJRMYNn7Wx+YvU
- NlLjZ+YRge/qacR0fXDZOO3FjRNrMQp5czshgkhX14RNEG/upwARAQABtC5SYWZhZWwgRGF2
- aWQgVGlub2NvIDxyYWZhZWxkdGlub2NvQHVidW50dS5jb20+iQJXBBMBCABBAhsjBQkJZgGA
- BQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE9/EO4QjRa7yS94ISqT4OCtg8DQ8FAlzsdMgC
- GQEACgkQqT4OCtg8DQ8+LxAAsy8/vQxgumwJSqcyGJI19n1Cqj8JmMncz5clZLsV7glPVzS0
- G+0lywMI2y1dD6+J0evdq7sAgFVwRLB2wPcpMw+xZafVDRw3DQzHR7lYH+0of2fak69rg4rk
- R9znhiA3CjxodiLAru5BqSdQbL+GLvym4cd4epJM8dNqTW9cMxhsp1CbjFkwaAxhaUO50feA
- rBAIEgC1FJ/350VPFPQBjHra/arI6Kz6bA+rnkv4ZmhIlrw3DF352yq50JVpyl+a5ySz2l1y
- Pj2yg7E1uKDxaxgHrfVn/tF+MDPltCpDCo2mr3FbLbzlkmHN7ZIGmi0tZEkUMwKYWTHYqCYK
- OGvUK0+vLwQ7EjXYQ+9RlQcdnuqjS18bgTMg8o3VVb2ebJk3q9JayAPieMJQ6b5dlpTwo0BR
- /zBwIH6WZ0TxWkmEk2fAOQUX2LNARDBukZmfQnmE3IeF2CmiZiVoHiMN/chGlSBJPCBPXMUO
- Zfjj9tzssYeYNy1n3oYP0tCXw1LXjBLn7K2UVazXGGJnvJUDkFnCJ0VlAe22q9QZiGQ/N6ST
- LwDM4NJtzKt94b8kctTtgT1xgV231OJ8asB2HBsR3+CZzuzMhWD3wdFC5/c+FHzj+SBDtL1/
- 2vM2MoKRcu1S0iurk102B8NL5xHZT2PNDeOx2aO4cJSe2UKsONPkF5zTJGq5Ag0EXOIGjwEQ
- AKfTXqGdBBBsfBAf3Upq7DzoCA7KQKyb2ESOsHsQreoWfvaef/fzmTmysk9NqySApWfBKY3y
- B8Iy9gg7JoE1CqQ+Oo5xGIUZSRgQhou6KOpg+0IAs5bLtjj6SqyFfcJpNU1dTJ2ZIZG5pL6m
- 3ANEYFyZ0mIQ0BnzwwUG7EWAJLQZJXTmtPw4Iw0ARFMu7n1cIrPloMNTNIn/zdmY9nCkYv8a
- wRi++2LLkKxritK3geVE0bRHLaYjv/zatJ2HuhLTA2nj2bj4mihcxiduzLT9aYbNep88aRqP
- j6rZY+jGo+RnATZquvU+IiZxZOmLto6w68vqPfQFrKEyMa3qus8Rlg0APFUYXZYGUbRjko+g
- LYxaygMFoVe0BjESxp3AcO9kjLBdcvSnYSxbIJBmV579Vdcv1G2J4B9InN9f6LUP76cJpMfG
- dDBJMkDwJkE9NRNYGvYXzbBjWh1b2+if7Mn8Q7Fx4f2I1l92KhlzJaJUlAYAsDnWiiPLM6hE
- jhDDQ7XfUq00B/+4DuVTuqU6w/ImzSxo5lN/ceF8iBTmiNEhVFROCxsSG54kBnMpqRx0Vs3j
- 4/2lo/D4VCqrTiThDXEz+jFIPIhjYj4xdK4CC2fEKYxNEpW6xZZ5gd2t3pWdPAxPV2l6IOfk
- fPebjSQK+5fNH6GmJpJ9fVjg516dufFJHvDpABEBAAGJAjwEGAEIACYWIQT38Q7hCNFrvJL3
- ghKpPg4K2DwNDwUCXOIGjwIbDAUJCWYBgAAKCRCpPg4K2DwND/CrD/41dcBxOndEySrnDYTx
- yo9PjGFPaPGh0R99cuV+KM/bjbMSi8HqNHbh/q0e4tCG13bE6E6LUOVfeQG9dLPZSQ4aRrsq
- ncu78Uo7JWkB1nDiTbBYUgaccku/UY93xcJydax5eEc/AMZ0g3PU1Vzn5eLmKw+HFt1ONKBO
- mTDTfQ5CVbUWdK1Uur9IJSw/2U84wBray/SbE3eRmzLuracM16VPwfY37ADC9d3pSh8VL7Uo
- D+2K9M9GiWZQiWv3kpCHSP5ISVcRB2Rqo1VrCZgqpl1rkQr+5nVgMcFETn99DXi/OXamXX9c
- YGyYGIRKKOoJO1wcU8k+4lKXC5Ik3sAwdNFNFJDRvSRGs5/jgu67mksXA4HCG18xZKKrRCER
- JgtYGsIJvVScknSPhxrT9MrAt1AVvOqs9iHXaDhuXcp3MRmHDPzprw8MGj+hcZXb5pUOIT11
- HY6nyC9R7qQAVFY6VN6/H1UyW9Y0Hp8UXjVrHgw1FIFHGOwE4ekkRRr7cEQlbVPkLIBwexGM
- JBSO67Vr6iw/b60sHNzHwTItYhmXm7ih/IMtqVkQi/zYw3QObdr+NwK3vkamjOAHyyHRSLzc
- UUTEBgKD8bv2Gfv2kU0KlpQqmmA5DMVrkeZdmnxN3zWc7RGrGrnX8HPB1ImQ6R3yoNj+nZnC
- m+Bc0IpWoGZLnE2VPg==
-Message-ID: <c6ff1368-a99b-0bee-e240-de043417d555@ubuntu.com>
-Date: Wed, 11 Sep 2019 11:48:09 -0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DKg/pSa5KC6awsuIG5WpCszhbi2ykvLdh1jfm7RlOCU=;
+ b=Jki/9Lhp+zEf4ErD8MlE8U+1XHxKRcuWS1T2S9bFfURtbd2bPuKMmnlS5PsgKDGLoV
+ xGFAXaj+UV/yJa3cjK+us8R49o+dxI0NE4lQ2a3w9Xj9Vo/QpyuJOD7It/cM9sbiKQnB
+ e0fmFvR3jbjiMr00NHkcg66in0RQT//F8gkS4sRh4utZVkg0U1jAB8IuGe6ydxKdFkQP
+ Bcn4K2dEShKAhukLMcOoq6siLp+JfZQMPkxWAcrY6P8SGW3R1f32eERbdrJM1nRZ4emB
+ txxXI8PIiDBW4traMGkvTrXBqpuYTSZmUpd2LI/2PGpyx188xQWfH5ReDHsQBe58JCCY
+ bd0A==
+X-Gm-Message-State: APjAAAVwOWdp94+ZGyZcxGdSF1Q9AwjlMgEgQ6f27BrYczA4xiDtb3Zz
+ BA/HPimDfKpAvVj0Z2LhMsj89UiZZCP3V7/+9aRypEVbUoc=
+X-Google-Smtp-Source: APXvYqwri+DYLseY2oPTtom1S3OAAdSW6dcHn0TjPIFLGUqPSESwd9knfGxQAXag8H3drs2ZDdzwiAFuoVSYEjv8u9A=
+X-Received: by 2002:a05:6602:2516:: with SMTP id
+ i22mr2906275ioe.129.1568213483487; 
+ Wed, 11 Sep 2019 07:51:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d94f18f1-986f-ec19-02c0-e83e5e7af3d0@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.160.178
-Subject: Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2 possible
- issues
+References: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
+ <1568183141-67641-2-git-send-email-zhiwei_liu@c-sky.com>
+In-Reply-To: <1568183141-67641-2-git-send-email-zhiwei_liu@c-sky.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Wed, 11 Sep 2019 22:51:12 +0800
+Message-ID: <CAEiOBXUveMJGpavU7_zK0UTdNniQvnXnw5MvE-hu7yHCSw8MPQ@mail.gmail.com>
+To: liuzhiwei <zhiwei_liu@c-sky.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d44
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2 01/17] RISC-V: add vfp field in
+ CPURISCVState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,68 +75,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers - ARM <qemu-arm@nongnu.org>,
- lizhengui <lizhengui@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, riku.voipio@iki.fi,
+ laurent@vivier.eu, wxy194768@alibaba-inc.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wenmeng_zhang@c-sky.com, Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Sep 11, 2019 at 2:35 PM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
 
-> Note that the RCU thread is expected to sit most of the time doing 
-> nothing, so I don't think this matters.
+> From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/cpu.h | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0adb307..c992b1d 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -93,9 +93,37 @@ typedef struct CPURISCVState CPURISCVState;
+>
+>  #include "pmp.h"
+>
+> +#define VLEN 128
+> +#define VUNIT(x) (VLEN / x)
+> +
+>  struct CPURISCVState {
+>      target_ulong gpr[32];
+>      uint64_t fpr[32]; /* assume both F and D extensions */
+> +
+> +    /* vector coprocessor state.  */
+> +    struct {
+> +        union VECTOR {
+> +            float64  f64[VUNIT(64)];
+> +            float32  f32[VUNIT(32)];
+> +            float16  f16[VUNIT(16)];
+> +            uint64_t u64[VUNIT(64)];
+> +            int64_t  s64[VUNIT(64)];
+> +            uint32_t u32[VUNIT(32)];
+> +            int32_t  s32[VUNIT(32)];
+> +            uint16_t u16[VUNIT(16)];
+> +            int16_t  s16[VUNIT(16)];
+> +            uint8_t  u8[VUNIT(8)];
+> +            int8_t   s8[VUNIT(8)];
+> +        } vreg[32];
+> +        target_ulong vxrm;
+> +        target_ulong vxsat;
+> +        target_ulong vl;
+> +        target_ulong vstart;
+> +        target_ulong vtype;
+> +        float_status fp_status;
+> +    } vfp;
+> +
+> +    bool         foflag;
+>      target_ulong pc;
+>      target_ulong load_res;
+>      target_ulong load_val;
+> --
+> 2.7.4
+>
+>
+Could  the VLEN be configurable in cpu initialization but not fixed in
+compilation phase ?
+Take the integer element as example  and the difference should be the
+stride of vfp.vreg[x] isn't continuous
 
-Agreed.
+    struct {
+        union VECTOR {
+            uint64_t *u64;
+            uint16_t *u16;
+            uint8_t  *u8;
+        } vreg[32];
+    } vfp;
 
-> Zhengui's theory that notify_me doesn't work properly on ARM is more
-> promising, but he couldn't provide a clear explanation of why he thought
-> notify_me is involved.  In particular, I would have expected notify_me to
-> be wrong if the qemu_poll_ns call came from aio_ctx_dispatch, for example:
-> 
-> 
->     glib_pollfds_fill
->       g_main_context_prepare
->         aio_ctx_prepare
->           atomic_or(&ctx->notify_me, 1)
->     qemu_poll_ns
->     glib_pollfds_poll
->       g_main_context_check
->         aio_ctx_check
->           atomic_and(&ctx->notify_me, ~1)
->       g_main_context_dispatch
->         aio_ctx_dispatch
->           /* do something for event */
->             qemu_poll_ns 
-> 
+   initialization
 
-Yep, will focus there.
+    int vlen = 256;  //parameter from cpu command line option
+    int elem = vlen / 8;
+    int size = elem * 32;
 
-> 
-> Can you place somewhere your util/async.o object file for me to look at it?
+    uint8_t *mem = malloc(size)
+    for (int idx = 0; idx < 32; ++idx) {
+        vfp.vreg[idx].u64 = (void *)&mem[idx * elem];
+        vfp.vreg[idx].u32 = (void *)&mem[idx * elem];
+        vfp.vreg[idx].u16 = (void *)&mem[idx * elem];
+   }
 
-Sure!
-
-https://send.firefox.com/download/45c26bbe1075eea1/#ZD_e_96imPG2QuDqaX-jhg
-
-Note: this async.o has value as int, EV_BUSY as 3, aborts if any errno
-in qemu_futex() and uses &ev->value as 1st argument to wake/wait (as in
-https://pastebin.ubuntu.com/p/xk8D6H6kgM/).
-
-> 
-> You could change it to 3, but it has to have all the bits in EV_FREE 
-> (see atomic_or(&ev->value, EV_FREE) in qemu_event_reset).
-> 
-> You could also change it to -1u, but I don't see a particular need to do so.
-> 
-
-Yep, it was a dead end on my side.
-
->> - Should qemu_event_set() check return code from
->> qemu_futex_wake()->qemu_futex()->syscall() in order to know if ANY
->> waiter was ever woken up ? Maybe even loop until at least 1 is awaken ?
-> 
-> Why would it need to do so?
-> 
-
-No need, just realized after I saw no tasks waking that thread up. Like
-you said, ctx->notify_me seems more promising, will give it a try.
-
-
+  chihmin
