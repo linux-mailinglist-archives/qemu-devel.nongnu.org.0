@@ -2,60 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C64AF881
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:07:11 +0200 (CEST)
-Received: from localhost ([::1]:48314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15790AF879
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:05:43 +0200 (CEST)
+Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yak-0004iM-20
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58047)
+	id 1i7yZJ-0001yc-MS
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i7xwc-0000J6-LL
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:43 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1i7y12-0005fo-Cr
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:30:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i7xwb-00070E-Iv
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:42 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42908)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i7xwb-0006zy-DS
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:25:41 -0400
-Received: by mail-wr1-f65.google.com with SMTP id q14so23417024wrm.9
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 01:25:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:cc:from:to;
- bh=s35F55O2Em8wHwXR9VPPU+OtN5AgatRpyAF6CF2QIKI=;
- b=ddXum8k/ImGRcrQ/t1BPbPWpGm853uD7kHHyBNIOPr4bMW6NtoP7YPT9vw6movIcw0
- Vj/DcQKgvKZEVqssGyYtE/hkordE0lpNJ6wfh7oCTFOtIJi4BC07EFuaQVXDj6DT2XzV
- 1WJOUPGMWYnjg2jq8HkxD02QGVDcHJKK3+MK8DEjLTUawuFAF7VFooe9uXi6Y4f105Ww
- s9dphiOXcI5uWcX5h7Lk5aN7iqorM/JwExuDzfooXkeELHAMolV9RXfvZObBlRuI9TTy
- FvpEiZKns4LGCarzEhxRIf1SaxeevuGHLxfjwmJ7VwWi8VaNB5g2AJGy4hnGhnP9Lt1X
- E/9g==
-X-Gm-Message-State: APjAAAXpyRJ3e20NV2MXt8QD92CklAsclESLUXO1k45EPO2oMBWOUr7d
- dMOSljShB9ZQSc66/Qm1L1IXgw==
-X-Google-Smtp-Source: APXvYqwyOpdU76q4QGF+CrWLpTrOoNjXAE1IWJiIFUYnKWxPwdhUc8Zd55cKfkmSQ3JHuYqcDmTlzg==
-X-Received: by 2002:a5d:4b4e:: with SMTP id w14mr1855594wrs.191.1568190340232; 
- Wed, 11 Sep 2019 01:25:40 -0700 (PDT)
-Received: from localhost ([148.69.85.38])
- by smtp.gmail.com with ESMTPSA id o22sm37968406wra.96.2019.09.11.01.25.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 01:25:39 -0700 (PDT)
-Date: Tue, 10 Sep 2019 12:05:13 -0700
-Message-Id: <20190910190513.21160-48-palmer@sifive.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190910190513.21160-1-palmer@sifive.com>
-References: <20190910190513.21160-1-palmer@sifive.com>
+ (envelope-from <balaton@eik.bme.hu>) id 1i7y10-0000Mn-SY
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:30:16 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:34625)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1i7y0x-00007A-In; Wed, 11 Sep 2019 04:30:11 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3605D7456D6;
+ Wed, 11 Sep 2019 10:30:00 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 04CEA7456CA; Wed, 11 Sep 2019 10:30:00 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 03AC47456D5;
+ Wed, 11 Sep 2019 10:30:00 +0200 (CEST)
+Date: Wed, 11 Sep 2019 10:29:59 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+In-Reply-To: <20190910193408.28917-3-alex.bennee@linaro.org>
+Message-ID: <alpine.BSF.2.21.9999.1909111015260.4726@zero.eik.bme.hu>
+References: <20190910193408.28917-1-alex.bennee@linaro.org>
+ <20190910193408.28917-3-alex.bennee@linaro.org>
+User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: [Qemu-devel] [PULL 47/47] target/riscv: Use TB_FLAGS_MSTATUS_FS for
- floating point
+Content-ID: <alpine.BSF.2.21.9999.1909111026190.4726@zero.eik.bme.hu>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
+Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v1 2/4] elf: move elf.h to elf/elf.h and
+ split out types
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,38 +57,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>, qemu-devel@nongnu.org,
+ "open list:S390-ccw boot" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
+ "open list:PReP" <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Tue, 10 Sep 2019, Alex Benn=E9e wrote:
+> diff --git a/include/elf/elf-types.inc.h b/include/elf/elf-types.inc.h
+> new file mode 100644
+> index 00000000000..35163adb2b5
+> --- /dev/null
+> +++ b/include/elf/elf-types.inc.h
+> @@ -0,0 +1,63 @@
+> +/*
+> + * Elf Type Specialisation
+> + *
+> + * Copyright (c) 2019
+> + * Written by Alex Benn=E9e <alex.bennee@linaro.org>
+> + *
+> + * This code is licensed under the GNU .
 
-Use the TB_FLAGS_MSTATUS_FS macro when enabling floating point in the tb
-flags.
+You're missing end of licence sentence here. Also original file did not=20
+have copyright and licence header so you may want to fix that too or leav=
+e=20
+it out here as well for consistency,
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
----
- target/riscv/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> + */
+> +
+> +#ifndef _ELF_TYPES_INC_H_
+> +#define _ELF_TYPES_INC_H_
+> +
+> +#ifndef ELF_CLASS
+> +#error you must define ELF_CLASS before including elf-types.inc.h
+> +#else
+> +
+> +#if ELF_CLASS =3D=3D ELFCLASS32
+> +
+> +#define elfhdr      elf32_hdr
+> +#define elf_phdr    elf32_phdr
+> +#define elf_note    elf32_note
+> +#define elf_shdr    elf32_shdr
+> +#define elf_sym     elf32_sym
+> +#define elf_addr_t  Elf32_Off
+> +#define elf_rela    elf32_rela
+> +
+> +#ifdef ELF_USES_RELOCA
+> +# define ELF_RELOC  Elf32_Rela
+> +#else
+> +# define ELF_RELOC  Elf32_Rel
+> +#endif
+> +
+> +#ifndef ElfW
+> +#  define ElfW(x)   Elf32_ ## x
+> +#  define ELFW(x)   ELF32_ ## x
+> +#endif
+> +
+> +#else /* ELF_CLASS =3D=3D ELFCLASS64 */
+> +
+> +#define elfhdr      elf64_hdr
+> +#define elf_phdr    elf64_phdr
+> +#define elf_note    elf64_note
+> +#define elf_shdr    elf64_shdr
+> +#define elf_sym     elf64_sym
+> +#define elf_addr_t  Elf64_Off
+> +#define elf_rela    elf64_rela
+> +
+> +#ifdef ELF_USES_RELOCA
+> +# define ELF_RELOC  Elf64_Rela
+> +#else
+> +# define ELF_RELOC  Elf64_Rel
+> +#endif
+> +
+> +#ifndef ElfW
+> +#  define ElfW(x)   Elf64_ ## x
+> +#  define ELFW(x)   ELF64_ ## x
+> +#endif
+> +
+> +#endif /* ELF_CLASS =3D=3D ELFCLASS64 */
+> +#endif /* ELF_CLASS */
+> +#else
+> +#error elf-types.inc.h should not be included twice in one compilation=
+ unit
+> +#endif /* _ELF_TYPES_INC_H_ */
+> diff --git a/include/elf.h b/include/elf/elf.h
+> similarity index 98%
+> rename from include/elf.h
+> rename to include/elf/elf.h
+> index 3501e0c8d03..2e264c1a7a0 100644
+> --- a/include/elf.h
+> +++ b/include/elf/elf.h
+> @@ -1696,49 +1696,7 @@ struct elf32_fdpic_loadmap {
+> };
+>
+> #ifdef ELF_CLASS
+> -#if ELF_CLASS =3D=3D ELFCLASS32
+> -
+> -#define elfhdr		elf32_hdr
+> -#define elf_phdr	elf32_phdr
+> -#define elf_note	elf32_note
+> -#define elf_shdr	elf32_shdr
+> -#define elf_sym		elf32_sym
+> -#define elf_addr_t	Elf32_Off
+> -#define elf_rela  elf32_rela
+> -
+> -#ifdef ELF_USES_RELOCA
+> -# define ELF_RELOC      Elf32_Rela
+> -#else
+> -# define ELF_RELOC      Elf32_Rel
+> -#endif
+> -
+> -#else
+> -
+> -#define elfhdr		elf64_hdr
+> -#define elf_phdr	elf64_phdr
+> -#define elf_note	elf64_note
+> -#define elf_shdr	elf64_shdr
+> -#define elf_sym		elf64_sym
+> -#define elf_addr_t	Elf64_Off
+> -#define elf_rela  elf64_rela
+> -
+> -#ifdef ELF_USES_RELOCA
+> -# define ELF_RELOC      Elf64_Rela
+> -#else
+> -# define ELF_RELOC      Elf64_Rel
+> -#endif
+> -
+> -#endif /* ELF_CLASS */
+>
+> -#ifndef ElfW
+> -# if ELF_CLASS =3D=3D ELFCLASS32
+> -#  define ElfW(x)  Elf32_ ## x
+> -#  define ELFW(x)  ELF32_ ## x
+> -# else
+> -#  define ElfW(x)  Elf64_ ## x
+> -#  define ELFW(x)  ELF64_ ## x
+> -# endif
+> -#endif
+>
+> #endif /* ELF_CLASS */
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 16efe8c860..124ed33ee4 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -301,7 +301,7 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
- #else
-     *flags = cpu_mmu_index(env, 0);
-     if (riscv_cpu_fp_enabled(env)) {
--        *flags |= env->mstatus & MSTATUS_FS;
-+        *flags |= TB_FLAGS_MSTATUS_FS;
-     }
- #endif
- }
--- 
-2.21.0
+Is there anything remaining in this #ifdef ELF_CLASS after this patch? If=
+=20
+not why do you keep it?
 
-
+Regards,
+BALATON Zoltan
