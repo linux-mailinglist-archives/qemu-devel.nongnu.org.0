@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8861AFDA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 15:22:40 +0200 (CEST)
-Received: from localhost ([::1]:50984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A391AFDAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 15:24:21 +0200 (CEST)
+Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i82Zz-0007uR-8l
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 09:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58549)
+	id 1i82bc-0001eH-8E
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 09:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i82Xk-0006BF-6S
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:20:21 -0400
+ (envelope-from <imammedo@redhat.com>) id 1i82YX-0006sF-LX
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:21:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i82Xj-0006QG-7s
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:20:20 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:46685)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i82Xj-0006Pf-3X
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:20:19 -0400
-Received: by mail-qt1-x841.google.com with SMTP id v11so25095202qto.13
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 06:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=C6lRFvOrOa03jxjRsf5KJpQQNXd7FdMtgIb0XAopz4A=;
- b=xNLnmxNH6ysxjICIYRbVJmk86JixJImJ8JssWwm6V1xyTPp7W5JjIUFc3qixjQdW4x
- hr3oM7s2uZ9z868FGPzZklkdaBO7QPSQfJ/ENnM44AW6xlXClI96z8IbrkZQvxnAu/rg
- UXqRrthJGG4bRFXwIM4fvOqx4YdKHv1QV8yKsp1Q6K8o5Zp7oi8dl2RRmgH2xuFpdw1+
- PEA5XCjpsOTHpXWp/JnawS9SuuLBBGqokUmR7/jnaG997/nOhYKgrpWMhg3W/8A+YGbs
- 1EzhIZs1QautkvelhhNpvJ65I/Azcvd5wcIBCo4j4jMgOQl9s13OKQMM7BIv1Uh/txZk
- LoUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C6lRFvOrOa03jxjRsf5KJpQQNXd7FdMtgIb0XAopz4A=;
- b=MAhNJBULTXm9GxCDaZqll7lKpcq3GGVx7j3SfDJlinHOVyBIfSc6fUJsT3cmFZ8VgA
- dJd8zhbcXjYsK8N7pNvwcv6CiBEWfoOHa54IeZWp25UuDAS2NAkqTww8RituWZFCejxV
- UrzCpwgtQUHqgAeAM4hatBfqfMznOvil+HP8Q2seGZbzORxt54M53C03CI4BZD1mlnPu
- IxIOUS5T9b04t+Z+JvT7YrB4VtdjUyHHuIZqrxib84W1oCXnw/hTTqVg8tndXh7ThzYr
- 7wdBBVnLaclRXi+5CGVkU7f6LEbM7ZKN8bUt5gs+3y/u0DUfpbPttNhN1HY5Amt7E6wj
- oopA==
-X-Gm-Message-State: APjAAAWgMW5A03l9jv4XOiatR48lBOFmDhzJQDqjCrMvVtObDsx0lH+e
- C56EztjIHiKYGRwUpcCvJqvqlg==
-X-Google-Smtp-Source: APXvYqxW00EZbCOWEQn2bR80Qh2CTBWj9Eo1/wFlMkg2nqUtHFnJOYpoEq+K86YHecv+pwLwgltwrw==
-X-Received: by 2002:ad4:4bca:: with SMTP id l10mr22677242qvw.139.1568208018267; 
- Wed, 11 Sep 2019 06:20:18 -0700 (PDT)
-Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
- [64.229.69.35])
- by smtp.gmail.com with ESMTPSA id o52sm14326500qtf.56.2019.09.11.06.20.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 06:20:17 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190911014353.5926-1-richard.henderson@linaro.org>
- <20190911014353.5926-3-richard.henderson@linaro.org>
- <500ed763-5c50-0be5-993d-9b8b1b68b932@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <1f4aac93-c0ee-0152-4186-c59f9f1191fe@linaro.org>
-Date: Wed, 11 Sep 2019 09:20:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <imammedo@redhat.com>) id 1i82YV-0006ta-8A
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:21:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41414)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1i82YO-0006pv-6V; Wed, 11 Sep 2019 09:21:00 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5A78720F0;
+ Wed, 11 Sep 2019 13:20:58 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60EBB19C58;
+ Wed, 11 Sep 2019 13:20:52 +0000 (UTC)
+Date: Wed, 11 Sep 2019 15:20:51 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Message-ID: <20190911152051.19cbf36f@redhat.com>
+In-Reply-To: <20190904085629.13872-9-shameerali.kolothum.thodi@huawei.com>
+References: <20190904085629.13872-1-shameerali.kolothum.thodi@huawei.com>
+ <20190904085629.13872-9-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <500ed763-5c50-0be5-993d-9b8b1b68b932@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::841
-Subject: Re: [Qemu-devel] [PATCH 2/3] cputlb: Replace switches in
- load/store_helper with callback
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Wed, 11 Sep 2019 13:20:58 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH-for-4.2 v10 08/11] hw/arm: Use GED for
+ system_powerdown event
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,26 +57,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk, tony.nguyen@bt.com
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ shannon.zhaosl@gmail.com, qemu-devel@nongnu.org, xuwei5@hisilicon.com,
+ linuxarm@huawei.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ sebastien.boeuf@intel.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/19 9:07 AM, Philippe Mathieu-Daudé wrote:
->>  {
->>      return load_helper(env, addr, oi, retaddr, MO_LEUW, false,
->> -                       full_le_lduw_mmu);
->> +                       full_le_lduw_mmu, direct_lduw_le);
-> 
-> Why not cast lduw_be_p? (except for direct_ldub).
-> 
->       return load_helper(env, addr, oi, retaddr, MO_LEUW, false,
->                        full_le_lduw_mmu, (DirectLoadHelper)lduw_be_p);
-> 
-> Useful to set breakpoint while debugging?
+On Wed, 4 Sep 2019 09:56:26 +0100
+Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
 
-Because the types in the function signature are different,
-and such a cast will cause misbehavior.
+> For machines 4.2 or higher with ACPI boot use GED for system_powerdown
+> event instead of GPIO. Guest boot with DT still uses GPIO.
+> 
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-r~
+> ---
+> v9 --> v10
+>  -Eric's R-by
+> 
+> v8 --> v9
+>  -Re-arranged patches 8 & 9 from v8 based on Igor's comments.
+> 
+> v7 --> v8
+>  -Retained gpio based system_powerdown support for machines < 4.2.
+>  -Reuse of virt_powerdown_req() for ACPI GED use.
+>  -Dropped Eric's R-by for now because of above.
+> ---
+>  hw/acpi/generic_event_device.c         |  8 ++++++++
+>  hw/arm/virt-acpi-build.c               |  6 +++---
+>  hw/arm/virt.c                          | 16 +++++++++++-----
+>  include/hw/acpi/acpi_dev_interface.h   |  1 +
+>  include/hw/acpi/generic_event_device.h |  3 +++
+>  5 files changed, 26 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+> index f81d966058..47e178c583 100644
+> --- a/hw/acpi/generic_event_device.c
+> +++ b/hw/acpi/generic_event_device.c
+> @@ -22,6 +22,7 @@
+>  
+>  static const uint32_t ged_supported_events[] = {
+>      ACPI_GED_MEM_HOTPLUG_EVT,
+> +    ACPI_GED_PWR_DOWN_EVT,
+>  };
+>  
+>  /*
+> @@ -104,6 +105,11 @@ void build_ged_aml(Aml *table, const char *name, HotplugHandler *hotplug_dev,
+>                  aml_append(if_ctx, aml_call0(MEMORY_DEVICES_CONTAINER "."
+>                                               MEMORY_SLOT_SCAN_METHOD));
+>                  break;
+> +            case ACPI_GED_PWR_DOWN_EVT:
+> +                aml_append(if_ctx,
+> +                           aml_notify(aml_name(ACPI_POWER_BUTTON_DEVICE),
+> +                                      aml_int(0x80)));
+> +                break;
+>              default:
+>                  /*
+>                   * Please make sure all the events in ged_supported_events[]
+> @@ -190,6 +196,8 @@ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
+>  
+>      if (ev & ACPI_MEMORY_HOTPLUG_STATUS) {
+>          sel = ACPI_GED_MEM_HOTPLUG_EVT;
+> +    } else if (ev & ACPI_POWER_DOWN_STATUS) {
+> +        sel = ACPI_GED_PWR_DOWN_EVT;
+>      } else {
+>          /* Unknown event. Return without generating interrupt. */
+>          warn_report("GED: Unsupported event %d. No irq injected", ev);
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index a4872a0b00..bbf7f6fafa 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -50,7 +50,6 @@
+>  #include "migration/vmstate.h"
+>  
+>  #define ARM_SPI_BASE 32
+> -#define ACPI_POWER_BUTTON_DEVICE "PWRB"
+>  
+>  static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
+>  {
+> @@ -740,13 +739,14 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
+>      acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
+>                        vms->highmem, vms->highmem_ecam);
+> -    acpi_dsdt_add_gpio(scope, &memmap[VIRT_GPIO],
+> -                       (irqmap[VIRT_GPIO] + ARM_SPI_BASE));
+>      if (vms->acpi_dev) {
+>          build_ged_aml(scope, "\\_SB."GED_DEVICE,
+>                        HOTPLUG_HANDLER(vms->acpi_dev),
+>                        irqmap[VIRT_ACPI_GED] + ARM_SPI_BASE, AML_SYSTEM_MEMORY,
+>                        memmap[VIRT_ACPI_GED].base);
+> +    } else {
+> +        acpi_dsdt_add_gpio(scope, &memmap[VIRT_GPIO],
+> +                           (irqmap[VIRT_GPIO] + ARM_SPI_BASE));
+>      }
+>  
+>      if (vms->acpi_dev && ms->ram_slots) {
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 89ee37d7de..32208e1058 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -532,7 +532,7 @@ static inline DeviceState *create_acpi_ged(VirtMachineState *vms, qemu_irq *pic)
+>  {
+>      DeviceState *dev;
+>      int irq = vms->irqmap[VIRT_ACPI_GED];
+> -    uint32_t event = ACPI_GED_MEM_HOTPLUG_EVT;
+> +    uint32_t event = ACPI_GED_MEM_HOTPLUG_EVT | ACPI_GED_PWR_DOWN_EVT;
+>  
+>      dev = qdev_create(NULL, TYPE_ACPI_GED);
+>      qdev_prop_set_uint32(dev, "ged-event", event);
+> @@ -787,8 +787,14 @@ static void create_rtc(const VirtMachineState *vms, qemu_irq *pic)
+>  static DeviceState *gpio_key_dev;
+>  static void virt_powerdown_req(Notifier *n, void *opaque)
+>  {
+> -    /* use gpio Pin 3 for power button event */
+> -    qemu_set_irq(qdev_get_gpio_in(gpio_key_dev, 0), 1);
+> +    VirtMachineState *s = container_of(n, VirtMachineState, powerdown_notifier);
+> +
+> +    if (s->acpi_dev) {
+> +        acpi_send_event(s->acpi_dev, ACPI_POWER_DOWN_STATUS);
+> +    } else {
+> +        /* use gpio Pin 3 for power button event */
+> +        qemu_set_irq(qdev_get_gpio_in(gpio_key_dev, 0), 1);
+> +    }
+>  }
+>  
+>  static void create_gpio(const VirtMachineState *vms, qemu_irq *pic)
+> @@ -1716,10 +1722,10 @@ static void machvirt_init(MachineState *machine)
+>  
+>      create_pcie(vms, pic);
+>  
+> -    create_gpio(vms, pic);
+> -
+>      if (has_ged && aarch64 && firmware_loaded && acpi_enabled) {
+>          vms->acpi_dev = create_acpi_ged(vms, pic);
+> +    } else {
+> +        create_gpio(vms, pic);
+>      }
+>  
+>       /* connect powerdown request */
+> diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
+> index 0ba90effd2..a2a12af9b9 100644
+> --- a/include/hw/acpi/acpi_dev_interface.h
+> +++ b/include/hw/acpi/acpi_dev_interface.h
+> @@ -13,6 +13,7 @@ typedef enum {
+>      ACPI_MEMORY_HOTPLUG_STATUS = 8,
+>      ACPI_NVDIMM_HOTPLUG_STATUS = 16,
+>      ACPI_VMGENID_CHANGE_STATUS = 32,
+> +    ACPI_POWER_DOWN_STATUS = 64,
+>  } AcpiEventStatusBits;
+>  
+>  #define TYPE_ACPI_DEVICE_IF "acpi-device-interface"
+> diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+> index 2049e8d873..d157eac088 100644
+> --- a/include/hw/acpi/generic_event_device.h
+> +++ b/include/hw/acpi/generic_event_device.h
+> @@ -62,6 +62,8 @@
+>  #include "hw/sysbus.h"
+>  #include "hw/acpi/memory_hotplug.h"
+>  
+> +#define ACPI_POWER_BUTTON_DEVICE "PWRB"
+> +
+>  #define TYPE_ACPI_GED "acpi-ged"
+>  #define ACPI_GED(obj) \
+>      OBJECT_CHECK(AcpiGedState, (obj), TYPE_ACPI_GED)
+> @@ -79,6 +81,7 @@
+>   * through GED.
+>   */
+>  #define ACPI_GED_MEM_HOTPLUG_EVT   0x1
+> +#define ACPI_GED_PWR_DOWN_EVT      0x2
+>  
+>  typedef struct GEDState {
+>      MemoryRegion io;
+
 
