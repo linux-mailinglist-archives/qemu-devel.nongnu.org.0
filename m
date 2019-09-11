@@ -2,52 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB18AF89F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:14:59 +0200 (CEST)
-Received: from localhost ([::1]:48436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD57CAF88C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:10:19 +0200 (CEST)
+Received: from localhost ([::1]:48352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yiI-0006Dk-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:14:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
+	id 1i7ydm-0000Lo-3J
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:10:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58379)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <johannes@sipsolutions.net>) id 1i7xxe-0001Uc-Sd
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:26:48 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i7xyj-00031e-IN
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:27:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <johannes@sipsolutions.net>) id 1i7xxc-0007Fe-Vs
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:26:46 -0400
-Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:48856
- helo=sipsolutions.net)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
- id 1i7xxc-0007FA-Ov
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:26:44 -0400
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <johannes@sipsolutions.net>)
- id 1i7xxa-0001GZ-DG; Wed, 11 Sep 2019 10:26:42 +0200
-Message-ID: <bc3409f2f0df110ff0d795ad72b5bb5b29e2b5a6.camel@sipsolutions.net>
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Date: Wed, 11 Sep 2019 10:26:41 +0200
-In-Reply-To: <20190911073503.GB4181@stefanha-x1.localdomain>
-References: <20190902121233.13382-1-johannes@sipsolutions.net>
- <20190902121233.13382-2-johannes@sipsolutions.net>
- <fe517ef6c6a8e2df9675388be9454b5863c7fc55.camel@sipsolutions.net>
- <20190909160039.GC20875@stefanha-x1.localdomain>
- <d095bafedcd4bcc5d76279785e5bd523aef62b58.camel@sipsolutions.net>
- <20190910150319.GB31674@stefanha-x1.localdomain>
- <e114b68dffecd9b4c4666327b15a28098c83f7ec.camel@sipsolutions.net>
- <20190911073503.GB4181@stefanha-x1.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+ (envelope-from <kwolf@redhat.com>) id 1i7xyi-0007cr-1T
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:27:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52572)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i7xyd-0007Z3-6Z; Wed, 11 Sep 2019 04:27:47 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 30BF818CCEE8;
+ Wed, 11 Sep 2019 08:27:46 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-182.ams2.redhat.com
+ [10.36.116.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F30F860BEC;
+ Wed, 11 Sep 2019 08:27:44 +0000 (UTC)
+Date: Wed, 11 Sep 2019 10:27:43 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190911082743.GC4907@localhost.localdomain>
+References: <20190809161407.11920-1-mreitz@redhat.com>
+ <20190809161407.11920-23-mreitz@redhat.com>
+ <20190910145229.GI4446@localhost.localdomain>
+ <d7226d81-b89f-5c24-9dd4-39ae832bf61b@redhat.com>
+ <20190911065517.GA4907@localhost.localdomain>
+ <f082931e-154f-5393-f5b0-ff82f43eff31@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:4f8:191:4433::2
-Subject: Re: [Qemu-devel] [RFC] docs: vhost-user: add in-band kick/call
- messages
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
+Content-Disposition: inline
+In-Reply-To: <f082931e-154f-5393-f5b0-ff82f43eff31@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Wed, 11 Sep 2019 08:27:46 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 22/42] block: Fix
+ bdrv_get_allocated_file_size's fallback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,214 +64,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-09-11 at 09:35 +0200, Stefan Hajnoczi wrote:
-> On Tue, Sep 10, 2019 at 05:14:36PM +0200, Johannes Berg wrote:
-> > On Tue, 2019-09-10 at 17:03 +0200, Stefan Hajnoczi wrote:
-> > > > Now, this means that the CPU (that's part of the simulation) has to
-> > > > *wait* for the device to add an entry to the simulation calendar in
-> > > > response to the kick... That means that it really has to look like
-> > > > 
-> > > > CPU               device                   calendar
-> > > >      ---[kick]-->
-> > > >                          ---[add entry]-->
-> > > >                          <---[return]-----
-> > > 
-> > > What are the semantics of returning from the calendar?  Does it mean
-> > > "it's now your turn to run?", "your entry has been added and you'll be
-> > > notified later when it's time to run?", or something else?
-> > 
-> > The latter - the entry was added, and you'll be notified when it's time
-> > to run; but we need to have that state on the calendar so the CPU won't
-> > converse with the calendar before that state is committed.
-> 
-> Is the device only adding a calendar entry and not doing any actual
-> device emulation at this stage?
 
-Correct, yes.
+--L6iaP+gRLNZHKoI4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-With one exception: in the case of the simtime (calendar) device, the
-actual processing *does* happen at this stage, of course - the calendar
-entry has to have been added before we return.
+Am 11.09.2019 um 09:37 hat Max Reitz geschrieben:
+> On 11.09.19 08:55, Kevin Wolf wrote:
+> > Am 11.09.2019 um 08:20 hat Max Reitz geschrieben:
+> >> On 10.09.19 16:52, Kevin Wolf wrote:
+> >>> Am 09.08.2019 um 18:13 hat Max Reitz geschrieben:
+> >>>> If the driver does not implement bdrv_get_allocated_file_size(), we
+> >>>> should fall back to cumulating the allocated size of all non-COW
+> >>>> children instead of just bs->file.
+> >>>>
+> >>>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> >>>
+> >>> This smells like an overgeneralisation, but if we want to count all v=
+mdk
+> >>> extents, the qcow2 external data file, etc. it's an improvement anywa=
+y.
+> >>> A driver that has a child that should not be counted must just rememb=
+er
+> >>> to implement the callback.
+> >>>
+> >>> Let me think of an example... How about quorum, for a change? :-)
+> >>> Or the second blkverify child.
+> >>>
+> >>> Or eventually the block job filter nodes.
+> >>
+> >> I actually think it makes sense for all of these nodes to report the s=
+um
+> >> of all of their children=E2=80=99s allocated sizes.
+> >=20
+> > Hm... Yes, in a way. But not much more than it would make sense to
+> > report the sum of the sizes of all images in the whole backing chain
+> > (this is a useful thing to ask for, just maybe not the right thing to
+> > return for a low-level interface). But I can accept that it's maybe a
+> > bit more expected for quorum and blkverify than for COW images.
+> >=20
+> > If you include the block job filter nodes, I have to disagree, though.
+> > If mirror_top_bs (or any other job filter) sits in the middle of the
+> > source chain, then I certainly don't want to see the target size added
+> > to it.
+>=20
+> Hm, I don=E2=80=99t care much either way.  I think it makes complete sens=
+e to
+> add the target size there, but OTOH it=E2=80=99s only temporary while the=
+ job
+> runs, so it may be a bit confusing if it suddenly goes up and then down
+> again.
 
-> If yes, then this suggests the system could be structured more cleanly.
-> The vhost-user device process should focus on device emulation.  It
-> should not be aware of the calendar.
+I think the number that most users are interested in is knowing how much
+space the image for their /dev/vda takes up on the host.
 
-Decoupling the device entirely from the simulation doesn't work, at
-least it depends on what you want to emulate. If you don't care that
-everything in the device happens immediately (in simulation time), then
-this might be OK - but in most cases you do want to model some latency,
-processing time or similar in the device, and that means the device has
-to request more calendar entries for its further processing.
+I can see how they might be interested in not only that one image file,
+but all other image files connected to it, i.e. their /dev/vda with all
+of its snapshots. This would mean counting backing files. I think adding
+up the numbers for this should be done in the management layer.
 
-Take a network device for example that wants to model a 50ms latency. It
-has to first have a calendar event to take the packet from the deriver
-onto the wire, and then have another calendar event to push the packet
-from the wire out some other driver. The first of those events could be
-modelled by what you suggest below, the second cannot.
+I can possibly also imagine users wanting to count everything that's
+even loosely connected to their /dev/vda, like copies of it. I doubt,
+however, they want to count only copies that are currently being made,
+but not snapshots and copies that have been completed earlier. So this
+is clearly a management layer thing, too.
 
-> The vhost-user protocol also shouldn't require modifications.
-> 
-> Instead, Linux arch/um code would add the entry to the calendar when the
-> CPU wants to kick a vhost-user device.  I assume the CPU is suspended
-> until arch/um code completes adding the entry to the calendar.
+> But I think this is the special case, so this is what should be handled
+> in a driver callback.
 
-Right, OK, so far I'm following, and it seems perfectly reasonable.
+It's a special case, yes. But see below.
 
-Though as I said above (the simtime exception) - suspending the CPU
-while adding an entry to the calendar actually also relies on the
-KICK/ACK message semantics right now. This could easily be implemented
-differently in this particular device though, e.g. by waiting for an ACK
-message on a response virtqueue after sending the "add-entry" request on
-the command virtqueue.
+> >> If a quorum node has three children with allocated sizes of 3 MB, 1 MB,
+> >> and 2 MB, respectively (totally possible if some have explicit zeroes
+> >> and others don=E2=80=99t; it may also depend on the protocol, the file=
+system,
+> >> etc.), then I think it makes most sense to report indeed 6 MB for the
+> >> quorum subtree as a whole.  What would you report?  3 MB?
+> >=20
+> > Do it's the quorum way: Just vote!
+>=20
+> Add an option for it?  Average, maximum, median, majority, sum? :-)
 
-> When the calendar decides to run the device entry it signals the
-> vhost-user kick eventfd.
+We could also introduce a mode with an Electoral College so that
+sometimes an image that missed the majority has a chance to win anyway.
 
-Now you have to send those FDs also to the calendar, but I guess the
-calendar is a vhost-user device too anyway, so we can send it the FD
-along with the request to add the calendar entry, i.e. instead of adding
-a calendar entry "please tell me" you can add a calendar entry with
-"please kick this FD". Seems reasonable, though it requires much deeper
-integration of the virtio implementation with the calendar than I was
-planning, though possibly a bit less such integration on the device
-side.
+> > No, you're right, of course. -ENOTSUP is probably the only other thing
+> > you could do then.
+> >=20
+> >>> Ehm... Maybe I should just take back what I said first. It almost fee=
+ls
+> >>> like it would be better if qcow2 and vmdk explicitly used a handler t=
+hat
+> >>> counts all children (could still be a generic one in block.c) rather
+> >>> than having to remember to disable the functionality everywhere where=
+ we
+> >>> don't want to have it.
+> >>
+> >> I don=E2=80=99t, because everywhere we don=E2=80=99t want this functio=
+nality, we still
+> >> need to choose a child.  This has to be done by the driver anyway.
+> >=20
+> > Well, by default the primary child, which should cover like 90% of the
+> > drivers?
+>=20
+> Hm, yes.
+>=20
+> But I still think that the drivers that do not want to count every
+> single non-COW child are the exception.
 
-> The vhost-user device processes the virtqueue
-> as if it had been directly signalled by the CPU, totally unaware that
-> it's running within a simulation system.
+They are, but drivers that want to count more than their primary node
+are exceptions, too. And I think you're more likely to remember adding
+the callback when you want to have a certain feature, not when you don't
+want to have it.
 
-As I said above, it cannot be entirely unaware unless it's a very
-trivial device emulation. That *might* be something you actually
-want/don't care, for example for a "control network" within the
-simulation where you don't need to model any latencies, however it also
-very easily introduces issues, say if the vhost-user device emulation,
-focusing completely on emulation, starts doing 'sleep()' or similar OS
-calls; they really should be going to the simulation instead.
+I really think we're likely to forget adding the callback where we need
+to disable the feature.
 
+I can see two options that should address both of our views:
 
-However, really the place where this breaks down is that you don't know
-when the device has finished processing.
+1. Just don't have a fallback at all, make the callback mandatory and
+   provide implementations in block.c that can be referred to in
+   BlockDriver. Not specifying the callback causes an assertion failure,
+   so we'd hopefully notice it quite early (assuming that we run either
+   'qemu-img info' or 'query-block' on a configuration with the block
+   driver, but I think that's faily safe to assume).
 
-As a totally made-up example, say you're emulating a strange /dev/null
-device, but as a special quirk it can only ever consume an even number
-of buffers. You give it a buffer on a virtqueue and kick it, nothing
-happens; you give it another one and kick it, it'll consume both and
-free (call) up the two entries, doing nothing else.
+2. Make the 90% solution a 100% solution: Allow drivers to have multiple
+   storage children (for vmdk) and then have the fallback add up the
+   primary child plus all storage children. This is what I suggested as
+   the documented semantics in my initial reply to this patch (that you
+   chose not to answer).
 
-In the simulation of this device, it has to essentially behave like
-this:
-On kick, it schedules a calendar entry to process the interrupt. Once
-that entry is signalled, the interrupt processing code runs and checks
-the state of the virtqueue; if there's an even number of buffers it
-releases them both. Regardless of whether that happened, it will then
-relinquish its time slice, telling the calendar it's done processing.
+   Adding the size of storage children covers qcow2 and vmdk.
 
-In the model you propose, that last bit of "relinquish my time slice"
-part will be missing. This _might_ be fine for some devices that always
-reply *immediately* and never defer any work, i.e. every single kick
-will be followed by a call essentially immediately. But already in my
-simple hypothetical example above the call never happens for the first
-buffer, so the simulation will get completely stuck.
+   As the job filter won't declare the target or any other involved
+   nodes their storage nodes (I hope), this will do the right thing for
+   them, too.
 
-Similarly, you can easily imagine other device that don't just process
-the buffers but also have some more internal state, or internal timers,
-or something like that.
+   For quorum and blkverify both ways could be justifiable. I think they
+   probably shouldn't declare their children as storage nodes. They are
+   more like filters that don't have a single filtered node. So some
+   kind of almost-filters.
 
-Thus I don't think the part of your proposed model that disconnects the
-device from the calendar is workable, or at least is only workable for a
-very limited number of devices that never defer anything and have a very
-simple command/response behaviour.
+Kevin
 
-Now, the question remains though if the protocol changes could be
-avoided. While I think that in theory that is possible using a model
-such as yours, I suspect (and this is more gut feeling for now than
-really well-argued) that we're better off with the protocol changes, for
-example because:
+--L6iaP+gRLNZHKoI4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-1) This lets us detect that the device was set up for simulation, and if
-   it doesn't support F_KICK_CALL_MSGS we can refuse to connect to it in
-   simulation mode. This is a bit handwaving, since in simulation you
-   control fully your devices and everything, but for somebody who
-   hasn't read all of the detailed discussions here that might save some
-   time understanding they cannot just add arbitrary devices to the
-   simulation and expect things to work.
-   But yes, doing this would also meansort of abusing the
-   F_KICK_CALL_MSGS as a moniker for simulation, which isn't really how
-   I spec'ed it, because I didn't want to introduce any simulation
-   calendar language into the vhost-user spec ...
-   (IOW, any other device might implement F_KICK_CALL_MSGS and you could
-   connect it, but I'm sort of banking on the fact that implementing
-   this protocol extension outside of simulation is stupid.)
+-----BEGIN PGP SIGNATURE-----
 
-2) When we add a calendar entry on behalf of the device, we'd have to
-   associate it with the device somehow, so when the device then later
-   relinquishes its time slice the calendar knows what's going on.
-   Theoretically this isn't needed as only one thing should be running
-   (the device that was told to via the kick-fd-calendar-entry), but in
-   practice bugs will happen and detecting them helps a lot.
+iQIcBAEBAgAGBQJdeK//AAoJEH8JsnLIjy/WWvMQAJRmYRPWxzSNswQeBja4f41U
+aNQWLi/UhAQQV4piehvYP3nlxSG+/eM/xrbdQG851kdL5y+4fQBxp+I4dCr+R080
+qGW+5WC/8ng8GpWA2oNd54LOQizBu0XL3sGxZVyzaFNkPDwx3YoGsjfadgOSCl3y
+BfiljDgtOK/wFd0ljxOMYKjPWhipi1OX6DSuuA8a86OILAs/uDfZhkYvrkDbldYx
++6miFo3/T6Zq6ICxkLvYizEkMeb2mGmUybdnwKkT/ctyWqjBm+t7XuLHy2IBITX/
+PMCUicvmdk/KFY/P9PfH3ccZ5nCNPp5cZjd0r6/+3gdkusjnmxygMhIi/SK9JX1o
+j7QpsDaMzAZMOG8TiBkroOz+pGZzWUy0TESa/i+ao4wkrpC9LUkeRlFiqy7yLRBd
+p4PmB4V7wY5Z9ZZVfm4J0EGMw8aREvhg7mNFvnogzk2Gh+AB3bwhmEVj6Son9cCM
+9r1BmebmUSA8G0mSwSMuMJbcDmqteVgxOmZ+Fy17u8jcq/Wy/YBLz+cITY6ByBBh
+N1DVo/X5gRffBeRb0pU8vCY2k0gvwSPy8O22j+gwx43MUoT4jfFwCmQHzhFEsDzQ
+s7bYl9L/904LcSki29ebviSJ0kHSKndjejueKKCkguknBpReFpFB+5WavpZgzgQX
+PIBelBlGgvH06YMF3Szr
+=rnC/
+-----END PGP SIGNATURE-----
 
-
-> I'm suggesting this because it seems like a cleaner approach than
-> exposing the calendar concept to the vhost-user devices.
-
-As I argue above, for all intents and purposes that only works for
-extremely trivial devices, to the extent that I'd rather exclude them
-than risk unexpected behaviour.
-
-After all, the main use cases for this are going to be
-1) modelling more complex devices (I intend to model a wifi device)
-2) modelling network topologies in the virtual network switch (to which
-   the UML instances connect via vhost-user, requiring calendar
-   integration as described above)
-3) similarly modelling wireless networks
-etc.
-
-> I'm not 100%
-> sure it offers the semantics you need to make everything deterministic
-> though.
-
-It sounds like it does, but it doesn't seem like a big win to me.
-
-But like I said before, if there's enough objection to adding something
-like this to the protocol then certainly we can get away without it, and
-the model you propose is even a bit nicer than the model I had in mind
-(I considered putting all VQs into polling mode, and then having the
-calendar tell the devices to poll rather than having the calendar kick
-the FDs.)
-
-Overall, I think it becomes more manageable with the extension though.
-
-> A different topic: vhost-user does not have a 1:1 vq buffer:kick
-> relationship.  It's possible to add multiple buffers and kick only once.
-> It is also possible for the device to complete multiple buffers and only
-> call once.
-> 
-> This could pose a problem for simulation because it allows a degree of
-> non-determinism.  But as long as the both the CPU and the I/O completion
-> of the device happen on a strict schedule this isn't a problem.
-
-Yes, I'm aware, but this is fine. The device will not see those buffers
-until it's kicked. It could even be that when the device schedules the
-interrupt processing time for some future time (say if it's super busy
-now), and the CPU continues running to add more buffers and even kick
-again. Or the CPU doesn't release its time slice because it just simply
-has code like
-
-  add_outbuf(vq, buf)
-  kick(vq)
-  add_outbuf(vq, buf)
-  kick(vq)
-  wait_for_response() // release time slice here
-
-Now, most drivers would probably avoid that first kick, but it still
-models fine.
-
-johannes
-
+--L6iaP+gRLNZHKoI4--
 
