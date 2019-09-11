@@ -2,50 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871A2B01DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 18:44:08 +0200 (CEST)
-Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9D5B0218
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 18:52:37 +0200 (CEST)
+Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i85ix-0002jG-7y
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 12:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41869)
+	id 1i85r9-0008NK-Gm
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 12:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i85h8-0001Py-Gh
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:42:15 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i85oi-0006UY-8x
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:50:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i85h6-00008E-W3
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:42:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34482)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i85h6-00007r-OL
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:42:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1B16F1918642
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 16:42:12 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-243.ams2.redhat.com
- [10.36.117.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A2AF60BEC;
- Wed, 11 Sep 2019 16:42:10 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, berrange@redhat.com,
- quintela@redhat.com
-Date: Wed, 11 Sep 2019 17:42:02 +0100
-Message-Id: <20190911164202.31136-4-dgilbert@redhat.com>
-In-Reply-To: <20190911164202.31136-1-dgilbert@redhat.com>
-References: <20190911164202.31136-1-dgilbert@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1i85og-00047c-Tz
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:50:03 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33662)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i85og-00046y-KI
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:50:02 -0400
+Received: by mail-wr1-x443.google.com with SMTP id u16so25409879wrr.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 09:50:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=s1vPcTwJkdcbFJYXRlbSHHNB5ZlopLObSX2zy00+/xk=;
+ b=OmbjRmx0mcElgohFBUpUZ+JvvVYw39mKnuFdMq3K4FXuEWd0Z8D1iDUyPwxmvQSRhp
+ tZV9ganSsMyp1O2PgTqcSrpP4Jr7IkCap8Sc/uY7KLhhLgMo4F0afUhMO4UEHI0rW88X
+ QotpAmNA5fPkpcrKe+EoFG/iyCKX5Liro+yU08RE4XJwXPyDF/9Xfv5y6Bvs9ts7o63A
+ /oPQlakBLczUZxsHG+wy+kDiVRA0h60H7fWn0/UNosyaPIbBv61KYom4daSVYtdnXeuX
+ KUQ7KX2eqF8HHTgZlqGcZyuQ7i0FTXssQ806SnmgmGhSGCvwWGj41u3xv7gwEu4SETfj
+ bf8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=s1vPcTwJkdcbFJYXRlbSHHNB5ZlopLObSX2zy00+/xk=;
+ b=JsF4Ew1bPKGHVhuGgYC7uIEmD7ijnenBTA/xgVgsiETbtJwjw4X5jQP9n2/DKBPZZm
+ 43kDvD4yT1MogWi2xLv9mLwgh3rE+HMr6KSBnM3D8dDAk32rhaeHQCqvaHGhHxWlzdpE
+ sll70LAwOjiXIJuia0gu20GmgjeobjtdOQyUZA/5GdMEs0uS+KhvRNiQS59HvZmb2JnH
+ +Nyxi7JJ6wz4j661vEyBAM4qUhbvzTtu6UGUc5AWRrsCkXrk7Vvu4nRxXkqbT4ajOWPa
+ 75F5Ggry39FOYIyputYauyMZoCEXboCgc/DpVtwYYyG1oniuadh7OWbhkAP3X5ud+tRD
+ Xy2A==
+X-Gm-Message-State: APjAAAXyVI14MuZ0gpVWfFscXdYasi6oNzWCAiWQ9xoHev0SO2snVcTj
+ 3paisvqLjS3KQN5lFx7hCTsCAA==
+X-Google-Smtp-Source: APXvYqzHvwrwKECpsVoT3hU8ISFC6ugQNcQLpPfdVarh1ofw8/E7lK3w/+t/Dbzx0ecag5tDQU02JQ==
+X-Received: by 2002:a5d:6951:: with SMTP id r17mr2216549wrw.208.1568220601242; 
+ Wed, 11 Sep 2019 09:50:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p85sm7632122wme.23.2019.09.11.09.50.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Sep 2019 09:50:00 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E031C1FF87;
+ Wed, 11 Sep 2019 17:49:59 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Date: Wed, 11 Sep 2019 17:49:54 +0100
+Message-Id: <20190911164959.11003-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Wed, 11 Sep 2019 16:42:12 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] migration: Use automatic rcu_read unlock
- in rdma.c
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v5 0/5] semihosting cleanups (plus minor
+ tests/tcg tweak)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,382 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Hi Peter,
 
-Use the automatic read unlocker in migration/rdma.c.
+I've restored the #ifndef CONFIG_USER_ONLY to ensure A-profile
+linux-user still works. I've cleaned up the now unused linux-user code
+and added a simple smoke test to make sure we don't break it my
+accident. There is a tests/tcg patch at the beginning of the series
+which was just fixing some obvious errors in the tests/tcg comments
+which I couldn't leave untouched while I was adding the smoke test. I
+can put it in my next testing PR but I'm happy enough for you to take
+it through your tree if you want.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/rdma.c | 57 ++++++++++--------------------------------------
- 1 file changed, 11 insertions(+), 46 deletions(-)
+Alex Bennée (5):
+  tests/tcg: clean-up some comments after the de-tangling
+  target/arm: handle M-profile semihosting at translate time
+  target/arm: handle A-profile semihosting at translate time
+  target/arm: remove run time semihosting checks
+  target/arm: remove run-time semihosting checks for linux-user
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 78e6b72bac..40f8292ab9 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -88,7 +88,6 @@ static uint32_t known_capabilities =3D RDMA_CAPABILITY_=
-PIN_ALL;
-                                 " to abort!"); \
-                 rdma->error_reported =3D 1; \
-             } \
--            rcu_read_unlock(); \
-             return rdma->error_state; \
-         } \
-     } while (0)
-@@ -2678,11 +2677,10 @@ static ssize_t qio_channel_rdma_writev(QIOChannel=
- *ioc,
-     size_t i;
-     size_t len =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -2695,7 +2693,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
-ioc,
-     ret =3D qemu_rdma_write_flush(f, rdma);
-     if (ret < 0) {
-         rdma->error_state =3D ret;
--        rcu_read_unlock();
-         return ret;
-     }
-=20
-@@ -2715,7 +2712,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
-ioc,
-=20
-             if (ret < 0) {
-                 rdma->error_state =3D ret;
--                rcu_read_unlock();
-                 return ret;
-             }
-=20
-@@ -2724,7 +2720,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
-ioc,
-         }
-     }
-=20
--    rcu_read_unlock();
-     return done;
- }
-=20
-@@ -2764,11 +2759,10 @@ static ssize_t qio_channel_rdma_readv(QIOChannel =
-*ioc,
-     ssize_t i;
-     size_t done =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     rdma =3D atomic_rcu_read(&rioc->rdmain);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -2805,7 +2799,6 @@ static ssize_t qio_channel_rdma_readv(QIOChannel *i=
-oc,
-=20
-         if (ret < 0) {
-             rdma->error_state =3D ret;
--            rcu_read_unlock();
-             return ret;
-         }
-=20
-@@ -2819,14 +2812,12 @@ static ssize_t qio_channel_rdma_readv(QIOChannel =
-*ioc,
-         /* Still didn't get enough, so lets just return */
-         if (want) {
-             if (done =3D=3D 0) {
--                rcu_read_unlock();
-                 return QIO_CHANNEL_ERR_BLOCK;
-             } else {
-                 break;
-             }
-         }
-     }
--    rcu_read_unlock();
-     return done;
- }
-=20
-@@ -2882,7 +2873,7 @@ qio_channel_rdma_source_prepare(GSource *source,
-     GIOCondition cond =3D 0;
-     *timeout =3D -1;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     if (rsource->condition =3D=3D G_IO_IN) {
-         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
-     } else {
-@@ -2891,7 +2882,6 @@ qio_channel_rdma_source_prepare(GSource *source,
-=20
-     if (!rdma) {
-         error_report("RDMAContext is NULL when prepare Gsource");
--        rcu_read_unlock();
-         return FALSE;
-     }
-=20
-@@ -2900,7 +2890,6 @@ qio_channel_rdma_source_prepare(GSource *source,
-     }
-     cond |=3D G_IO_OUT;
-=20
--    rcu_read_unlock();
-     return cond & rsource->condition;
- }
-=20
-@@ -2911,7 +2900,7 @@ qio_channel_rdma_source_check(GSource *source)
-     RDMAContext *rdma;
-     GIOCondition cond =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     if (rsource->condition =3D=3D G_IO_IN) {
-         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
-     } else {
-@@ -2920,7 +2909,6 @@ qio_channel_rdma_source_check(GSource *source)
-=20
-     if (!rdma) {
-         error_report("RDMAContext is NULL when check Gsource");
--        rcu_read_unlock();
-         return FALSE;
-     }
-=20
-@@ -2929,7 +2917,6 @@ qio_channel_rdma_source_check(GSource *source)
-     }
-     cond |=3D G_IO_OUT;
-=20
--    rcu_read_unlock();
-     return cond & rsource->condition;
- }
-=20
-@@ -2943,7 +2930,7 @@ qio_channel_rdma_source_dispatch(GSource *source,
-     RDMAContext *rdma;
-     GIOCondition cond =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     if (rsource->condition =3D=3D G_IO_IN) {
-         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
-     } else {
-@@ -2952,7 +2939,6 @@ qio_channel_rdma_source_dispatch(GSource *source,
-=20
-     if (!rdma) {
-         error_report("RDMAContext is NULL when dispatch Gsource");
--        rcu_read_unlock();
-         return FALSE;
-     }
-=20
-@@ -2961,7 +2947,6 @@ qio_channel_rdma_source_dispatch(GSource *source,
-     }
-     cond |=3D G_IO_OUT;
-=20
--    rcu_read_unlock();
-     return (*func)(QIO_CHANNEL(rsource->rioc),
-                    (cond & rsource->condition),
-                    user_data);
-@@ -3058,7 +3043,7 @@ qio_channel_rdma_shutdown(QIOChannel *ioc,
-     QIOChannelRDMA *rioc =3D QIO_CHANNEL_RDMA(ioc);
-     RDMAContext *rdmain, *rdmaout;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-=20
-     rdmain =3D atomic_rcu_read(&rioc->rdmain);
-     rdmaout =3D atomic_rcu_read(&rioc->rdmain);
-@@ -3085,7 +3070,6 @@ qio_channel_rdma_shutdown(QIOChannel *ioc,
-         break;
-     }
-=20
--    rcu_read_unlock();
-     return 0;
- }
-=20
-@@ -3131,18 +3115,16 @@ static size_t qemu_rdma_save_page(QEMUFile *f, vo=
-id *opaque,
-     RDMAContext *rdma;
-     int ret;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-     CHECK_ERROR_STATE();
-=20
-     if (migration_in_postcopy()) {
--        rcu_read_unlock();
-         return RAM_SAVE_CONTROL_NOT_SUPP;
-     }
-=20
-@@ -3227,11 +3209,9 @@ static size_t qemu_rdma_save_page(QEMUFile *f, voi=
-d *opaque,
-         }
-     }
-=20
--    rcu_read_unlock();
-     return RAM_SAVE_CONTROL_DELAYED;
- err:
-     rdma->error_state =3D ret;
--    rcu_read_unlock();
-     return ret;
- }
-=20
-@@ -3451,11 +3431,10 @@ static int qemu_rdma_registration_handle(QEMUFile=
- *f, void *opaque)
-     int count =3D 0;
-     int i =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     rdma =3D atomic_rcu_read(&rioc->rdmain);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -3698,7 +3677,6 @@ out:
-     if (ret < 0) {
-         rdma->error_state =3D ret;
-     }
--    rcu_read_unlock();
-     return ret;
- }
-=20
-@@ -3716,11 +3694,10 @@ rdma_block_notification_handle(QIOChannelRDMA *ri=
-oc, const char *name)
-     int curr;
-     int found =3D -1;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     rdma =3D atomic_rcu_read(&rioc->rdmain);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -3734,7 +3711,6 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc=
-, const char *name)
-=20
-     if (found =3D=3D -1) {
-         error_report("RAMBlock '%s' not found on destination", name);
--        rcu_read_unlock();
-         return -ENOENT;
-     }
-=20
-@@ -3742,7 +3718,6 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc=
-, const char *name)
-     trace_rdma_block_notification_handle(name, rdma->next_src_index);
-     rdma->next_src_index++;
-=20
--    rcu_read_unlock();
-     return 0;
- }
-=20
-@@ -3767,17 +3742,15 @@ static int qemu_rdma_registration_start(QEMUFile =
-*f, void *opaque,
-     QIOChannelRDMA *rioc =3D QIO_CHANNEL_RDMA(opaque);
-     RDMAContext *rdma;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-     CHECK_ERROR_STATE();
-=20
-     if (migration_in_postcopy()) {
--        rcu_read_unlock();
-         return 0;
-     }
-=20
-@@ -3785,7 +3758,6 @@ static int qemu_rdma_registration_start(QEMUFile *f=
-, void *opaque,
-     qemu_put_be64(f, RAM_SAVE_FLAG_HOOK);
-     qemu_fflush(f);
-=20
--    rcu_read_unlock();
-     return 0;
- }
-=20
-@@ -3802,17 +3774,15 @@ static int qemu_rdma_registration_stop(QEMUFile *=
-f, void *opaque,
-     RDMAControlHeader head =3D { .len =3D 0, .repeat =3D 1 };
-     int ret =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_AUTO
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-     CHECK_ERROR_STATE();
-=20
-     if (migration_in_postcopy()) {
--        rcu_read_unlock();
-         return 0;
-     }
-=20
-@@ -3844,7 +3814,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
- void *opaque,
-                     qemu_rdma_reg_whole_ram_blocks : NULL);
-         if (ret < 0) {
-             ERROR(errp, "receiving remote info!");
--            rcu_read_unlock();
-             return ret;
-         }
-=20
-@@ -3868,7 +3837,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
- void *opaque,
-                         "not identical on both the source and destinatio=
-n.",
-                         local->nb_blocks, nb_dest_blocks);
-             rdma->error_state =3D -EINVAL;
--            rcu_read_unlock();
-             return -EINVAL;
-         }
-=20
-@@ -3885,7 +3853,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
- void *opaque,
-                             local->block[i].length,
-                             rdma->dest_blocks[i].length);
-                 rdma->error_state =3D -EINVAL;
--                rcu_read_unlock();
-                 return -EINVAL;
-             }
-             local->block[i].remote_host_addr =3D
-@@ -3903,11 +3870,9 @@ static int qemu_rdma_registration_stop(QEMUFile *f=
-, void *opaque,
-         goto err;
-     }
-=20
--    rcu_read_unlock();
-     return 0;
- err:
-     rdma->error_state =3D ret;
--    rcu_read_unlock();
-     return ret;
- }
-=20
---=20
-2.21.0
+ linux-user/arm/cpu_loop.c         |  3 -
+ linux-user/arm/target_syscall.h   |  3 -
+ target/arm/helper.c               | 96 +++++++------------------------
+ target/arm/m_helper.c             | 18 ++----
+ target/arm/translate.c            | 27 +++++++--
+ tests/tcg/Makefile.target         |  7 ++-
+ tests/tcg/aarch64/Makefile.target |  8 ++-
+ tests/tcg/arm/Makefile.target     | 20 ++++---
+ tests/tcg/arm/semihosting.c       | 45 +++++++++++++++
+ 9 files changed, 120 insertions(+), 107 deletions(-)
+ create mode 100644 tests/tcg/arm/semihosting.c
+
+-- 
+2.20.1
 
 
