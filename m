@@ -2,78 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF5FAFF81
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:05:13 +0200 (CEST)
-Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBE6AFF98
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:08:20 +0200 (CEST)
+Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84BD-0002kL-30
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48633)
+	id 1i84EE-0006Kh-O5
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i843k-00068s-NI
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:57:29 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i845B-0007WB-MK
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i843i-0002UV-Lz
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:57:28 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:39549)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i843i-0002Tp-HJ
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:57:26 -0400
-Received: by mail-qk1-x742.google.com with SMTP id 4so21072469qki.6
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5/gmscF6hvEPxTEv2Heb2SvoZPUVzRrbrJXUExuN+zs=;
- b=SwWZPIqyWtbr3K3mpXh1Mx5+PA+uf6hOVO8zkb4H0MzM0nVsUtOuHzroT4FkINLI6T
- HV/NHB+ncxmCGkxIk7YxGj/aU7ATyP3rTiFMd5ImR+e2NwsdLLkF1h/ul2ikO2/6BvrI
- I+OXhdOWUGoLqFpSA74gkZ+Sz1inYwjYbCdge6GNZP/B600WJs5Fq2g6YA3fGk9XYq0d
- kfGyhu9oTlnmkn9C3D9Vt/Qb6Kht013rDIc/nrqSqwhlvEQ3rRlNZ+eOSc071LmFeALP
- rIjtHhLw/Rc88P9jzms0+onm/KkSsQO2AWXPA3pQgKbaxCxoHhvubKoUsMuU8nj0CMNs
- tTfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5/gmscF6hvEPxTEv2Heb2SvoZPUVzRrbrJXUExuN+zs=;
- b=d9V4GoF/D/C2C8B8ZyBjgzKrV4mZBPXm4IJzqqH5HoyOwG7CS9fkodQ7YYaydlqmXQ
- yS4SCkXwTof6tb7Ykr8EduuHTcyN1Hn8pQY1oLZWbgpycQD3tV1If5fmB5jxNgfabn5z
- 1m9OLn9w3gwwH1g3gSS31Abzj7eesCsfz7DBQl2mGiSsOGsmmbyYEEu4ZqSUZ+pavkhT
- 1Yha8yWuuMBtOmXP/Kj6j+dgkWhSFXkrf+TcSFAK1G8M9WYVVF45aPeP+EptTbQmJO+H
- y+MjOtLfr2o/Hzh1xJcyrc7GZAFkgXr6sgobSog3EqNTH+hiV/+5vvU4aDJ9EtJ/ln74
- nL+w==
-X-Gm-Message-State: APjAAAXlo3DVenaoFaFAK5zmU0SHRM+O4H7GTr/mQU0fqSq1z6WZnreq
- kTPBj4f0Kl5NRCpyso47N43ZKQ==
-X-Google-Smtp-Source: APXvYqyOvyfR1YScpwTPJ5OAv+z5oPivd6Y7YkKgz37ichj8QO/C+/G4qQFT0Yje8QMbToy8CFaKxg==
-X-Received: by 2002:ae9:ec07:: with SMTP id h7mr4777066qkg.309.1568213844301; 
- Wed, 11 Sep 2019 07:57:24 -0700 (PDT)
-Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
- [64.229.69.35])
- by smtp.gmail.com with ESMTPSA id t126sm10060559qkh.119.2019.09.11.07.57.23
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 07:57:23 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190906075750.14791-1-david@redhat.com>
- <20190906075750.14791-8-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <9a171b2e-a8fc-d05e-dabc-d76b858e0206@linaro.org>
-Date: Wed, 11 Sep 2019 10:57:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <stefanha@redhat.com>) id 1i8458-0002sC-JJ
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:27730)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i8456-0002p5-JR
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:52 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 316E683F3F;
+ Wed, 11 Sep 2019 14:58:45 +0000 (UTC)
+Received: from localhost (ovpn-116-185.ams2.redhat.com [10.36.116.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BECB5DD6C;
+ Wed, 11 Sep 2019 14:58:44 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 11 Sep 2019 16:58:16 +0200
+Message-Id: <20190911145818.18962-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190906075750.14791-8-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::742
-Subject: Re: [Qemu-devel] [PATCH v2 07/28] s390x/tcg: MVPG: Check for
- specification exceptions
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Wed, 11 Sep 2019 14:58:45 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/2] audio: -audiodev documentation tweaks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,22 +52,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
- qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Zolt=C3=A1n=20K=C5=91v=C3=A1g=C3=B3?= <DirtY.iCE.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/19 3:57 AM, David Hildenbrand wrote:
-> Perform the checks documented in the PoP.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/mem_helper.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+Small fixes to the -audiodev documentation.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Stefan Hajnoczi (2):
+  audio: fix buffer-length typo in documentation
+  audio: add -audiodev pa,in|out.latency=3D to documentation
 
-r~
+ qemu-options.hx | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+--=20
+2.21.0
 
 
