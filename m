@@ -2,55 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F1CAF89E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:14:10 +0200 (CEST)
-Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C7AAF8B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:18:54 +0200 (CEST)
+Received: from localhost ([::1]:48590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yhV-0005OK-B1
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35274)
+	id 1i7ym5-0001bu-7c
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:18:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39709)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i7yOy-0007dm-63
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:55:01 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1i7yjN-0008PV-Ox
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:16:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i7yOx-0008KN-48
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 04:55:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40958)
+ (envelope-from <dgilbert@redhat.com>) id 1i7yjL-0004Ae-EY
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:16:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34960)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i7yOq-0008BV-CJ; Wed, 11 Sep 2019 04:54:52 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i7yjL-00049Q-7A
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:16:03 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 655508980F3;
- Wed, 11 Sep 2019 08:54:50 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-182.ams2.redhat.com
- [10.36.116.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF68819C4F;
- Wed, 11 Sep 2019 08:54:48 +0000 (UTC)
-Date: Wed, 11 Sep 2019 10:54:47 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Message-ID: <20190911085447.GD4907@localhost.localdomain>
-References: <20190910185839.19682-1-thuth@redhat.com>
- <4ce671ea-452b-39ac-ea2e-83b9d75a3b84@redhat.com>
- <20190911065857.GB4907@localhost.localdomain>
- <5711e370-1d92-4868-39c1-3423c2dd9f42@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id A652DA37193;
+ Wed, 11 Sep 2019 09:16:01 +0000 (UTC)
+Received: from work-vm (ovpn-117-243.ams2.redhat.com [10.36.117.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A46C619C6A;
+ Wed, 11 Sep 2019 09:15:59 +0000 (UTC)
+Date: Wed, 11 Sep 2019 10:15:57 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Yury Kotov <yury-kotov@yandex-team.ru>
+Message-ID: <20190911091557.GC2894@work-vm>
+References: <20190903162246.18524-1-yury-kotov@yandex-team.ru>
+ <20190903162246.18524-2-yury-kotov@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="KdquIMZPjGJQvRdI"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5711e370-1d92-4868-39c1-3423c2dd9f42@redhat.com>
+In-Reply-To: <20190903162246.18524-2-yury-kotov@yandex-team.ru>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Wed, 11 Sep 2019 08:54:50 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.68]); Wed, 11 Sep 2019 09:16:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/7] Move qtests to a separate
- folder
+Subject: Re: [Qemu-devel] [PATCH v2 1/3] migration: Add validate-uuid
+ capability
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,70 +58,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Yury Kotov (yury-kotov@yandex-team.ru) wrote:
+> This capability realizes simple source validation by UUID.
+> It's useful for live migration between hosts.
+> 
+> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 
---KdquIMZPjGJQvRdI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Am 11.09.2019 um 10:01 hat Thomas Huth geschrieben:
-> On 11/09/2019 08.58, Kevin Wolf wrote:
-> > Am 10.09.2019 um 21:07 hat Eric Blake geschrieben:
-> >> On 9/10/19 1:58 PM, Thomas Huth wrote:
-> >>> Our "tests" directory is very overcrowded - we store the qtests,
-> >>> unit test and other files there. That makes it difficult to
-> >>> determine which file belongs to each test subsystem, and the
-> >>> wildcards in the MAINTAINERS file are inaccurate, too.
-> >>>
-> >>> Let's clean up this mess. The first patches disentangle some
-> >>> dependencies, and the last three patches then move the qtests
-> >>> and libqos (which is a subsystem of the qtests) to a new folder
-> >>> called "tests/qtest/".
-> >>
-> >> I'd also welcome a rename of tests/qemu-iotests to tests/iotests.
-> >=20
-> > I might prefer if the directory were named "iotests" rather than
-> > "qemu-iotests" if we were only adding the code now.
-> >=20
-> > However, I'm not so sure if I'd like a rename now because a rename
-> > always comes with a cost and the benefits are rather limited in this
-> > case.
->=20
-> Well, if we all agree that it rather should be renamed, we should maybe
-> rather do it now than later. Later the cost might even be higher.
-
-What I'm saying is that I'm not sure that it should be renamed. What
-will we gain from the rename apart from saving five redundant characters
-in the path?
-
-Kevin
-
---KdquIMZPjGJQvRdI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJdeLZXAAoJEH8JsnLIjy/Wy1gQAIIGAOZLS4PqYKXcHyI4We5l
-+gJSX1yRYTc8XRtM+/VqtoDKu4pPEv0LA6U3hE12ZbvuZl3O1MNd2JMMK9aeLyd3
-oBFV+YFxuJnbrMq1J42tmyG+lAcFQH21tVdkO6SFcs90Zszt7fxj7uQYbagoMZl2
-BUVByt0bkpBF4shE9s37goO21/Y1uR0Py9rOpcliUCVQJAoI0L7GA/rc1n39C7O6
-ZIY6+M9XzlqekmXVb2z7pmQ1gq9v8e8Y80/AYVWdjh/MdIT/pz2T9vDoBqN9HTnx
-tLb6+FhzRi3RnSpoLQJvLBOqCJyoJP+iw19RgAmKVT/yocJGmQKc6AtZGy6u/Mzq
-qomkLIfOKAGUNuRlSXnWYzPnSRYyBxA2jIijRNV+vzqqes57OVZMFN58f3errfrt
-6eNaGE9Byc5rOhV1TjizaI+NvxQCIQO4kICtUPB5MvHqJTGm1TDa2YntSsOCahO1
-fK8V3W4wYO5gmxFZ2jphW7cCHbauiJ9QQBuYKWTBmjfV43/8M31jVshLMIreYgER
-r7baUHvUhRU/DzjZvqnJmg6L5erJAVjW6SHob9DmIuEHFKLh5C75eWd5L9LxN7g3
-cI5JXkXAdK6uOCkmFLhoyZsmgLkFAr6p5LqNH9JaelxRY4w/zseJm7Q/li25deKU
-mWm3rvMR/BvK5WSbv5KK
-=lNVH
------END PGP SIGNATURE-----
-
---KdquIMZPjGJQvRdI--
+> ---
+>  migration/migration.c |  9 +++++++++
+>  migration/migration.h |  1 +
+>  migration/savevm.c    | 45 +++++++++++++++++++++++++++++++++++++++++++
+>  qapi/migration.json   |  5 ++++-
+>  4 files changed, 59 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 8b9f2fe30a..2391a8d418 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2140,6 +2140,15 @@ bool migrate_ignore_shared(void)
+>      return s->enabled_capabilities[MIGRATION_CAPABILITY_X_IGNORE_SHARED];
+>  }
+>  
+> +bool migrate_validate_uuid(void)
+> +{
+> +    MigrationState *s;
+> +
+> +    s = migrate_get_current();
+> +
+> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_VALIDATE_UUID];
+> +}
+> +
+>  bool migrate_use_events(void)
+>  {
+>      MigrationState *s;
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 3e1ea2b5dc..4f2fe193dc 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -290,6 +290,7 @@ bool migrate_postcopy_ram(void);
+>  bool migrate_zero_blocks(void);
+>  bool migrate_dirty_bitmaps(void);
+>  bool migrate_ignore_shared(void);
+> +bool migrate_validate_uuid(void);
+>  
+>  bool migrate_auto_converge(void);
+>  bool migrate_use_multifd(void);
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 4a86128ac4..493dc24fd2 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -256,6 +256,7 @@ typedef struct SaveState {
+>      uint32_t target_page_bits;
+>      uint32_t caps_count;
+>      MigrationCapability *capabilities;
+> +    QemuUUID uuid;
+>  } SaveState;
+>  
+>  static SaveState savevm_state = {
+> @@ -307,6 +308,7 @@ static int configuration_pre_save(void *opaque)
+>              state->capabilities[j++] = i;
+>          }
+>      }
+> +    state->uuid = qemu_uuid;
+>  
+>      return 0;
+>  }
+> @@ -464,6 +466,48 @@ static const VMStateDescription vmstate_capabilites = {
+>      }
+>  };
+>  
+> +static bool vmstate_uuid_needed(void *opaque)
+> +{
+> +    return qemu_uuid_set && migrate_validate_uuid();
+> +}
+> +
+> +static int vmstate_uuid_post_load(void *opaque, int version_id)
+> +{
+> +    SaveState *state = opaque;
+> +    char uuid_src[UUID_FMT_LEN + 1];
+> +    char uuid_dst[UUID_FMT_LEN + 1];
+> +
+> +    if (!qemu_uuid_set) {
+> +        /*
+> +         * It's warning because user might not know UUID in some cases,
+> +         * e.g. load an old snapshot
+> +         */
+> +        qemu_uuid_unparse(&state->uuid, uuid_src);
+> +        warn_report("UUID is received %s, but local uuid isn't set",
+> +                     uuid_src);
+> +        return 0;
+> +    }
+> +    if (!qemu_uuid_is_equal(&state->uuid, &qemu_uuid)) {
+> +        qemu_uuid_unparse(&state->uuid, uuid_src);
+> +        qemu_uuid_unparse(&qemu_uuid, uuid_dst);
+> +        error_report("UUID received is %s and local is %s", uuid_src, uuid_dst);
+> +        return -EINVAL;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static const VMStateDescription vmstate_uuid = {
+> +    .name = "configuration/uuid",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = vmstate_uuid_needed,
+> +    .post_load = vmstate_uuid_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8_ARRAY_V(uuid.data, SaveState, sizeof(QemuUUID), 1),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_configuration = {
+>      .name = "configuration",
+>      .version_id = 1,
+> @@ -478,6 +522,7 @@ static const VMStateDescription vmstate_configuration = {
+>      .subsections = (const VMStateDescription*[]) {
+>          &vmstate_target_page_bits,
+>          &vmstate_capabilites,
+> +        &vmstate_uuid,
+>          NULL
+>      }
+>  };
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 9cfbaf8c6c..82feb5bd39 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -415,6 +415,9 @@
+>  #
+>  # @x-ignore-shared: If enabled, QEMU will not migrate shared memory (since 4.0)
+>  #
+> +# @validate-uuid: Send the UUID of the source to allow the destination
+> +#                 to ensure it is the same. (since 4.2)
+> +#
+>  # Since: 1.2
+>  ##
+>  { 'enum': 'MigrationCapability',
+> @@ -422,7 +425,7 @@
+>             'compress', 'events', 'postcopy-ram', 'x-colo', 'release-ram',
+>             'block', 'return-path', 'pause-before-switchover', 'multifd',
+>             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+> -           'x-ignore-shared' ] }
+> +           'x-ignore-shared', 'validate-uuid' ] }
+>  
+>  ##
+>  # @MigrationCapabilityStatus:
+> -- 
+> 2.17.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
