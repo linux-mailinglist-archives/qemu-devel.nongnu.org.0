@@ -2,54 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6326BAF4BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 05:48:14 +0200 (CEST)
-Received: from localhost ([::1]:46326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAA7AF4CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 06:07:45 +0200 (CEST)
+Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7tc5-00066x-GC
-	for lists+qemu-devel@lfdr.de; Tue, 10 Sep 2019 23:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44149)
+	id 1i7tux-0002Nw-N1
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 00:07:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i7taX-0005ek-TY
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 23:46:39 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i7tsS-0000TD-8k
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 00:05:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i7taW-0001wK-BQ
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 23:46:37 -0400
-Resent-Date: Tue, 10 Sep 2019 23:46:37 -0400
-Resent-Message-Id: <E1i7taW-0001wK-BQ@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21536)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i7taW-0001vc-3t
- for qemu-devel@nongnu.org; Tue, 10 Sep 2019 23:46:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568173587; cv=none; d=zoho.com; s=zohoarc; 
- b=S6wpLjEVq8e6F7pA9/rQ8PNUwzO/Mx0zRl5ggThD+Xdc7ZBpYxUFTa0yVifoBMmsQfd2lLEeEvPHuogW40K1/YAJ5Ew9HKt6h242CBLBhn+rjhgXXQ68TkReefQQe3QON4KbB3k4dl27k0PQAEuziDXLfDVbwlw0F2pwIjsc328=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568173587;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=uPpAmENuFKwu4InUd5nsYCjwbsdf9Wop/1KTK5+ZGSM=; 
- b=nqGb2B+cmNlh4lRaoSy/YZgYW18126uP7+7AYop7fDbTbPhlbeTe75TS6hJ4Q1GHO7k066mnjUqrMGF5W4tt1gaQQFg5MlzpUCqJYk/vii+RZR0XDG+LRYPHOqkjozz/pAQ0YBeXkS+miznGTvTundHi5LhhEfUYaNCPQY9I31E=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568173585875467.9677205117699;
- Tue, 10 Sep 2019 20:46:25 -0700 (PDT)
-In-Reply-To: <20190911014353.5926-1-richard.henderson@linaro.org>
-Message-ID: <156817358470.15929.4218507075303277574@5dec9699b7de>
+ (envelope-from <dgibson@ozlabs.org>) id 1i7tsO-0002np-8E
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 00:05:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:37365)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1i7tsK-0002gb-Hz; Wed, 11 Sep 2019 00:05:02 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46SpFg68Lnz9sP6; Wed, 11 Sep 2019 14:04:55 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1568174695;
+ bh=LGrQXH4yGXMJmAViGew/M2Z062dwDk7rodvJCq9nOAQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=JPRztFDuVJ99PcVruEKGJeNIx2Bm843Uou5GbtYSwyiJVe39bBEv2r/BG9+TJAPRu
+ MyKU6hzDHN3CsmpNth8D4Ml63Zwj+eTM1zJL4pyd+H6O5UlMr/iJ5OSFvQn/+YSNmf
+ conHnmZ+1cF5Qi+twhhubQezQXG89dzlUgd+NZ4I=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Date: Wed, 11 Sep 2019 14:04:45 +1000
+Message-Id: <20190911040452.8341-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Tue, 10 Sep 2019 20:46:25 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH 0/3] cputlb: Adjust tlb bswap implementation
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PATCH 0/7] spapr: CAS and reset cleanup preliminaries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,47 +51,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org, tony.nguyen@bt.com
+Cc: lvivier@redhat.com, aik@ozlabs.ru, groug@kaod.org, clg@kaod.org,
+ philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMTAxNDM1My41OTI2
-LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
-ZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
-ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
-ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRv
-czcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9X
-X0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpsaWJ1ZGV2ICAg
-ICAgICAgICBubwpkZWZhdWx0IGRldmljZXMgICB5ZXMKCndhcm5pbmc6IFB5dGhvbiAyIHN1cHBv
-cnQgaXMgZGVwcmVjYXRlZAp3YXJuaW5nOiBQeXRob24gMyB3aWxsIGJlIHJlcXVpcmVkIGZvciBi
-dWlsZGluZyBmdXR1cmUgdmVyc2lvbnMgb2YgUUVNVQoKTk9URTogY3Jvc3MtY29tcGlsZXJzIGVu
-YWJsZWQ6ICAnY2MnCiAgR0VOICAgICBhYXJjaDY0LXNvZnRtbXUvY29uZmlnLWRldmljZXMubWFr
-LnRtcAotLS0KTWVtb3J5IGNvbnRlbnQgaW5jb25zaXN0ZW5jeSBhdCA0MDE4ZjAwMCBmaXJzdF9i
-eXRlID0gZTQgbGFzdF9ieXRlID0gZTQgY3VycmVudCA9IGU1IGhpdF9lZGdlID0gMApNZW1vcnkg
-Y29udGVudCBpbmNvbnNpc3RlbmN5IGF0IDQwMTkwMDAwIGZpcnN0X2J5dGUgPSBlNCBsYXN0X2J5
-dGUgPSBlNCBjdXJyZW50ID0gZTUgaGl0X2VkZ2UgPSAwCmFuZCBpbiBhbm90aGVyIDI1MTk5IHBh
-Z2VzKioKRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlvbi10ZXN0LmM6MzQy
-OmNoZWNrX2d1ZXN0c19yYW06IGFzc2VydGlvbiBmYWlsZWQ6IChiYWQgPT0gMCkKRVJST1IgLSBC
-YWlsIG91dCEgRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlvbi10ZXN0LmM6
-MzQyOmNoZWNrX2d1ZXN0c19yYW06IGFzc2VydGlvbiBmYWlsZWQ6IChiYWQgPT0gMCkKbWFrZTog
-KioqIFtjaGVjay1xdGVzdC1hYXJjaDY0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1
-bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAgICBjaGVjay11bml0OiB0ZXN0cy90ZXN0LXRocm90
-dGxlCi0tLQogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAyNTIKUGFzc2VkIGFsbCAxMDYgdGVzdHMK
-KioKRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL2Jvb3Qtc2VjdG9yLmM6MTYxOmJvb3Rf
-c2VjdG9yX3Rlc3Q6IGFzc2VydGlvbiBmYWlsZWQgKHNpZ25hdHVyZSA9PSBTSUdOQVRVUkUpOiAo
-MHgwMDAwMDAwMCA9PSAweDAwMDBkZWFkKQpFUlJPUiAtIEJhaWwgb3V0ISBFUlJPUjovdG1wL3Fl
-bXUtdGVzdC9zcmMvdGVzdHMvYm9vdC1zZWN0b3IuYzoxNjE6Ym9vdF9zZWN0b3JfdGVzdDogYXNz
-ZXJ0aW9uIGZhaWxlZCAoc2lnbmF0dXJlID09IFNJR05BVFVSRSk6ICgweDAwMDAwMDAwID09IDB4
-MDAwMGRlYWQpCm1ha2U6ICoqKiBbY2hlY2stcXRlc3QteDg2XzY0XSBFcnJvciAxClRyYWNlYmFj
-ayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIu
-cHkiLCBsaW5lIDY1OSwgaW4gPG1vZHVsZT4KCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0
-Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTExMDE0MzUzLjU5MjYtMS1yaWNoYXJkLmhl
-bmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+PAPR defines a feature negotiation protocol between host and guest
+called ibm,client-architecture-support or CAS.  When invoked by the
+guest this can either result in updated device tree information being
+given to the guest to indicate the new configuration, or it can
+trigger a reboot (called a CAS reboot) for more wide reaching
+configuration changes.
+
+CAS changes are time consuming and irritating for the user, so we'd
+like to avoid them as much as possible.  We hope we can avoid them in
+all situations, in fact, but there's some work to do to get there.
+
+This series has some initial changes that get us closer to that mark.
+
+Alexey Kardashevskiy (4):
+  spapr: Fixes a leak in CAS
+  spapr: Skip leading zeroes from memory@ DT node names
+  spapr: Do not put empty properties for -kernel/-initrd/-append
+  spapr: Stop providing RTAS blob
+
+David Gibson (3):
+  spapr: Simplify handling of pre ISA 3.0 guest workaround handling
+  spapr: Move handling of special NVLink numa node from reset to init
+  spapr: Perform machine reset in a more sensible order
+
+ MAINTAINERS                     |   2 -
+ Makefile                        |   2 +-
+ configure                       |   6 +-
+ hw/ppc/spapr.c                  | 128 ++++++++++++++------------------
+ hw/ppc/spapr_hcall.c            |   3 +-
+ hw/ppc/spapr_rtas.c             |  41 ----------
+ include/hw/ppc/spapr.h          |   4 +-
+ pc-bios/spapr-rtas.bin          | Bin 20 -> 0 bytes
+ pc-bios/spapr-rtas/Makefile     |  27 -------
+ pc-bios/spapr-rtas/spapr-rtas.S |  37 ---------
+ 10 files changed, 58 insertions(+), 192 deletions(-)
+ delete mode 100644 pc-bios/spapr-rtas.bin
+ delete mode 100644 pc-bios/spapr-rtas/Makefile
+ delete mode 100644 pc-bios/spapr-rtas/spapr-rtas.S
+
+--=20
+2.21.0
 
 
