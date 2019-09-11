@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7592EB0109
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 18:13:56 +0200 (CEST)
-Received: from localhost ([::1]:53408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322C6B010A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 18:15:05 +0200 (CEST)
+Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i85Fj-0002x8-JW
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 12:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36420)
+	id 1i85Gp-00041l-L8
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 12:15:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i85EU-0002GZ-UO
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:12:39 -0400
+ (envelope-from <david@redhat.com>) id 1i85Fr-0003PY-P8
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:14:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i85EU-0003kf-1p
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:12:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57786)
+ (envelope-from <david@redhat.com>) id 1i85Fq-0004Xb-NK
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 12:14:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59768)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i85ET-0003kU-L1; Wed, 11 Sep 2019 12:12:37 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1i85Fq-0004Vk-FC; Wed, 11 Sep 2019 12:14:02 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EC16230860A5;
- Wed, 11 Sep 2019 16:12:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AFCBF30821AE;
+ Wed, 11 Sep 2019 16:14:01 +0000 (UTC)
 Received: from [10.36.116.137] (ovpn-116-137.ams2.redhat.com [10.36.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 299AD19C70;
- Wed, 11 Sep 2019 16:12:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 082E05C207;
+ Wed, 11 Sep 2019 16:13:59 +0000 (UTC)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190906075750.14791-1-david@redhat.com>
- <20190906075750.14791-5-david@redhat.com>
- <7788b1b6-fbf0-3370-5563-1da4f7124999@linaro.org>
- <905250c7-b249-6812-391c-408af69d9523@linaro.org>
+ <20190906075750.14791-7-david@redhat.com>
+ <9bbb541b-53ac-d96b-78fb-d81edba05070@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -80,22 +79,22 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <c2eb8313-cd97-ce92-7108-e6256a98d6e9@redhat.com>
-Date: Wed, 11 Sep 2019 18:12:34 +0200
+Message-ID: <4432f326-9fa6-8041-b456-428b9af54558@redhat.com>
+Date: Wed, 11 Sep 2019 18:13:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <905250c7-b249-6812-391c-408af69d9523@linaro.org>
+In-Reply-To: <9bbb541b-53ac-d96b-78fb-d81edba05070@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Wed, 11 Sep 2019 16:12:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Wed, 11 Sep 2019 16:14:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 04/28] s390x/tcg: MVCL: Process max 2k
- bytes at a time
+Subject: Re: [Qemu-devel] [PATCH v2 06/28] s390x/tcg: MVC: Use
+ is_destructive_overlap()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,25 +112,27 @@ Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.09.19 17:07, Richard Henderson wrote:
-> On 9/11/19 10:52 AM, Richard Henderson wrote:
->> The code within Hercules breaks the action at every 2k address boundary -- for
->> both src and dest.  That's the only way that actually makes sense to me, as
->> otherwise we end up allowing userspace to read/write into a page without
->> permission.  Which is a security hole.
+On 11.09.19 16:54, Richard Henderson wrote:
+> On 9/6/19 3:57 AM, David Hildenbrand wrote:
+>>      if (dest == src + 1) {
+>>          fast_memset(env, dest, cpu_ldub_data_ra(env, src, ra), l, ra);
+>> -    } else if (dest < src || src + l <= dest) {
+>> +    } else if (!is_destructive_overlap(env, dest, src, l)) {
+>>          fast_memmove(env, dest, src, l, ra);
+>>      } else {
+>>          for (i = 0; i < l; i++) {
 > 
-> Also, doesn't "2k" come from the old esa/360 page size?
+> I suppose, though last time I checked fast_memmove didn't support wrapping.
 
-I have no idea, I was very confused with that.
+Yes, that's fixed by access_prepare(), access_memmove(). Wrapping is/was
+broken in most mem handlers ...
 
 > 
-> Which means that we could break at 4k pages instead of 2k now
-> and the program wouldn't really be able to tell the difference.
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> r~
+> 
 
-What I had in a previous iteration was to simply process until the end
-of the page(s), to not cross pages (there is one special case with 2k
-vs. 4k when crossing pages when wrapping and running into a
-low-address-protection). So essentially what you suggest. I can add that.
 
 -- 
 
