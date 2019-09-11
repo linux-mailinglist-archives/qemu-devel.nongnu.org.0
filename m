@@ -2,85 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4881CAFEDA
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:39:05 +0200 (CEST)
-Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA2EAFF13
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:47:06 +0200 (CEST)
+Received: from localhost ([::1]:51832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i83lw-0001qT-5z
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43787)
+	id 1i83tg-0002p9-00
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:47:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Paul.Durrant@citrix.com>) id 1i83jN-0008RU-7b
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:26 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i83jW-0000D1-MQ
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Paul.Durrant@citrix.com>) id 1i83jM-0000nR-0C
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:24 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:1554)
+ (envelope-from <stefanha@redhat.com>) id 1i83jV-0000rn-HS
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37008)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
- id 1i83jL-0000ma-MX
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1568212584;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=3XwCKMnGmyGT5kVTl3oKhIMv998hFroIhC3faxPFwXw=;
- b=E5OBRS1uQ9mUbsDsbpwT087KZDPe+FQEPrLkp+7sE8jpKhBEGtVKewpd
- LrCeHcv4raUQ/mEPh4/B5zevCzpg3coJEjTlRLswgRtLzehr8E8EYV4kS
- 4USQuCvUQe+Fx7rOUNnw/K/3CsNmL9r29Vydcqrsb+P+ddqYnT7XpmA6K s=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=paul.durrant@citrix.com;
- spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- paul.durrant@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="paul.durrant@citrix.com"; x-conformance=sidf_compatible
-Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
- Paul.Durrant@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="Paul.Durrant@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: L6SAZik8xsVrNDnFj2N+Aya3BqFqrx0OO8jGxxDMlKLjWOvwhZMZrV+ST6V9vCSxeDiyddSsMX
- tpl1qJ2bNWIpBhWiioLvEoLlHDkp0mvwtpQ5930ny7O3V77gHgmeyeZHfyYPUijsHqK8d4i6yB
- jTXjjPoLJwIFzvJZ8j+niKM1N8cuQ3et8ck945S7EvkY+8a5I3QiwukQPkIEJWTN80BN88fp2e
- +QMqiuhbSmUeSdWMKzxlQSZibwwOWZOIJxTM4VS3wj8SAbGMKh8Y2KD4C4dgNpDq4FYeq12MZj
- aWg=
-X-SBRS: 2.7
-X-MesageID: 5434109
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.64,493,1559534400"; 
-   d="scan'208";a="5434109"
-From: Paul Durrant <paul.durrant@citrix.com>
-To: <qemu-devel@nongnu.org>, <xen-devel@lists.xenproject.org>
-Date: Wed, 11 Sep 2019 15:36:15 +0100
-Message-ID: <20190911143618.23477-1-paul.durrant@citrix.com>
-X-Mailer: git-send-email 2.20.1.2.gb21ebb6
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1i83jR-0000ph-GE; Wed, 11 Sep 2019 10:36:29 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 623BD3098433;
+ Wed, 11 Sep 2019 14:36:28 +0000 (UTC)
+Received: from localhost (ovpn-116-185.ams2.redhat.com [10.36.116.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2577460852;
+ Wed, 11 Sep 2019 14:36:21 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 11 Sep 2019 16:36:11 +0200
+Message-Id: <20190911143612.17881-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.145.153
-Subject: [Qemu-devel] [PATCH 0/3] xen: fix a potential crash in xen-bus
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Wed, 11 Sep 2019 14:36:28 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/1] Block patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,31 +53,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- Paul Durrant <paul.durrant@citrix.com>,
- Stefano Stabellini <sstabellini@kernel.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fixes a potential segfault caused by NotifierList corruption
-in xen-bus. The first two patches lay the groundwork and the third
-actually fixes the problem.
+The following changes since commit cc6613e244e86c66f83467eab5284825d7057c=
+ea:
 
-Paul Durrant (3):
-  xen / notify: introduce a new XenWatchList abstraction
-  xen: introduce separate XenWatchList for XenDevice objects
-  xen: perform XenDevice clean-up in XenBus watch handler
+  Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-reques=
+t' into staging (2019-09-03 11:06:09 +0100)
 
- hw/xen/trace-events      |   9 +-
- hw/xen/xen-bus.c         | 266 ++++++++++++++++++++++++++++-----------
- include/hw/xen/xen-bus.h |   7 +-
- include/qemu/notify.h    |   2 +
- util/notify.c            |   5 +
- 5 files changed, 212 insertions(+), 77 deletions(-)
----
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
--- 
-2.20.1.2.gb21ebb6
+are available in the Git repository at:
+
+  https://github.com/stefanha/qemu.git tags/block-pull-request
+
+for you to fetch changes up to ebb6ff25cd888a52a64a9adc3692541c6d1d9a42:
+
+  virtio-blk: Cancel the pending BH when the dataplane is reset (2019-09-=
+03 16:11:18 +0100)
+
+----------------------------------------------------------------
+Pull request
+
+----------------------------------------------------------------
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  virtio-blk: Cancel the pending BH when the dataplane is reset
+
+ hw/block/dataplane/virtio-blk.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+--=20
+2.21.0
 
 
