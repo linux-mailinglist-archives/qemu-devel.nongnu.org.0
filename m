@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4116AF65E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:06:05 +0200 (CEST)
-Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67880AF648
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:01:28 +0200 (CEST)
+Received: from localhost ([::1]:47112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7whY-00059v-CV
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:06:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40899)
+	id 1i7wd5-0001D8-C3
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:01:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7wRk-00068g-Ad
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:45 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7wRd-0005zV-Du
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7wRj-0004Qj-8g
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:44 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:58021)
+ (envelope-from <laurent@vivier.eu>) id 1i7wRc-0004Lw-E7
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:37 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:41639)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRj-0004Py-0H
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:43 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRc-0004LP-5r
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:36 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mzhzd-1iLKWS2rw1-00vbu6; Wed, 11 Sep 2019 08:49:25 +0200
+ id 1MQdtO-1hneOe3lJO-00Neb7; Wed, 11 Sep 2019 08:49:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 08:49:06 +0200
-Message-Id: <20190911064920.1718-2-laurent@vivier.eu>
+Date: Wed, 11 Sep 2019 08:49:08 +0200
+Message-Id: <20190911064920.1718-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190911064920.1718-1-laurent@vivier.eu>
 References: <20190911064920.1718-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XRNaDVW/Z6FFauGWDmfsEwdbmHLOp9czIYg/b7ZfJNy9qHKSfGE
- H29vtQwz34phoQeBvDFaul7IhkYM7kkgeblbhRyuVReX6iH2xZ0HQbw6cNuQAmyNWe/5v9h
- OM+/n4WMocQe/9ZzRR1wVkMA2ZYxKhwMYPs//Eu+fxr8fnwqbEpH1nunhTqRVJ+HjaqObim
- Kiy5vJZZvdnyG+1Fc2NRg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:g+4deSDCMqQ=:5LDGnoSHT9zYaHZq4eChyl
- wkBSEG1Lm965AykirnABv66GwVBtdb3be0NMI80huF3vxDRXl+YgcYjL2zYeuyGmP2buUFjyg
- E++sGDaBdgxa0HUW0Bp7Ju+iXXJM3sXM3SYJ+1JthrI32ZJ16q9q4vZvvQbtdpRDF8J8iy10V
- /txQccNthfJWCX0ZkJQAfXCw31es6yCNuVM1BQ3NEQ2KfY3RG9kyWQUG+QD0DwRF8wL6kZqEx
- vIqr1ZLkcYh8Wx41QoyA7l+wLjOVjxrARUUfEUXjYdO+PA3swHavAeIWOzi7uG+nqP7bqFvgX
- o1dQqTysDZzEJ45/CgBaYBhORKNYPQFaRfcwXDsqHRK+U8JSkVpMYWVJhoqMmKATPyHiSs6ov
- IV4+oxiQyJfht6sznBDER3qbhGsZI+g/d8gZekuJNgBB1p5C2aKtQjmjlYlKbwPjH6cmiFfI/
- Q1W2gs9nDRybBGek2RTrID+241hYXC3JFFSZOhAbuBybDxfDVek2ZV+iYSv+BjDBeRDETXDzh
- dqIcJr0x56rz3lgsCg3cCDDIxUiNBcWJu7ZKxIpch00cio61JPjlqk9MnUQ9MdC6GHt4dhGbx
- 2PWk8c+UNCeX2/2qoamLvKIWWO0lpzTC2I03bujsu6i6C+5x46XJxqFty2tbxFL0X4gQ4NCSF
- UTkngEnueaR/ipcBBjqpvYcmXlFUgqe0b0eM+EpRF1A0KZhE1Kp9EMsUBHaQXFwRUTrpCq4G/
- VxkuZJmn0FoH1gAn7pLBwMPleEr1gFZzeIk0w+zT2KM9PAGydc7KxzbzA+sKIzXbwxLYsx7ls
- mg9TTswo+e/RjTV3sN2GxCOO9m/JR09NOng4Zpe5Nw7JSW4DHY=
+X-Provags-ID: V03:K1:BhFz3JGYOqV2oRqgFfYhck60WR/r0kySBhTCOvHWSxF7Kis7fKY
+ vY2LdwEoDwQuO+ZKuMD/I0S53u1Ka1bi2Nibue/ONBiSPUKE56B7bVwyHppeBJFZQS09tz3
+ XlZh3yw+W1K+78UchimIMpWdaqs6o5FKjC3OFLYKS5DgyxIPE0rw2dDhjmK721uCNYP/M86
+ b/J0Xh2NVDALJLnxJvDMA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XsCRCjD72+c=:1Uao9+BpcdNnoZK+wH3SOk
+ t7HRE4ZvMFQqQtYDF/gUH0byvVWGl3QEvDj5AFjZYk854GTC+8BR+5rIUmdWVE1N6Xg7Suw9w
+ ChfVnR/kbol6ypoKErMZsKj4en9f9GKb7t3Cknk0XMSHQntB6ey/kG/MzZ/uUo08AwMlt9cPY
+ 45RQtVG+dxyhyhkMbjEoZPFBX4B5b1k9cYbXZ8Ef3eQZamHHqnCamUr4KybdxpSTEQfkV+6Ad
+ TdF13sjcHAP+5r3xereYrThy3RVx393PT+B0PlApyF74FIM2vMpDrhB653yKPS5U0J8axNM7d
+ dZc5lfdg3wwWRBuAfarizyCy4D4UYnhON5Zd8gIO0bQUVtB2/5npJQDgMDt/AN6vcxETCOUjF
+ GElDgkMnULYKe9c+oZC7njDMugagM7cOnmb4kmwFjRVc2Mw7wwsXSR4zffmaHcs1s0oK7Ss1Z
+ PNxUEaUUNbeD5FLjyQfT544qRTLhl5NOdB/6XSjWqhnlT3N6VIixsvaLHGe/9vQu6C7PrEOVI
+ ZvgNdGAzl5J6mH/j0PFyIzk+q8dWs+dYVyUpeSi0/LnmFjtOL98VlO26Z5UKvnnODsyQkcqVV
+ 5VA+su51z+ZcRHHdYDfpjCN0prX4Ci8gds0+edEoNPyw3vnCreADyE5I2IuKtTVNKVJ7/9mX3
+ mlGBP7yGe9vqH9k2A2uQ2X8ihZ4qq2ii+2/ovSK5t25lqusYnuwkdif9uji7ebs5aQKt8NKK7
+ 340CF1Tz9HrdDNUQfrEJvNTpTxs5pYbzhTVhqKfA5z6kwdIMuNQvS4hE6wFpFvFurGC2ifJ5A
+ HDvPIZZAKhrRvS6OKZB9BF+Dc55Qec84YgMjFoBWP9P2ay1KL0=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: [Qemu-devel] [PULL v2 01/15] linux-user: remove useless variable
+X-Received-From: 212.227.126.131
+Subject: [Qemu-devel] [PULL v2 03/15] linux-user: erroneous
+ fd_trans_unregister call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,71 +65,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Stefano Garzarella <sgarzare@redhat.com>
+ Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-filename is only used to open the file if AT_EXECFD is not provided.
-But exec_path already contains the path of the file to open.
-Remove filename as it is only used in main.c whereas exec_path is
-also used in syscall.c.
+From: Shu-Chun Weng <scw@google.com>
 
-Fixes: d088d664f201 ("linux-user: identify running binary in /proc/self/exe")
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190714134028.315-1-laurent@vivier.eu>
+timer_getoverrun returns the "overrun count" for the timer, which is not
+a file descriptor and thus should not call fd_trans_unregister on it.
+
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20190819185348.221825-1-scw@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/main.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ linux-user/syscall.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 47917bbb20fc..28f0065b6ddf 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -49,7 +49,6 @@
- char *exec_path;
- 
- int singlestep;
--static const char *filename;
- static const char *argv0;
- static int gdbstub_port;
- static envlist_t *envlist;
-@@ -586,7 +585,6 @@ static int parse_args(int argc, char **argv)
-         exit(EXIT_FAILURE);
-     }
- 
--    filename = argv[optind];
-     exec_path = argv[optind];
- 
-     return optind;
-@@ -657,9 +655,9 @@ int main(int argc, char **argv, char **envp)
- 
-     execfd = qemu_getauxval(AT_EXECFD);
-     if (execfd == 0) {
--        execfd = open(filename, O_RDONLY);
-+        execfd = open(exec_path, O_RDONLY);
-         if (execfd < 0) {
--            printf("Error while loading %s: %s\n", filename, strerror(errno));
-+            printf("Error while loading %s: %s\n", exec_path, strerror(errno));
-             _exit(EXIT_FAILURE);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8b41a03901d4..b42f59a32c8d 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11847,7 +11847,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             timer_t htimer = g_posix_timers[timerid];
+             ret = get_errno(timer_getoverrun(htimer));
          }
+-        fd_trans_unregister(ret);
+         return ret;
      }
-@@ -784,10 +782,10 @@ int main(int argc, char **argv, char **envp)
-     cpu->opaque = ts;
-     task_settid(ts);
- 
--    ret = loader_exec(execfd, filename, target_argv, target_environ, regs,
-+    ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
-         info, &bprm);
-     if (ret != 0) {
--        printf("Error while loading %s: %s\n", filename, strerror(-ret));
-+        printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
-         _exit(EXIT_FAILURE);
-     }
- 
+ #endif
 -- 
 2.21.0
 
