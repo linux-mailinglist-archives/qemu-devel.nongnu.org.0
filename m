@@ -2,60 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A443AFD98
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 15:18:59 +0200 (CEST)
-Received: from localhost ([::1]:50902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76751AFD6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 15:11:29 +0200 (CEST)
+Received: from localhost ([::1]:50828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i82WP-0003r4-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 09:18:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57469)
+	id 1i82PA-0006iP-CT
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 09:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56235)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i82TQ-0002FU-Nl
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:15:54 -0400
+ (envelope-from <imammedo@redhat.com>) id 1i82Mn-0004NN-HK
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:09:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i82TO-0003cU-ML
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:15:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33740)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i82TM-0003bM-Pc
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:15:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i82TK-0003MZ-8S
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 13:15:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3DE5A2E80C8
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 13:15:46 +0000 (UTC)
+ (envelope-from <imammedo@redhat.com>) id 1i82Mm-0000mX-DA
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 09:09:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58004)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1i82Mk-0000kO-0Z; Wed, 11 Sep 2019 09:08:58 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 187502A09B0;
+ Wed, 11 Sep 2019 13:08:57 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D58860852;
+ Wed, 11 Sep 2019 13:08:52 +0000 (UTC)
+Date: Wed, 11 Sep 2019 15:08:51 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Message-ID: <20190911150851.7635b9de@redhat.com>
+In-Reply-To: <20190904085629.13872-8-shameerali.kolothum.thodi@huawei.com>
+References: <20190904085629.13872-1-shameerali.kolothum.thodi@huawei.com>
+ <20190904085629.13872-8-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Sep 2019 13:04:27 -0000
-From: Dion Bosschieter <1831225@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini dgilbert-h dionbosschieter frank9999
- jpmenil
-X-Launchpad-Bug-Reporter: Dion Bosschieter (dionbosschieter)
-X-Launchpad-Bug-Modifier: Dion Bosschieter (dionbosschieter)
-References: <155929929657.13088.9555373471112683391.malonedeb@soybean.canonical.com>
-Message-Id: <156820706728.16871.3672044874777413470.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19044";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7d49b6b90047171352467f0232c87aacdcb51643
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Wed, 11 Sep 2019 13:08:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1831225] Re: guest migration 100% cpu freeze bug
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH-for-4.2 v10 07/11] hw/arm: Factor out
+ powerdown notifier from GPIO
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,203 +57,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1831225 <1831225@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, shannon.zhaosl@gmail.com,
+ ard.biesheuvel@linaro.org, qemu-devel@nongnu.org, xuwei5@hisilicon.com,
+ linuxarm@huawei.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ sebastien.boeuf@intel.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, this is an update after some extended tests and a fallback migration
-to 4.14.
+On Wed, 4 Sep 2019 09:56:25 +0100
+Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
 
-After doing another >10k migrations we are sure to say that we also encount=
-er this issue on kernel 4.14.
-We migrate vpses from servers in serial (one after the other) mode. And we =
-notice that on some servers we encounter multiple freezes within a short pe=
-riod. These cases often occur in succession from the same source hypervisor=
-, which for most (if not all) we've seen has a Gold CPU. So it seems like w=
-e are facing the same issue we were facing before in https://bugs.launchpad=
-.net/qemu/+bug/1775555
+> This is in preparation of using GED device for
+> system_powerdown event. Make the powerdown notifier
+> registration independent of create_gpio() fn.
+> 
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-The thing is though, we applied the patches that supposedly "fixed" it
-last time, except that right now it seems like the issue is still there
-and that after applying the previous patch we are still having issues
-running on the same kernel with the same qemu version (v2.11.2).
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-Are there any other changes lately that could perhaps have fixed it which a=
-re worth trying?
-We noticed that some pre migration checks were added to libvirt which would=
- let the migration go into error if there are any severe mismatches between=
- 2 hypervisor (hardware/kernel) configurations. =
+> ---
+>  hw/arm/virt.c         | 12 ++++--------
+>  include/hw/arm/virt.h |  1 +
+>  2 files changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 95accc28f1..89ee37d7de 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -791,10 +791,6 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
+>      qemu_set_irq(qdev_get_gpio_in(gpio_key_dev, 0), 1);
+>  }
+>  
+> -static Notifier virt_system_powerdown_notifier = {
+> -    .notify = virt_powerdown_req
+> -};
+> -
+>  static void create_gpio(const VirtMachineState *vms, qemu_irq *pic)
+>  {
+>      char *nodename;
+> @@ -835,10 +831,6 @@ static void create_gpio(const VirtMachineState *vms, qemu_irq *pic)
+>                            KEY_POWER);
+>      qemu_fdt_setprop_cells(vms->fdt, "/gpio-keys/poweroff",
+>                             "gpios", phandle, 3, 0);
+> -
+> -    /* connect powerdown request */
+> -    qemu_register_powerdown_notifier(&virt_system_powerdown_notifier);
+> -
+>      g_free(nodename);
+>  }
+>  
+> @@ -1730,6 +1722,10 @@ static void machvirt_init(MachineState *machine)
+>          vms->acpi_dev = create_acpi_ged(vms, pic);
+>      }
+>  
+> +     /* connect powerdown request */
+> +     vms->powerdown_notifier.notify = virt_powerdown_req;
+> +     qemu_register_powerdown_notifier(&vms->powerdown_notifier);
+> +
+>      /* Create mmio transports, so the user can create virtio backends
+>       * (which will be automatically plugged in to the transports). If
+>       * no backend is created the transport will just sit harmlessly idle.
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 577ee49b4b..0b41083e9d 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -137,6 +137,7 @@ typedef struct {
+>      int psci_conduit;
+>      hwaddr highest_gpa;
+>      DeviceState *acpi_dev;
+> +    Notifier powerdown_notifier;
+>  } VirtMachineState;
+>  
+>  #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
 
-
-We could try to run that and see if these throw more errors which could
-point us into some direction, is this something that you would
-recommend?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1831225
-
-Title:
-  guest migration 100% cpu freeze bug
-
-Status in QEMU:
-  New
-
-Bug description:
-  # Investigate migration cpu hog(100%) bug
-
-  I have some issues when migrating from kernel 4.14.63 running qemu 2.11.2=
- to kernel 4.19.43 running qemu 2.11.2.
-  The hypervisors are running on debian jessie with libvirt v5.3.0.
-  Linux, libvirt and qemu are all custom compiled.
-
-  I migrated around 10.000 vms and every once in a while a vm is stuck
-  at 100% cpu after what we can see right now is that the target
-  hypervisor runs on linux 4.19.53. This happened with 4 vms so far. It
-  is not that easy to debug, we found this out pretty quickly because we
-  are running monitoring on frozen vms after migrations.
-
-  Last year we were having the same "kind of" bug https://bugs.launchpad.ne=
-t/qemu/+bug/1775555 when trying to upgrade qemu 2.6 to 2.11.
-  This bug was fixed after applying the following patch: http://lists.nongn=
-u.org/archive/html/qemu-devel/2018-04/msg00820.html
-
-  This patch is still applied as you can see because of the available pre_l=
-oad var on the kvmclock_vmsd struct:
-  (gdb) ptype kvmclock_vmsd
-  type =3D const struct VMStateDescription {
-      const char *name;
-      int unmigratable;
-      int version_id;
-      int minimum_version_id;
-      int minimum_version_id_old;
-      MigrationPriority priority;
-      LoadStateHandler *load_state_old;
-      int (*pre_load)(void *);                                             =
-   =
-
-      int (*post_load)(void *, int);
-      int (*pre_save)(void *);
-      _Bool (*needed)(void *);
-      VMStateField *fields;
-      const VMStateDescription **subsections;
-  }
-
-  I attached gdb to a vcpu thread of one stuck vm, and a bt showed the foll=
-owing info:
-  Thread 4 (Thread 0x7f3a431a4700 (LWP 37799)):
-  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-84
-  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fca78d=
-0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
-kvm/kvm-all.c:2050
-  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fca78d0)=
- at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
-  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fca78d0) a=
-t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
-  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a431a4700) at pthread_=
-create.c:456
-  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:97
-
-  Thread 3 (Thread 0x7f3a439a5700 (LWP 37798)):
-  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-84
-  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fc5cbb=
-0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
-kvm/kvm-all.c:2050
-  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fc5cbb0)=
- at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
-  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fc5cbb0) a=
-t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
-  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a439a5700) at pthread_=
-create.c:456
-  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:97
-
-  The ioctl call is a ioctl(18, KVM_RUN and it looks like it is looping
-  inside the vm itself.
-
-  I saved the state of the VM (with `virsh save`) after I found it was hang=
-ing on its vcpu threads. Then I restored this vm on a test environment runn=
-ing the same kernel, QEMU and libvirt version). After the restore the VM st=
-ill was haning at 100% cpu usage on all the vcpus.
-  I tried to use the perf kvm guest option to trace the guest vm with a cop=
-y of the kernel, modules and kallsyms files from inside the guest vm and I =
-got to the following perf stat:
-
-   Event                                         Total %Total CurAvg/s
-   kvm_entry                                   5198993   23.1   277007
-   kvm_exit                                    5198976   23.1   277006
-   kvm_apic                                    1732103    7.7    92289
-   kvm_msr                                     1732101    7.7    92289
-   kvm_inj_virq                                1731904    7.7    92278
-   kvm_eoi                                     1731900    7.7    92278
-   kvm_apic_accept_irq                         1731900    7.7    92278
-   kvm_hv_timer_state                          1731780    7.7    92274
-   kvm_pv_eoi                                  1731701    7.7    92267
-   kvm_ple_window                                   36    0.0        2
-   Total                                      22521394         1199967
-
-  We tried to run the crash tool against a dump of guest vm memory and that=
- gave us the following backtrace:
-  crash> bt
-  PID: 0      TASK: ffffffff81610040  CPU: 0   COMMAND: "swapper/0"
-      [exception RIP: native_read_tsc+2]
-      RIP: ffffffff810146a9  RSP: ffff88003fc03df0  RFLAGS: 00000046
-      RAX: 000000008762c0fa  RBX: ffff88003fc13680  RCX: 0000000000000001
-      RDX: 0000000000fe4871  RSI: 0000000000000000  RDI: ffff88003fc13603
-      RBP: 000000000003052c   R8: 0000000000000200   R9: ffffffff8169b180
-      R10: 0000000000000020  R11: 0000000000000005  R12: 006a33290b40455c
-      R13: 00000000df1fd292  R14: 000000002ca284ff  R15: 00fe485f3febe21a
-      CS: 0010  SS: 0018
-   #0 [ffff88003fc03df0] pvclock_clocksource_read at ffffffff8102cbb3
-   #1 [ffff88003fc03e40] kvm_clock_read at ffffffff8102c2c9
-   #2 [ffff88003fc03e50] timekeeping_get_ns at ffffffff810691b0
-   #3 [ffff88003fc03e60] ktime_get at ffffffff810695c8
-   #4 [ffff88003fc03e90] sched_rt_period_timer at ffffffff8103e4f5
-   #5 [ffff88003fc03ee0] __run_hrtimer at ffffffff810652d3
-   #6 [ffff88003fc03f20] hrtimer_interrupt at ffffffff81065abd
-   #7 [ffff88003fc03f90] smp_apic_timer_interrupt at ffffffff81024ba8
-   #8 [ffff88003fc03fb0] apic_timer_interrupt at ffffffff813587e2
-  --- <IRQ stack> ---
-   #9 [ffffffff81601e98] apic_timer_interrupt at ffffffff813587e2
-      [exception RIP: native_safe_halt+2]
-      RIP: ffffffff8102c360  RSP: ffffffff81601f40  RFLAGS: 00010246
-      RAX: 0000000000000000  RBX: ffffffff81601fd8  RCX: 00000000ffffffff
-      RDX: 00000000ffffffff  RSI: 0000000000000000  RDI: 0000000000000001
-      RBP: 0000000000000000   R8: 0000000000000000   R9: 0000000000000000
-      R10: 0000000000000020  R11: 0000000000000005  R12: ffffffff816f5d80
-      R13: ffffffffffffffff  R14: 000000000008c800  R15: 0000000000000000
-      ORIG_RAX: ffffffffffffff10  CS: 0010  SS: 0018
-  #10 [ffffffff81601f40] default_idle at ffffffff81014c35
-  #11 [ffffffff81601f50] cpu_idle at ffffffff8100d258
-
-  So it seems like the vm is reading its clock constantly trying to
-  catch up some time after the migration.
-
-  Last time it was a bug that was only triggered on newer Gold cpu
-  hardware, but this time we also see this coming back on older Intel E5
-  cpus we tried to reproduce with a migrate loop of 3 days times between
-  kernel 4.14.63 and 4.19.43 but this gave us no results.
-
-  The vms were running ubuntu 14.04, centos 7, debian 7, debian 8 these
-  vms are running linux kernel 3.*.
-
-  The thing is that we are out of ideas for reproducing this, it seems
-  like it the same kind of bug we are hitting, just like last time the
-  vm is basically only trying to read the clock. Perhaps we can try to
-  read the clock data and also try to read what the guest is actually
-  waiting for, which value of the counter does it want to reach.
-
-  I am not sure how to pinpoint the cause of this issue, I would like some =
-help and possible some extra tips on debugging.
-  We are able to read the guests kernel which makes it a bit easier to debu=
-g, reproducing and finding the source of the problem is still something we =
-are trying to figure out.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1831225/+subscriptions
 
