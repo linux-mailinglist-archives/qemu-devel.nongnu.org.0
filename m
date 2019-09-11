@@ -2,80 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D83AF670
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:11:17 +0200 (CEST)
-Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5CBAF680
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:14:40 +0200 (CEST)
+Received: from localhost ([::1]:47256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wma-00048F-Ft
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:11:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41401)
+	id 1i7wpp-0007mu-Td
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42420)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i7wTu-0000dW-Bx
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:51:59 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i7wan-0000ZS-Nb
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:59:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i7wTs-0005RG-QX
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:51:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:16314)
+ (envelope-from <kwolf@redhat.com>) id 1i7wam-0001Lh-Nf
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:59:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34728)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i7wTo-0005PS-JH; Wed, 11 Sep 2019 02:51:52 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i7wak-0001JQ-BR; Wed, 11 Sep 2019 02:59:02 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D5AE4121D;
- Wed, 11 Sep 2019 06:51:51 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-94.ams2.redhat.com
- [10.36.116.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FA405DA5B;
- Wed, 11 Sep 2019 06:51:49 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-References: <20190910124136.10565-1-mreitz@redhat.com>
- <20190910124136.10565-4-mreitz@redhat.com>
- <781db018f83aa375b9a7476028c7ef8c4c24d848.camel@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <3630ff2c-513f-9dae-98c7-358775329cbc@redhat.com>
-Date: Wed, 11 Sep 2019 08:51:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id AE7F2197BCE0;
+ Wed, 11 Sep 2019 06:59:00 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-182.ams2.redhat.com
+ [10.36.116.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2089A6012A;
+ Wed, 11 Sep 2019 06:58:58 +0000 (UTC)
+Date: Wed, 11 Sep 2019 08:58:57 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190911065857.GB4907@localhost.localdomain>
+References: <20190910185839.19682-1-thuth@redhat.com>
+ <4ce671ea-452b-39ac-ea2e-83b9d75a3b84@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <781db018f83aa375b9a7476028c7ef8c4c24d848.camel@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lYySP4OSBVZgivDaNTNkfgf7TIGwgkNSL"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 11 Sep 2019 06:51:51 +0000 (UTC)
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="z6Eq5LdranGa6ru8"
+Content-Disposition: inline
+In-Reply-To: <4ce671ea-452b-39ac-ea2e-83b9d75a3b84@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Wed, 11 Sep 2019 06:59:00 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2 3/7] curl: Check completion
- in curl_multi_do()
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/7] Move qtests to a separate
+ folder
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,159 +60,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lYySP4OSBVZgivDaNTNkfgf7TIGwgkNSL
-Content-Type: multipart/mixed; boundary="mXPFo9ToDKMvra9XvWOxEPlICL2q92zaG";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org
-Message-ID: <3630ff2c-513f-9dae-98c7-358775329cbc@redhat.com>
-Subject: Re: [Qemu-block] [PATCH v2 3/7] curl: Check completion in
- curl_multi_do()
-References: <20190910124136.10565-1-mreitz@redhat.com>
- <20190910124136.10565-4-mreitz@redhat.com>
- <781db018f83aa375b9a7476028c7ef8c4c24d848.camel@redhat.com>
-In-Reply-To: <781db018f83aa375b9a7476028c7ef8c4c24d848.camel@redhat.com>
 
---mXPFo9ToDKMvra9XvWOxEPlICL2q92zaG
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--z6Eq5LdranGa6ru8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 10.09.19 18:11, Maxim Levitsky wrote:
-> On Tue, 2019-09-10 at 14:41 +0200, Max Reitz wrote:
->> While it is more likely that transfers complete after some file
->> descriptor has data ready to read, we probably should not rely on it.
->> Better be safe than sorry and call curl_multi_check_completion() in
->> curl_multi_do(), too, just like it is done in curl_multi_read().
->>
->> With this change, curl_multi_do() and curl_multi_read() are actually t=
-he
->> same, so drop curl_multi_read() and use curl_multi_do() as the sole FD=
-
->> handler.
+Am 10.09.2019 um 21:07 hat Eric Blake geschrieben:
+> On 9/10/19 1:58 PM, Thomas Huth wrote:
+> > Our "tests" directory is very overcrowded - we store the qtests,
+> > unit test and other files there. That makes it difficult to
+> > determine which file belongs to each test subsystem, and the
+> > wildcards in the MAINTAINERS file are inaccurate, too.
+> >=20
+> > Let's clean up this mess. The first patches disentangle some
+> > dependencies, and the last three patches then move the qtests
+> > and libqos (which is a subsystem of the qtests) to a new folder
+> > called "tests/qtest/".
 >=20
-> I understand the reasoning, but I still a bit worry that this
-> could paper over some bug/race in the future.
-> If curl asks us only to deal with write, that would mean
-> that it doesn't expect any data to be received.
+> I'd also welcome a rename of tests/qemu-iotests to tests/iotests.
 
-I can imagine that maybe it wants to send some data first (to close the
-connection) before it really marks the request as done.
+I might prefer if the directory were named "iotests" rather than
+"qemu-iotests" if we were only adding the code now.
 
-> Do you by a chance have an example, of this patch
-> affecting the code? Maybe when a unexpected error reply
-> is received from the server?
+However, I'm not so sure if I'd like a rename now because a rename
+always comes with a cost and the benefits are rather limited in this
+case.
 
-No, I don=E2=80=99t.  As John said, this is just to ensure that we always=
- call
-curl_multi_check_completion() after the read_cb might have been invoked
-(and once the request is marked as =E2=80=9Cdone=E2=80=9D).
+Kevin
 
-> I don't really know the CURL library, so I probably missed
-> something important.
-
-I=E2=80=99d wager a guess that nobody really does because otherwise block=
-/curl.c
-wouldn=E2=80=99t be in the =E2=80=9COdd Fixes=E2=80=9D category (with no =
-dedicated maintainer).
-
-Max
-
-> Other than that,
-> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
->=20
->=20
-> Best regards,
-> 	Maxim Levitsky
->=20
->=20
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>  block/curl.c | 14 ++------------
->>  1 file changed, 2 insertions(+), 12 deletions(-)
->>
->> diff --git a/block/curl.c b/block/curl.c
->> index 95d7b77dc0..5838afef99 100644
->> --- a/block/curl.c
->> +++ b/block/curl.c
->> @@ -139,7 +139,6 @@ typedef struct BDRVCURLState {
->> =20
->>  static void curl_clean_state(CURLState *s);
->>  static void curl_multi_do(void *arg);
->> -static void curl_multi_read(void *arg);
->> =20
->>  #ifdef NEED_CURL_TIMER_CALLBACK
->>  /* Called from curl_multi_do_locked, with s->mutex held.  */
->> @@ -186,7 +185,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t =
-fd, int action,
->>      switch (action) {
->>          case CURL_POLL_IN:
->>              aio_set_fd_handler(s->aio_context, fd, false,
->> -                               curl_multi_read, NULL, NULL, state);
->> +                               curl_multi_do, NULL, NULL, state);
->>              break;
->>          case CURL_POLL_OUT:
->>              aio_set_fd_handler(s->aio_context, fd, false,
->> @@ -194,7 +193,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t =
-fd, int action,
->>              break;
->>          case CURL_POLL_INOUT:
->>              aio_set_fd_handler(s->aio_context, fd, false,
->> -                               curl_multi_read, curl_multi_do, NULL, =
-state);
->> +                               curl_multi_do, curl_multi_do, NULL, st=
-ate);
->>              break;
->>          case CURL_POLL_REMOVE:
->>              aio_set_fd_handler(s->aio_context, fd, false,
->> @@ -416,15 +415,6 @@ static void curl_multi_do(void *arg)
->>  {
->>      CURLState *s =3D (CURLState *)arg;
->> =20
->> -    qemu_mutex_lock(&s->s->mutex);
->> -    curl_multi_do_locked(s);
->> -    qemu_mutex_unlock(&s->s->mutex);
->> -}
->> -
->> -static void curl_multi_read(void *arg)
->> -{
->> -    CURLState *s =3D (CURLState *)arg;
->> -
->>      qemu_mutex_lock(&s->s->mutex);
->>      curl_multi_do_locked(s);
->>      curl_multi_check_completion(s->s);
->=20
->=20
-
-
-
---mXPFo9ToDKMvra9XvWOxEPlICL2q92zaG--
-
---lYySP4OSBVZgivDaNTNkfgf7TIGwgkNSL
+--z6Eq5LdranGa6ru8
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl14mYQACgkQ9AfbAGHV
-z0Buogf9HEFs9wtLEisvl/XSooDR1L+twIQaKv5NIhgFXko3Bj9Z05gPRDLmFYYd
-DpzCg8PI9vbrVquJwYnXnhjNXg/QPbiUZWYDMFdqwaJEby+VQhoVixvs+gTTRRnB
-2f7xYogMV2RGkzpCMadbQLe+ra3pX/QcROLzkgkUIXkbdg+aBxgHp08vd202RXBA
-InI4Hpv0/C3vXnFsNd6ZH+JXtd6Vccvj4gwv0ispUAB/oD4HiM81DLOEDGIZDstP
-t8Hl1Z+D7M8EMG/eJVhS8hPNpHLGj7iSdeyWnFi3Yesy/7qhI1s95wzWo4mF1Ke0
-KUhZv81w0clkTgBHgbezfv0013Scyw==
-=42eO
+iQIcBAEBAgAGBQJdeJsxAAoJEH8JsnLIjy/WqzgP/RUU5lqcOtlRGZ7PhR88wkxS
+K9Y8KyEx3IKjRYpVlxm6mNPrMd9vhfkZb4ZX/s4OyKzUyc2s3lFoPCk5wJ+MOKc1
+Xi+K+qvAzHKxrQnC/LeVTeVjtpf9Ge7CZ5OkXh5867BrtHGACwJ41A+er/KFur8O
+auc0fr6jcaT/3teY+BQS2YbdH1DPfuOnndm2YN/BWA/x3FdIb2fmRw3VXCpRF0Ps
+Xlz0qOCJd/7O7lnT7iJ7GRuyB8KybskMPaA7R6uI8s58EjaPcL3WrL7eTVzCQ79W
+EHjt64oub+wzBKSGVibN1BczC2lf+JxJGRH80DqC612EY3b1JIUnZA1zmI9nAu2m
+nWdH2XAUW90j/j9Xz7zC224NrDsb5MWHLD0WPtvJhw7ebGMCgEZB/N+2vB0FKuvY
+4dfEoYgH3tgHjfVokIwU2X5g2T7ToPJO4wj+dmhiGDWqZQ3/ctdo+MPqgm9TKbVz
+w/TGJd83LVQTUKFALVormIIwbK+IB28xwiBsKtZiarPbVHVSD/3NqtOcV3iBXCv7
+d8BTmsEGOutPU70SUKqHPtvKefJTV/PsAF4DFktv0M3Cy+YF2jGTLhPR4qprgHsO
+7xB9IYwBm6FVqmG+wXk2H6YxjtGqY+D/LoBEIVsJjBY7lulZ+FqwDWu85EsJJh1M
+JCcGXaEJf+kpGKCBzquw
+=aBMQ
 -----END PGP SIGNATURE-----
 
---lYySP4OSBVZgivDaNTNkfgf7TIGwgkNSL--
+--z6Eq5LdranGa6ru8--
 
