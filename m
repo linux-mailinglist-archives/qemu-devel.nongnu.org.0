@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9DEAF667
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:08:52 +0200 (CEST)
-Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17934AF66A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:09:54 +0200 (CEST)
+Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wkE-0000c3-TQ
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:08:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41903)
+	id 1i7wlE-0001uT-VF
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42091)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i7wXJ-0004Zr-9f
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:55:30 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i7wYh-0005zu-7w
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:56:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i7wXH-00076T-QE
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:55:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46734)
+ (envelope-from <stefanha@redhat.com>) id 1i7wYg-0008G1-1L
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:56:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47404)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i7wXB-000744-Qb; Wed, 11 Sep 2019 02:55:23 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i7wYf-0008FR-OM
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:56:53 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4ED903C93A;
- Wed, 11 Sep 2019 06:55:20 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-182.ams2.redhat.com
- [10.36.116.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4652E60BF7;
- Wed, 11 Sep 2019 06:55:19 +0000 (UTC)
-Date: Wed, 11 Sep 2019 08:55:17 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190911065517.GA4907@localhost.localdomain>
-References: <20190809161407.11920-1-mreitz@redhat.com>
- <20190809161407.11920-23-mreitz@redhat.com>
- <20190910145229.GI4446@localhost.localdomain>
- <d7226d81-b89f-5c24-9dd4-39ae832bf61b@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id DDCB618C427B;
+ Wed, 11 Sep 2019 06:56:52 +0000 (UTC)
+Received: from localhost (ovpn-116-185.ams2.redhat.com [10.36.116.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52F6119C4F;
+ Wed, 11 Sep 2019 06:56:45 +0000 (UTC)
+Date: Wed, 11 Sep 2019 08:56:39 +0200
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Message-ID: <20190911065639.GA4181@stefanha-x1.localdomain>
+References: <20190902121233.13382-1-johannes@sipsolutions.net>
+ <20190902121233.13382-2-johannes@sipsolutions.net>
+ <fe517ef6c6a8e2df9675388be9454b5863c7fc55.camel@sipsolutions.net>
+ <20190909160039.GC20875@stefanha-x1.localdomain>
+ <d095bafedcd4bcc5d76279785e5bd523aef62b58.camel@sipsolutions.net>
+ <20190910150319.GB31674@stefanha-x1.localdomain>
+ <e114b68dffecd9b4c4666327b15a28098c83f7ec.camel@sipsolutions.net>
+ <20190910112937-mutt-send-email-mst@kernel.org>
+ <f4d1a66f6ff407f9aaec77f1125effe5cf10467b.camel@sipsolutions.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
 Content-Disposition: inline
-In-Reply-To: <d7226d81-b89f-5c24-9dd4-39ae832bf61b@redhat.com>
+In-Reply-To: <f4d1a66f6ff407f9aaec77f1125effe5cf10467b.camel@sipsolutions.net>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 11 Sep 2019 06:55:20 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Wed, 11 Sep 2019 06:56:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 22/42] block: Fix
- bdrv_get_allocated_file_size's fallback
+Subject: Re: [Qemu-devel] [RFC] docs: vhost-user: add in-band kick/call
+ messages
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,97 +66,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---9amGYk9869ThD9tj
-Content-Type: text/plain; charset=utf-8
+--CE+1k2dSO48ffgeK
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Am 11.09.2019 um 08:20 hat Max Reitz geschrieben:
-> On 10.09.19 16:52, Kevin Wolf wrote:
-> > Am 09.08.2019 um 18:13 hat Max Reitz geschrieben:
-> >> If the driver does not implement bdrv_get_allocated_file_size(), we
-> >> should fall back to cumulating the allocated size of all non-COW
-> >> children instead of just bs->file.
-> >>
-> >> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >> Signed-off-by: Max Reitz <mreitz@redhat.com>
+On Tue, Sep 10, 2019 at 05:34:57PM +0200, Johannes Berg wrote:
+> On Tue, 2019-09-10 at 11:33 -0400, Michael S. Tsirkin wrote:
+> > On Tue, Sep 10, 2019 at 05:14:36PM +0200, Johannes Berg wrote:
+> > > Is any of you familiar with the process of getting a virtio device ID
+> > > assigned, and if so, do you think it'd be feasible? Without that, it'd
+> > > probably be difficult to upstream the patch to support this protocol =
+to
+> > > user-mode Linux.
 > >=20
-> > This smells like an overgeneralisation, but if we want to count all vmdk
-> > extents, the qcow2 external data file, etc. it's an improvement anyway.
-> > A driver that has a child that should not be counted must just remember
-> > to implement the callback.
-> >=20
-> > Let me think of an example... How about quorum, for a change? :-)
-> > Or the second blkverify child.
-> >=20
-> > Or eventually the block job filter nodes.
+> > Sure, subscribe then send a patch to virtio-comment@lists.oasis-open.org
 >=20
-> I actually think it makes sense for all of these nodes to report the sum
-> of all of their children=E2=80=99s allocated sizes.
-
-Hm... Yes, in a way. But not much more than it would make sense to
-report the sum of the sizes of all images in the whole backing chain
-(this is a useful thing to ask for, just maybe not the right thing to
-return for a low-level interface). But I can accept that it's maybe a
-bit more expected for quorum and blkverify than for COW images.
-
-If you include the block job filter nodes, I have to disagree, though.
-If mirror_top_bs (or any other job filter) sits in the middle of the
-source chain, then I certainly don't want to see the target size added
-to it.
-
-> If a quorum node has three children with allocated sizes of 3 MB, 1 MB,
-> and 2 MB, respectively (totally possible if some have explicit zeroes
-> and others don=E2=80=99t; it may also depend on the protocol, the filesys=
-tem,
-> etc.), then I think it makes most sense to report indeed 6 MB for the
-> quorum subtree as a whole.  What would you report?  3 MB?
-
-Do it's the quorum way: Just vote!
-
-No, you're right, of course. -ENOTSUP is probably the only other thing
-you could do then.
-
-> > Ehm... Maybe I should just take back what I said first. It almost feels
-> > like it would be better if qcow2 and vmdk explicitly used a handler that
-> > counts all children (could still be a generic one in block.c) rather
-> > than having to remember to disable the functionality everywhere where we
-> > don't want to have it.
+> Ok, great.
 >=20
-> I don=E2=80=99t, because everywhere we don=E2=80=99t want this functional=
-ity, we still
-> need to choose a child.  This has to be done by the driver anyway.
+> > We do expect people to eventually get around to documenting the device
+> > and upstreaming it though. If there's no plan to do it at all, you might
+> > still be able to reuse the virtio code, in that case let's talk.
+>=20
+> Right, no, I do want to and am working on the code now, but it's a bit
+> of a chicken & egg - without an ID I can't really send any code upstream
+> :-)
+>=20
+> I can accompany the request for a new ID with working patches.
+>=20
+> What kind of documentation beyond the header file should be added, and
+> where?
 
-Well, by default the primary child, which should cover like 90% of the
-drivers?
+You can reserve the device ID without any header files or documentation.
+Just a patch like this one will suffice:
 
-Kevin
+  https://github.com/oasis-tcs/virtio-spec/commit/9454b568c29baab7f3e4b1a38=
+4627d0061f71eba
 
---9amGYk9869ThD9tj
+I have checked that device ID 29 appears to be free so you could use it.
+
+For the actual VIRTIO device specification, please follow the same
+format as the other devices.  Here is the virtio-net section in the
+VIRTIO spec:
+
+  https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html=
+#x1-1940001
+
+It documents the virtqueues, configuration space layout, theory of
+operation, and also includes normative statements that compliant drivers
+and devices are expected to follow.
+
+The goal of the spec is to provide all the information needed by driver
+and device emulation authors to create an implementation from scratch
+(without studying existing code in Linux, QEMU, etc).
+
+The VIRTIO spec contains pseudo-C struct and constant definitions, but
+not a real header file.  The header file for a Linux driver would live
+in include/uapi/linux/virtio_foo.h (see existing devices for examples).
+This would be part of your Linux patches and separate from the virtio
+spec.
+
+Stefan
+
+--CE+1k2dSO48ffgeK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIcBAEBAgAGBQJdeJpVAAoJEH8JsnLIjy/Wip4P/2GJ1n7XDgOe6NwbO9OZA1ro
-DR/FQ9f2OW5GvU0IJ29Ojl0VPeC8rbOWy3sEZCD+XBJjka2C9QxImjHYu7IayZqm
-NoKP1mbjMUTybMmU/TBoVNu8t+gMq1bpGKAOmZyJSXt3daAN7yYLj9NTlPCYrVGh
-hRNHWSs2Qc4PrRYlUk93ZCAVXYAhxlPoJGqjlDLGRb0BFlLcL9KRvEZDfdyE35KH
-qIUcy5t1i0bhzDNzUKVLzc7294MYc84oRqfZrwYeFPONZth8cmNL0oT+duLmC6CN
-V8D/SNsK6ZT2kyTucdi7S1qhfXSgv075Q01uYQ8yjxnNRmRheMA31JY2xxwfLnDR
-CRl/PXnOFoCUJ9IAbnCU0+TmSS9ZcMWeLm2Q74Xjk+fm5iqLvUrbl8mXlhMGy8LE
-S4PaZKSdsUJJni7/Lq9mA7gY2n9G61kkecuHmtXKm5llwoQy0budP4htXDNdYgpA
-kHzKknC3MY/aZHtmvoyIiyD+wZIxDAcq8+pvXTnSegJx8CedyUuA5D7aRy81VJGw
-f+pZpex3+j9kPry5G/7WWNDCDM8JEbB8fF8vthA/0Kv59VHA65FqpF1H+hCw2HhB
-1YJ9bgUkZ6cpWl2Fk4Q4yc+9DMqJPHd5Wy+XrqX2odmfcDW4tZHn2sJ7uGJTgltg
-rMHOlD7r+ZXKKrUHViTI
-=IXWu
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl14mqcACgkQnKSrs4Gr
+c8hHyQgAtpFcm+238TskSyYaSv6jvpfyWx+DOidJ8yKMViGdPGqteCn/9UuJZRYn
+MFSHuj0qaDLivoFRySX7LncdPbUTLIdUvmZIVFdtBJM0UUlII01xgVwGuqQ1Xxup
+zOpcjIJBOmtPvB9zIQsSm+a0oYBbD+YKlPAOQ7DYfVnw6HyC+utKeg4cKs46Li45
+5M6oW+BZhws1wy+Mnc+2NI+RJQKAdNI5/BIIrGOlwEbRpIocaGKdsruNxyc15cYp
+A0bCejDo171c08O5jsBuTeo1rDmM1OBPb2DF7LyaoJDGpRRwaBEgrWhfq45z7Z2w
+rQJLf2HTC1nhfsHtczzPDJ0PRf+4uw==
+=BaWp
 -----END PGP SIGNATURE-----
 
---9amGYk9869ThD9tj--
+--CE+1k2dSO48ffgeK--
 
