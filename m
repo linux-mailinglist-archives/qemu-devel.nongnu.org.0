@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29E0AF8C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:21:37 +0200 (CEST)
-Received: from localhost ([::1]:48700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3A1AF8D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 11:23:31 +0200 (CEST)
+Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7yoi-0005HG-KG
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40619)
+	id 1i7yqY-0007su-9r
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 05:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i7ymj-0003RJ-Rf
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:19:35 -0400
+ (envelope-from <johannes@sipsolutions.net>) id 1i7yns-00053t-UX
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i7ymh-0006vZ-TI
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:19:33 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46610)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i7ymh-0006sy-M8
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:19:31 -0400
-Received: by mail-wr1-x444.google.com with SMTP id d17so10870281wrq.13
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 02:19:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=pF62HMpZmO2GC18uvn7ta+ZUSLM8vfweqMpRGxrF/lI=;
- b=B3+bchj2G4FTEtlxFYX8D3lsFnr2MnxixJU5t2DctMQ3NcxRzCE5Cg6Q/+sgP+gYm7
- LmRlnXwS+8wbh1PHBqe53kpkZ2ODSzlbU8EtiZ1JQi2djiu6xGsG6gMGmRR7GqQwapi8
- Ruif994nU6/AIfJgvU4MRSJctDkjSu1VUbfiEWmaoYln88pa01AMIv3oJZ9WrHIgNWLY
- 30FoK09BufnTV3JoWL6Gzoq92dP4legoDJc6OOsJQoUaG/0FNvyCF1YcpmuWUot1ee6v
- TbILj8it5Gan77srfc7091zvdaQHPDHwmdo+BPCqK1/YzNzjCvnazpAae6JZ1+M3NOR8
- ZWMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=pF62HMpZmO2GC18uvn7ta+ZUSLM8vfweqMpRGxrF/lI=;
- b=OulzWGXDz4Z5VwUxvvLsIme54w+neEHUNk1BzBuEJs/oE8mNgPM6rCJy5VPb71SkW7
- XSj09wovmOW+bnARxfDJiPsDcBLpQYDeOVyThKLcCHcyFoM2OvZhJFkVDLHtgiBW/JOx
- C91sL7bYID5PQhn9ctLKeCoA31n7UDnqT7VfmEKnmOf1xocsyPJo+8lpIgY876YV0QgC
- kPt8EijWmqtnWXy7T/tXMPzJopoRT51RqeFTU0Cg6zkOWsu+se//yuskjyI/lFeqSqzY
- fqV2E6MXVvrGlPEryxcorld3/qYLPYDK3Ms9NKCm8eWanl+xhJcsGLtDcQB7OLHJb2GT
- 0/vw==
-X-Gm-Message-State: APjAAAW25L83/P+VOoE6XZ30ts2q18GCaHpG6Bt/txCCOttrylS8vE2H
- J/VJN0yWyTXFJHtblfCzR2Ov6Q==
-X-Google-Smtp-Source: APXvYqzTbsdsWmuo/+wIno+QXDyuGOaxoFjgRpv0I1GlP2v2tMUS4xIv10I7WUT4E4x5jL3ucKKwYA==
-X-Received: by 2002:a5d:5045:: with SMTP id h5mr829682wrt.312.1568193569995;
- Wed, 11 Sep 2019 02:19:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z25sm2405620wmk.0.2019.09.11.02.19.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2019 02:19:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 834631FF87;
- Wed, 11 Sep 2019 10:19:28 +0100 (BST)
-References: <20190910193408.28917-1-alex.bennee@linaro.org>
- <20190910193408.28917-3-alex.bennee@linaro.org>
- <alpine.BSF.2.21.9999.1909111015260.4726@zero.eik.bme.hu>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-In-reply-to: <alpine.BSF.2.21.9999.1909111015260.4726@zero.eik.bme.hu>
-Date: Wed, 11 Sep 2019 10:19:28 +0100
-Message-ID: <875zlz197j.fsf@linaro.org>
+ (envelope-from <johannes@sipsolutions.net>) id 1i7ynr-000805-Rc
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:20:44 -0400
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:49978
+ helo=sipsolutions.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
+ id 1i7ynr-0007z6-KO
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 05:20:43 -0400
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <johannes@sipsolutions.net>)
+ id 1i7ynp-0002Vk-Lk; Wed, 11 Sep 2019 11:20:41 +0200
+Message-ID: <b8c7ffb8dee0f7d8bb7c1a67cafbc478f8246afa.camel@sipsolutions.net>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Wed, 11 Sep 2019 11:20:40 +0200
+In-Reply-To: <20190911051236-mutt-send-email-mst@kernel.org>
+References: <be405c3ba658cdac7f68c91213c3b714ac24c1e3.camel@sipsolutions.net>
+ <20190906110340-mutt-send-email-mst@kernel.org>
+ <fe0f3f7bfa730088454790dc2d863285c4461134.camel@sipsolutions.net>
+ <20190908091207-mutt-send-email-mst@kernel.org>
+ <8a9cf8a1726afce7fed8992a4f19fc808004ef88.camel@sipsolutions.net>
+ <20190909083902-mutt-send-email-mst@kernel.org>
+ <89f25546ffa71c799c533e50658a3a58e066f436.camel@sipsolutions.net>
+ <20190909094609-mutt-send-email-mst@kernel.org>
+ <d2e750aaec396bd0aa7ea8c05ef5705567d16595.camel@sipsolutions.net>
+ <1f28c61e5caf6fc2a2125664043d1f7b9b769149.camel@sipsolutions.net>
+ <20190911051236-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v1 2/4] elf: move elf.h to elf/elf.h and
- split out types
+X-Received-From: 2a01:4f8:191:4433::2
+Subject: Re: [Qemu-devel] [RFC] libvhost-user: implement
+ VHOST_USER_PROTOCOL_F_KICK_CALL_MSGS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,164 +62,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>, qemu-devel@nongnu.org,
- "open list:S390-ccw boot" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
- "open list:PReP" <qemu-ppc@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
+> Each feature is documented near the description of the functionality it
+> enables, that can work for this. 
 
-> On Tue, 10 Sep 2019, Alex Benn=C3=A9e wrote:
->> diff --git a/include/elf/elf-types.inc.h b/include/elf/elf-types.inc.h
->> new file mode 100644
->> index 00000000000..35163adb2b5
->> --- /dev/null
->> +++ b/include/elf/elf-types.inc.h
->> @@ -0,0 +1,63 @@
->> +/*
->> + * Elf Type Specialisation
->> + *
->> + * Copyright (c) 2019
->> + * Written by Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> + *
->> + * This code is licensed under the GNU .
->
-> You're missing end of licence sentence here. Also original file did
-> not have copyright and licence header so you may want to fix that too
-> or leave it out here as well for consistency,
+Hmm, so you mean I should add a section on in-band notifications, and
+document things there?
 
-The fault of my header macro - I'll try and fix it up when it's
-expanding on the QEMU tree.
+> I don't much like F_KICK_CALL_MSGS as
+> not generic enough but it's not simulation as such:
+> IN_BAND_NOTIFICATIONS?
 
-I'm going to assume that is should be the whole project license (GPL
-v2). Most of the original file dates from 2003 and is Frabrice's commit
-with the occasional commit mentioning be copied from Linux.
+Sure, sounds good to me, I guess I'm not good at naming things :)
 
->
->> + */
->> +
->> +#ifndef _ELF_TYPES_INC_H_
->> +#define _ELF_TYPES_INC_H_
->> +
->> +#ifndef ELF_CLASS
->> +#error you must define ELF_CLASS before including elf-types.inc.h
->> +#else
->> +
->> +#if ELF_CLASS =3D=3D ELFCLASS32
->> +
->> +#define elfhdr      elf32_hdr
->> +#define elf_phdr    elf32_phdr
->> +#define elf_note    elf32_note
->> +#define elf_shdr    elf32_shdr
->> +#define elf_sym     elf32_sym
->> +#define elf_addr_t  Elf32_Off
->> +#define elf_rela    elf32_rela
->> +
->> +#ifdef ELF_USES_RELOCA
->> +# define ELF_RELOC  Elf32_Rela
->> +#else
->> +# define ELF_RELOC  Elf32_Rel
->> +#endif
->> +
->> +#ifndef ElfW
->> +#  define ElfW(x)   Elf32_ ## x
->> +#  define ELFW(x)   ELF32_ ## x
->> +#endif
->> +
->> +#else /* ELF_CLASS =3D=3D ELFCLASS64 */
->> +
->> +#define elfhdr      elf64_hdr
->> +#define elf_phdr    elf64_phdr
->> +#define elf_note    elf64_note
->> +#define elf_shdr    elf64_shdr
->> +#define elf_sym     elf64_sym
->> +#define elf_addr_t  Elf64_Off
->> +#define elf_rela    elf64_rela
->> +
->> +#ifdef ELF_USES_RELOCA
->> +# define ELF_RELOC  Elf64_Rela
->> +#else
->> +# define ELF_RELOC  Elf64_Rel
->> +#endif
->> +
->> +#ifndef ElfW
->> +#  define ElfW(x)   Elf64_ ## x
->> +#  define ELFW(x)   ELF64_ ## x
->> +#endif
->> +
->> +#endif /* ELF_CLASS =3D=3D ELFCLASS64 */
->> +#endif /* ELF_CLASS */
->> +#else
->> +#error elf-types.inc.h should not be included twice in one compilation =
-unit
->> +#endif /* _ELF_TYPES_INC_H_ */
->> diff --git a/include/elf.h b/include/elf/elf.h
->> similarity index 98%
->> rename from include/elf.h
->> rename to include/elf/elf.h
->> index 3501e0c8d03..2e264c1a7a0 100644
->> --- a/include/elf.h
->> +++ b/include/elf/elf.h
->> @@ -1696,49 +1696,7 @@ struct elf32_fdpic_loadmap {
->> };
->>
->> #ifdef ELF_CLASS
->> -#if ELF_CLASS =3D=3D ELFCLASS32
->> -
->> -#define elfhdr		elf32_hdr
->> -#define elf_phdr	elf32_phdr
->> -#define elf_note	elf32_note
->> -#define elf_shdr	elf32_shdr
->> -#define elf_sym		elf32_sym
->> -#define elf_addr_t	Elf32_Off
->> -#define elf_rela  elf32_rela
->> -
->> -#ifdef ELF_USES_RELOCA
->> -# define ELF_RELOC      Elf32_Rela
->> -#else
->> -# define ELF_RELOC      Elf32_Rel
->> -#endif
->> -
->> -#else
->> -
->> -#define elfhdr		elf64_hdr
->> -#define elf_phdr	elf64_phdr
->> -#define elf_note	elf64_note
->> -#define elf_shdr	elf64_shdr
->> -#define elf_sym		elf64_sym
->> -#define elf_addr_t	Elf64_Off
->> -#define elf_rela  elf64_rela
->> -
->> -#ifdef ELF_USES_RELOCA
->> -# define ELF_RELOC      Elf64_Rela
->> -#else
->> -# define ELF_RELOC      Elf64_Rel
->> -#endif
->> -
->> -#endif /* ELF_CLASS */
->>
->> -#ifndef ElfW
->> -# if ELF_CLASS =3D=3D ELFCLASS32
->> -#  define ElfW(x)  Elf32_ ## x
->> -#  define ELFW(x)  ELF32_ ## x
->> -# else
->> -#  define ElfW(x)  Elf64_ ## x
->> -#  define ELFW(x)  ELF64_ ## x
->> -# endif
->> -#endif
->>
->> #endif /* ELF_CLASS */
->
-> Is there anything remaining in this #ifdef ELF_CLASS after this patch?
-> If not why do you keep it?
->
-> Regards,
-> BALATON Zoltan
+> As for how to handle errors, that probably belongs near
+> "Communication".
+> 
+> Or maybe add a new "Error handling" section.
 
+OK.
 
---
-Alex Benn=C3=A9e
+Btw, I tried this yesterday in libvhost-user, but if I just do
+vu_panic() it just aborts that message handling and hangs, if I
+forcefully close the FD then it ends up crashing later ...
+
+I'm tempted to go with vu_panic() only for now as that seems to be the
+normal way to handle unexpected protocol errors there, many such other
+errors probably should also close the FD?
+
+johannes
+
 
