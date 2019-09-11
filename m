@@ -2,105 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A38AAFE60
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:12:40 +0200 (CEST)
-Received: from localhost ([::1]:51470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9007EAFE7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:16:32 +0200 (CEST)
+Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i83MM-0001fc-Kz
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:12:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39061)
+	id 1i83Q7-0005cx-Kp
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i83Jx-0000GY-8d
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:10:10 -0400
+ (envelope-from <groug@kaod.org>) id 1i83OY-0004ch-DW
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:14:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i83Jw-0003sE-1L
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:10:09 -0400
-Received: from mail-eopbgr130124.outbound.protection.outlook.com
- ([40.107.13.124]:62470 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i83Jn-0003ki-US; Wed, 11 Sep 2019 10:10:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bda8gxkm4Sw2kJuZTiWTOv6I10pimxOvC4zqZDlhrW6DBLth+/WzE2hymRqj1nJ5LDOGobypEN73Fbc42tQwGh1Dyby+v5djFVLaEtY/JEC1bIrv+pPopvFtuRyKndulmRhc8BPqojcKCUx31fw+TeyBJGyuXisIPKYToOxGkVGhgRTnZnYR1e9eApSSDJBKOodsBFF0IdsYDghQT/POGry/leT/lcOHIWOexEfYvJlazn9yEVpWtWzWHvJ8c2JAprwfSRBCTCGLksYEcce1dszlF0MfygsvZW5trs3hDQzjOwUXJxynRrwOWCCYGrY+kby0lyMQXSChNKv7U0XFtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w8C00f56fUW1sta4nrRTwCPmRnOCEsISsX7Rb+PWpr8=;
- b=nJ/ZPGQ9CgzEersDNgM9JRJIEHP2qJ6VExc2k831gSeJAVDg/sVVRDFd+OF6uS2KI0/eFZ1sNO42m+UNhQELmLSxpvlqGuP+VG3rcsL/rxFITLC5/QVJNIAsFikJyQGz5+x5YktnaKvUpotcwSPLhjjCwDllnmBS/UdJ8qs4xKBygvWtuxlcNRb9gs08APUCgFatASse61CdygVtsVcPuxHVAWyJMkCKyQAUTNIrum90i7LiawtgF8ppAcPm/PElzEt4jVmLrrzU6CWkMJerp8R7dDNTJmtGL3eYBWvOGOya37BObMBmiyxPcnriMHbarvyPrWxBtjxiw5j/cKn/PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w8C00f56fUW1sta4nrRTwCPmRnOCEsISsX7Rb+PWpr8=;
- b=nmDQHwxF9w3YYmFyTICdTbbZTXI3tE2tJnA2JRmlT4aTpMCx7XLMeW2jfZy8hCyvi8ssE1+SRZI1Tsf4GAjTEr2KxFafksZRLvXZsV7rZFUkqfYuQJj2evtOgzmmhw3qVSx71OGBFn5ZdaumeY8zHy+295ChKfBDnooqEMFQjQ8=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB4139.eurprd08.prod.outlook.com (20.179.11.93) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.14; Wed, 11 Sep 2019 14:09:57 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2241.018; Wed, 11 Sep 2019
- 14:09:57 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH 0/3] proper locking on bitmap add/remove
- paths
-Thread-Index: AQHVZ/Sl8JlDvEflUE+vmp1j2//H2aclX1kAgAEl6YA=
-Date: Wed, 11 Sep 2019 14:09:57 +0000
-Message-ID: <cb8fd02c-4fe7-0594-3a89-1d91d02940fc@virtuozzo.com>
-References: <156814787725.15929.11693446479791530766@5dec9699b7de>
-In-Reply-To: <156814787725.15929.11693446479791530766@5dec9699b7de>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0502CA0024.eurprd05.prod.outlook.com
- (2603:10a6:3:e3::34) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190911170955019
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 52ccb6c8-af26-4ed7-c54c-08d736c1b9ec
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:DB8PR08MB4139; 
-x-ms-traffictypediagnostic: DB8PR08MB4139:
-x-ms-exchange-purlcount: 3
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB41398958D68320316458C8B0C1B10@DB8PR08MB4139.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:499;
-x-forefront-prvs: 0157DEB61B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(366004)(136003)(376002)(39850400004)(396003)(189003)(199004)(6116002)(386003)(3846002)(25786009)(86362001)(476003)(486006)(66946007)(6246003)(2616005)(186003)(52116002)(2501003)(99286004)(31696002)(76176011)(36756003)(6436002)(256004)(71190400001)(71200400001)(14444005)(66476007)(5660300002)(66446008)(64756008)(229853002)(26005)(2906002)(8936002)(6916009)(6512007)(478600001)(66066001)(6306002)(81156014)(81166006)(66556008)(102836004)(53936002)(6506007)(2351001)(53376002)(966005)(7736002)(8676002)(305945005)(11346002)(54906003)(446003)(6486002)(5640700003)(316002)(4326008)(31686004)(14454004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4139;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 1tOSyFWxeMr581HIEJbLvIW6ELMa5skMPZV/ALTZQiRfUyMgtSAMzhOviKweGtos0LMyuaT5QVl8G3CjCyGI8wn6/iOoK3JQo7FGOwt/4tMiw1B1Wx6LVaff97uCQJQ6dBYLBIdEjlooxlRJM89zaepvDsqTscu63ZzzWGUEVVmNEICT7Nusq416XKFvKWbHUgYIkN391Y8+pZCgBeJB2RSxGepmNG7s3/Kdwz5v4DMtOFrv59+cQISxlVkFWchH+jhlVdvc+Hv4NuOk+PdsKbn5/BH9fcrqHfblPJDykXdOUQxvMq6rqdnKa1a27uFNrxoP9TcyCHQJ45yzn/Guv1dOpyzwEqTcrHWERVhBDRkOKqKmJbgEHEGel53I3atAz3ct+V/5L2ZqYZqrhZ66Ftq/TucB9vX8Ynv1mBUrJLc=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4BFAD18C1FDC9B4687C0885CDDED7918@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <groug@kaod.org>) id 1i83OX-0005qD-5B
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:14:54 -0400
+Received: from 10.mo178.mail-out.ovh.net ([46.105.76.150]:58652)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i83OW-0005pU-VU
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:14:53 -0400
+Received: from player760.ha.ovh.net (unknown [10.108.54.230])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id DCA32789FD
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 16:14:50 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player760.ha.ovh.net (Postfix) with ESMTPSA id 63EFD9B6E04D;
+ Wed, 11 Sep 2019 14:14:44 +0000 (UTC)
+Date: Wed, 11 Sep 2019 16:14:25 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Message-ID: <20190911161425.1b08de6b@bahia.lan>
+In-Reply-To: <20190911133937.2716-3-clg@kaod.org>
+References: <20190911133937.2716-1-clg@kaod.org>
+ <20190911133937.2716-3-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52ccb6c8-af26-4ed7-c54c-08d736c1b9ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 14:09:57.3445 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NRR9DKs1CWwbml9cr5+BQ9PEe58CxUpNw16AX7lmJAO5PrRZIgYDi9n6X0wEf+vf7o+Klc8Jfxzv5DL5MsWQL30p555HfrzECatKw15qnjI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4139
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.124
-Subject: Re: [Qemu-devel] [PATCH 0/3] proper locking on bitmap add/remove
- paths
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 97390343945951627
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrtdefgdegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.76.150
+Subject: Re: [Qemu-devel] [PATCH v2 2/2] spapr/irq: Only claim VALID
+ interrupts at the KVM level
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,57 +57,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
+Cc: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTAuMDkuMjAxOSAyMzozNywgbm8tcmVwbHlAcGF0Y2hldy5vcmcgd3JvdGU6DQo+IFBhdGNoZXcg
-VVJMOiBodHRwczovL3BhdGNoZXcub3JnL1FFTVUvMjAxOTA5MTAxNjI3MjQuNzk1NzQtMS12c2Vt
-ZW50c292QHZpcnR1b3p6by5jb20vDQo+IA0KPiANCj4gDQo+IEhpLA0KPiANCj4gVGhpcyBzZXJp
-ZXMgZmFpbGVkIHRoZSBkb2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmlu
-ZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQNCj4gdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3Ug
-aGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdA0KPiBs
-b2NhbGx5Lg0KPiANCj4gPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQ0KPiAjIS9iaW4vYmFzaA0K
-PiBtYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBORVRXT1JLPTENCj4gdGltZSBtYWtlIGRv
-Y2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBKPTE0IE5FVFdPUks9MQ0KPiA9PT0g
-VEVTVCBTQ1JJUFQgRU5EID09PQ0KPiANCj4gbGlidWRldiAgICAgICAgICAgbm8NCj4gZGVmYXVs
-dCBkZXZpY2VzICAgeWVzDQo+IA0KPiB3YXJuaW5nOiBQeXRob24gMiBzdXBwb3J0IGlzIGRlcHJl
-Y2F0ZWQNCj4gd2FybmluZzogUHl0aG9uIDMgd2lsbCBiZSByZXF1aXJlZCBmb3IgYnVpbGRpbmcg
-ZnV0dXJlIHZlcnNpb25zIG9mIFFFTVUNCj4gDQo+IE5PVEU6IGNyb3NzLWNvbXBpbGVycyBlbmFi
-bGVkOiAgJ2NjJw0KPiAgICBHRU4gICAgIHg4Nl82NC1zb2Z0bW11L2NvbmZpZy1kZXZpY2VzLm1h
-ay50bXANCj4gLS0tDQo+ICAgIENDICAgICAgYmxvY2svcWVkLWNsdXN0ZXIubw0KPiAgICBDQyAg
-ICAgIGJsb2NrL3FlZC1jaGVjay5vDQo+IC90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9xY293Mi1i
-aXRtYXAuYzogSW4gZnVuY3Rpb24gJ3Fjb3cyX2NvX3JlbW92ZV9wZXJzaXN0ZW50X2RpcnR5X2Jp
-dG1hcCc6DQo+IC90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9xY293Mi1iaXRtYXAuYzo1MDI6ODog
-ZXJyb3I6ICdibScgbWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9uIFst
-V2Vycm9yPW1heWJlLXVuaW5pdGlhbGl6ZWRdDQo+ICAgICAgIGlmIChibSA9PSBOVUxMKSB7DQo+
-ICAgICAgICAgIF4NCj4gL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL3Fjb3cyLWJpdG1hcC5jOjE0
-MTM6MTg6IG5vdGU6ICdibScgd2FzIGRlY2xhcmVkIGhlcmUNCj4gDQo+IA0KPiBUaGUgZnVsbCBs
-b2cgaXMgYXZhaWxhYmxlIGF0DQo+IGh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTEwMTYy
-NzI0Ljc5NTc0LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNr
-QGNlbnRvczcvP3R5cGU9bWVzc2FnZS4NCj4gLS0tDQo+IEVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4NCj4gUGxlYXNlIHNlbmQg
-eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20NCj4gDQoNCldobyBrbm93
-cywgaG93IHRvIGNsYW5nIFFlbXU/DQoNCkkgdHJ5IHdpdGgNCi4vY29uZmlndXJlIC0tdGFyZ2V0
-LWxpc3Q9eDg2XzY0LXNvZnRtbXUgLS1lbmFibGUtZGVidWcgLS1kaXNhYmxlLXZpcnRmcyAtLWVu
-YWJsZS13ZXJyb3IgLS1hdWRpby1kcnYtbGlzdD1vc3MgLS1leHRyYS1jZmxhZ3M9LVdhbGwgLS1l
-bmFibGUtc2FuaXRpemVycyAtLWNjPWNsYW5nIC0tY3h4PWNsYW5nKysNCm1ha2UgLWo5DQoNCmJ1
-dCBnZXQgdGhlIGZvbGxvd2luZyBlcnJvcjoNCg0KL3RtcC9saW51eGJvb3RfZG1hLTY3MTJjMC5z
-OiBBc3NlbWJsZXIgbWVzc2FnZXM6DQovdG1wL2xpbnV4Ym9vdF9kbWEtNjcxMmMwLnM6NDczOiBF
-cnJvcjogaW5jb25zaXN0ZW50IHVzZXMgb2YgLmNmaV9zZWN0aW9ucw0KY2xhbmc6IGVycm9yOiBh
-c3NlbWJsZXIgY29tbWFuZCBmYWlsZWQgd2l0aCBleGl0IGNvZGUgMSAodXNlIC12IHRvIHNlZSBp
-bnZvY2F0aW9uKQ0KbWFrZVsxXTogKioqIFtsaW51eGJvb3RfZG1hLm9dIEVycm9yIDENCm1ha2Vb
-MV06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uDQogICBTSUdOICAgIHBjLWJp
-b3Mvb3B0aW9ucm9tL2xpbnV4Ym9vdC5iaW4NCiAgIExJTksgICAgaXZzaG1lbS1jbGllbnQNCi90
-bXAvcHZoX21haW4tM2JiYzc1LnM6IEFzc2VtYmxlciBtZXNzYWdlczoNCi90bXAvcHZoX21haW4t
-M2JiYzc1LnM6NjUxOiBFcnJvcjogaW5jb25zaXN0ZW50IHVzZXMgb2YgLmNmaV9zZWN0aW9ucw0K
-Y2xhbmc6IGVycm9yOiBhc3NlbWJsZXIgY29tbWFuZCBmYWlsZWQgd2l0aCBleGl0IGNvZGUgMSAo
-dXNlIC12IHRvIHNlZSBpbnZvY2F0aW9uKQ0KbWFrZVsxXTogKioqIFtwdmhfbWFpbi5vXSBFcnJv
-ciAxDQptYWtlOiAqKiogW3BjLWJpb3Mvb3B0aW9ucm9tL2FsbF0gRXJyb3IgMg0KbWFrZTogKioq
-IFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4NCm1ha2U6ICoqKiB3YWl0OiBObyBjaGls
-ZCBwcm9jZXNzZXMuICBTdG9wLg0KDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+On Wed, 11 Sep 2019 15:39:37 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+
+> A typical pseries VM with 16 vCPUs, one disk, one network adapater
+> uses less than 100 interrupts but the whole IRQ number space of the
+> QEMU machine is allocated at reset time and it is 8K wide. This is
+> wasting a considerable amount of interrupt numbers in the global IRQ
+> space which has 1M interrupts per socket on a POWER9.
+>=20
+> To optimise the HW resources, only request at the KVM level interrupts
+> which have been claimed by the guest. This will help to increase the
+> maximum number of VMs per system and also help supporting nested guests
+> using the XIVE interrupt mode.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  hw/intc/spapr_xive_kvm.c | 29 ++++++++++++++++++++++++++---
+>  hw/intc/xics_kvm.c       |  8 ++++++++
+>  2 files changed, 34 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index 17af4d19f54e..71b88d7797bc 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -255,11 +255,16 @@ void kvmppc_xive_source_reset_one(XiveSource *xsrc,=
+ int srcno, Error **errp)
+> =20
+>  static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
+>  {
+> +    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+>      int i;
+> =20
+>      for (i =3D 0; i < xsrc->nr_irqs; i++) {
+>          Error *local_err =3D NULL;
+> =20
+> +        if (!xive_eas_is_valid(&xive->eat[i])) {
+> +            continue;
+> +        }
+> +
+>          kvmppc_xive_source_reset_one(xsrc, i, &local_err);
+>          if (local_err) {
+>              error_propagate(errp, local_err);
+> @@ -328,11 +333,18 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int s=
+rcno, uint32_t offset,
+> =20
+>  static void kvmppc_xive_source_get_state(XiveSource *xsrc)
+>  {
+> +    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+>      int i;
+> =20
+>      for (i =3D 0; i < xsrc->nr_irqs; i++) {
+> +        uint8_t pq;
+> +
+> +        if (!xive_eas_is_valid(&xive->eat[i])) {
+> +            continue;
+> +        }
+> +
+>          /* Perform a load without side effect to retrieve the PQ bits */
+> -        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> +        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> =20
+>          /* and save PQ locally */
+>          xive_source_esb_set(xsrc, i, pq);
+> @@ -521,9 +533,14 @@ static void kvmppc_xive_change_state_handler(void *o=
+paque, int running,
+>       */
+>      if (running) {
+>          for (i =3D 0; i < xsrc->nr_irqs; i++) {
+> -            uint8_t pq =3D xive_source_esb_get(xsrc, i);
+> +            uint8_t pq;
+>              uint8_t old_pq;
+> =20
+> +            if (!xive_eas_is_valid(&xive->eat[i])) {
+> +                continue;
+> +            }
+> +
+> +            pq =3D xive_source_esb_get(xsrc, i);
+>              old_pq =3D xive_esb_read(xsrc, i, XIVE_ESB_SET_PQ_00 + (pq <=
+< 8));
+> =20
+>              /*
+> @@ -545,7 +562,13 @@ static void kvmppc_xive_change_state_handler(void *o=
+paque, int running,
+>       * migration is in progress.
+>       */
+>      for (i =3D 0; i < xsrc->nr_irqs; i++) {
+> -        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> +        uint8_t pq;
+> +
+> +        if (!xive_eas_is_valid(&xive->eat[i])) {
+> +            continue;
+> +        }
+> +
+> +        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
+> =20
+>          /*
+>           * PQ is set to PENDING to possibly catch a triggered
+> diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+> index a4d2e876cc5f..ba90d6dc966c 100644
+> --- a/hw/intc/xics_kvm.c
+> +++ b/hw/intc/xics_kvm.c
+> @@ -190,6 +190,10 @@ void ics_get_kvm_state(ICSState *ics)
+>      for (i =3D 0; i < ics->nr_irqs; i++) {
+>          ICSIRQState *irq =3D &ics->irqs[i];
+> =20
+> +        if (ics_irq_free(ics, i)) {
+> +            continue;
+> +        }
+> +
+>          kvm_device_access(kernel_xics_fd, KVM_DEV_XICS_GRP_SOURCES,
+>                            i + ics->offset, &state, false, &error_fatal);
+> =20
+> @@ -301,6 +305,10 @@ int ics_set_kvm_state(ICSState *ics, Error **errp)
+>          Error *local_err =3D NULL;
+>          int ret;
+> =20
+> +        if (ics_irq_free(ics, i)) {
+> +            continue;
+> +        }
+> +
+>          ret =3D ics_set_kvm_state_one(ics, i, &local_err);
+>          if (ret < 0) {
+>              error_propagate(errp, local_err);
+
 
