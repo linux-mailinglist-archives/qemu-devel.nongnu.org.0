@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB713B055D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 00:05:35 +0200 (CEST)
-Received: from localhost ([::1]:56662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FA4B055F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 00:09:52 +0200 (CEST)
+Received: from localhost ([::1]:56684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Ak2-0008VQ-PE
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 18:05:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36652)
+	id 1i8AoB-0002sa-GB
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 18:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i8AiW-0007xj-Id
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 18:04:02 -0400
+ (envelope-from <philmd@redhat.com>) id 1i8AnM-0002Q2-1d
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 18:09:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i8AiV-0002F1-3S
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 18:04:00 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:45551)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i8AiU-0002Ed-VU
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 18:03:59 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id r15so27240788qtn.12
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 15:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=B11fCxFSF+GDBYGDuQmnKLsVf1WAgMZ5jqiZbj7z3WM=;
- b=i0p/+bW/jVBlFnmlPQ2p10TEvsE7yJTEI/lbMkInFLn3wi+Y8JUVwmB5R1yP2vheCV
- olKjlOgZjTX4rDWrbg1auzU5aAFRQ3Kl6soYVaIDrYcI9oQC+hHXJ504s1az9WaxhDuD
- x8Jr8Z8Trjg9jXWPURjBNxdg/lwxKO9Kh4fN3j+5tcBBdVO5yoLG+WXJBmWYgSy2Xhma
- p6ipbhsanwZmqin7ksv19o1gVU+0WskWlWMWJQXW0W2L/lVReAMkqUeVMmVQH3fBRDF3
- rCfKwGsigipCIG6bcEZilTFX+0M1F2HRj5MFNQKcr0T6yyb/8IUJdC8z8C7VM6UYddRx
- OAOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=B11fCxFSF+GDBYGDuQmnKLsVf1WAgMZ5jqiZbj7z3WM=;
- b=gvSxDVeaREdiuyMx8J+PqIFch8ccIXoLjrkxZQjjD++s6C3QZZWYGRTAMo1NVgv9Vv
- upFFGebkVjsUEtC+1uJJpEnuJIirNxm6mEDbxtCPx8/YYd3dqgsp9pnHvxh39XtKQrWr
- 2CcOEhYOGZwBms6Jet6x6lIOViMI+zNT05KrU1JNO1tHnwBBL/uoRcSusgEPgS+5S2rn
- 7lZtzBRQpqhQOFNvfhxBLF+z3Ncy6iKpn2XbPZBQzKqPZSc7kIUKCn6ZZrGba29FtNzb
- Pgyh7+fiRigO/HDYnyLM38wlzIE0+C9LuOUg4m+X3QNI/jldlvRPFrVMBCTShmClRM5F
- L/cQ==
-X-Gm-Message-State: APjAAAWDixTjQB84jb0+C1kppNuR5A5C2UZl7Q6FuVnSghoAn2NgnwgS
- AuyX3d65MK+DVycjZ8vmLst9tg==
-X-Google-Smtp-Source: APXvYqzMImJb7ck4NSCC0Wx1pZboe4F3/K3VOtQTV8MLhMXznCE/XEGfqpohpXg9AbghB2GO9D/68A==
-X-Received: by 2002:aed:22cc:: with SMTP id q12mr38967214qtc.232.1568239438093; 
- Wed, 11 Sep 2019 15:03:58 -0700 (PDT)
-Received: from [172.20.5.51] ([67.69.50.154])
- by smtp.gmail.com with ESMTPSA id y58sm6094246qta.1.2019.09.11.15.03.56
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 15:03:57 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190906075750.14791-1-david@redhat.com>
- <20190906075750.14791-17-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <9d620f0d-fa1d-9f28-3e0e-235109e7d81d@linaro.org>
-Date: Wed, 11 Sep 2019 18:03:55 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <philmd@redhat.com>) id 1i8AnL-0004ab-12
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 18:08:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58430)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1i8AnI-0004Zj-PH; Wed, 11 Sep 2019 18:08:56 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F01883DE04;
+ Wed, 11 Sep 2019 22:08:55 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-38.brq.redhat.com [10.40.204.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B715760852;
+ Wed, 11 Sep 2019 22:08:51 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 12 Sep 2019 00:08:49 +0200
+Message-Id: <20190911220849.30840-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190906075750.14791-17-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::82b
-Subject: Re: [Qemu-devel] [PATCH v2 16/28] s390x/tcg: Fault-safe memmove
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Wed, 11 Sep 2019 22:08:56 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] block/create: Do not abort if a block driver
+ is not available
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,43 +54,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
- qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/19 3:57 AM, David Hildenbrand wrote:
-> +static void access_memmove_idx(CPUS390XState *env, vaddr dest, vaddr src,
-> +                               int size, int dest_idx, int src_idx,
-> +                               uintptr_t ra)
-> +{
-> +    S390Access srca = access_prepare_idx(env, src, size, MMU_DATA_LOAD, src_idx,
-> +                                         ra);
-> +    S390Access desta = access_prepare_idx(env, dest, size, MMU_DATA_STORE,
-> +                                          dest_idx, ra);
+The 'blockdev-create' QMP command was introduced as experimental
+feature in commit b0292b851b8, using the assert() debug call.
+It got promoted to 'stable' command in 3fb588a0f2c, but the
+assert call was not removed.
 
-I was just thinking that it might be worth passing in these Access structures.
- It seems that usually we wind up computing them in several locations.
+Some block drivers are optional, and bdrv_find_format() might
+return a NULL value, triggering the assertion.
 
-Hoisting it up it would make MVC look like
+Stable code is not expected to abort, so return an error instead.
 
-    midx = cpu_mmu_index(env);
-    srca = access_prepare_idx(env, src, size, LOAD, midx, ra);
-    dsta = access_prepare_idx(env, dst, size, STORE, midx, ra);
+This is easily reproducible when libnfs is not installed:
 
-    if (dst == src + 1) {
-        uint8_t x = access_get_byte(env, &srca, 0, ra);
-        access_memset(env, &dsta, x, size, ra);
-    } else if (!is_destructive_overlap(env, dst, src, size)) {
-        access_memmove(env, &dsta, &srca, size, ra);
-    } else {
-        // byte by byte loop, but still need srca, dsta.
-    }
+  ./configure
+  [...]
+  module support    no
+  Block whitelist (rw)
+  Block whitelist (ro)
+  libiscsi support  yes
+  libnfs support    no
+  [...]
 
-which seems even More Correct, since the current access_memset path does not
-check for read watchpoints or faults on all of [src, src+size-1].
+Start QEMU:
 
+  $ qemu-system-x86_64 -S -qmp unix:/tmp/qemu.qmp,server,nowait
 
-r~
+Send the 'blockdev-create' with the 'nfs' driver:
+
+  $ ( cat << 'EOF'
+  {'execute': 'qmp_capabilities'}
+  {'execute': 'blockdev-create', 'arguments': {'job-id': 'x', 'options': =
+{'size': 0, 'driver': 'nfs', 'location': {'path': '/', 'server': {'host':=
+ '::1', 'type': 'inet'}}}}, 'id': 'x'}
+  EOF
+  ) | socat STDIO UNIX:/tmp/qemu.qmp
+  {"QMP": {"version": {"qemu": {"micro": 50, "minor": 1, "major": 4}, "pa=
+ckage": "v4.1.0-733-g89ea03a7dc"}, "capabilities": ["oob"]}}
+  {"return": {}}
+
+QEMU crashes:
+
+  $ gdb qemu-system-x86_64 core
+  Program received signal SIGSEGV, Segmentation fault.
+  (gdb) bt
+  #0  0x00007ffff510957f in raise () at /lib64/libc.so.6
+  #1  0x00007ffff50f3895 in abort () at /lib64/libc.so.6
+  #2  0x00007ffff50f3769 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
+  #3  0x00007ffff5101a26 in .annobin_assert.c_end () at /lib64/libc.so.6
+  #4  0x0000555555d7e1f1 in qmp_blockdev_create (job_id=3D0x555556baee40 =
+"x", options=3D0x555557666610, errp=3D0x7fffffffc770) at block/create.c:6=
+9
+  #5  0x0000555555c96b52 in qmp_marshal_blockdev_create (args=3D0x7fffdc0=
+03830, ret=3D0x7fffffffc7f8, errp=3D0x7fffffffc7f0) at qapi/qapi-commands=
+-block-core.c:1314
+  #6  0x0000555555deb0a0 in do_qmp_dispatch (cmds=3D0x55555645de70 <qmp_c=
+ommands>, request=3D0x7fffdc005c70, allow_oob=3Dfalse, errp=3D0x7fffffffc=
+898) at qapi/qmp-dispatch.c:131
+  #7  0x0000555555deb2a1 in qmp_dispatch (cmds=3D0x55555645de70 <qmp_comm=
+ands>, request=3D0x7fffdc005c70, allow_oob=3Dfalse) at qapi/qmp-dispatch.=
+c:174
+
+With this patch applied, QEMU returns a QMP error:
+
+  {'execute': 'blockdev-create', 'arguments': {'job-id': 'x', 'options': =
+{'size': 0, 'driver': 'nfs', 'location': {'path': '/', 'server': {'host':=
+ '::1', 'type': 'inet'}}}}, 'id': 'x'}
+  {"id": "x", "error": {"class": "GenericError", "desc": "Block driver 'n=
+fs' not found or not supported"}}
+
+Reported-by: Xu Tian <xutian@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ block/create.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/block/create.c b/block/create.c
+index 1bd00ed5f8..89812669df 100644
+--- a/block/create.c
++++ b/block/create.c
+@@ -64,9 +64,13 @@ void qmp_blockdev_create(const char *job_id, BlockdevC=
+reateOptions *options,
+     const char *fmt =3D BlockdevDriver_str(options->driver);
+     BlockDriver *drv =3D bdrv_find_format(fmt);
+=20
++    if (!drv) {
++        error_setg(errp, "Block driver '%s' not found or not supported",=
+ fmt);
++        return;
++    }
++
+     /* If the driver is in the schema, we know that it exists. But it ma=
+y not
+      * be whitelisted. */
+-    assert(drv);
+     if (bdrv_uses_whitelist() && !bdrv_is_whitelisted(drv, false)) {
+         error_setg(errp, "Driver is not whitelisted");
+         return;
+--=20
+2.20.1
+
 
