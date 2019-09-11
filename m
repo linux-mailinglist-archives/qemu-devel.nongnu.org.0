@@ -2,78 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E53AAFFFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:28:16 +0200 (CEST)
-Received: from localhost ([::1]:52510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9C8AFFD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:21:53 +0200 (CEST)
+Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84XX-0006Jk-EW
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:28:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51994)
+	id 1i84RM-0008LM-3s
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52466)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i84K5-0003u8-NV
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:14:22 -0400
+ (envelope-from <berto@igalia.com>) id 1i84N9-0006Kc-W3
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i84K4-0001td-Qw
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:14:21 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:34453)
+ (envelope-from <berto@igalia.com>) id 1i84N2-0003RD-14
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:28 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:33965)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i84K4-0001tG-Lo
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:14:20 -0400
-Received: by mail-qt1-x844.google.com with SMTP id j1so12944233qth.1
- for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 08:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uIl3gOebJchDx2nVQOu1VWsryjLi0SyxPET51T79RP4=;
- b=dkCpAJvaFG/JF9aGM2Ko8nocaviRHsLk/Oa8PDq5M7MDjjG+PgK5kPtFIquiRFBALW
- azwHesMgeLBuSQyoj3b1IzgaUyByqecTpguLVceAhOoUgdMWZm145NOcG9ye8J31GPUn
- AK5EFBBhz2zwLKFSRK9jpOqRbco4YQ/SFlWoHUfxJqhPGuvRu1z8MFuT2DQqgYnUwt6d
- /BQtSCJz6pRkwnWcNMdoFtJ5SWWc8E9Bg0OKgpOTogaGEKPmc7Chzm7WB1nxxqXUAZmv
- PtZbH6TNmQ0m90DbkBSFf1P56P41jPE6MeJkWyD417t7C9DMxgseQcPpXfR3QwH+EzKL
- dLWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uIl3gOebJchDx2nVQOu1VWsryjLi0SyxPET51T79RP4=;
- b=QVR9sYFyrX7l9H5ctu47bwHJmINsvKU2MhE26ZqCpMKUs6LSkU5+iFidoWmDIgX6hl
- sbevgcukQii8k5QXi7LfH3ukMcw+mtlLMIl1dpDuXsNpfrr6pENxDTJctjVxYO8rWMQs
- OsIKsuEv47j46BUdMvRGwFDjdV2Y3ozgsoVLhAAyIyt5D0Zgtzgku+TVYdG2chlKIPI7
- PA1ci1jOPcGLWZkDL858GWGYuzNPj+D63RoGGnAuQJeg+Q6mfdF5fd6IxjfPpg8zKAVy
- m3PCWfuRHIyos7AHZJX7Xa9O3DSlXN6KMSMG0nLTRfe7kFJzhPnAHPYCLqn77yrEN8Rh
- JkDw==
-X-Gm-Message-State: APjAAAWyj2LNn46TTEtenlYsX7fHUWx5IAJZGGLVmCKmh/F/xkAxPGJ4
- jr0Ciu/DyZJ1I5889ZvH9al6SA==
-X-Google-Smtp-Source: APXvYqxaa367UUEj95uxT+/EuRP6qcvr555KfwWyU6Rybd9T0XhGIW76jsXqTYyBa5vhkGIV7iNgVw==
-X-Received: by 2002:ac8:4655:: with SMTP id f21mr33719970qto.210.1568214859934; 
- Wed, 11 Sep 2019 08:14:19 -0700 (PDT)
-Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
- [64.229.69.35])
- by smtp.gmail.com with ESMTPSA id x10sm9047341qtq.75.2019.09.11.08.14.18
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 08:14:19 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190906075750.14791-1-david@redhat.com>
- <20190906075750.14791-13-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <0415ffb8-ed1f-45b9-70ad-e482eb3037ae@linaro.org>
-Date: Wed, 11 Sep 2019 11:14:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1i84Mv-0003HC-8K; Wed, 11 Sep 2019 11:17:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=3ky7uFhm3UvyPJzrvpGfefSmyjPnMHqJz5qM17R8OTc=; 
+ b=UxSmBBWH2XaGi6a/t7gK5Pysn0NT/O2ix7HcWT4XkpwrZMa20JWR8McYUIS8TuVRYyAGY3sHAF2NHD3i4mJ2q2kWh/rryqid/3AVzWK79M+NWdBcpqEH2x6yIOhZ3K3ffX8l2VBtxFVGY37YCaOfLw+FXLxXfXNRYetCNHwejUYzIkJZ7Anz0xcdy47VWjT2df4HGfnfw0vBWXZlCWim0QprQ2wIq8MWAgn8e28Kf5rPPXVVs5exSuXBkbf3IDM/R0DI0EZB98uDN+U8dK8eRAn50QcDlBPusyzoMJdupNDzr2KFKKoFDzSOTMOEbiqgeU/U1ttTr/UJYe9v+XQ8aw==;
+Received: from 82-181-154-206.bb.dnainternet.fi ([82.181.154.206]
+ helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1i84Ma-0001ZJ-Sh; Wed, 11 Sep 2019 17:16:57 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1i84MC-0001mo-SS; Wed, 11 Sep 2019 18:16:32 +0300
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 11 Sep 2019 18:16:26 +0300
+Message-Id: <20190911151626.6823-1-berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190906075750.14791-13-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::844
-Subject: Re: [Qemu-devel] [PATCH v2 12/28] s390x/tcg: MVST: Check for
- specification exceptions
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: [Qemu-devel] [PATCH] qcow2: Stop overwriting compressed clusters
+ one by one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,22 +55,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
- qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/19 3:57 AM, David Hildenbrand wrote:
-> Bit position 32-55 of general register 0 must be zero.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/mem_helper.c | 3 +++
->  1 file changed, 3 insertions(+)
+handle_alloc() tries to find as many contiguous clusters that need
+copy-on-write as possible in order to allocate all of them at the same
+time.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+However, compressed clusters are only overwritten one by one, so let's
+say that we have an image with 1024 consecutive compressed clusters:
 
-r~
+   qemu-img create -f qcow2 hd.qcow2 64M
+   for f in `seq 0 64 65472`; do
+      qemu-io -c "write -c ${f}k 64k" hd.qcow2
+   done
+
+In this case trying to overwrite the whole image with one large write
+request results in 1024 separate allocations:
+
+   qemu-io -c "write 0 64M" hd.qcow2
+
+This restriction comes from commit 095a9c58ce12afeeb90c2 from 2018.
+Nowadays QEMU can overwrite multiple compressed clusters just fine,
+and in fact it already does: as long as the first cluster that
+handle_alloc() finds is not compressed, all other compressed clusters
+in the same batch will be overwritten in one go:
+
+   qemu-img create -f qcow2 hd.qcow2 64M
+   qemu-io -c "write -z 0 64k" hd.qcow2
+   for f in `seq 64 64 65472`; do
+      qemu-io -c "write -c ${f}k 64k" hd.qcow2
+   done
+
+Compared to the previous one, overwriting this image on my computer
+goes from 8.35s down to 230ms.
+
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ block/qcow2-cluster.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index f09cc992af..dcacd3c450 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1351,13 +1351,7 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
+     }
+ 
+     entry = be64_to_cpu(l2_slice[l2_index]);
+-
+-    /* For the moment, overwrite compressed clusters one by one */
+-    if (entry & QCOW_OFLAG_COMPRESSED) {
+-        nb_clusters = 1;
+-    } else {
+-        nb_clusters = count_cow_clusters(bs, nb_clusters, l2_slice, l2_index);
+-    }
++    nb_clusters = count_cow_clusters(bs, nb_clusters, l2_slice, l2_index);
+ 
+     /* This function is only called when there were no non-COW clusters, so if
+      * we can't find any unallocated or COW clusters either, something is
+-- 
+2.20.1
 
 
