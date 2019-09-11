@@ -2,58 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBC2AFED1
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:36:27 +0200 (CEST)
-Received: from localhost ([::1]:51674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4881CAFEDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 16:39:05 +0200 (CEST)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i83jN-0007WQ-VF
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:36:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43221)
+	id 1i83lw-0001qT-5z
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 10:39:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1i83hM-0006A4-M7
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:34:22 -0400
+ (envelope-from <Paul.Durrant@citrix.com>) id 1i83jN-0008RU-7b
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1i83hK-0008Gu-UH
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:34:20 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:45439 helo=huawei.com)
+ (envelope-from <Paul.Durrant@citrix.com>) id 1i83jM-0000nR-0C
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:24 -0400
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:1554)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1i83hH-0008Cc-WE; Wed, 11 Sep 2019 10:34:16 -0400
-Received: from lhreml704-cah.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id F0AADDF8E75B0C40E743;
- Wed, 11 Sep 2019 15:34:07 +0100 (IST)
-Received: from LHREML524-MBS.china.huawei.com ([169.254.2.65]) by
- lhreml704-cah.china.huawei.com ([10.201.108.45]) with mapi id 14.03.0415.000; 
- Wed, 11 Sep 2019 15:33:58 +0100
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Thread-Topic: [Qemu-devel] [PATCH-for-4.2 v10 10/11] tests: add dummy ACPI
- tables for arm/virt board
-Thread-Index: AQHVaKCGzbvsHHTXD0ChWK1EWAGw9qcmbamAgAABfACAABQOkA==
-Date: Wed, 11 Sep 2019 14:33:57 +0000
-Message-ID: <5FC3163CFD30C246ABAA99954A238FA83F3EAF63@lhreml524-mbs.china.huawei.com>
-References: <20190904085629.13872-1-shameerali.kolothum.thodi@huawei.com>
- <20190904085629.13872-11-shameerali.kolothum.thodi@huawei.com>
- <CAFEAcA8sEhgOXnj-DGo04pSnpTObO+EeC94yrdGEikKq0=2QeA@mail.gmail.com>
- <20190911155015.3627b072@redhat.com>
- <20190911095332-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20190911095332-mutt-send-email-mst@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.237]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
+ id 1i83jL-0000ma-MX
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:36:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1568212584;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3XwCKMnGmyGT5kVTl3oKhIMv998hFroIhC3faxPFwXw=;
+ b=E5OBRS1uQ9mUbsDsbpwT087KZDPe+FQEPrLkp+7sE8jpKhBEGtVKewpd
+ LrCeHcv4raUQ/mEPh4/B5zevCzpg3coJEjTlRLswgRtLzehr8E8EYV4kS
+ 4USQuCvUQe+Fx7rOUNnw/K/3CsNmL9r29Vydcqrsb+P+ddqYnT7XpmA6K s=;
+Authentication-Results: esa2.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=paul.durrant@citrix.com;
+ spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ paul.durrant@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="paul.durrant@citrix.com"; x-conformance=sidf_compatible
+Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
+ Paul.Durrant@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="Paul.Durrant@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: L6SAZik8xsVrNDnFj2N+Aya3BqFqrx0OO8jGxxDMlKLjWOvwhZMZrV+ST6V9vCSxeDiyddSsMX
+ tpl1qJ2bNWIpBhWiioLvEoLlHDkp0mvwtpQ5930ny7O3V77gHgmeyeZHfyYPUijsHqK8d4i6yB
+ jTXjjPoLJwIFzvJZ8j+niKM1N8cuQ3et8ck945S7EvkY+8a5I3QiwukQPkIEJWTN80BN88fp2e
+ +QMqiuhbSmUeSdWMKzxlQSZibwwOWZOIJxTM4VS3wj8SAbGMKh8Y2KD4C4dgNpDq4FYeq12MZj
+ aWg=
+X-SBRS: 2.7
+X-MesageID: 5434109
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.64,493,1559534400"; 
+   d="scan'208";a="5434109"
+From: Paul Durrant <paul.durrant@citrix.com>
+To: <qemu-devel@nongnu.org>, <xen-devel@lists.xenproject.org>
+Date: Wed, 11 Sep 2019 15:36:15 +0100
+Message-ID: <20190911143618.23477-1-paul.durrant@citrix.com>
+X-Mailer: git-send-email 2.20.1.2.gb21ebb6
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 185.176.76.210
-Subject: Re: [Qemu-devel] [PATCH-for-4.2 v10 10/11] tests: add dummy ACPI
- tables for arm/virt board
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.153
+Subject: [Qemu-devel] [PATCH 0/3] xen: fix a potential crash in xen-bus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,111 +92,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Samuel Ortiz <sameo@linux.intel.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>, QEMU
- Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- "xuwei \(O\)" <xuwei5@huawei.com>,
- "sebastien.boeuf@intel.com" <sebastien.boeuf@intel.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Auger <eric.auger@redhat.com>
+Cc: Anthony Perard <anthony.perard@citrix.com>,
+ Paul Durrant <paul.durrant@citrix.com>,
+ Stefano Stabellini <sstabellini@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series fixes a potential segfault caused by NotifierList corruption
+in xen-bus. The first two patches lay the groundwork and the third
+actually fixes the problem.
 
+Paul Durrant (3):
+  xen / notify: introduce a new XenWatchList abstraction
+  xen: introduce separate XenWatchList for XenDevice objects
+  xen: perform XenDevice clean-up in XenBus watch handler
 
-> -----Original Message-----
-> From: Qemu-devel
-> [mailto:qemu-devel-bounces+shameerali.kolothum.thodi=3Dhuawei.com@nongn
-> u.org] On Behalf Of Michael S. Tsirkin
-> Sent: 11 September 2019 14:56
-> To: Igor Mammedov <imammedo@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>; Samuel Ortiz
-> <sameo@linux.intel.com>; Ard Biesheuvel <ard.biesheuvel@linaro.org>;
-> QEMU Developers <qemu-devel@nongnu.org>; Shameerali Kolothum Thodi
-> <shameerali.kolothum.thodi@huawei.com>; Linuxarm
-> <linuxarm@huawei.com>; Shannon Zhao <shannon.zhaosl@gmail.com>;
-> qemu-arm <qemu-arm@nongnu.org>; xuwei (O) <xuwei5@huawei.com>; Eric
-> Auger <eric.auger@redhat.com>; sebastien.boeuf@intel.com; Laszlo Ersek
-> <lersek@redhat.com>
-> Subject: Re: [Qemu-devel] [PATCH-for-4.2 v10 10/11] tests: add dummy ACPI
-> tables for arm/virt board
->=20
-> On Wed, Sep 11, 2019 at 03:50:15PM +0200, Igor Mammedov wrote:
-> > On Wed, 11 Sep 2019 13:57:06 +0100
-> > Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > > On Wed, 4 Sep 2019 at 09:58, Shameer Kolothum
-> > > <shameerali.kolothum.thodi@huawei.com> wrote:
-> > > >
-> > > > This patch is in preparation for adding numamem and memhp tests
-> > > > to arm/virt board so that 'make check' is happy. This may not
-> > > > be required once the scripts are run and new tables are
-> > > > generated with ".numamem" and ".memhp" extensions.
-> > > >
-> > > > Signed-off-by: Shameer Kolothum
-> <shameerali.kolothum.thodi@huawei.com>
-> > > > ---
-> > > > I am not sure this is the right way to do this. But without this, w=
-hen
-> > > > the numamem and memhp tests are added, you will get,
-> > > >
-> > > > Looking for expected file 'tests/data/acpi/virt/SRAT.numamem'
-> > > > Looking for expected file 'tests/data/acpi/virt/SRAT'
-> > > > **
-> > > > ERROR:tests/bios-tables-test.c:327:load_expected_aml: assertion fai=
-led:
-> (exp_sdt.aml_file)
-> > > >
-> > > > ---
-> > > >  tests/data/acpi/virt/SLIT | Bin 0 -> 48 bytes
-> > > >  tests/data/acpi/virt/SRAT | Bin 0 -> 224 bytes
-> > > >  2 files changed, 0 insertions(+), 0 deletions(-)
-> > > >  create mode 100644 tests/data/acpi/virt/SLIT
-> > > >  create mode 100644 tests/data/acpi/virt/SRAT
-> > >
-> > > Do the tests pass with this patch and without the
-> > > patch that adds the tests? (That is, can we keep the
-> > > two patches separate without breaking bisection, or
-> > > do we need to squash them together?)
-> > >
-> > > I'll leave it to somebody who understands the ACPI
-> > > tests stuff to answer whether there's a better way to
-> > I'd squash this patch into 11/11 test case,
->=20
->=20
-> Pls don't - the way to add this is to add the files in question to
-> tests/bios-tables-test-allowed-diff.h.
-
-IIRC, I have tried that but didn't work. I think the reason being, these
-are new test cases for arm/virt and both SRAT and SLIT tables are not
-present in the tests/data/acpi/virt folder.
-
-As you can see the error is different,
-
-> > > > Looking for expected file 'tests/data/acpi/virt/SRAT.numamem'
-> > > > Looking for expected file 'tests/data/acpi/virt/SRAT'
-> > > > **
-> > > > ERROR:tests/bios-tables-test.c:327:load_expected_aml: assertion fai=
-led:
-
-Not sure I missed anything though.
-
-Thanks,
-Shameer
-
-> Maintainer will create a separate commit updating
-> the binaries and removing them from the whitelist.
->=20
-> This way things like rebase work seemlessly.
->=20
->=20
-> > CCing Michael (since he's the one who applies ACPI patches)
-> >
-> > > do this.
-> > >
-> > > thanks
-> > > -- PMM
-> > >
+ hw/xen/trace-events      |   9 +-
+ hw/xen/xen-bus.c         | 266 ++++++++++++++++++++++++++++-----------
+ include/hw/xen/xen-bus.h |   7 +-
+ include/qemu/notify.h    |   2 +
+ util/notify.c            |   5 +
+ 5 files changed, 212 insertions(+), 77 deletions(-)
+---
+Cc: Anthony Perard <anthony.perard@citrix.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+-- 
+2.20.1.2.gb21ebb6
 
 
