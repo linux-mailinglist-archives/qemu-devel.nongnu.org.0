@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699C8AF5ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 08:37:36 +0200 (CEST)
-Received: from localhost ([::1]:46844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9217FAF5EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 08:37:41 +0200 (CEST)
+Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wFz-0000FL-4m
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 02:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
+	id 1i7wG4-0000LD-82
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 02:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38364)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1i7wDU-0006xD-Cu
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i7wDU-0006xE-Ma
  for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:35:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1i7wDT-0007m7-GQ
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i7wDT-0007mE-Ix
  for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:35:00 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:37857)
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:35531)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1i7wDT-0007jC-4b; Wed, 11 Sep 2019 02:34:59 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.06282304|-1; CH=green;
- DM=CONTINUE|CONTINUE|true|0.20373-0.00815328-0.788117; FP=0|0|0|0|0|-1|-1|-1;
- HT=e02c03277; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=11; RT=11; SR=0;
- TI=SMTPD_---.FSRGAhQ_1568183690; 
+ id 1i7wDT-0007iz-6j; Wed, 11 Sep 2019 02:34:59 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0409334|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.275102-0.0298298-0.695068; FP=0|0|0|0|0|-1|-1|-1;
+ HT=e02c03276; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=11; RT=11; SR=0;
+ TI=SMTPD_---.FSRC1sE_1568183690; 
 Received: from localhost(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.FSRGAhQ_1568183690)
- by smtp.aliyun-inc.com(10.147.42.198);
+ fp:SMTPD_---.FSRC1sE_1568183690)
+ by smtp.aliyun-inc.com(10.147.43.230);
  Wed, 11 Sep 2019 14:34:50 +0800
 From: liuzhiwei <zhiwei_liu@c-sky.com>
 To: Alistair.Francis@wdc.com, palmer@sifive.com, sagark@eecs.berkeley.edu,
  kbastian@mail.uni-paderborn.de, riku.voipio@iki.fi, laurent@vivier.eu,
  wenmeng_zhang@c-sky.com
-Date: Wed, 11 Sep 2019 14:25:25 +0800
-Message-Id: <1568183141-67641-2-git-send-email-zhiwei_liu@c-sky.com>
+Date: Wed, 11 Sep 2019 14:25:26 +0800
+Message-Id: <1568183141-67641-3-git-send-email-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
 References: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 121.197.200.217
-Subject: [Qemu-devel] [PATCH v2 01/17] RISC-V: add vfp field in CPURISCVState
+Subject: [Qemu-devel] [PATCH v2 02/17] RISC-V: turn on vector extension from
+ command line by cfg.ext_v Property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,51 +61,61 @@ From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- target/riscv/cpu.h | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ target/riscv/cpu.c | 6 +++++-
+ target/riscv/cpu.h | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f8d07bd..9f93ce7 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -109,7 +109,7 @@ static void set_resetvec(CPURISCVState *env, int resetvec)
+ static void riscv_any_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+-    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
++    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU | RVV);
+     set_priv_version(env, PRIV_VERSION_1_11_0);
+     set_resetvec(env, DEFAULT_RSTVEC);
+ }
+@@ -406,6 +406,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_u) {
+             target_misa |= RVU;
+         }
++        if (cpu->cfg.ext_v) {
++            target_misa |= RVV;
++        }
+ 
+         set_misa(env, RVXLEN | target_misa);
+     }
+@@ -441,6 +444,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
+     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
++    DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, true),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0adb307..c992b1d 100644
+index c992b1d..2c7072a 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -93,9 +93,37 @@ typedef struct CPURISCVState CPURISCVState;
+@@ -67,6 +67,7 @@
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
++#define RVV RV('V')
  
- #include "pmp.h"
- 
-+#define VLEN 128
-+#define VUNIT(x) (VLEN / x)
-+
- struct CPURISCVState {
-     target_ulong gpr[32];
-     uint64_t fpr[32]; /* assume both F and D extensions */
-+
-+    /* vector coprocessor state.  */
-+    struct {
-+        union VECTOR {
-+            float64  f64[VUNIT(64)];
-+            float32  f32[VUNIT(32)];
-+            float16  f16[VUNIT(16)];
-+            uint64_t u64[VUNIT(64)];
-+            int64_t  s64[VUNIT(64)];
-+            uint32_t u32[VUNIT(32)];
-+            int32_t  s32[VUNIT(32)];
-+            uint16_t u16[VUNIT(16)];
-+            int16_t  s16[VUNIT(16)];
-+            uint8_t  u8[VUNIT(8)];
-+            int8_t   s8[VUNIT(8)];
-+        } vreg[32];
-+        target_ulong vxrm;
-+        target_ulong vxsat;
-+        target_ulong vl;
-+        target_ulong vstart;
-+        target_ulong vtype;
-+        float_status fp_status;
-+    } vfp;
-+
-+    bool         foflag;
-     target_ulong pc;
-     target_ulong load_res;
-     target_ulong load_val;
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
+@@ -250,6 +251,7 @@ typedef struct RISCVCPU {
+         bool ext_c;
+         bool ext_s;
+         bool ext_u;
++        bool ext_v;
+         bool ext_counters;
+         bool ext_ifencei;
+         bool ext_icsr;
 -- 
 2.7.4
 
