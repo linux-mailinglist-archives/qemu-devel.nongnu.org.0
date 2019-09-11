@@ -2,48 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5CF2AFFFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:27:57 +0200 (CEST)
-Received: from localhost ([::1]:52508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDCEAFFDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:23:27 +0200 (CEST)
+Received: from localhost ([::1]:52456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84XE-0005wN-Rw
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48881)
+	id 1i84Ss-0001OX-1v
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:23:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48817)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1i845B-0007Xb-P9
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:58 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1i845A-0002ti-OF
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48190)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i845A-0002sl-J2
+ (envelope-from <richard.henderson@linaro.org>) id 1i8458-0007Vi-Ng
  for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:56 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 783A285360;
- Wed, 11 Sep 2019 14:58:54 +0000 (UTC)
-Received: from localhost (ovpn-116-185.ams2.redhat.com [10.36.116.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3436608C2;
- Wed, 11 Sep 2019 14:58:53 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 16:58:18 +0200
-Message-Id: <20190911145818.18962-3-stefanha@redhat.com>
-In-Reply-To: <20190911145818.18962-1-stefanha@redhat.com>
-References: <20190911145818.18962-1-stefanha@redhat.com>
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <richard.henderson@linaro.org>) id 1i8456-0002rj-Np
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:54 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:33408)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i8456-0002qb-Ir
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 10:58:52 -0400
+Received: by mail-qk1-x741.google.com with SMTP id x134so21119567qkb.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 07:58:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qeGNq13pRXExtoYrhyXf1yMnJAAINV+hOy8ZWFKRetM=;
+ b=VWtjWpgFQSOeDCOljulzUYjJf3lGrg5ygYdqCgb/+0wgbDbhznBJiPiakhP9d9ohEF
+ iQlfaM9AfKPfnT4Kf8sc5vz40YKiFBrLk9ai1bjDA2rKgfkUP2AYR7mXABDX3aEpsaQ3
+ s4sG6rFQpAshdyGleYxNVHx+AyI3l3qDJuhfS89k4+7TOrPXjdAQ1eapWtByHoBx87dq
+ gpIp8lQaemYZ4Nj3lUg6EkQHGP3xZTEh6F3eRRPKwFlUC+xNYkikYF6cxrKbLGMn8cfp
+ 50KfmIkrXi2BkdkBJRKbJF3LyrKpVBHxwN/HpKebUprEa5qVxTTjM2GHmyfMr4VrODEA
+ fbKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qeGNq13pRXExtoYrhyXf1yMnJAAINV+hOy8ZWFKRetM=;
+ b=gBEES0trYJYFoQWFNGXXkTvrEQJE8BPfx0NgnF3LWdZZHukoVhqFCMVIHeJN4KZwPn
+ lHwlvEkKSbd0+xj6y/+/4WnB0RoR1tQWYQUdXV14Tatf2TNL+4UYKMBgq00Jeic6qgcB
+ rhrvUcnCrmlXutMEx/sxMDmmwsM/pi8IJYVcGGIjcIpfrg+2+Pnhf0gPGz7X80Yi8UYR
+ EjB+gCJT2F7DW0y0OI209iiKBmEHlFLWkfqEoMFfOIeXkaSgRELFtDA6z/+vVi5jZKoS
+ 5j7XKdGdC7lhhLB4k2TEs9IJZDUmi3lgMARQsEgkrObRe0Z+tx7cCjVAau/Dr3TKBXEE
+ q6uQ==
+X-Gm-Message-State: APjAAAWaEo0Noyaw90NE8kzRtiaEE5PUDcRIdXdDUQhul4HHy0khq6DD
+ XPAX89Jki7blLmnS71ZdYMXkfQ==
+X-Google-Smtp-Source: APXvYqyz16hZT1ESV+yPKdDk0TIviSTr1jwMOpVMt/I50A6ZxddM7IFv+DF4E9piiNZP/GFbAeolxw==
+X-Received: by 2002:a37:c206:: with SMTP id i6mr6425338qkm.114.1568213929965; 
+ Wed, 11 Sep 2019 07:58:49 -0700 (PDT)
+Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
+ [64.229.69.35])
+ by smtp.gmail.com with ESMTPSA id l3sm9091792qtc.33.2019.09.11.07.58.48
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Sep 2019 07:58:49 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190906075750.14791-1-david@redhat.com>
+ <20190906075750.14791-9-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <27a01bdc-637d-ee1c-904d-af5fc9436825@linaro.org>
+Date: Wed, 11 Sep 2019 10:58:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 11 Sep 2019 14:58:54 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] audio: add -audiodev pa,
- in|out.latency= to documentation
+In-Reply-To: <20190906075750.14791-9-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::741
+Subject: Re: [Qemu-devel] [PATCH v2 08/28] s390x/tcg: MVPG: Properly wrap
+ the addresses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,44 +85,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Zolt=C3=A1n=20K=C5=91v=C3=A1g=C3=B3?= <DirtY.iCE.hu@gmail.com>
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "latency" parameter wasn't covered by the documentation.
+On 9/6/19 3:57 AM, David Hildenbrand wrote:
+> We have to mask of any unused bits. While at it, document what exactly is
+> missing.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/mem_helper.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
-How is this parameter related to buffer-length?
----
- qemu-options.hx | 4 ++++
- 1 file changed, 4 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index a4f9f74f52..82154cecf8 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -470,6 +470,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
-     "-audiodev pa,id=3Did[,prop[=3Dvalue][,...]]\n"
-     "                server=3D PulseAudio server address\n"
-     "                in|out.name=3D source/sink device name\n"
-+    "                in|out.latency=3D desired latency in microseconds\n=
-"
- #endif
- #ifdef CONFIG_AUDIO_SDL
-     "-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]\n"
-@@ -630,6 +631,9 @@ Sets the PulseAudio @var{server} to connect to.
- @item in|out.name=3D@var{sink}
- Use the specified source/sink for recording/playback.
-=20
-+@item in|out.latency=3D@var{usecs}
-+Desired latency in microseconds.
-+
- @end table
-=20
- @item -audiodev sdl,id=3D@var{id}[,@var{prop}[=3D@var{value}][,...]]
---=20
-2.21.0
+r~
 
 
