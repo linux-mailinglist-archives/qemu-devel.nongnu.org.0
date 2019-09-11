@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5451CAFFE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:24:51 +0200 (CEST)
-Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F23B000D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:30:10 +0200 (CEST)
+Received: from localhost ([::1]:52528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84UE-0003RP-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49583)
+	id 1i84ZN-0007PH-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50163)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i848I-0001U0-AV
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:02:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i84BJ-0004N5-8t
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:05:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i848G-0004HH-Fk
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:02:09 -0400
-Resent-Date: Wed, 11 Sep 2019 11:02:09 -0400
-Resent-Message-Id: <E1i848G-0004HH-Fk@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21866)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i848G-0004G9-8Y
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:02:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568214118; cv=none; d=zoho.com; s=zohoarc; 
- b=hY+XZYCfBPXiJeJAl258DR1/Lu6i5x5IoGbUqbDs2nw7bJyPOP1rEpmVgXaQ7O4ofKk3Lj3hhg9WaOmtf3fFiIbEB/Z9d9QH7HfrkJOv9BhwlhbJuCEA49my12aXj0oHc65aMfRl/b+F4dHHUyGsH+BepVIhregrpa320JlB1VA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568214118;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=939m4os3hUtk6LyxNQsjC4rs8sWjjMF24QH1UtpvWKY=; 
- b=PEyy4xZRTDSMDt2t4zmIqM/VtTDy2bd/UXczYGFIZjxgQ5RMrPo8Nu7q7LS5fOwacbB5V9oJ4mwI3YvLGszg6xAFUxflnYdL8O6s22ql3mmlJIrVE2TcaHZZSzu9n1TIxo3wJkQ5HoTzFJ7MmMeuvYVxh8kqZpLtcDuCskV62zc=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568214116226408.8394710323356;
- Wed, 11 Sep 2019 08:01:56 -0700 (PDT)
-In-Reply-To: <20190911134539.25650-1-johannes@sipsolutions.net>
-Message-ID: <156821411517.20024.16615563012612024015@5dec9699b7de>
+ (envelope-from <richard.henderson@linaro.org>) id 1i84BC-0005gQ-E2
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:05:15 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:40094)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i84BC-0005fR-6x
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:05:10 -0400
+Received: by mail-qk1-x744.google.com with SMTP id y144so13054809qkb.7
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 08:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Hj/GTxjogi2J1qasGymy2QlQ81XcbDBjcvV3NzA9c3c=;
+ b=co80VYVMnqhLxQcIqqHAmJKJFNuGgIrmLGGFVi6DsWqvfcd/cKcTi+ZiWc/hysvlCB
+ p7S5tW02JZbZORY/IbGDqNtF8g08+oXf6/m3ZeFuhUvjdUR4R2pKWaWZPFbUlVcP9Uvd
+ 5QQvCTpHKG9PzjRfpYp030PKcepYZ2QFi6PU6LwIR7Y6l5Zsajd+f6wela5iq28xq1tk
+ bdAobf5xblPUzruXUZeNKKiyByFn5lfgpauVJ6UIezPWP28BO1zKtfuRnumtq8//EzIN
+ 9NE5RW2Q5t/Q7dFpleQNXGRmmSEGZSJdmCpE9sg0wvPiK0ePmS1BNbAqoyf4Pl4HaBPt
+ +CFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hj/GTxjogi2J1qasGymy2QlQ81XcbDBjcvV3NzA9c3c=;
+ b=q0v+6C9LOn+yqUMmaWQs0i85MOLW1sK43Dw/tsrqbNlaVCoJGOmtw0Pj1UtQWb4mkt
+ ZEscDU5HXcBRtGWywiue+qMDGoKeL+SXa/KVq3XVGihUeB6psJKS+dcNFhA3nUZprgW6
+ werfI9BzqreWVEq/Jbmq4sZ4U0wdIN7RxhT1m9POkfv4sRK9kS6WwOVF3EHUBcnTGNLY
+ mVazEB4viZm9awuidRI9y26Qnir/fssAVMV5FysuqhU8GjhAlJ4v1DE2miiNr5TNa1go
+ zWEvpwsCv4AGP5q/2SXY7pLx532aG8/oUejmchx+ODwJKG+XGqwSrkjPcP4xcOkSsXLr
+ ePTw==
+X-Gm-Message-State: APjAAAUPMTLOxYwFskKvD38ONgdFYAsqjX1LjrUsgDocoX/6Ht9+iAHz
+ 50GtuQbLIO4K3z0Yc4RmCiuNIQ==
+X-Google-Smtp-Source: APXvYqxBhQhCUxO0skINsJZ7+GM5l+DiuaG1bkQLX0L2I8T0teydRrRaAzQ8B1fo/OHHzwL9UYF/Tw==
+X-Received: by 2002:a37:9bcb:: with SMTP id d194mr1343818qke.86.1568214308042; 
+ Wed, 11 Sep 2019 08:05:08 -0700 (PDT)
+Received: from [192.168.5.185] (otwaon236nw-grc-01-64-229-69-35.dsl.bell.ca.
+ [64.229.69.35])
+ by smtp.gmail.com with ESMTPSA id w25sm9241681qkf.30.2019.09.11.08.05.06
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Sep 2019 08:05:07 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190906075750.14791-1-david@redhat.com>
+ <20190906075750.14791-10-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <b4737d33-201f-7b0c-2d15-7b83778e75f7@linaro.org>
+Date: Wed, 11 Sep 2019 11:05:04 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: johannes@sipsolutions.net
-Date: Wed, 11 Sep 2019 08:01:56 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.58
-Subject: Re: [Qemu-devel] [RFC v2 0/2] vhost-user: in-band notifications
+In-Reply-To: <20190906075750.14791-10-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::744
+Subject: Re: [Qemu-devel] [PATCH v2 09/28] s390x/tcg: MVCLU/MVCLE: Process
+ max 4k bytes at a time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,38 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMTEzNDUzOS4yNTY1
-MC0xLWpvaGFubmVzQHNpcHNvbHV0aW9ucy5uZXQvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
-dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
-bW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUkZDIHYyIDAvMl0gdmhv
-c3QtdXNlcjogaW4tYmFuZCBub3RpZmljYXRpb25zCk1lc3NhZ2UtaWQ6IDIwMTkwOTExMTM0NTM5
-LjI1NjUwLTEtam9oYW5uZXNAc2lwc29sdXRpb25zLm5ldApUeXBlOiBzZXJpZXMKCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
-dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
-bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
-ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rl
-c3QnCjlmMzRmNjEgbGlidmhvc3QtdXNlcjogaW1wbGVtZW50IGluLWJhbmQgbm90aWZpY2F0aW9u
-cwo4ZjRiMDEzIGRvY3M6IHZob3N0LXVzZXI6IGFkZCBpbi1iYW5kIGtpY2svY2FsbCBtZXNzYWdl
-cwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yIENoZWNraW5nIGNvbW1pdCA4ZjRiMDEzODYwOGMg
-KGRvY3M6IHZob3N0LXVzZXI6IGFkZCBpbi1iYW5kIGtpY2svY2FsbCBtZXNzYWdlcykKMi8yIENo
-ZWNraW5nIGNvbW1pdCA5ZjM0ZjYxYzIwNDQgKGxpYnZob3N0LXVzZXI6IGltcGxlbWVudCBpbi1i
-YW5kIG5vdGlmaWNhdGlvbnMpCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
-YnMKIzE4MzogRklMRTogY29udHJpYi9saWJ2aG9zdC11c2VyL2xpYnZob3N0LXVzZXIuYzoxNTA4
-OgorXkkgICBkZXYtPnZxW2luZGV4XS5oYW5kbGVyLCBpbmRleCk7JAoKdG90YWw6IDEgZXJyb3Jz
-LCAwIHdhcm5pbmdzLCAyMTEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
-aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
-cmcvbG9ncy8yMDE5MDkxMTEzNDUzOS4yNTY1MC0xLWpvaGFubmVzQHNpcHNvbHV0aW9ucy5uZXQv
-dGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0
-b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5k
-IHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 9/6/19 3:57 AM, David Hildenbrand wrote:
+> +    if (*srclen) {
+> +        /* Copy the src array */
+> +        len = MIN(len, *srclen);
+> +        *destlen -= len;
+> +        *srclen -= len;
+> +        fast_memmove(env, *dest, *src, len, ra);
+> +        *src = wrap_address(env, *src + len);
+> +        *dest = wrap_address(env, *dest + len);
+> +    } else if (wordsize == 1) {
+> +        /* Pad the remaining area */
+> +        *destlen -= len;
+> +        fast_memset(env, *dest, pad, len, ra);
+> +        *dest = wrap_address(env, *dest + len);
 
+Again, I'm not sure fast_memmove actually handles wrap, yet.
+Would it be easier to split at page boundaries rather than a
+fixed 4k length?
+
+
+r~
 
