@@ -2,54 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B5CAFFF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:26:35 +0200 (CEST)
-Received: from localhost ([::1]:52488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE83B001A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 17:32:54 +0200 (CEST)
+Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i84Vt-0004dP-B1
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:26:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52565)
+	id 1i84c0-0000xO-VX
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 11:32:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49166)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i84NL-0006S0-HK
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:44 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1i846f-0000QL-AJ
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:00:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i84NK-0003ZM-B1
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:43 -0400
-Received: from nsstlmta09p.bpe.bigpond.com ([203.38.21.9]:47414)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i84NJ-0003VR-Mp
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:17:42 -0400
-Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep09p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190911151733.HBCD24695.nsstlfep09p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Thu, 12 Sep 2019 01:17:33 +1000
-X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedufedrtdefgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepvfhonhihucfpghhuhigvnhcuoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecukfhppeehkedrudejfedrleekrdeikeenucfrrghrrghmpehhvghlohepihhmrggtrdhlohgtrghlpdhinhgvthepheekrddujeefrdelkedrieekpdhmrghilhhfrhhomhepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoehmrghrkhdrtggrvhgvqdgrhihlrghnugesihhlrghnuggvrdgtohdruhhkqedprhgtphhtthhopeeophgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrgheqnecuvehluhhsthgvrhfuihiivgeptd
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-X-RG-VS-CLASS: clean
-X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
-Received: from imac.local (58.173.98.68) by smtp.telstra.com (5.8.335)
- (authenticated as tony.nguyen.git@bigpond.com)
- id 5D36929213D109F6; Thu, 12 Sep 2019 01:17:33 +1000
-Date: Thu, 12 Sep 2019 01:17:25 +1000
-From: Tony Nguyen <tony.nguyen@bt.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190911151725.GA15659@imac.local>
-References: <20190911014353.5926-1-richard.henderson@linaro.org>
- <20190911014353.5926-3-richard.henderson@linaro.org>
- <20190911105509.GA42643@imac.local>
- <299a576c-0264-95d2-e2fe-4dee41d87039@linaro.org>
+ (envelope-from <chihmin.chao@sifive.com>) id 1i846d-0003Ud-JI
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:00:29 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:45366)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1i846d-0003UH-Dr
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 11:00:27 -0400
+Received: by mail-io1-xd41.google.com with SMTP id f12so46436284iog.12
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 08:00:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A4W+uwqmFQL3Fl94MJldRvkiHT0JnYIMySqsIaI9inc=;
+ b=c/2EyqVRC7TV1AsCB5wxrkYVp9fJkvaq63AXcQwHdbvrVEjyzkudfqvDd48wwi8QVT
+ NOw38ZbBO7ySUEM5DA+dtyrEDYGbrPCUH/b2U8ucFmTUUIfeW93Y63gq6blbB8l9ZXXA
+ 6RQVAae0VJeJGMLM9NCs8N9lpPuNu+Ipq1ZkS1G6RQds7Tsn3APnuUMgVjVoWjj6cQ6o
+ BmET3nQwUJPSeFxaHf+gEDdQfmpXvdrfDq2fehslJ7LvOa9kXgCTrN/AyrCUGvOu+cGI
+ ptfaXcN1klB5VW0f3vxrrVilkR5t2TDWRXcS+isRc7dUsQ3cHN4Drc6XU9cDGp6H2rtl
+ 2ztw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A4W+uwqmFQL3Fl94MJldRvkiHT0JnYIMySqsIaI9inc=;
+ b=iXxT+UzTMks0EkglUsWvRZ9ODN1/LTqAtQh6z7yNPxjY6CJ6giwmVlCih7Pl9g5sKk
+ 7LJth+CO/Ut0Oz/BR+K1HIB6WhdirC3H8kPImNrYIvZ75ZaKBGrJBkWfmprH+5kZocJ1
+ 5WTeJdqWa6YEZDl6lhj8gdqxJH7Iy+M7uFiAp2ze5iMbXMDioFyerOOZ1LVFy6P71iD4
+ WNSr8pVdM4nQmzUhY3/DhWDGIvF9J1Fv2yN/KTR9o2T+6dRRKrN9a0JJLKpssbmMghYe
+ Zbdw7EXMmIZxN4sdRxopAWFUwRpkFTp9BH/NcLzjDCzODJmk9mfKtV6HI84mc2eTvbLO
+ rnzg==
+X-Gm-Message-State: APjAAAWz01gS51jWxMbVBNY9AfsFQ9ehgDlgyXbP3bpVjk2Yx5fI1UzK
+ NSBn/UmjFYaC/L2rspCgh7E5/Ujmk4NQcag8NcddHw==
+X-Google-Smtp-Source: APXvYqw54930mTdOMUZckpG8BtuhYzYbJxtjN1ywoyTeKEmtG0hV4gIW7yh/ddeQqoTvY7gtWLvaTlYDQKEXhjDXRHE=
+X-Received: by 2002:a02:170a:: with SMTP id 10mr10463458jah.65.1568214025709; 
+ Wed, 11 Sep 2019 08:00:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <299a576c-0264-95d2-e2fe-4dee41d87039@linaro.org>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.9
-Subject: Re: [Qemu-devel] [PATCH 2/3] cputlb: Replace switches in
- load/store_helper with callback
+References: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
+ <1568183141-67641-3-git-send-email-zhiwei_liu@c-sky.com>
+In-Reply-To: <1568183141-67641-3-git-send-email-zhiwei_liu@c-sky.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Wed, 11 Sep 2019 23:00:15 +0800
+Message-ID: <CAEiOBXUE4-gq1850=LXj5sWyy=b6JgoKNiVr3LEN-+e8rqbjUg@mail.gmail.com>
+To: liuzhiwei <zhiwei_liu@c-sky.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d41
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2 02/17] RISC-V: turn on vector extension
+ from command line by cfg.ext_v Property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,16 +74,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, riku.voipio@iki.fi,
+ laurent@vivier.eu, wxy194768@alibaba-inc.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wenmeng_zhang@c-sky.com, Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 11, 2019 at 09:22:39AM -0400, Richard Henderson wrote:
-> I would be hesitant to call this just "lduw_be"; I think that's confusing when
-> it's calling lduw_be_p.  But perhaps "wrap_*" or "wide_*"?
+On Wed, Sep 11, 2019 at 2:36 PM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
 
-Agree, some hamming distance is needed.
-
-"wrap_*", "wide_*", or "direct_*" all works for me.
-
+> From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/cpu.c | 6 +++++-
+>  target/riscv/cpu.h | 2 ++
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f8d07bd..9f93ce7 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -109,7 +109,7 @@ static void set_resetvec(CPURISCVState *env, int
+> resetvec)
+>  static void riscv_any_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> -    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> +    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU | RVV);
+>      set_priv_version(env, PRIV_VERSION_1_11_0);
+>      set_resetvec(env, DEFAULT_RSTVEC);
+>  }
+> @@ -406,6 +406,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error
+> **errp)
+>          if (cpu->cfg.ext_u) {
+>              target_misa |= RVU;
+>          }
+> +        if (cpu->cfg.ext_v) {
+> +            target_misa |= RVV;
+> +        }
+>
+>          set_misa(env, RVXLEN | target_misa);
+>      }
+> @@ -441,6 +444,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
+>      DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+>      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+> +    DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, true),
+>      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index c992b1d..2c7072a 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -67,6 +67,7 @@
+>  #define RVC RV('C')
+>  #define RVS RV('S')
+>  #define RVU RV('U')
+> +#define RVV RV('V')
+>
+>  /* S extension denotes that Supervisor mode exists, however it is possible
+>     to have a core that support S mode but does not have an MMU and there
+> @@ -250,6 +251,7 @@ typedef struct RISCVCPU {
+>          bool ext_c;
+>          bool ext_s;
+>          bool ext_u;
+> +        bool ext_v;
+>          bool ext_counters;
+>          bool ext_ifencei;
+>          bool ext_icsr;
+> --
+> 2.7.4
+>
+>
+> Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
