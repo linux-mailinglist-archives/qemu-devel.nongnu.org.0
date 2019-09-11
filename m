@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA66AF666
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:08:48 +0200 (CEST)
-Received: from localhost ([::1]:47188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81BCAF643
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Sep 2019 09:01:20 +0200 (CEST)
+Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i7wkA-0000Tk-Sm
-	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:08:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40930)
+	id 1i7wcw-0001Dg-Uf
+	for lists+qemu-devel@lfdr.de; Wed, 11 Sep 2019 03:01:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i7wRm-0006Bq-Mm
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:47 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i7wRj-00067t-OT
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i7wRl-0004Rz-Ne
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:55083)
+ (envelope-from <laurent@vivier.eu>) id 1i7wRi-0004QL-MI
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:52691)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRl-0004Rd-Ev
- for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:45 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i7wRi-0004Pg-C3
+ for qemu-devel@nongnu.org; Wed, 11 Sep 2019 02:49:42 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M5wc7-1i290j3Jj1-007V9s; Wed, 11 Sep 2019 08:49:30 +0200
+ id 1MmUYD-1iYVoo1gbB-00iWzi; Wed, 11 Sep 2019 08:49:31 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 11 Sep 2019 08:49:15 +0200
-Message-Id: <20190911064920.1718-11-laurent@vivier.eu>
+Date: Wed, 11 Sep 2019 08:49:16 +0200
+Message-Id: <20190911064920.1718-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190911064920.1718-1-laurent@vivier.eu>
 References: <20190911064920.1718-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Su61+BnpKiccqNuEQD+A6HqyxIOzxrWccEsaFWHENjM9CIChd6C
- a1w0VRCm+u9ubulRdzheD77DvR1dMe86Uu7EF6GTg6Mxzi472iPznSHK+1Pu8dG8WhpOHLI
- kOpSdvJMKmVqyOT9SlzT15N2gLZsPqW1rh+aVQwI4vm8V7nd2hJs2wXS0NuIM5kyU68/uYy
- +iH6Tfmo3cd5KtEO0Ywfw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1yOHbFUPko0=:6FR5lkRiUee9DSqImHk4Hw
- fPv//MW6vE/U2s1MfdLTP/lzhUKUmVChtlDX9Uer+d2My0TIHNosk1xVkKs2mda59BhJNmYSw
- 6K7Ew0dUhf7xDm+RgatrByO1nEViIlVjwgyAhS0c/BkouSkkWIpUHX7I5DuKkw3jm6rMdCPdp
- JoTYHHpOjh2p8Yznks0NHAOFeb/DDHr4rzGV79CPg+J96FUBmxZm8V28jM++RR5rFAMVQksrg
- xuymSp6F7XCIsQhos2PG6gfuNbmqIpbYV744LeRvo4UH9Om8Z68En624LJE/eaz7k3DmXKNZZ
- GL3+zxmu3uuKFcHgtRytN7u1v6Lk26nEoKW2PTUXz8FFP4Xj2r+8+nJSwsjWriAcuQtOfNWkq
- O8oBploh7cS7QAGl9ItA9bRYkMlmkvMbBOnPZfuCDy2fX5x+xT9QiUEoMuilQOqnNyKPD5SPS
- WtSE3hiEvkteofoxzG54XSQwITLeZfZvoDhxQtrx5g+1tOM39/E5O/PwBj85M6g/Kpb71aRlc
- WBAUASDo5pVmRDi+wn3Tau3tgIr8FvokockxLbNO+SgXYA5bhk6qz+bXR7fzbCnWcKZKlhwyg
- NGKtEsgTxpEKJYxgbiH/5NcRWDSXEOh9dgpWq+8Zh3eRk0lG+F3CMW/MzIO0M93SbaE1putDC
- YPIjyLTpBoSezqxqzBmGPts1zTDN7oP3Uj0dLhJsMa6WYITBehfdQ0sL8hG+dTHBw1Y6qRF/j
- 6JBwPAtKH46QvEDQ2OlOqYyQbcW33CzVFS326+sR5voHnSPlL8q1P5lM09t2UWllapZdpY7Lb
- BzC3kGRHMA2twDsXyRLYXsaYlAtSw==
+X-Provags-ID: V03:K1:q0XKCvUSDgDm/LctnBRhQZeq/VpM7ByItFT/6TnzPuaB1V28WGn
+ rsf9MbPl7I9FHSeOVIWp3/8wcFD6l7w0jgNi+SYI0WPnMMH74CNd3nExf3UycwONCaWFgBP
+ d07KB6Ire9iMy13qYZs4WWDjQeQHE+sJvWQ4cOcfBpDJwiWVpPj0iVxxHl+wdXj3iUxvk1f
+ Hq1aup40dGWl9QG7WO11A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xCnjN746qsA=:aVgGPonZMMmktz8h6Q4QvH
+ jc3gUcADAgj6eP1luiT2/p7IaPLLugAQkQdZbAk1XW6IQYko8OTh4fd9bnm2sBk3Y0LqBceiG
+ syt6auURbwTPL4AwBEa3Sc3LcAxzwzc6eigcsc3AnIJ8+5IR1kirmZULfge8hnCAH/AHoZ3y/
+ HOKOvbl46xQuYSqf2fpEoRFhStSXKW/I1ElMZpzlZ2qK8c9MYvOPzAOfLPBeOrPz/ziWCKUaP
+ TYYcbjmb6TRMVKCos6vEy2kHbUTJXZp4I/DFp+BKlAbmLJqB6MH4YgFFY7DUusmAHVbFSR2uf
+ wFVxRDrTgLU2M68eZELkq4orXuMpYwD0dNRpt++lFLFPhwO/4O7Vjd1VDD1lnpCeFtHmTWuZ/
+ IeAtymVYL1kpMVFoy5iCZ65oTfkj+xObw9TUlKfO55FX9U92lUwVjFjZmsdDRRLlJuGRym/O9
+ pj31ecoInnRfd6ml5xoSQS9bsU9Spvb7WL+w5kFISAYuj3AHLJrzKYXwxE4FFZ0g5uMEWTizd
+ O1kK0WWdUWxvsNWpzaUBS14sf3nOCaMSmzaPW6pN2wtIfJiguJbuOGGT5VkKYSax/UrQBvXW0
+ RfAfzI2TmLrgLLFqojT6hDcgebqwcHkwFxze1oI5zdpjJOe02k7k+zJweYGG4M8F/RN09W0HC
+ doALd3HzcZBnjGGvrlhHf5fSJBPi2wWx+tU2x2JfctGUarMmTTb65IkR+oggDtTjMhGUxNhxv
+ 6Hu+Q79/4Yr7mn4OU+fXDTrDElMY85wMR4KW+/vj2ePWtAXWI1JQj5mvW8twv4rcKw4HK9gJW
+ yyaLLd2IZjlNomuue9Dr4wsAsdvF3YAQ7VgxCQrVjbf/QIfrlQ=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
-Subject: [Qemu-devel] [PULL v2 10/15] linux-user: drop redundant handling of
- environment variables
+X-Received-From: 212.227.126.187
+Subject: [Qemu-devel] [PULL v2 11/15] linux-user: Add support for
+ RNDRESEEDCRNG ioctl
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,41 +65,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Filippov <jcmvbkbc@gmail.com>
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-QEMU_STRACE and QEMU_RAND_SEED are handled by the parse_args, no need to
-do it again in main.
+RNDRESEEDCRNG is a newer ioctl (added in kernel 4.17), and an
+"ifdef" guard is used for that reason in this patch.
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20190906165736.5612-1-jcmvbkbc@gmail.com>
+Message-Id: <1567601968-26946-3-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/main.c | 7 -------
- 1 file changed, 7 deletions(-)
+ linux-user/ioctls.h       | 3 +++
+ linux-user/syscall_defs.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 27d9a87bc83d..560d053f7249 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -706,13 +706,6 @@ int main(int argc, char **argv, char **envp)
-         reserved_va = max_reserved_va & qemu_host_page_mask;
-     }
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 3281c97ca263..cd9b6f9a8d45 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -246,6 +246,9 @@
+   IOCTL(RNDADDTOENTCNT, IOC_W, MK_PTR(TYPE_INT))
+   IOCTL(RNDZAPENTCNT, 0, TYPE_NULL)
+   IOCTL(RNDCLEARPOOL, 0, TYPE_NULL)
++#ifdef RNDRESEEDCRNG
++  IOCTL(RNDRESEEDCRNG, 0, TYPE_NULL)
++#endif
  
--    if (getenv("QEMU_STRACE")) {
--        do_strace = 1;
--    }
--
--    if (seed_optarg == NULL) {
--        seed_optarg = getenv("QEMU_RAND_SEED");
--    }
-     {
-         Error *err = NULL;
-         if (seed_optarg != NULL) {
+   IOCTL(CDROMPAUSE, 0, TYPE_NULL)
+   IOCTL(CDROMSTART, 0, TYPE_NULL)
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 06622703008a..19a1d39cbc82 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -850,6 +850,7 @@ struct target_pollfd {
+ #define TARGET_RNDADDTOENTCNT  TARGET_IOW('R', 0x01, int)
+ #define TARGET_RNDZAPENTCNT    TARGET_IO('R', 0x04)
+ #define TARGET_RNDCLEARPOOL    TARGET_IO('R', 0x06)
++#define TARGET_RNDRESEEDCRNG   TARGET_IO('R', 0x07)
+ 
+ /* From <linux/fs.h> */
+ 
 -- 
 2.21.0
 
