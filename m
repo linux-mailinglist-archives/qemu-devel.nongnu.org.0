@@ -2,60 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3408CB0CF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:33:45 +0200 (CEST)
-Received: from localhost ([::1]:60498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6F8B0CFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:33:51 +0200 (CEST)
+Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8MQ3-0000uX-QV
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55529)
+	id 1i8MQA-00012u-7o
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i8MNO-0007u3-Jp
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:30:59 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i8MIc-00043q-Cz
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:26:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i8MNN-0004CH-Fb
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:30:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46174)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i8MNN-0004C1-9A
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:30:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i8MNM-0006gt-FX
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 10:30:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 749A62E80C7
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 10:30:56 +0000 (UTC)
+ (envelope-from <kwolf@redhat.com>) id 1i8MIa-0001S3-AE
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:26:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43796)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i8MIR-0001PU-Mw; Thu, 12 Sep 2019 06:25:51 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EDDAF3B464;
+ Thu, 12 Sep 2019 10:25:50 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-179.ams2.redhat.com [10.36.116.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE3E6194B9;
+ Thu, 12 Sep 2019 10:25:47 +0000 (UTC)
+Date: Thu, 12 Sep 2019 12:25:46 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Message-ID: <20190912102546.GF5383@linux.fritz.box>
+References: <20190911161521.59261-1-slp@redhat.com>
+ <20190912082322.GD5383@linux.fritz.box> <87zhj9x1ov.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Sep 2019 10:17:32 -0000
-From: James Harvey <jamespharvey20@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h jamespharvey20
-X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
-X-Launchpad-Bug-Modifier: James Harvey (jamespharvey20)
-References: <156790812963.29382.11232177290822294099.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156828345244.1080.8650072811497232640.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19044";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: bb20df3141070018b32341720cd22bad674b53f3
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="adJ1OR3c6QgCpb/j"
+Content-Disposition: inline
+In-Reply-To: <87zhj9x1ov.fsf@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Thu, 12 Sep 2019 10:25:51 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1843151] Re: Regression: QEMU 4.1.0 qxl and KMS
- resoluiton only 4x10
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] nbd/server: attach client channel to the
+ export's AioContext
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,44 +59,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843151 <1843151@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-P.S. Looks like I can use --disable-docs to hopefully get around the
-json parsing error, but that still doesn't help with the gluster error
-or that something is still looking the .so given --disable-glusterfs.
 
--- =
+--adJ1OR3c6QgCpb/j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843151
+Am 12.09.2019 um 12:13 hat Sergio Lopez geschrieben:
+>=20
+> Kevin Wolf <kwolf@redhat.com> writes:
+>=20
+> > Am 11.09.2019 um 18:15 hat Sergio Lopez geschrieben:
+> >> On creation, the export's AioContext is set to the same one as the
+> >> BlockBackend, while the AioContext in the client QIOChannel is left
+> >> untouched.
+> >>=20
+> >> As a result, when using data-plane, nbd_client_receive_next_request()
+> >> schedules coroutines in the IOThread AioContext, while the client's
+> >> QIOChannel is serviced from the main_loop, potentially triggering the
+> >> assertion at qio_channel_restart_[read|write].
+> >>=20
+> >> To fix this, as soon we have the export corresponding to the client,
+> >> we call qio_channel_attach_aio_context() to attach the QIOChannel
+> >> context to the export's AioContext. This matches with the logic in
+> >> blk_aio_attached().
+> >>=20
+> >> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1748253
+> >> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> >
+> > Oh, looks like I only fixed switching the AioContext after the fact, but
+> > not starting the NBD server for a node that is already in a different
+> > AioContext... :-/
+> >
+> >> diff --git a/nbd/server.c b/nbd/server.c
+> >> index 10faedcfc5..51322e2343 100644
+> >> --- a/nbd/server.c
+> >> +++ b/nbd/server.c
+> >> @@ -471,6 +471,7 @@ static int nbd_negotiate_handle_export_name(NBDCli=
+ent *client,
+> >>      QTAILQ_INSERT_TAIL(&client->exp->clients, client, next);
+> >>      nbd_export_get(client->exp);
+> >>      nbd_check_meta_export(client);
+> >> +    qio_channel_attach_aio_context(client->ioc, client->exp->ctx);
+> >> =20
+> >>      return 0;
+> >>  }
+> >> @@ -673,6 +674,7 @@ static int nbd_negotiate_handle_info(NBDClient *cl=
+ient, uint16_t myflags,
+> >>          QTAILQ_INSERT_TAIL(&client->exp->clients, client, next);
+> >>          nbd_export_get(client->exp);
+> >>          nbd_check_meta_export(client);
+> >> +        qio_channel_attach_aio_context(client->ioc, exp->ctx);
+> >>          rc =3D 1;
+> >>      }
+> >>      return rc;
+> >
+> > I think I would rather do this once at the end of nbd_negotiate()
+> > instead of duplicating it across the different way to open an export.
+> > During the negotiation phase, we don't start requests yet, so doing
+> > everything from the main thread should be fine.
+>=20
+> OK.
+>=20
+> > Actually, not doing everything from the main thread sounds nasty because
+> > I think the next QIOChannel callback could then already be executed in
+> > the iothread while this one hasn't completed yet. Or do we have any
+> > locking in place for the negotiation?
+>=20
+> This is the first time I look at NBD code, but IIUC all the negotiation
+> is done with synchronous nbd_[read|write]() calls, so even if the
+> coroutine yields due to EWOULDBLOCK, nothing else should be making
+> progress.
 
-Title:
-  Regression: QEMU 4.1.0 qxl and KMS resoluiton only 4x10
+Ah, yes, you're right. We don't even have fd handlers installed if we
+aren't currently waiting for the coroutine to be re-entered. So as
+everything is tied to the one coroutine, this should not be a problem.
 
-Status in QEMU:
-  New
+Let's avoid the duplication anyway.
 
-Bug description:
-  Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.  virt-viewer 8.0.
+Kevin
 
-  Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
+--adJ1OR3c6QgCpb/j
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Have replicated this both on a system using amdgpu and one using
-  integrated ASPEED graphics.
+-----BEGIN PGP SIGNATURE-----
 
-  Downgrading from 4.1.0 to 4.0.0 works as usual, see:
-  https://www.youtube.com/watch?v=3DNyMdcYwOCvY
+iQIcBAEBAgAGBQJdeh0qAAoJEH8JsnLIjy/WVyoQALyncWVCBOi3rLK5X/QK81MO
+6SSDcrSSBrze6VDfPQ1G/P0Zm6n8shQ3nZwZ9iFLmUrZSpVVJ7HCOYhfpkc737bQ
+g4buu0eCRRE/NkRLQFjksMrBWr7W/yQHZGriMG8N8tBQmxrYAahno9ALXX/wC3Ct
+OMrpqrMueUu3ZUQ0I5aX4uMdD8MwT0wjeYyygMTMoAyctLlnmTTlq6DsXIGH0Jex
+dwdDuGJT4o6CgZh1h1ZvZU1YATl1HxT9QE2kdifUdmU6Nbj4/rY1hlia+cdGH1zh
+VOFb1EPAClCuuoTudeErmQrRj7GcEypYfbxsoEstVIC5M3st2Mnz4TijGr489CZM
+NajP0VYCGXL4cA4BbuHUTxMDR/8swdi6GJvhmCwODmsoGgm6+cPoA7VdR6OtuYk1
+CYzYl2frIaKox46OsAks5vzInBD8KrJH82nPF/lHbFosTvtL6ePyGYAiHspiFsop
+OIgqdxWsnGepiyapoCRFseU6Q4n3A/3aHOW6oFbzFWLeK8E/Q7hHISUZhShP6l2y
+Wth30hWsICumYNGuw2YcSIp1rOdor3g1eHaQ4bkb08cKW2ora/IywmULqNeM5KPk
+xczu92QsFyWk+TIxeY73mGO05nK+r4rBDVWfIZAWlmQoyLzan7munNT3NhOXoA7g
+ChMlGJw1pGWFjLe45UlR
+=o3h+
+-----END PGP SIGNATURE-----
 
-  Going back to 4.1.0 reproduces, see:
-  https://www.youtube.com/watch?v=3DH3nGG2Mk6i0
-
-  4.1.0 displays fine until KMS kicks in.
-
-  Using 4.1.0 with virtio-vga doesn't cause this.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843151/+subscriptions
+--adJ1OR3c6QgCpb/j--
 
