@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416EDB1698
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 01:14:26 +0200 (CEST)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46972B169B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 01:16:34 +0200 (CEST)
+Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8YID-0002qr-1Y
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 19:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50427)
+	id 1i8YKH-0004qL-Cl
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 19:16:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50446)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1i8YGY-0001o8-GW
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 19:12:43 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1i8YGZ-0001oQ-EO
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 19:12:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1i8YGX-0000yh-17
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 19:12:42 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51660
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1i8YGY-0000z5-GD
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 19:12:43 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9784)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1i8YGW-0000yT-TG; Thu, 12 Sep 2019 19:12:40 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8CNCX7I192813; Thu, 12 Sep 2019 19:12:39 -0400
+ id 1i8YGY-0000yp-7q; Thu, 12 Sep 2019 19:12:42 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8CNCe8g004898; Thu, 12 Sep 2019 19:12:40 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2uywkvu66q-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2uyw1rmcrn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Sep 2019 19:12:40 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8CNCdbd004798;
+ Thu, 12 Sep 2019 19:12:40 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2uyw1rmcr6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 12 Sep 2019 19:12:39 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8CNCciX192996;
- Thu, 12 Sep 2019 19:12:38 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2uywkvu66k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Sep 2019 19:12:38 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8CNAI6b020060;
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8CNAHed014452;
  Thu, 12 Sep 2019 23:12:38 GMT
 Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma03wdc.us.ibm.com with ESMTP id 2uytdx27xh-1
+ [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 2uyw58h481-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 12 Sep 2019 23:12:38 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
  by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8CNCbq951839482
+ x8CNCb7U44564952
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Sep 2019 23:12:37 GMT
+ Thu, 12 Sep 2019 23:12:38 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 55F1A112061;
+ by IMSVA (Postfix) with ESMTP id E2474112061;
  Thu, 12 Sep 2019 23:12:37 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 43CC6112067;
+ by IMSVA (Postfix) with ESMTP id C62A0112062;
  Thu, 12 Sep 2019 23:12:37 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
  Thu, 12 Sep 2019 23:12:37 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 18:12:01 -0500
-Message-Id: <20190912231202.12327-2-mdroth@linux.vnet.ibm.com>
+Date: Thu, 12 Sep 2019 18:12:02 -0500
+Message-Id: <20190912231202.12327-3-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190912231202.12327-1-mdroth@linux.vnet.ibm.com>
 References: <20190912231202.12327-1-mdroth@linux.vnet.ibm.com>
@@ -71,13 +70,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1909120237
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 1/2] make-release: pull in edk2 submodules so
- we can build it from tarballs
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 2/2] roms/Makefile.edk2: don't pull in
+ submodules when building from tarball
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,20 +92,13 @@ Cc: lersek@redhat.com, qemu-stable@nongnu.org, brogers@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The `make efi` target added by 536d2173 is built from the roms/edk2
-submodule, which in turn relies on additional submodules nested under
-roms/edk2.
+Currently the `make efi` target pulls submodules nested under the
+roms/edk2 submodule as dependencies. However, when we attempt to build
+from a tarball this fails since we are no longer in a git tree.
 
-The make-release script currently only pulls in top-level submodules,
-so these nested submodules are missing in the resulting tarball.
-
-We could try to address this situation more generally by recursively
-pulling in all submodules, but this doesn't necessarily ensure the
-end-result will build properly (this case also required other changes).
-
-Additionally, due to the nature of submodules, we may not always have
-control over how these sorts of things are dealt with, so for now we
-continue to handle it on a case-by-case in the make-release script.
+A preceding patch will pre-populate these submodules in the tarball,
+so assume this build dependency is only needed when building from a
+git tree.
 
 Reported-by: Bruce Rogers <brogers@suse.com>
 Cc: Laszlo Ersek <lersek@redhat.com>
@@ -114,28 +106,28 @@ Cc: Bruce Rogers <brogers@suse.com>
 Cc: qemu-stable@nongnu.org # v4.1.0
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- scripts/make-release | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ roms/Makefile.edk2 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/make-release b/scripts/make-release
-index b4af9c9e52..a2a8cda33c 100755
---- a/scripts/make-release
-+++ b/scripts/make-release
-@@ -20,6 +20,14 @@ git checkout "v${version}"
- git submodule update --init
- (cd roms/seabios && git describe --tags --long --dirty > .version)
- (cd roms/skiboot && ./make_version.sh > .version)
-+# Fetch edk2 submodule's submodules, since it won't have access to them via
-+# the tarball later.
-+#
-+# A more uniform way to handle this sort of situation would be nice, but we
-+# don't necessarily have much control over how a submodule handles its
-+# submodule dependencies, so we continue to handle these on a case-by-case
-+# basis for now.
-+(cd roms/edk2 && git submodule update --init)
- popd
- tar --exclude=.git -cjf ${destination}.tar.bz2 ${destination}
- rm -rf ${destination}
+diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
+index c2f2ff59d5..33a074d3a4 100644
+--- a/roms/Makefile.edk2
++++ b/roms/Makefile.edk2
+@@ -46,8 +46,13 @@ all: $(foreach flashdev,$(flashdevs),../pc-bios/edk2-$(flashdev).fd.bz2) \
+ # files.
+ .INTERMEDIATE: $(foreach flashdev,$(flashdevs),../pc-bios/edk2-$(flashdev).fd)
+ 
++# Fetch edk2 submodule's submodules. If it is not in a git tree, assume
++# we're building from a tarball and that they've already been fetched by
++# make-release/tarball scripts.
+ submodules:
+-	cd edk2 && git submodule update --init --force
++	if test -d edk2/.git; then \
++		cd edk2 && git submodule update --init --force; \
++	fi
+ 
+ # See notes on the ".NOTPARALLEL" target and the "+" indicator in
+ # "tests/uefi-test-tools/Makefile".
 -- 
 2.17.1
 
