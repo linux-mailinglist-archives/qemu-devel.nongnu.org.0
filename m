@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9150DB0C0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:56:14 +0200 (CEST)
-Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CDE0B0C0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:56:28 +0200 (CEST)
+Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Lpl-0000y7-Dn
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:56:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49287)
+	id 1i8Lpz-0001NB-4q
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8Lnf-0007tK-Qz
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:54:04 -0400
+ (envelope-from <clg@kaod.org>) id 1i8Lnv-0008Ev-WC
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:54:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8Lne-0004dS-P3
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:54:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37356)
+ (envelope-from <clg@kaod.org>) id 1i8Lnu-0004vq-J3
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:54:19 -0400
+Received: from 15.mo4.mail-out.ovh.net ([91.121.62.11]:60328)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8Lne-0004cl-GS
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:54:02 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3691310CC1E0;
- Thu, 12 Sep 2019 09:54:01 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 54BBD10AFDEA;
- Thu, 12 Sep 2019 09:54:00 +0000 (UTC)
-Date: Thu, 12 Sep 2019 10:53:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Ivan Ren <renyime@gmail.com>
-Message-ID: <20190912095357.GA7230@work-vm>
-References: <1567044996-2362-1-git-send-email-ivanren@tencent.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i8Lnu-0004tW-By
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:54:18 -0400
+Received: from player157.ha.ovh.net (unknown [10.109.160.23])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 7CBB5206B83
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 11:54:16 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player157.ha.ovh.net (Postfix) with ESMTPSA id 3007C9AA68E9;
+ Thu, 12 Sep 2019 09:54:04 +0000 (UTC)
+To: Balamuruhan S <bala24@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20190912093056.4516-1-bala24@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <b27c56a5-1401-09f3-4d5d-9ff4843c8f26@kaod.org>
+Date: Thu, 12 Sep 2019 11:54:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1567044996-2362-1-git-send-email-ivanren@tencent.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Thu, 12 Sep 2019 09:54:01 +0000 (UTC)
+In-Reply-To: <20190912093056.4516-1-bala24@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 1569222997106199378
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrtdehgddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] migration: multifd_send_thread always post
- p->sem_sync when error happen
+X-Received-From: 91.121.62.11
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] add Homer/OCC common area emulation
+ for PowerNV
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,87 +58,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: maddy@linux.vnet.ibm.com, groug@kaod.org, anju@linux.vnet.ibm.com,
+ qemu-ppc@nongnu.org, hari@linux.vnet.ibm.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued
+On 12/09/2019 11:30, Balamuruhan S wrote:
+> Hi All,
+> 
+> This is follow-up patch that implements HOMER and OCC SRAM device
+> models to emulate homer memory and occ common area access for pstate
+> table, occ sensors, runtime data and slw.
 
-* Ivan Ren (renyime@gmail.com) wrote:
-> From: Ivan Ren <ivanren@tencent.com>
+So, now, we can write directly to the OCC SRAM memory region from the
+QEMU monitor. How will skiboot pick up the changes ?  
+
+
+C.
+
 > 
-> When encounter error, multifd_send_thread should always notify who pay
-> attention to it before exit. Otherwise it may block migration_thread
-> at multifd_send_sync_main forever.
+> Currently skiboot disables the homer/occ code path with `QUIRK_NO_PBA`,
+> this quirk have to be removed in skiboot for it to use HOMER and OCC
+> SRAM device models along with a bug fix,
 > 
-> Error as follow:
-> -------------------------------------------------------------------------------
->  (gdb) bt
->  #0  0x00007f4d669dfa0b in do_futex_wait.constprop.1 () from /lib64/libpthread.so.0
->  #1  0x00007f4d669dfa9f in __new_sem_wait_slow.constprop.0 () from /lib64/libpthread.so.0
->  #2  0x00007f4d669dfb3b in sem_wait@@GLIBC_2.2.5 () from /lib64/libpthread.so.0
->  #3  0x0000562ccf0a5614 in qemu_sem_wait (sem=sem@entry=0x562cd1b698e8) at util/qemu-thread-posix.c:319
->  #4  0x0000562ccecb4752 in multifd_send_sync_main (rs=<optimized out>) at /qemu/migration/ram.c:1099
->  #5  0x0000562ccecb95f4 in ram_save_iterate (f=0x562cd0ecc000, opaque=<optimized out>) at /qemu/migration/ram.c:3550
->  #6  0x0000562ccef43c23 in qemu_savevm_state_iterate (f=0x562cd0ecc000, postcopy=false) at migration/savevm.c:1189
->  #7  0x0000562ccef3dcf3 in migration_iteration_run (s=0x562cd09fabf0) at migration/migration.c:3131
->  #8  migration_thread (opaque=opaque@entry=0x562cd09fabf0) at migration/migration.c:3258
->  #9  0x0000562ccf0a4c26 in qemu_thread_start (args=<optimized out>) at util/qemu-thread-posix.c:502
->  #10 0x00007f4d669d9e25 in start_thread () from /lib64/libpthread.so.0
->  #11 0x00007f4d6670635d in clone () from /lib64/libc.so.6
->  (gdb) f 4
->  #4  0x0000562ccecb4752 in multifd_send_sync_main (rs=<optimized out>) at /qemu/migration/ram.c:1099
->  1099	        qemu_sem_wait(&p->sem_sync);
->  (gdb) list
->  1094	    }
->  1095	    for (i = 0; i < migrate_multifd_channels(); i++) {
->  1096	        MultiFDSendParams *p = &multifd_send_state->params[i];
->  1097
->  1098	        trace_multifd_send_sync_main_wait(p->id);
->  1099	        qemu_sem_wait(&p->sem_sync);
->  1100	    }
->  1101	    trace_multifd_send_sync_main(multifd_send_state->packet_num);
->  1102	}
->  1103
->  (gdb) p i
->  $1 = 0
->  (gdb)  p multifd_send_state->params[0].pending_job
->  $2 = 2    //It means the job before MULTIFD_FLAG_SYNC has already fail
->  (gdb)  p multifd_send_state->params[0].quit
->  $3 = true
+> https://github.com/balamuruhans/skiboot/commit/a655514d2a730e0372a2faee277d1cf01f71a524
+> https://github.com/balamuruhans/skiboot/commit/fd3d93d92ec66a7494346d6d24ced7b48264c9a0
 > 
-> Signed-off-by: Ivan Ren <ivanren@tencent.com>
-> ---
->  migration/ram.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> This version fixes a review comment from Cedric in previous version,
 > 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index b01a37e7ca..0047286b7e 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1112,6 +1112,7 @@ static void *multifd_send_thread(void *opaque)
->      rcu_register_thread();
->  
->      if (multifd_send_initial_packet(p, &local_err) < 0) {
-> +        ret = -1;
->          goto out;
->      }
->      /* initial packet */
-> @@ -1179,9 +1180,7 @@ out:
->       * who pay attention to me.
->       */
->      if (ret != 0) {
-> -        if (flags & MULTIFD_FLAG_SYNC) {
-> -            qemu_sem_post(&p->sem_sync);
-> -        }
-> +        qemu_sem_post(&p->sem_sync);
->          qemu_sem_post(&multifd_send_state->channels_ready);
->      }
->  
-> -- 
-> 2.17.2 (Apple Git-113)
+> changes in v3:
+>     * pass on PnvHomer *homer directly to core_max_array() function
+>       from the caller.
 > 
+> v2 patchset:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg02231.html
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> changes in v2:
+>     * change to PnvHomer/PnvHomerClass instead of PnvHOMER/PnvHOMERClass
+>       for better code readabililty.
+>     * fabric link to chip to use `nr_cores` from PnvChip struct for
+>       core_max_array() as we need to consider active cores in chip and not
+>       whole machine.
+>     * declare variable well ahead instead in for() loop syntax to make
+>       all compilers happy.
+>     * change to shorter variable name to `hmrc` instead of `homer_class`.
+>     * remove `homer_` prefix for regs as it is not useful.
+>     * have separate commit for checkpatch.pl coding style warnings.
+> 
+> v1 patchset:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01610.html
+> 
+> changes in v1:
+>     * breaks it to have separate patch series for Homer and OCC
+>       emulation.
+>     * reuse PnvOCC device model to implement SRAM device.
+>     * implement PnvHomer as separate device model.
+>     * have core max base address as part of PnvHOMERClass.
+>     * reuse PNV_CHIP_INDEX() instead of introducing new `chip_num`.
+>     * define all the memory ops access address as macros.
+>     * few coding style warnings given by checkpatch.pl.
+> 
+> rfc patchset:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg00979.html
+> 
+> I request for review, comments and suggestions for the changes.
+> 
+> Balamuruhan S (4):
+>   hw/ppc/pnv_xscom: retrieve homer/occ base address from PBA BARs
+>   hw/ppc/pnv_occ: add sram device model for occ common area
+>   hw/ppc/pnv_homer: add PowerNV homer device model
+>   hw/ppc/pnv: fix checkpatch.pl coding style warnings
+> 
+>  hw/ppc/Makefile.objs       |   1 +
+>  hw/ppc/pnv.c               |  87 ++++++++++++---
+>  hw/ppc/pnv_homer.c         | 272 +++++++++++++++++++++++++++++++++++++++++++++
+>  hw/ppc/pnv_occ.c           |  78 +++++++++++++
+>  hw/ppc/pnv_xscom.c         |  34 +++++-
+>  include/hw/ppc/pnv.h       |  21 ++++
+>  include/hw/ppc/pnv_homer.h |  53 +++++++++
+>  include/hw/ppc/pnv_occ.h   |   3 +
+>  8 files changed, 528 insertions(+), 21 deletions(-)
+>  create mode 100644 hw/ppc/pnv_homer.c
+>  create mode 100644 include/hw/ppc/pnv_homer.h
+> 
+
 
