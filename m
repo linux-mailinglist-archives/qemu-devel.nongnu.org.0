@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38E9B1664
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 00:42:46 +0200 (CEST)
-Received: from localhost ([::1]:39326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E10B1666
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 00:44:18 +0200 (CEST)
+Received: from localhost ([::1]:39359 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8XnZ-0003xJ-UH
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 18:42:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42073)
+	id 1i8Xp4-0005kN-0M
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 18:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i8XcW-0008Aw-6I
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:21 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8XcZ-0008EL-AD
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i8XcU-00060f-RH
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41070)
+ (envelope-from <mlevitsk@redhat.com>) id 1i8XcX-000626-Sj
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59808)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i8XcS-0005y8-6l; Thu, 12 Sep 2019 18:31:16 -0400
+ id 1i8XcU-00060N-Qn; Thu, 12 Sep 2019 18:31:18 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 86EECC065121;
- Thu, 12 Sep 2019 22:31:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2991B2A09B3;
+ Thu, 12 Sep 2019 22:31:18 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 492C65C1B2;
- Thu, 12 Sep 2019 22:31:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1E805C1B2;
+ Thu, 12 Sep 2019 22:31:15 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 13 Sep 2019 01:30:26 +0300
-Message-Id: <20190912223028.18496-10-mlevitsk@redhat.com>
+Date: Fri, 13 Sep 2019 01:30:27 +0300
+Message-Id: <20190912223028.18496-11-mlevitsk@redhat.com>
 In-Reply-To: <20190912223028.18496-1-mlevitsk@redhat.com>
 References: <20190912223028.18496-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Thu, 12 Sep 2019 22:31:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Thu, 12 Sep 2019 22:31:18 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 09/11] block/qcow2: implement blockdev-amend
+Subject: [Qemu-devel] [PATCH v2 10/11] iotests: filter few more luks
+ specific create options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,143 +61,152 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently only for changing crypto parameters
+Those options are test input anyway, and this allows more tests
+to be able to have same output on both qcow2 luks encrypted images
+and raw luks images
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/qcow2.c        | 71 ++++++++++++++++++++++++++++++++++++++++++++
- qapi/block-core.json |  6 ++--
- 2 files changed, 75 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/087.out       | 6 +++---
+ tests/qemu-iotests/134.out       | 2 +-
+ tests/qemu-iotests/158.out       | 4 ++--
+ tests/qemu-iotests/188.out       | 2 +-
+ tests/qemu-iotests/189.out       | 4 ++--
+ tests/qemu-iotests/198.out       | 4 ++--
+ tests/qemu-iotests/common.filter | 6 ++++--
+ 7 files changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 26f83aeb44..c8847ec6e2 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3079,6 +3079,18 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     assert(create_options->driver == BLOCKDEV_DRIVER_QCOW2);
-     qcow2_opts = &create_options->u.qcow2;
+diff --git a/tests/qemu-iotests/087.out b/tests/qemu-iotests/087.out
+index 2d92ea847b..b61ba638af 100644
+--- a/tests/qemu-iotests/087.out
++++ b/tests/qemu-iotests/087.out
+@@ -34,7 +34,7 @@ QMP_VERSION
  
-+    if (!qcow2_opts->has_size) {
-+        error_setg(errp, "Size is manadatory for image creation");
-+        return -EINVAL;
-+
-+    }
-+
-+    if (!qcow2_opts->has_file) {
-+        error_setg(errp, "'file' is manadatory for image creation");
-+        return -EINVAL;
-+
-+    }
-+
-     bs = bdrv_open_blockdev_ref(qcow2_opts->file, errp);
-     if (bs == NULL) {
-         return -EIO;
-@@ -5111,6 +5123,64 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
-     return 0;
+ === Encrypted image QCow ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
+ Testing:
+ QMP_VERSION
+ {"return": {}}
+@@ -46,7 +46,7 @@ QMP_VERSION
+ 
+ === Encrypted image LUKS ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encrypt.format=luks encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+ Testing:
+ QMP_VERSION
+ {"return": {}}
+@@ -58,7 +58,7 @@ QMP_VERSION
+ 
+ === Missing driver ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
+ Testing: -S
+ QMP_VERSION
+ {"return": {}}
+diff --git a/tests/qemu-iotests/134.out b/tests/qemu-iotests/134.out
+index 09d46f6b17..4abc5b5f7d 100644
+--- a/tests/qemu-iotests/134.out
++++ b/tests/qemu-iotests/134.out
+@@ -1,5 +1,5 @@
+ QA output created by 134
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
+ 
+ == reading whole image ==
+ read 134217728/134217728 bytes at offset 0
+diff --git a/tests/qemu-iotests/158.out b/tests/qemu-iotests/158.out
+index 6def216e55..f28a17626b 100644
+--- a/tests/qemu-iotests/158.out
++++ b/tests/qemu-iotests/158.out
+@@ -1,6 +1,6 @@
+ QA output created by 158
+ == create base ==
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728 encryption=on
+ 
+ == writing whole image ==
+ wrote 134217728/134217728 bytes at offset 0
+@@ -10,7 +10,7 @@ wrote 134217728/134217728 bytes at offset 0
+ read 134217728/134217728 bytes at offset 0
+ 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ == create overlay ==
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base encryption=on
+ 
+ == writing part of a cluster ==
+ wrote 1024/1024 bytes at offset 0
+diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
+index c568ef3701..5426861b18 100644
+--- a/tests/qemu-iotests/188.out
++++ b/tests/qemu-iotests/188.out
+@@ -1,5 +1,5 @@
+ QA output created by 188
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216
+ 
+ == reading whole image ==
+ read 16777216/16777216 bytes at offset 0
+diff --git a/tests/qemu-iotests/189.out b/tests/qemu-iotests/189.out
+index a0b7c9c24c..bc213cbe14 100644
+--- a/tests/qemu-iotests/189.out
++++ b/tests/qemu-iotests/189.out
+@@ -1,6 +1,6 @@
+ QA output created by 189
+ == create base ==
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
+ 
+ == writing whole image ==
+ wrote 16777216/16777216 bytes at offset 0
+@@ -10,7 +10,7 @@ wrote 16777216/16777216 bytes at offset 0
+ read 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ == create overlay ==
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
+ 
+ == writing part of a cluster ==
+ wrote 1024/1024 bytes at offset 0
+diff --git a/tests/qemu-iotests/198.out b/tests/qemu-iotests/198.out
+index e86b175e39..2eff420795 100644
+--- a/tests/qemu-iotests/198.out
++++ b/tests/qemu-iotests/198.out
+@@ -1,12 +1,12 @@
+ QA output created by 198
+ == create base ==
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
+ 
+ == writing whole image base ==
+ wrote 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ == create overlay ==
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
+ 
+ == writing whole image layer ==
+ wrote 16777216/16777216 bytes at offset 0
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 445a1c23e0..b295a3fec7 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -138,8 +138,10 @@ _filter_img_create()
+         -e "s# block_state_zero=\\(on\\|off\\)##g" \
+         -e "s# log_size=[0-9]\\+##g" \
+         -e "s# refcount_bits=[0-9]\\+##g" \
+-        -e "s# key-secret=[a-zA-Z0-9]\\+##g" \
+-        -e "s# iter-time=[0-9]\\+##g" \
++        -e "s# \\(encrypt\\.\\)\\?key-secret=[a-zA-Z0-9]\\+##g" \
++        -e "s# \\(encrypt\\.\\)\\?slot=[0-9]\\+##g" \
++        -e "s# \\(encrypt\\.\\)\\?iter-time=[0-9]\\+##g" \
++        -e "s# encrypt\\.format=[a-zA-Z0-9]\\+##g" \
+         -e "s# force_size=\\(on\\|off\\)##g"
  }
  
-+
-+static int coroutine_fn qcow2_co_amend(BlockDriverState *bs,
-+                                       BlockdevCreateOptions *opts,
-+                                       bool force,
-+                                       Error **errp)
-+{
-+    BlockdevCreateOptionsQcow2 *qopts = &opts->u.qcow2;
-+    BDRVQcow2State *s = bs->opaque;
-+    int ret;
-+
-+    /*
-+     * This is ugly as hell, in later versions of this patch
-+     * something has to be done about this
-+     */
-+    if (qopts->has_file || qopts->has_size || qopts->has_data_file ||
-+        qopts->has_data_file_raw || qopts->has_version ||
-+        qopts->has_backing_file || qopts->has_backing_fmt ||
-+        qopts->has_cluster_size || qopts->has_preallocation ||
-+        qopts->has_lazy_refcounts || qopts->has_refcount_bits) {
-+
-+        error_setg(errp,
-+                "Only LUKS encryption options can be amended for qcow2 with blockdev-amend");
-+        return -EOPNOTSUPP;
-+
-+    }
-+
-+    if (qopts->has_encrypt) {
-+        if (!s->crypto) {
-+            error_setg(errp, "QCOW2 image is not encrypted, can't amend");
-+            return -EOPNOTSUPP;
-+        }
-+
-+        if (qopts->encrypt->format != Q_CRYPTO_BLOCK_FORMAT_LUKS) {
-+            error_setg(errp,
-+                       "Amend can't be used to change the qcow2 encryption format");
-+            return -EOPNOTSUPP;
-+        }
-+
-+        if (s->crypt_method_header != QCOW_CRYPT_LUKS) {
-+            error_setg(errp,
-+                       "Only LUKS encryption options can be amended for qcow2 with blockdev-amend");
-+            return -EOPNOTSUPP;
-+        }
-+
-+        ret = qcrypto_block_amend_options(s->crypto,
-+                                          qcow2_crypto_hdr_read_func,
-+                                          qcow2_crypto_hdr_write_func,
-+                                          bs,
-+                                          qopts->encrypt,
-+                                          force,
-+                                          errp);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+    return 0;
-+}
-+
- /*
-  * If offset or size are negative, respectively, they will not be included in
-  * the BLOCK_IMAGE_CORRUPTED event emitted.
-@@ -5303,6 +5373,7 @@ BlockDriver bdrv_qcow2 = {
-     .mutable_opts        = mutable_opts,
-     .bdrv_co_check       = qcow2_co_check,
-     .bdrv_amend_options  = qcow2_amend_options,
-+    .bdrv_co_amend       = qcow2_co_amend,
- 
-     .bdrv_detach_aio_context  = qcow2_detach_aio_context,
-     .bdrv_attach_aio_context  = qcow2_attach_aio_context,
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 4a6db98938..0eb4e45168 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4294,6 +4294,7 @@
- # Driver specific image creation options for qcow2.
- #
- # @file             Node to create the image format on
-+#                   Mandatory for create
- # @data-file        Node to use as an external data file in which all guest
- #                   data is stored so that only metadata remains in the qcow2
- #                   file (since: 4.0)
-@@ -4301,6 +4302,7 @@
- #                   standalone (read-only) raw image without looking at qcow2
- #                   metadata (default: false; since: 4.0)
- # @size             Size of the virtual disk in bytes
-+#                   Mandatory for create
- # @version          Compatibility level (default: v3)
- # @backing-file     File name of the backing file if a backing file
- #                   should be used
-@@ -4315,10 +4317,10 @@
- # Since: 2.12
- ##
- { 'struct': 'BlockdevCreateOptionsQcow2',
--  'data': { 'file':             'BlockdevRef',
-+  'data': { '*file':            'BlockdevRef',
-             '*data-file':       'BlockdevRef',
-             '*data-file-raw':   'bool',
--            'size':             'size',
-+            '*size':            'size',
-             '*version':         'BlockdevQcow2Version',
-             '*backing-file':    'str',
-             '*backing-fmt':     'BlockdevDriver',
 -- 
 2.17.2
 
