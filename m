@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CCCB1102
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:21:10 +0200 (CEST)
-Received: from localhost ([::1]:35012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BD4B1111
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:24:57 +0200 (CEST)
+Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Py8-0006OV-R1
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40670)
+	id 1i8Q1o-0003F4-I8
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40466)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8PUz-0007PI-TD
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:51:02 -0400
+ (envelope-from <no-reply@patchew.org>) id 1i8PUe-0006qD-5j
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8PUy-0003Jd-Ul
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:51:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47964)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8PUy-0003ID-Pe
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:51:00 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 205112A09B3;
- Thu, 12 Sep 2019 13:51:00 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC7935D704;
- Thu, 12 Sep 2019 13:50:58 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, ivanren@tencent.com, peterx@redhat.com,
- richardw.yang@linux.intel.com, yury-kotov@yandex-team.ru,
- quintela@redhat.com
-Date: Thu, 12 Sep 2019 14:50:06 +0100
-Message-Id: <20190912135006.14820-13-dgilbert@redhat.com>
-In-Reply-To: <20190912135006.14820-1-dgilbert@redhat.com>
-References: <20190912135006.14820-1-dgilbert@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1i8PUY-0002wM-QU
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:39 -0400
+Resent-Date: Thu, 12 Sep 2019 09:50:39 -0400
+Resent-Message-Id: <E1i8PUY-0002wM-QU@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21577)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1i8PUY-0002uB-HX
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1568296224; cv=none; d=zoho.com; s=zohoarc; 
+ b=HjjuyNigon1xCgv+TUeheizH+EqQyXZeY+8XU3YvXN2Gg7Td2iZY1pdV90/7T4q91tlh8z6Bq3ON6QjBa59xbNPI1mqGyqYk/MUrAKd0OYegoYjGzh0KF7C2lchDoaP9YiNqr6+k4Y2gL+bL3FwFy3WlihpvHSbju8XQmz6Ujsw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1568296224;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=9NME0oc/r31KKEiyhqxIbptMHtj2fFefhtiMbFnWk50=; 
+ b=XnuzX/Jyeo4/6M6V5hHU0+sPb6S+Yf2JChR7OIVSSYhOSJQqGgWwmrv+FwHLXmlBTfNWrGie1KQpI4tIN6JhU2blJRXpHQUYkWwY5c2juYWb7rRp27h42lupM1uBI8gi8PZFf0TPLXVEpyBSfyZCL5fydwsqFKIGqHI1dMzVvTQ=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1568296220452476.39643885313103;
+ Thu, 12 Sep 2019 06:50:20 -0700 (PDT)
+In-Reply-To: <20190912122514.22504-1-marcandre.lureau@redhat.com>
+Message-ID: <156829621910.25007.13135132995120150143@5dec9699b7de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 12 Sep 2019 13:51:00 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: marcandre.lureau@redhat.com
+Date: Thu, 12 Sep 2019 06:50:20 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 12/12] migration: fix one typo in comment of
- function migration_total_bytes()
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v3 0/6] Add dbus-vmstate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,36 +61,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
-
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190912024957.11780-1-richardw.yang@linux.intel.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/migration.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index e45270c23b..01863a95f5 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3025,7 +3025,7 @@ static MigThrError migration_detect_error(Migration=
-State *s)
-     }
- }
-=20
--/* How many bytes have we transferred since the beggining of the migrati=
-on */
-+/* How many bytes have we transferred since the beginning of the migrati=
-on */
- static uint64_t migration_total_bytes(MigrationState *s)
- {
-     return qemu_ftell(s->to_dst_file) + ram_counters.multifd_bytes;
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMjEyMjUxNC4yMjUw
+NC0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
+ZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
+ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
+ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
+VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRv
+czcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9X
+X0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpsaWJ1ZGV2ICAg
+ICAgICAgICBubwpkZWZhdWx0IGRldmljZXMgICB5ZXMKCndhcm5pbmc6IFB5dGhvbiAyIHN1cHBv
+cnQgaXMgZGVwcmVjYXRlZAp3YXJuaW5nOiBQeXRob24gMyB3aWxsIGJlIHJlcXVpcmVkIGZvciBi
+dWlsZGluZyBmdXR1cmUgdmVyc2lvbnMgb2YgUUVNVQoKTk9URTogY3Jvc3MtY29tcGlsZXJzIGVu
+YWJsZWQ6ICAnY2MnCiAgR0VOICAgICB4ODZfNjQtc29mdG1tdS9jb25maWctZGV2aWNlcy5tYWsu
+dG1wCi0tLQpDb3VsZCBub3QgZ2V0IHBhc3N3b3JkIGRhdGFiYXNlIGluZm9ybWF0aW9uIGZvciBV
+SUQgb2YgY3VycmVudCBwcm9jZXNzOiBVc2VyICI/Pz8iIHVua25vd24gb3Igbm8gbWVtb3J5IHRv
+IGFsbG9jYXRlIHBhc3N3b3JkIGVudHJ5CgoqKgpFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVz
+dHMvZGJ1cy12bXN0YXRlLXRlc3QuYzoxNTA6Z2V0X2Nvbm5lY3Rpb246IGFzc2VydGlvbiBmYWls
+ZWQgKGVyciA9PSBOVUxMKTogVGhlIGNvbm5lY3Rpb24gaXMgY2xvc2VkIChnLWlvLWVycm9yLXF1
+YXJrLCAxOCkKY2xlYW5pbmcgdXAgcGlkIDI4NTc1CkVSUk9SIC0gQmFpbCBvdXQhIEVSUk9SOi90
+bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9kYnVzLXZtc3RhdGUtdGVzdC5jOjE1MDpnZXRfY29ubmVj
+dGlvbjogYXNzZXJ0aW9uIGZhaWxlZCAoZXJyID09IE5VTEwpOiBUaGUgY29ubmVjdGlvbiBpcyBj
+bG9zZWQgKGctaW8tZXJyb3ItcXVhcmssIDE4KQptYWtlOiAqKiogW2NoZWNrLXF0ZXN0LXg4Nl82
+NF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRF
+U1QgICAgaW90ZXN0LXFjb3cyOiAwODAKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTEyMTIyNTE0LjIyNTA0LTEtbWFyY2FuZHJlLmx1
+cmVhdUByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
 
