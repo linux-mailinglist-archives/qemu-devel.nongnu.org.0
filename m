@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE04B1135
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:33:52 +0200 (CEST)
-Received: from localhost ([::1]:35244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA2BB113D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:36:02 +0200 (CEST)
+Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8QAQ-00042a-MN
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
+	id 1i8QCX-000797-Nk
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:36:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45331)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1i8PbQ-0007S1-UG
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:41 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i8PvV-00040p-6U
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:18:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1i8PbP-0006k9-AZ
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22560
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i8PbP-0006iu-5e
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:39 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8CDvXxp010572
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 09:57:37 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2uyptmhaxe-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 09:57:36 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 12 Sep 2019 14:57:30 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Sep 2019 14:57:28 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8CDvRpm57737216
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Sep 2019 13:57:27 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42DC942041;
- Thu, 12 Sep 2019 13:57:27 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 107C442045;
- Thu, 12 Sep 2019 13:57:27 +0000 (GMT)
-Received: from bahia.tls.ibm.com (unknown [9.101.4.41])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Sep 2019 13:57:26 +0000 (GMT)
-From: Greg Kurz <groug@kaod.org>
-To: Laurent Vivier <lvivier@redhat.com>
-Date: Thu, 12 Sep 2019 15:57:26 +0200
-User-Agent: StGit/unknown-version
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i8PvU-00077w-2s
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:18:25 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44068)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1i8PvT-00077G-TH
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:18:24 -0400
+Received: by mail-wr1-x442.google.com with SMTP id k6so16515947wrn.11
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 07:18:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xAT5GZratibMVitbATwU9yO6mvZiwwnl0ZlEW9ZEbaU=;
+ b=nLNFJCk49dI297KEcFLKs6BnXDkWhTtRh+Ol/RIB+7tJvGKS5qb2O+cKXbV13X+k0g
+ Vuae+q2fFewdAanZhAcb9umOhuXlkBGUHXpgpGfu12xly5k0n/CWO9UN993e6csETmLb
+ 9mqYOS65FVu6fnVQrKPh9/8Irny7YqDo+leWkJ6vsKKQMu5U1qathu4j1v/7DD54ZTFh
+ 4GJbU13abI55CtOTOkCQXSRIFJifoLD5OD9V6nFgek2vumYaSdB1Lwiiah8/2Nz+pkQN
+ rc55cyuU9LdfEdy08VhxWJzsQ5ikG+VNmHv4DMfz95yLSC1Sq9RGAKIQT5MzGsVRGqLF
+ 7JsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=xAT5GZratibMVitbATwU9yO6mvZiwwnl0ZlEW9ZEbaU=;
+ b=F//1isUdwb9Q6CRQR6xBaeJ/4wszPhYIMmi23kn86BAG/EUKJY6V37PFMVs6zP2He/
+ BXGRTTSjLILQk2fCfX0YnVquzGeb1QtndzO5YNEP2sM/+A0Yad3TUF0k5hKgwpUB+MhS
+ DnrTCrcV+RsATJNh5mpW7kv/30rB5yF5ngMEY3kK6RzxDAG6Kt4YidgJUyuOIptDArvc
+ lDaeoWYbFMS2LDQjZFNJZAtfvksXzIH+f93hEPqFogSjMmKdXPjen/tDjVccpmjmDCop
+ xbOxlUx1dsvqSrcSSZanzrxMk4RxZsA7IPJunw1rgdxylYMPW/f2LF9N/p7IzdR5LM2E
+ 4iww==
+X-Gm-Message-State: APjAAAVwc0lxA2BZUT+x/puFEIRaNINpMbXssE/5iUQPOXciSy2fTZOl
+ FYSGC+BLrHEMyvqBbZM8Pvu/Y4hE7a0=
+X-Google-Smtp-Source: APXvYqz6AuGlgdllu+72aNaRJXhmxZh0Y21AzGNBvSlzYZUUOb/C3vnYyXpk8MoozDGvSS9syTHH0w==
+X-Received: by 2002:a5d:6ac8:: with SMTP id u8mr35192860wrw.104.1568297901549; 
+ Thu, 12 Sep 2019 07:18:21 -0700 (PDT)
+Received: from donizetti.lan ([2001:b07:6468:f312:3166:d768:e1a7:aab8])
+ by smtp.gmail.com with ESMTPSA id q14sm51083672wrc.77.2019.09.12.07.18.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Sep 2019 07:18:20 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 12 Sep 2019 16:18:20 +0200
+Message-Id: <20190912141820.30702-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19091213-4275-0000-0000-00000364E467
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091213-4276-0000-0000-000038773F85
-Message-Id: <156829664683.2070256.13400788010568373502.stgit@bahia.tls.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-12_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=779 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1909120148
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH] kvm: Fix typo in header of kvm_device_access()
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH] memory: inline and optimize devend_memop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,28 +75,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org
+Cc: Tony Nguyen <tony.nguyen@bt.com>, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- include/sysemu/kvm.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+devend_memop can rely on the fact that the result is always either
+0 or MO_BSWAP, corresponding respectively to host endianness and
+the opposite.  Native (target) endianness in turn can be either
+the host endianness, in which case MO_BSWAP is only returned for
+host-opposite endianness, or the opposite, in which case 0 is only
+returned for host endianness.
 
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 909bcd77cf82..fd674772ab31 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -308,7 +308,7 @@ int kvm_vm_check_attr(KVMState *s, uint32_t group, uint64_t attr);
- int kvm_device_check_attr(int fd, uint32_t group, uint64_t attr);
+With this in mind, devend_memop can be compiled as a setcond+shift
+for every target.  Do this and, while at it, move it to
+include/exec/memory.h since !NEED_CPU_H files do not (and should not)
+need it.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/exec/memory.h | 19 ++++++++++++++++++-
+ memory.c              | 18 ------------------
+ 2 files changed, 18 insertions(+), 19 deletions(-)
+
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 2dd810259d..d898cfb5db 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2201,8 +2201,25 @@ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
+     }
+ }
  
- /**
-- * kvm_device_access - set or get value of a specific vm attribute
-+ * kvm_device_access - set or get value of a specific device attribute
-  * @fd: The device file descriptor
-  * @group: the group
-  * @attr: the attribute of that group to set or get
++#ifdef NEED_CPU_H
+ /* enum device_endian to MemOp.  */
+-MemOp devend_memop(enum device_endian end);
++MemOp devend_memop(enum device_endian end)
++{
++    QEMU_BUILD_BUG_ON(DEVICE_HOST_ENDIAN != DEVICE_LITTLE_ENDIAN &&
++                      DEVICE_HOST_ENDIAN != DEVICE_BIG_ENDIAN);
++
++#ifdef BSWAP_NEEDED
++    /* Swap if non-host endianness or native (target) endianness */
++    return (end == DEVICE_HOST_ENDIAN) ? 0 : MO_BSWAP;
++#else
++    const int non_host_endianness =
++        DEVICE_LITTLE_ENDIAN ^ DEVICE_BIG_ENDIAN ^ DEVICE_HOST_ENDIAN;
++
++    /* In this case, native (target) endianness needs no swap.  */
++    return (end == non_host_endianness) ? MO_BSWAP : 0;
++#endif
++}
++#endif
+ 
+ #endif
+ 
+diff --git a/memory.c b/memory.c
+index 61a254c3f9..b9dd6b94ca 100644
+--- a/memory.c
++++ b/memory.c
+@@ -3267,21 +3267,3 @@ static void memory_register_types(void)
+ }
+ 
+ type_init(memory_register_types)
+-
+-MemOp devend_memop(enum device_endian end)
+-{
+-    static MemOp conv[] = {
+-        [DEVICE_LITTLE_ENDIAN] = MO_LE,
+-        [DEVICE_BIG_ENDIAN] = MO_BE,
+-        [DEVICE_NATIVE_ENDIAN] = MO_TE,
+-        [DEVICE_HOST_ENDIAN] = 0,
+-    };
+-    switch (end) {
+-    case DEVICE_LITTLE_ENDIAN:
+-    case DEVICE_BIG_ENDIAN:
+-    case DEVICE_NATIVE_ENDIAN:
+-        return conv[end];
+-    default:
+-        g_assert_not_reached();
+-    }
+-}
+-- 
+2.21.0
 
 
