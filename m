@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF33B0B7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:34:29 +0200 (CEST)
-Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4F2B0B8F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:38:18 +0200 (CEST)
+Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8LUh-0001Ht-Ql
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:34:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
+	id 1i8LYP-0005q8-8x
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:38:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i8LEW-00021C-3a
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:17:45 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8LEm-0002J3-Kk
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:18:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i8LEU-0005ql-Su
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:17:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40838)
+ (envelope-from <mlevitsk@redhat.com>) id 1i8LEl-00062Q-6Y
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:18:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41492)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i8LES-0005my-09; Thu, 12 Sep 2019 05:17:40 -0400
+ id 1i8LEi-00060S-U2; Thu, 12 Sep 2019 05:17:57 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 57E4C3082128;
- Thu, 12 Sep 2019 09:17:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4AF163003AFE;
+ Thu, 12 Sep 2019 09:17:56 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E162B194B9;
- Thu, 12 Sep 2019 09:17:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 14E1E166A2;
+ Thu, 12 Sep 2019 09:17:53 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 12:17:05 +0300
-Message-Id: <20190912091710.21449-8-mlevitsk@redhat.com>
+Date: Thu, 12 Sep 2019 12:17:10 +0300
+Message-Id: <20190912091710.21449-13-mlevitsk@redhat.com>
 In-Reply-To: <20190912091710.21449-1-mlevitsk@redhat.com>
 References: <20190912091710.21449-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 12 Sep 2019 09:17:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Thu, 12 Sep 2019 09:17:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 07/12] qcrypto-luks: purge unused error codes
- from open callback
+Subject: [Qemu-devel] [PATCH 12/12] qcrypto-luks: more rigorous header
+ checking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,131 +61,86 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These values are not used by generic crypto code anyway
+Check that keyslots don't overlap with the data,
+and check that keyslots don't overlap with each other.
+(this is done using naive O(n^2) nested loops,
+but since there are just 8 keyslots, this doesn't really matter.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- crypto/block-luks.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ crypto/block-luks.c | 52 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
 diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index f3bfc921b2..ba63e9b442 100644
+index 0d155c6614..6c53bdc428 100644
 --- a/crypto/block-luks.c
 +++ b/crypto/block-luks.c
-@@ -675,13 +675,13 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+@@ -530,6 +530,11 @@ qcrypto_block_luks_load_header(QCryptoBlock *block,
+ static int
+ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+ {
++    size_t i, j;
++
++    unsigned int header_sectors = QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
++        QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
++
      if (memcmp(luks->header.magic, qcrypto_block_luks_magic,
                 QCRYPTO_BLOCK_LUKS_MAGIC_LEN) != 0) {
          error_setg(errp, "Volume is not in LUKS format");
--        ret = -EINVAL;
-+        ret = -1;
-         goto fail;
-     }
-     if (luks->header.version != QCRYPTO_BLOCK_LUKS_VERSION) {
-         error_setg(errp, "LUKS version %" PRIu32 " is not supported",
+@@ -541,6 +546,53 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
                     luks->header.version);
--        ret = -ENOTSUP;
-+        ret = -1;
-         goto fail;
+         return -1;
      }
++
++    /* Check all keyslots for corruption  */
++    for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
++
++        const QCryptoBlockLUKSKeySlot *slot1 = &luks->header.key_slots[i];
++        unsigned int start1 = slot1->key_offset_sector;
++        unsigned int len1 =
++            qcrypto_block_luks_splitkeylen_sectors(luks,
++                                                   header_sectors,
++                                                   slot1->stripes);
++
++        if (slot1->stripes == 0) {
++            error_setg(errp, "Keyslot %zu is corrupted (stripes == 0)", i);
++            return -1;
++        }
++
++        if (slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED &&
++            slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED) {
++            error_setg(errp,
++                       "Keyslot %zu state (active/disable) is corrupted", i);
++            return -1;
++        }
++
++        if (start1 + len1 > luks->header.payload_offset_sector) {
++            error_setg(errp,
++                       "Keyslot %zu is overlapping with the encrypted payload",
++                       i);
++            return -1;
++        }
++
++        for (j = i + 1 ; j < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; j++) {
++            const QCryptoBlockLUKSKeySlot *slot2 = &luks->header.key_slots[j];
++            unsigned int start2 = slot2->key_offset_sector;
++            unsigned int len2 =
++                qcrypto_block_luks_splitkeylen_sectors(luks,
++                                                       header_sectors,
++                                                       slot2->stripes);
++
++            if (start1 + len1 > start2 && start2 + len2 > start1) {
++                error_setg(errp,
++                           "Keyslots %zu and %zu are overlapping in the header",
++                           i, j);
++                return -1;
++            }
++        }
++
++    }
+     return 0;
+ }
  
-@@ -697,7 +697,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-      */
-     ivgen_name = strchr(cipher_mode, '-');
-     if (!ivgen_name) {
--        ret = -EINVAL;
-+        ret = -1;
-         error_setg(errp, "Unexpected cipher mode string format %s",
-                    cipher_mode);
-         goto fail;
-@@ -715,7 +715,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-         luks->ivgen_hash_alg = qcrypto_block_luks_hash_name_lookup(ivhash_name,
-                                                                    &local_err);
-         if (local_err) {
--            ret = -ENOTSUP;
-+            ret = -1;
-             error_propagate(errp, local_err);
-             goto fail;
-         }
-@@ -724,7 +724,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-     luks->cipher_mode = qcrypto_block_luks_cipher_mode_lookup(cipher_mode,
-                                                               &local_err);
-     if (local_err) {
--        ret = -ENOTSUP;
-+        ret = -1;
-         error_propagate(errp, local_err);
-         goto fail;
-     }
-@@ -735,7 +735,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-                                               luks->header.master_key_len,
-                                               &local_err);
-     if (local_err) {
--        ret = -ENOTSUP;
-+        ret = -1;
-         error_propagate(errp, local_err);
-         goto fail;
-     }
-@@ -744,7 +744,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-             qcrypto_block_luks_hash_name_lookup(luks->header.hash_spec,
-                                                 &local_err);
-     if (local_err) {
--        ret = -ENOTSUP;
-+        ret = -1;
-         error_propagate(errp, local_err);
-         goto fail;
-     }
-@@ -752,14 +752,14 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-     luks->ivgen_alg = qcrypto_block_luks_ivgen_name_lookup(ivgen_name,
-                                                            &local_err);
-     if (local_err) {
--        ret = -ENOTSUP;
-+        ret = -1;
-         error_propagate(errp, local_err);
-         goto fail;
-     }
- 
-     if (luks->ivgen_alg == QCRYPTO_IVGEN_ALG_ESSIV) {
-         if (!ivhash_name) {
--            ret = -EINVAL;
-+            ret = -1;
-             error_setg(errp, "Missing IV generator hash specification");
-             goto fail;
-         }
-@@ -768,7 +768,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-                                                 luks->ivgen_hash_alg,
-                                                 &local_err);
-         if (local_err) {
--            ret = -ENOTSUP;
-+            ret = -1;
-             error_propagate(errp, local_err);
-             goto fail;
-         }
-@@ -795,7 +795,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-                                         masterkey,
-                                         readfunc, opaque,
-                                         errp) < 0) {
--            ret = -EACCES;
-+            ret = -1;
-             goto fail;
-         }
- 
-@@ -813,7 +813,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-                                          luks->header.master_key_len,
-                                          errp);
-         if (!block->ivgen) {
--            ret = -ENOTSUP;
-+            ret = -1;
-             goto fail;
-         }
- 
-@@ -825,7 +825,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-                                         n_threads,
-                                         errp);
-         if (ret < 0) {
--            ret = -ENOTSUP;
-+            ret = -1;
-             goto fail;
-         }
-     }
 -- 
 2.17.2
 
