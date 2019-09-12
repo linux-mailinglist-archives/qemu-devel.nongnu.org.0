@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C9FB0EFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:41:18 +0200 (CEST)
-Received: from localhost ([::1]:34058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25CFB0EFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:42:59 +0200 (CEST)
+Received: from localhost ([::1]:34072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8OPV-0007lZ-3H
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51355)
+	id 1i8OR8-0001gF-Po
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:42:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1i8OA8-0002iA-Tj
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:26 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1i8OAG-0002sM-Ga
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1i8OA7-0007HZ-Lz
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50200)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1i8OAF-0007OG-IS
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43508)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1i8OA7-0007HD-F6
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:23 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1i8OAF-0007O8-D6
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:31 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0CE731DB0
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:25:22 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BAF0230A7B89
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:25:30 +0000 (UTC)
 Received: from localhost (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BC11100195F;
- Thu, 12 Sep 2019 12:25:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8A1560F82;
+ Thu, 12 Sep 2019 12:25:26 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 16:25:08 +0400
-Message-Id: <20190912122514.22504-1-marcandre.lureau@redhat.com>
+Date: Thu, 12 Sep 2019 16:25:09 +0400
+Message-Id: <20190912122514.22504-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20190912122514.22504-1-marcandre.lureau@redhat.com>
+References: <20190912122514.22504-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Thu, 12 Sep 2019 12:25:22 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Thu, 12 Sep 2019 12:25:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 0/6] Add dbus-vmstate
+Subject: [Qemu-devel] [PATCH v3 1/6] migration: fix vmdesc leak on
+ vmstate_save() error
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,112 +64,48 @@ Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ migration/qjson.h  | 2 ++
+ migration/savevm.c | 3 +--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-With external processes or helpers participating to the VM support, it
-becomes necessary to handle their migration. Various options exist to
-transfer their state:
-1) as the VM memory, RAM or devices (we could say that's how
-   vhost-user devices can be handled today, they are expected to
-   restore from ring state)
-2) other "vmstate" (as with TPM emulator state blobs)
-3) left to be handled by management layer
-
-1) is not practical, since an external processes may legitimatelly
-need arbitrary state date to back a device or a service, or may not
-even have an associated device.
-
-2) needs ad-hoc code for each helper, but is simple and working
-
-3) is complicated for management layer, QEMU has the migration timing
-
-The proposed "dbus-vmstate" object will connect to a given D-Bus
-address, and save/load from org.qemu.VMState1 owners on migration.
-
-Thus helpers can easily have their state migrated with QEMU, without
-implementing ad-hoc support (such as done for TPM emulation)
-
-D-Bus is ubiquitous on Linux (it is systemd IPC), and can be made to
-work on various other OSes. There are several implementations and good
-bindings for various languages.  (the tests/dbus-vmstate-test.c is a
-good example of how simple the implementation of services can be, even
-in C)
-
-dbus-vmstate is put into use by the libvirt series "[PATCH 00/23] Use
-a slirp helper process".
-
-v3:
-- after various discussions on helper processes, we settled on a
-  preference for having a bus for communications. This version is
-  actually v1 updated.
-- added a dbus.rst document to describe D-Bus recommendations for QEMU
-- added dbus-vmstate-daemon.sh to play with the dbus-daemon configuration
-  (although it is not very useful in the context of a single UID)
-- added a new vmstate interface, so that any object can implement
-  VMStateDescription, and converted dbus-vmstate
-- added "migration: fix vmdesc leak on vmstate_save() error"
-- convert to g_auto
-
-v2:
-- D-Bus is most common and practical through a bus, but it requires a
-  daemon to be running. I argue that the benefits outweight the cost
-  of running an extra daemon in v1 in the context of multi-process
-  qemu, but it is also possible to connect in p2p mode as done in this
-  new version.
-
-Marc-Andr=C3=A9 Lureau (6):
-  migration: fix vmdesc leak on vmstate_save() error
-  vmstate: add qom interface to get id
-  vmstate: replace DeviceState with VMStateIf
-  tests: add qtest_expect_exit_status()
-  docs: start a document to describe D-Bus usage
-  Add dbus-vmstate object
-
- MAINTAINERS                   |   6 +
- backends/Makefile.objs        |   4 +
- backends/dbus-vmstate.c       | 530 ++++++++++++++++++++++++++++++++++
- configure                     |   7 +
- docs/devel/migration.rst      |   2 +-
- docs/interop/dbus-vmstate.rst |  68 +++++
- docs/interop/dbus.rst         |  73 +++++
- docs/interop/index.rst        |   2 +
- hw/block/onenand.c            |   2 +-
- hw/core/Makefile.objs         |   1 +
- hw/core/qdev.c                |  21 +-
- hw/core/vmstate-if.c          |  23 ++
- hw/ide/cmd646.c               |   2 +-
- hw/ide/isa.c                  |   2 +-
- hw/ide/piix.c                 |   2 +-
- hw/ide/via.c                  |   2 +-
- hw/misc/max111x.c             |   2 +-
- hw/net/eepro100.c             |   4 +-
- hw/net/vmxnet3.c              |   2 +-
- hw/nvram/eeprom93xx.c         |   4 +-
- hw/ppc/spapr_drc.c            |   9 +-
- hw/ppc/spapr_iommu.c          |   4 +-
- hw/s390x/s390-skeys.c         |   2 +-
- include/hw/vmstate-if.h       |  32 ++
- include/migration/register.h  |   6 +-
- include/migration/vmstate.h   |  10 +-
- migration/qjson.h             |   2 +
- migration/savevm.c            |  29 +-
- stubs/vmstate.c               |   4 +-
- tests/Makefile.include        |  20 +-
- tests/dbus-vmstate-daemon.sh  |  95 ++++++
- tests/dbus-vmstate-test.c     | 386 +++++++++++++++++++++++++
- tests/dbus-vmstate1.xml       |  12 +
- tests/libqtest.c              |  41 +--
- tests/libqtest.h              |   9 +
- 35 files changed, 1355 insertions(+), 65 deletions(-)
- create mode 100644 backends/dbus-vmstate.c
- create mode 100644 docs/interop/dbus-vmstate.rst
- create mode 100644 docs/interop/dbus.rst
- create mode 100644 hw/core/vmstate-if.c
- create mode 100644 include/hw/vmstate-if.h
- create mode 100755 tests/dbus-vmstate-daemon.sh
- create mode 100644 tests/dbus-vmstate-test.c
- create mode 100644 tests/dbus-vmstate1.xml
-
+diff --git a/migration/qjson.h b/migration/qjson.h
+index 41664f2d71..1786bb5864 100644
+--- a/migration/qjson.h
++++ b/migration/qjson.h
+@@ -24,4 +24,6 @@ void json_start_object(QJSON *json, const char *name);
+ const char *qjson_get_str(QJSON *json);
+ void qjson_finish(QJSON *json);
+=20
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(QJSON, qjson_destroy)
++
+ #endif /* QEMU_QJSON_H */
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 4a86128ac4..6caa35a679 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1290,7 +1290,7 @@ int qemu_savevm_state_complete_precopy_non_iterable=
+(QEMUFile *f,
+                                                     bool in_postcopy,
+                                                     bool inactivate_disk=
+s)
+ {
+-    QJSON *vmdesc;
++    g_autoptr(QJSON) vmdesc =3D NULL;
+     int vmdesc_len;
+     SaveStateEntry *se;
+     int ret;
+@@ -1351,7 +1351,6 @@ int qemu_savevm_state_complete_precopy_non_iterable=
+(QEMUFile *f,
+         qemu_put_be32(f, vmdesc_len);
+         qemu_put_buffer(f, (uint8_t *)qjson_get_str(vmdesc), vmdesc_len)=
+;
+     }
+-    qjson_destroy(vmdesc);
+=20
+     return 0;
+ }
 --=20
 2.23.0
 
