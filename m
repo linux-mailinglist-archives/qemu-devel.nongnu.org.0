@@ -2,41 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1816EB12D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 18:35:13 +0200 (CEST)
-Received: from localhost ([::1]:36960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FDFB12D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 18:35:23 +0200 (CEST)
+Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8S3p-0007xA-N2
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 12:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57191)
+	id 1i8S41-00082x-9z
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 12:35:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0g-0005p4-BS
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0g-0005p7-Br
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 12:31:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0e-0006Jq-OC
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 12:31:53 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:37105 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0e-0006K5-TB
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 12:31:54 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:37112 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i8S0e-00061p-Hc
+ id 1i8S0e-00061q-Ho
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 12:31:52 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 8FEAE1A2168;
+ by mail.rt-rk.com (Postfix) with ESMTP id A5F771A1E25;
  Thu, 12 Sep 2019 18:30:46 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 76DBE1A1E25;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 7D6FB1A1E6B;
  Thu, 12 Sep 2019 18:30:46 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 18:30:36 +0200
-Message-Id: <1568305840-12550-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 12 Sep 2019 18:30:37 +0200
+Message-Id: <1568305840-12550-2-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1568305840-12550-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1568305840-12550-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 0/4] MIPS queue for September 12th, 2019
+Subject: [Qemu-devel] [PULL 1/4] hw/mips/mips_jazz: Override
+ do_transaction_failed hook
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,48 +58,142 @@ Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-The following changes since commit 6d2fdde42c3344099262431df6a3f429c509291d:
+The MIPS Jazz ('magnum' and 'pica61') boards have some code which
+overrides the CPU's do_unassigned_access hook, so they can intercept
+it and not raise exceptions on data accesses to invalid addresses,
+only for instruction fetches.
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-100919-2' into staging (2019-09-10 14:52:09 +0100)
+We want to switch MIPS over to using the do_transaction_failed
+hook instead, so add an intercept for that as well, and make
+the board code install whichever hook the CPU is actually using.
+Once we've changed the CPU implementation we can remove the
+redundant code for the old hook.
 
-are available in the git repository at:
+Note: I am suspicious that the behaviour as implemented here may not
+be what the hardware really does.  It was added in commit
+54e755588cf1e90f0b14 to restore the behaviour that was broken by
+commit c658b94f6e8c206c59d.  But prior to commit c658b94f6e8c206c59d
+every MIPS board generated exceptions for instruction access to
+invalid addresses but not for data accesses; and other boards,
+notably Malta, were fixed by making all invalid accesses behave as
+reads-as-zero (see the call to empty_slot_init() in
+mips_malta_init()).  Hardware that raises exceptions for instruction
+access and not data access seems to me to be an unlikely design, and
+it's possible that the right way to emulate this is to make the Jazz
+boards do what we did with Malta (or some variation of that).
+Nonetheless, since I don't have access to real hardware to test
+against I have taken the approach of "make QEMU continue to behave
+the same way it did before this commit".  I have updated the comment
+to correct the parts that are no longer accurate and note that
+the hardware might behave differently.
 
-  https://github.com/AMarkovic/qemu tags/mips-queue-sep-12-2019
+The test case for the need for the hook-hijacking is in
+https://bugs.launchpad.net/qemu/+bug/1245924 That BIOS will boot OK
+either with this overriding of both hooks, or with a simple "global
+memory region to ignore bad accesses of all types", so it doesn't
+provide evidence either way, unfortunately.
 
-for you to fetch changes up to d1cc1533509012916dceeb7f23accda8a9fee85c:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+Message-Id: <20190802160458.25681-2-peter.maydell@linaro.org>
+---
+ hw/mips/mips_jazz.c | 54 +++++++++++++++++++++++++++++++++++++++++++++--=
+------
+ 1 file changed, 46 insertions(+), 8 deletions(-)
 
-  target/mips: gdbstub: Revert commit 8e0b373 (2019-09-12 18:25:34 +0200)
-
-----------------------------------------------------------------
-
-MIPS queue for September 12th, 2019
-
-Highlights:
-
-  - switch to using do_transaction_failed() hook for MIPS' Jazz boards
-  - revert a commit that caused problems with gdb's packet 'g' for MIPS
-
-----------------------------------------------------------------
-
-Libo Zhou (1):
-  target/mips: gdbstub: Revert commit 8e0b373
-
-Peter Maydell (3):
-  hw/mips/mips_jazz: Override do_transaction_failed hook
-  target/mips: Switch to do_transaction_failed() hook
-  hw/mips/mips_jazz: Remove no-longer-necessary override of
-    do_unassigned_access
-
- hw/mips/mips_jazz.c     | 47 +++++++++++++++++++++++++++++++++--------------
- target/mips/cpu.c       |  2 +-
- target/mips/gdbstub.c   |  3 +--
- target/mips/internal.h  |  8 +++++---
- target/mips/op_helper.c | 24 ++++++++----------------
- 5 files changed, 48 insertions(+), 36 deletions(-)
-
--- 
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 388c15c..1a8e847 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -123,6 +123,28 @@ static void mips_jazz_do_unassigned_access(CPUState =
+*cpu, hwaddr addr,
+     (*real_do_unassigned_access)(cpu, addr, is_write, is_exec, opaque, s=
+ize);
+ }
+=20
++static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr=
+,
++                                          vaddr addr, unsigned size,
++                                          MMUAccessType access_type,
++                                          int mmu_idx, MemTxAttrs attrs,
++                                          MemTxResult response,
++                                          uintptr_t retaddr);
++
++static void mips_jazz_do_transaction_failed(CPUState *cs, hwaddr physadd=
+r,
++                                            vaddr addr, unsigned size,
++                                            MMUAccessType access_type,
++                                            int mmu_idx, MemTxAttrs attr=
+s,
++                                            MemTxResult response,
++                                            uintptr_t retaddr)
++{
++    if (access_type !=3D MMU_INST_FETCH) {
++        /* ignore invalid access (ie do not raise exception) */
++        return;
++    }
++    (*real_do_transaction_failed)(cs, physaddr, addr, size, access_type,
++                                  mmu_idx, attrs, response, retaddr);
++}
++
+ static void mips_jazz_init(MachineState *machine,
+                            enum jazz_model_e jazz_model)
+ {
+@@ -157,16 +179,32 @@ static void mips_jazz_init(MachineState *machine,
+     env =3D &cpu->env;
+     qemu_register_reset(main_cpu_reset, cpu);
+=20
+-    /* Chipset returns 0 in invalid reads and do not raise data exceptio=
+ns.
++    /*
++     * Chipset returns 0 in invalid reads and do not raise data exceptio=
+ns.
+      * However, we can't simply add a global memory region to catch
+-     * everything, as memory core directly call unassigned_mem_read/writ=
+e
+-     * on some invalid accesses, which call do_unassigned_access on the
+-     * CPU, which raise an exception.
+-     * Handle that case by hijacking the do_unassigned_access method on
+-     * the CPU, and do not raise exceptions for data access. */
++     * everything, as this would make all accesses including instruction
++     * accesses be ignored and not raise exceptions.
++     * So instead we hijack either the do_unassigned_access method or
++     * the do_transaction_failed method on the CPU, and do not raise exc=
+eptions
++     * for data access.
++     *
++     * NOTE: this behaviour of raising exceptions for bad instruction
++     * fetches but not bad data accesses was added in commit 54e755588cf=
+1e9
++     * to restore behaviour broken by c658b94f6e8c206, but it is not cle=
+ar
++     * whether the real hardware behaves this way. It is possible that
++     * real hardware ignores bad instruction fetches as well -- if so th=
+en
++     * we could replace this hijacking of CPU methods with a simple glob=
+al
++     * memory region that catches all memory accesses, as we do on Malta=
+.
++     */
+     cc =3D CPU_GET_CLASS(cpu);
+-    real_do_unassigned_access =3D cc->do_unassigned_access;
+-    cc->do_unassigned_access =3D mips_jazz_do_unassigned_access;
++    if (cc->do_unassigned_access) {
++        real_do_unassigned_access =3D cc->do_unassigned_access;
++        cc->do_unassigned_access =3D mips_jazz_do_unassigned_access;
++    }
++    if (cc->do_transaction_failed) {
++        real_do_transaction_failed =3D cc->do_transaction_failed;
++        cc->do_transaction_failed =3D mips_jazz_do_transaction_failed;
++    }
+=20
+     /* allocate RAM */
+     memory_region_allocate_system_memory(ram, NULL, "mips_jazz.ram",
+--=20
 2.7.4
 
 
