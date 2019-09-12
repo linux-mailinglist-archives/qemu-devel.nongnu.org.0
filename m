@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830F0B0D0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:37:44 +0200 (CEST)
-Received: from localhost ([::1]:60568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A043BB0D19
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:41:56 +0200 (CEST)
+Received: from localhost ([::1]:60606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8MTv-0006Si-Lr
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
+	id 1i8MXz-0000Wh-OU
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57313)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i8MS2-0004fV-00
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:35:47 -0400
+ (envelope-from <bounces@canonical.com>) id 1i8MX5-0008Fw-3g
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:41:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i8MS0-00073h-L8
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:35:45 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51288)
+ (envelope-from <bounces@canonical.com>) id 1i8MX3-0000dP-2f
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:40:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53966)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i8MS0-000732-DK
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:35:44 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 7so6862176wme.1
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 03:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=/SkksgrPvAb1ByvqgXsmFP5Ei1m/IESprO90XwrXPxY=;
- b=Cp7DUYoFoU94UDFfXEho46BXg2q8C0MiU8zWYCxsscR5Z8w9Ci7P8FhxGuZOddfEgG
- bk0YkJzLNAHtP4dA3JQSpmSacPCRUo5NsFafXK4o9YajBzpBJghXlvO635f2EO7Rqayl
- xP4lDxSGW2yOJyEGzs6Re+dqYebU/wSp6nRCzqkFd5WSKF1uzJ7d3wcQCJJrkxGwkhXD
- V6ELk/kbPpx04GcxIxCdBOKNA6UnkFhRnTd+YMRmR+Jwhy+Fj7TpwaJtMkWYsytMOowt
- SvmGrw+xW6GDfQ38K+8ix86Ce6lrBFL8gWBL1O2dKS+MDvl62QgfoKoB9tgxK8jcSwYI
- rVgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=/SkksgrPvAb1ByvqgXsmFP5Ei1m/IESprO90XwrXPxY=;
- b=LJLPTCIIuhmUCSyeFlMtYkn/2tOyMjCqVZTQE2g6TzneJhfAj90GFpyXhv/B9dtD6o
- 1MSdewYGa/PpbIdK7QZ8jex6UDQUhNCBW0Gi/5TGDp2+U0MyFZaE47aYlxwD8qxU1o4E
- YHjiewjb+ZDH6NWcybAcA9QjJ6jis8XNf6QOzOo4jNrWCCbKaeZ0PwMI1VYyv9do5PJj
- 7DqJSRMjq2/Bto1Pas/l8ONCR6FxAILbXKWf3hXp1TfLGaN3YO2X9HRw4BT3sFZ0aE5s
- tCVrBbJZu4mqws/+FZgfULnyLY1ahDd+6VOXsJ/np801iNfQ9+H57msnlga4AHSmOhKw
- hd/w==
-X-Gm-Message-State: APjAAAU8XnjZDkIoRxpBu42GwoAY6dQIpunKQhWNDTZv/MBL3Yy2w4gZ
- 8IEsOhMO29nnNEOOXy20QocpjQ==
-X-Google-Smtp-Source: APXvYqwfV+eIDSjRrFpTZ5xI1058grtpXBcR87zIWTvFszvjdffp1lzTooOzJmoid+QpD4pI7VP7rg==
-X-Received: by 2002:a1c:7f4f:: with SMTP id a76mr7815065wmd.117.1568284542771; 
- Thu, 12 Sep 2019 03:35:42 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d9sm30168975wrf.62.2019.09.12.03.35.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Sep 2019 03:35:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 60C901FF87;
- Thu, 12 Sep 2019 11:35:41 +0100 (BST)
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <87a7cty0tv.fsf@dusky.pond.sub.org> <875zm5yzgq.fsf@linaro.org>
- <87d0g6dnbc.fsf_-_@dusky.pond.sub.org> <87y2ytzy17.fsf@linaro.org>
- <CAFEAcA9Db2ENw7e_1-XOTbHeV=sp_zFxqoq4se+63OK+mQaeew@mail.gmail.com>
- <87v9txzv3o.fsf@linaro.org>
- <CAFEAcA_dQ4txzn7HzBO8PMwh2K2WpJ+_8LOEMtXxqg5Hmwfzdg@mail.gmail.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA_dQ4txzn7HzBO8PMwh2K2WpJ+_8LOEMtXxqg5Hmwfzdg@mail.gmail.com>
-Date: Thu, 12 Sep 2019 11:35:41 +0100
-Message-ID: <87tv9hzts2.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i8MX2-0000cc-Sv
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:40:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i8MX0-00086B-Mr
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 10:40:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AA9602E80CB
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 10:40:54 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::331
-Subject: Re: [Qemu-devel] TCG plugins and the GPL (was: [PATCH v4 00/54]
- plugins for TCG)
+Date: Thu, 12 Sep 2019 10:35:01 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h jamespharvey20
+X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <156790812963.29382.11232177290822294099.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156828450159.6796.16468157748324255630.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d4345d460dd31b8e7fd37adfb3c723f823b5abfe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1843151] Re: Regression: QEMU 4.1.0 qxl and KMS
+ resoluiton only 4x10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,62 +64,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aaron Lindsay <aaron@os.amperecomputing.com>,
- "Emilio G. Cota" <cota@braap.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Pranith Kumar <bobby.prani@gmail.com>
+Reply-To: Bug 1843151 <1843151@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+hmm, disable-glusterfs *should* work around that; sometimes it's worth
+nuking the build directory and trying a fresh configure with these
+things.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+-- =
 
-> On Thu, 12 Sep 2019 at 11:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->> > Wait, what? From my perspective the whole point of the plugin
->> > interface is that it should be stable, in that at least there's
->> > a good chance that a plugin you built will work against multiple
->> > versions of QEMU, and if it doesn't then it should fail with
->> > a reasonable error message telling you to update. I'm not
->> > sure we should be landing the plugins infrastructure if we
->> > don't have that much stability.
->>
->> There is a big fat blurry line between "set in stone" and "not requiring
->> you to re-engineer the plugin every QEMU release". I'm saying we should
->> reserve the right to extend and change the plugin API as required but
->> the expectation would be the plugins will continue to work the same way
->> but maybe with tweaks to the API hooks to support additional features.
->>
->> It's also a pretty young interface so I would expect some evolution once
->> it is released into the field.
->
-> Sure. But I think we should document that we at least intend to
-> have some approximation to a compatability/deprecation policy
-> here, and some mechanisms for versioning so you get a helpful
-> error rather than weird misbehaviour if your plugin is too old.
->
->> One problem with the anti-license circumvention measures being suggested
->> is it will mean having to recompile plugins for any given release.
->
-> Why should we do this? I think this is making life hard for our
-> users for no good reason. We *do* have this check for modules,
-> because a module is just a random .so that can do anything in
-> QEMU. I thought we had the TCG-plugin interface much more locked
-> down than that?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1843151
 
-It is, there are only a few set calls the plugin can make into QEMU,
-mostly to register callbacks to events. Currently it can examine the
-state of the system (again through the API) but can't change it's
-behaviour (although a register access interface has been requested
-although I'd initially intended to make it read only).
+Title:
+  Regression: QEMU 4.1.0 qxl and KMS resoluiton only 4x10
 
->
-> thanks
-> -- PMM
+Status in QEMU:
+  New
 
+Bug description:
+  Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.  virt-viewer 8.0.
 
---
-Alex Benn=C3=A9e
+  Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
+
+  Have replicated this both on a system using amdgpu and one using
+  integrated ASPEED graphics.
+
+  Downgrading from 4.1.0 to 4.0.0 works as usual, see:
+  https://www.youtube.com/watch?v=3DNyMdcYwOCvY
+
+  Going back to 4.1.0 reproduces, see:
+  https://www.youtube.com/watch?v=3DH3nGG2Mk6i0
+
+  4.1.0 displays fine until KMS kicks in.
+
+  Using 4.1.0 with virtio-vga doesn't cause this.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1843151/+subscriptions
 
