@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BFBB1115
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:26:05 +0200 (CEST)
-Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFE2B111B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:28:31 +0200 (CEST)
+Received: from localhost ([::1]:35164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Q2u-0004PT-Cm
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:26:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45395)
+	id 1i8Q5G-0007PX-FB
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i8Pw1-0004he-1D
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:18:58 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i8Q0j-0002r2-6Z
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:23:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i8Pvz-0007F3-Tf
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:18:56 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54035)
+ (envelope-from <richard.henderson@linaro.org>) id 1i8Q0h-0008G6-Dw
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:23:49 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:33308)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i8Pvz-0007Ej-Nu
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:18:55 -0400
-Received: by mail-wm1-x344.google.com with SMTP id q18so250775wmq.3
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 07:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XsOmn865vPaAVaoVze2USZn4OuTbtx/gpt5HlGl/9Zs=;
- b=FfiggS35UNziYiUNmeq5M6V6o+ERftJuw1m3dtAhxjr3QyNYRVfJTmS4HmvuExzhX4
- iyR3CNxgDkO1U4Yj0J57DsjJwVB2Pg083qYBbwrfKftCrMEhBlZHU4GaP0IF+UlA4kgT
- DK4ImU4MuxfV1Xmd8+U0b2DQH8NPORvXIEvMk7VlIpmDLgTMudeSOLmeAR+EJ6qBD0Ng
- TQjXzbIhQCxjdo5/kJL5onv6RVwWLNlHm+UIDiBlUdjXvDwJtLLUQ2tdoY4zx5es37ex
- Yr76E7eRP66jEEbDyP285FHtEUh5PtWCyD1NHh2txS0YoVUeOZav3Ii6RLVS1QkKxm2j
- QLwA==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i8Q0h-0008Fr-5a
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 10:23:47 -0400
+Received: by mail-qk1-x743.google.com with SMTP id x134so24656945qkb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 07:23:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lTaz5rz8rDx0RTM1bBhKp5TwSIQinble2f6b8mrjTNU=;
+ b=DX71T34XZ9azLd2JPF9ZDU2u2I8CgDr/2rqKk08XkZehNEpksX5nKUsUZW/HKW+b5l
+ aouC277++rzx3sa3oD/APGvaVyjsH0TeN8crsex06AbfIL5wvYQEyDjL/lu7sI3vRC29
+ xtfOyWnA13K6Rsci7ijUVMQVIKySWpDjrl5K8YHQuJ9NxuNqczanb3Hz+yArtlQuIa23
+ 2hRoEEr5ye0YAnAbExMmgWxvqGHP64KW895sgOuhl4ISGQrS+YvW+hntHMoZqsZ9KEyB
+ Gg3GgdcRbwTHMZXITOcrVjJRo9+z7V3lSVhqECgZoZQkqs1tna9sAdTzzEDeTrDJsVN1
+ 3Y6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=XsOmn865vPaAVaoVze2USZn4OuTbtx/gpt5HlGl/9Zs=;
- b=mmP9g08Q0oAnGlZSbh9yflzrLJjbPj1xym/f/N8Xlp7E4BHlOQ2p/xM0vjWlmxE52/
- oEqcaT5dCOMKRqcuXVAOMOfgE979mmhAoJx8o6BS8ZaQ2iYm6UvJAJ80Y1pwptnsdPdF
- peINQYwmBDTnryoHRZxmO0M6UeaVkyzPj3BN7z/FunTLUVbSEf9vKdPDEPdwMC2GGxak
- wL47Vhsggam4DiziM4k5sNrlgond+xi2rcvVf7c2uuFGyeqEGNuKhRXOJfnLJQX1jQnC
- Jdil4pPoScPjOAgQn6I/qejJE2CyAVdPIA1lXlVOPauJmLs9AVElqVwAqGgIOZp8wThH
- WtZA==
-X-Gm-Message-State: APjAAAWkyJhk8jXJ0fPPSZhzuce8LyttxN2oDOfXZTbgARGMg/mMDbef
- yeVYac2lnhq8lAuBTQyB7KVl+i77xnE=
-X-Google-Smtp-Source: APXvYqws+YPzRCF71qmtd87XIcpZtKMAaxPOS8QeNHgl8PeR0oxWAQ+IxkShim0xL2dG8uAOHNUKAw==
-X-Received: by 2002:a1c:2b41:: with SMTP id r62mr196458wmr.47.1568297933867;
- Thu, 12 Sep 2019 07:18:53 -0700 (PDT)
-Received: from donizetti.lan ([2001:b07:6468:f312:3166:d768:e1a7:aab8])
- by smtp.gmail.com with ESMTPSA id i9sm179235wmf.14.2019.09.12.07.18.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Sep 2019 07:18:53 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 16:18:53 +0200
-Message-Id: <20190912141853.31057-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lTaz5rz8rDx0RTM1bBhKp5TwSIQinble2f6b8mrjTNU=;
+ b=AYbJs4wBUO/RE9QaxT0W8Cc4sVvEYxbSoeKxpRDN42CY2dPidJpgCrhYvxwMxSpxry
+ hGfnUy2WVQOkkBBa4PfufBhhoruk/PVX89+M3iA4gc7TTvtaHvXj+u4lVja+qwMaWOL0
+ SB63oPOB7ocByhEqWwshYc0fqN+r98DkD43z9cwu5Ka8GaISqp9V+IGvGJ8qaV810jIA
+ 03b12kfofG3BBmam/8szPXYX3udrnZ1iRJt2d8ajY4mQtrqh5Il96mKLnTNjEdP/Zrne
+ xzDAPk1LZiyl20sQ9Wq5VJUAT9cLkKtoETWW0yiZjRXIvY3lOmNiLVBnDGttr4OUIjpp
+ MU4g==
+X-Gm-Message-State: APjAAAVj949qANrTgkAyJkyIYDODife/2G3ts89aB9oTHfMDpIHI0YEP
+ tRV+jBsV1NGsek2O9GEGTcfkeg==
+X-Google-Smtp-Source: APXvYqzkjRwRps2VCVEw8vm9piXSnWPMKPJP79fWmhCnOYziUWP3QqsLPSqm5ojyzHIWu+v7UB8PAA==
+X-Received: by 2002:ae9:eb51:: with SMTP id b78mr4629300qkg.452.1568298225660; 
+ Thu, 12 Sep 2019 07:23:45 -0700 (PDT)
+Received: from [172.20.5.51] ([67.69.50.154])
+ by smtp.gmail.com with ESMTPSA id i30sm6690708qte.27.2019.09.12.07.23.44
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 12 Sep 2019 07:23:44 -0700 (PDT)
+To: liuzhiwei <zhiwei_liu@c-sky.com>, Alistair.Francis@wdc.com,
+ palmer@sifive.com, sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de,
+ riku.voipio@iki.fi, laurent@vivier.eu, wenmeng_zhang@c-sky.com
+References: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
+ <1568183141-67641-6-git-send-email-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <4da4da5b-afb8-c9be-99af-0544c6eeb233@linaro.org>
+Date: Thu, 12 Sep 2019 10:23:42 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1568183141-67641-6-git-send-email-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2] memory: inline and optimize devend_memop
+X-Received-From: 2607:f8b0:4864:20::743
+Subject: Re: [Qemu-devel] [PATCH v2 05/17] RISC-V: add vector extension load
+ and store instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,86 +86,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Nguyen <tony.nguyen@bt.com>, richard.henderson@linaro.org
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-devend_memop can rely on the fact that the result is always either
-0 or MO_BSWAP, corresponding respectively to host endianness and
-the opposite.  Native (target) endianness in turn can be either
-the host endianness, in which case MO_BSWAP is only returned for
-host-opposite endianness, or the opposite, in which case 0 is only
-returned for host endianness.
+> +static bool  vector_lmul_check_reg(CPURISCVState *env, uint32_t lmul,
+> +        uint32_t reg, bool widen)
+> +{
+> +    int legal = widen ? (lmul * 2) : lmul;
+> +
+> +    if ((lmul != 1 && lmul != 2 && lmul != 4 && lmul != 8) ||
+> +        (lmul == 8 && widen)) {
+> +        helper_raise_exception(env, RISCV_EXCP_ILLEGAL_INST);
+> +        return false;
+> +    }
+> +
+> +    if (reg % legal != 0) {
+> +        helper_raise_exception(env, RISCV_EXCP_ILLEGAL_INST);
+> +        return false;
+> +    }
+> +    return true;
+> +}
 
-With this in mind, devend_memop can be compiled as a setcond+shift
-for every target.  Do this and, while at it, move it to
-include/exec/memory.h since !NEED_CPU_H files do not (and should not)
-need it.
+These exceptions will not do the right thing.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/exec/memory.h | 19 ++++++++++++++++++-
- memory.c              | 18 ------------------
- 2 files changed, 18 insertions(+), 19 deletions(-)
+You cannot call helper_raise_exception from another helper, or from something
+called from another helper, as here.  You need to use riscv_raise_exception, as
+you do elsewhere in this patch, with a GETPC() value passed down from the
+outermost helper.
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 2dd810259d..2e83c96580 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2201,8 +2201,25 @@ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
-     }
- }
- 
-+#ifdef NEED_CPU_H
- /* enum device_endian to MemOp.  */
--MemOp devend_memop(enum device_endian end);
-+static inline MemOp devend_memop(enum device_endian end)
-+{
-+    QEMU_BUILD_BUG_ON(DEVICE_HOST_ENDIAN != DEVICE_LITTLE_ENDIAN &&
-+                      DEVICE_HOST_ENDIAN != DEVICE_BIG_ENDIAN);
-+
-+#ifdef BSWAP_NEEDED
-+    /* Swap if non-host endianness or native (target) endianness */
-+    return (end == DEVICE_HOST_ENDIAN) ? 0 : MO_BSWAP;
-+#else
-+    const int non_host_endianness =
-+        DEVICE_LITTLE_ENDIAN ^ DEVICE_BIG_ENDIAN ^ DEVICE_HOST_ENDIAN;
-+
-+    /* In this case, native (target) endianness needs no swap.  */
-+    return (end == non_host_endianness) ? MO_BSWAP : 0;
-+#endif
-+}
-+#endif
- 
- #endif
- 
-diff --git a/memory.c b/memory.c
-index 61a254c3f9..b9dd6b94ca 100644
---- a/memory.c
-+++ b/memory.c
-@@ -3267,21 +3267,3 @@ static void memory_register_types(void)
- }
- 
- type_init(memory_register_types)
--
--MemOp devend_memop(enum device_endian end)
--{
--    static MemOp conv[] = {
--        [DEVICE_LITTLE_ENDIAN] = MO_LE,
--        [DEVICE_BIG_ENDIAN] = MO_BE,
--        [DEVICE_NATIVE_ENDIAN] = MO_TE,
--        [DEVICE_HOST_ENDIAN] = 0,
--    };
--    switch (end) {
--    case DEVICE_LITTLE_ENDIAN:
--    case DEVICE_BIG_ENDIAN:
--    case DEVICE_NATIVE_ENDIAN:
--        return conv[end];
--    default:
--        g_assert_not_reached();
--    }
--}
--- 
-2.21.0
+Ideally you would check these conditions at translate time.
+I've mentioned how to do this in reply to your v1.
 
+
+> +void VECTOR_HELPER(vlbu_v)(CPURISCVState *env, uint32_t nf, uint32_t vm,> +    uint32_t rs1, uint32_t rd)
+
+You should pass the rs1 register by value, not by index.
+
+> +{> +    int i, j, k, vl, vlmax, lmul, width, dest, read;> +> +    vl =
+env->vfp.vl;> +> +    lmul   = vector_get_lmul(env);> +    width =
+vector_get_width(env);> +    vlmax = vector_get_vlmax(env);> +> +    if
+(vector_vtype_ill(env) || vector_overlap_vm_common(lmul, vm, rd)) {> +
+riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());> +
+return;> +    }> +    if (lmul * (nf + 1) > 32) {> +
+riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());> +
+return;> +    }
+Again, these exceptions should ideally be identified at translate time.
+
+I also think that you should have at least two different helpers: one that
+checks the vector mask and one that doesn't.  If you check the above conditions
+at translate time then you'll also want to split the helpers based on element
+width.
+
+You could also meaningfully split nf == 0 vs nf != 0.  You will, in any case,
+need to check at translate time whether the Zvlsseg extension is enabled before
+allowing nf != 0.
+
+
+> +
+> +    vector_lmul_check_reg(env, lmul, rd, false);
+> +
+> +    for (i = 0; i < vlmax; i++) {
+> +        dest = rd + (i / (VLEN / width));
+> +        j = i % (VLEN / width);
+
+This division is exactly why I suggested making vreg[] one contiguous array of
+elements instead of a two-dimensional array.  I think the distinction of 32
+VLEN-sized registers should be reserved for cpu dumps and gdbstub.
+
+
+> +        k = nf;
+> +        if (i < env->vfp.vstart) {
+> +            continue;
+
+Surely you should hoist this check outside the loop.
+
+> +        } else if (i < vl) {
+> +            switch (width) {
+> +            case 8:
+> +                if (vector_elem_mask(env, vm, width, lmul, i)) {
+> +                    while (k >= 0) {
+> +                        read = i * (nf + 1)  + k;
+> +                        env->vfp.vreg[dest + k * lmul].u8[j] =
+> +                            cpu_ldub_data(env, env->gpr[rs1] + read);
+
+You must not modify vreg[x] before you've recognized all possible exceptions,
+e.g. validating that a subsequent access will not trigger a page fault.
+Otherwise you will have a partially modified register value when the exception
+handler is entered.
+
+Without a stride, and without a predicate mask, this can be done with at most
+two calls to probe_access (one per page).  This is the simplification that
+makes splitting the helper into two very helpful.
+
+With a stride or with a predicate mask requires either
+(1) temporary storage for the loads, and copy back to env at the end, or
+(2) use probe_access for each load, and then perform the actual loads directly
+into env.
+
+FWIW, ARM SVE uses (1), as probe_access is very new.
+
+
+> +                        k--;
+> +                    }
+> +                    env->vfp.vstart++;
+> +                }
+> +                break;
+> +            case 16:
+> +                if (vector_elem_mask(env, vm, width, lmul, i)) {
+> +                    while (k >= 0) {
+> +                        read = i * (nf + 1)  + k;
+> +                        env->vfp.vreg[dest + k * lmul].u16[j] =
+> +                            cpu_ldub_data(env, env->gpr[rs1] + read);
+
+I don't see anything in these assignments to vreg[x].uN[y] that take the
+endianness of the host into account.
+
+You need to think about how the architecture defines the overlap of elements --
+particularly across vlset -- and make adjustments.
+
+I can imagine, if you have explicit tests for this, your tests are passing
+because the architecture defines a little-endian based indexing of the register
+file, and you have only run tests on a little-endian host, like x86_64.
+
+For ARM, we define the representation as a little-endian indexed array of
+host-endian uint64_t.  This means that a big-endian host needs to adjust the
+address of any element smaller than 64-bit.  E.g.
+
+#ifdef HOST_WORDS_BIGENDIAN
+#define H1(x)   ((x) ^ 7)
+#define H2(x)   ((x) ^ 3)
+#define H4(x)   ((x) ^ 1)
+#else
+#define H1(x)   (x)
+#define H2(x)   (x)
+#define H4(x)   (x)
+#endif
+
+    env->vfp.vreg[reg + k * lmul].u16[H2(j)]
+
+
+> +            case 64:
+> +                if (vector_elem_mask(env, vm, width, lmul, i)) {
+> +                    while (k >= 0) {
+> +                        read = i * (nf + 1)  + k;
+> +                        env->vfp.vreg[dest + k * lmul].u64[j] =
+> +                            cpu_ldub_data(env, env->gpr[rs1] + read);
+> +                        k--;
+> +                    }
+> +                    env->vfp.vstart++;
+> +                }
+> +                break;
+> +            default:
+> +                riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+
+Ideally, this condition is detected at translate time.
+You must detect this condition before making any changes to cpu state.
+Moreover, the SIGILL should not be skipped because of VSTART.
+
+
+> +static target_ulong vector_get_index(CPURISCVState *env, int rs1, int rs2,
+> +    int index, int mem, int width, int nf)
+> +{
+> +    target_ulong abs_off, base = env->gpr[rs1];
+
+You should be passing rs1 by value, not by index.
+
+> +    target_long offset;
+> +    switch (width) {
+> +    case 8:
+> +        offset = sign_extend(env->vfp.vreg[rs2].s8[index], 8) + nf * mem;
+> +        break;
+> +    case 16:
+> +        offset = sign_extend(env->vfp.vreg[rs2].s16[index], 16) + nf * mem;
+> +        break;
+> +    case 32:
+> +        offset = sign_extend(env->vfp.vreg[rs2].s32[index], 32) + nf * mem;
+> +        break;
+> +    case 64:
+> +        offset = env->vfp.vreg[rs2].s64[index] + nf * mem;
+> +        break;
+> +    default:
+> +        helper_raise_exception(env, RISCV_EXCP_ILLEGAL_INST);
+> +        return 0;
+> +    }
+> +    if (offset < 0) {
+> +        abs_off = ~offset + 1;
+
+You have been hanging around hardware people too much.
+In software we normally write this "-offset".  ;-)
+
+> +        if (base >= abs_off) {
+> +            return base - abs_off;
+> +        }
+> +    } else {
+> +        if ((target_ulong)((target_ulong)offset + base) >= base) {
+> +            return (target_ulong)offset + base;
+> +        }
+> +    }
+
+Why all the extra casting here?  They are exactly what is implied by C.
+
+> +    helper_raise_exception(env, RISCV_EXCP_ILLEGAL_INST);
+> +    return 0;
+
+(1) This exception call won't work, as above,
+(2) Where does this condition against wraparound come from?
+    I don't see it in the specification.
+(3) You certainly cannot detect this after having written a
+    previous element to the register file.
+
+[ Skipping lots of functions that are basically the same. ]
+
+> +void VECTOR_HELPER(vsxe_v)(CPURISCVState *env, uint32_t nf, uint32_t vm,
+> +    uint32_t rs1, uint32_t rs2, uint32_t rd)
+
+Pass rs1 by value.
+
+> +            case 8:
+> +                if (vector_elem_mask(env, vm, width, lmul, i)) {
+> +                    while (k >= 0) {
+> +                        addr = vector_get_index(env, rs1, src2, j, 1, width, k);
+> +                        cpu_stb_data(env, addr,
+> +                            env->vfp.vreg[dest + k * lmul].s8[j]);
+
+Must probe_access all of the memory before any stores.
+Unlike loads, you don't have the option of storing into a temporary.
+Which suggests a common subroutine to perform the probe(s), rather
+than bother with a temporary for loads.
+
+> +void VECTOR_HELPER(vsuxe_v)(CPURISCVState *env, uint32_t nf, uint32_t vm,
+> +    uint32_t rs1, uint32_t rs2, uint32_t rd)
+> +{
+> +    return VECTOR_HELPER(vsxe_v)(env, nf, vm, rs1, rs2, rd);
+
+You can't do this and expect the GETPC() for the exceptions raised by vsxe_v to
+operate properly.  You must define a common helper function and pass in
+GETPC(), or preferably not have this second helper function at all.  There's no
+reason why you cannot call vsxe_v for implementing vsuxe_v.  It's merely
+laziness within the macros you set up in trans_rvv.inc.c.
+
+> +    env->vfp.vstart = 0;
+> +}
+
+Dead code after the return, in any case.
+
+
+r~
 
