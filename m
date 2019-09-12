@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D65B12D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 18:35:16 +0200 (CEST)
-Received: from localhost ([::1]:36962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16415B12D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 18:35:13 +0200 (CEST)
+Received: from localhost ([::1]:36958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8S3v-0007xF-I7
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 12:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57193)
+	id 1i8S3r-0007wT-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 12:35:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0g-0005p6-Bn
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0g-0005p5-BH
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 12:31:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0e-0006Jy-SE
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i8S0e-0006KA-Tp
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 12:31:54 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:37119 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:37117 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i8S0e-00061u-H0
+ id 1i8S0e-00061t-GO
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 12:31:52 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id B1E781A218D;
+ by mail.rt-rk.com (Postfix) with ESMTP id B78F11A1E6B;
  Thu, 12 Sep 2019 18:30:46 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 866081A1E75;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 8C6631A1EA3;
  Thu, 12 Sep 2019 18:30:46 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 18:30:38 +0200
-Message-Id: <1568305840-12550-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 12 Sep 2019 18:30:39 +0200
+Message-Id: <1568305840-12550-4-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1568305840-12550-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1568305840-12550-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 2/4] target/mips: Switch to
- do_transaction_failed() hook
+Subject: [Qemu-devel] [PULL 3/4] hw/mips/mips_jazz: Remove
+ no-longer-necessary override of do_unassigned_access
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,112 +60,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Switch the MIPS target from the old unassigned_access hook to the new
-do_transaction_failed hook.
-
-Unlike the old hook, do_transaction_failed is only ever called from
-the TCG memory access paths, so there is no need for the "ignore this
-if we're using KVM" hack that we were previously using to work around
-the way unassigned_access was called for all kinds of memory accesses
-to unassigned physical addresses.
-
-The MIPS target does not ever do direct memory reads by physical
-address (via either ldl_phys etc or address_space_ldl etc), so the
-only memory accesses this affects are the 'normal' guest loads and
-stores, which will be handled by the new hook; their behaviour is
-unchanged.
+Now that the MIPS CPU implementation uses the new
+do_transaction_failed hook, we can remove the old code that handled
+the do_unassigned_access hook.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-Message-Id: <20190802160458.25681-3-peter.maydell@linaro.org>
+Message-Id: <20190802160458.25681-4-peter.maydell@linaro.org>
 ---
- target/mips/cpu.c       |  2 +-
- target/mips/internal.h  |  8 +++++---
- target/mips/op_helper.c | 24 ++++++++----------------
- 3 files changed, 14 insertions(+), 20 deletions(-)
+ hw/mips/mips_jazz.c | 27 ++++-----------------------
+ 1 file changed, 4 insertions(+), 23 deletions(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 3ffa342..bbcf7ca 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -202,7 +202,7 @@ static void mips_cpu_class_init(ObjectClass *c, void =
-*data)
-     cc->gdb_read_register =3D mips_cpu_gdb_read_register;
-     cc->gdb_write_register =3D mips_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
--    cc->do_unassigned_access =3D mips_cpu_unassigned_access;
-+    cc->do_transaction_failed =3D mips_cpu_do_transaction_failed;
-     cc->do_unaligned_access =3D mips_cpu_do_unaligned_access;
-     cc->get_phys_page_debug =3D mips_cpu_get_phys_page_debug;
-     cc->vmsd =3D &vmstate_mips_cpu;
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index ae29b57..685e8d6 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -139,9 +139,11 @@ void r4k_helper_tlbinv(CPUMIPSState *env);
- void r4k_helper_tlbinvf(CPUMIPSState *env);
- void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 1a8e847..c967b97 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -111,18 +111,6 @@ static const MemoryRegionOps dma_dummy_ops =3D {
+ #define MAGNUM_BIOS_SIZE_MAX 0x7e000
+ #define MAGNUM_BIOS_SIZE (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE :=
+ MAGNUM_BIOS_SIZE_MAX)
 =20
--void mips_cpu_unassigned_access(CPUState *cpu, hwaddr addr,
--                                bool is_write, bool is_exec, int unused,
--                                unsigned size);
-+void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-+                                    vaddr addr, unsigned size,
-+                                    MMUAccessType access_type,
-+                                    int mmu_idx, MemTxAttrs attrs,
-+                                    MemTxResult response, uintptr_t reta=
-ddr);
- hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong addres=
-s,
-                                   int rw);
- #endif
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 01b9e78..4de6465 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -2668,27 +2668,19 @@ void mips_cpu_do_unaligned_access(CPUState *cs, v=
-addr addr,
-     do_raise_exception_err(env, excp, error_code, retaddr);
- }
-=20
--void mips_cpu_unassigned_access(CPUState *cs, hwaddr addr,
--                                bool is_write, bool is_exec, int unused,
--                                unsigned size)
-+void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-+                                    vaddr addr, unsigned size,
-+                                    MMUAccessType access_type,
-+                                    int mmu_idx, MemTxAttrs attrs,
-+                                    MemTxResult response, uintptr_t reta=
-ddr)
- {
-     MIPSCPU *cpu =3D MIPS_CPU(cs);
-     CPUMIPSState *env =3D &cpu->env;
-=20
--    /*
--     * Raising an exception with KVM enabled will crash because it won't=
- be from
--     * the main execution loop so the longjmp won't have a matching setj=
-mp.
--     * Until we can trigger a bus error exception through KVM lets just =
-ignore
--     * the access.
--     */
--    if (kvm_enabled()) {
+-static CPUUnassignedAccess real_do_unassigned_access;
+-static void mips_jazz_do_unassigned_access(CPUState *cpu, hwaddr addr,
+-                                           bool is_write, bool is_exec,
+-                                           int opaque, unsigned size)
+-{
+-    if (!is_exec) {
+-        /* ignore invalid access (ie do not raise exception) */
 -        return;
 -    }
+-    (*real_do_unassigned_access)(cpu, addr, is_write, is_exec, opaque, s=
+ize);
+-}
 -
--    if (is_exec) {
--        raise_exception(env, EXCP_IBE);
-+    if (access_type =3D=3D MMU_INST_FETCH) {
-+        do_raise_exception(env, EXCP_IBE, retaddr);
-     } else {
--        raise_exception(env, EXCP_DBE);
-+        do_raise_exception(env, EXCP_DBE, retaddr);
-     }
- }
- #endif /* !CONFIG_USER_ONLY */
+ static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr=
+,
+                                           vaddr addr, unsigned size,
+                                           MMUAccessType access_type,
+@@ -184,9 +172,8 @@ static void mips_jazz_init(MachineState *machine,
+      * However, we can't simply add a global memory region to catch
+      * everything, as this would make all accesses including instruction
+      * accesses be ignored and not raise exceptions.
+-     * So instead we hijack either the do_unassigned_access method or
+-     * the do_transaction_failed method on the CPU, and do not raise exc=
+eptions
+-     * for data access.
++     * So instead we hijack the do_transaction_failed method on the CPU,=
+ and
++     * do not raise exceptions for data access.
+      *
+      * NOTE: this behaviour of raising exceptions for bad instruction
+      * fetches but not bad data accesses was added in commit 54e755588cf=
+1e9
+@@ -197,14 +184,8 @@ static void mips_jazz_init(MachineState *machine,
+      * memory region that catches all memory accesses, as we do on Malta=
+.
+      */
+     cc =3D CPU_GET_CLASS(cpu);
+-    if (cc->do_unassigned_access) {
+-        real_do_unassigned_access =3D cc->do_unassigned_access;
+-        cc->do_unassigned_access =3D mips_jazz_do_unassigned_access;
+-    }
+-    if (cc->do_transaction_failed) {
+-        real_do_transaction_failed =3D cc->do_transaction_failed;
+-        cc->do_transaction_failed =3D mips_jazz_do_transaction_failed;
+-    }
++    real_do_transaction_failed =3D cc->do_transaction_failed;
++    cc->do_transaction_failed =3D mips_jazz_do_transaction_failed;
+=20
+     /* allocate RAM */
+     memory_region_allocate_system_memory(ram, NULL, "mips_jazz.ram",
 --=20
 2.7.4
 
