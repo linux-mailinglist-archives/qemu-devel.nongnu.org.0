@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1C5B0BE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:50:29 +0200 (CEST)
-Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C478B0BEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:51:50 +0200 (CEST)
+Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8LkC-00038Y-GA
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45235)
+	id 1i8LlV-0004oN-90
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i8LSc-0000pO-UC
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:32:20 -0400
+ (envelope-from <bounces@canonical.com>) id 1i8LkP-0003vc-8w
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:50:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i8LSb-00076q-Df
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:32:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53122)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i8LSb-00076e-6C
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:32:17 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8174D308421A;
- Thu, 12 Sep 2019 09:32:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.17.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E4E2B60C05;
- Thu, 12 Sep 2019 09:32:12 +0000 (UTC)
-Date: Thu, 12 Sep 2019 10:32:10 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <20190912093210.GD24576@redhat.com>
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <87a7cty0tv.fsf@dusky.pond.sub.org> <875zm5yzgq.fsf@linaro.org>
- <87d0g6dnbc.fsf_-_@dusky.pond.sub.org> <87y2ytzy17.fsf@linaro.org>
+ (envelope-from <bounces@canonical.com>) id 1i8LkO-0002yO-5Q
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:50:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41200)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i8LkO-0002wD-0A
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:50:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i8LkM-0000i7-M0
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 09:50:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9DA542E80C8
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 09:50:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87y2ytzy17.fsf@linaro.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 12 Sep 2019 09:32:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Sep 2019 09:37:55 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h jamespharvey20
+X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <156790812963.29382.11232177290822294099.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156828107593.708.8123393451206277178.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0179686e299667e5b01d4706776e68053e1a1063
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] TCG plugins and the GPL (was: [PATCH v4 00/54]
- plugins for TCG)
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1843151] Re: Regression: QEMU 4.1.0 qxl and KMS
+ resoluiton only 4x10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,141 +64,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- aaron@os.amperecomputing.com, cota@braap.org,
- Stefan Hajnoczi <stefanha@redhat.com>, bobby.prani@gmail.com
+Reply-To: Bug 1843151 <1843151@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 12, 2019 at 10:03:48AM +0100, Alex Benn=C3=A9e wrote:
->=20
-> Markus Armbruster <armbru@redhat.com> writes:
->=20
-> > Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-> >
-> >> Markus Armbruster <armbru@redhat.com> writes:
-> > [...]
-> >>> Please advise why TCG plugins don't undermine the GPL.  Any proposa=
-l to
-> >>> add a plugin interface needs to do that.
-> >>
-> >> I'm not sure what we can say about this apart from "ask your lawyer"=
-.
-> >
-> > I'm not asking for a legal argument, I'm asking for a pragmatic one.
-> >
-> >> I'm certainly not proposing we add any sort of language about what
-> >> should and shouldn't be allowed to use the plugin interface. I find =
-it
-> >> hard to see how anyone could argue code written to interface with th=
-e
-> >> plugin API couldn't be considered a derived work.
-> >
-> > What makes that so?  Is writing a plugin without linking with QEMU co=
-de
-> > impractical?
->=20
-> The way a plugin works is by linking. The plugin itself would be useles=
-s
-> unless combined with the QEMU code to do its thing. It is a more
-> intimate binding than an IPC interface using some sort of protocol. The
-> argument goes that pretty much any kernel module is derived code - but
-> again it has never really been litigated in the courts which would be
-> the people to set the precedent.
+OK that's interesting - I've got another bug I've been following that's
+also fixed by (b).
 
-Part of the problem with the kernel is the historical precedent they
-had set. The issue of GPL compliance only become prominent much later
-after (closed source) loadable modules were already widely in use. They
-tried to lock the door after the horse had already bolted by adding
-EXPORT_SYMBOL_GPL.
+A bisect would still be interesting; but one place to start might be to try=
+ before and after commit =
 
-We can avoid this trapped by clearly documenting our license expectations
-from the very start. ie state that we consider any plugins to be derived
-works and to be bound by the terms of the GPL. This doesn't mean the
-plugins themselves have to be GPL, but they have to be under terms that
-allow relicensing to the GPL, in order to be license compatible.=20
+be812c0
 
-We could even go as far as having the plugin registration API require
-that the plugin explicitly declare its license and we can log this
-license at time of loading. If people use a non-GPL compatible license
-it will be clearly visible as non-compatible, or if they lie and pretend
-to be GPL then they would be willfully violating.
+-- =
 
-> >> There are two use cases I have in mind:
-> >>
-> >> The first is FLOSS developers writing interesting tools that can tak=
-e
-> >> advantage of QEMU's control of the system to do experiments that are
-> >> tricky with other setups (Valgrind is limited to same-arch, Dynamo/P=
-in
-> >> are user-space only). I want these experiments to be easy to do with=
-out
-> >> having to keep hacking and re-hacking QEMU's core code. I would hope
-> >> QEMU developers would up-stream theirs into the QEMU source tree but=
- I
-> >> can imagine academics will have open source code that will only ever=
- sit
-> >> in their paper's repository.
-> >
-> > GPL'ed code that's not for upstream is 100% legitimate.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1843151
 
-Yep, the code only has to be provided to the people who receive the
-plugin binary. Those people can't be prevented from redistributing
-it further though.
+Title:
+  Regression: QEMU 4.1.0 qxl and KMS resoluiton only 4x10
 
-> >> The other is users who currently maintain hacked up internal copies =
-of
-> >> QEMU as a test bed for whatever piece of silicon they are brewing be=
-hind
-> >> closed doors. This code would never be distributed (hence never be a=
- GPL
-> >> issue)
-> >
-> > Correct.  We can't force anybody to distribute, and that's only prope=
-r.
-> >
+Status in QEMU:
+  New
 
-> > Are there any technical difficulties that could make distributing a
-> > plugins in binary form impractical?
->=20
-> Well the first thing will be we are not intending to offer a guaranteed
-> ABI. While we don't want to be changing it at a whim there shouldn't be
-> an expectation that the plugin interface will maintain backwards
-> compatibility (unlike the command line interface ;-). There should be a=
-n
-> expectation that plugins will likely need to be rebuilt against the
-> current source tree from time to time.
->=20
-> We could implement a more technical measure analogous to the kernels
-> module signing that would require the plugin to be rebuilt with
-> reference to the current QEMU source tree although that will be a pain
-> even for internally distributed blobs. I'm loathed to implement such a
-> system from v1 though given the problem of publicly distributed binary
-> blobs is currently only a theoretical problem.
+Bug description:
+  Host is Arch Linux.  linux 5.2.13, qemu 4.1.0.  virt-viewer 8.0.
 
-The problem with waiting for a problem to arise is that you have set a
-precedent that its ok. We are in a stronger enforcement position if we
-can set expectations accurately from day one, avoiding the trap the
-kernel had which needed to try to enforce after the fact.
+  Guest is Arch Linux Sept 2019 ISO.  linux 5.2.11.
 
-So from that POV, I'd be strongly in favour of technical measures that
-force the plugin to be rebuilt against each new QEMU version.
+  Have replicated this both on a system using amdgpu and one using
+  integrated ASPEED graphics.
 
-This doesn't need to be module signing - it could be as simple as
-requiring the plugin to export a symbol "module_version" which must
-exactly match the QEMU version, or refuse to load it. If we want to
-be even more strict we could generate a random hash in each QEMU
-rebuild, which is the similar level of strictness to kernel signing
+  Downgrading from 4.1.0 to 4.0.0 works as usual, see:
+  https://www.youtube.com/watch?v=3DNyMdcYwOCvY
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+  Going back to 4.1.0 reproduces, see:
+  https://www.youtube.com/watch?v=3DH3nGG2Mk6i0
+
+  4.1.0 displays fine until KMS kicks in.
+
+  Using 4.1.0 with virtio-vga doesn't cause this.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1843151/+subscriptions
 
