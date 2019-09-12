@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E8BB0CB4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:19:31 +0200 (CEST)
-Received: from localhost ([::1]:60306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BF2B0CBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:21:30 +0200 (CEST)
+Received: from localhost ([::1]:60340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8MCH-0004Zw-P7
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53425)
+	id 1i8MEC-0006jt-Ij
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i8M9y-0003Kv-JC
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:17:08 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i8MC0-00058s-R6
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:19:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i8M9t-0006e7-El
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:17:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58356)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i8M9t-0006cX-0W
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:17:01 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3F2B9302C06D;
- Thu, 12 Sep 2019 10:17:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.17.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CABBB5D6A5;
- Thu, 12 Sep 2019 10:16:53 +0000 (UTC)
-Date: Thu, 12 Sep 2019 11:16:51 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <20190912101651.GK24576@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i8MBz-0007Lc-JR
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:19:12 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:41885)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i8MBz-0007LP-E4
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:19:11 -0400
+Received: by mail-oi1-x234.google.com with SMTP id w17so3443771oiw.8
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 03:19:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=lUN+R38jmZUAOenscLTAvjujHSpq0M6PH78aF1obd8Y=;
+ b=VUmjhdlhl0eN6g2pCZ/E8GiltEQUakYwYu9zcAb5j2MzmBH8Ytr90WPhkZCAbuWkvx
+ NpeQeTnhRRmuGYkypuNHwmbicfe/npSIzgzTl8lahgArnzekyKFQps7L7uPHfO8qg6uS
+ Ey83+ukS4IGvhLXaUDvIcGYjzPXamrAfYzWr7CkFI/PqUd87Kg/DWCcF+2R038Pjy1c9
+ lgApYMTkBUSshUS0B/YLKJWTY0hu2If88DtrYOsd7A/B/jCdSAYlRU4IuL2YwSao0Dmj
+ W4eVHCe0ktWTmocv/YMPadDxwNg8UB4V9DK4sfBI6GHIr0O9Hr/HwPA66y+QRpK3Yugg
+ aY/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lUN+R38jmZUAOenscLTAvjujHSpq0M6PH78aF1obd8Y=;
+ b=oNOu6EtJRXKj6fPB6qJuam3mH5eGrQF6p1rmPIhH/wodpCUXfWdjY9YnCqyvj7hNPu
+ vqr3Hx7SPDsT96fcASZ55UW8Mr55gF2+RTW7kWZ8m/Ih+ZczttSrU3tx55G4CqP770+Y
+ S+Ms0776vXircDC27T++lxeSPcovi8OI6pXroZCJDoN12QTZxoe9TUGxORjTprocItUg
+ XUSEniSjzNxQpI1LGW3+mHtVGY9iS12+PDLYb1n2uh2ilSZ5z8NOhZpDaQ52kNZS+cCJ
+ 7hbI8Q1gC5iJToZKt+/kdGm6N8R5BTDy9Ata67k8T6eDrdReW6EzGC21Ltp04QD2OD/0
+ /9fQ==
+X-Gm-Message-State: APjAAAXn0eBYdSuSjlWxInfwzqOmv7c6GdeOWL7J0wb8y8NcnYkeAidJ
+ NlYF8pm1ffVS09Wcq49mfOnoo54ZLIBMQnpx+RUGkw==
+X-Google-Smtp-Source: APXvYqzXAvUefxSLcjLNpa4EuuHNzs6hPeqmNl44VB2Niywxyg/0IpHpkHnMh8BBSX58KokFOwY/2UHvg14wqFbPCQ0=
+X-Received: by 2002:aca:b48a:: with SMTP id d132mr7984015oif.98.1568283550122; 
+ Thu, 12 Sep 2019 03:19:10 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
  <87a7cty0tv.fsf@dusky.pond.sub.org> <875zm5yzgq.fsf@linaro.org>
  <87d0g6dnbc.fsf_-_@dusky.pond.sub.org> <87y2ytzy17.fsf@linaro.org>
  <CAFEAcA9Db2ENw7e_1-XOTbHeV=sp_zFxqoq4se+63OK+mQaeew@mail.gmail.com>
  <87v9txzv3o.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 In-Reply-To: <87v9txzv3o.fsf@linaro.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Thu, 12 Sep 2019 10:17:00 +0000 (UTC)
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Sep 2019 11:18:59 +0100
+Message-ID: <CAFEAcA_dQ4txzn7HzBO8PMwh2K2WpJ+_8LOEMtXxqg5Hmwfzdg@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::234
 Subject: Re: [Qemu-devel] TCG plugins and the GPL (was: [PATCH v4 00/54]
  plugins for TCG)
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,32 +78,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+Cc: Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
  Aaron Lindsay <aaron@os.amperecomputing.com>,
  "Emilio G. Cota" <cota@braap.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Pranith Kumar <bobby.prani@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 12, 2019 at 11:07:07AM +0100, Alex Benn=C3=A9e wrote:
->=20
+On Thu, 12 Sep 2019 at 11:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 > Peter Maydell <peter.maydell@linaro.org> writes:
->=20
-> > On Thu, 12 Sep 2019 at 10:03, Alex Benn=C3=A9e <alex.bennee@linaro.or=
-g> wrote:
-> >>
-> >> Well the first thing will be we are not intending to offer a guarant=
-eed
-> >> ABI. While we don't want to be changing it at a whim there shouldn't=
- be
-> >> an expectation that the plugin interface will maintain backwards
-> >> compatibility (unlike the command line interface ;-). There should b=
-e an
-> >> expectation that plugins will likely need to be rebuilt against the
-> >> current source tree from time to time.
-> >
 > > Wait, what? From my perspective the whole point of the plugin
 > > interface is that it should be stable, in that at least there's
 > > a good chance that a plugin you built will work against multiple
@@ -95,39 +96,30 @@ e an
 > > a reasonable error message telling you to update. I'm not
 > > sure we should be landing the plugins infrastructure if we
 > > don't have that much stability.
->=20
-> There is a big fat blurry line between "set in stone" and "not requirin=
-g
+>
+> There is a big fat blurry line between "set in stone" and "not requiring
 > you to re-engineer the plugin every QEMU release". I'm saying we should
 > reserve the right to extend and change the plugin API as required but
 > the expectation would be the plugins will continue to work the same way
 > but maybe with tweaks to the API hooks to support additional features.
->=20
-> It's also a pretty young interface so I would expect some evolution onc=
-e
+>
+> It's also a pretty young interface so I would expect some evolution once
 > it is released into the field.
->=20
-> One problem with the anti-license circumvention measures being suggeste=
-d
-> is it will mean having to recompile plugins for any given release. This
-> isn't a problem for plugins we write but it does add an extra step for
-> out of tree plugins. Maybe being forced to re-compile (but not change
-> the source) is a hurdle we are willing to accept?
 
-I can understand & totally support not wishing to break the compilation
-of plugins for every release, by having a reasonably stable API.
+Sure. But I think we should document that we at least intend to
+have some approximation to a compatability/deprecation policy
+here, and some mechanisms for versioning so you get a helpful
+error rather than weird misbehaviour if your plugin is too old.
 
-I think forcing recompile for each release is reasonable protection
-to make it less atttractive to create license violating closed source
-plugins.
+> One problem with the anti-license circumvention measures being suggested
+> is it will mean having to recompile plugins for any given release.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+Why should we do this? I think this is making life hard for our
+users for no good reason. We *do* have this check for modules,
+because a module is just a random .so that can do anything in
+QEMU. I thought we had the TCG-plugin interface much more locked
+down than that?
+
+thanks
+-- PMM
 
