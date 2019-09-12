@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390AAB11FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 17:19:57 +0200 (CEST)
-Received: from localhost ([::1]:35790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DFAB11EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 17:17:10 +0200 (CEST)
+Received: from localhost ([::1]:35754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Qt2-0006fu-Af
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 11:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38367)
+	id 1i8QqK-0003dN-4p
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 11:17:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38368)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i8Qn5-000250-7y
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i8Qn5-000251-86
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 11:13:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i8Qn3-00036O-7u
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i8Qn3-00036I-7v
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 11:13:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:57862)
+Received: from relay.sw.ru ([185.231.240.75]:57854)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i8Qmz-000349-SX; Thu, 12 Sep 2019 11:13:42 -0400
+ id 1i8Qmz-000348-Sa; Thu, 12 Sep 2019 11:13:42 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1i8Qmw-0000kk-IH; Thu, 12 Sep 2019 18:13:38 +0300
+ id 1i8Qmw-0000kk-Ow; Thu, 12 Sep 2019 18:13:38 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Thu, 12 Sep 2019 18:13:34 +0300
-Message-Id: <20190912151338.21225-1-vsementsov@virtuozzo.com>
+Date: Thu, 12 Sep 2019 18:13:35 +0300
+Message-Id: <20190912151338.21225-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190912151338.21225-1-vsementsov@virtuozzo.com>
+References: <20190912151338.21225-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 0/4] active-mirror: support unaligned guest
- operations
+Subject: [Qemu-devel] [PATCH 1/4] block/mirror: simplify do_sync_target_write
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,25 +52,133 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 9adc1cb49af8d fixed a bug about unaligned (to dirty bitmap
-granularity) guest writes (and discards) by simply requesting
-corresponding alignment on mirror-top filter. However forcing large
-alignment obviously decreases performance of unaligned requests.
+do_sync_target_write is called from bdrv_mirror_top_do_write after
+write/discard operation, all inside active_write/active_write_settle
+protecting us from mirror iteration. So the whole area is dirty for
+sure, no reason to examine dirty bitmap.
 
-So it's time for a new solution which is in 03. And 04 reverts
-9adc1cb49af8d.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/mirror.c | 95 +++++++++++++++-----------------------------------
+ 1 file changed, 28 insertions(+), 67 deletions(-)
 
-Vladimir Sementsov-Ogievskiy (4):
-  block/mirror: simplify do_sync_target_write
-  block/block-backend: add blk_co_pwritev_part
-  block/mirror: support unaligned write in active mirror
-  Revert "mirror: Only mirror granularity-aligned chunks"
-
- include/sysemu/block-backend.h |   4 +
- block/block-backend.c          |  17 +++-
- block/mirror.c                 | 153 +++++++++++++--------------------
- 3 files changed, 78 insertions(+), 96 deletions(-)
-
+diff --git a/block/mirror.c b/block/mirror.c
+index 853e2c7510..d176bf5920 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1203,84 +1203,45 @@ do_sync_target_write(MirrorBlockJob *job, MirrorMethod method,
+                      uint64_t offset, uint64_t bytes,
+                      QEMUIOVector *qiov, int flags)
+ {
+-    QEMUIOVector target_qiov;
+-    uint64_t dirty_offset = offset;
+-    uint64_t dirty_bytes;
+-
+-    if (qiov) {
+-        qemu_iovec_init(&target_qiov, qiov->niov);
+-    }
+-
+-    while (true) {
+-        bool valid_area;
+-        int ret;
+-
+-        bdrv_dirty_bitmap_lock(job->dirty_bitmap);
+-        dirty_bytes = MIN(offset + bytes - dirty_offset, INT_MAX);
+-        valid_area = bdrv_dirty_bitmap_next_dirty_area(job->dirty_bitmap,
+-                                                       &dirty_offset,
+-                                                       &dirty_bytes);
+-        if (!valid_area) {
+-            bdrv_dirty_bitmap_unlock(job->dirty_bitmap);
+-            break;
+-        }
++    int ret;
+ 
+-        bdrv_reset_dirty_bitmap_locked(job->dirty_bitmap,
+-                                       dirty_offset, dirty_bytes);
+-        bdrv_dirty_bitmap_unlock(job->dirty_bitmap);
++    bdrv_reset_dirty_bitmap(job->dirty_bitmap, offset, bytes);
+ 
+-        job_progress_increase_remaining(&job->common.job, dirty_bytes);
++    job_progress_increase_remaining(&job->common.job, bytes);
+ 
+-        assert(dirty_offset - offset <= SIZE_MAX);
+-        if (qiov) {
+-            qemu_iovec_reset(&target_qiov);
+-            qemu_iovec_concat(&target_qiov, qiov,
+-                              dirty_offset - offset, dirty_bytes);
+-        }
+-
+-        switch (method) {
+-        case MIRROR_METHOD_COPY:
+-            ret = blk_co_pwritev(job->target, dirty_offset, dirty_bytes,
+-                                 qiov ? &target_qiov : NULL, flags);
+-            break;
++    switch (method) {
++    case MIRROR_METHOD_COPY:
++        ret = blk_co_pwritev(job->target, offset, bytes, qiov, flags);
++        break;
+ 
+-        case MIRROR_METHOD_ZERO:
+-            assert(!qiov);
+-            ret = blk_co_pwrite_zeroes(job->target, dirty_offset, dirty_bytes,
+-                                       flags);
+-            break;
++    case MIRROR_METHOD_ZERO:
++        assert(!qiov);
++        ret = blk_co_pwrite_zeroes(job->target, offset, bytes, flags);
++        break;
+ 
+-        case MIRROR_METHOD_DISCARD:
+-            assert(!qiov);
+-            ret = blk_co_pdiscard(job->target, dirty_offset, dirty_bytes);
+-            break;
++    case MIRROR_METHOD_DISCARD:
++        assert(!qiov);
++        ret = blk_co_pdiscard(job->target, offset, bytes);
++        break;
+ 
+-        default:
+-            abort();
+-        }
++    default:
++        abort();
++    }
+ 
+-        if (ret >= 0) {
+-            job_progress_update(&job->common.job, dirty_bytes);
+-        } else {
+-            BlockErrorAction action;
++    if (ret >= 0) {
++        job_progress_update(&job->common.job, bytes);
++    } else {
++        BlockErrorAction action;
+ 
+-            bdrv_set_dirty_bitmap(job->dirty_bitmap, dirty_offset, dirty_bytes);
+-            job->actively_synced = false;
++        bdrv_set_dirty_bitmap(job->dirty_bitmap, offset, bytes);
++        job->actively_synced = false;
+ 
+-            action = mirror_error_action(job, false, -ret);
+-            if (action == BLOCK_ERROR_ACTION_REPORT) {
+-                if (!job->ret) {
+-                    job->ret = ret;
+-                }
+-                break;
++        action = mirror_error_action(job, false, -ret);
++        if (action == BLOCK_ERROR_ACTION_REPORT) {
++            if (!job->ret) {
++                job->ret = ret;
+             }
+         }
+-
+-        dirty_offset += dirty_bytes;
+-    }
+-
+-    if (qiov) {
+-        qemu_iovec_destroy(&target_qiov);
+     }
+ }
+ 
 -- 
 2.21.0
 
