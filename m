@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D13DB0F02
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:44:55 +0200 (CEST)
-Received: from localhost ([::1]:34092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D59B0F0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:47:44 +0200 (CEST)
+Received: from localhost ([::1]:34118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8OT0-0003TF-M8
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51525)
+	id 1i8OVj-0005bE-Fo
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:47:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52420)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1i8OAm-0003Os-FJ
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:26:06 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i8OFZ-00081W-7A
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:31:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1i8OAl-0007aJ-7a
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:26:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46680)
+ (envelope-from <pbonzini@redhat.com>) id 1i8OFW-0001RO-Sd
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:31:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44204)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1i8OAl-0007ZW-0K
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:26:03 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i8OFW-0001QN-Jg
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:30:58 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CCB6D3082B45
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:26:00 +0000 (UTC)
-Received: from localhost (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08A0F5F700;
- Thu, 12 Sep 2019 12:25:59 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 16:25:13 +0400
-Message-Id: <20190912122514.22504-6-marcandre.lureau@redhat.com>
-In-Reply-To: <20190912122514.22504-1-marcandre.lureau@redhat.com>
-References: <20190912122514.22504-1-marcandre.lureau@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 3B145859FF
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:30:57 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id n2so11981386wru.9
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:30:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EzxjB5An8E8Nm3CM2/EY8b8NER3+fyt8UIJMRYWHAlc=;
+ b=N5ZqUUVIrIzIXLUaGH1dKexhNKuP+3HrIpL2VP1CYmJwhgBoLeOY8Bl53Qn8OSeqxd
+ UDKTh65f+rmiW6SJPfUTJPJwF/I7+MeTOi1KLqu2M6Cu5dG4+nA63dfF7ZyR2sGfbv6i
+ 5ETjlDUW3pSbL2c2dAMlC61zVcSUulqIqoflU7j9TpSGmnCw0KPGpdhCz7S3ectWcKde
+ uQvVykorJ3bVkGAoSKeQXjO6akM+4bBL019zCBT4o8m4PqTUT1LfsOqKpLFK7Q/QgHJm
+ 8dWJ4pwqBL70Y6s7W6oTjOo3T3EstOBzXW3519F6zhds4JoHLXIXYWICz6mMFTAYOng1
+ 3snA==
+X-Gm-Message-State: APjAAAVaj9OvlDpnRtyaqpZp4RSFFcI0gMiBikmWnZL3U2OW/1Uu7vvf
+ xtVHzOvQyMFjziOrXCEvdyzuNUGo9iq1pVfSQQ8OdHly/ICdFT5disn5Fma3VDjLBIs4WYVlfvs
+ 0VPdVZJGuc5vKf8Y=
+X-Received: by 2002:a05:600c:24d2:: with SMTP id
+ 18mr8411812wmu.146.1568291455937; 
+ Thu, 12 Sep 2019 05:30:55 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxQQviFx4+M42IyZRP0mSHIypU6GRz63Ve3zvGMQfxoxWMMAxw8Gmuyxrqr3nYLCF+Oa7O+tQ==
+X-Received: by 2002:a05:600c:24d2:: with SMTP id
+ 18mr8411802wmu.146.1568291455681; 
+ Thu, 12 Sep 2019 05:30:55 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id h21sm19262008wrc.71.2019.09.12.05.30.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Sep 2019 05:30:55 -0700 (PDT)
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, ehabkost@redhat.com, berrange@redhat.com,
+ quintela@redhat.com
+References: <20190911190622.7629-1-dgilbert@redhat.com>
+ <20190911190622.7629-2-dgilbert@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <e8802180-3c9a-97b9-dae1-5e07d7843de3@redhat.com>
+Date: Thu, 12 Sep 2019 14:30:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 12 Sep 2019 12:26:00 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190911190622.7629-2-dgilbert@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 5/6] docs: start a document to describe
- D-Bus usage
+Subject: Re: [Qemu-devel] [PATCH v2 1/5] rcu: Add automatically released
+ rcu_read_lock variant
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,112 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
- dgilbert@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- docs/interop/dbus.rst  | 73 ++++++++++++++++++++++++++++++++++++++++++
- docs/interop/index.rst |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 docs/interop/dbus.rst
+On 11/09/19 21:06, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> RCU_READ_LOCK_AUTO takes the rcu_read_lock and then uses glib's
+> g_auto infrastructure (and thus whatever the compiler's hooks are) to
+> release it on all exits of the block.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  include/qemu/rcu.h | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+> index 22876d1428..8768a7b60a 100644
+> --- a/include/qemu/rcu.h
+> +++ b/include/qemu/rcu.h
+> @@ -154,6 +154,24 @@ extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
+>        }),                                                                \
+>        (RCUCBFunc *)g_free);
+>  
+> +typedef void RCUReadAuto;
+> +static inline RCUReadAuto *rcu_read_auto_lock(void)
+> +{
+> +    rcu_read_lock();
+> +    /* Anything non-NULL causes the cleanup function to be called */
+> +    return (void *)0x1;
 
-diff --git a/docs/interop/dbus.rst b/docs/interop/dbus.rst
-new file mode 100644
-index 0000000000..c08f026edc
---- /dev/null
-+++ b/docs/interop/dbus.rst
-@@ -0,0 +1,73 @@
-+=3D=3D=3D=3D=3D
-+D-Bus
-+=3D=3D=3D=3D=3D
-+
-+Introduction
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+QEMU may be running with various helper processes involved:
-+ - vhost-user* processes (gpu, virtfs, input, etc...)
-+ - TPM emulation (or other devices)
-+ - user networking (slirp)
-+ - network services (DHCP/DNS, samba/ftp etc)
-+ - background tasks (compression, streaming etc)
-+ - client UI
-+ - admin & cli
-+
-+Having several processes allows stricter security rules, as well as
-+greater modularity.
-+
-+While QEMU itself uses QMP as primary IPC (and Spice/VNC for remote
-+display), D-Bus is the de facto IPC of choice on Unix systems. The
-+wire format is machine friendly, good bindings exist for various
-+languages, and there are various tools available.
-+
-+Using a bus, helper processes can discover and communicate with each
-+other easily, without going through QEMU. The bus topology is also
-+easier to apprehend and debug than a mesh. However, it is wise to
-+consider the security aspects of it.
-+
-+Security
-+=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+A QEMU D-Bus bus should be private to a single VM. Thus, only
-+cooperative tasks are running on the same bus to serve the VM.
-+
-+D-Bus, the protocol and standard, doesn't have mechanisms to enforce
-+security between peers once the connection is established. Peers may
-+have additional mechanisms to enforce security rules, based for
-+example on UNIX credentials.
-+
-+dbus-daemon can enforce various policies based on the UID/GID of the
-+processes that are connected to it. It is thus a good idea to run
-+helpers as different UID from QEMU and set appropriate policies (so
-+helper processes are only allowed to talk to qemu for example).
-+
-+For example, this allows only ``qemu`` user to talk to ``qemu-helper``
-+``org.qemu.Helper1`` service:
-+
-+.. code:: xml
-+
-+  <policy user=3D"qemu">
-+     <allow send_destination=3D"org.qemu.Helper1"/>
-+     <allow receive_sender=3D"org.qemu.Helper1"/>
-+  </policy>
-+
-+  <policy user=3D"qemu-helper">
-+     <allow own=3D"org.qemu.Helper1"/>
-+  </policy>
-+
-+
-+dbus-daemon can also perfom SELinux checks based on the security
-+context of the source and the target. For example, ``virtiofs_t``
-+could be allowed to send a message to ``svirt_t``, but ``virtiofs_t``
-+wouldn't be allowed to send a message to ``virtiofs_t``.
-+
-+Guidelines
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+When implementing new D-Bus interfaces, it is recommended to follow
-+the "D-Bus API Design Guidelines":
-+https://dbus.freedesktop.org/doc/dbus-api-design.html
-+
-+The "org.qemu*" prefix is reserved for the QEMU project.
-diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index b4bfcab417..fa4478ce2e 100644
---- a/docs/interop/index.rst
-+++ b/docs/interop/index.rst
-@@ -13,6 +13,7 @@ Contents:
-    :maxdepth: 2
-=20
-    bitmaps
-+   dbus
-    live-block-operations
-    pr-helper
-    vhost-user
---=20
-2.23.0
+Doesn't this cause a warning (should be "(void *)(uintptr_t)1" instead)?
 
+> +}
+> +
+> +static inline void rcu_read_auto_unlock(RCUReadAuto *r)
+> +{
+> +    rcu_read_unlock();
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(RCUReadAuto, rcu_read_auto_unlock)
+> +
+> +#define RCU_READ_LOCK_AUTO \
+> +    g_autoptr(RCUReadAuto) _rcu_read_auto = rcu_read_auto_lock()
+> +
+>  #ifdef __cplusplus
+>  }
+>  #endif
+> 
+
+Is it possible to make this a scope, like
+
+	WITH_RCU_READ_LOCK() {
+	}
+
+?  Perhaps something like
+
+#define WITH_RCU_READ_LOCK()  \
+	WITH_RCU_READ_LOCK_(_rcu_read_auto##__COUNTER__)
+
+#define WITH_RCU_READ_LOCK_(var) \
+	for (g_autoptr(RCUReadAuto) var = rcu_read_auto_lock();
+	     (var); rcu_read_auto_unlock(), (var) = NULL)
+
+where the dummy variable doubles as an execute-once guard and the gauto
+cleanup is still used in case of a "break".  I'm not sure if the above
+raises a warning because of the variable declaration inside the for
+loop, though.
+
+Thanks,
+
+Paolo
 
