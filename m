@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B9BB1101
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:21:02 +0200 (CEST)
-Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE547B110D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:23:35 +0200 (CEST)
+Received: from localhost ([::1]:35042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Py0-0006AF-Kq
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:21:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41723)
+	id 1i8Q0U-0001Jj-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i8Pae-0006fN-9s
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:56:53 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i8Pam-0006pE-Dd
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i8Pac-0006QJ-UJ
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:56:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54608)
+ (envelope-from <mreitz@redhat.com>) id 1i8Pak-0006Sw-EH
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57990)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i8PaZ-0006Oh-Tn; Thu, 12 Sep 2019 09:56:48 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1i8Pai-0006Rq-Ae; Thu, 12 Sep 2019 09:56:56 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3BDEFA37197;
- Thu, 12 Sep 2019 13:56:47 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A36D61DAC;
+ Thu, 12 Sep 2019 13:56:55 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DF6705D9CA;
- Thu, 12 Sep 2019 13:56:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF17860C5D;
+ Thu, 12 Sep 2019 13:56:49 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 12 Sep 2019 15:56:30 +0200
-Message-Id: <20190912135632.13925-3-mreitz@redhat.com>
+Date: Thu, 12 Sep 2019 15:56:31 +0200
+Message-Id: <20190912135632.13925-4-mreitz@redhat.com>
 In-Reply-To: <20190912135632.13925-1-mreitz@redhat.com>
 References: <20190912135632.13925-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Thu, 12 Sep 2019 13:56:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.71]); Thu, 12 Sep 2019 13:56:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/4] blkdebug: Allow taking/unsharing
- permissions
+Subject: [Qemu-devel] [PATCH 3/4] iotests: Add @error to wait_until_completed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,238 +60,67 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes it is useful to be able to add a node to the block graph that
-takes or unshare a certain set of permissions for debugging purposes.
-This patch adds this capability to blkdebug.
-
-(Note that you cannot make blkdebug release or share permissions that it
-needs to take or cannot share, because this might result in assertion
-failures in the block layer.  But if the blkdebug node has no parents,
-it will not take any permissions and share everything by default, so you
-can then freely choose what permissions to take and share.)
+Callers can use this new parameter to expect failure during the
+completion process.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json |  29 +++++++++++-
- block/blkdebug.c     | 106 ++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 133 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/iotests.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e6edd641f1..336043e02c 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3347,6 +3347,21 @@
-             '*state': 'int',
-             'new_state': 'int' } }
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+index b26271187c..300347c7c8 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -745,15 +745,20 @@ class QMPTestCase(unittest.TestCase):
+         self.assert_no_active_block_jobs()
+         return result
 =20
-+##
-+# @BlockdevPermission:
-+#
-+# Permissions that an edge in the block graph can take or share.
-+#
-+# Since: 4.2
-+##
-+{ 'enum': 'BlockdevPermission',
-+  'data': [
-+      'consistent-read',
-+      'write',
-+      'write-unchanged',
-+      'resize',
-+      'graph-mod' ] }
-+
- ##
- # @BlockdevOptionsBlkdebug:
- #
-@@ -3388,6 +3403,16 @@
- #
- # @set-state:       array of state-change descriptions
- #
-+# @take-child-perms: Permissions to take on @image in addition to what
-+#                    is necessary anyway (which depends on how the
-+#                    blkdebug node is used).  Defaults to none.
-+#                    (since 4.2)
-+#
-+# @unshare-child-perms: Permissions not to share on @image in addition
-+#                       to what cannot be shared anyway (which depends
-+#                       on how the blkdebug node is used).  Defaults
-+#                       to none.  (since 4.2)
-+#
- # Since: 2.9
- ##
- { 'struct': 'BlockdevOptionsBlkdebug',
-@@ -3397,7 +3422,9 @@
-             '*opt-write-zero': 'int32', '*max-write-zero': 'int32',
-             '*opt-discard': 'int32', '*max-discard': 'int32',
-             '*inject-error': ['BlkdebugInjectErrorOptions'],
--            '*set-state': ['BlkdebugSetStateOptions'] } }
-+            '*set-state': ['BlkdebugSetStateOptions'],
-+            '*take-child-perms': ['BlockdevPermission'],
-+            '*unshare-child-perms': ['BlockdevPermission'] } }
+-    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue=
+, wait=3D60.0):
++    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue=
+, wait=3D60.0,
++                             error=3DNone):
+         '''Wait for a block job to finish, returning the event'''
+         while True:
+             for event in self.vm.get_qmp_events(wait=3Dwait):
+                 if event['event'] =3D=3D 'BLOCK_JOB_COMPLETED':
+                     self.assert_qmp(event, 'data/device', drive)
+-                    self.assert_qmp_absent(event, 'data/error')
+-                    if check_offset:
+-                        self.assert_qmp(event, 'data/offset', event['dat=
+a']['len'])
++                    if error is None:
++                        self.assert_qmp_absent(event, 'data/error')
++                        if check_offset:
++                            self.assert_qmp(event, 'data/offset',
++                                            event['data']['len'])
++                    else:
++                        self.assert_qmp(event, 'data/error', error)
+                     self.assert_no_active_block_jobs()
+                     return event
+                 elif event['event'] =3D=3D 'JOB_STATUS_CHANGE':
+@@ -771,7 +776,8 @@ class QMPTestCase(unittest.TestCase):
+         self.assert_qmp(event, 'data/type', 'mirror')
+         self.assert_qmp(event, 'data/offset', event['data']['len'])
 =20
- ##
- # @BlockdevOptionsBlklogwrites:
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index 5ae96c52b0..ec24a5e4e5 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -28,9 +28,11 @@
- #include "qemu/cutils.h"
- #include "qemu/config-file.h"
- #include "block/block_int.h"
-+#include "block/qdict.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qlist.h"
- #include "qapi/qmp/qstring.h"
- #include "sysemu/qtest.h"
+-    def complete_and_wait(self, drive=3D'drive0', wait_ready=3DTrue):
++    def complete_and_wait(self, drive=3D'drive0', wait_ready=3DTrue,
++                          completion_error=3DNone):
+         '''Complete a block job and wait for it to finish'''
+         if wait_ready:
+             self.wait_ready(drive=3Ddrive)
+@@ -779,7 +785,7 @@ class QMPTestCase(unittest.TestCase):
+         result =3D self.vm.qmp('block-job-complete', device=3Ddrive)
+         self.assert_qmp(result, 'return', {})
 =20
-@@ -44,6 +46,9 @@ typedef struct BDRVBlkdebugState {
-     uint64_t opt_discard;
-     uint64_t max_discard;
+-        event =3D self.wait_until_completed(drive=3Ddrive)
++        event =3D self.wait_until_completed(drive=3Ddrive, error=3Dcompl=
+etion_error)
+         self.assert_qmp(event, 'data/type', 'mirror')
 =20
-+    uint64_t take_child_perms;
-+    uint64_t unshare_child_perms;
-+
-     /* For blkdebug_refresh_filename() */
-     char *config_file;
-=20
-@@ -344,6 +349,84 @@ static void blkdebug_parse_filename(const char *file=
-name, QDict *options,
-     qdict_put_str(options, "x-image", filename);
- }
-=20
-+static int blkdebug_parse_perm_list(uint64_t *dest, QDict *options,
-+                                    const char *prefix, Error **errp)
-+{
-+    int ret =3D 0;
-+    QDict *subqdict =3D NULL;
-+    QObject *crumpled_subqdict =3D NULL;
-+    QList *perm_list;
-+    const QListEntry *perm;
-+
-+    qdict_extract_subqdict(options, &subqdict, prefix);
-+    if (!qdict_size(subqdict)) {
-+        goto out;
-+    }
-+
-+    crumpled_subqdict =3D qdict_crumple(subqdict, errp);
-+    if (!crumpled_subqdict) {
-+        ret =3D -EINVAL;
-+        goto out;
-+    }
-+
-+    perm_list =3D qobject_to(QList, crumpled_subqdict);
-+    if (!perm_list) {
-+        /* Omit the trailing . from the prefix */
-+        error_setg(errp, "%.*s expects a list",
-+                   (int)(strlen(prefix) - 1), prefix);
-+        ret =3D -EINVAL;
-+        goto out;
-+    }
-+
-+    for (perm =3D qlist_first(perm_list); perm; perm =3D qlist_next(perm=
-)) {
-+        const char *perm_name;
-+        BlockdevPermission perm_bit;
-+
-+        perm_name =3D qstring_get_try_str(qobject_to(QString, perm->valu=
-e));
-+        if (!perm_name) {
-+            /* Omit the trailing . from the prefix */
-+            error_setg(errp, "%.*s expects a list of enum strings",
-+                       (int)(strlen(prefix) - 1), prefix);
-+            ret =3D -EINVAL;
-+            goto out;
-+        }
-+
-+        perm_bit =3D qapi_enum_parse(&BlockdevPermission_lookup, perm_na=
-me,
-+                                   BLOCKDEV_PERMISSION__MAX, errp);
-+        if (perm_bit =3D=3D BLOCKDEV_PERMISSION__MAX) {
-+            ret =3D -EINVAL;
-+            goto out;
-+        }
-+
-+        *dest |=3D UINT64_C(1) << perm_bit;
-+    }
-+
-+out:
-+    qobject_unref(subqdict);
-+    qobject_unref(crumpled_subqdict);
-+    return ret;
-+}
-+
-+static int blkdebug_parse_perms(BDRVBlkdebugState *s, QDict *options,
-+                                Error **errp)
-+{
-+    int ret;
-+
-+    ret =3D blkdebug_parse_perm_list(&s->take_child_perms, options,
-+                                   "take-child-perms.", errp);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    ret =3D blkdebug_parse_perm_list(&s->unshare_child_perms, options,
-+                                   "unshare-child-perms.", errp);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    return 0;
-+}
-+
- static QemuOptsList runtime_opts =3D {
-     .name =3D "blkdebug",
-     .head =3D QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
-@@ -419,6 +502,12 @@ static int blkdebug_open(BlockDriverState *bs, QDict=
- *options, int flags,
-     /* Set initial state */
-     s->state =3D 1;
-=20
-+    /* Parse permissions modifiers before opening the image file */
-+    ret =3D blkdebug_parse_perms(s, options, errp);
-+    if (ret < 0) {
-+        goto out;
-+    }
-+
-     /* Open the image file */
-     bs->file =3D bdrv_open_child(qemu_opt_get(opts, "x-image"), options,=
- "image",
-                                bs, &child_file, false, &local_err);
-@@ -916,6 +1005,21 @@ static int blkdebug_reopen_prepare(BDRVReopenState =
-*reopen_state,
-     return 0;
- }
-=20
-+static void blkdebug_child_perm(BlockDriverState *bs, BdrvChild *c,
-+                                const BdrvChildRole *role,
-+                                BlockReopenQueue *reopen_queue,
-+                                uint64_t perm, uint64_t shared,
-+                                uint64_t *nperm, uint64_t *nshared)
-+{
-+    BDRVBlkdebugState *s =3D bs->opaque;
-+
-+    bdrv_filter_default_perms(bs, c, role, reopen_queue, perm, shared,
-+                              nperm, nshared);
-+
-+    *nperm |=3D s->take_child_perms;
-+    *nshared &=3D ~s->unshare_child_perms;
-+}
-+
- static const char *const blkdebug_strong_runtime_opts[] =3D {
-     "config",
-     "inject-error.",
-@@ -940,7 +1044,7 @@ static BlockDriver bdrv_blkdebug =3D {
-     .bdrv_file_open         =3D blkdebug_open,
-     .bdrv_close             =3D blkdebug_close,
-     .bdrv_reopen_prepare    =3D blkdebug_reopen_prepare,
--    .bdrv_child_perm        =3D bdrv_filter_default_perms,
-+    .bdrv_child_perm        =3D blkdebug_child_perm,
-=20
-     .bdrv_getlength         =3D blkdebug_getlength,
-     .bdrv_refresh_filename  =3D blkdebug_refresh_filename,
+     def pause_wait(self, job_id=3D'job0'):
 --=20
 2.21.0
 
