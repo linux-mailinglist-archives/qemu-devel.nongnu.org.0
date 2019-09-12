@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10F9B10CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:13:21 +0200 (CEST)
-Received: from localhost ([::1]:34930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F584B10ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:18:35 +0200 (CEST)
+Received: from localhost ([::1]:34984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Pqa-0005T0-K4
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
+	id 1i8Pvd-0002vX-Ml
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8PUs-0007Bu-Ao
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:55 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1i8PUw-0007IL-Me
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8PUq-0003Cb-UV
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45310)
+ (envelope-from <dgilbert@redhat.com>) id 1i8PUv-0003GU-KY
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37186)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8PUq-0003Bf-KF
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:52 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8PUv-0003Fu-Fn
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:57 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E067718C4274;
- Thu, 12 Sep 2019 13:50:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB473C056808;
+ Thu, 12 Sep 2019 13:50:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CFB95D704;
- Thu, 12 Sep 2019 13:50:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7984B5D704;
+ Thu, 12 Sep 2019 13:50:55 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, ivanren@tencent.com, peterx@redhat.com,
  richardw.yang@linux.intel.com, yury-kotov@yandex-team.ru,
  quintela@redhat.com
-Date: Thu, 12 Sep 2019 14:50:01 +0100
-Message-Id: <20190912135006.14820-8-dgilbert@redhat.com>
+Date: Thu, 12 Sep 2019 14:50:04 +0100
+Message-Id: <20190912135006.14820-11-dgilbert@redhat.com>
 In-Reply-To: <20190912135006.14820-1-dgilbert@redhat.com>
 References: <20190912135006.14820-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Thu, 12 Sep 2019 13:50:51 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Thu, 12 Sep 2019 13:50:56 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/12] tests/libqtest: Allow setting expected
- exit status
+Subject: [Qemu-devel] [PULL 10/12] migration/qemu-file: remove check on
+ writev_buffer in qemu_put_compression_data
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,118 +60,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yury Kotov <yury-kotov@yandex-team.ru>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Add qtest_set_expected_status function to set expected exit status of
-child process. By default expected exit status is 0.
+The check of writev_buffer is in qemu_fflush, which means it is not
+harmful if it is NULL.
 
-Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
-Message-Id: <20190903162246.18524-3-yury-kotov@yandex-team.ru>
-Acked-by: Thomas Huth <thuth@redhat.com>
+And removing it will make the code consistent since all other
+add_to_iovec() is called without the check.
+
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20190911132839.23336-2-richard.weiyang@gmail.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/libqtest.c | 36 +++++++++++++++++++++---------------
- tests/libqtest.h |  9 +++++++++
- 2 files changed, 30 insertions(+), 15 deletions(-)
+ migration/qemu-file.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index 0a6b91737e..4a7556462d 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -41,6 +41,7 @@ struct QTestState
-     int qmp_fd;
-     pid_t qemu_pid;  /* our child QEMU process */
-     int wstatus;
-+    int expected_status;
-     bool big_endian;
-     bool irq_level[MAX_IRQ];
-     GString *rx;
-@@ -111,6 +112,11 @@ bool qtest_probe_child(QTestState *s)
-     return false;
- }
-=20
-+void qtest_set_expected_status(QTestState *s, int status)
-+{
-+    s->expected_status =3D status;
-+}
-+
- static void kill_qemu(QTestState *s)
- {
-     pid_t pid =3D s->qemu_pid;
-@@ -124,24 +130,23 @@ static void kill_qemu(QTestState *s)
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 075faf03c3..66627088d4 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -760,9 +760,7 @@ ssize_t qemu_put_compression_data(QEMUFile *f, z_stre=
+am *stream,
      }
 =20
-     /*
--     * We expect qemu to exit with status 0; anything else is
-+     * Check whether qemu exited with expected exit status; anything els=
-e is
-      * fishy and should be logged with as much detail as possible.
-      */
-     wstatus =3D s->wstatus;
--    if (wstatus) {
--        if (WIFEXITED(wstatus)) {
--            fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU =
-"
--                    "process but encountered exit status %d\n",
--                    __FILE__, __LINE__, WEXITSTATUS(wstatus));
--        } else if (WIFSIGNALED(wstatus)) {
--            int sig =3D WTERMSIG(wstatus);
--            const char *signame =3D strsignal(sig) ?: "unknown ???";
--            const char *dump =3D WCOREDUMP(wstatus) ? " (core dumped)" :=
- "";
--
--            fprintf(stderr, "%s:%d: kill_qemu() detected QEMU death "
--                    "from signal %d (%s)%s\n",
--                    __FILE__, __LINE__, sig, signame, dump);
--        }
-+    if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) !=3D s->expected_stat=
-us) {
-+        fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
-+                "process but encountered exit status %d (expected %d)\n"=
-,
-+                __FILE__, __LINE__, WEXITSTATUS(wstatus), s->expected_st=
-atus);
-+        abort();
-+    } else if (WIFSIGNALED(wstatus)) {
-+        int sig =3D WTERMSIG(wstatus);
-+        const char *signame =3D strsignal(sig) ?: "unknown ???";
-+        const char *dump =3D WCOREDUMP(wstatus) ? " (core dumped)" : "";
-+
-+        fprintf(stderr, "%s:%d: kill_qemu() detected QEMU death "
-+                "from signal %d (%s)%s\n",
-+                __FILE__, __LINE__, sig, signame, dump);
-         abort();
-     }
- }
-@@ -246,6 +251,7 @@ QTestState *qtest_init_without_qmp_handshake(const ch=
-ar *extra_args)
-     g_test_message("starting QEMU: %s", command);
-=20
-     s->wstatus =3D 0;
-+    s->expected_status =3D 0;
-     s->qemu_pid =3D fork();
-     if (s->qemu_pid =3D=3D 0) {
-         setenv("QEMU_AUDIO_DRV", "none", true);
-diff --git a/tests/libqtest.h b/tests/libqtest.h
-index c8cffe5d68..a177e502d9 100644
---- a/tests/libqtest.h
-+++ b/tests/libqtest.h
-@@ -708,4 +708,13 @@ void qmp_assert_error_class(QDict *rsp, const char *=
-class);
-  */
- bool qtest_probe_child(QTestState *s);
-=20
-+/**
-+ * qtest_set_expected_status:
-+ * @s: QTestState instance to operate on.
-+ * @status: an expected exit status.
-+ *
-+ * Set expected exit status of the child.
-+ */
-+void qtest_set_expected_status(QTestState *s, int status);
-+
- #endif
+     qemu_put_be32(f, blen);
+-    if (f->ops->writev_buffer) {
+-        add_to_iovec(f, f->buf + f->buf_index, blen, false);
+-    }
++    add_to_iovec(f, f->buf + f->buf_index, blen, false);
+     f->buf_index +=3D blen;
+     if (f->buf_index =3D=3D IO_BUF_SIZE) {
+         qemu_fflush(f);
 --=20
 2.21.0
 
