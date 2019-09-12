@@ -2,104 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5CA4B1017
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 15:36:52 +0200 (CEST)
-Received: from localhost ([::1]:34460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AB4B1052
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 15:49:58 +0200 (CEST)
+Received: from localhost ([::1]:34656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8PHH-0007gl-HL
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 09:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37155)
+	id 1i8PTv-0004ZR-T5
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 09:49:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i8PGG-00075W-S6
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:35:50 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i8PQY-0002YZ-6G
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:46:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i8PGF-0005nu-9q
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:35:48 -0400
-Received: from mail-eopbgr140110.outbound.protection.outlook.com
- ([40.107.14.110]:19854 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i8PGE-0005mV-IL
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:35:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UM8EpZmmk63DpslZyxuWX9bPA+RUwsIHDuPzRN2+nTw7f+OB5Paw+Ojyjd3LmQDrlr0h/0hWQVcnMp8IJhom0b6UaQ9h08GOuwbBHlGBlG8F2qy9QrQasw3cVSqowsNpeL1xBCG0DojEIhtoX4AoqKoO0LXRFa73uY2QtE0SGdjfcXUAVwXIu6tpu686NrMjR67U2tg+ZizLcs/NdjbfEUy7vyYowd6I/4cqBFeViQo5KD/ORet4oRHT2lBdfLJPeBquEJU6rHBs1bTgv25hSsq/opkI8gIrzHt2WVY7jEr+XZSmJdsUS9AY/6gGREZ6TaIUp//Pz05rdUCaIy16RQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eTz7yLKmSj+fS1EKLl/Q3Ba2q1RB0+KMTauEvuUnnD8=;
- b=La+nBunLVqwFjBlxWanN3t/1acJOzLgYavostn4imRx9uDvyS9YHVENZKL+9wwdR84SAftFzqVeNLTaWJHrmQFx5L1fHNVMn4XeP1OWJGE3uE9kLPY9X8MhvlnP8QFVzskExjql/eeAF2kQQTrp/QNqaQJsAnW82r+4pYtkFh7TkcANPmwQeKv/DXarziKFywZ71yywJoaiaed3syp5yD/t1JMjrYCWnRlBXGREOGmDHpQhX9n5smxFLOhcb8LCKfArVzntRc2bZfg/5nSgfhK8D/3NXJIrZDe+lo9gqwEKZeMRfLmpnE0X5KpYGQMQAJs16U2PGYkkzA+76K2IfHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eTz7yLKmSj+fS1EKLl/Q3Ba2q1RB0+KMTauEvuUnnD8=;
- b=ZE2Gdk/ObG7lKU1+p7AlHqYQ3vvLXD3p5hqhVQsxNodICaiem0yf8ZzoFBNzvRRHI4uGhEbrPLRHbYAM0lEdItsZDRUtpjJDDpCyTMDIdAY9Ms/NGkWLNkccIo7Aq0/lpMRka8F8ylMFeYop5OrYQ7A5fvOefcURolcPz5FURYg=
-Received: from HE1PR0802MB2460.eurprd08.prod.outlook.com (10.175.33.138) by
- HE1PR0802MB2603.eurprd08.prod.outlook.com (10.175.35.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.15; Thu, 12 Sep 2019 13:35:42 +0000
-Received: from HE1PR0802MB2460.eurprd08.prod.outlook.com
- ([fe80::4d31:70d0:5b10:7a10]) by HE1PR0802MB2460.eurprd08.prod.outlook.com
- ([fe80::4d31:70d0:5b10:7a10%6]) with mapi id 15.20.2263.016; Thu, 12 Sep 2019
- 13:35:42 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: John Snow <jsnow@redhat.com>, Mark Syms <Mark.Syms@citrix.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] Valgrind confused by queue macros
-Thread-Index: AdVn2TTmG0WDoKwzR2+3/z64vpIPIABHZ/4AAB4I2oA=
-Date: Thu, 12 Sep 2019 13:35:42 +0000
-Message-ID: <9406b1ac-05fe-0455-f923-895a151baa99@virtuozzo.com>
-References: <e2cce2353aa44e2481f01b96ee1e6028@AMSPEX02CL01.citrite.net>
- <5c016081-6ba6-5ae1-524a-6e45c92e9822@redhat.com>
-In-Reply-To: <5c016081-6ba6-5ae1-524a-6e45c92e9822@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0402CA0036.eurprd04.prod.outlook.com
- (2603:10a6:7:7c::25) To HE1PR0802MB2460.eurprd08.prod.outlook.com
- (2603:10a6:3:dd::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 803ac028-56f2-4af0-d865-08d737861b99
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:HE1PR0802MB2603; 
-x-ms-traffictypediagnostic: HE1PR0802MB2603:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HE1PR0802MB2603830BC09BE3BE3EA3E02CF4B00@HE1PR0802MB2603.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01583E185C
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(39850400004)(366004)(376002)(136003)(346002)(189003)(199004)(54906003)(11346002)(476003)(110136005)(66066001)(52116002)(99286004)(76176011)(2616005)(6512007)(5660300002)(44832011)(316002)(53936002)(386003)(6506007)(53546011)(102836004)(4326008)(107886003)(6436002)(486006)(8676002)(6246003)(3846002)(2501003)(2906002)(8936002)(6486002)(186003)(446003)(305945005)(26005)(81156014)(81166006)(229853002)(14454004)(71190400001)(66946007)(36756003)(31686004)(66556008)(71200400001)(86362001)(66476007)(66446008)(64756008)(31696002)(6116002)(478600001)(25786009)(7736002)(256004)(14444005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:HE1PR0802MB2603;
- H:HE1PR0802MB2460.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 8TiVs22FjrAWU3dShgYnSwctSKCG6RzP5fpZmeGly8hQI7PTD21+Le2eUvNSoPaYxWXuyyXiFx9XioCXsy4U7R9OavlWLSnmC8iVItm3+Dkb7xwY8LBdXKNlurls14JSTkFWP+/5G6zhr4nCQWxqJiS93Fc/jst9T7gXYCBpQJ9dlbGrSorlO4puxOXz/okqV7OF1BMU/2esx7WqkHPLeLtddva73nYTPDOKaR3NbfIL9xvG+xtZC9M2SVfsc3SXN0wxs8RHOhKRUMZGwopXPeZRhK3Hgd+qU/xZ/bo5SiPX6e1zVo8Axpo6+s2bwR5gvEPzTxc05EfMMe5Mr+s6sfDCVJYl9o3/tbDk9wT+LV/Z1n6GCFzf3tONh32EULqSJFi03hdr4FYNXD+ocrlhdA9phYd2zNE8bPy6Pk7Afhs=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D99510B4BA2D9443A66662E168979CEB@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <kwolf@redhat.com>) id 1i8PQW-0001HK-Na
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:46:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60322)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i8PQR-0001Dw-R2; Thu, 12 Sep 2019 09:46:21 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9EFE2308A9E2;
+ Thu, 12 Sep 2019 13:46:16 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-116-179.ams2.redhat.com
+ [10.36.116.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9393F600C4;
+ Thu, 12 Sep 2019 13:46:15 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Date: Thu, 12 Sep 2019 15:45:43 +0200
+Message-Id: <20190912134604.22019-2-kwolf@redhat.com>
+In-Reply-To: <20190912134604.22019-1-kwolf@redhat.com>
+References: <20190912134604.22019-1-kwolf@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 803ac028-56f2-4af0-d865-08d737861b99
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2019 13:35:42.6386 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZyeRWdwE7lNUV4AslswZ+WJ33WVKs6zqMz/Bg7qsys3ogwb8FLePW6szsomU1IRgd17t1w6MczExD0oXOrL0cF7lcJbKiA9vHyO6Tp6gy2Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2603
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.14.110
-Subject: Re: [Qemu-devel] Valgrind confused by queue macros
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Thu, 12 Sep 2019 13:46:16 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 01/22] qcow2: Fix the calculation of the maximum
+ L2 cache size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,67 +56,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Denis Lunev <den@virtuozzo.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDEyLzA5LzIwMTkgMDI6MTUsIEpvaG4gU25vdyB3cm90ZToNCj4gDQo+IA0KPiBPbiA5
-LzEwLzE5IDk6MjcgQU0sIE1hcmsgU3ltcyB3cm90ZToNCj4+IEhpLA0KPj4NCj4+IFdoaWxlIHRy
-eWluZyB0byB0cmFjayBkb3duIGFuIGlzc3VlIGluIHVzaW5nIHFlbXUgNC4xIHdpdGggc29tZSBk
-ZXZlbG9wbWVudCBmZWF0dXJlcyB3ZSBuZWVkZWQvd2FudGVkIHRvIHJ1biB2YWxncmluZCBvbiBp
-dCB0byBmaW5kIGEgbWVtb3J5IGVycm9yLiBVbmZvcnR1bmF0ZWx5IHRoZSBmb3JtIG9mIHRoZSBx
-dWV1ZSBtYWNyb3Mgc2VlbXMgdG8gcmVhbGx5IGNvbmZ1c2UgdmFsZ3JpbmQgYW5kIGNhdXNlIGl0
-IHRvIHJlcG9ydCBtYW55ICIgVXNlIG9mIHVuaW5pdGlhbGlzZWQgdmFsdWUgIiBlcnJvcnMuDQo+
-Pg0KPj4gQXMgYW4gZXhhbXBsZSwgaW4gcWVtdV9haW9fY29yb3V0aW5lX2VudGVyIC0NCj4+DQo+
-PiBVc2Ugb2YgdW5pbml0aWFsaXNlZCB2YWx1ZSBvZiBzaXplIDgNCj4+ICAgICBhdCAweDY5RTdF
-NTogcWVtdV9haW9fY29yb3V0aW5lX2VudGVyIChxZW11LWNvcm91dGluZS5jOjEwOSkNCj4+DQo+
-PiBDb25kaXRpb25hbCBqdW1wIG9yIG1vdmUgZGVwZW5kcyBvbiB1bmluaXRpYWxpc2VkIHZhbHVl
-KHMpDQo+PiAgICAgYXQgMHg2OUU3RkE6IHFlbXVfYWlvX2Nvcm91dGluZV9lbnRlciAocWVtdS1j
-b3JvdXRpbmUuYzoxMTIpDQo+Pg0KPj4gVXNlIG9mIHVuaW5pdGlhbGlzZWQgdmFsdWUgb2Ygc2l6
-ZSA4DQo+PiAgICAgYXQgMHg2OUU4MDA6IHFlbXVfYWlvX2Nvcm91dGluZV9lbnRlciAocWVtdS1j
-b3JvdXRpbmUuYzoxMTgpDQo+Pg0KPj4gVXNlIG9mIHVuaW5pdGlhbGlzZWQgdmFsdWUgb2Ygc2l6
-ZSA4DQo+PiAgICAgYXQgMHg2OUU4MDk6IHFlbXVfYWlvX2Nvcm91dGluZV9lbnRlciAocWVtdS1j
-b3JvdXRpbmUuYzoxMjApDQo+Pg0KPj4gVXNlIG9mIHVuaW5pdGlhbGlzZWQgdmFsdWUgb2Ygc2l6
-ZSA4DQo+PiAgICAgYXQgMHg2OUU4MjI6IHFlbXVfYWlvX2Nvcm91dGluZV9lbnRlciAocWVtdS1j
-b3JvdXRpbmUuYzoxMjIpDQo+Pg0KPj4gVXNlIG9mIHVuaW5pdGlhbGlzZWQgdmFsdWUgb2Ygc2l6
-ZSA4DQo+PiAgICAgYXQgMHg2OUU4M0E6IHFlbXVfYWlvX2Nvcm91dGluZV9lbnRlciAocWVtdS1j
-b3JvdXRpbmUuYzoxMzQpDQo+Pg0KPj4gVXNlIG9mIHVuaW5pdGlhbGlzZWQgdmFsdWUgb2Ygc2l6
-ZSA4DQo+PiAgICAgYXQgMHg2OUU4NDU6IHFlbXVfYWlvX2Nvcm91dGluZV9lbnRlciAocWVtdS1j
-b3JvdXRpbmUuYzoxMzkpDQo+Pg0KPj4gVGhpcyBzZWVtcyB0byB1bHRpbWF0ZWx5IHJlc3VsdCBm
-cm9tIGl0IHRoaW5raW5nIHRoYXQgcGVuZGluZyBpcyBub3QgaW5pdGlhbGlzZWQgYnkgdGhpcyBs
-aW5lDQo+Pg0KPj4gICAgICBRU0lNUExFUV9IRUFEKCwgQ29yb3V0aW5lKSBwZW5kaW5nID0gUVNJ
-TVBMRVFfSEVBRF9JTklUSUFMSVpFUihwZW5kaW5nKTsNCj4+DQo+PiBBcyB0aGlzIGlzc3VlIGlu
-IGl0c2VsZiBhY2NvdW50cyBmb3IgNyBlcnJvcnMgZXZlcnkgdGltZSB0aGF0IHFlbXVfYWlvX2Nv
-cm91dGluZV9lbnRlciBpcyBjYWxsZWQgKHdoaWNoIGlzIGZyZXF1ZW50bHkpIHZhbGdyaW5kIHZl
-cnkgc29vbiBnaXZlcyB1cCBhbmQgc2F5cyB0aGUgY29kZSBpcyB0b28gYnJva2VuIHRvIHJlcG9y
-dCBlcnJvcnMgb24gLSB1bmxlc3MgdGhhdCBpcyB5b3UgZGlzYWJsZSB0aGUgZXJyb3ItbGltaXQg
-d2hpY2ggaXMgd2hhdCB3ZSd2ZSBkb25lIGJ1dCB0aGVuIHlvdSBzdGlsbCBoYXZlIHRvIGlkZW50
-aWZ5IHRoZSByZWFsIGVycm9ycyBpbiB0aGUgbWlkZGxlIG9mIHRoZXNlIG9uZXMuDQo+Pg0KPj4g
-Tm90IHN1cmUgd2hhdCBpdCBpcyBhYm91dCB0aGUgbWFjcm9zIGluIHRoZSBpbml0aWFsaXNhdGlv
-biBsaW5lIHRoYXQgY2F1c2UgdmFsZ3JpbmQgdG8gdGhpbmsgaXQgaXNuJ3QgaW5pdGlhbGlzZWQs
-IHdoaWxzdCB0aGVyZSBpcyBhIHNtYWxsIGFtb3VudCBvZiBtYWNybyBtYWdpYyBpbiB0aGVyZSBp
-dCBsb29rcyBsaWtlIGl0IGRvZXMgYWN0dWFsbHkgcmVzdWx0IGluIHRoaW5ncyBiZWluZyBjb3Jy
-ZWN0bHkgaW5pdGlhbGlzZWQuDQo+Pg0KPj4gVGhpcyBpcyB1c2luZyB2YWxncmluZCAzLjEzLjAt
-MTMuZWw3IG9uIGEgQ2VudE9TIDcgc3lzdGVtLg0KPj4NCj4+IEFueSBjbHVlcyBhYm91dCBob3cg
-dG8gcmVzb2x2ZSB0aGlzPyBPciBpcyBpdCBqdXN0IGEgZmFjdCBvZiBsaWZlIHRoYXQgdmFsZ3Jp
-bmQgaXMgbmV2ZXIgZ29pbmcgdG8gYmUgaGFwcHkgd2l0aCB0aGlzIGNvZGU/DQo+Pg0KPj4gVGhh
-bmtzLA0KPj4NCj4+IE1hcmsuDQo+Pg0KPiANCj4gSSBoYXZlbid0IHVzZWQgdmFsZ3JpbmQgb24g
-YSAicmVhbCIgcnVuIG9mIFFFTVUgaW4gc29tZSB0aW1lLCB1c3VhbGx5DQo+IHVzaW5nIGl0IGZv
-ciB0aGUgdGVzdCBzdWl0ZSBpbnN0ZWFkLg0KPiANCj4gSW4gdGhpcyBjYXNlLCBhcmUgeW91IHN1
-cmUgaXQncyBjaG9raW5nIG9uIHRoZSBtYWNybyBhbmQgbm90IGdldHRpbmcNCj4gY29uZnVzZWQg
-YWJvdXQgYWxsIG9mIHRoZSBzdGFjayBzd2FwcyB0aGF0IFFFTVUgaXMgZG9pbmcgaW4gdGhlDQo+
-IGNvcm91dGluZSBtb2R1bGU/DQo+IA0KPiBDQ2luZyBzb21lIGZvbGtzIHdobyBoYXZlIHdvcmtl
-ZCBvbiB2YWxncmluZCBzdXBwb3J0IGluIHRoZSBwYXN0LCB0aGV5DQo+IG1pZ2h0IGhhdmUgYSBt
-b3JlIHRhcmdldGVkIGlkZWEuDQo+IA0KPiAtLWpzDQo+IA0KDQpUaGUgJ2djYyAtRSB1dGlsL3Fl
-bXUtY29yb3V0aW5lLmMnIHNob3dzIHRoZSBleHBsaWNpdCBpbml0aWFsaXphdGlvbiBhcyANCnRo
-aXM6DQoNCnZvaWQgcWVtdV9haW9fY29yb3V0aW5lX2VudGVyKEFpb0NvbnRleHQgKmN0eCwgQ29y
-b3V0aW5lICpjbykNCnsNCiAgICAgc3RydWN0IHsgc3RydWN0IENvcm91dGluZSAqc3FoX2ZpcnN0
-OyBzdHJ1Y3QgQ29yb3V0aW5lICoqc3FoX2xhc3Q7IA0KfSBwZW5kaW5nID0geyAoKHZvaWQgKikw
-KSwgJihwZW5kaW5nKS5zcWhfZmlyc3QgfTsNCi4uLg0KDQpQbGVhc2Ugc2VuZCB0aGUgY29tbWFu
-ZCB5b3UgcmFuIHRoZSBWYWxncmluZCB3aXRoIHRvIHNlZSB0aGUgb3B0aW9ucy4NCklmIHlvdSBj
-YW4gcmVwcm9kdWNlIHRoZSBjYXNlIHJ1bm5pbmcgdGhlIFZhbGdyaW5kIHdpdGggdGhlIG9wdGlv
-bnMgDQondHJhY2stb3JpZ2lucz15ZXMnIGFuZCAnLS1sb2ctZmlsZT1uYW1lLmxvZycsIHRoZSBy
-ZXN1bHRpbmcgbG9nIGZpbGVzIA0Kd2lsbCBiZSBoZWxwZnVsLg0KDQpUaGFua3MsDQpBbmRyZXkN
-Ci0tIA0KV2l0aCB0aGUgYmVzdCByZWdhcmRzLA0KQW5kcmV5IFNoaW5rZXZpY2gNCg==
+From: Alberto Garcia <berto@igalia.com>
+
+The size of the qcow2 L2 cache defaults to 32 MB, which can be easily
+larger than the maximum amount of L2 metadata that the image can have.
+For example: with 64 KB clusters the user would need a qcow2 image
+with a virtual size of 256 GB in order to have 32 MB of L2 metadata.
+
+Because of that, since commit b749562d9822d14ef69c9eaa5f85903010b86c30
+we forbid the L2 cache to become larger than the maximum amount of L2
+metadata for the image, calculated using this formula:
+
+    uint64_t max_l2_cache =3D virtual_disk_size / (s->cluster_size / 8);
+
+The problem with this formula is that the result should be rounded up
+to the cluster size because an L2 table on disk always takes one full
+cluster.
+
+For example, a 1280 MB qcow2 image with 64 KB clusters needs exactly
+160 KB of L2 metadata, but we need 192 KB on disk (3 clusters) even if
+the last 32 KB of those are not going to be used.
+
+However QEMU rounds the numbers down and only creates 2 cache tables
+(128 KB), which is not enough for the image.
+
+A quick test doing 4KB random writes on a 1280 MB image gives me
+around 500 IOPS, while with the correct cache size I get 16K IOPS.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/qcow2.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0882ff6e92..57734f20cf 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -828,7 +828,11 @@ static void read_cache_sizes(BlockDriverState *bs, Q=
+emuOpts *opts,
+     bool l2_cache_entry_size_set;
+     int min_refcount_cache =3D MIN_REFCOUNT_CACHE_SIZE * s->cluster_size=
+;
+     uint64_t virtual_disk_size =3D bs->total_sectors * BDRV_SECTOR_SIZE;
+-    uint64_t max_l2_cache =3D virtual_disk_size / (s->cluster_size / 8);
++    uint64_t max_l2_entries =3D DIV_ROUND_UP(virtual_disk_size, s->clust=
+er_size);
++    /* An L2 table is always one cluster in size so the max cache size
++     * should be a multiple of the cluster size. */
++    uint64_t max_l2_cache =3D ROUND_UP(max_l2_entries * sizeof(uint64_t)=
+,
++                                     s->cluster_size);
+=20
+     combined_cache_size_set =3D qemu_opt_get(opts, QCOW2_OPT_CACHE_SIZE)=
+;
+     l2_cache_size_set =3D qemu_opt_get(opts, QCOW2_OPT_L2_CACHE_SIZE);
+--=20
+2.20.1
+
 
