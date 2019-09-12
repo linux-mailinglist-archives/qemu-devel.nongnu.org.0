@@ -2,51 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19EB9B0B4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:24:36 +0200 (CEST)
-Received: from localhost ([::1]:59702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF33B0B7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:34:29 +0200 (CEST)
+Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8LL8-00089c-H1
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42512)
+	id 1i8LUh-0001Ht-Ql
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:34:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i8LEW-00021u-PA
+ (envelope-from <mlevitsk@redhat.com>) id 1i8LEW-00021C-3a
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:17:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i8LEV-0005rR-GU
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:17:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50264)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i8LEV-0005qd-AE
+ (envelope-from <mlevitsk@redhat.com>) id 1i8LEU-0005ql-Su
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:17:43 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+Received: from mx1.redhat.com ([209.132.183.28]:40838)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1i8LES-0005my-09; Thu, 12 Sep 2019 05:17:40 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 974078980E1;
- Thu, 12 Sep 2019 09:17:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.17.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 54D8460872;
- Thu, 12 Sep 2019 09:17:41 +0000 (UTC)
-Date: Thu, 12 Sep 2019 10:17:39 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <20190912091739.GA9817@redhat.com>
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <20190731160719.11396-15-alex.bennee@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190731160719.11396-15-alex.bennee@linaro.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Thu, 12 Sep 2019 09:17:42 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ by mx1.redhat.com (Postfix) with ESMTPS id 57E4C3082128;
+ Thu, 12 Sep 2019 09:17:39 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E162B194B9;
+ Thu, 12 Sep 2019 09:17:35 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 12 Sep 2019 12:17:05 +0300
+Message-Id: <20190912091710.21449-8-mlevitsk@redhat.com>
+In-Reply-To: <20190912091710.21449-1-mlevitsk@redhat.com>
+References: <20190912091710.21449-1-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Thu, 12 Sep 2019 09:17:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH  v4 14/54] plugin: add core code
+Subject: [Qemu-devel] [PATCH 07/12] qcrypto-luks: purge unused error codes
+ from open callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,56 +53,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: aaron@os.amperecomputing.com, cota@braap.org, qemu-devel@nongnu.org,
- bobby.prani@gmail.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 31, 2019 at 05:06:39PM +0100, Alex Benn=C3=A9e wrote:
-> From: "Emilio G. Cota" <cota@braap.org>
->=20
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-> [AJB: moved directory and merged various fixes]
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+These values are not used by generic crypto code anyway
 
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ crypto/block-luks.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-> +static int plugin_load(struct qemu_plugin_desc *desc)
-> +{
-> +    qemu_plugin_install_func_t install;
-> +    struct qemu_plugin_ctx *ctx;
-> +    char *err;
-> +    int rc;
-> +
-> +    ctx =3D qemu_memalign(qemu_dcache_linesize, sizeof(*ctx));
-> +    memset(ctx, 0, sizeof(*ctx));
-> +    ctx->desc =3D desc;
-> +
-> +    ctx->handle =3D dlopen(desc->path, RTLD_NOW);
-> +    if (ctx->handle =3D=3D NULL) {
-> +        error_report("%s: %s", __func__, dlerror());
-> +        goto err_dlopen;
-> +    }
-> +
-> +    /* clear any previous dlerror, call dlsym, then check dlerror */
-> +    dlerror();
-> +    install =3D dlsym(ctx->handle, "qemu_plugin_install");
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index f3bfc921b2..ba63e9b442 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -675,13 +675,13 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+     if (memcmp(luks->header.magic, qcrypto_block_luks_magic,
+                QCRYPTO_BLOCK_LUKS_MAGIC_LEN) != 0) {
+         error_setg(errp, "Volume is not in LUKS format");
+-        ret = -EINVAL;
++        ret = -1;
+         goto fail;
+     }
+     if (luks->header.version != QCRYPTO_BLOCK_LUKS_VERSION) {
+         error_setg(errp, "LUKS version %" PRIu32 " is not supported",
+                    luks->header.version);
+-        ret = -ENOTSUP;
++        ret = -1;
+         goto fail;
+     }
+ 
+@@ -697,7 +697,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+      */
+     ivgen_name = strchr(cipher_mode, '-');
+     if (!ivgen_name) {
+-        ret = -EINVAL;
++        ret = -1;
+         error_setg(errp, "Unexpected cipher mode string format %s",
+                    cipher_mode);
+         goto fail;
+@@ -715,7 +715,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+         luks->ivgen_hash_alg = qcrypto_block_luks_hash_name_lookup(ivhash_name,
+                                                                    &local_err);
+         if (local_err) {
+-            ret = -ENOTSUP;
++            ret = -1;
+             error_propagate(errp, local_err);
+             goto fail;
+         }
+@@ -724,7 +724,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+     luks->cipher_mode = qcrypto_block_luks_cipher_mode_lookup(cipher_mode,
+                                                               &local_err);
+     if (local_err) {
+-        ret = -ENOTSUP;
++        ret = -1;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+@@ -735,7 +735,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+                                               luks->header.master_key_len,
+                                               &local_err);
+     if (local_err) {
+-        ret = -ENOTSUP;
++        ret = -1;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+@@ -744,7 +744,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+             qcrypto_block_luks_hash_name_lookup(luks->header.hash_spec,
+                                                 &local_err);
+     if (local_err) {
+-        ret = -ENOTSUP;
++        ret = -1;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+@@ -752,14 +752,14 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+     luks->ivgen_alg = qcrypto_block_luks_ivgen_name_lookup(ivgen_name,
+                                                            &local_err);
+     if (local_err) {
+-        ret = -ENOTSUP;
++        ret = -1;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+ 
+     if (luks->ivgen_alg == QCRYPTO_IVGEN_ALG_ESSIV) {
+         if (!ivhash_name) {
+-            ret = -EINVAL;
++            ret = -1;
+             error_setg(errp, "Missing IV generator hash specification");
+             goto fail;
+         }
+@@ -768,7 +768,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+                                                 luks->ivgen_hash_alg,
+                                                 &local_err);
+         if (local_err) {
+-            ret = -ENOTSUP;
++            ret = -1;
+             error_propagate(errp, local_err);
+             goto fail;
+         }
+@@ -795,7 +795,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+                                         masterkey,
+                                         readfunc, opaque,
+                                         errp) < 0) {
+-            ret = -EACCES;
++            ret = -1;
+             goto fail;
+         }
+ 
+@@ -813,7 +813,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+                                          luks->header.master_key_len,
+                                          errp);
+         if (!block->ivgen) {
+-            ret = -ENOTSUP;
++            ret = -1;
+             goto fail;
+         }
+ 
+@@ -825,7 +825,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+                                         n_threads,
+                                         errp);
+         if (ret < 0) {
+-            ret = -ENOTSUP;
++            ret = -1;
+             goto fail;
+         }
+     }
+-- 
+2.17.2
 
-If you use 'GModule' instead of dlopen, then we get portability to
-many more platforms, including ablity to load DLLs on Windows:
-
-  https://developer.gnome.org/glib/stable/glib-Dynamic-Loading-of-Modules=
-.html
-
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
 
