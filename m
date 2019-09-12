@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6F8B0CFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:33:51 +0200 (CEST)
-Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B0DB0CEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 12:30:51 +0200 (CEST)
+Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8MQA-00012u-7o
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54743)
+	id 1i8MNG-0007Jw-2s
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 06:30:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i8MIc-00043q-Cz
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:26:04 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i8MIa-0001S3-AE
+ (envelope-from <stefanha@gmail.com>) id 1i8MIa-00040v-HU
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:26:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43796)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i8MIR-0001PU-Mw; Thu, 12 Sep 2019 06:25:51 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EDDAF3B464;
- Thu, 12 Sep 2019 10:25:50 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-179.ams2.redhat.com [10.36.116.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE3E6194B9;
- Thu, 12 Sep 2019 10:25:47 +0000 (UTC)
-Date: Thu, 12 Sep 2019 12:25:46 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Message-ID: <20190912102546.GF5383@linux.fritz.box>
-References: <20190911161521.59261-1-slp@redhat.com>
- <20190912082322.GD5383@linux.fritz.box> <87zhj9x1ov.fsf@redhat.com>
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <stefanha@gmail.com>) id 1i8MIZ-0001Rh-4R
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:26:00 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55656)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1i8MIW-0001Qg-Tt
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 06:25:57 -0400
+Received: by mail-wm1-x341.google.com with SMTP id g207so6815581wmg.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 03:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=efv0O1j2ykxEUq+1vA38jCrLUmrb0t0N9/UPuowAhgM=;
+ b=HP4FItSt6C4MRk3f3/tX1frv1q7WcDtZ2GyP0hfyhP4QrNjw+/xkZkJ6gjX746mJwk
+ e/UPswMGc+uDkjZvtS7pxSzmP2rmAhETcGQ4LjoChMVIFqYGvG+sYIahz6lY6ewzRofI
+ wrtS6cot/aDbfq+Qoxibj4B9DCyZfaz/+4W2+vVLHwLmCOFINsY2aqJEWSlu/S0NT+OH
+ faESpQPmPba6ElWLJMuxUs9Z4EKocR/Y6OMcjlDiUFUFDWS9kYgG/tQ3zpfiHINnGkn9
+ OtdJPk+0p//1qVBLZdZTPQXyQkCuM6A9djcGg9enk9/xQ0R4DMAL7GzJy2AbiJZOE1np
+ QRUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=efv0O1j2ykxEUq+1vA38jCrLUmrb0t0N9/UPuowAhgM=;
+ b=hY0GSbVdZqVMYvGp1dPzJzVuS5u7AhT3iZee/hATvVry9VC0oM38+GazlsPs/fmXvQ
+ HjbFR+xQ2o+ymXD+/2IZ33ZeiFQQoDtSRNJI70ttFM6KMEowpFpVv1tCfKtP8x4o2ReQ
+ mfqwhVHgCHwpLn6QLyehKg4L3xDSGenL1PSxMmbq5ABAFZ0Nt73wncPO7rbGDJY6mS31
+ LmBDEe6Ie8psvqr0KiRut26HMTmjymCXfQ9oyk8I1htrND2bygcYU93a+raw6p1Ja+Fh
+ nl6ONm7ttD8vzwMUGdWEPFQbOtDP0J89vTWwQHOeWiZIeg337VLZTE4uO9nQrtIV6d+u
+ Qzfg==
+X-Gm-Message-State: APjAAAVTII7hm4msguB3uzELSc7FU3/UpzGFnGK9GWVKV4lPHST8PbZ1
+ DEfR8ablLLywQO7F2RaKgI4=
+X-Google-Smtp-Source: APXvYqxiIfcBZtlwcXAUbEbxCR/PKYblWyLbCxL24WzbfiWMzWWUegtSr1Nir5Y2EJ9lR3Cn0Ll4UQ==
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr2687254wmb.113.1568283954228; 
+ Thu, 12 Sep 2019 03:25:54 -0700 (PDT)
+Received: from localhost (178.165.130.7.wireless.dyn.drei.com. [178.165.130.7])
+ by smtp.gmail.com with ESMTPSA id o22sm43672591wra.96.2019.09.12.03.25.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Sep 2019 03:25:53 -0700 (PDT)
+Date: Thu, 12 Sep 2019 12:25:51 +0200
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190912102551.GA23174@stefanha-x1.localdomain>
+References: <20190830093056.12572-1-stefanha@redhat.com>
+ <20190830184445.GF3694@habkost.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="adJ1OR3c6QgCpb/j"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
 Content-Disposition: inline
-In-Reply-To: <87zhj9x1ov.fsf@redhat.com>
+In-Reply-To: <20190830184445.GF3694@habkost.net>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 12 Sep 2019 10:25:51 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] nbd/server: attach client channel to the
- export's AioContext
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH] memory: fetch pmem size in get_file_size()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,109 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Haozhong Zhang <haozhong.zhang@intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org, Junyan He <junyan.he@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---adJ1OR3c6QgCpb/j
+--XsQoSWH+UP9D9v3l
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Am 12.09.2019 um 12:13 hat Sergio Lopez geschrieben:
+On Fri, Aug 30, 2019 at 03:44:45PM -0300, Eduardo Habkost wrote:
+> On Fri, Aug 30, 2019 at 10:30:56AM +0100, Stefan Hajnoczi wrote:
+> > Neither stat(2) nor lseek(2) report the size of Linux devdax pmem
+> > character device nodes.  Commit 314aec4a6e06844937f1677f6cba21981005f389
+> > ("hostmem-file: reject invalid pmem file sizes") added code to
+> > hostmem-file.c to fetch the size from sysfs and compare against the
+> > user-provided size=3DNUM parameter:
+> >=20
+> >   if (backend->size > size) {
+> >       error_setg(errp, "size property %" PRIu64 " is larger than "
+> >                  "pmem file \"%s\" size %" PRIu64, backend->size,
+> >                  fb->mem_path, size);
+> >       return;
+> >   }
+> >=20
+> > It turns out that exec.c:qemu_ram_alloc_from_fd() already has an
+> > equivalent size check but it skips devdax pmem character devices because
+> > lseek(2) returns 0:
+> >=20
+> >   if (file_size > 0 && file_size < size) {
+> >       error_setg(errp, "backing store %s size 0x%" PRIx64
+> >                  " does not match 'size' option 0x" RAM_ADDR_FMT,
+> >                  mem_path, file_size, size);
+> >       return NULL;
+> >   }
+> >=20
+> > This patch moves the devdax pmem file size code into get_file_size() so
+> > that we check the memory size in a single place:
+> > qemu_ram_alloc_from_fd().  This simplifies the code and makes it more
+> > general.
+> >=20
+> > This also fixes the problem that hostmem-file only checks the devdax
+> > pmem file size when the pmem=3Don parameter is given.  An unchecked
+> > size=3DNUM parameter can lead to SIGBUS in QEMU so we must always fetch
+> > the file size for Linux devdax pmem character device nodes.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 >=20
-> Kevin Wolf <kwolf@redhat.com> writes:
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 >=20
-> > Am 11.09.2019 um 18:15 hat Sergio Lopez geschrieben:
-> >> On creation, the export's AioContext is set to the same one as the
-> >> BlockBackend, while the AioContext in the client QIOChannel is left
-> >> untouched.
-> >>=20
-> >> As a result, when using data-plane, nbd_client_receive_next_request()
-> >> schedules coroutines in the IOThread AioContext, while the client's
-> >> QIOChannel is serviced from the main_loop, potentially triggering the
-> >> assertion at qio_channel_restart_[read|write].
-> >>=20
-> >> To fix this, as soon we have the export corresponding to the client,
-> >> we call qio_channel_attach_aio_context() to attach the QIOChannel
-> >> context to the export's AioContext. This matches with the logic in
-> >> blk_aio_attached().
-> >>=20
-> >> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1748253
-> >> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> >
-> > Oh, looks like I only fixed switching the AioContext after the fact, but
-> > not starting the NBD server for a node that is already in a different
-> > AioContext... :-/
-> >
-> >> diff --git a/nbd/server.c b/nbd/server.c
-> >> index 10faedcfc5..51322e2343 100644
-> >> --- a/nbd/server.c
-> >> +++ b/nbd/server.c
-> >> @@ -471,6 +471,7 @@ static int nbd_negotiate_handle_export_name(NBDCli=
-ent *client,
-> >>      QTAILQ_INSERT_TAIL(&client->exp->clients, client, next);
-> >>      nbd_export_get(client->exp);
-> >>      nbd_check_meta_export(client);
-> >> +    qio_channel_attach_aio_context(client->ioc, client->exp->ctx);
-> >> =20
-> >>      return 0;
-> >>  }
-> >> @@ -673,6 +674,7 @@ static int nbd_negotiate_handle_info(NBDClient *cl=
-ient, uint16_t myflags,
-> >>          QTAILQ_INSERT_TAIL(&client->exp->clients, client, next);
-> >>          nbd_export_get(client->exp);
-> >>          nbd_check_meta_export(client);
-> >> +        qio_channel_attach_aio_context(client->ioc, exp->ctx);
-> >>          rc =3D 1;
-> >>      }
-> >>      return rc;
-> >
-> > I think I would rather do this once at the end of nbd_negotiate()
-> > instead of duplicating it across the different way to open an export.
-> > During the negotiation phase, we don't start requests yet, so doing
-> > everything from the main thread should be fine.
->=20
-> OK.
->=20
-> > Actually, not doing everything from the main thread sounds nasty because
-> > I think the next QIOChannel callback could then already be executed in
-> > the iothread while this one hasn't completed yet. Or do we have any
-> > locking in place for the negotiation?
->=20
-> This is the first time I look at NBD code, but IIUC all the negotiation
-> is done with synchronous nbd_[read|write]() calls, so even if the
-> coroutine yields due to EWOULDBLOCK, nothing else should be making
-> progress.
+> Paolo, do you want to queue this, or should it go through my
+> memory backend queue?
 
-Ah, yes, you're right. We don't even have fd handlers installed if we
-aren't currently waiting for the coroutine to be re-entered. So as
-everything is tied to the one coroutine, this should not be a problem.
+Ping for Paolo
 
-Let's avoid the duplication anyway.
-
-Kevin
-
---adJ1OR3c6QgCpb/j
+--XsQoSWH+UP9D9v3l
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIcBAEBAgAGBQJdeh0qAAoJEH8JsnLIjy/WVyoQALyncWVCBOi3rLK5X/QK81MO
-6SSDcrSSBrze6VDfPQ1G/P0Zm6n8shQ3nZwZ9iFLmUrZSpVVJ7HCOYhfpkc737bQ
-g4buu0eCRRE/NkRLQFjksMrBWr7W/yQHZGriMG8N8tBQmxrYAahno9ALXX/wC3Ct
-OMrpqrMueUu3ZUQ0I5aX4uMdD8MwT0wjeYyygMTMoAyctLlnmTTlq6DsXIGH0Jex
-dwdDuGJT4o6CgZh1h1ZvZU1YATl1HxT9QE2kdifUdmU6Nbj4/rY1hlia+cdGH1zh
-VOFb1EPAClCuuoTudeErmQrRj7GcEypYfbxsoEstVIC5M3st2Mnz4TijGr489CZM
-NajP0VYCGXL4cA4BbuHUTxMDR/8swdi6GJvhmCwODmsoGgm6+cPoA7VdR6OtuYk1
-CYzYl2frIaKox46OsAks5vzInBD8KrJH82nPF/lHbFosTvtL6ePyGYAiHspiFsop
-OIgqdxWsnGepiyapoCRFseU6Q4n3A/3aHOW6oFbzFWLeK8E/Q7hHISUZhShP6l2y
-Wth30hWsICumYNGuw2YcSIp1rOdor3g1eHaQ4bkb08cKW2ora/IywmULqNeM5KPk
-xczu92QsFyWk+TIxeY73mGO05nK+r4rBDVWfIZAWlmQoyLzan7munNT3NhOXoA7g
-ChMlGJw1pGWFjLe45UlR
-=o3h+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl16HS8ACgkQnKSrs4Gr
+c8jssAgAmjB4R3lceqn8sHuti0xzFIXaxomyP8TZ93VSANwcHEyDYaH9Q0GAylmt
+Za1gXslX0QArPEo13/U0o4q+726v/w8wDd179mTUDnzQLKFUtDXy3SAeuP6He3/3
+yeCN89d5Ve6hKVkHvkxHvnA/gaFgoANQYKi2NxS+wm1phtxSxe8WVG2+8GDTiHmA
+zjHknmkHBqf55CMRntWlMLt0U5mMWpNPhfLu0hT/sQiUzsYR2vEipyl1DP7xj2A7
+2FusfI1h6S+SLyeVU94Y2bFCXtq8Jf79dv+5MecG7pPVTNW+ooTOnmnXkFYq7VjR
+cP9L+iJ/DqGaAjCaoi1QJS4wRpwA1g==
+=fVmO
 -----END PGP SIGNATURE-----
 
---adJ1OR3c6QgCpb/j--
+--XsQoSWH+UP9D9v3l--
 
