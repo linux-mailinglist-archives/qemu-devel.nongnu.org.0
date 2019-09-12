@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2F3B106C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 15:53:58 +0200 (CEST)
-Received: from localhost ([::1]:34720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557E0B1060
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 15:51:06 +0200 (CEST)
+Received: from localhost ([::1]:34662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8PXo-0001TM-Qa
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 09:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39032)
+	id 1i8PV2-000622-SO
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 09:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i8PQa-0002bE-NK
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:46:30 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i8PQY-0001IJ-F0
+ (envelope-from <kwolf@redhat.com>) id 1i8PQZ-0002ZU-8b
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:46:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45366)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kwolf@redhat.com>) id 1i8PQX-0001Hv-J5
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:46:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53654)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i8PQT-0001Ek-RY; Thu, 12 Sep 2019 09:46:22 -0400
+ id 1i8PQU-0001F0-9O; Thu, 12 Sep 2019 09:46:22 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 39DA981DE0;
- Thu, 12 Sep 2019 13:46:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 93A701DC5;
+ Thu, 12 Sep 2019 13:46:21 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-179.ams2.redhat.com
  [10.36.116.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9C3C600C4;
- Thu, 12 Sep 2019 13:46:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85DB5600C4;
+ Thu, 12 Sep 2019 13:46:20 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 12 Sep 2019 15:45:44 +0200
-Message-Id: <20190912134604.22019-3-kwolf@redhat.com>
+Date: Thu, 12 Sep 2019 15:45:45 +0200
+Message-Id: <20190912134604.22019-4-kwolf@redhat.com>
 In-Reply-To: <20190912134604.22019-1-kwolf@redhat.com>
 References: <20190912134604.22019-1-kwolf@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 12 Sep 2019 13:46:20 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Thu, 12 Sep 2019 13:46:21 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/22] job: drop job_drain
+Subject: [Qemu-devel] [PULL 03/22] block/file-posix: Reduce xfsctl() use
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,397 +60,169 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
 
-In job_finish_sync job_enter should be enough for a job to make some
-progress and draining is a wrong tool for it. So use job_enter directly
-here and drop job_drain with all related staff not used more.
+This patch removes xfs_write_zeroes() and xfs_discard().  Both functions
+have been added just before the same feature was present through
+fallocate():
 
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Tested-by: John Snow <jsnow@redhat.com>
+- fallocate() has supported PUNCH_HOLE for XFS since Linux 2.6.38 (March
+  2011); xfs_discard() was added in December 2010.
+
+- fallocate() has supported ZERO_RANGE for XFS since Linux 3.15 (June
+  2014); xfs_write_zeroes() was added in November 2013.
+
+Nowadays, all systems that qemu runs on should support both fallocate()
+features (RHEL 7's kernel does).
+
+xfsctl() is still useful for getting the request alignment for O_DIRECT,
+so this patch does not remove our dependency on it completely.
+
+Note that xfs_write_zeroes() had a bug: It calls ftruncate() when the
+file is shorter than the specified range (because ZERO_RANGE does not
+increase the file length).  ftruncate() may yield and then discard data
+that parallel write requests have written past the EOF in the meantime.
+Dropping the function altogether fixes the bug.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Fixes: 50ba5b2d994853b38fed10e0841b119da0f8b8e5
+Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
+Tested-by: Stefano Garzarella <sgarzare@redhat.com>
+Tested-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/blockjob_int.h | 19 -------------------
- include/qemu/job.h           | 13 -------------
- block/backup.c               | 19 +------------------
- block/commit.c               |  1 -
- block/mirror.c               | 28 +++-------------------------
- block/stream.c               |  1 -
- blockjob.c                   | 13 -------------
- job.c                        | 12 +-----------
- tests/test-bdrv-drain.c      |  3 ---
- tests/test-block-iothread.c  |  1 -
- tests/test-blockjob-txn.c    |  1 -
- tests/test-blockjob.c        |  2 --
- 12 files changed, 5 insertions(+), 108 deletions(-)
+ block/file-posix.c | 77 +---------------------------------------------
+ 1 file changed, 1 insertion(+), 76 deletions(-)
 
-diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
-index e4a318dd15..e2824a36a8 100644
---- a/include/block/blockjob_int.h
-+++ b/include/block/blockjob_int.h
-@@ -52,17 +52,6 @@ struct BlockJobDriver {
-      * besides job->blk to the new AioContext.
-      */
-     void (*attached_aio_context)(BlockJob *job, AioContext *new_context)=
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 87c5a4ccbd..f683a36c8a 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1459,59 +1459,6 @@ out:
+     }
+ }
+=20
+-#ifdef CONFIG_XFS
+-static int xfs_write_zeroes(BDRVRawState *s, int64_t offset, uint64_t by=
+tes)
+-{
+-    int64_t len;
+-    struct xfs_flock64 fl;
+-    int err;
+-
+-    len =3D lseek(s->fd, 0, SEEK_END);
+-    if (len < 0) {
+-        return -errno;
+-    }
+-
+-    if (offset + bytes > len) {
+-        /* XFS_IOC_ZERO_RANGE does not increase the file length */
+-        if (ftruncate(s->fd, offset + bytes) < 0) {
+-            return -errno;
+-        }
+-    }
+-
+-    memset(&fl, 0, sizeof(fl));
+-    fl.l_whence =3D SEEK_SET;
+-    fl.l_start =3D offset;
+-    fl.l_len =3D bytes;
+-
+-    if (xfsctl(NULL, s->fd, XFS_IOC_ZERO_RANGE, &fl) < 0) {
+-        err =3D errno;
+-        trace_file_xfs_write_zeroes(strerror(errno));
+-        return -err;
+-    }
+-
+-    return 0;
+-}
+-
+-static int xfs_discard(BDRVRawState *s, int64_t offset, uint64_t bytes)
+-{
+-    struct xfs_flock64 fl;
+-    int err;
+-
+-    memset(&fl, 0, sizeof(fl));
+-    fl.l_whence =3D SEEK_SET;
+-    fl.l_start =3D offset;
+-    fl.l_len =3D bytes;
+-
+-    if (xfsctl(NULL, s->fd, XFS_IOC_UNRESVSP64, &fl) < 0) {
+-        err =3D errno;
+-        trace_file_xfs_discard(strerror(errno));
+-        return -err;
+-    }
+-
+-    return 0;
+-}
+-#endif
+-
+ static int translate_err(int err)
+ {
+     if (err =3D=3D -ENODEV || err =3D=3D -ENOSYS || err =3D=3D -EOPNOTSU=
+PP ||
+@@ -1567,10 +1514,8 @@ static ssize_t handle_aiocb_write_zeroes_block(Raw=
+PosixAIOData *aiocb)
+ static int handle_aiocb_write_zeroes(void *opaque)
+ {
+     RawPosixAIOData *aiocb =3D opaque;
+-#if defined(CONFIG_FALLOCATE) || defined(CONFIG_XFS)
+-    BDRVRawState *s =3D aiocb->bs->opaque;
+-#endif
+ #ifdef CONFIG_FALLOCATE
++    BDRVRawState *s =3D aiocb->bs->opaque;
+     int64_t len;
+ #endif
+=20
+@@ -1578,12 +1523,6 @@ static int handle_aiocb_write_zeroes(void *opaque)
+         return handle_aiocb_write_zeroes_block(aiocb);
+     }
+=20
+-#ifdef CONFIG_XFS
+-    if (s->is_xfs) {
+-        return xfs_write_zeroes(s, aiocb->aio_offset, aiocb->aio_nbytes)=
 ;
--
--    /*
--     * If the callback is not NULL, it will be invoked when the job has =
-to be
--     * synchronously cancelled or completed; it should drain BlockDriver=
-States
--     * as required to ensure progress.
--     *
--     * Block jobs must use the default implementation for job_driver.dra=
-in,
--     * which will in turn call this callback after doing generic block j=
-ob
--     * stuff.
--     */
--    void (*drain)(BlockJob *job);
- };
-=20
- /**
-@@ -107,14 +96,6 @@ void block_job_free(Job *job);
-  */
- void block_job_user_resume(Job *job);
-=20
--/**
-- * block_job_drain:
-- * Callback to be used for JobDriver.drain in all block jobs. Drains the=
- main
-- * block node associated with the block jobs and calls BlockJobDriver.dr=
-ain for
-- * job-specific actions.
-- */
--void block_job_drain(Job *job);
--
- /**
-  * block_job_ratelimit_get_delay:
-  *
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 73c67d3175..bd59cd8944 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -220,13 +220,6 @@ struct JobDriver {
-      */
-     void (*complete)(Job *job, Error **errp);
-=20
--    /*
--     * If the callback is not NULL, it will be invoked when the job has =
-to be
--     * synchronously cancelled or completed; it should drain any activit=
-ies
--     * as required to ensure progress.
--     */
--    void (*drain)(Job *job);
--
-     /**
-      * If the callback is not NULL, prepare will be invoked when all the=
- jobs
-      * belonging to the same transaction complete; or upon this job's co=
-mpletion
-@@ -470,12 +463,6 @@ bool job_user_paused(Job *job);
-  */
- void job_user_resume(Job *job, Error **errp);
-=20
--/*
-- * Drain any activities as required to ensure progress. This can be call=
-ed in a
-- * loop to synchronously complete a job.
-- */
--void job_drain(Job *job);
--
- /**
-  * Get the next element from the list of block jobs after @job, or the
-  * first one if @job is %NULL.
-diff --git a/block/backup.c b/block/backup.c
-index 03637aeb11..763f0d7ff6 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -425,21 +425,6 @@ void backup_do_checkpoint(BlockJob *job, Error **err=
-p)
-     bdrv_set_dirty_bitmap(backup_job->copy_bitmap, 0, backup_job->len);
- }
-=20
--static void backup_drain(BlockJob *job)
--{
--    BackupBlockJob *s =3D container_of(job, BackupBlockJob, common);
--
--    /* Need to keep a reference in case blk_drain triggers execution
--     * of backup_complete...
--     */
--    if (s->target) {
--        BlockBackend *target =3D s->target;
--        blk_ref(target);
--        blk_drain(target);
--        blk_unref(target);
 -    }
--}
+-#endif
 -
- static BlockErrorAction backup_error_action(BackupBlockJob *job,
-                                             bool read, int error)
- {
-@@ -588,13 +573,11 @@ static const BlockJobDriver backup_job_driver =3D {
-         .job_type               =3D JOB_TYPE_BACKUP,
-         .free                   =3D block_job_free,
-         .user_resume            =3D block_job_user_resume,
--        .drain                  =3D block_job_drain,
-         .run                    =3D backup_run,
-         .commit                 =3D backup_commit,
-         .abort                  =3D backup_abort,
-         .clean                  =3D backup_clean,
--    },
--    .drain                  =3D backup_drain,
-+    }
- };
-=20
- static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-diff --git a/block/commit.c b/block/commit.c
-index 408ae15389..bc8454463d 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -216,7 +216,6 @@ static const BlockJobDriver commit_job_driver =3D {
-         .job_type      =3D JOB_TYPE_COMMIT,
-         .free          =3D block_job_free,
-         .user_resume   =3D block_job_user_resume,
--        .drain         =3D block_job_drain,
-         .run           =3D commit_run,
-         .prepare       =3D commit_prepare,
-         .abort         =3D commit_abort,
-diff --git a/block/mirror.c b/block/mirror.c
-index 853e2c7510..fe984efb90 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -646,14 +646,11 @@ static int mirror_exit_common(Job *job)
-     bdrv_ref(mirror_top_bs);
-     bdrv_ref(target_bs);
-=20
--    /* Remove target parent that still uses BLK_PERM_WRITE/RESIZE before
-+    /*
-+     * Remove target parent that still uses BLK_PERM_WRITE/RESIZE before
-      * inserting target_bs at s->to_replace, where we might not be able =
-to get
-      * these permissions.
--     *
--     * Note that blk_unref() alone doesn't necessarily drop permissions =
-because
--     * we might be running nested inside mirror_drain(), which takes an =
-extra
--     * reference, so use an explicit blk_set_perm() first. */
--    blk_set_perm(s->target, 0, BLK_PERM_ALL, &error_abort);
-+     */
-     blk_unref(s->target);
-     s->target =3D NULL;
-=20
-@@ -1149,28 +1146,12 @@ static bool mirror_drained_poll(BlockJob *job)
-     return !!s->in_flight;
- }
-=20
--static void mirror_drain(BlockJob *job)
--{
--    MirrorBlockJob *s =3D container_of(job, MirrorBlockJob, common);
--
--    /* Need to keep a reference in case blk_drain triggers execution
--     * of mirror_complete...
--     */
--    if (s->target) {
--        BlockBackend *target =3D s->target;
--        blk_ref(target);
--        blk_drain(target);
--        blk_unref(target);
--    }
--}
--
- static const BlockJobDriver mirror_job_driver =3D {
-     .job_driver =3D {
-         .instance_size          =3D sizeof(MirrorBlockJob),
-         .job_type               =3D JOB_TYPE_MIRROR,
-         .free                   =3D block_job_free,
-         .user_resume            =3D block_job_user_resume,
--        .drain                  =3D block_job_drain,
-         .run                    =3D mirror_run,
-         .prepare                =3D mirror_prepare,
-         .abort                  =3D mirror_abort,
-@@ -1178,7 +1159,6 @@ static const BlockJobDriver mirror_job_driver =3D {
-         .complete               =3D mirror_complete,
-     },
-     .drained_poll           =3D mirror_drained_poll,
--    .drain                  =3D mirror_drain,
- };
-=20
- static const BlockJobDriver commit_active_job_driver =3D {
-@@ -1187,7 +1167,6 @@ static const BlockJobDriver commit_active_job_drive=
-r =3D {
-         .job_type               =3D JOB_TYPE_COMMIT,
-         .free                   =3D block_job_free,
-         .user_resume            =3D block_job_user_resume,
--        .drain                  =3D block_job_drain,
-         .run                    =3D mirror_run,
-         .prepare                =3D mirror_prepare,
-         .abort                  =3D mirror_abort,
-@@ -1195,7 +1174,6 @@ static const BlockJobDriver commit_active_job_drive=
-r =3D {
-         .complete               =3D mirror_complete,
-     },
-     .drained_poll           =3D mirror_drained_poll,
--    .drain                  =3D mirror_drain,
- };
-=20
- static void coroutine_fn
-diff --git a/block/stream.c b/block/stream.c
-index 0d3a6ac7c3..5562ccbf57 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -212,7 +212,6 @@ static const BlockJobDriver stream_job_driver =3D {
-         .abort         =3D stream_abort,
-         .clean         =3D stream_clean,
-         .user_resume   =3D block_job_user_resume,
--        .drain         =3D block_job_drain,
-     },
- };
-=20
-diff --git a/blockjob.c b/blockjob.c
-index 6e32d1a0c0..2abed0f551 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -90,18 +90,6 @@ void block_job_free(Job *job)
-     error_free(bjob->blocker);
- }
-=20
--void block_job_drain(Job *job)
--{
--    BlockJob *bjob =3D container_of(job, BlockJob, job);
--    const JobDriver *drv =3D job->driver;
--    BlockJobDriver *bjdrv =3D container_of(drv, BlockJobDriver, job_driv=
-er);
--
--    blk_drain(bjob->blk);
--    if (bjdrv->drain) {
--        bjdrv->drain(bjob);
--    }
--}
--
- static char *child_job_get_parent_desc(BdrvChild *c)
- {
-     BlockJob *job =3D c->opaque;
-@@ -422,7 +410,6 @@ void *block_job_create(const char *job_id, const Bloc=
-kJobDriver *driver,
-     assert(is_block_job(&job->job));
-     assert(job->job.driver->free =3D=3D &block_job_free);
-     assert(job->job.driver->user_resume =3D=3D &block_job_user_resume);
--    assert(job->job.driver->drain =3D=3D &block_job_drain);
-=20
-     job->blk =3D blk;
-=20
-diff --git a/job.c b/job.c
-index 28dd48f8a5..04409b40aa 100644
---- a/job.c
-+++ b/job.c
-@@ -523,16 +523,6 @@ void coroutine_fn job_sleep_ns(Job *job, int64_t ns)
-     job_pause_point(job);
- }
-=20
--void job_drain(Job *job)
--{
--    /* If job is !busy this kicks it into the next pause point. */
--    job_enter(job);
--
--    if (job->driver->drain) {
--        job->driver->drain(job);
--    }
--}
--
- /* Assumes the block_job_mutex is held */
- static bool job_timer_not_pending(Job *job)
- {
-@@ -991,7 +981,7 @@ int job_finish_sync(Job *job, void (*finish)(Job *, E=
-rror **errp), Error **errp)
+ #ifdef CONFIG_FALLOCATE_ZERO_RANGE
+     if (s->has_write_zeroes) {
+         int ret =3D do_fallocate(s->fd, FALLOC_FL_ZERO_RANGE,
+@@ -1653,14 +1592,6 @@ static int handle_aiocb_write_zeroes_unmap(void *o=
+paque)
      }
+ #endif
 =20
-     AIO_WAIT_WHILE(job->aio_context,
--                   (job_drain(job), !job_is_completed(job)));
-+                   (job_enter(job), !job_is_completed(job)));
-=20
-     ret =3D (job_is_cancelled(job) && job->ret =3D=3D 0) ? -ECANCELED : =
-job->ret;
-     job_unref(job);
-diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-index 374bef6bb2..fa0e6a648b 100644
---- a/tests/test-bdrv-drain.c
-+++ b/tests/test-bdrv-drain.c
-@@ -848,7 +848,6 @@ BlockJobDriver test_job_driver =3D {
-         .instance_size  =3D sizeof(TestBlockJob),
-         .free           =3D block_job_free,
-         .user_resume    =3D block_job_user_resume,
--        .drain          =3D block_job_drain,
-         .run            =3D test_job_run,
-         .complete       =3D test_job_complete,
-         .prepare        =3D test_job_prepare,
-@@ -1574,7 +1573,6 @@ static const BlockJobDriver test_drop_backing_job_d=
-river =3D {
-         .instance_size  =3D sizeof(TestDropBackingBlockJob),
-         .free           =3D block_job_free,
-         .user_resume    =3D block_job_user_resume,
--        .drain          =3D block_job_drain,
-         .run            =3D test_drop_backing_job_run,
-         .commit         =3D test_drop_backing_job_commit,
-     }
-@@ -1711,7 +1709,6 @@ static const BlockJobDriver test_simple_job_driver =
-=3D {
-         .instance_size  =3D sizeof(TestSimpleBlockJob),
-         .free           =3D block_job_free,
-         .user_resume    =3D block_job_user_resume,
--        .drain          =3D block_job_drain,
-         .run            =3D test_simple_job_run,
-         .clean          =3D test_simple_job_clean,
-     },
-diff --git a/tests/test-block-iothread.c b/tests/test-block-iothread.c
-index 926577b1f9..cfe30bab21 100644
---- a/tests/test-block-iothread.c
-+++ b/tests/test-block-iothread.c
-@@ -401,7 +401,6 @@ BlockJobDriver test_job_driver =3D {
-         .instance_size  =3D sizeof(TestBlockJob),
-         .free           =3D block_job_free,
-         .user_resume    =3D block_job_user_resume,
--        .drain          =3D block_job_drain,
-         .run            =3D test_job_run,
-         .complete       =3D test_job_complete,
-         .prepare        =3D test_job_prepare,
-diff --git a/tests/test-blockjob-txn.c b/tests/test-blockjob-txn.c
-index 7da9216d5b..8bd13b9949 100644
---- a/tests/test-blockjob-txn.c
-+++ b/tests/test-blockjob-txn.c
-@@ -72,7 +72,6 @@ static const BlockJobDriver test_block_job_driver =3D {
-         .instance_size =3D sizeof(TestBlockJob),
-         .free          =3D block_job_free,
-         .user_resume   =3D block_job_user_resume,
--        .drain         =3D block_job_drain,
-         .run           =3D test_block_job_run,
-         .clean         =3D test_block_job_clean,
-     },
-diff --git a/tests/test-blockjob.c b/tests/test-blockjob.c
-index 68a0819495..7844c9ffcb 100644
---- a/tests/test-blockjob.c
-+++ b/tests/test-blockjob.c
-@@ -22,7 +22,6 @@ static const BlockJobDriver test_block_job_driver =3D {
-         .instance_size =3D sizeof(BlockJob),
-         .free          =3D block_job_free,
-         .user_resume   =3D block_job_user_resume,
--        .drain         =3D block_job_drain,
-     },
- };
-=20
-@@ -196,7 +195,6 @@ static const BlockJobDriver test_cancel_driver =3D {
-         .instance_size =3D sizeof(CancelJob),
-         .free          =3D block_job_free,
-         .user_resume   =3D block_job_user_resume,
--        .drain         =3D block_job_drain,
-         .run           =3D cancel_job_run,
-         .complete      =3D cancel_job_complete,
-     },
+-#ifdef CONFIG_XFS
+-    if (s->is_xfs) {
+-        /* xfs_discard() guarantees that the discarded area reads as all=
+-zero
+-         * afterwards, so we can use it here. */
+-        return xfs_discard(s, aiocb->aio_offset, aiocb->aio_nbytes);
+-    }
+-#endif
+-
+     /* If we couldn't manage to unmap while guaranteed that the area rea=
+ds as
+      * all-zero afterwards, just write zeroes without unmapping */
+     ret =3D handle_aiocb_write_zeroes(aiocb);
+@@ -1737,12 +1668,6 @@ static int handle_aiocb_discard(void *opaque)
+         ret =3D -errno;
+ #endif
+     } else {
+-#ifdef CONFIG_XFS
+-        if (s->is_xfs) {
+-            return xfs_discard(s, aiocb->aio_offset, aiocb->aio_nbytes);
+-        }
+-#endif
+-
+ #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
+         ret =3D do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEE=
+P_SIZE,
+                            aiocb->aio_offset, aiocb->aio_nbytes);
 --=20
 2.20.1
 
