@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8C3B08AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 08:10:18 +0200 (CEST)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EAFBB08B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 08:18:02 +0200 (CEST)
+Received: from localhost ([::1]:58408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8IJ7-0004lP-7n
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 02:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36933)
+	id 1i8IQb-0003jH-4B
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 02:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1i8IGB-0002Ly-7J
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:07:16 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1i8IGB-0002M5-GX
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:07:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1i8IG8-00088v-JQ
+ (envelope-from <ysato@users.sourceforge.jp>) id 1i8IG8-00089B-OP
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:07:15 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:44443)
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:44447)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1i8IG8-00087R-8S
+ (envelope-from <ysato@users.sourceforge.jp>) id 1i8IG8-00087s-Dk
  for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:07:12 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 9013768318;
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id BAD916832C;
  Thu, 12 Sep 2019 15:07:11 +0900 (JST)
 Received: from yo-satoh-debian.localdomain
  (ae227063.dynamic.ppp.asahi-net.or.jp [14.3.227.63])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 48996240085;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 7DD12240086;
  Thu, 12 Sep 2019 15:07:11 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 15:06:57 +0900
-Message-Id: <20190912060701.4642-19-ysato@users.sourceforge.jp>
+Date: Thu, 12 Sep 2019 15:06:58 +0900
+Message-Id: <20190912060701.4642-20-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190912060701.4642-1-ysato@users.sourceforge.jp>
 References: <20190912060701.4642-1-ysato@users.sourceforge.jp>
@@ -41,7 +41,8 @@ Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 202.224.55.15
-Subject: [Qemu-devel] [PATCH v24 18/22] hw/rx: Honor -accel qtest
+Subject: [Qemu-devel] [PATCH v24 19/22] hw/rx: Restrict the RX62N
+ microcontroller to the RX62N CPU core
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,65 +54,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, imammedo@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Issue an error if no kernel, no bios, and not qtest'ing.
-Fixes make check-qtest-rx: test/qom-test.
+While the VIRT machine can use different microcontrollers,
+the RX62N microcontroller is tied to the RX62N CPU core.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Message-Id: <20190607091116.49044-16-ysato@users.sourceforge.jp>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-We could squash this with the previous patch
----
- hw/rx/rx62n.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/rx/rx-virt.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-index ac47f2a397..a0986fd15e 100644
---- a/hw/rx/rx62n.c
-+++ b/hw/rx/rx62n.c
-@@ -21,12 +21,14 @@
+diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+index 4cfe2e3123..9676a5e7bf 100644
+--- a/hw/rx/rx-virt.c
++++ b/hw/rx/rx-virt.c
+@@ -17,6 +17,7 @@
+  */
 =20
  #include "qemu/osdep.h"
- #include "qapi/error.h"
 +#include "qemu/error-report.h"
- #include "hw/hw.h"
- #include "hw/rx/rx62n.h"
- #include "hw/loader.h"
- #include "hw/sysbus.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/qtest.h"
+ #include "qapi/error.h"
+ #include "qemu-common.h"
  #include "cpu.h"
+@@ -56,6 +57,7 @@ static void rx_load_image(RXCPU *cpu, const char *filen=
+ame,
 =20
- /*
-@@ -191,8 +193,14 @@ static void rx62n_realize(DeviceState *dev, Error **=
-errp)
-     memory_region_init_rom(&s->c_flash, NULL, "codeflash",
-                            RX62N_CFLASH_SIZE, errp);
-     memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flas=
-h);
+ static void rxvirt_init(MachineState *machine)
+ {
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     RX62NState *s =3D g_new(RX62NState, 1);
+     MemoryRegion *sysmem =3D get_system_memory();
+     MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
+@@ -64,6 +66,12 @@ static void rxvirt_init(MachineState *machine)
+     void *dtb =3D NULL;
+     int dtb_size;
+=20
++    if (strcmp(machine->cpu_type, mc->default_cpu_type) !=3D 0) {
++        error_report("This board can only be used with CPU %s",
++                     mc->default_cpu_type);
++        exit(1);
++    }
 +
-     if (!s->kernel) {
--        rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
-+        if (bios_name) {
-+            rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
-+        }  else if (!qtest_enabled()) {
-+            error_report("No bios or kernel specified");
-+            exit(1);
-+        }
-     }
-=20
-     /* Initialize CPU */
+     /* Allocate memory space */
+     memory_region_init_ram(sdram, NULL, "sdram", 16 * MiB,
+                            &error_fatal);
 --=20
 2.20.1
 
