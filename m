@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D751DB0EFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:42:20 +0200 (CEST)
-Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1658FB0F07
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:46:06 +0200 (CEST)
+Received: from localhost ([::1]:34108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8OQV-0000kv-Rp
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:42:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53952)
+	id 1i8OU8-0004W7-Th
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1i8OOc-0007pr-Gq
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:40:23 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i8OQg-0001jY-LU
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:42:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1i8OOa-00086f-W8
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:40:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53870)
+ (envelope-from <pbonzini@redhat.com>) id 1i8OQf-0000x2-FC
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:42:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48500)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1i8OOa-00085f-On
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:40:20 -0400
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69])
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i8OQf-0000wp-AC
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:42:29 -0400
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 218784DB1F
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:40:19 +0000 (UTC)
-Received: by mail-ot1-f69.google.com with SMTP id l15so14633793oti.11
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:40:19 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 81E65636C
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:42:28 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id b1so11938953wru.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:42:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gjxUtzra2JlIOBEhCn0OZTKEKHQc4DUJNhpitxHOjSo=;
- b=sY7lF3HMRYPTNJMHm5KJ5BxdJZyLWveluou+Xo83TkUCv1nog/622jRr0x1CnU9bwR
- gVpX0dKSYxNPpQlVFtDu3iR+fsajfo7x8hDQSWQHosHIJaUcpQigRAOuHj5DRFRbijem
- uoBLAXnCMJBvbFMV2a0CkKq/8PnlrqQcOIxTNU7NaPJ/tt7m/htqDEkaBNPVvAXw9hYh
- CNCjNwa5kkX9RlHvW01BwB1iR9inB3XQ9mqjUKZMB8oBoKzYVDFruUAcotvhggGT/rST
- NdHUOdgr14kfwNTLj9r7aKxSFpi0a6mzEHvNAddG5um4jjxz0L8oDMN/RwfSshRhEzUs
- AIjA==
-X-Gm-Message-State: APjAAAUNZzdocAMmpy8Na+nAFH1rMrIRAxKU5NkF/70axhPFOTKpW8cr
- fbR00gq3OsTEI/0tHjGFGRgU+pE3ITj9Kol/7COtZGsNrN1cfT+WbB/j1UWZDU30VkysiFSp/6C
- K+5dg/KrKU1t13mDjZ9Z5sfAwtOCbpo8=
-X-Received: by 2002:a9d:470a:: with SMTP id a10mr36758623otf.166.1568292018657; 
- Thu, 12 Sep 2019 05:40:18 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzUJ8qMhsxm/kX8VBMuPyJ86QB92FG+swm6ivR9cvu2gnh9DzccSDQwPpDMeWg2ojk3zH8/MEhaIDAtOD2IqLU=
-X-Received: by 2002:a9d:470a:: with SMTP id a10mr36758608otf.166.1568292018439; 
- Thu, 12 Sep 2019 05:40:18 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Er/2SjTbGiTyQTXDhOfSpSakj1+5Tjb2qAfNosvD4BU=;
+ b=LKrNhs0h6tr2cOf3ZaLT+n2EEsyJtTzqjDpMpzJI/nDQCSM1fsES9M9zL+FSdOFvWF
+ uZlLU6cy+0kCNkiIHrDK31pfynT01BEC9/6SW5ZrffNFYEpEbLWxjzzoar9CX/eH2o1G
+ LcEAbZZLW+fdgg+84pgGBLp50uWcfGRD0OaH0uBolSIjHDiwwKrq7yuK2NZ73su4hGu6
+ ALwfW7ltmSGjgXGzZ6TGYob4vMd9Jm3FciFJwbbNBAAdb774jkT29+sxrHJF6qNFORHV
+ 7A4v8G4MLfJ652r0B1IA1N4CoZxcJ311WwMe0bp/QVmUB5mFwAmVGnGFyaFah4MeIZbv
+ wIQg==
+X-Gm-Message-State: APjAAAXUaw/1wQxZfXc0e1c1ZklVbrjQs9eUJzPH+jh+31kkp8raWxcR
+ MO3eSw3Ioa753U2HpN9UbVfcB10anBlfBMMV5SGpXfA4wZsaKB6NdExU0c+FrXxklKQhdmTSg+A
+ rDx1fG45qS+TdyZ0=
+X-Received: by 2002:adf:fe07:: with SMTP id n7mr8642170wrr.90.1568292147139;
+ Thu, 12 Sep 2019 05:42:27 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyCS/yiyuydIXkWQuhcOEu932lLmpiSTxE+yMrSVR44Rbz0y2t3Oh2Y5go3u+NkuTbqJPUGLQ==
+X-Received: by 2002:adf:fe07:: with SMTP id n7mr8642152wrr.90.1568292146888;
+ Thu, 12 Sep 2019 05:42:26 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id q25sm7627498wmq.27.2019.09.12.05.42.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Sep 2019 05:42:26 -0700 (PDT)
+To: Wei Yang <richardw.yang@linux.intel.com>
+References: <20190321082555.21118-1-richardw.yang@linux.intel.com>
+ <20190321082555.21118-3-richardw.yang@linux.intel.com>
+ <d5fb9e01-acb9-06ab-edf9-57e2b80bd880@redhat.com>
+ <20190823010750.GA21179@richard> <20190912025150.GA25169@richard>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <c9f18d8e-b7cc-b9d1-1e10-ddbbb4cfd43a@redhat.com>
+Date: Thu, 12 Sep 2019 14:42:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190827095437.18819-1-stefanha@redhat.com>
- <20190827095437.18819-3-stefanha@redhat.com>
-In-Reply-To: <20190827095437.18819-3-stefanha@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 12 Sep 2019 16:40:07 +0400
-Message-ID: <CAMxuvay-=GokpG2xKUKM8X7oex4Bh5v9karOfeO==Whj9SdbuQ@mail.gmail.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190912025150.GA25169@richard>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/4] virtiofsd: add --print-capabilities
- option
+Subject: Re: [Qemu-devel] [PATCH 2/6] exec.c: remove an unnecessary assert
+ on PHYS_MAP_NODE_NIL in phys_map_node_alloc()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,121 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: rth@twiddle.net, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 12/09/19 04:51, Wei Yang wrote:
+> On Fri, Aug 23, 2019 at 09:07:50AM +0800, Wei Yang wrote:
+>> On Thu, Aug 22, 2019 at 12:24:32PM +0200, Paolo Bonzini wrote:
+>>> On 21/03/19 09:25, Wei Yang wrote:
+>>>> PHYS_MAP_NODE_NIL is assigned to PhysPageEntry.ptr in case this is not a
+>>>> leaf entry, while map->nodes_nb range in [0, nodes_nb_alloc).
+>>>>
+>>>> Seems we are asserting on two different things, just remove it.
+>>>
+>>> The assertion checks that this "if" is not entered incorrectly:
+>>>
+>>>    if (lp->skip && lp->ptr == PHYS_MAP_NODE_NIL) {
+>>>        lp->ptr = phys_map_node_alloc(map, level == 0);
+>>>    }
+>>>
+>>
+>> Hmm... I may not get your point.
+>>
+>> phys_map_node_alloc() will get an available PhysPageEntry and return its
+>> index, which will be assigned to its parent's ptr.
+>>
+>> The "if" checks on the parent's ptr, while the assertion asserts the index for
+>> the new child. I may miss something?
+>>
+> 
+> Hi, Paolo,
+> 
+> Do I miss something?
 
-On Tue, Aug 27, 2019 at 1:55 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
->
-> Add the --print-capabilities option as per vhost-user.rst "Backend
-> programs conventions".  Currently there are no advertised features.
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Sorry, I was on vacation.  phys_page_set_level can be called multiple
+times, with the same lp.  The assertion checks that only the first call
+will reach phys_map_node_alloc.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-> ---
->  docs/interop/vhost-user.json       |  4 +++-
->  contrib/virtiofsd/fuse_lowlevel.h  |  1 +
->  contrib/virtiofsd/helper.c         |  2 ++
->  contrib/virtiofsd/passthrough_ll.c | 12 ++++++++++++
->  4 files changed, 18 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/interop/vhost-user.json b/docs/interop/vhost-user.json
-> index da6aaf51c8..d4ea1f7ac5 100644
-> --- a/docs/interop/vhost-user.json
-> +++ b/docs/interop/vhost-user.json
-> @@ -31,6 +31,7 @@
->  # @rproc-serial: virtio remoteproc serial link
->  # @scsi: virtio scsi
->  # @vsock: virtio vsock transport
-> +# @fs: virtio fs (since 4.2)
->  #
->  # Since: 4.0
->  ##
-> @@ -50,7 +51,8 @@
->        'rpmsg',
->        'rproc-serial',
->        'scsi',
-> -      'vsock'
-> +      'vsock',
-> +      'fs'
->    ]
->  }
->
-> diff --git a/contrib/virtiofsd/fuse_lowlevel.h b/contrib/virtiofsd/fuse_l=
-owlevel.h
-> index b441d3dfed..e3d8747571 100644
-> --- a/contrib/virtiofsd/fuse_lowlevel.h
-> +++ b/contrib/virtiofsd/fuse_lowlevel.h
-> @@ -1796,6 +1796,7 @@ struct fuse_cmdline_opts {
->         int nodefault_subtype;
->         int show_version;
->         int show_help;
-> +       int print_capabilities;
->         int clone_fd;
->         int syslog;
->         int log_level;
-> diff --git a/contrib/virtiofsd/helper.c b/contrib/virtiofsd/helper.c
-> index 8d8bca889b..84bf1c834d 100644
-> --- a/contrib/virtiofsd/helper.c
-> +++ b/contrib/virtiofsd/helper.c
-> @@ -35,6 +35,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
->         FUSE_HELPER_OPT("--help",       show_help),
->         FUSE_HELPER_OPT("-V",           show_version),
->         FUSE_HELPER_OPT("--version",    show_version),
-> +       FUSE_HELPER_OPT("--print-capabilities", print_capabilities),
->         FUSE_HELPER_OPT("-d",           debug),
->         FUSE_HELPER_OPT("debug",        debug),
->         FUSE_HELPER_OPT("-d",           foreground),
-> @@ -137,6 +138,7 @@ void fuse_cmdline_help(void)
->  {
->         printf("    -h   --help                print help\n"
->                "    -V   --version             print version\n"
-> +              "    --print-capabilities       print vhost-user.json\n"
->                "    -d   -o debug              enable debug output (impli=
-es -f)\n"
->                "    --syslog                   log to syslog (default std=
-err)\n"
->                "    -f                         foreground operation\n"
-> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passt=
-hrough_ll.c
-> index 0ef01b7e3f..e2e20f22cd 100644
-> --- a/contrib/virtiofsd/passthrough_ll.c
-> +++ b/contrib/virtiofsd/passthrough_ll.c
-> @@ -2879,6 +2879,14 @@ static void fuse_lo_data_cleanup(struct lo_data *l=
-o)
->          free((char *)lo->source);
->  }
->
-> +/* Print vhost-user.json backend program capabilities */
-> +static void print_capabilities(void)
-> +{
-> +       printf("{\n");
-> +       printf("  \"type\": \"fs\"\n");
-> +       printf("}\n");
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->         struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
-> @@ -2931,6 +2939,10 @@ int main(int argc, char *argv[])
->                 fuse_lowlevel_version();
->                 ret =3D 0;
->                 goto err_out1;
-> +       } else if (opts.print_capabilities) {
-> +               print_capabilities();
-> +               ret =3D 0;
-> +               goto err_out1;
->         }
->
->         if (fuse_opt_parse(&args, &lo, lo_opts, NULL)=3D=3D -1)
-> --
-> 2.21.0
->
+Paolo
 
