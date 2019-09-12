@@ -2,56 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CA8B0B73
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:32:27 +0200 (CEST)
-Received: from localhost ([::1]:59794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADB7B0B87
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:36:43 +0200 (CEST)
+Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8LSi-00082N-Sp
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44347)
+	id 1i8LWs-0003Uo-3A
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1i8LO7-0004FU-16
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:27:40 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i8LPJ-0005rD-Mw
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:28:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1i8LO5-0004dO-MZ
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:27:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41388)
+ (envelope-from <kwolf@redhat.com>) id 1i8LPI-0005Je-QH
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:28:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40256)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1i8LO0-0004ZL-Py; Thu, 12 Sep 2019 05:27:32 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i8LPG-0005IT-FK; Thu, 12 Sep 2019 05:28:50 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9A9F430860BD;
- Thu, 12 Sep 2019 09:27:31 +0000 (UTC)
-Received: from [10.36.116.238] (ovpn-116-238.ams2.redhat.com [10.36.116.238])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5576F60C05;
- Thu, 12 Sep 2019 09:27:29 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190911155125.11932-1-eric.auger@redhat.com>
- <20190911155125.11932-4-eric.auger@redhat.com>
- <CAFEAcA-tZJ2C8=ZH5e7tXzigPu3SGjSJbnLybZTG+hZO-7ZV0A@mail.gmail.com>
- <1b849672-31a6-3d8d-b8ea-254e737e3b80@redhat.com>
- <CAFEAcA-xrPP6=dmaee7PZHOr_Fpw-KsCGY5QKHR94wL1uKWL6A@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <7eb28173-122f-454e-ccba-bd444d7b6376@redhat.com>
-Date: Thu, 12 Sep 2019 11:27:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mx1.redhat.com (Postfix) with ESMTPS id C69A3307D925;
+ Thu, 12 Sep 2019 09:28:49 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-179.ams2.redhat.com [10.36.116.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52F94600C4;
+ Thu, 12 Sep 2019 09:28:45 +0000 (UTC)
+Date: Thu, 12 Sep 2019 11:28:44 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Message-ID: <20190912092844.GE5383@linux.fritz.box>
+References: <20190911151626.6823-1-berto@igalia.com>
+ <b3bd3fa6-e700-b5d1-0339-8670cd79026e@redhat.com>
+ <w51mufa9dt4.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-xrPP6=dmaee7PZHOr_Fpw-KsCGY5QKHR94wL1uKWL6A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <w51mufa9dt4.fsf@maestria.local.igalia.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 12 Sep 2019 09:27:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Thu, 12 Sep 2019 09:28:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC v2 3/3] virt: Check
- KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 for smp_cpus > 256
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] qcow2: Stop overwriting
+ compressed clusters one by one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,40 +59,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, Marc Zyngier <maz@kernel.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-On 9/12/19 11:00 AM, Peter Maydell wrote:
-> On Thu, 12 Sep 2019 at 09:57, Auger Eric <eric.auger@redhat.com> wrote:
->>
->> Hi Peter,
->> On 9/12/19 10:42 AM, Peter Maydell wrote:
+Am 12.09.2019 um 09:25 hat Alberto Garcia geschrieben:
+> On Thu 12 Sep 2019 01:33:05 AM CEST, John Snow <jsnow@redhat.com> wrote:
+> >> This restriction comes from commit 095a9c58ce12afeeb90c2 from 2018.
+> >
+> > You accidentally typed a reasonably modern date. It's from *2008*!
 > 
->>> Is there really no place to put this check in common code?
-> 
->> Not sure what you mean by common code here? Do you mean in a common code
->> for ARM machines (I don't think we have any atm) or directly in
->> kvm_init(). I did not want to pollute this latter with this ARM specific
->> fix.
-> 
-> I'd just rather we didn't have to have the same "if ..." check
-> in every arm board that supports KVM.
-> 
-> If kvm_init() happens at a point where we have enough info to
-> make the check, then you can put the check in kvm_arch_init(),
-> which is the architecture-specific hook that kvm_init() calls.
-OK Thank you for the hint. It should be OK.
+> Oh my, and I reviewed the message 3 times ... if this one gets committed
+> please correct the date.
 
-Thanks!
+It was actually one of the very first QEMU patches I reviewed. :-)
 
-Eric
+Thanks, fixed the year and applied to the block branch.
 
-> 
-> thanks
-> -- PMM
-> 
+Kevin
 
