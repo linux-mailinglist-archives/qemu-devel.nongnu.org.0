@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A35B165B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 00:37:15 +0200 (CEST)
-Received: from localhost ([::1]:39236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AD7B1660
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 00:39:46 +0200 (CEST)
+Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8XiE-0005AC-Qq
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 18:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41835)
+	id 1i8Xkf-0008Hk-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 18:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i8XcE-0007pQ-EM
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:03 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8XcJ-0007w8-7l
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i8XcD-0005nf-48
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56676)
+ (envelope-from <mlevitsk@redhat.com>) id 1i8XcH-0005rm-S6
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 18:31:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60420)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i8XcA-0005lz-7Z; Thu, 12 Sep 2019 18:30:58 -0400
+ id 1i8XcF-0005pm-6C; Thu, 12 Sep 2019 18:31:03 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 907C918C4277;
- Thu, 12 Sep 2019 22:30:57 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 855B9308402D;
+ Thu, 12 Sep 2019 22:31:02 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D49B35C1B2;
- Thu, 12 Sep 2019 22:30:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE76A5C1B2;
+ Thu, 12 Sep 2019 22:30:57 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 13 Sep 2019 01:30:22 +0300
-Message-Id: <20190912223028.18496-6-mlevitsk@redhat.com>
+Date: Fri, 13 Sep 2019 01:30:23 +0300
+Message-Id: <20190912223028.18496-7-mlevitsk@redhat.com>
 In-Reply-To: <20190912223028.18496-1-mlevitsk@redhat.com>
 References: <20190912223028.18496-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Thu, 12 Sep 2019 22:30:57 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Thu, 12 Sep 2019 22:31:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 05/11] block/crypto: implement the
- encryption key management
+Subject: [Qemu-devel] [PATCH v2 06/11] qcow2: implement crypto amend options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,197 +60,144 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements the encryption key management
-using the generic code in qcrypto layer
-(currently only for qemu-img amend)
-
-This code adds another 'write_func' because the initialization
-write_func works directly on the underlying file,
-because during the creation, there is no open instance
-of the luks driver, but during regular use, we have it,
-and should use it instead.
-
-
-This commit also adds a	'hack/workaround' I and	Kevin Wolf (thanks)
-made to	make the driver	still support write sharing,
-but be safe against concurrent  metadata update (the keys)
-Eventually write sharing for luks driver will be deprecated
-and removed together with this hack.
-
-The hack is that we ask	(as a format driver) for
-BLK_PERM_CONSISTENT_READ always
-(technically always unless opened with BDRV_O_NO_IO)
-
-and then when we want to update	the keys, we
-unshare	that permission. So if someone else
-has the	image open, even readonly, this	will fail.
-
-Also thanks to Daniel Berrange for the variant of
-that hack that involves	asking for read,
-rather that write permission
-
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/crypto.c | 118 +++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 115 insertions(+), 3 deletions(-)
+ block/qcow2.c | 77 +++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 62 insertions(+), 15 deletions(-)
 
-diff --git a/block/crypto.c b/block/crypto.c
-index a6a3e1f1d8..f42fa057e6 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -36,6 +36,7 @@ typedef struct BlockCrypto BlockCrypto;
- 
- struct BlockCrypto {
-     QCryptoBlock *block;
-+    bool updating_keys;
- };
- 
- 
-@@ -70,6 +71,24 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0618a63793..26f83aeb44 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -172,6 +172,25 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
      return ret;
  }
  
-+static ssize_t block_crypto_write_func(QCryptoBlock *block,
-+                                       size_t offset,
-+                                       const uint8_t *buf,
-+                                       size_t buflen,
-+                                       void *opaque,
-+                                       Error **errp)
++static QCryptoBlockCreateOptions*
++qcow2_extract_crypto_create_opts(QemuOpts *opts, const char *fmt, Error **errp)
 +{
-+    BlockDriverState *bs = opaque;
-+    ssize_t ret;
++    QDict *cryptoopts_qdict;
++    QCryptoBlockCreateOptions *cryptoopts;
++    QDict *opts_qdict;
 +
-+    ret = bdrv_pwrite(bs->file, offset, buf, buflen);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "Could not write encryption header");
-+        return ret;
-+    }
-+    return ret;
++    /* Extract "encrypt." options into a qdict */
++    opts_qdict = qemu_opts_to_qdict(opts, NULL);
++    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
++    qobject_unref(opts_qdict);
++
++    /* Build QCryptoBlockCreateOptions object from qdict */
++    qdict_put_str(cryptoopts_qdict, "format", "luks");
++    cryptoopts = block_crypto_create_opts_init(cryptoopts_qdict, errp);
++    qobject_unref(cryptoopts_qdict);
++    return cryptoopts;
 +}
 +
  
- struct BlockCryptoCreateData {
-     BlockBackend *blk;
-@@ -647,6 +666,100 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
-     return spec_info;
- }
+ /* 
+  * read qcow2 extension and fill bs
+@@ -4365,20 +4384,10 @@ static ssize_t qcow2_measure_crypto_hdr_write_func(QCryptoBlock *block,
+ static bool qcow2_measure_luks_headerlen(QemuOpts *opts, size_t *len,
+                                          Error **errp)
+ {
+-    QDict *opts_qdict;
+-    QDict *cryptoopts_qdict;
+     QCryptoBlockCreateOptions *cryptoopts;
+     QCryptoBlock *crypto;
  
-+
-+static int
-+block_crypto_amend_options(BlockDriverState *bs,
-+                           QemuOpts *opts,
-+                           BlockDriverAmendStatusCB *status_cb,
-+                           void *cb_opaque,
-+                           bool force,
-+                           Error **errp)
-+{
-+    BlockCrypto *crypto = bs->opaque;
-+    QDict *cryptoopts = NULL;
-+    QCryptoBlockCreateOptions *amend_options = NULL;
-+    int ret;
-+
-+    assert(crypto);
-+    assert(crypto->block);
-+
-+    crypto->updating_keys = true;
-+
-+    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
-+    if (ret < 0) {
-+        goto cleanup;
-+    }
-+
-+    cryptoopts = qemu_opts_to_qdict_filtered(opts, NULL,
-+                                             &block_crypto_create_opts_luks,
-+                                             true);
-+
-+    qdict_put_str(cryptoopts, "format", "luks");
-+    amend_options = block_crypto_create_opts_init(cryptoopts, errp);
-+    if (!amend_options) {
-+        ret = -EINVAL;
-+        goto cleanup;
-+    }
-+
-+    ret = qcrypto_block_amend_options(crypto->block,
-+                                      block_crypto_read_func,
-+                                      block_crypto_write_func,
-+                                      bs,
-+                                      amend_options,
-+                                      force,
-+                                      errp);
-+cleanup:
-+    crypto->updating_keys = false;
-+    bdrv_child_refresh_perms(bs, bs->file, errp);
-+    qapi_free_QCryptoBlockCreateOptions(amend_options);
-+    qobject_unref(cryptoopts);
-+    return ret;
-+}
-+
-+
-+static void
-+block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
-+                         const BdrvChildRole *role,
-+                         BlockReopenQueue *reopen_queue,
-+                         uint64_t perm, uint64_t shared,
-+                         uint64_t *nperm, uint64_t *nshared)
-+{
-+
-+    BlockCrypto *crypto = bs->opaque;
-+
-+    /*
-+     * Ask for consistent read permission so that if
-+     * someone else tries to open this image with this permission
-+     * neither will be able to edit encryption keys
-+     */
-+    if (!(bs->open_flags & BDRV_O_NO_IO)) {
-+        perm |= BLK_PERM_CONSISTENT_READ;
-+    }
-+
-+    /*
-+     * This driver doesn't modify LUKS metadata except
-+     * when updating the encryption slots.
-+     * Thus unlike a proper format driver we don't ask for
-+     * shared write permission. However we need it
-+     * when we area updating keys, to ensure that only we
-+     * had opened the device r/w
-+     *
-+     * Encryption update will set the crypto->updating_keys
-+     * during that period and refresh permissions
-+     *
-+     */
-+
-+    if (crypto->updating_keys) {
-+        /*need exclusive write access for header update  */
-+        perm |= BLK_PERM_WRITE;
-+        shared &= ~(BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE);
-+    }
-+
-+    bdrv_filter_default_perms(bs, c, role, reopen_queue,
-+            perm, shared, nperm, nshared);
-+}
-+
-+
- static const char *const block_crypto_strong_runtime_opts[] = {
-     BLOCK_CRYPTO_OPT_LUKS_KEY_SECRET,
+-    /* Extract "encrypt." options into a qdict */
+-    opts_qdict = qemu_opts_to_qdict(opts, NULL);
+-    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
+-    qobject_unref(opts_qdict);
+-
+-    /* Build QCryptoBlockCreateOptions object from qdict */
+-    qdict_put_str(cryptoopts_qdict, "format", "luks");
+-    cryptoopts = block_crypto_create_opts_init(cryptoopts_qdict, errp);
+-    qobject_unref(cryptoopts_qdict);
++    cryptoopts = qcow2_extract_crypto_create_opts(opts, "luks", errp);
+     if (!cryptoopts) {
+         return false;
+     }
+@@ -4755,6 +4764,7 @@ typedef enum Qcow2AmendOperation {
+      * invocation from an operation change */
+     QCOW2_NO_OPERATION = 0,
  
-@@ -659,9 +772,7 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_probe         = block_crypto_probe_luks,
-     .bdrv_open          = block_crypto_open_luks,
-     .bdrv_close         = block_crypto_close,
--    /* This driver doesn't modify LUKS metadata except when creating image.
--     * Allow share-rw=on as a special case. */
--    .bdrv_child_perm    = bdrv_filter_default_perms,
-+    .bdrv_child_perm    = block_crypto_child_perms,
-     .bdrv_co_create     = block_crypto_co_create_luks,
-     .bdrv_co_create_opts = block_crypto_co_create_opts_luks,
-     .bdrv_co_truncate   = block_crypto_co_truncate,
-@@ -674,6 +785,7 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_getlength     = block_crypto_getlength,
-     .bdrv_get_info      = block_crypto_get_info_luks,
-     .bdrv_get_specific_info = block_crypto_get_specific_info_luks,
-+    .bdrv_amend_options = block_crypto_amend_options,
++    QCOW2_UPDATING_ENCRYPTION,
+     QCOW2_CHANGING_REFCOUNT_ORDER,
+     QCOW2_DOWNGRADING,
+ } Qcow2AmendOperation;
+@@ -4839,6 +4849,7 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+     int ret;
+     QemuOptDesc *desc = opts->list->desc;
+     Qcow2AmendHelperCBInfo helper_cb_info;
++    bool encryption_update = false;
  
-     .strong_runtime_opts = block_crypto_strong_runtime_opts,
- };
+     while (desc && desc->name) {
+         if (!qemu_opt_find(opts, desc->name)) {
+@@ -4887,9 +4898,22 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+                 return -ENOTSUP;
+             }
+         } else if (g_str_has_prefix(desc->name, "encrypt.")) {
+-            error_setg(errp,
+-                       "Changing the encryption parameters is not supported");
+-            return -ENOTSUP;
++
++            if (!s->crypto) {
++                error_setg(errp,
++                           "Can't amend encryption options - encryption not present");
++                return -EINVAL;
++
++            }
++
++            if (s->crypt_method_header != QCOW_CRYPT_LUKS) {
++                error_setg(errp,
++                           "Only LUKS encryption options can be amended");
++                return -ENOTSUP;
++            }
++
++            encryption_update = true;
++
+         } else if (!strcmp(desc->name, BLOCK_OPT_CLUSTER_SIZE)) {
+             cluster_size = qemu_opt_get_size(opts, BLOCK_OPT_CLUSTER_SIZE,
+                                              cluster_size);
+@@ -4939,7 +4963,8 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+         .original_status_cb = status_cb,
+         .original_cb_opaque = cb_opaque,
+         .total_operations = (new_version < old_version)
+-                          + (s->refcount_bits != refcount_bits)
++                          + (s->refcount_bits != refcount_bits) +
++                          (encryption_update == true)
+     };
+ 
+     /* Upgrade first (some features may require compat=1.1) */
+@@ -4953,6 +4978,28 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+         }
+     }
+ 
++    if (encryption_update) {
++        QCryptoBlockCreateOptions *cryptoopts;
++
++        cryptoopts = qcow2_extract_crypto_create_opts(opts, "luks", errp);
++        if (!cryptoopts) {
++            return -EINVAL;
++        }
++
++        helper_cb_info.current_operation = QCOW2_UPDATING_ENCRYPTION;
++
++        ret = qcrypto_block_amend_options(s->crypto,
++                                          qcow2_crypto_hdr_read_func,
++                                          qcow2_crypto_hdr_write_func,
++                                          bs,
++                                          cryptoopts,
++                                          force,
++                                          errp);
++        if (ret < 0) {
++            return ret;
++        }
++    }
++
+     if (s->refcount_bits != refcount_bits) {
+         int refcount_order = ctz32(refcount_bits);
+ 
 -- 
 2.17.2
 
