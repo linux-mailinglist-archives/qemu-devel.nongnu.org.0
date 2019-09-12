@@ -2,50 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DA6B1127
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:30:48 +0200 (CEST)
-Received: from localhost ([::1]:35198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE04B1135
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:33:52 +0200 (CEST)
+Received: from localhost ([::1]:35244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Q7T-0001io-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40657)
+	id 1i8QAQ-00042a-MN
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8PUy-0007Ky-HI
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:51:01 -0400
+ (envelope-from <groug@kaod.org>) id 1i8PbQ-0007S1-UG
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8PUx-0003Hq-CG
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:51:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60981)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8PUx-0003HN-4f
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:59 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 72DAC190C006;
- Thu, 12 Sep 2019 13:50:58 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21E445D704;
- Thu, 12 Sep 2019 13:50:56 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, ivanren@tencent.com, peterx@redhat.com,
- richardw.yang@linux.intel.com, yury-kotov@yandex-team.ru,
- quintela@redhat.com
-Date: Thu, 12 Sep 2019 14:50:05 +0100
-Message-Id: <20190912135006.14820-12-dgilbert@redhat.com>
-In-Reply-To: <20190912135006.14820-1-dgilbert@redhat.com>
-References: <20190912135006.14820-1-dgilbert@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1i8PbP-0006k9-AZ
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22560
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i8PbP-0006iu-5e
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:57:39 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8CDvXxp010572
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 09:57:37 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2uyptmhaxe-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 09:57:36 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Thu, 12 Sep 2019 14:57:30 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 12 Sep 2019 14:57:28 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8CDvRpm57737216
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Sep 2019 13:57:27 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 42DC942041;
+ Thu, 12 Sep 2019 13:57:27 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 107C442045;
+ Thu, 12 Sep 2019 13:57:27 +0000 (GMT)
+Received: from bahia.tls.ibm.com (unknown [9.101.4.41])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Sep 2019 13:57:26 +0000 (GMT)
+From: Greg Kurz <groug@kaod.org>
+To: Laurent Vivier <lvivier@redhat.com>
+Date: Thu, 12 Sep 2019 15:57:26 +0200
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Thu, 12 Sep 2019 13:50:58 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/12] migration/qemu-file: fix potential buf
- waste for extra buf_index adjustment
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19091213-4275-0000-0000-00000364E467
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19091213-4276-0000-0000-000038773F85
+Message-Id: <156829664683.2070256.13400788010568373502.stgit@bahia.tls.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-12_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=779 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1909120148
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [PATCH] kvm: Fix typo in header of kvm_device_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,116 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
-
-In add_to_iovec(), qemu_fflush() will be called if iovec is full. If
-this happens, buf_index is reset. Currently, this is not checked and
-buf_index would always been adjust with buf size.
-
-This is not harmful, but will waste some space in file buffer.
-
-This patch make add_to_iovec() return 1 when it has flushed the file.
-Then the caller could check the return value to see whether it is
-necessary to adjust the buf_index any more.
-
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-Message-Id: <20190911132839.23336-3-richard.weiyang@gmail.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- migration/qemu-file.c | 43 ++++++++++++++++++++++++++-----------------
- 1 file changed, 26 insertions(+), 17 deletions(-)
+ include/sysemu/kvm.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 66627088d4..26fb25ddc1 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -381,8 +381,16 @@ int qemu_fclose(QEMUFile *f)
-     return ret;
- }
-=20
--static void add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
--                         bool may_free)
-+/*
-+ * Add buf to iovec. Do flush if iovec is full.
-+ *
-+ * Return values:
-+ * 1 iovec is full and flushed
-+ * 0 iovec is not flushed
-+ *
-+ */
-+static int add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
-+                        bool may_free)
- {
-     /* check for adjacent buffer and coalesce them */
-     if (f->iovcnt > 0 && buf =3D=3D f->iov[f->iovcnt - 1].iov_base +
-@@ -400,6 +408,19 @@ static void add_to_iovec(QEMUFile *f, const uint8_t =
-*buf, size_t size,
-=20
-     if (f->iovcnt >=3D MAX_IOV_SIZE) {
-         qemu_fflush(f);
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-+
-+static void add_buf_to_iovec(QEMUFile *f, size_t len)
-+{
-+    if (!add_to_iovec(f, f->buf + f->buf_index, len, false)) {
-+        f->buf_index +=3D len;
-+        if (f->buf_index =3D=3D IO_BUF_SIZE) {
-+            qemu_fflush(f);
-+        }
-     }
- }
-=20
-@@ -429,11 +450,7 @@ void qemu_put_buffer(QEMUFile *f, const uint8_t *buf=
-, size_t size)
-         }
-         memcpy(f->buf + f->buf_index, buf, l);
-         f->bytes_xfer +=3D l;
--        add_to_iovec(f, f->buf + f->buf_index, l, false);
--        f->buf_index +=3D l;
--        if (f->buf_index =3D=3D IO_BUF_SIZE) {
--            qemu_fflush(f);
--        }
-+        add_buf_to_iovec(f, l);
-         if (qemu_file_get_error(f)) {
-             break;
-         }
-@@ -450,11 +467,7 @@ void qemu_put_byte(QEMUFile *f, int v)
-=20
-     f->buf[f->buf_index] =3D v;
-     f->bytes_xfer++;
--    add_to_iovec(f, f->buf + f->buf_index, 1, false);
--    f->buf_index++;
--    if (f->buf_index =3D=3D IO_BUF_SIZE) {
--        qemu_fflush(f);
--    }
-+    add_buf_to_iovec(f, 1);
- }
-=20
- void qemu_file_skip(QEMUFile *f, int size)
-@@ -760,11 +773,7 @@ ssize_t qemu_put_compression_data(QEMUFile *f, z_str=
-eam *stream,
-     }
-=20
-     qemu_put_be32(f, blen);
--    add_to_iovec(f, f->buf + f->buf_index, blen, false);
--    f->buf_index +=3D blen;
--    if (f->buf_index =3D=3D IO_BUF_SIZE) {
--        qemu_fflush(f);
--    }
-+    add_buf_to_iovec(f, blen);
-     return blen + sizeof(int32_t);
- }
-=20
---=20
-2.21.0
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 909bcd77cf82..fd674772ab31 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -308,7 +308,7 @@ int kvm_vm_check_attr(KVMState *s, uint32_t group, uint64_t attr);
+ int kvm_device_check_attr(int fd, uint32_t group, uint64_t attr);
+ 
+ /**
+- * kvm_device_access - set or get value of a specific vm attribute
++ * kvm_device_access - set or get value of a specific device attribute
+  * @fd: The device file descriptor
+  * @group: the group
+  * @attr: the attribute of that group to set or get
 
 
