@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA6FB090F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 08:57:45 +0200 (CEST)
-Received: from localhost ([::1]:58714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EE5B097A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 09:28:06 +0200 (CEST)
+Received: from localhost ([::1]:58838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8J32-00054h-JD
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 02:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47225)
+	id 1i8JWP-0006Vx-4x
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 03:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@aj.id.au>) id 1i8J1l-000448-D6
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:56:26 -0400
+ (envelope-from <no-reply@patchew.org>) id 1i8JTl-0004Yq-5o
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew@aj.id.au>) id 1i8J1j-00053O-S4
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:56:25 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:56387)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrew@aj.id.au>)
- id 1i8J1g-00050f-0L; Thu, 12 Sep 2019 02:56:20 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DCBB722503;
- Thu, 12 Sep 2019 02:56:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 12 Sep 2019 02:56:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm3; bh=Zz4wdxa1IyEFTr3gCC31Xp9Ygb
- M4DnB0s2+ypeZ1K/8=; b=MNlsoIKasJmLeBsRY3dK8IfZ24j+IESCvYu1bUU81t
- 8pPlOnQuBTIAiCkcbqM14Lsgjj5jqIbdUscrdtax5KFaGpSwqmxMqBnZObVJU9hI
- uT45fWEpabTzuUAfa/as3wVvzfNWJ8o1HqlUZ0I+71A6o17Q66eHsZrV4hMpVPrH
- hICE5S7cpS/bGPIt25e4awOdeF0QLSOsq/TZkjk4E5Rm3ypg22E4W6cNto/zJ3L2
- Z8jzRVrJCOsjyZzHdbwHwj7imqS323pS3B2gxY0iThVwwQXumuNy9iNtBAPg3evi
- FZ5BOqte8MuOBh3HkZlvrLMwV9hHI/DVLaNZp6O67qCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Zz4wdxa1IyEFTr3gC
- C31Xp9YgbM4DnB0s2+ypeZ1K/8=; b=vcB3C3BkH+2IU5oR1F6gCyogPlTXR5dYM
- TxkOIygPp8RLYYYiIW0Cov/kgF6oVvtEvsGpghMe0PJcnFU7FYRGBy8e3HecjueQ
- w/sVoP6vuifp0OTNvzIqMbJyt3OEdF4MKZP7ovcMtCV3RcOP9kMZNxnSZYKTbu2E
- 0Di4g2c0NSGw5mLDuF9twI4eFjablPD3KNGa8O+ZGsbgkPeXy82bpyP5r/5OraIh
- oCJInm4TxZjSBu88J8NAmdBSF9qGQZ1jqy9OQ+OY4gCInIWuynKaHAP5Zwjs2grh
- chp6rFOaxkTBbc0diZegypcFN8xOU6AKx+1bXBRlxT8cOWpmst/eQ==
-X-ME-Sender: <xms:Eux5XTWghfWyuu-zmHoIu3bzwKCxhgo_izYvz-zQztm_ZFwl0H41QQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdeggdduudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
- dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
- ihgurdgruheqnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkphepvddtvddrke
- durddukedrfedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhi
- ugdrrghunecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:Eux5XdPbeVSdSWliwDLnnxuOsfAO0rV6uURtHJHhfRQW_rZIry-sFA>
- <xmx:Eux5XTcQqHpTu4oXs6zGkOz0immBmm-MH_bB4bnTDnOleJNWc5Ws2w>
- <xmx:Eux5XUz45aLPwnaZM9gHScek5yBku9cImHuZdprxV6PS4LTHhfPUjA>
- <xmx:Eux5XTp85tFNc2Ubq5oZCZoQ7PcRQ0MAFkoyvTP-rgj2hsCxQON71w>
-Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
- by mail.messagingengine.com (Postfix) with ESMTPA id 22B9DD60069;
- Thu, 12 Sep 2019 02:56:15 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: qemu-arm@nongnu.org
-Date: Thu, 12 Sep 2019 16:26:31 +0930
-Message-Id: <20190912065631.12473-1-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <no-reply@patchew.org>) id 1i8JTj-0005kZ-3g
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:20 -0400
+Resent-Date: Thu, 12 Sep 2019 03:25:20 -0400
+Resent-Message-Id: <E1i8JTj-0005kZ-3g@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21541)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1i8JTi-0005jy-S0
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1568270381; cv=none; d=zoho.com; s=zohoarc; 
+ b=j+NeiH0pXSeQlKmS66nxE+6ZiCX0eNsyjyCHgtSpOUghWOiO3A3VNyshndhMC5XaCSbfj0U31FUb/9y4uyHN55ETlUxT68MThhlACeBv7/ErAjDey1hsdl1aXqTB7mrUSc6eQq6h6KVidCfXLr4ccqFwPkcyulMqyh05QRRD1ew=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1568270381;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=65Dqb9nD/O1lw8QyOzZNI9A6vcVQ2oCfZqF9XdOR0vw=; 
+ b=Nnyua9ReTf4tBx9OrKQfUeDAPqld1W78650ex7czfmwjC7laDw/0BApYhJrbcCl5HLQvWZZMvFsnAJTWHpDhl3MvF67AEBSdZ1QqR3/6xPL+Wvhdwry/TutqF4mCRrWMp2LpTVPKSkgpXLugsbpeRjkaVg0nxHZjDo9MFSNx90g=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1568270379269430.0312004861628;
+ Wed, 11 Sep 2019 23:39:39 -0700 (PDT)
+In-Reply-To: <20190912060701.4642-1-ysato@users.sourceforge.jp>
+Message-ID: <156827037800.21839.7329409440899723100@5dec9699b7de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ysato@users.sourceforge.jp
+Date: Wed, 11 Sep 2019 23:39:39 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 66.111.4.26
-Subject: [Qemu-devel] [PATCH v5] target-arm: Make the counter tick relative
- to cntfrq
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v24 00/22] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,200 +61,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, peter.maydell@linaro.org, clg@kaod.org,
- qemu-devel@nongnu.org, joel@jms.id.au
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow machines to configure CNTFRQ via a property if the ARM core
-supports the generic timer. This is necessary on e.g. the ASPEED AST2600
-SoC where the generic timer clock is run at 800MHz or above. The default
-value for CNTFRQ remains at 62.50MHz (based on GTIMER_SCALE).
-
-CNTFRQ is a read-as-written co-processor register; the property sets the
-register's initial value which is used during realize() to configure the
-QEMUTimers that back the generic timers. Beyond that the firmware can to
-do whatever it sees fit with the CNTFRQ register though changes to the
-value will not be reflected in the timers' rate.
-
-I've tested this using an out-of-tree AST2600 SoC model (Cortex-A7) with
-the SDK u-boot that sets CNTFRQ as appropriate, and by starting/running
-machines with assorted ARM CPUs (palmetto-bmc with the ARM926EJ-S,
-romulus-bmc with the ARM1176 and raspi2 with the Cortex-A53).
-
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
-v5: Remove unrelated submodule updates that snuck into v4
-
-v4: https://patchwork.ozlabs.org/patch/1161340/
-Fix configuration for cores without a generic timer
-
-v3: https://patchwork.ozlabs.org/patch/1160634/
-Peter - I think this addresses most of your feedback. I still reach into
-the QEMUTimer to fetch out scale when adjusting the nexttick
-calculation, but we no longer need to update the scale member and force
-a recalculation of the period.
-
-v2: https://patchwork.ozlabs.org/patch/1144389/
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- target/arm/cpu.c    | 43 +++++++++++++++++++++++++++++++++++--------
- target/arm/cpu.h    |  3 +++
- target/arm/helper.c | 30 ++++++++++++++++++++++++++----
- 3 files changed, 64 insertions(+), 12 deletions(-)
-
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2399c144718d..8b63a27761bb 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -40,6 +40,8 @@
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
- 
-+#include <inttypes.h>
-+
- static void arm_cpu_set_pc(CPUState *cs, vaddr value)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -976,6 +978,10 @@ static void arm_cpu_initfn(Object *obj)
-     }
- }
- 
-+static Property arm_cpu_gt_cntfrq_property =
-+            DEFINE_PROP_UINT64("cntfrq", ARMCPU, gt_cntfrq,
-+                               (1000 * 1000 * 1000) / GTIMER_SCALE);
-+
- static Property arm_cpu_reset_cbar_property =
-             DEFINE_PROP_UINT64("reset-cbar", ARMCPU, reset_cbar, 0);
- 
-@@ -1172,6 +1178,11 @@ void arm_cpu_post_init(Object *obj)
- 
-     qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property,
-                              &error_abort);
-+
-+    if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
-+        qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property,
-+                                 &error_abort);
-+    }
- }
- 
- static void arm_cpu_finalizefn(Object *obj)
-@@ -1238,14 +1249,30 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    cpu->gt_timer[GTIMER_PHYS] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
--                                           arm_gt_ptimer_cb, cpu);
--    cpu->gt_timer[GTIMER_VIRT] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
--                                           arm_gt_vtimer_cb, cpu);
--    cpu->gt_timer[GTIMER_HYP] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
--                                          arm_gt_htimer_cb, cpu);
--    cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
--                                          arm_gt_stimer_cb, cpu);
-+
-+    {
-+        uint64_t scale;
-+
-+        if (arm_feature(env, ARM_FEATURE_GENERIC_TIMER)) {
-+            if (!cpu->gt_cntfrq) {
-+                error_setg(errp, "Invalid CNTFRQ: %"PRId64"Hz",
-+                           cpu->gt_cntfrq);
-+                return;
-+            }
-+            scale = MAX(1, NANOSECONDS_PER_SECOND / cpu->gt_cntfrq);
-+        } else {
-+            scale = GTIMER_SCALE;
-+        }
-+
-+        cpu->gt_timer[GTIMER_PHYS] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-+                                               arm_gt_ptimer_cb, cpu);
-+        cpu->gt_timer[GTIMER_VIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-+                                               arm_gt_vtimer_cb, cpu);
-+        cpu->gt_timer[GTIMER_HYP] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-+                                              arm_gt_htimer_cb, cpu);
-+        cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-+                                              arm_gt_stimer_cb, cpu);
-+    }
- #endif
- 
-     cpu_exec_realizefn(cs, &local_err);
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 297ad5e47ad8..8bd576f834ba 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -915,6 +915,9 @@ struct ARMCPU {
- 
-     /* Used to set the maximum vector length the cpu will support.  */
-     uint32_t sve_max_vq;
-+
-+    /* Used to configure the generic timer input clock */
-+    uint64_t gt_cntfrq;
- };
- 
- void arm_cpu_post_init(Object *obj);
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 507026c9154b..09975704d47f 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -2409,7 +2409,21 @@ static CPAccessResult gt_stimer_access(CPUARMState *env,
- 
- static uint64_t gt_get_countervalue(CPUARMState *env)
- {
--    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / GTIMER_SCALE;
-+    uint64_t effective;
-+
-+    /*
-+     * Deal with quantized clock scaling by calculating the effective frequency
-+     * in terms of the timer scale.
-+     */
-+    if (env->cp15.c14_cntfrq <= NANOSECONDS_PER_SECOND) {
-+        uint32_t scale = NANOSECONDS_PER_SECOND / env->cp15.c14_cntfrq;
-+        effective = NANOSECONDS_PER_SECOND / scale;
-+    } else {
-+        effective = NANOSECONDS_PER_SECOND;
-+    }
-+
-+    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), effective,
-+                    NANOSECONDS_PER_SECOND);
- }
- 
- static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
-@@ -2445,8 +2459,8 @@ static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
-          * set the timer for as far in the future as possible. When the
-          * timer expires we will reset the timer for any remaining period.
-          */
--        if (nexttick > INT64_MAX / GTIMER_SCALE) {
--            nexttick = INT64_MAX / GTIMER_SCALE;
-+        if (nexttick > INT64_MAX / cpu->gt_timer[timeridx]->scale) {
-+            nexttick = INT64_MAX / cpu->gt_timer[timeridx]->scale;
-         }
-         timer_mod(cpu->gt_timer[timeridx], nexttick);
-         trace_arm_gt_recalc(timeridx, irqstate, nexttick);
-@@ -2680,6 +2694,14 @@ void arm_gt_stimer_cb(void *opaque)
-     gt_recalc_timer(cpu, GTIMER_SEC);
- }
- 
-+static void arm_gt_cntfrq_reset(CPUARMState *env, const ARMCPRegInfo *opaque)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+
-+    cpu->env.cp15.c14_cntfrq =
-+        cpu->gt_cntfrq ?: (1000 * 1000 * 1000) / GTIMER_SCALE;
-+}
-+
- static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-     /* Note that CNTFRQ is purely reads-as-written for the benefit
-      * of software; writing it doesn't actually change the timer frequency.
-@@ -2694,7 +2716,7 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .opc0 = 3, .opc1 = 3, .crn = 14, .crm = 0, .opc2 = 0,
-       .access = PL1_RW | PL0_R, .accessfn = gt_cntfrq_access,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_cntfrq),
--      .resetvalue = (1000 * 1000 * 1000) / GTIMER_SCALE,
-+      .resetfn = arm_gt_cntfrq_reset,
-     },
-     /* overall control: mostly access permissions */
-     { .name = "CNTKCTL", .state = ARM_CP_STATE_BOTH,
--- 
-2.20.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMjA2MDcwMS40NjQy
+LTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
+dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
+bW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggdjI0IDAwLzIy
+XSBBZGQgUlggYXJjaHRlY3R1cmUgc3VwcG9ydApNZXNzYWdlLWlkOiAyMDE5MDkxMjA2MDcwMS40
+NjQyLTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBT
+Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVs
+bCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxn
+b3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2Uu
+Lgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
+dy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDE5MDkxMjA2MDcw
+MS40NjQyLTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAgLT4gcGF0Y2hldy8yMDE5MDkxMjA2
+MDcwMS40NjQyLTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAKU3dpdGNoZWQgdG8gYSBuZXcg
+YnJhbmNoICd0ZXN0JwpjNzIxMWVjIHFhcGkvbWFjaGluZS5qc29uOiBBZGQgUlggY3B1LgowYTYw
+YmMxIEJvb3RMaW51eENvbnNvbGVUZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUKMjFjY2Qy
+YiBBZGQgcngtc29mdG1tdQo1M2I1YTNlIGh3L3J4OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9j
+b250cm9sbGVyIHRvIHRoZSBSWDYyTiBDUFUgY29yZQoxMDBlMzA3IGh3L3J4OiBIb25vciAtYWNj
+ZWwgcXRlc3QKNDczNzI2OCBody9yeDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24KNmQx
+ZDNmMiBody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkK
+OTZhYTJiZiBody90aW1lcjogUlg2Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcwo1NGNlZDNlIGh3
+L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKQozMjAwYTI4IHRhcmdldC9y
+eDogRHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseQphMjU0YTgyIHRh
+cmdldC9yeDogQ29sbGVjdCBhbGwgYnl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5CjVmNzY3NWUgdGFy
+Z2V0L3J4OiBFbWl0IGFsbCBkaXNhc3NlbWJseSBpbiBvbmUgcHJ0KCkKMDRiMzYzOSB0YXJnZXQv
+cng6IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBkaXNhc3NlbWJseQpiNThjMDIwIHRhcmdldC9y
+eDogUmVwbGFjZSBvcGVyYW5kIHdpdGggcHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyCjkyMTc2Mjgg
+dGFyZ2V0L3J4OiBEaXNhc3NlbWJsZSByeF9pbmRleF9hZGRyIGludG8gYSBzdHJpbmcKZTRmNTdk
+MiB0YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgo3MDJmMjdkIHRhcmdldC9yeDogQ1BVIGRlZmlu
+aXRpb24KOGFiZGE2MSB0YXJnZXQvcng6IFRDRyBoZWxwZXIKYmEyZGYyMSB0YXJnZXQvcng6IFRD
+RyB0cmFuc2xhdGlvbgo5MjAxYzM4IGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAx
+NmJpdCByZWdpc3RlciBtYWNyb3MKYTFkYmU1MyBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDgg
+YW5kIGV4dHJhY3QxNgo3YjBhNTZmIE1BSU5UQUlORVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVH
+SU4gPT09CjEvMjIgQ2hlY2tpbmcgY29tbWl0IDdiMGE1NmY3Mzg2NiAoTUFJTlRBSU5FUlM6IEFk
+ZCBSWCkKMi8yMiBDaGVja2luZyBjb21taXQgYTFkYmU1M2QyNDM0IChxZW11L2JpdG9wcy5oOiBB
+ZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMy8yMiBDaGVja2luZyBjb21taXQgOTIwMWMzOGIw
+Mjg3IChody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFj
+cm9zKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBz
+dHJpbmcgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyNDg0LgpFUlJPUjogTWFjcm9z
+IHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdo
+aWxlIGxvb3AKIzI3OiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVm
+aW5lIFJFRzgocmVnLCBhZGRyKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXAorICAgIGVudW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9
+IChhZGRyKSB9OwoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxk
+IGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMzMTogRklMRTogaW5jbHVkZS9ody9y
+ZWdpc3RlcmZpZWxkcy5oOjI5OgorI2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMj
+IHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3Jz
+LCAwIHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCgo0LzIyIENoZWNraW5nIGNvbW1pdCBiYTJkZjIxODYyMzAgKHRhcmdldC9y
+eDogVENHIHRyYW5zbGF0aW9uKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxl
+KHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUg
+MTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggNC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
+dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
+YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1p
+dCA4YWJkYTYxMTU3NTUgKHRhcmdldC9yeDogVENHIGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1v
+dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
+MjE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2
+NTAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2
+LzIyIENoZWNraW5nIGNvbW1pdCA3MDJmMjdkNzhkZGUgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRp
+b24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
+SU5FUlMgbmVlZCB1cGRhdGluZz8KIzM5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAw
+IGVycm9ycywgMSB3YXJuaW5ncywgNTg4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0
+eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
+ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
+QVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yMiBDaGVja2luZyBjb21taXQgZTRmNTdkMmYyN2M2ICh0
+YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
+ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmls
+ZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2lu
+ZyBjb21taXQgOTIxNzYyOGU4NDQ2ICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2Fk
+ZHIgaW50byBhIHN0cmluZykKOS8yMiBDaGVja2luZyBjb21taXQgYjU4YzAyMGE1MTNlICh0YXJn
+ZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAv
+MjIgQ2hlY2tpbmcgY29tbWl0IDA0YjM2MzkwMTEzYSAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkg
+Zm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkpCjExLzIyIENoZWNraW5nIGNvbW1pdCA1Zjc2NzVlZTg5
+MmYgKHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBD
+aGVja2luZyBjb21taXQgYTI1NGE4MjdhOWM1ICh0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVz
+IGR1cmluZyBkaXNhc3NlbWJseSkKMTMvMjIgQ2hlY2tpbmcgY29tbWl0IDMyMDBhMjg0ZTRhNCAo
+dGFyZ2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQox
+NC8yMiBDaGVja2luZyBjb21taXQgNTRjZWQzZTM3NWE4IChody9pbnRjOiBSWDYyTiBpbnRlcnJ1
+cHQgY29udHJvbGxlciAoSUNVYSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
+bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDQ1IGxpbmVzIGNoZWNrZWQK
+ClBhdGNoIDE0LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNv
+bW1pdCA5NmFhMmJmNzMzYjQgKGh3L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVz
+KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
+RVJTIG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBl
+cnJvcnMsIDEgd2FybmluZ3MsIDg0NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoxNi8yMiBDaGVja2luZyBjb21taXQgNmQxZDNmMjIxNDdjICho
+dy9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5J
+Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
+ZCB1cGRhdGluZz8KIzQzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywg
+MSB3YXJuaW5ncywgNDAxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCjE3LzIyIENoZWNraW5nIGNvbW1pdCA0NzM3MjY4YzIwMjMgKGh3L3J4OiBS
+WCBUYXJnZXQgaGFyZHdhcmUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
+bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjk6IApuZXcg
+ZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0ODAgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggMTcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTgvMjIgQ2hl
+Y2tpbmcgY29tbWl0IDEwMGUzMDdmNDJlZSAoaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdCkKMTkv
+MjIgQ2hlY2tpbmcgY29tbWl0IDUzYjVhM2VhNzU0OSAoaHcvcng6IFJlc3RyaWN0IHRoZSBSWDYy
+TiBtaWNyb2NvbnRyb2xsZXIgdG8gdGhlIFJYNjJOIENQVSBjb3JlKQoyMC8yMiBDaGVja2luZyBj
+b21taXQgMjFjY2QyYjU3ODg3IChBZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTk6
+IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1OSBs
+aW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyMS8y
+MiBDaGVja2luZyBjb21taXQgMGE2MGJjMTViNDY1IChCb290TGludXhDb25zb2xlVGVzdDogVGVz
+dCB0aGUgUlgtVmlydCBtYWNoaW5lKQoyMi8yMiBDaGVja2luZyBjb21taXQgYzcyMTFlYzc5ZDY2
+IChxYXBpL21hY2hpbmUuanNvbjogQWRkIFJYIGNwdS4pCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
+dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
+IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTEyMDYwNzAxLjQ2NDItMS15c2F0b0B1
+c2Vycy5zb3VyY2Vmb3JnZS5qcC90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
+CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
+dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
+dC5jb20=
 
 
