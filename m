@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BD4B1111
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:24:57 +0200 (CEST)
-Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B9BB1101
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 16:21:02 +0200 (CEST)
+Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Q1o-0003F4-I8
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40466)
+	id 1i8Py0-0006AF-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 10:21:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i8PUe-0006qD-5j
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:41 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i8Pae-0006fN-9s
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:56:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i8PUY-0002wM-QU
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:39 -0400
-Resent-Date: Thu, 12 Sep 2019 09:50:39 -0400
-Resent-Message-Id: <E1i8PUY-0002wM-QU@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21577)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i8PUY-0002uB-HX
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:50:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568296224; cv=none; d=zoho.com; s=zohoarc; 
- b=HjjuyNigon1xCgv+TUeheizH+EqQyXZeY+8XU3YvXN2Gg7Td2iZY1pdV90/7T4q91tlh8z6Bq3ON6QjBa59xbNPI1mqGyqYk/MUrAKd0OYegoYjGzh0KF7C2lchDoaP9YiNqr6+k4Y2gL+bL3FwFy3WlihpvHSbju8XQmz6Ujsw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568296224;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=9NME0oc/r31KKEiyhqxIbptMHtj2fFefhtiMbFnWk50=; 
- b=XnuzX/Jyeo4/6M6V5hHU0+sPb6S+Yf2JChR7OIVSSYhOSJQqGgWwmrv+FwHLXmlBTfNWrGie1KQpI4tIN6JhU2blJRXpHQUYkWwY5c2juYWb7rRp27h42lupM1uBI8gi8PZFf0TPLXVEpyBSfyZCL5fydwsqFKIGqHI1dMzVvTQ=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568296220452476.39643885313103;
- Thu, 12 Sep 2019 06:50:20 -0700 (PDT)
-In-Reply-To: <20190912122514.22504-1-marcandre.lureau@redhat.com>
-Message-ID: <156829621910.25007.13135132995120150143@5dec9699b7de>
+ (envelope-from <mreitz@redhat.com>) id 1i8Pac-0006QJ-UJ
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 09:56:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54608)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1i8PaZ-0006Oh-Tn; Thu, 12 Sep 2019 09:56:48 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3BDEFA37197;
+ Thu, 12 Sep 2019 13:56:47 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF6705D9CA;
+ Thu, 12 Sep 2019 13:56:43 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Thu, 12 Sep 2019 15:56:30 +0200
+Message-Id: <20190912135632.13925-3-mreitz@redhat.com>
+In-Reply-To: <20190912135632.13925-1-mreitz@redhat.com>
+References: <20190912135632.13925-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Thu, 12 Sep 2019 06:50:20 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Thu, 12 Sep 2019 13:56:47 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH v3 0/6] Add dbus-vmstate
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 2/4] blkdebug: Allow taking/unsharing
+ permissions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,40 +55,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMjEyMjUxNC4yMjUw
-NC0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
-ZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
-ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
-ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRv
-czcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9X
-X0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpsaWJ1ZGV2ICAg
-ICAgICAgICBubwpkZWZhdWx0IGRldmljZXMgICB5ZXMKCndhcm5pbmc6IFB5dGhvbiAyIHN1cHBv
-cnQgaXMgZGVwcmVjYXRlZAp3YXJuaW5nOiBQeXRob24gMyB3aWxsIGJlIHJlcXVpcmVkIGZvciBi
-dWlsZGluZyBmdXR1cmUgdmVyc2lvbnMgb2YgUUVNVQoKTk9URTogY3Jvc3MtY29tcGlsZXJzIGVu
-YWJsZWQ6ICAnY2MnCiAgR0VOICAgICB4ODZfNjQtc29mdG1tdS9jb25maWctZGV2aWNlcy5tYWsu
-dG1wCi0tLQpDb3VsZCBub3QgZ2V0IHBhc3N3b3JkIGRhdGFiYXNlIGluZm9ybWF0aW9uIGZvciBV
-SUQgb2YgY3VycmVudCBwcm9jZXNzOiBVc2VyICI/Pz8iIHVua25vd24gb3Igbm8gbWVtb3J5IHRv
-IGFsbG9jYXRlIHBhc3N3b3JkIGVudHJ5CgoqKgpFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVz
-dHMvZGJ1cy12bXN0YXRlLXRlc3QuYzoxNTA6Z2V0X2Nvbm5lY3Rpb246IGFzc2VydGlvbiBmYWls
-ZWQgKGVyciA9PSBOVUxMKTogVGhlIGNvbm5lY3Rpb24gaXMgY2xvc2VkIChnLWlvLWVycm9yLXF1
-YXJrLCAxOCkKY2xlYW5pbmcgdXAgcGlkIDI4NTc1CkVSUk9SIC0gQmFpbCBvdXQhIEVSUk9SOi90
-bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9kYnVzLXZtc3RhdGUtdGVzdC5jOjE1MDpnZXRfY29ubmVj
-dGlvbjogYXNzZXJ0aW9uIGZhaWxlZCAoZXJyID09IE5VTEwpOiBUaGUgY29ubmVjdGlvbiBpcyBj
-bG9zZWQgKGctaW8tZXJyb3ItcXVhcmssIDE4KQptYWtlOiAqKiogW2NoZWNrLXF0ZXN0LXg4Nl82
-NF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRF
-U1QgICAgaW90ZXN0LXFjb3cyOiAwODAKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTEyMTIyNTE0LjIyNTA0LTEtbWFyY2FuZHJlLmx1
-cmVhdUByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2Fn
-ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
-cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
-QHJlZGhhdC5jb20=
+Sometimes it is useful to be able to add a node to the block graph that
+takes or unshare a certain set of permissions for debugging purposes.
+This patch adds this capability to blkdebug.
+
+(Note that you cannot make blkdebug release or share permissions that it
+needs to take or cannot share, because this might result in assertion
+failures in the block layer.  But if the blkdebug node has no parents,
+it will not take any permissions and share everything by default, so you
+can then freely choose what permissions to take and share.)
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ qapi/block-core.json |  29 +++++++++++-
+ block/blkdebug.c     | 106 ++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 133 insertions(+), 2 deletions(-)
+
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index e6edd641f1..336043e02c 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3347,6 +3347,21 @@
+             '*state': 'int',
+             'new_state': 'int' } }
+=20
++##
++# @BlockdevPermission:
++#
++# Permissions that an edge in the block graph can take or share.
++#
++# Since: 4.2
++##
++{ 'enum': 'BlockdevPermission',
++  'data': [
++      'consistent-read',
++      'write',
++      'write-unchanged',
++      'resize',
++      'graph-mod' ] }
++
+ ##
+ # @BlockdevOptionsBlkdebug:
+ #
+@@ -3388,6 +3403,16 @@
+ #
+ # @set-state:       array of state-change descriptions
+ #
++# @take-child-perms: Permissions to take on @image in addition to what
++#                    is necessary anyway (which depends on how the
++#                    blkdebug node is used).  Defaults to none.
++#                    (since 4.2)
++#
++# @unshare-child-perms: Permissions not to share on @image in addition
++#                       to what cannot be shared anyway (which depends
++#                       on how the blkdebug node is used).  Defaults
++#                       to none.  (since 4.2)
++#
+ # Since: 2.9
+ ##
+ { 'struct': 'BlockdevOptionsBlkdebug',
+@@ -3397,7 +3422,9 @@
+             '*opt-write-zero': 'int32', '*max-write-zero': 'int32',
+             '*opt-discard': 'int32', '*max-discard': 'int32',
+             '*inject-error': ['BlkdebugInjectErrorOptions'],
+-            '*set-state': ['BlkdebugSetStateOptions'] } }
++            '*set-state': ['BlkdebugSetStateOptions'],
++            '*take-child-perms': ['BlockdevPermission'],
++            '*unshare-child-perms': ['BlockdevPermission'] } }
+=20
+ ##
+ # @BlockdevOptionsBlklogwrites:
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 5ae96c52b0..ec24a5e4e5 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -28,9 +28,11 @@
+ #include "qemu/cutils.h"
+ #include "qemu/config-file.h"
+ #include "block/block_int.h"
++#include "block/qdict.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qlist.h"
+ #include "qapi/qmp/qstring.h"
+ #include "sysemu/qtest.h"
+=20
+@@ -44,6 +46,9 @@ typedef struct BDRVBlkdebugState {
+     uint64_t opt_discard;
+     uint64_t max_discard;
+=20
++    uint64_t take_child_perms;
++    uint64_t unshare_child_perms;
++
+     /* For blkdebug_refresh_filename() */
+     char *config_file;
+=20
+@@ -344,6 +349,84 @@ static void blkdebug_parse_filename(const char *file=
+name, QDict *options,
+     qdict_put_str(options, "x-image", filename);
+ }
+=20
++static int blkdebug_parse_perm_list(uint64_t *dest, QDict *options,
++                                    const char *prefix, Error **errp)
++{
++    int ret =3D 0;
++    QDict *subqdict =3D NULL;
++    QObject *crumpled_subqdict =3D NULL;
++    QList *perm_list;
++    const QListEntry *perm;
++
++    qdict_extract_subqdict(options, &subqdict, prefix);
++    if (!qdict_size(subqdict)) {
++        goto out;
++    }
++
++    crumpled_subqdict =3D qdict_crumple(subqdict, errp);
++    if (!crumpled_subqdict) {
++        ret =3D -EINVAL;
++        goto out;
++    }
++
++    perm_list =3D qobject_to(QList, crumpled_subqdict);
++    if (!perm_list) {
++        /* Omit the trailing . from the prefix */
++        error_setg(errp, "%.*s expects a list",
++                   (int)(strlen(prefix) - 1), prefix);
++        ret =3D -EINVAL;
++        goto out;
++    }
++
++    for (perm =3D qlist_first(perm_list); perm; perm =3D qlist_next(perm=
+)) {
++        const char *perm_name;
++        BlockdevPermission perm_bit;
++
++        perm_name =3D qstring_get_try_str(qobject_to(QString, perm->valu=
+e));
++        if (!perm_name) {
++            /* Omit the trailing . from the prefix */
++            error_setg(errp, "%.*s expects a list of enum strings",
++                       (int)(strlen(prefix) - 1), prefix);
++            ret =3D -EINVAL;
++            goto out;
++        }
++
++        perm_bit =3D qapi_enum_parse(&BlockdevPermission_lookup, perm_na=
+me,
++                                   BLOCKDEV_PERMISSION__MAX, errp);
++        if (perm_bit =3D=3D BLOCKDEV_PERMISSION__MAX) {
++            ret =3D -EINVAL;
++            goto out;
++        }
++
++        *dest |=3D UINT64_C(1) << perm_bit;
++    }
++
++out:
++    qobject_unref(subqdict);
++    qobject_unref(crumpled_subqdict);
++    return ret;
++}
++
++static int blkdebug_parse_perms(BDRVBlkdebugState *s, QDict *options,
++                                Error **errp)
++{
++    int ret;
++
++    ret =3D blkdebug_parse_perm_list(&s->take_child_perms, options,
++                                   "take-child-perms.", errp);
++    if (ret < 0) {
++        return ret;
++    }
++
++    ret =3D blkdebug_parse_perm_list(&s->unshare_child_perms, options,
++                                   "unshare-child-perms.", errp);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return 0;
++}
++
+ static QemuOptsList runtime_opts =3D {
+     .name =3D "blkdebug",
+     .head =3D QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
+@@ -419,6 +502,12 @@ static int blkdebug_open(BlockDriverState *bs, QDict=
+ *options, int flags,
+     /* Set initial state */
+     s->state =3D 1;
+=20
++    /* Parse permissions modifiers before opening the image file */
++    ret =3D blkdebug_parse_perms(s, options, errp);
++    if (ret < 0) {
++        goto out;
++    }
++
+     /* Open the image file */
+     bs->file =3D bdrv_open_child(qemu_opt_get(opts, "x-image"), options,=
+ "image",
+                                bs, &child_file, false, &local_err);
+@@ -916,6 +1005,21 @@ static int blkdebug_reopen_prepare(BDRVReopenState =
+*reopen_state,
+     return 0;
+ }
+=20
++static void blkdebug_child_perm(BlockDriverState *bs, BdrvChild *c,
++                                const BdrvChildRole *role,
++                                BlockReopenQueue *reopen_queue,
++                                uint64_t perm, uint64_t shared,
++                                uint64_t *nperm, uint64_t *nshared)
++{
++    BDRVBlkdebugState *s =3D bs->opaque;
++
++    bdrv_filter_default_perms(bs, c, role, reopen_queue, perm, shared,
++                              nperm, nshared);
++
++    *nperm |=3D s->take_child_perms;
++    *nshared &=3D ~s->unshare_child_perms;
++}
++
+ static const char *const blkdebug_strong_runtime_opts[] =3D {
+     "config",
+     "inject-error.",
+@@ -940,7 +1044,7 @@ static BlockDriver bdrv_blkdebug =3D {
+     .bdrv_file_open         =3D blkdebug_open,
+     .bdrv_close             =3D blkdebug_close,
+     .bdrv_reopen_prepare    =3D blkdebug_reopen_prepare,
+-    .bdrv_child_perm        =3D bdrv_filter_default_perms,
++    .bdrv_child_perm        =3D blkdebug_child_perm,
+=20
+     .bdrv_getlength         =3D blkdebug_getlength,
+     .bdrv_refresh_filename  =3D blkdebug_refresh_filename,
+--=20
+2.21.0
 
 
