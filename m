@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1B0B0979
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 09:26:39 +0200 (CEST)
-Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CBFB0995
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 09:37:52 +0200 (CEST)
+Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8JV0-0005Ot-KZ
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 03:26:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51941)
+	id 1i8Jfs-00016c-0p
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 03:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53603)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1i8JTg-0004Sa-0B
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:17 -0400
+ (envelope-from <drjones@redhat.com>) id 1i8Jev-0000Ww-F4
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:36:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1i8JTf-0005jC-2B
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:15 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:57535)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1i8JTe-0005iZ-EA; Thu, 12 Sep 2019 03:25:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=u2NEVgbKrHqJ7Z9pJt2JzXOCx5CjC2J8vyK3xhIZPAo=; 
- b=EEr1wXIfJoOCVRnca/TH/cEJ9QVPB8BrdxOYKZxlF2pjs6+2z6ZmzESpmp4n1KObxZLGhHumuZCsG0a/tGJ8Ue6aHWiDLTH5OOrx1qfu/BKb/gxo90TbCjNG7wXKIfsP83vNWaow+G9ZoVK8Rc+FsX19Tuc7BdyqlPiktPUIjoxWNjhtNPEht3aCj2/Twqbpcy15SijLbxm84EWCJsEZHqVMKA4rpIPLMuHeuyiwh8FWXDHIlUGyViCC0fYVZ2STQT69w5DIwti/gwPqcaVL1bvevh7lnTpWgXFkKQPJok27+O09DQe7UlFbKphjegTK2ToBRZVoJfA8dNAUKDQPEg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1i8JTb-00030o-N6; Thu, 12 Sep 2019 09:25:11 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1i8JTb-0007kS-KO; Thu, 12 Sep 2019 09:25:11 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-In-Reply-To: <b3bd3fa6-e700-b5d1-0339-8670cd79026e@redhat.com>
-References: <20190911151626.6823-1-berto@igalia.com>
- <b3bd3fa6-e700-b5d1-0339-8670cd79026e@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 12 Sep 2019 09:25:11 +0200
-Message-ID: <w51mufa9dt4.fsf@maestria.local.igalia.com>
+ (envelope-from <drjones@redhat.com>) id 1i8Jeu-00020G-8z
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:36:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:9067)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1i8Jer-0001ym-Bw; Thu, 12 Sep 2019 03:36:49 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E55DE3084295;
+ Thu, 12 Sep 2019 07:36:47 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0437419C6A;
+ Thu, 12 Sep 2019 07:36:43 +0000 (UTC)
+Date: Thu, 12 Sep 2019 09:36:41 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Message-ID: <20190912073641.p5x4gtt2s5rlrhl6@kamzik.brq.redhat.com>
+References: <20190911155125.11932-1-eric.auger@redhat.com>
+ <20190911155125.11932-3-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] qcow2: Stop overwriting
- compressed clusters one by one
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190911155125.11932-3-eric.auger@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Thu, 12 Sep 2019 07:36:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC v2 2/3] intc/arm_gic: Support IRQ injection
+ for more than 256 vpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,18 +58,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, maz@kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu 12 Sep 2019 01:33:05 AM CEST, John Snow <jsnow@redhat.com> wrote:
->> This restriction comes from commit 095a9c58ce12afeeb90c2 from 2018.
+On Wed, Sep 11, 2019 at 05:51:24PM +0200, Eric Auger wrote:
+> Host kernels that expose the KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 capability
+> allow injection of interrupts along with vcpu ids larger than 255.
+> Let's encode the vpcu id on 12 bits according to the upgraded KVM_IRQ_LINE
+> ABI when needed.
+> 
+> Given that we have two callsites that need to assemble
+> the value for kvm_set_irq(), a new helper routine, kvm_arm_set_irq
+> is introduced.
+> 
+> Without that patch qemu exits with "kvm_set_irq: Invalid argument"
+> message.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reported-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+>  hw/intc/arm_gic_kvm.c |  7 ++-----
+>  target/arm/cpu.c      | 10 ++++------
+>  target/arm/kvm.c      | 16 ++++++++++++++++
+>  target/arm/kvm_arm.h  |  1 +
+>  4 files changed, 23 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
+> index b56fda144f..9deb15e7e6 100644
+> --- a/hw/intc/arm_gic_kvm.c
+> +++ b/hw/intc/arm_gic_kvm.c
+> @@ -55,7 +55,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, int level)
+>       * has separate fields in the irq number for type,
+>       * CPU number and interrupt number.
+>       */
+> -    int kvm_irq, irqtype, cpu;
+> +    int irqtype, cpu;
+>  
+>      if (irq < (num_irq - GIC_INTERNAL)) {
+>          /* External interrupt. The kernel numbers these like the GIC
+> @@ -72,10 +72,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, int level)
+>          cpu = irq / GIC_INTERNAL;
+>          irq %= GIC_INTERNAL;
+>      }
+> -    kvm_irq = (irqtype << KVM_ARM_IRQ_TYPE_SHIFT)
+> -        | (cpu << KVM_ARM_IRQ_VCPU_SHIFT) | irq;
+> -
+> -    kvm_set_irq(kvm_state, kvm_irq, !!level);
+> +    kvm_arm_set_irq(cpu, irqtype, irq, !!level);
+>  }
+>  
+>  static void kvm_arm_gicv2_set_irq(void *opaque, int irq, int level)
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 2399c14471..13813fb213 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -576,16 +576,16 @@ static void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
+>      ARMCPU *cpu = opaque;
+>      CPUARMState *env = &cpu->env;
+>      CPUState *cs = CPU(cpu);
+> -    int kvm_irq = KVM_ARM_IRQ_TYPE_CPU << KVM_ARM_IRQ_TYPE_SHIFT;
+>      uint32_t linestate_bit;
+> +    int irq_id;
+>  
+>      switch (irq) {
+>      case ARM_CPU_IRQ:
+> -        kvm_irq |= KVM_ARM_IRQ_CPU_IRQ;
+> +        irq_id = KVM_ARM_IRQ_CPU_IRQ;
+>          linestate_bit = CPU_INTERRUPT_HARD;
+>          break;
+>      case ARM_CPU_FIQ:
+> -        kvm_irq |= KVM_ARM_IRQ_CPU_FIQ;
+> +        irq_id = KVM_ARM_IRQ_CPU_FIQ;
+>          linestate_bit = CPU_INTERRUPT_FIQ;
+>          break;
+>      default:
+> @@ -597,9 +597,7 @@ static void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
+>      } else {
+>          env->irq_line_state &= ~linestate_bit;
+>      }
+> -
+> -    kvm_irq |= cs->cpu_index << KVM_ARM_IRQ_VCPU_SHIFT;
+> -    kvm_set_irq(kvm_state, kvm_irq, level ? 1 : 0);
+> +    kvm_arm_set_irq(cs->cpu_index, KVM_ARM_IRQ_TYPE_CPU, irq_id, !!level);
+>  #endif
+>  }
+>  
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index b2eaa50b8d..6cdfa2204f 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -744,6 +744,22 @@ int kvm_arm_vgic_probe(void)
+>      }
+>  }
+>  
+> +int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level)
+> +{
+> +    int kvm_irq = 0;
+
+No need to init to zero, and could just immediately init with the
+line below instead.
+
+> +
+> +    kvm_irq = (irqtype << KVM_ARM_IRQ_TYPE_SHIFT) | irq;
+> +
+> +    if (cpu != 0) {
+
+No need for this 'if'
+
+> +        int cpu_idx2 = cpu / 256;
+> +        int cpu_idx1 = cpu % 256;
+> +
+> +        kvm_irq |= (cpu_idx1 << KVM_ARM_IRQ_VCPU_SHIFT) |
+> +           ((cpu_idx2 & KVM_ARM_IRQ_VCPU2_MASK) << KVM_ARM_IRQ_VCPU2_SHIFT);
+
+Masking should be unnecessary as the only way it'll do anything is if we
+have vcpus >= 4096, which I imagine will never happen or will be guarded
+against happening elsewhere. Silently masking doesn't look right anyway,
+so I'd either add an assert(cpu_idx2 < 16) and drop the masking or just
+drop the masking.
+
+> +    }
+> +    return kvm_set_irq(kvm_state, kvm_irq, !!level);
+> +}
+> +
+>  int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
+>                               uint64_t address, uint32_t data, PCIDevice *dev)
+>  {
+> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+> index b3106c8600..b4e19457a0 100644
+> --- a/target/arm/kvm_arm.h
+> +++ b/target/arm/kvm_arm.h
+> @@ -253,6 +253,7 @@ int kvm_arm_vgic_probe(void);
+>  
+>  void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
+>  void kvm_arm_pmu_init(CPUState *cs);
+> +int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
+>  
+>  #else
+>  
+> -- 
+> 2.20.1
+> 
 >
-> You accidentally typed a reasonably modern date. It's from *2008*!
 
-Oh my, and I reviewed the message 3 times ... if this one gets committed
-please correct the date.
-
-Berto
+Thanks,
+drew 
 
