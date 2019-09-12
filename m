@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EB2B08D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 08:30:59 +0200 (CEST)
-Received: from localhost ([::1]:58541 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F8DB08ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 08:38:43 +0200 (CEST)
+Received: from localhost ([::1]:58660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Id8-0001g6-8R
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 02:30:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40497)
+	id 1i8Ikc-0006SE-8V
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 02:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1i8IUe-0001Uf-Cx
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:22:13 -0400
+ (envelope-from <slp@redhat.com>) id 1i8IjX-0005oE-D0
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:37:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1i8IUc-0005KZ-An
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:22:11 -0400
-Received: from 13.mo1.mail-out.ovh.net ([178.33.253.128]:33340)
+ (envelope-from <slp@redhat.com>) id 1i8IjU-0002lH-UT
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:37:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39988)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i8IUc-0005Jl-2k
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:22:10 -0400
-Received: from player799.ha.ovh.net (unknown [10.108.57.50])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id F20A718EC35
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 08:22:07 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player799.ha.ovh.net (Postfix) with ESMTPSA id 2637A9B1B61C;
- Thu, 12 Sep 2019 06:22:01 +0000 (UTC)
-To: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org
-References: <20190912032531.32546-1-andrew@aj.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <a9fdcc8b-3a92-587f-28e8-5a997991532e@kaod.org>
-Date: Thu, 12 Sep 2019 08:22:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1i8IjU-0002l0-MC
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 02:37:32 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F003BC04BD48
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 06:37:30 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id a4so10220118wrg.8
+ for <qemu-devel@nongnu.org>; Wed, 11 Sep 2019 23:37:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version;
+ bh=7u52KF3HxCgSngD0s7yi5RDE7kAPKuM/WHTidpfdNnE=;
+ b=dJLJ++W+KS1rhUJJ2eBW4KPJYy5+6Q0yg0nEHMe9nf/ZpQiIcERJ8wcTYA29mLEMFz
+ BMt5e04K8C8xopwFPjngppVWmRK1yEPtYKJlfrsqlXqS8A7oOadWfr3AsDgwMK8A1mEJ
+ wMdVx6fVBI0Dxk3lI+K38Lo/SO2SJnElZkTHx41uGU3SQHsGy0hWu2W93n50U59iPgwV
+ E5aV3lKtiW6SZ7rxwPCJ/vl6kFmtc4BEpBZjRJCFWigACxh6KWBnoDdAtoxF5HhW0UK+
+ nf58wk8+szeGUqndxtz1Ym5d8I0iyR4c2GHPwZCoavhOkfU+NVke8U3L9bQmu9reWqNL
+ MTKw==
+X-Gm-Message-State: APjAAAVw/5VIGhQnIabV6gZM1uucPHRQiGAysYAngliPDo9vqp5DJaiE
+ aWKPny25S9H1/Y68g5HLs5LgnGN9wUisje+RCMyDUT4cCYuX4WL5Jc0nxzukqH0jjBCZg9ovrcX
+ 8d7dlRXaOl4D7798=
+X-Received: by 2002:a7b:c247:: with SMTP id b7mr363879wmj.121.1568270249351;
+ Wed, 11 Sep 2019 23:37:29 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz4sjajXTcMSIQKiMMbYqt7dvQ1n1IaX66ZnA5jUpAylbmR69kZ+87CRTcGPnMprxelrn20bQ==
+X-Received: by 2002:a7b:c247:: with SMTP id b7mr363862wmj.121.1568270249054;
+ Wed, 11 Sep 2019 23:37:29 -0700 (PDT)
+Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
+ [95.120.215.139])
+ by smtp.gmail.com with ESMTPSA id l10sm24784896wrh.20.2019.09.11.23.37.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Sep 2019 23:37:28 -0700 (PDT)
+References: <20190911161521.59261-1-slp@redhat.com>
+ <d47f7e67-2f6a-0dd6-3ab5-93626bfbb02d@redhat.com>
+ <6755b34b-b412-9e63-8d25-b7662d0d3860@redhat.com>
+User-agent: mu4e 1.2.0; emacs 26.2
+From: Sergio Lopez <slp@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+In-reply-to: <6755b34b-b412-9e63-8d25-b7662d0d3860@redhat.com>
+Date: Thu, 12 Sep 2019 08:37:26 +0200
+Message-ID: <871rwmxbo9.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190912032531.32546-1-andrew@aj.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 16433353566867852243
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrtdeggddutdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.253.128
-Subject: Re: [Qemu-devel] [PATCH v4] target-arm: Make the counter tick
- relative to cntfrq
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] nbd/server: attach client channel to the
+ export's AioContext
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,218 +79,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, joel@jms.id.au
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/09/2019 05:25, Andrew Jeffery wrote:
-> Allow machines to configure CNTFRQ via a property if the ARM core
-> supports the generic timer. This is necessary on e.g. the ASPEED AST2600
-> SoC where the generic timer clock is run at 800MHz or above. The default
-> value for CNTFRQ remains at 62.50MHz (based on GTIMER_SCALE).
-> 
-> CNTFRQ is a read-as-written co-processor register; the property sets the
-> register's initial value which is used during realize() to configure the
-> QEMUTimers that back the generic timers. Beyond that the firmware can to
-> do whatever it sees fit with the CNTFRQ register though changes to the
-> value will not be reflected in the timers' rate.
-> 
-> I've tested this using an out-of-tree AST2600 SoC model (Cortex-A7) with
-> the SDK u-boot that sets CNTFRQ as appropriate, and by starting/running
-> machines with assorted ARM CPUs (palmetto-bmc with the ARM926EJ-S,
-> romulus-bmc with the ARM1176 and raspi2 with the Cortex-A53).
-> 
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
-> v4: Fix configuration for cores without a generic timer
-> 
-> v3: https://patchwork.ozlabs.org/patch/1160634/
-> Peter - I think this addresses most of your feedback. I still reach into
-> the QEMUTimer to fetch out scale when adjusting the nexttick
-> calculation, but we no longer need to update the scale member and force
-> a recalculation of the period.
-> 
-> v2: https://patchwork.ozlabs.org/patch/1144389/
-> ---
->  roms/SLOF           |  2 +-
->  roms/skiboot        |  2 +-
->  target/arm/cpu.c    | 43 +++++++++++++++++++++++++++++++++++--------
->  target/arm/cpu.h    |  3 +++
->  target/arm/helper.c | 30 ++++++++++++++++++++++++++----
->  5 files changed, 66 insertions(+), 14 deletions(-)
-> 
-> diff --git a/roms/SLOF b/roms/SLOF
-> index 7bfe584e3219..ea221600a116 160000
-> --- a/roms/SLOF
-> +++ b/roms/SLOF
-> @@ -1 +1 @@
-> -Subproject commit 7bfe584e321946771692711ff83ad2b5850daca7
-> +Subproject commit ea221600a116883137ef90b2b7ab7d2472bc4f10
-> diff --git a/roms/skiboot b/roms/skiboot
-> index 261ca8e779e5..3a6fdede6ce1 160000
-> --- a/roms/skiboot
-> +++ b/roms/skiboot
-> @@ -1 +1 @@
-> -Subproject commit 261ca8e779e5138869a45f174caa49be6a274501
-> +Subproject commit 3a6fdede6ce117facec0108afe716cf5d0472c3f
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 
-The changes above seem not related.
+Eric Blake <eblake@redhat.com> writes:
 
-C. 
+> On 9/11/19 12:21 PM, Eric Blake wrote:
+>> On 9/11/19 11:15 AM, Sergio Lopez wrote:
+>>> On creation, the export's AioContext is set to the same one as the
+>>> BlockBackend, while the AioContext in the client QIOChannel is left
+>>> untouched.
+>>>
+>>> As a result, when using data-plane, nbd_client_receive_next_request()
+>>> schedules coroutines in the IOThread AioContext, while the client's
+>>> QIOChannel is serviced from the main_loop, potentially triggering the
+>>> assertion at qio_channel_restart_[read|write].
+>>>
+>>> To fix this, as soon we have the export corresponding to the client,
+>>> we call qio_channel_attach_aio_context() to attach the QIOChannel
+>>> context to the export's AioContext. This matches with the logic in
+>>> blk_aio_attached().
+>>>
+>>> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1748253
+>>> Signed-off-by: Sergio Lopez <slp@redhat.com>
+>>> ---
+>>>  nbd/server.c | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>=20
+>> I'd like a second opinion from Kevin, but the description makes sense to
+>> me.  I'm happy to queue this through my NBD tree.
+>>=20
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>
+> I tried to test this patch, but even with it applied, I still got an
+> aio-context crasher by attempting an nbd-server-start, nbd-server-add,
+> nbd-server-stop (intentionally skipping the nbd-server-remove step) on a
+> domain using iothreads, with a backtrace of:
+>
+> #0  0x00007ff09d070e35 in raise () from target:/lib64/libc.so.6
+> #1  0x00007ff09d05b895 in abort () from target:/lib64/libc.so.6
+> #2  0x000055dd03b9ab86 in error_exit (err=3D1, msg=3D0x55dd03d59fb0
+> <__func__.15769> "qemu_mutex_unlock_impl")
+>     at util/qemu-thread-posix.c:36
+> #3  0x000055dd03b9adcf in qemu_mutex_unlock_impl (mutex=3D0x55dd062d5090,
+> file=3D0x55dd03d59041 "util/async.c",
+>     line=3D523) at util/qemu-thread-posix.c:96
+> #4  0x000055dd03b93433 in aio_context_release (ctx=3D0x55dd062d5030) at
+> util/async.c:523
+> #5  0x000055dd03ac421b in bdrv_do_drained_begin (bs=3D0x55dd0673a2d0,
+> recursive=3Dfalse, parent=3D0x0,
+>     ignore_bds_parents=3Dfalse, poll=3Dtrue) at block/io.c:428
+> #6  0x000055dd03ac4299 in bdrv_drained_begin (bs=3D0x55dd0673a2d0) at
+> block/io.c:434
+> #7  0x000055dd03aafb54 in blk_drain (blk=3D0x55dd06a3ec40) at
+> block/block-backend.c:1605
+> #8  0x000055dd03aae054 in blk_remove_bs (blk=3D0x55dd06a3ec40) at
+> block/block-backend.c:800
+> #9  0x000055dd03aad54a in blk_delete (blk=3D0x55dd06a3ec40) at
+> block/block-backend.c:420
+> #10 0x000055dd03aad7d6 in blk_unref (blk=3D0x55dd06a3ec40) at
+> block/block-backend.c:475
+> #11 0x000055dd03aecb68 in nbd_export_put (exp=3D0x55dd0726f920) at
+> nbd/server.c:1666
+> #12 0x000055dd03aec8fe in nbd_export_close (exp=3D0x55dd0726f920) at
+> nbd/server.c:1616
+> #13 0x000055dd03aecbf1 in nbd_export_close_all () at nbd/server.c:1689
+> #14 0x000055dd03748845 in qmp_nbd_server_stop (errp=3D0x7ffcdf3cb4e8) at
+> blockdev-nbd.c:233
+> ...
+>
+> Does that sound familiar to what you were seeing?  Does it mean we
+> missed another spot where the context is set incorrectly?
 
+It looks like it was trying to release the AioContext while it was still
+held by some other thread. Is this stacktrace from the main thread or an
+iothread? What was the other one doing?
 
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 2399c144718d..8b63a27761bb 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -40,6 +40,8 @@
->  #include "disas/capstone.h"
->  #include "fpu/softfloat.h"
->  
-> +#include <inttypes.h>
-> +
->  static void arm_cpu_set_pc(CPUState *cs, vaddr value)
->  {
->      ARMCPU *cpu = ARM_CPU(cs);
-> @@ -976,6 +978,10 @@ static void arm_cpu_initfn(Object *obj)
->      }
->  }
->  
-> +static Property arm_cpu_gt_cntfrq_property =
-> +            DEFINE_PROP_UINT64("cntfrq", ARMCPU, gt_cntfrq,
-> +                               (1000 * 1000 * 1000) / GTIMER_SCALE);
-> +
->  static Property arm_cpu_reset_cbar_property =
->              DEFINE_PROP_UINT64("reset-cbar", ARMCPU, reset_cbar, 0);
->  
-> @@ -1172,6 +1178,11 @@ void arm_cpu_post_init(Object *obj)
->  
->      qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property,
->                               &error_abort);
-> +
-> +    if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
-> +        qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property,
-> +                                 &error_abort);
-> +    }
->  }
->  
->  static void arm_cpu_finalizefn(Object *obj)
-> @@ -1238,14 +1249,30 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->          }
->      }
->  
-> -    cpu->gt_timer[GTIMER_PHYS] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
-> -                                           arm_gt_ptimer_cb, cpu);
-> -    cpu->gt_timer[GTIMER_VIRT] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
-> -                                           arm_gt_vtimer_cb, cpu);
-> -    cpu->gt_timer[GTIMER_HYP] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
-> -                                          arm_gt_htimer_cb, cpu);
-> -    cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, GTIMER_SCALE,
-> -                                          arm_gt_stimer_cb, cpu);
-> +
-> +    {
-> +        uint64_t scale;
-> +
-> +        if (arm_feature(env, ARM_FEATURE_GENERIC_TIMER)) {
-> +            if (!cpu->gt_cntfrq) {
-> +                error_setg(errp, "Invalid CNTFRQ: %"PRId64"Hz",
-> +                           cpu->gt_cntfrq);
-> +                return;
-> +            }
-> +            scale = MAX(1, NANOSECONDS_PER_SECOND / cpu->gt_cntfrq);
-> +        } else {
-> +            scale = GTIMER_SCALE;
-> +        }
-> +
-> +        cpu->gt_timer[GTIMER_PHYS] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-> +                                               arm_gt_ptimer_cb, cpu);
-> +        cpu->gt_timer[GTIMER_VIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-> +                                               arm_gt_vtimer_cb, cpu);
-> +        cpu->gt_timer[GTIMER_HYP] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-> +                                              arm_gt_htimer_cb, cpu);
-> +        cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-> +                                              arm_gt_stimer_cb, cpu);
-> +    }
->  #endif
->  
->      cpu_exec_realizefn(cs, &local_err);
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 297ad5e47ad8..8bd576f834ba 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -915,6 +915,9 @@ struct ARMCPU {
->  
->      /* Used to set the maximum vector length the cpu will support.  */
->      uint32_t sve_max_vq;
-> +
-> +    /* Used to configure the generic timer input clock */
-> +    uint64_t gt_cntfrq;
->  };
->  
->  void arm_cpu_post_init(Object *obj);
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 507026c9154b..09975704d47f 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -2409,7 +2409,21 @@ static CPAccessResult gt_stimer_access(CPUARMState *env,
->  
->  static uint64_t gt_get_countervalue(CPUARMState *env)
->  {
-> -    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / GTIMER_SCALE;
-> +    uint64_t effective;
-> +
-> +    /*
-> +     * Deal with quantized clock scaling by calculating the effective frequency
-> +     * in terms of the timer scale.
-> +     */
-> +    if (env->cp15.c14_cntfrq <= NANOSECONDS_PER_SECOND) {
-> +        uint32_t scale = NANOSECONDS_PER_SECOND / env->cp15.c14_cntfrq;
-> +        effective = NANOSECONDS_PER_SECOND / scale;
-> +    } else {
-> +        effective = NANOSECONDS_PER_SECOND;
-> +    }
-> +
-> +    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), effective,
-> +                    NANOSECONDS_PER_SECOND);
->  }
->  
->  static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
-> @@ -2445,8 +2459,8 @@ static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
->           * set the timer for as far in the future as possible. When the
->           * timer expires we will reset the timer for any remaining period.
->           */
-> -        if (nexttick > INT64_MAX / GTIMER_SCALE) {
-> -            nexttick = INT64_MAX / GTIMER_SCALE;
-> +        if (nexttick > INT64_MAX / cpu->gt_timer[timeridx]->scale) {
-> +            nexttick = INT64_MAX / cpu->gt_timer[timeridx]->scale;
->          }
->          timer_mod(cpu->gt_timer[timeridx], nexttick);
->          trace_arm_gt_recalc(timeridx, irqstate, nexttick);
-> @@ -2680,6 +2694,14 @@ void arm_gt_stimer_cb(void *opaque)
->      gt_recalc_timer(cpu, GTIMER_SEC);
->  }
->  
-> +static void arm_gt_cntfrq_reset(CPUARMState *env, const ARMCPRegInfo *opaque)
-> +{
-> +    ARMCPU *cpu = env_archcpu(env);
-> +
-> +    cpu->env.cp15.c14_cntfrq =
-> +        cpu->gt_cntfrq ?: (1000 * 1000 * 1000) / GTIMER_SCALE;
-> +}
-> +
->  static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
->      /* Note that CNTFRQ is purely reads-as-written for the benefit
->       * of software; writing it doesn't actually change the timer frequency.
-> @@ -2694,7 +2716,7 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
->        .opc0 = 3, .opc1 = 3, .crn = 14, .crm = 0, .opc2 = 0,
->        .access = PL1_RW | PL0_R, .accessfn = gt_cntfrq_access,
->        .fieldoffset = offsetof(CPUARMState, cp15.c14_cntfrq),
-> -      .resetvalue = (1000 * 1000 * 1000) / GTIMER_SCALE,
-> +      .resetfn = arm_gt_cntfrq_reset,
->      },
->      /* overall control: mostly access permissions */
->      { .name = "CNTKCTL", .state = ARM_CP_STATE_BOTH,
-> 
+> I'm happy to work with you on IRC for more real-time debugging of this
+> (I'm woefully behind on understanding how aio contexts are supposed to
+> work).
 
+I must be missing some step, because I can't reproduce this one
+here. I've tried both with an idle NDB server and one with a client
+generating I/O. Is it reproducible 100% of them time?
+
+Sergio.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl1556YACgkQ9GknjS8M
+AjXYaw//Qo4VXFRa2yVy4qAx5Q9OxiE+1adlJmkUkbN22P5F5hCW19e5MXYMU+ns
+qCElQgxiCVwAANN8iejygV6/kN5TqbYtKuUeloBTsJO1L0Pz++Z3tfLHGeyBzBBL
+H3/QBD05pvx2DmN9tUat/j1DPl7kzGgEMmmo9DRvPCwMn5lI2hqvg9jrWAjPTdQS
+wEsVaZy25OK/gRka4hfpaEyb5h0QdxJ2e847shf4T8NmhZOr02JwEXkHRaHI7OID
+XpBcXD5bnkd8Q7RFG0nxxiUBSoKJzMf369+AtYPgpxRJ800unsGMtxL+9qjDJ+Pb
+Y5TTOcFiDLfY6j8NAZP+AcFP3GD3FNfVI/8F0n2iJExki++CUmta184Qas/Yi1vz
+GEJEuVsHrJBcJXgxdbK0N37JJticbdSfUlEPg7x145twj3u2pyuq5Wyc5LYeUt+U
+5LxhvAl7oDeU2iBK1Nu2lL5rsMMVszqNLgjDGkw8xOiBp9/2CJEBB2Lhh44Zg1B6
+aYGG8W+ungPYfzyAVY/HrqkN6asHGuHxggrz9LlD7Nm98FGdWuVTMWxh+IGaCQ/E
+bm6sr5BAsxeff9NWk06ngOSTmLotvlHBXSMkhunerQq0Rx3CO6U5ik/kIWJtE1jf
+MHynRKEp0a3OzRrmnh95Vb+rPF5Erxys2z60cDQEIhj2invcsFk=
+=xC1g
+-----END PGP SIGNATURE-----
+--=-=-=--
 
