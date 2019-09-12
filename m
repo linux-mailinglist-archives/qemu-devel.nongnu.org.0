@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EE5B097A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 09:28:06 +0200 (CEST)
-Received: from localhost ([::1]:58838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4C1B0970
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 09:22:43 +0200 (CEST)
+Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8JWP-0006Vx-4x
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 03:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51969)
+	id 1i8JRC-00028N-2n
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 03:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i8JTl-0004Yq-5o
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1i8JPN-0001Zp-UD
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:20:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i8JTj-0005kZ-3g
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:20 -0400
-Resent-Date: Thu, 12 Sep 2019 03:25:20 -0400
-Resent-Message-Id: <E1i8JTj-0005kZ-3g@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21541)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i8JTi-0005jy-S0
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:25:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568270381; cv=none; d=zoho.com; s=zohoarc; 
- b=j+NeiH0pXSeQlKmS66nxE+6ZiCX0eNsyjyCHgtSpOUghWOiO3A3VNyshndhMC5XaCSbfj0U31FUb/9y4uyHN55ETlUxT68MThhlACeBv7/ErAjDey1hsdl1aXqTB7mrUSc6eQq6h6KVidCfXLr4ccqFwPkcyulMqyh05QRRD1ew=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568270381;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=65Dqb9nD/O1lw8QyOzZNI9A6vcVQ2oCfZqF9XdOR0vw=; 
- b=Nnyua9ReTf4tBx9OrKQfUeDAPqld1W78650ex7czfmwjC7laDw/0BApYhJrbcCl5HLQvWZZMvFsnAJTWHpDhl3MvF67AEBSdZ1QqR3/6xPL+Wvhdwry/TutqF4mCRrWMp2LpTVPKSkgpXLugsbpeRjkaVg0nxHZjDo9MFSNx90g=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568270379269430.0312004861628;
- Wed, 11 Sep 2019 23:39:39 -0700 (PDT)
-In-Reply-To: <20190912060701.4642-1-ysato@users.sourceforge.jp>
-Message-ID: <156827037800.21839.7329409440899723100@5dec9699b7de>
+ (envelope-from <bounces@canonical.com>) id 1i8JPM-0003ak-L1
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:20:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60044)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i8JPM-0003aH-Fw
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 03:20:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i8JPK-0007s1-Oz
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 07:20:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BB6742E8019
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 07:20:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ysato@users.sourceforge.jp
-Date: Wed, 11 Sep 2019 23:39:39 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Sep 2019 07:15:31 -0000
+From: Idar Lund <1839060@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gnif idarlund spheenik
+X-Launchpad-Bug-Reporter: Martin Schrodt (spheenik)
+X-Launchpad-Bug-Modifier: Idar Lund (idarlund)
+References: <156507518934.25260.15982229597694445610.malonedeb@soybean.canonical.com>
+Message-Id: <156827253115.28619.612698577131617791.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 00a19a15b24c7c1da707b49b6fcac6781bb9409e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH v24 00/22] Add RX archtecture support
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1839060] Re: HDA device non functional in Windows
+ 10 1903
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,145 +65,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Reply-To: Bug 1839060 <1839060@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxMjA2MDcwMS40NjQy
-LTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
-dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
-bW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggdjI0IDAwLzIy
-XSBBZGQgUlggYXJjaHRlY3R1cmUgc3VwcG9ydApNZXNzYWdlLWlkOiAyMDE5MDkxMjA2MDcwMS40
-NjQyLTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBT
-Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVs
-bCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxn
-b3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2Uu
-Lgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
-dy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDE5MDkxMjA2MDcw
-MS40NjQyLTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAgLT4gcGF0Y2hldy8yMDE5MDkxMjA2
-MDcwMS40NjQyLTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAKU3dpdGNoZWQgdG8gYSBuZXcg
-YnJhbmNoICd0ZXN0JwpjNzIxMWVjIHFhcGkvbWFjaGluZS5qc29uOiBBZGQgUlggY3B1LgowYTYw
-YmMxIEJvb3RMaW51eENvbnNvbGVUZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUKMjFjY2Qy
-YiBBZGQgcngtc29mdG1tdQo1M2I1YTNlIGh3L3J4OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9j
-b250cm9sbGVyIHRvIHRoZSBSWDYyTiBDUFUgY29yZQoxMDBlMzA3IGh3L3J4OiBIb25vciAtYWNj
-ZWwgcXRlc3QKNDczNzI2OCBody9yeDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24KNmQx
-ZDNmMiBody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkK
-OTZhYTJiZiBody90aW1lcjogUlg2Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcwo1NGNlZDNlIGh3
-L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKQozMjAwYTI4IHRhcmdldC9y
-eDogRHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseQphMjU0YTgyIHRh
-cmdldC9yeDogQ29sbGVjdCBhbGwgYnl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5CjVmNzY3NWUgdGFy
-Z2V0L3J4OiBFbWl0IGFsbCBkaXNhc3NlbWJseSBpbiBvbmUgcHJ0KCkKMDRiMzYzOSB0YXJnZXQv
-cng6IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBkaXNhc3NlbWJseQpiNThjMDIwIHRhcmdldC9y
-eDogUmVwbGFjZSBvcGVyYW5kIHdpdGggcHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyCjkyMTc2Mjgg
-dGFyZ2V0L3J4OiBEaXNhc3NlbWJsZSByeF9pbmRleF9hZGRyIGludG8gYSBzdHJpbmcKZTRmNTdk
-MiB0YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgo3MDJmMjdkIHRhcmdldC9yeDogQ1BVIGRlZmlu
-aXRpb24KOGFiZGE2MSB0YXJnZXQvcng6IFRDRyBoZWxwZXIKYmEyZGYyMSB0YXJnZXQvcng6IFRD
-RyB0cmFuc2xhdGlvbgo5MjAxYzM4IGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAx
-NmJpdCByZWdpc3RlciBtYWNyb3MKYTFkYmU1MyBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDgg
-YW5kIGV4dHJhY3QxNgo3YjBhNTZmIE1BSU5UQUlORVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVH
-SU4gPT09CjEvMjIgQ2hlY2tpbmcgY29tbWl0IDdiMGE1NmY3Mzg2NiAoTUFJTlRBSU5FUlM6IEFk
-ZCBSWCkKMi8yMiBDaGVja2luZyBjb21taXQgYTFkYmU1M2QyNDM0IChxZW11L2JpdG9wcy5oOiBB
-ZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMy8yMiBDaGVja2luZyBjb21taXQgOTIwMWMzOGIw
-Mjg3IChody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFj
-cm9zKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBz
-dHJpbmcgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyNDg0LgpFUlJPUjogTWFjcm9z
-IHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdo
-aWxlIGxvb3AKIzI3OiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVm
-aW5lIFJFRzgocmVnLCBhZGRyKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXAorICAgIGVudW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9
-IChhZGRyKSB9OwoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxk
-IGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMzMTogRklMRTogaW5jbHVkZS9ody9y
-ZWdpc3RlcmZpZWxkcy5oOjI5OgorI2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMj
-IHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3Jz
-LCAwIHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCgo0LzIyIENoZWNraW5nIGNvbW1pdCBiYTJkZjIxODYyMzAgKHRhcmdldC9y
-eDogVENHIHRyYW5zbGF0aW9uKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxl
-KHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUg
-MTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoK
-UGF0Y2ggNC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1p
-dCA4YWJkYTYxMTU3NTUgKHRhcmdldC9yeDogVENHIGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-MjE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2
-NTAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2
-LzIyIENoZWNraW5nIGNvbW1pdCA3MDJmMjdkNzhkZGUgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRp
-b24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
-SU5FUlMgbmVlZCB1cGRhdGluZz8KIzM5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAw
-IGVycm9ycywgMSB3YXJuaW5ncywgNTg4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0
-eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
-ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
-QVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yMiBDaGVja2luZyBjb21taXQgZTRmNTdkMmYyN2M2ICh0
-YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
-ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmls
-ZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2lu
-ZyBjb21taXQgOTIxNzYyOGU4NDQ2ICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2Fk
-ZHIgaW50byBhIHN0cmluZykKOS8yMiBDaGVja2luZyBjb21taXQgYjU4YzAyMGE1MTNlICh0YXJn
-ZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAv
-MjIgQ2hlY2tpbmcgY29tbWl0IDA0YjM2MzkwMTEzYSAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkg
-Zm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkpCjExLzIyIENoZWNraW5nIGNvbW1pdCA1Zjc2NzVlZTg5
-MmYgKHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBD
-aGVja2luZyBjb21taXQgYTI1NGE4MjdhOWM1ICh0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVz
-IGR1cmluZyBkaXNhc3NlbWJseSkKMTMvMjIgQ2hlY2tpbmcgY29tbWl0IDMyMDBhMjg0ZTRhNCAo
-dGFyZ2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQox
-NC8yMiBDaGVja2luZyBjb21taXQgNTRjZWQzZTM3NWE4IChody9pbnRjOiBSWDYyTiBpbnRlcnJ1
-cHQgY29udHJvbGxlciAoSUNVYSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
-bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDQ1IGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDE0LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNv
-bW1pdCA5NmFhMmJmNzMzYjQgKGh3L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVz
-KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
-RVJTIG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBl
-cnJvcnMsIDEgd2FybmluZ3MsIDg0NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgoxNi8yMiBDaGVja2luZyBjb21taXQgNmQxZDNmMjIxNDdjICho
-dy9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5J
-Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
-ZCB1cGRhdGluZz8KIzQzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywg
-MSB3YXJuaW5ncywgNDAxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjE3LzIyIENoZWNraW5nIGNvbW1pdCA0NzM3MjY4YzIwMjMgKGh3L3J4OiBS
-WCBUYXJnZXQgaGFyZHdhcmUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
-bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjk6IApuZXcg
-ZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0ODAgbGluZXMg
-Y2hlY2tlZAoKUGF0Y2ggMTcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTgvMjIgQ2hl
-Y2tpbmcgY29tbWl0IDEwMGUzMDdmNDJlZSAoaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdCkKMTkv
-MjIgQ2hlY2tpbmcgY29tbWl0IDUzYjVhM2VhNzU0OSAoaHcvcng6IFJlc3RyaWN0IHRoZSBSWDYy
-TiBtaWNyb2NvbnRyb2xsZXIgdG8gdGhlIFJYNjJOIENQVSBjb3JlKQoyMC8yMiBDaGVja2luZyBj
-b21taXQgMjFjY2QyYjU3ODg3IChBZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRkZWQsIG1vdmVk
-IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTk6
-IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1OSBs
-aW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyMS8y
-MiBDaGVja2luZyBjb21taXQgMGE2MGJjMTViNDY1IChCb290TGludXhDb25zb2xlVGVzdDogVGVz
-dCB0aGUgUlgtVmlydCBtYWNoaW5lKQoyMi8yMiBDaGVja2luZyBjb21taXQgYzcyMTFlYzc5ZDY2
-IChxYXBpL21hY2hpbmUuanNvbjogQWRkIFJYIGNwdS4pCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
-dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
-IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTEyMDYwNzAxLjQ2NDItMS15c2F0b0B1
-c2Vycy5zb3VyY2Vmb3JnZS5qcC90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+Tried sending you a message @ginf, but haven't heard back from you so I'm p=
+osting here instead;
+What kind of debug trace do you want me to give you logs from?
+$ /opt/qemu4/bin/qemu-system-x86_64 -d help
+Log items (comma separated):
+out_asm         show generated host assembly code for each compiled TB
+in_asm          show target assembly code for each compiled TB
+op              show micro ops for each compiled TB
+op_opt          show micro ops after optimization
+op_ind          show micro ops before indirect lowering
+int             show interrupts/exceptions in short format
+exec            show trace before each executed TB (lots of logs)
+cpu             show CPU registers before entering a TB (lots of logs)
+fpu             include FPU registers in the 'cpu' logging
+mmu             log MMU-related activities
+pcall           x86 only: show protected mode far calls/returns/exceptions
+cpu_reset       show CPU state before CPU resets
+unimp           log unimplemented functionality
+guest_errors    log when the guest OS does something invalid (eg accessing a
+non-existent register)
+page            dump pages at beginning of user mode emulation
+nochain         do not chain compiled TBs so that "exec" and "cpu" show
+complete traces
+trace:PATTERN   enable trace events
 
+Use "-d trace:help" to get a list of trace events.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1839060
+
+Title:
+  HDA device non functional in Windows 10 1903
+
+Status in QEMU:
+  New
+
+Bug description:
+  I made the update to 1903, and the HDA device stopped working.
+
+  The driver says the device is working correctly, but it does not.
+  When I try to open the Windows sound configuration, the dialog hangs and =
+never shows it's content.
+
+  Several people reported this back in May:
+
+  https://windowsreport.com/windows-10-v1903-ich6-ich9-virtio/
+
+  I can confirm I have exactly the same problem.
+
+  Host is Arch Linux, current (5.2.5) kernel, QEMU 4.0.
+
+  I enabled HDA debug output and compared an older, working Windows
+  version to 1903, but could not see the difference. The driver seems to
+  issue the same verbs.
+
+  I am happy to provide additional information if needed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1839060/+subscriptions
 
