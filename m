@@ -2,75 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C32B0ED1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:24:16 +0200 (CEST)
-Received: from localhost ([::1]:33886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C683B0EE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:32:36 +0200 (CEST)
+Received: from localhost ([::1]:33952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8O91-0000nv-O7
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51049)
+	id 1i8OH4-0007Ah-HD
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:32:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1i8O7r-0008Ku-Gs
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:23:04 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1i8OAP-00033a-2n
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1i8O7q-0006fm-Bo
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:23:03 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38436)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1i8O7q-0006fa-5d
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:23:02 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id o184so7413065wme.3
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ar7x6SFGQRQOR70FgKLuAyVO3vdv6LH0teTnF9ULC2o=;
- b=DtCXs/X6rpWIHuLsLrDlhJIv7wphO65w4fre1h4KaZdWqRyzveXGMi59pPGmrbinfB
- iarXtgyZQZomm/BmopB/JCJS+rSo41wo3LCsYsTVFcRGBDmG2jq3ZtW4NczsTuNvNHBv
- F25u2v9d85irgG8JTK+0zIO9jIuk9n2dKIUD5x69rOWaSVNWDRa+BmlOLyyyLFWvT6JO
- DkP/05Hau5e56/eW0RcsTazbkBH1kvC29jH+sv2HXzoWLUIDbfU2lfVLiWjTU3zuv77W
- gu7UuJJA4tmrjYDClUr8E8cg5p2Jw4y9RXGSvUleT6HJuWzGag9Pp+qfQyOceDyi5qGa
- Ya/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ar7x6SFGQRQOR70FgKLuAyVO3vdv6LH0teTnF9ULC2o=;
- b=J7g5Y4mrsa03SzdO5BTDUeCR90iNQhVrKZHH5z/2Zco1Z3+qrSNHTEero7J7AwNs/b
- /w/70yiNluUnH+Q6522ydY2jajRgQKEZnNsEvJklCSrM1w9Ri75H84TJ87T1X/89OlLK
- lgU18BC9QtHU0PxopzqOfzV2xbWuBsNSur6KOY/NI1Z2jjOLMGDUYK042VX5OsIa/Dyx
- tf8ls2BQnUuWKkZDMdWDwVBXSxnuJTCe0E5YlNmQzF4Gh4n7lvV6vkobncbngCGxhSKb
- KsEH77Ax0qgP+j9BgUgHDYi0F5ri6NFcUUar29Rxmd3NNzXJcYLJUlT1btxsFQobLkcZ
- P7sQ==
-X-Gm-Message-State: APjAAAWs8JWVG7d857fp81SaFSfL2jZBaifAUaM9Q/D/v2fY6a/ao411
- gVEhquB3Qvf5X0aj3y1lst0=
-X-Google-Smtp-Source: APXvYqyg7nt9dzO3E/yEUaqE4feWbJLYQX9iN3UlTRqfzrtsMmemXOBmMZe1giLaDdgBGLRfQ2+7GQ==
-X-Received: by 2002:a7b:c766:: with SMTP id x6mr8877373wmk.51.1568290980940;
- Thu, 12 Sep 2019 05:23:00 -0700 (PDT)
-Received: from localhost (178.165.130.7.wireless.dyn.drei.com. [178.165.130.7])
- by smtp.gmail.com with ESMTPSA id r18sm8799272wme.48.2019.09.12.05.22.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Sep 2019 05:23:00 -0700 (PDT)
-Date: Thu, 12 Sep 2019 14:22:53 +0200
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Message-ID: <20190912122253.GH23174@stefanha-x1.localdomain>
-References: <20190902121233.13382-1-johannes@sipsolutions.net>
- <20190902121233.13382-2-johannes@sipsolutions.net>
- <CAJSP0QXhOQg98FyLzcTnruG7B=b+uUqEd5HvevRKmuP3HhCSmw@mail.gmail.com>
- <45d6dc06b9973aa231f1076a0de279fd5292d2d3.camel@sipsolutions.net>
+ (envelope-from <marcandre.lureau@redhat.com>) id 1i8OAN-0007Qc-Ne
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:15380)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1i8OAN-0007QR-GO
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:25:39 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D9CA083F40
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:25:38 +0000 (UTC)
+Received: from localhost (ovpn-112-63.ams2.redhat.com [10.36.112.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BEEA600C4;
+ Thu, 12 Sep 2019 12:25:34 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 12 Sep 2019 16:25:10 +0400
+Message-Id: <20190912122514.22504-3-marcandre.lureau@redhat.com>
+In-Reply-To: <20190912122514.22504-1-marcandre.lureau@redhat.com>
+References: <20190912122514.22504-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZYOWEO2dMm2Af3e3"
-Content-Disposition: inline
-In-Reply-To: <45d6dc06b9973aa231f1076a0de279fd5292d2d3.camel@sipsolutions.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32e
-Subject: Re: [Qemu-devel] [RFC] docs: vhost-user: add in-band kick/call
- messages
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Thu, 12 Sep 2019 12:25:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 2/6] vmstate: add qom interface to get id
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,59 +56,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
+ dgilbert@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add an interface to get the instance id, instead of depending on
+Device and qdev_get_dev_path().
 
---ZYOWEO2dMm2Af3e3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ hw/core/Makefile.objs        |  1 +
+ hw/core/qdev.c               | 14 ++++++++++++++
+ hw/core/vmstate-if.c         | 23 +++++++++++++++++++++++
+ include/hw/vmstate-if.h      | 32 ++++++++++++++++++++++++++++++++
+ include/migration/register.h |  2 ++
+ include/migration/vmstate.h  |  2 ++
+ tests/Makefile.include       |  1 +
+ 7 files changed, 75 insertions(+)
+ create mode 100644 hw/core/vmstate-if.c
+ create mode 100644 include/hw/vmstate-if.h
 
-On Wed, Sep 11, 2019 at 05:36:32PM +0200, Johannes Berg wrote:
-> On Wed, 2019-09-11 at 17:31 +0200, Stefan Hajnoczi wrote:
->=20
-> > > +``VHOST_USER_VQ_CALL``
-> >=20
-> > "call" should be "kick".  "kick" is the driver->device request
-> > submission notification and "call" is the device->driver request
-> > completion notification.
->=20
-> Ahrg, yes. I confuse this all the time, sorry, will fix.
->=20
-> Btw, speaking of confusion ... this document may need some cleanup wrt.
-> the "client" language since it states that both sides might be a socket
-> server or client, but then goes on to talk about the "client" as though
-> it was equivalent to "slave", where normally it's actually the other way
-> around (the device is the one listening on the socket, i.e. it's the
-> server). This is most pronounced in the section "Starting and stopping
-> rings".
->=20
-> IMHO, it'd be good to talk more about "device" and "host" instead of
-> "slave" and "master" too since that's clearer, and just replace *all*
-> that language accordingly, but YMMV.
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+index fd0550d1d9..0edd9e635d 100644
+--- a/hw/core/Makefile.objs
++++ b/hw/core/Makefile.objs
+@@ -9,6 +9,7 @@ common-obj-y +=3D hotplug.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D nmi.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D vm-change-state-handler.o
+ common-obj-y +=3D cpu.o
++common-obj-y +=3D vmstate-if.o
+=20
+ common-obj-$(CONFIG_EMPTY_SLOT) +=3D empty_slot.o
+ common-obj-$(CONFIG_XILINX_AXI) +=3D stream.o
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 60d66c2f39..7e083dfcae 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -1047,9 +1047,18 @@ static void device_unparent(Object *obj)
+     }
+ }
+=20
++static char *
++device_vmstate_if_get_id(VMStateIf *obj)
++{
++    DeviceState *dev =3D DEVICE(obj);
++
++    return qdev_get_dev_path(dev);
++}
++
+ static void device_class_init(ObjectClass *class, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(class);
++    VMStateIfClass *vc =3D VMSTATE_IF_CLASS(class);
+=20
+     class->unparent =3D device_unparent;
+=20
+@@ -1061,6 +1070,7 @@ static void device_class_init(ObjectClass *class, v=
+oid *data)
+      */
+     dc->hotpluggable =3D true;
+     dc->user_creatable =3D true;
++    vc->get_id =3D device_vmstate_if_get_id;
+ }
+=20
+ void device_class_set_parent_reset(DeviceClass *dc,
+@@ -1118,6 +1128,10 @@ static const TypeInfo device_type_info =3D {
+     .class_init =3D device_class_init,
+     .abstract =3D true,
+     .class_size =3D sizeof(DeviceClass),
++    .interfaces =3D (InterfaceInfo[]) {
++        { TYPE_VMSTATE_IF },
++        { }
++    }
+ };
+=20
+ static void qdev_register_types(void)
+diff --git a/hw/core/vmstate-if.c b/hw/core/vmstate-if.c
+new file mode 100644
+index 0000000000..d0b2392b0a
+--- /dev/null
++++ b/hw/core/vmstate-if.c
+@@ -0,0 +1,23 @@
++/*
++ * VMState interface
++ *
++ * Copyright (c) 2009-2017 Red Hat Inc
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/vmstate-if.h"
++
++static const TypeInfo vmstate_if_info =3D {
++    .name =3D TYPE_VMSTATE_IF,
++    .parent =3D TYPE_INTERFACE,
++    .class_size =3D sizeof(VMStateIfClass),
++};
++
++static void vmstate_register_types(void)
++{
++    type_register_static(&vmstate_if_info);
++}
++
++type_init(vmstate_register_types);
+diff --git a/include/hw/vmstate-if.h b/include/hw/vmstate-if.h
+new file mode 100644
+index 0000000000..92682f5bc2
+--- /dev/null
++++ b/include/hw/vmstate-if.h
+@@ -0,0 +1,32 @@
++#ifndef VMSTATE_IF_H
++#define VMSTATE_IF_H
++
++#include "qom/object.h"
++
++#define TYPE_VMSTATE_IF "vmstate-if"
++
++#define VMSTATE_IF_CLASS(klass)                                     \
++    OBJECT_CLASS_CHECK(VMStateIfClass, (klass), TYPE_VMSTATE_IF)
++#define VMSTATE_IF_GET_CLASS(obj)                           \
++    OBJECT_GET_CLASS(VMStateIfClass, (obj), TYPE_VMSTATE_IF)
++#define VMSTATE_IF(obj)                             \
++    INTERFACE_CHECK(VMStateIf, (obj), TYPE_VMSTATE_IF)
++
++typedef struct VMStateIf VMStateIf;
++
++typedef struct VMStateIfClass {
++    InterfaceClass parent_class;
++
++    char * (*get_id)(VMStateIf *obj);
++} VMStateIfClass;
++
++static inline char *vmstate_if_get_id(VMStateIf *vmif)
++{
++    if (!vmif) {
++        return NULL;
++    }
++
++    return VMSTATE_IF_GET_CLASS(vmif)->get_id(vmif);
++}
++
++#endif /* VMSTATE_IF_H */
+diff --git a/include/migration/register.h b/include/migration/register.h
+index 3d0b9833c6..74f1578b29 100644
+--- a/include/migration/register.h
++++ b/include/migration/register.h
+@@ -14,6 +14,8 @@
+ #ifndef MIGRATION_REGISTER_H
+ #define MIGRATION_REGISTER_H
+=20
++#include "hw/vmstate-if.h"
++
+ typedef struct SaveVMHandlers {
+     /* This runs inside the iothread lock.  */
+     SaveStateHandler *save_state;
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 1fbfd099dd..bdcf8a1652 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -27,6 +27,8 @@
+ #ifndef QEMU_VMSTATE_H
+ #define QEMU_VMSTATE_H
+=20
++#include "hw/vmstate-if.h"
++
+ typedef struct VMStateInfo VMStateInfo;
+ typedef struct VMStateField VMStateField;
+=20
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index f5ac09549c..d4502a30eb 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -566,6 +566,7 @@ tests/test-qdev-global-props$(EXESUF): tests/test-qde=
+v-global-props.o \
+ 	hw/core/irq.o \
+ 	hw/core/fw-path-provider.o \
+ 	hw/core/reset.o \
++	hw/core/vmstate-if.o \
+ 	$(test-qapi-obj-y)
+ tests/test-vmstate$(EXESUF): tests/test-vmstate.o \
+ 	migration/vmstate.o migration/vmstate-types.o migration/qemu-file.o \
+--=20
+2.23.0
 
-The vhost-user spec is unclear and inconsistent.  Patches are welcome.
-A footnote describing the old terminology would be necessary so that
-existing documentation, code, etc can still be decyphered when the spec
-changes the terminology :).
-
---ZYOWEO2dMm2Af3e3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl16OJ0ACgkQnKSrs4Gr
-c8gVPggArBxlHLziVMuVLl2TU1OimyoJN0saalpECgWLoxvag0vFYRe/gERnTqVJ
-0Kd099cNXCO6fyMTU4ADEzdULgSUYf66Z5+56/2iZx48vjN+HBmyC9Q/OsB5SvTc
-prJr9yQkrl52Ux+1ALm+ijWyVBobu0T0lcTW8u818NG0+dhaYl/sGcrifradCbRs
-Ag7E7G74JG/sGerUJGJ4KSiYyMx1FBou+GS9fLU9uGeIh5UOTh9SMOfzJhnoHU16
-X+L4bq/FXluNikEA8ISlEQrky1Iidr2pdP0wu0LZQRJkWP6h6jz2lRIRUrjEv1ll
-47ox8Q6M3qkFYqLodt8FtPbFzyHesw==
-=PWdj
------END PGP SIGNATURE-----
-
---ZYOWEO2dMm2Af3e3--
 
