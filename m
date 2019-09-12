@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9542B0BCB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:46:13 +0200 (CEST)
-Received: from localhost ([::1]:59942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9F5B0BDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 11:48:56 +0200 (CEST)
+Received: from localhost ([::1]:59966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8Lg4-0006Hu-Gt
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45052)
+	id 1i8Lih-0000gk-6s
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 05:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45089)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1i8LRi-0000D9-Ur
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:31:24 -0400
+ (envelope-from <bala24@linux.ibm.com>) id 1i8LRn-0000IG-Vo
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:31:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1i8LRh-0006mJ-BI
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:31:22 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34548
+ (envelope-from <bala24@linux.ibm.com>) id 1i8LRm-0006pI-HJ
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:31:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27598
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1i8LRh-0006m4-6v
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:31:21 -0400
+ id 1i8LRm-0006p9-Cv
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 05:31:26 -0400
 Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8C9IY9X059410
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:31:19 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2uyj88jssy-1
+ x8C9IVKI059259
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:31:26 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2uyj88jsxs-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:31:18 -0400
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:31:25 -0400
 Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Thu, 12 Sep 2019 10:31:16 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Thu, 12 Sep 2019 10:31:24 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Sep 2019 10:31:13 +0100
+ Thu, 12 Sep 2019 10:31:20 +0100
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8C9VDkM45940848
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8C9VJLB39780604
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Sep 2019 09:31:13 GMT
+ Thu, 12 Sep 2019 09:31:19 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DC5FDAE045;
- Thu, 12 Sep 2019 09:31:12 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 700AEAE045;
+ Thu, 12 Sep 2019 09:31:19 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 62772AE061;
- Thu, 12 Sep 2019 09:31:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E3017AE057;
+ Thu, 12 Sep 2019 09:31:17 +0000 (GMT)
 Received: from localhost.in.ibm.com (unknown [9.124.35.221])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Sep 2019 09:31:11 +0000 (GMT)
+ Thu, 12 Sep 2019 09:31:17 +0000 (GMT)
 From: Balamuruhan S <bala24@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 12 Sep 2019 15:00:51 +0530
+Date: Thu, 12 Sep 2019 15:00:53 +0530
 X-Mailer: git-send-email 2.14.5
+In-Reply-To: <20190912093056.4516-1-bala24@linux.ibm.com>
+References: <20190912093056.4516-1-bala24@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19091209-0012-0000-0000-0000034A5C83
+x-cbid: 19091209-0008-0000-0000-00000314B9F8
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091209-0013-0000-0000-00002184C845
-Message-Id: <20190912093056.4516-1-bala24@linux.ibm.com>
+x-cbparentid: 19091209-0009-0000-0000-00004A3328B7
+Message-Id: <20190912093056.4516-3-bala24@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-12_04:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=736 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1906280000 definitions=main-1909120099
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id x8C9IVKI059259
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v3 0/4] add Homer/OCC common area emulation for
- PowerNV
+Subject: [Qemu-devel] [PATCH v3 2/4] hw/ppc/pnv_occ: add sram device model
+ for occ common area
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,77 +101,203 @@ Cc: maddy@linux.vnet.ibm.com, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
+emulate occ common area region with occ sram device model which
+occ and skiboot uses it to communicate regarding sensors, slw
+and HWMON in PowerNV emulated host.
 
-This is follow-up patch that implements HOMER and OCC SRAM device
-models to emulate homer memory and occ common area access for pstate
-table, occ sensors, runtime data and slw.
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
+---
+ hw/ppc/pnv.c             |  8 +++++
+ hw/ppc/pnv_occ.c         | 78 ++++++++++++++++++++++++++++++++++++++++++=
+++++++
+ include/hw/ppc/pnv_occ.h |  3 ++
+ 3 files changed, 89 insertions(+)
 
-Currently skiboot disables the homer/occ code path with `QUIRK_NO_PBA`,
-this quirk have to be removed in skiboot for it to use HOMER and OCC
-SRAM device models along with a bug fix,
-
-https://github.com/balamuruhans/skiboot/commit/a655514d2a730e0372a2faee277d1cf01f71a524
-https://github.com/balamuruhans/skiboot/commit/fd3d93d92ec66a7494346d6d24ced7b48264c9a0
-
-This version fixes a review comment from Cedric in previous version,
-
-changes in v3:
-    * pass on PnvHomer *homer directly to core_max_array() function
-      from the caller.
-
-v2 patchset:
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg02231.html
-
-changes in v2:
-    * change to PnvHomer/PnvHomerClass instead of PnvHOMER/PnvHOMERClass
-      for better code readabililty.
-    * fabric link to chip to use `nr_cores` from PnvChip struct for
-      core_max_array() as we need to consider active cores in chip and not
-      whole machine.
-    * declare variable well ahead instead in for() loop syntax to make
-      all compilers happy.
-    * change to shorter variable name to `hmrc` instead of `homer_class`.
-    * remove `homer_` prefix for regs as it is not useful.
-    * have separate commit for checkpatch.pl coding style warnings.
-
-v1 patchset:
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01610.html
-
-changes in v1:
-    * breaks it to have separate patch series for Homer and OCC
-      emulation.
-    * reuse PnvOCC device model to implement SRAM device.
-    * implement PnvHomer as separate device model.
-    * have core max base address as part of PnvHOMERClass.
-    * reuse PNV_CHIP_INDEX() instead of introducing new `chip_num`.
-    * define all the memory ops access address as macros.
-    * few coding style warnings given by checkpatch.pl.
-
-rfc patchset:
-https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg00979.html
-
-I request for review, comments and suggestions for the changes.
-
-Balamuruhan S (4):
-  hw/ppc/pnv_xscom: retrieve homer/occ base address from PBA BARs
-  hw/ppc/pnv_occ: add sram device model for occ common area
-  hw/ppc/pnv_homer: add PowerNV homer device model
-  hw/ppc/pnv: fix checkpatch.pl coding style warnings
-
- hw/ppc/Makefile.objs       |   1 +
- hw/ppc/pnv.c               |  87 ++++++++++++---
- hw/ppc/pnv_homer.c         | 272 +++++++++++++++++++++++++++++++++++++++++++++
- hw/ppc/pnv_occ.c           |  78 +++++++++++++
- hw/ppc/pnv_xscom.c         |  34 +++++-
- include/hw/ppc/pnv.h       |  21 ++++
- include/hw/ppc/pnv_homer.h |  53 +++++++++
- include/hw/ppc/pnv_occ.h   |   3 +
- 8 files changed, 528 insertions(+), 21 deletions(-)
- create mode 100644 hw/ppc/pnv_homer.c
- create mode 100644 include/hw/ppc/pnv_homer.h
-
--- 
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 3f08db7b9e..80338ffe87 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -938,6 +938,10 @@ static void pnv_chip_power8_realize(DeviceState *dev=
+, Error **errp)
+         return;
+     }
+     pnv_xscom_add_subregion(chip, PNV_XSCOM_OCC_BASE, &chip8->occ.xscom_=
+regs);
++
++    /* OCC SRAM model */
++    memory_region_add_subregion(get_system_memory(), PNV_OCC_COMMON_AREA=
+(chip),
++                                &chip8->occ.sram_regs);
+ }
+=20
+ static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
+@@ -1126,6 +1130,10 @@ static void pnv_chip_power9_realize(DeviceState *d=
+ev, Error **errp)
+         return;
+     }
+     pnv_xscom_add_subregion(chip, PNV9_XSCOM_OCC_BASE, &chip9->occ.xscom=
+_regs);
++
++    /* OCC SRAM model */
++    memory_region_add_subregion(get_system_memory(), PNV9_OCC_COMMON_ARE=
+A(chip),
++                                &chip9->occ.sram_regs);
+ }
+=20
+ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
+index 8bead2c930..785653bb67 100644
+--- a/hw/ppc/pnv_occ.c
++++ b/hw/ppc/pnv_occ.c
+@@ -30,6 +30,24 @@
+ #define OCB_OCI_OCCMISC_AND     0x4021
+ #define OCB_OCI_OCCMISC_OR      0x4022
+=20
++/* OCC sensors */
++#define OCC_SENSOR_DATA_BLOCK_OFFSET          0x580000
++#define OCC_SENSOR_DATA_VALID                 0x580001
++#define OCC_SENSOR_DATA_VERSION               0x580002
++#define OCC_SENSOR_DATA_READING_VERSION       0x580004
++#define OCC_SENSOR_DATA_NR_SENSORS            0x580008
++#define OCC_SENSOR_DATA_NAMES_OFFSET          0x580010
++#define OCC_SENSOR_DATA_READING_PING_OFFSET   0x580014
++#define OCC_SENSOR_DATA_READING_PONG_OFFSET   0x58000c
++#define OCC_SENSOR_DATA_NAME_LENGTH           0x58000d
++#define OCC_SENSOR_NAME_STRUCTURE_TYPE        0x580023
++#define OCC_SENSOR_LOC_CORE                   0x580022
++#define OCC_SENSOR_LOC_GPU                    0x580020
++#define OCC_SENSOR_TYPE_POWER                 0x580003
++#define OCC_SENSOR_NAME                       0x580005
++#define HWMON_SENSORS_MASK                    0x58001e
++#define SLW_IMAGE_BASE                        0x0
++
+ static void pnv_occ_set_misc(PnvOCC *occ, uint64_t val)
+ {
+     bool irq_state;
+@@ -82,6 +100,48 @@ static void pnv_occ_power8_xscom_write(void *opaque, =
+hwaddr addr,
+     }
+ }
+=20
++static uint64_t pnv_occ_common_area_read(void *opaque, hwaddr addr,
++                                         unsigned width)
++{
++    switch (addr) {
++    /*
++     * occ-sensor sanity check that asserts the sensor
++     * header block
++     */
++    case OCC_SENSOR_DATA_BLOCK_OFFSET:
++    case OCC_SENSOR_DATA_VALID:
++    case OCC_SENSOR_DATA_VERSION:
++    case OCC_SENSOR_DATA_READING_VERSION:
++    case OCC_SENSOR_DATA_NR_SENSORS:
++    case OCC_SENSOR_DATA_NAMES_OFFSET:
++    case OCC_SENSOR_DATA_READING_PING_OFFSET:
++    case OCC_SENSOR_DATA_READING_PONG_OFFSET:
++    case OCC_SENSOR_NAME_STRUCTURE_TYPE:
++        return 1;
++    case OCC_SENSOR_DATA_NAME_LENGTH:
++        return 0x30;
++    case OCC_SENSOR_LOC_CORE:
++        return 0x0040;
++    case OCC_SENSOR_TYPE_POWER:
++        return 0x0080;
++    case OCC_SENSOR_NAME:
++        return 0x1000;
++    case HWMON_SENSORS_MASK:
++    case OCC_SENSOR_LOC_GPU:
++        return 0x8e00;
++    case SLW_IMAGE_BASE:
++        return 0x1000000000000000;
++    }
++    return 0;
++}
++
++static void pnv_occ_common_area_write(void *opaque, hwaddr addr,
++                                             uint64_t val, unsigned widt=
+h)
++{
++    /* callback function defined to occ common area write */
++    return;
++}
++
+ static const MemoryRegionOps pnv_occ_power8_xscom_ops =3D {
+     .read =3D pnv_occ_power8_xscom_read,
+     .write =3D pnv_occ_power8_xscom_write,
+@@ -92,12 +152,24 @@ static const MemoryRegionOps pnv_occ_power8_xscom_op=
+s =3D {
+     .endianness =3D DEVICE_BIG_ENDIAN,
+ };
+=20
++const MemoryRegionOps pnv_occ_sram_ops =3D {
++    .read =3D pnv_occ_common_area_read,
++    .write =3D pnv_occ_common_area_write,
++    .valid.min_access_size =3D 1,
++    .valid.max_access_size =3D 8,
++    .impl.min_access_size =3D 1,
++    .impl.max_access_size =3D 8,
++    .endianness =3D DEVICE_BIG_ENDIAN,
++};
++
+ static void pnv_occ_power8_class_init(ObjectClass *klass, void *data)
+ {
+     PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
+=20
+     poc->xscom_size =3D PNV_XSCOM_OCC_SIZE;
++    poc->sram_size =3D PNV_OCC_COMMON_AREA_SIZE;
+     poc->xscom_ops =3D &pnv_occ_power8_xscom_ops;
++    poc->sram_ops =3D &pnv_occ_sram_ops;
+     poc->psi_irq =3D PSIHB_IRQ_OCC;
+ }
+=20
+@@ -168,7 +240,9 @@ static void pnv_occ_power9_class_init(ObjectClass *kl=
+ass, void *data)
+     PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
+=20
+     poc->xscom_size =3D PNV9_XSCOM_OCC_SIZE;
++    poc->sram_size =3D PNV9_OCC_COMMON_AREA_SIZE;
+     poc->xscom_ops =3D &pnv_occ_power9_xscom_ops;
++    poc->sram_ops =3D &pnv_occ_sram_ops;
+     poc->psi_irq =3D PSIHB9_IRQ_OCC;
+ }
+=20
+@@ -199,6 +273,10 @@ static void pnv_occ_realize(DeviceState *dev, Error =
+**errp)
+     /* XScom region for OCC registers */
+     pnv_xscom_region_init(&occ->xscom_regs, OBJECT(dev), poc->xscom_ops,
+                           occ, "xscom-occ", poc->xscom_size);
++
++    /* XScom region for OCC SRAM registers */
++    pnv_xscom_region_init(&occ->sram_regs, OBJECT(dev), poc->sram_ops,
++                          occ, "occ-common-area", poc->sram_size);
+ }
+=20
+ static void pnv_occ_class_init(ObjectClass *klass, void *data)
+diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
+index ed0709bfc0..66b0989be6 100644
+--- a/include/hw/ppc/pnv_occ.h
++++ b/include/hw/ppc/pnv_occ.h
+@@ -38,6 +38,7 @@ typedef struct PnvOCC {
+     PnvPsi *psi;
+=20
+     MemoryRegion xscom_regs;
++    MemoryRegion sram_regs;
+ } PnvOCC;
+=20
+ #define PNV_OCC_CLASS(klass) \
+@@ -49,7 +50,9 @@ typedef struct PnvOCCClass {
+     DeviceClass parent_class;
+=20
+     int xscom_size;
++    int sram_size;
+     const MemoryRegionOps *xscom_ops;
++    const MemoryRegionOps *sram_ops;
+     int psi_irq;
+ } PnvOCCClass;
+=20
+--=20
 2.14.5
 
 
