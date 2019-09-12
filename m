@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1658FB0F07
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:46:06 +0200 (CEST)
-Received: from localhost ([::1]:34108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35A4B0F1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Sep 2019 14:50:43 +0200 (CEST)
+Received: from localhost ([::1]:34152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8OU8-0004W7-Th
-	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54437)
+	id 1i8OYc-0000C7-VW
+	for lists+qemu-devel@lfdr.de; Thu, 12 Sep 2019 08:50:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55011)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1i8OQg-0001jY-LU
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:42:31 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i8OU0-000585-TT
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:45:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1i8OQf-0000x2-FC
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:42:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48500)
+ (envelope-from <pbonzini@redhat.com>) id 1i8OTz-0001qM-UJ
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:45:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34502)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i8OQf-0000wp-AC
- for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:42:29 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i8OTz-0001q2-Oq
+ for qemu-devel@nongnu.org; Thu, 12 Sep 2019 08:45:55 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 81E65636C
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:42:28 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id b1so11938953wru.4
- for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:42:28 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id E4E3EC051688
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 12:45:54 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id 32so7490019wrk.15
+ for <qemu-devel@nongnu.org>; Thu, 12 Sep 2019 05:45:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Er/2SjTbGiTyQTXDhOfSpSakj1+5Tjb2qAfNosvD4BU=;
- b=LKrNhs0h6tr2cOf3ZaLT+n2EEsyJtTzqjDpMpzJI/nDQCSM1fsES9M9zL+FSdOFvWF
- uZlLU6cy+0kCNkiIHrDK31pfynT01BEC9/6SW5ZrffNFYEpEbLWxjzzoar9CX/eH2o1G
- LcEAbZZLW+fdgg+84pgGBLp50uWcfGRD0OaH0uBolSIjHDiwwKrq7yuK2NZ73su4hGu6
- ALwfW7ltmSGjgXGzZ6TGYob4vMd9Jm3FciFJwbbNBAAdb774jkT29+sxrHJF6qNFORHV
- 7A4v8G4MLfJ652r0B1IA1N4CoZxcJ311WwMe0bp/QVmUB5mFwAmVGnGFyaFah4MeIZbv
- wIQg==
-X-Gm-Message-State: APjAAAXUaw/1wQxZfXc0e1c1ZklVbrjQs9eUJzPH+jh+31kkp8raWxcR
- MO3eSw3Ioa753U2HpN9UbVfcB10anBlfBMMV5SGpXfA4wZsaKB6NdExU0c+FrXxklKQhdmTSg+A
- rDx1fG45qS+TdyZ0=
-X-Received: by 2002:adf:fe07:: with SMTP id n7mr8642170wrr.90.1568292147139;
- Thu, 12 Sep 2019 05:42:27 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyCS/yiyuydIXkWQuhcOEu932lLmpiSTxE+yMrSVR44Rbz0y2t3Oh2Y5go3u+NkuTbqJPUGLQ==
-X-Received: by 2002:adf:fe07:: with SMTP id n7mr8642152wrr.90.1568292146888;
- Thu, 12 Sep 2019 05:42:26 -0700 (PDT)
+ bh=g44nFJ1SsY0lbUC3G+Qx38pKnVFzdqT6LtVvkp8TZIk=;
+ b=oa2LWSt2dgZcpJwmSjve3hyd2SNE3+YXIcfsXkMx5RONIAI+rHnJtsAcXZtunS97nf
+ dS8ux6ahZZ353DhWtY46Yee+Zj7TQmzQfbFly5NzJyNXPNqXk37uTJfT1ETEnC79mOdf
+ ctrWirV1p94kyn2twcNAVu6LDB+mEx0aXcP67NjPYfUAG9+Ula9AxbRcNRnaVFx9HWcE
+ YzzcNhDB1ZMhAtTRqDd4F2eG/0dj1AU0TdBqNKdgoNrnt9wiZ6ZEOss8/hvPw+fSseZA
+ UKV2m2+VqvmdsU+8/I+iym8k8bZIql+TphDifaRkLUgzkqGAulO4TSGXTovMbihOWdis
+ hqcg==
+X-Gm-Message-State: APjAAAVmKm2D7p2iJi5gRtfX0DRi/KPUtYojz4dF3NewD90f7gTKyK8p
+ 80zmAXElviXavWivuBefNwhBBEbUe1TluB4M6ChDCaOdQut0VL+WrQ9/cq9HNCCL93hpYfHfGyV
+ gd1MQIgzD+chrkRI=
+X-Received: by 2002:a5d:46cb:: with SMTP id g11mr33351182wrs.268.1568292353371; 
+ Thu, 12 Sep 2019 05:45:53 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzOpLihkVwBXjwIo8kdJU/L7rmD19r7M6bc0LT+xivkle6qi4qtmor/3awiHDVwIrZZOdx9ZA==
+X-Received: by 2002:a5d:46cb:: with SMTP id g11mr33351167wrs.268.1568292353117; 
+ Thu, 12 Sep 2019 05:45:53 -0700 (PDT)
 Received: from [192.168.10.150] ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q25sm7627498wmq.27.2019.09.12.05.42.25
+ by smtp.gmail.com with ESMTPSA id o14sm15882462wrw.11.2019.09.12.05.45.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Sep 2019 05:42:26 -0700 (PDT)
-To: Wei Yang <richardw.yang@linux.intel.com>
-References: <20190321082555.21118-1-richardw.yang@linux.intel.com>
- <20190321082555.21118-3-richardw.yang@linux.intel.com>
- <d5fb9e01-acb9-06ab-edf9-57e2b80bd880@redhat.com>
- <20190823010750.GA21179@richard> <20190912025150.GA25169@richard>
+ Thu, 12 Sep 2019 05:45:52 -0700 (PDT)
+To: dovgaluk <dovgaluk@ispras.ru>, pavel.dovgaluk@ispras.ru
+References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
+ <1566284395-30287-16-git-send-email-pbonzini@redhat.com>
+ <46af8966edd45c163d7d0bd974f557cd@ispras.ru>
 From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <c9f18d8e-b7cc-b9d1-1e10-ddbbb4cfd43a@redhat.com>
-Date: Thu, 12 Sep 2019 14:42:26 +0200
+Message-ID: <0b8ff49d-3df0-021f-eeb8-b4e0c51e8bd1@redhat.com>
+Date: Thu, 12 Sep 2019 14:45:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190912025150.GA25169@richard>
+In-Reply-To: <46af8966edd45c163d7d0bd974f557cd@ispras.ru>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/6] exec.c: remove an unnecessary assert
- on PHYS_MAP_NODE_NIL in phys_map_node_alloc()
+Subject: Re: [Qemu-devel] [PULL 15/36] memory: fix race between TCG and
+ accesses to dirty bitmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,42 +82,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rth@twiddle.net, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Qemu-devel <qemu-devel-bounces+importer=patchew.org@nongnu.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/09/19 04:51, Wei Yang wrote:
-> On Fri, Aug 23, 2019 at 09:07:50AM +0800, Wei Yang wrote:
->> On Thu, Aug 22, 2019 at 12:24:32PM +0200, Paolo Bonzini wrote:
->>> On 21/03/19 09:25, Wei Yang wrote:
->>>> PHYS_MAP_NODE_NIL is assigned to PhysPageEntry.ptr in case this is not a
->>>> leaf entry, while map->nodes_nb range in [0, nodes_nb_alloc).
->>>>
->>>> Seems we are asserting on two different things, just remove it.
->>>
->>> The assertion checks that this "if" is not entered incorrectly:
->>>
->>>    if (lp->skip && lp->ptr == PHYS_MAP_NODE_NIL) {
->>>        lp->ptr = phys_map_node_alloc(map, level == 0);
->>>    }
->>>
->>
->> Hmm... I may not get your point.
->>
->> phys_map_node_alloc() will get an available PhysPageEntry and return its
->> index, which will be assigned to its parent's ptr.
->>
->> The "if" checks on the parent's ptr, while the assertion asserts the index for
->> the new child. I may miss something?
->>
-> 
-> Hi, Paolo,
-> 
-> Do I miss something?
+On 26/08/19 14:19, dovgaluk wrote:
+> This patch breaks the execution recording.
+> While vCPU tries to lock replay mutex in main while loop,
+> vga causes dirty memory sync and do_run_on_cpu call.
+> This call waits for vCPU to process the work queue.
 
-Sorry, I was on vacation.  phys_page_set_level can be called multiple
-times, with the same lp.  The assertion checks that only the first call
-will reach phys_map_node_alloc.
+IIUC there is a deadlock because VGA (from the I/O thread) is holding
+the replay mutex.  Next time, please include a quick description of who
+waits for whom. :)
+
+I think it should be enough to wrap the do_run_on_cpu on replay_mode ==
+REPLAY_MODE_NONE, since the I/O and vCPU thread are anyway running in
+lockstep when rr is active.  (This reasoning should also be in a comment).
 
 Paolo
 
