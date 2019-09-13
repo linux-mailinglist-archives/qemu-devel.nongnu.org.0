@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629A3B2160
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:53:44 +0200 (CEST)
-Received: from localhost ([::1]:44322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB778B215B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:50:14 +0200 (CEST)
+Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8m19-00015N-DB
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40159)
+	id 1i8lxl-000651-MA
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i8lyh-000802-M2
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:51:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i8lwO-0005Cf-Dr
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:48:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i8lyg-0002Ma-Cg
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:51:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59636)
+ (envelope-from <peter.maydell@linaro.org>) id 1i8lwN-0001NE-7U
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:48:48 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34439)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i8lyg-0002Lq-6u
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:51:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i8lye-0000et-6E
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 13:51:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F2F612E81C6
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 13:50:59 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i8lwN-0001Mg-1J
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:48:47 -0400
+Received: by mail-ot1-x341.google.com with SMTP id z26so20265793oto.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 06:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6iHTQSc+IpmrUdQ6C+Hj5cjmyPorY7fb5j5//5nIq1U=;
+ b=K493QvoRvbQwcrlIEShj2FmR99yLBj80vAT03MGhQkJIDrbEbnqRyp+g0Or7Zrsxvb
+ Q/0rNsI/Kz34mcqV/LrpVOTL5MxtiUGf2umIKO1rwDQjFTj7DvaCLK6iUIOI9Pd6rZB4
+ 7N+FRgWusuPjTJTClhQgX3H0GCUk63PRKsLwy6AFlZjr3HlPEbAF7ETAEddOYR78ddKg
+ w+FQPUntTdPdh9wPnCLRVbewngmk8eXjGT6RkCz1ncT3EmgvO0nqak0zW0GLV6k5445Z
+ W88DVKoaYb2gMVQBoa+z7HFLWjynPtPcvsU6xZGDkrWodH9fxNjuuZdm/cV4UhR0uEU1
+ L3jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6iHTQSc+IpmrUdQ6C+Hj5cjmyPorY7fb5j5//5nIq1U=;
+ b=Fdsc+VpDTZKpbZVpGOFF1yi4Xp1jNn726ZOKeVIr1uEeBMNI2oJ8lCRB57dYXbB2be
+ vF7MqMxvXKdqhTP5agX4ZtTpSkybS4dPPLlKYe6XvRjiIipjqvcPxKwCgUJsLx+uZtb0
+ pBhJ6hlISDphlciarX0hwpBiiMuWtaU6fUiIlGyYO/iczOXKbAOYD68xRbaj/ExQ7dQB
+ nCMd2NSXHxfOO7iOHpVgeQOIwdXao3IjAuc2Coxr6tzgIe3ea1MjqyJxE6jKbXEhIs5v
+ pMD2s5pBDSYYhYXfEzYLMmcHmsDzdhnussc92QZS6z9pOCR54yHlYAHD3lZ4+tmY1Bxl
+ DWFA==
+X-Gm-Message-State: APjAAAUQlUATc1t9q0mxcbRk4ELzsC7dN5X0NvhBgsixe8o3bT3xicRi
+ l1X1ym9oe8IM9Ir24mlTfUl+ql5b9JqnJn86N6oRYg==
+X-Google-Smtp-Source: APXvYqzbfFPcSzDrm2UHoxQ/ujld+qQTgCiO5OwP/+Ns6/lRTcnI1kGwReaSmaO96OV6Kk1c9mkNpY/Z6FKrrn6moZ0=
+X-Received: by 2002:a9d:68d6:: with SMTP id i22mr32258894oto.232.1568382526156; 
+ Fri, 13 Sep 2019 06:48:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20190911164959.11003-1-alex.bennee@linaro.org>
+ <20190911164959.11003-3-alex.bennee@linaro.org>
+ <CAFEAcA8NsdpEMOH1MFDta0LUswyqSDHCgtOh6g5k3+EU0FVuHA@mail.gmail.com>
+ <875zlwz5o1.fsf@linaro.org>
+ <CAFEAcA-6BmxkFND4nZBFs70nVPEFzSFrE6RMQ1O3ftqozYYoBA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-6BmxkFND4nZBFs70nVPEFzSFrE6RMQ1O3ftqozYYoBA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Sep 2019 14:48:34 +0100
+Message-ID: <CAFEAcA_21a5mCk8Oh11pyY=0wtqbzTargSjrob21k5TkoXgL1w@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Sep 2019 13:42:48 -0000
-From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon pmaydell
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
-References: <150712892432.28170.15132413345734525245.malonedeb@gac.canonical.com>
-Message-Id: <156838216873.4620.8050589503511990589.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: bbf923b7e1079459ce6d8a593bdcea24ffe67e76
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1721275] Re: Support more ARM CPUs
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v5 2/5] target/arm: handle M-profile
+ semihosting at translate time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,55 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1721275 <1721275@bugs.launchpad.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Regarding Cortex-M7, I've noticed that unlike Cortex-M4, it supports
-double precision floating-point. Is DP supported by qemu?
+On Fri, 13 Sep 2019 at 14:31, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
+>
+> On Fri, 13 Sep 2019 at 14:28, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+> >
+> >
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> > > This is still disabling semihosting for the linux-user-mode
+> > > build for M-profile, isn't it ?
+> >
+> > Sure - as rth suggested. But m-profile doesn't run Linux so why would w=
+e
+> > support it in linux-user?
+>
+> (a) Linux does support Cortex-M, since it has no-mmu uCLinux style
+> support these days
+> (b) gcc test case binaries, which tend to get run on linux-user
+> even though in theory they're not actually Linux binaries
 
--- =
+also I think (c) general principle -- don't change behaviour in what
+looks like it's just a refactoring patchset.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1721275
-
-Title:
-  Support more ARM CPUs
-
-Status in QEMU:
-  Won't Fix
-
-Bug description:
-  Hi,
-
-  This is an enhancement request, rather than a bug report.
-
-  After some discussions/presentations during the last Linaro Connect
-  (SFO17), I understand that it may be easy to add support for more ARM
-  CPUs in QEMU. I am interested in user-mode, if that matters.
-
-  I'm primarily using QEMU for GCC validations, and I'd like to make
-  sure that GCC doesn't generate instructions not supported by the CPU
-  it's supposed to generate code for.
-
-  I'd like to have:
-  cortex-m0
-  cortex-m4
-  cortex-m7
-  cortex-m23
-  cortex-m33
-
-  cortex-a35
-  cortex-a53
-  cortex-a57
-
-  Is it possible?
-  Is it the right place to ask?
-  Should I file separate requests for each?
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1721275/+subscriptions
+thanks
+-- PMM
 
