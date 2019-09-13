@@ -2,50 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23D4B2437
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 18:36:48 +0200 (CEST)
-Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B97B243A
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 18:38:25 +0200 (CEST)
+Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8oYx-0003C8-TA
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 12:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35529)
+	id 1i8oaW-0005Qs-36
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 12:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8oXa-0002Jn-8L
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:35:23 -0400
+ (envelope-from <groug@kaod.org>) id 1i8oYq-0003qE-43
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:36:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8oXZ-0001pd-0k
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:35:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53226)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8oXY-0001ox-Rm
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:35:20 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 26EFC81DE7
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 16:35:20 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48E5E60CC0;
- Fri, 13 Sep 2019 16:35:19 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	quintela@redhat.com,
-	peterx@redhat.com
-Date: Fri, 13 Sep 2019 17:35:07 +0100
-Message-Id: <20190913163507.1403-3-dgilbert@redhat.com>
-In-Reply-To: <20190913163507.1403-1-dgilbert@redhat.com>
-References: <20190913163507.1403-1-dgilbert@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1i8oYo-0002gY-Jp
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:36:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57988
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i8oYo-0002b6-FB
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:36:38 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8DGWTKQ095104
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 12:36:27 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2v0cjewcnu-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 12:36:27 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 13 Sep 2019 17:36:25 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 13 Sep 2019 17:36:24 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8DGaNHc58589188
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Sep 2019 16:36:23 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8B572AE04D;
+ Fri, 13 Sep 2019 16:36:23 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6B17CAE045;
+ Fri, 13 Sep 2019 16:36:23 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.1.250])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Sep 2019 16:36:23 +0000 (GMT)
+From: Greg Kurz <groug@kaod.org>
+To: Greg Kurz <groug@kaod.org>
+Date: Fri, 13 Sep 2019 18:36:23 +0200
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 13 Sep 2019 16:35:20 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] migration/rdma.c: Swap synchronize_rcu for
- call_rcu
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19091316-0012-0000-0000-0000034AEBE3
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19091316-0013-0000-0000-000021855CA8
+Message-Id: <156839258306.2228854.8411024885973295628.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-13_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=850 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909130167
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [PATCH] 9p: Print error hints if option parsing fails
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,96 +88,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Option parsing fonctions are called with &error_fatal, which
+causes error_setg() to call exit() and the hints are never
+printed.
 
-This fixes a deadlock that can occur on the migration source after
-a failed RDMA migration;  as the source tries to cleanup it
-clears a pair of pointers and uses synchronize_rcu to wait; this
-is happening on the main thread.  With the CPUs running
-a CPU thread can be an rcu reader and attempt to grab the main lock
-(kvm_handle_io->address_space_write->flatview_write->flatview_write_conti=
-nue->
-prepare_mmio_access->qemu_mutex_lock_iothread_impl)
+Use an intermediate error object so that exit() happens in
+error_propagate() after error_append_hint() could be called.
 
-Replace the synchronize_rcu with a call_rcu to postpone the freeing.
-
-Fixes: 74637e6f08fceda98806 ("migration: implement bi-directional RDMA QI=
-OChannel")
-
-( https://bugzilla.redhat.com/show_bug.cgi?id=3D1746787 )
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- migration/rdma.c | 39 +++++++++++++++++++++++++++------------
- 1 file changed, 27 insertions(+), 12 deletions(-)
+ hw/9pfs/9p-local.c |   11 +++++++----
+ hw/9pfs/9p-proxy.c |   11 +++++++----
+ 2 files changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 0fcf02f48e..4c74e88a37 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -3017,11 +3017,35 @@ static void qio_channel_rdma_set_aio_fd_handler(Q=
-IOChannel *ioc,
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 6f7309f4e691..2c80d2ac30f5 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1486,8 +1486,9 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
+     Error *local_err = NULL;
+ 
+     if (!sec_model) {
+-        error_setg(errp, "security_model property not set");
+-        error_append_security_model_hint(errp);
++        error_setg(&local_err, "security_model property not set");
++        error_append_security_model_hint(&local_err);
++        error_propagate(errp, local_err);
+         return -1;
      }
- }
-=20
-+struct rdma_close_rcu {
-+    struct rcu_head rcu;
-+    RDMAContext *rdmain;
-+    RDMAContext *rdmaout;
-+};
-+
-+/* callback from qio_channel_rdma_close via call_rcu */
-+static void qio_channel_rdma_close_rcu(struct rdma_close_rcu *rcu)
-+{
-+    if (rcu->rdmain) {
-+        qemu_rdma_cleanup(rcu->rdmain);
-+    }
-+
-+    if (rcu->rdmaout) {
-+        qemu_rdma_cleanup(rcu->rdmaout);
-+    }
-+
-+    g_free(rcu->rdmain);
-+    g_free(rcu->rdmaout);
-+    g_free(rcu);
-+}
-+
- static int qio_channel_rdma_close(QIOChannel *ioc,
-                                   Error **errp)
+ 
+@@ -1501,8 +1502,10 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
+     } else if (!strcmp(sec_model, "mapped-file")) {
+         fse->export_flags |= V9FS_SM_MAPPED_FILE;
+     } else {
+-        error_setg(errp, "invalid security_model property '%s'", sec_model);
+-        error_append_security_model_hint(errp);
++        error_setg(&local_err, "invalid security_model property '%s'",
++                   sec_model);
++        error_append_security_model_hint(&local_err);
++        error_propagate(errp, local_err);
+         return -1;
+     }
+ 
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 97ab9c58a573..5de5e53702f7 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -1126,15 +1126,18 @@ static int proxy_parse_opts(QemuOpts *opts, FsDriverEntry *fs, Error **errp)
  {
-     QIOChannelRDMA *rioc =3D QIO_CHANNEL_RDMA(ioc);
-     RDMAContext *rdmain, *rdmaout;
-+    struct rdma_close_rcu *rcu =3D g_new(struct rdma_close_rcu, 1);
-+
-     trace_qemu_rdma_close();
-=20
-     rdmain =3D rioc->rdmain;
-@@ -3034,18 +3058,9 @@ static int qio_channel_rdma_close(QIOChannel *ioc,
-         atomic_rcu_set(&rioc->rdmaout, NULL);
+     const char *socket = qemu_opt_get(opts, "socket");
+     const char *sock_fd = qemu_opt_get(opts, "sock_fd");
++    Error *local_err = NULL;
+ 
+     if (!socket && !sock_fd) {
+-        error_setg(errp, "both socket and sock_fd properties are missing");
+-        error_append_socket_sockfd_hint(errp);
++        error_setg(&local_err, "both socket and sock_fd properties are missing");
++        error_append_socket_sockfd_hint(&local_err);
++        error_propagate(errp, local_err);
+         return -1;
      }
-=20
--    synchronize_rcu();
--
--    if (rdmain) {
--        qemu_rdma_cleanup(rdmain);
--    }
--
--    if (rdmaout) {
--        qemu_rdma_cleanup(rdmaout);
--    }
--
--    g_free(rdmain);
--    g_free(rdmaout);
-+    rcu->rdmain =3D rdmain;
-+    rcu->rdmaout =3D rdmaout;
-+    call_rcu(rcu, qio_channel_rdma_close_rcu, rcu);
-=20
-     return 0;
- }
---=20
-2.21.0
+     if (socket && sock_fd) {
+-        error_setg(errp, "both socket and sock_fd properties are set");
+-        error_append_socket_sockfd_hint(errp);
++        error_setg(&local_err, "both socket and sock_fd properties are set");
++        error_append_socket_sockfd_hint(&local_err);
++        error_propagate(errp, local_err);
+         return -1;
+     }
+     if (socket) {
 
 
