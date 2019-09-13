@@ -2,49 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B947CB1B93
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:32:35 +0200 (CEST)
-Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB445B1BBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:49:23 +0200 (CEST)
+Received: from localhost ([::1]:42262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8is7-0005in-CS
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:32:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
+	id 1i8iym-0000vK-OS
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:39:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8ily-0008Ck-9j
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:51 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i8ixp-0000FX-4Y
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:38:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8ilw-0005qq-Rf
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59166)
+ (envelope-from <mreitz@redhat.com>) id 1i8ixn-00049V-Pg
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:38:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60730)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8ilw-0005qZ-KG
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:48 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1i8ixk-00042a-Cm; Fri, 13 Sep 2019 06:38:00 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 014FE3086218
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 10:25:48 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF99D5D9E2;
- Fri, 13 Sep 2019 10:25:46 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, ehabkost@redhat.com,
- berrange@redhat.com, quintela@redhat.com
-Date: Fri, 13 Sep 2019 11:25:37 +0100
-Message-Id: <20190913102538.24167-5-dgilbert@redhat.com>
-In-Reply-To: <20190913102538.24167-1-dgilbert@redhat.com>
-References: <20190913102538.24167-1-dgilbert@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 6BCCC306141F;
+ Fri, 13 Sep 2019 10:37:59 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-116-81.ams2.redhat.com
+ [10.36.116.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DF1460C57;
+ Fri, 13 Sep 2019 10:37:54 +0000 (UTC)
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20190912223754.875-1-mlevitsk@redhat.com>
+ <20190912223754.875-2-mlevitsk@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <abd660bc-5e3c-ec6d-e595-6830e1b6f0d1@redhat.com>
+Date: Fri, 13 Sep 2019 12:37:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20190912223754.875-2-mlevitsk@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 13 Sep 2019 10:25:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.45]); Fri, 13 Sep 2019 10:37:59 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 4/5] migration: Use automatic rcu_read
- unlock in rdma.c
+Subject: Re: [Qemu-devel] [PATCH v3 1/3] block/qcow2: refactoring of
+ threaded encryption code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,382 +86,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd
+Content-Type: multipart/mixed; boundary="82sd70ZdinVJcqrEInMbDVZivvi4eLPwA";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ qemu-stable <qemu-stable@nongnu.org>
+Message-ID: <abd660bc-5e3c-ec6d-e595-6830e1b6f0d1@redhat.com>
+Subject: Re: [PATCH v3 1/3] block/qcow2: refactoring of threaded encryption
+ code
+References: <20190912223754.875-1-mlevitsk@redhat.com>
+ <20190912223754.875-2-mlevitsk@redhat.com>
+In-Reply-To: <20190912223754.875-2-mlevitsk@redhat.com>
 
-Use the automatic read unlocker in migration/rdma.c.
+--82sd70ZdinVJcqrEInMbDVZivvi4eLPwA
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/rdma.c | 57 ++++++++++--------------------------------------
- 1 file changed, 11 insertions(+), 46 deletions(-)
+On 13.09.19 00:37, Maxim Levitsky wrote:
+> This commit tries to clarify few function arguments,
+> and add comments describing the encrypt/decrypt interface
+>=20
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  block/qcow2-cluster.c |  8 +++---
+>  block/qcow2-threads.c | 63 ++++++++++++++++++++++++++++++++++---------=
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 78e6b72bac..5c9054721d 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -88,7 +88,6 @@ static uint32_t known_capabilities =3D RDMA_CAPABILITY_=
-PIN_ALL;
-                                 " to abort!"); \
-                 rdma->error_reported =3D 1; \
-             } \
--            rcu_read_unlock(); \
-             return rdma->error_state; \
-         } \
-     } while (0)
-@@ -2678,11 +2677,10 @@ static ssize_t qio_channel_rdma_writev(QIOChannel=
- *ioc,
-     size_t i;
-     size_t len =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -2695,7 +2693,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
-ioc,
-     ret =3D qemu_rdma_write_flush(f, rdma);
-     if (ret < 0) {
-         rdma->error_state =3D ret;
--        rcu_read_unlock();
-         return ret;
-     }
-=20
-@@ -2715,7 +2712,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
-ioc,
-=20
-             if (ret < 0) {
-                 rdma->error_state =3D ret;
--                rcu_read_unlock();
-                 return ret;
-             }
-=20
-@@ -2724,7 +2720,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
-ioc,
-         }
-     }
-=20
--    rcu_read_unlock();
-     return done;
- }
-=20
-@@ -2764,11 +2759,10 @@ static ssize_t qio_channel_rdma_readv(QIOChannel =
-*ioc,
-     ssize_t i;
-     size_t done =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     rdma =3D atomic_rcu_read(&rioc->rdmain);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -2805,7 +2799,6 @@ static ssize_t qio_channel_rdma_readv(QIOChannel *i=
-oc,
-=20
-         if (ret < 0) {
-             rdma->error_state =3D ret;
--            rcu_read_unlock();
-             return ret;
-         }
-=20
-@@ -2819,14 +2812,12 @@ static ssize_t qio_channel_rdma_readv(QIOChannel =
-*ioc,
-         /* Still didn't get enough, so lets just return */
-         if (want) {
-             if (done =3D=3D 0) {
--                rcu_read_unlock();
-                 return QIO_CHANNEL_ERR_BLOCK;
-             } else {
-                 break;
-             }
-         }
-     }
--    rcu_read_unlock();
-     return done;
- }
-=20
-@@ -2882,7 +2873,7 @@ qio_channel_rdma_source_prepare(GSource *source,
-     GIOCondition cond =3D 0;
-     *timeout =3D -1;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     if (rsource->condition =3D=3D G_IO_IN) {
-         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
-     } else {
-@@ -2891,7 +2882,6 @@ qio_channel_rdma_source_prepare(GSource *source,
-=20
-     if (!rdma) {
-         error_report("RDMAContext is NULL when prepare Gsource");
--        rcu_read_unlock();
-         return FALSE;
-     }
-=20
-@@ -2900,7 +2890,6 @@ qio_channel_rdma_source_prepare(GSource *source,
-     }
-     cond |=3D G_IO_OUT;
-=20
--    rcu_read_unlock();
-     return cond & rsource->condition;
- }
-=20
-@@ -2911,7 +2900,7 @@ qio_channel_rdma_source_check(GSource *source)
-     RDMAContext *rdma;
-     GIOCondition cond =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     if (rsource->condition =3D=3D G_IO_IN) {
-         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
-     } else {
-@@ -2920,7 +2909,6 @@ qio_channel_rdma_source_check(GSource *source)
-=20
-     if (!rdma) {
-         error_report("RDMAContext is NULL when check Gsource");
--        rcu_read_unlock();
-         return FALSE;
-     }
-=20
-@@ -2929,7 +2917,6 @@ qio_channel_rdma_source_check(GSource *source)
-     }
-     cond |=3D G_IO_OUT;
-=20
--    rcu_read_unlock();
-     return cond & rsource->condition;
- }
-=20
-@@ -2943,7 +2930,7 @@ qio_channel_rdma_source_dispatch(GSource *source,
-     RDMAContext *rdma;
-     GIOCondition cond =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     if (rsource->condition =3D=3D G_IO_IN) {
-         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
-     } else {
-@@ -2952,7 +2939,6 @@ qio_channel_rdma_source_dispatch(GSource *source,
-=20
-     if (!rdma) {
-         error_report("RDMAContext is NULL when dispatch Gsource");
--        rcu_read_unlock();
-         return FALSE;
-     }
-=20
-@@ -2961,7 +2947,6 @@ qio_channel_rdma_source_dispatch(GSource *source,
-     }
-     cond |=3D G_IO_OUT;
-=20
--    rcu_read_unlock();
-     return (*func)(QIO_CHANNEL(rsource->rioc),
-                    (cond & rsource->condition),
-                    user_data);
-@@ -3058,7 +3043,7 @@ qio_channel_rdma_shutdown(QIOChannel *ioc,
-     QIOChannelRDMA *rioc =3D QIO_CHANNEL_RDMA(ioc);
-     RDMAContext *rdmain, *rdmaout;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-=20
-     rdmain =3D atomic_rcu_read(&rioc->rdmain);
-     rdmaout =3D atomic_rcu_read(&rioc->rdmain);
-@@ -3085,7 +3070,6 @@ qio_channel_rdma_shutdown(QIOChannel *ioc,
-         break;
-     }
-=20
--    rcu_read_unlock();
-     return 0;
- }
-=20
-@@ -3131,18 +3115,16 @@ static size_t qemu_rdma_save_page(QEMUFile *f, vo=
-id *opaque,
-     RDMAContext *rdma;
-     int ret;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-     CHECK_ERROR_STATE();
-=20
-     if (migration_in_postcopy()) {
--        rcu_read_unlock();
-         return RAM_SAVE_CONTROL_NOT_SUPP;
-     }
-=20
-@@ -3227,11 +3209,9 @@ static size_t qemu_rdma_save_page(QEMUFile *f, voi=
-d *opaque,
-         }
-     }
-=20
--    rcu_read_unlock();
-     return RAM_SAVE_CONTROL_DELAYED;
- err:
-     rdma->error_state =3D ret;
--    rcu_read_unlock();
-     return ret;
- }
-=20
-@@ -3451,11 +3431,10 @@ static int qemu_rdma_registration_handle(QEMUFile=
- *f, void *opaque)
-     int count =3D 0;
-     int i =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     rdma =3D atomic_rcu_read(&rioc->rdmain);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -3698,7 +3677,6 @@ out:
-     if (ret < 0) {
-         rdma->error_state =3D ret;
-     }
--    rcu_read_unlock();
-     return ret;
- }
-=20
-@@ -3716,11 +3694,10 @@ rdma_block_notification_handle(QIOChannelRDMA *ri=
-oc, const char *name)
-     int curr;
-     int found =3D -1;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     rdma =3D atomic_rcu_read(&rioc->rdmain);
-=20
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-@@ -3734,7 +3711,6 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc=
-, const char *name)
-=20
-     if (found =3D=3D -1) {
-         error_report("RAMBlock '%s' not found on destination", name);
--        rcu_read_unlock();
-         return -ENOENT;
-     }
-=20
-@@ -3742,7 +3718,6 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc=
-, const char *name)
-     trace_rdma_block_notification_handle(name, rdma->next_src_index);
-     rdma->next_src_index++;
-=20
--    rcu_read_unlock();
-     return 0;
- }
-=20
-@@ -3767,17 +3742,15 @@ static int qemu_rdma_registration_start(QEMUFile =
-*f, void *opaque,
-     QIOChannelRDMA *rioc =3D QIO_CHANNEL_RDMA(opaque);
-     RDMAContext *rdma;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-     CHECK_ERROR_STATE();
-=20
-     if (migration_in_postcopy()) {
--        rcu_read_unlock();
-         return 0;
-     }
-=20
-@@ -3785,7 +3758,6 @@ static int qemu_rdma_registration_start(QEMUFile *f=
-, void *opaque,
-     qemu_put_be64(f, RAM_SAVE_FLAG_HOOK);
-     qemu_fflush(f);
-=20
--    rcu_read_unlock();
-     return 0;
- }
-=20
-@@ -3802,17 +3774,15 @@ static int qemu_rdma_registration_stop(QEMUFile *=
-f, void *opaque,
-     RDMAControlHeader head =3D { .len =3D 0, .repeat =3D 1 };
-     int ret =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     rdma =3D atomic_rcu_read(&rioc->rdmaout);
-     if (!rdma) {
--        rcu_read_unlock();
-         return -EIO;
-     }
-=20
-     CHECK_ERROR_STATE();
-=20
-     if (migration_in_postcopy()) {
--        rcu_read_unlock();
-         return 0;
-     }
-=20
-@@ -3844,7 +3814,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
- void *opaque,
-                     qemu_rdma_reg_whole_ram_blocks : NULL);
-         if (ret < 0) {
-             ERROR(errp, "receiving remote info!");
--            rcu_read_unlock();
-             return ret;
-         }
-=20
-@@ -3868,7 +3837,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
- void *opaque,
-                         "not identical on both the source and destinatio=
-n.",
-                         local->nb_blocks, nb_dest_blocks);
-             rdma->error_state =3D -EINVAL;
--            rcu_read_unlock();
-             return -EINVAL;
-         }
-=20
-@@ -3885,7 +3853,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
- void *opaque,
-                             local->block[i].length,
-                             rdma->dest_blocks[i].length);
-                 rdma->error_state =3D -EINVAL;
--                rcu_read_unlock();
-                 return -EINVAL;
-             }
-             local->block[i].remote_host_addr =3D
-@@ -3903,11 +3870,9 @@ static int qemu_rdma_registration_stop(QEMUFile *f=
-, void *opaque,
-         goto err;
-     }
-=20
--    rcu_read_unlock();
-     return 0;
- err:
-     rdma->error_state =3D ret;
--    rcu_read_unlock();
-     return ret;
- }
-=20
---=20
-2.21.0
+>  2 files changed, 54 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+> index f09cc992af..b95e64c237 100644
+> --- a/block/qcow2-cluster.c
+> +++ b/block/qcow2-cluster.c
+> @@ -463,8 +463,8 @@ static int coroutine_fn do_perform_cow_read(BlockDr=
+iverState *bs,
+>  }
+> =20
+>  static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
+> -                                                uint64_t src_cluster_o=
+ffset,
+> -                                                uint64_t cluster_offse=
+t,
+> +                                                uint64_t guest_cluster=
+_offset,
+> +                                                uint64_t host_cluster_=
+offset,
+>                                                  unsigned offset_in_clu=
+ster,
+>                                                  uint8_t *buffer,
+>                                                  unsigned bytes)
+> @@ -474,8 +474,8 @@ static bool coroutine_fn do_perform_cow_encrypt(Blo=
+ckDriverState *bs,
+>          assert((offset_in_cluster & ~BDRV_SECTOR_MASK) =3D=3D 0);
+>          assert((bytes & ~BDRV_SECTOR_MASK) =3D=3D 0);
+>          assert(s->crypto);
+> -        if (qcow2_co_encrypt(bs, cluster_offset,
+> -                             src_cluster_offset + offset_in_cluster,
+> +        if (qcow2_co_encrypt(bs, host_cluster_offset,
+> +                             guest_cluster_offset + offset_in_cluster,=
 
+>                               buffer, bytes) < 0) {
+>              return false;
+>          }
+> diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+> index 3b1e63fe41..6da1838e95 100644
+> --- a/block/qcow2-threads.c
+> +++ b/block/qcow2-threads.c
+> @@ -234,15 +234,19 @@ static int qcow2_encdec_pool_func(void *opaque)
+>  }
+> =20
+>  static int coroutine_fn
+> -qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
+> -                  uint64_t offset, void *buf, size_t len, Qcow2EncDecF=
+unc func)
+> +qcow2_co_encdec(BlockDriverState *bs, uint64_t host_cluster_offset,
+> +                uint64_t guest_offset, void *buf, size_t len,
+> +                Qcow2EncDecFunc func)
+>  {
+>      BDRVQcow2State *s =3D bs->opaque;
+> +
+> +    uint64_t offset =3D s->crypt_physical_offset ?
+> +        host_cluster_offset + offset_into_cluster(s, guest_offset) :
+> +        guest_offset;
+> +
+>      Qcow2EncDecData arg =3D {
+>          .block =3D s->crypto,
+> -        .offset =3D s->crypt_physical_offset ?
+> -                      file_cluster_offset + offset_into_cluster(s, off=
+set) :
+> -                      offset,
+> +        .offset =3D offset,
+>          .buf =3D buf,
+>          .len =3D len,
+>          .func =3D func,
+> @@ -251,18 +255,51 @@ qcow2_co_encdec(BlockDriverState *bs, uint64_t fi=
+le_cluster_offset,
+>      return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
+>  }
+> =20
+> +
+> +/*
+> + * qcow2_co_encrypt()
+> + *
+> + * Encrypts one or more contiguous aligned sectors
+> + *
+> + * @host_cluster_offset - underlying storage offset of the first clust=
+er
+> + * in which the encrypted data will be written
+> + * Used as an initialization vector for encryption
+
+s/as an/for generating the/
+
+(AFAIU)
+
+> + *
+> + * @guest_offset - guest (virtual) offset of the first sector of the
+> + * data to be encrypted
+> + * Used as an initialization vector for older, qcow2 native encryption=
+
+
+I wouldn=E2=80=99t be so specific here.  I think it=E2=80=99d be better t=
+o just have a
+common sentence like =E2=80=9CDepending on the encryption method, either =
+of
+these offsets may be used for generating the initialization vector for
+encryption.=E2=80=9D
+
+Well, technically, host_cluster_offset will not be used itself.  Before
+we can use it, of course we have to add the in-cluster offset to it
+(which qcow2_co_encdec() does).
+
+This makes me wonder whether it wouldn=E2=80=99t make more sense to pass =
+a
+host_offset instead of a host_cluster_offset (i.e. make the callers add
+the in-cluster offset to the host offset already)?
+
+> + *
+> + * @buf - buffer with the data to encrypt, that after encryption
+> + *        will be written to the underlying storage device at
+> + *        @host_cluster_offset
+
+I think just =E2=80=9Cbuffer with the data to encrypt=E2=80=9D is suffici=
+ent.  (The rest
+is just the same as above.)
+
+> + *
+> + * @len - length of the buffer (in sector size multiplies)
+
+=E2=80=9CIn sector size multiples=E2=80=9D to me means that it is a secto=
+r count (in
+that =E2=80=9Cone sector size multiple=E2=80=9D is equal to 512 byes).
+
+Maybe =E2=80=9Cmust be a BDRV_SECTOR_SIZE multiple=E2=80=9D instead?
+
+> + *
+> + * Note that the group of the sectors, don't have to be aligned
+> + * on cluster boundary and can also cross a cluster boundary.
+
+Maybe =E2=80=9CNote that while the whole range must be aligned on sectors=
+, it
+does not have to be aligned on clusters and can also cross cluster
+boundaries=E2=80=9D?
+
+(=E2=80=9CThe group of sectors=E2=80=9D sounds a bit weird to me.  I don=E2=
+=80=99t quite know,
+why.  I think that for some reason it makes me think of a non-continuous
+set of sectors.  Also, the caller doesn=E2=80=99t pass sector indices, bu=
+t byte
+offsets, that just happen to have to be aligned to sectors.  (I suppose
+because that=E2=80=99s the simplest way to make it a multiple of the encr=
+yption
+block size.))
+
+> + *
+> + */
+>  int coroutine_fn
+> -qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+> -                 uint64_t offset, void *buf, size_t len)
+> +qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
+> +                 uint64_t guest_offset, void *buf, size_t len)
+>  {
+> -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
+> -                             qcrypto_block_encrypt);
+> +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, buf,=
+ len,
+> +                           qcrypto_block_encrypt);
+>  }
+> =20
+> +
+> +/*
+> + * qcow2_co_decrypt()
+> + *
+> + * Decrypts one or more contiguous aligned sectors
+> + * Similar to qcow2_co_encrypt
+
+Hm.  This would make me wonder in what way it is only similar to
+qcow2_co_encrypt().  Sure, it decrypts instead of encrypting, but maybe
+there=E2=80=99s more...?
+
+So maybe =E2=80=9CIts interface is the same as qcow2_co_encrypt()'s=E2=80=
+=9D?
+
+Max
+
+> + *
+> + */
+> +
+>  int coroutine_fn
+> -qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+> -                 uint64_t offset, void *buf, size_t len)
+> +qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
+> +                 uint64_t guest_offset, void *buf, size_t len)
+>  {
+> -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
+> -                             qcrypto_block_decrypt);
+> +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, buf,=
+ len,
+> +                           qcrypto_block_decrypt);
+>  }
+>=20
+
+
+
+--82sd70ZdinVJcqrEInMbDVZivvi4eLPwA--
+
+--I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl17cYAACgkQ9AfbAGHV
+z0CbAQf+J1WsEmeAXv0lN7ebgL2ALIE3d54VDmwzSZWAC+4Hvcv1qjpvvVYssH6X
+iO3OmcAwIbDIhYuTuptq+u9crqcSoSMBfSn2/TugEI+IfsjwDU/CfUMZi3eDEoKX
+xjaqIr5rhgkj1rGsP7HYzI3pPlKprkUvNg47CtpmqQ7kVXLMdUiBuOWzqCF01yGz
+b2doBYWO2RBzoPeFSBmT3m/IQv7aacVit3SpY9UwpEdXnt7VDu6TpilCJL5m3O5y
+C0cZB4Tro12wsNfR5/LCZ+SgGjvbkDMuk1fXejQr96RXrm5tQhl50ZXcMnNDbkqg
+dbuk5BV6Bz74HQACBCDklTT3lALGWA==
+=wx2D
+-----END PGP SIGNATURE-----
+
+--I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd--
 
