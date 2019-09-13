@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EDDCB2692
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 22:22:06 +0200 (CEST)
-Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0272BB26A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 22:29:32 +0200 (CEST)
+Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8s4y-0003Ut-6X
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 16:22:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39264)
+	id 1i8sCA-0002tV-D6
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 16:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39263)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i8rx8-0005yU-NN
+ (envelope-from <armbru@redhat.com>) id 1i8rx8-0005yT-Mg
  for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:14:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i8rx6-0000bI-Ca
+ (envelope-from <armbru@redhat.com>) id 1i8rx6-0000bC-C2
  for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:13:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40286)
+Received: from mx1.redhat.com ([209.132.183.28]:41808)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i8rx6-0000a9-2Q
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i8rx6-0000aA-20
  for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:13:56 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4B567806A46;
+ by mx1.redhat.com (Postfix) with ESMTPS id 4D346C05683F;
  Fri, 13 Sep 2019 20:13:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5AF15C1B5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6B42600CE;
  Fri, 13 Sep 2019 20:13:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 89E561138528; Fri, 13 Sep 2019 22:13:49 +0200 (CEST)
+ id 8D4AA11384A9; Fri, 13 Sep 2019 22:13:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 13 Sep 2019 22:13:40 +0200
-Message-Id: <20190913201349.24332-8-armbru@redhat.com>
+Date: Fri, 13 Sep 2019 22:13:41 +0200
+Message-Id: <20190913201349.24332-9-armbru@redhat.com>
 In-Reply-To: <20190913201349.24332-1-armbru@redhat.com>
 References: <20190913201349.24332-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Fri, 13 Sep 2019 20:13:55 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Fri, 13 Sep 2019 20:13:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 07/16] qapi: Drop support for escape
- sequences other than \\
+Subject: [Qemu-devel] [PATCH v3 08/16] qapi: Permit 'boxed' with empty type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,264 +61,251 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the previous commit restricted strings to printable ASCII,
-\uXXXX's only use is obfuscation.  Drop it.
-
-This leaves \\, \/, \', and \".  Since QAPI schema strings are all
-names, and names are restricted to ASCII letters, digits, hyphen, and
-underscore, none of them is useful.
-
-The latter three have no test coverage.  Drop them.
-
-Keep \\ to avoid (more) gratuitous incompatibility with JSON.
+We reject empty types with 'boxed': true.  We don't really need that
+to work, but making it work is actually simpler than rejecting it, so
+do that.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/common.py                       | 26 +++-----------------
- tests/Makefile.include                       |  3 ---
- tests/qapi-schema/escape-outside-string.err  |  1 -
- tests/qapi-schema/escape-outside-string.exit |  1 -
- tests/qapi-schema/escape-outside-string.json |  3 ---
- tests/qapi-schema/escape-outside-string.out  |  0
- tests/qapi-schema/escape-too-big.err         |  1 -
- tests/qapi-schema/escape-too-big.exit        |  1 -
- tests/qapi-schema/escape-too-big.json        |  3 ---
- tests/qapi-schema/escape-too-big.out         |  0
- tests/qapi-schema/escape-too-short.err       |  1 -
- tests/qapi-schema/escape-too-short.exit      |  1 -
- tests/qapi-schema/escape-too-short.json      |  3 ---
- tests/qapi-schema/escape-too-short.out       |  0
- tests/qapi-schema/ident-with-escape.err      |  1 +
- tests/qapi-schema/ident-with-escape.exit     |  2 +-
- tests/qapi-schema/ident-with-escape.json     |  2 +-
- tests/qapi-schema/ident-with-escape.out      | 16 ------------
- tests/qapi-schema/unknown-escape.json        |  2 +-
- 19 files changed, 7 insertions(+), 60 deletions(-)
- delete mode 100644 tests/qapi-schema/escape-outside-string.err
- delete mode 100644 tests/qapi-schema/escape-outside-string.exit
- delete mode 100644 tests/qapi-schema/escape-outside-string.json
- delete mode 100644 tests/qapi-schema/escape-outside-string.out
- delete mode 100644 tests/qapi-schema/escape-too-big.err
- delete mode 100644 tests/qapi-schema/escape-too-big.exit
- delete mode 100644 tests/qapi-schema/escape-too-big.json
- delete mode 100644 tests/qapi-schema/escape-too-big.out
- delete mode 100644 tests/qapi-schema/escape-too-short.err
- delete mode 100644 tests/qapi-schema/escape-too-short.exit
- delete mode 100644 tests/qapi-schema/escape-too-short.json
- delete mode 100644 tests/qapi-schema/escape-too-short.out
+ tests/test-qmp-cmds.c                   |  4 ++++
+ scripts/qapi/commands.py                |  4 ++--
+ scripts/qapi/common.py                  | 14 ++------------
+ scripts/qapi/events.py                  | 10 +++++-----
+ tests/Makefile.include                  |  1 -
+ tests/qapi-schema/args-boxed-empty.err  |  1 -
+ tests/qapi-schema/args-boxed-empty.exit |  1 -
+ tests/qapi-schema/args-boxed-empty.json |  3 ---
+ tests/qapi-schema/args-boxed-empty.out  |  0
+ tests/qapi-schema/qapi-schema-test.json |  2 ++
+ tests/qapi-schema/qapi-schema-test.out  |  4 ++++
+ 11 files changed, 19 insertions(+), 25 deletions(-)
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.err
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.exit
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.json
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.out
 
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index ab389f42da..36fdf5b115 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -97,6 +97,10 @@ void qmp_boxed_union(UserDefListUnion *arg, Error **er=
+rp)
+ {
+ }
+=20
++void qmp_boxed_empty(Empty1 *arg, Error **errp)
++{
++}
++
+ __org_qemu_x_Union1 *qmp___org_qemu_x_command(__org_qemu_x_EnumList *a,
+                                               __org_qemu_x_StructList *b=
+,
+                                               __org_qemu_x_Union2 *c,
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index b929e07be4..7e3dd1068a 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -30,7 +30,7 @@ def gen_call(name, arg_type, boxed, ret_type):
+=20
+     argstr =3D ''
+     if boxed:
+-        assert arg_type and not arg_type.is_empty()
++        assert arg_type
+         argstr =3D '&arg, '
+     elif arg_type:
+         assert not arg_type.variants
+@@ -96,7 +96,7 @@ def gen_marshal_decl(name):
+=20
+=20
+ def gen_marshal(name, arg_type, boxed, ret_type):
+-    have_args =3D arg_type and not arg_type.is_empty()
++    have_args =3D boxed or (arg_type and not arg_type.is_empty())
+=20
+     ret =3D mcgen('''
+=20
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 539b50f9ac..0fb1d1956a 100644
+index 0fb1d1956a..c5c71287c3 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -524,29 +524,9 @@ class QAPISchemaParser(object):
-                     if ch =3D=3D '\n':
-                         raise QAPIParseError(self, 'Missing terminating =
-"\'"')
-                     if esc:
--                        # Note: we don't recognize escape sequences
--                        # for control characters
--                        if ch =3D=3D 'u':
--                            value =3D 0
--                            for _ in range(0, 4):
--                                ch =3D self.src[self.cursor]
--                                self.cursor +=3D 1
--                                if ch not in '0123456789abcdefABCDEF':
--                                    raise QAPIParseError(self,
--                                                         '\\u escape nee=
-ds 4 '
--                                                         'hex digits')
--                                value =3D (value << 4) + int(ch, 16)
--                            # If Python 2 and 3 didn't disagree so much =
-on
--                            # how to handle Unicode, then we could allow
--                            # Unicode string defaults.  But most of QAPI=
- is
--                            # ASCII-only, so we aren't losing much for n=
-ow.
--                            if not value or value > 0x7f:
--                                raise QAPIParseError(self,
--                                                     'For now, \\u escap=
-e '
--                                                     'only supports non-=
-zero '
--                                                     'values up to \\u00=
-7f')
--                            ch =3D chr(value)
--                        elif ch not in '\\/\'"':
-+                        # Note: we recognize only \\ because we have
-+                        # no use for funny characters in strings
-+                        if ch !=3D '\\':
-                             raise QAPIParseError(self,
-                                                  "Unknown escape \\%s" %=
- ch)
-                         esc =3D False
+@@ -1687,12 +1687,7 @@ class QAPISchemaCommand(QAPISchemaEntity):
+             self.arg_type =3D schema.lookup_type(self._arg_type_name)
+             assert isinstance(self.arg_type, QAPISchemaObjectType)
+             self.arg_type.check(schema)
+-            if self.boxed:
+-                if self.arg_type.is_empty():
+-                    raise QAPISemError(self.info,
+-                                       "Cannot use 'boxed' with empty ty=
+pe")
+-            else:
+-                assert not self.arg_type.variants
++            assert not self.arg_type.variants or self.boxed
+         elif self.boxed:
+             raise QAPISemError(self.info, "Use of 'boxed' requires 'data=
+'")
+         if self._ret_type_name:
+@@ -1721,12 +1716,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
+             self.arg_type =3D schema.lookup_type(self._arg_type_name)
+             assert isinstance(self.arg_type, QAPISchemaObjectType)
+             self.arg_type.check(schema)
+-            if self.boxed:
+-                if self.arg_type.is_empty():
+-                    raise QAPISemError(self.info,
+-                                       "Cannot use 'boxed' with empty ty=
+pe")
+-            else:
+-                assert not self.arg_type.variants
++            assert not self.arg_type.variants or self.boxed
+         elif self.boxed:
+             raise QAPISemError(self.info, "Use of 'boxed' requires 'data=
+'")
+=20
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index b732581046..e0abfef7b0 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -65,6 +65,8 @@ def gen_event_send(name, arg_type, boxed, event_enum_na=
+me, event_emit):
+     # practice, we can rename our local variables with a leading _ prefi=
+x,
+     # or split the code into a wrapper function that creates a boxed
+     # 'param' object then calls another to do the real work.
++    have_args =3D boxed or (arg_type and not arg_type.is_empty())
++
+     ret =3D mcgen('''
+=20
+ %(proto)s
+@@ -73,15 +75,13 @@ def gen_event_send(name, arg_type, boxed, event_enum_=
+name, event_emit):
+ ''',
+                 proto=3Dbuild_event_send_proto(name, arg_type, boxed))
+=20
+-    if arg_type and not arg_type.is_empty():
++    if have_args:
+         ret +=3D mcgen('''
+     QObject *obj;
+     Visitor *v;
+ ''')
+         if not boxed:
+             ret +=3D gen_param_var(arg_type)
+-    else:
+-        assert not boxed
+=20
+     ret +=3D mcgen('''
+=20
+@@ -90,7 +90,7 @@ def gen_event_send(name, arg_type, boxed, event_enum_na=
+me, event_emit):
+ ''',
+                  name=3Dname)
+=20
+-    if arg_type and not arg_type.is_empty():
++    if have_args:
+         ret +=3D mcgen('''
+     v =3D qobject_output_visitor_new(&obj);
+ ''')
+@@ -121,7 +121,7 @@ def gen_event_send(name, arg_type, boxed, event_enum_=
+name, event_emit):
+                  event_emit=3Devent_emit,
+                  c_enum=3Dc_enum_const(event_enum_name, name))
+=20
+-    if arg_type and not arg_type.is_empty():
++    if have_args:
+         ret +=3D mcgen('''
+     visit_free(v);
+ ''')
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 17c53bed52..023a4e4789 100644
+index 023a4e4789..52caeb705e 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -375,9 +375,6 @@ qapi-schema +=3D enum-int-member.json
- qapi-schema +=3D enum-member-case.json
- qapi-schema +=3D enum-missing-data.json
- qapi-schema +=3D enum-wrong-data.json
--qapi-schema +=3D escape-outside-string.json
--qapi-schema +=3D escape-too-big.json
--qapi-schema +=3D escape-too-short.json
- qapi-schema +=3D event-boxed-empty.json
- qapi-schema +=3D event-case.json
- qapi-schema +=3D event-member-invalid-dict.json
-diff --git a/tests/qapi-schema/escape-outside-string.err b/tests/qapi-sch=
-ema/escape-outside-string.err
+@@ -312,7 +312,6 @@ qapi-schema +=3D args-array-empty.json
+ qapi-schema +=3D args-array-unknown.json
+ qapi-schema +=3D args-bad-boxed.json
+ qapi-schema +=3D args-boxed-anon.json
+-qapi-schema +=3D args-boxed-empty.json
+ qapi-schema +=3D args-boxed-string.json
+ qapi-schema +=3D args-int.json
+ qapi-schema +=3D args-invalid.json
+diff --git a/tests/qapi-schema/args-boxed-empty.err b/tests/qapi-schema/a=
+rgs-boxed-empty.err
 deleted file mode 100644
-index b9b8837fd2..0000000000
---- a/tests/qapi-schema/escape-outside-string.err
+index 039603e85c..0000000000
+--- a/tests/qapi-schema/args-boxed-empty.err
 +++ /dev/null
 @@ -1 +0,0 @@
--tests/qapi-schema/escape-outside-string.json:3:27: Stray "\"
-diff --git a/tests/qapi-schema/escape-outside-string.exit b/tests/qapi-sc=
-hema/escape-outside-string.exit
+-tests/qapi-schema/args-boxed-empty.json:3: Cannot use 'boxed' with empty=
+ type
+diff --git a/tests/qapi-schema/args-boxed-empty.exit b/tests/qapi-schema/=
+args-boxed-empty.exit
 deleted file mode 100644
 index d00491fd7e..0000000000
---- a/tests/qapi-schema/escape-outside-string.exit
+--- a/tests/qapi-schema/args-boxed-empty.exit
 +++ /dev/null
 @@ -1 +0,0 @@
 -1
-diff --git a/tests/qapi-schema/escape-outside-string.json b/tests/qapi-sc=
-hema/escape-outside-string.json
+diff --git a/tests/qapi-schema/args-boxed-empty.json b/tests/qapi-schema/=
+args-boxed-empty.json
 deleted file mode 100644
-index 482f79554b..0000000000
---- a/tests/qapi-schema/escape-outside-string.json
+index 52717e065f..0000000000
+--- a/tests/qapi-schema/args-boxed-empty.json
 +++ /dev/null
 @@ -1,3 +0,0 @@
--# escape sequences are permitted only inside strings
--# { 'command': 'foo', 'data': {} }
--{ 'command': 'foo', 'data'\u003a{} }
-diff --git a/tests/qapi-schema/escape-outside-string.out b/tests/qapi-sch=
-ema/escape-outside-string.out
+-# 'boxed' requires a non-empty type
+-{ 'struct': 'Empty', 'data': {} }
+-{ 'command': 'foo', 'boxed': true, 'data': 'Empty' }
+diff --git a/tests/qapi-schema/args-boxed-empty.out b/tests/qapi-schema/a=
+rgs-boxed-empty.out
 deleted file mode 100644
 index e69de29bb2..0000000000
-diff --git a/tests/qapi-schema/escape-too-big.err b/tests/qapi-schema/esc=
-ape-too-big.err
-deleted file mode 100644
-index d9aeb5dc38..0000000000
---- a/tests/qapi-schema/escape-too-big.err
-+++ /dev/null
-@@ -1 +0,0 @@
--tests/qapi-schema/escape-too-big.json:3:14: For now, \u escape only supp=
-orts non-zero values up to \u007f
-diff --git a/tests/qapi-schema/escape-too-big.exit b/tests/qapi-schema/es=
-cape-too-big.exit
-deleted file mode 100644
-index d00491fd7e..0000000000
---- a/tests/qapi-schema/escape-too-big.exit
-+++ /dev/null
-@@ -1 +0,0 @@
--1
-diff --git a/tests/qapi-schema/escape-too-big.json b/tests/qapi-schema/es=
-cape-too-big.json
-deleted file mode 100644
-index 62bcecd557..0000000000
---- a/tests/qapi-schema/escape-too-big.json
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# we don't support full Unicode strings, yet
--# { 'command': '=C3=A9' }
--{ 'command': '\u00e9' }
-diff --git a/tests/qapi-schema/escape-too-big.out b/tests/qapi-schema/esc=
-ape-too-big.out
-deleted file mode 100644
-index e69de29bb2..0000000000
-diff --git a/tests/qapi-schema/escape-too-short.err b/tests/qapi-schema/e=
-scape-too-short.err
-deleted file mode 100644
-index 934de598ee..0000000000
---- a/tests/qapi-schema/escape-too-short.err
-+++ /dev/null
-@@ -1 +0,0 @@
--tests/qapi-schema/escape-too-short.json:3:14: \u escape needs 4 hex digi=
-ts
-diff --git a/tests/qapi-schema/escape-too-short.exit b/tests/qapi-schema/=
-escape-too-short.exit
-deleted file mode 100644
-index d00491fd7e..0000000000
---- a/tests/qapi-schema/escape-too-short.exit
-+++ /dev/null
-@@ -1 +0,0 @@
--1
-diff --git a/tests/qapi-schema/escape-too-short.json b/tests/qapi-schema/=
-escape-too-short.json
-deleted file mode 100644
-index 6cb1dec8f7..0000000000
---- a/tests/qapi-schema/escape-too-short.json
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# the \u escape requires 4 hex digits
--# { 'command': 'a' }
--{ 'command': '\u61' }
-diff --git a/tests/qapi-schema/escape-too-short.out b/tests/qapi-schema/e=
-scape-too-short.out
-deleted file mode 100644
-index e69de29bb2..0000000000
-diff --git a/tests/qapi-schema/ident-with-escape.err b/tests/qapi-schema/=
-ident-with-escape.err
-index e69de29bb2..5517dcb4b1 100644
---- a/tests/qapi-schema/ident-with-escape.err
-+++ b/tests/qapi-schema/ident-with-escape.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/ident-with-escape.json:3:3: Unknown escape \u
-diff --git a/tests/qapi-schema/ident-with-escape.exit b/tests/qapi-schema=
-/ident-with-escape.exit
-index 573541ac97..d00491fd7e 100644
---- a/tests/qapi-schema/ident-with-escape.exit
-+++ b/tests/qapi-schema/ident-with-escape.exit
-@@ -1 +1 @@
--0
-+1
-diff --git a/tests/qapi-schema/ident-with-escape.json b/tests/qapi-schema=
-/ident-with-escape.json
-index 56617501e7..76b4503d95 100644
---- a/tests/qapi-schema/ident-with-escape.json
-+++ b/tests/qapi-schema/ident-with-escape.json
-@@ -1,4 +1,4 @@
--# we allow escape sequences in strings, if they map back to ASCII
-+# we don't recognize any \ escapes other than \\ (tested elsewhere)
- # { 'command': 'fooA', 'data': { 'bar1': 'str' } }
- { 'c\u006fmmand': '\u0066\u006f\u006FA',
-   'd\u0061ta': { '\u0062\u0061\u00721': '\u0073\u0074\u0072' } }
-diff --git a/tests/qapi-schema/ident-with-escape.out b/tests/qapi-schema/=
-ident-with-escape.out
-index 39754eba8c..e69de29bb2 100644
---- a/tests/qapi-schema/ident-with-escape.out
-+++ b/tests/qapi-schema/ident-with-escape.out
-@@ -1,16 +0,0 @@
--module None
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module ident-with-escape.json
--object q_obj_fooA-arg
--    member bar1: str optional=3DFalse
--command fooA q_obj_fooA-arg -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-diff --git a/tests/qapi-schema/unknown-escape.json b/tests/qapi-schema/un=
-known-escape.json
-index 8e6891e52a..8372e8024f 100644
---- a/tests/qapi-schema/unknown-escape.json
-+++ b/tests/qapi-schema/unknown-escape.json
-@@ -1,3 +1,3 @@
--# we only recognize JSON escape sequences, plus our \' extension (no \x)
-+# we only recognize \\
- # { 'command': 'foo', 'data': {} }
- { 'command': 'foo', 'dat\x61':{} }
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
+qapi-schema-test.json
+index 0fadb4ddd7..e6dbbbd328 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -149,6 +149,7 @@
+ { 'command': 'guest-sync', 'data': { 'arg': 'any' }, 'returns': 'any' }
+ { 'command': 'boxed-struct', 'boxed': true, 'data': 'UserDefZero' }
+ { 'command': 'boxed-union', 'data': 'UserDefListUnion', 'boxed': true }
++{ 'command': 'boxed-empty', 'boxed': true, 'data': 'Empty1' }
+=20
+ # Smoke test on out-of-band and allow-preconfig-test
+ { 'command': 'test-flags-command', 'allow-oob': true, 'allow-preconfig':=
+ true }
+@@ -181,6 +182,7 @@
+   'data': { 'a' : 'EventStructOne', 'b' : 'str', '*c': 'str', '*enum3': =
+'EnumOne' } }
+ { 'event': 'EVENT_E', 'boxed': true, 'data': 'UserDefZero' }
+ { 'event': 'EVENT_F', 'boxed': true, 'data': 'UserDefFlatUnion' }
++{ 'event': 'EVENT_G', 'boxed': true, 'data': 'Empty1' }
+=20
+ # test that we correctly compile downstream extensions, as well as munge
+ # ticklish names
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
+api-schema-test.out
+index 5470a525f5..fb00a21996 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -221,6 +221,8 @@ command boxed-struct UserDefZero -> None
+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
+ command boxed-union UserDefListUnion -> None
+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
++command boxed-empty Empty1 -> None
++   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
+ command test-flags-command None -> None
+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DTrue preconfig=
+=3DTrue
+ object UserDefOptions
+@@ -254,6 +256,8 @@ event EVENT_E UserDefZero
+    boxed=3DTrue
+ event EVENT_F UserDefFlatUnion
+    boxed=3DTrue
++event EVENT_G Empty1
++   boxed=3DTrue
+ enum __org.qemu_x-Enum
+     member __org.qemu_x-value
+ object __org.qemu_x-Base
 --=20
 2.21.0
 
