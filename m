@@ -2,45 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4D3B236B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:32:42 +0200 (CEST)
-Received: from localhost ([::1]:45324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F574B238B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:37:47 +0200 (CEST)
+Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8nYu-0004qB-HQ
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:32:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53546)
+	id 1i8ndp-0000uR-QI
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54513)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i8nV1-0001Pv-N4
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:28:41 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i8ncq-0000MQ-IF
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:36:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i8nV0-0004jv-6K
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:28:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58204)
+ (envelope-from <anthony.perard@citrix.com>) id 1i8ncp-00082R-Hx
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:36:44 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:43856)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i8nUw-0004hy-PT; Fri, 13 Sep 2019 11:28:34 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1880530821C1;
- Fri, 13 Sep 2019 15:28:34 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0D725D721;
- Fri, 13 Sep 2019 15:28:31 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 13 Sep 2019 18:28:18 +0300
-Message-Id: <20190913152818.17843-4-mlevitsk@redhat.com>
-In-Reply-To: <20190913152818.17843-1-mlevitsk@redhat.com>
-References: <20190913152818.17843-1-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 13 Sep 2019 15:28:34 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 3/3] qemu-iotests: Add test for bz #1745922
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1i8ncp-00080T-7H
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:36:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1568389004;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vK9H2FuAGPOOWGVYgdWyF+mF3vxGa/lNkxsq+rCpvGs=;
+ b=T/QOwEK0DvtdC1IO6QYwWC+KMteMPOH+bA9KUiNhiDB6qWQOMJKpuBU7
+ d8BrykgNtMpR+QKco1yetsB+N+sXcQTOD11+1KlVBXWRuVpbSJN9skSBx
+ x040YEnKqh2AwTNbLSO4wcUoIw5bv/Vx1TKf3xKdXB33IrhqvLpxpbQw+ E=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa3.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: 6E7rUHjIV5jvqumxc2PsIkXctHvkBxP+IWbMBAwNWCckljK93sMYHNdX74CZffodVxrrSXu1eg
+ +mVwXfZoBIPAF1lu0q23EA0WYavfx+ivRerXmfDbHt00UZJwlOKbJELRFeecR/XaFuGJv1vvI5
+ IBO8XfEeRkoRnmfu0+I1CPaP0oR8o9iSSWwt79Kt85vULicxf5mWsK97IY2AL9XqDaqc2zCR36
+ 5ovH2RNcEM4tTizwe/5BVQ00/rP98rpSHng4XmXdve7LrgnBtjkMF+oPNzpsIBMj2/RK7a+GhG
+ Vio=
+X-SBRS: 2.7
+X-MesageID: 5544761
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.64,501,1559534400"; 
+   d="scan'208";a="5544761"
+Date: Fri, 13 Sep 2019 16:36:37 +0100
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: Paul Durrant <paul.durrant@citrix.com>
+Message-ID: <20190913153637.GF1308@perard.uk.xensource.com>
+References: <20190913082159.31338-1-paul.durrant@citrix.com>
+ <20190913082159.31338-4-paul.durrant@citrix.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190913082159.31338-4-paul.durrant@citrix.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.155
+Subject: Re: [Qemu-devel] [PATCH v3 3/3] xen: perform XenDevice clean-up in
+ XenBus watch handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,179 +97,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: xen-devel@lists.xenproject.org, Stefano
+ Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- tests/qemu-iotests/263     | 91 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/263.out | 40 +++++++++++++++++
- tests/qemu-iotests/group   |  2 +
- 3 files changed, 133 insertions(+)
- create mode 100755 tests/qemu-iotests/263
- create mode 100644 tests/qemu-iotests/263.out
+On Fri, Sep 13, 2019 at 09:21:58AM +0100, Paul Durrant wrote:
+> Cleaning up offline XenDevice objects directly in
+> xen_device_backend_changed() is dangerous as xen_device_unrealize() will
+> modify the watch list that is being walked. Even the QLIST_FOREACH_SAFE()
+> used in notifier_list_notify() is insufficient as *two* notifiers (for
+> the frontend and backend watches) are removed, thus potentially rendering
+> the 'next' pointer unsafe.
+> 
+> The solution is to use the XenBus backend_watch handler to do the clean-up
+> instead, as it is invoked whilst walking a separate watch list.
+> 
+> This patch therefore adds a new 'inactive_devices' list to XenBus, to which
+> offline devices are added by xen_device_backend_changed(). The XenBus
+> backend_watch registration is also changed to not only invoke
+> xen_bus_enumerate() but also a new xen_bus_cleanup() function, which will
+> walk 'inactive_devices' and perform the necessary actions.
+> For safety an extra 'online' check is also added to xen_bus_type_enumerate()
+> to make sure that no attempt is made to create a new XenDevice object for a
+> backend that is offline.
+> 
+> NOTE: This patch also includes some cosmetic changes:
+>       - substitute the local variable name 'backend_state'
+>         in xen_bus_type_enumerate() with 'state', since there
+>         is no ambiguity with any other state in that context.
+>       - change xen_device_state_is_active() to
+>         xen_device_frontend_is_active() (and pass a XenDevice directly)
+>         since the state tests contained therein only apply to a frontend.
+>       - use 'state' rather then 'xendev->backend_state' in
+>         xen_device_backend_changed() to shorten the code.
+> 
+> Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+> ---
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> 
+> v3:
+>  - s/offline_devices/inactive_devices/g
+>  - Also add an 'inactive' boolean to XenDevice which is set when the
+>    device is added to the inactive list so we really can make sure that it
+>    doesn't happen more than once
 
-diff --git a/tests/qemu-iotests/263 b/tests/qemu-iotests/263
-new file mode 100755
-index 0000000000..d2c030fae9
---- /dev/null
-+++ b/tests/qemu-iotests/263
-@@ -0,0 +1,91 @@
-+#!/usr/bin/env bash
-+#
-+# Test encrypted write that crosses cluster boundary of two unallocated clusters
-+# Based on 188
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=mlevitsk@redhat.com
-+
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2
-+_supported_proto generic
-+_supported_os Linux
-+
-+
-+size=1M
-+
-+SECRET="secret,id=sec0,data=astrochicken"
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
-+
-+
-+_run_test()
-+{
-+	echo "== reading the whole image =="
-+	$QEMU_IO --object $SECRET -c "read -P 0 0 $size" --image-opts "$1" | _filter_qemu_io | _filter_testdir
-+
-+	echo
-+	echo "== write two 512 byte sectors on a cluster boundary =="
-+	$QEMU_IO --object $SECRET -c "write -P 0xAA 0xFE00 0x400" --image-opts "$1" | _filter_qemu_io | _filter_testdir
-+
-+	echo
-+	echo "== verify that the rest of the image is not changed =="
-+	$QEMU_IO --object $SECRET -c "read -P 0x00 0x00000 0xFE00" --image-opts "$1" | _filter_qemu_io | _filter_testdir
-+	$QEMU_IO --object $SECRET -c "read -P 0xAA 0x0FE00 0x400" --image-opts "$1" | _filter_qemu_io | _filter_testdir
-+	$QEMU_IO --object $SECRET -c "read -P 0x00 0x10200 0xEFE00" --image-opts "$1" | _filter_qemu_io | _filter_testdir
-+
-+}
-+
-+
-+echo
-+echo "testing LUKS qcow2 encryption"
-+echo
-+
-+_make_test_img --object $SECRET -o "encrypt.format=luks,encrypt.key-secret=sec0,encrypt.iter-time=10,cluster_size=64K" $size
-+_run_test "driver=$IMGFMT,encrypt.key-secret=sec0,file.filename=$TEST_IMG"
-+_cleanup_test_img
-+
-+echo
-+echo "testing legacy AES qcow2 encryption"
-+echo
-+
-+
-+_make_test_img --object $SECRET -o "encrypt.format=aes,encrypt.key-secret=sec0,cluster_size=64K" $size
-+_run_test "driver=$IMGFMT,encrypt.key-secret=sec0,file.filename=$TEST_IMG"
-+_cleanup_test_img
-+
-+
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/263.out b/tests/qemu-iotests/263.out
-new file mode 100644
-index 0000000000..0c982c55cb
---- /dev/null
-+++ b/tests/qemu-iotests/263.out
-@@ -0,0 +1,40 @@
-+QA output created by 263
-+
-+testing LUKS qcow2 encryption
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+== reading the whole image ==
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== write two 512 byte sectors on a cluster boundary ==
-+wrote 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== verify that the rest of the image is not changed ==
-+read 65024/65024 bytes at offset 0
-+63.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 982528/982528 bytes at offset 66048
-+959.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+testing legacy AES qcow2 encryption
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=aes encrypt.key-secret=sec0
-+== reading the whole image ==
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== write two 512 byte sectors on a cluster boundary ==
-+wrote 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== verify that the rest of the image is not changed ==
-+read 65024/65024 bytes at offset 0
-+63.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 982528/982528 bytes at offset 66048
-+959.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 6082c74806..8d58729ee1 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -274,5 +274,7 @@
- 257 rw
- 258 rw quick
- 262 rw quick migration
-+263 rw quick
- 265 rw auto quick
- 266 rw quick
-+>>>>>>> patched
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+
+Thanks,
+
 -- 
-2.17.2
-
+Anthony PERARD
 
