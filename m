@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3464B2665
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 22:03:49 +0200 (CEST)
-Received: from localhost ([::1]:47214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4372CB267E
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 22:12:34 +0200 (CEST)
+Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8rnI-0000WS-D5
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 16:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37005)
+	id 1i8rvl-00051I-38
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 16:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1i8rlI-0008Nh-Db
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:01:45 -0400
+ (envelope-from <jsnow@redhat.com>) id 1i8ruU-0004Rb-OZ
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:11:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1i8rlH-0000Dy-7F
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:01:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51870)
+ (envelope-from <jsnow@redhat.com>) id 1i8ruT-0006yS-P4
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:11:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56824)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1i8rlE-0000C9-4R; Fri, 13 Sep 2019 16:01:40 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1i8ruQ-0006vq-VR; Fri, 13 Sep 2019 16:11:11 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AB3A880F83;
- Fri, 13 Sep 2019 20:01:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A99933091761;
+ Fri, 13 Sep 2019 20:11:09 +0000 (UTC)
 Received: from [10.18.17.38] (dhcp-17-38.bos.redhat.com [10.18.17.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BC11194BB;
- Fri, 13 Sep 2019 20:01:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2AC2600C6;
+ Fri, 13 Sep 2019 20:10:59 +0000 (UTC)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20190913105205.7581-1-philmd@redhat.com>
- <20190913105205.7581-3-philmd@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -109,22 +108,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <965bb469-c5a0-d854-ba32-ac5485ffae1d@redhat.com>
-Date: Fri, 13 Sep 2019 16:01:32 -0400
+Message-ID: <af4ef81c-5a4d-847d-37bd-3696a3b77c68@redhat.com>
+Date: Fri, 13 Sep 2019 16:10:58 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190913105205.7581-3-philmd@redhat.com>
+In-Reply-To: <20190913105205.7581-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 13 Sep 2019 20:01:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 13 Sep 2019 20:11:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 2/2] trace: Forbid event
- format ending with newline character
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/2] trace: Forbid trailing
+ newline in event format
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -145,64 +144,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 9/13/19 6:52 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Event format ending with newlines confuse the trace reports.
-> Forbid them.
+> Hi Stefan,
 >=20
-> Add a check to refuse new format added with trailing newline:
+> I'v been confused by trailing newline in trace reports,
+> so this series aims to fix this, by cleaning current
+> formats and add a check to catch new one introduced.
 >=20
->   $ make
->   [...]
->     GEN     hw/misc/trace.h
->   Traceback (most recent call last):
->     File "scripts/tracetool.py", line 152, in <module>
->       main(sys.argv)
->     File "scripts/tracetool.py", line 143, in main
->       events.extend(tracetool.read_events(fh, arg))
->     File "scripts/tracetool/__init__.py", line 367, in read_events
->       event =3D Event.build(line)
->     File "scripts/tracetool/__init__.py", line 281, in build
->       raise ValueError("Event format can not end with a newline charact=
-er")
->   ValueError: Error at hw/misc/trace-events:121: Event format can not e=
-nd with a newline character
+> Regards,
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  docs/devel/tracing.txt        | 2 ++
->  scripts/tracetool/__init__.py | 3 +++
->  2 files changed, 5 insertions(+)
+> Phil.
 >=20
-> diff --git a/docs/devel/tracing.txt b/docs/devel/tracing.txt
-> index 76e492a489..8231bbf5d1 100644
-> --- a/docs/devel/tracing.txt
-> +++ b/docs/devel/tracing.txt
-> @@ -112,6 +112,8 @@ Trace events should use types as follows:
->  Format strings should reflect the types defined in the trace event.  T=
-ake
->  special care to use PRId64 and PRIu64 for int64_t and uint64_t types,
->  respectively.  This ensures portability between 32- and 64-bit platfor=
-ms.
-> +Format strings must not end with a newline character.  It is the respo=
-nsibility
-> +of backends to adapt line ending for proper logging.
-> =20
->  Each event declaration will start with the event name, then its argume=
-nts,
->  finally a format string for pretty-printing. For example:
-> diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__=
-.py
-> index 6fca674936..57df74e67c 100644
-> --- a/scripts/tracetool/__init__.py
-> +++ b/scripts/tracetool/__init__.py
-> @@ -277,6 +277,9 @@ class Event(object):
->          if fmt.find("%m") !=3D -1 or fmt_trans.find("%m") !=3D -1:
->              raise ValueError("Event format '%m' is forbidden, pass the=
- error "
->                               "as an explicit trace argument")
-> +        if fmt.endswith("\\n\""):
-> +            raise ValueError("Event format must not end with a newline=
- "
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   trace: Remove trailing newline in events
+>   trace: Forbid event format ending with newline character
+>=20
+>  docs/devel/tracing.txt        |  2 ++
+>  hw/misc/trace-events          | 10 +++++-----
+>  hw/scsi/trace-events          |  2 +-
+>  hw/sd/trace-events            |  2 +-
+>  nbd/trace-events              |  4 ++--
+>  net/trace-events              |  6 +++---
+>  scripts/tracetool/__init__.py |  3 +++
+>  7 files changed, 17 insertions(+), 12 deletions(-)
+>=20
 
-It's barely worth mentioning, but you can use r"\n" for cases like this,
-if it makes it easier to read.
+Never mind my bikeshedding.
+
+Reviewed-by: John Snow <jsnow@redhat.com>
 
