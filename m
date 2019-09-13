@@ -2,79 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB445B1BBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:49:23 +0200 (CEST)
-Received: from localhost ([::1]:42262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB590B1BC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:50:34 +0200 (CEST)
+Received: from localhost ([::1]:42198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8iym-0000vK-OS
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37349)
+	id 1i8irL-0005FU-7v
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i8ixp-0000FX-4Y
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:38:06 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1i8im0-0008Ge-Uq
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i8ixn-00049V-Pg
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:38:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60730)
+ (envelope-from <dgilbert@redhat.com>) id 1i8ily-0005rg-Gm
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43992)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i8ixk-00042a-Cm; Fri, 13 Sep 2019 06:38:00 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8ily-0005rI-8T
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:50 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6BCCC306141F;
- Fri, 13 Sep 2019 10:37:59 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-81.ams2.redhat.com
- [10.36.116.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DF1460C57;
- Fri, 13 Sep 2019 10:37:54 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190912223754.875-1-mlevitsk@redhat.com>
- <20190912223754.875-2-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <abd660bc-5e3c-ec6d-e595-6830e1b6f0d1@redhat.com>
-Date: Fri, 13 Sep 2019 12:37:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 98B9610DCC90
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 10:25:49 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.36.118.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AF255D9E1;
+ Fri, 13 Sep 2019 10:25:48 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, pbonzini@redhat.com, ehabkost@redhat.com,
+ berrange@redhat.com, quintela@redhat.com
+Date: Fri, 13 Sep 2019 11:25:38 +0100
+Message-Id: <20190913102538.24167-6-dgilbert@redhat.com>
+In-Reply-To: <20190913102538.24167-1-dgilbert@redhat.com>
+References: <20190913102538.24167-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190912223754.875-2-mlevitsk@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 13 Sep 2019 10:37:59 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Fri, 13 Sep 2019 10:25:49 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 1/3] block/qcow2: refactoring of
- threaded encryption code
+Subject: [Qemu-devel] [PATCH v3 5/5] rcu: Use automatic rc_read unlock in
+ core memory/exec code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,258 +56,681 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd
-Content-Type: multipart/mixed; boundary="82sd70ZdinVJcqrEInMbDVZivvi4eLPwA";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- qemu-stable <qemu-stable@nongnu.org>
-Message-ID: <abd660bc-5e3c-ec6d-e595-6830e1b6f0d1@redhat.com>
-Subject: Re: [PATCH v3 1/3] block/qcow2: refactoring of threaded encryption
- code
-References: <20190912223754.875-1-mlevitsk@redhat.com>
- <20190912223754.875-2-mlevitsk@redhat.com>
-In-Reply-To: <20190912223754.875-2-mlevitsk@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
---82sd70ZdinVJcqrEInMbDVZivvi4eLPwA
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ exec.c                  | 120 +++++++++++++++-------------------
+ include/exec/ram_addr.h | 138 +++++++++++++++++++---------------------
+ memory.c                |  15 ++---
+ 3 files changed, 120 insertions(+), 153 deletions(-)
 
-On 13.09.19 00:37, Maxim Levitsky wrote:
-> This commit tries to clarify few function arguments,
-> and add comments describing the encrypt/decrypt interface
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  block/qcow2-cluster.c |  8 +++---
->  block/qcow2-threads.c | 63 ++++++++++++++++++++++++++++++++++---------=
+diff --git a/exec.c b/exec.c
+index 235d6bc883..e75be06819 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1034,16 +1034,14 @@ void tb_invalidate_phys_addr(AddressSpace *as, hw=
+addr addr, MemTxAttrs attrs)
+         return;
+     }
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     mr =3D address_space_translate(as, addr, &addr, &l, false, attrs);
+     if (!(memory_region_is_ram(mr)
+           || memory_region_is_romd(mr))) {
+-        rcu_read_unlock();
+         return;
+     }
+     ram_addr =3D memory_region_get_ram_addr(mr) + addr;
+     tb_invalidate_phys_page_range(ram_addr, ram_addr + 1, 0);
+-    rcu_read_unlock();
+ }
+=20
+ static void breakpoint_invalidate(CPUState *cpu, target_ulong pc)
+@@ -1329,14 +1327,13 @@ static void tlb_reset_dirty_range_all(ram_addr_t =
+start, ram_addr_t length)
+     end =3D TARGET_PAGE_ALIGN(start + length);
+     start &=3D TARGET_PAGE_MASK;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     block =3D qemu_get_ram_block(start);
+     assert(block =3D=3D qemu_get_ram_block(end - 1));
+     start1 =3D (uintptr_t)ramblock_ptr(block, start - block->offset);
+     CPU_FOREACH(cpu) {
+         tlb_reset_dirty(cpu, start1, length);
+     }
+-    rcu_read_unlock();
+ }
+=20
+ /* Note: start and end must be within the same ram block.  */
+@@ -1357,30 +1354,29 @@ bool cpu_physical_memory_test_and_clear_dirty(ram=
+_addr_t start,
+     end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+     page =3D start >> TARGET_PAGE_BITS;
+=20
+-    rcu_read_lock();
+-
+-    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+-    ramblock =3D qemu_get_ram_block(start);
+-    /* Range sanity check on the ramblock */
+-    assert(start >=3D ramblock->offset &&
+-           start + length <=3D ramblock->offset + ramblock->used_length)=
+;
+-
+-    while (page < end) {
+-        unsigned long idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+-        unsigned long offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+-        unsigned long num =3D MIN(end - page, DIRTY_MEMORY_BLOCK_SIZE - =
+offset);
++    WITH_RCU_READ_LOCK_GUARD() {
++        blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
++        ramblock =3D qemu_get_ram_block(start);
++        /* Range sanity check on the ramblock */
++        assert(start >=3D ramblock->offset &&
++               start + length <=3D ramblock->offset + ramblock->used_len=
+gth);
++
++        while (page < end) {
++            unsigned long idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
++            unsigned long offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
++            unsigned long num =3D MIN(end - page,
++                                    DIRTY_MEMORY_BLOCK_SIZE - offset);
++
++            dirty |=3D bitmap_test_and_clear_atomic(blocks->blocks[idx],
++                                                  offset, num);
++            page +=3D num;
++        }
+=20
+-        dirty |=3D bitmap_test_and_clear_atomic(blocks->blocks[idx],
+-                                              offset, num);
+-        page +=3D num;
++        mr_offset =3D (ram_addr_t)(page << TARGET_PAGE_BITS) - ramblock-=
+>offset;
++        mr_size =3D (end - page) << TARGET_PAGE_BITS;
++        memory_region_clear_dirty_bitmap(ramblock->mr, mr_offset, mr_siz=
+e);
+     }
+=20
+-    mr_offset =3D (ram_addr_t)(page << TARGET_PAGE_BITS) - ramblock->off=
+set;
+-    mr_size =3D (end - page) << TARGET_PAGE_BITS;
+-    memory_region_clear_dirty_bitmap(ramblock->mr, mr_offset, mr_size);
+-
+-    rcu_read_unlock();
+-
+     if (dirty && tcg_enabled()) {
+         tlb_reset_dirty_range_all(start, length);
+     }
+@@ -1408,28 +1404,27 @@ DirtyBitmapSnapshot *cpu_physical_memory_snapshot=
+_and_clear_dirty
+     end  =3D last  >> TARGET_PAGE_BITS;
+     dest =3D 0;
+=20
+-    rcu_read_lock();
+-
+-    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
++    WITH_RCU_READ_LOCK_GUARD() {
++        blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+=20
+-    while (page < end) {
+-        unsigned long idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+-        unsigned long offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+-        unsigned long num =3D MIN(end - page, DIRTY_MEMORY_BLOCK_SIZE - =
+offset);
++        while (page < end) {
++            unsigned long idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
++            unsigned long offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
++            unsigned long num =3D MIN(end - page,
++                                    DIRTY_MEMORY_BLOCK_SIZE - offset);
+=20
+-        assert(QEMU_IS_ALIGNED(offset, (1 << BITS_PER_LEVEL)));
+-        assert(QEMU_IS_ALIGNED(num,    (1 << BITS_PER_LEVEL)));
+-        offset >>=3D BITS_PER_LEVEL;
++            assert(QEMU_IS_ALIGNED(offset, (1 << BITS_PER_LEVEL)));
++            assert(QEMU_IS_ALIGNED(num,    (1 << BITS_PER_LEVEL)));
++            offset >>=3D BITS_PER_LEVEL;
+=20
+-        bitmap_copy_and_clear_atomic(snap->dirty + dest,
+-                                     blocks->blocks[idx] + offset,
+-                                     num);
+-        page +=3D num;
+-        dest +=3D num >> BITS_PER_LEVEL;
++            bitmap_copy_and_clear_atomic(snap->dirty + dest,
++                                         blocks->blocks[idx] + offset,
++                                         num);
++            page +=3D num;
++            dest +=3D num >> BITS_PER_LEVEL;
++        }
+     }
+=20
+-    rcu_read_unlock();
+-
+     if (tcg_enabled()) {
+         tlb_reset_dirty_range_all(start, length);
+     }
+@@ -1661,7 +1656,7 @@ void ram_block_dump(Monitor *mon)
+     RAMBlock *block;
+     char *psize;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     monitor_printf(mon, "%24s %8s  %18s %18s %18s\n",
+                    "Block Name", "PSize", "Offset", "Used", "Total");
+     RAMBLOCK_FOREACH(block) {
+@@ -1673,7 +1668,6 @@ void ram_block_dump(Monitor *mon)
+                        (uint64_t)block->max_length);
+         g_free(psize);
+     }
+-    rcu_read_unlock();
+ }
+=20
+ #ifdef __linux__
+@@ -1995,11 +1989,10 @@ static unsigned long last_ram_page(void)
+     RAMBlock *block;
+     ram_addr_t last =3D 0;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     RAMBLOCK_FOREACH(block) {
+         last =3D MAX(last, block->offset + block->max_length);
+     }
+-    rcu_read_unlock();
+     return last >> TARGET_PAGE_BITS;
+ }
+=20
+@@ -2086,7 +2079,7 @@ void qemu_ram_set_idstr(RAMBlock *new_block, const =
+char *name, DeviceState *dev)
+     }
+     pstrcat(new_block->idstr, sizeof(new_block->idstr), name);
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     RAMBLOCK_FOREACH(block) {
+         if (block !=3D new_block &&
+             !strcmp(block->idstr, new_block->idstr)) {
+@@ -2095,7 +2088,6 @@ void qemu_ram_set_idstr(RAMBlock *new_block, const =
+char *name, DeviceState *dev)
+             abort();
+         }
+     }
+-    rcu_read_unlock();
+ }
+=20
+ /* Called with iothread lock held.  */
+@@ -2637,17 +2629,16 @@ RAMBlock *qemu_ram_block_from_host(void *ptr, boo=
+l round_offset,
+=20
+     if (xen_enabled()) {
+         ram_addr_t ram_addr;
+-        rcu_read_lock();
++        RCU_READ_LOCK_GUARD();
+         ram_addr =3D xen_ram_addr_from_mapcache(ptr);
+         block =3D qemu_get_ram_block(ram_addr);
+         if (block) {
+             *offset =3D ram_addr - block->offset;
+         }
+-        rcu_read_unlock();
+         return block;
+     }
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     block =3D atomic_rcu_read(&ram_list.mru_block);
+     if (block && block->host && host - block->host < block->max_length) =
+{
+         goto found;
+@@ -2663,7 +2654,6 @@ RAMBlock *qemu_ram_block_from_host(void *ptr, bool =
+round_offset,
+         }
+     }
+=20
+-    rcu_read_unlock();
+     return NULL;
+=20
+ found:
+@@ -2671,7 +2661,6 @@ found:
+     if (round_offset) {
+         *offset &=3D TARGET_PAGE_MASK;
+     }
+-    rcu_read_unlock();
+     return block;
+ }
+=20
+@@ -3380,10 +3369,9 @@ MemTxResult address_space_read_full(AddressSpace *=
+as, hwaddr addr,
+     FlatView *fv;
+=20
+     if (len > 0) {
+-        rcu_read_lock();
++        RCU_READ_LOCK_GUARD();
+         fv =3D address_space_to_flatview(as);
+         result =3D flatview_read(fv, addr, attrs, buf, len);
+-        rcu_read_unlock();
+     }
+=20
+     return result;
+@@ -3397,10 +3385,9 @@ MemTxResult address_space_write(AddressSpace *as, =
+hwaddr addr,
+     FlatView *fv;
+=20
+     if (len > 0) {
+-        rcu_read_lock();
++        RCU_READ_LOCK_GUARD();
+         fv =3D address_space_to_flatview(as);
+         result =3D flatview_write(fv, addr, attrs, buf, len);
+-        rcu_read_unlock();
+     }
+=20
+     return result;
+@@ -3440,7 +3427,7 @@ static inline MemTxResult address_space_write_rom_i=
+nternal(AddressSpace *as,
+     hwaddr addr1;
+     MemoryRegion *mr;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     while (len > 0) {
+         l =3D len;
+         mr =3D address_space_translate(as, addr, &addr1, &l, true, attrs=
+);
+@@ -3465,7 +3452,6 @@ static inline MemTxResult address_space_write_rom_i=
+nternal(AddressSpace *as,
+         buf +=3D l;
+         addr +=3D l;
+     }
+-    rcu_read_unlock();
+     return MEMTX_OK;
+ }
+=20
+@@ -3610,10 +3596,9 @@ bool address_space_access_valid(AddressSpace *as, =
+hwaddr addr,
+     FlatView *fv;
+     bool result;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     fv =3D address_space_to_flatview(as);
+     result =3D flatview_access_valid(fv, addr, len, is_write, attrs);
+-    rcu_read_unlock();
+     return result;
+ }
+=20
+@@ -3668,13 +3653,12 @@ void *address_space_map(AddressSpace *as,
+     }
+=20
+     l =3D len;
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     fv =3D address_space_to_flatview(as);
+     mr =3D flatview_translate(fv, addr, &xlat, &l, is_write, attrs);
+=20
+     if (!memory_access_is_direct(mr, is_write)) {
+         if (atomic_xchg(&bounce.in_use, true)) {
+-            rcu_read_unlock();
+             return NULL;
+         }
+         /* Avoid unbounded allocations */
+@@ -3690,7 +3674,6 @@ void *address_space_map(AddressSpace *as,
+                                bounce.buffer, l);
+         }
+=20
+-        rcu_read_unlock();
+         *plen =3D l;
+         return bounce.buffer;
+     }
+@@ -3700,7 +3683,6 @@ void *address_space_map(AddressSpace *as,
+     *plen =3D flatview_extend_translation(fv, addr, len, mr, xlat,
+                                         l, is_write, attrs);
+     ptr =3D qemu_ram_ptr_length(mr->ram_block, xlat, plen, true);
+-    rcu_read_unlock();
+=20
+     return ptr;
+ }
+@@ -3968,13 +3950,12 @@ bool cpu_physical_memory_is_io(hwaddr phys_addr)
+     hwaddr l =3D 1;
+     bool res;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     mr =3D address_space_translate(&address_space_memory,
+                                  phys_addr, &phys_addr, &l, false,
+                                  MEMTXATTRS_UNSPECIFIED);
+=20
+     res =3D !(memory_region_is_ram(mr) || memory_region_is_romd(mr));
+-    rcu_read_unlock();
+     return res;
+ }
+=20
+@@ -3983,14 +3964,13 @@ int qemu_ram_foreach_block(RAMBlockIterFunc func,=
+ void *opaque)
+     RAMBlock *block;
+     int ret =3D 0;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     RAMBLOCK_FOREACH(block) {
+         ret =3D func(block, opaque);
+         if (ret) {
+             break;
+         }
+     }
+-    rcu_read_unlock();
+     return ret;
+ }
+=20
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index a327a80cfe..be76b0bfba 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -199,30 +199,29 @@ static inline bool cpu_physical_memory_get_dirty(ra=
+m_addr_t start,
+     end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+     page =3D start >> TARGET_PAGE_BITS;
+=20
+-    rcu_read_lock();
+-
+-    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
++    WITH_RCU_READ_LOCK_GUARD() {
++        blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
++
++        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
++        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
++        base =3D page - offset;
++        while (page < end) {
++            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
+ZE);
++            unsigned long num =3D next - base;
++            unsigned long found =3D find_next_bit(blocks->blocks[idx],
++                                                num, offset);
++            if (found < num) {
++                dirty =3D true;
++                break;
++            }
+=20
+-    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+-    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+-    base =3D page - offset;
+-    while (page < end) {
+-        unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SIZE);
+-        unsigned long num =3D next - base;
+-        unsigned long found =3D find_next_bit(blocks->blocks[idx], num, =
+offset);
+-        if (found < num) {
+-            dirty =3D true;
+-            break;
++            page =3D next;
++            idx++;
++            offset =3D 0;
++            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+         }
+-
+-        page =3D next;
+-        idx++;
+-        offset =3D 0;
+-        base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+     }
+=20
+-    rcu_read_unlock();
+-
+     return dirty;
+ }
+=20
+@@ -240,7 +239,7 @@ static inline bool cpu_physical_memory_all_dirty(ram_=
+addr_t start,
+     end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+     page =3D start >> TARGET_PAGE_BITS;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+=20
+     blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+=20
+@@ -262,8 +261,6 @@ static inline bool cpu_physical_memory_all_dirty(ram_=
+addr_t start,
+         base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+     }
+=20
+-    rcu_read_unlock();
+-
+     return dirty;
+ }
+=20
+@@ -315,13 +312,11 @@ static inline void cpu_physical_memory_set_dirty_fl=
+ag(ram_addr_t addr,
+     idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+     offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+=20
+     blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+=20
+     set_bit_atomic(offset, blocks->blocks[idx]);
+-
+-    rcu_read_unlock();
+ }
+=20
+ static inline void cpu_physical_memory_set_dirty_range(ram_addr_t start,
+@@ -340,39 +335,37 @@ static inline void cpu_physical_memory_set_dirty_ra=
+nge(ram_addr_t start,
+     end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+     page =3D start >> TARGET_PAGE_BITS;
+=20
+-    rcu_read_lock();
++    WITH_RCU_READ_LOCK_GUARD() {
++        for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
++            blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i]);
++        }
+=20
+-    for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
+-        blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i]);
+-    }
++        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
++        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
++        base =3D page - offset;
++        while (page < end) {
++            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
+ZE);
+=20
+-    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+-    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+-    base =3D page - offset;
+-    while (page < end) {
+-        unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SIZE);
++            if (likely(mask & (1 << DIRTY_MEMORY_MIGRATION))) {
++                bitmap_set_atomic(blocks[DIRTY_MEMORY_MIGRATION]->blocks=
+[idx],
++                                  offset, next - page);
++            }
++            if (unlikely(mask & (1 << DIRTY_MEMORY_VGA))) {
++                bitmap_set_atomic(blocks[DIRTY_MEMORY_VGA]->blocks[idx],
++                                  offset, next - page);
++            }
++            if (unlikely(mask & (1 << DIRTY_MEMORY_CODE))) {
++                bitmap_set_atomic(blocks[DIRTY_MEMORY_CODE]->blocks[idx]=
+,
++                                  offset, next - page);
++            }
+=20
+-        if (likely(mask & (1 << DIRTY_MEMORY_MIGRATION))) {
+-            bitmap_set_atomic(blocks[DIRTY_MEMORY_MIGRATION]->blocks[idx=
+],
+-                              offset, next - page);
++            page =3D next;
++            idx++;
++            offset =3D 0;
++            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+         }
+-        if (unlikely(mask & (1 << DIRTY_MEMORY_VGA))) {
+-            bitmap_set_atomic(blocks[DIRTY_MEMORY_VGA]->blocks[idx],
+-                              offset, next - page);
+-        }
+-        if (unlikely(mask & (1 << DIRTY_MEMORY_CODE))) {
+-            bitmap_set_atomic(blocks[DIRTY_MEMORY_CODE]->blocks[idx],
+-                              offset, next - page);
+-        }
+-
+-        page =3D next;
+-        idx++;
+-        offset =3D 0;
+-        base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+     }
+=20
+-    rcu_read_unlock();
+-
+     xen_hvm_modified_memory(start, length);
+ }
+=20
+@@ -402,36 +395,35 @@ static inline void cpu_physical_memory_set_dirty_le=
+bitmap(unsigned long *bitmap,
+         offset =3D BIT_WORD((start >> TARGET_PAGE_BITS) %
+                           DIRTY_MEMORY_BLOCK_SIZE);
+=20
+-        rcu_read_lock();
++        WITH_RCU_READ_LOCK_GUARD() {
++            for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
++                blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i])=
+->blocks;
++            }
+=20
+-        for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
+-            blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i])->bl=
+ocks;
+-        }
++            for (k =3D 0; k < nr; k++) {
++                if (bitmap[k]) {
++                    unsigned long temp =3D leul_to_cpu(bitmap[k]);
+=20
+-        for (k =3D 0; k < nr; k++) {
+-            if (bitmap[k]) {
+-                unsigned long temp =3D leul_to_cpu(bitmap[k]);
++                    atomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], te=
+mp);
+=20
+-                atomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], temp);
++                    if (global_dirty_log) {
++                        atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][o=
+ffset],
++                                  temp);
++                    }
+=20
+-                if (global_dirty_log) {
+-                    atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][offse=
+t],
+-                              temp);
++                    if (tcg_enabled()) {
++                        atomic_or(&blocks[DIRTY_MEMORY_CODE][idx][offset=
+],
++                                  temp);
++                    }
+                 }
+=20
+-                if (tcg_enabled()) {
+-                    atomic_or(&blocks[DIRTY_MEMORY_CODE][idx][offset], t=
+emp);
++                if (++offset >=3D BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)=
+) {
++                    offset =3D 0;
++                    idx++;
+                 }
+             }
+-
+-            if (++offset >=3D BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)) {
+-                offset =3D 0;
+-                idx++;
+-            }
+         }
+=20
+-        rcu_read_unlock();
+-
+         xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
+     } else {
+         uint8_t clients =3D tcg_enabled() ? DIRTY_CLIENTS_ALL : DIRTY_CL=
+IENTS_NOCODE;
+diff --git a/memory.c b/memory.c
+index 61a254c3f9..e867a1f2b3 100644
+--- a/memory.c
++++ b/memory.c
+@@ -799,14 +799,13 @@ FlatView *address_space_get_flatview(AddressSpace *=
+as)
+ {
+     FlatView *view;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     do {
+         view =3D address_space_to_flatview(as);
+         /* If somebody has replaced as->current_map concurrently,
+          * flatview_ref returns false.
+          */
+     } while (!flatview_ref(view));
+-    rcu_read_unlock();
+     return view;
+ }
+=20
+@@ -2177,12 +2176,11 @@ int memory_region_get_fd(MemoryRegion *mr)
+ {
+     int fd;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     while (mr->alias) {
+         mr =3D mr->alias;
+     }
+     fd =3D mr->ram_block->fd;
+-    rcu_read_unlock();
+=20
+     return fd;
+ }
+@@ -2192,14 +2190,13 @@ void *memory_region_get_ram_ptr(MemoryRegion *mr)
+     void *ptr;
+     uint64_t offset =3D 0;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     while (mr->alias) {
+         offset +=3D mr->alias_offset;
+         mr =3D mr->alias;
+     }
+     assert(mr->ram_block);
+     ptr =3D qemu_map_ram_ptr(mr->ram_block, offset);
+-    rcu_read_unlock();
+=20
+     return ptr;
+ }
+@@ -2589,12 +2586,11 @@ MemoryRegionSection memory_region_find(MemoryRegi=
+on *mr,
+                                        hwaddr addr, uint64_t size)
+ {
+     MemoryRegionSection ret;
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     ret =3D memory_region_find_rcu(mr, addr, size);
+     if (ret.mr) {
+         memory_region_ref(ret.mr);
+     }
+-    rcu_read_unlock();
+     return ret;
+ }
+=20
+@@ -2602,9 +2598,8 @@ bool memory_region_present(MemoryRegion *container,=
+ hwaddr addr)
+ {
+     MemoryRegion *mr;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     mr =3D memory_region_find_rcu(container, addr, 1).mr;
+-    rcu_read_unlock();
+     return mr && mr !=3D container;
+ }
+=20
+--=20
+2.21.0
 
->  2 files changed, 54 insertions(+), 17 deletions(-)
->=20
-> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-> index f09cc992af..b95e64c237 100644
-> --- a/block/qcow2-cluster.c
-> +++ b/block/qcow2-cluster.c
-> @@ -463,8 +463,8 @@ static int coroutine_fn do_perform_cow_read(BlockDr=
-iverState *bs,
->  }
-> =20
->  static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
-> -                                                uint64_t src_cluster_o=
-ffset,
-> -                                                uint64_t cluster_offse=
-t,
-> +                                                uint64_t guest_cluster=
-_offset,
-> +                                                uint64_t host_cluster_=
-offset,
->                                                  unsigned offset_in_clu=
-ster,
->                                                  uint8_t *buffer,
->                                                  unsigned bytes)
-> @@ -474,8 +474,8 @@ static bool coroutine_fn do_perform_cow_encrypt(Blo=
-ckDriverState *bs,
->          assert((offset_in_cluster & ~BDRV_SECTOR_MASK) =3D=3D 0);
->          assert((bytes & ~BDRV_SECTOR_MASK) =3D=3D 0);
->          assert(s->crypto);
-> -        if (qcow2_co_encrypt(bs, cluster_offset,
-> -                             src_cluster_offset + offset_in_cluster,
-> +        if (qcow2_co_encrypt(bs, host_cluster_offset,
-> +                             guest_cluster_offset + offset_in_cluster,=
-
->                               buffer, bytes) < 0) {
->              return false;
->          }
-> diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-> index 3b1e63fe41..6da1838e95 100644
-> --- a/block/qcow2-threads.c
-> +++ b/block/qcow2-threads.c
-> @@ -234,15 +234,19 @@ static int qcow2_encdec_pool_func(void *opaque)
->  }
-> =20
->  static int coroutine_fn
-> -qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
-> -                  uint64_t offset, void *buf, size_t len, Qcow2EncDecF=
-unc func)
-> +qcow2_co_encdec(BlockDriverState *bs, uint64_t host_cluster_offset,
-> +                uint64_t guest_offset, void *buf, size_t len,
-> +                Qcow2EncDecFunc func)
->  {
->      BDRVQcow2State *s =3D bs->opaque;
-> +
-> +    uint64_t offset =3D s->crypt_physical_offset ?
-> +        host_cluster_offset + offset_into_cluster(s, guest_offset) :
-> +        guest_offset;
-> +
->      Qcow2EncDecData arg =3D {
->          .block =3D s->crypto,
-> -        .offset =3D s->crypt_physical_offset ?
-> -                      file_cluster_offset + offset_into_cluster(s, off=
-set) :
-> -                      offset,
-> +        .offset =3D offset,
->          .buf =3D buf,
->          .len =3D len,
->          .func =3D func,
-> @@ -251,18 +255,51 @@ qcow2_co_encdec(BlockDriverState *bs, uint64_t fi=
-le_cluster_offset,
->      return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
->  }
-> =20
-> +
-> +/*
-> + * qcow2_co_encrypt()
-> + *
-> + * Encrypts one or more contiguous aligned sectors
-> + *
-> + * @host_cluster_offset - underlying storage offset of the first clust=
-er
-> + * in which the encrypted data will be written
-> + * Used as an initialization vector for encryption
-
-s/as an/for generating the/
-
-(AFAIU)
-
-> + *
-> + * @guest_offset - guest (virtual) offset of the first sector of the
-> + * data to be encrypted
-> + * Used as an initialization vector for older, qcow2 native encryption=
-
-
-I wouldn=E2=80=99t be so specific here.  I think it=E2=80=99d be better t=
-o just have a
-common sentence like =E2=80=9CDepending on the encryption method, either =
-of
-these offsets may be used for generating the initialization vector for
-encryption.=E2=80=9D
-
-Well, technically, host_cluster_offset will not be used itself.  Before
-we can use it, of course we have to add the in-cluster offset to it
-(which qcow2_co_encdec() does).
-
-This makes me wonder whether it wouldn=E2=80=99t make more sense to pass =
-a
-host_offset instead of a host_cluster_offset (i.e. make the callers add
-the in-cluster offset to the host offset already)?
-
-> + *
-> + * @buf - buffer with the data to encrypt, that after encryption
-> + *        will be written to the underlying storage device at
-> + *        @host_cluster_offset
-
-I think just =E2=80=9Cbuffer with the data to encrypt=E2=80=9D is suffici=
-ent.  (The rest
-is just the same as above.)
-
-> + *
-> + * @len - length of the buffer (in sector size multiplies)
-
-=E2=80=9CIn sector size multiples=E2=80=9D to me means that it is a secto=
-r count (in
-that =E2=80=9Cone sector size multiple=E2=80=9D is equal to 512 byes).
-
-Maybe =E2=80=9Cmust be a BDRV_SECTOR_SIZE multiple=E2=80=9D instead?
-
-> + *
-> + * Note that the group of the sectors, don't have to be aligned
-> + * on cluster boundary and can also cross a cluster boundary.
-
-Maybe =E2=80=9CNote that while the whole range must be aligned on sectors=
-, it
-does not have to be aligned on clusters and can also cross cluster
-boundaries=E2=80=9D?
-
-(=E2=80=9CThe group of sectors=E2=80=9D sounds a bit weird to me.  I don=E2=
-=80=99t quite know,
-why.  I think that for some reason it makes me think of a non-continuous
-set of sectors.  Also, the caller doesn=E2=80=99t pass sector indices, bu=
-t byte
-offsets, that just happen to have to be aligned to sectors.  (I suppose
-because that=E2=80=99s the simplest way to make it a multiple of the encr=
-yption
-block size.))
-
-> + *
-> + */
->  int coroutine_fn
-> -qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-> -                 uint64_t offset, void *buf, size_t len)
-> +qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
-> +                 uint64_t guest_offset, void *buf, size_t len)
->  {
-> -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
-> -                             qcrypto_block_encrypt);
-> +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, buf,=
- len,
-> +                           qcrypto_block_encrypt);
->  }
-> =20
-> +
-> +/*
-> + * qcow2_co_decrypt()
-> + *
-> + * Decrypts one or more contiguous aligned sectors
-> + * Similar to qcow2_co_encrypt
-
-Hm.  This would make me wonder in what way it is only similar to
-qcow2_co_encrypt().  Sure, it decrypts instead of encrypting, but maybe
-there=E2=80=99s more...?
-
-So maybe =E2=80=9CIts interface is the same as qcow2_co_encrypt()'s=E2=80=
-=9D?
-
-Max
-
-> + *
-> + */
-> +
->  int coroutine_fn
-> -qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-> -                 uint64_t offset, void *buf, size_t len)
-> +qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
-> +                 uint64_t guest_offset, void *buf, size_t len)
->  {
-> -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
-> -                             qcrypto_block_decrypt);
-> +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, buf,=
- len,
-> +                           qcrypto_block_decrypt);
->  }
->=20
-
-
-
---82sd70ZdinVJcqrEInMbDVZivvi4eLPwA--
-
---I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl17cYAACgkQ9AfbAGHV
-z0CbAQf+J1WsEmeAXv0lN7ebgL2ALIE3d54VDmwzSZWAC+4Hvcv1qjpvvVYssH6X
-iO3OmcAwIbDIhYuTuptq+u9crqcSoSMBfSn2/TugEI+IfsjwDU/CfUMZi3eDEoKX
-xjaqIr5rhgkj1rGsP7HYzI3pPlKprkUvNg47CtpmqQ7kVXLMdUiBuOWzqCF01yGz
-b2doBYWO2RBzoPeFSBmT3m/IQv7aacVit3SpY9UwpEdXnt7VDu6TpilCJL5m3O5y
-C0cZB4Tro12wsNfR5/LCZ+SgGjvbkDMuk1fXejQr96RXrm5tQhl50ZXcMnNDbkqg
-dbuk5BV6Bz74HQACBCDklTT3lALGWA==
-=wx2D
------END PGP SIGNATURE-----
-
---I5Nbxt2ab1s8lIGSYsIXxx2SrdUuVuDJd--
 
