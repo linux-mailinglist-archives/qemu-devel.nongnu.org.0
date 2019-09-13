@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F01B21EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 16:27:10 +0200 (CEST)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC9BB21F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 16:29:15 +0200 (CEST)
+Received: from localhost ([::1]:44608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8mXV-0002Cx-CL
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 10:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45351)
+	id 1i8mZW-0004nW-OA
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 10:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i8mVO-0000RC-Jn
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:24:59 -0400
+ (envelope-from <armbru@redhat.com>) id 1i8mYh-00045p-EJ
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:28:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i8mVN-0002il-CQ
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:24:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46628)
+ (envelope-from <armbru@redhat.com>) id 1i8mYg-00066V-CN
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:28:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55011)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i8mVK-0002e3-2c; Fri, 13 Sep 2019 10:24:54 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i8mYg-00066C-7W
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:28:22 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 27A268980F7;
- Fri, 13 Sep 2019 14:24:53 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 98E305D712;
- Fri, 13 Sep 2019 14:24:51 +0000 (UTC)
-Date: Fri, 13 Sep 2019 16:24:50 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190913142450.GI8312@dhcp-200-226.str.redhat.com>
-References: <20190913125909.15348-1-mlevitsk@redhat.com>
- <20190913125909.15348-2-mlevitsk@redhat.com>
- <5d578974-d02d-8b05-8d51-85715d1d4468@virtuozzo.com>
- <5fdc4891c02c7977762bb76fd877e4383e04be0c.camel@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 60167307D925;
+ Fri, 13 Sep 2019 14:28:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F1C66D09D;
+ Fri, 13 Sep 2019 14:28:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E4F6B113865F; Fri, 13 Sep 2019 16:28:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+References: <20190910063724.28470-1-armbru@redhat.com>
+ <20190910063724.28470-7-armbru@redhat.com>
+ <fedc30f3-4b34-4a1d-8791-a294b9cdc646@redhat.com>
+Date: Fri, 13 Sep 2019 16:28:10 +0200
+In-Reply-To: <fedc30f3-4b34-4a1d-8791-a294b9cdc646@redhat.com> (Eric Blake's
+ message of "Tue, 10 Sep 2019 10:22:32 -0500")
+Message-ID: <878sqs9sp1.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5fdc4891c02c7977762bb76fd877e4383e04be0c.camel@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Fri, 13 Sep 2019 14:24:53 +0000 (UTC)
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Fri, 13 Sep 2019 14:28:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 1/3] block/qcow2: refactoring of
- threaded encryption code
+Subject: Re: [Qemu-devel] [PATCH v2 06/16] qapi: Restrict strings to
+ printable ASCII
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,71 +62,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- qemu-stable <qemu-stable@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.09.2019 um 16:07 hat Maxim Levitsky geschrieben:
-> On Fri, 2019-09-13 at 14:01 +0000, Vladimir Sementsov-Ogievskiy wrote:
-> > 13.09.2019 15:59, Maxim Levitsky wrote:
-> > > This commit tries to clarify few function arguments,
-> > > and add comments describing the encrypt/decrypt interface
-> > > 
-> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > ---
-> > >   block/qcow2-cluster.c |  9 ++++---
-> > >   block/qcow2-threads.c | 62 ++++++++++++++++++++++++++++++++++---------
-> > >   block/qcow2.c         |  5 ++--
-> > >   block/qcow2.h         |  8 +++---
-> > >   4 files changed, 61 insertions(+), 23 deletions(-)
-> > > 
-> > > diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-> > > index f09cc992af..46b0854d7e 100644
-> > > --- a/block/qcow2-cluster.c
-> > > +++ b/block/qcow2-cluster.c
-> > > @@ -463,8 +463,8 @@ static int coroutine_fn do_perform_cow_read(BlockDriverState *bs,
-> > >   }
-> > >   
-> > >   static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
-> > > -                                                uint64_t src_cluster_offset,
-> > > -                                                uint64_t cluster_offset,
-> > > +                                                uint64_t guest_cluster_offset,
-> > > +                                                uint64_t host_cluster_offset,
-> > >                                                   unsigned offset_in_cluster,
-> > >                                                   uint8_t *buffer,
-> > >                                                   unsigned bytes)
-> > > @@ -474,8 +474,9 @@ static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
-> > >           assert((offset_in_cluster & ~BDRV_SECTOR_MASK) == 0);
-> > >           assert((bytes & ~BDRV_SECTOR_MASK) == 0);
-> > >           assert(s->crypto);
-> > > -        if (qcow2_co_encrypt(bs, cluster_offset,
-> > > -                             src_cluster_offset + offset_in_cluster,
-> > > +        if (qcow2_co_encrypt(bs,
-> > > +                             host_cluster_offset + offset_in_cluster,
-> > > +                             guest_cluster_offset + offset_in_cluster,
-> > 
-> > oops, seems you accidentally fixed the bug, which you are going to fix in the next
-> > patch, as now correct offsets are given to qcow2_co_encrypt :)
-> > 
-> > and next patch no is a simple no-logic-change refactoring, so at least commit message
-> > should be changed.
-> 
-> Yep :-( I am trying my best in addition to fixing the bug, also clarify the area to
-> avoid this from happening again.
-> 
-> What do you think that I fold these two patches together after all?
+Eric Blake <eblake@redhat.com> writes:
 
-No, just make sure that your refactoring patch is really just
-refactoring without semantic change, i.e. make sure to preserve the bug
-in this patch.
+> On 9/10/19 1:37 AM, Markus Armbruster wrote:
+>> RFC 8259 on string contents:
+>> 
+>>    All Unicode characters may be placed within the quotation marks,
+>>    except for the characters that MUST be escaped: quotation mark,
+>>    reverse solidus, and the control characters (U+0000 through
+>>    U+001F).
+>> 
+>> The QAPI schema parser accepts both less and more than JSON: it
+>> accepts only ASCII with \u (less), and accepts control characters
+>> other than LF (new line) unescaped.  How it treats unescaped non-ASCII
+>> input differs between Python 2 and Python 3.
+>> 
+>> Make it accept strictly less: require printable ASCII.  Drop support
+>> for \b, \f, \n, \r, \t.
+>
+> Fair enough.  It doesn't prevent QMP clients from sending strings with
+> non-ASCII characters, merely that those strings will never match the
+> schema because we have guaranteed our schema is limited to ASCII.  (This
 
-Maybe you should actually have two refactoring patches (this one without
-the addition of offset_in_cluster, and patch 2) and an additional
-one-liner for the actual fix.
+Note that this only affects QMP commands, events, parameter and enum
+value names, *not* non-enum string arguments.
 
-Kevin
+> change means we are promising to never allow { "execute": "a\tb" } as a
+> valid QMP command, for instance.)
+
+We're not actually promising anything.  We're merely making it slightly
+harder to do: need to revert this patch first.  Feels quite unlikely,
+though.
+
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>
+>> @@ -523,17 +523,7 @@ class QAPISchemaParser(object):
+>>                      if ch == '\n':
+>>                          raise QAPIParseError(self, 'Missing terminating "\'"')
+>>                      if esc:
+>> -                        if ch == 'b':
+>> -                            string += '\b'
+>> -                        elif ch == 'f':
+>> -                            string += '\f'
+>> -                        elif ch == 'n':
+>> -                            string += '\n'
+>
+> Is it worth a comment in the code that we are specifically not parsing
+> all possible JSON escapes, because of the later requirement that QAPI
+> strings be limited to the subset of printable ASCII?
+
+Can't hurt.
+
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Thanks!
 
