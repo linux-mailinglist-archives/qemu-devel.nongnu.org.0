@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40607B22D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:03:05 +0200 (CEST)
-Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A9BB22E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:04:19 +0200 (CEST)
+Received: from localhost ([::1]:44924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8n6F-0000KD-Ux
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50175)
+	id 1i8n7S-0001rE-8r
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:04:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i8n4S-00089D-37
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:01:17 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i8n62-0000tT-NU
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:02:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i8n4Q-0005pK-LQ
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:01:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42926)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i8n4O-0005nw-M9
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:01:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i8n4I-00044J-FF
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 15:01:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B6942E8079
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 15:01:02 +0000 (UTC)
+ (envelope-from <anthony.perard@citrix.com>) id 1i8n5v-0006S9-QC
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:02:48 -0400
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:11106)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1i8n5v-0006Lg-FS
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:02:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1568386964;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=D7NHSI1IPTU8qAwQOP90BTdp0BYdzaeJmlcOE5HcqAA=;
+ b=JCTd25jrXwJLaZ0JNjM3VSqs6FP8mve5XrL13BRE156iw1z5u8xaRh7r
+ x8oFF6gs+O8dGgJbgv3zdmH/Rtz+Whqm0YNEL/EsjbrHQrbqlzgCoWj3q
+ 4bnJPDOv763YAltV+0+5lFxHbHvhx1EZPQiF7iDT1woPRNYeP1GUOz58w k=;
+Authentication-Results: esa1.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa1.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: Ga6+09I/Q8OAwGKPoVEKbLZSjBv/ZPfc22eHZKt4vaH7rswCc9RdT3QwZNCTfE3V1Qq0bjodkR
+ SCGtN0mehYFi5J3CCu6iWRxfOgSE9jk/Yt14yG+1vnAXsKrj9Bgo82eXHQbevYvIVnJB/XRC4o
+ uvGjym3/9trJcOGoOvr8uTDkWwcO4QgzOmR81NrlnetXRNKn+1zBPTg3qBPv6rBUaVwh7cis9l
+ 1Fzs7OhKSM4Qi36n4OJ89NSQS3GwnM6Kg5xY0B/3Zx+TD3wh4nKMnmjaQw3JMSIprYSAYcwSbG
+ dwA=
+X-SBRS: 2.7
+X-MesageID: 5596001
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.64,501,1559534400"; 
+   d="scan'208";a="5596001"
+Date: Fri, 13 Sep 2019 16:02:36 +0100
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: Paul Durrant <paul.durrant@citrix.com>, Paul Durrant <paul@xen.org>
+Message-ID: <20190913150236.GE1308@perard.uk.xensource.com>
+References: <20190913122418.848-1-paul.durrant@citrix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Sep 2019 14:50:37 -0000
-From: Paul Clarke <pc@us.ibm.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc64 testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 7-pc ajbennee rth
-X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
-X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
-References: <156691209320.18814.746226319480624520.malonedeb@soybean.canonical.com>
- <20190913134935.29696-1-alex.bennee@linaro.org>
-Message-Id: <70173025-eef0-ff89-3c8f-517397ca42f3@us.ibm.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d0be6f86d32bb85309eceb43e4ce71118f6dafc1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1841592] Re: [PATCH] tests/tcg: add float_madds
- test to multiarch
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190913122418.848-1-paul.durrant@citrix.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.142
+Subject: Re: [Qemu-devel] [PATCH] MAINTAINERS: update my email address
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,110 +95,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1841592 <1841592@bugs.launchpad.net>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/19 8:49 AM, Alex Benn=C3=A9e wrote:
-> +static float f32_numbers[] =3D {
-> +    -SNANF,
-> +    -NAN,
-> +    -INFINITY,
-> +    -FLT_MAX,
-> +    -1.111E+31,
-> +    -1.111E+30,
-> +    -1.08700982e-12,
-> +    -1.78051176e-20,
-> +    -FLT_MIN,
-> +    0.0,
-> +    FLT_MIN,
-> +    2.98023224e-08,
-> +    5.96046E-8, /* min positive FP16 subnormal */
-> +    6.09756E-5, /* max subnormal FP16 */
-> +    6.10352E-5, /* min positive normal FP16 */
-> +    1.0,
-> +    1.0009765625, /* smallest float after 1.0 FP16 */
-> +    2.0,
-> +    M_E, M_PI,
-> +    65503.0,
-> +    65504.0, /* max FP16 */
-> +    65505.0,
-> +    131007.0,
-> +    131008.0, /* max AFP */
-> +    131009.0,
-> +    1.111E+30,
-> +    FLT_MAX,
-> +    INFINITY,
-> +    NAN,
-> +    SNANF
-> +};
+On Fri, Sep 13, 2019 at 01:24:18PM +0100, Paul Durrant wrote:
+> My Citrix email address will expire shortly.
+> 
+> Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+> ---
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 50eaf005f4..3cabb9e449 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -406,7 +406,7 @@ Guest CPU Cores (Xen)
+>  X86 Xen CPUs
+>  M: Stefano Stabellini <sstabellini@kernel.org>
+>  M: Anthony Perard <anthony.perard@citrix.com>
+> -M: Paul Durrant <paul.durrant@citrix.com>
+> +M: Paul Durrant <paul@xen.org>
 
-I've noticed that Glibc prefers to use hex representation for float values,=
- to ensure an accurate representation.  If you care to do so, here they are:
-static float f32_numbers[] =3D {
-    -SNANF, =
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 
-    -NAN,   =
-
-    -INFINITY,
-    -FLT_MAX,
-    -0x1.1874b2p+103,
-    -0x1.c0bab6p+99,
-    -0x1.31f75p-40,
-    -0x1.505444p-66,
-    -FLT_MIN,
-    0.0,    =
-
-    FLT_MIN,
-    0x1p-25,
-    0x1.ffffe6p-25, /* min positive FP16 subnormal */
-    0x1.ff801ap-15, /* max subnormal FP16 */
-    0x1.00000cp-14, /* min positive normal FP16 */
-    1.0,    =
-
-    0x1.004p+0, /* smallest float after 1.0 FP16 */
-    2.0,    =
-
-    M_E, M_PI,
-    0x1.ffbep+15,
-    0x1.ffcp+15, /* max FP16 */
-    0x1.ffc2p+15,
-    0x1.ffbfp+16,
-    0x1.ffcp+16, /* max AFP */
-    0x1.ffc1p+16,
-    0x1.c0bab6p+99,
-    FLT_MAX,
-    INFINITY,
-    NAN,    =
-
-    SNANF   =
-
-};
-
-PC
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1841592
-
-Title:
-  ppc: softfloat float implementation issues
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Per bug #1841491, Richard Henderson (rth) said:
-  > The float test failure is part of a larger problem for target/powerpc
-  > in which all float routines are implemented incorrectly. They are all
-  > implemented as double operations with rounding to float as a second
-  > step. Which not only produces incorrect exceptions, as in this case,
-  > but incorrect numerical results from the double rounding.
-  >
-  > This should probably be split to a separate bug...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1841592/+subscriptions
+-- 
+Anthony PERARD
 
