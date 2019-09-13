@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D486B1E96
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:11:46 +0200 (CEST)
-Received: from localhost ([::1]:43820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8763B1FB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:22:53 +0200 (CEST)
+Received: from localhost ([::1]:43920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8lMX-00009B-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60833)
+	id 1i8lXI-0004lw-R1
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i8lFO-0002a6-0A
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:04:23 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8lWE-00046U-To
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:21:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i8lFL-0005L4-RG
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:04:21 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36162)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i8lFJ-0005JV-Lt
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:04:18 -0400
-Received: by mail-oi1-x242.google.com with SMTP id k20so2195720oih.3
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 06:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lJM2ojp36nj5j9CBSnwk8ZLfnJIsWvjr8zkFPoizZg4=;
- b=R2eRi6RJg1WrxbNKgsFY0gme2AEFJ9xjhNZIN/MK9HTVaemUuzlSiMVdPrtq4DhWMg
- 9ZDb34f708xyMe9ESFaN70gbNmsvQ0vcE0qtaB0xu6F5cDBz3G5i4dzHxhyy2Z0msHXe
- 6JRNrC6bbbeKkDEwaBzeFxiZwx3pKtVWwWg14F0MtUgyS+bH+x3c8pajGpStwGIB95PO
- uFbC0Q4ltfI3PdOsmqqgTwRVzO3/7eNxkHcWcrs0xBtrxt1iFk543oVKb/epe+unS0tN
- CF2JzM7MBXeDag6duMycaHnjxCToU9ZOgun4FLLOUM6hCrSdj35zIJh1kohQeQJ2D+b0
- exew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lJM2ojp36nj5j9CBSnwk8ZLfnJIsWvjr8zkFPoizZg4=;
- b=QKGaqHHcTrQ0/MzbRU5xn3HFl66KaTXmU7rWVIiFVOTWpojNT7wdSfZ8z5PSamwVhj
- anL7Yp0CDkI/tjVR5W3ihobZU8dwceHnFzHQg46rVoOSqj/uKy9uqNIp6MC353aWQ0F5
- 3hhUyF3FnntOl9qq0Iq4JImi8yDRFKcXUWw+gNj9MnKS5rWxU0bTjQ7nVZugRcMdgBdM
- cXdPk/zbhcttB0QxyUrQ/t7YHLwjbUXGYt4ERaOgGItPcxuZbxib4Q7lB0dX/bVvMydm
- TC3hgXs8zVCuP9L26Z/32yBE5ICqjQJbLiQDhHcV4d665VRfekpWba1s9hJLcCaUEzWZ
- zQdw==
-X-Gm-Message-State: APjAAAW0MCmU05e2yzfumgt04Szo1K4EL0p1ad4bt/P3sYhIns50+PLb
- GTibXI79ddhu3su7qLqQrvl4J2kgdlVaEYv1GKxwPw==
-X-Google-Smtp-Source: APXvYqxr6IgNQtrgroWI8Ck5MOxTceBNBvHmI+AKIC3uOI4BOiT5n4f4Wh1IzT8umt/HCMhjCk+8Zm5uFRnmk3/xQ5k=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr2904994oib.48.1568379856290; 
- Fri, 13 Sep 2019 06:04:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190911164959.11003-1-alex.bennee@linaro.org>
- <20190911164959.11003-4-alex.bennee@linaro.org>
-In-Reply-To: <20190911164959.11003-4-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Sep 2019 14:04:05 +0100
-Message-ID: <CAFEAcA_NCz_qFFFOShV8ktV4vHeYezQ=5S7QQPTMQywGfY1FGw@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+ (envelope-from <mlevitsk@redhat.com>) id 1i8lWD-0002CD-Es
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:21:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44366)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1i8lWA-00029H-BA; Fri, 13 Sep 2019 09:21:42 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8C5F6882EA;
+ Fri, 13 Sep 2019 13:21:41 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 876155D9C3;
+ Fri, 13 Sep 2019 13:21:38 +0000 (UTC)
+Message-ID: <5da45f0775d5a1cb4cf88e8ba3eac600ca53400a.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Date: Fri, 13 Sep 2019 16:21:37 +0300
+In-Reply-To: <abd660bc-5e3c-ec6d-e595-6830e1b6f0d1@redhat.com>
+References: <20190912223754.875-1-mlevitsk@redhat.com>
+ <20190912223754.875-2-mlevitsk@redhat.com>
+ <abd660bc-5e3c-ec6d-e595-6830e1b6f0d1@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Fri, 13 Sep 2019 13:21:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v5 3/5] target/arm: handle A-profile
- semihosting at translate time
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 1/3] block/qcow2: refactoring of
+ threaded encryption code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,69 +58,260 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Sep 2019 at 17:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> As for the other semihosting calls we can resolve this at translate
-> time.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> ---
-> v2
->   - update for change to gen_exception_internal_insn API
-> v3
->   - update for decode tree, merge T32 & A32 commits
->   - dropped r-b due to changes
-> v4
->   - !IS_USER and !arm_dc_feature(s, ARM_FEATURE_M)
-> v5
->   - only if !IS_USER for softmmu, linux-user is still allowed
-> ---
->  target/arm/translate.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
->
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index 6689acc911e..fac791c4b06 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -10219,14 +10219,25 @@ static bool trans_CBZ(DisasContext *s, arg_CBZ =
-*a)
->  }
->
->  /*
-> - * Supervisor call
-> + * Supervisor call - both T32 & A32 come here so we need to check
-> + * which mode we are in when checking for semihosting.
->   */
->
->  static bool trans_SVC(DisasContext *s, arg_SVC *a)
->  {
-> -    gen_set_pc_im(s, s->base.pc_next);
-> -    s->svc_imm =3D a->imm;
-> -    s->base.is_jmp =3D DISAS_SWI;
-> +    const uint32_t semihost_imm =3D s->thumb ? 0xab : 0x123456;
-> +
-> +    if (!arm_dc_feature(s, ARM_FEATURE_M) && semihosting_enabled() &&
-> +#ifndef CONFIG_USER_ONLY
-> +        !IS_USER(s) &&
-> +#endif
-> +        (a->imm =3D=3D semihost_imm)) {
-> +        gen_exception_internal_insn(s, s->base.pc_next, EXCP_SEMIHOST);
-> +    } else {
-> +        gen_set_pc_im(s, s->base.pc_next);
-> +        s->svc_imm =3D a->imm;
-> +        s->base.is_jmp =3D DISAS_SWI;
-> +    }
->      return true;
->  }
+On Fri, 2019-09-13 at 12:37 +0200, Max Reitz wrote:
+> On 13.09.19 00:37, Maxim Levitsky wrote:
+> > This commit tries to clarify few function arguments,
+> > and add comments describing the encrypt/decrypt interface
+> >=20
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >  block/qcow2-cluster.c |  8 +++---
+> >  block/qcow2-threads.c | 63 ++++++++++++++++++++++++++++++++++-------=
+--
+> >  2 files changed, 54 insertions(+), 17 deletions(-)
+> >=20
+> > diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+> > index f09cc992af..b95e64c237 100644
+> > --- a/block/qcow2-cluster.c
+> > +++ b/block/qcow2-cluster.c
+> > @@ -463,8 +463,8 @@ static int coroutine_fn do_perform_cow_read(Block=
+DriverState *bs,
+> >  }
+> > =20
+> >  static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs=
+,
+> > -                                                uint64_t src_cluster=
+_offset,
+> > -                                                uint64_t cluster_off=
+set,
+> > +                                                uint64_t guest_clust=
+er_offset,
+> > +                                                uint64_t host_cluste=
+r_offset,
+> >                                                  unsigned offset_in_c=
+luster,
+> >                                                  uint8_t *buffer,
+> >                                                  unsigned bytes)
+> > @@ -474,8 +474,8 @@ static bool coroutine_fn do_perform_cow_encrypt(B=
+lockDriverState *bs,
+> >          assert((offset_in_cluster & ~BDRV_SECTOR_MASK) =3D=3D 0);
+> >          assert((bytes & ~BDRV_SECTOR_MASK) =3D=3D 0);
+> >          assert(s->crypto);
+> > -        if (qcow2_co_encrypt(bs, cluster_offset,
+> > -                             src_cluster_offset + offset_in_cluster,
+> > +        if (qcow2_co_encrypt(bs, host_cluster_offset,
+> > +                             guest_cluster_offset + offset_in_cluste=
+r,
+> >                               buffer, bytes) < 0) {
+> >              return false;
+> >          }
+> > diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+> > index 3b1e63fe41..6da1838e95 100644
+> > --- a/block/qcow2-threads.c
+> > +++ b/block/qcow2-threads.c
+> > @@ -234,15 +234,19 @@ static int qcow2_encdec_pool_func(void *opaque)
+> >  }
+> > =20
+> >  static int coroutine_fn
+> > -qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
+> > -                  uint64_t offset, void *buf, size_t len, Qcow2EncDe=
+cFunc func)
+> > +qcow2_co_encdec(BlockDriverState *bs, uint64_t host_cluster_offset,
+> > +                uint64_t guest_offset, void *buf, size_t len,
+> > +                Qcow2EncDecFunc func)
+> >  {
+> >      BDRVQcow2State *s =3D bs->opaque;
+> > +
+> > +    uint64_t offset =3D s->crypt_physical_offset ?
+> > +        host_cluster_offset + offset_into_cluster(s, guest_offset) :
+> > +        guest_offset;
+> > +
+> >      Qcow2EncDecData arg =3D {
+> >          .block =3D s->crypto,
+> > -        .offset =3D s->crypt_physical_offset ?
+> > -                      file_cluster_offset + offset_into_cluster(s, o=
+ffset) :
+> > -                      offset,
+> > +        .offset =3D offset,
+> >          .buf =3D buf,
+> >          .len =3D len,
+> >          .func =3D func,
+> > @@ -251,18 +255,51 @@ qcow2_co_encdec(BlockDriverState *bs, uint64_t =
+file_cluster_offset,
+> >      return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
+> >  }
+> > =20
+> > +
+> > +/*
+> > + * qcow2_co_encrypt()
+> > + *
+> > + * Encrypts one or more contiguous aligned sectors
+> > + *
+> > + * @host_cluster_offset - underlying storage offset of the first clu=
+ster
+> > + * in which the encrypted data will be written
+> > + * Used as an initialization vector for encryption
+>=20
+> s/as an/for generating the/
+>=20
+> (AFAIU)
+Yes, this is better.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+>=20
+> > + *
+> > + * @guest_offset - guest (virtual) offset of the first sector of the
+> > + * data to be encrypted
+> > + * Used as an initialization vector for older, qcow2 native encrypti=
+on
+>=20
+> I wouldn=E2=80=99t be so specific here.  I think it=E2=80=99d be better=
+ to just have a
+> common sentence like =E2=80=9CDepending on the encryption method, eithe=
+r of
+> these offsets may be used for generating the initialization vector for
+> encryption.=E2=80=9D
+Nothing against this either.
+
+
+>=20
+> Well, technically, host_cluster_offset will not be used itself.  Before
+> we can use it, of course we have to add the in-cluster offset to it
+> (which qcow2_co_encdec() does).
+>=20
+> This makes me wonder whether it wouldn=E2=80=99t make more sense to pas=
+s a
+> host_offset instead of a host_cluster_offset (i.e. make the callers add
+> the in-cluster offset to the host offset already)?
+
+This is what I wanted to do in first place, and it would be the cleanest
+solution, but that would need to update the 3rd caller of this function,
+the qcow2_co_pwritev_part, which does pass the cluster offset and guest f=
+ull offset.
+You know what, I'll just do it. A bit more changes, but much cleaner code=
+ that
+eliminates the possibility of this bug of happening again.
+
+
+>=20
+> > + *
+> > + * @buf - buffer with the data to encrypt, that after encryption
+> > + *        will be written to the underlying storage device at
+> > + *        @host_cluster_offset
+>=20
+> I think just =E2=80=9Cbuffer with the data to encrypt=E2=80=9D is suffi=
+cient.  (The rest
+> is just the same as above.)
+I wrote it to clarify this since Vladimir told me that its not clear enou=
+gh.
+Note though that I made a mistake here since the data will be written not=
+ at
+host_cluster_offset but in host_cluster_offset + offset_into_cluster(s, g=
+uest_offset
+
+
+> + * @len - length of the buffer (in sector size multiplies)
+>=20
+> =E2=80=9CIn sector size multiples=E2=80=9D to me means that it is a sec=
+tor count (in
+> that =E2=80=9Cone sector size multiple=E2=80=9D is equal to 512 byes).
+>=20
+> Maybe =E2=80=9Cmust be a BDRV_SECTOR_SIZE multiple=E2=80=9D instead?
+All right.
+
+>=20
+> > + *
+> > + * Note that the group of the sectors, don't have to be aligned
+> > + * on cluster boundary and can also cross a cluster boundary.
+>=20
+> Maybe =E2=80=9CNote that while the whole range must be aligned on secto=
+rs, it
+> does not have to be aligned on clusters and can also cross cluster
+> boundaries=E2=80=9D?
+>=20
+> (=E2=80=9CThe group of sectors=E2=80=9D sounds a bit weird to me.  I do=
+n=E2=80=99t quite know,
+> why.  I think that for some reason it makes me think of a non-continuou=
+s
+> set of sectors.  Also, the caller doesn=E2=80=99t pass sector indices, =
+but byte
+> offsets, that just happen to have to be aligned to sectors.  (I suppose
+> because that=E2=80=99s the simplest way to make it a multiple of the en=
+cryption
+> block size.))
+All right, this sounds better
+
+>=20
+> > + *
+> > + */
+> >  int coroutine_fn
+> > -qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+> > -                 uint64_t offset, void *buf, size_t len)
+> > +qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
+> > +                 uint64_t guest_offset, void *buf, size_t len)
+> >  {
+> > -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len=
+,
+> > -                             qcrypto_block_encrypt);
+> > +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, bu=
+f, len,
+> > +                           qcrypto_block_encrypt);
+> >  }
+> > =20
+> > +
+> > +/*
+> > + * qcow2_co_decrypt()
+> > + *
+> > + * Decrypts one or more contiguous aligned sectors
+> > + * Similar to qcow2_co_encrypt
+>=20
+> Hm.  This would make me wonder in what way it is only similar to
+> qcow2_co_encrypt().  Sure, it decrypts instead of encrypting, but maybe
+> there=E2=80=99s more...?
+I don't think so, since we have symmetrical encryption here.
+
+>=20
+> So maybe =E2=80=9CIts interface is the same as qcow2_co_encrypt()'s=E2=80=
+=9D?
+That would be lawyer territory, since interface is not technically the sa=
+me,
+since it decrypts rather that encrypts the data in the buffer...
+I think that this wording should be good enough.
+
+
+>=20
+> Max
+>=20
+> > + *
+> > + */
+> > +
+> >  int coroutine_fn
+> > -qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+> > -                 uint64_t offset, void *buf, size_t len)
+> > +qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
+> > +                 uint64_t guest_offset, void *buf, size_t len)
+> >  {
+> > -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len=
+,
+> > -                             qcrypto_block_decrypt);
+> > +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, bu=
+f, len,
+> > +                           qcrypto_block_decrypt);
+> >  }
+> >=20
+>=20
+>=20
+
+
+Best regards,
+	Maxim Levitsky
+
+
 
