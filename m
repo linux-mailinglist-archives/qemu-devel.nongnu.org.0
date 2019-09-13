@@ -2,53 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA57AB215F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:53:34 +0200 (CEST)
-Received: from localhost ([::1]:44320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B740B2164
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:55:22 +0200 (CEST)
+Received: from localhost ([::1]:44332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8m0z-0000tt-WC
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40337)
+	id 1i8m2j-0002Md-Dg
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:55:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mprivozn@redhat.com>) id 1i8lzp-0008R9-Om
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:52:22 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1i8m0d-00012M-Ot
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:53:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mprivozn@redhat.com>) id 1i8lzn-0002kS-Dk
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:52:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51586)
+ (envelope-from <balaton@eik.bme.hu>) id 1i8m0c-00035J-1s
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:53:11 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:65255)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1i8lzn-0002kF-8K
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:52:19 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DBA8E3082128;
- Fri, 13 Sep 2019 13:52:17 +0000 (UTC)
-Received: from [10.43.2.30] (unknown [10.43.2.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08041600C6;
- Fri, 13 Sep 2019 13:52:16 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>
-References: <faeb030e6a1044f0fd88208edfdb1c5fafe5def9.1567171655.git.mprivozn@redhat.com>
- <87k1accq91.fsf@dusky.pond.sub.org>
-From: Michal Privoznik <mprivozn@redhat.com>
-Message-ID: <e57985a8-6974-e2b4-a622-3b7eca50660c@redhat.com>
-Date: Fri, 13 Sep 2019 15:52:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1i8m0b-00034j-Kp
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:53:10 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 796A27456CC;
+ Fri, 13 Sep 2019 15:53:07 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5C8DD7456B4; Fri, 13 Sep 2019 15:53:07 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 5A6FD7456CB;
+ Fri, 13 Sep 2019 15:53:07 +0200 (CEST)
+Date: Fri, 13 Sep 2019 15:53:07 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <20190913092537.2913-3-kraxel@redhat.com>
+Message-ID: <alpine.BSF.2.21.9999.1909131540070.888@zero.eik.bme.hu>
+References: <20190913092537.2913-1-kraxel@redhat.com>
+ <20190913092537.2913-3-kraxel@redhat.com>
+User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
 MIME-Version: 1.0
-In-Reply-To: <87k1accq91.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 13 Sep 2019 13:52:17 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] qapi/qmp-dispatch: Fix error class for
- reporting disabled commands
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
+Subject: Re: [Qemu-devel] [PATCH v2 2/2] ati: use vga_read_byte in
+ ati_cursor_define
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,42 +53,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lcapitulino@redhat.com, qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: qemu-devel@nongnu.org, flier_m@outlook.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/19 2:52 PM, Markus Armbruster wrote:
-> Michal Privoznik <mprivozn@redhat.com> writes:
-> 
->> If a command is disabled an error is reported. But due to usage
->> of error_setg() the class of the error is GenericError which does
->> not help callers in distinguishing this case from a case where a
->> qmp command fails regularly due to other reasons. Use
->> CommandNotFound error class which is much closer to the actual
->> root cause.
->>
->> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
->> ---
-> 
-> I'd like to tweak the commit message a bit:
-> 
->    qmp-dispatch: Use CommandNotFound error for disabled commands
-> 
->    If a command is disabled an error is reported.  But due to usage of
->    error_setg() the class of the error is GenericError which does not
->    help callers in distinguishing this case from a case where a qmp
->    command fails regularly due to other reasons.
-> 
->    We used to use class CommandDisabled until the great error
->    simplification (commit de253f1491 for QMP and commit 93b91c59db for
->    qemu-ga, both v1.2.0).
-> 
->    Use CommandNotFound error class, which is close enough.
-> 
-> Objections?
-> 
+On Fri, 13 Sep 2019, Gerd Hoffmann wrote:
+> This makes sure reads are confined to vga video memory.
+>
+> v2: fix ati_cursor_draw_line too.
+>
+> Reported-by: xu hang <flier_m@outlook.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+> hw/display/ati.c | 19 ++++++++++---------
+> 1 file changed, 10 insertions(+), 9 deletions(-)
+>
+> diff --git a/hw/display/ati.c b/hw/display/ati.c
+> index 8f940eee221a..f6ae27c0c710 100644
+> --- a/hw/display/ati.c
+> +++ b/hw/display/ati.c
+> @@ -19,6 +19,7 @@
+> #include "qemu/osdep.h"
+> #include "ati_int.h"
+> #include "ati_regs.h"
+> +#include "vga-access.h"
+> #include "hw/qdev-properties.h"
+> #include "vga_regs.h"
+> #include "qemu/log.h"
+> @@ -135,19 +136,19 @@ static void ati_vga_switch_mode(ATIVGAState *s)
+> static void ati_cursor_define(ATIVGAState *s)
+> {
+>     uint8_t data[1024];
+> -    uint8_t *src;
+> +    unsigned srcoff;
 
-None, thanks for taking care of this.
+Maybe this should be uint32_t like below for consistency.
 
-Michal
+>     int i, j, idx = 0;
+>
+>     if ((s->regs.cur_offset & BIT(31)) || s->cursor_guest_mode) {
+>         return; /* Do not update cursor if locked or rendered by guest */
+>     }
+>     /* FIXME handle cur_hv_offs correctly */
+> -    src = s->vga.vram_ptr + s->regs.cur_offset -
+> -          (s->regs.cur_hv_offs >> 16) - (s->regs.cur_hv_offs & 0xffff) * 16;
+> +    srcoff = s->regs.cur_offset -
+> +        (s->regs.cur_hv_offs >> 16) - (s->regs.cur_hv_offs & 0xffff) * 16;
+>     for (i = 0; i < 64; i++) {
+>         for (j = 0; j < 8; j++, idx++) {
+> -            data[idx] = src[i * 16 + j];
+> -            data[512 + idx] = src[i * 16 + j + 8];
+> +            data[idx] = vga_read_byte(&s->vga, srcoff + i * 16 + j);
+> +            data[512 + idx] = vga_read_byte(&s->vga, srcoff + i * 16 + j + 8);
+>         }
+>     }
+>     if (!s->cursor) {
+> @@ -189,7 +190,7 @@ static void ati_cursor_invalidate(VGACommonState *vga)
+> static void ati_cursor_draw_line(VGACommonState *vga, uint8_t *d, int scr_y)
+> {
+>     ATIVGAState *s = container_of(vga, ATIVGAState, vga);
+> -    uint8_t *src;
+> +    uint32_t srcoff;
+>     uint32_t *dp = (uint32_t *)d;
+>     int i, j, h;
+>
+> @@ -199,13 +200,13 @@ static void ati_cursor_draw_line(VGACommonState *vga, uint8_t *d, int scr_y)
+>         return;
+>     }
+>     /* FIXME handle cur_hv_offs correctly */
+> -    src = s->vga.vram_ptr + s->cursor_offset + (scr_y - vga->hw_cursor_y) * 16;
+> +    srcoff = s->cursor_offset + (scr_y - vga->hw_cursor_y) * 16;
+>     dp = &dp[vga->hw_cursor_x];
+>     h = ((s->regs.crtc_h_total_disp >> 16) + 1) * 8;
+>     for (i = 0; i < 8; i++) {
+>         uint32_t color;
+> -        uint8_t abits = src[i];
+> -        uint8_t xbits = src[i + 8];
+> +        uint8_t abits = vga_read_byte(vga, srcoff + i);
+> +        uint8_t xbits = vga_read_byte(vga, srcoff + i);
+
+But this is a copy&paste error: xbits definitely should be offset + i + 8.
+
+Regards,
+BALATON Zoltan
+
+>         for (j = 0; j < 8; j++, abits <<= 1, xbits <<= 1) {
+>             if (abits & BIT(7)) {
+>                 if (xbits & BIT(7)) {
+>
 
