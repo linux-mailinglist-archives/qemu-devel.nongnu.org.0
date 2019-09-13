@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5B0B2340
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:23:40 +0200 (CEST)
-Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD547B235D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:29:07 +0200 (CEST)
+Received: from localhost ([::1]:45244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8nQB-00031b-5x
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:23:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52173)
+	id 1i8nVR-0000gG-Ul
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i8nLZ-0007iX-Pi
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:18:54 -0400
+ (envelope-from <slp@redhat.com>) id 1i8nSL-0006kE-AK
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:25:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i8nLY-0000MB-Cn
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:18:53 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46746)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i8nLY-0000LO-5a
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:18:52 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id o18so1267440wrv.13
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 08:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oUGBFAHXbEtLB6rKz0bX2N4c3TgTMSpFBwXxOPwbThM=;
- b=dDRaEnPgqbmDrdt7FbnpQcCI9+WKLDBCb7Gh9JurDGqmrK7pJ9UD9PB+GiY/oyO23j
- fjxhqYoRXUa3tO0CYEa/Bz4mAuX2Z63blTQU6fyOgNC+dyY4pCI7Gz6YKP3qyNAZx/tJ
- oVJ7lqhqYBa5XAoi/2EgX7+/FcgoA+ZW0atZcMYzqtCj2uyhNE7JHAN14ccF0+h9FOi6
- 4tbic3OpnOOZsrbGiesT0/+ztpyrA7B4B2Zd4Og3BoRJgPu6aIElWmUFykaNdO0cfism
- esKqUkGpbjLV5DkS5H7NuS35GKiKL0AxOamhT4JHIVbiqarqA+QTcaotvMXTdYoxyvw4
- sz0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oUGBFAHXbEtLB6rKz0bX2N4c3TgTMSpFBwXxOPwbThM=;
- b=npylfsmo4Is2f//nt/pC9HBbdMH5+hFJlCLSKeVA5fQbGoo5cPHQXNjIAOt91XbJK8
- cXRJ21W4Yn+uRxJnqVk+mcTuUXEh6Ne5HnucntZULVzHGG+IeIYVieCG/K7WmG4+f8Vr
- +d/JHNdPji647z2JuWjW+zPevXxS5OyxPGndqkAsugEpWH2PDmSng+8xUh7G4s4u4TCH
- 8Fp6YSWMmlH4rpbVCdXFrcbPqc6XKYOG3V2YyyUgWTIrQsgX2mNgoVn/i/NcUmnU/6zE
- z91swNrLtmVGUsOj/5gCg/jyPA1AwBsQsCdLVqhEOg82EKQP5XQ2owcGmK0RaIkf0BKL
- n5Ig==
-X-Gm-Message-State: APjAAAUpzc60OXZekUDaYiQnBRGb5Aqb1WmNNbs5T+kdaU/NztLZ2xpW
- b0fNue8SnHYsMkLQRzG0SasbkQ==
-X-Google-Smtp-Source: APXvYqx4MnzRpeuPlR/9YnDCpz0suKthBB7vhm5lYjuHTMrPXa738rHNg5CkwuhTyb3GUyZaEXdAQA==
-X-Received: by 2002:adf:de0d:: with SMTP id b13mr10723070wrm.140.1568387930984; 
- Fri, 13 Sep 2019 08:18:50 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m2sm1504574wmi.30.2019.09.13.08.18.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Sep 2019 08:18:48 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0017C1FF93;
- Fri, 13 Sep 2019 16:18:46 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Fri, 13 Sep 2019 16:18:45 +0100
-Message-Id: <20190913151845.12582-7-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190913151845.12582-1-alex.bennee@linaro.org>
-References: <20190913151845.12582-1-alex.bennee@linaro.org>
+ (envelope-from <slp@redhat.com>) id 1i8nSK-0003Qp-Ck
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:25:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48496)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>)
+ id 1i8nSI-0003Kj-F1; Fri, 13 Sep 2019 11:25:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B200D3090FC1;
+ Fri, 13 Sep 2019 15:25:49 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 867D81001959;
+ Fri, 13 Sep 2019 15:25:43 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri, 13 Sep 2019 17:25:06 +0200
+Message-Id: <20190913152507.56197-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42e
-Subject: [Qemu-devel] [PATCH v6 6/6] tests/tcg: add linux-user semihosting
- smoke test for ARM
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 13 Sep 2019 15:25:49 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/2] blockdev: avoid acquiring AioContext
+ lock twice at do_drive_backup()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,104 +53,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ Sergio Lopez <slp@redhat.com>, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already use semihosting for the system stuff so this is a simple
-smoke test to ensure we are working OK on linux-user.
+do_drive_backup() acquires the AioContext lock of the corresponding
+BlockDriverState. This is not a problem when it's called from
+qmp_drive_backup(), but drive_backup_prepare() also acquires the lock
+before calling it.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Additionally, Max Reitz pointed out that bdrv_try_set_aio_context() is
+called at do_backup_common() with the new context held, and the old
+context not held, while it expects it to be the other way
+around. This is also the case for other uses of that function on
+blockdev.c.
+
+This patch series fixes all occurrences of bdrv_try_set_aio_context()
+to honor the context requirements. It also changes
+drive_backup_prepare() to release the context before calling
+do_drive_backup().
+
 ---
- tests/tcg/aarch64/Makefile.target |  5 ++++
- tests/tcg/arm/Makefile.target     |  5 ++++
- tests/tcg/arm/semihosting.c       | 45 +++++++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+)
- create mode 100644 tests/tcg/arm/semihosting.c
+Changelog
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 9758f89f905..509f1afa93d 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -21,4 +21,9 @@ run-fcvt: fcvt
- AARCH64_TESTS += pauth-1 pauth-2
- run-pauth-%: QEMU_OPTS += -cpu max
- 
-+# Semihosting smoke test for linux-user
-+AARCH64_TESTS += semihosting
-+run-semihosting: semihosting
-+	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
-+
- TESTS += $(AARCH64_TESTS)
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 7347d3d0adb..3b7fc9a64be 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -27,6 +27,11 @@ run-fcvt: fcvt
- 	$(call run-test,fcvt,$(QEMU) $<,"$< on $(TARGET_NAME)")
- 	$(call diff-out,fcvt,$(ARM_SRC)/fcvt.ref)
- 
-+# Semihosting smoke test for linux-user
-+ARM_TESTS += semihosting
-+run-semihosting: semihosting
-+	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
-+
- TESTS += $(ARM_TESTS)
- 
- # On ARM Linux only supports 4k pages
-diff --git a/tests/tcg/arm/semihosting.c b/tests/tcg/arm/semihosting.c
-new file mode 100644
-index 00000000000..09c89cb481a
---- /dev/null
-+++ b/tests/tcg/arm/semihosting.c
-@@ -0,0 +1,45 @@
-+/*
-+ * linux-user semihosting checks
-+ *
-+ * Copyright (c) 2019
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-3.0-or-later
-+ */
-+
-+#include <stdint.h>
-+
-+#define SYS_WRITE0      0x04
-+#define SYS_REPORTEXC   0x18
-+
-+void __semi_call(uintptr_t type, uintptr_t arg0)
-+{
-+#if defined(__arm__)
-+    register uintptr_t t asm("r0") = type;
-+    register uintptr_t a0 asm("r1") = arg0;
-+    asm("svc 0xab"
-+        : /* no return */
-+        : "r" (t), "r" (a0));
-+#else
-+    register uintptr_t t asm("x0") = type;
-+    register uintptr_t a0 asm("x1") = arg0;
-+    asm("hlt 0xf000"
-+        : /* no return */
-+        : "r" (t), "r" (a0));
-+#endif
-+}
-+
-+int main(int argc, char *argv[argc])
-+{
-+#if defined(__arm__)
-+    uintptr_t exit_code = 0x20026;
-+#else
-+    uintptr_t exit_block[2] = {0x20026, 0};
-+    uintptr_t exit_code = (uintptr_t) &exit_block;
-+#endif
-+
-+    __semi_call(SYS_WRITE0, (uintptr_t) "Hello World");
-+    __semi_call(SYS_REPORTEXC, exit_code);
-+    /* if we get here we failed */
-+    return -1;
-+}
--- 
-2.20.1
+v2:
+ - Honor bdrv_try_set_aio_context() context acquisition requirements
+   (thanks Max Reitz).
+ - Release the context at drive_backup_prepare() instead of avoiding
+   re-acquiring it at do_drive_baclup(). (thanks Max Reitz)
+ - Convert a single patch into a two-patch series.
+---
+
+Sergio Lopez (2):
+  blockdev: release the AioContext at drive_backup_prepare
+  blockdev: honor bdrv_try_set_aio_context() context requirements
+
+ blockdev.c | 127 ++++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 76 insertions(+), 51 deletions(-)
+
+--=20
+2.21.0
 
 
