@@ -2,72 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D11B23D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 18:06:05 +0200 (CEST)
-Received: from localhost ([::1]:45830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4C7B23E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 18:12:36 +0200 (CEST)
+Received: from localhost ([::1]:46024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8o5E-0006Me-Ga
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 12:06:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57176)
+	id 1i8oBX-0003tt-89
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 12:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i8nps-0007ih-6x
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:50:14 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i8oAI-0003IC-I9
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:11:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i8npp-0000yT-I0
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:50:11 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40051)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i8npp-0000w4-Al
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:50:09 -0400
-Received: by mail-wr1-x444.google.com with SMTP id l3so9862489wru.7
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 08:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=XHMEXELdIZRBVl09t8dOMHyxzcdLPFS97t3fxrMkdCw=;
- b=JjbFDp8lwhVzvN6P3C8rODYnfTRLhDSoa+I+R6s6lhmKtMdVp4EVKmLo0rEan+m0Az
- ysbUQTdNoxzODIBc2yrzlCLsIvIdmDgpsJZA/Cee8IxzV0mFrT7ZnWRHGAdScH6uK7Ja
- d9sSycpq6sf6y1NCN4bBfODhqaM/KsrNuU/I0sBTKYgK1WYriXQP/voqYZJl3Q0S2iSs
- VJzutAmNkwxXk44QSfAHODcTLGFer9IQcuPsHHg0KtOsU8RBiwyJ4FDKSm+m929Mnc1L
- yExQsKtr2Fg+y2Bx4vdrCQ0GF9/CRLys9/juqMuwE6k/ccnSPOUAVSTR1hUNWW/DJzYq
- 7V9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XHMEXELdIZRBVl09t8dOMHyxzcdLPFS97t3fxrMkdCw=;
- b=k/9ZyZvBE7c+TOCtt5vj3WialJr9ARtF97kR5U14x6FLEo5hFs1D81APIcKORA378k
- p0v/Mixm+1rZKBR0mCcIGOvxDcBwrUWAMBZe/6axitzk7MtiQMJAxntJsbO1+yEhX9fc
- bBzu5tPT/rGClKP8ZcrjI0oEoRweP3cYVaH04pEGTiqIZCMvDuobd+xKP90VLM4rUO2V
- i0yxu8uBPupn8cjLDWt0cPz0xQsOvXb2kK0C+ZmQaomjPLDW5SdlQgMq3qJG3ydyureS
- Z6cTJcTRglsp3ja1VeYBWub1owmw8kuVk+foJRRFeDwqTkHXgjDz3OjJL4JgJEIP/pNZ
- yvlQ==
-X-Gm-Message-State: APjAAAU0K6xOfT+NOjGzyV0ctURFFzxS1BgQR3gA/S9vWBOiuR3uuDiH
- VRQKU52aUVR5+K4FWnx2bFSFDDvIl5Y9dw==
-X-Google-Smtp-Source: APXvYqwS7ABz8TKMi/5fzu6DromT7Oi4qTsE+gBSLuHShg5NDoFYpz+rlZj5sYerk9vMAXBK8BGRYA==
-X-Received: by 2002:adf:de03:: with SMTP id b3mr37700655wrm.14.1568389807928; 
- Fri, 13 Sep 2019 08:50:07 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c132sm3562207wme.27.2019.09.13.08.50.06
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Sep 2019 08:50:07 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 13 Sep 2019 16:49:52 +0100
-Message-Id: <20190913154952.27724-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190913154952.27724-1-peter.maydell@linaro.org>
-References: <20190913154952.27724-1-peter.maydell@linaro.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i8oAH-00015r-08
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 12:11:18 -0400
+Received: from mail-eopbgr40096.outbound.protection.outlook.com
+ ([40.107.4.96]:33406 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1i8oA9-00014E-47; Fri, 13 Sep 2019 12:11:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jq/BhN5VcjgvATEg/Qc0b2PfbmmoS10Vv7UXGj1lOq4Zf074Tj3Qro97dCAtuqx5sITMsFGHpsFUgeMNd29Ha0TZuJVHO2uPNp3iPvvkGDYgQgaUjyIgVDds5Fo/1L3+89cIIT7eXa8WZh5pJV/jgc6Utumy73TnpEWF5sd+u0q8kDS49dlhJREFG28izwJmuhYGubB7Av9t0ttUCbEVP4rvXcZLJuAOa1OuTWAsx/CgtKJSQeuzM9Hwfx5GpXKF836Yt7EZfFZgqWPVy00za3bGrK2hzV+0p8qwJz1B+tIA7L9os58bQLHr5XwmRdaBSqwqnagW+mU1eYDQMrQlog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w/Cojr5SH9OMBRUUD9WQy6Lo77MFiyZMm85yweKDRsA=;
+ b=IeD+8Q/lmpEITZ6Ai6av0sxsxnf+9A1/JrAanUZCSp6Y6yRRucb+Tjl9DsaLk56mJm3PtcaK6Csw/ieNawV48aR1nyFsEVNw1d3UrcGWvbEDWPNVn3bD+K0207sYtTmBdj80VnqT0wFEAEX+gzAY9Oft8IiRpsuU6OPL0n69xVOk6+bmO03JEMH0TSBSJlXkKm5kSA9MAvm0J2pIfLm06tLVdojCAoTnENSfdJoJR1PWgGVREyuaAWv/exEdEy9uBXfCuuFbulSaGdQAP6oExR7pQz/9rMcJy6WanzO3455VmyPoUFSANrq9CW7qlTmrf38nX/Kq/enmZXizNGJeYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w/Cojr5SH9OMBRUUD9WQy6Lo77MFiyZMm85yweKDRsA=;
+ b=IDEGrYHcy8d6QYK0zz5lQMqXYwpIHW6oA9UwWN9ZyP0uICteJ9YklcAqDcQygMnxlMm63L03oEROxxhQoGn3jCWhvRWhRJ5r9csHvd740VzPmnwdKs6goO8XTjdMV1V2FqI2AoALozLfUUfaP6fBM755jZL5R+6MOPrTRUHmFmY=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5129.eurprd08.prod.outlook.com (10.255.19.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2263.13; Fri, 13 Sep 2019 16:11:06 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2263.016; Fri, 13 Sep 2019
+ 16:11:06 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH v5 2/3] block/qcow2: refactor threaded encryption code
+Thread-Index: AQHVakfocQbv54HWUk+glqi2rwogaKcpxx6A
+Date: Fri, 13 Sep 2019 16:11:06 +0000
+Message-ID: <9bb85af9-03a0-23f4-708a-4973a0eb2054@virtuozzo.com>
+References: <20190913152818.17843-1-mlevitsk@redhat.com>
+ <20190913152818.17843-3-mlevitsk@redhat.com>
+In-Reply-To: <20190913152818.17843-3-mlevitsk@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR07CA0037.eurprd07.prod.outlook.com
+ (2603:10a6:7:66::23) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190913191103805
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e68fd3f3-e897-4ee9-96b8-08d73864fb5d
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB5129; 
+x-ms-traffictypediagnostic: DB8PR08MB5129:
+x-microsoft-antispam-prvs: <DB8PR08MB51299C04DDC8330855CE9C4BC1B30@DB8PR08MB5129.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2449;
+x-forefront-prvs: 0159AC2B97
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(136003)(346002)(39840400004)(366004)(376002)(189003)(199004)(51444003)(6486002)(76176011)(305945005)(66946007)(66476007)(66446008)(64756008)(476003)(2616005)(66556008)(446003)(6116002)(26005)(316002)(3846002)(11346002)(7736002)(14454004)(110136005)(54906003)(52116002)(186003)(4326008)(31686004)(102836004)(486006)(2906002)(25786009)(71190400001)(256004)(14444005)(5660300002)(71200400001)(229853002)(2501003)(386003)(6506007)(8676002)(31696002)(6436002)(81156014)(81166006)(8936002)(36756003)(99286004)(86362001)(478600001)(53936002)(6512007)(6246003)(66066001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5129;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: e8/oRrioUxhIo0tQ5+PGR76WDlINL7XO3TmymLFpZUOoICSH+lHmwVGT4YTEbBaN+XvjPhquu/gH51PU3ygKtI3UzBxjIWrSVoSxQLWu69O4d/ZPeefl6JbxlHKMgW+R0lDGzrqW0BqfgAJE6Q21b9O1lSNnFeylQo6wPDOs45HO19Ao4n2XaNd4jyeL1T2VQ0n8VOJpMX3XBdh8x0zsYdxck6zo7AuTnekV+pDOANjrtlbSp1dOBUKd+WueEBzdxKHwGFhF7HsItsP7EB1Tbei7ejuMqObVypE8XgIPKfNETRluirhbRRg8rQQHx+x7f6R9DdsKqJpeWVNeuq5jPs8CROgXSFSx12vDTkyV599VgIgSLXTuD8R4x5meygyA0fZ0JaB8LswzO+HZ9fVC1aBFDcA/t92XjrmjQQFAnxQ=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1D5DEE0DC83C924B891C3827DDE63888@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 12/12] qemu-ga: Convert invocation documentation
- to rST
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e68fd3f3-e897-4ee9-96b8-08d73864fb5d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2019 16:11:06.3756 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /LCv8NqHqYYConPket5mF0TqghGQBIwVCCpLaujJEhCgujzh62DQAjoZmxM+jXx5gI0UbRb8+XD8LqYaNNynjMiar/umm0Dya5EcJkwvpLo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5129
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.4.96
+Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/qcow2: refactor threaded
+ encryption code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,490 +112,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?utf-8?B?RGFuaWVsIFAgLiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ qemu-stable <qemu-stable@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu-ga documentation is currently in qemu-ga.texi in
-Texinfo format, which we present to the user as:
- * a qemu-ga manpage
- * a section of the main qemu-doc HTML documentation
-
-Convert the documentation to rST format, and present it to
-the user as:
- * a qemu-ga manpage
- * part of the interop/ Sphinx manual
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-Tested-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-Message-id: 20190905131040.8350-1-peter.maydell@linaro.org
----
- Makefile                 |  24 ++++---
- MAINTAINERS              |   2 +-
- docs/conf.py             |  18 ++---
- docs/interop/conf.py     |   7 ++
- docs/interop/index.rst   |   1 +
- docs/interop/qemu-ga.rst | 133 +++++++++++++++++++++++++++++++++++++
- qemu-doc.texi            |   5 --
- qemu-ga.texi             | 137 ---------------------------------------
- 8 files changed, 166 insertions(+), 161 deletions(-)
- create mode 100644 docs/interop/qemu-ga.rst
- delete mode 100644 qemu-ga.texi
-
-diff --git a/Makefile b/Makefile
-index b3528617e48..111082ce545 100644
---- a/Makefile
-+++ b/Makefile
-@@ -325,7 +325,7 @@ endif
- endif
- 
- ifdef BUILD_DOCS
--DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 qemu-ga.8
-+DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 docs/interop/qemu-ga.8
- DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
- DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
- DOCS+=docs/qemu-block-drivers.7
-@@ -783,10 +783,11 @@ DESCS=
- endif
- 
- # Note that we manually filter-out the non-Sphinx documentation which
--# is currently built into the docs/interop directory in the build tree.
-+# is currently built into the docs/interop directory in the build tree,
-+# and also any sphinx-built manpages.
- define install-manual =
- for d in $$(cd $(MANUAL_BUILDDIR) && find $1 -type d); do $(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)/$$d"; done
--for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' '(' -name 'qemu-*-qapi.*' -o -name 'qemu-*-ref.*' ')' ); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
-+for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' '(' -name '*.[0-9]' -o -name 'qemu-*-qapi.*' -o -name 'qemu-*-ref.*' ')' ); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
- endef
- 
- # Note that we deliberately do not install the "devel" manual: it is
-@@ -818,7 +819,7 @@ ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
- endif
- ifneq (,$(findstring qemu-ga,$(TOOLS)))
--	$(INSTALL_DATA) qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
-+	$(INSTALL_DATA) docs/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.txt "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
-@@ -977,18 +978,22 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
- sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html $(MANUAL_BUILDDIR)/specs/index.html
- 
- # Canned command to build a single manual
--build-manual = $(call quiet-command,sphinx-build $(if $(V),,-q) -W -n -b html -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
-+# Arguments: $1 = manual name, $2 = Sphinx builder ('html' or 'man')
-+build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
- # We assume all RST files in the manual's directory are used in it
- manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
- 
- $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
--	$(call build-manual,devel)
-+	$(call build-manual,devel,html)
- 
- $(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
--	$(call build-manual,interop)
-+	$(call build-manual,interop,html)
- 
- $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
--	$(call build-manual,specs)
-+	$(call build-manual,specs,html)
-+
-+$(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
-+	$(call build-manual,interop,man)
- 
- qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
-@@ -1013,7 +1018,6 @@ qemu.1: qemu-option-trace.texi
- qemu-img.1: qemu-img.texi qemu-option-trace.texi qemu-img-cmds.texi
- fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
- qemu-nbd.8: qemu-nbd.texi qemu-option-trace.texi
--qemu-ga.8: qemu-ga.texi
- docs/qemu-block-drivers.7: docs/qemu-block-drivers.texi
- docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
- scripts/qemu-trace-stap.1: scripts/qemu-trace-stap.texi
-@@ -1026,7 +1030,7 @@ txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
- qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
- 	qemu-img.texi qemu-nbd.texi qemu-options.texi \
- 	qemu-tech.texi qemu-option-trace.texi \
--	qemu-deprecated.texi qemu-monitor.texi qemu-img-cmds.texi qemu-ga.texi \
-+	qemu-deprecated.texi qemu-monitor.texi qemu-img-cmds.texi \
- 	qemu-monitor-info.texi docs/qemu-block-drivers.texi \
- 	docs/qemu-cpu-models.texi docs/security.texi
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 50eaf005f40..f0e30b5248c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2040,7 +2040,7 @@ QEMU Guest Agent
- M: Michael Roth <mdroth@linux.vnet.ibm.com>
- S: Maintained
- F: qga/
--F: qemu-ga.texi
-+F: docs/interop/qemu-ga.rst
- F: scripts/qemu-guest-agent/
- F: tests/test-qga.c
- F: docs/interop/qemu-ga-ref.texi
-diff --git a/docs/conf.py b/docs/conf.py
-index e46b299b71f..b7edb0666b5 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -115,6 +115,14 @@ todo_include_todos = False
- # with "option::" in the document being processed. Turn that off.
- suppress_warnings = ["ref.option"]
- 
-+# The rst_epilog fragment is effectively included in every rST file.
-+# We use it to define substitutions based on build config that
-+# can then be used in the documentation. The fallback if the
-+# environment variable is not set is for the benefit of readthedocs
-+# style document building; our Makefile always sets the variable.
-+confdir = os.getenv('CONFDIR', "/etc/qemu")
-+rst_epilog = ".. |CONFDIR| replace:: ``" + confdir + "``\n"
-+
- # -- Options for HTML output ----------------------------------------------
- 
- # The theme to use for HTML and HTML Help pages.  See the documentation for
-@@ -192,14 +200,8 @@ latex_documents = [
- 
- 
- # -- Options for manual page output ---------------------------------------
--
--# One entry per manual page. List of tuples
--# (source start file, name, description, authors, manual section).
--man_pages = [
--    (master_doc, 'qemu', u'QEMU Documentation',
--     [author], 1)
--]
--
-+# Individual manual/conf.py can override this to create man pages
-+man_pages = []
- 
- # -- Options for Texinfo output -------------------------------------------
- 
-diff --git a/docs/interop/conf.py b/docs/interop/conf.py
-index cf3c69d4a7e..e87b8c22bec 100644
---- a/docs/interop/conf.py
-+++ b/docs/interop/conf.py
-@@ -13,3 +13,10 @@ exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
- # This slightly misuses the 'description', but is the best way to get
- # the manual title to appear in the sidebar.
- html_theme_options['description'] = u'System Emulation Management and Interoperability Guide'
-+
-+# One entry per manual page. List of tuples
-+# (source start file, name, description, authors, manual section).
-+man_pages = [
-+    ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
-+     ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8)
-+]
-diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index b4bfcab4171..3e33fb59332 100644
---- a/docs/interop/index.rst
-+++ b/docs/interop/index.rst
-@@ -15,5 +15,6 @@ Contents:
-    bitmaps
-    live-block-operations
-    pr-helper
-+   qemu-ga
-    vhost-user
-    vhost-user-gpu
-diff --git a/docs/interop/qemu-ga.rst b/docs/interop/qemu-ga.rst
-new file mode 100644
-index 00000000000..1313a4ae1c9
---- /dev/null
-+++ b/docs/interop/qemu-ga.rst
-@@ -0,0 +1,133 @@
-+QEMU Guest Agent
-+================
-+
-+Synopsis
-+--------
-+
-+**qemu-ga** [*OPTIONS*]
-+
-+Description
-+-----------
-+
-+The QEMU Guest Agent is a daemon intended to be run within virtual
-+machines. It allows the hypervisor host to perform various operations
-+in the guest, such as:
-+
-+- get information from the guest
-+- set the guest's system time
-+- read/write a file
-+- sync and freeze the filesystems
-+- suspend the guest
-+- reconfigure guest local processors
-+- set user's password
-+- ...
-+
-+qemu-ga will read a system configuration file on startup (located at
-+|CONFDIR|\ ``/qemu-ga.conf`` by default), then parse remaining
-+configuration options on the command line. For the same key, the last
-+option wins, but the lists accumulate (see below for configuration
-+file format).
-+
-+Options
-+-------
-+
-+.. program:: qemu-ga
-+
-+.. option:: -m, --method=METHOD
-+
-+  Transport method: one of ``unix-listen``, ``virtio-serial``, or
-+  ``isa-serial`` (``virtio-serial`` is the default).
-+
-+.. option:: -p, --path=PATH
-+
-+  Device/socket path (the default for virtio-serial is
-+  ``/dev/virtio-ports/org.qemu.guest_agent.0``,
-+  the default for isa-serial is ``/dev/ttyS0``)
-+
-+.. option:: -l, --logfile=PATH
-+
-+  Set log file path (default is stderr).
-+
-+.. option:: -f, --pidfile=PATH
-+
-+  Specify pid file (default is ``/var/run/qemu-ga.pid``).
-+
-+.. option:: -F, --fsfreeze-hook=PATH
-+
-+  Enable fsfreeze hook. Accepts an optional argument that specifies
-+  script to run on freeze/thaw. Script will be called with
-+  'freeze'/'thaw' arguments accordingly (default is
-+  |CONFDIR|\ ``/fsfreeze-hook``). If using -F with an argument, do
-+  not follow -F with a space (for example:
-+  ``-F/var/run/fsfreezehook.sh``).
-+
-+.. option:: -t, --statedir=PATH
-+
-+  Specify the directory to store state information (absolute paths only,
-+  default is ``/var/run``).
-+
-+.. option:: -v, --verbose
-+
-+  Log extra debugging information.
-+
-+.. option:: -V, --version
-+
-+  Print version information and exit.
-+
-+.. option:: -d, --daemon
-+
-+  Daemonize after startup (detach from terminal).
-+
-+.. option:: -b, --blacklist=LIST
-+
-+  Comma-separated list of RPCs to disable (no spaces, ``?`` to list
-+  available RPCs).
-+
-+.. option:: -D, --dump-conf
-+
-+  Dump the configuration in a format compatible with ``qemu-ga.conf``
-+  and exit.
-+
-+.. option:: -h, --help
-+
-+  Display this help and exit.
-+
-+Files
-+-----
-+
-+
-+The syntax of the ``qemu-ga.conf`` configuration file follows the
-+Desktop Entry Specification, here is a quick summary: it consists of
-+groups of key-value pairs, interspersed with comments.
-+
-+::
-+
-+    # qemu-ga configuration sample
-+    [general]
-+    daemonize = 0
-+    pidfile = /var/run/qemu-ga.pid
-+    verbose = 0
-+    method = virtio-serial
-+    path = /dev/virtio-ports/org.qemu.guest_agent.0
-+    statedir = /var/run
-+
-+The list of keys follows the command line options:
-+
-+=============  ===========
-+Key             Key type
-+=============  ===========
-+daemon         boolean
-+method         string
-+path           string
-+logfile        string
-+pidfile        string
-+fsfreeze-hook  string
-+statedir       string
-+verbose        boolean
-+blacklist      string list
-+=============  ===========
-+
-+See also
-+--------
-+
-+:manpage:`qemu(1)`
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index b47e89cfca6..2ba6c90c083 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -2535,11 +2535,6 @@ so should only be used with trusted guest OS.
- 
- @c man end
- 
--@node QEMU Guest Agent
--@chapter QEMU Guest Agent invocation
--
--@include qemu-ga.texi
--
- @node QEMU User space emulator
- @chapter QEMU User space emulator
- 
-diff --git a/qemu-ga.texi b/qemu-ga.texi
-deleted file mode 100644
-index f00ad830f28..00000000000
---- a/qemu-ga.texi
-+++ /dev/null
-@@ -1,137 +0,0 @@
--@example
--@c man begin SYNOPSIS
--@command{qemu-ga} [@var{OPTIONS}]
--@c man end
--@end example
--
--@c man begin DESCRIPTION
--
--The QEMU Guest Agent is a daemon intended to be run within virtual
--machines. It allows the hypervisor host to perform various operations
--in the guest, such as:
--
--@itemize
--@item
--get information from the guest
--@item
--set the guest's system time
--@item
--read/write a file
--@item
--sync and freeze the filesystems
--@item
--suspend the guest
--@item
--reconfigure guest local processors
--@item
--set user's password
--@item
--...
--@end itemize
--
--qemu-ga will read a system configuration file on startup (located at
--@file{@value{CONFDIR}/qemu-ga.conf} by default), then parse remaining
--configuration options on the command line. For the same key, the last
--option wins, but the lists accumulate (see below for configuration
--file format).
--
--@c man end
--
--@c man begin OPTIONS
--@table @option
--@item -m, --method=@var{method}
--  Transport method: one of @samp{unix-listen}, @samp{virtio-serial}, or
--  @samp{isa-serial} (@samp{virtio-serial} is the default).
--
--@item -p, --path=@var{path}
--  Device/socket path (the default for virtio-serial is
--  @samp{/dev/virtio-ports/org.qemu.guest_agent.0},
--  the default for isa-serial is @samp{/dev/ttyS0})
--
--@item -l, --logfile=@var{path}
--  Set log file path (default is stderr).
--
--@item -f, --pidfile=@var{path}
--  Specify pid file (default is @samp{/var/run/qemu-ga.pid}).
--
--@item -F, --fsfreeze-hook=@var{path}
--  Enable fsfreeze hook. Accepts an optional argument that specifies
--  script to run on freeze/thaw. Script will be called with
--  'freeze'/'thaw' arguments accordingly (default is
--  @samp{@value{CONFDIR}/fsfreeze-hook}). If using -F with an argument, do
--  not follow -F with a space (for example:
--  @samp{-F/var/run/fsfreezehook.sh}).
--
--@item -t, --statedir=@var{path}
--  Specify the directory to store state information (absolute paths only,
--  default is @samp{/var/run}).
--
--@item -v, --verbose
--  Log extra debugging information.
--
--@item -V, --version
--  Print version information and exit.
--
--@item -d, --daemon
--  Daemonize after startup (detach from terminal).
--
--@item -b, --blacklist=@var{list}
--  Comma-separated list of RPCs to disable (no spaces, @samp{?} to list
--  available RPCs).
--
--@item -D, --dump-conf
--  Dump the configuration in a format compatible with @file{qemu-ga.conf}
--  and exit.
--
--@item -h, --help
--  Display this help and exit.
--@end table
--
--@c man end
--
--@c man begin FILES
--
--The syntax of the @file{qemu-ga.conf} configuration file follows the
--Desktop Entry Specification, here is a quick summary: it consists of
--groups of key-value pairs, interspersed with comments.
--
--@example
--# qemu-ga configuration sample
--[general]
--daemonize = 0
--pidfile = /var/run/qemu-ga.pid
--verbose = 0
--method = virtio-serial
--path = /dev/virtio-ports/org.qemu.guest_agent.0
--statedir = /var/run
--@end example
--
--The list of keys follows the command line options:
--@table @option
--@item daemon= boolean
--@item method= string
--@item path= string
--@item logfile= string
--@item pidfile= string
--@item fsfreeze-hook= string
--@item statedir= string
--@item verbose= boolean
--@item blacklist= string list
--@end table
--
--@c man end
--
--@ignore
--
--@setfilename qemu-ga
--@settitle QEMU Guest Agent
--
--@c man begin AUTHOR
--Michael Roth <mdroth@linux.vnet.ibm.com>
--@c man end
--
--@c man begin SEEALSO
--qemu(1)
--@c man end
--
--@end ignore
--- 
-2.20.1
-
+MTMuMDkuMjAxOSAxODoyOCwgTWF4aW0gTGV2aXRza3kgd3JvdGU6DQo+IENoYW5nZSBkb19wZXJm
+b3JtX2Nvd19lbmNyeXB0IGFuZCBpdHMgY2FsbGVlIHFjb3cyX2NvX2VuY3J5cHQNCj4gdG8ganVz
+dCByZWNlaXZlIGZ1bGwgaG9zdCBhbmQgZ3Vlc3Qgb2Zmc2V0cyBhbmQgaW4gcGFyaXRpY3VsYXIN
+Cj4gcmVtb3ZlIHRoZSBvZmZzZXRfaW5fY2x1c3RlciBwYXJhbWV0ZXIgb2YgZG9fcGVyZm9ybV9j
+b3dfZW5jcnlwdCwNCj4gc2luY2UgaXQgaXMgbWlzbGVhZGluZywgYmVjYXVzZSB0aGF0IG9mZnNl
+dCBjYW4gYmUgbGFyZ2VyIHRoYW4NCj4gY2x1c3RlciBzaXplIGN1cnJlbnRseS4NCj4gDQo+IEFs
+c28gZG9jdW1lbnQgdGhlIHFjb3cyX2NvX2VuY3J5cHQgYXJndW1lbnRzIHRvIHByZXZlbnQNCj4g
+dGhhdCBidWcgZnJvbSBoYXBwZW5pbmcgYWdhaW4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1heGlt
+IExldml0c2t5IDxtbGV2aXRza0ByZWRoYXQuY29tPg0KPiAtLS0NCj4gICBibG9jay9xY293Mi1j
+bHVzdGVyLmMgfCAzMCArKysrKysrKysrKystLS0tLS0tLS0NCj4gICBibG9jay9xY293Mi10aHJl
+YWRzLmMgfCA2MiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tDQo+
+ICAgYmxvY2svcWNvdzIuYyAgICAgICAgIHwgIDUgKystLQ0KPiAgIGJsb2NrL3Fjb3cyLmggICAg
+ICAgICB8ICA4ICsrKy0tLQ0KPiAgIDQgZmlsZXMgY2hhbmdlZCwgNzMgaW5zZXJ0aW9ucygrKSwg
+MzIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvYmxvY2svcWNvdzItY2x1c3Rlci5j
+IGIvYmxvY2svcWNvdzItY2x1c3Rlci5jDQo+IGluZGV4IGJmZWIwMjQxZDcuLmU4N2E0NjM3ZmQg
+MTAwNjQ0DQo+IC0tLSBhL2Jsb2NrL3Fjb3cyLWNsdXN0ZXIuYw0KPiArKysgYi9ibG9jay9xY293
+Mi1jbHVzdGVyLmMNCj4gQEAgLTQ2MywyMSArNDYzLDIxIEBAIHN0YXRpYyBpbnQgY29yb3V0aW5l
+X2ZuIGRvX3BlcmZvcm1fY293X3JlYWQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsDQo+ICAgfQ0KPiAg
+IA0KPiAgIHN0YXRpYyBib29sIGNvcm91dGluZV9mbiBkb19wZXJmb3JtX2Nvd19lbmNyeXB0KEJs
+b2NrRHJpdmVyU3RhdGUgKmJzLA0KPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgdWludDY0X3Qgc3JjX2NsdXN0ZXJfb2Zmc2V0LA0KPiAtICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDY0X3QgY2x1c3Rlcl9v
+ZmZzZXQsDQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB1bnNpZ25lZCBvZmZzZXRfaW5fY2x1c3RlciwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IGd1ZXN0X29mZnNldCwNCj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IGhvc3Rf
+b2Zmc2V0LA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHVpbnQ4X3QgKmJ1ZmZlciwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB1bnNpZ25lZCBieXRlcykNCj4gICB7DQo+ICAgICAgIGlmIChieXRl
+cyAmJiBicy0+ZW5jcnlwdGVkKSB7DQo+ICAgICAgICAgICBCRFJWUWNvdzJTdGF0ZSAqcyA9IGJz
+LT5vcGFxdWU7DQo+IC0gICAgICAgIGFzc2VydCgob2Zmc2V0X2luX2NsdXN0ZXIgJiB+QkRSVl9T
+RUNUT1JfTUFTSykgPT0gMCk7DQo+IC0gICAgICAgIGFzc2VydCgoYnl0ZXMgJiB+QkRSVl9TRUNU
+T1JfTUFTSykgPT0gMCk7DQo+ICsNCj4gKyAgICAgICAgYXNzZXJ0KFFFTVVfSVNfQUxJR05FRChn
+dWVzdF9vZmZzZXQsIEJEUlZfU0VDVE9SX1NJWkUpKTsNCj4gKyAgICAgICAgYXNzZXJ0KFFFTVVf
+SVNfQUxJR05FRChob3N0X29mZnNldCwgQkRSVl9TRUNUT1JfU0laRSkpOw0KPiArICAgICAgICBh
+c3NlcnQoUUVNVV9JU19BTElHTkVEKGJ5dGVzLCBCRFJWX1NFQ1RPUl9TSVpFKSk7DQo+ICAgICAg
+ICAgICBhc3NlcnQocy0+Y3J5cHRvKTsNCj4gLSAgICAgICAgaWYgKHFjb3cyX2NvX2VuY3J5cHQo
+YnMsDQo+IC0gICAgICAgICAgICAgICAgc3RhcnRfb2ZfY2x1c3RlcihzLCBjbHVzdGVyX29mZnNl
+dCArIG9mZnNldF9pbl9jbHVzdGVyKSwNCj4gLSAgICAgICAgICAgICAgICBzcmNfY2x1c3Rlcl9v
+ZmZzZXQgKyBvZmZzZXRfaW5fY2x1c3RlciwNCj4gLSAgICAgICAgICAgICAgICBidWZmZXIsIGJ5
+dGVzKSA8IDApIHsNCj4gKw0KPiArICAgICAgICBpZiAocWNvdzJfY29fZW5jcnlwdChicywgaG9z
+dF9vZmZzZXQsIGd1ZXN0X29mZnNldCwNCj4gKyAgICAgICAgICAgIGJ1ZmZlciwgYnl0ZXMpIDwg
+MCkgew0KDQpzdHJhbmdlIGFsaWdubWVudCBvZiBzZWNvbmQgbGluZSBvZiB0aGUgY29uZGl0aW9u
+Li4gWzFdDQoNCj4gICAgICAgICAgICAgICByZXR1cm4gZmFsc2U7DQo+ICAgICAgICAgICB9DQo+
+ICAgICAgIH0NCj4gQEAgLTg5MSwxMSArODkxLDE1IEBAIHN0YXRpYyBpbnQgcGVyZm9ybV9jb3co
+QmxvY2tEcml2ZXJTdGF0ZSAqYnMsIFFDb3dMMk1ldGEgKm0pDQo+ICAgDQo+ICAgICAgIC8qIEVu
+Y3J5cHQgdGhlIGRhdGEgaWYgbmVjZXNzYXJ5IGJlZm9yZSB3cml0aW5nIGl0ICovDQo+ICAgICAg
+IGlmIChicy0+ZW5jcnlwdGVkKSB7DQo+IC0gICAgICAgIGlmICghZG9fcGVyZm9ybV9jb3dfZW5j
+cnlwdChicywgbS0+b2Zmc2V0LCBtLT5hbGxvY19vZmZzZXQsDQo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBzdGFydC0+b2Zmc2V0LCBzdGFydF9idWZmZXIsDQo+ICsgICAg
+ICAgIGlmICghZG9fcGVyZm9ybV9jb3dfZW5jcnlwdChicywNCj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIG0tPm9mZnNldCArIHN0YXJ0LT5vZmZzZXQsDQo+ICsgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBtLT5hbGxvY19vZmZzZXQgKyBzdGFydC0+b2Zm
+c2V0LA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RhcnRfYnVmZmVy
+LA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0YXJ0LT5uYl9ieXRl
+cykgfHwNCj4gLSAgICAgICAgICAgICFkb19wZXJmb3JtX2Nvd19lbmNyeXB0KGJzLCBtLT5vZmZz
+ZXQsIG0tPmFsbG9jX29mZnNldCwNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGVuZC0+b2Zmc2V0LCBlbmRfYnVmZmVyLCBlbmQtPm5iX2J5dGVzKSkgew0KPiArICAgICAg
+ICAgICAgIWRvX3BlcmZvcm1fY293X2VuY3J5cHQoYnMsDQo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBtLT5vZmZzZXQgKyBlbmQtPm9mZnNldCwNCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIG0tPmFsbG9jX29mZnNldCArIGVuZC0+b2Zmc2V0LA0K
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW5kX2J1ZmZlciwgZW5kLT5u
+Yl9ieXRlcykpIHsNCg0KTG9va2luZyBhdCB0aGlzIG5vdywgSSB0aGluayB0aGF0IGRvX3BlcmZv
+cm1fY293X2VuY3J5cHQgY2FuIGJlIGRyb3BwZWQgYXQgYWxsLA0KYXMgaXQncyBub3cganVzdCBh
+biBleHRyYSB3cmFwcGVyLCBzZW5kaW5nIHNhbWUgcGFyYW1ldGVycyB0byBxY293Ml9jb19lbmNy
+eXB0Lg0KDQpJJ2xsIHNlbmQgYSBmb2xsb3ctdXAsIGlmIHRoaXMgcGF0Y2ggZ29lcyBhcyBpcy4N
+Cg0KPiAgICAgICAgICAgICAgIHJldCA9IC1FSU87DQo+ICAgICAgICAgICAgICAgZ290byBmYWls
+Ow0KPiAgICAgICAgICAgfQ0KPiBkaWZmIC0tZ2l0IGEvYmxvY2svcWNvdzItdGhyZWFkcy5jIGIv
+YmxvY2svcWNvdzItdGhyZWFkcy5jDQo+IGluZGV4IDNiMWU2M2ZlNDEuLjk2NDYyNDNhOWIgMTAw
+NjQ0DQo+IC0tLSBhL2Jsb2NrL3Fjb3cyLXRocmVhZHMuYw0KPiArKysgYi9ibG9jay9xY293Mi10
+aHJlYWRzLmMNCj4gQEAgLTIzNCwxNSArMjM0LDE1IEBAIHN0YXRpYyBpbnQgcWNvdzJfZW5jZGVj
+X3Bvb2xfZnVuYyh2b2lkICpvcGFxdWUpDQo+ICAgfQ0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgY29y
+b3V0aW5lX2ZuDQo+IC1xY293Ml9jb19lbmNkZWMoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2
+NF90IGZpbGVfY2x1c3Rlcl9vZmZzZXQsDQo+IC0gICAgICAgICAgICAgICAgICB1aW50NjRfdCBv
+ZmZzZXQsIHZvaWQgKmJ1Ziwgc2l6ZV90IGxlbiwgUWNvdzJFbmNEZWNGdW5jIGZ1bmMpDQo+ICtx
+Y293Ml9jb19lbmNkZWMoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2NF90IGhvc3Rfb2Zmc2V0
+LA0KPiArICAgICAgICAgICAgICAgIHVpbnQ2NF90IGd1ZXN0X29mZnNldCwgdm9pZCAqYnVmLCBz
+aXplX3QgbGVuLA0KPiArICAgICAgICAgICAgICAgIFFjb3cyRW5jRGVjRnVuYyBmdW5jKQ0KPiAg
+IHsNCj4gICAgICAgQkRSVlFjb3cyU3RhdGUgKnMgPSBicy0+b3BhcXVlOw0KPiArDQo+ICAgICAg
+IFFjb3cyRW5jRGVjRGF0YSBhcmcgPSB7DQo+ICAgICAgICAgICAuYmxvY2sgPSBzLT5jcnlwdG8s
+DQo+IC0gICAgICAgIC5vZmZzZXQgPSBzLT5jcnlwdF9waHlzaWNhbF9vZmZzZXQgPw0KPiAtICAg
+ICAgICAgICAgICAgICAgICAgIGZpbGVfY2x1c3Rlcl9vZmZzZXQgKyBvZmZzZXRfaW50b19jbHVz
+dGVyKHMsIG9mZnNldCkgOg0KPiAtICAgICAgICAgICAgICAgICAgICAgIG9mZnNldCwNCj4gKyAg
+ICAgICAgLm9mZnNldCA9IHMtPmNyeXB0X3BoeXNpY2FsX29mZnNldCA/IGhvc3Rfb2Zmc2V0IDog
+Z3Vlc3Rfb2Zmc2V0LA0KPiAgICAgICAgICAgLmJ1ZiA9IGJ1ZiwNCj4gICAgICAgICAgIC5sZW4g
+PSBsZW4sDQo+ICAgICAgICAgICAuZnVuYyA9IGZ1bmMsDQo+IEBAIC0yNTEsMTggKzI1MSw1NCBA
+QCBxY293Ml9jb19lbmNkZWMoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2NF90IGZpbGVfY2x1
+c3Rlcl9vZmZzZXQsDQo+ICAgICAgIHJldHVybiBxY293Ml9jb19wcm9jZXNzKGJzLCBxY293Ml9l
+bmNkZWNfcG9vbF9mdW5jLCAmYXJnKTsNCj4gICB9DQo+ICAgDQo+ICsNCj4gKy8qDQo+ICsgKiBx
+Y293Ml9jb19lbmNyeXB0KCkNCj4gKyAqDQo+ICsgKiBFbmNyeXB0cyBvbmUgb3IgbW9yZSBjb250
+aWd1b3VzIGFsaWduZWQgc2VjdG9ycw0KPiArICoNCj4gKyAqIEBob3N0X29mZnNldCAtIHVuZGVy
+bHlpbmcgc3RvcmFnZSBvZmZzZXQgb2YgdGhlIGZpcnN0IHNlY3RvciBvZiB0aGUNCj4gKyAqIGRh
+dGEgdG8gYmUgZW5jcnlwdGVkDQo+ICsNCg0KYXN0ZXJpc2sgbWlzc2VkDQoNCj4gKyAqIEBndWVz
+dF9vZmZzZXQgLSBndWVzdCAodmlydHVhbCkgb2Zmc2V0IG9mIHRoZSBmaXJzdCBzZWN0b3Igb2Yg
+dGhlDQo+ICsgKiBkYXRhIHRvIGJlIGVuY3J5cHRlZA0KPiArICoNCj4gKyAqIEBidWYgLSBidWZm
+ZXIgd2l0aCB0aGUgZGF0YSB0byBlbmNyeXB0LCB0aGF0IGFmdGVyIGVuY3J5cHRpb24NCj4gKyAq
+ICAgICAgICB3aWxsIGJlIHdyaXR0ZW4gdG8gdGhlIHVuZGVybHlpbmcgc3RvcmFnZSBkZXZpY2Ug
+YXQNCj4gKyAqICAgICAgICBAaG9zdF9vZmZzZXQNCj4gKyAqDQo+ICsgKiBAbGVuIC0gbGVuZ3Ro
+IG9mIHRoZSBidWZmZXIgKG11c3QgYmUgYSBCRFJWX1NFQ1RPUl9TSVpFIG11bHRpcGxlKQ0KPiAr
+ICoNCj4gKyAqIERlcGVuZGluZyBvbiB0aGUgZW5jcnlwdGlvbiBtZXRob2QsIEBob3N0X2NsdXN0
+ZXJfb2Zmc2V0IGFuZC9vciBAZ3Vlc3Rfb2Zmc2V0DQoNCnMvaG9zdF9jbHVzdGVyX29mZnNldC9o
+b3N0X29mZnNldA0KDQpXaXRoIGF0IGxlYXN0IGFsaWdubWVudFsxXSBhbmQgcy9ob3N0X2NsdXN0
+ZXJfb2Zmc2V0L2hvc3Rfb2Zmc2V0LyBmaXhlZDoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1l
+bnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQoNCj4gKyAqIG1heSBi
+ZSB1c2VkIGZvciBnZW5lcmF0aW5nIHRoZSBpbml0aWFsaXphdGlvbiB2ZWN0b3IgZm9yDQo+ICsg
+KiBlbmNyeXB0aW9uLg0KPiArICoNCj4gKyAqIE5vdGUgdGhhdCB3aGlsZSB0aGUgd2hvbGUgcmFu
+Z2UgbXVzdCBiZSBhbGlnbmVkIG9uIHNlY3RvcnMsIGl0DQo+ICsgKiBkb2VzIG5vdCBoYXZlIHRv
+IGJlIGFsaWduZWQgb24gY2x1c3RlcnMgYW5kIGNhbiBhbHNvIGNyb3NzIGNsdXN0ZXINCj4gKyAq
+IGJvdW5kYXJpZXMNCj4gKyAqDQoNCmhtbSwgZXh0cmEgZW1wdHkgbGluZSBJTUhPLg0KDQo+ICsg
+Ki8NCj4gICBpbnQgY29yb3V0aW5lX2ZuDQo+IC1xY293Ml9jb19lbmNyeXB0KEJsb2NrRHJpdmVy
+U3RhdGUgKmJzLCB1aW50NjRfdCBmaWxlX2NsdXN0ZXJfb2Zmc2V0LA0KPiAtICAgICAgICAgICAg
+ICAgICB1aW50NjRfdCBvZmZzZXQsIHZvaWQgKmJ1Ziwgc2l6ZV90IGxlbikNCj4gK3Fjb3cyX2Nv
+X2VuY3J5cHQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2NF90IGhvc3Rfb2Zmc2V0LA0KPiAr
+ICAgICAgICAgICAgICAgICB1aW50NjRfdCBndWVzdF9vZmZzZXQsIHZvaWQgKmJ1Ziwgc2l6ZV90
+IGxlbikNCj4gICB7DQo+IC0gICAgcmV0dXJuIHFjb3cyX2NvX2VuY2RlYyhicywgZmlsZV9jbHVz
+dGVyX29mZnNldCwgb2Zmc2V0LCBidWYsIGxlbiwNCj4gLSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgcWNyeXB0b19ibG9ja19lbmNyeXB0KTsNCj4gKyAgICByZXR1cm4gcWNvdzJfY29fZW5j
+ZGVjKGJzLCBob3N0X29mZnNldCwgZ3Vlc3Rfb2Zmc2V0LCBidWYsIGxlbiwNCj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHFjcnlwdG9fYmxvY2tfZW5jcnlwdCk7DQo+ICAgfQ0KPiAgIA0K
+PiArDQo+ICsvKg0KPiArICogcWNvdzJfY29fZGVjcnlwdCgpDQo+ICsgKg0KPiArICogRGVjcnlw
+dHMgb25lIG9yIG1vcmUgY29udGlndW91cyBhbGlnbmVkIHNlY3RvcnMNCj4gKyAqIFNpbWlsYXIg
+dG8gcWNvdzJfY29fZW5jcnlwdA0KPiArICoNCg0KYW5kIHRoaXMgb25lLg0KDQo+ICsgKi8NCj4g
+Kw0KPiAgIGludCBjb3JvdXRpbmVfZm4NCj4gLXFjb3cyX2NvX2RlY3J5cHQoQmxvY2tEcml2ZXJT
+dGF0ZSAqYnMsIHVpbnQ2NF90IGZpbGVfY2x1c3Rlcl9vZmZzZXQsDQo+IC0gICAgICAgICAgICAg
+ICAgIHVpbnQ2NF90IG9mZnNldCwgdm9pZCAqYnVmLCBzaXplX3QgbGVuKQ0KPiArcWNvdzJfY29f
+ZGVjcnlwdChCbG9ja0RyaXZlclN0YXRlICpicywgdWludDY0X3QgaG9zdF9vZmZzZXQsDQo+ICsg
+ICAgICAgICAgICAgICAgIHVpbnQ2NF90IGd1ZXN0X29mZnNldCwgdm9pZCAqYnVmLCBzaXplX3Qg
+bGVuKQ0KPiAgIHsNCj4gLSAgICByZXR1cm4gcWNvdzJfY29fZW5jZGVjKGJzLCBmaWxlX2NsdXN0
+ZXJfb2Zmc2V0LCBvZmZzZXQsIGJ1ZiwgbGVuLA0KPiAtICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBxY3J5cHRvX2Jsb2NrX2RlY3J5cHQpOw0KPiArICAgIHJldHVybiBxY293Ml9jb19lbmNk
+ZWMoYnMsIGhvc3Rfb2Zmc2V0LCBndWVzdF9vZmZzZXQsIGJ1ZiwgbGVuLA0KPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgcWNyeXB0b19ibG9ja19kZWNyeXB0KTsNCj4gICB9DQo+IGRpZmYg
+LS1naXQgYS9ibG9jay9xY293Mi5jIGIvYmxvY2svcWNvdzIuYw0KPiBpbmRleCA1NzczNGYyMGNm
+Li5hYzc2ODA5MmJiIDEwMDY0NA0KPiAtLS0gYS9ibG9jay9xY293Mi5jDQo+ICsrKyBiL2Jsb2Nr
+L3Fjb3cyLmMNCj4gQEAgLTIwNjksNyArMjA2OSw4IEBAIHN0YXRpYyBjb3JvdXRpbmVfZm4gaW50
+IHFjb3cyX2NvX3ByZWFkdl9wYXJ0KEJsb2NrRHJpdmVyU3RhdGUgKmJzLA0KPiAgIA0KPiAgICAg
+ICAgICAgICAgICAgICBhc3NlcnQoKG9mZnNldCAmIChCRFJWX1NFQ1RPUl9TSVpFIC0gMSkpID09
+IDApOw0KPiAgICAgICAgICAgICAgICAgICBhc3NlcnQoKGN1cl9ieXRlcyAmIChCRFJWX1NFQ1RP
+Ul9TSVpFIC0gMSkpID09IDApOw0KPiAtICAgICAgICAgICAgICAgIGlmIChxY293Ml9jb19kZWNy
+eXB0KGJzLCBjbHVzdGVyX29mZnNldCwgb2Zmc2V0LA0KPiArICAgICAgICAgICAgICAgIGlmIChx
+Y293Ml9jb19kZWNyeXB0KGJzLCBjbHVzdGVyX29mZnNldCArIG9mZnNldF9pbl9jbHVzdGVyLA0K
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9mZnNldCwNCj4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2x1c3Rlcl9kYXRhLCBjdXJfYnl0ZXMp
+IDwgMCkgew0KPiAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gLUVJTzsNCj4gICAgICAgICAg
+ICAgICAgICAgICAgIGdvdG8gZmFpbDsNCj4gQEAgLTIyODgsNyArMjI4OSw3IEBAIHN0YXRpYyBj
+b3JvdXRpbmVfZm4gaW50IHFjb3cyX2NvX3B3cml0ZXZfcGFydCgNCj4gICAgICAgICAgICAgICBx
+ZW11X2lvdmVjX3RvX2J1ZihxaW92LCBxaW92X29mZnNldCArIGJ5dGVzX2RvbmUsDQo+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgY2x1c3Rlcl9kYXRhLCBjdXJfYnl0ZXMpOw0KPiAg
+IA0KPiAtICAgICAgICAgICAgaWYgKHFjb3cyX2NvX2VuY3J5cHQoYnMsIGNsdXN0ZXJfb2Zmc2V0
+LCBvZmZzZXQsDQo+ICsgICAgICAgICAgICBpZiAocWNvdzJfY29fZW5jcnlwdChicywgY2x1c3Rl
+cl9vZmZzZXQgKyBvZmZzZXRfaW5fY2x1c3Rlciwgb2Zmc2V0LA0KPiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGNsdXN0ZXJfZGF0YSwgY3VyX2J5dGVzKSA8IDApIHsNCj4gICAg
+ICAgICAgICAgICAgICAgcmV0ID0gLUVJTzsNCj4gICAgICAgICAgICAgICAgICAgZ290byBvdXRf
+dW5sb2NrZWQ7DQo+IGRpZmYgLS1naXQgYS9ibG9jay9xY293Mi5oIGIvYmxvY2svcWNvdzIuaA0K
+PiBpbmRleCA5OThiY2RhZWYxLi5hNDg4ZDc2MWZmIDEwMDY0NA0KPiAtLS0gYS9ibG9jay9xY293
+Mi5oDQo+ICsrKyBiL2Jsb2NrL3Fjb3cyLmgNCj4gQEAgLTc1OCwxMCArNzU4LDEwIEBAIHNzaXpl
+X3QgY29yb3V0aW5lX2ZuDQo+ICAgcWNvdzJfY29fZGVjb21wcmVzcyhCbG9ja0RyaXZlclN0YXRl
+ICpicywgdm9pZCAqZGVzdCwgc2l6ZV90IGRlc3Rfc2l6ZSwNCj4gICAgICAgICAgICAgICAgICAg
+ICAgIGNvbnN0IHZvaWQgKnNyYywgc2l6ZV90IHNyY19zaXplKTsNCj4gICBpbnQgY29yb3V0aW5l
+X2ZuDQo+IC1xY293Ml9jb19lbmNyeXB0KEJsb2NrRHJpdmVyU3RhdGUgKmJzLCB1aW50NjRfdCBm
+aWxlX2NsdXN0ZXJfb2Zmc2V0LA0KPiAtICAgICAgICAgICAgICAgICB1aW50NjRfdCBvZmZzZXQs
+IHZvaWQgKmJ1Ziwgc2l6ZV90IGxlbik7DQo+ICtxY293Ml9jb19lbmNyeXB0KEJsb2NrRHJpdmVy
+U3RhdGUgKmJzLCB1aW50NjRfdCBob3N0X29mZnNldCwNCj4gKyAgICAgICAgICAgICAgICAgdWlu
+dDY0X3QgZ3Vlc3Rfb2Zmc2V0LCB2b2lkICpidWYsIHNpemVfdCBsZW4pOw0KPiAgIGludCBjb3Jv
+dXRpbmVfZm4NCj4gLXFjb3cyX2NvX2RlY3J5cHQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2
+NF90IGZpbGVfY2x1c3Rlcl9vZmZzZXQsDQo+IC0gICAgICAgICAgICAgICAgIHVpbnQ2NF90IG9m
+ZnNldCwgdm9pZCAqYnVmLCBzaXplX3QgbGVuKTsNCj4gK3Fjb3cyX2NvX2RlY3J5cHQoQmxvY2tE
+cml2ZXJTdGF0ZSAqYnMsIHVpbnQ2NF90IGhvc3Rfb2Zmc2V0LA0KPiArICAgICAgICAgICAgICAg
+ICB1aW50NjRfdCBndWVzdF9vZmZzZXQsIHZvaWQgKmJ1Ziwgc2l6ZV90IGxlbik7DQo+ICAgDQo+
+ICAgI2VuZGlmDQo+IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
