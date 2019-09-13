@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC86B235A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:28:38 +0200 (CEST)
-Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E51AB2367
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 17:31:53 +0200 (CEST)
+Received: from localhost ([::1]:45321 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8nUz-0008Hd-6Q
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:28:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53063)
+	id 1i8nY8-0003zx-DE
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 11:31:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i8nS3-0006QA-IK
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:25:36 -0400
+ (envelope-from <slp@redhat.com>) id 1i8nSN-0006my-C6
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:25:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i8nS2-0003FG-Cg
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:25:35 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:44382)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i8nS2-0003Eo-4g; Fri, 13 Sep 2019 11:25:34 -0400
-Received: by mail-ed1-x542.google.com with SMTP id p2so26184231edx.11;
- Fri, 13 Sep 2019 08:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FCl877NqqCGz8u/w1orC7xsxT3SEdlVk8feSHSCN2m0=;
- b=X6GZyu0I4nK8d9knHN1toBMI6D1n4q/pKLABSM7EeGXYpxue+Z5/YD3GvnftSodLZS
- DkPLx3fjIMPHnbn2tizWKSCBVPHAq9Wmb8U2s/VpyHXOldBNatlyolXt1s6wCPblwUHb
- 9jhkuXX6bsiMkrRfAd9E7hSj0+DR01G7uEW1bQKkdcG1LAoGQdoPAhjPeKYkCuSyBh08
- N+ww6ERtIIJWmwL4f3z+caVHkzekEho+WDTlbcPIhdqEJ5AvwHiel5hoacgmIazAnFPn
- vruzLWAvOcOAsEJZUz8pbFztIQRfxMu9orwyxfqOEPB8clFpkbhUZClxLYFHLBz2zVPV
- lnrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FCl877NqqCGz8u/w1orC7xsxT3SEdlVk8feSHSCN2m0=;
- b=C6GURcdReTFOTIBsIQ2OTfrZ4xXhW1HBfYZa4XDhQo1pv+4aFpH21WvhEOM1zHkQrb
- Tncgt1KWSWBWWlYL0j+Hbz2ItzkiQI9eXTa/JC+TGmboa2OfMwO5/rZy1lA1kfsK/q95
- eSAh8fAJXrJvHWigGmLldrI4K4Ys0ZUZ+RAwQ9ssS+doPVytzq004Q8P7uGNFe6PrWo1
- u4CrDt6hqlr4vtS71F5onMDbG0hvlJEhQdF47Qtns690bujLpipocaRVCm6PoWrr+zcM
- 7pHrCE/FVUinsvu7bm18ys5Zq3Eg3Bz/VM3mtRa+Z/mD6eCgUANi1vomuPjBARizyfbj
- UP9w==
-X-Gm-Message-State: APjAAAWRPj94RZJhi4YA62GuJNLbekkcUNw2zkviJb226YttByNXyDcb
- dvQmsmv3jMt2CxHDwT7dcSWmGbwDJ5dpSD4o924L4M0c
-X-Google-Smtp-Source: APXvYqzj6GmZpmTGRVyOI3EaL9wxbgzT61oPYcZeLCTyFu3mCfQ+t/Eno5m6kN9DromJgJzVxbYX/aIUDY1J/a8xQN0=
-X-Received: by 2002:a17:906:57cc:: with SMTP id
- u12mr32665681ejr.170.1568388332360; 
- Fri, 13 Sep 2019 08:25:32 -0700 (PDT)
+ (envelope-from <slp@redhat.com>) id 1i8nSM-0003T3-Ai
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:25:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45312)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>)
+ id 1i8nSK-0003QD-DI; Fri, 13 Sep 2019 11:25:52 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A67F3898102;
+ Fri, 13 Sep 2019 15:25:51 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16D021001959;
+ Fri, 13 Sep 2019 15:25:49 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri, 13 Sep 2019 17:25:07 +0200
+Message-Id: <20190913152507.56197-2-slp@redhat.com>
+In-Reply-To: <20190913152507.56197-1-slp@redhat.com>
+References: <20190913152507.56197-1-slp@redhat.com>
 MIME-Version: 1.0
-References: <1567786819-22142-19-git-send-email-bmeng.cn@gmail.com>
- <mhng-81295c42-a2f8-4f95-a54f-f9a319e10a36@palmer-si-x1e>
-In-Reply-To: <mhng-81295c42-a2f8-4f95-a54f-f9a319e10a36@palmer-si-x1e>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 13 Sep 2019 23:25:21 +0800
-Message-ID: <CAEUhbmUksfEiGLZ0qzsWkaDOaocTvkEYefiSUmGZT7TftYfmEg@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::542
-Subject: Re: [Qemu-devel] [PATCH v8 18/32] riscv: sifive_u: Set the minimum
- number of cpus to 2
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Fri, 13 Sep 2019 15:25:51 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 1/2] blockdev: release the AioContext at
+ drive_backup_prepare
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,97 +55,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ Sergio Lopez <slp@redhat.com>, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Palmer,
+do_drive_backup() already acquires the AioContext, so release it
+before the call.
 
-On Fri, Sep 13, 2019 at 10:33 PM Palmer Dabbelt <palmer@sifive.com> wrote:
->
-> On Fri, 06 Sep 2019 09:20:05 PDT (-0700), bmeng.cn@gmail.com wrote:
-> > It is not useful if we only have one management CPU.
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > ---
-> >
-> > Changes in v8: None
-> > Changes in v7: None
-> > Changes in v6: None
-> > Changes in v5: None
-> > Changes in v4: None
-> > Changes in v3:
-> > - use management cpu count + 1 for the min_cpus
-> >
-> > Changes in v2:
-> > - update the file header to indicate at least 2 harts are created
-> >
-> >  hw/riscv/sifive_u.c         | 4 +++-
-> >  include/hw/riscv/sifive_u.h | 2 ++
-> >  2 files changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> > index 2947e06..2023b71 100644
-> > --- a/hw/riscv/sifive_u.c
-> > +++ b/hw/riscv/sifive_u.c
-> > @@ -10,7 +10,8 @@
-> >   * 1) CLINT (Core Level Interruptor)
-> >   * 2) PLIC (Platform Level Interrupt Controller)
-> >   *
-> > - * This board currently uses a hardcoded devicetree that indicates one hart.
-> > + * This board currently generates devicetree dynamically that indicates at least
-> > + * two harts.
-> >   *
-> >   * This program is free software; you can redistribute it and/or modify it
-> >   * under the terms and conditions of the GNU General Public License,
-> > @@ -433,6 +434,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
-> >       * management CPU.
-> >       */
-> >      mc->max_cpus = 4;
-> > +    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
-> >  }
-> >
-> >  DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
-> > diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-> > index f25bad8..6d22741 100644
-> > --- a/include/hw/riscv/sifive_u.h
-> > +++ b/include/hw/riscv/sifive_u.h
-> > @@ -69,6 +69,8 @@ enum {
-> >      SIFIVE_U_GEM_CLOCK_FREQ = 125000000
-> >  };
-> >
-> > +#define SIFIVE_U_MANAGEMENT_CPU_COUNT   1
-> > +
-> >  #define SIFIVE_U_PLIC_HART_CONFIG "MS"
-> >  #define SIFIVE_U_PLIC_NUM_SOURCES 54
-> >  #define SIFIVE_U_PLIC_NUM_PRIORITIES 7
->
-> This fails "make check", so I'm going to squash in this
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index ca9f7fea41..adecbf1dd9 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -528,6 +528,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
->      mc->init = riscv_sifive_u_init;
->      mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
->      mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
-> +    mc->default_cpus = mc->max_cpus;
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+---
+ blockdev.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Thank you for fixing the 'make check'. Shouldn't it be:
+diff --git a/blockdev.c b/blockdev.c
+index fbef6845c8..3927fdab80 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1783,20 +1783,16 @@ static void drive_backup_prepare(BlkActionState *=
+common, Error **errp)
+=20
+     aio_context =3D bdrv_get_aio_context(bs);
+     aio_context_acquire(aio_context);
+-
+     /* Paired with .clean() */
+     bdrv_drained_begin(bs);
++    aio_context_release(aio_context);
+=20
+     state->bs =3D bs;
+=20
+     state->job =3D do_drive_backup(backup, common->block_job_txn, &local=
+_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+-        goto out;
+     }
+-
+-out:
+-    aio_context_release(aio_context);
+ }
+=20
+ static void drive_backup_commit(BlkActionState *common)
+--=20
+2.21.0
 
-mc->default_cpus = mc->min_cpus;
-
-?
-
->  }
->
->  DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
-
-Regards,
-Bin
 
