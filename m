@@ -2,55 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD46B21A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 16:15:11 +0200 (CEST)
-Received: from localhost ([::1]:44464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDBAB21BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 16:19:47 +0200 (CEST)
+Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8mLu-0001jj-A7
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 10:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43882)
+	id 1i8mQL-0004fp-Nj
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 10:19:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i8mKx-0001Jl-6e
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:14:12 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i8mNh-0002ve-V9
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:17:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i8mKw-0003Rt-Af
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:14:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56938)
+ (envelope-from <kwolf@redhat.com>) id 1i8mNg-0004gV-Ch
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:17:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33498)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i8mKw-0003Rd-5o
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:14:10 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i8mNc-0004dT-Jl; Fri, 13 Sep 2019 10:16:56 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 550DC3082E55;
- Fri, 13 Sep 2019 14:14:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A71415C207;
- Fri, 13 Sep 2019 14:14:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 394BE113865F; Fri, 13 Sep 2019 16:14:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-2-armbru@redhat.com>
- <c9680a3e-317e-0d5c-4908-22d56bea27c9@redhat.com>
-Date: Fri, 13 Sep 2019 16:14:05 +0200
-In-Reply-To: <c9680a3e-317e-0d5c-4908-22d56bea27c9@redhat.com> (Eric Blake's
- message of "Tue, 10 Sep 2019 08:41:24 -0500")
-Message-ID: <87tv9g9tci.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id E073D307D925;
+ Fri, 13 Sep 2019 14:16:55 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0DB6194BB;
+ Fri, 13 Sep 2019 14:16:54 +0000 (UTC)
+Date: Fri, 13 Sep 2019 16:16:53 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190913141653.GH8312@dhcp-200-226.str.redhat.com>
+References: <20190809161407.11920-1-mreitz@redhat.com>
+ <20190809161407.11920-29-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190809161407.11920-29-mreitz@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 13 Sep 2019 14:14:09 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Fri, 13 Sep 2019 14:16:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 01/16] scripts/git.orderfile: Match QAPI
- schema more precisely
+Subject: Re: [Qemu-devel] [PATCH v6 28/42] stream: Deal with filters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,45 +58,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Am 09.08.2019 um 18:13 hat Max Reitz geschrieben:
+> Because of the recent changes that make the stream job independent of
+> the base node and instead track the node above it, we have to split that
+> "bottom" node into two cases: The bottom COW node, and the node directly
+> above the base node (which may be an R/W filter or the bottom COW node).
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  qapi/block-core.json |  4 ++++
+>  block/stream.c       | 52 ++++++++++++++++++++++++++++----------------
+>  blockdev.c           |  2 +-
+>  3 files changed, 38 insertions(+), 20 deletions(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 38c4dbd7c3..3c54717870 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2516,6 +2516,10 @@
+>  # On successful completion the image file is updated to drop the backing file
+>  # and the BLOCK_JOB_COMPLETED event is emitted.
+>  #
+> +# In case @device is a filter node, block-stream modifies the first non-filter
+> +# overlay node below it to point to base's backing node (or NULL if @base was
+> +# not specified) instead of modifying @device itself.
+> +#
+>  # @job-id: identifier for the newly-created block job. If
+>  #          omitted, the device name will be used. (Since 2.7)
+>  #
+> diff --git a/block/stream.c b/block/stream.c
+> index 4c8b89884a..bd4a351dae 100644
+> --- a/block/stream.c
+> +++ b/block/stream.c
+> @@ -31,7 +31,8 @@ enum {
+>  
+>  typedef struct StreamBlockJob {
+>      BlockJob common;
+> -    BlockDriverState *bottom;
+> +    BlockDriverState *bottom_cow_node;
+> +    BlockDriverState *above_base;
 
-> On 9/10/19 1:37 AM, Markus Armbruster wrote:
->> Pattern *.json also matches the tests/qapi-schema/*.json.  Separates
->> them from the tests/qapi-schema/*.{err,exit,out} in diffs.  I hate
->> that.  Change the pattern to match just the "real" QAPI schemata.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  scripts/git.orderfile | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->> 
->
-> Should we ever do a mass rename of *.json into *.qapi (since our qapi
-> files are NOT quite JSON)?  But that doesn't change the viability of
-> this patch.
+Confusing naming, especially because in commit you used above_base for
+what is bottom_cow_node here. Vladimir already suggested using
+base_overlay consistently, so we should do this here too (for
+bottom_cow_node). above_base can keep its name because the different
+above_base in commit is going to be renamed).
 
-Naming them .json is misleading.  We're closer to Python than to JSON.
-Many .json files ask Emacs for Python mode, because that works better
-than JavaScript mode.
+>      BlockdevOnError on_error;
+>      char *backing_file_str;
+>      bool bs_read_only;
+> @@ -54,7 +55,7 @@ static void stream_abort(Job *job)
+>  
+>      if (s->chain_frozen) {
+>          BlockJob *bjob = &s->common;
+> -        bdrv_unfreeze_chain(blk_bs(bjob->blk), s->bottom);
+> +        bdrv_unfreeze_chain(blk_bs(bjob->blk), s->above_base);
+>      }
+>  }
+>  
+> @@ -63,14 +64,15 @@ static int stream_prepare(Job *job)
+>      StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+>      BlockJob *bjob = &s->common;
+>      BlockDriverState *bs = blk_bs(bjob->blk);
+> -    BlockDriverState *base = backing_bs(s->bottom);
+> +    BlockDriverState *unfiltered_bs = bdrv_skip_rw_filters(bs);
+> +    BlockDriverState *base = bdrv_filtered_bs(s->above_base);
+>      Error *local_err = NULL;
+>      int ret = 0;
+>  
+> -    bdrv_unfreeze_chain(bs, s->bottom);
+> +    bdrv_unfreeze_chain(bs, s->above_base);
+>      s->chain_frozen = false;
+>  
+> -    if (bs->backing) {
+> +    if (bdrv_filtered_cow_child(unfiltered_bs)) {
+>          const char *base_id = NULL, *base_fmt = NULL;
+>          if (base) {
+>              base_id = s->backing_file_str;
+> @@ -78,8 +80,8 @@ static int stream_prepare(Job *job)
+>                  base_fmt = base->drv->format_name;
+>              }
+>          }
+> -        bdrv_set_backing_hd(bs, base, &local_err);
+> -        ret = bdrv_change_backing_file(bs, base_id, base_fmt);
+> +        bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
+> +        ret = bdrv_change_backing_file(unfiltered_bs, base_id, base_fmt);
+>          if (local_err) {
+>              error_report_err(local_err);
+>              return -EPERM;
+> @@ -110,7 +112,8 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+>      StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+>      BlockBackend *blk = s->common.blk;
+>      BlockDriverState *bs = blk_bs(blk);
+> -    bool enable_cor = !backing_bs(s->bottom);
+> +    BlockDriverState *unfiltered_bs = bdrv_skip_rw_filters(bs);
+> +    bool enable_cor = !bdrv_filtered_bs(s->above_base);
+>      int64_t len;
+>      int64_t offset = 0;
+>      uint64_t delay_ns = 0;
+> @@ -119,7 +122,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+>      int64_t n = 0; /* bytes */
+>      void *buf;
+>  
+> -    if (bs == s->bottom) {
+> +    if (unfiltered_bs == s->bottom_cow_node) {
+>          /* Nothing to stream */
+>          return 0;
+>      }
+> @@ -154,13 +157,14 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+>  
+>          copy = false;
+>  
+> -        ret = bdrv_is_allocated(bs, offset, STREAM_BUFFER_SIZE, &n);
+> +        ret = bdrv_is_allocated(unfiltered_bs, offset, STREAM_BUFFER_SIZE, &n);
+>          if (ret == 1) {
+>              /* Allocated in the top, no need to copy.  */
+>          } else if (ret >= 0) {
+>              /* Copy if allocated in the intermediate images.  Limit to the
+>               * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE).  */
+> -            ret = bdrv_is_allocated_above(backing_bs(bs), s->bottom, true,
+> +            ret = bdrv_is_allocated_above(bdrv_filtered_cow_bs(unfiltered_bs),
+> +                                          s->bottom_cow_node, true,
+>                                            offset, n, &n);
+>              /* Finish early if end of backing file has been reached */
+>              if (ret == 0 && n == 0) {
+> @@ -231,9 +235,16 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+>      BlockDriverState *iter;
+>      bool bs_read_only;
+>      int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
+> -    BlockDriverState *bottom = bdrv_find_overlay(bs, base);
+> +    BlockDriverState *bottom_cow_node = bdrv_find_overlay(bs, base);
+> +    BlockDriverState *above_base;
 
-Options:
+Do we need to check for bottom_cow_node == NULL?
 
-* Rename to .qapi.  The files that don't ask for Python mode now get
-  Fundamental mode instead of JavaScript mode.  Minor regression.
+I think you could get a bs that is a filter of bottom_cow_node, and then
+bdrv_find_overlay() returns NULL and...
 
-* Rename to .py, and drop the lines asking for Python mode.  Still
-  misleading, but less so.
+> -    if (bdrv_freeze_chain(bs, bottom, errp) < 0) {
+> +    /* Find the node directly above @base */
+> +    for (above_base = bottom_cow_node;
+> +         bdrv_filtered_bs(above_base) != base;
+> +         above_base = bdrv_filtered_bs(above_base))
+> +    {}
 
-* Likewise, and tweak the syntax so it's actually Python.
+...bottom_cow_node == NULL turns this into an endless loop.
 
-* Switch to some less egregiously ill-suited syntax.  TOML, perhaps.
+> +    if (bdrv_freeze_chain(bs, above_base, errp) < 0) {
+>          return;
+>      }
 
-* Do nothing.
+Hm... This feels odd. There are two places where stopping to freeze the
+chain would make obvious sense: At base, like we originally did; or at
+base_overlay, like we (intend to) do since commit c624b015, because we
+say that we don't actually mind if the user replaces the base image. I
+don't see how stopping at the first filter above base makes sense.
 
-Right now, I'd prefer to do nothing.
+So should this use bottom_cow_node/base_overlay instead of above_base?
+
+You couldn't use StreamBlockJob.above_base any more then because it
+could change, but you also don't really need it anywhere. It's only used
+for unfreezing (which would change) and for finding the base (you can
+still find bdrv_backing_chain_next(s->base_overlay)). I guess this would
+even be a code simplification.
+
+> @@ -261,16 +272,19 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+>       * disappear from the chain after this operation. The streaming job reads
+>       * every block only once, assuming that it doesn't change, so forbid writes
+>       * and resizes. Reassign the base node pointer because the backing BS of the
+> -     * bottom node might change after the call to bdrv_reopen_set_read_only()
+> -     * due to parallel block jobs running.
+> +     * above_base node might change after the call to
+> +     * bdrv_reopen_set_read_only() due to parallel block jobs running.
+>       */
+> -    base = backing_bs(bottom);
+> -    for (iter = backing_bs(bs); iter && iter != base; iter = backing_bs(iter)) {
+> +    base = bdrv_filtered_bs(above_base);
+
+We just calculated above_base such that it's the parent of base. Why
+would base not already have the value we're assigning it again here?
+
+> +    for (iter = bdrv_filtered_bs(bs); iter && iter != base;
+> +         iter = bdrv_filtered_bs(iter))
+> +    {
+>          block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
+>                             basic_flags, &error_abort);
+>      }
+>  
+> -    s->bottom = bottom;
+> +    s->bottom_cow_node = bottom_cow_node;
+> +    s->above_base = above_base;
+>      s->backing_file_str = g_strdup(backing_file_str);
+>      s->bs_read_only = bs_read_only;
+>      s->chain_frozen = true;
+> @@ -284,5 +298,5 @@ fail:
+>      if (bs_read_only) {
+>          bdrv_reopen_set_read_only(bs, true, NULL);
+>      }
+> -    bdrv_unfreeze_chain(bs, bottom);
+> +    bdrv_unfreeze_chain(bs, above_base);
+>  }
+
+Kevin
 
