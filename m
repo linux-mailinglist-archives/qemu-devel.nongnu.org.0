@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5B9B1E40
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:08:38 +0200 (CEST)
-Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657E4B1E4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:09:53 +0200 (CEST)
+Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8lJU-0004eF-IT
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60811)
+	id 1i8lKh-00068A-JP
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60958)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i8lFG-0002ZF-9j
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:04:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i8lGa-0003l3-Qb
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:05:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i8lFF-0005I2-7l
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:04:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33552)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i8lFF-0005Hj-2s
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:04:13 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6231F10CC1E5;
- Fri, 13 Sep 2019 13:04:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B7834410E;
- Fri, 13 Sep 2019 13:04:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 47E0B113865F; Fri, 13 Sep 2019 15:04:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Giuseppe Lettieri <giuseppe.lettieri@unipi.it>
-References: <20190806151435.10740-1-armbru@redhat.com>
- <20190806151435.10740-28-armbru@redhat.com>
- <8c2a6fad-6ac1-21b1-c17c-e1bd5ac41c9f@redhat.com>
- <87a7ckrat7.fsf@dusky.pond.sub.org>
- <ee3709c9-f351-081a-3aeb-53b7b6036b0a@redhat.com>
- <87imr8l0ti.fsf_-_@dusky.pond.sub.org>
- <695325d7-a0c3-73c1-97ab-f62fb345c622@unipi.it>
- <87blwzho1y.fsf@dusky.pond.sub.org>
- <2fb98b77-efab-6092-dd5a-fa50c3c4b3f9@redhat.com>
- <58e7895e-4910-4d4c-79d8-dead7de69ab7@unipi.it>
-Date: Fri, 13 Sep 2019 15:04:05 +0200
-In-Reply-To: <58e7895e-4910-4d4c-79d8-dead7de69ab7@unipi.it> (Giuseppe
- Lettieri's message of "Mon, 2 Sep 2019 22:50:13 +0200")
-Message-ID: <87blvocpq2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1i8lGZ-0006j6-Ma
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:05:36 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39969)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i8lGZ-0006iX-I9
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:05:35 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k9so1230172oib.7
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 06:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vuLP4A/EVyHmsz+xdaxuusPVVYQJnMEMrotLGMCd3cU=;
+ b=DKpcfEDkDeJoOXi0aTc4oPJ5aEoeBwkkkAXldgj37G+f/W0enZSbb6Jk3T1/0WQR6k
+ kmd2DtoH6wGfkC+kM6ZLc9dKaSmQ7D6VohwIJLGIGRuJ+0VK9StUIbSCPldyNIngfhOi
+ QP0oIg9YsTaSyONMoM35vLGZK5/Kkdbwxrn3/LNenvv27Q20WvORuTENrt33bwz7YLVt
+ 8xqOGy5U3YpyC5y8zqlrntXBjp6E8ggDPTCIdfw/UhBEpg/Q6teypj5IpKfPz1Mrh8DZ
+ F6x+F4YKMM4ijfBBj8HlOtvY6PDIVRfLMqNEoUEasn49iU9MFH71vYfCCtdhB8z6w14Y
+ o6yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vuLP4A/EVyHmsz+xdaxuusPVVYQJnMEMrotLGMCd3cU=;
+ b=STlSluwk+U/OSGHhT+khFxs+MLbLBQYZd9bqwk0glPFMSa/+l6eRQsf+TvwmTFhOqk
+ DsHbDQi3v8ePJc7/WThGw2xeYgE/YNCRqGIUhvRN7AMS+IeuW5h7NB7j9iVB19jLILuK
+ ktsEJIBb5qxo4nsEZPIUiNWdus1b/loU3CizqL2UMB8Jbi/I3oVOt8Ylo/uNFUctjqL3
+ KNaVxBXJ+QR/PQOsw6P7WehI+Bfv0BB3qvgH9avtWxeoj0P+dBr34tYUmNBiA1GNzoGd
+ tfV8xeSqyP8GHHc+20Huo41UMUJ+ENqkk8HYEkIKTh9YwDrrsox3Uy/48hrGOHK6b58Y
+ Mlig==
+X-Gm-Message-State: APjAAAU8+ugvSwk1tSdYugjdiQ2cHu+TB4PovvtQrfx8S+oz/aGwpWXb
+ ZhnmNk0/ruEelz6i8YWe0NCPeZOmmZmFhm/EnxRKVg==
+X-Google-Smtp-Source: APXvYqxQvpWwhj4L3JcfY8LP2hErtb55ZYa6GnBCSxcuMPDloZh9z1Qf0OM6WajZ3P1Mcmm5OfiazAXyxzCPp+XajBY=
+X-Received: by 2002:aca:53d4:: with SMTP id h203mr2049768oib.146.1568379934780; 
+ Fri, 13 Sep 2019 06:05:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Fri, 13 Sep 2019 13:04:12 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Is network backend netmap worth keeping?
+References: <20190911164959.11003-1-alex.bennee@linaro.org>
+ <20190911164959.11003-6-alex.bennee@linaro.org>
+In-Reply-To: <20190911164959.11003-6-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Sep 2019 14:05:23 +0100
+Message-ID: <CAFEAcA-yyRX3u2r_s1u=gEou7s-eh1Yexof_HonCPHL4YqbcKA@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v5 5/5] target/arm: remove run-time
+ semihosting checks for linux-user
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,55 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, Luigi Rizzo <rizzo@iet.unipi.it>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Vincenzo Maffione <v.maffione@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Giuseppe Lettieri <giuseppe.lettieri@unipi.it> writes:
-
-> Hi all,
+On Wed, 11 Sep 2019 at 17:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> I have been thinking of the submodule suggestion and I have also
-> prepared a patch for it (attached). However, I am not sure about what
-> we want to achieve with it. In particular, I am not sure that the
-> option is useful for end users. The problem is that netmap, unlike
-> capstone and slirp, is a library plus a kernel module. If netmap is
-> not installed in the system, the --enable-netmap=git option will
-> successfully build qemu with netmap support, but then -netdev netmap
-> will fail at runtime.
+> Now we do all our checking at translate time we can make cpu_loop a
+> little bit simpler. We also introduce a simple linux-user semihosting
+> test case to defend the functionality. The out-of-tree softmmu based
+> semihosting tests are still more comprehensive.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Yes.
+Could you not put the code cleanup in the same commit as
+the test case, please ?
 
-What happens when I build with --enable-netmap=system on host A, then
-run the resulting binary on some host B that doesn't have netmap
-installed?
-
->                       On the other end, if netmap is installed in the
-> system, using the =git option may cause qemu to be built against a
-> different, possibly incompatible version.
-
-Yes.  We default to netmap=system, though.  If you break things by
-passing arcane arguments to configure, you get to keep the pieces :)
-
-> If the option is only useful for developers to check that some qemu
-> change does not break anything, then probably it should be enabled in
-> some other, less visible way. What do you think?
-
-I think an --enable-netmap patterned after --enable-capstone and
---enable-slirp has sufficiently low visibility as long as the default is
-sane.
-
-We clearly want configure to pick netmap=system when the system provides
-netmap.
-
-What shall configure pick when the system doesn't provide it?  If you
-think netmap=git is too dangerous for general audience, consider
-disabling netmap then.  Experts can still compile-test with
---enable-netmap=git.  Our CI certainly should.
+thanks
+-- PMM
 
