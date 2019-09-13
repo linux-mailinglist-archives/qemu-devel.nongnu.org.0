@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4140AB1FC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:34:41 +0200 (CEST)
-Received: from localhost ([::1]:44058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AFCDB1FC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:37:20 +0200 (CEST)
+Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8lih-00026R-Qh
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36167)
+	id 1i8llG-00040D-Ox
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8le8-0007mn-7U
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:29:57 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8leb-0008M1-I7
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:30:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8le6-00087A-Lf
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:29:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54096)
+ (envelope-from <mlevitsk@redhat.com>) id 1i8leZ-0000AU-JH
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:30:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35008)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8le6-00086q-Gw
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:29:54 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1i8leV-0008Vx-Ly; Fri, 13 Sep 2019 09:30:19 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8FCE4875222
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 13:29:53 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DD7A5D71C;
- Fri, 13 Sep 2019 13:29:49 +0000 (UTC)
-Date: Fri, 13 Sep 2019 14:29:47 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190913132947.GC2682@work-vm>
-References: <20190912122514.22504-1-marcandre.lureau@redhat.com>
- <20190912122514.22504-2-marcandre.lureau@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190912122514.22504-2-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Fri, 13 Sep 2019 13:29:53 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ by mx1.redhat.com (Postfix) with ESMTPS id 067A630860BD;
+ Fri, 13 Sep 2019 13:30:19 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F4EC5C231;
+ Fri, 13 Sep 2019 13:30:06 +0000 (UTC)
+Message-ID: <ce3feada5df4b535e70f0b99137eec5687880c4e.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Date: Fri, 13 Sep 2019 16:30:05 +0300
+In-Reply-To: <80305e48-fedf-a014-2ccc-c3fcf3a92ee9@redhat.com>
+References: <20190825071541.10389-1-mlevitsk@redhat.com>
+ <20190825071541.10389-2-mlevitsk@redhat.com>
+ <80305e48-fedf-a014-2ccc-c3fcf3a92ee9@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Fri, 13 Sep 2019 13:30:19 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 1/6] migration: fix vmdesc leak on
- vmstate_save() error
+Subject: Re: [Qemu-devel] [PATCH 1/2] block/nvme: add support for write zeros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,63 +57,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Marc-Andr=E9 Lureau (marcandre.lureau@redhat.com) wrote:
-> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+On Tue, 2019-08-27 at 18:22 -0400, John Snow wrote:
+> Without a commit message, I have no real hope of reviewing this. I was
+> CC'd, though, so I'll give it a blind shot.
+> 
+> We want to add write_zeroes support for block/nvme, but I can't really
+> verify any of that is correct or working without a unit test, a spec, or
+> some instructions to help me verify any of this does what it looks like
+> it does.
+> 
+> On 8/25/19 3:15 AM, Maxim Levitsky wrote:
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >  block/nvme.c         | 72 +++++++++++++++++++++++++++++++++++++++++++-
+> >  block/trace-events   |  1 +
+> >  include/block/nvme.h | 19 +++++++++++-
+> >  3 files changed, 90 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/block/nvme.c b/block/nvme.c
+> > index 5be3a39b63..f8bd11e19a 100644
+> > --- a/block/nvme.c
+> > +++ b/block/nvme.c
+> > @@ -111,6 +111,8 @@ typedef struct {
+> >      uint64_t max_transfer;
+> >      bool plugged;
+> >  
+> > +    bool supports_write_zeros;
+> > +
+> 
+> I suppose the spelling of "zeroes" is not as established as I thought it
+> was. Actually, what's worse is that the NVME writers apparently couldn't
+> decide what to name it themselves either:
+> 
+> "Write Zeroes" has 23 hits.
+> "Write Zeros" has just two, in Figure 114 for the Identify NS Data.
+> 
+> Oh, in QEMU we're not much better:
+> 
+> jhuston@probe (review) ~/s/qemu> git grep -i zeros | wc -l
+> 265
+> jhuston@probe (review) ~/s/qemu> git grep -i zeroes | wc -l
+> 747
+> 
+> I'm going to suggest that we use 'zeroes' as the spelling here, to match
+> the existing 'pwrite_zeroes', and then otherwise to match the NVME
+> spec's usual spelling.
+OK.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Could have put that as a separate patch.
+> 
+> >      CoMutex dma_map_lock;
+> >      CoQueue dma_flush_queue;
+> >  
+> > @@ -421,6 +423,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+> >      NvmeIdNs *idns;
+> >      NvmeLBAF *lbaf;
+> >      uint8_t *resp;
+> > +    uint16_t oncs;
+> >      int r;
+> >      uint64_t iova;
+> >      NvmeCmd cmd = {
+> > @@ -458,6 +461,9 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+> >      s->max_transfer = MIN_NON_ZERO(s->max_transfer,
+> >                            s->page_size / sizeof(uint64_t) * s->page_size);
+> >  
+> > +    oncs = le16_to_cpu(idctrl->oncs);
+> > +    s->supports_write_zeros = (oncs & NVME_ONCS_WRITE_ZEROS) != 0;
+> > +
+> 
+> For other reviewers: oncs is "Optional NVM Command Support".
+> 
+> I think it's better to say `!!(oncs & NVME_ONCS_WRITE_ZEROES)` to remove
+> doubt over the width of the bitmask.
+OK.
+> 
+> >      memset(resp, 0, 4096);
+> >  
+> >      cmd.cdw10 = 0;
+> > @@ -470,6 +476,12 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+> >      s->nsze = le64_to_cpu(idns->nsze);
+> >      lbaf = &idns->lbaf[NVME_ID_NS_FLBAS_INDEX(idns->flbas)];
+> >  
+> > +    if (NVME_ID_NS_DLFEAT_WRITE_ZEROS(idns->dlfeat) &&
+> > +            NVME_ID_NS_DLFEAT_READ_BEHAVIOR(idns->dlfeat) ==
+> > +                    NVME_ID_NS_DLFEAT_READ_BEHAVIOR_ZEROS) {
+> > +        bs->supported_write_flags |= BDRV_REQ_MAY_UNMAP;
+> > +    }
+> > +
+> >      if (lbaf->ms) {
+> >          error_setg(errp, "Namespaces with metadata are not yet supported");
+> >          goto out;
+> > @@ -764,6 +776,8 @@ static int nvme_file_open(BlockDriverState *bs, QDict *options, int flags,
+> >      int ret;
+> >      BDRVNVMeState *s = bs->opaque;
+> >  
+> > +    bs->supported_write_flags = BDRV_REQ_FUA;
+> > +
+> 
+> Is this a related change?
+Yes, because nvme write zero command supports this flag (always),
+so since now the driver exposes write zeros, it tells the qemu that its
+write zero command supports 'force unit access' flag.
 
-> ---
->  migration/qjson.h  | 2 ++
->  migration/savevm.c | 3 +--
->  2 files changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/migration/qjson.h b/migration/qjson.h
-> index 41664f2d71..1786bb5864 100644
-> --- a/migration/qjson.h
-> +++ b/migration/qjson.h
-> @@ -24,4 +24,6 @@ void json_start_object(QJSON *json, const char *name)=
-;
->  const char *qjson_get_str(QJSON *json);
->  void qjson_finish(QJSON *json);
-> =20
-> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(QJSON, qjson_destroy)
-> +
->  #endif /* QEMU_QJSON_H */
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 4a86128ac4..6caa35a679 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1290,7 +1290,7 @@ int qemu_savevm_state_complete_precopy_non_iterab=
-le(QEMUFile *f,
->                                                      bool in_postcopy,
->                                                      bool inactivate_di=
-sks)
->  {
-> -    QJSON *vmdesc;
-> +    g_autoptr(QJSON) vmdesc =3D NULL;
->      int vmdesc_len;
->      SaveStateEntry *se;
->      int ret;
-> @@ -1351,7 +1351,6 @@ int qemu_savevm_state_complete_precopy_non_iterab=
-le(QEMUFile *f,
->          qemu_put_be32(f, vmdesc_len);
->          qemu_put_buffer(f, (uint8_t *)qjson_get_str(vmdesc), vmdesc_le=
-n);
->      }
-> -    qjson_destroy(vmdesc);
-> =20
->      return 0;
->  }
-> --=20
-> 2.23.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> >      opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+> >      qemu_opts_absorb_qdict(opts, options, &error_abort);
+> >      device = qemu_opt_get(opts, NVME_BLOCK_OPT_DEVICE);
+> > @@ -792,7 +806,6 @@ static int nvme_file_open(BlockDriverState *bs, QDict *options, int flags,
+> >              goto fail;
+> >          }
+> >      }
+> > -    bs->supported_write_flags = BDRV_REQ_FUA;
+> >      return 0;
+> >  fail:
+> >      nvme_close(bs);
+> > @@ -1086,6 +1099,60 @@ static coroutine_fn int nvme_co_flush(BlockDriverState *bs)
+> >  }
+> >  
+> >  
+> > +static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
+> > +                                              int64_t offset,
+> > +                                              int bytes,
+> > +                                              BdrvRequestFlags flags)
+> > +{
+> > +    BDRVNVMeState *s = bs->opaque;
+> > +    NVMeQueuePair *ioq = s->queues[1];
+> 
+> I think it'd be slick to name the queues, but that's not related to this
+> patch.
+Yea, but let do it in another patch.
+
+> 
+> > +    NVMeRequest *req;
+> > +
+> > +    uint32_t cdw12 = ((bytes >> s->blkshift) - 1) & 0xFFFF;
+> > +
+> > +    if (!s->supports_write_zeros) {
+> > +        return -ENOTSUP;
+> > +    }
+> > +
+> > +    NvmeCmd cmd = {
+> > +        .opcode = NVME_CMD_WRITE_ZEROS,
+> > +        .nsid = cpu_to_le32(s->nsid),
+> > +        .cdw10 = cpu_to_le32((offset >> s->blkshift) & 0xFFFFFFFF),
+> > +        .cdw11 = cpu_to_le32(((offset >> s->blkshift) >> 32) & 0xFFFFFFFF),
+> > +    };
+> > +
+> > +    NVMeCoData data = {
+> > +        .ctx = bdrv_get_aio_context(bs),
+> > +        .ret = -EINPROGRESS,
+> > +    };
+> > +
+> > +    if (flags & BDRV_REQ_MAY_UNMAP) {
+> > +        cdw12 |= (1 << 25);
+> > +    }
+> > +
+> > +    if (flags & BDRV_REQ_FUA) {
+> > +        cdw12 |= (1 << 30);
+> > +    }
+> > +
+> > +    cmd.cdw12 = cpu_to_le32(cdw12);
+> > +
+> > +    trace_nvme_write_zeros(s, offset, bytes, flags);
+> > +    assert(s->nr_queues > 1);
+> > +    req = nvme_get_free_req(ioq);
+> > +    assert(req);
+> > +
+> > +    nvme_submit_command(s, ioq, req, &cmd, nvme_rw_cb, &data);
+> > +
+> > +    data.co = qemu_coroutine_self();
+> > +    while (data.ret == -EINPROGRESS) {
+> > +        qemu_coroutine_yield();
+> > +    }
+> > +
+> > +    trace_nvme_rw_done(s, true, offset, bytes, data.ret);
+> > +    return data.ret;
+> > +}
+> > +
+> > +
+> >  static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
+> >                                 BlockReopenQueue *queue, Error **errp)
+> >  {
+> > @@ -1190,6 +1257,9 @@ static BlockDriver bdrv_nvme = {
+> >  
+> >      .bdrv_co_preadv           = nvme_co_preadv,
+> >      .bdrv_co_pwritev          = nvme_co_pwritev,
+> > +
+> > +    .bdrv_co_pwrite_zeroes    = nvme_co_pwrite_zeroes,
+> > +
+> >      .bdrv_co_flush_to_disk    = nvme_co_flush,
+> >      .bdrv_reopen_prepare      = nvme_reopen_prepare,
+> >  
+> > diff --git a/block/trace-events b/block/trace-events
+> > index 04209f058d..8209fbd0c7 100644
+> > --- a/block/trace-events
+> > +++ b/block/trace-events
+> > @@ -149,6 +149,7 @@ nvme_submit_command_raw(int c0, int c1, int c2, int c3, int c4, int c5, int c6,
+> >  nvme_handle_event(void *s) "s %p"
+> >  nvme_poll_cb(void *s) "s %p"
+> >  nvme_prw_aligned(void *s, int is_write, uint64_t offset, uint64_t bytes, int flags, int niov) "s %p is_write %d offset %"PRId64" bytes %"PRId64" flags %d niov %d"
+> > +nvme_write_zeros(void *s, uint64_t offset, uint64_t bytes, int flags) "s %p offset %"PRId64" bytes %"PRId64" flags %d"
+> 
+> I was told once that we wanted trace events to match the name of the
+> function they occurred within whenever possible.
+> 
+> Maybe we haven't really been very good about enforcing that.
+> 
+> Oh well.
+I'll keep it as is, to keep it consistent with the rest of the tracing events.
+
+
+> 
+> >  nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int align) "qiov %p n %d base %p size 0x%zx align 0x%x"
+> >  nvme_prw_buffered(void *s, uint64_t offset, uint64_t bytes, int niov, int is_write) "s %p offset %"PRId64" bytes %"PRId64" niov %d is_write %d"
+> >  nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int ret) "s %p is_write %d offset %"PRId64" bytes %"PRId64" ret %d"
+> > diff --git a/include/block/nvme.h b/include/block/nvme.h
+> > index 3ec8efcc43..1f5b406344 100644
+> > --- a/include/block/nvme.h
+> > +++ b/include/block/nvme.h
+> > @@ -653,12 +653,29 @@ typedef struct NvmeIdNs {
+> >      uint8_t     mc;
+> >      uint8_t     dpc;
+> >      uint8_t     dps;
+> > -    uint8_t     res30[98];
+> > +
+> > +    uint8_t     nmic;
+> > +    uint8_t     rescap;
+> > +    uint8_t     fpi;
+> > +    uint8_t     dlfeat;
+> > +
+> > +    uint8_t     res30[94];
+> 
+> I wouldn't call this "res30" anymore, because now it starts at the 34th
+> byte instead of the 30th.
+Fixed.
+
+> 
+> >      NvmeLBAF    lbaf[16];
+> >      uint8_t     res192[192];
+> >      uint8_t     vs[3712];
+> >  } NvmeIdNs;
+> >  
+> 
+> Pre-existing, but what are any of these names supposed to mean?
+> 
+> (I imagine they match the spec, but where?...)
+LBAF - this is LBA format, which basically tells you the hardware sector
+size, and metadata size for each sector. On high end drives its is possible
+to choose one of such formats out of this table when formatting an namespace.
+vs = vendor specific.
+
+Note that the whole struct (and other structs here) are very outdated since fields are
+added all the time in newer spec revisions. This is the joy of maintaining the separate
+driver, in addition to the kernel driver which is more or less up to date.
+
+> 
+> Leaving me some breadcrumbs would greatly reduce the time it takes
+> someone who doesn't already know NVME to review this, and I suspect
+> you've looked them up recently, so leaving little notes in the cover
+> letter at least for relevant sections is very nice for hardware spec
+> patches like this.
+> 
+> > +
+> > +/*Deallocate Logical Block Features*/
+> 
+> ah. "dlfeat" --> "Deallocate Logical (Block) Features".
+> 
+> From here:
+> 
+> NVME Express 1.3, Figure 114: Identify - Identify Namespace Data
+> Structure, NVM Command Set Specific
+> 
+> > +#define NVME_ID_NS_DLFEAT_GUARD_CRC(dlfeat)       ((dlfeat) & 0x10)
+> 
+> Not used in this patch?
+Yes, but I prefer at least to document all the bits in the field, even 
+if not used.
+
+> 
+> > +#define NVME_ID_NS_DLFEAT_WRITE_ZEROS(dlfeat)     ((dlfeat) & 0x08)
+> > +
+> > +#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR(dlfeat)     ((dlfeat) & 0x7)
+> > +#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR_UNDEFINED   0
+> > +#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR_ZEROS       1
+> > +#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR_ONES        2
+> > +
+> > +
+> >  #define NVME_ID_NS_NSFEAT_THIN(nsfeat)      ((nsfeat & 0x1))
+> >  #define NVME_ID_NS_FLBAS_EXTENDED(flbas)    ((flbas >> 4) & 0x1)
+> >  #define NVME_ID_NS_FLBAS_INDEX(flbas)       ((flbas & 0xf))
+> > 
+> 
+> Seems good otherwise, but I didn't trace the actual execution of the new
+> command too far -- I'll assume it works. :)
+
+Best regards,
+	Maxim Levitsky
+
+
 
