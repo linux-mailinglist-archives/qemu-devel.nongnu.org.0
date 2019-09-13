@@ -2,54 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEEFB247C
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 19:05:16 +0200 (CEST)
-Received: from localhost ([::1]:46326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CA1B249D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 19:30:02 +0200 (CEST)
+Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8p0V-0005bC-T0
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 13:05:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
+	id 1i8pOS-000431-Rz
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 13:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i8oz9-0004lR-Sl
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 13:03:53 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8pMN-000233-J2
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 13:27:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i8oz8-0008S2-R4
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 13:03:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43415)
+ (envelope-from <mlevitsk@redhat.com>) id 1i8pMM-00041p-Hs
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 13:27:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42064)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i8oz4-0008PA-5g; Fri, 13 Sep 2019 13:03:46 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1i8pMJ-0003zh-9V; Fri, 13 Sep 2019 13:27:47 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E70793082E06;
- Fri, 13 Sep 2019 17:03:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 84567C05975D;
+ Fri, 13 Sep 2019 17:27:46 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E795860CC0;
- Fri, 13 Sep 2019 17:03:42 +0000 (UTC)
-Message-ID: <6af4737551e7b581bd795f40007e863fe9927d3f.camel@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3AFFA5C207;
+ Fri, 13 Sep 2019 17:27:43 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Date: Fri, 13 Sep 2019 20:03:41 +0300
-In-Reply-To: <eee0c9f0-afbe-5ca0-173d-39d496816dfa@virtuozzo.com>
-References: <20190913152818.17843-1-mlevitsk@redhat.com>
- <20190913152818.17843-4-mlevitsk@redhat.com>
- <5645f290-b34e-6b51-00cf-b7c4b4a0927a@virtuozzo.com>
- <46eebf1924837b97ee28eeb1f43d199b80b4bacd.camel@redhat.com>
- <eee0c9f0-afbe-5ca0-173d-39d496816dfa@virtuozzo.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+To: qemu-devel@nongnu.org
+Date: Fri, 13 Sep 2019 20:27:38 +0300
+Message-Id: <20190913172741.5662-1-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 13 Sep 2019 17:03:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Fri, 13 Sep 2019 17:27:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 3/3] qemu-iotests: Add test for bz
- #1745922
+Subject: [Qemu-devel] [PATCH v6 0/3] Fix qcow2+luks corruption introduced by
+ commit 8ac0f15f335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,94 +52,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- qemu-stable <qemu-stable@nongnu.org>, Max Reitz <mreitz@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2019-09-13 at 16:57 +0000, Vladimir Sementsov-Ogievskiy wrote:
-> 13.09.2019 19:39, Maxim Levitsky wrote:
-> > On Fri, 2019-09-13 at 16:27 +0000, Vladimir Sementsov-Ogievskiy wrote:
-> > > 13.09.2019 18:28, Maxim Levitsky wrote:
-> > > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > > ---
-> > > >    tests/qemu-iotests/263     | 91 ++++++++++++++++++++++++++++++++++++++
-> > > >    tests/qemu-iotests/263.out | 40 +++++++++++++++++
-> > > >    tests/qemu-iotests/group   |  2 +
-> > > >    3 files changed, 133 insertions(+)
-> > > >    create mode 100755 tests/qemu-iotests/263
-> > > >    create mode 100644 tests/qemu-iotests/263.out
-> > > > 
-> > > > diff --git a/tests/qemu-iotests/263 b/tests/qemu-iotests/263
-> > > > new file mode 100755
-> > > > index 0000000000..d2c030fae9
-> > > > --- /dev/null
-> > > > +++ b/tests/qemu-iotests/263
-> > > 
-> > > [..]
-> > > 
-> > > > --- a/tests/qemu-iotests/group
-> > > > +++ b/tests/qemu-iotests/group
-> > > > @@ -274,5 +274,7 @@
-> > > >    257 rw
-> > > >    258 rw quick
-> > > >    262 rw quick migration
-> > > > +263 rw quick
-> > > >    265 rw auto quick
-> > > >    266 rw quick
-> > > > +>>>>>>> patched
-> > > > 
-> > > 
-> > > last line is a mistake.
-> > 
-> > Last minute merge mistake :-(
-> > 
-> > > 
-> > > also, test failed for me:
-> > > 
-> > > 263      fail       [19:21:35] [19:21:35]                    output mismatch (see 263.out.bad)
-> > > --- /work/src/qemu/maxim-luks/tests/qemu-iotests/263.out        2019-09-13 19:11:45.464727427 +0300
-> > > +++ /work/src/qemu/maxim-luks/tests/qemu-iotests/263.out.bad    2019-09-13 19:21:35.535381253 +0300
-> > > @@ -2,6 +2,7 @@
-> > > 
-> > >    testing LUKS qcow2 encryption
-> > > 
-> > > +qemu-img: TEST_DIR/t.IMGFMT: No crypto library supporting PBKDF in this build: Function not implemented
-> > >    Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-> > >    == reading the whole image ==
-> > >    read 1048576/1048576 bytes at offset 0
-> > > Failures: 263
-> > > Failed 1 of 1 tests
-> > > 
-> > > 
-> > > and if reconfigure with
-> > >    --enable-gnutls --enable-gcrypt --enable-vhost-crypto --enable-crypto-afalg
-> > > (don't know which one is actually needed)
-> > > it works..
-> > > 
-> > > so, we at least should skip the test if it's unsupported
-> > 
-> > Don't know. I based this test on 188 and it also doesn't have anything special about this.
-> > Its not in auto group though.
-> > I guess we need to ask Daniel about this.
-> > 
-> > 
-> 
-> Hmm, the problem was not in "configure" arguments, seems needed thing is enabled by default, but actually
-> all works for me after installing gnutls-devel
-> 
-> and without it 188 don't work without it (or some its dependencies) too. So it's "not a regression"
-> and I'dont care:
-> 
-> Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->    [don't forget to drop ">>>>>>> patched"]
-> 
-> and I also checked that test fails if position it before patch 01, so it's true bug-catcher.
+Commit 8ac0f15f335 accidently broke the COW of non changed areas
+of newly allocated clusters, when the write spans multiple clusters,
+and needs COW both prior and after the write.
+This results in 'after' COW area being encrypted with wrong
+sector address, which render it corrupted.
 
-Thanks!!
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1745922
+
+CC: qemu-stable <qemu-stable@nongnu.org>
+
+V2: grammar, spelling and code style fixes.
+V3: more fixes after the review.
+V4: addressed review comments from Max Reitz,
+    and futher refactored the qcow2_co_encrypt to just take full host and guest offset
+    which simplifies everything.
+
+V5: reworked the patches so one of them fixes the bug
+    only and other one is just refactoring
+
+V6: removed do_perform_cow_encrypt
 
 Best regards,
 	Maxim Levitsky
+
+Maxim Levitsky (3):
+  Fix qcow2+luks corruption introduced by commit 8ac0f15f335
+  block/qcow2: refactor threaded encryption code
+  qemu-iotests: Add test for bz #1745922
+
+ block/qcow2-cluster.c      | 34 ++++----------
+ block/qcow2-threads.c      | 81 +++++++++++++++++++++++++++------
+ block/qcow2.c              |  5 ++-
+ block/qcow2.h              |  8 ++--
+ tests/qemu-iotests/263     | 91 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/263.out | 40 +++++++++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 7 files changed, 215 insertions(+), 45 deletions(-)
+ create mode 100755 tests/qemu-iotests/263
+ create mode 100644 tests/qemu-iotests/263.out
+
+-- 
+2.17.2
 
 
