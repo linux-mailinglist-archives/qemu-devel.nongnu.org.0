@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63680B21B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 16:19:35 +0200 (CEST)
-Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7B5B21EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 16:27:45 +0200 (CEST)
+Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8mQA-0004NX-BF
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 10:19:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
+	id 1i8mY4-00036b-GS
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 10:27:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i8mOH-0003QQ-Av
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:17:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1i8mWJ-0001gW-8M
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:25:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i8mOF-0004y2-W9
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:17:37 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:46370)
+ (envelope-from <bounces@canonical.com>) id 1i8mWI-00048O-1H
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:25:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48018)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i8mOF-0004xT-R7
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:17:35 -0400
-Received: by mail-pl1-f195.google.com with SMTP id t1so13294784plq.13
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 07:17:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=GdYA4qhZJ9ndjnRlvQ/KWIY8FcUOBsbtcuThm73Lxio=;
- b=K9F5q01c5oO4cVXJs+owxLzGXJZOVCNVCS//NVrgRqp45KHFXV52N1EzNrdvyAkbF9
- SyZoC5yyYiS2xR0ur8iWhBLlQgpdq++vbGBsr3s+2ZHTaaThF6kzaJajEege4p9uDSWL
- jF0KijkVXywpEI/zOFL36nX/DyjSoR7E72aCv0EXMXFK9fWBWN4DkNbN6BOF8wlpLGRe
- skmvNvEAT3Q5bwX8jn2itoGa5zQJu+T2hOfniTugyR2c6Zlwpz82JaIP5WkOXPiDWT7N
- 8OIrCpKRPKJLka3TUdxx+ue2oUYhK1GpaqiZsTBMycIvDzZJI0OqURZzUKjUdvpSx6SN
- +QeQ==
-X-Gm-Message-State: APjAAAUFv+JrwYshHHSjMvdCcKcK921Txy1YXjMqfkuMGWc2H9T4PMOZ
- HI738s80M94yVfFzn1ABc9x8KQ==
-X-Google-Smtp-Source: APXvYqw9d7GHORuKjJcRzrkYpx2B5vxhphFYWbwpuJljQKgdqEIcDEsnS8wTyfA2/BkBeKyTMj2G/A==
-X-Received: by 2002:a17:902:8e8b:: with SMTP id
- bg11mr48441139plb.93.1568384253982; 
- Fri, 13 Sep 2019 07:17:33 -0700 (PDT)
-Received: from localhost (amx-tls3.starhub.net.sg. [203.116.164.13])
- by smtp.gmail.com with ESMTPSA id c62sm40302366pfa.92.2019.09.13.07.17.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Sep 2019 07:17:33 -0700 (PDT)
-Date: Fri, 13 Sep 2019 07:17:33 -0700 (PDT)
-X-Google-Original-Date: Fri, 13 Sep 2019 07:17:05 PDT (-0700)
-In-Reply-To: <CAFEAcA94wuW4koj9+v4bbNH+omZQfqkw=JMUjvyDwbu_Eevgag@mail.gmail.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <mhng-89941bf7-1034-44fe-956f-a949910f2b52@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i8mWH-00043L-SH
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 10:25:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i8mWD-0006Yl-7Q
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 14:25:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EFC0C2E8083
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 14:25:48 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Sep 2019 14:13:28 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: ppc64 testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc ajbennee rth
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156691209320.18814.746226319480624520.malonedeb@soybean.canonical.com>
+Message-Id: <156838400813.4770.10208004596618301324.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f18094fffb15b3c1dde0855efbf08397163094df
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.214.195
-Subject: Re: [Qemu-devel] [PULL] RISC-V Patches for the 4.2 Soft Freeze,
- Part 1
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1841592] Re: ppc: softfloat float implementation
+ issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,74 +66,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1841592 <1841592@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Sep 2019 02:17:32 PDT (-0700), Peter Maydell wrote:
-> On Wed, 11 Sep 2019 at 09:24, Palmer Dabbelt <palmer@sifive.com> wrote:
->>
->> The following changes since commit 89ea03a7dc83ca36b670ba7f787802791fcb04b1:
->>
->>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/m68k-pull-2019-09-07' into staging (2019-09-09 09:48:34 +0100)
->>
->> are available in the Git repository at:
->>
->>   git://github.com/palmer-dabbelt/qemu.git tags/riscv-for-master-4.2-sf1
->>
->> for you to fetch changes up to 1b2d0961bfaaa2db3a237f53273527b6c5e3498a:
->>
->>   target/riscv: Use TB_FLAGS_MSTATUS_FS for floating point (2019-09-10 06:08:42 -0700)
->>
->> ----------------------------------------------------------------
->> RISC-V Patches for the 4.2 Soft Freeze, Part 1
->>
->> This contains quite a few patches that I'd like to target for 4.2.
->> They're mostly emulation fixes for the sifive_u board, which now much
->> more closely matches the hardware and can therefor run the same fireware
->> as what gets loaded onto the board.  Additional user-visible
->> improvements include:
->>
->> * support for loading initrd files from the command line into Linux, via
->>   /chosen/linux,initrd-{start,end} device tree nodes.
->> * The conversion of LOG_TRACE to trace events.
->> * The addition of clock DT nodes for our uart and ethernet.
->>
->> This also includes some preliminary work for the H extension patches,
->> but does not include the H extension patches as I haven't had time to
->> review them yet.
->>
->> This passes my OE boot test on 32-bit and 64-bit virt machines, as well
->> as a 64-bit upstream Linux boot on the sifive_u machine.
->>
->
-> Hi; this fails 'make check' on all platforms:
->
-> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> QTEST_QEMU_BINARY=riscv32-softmmu/qemu-system-riscv32
-> QTEST_QEMU_IMG=qemu-img t
-> ests/qom-test -m=quick -k --tap < /dev/null | ./scripts/tap-driver.pl
-> --test-name="qom-test"
-> PASS 1 qom-test /riscv32/qom/spike
-> PASS 2 qom-test /riscv32/qom/virt
-> PASS 3 qom-test /riscv32/qom/none
-> PASS 4 qom-test /riscv32/qom/spike_v1.10
-> qemu-system-riscv32: Invalid SMP CPUs 1. The min CPUs supported by
-> machine 'sifive_u' is 2
-> socket_accept failed: Resource temporarily unavailable
-> **
-> ERROR:/home/petmay01/linaro/qemu-for-merges/tests/libqtest.c:266:qtest_init_without_qmp_handshake:
-> assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-> /home/petmay01/linaro/qemu-for-merges/tests/libqtest.c:135:
-> kill_qemu() tried to terminate QEMU process but encountered exit
-> status 1
-> ERROR - Bail out!
-> ERROR:/home/petmay01/linaro/qemu-for-merges/tests/libqtest.c:266:qtest_init_without_qmp_handshake:
-> assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-> Aborted (core dumped)
-> /home/petmay01/linaro/qemu-for-merges/tests/Makefile.include:900:
-> recipe for target 'check-qtest-riscv32' failed
+Dave ran the above testcase on:
 
-Sorry about that, I ran the tests on the wrong branch.  I'll submit another PR 
-with the issue fixed.
+> processor	: 0
+> cpu		: POWER8E (raw), altivec supported
+> clock		: 3325.000000MHz
+> revision	: 2.1 (pvr 004b 0201)
+
+And there are no diffs with what you currently get from master. So I
+think the invalid flag fault is fixed by a previous commit and the
+potential precision faults don't get picked up by the test case. I guess
+we could be a bit smarted about testing the limits.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841592
+
+Title:
+  ppc: softfloat float implementation issues
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Per bug #1841491, Richard Henderson (rth) said:
+  > The float test failure is part of a larger problem for target/powerpc
+  > in which all float routines are implemented incorrectly. They are all
+  > implemented as double operations with rounding to float as a second
+  > step. Which not only produces incorrect exceptions, as in this case,
+  > but incorrect numerical results from the double rounding.
+  >
+  > This should probably be split to a separate bug...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841592/+subscriptions
 
