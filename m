@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F9DB1B7D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:22:26 +0200 (CEST)
-Received: from localhost ([::1]:42070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69F5B1B7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:23:05 +0200 (CEST)
+Received: from localhost ([::1]:42092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8ihe-0004TT-J9
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
+	id 1i8ijI-0006NU-Uc
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <svens@stackframe.org>) id 1i8idl-0001ug-KH
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:17:22 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i8ihh-0005JT-Ad
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:21:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <svens@stackframe.org>) id 1i8idk-00017b-Hc
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:17:21 -0400
-Received: from smtp.duncanthrax.net ([2001:470:70c5:1111::170]:37433)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <svens@stackframe.org>)
- id 1i8idk-00016c-4o
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:17:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=duncanthrax.net; s=dkim; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=rLxnUY3AYptsanaaX1mTCGsmgfgbQ+joD3j3C+qK/Eo=; b=e8aaEhebTI3lacJp0iah/odS41
- ktX1O7fw74vtxLc286L1uN4cfPs1ziGI+gWvW1tjyLxiSwZeiY74Y5nI4T19YEGUJNa8GsvRe2Tpl
- k+8kSeqE8WnxaoOxeQkFIGUQiZqpiYCFo1vAkFvr/RYgqCWde6iauKEcT3/qwF3s/Z8o=;
-Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
- ([46.5.233.221] helo=x280.stackframe.org)
- by smtp.eurescom.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.86_2) (envelope-from <svens@stackframe.org>)
- id 1i8idi-00076C-9R; Fri, 13 Sep 2019 12:17:18 +0200
-From: Sven Schnelle <svens@stackframe.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Date: Fri, 13 Sep 2019 12:17:14 +0200
-Message-Id: <20190913101714.29019-3-svens@stackframe.org>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20190913101714.29019-1-svens@stackframe.org>
-References: <20190913101714.29019-1-svens@stackframe.org>
+ (envelope-from <kwolf@redhat.com>) id 1i8ihc-0003id-IC
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:21:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53402)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i8ihR-0003eR-Bw; Fri, 13 Sep 2019 06:21:09 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB68130860BD;
+ Fri, 13 Sep 2019 10:21:07 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 940F15D9C3;
+ Fri, 13 Sep 2019 10:21:06 +0000 (UTC)
+Date: Fri, 13 Sep 2019 12:21:05 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190913102105.GD8312@dhcp-200-226.str.redhat.com>
+References: <20190910154110.6905-1-pl@kamp.de>
+ <20190910154110.6905-2-pl@kamp.de>
+ <ede55319-ca74-ab1c-6b3e-8558d9e6bdd8@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:470:70c5:1111::170
-Subject: [Qemu-devel] [PATCH 2/2] target/hppa: prevent trashing of temporary
- in do_depw_sar()
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="f2QGlHpHGjS2mn6Y"
+Content-Disposition: inline
+In-Reply-To: <ede55319-ca74-ab1c-6b3e-8558d9e6bdd8@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Fri, 13 Sep 2019 10:21:07 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH V2 1/2] block/nfs: tear down aio before
+ nfs_close
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,52 +61,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: ronniesahlberg@gmail.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nullify_over() calls brcond which destroys all temporaries.
 
-Signed-off-by: Sven Schnelle <svens@stackframe.org>
----
- target/hppa/translate.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+--f2QGlHpHGjS2mn6Y
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index b12525d535..c1b2822f60 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -3404,10 +3404,6 @@ static bool do_depw_sar(DisasContext *ctx, unsigned rt, unsigned c,
-     TCGv_reg mask, tmp, shift, dest;
-     unsigned msb = 1U << (len - 1);
- 
--    if (c) {
--        nullify_over(ctx);
--    }
--
-     dest = dest_gpr(ctx, rt);
-     shift = tcg_temp_new();
-     tmp = tcg_temp_new();
-@@ -3440,11 +3436,17 @@ static bool do_depw_sar(DisasContext *ctx, unsigned rt, unsigned c,
- 
- static bool trans_depw_sar(DisasContext *ctx, arg_depw_sar *a)
- {
-+    if (a->c) {
-+        nullify_over(ctx);
-+    }
-     return do_depw_sar(ctx, a->t, a->c, a->nz, a->clen, load_gpr(ctx, a->r));
- }
- 
- static bool trans_depwi_sar(DisasContext *ctx, arg_depwi_sar *a)
- {
-+    if (a->c) {
-+        nullify_over(ctx);
-+    }
-     return do_depw_sar(ctx, a->t, a->c, a->nz, a->clen, load_const(ctx, a->i));
- }
- 
--- 
-2.23.0.rc1
+Am 13.09.2019 um 11:51 hat Max Reitz geschrieben:
+> On 10.09.19 17:41, Peter Lieven wrote:
+> > nfs_close is a sync call from libnfs and has its own event
+> > handler polling on the nfs FD. Avoid that both QEMU and libnfs
+> > are intefering here.
+> >=20
+> > CC: qemu-stable@nongnu.org
+> > Signed-off-by: Peter Lieven <pl@kamp.de>
+> > ---
+> >  block/nfs.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> I=E2=80=99ve just seen that Kevin has already included the second patch (=
+in its
+> v1) in his pull request.
 
+Oops, sorry about this. Peter hasn't pulled yet, so I'll update the tag
+for the pull request. Let's see which version gets merged in the end.
+
+Kevin
+
+--f2QGlHpHGjS2mn6Y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJde22RAAoJEH8JsnLIjy/WZIkQAMV1trhGBNCDnmFG/iGC1N2m
+TbrnFn6OGQ9YBNa//mZMRB8ofRAvz5zt0Z5+BTcJsfJWdz6xQRvn29YM5J9J+PkL
+s31G1kbDeoFVEjUOIYfGqXtaFFOhNd8zsEIfy3dbWXyDDbtD52nl1Tpz3m4Yr6b0
+UyUVWXQ9MIGkWcFsxf4tatYweHDaCDk9msj6JBpXCFIdjmkiTz4wcWc/ZjgI4t3v
+d365xfZoND7KoTMEbUeIVEc5RexFkaPMMlQInsrGgC5w7kuXz+w5PxR7Z5jlNl5z
+KdZa4od1t/sP4CbVLlub6efteG0QPUgVDTTsnKtQoku6hK+4McPIGNy8Cds/M1Rb
+gShgUL3w12G2gRosX2jO2bx5WupTAcYHYyvg3dRscVmVHYCpXJGnkzv1jq5pBn1E
+GyyQd3k/yPjNfyt59w5NVrbFcBjyy6qYQ91HW1OyS3ud72zlQUOO6Q9G8X39HSGB
+Sz6UjYXo3vBkTNAAHgL0WEIRrkF6ySgDMKVvc0EN2sYhU0t43cYcAuoY6a3NTaNh
+9vU728Dz4FRBtRSM2Q6XgDNNEYxLkh94RyZT4HR1EoDuZWrYzemag2aF8NeXRD1l
+Tcs0QZ2N4yRNO6h5/3HqZorO1pKyyt3qzQxjAvalW8DXcevcnak7FNKK1/6qP7KP
+DOawSq/fcajEXl05O4fV
+=WM3B
+-----END PGP SIGNATURE-----
+
+--f2QGlHpHGjS2mn6Y--
 
