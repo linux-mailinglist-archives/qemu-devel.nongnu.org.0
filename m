@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824D2B1B8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:29:02 +0200 (CEST)
-Received: from localhost ([::1]:42160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B947CB1B93
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 12:32:35 +0200 (CEST)
+Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8ip3-0001iz-HW
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35196)
+	id 1i8is7-0005in-CS
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 06:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i8ilx-0008BA-GH
+ (envelope-from <dgilbert@redhat.com>) id 1i8ily-0008Ck-9j
  for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i8ilv-0005qP-O1
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38056)
+ (envelope-from <dgilbert@redhat.com>) id 1i8ilw-0005qq-Rf
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59166)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8ilv-0005q5-G1
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:47 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i8ilw-0005qZ-KG
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 06:25:48 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D080B18C4274
- for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 10:25:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 014FE3086218
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 10:25:48 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 383595D9CD;
- Fri, 13 Sep 2019 10:25:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF99D5D9E2;
+ Fri, 13 Sep 2019 10:25:46 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, ehabkost@redhat.com,
  berrange@redhat.com, quintela@redhat.com
-Date: Fri, 13 Sep 2019 11:25:36 +0100
-Message-Id: <20190913102538.24167-4-dgilbert@redhat.com>
+Date: Fri, 13 Sep 2019 11:25:37 +0100
+Message-Id: <20190913102538.24167-5-dgilbert@redhat.com>
 In-Reply-To: <20190913102538.24167-1-dgilbert@redhat.com>
 References: <20190913102538.24167-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 13 Sep 2019 10:25:46 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 13 Sep 2019 10:25:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 3/5] migration: Use automatic rcu_read
- unlock in ram.c
+Subject: [Qemu-devel] [PATCH v3 4/5] migration: Use automatic rcu_read
+ unlock in rdma.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,505 +61,376 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Use the automatic read unlocker in migration/ram.c
+Use the automatic read unlocker in migration/rdma.c.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 260 ++++++++++++++++++++++--------------------------
- 1 file changed, 121 insertions(+), 139 deletions(-)
+ migration/rdma.c | 57 ++++++++++--------------------------------------
+ 1 file changed, 11 insertions(+), 46 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index cff35477ec..6c5f0199fd 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -181,14 +181,14 @@ int foreach_not_ignored_block(RAMBlockIterFunc func=
-, void *opaque)
-     RAMBlock *block;
-     int ret =3D 0;
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 78e6b72bac..5c9054721d 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -88,7 +88,6 @@ static uint32_t known_capabilities =3D RDMA_CAPABILITY_=
+PIN_ALL;
+                                 " to abort!"); \
+                 rdma->error_reported =3D 1; \
+             } \
+-            rcu_read_unlock(); \
+             return rdma->error_state; \
+         } \
+     } while (0)
+@@ -2678,11 +2677,10 @@ static ssize_t qio_channel_rdma_writev(QIOChannel=
+ *ioc,
+     size_t i;
+     size_t len =3D 0;
 =20
 -    rcu_read_lock();
 +    RCU_READ_LOCK_GUARD();
-+
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         ret =3D func(block, opaque);
-         if (ret) {
-             break;
+     rdma =3D atomic_rcu_read(&rioc->rdmaout);
+=20
+     if (!rdma) {
+-        rcu_read_unlock();
+         return -EIO;
+     }
+=20
+@@ -2695,7 +2693,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
+ioc,
+     ret =3D qemu_rdma_write_flush(f, rdma);
+     if (ret < 0) {
+         rdma->error_state =3D ret;
+-        rcu_read_unlock();
+         return ret;
+     }
+=20
+@@ -2715,7 +2712,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
+ioc,
+=20
+             if (ret < 0) {
+                 rdma->error_state =3D ret;
+-                rcu_read_unlock();
+                 return ret;
+             }
+=20
+@@ -2724,7 +2720,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *=
+ioc,
          }
      }
+=20
 -    rcu_read_unlock();
-     return ret;
+     return done;
  }
 =20
-@@ -1849,12 +1849,12 @@ static void migration_bitmap_sync(RAMState *rs)
-     memory_global_dirty_log_sync();
+@@ -2764,11 +2759,10 @@ static ssize_t qio_channel_rdma_readv(QIOChannel =
+*ioc,
+     ssize_t i;
+     size_t done =3D 0;
 =20
-     qemu_mutex_lock(&rs->bitmap_mutex);
 -    rcu_read_lock();
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        ramblock_sync_dirty_bitmap(rs, block);
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+            ramblock_sync_dirty_bitmap(rs, block);
-+        }
-+        ram_counters.remaining =3D ram_bytes_remaining();
++    RCU_READ_LOCK_GUARD();
+     rdma =3D atomic_rcu_read(&rioc->rdmain);
+=20
+     if (!rdma) {
+-        rcu_read_unlock();
+         return -EIO;
      }
--    ram_counters.remaining =3D ram_bytes_remaining();
--    rcu_read_unlock();
-     qemu_mutex_unlock(&rs->bitmap_mutex);
 =20
-     memory_global_after_dirty_log_sync();
-@@ -2398,13 +2398,12 @@ static void migration_page_queue_free(RAMState *r=
-s)
-     /* This queue generally should be empty - but in the case of a faile=
-d
-      * migration might have some droppings in.
-      */
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     QSIMPLEQ_FOREACH_SAFE(mspr, &rs->src_page_requests, next_req, next_m=
-spr) {
-         memory_region_unref(mspr->rb->mr);
-         QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
-         g_free(mspr);
-     }
--    rcu_read_unlock();
- }
+@@ -2805,7 +2799,6 @@ static ssize_t qio_channel_rdma_readv(QIOChannel *i=
+oc,
 =20
- /**
-@@ -2425,7 +2424,8 @@ int ram_save_queue_pages(const char *rbname, ram_ad=
-dr_t start, ram_addr_t len)
-     RAMState *rs =3D ram_state;
-=20
-     ram_counters.postcopy_requests++;
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-+
-     if (!rbname) {
-         /* Reuse last RAMBlock */
-         ramblock =3D rs->last_req_rb;
-@@ -2467,12 +2467,10 @@ int ram_save_queue_pages(const char *rbname, ram_=
-addr_t start, ram_addr_t len)
-     QSIMPLEQ_INSERT_TAIL(&rs->src_page_requests, new_entry, next_req);
-     migration_make_urgent_request();
-     qemu_mutex_unlock(&rs->src_page_req_mutex);
--    rcu_read_unlock();
-=20
-     return 0;
-=20
- err:
--    rcu_read_unlock();
-     return -1;
- }
-=20
-@@ -2712,7 +2710,8 @@ static uint64_t ram_bytes_total_common(bool count_i=
-gnored)
-     RAMBlock *block;
-     uint64_t total =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-+
-     if (count_ignored) {
-         RAMBLOCK_FOREACH_MIGRATABLE(block) {
-             total +=3D block->used_length;
-@@ -2722,7 +2721,6 @@ static uint64_t ram_bytes_total_common(bool count_i=
-gnored)
-             total +=3D block->used_length;
-         }
-     }
--    rcu_read_unlock();
-     return total;
- }
-=20
-@@ -3086,7 +3084,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState=
- *ms)
-     RAMBlock *block;
-     int ret;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-=20
-     /* This should be our last sync, the src is now paused */
-     migration_bitmap_sync(rs);
-@@ -3107,13 +3105,11 @@ int ram_postcopy_send_discard_bitmap(MigrationSta=
-te *ms)
-              * point.
-              */
-             error_report("migration ram resized during precopy phase");
--            rcu_read_unlock();
-             return -EINVAL;
-         }
-         /* Deal with TPS !=3D HPS and huge pages */
-         ret =3D postcopy_chunk_hostpages(ms, block);
-         if (ret) {
+         if (ret < 0) {
+             rdma->error_state =3D ret;
 -            rcu_read_unlock();
              return ret;
          }
 =20
-@@ -3128,7 +3124,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState=
- *ms)
-     trace_ram_postcopy_send_discard_bitmap();
-=20
-     ret =3D postcopy_each_ram_send_discard(ms);
+@@ -2819,14 +2812,12 @@ static ssize_t qio_channel_rdma_readv(QIOChannel =
+*ioc,
+         /* Still didn't get enough, so lets just return */
+         if (want) {
+             if (done =3D=3D 0) {
+-                rcu_read_unlock();
+                 return QIO_CHANNEL_ERR_BLOCK;
+             } else {
+                 break;
+             }
+         }
+     }
 -    rcu_read_unlock();
-=20
-     return ret;
+     return done;
  }
-@@ -3149,7 +3144,7 @@ int ram_discard_range(const char *rbname, uint64_t =
-start, size_t length)
 =20
-     trace_ram_discard_range(rbname, start, length);
+@@ -2882,7 +2873,7 @@ qio_channel_rdma_source_prepare(GSource *source,
+     GIOCondition cond =3D 0;
+     *timeout =3D -1;
 =20
 -    rcu_read_lock();
 +    RCU_READ_LOCK_GUARD();
-     RAMBlock *rb =3D qemu_ram_block_by_name(rbname);
+     if (rsource->condition =3D=3D G_IO_IN) {
+         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
+     } else {
+@@ -2891,7 +2882,6 @@ qio_channel_rdma_source_prepare(GSource *source,
 =20
-     if (!rb) {
-@@ -3169,8 +3164,6 @@ int ram_discard_range(const char *rbname, uint64_t =
-start, size_t length)
-     ret =3D ram_block_discard_range(rb, start, length);
+     if (!rdma) {
+         error_report("RDMAContext is NULL when prepare Gsource");
+-        rcu_read_unlock();
+         return FALSE;
+     }
 =20
- err:
+@@ -2900,7 +2890,6 @@ qio_channel_rdma_source_prepare(GSource *source,
+     }
+     cond |=3D G_IO_OUT;
+=20
 -    rcu_read_unlock();
--
+     return cond & rsource->condition;
+ }
+=20
+@@ -2911,7 +2900,7 @@ qio_channel_rdma_source_check(GSource *source)
+     RDMAContext *rdma;
+     GIOCondition cond =3D 0;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     if (rsource->condition =3D=3D G_IO_IN) {
+         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
+     } else {
+@@ -2920,7 +2909,6 @@ qio_channel_rdma_source_check(GSource *source)
+=20
+     if (!rdma) {
+         error_report("RDMAContext is NULL when check Gsource");
+-        rcu_read_unlock();
+         return FALSE;
+     }
+=20
+@@ -2929,7 +2917,6 @@ qio_channel_rdma_source_check(GSource *source)
+     }
+     cond |=3D G_IO_OUT;
+=20
+-    rcu_read_unlock();
+     return cond & rsource->condition;
+ }
+=20
+@@ -2943,7 +2930,7 @@ qio_channel_rdma_source_dispatch(GSource *source,
+     RDMAContext *rdma;
+     GIOCondition cond =3D 0;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     if (rsource->condition =3D=3D G_IO_IN) {
+         rdma =3D atomic_rcu_read(&rsource->rioc->rdmain);
+     } else {
+@@ -2952,7 +2939,6 @@ qio_channel_rdma_source_dispatch(GSource *source,
+=20
+     if (!rdma) {
+         error_report("RDMAContext is NULL when dispatch Gsource");
+-        rcu_read_unlock();
+         return FALSE;
+     }
+=20
+@@ -2961,7 +2947,6 @@ qio_channel_rdma_source_dispatch(GSource *source,
+     }
+     cond |=3D G_IO_OUT;
+=20
+-    rcu_read_unlock();
+     return (*func)(QIO_CHANNEL(rsource->rioc),
+                    (cond & rsource->condition),
+                    user_data);
+@@ -3058,7 +3043,7 @@ qio_channel_rdma_shutdown(QIOChannel *ioc,
+     QIOChannelRDMA *rioc =3D QIO_CHANNEL_RDMA(ioc);
+     RDMAContext *rdmain, *rdmaout;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+=20
+     rdmain =3D atomic_rcu_read(&rioc->rdmain);
+     rdmaout =3D atomic_rcu_read(&rioc->rdmain);
+@@ -3085,7 +3070,6 @@ qio_channel_rdma_shutdown(QIOChannel *ioc,
+         break;
+     }
+=20
+-    rcu_read_unlock();
+     return 0;
+ }
+=20
+@@ -3131,18 +3115,16 @@ static size_t qemu_rdma_save_page(QEMUFile *f, vo=
+id *opaque,
+     RDMAContext *rdma;
+     int ret;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     rdma =3D atomic_rcu_read(&rioc->rdmaout);
+=20
+     if (!rdma) {
+-        rcu_read_unlock();
+         return -EIO;
+     }
+=20
+     CHECK_ERROR_STATE();
+=20
+     if (migration_in_postcopy()) {
+-        rcu_read_unlock();
+         return RAM_SAVE_CONTROL_NOT_SUPP;
+     }
+=20
+@@ -3227,11 +3209,9 @@ static size_t qemu_rdma_save_page(QEMUFile *f, voi=
+d *opaque,
+         }
+     }
+=20
+-    rcu_read_unlock();
+     return RAM_SAVE_CONTROL_DELAYED;
+ err:
+     rdma->error_state =3D ret;
+-    rcu_read_unlock();
      return ret;
  }
 =20
-@@ -3303,13 +3296,12 @@ static void ram_init_bitmaps(RAMState *rs)
-     /* For memory_global_dirty_log_start below.  */
-     qemu_mutex_lock_iothread();
-     qemu_mutex_lock_ramlist();
--    rcu_read_lock();
+@@ -3451,11 +3431,10 @@ static int qemu_rdma_registration_handle(QEMUFile=
+ *f, void *opaque)
+     int count =3D 0;
+     int i =3D 0;
 =20
--    ram_list_init_bitmaps();
--    memory_global_dirty_log_start();
--    migration_bitmap_sync_precopy(rs);
--
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     rdma =3D atomic_rcu_read(&rioc->rdmain);
+=20
+     if (!rdma) {
+-        rcu_read_unlock();
+         return -EIO;
+     }
+=20
+@@ -3698,7 +3677,6 @@ out:
+     if (ret < 0) {
+         rdma->error_state =3D ret;
+     }
 -    rcu_read_unlock();
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        ram_list_init_bitmaps();
-+        memory_global_dirty_log_start();
-+        migration_bitmap_sync_precopy(rs);
-+    }
-     qemu_mutex_unlock_ramlist();
-     qemu_mutex_unlock_iothread();
+     return ret;
  }
-@@ -3500,55 +3492,57 @@ static int ram_save_iterate(QEMUFile *f, void *op=
-aque)
-         goto out;
-     }
+=20
+@@ -3716,11 +3694,10 @@ rdma_block_notification_handle(QIOChannelRDMA *ri=
+oc, const char *name)
+     int curr;
+     int found =3D -1;
 =20
 -    rcu_read_lock();
--    if (ram_list.version !=3D rs->last_version) {
--        ram_state_reset(rs);
--    }
--
--    /* Read version before ram_list.blocks */
--    smp_rmb();
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        if (ram_list.version !=3D rs->last_version) {
-+            ram_state_reset(rs);
-+        }
++    RCU_READ_LOCK_GUARD();
+     rdma =3D atomic_rcu_read(&rioc->rdmain);
 =20
--    ram_control_before_iterate(f, RAM_CONTROL_ROUND);
-+        /* Read version before ram_list.blocks */
-+        smp_rmb();
-=20
--    t0 =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
--    i =3D 0;
--    while ((ret =3D qemu_file_rate_limit(f)) =3D=3D 0 ||
--            !QSIMPLEQ_EMPTY(&rs->src_page_requests)) {
--        int pages;
-+        ram_control_before_iterate(f, RAM_CONTROL_ROUND);
-=20
--        if (qemu_file_get_error(f)) {
--            break;
--        }
-+        t0 =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-+        i =3D 0;
-+        while ((ret =3D qemu_file_rate_limit(f)) =3D=3D 0 ||
-+                !QSIMPLEQ_EMPTY(&rs->src_page_requests)) {
-+            int pages;
-=20
--        pages =3D ram_find_and_save_block(rs, false);
--        /* no more pages to sent */
--        if (pages =3D=3D 0) {
--            done =3D 1;
--            break;
--        }
-+            if (qemu_file_get_error(f)) {
-+                break;
-+            }
-=20
--        if (pages < 0) {
--            qemu_file_set_error(f, pages);
--            break;
--        }
-+            pages =3D ram_find_and_save_block(rs, false);
-+            /* no more pages to sent */
-+            if (pages =3D=3D 0) {
-+                done =3D 1;
-+                break;
-+            }
-=20
--        rs->target_page_count +=3D pages;
--
--        /* we want to check in the 1st loop, just in case it was the 1st=
- time
--           and we had to sync the dirty bitmap.
--           qemu_clock_get_ns() is a bit expensive, so we only check each=
- some
--           iterations
--        */
--        if ((i & 63) =3D=3D 0) {
--            uint64_t t1 =3D (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - t0=
-) / 1000000;
--            if (t1 > MAX_WAIT) {
--                trace_ram_save_iterate_big_wait(t1, i);
-+            if (pages < 0) {
-+                qemu_file_set_error(f, pages);
-                 break;
-             }
-+
-+            rs->target_page_count +=3D pages;
-+
-+            /*
-+             * we want to check in the 1st loop, just in case it was the=
- 1st
-+             * time and we had to sync the dirty bitmap.
-+             * qemu_clock_get_ns() is a bit expensive, so we only check =
-each
-+             * some iterations
-+             */
-+            if ((i & 63) =3D=3D 0) {
-+                uint64_t t1 =3D (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) =
-- t0) /
-+                              1000000;
-+                if (t1 > MAX_WAIT) {
-+                    trace_ram_save_iterate_big_wait(t1, i);
-+                    break;
-+                }
-+            }
-+            i++;
-         }
--        i++;
+     if (!rdma) {
+-        rcu_read_unlock();
+         return -EIO;
      }
--    rcu_read_unlock();
 =20
-     /*
-      * Must occur before EOS (or any QEMUFile operation)
-@@ -3586,35 +3580,33 @@ static int ram_save_complete(QEMUFile *f, void *o=
-paque)
-     RAMState *rs =3D *temp;
+@@ -3734,7 +3711,6 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc=
+, const char *name)
+=20
+     if (found =3D=3D -1) {
+         error_report("RAMBlock '%s' not found on destination", name);
+-        rcu_read_unlock();
+         return -ENOENT;
+     }
+=20
+@@ -3742,7 +3718,6 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc=
+, const char *name)
+     trace_rdma_block_notification_handle(name, rdma->next_src_index);
+     rdma->next_src_index++;
+=20
+-    rcu_read_unlock();
+     return 0;
+ }
+=20
+@@ -3767,17 +3742,15 @@ static int qemu_rdma_registration_start(QEMUFile =
+*f, void *opaque,
+     QIOChannelRDMA *rioc =3D QIO_CHANNEL_RDMA(opaque);
+     RDMAContext *rdma;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     rdma =3D atomic_rcu_read(&rioc->rdmaout);
+     if (!rdma) {
+-        rcu_read_unlock();
+         return -EIO;
+     }
+=20
+     CHECK_ERROR_STATE();
+=20
+     if (migration_in_postcopy()) {
+-        rcu_read_unlock();
+         return 0;
+     }
+=20
+@@ -3785,7 +3758,6 @@ static int qemu_rdma_registration_start(QEMUFile *f=
+, void *opaque,
+     qemu_put_be64(f, RAM_SAVE_FLAG_HOOK);
+     qemu_fflush(f);
+=20
+-    rcu_read_unlock();
+     return 0;
+ }
+=20
+@@ -3802,17 +3774,15 @@ static int qemu_rdma_registration_stop(QEMUFile *=
+f, void *opaque,
+     RDMAControlHeader head =3D { .len =3D 0, .repeat =3D 1 };
      int ret =3D 0;
 =20
 -    rcu_read_lock();
--
--    if (!migration_in_postcopy()) {
--        migration_bitmap_sync_precopy(rs);
--    }
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        if (!migration_in_postcopy()) {
-+            migration_bitmap_sync_precopy(rs);
-+        }
-=20
--    ram_control_before_iterate(f, RAM_CONTROL_FINISH);
-+        ram_control_before_iterate(f, RAM_CONTROL_FINISH);
-=20
--    /* try transferring iterative blocks of memory */
-+        /* try transferring iterative blocks of memory */
-=20
--    /* flush all remaining blocks regardless of rate limiting */
--    while (true) {
--        int pages;
-+        /* flush all remaining blocks regardless of rate limiting */
-+        while (true) {
-+            int pages;
-=20
--        pages =3D ram_find_and_save_block(rs, !migration_in_colo_state()=
-);
--        /* no more blocks to sent */
--        if (pages =3D=3D 0) {
--            break;
--        }
--        if (pages < 0) {
--            ret =3D pages;
--            break;
-+            pages =3D ram_find_and_save_block(rs, !migration_in_colo_sta=
-te());
-+            /* no more blocks to sent */
-+            if (pages =3D=3D 0) {
-+                break;
-+            }
-+            if (pages < 0) {
-+                ret =3D pages;
-+                break;
-+            }
-         }
--    }
--
--    flush_compressed_data(rs);
--    ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-=20
--    rcu_read_unlock();
-+        flush_compressed_data(rs);
-+        ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-+    }
-=20
-     multifd_send_sync_main(rs);
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-@@ -3637,9 +3629,9 @@ static void ram_save_pending(QEMUFile *f, void *opa=
-que, uint64_t max_size,
-     if (!migration_in_postcopy() &&
-         remaining_size < max_size) {
-         qemu_mutex_lock_iothread();
--        rcu_read_lock();
--        migration_bitmap_sync_precopy(rs);
++    RCU_READ_LOCK_GUARD();
+     rdma =3D atomic_rcu_read(&rioc->rdmaout);
+     if (!rdma) {
 -        rcu_read_unlock();
-+        WITH_RCU_READ_LOCK_GUARD() {
-+            migration_bitmap_sync_precopy(rs);
-+        }
-         qemu_mutex_unlock_iothread();
-         remaining_size =3D rs->migration_dirty_pages * TARGET_PAGE_SIZE;
+         return -EIO;
      }
-@@ -3983,7 +3975,13 @@ int colo_init_ram_cache(void)
-             error_report("%s: Can't alloc memory for COLO cache of block=
- %s,"
-                          "size 0x" RAM_ADDR_FMT, __func__, block->idstr,
-                          block->used_length);
--            goto out_locked;
-+            RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+                if (block->colo_cache) {
-+                    qemu_anon_ram_free(block->colo_cache, block->used_le=
-ngth);
-+                    block->colo_cache =3D NULL;
-+                }
-+            }
-+            return -errno;
-         }
-         memcpy(block->colo_cache, block->host, block->used_length);
-     }
-@@ -4009,18 +4007,6 @@ int colo_init_ram_cache(void)
-     memory_global_dirty_log_start();
 =20
+     CHECK_ERROR_STATE();
+=20
+     if (migration_in_postcopy()) {
+-        rcu_read_unlock();
+         return 0;
+     }
+=20
+@@ -3844,7 +3814,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
+ void *opaque,
+                     qemu_rdma_reg_whole_ram_blocks : NULL);
+         if (ret < 0) {
+             ERROR(errp, "receiving remote info!");
+-            rcu_read_unlock();
+             return ret;
+         }
+=20
+@@ -3868,7 +3837,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
+ void *opaque,
+                         "not identical on both the source and destinatio=
+n.",
+                         local->nb_blocks, nb_dest_blocks);
+             rdma->error_state =3D -EINVAL;
+-            rcu_read_unlock();
+             return -EINVAL;
+         }
+=20
+@@ -3885,7 +3853,6 @@ static int qemu_rdma_registration_stop(QEMUFile *f,=
+ void *opaque,
+                             local->block[i].length,
+                             rdma->dest_blocks[i].length);
+                 rdma->error_state =3D -EINVAL;
+-                rcu_read_unlock();
+                 return -EINVAL;
+             }
+             local->block[i].remote_host_addr =3D
+@@ -3903,11 +3870,9 @@ static int qemu_rdma_registration_stop(QEMUFile *f=
+, void *opaque,
+         goto err;
+     }
+=20
+-    rcu_read_unlock();
      return 0;
--
--out_locked:
--
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        if (block->colo_cache) {
--            qemu_anon_ram_free(block->colo_cache, block->used_length);
--            block->colo_cache =3D NULL;
--        }
--    }
--
+ err:
+     rdma->error_state =3D ret;
 -    rcu_read_unlock();
--    return -errno;
+     return ret;
  }
 =20
- /* It is need to hold the global lock to call this helper */
-@@ -4034,16 +4020,14 @@ void colo_release_ram_cache(void)
-         block->bmap =3D NULL;
-     }
-=20
--    rcu_read_lock();
--
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        if (block->colo_cache) {
--            qemu_anon_ram_free(block->colo_cache, block->used_length);
--            block->colo_cache =3D NULL;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+            if (block->colo_cache) {
-+                qemu_anon_ram_free(block->colo_cache, block->used_length=
-);
-+                block->colo_cache =3D NULL;
-+            }
-         }
-     }
--
--    rcu_read_unlock();
-     qemu_mutex_destroy(&ram_state->bitmap_mutex);
-     g_free(ram_state);
-     ram_state =3D NULL;
-@@ -4281,31 +4265,30 @@ static void colo_flush_ram_cache(void)
-     unsigned long offset =3D 0;
-=20
-     memory_global_dirty_log_sync();
--    rcu_read_lock();
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        ramblock_sync_dirty_bitmap(ram_state, block);
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+            ramblock_sync_dirty_bitmap(ram_state, block);
-+        }
-     }
--    rcu_read_unlock();
-=20
-     trace_colo_flush_ram_cache_begin(ram_state->migration_dirty_pages);
--    rcu_read_lock();
--    block =3D QLIST_FIRST_RCU(&ram_list.blocks);
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        block =3D QLIST_FIRST_RCU(&ram_list.blocks);
-=20
--    while (block) {
--        offset =3D migration_bitmap_find_dirty(ram_state, block, offset)=
-;
-+        while (block) {
-+            offset =3D migration_bitmap_find_dirty(ram_state, block, off=
-set);
-=20
--        if (offset << TARGET_PAGE_BITS >=3D block->used_length) {
--            offset =3D 0;
--            block =3D QLIST_NEXT_RCU(block, next);
--        } else {
--            migration_bitmap_clear_dirty(ram_state, block, offset);
--            dst_host =3D block->host + (offset << TARGET_PAGE_BITS);
--            src_host =3D block->colo_cache + (offset << TARGET_PAGE_BITS=
-);
--            memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
-+            if (offset << TARGET_PAGE_BITS >=3D block->used_length) {
-+                offset =3D 0;
-+                block =3D QLIST_NEXT_RCU(block, next);
-+            } else {
-+                migration_bitmap_clear_dirty(ram_state, block, offset);
-+                dst_host =3D block->host + (offset << TARGET_PAGE_BITS);
-+                src_host =3D block->colo_cache + (offset << TARGET_PAGE_=
-BITS);
-+                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
-+            }
-         }
-     }
--
--    rcu_read_unlock();
-     trace_colo_flush_ram_cache_end();
- }
-=20
-@@ -4504,16 +4487,15 @@ static int ram_load(QEMUFile *f, void *opaque, in=
-t version_id)
-      * it will be necessary to reduce the granularity of this
-      * critical section.
-      */
--    rcu_read_lock();
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        if (postcopy_running) {
-+            ret =3D ram_load_postcopy(f);
-+        } else {
-+            ret =3D ram_load_precopy(f);
-+        }
-=20
--    if (postcopy_running) {
--        ret =3D ram_load_postcopy(f);
--    } else {
--        ret =3D ram_load_precopy(f);
-+        ret |=3D wait_for_decompress_done();
-     }
--
--    ret |=3D wait_for_decompress_done();
--    rcu_read_unlock();
-     trace_ram_load_complete(ret, seq_iter);
-=20
-     if (!ret  && migration_incoming_in_colo_state()) {
 --=20
 2.21.0
 
