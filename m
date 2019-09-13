@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519A2B1FCA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:39:35 +0200 (CEST)
-Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B511AB1FC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:38:39 +0200 (CEST)
+Received: from localhost ([::1]:44140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8lnS-0007By-Ci
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37943)
+	id 1i8lmY-0005yh-Ma
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:38:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i8lkh-0004FL-Ib
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:36:44 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8lkq-0004Vl-8Q
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:36:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i8lkg-0003Nq-O9
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:36:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51854)
+ (envelope-from <mlevitsk@redhat.com>) id 1i8lko-0003Rl-WB
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 09:36:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42738)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i8lke-0003Mi-Qg; Fri, 13 Sep 2019 09:36:40 -0400
+ id 1i8lkm-0003Q8-B0; Fri, 13 Sep 2019 09:36:48 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 130CD18C427B;
- Fri, 13 Sep 2019 13:36:40 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9F326308402E;
+ Fri, 13 Sep 2019 13:36:47 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCD545D712;
- Fri, 13 Sep 2019 13:36:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 649EF5B681;
+ Fri, 13 Sep 2019 13:36:45 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 13 Sep 2019 16:36:25 +0300
-Message-Id: <20190913133627.28450-1-mlevitsk@redhat.com>
+Date: Fri, 13 Sep 2019 16:36:27 +0300
+Message-Id: <20190913133627.28450-3-mlevitsk@redhat.com>
+In-Reply-To: <20190913133627.28450-1-mlevitsk@redhat.com>
+References: <20190913133627.28450-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 13 Sep 2019 13:36:40 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Fri, 13 Sep 2019 13:36:47 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/2] block/nvme: add support for write zeros
- and discard
+Subject: [Qemu-devel] [PATCH v2 2/2] block/nvme: add support for discard
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,23 +59,140 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the second part of the patches I prepared
-for this driver back when I worked on mdev-nvme.
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ block/nvme.c       | 83 ++++++++++++++++++++++++++++++++++++++++++++++
+ block/trace-events |  2 ++
+ 2 files changed, 85 insertions(+)
 
-V2: addressed review feedback, no major changes
-
-Best regards,
-	Maxim Levitsky
-
-Maxim Levitsky (2):
-  block/nvme: add support for write zeros
-  block/nvme: add support for discard
-
- block/nvme.c         | 155 ++++++++++++++++++++++++++++++++++++++++++-
- block/trace-events   |   3 +
- include/block/nvme.h |  19 +++++-
- 3 files changed, 175 insertions(+), 2 deletions(-)
-
+diff --git a/block/nvme.c b/block/nvme.c
+index d95265fae4..c17edd6aae 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -112,6 +112,7 @@ typedef struct {
+     bool plugged;
+ 
+     bool supports_write_zeroes;
++    bool supports_discard;
+ 
+     CoMutex dma_map_lock;
+     CoQueue dma_flush_queue;
+@@ -463,6 +464,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+ 
+     oncs = le16_to_cpu(idctrl->oncs);
+     s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROS);
++    s->supports_discard = !!(oncs & NVME_ONCS_DSM);
+ 
+     memset(resp, 0, 4096);
+ 
+@@ -1153,6 +1155,86 @@ static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
+ }
+ 
+ 
++static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
++                                         int64_t offset,
++                                         int bytes)
++{
++    BDRVNVMeState *s = bs->opaque;
++    NVMeQueuePair *ioq = s->queues[1];
++    NVMeRequest *req;
++    NvmeDsmRange *buf;
++    QEMUIOVector local_qiov;
++    int ret;
++
++    NvmeCmd cmd = {
++        .opcode = NVME_CMD_DSM,
++        .nsid = cpu_to_le32(s->nsid),
++        .cdw10 = cpu_to_le32(0), /*number of ranges - 0 based*/
++        .cdw11 = cpu_to_le32(1 << 2), /*deallocate bit*/
++    };
++
++    NVMeCoData data = {
++        .ctx = bdrv_get_aio_context(bs),
++        .ret = -EINPROGRESS,
++    };
++
++    if (!s->supports_discard) {
++        return -ENOTSUP;
++    }
++
++    assert(s->nr_queues > 1);
++
++    buf = qemu_try_blockalign0(bs, s->page_size);
++    if (!buf) {
++        return -ENOMEM;
++    }
++
++    buf->nlb = cpu_to_le32(bytes >> s->blkshift);
++    buf->slba = cpu_to_le64(offset >> s->blkshift);
++    buf->cattr = 0;
++
++    qemu_iovec_init(&local_qiov, 1);
++    qemu_iovec_add(&local_qiov, buf, 4096);
++
++    req = nvme_get_free_req(ioq);
++    assert(req);
++
++    qemu_co_mutex_lock(&s->dma_map_lock);
++    ret = nvme_cmd_map_qiov(bs, &cmd, req, &local_qiov);
++    qemu_co_mutex_unlock(&s->dma_map_lock);
++
++    if (ret) {
++        req->busy = false;
++        goto out;
++    }
++
++    trace_nvme_dsm(s, offset, bytes);
++
++    nvme_submit_command(s, ioq, req, &cmd, nvme_rw_cb, &data);
++
++    data.co = qemu_coroutine_self();
++    while (data.ret == -EINPROGRESS) {
++        qemu_coroutine_yield();
++    }
++
++    qemu_co_mutex_lock(&s->dma_map_lock);
++    ret = nvme_cmd_unmap_qiov(bs, &local_qiov);
++    qemu_co_mutex_unlock(&s->dma_map_lock);
++
++    if (ret) {
++        goto out;
++    }
++
++    ret = data.ret;
++    trace_nvme_dsm_done(s, offset, bytes, ret);
++out:
++    qemu_iovec_destroy(&local_qiov);
++    qemu_vfree(buf);
++    return ret;
++
++}
++
++
+ static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
+                                BlockReopenQueue *queue, Error **errp)
+ {
+@@ -1259,6 +1341,7 @@ static BlockDriver bdrv_nvme = {
+     .bdrv_co_pwritev          = nvme_co_pwritev,
+ 
+     .bdrv_co_pwrite_zeroes    = nvme_co_pwrite_zeroes,
++    .bdrv_co_pdiscard         = nvme_co_pdiscard,
+ 
+     .bdrv_co_flush_to_disk    = nvme_co_flush,
+     .bdrv_reopen_prepare      = nvme_reopen_prepare,
+diff --git a/block/trace-events b/block/trace-events
+index 651aa461d5..c61553b4b8 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -153,6 +153,8 @@ nvme_write_zeroes(void *s, uint64_t offset, uint64_t bytes, int flags) "s %p off
+ nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int align) "qiov %p n %d base %p size 0x%zx align 0x%x"
+ nvme_prw_buffered(void *s, uint64_t offset, uint64_t bytes, int niov, int is_write) "s %p offset %"PRId64" bytes %"PRId64" niov %d is_write %d"
+ nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int ret) "s %p is_write %d offset %"PRId64" bytes %"PRId64" ret %d"
++nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset %"PRId64" bytes %"PRId64""
++nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset %"PRId64" bytes %"PRId64" ret %d"
+ nvme_dma_map_flush(void *s) "s %p"
+ nvme_free_req_queue_wait(void *q) "q %p"
+ nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
 -- 
 2.17.2
 
