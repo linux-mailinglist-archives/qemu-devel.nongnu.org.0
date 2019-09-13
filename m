@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCF2B1E18
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:03:11 +0200 (CEST)
-Received: from localhost ([::1]:43646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D887B1E1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 15:03:49 +0200 (CEST)
+Received: from localhost ([::1]:43666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8lEE-0000K6-B4
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
+	id 1i8lEp-0000yZ-Pf
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 09:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i8lAU-0006sg-AC
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 08:59:19 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i8lAY-0006wX-77
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 08:59:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i8lAT-0001hr-81
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 08:59:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48954)
+ (envelope-from <mlevitsk@redhat.com>) id 1i8lAW-0001m6-Qs
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 08:59:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10700)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i8lAQ-0001eU-QR; Fri, 13 Sep 2019 08:59:14 -0400
+ id 1i8lAT-0001iC-U0; Fri, 13 Sep 2019 08:59:18 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B2932308218D;
- Fri, 13 Sep 2019 12:59:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 406F33090FCB;
+ Fri, 13 Sep 2019 12:59:17 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78DA45D717;
- Fri, 13 Sep 2019 12:59:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 244095D772;
+ Fri, 13 Sep 2019 12:59:13 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 13 Sep 2019 15:59:06 +0300
-Message-Id: <20190913125909.15348-1-mlevitsk@redhat.com>
+Date: Fri, 13 Sep 2019 15:59:07 +0300
+Message-Id: <20190913125909.15348-2-mlevitsk@redhat.com>
+In-Reply-To: <20190913125909.15348-1-mlevitsk@redhat.com>
+References: <20190913125909.15348-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 13 Sep 2019 12:59:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Fri, 13 Sep 2019 12:59:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 0/3] Fix qcow2+luks corruption introduced by
- commit 8ac0f15f335
+Subject: [Qemu-devel] [PATCH v4 1/3] block/qcow2: refactoring of threaded
+ encryption code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,41 +61,174 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 8ac0f15f335 accidently broke the COW of non changed areas
-of newly allocated clusters, when the write spans multiple clusters,
-and needs COW both prior and after the write.
-This results in 'after' COW area being encrypted with wrong
-sector address, which render it corrupted.
+This commit tries to clarify few function arguments,
+and add comments describing the encrypt/decrypt interface
 
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1745922
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ block/qcow2-cluster.c |  9 ++++---
+ block/qcow2-threads.c | 62 ++++++++++++++++++++++++++++++++++---------
+ block/qcow2.c         |  5 ++--
+ block/qcow2.h         |  8 +++---
+ 4 files changed, 61 insertions(+), 23 deletions(-)
 
-CC: qemu-stable <qemu-stable@nongnu.org>
-
-V2: grammar, spelling and code style fixes.
-V3: more fixes after the review.
-V4: addressed review comments from Max Reitz,
-    and futher refactored the qcow2_co_encrypt to just take full host and guest offset
-    which simplifies everything.
-
-Best regards,
-	Maxim Levitsky
-
-Maxim Levitsky (3):
-  block/qcow2: refactoring of threaded encryption code
-  block/qcow2: fix the corruption when rebasing luks encrypted files
-  qemu-iotests: Add test for bz #1745922
-
- block/qcow2-cluster.c      | 29 +++++++-----
- block/qcow2-threads.c      | 62 ++++++++++++++++++++------
- block/qcow2.c              |  5 ++-
- block/qcow2.h              |  8 ++--
- tests/qemu-iotests/263     | 91 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/263.out | 40 +++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 7 files changed, 205 insertions(+), 31 deletions(-)
- create mode 100755 tests/qemu-iotests/263
- create mode 100644 tests/qemu-iotests/263.out
-
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index f09cc992af..46b0854d7e 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -463,8 +463,8 @@ static int coroutine_fn do_perform_cow_read(BlockDriverState *bs,
+ }
+ 
+ static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
+-                                                uint64_t src_cluster_offset,
+-                                                uint64_t cluster_offset,
++                                                uint64_t guest_cluster_offset,
++                                                uint64_t host_cluster_offset,
+                                                 unsigned offset_in_cluster,
+                                                 uint8_t *buffer,
+                                                 unsigned bytes)
+@@ -474,8 +474,9 @@ static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
+         assert((offset_in_cluster & ~BDRV_SECTOR_MASK) == 0);
+         assert((bytes & ~BDRV_SECTOR_MASK) == 0);
+         assert(s->crypto);
+-        if (qcow2_co_encrypt(bs, cluster_offset,
+-                             src_cluster_offset + offset_in_cluster,
++        if (qcow2_co_encrypt(bs,
++                             host_cluster_offset + offset_in_cluster,
++                             guest_cluster_offset + offset_in_cluster,
+                              buffer, bytes) < 0) {
+             return false;
+         }
+diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+index 3b1e63fe41..9646243a9b 100644
+--- a/block/qcow2-threads.c
++++ b/block/qcow2-threads.c
+@@ -234,15 +234,15 @@ static int qcow2_encdec_pool_func(void *opaque)
+ }
+ 
+ static int coroutine_fn
+-qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
+-                  uint64_t offset, void *buf, size_t len, Qcow2EncDecFunc func)
++qcow2_co_encdec(BlockDriverState *bs, uint64_t host_offset,
++                uint64_t guest_offset, void *buf, size_t len,
++                Qcow2EncDecFunc func)
+ {
+     BDRVQcow2State *s = bs->opaque;
++
+     Qcow2EncDecData arg = {
+         .block = s->crypto,
+-        .offset = s->crypt_physical_offset ?
+-                      file_cluster_offset + offset_into_cluster(s, offset) :
+-                      offset,
++        .offset = s->crypt_physical_offset ? host_offset : guest_offset,
+         .buf = buf,
+         .len = len,
+         .func = func,
+@@ -251,18 +251,54 @@ qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
+     return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
+ }
+ 
++
++/*
++ * qcow2_co_encrypt()
++ *
++ * Encrypts one or more contiguous aligned sectors
++ *
++ * @host_offset - underlying storage offset of the first sector of the
++ * data to be encrypted
++
++ * @guest_offset - guest (virtual) offset of the first sector of the
++ * data to be encrypted
++ *
++ * @buf - buffer with the data to encrypt, that after encryption
++ *        will be written to the underlying storage device at
++ *        @host_offset
++ *
++ * @len - length of the buffer (must be a BDRV_SECTOR_SIZE multiple)
++ *
++ * Depending on the encryption method, @host_cluster_offset and/or @guest_offset
++ * may be used for generating the initialization vector for
++ * encryption.
++ *
++ * Note that while the whole range must be aligned on sectors, it
++ * does not have to be aligned on clusters and can also cross cluster
++ * boundaries
++ *
++ */
+ int coroutine_fn
+-qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+-                 uint64_t offset, void *buf, size_t len)
++qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_offset,
++                 uint64_t guest_offset, void *buf, size_t len)
+ {
+-    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
+-                             qcrypto_block_encrypt);
++    return qcow2_co_encdec(bs, host_offset, guest_offset, buf, len,
++                           qcrypto_block_encrypt);
+ }
+ 
++
++/*
++ * qcow2_co_decrypt()
++ *
++ * Decrypts one or more contiguous aligned sectors
++ * Similar to qcow2_co_encrypt
++ *
++ */
++
+ int coroutine_fn
+-qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+-                 uint64_t offset, void *buf, size_t len)
++qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_offset,
++                 uint64_t guest_offset, void *buf, size_t len)
+ {
+-    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
+-                             qcrypto_block_decrypt);
++    return qcow2_co_encdec(bs, host_offset, guest_offset, buf, len,
++                           qcrypto_block_decrypt);
+ }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0882ff6e92..7ec50157e0 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2065,7 +2065,8 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
+ 
+                 assert((offset & (BDRV_SECTOR_SIZE - 1)) == 0);
+                 assert((cur_bytes & (BDRV_SECTOR_SIZE - 1)) == 0);
+-                if (qcow2_co_decrypt(bs, cluster_offset, offset,
++                if (qcow2_co_decrypt(bs, cluster_offset + offset_in_cluster,
++                                     offset,
+                                      cluster_data, cur_bytes) < 0) {
+                     ret = -EIO;
+                     goto fail;
+@@ -2284,7 +2285,7 @@ static coroutine_fn int qcow2_co_pwritev_part(
+             qemu_iovec_to_buf(qiov, qiov_offset + bytes_done,
+                               cluster_data, cur_bytes);
+ 
+-            if (qcow2_co_encrypt(bs, cluster_offset, offset,
++            if (qcow2_co_encrypt(bs, cluster_offset + offset_in_cluster, offset,
+                                  cluster_data, cur_bytes) < 0) {
+                 ret = -EIO;
+                 goto out_unlocked;
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 998bcdaef1..a488d761ff 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -758,10 +758,10 @@ ssize_t coroutine_fn
+ qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
+                     const void *src, size_t src_size);
+ int coroutine_fn
+-qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+-                 uint64_t offset, void *buf, size_t len);
++qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_offset,
++                 uint64_t guest_offset, void *buf, size_t len);
+ int coroutine_fn
+-qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+-                 uint64_t offset, void *buf, size_t len);
++qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_offset,
++                 uint64_t guest_offset, void *buf, size_t len);
+ 
+ #endif
 -- 
 2.17.2
 
