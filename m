@@ -2,127 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59697B26B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 22:33:29 +0200 (CEST)
-Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45357B26DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Sep 2019 22:50:15 +0200 (CEST)
+Received: from localhost ([::1]:47626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i8sFz-00062m-PO
-	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 16:33:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41675)
+	id 1i8sWD-000659-Nw
+	for lists+qemu-devel@lfdr.de; Fri, 13 Sep 2019 16:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1i8sC8-00040g-4n
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:29:29 -0400
+ (envelope-from <gorcunov@gmail.com>) id 1i8nji-0003D2-LX
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:43:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1i8sC7-0005eX-39
- for qemu-devel@nongnu.org; Fri, 13 Sep 2019 16:29:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60964)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1i8sC4-0005dA-7Z; Fri, 13 Sep 2019 16:29:24 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 51AD77F769;
- Fri, 13 Sep 2019 20:29:23 +0000 (UTC)
-Received: from [10.18.17.38] (dhcp-17-38.bos.redhat.com [10.18.17.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BAA86012A;
- Fri, 13 Sep 2019 20:29:11 +0000 (UTC)
-To: Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org
-References: <20190913105626.22353-1-slp@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <366cd715-c9f0-340d-2f9e-b4f64498f136@redhat.com>
-Date: Fri, 13 Sep 2019 16:29:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <gorcunov@gmail.com>) id 1i8njh-00043E-HM
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:43:50 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:36249)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <gorcunov@gmail.com>) id 1i8njh-00042T-9f
+ for qemu-devel@nongnu.org; Fri, 13 Sep 2019 11:43:49 -0400
+Received: by mail-lj1-x244.google.com with SMTP id r14so4495865ljn.3
+ for <qemu-devel@nongnu.org>; Fri, 13 Sep 2019 08:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=jgKKW5aJp4Q5nX7o5nn0ll5PZTXD30muXp2gJ8hwP7c=;
+ b=NTukjVzjmrIUFOCC7bDsiG1cQw6Y8Att60dfPKgKq4psGg+Lg+30dncZAY0D9cV/qe
+ gA6Wu7PI8zFA1a2PexqhczATvJLs7iHcN1sTCYahuDktAYW8T0O3aDXLmP37reDH0VE8
+ JkHyTu72kr2Xk5ZBxsZPTM0VsBi3vdGR1hOTAwCNhEYRPObA1q+fDbR/yVIveSgddJSK
+ rEwiBVUdha0zUvGoJ7NzU/35PEKuvQ1ppCQiZ6FfwLCu8SBPcEztZ8VkUkG6b9THD6rd
+ uD+qp7Y0v+7LSBSc6lx3kWgyyCxrqvmpqEcgY1/3Is3G5eV+9V8z6BiJ+IGDETGnGni+
+ UOgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=jgKKW5aJp4Q5nX7o5nn0ll5PZTXD30muXp2gJ8hwP7c=;
+ b=c0kQZGGYa005u+Tq7nZYk40Y4G+oG27aBgt9qhAPX6k9gw+t3vDvwOguhAvP/zjbAC
+ J+7rMk8mVRLS0xVnDTFBYHLiA/9br6Fh/Qm7WdjNUaSmSNDF79HIOCdLe/ajekBVnlNI
+ C7Nr2RmRX6FH4e7tkXVP2M0yQ22St+3LarBas7qa0ZYdCC1nEDFRUm7o5VnE43wNABWQ
+ U79qzoZE4y3RHOnHSzDuA4jSgZuDQOcMPHEJ8QPUjtKhTGH8V7G/YbZAeutXJXQ3CsFQ
+ 8KapIrzWXUp4G+4hUvdTMvrHYGkLSdD0mWSGuR10ypsw/u2+Vb5aTmtSKYYpBYiuU2x+
+ NI+Q==
+X-Gm-Message-State: APjAAAUZIG6/UZSOz/1rhBHfn5vuz4o0v2xPtbC+CvaTFCfGcltauWdG
+ FbfTuaspZLG9ExI+WTtAm5jnAPN3
+X-Google-Smtp-Source: APXvYqzbeRv2/8LLRsGy7WwxYzHCUDe4lbDrk9Eq+xOSkW5ZtSrDew6wdImIBkoCYoupRfiXasaJrg==
+X-Received: by 2002:a2e:3513:: with SMTP id z19mr31330904ljz.135.1568389427082; 
+ Fri, 13 Sep 2019 08:43:47 -0700 (PDT)
+Received: from uranus.localdomain ([5.18.103.226])
+ by smtp.gmail.com with ESMTPSA id o5sm7048871lfn.42.2019.09.13.08.43.45
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2019 08:43:45 -0700 (PDT)
+Received: by uranus.localdomain (Postfix, from userid 1000)
+ id 5FC9F460FA3; Fri, 13 Sep 2019 18:43:44 +0300 (MSK)
+Date: Fri, 13 Sep 2019 18:43:44 +0300
+From: Cyrill Gorcunov <gorcunov@gmail.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190913154344.GH1508@uranus>
 MIME-Version: 1.0
-In-Reply-To: <20190913105626.22353-1-slp@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 13 Sep 2019 20:29:23 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] virtio-blk: schedule
- virtio_notify_config to run on main context
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
+X-Mailman-Approved-At: Fri, 13 Sep 2019 16:47:11 -0400
+Subject: [Qemu-devel] [PATCH] error-report: Add info_report_once helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,92 +78,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mreitz@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We already have error_report_once and warn_report_once,
+thus lets add info_report_once to complement. Actually
+I use this helper a lot so might be usefull for others.
 
+Signed-off-by: Cyrill Gorcunov <gorcunov@gmail.com>
+---
+ include/qemu/error-report.h |   13 +++++++++++++
+ util/qemu-error.c           |   20 ++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-On 9/13/19 6:56 AM, Sergio Lopez wrote:
-> virtio_notify_config() needs to acquire the global mutex, which isn't
-> allowed from an iothread, and may lead to a deadlock like this:
-> 
->  - main thead
->   * Has acquired: qemu_global_mutex.
->   * Is trying the acquire: iothread AioContext lock via
->     AIO_WAIT_WHILE (after aio_poll).
-> 
->  - iothread
->   * Has acquired: AioContext lock.
->   * Is trying to acquire: qemu_global_mutex (via
->     virtio_notify_config->prepare_mmio_access).
-> 
-> If virtio_blk_resize() is called from an iothread, schedule
-> virtio_notify_config() to be run in the main context BH.
-> 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
-> Changelog
-> 
-> v2:
->  - Use aio_bh_schedule_oneshot instead of scheduling a coroutine
->    (thanks Kevin Wolf).
->  - Switch from RFC to v2 patch.
-> ---
->  hw/block/virtio-blk.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index 18851601cb..669dc60f5b 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -16,6 +16,7 @@
->  #include "qemu/iov.h"
->  #include "qemu/module.h"
->  #include "qemu/error-report.h"
-> +#include "qemu/main-loop.h"
->  #include "trace.h"
->  #include "hw/block/block.h"
->  #include "hw/qdev-properties.h"
-> @@ -1086,11 +1087,29 @@ static int virtio_blk_load_device(VirtIODevice *vdev, QEMUFile *f,
->      return 0;
->  }
->  
-> +static void virtio_resize_cb(void *opaque)
-> +{
-> +    VirtIODevice *vdev = opaque;
-> +
-> +    assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-> +    virtio_notify_config(vdev);
-> +}
-> +
->  static void virtio_blk_resize(void *opaque)
->  {
->      VirtIODevice *vdev = VIRTIO_DEVICE(opaque);
->  
-> -    virtio_notify_config(vdev);
-> +    if (qemu_get_current_aio_context() != qemu_get_aio_context()) {
-> +        /*
-> +         * virtio_notify_config() needs to acquire the global mutex,
-> +         * so it can't be called from an iothread. Instead, schedule
-> +         * it to be run in the main context BH.
-> +         */
-> +        aio_bh_schedule_oneshot(qemu_get_aio_context(),
-> +                                virtio_resize_cb, vdev);
-> +    } else {
-> +        virtio_notify_config(vdev);
-> +    }
->  }
->  
->  static const BlockDevOps virtio_block_ops = {
-> 
-
-Do we need to bother to check our current context before firing off the
-oneshot? It's simpler to just fire off the oneshot. I can't imagine that
-resize is a hot path that needs to worry about being that efficient.
-
-Well, I guess it doesn't hurt either.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
+Index: vanilla.git/include/qemu/error-report.h
+===================================================================
+--- vanilla.git.orig/include/qemu/error-report.h
++++ vanilla.git/include/qemu/error-report.h
+@@ -47,6 +47,8 @@ bool error_report_once_cond(bool *printe
+     GCC_FMT_ATTR(2, 3);
+ bool warn_report_once_cond(bool *printed, const char *fmt, ...)
+     GCC_FMT_ATTR(2, 3);
++bool info_report_once_cond(bool *printed, const char *fmt, ...)
++    GCC_FMT_ATTR(2, 3);
+ 
+ void error_init(const char *argv0);
+ 
+@@ -72,6 +74,17 @@ void error_init(const char *argv0);
+                               fmt, ##__VA_ARGS__);      \
+     })
+ 
++/*
++ * Similar to info_report(), except it prints the message just once.
++ * Return true when it prints, false otherwise.
++ */
++#define info_report_once(fmt, ...)                      \
++    ({                                                  \
++        static bool print_once_;                        \
++        info_report_once_cond(&print_once_,             \
++                              fmt, ##__VA_ARGS__);      \
++    })
++
+ const char *error_get_progname(void);
+ extern bool enable_timestamp_msg;
+ 
+Index: vanilla.git/util/qemu-error.c
+===================================================================
+--- vanilla.git.orig/util/qemu-error.c
++++ vanilla.git/util/qemu-error.c
+@@ -350,6 +350,26 @@ bool warn_report_once_cond(bool *printed
+     return true;
+ }
+ 
++/*
++ * Like info_report(), except print just once.
++ * If *printed is false, print the message, and flip *printed to true.
++ * Return whether the message was printed.
++ */
++bool info_report_once_cond(bool *printed, const char *fmt, ...)
++{
++    va_list ap;
++
++    assert(printed);
++    if (*printed) {
++        return false;
++    }
++    *printed = true;
++    va_start(ap, fmt);
++    vreport(REPORT_TYPE_INFO, fmt, ap);
++    va_end(ap);
++    return true;
++}
++
+ static char *qemu_glog_domains;
+ 
+ static void qemu_log_func(const gchar *log_domain,
 
