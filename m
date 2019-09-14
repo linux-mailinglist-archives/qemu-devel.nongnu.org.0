@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FA1B2CDE
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:20:28 +0200 (CEST)
-Received: from localhost ([::1]:52136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F222B2CE5
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:33:29 +0200 (CEST)
+Received: from localhost ([::1]:52180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9EWw-0001Mc-V3
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
+	id 1i9EjX-0005eU-N9
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:33:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i9EVt-0000rp-SM
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:19:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1i9Egv-0004B3-Jf
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i9EVr-0003NC-GU
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:19:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50666)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9EVr-0003Ms-Bj
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:19:19 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65964A0350;
- Sat, 14 Sep 2019 18:59:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 344FF60BE0;
- Sat, 14 Sep 2019 18:59:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8B76B113865F; Sat, 14 Sep 2019 20:59:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-References: <156839258306.2228854.8411024885973295628.stgit@bahia.lan>
-Date: Sat, 14 Sep 2019 20:59:46 +0200
-In-Reply-To: <156839258306.2228854.8411024885973295628.stgit@bahia.lan> (Greg
- Kurz's message of "Fri, 13 Sep 2019 18:36:23 +0200")
-Message-ID: <87o8zm3dr1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <bounces@canonical.com>) id 1i9Egu-0007bR-9r
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50590)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i9Egu-0007au-4R
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i9Egs-0006rx-Ir
+ for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:30:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8CF592E80C7
+ for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:30:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 14 Sep 2019 20:24:00 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paulo-cesar-pereira-de-andrade rth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade_=28?=
+ =?utf-8?q?paulo-cesar-pereira-de-andrade=29?=
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <156787148109.29148.9145557698070556446.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156849264164.4475.11304398503708219479.launchpad@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fd1ced2bd6afa5d30ec2f68b966b014c9b5476a7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] 9p: Print error hints if option parsing
- fails
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1843133] Re: Possibly incorrect branch in
+ qemu-system-hppa
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,29 +66,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1843133 <1843133@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-> Option parsing fonctions are called with &error_fatal, which
+-- =
 
-functions
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1843133
 
-> causes error_setg() to call exit() and the hints are never
-> printed.
->
-> Use an intermediate error object so that exit() happens in
-> error_propagate() after error_append_hint() could be called.
+Title:
+  Possibly incorrect branch in qemu-system-hppa
 
-Hmm.
+Status in QEMU:
+  Incomplete
 
-Code that creates error objects should not need to know how they are
-handled.
+Bug description:
+  I plan to release a new GNU Lightning soon.
+  I no longer have access to any physical HPPA, but code that
+  was tested some years ago did work on HPPA/HP-UX, and now it
+  appears qemu-system-hppa incorrectly branches in code generated
+  by GNU Lightning. Currently only 32 bit hppa jit generation
+  supported.
 
-Your patch shows that error_append_hint() requires error_propagate() to
-work regardless of how the error is handled.  We should amend
-error_append_hint()'s contract in error.h to spell this out, and search
-the tree for more misuse of error_append_hint().
+  In the lightning check/test tool, the code would be:
+
+  .code
+      prolog
+      movi %r0 0x7fffffff
+      movi %r1 1
+      boaddr L0 %r0 %r1
+      calli @abort
+  L0:
+      ret
+      epilog
+
+  The code/debug information looks like this:
+              movi r4 0x7fffffff
+              0xf8ef5018      ldil L%7ffff800,r4
+              0xf8ef501c      ldo 7ff(r4),r4
+              movi r5 0x1
+              0xf8ef5020      ldi 1,r5
+          boaddr L1 r4 r5
+              0xf8ef5024      addb,sv,n r5,r4,0xf8ef5044 :a.tst:291
+              0xf8ef5028      nop
+          calli 0xf8eeb68a
+              [...]
+      L1:
+
+  Apparently it is not understanding 0x7fffffff + 1 is a signed
+  overflow.
+
+  Tested in Fedora with qemu-system-hppa-3.1.1-2.fc30.x86_64 and using
+  the debian-10 image.
+
+  To make it a bit easier to test (partially transformed the
+  not so optimized code generated by lightning to gcc -S output):
+  # cat a.s
+  	.LEVEL 1.1
+  	.text
+  	.align 4
+  .globl main
+  	.type	main, @function
+  main:
+  	.PROC
+  	.CALLINFO FRAME=3D64,NO_CALLS,SAVE_SP,ENTRY_GR=3D3
+  	.ENTRY
+  	copy %r3,%r1
+  	copy %r30,%r3
+  	stwm %r1,64(%r30)
+  	zdepi -1,31,31,%r23
+  	ldi 1,%r24
+  	addb,sv,n %r24,%r23,.L0
+  	nop
+  	ldi 1,%r28
+  	b,n .L1
+  	nop
+  .L0:
+  	ldi 0,%r28
+  .L1:
+  	ldo 64(%r3),%r30
+  	ldwm -64(%r30),%r3
+  	bv,n %r0(%r2)
+  	.EXIT
+  	.PROCEND
+  	.size	main, .-main
+
+  # gcc a.s
+  # ./a.out; echo $?
+  1
+
+  It should have returned 0.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1843133/+subscriptions
 
