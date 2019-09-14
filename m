@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F222B2CE5
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:33:29 +0200 (CEST)
-Received: from localhost ([::1]:52180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B7AB2CED
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:36:27 +0200 (CEST)
+Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9EjX-0005eU-N9
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:33:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37606)
+	id 1i9EmQ-0001AY-S4
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i9Egv-0004B3-Jf
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1i9Elb-0000j4-AH
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:35:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i9Egu-0007bR-9r
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50590)
+ (envelope-from <bounces@canonical.com>) id 1i9Ela-0001UN-2w
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:35:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53950)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i9Egu-0007au-4R
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:44 -0400
+ id 1i9ElZ-0001UB-TZ
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:35:34 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i9Egs-0006rx-Ir
- for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:30:42 +0000
+ id 1i9ElZ-0007NX-3o
+ for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:35:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8CF592E80C7
- for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:30:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1AE092E80CB
+ for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:35:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Sep 2019 20:24:00 -0000
+Date: Sat, 14 Sep 2019 20:29:18 -0000
 From: Richard Henderson <rth@twiddle.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,13 +45,13 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade_=28?=
  =?utf-8?q?paulo-cesar-pereira-de-andrade=29?=
 X-Launchpad-Bug-Modifier: Richard Henderson (rth)
 References: <156787148109.29148.9145557698070556446.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156849264164.4475.11304398503708219479.launchpad@chaenomeles.canonical.com>
+Message-Id: <156849295899.660.7788290394933110670.malone@wampee.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19048";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fd1ced2bd6afa5d30ec2f68b966b014c9b5476a7
+X-Launchpad-Hash: 799cc4c2c4adebda62385435138fee488a50d9fb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1843133] Re: Possibly incorrect branch in
@@ -70,8 +70,53 @@ Reply-To: Bug 1843133 <1843133@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+This test case works for me.
+
+$ ./hppa-linux-user/qemu-hppa ~/a.out
+$ echo $?
+0
+
+>From -d in_asm,cpu logs:
+
+IN: main
+0x000112d0:  addb,*<,n r24,r23,0x112e4
+
+IA_F 000112d3 IA_B 000112d7
+PSW  0000bf00 CB   11111111 ------------------
+GR00 00000000 GR01 00000000 GR02 0001162b GR03 ff7fe9c0
+GR04 00011b94 GR05 00011c6c GR06 00000000 GR07 00000000
+GR08 00000000 GR09 00000000 GR10 00000000 GR11 00000000
+GR12 00000000 GR13 00000000 GR14 00000000 GR15 00000000
+GR16 00000000 GR17 00000000 GR18 00000000 GR19 ff7fe888
+GR20 00000000 GR21 00000000 GR22 000112bc GR23 7fffffff
+GR24 00000001 GR25 ff7fe674 GR26 00000001 GR27 0009a0e0
+GR28 0009f080 GR29 00000001 GR30 ff7fea00 GR31 0001162b
+
+About to execute the addb; r23 and r24 as expected.
+
+----------------
+IN: main
+0x000112e4:  ldi 0,ret0
+
+IA_F 000112e7 IA_B 000112eb
+PSW  0000bf00 CB   11111111 ------------------
+GR00 00000000 GR01 00000000 GR02 0001162b GR03 ff7fe9c0
+GR04 00011b94 GR05 00011c6c GR06 00000000 GR07 00000000
+GR08 00000000 GR09 00000000 GR10 00000000 GR11 00000000
+GR12 00000000 GR13 00000000 GR14 00000000 GR15 00000000
+GR16 00000000 GR17 00000000 GR18 00000000 GR19 ff7fe888
+GR20 00000000 GR21 00000000 GR22 000112bc GR23 80000000
+GR24 00000001 GR25 ff7fe674 GR26 00000001 GR27 0009a0e0
+GR28 0009f080 GR29 00000001 GR30 ff7fea00 GR31 0001162b
+
+The branch has been taken, correctly.
+We can see the expected result in r23.
+
+I've also tested this in system mode, though getting logs
+from that is significantly more difficult.
+
+I am testing git master, not v3.1.1.  Can you please try
+the development version?
 
 -- =
 
