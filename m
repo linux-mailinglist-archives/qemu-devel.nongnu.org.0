@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6808FB2C05
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:48:34 +0200 (CEST)
-Received: from localhost ([::1]:50812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E048B2BEE
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:40:47 +0200 (CEST)
+Received: from localhost ([::1]:50758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9AHo-00011e-Ro
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54369)
+	id 1i9AAH-0001sR-RV
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54300)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i9A5C-00050m-KO
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:32 -0400
+ (envelope-from <armbru@redhat.com>) id 1i9A59-0004xU-VP
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i9A5A-0004yq-D5
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56182)
+ (envelope-from <armbru@redhat.com>) id 1i9A57-0004x1-RO
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37654)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A5A-0004t7-1i
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:28 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A53-0004tG-Uh
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:25 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C37B33C935;
+ by mx1.redhat.com (Postfix) with ESMTPS id E70B81DB0;
  Sat, 14 Sep 2019 15:35:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10B8160BAE;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 352729CAA;
  Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A2DD911384A9; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
+ id A969C1138406; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 14 Sep 2019 17:34:55 +0200
-Message-Id: <20190914153506.2151-9-armbru@redhat.com>
+Date: Sat, 14 Sep 2019 17:34:57 +0200
+Message-Id: <20190914153506.2151-11-armbru@redhat.com>
 In-Reply-To: <20190914153506.2151-1-armbru@redhat.com>
 References: <20190914153506.2151-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Sat, 14 Sep 2019 15:35:14 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Sat, 14 Sep 2019 15:35:14 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 08/19] qapi: Improve reporting of lexical errors
+Subject: [Qemu-devel] [PATCH 10/19] qapi: Fix broken discriminator error
+ messages
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,53 +62,119 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Show text up to next structural character, whitespace, or quote
-character instead of just the first character.
+check_union() checks the discriminator exists in base and makes sense.
+Two error messages mention the base.  These are broken for anonymous
+bases, as demonstrated by tests flat-union-invalid-discriminator and
+flat-union-invalid-if-discriminator.err.  The third one doesn't
+bother.
 
-Forgotten quotes now get reported like "Stray 'command'" instead of
-"Stray 'c'".
+First broken when commit ac4338f8eb "qapi: Allow anonymous base for
+flat union" (v2.6.0) neglected to adjust the "not a member of base"
+error message.  Commit ccadd6bcba "qapi: Add 'if' to implicit struct
+members" (v4.0.0) then cloned the flawed error message.
+
+Dumb them down not to mention the base.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/common.py             | 6 +++++-
- tests/qapi-schema/bad-type-int.err | 2 +-
- tests/qapi-schema/funny-word.err   | 2 +-
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ scripts/qapi/common.py                                   | 9 ++++-----
+ tests/qapi-schema/flat-union-invalid-discriminator.err   | 2 +-
+ tests/qapi-schema/flat-union-invalid-discriminator.json  | 1 -
+ .../qapi-schema/flat-union-invalid-if-discriminator.err  | 2 +-
+ .../qapi-schema/flat-union-invalid-if-discriminator.json | 1 -
+ tests/qapi-schema/flat-union-optional-discriminator.err  | 2 +-
+ tests/qapi-schema/union-base-empty.err                   | 2 +-
+ 7 files changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 142ab276ff..b3383b17ef 100644
+index ef7c7be4fd..a58e904978 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -559,7 +559,11 @@ class QAPISchemaParser(object):
-                 self.line +=3D 1
-                 self.line_pos =3D self.cursor
-             elif not self.tok.isspace():
--                raise QAPIParseError(self, "Stray '%s'" % self.tok)
-+                # Show up to next structural, whitespace or quote
-+                # character
-+                match =3D re.match('[^[\\]{}:,\\s\'"]+',
-+                                 self.src[self.cursor-1:])
-+                raise QAPIParseError(self, "Stray '%s'" % match.group(0)=
-)
+@@ -877,14 +877,13 @@ def check_union(expr, info):
+         discriminator_value =3D base_members.get(discriminator)
+         if not discriminator_value:
+             raise QAPISemError(info,
+-                               "Discriminator '%s' is not a member of ba=
+se "
+-                               "struct '%s'"
+-                               % (discriminator, base))
++                               "Discriminator '%s' is not a member of 'b=
+ase'"
++                               % discriminator)
+         if discriminator_value.get('if'):
+             raise QAPISemError(
+                 info,
+-                "The discriminator %s.%s for union %s must not be condit=
+ional"
+-                % (base, discriminator, name))
++                "The discriminator '%s' for union %s must not be conditi=
+onal"
++                % (discriminator, name))
+         enum_define =3D enum_types.get(discriminator_value['type'])
+         # Do not allow string discriminator
+         if not enum_define:
+diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.err b/tes=
+ts/qapi-schema/flat-union-invalid-discriminator.err
+index 947a6b73aa..495d5a520e 100644
+--- a/tests/qapi-schema/flat-union-invalid-discriminator.err
++++ b/tests/qapi-schema/flat-union-invalid-discriminator.err
+@@ -1 +1 @@
+-tests/qapi-schema/flat-union-invalid-discriminator.json:11: Discriminato=
+r 'enum_wrong' is not a member of base struct 'OrderedDict([('enum1', {'t=
+ype': 'TestEnum'})])'
++tests/qapi-schema/flat-union-invalid-discriminator.json:10: Discriminato=
+r 'enum_wrong' is not a member of 'base'
+diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.json b/te=
+sts/qapi-schema/flat-union-invalid-discriminator.json
+index de86cf0760..c4fce97362 100644
+--- a/tests/qapi-schema/flat-union-invalid-discriminator.json
++++ b/tests/qapi-schema/flat-union-invalid-discriminator.json
+@@ -1,4 +1,3 @@
+-# FIXME error message shows base as OrderedDict
+ { 'enum': 'TestEnum',
+   'data': [ 'value1', 'value2' ] }
 =20
-     def get_members(self):
-         expr =3D OrderedDict()
-diff --git a/tests/qapi-schema/bad-type-int.err b/tests/qapi-schema/bad-t=
-ype-int.err
-index 2021fda5d1..9b2c12c1eb 100644
---- a/tests/qapi-schema/bad-type-int.err
-+++ b/tests/qapi-schema/bad-type-int.err
+diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.err b/=
+tests/qapi-schema/flat-union-invalid-if-discriminator.err
+index ec04c4840c..cc5c3fb80b 100644
+--- a/tests/qapi-schema/flat-union-invalid-if-discriminator.err
++++ b/tests/qapi-schema/flat-union-invalid-if-discriminator.err
 @@ -1 +1 @@
--tests/qapi-schema/bad-type-int.json:3:13: Stray '1'
-+tests/qapi-schema/bad-type-int.json:3:13: Stray '123'
-diff --git a/tests/qapi-schema/funny-word.err b/tests/qapi-schema/funny-w=
-ord.err
-index 18aedb4a99..af92fe2551 100644
---- a/tests/qapi-schema/funny-word.err
-+++ b/tests/qapi-schema/funny-word.err
+-tests/qapi-schema/flat-union-invalid-if-discriminator.json:11: The discr=
+iminator OrderedDict([('enum1', OrderedDict([('type', 'TestEnum'), ('if',=
+ 'FOO')]))]).enum1 for union TestUnion must not be conditional
++tests/qapi-schema/flat-union-invalid-if-discriminator.json:10: The discr=
+iminator 'enum1' for union TestUnion must not be conditional
+diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.json b=
+/tests/qapi-schema/flat-union-invalid-if-discriminator.json
+index bbaa9a3f82..e49992b798 100644
+--- a/tests/qapi-schema/flat-union-invalid-if-discriminator.json
++++ b/tests/qapi-schema/flat-union-invalid-if-discriminator.json
+@@ -1,4 +1,3 @@
+-# FIXME error message shows base as OrderedDict
+ { 'enum': 'TestEnum',
+   'data': [ 'value1', 'value2' ] }
+=20
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.err b/te=
+sts/qapi-schema/flat-union-optional-discriminator.err
+index 8b4a4ba847..45f5407c34 100644
+--- a/tests/qapi-schema/flat-union-optional-discriminator.err
++++ b/tests/qapi-schema/flat-union-optional-discriminator.err
 @@ -1 +1 @@
--tests/qapi-schema/funny-word.json:1:3: Stray 'c'
-+tests/qapi-schema/funny-word.json:1:3: Stray 'command'
+-tests/qapi-schema/flat-union-optional-discriminator.json:7: Discriminato=
+r 'switch' is not a member of base struct 'Base'
++tests/qapi-schema/flat-union-optional-discriminator.json:7: Discriminato=
+r 'switch' is not a member of 'base'
+diff --git a/tests/qapi-schema/union-base-empty.err b/tests/qapi-schema/u=
+nion-base-empty.err
+index 7695806d81..9453720ede 100644
+--- a/tests/qapi-schema/union-base-empty.err
++++ b/tests/qapi-schema/union-base-empty.err
+@@ -1 +1 @@
+-tests/qapi-schema/union-base-empty.json:5: Discriminator 'type' is not a=
+ member of base struct 'Empty'
++tests/qapi-schema/union-base-empty.json:5: Discriminator 'type' is not a=
+ member of 'base'
 --=20
 2.21.0
 
