@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7491B2C06
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:48:38 +0200 (CEST)
-Received: from localhost ([::1]:50814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DB3B2C0D
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:51:56 +0200 (CEST)
+Received: from localhost ([::1]:50848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9AHs-000159-ME
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:48:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
+	id 1i9AL5-0004la-03
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i9A5B-0004zf-VS
+ (envelope-from <armbru@redhat.com>) id 1i9A5B-0004zQ-QH
  for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i9A59-0004yM-Vx
+ (envelope-from <armbru@redhat.com>) id 1i9A59-0004y8-Uo
  for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60736)
+Received: from mx1.redhat.com ([209.132.183.28]:56172)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A57-0004sq-R9
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A57-0004r8-QL
  for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:27 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 036A4883D7;
- Sat, 14 Sep 2019 15:35:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B518F2BFD2;
+ Sat, 14 Sep 2019 15:35:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1B8E17B58;
- Sat, 14 Sep 2019 15:35:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BCDD17CF8;
+ Sat, 14 Sep 2019 15:35:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C603B1133019; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
+ id 8F08E11386A7; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 14 Sep 2019 17:35:06 +0200
-Message-Id: <20190914153506.2151-20-armbru@redhat.com>
+Date: Sat, 14 Sep 2019 17:34:49 +0200
+Message-Id: <20190914153506.2151-3-armbru@redhat.com>
 In-Reply-To: <20190914153506.2151-1-armbru@redhat.com>
 References: <20190914153506.2151-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Sat, 14 Sep 2019 15:35:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Sat, 14 Sep 2019 15:35:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 19/19] qapi: Assert .visit() and .check_clash()
- run only after .check()
+Subject: [Qemu-devel] [PATCH 02/19] tests/qapi-schema: Delete two redundant
+ tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,102 +62,124 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Easy since the previous commit provides .checked.
+Tests duplicate-key and double-data test the same thing.  The former
+predates the latter, and it has a better name.  Delete the latter, and
+tweak the former's comment.
+
+Tests include-format-err and include-extra-junk test the same thing.
+The former predates the latter, but the latter has a better name and a
+comment.  Delete the former.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/common.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ tests/Makefile.include                    | 2 --
+ tests/qapi-schema/double-data.err         | 1 -
+ tests/qapi-schema/double-data.exit        | 1 -
+ tests/qapi-schema/double-data.json        | 2 --
+ tests/qapi-schema/double-data.out         | 0
+ tests/qapi-schema/duplicate-key.json      | 2 +-
+ tests/qapi-schema/include-format-err.err  | 1 -
+ tests/qapi-schema/include-format-err.exit | 1 -
+ tests/qapi-schema/include-format-err.json | 2 --
+ tests/qapi-schema/include-format-err.out  | 0
+ 10 files changed, 1 insertion(+), 11 deletions(-)
+ delete mode 100644 tests/qapi-schema/double-data.err
+ delete mode 100644 tests/qapi-schema/double-data.exit
+ delete mode 100644 tests/qapi-schema/double-data.json
+ delete mode 100644 tests/qapi-schema/double-data.out
+ delete mode 100644 tests/qapi-schema/include-format-err.err
+ delete mode 100644 tests/qapi-schema/include-format-err.exit
+ delete mode 100644 tests/qapi-schema/include-format-err.json
+ delete mode 100644 tests/qapi-schema/include-format-err.out
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index c199a2b58c..b00caacca3 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -1190,7 +1190,7 @@ class QAPISchemaEntity(object):
-         return not self.info
-=20
-     def visit(self, visitor):
--        pass
-+        assert self._checked
-=20
-=20
- class QAPISchemaVisitor(object):
-@@ -1245,6 +1245,7 @@ class QAPISchemaInclude(QAPISchemaEntity):
-         self.fname =3D fname
-=20
-     def visit(self, visitor):
-+        QAPISchemaEntity.visit(self, visitor)
-         visitor.visit_include(self.fname, self.info)
-=20
-=20
-@@ -1309,6 +1310,7 @@ class QAPISchemaBuiltinType(QAPISchemaType):
-         return self.json_type()
-=20
-     def visit(self, visitor):
-+        QAPISchemaType.visit(self, visitor)
-         visitor.visit_builtin_type(self.name, self.info, self.json_type(=
-))
-=20
-=20
-@@ -1344,6 +1346,7 @@ class QAPISchemaEnumType(QAPISchemaType):
-         return 'string'
-=20
-     def visit(self, visitor):
-+        QAPISchemaType.visit(self, visitor)
-         visitor.visit_enum_type(self.name, self.info, self.ifcond,
-                                 self.members, self.prefix)
-=20
-@@ -1386,6 +1389,7 @@ class QAPISchemaArrayType(QAPISchemaType):
-         return 'array of ' + elt_doc_type
-=20
-     def visit(self, visitor):
-+        QAPISchemaType.visit(self, visitor)
-         visitor.visit_array_type(self.name, self.info, self.ifcond,
-                                  self.element_type)
-=20
-@@ -1461,6 +1465,7 @@ class QAPISchemaObjectType(QAPISchemaType):
-     # and update seen to track the members seen so far. Report any error=
-s
-     # on behalf of info, which is not necessarily self.info
-     def check_clash(self, info, seen):
-+        assert self._checked
-         assert not self.variants       # not implemented
-         for m in self.members:
-             m.check_clash(info, seen)
-@@ -1498,6 +1503,7 @@ class QAPISchemaObjectType(QAPISchemaType):
-         return 'object'
-=20
-     def visit(self, visitor):
-+        QAPISchemaType.visit(self, visitor)
-         visitor.visit_object_type(self.name, self.info, self.ifcond,
-                                   self.base, self.local_members, self.va=
-riants,
-                                   self.features)
-@@ -1665,6 +1671,7 @@ class QAPISchemaAlternateType(QAPISchemaType):
-         return 'value'
-=20
-     def visit(self, visitor):
-+        QAPISchemaType.visit(self, visitor)
-         visitor.visit_alternate_type(self.name, self.info, self.ifcond,
-                                      self.variants)
-=20
-@@ -1698,6 +1705,7 @@ class QAPISchemaCommand(QAPISchemaEntity):
-             assert isinstance(self.ret_type, QAPISchemaType)
-=20
-     def visit(self, visitor):
-+        QAPISchemaEntity.visit(self, visitor)
-         visitor.visit_command(self.name, self.info, self.ifcond,
-                               self.arg_type, self.ret_type,
-                               self.gen, self.success_response,
-@@ -1723,6 +1731,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
-             raise QAPISemError(self.info, "Use of 'boxed' requires 'data=
-'")
-=20
-     def visit(self, visitor):
-+        QAPISchemaEntity.visit(self, visitor)
-         visitor.visit_event(self.name, self.info, self.ifcond,
-                             self.arg_type, self.boxed)
-=20
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index bb071d2ba9..a1deaa5456 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -360,7 +360,6 @@ qapi-schema +=3D doc-missing-expr.json
+ qapi-schema +=3D doc-missing-space.json
+ qapi-schema +=3D doc-missing.json
+ qapi-schema +=3D doc-no-symbol.json
+-qapi-schema +=3D double-data.json
+ qapi-schema +=3D double-type.json
+ qapi-schema +=3D duplicate-key.json
+ qapi-schema +=3D empty.json
+@@ -405,7 +404,6 @@ qapi-schema +=3D ident-with-escape.json
+ qapi-schema +=3D include-before-err.json
+ qapi-schema +=3D include-cycle.json
+ qapi-schema +=3D include-extra-junk.json
+-qapi-schema +=3D include-format-err.json
+ qapi-schema +=3D include-nested-err.json
+ qapi-schema +=3D include-no-file.json
+ qapi-schema +=3D include-non-file.json
+diff --git a/tests/qapi-schema/double-data.err b/tests/qapi-schema/double=
+-data.err
+deleted file mode 100644
+index cc765c4ff2..0000000000
+--- a/tests/qapi-schema/double-data.err
++++ /dev/null
+@@ -1 +0,0 @@
+-tests/qapi-schema/double-data.json:2:41: Duplicate key "data"
+diff --git a/tests/qapi-schema/double-data.exit b/tests/qapi-schema/doubl=
+e-data.exit
+deleted file mode 100644
+index d00491fd7e..0000000000
+--- a/tests/qapi-schema/double-data.exit
++++ /dev/null
+@@ -1 +0,0 @@
+-1
+diff --git a/tests/qapi-schema/double-data.json b/tests/qapi-schema/doubl=
+e-data.json
+deleted file mode 100644
+index e76b519538..0000000000
+--- a/tests/qapi-schema/double-data.json
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# we reject an expression with duplicate top-level keys
+-{ 'struct': 'bar', 'data': { }, 'data': { 'string': 'str'} }
+diff --git a/tests/qapi-schema/double-data.out b/tests/qapi-schema/double=
+-data.out
+deleted file mode 100644
+index e69de29bb2..0000000000
+diff --git a/tests/qapi-schema/duplicate-key.json b/tests/qapi-schema/dup=
+licate-key.json
+index 14ac0e8a40..06b55840c9 100644
+--- a/tests/qapi-schema/duplicate-key.json
++++ b/tests/qapi-schema/duplicate-key.json
+@@ -1,3 +1,3 @@
+-# QAPI cannot include the same key more than once in any {}
++# Cannot include the same key more than once in any {}
+ { 'key': 'value',
+   'key': 'value' }
+diff --git a/tests/qapi-schema/include-format-err.err b/tests/qapi-schema=
+/include-format-err.err
+deleted file mode 100644
+index 721ff4eccc..0000000000
+--- a/tests/qapi-schema/include-format-err.err
++++ /dev/null
+@@ -1 +0,0 @@
+-tests/qapi-schema/include-format-err.json:1: Invalid 'include' directive
+diff --git a/tests/qapi-schema/include-format-err.exit b/tests/qapi-schem=
+a/include-format-err.exit
+deleted file mode 100644
+index d00491fd7e..0000000000
+--- a/tests/qapi-schema/include-format-err.exit
++++ /dev/null
+@@ -1 +0,0 @@
+-1
+diff --git a/tests/qapi-schema/include-format-err.json b/tests/qapi-schem=
+a/include-format-err.json
+deleted file mode 100644
+index 44980f026f..0000000000
+--- a/tests/qapi-schema/include-format-err.json
++++ /dev/null
+@@ -1,2 +0,0 @@
+-{ 'include': 'include-simple-sub.json',
+-  'foo': 'bar' }
+diff --git a/tests/qapi-schema/include-format-err.out b/tests/qapi-schema=
+/include-format-err.out
+deleted file mode 100644
+index e69de29bb2..0000000000
 --=20
 2.21.0
 
