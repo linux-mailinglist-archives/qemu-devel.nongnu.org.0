@@ -2,51 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D84AB2C0E
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:51:59 +0200 (CEST)
-Received: from localhost ([::1]:50850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314DBB2C11
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:55:34 +0200 (CEST)
+Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9AL8-0004qV-9N
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54367)
+	id 1i9AOb-00015M-3i
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56697)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i9A5C-00050h-JR
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:32 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i9AMH-0007fJ-2G
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:53:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i9A5A-0004yO-05
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34210)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A57-0004tt-SX
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:27 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0211180F7C;
- Sat, 14 Sep 2019 15:35:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6969363122;
- Sat, 14 Sep 2019 15:35:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BC7611133070; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Sat, 14 Sep 2019 17:35:03 +0200
-Message-Id: <20190914153506.2151-17-armbru@redhat.com>
-In-Reply-To: <20190914153506.2151-1-armbru@redhat.com>
-References: <20190914153506.2151-1-armbru@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1i9AMF-0005bi-LD
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:53:08 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:33531)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i9AMF-0005ar-Ck
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:53:07 -0400
+Received: by mail-ed1-x542.google.com with SMTP id c4so767310edl.0
+ for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 08:53:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i45Wi1jeYhYFpNz+2IXLaY6w4HIOvN+kqymRjs2dzXw=;
+ b=UhhGqSnF3BSxTnNGLEOZ1v4m+cuPepV7pPNurGwQ0+6BE++8+PW+WnTquTZWILwiel
+ UximVJA+qUq8eueZ5U8aqstcZvcBFQZp3LJCahL/ZxpPwb0/atU3I+9gV0NYfCclXobj
+ uQXilX8eVs90xjEI463rTujcIQehNrJ/CbSWVBJ3FRwj4orBCPxs75a/xWLMInl96qh2
+ Sfle6sky7+Az+rGli8Deddnvi+jZil5dRi3ROSRMzFDb+X0pmg4Nzyiuhi9SsBhZVzgh
+ 67B+GgMe9MEDKJk2Fgb+ZnGMOehFggqW8vmwclepVe73XS/841mYe5Jb/QY7q35bwZNd
+ stKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i45Wi1jeYhYFpNz+2IXLaY6w4HIOvN+kqymRjs2dzXw=;
+ b=oJX/7TZhQq6PuDIu4kdkIS/WVJk83lJN3yYGrS/+d0iu1Ka0sc+h6espDB9sEJBcLi
+ oi6fNq9NyZknwIxXDIxWdx9DRgf8proIBvMUP/F4opDRQnTu0+DDLV4rhSQ4OuB9TxJ4
+ ohjnvFEg0aPcfWWVsqLBhxGLBrvSA2uKbHVW3tUAzvA1Ubzysw+NWIg5ikO/SgpvvXnT
+ eRwjmPL95/Knbjd9dY/tKqHvIkmcjx24ubNifFNde2z/G+zVIFXon65bzVY+Znbmvrf1
+ BIw5IoOAOP+C8Do3URovgBjMeO1dfLrePKqkqy8zuKDMBlCPLcNqsIqwQyRwp5Se2MSD
+ h1OQ==
+X-Gm-Message-State: APjAAAW9hKIhgl2+eQwQEFVvvCkrQ7tQnwjrSugNi0ubJegpQV+tGIIO
+ F6/AE9shkx6wXnE1l1Sd+xJ5jg==
+X-Google-Smtp-Source: APXvYqz5FSh+cmsAN3EuJv0y6STgbeegym7IS4xMQSas+eqw6eJ5nr4zFH09f34imhlX6hfgJph3fA==
+X-Received: by 2002:a50:934c:: with SMTP id n12mr45773462eda.12.1568476385634; 
+ Sat, 14 Sep 2019 08:53:05 -0700 (PDT)
+Received: from [192.168.44.107] ([185.81.138.18])
+ by smtp.gmail.com with ESMTPSA id r18sm6016614edl.6.2019.09.14.08.53.02
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 14 Sep 2019 08:53:05 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20190910193408.28917-1-alex.bennee@linaro.org>
+ <20190910193408.28917-5-alex.bennee@linaro.org>
+ <CAL1e-=giNc1e+kN04KqHFQGkJbP4BKziQyxVd3-RTtL+UOfSoQ@mail.gmail.com>
+ <874l1j18vm.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <5880b9c9-969f-fa79-f7f4-a45a6568635e@linaro.org>
+Date: Sat, 14 Sep 2019 11:52:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Sat, 14 Sep 2019 15:35:16 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 16/19] qapi: Delete useless check_exprs() code
- for simple union kind
+In-Reply-To: <874l1j18vm.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::542
+Subject: Re: [Qemu-devel] [PATCH v1 4/4] elf: move ELF_ARCH definition to
+ elf-arch.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,101 +87,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: peter.maydell@linaro.org, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit bceae7697f "qapi script: support enum type as discriminator in
-union" made check_exprs() add the implicit enum types of simple unions
-to global @enum_types.  I'm not sure it was needed even then.  It's
-certainly not needed now.  Delete it.
+On 9/11/19 5:26 AM, Alex Bennée wrote:
+> 
+> Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
+> 
+>> 10.09.2019. 21.34, "Alex Bennée" <alex.bennee@linaro.org> је написао/ла:
+>>>
+>>> This is preparatory for plugins which will want to report the
+>>> architecture to plugins. Move the ELF_ARCH definition out of the
+>>> loader and into its own header.
+>>>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> --
+>>
+>> Hi, Alex.
+>>
+>> I advice some caution here
+>> . For example, EM_NANOMIPS, and some other EM_xxx constants are not
+>> included in the new header.
+> 
+> EM_ARCH was never set to EM_NANOMIPS. In fact I can see e_machine is
+> checked against it so I guess it is only ever used to checking the
+> loading elf directly.
+> 
+> In fact EM_ARCH is only really the default fallback case for checking
+> the elf type if there is not a more "forgiving" check done by arch
+> specific code (elf_check_arch). The only other cace is the fallback for
+> EM_MACHINE unless PPC does something with it.
+> 
+>> I am not sure what exactly you want to achieve
+>> with this refactoring. But you may miss your goal, since some EM_xxx will
+>> be missing from your new header. Is this the right way to achieve what you
+>> want, and could you unintentionally introduce bugs? Can you outline in more
+>> details your intentions around the new header? Is this refactoring the only
+>> way?
+> 
+> As mentioned in the other reply maybe exposing a value from configure
+> into config-target.[mak|h] would be a better approach?
 
-discriminator_find_enum_define() and add_name() parameter @implicit
-are now dead.  Bury them.
+I think using EM_FOO to tell a plugin about the architecture is just going to
+be confusing.  As seen here wrt EM_NANOMIPS, but arguably elsewhere with
+EM_SPARC vs EM_SPARC64.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qapi/common.py | 39 ++-------------------------------------
- 1 file changed, 2 insertions(+), 37 deletions(-)
+You need to decide what it is that you want the plugin to know.  It is just be
+gross architecture?  In which case QEMU_ARCH_FOO is probably enough.  Is it the
+instruction set currently executing?  In which case neither EM_FOO nor
+QEMU_ARCH_FOO is sufficient -- e.g. arm thumb -- and you'll have to invent
+something new, because no two architectures handle this in the same way.  The
+closest you might be able to get without invention from whole cloth is the
+capstone cap_arch+cap_mode values from cc->disas_set_info().  But that only
+handles the most popular of targets.
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 3c3154a039..7e79c42b6a 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -672,26 +672,6 @@ def find_alternate_member_qtype(qapi_type):
-     return None
-=20
-=20
--# Return the discriminator enum define if discriminator is specified as =
-an
--# enum type, otherwise return None.
--def discriminator_find_enum_define(expr):
--    base =3D expr.get('base')
--    discriminator =3D expr.get('discriminator')
--
--    if not (discriminator and base):
--        return None
--
--    base_members =3D find_base_members(base)
--    if not base_members:
--        return None
--
--    discriminator_value =3D base_members.get(discriminator)
--    if not discriminator_value:
--        return None
--
--    return enum_types.get(discriminator_value['type'])
--
--
- # Names must be letters, numbers, -, and _.  They must start with letter=
-,
- # except for downstream extensions which must start with __RFQDN_.
- # Dots are only valid in the downstream extension prefix.
-@@ -722,7 +702,7 @@ def check_name(info, source, name, allow_optional=3DF=
-alse,
-         raise QAPISemError(info, "%s uses invalid name '%s'" % (source, =
-name))
-=20
-=20
--def add_name(name, info, meta, implicit=3DFalse):
-+def add_name(name, info, meta):
-     global all_names
-     check_name(info, "'%s'" % meta, name)
-     # FIXME should reject names that differ only in '_' vs. '.'
-@@ -730,7 +710,7 @@ def add_name(name, info, meta, implicit=3DFalse):
-     if name in all_names:
-         raise QAPISemError(info, "%s '%s' is already defined"
-                            % (all_names[name], name))
--    if not implicit and (name.endswith('Kind') or name.endswith('List'))=
-:
-+    if name.endswith('Kind') or name.endswith('List'):
-         raise QAPISemError(info, "%s '%s' should not end in '%s'"
-                            % (meta, name, name[-4:]))
-     all_names[name] =3D meta
-@@ -1138,21 +1118,6 @@ def check_exprs(exprs):
-             raise QAPISemError(info, "Definition of '%s' follows documen=
-tation"
-                                " for '%s'" % (name, doc.symbol))
-=20
--    # Try again for hidden UnionKind enum
--    for expr_elem in exprs:
--        expr =3D expr_elem['expr']
--
--        if 'include' in expr:
--            continue
--        if 'union' in expr and not discriminator_find_enum_define(expr):
--            name =3D '%sKind' % expr['union']
--        elif 'alternate' in expr:
--            name =3D '%sKind' % expr['alternate']
--        else:
--            continue
--        enum_types[name] =3D {'enum': name}
--        add_name(name, info, 'enum', implicit=3DTrue)
--
-     # Validate that exprs make sense
-     for expr_elem in exprs:
-         expr =3D expr_elem['expr']
---=20
-2.21.0
+In any case, a single header that every target must touch is the wrong
+approach.  If you want to do some cleanup, move these defines into e.g.
+linux-user/$TARGET/target_elf.h.  (And I wouldn't bother touching bsd-user in
+its current condition.)
 
+
+r~
 
