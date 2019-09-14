@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF083B2BE9
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:37:55 +0200 (CEST)
-Received: from localhost ([::1]:50736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E25B2BED
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:40:42 +0200 (CEST)
+Received: from localhost ([::1]:50756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9A7W-0006r0-CU
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:37:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54301)
+	id 1i9AAD-0001qp-3z
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:40:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i9A59-0004xV-VR
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:29 -0400
+ (envelope-from <armbru@redhat.com>) id 1i9A55-0004x7-6D
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i9A57-0004wu-Qg
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36612)
+ (envelope-from <armbru@redhat.com>) id 1i9A4x-0004tb-FE
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33108)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A53-0004sI-TP
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:23 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A4v-0004rI-CR
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:13 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 76DBB301A893;
- Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB13E3086218;
+ Sat, 14 Sep 2019 15:35:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 45E6867627;
- Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BF6317B55;
+ Sat, 14 Sep 2019 15:35:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B62241136448; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
+ id 8C19F11386A6; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 14 Sep 2019 17:35:01 +0200
-Message-Id: <20190914153506.2151-15-armbru@redhat.com>
+Date: Sat, 14 Sep 2019 17:34:48 +0200
+Message-Id: <20190914153506.2151-2-armbru@redhat.com>
 In-Reply-To: <20190914153506.2151-1-armbru@redhat.com>
 References: <20190914153506.2151-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Sat, 14 Sep 2019 15:35:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 14/19] qapi: Simplify check_keys()
+Subject: [Qemu-devel] [PATCH 01/19] tests/qapi-schema: Cover unknown pragma
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,79 +61,59 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-check_keys() parameter expr_elem expects a dictionary with keys 'expr'
-and 'info'.  Passing the two values separately is simpler, so do that.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/common.py | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ tests/Makefile.include                | 1 +
+ tests/qapi-schema/pragma-unknown.err  | 1 +
+ tests/qapi-schema/pragma-unknown.exit | 1 +
+ tests/qapi-schema/pragma-unknown.json | 1 +
+ tests/qapi-schema/pragma-unknown.out  | 0
+ 5 files changed, 4 insertions(+)
+ create mode 100644 tests/qapi-schema/pragma-unknown.err
+ create mode 100644 tests/qapi-schema/pragma-unknown.exit
+ create mode 100644 tests/qapi-schema/pragma-unknown.json
+ create mode 100644 tests/qapi-schema/pragma-unknown.out
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 4d1f62e808..4d4e0be770 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -1029,9 +1029,7 @@ def check_known_keys(info, source, keys, required, =
-optional):
-                               source, pprint(allowed)))
-=20
-=20
--def check_keys(expr_elem, meta, required, optional=3D[]):
--    expr =3D expr_elem['expr']
--    info =3D expr_elem['info']
-+def check_keys(expr, info, meta, required, optional=3D[]):
-     name =3D expr[meta]
-     if not isinstance(name, str):
-         raise QAPISemError(info, "'%s' key must have a string value" % m=
-eta)
-@@ -1100,40 +1098,39 @@ def check_exprs(exprs):
-=20
-         if 'enum' in expr:
-             meta =3D 'enum'
--            check_keys(expr_elem, 'enum', ['data'], ['if', 'prefix'])
-+            check_keys(expr, info, 'enum', ['data'], ['if', 'prefix'])
-             normalize_enum(expr)
-             enum_types[expr[meta]] =3D expr
-         elif 'union' in expr:
-             meta =3D 'union'
--            check_keys(expr_elem, 'union', ['data'],
-+            check_keys(expr, info, 'union', ['data'],
-                        ['base', 'discriminator', 'if'])
-             normalize_members(expr.get('base'))
-             normalize_members(expr['data'])
-             union_types[expr[meta]] =3D expr
-         elif 'alternate' in expr:
-             meta =3D 'alternate'
--            check_keys(expr_elem, 'alternate', ['data'], ['if'])
-+            check_keys(expr, info, 'alternate', ['data'], ['if'])
-             normalize_members(expr['data'])
-         elif 'struct' in expr:
-             meta =3D 'struct'
--            check_keys(expr_elem, 'struct', ['data'],
-+            check_keys(expr, info, 'struct', ['data'],
-                        ['base', 'if', 'features'])
-             normalize_members(expr['data'])
-             normalize_features(expr.get('features'))
-             struct_types[expr[meta]] =3D expr
-         elif 'command' in expr:
-             meta =3D 'command'
--            check_keys(expr_elem, 'command', [],
-+            check_keys(expr, info, 'command', [],
-                        ['data', 'returns', 'gen', 'success-response',
-                         'boxed', 'allow-oob', 'allow-preconfig', 'if'])
-             normalize_members(expr.get('data'))
-         elif 'event' in expr:
-             meta =3D 'event'
--            check_keys(expr_elem, 'event', [], ['data', 'boxed', 'if'])
-+            check_keys(expr, info, 'event', [], ['data', 'boxed', 'if'])
-             normalize_members(expr.get('data'))
-         else:
--            raise QAPISemError(expr_elem['info'],
--                               "Expression is missing metatype")
-+            raise QAPISemError(info, "Expression is missing metatype")
-         normalize_if(expr)
-         name =3D expr[meta]
-         add_name(name, info, meta)
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 52caeb705e..bb071d2ba9 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -428,6 +428,7 @@ qapi-schema +=3D pragma-doc-required-crap.json
+ qapi-schema +=3D pragma-extra-junk.json
+ qapi-schema +=3D pragma-name-case-whitelist-crap.json
+ qapi-schema +=3D pragma-non-dict.json
++qapi-schema +=3D pragma-unknown.json
+ qapi-schema +=3D pragma-returns-whitelist-crap.json
+ qapi-schema +=3D qapi-schema-test.json
+ qapi-schema +=3D quoted-structural-chars.json
+diff --git a/tests/qapi-schema/pragma-unknown.err b/tests/qapi-schema/pra=
+gma-unknown.err
+new file mode 100644
+index 0000000000..6ef2058316
+--- /dev/null
++++ b/tests/qapi-schema/pragma-unknown.err
+@@ -0,0 +1 @@
++tests/qapi-schema/pragma-unknown.json:1: Unknown pragma 'no-such-pragma'
+diff --git a/tests/qapi-schema/pragma-unknown.exit b/tests/qapi-schema/pr=
+agma-unknown.exit
+new file mode 100644
+index 0000000000..d00491fd7e
+--- /dev/null
++++ b/tests/qapi-schema/pragma-unknown.exit
+@@ -0,0 +1 @@
++1
+diff --git a/tests/qapi-schema/pragma-unknown.json b/tests/qapi-schema/pr=
+agma-unknown.json
+new file mode 100644
+index 0000000000..c51bbbb53f
+--- /dev/null
++++ b/tests/qapi-schema/pragma-unknown.json
+@@ -0,0 +1 @@
++{ 'pragma': { 'no-such-pragma': false } }
+diff --git a/tests/qapi-schema/pragma-unknown.out b/tests/qapi-schema/pra=
+gma-unknown.out
+new file mode 100644
+index 0000000000..e69de29bb2
 --=20
 2.21.0
 
