@@ -2,60 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFE5B2CEA
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:34:51 +0200 (CEST)
-Received: from localhost ([::1]:52198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F20B2CF1
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:57:40 +0200 (CEST)
+Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9Eks-0007xV-Im
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:34:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37868)
+	id 1i9F6x-00075N-Ea
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1i9Ej6-00061h-V5
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:33:01 -0400
+ (envelope-from <chewi@gentoo.org>) id 1i99PO-0008RL-00
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 10:52:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1i9Ej6-0008NZ-0Z
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:33:00 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:36334)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i9Ej5-0008NJ-S9
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:32:59 -0400
-Received: by mail-pg1-f196.google.com with SMTP id m29so802198pgc.3
- for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 13:32:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=4SGplVlvAeilU0vnEoPWo2vlTvRUOb+zpOK1n3ckaTU=;
- b=b0v8iWAEE+SHkiDAAS0E5zLkzXJsLKPG+UWZ0cmSN2RwPexofUYYMZ11QuLzAmEsRE
- ERBmOSMuSDCf9EqQp4YAG6MoSg3m3aefLFPDI/lqazOTkQlLP7TA4obYrq0QkEP2CzMF
- uW3BnLi2IqGjC1SXOdI6a6AKXMAXipdaQJ8FAj4wlChGIvKJzU8KoWR/BxwW8GzMHrCz
- rdDG0hv9FxmB767gsh24/wLm4mKebdFaUq4SbtaTaDZBbQ6wLI6qxcp3wu/vhHop/hA3
- L95pONXP82avZ4nA8wywzBEGkyQm8W6vrZw5d16NAoyzAxlm1r9LMzOhcgjDe1oxuu9B
- fGaQ==
-X-Gm-Message-State: APjAAAX5XqktY9M9OHNM3wWRZo0Xv3jDhnjZbRH7ur2drlqPh4NPAuIo
- +PKfJrsby1iFloBE69Zqh9hYEjI9zcsbGGQj
-X-Google-Smtp-Source: APXvYqzaFiG0Q2zvZBtvLQwY1OANzKpl3xy5CYW/2EijJSfYOebkvpSVe/NbtL5gEVv/MJThMu/hYg==
-X-Received: by 2002:a65:62cd:: with SMTP id m13mr48953385pgv.437.1568493178490; 
- Sat, 14 Sep 2019 13:32:58 -0700 (PDT)
-Received: from localhost (amx-tls3.starhub.net.sg. [203.116.164.13])
- by smtp.gmail.com with ESMTPSA id ck13sm4975609pjb.29.2019.09.14.13.32.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Sep 2019 13:32:58 -0700 (PDT)
-Date: Sat, 14 Sep 2019 13:32:58 -0700 (PDT)
-X-Google-Original-Date: Sat, 14 Sep 2019 13:32:40 PDT (-0700)
-In-Reply-To: <2b2e042b3c80d4f37cf150853a0a040581feb403.1566603412.git.alistair.francis@wdc.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-bfe535ba-174e-466d-9ee4-0c8d98be850b@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (envelope-from <chewi@gentoo.org>) id 1i99PM-0000J7-LB
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 10:52:17 -0400
+Received: from smtp.gentoo.org ([140.211.166.183]:54928)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chewi@gentoo.org>)
+ id 1i99PM-0000HW-GE; Sat, 14 Sep 2019 10:52:16 -0400
+Received: from symphony.aura-online.co.uk (154.189.187.81.in-addr.arpa
+ [81.187.189.154])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: chewi)
+ by smtp.gentoo.org (Postfix) with ESMTPSA id EFCC234B179;
+ Sat, 14 Sep 2019 14:52:12 +0000 (UTC)
+From: James Le Cuirot <chewi@gentoo.org>
+To: qemu-devel@nongnu.org
+Date: Sat, 14 Sep 2019 15:51:55 +0100
+Message-Id: <20190914145155.19360-1-chewi@gentoo.org>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.215.196
-Subject: Re: [Qemu-devel] [PATCH v1 15/28] riscv: plic: Always set sip.SEIP
- bit for HS
+X-Received-From: 140.211.166.183
+X-Mailman-Approved-At: Sat, 14 Sep 2019 16:55:48 -0400
+Subject: [Qemu-devel] [PATCH] configure: Add xkbcommon configure options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,44 +48,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
- qemu-devel@nongnu.org, Atish Patra <Atish.Patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
+Cc: qemu-trivial@nongnu.org, James Le Cuirot <chewi@gentoo.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Aug 2019 16:38:29 PDT (-0700), Alistair Francis wrote:
-> When the PLIC generates an interrupt ensure we always set it for the SIP
-> CSR that corresponds to the HS (V=0) register.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/sifive_plic.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-> index 98e4304b66..8309e96f64 100644
-> --- a/hw/riscv/sifive_plic.c
-> +++ b/hw/riscv/sifive_plic.c
-> @@ -150,7 +150,17 @@ static void sifive_plic_update(SiFivePLICState *plic)
->              riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
->              break;
->          case PLICMode_S:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-> +            if (riscv_cpu_virt_enabled(env)) {
-> +                if (level) {
-> +                    atomic_or(&env->mip_novirt, MIP_SEIP);
-> +                    g_assert(riscv_cpu_virt_enabled(env));
-> +                } else {
-> +                    atomic_and(&env->mip_novirt, ~MIP_SEIP);
-> +                    g_assert(riscv_cpu_virt_enabled(env));
-> +                }
-> +            } else {
-> +                riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-> +            }
->              break;
->          default:
->              break;
+This dependency is currently "automagic", which is bad for distributions.
 
-This is going to go when we change the interrupt delivery mechanism.
+Signed-off-by: James Le Cuirot <chewi@gentoo.org>
+---
+ configure | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/configure b/configure
+index 30aad233d1..30544f52e6 100755
+--- a/configure
++++ b/configure
+@@ -1521,6 +1521,10 @@ for opt do
+   ;;
+   --disable-libpmem) libpmem=3Dno
+   ;;
++  --enable-xkbcommon) xkbcommon=3Dyes
++  ;;
++  --disable-xkbcommon) xkbcommon=3Dno
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1804,6 +1808,7 @@ disabled with --disable-FEATURE, default is enabled=
+ if available:
+   capstone        capstone disassembler support
+   debug-mutex     mutex debugging support
+   libpmem         libpmem support
++  xkbcommon       xkbcommon support
+=20
+ NOTE: The object files are built at the place where configure is launche=
+d
+ EOF
+--=20
+2.23.0
+
 
