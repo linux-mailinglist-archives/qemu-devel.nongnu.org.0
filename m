@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B7AB2CED
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:36:27 +0200 (CEST)
-Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4620DB2CE3
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:33:23 +0200 (CEST)
+Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9EmQ-0001AY-S4
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38257)
+	id 1i9EjR-0005QV-Vk
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:33:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37552)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i9Elb-0000j4-AH
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:35:36 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i9Egl-00047g-9n
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i9Ela-0001UN-2w
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:35:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53950)
+ (envelope-from <palmer@dabbelt.com>) id 1i9Egj-0007YO-7s
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:34 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44298)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i9ElZ-0001UB-TZ
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:35:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i9ElZ-0007NX-3o
- for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:35:33 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1AE092E80CB
- for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 20:35:33 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Sep 2019 20:29:18 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paulo-cesar-pereira-de-andrade rth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade_=28?=
- =?utf-8?q?paulo-cesar-pereira-de-andrade=29?=
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <156787148109.29148.9145557698070556446.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156849295899.660.7788290394933110670.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 799cc4c2c4adebda62385435138fee488a50d9fb
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i9Egi-0007Xp-No
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 16:30:33 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q21so20079913pfn.11
+ for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 13:30:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=mqiWSiqpiz+fx9h9hJXy2Y/55JL0xCh6wLI+OaJeoQo=;
+ b=Glrw0+izmqMr/lcVacBwirjAuKTUKnsMAKb6nTwXgTzklrRLRN9Dwa45QNPeXqsYpp
+ ZOUU4RHs4ZEOVZOmc4FRDmv+JiuiPfferRUueMP1+0fXore6+xSPpaJ889tmvWhtD0Uf
+ XtvDjLJgV+YHlO6dOf3HnN0XqWao1goOGG36xllwfSM8L0eeRbQGGSQGWL5uZLHWyDlo
+ 2x+Vm85kCPANvzbFMpYpxvwNDHjqd76c9hJkH/rHp1tcU1fAOOL73mh+6JeBi6wu2sUE
+ tGq0hYj1Y2HEoIjYmxj+ZYuAV1+9ZmUkmSmIFE0CXLJKogXPVDcRzTSxUCbxJYKHrYXA
+ IyXg==
+X-Gm-Message-State: APjAAAXHKehOLPYx0w4dRLvknejxZFsTlyM8IdBzyqG9v1nLmkbOIV67
+ oykg6vhQBYMHJpaHYUJ2WhZbG6w3hcFRFy0V
+X-Google-Smtp-Source: APXvYqxyE+x3X6N3jwmI26/u7j+WT+j0XTpEeJ7hOQiCAjGHJWHkZqy6rOfbTjy4ts0EbifXx6sAMw==
+X-Received: by 2002:a17:90a:9105:: with SMTP id
+ k5mr12778287pjo.9.1568493031001; 
+ Sat, 14 Sep 2019 13:30:31 -0700 (PDT)
+Received: from localhost (amx-tls3.starhub.net.sg. [203.116.164.13])
+ by smtp.gmail.com with ESMTPSA id m9sm45564682pgr.24.2019.09.14.13.30.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 14 Sep 2019 13:30:29 -0700 (PDT)
+Date: Sat, 14 Sep 2019 13:30:29 -0700 (PDT)
+X-Google-Original-Date: Sat, 14 Sep 2019 13:23:56 PDT (-0700)
+In-Reply-To: <f28c9a322755ce12e1102c4e79c5f290f0cab628.1566603412.git.alistair.francis@wdc.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-c97fe499-03a6-4b10-ade1-085e4c77c2f0@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1843133] Re: Possibly incorrect branch in
- qemu-system-hppa
+ [fuzzy]
+X-Received-From: 209.85.210.193
+Subject: Re: [Qemu-devel] [PATCH v1 12/28] target/riscv: Add support for
+ virtual interrupt setting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,147 +68,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843133 <1843133@bugs.launchpad.net>
+Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
+ qemu-devel@nongnu.org, Atish Patra <Atish.Patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test case works for me.
+On Fri, 23 Aug 2019 16:38:21 PDT (-0700), Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu_helper.c | 21 ++++++++++++++++++---
+>  1 file changed, 18 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 41d4368128..afb3e8579e 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -38,12 +38,27 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>  {
+>      target_ulong mstatus_mie = get_field(*env->mstatus, MSTATUS_MIE);
+>      target_ulong mstatus_sie = get_field(*env->mstatus, MSTATUS_SIE);
+> -    target_ulong pending = atomic_read(env->mip) & *env->mie;
+> -    target_ulong mie = env->priv < PRV_M || (env->priv == PRV_M && mstatus_mie);
+> -    target_ulong sie = env->priv < PRV_S || (env->priv == PRV_S && mstatus_sie);
+> +    target_ulong vsstatus_sie = get_field(env->mstatus_novirt, MSTATUS_SIE);
+> +
+> +    target_ulong pending = atomic_read(&env->mip) & *env->mie;
+> +    target_ulong hspending = atomic_read(&env->mip_novirt) & env->mie_novirt;
+> +
+> +    target_ulong mie  = env->priv < PRV_M || (env->priv == PRV_M && mstatus_mie);
+> +    target_ulong sie  = env->priv < PRV_S || (env->priv == PRV_S && mstatus_sie);
+> +    target_ulong vsie = env->priv < PRV_S || (env->priv == PRV_S && vsstatus_sie);
+> +
+>      target_ulong irqs = (pending & ~env->mideleg & -mie) |
+>                          (pending &  env->mideleg & -sie);
+>
+> +    if (riscv_cpu_virt_enabled(env)) {
+> +        target_ulong pending_hs_irq = hspending & -vsie;
+> +
+> +        if (pending_hs_irq) {
+> +            riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
+> +            return ctz64(pending_hs_irq);
+> +        }
+> +    }
+> +
+>      if (irqs) {
+>          return ctz64(irqs); /* since non-zero */
+>      } else {
 
-$ ./hppa-linux-user/qemu-hppa ~/a.out
-$ echo $?
-0
-
->From -d in_asm,cpu logs:
-
-IN: main
-0x000112d0:  addb,*<,n r24,r23,0x112e4
-
-IA_F 000112d3 IA_B 000112d7
-PSW  0000bf00 CB   11111111 ------------------
-GR00 00000000 GR01 00000000 GR02 0001162b GR03 ff7fe9c0
-GR04 00011b94 GR05 00011c6c GR06 00000000 GR07 00000000
-GR08 00000000 GR09 00000000 GR10 00000000 GR11 00000000
-GR12 00000000 GR13 00000000 GR14 00000000 GR15 00000000
-GR16 00000000 GR17 00000000 GR18 00000000 GR19 ff7fe888
-GR20 00000000 GR21 00000000 GR22 000112bc GR23 7fffffff
-GR24 00000001 GR25 ff7fe674 GR26 00000001 GR27 0009a0e0
-GR28 0009f080 GR29 00000001 GR30 ff7fea00 GR31 0001162b
-
-About to execute the addb; r23 and r24 as expected.
-
-----------------
-IN: main
-0x000112e4:  ldi 0,ret0
-
-IA_F 000112e7 IA_B 000112eb
-PSW  0000bf00 CB   11111111 ------------------
-GR00 00000000 GR01 00000000 GR02 0001162b GR03 ff7fe9c0
-GR04 00011b94 GR05 00011c6c GR06 00000000 GR07 00000000
-GR08 00000000 GR09 00000000 GR10 00000000 GR11 00000000
-GR12 00000000 GR13 00000000 GR14 00000000 GR15 00000000
-GR16 00000000 GR17 00000000 GR18 00000000 GR19 ff7fe888
-GR20 00000000 GR21 00000000 GR22 000112bc GR23 80000000
-GR24 00000001 GR25 ff7fe674 GR26 00000001 GR27 0009a0e0
-GR28 0009f080 GR29 00000001 GR30 ff7fea00 GR31 0001162b
-
-The branch has been taken, correctly.
-We can see the expected result in r23.
-
-I've also tested this in system mode, though getting logs
-from that is significantly more difficult.
-
-I am testing git master, not v3.1.1.  Can you please try
-the development version?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843133
-
-Title:
-  Possibly incorrect branch in qemu-system-hppa
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I plan to release a new GNU Lightning soon.
-  I no longer have access to any physical HPPA, but code that
-  was tested some years ago did work on HPPA/HP-UX, and now it
-  appears qemu-system-hppa incorrectly branches in code generated
-  by GNU Lightning. Currently only 32 bit hppa jit generation
-  supported.
-
-  In the lightning check/test tool, the code would be:
-
-  .code
-      prolog
-      movi %r0 0x7fffffff
-      movi %r1 1
-      boaddr L0 %r0 %r1
-      calli @abort
-  L0:
-      ret
-      epilog
-
-  The code/debug information looks like this:
-              movi r4 0x7fffffff
-              0xf8ef5018      ldil L%7ffff800,r4
-              0xf8ef501c      ldo 7ff(r4),r4
-              movi r5 0x1
-              0xf8ef5020      ldi 1,r5
-          boaddr L1 r4 r5
-              0xf8ef5024      addb,sv,n r5,r4,0xf8ef5044 :a.tst:291
-              0xf8ef5028      nop
-          calli 0xf8eeb68a
-              [...]
-      L1:
-
-  Apparently it is not understanding 0x7fffffff + 1 is a signed
-  overflow.
-
-  Tested in Fedora with qemu-system-hppa-3.1.1-2.fc30.x86_64 and using
-  the debian-10 image.
-
-  To make it a bit easier to test (partially transformed the
-  not so optimized code generated by lightning to gcc -S output):
-  # cat a.s
-  	.LEVEL 1.1
-  	.text
-  	.align 4
-  .globl main
-  	.type	main, @function
-  main:
-  	.PROC
-  	.CALLINFO FRAME=3D64,NO_CALLS,SAVE_SP,ENTRY_GR=3D3
-  	.ENTRY
-  	copy %r3,%r1
-  	copy %r30,%r3
-  	stwm %r1,64(%r30)
-  	zdepi -1,31,31,%r23
-  	ldi 1,%r24
-  	addb,sv,n %r24,%r23,.L0
-  	nop
-  	ldi 1,%r28
-  	b,n .L1
-  	nop
-  .L0:
-  	ldi 0,%r28
-  .L1:
-  	ldo 64(%r3),%r30
-  	ldwm -64(%r30),%r3
-  	bv,n %r0(%r2)
-  	.EXIT
-  	.PROCEND
-  	.size	main, .-main
-
-  # gcc a.s
-  # ./a.out; echo $?
-  1
-
-  It should have returned 0.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843133/+subscriptions
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 
