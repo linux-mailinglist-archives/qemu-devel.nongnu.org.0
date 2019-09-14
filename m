@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA5AB2C07
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:48:45 +0200 (CEST)
-Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E158B2BEF
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 17:40:48 +0200 (CEST)
+Received: from localhost ([::1]:50760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9AI0-0001CY-1T
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:48:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
+	id 1i9AAJ-0001vG-4u
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 11:40:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i9A5E-000538-8D
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:33 -0400
+ (envelope-from <armbru@redhat.com>) id 1i9A59-0004xW-VZ
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i9A5B-0004zf-7b
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37650)
+ (envelope-from <armbru@redhat.com>) id 1i9A57-0004xO-TF
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51098)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A5A-0004sF-A0
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:29 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i9A55-0004sR-RH
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 11:35:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 684301DA2;
+ by mx1.redhat.com (Postfix) with ESMTPS id 995F130833A8;
  Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3664117B49;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DFC42655F;
  Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AC9461138408; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
+ id AFCDE1136445; Sat, 14 Sep 2019 17:35:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 14 Sep 2019 17:34:58 +0200
-Message-Id: <20190914153506.2151-12-armbru@redhat.com>
+Date: Sat, 14 Sep 2019 17:34:59 +0200
+Message-Id: <20190914153506.2151-13-armbru@redhat.com>
 In-Reply-To: <20190914153506.2151-1-armbru@redhat.com>
 References: <20190914153506.2151-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Sat, 14 Sep 2019 15:35:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 11/19] qapi: Reject blank 'if' conditions in
- addition to empty ones
+Subject: [Qemu-devel] [PATCH 12/19] qapi: Fix missing 'if' checks in struct,
+ union, alternate 'data'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,53 +62,212 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"'if': 'COND'" generates "#if COND".  We reject empty COND because it
-won't compile.  Blank COND won't compile any better, so reject that,
-too.
+Commit 87adbbffd4..3e270dcacc "qapi: Add 'if' to (implicit
+struct|union|alternate) members" (v4.0.0) neglected test coverage, and
+promptly failed to check the conditions.  Review fail.
+
+Recent commit "tests/qapi-schema: Demonstrate insufficient 'if'
+checking" added test coverage, demonstrating the bug.  Fix it by add
+the missing check_if().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/common.py             | 5 +++--
- tests/qapi-schema/bad-if-list.err  | 2 +-
- tests/qapi-schema/bad-if-list.json | 2 +-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ scripts/qapi/common.py                        |  3 +++
+ .../alternate-branch-if-invalid.err           |  1 +
+ .../alternate-branch-if-invalid.exit          |  2 +-
+ .../alternate-branch-if-invalid.json          |  1 -
+ .../alternate-branch-if-invalid.out           | 16 -------------
+ .../qapi-schema/struct-member-if-invalid.err  |  1 +
+ .../qapi-schema/struct-member-if-invalid.exit |  2 +-
+ .../qapi-schema/struct-member-if-invalid.json |  1 -
+ .../qapi-schema/struct-member-if-invalid.out  | 15 ------------
+ tests/qapi-schema/union-branch-if-invalid.err |  1 +
+ .../qapi-schema/union-branch-if-invalid.exit  |  2 +-
+ .../qapi-schema/union-branch-if-invalid.json  |  1 -
+ tests/qapi-schema/union-branch-if-invalid.out | 23 -------------------
+ 13 files changed, 9 insertions(+), 60 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index a58e904978..2b46164854 100644
+index 2b46164854..cacee9b8bb 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -742,8 +742,9 @@ def check_if(expr, info):
-         if not isinstance(ifcond, str):
-             raise QAPISemError(
-                 info, "'if' condition must be a string or a list of stri=
-ngs")
--        if ifcond =3D=3D '':
--            raise QAPISemError(info, "'if' condition '' makes no sense")
-+        if ifcond.strip() =3D=3D '':
-+            raise QAPISemError(info, "'if' condition '%s' makes no sense=
-"
-+                               % ifcond)
+@@ -803,6 +803,7 @@ def check_type(info, source, value,
+         # an optional argument.
+         check_known_keys(info, "member '%s' of %s" % (key, source),
+                          arg, ['type'], ['if'])
++        check_if(arg, info)
+         check_type(info, "Member '%s' of %s" % (key, source),
+                    arg['type'], allow_array=3DTrue,
+                    allow_metas=3D['built-in', 'union', 'alternate', 'str=
+uct',
+@@ -902,6 +903,7 @@ def check_union(expr, info):
 =20
-     ifcond =3D expr.get('if')
-     if ifcond is None:
-diff --git a/tests/qapi-schema/bad-if-list.err b/tests/qapi-schema/bad-if=
--list.err
-index 0af6316f78..53af099083 100644
---- a/tests/qapi-schema/bad-if-list.err
-+++ b/tests/qapi-schema/bad-if-list.err
+         check_known_keys(info, "member '%s' of union '%s'" % (key, name)=
+,
+                          value, ['type'], ['if'])
++        check_if(value, info)
+         # Each value must name a known type
+         check_type(info, "Member '%s' of union '%s'" % (key, name),
+                    value['type'],
+@@ -930,6 +932,7 @@ def check_alternate(expr, info):
+         check_known_keys(info,
+                          "member '%s' of alternate '%s'" % (key, name),
+                          value, ['type'], ['if'])
++        check_if(value, info)
+         typ =3D value['type']
+=20
+         # Ensure alternates have no type conflicts.
+diff --git a/tests/qapi-schema/alternate-branch-if-invalid.err b/tests/qa=
+pi-schema/alternate-branch-if-invalid.err
+index e69de29bb2..f1d6c10e00 100644
+--- a/tests/qapi-schema/alternate-branch-if-invalid.err
++++ b/tests/qapi-schema/alternate-branch-if-invalid.err
+@@ -0,0 +1 @@
++tests/qapi-schema/alternate-branch-if-invalid.json:2: 'if' condition ' '=
+ makes no sense
+diff --git a/tests/qapi-schema/alternate-branch-if-invalid.exit b/tests/q=
+api-schema/alternate-branch-if-invalid.exit
+index 573541ac97..d00491fd7e 100644
+--- a/tests/qapi-schema/alternate-branch-if-invalid.exit
++++ b/tests/qapi-schema/alternate-branch-if-invalid.exit
 @@ -1 +1 @@
--tests/qapi-schema/bad-if-list.json:2: 'if' condition '' makes no sense
-+tests/qapi-schema/bad-if-list.json:2: 'if' condition ' ' makes no sense
-diff --git a/tests/qapi-schema/bad-if-list.json b/tests/qapi-schema/bad-i=
-f-list.json
-index 49ced9b9ca..ea3d95bb6b 100644
---- a/tests/qapi-schema/bad-if-list.json
-+++ b/tests/qapi-schema/bad-if-list.json
-@@ -1,3 +1,3 @@
- # check invalid 'if' content
- { 'struct': 'TestIfStruct', 'data': { 'foo': 'int' },
--  'if': ['foo', ''] }
-+  'if': ['foo', ' '] }
+-0
++1
+diff --git a/tests/qapi-schema/alternate-branch-if-invalid.json b/tests/q=
+api-schema/alternate-branch-if-invalid.json
+index 6497f53475..fea6d9080c 100644
+--- a/tests/qapi-schema/alternate-branch-if-invalid.json
++++ b/tests/qapi-schema/alternate-branch-if-invalid.json
+@@ -1,4 +1,3 @@
+ # Cover alternative with invalid 'if'
+-# FIXME not rejected, would generate '#if  \n'
+ { 'alternate': 'Alt',
+   'data': { 'branch': { 'type': 'int', 'if': ' ' } } }
+diff --git a/tests/qapi-schema/alternate-branch-if-invalid.out b/tests/qa=
+pi-schema/alternate-branch-if-invalid.out
+index 89305d7f21..e69de29bb2 100644
+--- a/tests/qapi-schema/alternate-branch-if-invalid.out
++++ b/tests/qapi-schema/alternate-branch-if-invalid.out
+@@ -1,16 +0,0 @@
+-module None
+-object q_empty
+-enum QType
+-    prefix QTYPE
+-    member none
+-    member qnull
+-    member qnum
+-    member qstring
+-    member qdict
+-    member qlist
+-    member qbool
+-module alternate-branch-if-invalid.json
+-alternate Alt
+-    tag type
+-    case branch: int
+-        if [' ']
+diff --git a/tests/qapi-schema/struct-member-if-invalid.err b/tests/qapi-=
+schema/struct-member-if-invalid.err
+index e69de29bb2..bfd65db97b 100644
+--- a/tests/qapi-schema/struct-member-if-invalid.err
++++ b/tests/qapi-schema/struct-member-if-invalid.err
+@@ -0,0 +1 @@
++tests/qapi-schema/struct-member-if-invalid.json:2: 'if' condition must b=
+e a string or a list of strings
+diff --git a/tests/qapi-schema/struct-member-if-invalid.exit b/tests/qapi=
+-schema/struct-member-if-invalid.exit
+index 573541ac97..d00491fd7e 100644
+--- a/tests/qapi-schema/struct-member-if-invalid.exit
++++ b/tests/qapi-schema/struct-member-if-invalid.exit
+@@ -1 +1 @@
+-0
++1
+diff --git a/tests/qapi-schema/struct-member-if-invalid.json b/tests/qapi=
+-schema/struct-member-if-invalid.json
+index 73987e04fc..35078bd660 100644
+--- a/tests/qapi-schema/struct-member-if-invalid.json
++++ b/tests/qapi-schema/struct-member-if-invalid.json
+@@ -1,4 +1,3 @@
+ # Cover member with invalid 'if'
+-# FIXME not rejected, would generate '#if True\n'
+ { 'struct': 'Stru',
+   'data': { 'member': { 'type': 'int', 'if': true } } }
+diff --git a/tests/qapi-schema/struct-member-if-invalid.out b/tests/qapi-=
+schema/struct-member-if-invalid.out
+index 8fbb97985c..e69de29bb2 100644
+--- a/tests/qapi-schema/struct-member-if-invalid.out
++++ b/tests/qapi-schema/struct-member-if-invalid.out
+@@ -1,15 +0,0 @@
+-module None
+-object q_empty
+-enum QType
+-    prefix QTYPE
+-    member none
+-    member qnull
+-    member qnum
+-    member qstring
+-    member qdict
+-    member qlist
+-    member qbool
+-module struct-member-if-invalid.json
+-object Stru
+-    member member: int optional=3DFalse
+-        if [True]
+diff --git a/tests/qapi-schema/union-branch-if-invalid.err b/tests/qapi-s=
+chema/union-branch-if-invalid.err
+index e69de29bb2..607edee382 100644
+--- a/tests/qapi-schema/union-branch-if-invalid.err
++++ b/tests/qapi-schema/union-branch-if-invalid.err
+@@ -0,0 +1 @@
++tests/qapi-schema/union-branch-if-invalid.json:4: 'if' condition '' make=
+s no sense
+diff --git a/tests/qapi-schema/union-branch-if-invalid.exit b/tests/qapi-=
+schema/union-branch-if-invalid.exit
+index 573541ac97..d00491fd7e 100644
+--- a/tests/qapi-schema/union-branch-if-invalid.exit
++++ b/tests/qapi-schema/union-branch-if-invalid.exit
+@@ -1 +1 @@
+-0
++1
+diff --git a/tests/qapi-schema/union-branch-if-invalid.json b/tests/qapi-=
+schema/union-branch-if-invalid.json
+index 859b63b610..46d4239af6 100644
+--- a/tests/qapi-schema/union-branch-if-invalid.json
++++ b/tests/qapi-schema/union-branch-if-invalid.json
+@@ -1,5 +1,4 @@
+ # Cover branch with invalid 'if'
+-# FIXME not rejected, would generate '#if \n'
+ { 'enum': 'Branches', 'data': ['branch1'] }
+ { 'struct': 'Stru', 'data': { 'member': 'str' } }
+ { 'union': 'Uni',
+diff --git a/tests/qapi-schema/union-branch-if-invalid.out b/tests/qapi-s=
+chema/union-branch-if-invalid.out
+index 2ed43218af..e69de29bb2 100644
+--- a/tests/qapi-schema/union-branch-if-invalid.out
++++ b/tests/qapi-schema/union-branch-if-invalid.out
+@@ -1,23 +0,0 @@
+-module None
+-object q_empty
+-enum QType
+-    prefix QTYPE
+-    member none
+-    member qnull
+-    member qnum
+-    member qstring
+-    member qdict
+-    member qlist
+-    member qbool
+-module union-branch-if-invalid.json
+-enum Branches
+-    member branch1
+-object Stru
+-    member member: str optional=3DFalse
+-object q_obj_Uni-base
+-    member tag: Branches optional=3DFalse
+-object Uni
+-    base q_obj_Uni-base
+-    tag tag
+-    case branch1: Stru
+-        if ['']
 --=20
 2.21.0
 
