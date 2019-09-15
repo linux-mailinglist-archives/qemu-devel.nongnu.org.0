@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB80BB31A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 21:26:51 +0200 (CEST)
-Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415DDB31B6
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 21:32:58 +0200 (CEST)
+Received: from localhost ([::1]:56592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9aAc-000068-PQ
-	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 15:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39993)
+	id 1i9aGW-0003kZ-Lk
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 15:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i9a7h-00061P-3Z
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:50 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1i9a4R-0003bf-Se
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:20:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i9a7f-0001z8-Tx
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:49 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:43267)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i9a7f-0001yr-N0
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:47 -0400
-Received: by mail-ed1-x543.google.com with SMTP id r9so2479900edl.10
- for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 12:23:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DqChsnZIXAGMvroXVL0MQvbI8g2z6bOPhBgHC6Jjg7E=;
- b=a1Ha0zzMJIzsr9apMpWhp6SNsd+urEUORfOWPwnIP51/iyEBfLjGlx34Y0Vem8cCrf
- TnNkf6znufNY/HkPxZGIIUco5Ex9x3E17avFs5lMlll1S+xsO3Oq83UQx+UjCiK8YDjG
- Sh73y9ZNScQKj00cinRt6L6zzKY1Us073XDkGEj/XMrEXGim8clFCHIQO1obwwbSoRmY
- R+yUYui7Kct3imjW6SwC70LwieEKHpCNazMpUq2QSG5+PnWW8Bnd4cnIjERCxIN3dBAc
- WnOgs6vJj/+0s8xxYpP16QXC2gzhDnK6d7STfKSz9RvlsPe7NGPDImOWfUit2eVmeo44
- mXPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DqChsnZIXAGMvroXVL0MQvbI8g2z6bOPhBgHC6Jjg7E=;
- b=CmRG3PGuDMjS4YwTEPz0EK6y/qyWm7/BBC4aTy3uUKS/eWhgp8r+LEjqG/FkA9IQsV
- UcFUMMHjeKouTe3jBpkSlKgQk4cB9BYA3Zp/zsVRjdea9PNmcEfLCsF7p233zfBseF7p
- LRx/XOqqU0FalKyufzbxyUt8HftTChMK4oUwX4q8CzX6c6l7309VrlC+6JunZnK0C1q6
- hzw5lwz1GOH6fXob1QIcs+xfF+sQ0NBu+qpWMjlvj3q1mjUH6X3UCaxXRTuFwAQ6vx9t
- i9ILqW8+iHz4Gj/AOuvMXL7R5y1tWnnzw5cfkAgmSY4PpirKoNjhBHM7upZi7QBtATic
- 42hQ==
-X-Gm-Message-State: APjAAAVjzIBpe8xsI/SSA1A9cxioXbtItbG3UW8rZDXwQxSNMHR33DCB
- dH0fYwozVSVN9nTJUTB1SVYVsTKD
-X-Google-Smtp-Source: APXvYqzr2xj4qmMMiJ6/RU2LzYrwXQQpKxD/kzkWWpLmIT/CiRHcjdOYdYtiQXg2snGtm0reLDSRlA==
-X-Received: by 2002:a50:c351:: with SMTP id q17mr20891295edb.123.1568575426537; 
- Sun, 15 Sep 2019 12:23:46 -0700 (PDT)
-Received: from nullptr.home.dirty-ice.org
- (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
- [2a01:36c:113:74ef::5])
- by smtp.gmail.com with ESMTPSA id j20sm6480562edy.95.2019.09.15.12.23.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Sep 2019 12:23:46 -0700 (PDT)
-From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
- <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
- <DirtY.iCE.hu@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Sun, 15 Sep 2019 21:23:24 +0200
-Message-Id: <3e95a57a0663f1f4464cd3515e252628791c971e.1568574965.git.DirtY.iCE.hu@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1568574965.git.DirtY.iCE.hu@gmail.com>
-References: <cover.1568574965.git.DirtY.iCE.hu@gmail.com>
+ (envelope-from <lukasstraub2@web.de>) id 1i9a4Q-00012i-V7
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:20:27 -0400
+Received: from mout.web.de ([212.227.15.14]:36371)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1i9a4Q-000112-M3
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:20:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1568575195;
+ bh=ppWNVTe6sizP2ChzFyAocsWaZ00+Z0YbkfJfWzg8wOo=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=U0/GS2YTymIVp6kPrtVOF34Q9WBQWfIs1yuH5+hda9pLdZVTDS7RzV5wCSAiG0pW/
+ I1aTuhP8wTY/g3wdCZV4fYxbZO/lpiaTDe3V+E2rNFtaFaTekyukbMmXkGvTs44rcp
+ 5071GXenibbNQqtx0FaoHIP1YfaOSMftSGkgMyF4=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.53]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MN87U-1i2zPn17Oq-006jR5; Sun, 15
+ Sep 2019 21:19:55 +0200
+Date: Sun, 15 Sep 2019 21:19:50 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <cover.1568574478.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::543
-Subject: [Qemu-devel] [PATCH v3 08/24] sdlaudio: port to the new audio
- backend api
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:afOcVmkcVjSwCj9QnuphNDfip6nfzVGKyItYe92gZ9RHEv7krDu
+ 3ugYjb9bOq4Yvl17Se1Jh5JFZzFHm5FUrvCjmXjk8Rr1h79Qhg7Coa5UYJOVA+NtW9C7aH9
+ LEwdPj7Q33L9LTPPN0DHaWTNky3EZYdXjqGUOv9XMFWgvzBb1DSucamZH+KoLgSm3Sn0fiG
+ bQmuQuSc3YOu+YLxzzNLQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TNIdZaQIBzg=:tH0P0HyRgJGwCTNm+IStj2
+ v0mIjOs/4OBpuSlkebczyYfARK3QTPraoL8N9dxB0LkSy3/P8bj6XSr33drhgfr8L2dz0wBbT
+ QmGEddOGUXNxDBQAvc2VA/vOZSM1MGOlJECFv8K4L94xdzdDS6Man7xIbS7ORdpQ9Yj4KIdoP
+ W2+qt4dTch9yXGrZqBYBO6uHHHppqM7Dvo0Ea3vV1dj7cqi1Wg3RLxEe4MTERf1LT9PFiDqSc
+ SmT4jVIs/kg+1Z3O2x0ScS5oCeMv/q4EUhNwIqnko9m9X84nYaB3Gc3/i+Q8p/G5cVSmzgGn5
+ P1MFomnISDQjXFzNiEQ7frvl+TzRmmf6XSf0hfewhksyYjd+EOWyRaM1WlXYF412x0uSOf9sm
+ 1xh7dS2vQ/D5mXvCCfaLRaDYWDMibBroKz7UdR/t+a3ELDpB0QI8XzPuPrpjNbMXhLxFcE2tn
+ szdt4D30wiNavpaAfLip2g/1DRRqp8DdYq2BaQ/VN1qw/jU6+0PNCFrqbmY7PtlYY6/f63tkq
+ Jqg6jhSIHRgVAFCg/d7uf4LifK2HS+AZn9QSa4K4rjFwWxkEbNl2oTK1FUECLtQVuSpvgPxZr
+ qctotXic8/Y60DV3Tp++q/iwVM0ubYwgAVJFOdbMXnUxrjXYne0xxSsWRJmTlniaS2YwU2CTl
+ otnJ5qMLDkkkiMmd7G5LZnwMMC/YI0Dw7UxfUiYQT4A4wy7rhoBkHuQeiE7S7diyEdi9/Hw2z
+ E5mthjS037/65s1efPJP3VIH6javI0u5Ik3CIqCABrRJeYE/0CQmNrBx/DOhYuT+HQKxyJ3d+
+ PY4SH7I1X6dNgVhxmAUQ0dmMrnNbhMauiRrXz0oMQx+MtTaVugekIC/FoTxE1rlSZigaiEdj0
+ BCyOQO+imE0X1GSvzzlqaeGe9fVc6Itaw/V/Un1B9DK1eaml7vMcPEc162xfSEt0AnjgwlktY
+ W0LzcLpdlRxuKzCRFip1iq6LeQLnBuBFPlyH61+TF7mWxKeERzgsQBOKY6Igv6CQp8iP/xoT2
+ aFarAymM/Km0Mv4O9Wz/xyHD8O2/L4yjMRTAv573QulJi+gQGJfTo/AsFQfgcpDOA4HsyDx73
+ 7bcuhxjRjnFuKjXy1ID3Q+j2ayHvGsY6aM1i6c3ASpIBQtRFzCZR3Bw3yy9mI++Z1NglIUf09
+ IEX3wgPlj9hhOyErqZz5wePuXeV0o1cbPinNLJ6hI9n9gziyd8nO2sSDJh3MfbAiObXj0+AjF
+ t+B53FJV//8pPDIXJqs7tcNcIf/IyeK4JtVhwHejFTh0VTgjq3NDwogK/Mmc=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.15.14
+Subject: [Qemu-devel] [PATCH v5 0/4] colo: Add support for continuous
+ replication
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,142 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: kwolf@redhat.com, Wen Congyang <wencongyang2@huawei.com>,
+ Jason Wang <jasowang@redhat.com>, mreitz@redhat.com,
+ Zhang Chen <chen.zhang@intel.com>, Xie Changlong <xiechanglong.d@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
----
- audio/sdlaudio.c | 87 +++++++++++++++++++++++-------------------------
- 1 file changed, 42 insertions(+), 45 deletions(-)
+Hello Everyone,
+These Patches add support for continuous replication to colo. This means
+that after the Primary fails and the Secondary did a failover, the Seconda=
+ry
+can then become Primary and resume replication to a new Secondary.
 
-diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-index 14b11f0335..f7ac8cd101 100644
---- a/audio/sdlaudio.c
-+++ b/audio/sdlaudio.c
-@@ -41,8 +41,6 @@
- 
- typedef struct SDLVoiceOut {
-     HWVoiceOut hw;
--    size_t live;
--    size_t decr;
- } SDLVoiceOut;
- 
- static struct SDLAudioState {
-@@ -184,62 +182,59 @@ static void sdl_callback (void *opaque, Uint8 *buf, int len)
-     SDLVoiceOut *sdl = opaque;
-     SDLAudioState *s = &glob_sdl;
-     HWVoiceOut *hw = &sdl->hw;
--    size_t samples = len >> hw->info.shift;
--    size_t to_mix, decr;
- 
--    if (s->exit || !sdl->live) {
-+    if (s->exit) {
-         return;
-     }
- 
-     /* dolog ("in callback samples=%zu live=%zu\n", samples, sdl->live); */
- 
--    to_mix = MIN(samples, sdl->live);
--    decr = to_mix;
--    while (to_mix) {
--        size_t chunk = MIN(to_mix, hw->samples - hw->rpos);
--        struct st_sample *src = hw->mix_buf + hw->rpos;
--
--        /* dolog ("in callback to_mix %zu, chunk %zu\n", to_mix, chunk); */
--        hw->clip(buf, src, chunk);
--        hw->rpos = (hw->rpos + chunk) % hw->samples;
--        to_mix -= chunk;
--        buf += chunk << hw->info.shift;
-+    while (hw->pending_emul && len) {
-+        size_t write_len;
-+        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-+        if (start < 0) {
-+            start += hw->size_emul;
-+        }
-+        assert(start >= 0 && start < hw->size_emul);
-+
-+        write_len = MIN(MIN(hw->pending_emul, len),
-+                        hw->size_emul - start);
-+
-+        memcpy(buf, hw->buf_emul + start, write_len);
-+        hw->pending_emul -= write_len;
-+        len -= write_len;
-+        buf += write_len;
-     }
--    samples -= decr;
--    sdl->live -= decr;
--    sdl->decr += decr;
- 
--    /* dolog ("done len=%zu\n", len); */
--
--    /* SDL2 does not clear the remaining buffer for us, so do it on our own */
--    if (samples) {
--        memset(buf, 0, samples << hw->info.shift);
-+    /* clear remaining buffer that we couldn't fill with data */
-+    if (len) {
-+        memset(buf, 0, len);
-     }
- }
- 
--static size_t sdl_run_out(HWVoiceOut *hw, size_t live)
--{
--    size_t decr;
--    SDLVoiceOut *sdl = (SDLVoiceOut *) hw;
--
--    SDL_LockAudio();
--
--    if (sdl->decr > live) {
--        ldebug ("sdl->decr %d live %d sdl->live %d\n",
--                sdl->decr,
--                live,
--                sdl->live);
-+#define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args, fail, unlock) \
-+    static ret_type glue(sdl_, name)args_decl                           \
-+    {                                                                   \
-+        ret_type ret;                                                   \
-+                                                                        \
-+        SDL_LockAudio();                                                \
-+                                                                        \
-+        ret = glue(audio_generic_, name)args;                           \
-+                                                                        \
-+        SDL_UnlockAudio();                                              \
-+        return ret;                                                     \
-     }
- 
--    decr = MIN (sdl->decr, live);
--    sdl->decr -= decr;
--
--    sdl->live = live;
-+SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
-+                 (hw, size), *size = 0, sdl_unlock)
-+SDL_WRAPPER_FUNC(put_buffer_out_nowrite, size_t,
-+                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-+                 /*nothing*/, sdl_unlock_and_post)
-+SDL_WRAPPER_FUNC(write, size_t,
-+                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-+                 /*nothing*/, sdl_unlock_and_post)
- 
--    SDL_UnlockAudio();
--
--    return decr;
--}
-+#undef SDL_WRAPPER_FUNC
- 
- static void sdl_fini_out (HWVoiceOut *hw)
- {
-@@ -336,7 +331,9 @@ static void sdl_audio_fini (void *opaque)
- static struct audio_pcm_ops sdl_pcm_ops = {
-     .init_out = sdl_init_out,
-     .fini_out = sdl_fini_out,
--    .run_out  = sdl_run_out,
-+    .write    = sdl_write,
-+    .get_buffer_out = sdl_get_buffer_out,
-+    .put_buffer_out = sdl_put_buffer_out_nowrite,
-     .ctl_out  = sdl_ctl_out,
- };
- 
--- 
-2.23.0
+On a side note, I wrote a Pacemaker Resource Agent for colo which I will
+post when its ready.
+I have to say it's quite fun to randomly kill a Node, wait for resync
+and repeat and see how the VM stays alive all the time. :)
 
+Regards,
+Lukas Straub
+
+v5:
+ - change syntax for the position=3D parameter
+ - fix spelling mistake
+
+v4:
+ - fix checkpatch.pl warnings
+
+v3:
+ - add test for replication changes
+ - check if the filter to be inserted before/behind belongs to the same in=
+terface
+ - fix the error message for the position=3D parameter
+ - rename term "after" -> "behind" and variable "insert_before" -> "insert=
+_before_flag"
+ - document the quorum node on the secondary side
+ - simplify quorum parameters in documentation
+ - remove trailing spaces in documentation
+ - clarify the testing procedure in documentation
+
+v2:
+ - fix email formating
+ - fix checkpatch.pl warnings
+ - fix patchew error
+ - clearer commit messages
+
+
+Lukas Straub (4):
+  block/replication.c: Ignore requests after failover
+  tests/test-replication.c: Add test for ignoring requests after
+    failover
+  net/filter.c: Add Options to insert filters anywhere in the filter
+    list
+  colo: Update Documentation for continuous replication
+
+ block/replication.c        |  38 ++++++-
+ docs/COLO-FT.txt           | 212 +++++++++++++++++++++++++++----------
+ docs/block-replication.txt |  28 +++--
+ include/net/filter.h       |   2 +
+ net/filter.c               |  92 +++++++++++++++-
+ qemu-options.hx            |  10 +-
+ tests/test-replication.c   |  52 +++++++++
+ 7 files changed, 358 insertions(+), 76 deletions(-)
+
+=2D-
+2.20.1
 
