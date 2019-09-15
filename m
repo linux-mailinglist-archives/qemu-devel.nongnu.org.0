@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2A2B322C
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC98B322D
 	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 23:23:27 +0200 (CEST)
-Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9bzR-0005Wl-W4
+	id 1i9bzS-0005Z3-Bx
 	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 17:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51297)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i9bvz-0003F2-LG
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:19:53 -0400
+ id 1i9bw0-0003GU-Vd
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:19:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i9bvy-0000jt-7d
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:19:51 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38911)
+ id 1i9bvz-0000kr-C0
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:19:52 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:32820)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i9bvv-0000hm-B4; Sun, 15 Sep 2019 17:19:47 -0400
-Received: by mail-wm1-x331.google.com with SMTP id o184so7969210wme.3;
- Sun, 15 Sep 2019 14:19:47 -0700 (PDT)
+ id 1i9bvx-0000if-1S; Sun, 15 Sep 2019 17:19:49 -0400
+Received: by mail-wm1-x344.google.com with SMTP id r17so5898959wme.0;
+ Sun, 15 Sep 2019 14:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DGAkei/pdxmAWxadGqaNiywfyQsm6bUbjLXzI6Q0mkQ=;
- b=gqVlhsakY4WwthiZ/4rpLQoe0cQ/w5s2gp2S9VHc2rxxIHPaBlk/2/fJmdnOkxaXV3
- HjxN5npoE1vse3v5Di7kU8DC/zf0FZtlwV8aTEmNG9g7a9b9j/N69VxzR6VRfw89ndTz
- 6b8lhaGJaoxdePXgauZTxJgssBEcihJf5LMVSR/1y/JjImaCySAv9H4wHNJvcWAqZB+/
- vfowLZsEK5hC4Vk4WmRTwl0HsslBW8PM9OJmGk2iGUI+MxA7RhAQ9ykQEg5dPdmuYTto
- 2B/BwXuIfQimiemEz8Goe99aREALVfrXO0Z/g1lDDhH6iiHN5zQfQNVsWLmUWGqhOQC4
- iIYQ==
+ bh=8IBywZXkQNnx0L71ILHAIGyPxwnwRKwuHd+1ukGBNdg=;
+ b=YS9kei0bP7wBfvRHfAHZPgKxvJt5bWUzBdkAGgRdA7W/wRgdDsTYMUFci2F2AR8KPe
+ MdmteF0KRdA1pj0LVvIQu9wqtx4fgPmtbQlXeysZtBxncPe7/R+1GygcFWZtuq3XaaDl
+ kASfsHyaLHke5mSLEdpgqhZ9ikiq6OHClEce3Fp5UG8KQKYeLDzQPkaxVR6lIZvdJ3ZO
+ FkvltamulKty6sErObsUK5Uka8Z4tq2tfip7yQQ7hd9KjNObAeGAwR0kRmIcZphMk+bw
+ sYI1LGcj1fM677V6FD9E1RxsZvRFg4s7X+sw4IQcX0oNaFPAbuDb7frNRyj8FsW4LTAS
+ BR4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DGAkei/pdxmAWxadGqaNiywfyQsm6bUbjLXzI6Q0mkQ=;
- b=KBkoBGBze9v/P0me5AGjfNvmOsfSUmDEIGiXdKnRHmHrX7FhjUBYRNDknH4BP50fzl
- OMZ7VlatJ9IJXx9F7+Gmbh2jXDzzpuIQHUVlflFZbZex9jnZuauDE4Erppcx47NU3sUv
- wejKrkPTUVWghDqRaobRAqALEXCaDl0vlJmX31RaYfoBhhVSTJZtltFcPbPRt0DDoPPe
- iYIiHaxk/2/+NBWi5ch2VG3TjSf6imtqegzQs4UcnUO6Z1LALbnNzLz9vE9sbgzZIqVg
- wrIsjezK/geLCsJi8bc1flV8Csh9FTTJwqVxlkFj3FCmiw9GK9ZKiV/sE72v4+Rhn/ky
- wtVQ==
-X-Gm-Message-State: APjAAAXnMcFdzWzZcmrWtmsIkj/Mp0t6mWZBzyP5zqDcHTaMX3J/wrZ7
- hh0eKtrGmmw2iIXRGnOHqMUZlOCt
-X-Google-Smtp-Source: APXvYqxT1oHvcHehO4HnabRoI5CY2Fl1X53OM8eA6FeF9Z0umxT6QwcM87BtOvjn7DHuizNwGAEosQ==
-X-Received: by 2002:a1c:bcd6:: with SMTP id
- m205mr11009795wmf.129.1568582385975; 
- Sun, 15 Sep 2019 14:19:45 -0700 (PDT)
+ bh=8IBywZXkQNnx0L71ILHAIGyPxwnwRKwuHd+1ukGBNdg=;
+ b=k/CRC4bp4d2xGm8niVyfjqRdQRuci0WqGEMkOR/UOjfMcGGOgn/Fn/x5aVNAZTMuOu
+ ioGg1V4fNY46/IbYKy4djdbBuLUmvqgbwUaoAyFJhOjtzm8E6sBgaZD0nV0zY5/PDfUc
+ ifBI0lpkoKTsjkbX+4QplTzxeuWj6KPFrPdfPuMwE/I1Ej0vc2b3J9/R6nWoeAMVfLlP
+ Du0F8q7G9vGl2c/R5pn1mIxihqRQB7Dqrvgh49LlCntxBQXXZVxHf4kKZYeH532A2fG9
+ annlll2p5pvq95StLR2kYROsRKWUOPuf6gIMKtPMW4Rmt3aFrdX5bd7uAs2feeJNHBPl
+ 4uWg==
+X-Gm-Message-State: APjAAAVIAUAorerdmE9Z1HrQaWtL96KbJPiB1dbmuVxtQwCNPAo+nNew
+ y9xNUSMDXgg8QHd9tm/kvzWeAB0J
+X-Google-Smtp-Source: APXvYqytrS9DYCeMEOkgTVNgCmMt58qtMZFEASlDGSY87gen3r2Dx5pRZNnHXGHXPfaREgQXYO0Ucw==
+X-Received: by 2002:a7b:cb8b:: with SMTP id m11mr4020474wmi.145.1568582387895; 
+ Sun, 15 Sep 2019 14:19:47 -0700 (PDT)
 Received: from localhost.localdomain (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id s1sm50271021wrg.80.2019.09.15.14.19.44
+ by smtp.gmail.com with ESMTPSA id s1sm50271021wrg.80.2019.09.15.14.19.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Sep 2019 14:19:45 -0700 (PDT)
+ Sun, 15 Sep 2019 14:19:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-ppc@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Sun, 15 Sep 2019 23:19:35 +0200
-Message-Id: <20190915211940.30427-2-f4bug@amsat.org>
+Date: Sun, 15 Sep 2019 23:19:36 +0200
+Message-Id: <20190915211940.30427-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190915211940.30427-1-f4bug@amsat.org>
 References: <20190915211940.30427-1-f4bug@amsat.org>
@@ -70,9 +69,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
-Subject: [Qemu-devel] [PATCH v2 1/6] tests/acceptance: Add test that runs
- NetBSD 4.0 installer on PRep/40p
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v2 2/6] tests/acceptance: Test Open Firmware on
+ the PReP/40p
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,104 +97,43 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of this commit, NetBSD 4.0 is very old. However it is enough to
-test the PRep/40p machine.
-
 User case from:
-http://mail-index.netbsd.org/port-prep/2017/04/11/msg000112.html
+https://tyom.blogspot.com/2019/04/aixprep-under-qemu-how-to.html
 
-Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Installers after 4.0 doesn't work anymore, not sure if this is a
-problem from the QEMU model or from NetBSD.
----
- MAINTAINERS                      |  1 +
- tests/acceptance/ppc_prep_40p.py | 63 ++++++++++++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
- create mode 100644 tests/acceptance/ppc_prep_40p.py
+ tests/acceptance/ppc_prep_40p.py | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 50eaf005f4..ce809c7dee 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1068,6 +1068,7 @@ F: hw/timer/m48t59-isa.c
- F: include/hw/isa/pc87312.h
- F: include/hw/timer/m48t59.h
- F: pc-bios/ppc_rom.bin
-+F: tests/acceptance/machine_ppc_prep_40p.py
- 
- sPAPR
- M: David Gibson <david@gibson.dropbear.id.au>
 diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
-new file mode 100644
-index 0000000000..53f2d2ecf0
---- /dev/null
+index 53f2d2ecf0..a0eac40d9f 100644
+--- a/tests/acceptance/ppc_prep_40p.py
 +++ b/tests/acceptance/ppc_prep_40p.py
-@@ -0,0 +1,63 @@
-+# Functional test that boots a PReP/40p machine and checks its serial console.
-+#
-+# Copyright (c) Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later. See the COPYING file in the top-level directory.
+@@ -61,3 +61,24 @@ class IbmPrep40pMachine(Test):
+         os_banner = 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST 2007'
+         self.wait_for_console_pattern(os_banner)
+         self.wait_for_console_pattern('Model: IBM PPS Model 6015')
 +
-+import os
-+import logging
-+
-+from avocado import skipIf
-+from avocado_qemu import Test
-+
-+
-+class IbmPrep40pMachine(Test):
-+
-+    timeout = 60
-+
-+    # TODO refactor to MachineTest
-+    def wait_for_console_pattern(self, success_message, failure_message=None):
-+        """
-+        Waits for messages to appear on the console, while logging the content
-+
-+        :param success_message: if this message appears, test succeeds
-+        :param failure_message: if this message appears, test fails
-+        """
-+        console = self.vm.console_socket.makefile()
-+        console_logger = logging.getLogger('console')
-+        while True:
-+            msg = console.readline().strip()
-+            if not msg:
-+                continue
-+            console_logger.debug(msg)
-+            if success_message in msg:
-+                break
-+            if failure_message and failure_message in msg:
-+                fail = 'Failure message found in console: %s' % failure_message
-+                self.fail(fail)
-+
-+    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-+    def test_factory_firmware_and_netbsd(self):
++    def test_openfirmware(self):
 +        """
 +        :avocado: tags=arch:ppc
 +        :avocado: tags=machine:40p
-+        :avocado: tags=slowness:high
 +        """
-+        bios_url = ('ftp://ftp.boulder.ibm.com/rs6000/firmware/'
-+                    '7020-40p/P12H0456.IMG')
-+        bios_hash = '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
++        bios_url = ('https://github.com/artyom-tarasenko/openfirmware/'
++                    'releases/download/40p-20190413/q40pofw-serial.rom')
++        bios_hash = '880c80172ea5b2247c0ac2a8bf36bbe385192c72'
 +        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
-+        drive_url = ('https://ftp.netbsd.org/pub/NetBSD/NetBSD-archive/'
-+                     'NetBSD-4.0/prep/installation/floppy/generic_com0.fs')
-+        drive_hash = 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
-+        drive_path = self.fetch_asset(drive_url, asset_hash=drive_hash)
 +
 +        self.vm.set_machine('40p')
 +        self.vm.set_console()
-+        self.vm.add_args('-bios', bios_path,
-+                         '-fda', drive_path)
++        self.vm.add_args('-bios', bios_path)
++
 +        self.vm.launch()
-+        os_banner = 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST 2007'
-+        self.wait_for_console_pattern(os_banner)
-+        self.wait_for_console_pattern('Model: IBM PPS Model 6015')
++        self.wait_for_console_pattern('QEMU PReP/40p')
++        fw_banner = 'Open Firmware, built  April 13, 2019 09:29:23'
++        self.wait_for_console_pattern(fw_banner)
++        prompt_msg = 'Type any key to interrupt automatic startup'
++        self.wait_for_console_pattern(prompt_msg)
 -- 
 2.20.1
 
