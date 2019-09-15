@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E225B3018
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 15:17:23 +0200 (CEST)
-Received: from localhost ([::1]:54624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D243B3057
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 15:52:35 +0200 (CEST)
+Received: from localhost ([::1]:54880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9UP4-0006P5-AL
-	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 09:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55832)
+	id 1i9Ux8-0004dt-4Z
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 09:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i9UNU-0005tN-Fb
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:15:46 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i9UuY-0003cY-Ga
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:49:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i9UNP-00006U-FH
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:15:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60450)
+ (envelope-from <richard.henderson@linaro.org>) id 1i9UuW-0003hG-4h
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:49:54 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:39542)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i9UNL-00005W-VS
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:15:36 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i9UNK-0000VL-By
- for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 13:15:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5190A2E80C7
- for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 13:15:34 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Sep 2019 13:06:46 -0000
-From: James Harvey <jamespharvey20@gmail.com>
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i9UuV-0003h3-UV
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:49:52 -0400
+Received: by mail-ed1-x533.google.com with SMTP id g12so5109979eds.6
+ for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 06:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9GCRTNNXoXA1IxfBNrRaF75J31+JT+3skuWDdylXHTE=;
+ b=W/WrLhPEBbLkMj+1U9563/M4OaSAA/HKs/x2rO5YrPumIjmYxn1a/YA6E+j6kY6IQf
+ B4vwoezHyz4i6Mq3sjG+AAaUcsaOJIwjsBss34Pjgp0findJvq0wI4TenhyMVTvvlIlx
+ JJF2X5/pydrGSoQuilcXp6pHCEN8up5o1WTqHjyBlqQ704EB431ALLzCQWS6AcN77lX2
+ wHPW4whioZ62ioLIypvHeTqUwcutAbuH+Pm77KfpVvFSxPfhMyheodvwWihy/XK7pg3v
+ OSu9k+I4IIy32AHRcEcSaw+G1d5otJW4KBlhy/xCpsEnwHTNC02oX8ULzf47RNv06d0v
+ 9AQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9GCRTNNXoXA1IxfBNrRaF75J31+JT+3skuWDdylXHTE=;
+ b=Qz6s2yBnov0WWYjpyzN+VaoonvUWrYUFEEskmEbFemXPn9zZER3whLOwd2iefyN2Ex
+ HQFiONgvnnWUkD2PIW1B33ZzGaIckoI4CcHiBKUmB05Tm6ugRDbFb5A5uDuJ68Ir1sig
+ Q4K6PfSFYxBXu3E3WsV8nWjfn0yPxsXZD5OnPXgFTP5VmHoXm5vDyJF8v909G1zBjFgD
+ 8RrJfsEpbDb13T0SgHfFM4V1UXLKZBhk3j3/OtRCwAaojErMc79EjFH/z124KQ+pMGar
+ f/bisMXgxd4GUK6hSrJmQB8nZdYoYxWLmBxE9TKL3CAluA6IdCfe+XyfMUPKd+MUe94r
+ OUPA==
+X-Gm-Message-State: APjAAAXjKjH6K5LlcRCY3tBFRJdcz6D14rGCsNi6oTGeaqRhecIm+H5K
+ UkY17idOMamAsCawNn1QaT5IEZ2nBfbquA==
+X-Google-Smtp-Source: APXvYqxsBdKTLxmLZzfJLDVdpU55y2iMkWhYq6jnrr/eNLgo8BP6mxEb92lVCxyjpfsLH3PfSpFv6g==
+X-Received: by 2002:a50:f00c:: with SMTP id r12mr57592428edl.274.1568555390327; 
+ Sun, 15 Sep 2019 06:49:50 -0700 (PDT)
+Received: from localhost.localdomain ([185.81.138.17])
+ by smtp.gmail.com with ESMTPSA id ot24sm123053ejb.59.2019.09.15.06.49.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Sep 2019 06:49:49 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20
-X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
-X-Launchpad-Bug-Modifier: James Harvey (jamespharvey20)
-Message-Id: <156855280668.581.6516749257263798071.malonedeb@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 23c8b65103ff3c003a16414aba365e389343d32e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1844053] [NEW] task blocked for more than X
- seconds - events drm_fb_helper_dirty_work
+Date: Sun, 15 Sep 2019 09:49:42 -0400
+Message-Id: <20190915134944.2173-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::533
+Subject: [Qemu-devel] [PULL 0/2] target/hppa updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,186 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1844053 <1844053@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+The following changes since commit 85182c96de61f0b600bbe834d5a23e713162e892:
 
-I've had bunches of these errors on 9 different boots, between
-2019-08-21 and now, with Arch host and guest, from linux 5.1.16 to
-5.2.14 on host and guest, with QEMU 4.0.0 and 4.1.0.  spice 0.14.2,
-spice-gtk 0.37, spice-protocol 0.14.0, virt-viewer 8.0.
+  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20190912a' into staging (2019-09-13 14:37:48 +0100)
 
-I've been fighting with some other issues related to a 5.2 btrfs
-regression, a QEMU qxl regression (see bug 1843151) which I ran into
-when trying to temporarily abandon virtio-vga, and I haven't paid enough
-attention to what impact it has on the system when these occur.  In
-journalctl, I can see I often rebooted minutes after they occurred, but
-sometimes much later.  That must mean whenever I saw it happen that I
-rebooted the VM, or potentially it impacted functionality of the system.
+are available in the Git repository at:
 
-Please let me know if and how I can get more information for you if
-needed.
+  https://github.com/rth7680/qemu.git tags/pull-hppa-20190915
 
-I've replicated this on both a system with integrated ASPEED video, and
-on an AMD Vega 64 running amdgpu.
+for you to fetch changes up to a6deecce5b11827fff8a3de2142d02c5388aee1c:
 
-As an example, I have one boot which reported at 122 seconds, 245, 368,
-491, 614, 737, 860, 983, 1105, 1228, then I rebooted.
+  target/hppa: prevent trashing of temporary in do_depw_sar() (2019-09-14 15:39:24 -0400)
 
-I have another that reported 122/245/368/491/614/737, went away for 10
-minutes, then started reporting again 122/245/368/491, and went away.
-Then, I rebooted about 20 hours later.
+----------------------------------------------------------------
+Two temp live across branch fixes.
 
-Host system has no graphical impact when this happens, and logs nothing
-in its journalctl.
+----------------------------------------------------------------
+Sven Schnelle (2):
+      target/hppa: prevent trashing of temporary in trans_mtctl()
+      target/hppa: prevent trashing of temporary in do_depw_sar()
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-INFO: task kworker/0:1:15 blocked for more than 122 seconds.
-      Not tainted 5.2.14-1 #1
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-kworker/0:1     D    0    15      2 0x800004000
-Workqueue: events drm_fb_helper_dirty_work [drm_kms_helper]
-Call Trace:
- ? __schedule+0x27f/0x6d0
- schedule+0x3d/0xc0
- virtio_gpu_queue_fenced_ctrl_buffer+0xa1/0x130 [virtio_gpu]
- ? wait_woken+0x80/0x80
- virtio_gpu_surface_dirty+0x2a5/0x300 [virtio_gpu]
- drm_fb_helper_dirty_work+0x156/0x160 [drm_kms_helper]
- process_one_work+0x19a/0x3b0
- worker_tread+0x50/0x3a0
- kthread+0xfd/0x130
- ? process_one_work+0x3b0/0x3b0
- ? kthread_park+0x80/0x80
- ret_from_fork+0x35/0x40
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-/usr/bin/qemu-system-x86_64 \
-   -name vm,process=3Dqemu:vm \
-   -no-user-config \
-   -nodefaults \
-   -nographic \
-   -uuid <uuid> \
-   -pidfile <pidfile> \
-   -machine q35,accel=3Dkvm,vmport=3Doff,dump-guest-core=3Doff \
-   -cpu SandyBridge-IBRS \
-   -smp cpus=3D4,cores=3D2,threads=3D1,sockets=3D2 \
-   -m 4G \
-   -drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/ovmf/x64/OVMF=
-_CODE.fd \
-   -drive if=3Dpflash,format=3Draw,file=3D/var/qemu/efivars/vm.fd \
-   -monitor telnet:localhost:8000,server,nowait,nodelay \
-   -spice unix,addr=3D/tmp/spice.vm.sock,disable-ticketing \
-   -device ioh3420,id=3Dpcie.1,bus=3Dpcie.0,slot=3D0 \
-   -device virtio-vga,bus=3Dpcie.1,addr=3D0 \
-   -usbdevice tablet \
-   -netdev bridge,id=3Dnetwork0,br=3Dbr0 \
-   -device virtio-net-pci,netdev=3Dnetwork0,mac=3DF4:F6:34:F6:34:2d,bus=3Dp=
-cie.0,addr=3D3 \
-   -device virtio-scsi-pci,id=3Dscsi1 \
-   -drive driver=3Draw,node-name=3Dhd0,file=3D/dev/lvm/vm,if=3Dnone,discard=
-=3Dunmap,cache=3Dnone,aio=3Dthreads
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1844053
-
-Title:
-  task blocked for more than X seconds - events drm_fb_helper_dirty_work
-
-Status in QEMU:
-  New
-
-Bug description:
-  I've had bunches of these errors on 9 different boots, between
-  2019-08-21 and now, with Arch host and guest, from linux 5.1.16 to
-  5.2.14 on host and guest, with QEMU 4.0.0 and 4.1.0.  spice 0.14.2,
-  spice-gtk 0.37, spice-protocol 0.14.0, virt-viewer 8.0.
-
-  I've been fighting with some other issues related to a 5.2 btrfs
-  regression, a QEMU qxl regression (see bug 1843151) which I ran into
-  when trying to temporarily abandon virtio-vga, and I haven't paid
-  enough attention to what impact it has on the system when these occur.
-  In journalctl, I can see I often rebooted minutes after they occurred,
-  but sometimes much later.  That must mean whenever I saw it happen
-  that I rebooted the VM, or potentially it impacted functionality of
-  the system.
-
-  Please let me know if and how I can get more information for you if
-  needed.
-
-  I've replicated this on both a system with integrated ASPEED video,
-  and on an AMD Vega 64 running amdgpu.
-
-  As an example, I have one boot which reported at 122 seconds, 245,
-  368, 491, 614, 737, 860, 983, 1105, 1228, then I rebooted.
-
-  I have another that reported 122/245/368/491/614/737, went away for 10
-  minutes, then started reporting again 122/245/368/491, and went away.
-  Then, I rebooted about 20 hours later.
-
-  Host system has no graphical impact when this happens, and logs
-  nothing in its journalctl.
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  INFO: task kworker/0:1:15 blocked for more than 122 seconds.
-        Not tainted 5.2.14-1 #1
-  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-  kworker/0:1     D    0    15      2 0x800004000
-  Workqueue: events drm_fb_helper_dirty_work [drm_kms_helper]
-  Call Trace:
-   ? __schedule+0x27f/0x6d0
-   schedule+0x3d/0xc0
-   virtio_gpu_queue_fenced_ctrl_buffer+0xa1/0x130 [virtio_gpu]
-   ? wait_woken+0x80/0x80
-   virtio_gpu_surface_dirty+0x2a5/0x300 [virtio_gpu]
-   drm_fb_helper_dirty_work+0x156/0x160 [drm_kms_helper]
-   process_one_work+0x19a/0x3b0
-   worker_tread+0x50/0x3a0
-   kthread+0xfd/0x130
-   ? process_one_work+0x3b0/0x3b0
-   ? kthread_park+0x80/0x80
-   ret_from_fork+0x35/0x40
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  /usr/bin/qemu-system-x86_64 \
-     -name vm,process=3Dqemu:vm \
-     -no-user-config \
-     -nodefaults \
-     -nographic \
-     -uuid <uuid> \
-     -pidfile <pidfile> \
-     -machine q35,accel=3Dkvm,vmport=3Doff,dump-guest-core=3Doff \
-     -cpu SandyBridge-IBRS \
-     -smp cpus=3D4,cores=3D2,threads=3D1,sockets=3D2 \
-     -m 4G \
-     -drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/ovmf/x64/OV=
-MF_CODE.fd \
-     -drive if=3Dpflash,format=3Draw,file=3D/var/qemu/efivars/vm.fd \
-     -monitor telnet:localhost:8000,server,nowait,nodelay \
-     -spice unix,addr=3D/tmp/spice.vm.sock,disable-ticketing \
-     -device ioh3420,id=3Dpcie.1,bus=3Dpcie.0,slot=3D0 \
-     -device virtio-vga,bus=3Dpcie.1,addr=3D0 \
-     -usbdevice tablet \
-     -netdev bridge,id=3Dnetwork0,br=3Dbr0 \
-     -device virtio-net-pci,netdev=3Dnetwork0,mac=3DF4:F6:34:F6:34:2d,bus=
-=3Dpcie.0,addr=3D3 \
-     -device virtio-scsi-pci,id=3Dscsi1 \
-     -drive driver=3Draw,node-name=3Dhd0,file=3D/dev/lvm/vm,if=3Dnone,disca=
-rd=3Dunmap,cache=3Dnone,aio=3Dthreads
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1844053/+subscriptions
+ target/hppa/translate.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
