@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABCDB2D82
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 03:09:56 +0200 (CEST)
-Received: from localhost ([::1]:52830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A374B2E28
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 06:27:05 +0200 (CEST)
+Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9J34-0004Zr-MH
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 21:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
+	id 1i9M7s-0002pD-5l
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 00:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i9J1i-000455-C1
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 21:08:31 -0400
+ (envelope-from <bounces@canonical.com>) id 1i9M6a-0002Nl-I2
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 00:25:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i9J1h-00020Z-BU
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 21:08:30 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35001)
+ (envelope-from <bounces@canonical.com>) id 1i9M6Z-0002Xy-GD
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 00:25:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36016)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i9J1h-000201-3i
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 21:08:29 -0400
-Received: by mail-wm1-x343.google.com with SMTP id y21so2172009wmi.0
- for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 18:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ULX0MdgX0xQ/UKsZFHLH/K7OmuoKXLlpEINrguyyphs=;
- b=RE6TiMdkriXwkEouq40DGGKh1UaqSLN2k5KVxRRa9Ztgg8no3WcYgUfI1W4FOs+WQe
- hzyADq1iAT3y60N0lisSB8bll1tQWNSO3OXeTeA5eFHN5glEh/k4Z1laVDxnSzLOmdZT
- Jv8RQVldBLeZwnePgK/JWNK4NLKeoEs3MYufkxXwR+0ZtZKcHhes49or0LIroFSLTO2W
- JI9SHNBQiGik0au5o3Mx63qaFavggmsrY/3VH+1eOSTPwCeo3BtyhCg43fBvp6o3e+cW
- q28sLbW5wsQELuMTI0NcZhljA7Y0e7bpmYhSaKfH5M84ejTpxZKXv9JvP5okYNmtIXIX
- ZEuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ULX0MdgX0xQ/UKsZFHLH/K7OmuoKXLlpEINrguyyphs=;
- b=R6FRtk/wnCJSd6bU6BeZ3bmDZxQu6gLj2P8TJRz/WQVHi56UmIz0B0BAx8ml5k3lV5
- PRW6/S0ou1pD1mGzINtSNlWOrhXzGUASTwmEHrB0VKRG076wauHOI/3rWV+yiCgCsRV+
- pm2xCuxLXib6in5YFdMDWxxdlYFtrz0gGE2kAiQY8DmHGjBX7whfwfdgPPzDy7OKERzy
- NINPjXPtOwxE9j31mUB5S450/w+JCfahfdHHmdWHlUs7wPdD66ssPIka1y3o7Dz0W3nd
- pJoHEnX7e9PtDIp591VuWl6y2GQpae2qKl2etB4bR50bjUrsAgmSJ7KFQneCW3bzfpOE
- 116A==
-X-Gm-Message-State: APjAAAWeXSyP+YSIJqUPba5NSXRyxGAY56B5avR9isYsZM7zxBEEca5N
- qNJS4MSP256JGjTWzfhRSzthvQ6B
-X-Google-Smtp-Source: APXvYqzGrjEXtLJbkHmqNtdZLYL5Kg/JjEEqXCA5cypkNTq2HZ213R1LU98S/h/VAtk+sgKKjaHmpw==
-X-Received: by 2002:a1c:e008:: with SMTP id x8mr8462275wmg.85.1568509706674;
- Sat, 14 Sep 2019 18:08:26 -0700 (PDT)
-Received: from ?IPv6:fd00:835b:d940:d4fc:1::d3?
- (2a01-036c-0113-74ef-0001-0000-0000-00d3.pool6.digikabel.hu.
- [2a01:36c:113:74ef:1::d3])
- by smtp.gmail.com with ESMTPSA id a10sm6861033wrm.52.2019.09.14.18.08.25
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 14 Sep 2019 18:08:26 -0700 (PDT)
-From: "=?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=" <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=
- <DirtY.iCE.hu@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
- <20190912102007.73bch4avvmx3ugpe@sirius.home.kraxel.org>
-Message-ID: <9e32e611-ccf3-7cce-8a08-3d05bac65f0c@gmail.com>
-Date: Sun, 15 Sep 2019 03:08:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i9M6Z-0002XX-BI
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 00:25:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i9M6X-0006MJ-Qh
+ for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 04:25:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C69EF2E80C9
+ for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 04:25:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190912102007.73bch4avvmx3ugpe@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v2 00/24] Audio: Mixeng-free 5.1/7.1 audio
- support
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 15 Sep 2019 04:17:25 -0000
+From: Launchpad Bug Tracker <1836430@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: installer windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee janitor karrq
+X-Launchpad-Bug-Reporter: Francesco Dainese (karrq)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <156297657458.27697.12325008509748748159.malonedeb@wampee.canonical.com>
+Message-Id: <156852104516.30554.8528560370632037212.malone@loganberry.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4202a70bbb7d4b467c342e95599f450df940386c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836430] Re: Can't install on Windows 10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,41 +65,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1836430 <1836430@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-09-12 12:20, Gerd Hoffmann wrote:
-> On Sun, Sep 08, 2019 at 11:22:00PM +0200, Kővágó, Zoltán wrote:
->> Hi,
->>
->> This is the v2 of my patch series that makes mixeng optional and enables
->> more than two audio channels.
->>
->> Changes from v1:
->>
->> * renamed "mixeng" option to "mixing-engine"
->> * dropped patch "audio: remove hw->samples, buffer_size_in/out pcm_ops"
-> 
-> What is the testing status of this?
+[Expired for QEMU because there has been no activity for 60 days.]
 
-I've ran some very simple audio playback tests, here are my results:
-* alsa - works
-* pa - works
-* oss - works, but it looks like I have to specify both in.dev and 
-out.dev if the default /dev/dsp does not exist, otherwise I just get a 
-generic "Could not init `oss' audio driver".  We need a better error 
-message here IMHO.
-* sdl - works
-* spice - yes, it's broken now, I'll fix it in the next update.  I've 
-also found a second bug (SIGSEGV if the guest starts playing while no 
-client is connected).
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-> What about windows+macos?
+-- =
 
-No idea, I don't have a windows or mac computer.  I could try it in a 
-windows VM though, if I figure out how to compile qemu on windows.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836430
 
-Regards,
-Zoltan
+Title:
+  Can't install on Windows 10
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Latest release (20190712) 64-bit doesn't install:
+
+  The setup seems to work fine at first and actually extract all the files =
+needed for qemu in the correct location, but after it has done that, it pro=
+ceeds to delete every file and leaves no trace of qemu except the installat=
+ion folder.
+  The setup then finishes and notifies the user that it has been installed =
+succesfully.
+
+  I downloaded the previous release and it installs correctly.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836430/+subscriptions
 
