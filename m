@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BFDB3230
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 23:25:47 +0200 (CEST)
-Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D05B3248
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 23:41:55 +0200 (CEST)
+Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9c1i-0000OA-5a
-	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 17:25:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
+	id 1i9cHK-0005H8-0O
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 17:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i9bw6-0003Ns-Pz
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:19:59 -0400
+ id 1i9cF0-0003ui-If
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:39:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i9bw5-0000pk-Pv
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:19:58 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38660)
+ id 1i9cEz-00027f-7w
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:39:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42069)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i9bw3-0000nu-ME; Sun, 15 Sep 2019 17:19:55 -0400
-Received: by mail-wm1-x341.google.com with SMTP id o184so7969379wme.3;
- Sun, 15 Sep 2019 14:19:55 -0700 (PDT)
+ id 1i9cEy-00027G-W2
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 17:39:29 -0400
+Received: by mail-wr1-x441.google.com with SMTP id q14so36839314wrm.9
+ for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 14:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9QGPKoXDG7IUIkbuFGhhPeiHEwhhMV7swOpD0OI7chI=;
- b=Jsam9RUGrCWdCKYGShz/wmYW+pbbjMMeINuVK7x2/5VpLG5CfyWyU26bdC/HxHOX9z
- /a26WKw2dAFDCUPI56GxSutr/0lyc2sZLY6W9gVuM8TzaLzZZwK4IAfbTzrQZPWN6vbn
- bPqmABI4k9aWjXhAnsnVwul/tAZyM+H/GAodjJmMkJat3j/r5/vQnCMJzQGyM8MUi2dn
- kEOZiwp6Fw2lnLmhkBvSp5wtq5cHkncATBFf0sn3aShIlbdLHhFwsvTNloLWGbtwjxYX
- vDM0O4xQi93l6PUZZQBqItqFJU7W+x5FIykNwGjgzZZqrL3GA1j2nmGRukOo3oT9KzLE
- 2hlg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=E1zda2hSlOvLM2ahO/QAzusOrTa1pHUM7urJSazM5GQ=;
+ b=HN3fOc79X/1lJL3gRSdUfrLHDEpmS/QtVPsBMvFos/kK1q3QDoEsciMZvNtCNg191f
+ 8k5lpi2+zKgdmx/SD9I82g3+VBV8FGBibMbX7lzN8hqUZvcXa59E3/PT90tFAy2vME61
+ flVzX24kZdc/v0quudhaWrI/afxLw/ANicY6BYf5a+fla+5Qz6/7sXV/97TgrHbuG9yG
+ mzdAukR5A7tENVnXSMdakBAcx4L47sfA0nKEEUmgu/YGmyrfAe/mSyjPUE77obPScPNE
+ KZkVq5vOjfQJcoGK0j8oXDtuHCKF7BSAnbf1j+nHO3rgqUjxY6murDPhUaDxraTJWbzK
+ ggrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9QGPKoXDG7IUIkbuFGhhPeiHEwhhMV7swOpD0OI7chI=;
- b=ZiHsZ/vfVEIi75kfksGxX5YKr0bh3gAmACvGM1brTWoFRmDvT0LRahSxMUWnTwC6Ci
- Ervwh6bnqhNdCZ1CebvXAErVWmP6rEYIHnyCeUU8JcThGxJKrClDkuySFF+j7fAIMTm1
- haARuEfWtmSXYI783kxqQPhTiiZM0VgE72pA5ENIZEfOnxEe8SJ2Ekf9GigBarumo8sx
- rYifLKmonbqwDSOdcsA/OxxPJ2ooreEP8OZqM17ASF5rQ5DKW37UmrpPLm9R3Clufk0G
- 9VgqeZQd44oYDiYOKjZ0ZWtVzdOOII5QKBs9E8nKqRdcj756CczxhiZAkANDAlVr9g9b
- uP2Q==
-X-Gm-Message-State: APjAAAVlb2/7nflmGAaShsYdMqRZo1YgNXhvS+47Uu+wZP9nOzY+YMAM
- MxBtK/7fVehMDTWx9oCDyRHDQvFC
-X-Google-Smtp-Source: APXvYqwvcF3Q7nKEgn2AtynYud3pTZ6ulZKBHIGHzx5To8gsZfMP+WyGafCBIhpfckxY/354qHRElw==
-X-Received: by 2002:a7b:c013:: with SMTP id c19mr11163941wmb.118.1568582394612; 
- Sun, 15 Sep 2019 14:19:54 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=E1zda2hSlOvLM2ahO/QAzusOrTa1pHUM7urJSazM5GQ=;
+ b=W93RG0TVQcB/jAjkmFRxdk7yo52LrrPJQmBnctOqRIrKo3B1ym1J9waQpammemcboc
+ fAYTxFv1xrUAQpLd7BGYD20czn8JyimGM+HcPioU24wRp9mFvBAZez8hyrXO/daP8g9a
+ NGFTmfbPJ5PmuWw9klGg8hQ4Ia2gKwxICEsm2asvI7jO5k9vCUy4CbGi6NowkpN+8c0l
+ cdV8x1u2c7okGBULDke88M2HWdwDSMOcbQzroXWt/UHsFKQgFir2rgEad0zxdTBJDwvP
+ /POVgO82+YxEgdHdOg92FmLd/6R8IEIXCh50BS7eSvka9YcewYySABHfHwsrMT4PnRIw
+ mgGg==
+X-Gm-Message-State: APjAAAUX07m7Mv5P7bSJnrh/xIzMzFPq82oCHCy8ail5FT384TQPjtOz
+ F1Gm2S8d0UVdv02UYrRlcr3j2MCl
+X-Google-Smtp-Source: APXvYqxmfnNOZp4Sn/t3u+7XfGoprjK1rX/veyHUrt2sQOP9N4D7YLw//V4EEWHcMG/AOXcf+9Q11A==
+X-Received: by 2002:a5d:66c5:: with SMTP id k5mr19898019wrw.304.1568583566764; 
+ Sun, 15 Sep 2019 14:39:26 -0700 (PDT)
 Received: from localhost.localdomain (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id s1sm50271021wrg.80.2019.09.15.14.19.53
+ by smtp.gmail.com with ESMTPSA id z1sm68738999wre.40.2019.09.15.14.39.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Sep 2019 14:19:53 -0700 (PDT)
+ Sun, 15 Sep 2019 14:39:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-ppc@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Sun, 15 Sep 2019 23:19:40 +0200
-Message-Id: <20190915211940.30427-7-f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Date: Sun, 15 Sep 2019 23:39:15 +0200
+Message-Id: <20190915213924.22223-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190915211940.30427-1-f4bug@amsat.org>
-References: <20190915211940.30427-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH v2 6/6] .travis.yml: Split enterprise vs.
- hobbyist acceptance test job
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH v7 0/9] linux-user: strace improvements
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,55 +80,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .travis.yml | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+Hi Laurent,
 
-diff --git a/.travis.yml b/.travis.yml
-index 69a37f7387..753276eb33 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -265,9 +265,23 @@ matrix:
-         - "3.6"
- 
- 
--    # Acceptance (Functional) tests
-+    # Acceptance (Functional) tests [enterprise]
-     - env:
--        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu"
-+        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips64el-softmmu,aarch64-softmmu,s390x-softmmu,ppc64-softmmu"
-+        - TEST_CMD="make check-acceptance"
-+      after_failure:
-+        - cat tests/results/latest/job.log
-+      addons:
-+        apt:
-+          packages:
-+            - python3-pil
-+            - python3-pip
-+            - python3.5-venv
-+
-+
-+    # Acceptance (Functional) tests [hobbyist]
-+    - env:
-+        - CONFIG="--python=/usr/bin/python3 --target-list=mips-softmmu,arm-softmmu,alpha-softmmu,ppc-softmmu,m68k-softmmu"
-         - TEST_CMD="make check-acceptance"
-       after_failure:
-         - cat tests/results/latest/job.log
+Few patches I'v been writting while trying to figure out this issue:
+http://lists.nongnu.org/archive/html/qemu-arm/2018-01/msg00514.html
+
+As usual with linux-user files, this series will trigger some checkpatch
+benign warnings.
+
+Regards,
+
+Phil.
+
+Since v6:
+- Use ABI types in sockaddr
+
+Since v5:
+- dropped 'Verify recvfrom(addr)' since failing LTP testsuite (see [1])
+- also define print_sockfd() for bind() (patches #6 and #7)
+
+Since v4:
+- rebased on master (no change)
+
+Since v3:
+- addressed Laurent comments
+- added print_sockfd()
+- removed the print_sockaddr_ptr() patch, also the two
+  getsockname()/recvfrom() patches for after 3.0.
+
+Since v2:
+- display invalid pointer in print_timeval() and print_timezone()
+- do not display gettimeofday() arguments
+
+Since v1:
+- addressed Laurent comments
+- added 'last' argument to print_sockaddr()
+- reordered series, so patches already correct can get applied directly
+- dropped "linux-user/syscall: simplify recvfrom()" for now
+
+v1: http://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg05855.html
+v2: http://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08216.html
+v3: http://lists.nongnu.org/archive/html/qemu-devel/2018-07/msg00411.html
+v5: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02067.html
+v6: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01346.html
+[1] https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02807.html
+
+Philippe Mathieu-Daudé (9):
+  linux-user/strace: Display invalid pointer in print_timeval()
+  linux-user/strace: Add print_timezone()
+  linux-user/strace: Improve settimeofday()
+  linux-user/syscall: Introduce target_sockaddr_nl
+  linux-user/strace: Dump AF_NETLINK sockaddr content
+  linux-user/strace: Add print_sockfd()
+  linux-user/strace: Improve bind() output
+  linux-user/strace: Let print_sockaddr() have a 'last' argument
+  linux-user/syscall: Align target_sockaddr fields using ABI types
+
+ linux-user/strace.c       | 120 +++++++++++++++++++++++++++++++++-----
+ linux-user/strace.list    |   4 +-
+ linux-user/syscall.c      |   6 +-
+ linux-user/syscall_defs.h |  41 +++++++------
+ 4 files changed, 137 insertions(+), 34 deletions(-)
+
 -- 
 2.20.1
 
