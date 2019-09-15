@@ -2,41 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F20B2CF1
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Sep 2019 22:57:40 +0200 (CEST)
-Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABCDB2D82
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 03:09:56 +0200 (CEST)
+Received: from localhost ([::1]:52830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9F6x-00075N-Ea
-	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 16:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47999)
+	id 1i9J34-0004Zr-MH
+	for lists+qemu-devel@lfdr.de; Sat, 14 Sep 2019 21:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chewi@gentoo.org>) id 1i99PO-0008RL-00
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 10:52:18 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i9J1i-000455-C1
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 21:08:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chewi@gentoo.org>) id 1i99PM-0000J7-LB
- for qemu-devel@nongnu.org; Sat, 14 Sep 2019 10:52:17 -0400
-Received: from smtp.gentoo.org ([140.211.166.183]:54928)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <chewi@gentoo.org>)
- id 1i99PM-0000HW-GE; Sat, 14 Sep 2019 10:52:16 -0400
-Received: from symphony.aura-online.co.uk (154.189.187.81.in-addr.arpa
- [81.187.189.154])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: chewi)
- by smtp.gentoo.org (Postfix) with ESMTPSA id EFCC234B179;
- Sat, 14 Sep 2019 14:52:12 +0000 (UTC)
-From: James Le Cuirot <chewi@gentoo.org>
-To: qemu-devel@nongnu.org
-Date: Sat, 14 Sep 2019 15:51:55 +0100
-Message-Id: <20190914145155.19360-1-chewi@gentoo.org>
-X-Mailer: git-send-email 2.23.0
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i9J1h-00020Z-BU
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 21:08:30 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35001)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
+ id 1i9J1h-000201-3i
+ for qemu-devel@nongnu.org; Sat, 14 Sep 2019 21:08:29 -0400
+Received: by mail-wm1-x343.google.com with SMTP id y21so2172009wmi.0
+ for <qemu-devel@nongnu.org>; Sat, 14 Sep 2019 18:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:subject:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ULX0MdgX0xQ/UKsZFHLH/K7OmuoKXLlpEINrguyyphs=;
+ b=RE6TiMdkriXwkEouq40DGGKh1UaqSLN2k5KVxRRa9Ztgg8no3WcYgUfI1W4FOs+WQe
+ hzyADq1iAT3y60N0lisSB8bll1tQWNSO3OXeTeA5eFHN5glEh/k4Z1laVDxnSzLOmdZT
+ Jv8RQVldBLeZwnePgK/JWNK4NLKeoEs3MYufkxXwR+0ZtZKcHhes49or0LIroFSLTO2W
+ JI9SHNBQiGik0au5o3Mx63qaFavggmsrY/3VH+1eOSTPwCeo3BtyhCg43fBvp6o3e+cW
+ q28sLbW5wsQELuMTI0NcZhljA7Y0e7bpmYhSaKfH5M84ejTpxZKXv9JvP5okYNmtIXIX
+ ZEuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ULX0MdgX0xQ/UKsZFHLH/K7OmuoKXLlpEINrguyyphs=;
+ b=R6FRtk/wnCJSd6bU6BeZ3bmDZxQu6gLj2P8TJRz/WQVHi56UmIz0B0BAx8ml5k3lV5
+ PRW6/S0ou1pD1mGzINtSNlWOrhXzGUASTwmEHrB0VKRG076wauHOI/3rWV+yiCgCsRV+
+ pm2xCuxLXib6in5YFdMDWxxdlYFtrz0gGE2kAiQY8DmHGjBX7whfwfdgPPzDy7OKERzy
+ NINPjXPtOwxE9j31mUB5S450/w+JCfahfdHHmdWHlUs7wPdD66ssPIka1y3o7Dz0W3nd
+ pJoHEnX7e9PtDIp591VuWl6y2GQpae2qKl2etB4bR50bjUrsAgmSJ7KFQneCW3bzfpOE
+ 116A==
+X-Gm-Message-State: APjAAAWeXSyP+YSIJqUPba5NSXRyxGAY56B5avR9isYsZM7zxBEEca5N
+ qNJS4MSP256JGjTWzfhRSzthvQ6B
+X-Google-Smtp-Source: APXvYqzGrjEXtLJbkHmqNtdZLYL5Kg/JjEEqXCA5cypkNTq2HZ213R1LU98S/h/VAtk+sgKKjaHmpw==
+X-Received: by 2002:a1c:e008:: with SMTP id x8mr8462275wmg.85.1568509706674;
+ Sat, 14 Sep 2019 18:08:26 -0700 (PDT)
+Received: from ?IPv6:fd00:835b:d940:d4fc:1::d3?
+ (2a01-036c-0113-74ef-0001-0000-0000-00d3.pool6.digikabel.hu.
+ [2a01:36c:113:74ef:1::d3])
+ by smtp.gmail.com with ESMTPSA id a10sm6861033wrm.52.2019.09.14.18.08.25
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 14 Sep 2019 18:08:26 -0700 (PDT)
+From: "=?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=" <dirty.ice.hu@gmail.com>
+X-Google-Original-From: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=
+ <DirtY.iCE.hu@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <cover.1567965065.git.DirtY.iCE.hu@gmail.com>
+ <20190912102007.73bch4avvmx3ugpe@sirius.home.kraxel.org>
+Message-ID: <9e32e611-ccf3-7cce-8a08-3d05bac65f0c@gmail.com>
+Date: Sun, 15 Sep 2019 03:08:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 140.211.166.183
-X-Mailman-Approved-At: Sat, 14 Sep 2019 16:55:48 -0400
-Subject: [Qemu-devel] [PATCH] configure: Add xkbcommon configure options
+In-Reply-To: <20190912102007.73bch4avvmx3ugpe@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v2 00/24] Audio: Mixeng-free 5.1/7.1 audio
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,43 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, James Le Cuirot <chewi@gentoo.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This dependency is currently "automagic", which is bad for distributions.
+On 2019-09-12 12:20, Gerd Hoffmann wrote:
+> On Sun, Sep 08, 2019 at 11:22:00PM +0200, Kővágó, Zoltán wrote:
+>> Hi,
+>>
+>> This is the v2 of my patch series that makes mixeng optional and enables
+>> more than two audio channels.
+>>
+>> Changes from v1:
+>>
+>> * renamed "mixeng" option to "mixing-engine"
+>> * dropped patch "audio: remove hw->samples, buffer_size_in/out pcm_ops"
+> 
+> What is the testing status of this?
 
-Signed-off-by: James Le Cuirot <chewi@gentoo.org>
----
- configure | 5 +++++
- 1 file changed, 5 insertions(+)
+I've ran some very simple audio playback tests, here are my results:
+* alsa - works
+* pa - works
+* oss - works, but it looks like I have to specify both in.dev and 
+out.dev if the default /dev/dsp does not exist, otherwise I just get a 
+generic "Could not init `oss' audio driver".  We need a better error 
+message here IMHO.
+* sdl - works
+* spice - yes, it's broken now, I'll fix it in the next update.  I've 
+also found a second bug (SIGSEGV if the guest starts playing while no 
+client is connected).
 
-diff --git a/configure b/configure
-index 30aad233d1..30544f52e6 100755
---- a/configure
-+++ b/configure
-@@ -1521,6 +1521,10 @@ for opt do
-   ;;
-   --disable-libpmem) libpmem=3Dno
-   ;;
-+  --enable-xkbcommon) xkbcommon=3Dyes
-+  ;;
-+  --disable-xkbcommon) xkbcommon=3Dno
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1804,6 +1808,7 @@ disabled with --disable-FEATURE, default is enabled=
- if available:
-   capstone        capstone disassembler support
-   debug-mutex     mutex debugging support
-   libpmem         libpmem support
-+  xkbcommon       xkbcommon support
-=20
- NOTE: The object files are built at the place where configure is launche=
-d
- EOF
---=20
-2.23.0
+> What about windows+macos?
 
+No idea, I don't have a windows or mac computer.  I could try it in a 
+windows VM though, if I figure out how to compile qemu on windows.
+
+Regards,
+Zoltan
 
