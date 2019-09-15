@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F735B305D
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 15:54:54 +0200 (CEST)
-Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAB1B30B9
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 17:40:59 +0200 (CEST)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9UzN-0006mv-Iw
-	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 09:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
+	id 1i9We1-0004xQ-BU
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 11:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i9Uub-0003cr-1v
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:49:57 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i9Wbh-0003R5-0R
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 11:38:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i9Uua-0003iI-1p
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:49:56 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38589)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i9UuZ-0003i7-S2
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 09:49:56 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id a23so28568248edv.5
- for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 06:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YAOhFzzxz8Wer64d+m0cXxodZOyQ32EAoZ5iMqeSp6A=;
- b=A1ru8zBW65YkdBpXOmkxIDGN0XMsbpUfPuGVw3zI1YYY9bNA5t/k36Okg+4vgnWBNQ
- vmh86tTzT1gVR5AtXvuuJhqWlG5FSusg3+yA2ATNpjQ2LNebskgnSUy6mq7hmiiJSvVi
- qVANW/HXDNhBtnJENeEoAVNzkeHfv56KX4NaQoGQNuqZfleCm62BgX9u56opNFoz8eXn
- orpUBTpICFOk6LU++u5dAQqF5ItWiySaEUnJCUZFyPpKlXh81IifJuDw+qYE7FZlHIuR
- nM6bFKGc9+7/0zfxisyUpCAdC3xxrrwEkVzFLGsfvACsa2HGXyXAav7BycLFPbtoY7tJ
- wneg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YAOhFzzxz8Wer64d+m0cXxodZOyQ32EAoZ5iMqeSp6A=;
- b=Ut8BR7qOvXL/TI4igOmlqz5Yt5NeBHyBJTrI3ZsoTMIL+tx05CiQwTeLWyV4Kapmua
- xoIDhZ3ulXG4k9AmP7pAkBe915/ynEixhPiOsrBBFR62S4eYV8VPiItTLFAW0cPlquR1
- WdHzsSdGa2yWrFaLoBnvjLQqEZfoNCEFAgtZe9GDpFCm8XuboBZxCX2h+wse3KxRpDJh
- vDvCw7iNKlb431Y/YlnQKOdHdo6AMwaH1MA8ayMUgWmJ4hlLIPj3JeCsRqUJOMkSVFcP
- bHV4Lk/tgPP4bRLjfo1GysWHhDW+ycwlsWHUbLRPsDFjqGAJ/k8rYerwTs4PpSh+8/9l
- VXVg==
-X-Gm-Message-State: APjAAAUHI7jNHH3KLSmiVeKPdDroALg+BasIS0chbzQXNG1xzWWWrqgv
- c5MZFf7UKWPFgR+pvW5qpuzp0GnIpWPYaA==
-X-Google-Smtp-Source: APXvYqxDotemGHcvgXw0JcQwMq55Nfj9B4D2MTNCbBmLovBCmABVFGJIvwORbCXSeZPCt+BgjDzeMg==
-X-Received: by 2002:a50:9625:: with SMTP id y34mr20450366eda.72.1568555394667; 
- Sun, 15 Sep 2019 06:49:54 -0700 (PDT)
-Received: from localhost.localdomain ([185.81.138.17])
- by smtp.gmail.com with ESMTPSA id ot24sm123053ejb.59.2019.09.15.06.49.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Sep 2019 06:49:54 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1i9Wbf-0003Kc-5T
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 11:38:32 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:36469)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1i9Wbb-0003HS-8z; Sun, 15 Sep 2019 11:38:27 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MfqCF-1icVgt056H-00gJQr; Sun, 15 Sep 2019 17:37:58 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Sun, 15 Sep 2019 09:49:44 -0400
-Message-Id: <20190915134944.2173-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190915134944.2173-1-richard.henderson@linaro.org>
-References: <20190915134944.2173-1-richard.henderson@linaro.org>
+Date: Sun, 15 Sep 2019 17:37:42 +0200
+Message-Id: <20190915153751.11333-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::52f
-Subject: [Qemu-devel] [PULL 2/2] target/hppa: prevent trashing of temporary
- in do_depw_sar()
+X-Provags-ID: V03:K1:0AS9KpuN+jUncSj2BEv5iTEet8vYpC1+kNgc7+gaRdTIFpI8D4k
+ Fb6ropc77dvc9asHXqEH4dj0iCjj5W1tXqMkocCkgOf5yl6OBk07mfWo0lkwAsc+ckoEhdp
+ TZw5ciC9Px84vhyDfLVtPgs7tx2ejPCa2S0oTwC3PoSaRJ0utPiew5nyHUJwZ+xUWFJcESV
+ a4pvQ7WMLObWq8PIlkGmg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5hIA7byi2Mg=:uEmKboH35Hic9rPaE1TGu6
+ UkYGTFbTeqq2YZhRFQQnTWsBq1905AZSxvDMtVN8mVbQs6zNiSTpZpdUHbH6NMB3HPZCljFk1
+ 8CkobMgZevL16lxAPRsnoNGOamInufluf4iKHi/hpLP8rnmWSPON1YUZxNj+Tqk9LOKy2UH/s
+ hhSkn9gxl1cTjFWyQ/fAx15LEtK2V5dccB8dl4h8EUxcoD3Btre6UWaTWdh43sNPqBdKn8Au1
+ zCM7L6l2VL1yXIWUNMVUNgeFZKUlLxRmu00L8CwnuYn81C/yyUEDAUT/K251sM2tqgVcBtvZ/
+ 8i3jmDIEjEvmsYzJGAsnt7HZObr5aZeZeHCnvRF3qoLbH+bRFqioNId69lsv5rk5DN+53WX3P
+ PBJm+z7R5GMlfLsbTp5ZvfTXEQiPooZ2PLO/w3cEM4Vd4pJ+eF9AeaKZ+3f1UaWYEi0kRuMos
+ 5GMYCe0V/C7Fb9qo+6MY1yRJm9QaFMS/uA9hakNafkqRYaOwLcDO/RzOL3LEK64Is95DaizYc
+ Bb1RdnvQZR7LG1EKzC5yVM8pp2Ywrek4YA7nh3IVkXE4KFBevl5zIj9zG6S3Dd+Ps7Cnfoh+y
+ /bAE66Wfz6ZAqg8K6ST5S7CePE7rlScss4Hv8HgN+fRIwBC5eWWv7LaclPv7TzbEwdcV0Ti5Z
+ o4rDU0GM4Rj7xNwxYI4uzbW+MXHf6cb8eJK4JC+JTYZOORKnmXBHFRdpPBQUxlNBCoAndRqon
+ QW1L5Pg319KlLybBpQVgCwlvzkbXshosrhKjxxugRqjDHPeaP0VP10Dkg2TJXzzEXa/yj/QQ2
+ xeDE5qFOpMCR0pHqm7lw/+8PoRRrd8aEs4vZid/pOyJ1leltKs5szbBKcBwpOcAXiVk3Pfizs
+ AMyyZwIoM0jZQJPtEA70crDG3FW9OXarvv67KzIso=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.13
+Subject: [Qemu-devel] [PATCH v12 0/9] hw/m68k: add Apple Machintosh Quadra
+ 800 machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,56 +64,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Sven Schnelle <svens@stackframe.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sven Schnelle <svens@stackframe.org>
+I'm rebasing some of these patches for seven years now,
+too many years...
 
-nullify_over() calls brcond which destroys all temporaries.
+if you want to test the machine, I'm sorry, it doesn't boot
+a MacROM, but you can boot a linux kernel from the command line.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Sven Schnelle <svens@stackframe.org>
-Message-Id: <20190913101714.29019-3-svens@stackframe.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/hppa/translate.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+You can install your own disk using debian-installer, with:
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index b12525d535..c1b2822f60 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -3404,10 +3404,6 @@ static bool do_depw_sar(DisasContext *ctx, unsigned rt, unsigned c,
-     TCGv_reg mask, tmp, shift, dest;
-     unsigned msb = 1U << (len - 1);
- 
--    if (c) {
--        nullify_over(ctx);
--    }
--
-     dest = dest_gpr(ctx, rt);
-     shift = tcg_temp_new();
-     tmp = tcg_temp_new();
-@@ -3440,11 +3436,17 @@ static bool do_depw_sar(DisasContext *ctx, unsigned rt, unsigned c,
- 
- static bool trans_depw_sar(DisasContext *ctx, arg_depw_sar *a)
- {
-+    if (a->c) {
-+        nullify_over(ctx);
-+    }
-     return do_depw_sar(ctx, a->t, a->c, a->nz, a->clen, load_gpr(ctx, a->r));
- }
- 
- static bool trans_depwi_sar(DisasContext *ctx, arg_depwi_sar *a)
- {
-+    if (a->c) {
-+        nullify_over(ctx);
-+    }
-     return do_depw_sar(ctx, a->t, a->c, a->nz, a->clen, load_const(ctx, a->i));
- }
- 
+    ...
+    -M q800 \
+    -serial none -serial mon:stdio \
+    -m 1000M \
+    -net nic,model=dp83932,addr=09:00:07:12:34:57 \
+    -append "console=ttyS0 vga=off" \
+    -kernel vmlinux-4.16.0-1-m68k \
+    -initrd initrd.gz \
+    -drive file=debian-10.0-m68k-NETINST-1.iso,media=cdrom \
+    -drive file=m68k.qcow2,format=qcow2 \
+    -nographic
+
+If you use a graphic adapter instead of "-nographic", you can use "-g" to set the
+size of the display (I use "-g 1600x800x24").
+
+You can get the ISO from:
+
+https://cdimage.debian.org/cdimage/ports/10.0/m68k/iso-cd/debian-10.0-m68k-NETINST-1.iso
+
+and extract the kernel and initrd.gz:
+
+guestfish --add debian-10.0-m68k-NETINST-1.iso --ro \
+          --mount /dev/sda:/ <<_EOF_
+copy-out /install/cdrom/initrd.gz .
+copy-out /install/kernels/vmlinux-4.16.0-1-m68k .
+_EOF_
+
+The mirror to use is: http://ftp.ports.debian.org/debian-ports/
+when it fails, continue without boot loader.
+
+In the same way, you can extract the kernel and the initramfs from the qcow2
+image to use it with "-kernel" and "-initrd":
+
+guestfish --add m68k.qcow2 --mount /dev/sda2:/ <<_EOF_
+copy-out /boot/vmlinux-4.16.0-1-m68k .
+copy-out /boot/initrd.img-4.16.0-1-m68k .
+_EOF_
+
+and boot with:
+
+   ...
+   -append "root=/dev/sda2 rw console=ttyS0 console=tty \
+   -kernel vmlinux-4.16.0-1-m68k \
+   -initrd initrd.img-4.16.0-1-m68k
+
+NOTE: DHCP doesn't work but you can assign a static IP address.
+      We need some patches for dp8393x that are not ready to be merged.
+      See http://patchwork.ozlabs.org/patch/927020/
+          http://patchwork.ozlabs.org/patch/927030/
+          http://patchwork.ozlabs.org/patch/927026/
+
+v12: Merge macfb and nubus macfb patches
+     Add some commit messages
+     replace DEFINE_MACHINE() by type_init()
+     Add BootLinuxConsoleTest from Philippe
+     rebase
+
+v11: Add VMState to migrate ESP PDMA
+
+     The new VMState structures cannot be tested because m68k is not
+     migratable and then Q800 is not either.
+     I've tested the ESP VMState is not broken by the change
+     with 'migrate "exec:cat > mig"' with qemu-system-sparc and
+     I have compared the result with/without the patch with
+     scripts/analyze-migrate.py: files desc.json are identical.
+
+v10: Add SWIM VMState and reset function
+     Add MacVIA VMState
+     rework Kconfig
+
+v9: Fix comments format
+    rebase on top of NeXTcube
+
+v8: rebase (new blk_new(), add "qemu-common.h")
+    update bootinfo information and license
+    add some braces
+    Rename Q800IRQState to GLUEState:
+    it's more like a Logic Unit than an IRQ controller,
+    and Apple calls it "GLUE" (Mark: I prefer to keep it
+    like this for the moment, in the future this part
+    need to be reworked, we have to review the IRQ levels
+    and to wire NUBUS IRQ. The implementation is really trivial
+    for the moment and we will move it to QOM in the future)
+
+v7: rebase and port to Kconfig
+    move IRQ controller back to q800.c (we don't need an object for this)
+    update log message for ESP changes and add some g_assert()
+    re-order patches: put esp, escc and dp8393x first
+
+v6: Rebase onto git master (this now includes the m68k EXCP_ILLEGAL fix required
+      for this patchset to boot)
+    Add Hervé's R-B tags
+    Drop ASC (Apple Sound Chip) device since the Linux driver is broken and
+      it is not required for a successful boot
+    Remove extra esp_raise_irq() from ESP pseudo-DMA patch (Hervé)
+    Remove "return" from unimplemented write functions and instead add a
+      "read only" comment (Hervé)
+    Rename MAX_FD to SWIM_MAX_FD in SWIM floppy controller patch to prevent
+      potential conflicts with other files (Hervé)
+
+v5: Rebase onto git master
+    Add Philippe's R-B to patch 10
+    Include the command line to boot a Linux kernel under the q800 machine in the
+    commit message for patch 11 (Philippe)
+    Fix up comments in hw/misc/mac_via.c (Thomas)
+    Add asserts to VIA ADB support to prevent potential buffer overflows (Thomas)
+    Move macfb surface/resolution checks to realise and remove hw_error (Thomas)
+    Move macfb draw_line functions inline and remove macfb-template.h (Mark)
+    Use guest address rather than source pointer in draw_line functions - this brings
+      macfb in line with the VGA device and can prevent a potential buffer overflow
+    Use g_strdup_printf() for memory region names in NuBus devices instead of
+      hardcoded length char arrays (Thomas)
+    Move NuBus QOM types from patch 7 to patch 8 (spotted by Thomas)
+    Move CONFIG_COLDFIRE sections together in hw/m68k/Makefile.objs (Thomas)
+    Remove obsolete comment from q800.c in patch 11 (Thomas)
+
+v4: Drop RFC from subject prefix as this is getting close to final
+    Rebased onto master (fixing ESP, rom_ptr() conflicts)
+    Reworked q800.c based upon Thomas' comments about cpu_init() and
+      qemu_check_nic_model()
+    Address Thomas' comments on using error_report() instead of hw_error()
+    Change the NuBus memory regions from DEVICE_NATIVE_ENDIAN to
+      DEVICE_BIG_ENDIAN
+    Split macfb Nubus support into separate commit
+    Change VMSTATE_BUFFER_UNSAFE() to VMSTATE_UINT8_ARRAY() in macfb.c as
+      suggested by David
+    Remove dummy Apple Sound Chip migration state as pointed out by David
+    Keep VIA ADB state and buffers in the mac_via device rather than adding
+      to existing ADBState (this matches the pattern used in the PPC CUDA/PMU
+      VIAs)
+    Remove blacklisting for q800 machine from "make check" as requested by
+      Thomas with the following fixes:
+        - Fix incorrect MemoryRegion owner in ASC device
+        - Add qtest_enabled() check in q800_init() to allow testing when no
+          kernel is specified
+        - Move some Mac VIA initialisation from init to realize
+    Remove legacy drive properties from SWIM floppy controller and instead
+      expose separate floppy bus and drive devices as requested by Kevin
+
+v3: fix subject prefix "C" -> "RFC"
+
+v2: remove the dp8393x fixes, because one of the patch breaks something
+    Update "dp8393x: manage big endian bus" with idea from Thomas
+    Mark has reworked most of the patches:
+    - use mos6522
+    - some code move, renamings and cleanup
+
+Laurent Vivier (8):
+  esp: add pseudo-DMA as used by Macintosh
+  dp8393x: manage big endian bus
+  hw/m68k: add VIA support
+  hw/m68k: implement ADB bus support for via
+  hw/m68k: add Nubus support
+  hw/m68k: add Nubus macfb video card
+  hw/m68k: add a dummy SWIM floppy controller
+  hw/m68k: define Macintosh Quadra 800
+
+Philippe Mathieu-Daudé (1):
+  BootLinuxConsoleTest: Test the Quadra 800
+
+ MAINTAINERS                            |  14 +
+ arch_init.c                            |   4 +
+ default-configs/m68k-softmmu.mak       |   1 +
+ hw/Kconfig                             |   1 +
+ hw/Makefile.objs                       |   1 +
+ hw/block/Kconfig                       |   3 +
+ hw/block/Makefile.objs                 |   1 +
+ hw/block/swim.c                        | 487 +++++++++++++
+ hw/display/Kconfig                     |   5 +
+ hw/display/Makefile.objs               |   1 +
+ hw/display/macfb.c                     | 477 +++++++++++++
+ hw/m68k/Kconfig                        |  10 +
+ hw/m68k/Makefile.objs                  |   1 +
+ hw/m68k/bootinfo.h                     | 114 +++
+ hw/m68k/q800.c                         | 394 +++++++++++
+ hw/misc/Kconfig                        |   5 +
+ hw/misc/Makefile.objs                  |   1 +
+ hw/misc/mac_via.c                      | 918 +++++++++++++++++++++++++
+ hw/net/dp8393x.c                       |  88 ++-
+ hw/nubus/Kconfig                       |   2 +
+ hw/nubus/Makefile.objs                 |   4 +
+ hw/nubus/mac-nubus-bridge.c            |  45 ++
+ hw/nubus/nubus-bridge.c                |  34 +
+ hw/nubus/nubus-bus.c                   | 111 +++
+ hw/nubus/nubus-device.c                | 215 ++++++
+ hw/scsi/esp.c                          | 338 ++++++++-
+ include/hw/block/swim.h                |  76 ++
+ include/hw/display/macfb.h             |  64 ++
+ include/hw/misc/mac_via.h              | 114 +++
+ include/hw/nubus/mac-nubus-bridge.h    |  24 +
+ include/hw/nubus/nubus.h               |  69 ++
+ include/hw/scsi/esp.h                  |  15 +
+ qemu-options.hx                        |   2 +-
+ tests/acceptance/boot_linux_console.py |  24 +
+ vl.c                                   |   3 +-
+ 35 files changed, 3604 insertions(+), 62 deletions(-)
+ create mode 100644 hw/block/swim.c
+ create mode 100644 hw/display/macfb.c
+ create mode 100644 hw/m68k/bootinfo.h
+ create mode 100644 hw/m68k/q800.c
+ create mode 100644 hw/misc/mac_via.c
+ create mode 100644 hw/nubus/Kconfig
+ create mode 100644 hw/nubus/Makefile.objs
+ create mode 100644 hw/nubus/mac-nubus-bridge.c
+ create mode 100644 hw/nubus/nubus-bridge.c
+ create mode 100644 hw/nubus/nubus-bus.c
+ create mode 100644 hw/nubus/nubus-device.c
+ create mode 100644 include/hw/block/swim.h
+ create mode 100644 include/hw/display/macfb.h
+ create mode 100644 include/hw/misc/mac_via.h
+ create mode 100644 include/hw/nubus/mac-nubus-bridge.h
+ create mode 100644 include/hw/nubus/nubus.h
+
 -- 
-2.17.1
+2.21.0
 
 
