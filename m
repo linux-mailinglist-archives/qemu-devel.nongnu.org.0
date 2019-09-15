@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E88B31BE
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 21:35:15 +0200 (CEST)
-Received: from localhost ([::1]:56626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6635CB31C9
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Sep 2019 21:40:04 +0200 (CEST)
+Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9aIj-0007FD-NV
-	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 15:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40075)
+	id 1i9aNP-0005Io-19
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 15:40:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i9a7n-0006Aa-8s
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:56 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i9a7n-0006BU-Sk
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i9a7l-00021I-Uw
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i9a7m-00021W-G1
  for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:55 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41890)
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42358)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i9a7l-00020w-Nm
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:53 -0400
-Received: by mail-ed1-x532.google.com with SMTP id z9so31223583edq.8
- for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 12:23:53 -0700 (PDT)
+ id 1i9a7m-000214-9N
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 15:23:54 -0400
+Received: by mail-ed1-x544.google.com with SMTP id y91so31230497ede.9
+ for <qemu-devel@nongnu.org>; Sun, 15 Sep 2019 12:23:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2ggo5gaMxU2L823vMOykdg4XPI1AKBEfEFOZrBLT+nk=;
- b=V8h3l+ceGUA86xb86G8WYnbcb1DNyVP9ipfkYXMRraiHyemqzc02l0F1pqpN+t7JkP
- sTLAXtqD2GUvNVW2zII+TpACluu+alLEm3FSavOAK5doKB/yi/dZCP8AAsqFj7qZrBse
- XQZ4vi8wt6GEe+dYk9vToa/iYGOisau4tniT21igEyUH8clYNevKZdK/RRuQ2mdnLLuV
- DDe+89vzBJAefhR1i9Kyz9/bQT271Zm1I6Df0JbvzFbzWF9XT4e1+/jsYRngjmk7Mwvk
- 3PKtACUmeqUSGl+bRMOnXsq9QpLutNtt7PRPmtXLrIawNGfaJTlx24Nr3BVDEfWcuTW3
- AyHA==
+ bh=CkbcNK8c6K6YdTYC4vE0JkUjaFLBw/HOWigtjbt3gZ8=;
+ b=aODO4P+1b+rcYyVJEY32x2/MJZ3G73tFck5IHGIb1mGguPoNqlXlHa7QhrqUC6eD+/
+ tVWiO0zq6GuMnSViphl1iM/uQHarcRrr813pP5LZyqXzHHQbv1L7SY92fmnBfsACTuW7
+ IvN7XbGu9RxGFb5xtOKolangNTAfTjnV4aYqrykJUTukrC51dx1GEuaVIFQponzBGH1j
+ /wpUpCW+09H72OXoBgIYLxCJi7nxR9r54QmimpWWk5WSsLgr2DbGdOb+OQfvY2QT/D3t
+ s7wkTURf4uvylcxeKd1aTd9B4sv2OFueA5gy7VUk8bgBY6ChxIaF8M6wBP9aTxYXRarp
+ xcGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2ggo5gaMxU2L823vMOykdg4XPI1AKBEfEFOZrBLT+nk=;
- b=ODqK1XXKxeRhtQQuTv2VIXlsIWK+Wz8f16FqlwOyRL6gevKH+OTBP2sSfaTfcL/r42
- 0AfRucpjVRPwlONsqVWu6vVUr9QZDLPYvkt/9W24ap0MnaK8cQZ+PS1pn0opHOwU+XJY
- ft7faMttjV2Zxm58yPovUVm/zMqZSU+zs+ulkKOEoZR/ZQVupodyLWz5+xQq8eXXynuU
- Hc8SDVO3AxtIh2+EYxdbw85F7nJLZW5RwICSPxu8HMXKFEUEMqoj6A9fXulx3DeLUqJR
- uuV9X+ttm4OT75Ot6QwYv36iii3/QImgYPIFupUX/RNAndga7qT0XjcbU7l40dDZJ8Vv
- zu4A==
-X-Gm-Message-State: APjAAAWddbVhzTaYICtP18VCBETJ7bRsJmAmJKpgXIKqawvFVXo5Y1BC
- R4KfKQqFRL6o9gk1sKWcdVd3FW3T
-X-Google-Smtp-Source: APXvYqxENbWyAPZwmg6N3se5bh5As1vX36Ggpus49T9k0CPaAPxEgOZ4ZGk5W2ihRD2qUWOZ+4hgPA==
-X-Received: by 2002:a17:906:3087:: with SMTP id
- 7mr16504177ejv.212.1568575432443; 
- Sun, 15 Sep 2019 12:23:52 -0700 (PDT)
+ bh=CkbcNK8c6K6YdTYC4vE0JkUjaFLBw/HOWigtjbt3gZ8=;
+ b=d+Ii7lw/rRo3QAXfBIeDUQgTUo2iCEVl0PFY4F+Hj4/06tYiOdOMCKLrzxcySlQE+A
+ vvMgiqjIcejlDSlDsg4G3XybSB04GYGVzbwxqn66VwrEm2NyRjBMpQ38VXmrM5806Cp/
+ 2p0XLqlwxQ5/4wupZM7JO0lkEDdoYxKJklObCzhoGphuI5ViJBh8+RiWv3jUcZ82F99J
+ aAymB27ViJwEDEZKq9mddBL8uaII9BoKvmkqhg3TMmfo/b4kuxneMiy0c/1P2UPcw/4G
+ 9yA95T46Lllql+auVWcwxkx8AT9bIy9Yadru1jR+uHwgAghqjH4yXDITC1HiT6P7TUE1
+ begg==
+X-Gm-Message-State: APjAAAUtOXK7W+jfnSnPdFuYk+h8hmOKWULSloDvSbWaQZMNsqiLLdQq
+ JkABQJBKhMNCDqRx8kFmABJDzfmv
+X-Google-Smtp-Source: APXvYqwQMhXHmADG4DEAkDi6hitPNBhvna/40MHfz5Sq+PCFYEy5rMU61DJ56wFO8Pqhk0QqVPDwsw==
+X-Received: by 2002:aa7:d694:: with SMTP id d20mr50436005edr.226.1568575433168; 
+ Sun, 15 Sep 2019 12:23:53 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:74ef::5])
- by smtp.gmail.com with ESMTPSA id j20sm6480562edy.95.2019.09.15.12.23.51
+ by smtp.gmail.com with ESMTPSA id j20sm6480562edy.95.2019.09.15.12.23.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 15 Sep 2019 12:23:52 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
@@ -61,8 +60,8 @@ From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sun, 15 Sep 2019 21:23:31 +0200
-Message-Id: <b1a5c621da034c8b8485c9b2097080b9760f274a.1568574965.git.DirtY.iCE.hu@gmail.com>
+Date: Sun, 15 Sep 2019 21:23:32 +0200
+Message-Id: <0adb9ca41b5abad2e048e9e36137446e86d5905c.1568574965.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568574965.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568574965.git.DirtY.iCE.hu@gmail.com>
@@ -71,9 +70,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::532
-Subject: [Qemu-devel] [PATCH v3 15/24] audio: add mixeng option
- (documentation)
+X-Received-From: 2a00:1450:4864:20::544
+Subject: [Qemu-devel] [PATCH v3 16/24] audio: make mixeng optional
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,91 +83,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow us to disable mixeng when we use a decent backend.
-
-Disabling mixeng have a few advantages:
-* we no longer convert the audio output from one format to another, when
-  the underlying audio system would just convert it to a third format.
-  We no longer convert, only the underlying system, when needed.
-* the underlying system probably has better resampling and sample format
-  converting methods anyway...
-* we may support formats that the mixeng currently does not support (S24
-  or float samples, more than two channels)
-* when using an audio server (like pulseaudio) different sound card
-  outputs will show up as separate streams, even if we use only one
-  backend
-
-Disadvantages:
-* audio capturing no longer works (wavcapture, and vnc audio extension)
-* some backends only support a single playback stream or very picky
-  about the audio format.  In this case we can't disable mixeng.
-
-However mixeng is not removed, only made optional, so this shouldn't be
-a big concern.
+Implementation of the previously added mixing-engine option.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
+ audio/audio.c          | 70 ++++++++++++++++++++++++++++++++++++++----
+ audio/audio_template.h | 20 ++++++++----
+ 2 files changed, 78 insertions(+), 12 deletions(-)
 
-Notes:
-    Changes from v1:
-    
-    * renamed mixeng to mixing-engine
-
- qapi/audio.json | 5 +++++
- qemu-options.hx | 6 ++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 9fefdf5186..0535eff794 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -11,6 +11,10 @@
- # General audio backend options that are used for both playback and
- # recording.
- #
-+# @mixing-engine: use QEMU's mixing engine to mix all streams inside QEMU. When
-+#                 set to off, fixed-settings must be also off. Not every backend
-+#                 compatible with the off setting (default on, since 4.2)
-+#
- # @fixed-settings: use fixed settings for host input/output. When off,
- #                  frequency, channels and format must not be
- #                  specified (default true)
-@@ -31,6 +35,7 @@
- ##
- { 'struct': 'AudiodevPerDirectionOptions',
-   'data': {
-+    '*mixing-engine':  'bool',
-     '*fixed-settings': 'bool',
-     '*frequency':      'uint32',
-     '*channels':       'uint32',
-diff --git a/qemu-options.hx b/qemu-options.hx
-index bbfd936d29..734a3b5d65 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -433,6 +433,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
-     "                specifies the audio backend to use\n"
-     "                id= identifier of the backend\n"
-     "                timer-period= timer period in microseconds\n"
-+    "                in|out.mixing-engineeng= use mixing engine to mix streams inside QEMU\n"
-     "                in|out.fixed-settings= use fixed settings for host audio\n"
-     "                in|out.frequency= frequency to use with fixed settings\n"
-     "                in|out.channels= number of channels to use with fixed settings\n"
-@@ -503,6 +504,11 @@ Identifies the audio backend.
- Sets the timer @var{period} used by the audio subsystem in microseconds.
- Default is 10000 (10 ms).
- 
-+@item in|out.mixing-engine=on|off
-+Use QEMU's mixing engine to mix all streams inside QEMU.  When off,
-+@var{fixed-settings} must be off too.  Not every backend is fully
-+compatible with the off setting.  Default is on.
+diff --git a/audio/audio.c b/audio/audio.c
+index 7128ee98dc..d616a4af98 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -838,32 +838,46 @@ static void audio_timer (void *opaque)
+  */
+ size_t AUD_write(SWVoiceOut *sw, void *buf, size_t size)
+ {
++    HWVoiceOut *hw;
 +
- @item in|out.fixed-settings=on|off
- Use fixed settings for host audio.  When off, it will change based on
- how the guest opens the sound card.  In this case you must not specify
+     if (!sw) {
+         /* XXX: Consider options */
+         return size;
+     }
++    hw = sw->hw;
+ 
+-    if (!sw->hw->enabled) {
++    if (!hw->enabled) {
+         dolog ("Writing to disabled voice %s\n", SW_NAME (sw));
+         return 0;
+     }
+ 
+-    return audio_pcm_sw_write(sw, buf, size);
++    if (audio_get_pdo_out(hw->s->dev)->mixing_engine) {
++        return audio_pcm_sw_write(sw, buf, size);
++    } else {
++        return hw->pcm_ops->write(hw, buf, size);
++    }
+ }
+ 
+ size_t AUD_read(SWVoiceIn *sw, void *buf, size_t size)
+ {
++    HWVoiceIn *hw;
++
+     if (!sw) {
+         /* XXX: Consider options */
+         return size;
+     }
++    hw = sw->hw;
+ 
+-    if (!sw->hw->enabled) {
++    if (!hw->enabled) {
+         dolog ("Reading from disabled voice %s\n", SW_NAME (sw));
+         return 0;
+     }
+ 
+-    return audio_pcm_sw_read(sw, buf, size);
++    if (audio_get_pdo_in(hw->s->dev)->mixing_engine) {
++        return audio_pcm_sw_read(sw, buf, size);
++    } else {
++        return hw->pcm_ops->read(hw, buf, size);
++    }
+ }
+ 
+ int AUD_get_buffer_size_out (SWVoiceOut *sw)
+@@ -1090,6 +1104,26 @@ static void audio_run_out (AudioState *s)
+     HWVoiceOut *hw = NULL;
+     SWVoiceOut *sw;
+ 
++    if (!audio_get_pdo_out(s->dev)->mixing_engine) {
++        while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
++            /* there is exactly 1 sw for each hw with no mixeng */
++            sw = hw->sw_head.lh_first;
++
++            if (hw->pending_disable) {
++                hw->enabled = 0;
++                hw->pending_disable = 0;
++                if (hw->pcm_ops->enable_out) {
++                    hw->pcm_ops->enable_out(hw, false);
++                }
++            }
++
++            if (sw->active) {
++                sw->callback.fn(sw->callback.opaque, INT_MAX);
++            }
++        }
++        return;
++    }
++
+     while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
+         size_t played, live, prev_rpos, free;
+         int nb_live, cleanup_required;
+@@ -1227,6 +1261,17 @@ static void audio_run_in (AudioState *s)
+ {
+     HWVoiceIn *hw = NULL;
+ 
++    if (!audio_get_pdo_in(s->dev)->mixing_engine) {
++        while ((hw = audio_pcm_hw_find_any_enabled_in(s, hw))) {
++            /* there is exactly 1 sw for each hw with no mixeng */
++            SWVoiceIn *sw = hw->sw_head.lh_first;
++            if (sw->active) {
++                sw->callback.fn(sw->callback.opaque, INT_MAX);
++            }
++        }
++        return;
++    }
++
+     while ((hw = audio_pcm_hw_find_any_enabled_in(s, hw))) {
+         SWVoiceIn *sw;
+         size_t captured = 0, min;
+@@ -1751,6 +1796,11 @@ CaptureVoiceOut *AUD_add_capture(
+         s = audio_init(NULL, NULL);
+     }
+ 
++    if (!audio_get_pdo_out(s->dev)->mixing_engine) {
++        dolog("Can't capture with mixeng disabled\n");
++        return NULL;
++    }
++
+     if (audio_validate_settings (as)) {
+         dolog ("Invalid settings were passed when trying to add capture\n");
+         audio_print_settings (as);
+@@ -1905,9 +1955,13 @@ void audio_create_pdos(Audiodev *dev)
+ static void audio_validate_per_direction_opts(
+     AudiodevPerDirectionOptions *pdo, Error **errp)
+ {
++    if (!pdo->has_mixing_engine) {
++        pdo->has_mixing_engine = true;
++        pdo->mixing_engine = true;
++    }
+     if (!pdo->has_fixed_settings) {
+         pdo->has_fixed_settings = true;
+-        pdo->fixed_settings = true;
++        pdo->fixed_settings = pdo->mixing_engine;
+     }
+     if (!pdo->fixed_settings &&
+         (pdo->has_frequency || pdo->has_channels || pdo->has_format)) {
+@@ -1915,6 +1969,10 @@ static void audio_validate_per_direction_opts(
+                    "You can't use frequency, channels or format with fixed-settings=off");
+         return;
+     }
++    if (!pdo->mixing_engine && pdo->fixed_settings) {
++        error_setg(errp, "You can't use fixed-settings without mixeng");
++        return;
++    }
+ 
+     if (!pdo->has_frequency) {
+         pdo->has_frequency = true;
+@@ -1926,7 +1984,7 @@ static void audio_validate_per_direction_opts(
+     }
+     if (!pdo->has_voices) {
+         pdo->has_voices = true;
+-        pdo->voices = 1;
++        pdo->voices = pdo->mixing_engine ? 1 : INT_MAX;
+     }
+     if (!pdo->has_format) {
+         pdo->has_format = true;
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index 235d1acbbe..b6c5466cff 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -78,13 +78,17 @@ static void glue (audio_pcm_hw_free_resources_, TYPE) (HW *hw)
+ 
+ static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
+ {
+-    size_t samples = hw->samples;
+-    if (audio_bug(__func__, samples == 0)) {
+-        dolog("Attempted to allocate empty buffer\n");
+-    }
++    if (glue(audio_get_pdo_, TYPE)(hw->s->dev)->mixing_engine) {
++        size_t samples = hw->samples;
++        if (audio_bug(__func__, samples == 0)) {
++            dolog("Attempted to allocate empty buffer\n");
++        }
+ 
+-    HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
+-    HWBUF->size = samples;
++        HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
++        HWBUF->size = samples;
++    } else {
++        HWBUF = NULL;
++    }
+ }
+ 
+ static void glue (audio_pcm_sw_free_resources_, TYPE) (SW *sw)
+@@ -103,6 +107,10 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+ {
+     int samples;
+ 
++    if (!glue(audio_get_pdo_, TYPE)(sw->s->dev)->mixing_engine) {
++        return 0;
++    }
++
+     samples = ((int64_t) sw->HWBUF->size << 32) / sw->ratio;
+ 
+     sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
 -- 
 2.23.0
 
