@@ -2,51 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D45B379C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 11:56:31 +0200 (CEST)
-Received: from localhost ([::1]:60682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4E3B37A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 11:57:35 +0200 (CEST)
+Received: from localhost ([::1]:60702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9nkE-00030v-A9
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 05:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43490)
+	id 1i9nlF-0004h9-Ue
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 05:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i9niM-0001cl-Ef
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:54:36 -0400
+ (envelope-from <philmd@redhat.com>) id 1i9njx-0003V4-5r
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:56:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i9niK-00025b-B8
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:54:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57414)
+ (envelope-from <philmd@redhat.com>) id 1i9njv-0002vS-B9
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:56:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50982)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i9niJ-00025H-SW
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:54:32 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i9njv-0002v8-43
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:56:11 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1CF2410DCC80
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 09:54:31 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA84D19D7A;
- Mon, 16 Sep 2019 09:54:27 +0000 (UTC)
-Date: Mon, 16 Sep 2019 10:54:24 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190916095424.GB2887@work-vm>
-References: <20190912122514.22504-1-marcandre.lureau@redhat.com>
- <20190912122514.22504-3-marcandre.lureau@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 33B2937E88
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 09:56:10 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id m14so4282671wru.17
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 02:56:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ka1NNKZ9FyRyl5DdCkNNqBxZCHj3VNnYXG0utcjVjkU=;
+ b=CT4fOLOMp3tT64ncCiHsncxqR5cNEb1ypUJ6WFkC9evpyq2XW4vJqZvf0MJudVwcDQ
+ 949/k2fO4d9tMU2KEqMWyqcuMBwQC2/gRNJlbEzla3pnIB9xHRL3eF6OYY9R6hT1AMtt
+ PSwMbc37fy/JFto3hbiu+QKy8Ruw+7/6NLor0MFc0oSn5FMYP+SwQhp+WBDGew464p5k
+ YmpqbrSBR1inCTCYLpOQbej512s2XTwl0vdI6TRHTc4WmVGabhIf7weoubAFZKdgm0Ke
+ QrHSdcPNpZtUV50upK6M/D6qGIZTjANBYY8qKpUCd5q13cge2VhyLmyvkWeJ4fiQsqdE
+ t9dQ==
+X-Gm-Message-State: APjAAAWQPqUziC7x2JBTYDOjgj6cdB9vLNyl5lEQKvUMEx+zC08DMdV2
+ dtyEDI9rB+DfRtYtVU11NuSjhozaaGOQkgakADBgLin1xD8bKR9lBYw84GifT78kEs1HWCVhvlv
+ d7eTcoo/GLnCfUV8=
+X-Received: by 2002:a5d:6647:: with SMTP id f7mr49150740wrw.170.1568627768809; 
+ Mon, 16 Sep 2019 02:56:08 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwi8PGh8Sc6+EQ4LN7O+fOBxnQvTqFVB1ARTvU95wiiIjo4TpUGc+0Q/epriREgOFIBJexJcQ==
+X-Received: by 2002:a5d:6647:: with SMTP id f7mr49150719wrw.170.1568627768602; 
+ Mon, 16 Sep 2019 02:56:08 -0700 (PDT)
+Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id s9sm14067887wme.36.2019.09.16.02.56.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Sep 2019 02:56:08 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20190915211940.30427-1-f4bug@amsat.org>
+ <20190916004242.GF2104@umbus.fritz.box>
+ <331a9dc2-d79c-3f29-d818-3df74222425b@redhat.com> <87lfuo1sbp.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <02b9bc89-eee6-493d-3e3c-ae75b6c24657@redhat.com>
+Date: Mon, 16 Sep 2019 11:56:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190912122514.22504-3-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Mon, 16 Sep 2019 09:54:31 +0000 (UTC)
+In-Reply-To: <87lfuo1sbp.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 2/6] vmstate: add qom interface to get id
+Subject: Re: [Qemu-devel] [PATCH v2 0/6] tests/acceptance: Add tests for the
+ PReP/40p machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,201 +84,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Marc-Andr=E9 Lureau (marcandre.lureau@redhat.com) wrote:
-> Add an interface to get the instance id, instead of depending on
-> Device and qdev_get_dev_path().
+On 9/16/19 11:52 AM, Alex Benn=C3=A9e wrote:
 >=20
-> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/core/Makefile.objs        |  1 +
->  hw/core/qdev.c               | 14 ++++++++++++++
->  hw/core/vmstate-if.c         | 23 +++++++++++++++++++++++
->  include/hw/vmstate-if.h      | 32 ++++++++++++++++++++++++++++++++
->  include/migration/register.h |  2 ++
->  include/migration/vmstate.h  |  2 ++
->  tests/Makefile.include       |  1 +
->  7 files changed, 75 insertions(+)
->  create mode 100644 hw/core/vmstate-if.c
->  create mode 100644 include/hw/vmstate-if.h
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 >=20
-> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-> index fd0550d1d9..0edd9e635d 100644
-> --- a/hw/core/Makefile.objs
-> +++ b/hw/core/Makefile.objs
-> @@ -9,6 +9,7 @@ common-obj-y +=3D hotplug.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D nmi.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D vm-change-state-handler.o
->  common-obj-y +=3D cpu.o
-> +common-obj-y +=3D vmstate-if.o
-> =20
->  common-obj-$(CONFIG_EMPTY_SLOT) +=3D empty_slot.o
->  common-obj-$(CONFIG_XILINX_AXI) +=3D stream.o
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 60d66c2f39..7e083dfcae 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -1047,9 +1047,18 @@ static void device_unparent(Object *obj)
->      }
->  }
-> =20
-> +static char *
-> +device_vmstate_if_get_id(VMStateIf *obj)
-> +{
-> +    DeviceState *dev =3D DEVICE(obj);
-> +
-> +    return qdev_get_dev_path(dev);
-> +}
-> +
->  static void device_class_init(ObjectClass *class, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(class);
-> +    VMStateIfClass *vc =3D VMSTATE_IF_CLASS(class);
-> =20
->      class->unparent =3D device_unparent;
-> =20
-> @@ -1061,6 +1070,7 @@ static void device_class_init(ObjectClass *class,=
- void *data)
->       */
->      dc->hotpluggable =3D true;
->      dc->user_creatable =3D true;
-> +    vc->get_id =3D device_vmstate_if_get_id;
->  }
-> =20
->  void device_class_set_parent_reset(DeviceClass *dc,
-> @@ -1118,6 +1128,10 @@ static const TypeInfo device_type_info =3D {
->      .class_init =3D device_class_init,
->      .abstract =3D true,
->      .class_size =3D sizeof(DeviceClass),
-> +    .interfaces =3D (InterfaceInfo[]) {
-> +        { TYPE_VMSTATE_IF },
-> +        { }
-> +    }
->  };
-> =20
->  static void qdev_register_types(void)
-> diff --git a/hw/core/vmstate-if.c b/hw/core/vmstate-if.c
-> new file mode 100644
-> index 0000000000..d0b2392b0a
-> --- /dev/null
-> +++ b/hw/core/vmstate-if.c
-> @@ -0,0 +1,23 @@
-> +/*
-> + * VMState interface
-> + *
-> + * Copyright (c) 2009-2017 Red Hat Inc
-
-You might want to update the years;  but other than from the migration
-side this looks OK to me, but it needs checking by a QOM person.
-
-
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> + * This work is licensed under the terms of the GNU GPL, version 2 or =
-later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/vmstate-if.h"
-> +
-> +static const TypeInfo vmstate_if_info =3D {
-> +    .name =3D TYPE_VMSTATE_IF,
-> +    .parent =3D TYPE_INTERFACE,
-> +    .class_size =3D sizeof(VMStateIfClass),
-> +};
-> +
-> +static void vmstate_register_types(void)
-> +{
-> +    type_register_static(&vmstate_if_info);
-> +}
-> +
-> +type_init(vmstate_register_types);
-> diff --git a/include/hw/vmstate-if.h b/include/hw/vmstate-if.h
-> new file mode 100644
-> index 0000000000..92682f5bc2
-> --- /dev/null
-> +++ b/include/hw/vmstate-if.h
-> @@ -0,0 +1,32 @@
-> +#ifndef VMSTATE_IF_H
-> +#define VMSTATE_IF_H
-> +
-> +#include "qom/object.h"
-> +
-> +#define TYPE_VMSTATE_IF "vmstate-if"
-> +
-> +#define VMSTATE_IF_CLASS(klass)                                     \
-> +    OBJECT_CLASS_CHECK(VMStateIfClass, (klass), TYPE_VMSTATE_IF)
-> +#define VMSTATE_IF_GET_CLASS(obj)                           \
-> +    OBJECT_GET_CLASS(VMStateIfClass, (obj), TYPE_VMSTATE_IF)
-> +#define VMSTATE_IF(obj)                             \
-> +    INTERFACE_CHECK(VMStateIf, (obj), TYPE_VMSTATE_IF)
-> +
-> +typedef struct VMStateIf VMStateIf;
-> +
-> +typedef struct VMStateIfClass {
-> +    InterfaceClass parent_class;
-> +
-> +    char * (*get_id)(VMStateIf *obj);
-> +} VMStateIfClass;
-> +
-> +static inline char *vmstate_if_get_id(VMStateIf *vmif)
-> +{
-> +    if (!vmif) {
-> +        return NULL;
-> +    }
-> +
-> +    return VMSTATE_IF_GET_CLASS(vmif)->get_id(vmif);
-> +}
-> +
-> +#endif /* VMSTATE_IF_H */
-> diff --git a/include/migration/register.h b/include/migration/register.=
-h
-> index 3d0b9833c6..74f1578b29 100644
-> --- a/include/migration/register.h
-> +++ b/include/migration/register.h
-> @@ -14,6 +14,8 @@
->  #ifndef MIGRATION_REGISTER_H
->  #define MIGRATION_REGISTER_H
-> =20
-> +#include "hw/vmstate-if.h"
-> +
->  typedef struct SaveVMHandlers {
->      /* This runs inside the iothread lock.  */
->      SaveStateHandler *save_state;
-> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> index 1fbfd099dd..bdcf8a1652 100644
-> --- a/include/migration/vmstate.h
-> +++ b/include/migration/vmstate.h
-> @@ -27,6 +27,8 @@
->  #ifndef QEMU_VMSTATE_H
->  #define QEMU_VMSTATE_H
-> =20
-> +#include "hw/vmstate-if.h"
-> +
->  typedef struct VMStateInfo VMStateInfo;
->  typedef struct VMStateField VMStateField;
-> =20
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index f5ac09549c..d4502a30eb 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -566,6 +566,7 @@ tests/test-qdev-global-props$(EXESUF): tests/test-q=
-dev-global-props.o \
->  	hw/core/irq.o \
->  	hw/core/fw-path-provider.o \
->  	hw/core/reset.o \
-> +	hw/core/vmstate-if.o \
->  	$(test-qapi-obj-y)
->  tests/test-vmstate$(EXESUF): tests/test-vmstate.o \
->  	migration/vmstate.o migration/vmstate-types.o migration/qemu-file.o \
-> --=20
-> 2.23.0
+>> Hi David,
+>>
+>> On 9/16/19 2:42 AM, David Gibson wrote:
+>>> On Sun, Sep 15, 2019 at 11:19:34PM +0200, Philippe Mathieu-Daud=C3=A9=
+ wrote:
+>>>> Quick tests worth to avoid regressions with the 40p machine.
+>>>> idea from the "Maintainers, please tell us how to boot your machines=
+"
+>>>> thread:
+>>>> https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04177.html
+>>>>
+>>>> v2: Split Travis job, added Herv=C3=A9 R-b tag
+>>>> v1: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05896.h=
+tml
+>>>>
+>>>> Regards,
+>>>>
+>>>> Phil.
+>>>
+>>> I'm guessing you're expecting these to go in via the testing tree, in
+>>> which case
+>>>
+>>> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+>>
+>> Thanks, appreciated :)
+>>
+>>> Or do you want me to take them via the ppc tree?
+>>
+>> I think the 'testing tree' should focus on the CI/testing
+>> infrastructure, while each subsystem maintainers should care about the
+>> tests covering their subsystem (the testing tree maintainers might not
+>> have the required knowledge to be sure a test is correctly implemented=
+).
+>>
+>> In this particular case I assume you don't have much knowledge of that
+>> PPC machine, which is a hobbyist one, but since you are the PPC
+>> maintainer, I'd rather see this going via your tree :)
+>>
+>> Alex/Cleber/Eduardo, any comment on this position?
 >=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Once we have a .travis.yml I'm happy with it can go in via another tree
+> no problem. See other thread....
+
+Good :)
+
+David can take patches 1-5 (I tagged patch 6 as RFC but messed something
+with git-publish and lost it when I sent this series).
+
+Thanks!
+
+>>>> Philippe Mathieu-Daud=C3=A9 (6):
+>>>>   tests/acceptance: Add test that runs NetBSD 4.0 installer on PRep/=
+40p
+>>>>   tests/acceptance: Test Open Firmware on the PReP/40p
+>>>>   tests/acceptance: Test OpenBIOS on the PReP/40p
+>>>>   tests/acceptance: Test Sandalfoot initrd on the PReP/40p
+>>>>   .travis.yml: Let the avocado job run the 40p tests
+>>>>   .travis.yml: Split enterprise vs. hobbyist acceptance test job
+>>>>
+>>>>  .travis.yml                      |  18 +++-
+>>>>  MAINTAINERS                      |   1 +
+>>>>  tests/acceptance/ppc_prep_40p.py | 150 ++++++++++++++++++++++++++++=
++++
+>>>>  3 files changed, 167 insertions(+), 2 deletions(-)
+>>>>  create mode 100644 tests/acceptance/ppc_prep_40p.py
+>>>>
+>>>
+>=20
+>=20
+> --
+> Alex Benn=C3=A9e
+>=20
 
