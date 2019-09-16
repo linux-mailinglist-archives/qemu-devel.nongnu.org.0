@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA8CB3E5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:04:20 +0200 (CEST)
-Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834F0B3E64
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:07:35 +0200 (CEST)
+Received: from localhost ([::1]:36452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tUA-0005BO-Mp
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:04:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53953)
+	id 1i9tXJ-00084X-S4
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDN-0006kn-3P
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:55 -0400
+ (envelope-from <giuseppe.lettieri@unipi.it>) id 1i9sGG-000116-Is
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:45:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDK-0007cy-FE
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:52 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38599)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sDI-0007aQ-9U
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:48 -0400
-Received: by mail-wm1-x343.google.com with SMTP id o184so77148wme.3
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lSmdP+pHZng8BEWPjDjiZZ2csyBsn+ff1HE03fLpH0c=;
- b=ZJRH0t+I69orU39wws4PL7LeBvfkH8pmrppDdA2zoUdEW+TPloFBPCXMwxbfrzcIaW
- KYcLOXFl8u2cWFKglM6XPEr79eupxUYyiCglej5H9QBD4L+9Nhna7/5wXUe8FmfNm/bm
- +pV2oS/jnX93Qy28l/drCasBhLqMFv0o0+KAjED/DZtzQA1gTWKO6W+L3QpmGlNyZiZh
- aV7egj1QRSNNDgMyoBP7c4no+9Ta2QVFl+XTyGUi+kuODoG0w2LZx1pI0B5PyOqaXSYO
- zLIJPDJjnEWZFkmtmTkm+pfhTc6IrY5V91zWwBclmRVhgv0rOYeAqloHd0/QilUI9sYa
- kBSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lSmdP+pHZng8BEWPjDjiZZ2csyBsn+ff1HE03fLpH0c=;
- b=LY1/pv/lboUofG3Ly25o8msarh8m9xGCtUiMP4xnKpbIh9jj57q7eOtS7PnlhoMUqC
- V/2h38IaiComcNFe2xUipG6Wd8WK22SYakT8yj3tBGqnFJcc+fSaSeVeXsP/W16hd1BI
- x4mmgDKF6srPwZYhpxXDCJqeDqFs7LY5pivyGDGTl51I3nCPws9FkxE5ZWNcEUgHkF+y
- E46WEI7GzrIfLLMclO0xABNBJFI4DspiPPGK7v2fVkEr5TyDFb51IGH9ov8SMWjqKHT9
- GwptNWhyIf+XT2g6Nn3ReB9FeqGe1ivtY/lsI4f6wnRHVlohEWB4eiV6pmZ3jAFtRmir
- 9GtQ==
-X-Gm-Message-State: APjAAAXtZ1XLiURTimGaBTIF0aDkp3OFyJyba2dKjp6+33ZAymoIHLuo
- bKz7iqMpymT5XykzlksHDfeCx7bk
-X-Google-Smtp-Source: APXvYqxIgnIUMfvPaICfNonbaL3CcJj9ABMjH4Wq5dNNPLzfZRgd+7+ebz7ySbkDYHQh1eFHR+rCHA==
-X-Received: by 2002:a7b:c3c6:: with SMTP id t6mr46956wmj.5.1568644962463;
- Mon, 16 Sep 2019 07:42:42 -0700 (PDT)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.41
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:41 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:42:09 +0200
-Message-Id: <1568644929-9124-30-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
-References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+ (envelope-from <giuseppe.lettieri@unipi.it>) id 1i9sGE-0000HQ-OB
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:45:52 -0400
+Received: from smtp2.unipi.it ([131.114.21.21]:44674 helo=smtp.unipi.it)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <giuseppe.lettieri@unipi.it>) id 1i9sGE-0000GZ-B6
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:45:50 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.unipi.it (Postfix) with ESMTP id 8664040CF7;
+ Mon, 16 Sep 2019 16:45:45 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at unipi.it
+Received: from [10.216.1.207] (prova.iet.unipi.it [131.114.58.86])
+ (Authenticated User)
+ by smtp.unipi.it (Postfix) with ESMTPSA id A5343400AA;
+ Mon, 16 Sep 2019 16:45:43 +0200 (CEST)
+To: Markus Armbruster <armbru@redhat.com>
+References: <20190806151435.10740-1-armbru@redhat.com>
+ <20190806151435.10740-28-armbru@redhat.com>
+ <8c2a6fad-6ac1-21b1-c17c-e1bd5ac41c9f@redhat.com>
+ <87a7ckrat7.fsf@dusky.pond.sub.org>
+ <ee3709c9-f351-081a-3aeb-53b7b6036b0a@redhat.com>
+ <87imr8l0ti.fsf_-_@dusky.pond.sub.org>
+ <695325d7-a0c3-73c1-97ab-f62fb345c622@unipi.it>
+ <87blwzho1y.fsf@dusky.pond.sub.org>
+ <2fb98b77-efab-6092-dd5a-fa50c3c4b3f9@redhat.com>
+ <58e7895e-4910-4d4c-79d8-dead7de69ab7@unipi.it>
+ <87blvocpq2.fsf@dusky.pond.sub.org>
+From: Giuseppe Lettieri <giuseppe.lettieri@unipi.it>
+Message-ID: <df94280b-13f6-1df3-f594-5eb0a614777d@unipi.it>
+Date: Mon, 16 Sep 2019 16:45:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PULL 29/29] hw/i386/pc: Extract the x86 generic
- fw_cfg code
+In-Reply-To: <87blvocpq2.fsf@dusky.pond.sub.org>
+Content-Type: multipart/mixed; boundary="------------C20B41AC7FD5CFB813BC7D78"
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 131.114.21.21
+Subject: Re: [Qemu-devel] Is network backend netmap worth keeping?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,361 +63,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Luigi Rizzo <rizzo@iet.unipi.it>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Vincenzo Maffione <v.maffione@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+This is a multi-part message in MIME format.
+--------------C20B41AC7FD5CFB813BC7D78
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Extract all the functions that are not PC-machine specific into
-the (arch-specific) fw_cfg.c file. This will allow other X86-machine
-to reuse these functions.
+Il 13/09/19 15:04, Markus Armbruster ha scritto:
+> 
+> What happens when I build with --enable-netmap=system on host A, then
+> run the resulting binary on some host B that doesn't have netmap
+> installed?
+> 
 
-Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190818225414.22590-16-philmd@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/i386/fw_cfg.c | 137 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- hw/i386/fw_cfg.h |   7 +++
- hw/i386/pc.c     | 132 +----------------------------------------------------
- 3 files changed, 145 insertions(+), 131 deletions(-)
+Qemu will fail at startup, complaining that /dev/netmap does not exists.
 
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index 380a819..39b6bc6 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -13,8 +13,15 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "sysemu/numa.h"
-+#include "hw/acpi/acpi.h"
-+#include "hw/firmware/smbios.h"
-+#include "hw/i386/pc.h"
- #include "hw/i386/fw_cfg.h"
-+#include "hw/timer/hpet.h"
- #include "hw/nvram/fw_cfg.h"
-+#include "e820_memory_layout.h"
-+#include "kvm_i386.h"
- 
- const char *fw_cfg_arch_key_name(uint16_t key)
- {
-@@ -36,3 +43,133 @@ const char *fw_cfg_arch_key_name(uint16_t key)
-     }
-     return NULL;
- }
-+
-+void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
-+{
-+    uint8_t *smbios_tables, *smbios_anchor;
-+    size_t smbios_tables_len, smbios_anchor_len;
-+    struct smbios_phys_mem_area *mem_array;
-+    unsigned i, array_count;
-+    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
-+
-+    /* tell smbios about cpuid version and features */
-+    smbios_set_cpuid(cpu->env.cpuid_version, cpu->env.features[FEAT_1_EDX]);
-+
-+    smbios_tables = smbios_get_table_legacy(ms, &smbios_tables_len);
-+    if (smbios_tables) {
-+        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
-+                         smbios_tables, smbios_tables_len);
-+    }
-+
-+    /* build the array of physical mem area from e820 table */
-+    mem_array = g_malloc0(sizeof(*mem_array) * e820_get_num_entries());
-+    for (i = 0, array_count = 0; i < e820_get_num_entries(); i++) {
-+        uint64_t addr, len;
-+
-+        if (e820_get_entry(i, E820_RAM, &addr, &len)) {
-+            mem_array[array_count].address = addr;
-+            mem_array[array_count].length = len;
-+            array_count++;
-+        }
-+    }
-+    smbios_get_tables(ms, mem_array, array_count,
-+                      &smbios_tables, &smbios_tables_len,
-+                      &smbios_anchor, &smbios_anchor_len);
-+    g_free(mem_array);
-+
-+    if (smbios_anchor) {
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
-+                        smbios_tables, smbios_tables_len);
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
-+                        smbios_anchor, smbios_anchor_len);
-+    }
-+}
-+
-+FWCfgState *fw_cfg_arch_create(MachineState *ms,
-+                                      uint16_t boot_cpus,
-+                                      uint16_t apic_id_limit)
-+{
-+    FWCfgState *fw_cfg;
-+    uint64_t *numa_fw_cfg;
-+    int i;
-+    MachineClass *mc = MACHINE_GET_CLASS(ms);
-+    const CPUArchIdList *cpus = mc->possible_cpu_arch_ids(ms);
-+    int nb_numa_nodes = ms->numa_state->num_nodes;
-+
-+    fw_cfg = fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
-+                                &address_space_memory);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, boot_cpus);
-+
-+    /* FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
-+     *
-+     * For machine types prior to 1.8, SeaBIOS needs FW_CFG_MAX_CPUS for
-+     * building MPTable, ACPI MADT, ACPI CPU hotplug and ACPI SRAT table,
-+     * that tables are based on xAPIC ID and QEMU<->SeaBIOS interface
-+     * for CPU hotplug also uses APIC ID and not "CPU index".
-+     * This means that FW_CFG_MAX_CPUS is not the "maximum number of CPUs",
-+     * but the "limit to the APIC ID values SeaBIOS may see".
-+     *
-+     * So for compatibility reasons with old BIOSes we are stuck with
-+     * "etc/max-cpus" actually being apic_id_limit
-+     */
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
-+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
-+                     acpi_tables, acpi_tables_len);
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
-+
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
-+                     &e820_reserve, sizeof(e820_reserve));
-+    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-+                    sizeof(struct e820_entry) * e820_get_num_entries());
-+
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
-+    /* allocate memory for the NUMA channel: one (64bit) word for the number
-+     * of nodes, one word for each VCPU->node and one word for each node to
-+     * hold the amount of memory.
-+     */
-+    numa_fw_cfg = g_new0(uint64_t, 1 + apic_id_limit + nb_numa_nodes);
-+    numa_fw_cfg[0] = cpu_to_le64(nb_numa_nodes);
-+    for (i = 0; i < cpus->len; i++) {
-+        unsigned int apic_id = cpus->cpus[i].arch_id;
-+        assert(apic_id < apic_id_limit);
-+        numa_fw_cfg[apic_id + 1] = cpu_to_le64(cpus->cpus[i].props.node_id);
-+    }
-+    for (i = 0; i < nb_numa_nodes; i++) {
-+        numa_fw_cfg[apic_id_limit + 1 + i] =
-+            cpu_to_le64(ms->numa_state->nodes[i].node_mem);
-+    }
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
-+                     (1 + apic_id_limit + nb_numa_nodes) *
-+                     sizeof(*numa_fw_cfg));
-+
-+    return fw_cfg;
-+}
-+
-+void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
-+{
-+    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
-+    CPUX86State *env = &cpu->env;
-+    uint32_t unused, ecx, edx;
-+    uint64_t feature_control_bits = 0;
-+    uint64_t *val;
-+
-+    cpu_x86_cpuid(env, 1, 0, &unused, &unused, &ecx, &edx);
-+    if (ecx & CPUID_EXT_VMX) {
-+        feature_control_bits |= FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX;
-+    }
-+
-+    if ((edx & (CPUID_EXT2_MCE | CPUID_EXT2_MCA)) ==
-+        (CPUID_EXT2_MCE | CPUID_EXT2_MCA) &&
-+        (env->mcg_cap & MCG_LMCE_P)) {
-+        feature_control_bits |= FEATURE_CONTROL_LMCE;
-+    }
-+
-+    if (!feature_control_bits) {
-+        return;
-+    }
-+
-+    val = g_malloc(sizeof(*val));
-+    *val = cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
-+    fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val));
-+}
-diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
-index 17a4bc3..e0856a3 100644
---- a/hw/i386/fw_cfg.h
-+++ b/hw/i386/fw_cfg.h
-@@ -9,6 +9,7 @@
- #ifndef HW_I386_FW_CFG_H
- #define HW_I386_FW_CFG_H
- 
-+#include "hw/boards.h"
- #include "hw/nvram/fw_cfg.h"
- 
- #define FW_CFG_ACPI_TABLES      (FW_CFG_ARCH_LOCAL + 0)
-@@ -17,4 +18,10 @@
- #define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
- #define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
- 
-+FWCfgState *fw_cfg_arch_create(MachineState *ms,
-+                               uint16_t boot_cpus,
-+                               uint16_t apic_id_limit);
-+void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
-+void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
-+
- #endif
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 9446596..e5b59ff 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -88,6 +88,7 @@
- #include "qapi/qmp/qerror.h"
- #include "config-devices.h"
- #include "e820_memory_layout.h"
-+#include "fw_cfg.h"
- 
- /* debug PC/ISA interrupts */
- //#define DEBUG_IRQ
-@@ -894,108 +895,6 @@ static uint32_t x86_cpu_apic_id_from_index(PCMachineState *pcms,
-     }
- }
- 
--static void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
--{
--    uint8_t *smbios_tables, *smbios_anchor;
--    size_t smbios_tables_len, smbios_anchor_len;
--    struct smbios_phys_mem_area *mem_array;
--    unsigned i, array_count;
--    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
--
--    /* tell smbios about cpuid version and features */
--    smbios_set_cpuid(cpu->env.cpuid_version, cpu->env.features[FEAT_1_EDX]);
--
--    smbios_tables = smbios_get_table_legacy(ms, &smbios_tables_len);
--    if (smbios_tables) {
--        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
--                         smbios_tables, smbios_tables_len);
--    }
--
--    /* build the array of physical mem area from e820 table */
--    mem_array = g_malloc0(sizeof(*mem_array) * e820_get_num_entries());
--    for (i = 0, array_count = 0; i < e820_get_num_entries(); i++) {
--        uint64_t addr, len;
--
--        if (e820_get_entry(i, E820_RAM, &addr, &len)) {
--            mem_array[array_count].address = addr;
--            mem_array[array_count].length = len;
--            array_count++;
--        }
--    }
--    smbios_get_tables(ms, mem_array, array_count,
--                      &smbios_tables, &smbios_tables_len,
--                      &smbios_anchor, &smbios_anchor_len);
--    g_free(mem_array);
--
--    if (smbios_anchor) {
--        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
--                        smbios_tables, smbios_tables_len);
--        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
--                        smbios_anchor, smbios_anchor_len);
--    }
--}
--
--static FWCfgState *fw_cfg_arch_create(MachineState *ms,
--                                      uint16_t boot_cpus,
--                                      uint16_t apic_id_limit)
--{
--    FWCfgState *fw_cfg;
--    uint64_t *numa_fw_cfg;
--    int i;
--    MachineClass *mc = MACHINE_GET_CLASS(ms);
--    const CPUArchIdList *cpus = mc->possible_cpu_arch_ids(ms);
--    int nb_numa_nodes = ms->numa_state->num_nodes;
--
--    fw_cfg = fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
--                                &address_space_memory);
--    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, boot_cpus);
--
--    /* FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
--     *
--     * For machine types prior to 1.8, SeaBIOS needs FW_CFG_MAX_CPUS for
--     * building MPTable, ACPI MADT, ACPI CPU hotplug and ACPI SRAT table,
--     * that tables are based on xAPIC ID and QEMU<->SeaBIOS interface
--     * for CPU hotplug also uses APIC ID and not "CPU index".
--     * This means that FW_CFG_MAX_CPUS is not the "maximum number of CPUs",
--     * but the "limit to the APIC ID values SeaBIOS may see".
--     *
--     * So for compatibility reasons with old BIOSes we are stuck with
--     * "etc/max-cpus" actually being apic_id_limit
--     */
--    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
--    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
--                     acpi_tables, acpi_tables_len);
--    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
--
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
--                     &e820_reserve, sizeof(e820_reserve));
--    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
--                    sizeof(struct e820_entry) * e820_get_num_entries());
--
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
--    /* allocate memory for the NUMA channel: one (64bit) word for the number
--     * of nodes, one word for each VCPU->node and one word for each node to
--     * hold the amount of memory.
--     */
--    numa_fw_cfg = g_new0(uint64_t, 1 + apic_id_limit + nb_numa_nodes);
--    numa_fw_cfg[0] = cpu_to_le64(nb_numa_nodes);
--    for (i = 0; i < cpus->len; i++) {
--        unsigned int apic_id = cpus->cpus[i].arch_id;
--        assert(apic_id < apic_id_limit);
--        numa_fw_cfg[apic_id + 1] = cpu_to_le64(cpus->cpus[i].props.node_id);
--    }
--    for (i = 0; i < nb_numa_nodes; i++) {
--        numa_fw_cfg[apic_id_limit + 1 + i] =
--            cpu_to_le64(ms->numa_state->nodes[i].node_mem);
--    }
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
--                     (1 + apic_id_limit + nb_numa_nodes) *
--                     sizeof(*numa_fw_cfg));
--
--    return fw_cfg;
--}
--
- static long get_file_size(FILE *f)
- {
-     long where, size;
-@@ -1623,35 +1522,6 @@ void pc_cpus_init(PCMachineState *pcms)
-     }
- }
- 
--static void fw_cfg_build_feature_control(MachineState *ms,
--                                         FWCfgState *fw_cfg)
--{
--    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
--    CPUX86State *env = &cpu->env;
--    uint32_t unused, ecx, edx;
--    uint64_t feature_control_bits = 0;
--    uint64_t *val;
--
--    cpu_x86_cpuid(env, 1, 0, &unused, &unused, &ecx, &edx);
--    if (ecx & CPUID_EXT_VMX) {
--        feature_control_bits |= FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX;
--    }
--
--    if ((edx & (CPUID_EXT2_MCE | CPUID_EXT2_MCA)) ==
--        (CPUID_EXT2_MCE | CPUID_EXT2_MCA) &&
--        (env->mcg_cap & MCG_LMCE_P)) {
--        feature_control_bits |= FEATURE_CONTROL_LMCE;
--    }
--
--    if (!feature_control_bits) {
--        return;
--    }
--
--    val = g_malloc(sizeof(*val));
--    *val = cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
--    fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val));
--}
--
- static void rtc_set_cpus_count(ISADevice *rtc, uint16_t cpus_count)
- {
-     if (cpus_count > 0xff) {
+
+> 
+> Yes.  We default to netmap=system, though.  If you break things by
+> passing arcane arguments to configure, you get to keep the pieces :)
+> 
+>> If the option is only useful for developers to check that some qemu
+>> change does not break anything, then probably it should be enabled in
+>> some other, less visible way. What do you think?
+> 
+> I think an --enable-netmap patterned after --enable-capstone and
+> --enable-slirp has sufficiently low visibility as long as the default is
+> sane.
+> 
+> We clearly want configure to pick netmap=system when the system provides
+> netmap.
+> 
+> What shall configure pick when the system doesn't provide it?  If you
+> think netmap=git is too dangerous for general audience, consider
+> disabling netmap then.  Experts can still compile-test with
+> --enable-netmap=git.  Our CI certainly should.
+> 
+
+OK, sounds reasonable. The attached patch will select system if netmap 
+is available, and git only if explicitly requested.
+
+Cheers,
+Giuseppe
+
 -- 
-1.8.3.1
+Dr. Ing. Giuseppe Lettieri
+Dipartimento di Ingegneria della Informazione
+Universita' di Pisa
+Largo Lucio Lazzarino 1, 56122 Pisa - Italy
+Ph. : (+39) 050-2217.649 (direct) .599 (switch)
+Fax : (+39) 050-2217.600
+e-mail: g.lettieri@iet.unipi.it
 
+--------------C20B41AC7FD5CFB813BC7D78
+Content-Type: text/x-patch;
+ name="0001-netmap-support-git-submodule-build-otption.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-netmap-support-git-submodule-build-otption.patch"
+
+From 4e93b5cc3ad68d92bc3562df3745e1d10dc08fc0 Mon Sep 17 00:00:00 2001
+From: Giuseppe Lettieri <g.lettieri@iet.unipi.it>
+Date: Mon, 2 Sep 2019 17:35:33 +0200
+Subject: [PATCH] netmap: support git-submodule build otption
+
+With this patch, netmap support can be enabled with
+the following options to the configure script:
+
+  --enable-netmap[=system]
+
+	Use the host system netmap installation.
+	Fail if not found.
+
+  --enable-netmap=git
+
+	clone the official netmap repository on
+	github (mostly useful for CI)
+
+system will also be automatically used if no option is
+passed and netmap is available in the host system.
+
+Signed-off-by: Giuseppe Lettieri <giuseppe.lettieri@unipi.it>
+---
+ .gitmodules |  3 +++
+ configure   | 68 ++++++++++++++++++++++++++++++++++++++++++++---------
+ netmap      |  1 +
+ 3 files changed, 61 insertions(+), 11 deletions(-)
+ create mode 160000 netmap
+
+diff --git a/.gitmodules b/.gitmodules
+index c5c474169d..bf75dbc5e3 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -58,3 +58,6 @@
+ [submodule "roms/opensbi"]
+ 	path = roms/opensbi
+ 	url = 	https://git.qemu.org/git/opensbi.git
++[submodule "netmap"]
++	path = netmap
++	url = https://github.com/luigirizzo/netmap.git
+diff --git a/configure b/configure
+index 30aad233d1..5cb924985c 100755
+--- a/configure
++++ b/configure
+@@ -1133,6 +1133,10 @@ for opt do
+   ;;
+   --enable-netmap) netmap="yes"
+   ;;
++  --enable-netmap=git) netmap="git"
++  ;;
++  --enable-netmap=system) netmap="system"
++  ;;
+   --disable-xen) xen="no"
+   ;;
+   --enable-xen) xen="yes"
+@@ -3314,8 +3318,9 @@ fi
+ # a minor/major version number. Minor new features will be marked with values up
+ # to 15, and if something happens that requires a change to the backend we will
+ # move above 15, submit the backend fixes and modify this two bounds.
+-if test "$netmap" != "no" ; then
+-  cat > $TMPC << EOF
++case "$netmap" in
++    "" | yes | system)
++      cat > $TMPC << EOF
+ #include <inttypes.h>
+ #include <net/if.h>
+ #include <net/netmap.h>
+@@ -3325,15 +3330,56 @@ if test "$netmap" != "no" ; then
+ #endif
+ int main(void) { return 0; }
+ EOF
+-  if compile_prog "" "" ; then
+-    netmap=yes
+-  else
+-    if test "$netmap" = "yes" ; then
+-      feature_not_found "netmap"
++      if compile_prog "" "" ; then
++        netmap_system=yes
++      else
++        netmap_system=no
++      fi
++      ;;
++esac
++
++case "$netmap" in
++  "" | yes)
++    if test "$netmap_system" = "yes"; then
++      netmap=system
++    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
++      netmap=git
++    elif test -e "${source_path}/netmap/configure" ; then
++      netmap=internal
++    elif test -z "$netmap" ; then
++      netmap=no
++    else
++      feature_not_found "netmap" "Install netmap or git submodule"
+     fi
+-    netmap=no
+-  fi
+-fi
++    ;;
++
++  system)
++    if test "$netmap_system" = "no"; then
++      feature_not_found "netmap" "Install netmap"
++    fi
++    ;;
++esac
++
++case "$netmap" in
++  git | internal)
++    if test "$netmap" = git; then
++      git_submodules="${git_submodules} netmap"
++    fi
++    mkdir -p netmap
++    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/netmap/sys"
++    ;;
++
++  system)
++    ;;
++
++  no)
++    ;;
++  *)
++    error_exit "Unknown state for netmap: $netmap"
++    ;;
++esac
++
++##########################################
+ 
+ ##########################################
+ # libcap-ng library probe
+@@ -6582,7 +6628,7 @@ if test "$vde" = "yes" ; then
+   echo "CONFIG_VDE=y" >> $config_host_mak
+   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
+ fi
+-if test "$netmap" = "yes" ; then
++if test "$netmap" != "no" ; then
+   echo "CONFIG_NETMAP=y" >> $config_host_mak
+ fi
+ if test "$l2tpv3" = "yes" ; then
+diff --git a/netmap b/netmap
+new file mode 160000
+index 0000000000..137f537eae
+--- /dev/null
++++ b/netmap
+@@ -0,0 +1 @@
++Subproject commit 137f537eae513f02d5d6871d1f91c049e6345803
+-- 
+2.20.1
+
+
+--------------C20B41AC7FD5CFB813BC7D78--
 
