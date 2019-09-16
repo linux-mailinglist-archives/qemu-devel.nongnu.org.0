@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5247B3ED9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:24:51 +0200 (CEST)
-Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3439B3EFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:29:40 +0200 (CEST)
+Received: from localhost ([::1]:36878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9to2-0008Fy-D1
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32841)
+	id 1i9tsh-0004ED-HE
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:29:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i9t16-0007qb-HI
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:34:17 -0400
+ (envelope-from <philmd@redhat.com>) id 1i9tGk-0000bh-Ve
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:50:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i9t15-0003ng-99
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:34:16 -0400
-Resent-Date: Mon, 16 Sep 2019 11:34:16 -0400
-Resent-Message-Id: <E1i9t15-0003ng-99@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21491)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i9t12-0003iP-9E; Mon, 16 Sep 2019 11:34:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568648042; cv=none; d=zoho.com; s=zohoarc; 
- b=N8c/d9HQW6ZYoBNnH4q2X7auXKYh2yMf2dVPTdiJZFXwBm3OIcCZBHh/TWEeCL2VxpfYsLaNRwsCAexNArMz4za33Ly0JOp6W9XLwXakKV2xzYMDdS8V785jNq1pZOVAH87oexoXo+4f5wbkw4umOJa4BUnD70EuIPDzHvzWYJ0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568648042;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=BoXRS5mvK0vgEIFzWwp70lhHFp0V0FLVodK+q4wyR/Q=; 
- b=VJB076ld1GMO3Qk21T8++cO2MfwsMbwhg6ZuPJwdfSjKBKPqijhhknvCR/8F1jfLBnZm1gmWMN9gCqDnSgvqV89DtisgAOOH2PbbHHx+4jRhMBe3W9KOCF4BuxFFL6J1FEzi0dUJvJyCGuapTANZEa9aGO6TBv0YUsYhyM864qU=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568648042535346.87298520339834;
- Mon, 16 Sep 2019 08:34:02 -0700 (PDT)
-In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
-Message-ID: <156864804136.12144.17991842384335047087@5dec9699b7de>
+ (envelope-from <philmd@redhat.com>) id 1i9tGj-0001zG-8z
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:50:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51176)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1i9tGf-0001xj-AT; Mon, 16 Sep 2019 11:50:21 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 54FEC757C2;
+ Mon, 16 Sep 2019 15:50:20 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-115.brq.redhat.com [10.40.204.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15CF9196AE;
+ Mon, 16 Sep 2019 15:50:03 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 17:48:38 +0200
+Message-Id: <20190916154847.28936-5-philmd@redhat.com>
+In-Reply-To: <20190916154847.28936-1-philmd@redhat.com>
+References: <20190916154847.28936-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mreitz@redhat.com
-Date: Mon, 16 Sep 2019 08:34:02 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 16 Sep 2019 15:50:20 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.54
-Subject: Re: [Qemu-devel] [PULL 00/16] Block patches
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 04/13] hw: Move M48T59 device from hw/timer/ to
+ hw/rtc/ subdirectory
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,24 +56,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxNjE0MjI0Ni4zMTQ3
-NC0xLW1yZWl0ekByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCgoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MTYxNDIyNDYuMzE0NzQt
-MS1tcmVpdHpAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+The M48T59 is a Real Time Clock, not a timer.
+Move it under the hw/rtc/ subdirectory.
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ MAINTAINERS                         |  4 +-
+ hw/ppc/ppc405_boards.c              |  2 +-
+ hw/ppc/prep.c                       |  2 +-
+ hw/rtc/Kconfig                      |  3 ++
+ hw/rtc/Makefile.objs                |  4 ++
+ hw/{timer =3D> rtc}/m48t59-internal.h |  0
+ hw/{timer =3D> rtc}/m48t59-isa.c      |  4 +-
+ hw/{timer =3D> rtc}/m48t59.c          |  2 +-
+ hw/sparc/sun4m.c                    |  2 +-
+ hw/sparc64/sun4u.c                  |  2 +-
+ hw/timer/Kconfig                    |  3 --
+ hw/timer/Makefile.objs              |  4 --
+ include/hw/rtc/m48t59.h             | 57 +++++++++++++++++++++++++++++
+ 13 files changed, 73 insertions(+), 16 deletions(-)
+ rename hw/{timer =3D> rtc}/m48t59-internal.h (100%)
+ rename hw/{timer =3D> rtc}/m48t59-isa.c (98%)
+ rename hw/{timer =3D> rtc}/m48t59.c (99%)
+ create mode 100644 include/hw/rtc/m48t59.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 481f2318cb..679b026fe0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1064,9 +1064,9 @@ F: hw/pci-host/prep.[hc]
+ F: hw/isa/i82378.c
+ F: hw/isa/pc87312.c
+ F: hw/dma/i82374.c
+-F: hw/timer/m48t59-isa.c
++F: hw/rtc/m48t59-isa.c
+ F: include/hw/isa/pc87312.h
+-F: include/hw/timer/m48t59.h
++F: include/hw/rtc/m48t59.h
+ F: pc-bios/ppc_rom.bin
+=20
+ sPAPR
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 388cae0b43..1f721feed6 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -29,7 +29,7 @@
+ #include "cpu.h"
+ #include "hw/ppc/ppc.h"
+ #include "ppc405.h"
+-#include "hw/timer/m48t59.h"
++#include "hw/rtc/m48t59.h"
+ #include "hw/block/flash.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/qtest.h"
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index 3a51536e1a..862345c2ac 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -25,7 +25,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "hw/timer/m48t59.h"
++#include "hw/rtc/m48t59.h"
+ #include "hw/char/serial.h"
+ #include "hw/block/fdc.h"
+ #include "net/net.h"
+diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
+index 7ffd702268..159c233517 100644
+--- a/hw/rtc/Kconfig
++++ b/hw/rtc/Kconfig
+@@ -1,3 +1,6 @@
++config M48T59
++    bool
++
+ config PL031
+     bool
+=20
+diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
+index 3cac0d5a63..c87f81405e 100644
+--- a/hw/rtc/Makefile.objs
++++ b/hw/rtc/Makefile.objs
+@@ -1,2 +1,6 @@
++common-obj-$(CONFIG_M48T59) +=3D m48t59.o
++ifeq ($(CONFIG_ISA_BUS),y)
++common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
++endif
+ common-obj-$(CONFIG_PL031) +=3D pl031.o
+ obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
+diff --git a/hw/timer/m48t59-internal.h b/hw/rtc/m48t59-internal.h
+similarity index 100%
+rename from hw/timer/m48t59-internal.h
+rename to hw/rtc/m48t59-internal.h
+diff --git a/hw/timer/m48t59-isa.c b/hw/rtc/m48t59-isa.c
+similarity index 98%
+rename from hw/timer/m48t59-isa.c
+rename to hw/rtc/m48t59-isa.c
+index 5e5432abfd..7fde854c0f 100644
+--- a/hw/timer/m48t59-isa.c
++++ b/hw/rtc/m48t59-isa.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU M48T59 and M48T08 NVRAM emulation (ISA bus interface
++ * QEMU M48T59 and M48T08 NVRAM emulation (ISA bus interface)
+  *
+  * Copyright (c) 2003-2005, 2007 Jocelyn Mayer
+  * Copyright (c) 2013 Herv=C3=A9 Poussineau
+@@ -26,7 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
+-#include "hw/timer/m48t59.h"
++#include "hw/rtc/m48t59.h"
+ #include "m48t59-internal.h"
+ #include "qemu/module.h"
+=20
+diff --git a/hw/timer/m48t59.c b/hw/rtc/m48t59.c
+similarity index 99%
+rename from hw/timer/m48t59.c
+rename to hw/rtc/m48t59.c
+index a9fc2f981a..fc592b9fb1 100644
+--- a/hw/timer/m48t59.c
++++ b/hw/rtc/m48t59.c
+@@ -27,7 +27,7 @@
+ #include "qemu-common.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+-#include "hw/timer/m48t59.h"
++#include "hw/rtc/m48t59.h"
+ #include "qemu/timer.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 6c5a17a020..2aaa5bf1ae 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -31,7 +31,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/timer.h"
+ #include "hw/sparc/sun4m_iommu.h"
+-#include "hw/timer/m48t59.h"
++#include "hw/rtc/m48t59.h"
+ #include "migration/vmstate.h"
+ #include "hw/sparc/sparc32_dma.h"
+ #include "hw/block/fdc.h"
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 1ded2a4c9a..955082773b 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -36,7 +36,7 @@
+ #include "hw/pci-host/sabre.h"
+ #include "hw/char/serial.h"
+ #include "hw/char/parallel.h"
+-#include "hw/timer/m48t59.h"
++#include "hw/rtc/m48t59.h"
+ #include "migration/vmstate.h"
+ #include "hw/input/i8042.h"
+ #include "hw/block/fdc.h"
+diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
+index af415c8ef8..a57e9b59fc 100644
+--- a/hw/timer/Kconfig
++++ b/hw/timer/Kconfig
+@@ -24,9 +24,6 @@ config M41T80
+     bool
+     depends on I2C
+=20
+-config M48T59
+-    bool
+-
+ config TWL92230
+     bool
+     depends on I2C
+diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+index b0159189cf..fe2d1fbc40 100644
+--- a/hw/timer/Makefile.objs
++++ b/hw/timer/Makefile.objs
+@@ -7,10 +7,6 @@ common-obj-$(CONFIG_DS1338) +=3D ds1338.o
+ common-obj-$(CONFIG_HPET) +=3D hpet.o
+ common-obj-$(CONFIG_I8254) +=3D i8254_common.o i8254.o
+ common-obj-$(CONFIG_M41T80) +=3D m41t80.o
+-common-obj-$(CONFIG_M48T59) +=3D m48t59.o
+-ifeq ($(CONFIG_ISA_BUS),y)
+-common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
+-endif
+ common-obj-$(CONFIG_PUV3) +=3D puv3_ost.o
+ common-obj-$(CONFIG_TWL92230) +=3D twl92230.o
+ common-obj-$(CONFIG_XILINX) +=3D xilinx_timer.o
+diff --git a/include/hw/rtc/m48t59.h b/include/hw/rtc/m48t59.h
+new file mode 100644
+index 0000000000..e7ea4e8761
+--- /dev/null
++++ b/include/hw/rtc/m48t59.h
+@@ -0,0 +1,57 @@
++/*
++ * QEMU M48T59 and M48T08 NVRAM emulation
++ *
++ * Copyright (c) 2003-2005, 2007 Jocelyn Mayer
++ * Copyright (c) 2013 Herv=C3=A9 Poussineau
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
++ * of this software and associated documentation files (the "Software"),=
+ to deal
++ * in the Software without restriction, including without limitation the=
+ rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be includ=
+ed in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
++ * THE SOFTWARE.
++ */
++
++#ifndef HW_RTC_M48T59_H
++#define HW_RTC_M48T59_H
++
++#include "exec/hwaddr.h"
++#include "qom/object.h"
++
++#define TYPE_NVRAM "nvram"
++
++#define NVRAM_CLASS(klass) \
++    OBJECT_CLASS_CHECK(NvramClass, (klass), TYPE_NVRAM)
++#define NVRAM_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(NvramClass, (obj), TYPE_NVRAM)
++#define NVRAM(obj) \
++    INTERFACE_CHECK(Nvram, (obj), TYPE_NVRAM)
++
++typedef struct Nvram Nvram;
++
++typedef struct NvramClass {
++    InterfaceClass parent;
++
++    uint32_t (*read)(Nvram *obj, uint32_t addr);
++    void (*write)(Nvram *obj, uint32_t addr, uint32_t val);
++    void (*toggle_lock)(Nvram *obj, int lock);
++} NvramClass;
++
++Nvram *m48t59_init_isa(ISABus *bus, uint32_t io_base, uint16_t size,
++                       int base_year, int type);
++Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
++                   uint32_t io_base, uint16_t size, int base_year,
++                   int type);
++
++#endif /* HW_M48T59_H */
+--=20
+2.20.1
 
 
