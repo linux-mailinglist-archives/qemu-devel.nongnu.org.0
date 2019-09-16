@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E2AB32CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 02:43:25 +0200 (CEST)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3A4B3316
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 03:52:55 +0200 (CEST)
+Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9f6y-0006iM-HW
-	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 20:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41656)
+	id 1i9gCE-00018P-2F
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 21:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47032)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i9f5W-0005ZJ-Hb
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 20:41:56 -0400
+ (envelope-from <kevin.tian@intel.com>) id 1i9gBM-0000cR-Mi
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 21:52:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i9f5V-0005B0-7D
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 20:41:54 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42083)
+ (envelope-from <kevin.tian@intel.com>) id 1i9gBK-0007rq-EU
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 21:51:59 -0400
+Received: from mga09.intel.com ([134.134.136.24]:55483)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i9f5U-0005AS-5O; Sun, 15 Sep 2019 20:41:53 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46WnVy0DYkz9sP7; Mon, 16 Sep 2019 10:41:45 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1568594506;
- bh=m56W1yxJfNO7p4dTRcRMa/SsFj15wFdd3+lEIPlqDrM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OP40yNVmZztiJnTPbv0SVbeVv6qno2FC2wX8Hlw1EaI+FVWmJ01+vnOv6G+uuBlcl
- UteNUfE/BURYfRIHW0NcyYRomSpToSB5rYHHC4J+YS700VXg66garbDQR3xFM0c89v
- gg2l3xR9DDqqzjb66Seb1DBGMeJF7sBH5d6F9r3k=
-Date: Mon, 16 Sep 2019 10:38:49 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190916003849.GE2104@umbus.fritz.box>
-References: <20190911133937.2716-1-clg@kaod.org>
- <20190911133937.2716-2-clg@kaod.org>
+ (Exim 4.71) (envelope-from <kevin.tian@intel.com>)
+ id 1i9gBK-0007r8-6L
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 21:51:58 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2019 18:51:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,510,1559545200"; d="scan'208";a="193309394"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by FMSMGA003.fm.intel.com with ESMTP; 15 Sep 2019 18:51:48 -0700
+Received: from fmsmsx119.amr.corp.intel.com (10.18.124.207) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sun, 15 Sep 2019 18:51:48 -0700
+Received: from shsmsx105.ccr.corp.intel.com (10.239.4.158) by
+ FMSMSX119.amr.corp.intel.com (10.18.124.207) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sun, 15 Sep 2019 18:51:48 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.32]) by
+ SHSMSX105.ccr.corp.intel.com ([169.254.11.23]) with mapi id 14.03.0439.000;
+ Mon, 16 Sep 2019 09:51:46 +0800
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Thread-Topic: vhost, iova, and dirty page tracking
+Thread-Index: AdVsLg/AAnCsYtAES/qfxc77B9v7gQ==
+Date: Mon, 16 Sep 2019 01:51:46 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNWZhOTM3MzUtYzk2MC00MzhiLWJkZWQtMDJiZjBjZTY1ZGZhIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiK09TQm5uU1Q2WURHdG1wbG45Y0VTeFJYYmJFbDV3XC9YZlFkSXdMXC9EM0hLVEVReE13NFBuUGdydkZMTFd4b1VRIn0=
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Uwl7UQhJk99r8jnw"
-Content-Disposition: inline
-In-Reply-To: <20190911133937.2716-2-clg@kaod.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] spapr/irq: Introduce an
- ics_irq_free() helper
+X-Received-From: 134.134.136.24
+Subject: [Qemu-devel] vhost, iova, and dirty page tracking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,119 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: "Alex Williamson
+ \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>, "Zhao,
+ Yan Y" <yan.y.zhao@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Jason
 
---Uwl7UQhJk99r8jnw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We had a discussion about dirty page tracking in VFIO, when vIOMMU
+is enabled:
 
-On Wed, Sep 11, 2019 at 03:39:36PM +0200, C=E9dric Le Goater wrote:
-> It will help us to discard interrupt numbers which have not been
-> claimed in the next patch.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg02690.html
 
-Applied to ppc-for-4.2, thanks.
+It's actually a similar model as vhost - Qemu cannot interpose the fast-pat=
+h
+DMAs thus relies on the kernel part to track and report dirty page informat=
+ion.
+Currently Qemu tracks dirty pages in GFN level, thus demanding a translatio=
+n
+from IOVA to GPA. Then the open in our discussion is where this translation
+should happen. Doing the translation in kernel implies a device iotlb flavo=
+r,
+which is what vhost implements today. It requires potentially large trackin=
+g
+structures in the host kernel, but leveraging the existing log_sync flow in=
+ Qemu.
+On the other hand, Qemu may perform log_sync for every removal of IOVA
+mapping and then do the translation itself, then avoiding the GPA awareness
+in the kernel side. It needs some change to current Qemu log-sync flow, and=
+=20
+may bring more overhead if IOVA is frequently unmapped.
 
-> ---
->  include/hw/ppc/xics.h | 5 +++++
->  hw/ppc/spapr_irq.c    | 9 +++------
->  2 files changed, 8 insertions(+), 6 deletions(-)
->=20
-> diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-> index f2a8d6a4b4f9..64a2c8862a72 100644
-> --- a/include/hw/ppc/xics.h
-> +++ b/include/hw/ppc/xics.h
-> @@ -179,6 +179,11 @@ void ics_simple_write_xive(ICSState *ics, int nr, in=
-t server,
->                             uint8_t priority, uint8_t saved_priority);
->  void ics_simple_set_irq(void *opaque, int srcno, int val);
-> =20
-> +static inline bool ics_irq_free(ICSState *ics, uint32_t srcno)
-> +{
-> +    return !(ics->irqs[srcno].flags & XICS_FLAGS_IRQ_MASK);
-> +}
-> +
->  void ics_set_irq_type(ICSState *ics, int srcno, bool lsi);
->  void icp_pic_print_info(ICPState *icp, Monitor *mon);
->  void ics_pic_print_info(ICSState *ics, Monitor *mon);
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 06fe2432bae5..d8f46b6797f8 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -114,9 +114,6 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
-apr, int nr_irqs,
->      xics_spapr_init(spapr);
->  }
-> =20
-> -#define ICS_IRQ_FREE(ics, srcno)   \
-> -    (!((ics)->irqs[(srcno)].flags & (XICS_FLAGS_IRQ_MASK)))
-> -
->  static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool =
-lsi,
->                                  Error **errp)
->  {
-> @@ -129,7 +126,7 @@ static int spapr_irq_claim_xics(SpaprMachineState *sp=
-apr, int irq, bool lsi,
->          return -1;
->      }
-> =20
-> -    if (!ICS_IRQ_FREE(ics, irq - ics->offset)) {
-> +    if (!ics_irq_free(ics, irq - ics->offset)) {
->          error_setg(errp, "IRQ %d is not free", irq);
->          return -1;
->      }
-> @@ -147,7 +144,7 @@ static void spapr_irq_free_xics(SpaprMachineState *sp=
-apr, int irq, int num)
->      if (ics_valid_irq(ics, irq)) {
->          trace_spapr_irq_free(0, irq, num);
->          for (i =3D srcno; i < srcno + num; ++i) {
-> -            if (ICS_IRQ_FREE(ics, i)) {
-> +            if (ics_irq_free(ics, i)) {
->                  trace_spapr_irq_free_warn(0, i);
->              }
->              memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
-> @@ -767,7 +764,7 @@ static int ics_find_free_block(ICSState *ics, int num=
-, int alignnum)
->              return -1;
->          }
->          for (i =3D first; i < first + num; ++i) {
-> -            if (!ICS_IRQ_FREE(ics, i)) {
-> +            if (!ics_irq_free(ics, i)) {
->                  break;
->              }
->          }
+So we'd like to hear about your opinions, especially about how you came
+down to the current iotlb approach for vhost.=20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+p.s. Alex's comment is also copied here from original thread.
 
---Uwl7UQhJk99r8jnw
-Content-Type: application/pgp-signature; name="signature.asc"
+> So vhost must then be configuring a listener across system memory
+> rather than only against the device AddressSpace like we do in vfio,
+> such that it get's log_sync() callbacks for the actual GPA space rather
+> than only the IOVA space.  OTOH, QEMU could understand that the device
+> AddressSpace has a translate function and apply the IOVA dirty bits to
+> the system memory AddressSpace.  Wouldn't it make more sense for
+> QEMU
+> to perform a log_sync() prior to removing a MemoryRegionSection within
+> an AddressSpace and update the GPA rather than pushing GPA awareness
+> and potentially large tracking structures into the host kernel?
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1+2ZkACgkQbDjKyiDZ
-s5I6tA//S12yz7zDmQpaswCmTerP7yZuji+Q5u0oc0/UXh+Bt5Emre1iH6s9O7Q1
-6IECz98nr3BKIw969McGvePvEquz0BXZgmVSF8EY71vAnIh3n3MdLnST87K4O0/x
-8uDhywDcKjeNyCrsAV/TIqrcQQg3NCHmTcVM+rRau/LrPhVpHd5/tAvqOrd/Yink
-puxxewKX5HGdMtO9oQ2C6Ze/aA//vi2nrx7qnkvT7jxJnQdTkBE5o+Dt/3//klMt
-CG4YjgMtDtWLoyvy7CDZ03R1kwIal9OLqQMIuziyg+izd4J1+GdVDOi0bzTnOKvx
-k5rp9JBX+SSHcJo6ku/drd2RDTR7b08Hk/7AA9W396RNV5fAYRFbQZjEfjZg3eoJ
-iYDN0p9xp1EDHHe+JI9EKCgo+FyYtOpraWiukKVePPa/k5U7CEZ6JGsogrfR46/I
-sdq7n4V7GKk0V5WTaq7TXgQotTQvDyJqjfmpmioPkWw8lG8MpihE06K5YtxqsCaT
-nTf2uiOsl4N/sKF2dAucApXA/ZiLBNV5bu8DBtzS5RwHJ687LWD4b06H9VlmY2Kg
-zLIQ8DGryisTlCbrErwSpYKEdFrsNcokGn9FteHwSf7HwsxCeW7L4XuXczmKPr9h
-x8TF5vOhL9aNkf7sboEZdisqzUAVc2oXMbPOKCTV9kNS4MZ/BXQ=
-=YXjy
------END PGP SIGNATURE-----
-
---Uwl7UQhJk99r8jnw--
+Thanks
+Kevin
 
