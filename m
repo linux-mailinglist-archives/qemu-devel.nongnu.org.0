@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE09B3D55
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:12:35 +0200 (CEST)
-Received: from localhost ([::1]:35750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA77B3D5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:15:01 +0200 (CEST)
+Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sg5-0002xU-UU
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53661)
+	id 1i9siR-0005Ez-V5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCt-0006Pv-E5
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:25 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCw-0006U9-IT
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCr-0007SE-Fh
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:23 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36236)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCu-0007Tb-G2
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:26 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35467)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCr-0007RY-13
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:21 -0400
-Received: by mail-wm1-x341.google.com with SMTP id t3so93308wmj.1
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:20 -0700 (PDT)
+ id 1i9sCt-0007Sq-Rc
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:24 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id y21so103188wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F4wjmLu6wuZ6WJhZD7UWKZMQnvS2jTIE8u3K4MLhVWQ=;
- b=mbhpu5QAHOCssMBDfqtlJziMfjn25KRIhVkTsnl0O2ncaYjFteTZ9UEGgWShkr5fPj
- 9wzLSc94alTmmlxxhMKpCcdOJ1sghI/0q1fkdJJN21t1I45kXQwPzL7v9LHjqRYey62G
- RyzavzUz7G4QwY5ApIh7mO42Z7LKj6l1d4TEEBX5+aBCzDkfTDMdW9aLbobdN+Pwb4f7
- WT0kiDZGph3sF150qo6BMuGCjI6mMTvZ+bRn+gsbdebjcLbapj3/+okmIdqn4COgKZoh
- U+o69p6kUVqCeSU+rnAilhbqywDLz/Gk/JPRqKiMjJvbiatWBwlYA+pyba7Swf2F5sU6
- C9xg==
+ bh=fWK7xkNMUlgfTrhGnvGuIYUCcAtGnQSBVV6UtaSG9/g=;
+ b=jmRlYKG5kXGqlNC6hKtUuZNj0FM9tuKyfuptebwfpg6zPqES+Fg2Ka3u+nLvAr6paY
+ mZc4MU2P5RDoYxZa6Fq9woKWGaYrAOC4fWkKz3zRxNd0vYwlDT1pagApJUO6TDrNcuto
+ PqQLGc/CxO/SzNAMEwhYdnxwt35a6jpxxgaLat1t2TZ+kV5PGPxa67SmkJYYusMrO0ig
+ UXMGQN6/pXAqm+TQaToyCCS80iNS7Xq1BqG0tVlmw8dlbVmywS2WNyaLPlW09pq+T8ob
+ apE2y46OPNMAXwVCIZTr8x34xlbdQUYuLaRI7aru5iRS7e9iqGOGrBkBePWrWY2Ggvta
+ 6vxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=F4wjmLu6wuZ6WJhZD7UWKZMQnvS2jTIE8u3K4MLhVWQ=;
- b=m+ImBUMmutLiyXXXXWkIXplSSVHnw6hJAeeC8xSCPCmBd+9bDJlDUerlteCRM+EPQG
- fevIYxFcyrrikh4P6YOJJRYuSDSUKySo5+SEsbA9kyQklh7RJN2+X098Fw8vIc07b7PD
- lqdeSgpfbaj2O5rDzB1q8kCBHF6kGmzpDy8HroH6KGBAYpMJ+7aLnNvutYNY5i0do9dr
- 4rLXxwJUC25Li2/jrbnazcoZEYmo7WtJ9XHqP/0VvRfVGwOmDHgJaLx1R6++VA29y95F
- vczCWjRVRqFbBu1rkWwvQ/ysbXRqP4951aZ5EScoTmY1Q/9vANH7SerVfeK35yPLjjAn
- k5vw==
-X-Gm-Message-State: APjAAAVLVk7n+bScZEUfAQpcLPAvAkJKhK9C7z+G7F4gA9utLlQA7ab+
- hsuRSoClDO49aizOW/hBqOK8xYFY
-X-Google-Smtp-Source: APXvYqz2wAhyVT/GjPs4CsjHxDaX5hCvcviCu6f1dAsPMOPEPl4c1/XhZPppaIVDqI3RJUpuItZZnQ==
-X-Received: by 2002:a1c:c104:: with SMTP id r4mr73645wmf.64.1568644939165;
- Mon, 16 Sep 2019 07:42:19 -0700 (PDT)
+ bh=fWK7xkNMUlgfTrhGnvGuIYUCcAtGnQSBVV6UtaSG9/g=;
+ b=STszWHDcsIH9FO8gn8Wrc6Vw8HNHcPgSTULiVFX0U4T5foDeUHwpPQ41DRADMevPIh
+ Q5ugD5wtFT4n/NwXqcc1TMGZrOs++UrRFdV0Uz9VkDOOG11Elfjt0kSBhfVRDtIscBlm
+ fOAsEija/gHJIOaDeVvi7xK4TBlgeHdQEWjF3j56sPV6udqdkB5Nf6OdO1FmaIxknJ3k
+ GIUvXvLl3uXrIn9AStbSHrkRkv8v6M+f9CPu2u90PopYFlzXkx8CjemZOhvW5876I0n9
+ NUHZrm8gyv8RI2JI+u6AdMuwjYNrTUYsm4WdKTtMKfAOZjVH1NNkeY5c5uzLWTbUq3qQ
+ Uk+g==
+X-Gm-Message-State: APjAAAVZ0F4FA+lsqbPbEAn1xpE9pAE23W2oj8hccHXJY40ppXDyPtXJ
+ HzNjUV97X55pCZQOf57l1mH3Mlhs
+X-Google-Smtp-Source: APXvYqzh5s6MT4f2NjdJLxsUHrH+oqa8OhIjoNL2rBvlQcq6FBwNIV5+D3KsIeGsNn3gYAjKCuTDyA==
+X-Received: by 2002:a7b:c247:: with SMTP id b7mr24953wmj.121.1568644941886;
+ Mon, 16 Sep 2019 07:42:21 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.17
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.20
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:17 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:48 +0200
-Message-Id: <1568644929-9124-9-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:41:50 +0200
+Message-Id: <1568644929-9124-11-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
@@ -66,8 +65,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 08/29] test-char: fix AddressSanitizer failure
+X-Received-From: 2a00:1450:4864:20::32d
+Subject: [Qemu-devel] [PULL 10/29] elf-ops.h: fix int overflow in load_elf()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,99 +78,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CharSocketServerTestConfig and CharSocketClientTestConfig
-objects escape after they are passed to g_test_add_data_func,
-but they cease existing after the scope that defines them is
-closed.  Make them static to fix this issue.
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-Fixes: e7b6ba4186f243f149b0d8cddc129fe681ba3912
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This patch fixes a possible integer overflow when we calculate
+the total size of ELF segments loaded.
+
+Reported-by: Coverity (CID 1405299)
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20190910124828.39794-1-sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/test-char.c | 44 ++++++++++++++++++++++----------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ hw/core/loader.c     | 2 ++
+ include/hw/elf_ops.h | 5 +++++
+ include/hw/loader.h  | 1 +
+ 3 files changed, 8 insertions(+)
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index f3ebdff..d62de1b 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -1355,6 +1355,18 @@ static void char_hotswap_test(void)
-     g_free(chr_args);
- }
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index 32f7cc7..75eb56d 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -338,6 +338,8 @@ const char *load_elf_strerror(int error)
+         return "The image is from incompatible architecture";
+     case ELF_LOAD_WRONG_ENDIAN:
+         return "The image has incorrect endianness";
++    case ELF_LOAD_TOO_BIG:
++        return "The image segments are too big to load";
+     default:
+         return "Unknown error";
+     }
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index 1496d7e..e07d276 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -485,6 +485,11 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+                 }
+             }
  
-+static SocketAddress tcpaddr = {
-+    .type = SOCKET_ADDRESS_TYPE_INET,
-+    .u.inet.host = (char *)"127.0.0.1",
-+    .u.inet.port = (char *)"0",
-+};
-+#ifndef WIN32
-+static SocketAddress unixaddr = {
-+    .type = SOCKET_ADDRESS_TYPE_UNIX,
-+    .u.q_unix.path = (char *)"test-char.sock",
-+};
-+#endif
++            if (mem_size > INT_MAX - total_size) {
++                ret = ELF_LOAD_TOO_BIG;
++                goto fail;
++            }
 +
- int main(int argc, char **argv)
- {
-     bool has_ipv4, has_ipv6;
-@@ -1390,26 +1402,14 @@ int main(int argc, char **argv)
-     g_test_add_func("/char/file-fifo", char_file_fifo_test);
- #endif
+             /* address_offset is hack for kernel images that are
+                linked at the wrong physical address.  */
+             if (translate_fn) {
+diff --git a/include/hw/loader.h b/include/hw/loader.h
+index 07fd928..48a96cd 100644
+--- a/include/hw/loader.h
++++ b/include/hw/loader.h
+@@ -89,6 +89,7 @@ int load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz);
+ #define ELF_LOAD_NOT_ELF      -2
+ #define ELF_LOAD_WRONG_ARCH   -3
+ #define ELF_LOAD_WRONG_ENDIAN -4
++#define ELF_LOAD_TOO_BIG      -5
+ const char *load_elf_strerror(int error);
  
--    SocketAddress tcpaddr = {
--        .type = SOCKET_ADDRESS_TYPE_INET,
--        .u.inet.host = (char *)"127.0.0.1",
--        .u.inet.port = (char *)"0",
--    };
--#ifndef WIN32
--    SocketAddress unixaddr = {
--        .type = SOCKET_ADDRESS_TYPE_UNIX,
--        .u.q_unix.path = (char *)"test-char.sock",
--    };
--#endif
--
- #define SOCKET_SERVER_TEST(name, addr)                                  \
--    CharSocketServerTestConfig server1 ## name =                        \
-+    static CharSocketServerTestConfig server1 ## name =                 \
-         { addr, false, false };                                         \
--    CharSocketServerTestConfig server2 ## name =                        \
-+    static CharSocketServerTestConfig server2 ## name =                 \
-         { addr, true, false };                                          \
--    CharSocketServerTestConfig server3 ## name =                        \
-+    static CharSocketServerTestConfig server3 ## name =                 \
-         { addr, false, true };                                          \
--    CharSocketServerTestConfig server4 ## name =                        \
-+    static CharSocketServerTestConfig server4 ## name =                 \
-         { addr, true, true };                                           \
-     g_test_add_data_func("/char/socket/server/mainloop/" # name,        \
-                          &server1 ##name, char_socket_server_test);     \
-@@ -1421,17 +1421,17 @@ int main(int argc, char **argv)
-                          &server4 ##name, char_socket_server_test)
- 
- #define SOCKET_CLIENT_TEST(name, addr)                                  \
--    CharSocketClientTestConfig client1 ## name =                        \
-+    static CharSocketClientTestConfig client1 ## name =                 \
-         { addr, NULL, false, false };                                   \
--    CharSocketClientTestConfig client2 ## name =                        \
-+    static CharSocketClientTestConfig client2 ## name =                 \
-         { addr, NULL, true, false };                                    \
--    CharSocketClientTestConfig client3 ## name =                        \
-+    static CharSocketClientTestConfig client3 ## name =                 \
-         { addr, ",reconnect=1", false };                                \
--    CharSocketClientTestConfig client4 ## name =                        \
-+    static CharSocketClientTestConfig client4 ## name =                 \
-         { addr, ",reconnect=1", true };                                 \
--    CharSocketClientTestConfig client5 ## name =                        \
-+    static CharSocketClientTestConfig client5 ## name =                 \
-         { addr, NULL, false, true };                                    \
--    CharSocketClientTestConfig client6 ## name =                        \
-+    static CharSocketClientTestConfig client6 ## name =                 \
-         { addr, NULL, true, true };                                     \
-     g_test_add_data_func("/char/socket/client/mainloop/" # name,        \
-                          &client1 ##name, char_socket_client_test);     \
+ /** load_elf_ram_sym:
 -- 
 1.8.3.1
 
