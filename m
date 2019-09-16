@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E14B3C4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:15:04 +0200 (CEST)
-Received: from localhost ([::1]:34664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD763B3C48
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:12:21 +0200 (CEST)
+Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rmQ-0002et-EU
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:15:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46353)
+	id 1i9rjo-0007sb-IY
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:12:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i9rXL-0003h8-Rv
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:29 -0400
+ (envelope-from <david@redhat.com>) id 1i9rXf-00047I-Ch
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i9rXK-0000Yh-G2
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44188)
+ (envelope-from <david@redhat.com>) id 1i9rXd-0000fJ-TF
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46249)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i9rXK-0000YQ-7k; Mon, 16 Sep 2019 09:59:26 -0400
+ id 1i9rXd-0000ep-Ch; Mon, 16 Sep 2019 09:59:45 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3DD92309BDA3;
- Mon, 16 Sep 2019 13:59:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5F28A18CB8E2;
+ Mon, 16 Sep 2019 13:59:44 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AFB51001947;
- Mon, 16 Sep 2019 13:59:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6548310013A1;
+ Mon, 16 Sep 2019 13:59:42 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:58:00 +0200
-Message-Id: <20190916135806.1269-24-david@redhat.com>
+Date: Mon, 16 Sep 2019 15:58:06 +0200
+Message-Id: <20190916135806.1269-30-david@redhat.com>
 In-Reply-To: <20190916135806.1269-1-david@redhat.com>
 References: <20190916135806.1269-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Mon, 16 Sep 2019 13:59:25 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Mon, 16 Sep 2019 13:59:44 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 23/29] s390x/tcg: NC: Fault-safe handling
+Subject: [Qemu-devel] [PATCH v3 29/29] tests/tcg: target/s390x: Test MVO
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,57 +57,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
  Cole Robinson <crobinso@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can process a maximum of 256 bytes, crossing two pages.
+Let's add the simple test based on the example from the PoP.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ tests/tcg/s390x/Makefile.target |  1 +
+ tests/tcg/s390x/mvo.c           | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 tests/tcg/s390x/mvo.c
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index a2118a82e3..20fc17d44d 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -323,17 +323,26 @@ static int mmu_idx_from_as(uint8_t as)
- static uint32_t do_helper_nc(CPUS390XState *env, uint32_t l, uint64_t de=
-st,
-                              uint64_t src, uintptr_t ra)
- {
-+    const int mmu_idx =3D cpu_mmu_index(env, false);
-+    S390Access srca1, srca2, desta;
-     uint32_t i;
-     uint8_t c =3D 0;
-=20
-     HELPER_LOG("%s l %d dest %" PRIx64 " src %" PRIx64 "\n",
-                __func__, l, dest, src);
-=20
--    for (i =3D 0; i <=3D l; i++) {
--        uint8_t x =3D cpu_ldub_data_ra(env, src + i, ra);
--        x &=3D cpu_ldub_data_ra(env, dest + i, ra);
-+    /* NC always processes one more byte than specified - maximum is 256=
- */
-+    l++;
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.t=
+arget
+index 151dc075aa..6a3bfa8b29 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -6,3 +6,4 @@ TESTS+=3Dipm
+ TESTS+=3Dexrl-trt
+ TESTS+=3Dexrl-trtr
+ TESTS+=3Dpack
++TESTS+=3Dmvo
+diff --git a/tests/tcg/s390x/mvo.c b/tests/tcg/s390x/mvo.c
+new file mode 100644
+index 0000000000..5546fe2a97
+--- /dev/null
++++ b/tests/tcg/s390x/mvo.c
+@@ -0,0 +1,25 @@
++#include <stdint.h>
++#include <stdio.h>
 +
-+    srca1 =3D access_prepare(env, src, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
-+    for (i =3D 0; i < l; i++) {
-+        const uint8_t x =3D access_get_byte(env, &srca1, i, ra) &
-+                          access_get_byte(env, &srca2, i, ra);
++int main(void)
++{
++    uint8_t dest[6] =3D {0xff, 0x77, 0x88, 0x99, 0x0c, 0xff};
++    uint8_t src[5] =3D {0xee, 0x12, 0x34, 0x56, 0xee};
++    uint8_t expected[6] =3D {0xff, 0x01, 0x23, 0x45, 0x6c, 0xff};
++    int i;
 +
-         c |=3D x;
--        cpu_stb_data_ra(env, dest + i, x, ra);
-+        access_set_byte(env, &desta, i, x, ra);
-     }
-     return c !=3D 0;
- }
++    asm volatile (
++        "    mvo 0(4,%[dest]),0(3,%[src])\n"
++        :
++        : [dest] "d" (dest + 1),
++          [src] "d" (src + 1)
++        : "memory");
++
++    for (i =3D 0; i < sizeof(expected); i++) {
++        if (dest[i] !=3D expected[i]) {
++            fprintf(stderr, "bad data\n");
++            return 1;
++        }
++    }
++    return 0;
++}
 --=20
 2.21.0
 
