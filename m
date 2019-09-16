@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D72B0B3CC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:42:38 +0200 (CEST)
-Received: from localhost ([::1]:35300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58EBB3CCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:46:32 +0200 (CEST)
+Received: from localhost ([::1]:35348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sD6-0005IA-1c
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49553)
+	id 1i9sGt-0000Ij-74
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49665)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnC-0004Ib-Mp
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnK-0004OW-0f
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnA-0006rn-JZ
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:50 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46829)
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnH-0006vG-PE
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:57 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51322)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i9rnA-0006rQ-Bs
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:48 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id o18so7868262wrv.13
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:15:48 -0700 (PDT)
+ id 1i9rnH-0006ul-Ar
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:55 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 7so10362965wme.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=trF4PUeQYqIN1FaA3mMgwum5hWySICsncWehaFgqsF0=;
- b=fe+NE2JRwk7ME04uMCeHLKURUF8VQtDaXScJmfSDYzUIRbXuZDPCNWoPV4znRNN723
- GXUdkrARL3+SSeTkN0iXY8r5Qu3uZmK+N5PiSbibE07D7TjF5f41Iutumxsnbbl87A+D
- L+QXPhk5vOfN1qpW8TQmkW5Ut78n2SNR2Eac0TEWbHxF9kXeucT3ank/R3hwM5ZPvGQx
- oMYjD6VYv6Rh61neHNh3aX7W2sYP3clq1M//Dgedn6JQtQQ4u1ejV7xCO9Ws/j2nMeaO
- JFxnuBJ/L9yPCZfVKj364fblcfIF4Iab2oYnRTZk0/TLQg8hRzGChN5aZ+rGnkIHUaZt
- 2acA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0pnYN3RXjA7UBIBYIotlAccmHjY/D9vmktQW67WnPW8=;
+ b=vFnuQT0g/Orap8IjExRqmdI34nHdbzHGbhHrdxgnPl8mUNzUHemHSufsbFpNGyVBzZ
+ p+VhiaMzzb0db9sssSs/mNIk0OMZDaCQAdFn/5GDQfOW9LfUI4G75o6WFQVAw5jf+7sG
+ c5tXEo7p2xCAi2h01z6IK9u5ofhDIaT/HeySZRe5ZAsP1oBAkRkt3HDEoWdEsggu1Z2z
+ 1norD/19SkaKw52p58sMonFoZ7JzK0dS0Snu/hLQeq5ZKnzy7syHW6HlfL39SjiEzN6k
+ PFtA6uHr9Vwyd4Dibe1OpF1712mXE0nHe84BSjfLqINpgFKx9CGN9c1MUEinnXv9NYy4
+ /eNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=trF4PUeQYqIN1FaA3mMgwum5hWySICsncWehaFgqsF0=;
- b=AU1coUYOpv1WQS/wOZbNbf/0nD/DbiLPoKrMQFmLC1ffvMJLTquDrYEANLjZSq8nxC
- S5cSSu/OSDA3k+X0/DTnIlNnPsEoebGhGPmDYslaJZ1eICIYsZmnsIyNq36CALtMN2Ed
- tmOTAu6i3E2st5UuR/pxI8ZVLZFZxjPVsfSC8O/8S4vzT5rB1sBna9mTrrm+JRvyhsRw
- hYxyyLSk6mlZ2nDqB/BcSvUG9Baxo+skulSTozAsuTA030zmiW0EjCRopNk8kO2cGQnR
- A/880/+EyEDUFAKFNvNFbZKmEzY07mc3nuPiaYv+rJcJRFqblcM1sHi55RBO3uZM7A4p
- SMTQ==
-X-Gm-Message-State: APjAAAVIcAygz3iL7tsmCA8QPpQVrWHelYlYL0kBhJ2Htzeh1B1ChsJR
- cIYcVGmF+7CAUu6gmBnqqbZNEA==
-X-Google-Smtp-Source: APXvYqxXcqmQ0C0cBkjxxg7JJa4GfbhXsKLD60dWAK9lZxZsybh9XArNgJw/YjoLdoucVQPS6v2h3Q==
-X-Received: by 2002:adf:f1d1:: with SMTP id z17mr11580wro.330.1568643346931;
- Mon, 16 Sep 2019 07:15:46 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0pnYN3RXjA7UBIBYIotlAccmHjY/D9vmktQW67WnPW8=;
+ b=XFMJVchOJtpmLf48OzZ3Znsfr0TDgaiRt2y24tIyvM0z3Jt1/qrfYWw4tC9LEHVdPG
+ nxhH+O3k6oDuVY5mxzIUQ/HlkNBEqvjBs9Ot1Z3bNxLJF3zhq+ogi4NeIMOmZA6vV4Q8
+ OG60FhLTAdkKEDUT4SR9C9O66nsEkDbJszRAvRpmthNUDJibERAn8+CmbB7/OSVeLRSv
+ ywTftUYTkMYYYKY1Ldflvp6TA7jb0yrqho81nAQPMGThbIGM8J3aan9hzSSCC39PYBzS
+ GPEfcY54lbHhiQxEx3kl01CH2C8lCRhokoUHlXSklMdEjFcOvpWHOu/5qwlHzh4f98Ks
+ Tupg==
+X-Gm-Message-State: APjAAAXoI2BpGL4mdca3LOebUlPagvLeGhnlQGUYJC5lbXRMSto3Djw2
+ JCnH3lFCBxJGmP3yKJ/ai1eIsf5nbH3acQ==
+X-Google-Smtp-Source: APXvYqwmvGsfZ7KdIUo76pgt70Vxt3/hitTHVvURlDbfnmtf9AyvQrpzaITmB2t4hiTzoCZLsiz5dg==
+X-Received: by 2002:a1c:a546:: with SMTP id o67mr14871998wme.55.1568643354347; 
+ Mon, 16 Sep 2019 07:15:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.15.45
+ by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.15.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2019 07:15:46 -0700 (PDT)
+ Mon, 16 Sep 2019 07:15:53 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:15:29 +0100
-Message-Id: <20190916141544.17540-1-peter.maydell@linaro.org>
+Date: Mon, 16 Sep 2019 15:15:35 +0100
+Message-Id: <20190916141544.17540-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190916141544.17540-1-peter.maydell@linaro.org>
+References: <20190916141544.17540-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
-Subject: [Qemu-devel] [PATCH v2 00/15] target/arm: Implement semihosting v2.0
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH v2 06/15] target/arm/arm-semi: Use
+ set_swi_errno() in gdbstub callback functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,98 +83,73 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements support in QEMU for v2.0 of the
-Arm semihosting specification:
- https://developer.arm.com/docs/100863/latest/preface
+When we are routing semihosting operations through the gdbstub, the
+work of sorting out the return value and setting errno if necessary
+is done by callback functions which are invoked by the gdbstub code.
+Clean up some ifdeffery in those functions by having them call
+set_swi_errno() to set the semihosting errno.
 
-Specifically, v2.0 has:
- * a mechanism for detection of optional extra features,
-   which works by allowing the guest to open a magic file
-   named ":semihosting-features" and read some feature
-   flags from it
- * two defined extensions:
-  - STDOUT_STDERR lets the guest separately open stdout and
-    stderr via the ":tt" magic filename (v1.0 only allowed
-    access to stdout)
-  - EXIT_EXTENDED lets A32/T32 guests exit with a specified
-    exit status (otherwise only available to A64 guests).
-    This is something that people have been complaining
-    about for a long time.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/arm-semi.c | 27 ++++++---------------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
 
-(Technically some of the things we already support, like
-having an A64 semihosting interface at all, are also part of
-the v2.0 spec.)
-
-This patchset:
- * fixes some bugs relating to errnos in some cases
- * makes semihosting hand out its own filedescriptors rather
-   than just passing out host fd numbers
- * abstracts out the fd-related semihosting calls so they
-   indirect via a function table based on the type of the fd
- * adds a new type of fd representing the magic file
-   ":semihosting-features" which is used for feature-detection
- * implements both of the extensions defined by the v2.0 spec
-
-I've tested this by improving my semihosting test suite:
- https://git.linaro.org/people/peter.maydell/semihosting-tests.git/
-(if people have other guest binaries that make much use of
-semihosting then testing would certainly be welcome.)
-
-Changes v1->v2:
- * Added a patch which corrects misunderstanding in a FIXME
-   comment about the when the callback function is called
-   for arm_gdb_syscall()
- * in patch 4, if the SYS_open is going via the gdbstub, we
-   must do the associate_guestfd() work in the gdbstub callback
-   function. This is because in softmmu mode the callback will
-   not be called until after do_arm_semihosting() returns.
-   (The v1 series effectively broke SYS_open in the gdbstub
-   + softmmu config)
- * Pass CPUARMState* to set_swi_errno(), rather than creating
-   an odd local-to-this-file typedef of TaskState for the
-   softmmu compilation
- * New patch: avoid ifdeffery in gdb callback fns by
-   using set_swi_errno() rather than doing it by-hand
- * The various 'factor out SYS_foo' patches are basically
-   unchanged, but all the functions no longer need to take
-   a TaskState*. This seemed kind of borderline as to whether
-   to retain Alex's reviewed-by tags, so I dropped them.
- * Since we need 'env' for set_swi_errno(), we don't need
-   to put the variable declaration inside ifdefs any more
-   in the host_readfn() etc.
-
-I do plan to have a go at fixing the odd FIXME surrounding
-arm_gdb_syscall() which patch 3 clarifies/states in a comment.
-But I thought it better to not tangle that up with this
-patchset, which is already pretty long.
-
-thanks
--- PMM
-
-
-Peter Maydell (15):
-  target/arm/arm-semi: Capture errno in softmmu version of
-    set_swi_errno()
-  target/arm/arm-semi: Always set some kind of errno for failed calls
-  target/arm/arm-semi: Correct comment about gdb syscall races
-  target/arm/arm-semi: Make semihosting code hand out its own file
-    descriptors
-  target/arm/arm-semi: Restrict use of TaskState*
-  target/arm/arm-semi: Use set_swi_errno() in gdbstub callback functions
-  target/arm/arm-semi: Factor out implementation of SYS_CLOSE
-  target/arm/arm-semi: Factor out implementation of SYS_WRITE
-  target/arm/arm-semi: Factor out implementation of SYS_READ
-  target/arm/arm-semi: Factor out implementation of SYS_ISTTY
-  target/arm/arm-semi: Factor out implementation of SYS_SEEK
-  target/arm/arm-semi: Factor out implementation of SYS_FLEN
-  target/arm/arm-semi: Implement support for semihosting feature
-    detection
-  target/arm/arm-semi: Implement SH_EXT_EXIT_EXTENDED extension
-  target/arm/arm-semi: Implement SH_EXT_STDOUT_STDERR extension
-
- target/arm/arm-semi.c | 707 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 577 insertions(+), 130 deletions(-)
-
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 2618588076f..02cd673d47d 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -259,17 +259,11 @@ static void arm_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ {
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
+-#ifdef CONFIG_USER_ONLY
+-    TaskState *ts = cs->opaque;
+-#endif
+     target_ulong reg0 = is_a64(env) ? env->xregs[0] : env->regs[0];
+ 
+     if (ret == (target_ulong)-1) {
+-#ifdef CONFIG_USER_ONLY
+-        ts->swi_errno = err;
+-#else
+-        syscall_err = err;
+-#endif
++        errno = err;
++        set_swi_errno(env, -1);
+         reg0 = ret;
+     } else {
+         /* Fixup syscalls that use nonstardard return conventions.  */
+@@ -326,11 +320,8 @@ static void arm_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
+     } else {
+         env->regs[0] = size;
+     }
+-#ifdef CONFIG_USER_ONLY
+-    ((TaskState *)cs->opaque)->swi_errno = err;
+-#else
+-    syscall_err = err;
+-#endif
++    errno = err;
++    set_swi_errno(env, -1);
+ }
+ 
+ static int arm_semi_open_guestfd;
+@@ -339,15 +330,9 @@ static void arm_semi_open_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ {
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
+-#ifdef CONFIG_USER_ONLY
+-    TaskState *ts = cs->opaque;
+-#endif
+     if (ret == (target_ulong)-1) {
+-#ifdef CONFIG_USER_ONLY
+-        ts->swi_errno = err;
+-#else
+-        syscall_err = err;
+-#endif
++        errno = err;
++        set_swi_errno(env, -1);
+         dealloc_guestfd(arm_semi_open_guestfd);
+     } else {
+         associate_guestfd(arm_semi_open_guestfd, ret);
 -- 
 2.20.1
 
