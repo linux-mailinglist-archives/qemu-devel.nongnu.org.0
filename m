@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1984FB3DC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:35:24 +0200 (CEST)
-Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8E3B3DCA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:38:34 +0200 (CEST)
+Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9t2A-0007cu-Cq
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54853)
+	id 1i9t5F-0003QA-BW
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i9sID-0002SG-Cs
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:47:54 -0400
+ (envelope-from <drjones@redhat.com>) id 1i9sMJ-0005sE-H7
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:52:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i9sIC-0000nY-At
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:47:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59880)
+ (envelope-from <drjones@redhat.com>) id 1i9sMH-0002iz-Ui
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:52:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57010)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i9sI1-0000kl-S9; Mon, 16 Sep 2019 10:47:43 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1i9sMC-0002eF-BV; Mon, 16 Sep 2019 10:52:00 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 57E701DA2;
- Mon, 16 Sep 2019 14:47:38 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.36.118.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1FFE5D6A3;
- Mon, 16 Sep 2019 14:47:36 +0000 (UTC)
-Date: Mon, 16 Sep 2019 16:47:35 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190916144735.GB4573@localhost.localdomain>
-References: <20190809161407.11920-1-mreitz@redhat.com>
- <20190809161407.11920-29-mreitz@redhat.com>
- <20190913141653.GH8312@dhcp-200-226.str.redhat.com>
- <0da03f2f-e7ca-1aad-f156-bbd8a0e9dbc7@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id F22AB10F2E81;
+ Mon, 16 Sep 2019 14:51:58 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80F2E450C;
+ Mon, 16 Sep 2019 14:51:54 +0000 (UTC)
+Date: Mon, 16 Sep 2019 16:51:52 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Message-ID: <20190916145152.c7l7omclx4jf7otl@kamzik.brq.redhat.com>
+References: <20190913095639.25447-1-eric.auger@redhat.com>
+ <20190913095639.25447-3-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="hHWLQfXTYDoKhP50"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0da03f2f-e7ca-1aad-f156-bbd8a0e9dbc7@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20190913095639.25447-3-eric.auger@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Mon, 16 Sep 2019 14:47:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Mon, 16 Sep 2019 14:51:59 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 28/42] stream: Deal with filters
+Subject: Re: [Qemu-devel] [RFC v3 2/3] intc/arm_gic: Support IRQ injection
+ for more than 256 vpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,87 +58,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org, maz@kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Sep 13, 2019 at 11:56:38AM +0200, Eric Auger wrote:
+> Host kernels that expose the KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 capability
+> allow injection of interrupts along with vcpu ids larger than 255.
+> Let's encode the vpcu id on 12 bits according to the upgraded KVM_IRQ_LINE
+> ABI when needed.
+> 
+> Given that we have two callsites that need to assemble
+> the value for kvm_set_irq(), a new helper routine, kvm_arm_set_irq
+> is introduced.
+> 
+> Without that patch qemu exits with "kvm_set_irq: Invalid argument"
+> message.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reported-by: Zenghui Yu <yuzenghui@huawei.com>
+> 
+> ---
+> 
+> v2 -> v3:
+> - remove if (cpu !=0), drop mask, as per Drew's suggestions
+> ---
+>  hw/intc/arm_gic_kvm.c |  7 ++-----
+>  target/arm/cpu.c      | 10 ++++------
+>  target/arm/kvm.c      | 12 ++++++++++++
+>  target/arm/kvm_arm.h  |  1 +
+>  4 files changed, 19 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
+> index b56fda144f..9deb15e7e6 100644
+> --- a/hw/intc/arm_gic_kvm.c
+> +++ b/hw/intc/arm_gic_kvm.c
+> @@ -55,7 +55,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, int level)
+>       * has separate fields in the irq number for type,
+>       * CPU number and interrupt number.
+>       */
+> -    int kvm_irq, irqtype, cpu;
+> +    int irqtype, cpu;
+>  
+>      if (irq < (num_irq - GIC_INTERNAL)) {
+>          /* External interrupt. The kernel numbers these like the GIC
+> @@ -72,10 +72,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, int level)
+>          cpu = irq / GIC_INTERNAL;
+>          irq %= GIC_INTERNAL;
+>      }
+> -    kvm_irq = (irqtype << KVM_ARM_IRQ_TYPE_SHIFT)
+> -        | (cpu << KVM_ARM_IRQ_VCPU_SHIFT) | irq;
+> -
+> -    kvm_set_irq(kvm_state, kvm_irq, !!level);
+> +    kvm_arm_set_irq(cpu, irqtype, irq, !!level);
+>  }
+>  
+>  static void kvm_arm_gicv2_set_irq(void *opaque, int irq, int level)
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 2399c14471..13813fb213 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -576,16 +576,16 @@ static void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
+>      ARMCPU *cpu = opaque;
+>      CPUARMState *env = &cpu->env;
+>      CPUState *cs = CPU(cpu);
+> -    int kvm_irq = KVM_ARM_IRQ_TYPE_CPU << KVM_ARM_IRQ_TYPE_SHIFT;
+>      uint32_t linestate_bit;
+> +    int irq_id;
+>  
+>      switch (irq) {
+>      case ARM_CPU_IRQ:
+> -        kvm_irq |= KVM_ARM_IRQ_CPU_IRQ;
+> +        irq_id = KVM_ARM_IRQ_CPU_IRQ;
+>          linestate_bit = CPU_INTERRUPT_HARD;
+>          break;
+>      case ARM_CPU_FIQ:
+> -        kvm_irq |= KVM_ARM_IRQ_CPU_FIQ;
+> +        irq_id = KVM_ARM_IRQ_CPU_FIQ;
+>          linestate_bit = CPU_INTERRUPT_FIQ;
+>          break;
+>      default:
+> @@ -597,9 +597,7 @@ static void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
+>      } else {
+>          env->irq_line_state &= ~linestate_bit;
+>      }
+> -
+> -    kvm_irq |= cs->cpu_index << KVM_ARM_IRQ_VCPU_SHIFT;
+> -    kvm_set_irq(kvm_state, kvm_irq, level ? 1 : 0);
+> +    kvm_arm_set_irq(cs->cpu_index, KVM_ARM_IRQ_TYPE_CPU, irq_id, !!level);
+>  #endif
+>  }
+>  
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index b2eaa50b8d..b10581fa06 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -744,6 +744,18 @@ int kvm_arm_vgic_probe(void)
+>      }
+>  }
+>  
+> +int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level)
+> +{
+> +    int kvm_irq = (irqtype << KVM_ARM_IRQ_TYPE_SHIFT) | irq;
+> +    int cpu_idx1 = cpu % 256;
+> +    int cpu_idx2 = cpu / 256;
+> +
+> +    kvm_irq |= (cpu_idx1 << KVM_ARM_IRQ_VCPU_SHIFT) |
+> +               (cpu_idx2 << KVM_ARM_IRQ_VCPU2_SHIFT);
+> +
+> +    return kvm_set_irq(kvm_state, kvm_irq, !!level);
+> +}
+> +
+>  int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
+>                               uint64_t address, uint32_t data, PCIDevice *dev)
+>  {
+> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+> index b3106c8600..b4e19457a0 100644
+> --- a/target/arm/kvm_arm.h
+> +++ b/target/arm/kvm_arm.h
+> @@ -253,6 +253,7 @@ int kvm_arm_vgic_probe(void);
+>  
+>  void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
+>  void kvm_arm_pmu_init(CPUState *cs);
+> +int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
+>  
+>  #else
+>  
+> -- 
+> 2.20.1
+> 
+>
 
---hHWLQfXTYDoKhP50
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Am 16.09.2019 um 11:52 hat Max Reitz geschrieben:
-> On 13.09.19 16:16, Kevin Wolf wrote:
-> > Am 09.08.2019 um 18:13 hat Max Reitz geschrieben:
-> >> @@ -261,16 +272,19 @@ void stream_start(const char *job_id, BlockDrive=
-rState *bs,
-> >>       * disappear from the chain after this operation. The streaming j=
-ob reads
-> >>       * every block only once, assuming that it doesn't change, so for=
-bid writes
-> >>       * and resizes. Reassign the base node pointer because the backin=
-g BS of the
-> >> -     * bottom node might change after the call to bdrv_reopen_set_rea=
-d_only()
-> >> -     * due to parallel block jobs running.
-> >> +     * above_base node might change after the call to
-> >> +     * bdrv_reopen_set_read_only() due to parallel block jobs running.
-> >>       */
-> >> -    base =3D backing_bs(bottom);
-> >> -    for (iter =3D backing_bs(bs); iter && iter !=3D base; iter =3D ba=
-cking_bs(iter)) {
-> >> +    base =3D bdrv_filtered_bs(above_base);
-> >=20
-> > We just calculated above_base such that it's the parent of base. Why
-> > would base not already have the value we're assigning it again here?
->=20
-> That=E2=80=99s no change to existing code, whose reasoning is explained i=
-n the
-> comment above: bdrv_reopen_set_read_only() can yield, which might lead
-> to children of the bottom node changing.
->=20
-> If you feel like either that=E2=80=99s superfluous, or that if something =
-like
-> that were to happen we=E2=80=99d have much bigger problems, be my guest t=
-o drop
-> both.
->=20
-> But in this series I=E2=80=99d rather just not change it.
-
-Ah, you mean comments are there to be read?
-
-But actually, I think iterating down to base is too much anyway. The
-reasoning in the comment for block_job_add_bdrv() is that the nodes will
-be dropped at the end. But base with all of its filter will be kept
-after this patch.
-
-So I think the for loop should stop after bs->base_overlay. And then
-concurrently changing links aren't even a problem any more because
-that's exactly the place up to which we've frozen the chain.
-
-Kevin
-
---hHWLQfXTYDoKhP50
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJdf6CHAAoJEH8JsnLIjy/WclgP/jHUVta61YzhZBH2/o5hlYkB
-nXTEYYtddDgq3icR1Qc0BriQTn/0RJF1LMNOSY7DzEtLorbGAFXmTxHh2k2GuHu+
-QyHl09WUpM+x9P/0HoIxvAnEULT2bl9ybiqB/Dc7wWpwhUT9xCLKrzvXCfjaD3Dn
-XRveHXtvL8iaGnjmN6SrzC7GphN6u5goRY2XKNyGI/sM+xlTeo/13wxr0cN0ERCm
-UotRznqvhCKH8fq1RBjlqFLWuPup8/fCfLDpD+pyaWPYqGme58lF/O9dlHz0x0dM
-jT+F1fmpaKevip6VmCFh8juO45AOoEs7erWXDJiWfG8wJDNLP74oKLewjgVFsIuQ
-UzP1uNeUYY5tKUxHOBRc6isFMrYMQltLJK6MZQsFq2HKdn2AkOsWquRAQL2g1/Ng
-ObLxcH26McocW2Pgzg8gX//p2jQH8pEDPkG272MFKElgvVHHNPFECeGlekCk/fub
-K86zFNTlow/f3ZxaF+k/M/RH535qs8Xm6m4RNoErw75UGtGw29OIDFvVbpNVozEF
-wxyrkLEns2M1j/Ms46UxRTQrbQoRgGeJ8E/rWXLo6ogz7yanLpzr4NaMq81IhWXM
-2FHw50xcsoUJQUSJ5S5Bbttyo/d7cv1Qu+2nCXuWzyTzt061P8NKjTqdqdYEG9cK
-dxxFwZD2xK6aD8IabwG6
-=lv0N
------END PGP SIGNATURE-----
-
---hHWLQfXTYDoKhP50--
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
