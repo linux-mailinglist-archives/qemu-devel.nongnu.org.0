@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20E1B3DCE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:39:46 +0200 (CEST)
-Received: from localhost ([::1]:36012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1984FB3DC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:35:24 +0200 (CEST)
+Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9t6P-0004Yz-6E
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53676)
+	id 1i9t2A-0007cu-Cq
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCu-0006Rj-Q5
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:26 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i9sID-0002SG-Cs
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:47:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCs-0007Se-Jj
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:24 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34582)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCs-0007SB-7k
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:22 -0400
-Received: by mail-wm1-x332.google.com with SMTP id y135so189765wmc.1
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GX4JaDIbHHodc8bsVUgp1wGeHcMPOFe7Qx97BWjaFus=;
- b=FCxFw+xghXiUmKYNhE198znwVLIUZda2m/8UBJJgbDBcLRsPQjbEdx1kvjU0oUHkiA
- RSyDqqnqhqoVGj0PUf6hb4RpT/Kx8IDymD3Z5go/2K/ZYYqr3iYvo5RskL5dCGF4LZc7
- /VUUzm9Qd2H5McNfNj1qzvSvseDSbSstr5ynJZIvm3I9zRoAzkBPfOMramMYJAXKWLAJ
- 53fxp+PFjxZ+Rf37+OP7eueu09jPvRycRypQi82/L7KNQNzz431NVc9PX3H9O0YGE194
- tSPFlYz80Y9KrWRJbu7QFGmlRKdnfomT8W2ThBfFIHOZvqy9KXx8mU/W65F2S3qEP3VQ
- mvdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=GX4JaDIbHHodc8bsVUgp1wGeHcMPOFe7Qx97BWjaFus=;
- b=k4EWq5FsksboCmsVs20wQA9i+htDm5wRtWDvrdouVOX4AKvO5pMRFpHagR0xAghwIK
- JG/nEaU5oF2BAMMQZnyVATgDleNcZ9fLndUMBq/9OV2cm9OSzQehdbxgYaJig6CpMKXD
- yKycnrnUh0oLtRHz51vd5xkbM0oTQyRIvmARcXgSi2wWNBcVoUF3LxHKT9O+5meahgZ/
- 2WPo+UQT/68SAU2Tqj71sZWQ9ISQCXzF1/T8xPaypHukyx/bKtt23Irkxev4g0DRTAIa
- InxXML2hejbmOQBeQ6aPliMcH6SGC+cxUktNE+N6gnIUBHPoxPvJmIMQrljv8mUvdYkn
- dMwA==
-X-Gm-Message-State: APjAAAUKJId6TMJsLeUAOCi1HhXJamM0l9RZBDyCx9QEDBI19PpILu36
- VByapI5TDwP7EfJubyZwiBmZYe2C
-X-Google-Smtp-Source: APXvYqxflfHNVMG4M5fWxYGBMUT75qzIWMA+KkazjPNnyJE11t5I9klrxJDesHGcJ65usyS36xoOxg==
-X-Received: by 2002:a1c:3b06:: with SMTP id i6mr80372wma.6.1568644940650;
- Mon, 16 Sep 2019 07:42:20 -0700 (PDT)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.19
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:19 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:49 +0200
-Message-Id: <1568644929-9124-10-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
-References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::332
-Subject: [Qemu-devel] [PULL 09/29] hw/i386: Move CONFIG_ACPI_PCI to CONFIG_PC
+ (envelope-from <kwolf@redhat.com>) id 1i9sIC-0000nY-At
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:47:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59880)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i9sI1-0000kl-S9; Mon, 16 Sep 2019 10:47:43 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 57E701DA2;
+ Mon, 16 Sep 2019 14:47:38 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.36.118.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1FFE5D6A3;
+ Mon, 16 Sep 2019 14:47:36 +0000 (UTC)
+Date: Mon, 16 Sep 2019 16:47:35 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190916144735.GB4573@localhost.localdomain>
+References: <20190809161407.11920-1-mreitz@redhat.com>
+ <20190809161407.11920-29-mreitz@redhat.com>
+ <20190913141653.GH8312@dhcp-200-226.str.redhat.com>
+ <0da03f2f-e7ca-1aad-f156-bbd8a0e9dbc7@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="hHWLQfXTYDoKhP50"
+Content-Disposition: inline
+In-Reply-To: <0da03f2f-e7ca-1aad-f156-bbd8a0e9dbc7@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Mon, 16 Sep 2019 14:47:38 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 28/42] stream: Deal with filters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,51 +60,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cole Robinson <crobinso@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cole Robinson <crobinso@redhat.com>
 
-CONFIG_ACPI_PCI is a hard requirement of acpi-build.c, which is built
-unconditionally for x86 target. Putting it in default-configs/ suggests
-that it can be easily disabled, which isn't true.
+--hHWLQfXTYDoKhP50
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Relocate the symbol with the other acpi-build.c requirements, under
-'config PC'. This is similar to what is done for the arm 'virt' machine
-type and CONFIG_ACPI_PCI
+Am 16.09.2019 um 11:52 hat Max Reitz geschrieben:
+> On 13.09.19 16:16, Kevin Wolf wrote:
+> > Am 09.08.2019 um 18:13 hat Max Reitz geschrieben:
+> >> @@ -261,16 +272,19 @@ void stream_start(const char *job_id, BlockDrive=
+rState *bs,
+> >>       * disappear from the chain after this operation. The streaming j=
+ob reads
+> >>       * every block only once, assuming that it doesn't change, so for=
+bid writes
+> >>       * and resizes. Reassign the base node pointer because the backin=
+g BS of the
+> >> -     * bottom node might change after the call to bdrv_reopen_set_rea=
+d_only()
+> >> -     * due to parallel block jobs running.
+> >> +     * above_base node might change after the call to
+> >> +     * bdrv_reopen_set_read_only() due to parallel block jobs running.
+> >>       */
+> >> -    base =3D backing_bs(bottom);
+> >> -    for (iter =3D backing_bs(bs); iter && iter !=3D base; iter =3D ba=
+cking_bs(iter)) {
+> >> +    base =3D bdrv_filtered_bs(above_base);
+> >=20
+> > We just calculated above_base such that it's the parent of base. Why
+> > would base not already have the value we're assigning it again here?
+>=20
+> That=E2=80=99s no change to existing code, whose reasoning is explained i=
+n the
+> comment above: bdrv_reopen_set_read_only() can yield, which might lead
+> to children of the bottom node changing.
+>=20
+> If you feel like either that=E2=80=99s superfluous, or that if something =
+like
+> that were to happen we=E2=80=99d have much bigger problems, be my guest t=
+o drop
+> both.
+>=20
+> But in this series I=E2=80=99d rather just not change it.
 
-Signed-off-by: Cole Robinson <crobinso@redhat.com>
-Message-Id: <e73e6edff68fd30d69c6a1d02c9ef9192f773c63.1568049871.git.crobinso@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- default-configs/i386-softmmu.mak | 1 -
- hw/i386/Kconfig                  | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+Ah, you mean comments are there to be read?
 
-diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
-index cd5ea39..ba3fb3f 100644
---- a/default-configs/i386-softmmu.mak
-+++ b/default-configs/i386-softmmu.mak
-@@ -25,4 +25,3 @@
- CONFIG_ISAPC=y
- CONFIG_I440FX=y
- CONFIG_Q35=y
--CONFIG_ACPI_PCI=y
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 6350438..c7a9d63 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -29,6 +29,7 @@ config PC
-     select MC146818RTC
-     # For ACPI builder:
-     select SERIAL_ISA
-+    select ACPI_PCI
-     select ACPI_VMGENID
-     select VIRTIO_PMEM_SUPPORTED
- 
--- 
-1.8.3.1
+But actually, I think iterating down to base is too much anyway. The
+reasoning in the comment for block_job_add_bdrv() is that the nodes will
+be dropped at the end. But base with all of its filter will be kept
+after this patch.
 
+So I think the for loop should stop after bs->base_overlay. And then
+concurrently changing links aren't even a problem any more because
+that's exactly the place up to which we've frozen the chain.
 
+Kevin
+
+--hHWLQfXTYDoKhP50
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJdf6CHAAoJEH8JsnLIjy/WclgP/jHUVta61YzhZBH2/o5hlYkB
+nXTEYYtddDgq3icR1Qc0BriQTn/0RJF1LMNOSY7DzEtLorbGAFXmTxHh2k2GuHu+
+QyHl09WUpM+x9P/0HoIxvAnEULT2bl9ybiqB/Dc7wWpwhUT9xCLKrzvXCfjaD3Dn
+XRveHXtvL8iaGnjmN6SrzC7GphN6u5goRY2XKNyGI/sM+xlTeo/13wxr0cN0ERCm
+UotRznqvhCKH8fq1RBjlqFLWuPup8/fCfLDpD+pyaWPYqGme58lF/O9dlHz0x0dM
+jT+F1fmpaKevip6VmCFh8juO45AOoEs7erWXDJiWfG8wJDNLP74oKLewjgVFsIuQ
+UzP1uNeUYY5tKUxHOBRc6isFMrYMQltLJK6MZQsFq2HKdn2AkOsWquRAQL2g1/Ng
+ObLxcH26McocW2Pgzg8gX//p2jQH8pEDPkG272MFKElgvVHHNPFECeGlekCk/fub
+K86zFNTlow/f3ZxaF+k/M/RH535qs8Xm6m4RNoErw75UGtGw29OIDFvVbpNVozEF
+wxyrkLEns2M1j/Ms46UxRTQrbQoRgGeJ8E/rWXLo6ogz7yanLpzr4NaMq81IhWXM
+2FHw50xcsoUJQUSJ5S5Bbttyo/d7cv1Qu+2nCXuWzyTzt061P8NKjTqdqdYEG9cK
+dxxFwZD2xK6aD8IabwG6
+=lv0N
+-----END PGP SIGNATURE-----
+
+--hHWLQfXTYDoKhP50--
 
