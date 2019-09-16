@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFD9B3DC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:36:48 +0200 (CEST)
-Received: from localhost ([::1]:35964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20E1B3DCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:39:46 +0200 (CEST)
+Received: from localhost ([::1]:36012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9t3W-0000lf-Mo
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53617)
+	id 1i9t6P-0004Yz-6E
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCq-0006Lr-9g
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:21 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCu-0006Rj-Q5
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCo-0007Qy-77
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:19 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39492)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCs-0007Se-Jj
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:24 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34582)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCn-0007QZ-RL
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:18 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id v17so67965wml.4
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:17 -0700 (PDT)
+ id 1i9sCs-0007SB-7k
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:22 -0400
+Received: by mail-wm1-x332.google.com with SMTP id y135so189765wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+yIB4TtQhEbL/mvyJX2uAbbwQXERvRXJT6x1cyUEp28=;
- b=gGctzBmDa0dX/K+PN9zIT/2Cyfz2c9jVUZVsmnAzkqtqU96ioIRFWLTFWtaf/FY4kQ
- 0WvygNVjnhczvv1DUdL6ZqTXRKQ+9P+MZBIXnRnSR/Jo7isP/DN4f636YPhzpe3L3QlL
- bEjSt9Uaguc5XxAkk43E5ynmqKhJp5dR5rax0p4M7o94AhOGwb0ra/61LR8+ibkRu+hT
- 12D+ef7UJR4j+NpryoB7zstLsZoLvoJ16DBHEFiqbTAHaii2IfsFHT3vcoqjwY015Vrh
- DZbRU5VOPxi8HEgQqqpX5dyZHezY9Q0Fsj2Cp25Is9ce2nbgC9s0epEqwBAquLdREGUV
- MhAg==
+ bh=GX4JaDIbHHodc8bsVUgp1wGeHcMPOFe7Qx97BWjaFus=;
+ b=FCxFw+xghXiUmKYNhE198znwVLIUZda2m/8UBJJgbDBcLRsPQjbEdx1kvjU0oUHkiA
+ RSyDqqnqhqoVGj0PUf6hb4RpT/Kx8IDymD3Z5go/2K/ZYYqr3iYvo5RskL5dCGF4LZc7
+ /VUUzm9Qd2H5McNfNj1qzvSvseDSbSstr5ynJZIvm3I9zRoAzkBPfOMramMYJAXKWLAJ
+ 53fxp+PFjxZ+Rf37+OP7eueu09jPvRycRypQi82/L7KNQNzz431NVc9PX3H9O0YGE194
+ tSPFlYz80Y9KrWRJbu7QFGmlRKdnfomT8W2ThBfFIHOZvqy9KXx8mU/W65F2S3qEP3VQ
+ mvdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=+yIB4TtQhEbL/mvyJX2uAbbwQXERvRXJT6x1cyUEp28=;
- b=Cx4mPAXnTGxQDaN337jeLXdy+4QUMh1chX4G+irelX0ac9PrmGmAYo5q5ZeDIa50u6
- +KBmUTZ7dpCyoQjn+LQ1yZdIsV7U8DoNm20FYUYDicjBl1xAJNsu5lhL4FFjTgMYLJJT
- le4OMVs+h3IZBZTlTozMXQVDP04t0YhGcmgUDx/BrRhLaCaa9d0IGaohCnH/55LzVOhY
- Ba0c+jjSGyo8l4JuGMQw9+Ek/RXR5vaWB3BJpOUu+3ZQweua2WvOA8+VywTY55kndnJ/
- r8R/hkmKa06QzLAqJ4Az8btrjwgL3LllQn0VPluF519iBbizvNv0a3tYY5ZLl+NbWnFd
- 2xlg==
-X-Gm-Message-State: APjAAAX3Q4QfOi+OsFMyYIAcmxvenwAEp40++0tASP5H6Zil+j5Qe0tA
- 9K2pFHgINWTakjbREvPzvA+84OvJ
-X-Google-Smtp-Source: APXvYqyDz/3AbEWbzAvt5nwmmzrcx1dfFYP7ZrtH4DDSQOfQc+zLzwiIyxktchUcllZc4PKbOiwxWw==
-X-Received: by 2002:a05:600c:28d:: with SMTP id 13mr64703wmk.84.1568644936605; 
- Mon, 16 Sep 2019 07:42:16 -0700 (PDT)
+ bh=GX4JaDIbHHodc8bsVUgp1wGeHcMPOFe7Qx97BWjaFus=;
+ b=k4EWq5FsksboCmsVs20wQA9i+htDm5wRtWDvrdouVOX4AKvO5pMRFpHagR0xAghwIK
+ JG/nEaU5oF2BAMMQZnyVATgDleNcZ9fLndUMBq/9OV2cm9OSzQehdbxgYaJig6CpMKXD
+ yKycnrnUh0oLtRHz51vd5xkbM0oTQyRIvmARcXgSi2wWNBcVoUF3LxHKT9O+5meahgZ/
+ 2WPo+UQT/68SAU2Tqj71sZWQ9ISQCXzF1/T8xPaypHukyx/bKtt23Irkxev4g0DRTAIa
+ InxXML2hejbmOQBeQ6aPliMcH6SGC+cxUktNE+N6gnIUBHPoxPvJmIMQrljv8mUvdYkn
+ dMwA==
+X-Gm-Message-State: APjAAAUKJId6TMJsLeUAOCi1HhXJamM0l9RZBDyCx9QEDBI19PpILu36
+ VByapI5TDwP7EfJubyZwiBmZYe2C
+X-Google-Smtp-Source: APXvYqxflfHNVMG4M5fWxYGBMUT75qzIWMA+KkazjPNnyJE11t5I9klrxJDesHGcJ65usyS36xoOxg==
+X-Received: by 2002:a1c:3b06:: with SMTP id i6mr80372wma.6.1568644940650;
+ Mon, 16 Sep 2019 07:42:20 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.15
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.19
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:15 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:19 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:46 +0200
-Message-Id: <1568644929-9124-7-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:41:49 +0200
+Message-Id: <1568644929-9124-10-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
-Subject: [Qemu-devel] [PULL 06/29] exec.c: add a check between constants to
- see whether we could skip
+X-Received-From: 2a00:1450:4864:20::332
+Subject: [Qemu-devel] [PULL 09/29] hw/i386: Move CONFIG_ACPI_PCI to CONFIG_PC
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,39 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Cole Robinson <crobinso@redhat.com>
 
-The maximum level is defined as P_L2_LEVELS and skip is defined with 6
-bits, which means if P_L2_LEVELS < (1 << 6), skip never exceeds the
-boundary.
+CONFIG_ACPI_PCI is a hard requirement of acpi-build.c, which is built
+unconditionally for x86 target. Putting it in default-configs/ suggests
+that it can be easily disabled, which isn't true.
 
-Since this check is between two constants, which leverages compiler
-to optimize the code based on different configuration.
+Relocate the symbol with the other acpi-build.c requirements, under
+'config PC'. This is similar to what is done for the arm 'virt' machine
+type and CONFIG_ACPI_PCI
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190321082555.21118-7-richardw.yang@linux.intel.com>
+Signed-off-by: Cole Robinson <crobinso@redhat.com>
+Message-Id: <e73e6edff68fd30d69c6a1d02c9ef9192f773c63.1568049871.git.crobinso@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- exec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ default-configs/i386-softmmu.mak | 1 -
+ hw/i386/Kconfig                  | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/exec.c b/exec.c
-index d1969bb..b9511be 100644
---- a/exec.c
-+++ b/exec.c
-@@ -324,7 +324,8 @@ static void phys_page_compact(PhysPageEntry *lp, Node *nodes)
-     assert(valid_ptr < P_L2_SIZE);
- 
-     /* Don't compress if it won't fit in the # of bits we have. */
--    if (lp->skip + p[valid_ptr].skip >= (1 << 6)) {
-+    if (P_L2_LEVELS >= (1 << 6) &&
-+        lp->skip + p[valid_ptr].skip >= (1 << 6)) {
-         return;
-     }
+diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
+index cd5ea39..ba3fb3f 100644
+--- a/default-configs/i386-softmmu.mak
++++ b/default-configs/i386-softmmu.mak
+@@ -25,4 +25,3 @@
+ CONFIG_ISAPC=y
+ CONFIG_I440FX=y
+ CONFIG_Q35=y
+-CONFIG_ACPI_PCI=y
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 6350438..c7a9d63 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -29,6 +29,7 @@ config PC
+     select MC146818RTC
+     # For ACPI builder:
+     select SERIAL_ISA
++    select ACPI_PCI
+     select ACPI_VMGENID
+     select VIRTIO_PMEM_SUPPORTED
  
 -- 
 1.8.3.1
