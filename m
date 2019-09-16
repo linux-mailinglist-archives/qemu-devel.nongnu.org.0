@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD763B3C48
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:12:21 +0200 (CEST)
-Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B442BB3C65
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:19:36 +0200 (CEST)
+Received: from localhost ([::1]:34898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rjo-0007sb-IY
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46523)
+	id 1i9rqp-0006GI-3e
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:19:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i9rXf-00047I-Ch
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:48 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i9rXr-0004OM-Pg
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:00:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i9rXd-0000fJ-TF
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46249)
+ (envelope-from <mlevitsk@redhat.com>) id 1i9rXq-0000j9-B6
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38256)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i9rXd-0000ep-Ch; Mon, 16 Sep 2019 09:59:45 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1i9rXn-0000hO-Av; Mon, 16 Sep 2019 09:59:55 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5F28A18CB8E2;
- Mon, 16 Sep 2019 13:59:44 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6548310013A1;
- Mon, 16 Sep 2019 13:59:42 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:58:06 +0200
-Message-Id: <20190916135806.1269-30-david@redhat.com>
-In-Reply-To: <20190916135806.1269-1-david@redhat.com>
-References: <20190916135806.1269-1-david@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ by mx1.redhat.com (Postfix) with ESMTPS id 9AB3618C8938;
+ Mon, 16 Sep 2019 13:59:54 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B60C3600C1;
+ Mon, 16 Sep 2019 13:59:52 +0000 (UTC)
+Message-ID: <09fe1c9595b9435bd1f48e173c140edab5e96dc3.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 16:59:51 +0300
+In-Reply-To: <d2c07712-c292-1341-3dfb-2529e71e3744@redhat.com>
+References: <20190915203655.21638-1-mlevitsk@redhat.com>
+ <d2c07712-c292-1341-3dfb-2529e71e3744@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Mon, 16 Sep 2019 13:59:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Mon, 16 Sep 2019 13:59:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 29/29] tests/tcg: target/s390x: Test MVO
+Subject: Re: [Qemu-devel] [PATCH v7 0/3] Fix qcow2+luks corruption
+ introduced by commit 8ac0f15f335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,65 +57,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
- Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
- Cole Robinson <crobinso@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's add the simple test based on the example from the PoP.
+On Mon, 2019-09-16 at 15:39 +0200, Max Reitz wrote:
+> On 15.09.19 22:36, Maxim Levitsky wrote:
+> > Commit 8ac0f15f335 accidently broke the COW of non changed areas
+> > of newly allocated clusters, when the write spans multiple clusters,
+> > and needs COW both prior and after the write.
+> > This results in 'after' COW area being encrypted with wrong
+> > sector address, which render it corrupted.
+> >=20
+> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1745922
+> >=20
+> > CC: qemu-stable <qemu-stable@nongnu.org>
+> >=20
+> > V2: grammar, spelling and code style fixes.
+> > V3: more fixes after the review.
+> > V4: addressed review comments from Max Reitz,
+> >     and futher refactored the qcow2_co_encrypt to just take full host=
+ and guest offset
+> >     which simplifies everything.
+> >=20
+> > V5: reworked the patches so one of them fixes the bug
+> >     only and other one is just refactoring
+> >=20
+> > V6: removed do_perform_cow_encrypt
+> >=20
+> > V7: removed do_perform_cow_encrypt take two, this
+> >     time I hopefully did that correctly :-)
+> >     Also updated commit names and messages a bit
+>=20
+> Luckily for you (maybe), Vladimir=E2=80=99s series doesn=E2=80=98t quit=
+e pass the
+> iotests for me, so unfortunately (I find it unfortunate) I had to remov=
+e
+> it from my branch.  Thus, the conflicts are much more tame and I felt
+> comfortable taking the series to my branch (with the remaining trivial
+> conflicts resolved, and with Vladimir=E2=80=99s suggestion applied):
+>=20
+> https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- tests/tcg/s390x/Makefile.target |  1 +
- tests/tcg/s390x/mvo.c           | 25 +++++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 tests/tcg/s390x/mvo.c
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.t=
-arget
-index 151dc075aa..6a3bfa8b29 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -6,3 +6,4 @@ TESTS+=3Dipm
- TESTS+=3Dexrl-trt
- TESTS+=3Dexrl-trtr
- TESTS+=3Dpack
-+TESTS+=3Dmvo
-diff --git a/tests/tcg/s390x/mvo.c b/tests/tcg/s390x/mvo.c
-new file mode 100644
-index 0000000000..5546fe2a97
---- /dev/null
-+++ b/tests/tcg/s390x/mvo.c
-@@ -0,0 +1,25 @@
-+#include <stdint.h>
-+#include <stdio.h>
-+
-+int main(void)
-+{
-+    uint8_t dest[6] =3D {0xff, 0x77, 0x88, 0x99, 0x0c, 0xff};
-+    uint8_t src[5] =3D {0xee, 0x12, 0x34, 0x56, 0xee};
-+    uint8_t expected[6] =3D {0xff, 0x01, 0x23, 0x45, 0x6c, 0xff};
-+    int i;
-+
-+    asm volatile (
-+        "    mvo 0(4,%[dest]),0(3,%[src])\n"
-+        :
-+        : [dest] "d" (dest + 1),
-+          [src] "d" (src + 1)
-+        : "memory");
-+
-+    for (i =3D 0; i < sizeof(expected); i++) {
-+        if (dest[i] !=3D expected[i]) {
-+            fprintf(stderr, "bad data\n");
-+            return 1;
-+        }
-+    }
-+    return 0;
-+}
---=20
-2.21.0
+First of all, Thanks!
+
+I don't know if this is luckily for me since I already rebased my series =
+on top of =20
+https://git.xanclic.moe/XanClic/qemu.git,
+and run all qcow2 iotests, and only tests=20
+162 169 194 196 234 262 failed, and I know that 162 always fails
+due to that kernel change I talked about here few days ago,
+and rest for the AF_UNIX path len, which I need to do something
+about in the long term. I sometimes do a separate build in=20
+directory which path doesn't trigger this, and sometimes,
+when I know that I haven't done significant changes to the patches,
+I just let these tests fail. In long term, maybe even in a few days
+I'll allocate some time to rethink the build environment here to
+fix that permanently.
+
+Now I am rerunning the iotests just for fun, in short enough directory
+to see if I can reproduce the failure that you had. After looking
+in your report, that iotest 026 fails, it does pass here, but
+then I am only running these iotests on my laptop so I probably
+don't trigger the race you were able to.
+
+So thanks again!
+Best regards,
+	Maxim Levitsky
+
 
 
