@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED29BB3CDE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:50:23 +0200 (CEST)
-Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6B8B3CF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:54:27 +0200 (CEST)
+Received: from localhost ([::1]:35474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sKc-0002zd-Pl
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49596)
+	id 1i9sOY-0007sp-41
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnE-0004L1-Uu
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnJ-0004OS-SY
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnC-0006sp-Pf
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:52 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37258)
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnF-0006uI-TW
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:56 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i9rnC-0006sK-DX
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:50 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i1so38499394wro.4
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:15:50 -0700 (PDT)
+ id 1i9rnF-0006tm-Ej
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:53 -0400
+Received: by mail-wm1-x341.google.com with SMTP id t3so10628613wmj.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:15:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kLpy2a0P8Zqdbd2C4YH5QEto/3xAoz89Cd5PeOJ7MUw=;
- b=gy/mV77cFtKI18U7lIj6+3EF+q87BxmoF61Tt6q04FgUblYtTcqstYGvOrcUjm0bEP
- Vbc7WZYdh1ITmxXWM+sWGtZxtWdqqi5YvdrayLHUPCNCI08yVNaslH5DYaF17qPLoKnH
- +nNXLJlT5Fk4/gbr1t2y47mu7TuUDFmx7oCBa83kIVjgKrHwlBrZfa9J1dnbXsmAuYkf
- ZXwJLEf6aNn/SGJW61Hgw9XIH44ug9tb1y/QmHGjVK1Z3+tDYOpZ9qP2qOhLp9dwrkEP
- MZ2eAMu2FPBAuVdG+qKNR3T5BzHkYjHuOdoxQQSOUwdpWjadfqoSPjUJqFIuISWBjVai
- 4XEg==
+ bh=zGtF7wePyTsFnBePrFWXafT2YX5OltqEDRO5DE8ar0c=;
+ b=xuNI4ZJcE8VCUgo1/FvrTHiB/2ypwXZe5MQd/wnI9UyuN9Ouu0RXUs+ytJUB9pQwkF
+ FFpjBmZiD0zHgAkC/eqBVgbXbhEl7Ld0gx7LFVC5hQASbmUpcmoX6OxtixVR7fVGTzaj
+ F1tNA+Ky9aRWkqpqgguI8gwoIoImPzgOL8PbmWRi0YmJ+C4kkhw5OiapwPnK6hLPVmAV
+ K5gSKF1oAvdXbaNHp9k+DaDI9DScisGz7UuD3NJFGXdPd9jU4uNlNiuBn19fQXXmiBcy
+ WKe8Ei1cAGS50GCwY9Mo4TT4rnanUjieVHtmtQQZYIWgtXYLYCn2s+6WZ03vvcU7RgFQ
+ hoMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kLpy2a0P8Zqdbd2C4YH5QEto/3xAoz89Cd5PeOJ7MUw=;
- b=abs1960WuPgcaxSYNFDUchxwvEsDm1W+wwzTa2Df1hMpENEESeaAPBfBCZmxr5CIaw
- OVH/GS1rEAgiQZeJ8vu4+IP2yRN6SnobZdpenWsUVDaiYx/PQ0kw6jslh0eJp/lEWkG1
- qoYZREVkW7k6Z9gNjhodg4vbuaLWsMtf7dgywdZ9WZEREvL1Sg9LwpZq67XKz5Zi+cI0
- 0aROt/DhDEQuINz3sFO8cAzcS4KxNrrTMkyntKxpGsQcH/aFlC3i9Sz1zdNblrGK1Lj9
- wlU7nVwJ/oar9t/hnVh3uq/xTR7iz8ORZNbfHqhaFAMLwg5+tgOAkyG/P2HngIP6bg50
- cQiQ==
-X-Gm-Message-State: APjAAAUoWBamhiYFgcKECpFR14VGMAOyGby5VF1su54BqG4dgUyid+P6
- QC19AXHdgulqPxqioSFjNfFBhQ==
-X-Google-Smtp-Source: APXvYqz/9Dgfqv78jGus9SoTda02oHcY0xAZLe5JS2EAv0UG5eUgijT2BSe/18tVYYu7Bn9EcdKnhg==
-X-Received: by 2002:a5d:55d0:: with SMTP id i16mr31852wrw.108.1568643349417;
- Mon, 16 Sep 2019 07:15:49 -0700 (PDT)
+ bh=zGtF7wePyTsFnBePrFWXafT2YX5OltqEDRO5DE8ar0c=;
+ b=IwAHyq4GOgiJLaLEjKh4i9u9AZiMexUA7rE2tcTXH5CUFU0sqsdgvvxO7qgOZoMn8d
+ eJpg/FrwvjiONFecLr4FbQi6h8kMYoj+uiJj+ghZjEGWp3rSTrKJJ7xSiM4Y9nix9Dqn
+ b/XiKmHL1hqPZLAHm+zg2xgvpCkPutXaLPXk3rHHLbUq3tmero9VJ4PcEu9rVwvZ6Dcm
+ 6hg+CqiDqmiZDu5uEiljq5EeVi4SPIRDzaFU8opmC/zv2g+3lZACSTJ9HnTmknDckpZP
+ tI2CDBOzpR10ZliAtRPlhzYkh0X5rtyAgi/lNDxI9w/VxGpyWP6plTo7PmIcR1k86yUR
+ X57Q==
+X-Gm-Message-State: APjAAAXLmhH9llhR25uBYZ+Kt4swy714NTZWnSet2yuuOj7m4k++tHEn
+ 1Z5cEFIfZ6qStWPrNnAecNYXBL05DyChHw==
+X-Google-Smtp-Source: APXvYqyuNf1xIeBkWcgxvn14ERwBLqkrzUia6IT3wGt1cwbHFwB8iDEzSuJN4atGOuk3Z+AJmHfnxg==
+X-Received: by 2002:a1c:49d4:: with SMTP id
+ w203mr13443030wma.132.1568643352128; 
+ Mon, 16 Sep 2019 07:15:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.15.48
+ by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.15.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2019 07:15:48 -0700 (PDT)
+ Mon, 16 Sep 2019 07:15:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:15:31 +0100
-Message-Id: <20190916141544.17540-3-peter.maydell@linaro.org>
+Date: Mon, 16 Sep 2019 15:15:33 +0100
+Message-Id: <20190916141544.17540-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190916141544.17540-1-peter.maydell@linaro.org>
 References: <20190916141544.17540-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v2 02/15] target/arm/arm-semi: Always set some
- kind of errno for failed calls
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH v2 04/15] target/arm/arm-semi: Make semihosting
+ code hand out its own file descriptors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,138 +84,388 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we fail a semihosting call we should always set the
-semihosting errno to something; we were failing to do
-this for some of the "check inputs for sanity" cases.
+Currently the Arm semihosting code returns the guest file descriptors
+(handles) which are simply the fd values from the host OS or the
+remote gdbstub. Part of the semihosting 2.0 specification requires
+that we implement special handling of opening a ":semihosting-features"
+filename. Guest fds which result from opening the special file
+won't correspond to host fds, so to ensure that we don't end up
+with duplicate fds we need to have QEMU code control the allocation
+of the fd values we give the guest.
+
+Add in an abstraction layer which lets us allocate new guest FD
+values, and translate from a guest FD value back to the host one.
+This also fixes an odd hole where a semihosting guest could
+use the semihosting API to read, write or close file descriptors
+that it had never allocated but which were being used by QEMU itself.
+(This isn't a security hole, because enabling semihosting permits
+the guest to do arbitrary file access to the whole host filesystem,
+and so should only be done if the guest is completely trusted.)
+
+Currently the only kind of guest fd is one which maps to a
+host fd, but in a following commit we will add one which maps
+to the :semihosting-features magic data.
+
+If the guest is migrated with an open semihosting file descriptor
+then subsequent attempts to use the fd will all fail; this is
+not a change from the previous situation (where the host fd
+being used on the source end would not be re-opened on the
+destination end).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/arm-semi.c | 45 ++++++++++++++++++++++++++-----------------
- 1 file changed, 27 insertions(+), 18 deletions(-)
+Change since v1: we mustn't treat the return value of
+arm_gdb_syscall() as being the new fd from gdb, as in
+softmmu mode it is not. So we need a custom callback for open
+that can update the guestfd association.
+---
+ target/arm/arm-semi.c | 232 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 216 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index 03e60105c05..51b55816faf 100644
+index 302529f2278..a4741d7e11b 100644
 --- a/target/arm/arm-semi.c
 +++ b/target/arm/arm-semi.c
-@@ -232,11 +232,13 @@ static target_ulong arm_gdb_syscall(ARMCPU *cpu, gdb_syscall_complete_cb cb,
- #define GET_ARG(n) do {                                 \
-     if (is_a64(env)) {                                  \
-         if (get_user_u64(arg ## n, args + (n) * 8)) {   \
--            return -1;                                  \
-+            errno = EFAULT;                             \
-+            return set_swi_errno(ts, -1);               \
-         }                                               \
-     } else {                                            \
-         if (get_user_u32(arg ## n, args + (n) * 4)) {   \
--            return -1;                                  \
-+            errno = EFAULT;                             \
-+            return set_swi_errno(ts, -1);               \
-         }                                               \
-     }                                                   \
- } while (0)
-@@ -287,12 +289,13 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+@@ -106,6 +106,113 @@ static int open_modeflags[12] = {
+     O_RDWR | O_CREAT | O_APPEND | O_BINARY
+ };
+ 
++typedef enum GuestFDType {
++    GuestFDUnused = 0,
++    GuestFDHost = 1,
++} GuestFDType;
++
++/*
++ * Guest file descriptors are integer indexes into an array of
++ * these structures (we will dynamically resize as necessary).
++ */
++typedef struct GuestFD {
++    GuestFDType type;
++    int hostfd;
++} GuestFD;
++
++static GArray *guestfd_array;
++
++/*
++ * Allocate a new guest file descriptor and return it; if we
++ * couldn't allocate a new fd then return -1.
++ * This is a fairly simplistic implementation because we don't
++ * expect that most semihosting guest programs will make very
++ * heavy use of opening and closing fds.
++ */
++static int alloc_guestfd(void)
++{
++    guint i;
++
++    if (!guestfd_array) {
++        /* New entries zero-initialized, i.e. type GuestFDUnused */
++        guestfd_array = g_array_new(FALSE, TRUE, sizeof(GuestFD));
++    }
++
++    for (i = 0; i < guestfd_array->len; i++) {
++        GuestFD *gf = &g_array_index(guestfd_array, GuestFD, i);
++
++        if (gf->type == GuestFDUnused) {
++            return i;
++        }
++    }
++
++    /* All elements already in use: expand the array */
++    g_array_set_size(guestfd_array, i + 1);
++    return i;
++}
++
++/*
++ * Look up the guestfd in the data structure; return NULL
++ * for out of bounds, but don't check whether the slot is unused.
++ * This is used internally by the other guestfd functions.
++ */
++static GuestFD *do_get_guestfd(int guestfd)
++{
++    if (!guestfd_array) {
++        return NULL;
++    }
++
++    if (guestfd < 0 || guestfd >= guestfd_array->len) {
++        return NULL;
++    }
++
++    return &g_array_index(guestfd_array, GuestFD, guestfd);
++}
++
++/*
++ * Associate the specified guest fd (which must have been
++ * allocated via alloc_fd() and not previously used) with
++ * the specified host fd.
++ */
++static void associate_guestfd(int guestfd, int hostfd)
++{
++    GuestFD *gf = do_get_guestfd(guestfd);
++
++    assert(gf);
++    gf->type = GuestFDHost;
++    gf->hostfd = hostfd;
++}
++
++/*
++ * Deallocate the specified guest file descriptor. This doesn't
++ * close the host fd, it merely undoes the work of alloc_fd().
++ */
++static void dealloc_guestfd(int guestfd)
++{
++    GuestFD *gf = do_get_guestfd(guestfd);
++
++    assert(gf);
++    gf->type = GuestFDUnused;
++}
++
++/*
++ * Given a guest file descriptor, get the associated struct.
++ * If the fd is not valid, return NULL. This is the function
++ * used by the various semihosting calls to validate a handle
++ * from the guest.
++ * Note: calling alloc_guestfd() or dealloc_guestfd() will
++ * invalidate any GuestFD* obtained by calling this function.
++ */
++static GuestFD *get_guestfd(int guestfd)
++{
++    GuestFD *gf = do_get_guestfd(guestfd);
++
++    if (!gf || gf->type == GuestFDUnused) {
++        return NULL;
++    }
++    return gf;
++}
++
+ #ifdef CONFIG_USER_ONLY
+ static inline uint32_t set_swi_errno(TaskState *ts, uint32_t code)
+ {
+@@ -207,6 +314,34 @@ static void arm_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ #endif
+ }
+ 
++static int arm_semi_open_guestfd;
++
++static void arm_semi_open_cb(CPUState *cs, target_ulong ret, target_ulong err)
++{
++    ARMCPU *cpu = ARM_CPU(cs);
++    CPUARMState *env = &cpu->env;
++#ifdef CONFIG_USER_ONLY
++    TaskState *ts = cs->opaque;
++#endif
++    if (ret == (target_ulong)-1) {
++#ifdef CONFIG_USER_ONLY
++        ts->swi_errno = err;
++#else
++        syscall_err = err;
++#endif
++        dealloc_guestfd(arm_semi_open_guestfd);
++    } else {
++        associate_guestfd(arm_semi_open_guestfd, ret);
++        ret = arm_semi_open_guestfd;
++    }
++
++    if (is_a64(env)) {
++        env->xregs[0] = ret;
++    } else {
++        env->regs[0] = ret;
++    }
++}
++
+ static target_ulong arm_gdb_syscall(ARMCPU *cpu, gdb_syscall_complete_cb cb,
+                                     const char *fmt, ...)
+ {
+@@ -283,6 +418,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+ #else
+     CPUARMState *ts = env;
+ #endif
++    GuestFD *gf;
+ 
+     if (is_a64(env)) {
+         /* Note that the syscall number is in W0, not X0 */
+@@ -295,6 +431,9 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+ 
+     switch (nr) {
+     case TARGET_SYS_OPEN:
++    {
++        int guestfd;
++
+         GET_ARG(0);
+         GET_ARG(1);
          GET_ARG(2);
-         s = lock_user_string(arg0);
-         if (!s) {
--            /* FIXME - should this error code be -TARGET_EFAULT ? */
--            return (uint32_t)-1;
-+            errno = EFAULT;
-+            return set_swi_errno(ts, -1);
+@@ -308,26 +447,52 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+             errno = EINVAL;
+             return set_swi_errno(ts, -1);
          }
-         if (arg1 >= 12) {
-             unlock_user(s, arg0, 0);
--            return (uint32_t)-1;
-+            errno = EINVAL;
++
++        guestfd = alloc_guestfd();
++        if (guestfd < 0) {
++            unlock_user(s, arg0, 0);
++            errno = EMFILE;
 +            return set_swi_errno(ts, -1);
-         }
++        }
++
          if (strcmp(s, ":tt") == 0) {
              int result_fileno = arg1 < 4 ? STDIN_FILENO : STDOUT_FILENO;
-@@ -413,8 +416,8 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-         } else {
-             s = lock_user_string(arg0);
-             if (!s) {
--                /* FIXME - should this error code be -TARGET_EFAULT ? */
--                return (uint32_t)-1;
-+                errno = EFAULT;
-+                return set_swi_errno(ts, -1);
-             }
-             ret =  set_swi_errno(ts, remove(s));
++            associate_guestfd(guestfd, result_fileno);
              unlock_user(s, arg0, 0);
-@@ -432,11 +435,12 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             char *s2;
-             s = lock_user_string(arg0);
-             s2 = lock_user_string(arg2);
--            if (!s || !s2)
--                /* FIXME - should this error code be -TARGET_EFAULT ? */
--                ret = (uint32_t)-1;
--            else
-+            if (!s || !s2) {
-+                errno = EFAULT;
-+                ret = set_swi_errno(ts, -1);
+-            return result_fileno;
++            return guestfd;
+         }
+         if (use_gdb_syscalls()) {
+-            ret = arm_gdb_syscall(cpu, arm_semi_cb, "open,%s,%x,1a4", arg0,
++            arm_semi_open_guestfd = guestfd;
++            ret = arm_gdb_syscall(cpu, arm_semi_open_cb, "open,%s,%x,1a4", arg0,
+                                   (int)arg2+1, gdb_open_modeflags[arg1]);
+         } else {
+             ret = set_swi_errno(ts, open(s, open_modeflags[arg1], 0644));
++            if (ret == (uint32_t)-1) {
++                dealloc_guestfd(guestfd);
 +            } else {
-                 ret = set_swi_errno(ts, rename(s, s2));
++                associate_guestfd(guestfd, ret);
++                ret = guestfd;
 +            }
-             if (s2)
-                 unlock_user(s2, arg2, 0);
-             if (s)
-@@ -456,8 +460,8 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+         }
+         unlock_user(s, arg0, 0);
+         return ret;
++    }
+     case TARGET_SYS_CLOSE:
+         GET_ARG(0);
+-        if (use_gdb_syscalls()) {
+-            return arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", arg0);
+-        } else {
+-            return set_swi_errno(ts, close(arg0));
++
++        gf = get_guestfd(arg0);
++        if (!gf) {
++            errno = EBADF;
++            return set_swi_errno(ts, -1);
+         }
++
++        if (use_gdb_syscalls()) {
++            ret = arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", gf->hostfd);
++        } else {
++            ret = set_swi_errno(ts, close(gf->hostfd));
++        }
++        dealloc_guestfd(arg0);
++        return ret;
+     case TARGET_SYS_WRITEC:
+         qemu_semihosting_console_outc(env, args);
+         return 0xdeadbeef;
+@@ -338,17 +503,24 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+         GET_ARG(1);
+         GET_ARG(2);
+         len = arg2;
++
++        gf = get_guestfd(arg0);
++        if (!gf) {
++            errno = EBADF;
++            return set_swi_errno(ts, -1);
++        }
++
+         if (use_gdb_syscalls()) {
+             arm_semi_syscall_len = len;
+             return arm_gdb_syscall(cpu, arm_semi_cb, "write,%x,%x,%x",
+-                                   arg0, arg1, len);
++                                   gf->hostfd, arg1, len);
          } else {
-             s = lock_user_string(arg0);
+             s = lock_user(VERIFY_READ, arg1, len, 1);
              if (!s) {
--                /* FIXME - should this error code be -TARGET_EFAULT ? */
--                return (uint32_t)-1;
-+                errno = EFAULT;
-+                return set_swi_errno(ts, -1);
+                 /* Return bytes not written on error */
+                 return len;
              }
-             ret = set_swi_errno(ts, system(s));
-             unlock_user(s, arg0, 0);
-@@ -517,19 +521,22 @@ target_ulong do_arm_semihosting(CPUARMState *env)
- 
-             if (output_size > input_size) {
-                 /* Not enough space to store command-line arguments.  */
--                return -1;
-+                errno = E2BIG;
-+                return set_swi_errno(ts, -1);
+-            ret = set_swi_errno(ts, write(arg0, s, len));
++            ret = set_swi_errno(ts, write(gf->hostfd, s, len));
+             unlock_user(s, arg1, 0);
+             if (ret == (uint32_t)-1) {
+                 ret = 0;
+@@ -361,10 +533,17 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+         GET_ARG(1);
+         GET_ARG(2);
+         len = arg2;
++
++        gf = get_guestfd(arg0);
++        if (!gf) {
++            errno = EBADF;
++            return set_swi_errno(ts, -1);
++        }
++
+         if (use_gdb_syscalls()) {
+             arm_semi_syscall_len = len;
+             return arm_gdb_syscall(cpu, arm_semi_cb, "read,%x,%x,%x",
+-                                   arg0, arg1, len);
++                                   gf->hostfd, arg1, len);
+         } else {
+             s = lock_user(VERIFY_WRITE, arg1, len, 0);
+             if (!s) {
+@@ -372,7 +551,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+                 return len;
              }
- 
-             /* Adjust the command-line length.  */
-             if (SET_ARG(1, output_size - 1)) {
-                 /* Couldn't write back to argument block */
--                return -1;
-+                errno = EFAULT;
-+                return set_swi_errno(ts, -1);
-             }
- 
-             /* Lock the buffer on the ARM side.  */
-             output_buffer = lock_user(VERIFY_WRITE, arg0, output_size, 0);
-             if (!output_buffer) {
--                return -1;
-+                errno = EFAULT;
-+                return set_swi_errno(ts, -1);
-             }
- 
-             /* Copy the command-line arguments.  */
-@@ -544,7 +551,8 @@ target_ulong do_arm_semihosting(CPUARMState *env)
- 
-             if (copy_from_user(output_buffer, ts->info->arg_start,
-                                output_size)) {
--                status = -1;
-+                errno = EFAULT;
-+                status = set_swi_errno(ts, -1);
-                 goto out;
-             }
- 
-@@ -614,7 +622,8 @@ target_ulong do_arm_semihosting(CPUARMState *env)
- 
-                 if (fail) {
-                     /* Couldn't write back to argument block */
--                    return -1;
-+                    errno = EFAULT;
-+                    return set_swi_errno(ts, -1);
-                 }
-             }
+             do {
+-                ret = set_swi_errno(ts, read(arg0, s, len));
++                ret = set_swi_errno(ts, read(gf->hostfd, s, len));
+             } while (ret == -1 && errno == EINTR);
+             unlock_user(s, arg1, len);
+             if (ret == (uint32_t)-1) {
+@@ -386,31 +565,52 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+         return 0;
+     case TARGET_SYS_ISTTY:
+         GET_ARG(0);
++
++        gf = get_guestfd(arg0);
++        if (!gf) {
++            errno = EBADF;
++            return set_swi_errno(ts, -1);
++        }
++
+         if (use_gdb_syscalls()) {
+-            return arm_gdb_syscall(cpu, arm_semi_cb, "isatty,%x", arg0);
++            return arm_gdb_syscall(cpu, arm_semi_cb, "isatty,%x", gf->hostfd);
+         } else {
+-            return isatty(arg0);
++            return isatty(gf->hostfd);
+         }
+     case TARGET_SYS_SEEK:
+         GET_ARG(0);
+         GET_ARG(1);
++
++        gf = get_guestfd(arg0);
++        if (!gf) {
++            errno = EBADF;
++            return set_swi_errno(ts, -1);
++        }
++
+         if (use_gdb_syscalls()) {
+             return arm_gdb_syscall(cpu, arm_semi_cb, "lseek,%x,%x,0",
+-                                   arg0, arg1);
++                                   gf->hostfd, arg1);
+         } else {
+-            ret = set_swi_errno(ts, lseek(arg0, arg1, SEEK_SET));
++            ret = set_swi_errno(ts, lseek(gf->hostfd, arg1, SEEK_SET));
+             if (ret == (uint32_t)-1)
+               return -1;
              return 0;
+         }
+     case TARGET_SYS_FLEN:
+         GET_ARG(0);
++
++        gf = get_guestfd(arg0);
++        if (!gf) {
++            errno = EBADF;
++            return set_swi_errno(ts, -1);
++        }
++
+         if (use_gdb_syscalls()) {
+             return arm_gdb_syscall(cpu, arm_semi_flen_cb, "fstat,%x,%x",
+-                                   arg0, arm_flen_buf(cpu));
++                                   gf->hostfd, arm_flen_buf(cpu));
+         } else {
+             struct stat buf;
+-            ret = set_swi_errno(ts, fstat(arg0, &buf));
++            ret = set_swi_errno(ts, fstat(gf->hostfd, &buf));
+             if (ret == (uint32_t)-1)
+                 return -1;
+             return buf.st_size;
 -- 
 2.20.1
 
