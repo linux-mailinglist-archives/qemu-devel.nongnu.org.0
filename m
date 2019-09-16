@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC645B3DB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:32:35 +0200 (CEST)
-Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505C3B3DC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:38:15 +0200 (CEST)
+Received: from localhost ([::1]:36000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9szR-000530-H5
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53549)
+	id 1i9t4v-0002iG-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCl-0006Fn-Gd
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:17 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCl-0006FP-4T
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCj-0007P0-M2
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:15 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54505)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCj-0007Ov-Lb
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:14 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33082)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCj-0007OS-Bl
+ id 1i9sCj-0007OY-Bi
  for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:13 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id p7so59100wmp.4
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:12 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id b9so5595624wrs.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5LrGyDNsdD46INRIIwC8/sGjqFgbKTMxJiEM1s6Y8Nw=;
- b=X/DIsMkII3hFrP7umXvdAJ1b7+gPkvCy/nvQbVAlZFXBmkvmFGJrEHp1kEKwJPbpmJ
- nNZgmSzfaYlRlsjbAWXNt7QW/uBXVrEnbPb8ZNFWm1jI479mnzx8x3FSVNexHeOQPtC2
- ihaRyzOAaZpjH4Cfh8r6hVcKDXE13H6d2vjuKGH8I5YQY0Qe3AtLY1VcCoBFe7vNZD0j
- bn17RDfg+YZakBgsewYghRy7FYJGHsEbYswponG5SEZfi/7cQNhTeYDmnQHvPsxjxEdX
- 4ssZmZIWVhvieJWkvVDyOuq8APukDoHhqZOR/4vyhwfW5S667piK3sE2eRiHfpHYcQkp
- DQVw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YKW2Y+e7G2qkXzUR5XTC1dqXN0+JuqZwNXAZTTRmCi4=;
+ b=IvaP5gIBmrC/4DUFcqOpdwesGChREks7RykTzhC9l+jNXTo4CmivPXNAR+UfQDGEx0
+ QCAF7TAUaThkU/UFYsvCOJy7tmYJVxcb57iKFHiPeeupuXXRlauRS0g31LtqchHtCr5n
+ znLuCZavB6zMklIe3ZCyFruG5MNTk4awBdF/KdIHssuwW42pA8tqMA1JtpZkx6uhdq9I
+ ncKm5hiZ/5etsySPigPNxpBtPpdF17CZfIVycCKAkOMIQGekTHXTdIWDFVIzFG9mKTfd
+ +PjApwLG/gmhzz3mtqrJZwWu0oudh7Z8cDP/cueONnWpEEy5Sq8bEEUJGJ7GYcXY3nDN
+ NZVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=5LrGyDNsdD46INRIIwC8/sGjqFgbKTMxJiEM1s6Y8Nw=;
- b=EMTeX/5qrp9MiktY9kf0A76kRNNFOxG0GMp9G9wII4zOEyeUPsAAcUrG3JYmABkxUo
- HkrC25MmjVdyYXXXOdCODWbk3bl+8If9k63zJWcyaWQVBB04JNJ8kKJ4o9mIIN1mU+0G
- Cnu3U0r4sKLt3dEBbIm3MwsGAucHiREufT0BSXOCBBAuHbaqVUsMRRvrhXxrMqgLwT5c
- yF7j57QltqK5LiDgUMO545YiwG4/c8VLmfk6MFAb/TIsA/HOBmWzOeWOD0dL4Kq/RbQG
- P3kG9erFNWbSi22IEPqToCqkA4UdQryE5u0nms7Toxt5nyNWL9T62EyplA4XLEQMzGFF
- LQpg==
-X-Gm-Message-State: APjAAAXUnxeuGqBBXS1ZEXQsYH+QU3GSwnXyHdM0ooZddsuihZOa5r3l
- ATzmBPMyaytHxHLiN9Ev9a5Yo1HN
-X-Google-Smtp-Source: APXvYqya1mAivG6/4d6do6vV0+cxsv4TYZrX4SZLAmuFpxoEOXP6Ner0lPWQGtvjrkdVputw+Jkdsw==
-X-Received: by 2002:a1c:c104:: with SMTP id r4mr73159wmf.64.1568644930928;
- Mon, 16 Sep 2019 07:42:10 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=YKW2Y+e7G2qkXzUR5XTC1dqXN0+JuqZwNXAZTTRmCi4=;
+ b=GDa11oNTooSQQqTh5+nNvlcraWzhLhwoT1tXHh5RyYKuEQfrnfLZDdUoTWS0GIDZuG
+ sjIjW+Tk6VQyQW2nDurg87cPWQOtxstUbjYwv/+Ll8pfsvVaV4eVaW1XgVaZiivaa4Pq
+ a3jakFuC76YMzuyCA664hP6c14SpYtbdPJU1ro66xz4i17PvE2RIfki2NRfE1keOSMco
+ YNm7ISyHfTgCFEZwMAvWeTpvVuIRL7HCU3HRzcepMwL3/ER2VBtft+ik/PqugkCAmCJg
+ c6//q58KaQ19qcMAFTA82pxiqvhIkaoafZpZfJVK1z2ISQaJVlLVj8b/qpoiD80gt6zN
+ E8zA==
+X-Gm-Message-State: APjAAAVPRgrMsm6TKMAmxNUtiMW5f5UAjqS3BEM3Gn687F10T2PnJWZn
+ VMi4G9O3dAOh2gi0cPwQo8KZeb/P
+X-Google-Smtp-Source: APXvYqxLViKlkJ/7umDpDDZxbvo9fHqk33ZdOSOfARXpU4JgZaygykS70v50qIbZbrp30ogf+dkZyQ==
+X-Received: by 2002:a5d:694e:: with SMTP id r14mr152206wrw.34.1568644931756;
+ Mon, 16 Sep 2019 07:42:11 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.10
- for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:10 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:40 +0200
-Message-Id: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:41:41 +0200
+Message-Id: <1568644929-9124-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
-Subject: [Qemu-devel] [PULL 00/29] Misc patches for 2019-09-16
+X-Received-From: 2a00:1450:4864:20::431
+Subject: [Qemu-devel] [PULL 01/29] i386/kvm: support guest access CORE cstate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,109 +78,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Wanpeng Li <wanpengli@tencent.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 138985c1ef8b66e4e5b383354e133e05d01d0b5f:
+From: Wanpeng Li <wanpengli@tencent.com>
 
-  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-sep-12-2019' into staging (2019-09-13 16:04:46 +0100)
+Allow guest reads CORE cstate when exposing host CPU power management capabilities
+to the guest. PKG cstate is restricted to avoid a guest to get the whole package
+information in multi-tenant scenario.
 
-are available in the git repository at:
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Radim Krčmář <rkrcmar@redhat.com>
+Signed-off-by: Wanpeng Li <wanpengli@tencent.com>
+Message-Id: <1563154124-18579-1-git-send-email-wanpengli@tencent.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ linux-headers/linux/kvm.h | 4 +++-
+ target/i386/kvm.c         | 3 ++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-
-  git://github.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to b29799d93fde775ef7e4104c834a1c1da15b34c3:
-
-  hw/i386/pc: Extract the x86 generic fw_cfg code (2019-09-16 14:39:03 +0200)
-
-----------------------------------------------------------------
-* Fix Patchew CI failures (myself)
-* i386 fw_cfg refactoring (Philippe)
-* pmem bugfix (Stefan)
-* Support for accessing cstate MSRs (Wanpeng)
-* exec.c cleanups (Wei Yang)
-* Improved throttling (Yury)
-* elf-ops.h coverity fix (Stefano)
-
-----------------------------------------------------------------
-Cole Robinson (1):
-      hw/i386: Move CONFIG_ACPI_PCI to CONFIG_PC
-
-Paolo Bonzini (4):
-      win32: fix README file in NSIS installer
-      test-char: fix AddressSanitizer failure
-      memory: inline and optimize devend_memop
-      hw/i386/pc: Replace PCMachineState argument with MachineState in fw_cfg_arch_create
-
-Philippe Mathieu-Daudé (14):
-      hw/i386/pc: Use e820_get_num_entries() to access e820_entries
-      hw/i386/pc: Extract e820 memory layout code
-      hw/i386/pc: Use address_space_memory in place
-      hw/i386/pc: Rename bochs_bios_init as more generic fw_cfg_arch_create
-      hw/i386/pc: Pass the boot_cpus value by argument
-      hw/i386/pc: Pass the apic_id_limit value by argument
-      hw/i386/pc: Pass the CPUArchIdList array by argument
-      hw/i386/pc: Let pc_build_smbios() take a FWCfgState argument
-      hw/i386/pc: Let pc_build_smbios() take a generic MachineState argument
-      hw/i386/pc: Rename pc_build_smbios() as generic fw_cfg_build_smbios()
-      hw/i386/pc: Let pc_build_feature_control() take a FWCfgState argument
-      hw/i386/pc: Let pc_build_feature_control() take a MachineState argument
-      hw/i386/pc: Rename pc_build_feature_control() as generic fw_cfg_build_*
-      hw/i386/pc: Extract the x86 generic fw_cfg code
-
-Stefan Hajnoczi (1):
-      memory: fetch pmem size in get_file_size()
-
-Stefano Garzarella (1):
-      elf-ops.h: fix int overflow in load_elf()
-
-Wanpeng Li (1):
-      i386/kvm: support guest access CORE cstate
-
-Wei Yang (5):
-      exec.c: replace hwaddr with uint64_t for better understanding
-      exec.c: get nodes_nb_alloc with one MAX calculation
-      exec.c: subpage->sub_section is already initialized to 0
-      exec.c: correct the maximum skip value during compact
-      exec.c: add a check between constants to see whether we could skip
-
-Yury Kotov (2):
-      qemu-thread: Add qemu_cond_timedwait
-      cpus: Fix throttling during vm_stop
-
- backends/hostmem-file.c          |  22 -----
- cpus.c                           |  25 +++--
- default-configs/i386-softmmu.mak |   1 -
- exec.c                           |  54 ++++++++---
- hw/core/loader.c                 |   2 +
- hw/i386/Kconfig                  |   1 +
- hw/i386/Makefile.objs            |   2 +-
- hw/i386/e820_memory_layout.c     |  59 +++++++++++
- hw/i386/e820_memory_layout.h     |  42 ++++++++
- hw/i386/fw_cfg.c                 | 137 ++++++++++++++++++++++++++
- hw/i386/fw_cfg.h                 |   7 ++
- hw/i386/pc.c                     | 204 ++-------------------------------------
- include/exec/memory.h            |  19 +++-
- include/hw/elf_ops.h             |   5 +
- include/hw/i386/pc.h             |  11 ---
- include/hw/loader.h              |   1 +
- include/qemu/osdep.h             |  13 ---
- include/qemu/thread.h            |  19 ++++
- linux-headers/linux/kvm.h        |   4 +-
- memory.c                         |  18 ----
- qemu.nsi                         |   4 +-
- target/i386/kvm.c                |   4 +-
- tests/test-char.c                |  44 ++++-----
- util/oslib-posix.c               |  54 -----------
- util/oslib-win32.c               |   6 --
- util/qemu-thread-posix.c         |  41 +++++---
- util/qemu-thread-win32.c         |  17 ++++
- util/qsp.c                       |  20 ++++
- 28 files changed, 456 insertions(+), 380 deletions(-)
- create mode 100644 hw/i386/e820_memory_layout.c
- create mode 100644 hw/i386/e820_memory_layout.h
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index c8423e7..18892d6 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -696,9 +696,11 @@ struct kvm_ioeventfd {
+ #define KVM_X86_DISABLE_EXITS_MWAIT          (1 << 0)
+ #define KVM_X86_DISABLE_EXITS_HLT            (1 << 1)
+ #define KVM_X86_DISABLE_EXITS_PAUSE          (1 << 2)
++#define KVM_X86_DISABLE_EXITS_CSTATE         (1 << 3)
+ #define KVM_X86_DISABLE_VALID_EXITS          (KVM_X86_DISABLE_EXITS_MWAIT | \
+                                               KVM_X86_DISABLE_EXITS_HLT | \
+-                                              KVM_X86_DISABLE_EXITS_PAUSE)
++                                              KVM_X86_DISABLE_EXITS_PAUSE | \
++                                              KVM_X86_DISABLE_EXITS_CSTATE)
+ 
+ /* for KVM_ENABLE_CAP */
+ struct kvm_enable_cap {
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 8023c67..3435fc4 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -2076,7 +2076,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+         if (disable_exits) {
+             disable_exits &= (KVM_X86_DISABLE_EXITS_MWAIT |
+                               KVM_X86_DISABLE_EXITS_HLT |
+-                              KVM_X86_DISABLE_EXITS_PAUSE);
++                              KVM_X86_DISABLE_EXITS_PAUSE |
++                              KVM_X86_DISABLE_EXITS_CSTATE);
+         }
+ 
+         ret = kvm_vm_enable_cap(s, KVM_CAP_X86_DISABLE_EXITS, 0,
 -- 
 1.8.3.1
+
 
 
