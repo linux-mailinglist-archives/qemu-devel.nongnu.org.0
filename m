@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5008B3D0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:01:55 +0200 (CEST)
-Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DFEB3D41
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:05:22 +0200 (CEST)
+Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sVm-0007yS-5n
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
+	id 1i9sZ6-0003QO-FZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53581)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCl-0006GR-UG
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:17 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCn-0006I7-4U
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCk-0007PG-D0
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:15 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53569)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCl-0007Pm-HG
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:16 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:53560)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCk-0007Oi-5e
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:14 -0400
-Received: by mail-wm1-x335.google.com with SMTP id i16so66444wmd.3
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:14 -0700 (PDT)
+ id 1i9sCl-0007PL-88
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:15 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id i16so66533wmd.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BH5zjCOPtAcwRwF/m1vkOuO1t45pMW2sTYdJyy0lbOE=;
- b=UqqP7Y2KphmLVWZ68/JQagmEJxYPp8k5fZQG1sZzXLc9Clnq+orm67ReBhXlq8Ikg/
- Kwn/hXUNMtkLXoq6dUtCCIFsAN/jbJ7g0FO8laCR8QAhDotkgOKsIvEd2JJY6yp6YYr3
- pq1mGCln9rdlv+ewZ78ZrmAQJ7P7KXptOzyRgYsj6rOTNBeOL0+qcVWgNlmt1PikO2qE
- zyjmEm72KhMHWxDFRMIVVDOskQ7lZx9xqyVHlTTQQSTonhDCOx+SDhbK7UJVKBjjIVY8
- oiHS+Is0pGPVs65QL1IkEn+ZuIo8bHEGqQRRgKDz0vJDJJ6TDJSppJG4tkeOKdZ6pyZf
- T3Gw==
+ bh=qBDro2giL3yKmpBcWouyjZdZj6DkaNRvbVZ4F52Urqc=;
+ b=Uy5I00YoR6QZNcCHg0GO34eEQ+dOyeSalui4EIjgMxdRmdddh04KsDEEkQZlQDoI7w
+ vLoLFaeEP18J7NasZmlP3AlqC3dflywVwigjSQ4ZmCbS6MJc70WmzeuhxGjh8e9uFcrD
+ GzisGljFz0zDRh4e/HRGsCSbo2nmCbSJsxiWOPt9DKFJlreTMMSOEkJC1JxkK92geLQs
+ umKlRMaGeRGXZMxBuWVmpwKRZ0nHFcqiCA7Cd9Ac6ZKh604A+xhtP7EtjqkJOpKWS0oP
+ dxhTzMwSXzMVBNo8/co7cczlUaOpej2LVC0KjXWgnLcV8da+GcMsVtDkg/V+anmTT+RF
+ 4AuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=BH5zjCOPtAcwRwF/m1vkOuO1t45pMW2sTYdJyy0lbOE=;
- b=HD4AnwbdN2sBV35aQlIiImm3bCxa77M/Rtm2tZ/2bNgisyyT+RBUYcFCJ6GHbw55pc
- kLi0LjYTSRSWCoj+0/WlJs4MwrP6600ACMqqPMo6QgDWHUFQs/tVvXI9OwXejj6gQPMI
- OLa2uVHBSwAVqkhfNNw66Z2fuv4V8gS9z+32mWd6fhu8FyVzQybOvouA1xR9a/ymktOE
- 9vhzbUxKce/AHJR4fRdlmIGw/ovkeCntwRv7XJg7pdGDzqWE6ntazUJbNxviLFtdRqKN
- Ii7Q/T1/fvgMAq47OUS7l68sO6m83XRAzedgyPTFzJELEMkOZfu2igYbYsaQtbI6kSkl
- 0P/g==
-X-Gm-Message-State: APjAAAX1zFcd13MHZyBKj3fQ59aKVTKpOnHuZ1uelHyp6qSCYzkChGEg
- CgjLb5AwPIXru3cSByuM615bASg/
-X-Google-Smtp-Source: APXvYqxTKQNw+1a8VwcnTWccU78ZRFUAOeaoYc/8Lo45cafMBndCJz0P3IC6hbpemJty8cakzb53vg==
-X-Received: by 2002:a7b:c182:: with SMTP id y2mr50394wmi.156.1568644932764;
- Mon, 16 Sep 2019 07:42:12 -0700 (PDT)
+ bh=qBDro2giL3yKmpBcWouyjZdZj6DkaNRvbVZ4F52Urqc=;
+ b=EieQo6Il/8ouvEF4IqpxTAmtJXSOOOt9hm5/peQYlGR2aQ0aGpwWYjUJMRse7JdoNw
+ NbFGH8wpHoazypMeUvqwTUW6i9h7sf5RTAx1Y/BWfHabmIs7oRgrA/G0LuOV2AEk6SUs
+ edi8uupd2WMoZDlyyplERmNvAl6Wm2EglA8OH6OZ5nYFXMgUFg4kPNLcnvGdran0w2Ho
+ 69kbeFIDfibDtrw6DvTiTYrjNObug0G/GVCzeVMkvz2cNl5Ecn4AH8q9RtPc1zehA8jo
+ ggIt85ery3jbZ2/qhKWcqxFij5fAhRlo9eJfAYpNQ/IJuUFnFcMrnLIEqvDNqDazddbY
+ Sk2A==
+X-Gm-Message-State: APjAAAVKRU6Yb5oEFyZOQ1RW9q69Nj4Sb/TI/k9a5tw7Reb0nIKsr/CE
+ EUog5gxTsDkKOqELv0MhlnePJgOx
+X-Google-Smtp-Source: APXvYqx3hlHbaEFZIviI00ch2wJLL+lmkTjtGW94KJT3ngqB/w2rjLuBleOS8iDjQN8/SWMGY7E3sw==
+X-Received: by 2002:a7b:c391:: with SMTP id s17mr66082wmj.94.1568644933985;
+ Mon, 16 Sep 2019 07:42:13 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.11
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.12
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:12 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:42 +0200
-Message-Id: <1568644929-9124-3-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:41:43 +0200
+Message-Id: <1568644929-9124-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
-Subject: [Qemu-devel] [PULL 02/29] exec.c: replace hwaddr with uint64_t for
- better understanding
+X-Received-From: 2a00:1450:4864:20::32b
+Subject: [Qemu-devel] [PULL 03/29] exec.c: get nodes_nb_alloc with one MAX
+ calculation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,41 +81,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Yang <richardw.yang@linux.intel.com>
 
-Function phys_page_set() and phys_page_set_level() 's argument *nb*
-stands for number of pages to set instead of hardware address.
+The purpose of these two MAX here is to get the maximum of these three
+variables:
 
-This would be more proper to use uint64_t instead of hwaddr for its
-type.
+    A: map->nodes_nb + nodes
+    B: map->nodes_nb_alloc
+    C: alloc_hint
+
+We can write it like MAX(A, B, C). Since the if condition says A > B,
+this means MAX(A, B, C) = MAX(A, C).
+
+This patch just simplify the calculation a bit.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190321082555.21118-2-richardw.yang@linux.intel.com>
+Message-Id: <20190321082555.21118-4-richardw.yang@linux.intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- exec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ exec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/exec.c b/exec.c
-index 235d6bc..8e0c400 100644
+index 8e0c400..ff3cb3e 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -255,7 +255,7 @@ static uint32_t phys_map_node_alloc(PhysPageMap *map, bool leaf)
- }
- 
- static void phys_page_set_level(PhysPageMap *map, PhysPageEntry *lp,
--                                hwaddr *index, hwaddr *nb, uint16_t leaf,
-+                                hwaddr *index, uint64_t *nb, uint16_t leaf,
-                                 int level)
+@@ -227,8 +227,7 @@ static void phys_map_node_reserve(PhysPageMap *map, unsigned nodes)
  {
-     PhysPageEntry *p;
-@@ -281,7 +281,7 @@ static void phys_page_set_level(PhysPageMap *map, PhysPageEntry *lp,
- }
- 
- static void phys_page_set(AddressSpaceDispatch *d,
--                          hwaddr index, hwaddr nb,
-+                          hwaddr index, uint64_t nb,
-                           uint16_t leaf)
- {
-     /* Wildly overreserve - it doesn't matter much. */
+     static unsigned alloc_hint = 16;
+     if (map->nodes_nb + nodes > map->nodes_nb_alloc) {
+-        map->nodes_nb_alloc = MAX(map->nodes_nb_alloc, alloc_hint);
+-        map->nodes_nb_alloc = MAX(map->nodes_nb_alloc, map->nodes_nb + nodes);
++        map->nodes_nb_alloc = MAX(alloc_hint, map->nodes_nb + nodes);
+         map->nodes = g_renew(Node, map->nodes, map->nodes_nb_alloc);
+         alloc_hint = map->nodes_nb_alloc;
+     }
 -- 
 1.8.3.1
 
