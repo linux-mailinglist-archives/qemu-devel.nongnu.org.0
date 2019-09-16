@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2965EB3D02
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:58:53 +0200 (CEST)
-Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0018B3CEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:53:24 +0200 (CEST)
+Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sSp-0005Qa-Um
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50971)
+	id 1i9sNX-0006UV-Jv
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i9ruF-0002xe-3X
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:08 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i9ruc-0003T2-Sy
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i9ruD-0000fG-J8
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:31050)
+ (envelope-from <mreitz@redhat.com>) id 1i9rua-0000sW-VR
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40360)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i9ru9-0000bk-TQ; Mon, 16 Sep 2019 10:23:02 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1i9ruV-0000pg-Mz; Mon, 16 Sep 2019 10:23:24 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 37809315C01B;
- Mon, 16 Sep 2019 14:23:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E157218C427D;
+ Mon, 16 Sep 2019 14:23:22 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A37835D9E1;
- Mon, 16 Sep 2019 14:23:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49CCB5D6A3;
+ Mon, 16 Sep 2019 14:23:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 16 Sep 2019 16:22:34 +0200
-Message-Id: <20190916142246.31474-5-mreitz@redhat.com>
+Date: Mon, 16 Sep 2019 16:22:41 +0200
+Message-Id: <20190916142246.31474-12-mreitz@redhat.com>
 In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
 References: <20190916142246.31474-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Mon, 16 Sep 2019 14:23:01 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Mon, 16 Sep 2019 14:23:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 04/16] tests/Makefile: Do not print the name of
- the check-block.sh shell script
+Subject: [Qemu-devel] [PULL 11/16] curl: Handle success in
+ multi_check_completion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,36 +60,151 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Background: As of cURL 7.59.0, it verifies that several functions are
+not called from within a callback.  Among these functions is
+curl_multi_add_handle().
 
-The check script is already printing out which iotest is currently
-running, so printing out the name of the check-block.sh shell script
-looks superfluous here.
+curl_read_cb() is a callback from cURL and not a coroutine.  Waking up
+acb->co will lead to entering it then and there, which means the current
+request will settle and the caller (if it runs in the same coroutine)
+may then issue the next request.  In such a case, we will enter
+curl_setup_preadv() effectively from within curl_read_cb().
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20190906113534.10907-1-thuth@redhat.com
-Acked-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Calling curl_multi_add_handle() will then fail and the new request will
+not be processed.
+
+Fix this by not letting curl_read_cb() wake up acb->co.  Instead, leave
+the whole business of settling the AIOCB objects to
+curl_multi_check_completion() (which is called from our timer callback
+and our FD handler, so not from any cURL callbacks).
+
+Reported-by: Natalie Gavrielov <ngavrilo@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1740193
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190910124136.10565-7-mreitz@redhat.com
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/curl.c | 69 ++++++++++++++++++++++------------------------------
+ 1 file changed, 29 insertions(+), 40 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index b39860a8d0..793632ca72 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1100,7 +1100,7 @@ QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),=
-$(CONFIG_LINUX)) =3D tests/qemu
- check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) \
- 		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
- 		$(patsubst %,%/all,$(filter %-softmmu,$(TARGET_DIRS)))
--	$<
-+	@$<
+diff --git a/block/curl.c b/block/curl.c
+index fd70f1ebc4..c343c7ed3d 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -229,7 +229,6 @@ static size_t curl_read_cb(void *ptr, size_t size, si=
+ze_t nmemb, void *opaque)
+ {
+     CURLState *s =3D ((CURLState*)opaque);
+     size_t realsize =3D size * nmemb;
+-    int i;
 =20
- .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
- $(patsubst %, check-%, $(check-qapi-schema-y)): check-%.json: $(SRC_PATH=
-)/%.json
+     trace_curl_read_cb(realsize);
+=20
+@@ -245,32 +244,6 @@ static size_t curl_read_cb(void *ptr, size_t size, s=
+ize_t nmemb, void *opaque)
+     memcpy(s->orig_buf + s->buf_off, ptr, realsize);
+     s->buf_off +=3D realsize;
+=20
+-    for(i=3D0; i<CURL_NUM_ACB; i++) {
+-        CURLAIOCB *acb =3D s->acb[i];
+-
+-        if (!acb)
+-            continue;
+-
+-        if ((s->buf_off >=3D acb->end)) {
+-            size_t request_length =3D acb->bytes;
+-
+-            qemu_iovec_from_buf(acb->qiov, 0, s->orig_buf + acb->start,
+-                                acb->end - acb->start);
+-
+-            if (acb->end - acb->start < request_length) {
+-                size_t offset =3D acb->end - acb->start;
+-                qemu_iovec_memset(acb->qiov, offset, 0,
+-                                  request_length - offset);
+-            }
+-
+-            acb->ret =3D 0;
+-            s->acb[i] =3D NULL;
+-            qemu_mutex_unlock(&s->s->mutex);
+-            aio_co_wake(acb->co);
+-            qemu_mutex_lock(&s->s->mutex);
+-        }
+-    }
+-
+ read_end:
+     /* curl will error out if we do not return this value */
+     return size * nmemb;
+@@ -351,13 +324,14 @@ static void curl_multi_check_completion(BDRVCURLSta=
+te *s)
+             break;
+=20
+         if (msg->msg =3D=3D CURLMSG_DONE) {
++            int i;
+             CURLState *state =3D NULL;
++            bool error =3D msg->data.result !=3D CURLE_OK;
++
+             curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE,
+                               (char **)&state);
+=20
+-            /* ACBs for successful messages get completed in curl_read_c=
+b */
+-            if (msg->data.result !=3D CURLE_OK) {
+-                int i;
++            if (error) {
+                 static int errcount =3D 100;
+=20
+                 /* Don't lose the original error message from curl, sinc=
+e
+@@ -369,20 +343,35 @@ static void curl_multi_check_completion(BDRVCURLSta=
+te *s)
+                         error_report("curl: further errors suppressed");
+                     }
+                 }
++            }
+=20
+-                for (i =3D 0; i < CURL_NUM_ACB; i++) {
+-                    CURLAIOCB *acb =3D state->acb[i];
++            for (i =3D 0; i < CURL_NUM_ACB; i++) {
++                CURLAIOCB *acb =3D state->acb[i];
+=20
+-                    if (acb =3D=3D NULL) {
+-                        continue;
+-                    }
++                if (acb =3D=3D NULL) {
++                    continue;
++                }
++
++                if (!error) {
++                    /* Assert that we have read all data */
++                    assert(state->buf_off >=3D acb->end);
++
++                    qemu_iovec_from_buf(acb->qiov, 0,
++                                        state->orig_buf + acb->start,
++                                        acb->end - acb->start);
+=20
+-                    acb->ret =3D -EIO;
+-                    state->acb[i] =3D NULL;
+-                    qemu_mutex_unlock(&s->mutex);
+-                    aio_co_wake(acb->co);
+-                    qemu_mutex_lock(&s->mutex);
++                    if (acb->end - acb->start < acb->bytes) {
++                        size_t offset =3D acb->end - acb->start;
++                        qemu_iovec_memset(acb->qiov, offset, 0,
++                                          acb->bytes - offset);
++                    }
+                 }
++
++                acb->ret =3D error ? -EIO : 0;
++                state->acb[i] =3D NULL;
++                qemu_mutex_unlock(&s->mutex);
++                aio_co_wake(acb->co);
++                qemu_mutex_lock(&s->mutex);
+             }
+=20
+             curl_clean_state(state);
 --=20
 2.21.0
 
