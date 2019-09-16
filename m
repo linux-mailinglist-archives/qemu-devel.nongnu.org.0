@@ -2,51 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924C9B3E0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:47:54 +0200 (CEST)
-Received: from localhost ([::1]:36100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA68B3DDF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:45:05 +0200 (CEST)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tEG-0004pK-Ud
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56787)
+	id 1i9tBX-0002c6-Qt
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:45:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i9sU9-0007iI-Jv
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:00:15 -0400
+ (envelope-from <mst@redhat.com>) id 1i9sib-0006gE-T9
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:15:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i9sU6-0006Nw-Vn
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:00:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46828)
+ (envelope-from <mst@redhat.com>) id 1i9siY-0003rZ-Ug
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:15:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46220)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i9sU0-0006H6-HS; Mon, 16 Sep 2019 11:00:05 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i9siY-0003r3-MN
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:15:06 -0400
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1518D3082145;
- Mon, 16 Sep 2019 15:00:00 +0000 (UTC)
-Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E929600C1;
- Mon, 16 Sep 2019 14:59:58 +0000 (UTC)
-Message-ID: <3b92befa75d8d585a315506e9243ecffda3dbf6b.camel@redhat.com>
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 17:59:56 +0300
-In-Reply-To: <09fe1c9595b9435bd1f48e173c140edab5e96dc3.camel@redhat.com>
-References: <20190915203655.21638-1-mlevitsk@redhat.com>
- <d2c07712-c292-1341-3dfb-2529e71e3744@redhat.com>
- <09fe1c9595b9435bd1f48e173c140edab5e96dc3.camel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 16 Sep 2019 15:00:00 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ by mx1.redhat.com (Postfix) with ESMTPS id F0B576412B
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 15:15:04 +0000 (UTC)
+Received: by mail-qk1-f199.google.com with SMTP id s14so281924qkg.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 08:15:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Tceh2RHmy2WfOQ/l+TlDGdrqX+BRBbDYCPaAhMYr1h8=;
+ b=IvuXRBG2WxqI2bbemSXuT5fnnF/Efdp1Jg/GuJMzobZZ6jMLyABhSS3xnmlLPr3lXM
+ nG1LG9HyRkoiIShTdL4Fz5X8BoE30/PLYLIkHa9nM3sglqE7s+FrLjTQW83/i2WTTQTc
+ Xy0z9zY0BK6zlXAcjCx7d/u04ObCw9R/5WR0/NBnjh5BeWWf1HvWcTyeMDuiCoawqQ8V
+ 6O9hs9nZ2chyIIm1tVvS0prI79gomgIFaO+Q3t2L6qow0ppEcZ9k2ZvxQqSlHKPS0bwZ
+ O6BtocUQc9YZicZfZvJcvkVPJ/3WeW0wQjocwJIBmFVZ+CLh97WAigss6w/B/1u/nq1e
+ 6kHg==
+X-Gm-Message-State: APjAAAWN8MODBSoavVHSBFM/Ims173OabTtL8vH2qby0XtDMe7WVfZLa
+ t1YjNCe0I60UDOJFJ/HO1j65K/sy674zYLqsmpH/c5iqPhGPrDwcNyfGi1unDPnRl2rP0HHJmFq
+ oYuDGl7eEIYTJqy8=
+X-Received: by 2002:ac8:4742:: with SMTP id k2mr86172qtp.268.1568646904299;
+ Mon, 16 Sep 2019 08:15:04 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwiBbeN5Nq3U4FolTBHLeJ/spoexYDgmPXhCpEKcf5cNpWwz/mmt/T+e9X4kXxypG5hr9Wr5Q==
+X-Received: by 2002:ac8:4742:: with SMTP id k2mr86141qtp.268.1568646904053;
+ Mon, 16 Sep 2019 08:15:04 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
+ by smtp.gmail.com with ESMTPSA id q5sm21595393qte.38.2019.09.16.08.14.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Sep 2019 08:15:02 -0700 (PDT)
+Date: Mon, 16 Sep 2019 11:14:57 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: peter.maydell@linaro.org, yu.c.zhang@linux.intel.com,
+ ehabkost@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, stefanha@redhat.com,
+ crosthwaite.peter@gmail.com, richard.henderson@linaro.org,
+ xiaoguangrong.eric@gmail.com
+Message-ID: <20190916111435-mutt-send-email-mst@kernel.org>
+References: <20181218085249-mutt-send-email-mst@kernel.org>
+ <20181219091017.GA35378@tiger-server>
+ <20181219105555-mutt-send-email-mst@kernel.org>
+ <20181220030312.GA70591@tiger-server>
+ <20181219223700-mutt-send-email-mst@kernel.org>
+ <20181220053739.GB70591@tiger-server>
+ <20181220090435-mutt-send-email-mst@kernel.org>
+ <20181221031817.GA77135@tiger-server>
+ <20181221112902-mutt-send-email-mst@kernel.org>
+ <20181224081142.GA6477@tiger-server>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181224081142.GA6477@tiger-server>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v7 0/3] Fix qcow2+luks corruption
- introduced by commit 8ac0f15f335
+Subject: Re: [Qemu-devel] [PATCH V7 6/6] hostmem-file: add 'sync' option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,79 +87,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2019-09-16 at 16:59 +0300, Maxim Levitsky wrote:
-> On Mon, 2019-09-16 at 15:39 +0200, Max Reitz wrote:
-> > On 15.09.19 22:36, Maxim Levitsky wrote:
-> > > Commit 8ac0f15f335 accidently broke the COW of non changed areas
-> > > of newly allocated clusters, when the write spans multiple clusters=
-,
-> > > and needs COW both prior and after the write.
-> > > This results in 'after' COW area being encrypted with wrong
-> > > sector address, which render it corrupted.
-> > >=20
-> > > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1745922
-> > >=20
-> > > CC: qemu-stable <qemu-stable@nongnu.org>
-> > >=20
-> > > V2: grammar, spelling and code style fixes.
-> > > V3: more fixes after the review.
-> > > V4: addressed review comments from Max Reitz,
-> > >     and futher refactored the qcow2_co_encrypt to just take full ho=
-st and guest offset
-> > >     which simplifies everything.
-> > >=20
-> > > V5: reworked the patches so one of them fixes the bug
-> > >     only and other one is just refactoring
-> > >=20
-> > > V6: removed do_perform_cow_encrypt
-> > >=20
-> > > V7: removed do_perform_cow_encrypt take two, this
-> > >     time I hopefully did that correctly :-)
-> > >     Also updated commit names and messages a bit
-> >=20
-> > Luckily for you (maybe), Vladimir=E2=80=99s series doesn=E2=80=98t qu=
-ite pass the
-> > iotests for me, so unfortunately (I find it unfortunate) I had to rem=
-ove
-> > it from my branch.  Thus, the conflicts are much more tame and I felt
-> > comfortable taking the series to my branch (with the remaining trivia=
-l
-> > conflicts resolved, and with Vladimir=E2=80=99s suggestion applied):
-> >=20
-> > https://git.xanclic.moe/XanClic/qemu/commits/branch/block
->=20
->=20
-> First of all, Thanks!
->=20
-> I don't know if this is luckily for me since I already rebased my serie=
-s on top of =20
-> https://git.xanclic.moe/XanClic/qemu.git,
-> and run all qcow2 iotests, and only tests=20
-> 162 169 194 196 234 262 failed, and I know that 162 always fails
-> due to that kernel change I talked about here few days ago,
-> and rest for the AF_UNIX path len, which I need to do something
-> about in the long term. I sometimes do a separate build in=20
-> directory which path doesn't trigger this, and sometimes,
-> when I know that I haven't done significant changes to the patches,
-> I just let these tests fail. In long term, maybe even in a few days
-> I'll allocate some time to rethink the build environment here to
-> fix that permanently.
->=20
-> Now I am rerunning the iotests just for fun, in short enough directory
-> to see if I can reproduce the failure that you had. After looking
-> in your report, that iotest 026 fails, it does pass here, but
-> then I am only running these iotests on my laptop so I probably
-> don't trigger the race you were able to.
+On Mon, Dec 24, 2018 at 04:11:43PM +0800, Yi Zhang wrote:
+> On 2018-12-21 at 11:36:07 -0500, Michael S. Tsirkin wrote:
+> > On Fri, Dec 21, 2018 at 11:18:18AM +0800, Yi Zhang wrote:
+> > > On 2018-12-20 at 09:06:41 -0500, Michael S. Tsirkin wrote:
+> > > > On Thu, Dec 20, 2018 at 01:37:40PM +0800, Yi Zhang wrote:
+> > > > > On 2018-12-19 at 22:42:07 -0500, Michael S. Tsirkin wrote:
+> > > > > > On Thu, Dec 20, 2018 at 11:03:12AM +0800, Yi Zhang wrote:
+> > > > > > > On 2018-12-19 at 10:59:10 -0500, Michael S. Tsirkin wrote:
+> > > > > > > > On Wed, Dec 19, 2018 at 05:10:18PM +0800, Yi Zhang wrote:
+> > > > > > > > > > > +
+> > > > > > > > > > > + - 'sync' option of memory-backend-file is not 'off', and
+> > > > > > > > > > > +
+> > > > > > > > > > > + - 'share' option of memory-backend-file is 'on'.
+> > > > > > > > > > > +
+> > > > > > > > > > > + - 'pmem' option of memory-backend-file is 'on'
+> > > > > > > > > > > +
+> > > > > > > > > > 
+> > > > > > > > > > Wait isn't this what pmem was supposed to do?
+> > > > > > > > > > Doesn't it mean "persistent memory"?
+> > > > > > > > > pmem is a option for memory-backend-file, user should know the backend
+> > > > > > > > > is in host persistent memory, with this flags on, while there is a host crash
+> > > > > > > > > or a power failures.
+> > > > > > > > > 
+> > > > > > > > > [1] Qemu will take necessary operations to guarantee the persistence.
+> > > > > > > > > https://patchwork.ozlabs.org/cover/944749/ 
+> > > > > > > > > 
+> > > > > > > > > [2] Host kernel also take opretions to consistent filesystem metadata.
+> > > > > > > > > Add MAP_SYNC flags.
+> > > > > > > > 
+> > > > > > > > OK so I'm a user. Can you educate me please?  
+> > > > > > > We suppose an administrator should know it, what is the back-end region coming from,
+> > > > > > > is it persistent? what is the font-end device is? a volatile dimm or an
+> > > > > > > nonvolatile dimm? then they can choice put the pmem=on[off] and sync=on[off].
+> > > > > > > If he didn't, we encourage that don't set these 2 flags.
+> > > > > > > 
+> > > > > > > > When should MAP_SYNC not
+> > > > > > > > be set? Are there any disadvantages (e.g.  performance?)?
+> > > > > > > Not only the performance, sometimes like the front-end device is an
+> > > > > > > volatile ram, we don't wanna set such option although the backend is a
+> > > > > > > novolatile memory, if power lose, all of thing should lose in this ram.
+> > > > > > 
+> > > > > > 
+> > > > > > 
+> > > > > > I am not sure how does above answer the questions. If I don't know,
+> > > > > > neither will the hypothetical administrator. Looks like a better
+> > > > > > interface is needed to make the choice on behalf of the user.
+> > > > > > 
+> > > > > By default, we have already ignore the 2 flags, unless the administrator
+> > > > > know how to make that use. By-now, seems we don't have a better way to detect what
+> > > > > memory-backend-file is, a persistent memory or not.
+> > > > 
+> > > > In that case how about an interface where user tells QEMU "this backend
+> > > > is in persistent memory"?
+> > > 
+> > > Actually, [pmem=on] already did this, we can get the backend memory type from:
+> > > 
+> > > file_memory_backend_get_pmem(),
+> > > 
+> > > That is already being used in the memory_region_init_ram_from_file. that
+> > > is why I reuse the RAM_PMEM to identify the region coming from a
+> > > persitent memory? correct me if something I misunderstood? 
+> > 
+> > Right and thus my question: why not set SYNC unconditionally with pmem=on?
+> A case is that we set pmem but don't wanna sync in a /dev/dax backend,
+> which is direct mapping to physical nvdimm device without filesystem aware,
+> SYNC is useless in this condition.
 
-Passed all the tests but 162, not that it matters much to be honest.
-Best regards,
-	Maxim Levitsky
+Does it hurt though?
 
+> > 
+> > > 
+> > > > 
+> > > > 
+> > > > 
+> > > > > > 
+> > > > > > > > 
+> > > > > > > > -- 
+> > > > > > > > MST
+> > > > > > > > 
+> > > > > > 
+> > > > 
+> > 
 
