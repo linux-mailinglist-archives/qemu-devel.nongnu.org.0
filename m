@@ -2,108 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13726B3E4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:59:48 +0200 (CEST)
-Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF4DB3E21
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:52:38 +0200 (CEST)
+Received: from localhost ([::1]:36242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tPm-0001NA-76
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60412)
+	id 1i9tIr-0002IO-FP
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9swK-0003f0-Mg
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:29:22 -0400
+ (envelope-from <philmd@redhat.com>) id 1i9tFc-0007Qp-8N
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:49:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9swI-0000nE-Jn
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:29:19 -0400
-Received: from mail-db5eur01on0714.outbound.protection.outlook.com
- ([2a01:111:f400:fe02::714]:26350
- helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i9swH-0000lu-Sv; Mon, 16 Sep 2019 11:29:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AuRE9fkeHvEP/duJkWPE6rYZTCjTw32ukEg2KerPQCi/stsJ7eVIJeBH79W1bfcwxTvJFgLeedwiRDWX3L/+uquuIkqHda60nltI5DqwBht7Xgr2ePr5evz+uv7lC1IhzP7rSkdvdAAS+2O//ykPY+bY2jBDb4Zm8fmeDaFZlbIV9GFCotTWhl5GH4TKEWpEt38jG8iLT7792JHQhX0bPBbcy96rDRn5OMO93D1KLfZABwdyDN+xPX3Jv4NAL2l0dV2vdaCSeVftQBtsfSeTvbpg/UJpF/kbhyRSCr++AwTOWo8C/Ia5INPyD/PnC9IYoVCfkyiPY+7ae6ae8hazYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/B1VwStHEQ6ZsqzNIRsDDtDkYCEk3zUnmviguoO8Qg=;
- b=D5LV8cbeKvxFLIGBXukGvAbQr+xlYt5UdSgwp8NJBmorGO1fySIPXzadfGbxnMJ4j68iDm0m5u+ljKHPk/zI7bc10lfiimdpvZ84MKE1m24JvVtJIrbQBs3Nu0kPK2wMe/ULZP/mV9a+H27vylH0+I3hs1PCLcrGeLgm5Gt6JTf3jl62a+zbvhjozAqZY36/T3Zg1NuT93yvOYMvlGTTIecfaVP4Jn2TbST5Ayye7LGNA+Z5SUH+LSlCWbOSq3IJ1i95f5GodNWVPPvLauQ3zgP4K22J7WkPY9fEpX2x+9Vtsd4yPmXKOvs0tBD5TBXy0V3rGzjkHhgV/2PnzoYTtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/B1VwStHEQ6ZsqzNIRsDDtDkYCEk3zUnmviguoO8Qg=;
- b=BQ7mjBDuSP0PbFtlLU9qd6+cCVHV82+iXzLjB8jnmh8PsOorWqtUvkdS0lg0j3BSMw6Y/NNGfU/cAcQ+iVBB7/ePEhwR9WeRP08s+X1xed+s6qMWZH+Koqvg7cDnNFxk703UVsYhnZb7bhfHjdqwsfnhaCjjP5Uf2z4INHQiMzU=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5387.eurprd08.prod.outlook.com (52.133.241.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.17; Mon, 16 Sep 2019 15:29:15 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2263.023; Mon, 16 Sep 2019
- 15:29:15 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v4 0/5] qcow2: async handling of fragmented io
-Thread-Index: AQHVVEeEHwbIBHmZwU6qI+EoKXvyVacpekqAgAUB3YCAACJFAA==
-Date: Mon, 16 Sep 2019 15:29:15 +0000
-Message-ID: <b170ec97-4324-b8e2-f6cc-c2b1ec99eb67@virtuozzo.com>
-References: <20190816153015.447957-1-vsementsov@virtuozzo.com>
- <11e54b5c-eafd-411e-aadf-5b9fa4d8dc4c@redhat.com>
- <3a239280-40ab-a100-bd13-c0fd45ea46e4@redhat.com>
-In-Reply-To: <3a239280-40ab-a100-bd13-c0fd45ea46e4@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0271.eurprd05.prod.outlook.com
- (2603:10a6:3:fc::23) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190916182912707
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f3c3c881-cd4d-43ad-4dab-08d73abaa1f1
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:DB8PR08MB5387; 
-x-ms-traffictypediagnostic: DB8PR08MB5387:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB53874DDC4E2D906FA23C14ADC18C0@DB8PR08MB5387.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0162ACCC24
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39840400004)(396003)(136003)(376002)(346002)(366004)(189003)(199004)(53754006)(316002)(76176011)(229853002)(53546011)(386003)(6506007)(6486002)(6116002)(52116002)(14454004)(966005)(25786009)(8676002)(81156014)(2906002)(81166006)(2501003)(3846002)(99286004)(71190400001)(71200400001)(8936002)(66946007)(66476007)(66556008)(64756008)(66446008)(66066001)(31686004)(186003)(53936002)(102836004)(305945005)(7736002)(6436002)(36756003)(4326008)(14444005)(486006)(256004)(26005)(54906003)(110136005)(2616005)(476003)(446003)(11346002)(6512007)(6246003)(6306002)(86362001)(31696002)(478600001)(5660300002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5387;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: svjzHoV8l4zGE2TP12dntbKsDk/tw1ITZbjtvvHD2OHpp9/T73Cr2QgaAKTr2XJopT5iY2h9WocaQgGgJnXeaDzzB8PwytoOFyISnRaAI2K3kMXMoKNocv+gx2gL1xXB3ZwD2d/pN5eIZgG7h44Ux6mK+RBGFlQJ8Ve9wZuj55attn8FqUpQ36CzfX08uCFaoEQkV122OaAfOsr+IE95N68QppnjqK9mt4ySULqZBwZfVNB7ZJQJmhkzsniSgdyYaA1mstnZDgaZlSXyK2QK6gpWPlmdmPPPGuJOu2rLiGBAuk0bNS51NH0d0V5p0wtSFcYi+iVTdhsuVcus/dYnNhKI8qBnvuKIOWhJ5azu3DCoMYPlqeHvgBHTOR6sc5N+KO8oCLwN2/M8cCnikrh94kcO4axPSmJp7vqCWxXoC/I=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1778BEF05513C340834387CD6CD62505@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1i9tFa-0001T0-Gp
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:49:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10705)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1i9tFV-0001QD-CL; Mon, 16 Sep 2019 11:49:09 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D0FC8A2666F;
+ Mon, 16 Sep 2019 15:49:07 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-115.brq.redhat.com [10.40.204.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 678A6194BB;
+ Mon, 16 Sep 2019 15:48:51 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 17:48:34 +0200
+Message-Id: <20190916154847.28936-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3c3c881-cd4d-43ad-4dab-08d73abaa1f1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2019 15:29:15.3089 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qB4K9XMmqr9J0Ab3TTRCOPx06pql7aGl6HaWdv1xJim4mStBbj1nYtbnRfTe1UHy0tLOaV0eOFo5aBfYksimWL6tySL145zgi65KT8c54jw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5387
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe02::714
-Subject: Re: [Qemu-devel] [PATCH v4 0/5] qcow2: async handling of fragmented
- io
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Mon, 16 Sep 2019 15:49:08 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 00/13] hw: Split RTC devices from hw/timer/ to
+ hw/rtc/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,50 +54,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTYuMDkuMjAxOSAxNjoyNiwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxMy4wOS4xOSAxMDo1OCwg
-TWF4IFJlaXR6IHdyb3RlOg0KPj4gT24gMTYuMDguMTkgMTc6MzAsIFZsYWRpbWlyIFNlbWVudHNv
-di1PZ2lldnNraXkgd3JvdGU6DQo+Pj4gSGkgYWxsIQ0KPj4+DQo+Pj4gSGVyZSBpcyBhbiBhc3lu
-Y2hyb25vdXMgc2NoZW1lIGZvciBoYW5kbGluZyBmcmFnbWVudGVkIHFjb3cyDQo+Pj4gcmVhZHMg
-YW5kIHdyaXRlcy4gQm90aCBxY293MiByZWFkIGFuZCB3cml0ZSBmdW5jdGlvbnMgbG9vcHMgdGhy
-b3VnaA0KPj4+IHNlcXVlbnRpYWwgcG9ydGlvbnMgb2YgZGF0YS4gVGhlIHNlcmllcyBhaW0gaXQg
-dG8gcGFyYWxsZWxpemUgdGhlc2UNCj4+PiBsb29wcyBpdGVyYXRpb25zLg0KPj4+IEl0IGltcHJv
-dmVzIHBlcmZvcm1hbmNlIGZvciBmcmFnbWVudGVkIHFjb3cyIGltYWdlcywgSSd2ZSB0ZXN0ZWQg
-aXQNCj4+PiBhcyBkZXNjcmliZWQgYmVsb3cuDQo+Pg0KPj4gVGhhbmtzLCBJ4oCZdmUgY2hhbmdl
-ZCB0d28gdGhpbmdzOg0KPj4gLSBSZXBsYWNlZCBhc3NlcnQoKHggJiAoQkRSVl9TRUNUT1JfU0la
-RSAtIDEpKSA9PSAwKSBieQ0KPj4gICAgYXNzZXJ0KFFFTVVfSVNfQUxJR05FRCh4LCBCRFJWX1NF
-Q1RPUl9TSVpFKSkgaW4gcGF0Y2ggMyAoY29uZmxpY3Qgd2l0aA0KPj4gICAg4oCcYmxvY2s6IFVz
-ZSBRRU1VX0lTX0FMSUdORUTigJ0pLCBhbmQNCj4+IC0gUmVwbGFjZWQgdGhlIHJlbWFpbmluZyBp
-bnN0YW5jZSBvZiDigJxxY293Ml9jb19kb19wd3JpdGV2KCnigJ0gYnkNCj4+ICAgIOKAnHFjb3cy
-X2NvX3B3cml0ZXZfdGFzaygp4oCdIGluIGEgY29tbWVudCBpbiBwYXRjaCA0DQo+Pg0KPj4gYW5k
-IGFwcGxpZWQgdGhlIHNlcmllcyB0byBteSBibG9jayBicmFuY2g6DQo+Pg0KPj4gaHR0cHM6Ly9n
-aXQueGFuY2xpYy5tb2UvWGFuQ2xpYy9xZW11L2NvbW1pdHMvYnJhbmNoL2Jsb2NrDQo+IA0KPiBV
-bmZvcnR1bmF0ZWx5LCBJ4oCZbGwgaGF2ZSB0byB1bnN0YWdlIHRoZSBzZXJpZXMgZm9yIG5vdyBi
-ZWNhdXNlIHRoZSBmaXgNCj4gdG8gMDI24oCZcyByZWZlcmVuY2Ugb3V0cHV0IGlzbuKAmXQgc3Rh
-YmxlLg0KPiANCj4gV2hlbiBydW5uaW5nIHRoZSB0ZXN0IGluIHBhcmFsbGVsIChJIGNhbiByZXBy
-b2R1Y2UgaXQgd2l0aCBmb3VyDQo+IGluc3RhbmNlcyBvbiBteSBtYWNoaW5lIHdpdGggdHdvIGNv
-cmVzICsgSFQpLCBJIGdldCBmYWlsdXJlcyBsaWtlOg0KPiANCj4gMDI2ICAgICAgZmFpbCAgICAg
-ICBbMTU6MjE6MDldIFsxNToyMTozN10gICAgICAobGFzdDogMThzKSAgIG91dHB1dA0KPiBtaXNt
-YXRjaCAoc2VlIDAyNi5vdXQuYmFkKQ0KPiAtLS0gdGVzdHMvcWVtdS1pb3Rlc3RzLzAyNi5vdXQg
-MjAxOS0wOS0xNiAxNDo0OToyMC43MjA0MTA3MDEgKzAyMDANCj4gKysrIHRlc3RzL3FlbXUtaW90
-ZXN0cy8wMjYub3V0LmJhZCAgICAgICAyMDE5LTA5LTE2IDE1OjIxOjM3LjE4MDcxMTkzNiArMDIw
-MA0KPiBAQCAtNTYzLDcgKzU2Myw3IEBADQo+ICAgcWVtdS1pbzogRmFpbGVkIHRvIGZsdXNoIHRo
-ZSByZWZjb3VudCBibG9jayBjYWNoZTogTm8gc3BhY2UgbGVmdCBvbiBkZXZpY2UNCj4gICB3cml0
-ZSBmYWlsZWQ6IE5vIHNwYWNlIGxlZnQgb24gZGV2aWNlDQo+IA0KPiAtNzQgbGVha2VkIGNsdXN0
-ZXJzIHdlcmUgZm91bmQgb24gdGhlIGltYWdlLg0KPiArNTIyIGxlYWtlZCBjbHVzdGVycyB3ZXJl
-IGZvdW5kIG9uIHRoZSBpbWFnZS4NCj4gICBUaGlzIG1lYW5zIHdhc3RlIG9mIGRpc2sgc3BhY2Us
-IGJ1dCBubyBoYXJtIHRvIGRhdGEuDQo+ICAgRm9ybWF0dGluZyAnVEVTVF9ESVIvdC5JTUdGTVQn
-LCBmbXQ9SU1HRk1UIHNpemU9MTA3Mzc0MTgyNA0KPiANCj4gRmFpbHVyZXM6IDAyNg0KPiBGYWls
-ZWQgMSBvZiAxIGlvdGVzdHMNCj4gDQoNClVuZm9ydHVuYXRlIGVub3VnaDopDQoNCkhtbSwgY2Fu
-J3QgcmVwcm9kdWNlLCBidXQgSSB0ZW5kIHRvIGZpeCB0aGlzIGJ5IGp1c3QgZmlsdGVyaW5nIG91
-dCBpbmZvcm1hdGlvbiBhYm91dA0KbGVha2VkIGNsdXN0ZXJzIGluIHRoaXMgdGVzdCwgYXMgbm8g
-c2Vuc2UgaW4gdHJhY2tpbmcgaXQgZm9yIGZhaWx1cmUgcGF0aHMsIGtlZXBpbmcNCmluIG1pbmQg
-bmV3bHkgaW50cm9kdWNlZCBhc3luYyBoYW5kbGluZyBvZiByZXF1ZXN0IHBhcnRzLg0KDQotLSAN
-CkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+When working on timers, I found it confuse to have RTC devices
+mixed in the hw/timer/ directory.
+
+We can see the models use slighly different APIs:
+
+  $ git grep '#include' hw/timer/|cut -d: -f3-|sort|uniq -c|egrep -v '^  =
+    1 '|sort -rn
+     33 #include "qemu/osdep.h"
+     29 #include "hw/irq.h"
+     28 #include "qemu/module.h"
+     23 #include "migration/vmstate.h"
+     21 #include "hw/sysbus.h"
+     20 #include "qemu/timer.h"
+     20 #include "qemu/main-loop.h"
+     17 #include "qemu/log.h"
+     14 #include "hw/qdev-properties.h"
+     14 #include "hw/ptimer.h"
+      9 #include "trace.h"
+      7 #include "qapi/error.h"
+      5 #include "hw/hw.h"
+      3 #include "sysemu/runstate.h"
+      3 #include "qemu/error-report.h"
+      3 #include "hw/timer/i8254.h"
+      2 #include "qemu/bitops.h"
+      2 #include "hw/timer/i8254_internal.h"
+      2 #include "hw/registerfields.h"
+      2 #include "hw/core/cpu.h"
+      2 #include "hw/arm/omap.h"
+      2 #include "hw/arm/exynos4210.h"
+
+  $ git grep '#include' hw/rtc/|cut -d: -f3-|sort|uniq -c|egrep -v '^    =
+  1 '|sort -rn
+     11 #include "qemu/osdep.h"
+     10 #include "qemu/module.h"
+      9 #include "qemu-common.h"
+      8 #include "qemu/timer.h"
+      8 #include "migration/vmstate.h"
+      6 #include "qemu/bcd.h"
+      6 #include "hw/irq.h"
+      5 #include "sysemu/sysemu.h"
+      5 #include "qemu/log.h"
+      5 #include "hw/sysbus.h"
+      4 #include "trace.h"
+      4 #include "hw/qdev-properties.h"
+      3 #include "qemu/cutils.h"
+      3 #include "hw/i2c/i2c.h"
+      2 #include "sysemu/runstate.h"
+      2 #include "m48t59-internal.h"
+      2 #include "hw/rtc/m48t59.h"
+      2 #include "exec/address-spaces.h"
+
+Split the RTC-related files in the new hw/rtc/ directory.
+
+Philippe Mathieu-Daud=C3=A9 (13):
+  hw/timer: Compile devices not target-dependent as common object
+  hw: Move PL031 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move MC146818 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move M48T59 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move M41T80 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move sun4v hypervisor RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move TWL92230 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move DS1338 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move Xilinx ZynqMP RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move Exynos4210 RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move Aspeed RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw/rtc/mc146818: Include mc146818rtc_regs.h a bit less
+  hw/rtc/xlnx-zynqmp-rtc: Remove unused "ptimer.h" include
+
+ MAINTAINERS                                  | 20 +++----
+ Makefile.objs                                |  1 +
+ hw/Kconfig                                   |  1 +
+ hw/Makefile.objs                             |  1 +
+ hw/alpha/dp264.c                             |  2 +-
+ hw/arm/musca.c                               |  2 +-
+ hw/hppa/machine.c                            |  2 +-
+ hw/i386/acpi-build.c                         |  2 +-
+ hw/i386/pc.c                                 |  2 +-
+ hw/i386/pc_q35.c                             |  2 +-
+ hw/mips/mips_fulong2e.c                      |  2 +-
+ hw/mips/mips_jazz.c                          |  2 +-
+ hw/mips/mips_malta.c                         |  2 +-
+ hw/mips/mips_r4k.c                           |  2 +-
+ hw/ppc/pnv.c                                 |  2 +-
+ hw/ppc/ppc405_boards.c                       |  2 +-
+ hw/ppc/prep.c                                |  4 +-
+ hw/rtc/Kconfig                               | 23 ++++++++
+ hw/rtc/Makefile.objs                         | 13 +++++
+ hw/{timer =3D> rtc}/aspeed_rtc.c               |  2 +-
+ hw/{timer =3D> rtc}/ds1338.c                   |  0
+ hw/{timer =3D> rtc}/exynos4210_rtc.c           |  0
+ hw/{timer =3D> rtc}/m41t80.c                   |  0
+ hw/{timer =3D> rtc}/m48t59-internal.h          |  0
+ hw/{timer =3D> rtc}/m48t59-isa.c               |  4 +-
+ hw/{timer =3D> rtc}/m48t59.c                   |  2 +-
+ hw/{timer =3D> rtc}/mc146818rtc.c              |  3 +-
+ hw/{timer =3D> rtc}/pl031.c                    |  2 +-
+ hw/{timer =3D> rtc}/sun4v-rtc.c                |  2 +-
+ hw/rtc/trace-events                          | 19 +++++++
+ hw/{timer =3D> rtc}/twl92230.c                 |  0
+ hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.c          |  3 +-
+ hw/sparc/sun4m.c                             |  2 +-
+ hw/sparc64/niagara.c                         |  2 +-
+ hw/sparc64/sun4u.c                           |  2 +-
+ hw/timer/Kconfig                             | 24 ---------
+ hw/timer/Makefile.objs                       | 35 ++++--------
+ hw/timer/hpet.c                              |  3 +-
+ hw/timer/trace-events                        | 18 -------
+ include/hw/arm/aspeed_soc.h                  |  2 +-
+ include/hw/arm/xlnx-zynqmp.h                 |  2 +-
+ include/hw/{timer =3D> rtc}/aspeed_rtc.h       |  3 --
+ include/hw/rtc/m48t59.h                      | 57 ++++++++++++++++++++
+ include/hw/rtc/mc146818rtc.h                 | 37 +++++++++++++
+ include/hw/{timer =3D> rtc}/mc146818rtc_regs.h |  1 +
+ include/hw/{timer =3D> rtc}/pl031.h            |  5 +-
+ include/hw/rtc/sun4v-rtc.h                   | 19 +++++++
+ include/hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.h  |  6 +--
+ include/hw/timer/mc146818rtc.h               | 14 -----
+ include/hw/timer/sun4v-rtc.h                 |  1 -
+ tests/rtc-test.c                             |  2 +-
+ 51 files changed, 230 insertions(+), 129 deletions(-)
+ create mode 100644 hw/rtc/Kconfig
+ create mode 100644 hw/rtc/Makefile.objs
+ rename hw/{timer =3D> rtc}/aspeed_rtc.c (99%)
+ rename hw/{timer =3D> rtc}/ds1338.c (100%)
+ rename hw/{timer =3D> rtc}/exynos4210_rtc.c (100%)
+ rename hw/{timer =3D> rtc}/m41t80.c (100%)
+ rename hw/{timer =3D> rtc}/m48t59-internal.h (100%)
+ rename hw/{timer =3D> rtc}/m48t59-isa.c (98%)
+ rename hw/{timer =3D> rtc}/m48t59.c (99%)
+ rename hw/{timer =3D> rtc}/mc146818rtc.c (99%)
+ rename hw/{timer =3D> rtc}/pl031.c (99%)
+ rename hw/{timer =3D> rtc}/sun4v-rtc.c (98%)
+ create mode 100644 hw/rtc/trace-events
+ rename hw/{timer =3D> rtc}/twl92230.c (100%)
+ rename hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.c (99%)
+ rename include/hw/{timer =3D> rtc}/aspeed_rtc.h (92%)
+ create mode 100644 include/hw/rtc/m48t59.h
+ create mode 100644 include/hw/rtc/mc146818rtc.h
+ rename include/hw/{timer =3D> rtc}/mc146818rtc_regs.h (98%)
+ rename include/hw/{timer =3D> rtc}/pl031.h (93%)
+ create mode 100644 include/hw/rtc/sun4v-rtc.h
+ rename include/hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.h (95%)
+ delete mode 100644 include/hw/timer/mc146818rtc.h
+ delete mode 100644 include/hw/timer/sun4v-rtc.h
+
+--=20
+2.20.1
+
 
