@@ -2,73 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB913B3C86
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:28:21 +0200 (CEST)
-Received: from localhost ([::1]:35118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB89B3C92
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:31:16 +0200 (CEST)
+Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rzI-0007DW-6x
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:28:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49883)
+	id 1i9s26-0001YS-Jk
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:31:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnT-0004cW-JM
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:09 -0400
+ (envelope-from <david@redhat.com>) id 1i9rXO-0003ki-IB
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnR-00072I-EC
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:07 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36376)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i9rnR-00070z-2w
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:05 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y19so39087520wrd.3
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sbzqVgoyn7pJBiy5hHnuS48Tb76x8key349lTXeYMNs=;
- b=d3FUYGeg3cqVj9C1S9arYoSDEpD5y9oaeHUyB4LHN+eP+aQeE7wPsQdXQCWHFIl2IW
- bCxqisg7w+7xxrmXglSgz96bjs8IB6X3MLABMgniAHgWzo0cmAY6+iNbm6+d7ix4VXJH
- pWovFPiHofeAHLTGED1nyagAPB/Mh1WsBhP1b7KI6u4udpsG0qirNMQnDMgx4PwgKSoN
- 1uImJ22ebqQBIS8WD2VmxWNArhS9gr4hHGXmoSEdgY/He4WMMBldspnX26/OPPMM0TP1
- jBNsrcdjLO8siKpFK7BK7sWZ7UkYKNPOb1na0kiCLNw8JCFPxAKIDkRqa0DBcSBO8E01
- NcGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sbzqVgoyn7pJBiy5hHnuS48Tb76x8key349lTXeYMNs=;
- b=QHaWPWDkU9XDl9w8vmMcSB1x1jVoJFUrWGICHv2/Zbf2WUMX0wJU+T/NmhdR6Anqeu
- KIpvR3mYu29LOUOcUeVeBO6GorJwxGFEuY8ldiiGmudRIgIyUs1VCochjZZFw78jOWV8
- CdaENrk+Q9kVx9oizJrQjKabr7A28shdWGZjOW9unINdtzPNvL32wBK9CmJuNe/WhnEn
- hNzpAWKwDvOSMsViDWliyTAGXwP6vGZavRSOrVv6hRUM/nTrQhVUJEpAkliqCfC5gj31
- /YNzCZDCFMr/FHEijChtF2gFsLtlT7QNapCuilbu4maCUzEposYEG5Cq0hBXv4/MYEke
- /vag==
-X-Gm-Message-State: APjAAAVUfqjogAVFC3uJ0mauvjymU2kTlDRHAGmSaqftrgqWdOYwH7jW
- z+/yX+7YpGoJn1NzRV+QrKaZFg==
-X-Google-Smtp-Source: APXvYqypC/XW0HUi9u6xCUFphh2T+ilAYc+6fWlfpFBtC0WpVsqmNHtu6LUfKCQ1YVkhvCVKCSAK7A==
-X-Received: by 2002:a5d:6043:: with SMTP id j3mr9974595wrt.337.1568643363989; 
- Mon, 16 Sep 2019 07:16:03 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.16.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2019 07:16:03 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:15:43 +0100
-Message-Id: <20190916141544.17540-15-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190916141544.17540-1-peter.maydell@linaro.org>
-References: <20190916141544.17540-1-peter.maydell@linaro.org>
+ (envelope-from <david@redhat.com>) id 1i9rXM-0000ZK-NB
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43366)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1i9rXM-0000Z5-GO; Mon, 16 Sep 2019 09:59:28 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A6CD6307D8B9;
+ Mon, 16 Sep 2019 13:59:27 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84B8810013A1;
+ Mon, 16 Sep 2019 13:59:25 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 15:58:01 +0200
+Message-Id: <20190916135806.1269-25-david@redhat.com>
+In-Reply-To: <20190916135806.1269-1-david@redhat.com>
+References: <20190916135806.1269-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH v2 14/15] target/arm/arm-semi: Implement
- SH_EXT_EXIT_EXTENDED extension
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Mon, 16 Sep 2019 13:59:27 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 24/29] s390x/tcg: MVCIN: Fault-safe handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,83 +54,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
+ Cole Robinson <crobinso@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SH_EXT_EXIT_EXTENDED is a v2.0 semihosting extension: it
-indicates that the implementation supports the SYS_EXIT_EXTENDED
-function. This function allows both A64 and A32/T32 guests to
-exit with a specified exit status, unlike the older SYS_EXIT
-function which only allowed this for A64 guests. Implement
-this extension.
+We can process a maximum of 256 bytes, crossing two pages. Calculate the
+accessed range upfront - src is accessed right-to-left.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/arm/arm-semi.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ target/s390x/mem_helper.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index 57491740d73..f65d8c907e8 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -59,6 +59,7 @@
- #define TARGET_SYS_HEAPINFO    0x16
- #define TARGET_SYS_EXIT        0x18
- #define TARGET_SYS_SYNCCACHE   0x19
-+#define TARGET_SYS_EXIT_EXTENDED 0x20
- 
- /* ADP_Stopped_ApplicationExit is used for exit(0),
-  * anything else is implemented as exit(1) */
-@@ -513,12 +514,15 @@ static uint32_t gdb_flenfn(ARMCPU *cpu, GuestFD *gf)
- #define SHFB_MAGIC_2 0x46
- #define SHFB_MAGIC_3 0x42
- 
-+/* Feature bits reportable in feature byte 0 */
-+#define SH_EXT_EXIT_EXTENDED (1 << 0)
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 20fc17d44d..4f46d0be90 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -473,12 +473,21 @@ void HELPER(mvc)(CPUS390XState *env, uint32_t l, ui=
+nt64_t dest, uint64_t src)
+ /* move inverse  */
+ void HELPER(mvcin)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64=
+_t src)
+ {
++    const int mmu_idx =3D cpu_mmu_index(env, false);
++    S390Access srca, desta;
+     uintptr_t ra =3D GETPC();
+     int i;
+=20
+-    for (i =3D 0; i <=3D l; i++) {
+-        uint8_t v =3D cpu_ldub_data_ra(env, src - i, ra);
+-        cpu_stb_data_ra(env, dest + i, v, ra);
++    /* MVCIN always copies one more byte than specified - maximum is 256=
+ */
++    l++;
 +
- static const uint8_t featurefile_data[] = {
-     SHFB_MAGIC_0,
-     SHFB_MAGIC_1,
-     SHFB_MAGIC_2,
-     SHFB_MAGIC_3,
--    0, /* Feature byte 0 */
-+    SH_EXT_EXIT_EXTENDED, /* Feature byte 0 */
- };
- 
- static void init_featurefile_guestfd(int guestfd)
-@@ -1042,11 +1046,14 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             return 0;
-         }
-     case TARGET_SYS_EXIT:
--        if (is_a64(env)) {
-+    case TARGET_SYS_EXIT_EXTENDED:
-+        if (nr == TARGET_SYS_EXIT_EXTENDED || is_a64(env)) {
-             /*
--             * The A64 version of this call takes a parameter block,
-+             * The A64 version of SYS_EXIT takes a parameter block,
-              * so the application-exit type can return a subcode which
-              * is the exit status code from the application.
-+             * SYS_EXIT_EXTENDED is an a new-in-v2.0 optional function
-+             * which allows A32/T32 guests to also provide a status code.
-              */
-             GET_ARG(0);
-             GET_ARG(1);
-@@ -1058,8 +1065,10 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             }
-         } else {
-             /*
--             * ARM specifies only Stopped_ApplicationExit as normal
--             * exit, everything else is considered an error
-+             * The A32/T32 version of SYS_EXIT specifies only
-+             * Stopped_ApplicationExit as normal exit, but does not
-+             * allow the guest to specify the exit status code.
-+             * Everything else is considered an error.
-              */
-             ret = (args == ADP_Stopped_ApplicationExit) ? 0 : 1;
-         }
--- 
-2.20.1
++    src =3D wrap_address(env, src - l + 1);
++    srca =3D access_prepare(env, src, l, MMU_DATA_LOAD, mmu_idx, ra);
++    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
++    for (i =3D 0; i < l; i++) {
++        const uint8_t x =3D access_get_byte(env, &srca, l - i - 1, ra);
++
++        access_set_byte(env, &desta, i, x, ra);
+     }
+ }
+=20
+--=20
+2.21.0
 
 
