@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69487B3DB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:35:03 +0200 (CEST)
-Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC645B3DB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:32:35 +0200 (CEST)
+Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9t1p-0007DV-Hh
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
+	id 1i9szR-000530-H5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:32:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1i9sBc-0004jU-8x
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:41:05 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCl-0006Fn-Gd
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1i9sBa-00070r-8v
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:41:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41046)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1i9sBa-000704-2U
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:41:02 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 72A3410C6354;
- Mon, 16 Sep 2019 14:41:00 +0000 (UTC)
-Received: from gondolin (ovpn-116-203.ams2.redhat.com [10.36.116.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C26565C1D6;
- Mon, 16 Sep 2019 14:40:58 +0000 (UTC)
-Date: Mon, 16 Sep 2019 16:40:55 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Message-ID: <20190916164055.323c1b08.cohuck@redhat.com>
-In-Reply-To: <20190913120559.40835-1-slp@redhat.com>
-References: <20190913120559.40835-1-slp@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCj-0007P0-M2
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:15 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54505)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1i9sCj-0007OS-Bl
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:13 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id p7so59100wmp.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5LrGyDNsdD46INRIIwC8/sGjqFgbKTMxJiEM1s6Y8Nw=;
+ b=X/DIsMkII3hFrP7umXvdAJ1b7+gPkvCy/nvQbVAlZFXBmkvmFGJrEHp1kEKwJPbpmJ
+ nNZgmSzfaYlRlsjbAWXNt7QW/uBXVrEnbPb8ZNFWm1jI479mnzx8x3FSVNexHeOQPtC2
+ ihaRyzOAaZpjH4Cfh8r6hVcKDXE13H6d2vjuKGH8I5YQY0Qe3AtLY1VcCoBFe7vNZD0j
+ bn17RDfg+YZakBgsewYghRy7FYJGHsEbYswponG5SEZfi/7cQNhTeYDmnQHvPsxjxEdX
+ 4ssZmZIWVhvieJWkvVDyOuq8APukDoHhqZOR/4vyhwfW5S667piK3sE2eRiHfpHYcQkp
+ DQVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=5LrGyDNsdD46INRIIwC8/sGjqFgbKTMxJiEM1s6Y8Nw=;
+ b=EMTeX/5qrp9MiktY9kf0A76kRNNFOxG0GMp9G9wII4zOEyeUPsAAcUrG3JYmABkxUo
+ HkrC25MmjVdyYXXXOdCODWbk3bl+8If9k63zJWcyaWQVBB04JNJ8kKJ4o9mIIN1mU+0G
+ Cnu3U0r4sKLt3dEBbIm3MwsGAucHiREufT0BSXOCBBAuHbaqVUsMRRvrhXxrMqgLwT5c
+ yF7j57QltqK5LiDgUMO545YiwG4/c8VLmfk6MFAb/TIsA/HOBmWzOeWOD0dL4Kq/RbQG
+ P3kG9erFNWbSi22IEPqToCqkA4UdQryE5u0nms7Toxt5nyNWL9T62EyplA4XLEQMzGFF
+ LQpg==
+X-Gm-Message-State: APjAAAXUnxeuGqBBXS1ZEXQsYH+QU3GSwnXyHdM0ooZddsuihZOa5r3l
+ ATzmBPMyaytHxHLiN9Ev9a5Yo1HN
+X-Google-Smtp-Source: APXvYqya1mAivG6/4d6do6vV0+cxsv4TYZrX4SZLAmuFpxoEOXP6Ner0lPWQGtvjrkdVputw+Jkdsw==
+X-Received: by 2002:a1c:c104:: with SMTP id r4mr73159wmf.64.1568644930928;
+ Mon, 16 Sep 2019 07:42:10 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.10
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 16 Sep 2019 07:42:10 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 16:41:40 +0200
+Message-Id: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Mon, 16 Sep 2019 14:41:00 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3] virtio-mmio: implement modern (v2)
- personality (virtio-1)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32a
+Subject: [Qemu-devel] [PULL 00/29] Misc patches for 2019-09-16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,50 +77,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@gmail.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- abologna@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Sep 2019 14:06:01 +0200
-Sergio Lopez <slp@redhat.com> wrote:
+The following changes since commit 138985c1ef8b66e4e5b383354e133e05d01d0b5f:
 
-> Implement the modern (v2) personality, according to the VirtIO 1.0
-> specification.
-> 
-> Support for v2 among guests is not as widespread as it'd be
-> desirable. While the Linux driver has had it for a while, support is
-> missing, at least, from Tianocore EDK II, NetBSD and FreeBSD.
-> 
-> For this reason, the v2 personality is disabled, keeping the legacy
-> behavior as default. Machine types willing to use v2, can enable it
-> using MachineClass's compat_props.
-> 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
-> Changelog:
-> 
-> v3:
->  - Use %HWADDR_PRIx instead of %x. (Stefan Hajnoczi)
->  - Return 0 if host_features_sel > 0 for legacy mode. (Cornelia Huck)
->  - Mask out legacy features in non-legacy mode. (Cornelia Huck)
->  - Log an error in guest attempts to write guest_features with
->    guest_features_sel > 0 in legacy mode. (Cornelia Huck)
-> 
-> v2:
->  - Switch from RFC to PATCH.
->  - Avoid the modern vs. legacy dichotomy. Use legacy or non-legacy
->    instead. (Andrea Bolognani, Cornelia Huck)
->  - Include the register offset in the warning messages. (Stefan
->    Hajnoczi)
->  - Fix device endianness for the non-legacy mode. (Michael S. Tsirkin)
->  - Honor the specs in VIRTIO_MMIO_QUEUE_READY. (Michael S. Tsirkin)
-> ---
->  hw/virtio/virtio-mmio.c | 342 +++++++++++++++++++++++++++++++++++++---
->  1 file changed, 319 insertions(+), 23 deletions(-)
-> 
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-sep-12-2019' into staging (2019-09-13 16:04:46 +0100)
 
-Looks good to me now.
+are available in the git repository at:
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to b29799d93fde775ef7e4104c834a1c1da15b34c3:
+
+  hw/i386/pc: Extract the x86 generic fw_cfg code (2019-09-16 14:39:03 +0200)
+
+----------------------------------------------------------------
+* Fix Patchew CI failures (myself)
+* i386 fw_cfg refactoring (Philippe)
+* pmem bugfix (Stefan)
+* Support for accessing cstate MSRs (Wanpeng)
+* exec.c cleanups (Wei Yang)
+* Improved throttling (Yury)
+* elf-ops.h coverity fix (Stefano)
+
+----------------------------------------------------------------
+Cole Robinson (1):
+      hw/i386: Move CONFIG_ACPI_PCI to CONFIG_PC
+
+Paolo Bonzini (4):
+      win32: fix README file in NSIS installer
+      test-char: fix AddressSanitizer failure
+      memory: inline and optimize devend_memop
+      hw/i386/pc: Replace PCMachineState argument with MachineState in fw_cfg_arch_create
+
+Philippe Mathieu-Daudé (14):
+      hw/i386/pc: Use e820_get_num_entries() to access e820_entries
+      hw/i386/pc: Extract e820 memory layout code
+      hw/i386/pc: Use address_space_memory in place
+      hw/i386/pc: Rename bochs_bios_init as more generic fw_cfg_arch_create
+      hw/i386/pc: Pass the boot_cpus value by argument
+      hw/i386/pc: Pass the apic_id_limit value by argument
+      hw/i386/pc: Pass the CPUArchIdList array by argument
+      hw/i386/pc: Let pc_build_smbios() take a FWCfgState argument
+      hw/i386/pc: Let pc_build_smbios() take a generic MachineState argument
+      hw/i386/pc: Rename pc_build_smbios() as generic fw_cfg_build_smbios()
+      hw/i386/pc: Let pc_build_feature_control() take a FWCfgState argument
+      hw/i386/pc: Let pc_build_feature_control() take a MachineState argument
+      hw/i386/pc: Rename pc_build_feature_control() as generic fw_cfg_build_*
+      hw/i386/pc: Extract the x86 generic fw_cfg code
+
+Stefan Hajnoczi (1):
+      memory: fetch pmem size in get_file_size()
+
+Stefano Garzarella (1):
+      elf-ops.h: fix int overflow in load_elf()
+
+Wanpeng Li (1):
+      i386/kvm: support guest access CORE cstate
+
+Wei Yang (5):
+      exec.c: replace hwaddr with uint64_t for better understanding
+      exec.c: get nodes_nb_alloc with one MAX calculation
+      exec.c: subpage->sub_section is already initialized to 0
+      exec.c: correct the maximum skip value during compact
+      exec.c: add a check between constants to see whether we could skip
+
+Yury Kotov (2):
+      qemu-thread: Add qemu_cond_timedwait
+      cpus: Fix throttling during vm_stop
+
+ backends/hostmem-file.c          |  22 -----
+ cpus.c                           |  25 +++--
+ default-configs/i386-softmmu.mak |   1 -
+ exec.c                           |  54 ++++++++---
+ hw/core/loader.c                 |   2 +
+ hw/i386/Kconfig                  |   1 +
+ hw/i386/Makefile.objs            |   2 +-
+ hw/i386/e820_memory_layout.c     |  59 +++++++++++
+ hw/i386/e820_memory_layout.h     |  42 ++++++++
+ hw/i386/fw_cfg.c                 | 137 ++++++++++++++++++++++++++
+ hw/i386/fw_cfg.h                 |   7 ++
+ hw/i386/pc.c                     | 204 ++-------------------------------------
+ include/exec/memory.h            |  19 +++-
+ include/hw/elf_ops.h             |   5 +
+ include/hw/i386/pc.h             |  11 ---
+ include/hw/loader.h              |   1 +
+ include/qemu/osdep.h             |  13 ---
+ include/qemu/thread.h            |  19 ++++
+ linux-headers/linux/kvm.h        |   4 +-
+ memory.c                         |  18 ----
+ qemu.nsi                         |   4 +-
+ target/i386/kvm.c                |   4 +-
+ tests/test-char.c                |  44 ++++-----
+ util/oslib-posix.c               |  54 -----------
+ util/oslib-win32.c               |   6 --
+ util/qemu-thread-posix.c         |  41 +++++---
+ util/qemu-thread-win32.c         |  17 ++++
+ util/qsp.c                       |  20 ++++
+ 28 files changed, 456 insertions(+), 380 deletions(-)
+ create mode 100644 hw/i386/e820_memory_layout.c
+ create mode 100644 hw/i386/e820_memory_layout.h
+-- 
+1.8.3.1
+
 
