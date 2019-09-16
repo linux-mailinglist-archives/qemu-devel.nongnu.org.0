@@ -2,47 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53095B3DA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:29:13 +0200 (CEST)
-Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3A5B3D9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:25:53 +0200 (CEST)
+Received: from localhost ([::1]:35862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9swB-0002IA-Kd
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51339)
+	id 1i9ssy-0006VZ-3g
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:25:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i9rut-0003pD-Im
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:49 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sD8-0006fM-1y
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i9rur-00011T-LE
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50653)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i9run-000103-GX; Mon, 16 Sep 2019 10:23:41 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C9BD6300D21D;
- Mon, 16 Sep 2019 14:23:40 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EDAFC600F8;
- Mon, 16 Sep 2019 14:23:34 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon, 16 Sep 2019 16:22:45 +0200
-Message-Id: <20190916142246.31474-16-mreitz@redhat.com>
-In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
-References: <20190916142246.31474-1-mreitz@redhat.com>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sD6-0007YE-3N
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:37 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53562)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1i9sD5-0007Xc-NT
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:36 -0400
+Received: by mail-wm1-x329.google.com with SMTP id i16so67873wmd.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=D4qmsiElKCvJ7YmXi8gkY9T9VEadqIQ5nlKcIn2oRS4=;
+ b=sf7JM9PUZZ1w+Ggbi4daGN6FkFUNmKLHiQx/7jRT//W+PlamOjDQTjmB6r9OGGgajH
+ M2ux7xQ6qqc8oL3H1qnKUeFA0CiqmqsIk0nsOGrfO+qWpAt6MvPqmbChZLOwq7rNG1dP
+ k2ehW55oQAN6aYoGhJsKhuude9dwNxZA+mEs+vqmAHd1DBBzqRvwbQtbdrhepM2Cmldz
+ B04qFcIyD33wxSqyGCFv7o3fiy2Gpfgqp85SbKpdexHYnyvvWnoM/ovqioUivMSg/0rv
+ l3Bz1lAHgcj0qaYdiuNgMu3P/pDd6bNwdaNBikoYqnw9MnxEEWoTIXImWzML3YBD9FRR
+ lSrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=D4qmsiElKCvJ7YmXi8gkY9T9VEadqIQ5nlKcIn2oRS4=;
+ b=NYIyjDtmwXs9waFW6aDFHO8U1dDsdM3riUFZoFmgB+XWjWvfrEhMwyOTb3hK/b+Ol6
+ aKbiiif6XaNpvs7G4tL7g1Fg0+Z7tKWG+zTBx2osRQlwRLDxv7AlT9wMYd8MjXiB/r5P
+ sa3Y304EpVkX9EtbpYldOhygvf3+HSgxJLmBoPGTkjTnksqlNQDcYtVUxpAiu5LIu4Vy
+ ffIVhHXdjqigqnhSTGZlueUAKkBMVTtUsY94JKTPPLEGUJS3D7cwAWkn1/1xTBcIkvFr
+ 59t+3cf8emUsfoznwc6+135+0MLpZN13XltfTmVcQW4QhF0NZDh9BYkodzGSUB1vI8sr
+ DzmA==
+X-Gm-Message-State: APjAAAU4vu5WlruksrQ7DXExQqu//YJWOLve1otxOyNFAUKFUj2JM5D1
+ Ra+WG1PBhPvdq9s8HMVVnwXHbCHe
+X-Google-Smtp-Source: APXvYqx6Qv/0rlijM6rtXNuBgAqCYagOYVjLNHEOnKVUsYA88YIn2eQSi6hiJcJpld6OIryyttpTqg==
+X-Received: by 2002:a1c:c104:: with SMTP id r4mr74546wmf.64.1568644954351;
+ Mon, 16 Sep 2019 07:42:34 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.33
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 16 Sep 2019 07:42:33 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 16:42:01 +0200
+Message-Id: <1568644929-9124-22-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 16 Sep 2019 14:23:40 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 15/16] block/qcow2: refactor encryption code
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::329
+Subject: [Qemu-devel] [PULL 21/29] hw/i386/pc: Pass the CPUArchIdList array
+ by argument
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,239 +79,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-* Change the qcow2_co_{encrypt|decrypt} to just receive full host and
-  guest offsets and use this function directly instead of calling
-  do_perform_cow_encrypt (which is removed by that patch).
+Pass the CPUArchIdList array by argument, this will
+allow us to remove the PCMachineState argument later.
 
-* Adjust qcow2_co_encdec to take full host and guest offsets as well.
-
-* Document the qcow2_co_{encrypt|decrypt} arguments
-  to prevent the bug fixed in former commit from hopefully
-  happening again.
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20190915203655.21638-3-mlevitsk@redhat.com
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-[mreitz: Let perform_cow() return the error value returned by
-         qcow2_co_encrypt(), as proposed by Vladimir]
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190818225414.22590-8-philmd@redhat.com>
 ---
- block/qcow2.h         |  8 +++---
- block/qcow2-cluster.c | 41 +++++++++-------------------
- block/qcow2-threads.c | 63 +++++++++++++++++++++++++++++++++----------
- block/qcow2.c         |  5 ++--
- 4 files changed, 69 insertions(+), 48 deletions(-)
+ hw/i386/pc.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 998bcdaef1..a488d761ff 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -758,10 +758,10 @@ ssize_t coroutine_fn
- qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
-                     const void *src, size_t src_size);
- int coroutine_fn
--qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
--                 uint64_t offset, void *buf, size_t len);
-+qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_offset,
-+                 uint64_t guest_offset, void *buf, size_t len);
- int coroutine_fn
--qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
--                 uint64_t offset, void *buf, size_t len);
-+qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_offset,
-+                 uint64_t guest_offset, void *buf, size_t len);
-=20
- #endif
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index cac0b6c7ba..8d5fa1539c 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -462,28 +462,6 @@ static int coroutine_fn do_perform_cow_read(BlockDri=
-verState *bs,
-     return 0;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c0e9d83..5b3f615 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -937,14 +937,13 @@ static void pc_build_smbios(PCMachineState *pcms)
  }
-=20
--static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
--                                                uint64_t src_cluster_off=
-set,
--                                                uint64_t cluster_offset,
--                                                unsigned offset_in_clust=
-er,
--                                                uint8_t *buffer,
--                                                unsigned bytes)
--{
--    if (bytes && bs->encrypted) {
--        BDRVQcow2State *s =3D bs->opaque;
--        assert(QEMU_IS_ALIGNED(offset_in_cluster, BDRV_SECTOR_SIZE));
--        assert(QEMU_IS_ALIGNED(bytes, BDRV_SECTOR_SIZE));
--        assert(s->crypto);
--        if (qcow2_co_encrypt(bs,
--                start_of_cluster(s, cluster_offset + offset_in_cluster),
--                src_cluster_offset + offset_in_cluster,
--                buffer, bytes) < 0) {
--            return false;
--        }
--    }
--    return true;
--}
--
- static int coroutine_fn do_perform_cow_write(BlockDriverState *bs,
-                                              uint64_t cluster_offset,
-                                              unsigned offset_in_cluster,
-@@ -891,12 +869,19 @@ static int perform_cow(BlockDriverState *bs, QCowL2=
-Meta *m)
-=20
-     /* Encrypt the data if necessary before writing it */
-     if (bs->encrypted) {
--        if (!do_perform_cow_encrypt(bs, m->offset, m->alloc_offset,
--                                    start->offset, start_buffer,
--                                    start->nb_bytes) ||
--            !do_perform_cow_encrypt(bs, m->offset, m->alloc_offset,
--                                    end->offset, end_buffer, end->nb_byt=
-es)) {
--            ret =3D -EIO;
-+        ret =3D qcow2_co_encrypt(bs,
-+                               m->alloc_offset + start->offset,
-+                               m->offset + start->offset,
-+                               start_buffer, start->nb_bytes);
-+        if (ret < 0) {
-+            goto fail;
-+        }
-+
-+        ret =3D qcow2_co_encrypt(bs,
-+                               m->alloc_offset + end->offset,
-+                               m->offset + end->offset,
-+                               end_buffer, end->nb_bytes);
-+        if (ret < 0) {
-             goto fail;
-         }
+ 
+ static FWCfgState *fw_cfg_arch_create(PCMachineState *pcms,
++                                      const CPUArchIdList *cpus,
+                                       uint16_t boot_cpus,
+                                       uint16_t apic_id_limit)
+ {
+     FWCfgState *fw_cfg;
+     uint64_t *numa_fw_cfg;
+     int i;
+-    const CPUArchIdList *cpus;
+-    MachineClass *mc = MACHINE_GET_CLASS(pcms);
+     MachineState *ms = MACHINE(pcms);
+     int nb_numa_nodes = ms->numa_state->num_nodes;
+ 
+@@ -964,7 +963,7 @@ static FWCfgState *fw_cfg_arch_create(PCMachineState *pcms,
+      * So for compatibility reasons with old BIOSes we are stuck with
+      * "etc/max-cpus" actually being apic_id_limit
+      */
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)pcms->apic_id_limit);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
+                      acpi_tables, acpi_tables_len);
+@@ -980,20 +979,19 @@ static FWCfgState *fw_cfg_arch_create(PCMachineState *pcms,
+      * of nodes, one word for each VCPU->node and one word for each node to
+      * hold the amount of memory.
+      */
+-    numa_fw_cfg = g_new0(uint64_t, 1 + pcms->apic_id_limit + nb_numa_nodes);
++    numa_fw_cfg = g_new0(uint64_t, 1 + apic_id_limit + nb_numa_nodes);
+     numa_fw_cfg[0] = cpu_to_le64(nb_numa_nodes);
+-    cpus = mc->possible_cpu_arch_ids(MACHINE(pcms));
+     for (i = 0; i < cpus->len; i++) {
+         unsigned int apic_id = cpus->cpus[i].arch_id;
+-        assert(apic_id < pcms->apic_id_limit);
++        assert(apic_id < apic_id_limit);
+         numa_fw_cfg[apic_id + 1] = cpu_to_le64(cpus->cpus[i].props.node_id);
      }
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 3b1e63fe41..8f5a0d1ebe 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -234,35 +234,70 @@ static int qcow2_encdec_pool_func(void *opaque)
- }
-=20
- static int coroutine_fn
--qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
--                  uint64_t offset, void *buf, size_t len, Qcow2EncDecFun=
-c func)
-+qcow2_co_encdec(BlockDriverState *bs, uint64_t host_offset,
-+                uint64_t guest_offset, void *buf, size_t len,
-+                Qcow2EncDecFunc func)
- {
-     BDRVQcow2State *s =3D bs->opaque;
-     Qcow2EncDecData arg =3D {
-         .block =3D s->crypto,
--        .offset =3D s->crypt_physical_offset ?
--                      file_cluster_offset + offset_into_cluster(s, offse=
-t) :
--                      offset,
-+        .offset =3D s->crypt_physical_offset ? host_offset : guest_offse=
-t,
-         .buf =3D buf,
-         .len =3D len,
-         .func =3D func,
-     };
-=20
--    return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
-+    assert(QEMU_IS_ALIGNED(guest_offset, BDRV_SECTOR_SIZE));
-+    assert(QEMU_IS_ALIGNED(host_offset, BDRV_SECTOR_SIZE));
-+    assert(QEMU_IS_ALIGNED(len, BDRV_SECTOR_SIZE));
-+    assert(s->crypto);
-+
-+    return len =3D=3D 0 ? 0 : qcow2_co_process(bs, qcow2_encdec_pool_fun=
-c, &arg);
- }
-=20
-+/*
-+ * qcow2_co_encrypt()
-+ *
-+ * Encrypts one or more contiguous aligned sectors
-+ *
-+ * @host_offset - underlying storage offset of the first sector of the
-+ * data to be encrypted
-+ *
-+ * @guest_offset - guest (virtual) offset of the first sector of the
-+ * data to be encrypted
-+ *
-+ * @buf - buffer with the data to encrypt, that after encryption
-+ *        will be written to the underlying storage device at
-+ *        @host_offset
-+ *
-+ * @len - length of the buffer (must be a BDRV_SECTOR_SIZE multiple)
-+ *
-+ * Depending on the encryption method, @host_offset and/or @guest_offset
-+ * may be used for generating the initialization vector for
-+ * encryption.
-+ *
-+ * Note that while the whole range must be aligned on sectors, it
-+ * does not have to be aligned on clusters and can also cross cluster
-+ * boundaries
-+ */
- int coroutine_fn
--qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
--                 uint64_t offset, void *buf, size_t len)
-+qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_offset,
-+                 uint64_t guest_offset, void *buf, size_t len)
- {
--    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
--                             qcrypto_block_encrypt);
-+    return qcow2_co_encdec(bs, host_offset, guest_offset, buf, len,
-+                           qcrypto_block_encrypt);
- }
-=20
-+/*
-+ * qcow2_co_decrypt()
-+ *
-+ * Decrypts one or more contiguous aligned sectors
-+ * Similar to qcow2_co_encrypt
-+ */
- int coroutine_fn
--qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
--                 uint64_t offset, void *buf, size_t len)
-+qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_offset,
-+                 uint64_t guest_offset, void *buf, size_t len)
- {
--    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
--                             qcrypto_block_decrypt);
-+    return qcow2_co_encdec(bs, host_offset, guest_offset, buf, len,
-+                           qcrypto_block_decrypt);
- }
-diff --git a/block/qcow2.c b/block/qcow2.c
-index cac18f0ba2..4d16393e61 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2069,7 +2069,8 @@ static coroutine_fn int qcow2_co_preadv_part(BlockD=
-riverState *bs,
-=20
-                 assert(QEMU_IS_ALIGNED(offset, BDRV_SECTOR_SIZE));
-                 assert(QEMU_IS_ALIGNED(cur_bytes, BDRV_SECTOR_SIZE));
--                if (qcow2_co_decrypt(bs, cluster_offset, offset,
-+                if (qcow2_co_decrypt(bs, cluster_offset + offset_in_clus=
-ter,
-+                                     offset,
-                                      cluster_data, cur_bytes) < 0) {
-                     ret =3D -EIO;
-                     goto fail;
-@@ -2288,7 +2289,7 @@ static coroutine_fn int qcow2_co_pwritev_part(
-             qemu_iovec_to_buf(qiov, qiov_offset + bytes_done,
-                               cluster_data, cur_bytes);
-=20
--            if (qcow2_co_encrypt(bs, cluster_offset, offset,
-+            if (qcow2_co_encrypt(bs, cluster_offset + offset_in_cluster,=
- offset,
-                                  cluster_data, cur_bytes) < 0) {
-                 ret =3D -EIO;
-                 goto out_unlocked;
---=20
-2.21.0
+     for (i = 0; i < nb_numa_nodes; i++) {
+-        numa_fw_cfg[pcms->apic_id_limit + 1 + i] =
++        numa_fw_cfg[apic_id_limit + 1 + i] =
+             cpu_to_le64(ms->numa_state->nodes[i].node_mem);
+     }
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
+-                     (1 + pcms->apic_id_limit + nb_numa_nodes) *
++                     (1 + apic_id_limit + nb_numa_nodes) *
+                      sizeof(*numa_fw_cfg));
+ 
+     return fw_cfg;
+@@ -1775,6 +1773,7 @@ void pc_memory_init(PCMachineState *pcms,
+     MemoryRegion *ram_below_4g, *ram_above_4g;
+     FWCfgState *fw_cfg;
+     MachineState *machine = MACHINE(pcms);
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+ 
+     assert(machine->ram_size == pcms->below_4g_mem_size +
+@@ -1808,7 +1807,6 @@ void pc_memory_init(PCMachineState *pcms,
+     if (!pcmc->has_reserved_memory &&
+         (machine->ram_slots ||
+          (machine->maxram_size > machine->ram_size))) {
+-        MachineClass *mc = MACHINE_GET_CLASS(machine);
+ 
+         error_report("\"-memory 'slots|maxmem'\" is not supported by: %s",
+                      mc->name);
+@@ -1871,7 +1869,8 @@ void pc_memory_init(PCMachineState *pcms,
+                                         option_rom_mr,
+                                         1);
+ 
+-    fw_cfg = fw_cfg_arch_create(pcms, pcms->boot_cpus, pcms->apic_id_limit);
++    fw_cfg = fw_cfg_arch_create(pcms, mc->possible_cpu_arch_ids(machine),
++                                pcms->boot_cpus, pcms->apic_id_limit);
+ 
+     rom_set_fw(fw_cfg);
+ 
+-- 
+1.8.3.1
+
 
 
