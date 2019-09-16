@@ -2,40 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BD4B3CB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:38:35 +0200 (CEST)
-Received: from localhost ([::1]:35240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72B0B3CC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:42:38 +0200 (CEST)
+Received: from localhost ([::1]:35300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9s9B-0000f7-O7
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50347)
+	id 1i9sD6-0005IA-1c
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9rqa-0007Cd-LH
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:19:22 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnC-0004Ib-Mp
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9rqY-0007uk-Tj
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:19:20 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58108)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i9rqV-0007si-AH; Mon, 16 Sep 2019 10:19:15 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1i9rqS-0003EA-BD; Mon, 16 Sep 2019 17:19:12 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Date: Mon, 16 Sep 2019 17:19:08 +0300
-Message-Id: <20190916141911.5255-2-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190916141911.5255-1-vsementsov@virtuozzo.com>
-References: <20190916141911.5255-1-vsementsov@virtuozzo.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnA-0006rn-JZ
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:50 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46829)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i9rnA-0006rQ-Bs
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:48 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id o18so7868262wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=trF4PUeQYqIN1FaA3mMgwum5hWySICsncWehaFgqsF0=;
+ b=fe+NE2JRwk7ME04uMCeHLKURUF8VQtDaXScJmfSDYzUIRbXuZDPCNWoPV4znRNN723
+ GXUdkrARL3+SSeTkN0iXY8r5Qu3uZmK+N5PiSbibE07D7TjF5f41Iutumxsnbbl87A+D
+ L+QXPhk5vOfN1qpW8TQmkW5Ut78n2SNR2Eac0TEWbHxF9kXeucT3ank/R3hwM5ZPvGQx
+ oMYjD6VYv6Rh61neHNh3aX7W2sYP3clq1M//Dgedn6JQtQQ4u1ejV7xCO9Ws/j2nMeaO
+ JFxnuBJ/L9yPCZfVKj364fblcfIF4Iab2oYnRTZk0/TLQg8hRzGChN5aZ+rGnkIHUaZt
+ 2acA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=trF4PUeQYqIN1FaA3mMgwum5hWySICsncWehaFgqsF0=;
+ b=AU1coUYOpv1WQS/wOZbNbf/0nD/DbiLPoKrMQFmLC1ffvMJLTquDrYEANLjZSq8nxC
+ S5cSSu/OSDA3k+X0/DTnIlNnPsEoebGhGPmDYslaJZ1eICIYsZmnsIyNq36CALtMN2Ed
+ tmOTAu6i3E2st5UuR/pxI8ZVLZFZxjPVsfSC8O/8S4vzT5rB1sBna9mTrrm+JRvyhsRw
+ hYxyyLSk6mlZ2nDqB/BcSvUG9Baxo+skulSTozAsuTA030zmiW0EjCRopNk8kO2cGQnR
+ A/880/+EyEDUFAKFNvNFbZKmEzY07mc3nuPiaYv+rJcJRFqblcM1sHi55RBO3uZM7A4p
+ SMTQ==
+X-Gm-Message-State: APjAAAVIcAygz3iL7tsmCA8QPpQVrWHelYlYL0kBhJ2Htzeh1B1ChsJR
+ cIYcVGmF+7CAUu6gmBnqqbZNEA==
+X-Google-Smtp-Source: APXvYqxXcqmQ0C0cBkjxxg7JJa4GfbhXsKLD60dWAK9lZxZsybh9XArNgJw/YjoLdoucVQPS6v2h3Q==
+X-Received: by 2002:adf:f1d1:: with SMTP id z17mr11580wro.330.1568643346931;
+ Mon, 16 Sep 2019 07:15:46 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.15.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Sep 2019 07:15:46 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 15:15:29 +0100
+Message-Id: <20190916141544.17540-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 1/4] block/dirty-bitmap: drop meta
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42b
+Subject: [Qemu-devel] [PATCH v2 00/15] target/arm: Implement semihosting v2.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,137 +77,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- quintela@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, den@openvz.org, mreitz@redhat.com, jsnow@redhat.com,
- dgilbert@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop meta bitmaps, as they are unused.
+This patchset implements support in QEMU for v2.0 of the
+Arm semihosting specification:
+ https://developer.arm.com/docs/100863/latest/preface
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- include/block/dirty-bitmap.h |  5 ----
- block/dirty-bitmap.c         | 46 ------------------------------------
- 2 files changed, 51 deletions(-)
+Specifically, v2.0 has:
+ * a mechanism for detection of optional extra features,
+   which works by allowing the guest to open a magic file
+   named ":semihosting-features" and read some feature
+   flags from it
+ * two defined extensions:
+  - STDOUT_STDERR lets the guest separately open stdout and
+    stderr via the ":tt" magic filename (v1.0 only allowed
+    access to stdout)
+  - EXIT_EXTENDED lets A32/T32 guests exit with a specified
+    exit status (otherwise only available to A64 guests).
+    This is something that people have been complaining
+    about for a long time.
 
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 4b4b731b46..848dfc6590 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -18,9 +18,6 @@ BdrvDirtyBitmap *bdrv_create_dirty_bitmap(BlockDriverState *bs,
-                                           uint32_t granularity,
-                                           const char *name,
-                                           Error **errp);
--void bdrv_create_meta_dirty_bitmap(BdrvDirtyBitmap *bitmap,
--                                   int chunk_size);
--void bdrv_release_meta_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- int bdrv_dirty_bitmap_create_successor(BlockDriverState *bs,
-                                        BdrvDirtyBitmap *bitmap,
-                                        Error **errp);
-@@ -55,7 +52,6 @@ void bdrv_set_dirty_bitmap(BdrvDirtyBitmap *bitmap,
-                            int64_t offset, int64_t bytes);
- void bdrv_reset_dirty_bitmap(BdrvDirtyBitmap *bitmap,
-                              int64_t offset, int64_t bytes);
--BdrvDirtyBitmapIter *bdrv_dirty_meta_iter_new(BdrvDirtyBitmap *bitmap);
- BdrvDirtyBitmapIter *bdrv_dirty_iter_new(BdrvDirtyBitmap *bitmap);
- void bdrv_dirty_iter_free(BdrvDirtyBitmapIter *iter);
- 
-@@ -97,7 +93,6 @@ void bdrv_reset_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
- int64_t bdrv_dirty_iter_next(BdrvDirtyBitmapIter *iter);
- void bdrv_set_dirty_iter(BdrvDirtyBitmapIter *hbi, int64_t offset);
- int64_t bdrv_get_dirty_count(BdrvDirtyBitmap *bitmap);
--int64_t bdrv_get_meta_dirty_count(BdrvDirtyBitmap *bitmap);
- void bdrv_dirty_bitmap_truncate(BlockDriverState *bs, int64_t bytes);
- bool bdrv_dirty_bitmap_readonly(const BdrvDirtyBitmap *bitmap);
- bool bdrv_has_readonly_bitmaps(BlockDriverState *bs);
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 134e0c9a0c..acfc3077f1 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -30,7 +30,6 @@
- struct BdrvDirtyBitmap {
-     QemuMutex *mutex;
-     HBitmap *bitmap;            /* Dirty bitmap implementation */
--    HBitmap *meta;              /* Meta dirty bitmap */
-     bool busy;                  /* Bitmap is busy, it can't be used via QMP */
-     BdrvDirtyBitmap *successor; /* Anonymous child, if any. */
-     char *name;                 /* Optional non-empty unique ID */
-@@ -126,36 +125,6 @@ BdrvDirtyBitmap *bdrv_create_dirty_bitmap(BlockDriverState *bs,
-     return bitmap;
- }
- 
--/* bdrv_create_meta_dirty_bitmap
-- *
-- * Create a meta dirty bitmap that tracks the changes of bits in @bitmap. I.e.
-- * when a dirty status bit in @bitmap is changed (either from reset to set or
-- * the other way around), its respective meta dirty bitmap bit will be marked
-- * dirty as well.
-- *
-- * @bitmap: the block dirty bitmap for which to create a meta dirty bitmap.
-- * @chunk_size: how many bytes of bitmap data does each bit in the meta bitmap
-- * track.
-- */
--void bdrv_create_meta_dirty_bitmap(BdrvDirtyBitmap *bitmap,
--                                   int chunk_size)
--{
--    assert(!bitmap->meta);
--    qemu_mutex_lock(bitmap->mutex);
--    bitmap->meta = hbitmap_create_meta(bitmap->bitmap,
--                                       chunk_size * BITS_PER_BYTE);
--    qemu_mutex_unlock(bitmap->mutex);
--}
--
--void bdrv_release_meta_dirty_bitmap(BdrvDirtyBitmap *bitmap)
--{
--    assert(bitmap->meta);
--    qemu_mutex_lock(bitmap->mutex);
--    hbitmap_free_meta(bitmap->bitmap);
--    bitmap->meta = NULL;
--    qemu_mutex_unlock(bitmap->mutex);
--}
--
- int64_t bdrv_dirty_bitmap_size(const BdrvDirtyBitmap *bitmap)
- {
-     return bitmap->size;
-@@ -319,7 +288,6 @@ static void bdrv_release_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap)
-     assert(!bitmap->active_iterators);
-     assert(!bdrv_dirty_bitmap_busy(bitmap));
-     assert(!bdrv_dirty_bitmap_has_successor(bitmap));
--    assert(!bitmap->meta);
-     QLIST_REMOVE(bitmap, list);
-     hbitmap_free(bitmap->bitmap);
-     g_free(bitmap->name);
-@@ -557,15 +525,6 @@ BdrvDirtyBitmapIter *bdrv_dirty_iter_new(BdrvDirtyBitmap *bitmap)
-     return iter;
- }
- 
--BdrvDirtyBitmapIter *bdrv_dirty_meta_iter_new(BdrvDirtyBitmap *bitmap)
--{
--    BdrvDirtyBitmapIter *iter = g_new(BdrvDirtyBitmapIter, 1);
--    hbitmap_iter_init(&iter->hbi, bitmap->meta, 0);
--    iter->bitmap = bitmap;
--    bitmap->active_iterators++;
--    return iter;
--}
--
- void bdrv_dirty_iter_free(BdrvDirtyBitmapIter *iter)
- {
-     if (!iter) {
-@@ -712,11 +671,6 @@ int64_t bdrv_get_dirty_count(BdrvDirtyBitmap *bitmap)
-     return hbitmap_count(bitmap->bitmap);
- }
- 
--int64_t bdrv_get_meta_dirty_count(BdrvDirtyBitmap *bitmap)
--{
--    return hbitmap_count(bitmap->meta);
--}
--
- bool bdrv_dirty_bitmap_readonly(const BdrvDirtyBitmap *bitmap)
- {
-     return bitmap->readonly;
+(Technically some of the things we already support, like
+having an A64 semihosting interface at all, are also part of
+the v2.0 spec.)
+
+This patchset:
+ * fixes some bugs relating to errnos in some cases
+ * makes semihosting hand out its own filedescriptors rather
+   than just passing out host fd numbers
+ * abstracts out the fd-related semihosting calls so they
+   indirect via a function table based on the type of the fd
+ * adds a new type of fd representing the magic file
+   ":semihosting-features" which is used for feature-detection
+ * implements both of the extensions defined by the v2.0 spec
+
+I've tested this by improving my semihosting test suite:
+ https://git.linaro.org/people/peter.maydell/semihosting-tests.git/
+(if people have other guest binaries that make much use of
+semihosting then testing would certainly be welcome.)
+
+Changes v1->v2:
+ * Added a patch which corrects misunderstanding in a FIXME
+   comment about the when the callback function is called
+   for arm_gdb_syscall()
+ * in patch 4, if the SYS_open is going via the gdbstub, we
+   must do the associate_guestfd() work in the gdbstub callback
+   function. This is because in softmmu mode the callback will
+   not be called until after do_arm_semihosting() returns.
+   (The v1 series effectively broke SYS_open in the gdbstub
+   + softmmu config)
+ * Pass CPUARMState* to set_swi_errno(), rather than creating
+   an odd local-to-this-file typedef of TaskState for the
+   softmmu compilation
+ * New patch: avoid ifdeffery in gdb callback fns by
+   using set_swi_errno() rather than doing it by-hand
+ * The various 'factor out SYS_foo' patches are basically
+   unchanged, but all the functions no longer need to take
+   a TaskState*. This seemed kind of borderline as to whether
+   to retain Alex's reviewed-by tags, so I dropped them.
+ * Since we need 'env' for set_swi_errno(), we don't need
+   to put the variable declaration inside ifdefs any more
+   in the host_readfn() etc.
+
+I do plan to have a go at fixing the odd FIXME surrounding
+arm_gdb_syscall() which patch 3 clarifies/states in a comment.
+But I thought it better to not tangle that up with this
+patchset, which is already pretty long.
+
+thanks
+-- PMM
+
+
+Peter Maydell (15):
+  target/arm/arm-semi: Capture errno in softmmu version of
+    set_swi_errno()
+  target/arm/arm-semi: Always set some kind of errno for failed calls
+  target/arm/arm-semi: Correct comment about gdb syscall races
+  target/arm/arm-semi: Make semihosting code hand out its own file
+    descriptors
+  target/arm/arm-semi: Restrict use of TaskState*
+  target/arm/arm-semi: Use set_swi_errno() in gdbstub callback functions
+  target/arm/arm-semi: Factor out implementation of SYS_CLOSE
+  target/arm/arm-semi: Factor out implementation of SYS_WRITE
+  target/arm/arm-semi: Factor out implementation of SYS_READ
+  target/arm/arm-semi: Factor out implementation of SYS_ISTTY
+  target/arm/arm-semi: Factor out implementation of SYS_SEEK
+  target/arm/arm-semi: Factor out implementation of SYS_FLEN
+  target/arm/arm-semi: Implement support for semihosting feature
+    detection
+  target/arm/arm-semi: Implement SH_EXT_EXIT_EXTENDED extension
+  target/arm/arm-semi: Implement SH_EXT_STDOUT_STDERR extension
+
+ target/arm/arm-semi.c | 707 ++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 577 insertions(+), 130 deletions(-)
+
 -- 
-2.21.0
+2.20.1
 
 
