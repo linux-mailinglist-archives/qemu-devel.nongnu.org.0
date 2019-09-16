@@ -2,47 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD59B3C89
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:29:02 +0200 (CEST)
-Received: from localhost ([::1]:35132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882C4B3C7C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:23:59 +0200 (CEST)
+Received: from localhost ([::1]:34990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rzx-0008Ar-Gb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46400)
+	id 1i9rv4-0002Yb-3f
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49557)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i9rXR-0003oM-71
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnC-0004J0-SK
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i9rXP-0000aM-Hk
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56294)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i9rXP-0000Zn-2Q; Mon, 16 Sep 2019 09:59:31 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 178073083362;
- Mon, 16 Sep 2019 13:59:30 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE1FB10013A1;
- Mon, 16 Sep 2019 13:59:27 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:58:02 +0200
-Message-Id: <20190916135806.1269-26-david@redhat.com>
-In-Reply-To: <20190916135806.1269-1-david@redhat.com>
-References: <20190916135806.1269-1-david@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnB-0006s5-Ap
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:50 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37663)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i9rnB-0006rf-3R
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:15:49 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r195so10615284wme.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:15:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+93zhnxV6y7awAg0ASSqV7pmnPcURr2F+yzvl9fZsA4=;
+ b=i/3gfIPtv+A1F40fA1vF7JhDCKPvqU19HuYbWuNBIq3rsJkVqGKmG4pBVer/iaH57j
+ jHccakeMDBkHC23mM6t3xT2eEPloplRUXzLFCAPsoA1HEaydbmROJ1VCBQ3byxpEFkk9
+ 7t8I1asM58+Bmb3gKSH5bG0xY2NCmowbCIqCdetFDbStt+8a69mLik+lD6vAd65axGoV
+ 8WExTs3XNS3KnyZSUNUzxzts3O32SN/rXk7GkyAnW6VbT3vFWoYWI14/q+1VLIvNMV2/
+ 9DvFxU34JTRnYpcvR0OrsGE1E7z9tLIX0gjOztThsH06y8bzGA1OR1wOUiIkpnsT6wud
+ +fAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+93zhnxV6y7awAg0ASSqV7pmnPcURr2F+yzvl9fZsA4=;
+ b=AGDy2iOTUWRc593iy2PG0eKGhpT7EKaGzyiJpx3pUfBRyhEAyS28XOOtdq+C5swR3F
+ K/QX6ul63r9VNzjLlurUai/meQ5A2hPs61rHfu2aLuNKWI604uzIif08gJ1NCbsdeYvR
+ Wicx71L9QsHcNDvMcjAWRky/QVCrlAvgcJcKN/yRv2ri+cSW+w0ZemjBq5y9l8jN8eiQ
+ ThU6nLLkp647t66D6i6uKnxsCnlaWX0YbJu1tuGf6+BCltdM13sN8EQc2p9MtPRugiqP
+ YVwDVZegRUlxVpjIqo2loDTX4+42BdUYgSYy9USh2m4lKf3mD7TAmJ6xqCUiA7ViYL5n
+ 4xfw==
+X-Gm-Message-State: APjAAAUYwsuU3doANn0qcPsFGkCwtkA4I0pW5a/lISH+HNZLmwJpfEXk
+ JdFIUo0XweY2MRbw8o1N2w2Bgw==
+X-Google-Smtp-Source: APXvYqz6WZG8Uy1Q5GZEl16gZ7AQ138w+KdgGuAFTrtt92KeTjrl70jDCH01ooeHtXppfk2KCQUmWA==
+X-Received: by 2002:a1c:1d85:: with SMTP id d127mr15179087wmd.14.1568643348049; 
+ Mon, 16 Sep 2019 07:15:48 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.15.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Sep 2019 07:15:47 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 15:15:30 +0100
+Message-Id: <20190916141544.17540-2-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190916141544.17540-1-peter.maydell@linaro.org>
+References: <20190916141544.17540-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 16 Sep 2019 13:59:30 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 25/29] s390x/tcg: MVN: Fault-safe handling
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH v2 01/15] target/arm/arm-semi: Capture errno in
+ softmmu version of set_swi_errno()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,59 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
- Cole Robinson <crobinso@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can process a maximum of 256 bytes, crossing two pages.
+The set_swi_errno() function is called to capture the errno
+from a host system call, so that we can return -1 from the
+semihosting function and later allow the guest to get a more
+specific error code with the SYS_ERRNO function. It comes in
+two versions, one for user-only and one for softmmu. We forgot
+to capture the errno in the softmmu version; fix the error.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+(Semihosting calls directed to gdb are unaffected because
+they go through a different code path that captures the
+error return from the gdbstub call in arm_semi_cb() or
+arm_semi_flen_cb().)
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/s390x/mem_helper.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+NB that a later commit will put in some cleanup of TaskState
+that will let us reduce the duplication between the two
+implementations of this function.
+---
+ target/arm/arm-semi.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 4f46d0be90..fbf65ac42b 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -494,13 +494,22 @@ void HELPER(mvcin)(CPUS390XState *env, uint32_t l, =
-uint64_t dest, uint64_t src)
- /* move numerics  */
- void HELPER(mvn)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64_t=
- src)
- {
-+    const int mmu_idx =3D cpu_mmu_index(env, false);
-+    S390Access srca1, srca2, desta;
-     uintptr_t ra =3D GETPC();
-     int i;
-=20
--    for (i =3D 0; i <=3D l; i++) {
--        uint8_t v =3D cpu_ldub_data_ra(env, dest + i, ra) & 0xf0;
--        v |=3D cpu_ldub_data_ra(env, src + i, ra) & 0x0f;
--        cpu_stb_data_ra(env, dest + i, v, ra);
-+    /* MVN always copies one more byte than specified - maximum is 256 *=
-/
-+    l++;
-+
-+    srca1 =3D access_prepare(env, src, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
-+    for (i =3D 0; i < l; i++) {
-+        const uint8_t x =3D (access_get_byte(env, &srca1, i, ra) & 0x0f)=
- |
-+                          (access_get_byte(env, &srca2, i, ra) & 0xf0);
-+
-+        access_set_byte(env, &desta, i, x, ra);
-     }
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 90423a35deb..03e60105c05 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -114,8 +114,13 @@ static inline uint32_t set_swi_errno(TaskState *ts, uint32_t code)
+     return code;
  }
-=20
---=20
-2.21.0
+ #else
++static target_ulong syscall_err;
++
+ static inline uint32_t set_swi_errno(CPUARMState *env, uint32_t code)
+ {
++    if (code == (uint32_t)-1) {
++        syscall_err = errno;
++    }
+     return code;
+ }
+ 
+@@ -124,10 +129,6 @@ static inline uint32_t set_swi_errno(CPUARMState *env, uint32_t code)
+ 
+ static target_ulong arm_semi_syscall_len;
+ 
+-#if !defined(CONFIG_USER_ONLY)
+-static target_ulong syscall_err;
+-#endif
+-
+ static void arm_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ {
+     ARMCPU *cpu = ARM_CPU(cs);
+-- 
+2.20.1
 
 
