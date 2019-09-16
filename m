@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5E7B3C2E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:09:12 +0200 (CEST)
-Received: from localhost ([::1]:34606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D82B3C45
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:12:02 +0200 (CEST)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rgk-000411-Pu
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46292)
+	id 1i9rjU-0007JG-DY
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45979)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i9rXG-0003a4-Rr
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:24 -0400
+ (envelope-from <david@redhat.com>) id 1i9rWq-0002w7-SZ
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:58:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i9rXF-0000WP-Eu
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43278)
+ (envelope-from <david@redhat.com>) id 1i9rWp-0000Jf-Nt
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:58:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:65449)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i9rXF-0000W1-7c; Mon, 16 Sep 2019 09:59:21 -0400
+ id 1i9rWn-0000ER-Me; Mon, 16 Sep 2019 09:58:55 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 62543307D986;
- Mon, 16 Sep 2019 13:59:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B9515C059758;
+ Mon, 16 Sep 2019 13:58:49 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C39910013A1;
- Mon, 16 Sep 2019 13:59:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9ED4210013A1;
+ Mon, 16 Sep 2019 13:58:47 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:57:58 +0200
-Message-Id: <20190916135806.1269-22-david@redhat.com>
+Date: Mon, 16 Sep 2019 15:57:45 +0200
+Message-Id: <20190916135806.1269-9-david@redhat.com>
 In-Reply-To: <20190916135806.1269-1-david@redhat.com>
 References: <20190916135806.1269-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Mon, 16 Sep 2019 13:59:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Mon, 16 Sep 2019 13:58:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 21/29] s390x/tcg: OC: Fault-safe handling
+Subject: [Qemu-devel] [PATCH v3 08/29] s390x/tcg: MVPG: Properly wrap the
+ addresses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,51 +64,38 @@ Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can process a maximum of 256 bytes, crossing two pages.
+We have to mask of any unused bits. While at it, document what exactly is
+missing.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ target/s390x/mem_helper.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 853b9557cf..0574c31d9a 100644
+index 7dfa848744..746f647303 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -383,17 +383,26 @@ uint32_t HELPER(xc)(CPUS390XState *env, uint32_t l,=
- uint64_t dest,
- static uint32_t do_helper_oc(CPUS390XState *env, uint32_t l, uint64_t de=
-st,
-                              uint64_t src, uintptr_t ra)
- {
-+    const int mmu_idx =3D cpu_mmu_index(env, false);
-+    S390Access srca1, srca2, desta;
-     uint32_t i;
-     uint8_t c =3D 0;
-=20
-     HELPER_LOG("%s l %d dest %" PRIx64 " src %" PRIx64 "\n",
-                __func__, l, dest, src);
-=20
--    for (i =3D 0; i <=3D l; i++) {
--        uint8_t x =3D cpu_ldub_data_ra(env, src + i, ra);
--        x |=3D cpu_ldub_data_ra(env, dest + i, ra);
-+    /* OC always processes one more byte than specified - maximum is 256=
- */
-+    l++;
-+
-+    srca1 =3D access_prepare(env, src, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
-+    for (i =3D 0; i < l; i++) {
-+        const uint8_t x =3D access_get_byte(env, &srca1, i, ra) |
-+                          access_get_byte(env, &srca2, i, ra);
-+
-         c |=3D x;
--        cpu_stb_data_ra(env, dest + i, x, ra);
-+        access_set_byte(env, &desta, i, x, ra);
+@@ -679,8 +679,15 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r=
+0, uint64_t r1, uint64_t r2)
+         s390_program_interrupt(env, PGM_SPECIFICATION, ILEN_AUTO, GETPC(=
+));
      }
-     return c !=3D 0;
+=20
+-    /* ??? missing r0 handling, which includes access keys, but more
+-       importantly optional suppression of the exception!  */
++    r1 =3D wrap_address(env, r1 & TARGET_PAGE_MASK);
++    r2 =3D wrap_address(env, r2 & TARGET_PAGE_MASK);
++
++    /*
++     * TODO:
++     * - Access key handling
++     * - CC-option with surpression of page-translation exceptions
++     * - Store r1/r2 register identifiers at real location 162
++     */
+     fast_memmove(env, r1, r2, TARGET_PAGE_SIZE, GETPC());
+     return 0; /* data moved */
  }
 --=20
 2.21.0
