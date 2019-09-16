@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA77B3D5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:15:01 +0200 (CEST)
-Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D817B3D87
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:19:58 +0200 (CEST)
+Received: from localhost ([::1]:35810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9siR-0005Ez-V5
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53698)
+	id 1i9snE-0000fd-Ml
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCw-0006U9-IT
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:28 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCz-0006YF-Mn
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCu-0007Tb-G2
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:26 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35467)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCx-0007Uv-D2
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:29 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37491)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCt-0007Sq-Rc
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:24 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id y21so103188wmi.0
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:23 -0700 (PDT)
+ id 1i9sCw-0007UP-Tl
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:27 -0400
+Received: by mail-wr1-x443.google.com with SMTP id i1so38605971wro.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fWK7xkNMUlgfTrhGnvGuIYUCcAtGnQSBVV6UtaSG9/g=;
- b=jmRlYKG5kXGqlNC6hKtUuZNj0FM9tuKyfuptebwfpg6zPqES+Fg2Ka3u+nLvAr6paY
- mZc4MU2P5RDoYxZa6Fq9woKWGaYrAOC4fWkKz3zRxNd0vYwlDT1pagApJUO6TDrNcuto
- PqQLGc/CxO/SzNAMEwhYdnxwt35a6jpxxgaLat1t2TZ+kV5PGPxa67SmkJYYusMrO0ig
- UXMGQN6/pXAqm+TQaToyCCS80iNS7Xq1BqG0tVlmw8dlbVmywS2WNyaLPlW09pq+T8ob
- apE2y46OPNMAXwVCIZTr8x34xlbdQUYuLaRI7aru5iRS7e9iqGOGrBkBePWrWY2Ggvta
- 6vxw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=/9mBH+AAUSSLGhvpwHNCY+2vRoaPSjC+sHXPNN0R2GE=;
+ b=vVRi1n1Fo7h1bTbe9nLJNBdtxVfAITHMCIjx+iHSNzlhZ5RL10SD/Acjv6yzQP1NOX
+ BGuEX9Q0/pphMhxpYgU/7BuqttF0FsUDahOPsTrRxfwxMfTIWLj7/D5NF4/GKo217WxG
+ ej3CCOYHw5LrhcdpmtcBkJgXWiUii1xWJ4TjfIpCsgj1vJtzKzUw9n73sSePPcG08KRh
+ Y+PPGDKJbhlXJobyJWgk3tKd3LY68Ap1dHoW4GGfOuAMHlw8/OWCf8MhteIizAKRuKuZ
+ 3YJp9+7Q5TFqa5ecybbyW2CwFWYj4sBbuH+SVLmtAhV/K059rNR1k6FaxDwLG5+Ifzsv
+ JZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fWK7xkNMUlgfTrhGnvGuIYUCcAtGnQSBVV6UtaSG9/g=;
- b=STszWHDcsIH9FO8gn8Wrc6Vw8HNHcPgSTULiVFX0U4T5foDeUHwpPQ41DRADMevPIh
- Q5ugD5wtFT4n/NwXqcc1TMGZrOs++UrRFdV0Uz9VkDOOG11Elfjt0kSBhfVRDtIscBlm
- fOAsEija/gHJIOaDeVvi7xK4TBlgeHdQEWjF3j56sPV6udqdkB5Nf6OdO1FmaIxknJ3k
- GIUvXvLl3uXrIn9AStbSHrkRkv8v6M+f9CPu2u90PopYFlzXkx8CjemZOhvW5876I0n9
- NUHZrm8gyv8RI2JI+u6AdMuwjYNrTUYsm4WdKTtMKfAOZjVH1NNkeY5c5uzLWTbUq3qQ
- Uk+g==
-X-Gm-Message-State: APjAAAVZ0F4FA+lsqbPbEAn1xpE9pAE23W2oj8hccHXJY40ppXDyPtXJ
- HzNjUV97X55pCZQOf57l1mH3Mlhs
-X-Google-Smtp-Source: APXvYqzh5s6MT4f2NjdJLxsUHrH+oqa8OhIjoNL2rBvlQcq6FBwNIV5+D3KsIeGsNn3gYAjKCuTDyA==
-X-Received: by 2002:a7b:c247:: with SMTP id b7mr24953wmj.121.1568644941886;
- Mon, 16 Sep 2019 07:42:21 -0700 (PDT)
+ :in-reply-to:references;
+ bh=/9mBH+AAUSSLGhvpwHNCY+2vRoaPSjC+sHXPNN0R2GE=;
+ b=nZmn6C47QFHG4/OkowReVCD47N6jcNWDavWjvyEhBjKiKbPclLFUyCzR1gqvBlz5Qg
+ 2T0YhoRqitcqwTSqGHZkuAr5kMHIuL1wng1T9PvKP3BF13m0v1Yqrnuz+L/BAHyJxiGN
+ W2dpEXFi75oAhec2O4hXKKmHN32lVW8RLKbL4q58+4oWRlmVHXeXhmJS999/h2ujEBbK
+ oOPC2D0RcVwLiZcMTjB6OSzqNOa+AycgWhsdkusPl/V+GJK+A2Wiw9CLqSL6dZ/l8c3x
+ bTPyjRbXMGnltNc9qupHev84GlPumdOYG2ofVvTu1vOLxf0OsnH6mdcU3a4hos9bH9F5
+ j84A==
+X-Gm-Message-State: APjAAAU5yKEL6PhFhINsdbFpDxnhvQ9QglToQSRswXOMbAhL7Yaly1xp
+ h6GkOWBd4jSMqQibFy0Bl4VX04or
+X-Google-Smtp-Source: APXvYqzeBhoCUGIKG4O/kVauOIf5Z2URiXuE8eYG/fvDasKAZtTcJB6+icvc86JO5p3EIpFstsFEJA==
+X-Received: by 2002:adf:b3c1:: with SMTP id x1mr109032wrd.33.1568644945435;
+ Mon, 16 Sep 2019 07:42:25 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.20
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.24
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:20 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:50 +0200
-Message-Id: <1568644929-9124-11-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:41:53 +0200
+Message-Id: <1568644929-9124-14-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
-Subject: [Qemu-devel] [PULL 10/29] elf-ops.h: fix int overflow in load_elf()
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PULL 13/29] qemu-thread: Add qemu_cond_timedwait
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,67 +74,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Garzarella <sgarzare@redhat.com>
+Cc: Yury Kotov <yury-kotov@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Yury Kotov <yury-kotov@yandex-team.ru>
 
-This patch fixes a possible integer overflow when we calculate
-the total size of ELF segments loaded.
+The new function is needed to implement conditional sleep for CPU
+throttling. It's possible to reuse qemu_sem_timedwait, but it's more
+difficult than just add qemu_cond_timedwait.
 
-Reported-by: Coverity (CID 1405299)
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190910124828.39794-1-sgarzare@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Also moved compute_abs_deadline function up the code to reuse it in
+qemu_cond_timedwait_impl win32.
+
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+Message-Id: <20190909131335.16848-2-yury-kotov@yandex-team.ru>
 ---
- hw/core/loader.c     | 2 ++
- include/hw/elf_ops.h | 5 +++++
- include/hw/loader.h  | 1 +
- 3 files changed, 8 insertions(+)
+ include/qemu/thread.h    | 19 +++++++++++++++++++
+ util/qemu-thread-posix.c | 41 +++++++++++++++++++++++++++++------------
+ util/qemu-thread-win32.c | 17 +++++++++++++++++
+ util/qsp.c               | 20 ++++++++++++++++++++
+ 4 files changed, 85 insertions(+), 12 deletions(-)
 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 32f7cc7..75eb56d 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -338,6 +338,8 @@ const char *load_elf_strerror(int error)
-         return "The image is from incompatible architecture";
-     case ELF_LOAD_WRONG_ENDIAN:
-         return "The image has incorrect endianness";
-+    case ELF_LOAD_TOO_BIG:
-+        return "The image segments are too big to load";
-     default:
-         return "Unknown error";
-     }
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 1496d7e..e07d276 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -485,6 +485,11 @@ static int glue(load_elf, SZ)(const char *name, int fd,
-                 }
-             }
+diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+index 55d83a9..047db03 100644
+--- a/include/qemu/thread.h
++++ b/include/qemu/thread.h
+@@ -34,6 +34,8 @@ typedef void (*QemuRecMutexLockFunc)(QemuRecMutex *m, const char *f, int l);
+ typedef int (*QemuRecMutexTrylockFunc)(QemuRecMutex *m, const char *f, int l);
+ typedef void (*QemuCondWaitFunc)(QemuCond *c, QemuMutex *m, const char *f,
+                                  int l);
++typedef bool (*QemuCondTimedWaitFunc)(QemuCond *c, QemuMutex *m, int ms,
++                                      const char *f, int l);
  
-+            if (mem_size > INT_MAX - total_size) {
-+                ret = ELF_LOAD_TOO_BIG;
-+                goto fail;
-+            }
+ extern QemuMutexLockFunc qemu_bql_mutex_lock_func;
+ extern QemuMutexLockFunc qemu_mutex_lock_func;
+@@ -41,6 +43,7 @@ extern QemuMutexTrylockFunc qemu_mutex_trylock_func;
+ extern QemuRecMutexLockFunc qemu_rec_mutex_lock_func;
+ extern QemuRecMutexTrylockFunc qemu_rec_mutex_trylock_func;
+ extern QemuCondWaitFunc qemu_cond_wait_func;
++extern QemuCondTimedWaitFunc qemu_cond_timedwait_func;
+ 
+ /* convenience macros to bypass the profiler */
+ #define qemu_mutex_lock__raw(m)                         \
+@@ -63,6 +66,8 @@ extern QemuCondWaitFunc qemu_cond_wait_func;
+             qemu_rec_mutex_trylock_impl(m, __FILE__, __LINE__);
+ #define qemu_cond_wait(c, m)                                            \
+             qemu_cond_wait_impl(c, m, __FILE__, __LINE__);
++#define qemu_cond_timedwait(c, m, ms)                                   \
++            qemu_cond_wait_impl(c, m, ms, __FILE__, __LINE__);
+ #else
+ #define qemu_mutex_lock(m) ({                                           \
+             QemuMutexLockFunc _f = atomic_read(&qemu_mutex_lock_func);  \
+@@ -89,6 +94,11 @@ extern QemuCondWaitFunc qemu_cond_wait_func;
+             QemuCondWaitFunc _f = atomic_read(&qemu_cond_wait_func);    \
+             _f(c, m, __FILE__, __LINE__);                               \
+         })
 +
-             /* address_offset is hack for kernel images that are
-                linked at the wrong physical address.  */
-             if (translate_fn) {
-diff --git a/include/hw/loader.h b/include/hw/loader.h
-index 07fd928..48a96cd 100644
---- a/include/hw/loader.h
-+++ b/include/hw/loader.h
-@@ -89,6 +89,7 @@ int load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz);
- #define ELF_LOAD_NOT_ELF      -2
- #define ELF_LOAD_WRONG_ARCH   -3
- #define ELF_LOAD_WRONG_ENDIAN -4
-+#define ELF_LOAD_TOO_BIG      -5
- const char *load_elf_strerror(int error);
++#define qemu_cond_timedwait(c, m, ms) ({                                       \
++            QemuCondTimedWaitFunc _f = atomic_read(&qemu_cond_timedwait_func); \
++            _f(c, m, ms, __FILE__, __LINE__);                                  \
++        })
+ #endif
  
- /** load_elf_ram_sym:
+ #define qemu_mutex_unlock(mutex) \
+@@ -134,12 +144,21 @@ void qemu_cond_signal(QemuCond *cond);
+ void qemu_cond_broadcast(QemuCond *cond);
+ void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *mutex,
+                          const char *file, const int line);
++bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
++                              const char *file, const int line);
+ 
+ static inline void (qemu_cond_wait)(QemuCond *cond, QemuMutex *mutex)
+ {
+     qemu_cond_wait(cond, mutex);
+ }
+ 
++/* Returns true if timeout has not expired, and false otherwise */
++static inline bool (qemu_cond_timedwait)(QemuCond *cond, QemuMutex *mutex,
++                                         int ms)
++{
++    return qemu_cond_timedwait(cond, mutex, ms);
++}
++
+ void qemu_sem_init(QemuSemaphore *sem, int init);
+ void qemu_sem_post(QemuSemaphore *sem);
+ void qemu_sem_wait(QemuSemaphore *sem);
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index 1bf5e65..838980a 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -36,6 +36,18 @@ static void error_exit(int err, const char *msg)
+     abort();
+ }
+ 
++static void compute_abs_deadline(struct timespec *ts, int ms)
++{
++    struct timeval tv;
++    gettimeofday(&tv, NULL);
++    ts->tv_nsec = tv.tv_usec * 1000 + (ms % 1000) * 1000000;
++    ts->tv_sec = tv.tv_sec + ms / 1000;
++    if (ts->tv_nsec >= 1000000000) {
++        ts->tv_sec++;
++        ts->tv_nsec -= 1000000000;
++    }
++}
++
+ void qemu_mutex_init(QemuMutex *mutex)
+ {
+     int err;
+@@ -164,6 +176,23 @@ void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *mutex, const char *file, con
+         error_exit(err, __func__);
+ }
+ 
++bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
++                              const char *file, const int line)
++{
++    int err;
++    struct timespec ts;
++
++    assert(cond->initialized);
++    trace_qemu_mutex_unlock(mutex, file, line);
++    compute_abs_deadline(&ts, ms);
++    err = pthread_cond_timedwait(&cond->cond, &mutex->lock, &ts);
++    trace_qemu_mutex_locked(mutex, file, line);
++    if (err && err != ETIMEDOUT) {
++        error_exit(err, __func__);
++    }
++    return err != ETIMEDOUT;
++}
++
+ void qemu_sem_init(QemuSemaphore *sem, int init)
+ {
+     int rc;
+@@ -238,18 +267,6 @@ void qemu_sem_post(QemuSemaphore *sem)
+ #endif
+ }
+ 
+-static void compute_abs_deadline(struct timespec *ts, int ms)
+-{
+-    struct timeval tv;
+-    gettimeofday(&tv, NULL);
+-    ts->tv_nsec = tv.tv_usec * 1000 + (ms % 1000) * 1000000;
+-    ts->tv_sec = tv.tv_sec + ms / 1000;
+-    if (ts->tv_nsec >= 1000000000) {
+-        ts->tv_sec++;
+-        ts->tv_nsec -= 1000000000;
+-    }
+-}
+-
+ int qemu_sem_timedwait(QemuSemaphore *sem, int ms)
+ {
+     int rc;
+diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
+index 572f885..56a8333 100644
+--- a/util/qemu-thread-win32.c
++++ b/util/qemu-thread-win32.c
+@@ -145,6 +145,23 @@ void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *mutex, const char *file, con
+     qemu_mutex_post_lock(mutex, file, line);
+ }
+ 
++bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
++                              const char *file, const int line)
++{
++    int rc = 0;
++
++    assert(cond->initialized);
++    trace_qemu_mutex_unlock(mutex, file, line);
++    if (!SleepConditionVariableSRW(&cond->var, &mutex->lock, ms, 0)) {
++        rc = GetLastError();
++    }
++    trace_qemu_mutex_locked(mutex, file, line);
++    if (rc && rc != ERROR_TIMEOUT) {
++        error_exit(rc, __func__);
++    }
++    return rc != ERROR_TIMEOUT;
++}
++
+ void qemu_sem_init(QemuSemaphore *sem, int init)
+ {
+     /* Manual reset.  */
+diff --git a/util/qsp.c b/util/qsp.c
+index 5264c97..6226541 100644
+--- a/util/qsp.c
++++ b/util/qsp.c
+@@ -131,6 +131,7 @@ QemuRecMutexLockFunc qemu_rec_mutex_lock_func = qemu_rec_mutex_lock_impl;
+ QemuRecMutexTrylockFunc qemu_rec_mutex_trylock_func =
+     qemu_rec_mutex_trylock_impl;
+ QemuCondWaitFunc qemu_cond_wait_func = qemu_cond_wait_impl;
++QemuCondTimedWaitFunc qemu_cond_timedwait_func = qemu_cond_timedwait_impl;
+ 
+ /*
+  * It pays off to _not_ hash callsite->file; hashing a string is slow, and
+@@ -412,6 +413,23 @@ qsp_cond_wait(QemuCond *cond, QemuMutex *mutex, const char *file, int line)
+     qsp_entry_record(e, t1 - t0);
+ }
+ 
++static bool
++qsp_cond_timedwait(QemuCond *cond, QemuMutex *mutex, int ms,
++                   const char *file, int line)
++{
++    QSPEntry *e;
++    int64_t t0, t1;
++    bool ret;
++
++    t0 = get_clock();
++    ret = qemu_cond_timedwait_impl(cond, mutex, ms, file, line);
++    t1 = get_clock();
++
++    e = qsp_entry_get(cond, file, line, QSP_CONDVAR);
++    qsp_entry_record(e, t1 - t0);
++    return ret;
++}
++
+ bool qsp_is_enabled(void)
+ {
+     return atomic_read(&qemu_mutex_lock_func) == qsp_mutex_lock;
+@@ -425,6 +443,7 @@ void qsp_enable(void)
+     atomic_set(&qemu_rec_mutex_lock_func, qsp_rec_mutex_lock);
+     atomic_set(&qemu_rec_mutex_trylock_func, qsp_rec_mutex_trylock);
+     atomic_set(&qemu_cond_wait_func, qsp_cond_wait);
++    atomic_set(&qemu_cond_timedwait_func, qsp_cond_timedwait);
+ }
+ 
+ void qsp_disable(void)
+@@ -435,6 +454,7 @@ void qsp_disable(void)
+     atomic_set(&qemu_rec_mutex_lock_func, qemu_rec_mutex_lock_impl);
+     atomic_set(&qemu_rec_mutex_trylock_func, qemu_rec_mutex_trylock_impl);
+     atomic_set(&qemu_cond_wait_func, qemu_cond_wait_impl);
++    atomic_set(&qemu_cond_timedwait_func, qemu_cond_timedwait_impl);
+ }
+ 
+ static gint qsp_tree_cmp(gconstpointer ap, gconstpointer bp, gpointer up)
 -- 
 1.8.3.1
 
