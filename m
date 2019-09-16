@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F43B3736
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 11:37:54 +0200 (CEST)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411E4B3740
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 11:39:39 +0200 (CEST)
+Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9nSC-0007hV-HE
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 05:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40476)
+	id 1i9nTu-00022S-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 05:39:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1i9nPr-0005xc-60
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:35:28 -0400
+ (envelope-from <atar4qemu@gmail.com>) id 1i9nR6-0007O8-Gv
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:36:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1i9nPp-0002xe-P8
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:35:27 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16940)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1i9nPp-0002xF-GT
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:35:25 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8G9XQwh041612
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 05:35:24 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v27j1rqpu-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 05:35:24 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Mon, 16 Sep 2019 10:35:21 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 16 Sep 2019 10:35:18 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id x8G9ZHTR36569350
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Sep 2019 09:35:17 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2FD3EA405F;
- Mon, 16 Sep 2019 09:35:17 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 845ABA405B;
- Mon, 16 Sep 2019 09:35:14 +0000 (GMT)
-Received: from dhcp-9-120-237-81.in.ibm.com (unknown [9.120.237.81])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 16 Sep 2019 09:35:14 +0000 (GMT)
-From: Balamuruhan S <bala24@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:04:45 +0530
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20190916093445.20507-1-bala24@linux.ibm.com>
-References: <20190916093445.20507-1-bala24@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19091609-4275-0000-0000-00000366F7EE
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091609-4276-0000-0000-000038795955
-Message-Id: <20190916093445.20507-4-bala24@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-16_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=21 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=627 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909160102
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH 3/3] tests/acceptance/migration: test to
- migrate will all machine types
+ (envelope-from <atar4qemu@gmail.com>) id 1i9nR1-0003J8-KM
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 05:36:44 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:33095)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <atar4qemu@gmail.com>)
+ id 1i9nQy-0003I2-QQ; Mon, 16 Sep 2019 05:36:36 -0400
+Received: by mail-io1-xd41.google.com with SMTP id m11so77112709ioo.0;
+ Mon, 16 Sep 2019 02:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6btzDUjduqfuVpjs7yTcIN8a4vRCz2jvO3uE0k6xd7M=;
+ b=DVKho6sfNoleNtScS3oqwbMR7UiuMUhjpvKLrD96nHYPBK6HdMBQf9lqGDoQ8TtC/8
+ i6r32+JSIT720ndC5/N6V6XaLZbyNNw5mbfBT0Vx2xIP4cyGXTKqss6oGa50UKmak14T
+ GcFJY4Gu6n9J3NNa+HBvmfxPYqUvtM5GevPC9Akk1N2xnCKBxHPyg1WLbnrFtM1c+YV+
+ CNUCAdmYjOq9ZRapVOTL9HAkydr+XHMLScsLnKNdprR3/cnHKo3/pp5TPRXzqlMRIomH
+ 8BYdYWtVj3l3FWtiEgffjDFWwmfkwS/Lf5PsQY78a4vz/m2K3c79O+rSEqkWYQIt9ffV
+ FsaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6btzDUjduqfuVpjs7yTcIN8a4vRCz2jvO3uE0k6xd7M=;
+ b=uH5CWujbnTE9eWUkcaR0Pc9QCD1ALiFl4fexJINdGtTsbWMVWFZtR3WNiBPAyBPDWR
+ X0MHjiu7Eqy12aMhDvEIvMe/RU+WEx5RP8mWVFNHE6/zH04Gz7eJxZx2KFNcdxeonShf
+ SeMYudXXx5HEbw2qONq8aCJToq75vP61XLfw1lAL/RtTVSDnMVtVvYneCWS5y6f3DeTP
+ 1z4Xw7SZrbiylkfvF6J1YTxVt59NAa6M9XWvEfqNeu/8UdMdkAvE00yAvKPcvGm4Dgkl
+ fUZ1tDX14p2eKwYI7wMogO/LLaYfwqEfbYmrEIil9Xx28lIuxs0GQO+SNGRNybfkCWyX
+ gkSQ==
+X-Gm-Message-State: APjAAAUBKSARFqLDiGGJkiZg9qle7WERbtSVeDwbAYLpZB+wQsuxA77d
+ EyR3Y+rd80oQKvfqFOZTkjtENHwd3eiiiHlcC0s=
+X-Google-Smtp-Source: APXvYqzMZ+orkIW3ZHDzWzTMmg9uPYiHOMdnEWWoYAR1Ycd8ALvnISYeFAfU9G4OFUeaDSVkCtPHjfvkOaGXvHVrPqg=
+X-Received: by 2002:a6b:c7c2:: with SMTP id
+ x185mr15979835iof.224.1568626595470; 
+ Mon, 16 Sep 2019 02:36:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190915211940.30427-1-f4bug@amsat.org>
+ <20190915211940.30427-3-f4bug@amsat.org>
+In-Reply-To: <20190915211940.30427-3-f4bug@amsat.org>
+From: Artyom Tarasenko <atar4qemu@gmail.com>
+Date: Mon, 16 Sep 2019 11:36:24 +0200
+Message-ID: <CACXAS8Dk-Gu4eM8pSPX3YWhCeoLKpsbOe14J8StLzYO-LTYuMw@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d41
+Subject: Re: [Qemu-devel] [PATCH v2 2/6] tests/acceptance: Test Open
+ Firmware on the PReP/40p
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,56 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, ccarrara@redhat.com, groug@kaod.org,
- Balamuruhan S <bala24@linux.ibm.com>, sathnaga@linux.vnet.ibm.com,
- clg@kaod.org, crosa@redhat.com, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Cleber Rosa <crosa@redhat.com>, "open list:PReP" <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add migration test to query machine types supported by qemu binary
-and migrate vm will all supported type.
+On Sun, Sep 15, 2019 at 11:19 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> User case from:
+> https://tyom.blogspot.com/2019/04/aixprep-under-qemu-how-to.html
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
----
- tests/acceptance/migration.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Thanks a lot for this one, Philippe!
+Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
 
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index 0f3553c8f0..74416ccc21 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -49,3 +49,29 @@ class Migration(Test):
-         self.assertEqual(dest_vm.command('query-status')['status'], 'running')
-         self.assertEqual(source_vm.command('query-status')['status'],
-                          'postmigrate')
-+
-+
-+    def test_migration_with_machine_types(self):
-+        migration_port = self._get_free_port()
-+        for machine in self.get_machine_types():
-+            if 'pseries' in machine:
-+                print("migrating with machine type - {}".format(machine))
-+                source_vm = self.get_vm('-M', '{},cap-htm=off'.format(machine))
-+                dest_uri = 'tcp:localhost:%u' % migration_port
-+                dest_vm = self.get_vm('-M', '{},cap-htm=off'.format(machine),
-+                                      '-incoming', dest_uri)
-+                dest_vm.launch()
-+                source_vm.launch()
-+                source_vm.qmp('migrate', uri=dest_uri)
-+                wait.wait_for(
-+                    self.migration_finished,
-+                    timeout=self.timeout,
-+                    step=0.1,
-+                    args=(source_vm,)
-+                )
-+                self.assertEqual(source_vm.command('query-migrate')['status'],
-+                                                   'completed')
-+                self.assertEqual(dest_vm.command('query-status')['status'],
-+                                                 'running')
-+                self.assertEqual(source_vm.command('query-status')['status'],
-+                                                   'postmigrate')
--- 
-2.14.5
+> ---
+>  tests/acceptance/ppc_prep_40p.py | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep=
+_40p.py
+> index 53f2d2ecf0..a0eac40d9f 100644
+> --- a/tests/acceptance/ppc_prep_40p.py
+> +++ b/tests/acceptance/ppc_prep_40p.py
+> @@ -61,3 +61,24 @@ class IbmPrep40pMachine(Test):
+>          os_banner =3D 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST =
+2007'
+>          self.wait_for_console_pattern(os_banner)
+>          self.wait_for_console_pattern('Model: IBM PPS Model 6015')
+> +
+> +    def test_openfirmware(self):
+> +        """
+> +        :avocado: tags=3Darch:ppc
+> +        :avocado: tags=3Dmachine:40p
+> +        """
+> +        bios_url =3D ('https://github.com/artyom-tarasenko/openfirmware/=
+'
+> +                    'releases/download/40p-20190413/q40pofw-serial.rom')
+> +        bios_hash =3D '880c80172ea5b2247c0ac2a8bf36bbe385192c72'
+> +        bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash)
+> +
+> +        self.vm.set_machine('40p')
+> +        self.vm.set_console()
+> +        self.vm.add_args('-bios', bios_path)
+> +
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('QEMU PReP/40p')
+> +        fw_banner =3D 'Open Firmware, built  April 13, 2019 09:29:23'
+> +        self.wait_for_console_pattern(fw_banner)
+> +        prompt_msg =3D 'Type any key to interrupt automatic startup'
+> +        self.wait_for_console_pattern(prompt_msg)
+> --
+> 2.20.1
+>
 
+
+--=20
+Regards,
+Artyom Tarasenko
+
+SPARC and PPC PReP under qemu blog: http://tyom.blogspot.com/search/label/q=
+emu
 
