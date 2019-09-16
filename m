@@ -2,41 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67ACB3CC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:41:37 +0200 (CEST)
-Received: from localhost ([::1]:35296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79420B3CDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:49:36 +0200 (CEST)
+Received: from localhost ([::1]:35392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sC7-0004BA-Ui
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50364)
+	id 1i9sJq-0002jX-Pv
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9rqb-0007E0-Jj
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:19:23 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i9ruQ-0003Dj-S8
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9rqZ-0007v9-Lg
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:19:21 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58096)
+ (envelope-from <mreitz@redhat.com>) id 1i9ruP-0000nN-GY
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43040)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i9rqV-0007sh-Bc; Mon, 16 Sep 2019 10:19:15 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1i9rqS-0003EA-PU; Mon, 16 Sep 2019 17:19:12 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1i9ruM-0000mJ-KC; Mon, 16 Sep 2019 10:23:14 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E297A796E0;
+ Mon, 16 Sep 2019 14:23:13 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C7DC1001B13;
+ Mon, 16 Sep 2019 14:23:13 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 16 Sep 2019 17:19:10 +0300
-Message-Id: <20190916141911.5255-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190916141911.5255-1-vsementsov@virtuozzo.com>
-References: <20190916141911.5255-1-vsementsov@virtuozzo.com>
+Date: Mon, 16 Sep 2019 16:22:38 +0200
+Message-Id: <20190916142246.31474-9-mreitz@redhat.com>
+In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
+References: <20190916142246.31474-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 3/4] block/dirty-bitmap: drop
- BdrvDirtyBitmap.mutex
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Mon, 16 Sep 2019 14:23:13 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 08/16] curl: Check completion in curl_multi_do()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,272 +54,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- quintela@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, den@openvz.org, mreitz@redhat.com, jsnow@redhat.com,
- dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mutex field is just a pointer to bs->dirty_bitmap_mutex, so no needs
-to store it in BdrvDirtyBitmap when we have bs pointer in it (since
-previous patch).
+While it is more likely that transfers complete after some file
+descriptor has data ready to read, we probably should not rely on it.
+Better be safe than sorry and call curl_multi_check_completion() in
+curl_multi_do(), too, just like it is done in curl_multi_read().
 
-Drop mutex field. Constantly use bdrv_dirty_bitmaps_lock/unlock in
-block/dirty-bitmap.c to make it more obvious that it's not per-bitmap
-lock. Still, for simplicity, leave bdrv_dirty_bitmap_lock/unlock
-functions as an external API.
+With this change, curl_multi_do() and curl_multi_read() are actually the
+same, so drop curl_multi_read() and use curl_multi_do() as the sole FD
+handler.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190910124136.10565-4-mreitz@redhat.com
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/dirty-bitmap.c | 84 +++++++++++++++++++++-----------------------
- 1 file changed, 41 insertions(+), 43 deletions(-)
+ block/curl.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index f3dc7b3ca5..76a8e59e61 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -28,7 +28,6 @@
- #include "block/blockjob.h"
- 
- struct BdrvDirtyBitmap {
--    QemuMutex *mutex;
-     BlockDriverState *bs;
-     HBitmap *bitmap;            /* Dirty bitmap implementation */
-     bool busy;                  /* Bitmap is busy, it can't be used via QMP */
-@@ -71,12 +70,12 @@ static inline void bdrv_dirty_bitmaps_unlock(BlockDriverState *bs)
- 
- void bdrv_dirty_bitmap_lock(BdrvDirtyBitmap *bitmap)
+diff --git a/block/curl.c b/block/curl.c
+index 95d7b77dc0..5838afef99 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -139,7 +139,6 @@ typedef struct BDRVCURLState {
+=20
+ static void curl_clean_state(CURLState *s);
+ static void curl_multi_do(void *arg);
+-static void curl_multi_read(void *arg);
+=20
+ #ifdef NEED_CURL_TIMER_CALLBACK
+ /* Called from curl_multi_do_locked, with s->mutex held.  */
+@@ -186,7 +185,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd,=
+ int action,
+     switch (action) {
+         case CURL_POLL_IN:
+             aio_set_fd_handler(s->aio_context, fd, false,
+-                               curl_multi_read, NULL, NULL, state);
++                               curl_multi_do, NULL, NULL, state);
+             break;
+         case CURL_POLL_OUT:
+             aio_set_fd_handler(s->aio_context, fd, false,
+@@ -194,7 +193,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd,=
+ int action,
+             break;
+         case CURL_POLL_INOUT:
+             aio_set_fd_handler(s->aio_context, fd, false,
+-                               curl_multi_read, curl_multi_do, NULL, sta=
+te);
++                               curl_multi_do, curl_multi_do, NULL, state=
+);
+             break;
+         case CURL_POLL_REMOVE:
+             aio_set_fd_handler(s->aio_context, fd, false,
+@@ -416,15 +415,6 @@ static void curl_multi_do(void *arg)
  {
--    qemu_mutex_lock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
- }
- 
- void bdrv_dirty_bitmap_unlock(BdrvDirtyBitmap *bitmap)
- {
--    qemu_mutex_unlock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- /* Called with BQL or dirty_bitmap lock taken.  */
-@@ -116,7 +115,6 @@ BdrvDirtyBitmap *bdrv_create_dirty_bitmap(BlockDriverState *bs,
-     }
-     bitmap = g_new0(BdrvDirtyBitmap, 1);
-     bitmap->bs = bs;
--    bitmap->mutex = &bs->dirty_bitmap_mutex;
-     bitmap->bitmap = hbitmap_alloc(bitmap_size, ctz32(granularity));
-     bitmap->size = bitmap_size;
-     bitmap->name = g_strdup(name);
-@@ -150,9 +148,9 @@ static bool bdrv_dirty_bitmap_busy(const BdrvDirtyBitmap *bitmap)
- 
- void bdrv_dirty_bitmap_set_busy(BdrvDirtyBitmap *bitmap, bool busy)
- {
--    qemu_mutex_lock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bitmap->busy = busy;
--    qemu_mutex_unlock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- /* Called with BQL taken.  */
-@@ -277,10 +275,10 @@ void bdrv_enable_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap)
- /* Called with BQL taken. */
- void bdrv_dirty_bitmap_enable_successor(BdrvDirtyBitmap *bitmap)
- {
--    assert(bitmap->mutex == bitmap->successor->mutex);
--    qemu_mutex_lock(bitmap->mutex);
-+    assert(bitmap->bs == bitmap->successor->bs);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bdrv_enable_dirty_bitmap_locked(bitmap->successor);
--    qemu_mutex_unlock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- /* Called within bdrv_dirty_bitmap_lock..unlock and with BQL taken.  */
-@@ -360,9 +358,9 @@ BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap(BdrvDirtyBitmap *parent,
- {
-     BdrvDirtyBitmap *ret;
- 
--    qemu_mutex_lock(parent->mutex);
-+    bdrv_dirty_bitmaps_lock(parent->bs);
-     ret = bdrv_reclaim_dirty_bitmap_locked(parent, errp);
--    qemu_mutex_unlock(parent->mutex);
-+    bdrv_dirty_bitmaps_unlock(parent->bs);
- 
-     return ret;
- }
-@@ -434,16 +432,16 @@ void bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs,
- 
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
- {
--    bdrv_dirty_bitmap_lock(bitmap);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bitmap->disabled = true;
--    bdrv_dirty_bitmap_unlock(bitmap);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- void bdrv_enable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
- {
--    bdrv_dirty_bitmap_lock(bitmap);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bdrv_enable_dirty_bitmap_locked(bitmap);
--    bdrv_dirty_bitmap_unlock(bitmap);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- BlockDirtyInfoList *bdrv_query_dirty_bitmaps(BlockDriverState *bs)
-@@ -484,9 +482,9 @@ bool bdrv_dirty_bitmap_get_locked(BdrvDirtyBitmap *bitmap, int64_t offset)
- bool bdrv_dirty_bitmap_get(BdrvDirtyBitmap *bitmap, int64_t offset)
- {
-     bool ret;
--    bdrv_dirty_bitmap_lock(bitmap);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     ret = bdrv_dirty_bitmap_get_locked(bitmap, offset);
--    bdrv_dirty_bitmap_unlock(bitmap);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- 
-     return ret;
- }
-@@ -551,9 +549,9 @@ void bdrv_set_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
- void bdrv_set_dirty_bitmap(BdrvDirtyBitmap *bitmap,
-                            int64_t offset, int64_t bytes)
- {
--    bdrv_dirty_bitmap_lock(bitmap);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bdrv_set_dirty_bitmap_locked(bitmap, offset, bytes);
--    bdrv_dirty_bitmap_unlock(bitmap);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- /* Called within bdrv_dirty_bitmap_lock..unlock */
-@@ -567,15 +565,15 @@ void bdrv_reset_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
- void bdrv_reset_dirty_bitmap(BdrvDirtyBitmap *bitmap,
-                              int64_t offset, int64_t bytes)
- {
--    bdrv_dirty_bitmap_lock(bitmap);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bdrv_reset_dirty_bitmap_locked(bitmap, offset, bytes);
--    bdrv_dirty_bitmap_unlock(bitmap);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- void bdrv_clear_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap **out)
- {
-     assert(!bdrv_dirty_bitmap_readonly(bitmap));
--    bdrv_dirty_bitmap_lock(bitmap);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     if (!out) {
-         hbitmap_reset_all(bitmap->bitmap);
-     } else {
-@@ -584,7 +582,7 @@ void bdrv_clear_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap **out)
-                                        hbitmap_granularity(backup));
-         *out = backup;
-     }
--    bdrv_dirty_bitmap_unlock(bitmap);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- void bdrv_restore_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap *backup)
-@@ -679,9 +677,9 @@ bool bdrv_dirty_bitmap_readonly(const BdrvDirtyBitmap *bitmap)
- /* Called with BQL taken. */
- void bdrv_dirty_bitmap_set_readonly(BdrvDirtyBitmap *bitmap, bool value)
- {
--    qemu_mutex_lock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bitmap->readonly = value;
--    qemu_mutex_unlock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- bool bdrv_has_readonly_bitmaps(BlockDriverState *bs)
-@@ -699,27 +697,27 @@ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs)
- /* Called with BQL taken. */
- void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap, bool persistent)
- {
--    qemu_mutex_lock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bitmap->persistent = persistent;
--    qemu_mutex_unlock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- /* Called with BQL taken. */
- void bdrv_dirty_bitmap_set_inconsistent(BdrvDirtyBitmap *bitmap)
- {
--    qemu_mutex_lock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     assert(bitmap->persistent == true);
-     bitmap->inconsistent = true;
-     bitmap->disabled = true;
--    qemu_mutex_unlock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- /* Called with BQL taken. */
- void bdrv_dirty_bitmap_skip_store(BdrvDirtyBitmap *bitmap, bool skip)
- {
--    qemu_mutex_lock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_lock(bitmap->bs);
-     bitmap->skip_store = skip;
--    qemu_mutex_unlock(bitmap->mutex);
-+    bdrv_dirty_bitmaps_unlock(bitmap->bs);
- }
- 
- bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap)
-@@ -779,9 +777,9 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
- {
-     bool ret;
- 
--    qemu_mutex_lock(dest->mutex);
--    if (src->mutex != dest->mutex) {
--        qemu_mutex_lock(src->mutex);
-+    bdrv_dirty_bitmaps_lock(dest->bs);
-+    if (src->bs != dest->bs) {
-+        bdrv_dirty_bitmaps_lock(src->bs);
-     }
- 
-     if (bdrv_dirty_bitmap_check(dest, BDRV_BITMAP_DEFAULT, errp)) {
-@@ -801,9 +799,9 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-     assert(ret);
- 
- out:
--    qemu_mutex_unlock(dest->mutex);
--    if (src->mutex != dest->mutex) {
--        qemu_mutex_unlock(src->mutex);
-+    bdrv_dirty_bitmaps_unlock(dest->bs);
-+    if (src->bs != dest->bs) {
-+        bdrv_dirty_bitmaps_unlock(src->bs);
-     }
- }
- 
-@@ -827,9 +825,9 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-     assert(!bdrv_dirty_bitmap_inconsistent(src));
- 
-     if (lock) {
--        qemu_mutex_lock(dest->mutex);
--        if (src->mutex != dest->mutex) {
--            qemu_mutex_lock(src->mutex);
-+        bdrv_dirty_bitmaps_lock(dest->bs);
-+        if (src->bs != dest->bs) {
-+            bdrv_dirty_bitmaps_lock(src->bs);
-         }
-     }
- 
-@@ -842,9 +840,9 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-     }
- 
-     if (lock) {
--        qemu_mutex_unlock(dest->mutex);
--        if (src->mutex != dest->mutex) {
--            qemu_mutex_unlock(src->mutex);
-+        bdrv_dirty_bitmaps_unlock(dest->bs);
-+        if (src->bs != dest->bs) {
-+            bdrv_dirty_bitmaps_unlock(src->bs);
-         }
-     }
- 
--- 
+     CURLState *s =3D (CURLState *)arg;
+=20
+-    qemu_mutex_lock(&s->s->mutex);
+-    curl_multi_do_locked(s);
+-    qemu_mutex_unlock(&s->s->mutex);
+-}
+-
+-static void curl_multi_read(void *arg)
+-{
+-    CURLState *s =3D (CURLState *)arg;
+-
+     qemu_mutex_lock(&s->s->mutex);
+     curl_multi_do_locked(s);
+     curl_multi_check_completion(s->s);
+--=20
 2.21.0
 
 
