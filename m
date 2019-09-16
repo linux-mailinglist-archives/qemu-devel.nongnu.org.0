@@ -2,47 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C58B3D65
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:16:44 +0200 (CEST)
-Received: from localhost ([::1]:35786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4ECB3D52
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:11:28 +0200 (CEST)
+Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sk6-0006k5-72
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:16:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51134)
+	id 1i9sf1-0001TM-4T
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53649)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i9ruX-0003NM-PT
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:27 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCs-0006Ow-K2
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i9ruW-0000q1-42
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40336)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i9ruT-0000oj-2b; Mon, 16 Sep 2019 10:23:21 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 29DA918C427A;
- Mon, 16 Sep 2019 14:23:20 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9876B600C1;
- Mon, 16 Sep 2019 14:23:19 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon, 16 Sep 2019 16:22:40 +0200
-Message-Id: <20190916142246.31474-11-mreitz@redhat.com>
-In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
-References: <20190916142246.31474-1-mreitz@redhat.com>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCr-0007Rx-0S
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:22 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54515)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1i9sCq-0007RF-3E
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:20 -0400
+Received: by mail-wm1-x334.google.com with SMTP id p7so59559wmp.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=E+2MN0bdyQ/s8snWDk5tAnhwggMh7vntuwQ/7buJlTc=;
+ b=pAj2TAAJ/t4u1xKJLvN7dUtOPfvCc2EvoLUnGwcqFW1MR9J/X1IL71mqHLPO+ITYEi
+ 9A2PNdAxZCdYNIYw2mUlAFndEDGm8Xl2H/2v49P0p5kglG7DUS2fch1zfTmHz3n96MTs
+ Ol/nW6dTggJu+3+fTSykPviC0+k3uOrEMOFi6crWpv+1oWtaGsAUpoCuO4p0uhvN7qv2
+ qqgaW9ei2TJPOYiRHpZe3Sfahr+z7PB+cwJg8jaowmiWwCO0dkiqanF+1Ye9hZlXqON7
+ aqNCXML9gPNb4idDFU//P6vs/ROpx5glJ50eAiD7DfB/eaI/R52Kr361S6ShMASN1ybi
+ rAmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=E+2MN0bdyQ/s8snWDk5tAnhwggMh7vntuwQ/7buJlTc=;
+ b=ENPPiWm3C5+Edwby5rKewwH4O95ql8t81qYETBFXCDlYSb280kj0VRlLK3Lf8Hg/GF
+ 5s+FR7M7kQCT9muDsdmk/f9B/5VybednhvPfV0PeeB5vFlN5wrsFcqRFvO6B/r+5xdpJ
+ DifmORvHprWfiKYkT9V4y1PvyzE7fjAfPg9cFUz/t2IYs62NDCUqSG9K5R18z/FnNm+s
+ uVFkrL4r1bjB8k44oOvnwCQeCicT9pwgo/nNLJ7tOlmcFWZa0IB7W/EIns5AsMzK1THa
+ +0Gh+Fvq9QvdQrLHg/tMismBPte+Rq4z+elB2Ay58DriJqdVgC2EF6iheJApea+69JiU
+ XGsQ==
+X-Gm-Message-State: APjAAAVx+T0NA9CAWlBAc/bAAYtTRJRY/OXty+gG/jE1OeUDYfYC/yZg
+ OtWwb6mxMbbCeGpRI4pTEelyXJhg
+X-Google-Smtp-Source: APXvYqwhFYWbg+JSV1g5vTmwBxvsqoxikxCR0ExmPZgdt6VCWXflYS0U7GROgzyyAUGzCCJ90qZI8A==
+X-Received: by 2002:a7b:c3c6:: with SMTP id t6mr45589wmj.5.1568644937697;
+ Mon, 16 Sep 2019 07:42:17 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.16
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 16 Sep 2019 07:42:16 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 16:41:47 +0200
+Message-Id: <1568644929-9124-8-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Mon, 16 Sep 2019 14:23:20 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 10/16] curl: Report only ready sockets
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PULL 07/29] win32: fix README file in NSIS installer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,69 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of reporting all sockets to cURL, only report the one that has
-caused curl_multi_do_locked() to be called.  This lets us get rid of the
-QLIST_FOREACH_SAFE() list, which was actually wrong: SAFE foreaches are
-only safe when the current element is removed in each iteration.  If it
-possible for the list to be concurrently modified, we cannot guarantee
-that only the current element will be removed.  Therefore, we must not
-use QLIST_FOREACH_SAFE() here.
+Adjust after the rST conversion and consequent renaming.
 
-Fixes: ff5ca1664af85b24a4180d595ea6873fd3deac57
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190910124136.10565-6-mreitz@redhat.com
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Fixes: 336a7451e8803c21a2da6e7d1eca8cfb8e8b219a
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/curl.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ qemu.nsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index cf2686218d..fd70f1ebc4 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -392,24 +392,19 @@ static void curl_multi_check_completion(BDRVCURLSta=
-te *s)
- }
-=20
- /* Called with s->mutex held.  */
--static void curl_multi_do_locked(CURLSocket *ready_socket)
-+static void curl_multi_do_locked(CURLSocket *socket)
- {
--    CURLSocket *socket, *next_socket;
--    CURLState *s =3D ready_socket->state;
-+    BDRVCURLState *s =3D socket->state->s;
-     int running;
-     int r;
-=20
--    if (!s->s->multi) {
-+    if (!s->multi) {
-         return;
-     }
-=20
--    /* Need to use _SAFE because curl_multi_socket_action() may trigger
--     * curl_sock_cb() which might modify this list */
--    QLIST_FOREACH_SAFE(socket, &s->sockets, next, next_socket) {
--        do {
--            r =3D curl_multi_socket_action(s->s->multi, socket->fd, 0, &=
-running);
--        } while (r =3D=3D CURLM_CALL_MULTI_PERFORM);
--    }
-+    do {
-+        r =3D curl_multi_socket_action(s->multi, socket->fd, 0, &running=
-);
-+    } while (r =3D=3D CURLM_CALL_MULTI_PERFORM);
- }
-=20
- static void curl_multi_do(void *arg)
---=20
-2.21.0
+diff --git a/qemu.nsi b/qemu.nsi
+index d0df0f4..0c29ba3 100644
+--- a/qemu.nsi
++++ b/qemu.nsi
+@@ -119,7 +119,7 @@ Section "${PRODUCT} (required)"
+     File "${SRCDIR}\Changelog"
+     File "${SRCDIR}\COPYING"
+     File "${SRCDIR}\COPYING.LIB"
+-    File "${SRCDIR}\README"
++    File "${SRCDIR}\README.rst"
+     File "${SRCDIR}\VERSION"
+ 
+     File "${BINDIR}\*.bmp"
+@@ -211,7 +211,7 @@ Section "Uninstall"
+     Delete "$INSTDIR\Changelog"
+     Delete "$INSTDIR\COPYING"
+     Delete "$INSTDIR\COPYING.LIB"
+-    Delete "$INSTDIR\README"
++    Delete "$INSTDIR\README.rst"
+     Delete "$INSTDIR\VERSION"
+     Delete "$INSTDIR\*.bmp"
+     Delete "$INSTDIR\*.bin"
+-- 
+1.8.3.1
+
 
 
