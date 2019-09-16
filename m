@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6748BB3E56
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:02:21 +0200 (CEST)
-Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA8CB3E5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:04:20 +0200 (CEST)
+Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tSF-00031F-TV
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53877)
+	id 1i9tUA-0005BO-Mp
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:04:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53953)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDG-0006hR-EH
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:48 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDN-0006kn-3P
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDB-0007Zr-Uk
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:45 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38539)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDK-0007cy-FE
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:52 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38599)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sD8-0007Ya-7c
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:39 -0400
-Received: by mail-wm1-x332.google.com with SMTP id o184so76744wme.3
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:37 -0700 (PDT)
+ id 1i9sDI-0007aQ-9U
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:48 -0400
+Received: by mail-wm1-x343.google.com with SMTP id o184so77148wme.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1loFgfoo8O+0OkFX8to4l4qCch6xvKAVs5sNReYGYME=;
- b=FStat188H8P1fmPqcsWuTamTvVXdP4cUgAU70kzo/CeXNHNVNFBawj7G8bkbYQmeEH
- +P01npwxW7Fa/UpD82h6sKKHVDcRgWwPZ7bW+2IbCChbZLhsnv49ouVB3dKzO+VDha3t
- zKrcsjZUYMAUv+i4Z4rE9PlSk1JVZJ4sZAQTHifFMOYZTjlxDMlOctfE7Tj+wwLgqcvZ
- oTo6zP31WEAiaJkjz48Ccdmvt9qj7bM/KSb7sn0Z/UpCC8Ng6KMHU3wCcqlE7/sQiyFp
- Y1ctlSpMg2w1xWbF6aSlfkJxdPGASWkwcZzFU4mPLy7kaZLtvjXjcSj9msD6EsZt8iOs
- SAtQ==
+ bh=lSmdP+pHZng8BEWPjDjiZZ2csyBsn+ff1HE03fLpH0c=;
+ b=ZJRH0t+I69orU39wws4PL7LeBvfkH8pmrppDdA2zoUdEW+TPloFBPCXMwxbfrzcIaW
+ KYcLOXFl8u2cWFKglM6XPEr79eupxUYyiCglej5H9QBD4L+9Nhna7/5wXUe8FmfNm/bm
+ +pV2oS/jnX93Qy28l/drCasBhLqMFv0o0+KAjED/DZtzQA1gTWKO6W+L3QpmGlNyZiZh
+ aV7egj1QRSNNDgMyoBP7c4no+9Ta2QVFl+XTyGUi+kuODoG0w2LZx1pI0B5PyOqaXSYO
+ zLIJPDJjnEWZFkmtmTkm+pfhTc6IrY5V91zWwBclmRVhgv0rOYeAqloHd0/QilUI9sYa
+ kBSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1loFgfoo8O+0OkFX8to4l4qCch6xvKAVs5sNReYGYME=;
- b=kNLWGOWzf7QOe0fJpsangAhNwQPk90aImgvMPph2voXdddGqnlMGJPczPVfnQZ626D
- SCsbemIkEk538J0YnCFX2QISf+2af8xMDVaHADe1PqD/ComiCJiRi+37BKdjXdcFDqQa
- j4HZAWTwl3u43EqN5gwk9+MDeERw3/FNo32+YQIIMhMx5ZJRASxBz2EMHarZD9d98tkt
- 8kULAj0wXidRuC3quzKM02R8R2PrWCYB1XUcFYndJXHiJqHnDB7bod8Z0P9vJft3BpDg
- DqIDqUoNwYr6PPHKMcJcuTpApyyqRkXXM0qcDlKs1be459pjVVlQ9a5c27BYuYrdqb7X
- udiw==
-X-Gm-Message-State: APjAAAX6puMXFUKKE6occA4Wknsf1QTJNEabm767zwDsV/aiuC9+AuZm
- N51rTderClVxIqX87bNwadKm2EdX
-X-Google-Smtp-Source: APXvYqznLdHQCw9K8x7FP6jvb3zHmH/KpELDsX4qsgmgJHgwZhUQAeh7enumjNz8SBByXvcyxJ+rWA==
-X-Received: by 2002:a7b:c391:: with SMTP id s17mr67373wmj.94.1568644956598;
- Mon, 16 Sep 2019 07:42:36 -0700 (PDT)
+ bh=lSmdP+pHZng8BEWPjDjiZZ2csyBsn+ff1HE03fLpH0c=;
+ b=LY1/pv/lboUofG3Ly25o8msarh8m9xGCtUiMP4xnKpbIh9jj57q7eOtS7PnlhoMUqC
+ V/2h38IaiComcNFe2xUipG6Wd8WK22SYakT8yj3tBGqnFJcc+fSaSeVeXsP/W16hd1BI
+ x4mmgDKF6srPwZYhpxXDCJqeDqFs7LY5pivyGDGTl51I3nCPws9FkxE5ZWNcEUgHkF+y
+ E46WEI7GzrIfLLMclO0xABNBJFI4DspiPPGK7v2fVkEr5TyDFb51IGH9ov8SMWjqKHT9
+ GwptNWhyIf+XT2g6Nn3ReB9FeqGe1ivtY/lsI4f6wnRHVlohEWB4eiV6pmZ3jAFtRmir
+ 9GtQ==
+X-Gm-Message-State: APjAAAXtZ1XLiURTimGaBTIF0aDkp3OFyJyba2dKjp6+33ZAymoIHLuo
+ bKz7iqMpymT5XykzlksHDfeCx7bk
+X-Google-Smtp-Source: APXvYqxIgnIUMfvPaICfNonbaL3CcJj9ABMjH4Wq5dNNPLzfZRgd+7+ebz7ySbkDYHQh1eFHR+rCHA==
+X-Received: by 2002:a7b:c3c6:: with SMTP id t6mr46956wmj.5.1568644962463;
+ Mon, 16 Sep 2019 07:42:42 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.35
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.41
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:35 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:41 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:42:03 +0200
-Message-Id: <1568644929-9124-24-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:42:09 +0200
+Message-Id: <1568644929-9124-30-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
@@ -65,9 +65,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
-Subject: [Qemu-devel] [PULL 23/29] hw/i386/pc: Let pc_build_smbios() take a
- FWCfgState argument
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PULL 29/29] hw/i386/pc: Extract the x86 generic
+ fw_cfg code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,61 +85,355 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Pass the FWCfgState object by argument, this will
-allow us to remove the PCMachineState argument later.
+Extract all the functions that are not PC-machine specific into
+the (arch-specific) fw_cfg.c file. This will allow other X86-machine
+to reuse these functions.
 
 Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190818225414.22590-10-philmd@redhat.com>
+Message-Id: <20190818225414.22590-16-philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/i386/fw_cfg.c | 137 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/i386/fw_cfg.h |   7 +++
+ hw/i386/pc.c     | 132 +----------------------------------------------------
+ 3 files changed, 145 insertions(+), 131 deletions(-)
 
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index 380a819..39b6bc6 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -13,8 +13,15 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "sysemu/numa.h"
++#include "hw/acpi/acpi.h"
++#include "hw/firmware/smbios.h"
++#include "hw/i386/pc.h"
+ #include "hw/i386/fw_cfg.h"
++#include "hw/timer/hpet.h"
+ #include "hw/nvram/fw_cfg.h"
++#include "e820_memory_layout.h"
++#include "kvm_i386.h"
+ 
+ const char *fw_cfg_arch_key_name(uint16_t key)
+ {
+@@ -36,3 +43,133 @@ const char *fw_cfg_arch_key_name(uint16_t key)
+     }
+     return NULL;
+ }
++
++void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
++{
++    uint8_t *smbios_tables, *smbios_anchor;
++    size_t smbios_tables_len, smbios_anchor_len;
++    struct smbios_phys_mem_area *mem_array;
++    unsigned i, array_count;
++    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
++
++    /* tell smbios about cpuid version and features */
++    smbios_set_cpuid(cpu->env.cpuid_version, cpu->env.features[FEAT_1_EDX]);
++
++    smbios_tables = smbios_get_table_legacy(ms, &smbios_tables_len);
++    if (smbios_tables) {
++        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
++                         smbios_tables, smbios_tables_len);
++    }
++
++    /* build the array of physical mem area from e820 table */
++    mem_array = g_malloc0(sizeof(*mem_array) * e820_get_num_entries());
++    for (i = 0, array_count = 0; i < e820_get_num_entries(); i++) {
++        uint64_t addr, len;
++
++        if (e820_get_entry(i, E820_RAM, &addr, &len)) {
++            mem_array[array_count].address = addr;
++            mem_array[array_count].length = len;
++            array_count++;
++        }
++    }
++    smbios_get_tables(ms, mem_array, array_count,
++                      &smbios_tables, &smbios_tables_len,
++                      &smbios_anchor, &smbios_anchor_len);
++    g_free(mem_array);
++
++    if (smbios_anchor) {
++        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
++                        smbios_tables, smbios_tables_len);
++        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
++                        smbios_anchor, smbios_anchor_len);
++    }
++}
++
++FWCfgState *fw_cfg_arch_create(MachineState *ms,
++                                      uint16_t boot_cpus,
++                                      uint16_t apic_id_limit)
++{
++    FWCfgState *fw_cfg;
++    uint64_t *numa_fw_cfg;
++    int i;
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++    const CPUArchIdList *cpus = mc->possible_cpu_arch_ids(ms);
++    int nb_numa_nodes = ms->numa_state->num_nodes;
++
++    fw_cfg = fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
++                                &address_space_memory);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, boot_cpus);
++
++    /* FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
++     *
++     * For machine types prior to 1.8, SeaBIOS needs FW_CFG_MAX_CPUS for
++     * building MPTable, ACPI MADT, ACPI CPU hotplug and ACPI SRAT table,
++     * that tables are based on xAPIC ID and QEMU<->SeaBIOS interface
++     * for CPU hotplug also uses APIC ID and not "CPU index".
++     * This means that FW_CFG_MAX_CPUS is not the "maximum number of CPUs",
++     * but the "limit to the APIC ID values SeaBIOS may see".
++     *
++     * So for compatibility reasons with old BIOSes we are stuck with
++     * "etc/max-cpus" actually being apic_id_limit
++     */
++    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
++    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
++                     acpi_tables, acpi_tables_len);
++    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
++
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
++                     &e820_reserve, sizeof(e820_reserve));
++    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
++                    sizeof(struct e820_entry) * e820_get_num_entries());
++
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
++    /* allocate memory for the NUMA channel: one (64bit) word for the number
++     * of nodes, one word for each VCPU->node and one word for each node to
++     * hold the amount of memory.
++     */
++    numa_fw_cfg = g_new0(uint64_t, 1 + apic_id_limit + nb_numa_nodes);
++    numa_fw_cfg[0] = cpu_to_le64(nb_numa_nodes);
++    for (i = 0; i < cpus->len; i++) {
++        unsigned int apic_id = cpus->cpus[i].arch_id;
++        assert(apic_id < apic_id_limit);
++        numa_fw_cfg[apic_id + 1] = cpu_to_le64(cpus->cpus[i].props.node_id);
++    }
++    for (i = 0; i < nb_numa_nodes; i++) {
++        numa_fw_cfg[apic_id_limit + 1 + i] =
++            cpu_to_le64(ms->numa_state->nodes[i].node_mem);
++    }
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
++                     (1 + apic_id_limit + nb_numa_nodes) *
++                     sizeof(*numa_fw_cfg));
++
++    return fw_cfg;
++}
++
++void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
++{
++    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
++    CPUX86State *env = &cpu->env;
++    uint32_t unused, ecx, edx;
++    uint64_t feature_control_bits = 0;
++    uint64_t *val;
++
++    cpu_x86_cpuid(env, 1, 0, &unused, &unused, &ecx, &edx);
++    if (ecx & CPUID_EXT_VMX) {
++        feature_control_bits |= FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX;
++    }
++
++    if ((edx & (CPUID_EXT2_MCE | CPUID_EXT2_MCA)) ==
++        (CPUID_EXT2_MCE | CPUID_EXT2_MCA) &&
++        (env->mcg_cap & MCG_LMCE_P)) {
++        feature_control_bits |= FEATURE_CONTROL_LMCE;
++    }
++
++    if (!feature_control_bits) {
++        return;
++    }
++
++    val = g_malloc(sizeof(*val));
++    *val = cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
++    fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val));
++}
+diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
+index 17a4bc3..e0856a3 100644
+--- a/hw/i386/fw_cfg.h
++++ b/hw/i386/fw_cfg.h
+@@ -9,6 +9,7 @@
+ #ifndef HW_I386_FW_CFG_H
+ #define HW_I386_FW_CFG_H
+ 
++#include "hw/boards.h"
+ #include "hw/nvram/fw_cfg.h"
+ 
+ #define FW_CFG_ACPI_TABLES      (FW_CFG_ARCH_LOCAL + 0)
+@@ -17,4 +18,10 @@
+ #define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
+ #define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
+ 
++FWCfgState *fw_cfg_arch_create(MachineState *ms,
++                               uint16_t boot_cpus,
++                               uint16_t apic_id_limit);
++void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
++void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
++
+ #endif
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8d2e600..612d676 100644
+index 9446596..e5b59ff 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -894,7 +894,7 @@ static uint32_t x86_cpu_apic_id_from_index(PCMachineState *pcms,
+@@ -88,6 +88,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "config-devices.h"
+ #include "e820_memory_layout.h"
++#include "fw_cfg.h"
+ 
+ /* debug PC/ISA interrupts */
+ //#define DEBUG_IRQ
+@@ -894,108 +895,6 @@ static uint32_t x86_cpu_apic_id_from_index(PCMachineState *pcms,
      }
  }
  
--static void pc_build_smbios(PCMachineState *pcms)
-+static void pc_build_smbios(PCMachineState *pcms, FWCfgState *fw_cfg)
+-static void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
+-{
+-    uint8_t *smbios_tables, *smbios_anchor;
+-    size_t smbios_tables_len, smbios_anchor_len;
+-    struct smbios_phys_mem_area *mem_array;
+-    unsigned i, array_count;
+-    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
+-
+-    /* tell smbios about cpuid version and features */
+-    smbios_set_cpuid(cpu->env.cpuid_version, cpu->env.features[FEAT_1_EDX]);
+-
+-    smbios_tables = smbios_get_table_legacy(ms, &smbios_tables_len);
+-    if (smbios_tables) {
+-        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
+-                         smbios_tables, smbios_tables_len);
+-    }
+-
+-    /* build the array of physical mem area from e820 table */
+-    mem_array = g_malloc0(sizeof(*mem_array) * e820_get_num_entries());
+-    for (i = 0, array_count = 0; i < e820_get_num_entries(); i++) {
+-        uint64_t addr, len;
+-
+-        if (e820_get_entry(i, E820_RAM, &addr, &len)) {
+-            mem_array[array_count].address = addr;
+-            mem_array[array_count].length = len;
+-            array_count++;
+-        }
+-    }
+-    smbios_get_tables(ms, mem_array, array_count,
+-                      &smbios_tables, &smbios_tables_len,
+-                      &smbios_anchor, &smbios_anchor_len);
+-    g_free(mem_array);
+-
+-    if (smbios_anchor) {
+-        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
+-                        smbios_tables, smbios_tables_len);
+-        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
+-                        smbios_anchor, smbios_anchor_len);
+-    }
+-}
+-
+-static FWCfgState *fw_cfg_arch_create(MachineState *ms,
+-                                      uint16_t boot_cpus,
+-                                      uint16_t apic_id_limit)
+-{
+-    FWCfgState *fw_cfg;
+-    uint64_t *numa_fw_cfg;
+-    int i;
+-    MachineClass *mc = MACHINE_GET_CLASS(ms);
+-    const CPUArchIdList *cpus = mc->possible_cpu_arch_ids(ms);
+-    int nb_numa_nodes = ms->numa_state->num_nodes;
+-
+-    fw_cfg = fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
+-                                &address_space_memory);
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, boot_cpus);
+-
+-    /* FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
+-     *
+-     * For machine types prior to 1.8, SeaBIOS needs FW_CFG_MAX_CPUS for
+-     * building MPTable, ACPI MADT, ACPI CPU hotplug and ACPI SRAT table,
+-     * that tables are based on xAPIC ID and QEMU<->SeaBIOS interface
+-     * for CPU hotplug also uses APIC ID and not "CPU index".
+-     * This means that FW_CFG_MAX_CPUS is not the "maximum number of CPUs",
+-     * but the "limit to the APIC ID values SeaBIOS may see".
+-     *
+-     * So for compatibility reasons with old BIOSes we are stuck with
+-     * "etc/max-cpus" actually being apic_id_limit
+-     */
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
+-    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
+-                     acpi_tables, acpi_tables_len);
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
+-
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+-                     &e820_reserve, sizeof(e820_reserve));
+-    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+-                    sizeof(struct e820_entry) * e820_get_num_entries());
+-
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
+-    /* allocate memory for the NUMA channel: one (64bit) word for the number
+-     * of nodes, one word for each VCPU->node and one word for each node to
+-     * hold the amount of memory.
+-     */
+-    numa_fw_cfg = g_new0(uint64_t, 1 + apic_id_limit + nb_numa_nodes);
+-    numa_fw_cfg[0] = cpu_to_le64(nb_numa_nodes);
+-    for (i = 0; i < cpus->len; i++) {
+-        unsigned int apic_id = cpus->cpus[i].arch_id;
+-        assert(apic_id < apic_id_limit);
+-        numa_fw_cfg[apic_id + 1] = cpu_to_le64(cpus->cpus[i].props.node_id);
+-    }
+-    for (i = 0; i < nb_numa_nodes; i++) {
+-        numa_fw_cfg[apic_id_limit + 1 + i] =
+-            cpu_to_le64(ms->numa_state->nodes[i].node_mem);
+-    }
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
+-                     (1 + apic_id_limit + nb_numa_nodes) *
+-                     sizeof(*numa_fw_cfg));
+-
+-    return fw_cfg;
+-}
+-
+ static long get_file_size(FILE *f)
  {
-     uint8_t *smbios_tables, *smbios_anchor;
-     size_t smbios_tables_len, smbios_anchor_len;
-@@ -908,7 +908,7 @@ static void pc_build_smbios(PCMachineState *pcms)
- 
-     smbios_tables = smbios_get_table_legacy(ms, &smbios_tables_len);
-     if (smbios_tables) {
--        fw_cfg_add_bytes(pcms->fw_cfg, FW_CFG_SMBIOS_ENTRIES,
-+        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
-                          smbios_tables, smbios_tables_len);
-     }
- 
-@@ -929,9 +929,9 @@ static void pc_build_smbios(PCMachineState *pcms)
-     g_free(mem_array);
- 
-     if (smbios_anchor) {
--        fw_cfg_add_file(pcms->fw_cfg, "etc/smbios/smbios-tables",
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
-                         smbios_tables, smbios_tables_len);
--        fw_cfg_add_file(pcms->fw_cfg, "etc/smbios/smbios-anchor",
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
-                         smbios_anchor, smbios_anchor_len);
+     long where, size;
+@@ -1623,35 +1522,6 @@ void pc_cpus_init(PCMachineState *pcms)
      }
  }
-@@ -1695,7 +1695,7 @@ void pc_machine_done(Notifier *notifier, void *data)
  
-     acpi_setup();
-     if (pcms->fw_cfg) {
--        pc_build_smbios(pcms);
-+        pc_build_smbios(pcms, pcms->fw_cfg);
-         pc_build_feature_control_file(pcms);
-         /* update FW_CFG_NB_CPUS to account for -device added CPUs */
-         fw_cfg_modify_i16(pcms->fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus);
+-static void fw_cfg_build_feature_control(MachineState *ms,
+-                                         FWCfgState *fw_cfg)
+-{
+-    X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
+-    CPUX86State *env = &cpu->env;
+-    uint32_t unused, ecx, edx;
+-    uint64_t feature_control_bits = 0;
+-    uint64_t *val;
+-
+-    cpu_x86_cpuid(env, 1, 0, &unused, &unused, &ecx, &edx);
+-    if (ecx & CPUID_EXT_VMX) {
+-        feature_control_bits |= FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX;
+-    }
+-
+-    if ((edx & (CPUID_EXT2_MCE | CPUID_EXT2_MCA)) ==
+-        (CPUID_EXT2_MCE | CPUID_EXT2_MCA) &&
+-        (env->mcg_cap & MCG_LMCE_P)) {
+-        feature_control_bits |= FEATURE_CONTROL_LMCE;
+-    }
+-
+-    if (!feature_control_bits) {
+-        return;
+-    }
+-
+-    val = g_malloc(sizeof(*val));
+-    *val = cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
+-    fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val));
+-}
+-
+ static void rtc_set_cpus_count(ISADevice *rtc, uint16_t cpus_count)
+ {
+     if (cpus_count > 0xff) {
 -- 
 1.8.3.1
-
 
 
