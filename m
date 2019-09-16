@@ -2,72 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175E2B3D01
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:58:07 +0200 (CEST)
-Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E56AB3CE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:53:03 +0200 (CEST)
+Received: from localhost ([::1]:35442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sS5-0004DW-1D
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
+	id 1i9sNB-0005sy-FS
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnQ-0004Z3-N8
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:06 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i9rqa-0007CW-Ex
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:19:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i9rnO-0006yl-KV
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:04 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43377)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i9rnO-0006xw-0o
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:02 -0400
-Received: by mail-wr1-x444.google.com with SMTP id q17so34389121wrx.10
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ip9jGRYToznbvcQb9Dd6OoDNrfiOnhYep+7awl0RM0k=;
- b=kf9+AQjapHnLSJepUg9Ij8zh9vnVRKvM+sVCbvC3rij9e9PyS/mvVwWyLLTMoHQnoD
- MhGphVE9I7gngIBYakS/MAND+GSUnNwu4H41iAL8nl/hQwuyz4V3WhLQPInnZ8bK8cXg
- fnhd26wgV46VSSGaTi3LyEG5O3oteFCwUoK442xbHa6YsVtlP3+Id0k0yXHjTLpKWzwt
- +hl4w5y7l4p0pmKs7iWFLp6FlM1WhxXrHKNekb2ISsuJuDoGwPahs98cQZEf5Lkj8xOx
- q7Gr0py8XkmvRUIgalhet7ZTgDHroyoqc3PT8y/nuWhBGMg7CUvTrw8yEjt9pYrKSy/l
- 3U0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ip9jGRYToznbvcQb9Dd6OoDNrfiOnhYep+7awl0RM0k=;
- b=Z78JYemCE7o8LY2YXFlnBrrwT1n4tOo2LSiLc1HUNkBdL8+VRDTBIdW9SMu53gWGz0
- VsaZyZvBlmtQpQ6XyuVEc8B+l2TS4H3V2TD5DJzDdKdaGoK2/Ml3ZgIueg0gcCnzhHEc
- zjLdqJy8cYu/bG2V9cBIRcVC8/gmqbPRVujhxHQ4Z6eFme8A9kcnpItq/j56FQ6ZAoII
- DDyBKbYi70VxApfAeaI1llhdWpI4jWDj30OVwf4ODZOC0W/FCcmPBMfL890eCp97Gq5W
- j0mJITLu/4qDnTN1vSKK3OlqaykeK8JdlproNl5LrCo/6w8wuxWxmh9Mx+755zrqw13O
- n1+w==
-X-Gm-Message-State: APjAAAVvMaSCsMynQiHcjX/sCpAw34/tGJv8g+fpAnwUK405oXP8XLp/
- UqCYNerHF05sZlgB5Vj4p7/yAbDQLi1Icw==
-X-Google-Smtp-Source: APXvYqxnWFi+SskkTJ5YyQzWzOg98RX3GJdvbf742QnBOCKKoFe4vrKpdZf5eSIPWUBXItKcJDnbHw==
-X-Received: by 2002:adf:f5ca:: with SMTP id k10mr22034wrp.236.1568643360563;
- Mon, 16 Sep 2019 07:16:00 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.15.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2019 07:16:00 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:15:40 +0100
-Message-Id: <20190916141544.17540-12-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190916141544.17540-1-peter.maydell@linaro.org>
-References: <20190916141544.17540-1-peter.maydell@linaro.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i9rqZ-0007ur-0m
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:19:20 -0400
+Received: from relay.sw.ru ([185.231.240.75]:58094)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1i9rqV-0007sf-Bk; Mon, 16 Sep 2019 10:19:15 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1i9rqS-0003EA-U7; Mon, 16 Sep 2019 17:19:13 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Date: Mon, 16 Sep 2019 17:19:11 +0300
+Message-Id: <20190916141911.5255-5-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190916141911.5255-1-vsementsov@virtuozzo.com>
+References: <20190916141911.5255-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v2 11/15] target/arm/arm-semi: Factor out
- implementation of SYS_SEEK
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH 4/4] block/dirty-bitmap: refactor
+ bdrv_dirty_bitmap_next
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,100 +48,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ quintela@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com, den@openvz.org, mreitz@redhat.com, jsnow@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor out the implementation of SYS_SEEK via the new function
-tables.
+bdrv_dirty_bitmap_next is always used in same pattern. So, split it
+into _next and _first, instead of combining two functions into one and
+add FOR_EACH_DIRTY_BITMAP macro.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- target/arm/arm-semi.c | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+ include/block/dirty-bitmap.h   |  9 +++++++--
+ block.c                        |  4 +---
+ block/dirty-bitmap.c           | 11 +++++++----
+ block/qcow2-bitmap.c           |  8 ++------
+ migration/block-dirty-bitmap.c |  4 +---
+ 5 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index ecd51338fd3..b5e1d73eb80 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -389,6 +389,8 @@ typedef uint32_t sys_writefn(ARMCPU *cpu, GuestFD *gf,
- typedef uint32_t sys_readfn(ARMCPU *cpu, GuestFD *gf,
-                             target_ulong buf, uint32_t len);
- typedef uint32_t sys_isattyfn(ARMCPU *cpu, GuestFD *gf);
-+typedef uint32_t sys_seekfn(ARMCPU *cpu, GuestFD *gf,
-+                            target_ulong offset);
- 
- static uint32_t host_closefn(ARMCPU *cpu, GuestFD *gf)
- {
-@@ -442,6 +444,16 @@ static uint32_t host_isattyfn(ARMCPU *cpu, GuestFD *gf)
-     return isatty(gf->hostfd);
- }
- 
-+static uint32_t host_seekfn(ARMCPU *cpu, GuestFD *gf, target_ulong offset)
-+{
-+    CPUARMState *env = &cpu->env;
-+    uint32_t ret = set_swi_errno(env, lseek(gf->hostfd, offset, SEEK_SET));
-+    if (ret == (uint32_t)-1) {
-+        return -1;
-+    }
-+    return 0;
-+}
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 4c58d922e4..89e52db7ec 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -97,8 +97,13 @@ bool bdrv_dirty_bitmap_get_autoload(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs);
+-BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
+-                                        BdrvDirtyBitmap *bitmap);
 +
- static uint32_t gdb_closefn(ARMCPU *cpu, GuestFD *gf)
- {
-     return arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", gf->hostfd);
-@@ -468,11 +480,18 @@ static uint32_t gdb_isattyfn(ARMCPU *cpu, GuestFD *gf)
-     return arm_gdb_syscall(cpu, arm_semi_cb, "isatty,%x", gf->hostfd);
- }
- 
-+static uint32_t gdb_seekfn(ARMCPU *cpu, GuestFD *gf, target_ulong offset)
-+{
-+    return arm_gdb_syscall(cpu, arm_semi_cb, "lseek,%x,%x,0",
-+                           gf->hostfd, offset);
-+}
++BdrvDirtyBitmap *bdrv_dirty_bitmap_first(BlockDriverState *bs);
++BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BdrvDirtyBitmap *bitmap);
++#define FOR_EACH_DIRTY_BITMAP(bs, bitmap) \
++for (bitmap = bdrv_dirty_bitmap_first(bs); bitmap; \
++     bitmap = bdrv_dirty_bitmap_next(bitmap))
 +
- typedef struct GuestFDFunctions {
-     sys_closefn *closefn;
-     sys_writefn *writefn;
-     sys_readfn *readfn;
-     sys_isattyfn *isattyfn;
-+    sys_seekfn *seekfn;
- } GuestFDFunctions;
- 
- static const GuestFDFunctions guestfd_fns[] = {
-@@ -481,12 +500,14 @@ static const GuestFDFunctions guestfd_fns[] = {
-         .writefn = host_writefn,
-         .readfn = host_readfn,
-         .isattyfn = host_isattyfn,
-+        .seekfn = host_seekfn,
-     },
-     [GuestFDGDB] = {
-         .closefn = gdb_closefn,
-         .writefn = gdb_writefn,
-         .readfn = gdb_readfn,
-         .isattyfn = gdb_isattyfn,
-+        .seekfn = gdb_seekfn,
-     },
- };
- 
-@@ -656,15 +677,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             return set_swi_errno(env, -1);
+ char *bdrv_dirty_bitmap_sha256(const BdrvDirtyBitmap *bitmap, Error **errp);
+ int64_t bdrv_dirty_bitmap_next_zero(BdrvDirtyBitmap *bitmap, uint64_t offset,
+                                     uint64_t bytes);
+diff --git a/block.c b/block.c
+index 5944124845..96c2c5ae2d 100644
+--- a/block.c
++++ b/block.c
+@@ -5363,9 +5363,7 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
          }
+     }
  
--        if (use_gdb_syscalls()) {
--            return arm_gdb_syscall(cpu, arm_semi_cb, "lseek,%x,%x,0",
--                                   gf->hostfd, arg1);
--        } else {
--            ret = set_swi_errno(env, lseek(gf->hostfd, arg1, SEEK_SET));
--            if (ret == (uint32_t)-1)
--              return -1;
--            return 0;
--        }
-+        return guestfd_fns[gf->type].seekfn(cpu, gf, arg1);
-     case TARGET_SYS_FLEN:
-         GET_ARG(0);
+-    for (bm = bdrv_dirty_bitmap_next(bs, NULL); bm;
+-         bm = bdrv_dirty_bitmap_next(bs, bm))
+-    {
++    FOR_EACH_DIRTY_BITMAP(bs, bm) {
+         bdrv_dirty_bitmap_skip_store(bm, false);
+     }
  
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 76a8e59e61..e2df82af01 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -742,11 +742,14 @@ bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs)
+     return false;
+ }
+ 
+-BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
+-                                        BdrvDirtyBitmap *bitmap)
++BdrvDirtyBitmap *bdrv_dirty_bitmap_first(BlockDriverState *bs)
+ {
+-    return bitmap == NULL ? QLIST_FIRST(&bs->dirty_bitmaps) :
+-                            QLIST_NEXT(bitmap, list);
++    return QLIST_FIRST(&bs->dirty_bitmaps);
++}
++
++BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BdrvDirtyBitmap *bitmap)
++{
++    return QLIST_NEXT(bitmap, list);
+ }
+ 
+ char *bdrv_dirty_bitmap_sha256(const BdrvDirtyBitmap *bitmap, Error **errp)
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index 6d795a2255..73ebd2ff6a 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1480,9 +1480,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
+     }
+ 
+     /* check constraints and names */
+-    for (bitmap = bdrv_dirty_bitmap_next(bs, NULL); bitmap != NULL;
+-         bitmap = bdrv_dirty_bitmap_next(bs, bitmap))
+-    {
++    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
+         const char *name = bdrv_dirty_bitmap_name(bitmap);
+         uint32_t granularity = bdrv_dirty_bitmap_granularity(bitmap);
+         Qcow2Bitmap *bm;
+@@ -1602,9 +1600,7 @@ int qcow2_reopen_bitmaps_ro(BlockDriverState *bs, Error **errp)
+         return -EINVAL;
+     }
+ 
+-    for (bitmap = bdrv_dirty_bitmap_next(bs, NULL); bitmap != NULL;
+-         bitmap = bdrv_dirty_bitmap_next(bs, bitmap))
+-    {
++    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
+         if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
+             bdrv_dirty_bitmap_set_readonly(bitmap, true);
+         }
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 793f249aa5..7eafface61 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -283,9 +283,7 @@ static int init_dirty_bitmap_migration(void)
+     for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
+         const char *name = bdrv_get_device_or_node_name(bs);
+ 
+-        for (bitmap = bdrv_dirty_bitmap_next(bs, NULL); bitmap;
+-             bitmap = bdrv_dirty_bitmap_next(bs, bitmap))
+-        {
++        FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
+             if (!bdrv_dirty_bitmap_name(bitmap)) {
+                 continue;
+             }
 -- 
-2.20.1
+2.21.0
 
 
