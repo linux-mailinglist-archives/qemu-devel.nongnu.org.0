@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99391B42B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 23:12:34 +0200 (CEST)
-Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D6EB430E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 23:29:15 +0200 (CEST)
+Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9yIT-0005RK-6p
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 17:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58748)
+	id 1i9yYc-0008Rh-CJ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 17:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i9yHJ-0004nx-N6
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 17:11:23 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i9yWj-0007j5-1Q
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 17:27:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i9yHI-0007lX-7B
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 17:11:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44280)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i9yHB-0007gs-Na; Mon, 16 Sep 2019 17:11:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5BC7E315C02B;
- Mon, 16 Sep 2019 21:11:11 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3C065C1D6;
- Mon, 16 Sep 2019 21:11:10 +0000 (UTC)
-To: Sergio Lopez <slp@redhat.com>
-References: <20190911161521.59261-1-slp@redhat.com>
- <d47f7e67-2f6a-0dd6-3ab5-93626bfbb02d@redhat.com>
- <6755b34b-b412-9e63-8d25-b7662d0d3860@redhat.com> <871rwmxbo9.fsf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <325511bf-7b31-4a07-bf91-6a2824c87acc@redhat.com>
-Date: Mon, 16 Sep 2019 16:11:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alistair23@gmail.com>) id 1i9yWe-0002gk-WA
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 17:27:16 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36945)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i9yWZ-0002cP-8p; Mon, 16 Sep 2019 17:27:11 -0400
+Received: by mail-lj1-x243.google.com with SMTP id c22so1371935ljj.4;
+ Mon, 16 Sep 2019 14:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BTOQyzbQ2zzSk/LSkK1aPuLLtX4mpaW87OMJqtfZHl8=;
+ b=YPM0oyHBWXp+6Z/salWitZpDJFgOjN5B9FriLooB+vGdzSZZKMwzT8fHVe+s+DB1Mk
+ /3E2wLG+filgEVHODiXyOCSe6xioBDdi6xjHnwBskZSjbsLnuVhXN/r8z2hrl1eiUN0V
+ 3S2GgY+RiU4wXBIfAxWl8pvjA8vPoGHO9yfi4gjab/E+6lDxB+HI8KmAJpJnmJ0RNHPY
+ ubw8G7L9cpBjz6aWFxMnl1SIwi/OjWZr4vbhyRimkqnuC50O7z0irG+0FWnQLMg6h7iM
+ L9PMpq2WIKzBTyAmCPBzQw7Mg+hmmp06kyo9qJnZsJ8CpB/iSH/hoqYycPiUvmi/yBYi
+ AXcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BTOQyzbQ2zzSk/LSkK1aPuLLtX4mpaW87OMJqtfZHl8=;
+ b=KSjTCcwRAzLy421zmmDmbjAFYRNzDLGD9miF2LU1E1yegNKT6gj2FkQlRHCRVo1WXp
+ krC5M5eyZDw/snzWgIyYQhwyLcdwm0dc2qOWwhmxSXxgBbvJxoR3QO8izMs7hlsuS1f5
+ uEd1pab0fATPZr2mAlleoueL+Z+0b3WGa7KiQl7KSJ9XUs3uK6Sm3v8vy8U2TtB+z32M
+ BnY4egOeuPDWIo20cQisPqMWiKHKZfhLMB1KuOXhm+F1vAtU+zP2QuOrmqlGicg9XCTC
+ ifHz55B5DeOCWKpr9Ef2S92bOAJ1gyLztqDFM/EJZ5JR3ERXTp00Gz6iQDATZXWumuMl
+ s3rA==
+X-Gm-Message-State: APjAAAWWbcavhCqrRrzF4BxKHvNj4a3HJIw5QlvIBxm/LT5pl5jO+Krs
+ qf5C9Bnkd8n1+3YZFJUsGLT55a2/agD0fL+9K2U=
+X-Google-Smtp-Source: APXvYqwEqk717/7leXorq+geCtFggH/PP3JANQiXz9d4t2QQKgZYdinuoS5iiTxYfjAw1VznB2f6K5Wuey/l55ULrgg=
+X-Received: by 2002:a2e:780a:: with SMTP id t10mr890315ljc.119.1568669223797; 
+ Mon, 16 Sep 2019 14:27:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <871rwmxbo9.fsf@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="iG0RfrkmfhWzcNg0I4N4zbMaBIGLeRpu4"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Mon, 16 Sep 2019 21:11:11 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] nbd/server: attach client channel to the
- export's AioContext
+References: <20190916154847.28936-1-philmd@redhat.com>
+ <20190916154847.28936-4-philmd@redhat.com>
+In-Reply-To: <20190916154847.28936-4-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 16 Sep 2019 14:22:32 -0700
+Message-ID: <CAKmqyKNC015doC43JnRrqgeoBGu53rDUWsZE6FL-O_b1zC+8eQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH 03/13] hw: Move MC146818 device from
+ hw/timer/ to hw/rtc/ subdirectory
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,180 +74,411 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Andrew Jeffery <andrew@aj.id.au>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iG0RfrkmfhWzcNg0I4N4zbMaBIGLeRpu4
-Content-Type: multipart/mixed; boundary="rU7sisvKaxKItYpmj0gx3flomLvF32Cz0";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Cc: qemu-block@nongnu.org, kwolf@redhat.com, qemu-devel@nongnu.org
-Message-ID: <325511bf-7b31-4a07-bf91-6a2824c87acc@redhat.com>
-Subject: Re: [PATCH] nbd/server: attach client channel to the export's
- AioContext
-References: <20190911161521.59261-1-slp@redhat.com>
- <d47f7e67-2f6a-0dd6-3ab5-93626bfbb02d@redhat.com>
- <6755b34b-b412-9e63-8d25-b7662d0d3860@redhat.com> <871rwmxbo9.fsf@redhat.com>
-In-Reply-To: <871rwmxbo9.fsf@redhat.com>
+On Mon, Sep 16, 2019 at 9:31 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> The MC146818 is a Real Time Clock, not a timer.
+> Move it under the hw/rtc/ subdirectory.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
---rU7sisvKaxKItYpmj0gx3flomLvF32Cz0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On 9/12/19 1:37 AM, Sergio Lopez wrote:
+Alistair
 
->> I tried to test this patch, but even with it applied, I still got an
->> aio-context crasher by attempting an nbd-server-start, nbd-server-add,=
-
->> nbd-server-stop (intentionally skipping the nbd-server-remove step) on=
- a
->> domain using iothreads, with a backtrace of:
->>
->> #0  0x00007ff09d070e35 in raise () from target:/lib64/libc.so.6
->> #1  0x00007ff09d05b895 in abort () from target:/lib64/libc.so.6
->> #2  0x000055dd03b9ab86 in error_exit (err=3D1, msg=3D0x55dd03d59fb0
->> <__func__.15769> "qemu_mutex_unlock_impl")
->>     at util/qemu-thread-posix.c:36
->> #3  0x000055dd03b9adcf in qemu_mutex_unlock_impl (mutex=3D0x55dd062d50=
-90,
->> file=3D0x55dd03d59041 "util/async.c",
->>     line=3D523) at util/qemu-thread-posix.c:96
->> #4  0x000055dd03b93433 in aio_context_release (ctx=3D0x55dd062d5030) a=
-t
->> util/async.c:523
-
->> #14 0x000055dd03748845 in qmp_nbd_server_stop (errp=3D0x7ffcdf3cb4e8) =
-at
->> blockdev-nbd.c:233
->> ...
-
-Sorry for truncating the initial stackdump report. The rest of the trace
-(it is definitely in the main loop):
-
-#15 0x0000560be491c910 in qmp_marshal_nbd_server_stop
-(args=3D0x560be54c4d00, ret=3D0x7ffdd832de38,
-    errp=3D0x7ffdd832de30) at qapi/qapi-commands-block.c:318
-#16 0x0000560be4a7a306 in do_qmp_dispatch (cmds=3D0x560be50dc1f0
-<qmp_commands>, request=3D0x7fbcac009af0,
-    allow_oob=3Dfalse, errp=3D0x7ffdd832ded8) at qapi/qmp-dispatch.c:131
-#17 0x0000560be4a7a507 in qmp_dispatch (cmds=3D0x560be50dc1f0
-<qmp_commands>, request=3D0x7fbcac009af0,
-    allow_oob=3Dfalse) at qapi/qmp-dispatch.c:174
-#18 0x0000560be48edd81 in monitor_qmp_dispatch (mon=3D0x560be55d6670,
-req=3D0x7fbcac009af0) at monitor/qmp.c:120
-#19 0x0000560be48ee116 in monitor_qmp_bh_dispatcher (data=3D0x0) at
-monitor/qmp.c:209
-#20 0x0000560be4ad16a2 in aio_bh_call (bh=3D0x560be53dbe90) at util/async=
-=2Ec:89
-#21 0x0000560be4ad173a in aio_bh_poll (ctx=3D0x560be53daba0) at
-util/async.c:117
-#22 0x0000560be4ad6514 in aio_dispatch (ctx=3D0x560be53daba0) at
-util/aio-posix.c:459
-#23 0x0000560be4ad1ad3 in aio_ctx_dispatch (source=3D0x560be53daba0,
-callback=3D0x0, user_data=3D0x0) at util/async.c:260
-#24 0x00007fbcd7083ecd in g_main_context_dispatch () from
-target:/lib64/libglib-2.0.so.0
-#25 0x0000560be4ad4e47 in glib_pollfds_poll () at util/main-loop.c:218
-#26 0x0000560be4ad4ec1 in os_host_main_loop_wait (timeout=3D1000000000) a=
-t
-util/main-loop.c:241
-#27 0x0000560be4ad4fc6 in main_loop_wait (nonblocking=3D0) at
-util/main-loop.c:517
---Type <RET> for more, q to quit, c to continue without paging--
-#28 0x0000560be4691266 in main_loop () at vl.c:1806
-#29 0x0000560be46988a9 in main (argc=3D112, argv=3D0x7ffdd832e4e8,
-envp=3D0x7ffdd832e870) at vl.c:4488
-
-
->>
->> Does that sound familiar to what you were seeing?  Does it mean we
->> missed another spot where the context is set incorrectly?
->=20
-> It looks like it was trying to release the AioContext while it was stil=
-l
-> held by some other thread. Is this stacktrace from the main thread or a=
-n
-> iothread? What was the other one doing?
-
-Kevin had some ideas on what it might be; I'm playing with obtaining the
-context in the spots he pointed out.
-
->=20
->> I'm happy to work with you on IRC for more real-time debugging of this=
-
->> (I'm woefully behind on understanding how aio contexts are supposed to=
-
->> work).
->=20
-> I must be missing some step, because I can't reproduce this one
-> here. I've tried both with an idle NDB server and one with a client
-> generating I/O. Is it reproducible 100% of them time?
-
-Yes, with iothreads.  I took some time today to boil it down to
-something that does not require libvirt:
-
-$ file myfile
-myfile: QEMU QCOW2 Image (v3), 104857600 bytes
-$ qemu-img create -f qcow2 -o backing_file=3Dmyfile,backing_fmt=3Dqcow2  =
-\
- myfile.wrap
-Formatting 'myfile.wrap', fmt=3Dqcow2 size=3D104857600 backing_file=3Dmyf=
-ile
-backing_fmt=3Dqcow2 cluster_size=3D65536 lazy_refcounts=3Doff refcount_bi=
-ts=3D16
-$ ./x86_64-softmmu/qemu-system-x86_64 -nodefaults \
-  -name tmp,debug-threads=3Don -machine pc-q35-3.1,accel=3Dkvm \
-  -object iothread,id=3Diothread1 \
-  -drive
-file=3Dmyfile,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,node-name=3D=
-n \
-  -device
-virtio-blk-pci,iothread=3Diothread1,drive=3Ddrive-virtio-disk0,id=3Dvirti=
-o-disk0 \
-  -qmp stdio -nographic
-{'execute':'qmp_capabilities'}
-{'execute':'nbd-server-start','arguments':{'addr':{'type':'inet',
-  'data':{'host':'localhost','port':'10809'}}}}
-{'execute':'blockdev-add','arguments':{'driver':'qcow2',
- 'node-name':'t','file'{'driver':'file',
-  'filename':'myfile.wrap'},'backing':'n'}}
-{'execute':'blockdev-backup','arguments':{'device':'n',
- 'target':'t','sync':'none','job-id':'b'}}
-{'execute':'nbd-server-add','arguments':{'device':'t','name':'t'}}
-{'execute':'nbd-server-remove','arguments':{'name':'t'}}
-Aborted (core dumped)
-
-I'm now playing with Kevin's ideas of grabbing the aiocontext around nbd
-unref.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---rU7sisvKaxKItYpmj0gx3flomLvF32Cz0--
-
---iG0RfrkmfhWzcNg0I4N4zbMaBIGLeRpu4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1/+m0ACgkQp6FrSiUn
-Q2oALQf/djcdFoOv3ZXUckDBuuvq2B0QZVJ+uB1dgaIa8i29OiquXf4ld6tRHkfE
-TqFgH1/eOSEgDO/T8DJAOxoUwIkmI0vlIhZDfRNgNRW9XECNmhF67skcRWFm1n9d
-4upWBS3+o0fTR+qFEPORtH7JJ7W50IAGXaFg6mvnSFNZaSw0pDvG9+exAz7/u1YS
-BguSK5X93Faz/dMOE/Rq5fAEv4KPsybiQ0BY48Bajwen+wu/LDVMxhbuGBeWqtmD
-UiEIDVw3QlIShQZL+gJDBrZG5gqug2/jHcwekTgNpd+4UJJoS8Jt+6GIup4zmUL+
-kdkWl4SfCfOQXgO3VCAejpkGcBlAwQ==
-=RF/F
------END PGP SIGNATURE-----
-
---iG0RfrkmfhWzcNg0I4N4zbMaBIGLeRpu4--
+> ---
+>  MAINTAINERS                                  |  4 +--
+>  hw/alpha/dp264.c                             |  2 +-
+>  hw/hppa/machine.c                            |  2 +-
+>  hw/i386/acpi-build.c                         |  2 +-
+>  hw/i386/pc.c                                 |  2 +-
+>  hw/i386/pc_q35.c                             |  2 +-
+>  hw/mips/mips_fulong2e.c                      |  2 +-
+>  hw/mips/mips_jazz.c                          |  2 +-
+>  hw/mips/mips_malta.c                         |  2 +-
+>  hw/mips/mips_r4k.c                           |  2 +-
+>  hw/ppc/pnv.c                                 |  2 +-
+>  hw/ppc/prep.c                                |  2 +-
+>  hw/rtc/Kconfig                               |  3 ++
+>  hw/rtc/Makefile.objs                         |  1 +
+>  hw/{timer =3D> rtc}/mc146818rtc.c              |  2 +-
+>  hw/timer/Kconfig                             |  3 --
+>  hw/timer/Makefile.objs                       |  2 --
+>  hw/timer/hpet.c                              |  2 +-
+>  include/hw/rtc/mc146818rtc.h                 | 38 ++++++++++++++++++++
+>  include/hw/{timer =3D> rtc}/mc146818rtc_regs.h |  1 +
+>  include/hw/timer/mc146818rtc.h               | 14 --------
+>  tests/rtc-test.c                             |  2 +-
+>  22 files changed, 59 insertions(+), 35 deletions(-)
+>  rename hw/{timer =3D> rtc}/mc146818rtc.c (99%)
+>  create mode 100644 include/hw/rtc/mc146818rtc.h
+>  rename include/hw/{timer =3D> rtc}/mc146818rtc_regs.h (98%)
+>  delete mode 100644 include/hw/timer/mc146818rtc.h
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5562d2c6d0..481f2318cb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1263,7 +1263,7 @@ F: hw/misc/debugexit.c
+>  F: hw/misc/pc-testdev.c
+>  F: hw/timer/hpet*
+>  F: hw/timer/i8254*
+> -F: hw/timer/mc146818rtc*
+> +F: hw/rtc/mc146818rtc*
+>  F: hw/watchdog/wdt_ib700.c
+>  F: hw/watchdog/wdt_i6300esb.c
+>  F: include/hw/display/vga.h
+> @@ -1275,7 +1275,7 @@ F: include/hw/isa/i8259_internal.h
+>  F: include/hw/isa/superio.h
+>  F: include/hw/timer/hpet.h
+>  F: include/hw/timer/i8254*
+> -F: include/hw/timer/mc146818rtc*
+> +F: include/hw/rtc/mc146818rtc*
+>
+>  Machine core
+>  M: Eduardo Habkost <ehabkost@redhat.com>
+> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+> index 51feee8558..51b3cf7a61 100644
+> --- a/hw/alpha/dp264.c
+> +++ b/hw/alpha/dp264.c
+> @@ -14,7 +14,7 @@
+>  #include "alpha_sys.h"
+>  #include "qemu/error-report.h"
+>  #include "sysemu/sysemu.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/ide.h"
+>  #include "hw/timer/i8254.h"
+>  #include "hw/isa/superio.h"
+> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+> index 2736ce835e..6598e2469d 100644
+> --- a/hw/hppa/machine.c
+> +++ b/hw/hppa/machine.c
+> @@ -12,7 +12,7 @@
+>  #include "qemu/error-report.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/sysemu.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/ide.h"
+>  #include "hw/timer/i8254.h"
+>  #include "hw/char/serial.h"
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index e54e571a75..44a8073507 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -45,7 +45,7 @@
+>  #include "hw/acpi/vmgenid.h"
+>  #include "hw/boards.h"
+>  #include "sysemu/tpm_backend.h"
+> -#include "hw/timer/mc146818rtc_regs.h"
+> +#include "hw/rtc/mc146818rtc_regs.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/mem/memory-device.h"
+>  #include "sysemu/numa.h"
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index bad866fe44..beef7a992d 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -42,7 +42,7 @@
+>  #include "elf.h"
+>  #include "migration/vmstate.h"
+>  #include "multiboot.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/dma/i8257.h"
+>  #include "hw/timer/i8254.h"
+>  #include "hw/input/i8042.h"
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index d4e8a1cb9f..a976af9a2a 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -33,7 +33,7 @@
+>  #include "hw/loader.h"
+>  #include "sysemu/arch_init.h"
+>  #include "hw/i2c/smbus_eeprom.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/xen/xen.h"
+>  #include "sysemu/kvm.h"
+>  #include "kvm_i386.h"
+> diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+> index cf537dd7e6..03a27e1767 100644
+> --- a/hw/mips/mips_fulong2e.c
+> +++ b/hw/mips/mips_fulong2e.c
+> @@ -39,7 +39,7 @@
+>  #include "hw/ide.h"
+>  #include "elf.h"
+>  #include "hw/isa/vt82c686.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/timer/i8254.h"
+>  #include "exec/address-spaces.h"
+>  #include "sysemu/qtest.h"
+> diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+> index c967b97d80..2811a4bd90 100644
+> --- a/hw/mips/mips_jazz.c
+> +++ b/hw/mips/mips_jazz.c
+> @@ -39,7 +39,7 @@
+>  #include "hw/scsi/esp.h"
+>  #include "hw/mips/bios.h"
+>  #include "hw/loader.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/timer/i8254.h"
+>  #include "hw/display/vga.h"
+>  #include "hw/audio/pcspk.h"
+> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+> index 4d9c64b36a..c1c8810e71 100644
+> --- a/hw/mips/mips_malta.c
+> +++ b/hw/mips/mips_malta.c
+> @@ -45,7 +45,7 @@
+>  #include "hw/irq.h"
+>  #include "hw/loader.h"
+>  #include "elf.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/timer/i8254.h"
+>  #include "exec/address-spaces.h"
+>  #include "hw/sysbus.h"             /* SysBusDevice */
+> diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
+> index bc0be26544..70024235ae 100644
+> --- a/hw/mips/mips_r4k.c
+> +++ b/hw/mips/mips_r4k.c
+> @@ -28,7 +28,7 @@
+>  #include "hw/ide.h"
+>  #include "hw/loader.h"
+>  #include "elf.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/input/i8042.h"
+>  #include "hw/timer/i8254.h"
+>  #include "exec/address-spaces.h"
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 3f08db7b9e..4b2649d95b 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -48,7 +48,7 @@
+>  #include "hw/isa/isa.h"
+>  #include "hw/boards.h"
+>  #include "hw/char/serial.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>
+>  #include <libfdt.h>
+>
+> diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+> index 4f3c6bf190..3a51536e1a 100644
+> --- a/hw/ppc/prep.c
+> +++ b/hw/ppc/prep.c
+> @@ -40,7 +40,7 @@
+>  #include "hw/ide.h"
+>  #include "hw/irq.h"
+>  #include "hw/loader.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "hw/isa/pc87312.h"
+>  #include "hw/net/ne2000-isa.h"
+>  #include "sysemu/arch_init.h"
+> diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
+> index 8a4383bca9..7ffd702268 100644
+> --- a/hw/rtc/Kconfig
+> +++ b/hw/rtc/Kconfig
+> @@ -1,2 +1,5 @@
+>  config PL031
+>      bool
+> +
+> +config MC146818RTC
+> +    bool
+> diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
+> index 3e1eb42563..3cac0d5a63 100644
+> --- a/hw/rtc/Makefile.objs
+> +++ b/hw/rtc/Makefile.objs
+> @@ -1 +1,2 @@
+>  common-obj-$(CONFIG_PL031) +=3D pl031.o
+> +obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
+> diff --git a/hw/timer/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> similarity index 99%
+> rename from hw/timer/mc146818rtc.c
+> rename to hw/rtc/mc146818rtc.c
+> index 6cb378751b..ced15f764f 100644
+> --- a/hw/timer/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -34,7 +34,7 @@
+>  #include "sysemu/replay.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/runstate.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "migration/vmstate.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-commands-misc-target.h"
+> diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
+> index 27c5dce09e..af415c8ef8 100644
+> --- a/hw/timer/Kconfig
+> +++ b/hw/timer/Kconfig
+> @@ -35,9 +35,6 @@ config ALTERA_TIMER
+>      bool
+>      select PTIMER
+>
+> -config MC146818RTC
+> -    bool
+> -
+>  config ALLWINNER_A10_PIT
+>      bool
+>      select PTIMER
+> diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+> index 9f64f6e11e..b0159189cf 100644
+> --- a/hw/timer/Makefile.objs
+> +++ b/hw/timer/Makefile.objs
+> @@ -35,8 +35,6 @@ common-obj-$(CONFIG_SH4) +=3D sh_timer.o
+>  common-obj-$(CONFIG_DIGIC) +=3D digic-timer.o
+>  common-obj-$(CONFIG_MIPS_CPS) +=3D mips_gictimer.o
+>
+> -obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
+> -
+>  common-obj-$(CONFIG_ALLWINNER_A10_PIT) +=3D allwinner-a10-pit.o
+>
+>  common-obj-$(CONFIG_STM32F2XX_TIMER) +=3D stm32f2xx_timer.o
+> diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+> index 1ddae4e7d7..02bf8a8ce8 100644
+> --- a/hw/timer/hpet.c
+> +++ b/hw/timer/hpet.c
+> @@ -33,7 +33,7 @@
+>  #include "qemu/timer.h"
+>  #include "hw/timer/hpet.h"
+>  #include "hw/sysbus.h"
+> -#include "hw/timer/mc146818rtc.h"
+> +#include "hw/rtc/mc146818rtc.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/timer/i8254.h"
+>
+> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+> new file mode 100644
+> index 0000000000..888e04f9ab
+> --- /dev/null
+> +++ b/include/hw/rtc/mc146818rtc.h
+> @@ -0,0 +1,38 @@
+> +/*
+> + * QEMU MC146818 RTC emulation
+> + *
+> + * Copyright (c) 2003-2004 Fabrice Bellard
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+> + * of this software and associated documentation files (the "Software"),=
+ to deal
+> + * in the Software without restriction, including without limitation the=
+ rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be includ=
+ed in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#ifndef MC146818RTC_H
+> +#define MC146818RTC_H
+> +
+> +#include "hw/isa/isa.h"
+> +#include "hw/rtc/mc146818rtc_regs.h"
+> +
+> +#define TYPE_MC146818_RTC "mc146818rtc"
+> +
+> +ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+> +                             qemu_irq intercept_irq);
+> +void rtc_set_memory(ISADevice *dev, int addr, int val);
+> +int rtc_get_memory(ISADevice *dev, int addr);
+> +
+> +#endif /* MC146818RTC_H */
+> diff --git a/include/hw/timer/mc146818rtc_regs.h b/include/hw/rtc/mc14681=
+8rtc_regs.h
+> similarity index 98%
+> rename from include/hw/timer/mc146818rtc_regs.h
+> rename to include/hw/rtc/mc146818rtc_regs.h
+> index bfbb57e570..c4c6305473 100644
+> --- a/include/hw/timer/mc146818rtc_regs.h
+> +++ b/include/hw/rtc/mc146818rtc_regs.h
+> @@ -26,6 +26,7 @@
+>  #define MC146818RTC_REGS_H
+>
+>  #include "qemu/timer.h"
+> +#include "qemu/host-utils.h"
+>
+>  #define RTC_ISA_IRQ 8
+>
+> diff --git a/include/hw/timer/mc146818rtc.h b/include/hw/timer/mc146818rt=
+c.h
+> deleted file mode 100644
+> index fe6ed63f71..0000000000
+> --- a/include/hw/timer/mc146818rtc.h
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -#ifndef MC146818RTC_H
+> -#define MC146818RTC_H
+> -
+> -#include "hw/isa/isa.h"
+> -#include "hw/timer/mc146818rtc_regs.h"
+> -
+> -#define TYPE_MC146818_RTC "mc146818rtc"
+> -
+> -ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+> -                             qemu_irq intercept_irq);
+> -void rtc_set_memory(ISADevice *dev, int addr, int val);
+> -int rtc_get_memory(ISADevice *dev, int addr);
+> -
+> -#endif /* MC146818RTC_H */
+> diff --git a/tests/rtc-test.c b/tests/rtc-test.c
+> index 6309b0ef6c..79a4ff1ed6 100644
+> --- a/tests/rtc-test.c
+> +++ b/tests/rtc-test.c
+> @@ -15,7 +15,7 @@
+>
+>  #include "libqtest-single.h"
+>  #include "qemu/timer.h"
+> -#include "hw/timer/mc146818rtc_regs.h"
+> +#include "hw/rtc/mc146818rtc_regs.h"
+>
+>  #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
+>
+> --
+> 2.20.1
+>
+>
 
