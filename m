@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E484EB3C3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:10:08 +0200 (CEST)
-Received: from localhost ([::1]:34608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405F4B3C2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:09:10 +0200 (CEST)
+Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rhf-00057E-Ke
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46017)
+	id 1i9rgi-0003xt-Jn
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46136)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i9rWt-0002zJ-0w
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:00 -0400
+ (envelope-from <david@redhat.com>) id 1i9rX2-0003Fu-IS
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i9rWr-0000Ke-M2
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:58:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60422)
+ (envelope-from <david@redhat.com>) id 1i9rX1-0000QM-5g
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48196)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i9rWr-0000K9-Dh; Mon, 16 Sep 2019 09:58:57 -0400
+ id 1i9rX0-0000Ps-Uu; Mon, 16 Sep 2019 09:59:07 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A1C7CC059B7A;
- Mon, 16 Sep 2019 13:58:56 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 40C377FDCA;
+ Mon, 16 Sep 2019 13:59:06 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC9DE10013A1;
- Mon, 16 Sep 2019 13:58:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BA0110018FF;
+ Mon, 16 Sep 2019 13:59:03 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:57:48 +0200
-Message-Id: <20190916135806.1269-12-david@redhat.com>
+Date: Mon, 16 Sep 2019 15:57:52 +0200
+Message-Id: <20190916135806.1269-16-david@redhat.com>
 In-Reply-To: <20190916135806.1269-1-david@redhat.com>
 References: <20190916135806.1269-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 16 Sep 2019 13:58:56 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Mon, 16 Sep 2019 13:59:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 11/29] s390x/tcg: MVCOS: Lengths are 32 bit
- in 24/31-bit mode
+Subject: [Qemu-devel] [PATCH v3 15/29] s390x/tcg: Always use MMU_USER_IDX
+ for CONFIG_USER_ONLY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,66 +58,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
  Cole Robinson <crobinso@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Triggered by a review comment from Richard, also MVCOS has a 32-bit
-length in 24/31-bit addressing mode. Add a new helper.
+Although we basically ignore the index all the time for CONFIG_USER_ONLY,
+let's simply skip all the checks and always return MMU_USER_IDX in
+cpu_mmu_index() and get_mem_index().
 
-Rename wrap_length() to wrap_length31().
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ target/s390x/cpu.h       | 4 ++++
+ target/s390x/translate.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 20e1ac0ea9..320e9ee65c 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -528,7 +528,15 @@ static inline void set_address(CPUS390XState *env, i=
-nt reg, uint64_t address)
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 79202c0980..163dae13d7 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -328,6 +328,9 @@ extern const VMStateDescription vmstate_s390_cpu;
+=20
+ static inline int cpu_mmu_index(CPUS390XState *env, bool ifetch)
+ {
++#ifdef CONFIG_USER_ONLY
++    return MMU_USER_IDX;
++#else
+     if (!(env->psw.mask & PSW_MASK_DAT)) {
+         return MMU_REAL_IDX;
      }
+@@ -351,6 +354,7 @@ static inline int cpu_mmu_index(CPUS390XState *env, b=
+ool ifetch)
+     default:
+         abort();
+     }
++#endif
  }
 =20
--static inline uint64_t wrap_length(CPUS390XState *env, uint64_t length)
-+static inline uint64_t wrap_length32(CPUS390XState *env, uint64_t length=
-)
-+{
-+    if (!(env->psw.mask & PSW_MASK_64)) {
-+        return (uint32_t)length;
-+    }
-+    return length;
-+}
-+
-+static inline uint64_t wrap_length31(CPUS390XState *env, uint64_t length=
-)
- {
-     if (!(env->psw.mask & PSW_MASK_64)) {
-         /* 24-Bit and 31-Bit mode */
-@@ -539,7 +547,7 @@ static inline uint64_t wrap_length(CPUS390XState *env=
-, uint64_t length)
+ static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong=
+ *pc,
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index b0a2500e5f..a3e43ff9ec 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -318,6 +318,9 @@ static inline uint64_t ld_code4(CPUS390XState *env, u=
+int64_t pc)
 =20
- static inline uint64_t get_length(CPUS390XState *env, int reg)
+ static int get_mem_index(DisasContext *s)
  {
--    return wrap_length(env, env->regs[reg]);
-+    return wrap_length31(env, env->regs[reg]);
++#ifdef CONFIG_USER_ONLY
++    return MMU_USER_IDX;
++#else
+     if (!(s->base.tb->flags & FLAG_MASK_DAT)) {
+         return MMU_REAL_IDX;
+     }
+@@ -333,6 +336,7 @@ static int get_mem_index(DisasContext *s)
+         tcg_abort();
+         break;
+     }
++#endif
  }
 =20
- static inline void set_length(CPUS390XState *env, int reg, uint64_t leng=
-th)
-@@ -2378,7 +2386,7 @@ uint32_t HELPER(mvcos)(CPUS390XState *env, uint64_t=
- dest, uint64_t src,
-         s390_program_interrupt(env, PGM_PRIVILEGED, 6, ra);
-     }
-=20
--    len =3D wrap_length(env, len);
-+    len =3D wrap_length32(env, len);
-     if (len > 4096) {
-         cc =3D 3;
-         len =3D 4096;
+ static void gen_exception(int excp)
 --=20
 2.21.0
 
