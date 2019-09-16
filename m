@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0018B3CEB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:53:24 +0200 (CEST)
-Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E1FB3CFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:56:42 +0200 (CEST)
+Received: from localhost ([::1]:35519 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sNX-0006UV-Jv
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51192)
+	id 1i9sQj-0002Aq-FB
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i9ruc-0003T2-Sy
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i9ruw-0003tS-Qv
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i9rua-0000sW-VR
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40360)
+ (envelope-from <mreitz@redhat.com>) id 1i9ruu-00012V-Ta
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:64866)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i9ruV-0000pg-Mz; Mon, 16 Sep 2019 10:23:24 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1i9ruq-00010s-Lg; Mon, 16 Sep 2019 10:23:44 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E157218C427D;
- Mon, 16 Sep 2019 14:23:22 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E88493083362;
+ Mon, 16 Sep 2019 14:23:43 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 49CCB5D6A3;
- Mon, 16 Sep 2019 14:23:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73F9E600C1;
+ Mon, 16 Sep 2019 14:23:43 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 16 Sep 2019 16:22:41 +0200
-Message-Id: <20190916142246.31474-12-mreitz@redhat.com>
+Date: Mon, 16 Sep 2019 16:22:46 +0200
+Message-Id: <20190916142246.31474-17-mreitz@redhat.com>
 In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
 References: <20190916142246.31474-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Mon, 16 Sep 2019 14:23:22 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Mon, 16 Sep 2019 14:23:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/16] curl: Handle success in
- multi_check_completion
+Subject: [Qemu-devel] [PULL 16/16] qemu-iotests: Add test for bz #1745922
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,151 +59,187 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Background: As of cURL 7.59.0, it verifies that several functions are
-not called from within a callback.  Among these functions is
-curl_multi_add_handle().
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-curl_read_cb() is a callback from cURL and not a coroutine.  Waking up
-acb->co will lead to entering it then and there, which means the current
-request will settle and the caller (if it runs in the same coroutine)
-may then issue the next request.  In such a case, we will enter
-curl_setup_preadv() effectively from within curl_read_cb().
-
-Calling curl_multi_add_handle() will then fail and the new request will
-not be processed.
-
-Fix this by not letting curl_read_cb() wake up acb->co.  Instead, leave
-the whole business of settling the AIOCB objects to
-curl_multi_check_completion() (which is called from our timer callback
-and our FD handler, so not from any cURL callbacks).
-
-Reported-by: Natalie Gavrielov <ngavrilo@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1740193
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190910124136.10565-7-mreitz@redhat.com
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-id: 20190915203655.21638-4-mlevitsk@redhat.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/curl.c | 69 ++++++++++++++++++++++------------------------------
- 1 file changed, 29 insertions(+), 40 deletions(-)
+ tests/qemu-iotests/263     | 91 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/263.out | 40 +++++++++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 132 insertions(+)
+ create mode 100755 tests/qemu-iotests/263
+ create mode 100644 tests/qemu-iotests/263.out
 
-diff --git a/block/curl.c b/block/curl.c
-index fd70f1ebc4..c343c7ed3d 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -229,7 +229,6 @@ static size_t curl_read_cb(void *ptr, size_t size, si=
-ze_t nmemb, void *opaque)
- {
-     CURLState *s =3D ((CURLState*)opaque);
-     size_t realsize =3D size * nmemb;
--    int i;
-=20
-     trace_curl_read_cb(realsize);
-=20
-@@ -245,32 +244,6 @@ static size_t curl_read_cb(void *ptr, size_t size, s=
-ize_t nmemb, void *opaque)
-     memcpy(s->orig_buf + s->buf_off, ptr, realsize);
-     s->buf_off +=3D realsize;
-=20
--    for(i=3D0; i<CURL_NUM_ACB; i++) {
--        CURLAIOCB *acb =3D s->acb[i];
--
--        if (!acb)
--            continue;
--
--        if ((s->buf_off >=3D acb->end)) {
--            size_t request_length =3D acb->bytes;
--
--            qemu_iovec_from_buf(acb->qiov, 0, s->orig_buf + acb->start,
--                                acb->end - acb->start);
--
--            if (acb->end - acb->start < request_length) {
--                size_t offset =3D acb->end - acb->start;
--                qemu_iovec_memset(acb->qiov, offset, 0,
--                                  request_length - offset);
--            }
--
--            acb->ret =3D 0;
--            s->acb[i] =3D NULL;
--            qemu_mutex_unlock(&s->s->mutex);
--            aio_co_wake(acb->co);
--            qemu_mutex_lock(&s->s->mutex);
--        }
--    }
--
- read_end:
-     /* curl will error out if we do not return this value */
-     return size * nmemb;
-@@ -351,13 +324,14 @@ static void curl_multi_check_completion(BDRVCURLSta=
-te *s)
-             break;
-=20
-         if (msg->msg =3D=3D CURLMSG_DONE) {
-+            int i;
-             CURLState *state =3D NULL;
-+            bool error =3D msg->data.result !=3D CURLE_OK;
+diff --git a/tests/qemu-iotests/263 b/tests/qemu-iotests/263
+new file mode 100755
+index 0000000000..d2c030fae9
+--- /dev/null
++++ b/tests/qemu-iotests/263
+@@ -0,0 +1,91 @@
++#!/usr/bin/env bash
++#
++# Test encrypted write that crosses cluster boundary of two unallocated =
+clusters
++# Based on 188
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-             curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE,
-                               (char **)&state);
-=20
--            /* ACBs for successful messages get completed in curl_read_c=
-b */
--            if (msg->data.result !=3D CURLE_OK) {
--                int i;
-+            if (error) {
-                 static int errcount =3D 100;
-=20
-                 /* Don't lose the original error message from curl, sinc=
-e
-@@ -369,20 +343,35 @@ static void curl_multi_check_completion(BDRVCURLSta=
-te *s)
-                         error_report("curl: further errors suppressed");
-                     }
-                 }
-+            }
-=20
--                for (i =3D 0; i < CURL_NUM_ACB; i++) {
--                    CURLAIOCB *acb =3D state->acb[i];
-+            for (i =3D 0; i < CURL_NUM_ACB; i++) {
-+                CURLAIOCB *acb =3D state->acb[i];
-=20
--                    if (acb =3D=3D NULL) {
--                        continue;
--                    }
-+                if (acb =3D=3D NULL) {
-+                    continue;
-+                }
++# creator
++owner=3Dmlevitsk@redhat.com
 +
-+                if (!error) {
-+                    /* Assert that we have read all data */
-+                    assert(state->buf_off >=3D acb->end);
++seq=3D`basename $0`
++echo "QA output created by $seq"
 +
-+                    qemu_iovec_from_buf(acb->qiov, 0,
-+                                        state->orig_buf + acb->start,
-+                                        acb->end - acb->start);
-=20
--                    acb->ret =3D -EIO;
--                    state->acb[i] =3D NULL;
--                    qemu_mutex_unlock(&s->mutex);
--                    aio_co_wake(acb->co);
--                    qemu_mutex_lock(&s->mutex);
-+                    if (acb->end - acb->start < acb->bytes) {
-+                        size_t offset =3D acb->end - acb->start;
-+                        qemu_iovec_memset(acb->qiov, offset, 0,
-+                                          acb->bytes - offset);
-+                    }
-                 }
++status=3D1	# failure is the default!
 +
-+                acb->ret =3D error ? -EIO : 0;
-+                state->acb[i] =3D NULL;
-+                qemu_mutex_unlock(&s->mutex);
-+                aio_co_wake(acb->co);
-+                qemu_mutex_lock(&s->mutex);
-             }
-=20
-             curl_clean_state(state);
++_cleanup()
++{
++	_cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt qcow2
++_supported_proto generic
++_supported_os Linux
++
++
++size=3D1M
++
++SECRET=3D"secret,id=3Dsec0,data=3Dastrochicken"
++QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
++
++
++_run_test()
++{
++	echo "=3D=3D reading the whole image =3D=3D"
++	$QEMU_IO --object $SECRET -c "read -P 0 0 $size" --image-opts "$1" | _f=
+ilter_qemu_io | _filter_testdir
++
++	echo
++	echo "=3D=3D write two 512 byte sectors on a cluster boundary =3D=3D"
++	$QEMU_IO --object $SECRET -c "write -P 0xAA 0xFE00 0x400" --image-opts =
+"$1" | _filter_qemu_io | _filter_testdir
++
++	echo
++	echo "=3D=3D verify that the rest of the image is not changed =3D=3D"
++	$QEMU_IO --object $SECRET -c "read -P 0x00 0x00000 0xFE00" --image-opts=
+ "$1" | _filter_qemu_io | _filter_testdir
++	$QEMU_IO --object $SECRET -c "read -P 0xAA 0x0FE00 0x400" --image-opts =
+"$1" | _filter_qemu_io | _filter_testdir
++	$QEMU_IO --object $SECRET -c "read -P 0x00 0x10200 0xEFE00" --image-opt=
+s "$1" | _filter_qemu_io | _filter_testdir
++
++}
++
++
++echo
++echo "testing LUKS qcow2 encryption"
++echo
++
++_make_test_img --object $SECRET -o "encrypt.format=3Dluks,encrypt.key-se=
+cret=3Dsec0,encrypt.iter-time=3D10,cluster_size=3D64K" $size
++_run_test "driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D$T=
+EST_IMG"
++_cleanup_test_img
++
++echo
++echo "testing legacy AES qcow2 encryption"
++echo
++
++
++_make_test_img --object $SECRET -o "encrypt.format=3Daes,encrypt.key-sec=
+ret=3Dsec0,cluster_size=3D64K" $size
++_run_test "driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D$T=
+EST_IMG"
++_cleanup_test_img
++
++
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/263.out b/tests/qemu-iotests/263.out
+new file mode 100644
+index 0000000000..0c982c55cb
+--- /dev/null
++++ b/tests/qemu-iotests/263.out
+@@ -0,0 +1,40 @@
++QA output created by 263
++
++testing LUKS qcow2 encryption
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 encrypt.form=
+at=3Dluks encrypt.key-secret=3Dsec0 encrypt.iter-time=3D10
++=3D=3D reading the whole image =3D=3D
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D write two 512 byte sectors on a cluster boundary =3D=3D
++wrote 1024/1024 bytes at offset 65024
++1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D verify that the rest of the image is not changed =3D=3D
++read 65024/65024 bytes at offset 0
++63.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 1024/1024 bytes at offset 65024
++1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 982528/982528 bytes at offset 66048
++959.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++testing legacy AES qcow2 encryption
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 encrypt.form=
+at=3Daes encrypt.key-secret=3Dsec0
++=3D=3D reading the whole image =3D=3D
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D write two 512 byte sectors on a cluster boundary =3D=3D
++wrote 1024/1024 bytes at offset 65024
++1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D verify that the rest of the image is not changed =3D=3D
++read 65024/65024 bytes at offset 0
++63.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 1024/1024 bytes at offset 65024
++1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 982528/982528 bytes at offset 66048
++959.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 6082c74806..5d3da937e4 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -274,5 +274,6 @@
+ 257 rw
+ 258 rw quick
+ 262 rw quick migration
++263 rw quick
+ 265 rw auto quick
+ 266 rw quick
 --=20
 2.21.0
 
