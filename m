@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF4DB3E21
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:52:38 +0200 (CEST)
-Received: from localhost ([::1]:36242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF105B3E45
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:59:08 +0200 (CEST)
+Received: from localhost ([::1]:36332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tIr-0002IO-FP
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34949)
+	id 1i9tP9-0000Rz-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i9tFc-0007Qp-8N
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:49:17 -0400
+ (envelope-from <philmd@redhat.com>) id 1i9tIE-0002hm-Jj
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:52:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i9tFa-0001T0-Gp
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:49:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:10705)
+ (envelope-from <philmd@redhat.com>) id 1i9tIC-0002Ri-UN
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:51:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47722)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i9tFV-0001QD-CL; Mon, 16 Sep 2019 11:49:09 -0400
+ id 1i9tI9-0002QF-6D; Mon, 16 Sep 2019 11:51:53 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D0FC8A2666F;
- Mon, 16 Sep 2019 15:49:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4E631307CB3F;
+ Mon, 16 Sep 2019 15:51:52 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-115.brq.redhat.com [10.40.204.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 678A6194BB;
- Mon, 16 Sep 2019 15:48:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55C4E196AE;
+ Mon, 16 Sep 2019 15:51:30 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 17:48:34 +0200
-Message-Id: <20190916154847.28936-1-philmd@redhat.com>
+Date: Mon, 16 Sep 2019 17:48:43 +0200
+Message-Id: <20190916154847.28936-10-philmd@redhat.com>
+In-Reply-To: <20190916154847.28936-1-philmd@redhat.com>
+References: <20190916154847.28936-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Mon, 16 Sep 2019 15:49:08 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Mon, 16 Sep 2019 15:51:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 00/13] hw: Split RTC devices from hw/timer/ to
- hw/rtc/
+Subject: [Qemu-devel] [PATCH 09/13] hw: Move Xilinx ZynqMP RTC from
+ hw/timer/ to hw/rtc/ subdirectory
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,151 +75,140 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When working on timers, I found it confuse to have RTC devices
-mixed in the hw/timer/ directory.
+Move RTC devices under the hw/rtc/ subdirectory.
 
-We can see the models use slighly different APIs:
-
-  $ git grep '#include' hw/timer/|cut -d: -f3-|sort|uniq -c|egrep -v '^  =
-    1 '|sort -rn
-     33 #include "qemu/osdep.h"
-     29 #include "hw/irq.h"
-     28 #include "qemu/module.h"
-     23 #include "migration/vmstate.h"
-     21 #include "hw/sysbus.h"
-     20 #include "qemu/timer.h"
-     20 #include "qemu/main-loop.h"
-     17 #include "qemu/log.h"
-     14 #include "hw/qdev-properties.h"
-     14 #include "hw/ptimer.h"
-      9 #include "trace.h"
-      7 #include "qapi/error.h"
-      5 #include "hw/hw.h"
-      3 #include "sysemu/runstate.h"
-      3 #include "qemu/error-report.h"
-      3 #include "hw/timer/i8254.h"
-      2 #include "qemu/bitops.h"
-      2 #include "hw/timer/i8254_internal.h"
-      2 #include "hw/registerfields.h"
-      2 #include "hw/core/cpu.h"
-      2 #include "hw/arm/omap.h"
-      2 #include "hw/arm/exynos4210.h"
-
-  $ git grep '#include' hw/rtc/|cut -d: -f3-|sort|uniq -c|egrep -v '^    =
-  1 '|sort -rn
-     11 #include "qemu/osdep.h"
-     10 #include "qemu/module.h"
-      9 #include "qemu-common.h"
-      8 #include "qemu/timer.h"
-      8 #include "migration/vmstate.h"
-      6 #include "qemu/bcd.h"
-      6 #include "hw/irq.h"
-      5 #include "sysemu/sysemu.h"
-      5 #include "qemu/log.h"
-      5 #include "hw/sysbus.h"
-      4 #include "trace.h"
-      4 #include "hw/qdev-properties.h"
-      3 #include "qemu/cutils.h"
-      3 #include "hw/i2c/i2c.h"
-      2 #include "sysemu/runstate.h"
-      2 #include "m48t59-internal.h"
-      2 #include "hw/rtc/m48t59.h"
-      2 #include "exec/address-spaces.h"
-
-Split the RTC-related files in the new hw/rtc/ directory.
-
-Philippe Mathieu-Daud=C3=A9 (13):
-  hw/timer: Compile devices not target-dependent as common object
-  hw: Move PL031 device from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move MC146818 device from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move M48T59 device from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move M41T80 device from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move sun4v hypervisor RTC from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move TWL92230 device from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move DS1338 device from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move Xilinx ZynqMP RTC from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move Exynos4210 RTC from hw/timer/ to hw/rtc/ subdirectory
-  hw: Move Aspeed RTC from hw/timer/ to hw/rtc/ subdirectory
-  hw/rtc/mc146818: Include mc146818rtc_regs.h a bit less
-  hw/rtc/xlnx-zynqmp-rtc: Remove unused "ptimer.h" include
-
- MAINTAINERS                                  | 20 +++----
- Makefile.objs                                |  1 +
- hw/Kconfig                                   |  1 +
- hw/Makefile.objs                             |  1 +
- hw/alpha/dp264.c                             |  2 +-
- hw/arm/musca.c                               |  2 +-
- hw/hppa/machine.c                            |  2 +-
- hw/i386/acpi-build.c                         |  2 +-
- hw/i386/pc.c                                 |  2 +-
- hw/i386/pc_q35.c                             |  2 +-
- hw/mips/mips_fulong2e.c                      |  2 +-
- hw/mips/mips_jazz.c                          |  2 +-
- hw/mips/mips_malta.c                         |  2 +-
- hw/mips/mips_r4k.c                           |  2 +-
- hw/ppc/pnv.c                                 |  2 +-
- hw/ppc/ppc405_boards.c                       |  2 +-
- hw/ppc/prep.c                                |  4 +-
- hw/rtc/Kconfig                               | 23 ++++++++
- hw/rtc/Makefile.objs                         | 13 +++++
- hw/{timer =3D> rtc}/aspeed_rtc.c               |  2 +-
- hw/{timer =3D> rtc}/ds1338.c                   |  0
- hw/{timer =3D> rtc}/exynos4210_rtc.c           |  0
- hw/{timer =3D> rtc}/m41t80.c                   |  0
- hw/{timer =3D> rtc}/m48t59-internal.h          |  0
- hw/{timer =3D> rtc}/m48t59-isa.c               |  4 +-
- hw/{timer =3D> rtc}/m48t59.c                   |  2 +-
- hw/{timer =3D> rtc}/mc146818rtc.c              |  3 +-
- hw/{timer =3D> rtc}/pl031.c                    |  2 +-
- hw/{timer =3D> rtc}/sun4v-rtc.c                |  2 +-
- hw/rtc/trace-events                          | 19 +++++++
- hw/{timer =3D> rtc}/twl92230.c                 |  0
- hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.c          |  3 +-
- hw/sparc/sun4m.c                             |  2 +-
- hw/sparc64/niagara.c                         |  2 +-
- hw/sparc64/sun4u.c                           |  2 +-
- hw/timer/Kconfig                             | 24 ---------
- hw/timer/Makefile.objs                       | 35 ++++--------
- hw/timer/hpet.c                              |  3 +-
- hw/timer/trace-events                        | 18 -------
- include/hw/arm/aspeed_soc.h                  |  2 +-
- include/hw/arm/xlnx-zynqmp.h                 |  2 +-
- include/hw/{timer =3D> rtc}/aspeed_rtc.h       |  3 --
- include/hw/rtc/m48t59.h                      | 57 ++++++++++++++++++++
- include/hw/rtc/mc146818rtc.h                 | 37 +++++++++++++
- include/hw/{timer =3D> rtc}/mc146818rtc_regs.h |  1 +
- include/hw/{timer =3D> rtc}/pl031.h            |  5 +-
- include/hw/rtc/sun4v-rtc.h                   | 19 +++++++
- include/hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.h  |  6 +--
- include/hw/timer/mc146818rtc.h               | 14 -----
- include/hw/timer/sun4v-rtc.h                 |  1 -
- tests/rtc-test.c                             |  2 +-
- 51 files changed, 230 insertions(+), 129 deletions(-)
- create mode 100644 hw/rtc/Kconfig
- create mode 100644 hw/rtc/Makefile.objs
- rename hw/{timer =3D> rtc}/aspeed_rtc.c (99%)
- rename hw/{timer =3D> rtc}/ds1338.c (100%)
- rename hw/{timer =3D> rtc}/exynos4210_rtc.c (100%)
- rename hw/{timer =3D> rtc}/m41t80.c (100%)
- rename hw/{timer =3D> rtc}/m48t59-internal.h (100%)
- rename hw/{timer =3D> rtc}/m48t59-isa.c (98%)
- rename hw/{timer =3D> rtc}/m48t59.c (99%)
- rename hw/{timer =3D> rtc}/mc146818rtc.c (99%)
- rename hw/{timer =3D> rtc}/pl031.c (99%)
- rename hw/{timer =3D> rtc}/sun4v-rtc.c (98%)
- create mode 100644 hw/rtc/trace-events
- rename hw/{timer =3D> rtc}/twl92230.c (100%)
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/rtc/Makefile.objs                        | 1 +
+ hw/rtc/trace-events                         | 3 +++
+ hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.c         | 2 +-
+ hw/timer/Makefile.objs                      | 1 -
+ hw/timer/trace-events                       | 3 ---
+ include/hw/arm/xlnx-zynqmp.h                | 2 +-
+ include/hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.h | 6 +++---
+ 7 files changed, 9 insertions(+), 9 deletions(-)
  rename hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.c (99%)
- rename include/hw/{timer =3D> rtc}/aspeed_rtc.h (92%)
- create mode 100644 include/hw/rtc/m48t59.h
- create mode 100644 include/hw/rtc/mc146818rtc.h
- rename include/hw/{timer =3D> rtc}/mc146818rtc_regs.h (98%)
- rename include/hw/{timer =3D> rtc}/pl031.h (93%)
- create mode 100644 include/hw/rtc/sun4v-rtc.h
  rename include/hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.h (95%)
- delete mode 100644 include/hw/timer/mc146818rtc.h
- delete mode 100644 include/hw/timer/sun4v-rtc.h
 
+diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
+index b195863291..543a550a0f 100644
+--- a/hw/rtc/Makefile.objs
++++ b/hw/rtc/Makefile.objs
+@@ -6,5 +6,6 @@ common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
+ endif
+ common-obj-$(CONFIG_PL031) +=3D pl031.o
+ common-obj-$(CONFIG_TWL92230) +=3D twl92230.o
++common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-zynqmp-rtc.o
+ obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
+ common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
+diff --git a/hw/rtc/trace-events b/hw/rtc/trace-events
+index ac9e0e0fba..7f1945ad4c 100644
+--- a/hw/rtc/trace-events
++++ b/hw/rtc/trace-events
+@@ -4,6 +4,9 @@
+ sun4v_rtc_read(uint64_t addr, uint64_t value) "read: addr 0x%" PRIx64 " =
+value 0x%" PRIx64
+ sun4v_rtc_write(uint64_t addr, uint64_t value) "write: addr 0x%" PRIx64 =
+" value 0x%" PRIx64
+=20
++# xlnx-zynqmp-rtc.c
++xlnx_zynqmp_rtc_gettime(int year, int month, int day, int hour, int min,=
+ int sec) "Get time from host: %d-%d-%d %2d:%02d:%02d"
++
+ # pl031.c
+ pl031_irq_state(int level) "irq state %d"
+ pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+diff --git a/hw/timer/xlnx-zynqmp-rtc.c b/hw/rtc/xlnx-zynqmp-rtc.c
+similarity index 99%
+rename from hw/timer/xlnx-zynqmp-rtc.c
+rename to hw/rtc/xlnx-zynqmp-rtc.c
+index 5692db98c2..f9f09b7296 100644
+--- a/hw/timer/xlnx-zynqmp-rtc.c
++++ b/hw/rtc/xlnx-zynqmp-rtc.c
+@@ -36,7 +36,7 @@
+ #include "qemu/cutils.h"
+ #include "sysemu/sysemu.h"
+ #include "trace.h"
+-#include "hw/timer/xlnx-zynqmp-rtc.h"
++#include "hw/rtc/xlnx-zynqmp-rtc.h"
+ #include "migration/vmstate.h"
+=20
+ #ifndef XLNX_ZYNQMP_RTC_ERR_DEBUG
+diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+index 70b61b69c7..294465ef47 100644
+--- a/hw/timer/Makefile.objs
++++ b/hw/timer/Makefile.objs
+@@ -14,7 +14,6 @@ common-obj-$(CONFIG_IMX) +=3D imx_epit.o
+ common-obj-$(CONFIG_IMX) +=3D imx_gpt.o
+ common-obj-$(CONFIG_LM32) +=3D lm32_timer.o
+ common-obj-$(CONFIG_MILKYMIST) +=3D milkymist-sysctl.o
+-common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-zynqmp-rtc.o
+ common-obj-$(CONFIG_NRF51_SOC) +=3D nrf51_timer.o
+=20
+ common-obj-$(CONFIG_ALTERA_TIMER) +=3D altera_timer.o
+diff --git a/hw/timer/trace-events b/hw/timer/trace-events
+index ce34b967db..1459d07237 100644
+--- a/hw/timer/trace-events
++++ b/hw/timer/trace-events
+@@ -70,9 +70,6 @@ cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer: r=
+eset"
+ aspeed_rtc_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " val=
+ue 0x%08" PRIx64
+ aspeed_rtc_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " va=
+lue 0x%08" PRIx64
+=20
+-# xlnx-zynqmp-rtc.c
+-xlnx_zynqmp_rtc_gettime(int year, int month, int day, int hour, int min,=
+ int sec) "Get time from host: %d-%d-%d %2d:%02d:%02d"
+-
+ # nrf51_timer.c
+ nrf51_timer_read(uint64_t addr, uint32_t value, unsigned size) "read add=
+r 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+ nrf51_timer_write(uint64_t addr, uint32_t value, unsigned size) "write a=
+ddr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index d7483c3b42..53076fa29a 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -29,7 +29,7 @@
+ #include "hw/dma/xlnx-zdma.h"
+ #include "hw/display/xlnx_dp.h"
+ #include "hw/intc/xlnx-zynqmp-ipi.h"
+-#include "hw/timer/xlnx-zynqmp-rtc.h"
++#include "hw/rtc/xlnx-zynqmp-rtc.h"
+ #include "hw/cpu/cluster.h"
+ #include "target/arm/cpu.h"
+=20
+diff --git a/include/hw/timer/xlnx-zynqmp-rtc.h b/include/hw/rtc/xlnx-zyn=
+qmp-rtc.h
+similarity index 95%
+rename from include/hw/timer/xlnx-zynqmp-rtc.h
+rename to include/hw/rtc/xlnx-zynqmp-rtc.h
+index 97e32322ed..6fa1cb2f43 100644
+--- a/include/hw/timer/xlnx-zynqmp-rtc.h
++++ b/include/hw/rtc/xlnx-zynqmp-rtc.h
+@@ -3,7 +3,7 @@
+  *
+  * Copyright (c) 2017 Xilinx Inc.
+  *
+- * Written-by: Alistair Francis <alistair.francis@xilinx.com>
++ * Written-by: Alistair Francis
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+  * of this software and associated documentation files (the "Software"),=
+ to deal
+@@ -24,8 +24,8 @@
+  * THE SOFTWARE.
+  */
+=20
+-#ifndef HW_TIMER_XLNX_ZYNQMP_RTC_H
+-#define HW_TIMER_XLNX_ZYNQMP_RTC_H
++#ifndef HW_RTC_XLNX_ZYNQMP_H
++#define HW_RTC_XLNX_ZYNQMP_H
+=20
+ #include "hw/register.h"
+ #include "hw/sysbus.h"
 --=20
 2.20.1
 
