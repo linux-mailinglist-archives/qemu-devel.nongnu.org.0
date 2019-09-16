@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759BDB3635
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 10:12:09 +0200 (CEST)
-Received: from localhost ([::1]:59808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE2BB363B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 10:14:05 +0200 (CEST)
+Received: from localhost ([::1]:59826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9m7E-0008Vy-B7
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 04:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55983)
+	id 1i9m96-0002Z4-Dz
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 04:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1i9m2x-0004wa-L9
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 04:07:44 -0400
+ (envelope-from <peterx@redhat.com>) id 1i9m31-000520-Ve
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 04:07:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1i9m2w-00028F-7y
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 04:07:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37972)
+ (envelope-from <peterx@redhat.com>) id 1i9m30-0002A4-Rn
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 04:07:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36774)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i9m2w-00027j-0I
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 04:07:42 -0400
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i9m30-00029o-KC
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 04:07:46 -0400
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 42881C057F2C
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 08:07:41 +0000 (UTC)
-Received: by mail-pf1-f197.google.com with SMTP id 194so25845881pfu.3
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 01:07:41 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id E28264E926
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 08:07:45 +0000 (UTC)
+Received: by mail-pl1-f199.google.com with SMTP id y18so1946239pll.17
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 01:07:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bnN7K5Xo2dCypYqOs+nUuanAlqTG6zTwZJ4Gt3nUhbs=;
- b=Vw2kd/M4CaGZeTCxBSth1rp2haMh6QNrN2vWwVid5TngTQfR2WNXT/6HAnIITUjfrf
- MZfL6tcZ3juluaytZYzL2wgmJD0ZiqpdyWRdoIxZcXkIh7M7+jcAspWWFOh5x/+crM1v
- gVo9z6zs2eqtoP1EPtQajnHAzYRBWBw8GwXFWRi0FQ83hIuzfybiGb1g/OzfVD9v3wat
- f1KCRc3sSs5HuMFMUOOcKM0ImRUd/oKKnLGUd0p3ZTPc/kYn2V593fFrXJYs38u62zSs
- sFgG8vpvRyx4axjRi7QDthZ5Vwa/iIq9cxPV2VLNxBcrfFcjQzADWNG9Z2HDXmM11qWc
- H/lQ==
-X-Gm-Message-State: APjAAAWCsewT5cugRazlYSzMmo7x6dAhVYXRn0ivbzcDFNHd9aGhF8Rm
- 4EzDlvzSrV7JVZYrXVzf/ij+WW/Qi41KpIyOv4GPBJsV5W3ePwsANMFmzNJKiPQD23TW32xOcTt
- 62mhr61HHgNZ4nv4=
-X-Received: by 2002:aa7:80ca:: with SMTP id a10mr52220393pfn.96.1568621260420; 
- Mon, 16 Sep 2019 01:07:40 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyC7lRWCvXNKpA79rEQh7y8YxospED3eirnBQbXXeJDdwPrBKBWkrrgWBaqvL4g0fC134FRgw==
-X-Received: by 2002:aa7:80ca:: with SMTP id a10mr52220375pfn.96.1568621260219; 
- Mon, 16 Sep 2019 01:07:40 -0700 (PDT)
+ bh=w4YQkHRbAbpUMWjqlM+JKSO/9Aa2mvQClFqu2zmR7Cs=;
+ b=OtJoWD2amFJcBBplSHKTDMPTd4zp5aqMsXXU6kw6vXjuG846Z88JO+nOS9c9kwB3lB
+ tbhdXuZ9VkrmWwXXzbMM5E15gxOyRqipyMaevAVUsiOZVpVMEFv6T14lXcuGybucAMWL
+ gW5o0kWeHZZwyM6VmMUeI7eBcVhTdX0zFGlV/dXBQ3XdMld0ZRb8BHR5Bhw57uSbtiHs
+ SH1srLOvDlfqUQD/TR+JAWZjAF5ja2hQSEHPX6WEkQ5fhn7Svy/x2HhZGH1MqwLTR0+y
+ w2x8TE6gMKilG2QrnOW2F2KZOf7tOWjxoU1F6fl20awx4Fzg5La8deNNJtmU+eyhvVzm
+ fMEQ==
+X-Gm-Message-State: APjAAAWafuDC5NUo/lYv/mo+z59zWt0RJAebuoKL3vB8fevxIPEGYWiW
+ lEIkPoc9u9ltBFPKAATm7UAtKCbqS2YFuhDrgGG8bUC9GofbYQ8daYDqjQwGtTR0qtYiyL9Psy+
+ LzwSjgWIV2ZUfxB8=
+X-Received: by 2002:a17:902:6f0f:: with SMTP id
+ w15mr40939017plk.200.1568621265152; 
+ Mon, 16 Sep 2019 01:07:45 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyY8y/5KQ4cJjx+NMoALbWDhGCiryj/G1MdFekoqxjP9Th4h8FTBQllNinNiJs2BbHpTE9EIw==
+X-Received: by 2002:a17:902:6f0f:: with SMTP id
+ w15mr40938988plk.200.1568621264923; 
+ Mon, 16 Sep 2019 01:07:44 -0700 (PDT)
 Received: from xz-x1.redhat.com ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id r12sm43051515pgb.73.2019.09.16.01.07.35
+ by smtp.gmail.com with ESMTPSA id r12sm43051515pgb.73.2019.09.16.01.07.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2019 01:07:39 -0700 (PDT)
+ Mon, 16 Sep 2019 01:07:44 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:07:16 +0800
-Message-Id: <20190916080718.3299-3-peterx@redhat.com>
+Date: Mon, 16 Sep 2019 16:07:17 +0800
+Message-Id: <20190916080718.3299-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190916080718.3299-1-peterx@redhat.com>
 References: <20190916080718.3299-1-peterx@redhat.com>
@@ -62,8 +64,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 2/4] qdev/machine: Introduce hotplug_allowed
- hook
+Subject: [Qemu-devel] [PATCH v3 3/4] pc/q35: Disallow vfio-pci hotplug
+ without VT-d caching mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,114 +86,66 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce this new per-machine hook to give any machine class a chance
-to do a sanity check on the to-be-hotplugged device as a sanity test.
-This will be used for x86 to try to detect some illegal configuration
-of devices, e.g., possible conflictions between vfio-pci and x86
-vIOMMU.
+Instead of bailing out when trying to hotplug a vfio-pci device with
+below configuration:
+
+  -device intel-iommu,caching-mode=3Doff
+
+With this we can return a warning message to the user via QMP/HMP and
+the VM will continue to work after failing the hotplug:
+
+  (qemu) device_add vfio-pci,bus=3Droot.3,host=3D05:00.0,id=3Dvfio1
+  Error: Device assignment is not allowed without enabling caching-mode=3D=
+on for Intel IOMMU.
 
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- hw/core/qdev.c         | 17 +++++++++++++++++
- include/hw/boards.h    |  9 +++++++++
- include/hw/qdev-core.h |  1 +
- qdev-monitor.c         |  7 +++++++
- 4 files changed, 34 insertions(+)
+ hw/i386/pc.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 60d66c2f39..cbad6c1d55 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -237,6 +237,23 @@ HotplugHandler *qdev_get_machine_hotplug_handler(Dev=
-iceState *dev)
-     return NULL;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index bad866fe44..0a6fa6e549 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2944,6 +2944,26 @@ static void x86_nmi(NMIState *n, int cpu_index, Er=
+ror **errp)
+     }
  }
 =20
-+bool qdev_hotplug_allowed(DeviceState *dev, Error **errp)
-+{
-+    MachineState *machine;
-+    MachineClass *mc;
-+    Object *m_obj =3D qdev_get_machine();
 +
-+    if (object_dynamic_cast(m_obj, TYPE_MACHINE)) {
-+        machine =3D MACHINE(m_obj);
-+        mc =3D MACHINE_GET_CLASS(machine);
-+        if (mc->hotplug_allowed) {
-+            return mc->hotplug_allowed(machine, dev, errp);
++static bool pc_hotplug_allowed(MachineState *ms, DeviceState *dev, Error=
+ **errp)
++{
++    X86IOMMUState *iommu =3D x86_iommu_get_default();
++    IntelIOMMUState *intel_iommu;
++
++    if (iommu &&
++        object_dynamic_cast((Object *)iommu, TYPE_INTEL_IOMMU_DEVICE) &&
++        object_dynamic_cast((Object *)dev, "vfio-pci")) {
++        intel_iommu =3D INTEL_IOMMU_DEVICE(iommu);
++        if (!intel_iommu->caching_mode) {
++            error_setg(errp, "Device assignment is not allowed without "
++                       "enabling caching-mode=3Don for Intel IOMMU.");
++            return false;
 +        }
 +    }
 +
 +    return true;
 +}
 +
- HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev)
+ static void pc_machine_class_init(ObjectClass *oc, void *data)
  {
-     if (dev->parent_bus) {
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 2289536e48..be18a5c032 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -166,6 +166,13 @@ typedef struct {
-  *    The function pointer to hook different machine specific functions =
-for
-  *    parsing "smp-opts" from QemuOpts to MachineState::CpuTopology and =
-more
-  *    machine specific topology fields, such as smp_dies for PCMachine.
-+ * @hotplug_allowed:
-+ *    If the hook is provided, then it'll be called for each device
-+ *    hotplug to check whether the device hotplug is allowed.  Return
-+ *    true to grant allowance or false to reject the hotplug.  When
-+ *    false is returned, an error must be set to show the reason of
-+ *    the rejection.  If the hook is not provided, all hotplug will be
-+ *    allowed.
-  */
- struct MachineClass {
-     /*< private >*/
-@@ -224,6 +231,8 @@ struct MachineClass {
-=20
-     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-                                            DeviceState *dev);
-+    bool (*hotplug_allowed)(MachineState *state, DeviceState *dev,
-+                            Error **errp);
-     CpuInstanceProperties (*cpu_index_to_instance_props)(MachineState *m=
-achine,
-                                                          unsigned cpu_in=
-dex);
-     const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine)=
-;
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index de70b7a19a..aa123f88cb 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -280,6 +280,7 @@ void qdev_set_legacy_instance_id(DeviceState *dev, in=
-t alias_id,
-                                  int required_for_version);
- HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
- HotplugHandler *qdev_get_machine_hotplug_handler(DeviceState *dev);
-+bool qdev_hotplug_allowed(DeviceState *dev, Error **errp);
- /**
-  * qdev_get_hotplug_handler: Get handler responsible for device wiring
-  *
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 8fe5c2cad2..148df9cacf 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -615,6 +615,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error *=
-*errp)
-     /* create device */
-     dev =3D DEVICE(object_new(driver));
-=20
-+    /* Check whether the hotplug is allowed by the machine */
-+    if (qdev_hotplug && !qdev_hotplug_allowed(dev, &err)) {
-+        /* Error must be set in the machine hook */
-+        assert(err);
-+        goto err_del_dev;
-+    }
-+
-     if (bus) {
-         qdev_set_parent_bus(dev, bus);
-     } else if (qdev_hotplug && !qdev_get_machine_hotplug_handler(dev)) {
+     MachineClass *mc =3D MACHINE_CLASS(oc);
+@@ -2968,6 +2988,7 @@ static void pc_machine_class_init(ObjectClass *oc, =
+void *data)
+     pcmc->pvh_enabled =3D true;
+     assert(!mc->get_hotplug_handler);
+     mc->get_hotplug_handler =3D pc_get_hotplug_handler;
++    mc->hotplug_allowed =3D pc_hotplug_allowed;
+     mc->cpu_index_to_instance_props =3D pc_cpu_index_to_props;
+     mc->get_default_cpu_node_id =3D pc_get_default_cpu_node_id;
+     mc->possible_cpu_arch_ids =3D pc_possible_cpu_arch_ids;
 --=20
 2.21.0
 
