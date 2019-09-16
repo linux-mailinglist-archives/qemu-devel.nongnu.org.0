@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0932AB3C70
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:20:16 +0200 (CEST)
-Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF0EB3C7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:23:45 +0200 (CEST)
+Received: from localhost ([::1]:34982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rrS-00076s-F1
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:20:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46215)
+	id 1i9rup-0002MG-Ol
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46249)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i9rXB-0003Sk-L0
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:18 -0400
+ (envelope-from <david@redhat.com>) id 1i9rXE-0003WV-F9
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i9rXA-0000UR-E5
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43989)
+ (envelope-from <david@redhat.com>) id 1i9rXC-0000VQ-Q2
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:59:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37652)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i9rXA-0000UJ-89; Mon, 16 Sep 2019 09:59:16 -0400
+ id 1i9rXC-0000V2-Jr; Mon, 16 Sep 2019 09:59:18 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6DC9B302C085;
- Mon, 16 Sep 2019 13:59:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D8A1F18CB8E2;
+ Mon, 16 Sep 2019 13:59:17 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64EFA1001947;
- Mon, 16 Sep 2019 13:59:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7A54100EBDF;
+ Mon, 16 Sep 2019 13:59:15 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 15:57:56 +0200
-Message-Id: <20190916135806.1269-20-david@redhat.com>
+Date: Mon, 16 Sep 2019 15:57:57 +0200
+Message-Id: <20190916135806.1269-21-david@redhat.com>
 In-Reply-To: <20190916135806.1269-1-david@redhat.com>
 References: <20190916135806.1269-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Mon, 16 Sep 2019 13:59:15 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Mon, 16 Sep 2019 13:59:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 19/29] s390x/tcg: MVC: Fault-safe handling
- on destructive overlaps
+Subject: [Qemu-devel] [PATCH v3 20/29] s390x/tcg: MVCLU: Fault-safe handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,36 +57,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
  Cole Robinson <crobinso@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The last remaining bit for MVC is handling destructive overlaps in a
-fault-safe way.
+The last remaining bit is padding with two bytes.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/s390x/mem_helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 6b85f44e22..abb9d4d70c 100644
+index abb9d4d70c..853b9557cf 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -432,8 +432,9 @@ static uint32_t do_helper_mvc(CPUS390XState *env, uin=
-t32_t l, uint64_t dest,
-         access_memmove(env, &desta, &srca, ra);
+@@ -919,15 +919,17 @@ static inline uint32_t do_mvcl(CPUS390XState *env,
+         access_memset(env, &desta, pad, ra);
+         *dest =3D wrap_address(env, *dest + len);
      } else {
-         for (i =3D 0; i < l; i++) {
--            uint8_t x =3D cpu_ldub_data_ra(env, src + i, ra);
--            cpu_stb_data_ra(env, dest + i, x, ra);
-+            uint8_t byte =3D access_get_byte(env, &srca, i, ra);
++        desta =3D access_prepare(env, *dest, len, MMU_DATA_STORE, mmu_id=
+x, ra);
 +
-+            access_set_byte(env, &desta, i, byte, ra);
+         /* The remaining length selects the padding byte. */
+         for (i =3D 0; i < len; (*destlen)--, i++) {
+             if (*destlen & 1) {
+-                cpu_stb_data_ra(env, *dest, pad, ra);
++                access_set_byte(env, &desta, i, pad, ra);
+             } else {
+-                cpu_stb_data_ra(env, *dest, pad >> 8, ra);
++                access_set_byte(env, &desta, i, pad >> 8, ra);
+             }
+-            *dest =3D wrap_address(env, *dest + 1);
          }
++        *dest =3D wrap_address(env, *dest + len);
      }
 =20
+     return *destlen ? 3 : cc;
 --=20
 2.21.0
 
