@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C88B3E83
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:13:31 +0200 (CEST)
-Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A071B3EC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:20:57 +0200 (CEST)
+Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9td4-0005vf-68
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37787)
+	id 1i9tkF-00032x-Gb
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58699)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1i9tSN-0004sX-1F
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 12:02:28 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9shq-00064M-L6
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:14:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1i9tSL-0006HX-PA
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 12:02:26 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38271)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9shp-0003f8-AC
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:14:22 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34728)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1i9tSL-0006Gy-Hg; Mon, 16 Sep 2019 12:02:25 -0400
-Received: by mail-lf1-x144.google.com with SMTP id u28so386177lfc.5;
- Mon, 16 Sep 2019 09:02:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1i9shp-0003ew-3L
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:14:21 -0400
+Received: by mail-wm1-x329.google.com with SMTP id y135so255126wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 08:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AeDrdWoph1c/zo2OnhjnI4KMjDluFfv/o+PCV5TtfKU=;
- b=dm6U+CvMeiCZCTD9FamXpjiptV6kfGOvX11DBQeCVsTp0llMIbDXurn065xOYIfreq
- afLTTuPciJuhqa4cNzktka97Cd3lHUNLEMB/n3cfHZEnfGK9rdhrd1F7V9wjX0BBtaER
- eHq2yEYQZNeA+fBTMfVZPCYlJUxt2in3BQ2IGgCyU84WITbZNMWHQIqmP81uVuLUFoNF
- LqglEmMA+aa6jNvlSleDsTzqGB2ctA8JrHPxVRr7cGBxRdXEJqCbZb36Op5ZeQxiECdT
- 2hKErS7lzUd7tKcoyqqTnOGNugM1KGp+w++LXbb5trtGvVkbcCcUOFTCmiZ1vspsDQrF
- uAtQ==
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ueb98aswQZ79aQIE2YKQ9MRnhUs2HLhGCVoxTGHIz6Q=;
+ b=D7nZrsJksFkuExPuPU5XQNhb6ZNtsUDdT9PBFZpazA9RAGvay5rJ5fighkRnAGBfTT
+ x8cxGBafyHfv0f8AhbdK9lQ9VjU9kXOzcJDw0lz72jfyMzdPniBi5oUPNbHvhO5PApAt
+ bozv30fs+GlaAtLL1nc9DFnf+820qz6RBW3z568kUjw0BmVvIMV/iSiK8FvZ3qNS6I6v
+ 7HsxrdH98w75fUqeJJ44BazoMOahAZ3kjp5jgKjXpatQwpLAP7H/8FCPdIc/mhvtE0ZG
+ FreNLBi+BL/iX1FQxt+DgCs1Y0H1qBExzZbjizPBVVsKZ7UNBYykGlSgTRXSDHDBK1Rt
+ 6kqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AeDrdWoph1c/zo2OnhjnI4KMjDluFfv/o+PCV5TtfKU=;
- b=T7z3rrHx6TRELM6H6s7lNAo7G6aj2iNs0a96V4hcJPAz/r4PvPkZvblU4UVEYQaxeu
- b4ZhC406k76IYFOo4cTtdnqywSgCzoukk1JmtvauVtEx7XgSl5IroY3EhP4f1D/XW2si
- LGqDGa5czHh4CJtzSDidbDq+U3YgEnip7PDRH/YVfzXhYgSCehfSh/SmK31TajwzLkkk
- JjqDqDOoovr1OetkPyhINRbhKEX1cQHBKFoZ9przK6OlBLD7f5k0TuD7m13tq64Q+oEE
- 8XsWGz+LIPAdT/Z/GDqixYBuQK4cxcqM5jFNiQhNGV9QVcZkfg7CrSYdLtutSf63VEGS
- LcBg==
-X-Gm-Message-State: APjAAAVIgLQuy43mNPwIVBvsBwn/tuIU9VhsLlKvPqoh6d7bdP3jRMjI
- 7rR2XkIlxCYfXGOlnD+SgADNbB3KrrogdAGoLPI=
-X-Google-Smtp-Source: APXvYqwxMlTZj0mkXSWjl5ZbZSuZON6zWCBxp1QeXrHm1dJpVTMMHTF/BSiR8ZyFMO02zSifaLNOdoezDg0x9xad9UM=
-X-Received: by 2002:ac2:4a69:: with SMTP id q9mr90720lfp.86.1568649743426;
- Mon, 16 Sep 2019 09:02:23 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ueb98aswQZ79aQIE2YKQ9MRnhUs2HLhGCVoxTGHIz6Q=;
+ b=nNM8JaDHRF4k5TmrZPi8/khkBCGYec5mXastVpBpQyG0/k9x0DM3i6uAaklpQFGd8w
+ +8tkkjBD+lUd+T6Jf6G58P4O8+zjxBkOZlHYpwqDyNLZ4Kmk6TWc4MWaq84k8TgcFYft
+ xHl199HFk3qr++4MIewuv6AFKHo+6MqlB68PCSuNzv+xG7NNp6KxDU5MPsIgIOMiQeuP
+ 5u+8SMWhNuZyNP0IAytjupyi7UhuPSGhM4AI8CabkxZpv6v4YX85fyUYBApRwuUj53jY
+ 0igIIqbC3TO9ikGseda+TbIXtSok1JAy+1PDZe2H3DCO3f+wr+4rgcde/50Aul9NMq1x
+ knvQ==
+X-Gm-Message-State: APjAAAWfxJsz1vM6emRw6C0DHTtKYgYgDMr8KJP7WkiIgx5QxrvofkVE
+ 1Zuh1vcmVJVWLKX/8ogNUieuo/ku
+X-Google-Smtp-Source: APXvYqwteJC236rqaedRqpP6le+tfJ4CMfGjhKERs/U1UZqo/5lazovMRolFbX8J3JAqSYpST2rP/g==
+X-Received: by 2002:a1c:bcd6:: with SMTP id m205mr19748wmf.129.1568646859732; 
+ Mon, 16 Sep 2019 08:14:19 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id f18sm14343719wrv.38.2019.09.16.08.14.18
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 16 Sep 2019 08:14:19 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 17:14:18 +0200
+Message-Id: <1568646858-17065-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <1c1d359caa6633349158debc38e07156a10b63e8.1566603412.git.alistair.francis@wdc.com>
- <mhng-9017291b-1ed2-4cea-ab34-03825a8c8a8c@palmer-si-x1e>
-In-Reply-To: <mhng-9017291b-1ed2-4cea-ab34-03825a8c8a8c@palmer-si-x1e>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 16 Sep 2019 08:57:52 -0700
-Message-ID: <CAKmqyKP5Ld5TQH+J2bArXOEChcB+0RFTdqNS-Sg-_G-UuOz_uQ@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: Re: [Qemu-devel] [PATCH v1 02/28] target/riscv: Add the
- virtulisation mode
+X-Received-From: 2a00:1450:4864:20::329
+Subject: [Qemu-devel] [PULL v2 00/29] Misc patches for 2019-09-16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,106 +77,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <Anup.Patel@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <Atish.Patra@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 10, 2019 at 6:44 AM Palmer Dabbelt <palmer@sifive.com> wrote:
->
-> On Fri, 23 Aug 2019 16:37:54 PDT (-0700), Alistair Francis wrote:
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  target/riscv/cpu.h        |  4 ++++
-> >  target/riscv/cpu_bits.h   |  6 ++++++
-> >  target/riscv/cpu_helper.c | 23 +++++++++++++++++++++++
-> >  3 files changed, 33 insertions(+)
-> >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 7f54fb8c87..0ef1ecb0e0 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -117,6 +117,8 @@ struct CPURISCVState {
-> >
-> >  #ifndef CONFIG_USER_ONLY
-> >      target_ulong priv;
-> > +    /* This contains QEMU specific information about the virt state. */
-> > +    target_ulong virt;
-> >      target_ulong resetvec;
-> >
-> >      target_ulong mhartid;
-> > @@ -257,6 +259,8 @@ int riscv_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
-> >  int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-> >  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
-> >  bool riscv_cpu_fp_enabled(CPURISCVState *env);
-> > +bool riscv_cpu_virt_enabled(CPURISCVState *env);
-> > +void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
-> >  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
-> >  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-> >  void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index e99834856c..1fbde516be 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -422,6 +422,12 @@
-> >  #define PRV_H 2 /* Reserved */
-> >  #define PRV_M 3
-> >
-> > +/* Virtulisation modes */
-> > +#define VIRT_OFF            0
-> > +#define VIRT_ON             1
-> > +#define VIRT_MODE_SHIFT     0
-> > +#define VIRT_MODE_MASK      (1 << VIRT_MODE_SHIFT)
-> > +
-> >  /* RV32 satp CSR field masks */
-> >  #define SATP32_MODE         0x80000000
-> >  #define SATP32_ASID         0x7fc00000
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 225e407cff..7b0bb14c01 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -81,6 +81,29 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
-> >      return false;
-> >  }
-> >
-> > +bool riscv_cpu_virt_enabled(CPURISCVState *env)
-> > +{
-> > +    bool tmp;
-> > +
-> > +    if (!riscv_has_ext(env, RVH)) {
-> > +        return false;
-> > +    }
-> > +
-> > +    tmp = (env->virt & VIRT_MODE_MASK) >> VIRT_MODE_SHIFT;
-> > +
-> > +    return tmp == VIRT_ON;
-> > +}
->
-> extract64() is a bit cleaner.
+The following changes since commit 138985c1ef8b66e4e5b383354e133e05d01d0b5f:
 
-I have already changed it to get_field() and set_field().
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-sep-12-2019' into staging (2019-09-13 16:04:46 +0100)
 
->
-> > +
-> > +void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
-> > +{
-> > +    if (!riscv_has_ext(env, RVH)) {
-> > +        return;
-> > +    }
-> > +
-> > +    env->virt &= ~VIRT_MODE_MASK;
-> > +    env->virt |= enable << VIRT_MODE_SHIFT;
-> > +}
-> > +
-> >  int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
-> >  {
-> >      CPURISCVState *env = &cpu->env;
->
-> Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+are available in the git repository at:
 
-This patch is a little out of date, so I'll not include your RB line in the v2.
 
-Alistair
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 149c50cabcc4ea46a460d35fc876346ed441304c:
+
+  hw/i386/pc: Extract the x86 generic fw_cfg code (2019-09-16 17:13:09 +0200)
+
+----------------------------------------------------------------
+* Fix Patchew CI failures (myself)
+* i386 fw_cfg refactoring (Philippe)
+* pmem bugfix (Stefan)
+* Support for accessing cstate MSRs (Wanpeng)
+* exec.c cleanups (Wei Yang)
+* Improved throttling (Yury)
+* elf-ops.h coverity fix (Stefano)
+
+----------------------------------------------------------------
+v1->v2: missing S-o-b lines
+
+Cole Robinson (1):
+      hw/i386: Move CONFIG_ACPI_PCI to CONFIG_PC
+
+Paolo Bonzini (4):
+      win32: fix README file in NSIS installer
+      test-char: fix AddressSanitizer failure
+      memory: inline and optimize devend_memop
+      hw/i386/pc: Replace PCMachineState argument with MachineState in fw_cfg_arch_create
+
+Philippe Mathieu-Daudé (14):
+      hw/i386/pc: Use e820_get_num_entries() to access e820_entries
+      hw/i386/pc: Extract e820 memory layout code
+      hw/i386/pc: Use address_space_memory in place
+      hw/i386/pc: Rename bochs_bios_init as more generic fw_cfg_arch_create
+      hw/i386/pc: Pass the boot_cpus value by argument
+      hw/i386/pc: Pass the apic_id_limit value by argument
+      hw/i386/pc: Pass the CPUArchIdList array by argument
+      hw/i386/pc: Let pc_build_smbios() take a FWCfgState argument
+      hw/i386/pc: Let pc_build_smbios() take a generic MachineState argument
+      hw/i386/pc: Rename pc_build_smbios() as generic fw_cfg_build_smbios()
+      hw/i386/pc: Let pc_build_feature_control() take a FWCfgState argument
+      hw/i386/pc: Let pc_build_feature_control() take a MachineState argument
+      hw/i386/pc: Rename pc_build_feature_control() as generic fw_cfg_build_*
+      hw/i386/pc: Extract the x86 generic fw_cfg code
+
+Stefan Hajnoczi (1):
+      memory: fetch pmem size in get_file_size()
+
+Stefano Garzarella (1):
+      elf-ops.h: fix int overflow in load_elf()
+
+Wanpeng Li (1):
+      i386/kvm: support guest access CORE cstate
+
+Wei Yang (5):
+      exec.c: replace hwaddr with uint64_t for better understanding
+      exec.c: get nodes_nb_alloc with one MAX calculation
+      exec.c: subpage->sub_section is already initialized to 0
+      exec.c: correct the maximum skip value during compact
+      exec.c: add a check between constants to see whether we could skip
+
+Yury Kotov (2):
+      qemu-thread: Add qemu_cond_timedwait
+      cpus: Fix throttling during vm_stop
+
+ backends/hostmem-file.c          |  22 -----
+ cpus.c                           |  25 +++--
+ default-configs/i386-softmmu.mak |   1 -
+ exec.c                           |  54 ++++++++---
+ hw/core/loader.c                 |   2 +
+ hw/i386/Kconfig                  |   1 +
+ hw/i386/Makefile.objs            |   2 +-
+ hw/i386/e820_memory_layout.c     |  59 +++++++++++
+ hw/i386/e820_memory_layout.h     |  42 ++++++++
+ hw/i386/fw_cfg.c                 | 137 ++++++++++++++++++++++++++
+ hw/i386/fw_cfg.h                 |   7 ++
+ hw/i386/pc.c                     | 204 ++-------------------------------------
+ include/exec/memory.h            |  19 +++-
+ include/hw/elf_ops.h             |   5 +
+ include/hw/i386/pc.h             |  11 ---
+ include/hw/loader.h              |   1 +
+ include/qemu/osdep.h             |  13 ---
+ include/qemu/thread.h            |  19 ++++
+ linux-headers/linux/kvm.h        |   4 +-
+ memory.c                         |  18 ----
+ qemu.nsi                         |   4 +-
+ target/i386/kvm.c                |   4 +-
+ tests/test-char.c                |  44 ++++-----
+ util/oslib-posix.c               |  54 -----------
+ util/oslib-win32.c               |   6 --
+ util/qemu-thread-posix.c         |  41 +++++---
+ util/qemu-thread-win32.c         |  17 ++++
+ util/qsp.c                       |  20 ++++
+ 28 files changed, 456 insertions(+), 380 deletions(-)
+ create mode 100644 hw/i386/e820_memory_layout.c
+ create mode 100644 hw/i386/e820_memory_layout.h
+-- 
+1.8.3.1
 
