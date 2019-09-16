@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3491EB3D9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:26:08 +0200 (CEST)
-Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69487B3DB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:35:03 +0200 (CEST)
+Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9stC-0006rt-Sn
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
+	id 1i9t1p-0007DV-Hh
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:35:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDK-0006jR-P4
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:52 -0400
+ (envelope-from <cohuck@redhat.com>) id 1i9sBc-0004jU-8x
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:41:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDI-0007bv-Ky
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:50 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37493)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sDI-0007Zz-7R
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:48 -0400
-Received: by mail-wr1-x441.google.com with SMTP id i1so38606996wro.4
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yV/n/mgO1W/0/jiaPYcXrk5/ziKrwU2IWT+KPvHpW0I=;
- b=AmyrUyQ6+2UsoDSk0L9O8hj9+k7/HFvVl2HZxaWSHAgVjvbGjiaDHOiTVq68F0BBbG
- LCgXCp8FOkWH6SMvkJv2nkS43o3dd01bFoVf1MsI9/MNosi26YHsuzlU3iK23OpW5VRR
- waN4tb9dvfY3B75BLp7z1JQBz58wRiIXxxVyIisUZUgkZDOQFs+E8PmwC2C6psdJiuRc
- LkSdOmS9IV7yFvvX6l8OyXc7yoX8bg7gYGMEO7ZibLSGveloSrJsacvgVIos+1MDGuKb
- SyTnN5XkVKqhECCEaSVrqGQRoKt+lmkyo4eoJf9R+9J8rXZu99sQ7zohLnsMzjevW4me
- xItw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yV/n/mgO1W/0/jiaPYcXrk5/ziKrwU2IWT+KPvHpW0I=;
- b=jfVgpWaWo67r4Z2/wWrKebX84Hpm+md8vabTdry0e8CO6GUXJWC0EAX1c0i9s6sY6G
- ak9awoH+ePShSQY8X7teqPHAKqCh3sOnJHwseVQq4GPYx6gm686V3juFRXsCVvrH9Ub4
- DY16uhBxkXfcN7GmCORb/k8gekhTBLvIn1Jn9FAiCaY0QsOEHwJHgP4JTisOBcM5tiRl
- +hmKOXSnpwZb0doS6menuX8BDUxHPmUTfVK9tft9ipL4T9Gu2/wSBBa9nJvbkduNQ3y2
- Mt8EqjCS+VgxFX8BDGkODA8vMD2bd4g+P8QiczKb3tphS1WkUCDS9UkDl56QI7Kz1+vv
- 86rw==
-X-Gm-Message-State: APjAAAW6oyu2TE2a8cDeLDCOYGqQxf3rFNYHPVuETJ53H2DwtMxIL2qU
- BHs2aIHpThGcGlUk4a9IdT6ErnTI
-X-Google-Smtp-Source: APXvYqz1RlbjPjekDVU5ssekGTOoK/61oqbFtQyny3WCbwpm+z/DXdSo5BpNfgx9Fs8jbwA0u3wo6g==
-X-Received: by 2002:a5d:694e:: with SMTP id r14mr153953wrw.34.1568644961459;
- Mon, 16 Sep 2019 07:42:41 -0700 (PDT)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.40
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:40 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:42:08 +0200
-Message-Id: <1568644929-9124-29-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
-References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+ (envelope-from <cohuck@redhat.com>) id 1i9sBa-00070r-8v
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:41:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41046)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1i9sBa-000704-2U
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:41:02 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 72A3410C6354;
+ Mon, 16 Sep 2019 14:41:00 +0000 (UTC)
+Received: from gondolin (ovpn-116-203.ams2.redhat.com [10.36.116.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C26565C1D6;
+ Mon, 16 Sep 2019 14:40:58 +0000 (UTC)
+Date: Mon, 16 Sep 2019 16:40:55 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Message-ID: <20190916164055.323c1b08.cohuck@redhat.com>
+In-Reply-To: <20190913120559.40835-1-slp@redhat.com>
+References: <20190913120559.40835-1-slp@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 28/29] hw/i386/pc: Rename
- pc_build_feature_control() as generic fw_cfg_build_*
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Mon, 16 Sep 2019 14:41:00 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] virtio-mmio: implement modern (v2)
+ personality (virtio-1)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,49 +57,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: stefanha@gmail.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ abologna@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Fri, 13 Sep 2019 14:06:01 +0200
+Sergio Lopez <slp@redhat.com> wrote:
 
-Now that the pc_build_feature_control_file() function has been
-refactored to not depend of PC specific types, rename it to a
-more generic name.
+> Implement the modern (v2) personality, according to the VirtIO 1.0
+> specification.
+> 
+> Support for v2 among guests is not as widespread as it'd be
+> desirable. While the Linux driver has had it for a while, support is
+> missing, at least, from Tianocore EDK II, NetBSD and FreeBSD.
+> 
+> For this reason, the v2 personality is disabled, keeping the legacy
+> behavior as default. Machine types willing to use v2, can enable it
+> using MachineClass's compat_props.
+> 
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> ---
+> Changelog:
+> 
+> v3:
+>  - Use %HWADDR_PRIx instead of %x. (Stefan Hajnoczi)
+>  - Return 0 if host_features_sel > 0 for legacy mode. (Cornelia Huck)
+>  - Mask out legacy features in non-legacy mode. (Cornelia Huck)
+>  - Log an error in guest attempts to write guest_features with
+>    guest_features_sel > 0 in legacy mode. (Cornelia Huck)
+> 
+> v2:
+>  - Switch from RFC to PATCH.
+>  - Avoid the modern vs. legacy dichotomy. Use legacy or non-legacy
+>    instead. (Andrea Bolognani, Cornelia Huck)
+>  - Include the register offset in the warning messages. (Stefan
+>    Hajnoczi)
+>  - Fix device endianness for the non-legacy mode. (Michael S. Tsirkin)
+>  - Honor the specs in VIRTIO_MMIO_QUEUE_READY. (Michael S. Tsirkin)
+> ---
+>  hw/virtio/virtio-mmio.c | 342 +++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 319 insertions(+), 23 deletions(-)
+> 
 
-Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190818225414.22590-15-philmd@redhat.com>
----
- hw/i386/pc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Looks good to me now.
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 438c485..9446596 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1623,8 +1623,8 @@ void pc_cpus_init(PCMachineState *pcms)
-     }
- }
- 
--static void pc_build_feature_control_file(MachineState *ms,
--                                          FWCfgState *fw_cfg)
-+static void fw_cfg_build_feature_control(MachineState *ms,
-+                                         FWCfgState *fw_cfg)
- {
-     X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
-     CPUX86State *env = &cpu->env;
-@@ -1695,7 +1695,7 @@ void pc_machine_done(Notifier *notifier, void *data)
-     acpi_setup();
-     if (pcms->fw_cfg) {
-         fw_cfg_build_smbios(MACHINE(pcms), pcms->fw_cfg);
--        pc_build_feature_control_file(MACHINE(pcms), pcms->fw_cfg);
-+        fw_cfg_build_feature_control(MACHINE(pcms), pcms->fw_cfg);
-         /* update FW_CFG_NB_CPUS to account for -device added CPUs */
-         fw_cfg_modify_i16(pcms->fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus);
-     }
--- 
-1.8.3.1
-
-
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
