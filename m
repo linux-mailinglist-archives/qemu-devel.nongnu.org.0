@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EF6B3441
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 07:02:26 +0200 (CEST)
-Received: from localhost ([::1]:59070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E6AB3495
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 08:08:04 +0200 (CEST)
+Received: from localhost ([::1]:59222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9j9d-0006UG-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 01:02:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36497)
+	id 1i9kB9-0007cB-Fg
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 02:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i9j6L-0005F7-Cl
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 00:59:03 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1i9kAG-0007Bz-Uu
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 02:07:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i9j6J-0001M4-UA
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 00:59:00 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:47167 helo=ozlabs.org)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1i9kAF-0004WA-Pn
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 02:07:08 -0400
+Received: from mga03.intel.com ([134.134.136.65]:2723)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i9j6I-0001Ji-Pv; Mon, 16 Sep 2019 00:58:59 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46WvCg4sFGz9sNT; Mon, 16 Sep 2019 14:58:55 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1568609935;
- bh=rAsE8qYHVdc7U29dsj6YbBAur49fdEgRiBH0/CmT+EY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XquB5mjtIVM4cKG0RT/2zSikV/V1faS+A7wna5ZawaoDzmPZa3oZrL41f1UpglkR4
- 9EvnRZDRG4c901XiQ81OdOblB6rDGM5xPgHWTRi0UDGZUxW45R9Y/+cFU0hy08oQFD
- bY5EmpPUTrhz25eopo1V93jRfiuM7hg3uluimTSQ=
-Date: Mon, 16 Sep 2019 11:48:58 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190916014858.GH2104@umbus.fritz.box>
-References: <20190911093951.6244-1-alex.bennee@linaro.org>
- <8f76ef47-0cf8-c662-0100-d416f5f2e0c1@linaro.org>
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1i9kAE-0004UB-GS
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 02:07:06 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2019 23:07:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="180332647"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga008.jf.intel.com with ESMTP; 15 Sep 2019 23:07:02 -0700
+Date: Mon, 16 Sep 2019 14:06:42 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190916060642.GA13437@richard>
+References: <20190819061843.28642-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZPDwMsyfds7q4mrK"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f76ef47-0cf8-c662-0100-d416f5f2e0c1@linaro.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] target/ppc: fix signal delivery
- for ppc64abi32
+In-Reply-To: <20190819061843.28642-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.65
+Subject: Re: [Qemu-devel] [PATCH 0/3] migration/postcopy: unsentmap is not
+ necessary
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,73 +57,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- rth@twiddle.net
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Dave and Juan
 
---ZPDwMsyfds7q4mrK
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Would you mind taking a look at this one?
 
-On Wed, Sep 11, 2019 at 10:33:45AM -0400, Richard Henderson wrote:
-> On 9/11/19 5:39 AM, Alex Benn=E9e wrote:
-> > We were incorrectly setting NIP resulting in a segfault. This fixes
-> > linux-test for this ABI.
->=20
-> Perhaps better:
-> We were incorrectly using the 64-bit AIX ABI instead of the 32-bit SYSV A=
-BI for
-> setting NIP for the signal handler.
+On Mon, Aug 19, 2019 at 02:18:40PM +0800, Wei Yang wrote:
+>Three patches to cleanup postcopy:
+>
+>[1]: split canonicalize bitmap and discard page
+>[2]: remove unsentmap since it is not necessary
+>[3]: cleanup the get_queued_page_not_dirty
+>
+>Wei Yang (3):
+>  migration/postcopy: not necessary to do discard when canonicalizing
+>    bitmap
+>  migration/postcopy: unsentmap is not necessary for postcopy
+>  migration: remove sent parameter in get_queued_page_not_dirty
+>
+> include/exec/ram_addr.h |  6 ---
+> migration/ram.c         | 94 +++++++----------------------------------
+> migration/trace-events  |  2 +-
+> 3 files changed, 16 insertions(+), 86 deletions(-)
+>
+>-- 
+>2.17.1
 
-Applied to ppc-for-4.2, with Richard's updated description.
-
-For future reference, it's better to directly CC me on such patches.
-I only barely keep on top of the mailing lists, so if you just send it
-there it's likely to be some time before I pick it up, or even get
-lost entirely.
-
->=20
-> ?
->=20
-> >=20
-> > Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> > ---
-> >  linux-user/ppc/signal.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> Anyway,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ZPDwMsyfds7q4mrK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1+6gcACgkQbDjKyiDZ
-s5KBdg/+MxxEaQLH/kOZ6XzZpKrUnBMktwMzn7vbhqqaZxmHhlhAMx5swttejVmQ
-W0xGR0Wy+Q9jsELCCduvy/MkSEE8vUfVAZaoE3HSxygFUTa1MWTM4ox8aNuuuWnv
-WPGqPFfAPHIV2LIDMmeL49o0lcWcOzSMXeebRXXxi4Mb0LidW3g0jPVIWj4Dyh7k
-Y4rXgVyNAxCuvlZTDgfuqABAu/CK1AdQETZMh5lU47O2/p/3eeWUc5fKNAMzUdjj
-Lw+40DI4nzym7SaHqkoBh/+IDRS2b4pvsRPe9lNOEr5E3N+tP3PLxI3apozNP+R9
-qtLVqrM3F9w3ofYuZB5qTyJ8G8ifZwtY4eH2sZQTpMxFppsLJXO83eoCYFiQeacr
-87HHG0E/C46ztZiRIk3BOSufeNMDlqeAdoL7wPJkgTc1fkWHnSCcMgyEmERLJX73
-9FPjk0V6W9w/XYm2y0vCyISBmLOwYbl91oovwT4WTTMvYFhx4CJVz3+cwSs2E4Gg
-B7lDjh28hCRiphxf11EQiSDqjKwEFJxrKZ/bmStuwAD0W69VSArg1zmRPNoJnnd1
-o0WmdXZbzA78thrqNC21gZNL+JlYdOQbcvVEkf/HCqsHI9LQv+WTqTJiyUxPBtp+
-C7/aBUQUDXRBV9TZQz1EgThCerPCMqLrMqS1F9fLrmfYFFtk+EE=
-=c83x
------END PGP SIGNATURE-----
-
---ZPDwMsyfds7q4mrK--
+-- 
+Wei Yang
+Help you, Help me
 
