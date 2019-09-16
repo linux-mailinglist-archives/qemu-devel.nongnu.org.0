@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B026B32AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 01:42:39 +0200 (CEST)
-Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B625EB32CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 02:43:25 +0200 (CEST)
+Received: from localhost ([::1]:57855 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9eAA-0006Db-Ip
-	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 19:42:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35959)
+	id 1i9f6y-0006hw-9e
+	for lists+qemu-devel@lfdr.de; Sun, 15 Sep 2019 20:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i9e8r-0005lJ-WB
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 19:41:19 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i9f5W-0005ZI-Hb
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 20:41:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i9e8q-0008Id-Jd
- for qemu-devel@nongnu.org; Sun, 15 Sep 2019 19:41:17 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58057 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1i9f5V-0005Av-6u
+ for qemu-devel@nongnu.org; Sun, 15 Sep 2019 20:41:54 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46723 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i9e8p-0008GR-FC; Sun, 15 Sep 2019 19:41:16 -0400
+ id 1i9f5T-0005AP-VS; Sun, 15 Sep 2019 20:41:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46Wm9201jdz9sNx; Mon, 16 Sep 2019 09:41:09 +1000 (AEST)
+ id 46WnVx68MCz9sP6; Mon, 16 Sep 2019 10:41:45 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1568590870;
- bh=zltnrM80upxAW/h5AZAqld/X6iIGiXNs492AbwheTbc=;
+ d=gibson.dropbear.id.au; s=201602; t=1568594505;
+ bh=F+SKYAUtoXmOyCVb7aOZLPl8/ofr/GkoF83heURRA7c=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TlkCXv35Sh3KEF18+DX3u86DhLA+DSSpSff28vw9qt5/m2wzVNvzRXHEmLN5AHO6C
- MR8x/xICFUakIfFN3dZAH7fHg9Nk+LIvU3VD+7OUwJUhn8uEpb4knGZqTgV+mfHfc1
- uhqVOOqen0Vow6sPBLVhq2axi0uisHn2WE5uS73w=
-Date: Sun, 15 Sep 2019 19:42:42 +1000
+ b=fWSvyqfLZh+70EgsbY6W3A0GmFAbboLxoBjc2E4j0OaqVgK+m5NGS/Q7SGI6IG9qW
+ C3EStN+5ru8x0ZiLgLiLKTjw79IVHy6fB4MlxK3iwxzi1oF81ImYjorFxW62ON5+ru
+ taHlCMTicAsQGVmJGVMc6AQAJJnWLXEFbOBR0ODA=
+Date: Mon, 16 Sep 2019 10:25:07 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190915094242.GB2104@umbus.fritz.box>
-References: <156829860985.2073005.5893493824873412773.stgit@bahia.tls.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190916002507.GC2104@umbus.fritz.box>
+References: <1568292868-5067-1-git-send-email-pc@us.ibm.com>
+ <c39334e3-46f9-1973-11d0-c862ce80cc8b@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
+ protocol="application/pgp-signature"; boundary="Fig2xvG2VGoz8o/s"
 Content-Disposition: inline
-In-Reply-To: <156829860985.2073005.5893493824873412773.stgit@bahia.tls.ibm.com>
+In-Reply-To: <c39334e3-46f9-1973-11d0-c862ce80cc8b@linaro.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] spapr: Report kvm_irqchip_in_kernel() in
- 'info pic'
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH] ppc: Add support for 'mffsce' instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,55 +56,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+Cc: qemu-ppc@nongnu.org, "Paul A. Clarke" <pc@us.ibm.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---NDin8bjvE/0mNLFQ
+--Fig2xvG2VGoz8o/s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 12, 2019 at 04:30:09PM +0200, Greg Kurz wrote:
-65;5603;1c> Unless the machine was started with kernel-irqchip=3Don, we can=
-not easily
-> tell if we're actually using an in-kernel or an emulated irqchip. This
-> information is important enough that it is worth printing it in 'info
-> pic'.
+On Sat, Sep 14, 2019 at 01:00:21PM -0400, Richard Henderson wrote:
+> On 9/12/19 8:54 AM, Paul A. Clarke wrote:
+> > From: "Paul A. Clarke" <pc@us.ibm.com>
+> >=20
+> > ISA 3.0B added a set of Floating-Point Status and Control Register (FPS=
+CR)
+> > instructions: mffsce, mffscdrn, mffscdrni, mffscrn, mffscrni, mffsl.
+> > This patch adds support for 'mffsce' instruction.
+> >=20
+> > 'mffsce' is identical to 'mffs', except that it also clears the excepti=
+on
+> > enable bits in the FPSCR.
+> >=20
+> > On CPUs without support for 'mffsce' (below ISA 3.0), the
+> > instruction will execute identically to 'mffs'.
+> >=20
+> > Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+> > ---
+> >  target/ppc/translate/fp-impl.inc.c | 30 ++++++++++++++++++++++++++++++
+> >  target/ppc/translate/fp-ops.inc.c  |  2 ++
+> >  2 files changed, 32 insertions(+)
+> >=20
+> > diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/=
+fp-impl.inc.c
+> > index 59a4faf..34edc45 100644
+> > --- a/target/ppc/translate/fp-impl.inc.c
+> > +++ b/target/ppc/translate/fp-impl.inc.c
+> > @@ -639,6 +639,36 @@ static void gen_mffsl(DisasContext *ctx)
+> >      tcg_temp_free_i64(t0);
+> >  }
+> > =20
+> > +/* mffsce */
+> > +static void gen_mffsce(DisasContext *ctx)
+> > +{
+> > +    TCGv_i64 t0;
+> > +    TCGv_i32 mask;
+> > +
+> > +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+> > +        return gen_mffs(ctx);
+> > +    }
+> > +
+> > +    if (unlikely(!ctx->fpu_enabled)) {
+> > +        gen_exception(ctx, POWERPC_EXCP_FPU);
+> > +        return;
+> > +    }
+> > +
+> > +    t0 =3D tcg_temp_new_i64();
+> > +
+> > +    gen_reset_fpstatus();
 >=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-
-Applied, thanks.
-
-> ---
->  hw/ppc/spapr.c |    4 ++++
->  1 file changed, 4 insertions(+)
+> Note for future cleanup: we should not need to sprinkle these all over.  =
+This
+> should be the steady-state condition after softfp exceptions have been
+> processed into powerpc exceptions, after every single fp instruction.
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 761f8214c312..348c007ffbd3 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -81,6 +81,8 @@
->  #include "hw/mem/memory-device.h"
->  #include "hw/ppc/spapr_tpm_proxy.h"
-> =20
-> +#include "monitor/monitor.h"
-> +
->  #include <libfdt.h>
-> =20
->  /* SLOF memory layout:
-> @@ -4360,6 +4362,8 @@ static void spapr_pic_print_info(InterruptStatsProv=
-ider *obj,
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
-> =20
->      spapr->irq->print_info(spapr, mon);
-> +    monitor_printf(mon, "irqchip: %s\n",
-> +                   kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
->  }
-> =20
->  int spapr_get_vcpu_id(PowerPCCPU *cpu)
+> That said, you're mirroring gen_mffs here, and the cleanup should
+> happen globally.
+
+This doesn't apply, presuambly because it's on top of the other
+patch.  So I'll wait for the respin that includes the small update
+that rtc requested on that one.
+
+>=20
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>=20
+>=20
+> r~
 >=20
 
 --=20
@@ -112,25 +142,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---NDin8bjvE/0mNLFQ
+--Fig2xvG2VGoz8o/s
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1+B5IACgkQbDjKyiDZ
-s5JkxhAAla4CZmkj3UEk1fHH4X+n0/XeOTFFuxQ+dThPoiOEZXDWGHJ1/gX42mme
-AAtiP/AjrxqIJIKMXW47128Y3r481/ObzJElmL3duFmDnyBMHY9xeAbaipwM0AzV
-Wh3/II29bwvnTMlmbWmOqZjwmyv+gSlzsUsLPPLrO0JHt1KielOvNquY6xugO6n1
-TRzO4wlAnnmyoduvciyKgyeW9Nk0UZMvvVDkRmhyakoUi0jkNMzva2i2xa1eWsHO
-c0/v3v+2rAqj/0HYuQPMP6kVxDac1DyF4WMLdgC9R2bv3CrpUU7NIw06nA6ez58V
-osYlZZP+4/2nI5yyAHq9gBns3ge50ToBPtRm3IIXu85CBlt4bqykbnIiSSpE+ktW
-TLSIQHuL0pkA9lW5uey1/toRi5sGW3KFkHZt9o11TAbMb5HCG1oS0LkEgXzBY6oF
-EIvOU6VmhSrIrvgW6k0eHDWb/zCu1JwHl7FST3IYbr5i+vLbqeSVePj4iJmDg00o
-YzvcshK0GyENS7cg/fIWsj4rb708XRP0mCjUwCIAmlY5iD9gDRo9E3CSgRVBAkdB
-KzRbGgwU4a5whyWrDdOh7cU8eaMcyBEmedHDFAPPxy8QQJJOJ7CpzavtyQbDrwTf
-cTYszXUdu3SZ2j8KjbJ54wOcZP7MkQ88iBvFYh5BICk8bAIhX1E=
-=Axbr
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1+1mEACgkQbDjKyiDZ
+s5Iu6BAA4GDX0m6FS6W2UTg0c5uAslYcz2woT6z0dE5+Pg65B21x/xSc2Qw8QMxZ
+7SX14vZLZzAkqpjxbL/dMPIR9BYf9+qwQdnLPlb0QMxIVkAPisYhW6394dczyLg6
+XfQ3Z1dS71aLSw8uPWGzPF+hNsgrCW70W+SiPr1W0BCON64nFG5BNYVHPwubhSN4
+Fupj54igLxo7cWrU99FWWJAErb+Bn75/E47gdLtSyZei+/yZVFerv3Yy7rKsIFmi
+WOwWfb13PqKLLjZX8xWPYdNQI4tgXUXbBFqF+zoa8EXkSf6iAeNxje2iAWnyADo5
+kmroF5sHMIrrWi5+ZuIpeJpaQHiQPReDh9DFbpBl+YiHvCdy2Xp79ponwVmjYfkZ
+wLfKRB3UQBqxSWcMXA0SN9Sl8+qssxJrN82I26kAWNNRLKv4vT23eJDUIc3Ujpbh
+i4CO9U1tNHoEm7PmO6QRw3p2thc8ha0ozu2ib+bK9Z5qfFDJc4Vq0VnY8dqurHV8
+ooM5Xtqlmt7z31ZZ+NMhxwM5OJBIlUGZP+V7os8bnGm6hFlQ9rrpp8myQ4oM6xJM
+fT889HxvMZS8udbAArHTFimXOGjk+2dHzBMqCWd9xJypXDja1+u8quY6YTV1hstG
+PzZKUg+Y6njOfchna+w3wUF543WzHduGizCwrteusYJFIMF7SIc=
+=2xd5
 -----END PGP SIGNATURE-----
 
---NDin8bjvE/0mNLFQ--
+--Fig2xvG2VGoz8o/s--
 
