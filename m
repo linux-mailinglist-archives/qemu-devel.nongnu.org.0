@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBB2B3609
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 09:58:06 +0200 (CEST)
-Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250A8B3622
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 10:04:39 +0200 (CEST)
+Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9ltd-0004PI-Dt
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 03:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53979)
+	id 1i9lzx-0001Gg-GB
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 04:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1i9lry-0003Ob-S3
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 03:56:23 -0400
+ (envelope-from <peterx@redhat.com>) id 1i9luS-0005os-0U
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 03:58:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1i9lrx-0004Ty-Uf
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 03:56:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46388)
+ (envelope-from <peterx@redhat.com>) id 1i9luQ-00065Q-J5
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 03:58:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34404)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i9lrx-0004Tf-Oh
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 03:56:21 -0400
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i9luQ-000651-AP
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 03:58:54 -0400
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1117E369C4
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:56:21 +0000 (UTC)
-Received: by mail-pf1-f199.google.com with SMTP id f2so26626458pfk.13
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 00:56:21 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9993B4E926
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:58:53 +0000 (UTC)
+Received: by mail-pf1-f197.google.com with SMTP id c5so26588302pfo.17
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 00:58:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=8bG60DqdwV5Z9mJOdj6YMzMYw8IxPiOQzy6Z89mG764=;
- b=Y0IEyp5kLwOaERf2sm5H1WrCGws7IsXL8Pykij5gw6YT3Lq69rtYDLGvhUVI74D6eB
- nmVHMfFFhHHQSrHfHAPwMOS6R7xBtn10ola+25FwdKUiFiW9fHVwMf3tWucqECnj8zNH
- p2eCsywuml14DVFXt5+lheVcBPQVB8Y+AdxUCHK98sDvBuFfiRd74E/Gf9OzCXfRiVMJ
- ZCaX0TUPKACBEN+IDzsTfiFTwPG/ExSn913KYq/3Jk2lTf1B1lc9udTk7iENO3DYUuoY
- 5pFJ30+6WSKsjq1Btbn10CXr1W38vPGKW4yPfSRk+XBVjtTEhQF83Q+IbNBiIYnnAdWF
- Vj2g==
-X-Gm-Message-State: APjAAAX69QaTG7ZIUaHOr2eZfFIdGlit6FGAMjrLTzKTm5Six3fBlU6h
- HZN1tIBsCJH5/DAgOUoBPYVLAQf/tVSpQ2NLCEhnHPfVZLjLNaI3+Z1t0ZqTpPbOBa90zciYLtU
- nPBL68WrqERTEl5A=
-X-Received: by 2002:a17:902:a50a:: with SMTP id
- s10mr53846328plq.336.1568620580605; 
- Mon, 16 Sep 2019 00:56:20 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyPuZ6TmAuiAtsl6+KZnnjuruQ9VDTwzXqRvHx+m4w3dJQnugtyvy8EMXWZvCrdtq/+8G15Vw==
-X-Received: by 2002:a17:902:a50a:: with SMTP id
- s10mr53846304plq.336.1568620580298; 
- Mon, 16 Sep 2019 00:56:20 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id 127sm62675024pfy.56.2019.09.16.00.56.15
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pANWPujV8mgqfUm9CrHdTpHe+SE6fW1aXQVq1T1e/yo=;
+ b=VAQmSF53BfHMILNfl4+e/nQChE5weeBCxn5KRIhqIc++Z+1dF/K4zm9sgUN1SzVp4x
+ kHOXILnFYDbi5yIyUPusNpQNRg8BNZNQ07KbKUNFhRbzNQ88eqfM96TcE/IQXTiZAoom
+ CTqXBBLdZwaTWhR9yIJUGX9GbXa8fNsbVO6rx8xq0xlWAUfRCEp2Jgox/WMuaV5skse6
+ zk+qEwNEVrSjm8pEcbrUHWj2VfAQUDgPcfUZ2tcZos0/fowYkErmpYKoFVhnF+Fv3/Cs
+ Fc+LW2sqGGIjj0BMJKn3SizQihSE4JUwfO6YNFVyKflSRb1b9abMW+H83jB07cu4ikwP
+ doVg==
+X-Gm-Message-State: APjAAAWhjJxK9NyjghGrK6ZPBJGY98aqvM3yQN5LBkjQGJhpR3AkhD/4
+ ZJ08Eg9lxfHSV4obDzRmucoIW8MD0gZRKcuFAKR074CS2/gTR3HI+4Rpn6ZM0XBpNOfG32t5YM9
+ 5p2sJojqodaCs2OA=
+X-Received: by 2002:a17:90a:7f8b:: with SMTP id
+ m11mr19415414pjl.92.1568620732558; 
+ Mon, 16 Sep 2019 00:58:52 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz9yiNIAAwhfOBrVcDIKg34jyg8lZRC4kjSfRVUIeiDkFGyJl0DrHbq6rZswgtncHk2rwGNNg==
+X-Received: by 2002:a17:90a:7f8b:: with SMTP id
+ m11mr19415391pjl.92.1568620732313; 
+ Mon, 16 Sep 2019 00:58:52 -0700 (PDT)
+Received: from xz-x1.redhat.com ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id p20sm50321443pgi.81.2019.09.16.00.58.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2019 00:56:19 -0700 (PDT)
-Date: Mon, 16 Sep 2019 15:56:09 +0800
+ Mon, 16 Sep 2019 00:58:50 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Message-ID: <20190916075609.GA30562@xz-x1>
-References: <20190812074531.28970-1-peterx@redhat.com>
- <20190812074531.28970-2-peterx@redhat.com>
- <57ddb99c-3c38-db87-0763-c4a0d8039e45@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 15:58:35 +0800
+Message-Id: <20190916075839.390-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <57ddb99c-3c38-db87-0763-c4a0d8039e45@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH RFC 1/4] intel_iommu: Sanity check vfio-pci
- config on machine init done
+Subject: [Qemu-devel] [PATCH v2 0/4] intel_iommu: Do sanity check of
+ vfio-pci earlier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,37 +75,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Bandan Das <bsd@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ peterx@redhat.com, Bandan Das <bsd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 16, 2019 at 09:11:50AM +0200, Auger Eric wrote:
-> >  static void vtd_realize(DeviceState *dev, Error **errp)
-> >  {
-> >      MachineState *ms = MACHINE(qdev_get_machine());
-> > @@ -3741,6 +3772,7 @@ static void vtd_realize(DeviceState *dev, Error **errp)
-> >      pci_setup_iommu(bus, vtd_host_dma_iommu, dev);
-> >      /* Pseudo address space under root PCI bus. */
-> >      pcms->ioapic_as = vtd_host_dma_iommu(bus, s, Q35_PSEUDO_DEVFN_IOAPIC);
-> > +    qemu_add_machine_init_done_notifier(&vtd_machine_done_notify);
-> This does not compile anymore on master. I think sysemu/sysemu.h needs
-> to be included as declaration of qemu_add_machine_init_done_notifier is
-> not found.
+v2:
+- rebase to master [Eric]
+- add r-bs for Eric
+- remove RFC tag
 
-Indeed.  It's probably because we've changed some header inclusions
-recently between each other.  I'll repost a new version with it added.
+The VT-d code has some defects, one of them is that we cannot detect
+the misuse of vIOMMU and vfio-pci early enough.
 
-> 
-> Besides
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+For example, logically this is not allowed:
 
-Thanks for the reviews!
+  -device intel-iommu,caching-mode=3Doff \
+  -device vfio-pci,host=3D05:00.0
 
--- 
-Peter Xu
+Because the caching mode is required to make vfio-pci devices
+functional.
+
+Previously we did this sanity check in vtd_iommu_notify_flag_changed()
+as when the memory regions change their attributes.  However that's
+too late in most cases!  Because the memory region layouts will only
+change after IOMMU is enabled, and that's in most cases during the
+guest OS boots.  So when the configuration is wrong, we will only bail
+out during the guest boots rather than simply telling the user before
+QEMU starts.
+
+The same problem happens on device hotplug, say, when we have this:
+
+  -device intel-iommu,caching-mode=3Doff
+
+Then we do something like:
+
+  (HMP) device_add vfio-pci,host=3D05:00.0,bus=3Dpcie.1
+
+If at that time the vIOMMU is enabled in the guest then the QEMU
+process will simply quit directly due to this hotplug event.  This is
+a bit insane...
+
+This series tries to solve above two problems by introducing two
+sanity checks upon these places separately:
+
+  - machine done
+  - hotplug device
+
+This is a bit awkward but I hope this could be better than before.
+There is of course other solutions like hard-code the check into
+vfio-pci but I feel it even more unpretty.  I didn't think out any
+better way to do this, if there is please kindly shout out.
+
+Please have a look to see whether this would be acceptable, thanks.
+
+Peter Xu (4):
+  intel_iommu: Sanity check vfio-pci config on machine init done
+  qdev/machine: Introduce hotplug_allowed hook
+  pc/q35: Disallow vfio-pci hotplug without VT-d caching mode
+  intel_iommu: Remove the caching-mode check during flag change
+
+ hw/core/qdev.c         | 17 +++++++++++++++++
+ hw/i386/intel_iommu.c  | 40 ++++++++++++++++++++++++++++++++++------
+ hw/i386/pc.c           | 21 +++++++++++++++++++++
+ include/hw/boards.h    |  9 +++++++++
+ include/hw/qdev-core.h |  1 +
+ qdev-monitor.c         |  7 +++++++
+ 6 files changed, 89 insertions(+), 6 deletions(-)
+
+--=20
+2.21.0
+
 
