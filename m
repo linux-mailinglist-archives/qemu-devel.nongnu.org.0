@@ -2,47 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E1FB3CFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:56:42 +0200 (CEST)
-Received: from localhost ([::1]:35519 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1943AB3D09
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:01:38 +0200 (CEST)
+Received: from localhost ([::1]:35602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9sQj-0002Aq-FB
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51366)
+	id 1i9sVV-0007eU-2c
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:01:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i9ruw-0003tS-Qv
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:52 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnS-0004bT-Me
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i9ruu-00012V-Ta
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:23:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:64866)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i9ruq-00010s-Lg; Mon, 16 Sep 2019 10:23:44 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E88493083362;
- Mon, 16 Sep 2019 14:23:43 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73F9E600C1;
- Mon, 16 Sep 2019 14:23:43 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon, 16 Sep 2019 16:22:46 +0200
-Message-Id: <20190916142246.31474-17-mreitz@redhat.com>
-In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
-References: <20190916142246.31474-1-mreitz@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i9rnQ-000711-Df
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:06 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34489)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i9rnP-0006zL-St
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:16:04 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a11so29317038wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:16:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+TLqHbpNEdFdoOs/T99sxVwsEvUGOL0cA+fPHcIpClc=;
+ b=sWuRAHJ+Lp0Yyv0LksXsbzNARffbqNQ0AtbIl7CvRMLd2hIXjLH8lWE3NXEhuRSd3n
+ 6fGAG4M1GfZCk4olMbIJd+8Mdx5UlNXa7NlpGadYbcpBak/Ee+l4bQPE4/ZdmtOjZBrb
+ 6ca+S9XAKta6/koGyMJrh94bpkEceDjcLIQ3wA11r4GJkh/flAkckunXEe1OyNY1b5HI
+ iskjSbmUg6XHw5wI1y2cEvCnUwbmRt56MtvsDZ31Mq753n802xbbxMdKRqYGYWDyH+dl
+ G3iKQBfkN6cVy2Ds7PFX659nn0mWc6FmYAdhjjqkih+qAjLfR803adNaPxqwDZN/5rrs
+ BnqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+TLqHbpNEdFdoOs/T99sxVwsEvUGOL0cA+fPHcIpClc=;
+ b=RzQ8Zxtk62BUlPtCxf6P4QbwrOnd3rQMBqbCxEVN13jF4N2UuIFW6SImaTDkAGunKA
+ mk2emOcl6xxl7G14QlBx0jTPpkWleePHy7rKXB/EzHXDeXN7zPfJpUO+NYYBJIoMcSuZ
+ IvOwHzhKf/GifyML4RzsF0PwCbcvyJGDpSR9tAKF2QpNtdSOaJ/eoZhnfQWOKFzumxGm
+ Bk4VcgbuE3smduFYSDjSnnjVeWAfzdIpAm/nU47FFl5E1anODGJcCIhWys+NU7W3UeAs
+ 1JiwqYHjGYJUhYtKlJ5ZNKwQ4LO4M6zSKsb8fSmDgSErAZPG0socGyn6msAcLpan43cn
+ ftEg==
+X-Gm-Message-State: APjAAAV2lg/etX+PdFMe74OVYyryKrnR9Y2u/poAXtBHOmFUTjAXEjkj
+ OoV05yg1gsLFD+KobVHlZyUepQ==
+X-Google-Smtp-Source: APXvYqxXjV9ACn0RO8JvYa5+5KwRR80QHwJXhZVSaT7RJR/S9Sse7DCQDn/W6/9nOCOwY4SIkfySAg==
+X-Received: by 2002:a5d:55d0:: with SMTP id i16mr32654wrw.108.1568643362808;
+ Mon, 16 Sep 2019 07:16:02 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s9sm15185884wme.36.2019.09.16.07.16.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Sep 2019 07:16:02 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 15:15:42 +0100
+Message-Id: <20190916141544.17540-14-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190916141544.17540-1-peter.maydell@linaro.org>
+References: <20190916141544.17540-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 16 Sep 2019 14:23:43 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 16/16] qemu-iotests: Add test for bz #1745922
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v2 13/15] target/arm/arm-semi: Implement
+ support for semihosting feature detection
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,193 +80,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+Version 2.0 of the semihosting specification added support for
+allowing a guest to detect whether the implementation supported
+particular features. This works by the guest opening a magic
+file ":semihosting-features", which contains a fixed set of
+data with some magic numbers followed by a sequence of bytes
+with feature flags. The file is expected to behave sensibly
+for the various semihosting calls which operate on files
+(SYS_FLEN, SYS_SEEK, etc).
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190915203655.21638-4-mlevitsk@redhat.com
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Implement this as another kind of guest FD using our function
+table dispatch mechanism. Initially we report no extended
+features, so we have just one feature flag byte which is zero.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qemu-iotests/263     | 91 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/263.out | 40 +++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 132 insertions(+)
- create mode 100755 tests/qemu-iotests/263
- create mode 100644 tests/qemu-iotests/263.out
+ target/arm/arm-semi.c | 109 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 108 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/263 b/tests/qemu-iotests/263
-new file mode 100755
-index 0000000000..d2c030fae9
---- /dev/null
-+++ b/tests/qemu-iotests/263
-@@ -0,0 +1,91 @@
-+#!/usr/bin/env bash
-+#
-+# Test encrypted write that crosses cluster boundary of two unallocated =
-clusters
-+# Based on 188
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 87c911f0187..57491740d73 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -110,6 +110,7 @@ typedef enum GuestFDType {
+     GuestFDUnused = 0,
+     GuestFDHost = 1,
+     GuestFDGDB = 2,
++    GuestFDFeatureFile = 3,
+ } GuestFDType;
+ 
+ /*
+@@ -118,7 +119,10 @@ typedef enum GuestFDType {
+  */
+ typedef struct GuestFD {
+     GuestFDType type;
+-    int hostfd;
++    union {
++        int hostfd;
++        target_ulong featurefile_offset;
++    };
+ } GuestFD;
+ 
+ static GArray *guestfd_array;
+@@ -504,6 +508,89 @@ static uint32_t gdb_flenfn(ARMCPU *cpu, GuestFD *gf)
+                            gf->hostfd, arm_flen_buf(cpu));
+ }
+ 
++#define SHFB_MAGIC_0 0x53
++#define SHFB_MAGIC_1 0x48
++#define SHFB_MAGIC_2 0x46
++#define SHFB_MAGIC_3 0x42
 +
-+# creator
-+owner=3Dmlevitsk@redhat.com
++static const uint8_t featurefile_data[] = {
++    SHFB_MAGIC_0,
++    SHFB_MAGIC_1,
++    SHFB_MAGIC_2,
++    SHFB_MAGIC_3,
++    0, /* Feature byte 0 */
++};
 +
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
-+
-+status=3D1	# failure is the default!
-+
-+_cleanup()
++static void init_featurefile_guestfd(int guestfd)
 +{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
++    GuestFD *gf = do_get_guestfd(guestfd);
 +
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2
-+_supported_proto generic
-+_supported_os Linux
-+
-+
-+size=3D1M
-+
-+SECRET=3D"secret,id=3Dsec0,data=3Dastrochicken"
-+QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
-+
-+
-+_run_test()
-+{
-+	echo "=3D=3D reading the whole image =3D=3D"
-+	$QEMU_IO --object $SECRET -c "read -P 0 0 $size" --image-opts "$1" | _f=
-ilter_qemu_io | _filter_testdir
-+
-+	echo
-+	echo "=3D=3D write two 512 byte sectors on a cluster boundary =3D=3D"
-+	$QEMU_IO --object $SECRET -c "write -P 0xAA 0xFE00 0x400" --image-opts =
-"$1" | _filter_qemu_io | _filter_testdir
-+
-+	echo
-+	echo "=3D=3D verify that the rest of the image is not changed =3D=3D"
-+	$QEMU_IO --object $SECRET -c "read -P 0x00 0x00000 0xFE00" --image-opts=
- "$1" | _filter_qemu_io | _filter_testdir
-+	$QEMU_IO --object $SECRET -c "read -P 0xAA 0x0FE00 0x400" --image-opts =
-"$1" | _filter_qemu_io | _filter_testdir
-+	$QEMU_IO --object $SECRET -c "read -P 0x00 0x10200 0xEFE00" --image-opt=
-s "$1" | _filter_qemu_io | _filter_testdir
-+
++    assert(gf);
++    gf->type = GuestFDFeatureFile;
++    gf->featurefile_offset = 0;
 +}
 +
++static uint32_t featurefile_closefn(ARMCPU *cpu, GuestFD *gf)
++{
++    /* Nothing to do */
++    return 0;
++}
 +
-+echo
-+echo "testing LUKS qcow2 encryption"
-+echo
++static uint32_t featurefile_writefn(ARMCPU *cpu, GuestFD *gf,
++                                    target_ulong buf, uint32_t len)
++{
++    /* This fd can never be open for writing */
++    CPUARMState *env = &cpu->env;
 +
-+_make_test_img --object $SECRET -o "encrypt.format=3Dluks,encrypt.key-se=
-cret=3Dsec0,encrypt.iter-time=3D10,cluster_size=3D64K" $size
-+_run_test "driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D$T=
-EST_IMG"
-+_cleanup_test_img
++    errno = EBADF;
++    return set_swi_errno(env, -1);
++}
 +
-+echo
-+echo "testing legacy AES qcow2 encryption"
-+echo
++static uint32_t featurefile_readfn(ARMCPU *cpu, GuestFD *gf,
++                                   target_ulong buf, uint32_t len)
++{
++    uint32_t i;
++#ifndef CONFIG_USER_ONLY
++    CPUARMState *env = &cpu->env;
++#endif
++    char *s;
 +
++    s = lock_user(VERIFY_WRITE, buf, len, 0);
++    if (!s) {
++        return len;
++    }
 +
-+_make_test_img --object $SECRET -o "encrypt.format=3Daes,encrypt.key-sec=
-ret=3Dsec0,cluster_size=3D64K" $size
-+_run_test "driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D$T=
-EST_IMG"
-+_cleanup_test_img
++    for (i = 0; i < len; i++) {
++        if (gf->featurefile_offset >= sizeof(featurefile_data)) {
++            break;
++        }
++        s[i] = featurefile_data[gf->featurefile_offset];
++        gf->featurefile_offset++;
++    }
 +
++    unlock_user(s, buf, len);
 +
++    /* Return number of bytes not read */
++    return len - i;
++}
 +
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/263.out b/tests/qemu-iotests/263.out
-new file mode 100644
-index 0000000000..0c982c55cb
---- /dev/null
-+++ b/tests/qemu-iotests/263.out
-@@ -0,0 +1,40 @@
-+QA output created by 263
++static uint32_t featurefile_isattyfn(ARMCPU *cpu, GuestFD *gf)
++{
++    return 0;
++}
 +
-+testing LUKS qcow2 encryption
++static uint32_t featurefile_seekfn(ARMCPU *cpu, GuestFD *gf,
++                                   target_ulong offset)
++{
++    gf->featurefile_offset = offset;
++    return 0;
++}
 +
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 encrypt.form=
-at=3Dluks encrypt.key-secret=3Dsec0 encrypt.iter-time=3D10
-+=3D=3D reading the whole image =3D=3D
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++static uint32_t featurefile_flenfn(ARMCPU *cpu, GuestFD *gf)
++{
++    return sizeof(featurefile_data);
++}
 +
-+=3D=3D write two 512 byte sectors on a cluster boundary =3D=3D
-+wrote 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ typedef struct GuestFDFunctions {
+     sys_closefn *closefn;
+     sys_writefn *writefn;
+@@ -530,6 +617,14 @@ static const GuestFDFunctions guestfd_fns[] = {
+         .seekfn = gdb_seekfn,
+         .flenfn = gdb_flenfn,
+     },
++    [GuestFDFeatureFile] = {
++        .closefn = featurefile_closefn,
++        .writefn = featurefile_writefn,
++        .readfn = featurefile_readfn,
++        .isattyfn = featurefile_isattyfn,
++        .seekfn = featurefile_seekfn,
++        .flenfn = featurefile_flenfn,
++    },
+ };
+ 
+ /* Read the input value from the argument block; fail the semihosting
+@@ -616,6 +711,18 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+             unlock_user(s, arg0, 0);
+             return guestfd;
+         }
++        if (strcmp(s, ":semihosting-features") == 0) {
++            unlock_user(s, arg0, 0);
++            /* We must fail opens for modes other than 0 ('r') or 1 ('rb') */
++            if (arg1 != 0 && arg1 != 1) {
++                dealloc_guestfd(guestfd);
++                errno = EACCES;
++                return set_swi_errno(env, -1);
++            }
++            init_featurefile_guestfd(guestfd);
++            return guestfd;
++        }
 +
-+=3D=3D verify that the rest of the image is not changed =3D=3D
-+read 65024/65024 bytes at offset 0
-+63.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 982528/982528 bytes at offset 66048
-+959.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+testing legacy AES qcow2 encryption
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 encrypt.form=
-at=3Daes encrypt.key-secret=3Dsec0
-+=3D=3D reading the whole image =3D=3D
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=3D=3D write two 512 byte sectors on a cluster boundary =3D=3D
-+wrote 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=3D=3D verify that the rest of the image is not changed =3D=3D
-+read 65024/65024 bytes at offset 0
-+63.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1024/1024 bytes at offset 65024
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 982528/982528 bytes at offset 66048
-+959.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 6082c74806..5d3da937e4 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -274,5 +274,6 @@
- 257 rw
- 258 rw quick
- 262 rw quick migration
-+263 rw quick
- 265 rw auto quick
- 266 rw quick
---=20
-2.21.0
+         if (use_gdb_syscalls()) {
+             arm_semi_open_guestfd = guestfd;
+             ret = arm_gdb_syscall(cpu, arm_semi_open_cb, "open,%s,%x,1a4", arg0,
+-- 
+2.20.1
 
 
