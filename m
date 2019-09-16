@@ -2,104 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2D3B3EBD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:19:20 +0200 (CEST)
-Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C35B3E7F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:12:47 +0200 (CEST)
+Received: from localhost ([::1]:36554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tig-0001s8-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56144)
+	id 1i9tcM-00058a-74
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:12:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9sQq-0003zs-D8
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:56:49 -0400
+ (envelope-from <stefanha@gmail.com>) id 1i9tGg-0000Ui-NP
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:50:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i9sQo-0004Um-Vr
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:56:48 -0400
-Received: from mail-eopbgr10102.outbound.protection.outlook.com
- ([40.107.1.102]:16547 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i9sQl-0004T2-3o; Mon, 16 Sep 2019 10:56:43 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nhxlr2s6Ze9f7Bk4oceETI1mwP4QSQcKb3zxT0GAlftn2+QInrhVk/GbJCL7oGBnr7pZ1AdSy3yhLygjkKOKh3vE5wadvpqgixEKKhIfjuj1ob43ftuZnWWLfDz6ab8Lm43g5/2hgYsdRVB/M1/PSS1qdFePpDD2JjCP118NIRgxDe07veeKOgbQdy291NjqcxfzaKEp65vFtiMGG3fcCF7I4CAfBVQ3s/o5Qz3GDvFGxjI8ZRh9Zo1N3UPsCo3BVDINk+IPmOvMpV0dlyWkBpWunpa3U5aIGQ8WZeENU15VPggJ21jQmvnj237nobSeV3NlviJUpy91eECtWOZ8Rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1y5Ig7Pqpd3gskmiV0cXjTgVKZO6go3uPkFDSq0Iivc=;
- b=PT2FqrKupxDH8XQf8YsCmWwwtHpFQgueHHEMUkHZ4qW0Po/PjJ8Pk2TphwffJZ73FByIcLXyNr+dCITch26N+e8YEgWvNp/LjNJkr+sUHDimYZR+IcAOHD0fv+Q3EietGGVsVcda06f5aZACGJS4M4PdkW2RDBJCv13zuRN+kOzQA75q8f+0kydUdQJ+QdvfQ2EgalVlrURixS6vB4nE7fgqA4VbLv3ktf7b/aWBugVhh/7J3xvkfSbxJ5yMt/ocda2Htj4FnkREeHmgoGAlS26opyiAvPRm+I2c8fz0ERFiPfQFZxqnFuB/Iw5MaOuy6TDI4ijuwltR2u01Meu2JA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1y5Ig7Pqpd3gskmiV0cXjTgVKZO6go3uPkFDSq0Iivc=;
- b=i+MWeBE9/kM7y1c/zql+C8yLf9cRqmcbSFW+oPMWYAvMYo+w5mQm/4uifFXHvuwdtVt9dNFXrCiEaCySmZkCckorq+KpVX7qS+aBdCyPWNNSzWZwd1ITFSv7hs/qv7j/2r2bOgM1Ftmr9XGqK5ES/BIgVIOjpXYJ2JGHWiZNQVg=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5147.eurprd08.prod.outlook.com (10.255.17.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.15; Mon, 16 Sep 2019 14:56:40 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2263.023; Mon, 16 Sep 2019
- 14:56:40 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v4 1/4] iotests: add script_initialize
-Thread-Index: AQHVaP+sHvXQg5mIX0qbfLdZwy5qOKcua+GA
-Date: Mon, 16 Sep 2019 14:56:40 +0000
-Message-ID: <974b64b8-a191-c529-4e77-6a38b372c4b8@virtuozzo.com>
-References: <20190912001633.11372-1-jsnow@redhat.com>
- <20190912001633.11372-2-jsnow@redhat.com>
-In-Reply-To: <20190912001633.11372-2-jsnow@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0166.eurprd05.prod.outlook.com
- (2603:10a6:3:f8::14) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190916175637794
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 838266ad-1ad4-42ba-cd3f-08d73ab614f9
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5147; 
-x-ms-traffictypediagnostic: DB8PR08MB5147:
-x-microsoft-antispam-prvs: <DB8PR08MB51476C7C3BC3051945720119C18C0@DB8PR08MB5147.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0162ACCC24
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(39840400004)(376002)(366004)(136003)(346002)(52314003)(189003)(199004)(5660300002)(2906002)(486006)(53936002)(36756003)(66446008)(66946007)(6512007)(64756008)(66476007)(76176011)(52116002)(66556008)(31686004)(81156014)(8676002)(6436002)(14454004)(86362001)(478600001)(446003)(11346002)(229853002)(31696002)(81166006)(71190400001)(4326008)(2616005)(476003)(2501003)(71200400001)(25786009)(3846002)(6486002)(6246003)(8936002)(256004)(6116002)(54906003)(110136005)(99286004)(6506007)(66066001)(7736002)(386003)(305945005)(26005)(186003)(316002)(102836004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5147;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: IHiC1UTsxLQtFgp1gQTPePsCZ2dl62RKDJiNgvHlKRU4YQP3CyyJVPK2pLv3zn7vKhzm3u2ioeONSZy3LDqvpXBBSEcmLzKv/mVpxuows/7ELPD16iouc9kfdQRC0BrdwLc6nnmoJhC4CA+gQyYZkLazneE/gXuQ4XOdni4NIP6lA/5WveTJ+9OvcgCln9dHkWfHnXCgjQF7gtB/aHzwXZjYBamAOXDgWFAfJ/6jlSfm4uZK866ZyLRJ3VCIuhx+IjvM/s56OyQGeUMFQNVmCGp88/NCGXC2vKdFSnsZ/uiHpVxRe+++kSMW8lFFla7Eu+YLegGb77r4viL3eAS/AOUnO3ZlF3yAt5nKl9yLjlHBrMQalxa7rJ3B44FubKn4JSjpqmUoB7HVhtHWixGfH3qh9B8VaAIrKl7cvAqCrgU=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0A00BC0D63BF584C8FC76A559CEF7BDB@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <stefanha@gmail.com>) id 1i9tGf-0001xr-9p
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:50:22 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44246)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1i9tGf-0001xc-2k
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:50:21 -0400
+Received: by mail-wr1-x444.google.com with SMTP id i18so8756584wru.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 08:50:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=/ZdCR+1Fqzp/JHdAUoeYm4eaM2qCJx/e9ila3IZMGQU=;
+ b=FtEZhGI6MNIQp95B6Is6oaNfkcWxp9HtUZ2ZLfxhJSYUEj+MHoXMtjJp/SJvx3WEte
+ JOd06laFDA80Tw1QwS4H7ihRfPoc3UREnl3HfTNWebA7WPGLrax+pR5cabPRrxbqzwwX
+ yQz9nq1+9BadnjIe/84kwz+CjJdPK1sCSQEHe6sl9/ejY9t2u/YvX2hIYUNXltU6YH8G
+ Ek6HQ07ZkPR1bdZonPf/KGJLkLtzEht0aqMLw0U56CY7GenSSs+qvwPZDGiAwpU2499K
+ tRaDHPJUk2/yFqkW2xwXK3Hl5p3gogsAt5/AvY6OqHxo/EmfNRF9iqdPTFs1z5whK3DQ
+ vB1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=/ZdCR+1Fqzp/JHdAUoeYm4eaM2qCJx/e9ila3IZMGQU=;
+ b=mtNdT25BeW/WpJFOrrXu7IaX/DjLB3caGmXg9rAw3moBNIMoHILChZs7abXq7sR6WJ
+ 2e8i6mN4dl3SYRrwZlRsqmAk3QU0PEbaGmbVUAxU2EHy8kjU+RBkmQ5EggVYfaPgEbD9
+ iGJ0ybgdyJKrOY25W9R+mIoy6JgOT+GnBGtPKiu95sj3Pt9tfP8yybI75ufog1T57Txd
+ Rk6aL9p5fZ0BFJCnAkbAkqmiyK3LW0FfRyqnr5KjLNNtjRFjjODGoRKjBL9PkDaTe4Bd
+ 9dVcAKytryUi65OLyusIBx4K8eKYy2l2tXCJ7o7za5cJyXfXWu1ihhUBqulN573rwbG0
+ 37eA==
+X-Gm-Message-State: APjAAAWXjYHS///lYNPonC4aUvL1WtR7ebHfHR1ANtZzKMfOVOP/6TXc
+ O/B5reZ1nAKyvo4Ib46MUZE=
+X-Google-Smtp-Source: APXvYqw3fw6/EdfhfZJV3QONXM6y0tTdDiCR7SpPqZxjJYPI+wstsx6z+Awf7o0I9VWbVlJo2UpPqQ==
+X-Received: by 2002:adf:ee50:: with SMTP id w16mr386325wro.93.1568649019929;
+ Mon, 16 Sep 2019 08:50:19 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id a192sm342263wma.1.2019.09.16.08.50.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Sep 2019 08:50:18 -0700 (PDT)
+Date: Mon, 16 Sep 2019 16:50:17 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-ID: <20190916155017.GE25552@stefanha-x1.localdomain>
+References: <20190613050937.124903-1-aik@ozlabs.ru>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 838266ad-1ad4-42ba-cd3f-08d73ab614f9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2019 14:56:40.8079 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AE3Ai7WodpxDeX/n0YjMA26/trFAQNSNaF44i+tT0uTOfTPxGN+7FHvZ+aImXWckVnIdhCj289mTS6xxmbM+8HgvHsWSPIwYxyLINkCzkeg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5147
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.1.102
-Subject: Re: [Qemu-devel] [PATCH v4 1/4] iotests: add script_initialize
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OZkY3AIuv2LYvjdk"
+Content-Disposition: inline
+In-Reply-To: <20190613050937.124903-1-aik@ozlabs.ru>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH qemu] loader: Trace loaded images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,48 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTIuMDkuMjAxOSAzOjE2LCBKb2huIFNub3cgd3JvdGU6DQo+IExpa2Ugc2NyaXB0X21haW4sIGJ1
-dCBkb2Vzbid0IHJlcXVpcmUgYSBzaW5nbGUgcG9pbnQgb2YgZW50cnkuDQo+IFJlcGxhY2UgYWxs
-IGV4aXN0aW5nIGluaXRpYWxpemF0aW9uIHNlY3Rpb25zIHdpdGggdGhpcyBkcm9wLWluIHJlcGxh
-Y2VtZW50Lg0KPiANCj4gVGhpcyBicmluZ3MgZGVidWcgc3VwcG9ydCB0byBhbGwgZXhpc3Rpbmcg
-c2NyaXB0LXN0eWxlIGlvdGVzdHMuDQo+IA0KPiBOb3RlOiBzdXBwb3J0ZWRfb3Nlcz1bJ2xpbnV4
-J10gd2FzIG9taXR0ZWQsIGFzIGl0IGlzIGEgZGVmYXVsdCBhcmd1bWVudC4NCg0KQnV0IGFmdGVy
-IHRoaXMgcGF0Y2ggYWxsIHRlc3Qgd2hpY2ggZGlkbid0IGNoZWNrIG9zIHN0YXJ0IHRvIGNoZWNr
-IGxpbnV4DQooYXMgaXQncyBkZWZhdWx0KS4uIFNvIGFsbCB0ZXN0cyB3aGljaCB3b3JrZWQgb24g
-b3RoZXIgcGxhdGZvcm1zIHdpbGwgbm93DQpiZSBza2lwcGVkIG9uIHRoZXNlIG90aGVyIHBsYXRm
-b3Jtcz8NCg0KRmluYWxseSBkbyB3ZSBzdXBwb3J0IHNvbWV0aGluZyBleGNlcHQgbGludXggZm9y
-IGlvdGVzdHM/DQpmb3IgYmFzaCB0ZXN0cyBfc3VwcG9ydGVkX29zIGFsc28gdXNlZCBvbmx5IHdp
-dGggIkxpbnV4IiBpbiA4NyB0ZXN0cy4uDQoNCk1heSBiZSB3ZSdkIGJldHRlciBkcm9wIGJvdGgg
-X3N1cHBvcnRlZF9vcyBhbmQgc3VwcG9ydGVkX29zZXMgYWxsdG9nZXRoZXIsDQphbmQgZG9uJ3Qg
-Y2FyZT8NCg0KQW55d2F5LCBpZiB3ZSBzdXBwb3J0IG9ubHkgbGludXgsIGFueSByZWFzb24gdG8g
-c2tpcCBhbG1vc3QgYWxsIHRlc3RzLA0KaWYgc29tZW9uZSB0cmllcyB0byBydW4gdGVzdCBvbiBv
-dGhlciBwbGF0Zm9ybT8gTGV0IGhpbSBydW4gd2hhdCBoZSB3YW50cy4NCg0KPiBTaWduZWQtb2Zm
-LWJ5OiBKb2huIFNub3cgPGpzbm93QHJlZGhhdC5jb20+DQo+IC0tLQ0KDQpbLi5dDQoNCj4gK2Rl
-ZiBleGVjdXRlX3Rlc3QodGVzdF9mdW5jdGlvbj1Ob25lLCAqYXJncywgKiprd2FyZ3MpOg0KPiAr
-ICAgICIiIlJ1biBlaXRoZXIgdW5pdHRlc3Qgb3Igc2NyaXB0LXN0eWxlIHRlc3RzLiIiIg0KPiAr
-DQo+ICsgICAgZGVidWcgPSBleGVjdXRlX3NldHVwX2NvbW1vbigqYXJncywgKiprd2FyZ3MpDQo+
-ICAgICAgIGlmIG5vdCB0ZXN0X2Z1bmN0aW9uOg0KPiAtICAgICAgICBleGVjdXRlX3VuaXR0ZXN0
-KG91dHB1dCwgdmVyYm9zaXR5LCBkZWJ1ZykNCj4gKyAgICAgICAgZXhlY3V0ZV91bml0dGVzdChk
-ZWJ1ZykNCj4gICAgICAgZWxzZToNCj4gICAgICAgICAgIHRlc3RfZnVuY3Rpb24oKQ0KPiAgIA0K
-PiArIyBUaGlzIGlzIGNhbGxlZCBmcm9tIHNjcmlwdC1zdHlsZSBpb3Rlc3RzIHdpdGhvdXQgYSBz
-aW5nbGUgcG9pbnQgb2YgZW50cnkNCj4gK2RlZiBzY3JpcHRfaW5pdGlhbGl6ZSgqYXJncywgKipr
-d2FyZ3MpOg0KPiArICAgICIiIkluaXRpYWxpemUgc2NyaXB0LXN0eWxlIHRlc3RzIHdpdGhvdXQg
-cnVubmluZyBhbnkgdGVzdHMuIiIiDQo+ICsgICAgZXhlY3V0ZV9zZXR1cF9jb21tb24oKmFyZ3Ms
-ICoqa3dhcmdzKQ0KPiArDQo+ICsjIFRoaXMgaXMgY2FsbGVkIGZyb20gc2NyaXB0LXN0eWxlIGlv
-dGVzdHMgd2l0aCBhIHNpbmdsZSBwb2ludCBvZiBlbnRyeQ0KPiAgIGRlZiBzY3JpcHRfbWFpbih0
-ZXN0X2Z1bmN0aW9uLCAqYXJncywgKiprd2FyZ3MpOg0KPiAgICAgICAiIiJSdW4gc2NyaXB0LXN0
-eWxlIHRlc3RzIG91dHNpZGUgb2YgdGhlIHVuaXR0ZXN0IGZyYW1ld29yayIiIg0KPiAgICAgICBl
-eGVjdXRlX3Rlc3QodGVzdF9mdW5jdGlvbiwgKmFyZ3MsICoqa3dhcmdzKQ0KPiAgIA0KPiArIyBU
-aGlzIGlzIGNhbGxlZCBmcm9tIHVuaXR0ZXN0IHN0eWxlIGlvdGVzdHMNCj4gICBkZWYgbWFpbigq
-YXJncywgKiprd2FyZ3MpOg0KPiAgICAgICAiIiJSdW4gdGVzdHMgdXNpbmcgdGhlIHVuaXR0ZXN0
-IGZyYW1ld29yayIiIg0KDQoNCkhtbSwgbm93IHR3byBkaWZmZXJlbnQgc3R5bGVzIG9mIGNvZGUg
-ZG9jdW1lbnRpbmcgdXNlZDogY29tbWVudCBhbmQgZG9jLXN0cmluZywNCmJvdGggY29udGFpbmlu
-ZyBhbG1vc3QgZXF1YWwgbWVhbmluZy4uIEkgZG9uJ3QgbGlrZSBpdCwgc3RpbGwgZG9uJ3QgcmVh
-bGx5IG1pbmQuDQoNCj4gICAgICAgZXhlY3V0ZV90ZXN0KE5vbmUsICphcmdzLCAqKmt3YXJncykN
-Cj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+
+--OZkY3AIuv2LYvjdk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 13, 2019 at 03:09:37PM +1000, Alexey Kardashevskiy wrote:
+> This adds a trace point which prints every loaded image. This includes
+> bios/firmware/kernel/initradmdisk/pcirom.
+>=20
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+>=20
+> The example for a pseries guest:
+>=20
+> loader_write_rom slof.bin: @0x0 size=3D0xe22e0 ROM=3D0
+> loader_write_rom phdr #0: /home/aik/t/vml4120le: @0x400000 size=3D0x13df0=
+00 ROM=3D0
+> loader_write_rom /home/aik/t/le.cpio: @0x1ad0000 size=3D0x9463a00 ROM=3D0
+>=20
+> Sadly "spapr-rtas.bin" does not show up because it is loaded from
+> the spapr machine reset handler rather than via rom_reset(), may be needs
+> to be fixed.
+>=20
+> ---
+>  Makefile.objs        | 1 +
+>  hw/core/loader.c     | 3 +++
+>  hw/core/trace-events | 2 ++
+>  3 files changed, 6 insertions(+)
+>  create mode 100644 hw/core/trace-events
+
+Thanks, applied to my tracing tree:
+https://github.com/stefanha/qemu/commits/tracing
+
+Stefan
+
+--OZkY3AIuv2LYvjdk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1/rzkACgkQnKSrs4Gr
+c8jEPQf/Rt2cEAZX6lsvgpQwAqki1MCBQ3wOF/BN5+X+DFDM4I+SlIDDBdfQfYlb
+K6x8CMQIFOvu+7RAMEgCEFc6R262IBBtLMbTV2aDDIhuWtiDQ4RU93jhDl96KQbs
+9qYgdlB6DcCNS7+yb61eDn9p4SkifS3N4cE8jJ9mYGuBqvwLo1a4cpeVtb6hi+Rl
+YkXU7AUVppy9nTEeH1t8wAmR5qoa8A0Y9qU5gIkAYeQ8XwzGUYrmX534S3ZfoDpQ
+bzi9L2tl3+Q0+vq7FD0OPGSKFJe/3fAYK18pmZW8ZNeFbKIYkmG6MZ1KVwY7lNFt
+cz2yqfk2mRQoBWkbHMZGE8l+4OIRsg==
+=eYIz
+-----END PGP SIGNATURE-----
+
+--OZkY3AIuv2LYvjdk--
 
