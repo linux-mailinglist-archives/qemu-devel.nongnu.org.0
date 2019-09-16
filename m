@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09659B3ED6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:24:29 +0200 (CEST)
-Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2A5B3EEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:26:58 +0200 (CEST)
+Received: from localhost ([::1]:36822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tnf-0007Zk-Rv
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:24:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
+	id 1i9tq5-0002A7-G4
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1i9sxg-00050M-N1
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:30:45 -0400
+ (envelope-from <stefanha@gmail.com>) id 1i9t09-0006tY-Qb
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:33:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1i9sxf-0001d1-EL
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:30:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33562
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i9sxe-0001cV-PT
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:30:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1568647841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=te3evpxZ+xN1wQC1yCOin2y8byAP9R+d80VqueBPR3I=;
- b=M/HPRJMmgEYmqEdAtkkvZFMwYqCjqFUThAu/O7dgb193h0Ix+LT71VjXtClGHcUnRC6gXd
- bO29iK3n4qswfqYUOlc6VOvTtXbCOMiqyizwhIrdFF/MhGofY90s/6lA3wQdYV6FySMufQ
- wVGQ2Pxf9gwKZPc9WwxP6ZKFJX2fdLw=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-bsBAAAMROqmoaS8AThI7RA-1; Mon, 16 Sep 2019 11:30:40 -0400
-Received: by mail-qt1-f200.google.com with SMTP id n5so473236qtp.5
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 08:30:39 -0700 (PDT)
+ (envelope-from <stefanha@gmail.com>) id 1i9t08-0003M9-OR
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:33:17 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54975)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1i9t08-0003Lb-I7
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:33:16 -0400
+Received: by mail-wm1-x332.google.com with SMTP id p7so252918wmp.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 08:33:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=D6YGUbR9BdCGcEa9DD/zNGfvBUbgKnJJMLtswwo8nZ8=;
+ b=rfnFwqjAuipgKas6Jq1zxfx2dObIUf1JMcVpb5YGCNkn73QHBVw2B333B2ebfXaA4f
+ c4n+4S31WmmRjsEO0J51QugqgKfqut2VHxkdeaqIIxF4X7u+54/2Bn24EtUMf/UBVDXw
+ X6RXSYK5zus1TKAnhm8ZMp/EYSMKUfyKxOfps+oANdEDi6YRWT07Y/EIyu8JqjTjX0bt
+ BvfhzVvAWpFjFgChn8LCXfglIJEdTEhyJslcnPW+UHLkdtfivU2XM86kO1x8g8sCbA++
+ 5bnsy+bZLlRHh5PFmkq/NbFgfCplwZ9I//tUAa2RwWJceSeecK4NkFjy875+9AF81D7Q
+ ZV9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+kyMHWIzdDDa0kHLKcIALBjG7dIK1Osv/wN3pWM03nA=;
- b=d0bLPUaVkQyx/WuNNtkjaR1gMaHK/nZR1mgJ7PIbUOkKegUcGpeZyf6wud0kmARyz3
- v361zk7iuH122pt6b3WCxhjJHaZlBZkiFBhwhzDrWXrX/3d/qBojfX4nHS6zg5q5Eqa0
- kdShAlsKyvNMY9m7rhj3QNb0GX+Eijv614CPjmOKa5JChLeb+ZPIP4m+tYN6Q5Fh2fkL
- lawLtJHZjjqD2SgD5pmt5tX/uWL1Y/5q+VcWoaMQQ+ZIt52N0Xp56qy6Pgncc3twEVED
- eBp54dbTqdOsNcv93Oy5cBDxEQiIAhDhVu/aM06vQdzun4bMBEbB14UKIuLCYxWenuDf
- 2M5Q==
-X-Gm-Message-State: APjAAAUb71A++IAgMwHkDa81NzM019PLNlEDXoKHs6iPj7av5b0DHZav
- gSM3mIxq3iTJsppe8ura7OqnCbsbG0fNo6xbSCoXlNYSFPw3UaBIArsYEAo0yduT/n+UhDBb78V
- sYiL2yA6A3ZTx/yA=
-X-Received: by 2002:ac8:480b:: with SMTP id g11mr100474qtq.359.1568647839183; 
- Mon, 16 Sep 2019 08:30:39 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyAYbsZzVknH40g891MIZXMy0ThCnAHLHZZOCjW8/Gmy5Ja/x98NkAQ/nHzWE6PwH85bXaZvQ==
-X-Received: by 2002:ac8:480b:: with SMTP id g11mr100460qtq.359.1568647839000; 
- Mon, 16 Sep 2019 08:30:39 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id x15sm3291235qkh.44.2019.09.16.08.30.36
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=D6YGUbR9BdCGcEa9DD/zNGfvBUbgKnJJMLtswwo8nZ8=;
+ b=jPtMRS/vcbK34GPP8gyau79mj8XyJxGmKJgGhsc+wXfD/7DyQVt8QXivZfTqrkKNM6
+ suA29DYfMm7qJOzJdGIkiH6XKTU8NpXI9sp2s02KYKD7dLuuZaFIH5hCEj0ZrR/1Whuv
+ ubbpe4Ba3N31RP5igxtg2ULbQ2DZYd5MXuqTKioUFGycHXXYKUA0AocAvOM1W2IGoi5A
+ Gt1BL/SZqQGw04Ep2LsQFVd4QABm+39aVRezFyflu753NwZO5q87I3OhM9pZBTEbuTrt
+ VElLg9XERLeE06QH1m68vDCQAmfgXk1+EJxWBEr96kkk6eG/7RL/1etaCjbv7D5rERaZ
+ +SBA==
+X-Gm-Message-State: APjAAAXEUUwpGnUnw+tnusVurVzLzX5BGcVrhfUdeDPO3B1sfHJsIQls
+ 4iDV+WRxkkJrC0xYEFyXLp0=
+X-Google-Smtp-Source: APXvYqwf93/FtMnaBos6f0NymSYGaihZNrGsupvZW7o3ovoVMBTVAGku1who481w9mNGWDUMGORfyA==
+X-Received: by 2002:a1c:e709:: with SMTP id e9mr111668wmh.65.1568647994953;
+ Mon, 16 Sep 2019 08:33:14 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id o3sm190952wmh.38.2019.09.16.08.33.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2019 08:30:38 -0700 (PDT)
-Date: Mon, 16 Sep 2019 11:30:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Message-ID: <20190916112430-mutt-send-email-mst@kernel.org>
-References: <20190911134539.25650-1-johannes@sipsolutions.net>
- <20190911134539.25650-2-johannes@sipsolutions.net>
- <20190911095650-mutt-send-email-mst@kernel.org>
- <fedd74ed3e9cc554287b202e73b047a938515113.camel@sipsolutions.net>
- <674086baeed5fce100d0882e668d5e36f026bd71.camel@sipsolutions.net>
+ Mon, 16 Sep 2019 08:33:13 -0700 (PDT)
+Date: Mon, 16 Sep 2019 16:33:12 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190916153312.GD25552@stefanha-x1.localdomain>
+References: <CAFEAcA88YR0mU2N=-immpWVFCnnU6fJsorZYHSyerfMO72iZaA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <674086baeed5fce100d0882e668d5e36f026bd71.camel@sipsolutions.net>
-X-MC-Unique: bsBAAAMROqmoaS8AThI7RA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/unnNtmY43mpUSKx"
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
-Subject: Re: [Qemu-devel] [RFC v2 1/2] docs: vhost-user: add in-band
- kick/call messages
+In-Reply-To: <CAFEAcA88YR0mU2N=-immpWVFCnnU6fJsorZYHSyerfMO72iZaA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::332
+Subject: Re: [Qemu-devel] test-aio-multithread assertion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,58 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 16, 2019 at 01:40:35PM +0200, Johannes Berg wrote:
-> Hi Michael,
->=20
-> I had just wanted to prepare a resend, but
->=20
-> > > Hmm I don't like this. I propose that with VHOST_USER_PROTOCOL_F_IN_B=
-AND_NOTIFICATIONS
-> > > we just don't allow VHOST_USER_SET_VRING_CALL (if you think it's
-> > > important to allow them, we can say that we do not require them).
-> >=20
-> > You can't actually skip SET_VRING_CALL, it's necessary to start a vring=
-,
-> > so libvhost-user for example calls dev->iface->queue_set_started() only
-> > in this case. The docs in the "Starting and stopping rings" section als=
-o
-> > explain this.
->=20
-> [...]
->=20
-> > See above. But I guess we could put a flag into bit 9 indicating that
-> > you want to use messages instead of polling or a file descriptor, if yo=
-u
-> > prefer.
->=20
-> Personally, I don't think it matters since right now I can see the in-
-> band notification as being really necessary/useful only for simulation
-> work, and in that case no polling will be doable.
->=20
-> If you do think it's important to not make the two mutually exclusive,
-> how would you prefer to have this handled? With a new flag, e.g. in bit
-> 9, indicating "use inband signalling instead of polling or eventfd"?
->=20
-> Thanks,
-> johannes
 
+--/unnNtmY43mpUSKx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So first we really need to fix up Starting and stopping section,
-explaining that if the FD is invalid, this means ring
-is immediately started, right?
+On Wed, Sep 04, 2019 at 12:50:21PM +0100, Peter Maydell wrote:
+> Hi; I've been seeing intermittently on the BSDs this assertion
+> running test-aio-multithread as part of 'make check':
+>=20
+> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> tests/test-aio-multithread -m=3Dquick -k --tap < /dev/null |
+> ./scripts/tap-drive
+> r.pl --test-name=3D"test-aio-multithread"
+> PASS 1 test-aio-multithread /aio/multi/lifecycle
+> PASS 2 test-aio-multithread /aio/multi/schedule
+> ERROR - too few tests run (expected 5, got 2)
+> Assertion failed: (!qemu_lockcnt_count(&ctx->list_lock)), function
+> aio_ctx_finalize, file /home/qemu/qemu-test.kaRA0o/src/util/async.c,
+> line 283.
+> Abort trap (core dumped)
+> gmake: *** [/home/qemu/qemu-test.kaRA0o/src/tests/Makefile.include:905:
+> check-unit] Error 1
+>=20
+> Anybody got any ideas?
+>=20
+> (this is with the tests/vm setups; I've seen this on FreeBSD
+> and NetBSD.)
 
-If we want to keep it simple, my proposal is this, if
-VHOST_USER_PROTOCOL_F_IN_BAND_NOTIFICATIONS is set then
-VHOST_USER_SET_VRING_CALL and VHOST_USER_SET_VRING_KICK are not valid.
-Starting/stopping ring needs to be updated, teaching it
-that ring is started after it gets a kick.
+Last week I triaged a ppc64le test-aio-multithread test_multi_fair_mutex
+failure (race condition but reproduces after a few minutes) and sent it
+on to Paolo.
 
+I don't have time to investigate additional failures right now but
+please keep reminding us if you encounter failures.
 
---=20
-MST
+Stefan
 
+--/unnNtmY43mpUSKx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1/qzgACgkQnKSrs4Gr
+c8hmjQf/Q2lVIIysAFb5mCwbCqMHd4m07mf5XaXZiCfSDY5Sy1NR3HjG5yJP6V4y
+FLZ55mKrheIwiutcPrWtpsDDTIvqupmuEyaA/6ksNdeqgYQQCQ4DahnTcdhlejmo
+7u9/KbCQUF5IuzpTRnctI95H9xIJCtBF6hbGBqir5g6KPX7a7WBZc2yvdVsRmkMC
+pjgTbQBzt0MAvhWFDfMe4piMx/Z20o6emfLJ9dRkgE8NWdoPuXNhtjgdEzPkNe7A
+c3EyKCx0oztzeSv8WZUj7qK7JVi7cJveNsOF5leoS6+4Qe0Vh/9bJAPR0FOmWfGM
+J9qreMKL9qOJZVVkjyUhG7zc+RAsiw==
+=wJSC
+-----END PGP SIGNATURE-----
+
+--/unnNtmY43mpUSKx--
 
