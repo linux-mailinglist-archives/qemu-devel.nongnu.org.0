@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76D0B3E5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:03:58 +0200 (CEST)
-Received: from localhost ([::1]:36390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408F0B3E79
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:12:17 +0200 (CEST)
+Received: from localhost ([::1]:36552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tTp-0004wu-CU
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:03:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35839)
+	id 1i9tbr-0004oj-EB
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i9tIO-0002vv-7X
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:52:09 -0400
+ (envelope-from <drjones@redhat.com>) id 1i9sMp-0006b1-ES
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:52:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i9tIN-0002XQ-7C
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:52:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45344)
+ (envelope-from <drjones@redhat.com>) id 1i9sMo-0002te-99
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:52:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44336)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i9tIK-0002Uj-Pk; Mon, 16 Sep 2019 11:52:04 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1i9sMl-0002sp-Lx; Mon, 16 Sep 2019 10:52:35 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BF570C009DE1;
- Mon, 16 Sep 2019 15:52:03 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-115.brq.redhat.com [10.40.204.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01A16196AE;
- Mon, 16 Sep 2019 15:51:52 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 17:48:44 +0200
-Message-Id: <20190916154847.28936-11-philmd@redhat.com>
-In-Reply-To: <20190916154847.28936-1-philmd@redhat.com>
-References: <20190916154847.28936-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E9104307D8B9;
+ Mon, 16 Sep 2019 14:52:34 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79A21600F8;
+ Mon, 16 Sep 2019 14:52:30 +0000 (UTC)
+Date: Mon, 16 Sep 2019 16:52:28 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Message-ID: <20190916145228.bn7g6bdyntro7zxi@kamzik.brq.redhat.com>
+References: <20190913095639.25447-1-eric.auger@redhat.com>
+ <20190913095639.25447-4-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190913095639.25447-4-eric.auger@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 16 Sep 2019 15:52:04 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.48]); Mon, 16 Sep 2019 14:52:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 10/13] hw: Move Exynos4210 RTC from hw/timer/
- to hw/rtc/ subdirectory
+Subject: Re: [Qemu-devel] [RFC v3 3/3] ARM: KVM: Check
+ KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 for smp_cpus > 256
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,63 +58,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, maz@kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move RTC devices under the hw/rtc/ subdirectory.
+On Fri, Sep 13, 2019 at 11:56:39AM +0200, Eric Auger wrote:
+> Host kernel within [4.18, 5.3] report an erroneous KVM_MAX_VCPUS=512
+> for ARM. The actual capability to instantiate more than 256 vcpus
+> was fixed in 5.4 with the upgrade of the KVM_IRQ_LINE ABI to support
+> vcpu id encoded on 12 bits instead of 8 and a redistributor consuming
+> a single KVM IO device instead of 2.
+> 
+> So let's check this capability when attempting to use more than 256
+> vcpus within any ARM kvm accelerated machine.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
+> ---
+> 
+> v2 -> v3:
+> - Implement the check in kvm_arch_init as suggested by Peter
+> ---
+>  target/arm/kvm.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index b10581fa06..b473c63edb 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -182,6 +182,7 @@ int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+>  
+>  int kvm_arch_init(MachineState *ms, KVMState *s)
+>  {
+> +    int ret = 0;
+>      /* For ARM interrupt delivery is always asynchronous,
+>       * whether we are using an in-kernel VGIC or not.
+>       */
+> @@ -195,7 +196,14 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>  
+>      cap_has_mp_state = kvm_check_extension(s, KVM_CAP_MP_STATE);
+>  
+> -    return 0;
+> +    if (ms->smp.cpus > 256 &&
+> +        !kvm_check_extension(s, KVM_CAP_ARM_IRQ_LINE_LAYOUT_2)) {
+> +        error_report("Using more than 256 vcpus requires a host kernel "
+> +                     "with KVM_CAP_ARM_IRQ_LINE_LAYOUT_2");
+> +        ret = -EINVAL;
+> +    }
+> +
+> +    return ret;
+>  }
+>  
+>  unsigned long kvm_arch_vcpu_id(CPUState *cpu)
+> -- 
+> 2.20.1
+> 
+>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/rtc/Makefile.objs               | 1 +
- hw/{timer =3D> rtc}/exynos4210_rtc.c | 0
- hw/timer/Makefile.objs             | 1 -
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename hw/{timer =3D> rtc}/exynos4210_rtc.c (100%)
-
-diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-index 543a550a0f..3d4763fc26 100644
---- a/hw/rtc/Makefile.objs
-+++ b/hw/rtc/Makefile.objs
-@@ -7,5 +7,6 @@ endif
- common-obj-$(CONFIG_PL031) +=3D pl031.o
- common-obj-$(CONFIG_TWL92230) +=3D twl92230.o
- common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-zynqmp-rtc.o
-+common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_rtc.o
- obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
- common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
-diff --git a/hw/timer/exynos4210_rtc.c b/hw/rtc/exynos4210_rtc.c
-similarity index 100%
-rename from hw/timer/exynos4210_rtc.c
-rename to hw/rtc/exynos4210_rtc.c
-diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-index 294465ef47..33191d74cb 100644
---- a/hw/timer/Makefile.objs
-+++ b/hw/timer/Makefile.objs
-@@ -19,7 +19,6 @@ common-obj-$(CONFIG_NRF51_SOC) +=3D nrf51_timer.o
- common-obj-$(CONFIG_ALTERA_TIMER) +=3D altera_timer.o
- common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_mct.o
- common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_pwm.o
--common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_rtc.o
- common-obj-$(CONFIG_OMAP) +=3D omap_gptimer.o
- common-obj-$(CONFIG_OMAP) +=3D omap_synctimer.o
- common-obj-$(CONFIG_PXA2XX) +=3D pxa2xx_timer.o
---=20
-2.20.1
-
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
