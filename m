@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8E3B3DCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:38:34 +0200 (CEST)
-Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F01B3DD9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:44:07 +0200 (CEST)
+Received: from localhost ([::1]:36074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9t5F-0003QA-BW
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
+	id 1i9tAb-0001Hz-LC
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1i9sMJ-0005sE-H7
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:52:08 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCy-0006WQ-8R
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1i9sMH-0002iz-Ui
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:52:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57010)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1i9sMC-0002eF-BV; Mon, 16 Sep 2019 10:52:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F22AB10F2E81;
- Mon, 16 Sep 2019 14:51:58 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 80F2E450C;
- Mon, 16 Sep 2019 14:51:54 +0000 (UTC)
-Date: Mon, 16 Sep 2019 16:51:52 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Message-ID: <20190916145152.c7l7omclx4jf7otl@kamzik.brq.redhat.com>
-References: <20190913095639.25447-1-eric.auger@redhat.com>
- <20190913095639.25447-3-eric.auger@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190913095639.25447-3-eric.auger@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Mon, 16 Sep 2019 14:51:59 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC v3 2/3] intc/arm_gic: Support IRQ injection
- for more than 256 vpus
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCv-0007UB-Oq
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:28 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45714)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1i9sCu-0007TP-VM
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:25 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r5so5213255wrm.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=15ASw7Sda32hAHbQApt0nrRp6KAHHCRUIPuWH1EYvBg=;
+ b=OMOU6mtrfGuxY/0J7L+RmnKRgwzrrpCXLBu1CTTFUIFVF1eb0j3pD0cuxjpAhVyWJ1
+ w/y/BRDuqD8UvJYB6FuQypcnZbma6V8Jwmzx5b4e9oKrF1UQPDUhwUqzQ7X87iH9L3m+
+ QrzGSeVx5RuSIB1Q9qgehlSIZOeYJjC4DIZBuToDrX/Z03y0LW1Supn7p9wEV+Z3N7kf
+ HWVbHwZihD5yZNvY+xradXxJkL1vePQSa3JXR75X3P7ytm6bHW5tVDjbiA2LzJsg2yRE
+ am5Cby3z04DOgYRm3++Q6ecv0CgsoIz1lmqN0MhMbHPRBOVxrAmHW7qjrnkmh6mRiBHa
+ kY5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=15ASw7Sda32hAHbQApt0nrRp6KAHHCRUIPuWH1EYvBg=;
+ b=DrJYvGzUauly16a2roQu5RYqnzSuUU+AJCr6wjDISCXneEJCrIOC5I5bEvkU3snZP8
+ hChMN8HYW0YdbhJ+w9LBWHhyE5oR4yAM6E1ifbz9hdfHcOdMS0BVggMKMjlLeMeMv8Od
+ Z+BFTAmLvw8nzuA0MWmRUzOx9pQ1cdqyWqKBSG8qRiVEdbcPnFEXdt4ffuTIQrl2tIes
+ n6Coi80iW29reVnhPu18SzfMVga57crSU5bDIM2jPs59xmOurGzVUB0jOtq0XcR8z1nk
+ 9p6oOIG9bAtuag8B2+QdH7d64QCIlkbCoj/S2LaCDeEjcCwJVmQa7AdV68IiW5V0skq1
+ lemA==
+X-Gm-Message-State: APjAAAUBrr8anK6wBLwnoiROMt0kGPDXNpXJcn7wtjmFLS+Km9TZ35rz
+ EIwC/oB4iAmn0eYJl4EEVs1j2LMY
+X-Google-Smtp-Source: APXvYqw2adYeU9ECLXlFSIAwn/FLPlPa0xwiPidSvx5xC1vhMCYPmb/IE3hRwcpqudxOTAg1I24pQQ==
+X-Received: by 2002:a5d:548d:: with SMTP id h13mr93168wrv.215.1568644943237;
+ Mon, 16 Sep 2019 07:42:23 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.21
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 16 Sep 2019 07:42:22 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 16:41:51 +0200
+Message-Id: <1568644929-9124-12-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PULL 11/29] memory: fetch pmem size in get_file_size()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,137 +74,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, maz@kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, yuzenghui@huawei.com, eric.auger.pro@gmail.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 13, 2019 at 11:56:38AM +0200, Eric Auger wrote:
-> Host kernels that expose the KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 capability
-> allow injection of interrupts along with vcpu ids larger than 255.
-> Let's encode the vpcu id on 12 bits according to the upgraded KVM_IRQ_LINE
-> ABI when needed.
-> 
-> Given that we have two callsites that need to assemble
-> the value for kvm_set_irq(), a new helper routine, kvm_arm_set_irq
-> is introduced.
-> 
-> Without that patch qemu exits with "kvm_set_irq: Invalid argument"
-> message.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-> 
-> ---
-> 
-> v2 -> v3:
-> - remove if (cpu !=0), drop mask, as per Drew's suggestions
-> ---
->  hw/intc/arm_gic_kvm.c |  7 ++-----
->  target/arm/cpu.c      | 10 ++++------
->  target/arm/kvm.c      | 12 ++++++++++++
->  target/arm/kvm_arm.h  |  1 +
->  4 files changed, 19 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
-> index b56fda144f..9deb15e7e6 100644
-> --- a/hw/intc/arm_gic_kvm.c
-> +++ b/hw/intc/arm_gic_kvm.c
-> @@ -55,7 +55,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, int level)
->       * has separate fields in the irq number for type,
->       * CPU number and interrupt number.
->       */
-> -    int kvm_irq, irqtype, cpu;
-> +    int irqtype, cpu;
->  
->      if (irq < (num_irq - GIC_INTERNAL)) {
->          /* External interrupt. The kernel numbers these like the GIC
-> @@ -72,10 +72,7 @@ void kvm_arm_gic_set_irq(uint32_t num_irq, int irq, int level)
->          cpu = irq / GIC_INTERNAL;
->          irq %= GIC_INTERNAL;
->      }
-> -    kvm_irq = (irqtype << KVM_ARM_IRQ_TYPE_SHIFT)
-> -        | (cpu << KVM_ARM_IRQ_VCPU_SHIFT) | irq;
-> -
-> -    kvm_set_irq(kvm_state, kvm_irq, !!level);
-> +    kvm_arm_set_irq(cpu, irqtype, irq, !!level);
->  }
->  
->  static void kvm_arm_gicv2_set_irq(void *opaque, int irq, int level)
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 2399c14471..13813fb213 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -576,16 +576,16 @@ static void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
->      ARMCPU *cpu = opaque;
->      CPUARMState *env = &cpu->env;
->      CPUState *cs = CPU(cpu);
-> -    int kvm_irq = KVM_ARM_IRQ_TYPE_CPU << KVM_ARM_IRQ_TYPE_SHIFT;
->      uint32_t linestate_bit;
-> +    int irq_id;
->  
->      switch (irq) {
->      case ARM_CPU_IRQ:
-> -        kvm_irq |= KVM_ARM_IRQ_CPU_IRQ;
-> +        irq_id = KVM_ARM_IRQ_CPU_IRQ;
->          linestate_bit = CPU_INTERRUPT_HARD;
->          break;
->      case ARM_CPU_FIQ:
-> -        kvm_irq |= KVM_ARM_IRQ_CPU_FIQ;
-> +        irq_id = KVM_ARM_IRQ_CPU_FIQ;
->          linestate_bit = CPU_INTERRUPT_FIQ;
->          break;
->      default:
-> @@ -597,9 +597,7 @@ static void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
->      } else {
->          env->irq_line_state &= ~linestate_bit;
->      }
-> -
-> -    kvm_irq |= cs->cpu_index << KVM_ARM_IRQ_VCPU_SHIFT;
-> -    kvm_set_irq(kvm_state, kvm_irq, level ? 1 : 0);
-> +    kvm_arm_set_irq(cs->cpu_index, KVM_ARM_IRQ_TYPE_CPU, irq_id, !!level);
->  #endif
->  }
->  
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index b2eaa50b8d..b10581fa06 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -744,6 +744,18 @@ int kvm_arm_vgic_probe(void)
->      }
->  }
->  
-> +int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level)
-> +{
-> +    int kvm_irq = (irqtype << KVM_ARM_IRQ_TYPE_SHIFT) | irq;
-> +    int cpu_idx1 = cpu % 256;
-> +    int cpu_idx2 = cpu / 256;
-> +
-> +    kvm_irq |= (cpu_idx1 << KVM_ARM_IRQ_VCPU_SHIFT) |
-> +               (cpu_idx2 << KVM_ARM_IRQ_VCPU2_SHIFT);
-> +
-> +    return kvm_set_irq(kvm_state, kvm_irq, !!level);
-> +}
-> +
->  int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
->                               uint64_t address, uint32_t data, PCIDevice *dev)
->  {
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index b3106c8600..b4e19457a0 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -253,6 +253,7 @@ int kvm_arm_vgic_probe(void);
->  
->  void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
->  void kvm_arm_pmu_init(CPUState *cs);
-> +int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
->  
->  #else
->  
-> -- 
-> 2.20.1
-> 
->
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Neither stat(2) nor lseek(2) report the size of Linux devdax pmem
+character device nodes.  Commit 314aec4a6e06844937f1677f6cba21981005f389
+("hostmem-file: reject invalid pmem file sizes") added code to
+hostmem-file.c to fetch the size from sysfs and compare against the
+user-provided size=NUM parameter:
+
+  if (backend->size > size) {
+      error_setg(errp, "size property %" PRIu64 " is larger than "
+                 "pmem file \"%s\" size %" PRIu64, backend->size,
+                 fb->mem_path, size);
+      return;
+  }
+
+It turns out that exec.c:qemu_ram_alloc_from_fd() already has an
+equivalent size check but it skips devdax pmem character devices because
+lseek(2) returns 0:
+
+  if (file_size > 0 && file_size < size) {
+      error_setg(errp, "backing store %s size 0x%" PRIx64
+                 " does not match 'size' option 0x" RAM_ADDR_FMT,
+                 mem_path, file_size, size);
+      return NULL;
+  }
+
+This patch moves the devdax pmem file size code into get_file_size() so
+that we check the memory size in a single place:
+qemu_ram_alloc_from_fd().  This simplifies the code and makes it more
+general.
+
+This also fixes the problem that hostmem-file only checks the devdax
+pmem file size when the pmem=on parameter is given.  An unchecked
+size=NUM parameter can lead to SIGBUS in QEMU so we must always fetch
+the file size for Linux devdax pmem character device nodes.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20190830093056.12572-1-stefanha@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ backends/hostmem-file.c | 22 --------------------
+ exec.c                  | 34 ++++++++++++++++++++++++++++++-
+ include/qemu/osdep.h    | 13 ------------
+ util/oslib-posix.c      | 54 -------------------------------------------------
+ util/oslib-win32.c      |  6 ------
+ 5 files changed, 33 insertions(+), 96 deletions(-)
+
+diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+index ecc15e3..be64020 100644
+--- a/backends/hostmem-file.c
++++ b/backends/hostmem-file.c
+@@ -58,28 +58,6 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+         return;
+     }
+ 
+-    /*
+-     * Verify pmem file size since starting a guest with an incorrect size
+-     * leads to confusing failures inside the guest.
+-     */
+-    if (fb->is_pmem) {
+-        Error *local_err = NULL;
+-        uint64_t size;
+-
+-        size = qemu_get_pmem_size(fb->mem_path, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
+-        }
+-
+-        if (size && backend->size > size) {
+-            error_setg(errp, "size property %" PRIu64 " is larger than "
+-                       "pmem file \"%s\" size %" PRIu64, backend->size,
+-                       fb->mem_path, size);
+-            return;
+-        }
+-    }
+-
+     backend->force_prealloc = mem_prealloc;
+     name = host_memory_backend_get_name(backend);
+     memory_region_init_ram_from_file(&backend->mr, OBJECT(backend),
+diff --git a/exec.c b/exec.c
+index b9511be..8b99897 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1791,7 +1791,39 @@ long qemu_maxrampagesize(void)
+ #ifdef CONFIG_POSIX
+ static int64_t get_file_size(int fd)
+ {
+-    int64_t size = lseek(fd, 0, SEEK_END);
++    int64_t size;
++#if defined(__linux__)
++    struct stat st;
++
++    if (fstat(fd, &st) < 0) {
++        return -errno;
++    }
++
++    /* Special handling for devdax character devices */
++    if (S_ISCHR(st.st_mode)) {
++        g_autofree char *subsystem_path = NULL;
++        g_autofree char *subsystem = NULL;
++
++        subsystem_path = g_strdup_printf("/sys/dev/char/%d:%d/subsystem",
++                                         major(st.st_rdev), minor(st.st_rdev));
++        subsystem = g_file_read_link(subsystem_path, NULL);
++
++        if (subsystem && g_str_has_suffix(subsystem, "/dax")) {
++            g_autofree char *size_path = NULL;
++            g_autofree char *size_str = NULL;
++
++            size_path = g_strdup_printf("/sys/dev/char/%d:%d/size",
++                                    major(st.st_rdev), minor(st.st_rdev));
++
++            if (g_file_get_contents(size_path, &size_str, NULL, NULL)) {
++                return g_ascii_strtoll(size_str, NULL, 0);
++            }
++        }
++    }
++#endif /* defined(__linux__) */
++
++    /* st.st_size may be zero for special files yet lseek(2) works */
++    size = lseek(fd, 0, SEEK_END);
+     if (size < 0) {
+         return -errno;
+     }
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index af2b91f..c7d242f 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -571,19 +571,6 @@ void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
+                      Error **errp);
+ 
+ /**
+- * qemu_get_pmem_size:
+- * @filename: path to a pmem file
+- * @errp: pointer to a NULL-initialized error object
+- *
+- * Determine the size of a persistent memory file.  Besides supporting files on
+- * DAX file systems, this function also supports Linux devdax character
+- * devices.
+- *
+- * Returns: the size or 0 on failure
+- */
+-uint64_t qemu_get_pmem_size(const char *filename, Error **errp);
+-
+-/**
+  * qemu_get_pid_name:
+  * @pid: pid of a process
+  *
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 5fda67d..f869338 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -514,60 +514,6 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+     }
+ }
+ 
+-uint64_t qemu_get_pmem_size(const char *filename, Error **errp)
+-{
+-    struct stat st;
+-
+-    if (stat(filename, &st) < 0) {
+-        error_setg(errp, "unable to stat pmem file \"%s\"", filename);
+-        return 0;
+-    }
+-
+-#if defined(__linux__)
+-    /* Special handling for devdax character devices */
+-    if (S_ISCHR(st.st_mode)) {
+-        char *subsystem_path = NULL;
+-        char *subsystem = NULL;
+-        char *size_path = NULL;
+-        char *size_str = NULL;
+-        uint64_t ret = 0;
+-
+-        subsystem_path = g_strdup_printf("/sys/dev/char/%d:%d/subsystem",
+-                                         major(st.st_rdev), minor(st.st_rdev));
+-        subsystem = g_file_read_link(subsystem_path, NULL);
+-        if (!subsystem) {
+-            error_setg(errp, "unable to read subsystem for pmem file \"%s\"",
+-                       filename);
+-            goto devdax_err;
+-        }
+-
+-        if (!g_str_has_suffix(subsystem, "/dax")) {
+-            error_setg(errp, "pmem file \"%s\" is not a dax device", filename);
+-            goto devdax_err;
+-        }
+-
+-        size_path = g_strdup_printf("/sys/dev/char/%d:%d/size",
+-                                    major(st.st_rdev), minor(st.st_rdev));
+-        if (!g_file_get_contents(size_path, &size_str, NULL, NULL)) {
+-            error_setg(errp, "unable to read size for pmem file \"%s\"",
+-                       size_path);
+-            goto devdax_err;
+-        }
+-
+-        ret = g_ascii_strtoull(size_str, NULL, 0);
+-
+-devdax_err:
+-        g_free(size_str);
+-        g_free(size_path);
+-        g_free(subsystem);
+-        g_free(subsystem_path);
+-        return ret;
+-    }
+-#endif /* defined(__linux__) */
+-
+-    return st.st_size;
+-}
+-
+ char *qemu_get_pid_name(pid_t pid)
+ {
+     char *name = NULL;
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 9583fb4..c62cd43 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -562,12 +562,6 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+     }
+ }
+ 
+-uint64_t qemu_get_pmem_size(const char *filename, Error **errp)
+-{
+-    error_setg(errp, "pmem support not available");
+-    return 0;
+-}
+-
+ char *qemu_get_pid_name(pid_t pid)
+ {
+     /* XXX Implement me */
+-- 
+1.8.3.1
+
+
 
