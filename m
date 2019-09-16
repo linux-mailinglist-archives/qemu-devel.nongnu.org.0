@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771BEB3E14
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:48:52 +0200 (CEST)
-Received: from localhost ([::1]:36106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E1FB3DE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:46:14 +0200 (CEST)
+Received: from localhost ([::1]:36086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tFC-0005Io-Eu
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53742)
+	id 1i9tCe-0003Hr-Ly
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:46:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sD0-0006ZJ-GB
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:31 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sD1-0006aI-Jf
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCy-0007VQ-NN
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:30 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38090)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCz-0007Vh-Qr
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:31 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34909)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCy-0007V1-8p
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:28 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l11so39145167wrx.5
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:28 -0700 (PDT)
+ id 1i9sCz-0007VP-Ec
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:29 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id v8so3820469wrt.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=cYGflcnLYW7UqqaIj7H9EUpz5deH3v/RJ+Xg1QiY1Lo=;
- b=arT9LUaGEBE0a/oPLB1rrIChwmhT1k9ov5UTXsM7GHYpKNdjEOcCWMyioyQl4cpjm1
- cI452Abyjrws+FOvvdbuba/w2ZlHk/JtUaV3ptU44pus2FtvIaoSv7KyTbXTSJi3mr+a
- dPXCH7YWoPw8tRwjV37pOmqXkkwRYjvFtMD/6Rq2nmmN69mTM9sleMXK03+R+1mcFABe
- f3POTnpbEBa8QJtXrfMKGOvPpqs5ggCKP9OdYStgVVoNbkXewlI64299+bOL8M1wG9nr
- LUg4XNBVbs5KjVaPXyCFUPjGt+UfjLH715Zc3iD9dLCbLVIUfVpacRqgKdxlB8z04nvC
- Xj9Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=N0oh/2xJJWk1j4doZ9EhbFAH+Bw5VBTm7B5dvFyJxMo=;
+ b=u7NIO+XVj3ccpipmfYTQfbR+8BRbI7a/u5aUDIvMiF+EyKgi1A+IH7Afa6svOk4Amv
+ uuGHgIiybSfV7sVVD8kPUSO/ZrZ+WFAnwIXITRi6PGl7DqlrY1TROq0trF5e/sHnf5Db
+ wwaYRnorvn0OYDvtLMKuuwrRwMzV379t7b6lPHKC8uSbtKxBB2OzyM1xAZZRMuGWzrFT
+ E4d+TX2Ye8J2Nxx2TwG1Mg6NZeKA4WmwsluIRY01yuMOro5gbbviPhOnHHSnk6eIsorP
+ 6kjIQhqBsYzbXv0A/5RKDl8K8GdxR88ffN2+3DMhQ8Tmow5wHP1EUJpk5ivYevmZtglk
+ XxUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=cYGflcnLYW7UqqaIj7H9EUpz5deH3v/RJ+Xg1QiY1Lo=;
- b=Ga2qbS+3RjaPuAVEUPyINag1fyqFXDsrsCRZTYy5oslmrhKwtXzfQwI95R26HvSKWA
- HFqEgWzA/4lBNak1AdyxblmeKvL7X4Jf0DAARE21/vNqzruH5HXigpt5VpwkKMBHnFWz
- I8GrqyDvp3Q9tKj37Jsgig1LZLegtQ+KocHOf8AP0qxyhvlaMSguOZiQaQTm5bP5NsZC
- Q5I50k3g+mteDZCaLTuj0q/iLbptcd0T17Bqv/v6shXv8ZHVICtJypupZlpkNRW/F26a
- V/C4EiUpqvlAzVZRdAq0oRt/Ppvn9BmwUNQGxoF5S8mdoKYFak8vA8HPhW70mFvmIY63
- lFoQ==
-X-Gm-Message-State: APjAAAUbKUxyFrfI2kd4jXhuxk1l90kAg6HwZ37OWo5ZKtcN7P9sa9Hj
- hh6NzJCX2wFAceRgM2+VsF8+JpmG
-X-Google-Smtp-Source: APXvYqwSiIjFdXfCQUwB5bWGHgvEECnLPIv6U22bV8ptt5N5yVIcnVNXVXcqArp/CON1CNGIayevUA==
-X-Received: by 2002:a5d:46cb:: with SMTP id g11mr111270wrs.268.1568644946700; 
- Mon, 16 Sep 2019 07:42:26 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=N0oh/2xJJWk1j4doZ9EhbFAH+Bw5VBTm7B5dvFyJxMo=;
+ b=gcIMOYTzD4HJ0+RlWJu54jYT5YlY7ZGa+0zxoBYv1Wkvd6a6b9fRqhpHQQXTskrgFR
+ XiIWmEDB3CPPUKnOgtDWyWUtUuEyHm7dIJ6IjO61vSfZOCjE3gKI94jfoN90p2x0JMgv
+ iUKPt9PnDApd98PmenkHNZR1kuQJwpoP0yq4BNDtWUQUZoo568QxCSBZca7qi3TBuhtj
+ WPXuR3CWuDlqoBZDRGld/miaRDbWFm/q0zX5HMg6xg97+kULcDpMgYEBKd3OhpPVarQw
+ +kwdgvAfSfx8kbr6mFT54TKqzpU5W3E2Z1+WUDZ/R99iX5pCuT6Hpso5n+/ptFwnF/2w
+ 6VKQ==
+X-Gm-Message-State: APjAAAW3F5+MpANyG3kWSWyHE3dCE+c5ignr3hLsJzARl1XAuM7m32MP
+ qS4w53iXWL0gRx38/v7kKdRO08MZ
+X-Google-Smtp-Source: APXvYqxrb6gZxLpOdwr98FsFqFBV16qQXwNqVU1sOSTgsEk39cGHAQJ9xMHRmcgd/sa6cq9YZB+J4Q==
+X-Received: by 2002:adf:f112:: with SMTP id r18mr140843wro.88.1568644947938;
+ Mon, 16 Sep 2019 07:42:27 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.25
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:25 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:54 +0200
-Message-Id: <1568644929-9124-15-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:41:55 +0200
+Message-Id: <1568644929-9124-16-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 14/29] cpus: Fix throttling during vm_stop
+X-Received-From: 2a00:1450:4864:20::42b
+Subject: [Qemu-devel] [PULL 15/29] hw/i386/pc: Use e820_get_num_entries() to
+ access e820_entries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,83 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yury Kotov <yury-kotov@yandex-team.ru>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yury Kotov <yury-kotov@yandex-team.ru>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Throttling thread sleeps in VCPU thread. For high throttle percentage
-this sleep is more than 10ms. E.g. for 60% - 15ms, for 99% - 990ms.
-vm_stop() kicks all VCPUs and waits for them. It's called at the end of
-migration and because of the long sleep the migration downtime might be
-more than 100ms even for downtime-limit 1ms.
-Use qemu_cond_timedwait for high percentage to wake up during vm_stop.
+To be able to extract the e820* code out of this file (in the next
+patch), access e820_entries with its correct helper.
 
-Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190909131335.16848-3-yury-kotov@yandex-team.ru>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190818225414.22590-2-philmd@redhat.com>
 ---
- cpus.c | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+ hw/i386/pc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/cpus.c b/cpus.c
-index 85cd451..d2c61ff 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -77,6 +77,8 @@
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index bad866f..31e9c1f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1029,7 +1029,7 @@ static FWCfgState *bochs_bios_init(AddressSpace *as, PCMachineState *pcms)
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+                      &e820_reserve, sizeof(e820_reserve));
+     fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+-                    sizeof(struct e820_entry) * e820_entries);
++                    sizeof(struct e820_entry) * e820_get_num_entries());
  
- #endif /* CONFIG_LINUX */
- 
-+static QemuMutex qemu_global_mutex;
-+
- int64_t max_delay;
- int64_t max_advance;
- 
-@@ -782,7 +784,7 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
- {
-     double pct;
-     double throttle_ratio;
--    long sleeptime_ns;
-+    int64_t sleeptime_ns, endtime_ns;
- 
-     if (!cpu_throttle_get_percentage()) {
-         return;
-@@ -790,11 +792,20 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
- 
-     pct = (double)cpu_throttle_get_percentage()/100;
-     throttle_ratio = pct / (1 - pct);
--    sleeptime_ns = (long)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS);
--
--    qemu_mutex_unlock_iothread();
--    g_usleep(sleeptime_ns / 1000); /* Convert ns to us for usleep call */
--    qemu_mutex_lock_iothread();
-+    /* Add 1ns to fix double's rounding error (like 0.9999999...) */
-+    sleeptime_ns = (int64_t)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS + 1);
-+    endtime_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + sleeptime_ns;
-+    while (sleeptime_ns > 0 && !cpu->stop) {
-+        if (sleeptime_ns > SCALE_MS) {
-+            qemu_cond_timedwait(cpu->halt_cond, &qemu_global_mutex,
-+                                sleeptime_ns / SCALE_MS);
-+        } else {
-+            qemu_mutex_unlock_iothread();
-+            g_usleep(sleeptime_ns / SCALE_US);
-+            qemu_mutex_lock_iothread();
-+        }
-+        sleeptime_ns = endtime_ns - qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-+    }
-     atomic_set(&cpu->throttle_thread_scheduled, 0);
- }
- 
-@@ -1172,8 +1183,6 @@ static void qemu_init_sigbus(void)
- }
- #endif /* !CONFIG_LINUX */
- 
--static QemuMutex qemu_global_mutex;
--
- static QemuThread io_thread;
- 
- /* cpu creation */
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
+     /* allocate memory for the NUMA channel: one (64bit) word for the number
 -- 
 1.8.3.1
 
