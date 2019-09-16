@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C41CB3E68
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:09:03 +0200 (CEST)
-Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB40B3E5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:05:04 +0200 (CEST)
+Received: from localhost ([::1]:36398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tYj-000123-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:09:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55079)
+	id 1i9tUr-00060F-Op
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:05:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i9sKU-0004Ps-C8
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:50:18 -0400
+ (envelope-from <philmd@redhat.com>) id 1i9tFv-0007ps-7j
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:49:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i9sKS-00028M-Og
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:50:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54912)
+ (envelope-from <philmd@redhat.com>) id 1i9tFt-0001ce-QE
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:49:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36878)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
- id 1i9sKS-000289-G5; Mon, 16 Sep 2019 10:50:12 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1i9tFp-0001Za-7d; Mon, 16 Sep 2019 11:49:29 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8EE6010CC1F7;
- Mon, 16 Sep 2019 14:50:11 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D528643C1;
- Mon, 16 Sep 2019 14:50:09 +0000 (UTC)
-Date: Mon, 16 Sep 2019 15:50:06 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Balamuruhan S <bala24@linux.ibm.com>
-Message-ID: <20190916144709.GD2884@work-vm>
-References: <20190916093445.20507-1-bala24@linux.ibm.com>
- <20190916093445.20507-4-bala24@linux.ibm.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 7FDC1B2721;
+ Mon, 16 Sep 2019 15:49:27 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-115.brq.redhat.com [10.40.204.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9929F19C4F;
+ Mon, 16 Sep 2019 15:49:08 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 17:48:35 +0200
+Message-Id: <20190916154847.28936-2-philmd@redhat.com>
+In-Reply-To: <20190916154847.28936-1-philmd@redhat.com>
+References: <20190916154847.28936-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190916093445.20507-4-bala24@linux.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Mon, 16 Sep 2019 14:50:11 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Mon, 16 Sep 2019 15:49:27 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/3] tests/acceptance/migration: test to
- migrate will all machine types
+Subject: [Qemu-devel] [PATCH 01/13] hw/timer: Compile devices not
+ target-dependent as common object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,65 +56,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, groug@kaod.org, qemu-devel@nongnu.org,
- sathnaga@linux.vnet.ibm.com, clg@kaod.org, crosa@redhat.com,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Balamuruhan S (bala24@linux.ibm.com) wrote:
-> add migration test to query machine types supported by qemu binary
-> and migrate vm will all supported type.
-> 
-> Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
+All these devices do not contain any target-specific. While most
+of them are arch-specific, they are shared between different
+targets of the same arch family (ARM and AArch64, MIPS32/MIPS64,
+endianess, ...).
+Put them into common-obj-y to compile them once for all targets.
 
-Depending on the architecture you might find that some machine types
-aren't migratable while some are.
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/timer/Makefile.objs | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Dave
+diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+index 123d92c969..f407523aa4 100644
+--- a/hw/timer/Makefile.objs
++++ b/hw/timer/Makefile.objs
+@@ -25,20 +25,20 @@ common-obj-$(CONFIG_MILKYMIST) +=3D milkymist-sysctl.=
+o
+ common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-zynqmp-rtc.o
+ common-obj-$(CONFIG_NRF51_SOC) +=3D nrf51_timer.o
+=20
+-obj-$(CONFIG_ALTERA_TIMER) +=3D altera_timer.o
+-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_mct.o
+-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_pwm.o
+-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_rtc.o
+-obj-$(CONFIG_OMAP) +=3D omap_gptimer.o
+-obj-$(CONFIG_OMAP) +=3D omap_synctimer.o
+-obj-$(CONFIG_PXA2XX) +=3D pxa2xx_timer.o
+-obj-$(CONFIG_SH4) +=3D sh_timer.o
+-obj-$(CONFIG_DIGIC) +=3D digic-timer.o
+-obj-$(CONFIG_MIPS_CPS) +=3D mips_gictimer.o
++common-obj-$(CONFIG_ALTERA_TIMER) +=3D altera_timer.o
++common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_mct.o
++common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_pwm.o
++common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_rtc.o
++common-obj-$(CONFIG_OMAP) +=3D omap_gptimer.o
++common-obj-$(CONFIG_OMAP) +=3D omap_synctimer.o
++common-obj-$(CONFIG_PXA2XX) +=3D pxa2xx_timer.o
++common-obj-$(CONFIG_SH4) +=3D sh_timer.o
++common-obj-$(CONFIG_DIGIC) +=3D digic-timer.o
++common-obj-$(CONFIG_MIPS_CPS) +=3D mips_gictimer.o
+=20
+ obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
+=20
+-obj-$(CONFIG_ALLWINNER_A10_PIT) +=3D allwinner-a10-pit.o
++common-obj-$(CONFIG_ALLWINNER_A10_PIT) +=3D allwinner-a10-pit.o
+=20
+ common-obj-$(CONFIG_STM32F2XX_TIMER) +=3D stm32f2xx_timer.o
+ common-obj-$(CONFIG_ASPEED_SOC) +=3D aspeed_timer.o aspeed_rtc.o
+--=20
+2.20.1
 
-> ---
->  tests/acceptance/migration.py | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-> index 0f3553c8f0..74416ccc21 100644
-> --- a/tests/acceptance/migration.py
-> +++ b/tests/acceptance/migration.py
-> @@ -49,3 +49,29 @@ class Migration(Test):
->          self.assertEqual(dest_vm.command('query-status')['status'], 'running')
->          self.assertEqual(source_vm.command('query-status')['status'],
->                           'postmigrate')
-> +
-> +
-> +    def test_migration_with_machine_types(self):
-> +        migration_port = self._get_free_port()
-> +        for machine in self.get_machine_types():
-> +            if 'pseries' in machine:
-> +                print("migrating with machine type - {}".format(machine))
-> +                source_vm = self.get_vm('-M', '{},cap-htm=off'.format(machine))
-> +                dest_uri = 'tcp:localhost:%u' % migration_port
-> +                dest_vm = self.get_vm('-M', '{},cap-htm=off'.format(machine),
-> +                                      '-incoming', dest_uri)
-> +                dest_vm.launch()
-> +                source_vm.launch()
-> +                source_vm.qmp('migrate', uri=dest_uri)
-> +                wait.wait_for(
-> +                    self.migration_finished,
-> +                    timeout=self.timeout,
-> +                    step=0.1,
-> +                    args=(source_vm,)
-> +                )
-> +                self.assertEqual(source_vm.command('query-migrate')['status'],
-> +                                                   'completed')
-> +                self.assertEqual(dest_vm.command('query-status')['status'],
-> +                                                 'running')
-> +                self.assertEqual(source_vm.command('query-status')['status'],
-> +                                                   'postmigrate')
-> -- 
-> 2.14.5
-> 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
