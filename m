@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845D5B3E49
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:59:28 +0200 (CEST)
-Received: from localhost ([::1]:36334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157FAB3E2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:55:15 +0200 (CEST)
+Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9tPT-0000qr-0v
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53901)
+	id 1i9tLN-00056X-Bw
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53878)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDI-0006hs-Ah
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:50 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDG-0007av-8c
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDG-0006hS-EO
  for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:48 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40478)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sDC-0007a9-IS
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:45 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53572)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sDA-0007Yk-0b
+ id 1i9sDA-0007Z1-1O
  for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:42 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l3so16457524wru.7
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:38 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id i16so68168wmd.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k6PPn4Z/g3X9dRln047WPkkVlkbax9eyN7khSHdwCWQ=;
- b=qr5cUvRaDoKcm3sIix8djNM03JLDvHvrhTiY5UUdPyPGAAFysct2KR0SSan11eAjaI
- SECPiZz44c8KqH6J2xgU77Kqnr2neMpTIF1iNyA+PgkmdYVmstHR9ktmmZQDeV7joTPB
- lc77VFY56SpMnGx0Acup3W3Iz1ubSSZOQNXrMd6xTzhki/d/1qt8b+jcsFPciocZbJFK
- I0I60dDQa2Z8XndScwuGlQHTzCRvD7lTCVkuHOMKPKya2rJqRK6OvLf/UAhRDFzfOXx2
- KdNZX9ngIxAbwpId/gZvCm7BjivCPoMLMgdPQygrR6VK59NGeClgzXDCOD5Fz4Y/tdZd
- 2Pmg==
+ bh=YSviaidB+9hmgagbX135i0HDFBWVdstIEmKCyx1ApvY=;
+ b=TN+br5ifMyhqmGZSBEjFhLwaSpiY+Dw9CJyIa2K0yzjQ1c63nUSgNPdY7rN7pCa0ES
+ GYK0f/F7WxASqMIA2p7Azwt72sRXq62qkmDI+mA2NqbNNR4Ft8jBTgUAAj3NjH1zdNy9
+ pYPt/j7+6VV0kcXi8+mfyeoWdYu6Wf3DbVLU2m29CP7I/oxc+hluPA2qYuPjEKdmF1r3
+ dFkt0XZCdsehaNvx3WNWDs3gKv3bcfj1l6UeAjbvXbnNj5ACyP07ujd4Q4rnAEYxsWTL
+ sSfn6ZhPLcN00UyTbJfjgvwHlViSj13JL/5JYRMxgqmqcioRx782aHj28MHLMaTfEk3W
+ mYpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=k6PPn4Z/g3X9dRln047WPkkVlkbax9eyN7khSHdwCWQ=;
- b=E9nr3ED5qnie4CupXIT+5kHpjYP8vg5upI8fIz7XAMIaV5hzLA7dMjOlQg6uEOGif9
- WlkO7IdqvHybsXnIHSvjxmHoztUeD5vizk1h/LF9Nl/gm9dBj9nDqWh1yTNL6fNqjBYO
- JN+hAeqct8yC0PFzpBjb4vOJ+C8+lYepXxIxk9aHdjHXXExt06kRKQ9nKdWeRGPYq1OQ
- GjAyrVo37pO+Zhhz3U3NHT9oschaYxKD0yjwEqCLQwzSFNXJ0DVm9tbko2nHN7nkewks
- yhhXU0CSl0QUbQmi6qc4RqHoARDyhQzc1QeSOF4fnW2symTzuZXjI+Ssb8yDvVy9+tQZ
- jLsw==
-X-Gm-Message-State: APjAAAWI7OscwXnwksA2SUDKPBpkfJ0EPTsU8giRy1F4xQwBoOwqy15J
- 6Tj30L529T9QK+YUGkFhYMcTfcA2
-X-Google-Smtp-Source: APXvYqwE6g+Sdn7KASl5yFlmOKPBHWVTqeWe6XD42f7dFltiGXcBHhDLw+ybGY2XM3taHrcFCJ3mNg==
-X-Received: by 2002:adf:dc91:: with SMTP id r17mr143728wrj.22.1568644957405;
- Mon, 16 Sep 2019 07:42:37 -0700 (PDT)
+ bh=YSviaidB+9hmgagbX135i0HDFBWVdstIEmKCyx1ApvY=;
+ b=ouGmPpdlZAwJwQhqTdcMocOPpaYzDykoJ5AfijuX+0eQfetaQVOuoOW3Ubd7RMawaV
+ HxA1LUsfvE0PQTpNj2JK6TY7RWeT9HkWi+nYvvK+VRF7Q+UqWnwWvioyrLXtVrv8QzYA
+ 3fNTl3fQwd4YSuRbfz7En9ZaeOsip0+xS97RaRWcVuhjhz//M4JBznSpCZpwIkO8sbwX
+ gFEDaW/BJnwbz9+s08OemXHReOdQ19B0TEaX/eVPsbsbOt5YSUADlWwOYjFczdlnXy4h
+ L9uqPEZWGyBgrhrQHFLqQnXVUHrS0/a3d6HRMBCWywa4wpA4wheExaJqAUGZ0+DdWnrY
+ oxgA==
+X-Gm-Message-State: APjAAAXuVI5a4aCjgczxAdIsBFLfh8bSEO05KDATS26ih4bdtXtIqVM6
+ 5s1VlTk+Dcb5ks9Dk/r5jxnA+jFF
+X-Google-Smtp-Source: APXvYqwhpCo+VEgjc2M/Ea6j9c9p+mHF4AADKdUvxCHIdfMbLQ8wd7YIht3+5h8P1pBrUNM2sHr1eQ==
+X-Received: by 2002:a1c:1bcf:: with SMTP id b198mr84536wmb.0.1568644958395;
+ Mon, 16 Sep 2019 07:42:38 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.36
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.37
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:36 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:42:04 +0200
-Message-Id: <1568644929-9124-25-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:42:05 +0200
+Message-Id: <1568644929-9124-26-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
@@ -65,9 +65,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 24/29] hw/i386/pc: Let pc_build_smbios() take a
- generic MachineState argument
+X-Received-From: 2a00:1450:4864:20::333
+Subject: [Qemu-devel] [PULL 25/29] hw/i386/pc: Rename pc_build_smbios() as
+ generic fw_cfg_build_smbios()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,41 +85,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Let the pc_build_smbios() function take a generic MachineState
-argument.
+Now that the pc_build_smbios() function has been refactored to not
+depend of PC specific types, rename it to a more generic name.
 
 Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190818225414.22590-11-philmd@redhat.com>
+Message-Id: <20190818225414.22590-12-philmd@redhat.com>
 ---
- hw/i386/pc.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/i386/pc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 612d676..14ad611 100644
+index 14ad611..8f611cb 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -894,13 +894,12 @@ static uint32_t x86_cpu_apic_id_from_index(PCMachineState *pcms,
+@@ -894,7 +894,7 @@ static uint32_t x86_cpu_apic_id_from_index(PCMachineState *pcms,
      }
  }
  
--static void pc_build_smbios(PCMachineState *pcms, FWCfgState *fw_cfg)
-+static void pc_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
+-static void pc_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
++static void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
  {
      uint8_t *smbios_tables, *smbios_anchor;
      size_t smbios_tables_len, smbios_anchor_len;
-     struct smbios_phys_mem_area *mem_array;
-     unsigned i, array_count;
--    MachineState *ms = MACHINE(pcms);
-     X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
- 
-     /* tell smbios about cpuid version and features */
-@@ -1695,7 +1694,7 @@ void pc_machine_done(Notifier *notifier, void *data)
+@@ -1694,7 +1694,7 @@ void pc_machine_done(Notifier *notifier, void *data)
  
      acpi_setup();
      if (pcms->fw_cfg) {
--        pc_build_smbios(pcms, pcms->fw_cfg);
-+        pc_build_smbios(MACHINE(pcms), pcms->fw_cfg);
+-        pc_build_smbios(MACHINE(pcms), pcms->fw_cfg);
++        fw_cfg_build_smbios(MACHINE(pcms), pcms->fw_cfg);
          pc_build_feature_control_file(pcms);
          /* update FW_CFG_NB_CPUS to account for -device added CPUs */
          fw_cfg_modify_i16(pcms->fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus);
