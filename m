@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDDFB3F67
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 19:04:57 +0200 (CEST)
-Received: from localhost ([::1]:37600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04110B3F70
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 19:09:01 +0200 (CEST)
+Received: from localhost ([::1]:37676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9uQp-0003up-HC
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 13:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49424)
+	id 1i9uUm-0007Z5-2y
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 13:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pc@us.ibm.com>) id 1i9uOu-0002xW-JR
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 13:03:02 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i9uTa-00075A-7P
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 13:07:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pc@us.ibm.com>) id 1i9uOq-00009y-GE
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 13:02:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46878)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pc@us.ibm.com>)
- id 1i9uOa-0008TI-R6; Mon, 16 Sep 2019 13:02:37 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8GGvXlI037216; Mon, 16 Sep 2019 13:02:27 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v2e5ugmk3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Sep 2019 13:02:27 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8GH1PkV021606;
- Mon, 16 Sep 2019 17:02:26 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 2v0t5tx8v6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Sep 2019 17:02:26 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8GH2Pha35062094
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Sep 2019 17:02:25 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 668BDAC05B;
- Mon, 16 Sep 2019 17:02:25 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4AB9DAC059;
- Mon, 16 Sep 2019 17:02:25 +0000 (GMT)
-Received: from localhost (unknown [9.41.247.5])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 16 Sep 2019 17:02:25 +0000 (GMT)
-From: "Paul A. Clarke" <pc@us.ibm.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 12:02:24 -0500
-Message-Id: <1568653344-16881-1-git-send-email-pc@us.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-16_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=949 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909160168
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH v2 2/2] ppc: Add support for 'mffsce'
- instruction
+ (envelope-from <alistair23@gmail.com>) id 1i9uTU-0003zh-D4
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 13:07:46 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:42847)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i9uTJ-0003ub-Ez; Mon, 16 Sep 2019 13:07:29 -0400
+Received: by mail-lj1-x244.google.com with SMTP id y23so634867lje.9;
+ Mon, 16 Sep 2019 10:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=D36R4TxC9kabrXw4LckB9IixL5aslsuDDTMAnaEx/ng=;
+ b=t7loyxUCDt53/J47VQr+1KckMz5a1DRiZomr3eq7Jow5xw1mHlDni43TBWQZV8lvRT
+ cv5kbjqH7TN4QoYYmd1GkBbo1ZATCzQjJ0qlC8sKC7IrEYfWHgatVcq3lYwPPXP2BVsb
+ BP1bI9yQWYBX4cnC++3T4M2Mvt0ay/9vjXGkYWN9fUICoXzm86DvF7W29nJHvyAp/rwT
+ xYsY4W0cid+AbsmuJChgfGU91ETRRx6fDMOPcJmWvEbCFoB3ymXmOCJPsrqUdkrHL8PT
+ JRLyk3wYALGXTm3jJ5vtBswqXrtJlIg45tplUkJoh6u1PWFEL+KYfAb8njvigjMfivkD
+ 68/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D36R4TxC9kabrXw4LckB9IixL5aslsuDDTMAnaEx/ng=;
+ b=gN70sCnn/EqbA4gFlI1lPmbqG8YcgY1gU0ZEqB81MjJmCRHlFkZN1sopYZZu0U1SXV
+ 8zex5kYl7XuB/Kl6gkF3WAYbtvZpB0fs0HkniMSdSagRoZsrCLeeuPeANpC4vO7R+KBf
+ 2NaImxrms1742X3OMu2kg2x/v8jLkoXSxKmH6lhCA+rYf4stb/cM7Xyqq+O5t/k0pXi2
+ y7l/KWlUVIwV3pY0Pn3m7pBTG23lssX57z9ZuXOTF8bYsTyYfkRADPRXkRr16F9uSewF
+ PNmUbU6Om/sOH2WvIsnV7XFE5ZpK8Gi52zdNEWZ3ReLRhbTXcT9iwlxEIYBF1G+1pyuP
+ g3Pw==
+X-Gm-Message-State: APjAAAUcrW4spE7kUWag34Xe2u8sYd8WN1VvFhOJzjaE7MuYVnm8B/qU
+ m1g7ErGpAuQItWUhIUoDM0UcLeNBumzkJWNtwFw=
+X-Google-Smtp-Source: APXvYqzyRgR7ygR3MrnpIq4dYBOkMAtYElG55UWFQ/bNMy+RBHvc5GdAv3m/eyxK+AskwGacXWH3YSwBGRAjp/PZypI=
+X-Received: by 2002:a2e:91d9:: with SMTP id u25mr355859ljg.85.1568653647468;
+ Mon, 16 Sep 2019 10:07:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAEUhbmUksfEiGLZ0qzsWkaDOaocTvkEYefiSUmGZT7TftYfmEg@mail.gmail.com>
+ <mhng-165ebd8f-3595-48d3-a614-79f52d81c14c@palmer-si-x1e>
+ <CAEUhbmV=v62a0CAHe2mt1Qzz0n+fESgVYDtjdoXfyhH6_j5zFw@mail.gmail.com>
+In-Reply-To: <CAEUhbmV=v62a0CAHe2mt1Qzz0n+fESgVYDtjdoXfyhH6_j5zFw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 16 Sep 2019 10:02:56 -0700
+Message-ID: <CAKmqyKN3kF3EtKJxQ3iZRaiVrvaBEmkFuX6fsfP7FSbOwpnD3Q@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH v8 18/32] riscv: sifive_u: Set the minimum
+ number of cpus to 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,86 +73,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Paul A. Clarke" <pc@us.ibm.com>
+On Sun, Sep 15, 2019 at 6:07 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Palmer,
+>
+> On Sun, Sep 15, 2019 at 3:00 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+> >
+> > On Fri, 13 Sep 2019 08:25:21 PDT (-0700), bmeng.cn@gmail.com wrote:
+> > > Hi Palmer,
+> > >
+> > > On Fri, Sep 13, 2019 at 10:33 PM Palmer Dabbelt <palmer@sifive.com> wrote:
+> > >>
+> > >> On Fri, 06 Sep 2019 09:20:05 PDT (-0700), bmeng.cn@gmail.com wrote:
+> > >> > It is not useful if we only have one management CPU.
+> > >> >
+> > >> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > >> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > >> >
+> > >> > ---
+> > >> >
+> > >> > Changes in v8: None
+> > >> > Changes in v7: None
+> > >> > Changes in v6: None
+> > >> > Changes in v5: None
+> > >> > Changes in v4: None
+> > >> > Changes in v3:
+> > >> > - use management cpu count + 1 for the min_cpus
+> > >> >
+> > >> > Changes in v2:
+> > >> > - update the file header to indicate at least 2 harts are created
+> > >> >
+> > >> >  hw/riscv/sifive_u.c         | 4 +++-
+> > >> >  include/hw/riscv/sifive_u.h | 2 ++
+> > >> >  2 files changed, 5 insertions(+), 1 deletion(-)
+> > >> >
+> > >> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> > >> > index 2947e06..2023b71 100644
+> > >> > --- a/hw/riscv/sifive_u.c
+> > >> > +++ b/hw/riscv/sifive_u.c
+> > >> > @@ -10,7 +10,8 @@
+> > >> >   * 1) CLINT (Core Level Interruptor)
+> > >> >   * 2) PLIC (Platform Level Interrupt Controller)
+> > >> >   *
+> > >> > - * This board currently uses a hardcoded devicetree that indicates one hart.
+> > >> > + * This board currently generates devicetree dynamically that indicates at least
+> > >> > + * two harts.
+> > >> >   *
+> > >> >   * This program is free software; you can redistribute it and/or modify it
+> > >> >   * under the terms and conditions of the GNU General Public License,
+> > >> > @@ -433,6 +434,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
+> > >> >       * management CPU.
+> > >> >       */
+> > >> >      mc->max_cpus = 4;
+> > >> > +    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
+> > >> >  }
+> > >> >
+> > >> >  DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
+> > >> > diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+> > >> > index f25bad8..6d22741 100644
+> > >> > --- a/include/hw/riscv/sifive_u.h
+> > >> > +++ b/include/hw/riscv/sifive_u.h
+> > >> > @@ -69,6 +69,8 @@ enum {
+> > >> >      SIFIVE_U_GEM_CLOCK_FREQ = 125000000
+> > >> >  };
+> > >> >
+> > >> > +#define SIFIVE_U_MANAGEMENT_CPU_COUNT   1
+> > >> > +
+> > >> >  #define SIFIVE_U_PLIC_HART_CONFIG "MS"
+> > >> >  #define SIFIVE_U_PLIC_NUM_SOURCES 54
+> > >> >  #define SIFIVE_U_PLIC_NUM_PRIORITIES 7
+> > >>
+> > >> This fails "make check", so I'm going to squash in this
+> > >>
+> > >> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> > >> index ca9f7fea41..adecbf1dd9 100644
+> > >> --- a/hw/riscv/sifive_u.c
+> > >> +++ b/hw/riscv/sifive_u.c
+> > >> @@ -528,6 +528,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
+> > >>      mc->init = riscv_sifive_u_init;
+> > >>      mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
+> > >>      mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
+> > >> +    mc->default_cpus = mc->max_cpus;
+> > >
+> > > Thank you for fixing the 'make check'. Shouldn't it be:
+> > >
+> > > mc->default_cpus = mc->min_cpus;
+> >
+> > We have 5 harts on the board that this matches, so I figured that'd be the
+> > better default.
+> >
+>
+> Per my understanding mc->default_cpus is used when invoking QEMU
+> without passing '-smp n' (that's what 'make check' uses), and with the
+> updated sifive_u machine, '-smp 2' is the actual useful configuration
+> to boot Linux. For consistency with user experience on other machines,
+> without '-smp' means we want a uni-processor machine hence I would
+> suggest we set "mc->default_cpus = mc->min_cpus".
 
-ISA 3.0B added a set of Floating-Point Status and Control Register (FPSCR)
-instructions: mffsce, mffscdrn, mffscdrni, mffscrn, mffscrni, mffsl.
-This patch adds support for 'mffsce' instruction.
+Agreed!
 
-'mffsce' is identical to 'mffs', except that it also clears the exception
-enable bits in the FPSCR.
+Alistair
 
-On CPUs without support for 'mffsce' (below ISA 3.0), the
-instruction will execute identically to 'mffs'.
-
-Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
----
-v2: no changes.
-
- target/ppc/translate/fp-impl.inc.c | 30 ++++++++++++++++++++++++++++++
- target/ppc/translate/fp-ops.inc.c  |  2 ++
- 2 files changed, 32 insertions(+)
-
-diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp-impl.inc.c
-index 59a4faf..34edc45 100644
---- a/target/ppc/translate/fp-impl.inc.c
-+++ b/target/ppc/translate/fp-impl.inc.c
-@@ -639,6 +639,36 @@ static void gen_mffsl(DisasContext *ctx)
-     tcg_temp_free_i64(t0);
- }
- 
-+/* mffsce */
-+static void gen_mffsce(DisasContext *ctx)
-+{
-+    TCGv_i64 t0;
-+    TCGv_i32 mask;
-+
-+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-+        return gen_mffs(ctx);
-+    }
-+
-+    if (unlikely(!ctx->fpu_enabled)) {
-+        gen_exception(ctx, POWERPC_EXCP_FPU);
-+        return;
-+    }
-+
-+    t0 = tcg_temp_new_i64();
-+
-+    gen_reset_fpstatus();
-+    tcg_gen_extu_tl_i64(t0, cpu_fpscr);
-+    set_fpr(rD(ctx->opcode), t0);
-+
-+    /* Clear exception enable bits in the FPSCR.  */
-+    tcg_gen_andi_i64(t0, t0, ~FP_ENABLES);
-+    mask = tcg_const_i32(0x0003);
-+    gen_helper_store_fpscr(cpu_env, t0, mask);
-+
-+    tcg_temp_free_i32(mask);
-+    tcg_temp_free_i64(t0);
-+}
-+
- static void gen_helper_mffscrn(DisasContext *ctx, TCGv_i64 t1)
- {
-     TCGv_i64 t0 = tcg_temp_new_i64();
-diff --git a/target/ppc/translate/fp-ops.inc.c b/target/ppc/translate/fp-ops.inc.c
-index f2bcf0e..88fab65 100644
---- a/target/ppc/translate/fp-ops.inc.c
-+++ b/target/ppc/translate/fp-ops.inc.c
-@@ -105,6 +105,8 @@ GEN_HANDLER_E(fmrgew, 0x3F, 0x06, 0x1E, 0x00000001, PPC_NONE, PPC2_VSX207),
- GEN_HANDLER_E(fmrgow, 0x3F, 0x06, 0x1A, 0x00000001, PPC_NONE, PPC2_VSX207),
- GEN_HANDLER(mcrfs, 0x3F, 0x00, 0x02, 0x0063F801, PPC_FLOAT),
- GEN_HANDLER_E_2(mffs, 0x3F, 0x07, 0x12, 0x00, 0x00000000, PPC_FLOAT, PPC_NONE),
-+GEN_HANDLER_E_2(mffsce, 0x3F, 0x07, 0x12, 0x01, 0x00000000, PPC_FLOAT,
-+    PPC2_ISA300),
- GEN_HANDLER_E_2(mffsl, 0x3F, 0x07, 0x12, 0x18, 0x00000000, PPC_FLOAT,
-     PPC2_ISA300),
- GEN_HANDLER_E_2(mffscrn, 0x3F, 0x07, 0x12, 0x16, 0x00000000, PPC_FLOAT,
--- 
-1.8.3.1
-
+>
+> Regards,
+> Bin
+>
 
