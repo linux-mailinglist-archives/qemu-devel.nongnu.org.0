@@ -2,53 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76985B3F3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:49:58 +0200 (CEST)
-Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C16DB3F30
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 18:45:21 +0200 (CEST)
+Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9uCL-0007r6-I8
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36634)
+	id 1i9u7q-0002y2-Vb
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 12:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <olivier.dion@polymtl.ca>) id 1i9tMW-0007tU-Av
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:56:25 -0400
+ (envelope-from <philmd@redhat.com>) id 1i9u3M-0007NW-JD
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 12:40:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <olivier.dion@polymtl.ca>) id 1i9tMU-00046O-Rq
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:56:23 -0400
-Received: from smtp.polymtl.ca ([132.207.4.11]:49303)
+ (envelope-from <philmd@redhat.com>) id 1i9u3H-0007Ly-N1
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 12:40:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59420)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <olivier.dion@polymtl.ca>)
- id 1i9tMU-00044K-JC
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 11:56:22 -0400
-Received: from clara.localdomain (modemcable059.101-200-24.mc.videotron.ca
- [24.200.101.59]) (authenticated bits=0)
- by smtp.polymtl.ca (8.14.7/8.14.7) with ESMTP id x8GFtwgX006121
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT); 
- Mon, 16 Sep 2019 11:56:11 -0400
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.polymtl.ca x8GFtwgX006121
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=polymtl.ca;
- s=default; t=1568649372;
- bh=AT5byEvtCNJhRMNU93MOcBepM91pfAWW9NbxwvrahRQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qOaghfLL104z4K7vz7vUkxpGf25Emc7n4aUsBDicExT/kRyglq25Oi6jG5o/0LSCj
- VdqdmT+5plw8DvyaHKtrcRjdmZJ9x5pOHzUKoQLayt8VgtYK5EOve6cYj8htfZXkya
- brjZy8OYuY+MPi9dIGxlXrkEQP+6e5UgM35K/QzI=
-From: Olivier Dion <olivier.dion@polymtl.ca>
-To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 11:55:44 -0400
-Message-Id: <20190916155545.29928-1-olivier.dion@polymtl.ca>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190807135458.32440-1-dion@linutronix.de>
-References: <20190807135458.32440-1-dion@linutronix.de>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i9u3F-0007Kf-Rm
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 12:40:34 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AD985AC5FB
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 16:40:31 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id f10so6358wmh.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 09:40:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hp88/jYfopVLaRKQBQq+rATdj7uGp2fkopDhNKun2DM=;
+ b=A3d7uQPwk0di5dZ0FrdGIwVM5evjFntc+js5ifJqfxXAc8mIUkp56TM699uTps6NDA
+ QNdB76uaC/TomIiSockIK9YrdI8uah7MipSB0bBNxVtCERtD6cN9jcyQg07kh/ycWDti
+ yYLBcoBGPkaoZvouWDehyvfeQJfQFZ69N9hijsT2hhm5l0BtJs4AbbcV9FaEvChfukKB
+ UQt6z2HhJUopo8dRiQyBnk5oC0w561yOtpT28zMduVzZIhi4D43UWl8irOjXOVaBa4js
+ WSNsP1YtgZq+j0r2G1uGuJgtIelE5effDu9BNvBjILKMDeyVFCtHbPKwTYRG/ac6kGe4
+ jXIw==
+X-Gm-Message-State: APjAAAXIhevPGX6TTk+xAn5C7w2OFQ/yoTYQ1FZRUDwtUyyddvjlAWoD
+ 14Y0X0yUC0JDpO/HGExCG+5dwPEESYsS7SoBoxIi32l3oyDH4Cbb4dsuILHIGFpc4ROOH9gOJAE
+ CkaoccFHvx4+hOKo=
+X-Received: by 2002:adf:de03:: with SMTP id b3mr566120wrm.14.1568652030502;
+ Mon, 16 Sep 2019 09:40:30 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyRZKJIr/wDz87h7fgBmbSdWjJZ3VbUhvodGrITyfKLPfxDQXkabyYSB4jJIgwdLQf1E51ebw==
+X-Received: by 2002:adf:de03:: with SMTP id b3mr566105wrm.14.1568652030354;
+ Mon, 16 Sep 2019 09:40:30 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id t8sm16165419wrx.76.2019.09.16.09.40.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Sep 2019 09:40:29 -0700 (PDT)
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20190916095121.29506-1-philmd@redhat.com>
+ <20190916095121.29506-2-philmd@redhat.com>
+ <097f47ce-60a6-109f-e210-0844efed6a32@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d86629a7-510c-5a33-36f3-f33284e1ba5e@redhat.com>
+Date: Mon, 16 Sep 2019 18:40:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Poly-FromMTA: (modemcable059.101-200-24.mc.videotron.ca [24.200.101.59]) at
- Mon, 16 Sep 2019 15:55:58 +0000
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 132.207.4.11
-Subject: [Qemu-devel] [PATCH v2 0/1] Handle /proc/self/exe in execve
+In-Reply-To: <097f47ce-60a6-109f-e210-0844efed6a32@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] trace: Remove trailing newline in
+ events
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,105 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Olivier Dion <olivier.dion@polymtl.ca>, john.ogness@linutronix.de
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Changes from v1
+On 9/16/19 6:36 PM, Eric Blake wrote:
+> On 9/16/19 4:51 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> While the tracing frawework does not forbid trailing newline in
+>=20
+> framework
+>=20
+>> events format string, using them lead to confuse output.
+>> It is the responsibility of the backend to properly end an event
+>> line.
+>=20
+> Why just trailing newline? Should we not forbid ALL use of newline in a
+> trace message?
 
-  - Introduce the patch as a bug fix, rather than a security fix
-  - Use do_openat and safe_execveat instead of copying exec_path
-  - Extensive test case example
-  
-* Test case
+I thought about it and forgot to add a comment when respining.
+Yes, I think this is the right thing to enforce.
+However it requires more cleanup, affecting more subsystems, so I'd
+rather keep it for a follow-up series.
 
-  I will present a short program that demonstrated the bug, i.e. what
-  is the expected behavior and what really happens.  Then, I will
-  explain how this patch fixes this bug.
-
-** The program
-
-   -------------------------------------------------------------------
-   #include <errno.h>
-   #include <string.h>
-   #include <unistd.h>
-
-
-   static char *ARG0 = "STOP";
-   static char *ARG1 = "-this-is-not-an-option";
-
-
-   int main(int argc, char *argv[], char *envp[])
-   {
-           (void)argc;
-           if (0 == strcmp(argv[0], ARG0))
-                   return 0;
-           argv[0] = ARG0;
-           argv[1] = ARG1;
-           execve("/proc/self/exe", 
-                  (char **const)argv,
-                  (char **const)envp);
-           return errno;
-   }
-   -------------------------------------------------------------------
-
-   Note that in every cases, this program should be run with at least
-   one argument, so that argv[1] points to something.
-
-*** Expected behavior
-
-   This program when run normally, i.e. without an emulator or with
-   this patch applied, will run two times.  The first time, it will
-   change its argv[0] and argv[1] and recursively call itself.  The
-   second time, it will stop at the string comparaison between argv[0]
-   and the sentinel ARG0, returning 0.  Thus, we expect the program to
-   finish with error code 0 and nothing is printed to stdout&stderr.
-
-*** What really happens
-
-   When emulated by qemu-user, this program will fail to call itself
-   recursively and will instead call qemu-user.  This is where ARG1
-   becomes useful.  It's indeed set to an option that is not supported
-   by qemu-user, and thus we expected two things
-
-       1) A message will be printed to stdout&|stderr
-       2) A error code different from 0 will be returned
-
-   For example, I get the following output with error code 1
-   -------------------------------------------------------------------
-   qemu: unknown option 'this-is-not-an-option'
-   -------------------------------------------------------------------
-
-*** Automated testing
-
-    The following is a quick bash script that demonstrates how to use
-    this test case.  I suppose here that qemu-user is the correct
-    emulator for the arch of the compiled program a.out.
-    ------------------------------------------------------------------
-    #!/bin/bash
-    out=$(qemu-user ./a.out foo)
-    ret=0
-    if [[ $out != "" || $? != 0 ]]; then
-        ret=1
-    fi
-    exit $ret
-    ------------------------------------------------------------------
-
-* Fixing the bug
-
-   This patch introduces the use of safe_execveat instead of
-   safe_execve for the emulation of execve.  By using the do_openat
-   function, we ensure that the executable file descriptor is really
-   the one the user wants.
-
-
-Olivier Dion (1):
-  Handle /proc/self/exe in syscall execve
-
- linux-user/syscall.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
--- 
-2.23.0
-
+>>
+>> Some of our formats have trailing newlines, remove them.
+>>
+>> Reviewed-by: John Snow <jsnow@redhat.com>
+>> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
 
