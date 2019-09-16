@@ -2,77 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD405B3B8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 15:40:57 +0200 (CEST)
-Received: from localhost ([::1]:34277 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBFFB3C25
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 16:05:46 +0200 (CEST)
+Received: from localhost ([::1]:34562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9rFQ-0007Jy-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 09:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43429)
+	id 1i9rdQ-00088H-Oj
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 10:05:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i9rE8-0006Hy-WB
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:39:38 -0400
+ (envelope-from <david@redhat.com>) id 1i9rWU-0002iB-Oc
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:58:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i9rE7-00008P-NY
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:39:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32802)
+ (envelope-from <david@redhat.com>) id 1i9rWS-0008Vm-1Q
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 09:58:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35628)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i9rE3-00006m-NQ; Mon, 16 Sep 2019 09:39:31 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1i9rWR-0008Sr-Or; Mon, 16 Sep 2019 09:58:31 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4A1A380F98;
- Mon, 16 Sep 2019 13:39:30 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B0655C21A;
- Mon, 16 Sep 2019 13:39:24 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190915203655.21638-1-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d2c07712-c292-1341-3dfb-2529e71e3744@redhat.com>
-Date: Mon, 16 Sep 2019 15:39:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 4E1A91107;
+ Mon, 16 Sep 2019 13:58:30 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-117-103.ams2.redhat.com [10.36.117.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 280E01001B13;
+ Mon, 16 Sep 2019 13:58:06 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 15:57:37 +0200
+Message-Id: <20190916135806.1269-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190915203655.21638-1-mlevitsk@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="RRsj0DtiZ7KYjnjA6wIbIjXK6oqqTLH5N"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 16 Sep 2019 13:39:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Mon, 16 Sep 2019 13:58:30 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v7 0/3] Fix qcow2+luks corruption
- introduced by commit 8ac0f15f335
+Subject: [Qemu-devel] [PATCH v3 00/29] s390x/tcg: mem_helper: Fault-safe
+ handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,92 +54,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
+ Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
+ Cole Robinson <crobinso@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---RRsj0DtiZ7KYjnjA6wIbIjXK6oqqTLH5N
-Content-Type: multipart/mixed; boundary="lcy1wLXSyEgd72n67nYOUhbQiZmDL8a8I";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-stable <qemu-stable@nongnu.org>
-Message-ID: <d2c07712-c292-1341-3dfb-2529e71e3744@redhat.com>
-Subject: Re: [PATCH v7 0/3] Fix qcow2+luks corruption introduced by commit
- 8ac0f15f335
-References: <20190915203655.21638-1-mlevitsk@redhat.com>
-In-Reply-To: <20190915203655.21638-1-mlevitsk@redhat.com>
+This series fixes a bunch of issues related to some mem helpers and makes
+sure that they are fault-safe, meaning no system state is modified in cas=
+e
+a fault is triggered.
 
---lcy1wLXSyEgd72n67nYOUhbQiZmDL8a8I
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I can spot tons of other issues with other mem helpers that will have
+to be fixed later. Also, fault-safe handling for some instructions
+(especially TR) might be harder to implement (you don't know what will
+actually be accessed upfront - we might need a buffer and go over
+inputs twice). Focusing on the MOVE instructions for now.
 
-On 15.09.19 22:36, Maxim Levitsky wrote:
-> Commit 8ac0f15f335 accidently broke the COW of non changed areas
-> of newly allocated clusters, when the write spans multiple clusters,
-> and needs COW both prior and after the write.
-> This results in 'after' COW area being encrypted with wrong
-> sector address, which render it corrupted.
->=20
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1745922
->=20
-> CC: qemu-stable <qemu-stable@nongnu.org>
->=20
-> V2: grammar, spelling and code style fixes.
-> V3: more fixes after the review.
-> V4: addressed review comments from Max Reitz,
->     and futher refactored the qcow2_co_encrypt to just take full host a=
-nd guest offset
->     which simplifies everything.
->=20
-> V5: reworked the patches so one of them fixes the bug
->     only and other one is just refactoring
->=20
-> V6: removed do_perform_cow_encrypt
->=20
-> V7: removed do_perform_cow_encrypt take two, this
->     time I hopefully did that correctly :-)
->     Also updated commit names and messages a bit
+----
 
-Luckily for you (maybe), Vladimir=E2=80=99s series doesn=E2=80=98t quite =
-pass the
-iotests for me, so unfortunately (I find it unfortunate) I had to remove
-it from my branch.  Thus, the conflicts are much more tame and I felt
-comfortable taking the series to my branch (with the remaining trivial
-conflicts resolved, and with Vladimir=E2=80=99s suggestion applied):
+Newer versions of glibc use memcpy() in memmove() for forward moves. The
+implementation makese use of MVC. The TCG implementation of MVC is
+currently not able to handle faults reliably when crossing pages. MVC
+can cross with 256 bytes at most two pages.
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+In case we get a fault on the second page, we already moved data. When
+continuing after the fault we might try to move already overwritten data,
+which is very bad in case we have overlapping data on a forward move.
 
-Max
+Triggered for now only by rpmbuild (crashes when checking the spec file)
+and rpm (database corruptions). This fixes installing Fedora rawhide (31)
+under TCG.
 
+This was horrible to debug as it barely triggers and we fail at completel=
+y
+different places.
 
---lcy1wLXSyEgd72n67nYOUhbQiZmDL8a8I--
+Cc: Stefano Brivio <sbrivio@redhat.com>
+Cc: Florian Weimer <fweimer@redhat.com>
+Cc: Dan Hor=C3=A1k <dan@danny.cz>
+Cc: Cole Robinson <crobinso@redhat.com>
 
---RRsj0DtiZ7KYjnjA6wIbIjXK6oqqTLH5N
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+v2 -> v3:
+- "s390x/tcg: MVCL: Zero out unused bits of address"
+-- Do single deposit for 24/31-bit
+- "s390x/tcg: MVCL: Process max 4k bytes at a time"
+-- Use max of 4k instead of 2k, limiting to single pages
+- "s390x/tcg: MVCLU/MVCLE: Process max 4k bytes at a time"
+-- Limit to single pages
+- "s390x/tcg: MVCOS: Lengths are 32 bit in 24/31-bit mode"
+-- Added
+- "s390x/tcg: MVCS/MVCP: Properly wrap the length"
+-- Properly use 32 instead of 31 bit.
+- "s390x/tcg: MVST: Fix storing back the addresses to registers"
+-- Read R0 implicitly
+- "s390x/tcg: Fault-safe memset"
+-- Speed up TLB_NOTDIRTY handling
+-- Move single-page access to helper function
+-- Pass access structure to access_memset()
+-- Replace access_prepare() by previous access_prepare_idx()
+- "s390x/tcg: Fault-safe memmove"
+-- Pass access structure to access_memmove()
+-- Speed up TLB_NOTDIRTY handling when accessing single bytes
+- The other fault-safe handling patches were adapted to work with the
+  changed access functions. mmu_idx is now always passed to
+  access_prepare() from the helpers.
 
------BEGIN PGP SIGNATURE-----
+v1 -> v2:
+- Include many fixes
+- Fix more instructions
+- Use the new probe_access() function
+- Include "tests/tcg: target/s390x: Test MVO"
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1/kIoACgkQ9AfbAGHV
-z0D/7AgArVTIxe3WdhHK93paWVVh6ANQ/eikRVuEz43u0Y+GYV7lncFbxzSTnlsW
-woFKmjD0OHeWtG+O/kCd93oK+0zD0uv5eSe9c1imbZrNIx2jv7vDeZ8kXs3VGb1d
-KqK/hF4sPlxmOjJ5TrbqgmrHGLhdv1C5f+vuTlHfSNM7PjxPHd607TkBQtktDDgY
-W4RFd7V5TTVWnpS7phSvWJbyqnsiiAAo9JGlUSfoel6et6FJuC83z5j3St4GMZX5
-jY8Fhl7bOqZ8Pqq0HZlANj9FAZv0/wFVuQijMfl9tNj33CiVbec3O4s0EtM+I+db
-PhdjRHlIijQkS1wyDEteL/4eMMAeww==
-=vu/M
------END PGP SIGNATURE-----
+David Hildenbrand (29):
+  s390x/tcg: Reset exception_index to -1 instead of 0
+  s390x/tcg: MVCL: Zero out unused bits of address
+  s390x/tcg: MVCL: Detect destructive overlaps
+  s390x/tcg: MVCL: Process max 4k bytes at a time
+  s390x/tcg: MVC: Increment the length once
+  s390x/tcg: MVC: Use is_destructive_overlap()
+  s390x/tcg: MVPG: Check for specification exceptions
+  s390x/tcg: MVPG: Properly wrap the addresses
+  s390x/tcg: MVCLU/MVCLE: Process max 4k bytes at a time
+  s390x/tcg: MVCS/MVCP: Check for special operation exceptions
+  s390x/tcg: MVCOS: Lengths are 32 bit in 24/31-bit mode
+  s390x/tcg: MVCS/MVCP: Properly wrap the length
+  s390x/tcg: MVST: Check for specification exceptions
+  s390x/tcg: MVST: Fix storing back the addresses to registers
+  s390x/tcg: Always use MMU_USER_IDX for CONFIG_USER_ONLY
+  s390x/tcg: Fault-safe memset
+  s390x/tcg: Fault-safe memmove
+  s390x/tcg: MVCS/MVCP: Use access_memmove()
+  s390x/tcg: MVC: Fault-safe handling on destructive overlaps
+  s390x/tcg: MVCLU: Fault-safe handling
+  s390x/tcg: OC: Fault-safe handling
+  s390x/tcg: XC: Fault-safe handling
+  s390x/tcg: NC: Fault-safe handling
+  s390x/tcg: MVCIN: Fault-safe handling
+  s390x/tcg: MVN: Fault-safe handling
+  s390x/tcg: MVZ: Fault-safe handling
+  s390x/tcg: MVST: Fault-safe handling
+  s390x/tcg: MVO: Fault-safe handling
+  tests/tcg: target/s390x: Test MVO
 
---RRsj0DtiZ7KYjnjA6wIbIjXK6oqqTLH5N--
+ target/s390x/cpu.h              |   4 +
+ target/s390x/helper.h           |   2 +-
+ target/s390x/insn-data.def      |   2 +-
+ target/s390x/mem_helper.c       | 743 ++++++++++++++++++++++----------
+ target/s390x/translate.c        |  12 +-
+ tests/tcg/s390x/Makefile.target |   1 +
+ tests/tcg/s390x/mvo.c           |  25 ++
+ 7 files changed, 564 insertions(+), 225 deletions(-)
+ create mode 100644 tests/tcg/s390x/mvo.c
+
+--=20
+2.21.0
+
 
