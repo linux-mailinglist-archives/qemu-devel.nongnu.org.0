@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A371CB3DD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:42:10 +0200 (CEST)
-Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771BEB3E14
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Sep 2019 17:48:52 +0200 (CEST)
+Received: from localhost ([::1]:36106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9t8j-0007Gj-2d
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53716)
+	id 1i9tFC-0005Io-Eu
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 11:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCy-0006WW-BG
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:29 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sD0-0006ZJ-GB
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCw-0007UR-9E
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:28 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54516)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i9sCy-0007VQ-NN
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38090)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i9sCv-0007Tv-PW
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:26 -0400
-Received: by mail-wm1-x334.google.com with SMTP id p7so59942wmp.4
- for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:25 -0700 (PDT)
+ id 1i9sCy-0007V1-8p
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 10:42:28 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l11so39145167wrx.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Sep 2019 07:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=ChAXva6YSSYbjM1DBwPiQI1g6eo1sIJEFyhcEiZi7kE=;
- b=JSy7hejGmesu5b62BHq9K64RllLLtWLzWreXf5jpLzogsugar3wBaolRqbTFhsTrmL
- sR0XB3dZ2Vx/JPPZt48jE/wF7j2tqp0r3gC7FOV+7esKzgpVE6ShnCtM2aoqyzZ0rNe0
- qLgDdQMXMFNBUhUyedMV/tBNJ2HYsROY7QUGKarkQnv1rOpGFZfFe3FXT7YYyk9hhzWD
- SSNYxm6K8gd5kENx/4c3goyO4qoeDqX09iI9sv7BMfuiWHmnq8ytNJkfEnBDGV0TQSCv
- vrpEyFTRxkR5aICuPdshqwHVq15SID5dkitCcAv74WUXEoo5OzHYywXgp+0sQn/ADa/Z
- z2Fw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=cYGflcnLYW7UqqaIj7H9EUpz5deH3v/RJ+Xg1QiY1Lo=;
+ b=arT9LUaGEBE0a/oPLB1rrIChwmhT1k9ov5UTXsM7GHYpKNdjEOcCWMyioyQl4cpjm1
+ cI452Abyjrws+FOvvdbuba/w2ZlHk/JtUaV3ptU44pus2FtvIaoSv7KyTbXTSJi3mr+a
+ dPXCH7YWoPw8tRwjV37pOmqXkkwRYjvFtMD/6Rq2nmmN69mTM9sleMXK03+R+1mcFABe
+ f3POTnpbEBa8QJtXrfMKGOvPpqs5ggCKP9OdYStgVVoNbkXewlI64299+bOL8M1wG9nr
+ LUg4XNBVbs5KjVaPXyCFUPjGt+UfjLH715Zc3iD9dLCbLVIUfVpacRqgKdxlB8z04nvC
+ Xj9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=ChAXva6YSSYbjM1DBwPiQI1g6eo1sIJEFyhcEiZi7kE=;
- b=P5eSeVHhyWKXzaaOaVyYnKZlvbv4EwZkVYjUCLjjUmFDaIJvtmP7/cBQZV6gfwNYDr
- lqjs0AHiF2xwLZZHKhHH8zUBKk4UpakAEZ1EL/buvZAgO+EueBVWM3+8Q3ckhlzjKwPs
- jZTuUPRfaBT4S2cPVhV2GIIh4joNBAUO2R8Hw6OWxxl6UfMAyLtXCBvLFnZvoPkc05Qj
- aLfQ5fuJzdPGIGs0cOXNUk858xlkqRLNh4Vf/ZbEgep36hon5SB1xixaIaYrWWcFJ/y+
- EU1lOhleMmaaXI+uN7YKOdUvfqgUMXkCxzLg0zA5ohfwqry2YEUheItMbmZwW8Qc7sOL
- RjZg==
-X-Gm-Message-State: APjAAAWbVT4/6uSXoqPtVphEQ3jMETojuVzu9uRmgeU8UZmZ4DAYrFXY
- IRiL7s14NhPucf0o4vLQbRcHEVsU
-X-Google-Smtp-Source: APXvYqxoI7Vn5CaNqenA49GBI/8bxScFVAXq7yKbTKt5lKmrbfX3vdbu9n2zVaQv1EOWCp/VYJEbTg==
-X-Received: by 2002:a1c:f30b:: with SMTP id q11mr37454wmq.57.1568644944347;
- Mon, 16 Sep 2019 07:42:24 -0700 (PDT)
+ bh=cYGflcnLYW7UqqaIj7H9EUpz5deH3v/RJ+Xg1QiY1Lo=;
+ b=Ga2qbS+3RjaPuAVEUPyINag1fyqFXDsrsCRZTYy5oslmrhKwtXzfQwI95R26HvSKWA
+ HFqEgWzA/4lBNak1AdyxblmeKvL7X4Jf0DAARE21/vNqzruH5HXigpt5VpwkKMBHnFWz
+ I8GrqyDvp3Q9tKj37Jsgig1LZLegtQ+KocHOf8AP0qxyhvlaMSguOZiQaQTm5bP5NsZC
+ Q5I50k3g+mteDZCaLTuj0q/iLbptcd0T17Bqv/v6shXv8ZHVICtJypupZlpkNRW/F26a
+ V/C4EiUpqvlAzVZRdAq0oRt/Ppvn9BmwUNQGxoF5S8mdoKYFak8vA8HPhW70mFvmIY63
+ lFoQ==
+X-Gm-Message-State: APjAAAUbKUxyFrfI2kd4jXhuxk1l90kAg6HwZ37OWo5ZKtcN7P9sa9Hj
+ hh6NzJCX2wFAceRgM2+VsF8+JpmG
+X-Google-Smtp-Source: APXvYqwSiIjFdXfCQUwB5bWGHgvEECnLPIv6U22bV8ptt5N5yVIcnVNXVXcqArp/CON1CNGIayevUA==
+X-Received: by 2002:a5d:46cb:: with SMTP id g11mr111270wrs.268.1568644946700; 
+ Mon, 16 Sep 2019 07:42:26 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.23
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id i14sm17024298wra.78.2019.09.16.07.42.25
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Sep 2019 07:42:23 -0700 (PDT)
+ Mon, 16 Sep 2019 07:42:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 16 Sep 2019 16:41:52 +0200
-Message-Id: <1568644929-9124-13-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Sep 2019 16:41:54 +0200
+Message-Id: <1568644929-9124-15-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 References: <1568644929-9124-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 12/29] memory: inline and optimize devend_memop
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 14/29] cpus: Fix throttling during vm_stop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,85 +74,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yury Kotov <yury-kotov@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-devend_memop can rely on the fact that the result is always either
-0 or MO_BSWAP, corresponding respectively to host endianness and
-the opposite.  Native (target) endianness in turn can be either
-the host endianness, in which case MO_BSWAP is only returned for
-host-opposite endianness, or the opposite, in which case 0 is only
-returned for host endianness.
+From: Yury Kotov <yury-kotov@yandex-team.ru>
 
-With this in mind, devend_memop can be compiled as a setcond+shift
-for every target.  Do this and, while at it, move it to
-include/exec/memory.h since !NEED_CPU_H files do not (and should not)
-need it.
+Throttling thread sleeps in VCPU thread. For high throttle percentage
+this sleep is more than 10ms. E.g. for 60% - 15ms, for 99% - 990ms.
+vm_stop() kicks all VCPUs and waits for them. It's called at the end of
+migration and because of the long sleep the migration downtime might be
+more than 100ms even for downtime-limit 1ms.
+Use qemu_cond_timedwait for high percentage to wake up during vm_stop.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20190909131335.16848-3-yury-kotov@yandex-team.ru>
 ---
- include/exec/memory.h | 19 ++++++++++++++++++-
- memory.c              | 18 ------------------
- 2 files changed, 18 insertions(+), 19 deletions(-)
+ cpus.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 2dd8102..a30245c 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2201,8 +2201,25 @@ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
-     }
- }
+diff --git a/cpus.c b/cpus.c
+index 85cd451..d2c61ff 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -77,6 +77,8 @@
  
-+#ifdef NEED_CPU_H
- /* enum device_endian to MemOp.  */
--MemOp devend_memop(enum device_endian end);
-+static inline MemOp devend_memop(enum device_endian end)
-+{
-+    QEMU_BUILD_BUG_ON(DEVICE_HOST_ENDIAN != DEVICE_LITTLE_ENDIAN &&
-+                      DEVICE_HOST_ENDIAN != DEVICE_BIG_ENDIAN);
+ #endif /* CONFIG_LINUX */
+ 
++static QemuMutex qemu_global_mutex;
 +
-+#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-+    /* Swap if non-host endianness or native (target) endianness */
-+    return (end == DEVICE_HOST_ENDIAN) ? 0 : MO_BSWAP;
-+#else
-+    const int non_host_endianness =
-+        DEVICE_LITTLE_ENDIAN ^ DEVICE_BIG_ENDIAN ^ DEVICE_HOST_ENDIAN;
-+
-+    /* In this case, native (target) endianness needs no swap.  */
-+    return (end == non_host_endianness) ? MO_BSWAP : 0;
-+#endif
-+}
-+#endif
+ int64_t max_delay;
+ int64_t max_advance;
  
- #endif
+@@ -782,7 +784,7 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
+ {
+     double pct;
+     double throttle_ratio;
+-    long sleeptime_ns;
++    int64_t sleeptime_ns, endtime_ns;
  
-diff --git a/memory.c b/memory.c
-index 61a254c..b9dd6b9 100644
---- a/memory.c
-+++ b/memory.c
-@@ -3267,21 +3267,3 @@ static void memory_register_types(void)
- }
+     if (!cpu_throttle_get_percentage()) {
+         return;
+@@ -790,11 +792,20 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
  
- type_init(memory_register_types)
+     pct = (double)cpu_throttle_get_percentage()/100;
+     throttle_ratio = pct / (1 - pct);
+-    sleeptime_ns = (long)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS);
 -
--MemOp devend_memop(enum device_endian end)
--{
--    static MemOp conv[] = {
--        [DEVICE_LITTLE_ENDIAN] = MO_LE,
--        [DEVICE_BIG_ENDIAN] = MO_BE,
--        [DEVICE_NATIVE_ENDIAN] = MO_TE,
--        [DEVICE_HOST_ENDIAN] = 0,
--    };
--    switch (end) {
--    case DEVICE_LITTLE_ENDIAN:
--    case DEVICE_BIG_ENDIAN:
--    case DEVICE_NATIVE_ENDIAN:
--        return conv[end];
--    default:
--        g_assert_not_reached();
--    }
--}
+-    qemu_mutex_unlock_iothread();
+-    g_usleep(sleeptime_ns / 1000); /* Convert ns to us for usleep call */
+-    qemu_mutex_lock_iothread();
++    /* Add 1ns to fix double's rounding error (like 0.9999999...) */
++    sleeptime_ns = (int64_t)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS + 1);
++    endtime_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + sleeptime_ns;
++    while (sleeptime_ns > 0 && !cpu->stop) {
++        if (sleeptime_ns > SCALE_MS) {
++            qemu_cond_timedwait(cpu->halt_cond, &qemu_global_mutex,
++                                sleeptime_ns / SCALE_MS);
++        } else {
++            qemu_mutex_unlock_iothread();
++            g_usleep(sleeptime_ns / SCALE_US);
++            qemu_mutex_lock_iothread();
++        }
++        sleeptime_ns = endtime_ns - qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
++    }
+     atomic_set(&cpu->throttle_thread_scheduled, 0);
+ }
+ 
+@@ -1172,8 +1183,6 @@ static void qemu_init_sigbus(void)
+ }
+ #endif /* !CONFIG_LINUX */
+ 
+-static QemuMutex qemu_global_mutex;
+-
+ static QemuThread io_thread;
+ 
+ /* cpu creation */
 -- 
 1.8.3.1
 
