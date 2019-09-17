@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A6FB4CAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 13:17:10 +0200 (CEST)
-Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30C8B4CBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 13:22:45 +0200 (CEST)
+Received: from localhost ([::1]:44468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iABTp-0002ZI-2t
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 07:17:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53743)
+	id 1iABZE-0006gz-No
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 07:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iABRa-0001Zs-OV
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:14:51 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iABY3-000679-Et
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:21:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iABRZ-000635-If
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:14:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37546)
+ (envelope-from <cohuck@redhat.com>) id 1iABY2-00030B-C1
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:21:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38818)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iABRZ-00062Q-Da
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:14:49 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1iABXx-0002xK-Ql; Tue, 17 Sep 2019 07:21:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3DDFFC0568FD;
- Tue, 17 Sep 2019 11:14:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
- [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 656595C1D8;
- Tue, 17 Sep 2019 11:14:42 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8DD5117538; Tue, 17 Sep 2019 13:14:41 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 17 Sep 2019 13:14:41 +0200
-Message-Id: <20190917111441.27405-3-kraxel@redhat.com>
-In-Reply-To: <20190917111441.27405-1-kraxel@redhat.com>
-References: <20190917111441.27405-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ by mx1.redhat.com (Postfix) with ESMTPS id 5E0DE307D90E;
+ Tue, 17 Sep 2019 11:21:24 +0000 (UTC)
+Received: from gondolin (dhcp-192-230.str.redhat.com [10.33.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A86F919C4F;
+ Tue, 17 Sep 2019 11:21:04 +0000 (UTC)
+Date: Tue, 17 Sep 2019 13:21:02 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190917132102.4031e77e.cohuck@redhat.com>
+In-Reply-To: <156871563702.196432.5964411202152101367.stgit@bahia.lan>
+References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
+ <156871563702.196432.5964411202152101367.stgit@bahia.lan>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 17 Sep 2019 11:14:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Tue, 17 Sep 2019 11:21:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 2/2] ati: use vga_read_byte in
- ati_cursor_define
+Subject: Re: [Qemu-devel] [PATCH 01/17] error: Update error_append_hint()'s
+ documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,86 +58,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- flier_m@outlook.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yuval Shaia <yuval.shaia@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, "Daniel P.
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, qemu-s390x@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes sure reads are confined to vga video memory.
+On Tue, 17 Sep 2019 12:20:37 +0200
+Greg Kurz <groug@kaod.org> wrote:
 
-v3: use uint32_t, fix cut+paste bug.
-v2: fix ati_cursor_draw_line too.
+> error_setg() and error_propagate(), as well as their variants, cause
+> QEMU to terminate when called with &error_fatal or &error_abort. This
+> prevents to add hints since error_append_hint() isn't even called in
+> this case.
+> 
+> It means that error_append_hint() should only be used with a local
+> error object, and then propagate this local error to the caller.
+> 
+> Document this in <qapi/error.h> .
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  include/qapi/error.h |   11 ++++++++++-
 
-Reported-by: xu hang <flier_m@outlook.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/ati.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+It's a bit awkward requiring a local object, but better safe than sorry.
 
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 8f940eee221a..db3b2543163f 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -19,6 +19,7 @@
- #include "qemu/osdep.h"
- #include "ati_int.h"
- #include "ati_regs.h"
-+#include "vga-access.h"
- #include "hw/qdev-properties.h"
- #include "vga_regs.h"
- #include "qemu/log.h"
-@@ -135,19 +136,19 @@ static void ati_vga_switch_mode(ATIVGAState *s)
- static void ati_cursor_define(ATIVGAState *s)
- {
-     uint8_t data[1024];
--    uint8_t *src;
-+    uint32_t srcoff;
-     int i, j, idx = 0;
- 
-     if ((s->regs.cur_offset & BIT(31)) || s->cursor_guest_mode) {
-         return; /* Do not update cursor if locked or rendered by guest */
-     }
-     /* FIXME handle cur_hv_offs correctly */
--    src = s->vga.vram_ptr + s->regs.cur_offset -
--          (s->regs.cur_hv_offs >> 16) - (s->regs.cur_hv_offs & 0xffff) * 16;
-+    srcoff = s->regs.cur_offset -
-+        (s->regs.cur_hv_offs >> 16) - (s->regs.cur_hv_offs & 0xffff) * 16;
-     for (i = 0; i < 64; i++) {
-         for (j = 0; j < 8; j++, idx++) {
--            data[idx] = src[i * 16 + j];
--            data[512 + idx] = src[i * 16 + j + 8];
-+            data[idx] = vga_read_byte(&s->vga, srcoff + i * 16 + j);
-+            data[512 + idx] = vga_read_byte(&s->vga, srcoff + i * 16 + j + 8);
-         }
-     }
-     if (!s->cursor) {
-@@ -189,7 +190,7 @@ static void ati_cursor_invalidate(VGACommonState *vga)
- static void ati_cursor_draw_line(VGACommonState *vga, uint8_t *d, int scr_y)
- {
-     ATIVGAState *s = container_of(vga, ATIVGAState, vga);
--    uint8_t *src;
-+    uint32_t srcoff;
-     uint32_t *dp = (uint32_t *)d;
-     int i, j, h;
- 
-@@ -199,13 +200,13 @@ static void ati_cursor_draw_line(VGACommonState *vga, uint8_t *d, int scr_y)
-         return;
-     }
-     /* FIXME handle cur_hv_offs correctly */
--    src = s->vga.vram_ptr + s->cursor_offset + (scr_y - vga->hw_cursor_y) * 16;
-+    srcoff = s->cursor_offset + (scr_y - vga->hw_cursor_y) * 16;
-     dp = &dp[vga->hw_cursor_x];
-     h = ((s->regs.crtc_h_total_disp >> 16) + 1) * 8;
-     for (i = 0; i < 8; i++) {
-         uint32_t color;
--        uint8_t abits = src[i];
--        uint8_t xbits = src[i + 8];
-+        uint8_t abits = vga_read_byte(vga, srcoff + i);
-+        uint8_t xbits = vga_read_byte(vga, srcoff + i + 8);
-         for (j = 0; j < 8; j++, abits <<= 1, xbits <<= 1) {
-             if (abits & BIT(7)) {
-                 if (xbits & BIT(7)) {
--- 
-2.18.1
-
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
