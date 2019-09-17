@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FE5B4C3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:50:01 +0200 (CEST)
-Received: from localhost ([::1]:43940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8803BB4C24
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:44:07 +0200 (CEST)
+Received: from localhost ([::1]:43892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAB3Y-000657-KA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:50:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46510)
+	id 1iAAxq-00018f-DW
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46819)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iAAo5-0001FF-7v
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:02 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAAop-0001mh-8n
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iAAo4-0004Xo-4M
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41970)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAAo3-0004XB-SW
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:33:59 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EB8A785538
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 10:33:58 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id n6so1135411wrm.20
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 03:33:58 -0700 (PDT)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAAon-0004xH-A7
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:47 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38459)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iAAon-0004wg-12
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:45 -0400
+Received: by mail-wr1-x444.google.com with SMTP id l11so2570889wrx.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 03:34:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=s6juWaeJdvbdYfQYOPZtIdvf+1dOdIoXW07/VCUIeko=;
+ b=B+yj1SmtCGI/clemc6E3xUgJ5QKLA3T5NhFvCpWor2+JCztY+5LAP5uZUQg+0+52qh
+ kfqRmcgzJDi3xXZ6bu1q/tkRJojc6D/x99w+g12QGrCPtAg2Egcn1iTT9+Ft8sEEYkbU
+ l7XZvctacAMoxU2939hWxdeYCq0mwFQJ9J0xh1yZoJsx3vGyuY3dfz8DxvJO/rn3r0sO
+ oSWS3YKL+Tigf7JYQNv0+KN6+BbWQ6BthttY+vi9Q5GRJLuiiV/DKjU0zjJhIqcO/+nc
+ gWinqpwX88VPuhoJg3WEMp5LTaBR/61Hg8+3M+wHaW4EYImwTNg8BGT2oGltuL8HD+0f
+ 2G9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h3d2eFSTiaXOJqpx4576Tbxu4r4n99cBosvK9J+DeU4=;
- b=lxS2CQjsrze8MMWrGNI4Tw9Us9u9G5vhi8UITMsaNQCEGZMIUeqgHs3eWZQLVdm3jA
- Pi/mhp0dmBpgdVWTqEXO6HWdQRo0JjWZYN1Oatwm6MZ4l9SziYf/VkBeJ20ZXbhZw6Qy
- E7ZQ6TBzMaTOgVYk+JS2LxMM3NIwnHUTMUtob+UV/YRw2QYageO3zfuB5xSQjNi0Gz3l
- QzKmeg61myaIzlFFocT7Heaqddu5DE0S8kIu9ptdENd+jEOtlP0aZVXa+u3TEDdzKNak
- 0URWtqlivbvftOJROzb7H6UCcprrdmN5U7P0pQEXH7UImykSHPrpPjkwdHv612JxZQfd
- iJuA==
-X-Gm-Message-State: APjAAAXELmumc/QD3RCP6cpom2gvefoCMW6VpR+60LzYfAiQfpaTOpC+
- MwzWwVh/eZXll3bNTcYFE+xmoT54K7Z1u2XOaVyUbDFPJd2hs20edh4nuscyuJX8msZG4lOtwM1
- Qa1jbunjvJ3bBXgo=
-X-Received: by 2002:a1c:a851:: with SMTP id r78mr2842225wme.166.1568716437764; 
- Tue, 17 Sep 2019 03:33:57 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwW0eZK1V6D3u3hLCZgYVJXU/+v6xNIOgkaJ8Zkmy4m1jRIaGA+VR77yVOjmAgc0WKdSrFrKQ==
-X-Received: by 2002:a1c:a851:: with SMTP id r78mr2842217wme.166.1568716437612; 
- Tue, 17 Sep 2019 03:33:57 -0700 (PDT)
-Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id v6sm4160993wma.24.2019.09.17.03.33.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Sep 2019 03:33:57 -0700 (PDT)
-To: =?UTF-8?Q?Niccol=c3=b2_Belli?= <darkbasic@linuxsystems.it>,
- qemu-devel@nongnu.org, "open list:sPAPR" <qemu-ppc@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>
-References: <83f649c6482bf363c38e7f3778d866f4@linuxsystems.it>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <9d1ea4ff-a0df-f7c6-54ca-c03b010c5ff1@redhat.com>
-Date: Tue, 17 Sep 2019 12:33:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <83f649c6482bf363c38e7f3778d866f4@linuxsystems.it>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] ELF load command alignment not page-aligned
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=s6juWaeJdvbdYfQYOPZtIdvf+1dOdIoXW07/VCUIeko=;
+ b=nb5Bm2lYYasWZWTfN505VvIRVXpdlYz5SZRH5XwoeZonJQZp7kuMbnCovi8FEbJZci
+ ep7zgy4oPmPApz/ygRjQVWK+xrzro8qk9mBbCLl40jMU6/bluYPMnrqJC4eE00k8NXYb
+ TcSYY7nRHQjyvFVtFS1cAKJtqDmJiyiBudykDF+1QIYaEU8M/Q/t0LALZS57/2VXAysb
+ VG0rUlO1CNGmj6HYBhG8zvqebEm1FPOCQhVsT02ruPYsEZI+W3a+AV5JZz8bx+KR3EXT
+ gWfjUfPcK2GgldwQCZ4Rf6RJid7j/bjTgLxSDQLbcvvEKFLysAzQbyRuFL/8AuwMDIuE
+ B83w==
+X-Gm-Message-State: APjAAAWb+ZbjEoxaIEQXAQJeoGFY8+EmuQklTQkmi5es8oHO5kt4L+qE
+ oajJeiv+lSxrUpLmDEGkssktoVh5
+X-Google-Smtp-Source: APXvYqw33fJqo93vWETnpnRY06pOLwDoSG7YDqAN5ll6QpFut9UPeXZLombmHVo86GiJUNNyHhg6rQ==
+X-Received: by 2002:adf:ead2:: with SMTP id o18mr2337793wrn.107.1568716483687; 
+ Tue, 17 Sep 2019 03:34:43 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id q3sm1985415wrm.86.2019.09.17.03.34.42
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 17 Sep 2019 03:34:43 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 17 Sep 2019 12:34:34 +0200
+Message-Id: <1568716480-9973-2-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1568716480-9973-1-git-send-email-pbonzini@redhat.com>
+References: <1568716480-9973-1-git-send-email-pbonzini@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 1/7] target/i386: handle filtered_features in a
+ new function mark_unavailable_features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,23 +75,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: liran.alon@oracle.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing PPC folks and Laurent.
+The next patch will add a different reason for filtering features, unrelated
+to host feature support.  Extract a new function that takes care of disabling
+the features and optionally reporting them.
 
-On 9/16/19 11:06 PM, Niccol=C3=B2 Belli wrote:
-> Hi,
-> I'm trying to use qemu-user-static to chroot into a foreign amd64
-> environment from my ppc64le host.
-> The host has a 64k page size, while x86_64 uses 4k.
-> I get those errors while loading shared libraries: "ELF load command
-> alignment not page-aligned"
-> Is there any way to fix this? I cannot simply switch to 4k page size
-> because my btrfs filesystem won't mount anymore (it requires the
-> sectorsize to be equal to the page size).
->=20
-> Bests,
-> Niccolo'
->=20
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/cpu.c | 87 ++++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 48 insertions(+), 39 deletions(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 9e0bac3..52b3f3e 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3096,17 +3096,41 @@ static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
+     return NULL;
+ }
+ 
+-static void report_unavailable_features(FeatureWord w, uint32_t mask)
++static bool x86_cpu_have_filtered_features(X86CPU *cpu)
+ {
++    FeatureWord w;
++
++    for (w = 0; w < FEATURE_WORDS; w++) {
++         if (cpu->filtered_features[w]) {
++             return true;
++         }
++    }
++
++    return false;
++}
++
++static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
++                                      const char *verbose_prefix)
++{
++    CPUX86State *env = &cpu->env;
+     FeatureWordInfo *f = &feature_word_info[w];
+     int i;
+     char *feat_word_str;
+ 
++    if (!cpu->force_features) {
++        env->features[w] &= ~mask;
++    }
++    cpu->filtered_features[w] |= mask;
++
++    if (!verbose_prefix) {
++        return;
++    }
++
+     for (i = 0; i < 32; ++i) {
+         if ((1UL << i) & mask) {
+             feat_word_str = feature_word_description(f, i);
+-            warn_report("%s doesn't support requested feature: %s%s%s [bit %d]",
+-                        accel_uses_host_cpuid() ? "host" : "TCG",
++            warn_report("%s: %s%s%s [bit %d]",
++                        verbose_prefix,
+                         feat_word_str,
+                         f->feat_names[i] ? "." : "",
+                         f->feat_names[i] ? f->feat_names[i] : "", i);
+@@ -3511,7 +3535,7 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
+ }
+ 
+ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
+-static int x86_cpu_filter_features(X86CPU *cpu);
++static void x86_cpu_filter_features(X86CPU *cpu, bool verbose);
+ 
+ /* Build a list with the name of all features on a feature word array */
+ static void x86_cpu_list_feature_names(FeatureWordArray features,
+@@ -3576,7 +3600,7 @@ static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
+         next = &new->next;
+     }
+ 
+-    x86_cpu_filter_features(xc);
++    x86_cpu_filter_features(xc, false);
+ 
+     x86_cpu_list_feature_names(xc->filtered_features, next);
+ 
+@@ -3784,15 +3808,6 @@ static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
+     return r;
+ }
+ 
+-static void x86_cpu_report_filtered_features(X86CPU *cpu)
+-{
+-    FeatureWord w;
+-
+-    for (w = 0; w < FEATURE_WORDS; w++) {
+-        report_unavailable_features(w, cpu->filtered_features[w]);
+-    }
+-}
+-
+ static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
+ {
+     PropValue *pv;
+@@ -5154,24 +5169,24 @@ out:
+  *
+  * Returns: 0 if all flags are supported by the host, non-zero otherwise.
+  */
+-static int x86_cpu_filter_features(X86CPU *cpu)
++static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+ {
+     CPUX86State *env = &cpu->env;
+     FeatureWord w;
+-    int rv = 0;
++    const char *prefix = NULL;
++
++    if (verbose) {
++        prefix = accel_uses_host_cpuid()
++                 ? "host doesn't support requested feature"
++                 : "TCG doesn't support requested feature";
++    }
+ 
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         uint32_t host_feat =
+             x86_cpu_get_supported_feature_word(w, false);
+         uint32_t requested_features = env->features[w];
+-        uint32_t available_features = requested_features & host_feat;
+-        if (!cpu->force_features) {
+-            env->features[w] = available_features;
+-        }
+-        cpu->filtered_features[w] = requested_features & ~available_features;
+-        if (cpu->filtered_features[w]) {
+-            rv = 1;
+-        }
++        uint32_t unavailable_features = requested_features & ~host_feat;
++        mark_unavailable_features(cpu, w, unavailable_features, prefix);
+     }
+ 
+     if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
+@@ -5197,13 +5212,9 @@ static int x86_cpu_filter_features(X86CPU *cpu)
+              * host can't emulate the capabilities we report on
+              * cpu_x86_cpuid(), intel-pt can't be enabled on the current host.
+              */
+-            env->features[FEAT_7_0_EBX] &= ~CPUID_7_0_EBX_INTEL_PT;
+-            cpu->filtered_features[FEAT_7_0_EBX] |= CPUID_7_0_EBX_INTEL_PT;
+-            rv = 1;
++            mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);
+         }
+     }
+-
+-    return rv;
+ }
+ 
+ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -5244,16 +5255,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+         goto out;
+     }
+ 
+-    if (x86_cpu_filter_features(cpu) &&
+-        (cpu->check_cpuid || cpu->enforce_cpuid)) {
+-        x86_cpu_report_filtered_features(cpu);
+-        if (cpu->enforce_cpuid) {
+-            error_setg(&local_err,
+-                       accel_uses_host_cpuid() ?
+-                           "Host doesn't support requested features" :
+-                           "TCG doesn't support requested features");
+-            goto out;
+-        }
++    x86_cpu_filter_features(cpu, cpu->check_cpuid || cpu->enforce_cpuid);
++
++    if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
++        error_setg(&local_err,
++                   accel_uses_host_cpuid() ?
++                       "Host doesn't support requested features" :
++                       "TCG doesn't support requested features");
++        goto out;
+     }
+ 
+     /* On AMD CPUs, some CPUID[8000_0001].EDX bits must match the bits on
+-- 
+1.8.3.1
+
+
 
