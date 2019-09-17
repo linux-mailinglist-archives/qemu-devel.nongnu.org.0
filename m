@@ -2,56 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B42DB589F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 01:39:44 +0200 (CEST)
-Received: from localhost ([::1]:53542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAA8B58C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 01:49:27 +0200 (CEST)
+Received: from localhost ([::1]:53614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAN4R-0004kb-6u
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 19:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51894)
+	id 1iANDp-0000eA-V1
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 19:49:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iAN2r-0003c7-MY
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 19:38:07 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iANAT-0006z3-PD
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 19:45:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iAN2q-0000D4-0l
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 19:38:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39746)
+ (envelope-from <jsnow@redhat.com>) id 1iANAS-0003lR-K3
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 19:45:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41330)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iAN2p-0000Cj-Oy
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 19:38:03 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iANAQ-0003kD-7R; Tue, 17 Sep 2019 19:45:54 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BD39A30821AE;
- Tue, 17 Sep 2019 23:38:02 +0000 (UTC)
-Received: from localhost (ovpn-116-86.gru2.redhat.com [10.97.116.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F8C860BFB;
- Tue, 17 Sep 2019 23:37:59 +0000 (UTC)
-Date: Tue, 17 Sep 2019 20:37:58 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190917233758.GL4082@habkost.net>
-References: <20190607211544.7964-1-ehabkost@redhat.com>
- <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
- <CAFEAcA9ZeB1knLYYQLJG0d5McG2vo6w8P9+vOBWgtSVgPEG0jA@mail.gmail.com>
- <20190611160329.GH5927@habkost.net>
- <CAFEAcA-cv8vPT=7YraioJvW7-WnvGy9YoJXOc_E+UEWUehE+Bg@mail.gmail.com>
- <20190611171257.GI5927@habkost.net>
- <20190917135726.GD4824@localhost.localdomain>
- <20190917214808.GH4082@habkost.net>
- <a6bc1eba-c088-43bf-fa90-e2139c6a6fef@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 609F6308FC4E;
+ Tue, 17 Sep 2019 23:45:53 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 717CE600C4;
+ Tue, 17 Sep 2019 23:45:50 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 17 Sep 2019 19:45:44 -0400
+Message-Id: <20190917234549.22910-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a6bc1eba-c088-43bf-fa90-e2139c6a6fef@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 17 Sep 2019 23:38:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 17 Sep 2019 23:45:53 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 0/8] Python queue, 2019-06-07
+Subject: [Qemu-devel] [PATCH v5 0/5] iotests: use python logging
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,87 +52,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, mreitz@redhat.com,
- Cleber Rosa <crosa@redhat.com>, Fam Zheng <fam@euphon.net>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 17, 2019 at 07:10:13PM -0400, John Snow wrote:
-> On 9/17/19 5:48 PM, Eduardo Habkost wrote:
-> > On Tue, Sep 17, 2019 at 03:57:26PM +0200, Kevin Wolf wrote:
-> >> Am 11.06.2019 um 19:12 hat Eduardo Habkost geschrieben:
-> >>> On Tue, Jun 11, 2019 at 05:07:55PM +0100, Peter Maydell wrote:
-> >>>> On Tue, 11 Jun 2019 at 17:03, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >>>>>
-> >>>>> On Tue, Jun 11, 2019 at 04:50:34PM +0100, Peter Maydell wrote:
-> >>>>>> On Mon, 10 Jun 2019 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >>>>>>> Hi. This fails to build on one of my buildtest machines:
-> >>>>>>>
-> >>>>>>> ERROR: Cannot use 'python3', Python 2 >= 2.7 or Python 3 >= 3.5 is required.
-> >>>>>>>        Use --python=/path/to/python to specify a supported Python.
-> >>>>>>>
-> >>>>>>> The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
-> >>>>>>> box; it's one of the gcc compile farm machines so upgrades to its
-> >>>>>>> OS are not really under my control.)
-> >>>>>>
-> >>>>>> Rereading this, I realise that either the check or the error
-> >>>>>> message is wrong here. The machine has 2.7.6, which satisfies
-> >>>>>> "python 2 >= 2.7", so we should be OK to build. The bug
-> >>>>>> seems to be that we say "prefer python3 over plain python
-> >>>>>> on python2" early, but don't revisit that decision if the
-> >>>>>> python3 we found isn't actually good enough for us.
-> >>>>>
-> >>>>> Right.  The error message is technically correct, but misleading.
-> >>>>> python3 is too old, but python2 would work.
-> >>>>>
-> >>>>> We can make configure not use python3 by default if it's too old,
-> >>>>> and fall back to python2 in this case.
-> >>>>
-> >>>> Sounds good. Since I have now managed to get my alternate
-> >>>> aarch64 box set up, how about I apply this pullreq and you
-> >>>> send a followup patch which does the fallback to python/python2 ?
-> >>>
-> >>> I will remove the python2/python3 patches and send a new pull
-> >>> request.
-> >>
-> >> What is the plan forward with this? Are the patches dropped for good?
-> >>
-> >> I think the plan was to drop Python 2 after QEMU 4.2, and then it
-> >> becomes really relevant what our minimum Python 3 version is. We've just
-> >> had another Python version discussion in the context of iotests (John
-> >> suggested using function annotations, but these are >= 3.5 only).
-> >>
-> >> Also, the fallback to Python 2 obviously makes no sense any more then,
-> >> so maybe it's not that important to add for a single QEMU release?
-> >>
-> >> As Peter seems to have indicated above that he found a replacement for
-> >> the test machine with an OS that isn't out of support, can we just
-> >> revive this patch as it is?
-> > 
-> > My plan is to remove Python 2 support in QEMU 4.2 (making the
-> > fallback to Python 2 a non-issue), and require Python >= 3.5.
-> > 
-> > Now, even if my plan is rejected and we keep supporting Python 2
-> > when building QEMU 4.2, my suggestion for the iotest maintainers
-> > is to make it require Python 3.5+ immediately, just like we do
-> > for tests/acceptance.  I don't see why we should keep wasting our
-> > energy supporting ancient Python versions in a test suite that is
-> > not a requirement for building QEMU.
-> > 
-> 
-> It's unfortunately now part of the 'make check' target which we use in
-> the vm tests as a default target ... but I think we can make the push to
-> change the build requires to 3.5+.
+This series uses python logging to enable output conditionally on
+iotests.log(). We unify an initialization call (which also enables
+debugging output for those tests with -d) and then make the switch
+inside of iotests.
 
-In the worst case, we can make "make check" skip iotests if
-Python 2 is detected (after printing a warning).  But requiring
-3.5+ for the build would really be the best option.
+It will help alleviate the need to create logged/unlogged versions
+of all the various helpers we have made.
 
-I've just restarted the thread about Python 2 in tests/vm:
-https://lore.kernel.org/qemu-devel/20190917233140.GK4082@habkost.net/
+V5:
+ - Rebased again
+ - Allow Python tests to run on any platform
 
--- 
-Eduardo
+V4:
+ - Rebased on top of kwolf/block at the behest of mreitz
+
+V3:
+ - Rebased for 4.1+; now based on main branch.
+
+V2:
+ - Added all of the other python tests I missed to use script_initialize
+ - Refactored the common setup as per Ehabkost's suggestion
+ - Added protocol arguments to common initialization,
+   but this isn't strictly required.
+
+John Snow (5):
+  iotests: remove 'linux' from default supported platforms
+  iotests: add script_initialize
+  iotest 258: use script_main
+  iotests: specify protocol support via initialization info
+  iotests: use python logging for iotests.log()
+
+ tests/qemu-iotests/030        |   4 +-
+ tests/qemu-iotests/149        |   3 +-
+ tests/qemu-iotests/194        |   3 +-
+ tests/qemu-iotests/202        |   3 +-
+ tests/qemu-iotests/203        |   3 +-
+ tests/qemu-iotests/206        |   2 +-
+ tests/qemu-iotests/207        |   4 +-
+ tests/qemu-iotests/208        |   2 +-
+ tests/qemu-iotests/209        |   2 +-
+ tests/qemu-iotests/210        |   4 +-
+ tests/qemu-iotests/211        |   4 +-
+ tests/qemu-iotests/212        |   4 +-
+ tests/qemu-iotests/213        |   4 +-
+ tests/qemu-iotests/216        |   3 +-
+ tests/qemu-iotests/218        |   2 +-
+ tests/qemu-iotests/219        |   2 +-
+ tests/qemu-iotests/222        |   5 +-
+ tests/qemu-iotests/224        |   3 +-
+ tests/qemu-iotests/228        |   3 +-
+ tests/qemu-iotests/234        |   3 +-
+ tests/qemu-iotests/235        |   4 +-
+ tests/qemu-iotests/236        |   2 +-
+ tests/qemu-iotests/237        |   2 +-
+ tests/qemu-iotests/238        |   2 +
+ tests/qemu-iotests/242        |   2 +-
+ tests/qemu-iotests/245        |   1 +
+ tests/qemu-iotests/245.out    |  24 +++----
+ tests/qemu-iotests/246        |   2 +-
+ tests/qemu-iotests/248        |   2 +-
+ tests/qemu-iotests/254        |   2 +-
+ tests/qemu-iotests/255        |   2 +-
+ tests/qemu-iotests/256        |   2 +-
+ tests/qemu-iotests/258        |   8 +--
+ tests/qemu-iotests/262        |   3 +-
+ tests/qemu-iotests/iotests.py | 123 +++++++++++++++++++++-------------
+ 35 files changed, 133 insertions(+), 111 deletions(-)
+
+--=20
+2.21.0
+
 
