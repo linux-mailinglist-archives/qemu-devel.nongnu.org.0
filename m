@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26ADEB5164
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:24:57 +0200 (CEST)
-Received: from localhost ([::1]:47256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABE4B517C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:28:53 +0200 (CEST)
+Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAFLb-0005bt-JA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
+	id 1iAFPQ-0000AZ-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iAF8J-0002ej-Hu
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:12 -0400
+ (envelope-from <mst@redhat.com>) id 1iAF8N-0002ke-R3
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iAF8I-0000Sq-9o
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59688)
+ (envelope-from <mst@redhat.com>) id 1iAF8M-0000US-St
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iAF8I-0000SN-1z
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:10 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iAF8M-0000UC-Nq
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:14 -0400
 Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
  [209.85.160.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4A690C004E8D
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 15:11:09 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id m6so4526365qtk.23
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 08:11:09 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0A9F82A09B3
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 15:11:14 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id c8so4527571qtd.20
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 08:11:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0SUJxzhl2HyacdazgtJ5RZ46nr04RGwmTyfEsUsCRm0=;
- b=Z66VkE0yjMhn/5H2+JR/Fp7SO8TX8ZNmtl8ogQS+3Ab3eK6iRZv5LLto0Ci0fseLdj
- AikR6B9dlx+oVORec1lFy88GCWCBnBb/9k3FoVzrQ7W41PeFAc4hOvchQ1qYOan6/rGw
- JGglgxxsTnzd/R0WHdRwscnURSKlH/XNn37PNUhP8i+dFGpS5/IshcLj37y7tZcKerCL
- 3vzeNqzM4ZT7dLmacvzsH38u6/voMIjBhwE5SX9YZF8vEFqqLt5zZfWbQLQZlwYjkkKU
- 0Gj9yRQqyhY3US0jWO1kP2v2pr512dwMiKfg3L6VYuvMBMOxT3rr5XL7V2i9+BrCeKUv
- 2tjg==
-X-Gm-Message-State: APjAAAUvBLgBgj/V5Ybs25DPkEDb6/B1/HJA1VFwJFaGb67UM35Xb/yo
- KPOnt/tKoSLt0ozYtqff3/bmMaI2rT5VBp5zDw1psKtfXLPfeYyqE7akjjXDjPw2oCw8Prfc+lb
- F4yIwUyotMDII8Aw=
-X-Received: by 2002:ae9:f403:: with SMTP id y3mr4261430qkl.148.1568733068330; 
- Tue, 17 Sep 2019 08:11:08 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwJnaFs9GPFt1Dq4CfkEE+zoSqxbm7oEkfiZNWMXLgX+YnEz+NFh1vV0cMlXCVjmuan+XxE7A==
-X-Received: by 2002:ae9:f403:: with SMTP id y3mr4261411qkl.148.1568733068154; 
- Tue, 17 Sep 2019 08:11:08 -0700 (PDT)
+ bh=7RdwU1BFDRkMHPHKf1AWwBU84oX8jYJL/6ib3XggkUM=;
+ b=c4MLhJRVGdWDIs55tyjVHk/MSh3SkTyeq5mUXm+v2+19XZ4EBPHCKH/vTPGhhL/STZ
+ IVFGUtTyGik1uFuFDEnpPvMx8M9rP5G8p2LL4FadzA1Ohe5ZmIz0rXqU7AnVwMBdcKBt
+ 8+Li7h5A5z+V4gTCiBz7aFc98DZzSuzSX6xT0SDHXUt+2tT6nlhL7zw089YP+62+dpoO
+ OAJ8T6Ny8YWq8t/2b5dzVeWWNNQn0OWNjJ4h/uBMJISrvhjom8CwHLZqmmz1LeVmCtMC
+ kkA8DHFOgvhHiM0NXKTuTcqH9qolXZhN+viCsWmHC2bYg9rgO+5exP0c3Epfcuk5kzLx
+ F9ng==
+X-Gm-Message-State: APjAAAVWIhHm3auJhHLwf1LMsx8IrsmVcQqp2gNEKQl8Q8YX9ewOg/x6
+ aInRBnP5xojUiCa8COcnrlNNWVD3ZKs7PYohTipkm43C2VJgHzHnbkk7gCCYB5Tttnu3kXapTKT
+ 0keTTNioakPdr/cc=
+X-Received: by 2002:a37:7402:: with SMTP id p2mr4361927qkc.457.1568733073078; 
+ Tue, 17 Sep 2019 08:11:13 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzUblc/p90jPuLhiQevBTqlKBWCPJk5l4Li7o5O+Kb8bVRID4BF3IxuojauX0GwMevV7Q3m4w==
+X-Received: by 2002:a37:7402:: with SMTP id p2mr4361900qkc.457.1568733072914; 
+ Tue, 17 Sep 2019 08:11:12 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id d25sm1093070qtn.51.2019.09.17.08.11.05
+ by smtp.gmail.com with ESMTPSA id v139sm1210628qkb.53.2019.09.17.08.11.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 08:11:07 -0700 (PDT)
-Date: Tue, 17 Sep 2019 11:11:03 -0400
+ Tue, 17 Sep 2019 08:11:12 -0700 (PDT)
+Date: Tue, 17 Sep 2019 11:11:08 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190916080718.3299-4-peterx@redhat.com>
+Message-ID: <20190916080718.3299-5-peterx@redhat.com>
 References: <20190917151011.24588-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -64,8 +64,8 @@ X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/10] pc/q35: Disallow vfio-pci hotplug without
- VT-d caching mode
+Subject: [Qemu-devel] [PULL 08/10] intel_iommu: Remove the caching-mode
+ check during flag change
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,65 +86,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Instead of bailing out when trying to hotplug a vfio-pci device with
-below configuration:
-
-  -device intel-iommu,caching-mode=off
-
-With this we can return a warning message to the user via QMP/HMP and
-the VM will continue to work after failing the hotplug:
-
-  (qemu) device_add vfio-pci,bus=root.3,host=05:00.0,id=vfio1
-  Error: Device assignment is not allowed without enabling caching-mode=on for Intel IOMMU.
+That's never a good place to stop QEMU process... Since now we have
+both the machine done sanity check and also the hotplug handler, we
+can safely remove this to avoid that.
 
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20190916080718.3299-4-peterx@redhat.com>
+Message-Id: <20190916080718.3299-5-peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ hw/i386/intel_iommu.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index bad866fe44..0a6fa6e549 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -2944,6 +2944,26 @@ static void x86_nmi(NMIState *n, int cpu_index, Error **errp)
-     }
- }
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index bed8ffe446..f1de8fdb75 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -2936,10 +2936,6 @@ static void vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+     VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+     IntelIOMMUState *s = vtd_as->iommu_state;
  
-+
-+static bool pc_hotplug_allowed(MachineState *ms, DeviceState *dev, Error **errp)
-+{
-+    X86IOMMUState *iommu = x86_iommu_get_default();
-+    IntelIOMMUState *intel_iommu;
-+
-+    if (iommu &&
-+        object_dynamic_cast((Object *)iommu, TYPE_INTEL_IOMMU_DEVICE) &&
-+        object_dynamic_cast((Object *)dev, "vfio-pci")) {
-+        intel_iommu = INTEL_IOMMU_DEVICE(iommu);
-+        if (!intel_iommu->caching_mode) {
-+            error_setg(errp, "Device assignment is not allowed without "
-+                       "enabling caching-mode=on for Intel IOMMU.");
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
- static void pc_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -2968,6 +2988,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     pcmc->pvh_enabled = true;
-     assert(!mc->get_hotplug_handler);
-     mc->get_hotplug_handler = pc_get_hotplug_handler;
-+    mc->hotplug_allowed = pc_hotplug_allowed;
-     mc->cpu_index_to_instance_props = pc_cpu_index_to_props;
-     mc->get_default_cpu_node_id = pc_get_default_cpu_node_id;
-     mc->possible_cpu_arch_ids = pc_possible_cpu_arch_ids;
+-    if (!s->caching_mode && new & IOMMU_NOTIFIER_MAP) {
+-        vtd_panic_require_caching_mode();
+-    }
+-
+     /* Update per-address-space notifier flags */
+     vtd_as->notifier_flags = new;
+ 
 -- 
 MST
 
