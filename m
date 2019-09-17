@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9C7B4C48
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:52:49 +0200 (CEST)
-Received: from localhost ([::1]:43978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2A4B4C44
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:52:25 +0200 (CEST)
+Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAB6G-0001ME-O5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46849)
+	id 1iAB5s-0000jc-6Q
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iAAot-0001p1-2L
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAAot-0001oz-24
  for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iAAor-0004zJ-3j
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAAor-0004zD-2v
  for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:50 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39128)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34653)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iAAop-0004xL-BU
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:49 -0400
-Received: by mail-wm1-x344.google.com with SMTP id v17so2494622wml.4
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 03:34:45 -0700 (PDT)
+ id 1iAAop-0004xq-6Q
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:48 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a11so2608334wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 03:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FRGhgVOwY1ofv0mbUj5TGM+MvOHQ8R0yf6r9ZTR8PxU=;
- b=sMFQ2Zpz6cdzGz3X5gV3tbRF5GwtbX+fn1jsUNJYKpSaLbLwxxZgeoCF17jHDDBzz3
- ozI8jOJ5VoPJwhnY7UfQb7BfCQ9AjftxqnX03PsDBfDQ0TPuyMJJr6uehl5RE/xbJqBW
- 2XTGgh8aHF1pCTGmo+27lC+qmdihjPRpLYzlq6StlO3mo2fQjZUrKC6uki33UJL37v3U
- l8W5jtMLWD1quRGfgNS/pEDOputy8f3erpbUlf0aB0OA5685da02GAJHKMjx220erGt0
- jxKPsnehBI7K8tYSOyA4zylBzg+GNCzQko9zM+ozvxqz0/0XoIjW+NLPqEBb7f4xRAZ1
- mhAg==
+ bh=NnaErPzXThpQEqupywwj1kbSRYy+wBjcSB+cVdscC9E=;
+ b=KE952sdSU0I/P/TR+9s/uEbVHjrSw2LdRdNjokrcgaKMM7au/SjefvSey8zbjwGSIP
+ hFnCiUQAnRwmXLDZH0icwZU+MB7bIfqEiB+tfd4nPbEUALDyLROcFlHCvcqPuKfFJtA1
+ zAA11I/POcYPTCT0Yo6Dg6u7aYY8F8m4+lF0gbU/AdFLFLxzRFlpJu1vj4qZNAlcyYhU
+ GgYbVW6EOQLnwFM1AuGORBf9Yyf8e6tVN1Dj6CwGNCvDgM7OelzcieIQC6VUmiWwqh5h
+ yYofyR2fbKqc5hIY30scQkd0P3ZuDeE0YMtla9jj6lAoAm7WcRfGimDGlAkNyJsE8IWS
+ OvmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=FRGhgVOwY1ofv0mbUj5TGM+MvOHQ8R0yf6r9ZTR8PxU=;
- b=m4Em56CDRI6UDtSdb9zDTKzHX26vWPw1pqd13UPqnLCAwhHYpR+6TfDRjsq/uQ2Uv3
- AwAiXLhQfWj5O4RTRDlh3wQ0rsQdq7qUWDM84VW8fEpFHUDKj/p0qALURYdzh4Krj5Qg
- 3094yRu1vxKRBbcWW2HiFng8pvqYFlRusdRLUaLWKWATUSclo08RfpGFy7XSA0VDT15d
- K84NDs6QTHC2G3LQDmGF3gNEuMsSvKvdnJ7juE/6GdY3eF5mBpShIYmiEmPGdSx6Cq7/
- gkx/54ugwlJio84PEtO0jEvfvMBykQVemTuwyZrrpdUDBeqCWFd69k6zFDKmJ5LBSc2t
- s/ig==
-X-Gm-Message-State: APjAAAXKFrMn7ACUMQ+jBGdkRhCEhjQ9qU8r5wYLzG18eTecNEIM2png
- 6daMi623mHyHiwY283leKPTvDaar
-X-Google-Smtp-Source: APXvYqwDarxKJVB3lCqguNzgdCSwryD09t9aYFyRoqYs0k5S9asNV5/5Fz5jj138wYqdTPp1wwLZTw==
-X-Received: by 2002:a1c:f602:: with SMTP id w2mr2769497wmc.145.1568716484659; 
- Tue, 17 Sep 2019 03:34:44 -0700 (PDT)
+ bh=NnaErPzXThpQEqupywwj1kbSRYy+wBjcSB+cVdscC9E=;
+ b=aZFR6lgd7gS21Bu2BA+6oTS0jKcjQqoj39ExYwq0GKoEuoXvudRe0ROlGaUU1A4YMH
+ s96udLhy6YgYuGBJMUpwq/f7BcIq9MLIeSYKQixMBFrsQmwP5GPGkPpciSobEys5ekZ/
+ PH20bAloAgqmSnwTmLTQ6Odp8RLUuKC6wwhIukhK5eyf35CzA35e+D/T9Wpmwcq84iyn
+ MBJp2KfD0dYR1Xg3PM0SE+xshI8/QNa3z4ArkhI1eqBCv8QE+rNC6gOrdEEXUbvcRrtE
+ +jDjxOXlXDjv5r7B0ulvq7UM4Hldcyy+fhkWdNaAnCRYBtRq1ix4xvjkVa5JG8nbVyrC
+ kwpg==
+X-Gm-Message-State: APjAAAVmrvzqbkV/jVrpjc1IvZwyq+l+9MwR2OrljDCE5OpIbLJC60oV
+ FRhgpC8C5IjXgL8MVsJzsFCeGpMW
+X-Google-Smtp-Source: APXvYqz6Myiuk/iuIOkvojaR+ua0es9FWJhjXpLNV/hBXrT+j3C1St5j3I3CqBVVceHFrDxe9+5yJw==
+X-Received: by 2002:adf:ec91:: with SMTP id z17mr2561505wrn.346.1568716485555; 
+ Tue, 17 Sep 2019 03:34:45 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q3sm1985415wrm.86.2019.09.17.03.34.43
+ by smtp.gmail.com with ESMTPSA id q3sm1985415wrm.86.2019.09.17.03.34.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Sep 2019 03:34:43 -0700 (PDT)
+ Tue, 17 Sep 2019 03:34:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 17 Sep 2019 12:34:35 +0200
-Message-Id: <1568716480-9973-3-git-send-email-pbonzini@redhat.com>
+Date: Tue, 17 Sep 2019 12:34:36 +0200
+Message-Id: <1568716480-9973-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568716480-9973-1-git-send-email-pbonzini@redhat.com>
 References: <1568716480-9973-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH 2/7] target/i386: introduce generic feature
- dependency mechanism
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 3/7] target/i386: expand feature words to 64
+ bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,144 +79,293 @@ Cc: liran.alon@oracle.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes a CPU feature does not make sense unless another is
-present.  In the case of VMX features, KVM does not even allow
-setting the VMX controls to some invalid combinations.
-
-Therefore, this patch adds a generic mechanism that looks for bits
-that the user explicitly cleared, and uses them to remove other bits
-from the expanded CPU definition.  If these dependent bits were also
-explicitly *set* by the user, this will be a warning for "-cpu check"
-and an error for "-cpu enforce".  If not, then the dependent bits are
-cleared silently, for convenience.
-
-With VMX features, this will be used so that for example
-"-cpu host,-rdrand" will also hide support for RDRAND exiting.
+VMX requires 64-bit feature words for the IA32_VMX_EPT_VPID_CAP
+and IA32_VMX_BASIC MSRs.  (The VMX control MSRs are 64-bit wide but
+actually have only 32 bits of information).
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 72 ++++++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 48 insertions(+), 24 deletions(-)
+ include/sysemu/kvm.h |  2 +-
+ target/i386/cpu.c    | 71 +++++++++++++++++++++++++++-------------------------
+ target/i386/cpu.h    |  2 +-
+ target/i386/kvm.c    |  2 +-
+ 4 files changed, 40 insertions(+), 37 deletions(-)
 
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 909bcd7..d691e45 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -462,7 +462,7 @@ int kvm_vm_check_extension(KVMState *s, unsigned int extension);
+ 
+ uint32_t kvm_arch_get_supported_cpuid(KVMState *env, uint32_t function,
+                                       uint32_t index, int reg);
+-uint32_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
++uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
+ 
+ 
+ void kvm_set_sigmask_len(KVMState *s, unsigned int sigmask_len);
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 52b3f3e..fae458c 100644
+index fae458c..83a3692 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -801,10 +801,6 @@ typedef struct FeatureWordInfo {
-         /* If type==MSR_FEATURE_WORD */
+@@ -789,7 +789,7 @@ typedef struct FeatureWordInfo {
+      * In cases of disagreement between feature naming conventions,
+      * aliases may be added.
+      */
+-    const char *feat_names[32];
++    const char *feat_names[64];
+     union {
+         /* If type==CPUID_FEATURE_WORD */
          struct {
+@@ -803,11 +803,11 @@ typedef struct FeatureWordInfo {
              uint32_t index;
--            struct {   /*CPUID that enumerate this MSR*/
--                FeatureWord cpuid_class;
--                uint32_t    cpuid_flag;
--            } cpuid_dep;
          } msr;
      };
-     uint32_t tcg_features; /* Feature flags supported by TCG */
-@@ -1218,10 +1214,6 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .msr = {
-             .index = MSR_IA32_ARCH_CAPABILITIES,
--            .cpuid_dep = {
--                FEAT_7_0_EDX,
--                CPUID_7_0_EDX_ARCH_CAPABILITIES
--            }
-         },
+-    uint32_t tcg_features; /* Feature flags supported by TCG */
+-    uint32_t unmigratable_flags; /* Feature flags known to be unmigratable */
+-    uint32_t migratable_flags; /* Feature flags known to be migratable */
++    uint64_t tcg_features; /* Feature flags supported by TCG */
++    uint64_t unmigratable_flags; /* Feature flags known to be unmigratable */
++    uint64_t migratable_flags; /* Feature flags known to be migratable */
+     /* Features that shouldn't be auto-enabled by "-cpu host" */
+-    uint32_t no_autoenable_flags;
++    uint64_t no_autoenable_flags;
+ } FeatureWordInfo;
+ 
+ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+@@ -1236,7 +1236,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+ 
+ typedef struct FeatureMask {
+     FeatureWord index;
+-    uint32_t mask;
++    uint64_t mask;
+ } FeatureMask;
+ 
+ typedef struct FeatureDep {
+@@ -1246,11 +1246,11 @@ typedef struct FeatureDep {
+ static FeatureDep feature_dependencies[] = {
+     {
+         .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_ARCH_CAPABILITIES },
+-        .to = { FEAT_ARCH_CAPABILITIES,     ~0u },
++        .to = { FEAT_ARCH_CAPABILITIES,     ~0ull },
      },
-     [FEAT_CORE_CAPABILITY] = {
-@@ -1238,14 +1230,30 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .msr = {
-             .index = MSR_IA32_CORE_CAPABILITY,
--            .cpuid_dep = {
--                FEAT_7_0_EDX,
--                CPUID_7_0_EDX_CORE_CAPABILITY,
--            },
-         },
+     {
+         .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_CORE_CAPABILITY },
+-        .to = { FEAT_CORE_CAPABILITY,       ~0u },
++        .to = { FEAT_CORE_CAPABILITY,       ~0ull },
      },
  };
  
-+typedef struct FeatureMask {
-+    FeatureWord index;
-+    uint32_t mask;
-+} FeatureMask;
-+
-+typedef struct FeatureDep {
-+    FeatureMask from, to;
-+} FeatureDep;
-+
-+static FeatureDep feature_dependencies[] = {
-+    {
-+        .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_ARCH_CAPABILITIES },
-+        .to = { FEAT_ARCH_CAPABILITIES,     ~0u },
-+    },
-+    {
-+        .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_CORE_CAPABILITY },
-+        .to = { FEAT_CORE_CAPABILITY,       ~0u },
-+    },
-+};
-+
- typedef struct X86RegisterInfo32 {
-     /* Name of register */
-     const char *name;
-@@ -5063,9 +5071,26 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+@@ -1362,14 +1362,14 @@ const char *get_register_name_32(unsigned int reg)
+  * Returns the set of feature flags that are supported and migratable by
+  * QEMU, for a given FeatureWord.
+  */
+-static uint32_t x86_cpu_get_migratable_flags(FeatureWord w)
++static uint64_t x86_cpu_get_migratable_flags(FeatureWord w)
+ {
+     FeatureWordInfo *wi = &feature_word_info[w];
+-    uint32_t r = 0;
++    uint64_t r = 0;
+     int i;
+ 
+-    for (i = 0; i < 32; i++) {
+-        uint32_t f = 1U << i;
++    for (i = 0; i < 64; i++) {
++        uint64_t f = 1ULL << i;
+ 
+         /* If the feature name is known, it is implicitly considered migratable,
+          * unless it is explicitly set in unmigratable_flags */
+@@ -2931,7 +2931,7 @@ void x86_cpu_change_kvm_default(const char *prop, const char *value)
+     assert(pv->prop);
+ }
+ 
+-static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
++static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+                                                    bool migratable_only);
+ 
+ static bool lmce_supported(void)
+@@ -3117,7 +3117,7 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
+     return false;
+ }
+ 
+-static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
++static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
+                                       const char *verbose_prefix)
  {
      CPUX86State *env = &cpu->env;
+@@ -3134,8 +3134,8 @@ static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
+         return;
+     }
+ 
+-    for (i = 0; i < 32; ++i) {
+-        if ((1UL << i) & mask) {
++    for (i = 0; i < 64; ++i) {
++        if ((1ULL << i) & mask) {
+             feat_word_str = feature_word_description(f, i);
+             warn_report("%s: %s%s%s [bit %d]",
+                         verbose_prefix,
+@@ -3378,7 +3378,7 @@ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+                                       const char *name, void *opaque,
+                                       Error **errp)
+ {
+-    uint32_t *array = (uint32_t *)opaque;
++    uint64_t *array = (uint64_t *)opaque;
      FeatureWord w;
-+    int i;
-     GList *l;
-     Error *local_err = NULL;
- 
-+    for (l = plus_features; l; l = l->next) {
-+        const char *prop = l->data;
-+        object_property_set_bool(OBJECT(cpu), true, prop, &local_err);
-+        if (local_err) {
-+            goto out;
-+        }
-+    }
-+
-+    for (l = minus_features; l; l = l->next) {
-+        const char *prop = l->data;
-+        object_property_set_bool(OBJECT(cpu), false, prop, &local_err);
-+        if (local_err) {
-+            goto out;
-+        }
-+    }
-+
-     /*TODO: Now cpu->max_features doesn't overwrite features
-      * set using QOM properties, and we can convert
-      * plus_features & minus_features to global properties
-@@ -5083,19 +5108,18 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+     X86CPUFeatureWordInfo word_infos[FEATURE_WORDS] = { };
+     X86CPUFeatureWordInfoList list_entries[FEATURE_WORDS] = { };
+@@ -3422,6 +3422,7 @@ static inline void feat2prop(char *s)
+ /* Return the feature property name for a feature flag bit */
+ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
+ {
++    const char *name;
+     /* XSAVE components are automatically enabled by other features,
+      * so return the original feature name instead
+      */
+@@ -3435,9 +3436,11 @@ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
          }
      }
  
--    for (l = plus_features; l; l = l->next) {
--        const char *prop = l->data;
--        object_property_set_bool(OBJECT(cpu), true, prop, &local_err);
--        if (local_err) {
--            goto out;
--        }
--    }
-+    for (i = 0; i < ARRAY_SIZE(feature_dependencies); i++) {
-+        FeatureDep *d = &feature_dependencies[i];
-+        if (!(env->features[d->from.index] & d->from.mask)) {
-+            uint32_t unavailable_features = env->features[d->to.index] & d->to.mask;
+-    assert(bitnr < 32);
++    assert(bitnr < 64);
+     assert(w < FEATURE_WORDS);
+-    return feature_word_info[w].feat_names[bitnr];
++    name = feature_word_info[w].feat_names[bitnr];
++    assert(bitnr < 32 || !(name && feature_word_info[w].type == CPUID_FEATURE_WORD));
++    return name;
+ }
  
--    for (l = minus_features; l; l = l->next) {
--        const char *prop = l->data;
--        object_property_set_bool(OBJECT(cpu), false, prop, &local_err);
--        if (local_err) {
--            goto out;
-+            /* Not an error unless the dependent feature was added explicitly.  */
-+            mark_unavailable_features(cpu, d->to.index,
-+                                      unavailable_features & env->user_features[d->to.index],
-+                                      "This feature depends on other features that were not requested");
-+
-+            env->user_features[d->to.index] |= unavailable_features;
-+            env->features[d->to.index] &= ~unavailable_features;
-         }
+ /* Compatibily hack to maintain legacy +-feat semantic,
+@@ -3553,10 +3556,10 @@ static void x86_cpu_list_feature_names(FeatureWordArray features,
+     strList **next = feat_names;
+ 
+     for (w = 0; w < FEATURE_WORDS; w++) {
+-        uint32_t filtered = features[w];
++        uint64_t filtered = features[w];
+         int i;
+-        for (i = 0; i < 32; i++) {
+-            if (filtered & (1UL << i)) {
++        for (i = 0; i < 64; i++) {
++            if (filtered & (1ULL << i)) {
+                 strList *new = g_new0(strList, 1);
+                 new->value = g_strdup(x86_cpu_feature_name(w, i));
+                 *next = new;
+@@ -3725,7 +3728,7 @@ void x86_cpu_list(void)
+     names = NULL;
+     for (i = 0; i < ARRAY_SIZE(feature_word_info); i++) {
+         FeatureWordInfo *fw = &feature_word_info[i];
+-        for (j = 0; j < 32; j++) {
++        for (j = 0; j < 64; j++) {
+             if (fw->feat_names[j]) {
+                 names = g_list_append(names, (gpointer)fw->feat_names[j]);
+             }
+@@ -3780,11 +3783,11 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+     return cpu_list;
+ }
+ 
+-static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
++static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+                                                    bool migratable_only)
+ {
+     FeatureWordInfo *wi = &feature_word_info[w];
+-    uint32_t r = 0;
++    uint64_t r = 0;
+ 
+     if (kvm_enabled()) {
+         switch (wi->type) {
+@@ -3955,7 +3958,7 @@ static QDict *x86_cpu_static_props(void)
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         FeatureWordInfo *fi = &feature_word_info[w];
+         int bit;
+-        for (bit = 0; bit < 32; bit++) {
++        for (bit = 0; bit < 64; bit++) {
+             if (!fi->feat_names[bit]) {
+                 continue;
+             }
+@@ -5111,7 +5114,7 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+     for (i = 0; i < ARRAY_SIZE(feature_dependencies); i++) {
+         FeatureDep *d = &feature_dependencies[i];
+         if (!(env->features[d->from.index] & d->from.mask)) {
+-            uint32_t unavailable_features = env->features[d->to.index] & d->to.mask;
++            uint64_t unavailable_features = env->features[d->to.index] & d->to.mask;
+ 
+             /* Not an error unless the dependent feature was added explicitly.  */
+             mark_unavailable_features(cpu, d->to.index,
+@@ -5206,10 +5209,10 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
      }
  
+     for (w = 0; w < FEATURE_WORDS; w++) {
+-        uint32_t host_feat =
++        uint64_t host_feat =
+             x86_cpu_get_supported_feature_word(w, false);
+-        uint32_t requested_features = env->features[w];
+-        uint32_t unavailable_features = requested_features & ~host_feat;
++        uint64_t requested_features = env->features[w];
++        uint64_t unavailable_features = requested_features & ~host_feat;
+         mark_unavailable_features(cpu, w, unavailable_features, prefix);
+     }
+ 
+@@ -5506,7 +5509,7 @@ static void x86_cpu_unrealizefn(DeviceState *dev, Error **errp)
+ 
+ typedef struct BitProperty {
+     FeatureWord w;
+-    uint32_t mask;
++    uint64_t mask;
+ } BitProperty;
+ 
+ static void x86_cpu_get_bit_prop(Object *obj, Visitor *v, const char *name,
+@@ -5514,7 +5517,7 @@ static void x86_cpu_get_bit_prop(Object *obj, Visitor *v, const char *name,
+ {
+     X86CPU *cpu = X86_CPU(obj);
+     BitProperty *fp = opaque;
+-    uint32_t f = cpu->env.features[fp->w];
++    uint64_t f = cpu->env.features[fp->w];
+     bool value = (f & fp->mask) == fp->mask;
+     visit_type_bool(v, name, &value, errp);
+ }
+@@ -5567,7 +5570,7 @@ static void x86_cpu_register_bit_prop(X86CPU *cpu,
+ {
+     BitProperty *fp;
+     ObjectProperty *op;
+-    uint32_t mask = (1UL << bitnr);
++    uint64_t mask = (1ULL << bitnr);
+ 
+     op = object_property_find(OBJECT(cpu), prop_name, NULL);
+     if (op) {
+@@ -5701,7 +5704,7 @@ static void x86_cpu_initfn(Object *obj)
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         int bitnr;
+ 
+-        for (bitnr = 0; bitnr < 32; bitnr++) {
++        for (bitnr = 0; bitnr < 64; bitnr++) {
+             x86_cpu_register_feature_bit_props(cpu, w, bitnr);
+         }
+     }
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5f6e3a0..c00cc35 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -502,7 +502,7 @@ typedef enum FeatureWord {
+     FEATURE_WORDS,
+ } FeatureWord;
+ 
+-typedef uint32_t FeatureWordArray[FEATURE_WORDS];
++typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ 
+ /* cpuid_features bits */
+ #define CPUID_FP87 (1U << 0)
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 8023c67..52f98d7 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -441,7 +441,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+     return ret;
+ }
+ 
+-uint32_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
++uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
+ {
+     struct {
+         struct kvm_msrs info;
 -- 
 1.8.3.1
 
