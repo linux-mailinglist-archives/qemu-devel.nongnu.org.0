@@ -2,48 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE73B4A75
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 11:27:59 +0200 (CEST)
-Received: from localhost ([::1]:43172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E7FB4A47
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 11:22:49 +0200 (CEST)
+Received: from localhost ([::1]:43118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA9mA-0000XJ-BI
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 05:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34479)
+	id 1iA9h9-0003Sx-Ln
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 05:22:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iA9eu-0001jA-2x
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iA9eh-0001RX-2E
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iA9es-0004aK-Sp
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43715)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iA9eq-0004Xu-BH; Tue, 17 Sep 2019 05:20:24 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A073F3680A;
- Tue, 17 Sep 2019 09:20:23 +0000 (UTC)
-Received: from localhost (ovpn-116-130.ams2.redhat.com [10.36.116.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FACB5D6B2;
- Tue, 17 Sep 2019 09:20:22 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Tue, 17 Sep 2019 11:20:00 +0200
-Message-Id: <20190917092004.999-4-mreitz@redhat.com>
-In-Reply-To: <20190917092004.999-1-mreitz@redhat.com>
-References: <20190917092004.999-1-mreitz@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iA9ef-0004Qx-Px
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:14 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35942)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iA9ef-0004Pc-H6
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:13 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 67so2421882oto.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 02:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JjBfFcw5tD/UTq1bHWyYBBS9dtPrW0QCzf0mCbScn4c=;
+ b=H3Oqir+kaeOxnuCD4zGlZQzCykc3tZBdwG0EqnQqOnEb2gC9MPZVRAhzczNpkUxGlj
+ j/1dHWF1UI2/gLLwPtOWtZkAMET6VXUaV4iV1RhJEdCcN06rJ3hV9ezyfWAsNroo+RJh
+ ufovvZSDUJo7nMXouwzFVRq5Z3BBjEN7jStdOziPY2ySzV/KVJGbLDNCCTgARlLDWgpx
+ GJLikjRvYNnivAOpd/FFj4oMetfaRolWIokQzTDG+MtxNbZv9H/s2SYjZbar2LiDg1lF
+ OHFoZ38FD3altESlJGWD84KKozG2hwDo9ubLgYlpViX+VuydML288+lN6D2BG8TLpXjV
+ FEPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JjBfFcw5tD/UTq1bHWyYBBS9dtPrW0QCzf0mCbScn4c=;
+ b=LxbBmokKDkD4h1Op8tY1z67crI8wG6nxi8xWM+ovP6MtMP2l5/QC+T/3O9cLcuBYoE
+ 5EDcsr2eTJ9o63TXruPFyseHz++clEAFKLg83bJGYjbDyeqGpm8cKr61ZNcLk+ecnKlM
+ hwE8yK/g8WNwkScbnN42xymQRrGwcncS7wxi8+dps3D5w/jLKWHYprG8/ZLn0YoiaW8v
+ EtvHXQu3g+R9MN/8A1PZoVSLXAT3XnsB2A2s9eNdum29B6v4Ub8vsKBP9e/0S4AHYHq6
+ qFthWO2ZKnoM6t3PjRPfjtAXFdXBaTjq40v52hyGObOa/vKmio+vQ5iQbEr/KiJVqFgv
+ GYsA==
+X-Gm-Message-State: APjAAAXNn+GRRxvmCewUOA7Y5PU3DUdZZZD7fOeYS9IJk+tayWbFI+aq
+ ddXjB3Pf85RRcg3F+4zAmbfjfmzYPtpxAmTkM3fUSA==
+X-Google-Smtp-Source: APXvYqxFENI7t4VacsEtyZR/hAmXpmStwgzAuZ5XkzZAtmnz50Dvq4apjUz6w4YcDdkaTHoNzO1glj1Coh2kTNIQ8W4=
+X-Received: by 2002:a05:6830:1357:: with SMTP id
+ r23mr1911939otq.91.1568712011792; 
+ Tue, 17 Sep 2019 02:20:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 17 Sep 2019 09:20:23 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 3/7] iotests: Use case_skip() in
- skip_if_unsupported()
+References: <20190916142246.31474-1-mreitz@redhat.com>
+In-Reply-To: <20190916142246.31474-1-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Sep 2019 10:20:00 +0100
+Message-ID: <CAFEAcA8zGPxs1DJQ_ERyP3Yr7soDc9aTDNkqK9=x=MXnKGnnCg@mail.gmail.com>
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PULL 00/16] Block patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,52 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-skip_if_unsupported() should use the stronger variant case_skip(),
-because this allows it to be used even with setUp() (in a meaningful
-way).
+On Mon, 16 Sep 2019 at 15:22, Max Reitz <mreitz@redhat.com> wrote:
+>
+> The following changes since commit dd25f97c66a75d1508f1d4c6478ed2c95bec428f:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190913' into staging (2019-09-16 10:15:15 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/XanClic/qemu.git tags/pull-block-2019-09-16
+>
+> for you to fetch changes up to 1825cc0783ccf0ec5d9f0b225a99b340bdd4c68f:
+>
+>   qemu-iotests: Add test for bz #1745922 (2019-09-16 15:37:12 +0200)
+>
+> ----------------------------------------------------------------
+> Block patches:
+> - Fix for block jobs when used with I/O threads
+> - Fix for a corruption when using qcow2's LUKS encryption mode
+> - cURL fix
+> - check-block.sh cleanups (for make check)
+> - Refactoring
+>
+> ----------------------------------------------------------------
 
-In the process, make it explicit what we expect the first argument of
-the func_wrapper to be (namely something derived of QMPTestCase).
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/iotests.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index e46f3b6aed..427c34697a 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -893,14 +893,14 @@ def skip_if_unsupported(required_formats=3D[], read=
-_only=3DFalse):
-     '''Skip Test Decorator
-        Runs the test if all the required formats are whitelisted'''
-     def skip_test_decorator(func):
--        def func_wrapper(*args, **kwargs):
-+        def func_wrapper(test_case: QMPTestCase, *args, **kwargs):
-             usf_list =3D list(set(required_formats) -
-                             set(supported_formats(read_only)))
-             if usf_list:
--                case_notrun('{}: formats {} are not whitelisted'.format(
--                    args[0], usf_list))
-+                test_case.case_skip('{}: formats {} are not whitelisted'=
-.format(
-+                    test_case, usf_list))
-             else:
--                return func(*args, **kwargs)
-+                return func(test_case, *args, **kwargs)
-         return func_wrapper
-     return skip_test_decorator
-=20
---=20
-2.21.0
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
