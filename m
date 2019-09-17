@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F83B514C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:20:39 +0200 (CEST)
-Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F6FB5156
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:22:41 +0200 (CEST)
+Received: from localhost ([::1]:47230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAFHS-0001A7-1A
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60135)
+	id 1iAFJQ-0003Hp-4d
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iAF85-0002Ru-Eg
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:10:59 -0400
+ (envelope-from <mst@redhat.com>) id 1iAF8F-0002Y2-10
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iAF84-0000OH-7C
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:10:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34926)
+ (envelope-from <mst@redhat.com>) id 1iAF8D-0000Qt-Kd
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55690)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iAF83-0000O6-Sk
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:10:56 -0400
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iAF8D-0000Qd-Cu
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:05 -0400
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2BECEC0568FD
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 15:10:55 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id m19so4565453qtm.13
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 08:10:55 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 975996412B
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 15:11:04 +0000 (UTC)
+Received: by mail-qk1-f199.google.com with SMTP id 10so4581057qka.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 08:11:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bWWyi+bKsJBamFEp83FoaU14XqxtNJjR/kc9Oy+g4FU=;
- b=U4XiRFwtmnBsoGlcK1BBXhQUV7aQCddO+2GVobWB9Pf+D2wC3GdEES9aw2NXnfyvNa
- 8GnjLLdFtO/O4W4K9nEEjEAFgQmxSFaLNA+p4MDcfuw4/SsT0qWenqO2sp8oUjskdDmS
- ASghW6Bb1Kbh2/f2alAArN7xRavlCqZKqkZOfOGrNvmjt3Sen7cdHTPJ/Nl27VehHoqr
- eTYXcq9zsKESaolPdjdOSAm9OQKaidj64H4Xv5a/6y9sgrAMvrQd4ryepR+3RCFTLsHE
- 6LuTkc4pisnXCa4ef2HeRmFBCUiSasRI9mPjulRwat4gUug86fR9U6+Pk8DI6DARzSvf
- mRvw==
-X-Gm-Message-State: APjAAAVSVwMe6ij9TehdAqEYV54zoXC2eTprvHj15qlQ5f1YyDZ5ZCic
- GI9qUTxp9tRRbAnq94wmmlED10w/BWX+5QxJdGXuPjISgCZB2v0ykHaOrb5iPXobxHOPENFn0OQ
- VZ8O6c8oqDRWXWOY=
-X-Received: by 2002:a0c:cc14:: with SMTP id r20mr2929340qvk.61.1568733053920; 
- Tue, 17 Sep 2019 08:10:53 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyEiwYLifdoYSZTYhVRAkj3MY7KQVATtLUe+MPbKX4NbYDs9yw8eBM5BBgPYYVAHQZRpvAhvg==
-X-Received: by 2002:a0c:cc14:: with SMTP id r20mr2929319qvk.61.1568733053704; 
- Tue, 17 Sep 2019 08:10:53 -0700 (PDT)
+ bh=PDMfqNHbwS0bH1PKNn7AqQ0pdJHxTWF/7HX1ECSzeGs=;
+ b=CeqiD/UTmalaEdVY46Mclq0ANfiZ4nKsmn4E0ZbzB5TvLRm145SHeUrMFunciUfr1Q
+ 5rlpyAtgm15r/Q0Dztvt1ZHQjcmE1qGlfkZt6j8qnIYmXEEqQtoJeg2R3CG0u1UHjiD4
+ ZggbuThypGnUPNxsvbJS5Rkp5AwNu0X82KhM3/cZ2X9A/NEHl7cJasekWlXapQVe8znN
+ qZ6mUWS/jBpvnJddO7PHDXoNmmacj0cxGx4S2Icpq9Atib7ETpsRyaQodP1tAO9+AUwB
+ JWU2yKHIH8pL4BFc3WrNZDIvCMFu0L4+hvutCqDW+0g3iVvkxQNR+6ZiX8PBYPD9VyVn
+ dT+g==
+X-Gm-Message-State: APjAAAWEDxbyI6VRWFVxfQDeZgP/4VirbNjdx/sdq9O6OWPb0IXEUrnk
+ 4f2EeUK7R3G24ZAWm+WKNXbcW+tIGgly8l4AawvQGCNqgFv5KmxyWwiWYBsQuDX0vywFsDdUlJt
+ ScK4KvzrUkxJ1Bsk=
+X-Received: by 2002:a37:4f4e:: with SMTP id d75mr4109461qkb.137.1568733063594; 
+ Tue, 17 Sep 2019 08:11:03 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwRgVipevJp3rU7IQBoAX70nhRatQl9PTmCLtjCdOPU4cFRe5BPhVs7cR7MB/coBhXS4mAQNA==
+X-Received: by 2002:a37:4f4e:: with SMTP id d75mr4109428qkb.137.1568733063418; 
+ Tue, 17 Sep 2019 08:11:03 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id e13sm1131622qkm.110.2019.09.17.08.10.51
+ by smtp.gmail.com with ESMTPSA id g45sm1527366qtc.9.2019.09.17.08.11.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 08:10:53 -0700 (PDT)
-Date: Tue, 17 Sep 2019 11:10:49 -0400
+ Tue, 17 Sep 2019 08:11:02 -0700 (PDT)
+Date: Tue, 17 Sep 2019 11:10:59 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1566498865-55506-2-git-send-email-raphael.norwitz@nutanix.com>
+Message-ID: <20190916080718.3299-3-peterx@redhat.com>
 References: <20190917151011.24588-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -64,8 +64,8 @@ X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 04/10] backends/vhost-user.c: prevent using
- uninitialized vqs
+Subject: [Qemu-devel] [PULL 06/10] qdev/machine: Introduce hotplug_allowed
+ hook
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,56 +78,117 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe Mathieu-Daude <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+From: Peter Xu <peterx@redhat.com>
 
-Similar rational to: e6cc11d64fc998c11a4dfcde8fda3fc33a74d844
+Introduce this new per-machine hook to give any machine class a chance
+to do a sanity check on the to-be-hotplugged device as a sanity test.
+This will be used for x86 to try to detect some illegal configuration
+of devices, e.g., possible conflictions between vfio-pci and x86
+vIOMMU.
 
-For vhost scsi and vhost-user-scsi an issue was observed
-where, of the 3 virtqueues, seabios would only set cmd,
-leaving ctrl and event without a physical address.
-This can caused vhost_verify_ring_part_mapping to return
-ENOMEM, causing the following logs:
-
-qemu-system-x86_64: Unable to map available ring for ring 0
-qemu-system-x86_64: Verify ring failure on region 0
-
-The issue has already been fixed elsewhere, but it was noted
-that in backends/vhost-user.c, the vhost_user_backend_dev_init()
-function, which other vdevs use in their realize() to initialize
-their vqs, was not being properly zeroing out the queues. This
-commit ensures hardware modules using the
-vhost_user_backend_dev_init() API properly zero out their vqs on
-initialization.
-
-Suggested-by: Philippe Mathieu-Daude <philmd@redhat.com>
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1566498865-55506-2-git-send-email-raphael.norwitz@nutanix.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20190916080718.3299-3-peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- backends/vhost-user.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/qdev.c         | 17 +++++++++++++++++
+ include/hw/boards.h    |  9 +++++++++
+ include/hw/qdev-core.h |  1 +
+ qdev-monitor.c         |  7 +++++++
+ 4 files changed, 34 insertions(+)
 
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index 0a13506c98..2bf3406525 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -46,7 +46,7 @@ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 60d66c2f39..cbad6c1d55 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -237,6 +237,23 @@ HotplugHandler *qdev_get_machine_hotplug_handler(DeviceState *dev)
+     return NULL;
+ }
  
-     b->vdev = vdev;
-     b->dev.nvqs = nvqs;
--    b->dev.vqs = g_new(struct vhost_virtqueue, nvqs);
-+    b->dev.vqs = g_new0(struct vhost_virtqueue, nvqs);
++bool qdev_hotplug_allowed(DeviceState *dev, Error **errp)
++{
++    MachineState *machine;
++    MachineClass *mc;
++    Object *m_obj = qdev_get_machine();
++
++    if (object_dynamic_cast(m_obj, TYPE_MACHINE)) {
++        machine = MACHINE(m_obj);
++        mc = MACHINE_GET_CLASS(machine);
++        if (mc->hotplug_allowed) {
++            return mc->hotplug_allowed(machine, dev, errp);
++        }
++    }
++
++    return true;
++}
++
+ HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev)
+ {
+     if (dev->parent_bus) {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 2289536e48..be18a5c032 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -166,6 +166,13 @@ typedef struct {
+  *    The function pointer to hook different machine specific functions for
+  *    parsing "smp-opts" from QemuOpts to MachineState::CpuTopology and more
+  *    machine specific topology fields, such as smp_dies for PCMachine.
++ * @hotplug_allowed:
++ *    If the hook is provided, then it'll be called for each device
++ *    hotplug to check whether the device hotplug is allowed.  Return
++ *    true to grant allowance or false to reject the hotplug.  When
++ *    false is returned, an error must be set to show the reason of
++ *    the rejection.  If the hook is not provided, all hotplug will be
++ *    allowed.
+  */
+ struct MachineClass {
+     /*< private >*/
+@@ -224,6 +231,8 @@ struct MachineClass {
  
-     ret = vhost_dev_init(&b->dev, &b->vhost_user, VHOST_BACKEND_TYPE_USER, 0);
-     if (ret < 0) {
+     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+                                            DeviceState *dev);
++    bool (*hotplug_allowed)(MachineState *state, DeviceState *dev,
++                            Error **errp);
+     CpuInstanceProperties (*cpu_index_to_instance_props)(MachineState *machine,
+                                                          unsigned cpu_index);
+     const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index de70b7a19a..aa123f88cb 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -280,6 +280,7 @@ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+                                  int required_for_version);
+ HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
+ HotplugHandler *qdev_get_machine_hotplug_handler(DeviceState *dev);
++bool qdev_hotplug_allowed(DeviceState *dev, Error **errp);
+ /**
+  * qdev_get_hotplug_handler: Get handler responsible for device wiring
+  *
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 8fe5c2cad2..148df9cacf 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -615,6 +615,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     /* create device */
+     dev = DEVICE(object_new(driver));
+ 
++    /* Check whether the hotplug is allowed by the machine */
++    if (qdev_hotplug && !qdev_hotplug_allowed(dev, &err)) {
++        /* Error must be set in the machine hook */
++        assert(err);
++        goto err_del_dev;
++    }
++
+     if (bus) {
+         qdev_set_parent_bus(dev, bus);
+     } else if (qdev_hotplug && !qdev_get_machine_hotplug_handler(dev)) {
 -- 
 MST
 
