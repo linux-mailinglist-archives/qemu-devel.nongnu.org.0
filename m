@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC728B558D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 20:44:13 +0200 (CEST)
-Received: from localhost ([::1]:49576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25CCFB559C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 20:48:59 +0200 (CEST)
+Received: from localhost ([::1]:49642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAISS-0005Bc-FF
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 14:44:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33911)
+	id 1iAIX3-0000n1-TA
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 14:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iAIPe-0003AU-8X
+ (envelope-from <alex.bennee@linaro.org>) id 1iAIPe-0003BB-Ki
  for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:41:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iAIPc-0000CX-O7
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:41:17 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35934)
+ (envelope-from <alex.bennee@linaro.org>) id 1iAIPd-0000D4-BB
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:41:18 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37515)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iAIPc-0000Bn-Hw
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:41:16 -0400
-Received: by mail-wr1-x441.google.com with SMTP id y19so4286447wrd.3
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 11:41:16 -0700 (PDT)
+ id 1iAIPd-0000CI-4U
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:41:17 -0400
+Received: by mail-wr1-x442.google.com with SMTP id i1so4271546wro.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 11:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qkrQNPdYjgzsGeZKliHj5m6aTSoldYZ7J5gDgev0N24=;
- b=BDHk2pEVMvYSYDNdy9/vDM0gUUEZQ2xxffivEbTvuHrJFq/kJpDNUEek+C+3Lcc6OP
- mRiEC7OgwqNHKGh6ccYZ+4SCaGfqI2q/QfgxS6o4Jwn6kf52eoqgumevqmb2QDWpDeE4
- trGurXyCUxwaal2cg1bkroWxqGPHfwISl7FpNoRoVvi6GyT/NMh/Si2N0ov7e8Zt/au0
- CGbfFzgUHzDUZFht1xAiElOi+zhXCM/XCEb//3GK6K54RHHEdycHffOaUi7byO13dWdf
- EeZAq5bkVjBVTf3vLZeHZr++LMSJypNDI3i1kcgJ26ytrxJseRmuq7wgHb5drYJUIza6
- ihfw==
+ bh=rlSvkcXczqc1cNe9s/EmLRGBxbkZT67vdQCCwyIuOR0=;
+ b=mNW72x08U3Vy52QeYIVjXyesNxtKxcSzs+spBUEgCwkjn/WmMegu90e8AMDmF09gEx
+ oUdX/Eo0Aokc/N4D5nNMlRKSSz4D/cWyRWmUDuONcjWbn3CX17kmb6hwMb18WZkwRw6F
+ G8/8zFNnaG2K4J+gYOadhsI1J7JJnckiRcfsqAX452UvnwbsXJpwpLX1rjqBCt4u05GZ
+ xuv+mK9ESHcrrIKBEOZFYx9QMEbvGyIGEFs+dDGI9poGTH1o4hevjp7tyTNhKvcnMCOL
+ AtxzwW78fEzCYJvPCdxeAx/HntO4cv8PoLMCk5m6ydd5zQsi1E0FkzkTVGgC2YMOm8HC
+ CQBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qkrQNPdYjgzsGeZKliHj5m6aTSoldYZ7J5gDgev0N24=;
- b=Xv0WHNSZeufn5k3v0q7riSaDR6yG16F0OloCKaw83yEoFg07TE9QK/iGNtrlfcD9Ga
- tm/+NwND5Qdgy+p4Dy8ZNgk5fYylP2jQvDmz+cLtXywvGeX9jcXZJ8img+jlH/65KqMt
- V9vHnaAVb/UGxnMqDD1S8bqeW7sH9O/INRfgQG3hscT4dcx+8aoWSHUY7ji9l8Xzj6Mq
- dQXR/8q8R1n+aiQn2ETNpXmXnS40oMz4y9ZRpZElHdI2nSAoTI3HTCUBiq3Q4SBF8IsP
- xKk7LcUe7FZmV/67oh+vufMsqQMnKr1ZA4rj+pAC1zUNxnJrnd6ywedb64FjWtymGCUK
- Rp7g==
-X-Gm-Message-State: APjAAAXiii9xQbB1IEzqhAsQeq4cO0S739a4Kh93QsOQdJId+vbvxm9X
- oZhNptepeNvs9DOrw5rjvwgC2w==
-X-Google-Smtp-Source: APXvYqywssOxbCn7WITGiNPQGWDYx5MRelLTlgKCMQtYrZ8P63sUiL1AO10fK9ka7LpLbZ09oAa4Lw==
-X-Received: by 2002:adf:fc0e:: with SMTP id i14mr56808wrr.302.1568745675354;
+ bh=rlSvkcXczqc1cNe9s/EmLRGBxbkZT67vdQCCwyIuOR0=;
+ b=DQhsA+RkRd0MZ9BFWVUxJOpNWA0qTtGGMSKy4hKpApH4+4DyV6Ky/KzCvVAysvgIvn
+ Pqx2r/G9kVn4KK2vobS6kjiX2parVbEoW3eE8cgZy2ZDk9L3sJIhpJyyEQGlcblLrtWx
+ 20RT8aJJwvYhlF0FzgVi3MBNY7QT68HLOvGM1B0/nWFd2J3r+Hn40m0+7qdGAup5LVOz
+ N9ht65RE4f4O7axVO/zCPg7j65LANerKPsyXFLyJAvp69uclJ3JaSjkdDnpSPxa9iJqc
+ fzRYtMUs6d5oMrzQvW0j0NH9Cz0/m/JhfI6tlv3ndy8IIQV0TOmiloZOO7lyNJdumMWk
+ e3Eg==
+X-Gm-Message-State: APjAAAXWchRaC88CpabDlNdXLjtCmxr6cxc6J5S+WkoVGXPd1FyCS50X
+ V5P1ameHCpnBkoGa18zUUWuA+A==
+X-Google-Smtp-Source: APXvYqxwsgTQjIZPSpQPwiO4n8htmpTRCPOxJoWtx6yvrSs3N3muVgnk7+6XUBwnB2tRc+W+p57tmw==
+X-Received: by 2002:a5d:5708:: with SMTP id a8mr61703wrv.240.1568745675965;
  Tue, 17 Sep 2019 11:41:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n2sm3279274wmc.1.2019.09.17.11.41.11
+ by smtp.gmail.com with ESMTPSA id q22sm2243959wmj.5.2019.09.17.11.41.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 17 Sep 2019 11:41:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D91291FF92;
+ by zen.linaroharston (Postfix) with ESMTP id EDA071FF93;
  Tue, 17 Sep 2019 19:41:09 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 17 Sep 2019 19:41:05 +0100
-Message-Id: <20190917184109.12564-6-alex.bennee@linaro.org>
+Date: Tue, 17 Sep 2019 19:41:06 +0100
+Message-Id: <20190917184109.12564-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190917184109.12564-1-alex.bennee@linaro.org>
 References: <20190917184109.12564-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v1 5/9] tests/tcg: clean-up some comments after
- the de-tangling
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v1 6/9] tests/tcg: re-enable linux-test for
+ ppc64abi32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,101 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These were missed in the recent de-tangling so have been updated to be
-more actuate. I've also built up ARM_TESTS in a manner similar to
-AARCH64_TESTS for better consistency.
+Now we have fixed the signal delivary bug we can remove this horrible
+hack from the system.
 
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/tcg/Makefile.target         |  7 +++++--
- tests/tcg/aarch64/Makefile.target |  3 ++-
- tests/tcg/arm/Makefile.target     | 15 ++++++++-------
- 3 files changed, 15 insertions(+), 10 deletions(-)
+ tests/tcg/configure.sh              |  1 +
+ tests/tcg/multiarch/Makefile.target | 11 +++--------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 8808beaf74b..679eb56bd37 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -74,8 +74,11 @@ TIMEOUT=15
- endif
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 6c4a471aeae..e8a1a1495fc 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -54,6 +54,7 @@ fi
+ : ${cross_cc_cflags_ppc="-m32"}
+ : ${cross_cc_ppc64="powerpc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_ppc64="-m64"}
++: ${cross_cc_cflags_ppc64abi32="-mcpu=power8"}
+ : ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
+ : ${cross_cc_cflags_s390x="-m64"}
+ : ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index 6b1e30e2fec..657a04f802d 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -12,14 +12,6 @@ VPATH 		+= $(MULTIARCH_SRC)
+ MULTIARCH_SRCS   =$(notdir $(wildcard $(MULTIARCH_SRC)/*.c))
+ MULTIARCH_TESTS  =$(MULTIARCH_SRCS:.c=)
  
- ifdef CONFIG_USER_ONLY
--# The order we include is important. We include multiarch, base arch
--# and finally arch if it's not the same as base arch.
-+# The order we include is important. We include multiarch first and
-+# then the target. If there are common tests shared between
-+# sub-targets (e.g. ARM & AArch64) then it is up to
-+# $(TARGET_NAME)/Makefile.target to include the common parent
-+# architecture in its VPATH.
- -include $(SRC_PATH)/tests/tcg/multiarch/Makefile.target
- -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.target
- 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index e763dd9da37..9758f89f905 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -8,7 +8,7 @@ VPATH 		+= $(ARM_SRC)
- AARCH64_SRC=$(SRC_PATH)/tests/tcg/aarch64
- VPATH 		+= $(AARCH64_SRC)
- 
--# we don't build any other ARM test
-+# Float-convert Tests
- AARCH64_TESTS=fcvt
- 
- fcvt: LDFLAGS+=-lm
-@@ -17,6 +17,7 @@ run-fcvt: fcvt
- 	$(call run-test,$<,$(QEMU) $<, "$< on $(TARGET_NAME)")
- 	$(call diff-out,$<,$(AARCH64_SRC)/fcvt.ref)
- 
-+# Pauth Tests
- AARCH64_TESTS += pauth-1 pauth-2
- run-pauth-%: QEMU_OPTS += -cpu max
- 
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index aa4e4e3782c..7347d3d0adb 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -8,25 +8,26 @@ ARM_SRC=$(SRC_PATH)/tests/tcg/arm
- # Set search path for all sources
- VPATH 		+= $(ARM_SRC)
- 
--ARM_TESTS=hello-arm test-arm-iwmmxt
--
--TESTS += $(ARM_TESTS) fcvt
--
-+# Basic Hello World
-+ARM_TESTS = hello-arm
- hello-arm: CFLAGS+=-marm -ffreestanding
- hello-arm: LDFLAGS+=-nostdlib
- 
-+# IWMXT floating point extensions
-+ARM_TESTS += test-arm-iwmmxt
- test-arm-iwmmxt: CFLAGS+=-marm -march=iwmmxt -mabi=aapcs -mfpu=fpv4-sp-d16
- test-arm-iwmmxt: test-arm-iwmmxt.S
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
- 
--ifeq ($(TARGET_NAME), arm)
-+# Float-convert Tests
-+ARM_TESTS += fcvt
- fcvt: LDFLAGS+=-lm
- # fcvt: CFLAGS+=-march=armv8.2-a+fp16 -mfpu=neon-fp-armv8
--
- run-fcvt: fcvt
- 	$(call run-test,fcvt,$(QEMU) $<,"$< on $(TARGET_NAME)")
- 	$(call diff-out,fcvt,$(ARM_SRC)/fcvt.ref)
+-# FIXME: ppc64abi32 linux-test seems to have issues but the other basic tests work
+-ifeq ($(TARGET_NAME),ppc64abi32)
+-BROKEN_TESTS = linux-test
 -endif
+-
+-# Update TESTS
+-TESTS		+= $(filter-out $(BROKEN_TESTS), $(MULTIARCH_TESTS))
+-
+ #
+ # The following are any additional rules needed to build things
+ #
+@@ -39,3 +31,6 @@ run-test-mmap: test-mmap
+ run-test-mmap-%: test-mmap
+ 	$(call run-test, test-mmap-$*, $(QEMU) -p $* $<,\
+ 		"$< ($* byte pages) on $(TARGET_NAME)")
 +
-+TESTS += $(ARM_TESTS)
- 
- # On ARM Linux only supports 4k pages
- EXTRA_RUNS+=run-test-mmap-4096
++# Update TESTS
++TESTS += $(MULTIARCH_TESTS)
 -- 
 2.20.1
 
