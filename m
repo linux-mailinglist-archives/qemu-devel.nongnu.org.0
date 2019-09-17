@@ -2,55 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C30B4ECE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 15:10:01 +0200 (CEST)
-Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16076B4ED8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 15:11:52 +0200 (CEST)
+Received: from localhost ([::1]:45958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iADF2-0001wc-NY
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 09:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41915)
+	id 1iADGp-0003cv-2v
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 09:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41829)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1iADCy-0000Vw-50
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 09:07:58 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iADCQ-00005B-9W
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 09:07:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1iADCv-0002hc-Bf
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 09:07:51 -0400
-Received: from zuban.uni-paderborn.de ([131.234.189.17]:41684)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1iADCu-0002gl-Oz; Tue, 17 Sep 2019 09:07:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=RLrzT76BGLWUQElAktBhQ8dZhxAWdzuSE2omautw7r4=; b=R3jqWC4AFwwxtojdDldUjSOJlQ
- Ly2oHO65WwThONaRHPflLbv+2ug9i0SbY5Z7Ch9OGwSyirv8I2Eps7FkkiKH89kJXO2r5zRYPUlfM
- ckr6rOVe6XvlzcbkuWIlzMgM59PUBHSUWcoyOGHsvZ4QN2Ji3oYd6iz57As0t3Ky4lXI=;
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Konopik, Andreas" <andreas.konopik@fau.de>
-References: <9cf47438fa943b28ee987cea7b76a459@fau.de>
- <CAFEAcA-oP9QkYnQr1SQUvTks+9ySjDCn0G5yuULdOBepQi-PSw@mail.gmail.com>
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-ID: <8ab962a1-e372-59bb-022a-9fff72841211@mail.uni-paderborn.de>
-Date: Tue, 17 Sep 2019 15:07:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-oP9QkYnQr1SQUvTks+9ySjDCn0G5yuULdOBepQi-PSw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US-large
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.7.2805085, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2019.9.17.130017, AntiVirus-Engine: 5.65.0,
- AntiVirus-Data: 2019.9.9.5650001
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+ (envelope-from <imammedo@redhat.com>) id 1iADCO-0002Y4-C7
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 09:07:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48830)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iADCO-0002Xu-7B
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 09:07:16 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5A501315C00C;
+ Tue, 17 Sep 2019 13:07:15 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEF1419C4F;
+ Tue, 17 Sep 2019 13:07:12 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 17 Sep 2019 09:07:06 -0400
+Message-Id: <20190917130708.10281-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 17 Sep 2019 13:07:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 131.234.189.17
-Subject: Re: [Qemu-devel] [Qemu-discuss] Segmentation fault on target tricore
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/2] q35: mch: allow to lock down 128K RAM at
+ default SMBASE address
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,97 +52,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- qemu-discuss <qemu-discuss@nongnu.org>
+Cc: yingwen.chen@intel.com, devel@edk2.groups.io, phillip.goerl@oracle.com,
+ alex.williamson@redhat.com, jiewen.yao@intel.com, jun.nakajima@intel.com,
+ michael.d.kinney@intel.com, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
+ rfc@edk2.groups.io, lersek@redhat.com, joao.m.martins@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Andreas,
 
-On 9/17/19 2:32 PM, Peter Maydell wrote:
-> On Tue, 17 Sep 2019 at 13:24, Konopik, Andreas <andreas.konopik@fau.de> wrote:
->> Hello,
->>
->> I am wondering why the "Hello world"-program available in TASKING
->> (v6.2r1) generates a segfault.
->>
->> I compiled the program for the 'TC1796' Processor (Infineon TriCore 1
->> Family -> AUDO NextGeneration Family).
->> QEMU was built with gcc 9.1.0 and I added a memory region, that was
->> necessary [1].
->> Running QEMU with following options:
->> `./qemu/build/tricore-softmmu/qemu-system-tricore -nographic -M
->> tricore_testboard -cpu tc1796 -kernel hello.elf`
->> led to a segfault in a short time
-> Hi -- I'm cc'ing the qemu-devel list and the TriCore maintainer;
-> not everybody reads the -discuss mailing list.
->
->> Using gdb and valgrind I found out that:
->> - 'gen_mtcr()' and 'gen_mfcr()' access uninitialized values, i.e. CSFRs,
->> which leads to the Segfault
->> - The uninitialised values were created by stack allocation of
->> DisasContext in 'gen_intermediate_code()'
+Try #2 using PCI config space of MCH to negotiate/lock SMRAM
+at 0x30000.
+
+CC: yingwen.chen@intel.com
+CC: devel@edk2.groups.io
+CC: phillip.goerl@oracle.com
+CC: alex.williamson@redhat.com
+CC: jiewen.yao@intel.com
+CC: jun.nakajima@intel.com
+CC: michael.d.kinney@intel.com
+CC: pbonzini@redhat.com
+CC: boris.ostrovsky@oracle.com
+CC: rfc@edk2.groups.io
+CC: joao.m.martins@oracle.com
+CC: lersek@redhat.com
 
 
-Sounds like a thing we already fixed (see 
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05496.html). 
-However, I see that you used a version already containing the fix.
+Igor Mammedov (2):
+  q35: implement 128K SMRAM at default SMBASE address
+  tests: q35: MCH: add default SMBASE SMRAM lock test
 
+ include/hw/pci-host/q35.h |  10 ++++
+ hw/i386/pc.c              |   4 +-
+ hw/pci-host/q35.c         |  80 ++++++++++++++++++++++++++---
+ tests/q35-test.c          | 105 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 191 insertions(+), 8 deletions(-)
 
-> This definitely sounds like a bug: do you have a stack
-> backtrace from valgrind or gdb of the bad access and the
-> segfault?
-
-
-Yes, or a small reproducer program.
-
-
->>> diff --git a/hw/tricore/tricore_testboard.c
->>> b/hw/tricore/tricore_testboard.c
->>> index aef3289f8c..c287e0e7f5 100644
->>> --- a/hw/tricore/tricore_testboard.c
->>> +++ b/hw/tricore/tricore_testboard.c
->>> @@ -59,6 +59,7 @@ static void tricore_testboard_init(MachineState
->>> *machine, int board_id)
->>>      CPUTriCoreState *env;
->>>
->>>      MemoryRegion *sysmem = get_system_memory();
->>> +    MemoryRegion *pflash = g_new(MemoryRegion, 1);
->>>      MemoryRegion *ext_cram = g_new(MemoryRegion, 1);
->>>      MemoryRegion *ext_dram = g_new(MemoryRegion, 1);
->>>      MemoryRegion *int_cram = g_new(MemoryRegion, 1);
->>> @@ -68,6 +69,8 @@ static void tricore_testboard_init(MachineState
->>> *machine, int board_id)
->>>
->>>      cpu = TRICORE_CPU(cpu_create(machine->cpu_type));
->>>      env = &cpu->env;
->>> +    memory_region_init_ram(pflash, NULL, "pflash",
->>> +                           2 * MiB, &error_fatal);
->>>      memory_region_init_ram(ext_cram, NULL, "powerlink_ext_c.ram",
->>>                             2 * MiB, &error_fatal);
->>>      memory_region_init_ram(ext_dram, NULL, "powerlink_ext_d.ram",
->>> @@ -81,6 +84,7 @@ static void tricore_testboard_init(MachineState
->>> *machine, int board_id)
->>>      memory_region_init_ram(pcp_text, NULL, "powerlink_pcp_text.ram",
->>>                             32 * KiB, &error_fatal);
->>>
->>> +    memory_region_add_subregion(sysmem, 0xa0000000, pflash);
->>>      memory_region_add_subregion(sysmem, 0x80000000, ext_cram);
->>>      memory_region_add_subregion(sysmem, 0xa1000000, ext_dram);
->>>      memory_region_add_subregion(sysmem, 0xd4000000, int_cram);
-> I don't know enough about TriCore or the board QEMU is
-> emulating here to know whether this is the right thing;
-> Bastian?
-
-
-As the name suggest this is just a Testboard (and thus is not linked to 
-any real board) that initializes the minimal amount of memory that is 
-needed to run a binary. If you're interested you can implement a real 
-board. I'm happy to take such a patch :)
-
-
-Cheers,
-
-Bastian
+-- 
+2.18.1
 
 
