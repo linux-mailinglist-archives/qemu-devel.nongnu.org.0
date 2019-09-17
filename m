@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2733B5492
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 19:49:41 +0200 (CEST)
-Received: from localhost ([::1]:49116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E76B5496
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 19:50:42 +0200 (CEST)
+Received: from localhost ([::1]:49124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAHbg-0006tr-R1
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 13:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54950)
+	id 1iAHcf-0007wx-3H
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 13:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iAHa4-0006Cg-Vp
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 13:48:05 -0400
+ (envelope-from <eblake@redhat.com>) id 1iAHbG-0006zI-5w
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 13:49:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iAHa2-0005Jg-Oa
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 13:48:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44510)
+ (envelope-from <eblake@redhat.com>) id 1iAHbF-0005bq-8a
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 13:49:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43040)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAHa1-0005Ic-II
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 13:47:58 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAHbF-0005ba-0q
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 13:49:13 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5991A1DA0;
- Tue, 17 Sep 2019 17:47:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4CEBD10C6352;
+ Tue, 17 Sep 2019 17:49:12 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9AA25D9DC;
- Tue, 17 Sep 2019 17:47:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9A5E60852;
+ Tue, 17 Sep 2019 17:49:09 +0000 (UTC)
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190914153506.2151-1-armbru@redhat.com>
- <20190914153506.2151-6-armbru@redhat.com>
+ <20190914153506.2151-7-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <ca7e3eba-98ba-56cb-574f-d9974f39122b@redhat.com>
-Date: Tue, 17 Sep 2019 12:47:50 -0500
+Message-ID: <473521a5-1910-27f7-34e2-ec502cf61395@redhat.com>
+Date: Tue, 17 Sep 2019 12:49:08 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190914153506.2151-6-armbru@redhat.com>
+In-Reply-To: <20190914153506.2151-7-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="5sEFNuptRUu7BhyQvnRJUme0qYTzhDWQg"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ boundary="NrEC4mifq3HjmZTBXF1wIkEhjXnR1IRvm"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 17 Sep 2019 17:47:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.64]); Tue, 17 Sep 2019 17:49:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 05/19] tests/qapi-schema: Demonstrate
- insufficient 'if' checking
+Subject: Re: [Qemu-devel] [PATCH 06/19] tests/qapi-schema: Demonstrate
+ suboptimal lexical errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,66 +90,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5sEFNuptRUu7BhyQvnRJUme0qYTzhDWQg
-Content-Type: multipart/mixed; boundary="HX4JmN5QSq5753khRmjhyMbn7mD9s1aQi";
+--NrEC4mifq3HjmZTBXF1wIkEhjXnR1IRvm
+Content-Type: multipart/mixed; boundary="cxVxSEcbF3ZkTSy6fR6YRNuoJU956fUKE";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <ca7e3eba-98ba-56cb-574f-d9974f39122b@redhat.com>
-Subject: Re: [PATCH 05/19] tests/qapi-schema: Demonstrate insufficient 'if'
- checking
+Message-ID: <473521a5-1910-27f7-34e2-ec502cf61395@redhat.com>
+Subject: Re: [PATCH 06/19] tests/qapi-schema: Demonstrate suboptimal lexical
+ errors
 References: <20190914153506.2151-1-armbru@redhat.com>
- <20190914153506.2151-6-armbru@redhat.com>
-In-Reply-To: <20190914153506.2151-6-armbru@redhat.com>
+ <20190914153506.2151-7-armbru@redhat.com>
+In-Reply-To: <20190914153506.2151-7-armbru@redhat.com>
 
---HX4JmN5QSq5753khRmjhyMbn7mD9s1aQi
+--cxVxSEcbF3ZkTSy6fR6YRNuoJU956fUKE
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/14/19 10:34 AM, Markus Armbruster wrote:
-> Cover invalid 'if' in struct members, features, union and alternate
-> branches.  Four out of four are broken.  Mark FIXME.
+> The error message for forgotten quotes around a name shows just the
+> name's first character, which isn't as nice as it could be.  Same for
+> attempting to use a number.
+
+And we'll want to use numbers for defaults soon enough...
+
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
 
-Embarrassing. But the fact that you're pointing them out presumably
-means that you fix it later in the series ;)
-
-> +++ b/tests/qapi-schema/features-if-invalid.json
-> @@ -0,0 +1,5 @@
-> +# Cover feature with invalid 'if'
-> +# FIXME not rejected, misinterpreded as unconditional
-
-misinterpreted
-
-With the typo fix,
-
 Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> +++ b/tests/qapi-schema/struct-member-if-invalid.json
-> @@ -0,0 +1,4 @@
-> +# Cover member with invalid 'if'
-> +# FIXME not rejected, would generate '#if True\n'
-
-Which might actually compile, depending on what else is present in
-various headers!  But certainly not what was intended.
-
-> +++ b/tests/qapi-schema/union-branch-if-invalid.json
-> @@ -0,0 +1,7 @@
-> +# Cover branch with invalid 'if'
-> +# FIXME not rejected, would generate '#if \n'
-> +{ 'enum': 'Branches', 'data': ['branch1'] }
-> +{ 'struct': 'Stru', 'data': { 'member': 'str' } }
-> +{ 'union': 'Uni',
-> +  'base': { 'tag': 'Branches' }, 'discriminator': 'tag',
-> +  'data': { 'branch1': { 'type': 'Stru', 'if': [''] } } }
-
-So you're pointing out a difference between an empty string and a string
-not containing a C macro name (possibly because later patches will give
-them different error messages).
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -157,24 +127,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---HX4JmN5QSq5753khRmjhyMbn7mD9s1aQi--
+--cxVxSEcbF3ZkTSy6fR6YRNuoJU956fUKE--
 
---5sEFNuptRUu7BhyQvnRJUme0qYTzhDWQg
+--NrEC4mifq3HjmZTBXF1wIkEhjXnR1IRvm
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BHEYACgkQp6FrSiUn
-Q2oFDAgAmlLtw+wHB3Zcihr07zN3tG8DmM4KgFyYZhfjmYVzQZpGm+7hvBblgSU/
-kcCOXlPXiSt+c4VRO2YEoPkWUzfuhvqwFqugjh5oYdXcpqoE2jrj/uaiUAGUk0A8
-AaxxVVZ3CZMsXh/EbAhQJjqakcqPgXNfzBcNv3rEEfD4oZKdu8rODGgkY3wQOGSV
-DjpfvONvvpKG9Y4IVCsqSLVbkseYcET5T9KhodnxqIxLEsgcYZqkOuemoXrCWaxo
-SfhQnoUuDXctVPKrG4Xhn3w+omlEho0VB0tCAqWqm3MKRM3GzLY4siT0+sK1hBHp
-B0jHpQHXtfk1KaQ08G8j8QcM8b6ymA==
-=0vuu
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BHJUACgkQp6FrSiUn
+Q2oeyQf/V08PDNtO0byoxYcbdMOTX7xYp8T1EDPnyWLrwnmxuTc0DxkZayW2JJpy
+N6m0q+TZQipW8MiSaUQGfSX2B3HY5Isl9Jim8jUby221o1H5OKPt+NN2YFvGKazl
+FzKrjjuGvqpY0wek7/vEie2KBqloBa2J/za0BmFtG9knENciFt47YZ2bE8A2LJ5T
+VuJolhtnkeAi9gPndDnI3z5ziDeqo1FyPcPBJOmidboURYiPt6cL0lk6QnCJ5ncz
+g0dHbAocvIYY14DvFPS9LF+RzNpDbEtXWFYmtt1HUj3g7h0vX/+dlE8FCwkz/1NM
+e/MP4KUlTjBlTfvnUHY0A5RBvBMNXA==
+=PRyP
 -----END PGP SIGNATURE-----
 
---5sEFNuptRUu7BhyQvnRJUme0qYTzhDWQg--
+--NrEC4mifq3HjmZTBXF1wIkEhjXnR1IRvm--
 
