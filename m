@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8803BB4C24
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:44:07 +0200 (CEST)
-Received: from localhost ([::1]:43892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1980B4C31
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:49:03 +0200 (CEST)
+Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAAxq-00018f-DW
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46819)
+	id 1iAB2b-0005Bs-Jy
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46873)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iAAop-0001mh-8n
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:49 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAAou-0001pL-UR
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iAAon-0004xH-A7
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:47 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38459)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAAot-0004zv-08
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:52 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37549)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iAAon-0004wg-12
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:45 -0400
-Received: by mail-wr1-x444.google.com with SMTP id l11so2570889wrx.5
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 03:34:44 -0700 (PDT)
+ id 1iAAor-0004yL-2B
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:49 -0400
+Received: by mail-wm1-x344.google.com with SMTP id r195so2514010wme.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 03:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=s6juWaeJdvbdYfQYOPZtIdvf+1dOdIoXW07/VCUIeko=;
- b=B+yj1SmtCGI/clemc6E3xUgJ5QKLA3T5NhFvCpWor2+JCztY+5LAP5uZUQg+0+52qh
- kfqRmcgzJDi3xXZ6bu1q/tkRJojc6D/x99w+g12QGrCPtAg2Egcn1iTT9+Ft8sEEYkbU
- l7XZvctacAMoxU2939hWxdeYCq0mwFQJ9J0xh1yZoJsx3vGyuY3dfz8DxvJO/rn3r0sO
- oSWS3YKL+Tigf7JYQNv0+KN6+BbWQ6BthttY+vi9Q5GRJLuiiV/DKjU0zjJhIqcO/+nc
- gWinqpwX88VPuhoJg3WEMp5LTaBR/61Hg8+3M+wHaW4EYImwTNg8BGT2oGltuL8HD+0f
- 2G9A==
+ bh=vk/m1phy6P65dEIY6/BWJKvTh0rFIvdnyUtACfEL0CM=;
+ b=uZBpXkJoRNGLGeAUKlYnUpkJnKII70LmExPv/HnxUSqdHjbIk5peDVXAfi9DGMtgOZ
+ KmsX+qlwBYudYy6UCDyUt8dUc0UOzFWSSwnAcHh9Ko9CW/Vw6u3783SOXg3d/TKkng10
+ ExalqurOr60Sj/+6lEP1ivyZLri7Yc8B9PbzdYk0puGlL6s+ZUByUH2V7VzOKFClTek5
+ s9Va5NzfCHwoTwf1bL0x4MOW8eiW/3tey0tiG26LuFX4ZUrbUY1HfSv9Q1Wy5GMvKUmT
+ Q4iOD16HfI4Du/I9Gw+TmdlilmfjE7J+oVcMPBMSAcnSpg5yk30GWsyP0qhkxpJl8lBl
+ SpNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=s6juWaeJdvbdYfQYOPZtIdvf+1dOdIoXW07/VCUIeko=;
- b=nb5Bm2lYYasWZWTfN505VvIRVXpdlYz5SZRH5XwoeZonJQZp7kuMbnCovi8FEbJZci
- ep7zgy4oPmPApz/ygRjQVWK+xrzro8qk9mBbCLl40jMU6/bluYPMnrqJC4eE00k8NXYb
- TcSYY7nRHQjyvFVtFS1cAKJtqDmJiyiBudykDF+1QIYaEU8M/Q/t0LALZS57/2VXAysb
- VG0rUlO1CNGmj6HYBhG8zvqebEm1FPOCQhVsT02ruPYsEZI+W3a+AV5JZz8bx+KR3EXT
- gWfjUfPcK2GgldwQCZ4Rf6RJid7j/bjTgLxSDQLbcvvEKFLysAzQbyRuFL/8AuwMDIuE
- B83w==
-X-Gm-Message-State: APjAAAWb+ZbjEoxaIEQXAQJeoGFY8+EmuQklTQkmi5es8oHO5kt4L+qE
- oajJeiv+lSxrUpLmDEGkssktoVh5
-X-Google-Smtp-Source: APXvYqw33fJqo93vWETnpnRY06pOLwDoSG7YDqAN5ll6QpFut9UPeXZLombmHVo86GiJUNNyHhg6rQ==
-X-Received: by 2002:adf:ead2:: with SMTP id o18mr2337793wrn.107.1568716483687; 
- Tue, 17 Sep 2019 03:34:43 -0700 (PDT)
+ bh=vk/m1phy6P65dEIY6/BWJKvTh0rFIvdnyUtACfEL0CM=;
+ b=Mt9Jl0U5gf+5Lj1R17VY3bn3RssOS4shoNpRTux0ekX4E4zHsAmHaU69HGkw5DZwwy
+ QlW86t2Z1hidECrhn1Hr374ZdfAfU4Fw+WZrWUysgQ9J7/qQ1syRpnz9N9NRNWxAstj7
+ wtfzIFyMm8zQqrUUEj/0JTN4WWB9ns25ILX+j0aYZb1XeTDxW1yorfPReJjQlBPR/Tqr
+ sjBodgaZrx23sdW87XT3dJ4DsmuOV9l8UCEQc9Ze/HYV8THJyunTAz/fdgdmzDaan9MN
+ bxLnL8vRaHHg5vKVvixNxq7aOlpinJoBVwPb1ctMmegH/GtSq2Xd+YUDMyc6ba6XPivy
+ r3MQ==
+X-Gm-Message-State: APjAAAWRG4qcJCT7/bXsdO96VMT94KSNR8dQyPVJtWEO/h4+0F2DLCFm
+ g65sUuMo2FHwpzPiU2tXq6NPrefB
+X-Google-Smtp-Source: APXvYqw6Y2xYkdenC/OlPxomswmu4zLszhNF9+N2xfiedVBty893NGB1SwGhBoVf1EOf04CT2/B6rg==
+X-Received: by 2002:a7b:c34e:: with SMTP id l14mr2948608wmj.105.1568716486574; 
+ Tue, 17 Sep 2019 03:34:46 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q3sm1985415wrm.86.2019.09.17.03.34.42
+ by smtp.gmail.com with ESMTPSA id q3sm1985415wrm.86.2019.09.17.03.34.45
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Sep 2019 03:34:43 -0700 (PDT)
+ Tue, 17 Sep 2019 03:34:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 17 Sep 2019 12:34:34 +0200
-Message-Id: <1568716480-9973-2-git-send-email-pbonzini@redhat.com>
+Date: Tue, 17 Sep 2019 12:34:37 +0200
+Message-Id: <1568716480-9973-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1568716480-9973-1-git-send-email-pbonzini@redhat.com>
 References: <1568716480-9973-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 1/7] target/i386: handle filtered_features in a
- new function mark_unavailable_features
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH 4/7] target/i386: add VMX definitions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,173 +78,157 @@ Cc: liran.alon@oracle.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next patch will add a different reason for filtering features, unrelated
-to host feature support.  Extract a new function that takes care of disabling
-the features and optionally reporting them.
+These will be used to compile the list of VMX features for named
+CPU models, and/or by the code that sets up the VMX MSRs.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 87 ++++++++++++++++++++++++++++++-------------------------
- 1 file changed, 48 insertions(+), 39 deletions(-)
+ target/i386/cpu.h | 125 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 125 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 9e0bac3..52b3f3e 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3096,17 +3096,41 @@ static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
-     return NULL;
- }
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index c00cc35..7b7f062 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -452,6 +452,25 @@ typedef enum X86Seg {
+ #define MSR_IA32_BNDCFGS                0x00000d90
+ #define MSR_IA32_XSS                    0x00000da0
  
--static void report_unavailable_features(FeatureWord w, uint32_t mask)
-+static bool x86_cpu_have_filtered_features(X86CPU *cpu)
- {
-+    FeatureWord w;
++#define MSR_IA32_VMX_BASIC              0x00000480
++#define MSR_IA32_VMX_PINBASED_CTLS      0x00000481
++#define MSR_IA32_VMX_PROCBASED_CTLS     0x00000482
++#define MSR_IA32_VMX_EXIT_CTLS          0x00000483
++#define MSR_IA32_VMX_ENTRY_CTLS         0x00000484
++#define MSR_IA32_VMX_MISC               0x00000485
++#define MSR_IA32_VMX_CR0_FIXED0         0x00000486
++#define MSR_IA32_VMX_CR0_FIXED1         0x00000487
++#define MSR_IA32_VMX_CR4_FIXED0         0x00000488
++#define MSR_IA32_VMX_CR4_FIXED1         0x00000489
++#define MSR_IA32_VMX_VMCS_ENUM          0x0000048a
++#define MSR_IA32_VMX_PROCBASED_CTLS2    0x0000048b
++#define MSR_IA32_VMX_EPT_VPID_CAP       0x0000048c
++#define MSR_IA32_VMX_TRUE_PINBASED_CTLS  0x0000048d
++#define MSR_IA32_VMX_TRUE_PROCBASED_CTLS 0x0000048e
++#define MSR_IA32_VMX_TRUE_EXIT_CTLS      0x0000048f
++#define MSR_IA32_VMX_TRUE_ENTRY_CTLS     0x00000490
++#define MSR_IA32_VMX_VMFUNC             0x00000491
 +
-+    for (w = 0; w < FEATURE_WORDS; w++) {
-+         if (cpu->filtered_features[w]) {
-+             return true;
-+         }
-+    }
+ #define XSTATE_FP_BIT                   0
+ #define XSTATE_SSE_BIT                  1
+ #define XSTATE_YMM_BIT                  2
+@@ -750,6 +769,112 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ 
+ #define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
+ 
++/* VMX MSR features */
++#define MSR_VMX_BASIC_DUAL_MONITOR                   (1ULL << 49)
++#define MSR_VMX_BASIC_INS_OUTS                       (1ULL << 54)
++#define MSR_VMX_BASIC_TRUE_CTLS                      (1ULL << 55)
 +
-+    return false;
-+}
++#define MSR_VMX_MISC_STORE_LMA                       (1ULL << 5)
++#define MSR_VMX_MISC_ACTIVITY_HLT                    (1ULL << 6)
++#define MSR_VMX_MISC_ACTIVITY_SHUTDOWN               (1ULL << 7)
++#define MSR_VMX_MISC_ACTIVITY_WAIT_SIPI              (1ULL << 8)
++#define MSR_VMX_MISC_VMWRITE_VMEXIT                  (1ULL << 29)
++#define MSR_VMX_MISC_ZERO_LEN_INJECT                 (1ULL << 30)
 +
-+static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
-+                                      const char *verbose_prefix)
-+{
-+    CPUX86State *env = &cpu->env;
-     FeatureWordInfo *f = &feature_word_info[w];
-     int i;
-     char *feat_word_str;
- 
-+    if (!cpu->force_features) {
-+        env->features[w] &= ~mask;
-+    }
-+    cpu->filtered_features[w] |= mask;
++#define MSR_VMX_EPT_EXECONLY                         (1ULL << 0)
++#define MSR_VMX_EPT_PAGE_WALK_LENGTH_4               (1ULL << 6)
++#define MSR_VMX_EPT_PAGE_WALK_LENGTH_5               (1ULL << 7)
++#define MSR_VMX_EPT_UC                               (1ULL << 8)
++#define MSR_VMX_EPT_WB                               (1ULL << 14)
++#define MSR_VMX_EPT_2MB                              (1ULL << 16)
++#define MSR_VMX_EPT_1GB                              (1ULL << 17)
++#define MSR_VMX_EPT_INVEPT                           (1ULL << 20)
++#define MSR_VMX_EPT_AD_BITS                          (1ULL << 21)
++#define MSR_VMX_EPT_ADVANCED_VMEXIT_INFO             (1ULL << 22)
++#define MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT            (1ULL << 25)
++#define MSR_VMX_EPT_INVEPT_ALL_CONTEXT               (1ULL << 26)
++#define MSR_VMX_EPT_INVVPID                          (1ULL << 32)
++#define MSR_VMX_EPT_INVVPID_SINGLE_ADDR              (1ULL << 40)
++#define MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT           (1ULL << 41)
++#define MSR_VMX_EPT_INVVPID_ALL_CONTEXT              (1ULL << 42)
++#define MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS (1ULL << 43)
 +
-+    if (!verbose_prefix) {
-+        return;
-+    }
++#define MSR_VMX_VMFUNC_EPT_SWITCHING                 (1ULL << 0)
 +
-     for (i = 0; i < 32; ++i) {
-         if ((1UL << i) & mask) {
-             feat_word_str = feature_word_description(f, i);
--            warn_report("%s doesn't support requested feature: %s%s%s [bit %d]",
--                        accel_uses_host_cpuid() ? "host" : "TCG",
-+            warn_report("%s: %s%s%s [bit %d]",
-+                        verbose_prefix,
-                         feat_word_str,
-                         f->feat_names[i] ? "." : "",
-                         f->feat_names[i] ? f->feat_names[i] : "", i);
-@@ -3511,7 +3535,7 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
- }
- 
- static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
--static int x86_cpu_filter_features(X86CPU *cpu);
-+static void x86_cpu_filter_features(X86CPU *cpu, bool verbose);
- 
- /* Build a list with the name of all features on a feature word array */
- static void x86_cpu_list_feature_names(FeatureWordArray features,
-@@ -3576,7 +3600,7 @@ static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
-         next = &new->next;
-     }
- 
--    x86_cpu_filter_features(xc);
-+    x86_cpu_filter_features(xc, false);
- 
-     x86_cpu_list_feature_names(xc->filtered_features, next);
- 
-@@ -3784,15 +3808,6 @@ static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
-     return r;
- }
- 
--static void x86_cpu_report_filtered_features(X86CPU *cpu)
--{
--    FeatureWord w;
--
--    for (w = 0; w < FEATURE_WORDS; w++) {
--        report_unavailable_features(w, cpu->filtered_features[w]);
--    }
--}
--
- static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
- {
-     PropValue *pv;
-@@ -5154,24 +5169,24 @@ out:
-  *
-  * Returns: 0 if all flags are supported by the host, non-zero otherwise.
-  */
--static int x86_cpu_filter_features(X86CPU *cpu)
-+static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
- {
-     CPUX86State *env = &cpu->env;
-     FeatureWord w;
--    int rv = 0;
-+    const char *prefix = NULL;
 +
-+    if (verbose) {
-+        prefix = accel_uses_host_cpuid()
-+                 ? "host doesn't support requested feature"
-+                 : "TCG doesn't support requested feature";
-+    }
- 
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         uint32_t host_feat =
-             x86_cpu_get_supported_feature_word(w, false);
-         uint32_t requested_features = env->features[w];
--        uint32_t available_features = requested_features & host_feat;
--        if (!cpu->force_features) {
--            env->features[w] = available_features;
--        }
--        cpu->filtered_features[w] = requested_features & ~available_features;
--        if (cpu->filtered_features[w]) {
--            rv = 1;
--        }
-+        uint32_t unavailable_features = requested_features & ~host_feat;
-+        mark_unavailable_features(cpu, w, unavailable_features, prefix);
-     }
- 
-     if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
-@@ -5197,13 +5212,9 @@ static int x86_cpu_filter_features(X86CPU *cpu)
-              * host can't emulate the capabilities we report on
-              * cpu_x86_cpuid(), intel-pt can't be enabled on the current host.
-              */
--            env->features[FEAT_7_0_EBX] &= ~CPUID_7_0_EBX_INTEL_PT;
--            cpu->filtered_features[FEAT_7_0_EBX] |= CPUID_7_0_EBX_INTEL_PT;
--            rv = 1;
-+            mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);
-         }
-     }
--
--    return rv;
- }
- 
- static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-@@ -5244,16 +5255,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         goto out;
-     }
- 
--    if (x86_cpu_filter_features(cpu) &&
--        (cpu->check_cpuid || cpu->enforce_cpuid)) {
--        x86_cpu_report_filtered_features(cpu);
--        if (cpu->enforce_cpuid) {
--            error_setg(&local_err,
--                       accel_uses_host_cpuid() ?
--                           "Host doesn't support requested features" :
--                           "TCG doesn't support requested features");
--            goto out;
--        }
-+    x86_cpu_filter_features(cpu, cpu->check_cpuid || cpu->enforce_cpuid);
++/* VMX controls */
++#define VMX_CPU_BASED_VIRTUAL_INTR_PENDING          0x00000004
++#define VMX_CPU_BASED_USE_TSC_OFFSETING             0x00000008
++#define VMX_CPU_BASED_HLT_EXITING                   0x00000080
++#define VMX_CPU_BASED_INVLPG_EXITING                0x00000200
++#define VMX_CPU_BASED_MWAIT_EXITING                 0x00000400
++#define VMX_CPU_BASED_RDPMC_EXITING                 0x00000800
++#define VMX_CPU_BASED_RDTSC_EXITING                 0x00001000
++#define VMX_CPU_BASED_CR3_LOAD_EXITING              0x00008000
++#define VMX_CPU_BASED_CR3_STORE_EXITING             0x00010000
++#define VMX_CPU_BASED_CR8_LOAD_EXITING              0x00080000
++#define VMX_CPU_BASED_CR8_STORE_EXITING             0x00100000
++#define VMX_CPU_BASED_TPR_SHADOW                    0x00200000
++#define VMX_CPU_BASED_VIRTUAL_NMI_PENDING           0x00400000
++#define VMX_CPU_BASED_MOV_DR_EXITING                0x00800000
++#define VMX_CPU_BASED_UNCOND_IO_EXITING             0x01000000
++#define VMX_CPU_BASED_USE_IO_BITMAPS                0x02000000
++#define VMX_CPU_BASED_MONITOR_TRAP_FLAG             0x08000000
++#define VMX_CPU_BASED_USE_MSR_BITMAPS               0x10000000
++#define VMX_CPU_BASED_MONITOR_EXITING               0x20000000
++#define VMX_CPU_BASED_PAUSE_EXITING                 0x40000000
++#define VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS   0x80000000
 +
-+    if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
-+        error_setg(&local_err,
-+                   accel_uses_host_cpuid() ?
-+                       "Host doesn't support requested features" :
-+                       "TCG doesn't support requested features");
-+        goto out;
-     }
- 
-     /* On AMD CPUs, some CPUID[8000_0001].EDX bits must match the bits on
++#define VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES 0x00000001
++#define VMX_SECONDARY_EXEC_ENABLE_EPT               0x00000002
++#define VMX_SECONDARY_EXEC_DESC                     0x00000004
++#define VMX_SECONDARY_EXEC_RDTSCP                   0x00000008
++#define VMX_SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE   0x00000010
++#define VMX_SECONDARY_EXEC_ENABLE_VPID              0x00000020
++#define VMX_SECONDARY_EXEC_WBINVD_EXITING           0x00000040
++#define VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST       0x00000080
++#define VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT       0x00000100
++#define VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY    0x00000200
++#define VMX_SECONDARY_EXEC_PAUSE_LOOP_EXITING       0x00000400
++#define VMX_SECONDARY_EXEC_RDRAND_EXITING           0x00000800
++#define VMX_SECONDARY_EXEC_ENABLE_INVPCID           0x00001000
++#define VMX_SECONDARY_EXEC_ENABLE_VMFUNC            0x00002000
++#define VMX_SECONDARY_EXEC_SHADOW_VMCS              0x00004000
++#define VMX_SECONDARY_EXEC_ENCLS_EXITING            0x00008000
++#define VMX_SECONDARY_EXEC_RDSEED_EXITING           0x00010000
++#define VMX_SECONDARY_EXEC_ENABLE_PML               0x00020000
++#define VMX_SECONDARY_EXEC_XSAVES                   0x00100000
++
++#define VMX_PIN_BASED_EXT_INTR_MASK                 0x00000001
++#define VMX_PIN_BASED_NMI_EXITING                   0x00000008
++#define VMX_PIN_BASED_VIRTUAL_NMIS                  0x00000020
++#define VMX_PIN_BASED_VMX_PREEMPTION_TIMER          0x00000040
++#define VMX_PIN_BASED_POSTED_INTR                   0x00000080
++
++#define VMX_VM_EXIT_SAVE_DEBUG_CONTROLS             0x00000004
++#define VMX_VM_EXIT_HOST_ADDR_SPACE_SIZE            0x00000200
++#define VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL      0x00001000
++#define VMX_VM_EXIT_ACK_INTR_ON_EXIT                0x00008000
++#define VMX_VM_EXIT_SAVE_IA32_PAT                   0x00040000
++#define VMX_VM_EXIT_LOAD_IA32_PAT                   0x00080000
++#define VMX_VM_EXIT_SAVE_IA32_EFER                  0x00100000
++#define VMX_VM_EXIT_LOAD_IA32_EFER                  0x00200000
++#define VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER       0x00400000
++#define VMX_VM_EXIT_CLEAR_BNDCFGS                   0x00800000
++#define VMX_VM_EXIT_PT_CONCEAL_PIP                  0x01000000
++#define VMX_VM_EXIT_CLEAR_IA32_RTIT_CTL             0x02000000
++
++#define VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
++#define VMX_VM_ENTRY_IA32E_MODE                     0x00000200
++#define VMX_VM_ENTRY_SMM                            0x00000400
++#define VMX_VM_ENTRY_DEACT_DUAL_MONITOR             0x00000800
++#define VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL     0x00002000
++#define VMX_VM_ENTRY_LOAD_IA32_PAT                  0x00004000
++#define VMX_VM_ENTRY_LOAD_IA32_EFER                 0x00008000
++#define VMX_VM_ENTRY_LOAD_BNDCFGS                   0x00010000
++#define VMX_VM_ENTRY_PT_CONCEAL_PIP                 0x00020000
++#define VMX_VM_ENTRY_LOAD_IA32_RTIT_CTL             0x00040000
++
+ /* Supported Hyper-V Enlightenments */
+ #define HYPERV_FEAT_RELAXED             0
+ #define HYPERV_FEAT_VAPIC               1
 -- 
 1.8.3.1
 
