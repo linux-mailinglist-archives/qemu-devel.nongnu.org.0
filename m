@@ -2,80 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C11DB52EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:28:03 +0200 (CEST)
-Received: from localhost ([::1]:48262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84159B52F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:29:39 +0200 (CEST)
+Received: from localhost ([::1]:48298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAGKg-0005xs-6x
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:28:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42517)
+	id 1iAGME-00085T-HJ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42807)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iAG80-0003ZZ-Sx
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:14:58 -0400
+ (envelope-from <groug@kaod.org>) id 1iAG9B-0004rd-LP
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:16:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iAG7z-0000x5-RG
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:14:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58534)
+ (envelope-from <groug@kaod.org>) id 1iAG97-0001W2-Lk
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:16:09 -0400
+Received: from 9.mo68.mail-out.ovh.net ([46.105.78.111]:35273)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAG7z-0000vh-Io
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:14:55 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E071B81DF1;
- Tue, 17 Sep 2019 16:14:54 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B60F860126;
- Tue, 17 Sep 2019 16:14:51 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-16-armbru@redhat.com>
- <1b10e16d-9377-38ae-08ce-3bc0f8fc39d2@redhat.com>
- <8736h08asx.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <a354d2d6-7633-f95c-eb86-45a60d28e43e@redhat.com>
-Date: Tue, 17 Sep 2019 11:14:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iAG97-0001VU-Fo
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:16:05 -0400
+Received: from player788.ha.ovh.net (unknown [10.109.146.20])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 583C013D0F2
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 18:16:03 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player788.ha.ovh.net (Postfix) with ESMTPSA id 5EE3E9E2FEA7;
+ Tue, 17 Sep 2019 16:15:34 +0000 (UTC)
+Date: Tue, 17 Sep 2019 18:15:33 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Yuval Shaia <yuval.shaia@oracle.com>
+Message-ID: <20190917181533.35d62871@bahia.lan>
+In-Reply-To: <20190917145157.GA16309@lap1>
+References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
+ <156871568761.196432.13197720535866413065.stgit@bahia.lan>
+ <20190917145157.GA16309@lap1>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <8736h08asx.fsf@dusky.pond.sub.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="mryZz0rWAhSZ39AwagTHA8dyu3M1NDn9x"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 17 Sep 2019 16:14:54 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 486951712008346024
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeigdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 15/16] docs/devel/qapi-code-gen: Improve
- QAPI schema language doc
+X-Received-From: 46.105.78.111
+Subject: Re: [Qemu-devel] [PATCH 09/17] hw/rdma: Fix missing conversion to
+ rdma_error_report()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,126 +58,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---mryZz0rWAhSZ39AwagTHA8dyu3M1NDn9x
-Content-Type: multipart/mixed; boundary="6JviPCnUfBR3spgo7gzADcxTDUD3vSzjn";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@redhat.com,
- mdroth@linux.vnet.ibm.com
-Message-ID: <a354d2d6-7633-f95c-eb86-45a60d28e43e@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v2 15/16] docs/devel/qapi-code-gen: Improve
- QAPI schema language doc
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-16-armbru@redhat.com>
- <1b10e16d-9377-38ae-08ce-3bc0f8fc39d2@redhat.com>
- <8736h08asx.fsf@dusky.pond.sub.org>
-In-Reply-To: <8736h08asx.fsf@dusky.pond.sub.org>
+On Tue, 17 Sep 2019 17:51:57 +0300
+Yuval Shaia <yuval.shaia@oracle.com> wrote:
 
---6JviPCnUfBR3spgo7gzADcxTDUD3vSzjn
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> On Tue, Sep 17, 2019 at 12:21:27PM +0200, Greg Kurz wrote:
+> > Commit 4d71b38ae8fa converted many error_setg() call sites to
+> > rdma_error_report(), but it forgot to convert a companion
+> > error_append_hint(). Since no guy doesn't set errp anymore in
+> > pvrdma_realize(), errp remains NULL and error_append_hint() does
+> > nothing.
+> > 
+> > Also error_append_hint() was a poor choice since its "intended use
+> > is adding helpful hints on the human user interface" and "not for
+> > clarifying a confusing error message".
+> > 
+> > Call rdma_error_report() instead.
+> 
+> Thanks,
+> So are you suggesting to replace all other error_setg calls with
+> rdma_error_report instead?
+> 
 
-On 9/13/19 10:39 AM, Markus Armbruster wrote:
+No. I don't know what was the motivation behind 4d71b38ae8fa, I'm
+just fixing what seems to be a leftover, which should have been
+error_prepend() instead of error_append_hint() actually.
 
->>> +  expression A; expression A, ... likewise, but separated by ,
->>
->> worth calling out that trailing , are not allowed?
->=20
-> Doesn't "separated by" imply that?
->=20
->> Is the 'expression A;' a copy-paste from RFC text, irrelevant to our
->> usage here?
->=20
-> What about
->=20
->     * Repetition: Expression A... matches zero or more occurences of
->       expression A
->     * Repetition: Expression A, ... matches zero or more occurences of
->       expression A separated by ,
+> > 
+> > Fixes: 4d71b38ae8fa "hw/rdma: Switch to generic error reporting way"
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  hw/rdma/vmw/pvrdma_main.c |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> > index 3e36e130139c..d370ae07ca6a 100644
+> > --- a/hw/rdma/vmw/pvrdma_main.c
+> > +++ b/hw/rdma/vmw/pvrdma_main.c
+> > @@ -667,7 +667,7 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+> >  out:
+> >      if (rc) {
+> >          pvrdma_fini(pdev);
+> > -        error_append_hint(errp, "Device failed to load\n");
+> > +        rdma_error_report("Device failed to load");
+> 
+> Reviewed-by: Yuval Shaia <yuval.shaia@oracle.com>
+> 
+> >      }
+> >  }
+> >  
+> > 
+> > 
 
-With the spelling of 'occurrences' fixed, that works.
-
-
->>> +The top-level expressions are all JSON objects.  Their order does no=
-t
->>> +matter.
->>
->> Is that always true for all directives?
->=20
-> Yes from a purely semantic point of view.
->=20
-> No when you look at the generated text: that's in source order.  Should=
-
-> not matter for C.  Does matter for documentation.
->=20
-> See also discussion of previous patch.
->=20
->> Would it be worth reformulating as something like:
->>
->> SCHEMA =3D DIRECTIVE... DEFINITION...
->>
->> allowing zero-or-more of either, but where directives come first?
->=20
-> Language change.  Not sure anything outside tests would break.  But why=
-
-> bother?
-
-Fair enough.
-
-
->>> +Each BRANCH of the 'data' object defines a branch of the union.  A
->>> +union must have at least one branch.
->>
->> Is it worth trying to represent one-or-more in the grammar, in a
->> different manner than zero-or-more?
->=20
-> If we needed it multiple times, then something like
->=20
->     * Repetition: Expression A * matches zero or more occurences of
->       expression A
->     * Repetition: Expression A, * matches zero or more occurences of
->       expression A separated by ,
->     * Repetition: Expression A + matches one or more occurences of
->       expression A
->     * Repetition: Expression A, + matches one or more occurences of
->       expression A separated by ,
->=20
-> could be helpful.  But I can't see the need right now.
-
-Again with the typo. But I also agree that it's not needed right now.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---6JviPCnUfBR3spgo7gzADcxTDUD3vSzjn--
-
---mryZz0rWAhSZ39AwagTHA8dyu3M1NDn9x
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BBnoACgkQp6FrSiUn
-Q2rz1wgAnk5zhfPtqGH9eGoihO/hUJSOnYMziaVIwYkApO+GUukvfVfQeOOQuAjn
-ZkHo1WPaAfmoedkQ2rqfBG/F4jEjqDPVu5pE/soyZbHaLplolmWGMfS3SVfGzDp1
-km8Zw7jh7MADlsNF+K9KCz1jrsJzbhtbeos+ebD0emJhs/dWOAjIIb9gNb6xE4j7
-V/qCWEBhx1GpczeNm4hhaSNNilKKvbuQmI0GxA9Rni84bzjS0bLoDvAAomSyNrJX
-iIl5kTiujKlTC+lEBY5vHwFZMnmXycqGAJ5k3PwSILakJ2q7wZzaevMXCDZLuJ4o
-082nK9oiClsZAwxDuYImk4gndO3oHA==
-=NWEv
------END PGP SIGNATURE-----
-
---mryZz0rWAhSZ39AwagTHA8dyu3M1NDn9x--
 
