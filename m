@@ -2,72 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B623B52AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:14:34 +0200 (CEST)
-Received: from localhost ([::1]:48080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE88B52CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:19:05 +0200 (CEST)
+Received: from localhost ([::1]:48146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAG7c-0001kw-9A
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:14:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39473)
+	id 1iAGC0-0006D9-9X
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iAFuR-00005o-Ja
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:00:57 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iAFuc-00007g-Gv
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:01:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iAFuN-0004qE-Gy
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:00:53 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37379)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iAFuI-0004o8-Jk
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:00:48 -0400
-Received: by mail-wr1-x434.google.com with SMTP id i1so3776141wro.4
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 09:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=f082GMRizCGO0pbMb702PDf1wOACyEVkwKc8HPldKSg=;
- b=XeooP//VjdHKPOB1ltY0Yz1AZa6F5OL6TgVEKdZnJnXvXZGXpP7b3EdiYqmEYO4zgD
- RMHz0GtxvEXlyAxolBG5xdISQeqoUBk0JCHwUCTGwgAvKjyGhqtmgGG6RaW/9VXHm1zA
- uYwTndd4Q/OHvf1WvjQginiOWlW7uxskxpej0HCKq8Md3ELLqrRXz+GHNVIXfXunDTiD
- w/AsNiQsOvSr1GZ+9P/VJ/89RBoi5pZLqjavkwCbAQI3i6LuU5aVqCgMlL+GFZcnqHE5
- falB/rpBx2qqItjsjpU6U7LExuV0MWp+BKYrCaMwMAfK7tQ6FRMzrNLuOerISTcmmXY7
- XkSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=f082GMRizCGO0pbMb702PDf1wOACyEVkwKc8HPldKSg=;
- b=LCaZZLssfQEWe50XBMaZwTJSJP+AuO68r0zkRNVZZwADiP3FZnZdFJoRlgjHgAA3J+
- qmMZvstJses60kHzrzzwX59ShvLEzw8nr1Z++Wo46tyxBwEpr1VkjMYKqZnC6OS2EYr6
- Xf3rncmP1Q/m5InmO4eohbg7iq51T1t2+bLPB0mMccfm16LOUs9HOGrLQINww6lkkXv9
- 40cqIM3+6/gwmy2LYV0St5IlAUYb0Gw8c4dID8122L/7pHT8nHTfTSoyBuaczIFHmTCw
- NgVQNAH564IH/ZoaKRUnTYL2yamUGCDT5it+jqKcCbVvTgJAZR2C5dZyj++dtfg0eAnH
- m5Pg==
-X-Gm-Message-State: APjAAAWyf0ZVZhvyx+9rNJNqbCLSXbrr2Ji6zeruckL4DCpI8fwMIaua
- WsZw8vMuY0zUdwGSuWcle3Q4lJOd3CE=
-X-Google-Smtp-Source: APXvYqyS5Yrt3RROmlRmz51pWs1eRjT1XMhkPXZHjc72Hnq96mtw7+M78uJ1lLDugF4WV+06wBV5Pw==
-X-Received: by 2002:a5d:568d:: with SMTP id f13mr3322467wrv.162.1568736041325; 
- Tue, 17 Sep 2019 09:00:41 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id a6sm1934638wrr.85.2019.09.17.09.00.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 09:00:39 -0700 (PDT)
-Date: Tue, 17 Sep 2019 17:00:38 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190917160038.GD18705@stefanha-x1.localdomain>
-References: <12460c01-6960-bd66-501a-46fc31ad7be1@redhat.com>
- <46399543-4205-93b9-0ec2-7ebb3821eb93@redhat.com>
+ (envelope-from <dgilbert@redhat.com>) id 1iAFua-0004uq-Nx
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:01:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33058)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iAFua-0004uW-Ic
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:01:04 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BA629A3D382
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 16:01:03 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-116-53.ams2.redhat.com
+ [10.36.116.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7CEF6012E;
+ Tue, 17 Sep 2019 16:00:59 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	cohuck@redhat.com,
+	mst@redhat.com
+Date: Tue, 17 Sep 2019 17:00:54 +0100
+Message-Id: <20190917160057.11847-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BRE3mIcgqKzpedwo"
-Content-Disposition: inline
-In-Reply-To: <46399543-4205-93b9-0ec2-7ebb3821eb93@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::434
-Subject: Re: [Qemu-devel] Python3 support for patches
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Tue, 17 Sep 2019 16:01:03 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 0/3] Add virtio-fs (experimental)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,78 +55,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: mszeredi@redhat.com, vgoyal@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
---BRE3mIcgqKzpedwo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
+  This set of patches adds the core of the virtio-fs support to qemu;
+it's marked experimental since the kernel patch isn't in yet; but
+it's nearly there;  the spec has passed the voting stage, and
+the kernel changes are queued in fuse-next.
 
-On Fri, Sep 13, 2019 at 05:21:37PM -0400, John Snow wrote:
-> On 9/13/19 3:32 PM, John Snow wrote:
-> > Hi,
-> >=20
-> > I quite like the patches tool; but python2 is notably doomed.
-> >=20
-> > I tried my hand at polishing it up for python3 and pushed the results
-> > here: https://github.com/jnsnow/patches/tree/python3
-> >=20
-> > I didn't faff around with trying to add simultaneous support: this is a
-> > direct conversion in one big chunk. I used 2to3 and supplemented with
-> > pylint and flake8 to find problem spots.
-> >=20
-> > I don't use all of the features of this tool, but maybe if you'd like to
-> > give this a try you can test this branch and let me know if I missed any
-> > spots.
-> >=20
-> > You can install patches 0.3.1 using the standard incantations:
-> >> python3 setup.py install --user
-> >=20
-> > If it's too broken, you can uninstall it later with:
-> >> pip3 uninstall patches
-> >=20
-> > You may need to check back to the master branch and force a
-> > reinstallation of the python2 version to get the bin back in your PATH:
-> >=20
-> >> git checkout master
-> >> python2 setup.py install --user
-> >=20
-> >=20
-> > Happy python2 doomsday,
-> > --js
-> >=20
->=20
-> Ah, this was definitely premature. I had a dream last night that this
-> was working just fine, but in the harsh, unforgiving sunlight, there are
-> still a few problems.
->=20
-> Needs a few more minutes in the oven.
+  A future set of patches will add the optional DAX mapping support.
 
-Okay, please let me know when it's working.
+  The actual qemu change is pretty minimal, since it's really only
+a virtio device with some queues.
 
-I'm currently working towards migrating to Python 3 in all areas of my
-life but the patches tool is further down the list :).
+Some links:
+  Mailing list: https://www.redhat.com/mailman/listinfo/virtio-fs
+  Dev tree: Including filesystem daemon: https://gitlab.com/virtio-fs/qem=
+u
+  kernel:
+         dev world:
+            https://gitlab.com/virtio-fs/linux
+         fuse next:
+           https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.=
+git/log/?h=3Dfor-next
+  virtio spec changes:
+         https://lists.oasis-open.org/archives/virtio-dev/201908/msg00112=
+.html
 
-Stefan
+v3
+  Split the kernel header update out
+    The contents correspond to the fuse-next world+a patch Stefan just
+    sent to make that use the newer 'num_request_queues' name
 
---BRE3mIcgqKzpedwo
-Content-Type: application/pgp-signature; name="signature.asc"
+  Update copyright year,
+  Remove the assert in vuf_handle_output
+    the virtio core code sometimes calls it during cleanup if the
+    daemon dies first
+  (I've not changed the comment about guest_notifier_mask/virtio-pci
+   since that's copied in a bunch of virtio code going back ~5 years)
 
------BEGIN PGP SIGNATURE-----
+Dr. David Alan Gilbert (3):
+  virtio: Add virito_fs linux headers
+  virtio: add vhost-user-fs base device
+  virtio: add vhost-user-fs-pci device
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2BAyYACgkQnKSrs4Gr
-c8gt1Qf/fxb32ldAUmiISydcqZqB93vEyVBKxZrmDMZydUoG2HkMZ6rUN3aYkGTc
-Gk2A3ilG2P3PwfMFld89tRFTEE1DGCyU2doWK/nnRyVw/26ZnJq73WLxkGUKPkgf
-W4p0aBYfkCseV8By1khdMNNnjst9AHVO5delUoLf38m8OuGo2GgSZoRlbn8o0taW
-IifJyKDwMzBiSvn/tkQPmyqUqSK9lwgZ/XVF/vO1yETP7p+Qtsasw9ESs18wvcxH
-zgcDj2Qvq3FVvcGT1diCtYh/2QQ8Ox49Pkf5SYczHFDNAsG2lFok+vNu47hG6hve
-O1RtzaU672l4jr3jPoQ5mp8Qdazoaw==
-=fxsZ
------END PGP SIGNATURE-----
+ configure                                   |  13 +
+ hw/virtio/Makefile.objs                     |   2 +
+ hw/virtio/vhost-user-fs-pci.c               |  85 ++++++
+ hw/virtio/vhost-user-fs.c                   | 299 ++++++++++++++++++++
+ include/hw/virtio/vhost-user-fs.h           |  45 +++
+ include/standard-headers/linux/virtio_fs.h  |  41 +++
+ include/standard-headers/linux/virtio_ids.h |   1 +
+ 7 files changed, 486 insertions(+)
+ create mode 100644 hw/virtio/vhost-user-fs-pci.c
+ create mode 100644 hw/virtio/vhost-user-fs.c
+ create mode 100644 include/hw/virtio/vhost-user-fs.h
+ create mode 100644 include/standard-headers/linux/virtio_fs.h
 
---BRE3mIcgqKzpedwo--
+--=20
+2.21.0
+
 
