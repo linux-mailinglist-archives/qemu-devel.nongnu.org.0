@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D28CB4D59
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 14:03:32 +0200 (CEST)
-Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EC4B4D77
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 14:09:23 +0200 (CEST)
+Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iACCg-0006LV-Nd
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 08:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
+	id 1iACIL-0002gg-Ix
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 08:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59197)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1iAC7R-00049E-47
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:58:06 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1iAC7d-0004Ei-Sz
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:58:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1iAC7P-0001UV-PX
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:58:04 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:42218)
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1iAC7W-0001Xw-NR
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:58:13 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:42246)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1iAC7P-0001UB-GO
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:58:03 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1iAC7W-0001X9-03
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:58:10 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 9AF9D5400BA;
- Tue, 17 Sep 2019 14:58:02 +0300 (MSK)
+ by mail.ispras.ru (Postfix) with ESMTPSA id 370385400BA;
+ Tue, 17 Sep 2019 14:58:08 +0300 (MSK)
 From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 17 Sep 2019 14:58:02 +0300
-Message-ID: <156872148244.1757.2888672921697745021.stgit@pasha-Precision-3630-Tower>
+Date: Tue, 17 Sep 2019 14:58:08 +0300
+Message-ID: <156872148803.1757.18423223977374974885.stgit@pasha-Precision-3630-Tower>
 In-Reply-To: <156872146565.1757.3033215873677512474.stgit@pasha-Precision-3630-Tower>
 References: <156872146565.1757.3033215873677512474.stgit@pasha-Precision-3630-Tower>
 User-Agent: StGit/0.17.1-dirty
@@ -35,8 +35,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [for-4.2 PATCH 3/6] replay: update docs for
- record/replay with block devices
+Subject: [Qemu-devel] [for-4.2 PATCH 4/6] replay: don't drain/flush bdrv
+ queue while RR is working
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,57 +60,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch updates the description of the command lines for using
-record/replay with attached block devices.
+In record/replay mode bdrv queue is controlled by replay mechanism.
+It does not allow saving or loading the snapshots
+when bdrv queue is not empty. Stopping the VM is not blocked by nonempty
+queue, but flushing the queue is still impossible there,
+because it may cause deadlocks in replay mode.
+This patch disables bdrv_drain_all and bdrv_flush_all in
+record/replay mode.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Stopping the machine when the IO requests are not finished is needed
+for the debugging. E.g., breakpoint may be set at the specified step,
+and forcing the IO requests to finish may break the determinism
+of the execution.
+
+Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Acked-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/replay.txt |   12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ block/io.c |   28 ++++++++++++++++++++++++++++
+ cpus.c     |    2 --
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/docs/replay.txt b/docs/replay.txt
-index ee6aee9861..ce97c3f72f 100644
---- a/docs/replay.txt
-+++ b/docs/replay.txt
-@@ -27,7 +27,7 @@ Usage of the record/replay:
-  * First, record the execution with the following command line:
-     qemu-system-i386 \
-      -icount shift=7,rr=record,rrfile=replay.bin \
--     -drive file=disk.qcow2,if=none,id=img-direct \
-+     -drive file=disk.qcow2,if=none,snapshot,id=img-direct \
-      -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay \
-      -device ide-hd,drive=img-blkreplay \
-      -netdev user,id=net1 -device rtl8139,netdev=net1 \
-@@ -35,7 +35,7 @@ Usage of the record/replay:
-  * After recording, you can replay it by using another command line:
-     qemu-system-i386 \
-      -icount shift=7,rr=replay,rrfile=replay.bin \
--     -drive file=disk.qcow2,if=none,id=img-direct \
-+     -drive file=disk.qcow2,if=none,snapshot,id=img-direct \
-      -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay \
-      -device ide-hd,drive=img-blkreplay \
-      -netdev user,id=net1 -device rtl8139,netdev=net1 \
-@@ -223,7 +223,7 @@ Block devices record/replay module intercepts calls of
- bdrv coroutine functions at the top of block drivers stack.
- To record and replay block operations the drive must be configured
- as following:
-- -drive file=disk.qcow2,if=none,id=img-direct
-+ -drive file=disk.qcow2,if=none,snapshot,id=img-direct
-  -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay
-  -device ide-hd,drive=img-blkreplay
+diff --git a/block/io.c b/block/io.c
+index f8c3596131..fdb586cb72 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -33,6 +33,7 @@
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
++#include "sysemu/replay.h"
  
-@@ -252,6 +252,12 @@ This snapshot is created at start of recording and restored at start
- of replaying. It also can be loaded while replaying to roll back
- the execution.
+ #define NOT_DONE 0x7fffffff /* used while emulated sync operation in progress */
  
-+'snapshot' flag of the disk image must be removed to save the snapshots
-+in the overlay (or original image) instead of using the temporary overlay.
-+ -drive file=disk.ovl,if=none,id=img-direct
-+ -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay
-+ -device ide-hd,drive=img-blkreplay
+@@ -600,6 +601,15 @@ void bdrv_drain_all_begin(void)
+         return;
+     }
+ 
++    /*
++     * bdrv queue is managed by record/replay,
++     * waiting for finishing the I/O requests may
++     * be infinite
++     */
++    if (replay_events_enabled()) {
++        return;
++    }
 +
- Use QEMU monitor to create additional snapshots. 'savevm <name>' command
- created the snapshot and 'loadvm <name>' restores it. To prevent corruption
- of the original disk image, use overlay files linked to the original images.
+     /* AIO_WAIT_WHILE() with a NULL context can only be called from the main
+      * loop AioContext, so make sure we're in the main context. */
+     assert(qemu_get_current_aio_context() == qemu_get_aio_context());
+@@ -629,6 +639,15 @@ void bdrv_drain_all_end(void)
+     BlockDriverState *bs = NULL;
+     int drained_end_counter = 0;
+ 
++    /*
++     * bdrv queue is managed by record/replay,
++     * waiting for finishing the I/O requests may
++     * be endless
++     */
++    if (replay_events_enabled()) {
++        return;
++    }
++
+     while ((bs = bdrv_next_all_states(bs))) {
+         AioContext *aio_context = bdrv_get_aio_context(bs);
+ 
+@@ -2111,6 +2130,15 @@ int bdrv_flush_all(void)
+     BlockDriverState *bs = NULL;
+     int result = 0;
+ 
++    /*
++     * bdrv queue is managed by record/replay,
++     * creating new flush request for stopping
++     * the VM may break the determinism
++     */
++    if (replay_events_enabled()) {
++        return result;
++    }
++
+     for (bs = bdrv_first(&it); bs; bs = bdrv_next(&it)) {
+         AioContext *aio_context = bdrv_get_aio_context(bs);
+         int ret;
+diff --git a/cpus.c b/cpus.c
+index 85cd451a86..eb1c65ebc8 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1086,7 +1086,6 @@ static int do_vm_stop(RunState state, bool send_stop)
+     }
+ 
+     bdrv_drain_all();
+-    replay_disable_events();
+     ret = bdrv_flush_all();
+ 
+     return ret;
+@@ -2172,7 +2171,6 @@ int vm_prepare_start(void)
+     /* We are sending this now, but the CPUs will be resumed shortly later */
+     qapi_event_send_resume();
+ 
+-    replay_enable_events();
+     cpu_enable_ticks();
+     runstate_set(RUN_STATE_RUNNING);
+     vm_state_notify(1, RUN_STATE_RUNNING);
 
 
