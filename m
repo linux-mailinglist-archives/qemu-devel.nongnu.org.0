@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B184B572A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 22:51:05 +0200 (CEST)
-Received: from localhost ([::1]:52496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A0CB5745
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 23:00:35 +0200 (CEST)
+Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAKRD-0000D2-GS
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 16:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55826)
+	id 1iAKaO-0001th-DU
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 17:00:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iAKM1-0002Mk-9T
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 16:45:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iAKMr-0002oy-JV
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 16:46:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iAKLz-0004a0-Tb
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 16:45:40 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43794)
+ (envelope-from <richard.henderson@linaro.org>) id 1iAKMq-0004x5-GP
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 16:46:33 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:40082)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iAKLz-0004Zh-N0
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 16:45:39 -0400
-Received: by mail-pl1-x642.google.com with SMTP id 4so2005688pld.10
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 13:45:39 -0700 (PDT)
+ id 1iAKMq-0004uO-BB
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 16:46:32 -0400
+Received: by mail-pl1-x643.google.com with SMTP id d22so2032135pll.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 13:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j3S3FT/g8j42w7nyqeQTYQ9+mhXd4SLzvays0WaTKGk=;
- b=vSCoHq0W1350Df+h9DNBFxK6GPl4PiUIye4aqGjpu3hKLsruMkEPDdzweM3xOMggEq
- v/W47xZivAvZoRhqsPlcjJkX5ooes3SCqr3Q+ob7YoIcjfsTFj0YwZqYQatdfrD4/n/b
- lD0Qdl2h8N2bjEAmdxjpb/b8sU/swQU/KZkS33swyM0UEMrgsKjKKI9zt8X5oYp5WttI
- OszrElX3MvgwUflIAR89n7/nX+yeDI0TPdW8NwaOwbZD8f9G0ttsmmb7SJd7pZ/GW/mE
- 1wA9SbA4ffjHjR9Hq2VQT6arSYowoQLVnUIHXgmHFo7pZWQITBJb64PaonCGNh0652/7
- jaeQ==
+ bh=uQw5OJrvYCNNXPWj1yzUVyYhxJJIoxjlHlisR6JaWec=;
+ b=AJVK7KbwC5IPF4lAb3tWKd64qOf9iQ/Yl5KI1L/cTOuCNs6iGmct+sTCPyNcnhcMv1
+ gS/S0z5+9we+SKviIDac6rOesA+svRGnZAKZnMXMXnGtRzayaBKSL/2nXKhb7srqTckS
+ FPE6eygzaS0Opct+Wt20NbaZhcyXzmemIb1vilsXIKg/PlfKJB2MM4ZU5E9/kqfBRaf3
+ XFV4o83PCtcJEgeMWU1v+CebrBQ9TysI8KXAvlPZKUEGDrM41873ENL32SaOiuK8ayX9
+ b8pJ/AkW89u/9/+w8WYWrBp6yeoed20SpAoUGIr9doQlsLuth3AZne+dXruOCmwWCqn8
+ bd3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j3S3FT/g8j42w7nyqeQTYQ9+mhXd4SLzvays0WaTKGk=;
- b=pdzSJsVqTCelkC7qumrYzh5qt0p+nTD6xBQarAokVSQyBV7TL+NUuGVRLto0C8Tr1y
- mmSOVDcv279z6P8x1ckAD7sNa8IynSpTYKC0KDw1nuSaQhMjMOzARisYXNFrNWk5GBkK
- 92koVqrmxKeb6JPRt4bKfL7PA0zJxxD3kOxq0+ChamWGpB5bAlncn5OUTdgyfzi3tMjn
- j+OY/1od3lslNpZ951NFSi1x9Y7mjIIoWKnE53kPfj7oLMsSPNkUQx3HqGIfPOSRfMEL
- ObgS9oKl1aed3/AQo+LD1J+E7JYUyRuxFIsoU7+oQOPDEkP0+hBEu2aMpz5crwevVsmj
- h09Q==
-X-Gm-Message-State: APjAAAWji+NcONKMYH8q2E6e3HszajHQ01F3+dmzv+yKvXHes17aXeo/
- hZJsLW5nQOK82z6iPXFFvl23TQ==
-X-Google-Smtp-Source: APXvYqwz4gDdqUMQXj2iA9v5hGtqDe//5AA2veLu3jpzA0AYElE2U4O2DqInDeCO0Ripqp5QhWH+4Q==
-X-Received: by 2002:a17:902:8649:: with SMTP id
- y9mr557879plt.252.1568753138461; 
- Tue, 17 Sep 2019 13:45:38 -0700 (PDT)
+ bh=uQw5OJrvYCNNXPWj1yzUVyYhxJJIoxjlHlisR6JaWec=;
+ b=uGV08tvnKaCcWLopMAOuny/h2BzSEoid91MowkZdGvnob5bd6gEJFUw9sscc7r6+PR
+ Yofxqx7DP0Wcd3a/oZ5418DMBpypPQh9i/8bb1jt6JOmGyBA2WdNt3CAAJy1QPzaVw3N
+ Dsh6BEWWwCl+UjLkYgb/llQIsfkEhsMDBOqmlqPVmE+y9Arwo0CMR8IzwNXJbmnd0jGG
+ XZIO7QWQfqdU6vP2EF0UGFoMB6a353k2dAVQFEWovLo1+891lYISgZZTAVmdPwGWSVoM
+ GGWAtt+ZpPL2XPaADGlAvbfypsArrcKH1wgXuLsj5yWCcu441+GkAa82kEGmjdD2CIg9
+ G1AQ==
+X-Gm-Message-State: APjAAAU9yp6z/OD2fvewMymn5DcsL4Gm6OVZHc19u628mNs2EjBogCn0
+ 3KM2jBJXTyj+YI+EJ7RLXiuqgdIsrcN3Fw==
+X-Google-Smtp-Source: APXvYqzfI7gDZj/TQmPDmMO5cYg2HkUWQJYxnyu2FNSwNviZUT0TFYeX473Q+43I0DboddqSKTBiNg==
+X-Received: by 2002:a17:902:8c8a:: with SMTP id
+ t10mr591941plo.109.1568753191249; 
+ Tue, 17 Sep 2019 13:46:31 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id r23sm2952882pjo.22.2019.09.17.13.45.37
+ by smtp.gmail.com with ESMTPSA id v18sm2911537pgl.87.2019.09.17.13.46.29
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Sep 2019 13:45:37 -0700 (PDT)
+ Tue, 17 Sep 2019 13:46:30 -0700 (PDT)
 To: "Paul A. Clarke" <pc@us.ibm.com>, qemu-devel@nongnu.org
-References: <1568653336-16819-1-git-send-email-pc@us.ibm.com>
+References: <1568653344-16881-1-git-send-email-pc@us.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <a561c80e-68b0-bd56-2718-6c3325d27716@linaro.org>
-Date: Tue, 17 Sep 2019 13:45:35 -0700
+Message-ID: <77049b6d-92cd-014f-6151-fb8dc4b032c9@linaro.org>
+Date: Tue, 17 Sep 2019 13:46:28 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1568653336-16819-1-git-send-email-pc@us.ibm.com>
+In-Reply-To: <1568653344-16881-1-git-send-email-pc@us.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] ppc: Add support for 'mffscrn',
- 'mffscrni' instructions
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: Re: [Qemu-devel] [PATCH v2 2/2] ppc: Add support for 'mffsce'
+ instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,58 +89,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/16/19 1:02 PM, Paul A. Clarke wrote:
-> +#define FP_DRN2         (1ull << FPSCR_DRN2)
-> +#define FP_DRN1         (1ull << FPSCR_DRN1)
-> +#define FP_DRN0         (1ull << FPSCR_DRN0)
-> +#define FP_DRN          (FP_DRN2 | FP_DRN1 | FP_DRN0)
+> From: "Paul A. Clarke" <pc@us.ibm.com>
+> 
+> ISA 3.0B added a set of Floating-Point Status and Control Register (FPSCR)
+> instructions: mffsce, mffscdrn, mffscdrni, mffscrn, mffscrni, mffsl.
+> This patch adds support for 'mffsce' instruction.
+> 
+> 'mffsce' is identical to 'mffs', except that it also clears the exception
+> enable bits in the FPSCR.
+> 
+> On CPUs without support for 'mffsce' (below ISA 3.0), the
+> instruction will execute identically to 'mffs'.
+> 
+> Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+> ---
+> v2: no changes.
+> 
+>  target/ppc/translate/fp-impl.inc.c | 30 ++++++++++++++++++++++++++++++
+>  target/ppc/translate/fp-ops.inc.c  |  2 ++
+>  2 files changed, 32 insertions(+)
 
-Why not just 7ull << FPSCR_DRN?
-Are the individual DRN bits separately useful?
-They don't appear to be...
+Didn't I already give a
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> -#define FP_MODE         FP_RN
-> +#define FP_MODE         (FP_DRN | FP_RN)
-
-This, I think, isn't helpful.
-
-> +static void gen_helper_mffscrn(DisasContext *ctx, TCGv_i64 t1)
-> +{
-> +    TCGv_i64 t0 = tcg_temp_new_i64();
-> +    TCGv_i32 mask = tcg_const_i32(0x0001);
-> +
-> +    gen_reset_fpstatus();
-> +    tcg_gen_extu_tl_i64(t0, cpu_fpscr);
-> +    tcg_gen_andi_i64(t0, t0, FP_MODE | FP_ENABLES);
-> +    set_fpr(rD(ctx->opcode), t0);
-> +
-> +    /* Mask FPSCR value to clear RN.  */
-> +    tcg_gen_andi_i64(t0, t0, ~FP_MODE);
-
-Because here,
-
-> +static void gen_mffscrn(DisasContext *ctx)
-> +{
-> +    TCGv_i64 t1;
-> +
-> +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-> +        return gen_mffs(ctx);
-> +    }
-> +
-> +    if (unlikely(!ctx->fpu_enabled)) {
-> +        gen_exception(ctx, POWERPC_EXCP_FPU);
-> +        return;
-> +    }
-> +
-> +    t1 = tcg_temp_new_i64();
-> +    get_fpr(t1, rB(ctx->opcode));
-> +    /* Mask FRB to get just RN.  */
-> +    tcg_gen_andi_i64(t1, t1, FP_MODE);
-
-and here, we're only interested in RN, not DRN.
-
-Possibly FP_MODE should itself be removed.  It's used
-exactly once, in mffsl, which could just as easily
-reference FP_RN | FP_DRN.
+for this?
 
 
 r~
