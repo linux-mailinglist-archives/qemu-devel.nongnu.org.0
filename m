@@ -2,102 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F52BB4905
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 10:17:43 +0200 (CEST)
-Received: from localhost ([::1]:42574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11EDFB4934
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 10:21:45 +0200 (CEST)
+Received: from localhost ([::1]:42612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA8gA-0007wp-FA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 04:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53068)
+	id 1iA8k3-0002F7-HU
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 04:21:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iA8ei-0007JP-3x
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:16:13 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1iA8hS-0000cc-4R
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:19:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iA8ef-0000fo-Vf
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:16:11 -0400
-Received: from mail-eopbgr80104.outbound.protection.outlook.com
- ([40.107.8.104]:12807 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iA8ef-0000c8-1i; Tue, 17 Sep 2019 04:16:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hn+yXB+hwSXD1elI8Hmeji/kjOa5pjYtUN2q3mQ06OEAXaZBni2EZfvcCd5r1yDmvDM6Km2Ehk8Jt1qrwWNBG2hWAIyhFUKWomGFCFbbYsXDFZGPE48b4EFjN5oKzHkX7BmatN3ILm9UPJc0aQSI8qQn/c7Oz4JBRT1W4vONWmkg9jQhFvZFRgORrb/MiQXYW7XdNSAIBeDmmfm/M3zTMnBdZDaAjSatrWYbMTm3Esvy5RjnzMpQcZu+CTaZeHaRU+u9a94WfxPeXWQD4X3byHU0hshk9IXyi5gg3BibZxqh+LWaUEQ0MYGFSFCxDXnd8tjNdXlJ9+414iioNXxyHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wh5LnD1D0WI8FxwEPaPvnOtKQI1BngfGltI44n7PL98=;
- b=X8FZlVVKYsJH/DvJuwn18iLztSPSjE17O3kgOIZf+VWBryL+szpDSXZ2nACSQSYcWqrzkQq39Dp2xdv22vIGgbtdfomf/146bGmw1vTKMGAmoQOSSWH3WJaUdRx9RKlNHOIFbzz316YiTvfSCrOUWPxGwSy/G1iMSHgIaVKXcKsRvKez38vx2loXcH0UmcPTNREnVxhxcORmLCn6C6/4wt7FFbG85TxpOPstWNUfjtedHaYFcI1zzboFzdIDr81PeqAc+7GXHPs/kDZj0CR2lAQ4l4E9Z1zx3TPLApaLOgG7QJqzEIe4tXszy2BJ2Y0Wg9eL3KbwuZaAysseryxblA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wh5LnD1D0WI8FxwEPaPvnOtKQI1BngfGltI44n7PL98=;
- b=tFsDBuVTvEhjtObCKX5DoBTmLX9kE3ShgF9/Chsb7b+ojTQA5c1QVNQaTwqC4bzRqs35ydVw/bdzunfGZy9CXudE+cwbgO3jG7B7E2AItKBWp9CzkVdpaT/ZHfbunAz5vNPuk+zWNjdypKmtAidFwWj7i1Qo4ktjSpzjNAtJD4k=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5354.eurprd08.prod.outlook.com (52.133.240.216) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.15; Tue, 17 Sep 2019 08:16:06 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2263.023; Tue, 17 Sep 2019
- 08:16:06 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: ping Re: [PATCH v8 0/3] NBD reconnect
-Thread-Index: AQHVWEDPFxKikbYstE2FStjWksvijacvr8mA
-Date: Tue, 17 Sep 2019 08:16:05 +0000
-Message-ID: <1b472b15-cc31-e400-c875-fe2097554973@virtuozzo.com>
-References: <20190821165215.61406-1-vsementsov@virtuozzo.com>
-In-Reply-To: <20190821165215.61406-1-vsementsov@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0164.eurprd05.prod.outlook.com
- (2603:10a6:3:f8::12) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190917111603519
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 45c31bd1-c792-4b33-8b42-08d73b47497a
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5354; 
-x-ms-traffictypediagnostic: DB8PR08MB5354:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB5354F1B52655241ED9EAAEE4C18F0@DB8PR08MB5354.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 01630974C0
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(136003)(366004)(39840400004)(376002)(396003)(53754006)(199004)(189003)(6916009)(81156014)(6436002)(6486002)(4326008)(2906002)(8936002)(76176011)(14454004)(107886003)(8676002)(25786009)(66066001)(386003)(6506007)(486006)(476003)(11346002)(7736002)(52116002)(2616005)(186003)(305945005)(26005)(446003)(31696002)(36756003)(5660300002)(99286004)(86362001)(256004)(14444005)(71200400001)(3846002)(5024004)(102836004)(81166006)(6116002)(71190400001)(2351001)(2501003)(31686004)(54906003)(5640700003)(66446008)(64756008)(316002)(6512007)(478600001)(66946007)(66476007)(66556008);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5354;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: +ANmIVKNuGNVygmvQXKbUmiQNPbZSOh0X9UWry1xa7vHPEtOvmW8EXitJYM0XWz4dKffNBxYahYauuZWxhBhndphfFO3kO60YdD8l/LYzTSGdXh+4VFPbns1MDhWNVMNIgQrC7g11orAH754W/8ZuvWXseP1Cpru3639cOdd1TGt4itXr/Y7kSTGUcGp0Q4hhBSQKz5/7gYduku9FQQeEF9m+SY5e64onb4pXy+2LMeOyH01dH4jcHgegjg/enHhEzX8cavU0YE1GBXs0H9eO8kABAnURj18aPEcI9GNIv1kOXqSsZ6asZwcBadBKNpwDJD5ac0DyY0KHXOD+tHa96Z7g1wFHZRaSs/TrzhLBGx6m5181outi+rmVw90DPTmDEZcOqUX0JqrXJsvesFqHXqB5rcYkQ81OTAWG479qK0=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0F20F60A0D245F4EB674BFCA323AB928@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1iA8hQ-0002Sk-A4
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:19:01 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:42198)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1iA8hP-0002N0-Lm; Tue, 17 Sep 2019 04:19:00 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.04608306|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.120959-0.00373632-0.875304; FP=0|0|0|0|0|-1|-1|-1;
+ HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=11; RT=11; SR=0;
+ TI=SMTPD_---.FW9xxlT_1568708326; 
+Received: from 172.16.28.186(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.FW9xxlT_1568708326) by smtp.aliyun-inc.com(10.147.40.2);
+ Tue, 17 Sep 2019 16:18:48 +0800
+To: Chih-Min Chao <chihmin.chao@sifive.com>
+References: <1568183141-67641-1-git-send-email-zhiwei_liu@c-sky.com>
+ <1568183141-67641-2-git-send-email-zhiwei_liu@c-sky.com>
+ <CAEiOBXUveMJGpavU7_zK0UTdNniQvnXnw5MvE-hu7yHCSw8MPQ@mail.gmail.com>
+From: liuzhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <6c7b73cc-a4ae-8b0a-b6b1-c578549aa2f4@c-sky.com>
+Date: Tue, 17 Sep 2019 16:09:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45c31bd1-c792-4b33-8b42-08d73b47497a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2019 08:16:06.1111 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7EUgKCRt34ynxLMt1SJ/JQjT8XcChv307zaxLrSsAHute1Q+lhZj3rIPg2++Ly0/cnC2B8awwHOzXHPngBAw/h+EaGUpWwQ2fNg23aTTLec=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5354
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.104
-Subject: [Qemu-devel] ping Re: [PATCH v8 0/3] NBD reconnect
+In-Reply-To: <CAEiOBXUveMJGpavU7_zK0UTdNniQvnXnw5MvE-hu7yHCSw8MPQ@mail.gmail.com>
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 121.197.200.217
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2 01/17] RISC-V: add vfp field in
+ CPURISCVState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,50 +57,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "sheepdog@lists.wpkg.org" <sheepdog@lists.wpkg.org>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "namei.unix@gmail.com" <namei.unix@gmail.com>
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, riku.voipio@iki.fi,
+ laurent@vivier.eu, wxy194768@alibaba-inc.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wenmeng_zhang@c-sky.com, Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cGluZw0KDQoyMS4wOC4yMDE5IDE5OjUyLCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdy
-b3RlOg0KPiBIaSBhbGwhDQo+IEhlcmUgaXMgTkJEIHJlY29ubmVjdC4gUHJldmlvdXNseSwgaWYg
-Y29ubmVjdGlvbiBmYWlsZWQgYWxsIGN1cnJlbnQNCj4gYW5kIGZ1dHVyZSByZXF1ZXN0cyB3aWxs
-IGZhaWwuIEFmdGVyIHRoZSBzZXJpZXMsIG5iZC1jbGllbnQgZHJpdmVyDQo+IHdpbGwgdHJ5IHRv
-IHJlY29ubmVjdCB1bmxpbWl0ZWQgdGltZXMuIER1cmluZyBmaXJzdCBAcmVjb25uZWN0LWRlbGF5
-DQo+IHNlY29uZHMgb2YgcmVjb25uZWN0aW5nIGFsbCByZXF1ZXN0cyB3aWxsIHdhaXQgZm9yIHRo
-ZSBjb25uZWN0aW9uLA0KPiBhbmQgaWYgaXQgaXMgZXN0YWJsaXNoZWQgcmVxdWVzdHMgd2lsbCBi
-ZSByZXNlbnQuIEFmdGVyDQo+IEByZWNvbm5lY3QtZGVsYXkgcGVyaW9kIGFsbCByZXF1ZXN0cyB3
-aWxsIGJlIGZhaWxlZCAodW50aWwgc3VjY2Vzc2Z1bA0KPiByZWNvbm5lY3QpLg0KPiANCj4gdjg6
-DQo+IHByZXBhcmF0aW9ucyBhcmUgYWxyZWFkeSBtZXJnZWQgW3RoeCB0byBFcmljXSwgb2xkIDA3
-IHdpdGggU0lfKiBjb25zdGFudHMNCj4gZHJvcHBlZCBbUGV0ZXJdDQo+IDAyOiAtIHVzZSBOQU5P
-U0VDT05EU19QRVJfU0VDT05EDQo+IDAzOiAtIG1vdmUgdG8gdGVzdHMvcWVtdS1pb3Rlc3RzLzI2
-NA0KPiAgICAgIC0gbGltaXQgam9iIHNwZWVkLCBvdGhlcndpc2UgaXQgZmFpbHMgb24gcmFtZnMg
-YXMgYmFja3VwIGZpbmlzaGVzIHRvbyBlYXJseQ0KPiANCj4gdjc6DQo+IGFsbW9zdCBhbGw6IHJl
-YmFzZWQgb24gbWVyZ2VkIG5iZC5jIGFuZCBuYmQtY2xpZW50LmMgKGluY2x1ZGluZyBwYXRjaCBz
-dWJqZWN0KQ0KPiAwMS0wNDogYWRkIEVyaWMncyByLWINCj4gMDQ6IHdvcmRpbmcNCj4gMDU6IG5l
-dw0KPiAwNjogcmV3cml0ZSB0byByZW1vdmUgdGltZXIgZWFybGllcg0KPiAwNzogbmV3DQo+IDA4
-Og0KPiAgIC0gcmViYXNlIG9uIDA1IGFuZCAwNw0KPiAgIC0gZHJvcCAiQWxsIHJpZ2h0cyByZXNl
-cnZlZCINCj4gICAtIGhhbmRsZSBkcmFpbg0KPiAgIC0gaW1wcm92ZSBoYW5kbGluZyBhaW8gY29u
-dGV4dCBhdHRhY2gNCj4gMDk6IG1vdmUgMjQ5IC0+IDI1Nw0KPiANCj4gVmxhZGltaXIgU2VtZW50
-c292LU9naWV2c2tpeSAoMyk6DQo+ICAgIHFlbXUtY29yb3V0aW5lLXNsZWVwOiBpbnRyb2R1Y2Ug
-cWVtdV9jb19zbGVlcF93YWtlDQo+ICAgIGJsb2NrL25iZDogbmJkIHJlY29ubmVjdA0KPiAgICBp
-b3Rlc3RzOiB0ZXN0IG5iZCByZWNvbm5lY3QNCj4gDQo+ICAgaW5jbHVkZS9xZW11L2Nvcm91dGlu
-ZS5oICAgICAgfCAgMTcgKy0NCj4gICBibG9jay9uYmQuYyAgICAgICAgICAgICAgICAgICB8IDMz
-NSArKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tDQo+ICAgYmxvY2svbnVsbC5jICAg
-ICAgICAgICAgICAgICAgfCAgIDIgKy0NCj4gICBibG9jay9zaGVlcGRvZy5jICAgICAgICAgICAg
-ICB8ICAgMiArLQ0KPiAgIHRlc3RzL3Rlc3QtYmRydi1kcmFpbi5jICAgICAgIHwgICA2ICstDQo+
-ICAgdGVzdHMvdGVzdC1ibG9jay1pb3RocmVhZC5jICAgfCAgIDIgKy0NCj4gICB1dGlsL3FlbXUt
-Y29yb3V0aW5lLXNsZWVwLmMgICB8ICA0NyArKystLQ0KPiAgIHRlc3RzL3FlbXUtaW90ZXN0cy8y
-NjQgICAgICAgIHwgIDY1ICsrKysrKysNCj4gICB0ZXN0cy9xZW11LWlvdGVzdHMvMjY0Lm91dCAg
-ICB8ICAxMiArKw0KPiAgIHRlc3RzL3FlbXUtaW90ZXN0cy9ncm91cCAgICAgIHwgICAxICsNCj4g
-ICB0ZXN0cy9xZW11LWlvdGVzdHMvaW90ZXN0cy5weSB8ICAgNCArDQo+ICAgMTEgZmlsZXMgY2hh
-bmdlZCwgNDA4IGluc2VydGlvbnMoKyksIDg1IGRlbGV0aW9ucygtKQ0KPiAgIGNyZWF0ZSBtb2Rl
-IDEwMDc1NSB0ZXN0cy9xZW11LWlvdGVzdHMvMjY0DQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IHRl
-c3RzL3FlbXUtaW90ZXN0cy8yNjQub3V0DQo+IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxh
-ZGltaXINCg==
+
+On 2019/9/11 下午10:51, Chih-Min Chao wrote:
+>
+>
+> On Wed, Sep 11, 2019 at 2:35 PM liuzhiwei <zhiwei_liu@c-sky.com 
+> <mailto:zhiwei_liu@c-sky.com>> wrote:
+>
+>     From: LIU Zhiwei <zhiwei_liu@c-sky.com <mailto:zhiwei_liu@c-sky.com>>
+>
+>     Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com
+>     <mailto:zhiwei_liu@c-sky.com>>
+>     ---
+>      target/riscv/cpu.h | 28 ++++++++++++++++++++++++++++
+>      1 file changed, 28 insertions(+)
+>
+>     diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>     index 0adb307..c992b1d 100644
+>     --- a/target/riscv/cpu.h
+>     +++ b/target/riscv/cpu.h
+>     @@ -93,9 +93,37 @@ typedef struct CPURISCVState CPURISCVState;
+>
+>      #include "pmp.h"
+>
+>     +#define VLEN 128
+>     +#define VUNIT(x) (VLEN / x)
+>     +
+>      struct CPURISCVState {
+>          target_ulong gpr[32];
+>          uint64_t fpr[32]; /* assume both F and D extensions */
+>     +
+>     +    /* vector coprocessor state.  */
+>     +    struct {
+>     +        union VECTOR {
+>     +            float64  f64[VUNIT(64)];
+>     +            float32  f32[VUNIT(32)];
+>     +            float16  f16[VUNIT(16)];
+>     +            uint64_t u64[VUNIT(64)];
+>     +            int64_t  s64[VUNIT(64)];
+>     +            uint32_t u32[VUNIT(32)];
+>     +            int32_t  s32[VUNIT(32)];
+>     +            uint16_t u16[VUNIT(16)];
+>     +            int16_t  s16[VUNIT(16)];
+>     +            uint8_t  u8[VUNIT(8)];
+>     +            int8_t   s8[VUNIT(8)];
+>     +        } vreg[32];
+>     +        target_ulong vxrm;
+>     +        target_ulong vxsat;
+>     +        target_ulong vl;
+>     +        target_ulong vstart;
+>     +        target_ulong vtype;
+>     +        float_status fp_status;
+>     +    } vfp;
+>     +
+>     +    bool         foflag;
+>          target_ulong pc;
+>          target_ulong load_res;
+>          target_ulong load_val;
+>     -- 
+>     2.7.4
+>
+>
+> Could  the VLEN be configurable in cpu initialization but not fixed in 
+> compilation phase ?
+
+Yes,  it's important that VLEN is configurable to support different 
+types of cpu.
+
+> Take the integer element as example  and the difference should be the 
+> stride of vfp.vreg[x] isn't continuous
+>
+>     struct {
+>         union VECTOR {
+>             uint64_t *u64;
+>             uint16_t *u16;
+>             uint8_t  *u8;
+>         } vreg[32];
+>     } vfp;
+>
+>    initialization
+>     int vlen = 256;  //parameter from cpu command line option
+>     int elem = vlen / 8;
+>     int size = elem * 32;
+>
+>     uint8_t *mem = malloc(size)
+>     for (int idx = 0; idx < 32; ++idx) {
+>         vfp.vreg[idx].u64 = (void *)&mem[idx * elem];
+>         vfp.vreg[idx].u32 = (void *)&mem[idx * elem];
+>         vfp.vreg[idx].u16 = (void *)&mem[idx * elem];
+>    }
+>
+>   chihmin
+
+It's a good idea. I will accept it.
+
+Thanks for review.
+
+Zhiwei
 
