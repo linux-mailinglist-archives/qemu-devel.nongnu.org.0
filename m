@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7D2B4C16
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:39:17 +0200 (CEST)
-Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98ADCB4C1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:40:35 +0200 (CEST)
+Received: from localhost ([::1]:43856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAAtA-0004iz-4K
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46818)
+	id 1iAAuP-0006Eg-Np
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:40:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iAAop-0001mg-8t
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:49 -0400
+ (envelope-from <groug@kaod.org>) id 1iAAc7-0007Dg-UF
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:21:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iAAom-0004wx-WD
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:47 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39127)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iAAom-0004wQ-Oz
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:34:44 -0400
-Received: by mail-wm1-x344.google.com with SMTP id v17so2494491wml.4
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 03:34:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=/z9SS3aj3ILltt5rbzKWR8Zbvnqbu1rZVYr/9dq97bs=;
- b=EL2+eViLMooVCGfmQgEsXIe24p1fr7JzD6TJKjelfivDKwQmZ7oh/ANgQFPXWx2rt5
- GmisNQtA+pQWS47tZI269G0D8UMr+YZT6oqdkRW8XOSbJxzRC3rLUuSdbsdZvdC/WpWW
- oFyUyBmO9Ssw5qIcUH1kZpGvWB6HHt2sX87LRvV2Zur0KcscO07hVaD/bb05ZKJ9Qe+I
- dLD2tIWJgoPjGqgMVFfMsD6ATi3NDwuG7IipmJTj8oOYvo27I1WP81wLZN7it+dbhPjZ
- 2Q75JtF8lBENVOahc4XMdO7eybjsKUMAH3jX6BSjgGZkia/TJJXNEO119uxrcM+pYXqo
- 7uXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=/z9SS3aj3ILltt5rbzKWR8Zbvnqbu1rZVYr/9dq97bs=;
- b=lHocffE4cWa9KYp6FxC9REqrz8lrLKDuk74neBB/25AEK+1wlzfEezdk6eB0KPdxsQ
- 75VCuYCWKPbkizz3mePtW7qQv4C4BM+FnGvZkD0DsAN2tnaRT4CgKpbnJu+AA4haRwd+
- w5NIp5xILbp/9CVmb3A4fpySXJMynsSpPpLZM1AR0G2WYAG8w3Vk9o3Zsjx7JOM8MjG6
- S748MPVc+sYMrrgsRwDGNPbmocSncBxj3xp/FMpbnqgusAzsGXmH2hZ2BMgoqAcWNbF0
- 82QqM5VRJriAP24XHipLe54FeRhwM1FzwWgBjazpk7rljqle6YAXxOFH0jGEPoIhoqF3
- ErFg==
-X-Gm-Message-State: APjAAAW7DrLvtHtvwZHGcee17lw8ZbmnAGHc6XcXKpMmxo2E8fh1inPh
- 5WjzEWlxW2NukBasS4cxIkbVp+pI
-X-Google-Smtp-Source: APXvYqy+OdFay5hNh0InGfSKTjgEDJkhENch8Ly1hGgKvZCrTs5+GCds3ZXtK5cljN/B8DGG3oBx6A==
-X-Received: by 2002:a1c:cf4e:: with SMTP id f75mr2756559wmg.49.1568716482787; 
- Tue, 17 Sep 2019 03:34:42 -0700 (PDT)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q3sm1985415wrm.86.2019.09.17.03.34.41
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Sep 2019 03:34:41 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1iAAc6-0003uE-PU
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:21:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9136)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iAAc4-0003su-MF
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:21:38 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8HAHFZC069302
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 06:21:34 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v2vv9t8fp-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 06:21:34 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Tue, 17 Sep 2019 11:21:31 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 17 Sep 2019 11:21:24 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8HALM5n28770518
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Sep 2019 10:21:22 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 94A4052051;
+ Tue, 17 Sep 2019 10:21:22 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.22.84])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id A42B152054;
+ Tue, 17 Sep 2019 10:21:21 +0000 (GMT)
+From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 17 Sep 2019 12:34:33 +0200
-Message-Id: <1568716480-9973-1-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2 0/7] target/i386: support VMX features in
- "-cpu"
+Date: Tue, 17 Sep 2019 12:21:21 +0200
+In-Reply-To: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
+References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
+User-Agent: StGit/unknown-version
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19091710-0012-0000-0000-0000034D13FA
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19091710-0013-0000-0000-000021878DA8
+Message-Id: <156871568135.196432.6958597878926788347.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-17_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=991 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909170106
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 08/17] pcie_root_port: Pass local error object
+ pointer to error_append_hint()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,57 +87,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liran.alon@oracle.com, ehabkost@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Daniel P. =?utf-8?q?Berrang=C3=A9=22?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ qemu-s390x@nongnu.org"@d06av21.portsmouth.uk.ibm.com,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?utf-8?q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yuval Shaia <yuval.shaia@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds support for VMX feature flags so that the user can
-enable and disable at will the flags.  A separate series will
-also add VMX features to named CPU models, which will complete VMX
-live migration support.  That's orthogonal and somewhat tedious.
+Ensure that hints are added even if errp is &error_fatal or &error_abort.
 
-There are a few complications, which are tackled across the series:
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/pci-bridge/pcie_root_port.c |   11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-- KVM ioctls fail for some invalid MSR settings, namely when some
-  controls are reported as available but the corresponding CPUID
-  bits have been disabled.  For backwards compatibility with
-  e.g. "-cpu host,-rdrand", these VMX features are silently
-  dropped (patch 2)
-
-- some VMX MSRs have features in the high 32 bits (patch 3)
-
-- some VMX MSRs have values in the high 32 bits, but only
-  actually have 32 features; this is handled in patch 6 by
-  mangling the result of KVM_GET_MSRS
-
-- KVM has a couple bugs that can be worked around relatively
-  easily (patch 6 and 7)
-
-Paolo
-
-v1->v2: do not consult check_cpuid/enforce_cpuid in mark_unavailable_features
-	introduce struct FeatureMask
-
-
-Paolo Bonzini (7):
-  target/i386: handle filtered_features in a new function
-    mark_unavailable_features
-  target/i386: introduce generic feature dependency mechanism
-  target/i386: expand feature words to 64 bits
-  target/i386: add VMX definitions
-  vmxcap: correct the name of the variables
-  target/i386: add VMX features
-  target/i386: work around KVM_GET_MSRS bug for secondary execution
-    controls
-
- include/sysemu/kvm.h |   2 +-
- scripts/kvm/vmxcap   |  14 +-
- target/i386/cpu.c    | 443 ++++++++++++++++++++++++++++++++++++++++-----------
- target/i386/cpu.h    | 136 +++++++++++++++-
- target/i386/kvm.c    | 173 +++++++++++++++++++-
- 5 files changed, 665 insertions(+), 103 deletions(-)
-
--- 
-1.8.3.1
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
+index 012c2cb12c10..086f9c17723d 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -65,15 +65,17 @@ static void rp_realize(PCIDevice *d, Error **errp)
+     PCIDeviceClass *dc = PCI_DEVICE_GET_CLASS(d);
+     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(d);
+     int rc;
++    Error *local_err = NULL;
+ 
+     pci_config_set_interrupt_pin(d->config, 1);
+     pci_bridge_initfn(d, TYPE_PCIE_BUS);
+     pcie_port_init_reg(d);
+ 
+     rc = pci_bridge_ssvid_init(d, rpc->ssvid_offset, dc->vendor_id,
+-                               rpc->ssid, errp);
++                               rpc->ssid, &local_err);
+     if (rc < 0) {
+-        error_append_hint(errp, "Can't init SSV ID, error %d\n", rc);
++        error_append_hint(&local_err, "Can't init SSV ID, error %d\n", rc);
++        error_propagate(errp, local_err);
+         goto err_bridge;
+     }
+ 
+@@ -85,10 +87,11 @@ static void rp_realize(PCIDevice *d, Error **errp)
+     }
+ 
+     rc = pcie_cap_init(d, rpc->exp_offset, PCI_EXP_TYPE_ROOT_PORT,
+-                       p->port, errp);
++                       p->port, &local_err);
+     if (rc < 0) {
+-        error_append_hint(errp, "Can't add Root Port capability, "
++        error_append_hint(&local_err, "Can't add Root Port capability, "
+                           "error %d\n", rc);
++        error_propagate(errp, local_err);
+         goto err_int;
+     }
+ 
 
 
