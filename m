@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5915B5346
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:45:57 +0200 (CEST)
-Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE6CB533A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:43:06 +0200 (CEST)
+Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAGc0-0004Ks-J2
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46661)
+	id 1iAGZE-00020I-4u
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iAGX2-000143-GP
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:40:49 -0400
+ (envelope-from <philmd@redhat.com>) id 1iAGWe-0000YV-Hc
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:40:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iAGX0-0004Tv-W8
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:40:48 -0400
-Received: from 3.mo178.mail-out.ovh.net ([46.105.44.197]:59711)
+ (envelope-from <philmd@redhat.com>) id 1iAGWd-0004Cz-Dk
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:40:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:62269)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iAGX0-0004T2-PT
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:40:46 -0400
-Received: from player690.ha.ovh.net (unknown [10.108.54.36])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 060B378BBA
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 18:40:45 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player690.ha.ovh.net (Postfix) with ESMTPSA id B105E9CEC431;
- Tue, 17 Sep 2019 16:40:09 +0000 (UTC)
-Date: Tue, 17 Sep 2019 18:40:08 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190917184008.577fcccb@bahia.lan>
-In-Reply-To: <20190917144631.GF4824@localhost.localdomain>
-References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
- <156871564329.196432.5930574495661947805.stgit@bahia.lan>
- <19e78ae8-96dc-6154-6572-d7176057eeb7@redhat.com>
- <20190917144631.GF4824@localhost.localdomain>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAGWd-0004Cl-5L
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:40:23 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3CB967FDFE
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 16:40:22 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id c188so1083313wmd.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 09:40:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4wtvlO/tQ7FyA51BwWL6zzSN1zQdVoJrzNT0mjLO29o=;
+ b=hNlScxMZivxbO9hdRwCT3zTMOWimNnCaKB+UR35OvYqD7XrW9IOW5ilBeit9Z8MFIL
+ YGGh45CcCzQOIMfufjQYWrDwHaUijRpuoWtXPIxIpByCJL0QDtMeYPRCIEP1aKrYvoxm
+ 7DlvTtKKVi6ZoRaWRVIvo3oPq4cpbx/imt1TFhqza4xAbVHfgeVCDjamelcNyVaBEmNq
+ daHRHBZEkxsOVUBj5W8HJOra/3USIqR0MvniUfEk/KbZEZD27v6HKyCOlk9l0oli3Bpv
+ uRm4Qop6XgS7nfEskVXrafaaoXgIEhjP0mESi/egHBJBe7XR5K98OErKygZ3UilnifCt
+ M3sQ==
+X-Gm-Message-State: APjAAAUUr5Nknsvs3HO2fRBsROYfgZxJ6qCSQNwzwoe5fgzXrn5ZLDIq
+ 5x2oKwedIB/zCsiD4CjTFr4pQbOjcEfOHZbX/qGA0hwNUp8SHlgg96C5cKGwR6D546y3Wj9Raqu
+ 5gniB9W1NqFG2h4I=
+X-Received: by 2002:a7b:c5ca:: with SMTP id n10mr4335025wmk.138.1568738420567; 
+ Tue, 17 Sep 2019 09:40:20 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzKVk2GUS85VsMGEShTLjefvwpfQ46QRuouJvHmco3TdyygX8XTE5r6PMV7s0ZtB77W3EhbvQ==
+X-Received: by 2002:a7b:c5ca:: with SMTP id n10mr4335014wmk.138.1568738420407; 
+ Tue, 17 Sep 2019 09:40:20 -0700 (PDT)
+Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id v11sm4489645wrv.54.2019.09.17.09.40.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Sep 2019 09:40:19 -0700 (PDT)
+To: Palmer Dabbelt <palmer@sifive.com>, pbonzini@redhat.com
+References: <20190915202011.30459-1-palmer@sifive.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <00d5a1a7-5bbe-176b-6272-f5b015a8e13e@redhat.com>
+Date: Tue, 17 Sep 2019 18:40:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 904097628508363016
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeigdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+In-Reply-To: <20190915202011.30459-1-palmer@sifive.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.44.197
-Subject: Re: [Qemu-devel] [PATCH 02/17] block: Pass local error object
- pointer to error_append_hint()
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] vl.c: Report unknown machines correctly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,69 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yuval Shaia <yuval.shaia@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Sep 2019 16:46:31 +0200
-Kevin Wolf <kwolf@redhat.com> wrote:
+On 9/15/19 10:20 PM, Palmer Dabbelt wrote:
+> I was recently typing in a QEMU command line, and ended up with
+> something like
+>=20
+>     qemu-system-riscv64 -machine virt ... -M 8G
+>=20
+> which is, in retrospect, obviously incorrect: there is no "8G" machine.
+> I should have typed something like
+>=20
+>     qemu-system-riscv64 -machine virt ... -m 8G
+>=20
+> but since QEMU was giving me the excessively unhelpful error message
+>=20
+>     qemu-system-riscv64: -machine virt: unsupported machine type
+>     Use -machine help to list supported machines
+>=20
+> I had to spend a few minutes scratching my head to figure out what was
+> going on.  For some reason I felt like I'd done that before, so I
+> figured I'd take a whack at fixing the problem this time.  It turns out
+> the error reporting for non-existant machines is just wrong: the invali=
+d
+> machine is detected after we've lost the argument pointer, so it just
+> prints out the first instance of "-machine" instead of the one we're
+> actually looking for.
+>=20
+> I've fixed this by just printing out "-machine $NAME" directly, but I
+> feel like there's a better way to do this.  Specifically, my issue is
+> that it always prints out "-machine" instead of "-M" -- that's actually
+> a regression for users just passing a single invalid machine via "-M",
+> which I assume is the more common case.
+>=20
+> I'm not sure how to do this right, though, and my flight is boarding so
+> I figured I'd send this out as a way to ask the question.  I didn't hav=
+e
+> time to run the test suite or figure out how to add a test for this, as
+> I'm assuming there's a better way to do it.
+>=20
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> ---
+>  vl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/vl.c b/vl.c
+> index 630f5c5e9c..821a5d91c8 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -2487,7 +2487,7 @@ static MachineClass *machine_parse(const char *na=
+me, GSList *machines)
+> =20
+>      mc =3D find_machine(name, machines);
+>      if (!mc) {
+> -        error_report("unsupported machine type");
+> +        error_printf("-machine %s: unsupported machine type\n", name);
+>          error_printf("Use -machine help to list supported machines\n")=
+;
+>          exit(1);
+>      }
+>=20
 
-> Am 17.09.2019 um 16:39 hat Eric Blake geschrieben:
-> > On 9/17/19 5:20 AM, Greg Kurz wrote:
-> > > Ensure that hints are added even if errp is &error_fatal or &error_abort.
-> > > 
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >  block/backup.c       |    7 +++++--
-> > >  block/dirty-bitmap.c |    7 +++++--
-> > >  block/file-posix.c   |   20 +++++++++++++-------
-> > >  block/gluster.c      |   23 +++++++++++++++--------
-> > >  block/qcow.c         |   10 ++++++----
-> > >  block/qcow2.c        |    7 +++++--
-> > >  block/vhdx-log.c     |    7 +++++--
-> > >  block/vpc.c          |    7 +++++--
-> > >  8 files changed, 59 insertions(+), 29 deletions(-)
-> > > 
-> > > diff --git a/block/backup.c b/block/backup.c
-> > > index 763f0d7ff6db..d8c422a0e3bc 100644
-> > > --- a/block/backup.c
-> > > +++ b/block/backup.c
-> > > @@ -602,11 +602,14 @@ static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-> > >                      BACKUP_CLUSTER_SIZE_DEFAULT);
-> > >          return BACKUP_CLUSTER_SIZE_DEFAULT;
-> > >      } else if (ret < 0 && !target->backing) {
-> > > -        error_setg_errno(errp, -ret,
-> > > +        Error *local_err = NULL;
-> > 
-> > Can we go with the shorter name 'err' instead of 'local_err'?  I know,
-> > we aren't consistent (both styles appear throughout the tree), but the
-> > shorter style is more appealing to me.
-> 
-> I like local_err better because it's easier to distinguish from errp.
-> The compiler might catch it if you use the wrong one because one is
-> Error* and the other is Error**, but as a reviewer, I can still get
-> confused.
-> 
-
-I'll favor the official maintainer, hence keeping local_err :)
-
-> Kevin
-
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
