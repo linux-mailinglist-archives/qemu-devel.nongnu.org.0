@@ -2,49 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7A7B4C85
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 13:07:23 +0200 (CEST)
-Received: from localhost ([::1]:44290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176B0B4C8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 13:09:00 +0200 (CEST)
+Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iABKM-0005vS-J6
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 07:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52450)
+	id 1iABLv-00087W-4Z
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 07:08:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iABIA-0004Qk-Kk
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:05:09 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iABKF-0006iM-8Z
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:07:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iABI8-0007D3-5F
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:05:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40430)
+ (envelope-from <mreitz@redhat.com>) id 1iABKD-00009H-VN
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:07:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45122)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iABHz-00074o-3H; Tue, 17 Sep 2019 07:04:56 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iABKA-00007j-TF; Tue, 17 Sep 2019 07:07:11 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 21FADA2666F;
- Tue, 17 Sep 2019 11:04:54 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-116-202.ams2.redhat.com
- [10.36.116.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B88E460606;
- Tue, 17 Sep 2019 11:04:52 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Tue, 17 Sep 2019 13:04:43 +0200
-Message-Id: <20190917110443.2029-3-kwolf@redhat.com>
-In-Reply-To: <20190917110443.2029-1-kwolf@redhat.com>
-References: <20190917110443.2029-1-kwolf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2984A18CB8E8;
+ Tue, 17 Sep 2019 11:07:10 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-116-130.ams2.redhat.com
+ [10.36.116.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B412260BEC;
+ Tue, 17 Sep 2019 11:07:03 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190819201851.24418-1-mreitz@redhat.com>
+ <20190819201851.24418-7-mreitz@redhat.com>
+ <44f97011-4a02-7832-c253-d43474f79d44@redhat.com>
+ <a829185c-7c09-5afe-1479-15054ad59807@redhat.com>
+ <33f60f4e-8156-e46f-8500-79b0982348b2@redhat.com>
+ <c38acedf-d3db-384f-4aea-967ef3f87fdd@redhat.com>
+ <20190917084012.GA4824@localhost.localdomain>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <e9c8a9f5-80d9-b003-8036-0ba8df352ec3@redhat.com>
+Date: Tue, 17 Sep 2019 13:07:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20190917084012.GA4824@localhost.localdomain>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="IxHe2Xgu81VyP4J42d6DTiCxZkA0gg7jB"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Tue, 17 Sep 2019 11:04:54 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.63]); Tue, 17 Sep 2019 11:07:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] iotests: Test internal snapshots with
- -blockdev
+Subject: Re: [Qemu-devel] [PATCH v3 6/8] iotests: Test driver whitelisting
+ in 093
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,449 +91,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/267           | 165 ++++++++++++++++++++++++++++
- tests/qemu-iotests/267.out       | 182 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/common.filter |   5 +-
- tests/qemu-iotests/group         |   1 +
- 4 files changed, 349 insertions(+), 4 deletions(-)
- create mode 100755 tests/qemu-iotests/267
- create mode 100644 tests/qemu-iotests/267.out
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--IxHe2Xgu81VyP4J42d6DTiCxZkA0gg7jB
+Content-Type: multipart/mixed; boundary="fbPMqeG4CcdtLEmuaLLmChdoUp6haTHGx";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Message-ID: <e9c8a9f5-80d9-b003-8036-0ba8df352ec3@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v3 6/8] iotests: Test driver whitelisting in
+ 093
+References: <20190819201851.24418-1-mreitz@redhat.com>
+ <20190819201851.24418-7-mreitz@redhat.com>
+ <44f97011-4a02-7832-c253-d43474f79d44@redhat.com>
+ <a829185c-7c09-5afe-1479-15054ad59807@redhat.com>
+ <33f60f4e-8156-e46f-8500-79b0982348b2@redhat.com>
+ <c38acedf-d3db-384f-4aea-967ef3f87fdd@redhat.com>
+ <20190917084012.GA4824@localhost.localdomain>
+In-Reply-To: <20190917084012.GA4824@localhost.localdomain>
 
-diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
-new file mode 100755
-index 0000000000..0d085c60a7
---- /dev/null
-+++ b/tests/qemu-iotests/267
-@@ -0,0 +1,165 @@
-+#!/usr/bin/env bash
-+#
-+# Test which nodes are involved in internal snapshots
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dkwolf@redhat.com
-+
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
-+
-+status=3D1	# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    rm -f "$TEST_DIR/nbd"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+do_run_qemu()
-+{
-+    echo Testing: "$@"
-+    (
-+        if ! test -t 0; then
-+            while read cmd; do
-+                echo $cmd
-+            done
-+        fi
-+        echo quit
-+    ) | $QEMU -nographic -monitor stdio -nodefaults "$@"
-+    echo
-+}
-+
-+run_qemu()
-+{
-+    do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_hmp=
- |
-+        _filter_generated_node_ids | _filter_imgfmt
-+}
-+
-+size=3D128M
-+
-+run_test()
-+{
-+    _make_test_img $size
-+    printf "savevm snap0\ninfo snapshots\nloadvm snap0\n" | run_qemu "$@=
-" | _filter_date
-+}
-+
-+
-+echo
-+echo "=3D=3D=3D No block devices at all =3D=3D=3D"
-+echo
-+
-+run_test
-+
-+echo
-+echo "=3D=3D=3D -drive if=3Dnone =3D=3D=3D"
-+echo
-+
-+run_test -drive driver=3Dfile,file=3D"$TEST_IMG",if=3Dnone
-+run_test -drive driver=3D$IMGFMT,file=3D"$TEST_IMG",if=3Dnone
-+run_test -drive driver=3D$IMGFMT,file=3D"$TEST_IMG",if=3Dnone -device vi=
-rtio-blk,drive=3Dnone0
-+
-+echo
-+echo "=3D=3D=3D -drive if=3Dvirtio =3D=3D=3D"
-+echo
-+
-+run_test -drive driver=3Dfile,file=3D"$TEST_IMG",if=3Dvirtio
-+run_test -drive driver=3D$IMGFMT,file=3D"$TEST_IMG",if=3Dvirtio
-+
-+echo
-+echo "=3D=3D=3D Simple -blockdev =3D=3D=3D"
-+echo
-+
-+run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile
-+run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
- \
-+         -blockdev driver=3D$IMGFMT,file=3Dfile,node-name=3Dfmt
-+run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
- \
-+         -blockdev driver=3Draw,file=3Dfile,node-name=3Draw \
-+         -blockdev driver=3D$IMGFMT,file=3Draw,node-name=3Dfmt
-+
-+echo
-+echo "=3D=3D=3D -blockdev with a filter on top =3D=3D=3D"
-+echo
-+
-+run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
- \
-+         -blockdev driver=3D$IMGFMT,file=3Dfile,node-name=3Dfmt \
-+         -blockdev driver=3Dcopy-on-read,file=3Dfmt,node-name=3Dfilter
-+
-+echo
-+echo "=3D=3D=3D -blockdev with a backing file =3D=3D=3D"
-+echo
-+
-+TEST_IMG=3D"$TEST_IMG.base" _make_test_img $size
-+
-+IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
-+run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-name=3D=
-backing-file \
-+         -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
- \
-+         -blockdev driver=3D$IMGFMT,file=3Dfile,backing=3Dbacking-file,n=
-ode-name=3Dfmt
-+
-+IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
-+run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-name=3D=
-backing-file \
-+         -blockdev driver=3D$IMGFMT,file=3Dbacking-file,node-name=3Dback=
-ing-fmt \
-+         -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
- \
-+         -blockdev driver=3D$IMGFMT,file=3Dfile,backing=3Dbacking-fmt,no=
-de-name=3Dfmt
-+
-+# A snapshot should be present on the overlay, but not the backing file
-+echo Internal snapshots on overlay:
-+$QEMU_IMG snapshot -l "$TEST_IMG" | _filter_date
-+
-+echo Internal snapshots on backing file:
-+$QEMU_IMG snapshot -l "$TEST_IMG.base" | _filter_date
-+
-+echo
-+echo "=3D=3D=3D -blockdev with NBD server on the backing file =3D=3D=3D"
-+echo
-+
-+IMGOPTS=3D"backing_file=3D$TEST_IMG.base" _make_test_img $size
-+cat <<EOF |
-+nbd_server_start unix:$TEST_DIR/nbd
-+nbd_server_add -w backing-fmt
-+savevm snap0
-+info snapshots
-+loadvm snap0
-+EOF
-+run_qemu -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-name=3D=
-backing-file \
-+         -blockdev driver=3D$IMGFMT,file=3Dbacking-file,node-name=3Dback=
-ing-fmt \
-+         -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
- \
-+         -blockdev driver=3D$IMGFMT,file=3Dfile,backing=3Dbacking-fmt,no=
-de-name=3Dfmt |
-+         _filter_date
-+
-+# This time, a snapshot should be created on both files
-+echo Internal snapshots on overlay:
-+$QEMU_IMG snapshot -l "$TEST_IMG" | _filter_date
-+
-+echo Internal snapshots on backing file:
-+$QEMU_IMG snapshot -l "$TEST_IMG.base" | _filter_date
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
-new file mode 100644
-index 0000000000..bb13f0ae3c
---- /dev/null
-+++ b/tests/qemu-iotests/267.out
-@@ -0,0 +1,182 @@
-+QA output created by 267
-+
-+=3D=3D=3D No block devices at all =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing:
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+Error: No block device can accept snapshots
-+(qemu) info snapshots
-+No available block device supports snapshots
-+(qemu) loadvm snap0
-+Error: No block device supports snapshots
-+(qemu) quit
-+
-+
-+=3D=3D=3D -drive if=3Dnone =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -drive driver=3Dfile,file=3DTEST_DIR/t.IMGFMT,if=3Dnone
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+Error: Device 'none0' is writable but does not support snapshots
-+(qemu) info snapshots
-+No available block device supports snapshots
-+(qemu) loadvm snap0
-+Error: Device 'none0' is writable but does not support snapshots
-+(qemu) quit
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -drive driver=3DIMGFMT,file=3DTEST_DIR/t.IMGFMT,if=3Dnone
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -drive driver=3DIMGFMT,file=3DTEST_DIR/t.IMGFMT,if=3Dnone -devi=
-ce virtio-blk,drive=3Dnone0
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               636 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+
-+=3D=3D=3D -drive if=3Dvirtio =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -drive driver=3Dfile,file=3DTEST_DIR/t.IMGFMT,if=3Dvirtio
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+Error: Device 'virtio0' is writable but does not support snapshots
-+(qemu) info snapshots
-+No available block device supports snapshots
-+(qemu) loadvm snap0
-+Error: Device 'virtio0' is writable but does not support snapshots
-+(qemu) quit
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -drive driver=3DIMGFMT,file=3DTEST_DIR/t.IMGFMT,if=3Dvirtio
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               636 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+
-+=3D=3D=3D Simple -blockdev =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,node-name=3D=
-file
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+Error: Device '' is writable but does not support snapshots
-+(qemu) info snapshots
-+No available block device supports snapshots
-+(qemu) loadvm snap0
-+Error: Device '' is writable but does not support snapshots
-+(qemu) quit
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,node-name=3D=
-file -blockdev driver=3DIMGFMT,file=3Dfile,node-name=3Dfmt
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,node-name=3D=
-file -blockdev driver=3Draw,file=3Dfile,node-name=3Draw -blockdev driver=3D=
-IMGFMT,file=3Draw,node-name=3Dfmt
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+
-+=3D=3D=3D -blockdev with a filter on top =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
-+Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,node-name=3D=
-file -blockdev driver=3DIMGFMT,file=3Dfile,node-name=3Dfmt -blockdev driv=
-er=3Dcopy-on-read,file=3Dfmt,node-name=3Dfilter
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+
-+=3D=3D=3D -blockdev with a backing file =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D134217728
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_fi=
-le=3DTEST_DIR/t.IMGFMT.base
-+Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT.base,node-=
-name=3Dbacking-file -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,=
-node-name=3Dfile -blockdev driver=3DIMGFMT,file=3Dfile,backing=3Dbacking-=
-file,node-name=3Dfmt
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_fi=
-le=3DTEST_DIR/t.IMGFMT.base
-+Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT.base,node-=
-name=3Dbacking-file -blockdev driver=3DIMGFMT,file=3Dbacking-file,node-na=
-me=3Dbacking-fmt -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,nod=
-e-name=3Dfile -blockdev driver=3DIMGFMT,file=3Dfile,backing=3Dbacking-fmt=
-,node-name=3Dfmt
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+Internal snapshots on overlay:
-+Snapshot list:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+1         snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+Internal snapshots on backing file:
-+
-+=3D=3D=3D -blockdev with NBD server on the backing file =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_fi=
-le=3DTEST_DIR/t.IMGFMT.base
-+Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT.base,node-=
-name=3Dbacking-file -blockdev driver=3DIMGFMT,file=3Dbacking-file,node-na=
-me=3Dbacking-fmt -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,nod=
-e-name=3Dfile -blockdev driver=3DIMGFMT,file=3Dfile,backing=3Dbacking-fmt=
-,node-name=3Dfmt
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) nbd_server_start unix:TEST_DIR/nbd
-+(qemu) nbd_server_add -w backing-fmt
-+(qemu) savevm snap0
-+(qemu) info snapshots
-+List of snapshots present on all disks:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+--        snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+(qemu) loadvm snap0
-+(qemu) quit
-+
-+Internal snapshots on overlay:
-+Snapshot list:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+1         snap0                   0 B yyyy-mm-dd hh:mm:ss   00:00:00.000
-+Internal snapshots on backing file:
-+Snapshot list:
-+ID        TAG                 VM SIZE                DATE       VM CLOCK
-+1         snap0               591 KiB yyyy-mm-dd hh:mm:ss   00:00:00.000
-+*** done
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common=
-.filter
-index 445a1c23e0..841f7642af 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -19,12 +19,9 @@
- # standard filters
- #
-=20
--# ctime(3) dates
--#
- _filter_date()
- {
--    $SED \
--        -e 's/[A-Z][a-z][a-z] [A-z][a-z][a-z]  *[0-9][0-9]* [0-9][0-9]:[=
-0-9][0-9]:[0-9][0-9] [0-9][0-9][0-9][0-9]$/DATE/'
-+    $SED -re 's/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/yy=
-yy-mm-dd hh:mm:ss/'
- }
-=20
- _filter_generated_node_ids()
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 5d3da937e4..5805a79d9e 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -277,3 +277,4 @@
- 263 rw quick
- 265 rw auto quick
- 266 rw quick
-+267 rw auto quick snapshot
---=20
-2.20.1
+--fbPMqeG4CcdtLEmuaLLmChdoUp6haTHGx
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+On 17.09.19 10:40, Kevin Wolf wrote:
+> Am 17.09.2019 um 10:18 hat Max Reitz geschrieben:
+>> On 13.09.19 20:30, John Snow wrote:
+>>>
+>>>
+>>> On 9/13/19 8:47 AM, Max Reitz wrote:
+>>>> On 20.08.19 23:32, John Snow wrote:
+>>>>>
+>>>>>
+>>>>> On 8/19/19 4:18 PM, Max Reitz wrote:
+>>>>>> null-aio may not be whitelisted.  Skip all test cases that require=
+ it.
+>>>>>>
+>>>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>>>> ---
+>>>>>>  tests/qemu-iotests/093 | 12 +++++++++---
+>>>>>>  1 file changed, 9 insertions(+), 3 deletions(-)
+>>>>>>
+>>>>>> diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
+>>>>>> index 50c1e7f2ec..f03fa24a07 100755
+>>>>>> --- a/tests/qemu-iotests/093
+>>>>>> +++ b/tests/qemu-iotests/093
+>>>>>> @@ -24,7 +24,7 @@ import iotests
+>>>>>>  nsec_per_sec =3D 1000000000
+>>>>>> =20
+>>>>>>  class ThrottleTestCase(iotests.QMPTestCase):
+>>>>>> -    test_img =3D "null-aio://"
+>>>>>> +    test_driver =3D "null-aio"
+>>>>>>      max_drives =3D 3
+>>>>>> =20
+>>>>>>      def blockstats(self, device):
+>>>>>> @@ -35,10 +35,14 @@ class ThrottleTestCase(iotests.QMPTestCase):
+>>>>>>                  return stat['rd_bytes'], stat['rd_operations'], s=
+tat['wr_bytes'], stat['wr_operations']
+>>>>>>          raise Exception("Device not found for blockstats: %s" % d=
+evice)
+>>>>>> =20
+>>>>>> +    def required_drivers(self):
+>>>>>> +        return [self.test_driver]
+>>>>>> +
+>>>>>> +    @iotests.skip_if_unsupported(required_drivers)
+>>>>>
+>>>>> Oh, I see why you're passing args[0] back to the callback now. Why =
+not
+>>>>> just pass self.required_drivers and call it with no arguments inste=
+ad?
+>>>>>
+>>>>> You can get a bound version that way that doesn't need additional
+>>>>> arguments, and then the callback is free to take generic callables =
+of
+>>>>> any kind.
+>>>>
+>>>> Am I doing something wrong?
+>>>>
+>>>> I just get
+>>>>
+>>>> +Traceback (most recent call last):
+>>>> +  File "093", line 26, in <module>
+>>>> +    class ThrottleTestCase(iotests.QMPTestCase):
+>>>> +  File "093", line 41, in ThrottleTestCase
+>>>> +    @iotests.skip_if_unsupported(self.required_drivers)
+>>>> +NameError: name 'self' is not defined
+>>>>
+>>>> this way.
+>>>>
+>>>> Max
+>>>>
+>>> What was I even talking about? :\ Well.
+>>>
+>>> I'd still like to define func_wrapper with a nod to the type constrai=
+nt
+>>> it has:
+>>>
+>>> def func_wrapper(instance: iotests.QMPTestCase, *args, **kwargs):
+>>>     [...]
+>>>
+>>>
+>>> Then, you'd write:
+>>>
+>>> if callable(required_formats):
+>>>     fmts =3D required_formats(instance)
+>>> else:
+>>>     fmts =3D required_formats
+>>
+>> Yep, that anyway.  (Although I didn=E2=80=99t know about the =E2=80=9C=
+param: type=E2=80=9D
+>> syntax and put that constraint in a comment instead.  Thanks again :-)=
+)
+>=20
+> Note that function annotations are Python 3 only, so we can't use that
+> syntax yet anyway. If you want to use type hints that are understood by=
+
+> tools (like mypy) and compatible with Python 2, you have to use
+> something like this (feel free to be more specific than Any):
+
+Do we really feel like staying compatible with Python 2, though?
+
+Max
+
+
+--fbPMqeG4CcdtLEmuaLLmChdoUp6haTHGx--
+
+--IxHe2Xgu81VyP4J42d6DTiCxZkA0gg7jB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2AvlYACgkQ9AfbAGHV
+z0Cfcwf/UDTZRGAjPTLJTYVgUoP66G3ljPNjGT0Fn285OR9SfzikZXmqb57RwyzR
+fsxZUszKR16EkkvxUCS2Pz4psfZ4IOIDcxxJPJV+zNisxbwuRb3ajSidnCHq2qwS
+REX7vnfqgdNjEF1dblOfanr4bmM7B4hYjjA7Qh68IdcTXlkwNKwGc/lpC/Ya8OAC
+kGGjqhgOYMMWxOSrNdSLhzoNb4orU9Z8zI/XQvOodhwBkLvXwAIC7mIlgr8XsY7O
+NXRh7ahO3dCuZxowwUL/0nce/8q48vqqKGMMtrVtI3mO5505EJQQFoxGMRZoiXv1
+M2GsDCz+EDjX7KigRcxS8IPUZx4scw==
+=p5Fy
+-----END PGP SIGNATURE-----
+
+--IxHe2Xgu81VyP4J42d6DTiCxZkA0gg7jB--
 
