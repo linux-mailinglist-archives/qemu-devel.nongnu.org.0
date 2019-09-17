@@ -2,74 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6951B4C7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 13:04:14 +0200 (CEST)
-Received: from localhost ([::1]:44186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815C5B4C86
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 13:07:24 +0200 (CEST)
+Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iABHJ-00038T-JA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 07:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51614)
+	id 1iABKN-0005wZ-5P
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 07:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iABDx-0001Z0-Nx
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:00:47 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iABI6-0004MJ-A1
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:05:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iABDw-0004Sj-31
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:00:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60290)
+ (envelope-from <kwolf@redhat.com>) id 1iABI4-000786-Ux
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:05:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35110)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iABDv-0004RU-NR
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 07:00:43 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iABHw-00073F-HC; Tue, 17 Sep 2019 07:04:52 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 23EA23B558
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 11:00:42 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id b6so1186230wrx.0
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 04:00:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wSzNTKefRTNv6dxVX888ROxgz8neOc/3d2LLBCrP1Zo=;
- b=P3RNO/p1G4vZBHls7+L8jaz9IkCwB/1ZL8Q1XzM800dif9JUr6dGGpJCzWY73SWPRZ
- 047/8ZAhSmDkIyGSDgX9j618g3uwVt/fpayZbgf1NRgHbpZ9xhK9ICmV43mzRdWFGCdQ
- 9BJlpE6hC8GLR5kW6ETERmrxIEEZthtpkoeUHaWaaiVJP4FAx0izD7vtu48VO1Oz0v2d
- 1aFYnniaoufaMzaG1Y6HdNrCowMf+wfVgnVWDNL5JvkV2eR+4+d2PFgrxxL4AViZXyaX
- aivViyoLvLmiAsTm2u+Q2Q7JvajqW0kY0X98LIjHyqoapanTGLChGjNd/oyqEly+rlr0
- YbFw==
-X-Gm-Message-State: APjAAAUcaiMfC35edcU24UTr9WAEG2UZCuc9paSMCQeHKxCfb3xr639b
- XkFW4gxfi0OWjcfxzATuCmbdwLjH14zd6OG1GSI+vxX4fYrFXsYSSHu96nFm1NcY8Nwb9qjLCmu
- zuMG4qPSvmpdiPSQ=
-X-Received: by 2002:a1c:7914:: with SMTP id l20mr3023777wme.155.1568718040920; 
- Tue, 17 Sep 2019 04:00:40 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxMls8xM/Rwo+j6jZMA4hI6gpE0ct/tqNdzBRB015ocXFc5YOG2Qc8GG1jk42vDrZiNlrUQEA==
-X-Received: by 2002:a1c:7914:: with SMTP id l20mr3023730wme.155.1568718040640; 
- Tue, 17 Sep 2019 04:00:40 -0700 (PDT)
-Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id h7sm2074263wrt.17.2019.09.17.04.00.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Sep 2019 04:00:39 -0700 (PDT)
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <551745c2-2579-9ce5-4aa4-536c37a1ce45@redhat.com>
-Date: Tue, 17 Sep 2019 13:00:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id DCA593082B02;
+ Tue, 17 Sep 2019 11:04:50 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-116-202.ams2.redhat.com
+ [10.36.116.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB130608A5;
+ Tue, 17 Sep 2019 11:04:49 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Date: Tue, 17 Sep 2019 13:04:41 +0200
+Message-Id: <20190917110443.2029-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 17 Sep 2019 11:04:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 00/17] Fix usage of error_append_hint()
+Subject: [Qemu-devel] [PATCH 0/2] block/snapshot: Restrict set of snapshot
+ nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,45 +54,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yuval Shaia <yuval.shaia@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some reason your email client escaped incorrectly Daniel's email:
+This fixes internal snapshots with separately defined protocol nodes
+(like libvirt will do with -blockdev).
 
-  "Daniel P. Berrang=C3=A9\" <berrange@redhat.com>
+Kevin Wolf (2):
+  block/snapshot: Restrict set of snapshot nodes
+  iotests: Test internal snapshots with -blockdev
 
-Which makes my email client very unhappy (Thunderbird):
+ block/snapshot.c                 |  26 +++--
+ tests/qemu-iotests/267           | 165 ++++++++++++++++++++++++++++
+ tests/qemu-iotests/267.out       | 182 +++++++++++++++++++++++++++++++
+ tests/qemu-iotests/common.filter |   5 +-
+ tests/qemu-iotests/group         |   1 +
+ 5 files changed, 368 insertions(+), 11 deletions(-)
+ create mode 100755 tests/qemu-iotests/267
+ create mode 100644 tests/qemu-iotests/267.out
 
-There are non-ASCII characters in the local part of the recipient
-address "Daniel P. Berrang=C3=A9 <berrange@redhat.com>,
-qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
-qemu-s390x@nongnu.org"@d06av23.portsmouth.uk.ibm.com. This is not yet
-supported. Please change this address and try again.
+--=20
+2.20.1
 
-Neither is MTA:
-
-An error occurred while sending mail. The mail server responded:
-5.1.2 The recipient address <qemu-s390x@nongnu.org@d06av22.portsmouth.uk.=
-ibm
-5.1.2 .com> is not a valid RFC-5321 address. r28sm2465872wrr.94 - gsmtp.
- Please check the message recipient
-""qemu-s390x@nongnu.org"@d06av22.portsmouth.uk.ibm.com" and try again.
 
