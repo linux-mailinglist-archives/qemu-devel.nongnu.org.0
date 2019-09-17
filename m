@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43030B5338
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:40:47 +0200 (CEST)
-Received: from localhost ([::1]:48460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55C3B5342
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:44:08 +0200 (CEST)
+Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAGWz-0000Fs-Q9
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:40:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45897)
+	id 1iAGaF-0002pd-HR
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iAGSA-0004Rm-Ug
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:35:49 -0400
+ (envelope-from <eblake@redhat.com>) id 1iAGSb-0004ua-0h
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:36:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iAGS9-0002Fn-D2
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:35:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57350)
+ (envelope-from <eblake@redhat.com>) id 1iAGSZ-0002S1-S2
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:36:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52772)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAGS9-0002FT-5B
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:35:45 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAGSZ-0002Rk-Hx
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:36:11 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 290AA37E88
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 16:35:44 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id n3so1524047wrt.9
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 09:35:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M90/9OazXVb0sRG6je51Qkw7bHLspARRGeQQDFL+khk=;
- b=K8xDlI+GYSpliJwBlSII4m6Zf9Ruw1Of0phQHiB36Z+zeureLZFjm+vXf3PL5fBsTC
- /k+Q6B4BJxwYveTc9NBDybud4RyaM4LpNVzeics1jop1JAVp89D3k0CQ/66tXzOd/9sd
- yhD//id2ogy2KK0q28Y4mOl3wt5WW2Exqbnxwx7fpEuveb1ObXXWAKqI+sZOToBOSp49
- HTk1m6enWHX4fNSdFsy5bLY4ppA5hPsDUDiZumye1/wFzj3eIWDkguLTlJMpDdRUKqWj
- 4ErFp6oJ28kMhuby3/XKBshd1JVZy1fjXsK3WMYnyIyjELCKVIV7xZha6oYZ43Sd34/z
- uOpQ==
-X-Gm-Message-State: APjAAAXEfiDAho85oe7rS5wcZLV65mQjdOpLl/Q+iWglcb7uGlhu0lYq
- ym++Dc9edqSVo+NKrHeFFJzgOiwS8ONp4VHcCqHy03XP4kSoZIXQfjYHNDh05XtfiVfPLHjowmj
- KGF4fyBJdNCyV57Y=
-X-Received: by 2002:a5d:4350:: with SMTP id u16mr3493883wrr.289.1568738142920; 
- Tue, 17 Sep 2019 09:35:42 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx7g2x22/L1E915Vhfg+lq4GTEuim5URUQIS66IbxqFjuYdwBxXgw28sbIaE729ycEEEpftrA==
-X-Received: by 2002:a5d:4350:: with SMTP id u16mr3493870wrr.289.1568738142708; 
- Tue, 17 Sep 2019 09:35:42 -0700 (PDT)
-Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id v64sm3669495wmf.12.2019.09.17.09.35.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Sep 2019 09:35:42 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190917111441.27405-1-kraxel@redhat.com>
- <20190917111441.27405-2-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <1d75be76-93b4-c14c-0347-bdaacf31b1f5@redhat.com>
-Date: Tue, 17 Sep 2019 18:35:41 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id D3BF030A922F;
+ Tue, 17 Sep 2019 16:36:10 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7811060BE1;
+ Tue, 17 Sep 2019 16:36:10 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190914153506.2151-1-armbru@redhat.com>
+ <20190914153506.2151-2-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <20438c46-cc03-826c-3bad-9320764a8623@redhat.com>
+Date: Tue, 17 Sep 2019 11:36:09 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190917111441.27405-2-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190914153506.2151-2-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="w4k90DCDOBgEeEZ2p8eue1GFVOoHDLtfv"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Tue, 17 Sep 2019 16:36:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 1/2] vga: move access helpers to
- separate include file
+Subject: Re: [Qemu-devel] [PATCH 01/19] tests/qapi-schema: Cover unknown
+ pragma
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,146 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: flier_m@outlook.com, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/19 1:14 PM, Gerd Hoffmann wrote:
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/vga-access.h  | 49 ++++++++++++++++++++++++++++++++++++++++
->  hw/display/vga-helpers.h | 26 ---------------------
->  hw/display/vga.c         |  1 +
->  3 files changed, 50 insertions(+), 26 deletions(-)
->  create mode 100644 hw/display/vga-access.h
->=20
-> diff --git a/hw/display/vga-access.h b/hw/display/vga-access.h
-> new file mode 100644
-> index 000000000000..c0fbd9958b2e
-> --- /dev/null
-> +++ b/hw/display/vga-access.h
-> @@ -0,0 +1,49 @@
-> +/*
-> + * QEMU VGA Emulator templates
-> + *
-> + * Copyright (c) 2003 Fabrice Bellard
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaini=
-ng a copy
-> + * of this software and associated documentation files (the "Software"=
-), to deal
-> + * in the Software without restriction, including without limitation t=
-he rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/o=
-r sell
-> + * copies of the Software, and to permit persons to whom the Software =
-is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be incl=
-uded in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT S=
-HALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
-R OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
-SING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
-NGS IN
-> + * THE SOFTWARE.
-> + */
-> +
-> +static inline uint8_t vga_read_byte(VGACommonState *vga, uint32_t addr=
-)
-> +{
-> +    return vga->vram_ptr[addr & vga->vbe_size_mask];
-> +}
-> +
-> +static inline uint16_t vga_read_word_le(VGACommonState *vga, uint32_t =
-addr)
-> +{
-> +    uint32_t offset =3D addr & vga->vbe_size_mask & ~1;
-> +    uint16_t *ptr =3D (uint16_t *)(vga->vram_ptr + offset);
-> +    return lduw_le_p(ptr);
-> +}
-> +
-> +static inline uint16_t vga_read_word_be(VGACommonState *vga, uint32_t =
-addr)
-> +{
-> +    uint32_t offset =3D addr & vga->vbe_size_mask & ~1;
-> +    uint16_t *ptr =3D (uint16_t *)(vga->vram_ptr + offset);
-> +    return lduw_be_p(ptr);
-> +}
-> +
-> +static inline uint32_t vga_read_dword_le(VGACommonState *vga, uint32_t=
- addr)
-> +{
-> +    uint32_t offset =3D addr & vga->vbe_size_mask & ~3;
-> +    uint32_t *ptr =3D (uint32_t *)(vga->vram_ptr + offset);
-> +    return ldl_le_p(ptr);
-> +}
-> diff --git a/hw/display/vga-helpers.h b/hw/display/vga-helpers.h
-> index 5a752b3f9efd..10e9cfd40a04 100644
-> --- a/hw/display/vga-helpers.h
-> +++ b/hw/display/vga-helpers.h
-> @@ -95,32 +95,6 @@ static void vga_draw_glyph9(uint8_t *d, int linesize=
-,
->      } while (--h);
->  }
-> =20
-> -static inline uint8_t vga_read_byte(VGACommonState *vga, uint32_t addr=
-)
-> -{
-> -    return vga->vram_ptr[addr & vga->vbe_size_mask];
-> -}
-> -
-> -static inline uint16_t vga_read_word_le(VGACommonState *vga, uint32_t =
-addr)
-> -{
-> -    uint32_t offset =3D addr & vga->vbe_size_mask & ~1;
-> -    uint16_t *ptr =3D (uint16_t *)(vga->vram_ptr + offset);
-> -    return lduw_le_p(ptr);
-> -}
-> -
-> -static inline uint16_t vga_read_word_be(VGACommonState *vga, uint32_t =
-addr)
-> -{
-> -    uint32_t offset =3D addr & vga->vbe_size_mask & ~1;
-> -    uint16_t *ptr =3D (uint16_t *)(vga->vram_ptr + offset);
-> -    return lduw_be_p(ptr);
-> -}
-> -
-> -static inline uint32_t vga_read_dword_le(VGACommonState *vga, uint32_t=
- addr)
-> -{
-> -    uint32_t offset =3D addr & vga->vbe_size_mask & ~3;
-> -    uint32_t *ptr =3D (uint32_t *)(vga->vram_ptr + offset);
-> -    return ldl_le_p(ptr);
-> -}
-> -
->  /*
->   * 4 color mode
->   */
-> diff --git a/hw/display/vga.c b/hw/display/vga.c
-> index 573d223d46f0..82ebe5361096 100644
-> --- a/hw/display/vga.c
-> +++ b/hw/display/vga.c
-> @@ -1009,6 +1009,7 @@ void vga_mem_writeb(VGACommonState *s, hwaddr add=
-r, uint32_t val)
->  typedef void vga_draw_line_func(VGACommonState *s1, uint8_t *d,
->                                  uint32_t srcaddr, int width);
-> =20
-> +#include "vga-access.h"
->  #include "vga-helpers.h"
-> =20
->  /* return true if the palette was modified */
->=20
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--w4k90DCDOBgEeEZ2p8eue1GFVOoHDLtfv
+Content-Type: multipart/mixed; boundary="1KkhA13Tb6dxQvs6t6x1YL3M9hLpbkqUm";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
+Message-ID: <20438c46-cc03-826c-3bad-9320764a8623@redhat.com>
+Subject: Re: [PATCH 01/19] tests/qapi-schema: Cover unknown pragma
+References: <20190914153506.2151-1-armbru@redhat.com>
+ <20190914153506.2151-2-armbru@redhat.com>
+In-Reply-To: <20190914153506.2151-2-armbru@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+--1KkhA13Tb6dxQvs6t6x1YL3M9hLpbkqUm
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 9/14/19 10:34 AM, Markus Armbruster wrote:
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--1KkhA13Tb6dxQvs6t6x1YL3M9hLpbkqUm--
+
+--w4k90DCDOBgEeEZ2p8eue1GFVOoHDLtfv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BC3kACgkQp6FrSiUn
+Q2oXkAf+M29iWSz3uyJnChDb8KlxGmbHArKdHH/N1F/TayOFqhwmlEm8sRiffFB0
+u/MpliFbgKk3MAZcgBWt8Ue5jiVm74ucKehaUFdXudHwOdmONNFJZjXgvOIwekGK
+s7plD5x9NphMpBQe+ucZyLYq060TqSJgngQDjgZMoiLDrWSUITxESIMbBbL/lIy3
+xOq83rMFRo6Yh3ZHZMw46dAu47xORwtUQhdl6vp21tGW7jPPT+JNFjLEUBLPjCU0
+XrCM73Xq3WDVI9WkAy+tCr0jG81PX9fNJwLrd0huYipgzLOSE4REJepDrnYcifcw
+nZqsAdM4v1hqY4AhEYqX+X0++yacHg==
+=jTIN
+-----END PGP SIGNATURE-----
+
+--w4k90DCDOBgEeEZ2p8eue1GFVOoHDLtfv--
 
