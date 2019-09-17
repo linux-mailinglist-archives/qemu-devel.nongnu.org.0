@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0DDB4E50
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 14:45:37 +0200 (CEST)
-Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23F9B4E7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 14:52:03 +0200 (CEST)
+Received: from localhost ([::1]:45774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iACrQ-0003bj-1m
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 08:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37853)
+	id 1iACxe-0008NV-Ph
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 08:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iACox-0002J9-VL
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 08:43:05 -0400
+ (envelope-from <berrange@redhat.com>) id 1iACtL-0005v2-OB
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 08:47:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iACov-0006Jg-Mg
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 08:43:03 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51238)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iACov-0006Iy-CY
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 08:43:01 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 7so3257536wme.1
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 05:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SG/WcaoGxaX7MGJKGkNPY8Ua4ajn7nVTz+0Zp24VhXI=;
- b=K2UInnrpY9PdDvsvl3mWJSNsUVN9MDD7K5+UbNo2hQH+Jr4bxHpCKE9N061ArZP0F9
- rjH7PmrZ82CDeDod38Rp03WTGrYWV51sPsNcjQqCLXW0DwWV+H90+V4g5BMJd1/lY4tR
- U71yr+vAF+RJndHod3PJA+WUd+EEyC4Qnr8eVL/Wpy8Dbhn5rP53Z51IRS/4kpgJhujU
- cdEUzLrN8RHbz1qvhQ2BzUl91wQUKwOPY45vx+FD5uW4bhkvwWAsBHSpWbv85OGwFHnX
- fVIM0QsCqXK/dy0BzWPDBIaDImEs4spAhvROQ4KV6RGBaiR4ji1fUjjj1KH1HGo2BuJm
- aHBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SG/WcaoGxaX7MGJKGkNPY8Ua4ajn7nVTz+0Zp24VhXI=;
- b=mb2G1LBxoCa2bLoS0tvqcxpqI93T6xcnM0ea95KWoNFYeHb+ScSGDIxPat3ueLtmPV
- VKtFHos6qj3vBRpiirEbEVXFieUpkGwdDB2vyCcDMW68a5f7FLfu/SbNMz9uyx4pGOPx
- JwpO8ye+w2MvmNa7d97IgestIq4nsZWLtYXj2KuKfJP8OY06c4g1MTrJlGkIPdm+YNCf
- MotOdmlkt4a+hFFAz/EkPi4vSebALCFIF+oBmg26vkWtBR3LahVlIMKRSxVCktmZQxsf
- P9buZtFq0gWD827ZJPXgQ60sEdQfxEIf+EwSf4CJlPyXFiF8rpXJhyCRpbXV9bg4FJqq
- zPJQ==
-X-Gm-Message-State: APjAAAUQn85J/WtiowOfzKgkmM4rmE5V1fAxam7LotmyLI/ropH1ES9u
- rtvyI784UYfcDDUPgu0MC8Ciu9DGZ9GUqLJdkJU=
-X-Google-Smtp-Source: APXvYqxVRhzyfQy+jwzgt7ROKuGTSgLM36VEvnWEhDoaC+E33PWHy8zaWG9LAL3JZApUCb234/aiQpP5+0FuDz5GV8g=
-X-Received: by 2002:a1c:2144:: with SMTP id h65mr3544906wmh.114.1568724179380; 
- Tue, 17 Sep 2019 05:42:59 -0700 (PDT)
+ (envelope-from <berrange@redhat.com>) id 1iACtI-0000at-AJ
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 08:47:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49344)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iACtI-0000ZG-1I
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 08:47:32 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AB1AEC0495A3
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 12:47:30 +0000 (UTC)
+Received: from redhat.com (ovpn-112-41.ams2.redhat.com [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA0FA6012E;
+ Tue, 17 Sep 2019 12:47:23 +0000 (UTC)
+Date: Tue, 17 Sep 2019 13:47:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190917124721.GQ1069@redhat.com>
+References: <20190912122514.22504-1-marcandre.lureau@redhat.com>
+ <20190912122514.22504-6-marcandre.lureau@redhat.com>
+ <20190916100035.GC2887@work-vm>
 MIME-Version: 1.0
-References: <20190917122512.15320-1-johannes@sipsolutions.net>
-In-Reply-To: <20190917122512.15320-1-johannes@sipsolutions.net>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 17 Sep 2019 16:42:35 +0400
-Message-ID: <CAJ+F1CJb_82Ut3gH8PAvq4aQhyUAa5eP4J8iwRSPavCwX3HxVA@mail.gmail.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190916100035.GC2887@work-vm>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Tue, 17 Sep 2019 12:47:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH] libvhost-user-glib: use
- g_main_context_get_thread_default()
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 5/6] docs: start a document to describe
+ D-Bus usage
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,49 +60,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Johannes Berg <johannes.berg@intel.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: quintela@redhat.com, mprivozn@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com, pbonzini@redhat.com,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 17, 2019 at 4:26 PM Johannes Berg <johannes@sipsolutions.net> w=
-rote:
->
-> From: Johannes Berg <johannes.berg@intel.com>
->
-> If we use NULL, we just get the main program default mainloop
-> here. Using g_main_context_get_thread_default() has basically
-> the same effect, but it lets us start different devices in
-> different threads with different mainloops, which can be useful.
->
-> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+On Mon, Sep 16, 2019 at 11:00:35AM +0100, Dr. David Alan Gilbert wrote:
+> (Copying in Stefan since he was looking at DBus for virtiofs)
+>=20
+> * Marc-Andr=C3=A9 Lureau (marcandre.lureau@redhat.com) wrote:
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  docs/interop/dbus.rst  | 73 ++++++++++++++++++++++++++++++++++++++++=
+++
+> >  docs/interop/index.rst |  1 +
+> >  2 files changed, 74 insertions(+)
+> >  create mode 100644 docs/interop/dbus.rst
+> >=20
+> > diff --git a/docs/interop/dbus.rst b/docs/interop/dbus.rst
+> > new file mode 100644
+> > index 0000000000..c08f026edc
+> > --- /dev/null
+> > +++ b/docs/interop/dbus.rst
+> > @@ -0,0 +1,73 @@
+> > +=3D=3D=3D=3D=3D
+> > +D-Bus
+> > +=3D=3D=3D=3D=3D
+> > +
+> > +Introduction
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +QEMU may be running with various helper processes involved:
+> > + - vhost-user* processes (gpu, virtfs, input, etc...)
+> > + - TPM emulation (or other devices)
+> > + - user networking (slirp)
+> > + - network services (DHCP/DNS, samba/ftp etc)
+> > + - background tasks (compression, streaming etc)
+> > + - client UI
+> > + - admin & cli
+> > +
+> > +Having several processes allows stricter security rules, as well as
+> > +greater modularity.
+> > +
+> > +While QEMU itself uses QMP as primary IPC (and Spice/VNC for remote
+> > +display), D-Bus is the de facto IPC of choice on Unix systems. The
+> > +wire format is machine friendly, good bindings exist for various
+> > +languages, and there are various tools available.
+> > +
+> > +Using a bus, helper processes can discover and communicate with each
+> > +other easily, without going through QEMU. The bus topology is also
+> > +easier to apprehend and debug than a mesh. However, it is wise to
+> > +consider the security aspects of it.
+> > +
+> > +Security
+> > +=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +A QEMU D-Bus bus should be private to a single VM. Thus, only
+> > +cooperative tasks are running on the same bus to serve the VM.
+> > +
+> > +D-Bus, the protocol and standard, doesn't have mechanisms to enforce
+> > +security between peers once the connection is established. Peers may
+> > +have additional mechanisms to enforce security rules, based for
+> > +example on UNIX credentials.
+> > +
+> > +dbus-daemon can enforce various policies based on the UID/GID of the
+> > +processes that are connected to it. It is thus a good idea to run
+> > +helpers as different UID from QEMU and set appropriate policies (so
+> > +helper processes are only allowed to talk to qemu for example).
+> > +
+> > +For example, this allows only ``qemu`` user to talk to ``qemu-helper=
+``
+> > +``org.qemu.Helper1`` service:
+> > +
+> > +.. code:: xml
+> > +
+> > +  <policy user=3D"qemu">
+> > +     <allow send_destination=3D"org.qemu.Helper1"/>
+> > +     <allow receive_sender=3D"org.qemu.Helper1"/>
+> > +  </policy>
+> > +
+> > +  <policy user=3D"qemu-helper">
+> > +     <allow own=3D"org.qemu.Helper1"/>
+> > +  </policy>
+> > +
+> > +
+> > +dbus-daemon can also perfom SELinux checks based on the security
+> > +context of the source and the target. For example, ``virtiofs_t``
+> > +could be allowed to send a message to ``svirt_t``, but ``virtiofs_t`=
+`
+> > +wouldn't be allowed to send a message to ``virtiofs_t``.
+>=20
+> I think we need to start thinking about this more now rather than
+> 'can'. .
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Thinking about DBus usage with helpers, as compared to the current state
+with monolithic QEMU, the top priority is to ensure no degradation in
+security vs current practice.
 
-> ---
->  contrib/libvhost-user/libvhost-user-glib.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhos=
-t-user/libvhost-user-glib.c
-> index 824c7780de61..53f1ca4cdd73 100644
-> --- a/contrib/libvhost-user/libvhost-user-glib.c
-> +++ b/contrib/libvhost-user/libvhost-user-glib.c
-> @@ -89,7 +89,7 @@ vug_source_new(VugDev *gdev, int fd, GIOCondition cond,
->      src->gfd.events =3D cond;
->
->      g_source_add_poll(gsrc, &src->gfd);
-> -    id =3D g_source_attach(gsrc, NULL);
-> +    id =3D g_source_attach(gsrc, g_main_context_get_thread_default());
->      g_assert(id);
->
->      return gsrc;
-> --
-> 2.20.1
->
->
+That is fairly easy from libvirt's POV - we simply need to make sure
+that the dbus daemon and all helpers get given the same SELinux svirt_t
+content as used for QEMU, so each QEMU is still siloed to the same
+extent.
+
+If SELinux is not enabled, then currently an out of the box libvirt
+config only protects the host from QEMU, it doesn't protect QEMU
+from other QEMUs, since they all run the same user ID.
+
+It is possible to tell libvirt to run each QEMU as a separate user
+ID if the mgmt app has a range of user IDs avalable. In this case,
+we would simply run the helpers/dbus as the same per-QEMU user ID
+to ensure we don't regress.
 
 
+Getting an improved security model is obviously the ultimate goal,
+as this modularity needs to offer some benefit to outweight its
+costs.
+
+In terms of SELinux, this will involve creating distinct SElinux
+contexts for each helper process. (svirt_slirp_t, svirt_swtpm_t,
+etc, etc).
+
+In terms of DAC, in the per QEMU user ID scenario,  we would need
+to allocate at least 2 UIDs for each QEMU process, so that helpers
+would be separate from the QEMU. To be honest it would be better
+if we had 3 UIDs, to the dbus daemon was separated from both the
+helpers and QEMU.
+
+This starts to sound like alot of UIDs which is tedious to manage.
+Libvirt already puts QEMU in a separate mount namespace. From a
+DAC POV, to get meaninguful separation will probably want libvirt
+to consider the "user" namespace too. This is quite a bit of work
+to get everything labelled right for  different user namespace,
+but it may well simplify mgmt thereafter. We still have the same
+problem though, of needing to assign a range of user IDs for each
+user namespace.
+
+Overall, I can see the possible technical options for securing
+this use of DBus, so I'm not too concerned here.
+
+Regards,
+Daniel
 --=20
-Marc-Andr=C3=A9 Lureau
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
