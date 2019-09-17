@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80418B492B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 10:20:29 +0200 (CEST)
-Received: from localhost ([::1]:42592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEEE3B493F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 10:25:25 +0200 (CEST)
+Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA8iq-0000eB-Br
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 04:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53506)
+	id 1iA8nc-0004mc-Qy
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 04:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iA8gg-0008WJ-Qy
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:18:15 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iA8mh-0004Dy-2G
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:24:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iA8gf-0001sG-ML
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:18:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47358)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iA8gc-0001p7-Qu; Tue, 17 Sep 2019 04:18:11 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 15C0B10C093B;
- Tue, 17 Sep 2019 08:18:09 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-130.ams2.redhat.com
- [10.36.116.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DF0510013A1;
- Tue, 17 Sep 2019 08:18:04 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
-References: <20190819201851.24418-1-mreitz@redhat.com>
- <20190819201851.24418-7-mreitz@redhat.com>
- <44f97011-4a02-7832-c253-d43474f79d44@redhat.com>
- <a829185c-7c09-5afe-1479-15054ad59807@redhat.com>
- <33f60f4e-8156-e46f-8500-79b0982348b2@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c38acedf-d3db-384f-4aea-967ef3f87fdd@redhat.com>
-Date: Tue, 17 Sep 2019 10:18:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iA8mf-0006N0-OU
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:24:26 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45358)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iA8mf-0006Mb-Fb
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:24:25 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r5so2051630wrm.12
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 01:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FVlbjPxEY+eW65vxtwfmJjAmqCZKjosQZHM4rG212/0=;
+ b=O9C/VDDPpE+0HHzp63emtbYxBPUXnDg7+5Gpv/OMNXKi2CHRoqTw1Moq+cP7ouWOOA
+ wQd/FAsAGabuQfrGmgGEELzM7otRXmzZEuU0W5HtST6cc3C/9NNGnwbayMbujOkGmUSk
+ IbOdzUDlkVqrs1K72srS26dyExpiYzExg8c9IIBAqKFD4GAk0BYefJkxk3sGHX4v6mDN
+ tHm58zdLl6/K1sGub8vvfnuRFuSNZds+BlXT4IQWwDEQP/oFn8KnyBJZExoXgtVh0Pl2
+ PVV0V4ntS0yPjGobe79WhHzKf2iXnN4Ca5Q0dWYQrCj7VYopWBLt2Fvtyh5xo39pYdu+
+ v9lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FVlbjPxEY+eW65vxtwfmJjAmqCZKjosQZHM4rG212/0=;
+ b=WDnOpKgQnWuiUl4dSi6SJiNc77s8Pfx6ydav/a/jmVxasNNj6uQ7mZe6jrKsn1jHDg
+ 42Fs+4UbaWwwpKqWFniJMkCMVqLwkMaVtSaZXktIpignLCIpx1Qbh4pSF/2/rcXuWa6Y
+ k4YsOXDFZA1WEUDExayp/UgXDDItA8Im1iQO4DR+7SUCbopgWJwHASOwvrEQxzEBBYOT
+ eSDfpkP3ijnO13CTJ6awl30gxJ9B+5mxCWeEdN7kGuJgZI9C2pdnerx2iAaxIYgWjoHQ
+ BU39+pJTO/UBLT2AyS0s6WwjSs2sm8gypnLX0PO8uHJSkmva7QQY2J6n1qEZGjA/p3v1
+ XwbA==
+X-Gm-Message-State: APjAAAWz4fBPM5UHN8hInRgKabyXDcyNENAB1ktn0jCLJ7jLH4MMlWmd
+ 3skpwQQrmiMt4aRDapX5Pebcla028N0XD368Yhw=
+X-Google-Smtp-Source: APXvYqx0Acky/oAcGTv+f6kYq7H7gVRk5ptlogcKllsrfDXN0Akl81UeQ5aOD0VUJ+kKulpJgT2Ob/U3yCrdvIRt51g=
+X-Received: by 2002:adf:f44e:: with SMTP id f14mr1822537wrp.290.1568708664179; 
+ Tue, 17 Sep 2019 01:24:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <33f60f4e-8156-e46f-8500-79b0982348b2@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="NKWjWskCVQpdIip3ujLUXC9vfPx1wfF7H"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Tue, 17 Sep 2019 08:18:09 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 6/8] iotests: Test driver whitelisting
- in 093
+References: <20190912122514.22504-1-marcandre.lureau@redhat.com>
+ <20190912122514.22504-6-marcandre.lureau@redhat.com>
+ <20190916100035.GC2887@work-vm>
+ <CAJ+F1C+GAJc8vYVLzBZWonVkjp-rdWFemAdwgE2sbxJDFKp0Uw@mail.gmail.com>
+ <20190916131514.GG2887@work-vm>
+ <CAJ+F1C+mbPHHO_Oet-CxUsfAxTrLvezvcV=+0KG+Rv2za=-arg@mail.gmail.com>
+ <20190917081203.GA3370@work-vm>
+In-Reply-To: <20190917081203.GA3370@work-vm>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 17 Sep 2019 12:23:54 +0400
+Message-ID: <CAJ+F1CK4dW1kKqGMdyE1KubRc6wNqLoVBHXRcaFvPW+wV5kVpA@mail.gmail.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v3 5/6] docs: start a document to describe
+ D-Bus usage
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,141 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NKWjWskCVQpdIip3ujLUXC9vfPx1wfF7H
-Content-Type: multipart/mixed; boundary="XqBMYc1BqMpuMoI7hyggiNdYafl5VkH7X";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-Message-ID: <c38acedf-d3db-384f-4aea-967ef3f87fdd@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v3 6/8] iotests: Test driver whitelisting in
- 093
-References: <20190819201851.24418-1-mreitz@redhat.com>
- <20190819201851.24418-7-mreitz@redhat.com>
- <44f97011-4a02-7832-c253-d43474f79d44@redhat.com>
- <a829185c-7c09-5afe-1479-15054ad59807@redhat.com>
- <33f60f4e-8156-e46f-8500-79b0982348b2@redhat.com>
-In-Reply-To: <33f60f4e-8156-e46f-8500-79b0982348b2@redhat.com>
+Hi
 
---XqBMYc1BqMpuMoI7hyggiNdYafl5VkH7X
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Tue, Sep 17, 2019 at 12:12 PM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> * Marc-Andr=C3=A9 Lureau (marcandre.lureau@gmail.com) wrote:
+> > Hi
+> >
+> > On Mon, Sep 16, 2019 at 5:15 PM Dr. David Alan Gilbert
+> > <dgilbert@redhat.com> wrote:
+> > >
+> > > * Marc-Andr=C3=A9 Lureau (marcandre.lureau@gmail.com) wrote:
+> > > > Hi
+> > > >
+> > > > On Mon, Sep 16, 2019 at 2:02 PM Dr. David Alan Gilbert
+> > > > <dgilbert@redhat.com> wrote:
+> > > > >
+> > > > > (Copying in Stefan since he was looking at DBus for virtiofs)
+> > > > >
+> > > > > * Marc-Andr=C3=A9 Lureau (marcandre.lureau@redhat.com) wrote:
+> > > > > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.=
+com>
+>
+> <snip>
+>
+> > > > Do you have a specific question we can answer or guide for qemu? Is
+> > > > there something we have to document or implement?
+> > > >
+> > > > Since qemu is not managing the extra processes or applying policies=
+, I
+> > > > don't know what else could be done. From qemu pov, it can rely on
+> > > > management layer to trust the bus and the helpers, similar to trust=
+ing
+> > > > the system in general.
+> > >
+> > > Well pretty much the same questions I asked in the discussion on v2;
+> > > what is the supported configuration to ensure that one helper that's
+> > > been compromised can't attack the others and qemu?
+> >
+> > I thought I gave the answer to that question above. What is missing? I
+> > don't think one can generalize it here, it will be a case by case for
+> > each helper, how they interact with each other and qemu.
+>
+> I think we need an example of how to lock it down; i.e. to allow a
+> helper to provide migration data but not to be able to speak to other
+> helpers.
+>
 
-On 13.09.19 20:30, John Snow wrote:
->=20
->=20
-> On 9/13/19 8:47 AM, Max Reitz wrote:
->> On 20.08.19 23:32, John Snow wrote:
->>>
->>>
->>> On 8/19/19 4:18 PM, Max Reitz wrote:
->>>> null-aio may not be whitelisted.  Skip all test cases that require i=
-t.
->>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>>  tests/qemu-iotests/093 | 12 +++++++++---
->>>>  1 file changed, 9 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
->>>> index 50c1e7f2ec..f03fa24a07 100755
->>>> --- a/tests/qemu-iotests/093
->>>> +++ b/tests/qemu-iotests/093
->>>> @@ -24,7 +24,7 @@ import iotests
->>>>  nsec_per_sec =3D 1000000000
->>>> =20
->>>>  class ThrottleTestCase(iotests.QMPTestCase):
->>>> -    test_img =3D "null-aio://"
->>>> +    test_driver =3D "null-aio"
->>>>      max_drives =3D 3
->>>> =20
->>>>      def blockstats(self, device):
->>>> @@ -35,10 +35,14 @@ class ThrottleTestCase(iotests.QMPTestCase):
->>>>                  return stat['rd_bytes'], stat['rd_operations'], sta=
-t['wr_bytes'], stat['wr_operations']
->>>>          raise Exception("Device not found for blockstats: %s" % dev=
-ice)
->>>> =20
->>>> +    def required_drivers(self):
->>>> +        return [self.test_driver]
->>>> +
->>>> +    @iotests.skip_if_unsupported(required_drivers)
->>>
->>> Oh, I see why you're passing args[0] back to the callback now. Why no=
-t
->>> just pass self.required_drivers and call it with no arguments instead=
-?
->>>
->>> You can get a bound version that way that doesn't need additional
->>> arguments, and then the callback is free to take generic callables of=
+That's the example policy I gave for dbus-dameon. Only qemu user can
+talk to Helper1 (for ex, a helper migration interface). Only
+qemu-helper user can claim Helper1.
 
->>> any kind.
->>
->> Am I doing something wrong?
->>
->> I just get
->>
->> +Traceback (most recent call last):
->> +  File "093", line 26, in <module>
->> +    class ThrottleTestCase(iotests.QMPTestCase):
->> +  File "093", line 41, in ThrottleTestCase
->> +    @iotests.skip_if_unsupported(self.required_drivers)
->> +NameError: name 'self' is not defined
->>
->> this way.
->>
->> Max
->>
-> What was I even talking about? :\ Well.
->=20
-> I'd still like to define func_wrapper with a nod to the type constraint=
-
-> it has:
->=20
-> def func_wrapper(instance: iotests.QMPTestCase, *args, **kwargs):
->     [...]
->=20
->=20
-> Then, you'd write:
->=20
-> if callable(required_formats):
->     fmts =3D required_formats(instance)
-> else:
->     fmts =3D required_formats
-
-Yep, that anyway.  (Although I didn=E2=80=99t know about the =E2=80=9Cpar=
-am: type=E2=80=9D
-syntax and put that constraint in a comment instead.  Thanks again :-))
-
-Max
+You could have additionally other ways: selinux policy, p2p helpers
+SCM credentials checks, or other methods.
 
 
---XqBMYc1BqMpuMoI7hyggiNdYafl5VkH7X--
 
---NKWjWskCVQpdIip3ujLUXC9vfPx1wfF7H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2AlroACgkQ9AfbAGHV
-z0Cp2gf+L4KmsZ8YeBXdaJh4h/e1VB7sRq54HbyVeotjPAJ11Hg957swdL3xLQFL
-DjczrOEW85pkVtzPHaw9N6KTybscgucCYZR/rTlLlLz6WIjJFrydsy2f3xVLn0rt
-PbZnl5s5ohMfhc0iyfe5367ZGqh3ShIxVQn+Sssb89QyLMg3zetEcZmGxtEh9yiM
-yPxiC3QNERh8sMeNG5QlbA7MPLYEdRD0w/Y/u+XS88snihi6CUsgP7YtcmxAQGV9
-IhZtv1A1lj1xo2WLpK/wlWz63jFb1gALGmUXT1alDD/TKlh0/ZxPOXYW7fiWxRua
-2bEuRS1Xtp0IFkjgJ1bimPynQ9B70w==
-=8KCz
------END PGP SIGNATURE-----
-
---NKWjWskCVQpdIip3ujLUXC9vfPx1wfF7H--
+--=20
+Marc-Andr=C3=A9 Lureau
 
