@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5284B4A6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 11:25:22 +0200 (CEST)
-Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5920B4A7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 11:30:00 +0200 (CEST)
+Received: from localhost ([::1]:43190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA9jd-0006FD-LQ
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 05:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
+	id 1iA9o7-0002iL-P0
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 05:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iA9f2-0001w6-Az
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:37 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iA9f8-00026B-VV
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iA9f1-0004l2-5X
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60846)
+ (envelope-from <mreitz@redhat.com>) id 1iA9f7-0004oL-He
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:20:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47500)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iA9ey-0004in-Nl; Tue, 17 Sep 2019 05:20:32 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iA9f4-0004mY-CP; Tue, 17 Sep 2019 05:20:38 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0C05010CC1ED;
- Tue, 17 Sep 2019 09:20:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9EB2E18C891B;
+ Tue, 17 Sep 2019 09:20:37 +0000 (UTC)
 Received: from localhost (ovpn-116-130.ams2.redhat.com [10.36.116.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 77BB55D9DC;
- Tue, 17 Sep 2019 09:20:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F159608C2;
+ Tue, 17 Sep 2019 09:20:34 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 17 Sep 2019 11:20:02 +0200
-Message-Id: <20190917092004.999-6-mreitz@redhat.com>
+Date: Tue, 17 Sep 2019 11:20:03 +0200
+Message-Id: <20190917092004.999-7-mreitz@redhat.com>
 In-Reply-To: <20190917092004.999-1-mreitz@redhat.com>
 References: <20190917092004.999-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Tue, 17 Sep 2019 09:20:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Tue, 17 Sep 2019 09:20:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 5/7] iotests: Test driver whitelisting in 093
+Subject: [Qemu-devel] [PATCH v4 6/7] iotests: Test driver whitelisting in 136
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,56 +63,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 null-aio may not be whitelisted.  Skip all test cases that require it.
 
-(And skip the whole test if null-co is not whitelisted.)
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/093 | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/136 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
-index 50c1e7f2ec..f03fa24a07 100755
---- a/tests/qemu-iotests/093
-+++ b/tests/qemu-iotests/093
-@@ -24,7 +24,7 @@ import iotests
- nsec_per_sec =3D 1000000000
+diff --git a/tests/qemu-iotests/136 b/tests/qemu-iotests/136
+index a46a7b7630..012ea111ac 100755
+--- a/tests/qemu-iotests/136
++++ b/tests/qemu-iotests/136
+@@ -30,7 +30,7 @@ bad_offset =3D bad_sector * 512
+ blkdebug_file =3D os.path.join(iotests.test_dir, 'blkdebug.conf')
 =20
- class ThrottleTestCase(iotests.QMPTestCase):
+ class BlockDeviceStatsTestCase(iotests.QMPTestCase):
 -    test_img =3D "null-aio://"
 +    test_driver =3D "null-aio"
-     max_drives =3D 3
-=20
-     def blockstats(self, device):
-@@ -35,10 +35,14 @@ class ThrottleTestCase(iotests.QMPTestCase):
-                 return stat['rd_bytes'], stat['rd_operations'], stat['wr=
-_bytes'], stat['wr_operations']
-         raise Exception("Device not found for blockstats: %s" % device)
+     total_rd_bytes =3D 0
+     total_rd_ops =3D 0
+     total_wr_bytes =3D 0
+@@ -67,6 +67,10 @@ sector =3D "%d"
+ ''' % (bad_sector, bad_sector))
+         file.close()
 =20
 +    def required_drivers(self):
 +        return [self.test_driver]
 +
 +    @iotests.skip_if_unsupported(required_drivers)
      def setUp(self):
-         self.vm =3D iotests.VM()
-         for i in range(0, self.max_drives):
--            self.vm.add_drive(self.test_img, "file.read-zeroes=3Don")
-+            self.vm.add_drive(self.test_driver + "://", "file.read-zeroe=
-s=3Don")
+         drive_args =3D []
+         drive_args.append("stats-intervals.0=3D%d" % interval_length)
+@@ -76,8 +80,8 @@ sector =3D "%d"
+                           (self.account_failed and "on" or "off"))
+         drive_args.append("file.image.read-zeroes=3Don")
+         self.create_blkdebug_file()
+-        self.vm =3D iotests.VM().add_drive('blkdebug:%s:%s' %
+-                                         (blkdebug_file, self.test_img),
++        self.vm =3D iotests.VM().add_drive('blkdebug:%s:%s://' %
++                                         (blkdebug_file, self.test_drive=
+r),
+                                          ','.join(drive_args))
          self.vm.launch()
+         # Set an initial value for the clock
+@@ -337,7 +341,9 @@ class BlockDeviceStatsTestAccountBoth(BlockDeviceStat=
+sTestCase):
+     account_failed =3D True
 =20
-     def tearDown(self):
-@@ -264,7 +268,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
-         self.assertEqual(self.blockstats('drive1')[0], 4096)
-=20
- class ThrottleTestCoroutine(ThrottleTestCase):
+ class BlockDeviceStatsTestCoroutine(BlockDeviceStatsTestCase):
 -    test_img =3D "null-co://"
 +    test_driver =3D "null-co"
-=20
- class ThrottleTestGroupNames(iotests.QMPTestCase):
-     max_drives =3D 3
-@@ -425,4 +429,6 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase)=
-:
-=20
 =20
  if __name__ =3D=3D '__main__':
 +    if 'null-co' not in iotests.supported_formats():
