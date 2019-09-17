@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412D5B49D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 10:50:43 +0200 (CEST)
-Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0EAB49F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 10:54:28 +0200 (CEST)
+Received: from localhost ([::1]:42880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA9C6-0006qO-BA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 04:50:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56938)
+	id 1iA9Fj-0002Fw-DE
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 04:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iA96W-00046D-QZ
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:44:58 -0400
+ (envelope-from <kevin.tian@intel.com>) id 1iA9AJ-0005ph-5K
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:48:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iA96U-0000Cn-Up
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:44:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50868)
+ (envelope-from <kevin.tian@intel.com>) id 1iA9AG-0002qj-QW
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:48:50 -0400
+Received: from mga05.intel.com ([192.55.52.43]:4258)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iA96U-0000BX-G2
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:44:54 -0400
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 64189369C4
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 08:44:53 +0000 (UTC)
-Received: by mail-pf1-f197.google.com with SMTP id t65so1931832pfd.14
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 01:44:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=h8oq30RQJxmg908FL16/wdaVgaMtq4xBSgU4I2DD0Wk=;
- b=KrBNfCOvl5KFGL8rYASaOyY74qsYOf+uZeJFzWogQST16ich/7nan/vDTmusYk7Abb
- 9yoqFo9vOS/Qo1kb0QPEGsrM4O8GdUN+wK9ugnABCnwYZlpyI6V6CZ5hIM+ttSV2d0JV
- okzdbXEX/HK76WNEppRUBc/jPGsK5LN4ti5u+/geNzRmYzZI6IUmmZ5cAZR+PN/jDx4N
- /STgAyyMPReOzwJnND3G6OBHFzQPGO2LYJ22Bdbl/GEgxNeB8DIbHyubvYE/wqNzjaqj
- 85CNfqXgq55pKDF8W33VCaWpTxqcDHXEVI2H/hITfaQ2/3IOiQRXSudGqnhKFLz1HhDR
- 26rQ==
-X-Gm-Message-State: APjAAAWtMV4y47UaJQHCIwL0WxLMl/5nUloL3WwtgHcldjI0svC8ajaV
- AqW8AgO88ldSNAECSm5YeAQg4PjvEd2BNFdMOjrmycK/jvh+zviatuR4YihT5Lg56NdE7deKR0v
- qpeI0NkpVXtrw//8=
-X-Received: by 2002:a63:505:: with SMTP id 5mr2167979pgf.297.1568709892828;
- Tue, 17 Sep 2019 01:44:52 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxP7QE98ap6hFYzvifRsnetLme1kUp9C07mNgJUQcN4JA7x6LtvyGRiRkzDRLh/x4OxrwePvA==
-X-Received: by 2002:a63:505:: with SMTP id 5mr2167964pgf.297.1568709892598;
- Tue, 17 Sep 2019 01:44:52 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id p68sm4149085pfp.9.2019.09.17.01.44.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 01:44:51 -0700 (PDT)
-Date: Tue, 17 Sep 2019 16:44:42 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190917084442.GE30562@xz-x1>
-References: <20190916132347.30676-1-imammedo@redhat.com>
- <20190916132347.30676-3-imammedo@redhat.com>
+ (Exim 4.71) (envelope-from <kevin.tian@intel.com>)
+ id 1iA9AG-0002gZ-AS
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:48:48 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2019 01:48:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,515,1559545200"; d="scan'208";a="187399750"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by fmsmga007.fm.intel.com with ESMTP; 17 Sep 2019 01:48:39 -0700
+Received: from fmsmsx114.amr.corp.intel.com (10.18.116.8) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 17 Sep 2019 01:48:39 -0700
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+ FMSMSX114.amr.corp.intel.com (10.18.116.8) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 17 Sep 2019 01:48:38 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.32]) by
+ SHSMSX151.ccr.corp.intel.com ([169.254.3.53]) with mapi id 14.03.0439.000;
+ Tue, 17 Sep 2019 16:48:36 +0800
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Thread-Topic: [Qemu-devel] vhost, iova, and dirty page tracking
+Thread-Index: AdVsLg/AAnCsYtAES/qfxc77B9v7gf//8I+A//3tsaA=
+Date: Tue, 17 Sep 2019 08:48:36 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
+References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
+ <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
+In-Reply-To: <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZGIzZDBjY2EtMTA0My00NDBjLTk0OTYtZDAxN2I2YzdiMzAwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTjY2VHJOQUhiWWVKNDNrVEFCMXV2SHVjcTExam1kd1NmS1ZuQ1BZVklaUkRLUmdnVWFvaGFDaUdNd2hmT1cxRCJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190916132347.30676-3-imammedo@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 2/2] s390: do not call
- memory_region_allocate_system_memory() multiple times
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.43
+Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,30 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org, pbonzini@redhat.com
+Cc: 'Alex Williamson' <alex.williamson@redhat.com>, "Zhao,
+ Yan Y" <yan.y.zhao@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 16, 2019 at 09:23:47AM -0400, Igor Mammedov wrote:
-> PS:
-> I don't have access to a suitable system to test it.
-
-Hmm I feel like it would be good to have series like this to be at
-least smoke tested somehow...
-
-How about manually setup a very small max memslot size and test it on
-x86?  IMHO we'd test with both KVMState.manual_dirty_log_protect to be
-on & off to make sure to cover the log_clear() code path.  And of
-course to trigger those paths we probably need migrations, but I
-believe local migrations would be enough.
-
-And since at it, I'm thinking whether we should start assert() in some
-way in memory_region_allocate_system_memory() to make sure it's not
-called twice from now on on any board.
-
-Regards,
-
--- 
-Peter Xu
+PiBGcm9tOiBKYXNvbiBXYW5nIFttYWlsdG86amFzb3dhbmdAcmVkaGF0LmNvbV0NCj4gU2VudDog
+TW9uZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMTkgNDozMyBQTQ0KPiANCj4gDQo+IE9uIDIwMTkvOS8x
+NiDkuIrljYg5OjUxLCBUaWFuLCBLZXZpbiB3cm90ZToNCj4gPiBIaSwgSmFzb24NCj4gPg0KPiA+
+IFdlIGhhZCBhIGRpc2N1c3Npb24gYWJvdXQgZGlydHkgcGFnZSB0cmFja2luZyBpbiBWRklPLCB3
+aGVuIHZJT01NVQ0KPiA+IGlzIGVuYWJsZWQ6DQo+ID4NCj4gPiBodHRwczovL2xpc3RzLm5vbmdu
+dS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAxOS0NCj4gMDkvbXNnMDI2OTAuaHRtbA0K
+PiA+DQo+ID4gSXQncyBhY3R1YWxseSBhIHNpbWlsYXIgbW9kZWwgYXMgdmhvc3QgLSBRZW11IGNh
+bm5vdCBpbnRlcnBvc2UgdGhlIGZhc3QtDQo+IHBhdGgNCj4gPiBETUFzIHRodXMgcmVsaWVzIG9u
+IHRoZSBrZXJuZWwgcGFydCB0byB0cmFjayBhbmQgcmVwb3J0IGRpcnR5IHBhZ2UNCj4gaW5mb3Jt
+YXRpb24uDQo+ID4gQ3VycmVudGx5IFFlbXUgdHJhY2tzIGRpcnR5IHBhZ2VzIGluIEdGTiBsZXZl
+bCwgdGh1cyBkZW1hbmRpbmcgYQ0KPiB0cmFuc2xhdGlvbg0KPiA+IGZyb20gSU9WQSB0byBHUEEu
+IFRoZW4gdGhlIG9wZW4gaW4gb3VyIGRpc2N1c3Npb24gaXMgd2hlcmUgdGhpcw0KPiB0cmFuc2xh
+dGlvbg0KPiA+IHNob3VsZCBoYXBwZW4uIERvaW5nIHRoZSB0cmFuc2xhdGlvbiBpbiBrZXJuZWwg
+aW1wbGllcyBhIGRldmljZSBpb3RsYg0KPiBmbGF2b3IsDQo+ID4gd2hpY2ggaXMgd2hhdCB2aG9z
+dCBpbXBsZW1lbnRzIHRvZGF5LiBJdCByZXF1aXJlcyBwb3RlbnRpYWxseSBsYXJnZQ0KPiB0cmFj
+a2luZw0KPiA+IHN0cnVjdHVyZXMgaW4gdGhlIGhvc3Qga2VybmVsLCBidXQgbGV2ZXJhZ2luZyB0
+aGUgZXhpc3RpbmcgbG9nX3N5bmMgZmxvdyBpbg0KPiBRZW11Lg0KPiA+IE9uIHRoZSBvdGhlciBo
+YW5kLCBRZW11IG1heSBwZXJmb3JtIGxvZ19zeW5jIGZvciBldmVyeSByZW1vdmFsIG9mDQo+IElP
+VkENCj4gPiBtYXBwaW5nIGFuZCB0aGVuIGRvIHRoZSB0cmFuc2xhdGlvbiBpdHNlbGYsIHRoZW4g
+YXZvaWRpbmcgdGhlIEdQQQ0KPiBhd2FyZW5lc3MNCj4gPiBpbiB0aGUga2VybmVsIHNpZGUuIEl0
+IG5lZWRzIHNvbWUgY2hhbmdlIHRvIGN1cnJlbnQgUWVtdSBsb2ctc3luYyBmbG93LA0KPiBhbmQN
+Cj4gPiBtYXkgYnJpbmcgbW9yZSBvdmVyaGVhZCBpZiBJT1ZBIGlzIGZyZXF1ZW50bHkgdW5tYXBw
+ZWQuDQo+ID4NCj4gPiBTbyB3ZSdkIGxpa2UgdG8gaGVhciBhYm91dCB5b3VyIG9waW5pb25zLCBl
+c3BlY2lhbGx5IGFib3V0IGhvdyB5b3UgY2FtZQ0KPiA+IGRvd24gdG8gdGhlIGN1cnJlbnQgaW90
+bGIgYXBwcm9hY2ggZm9yIHZob3N0Lg0KPiANCj4gDQo+IFdlIGRvbid0IGNvbnNpZGVyIHRvbyBt
+dWNoIGluIHRoZSBwb2ludCB3aGVuIGludHJvZHVjaW5nIHZob3N0LiBBbmQNCj4gYmVmb3JlIElP
+VExCLCB2aG9zdCBoYXMgYWxyZWFkeSBrbm93IEdQQSB0aHJvdWdoIGl0cyBtZW0gdGFibGUNCj4g
+KEdQQS0+SFZBKS4gU28gaXQncyBuYXR1cmUgYW5kIGVhc2llciB0byB0cmFjayBkaXJ0eSBwYWdl
+cyBhdCBHUEEgbGV2ZWwNCj4gdGhlbiBpdCB3b24ndCBhbnkgY2hhbmdlcyBpbiB0aGUgZXhpc3Rp
+bmcgQUJJLg0KDQpUaGlzIGlzIHRoZSBzYW1lIHNpdHVhdGlvbiBhcyBWRklPLg0KDQo+IA0KPiBG
+b3IgVkZJTyBjYXNlLCB0aGUgb25seSBhZHZhbnRhZ2VzIG9mIHVzaW5nIEdQQSBpcyB0aGF0IHRo
+ZSBsb2cgY2FuIHRoZW4NCj4gYmUgc2hhcmVkIGFtb25nIGFsbCB0aGUgZGV2aWNlcyB0aGF0IGJl
+bG9uZ3MgdG8gdGhlIFZNLiBPdGhlcndpc2UNCj4gc3luY2luZyB0aHJvdWdoIElPVkEgaXMgY2xl
+YW5lci4NCg0KSSBzdGlsbCB3b3JyeSBhYm91dCB0aGUgcG90ZW50aWFsIHBlcmZvcm1hbmNlIGlt
+cGFjdCB3aXRoIHRoaXMgYXBwcm9hY2guDQpJbiBjdXJyZW50IG1kZXYgbGl2ZSBtaWdyYXRpb24g
+c2VyaWVzLCB0aGVyZSBhcmUgbXVsdGlwbGUgc3lzdGVtIGNhbGxzIA0KaW52b2x2ZWQgd2hlbiBy
+ZXRyaWV2aW5nIHRoZSBkaXJ0eSBiaXRtYXAgaW5mb3JtYXRpb24gZm9yIGEgZ2l2ZW4gbWVtb3J5
+DQpyYW5nZS4gSU9WQSBtYXBwaW5ncyBtaWdodCBiZSBjaGFuZ2VkIGZyZXF1ZW50bHkuIFRob3Vn
+aCBvbmUgbWF5DQphcmd1ZSB0aGF0IGZyZXF1ZW50IElPVkEgY2hhbmdlIGFscmVhZHkgaGFzIGJh
+ZCBwZXJmb3JtYW5jZSwgaXQncyBzdGlsbA0Kbm90IGdvb2QgdG8gaW50cm9kdWNlIGZ1cnRoZXIg
+bm9uLW5lZ2xpZ2libGUgb3ZlcmhlYWQgaW4gc3VjaCBzaXR1YXRpb24uDQoNCk9uIHRoZSBvdGhl
+ciBoYW5kLCBJIHJlYWxpemVkIHRoYXQgYWRkaW5nIElPVkEgYXdhcmVuZXNzIGluIFZGSU8gaXMN
+CmFjdHVhbGx5IGVhc3kuIFRvZGF5IFZGSU8gYWxyZWFkeSBtYWludGFpbnMgYSBmdWxsIGxpc3Qg
+b2YgSU9WQSBhbmQgaXRzIA0KYXNzb2NpYXRlZCBIVkEgaW4gdmZpb19kbWEgc3RydWN0dXJlLCBh
+Y2NvcmRpbmcgdG8gVkZJT19NQVAgYW5kIA0KVkZJT19VTk1BUC4gQXMgbG9uZyBhcyB3ZSBhbGxv
+dyB0aGUgbGF0dGVyIHR3byBvcGVyYXRpb25zIHRvIGFjY2VwdCANCmFub3RoZXIgcGFyYW1ldGVy
+IChHUEEpLCBJT1ZBLT5HUEEgbWFwcGluZyBjYW4gYmUgbmF0dXJhbGx5IGNhY2hlZCANCmluIGV4
+aXN0aW5nIHZmaW9fZG1hIG9iamVjdHMuIFRob3NlIG9iamVjdHMgYXJlIGFsd2F5cyB1cGRhdGVk
+IGFjY29yZGluZyANCnRvIE1BUCBhbmQgVU5NQVAgaW9jdGxzIHRvIGJlIHVwLXRvLWRhdGUuIFFl
+bXUgdGhlbiB1bmlmb3JtbHkgDQpyZXRyaWV2ZXMgdGhlIFZGSU8gZGlydHkgYml0bWFwIGZvciB0
+aGUgZW50aXJlIEdQQSByYW5nZSBpbiBldmVyeSBwcmUtY29weSANCnJvdW5kLCByZWdhcmRsZXNz
+IG9mIHdoZXRoZXIgdklPTU1VIGlzIGVuYWJsZWQuIFRoZXJlIGlzIG5vIG5lZWQgb2YgDQphbm90
+aGVyIElPVExCIGltcGxlbWVudGF0aW9uLCB3aXRoIHRoZSBtYWluIGFzayBvbiBhIHYyIE1BUC9V
+Tk1BUCANCmludGVyZmFjZS4gDQoNCkFsZXgsIHlvdXIgdGhvdWdodHM/DQoNClRoYW5rcw0KS2V2
+aW4NCg==
 
