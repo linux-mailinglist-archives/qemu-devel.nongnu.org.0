@@ -2,53 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65FDB50B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 16:48:46 +0200 (CEST)
-Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5A7B50D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 16:57:04 +0200 (CEST)
+Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAEmb-0001j9-ME
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 10:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55633)
+	id 1iAEud-0005Jt-Qp
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 10:57:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iAEkl-0000ke-2p
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 10:47:00 -0400
+ (envelope-from <yuval.shaia@oracle.com>) id 1iAEtA-0004J7-K1
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 10:55:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iAEkg-0000lG-Ue
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 10:46:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47970)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iAEka-0000iY-Dc; Tue, 17 Sep 2019 10:46:40 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7970C1DB0;
- Tue, 17 Sep 2019 14:46:39 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-202.ams2.redhat.com
- [10.36.116.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F3B85C1D8;
- Tue, 17 Sep 2019 14:46:33 +0000 (UTC)
-Date: Tue, 17 Sep 2019 16:46:31 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Message-ID: <20190917144631.GF4824@localhost.localdomain>
+ (envelope-from <yuval.shaia@oracle.com>) id 1iAEt8-0003kg-DV
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 10:55:31 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:46990)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yuval.shaia@oracle.com>)
+ id 1iAEt8-0003jl-4A
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 10:55:30 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8HEpQhL119481;
+ Tue, 17 Sep 2019 14:54:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=YHqVDSsx9EQCSrY3Q2E8hLs4+10jCjMw0ynITO3SXCQ=;
+ b=dxRvLs9jYtbdhuCCOR3k0KBwY25mVw8SHZ1XCKLtfzO9jfwivTLKzh0pmpCjKE7cmKdI
+ ecCnikqFijQP1YW6YRb8oKUcoYfFYEVw3oIvWiHydViZXG2iKlhKJNJwtkkZriUivrla
+ e5RjYLPf7PJA5TRcxAt3Yn0/K3wthOmtqOUO6jvab+GLqDsj0n/6sG5hp4tAZnndQ7vt
+ Cu8CurGuMndAk6ibOvNBxU7KVvFgWcL6Idx+foGNVYBRXiiGOLCfLlatbiB59ATOWDoy
+ LpT3YLBxVliytiIK8Xr6EF9k4M4QEyAwspmJ36hFK18ic/xm5m9T+dbZReAcjVBD/j3K gg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2v0ruqq0ck-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Sep 2019 14:54:17 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8HEoedb102433;
+ Tue, 17 Sep 2019 14:52:17 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 2v2nmv8fwn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Sep 2019 14:52:17 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x8HEq6gl029194;
+ Tue, 17 Sep 2019 14:52:06 GMT
+Received: from lap1 (/77.138.183.59) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 17 Sep 2019 07:52:05 -0700
+Date: Tue, 17 Sep 2019 17:51:57 +0300
+From: Yuval Shaia <yuval.shaia@oracle.com>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190917145157.GA16309@lap1>
 References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
- <156871564329.196432.5930574495661947805.stgit@bahia.lan>
- <19e78ae8-96dc-6154-6572-d7176057eeb7@redhat.com>
+ <156871568761.196432.13197720535866413065.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <19e78ae8-96dc-6154-6572-d7176057eeb7@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 17 Sep 2019 14:46:39 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 02/17] block: Pass local error object
- pointer to error_append_hint()
+In-Reply-To: <156871568761.196432.13197720535866413065.stgit@bahia.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9383
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1909170144
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9383
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1909170145
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: Re: [Qemu-devel] [PATCH 09/17] hw/rdma: Fix missing conversion to
+ rdma_error_report()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,58 +95,60 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Max Reitz <mreitz@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
  =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
- Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Subbaraya Sundeep <sundeep.lkml@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.09.2019 um 16:39 hat Eric Blake geschrieben:
-> On 9/17/19 5:20 AM, Greg Kurz wrote:
-> > Ensure that hints are added even if errp is &error_fatal or &error_abort.
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  block/backup.c       |    7 +++++--
-> >  block/dirty-bitmap.c |    7 +++++--
-> >  block/file-posix.c   |   20 +++++++++++++-------
-> >  block/gluster.c      |   23 +++++++++++++++--------
-> >  block/qcow.c         |   10 ++++++----
-> >  block/qcow2.c        |    7 +++++--
-> >  block/vhdx-log.c     |    7 +++++--
-> >  block/vpc.c          |    7 +++++--
-> >  8 files changed, 59 insertions(+), 29 deletions(-)
-> > 
-> > diff --git a/block/backup.c b/block/backup.c
-> > index 763f0d7ff6db..d8c422a0e3bc 100644
-> > --- a/block/backup.c
-> > +++ b/block/backup.c
-> > @@ -602,11 +602,14 @@ static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-> >                      BACKUP_CLUSTER_SIZE_DEFAULT);
-> >          return BACKUP_CLUSTER_SIZE_DEFAULT;
-> >      } else if (ret < 0 && !target->backing) {
-> > -        error_setg_errno(errp, -ret,
-> > +        Error *local_err = NULL;
+On Tue, Sep 17, 2019 at 12:21:27PM +0200, Greg Kurz wrote:
+> Commit 4d71b38ae8fa converted many error_setg() call sites to
+> rdma_error_report(), but it forgot to convert a companion
+> error_append_hint(). Since no guy doesn't set errp anymore in
+> pvrdma_realize(), errp remains NULL and error_append_hint() does
+> nothing.
 > 
-> Can we go with the shorter name 'err' instead of 'local_err'?  I know,
-> we aren't consistent (both styles appear throughout the tree), but the
-> shorter style is more appealing to me.
+> Also error_append_hint() was a poor choice since its "intended use
+> is adding helpful hints on the human user interface" and "not for
+> clarifying a confusing error message".
+> 
+> Call rdma_error_report() instead.
 
-I like local_err better because it's easier to distinguish from errp.
-The compiler might catch it if you use the wrong one because one is
-Error* and the other is Error**, but as a reviewer, I can still get
-confused.
+Thanks,
+So are you suggesting to replace all other error_setg calls with
+rdma_error_report instead?
 
-Kevin
+> 
+> Fixes: 4d71b38ae8fa "hw/rdma: Switch to generic error reporting way"
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  hw/rdma/vmw/pvrdma_main.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> index 3e36e130139c..d370ae07ca6a 100644
+> --- a/hw/rdma/vmw/pvrdma_main.c
+> +++ b/hw/rdma/vmw/pvrdma_main.c
+> @@ -667,7 +667,7 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+>  out:
+>      if (rc) {
+>          pvrdma_fini(pdev);
+> -        error_append_hint(errp, "Device failed to load\n");
+> +        rdma_error_report("Device failed to load");
+
+Reviewed-by: Yuval Shaia <yuval.shaia@oracle.com>
+
+>      }
+>  }
+>  
+> 
+> 
 
