@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CF3B52F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:29:39 +0200 (CEST)
-Received: from localhost ([::1]:48300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C57EB52E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:24:47 +0200 (CEST)
+Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAGME-00085o-AB
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43498)
+	id 1iAGHV-00032t-Sh
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iAGBn-000751-3I
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:18:52 -0400
+ (envelope-from <eblake@redhat.com>) id 1iAGFD-0001dw-KV
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:22:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iAGBl-0002dw-Ki
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:18:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33594)
+ (envelope-from <eblake@redhat.com>) id 1iAGFB-0004EC-83
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:22:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48377)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAGBl-0002de-CV
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:18:49 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAGF9-0004DI-7T
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:22:19 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3DB2E10CC1EC;
- Tue, 17 Sep 2019 16:18:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 347DA18C8919;
+ Tue, 17 Sep 2019 16:22:17 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC49C60606;
- Tue, 17 Sep 2019 16:18:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6D9B60852;
+ Tue, 17 Sep 2019 16:22:16 +0000 (UTC)
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190913201349.24332-1-armbru@redhat.com>
- <20190913201349.24332-8-armbru@redhat.com>
+ <20190913201349.24332-14-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <e52242e8-8cb8-ee68-cf02-57eea53d571f@redhat.com>
-Date: Tue, 17 Sep 2019 11:18:44 -0500
+Message-ID: <afbfd0e5-4441-e028-ec3e-ca7129fca342@redhat.com>
+Date: Tue, 17 Sep 2019 11:22:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190913201349.24332-8-armbru@redhat.com>
+In-Reply-To: <20190913201349.24332-14-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="pKYDztm6fAd2dRvt0MqYCnvEEhHMYSeIq"
+ boundary="SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Tue, 17 Sep 2019 16:18:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Tue, 17 Sep 2019 16:22:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 07/16] qapi: Drop support for escape
- sequences other than \\
+Subject: Re: [Qemu-devel] [PATCH v3 13/16] docs/devel/qapi-code-gen: Rewrite
+ compatibility considerations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,56 +90,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pKYDztm6fAd2dRvt0MqYCnvEEhHMYSeIq
-Content-Type: multipart/mixed; boundary="2atEdCWIxGvjigl6ZqtB9n2aOuQEv1mAl";
+--SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6
+Content-Type: multipart/mixed; boundary="HTmI1tKvRSobzmG5Znobb7o5lrdokXFbV";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <e52242e8-8cb8-ee68-cf02-57eea53d571f@redhat.com>
-Subject: Re: [PATCH v3 07/16] qapi: Drop support for escape sequences other
- than \\
+Message-ID: <afbfd0e5-4441-e028-ec3e-ca7129fca342@redhat.com>
+Subject: Re: [PATCH v3 13/16] docs/devel/qapi-code-gen: Rewrite compatibility
+ considerations
 References: <20190913201349.24332-1-armbru@redhat.com>
- <20190913201349.24332-8-armbru@redhat.com>
-In-Reply-To: <20190913201349.24332-8-armbru@redhat.com>
+ <20190913201349.24332-14-armbru@redhat.com>
+In-Reply-To: <20190913201349.24332-14-armbru@redhat.com>
 
---2atEdCWIxGvjigl6ZqtB9n2aOuQEv1mAl
+--HTmI1tKvRSobzmG5Znobb7o5lrdokXFbV
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/13/19 3:13 PM, Markus Armbruster wrote:
-> Since the previous commit restricted strings to printable ASCII,
-> \uXXXX's only use is obfuscation.  Drop it.
+> We have some compatibility advice buried in sections "Enumeration
+> types" and "Struct types".  Compatibility is actually about commands
+> and events.  It devolves to the types used there.  All kinds of types,
+> not just enumerations and structs.
 >=20
-> This leaves \\, \/, \', and \".  Since QAPI schema strings are all
-> names, and names are restricted to ASCII letters, digits, hyphen, and
-> underscore, none of them is useful.
->=20
-> The latter three have no test coverage.  Drop them.
->=20
-> Keep \\ to avoid (more) gratuitous incompatibility with JSON.
+> Replace the existing advice by a new section "Compatibility
+> considerations".
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
+>  docs/devel/qapi-code-gen.txt | 95 +++++++++++++++++++++++-------------=
 
-> +++ b/scripts/qapi/common.py
-> @@ -524,29 +524,9 @@ class QAPISchemaParser(object):
->                      if ch =3D=3D '\n':
->                          raise QAPIParseError(self, 'Missing terminatin=
-g "\'"')
->                      if esc:
+>  1 file changed, 60 insertions(+), 35 deletions(-)
 
-> -                        elif ch not in '\\/\'"':
-> +                        # Note: we recognize only \\ because we have
-> +                        # no use for funny characters in strings
-> +                        if ch !=3D '\\':
->                              raise QAPIParseError(self,
->                                                   "Unknown escape \\%s"=
- % ch)
+You asked me a question on v2 about a possible sentence to add about
+renaming types. Up to you if you want to fold that one in here, or leave
+it for a separate patch.
 
-Thanks; that comment makes it better than it was in v2.
+
+> +Incompatible changes include removing return and event data members.
+> +
+> +Any change to a command definition's 'data' or one of the types used
+> +there (recursively) needs to consider send direction compatibility.
+> +
+> +Any change to a command definition's 'return', an event definition's
+> +'data', or one of the types used there (recursively) needs to consider=
+
+> +receive direction compatibility.
+> +
+> +Any change to types used in both contexts need to consider both.
+> +
+> +Members of enumeration types, complex types and alternate types may be=
+
+> +reordered freely.  For enumerations and alternate types, this doesn't
+> +affect the wire encoding.  For complex types, this might make the
+> +implementation emit JSON object members in a different order, which
+> +the Client JSON Protocol permits.
+> +
+> +
+>  =3D=3D Code generation =3D=3D
+> =20
+>  The QAPI code generator qapi-gen.py generates code and documentation
+>=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -147,24 +160,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---2atEdCWIxGvjigl6ZqtB9n2aOuQEv1mAl--
+--HTmI1tKvRSobzmG5Znobb7o5lrdokXFbV--
 
---pKYDztm6fAd2dRvt0MqYCnvEEhHMYSeIq
+--SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BB2QACgkQp6FrSiUn
-Q2r+Fgf/WEf9r6+1GH3CzOCvH5UItHqVTDfa2qTmCyiwYxPmuXIyslCvnVEurMLI
-MGayrsGWnzmek5eF+nDx+0F0KfzgXkaAc526zlST6UAkIMLqhBFVa8IkF/yvXI2I
-f1HWJ46x0wxkrj7YXQe5uyFgbaEqnXRRmnepDszBfBrue5UX+Pm9hJpFfZBwGPFa
-1ozBqv4WGc3SmWDYWKaOCVxn4B1NAoThsc7knbTo/zkgiCQv4i89ZqHq4GI4n6SC
-wlnCbn74gsHBgkxVtfivHpt5C+4lwBAYp4pqKpGhJe75qLvlfVmikEJNswm/1OSA
-+qACu+mqzALLPz4WRMRutUYOap4/qw==
-=9nhk
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BCDgACgkQp6FrSiUn
+Q2rh4gf/Rp6oxagg7BqZI/+f4BVzdBSd53Xc7N8F/u2aQJKqvWHmdMkZaN6sN3zl
+yZgTuFM6nXwObMMwZL8uuNEx/yOvs/FmXd56m9c4RvTUAAloBx9ni/2om3IaiYs3
+ocYh20zuC2+ZwiE2nBJDwX/yolcCj6gHQJD4X9dOcJMc7S2XfBZ9qt+UwZqP6w9Y
+zUCtLwo5HTZqRHTQULx9RU5WZ06Z/Qi1FE8IrjKjktELhKam4U/qZWZZd1Y8Qd3k
+gDvm2Poppkpz5uF+q9KWeNGymXgPA+cWPtsvepId9iwRASFwTCvct/4RVgV9622D
+I+xxwfjoBk7GfAXTSzIM2IzzKIJWWg==
+=TA1f
 -----END PGP SIGNATURE-----
 
---pKYDztm6fAd2dRvt0MqYCnvEEhHMYSeIq--
+--SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6--
 
