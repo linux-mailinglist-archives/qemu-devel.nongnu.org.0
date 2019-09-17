@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A47B5304
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:34:35 +0200 (CEST)
-Received: from localhost ([::1]:48348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A75AB5325
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:36:52 +0200 (CEST)
+Received: from localhost ([::1]:48388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAGQy-0002C3-RQ
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:34:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43899)
+	id 1iAGTD-0004xM-FV
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44155)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iAGDZ-0000G3-W5
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:20:42 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iAGFp-0002AU-QH
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:23:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iAGDY-0003aH-Vw
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:20:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51756)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAGDY-0003a2-NT
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:20:40 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 15EAD83F51;
- Tue, 17 Sep 2019 16:20:40 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B266F600C4;
- Tue, 17 Sep 2019 16:20:37 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190913201349.24332-1-armbru@redhat.com>
- <20190913201349.24332-11-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <454671e9-480d-006b-cfb3-f17b19faf024@redhat.com>
-Date: Tue, 17 Sep 2019 11:20:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <no-reply@patchew.org>) id 1iAGFo-0004Ts-2B
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:23:01 -0400
+Resent-Date: Tue, 17 Sep 2019 12:23:01 -0400
+Resent-Message-Id: <E1iAGFo-0004Ts-2B@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21570)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iAGFn-0004TP-QR
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:23:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1568737364; cv=none; d=zoho.com; s=zohoarc; 
+ b=PO0khn629XyrbYkDR95ANNJ51e66Q2e4a51HVsu0HVR1K02uwT0Ow/RB28aVIZIc1SPOI2Z4QzqaeuRQ90IWb+jcVT/n9CJI/jFFJlNneid/CTThXA5zy6BCRPSUEik+FrK6nDGRyad516m6nXMEe1NxARYtsu1bY0zX38J2XbI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1568737364;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=OLus1Vpps5CB7PjqrLM9SH5sNjMuj7D1u9fqRP1QFbw=; 
+ b=RJ5ZziHLJN12rxgOhPSvbDA/WH3tLp+ODyiskNcVuLDnYIwpBnwIxRh7d0h8jPZGsLyFi6cFKKjR7Q66QGKtyGtnEYMw/ORyxjbNcfnIEmTUnuV4nG/KZkwkDqXm0u0I3NU2kcq76/MlcsO8USu+AlV+TzsJl+HdNHAlcwpQxQA=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1568737358066846.301593742104;
+ Tue, 17 Sep 2019 09:22:38 -0700 (PDT)
+In-Reply-To: <20190917111441.27405-1-kraxel@redhat.com>
+Message-ID: <156873735697.17151.14736504340945340177@5dec9699b7de>
 MIME-Version: 1.0
-In-Reply-To: <20190913201349.24332-11-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9URgF3tNbtTRCcjr6CpH978q27BvTwPkD"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 17 Sep 2019 16:20:40 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kraxel@redhat.com
+Date: Tue, 17 Sep 2019 09:22:38 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 10/16] qapi: Permit omitting all flat
- union branches
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v3 0/2] ati: fix ati_cursor_define bug.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,64 +61,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Reply-To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, qemu-devel@nongnu.org, flier_m@outlook.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9URgF3tNbtTRCcjr6CpH978q27BvTwPkD
-Content-Type: multipart/mixed; boundary="xarLqqJIOQBnoZlxKTOkoztATC5wmQvux";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <454671e9-480d-006b-cfb3-f17b19faf024@redhat.com>
-Subject: Re: [PATCH v3 10/16] qapi: Permit omitting all flat union branches
-References: <20190913201349.24332-1-armbru@redhat.com>
- <20190913201349.24332-11-armbru@redhat.com>
-In-Reply-To: <20190913201349.24332-11-armbru@redhat.com>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxNzExMTQ0MS4yNzQw
+NS0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgYXNh
+biBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIg
+b3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2Jh
+Ymx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
+aW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2Ug
+ZG9ja2VyLXRlc3QtZGVidWdAZmVkb3JhIFRBUkdFVF9MSVNUPXg4Nl82NC1zb2Z0bW11IEo9MTQg
+TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgouL3Rlc3RzL2RvY2tlci9kb2NrZXIu
+cHkgLS1lbmdpbmUgYXV0byBidWlsZCBxZW11OmZlZG9yYSB0ZXN0cy9kb2NrZXIvZG9ja2VyZmls
+ZXMvZmVkb3JhLmRvY2tlciAgIC0tYWRkLWN1cnJlbnQtdXNlciAgCkltYWdlIGlzIHVwIHRvIGRh
+dGUuCiAgTEQgICAgICBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEubW8KY2M6IGZhdGFsIGVycm9y
+OiBubyBpbnB1dCBmaWxlcwpjb21waWxhdGlvbiB0ZXJtaW5hdGVkLgptYWtlOiAqKiogW2RvY2tl
+ci10ZXN0LWRlYnVnQGZlZG9yYS5tb10gRXJyb3IgNAoKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
+YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTE3MTExNDQxLjI3NDA1LTEta3Jh
+eGVsQHJlZGhhdC5jb20vdGVzdGluZy5hc2FuLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
+cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
+ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
---xarLqqJIOQBnoZlxKTOkoztATC5wmQvux
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 9/13/19 3:13 PM, Markus Armbruster wrote:
-> Absent flat union branches default to the empty struct (since commit
-> 800877bb16 "qapi: allow empty branches in flat unions").  But am
-
-s/am/an/
-
-> attempt to omit all of them is rejected with "Union 'FOO' has no
-> branches".  Harmless oddity, but it's easy to avoid, so do that.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---xarLqqJIOQBnoZlxKTOkoztATC5wmQvux--
-
---9URgF3tNbtTRCcjr6CpH978q27BvTwPkD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BB9QACgkQp6FrSiUn
-Q2rw1Af+Kdmyt0yRWKkSQ6ZvTXOZg2udbCK4mu+YyZDF5bZA6eSVwm07jCOoSggA
-ByosobPhQCzL4eFZejNiHi1gpCDM+G7LT3RY7rnXZGTyaJSqaMaHQJkh4x3gPdMm
-t+0E5Aj8OrZ66dXUzfZjig6/4TjnHgvDCzToUKBJbJM89wYZehnwADeCMiok0fGB
-9eURM3f2SNOKH4HEC5+E2HD7mEjXii4u1LdFLHvkEYpPzhtiKJwv4a4iT1rkk3CY
-17g2NYPUb09nJ76P2M3N6/ZDxVLrv2zAzejPGxBYvecX/IGH7HZTKtDJ/uu52G+Y
-gRE+lti4SkyhAuu9YiyvuJ7bD0ql5w==
-=MyWE
------END PGP SIGNATURE-----
-
---9URgF3tNbtTRCcjr6CpH978q27BvTwPkD--
 
