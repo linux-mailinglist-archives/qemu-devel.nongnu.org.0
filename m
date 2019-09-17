@@ -2,81 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964A3B4405
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 00:33:02 +0200 (CEST)
-Received: from localhost ([::1]:40526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4281AB457D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 04:23:54 +0200 (CEST)
+Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i9zYL-0000kO-2w
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 18:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43039)
+	id 1iA39l-0003h2-C5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 22:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i9zWX-0000Gk-KZ
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 18:31:10 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iA376-0002B7-LO
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 22:21:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i9zWW-0000UG-Gg
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 18:31:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45724)
+ (envelope-from <dgibson@ozlabs.org>) id 1iA374-0007sO-Ux
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 22:21:08 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51703 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i9zWS-0000R0-B9; Mon, 16 Sep 2019 18:31:04 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E25A018CB8E8;
- Mon, 16 Sep 2019 22:31:02 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 849B56012A;
- Mon, 16 Sep 2019 22:30:59 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>
-References: <20190911161521.59261-1-slp@redhat.com>
- <d47f7e67-2f6a-0dd6-3ab5-93626bfbb02d@redhat.com>
- <6755b34b-b412-9e63-8d25-b7662d0d3860@redhat.com>
- <20190912081414.GC5383@linux.fritz.box> <87y2ytx0wf.fsf@redhat.com>
- <20190912113111.GH5383@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <13154181-ab02-3c81-f666-a3b995fe66b7@redhat.com>
-Date: Mon, 16 Sep 2019 17:30:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iA373-0007mN-W8; Mon, 16 Sep 2019 22:21:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46XRfy5SkZz9sNk; Tue, 17 Sep 2019 12:20:58 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1568686858;
+ bh=0R8EtS6fboExl+R/+cwbXQ2TK5o4KyCJyyOHHrT6nY4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Q1cjGqIs81Du3ivTb34fNvDHbcSleh+akQkH1hD3HPz7R5BabpDTBW2+/ch/eddGy
+ zllDziIP+WAcq8RU0IbnrM7D0WDZnk5uzVNdnjohA5D7XdchYOqxyMrUJW0oaEyfdJ
+ ISvICOf+sYnL9laPCCnvOIV6BkDs8mg9eqJRNIm0=
+Date: Tue, 17 Sep 2019 12:03:20 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Message-ID: <20190917020320.GA8842@umbus.fritz.box>
+References: <20190911093951.6244-1-alex.bennee@linaro.org>
+ <8f76ef47-0cf8-c662-0100-d416f5f2e0c1@linaro.org>
+ <20190916014858.GH2104@umbus.fritz.box> <87pnk01z99.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190912113111.GH5383@linux.fritz.box>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="73K7uWr5fVV1Z5H5dNYMctAUVhPLTc5bV"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Mon, 16 Sep 2019 22:31:03 +0000 (UTC)
+ protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
+Content-Disposition: inline
+In-Reply-To: <87pnk01z99.fsf@linaro.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] nbd/server: attach client channel to the
- export's AioContext
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] target/ppc: fix signal delivery
+ for ppc64abi32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,126 +57,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-ppc@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---73K7uWr5fVV1Z5H5dNYMctAUVhPLTc5bV
-Content-Type: multipart/mixed; boundary="seVuTYk5H1NS89XHKlEaji0lBimqKQgFV";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Message-ID: <13154181-ab02-3c81-f666-a3b995fe66b7@redhat.com>
-Subject: Re: [PATCH] nbd/server: attach client channel to the export's
- AioContext
-References: <20190911161521.59261-1-slp@redhat.com>
- <d47f7e67-2f6a-0dd6-3ab5-93626bfbb02d@redhat.com>
- <6755b34b-b412-9e63-8d25-b7662d0d3860@redhat.com>
- <20190912081414.GC5383@linux.fritz.box> <87y2ytx0wf.fsf@redhat.com>
- <20190912113111.GH5383@linux.fritz.box>
-In-Reply-To: <20190912113111.GH5383@linux.fritz.box>
 
---seVuTYk5H1NS89XHKlEaji0lBimqKQgFV
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+--nFreZHaLTZJo0R7j
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 9/12/19 6:31 AM, Kevin Wolf wrote:
+On Mon, Sep 16, 2019 at 08:22:42AM +0100, Alex Benn=E9e wrote:
+>=20
+> David Gibson <david@gibson.dropbear.id.au> writes:
+>=20
+> > On Wed, Sep 11, 2019 at 10:33:45AM -0400, Richard Henderson wrote:
+> >> On 9/11/19 5:39 AM, Alex Benn=E9e wrote:
+> >> > We were incorrectly setting NIP resulting in a segfault. This fixes
+> >> > linux-test for this ABI.
+> >>
+> >> Perhaps better:
+> >> We were incorrectly using the 64-bit AIX ABI instead of the 32-bit SYS=
+V ABI for
+> >> setting NIP for the signal handler.
+> >
+> > Applied to ppc-for-4.2, with Richard's updated description.
+> >
+> > For future reference, it's better to directly CC me on such patches.
+> > I only barely keep on top of the mailing lists, so if you just send it
+> > there it's likely to be some time before I pick it up, or even get
+> > lost entirely.
+>=20
+> Should you be added to linux-user/ppc/ in MAINTAINERS?
 
->>
->> Yes, I think locking the context during the "if (exp->blk) {" block at=
+Hm, maybe.  It's not like I know much about the stuff in there, but
+it's also not like anyone else is paying any attention to it.
 
->> nbd/server.c:1646 should do the trick.
-
-That line number has moved over time; which function are you referring to=
-?
 
 >=20
-> We need to be careful to avoid locking things twice, so maybe
-> nbd_export_put() is already too deep inside the NBD server.
+> >
+> >>
+> >> ?
+> >>
+> >> >
+> >> > Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> >> > ---
+> >> >  linux-user/ppc/signal.c | 4 +++-
+> >> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >>
+> >> Anyway,
+> >> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >>
 >=20
-> Its callers are:
 >=20
-> * qmp_nbd_server_add(). Like all other QMP handlers in blockdev-nbd.c i=
-t
->   neglects to lock the AioContext, but it should do so. The lock is not=
-
->   only needed for the nbd_export_put() call, but even before.
->=20
-> * nbd_export_close(), which in turn is called from:
->     * nbd_eject_notifier(): run in the main thread, not locked
->     * nbd_export_remove():
->         * qmp_nbd_server_remove(): see above
->     * nbd_export_close_all():
->         * bdrv_close_all()
->         * qmp_nbd_server_stop()
-
-Even weirder: nbd_export_put() calls nbd_export_close(), and
-nbd_export_close() calls nbd_export_put().  The mutual recursion is
-mind-numbing, and the fact that we use get/put instead of ref/unref like
-most other qemu code is not making it any easier to reason about.
-
->=20
-> There are also calls from qemu-nbd, but these can be ignored because we=
-
-> don't have iothreads there.
->=20
-> I think the cleanest would be to take the lock in the outermost callers=
-,
-> i.e. all QMP handlers that deal with a specific export, in the eject
-> notifier and in nbd_export_close_all().
-
-Okay, I'm trying that (I already tried grabbing the aio_context in
-nbd_export_close(), but as you predicted, that deadlocked when a nested
-call already encountered the lock taken from an outer call).
-
->=20
->> On the other hand, I wonder if there is any situation in which calling=
-
->> to blk_unref() without locking the context could be safe. If there isn=
-'t
->> any, perhaps we should assert that the lock is held if blk->ctx !=3D N=
-ULL
->> to catch this kind of bugs earlier?
->=20
-> blk_unref() must be called from the main thread, and if the BlockBacken=
-d
-> to be unreferenced is not in the main AioContext, the lock must be held=
-=2E
->=20
-> I'm not sure how to assert that locks are held, though. I once looked
-> for a way to do this, but it involved either looking at the internal
-> state of pthreads mutexes or hacking up QemuMutex with debug state.
-
-Even if we can only test that in a debug build but not during normal
-builds, could any of our CI builds set up that configuration?
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-
---seVuTYk5H1NS89XHKlEaji0lBimqKQgFV--
-
---73K7uWr5fVV1Z5H5dNYMctAUVhPLTc5bV
+--nFreZHaLTZJo0R7j
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2ADSIACgkQp6FrSiUn
-Q2pr8Qf8Cpyhum6yHuRIQ0aO7P6KjIblnXaet+DfQ/c1yUq1itjHYiWycwn+iwo9
-niuFMtnNwHMMuRZ9jbgLdMYw9fQ4hxYv86Ww/0r+1a+0elMI3X3DKa8YGoucZsu2
-TpLlUQlxdwVs+NVKDNsrgZOz5HnvYqkRDkbBciQFIuK+MltyFU0abZA/FtFBcm/1
-0OXq47UABFTFl7pBvQPzONLkywjCYyd8mFpVlIqVGbYx50HhbA1nmFcpfgateku5
-kPdYptVVoaSAQMS1XIGfpFsyemZTaJoTYJDWtlE1TOtBWB1k9v2mTz7ZY/WpB9q+
-OxasygWTyFFeE23F4jQXOV00OwTZ2A==
-=lEJD
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2APuUACgkQbDjKyiDZ
+s5KKSA//RhbEfsROOfUk9579623UQyjYDb/Sh2+Hsik3WMgsNP+9gXyuKEVFRPRM
+SgK9qGy67ZDXxKeu7gf1Brh+YMFm6bcj0U88jr36SkxsB2olvj8baUyZFQNE9HBB
+ByRAJBLHWL0euoekBslXeKbHUJlbmxxsYFM1DVbXRMuKi8hBlMUWJPJOJnc7ndTr
+sN37Ti60iNuuZ5zfVl4P2vn+cL+Bm6XXUnpKIJNmmXK4SK2n2/3h29QFxUMvUrfs
+FSBq+7W3BNbVlW3RP84R+qkMpkhrS4Dr32G/HnWkULu1ZffudpWJgJ4MIKx/MJNS
+MiLX3Z8MwB0W5BvYuXN8ZoL0q2zuOjFETWTa/OjLoKDEPuigWJWZmx/L7PTyY2Yv
+dZJW5aJ773vwLQQmpKvpZB5H6TDIh1c7DSDuA4G6EA70YdE2Vu0l6QzWDn1FWBPN
+me1r9BB9XjqQfZWpkhPxEZ4VaZyNKn1qMHyOufLDDEp6miulhFNvMusVIhYoZNDv
+PMLOg6Y3GJUWdphdA29RnMfrvnq05hIH3KWzSbUpgnY30FioHd8RqG9mTtdjESTE
+PA5VH4XXNOwpu/7F5mzX9VVQ7Ka6CyqJOtOsjrM2xG/CgXPZHkcDiLVFaJTDAmbQ
+2ZiOwYCzaNsW4mB2LEtRgpnswDdMHOfUti7Bv9/Z14ruEYO8Daw=
+=byVV
 -----END PGP SIGNATURE-----
 
---73K7uWr5fVV1Z5H5dNYMctAUVhPLTc5bV--
+--nFreZHaLTZJo0R7j--
 
