@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DB1B4C06
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:33:07 +0200 (CEST)
-Received: from localhost ([::1]:43766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8524B4C0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:37:45 +0200 (CEST)
+Received: from localhost ([::1]:43824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAAnC-0007bK-5H
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:33:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
+	id 1iAArg-00037A-37
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:37:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iAAcl-0007nF-Jh
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:22:20 -0400
+ (envelope-from <groug@kaod.org>) id 1iAAcn-0007pS-0g
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:22:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iAAcj-00049t-87
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:22:19 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43706
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <groug@kaod.org>) id 1iAAcl-0004Az-Se
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:22:20 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26926)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iAAci-00047Z-MU
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:22:17 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8HAHGQj078288
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 06:22:11 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2v2vd5btuv-1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iAAcl-0004AI-Hd
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:22:19 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8HAI58j035038
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 06:22:17 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v2v5vv6u0-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 06:22:11 -0400
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 06:22:17 -0400
 Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Tue, 17 Sep 2019 11:22:08 +0100
+ Tue, 17 Sep 2019 11:22:14 +0100
 Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 17 Sep 2019 11:22:02 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ Tue, 17 Sep 2019 11:22:08 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
  by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id x8HALYCI31785400
+ id x8HALf4Q33489282
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Sep 2019 10:21:34 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A0CF3A405C;
- Tue, 17 Sep 2019 10:22:00 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A8258A4054;
- Tue, 17 Sep 2019 10:21:59 +0000 (GMT)
+ Tue, 17 Sep 2019 10:21:41 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E09CD52057;
+ Tue, 17 Sep 2019 10:22:06 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.22.84])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 17 Sep 2019 10:21:59 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id EFEA15204F;
+ Tue, 17 Sep 2019 10:22:05 +0000 (GMT)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 17 Sep 2019 12:21:59 +0200
+Date: Tue, 17 Sep 2019 12:22:05 +0200
 In-Reply-To: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
 References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -64,22 +60,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19091710-0016-0000-0000-000002AD13D9
+x-cbid: 19091710-0028-0000-0000-0000039E0EFB
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091710-0017-0000-0000-0000330DB75D
-Message-Id: <156871571931.196432.3224017086971417625.stgit@bahia.lan>
+x-cbparentid: 19091710-0029-0000-0000-0000246087A4
+Message-Id: <156871572566.196432.1432692745517580071.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-17_05:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=578 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=957 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1909170106
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 14/17] ccid-card-emul: Pass local error object
- pointer to error_append_hint()
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 15/17] option: Pass local error object pointer
+ to error_append_hint()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,13 +92,14 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?utf-8?q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
  "Daniel P. =?utf-8?q?Berrang=C3=A9=22?= <berrange@redhat.com>,
  qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- qemu-s390x@nongnu.org"@b06wcsmtp001.portsmouth.uk.ibm.com,
+ qemu-s390x@nongnu.org"@d06av21.portsmouth.uk.ibm.com,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?utf-8?q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Yuval Shaia <yuval.shaia@oracle.com>,
@@ -117,28 +114,45 @@ Ensure that hints are added even if errp is &error_fatal or &error_abort.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/usb/ccid-card-emulated.c |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ util/qemu-option.c |   14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
-index 291e41db8a1e..3bc397341090 100644
---- a/hw/usb/ccid-card-emulated.c
-+++ b/hw/usb/ccid-card-emulated.c
-@@ -511,10 +511,13 @@ static void emulated_realize(CCIDCardState *base, Error **errp)
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 97172b5eaa7f..2a45dfa585d4 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -155,11 +155,14 @@ void parse_option_size(const char *name, const char *value,
+         return;
      }
- 
-     if (card->backend == 0) {
--        error_setg(errp, "backend must be one of:");
+     if (err) {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, name,
 +        Error *local_err = NULL;
 +
-+        error_setg(&local_err, "backend must be one of:");
-         for (ptable = backend_enum_table; ptable->name != NULL; ++ptable) {
--            error_append_hint(errp, "%s\n", ptable->name);
-+            error_append_hint(&local_err, "%s\n", ptable->name);
-         }
++        error_setg(&local_err, QERR_INVALID_PARAMETER_VALUE, name,
+                    "a non-negative number below 2^64");
+-        error_append_hint(errp, "Optional suffix k, M, G, T, P or E means"
++        error_append_hint(&local_err, "Optional suffix k, M, G, T, P or E means"
+                           " kilo-, mega-, giga-, tera-, peta-\n"
+                           "and exabytes, respectively.\n");
 +        error_propagate(errp, local_err);
-         goto out2;
+         return;
      }
+     *ret = size;
+@@ -664,10 +667,13 @@ QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
  
+     if (id) {
+         if (!id_wellformed(id)) {
+-            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "id",
++            Error *local_err = NULL;
++
++            error_setg(&local_err, QERR_INVALID_PARAMETER_VALUE, "id",
+                        "an identifier");
+-            error_append_hint(errp, "Identifiers consist of letters, digits, "
++            error_append_hint(&local_err, "Identifiers consist of letters, digits, "
+                               "'-', '.', '_', starting with a letter.\n");
++            error_propagate(errp, local_err);
+             return NULL;
+         }
+         opts = qemu_opts_find(list, id);
 
 
