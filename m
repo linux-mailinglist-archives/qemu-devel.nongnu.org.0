@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E727FB5141
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:18:09 +0200 (CEST)
-Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F83B514C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:20:39 +0200 (CEST)
+Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAFF2-0006ks-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:18:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60255)
+	id 1iAFHS-0001A7-1A
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:20:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iAF8S-0002r1-JP
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:21 -0400
+ (envelope-from <mst@redhat.com>) id 1iAF85-0002Ru-Eg
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:10:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iAF8R-0000Vt-AX
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44306)
+ (envelope-from <mst@redhat.com>) id 1iAF84-0000OH-7C
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:10:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34926)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iAF8R-0000Ve-1q
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:11:19 -0400
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iAF83-0000O6-Sk
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:10:56 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4A0DD8553D
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 15:11:18 +0000 (UTC)
-Received: by mail-qk1-f200.google.com with SMTP id b67so4582009qkc.1
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 08:11:18 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2BECEC0568FD
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 15:10:55 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id m19so4565453qtm.13
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 08:10:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Z+GrB4OsuKWsPCn93GzyHPdMpDZ0x8xOsHVIaXoGtYw=;
- b=etmGLb0Lyb0BFK6lJ0yyzxF4RUxcD3V6z8ahoNhjVgJFfS06w6TAGwM0A4/IQQp42C
- /y5o8HEai7aSe6OFz9jnBLJCOmOGgPnDSEHoVdFTC3V/+tX9mvOXEXQRly1jW4GEQQ1z
- jtysuZFA2Lum5z2A7sTvlhzurllSzHvGzqYyiOdIbsL+RsQWA8zpSEe5YLJqNvIcg7du
- hpyKQVysMXZxKOXhU4l9crYgmanFXpTAfSuCfWD66me8wQ7jQtg6tmXCPPVIzZ13/K28
- 2hmU6hmGaokBXW+5y9d8wtvb9ocJLwTzqnjCx4usEwxU1KIZaNtrdnyKwzbb1zZdcplp
- GAng==
-X-Gm-Message-State: APjAAAWk9VmTnppZOc3c5QSJSXMRSRqIReyaw7dn/89AjgT2UdwbSo1p
- ykhdunlmfSyJn/puaHSSycVsuz58feCVnuRRwNC9WQZOQ5t8Rgt74AVnyzryOw0NQG0cO10FmDO
- PKaGi3C7pSL11FWk=
-X-Received: by 2002:aed:208e:: with SMTP id 14mr4098951qtb.199.1568733077302; 
- Tue, 17 Sep 2019 08:11:17 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqytwd4w7rUw8gmpUNTcX9Ba+UYBFdr1yNI9tXtx1sByE8efBh/Q1slnfHa8u4uOhnDEUGcaZg==
-X-Received: by 2002:aed:208e:: with SMTP id 14mr4098923qtb.199.1568733077094; 
- Tue, 17 Sep 2019 08:11:17 -0700 (PDT)
+ bh=bWWyi+bKsJBamFEp83FoaU14XqxtNJjR/kc9Oy+g4FU=;
+ b=U4XiRFwtmnBsoGlcK1BBXhQUV7aQCddO+2GVobWB9Pf+D2wC3GdEES9aw2NXnfyvNa
+ 8GnjLLdFtO/O4W4K9nEEjEAFgQmxSFaLNA+p4MDcfuw4/SsT0qWenqO2sp8oUjskdDmS
+ ASghW6Bb1Kbh2/f2alAArN7xRavlCqZKqkZOfOGrNvmjt3Sen7cdHTPJ/Nl27VehHoqr
+ eTYXcq9zsKESaolPdjdOSAm9OQKaidj64H4Xv5a/6y9sgrAMvrQd4ryepR+3RCFTLsHE
+ 6LuTkc4pisnXCa4ef2HeRmFBCUiSasRI9mPjulRwat4gUug86fR9U6+Pk8DI6DARzSvf
+ mRvw==
+X-Gm-Message-State: APjAAAVSVwMe6ij9TehdAqEYV54zoXC2eTprvHj15qlQ5f1YyDZ5ZCic
+ GI9qUTxp9tRRbAnq94wmmlED10w/BWX+5QxJdGXuPjISgCZB2v0ykHaOrb5iPXobxHOPENFn0OQ
+ VZ8O6c8oqDRWXWOY=
+X-Received: by 2002:a0c:cc14:: with SMTP id r20mr2929340qvk.61.1568733053920; 
+ Tue, 17 Sep 2019 08:10:53 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyEiwYLifdoYSZTYhVRAkj3MY7KQVATtLUe+MPbKX4NbYDs9yw8eBM5BBgPYYVAHQZRpvAhvg==
+X-Received: by 2002:a0c:cc14:: with SMTP id r20mr2929319qvk.61.1568733053704; 
+ Tue, 17 Sep 2019 08:10:53 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id v5sm1529227qtk.66.2019.09.17.08.11.15
+ by smtp.gmail.com with ESMTPSA id e13sm1131622qkm.110.2019.09.17.08.10.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 08:11:16 -0700 (PDT)
-Date: Tue, 17 Sep 2019 11:11:13 -0400
+ Tue, 17 Sep 2019 08:10:53 -0700 (PDT)
+Date: Tue, 17 Sep 2019 11:10:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190821121624.5382-1-pagupta@redhat.com>
+Message-ID: <1566498865-55506-2-git-send-email-raphael.norwitz@nutanix.com>
 References: <20190917151011.24588-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -64,7 +64,8 @@ X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 09/10] virtio pmem: user document
+Subject: [Qemu-devel] [PULL 04/10] backends/vhost-user.c: prevent using
+ uninitialized vqs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,109 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- Pankaj Gupta <pagupta@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe Mathieu-Daude <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pankaj Gupta <pagupta@redhat.com>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-This patch documents the steps to use virtio pmem.
-It also documents other useful information about
-virtio pmem e.g use-case, comparison with Qemu NVDIMM
-backend and current limitations.
+Similar rational to: e6cc11d64fc998c11a4dfcde8fda3fc33a74d844
 
-Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-Message-Id: <20190821121624.5382-1-pagupta@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+For vhost scsi and vhost-user-scsi an issue was observed
+where, of the 3 virtqueues, seabios would only set cmd,
+leaving ctrl and event without a physical address.
+This can caused vhost_verify_ring_part_mapping to return
+ENOMEM, causing the following logs:
+
+qemu-system-x86_64: Unable to map available ring for ring 0
+qemu-system-x86_64: Verify ring failure on region 0
+
+The issue has already been fixed elsewhere, but it was noted
+that in backends/vhost-user.c, the vhost_user_backend_dev_init()
+function, which other vdevs use in their realize() to initialize
+their vqs, was not being properly zeroing out the queues. This
+commit ensures hardware modules using the
+vhost_user_backend_dev_init() API properly zero out their vqs on
+initialization.
+
+Suggested-by: Philippe Mathieu-Daude <philmd@redhat.com>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <1566498865-55506-2-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- docs/virtio-pmem.rst | 75 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
- create mode 100644 docs/virtio-pmem.rst
+ backends/vhost-user.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/virtio-pmem.rst b/docs/virtio-pmem.rst
-new file mode 100644
-index 0000000000..e77881b26f
---- /dev/null
-+++ b/docs/virtio-pmem.rst
-@@ -0,0 +1,75 @@
-+
-+========================
-+QEMU virtio pmem
-+========================
-+
-+ This document explains the setup and usage of the virtio pmem device
-+ which is available since QEMU v4.1.0.
-+
-+ The virtio pmem device is a paravirtualized persistent memory device
-+ on regular (i.e non-NVDIMM) storage.
-+
-+Usecase
-+--------
-+
-+  Virtio pmem allows to bypass the guest page cache and directly use
-+  host page cache. This reduces guest memory footprint as the host can
-+  make efficient memory reclaim decisions under memory pressure.
-+
-+o How does virtio-pmem compare to the nvdimm emulation supported by QEMU?
-+
-+  NVDIMM emulation on regular (i.e. non-NVDIMM) host storage does not
-+  persist the guest writes as there are no defined semantics in the device
-+  specification. The virtio pmem device provides guest write persistence
-+  on non-NVDIMM host storage.
-+
-+virtio pmem usage
-+-----------------
-+
-+  A virtio pmem device backed by a memory-backend-file can be created on
-+  the QEMU command line as in the following example:
-+
-+  -object memory-backend-file,id=mem1,share,mem-path=./virtio_pmem.img,size=4G
-+  -device virtio-pmem-pci,memdev=mem1,id=nv1
-+
-+   where:
-+   - "object memory-backend-file,id=mem1,share,mem-path=<image>, size=<image size>"
-+     creates a backend file with the specified size.
-+
-+   - "device virtio-pmem-pci,id=nvdimm1,memdev=mem1" creates a virtio pmem
-+     pci device whose storage is provided by above memory backend device.
-+
-+  Multiple virtio pmem devices can be created if multiple pairs of "-object"
-+  and "-device" are provided.
-+
-+Hotplug
-+-------
-+
-+Virtio pmem devices can be hotplugged via the QEMU monitor. First, the
-+memory backing has to be added via 'object_add'; afterwards, the virtio
-+pmem device can be added via 'device_add'.
-+
-+For example, the following commands add another 4GB virtio pmem device to
-+the guest:
-+
-+ (qemu) object_add memory-backend-file,id=mem2,share=on,mem-path=virtio_pmem2.img,size=4G
-+ (qemu) device_add virtio-pmem-pci,id=virtio_pmem2,memdev=mem2
-+
-+Guest Data Persistence
-+----------------------
-+
-+ Guest data persistence on non-NVDIMM requires guest userspace applications
-+ to perform fsync/msync. This is different from a real nvdimm backend where
-+ no additional fsync/msync is required. This is to persist guest writes in
-+ host backing file which otherwise remains in host page cache and there is
-+ risk of losing the data in case of power failure.
-+
-+ With virtio pmem device, MAP_SYNC mmap flag is not supported. This provides
-+ a hint to application to perform fsync for write persistence.
-+
-+Limitations
-+------------
-+- Real nvdimm device backend is not supported.
-+- virtio pmem hotunplug is not supported.
-+- ACPI NVDIMM features like regions/namespaces are not supported.
-+- ndctl command is not supported.
+diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+index 0a13506c98..2bf3406525 100644
+--- a/backends/vhost-user.c
++++ b/backends/vhost-user.c
+@@ -46,7 +46,7 @@ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
+ 
+     b->vdev = vdev;
+     b->dev.nvqs = nvqs;
+-    b->dev.vqs = g_new(struct vhost_virtqueue, nvqs);
++    b->dev.vqs = g_new0(struct vhost_virtqueue, nvqs);
+ 
+     ret = vhost_dev_init(&b->dev, &b->vhost_user, VHOST_BACKEND_TYPE_USER, 0);
+     if (ret < 0) {
 -- 
 MST
 
