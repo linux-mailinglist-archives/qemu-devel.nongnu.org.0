@@ -2,104 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA34CB4C4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:54:56 +0200 (CEST)
-Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA62B4C5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 12:56:30 +0200 (CEST)
+Received: from localhost ([::1]:44002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAB8J-0003mN-Mc
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47009)
+	id 1iAB9p-0004y4-1i
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 06:56:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iAApB-00025i-Eh
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:35:11 -0400
+ (envelope-from <jasowang@redhat.com>) id 1iAAqX-0003Gk-Fb
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:36:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iAAp9-00058c-K9
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:35:08 -0400
-Received: from mail-eopbgr150119.outbound.protection.outlook.com
- ([40.107.15.119]:57925 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iAAp9-00057M-08; Tue, 17 Sep 2019 06:35:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nXhVjBipSTqSQEJSITZUj+YjKU5HRcb9as61YHoRmovS8G1OHTLGDdjrnLueSumusbYW5wPJWlsA/SY1bs680gEVVr7oPp56jjyn1VCCKKuHCwOmLWXqi1c4zBcMUpxo1FRmuic/SAl8IjmUH7J/6zohrlu6NcwJupezAdI20vdIrv/bxPIZBbju9S7C68l7/gLfSMfRXKI1aK5vHaIENcvbax1kdxyjwKjjU5zoJu9Jeem1KDLH8hmUaU+N95avGU6M3DWfKeEKjq7zsHPaw5VhOKNfozAxFOe4/kcRW6d1J0dNBi//cfSG9PmoPh+KPOFPh52OV6Tmz3eqDcI9Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=++lEKp9LIfc6Txp93ysp5a1P1A6vWDz5lUPDu5Aq5jU=;
- b=QqZ5gjTcbAzTVYp35G7Mk+Fow1lcinpIJqj5946Vhwz9A9vbPyng9TCRlDYyGik7r04zA2IbDXTxlV8rhGsoARcF/wu4Xoz2bZW7dtCwgEjdNppPxpqjkghLWiodXXcHXaUQZyavUvrz8hgVL9uwagOz33qfxoEv9gOaIimZLI0Urm8U6VEGNWdFyhBcKLHYobsbpFh/dEn7yp20yOcUzrQFBYEZLUY3A0WJGcP6Iv/CaXDviYe82tNf3YYmaDA4u1AOKz8QQUwAsx1guU4t2fF6FA3iPfB4yOJMRmHDo3HnWaeQgwJNfRydNqdCupQVJHe4yzbg7fSQlKSJKBCNcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=++lEKp9LIfc6Txp93ysp5a1P1A6vWDz5lUPDu5Aq5jU=;
- b=ut4bc2tVtod7s7Wkjyej3ncflhU3+TVeQtn1Tz4XYMsnWUWbm3P7YdsRhPz+8jsXj0Z1wj55beeDOVHBQ7+KSqMqDmCGbjhowt3EtV++YxAXrZxFsvYk2LHP/dP6dXtmtFfWLJyNJxXTpsbLhePILZzMV/P2f+eAblQJqgfxVU0=
-Received: from HE1PR0802MB2460.eurprd08.prod.outlook.com (10.175.33.138) by
- HE1PR0802MB2362.eurprd08.prod.outlook.com (10.172.131.146) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.24; Tue, 17 Sep 2019 10:35:03 +0000
-Received: from HE1PR0802MB2460.eurprd08.prod.outlook.com
- ([fe80::4d31:70d0:5b10:7a10]) by HE1PR0802MB2460.eurprd08.prod.outlook.com
- ([fe80::4d31:70d0:5b10:7a10%6]) with mapi id 15.20.2263.023; Tue, 17 Sep 2019
- 10:35:03 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v4 1/7] iotests: Prefer null-co over null-aio
-Thread-Index: AQHVbTkfgVf10i1Q2UC+Tm2h5se2AqcvrK0A
-Date: Tue, 17 Sep 2019 10:35:03 +0000
-Message-ID: <f374c7dc-8834-1429-9869-6f92b15c8a49@virtuozzo.com>
-References: <20190917092004.999-1-mreitz@redhat.com>
- <20190917092004.999-2-mreitz@redhat.com>
-In-Reply-To: <20190917092004.999-2-mreitz@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0252.eurprd05.prod.outlook.com
- (2603:10a6:3:fb::28) To HE1PR0802MB2460.eurprd08.prod.outlook.com
- (2603:10a6:3:dd::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2e88c5ad-c8de-4fe1-4b7a-08d73b5ab31f
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:HE1PR0802MB2362; 
-x-ms-traffictypediagnostic: HE1PR0802MB2362:
-x-microsoft-antispam-prvs: <HE1PR0802MB23624F872581FEF6045ADA17F48F0@HE1PR0802MB2362.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-forefront-prvs: 01630974C0
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(39840400004)(346002)(366004)(136003)(396003)(199004)(189003)(2501003)(486006)(66556008)(6506007)(7736002)(229853002)(86362001)(186003)(8676002)(4326008)(386003)(26005)(446003)(476003)(11346002)(6486002)(6512007)(6436002)(53546011)(2616005)(6246003)(66066001)(81166006)(478600001)(102836004)(25786009)(5660300002)(110136005)(76176011)(36756003)(256004)(6116002)(316002)(52116002)(44832011)(2906002)(81156014)(3846002)(71190400001)(71200400001)(31696002)(99286004)(31686004)(305945005)(66476007)(66946007)(66446008)(64756008)(8936002)(14454004)(54906003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:HE1PR0802MB2362;
- H:HE1PR0802MB2460.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: FZ+yqGUtw3UNBP4pqh96ya6G0tIrLytCIPEC2QaKjrokh3yACAuENof+iBOmQX8oy+KLLajw7tfz5NdVGhNAa3J2WiqbjXRknIYdQVfP6ySMQV/vVKJHfFHUGrn7H3fm26PrCR/mOrDpySlcOD2AUrz3NM7S3u6ebtL9ZBrzYhEG2ActI52oS7K4Q+8gR5SCvW/FT2ABHSjQvEQLIuXMeRZL9M7smULoXFWh9KmpruCmTNj1DoMCpRnAHeWgGGHvNz0c9XZ7/lthUR8ATLAuMk/mwnF1YiX2AYPDV37j9nPF7vakyYD9wvRxMK1Ln7LKA8keg+1zBf83jwflF6THOC5gyIS0Af9Cxi97xu8YSnqlSWXV6zQ4RmD/W3qVlRuXTRy4dYGLZpZ0OSrQy0/zJs7/ft/FHEioKFVFhUahqwU=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5DA83B4802948042BF512C541B934FCC@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <jasowang@redhat.com>) id 1iAAqV-0005nC-So
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:36:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36540)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iAAqV-0005mD-KL
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 06:36:31 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0357C10C0920;
+ Tue, 17 Sep 2019 10:36:30 +0000 (UTC)
+Received: from [10.72.12.121] (ovpn-12-121.pek2.redhat.com [10.72.12.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 958616012C;
+ Tue, 17 Sep 2019 10:36:25 +0000 (UTC)
+To: "Tian, Kevin" <kevin.tian@intel.com>
+References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
+ <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <8302a4ae-1914-3046-b3b5-b3234d7dda02@redhat.com>
+Date: Tue, 17 Sep 2019 18:36:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e88c5ad-c8de-4fe1-4b7a-08d73b5ab31f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2019 10:35:03.6311 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 009e6mCxGBb4Wo0yRo7gxosA3aLdhWMZXmHmBv4KTfBR80nobPRgYqnX5NQ/HSHf8Pl6qH7xm7Kgn5yydsjLaQg3W5mLelRrPY80hueoM0c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2362
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.15.119
-Subject: Re: [Qemu-devel] [PATCH v4 1/7] iotests: Prefer null-co over
- null-aio
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Tue, 17 Sep 2019 10:36:30 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,56 +60,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: 'Alex Williamson' <alex.williamson@redhat.com>, "Zhao,
+ Yan Y" <yan.y.zhao@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDE3LzA5LzIwMTkgMTI6MTksIE1heCBSZWl0eiB3cm90ZToNCj4gV2UgdXNlIG51bGwt
-Y28gYmFzaWNhbGx5IGV2ZXJ5d2hlcmUgaW4gdGhlIGlvdGVzdHMuICBVbmxlc3Mgd2Ugd2FudCB0
-bw0KPiB0ZXN0IG51bGwtYWlvIHNwZWNpZmljYWxseSwgd2Ugc2hvdWxkIHVzZSBpdCBpbnN0ZWFk
-IChmb3IgY29uc2lzdGVuY3kpLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVp
-dHpAcmVkaGF0LmNvbT4NCj4gUmV2aWV3ZWQtYnk6IEpvaG4gU25vdyA8anNub3dAcmVkaGF0LmNv
-bT4NCj4gUmV2aWV3ZWQtYnk6IFRob21hcyBIdXRoIDx0aHV0aEByZWRoYXQuY29tPg0KPiAtLS0N
-Cj4gICB0ZXN0cy9xZW11LWlvdGVzdHMvMDkzIHwgNyArKystLS0tDQo+ICAgdGVzdHMvcWVtdS1p
-b3Rlc3RzLzI0NSB8IDIgKy0NCj4gICAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwg
-NSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90ZXN0cy9xZW11LWlvdGVzdHMvMDkz
-IGIvdGVzdHMvcWVtdS1pb3Rlc3RzLzA5Mw0KPiBpbmRleCAzYzRmNTE3M2NlLi41MGMxZTdmMmVj
-IDEwMDc1NQ0KPiAtLS0gYS90ZXN0cy9xZW11LWlvdGVzdHMvMDkzDQo+ICsrKyBiL3Rlc3RzL3Fl
-bXUtaW90ZXN0cy8wOTMNCj4gQEAgLTI2NywxMyArMjY3LDEyIEBAIGNsYXNzIFRocm90dGxlVGVz
-dENvcm91dGluZShUaHJvdHRsZVRlc3RDYXNlKToNCj4gICAgICAgdGVzdF9pbWcgPSAibnVsbC1j
-bzovLyINCj4gICANCj4gICBjbGFzcyBUaHJvdHRsZVRlc3RHcm91cE5hbWVzKGlvdGVzdHMuUU1Q
-VGVzdENhc2UpOg0KPiAtICAgIHRlc3RfaW1nID0gIm51bGwtYWlvOi8vIg0KPiAgICAgICBtYXhf
-ZHJpdmVzID0gMw0KPiAgIA0KPiAgICAgICBkZWYgc2V0VXAoc2VsZik6DQo+ICAgICAgICAgICBz
-ZWxmLnZtID0gaW90ZXN0cy5WTSgpDQo+ICAgICAgICAgICBmb3IgaSBpbiByYW5nZSgwLCBzZWxm
-Lm1heF9kcml2ZXMpOg0KPiAtICAgICAgICAgICAgc2VsZi52bS5hZGRfZHJpdmUoc2VsZi50ZXN0
-X2ltZywNCj4gKyAgICAgICAgICAgIHNlbGYudm0uYWRkX2RyaXZlKCJudWxsLWNvOi8vIiwNCj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAidGhyb3R0bGluZy5pb3BzLXRvdGFsPTEw
-MCxmaWxlLnJlYWQtemVyb2VzPW9uIikNCj4gICAgICAgICAgIHNlbGYudm0ubGF1bmNoKCkNCj4g
-ICANCj4gQEAgLTM3NiwxMCArMzc1LDEwIEBAIGNsYXNzIFRocm90dGxlVGVzdFJlbW92YWJsZU1l
-ZGlhKGlvdGVzdHMuUU1QVGVzdENhc2UpOg0KPiAgIA0KPiAgICAgICBkZWYgdGVzdF9yZW1vdmFi
-bGVfbWVkaWEoc2VsZik6DQo+ICAgICAgICAgICAjIEFkZCBhIGNvdXBsZSBvZiBkdW1teSBub2Rl
-cyBuYW1lZCBjZDAgYW5kIGNkMQ0KPiAtICAgICAgICByZXN1bHQgPSBzZWxmLnZtLnFtcCgiYmxv
-Y2tkZXYtYWRkIiwgZHJpdmVyPSJudWxsLWFpbyIsDQo+ICsgICAgICAgIHJlc3VsdCA9IHNlbGYu
-dm0ucW1wKCJibG9ja2Rldi1hZGQiLCBkcml2ZXI9Im51bGwtY28iLA0KPiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgcmVhZF96ZXJvZXM9VHJ1ZSwgbm9kZV9uYW1lPSJjZDAiKQ0KPiAg
-ICAgICAgICAgc2VsZi5hc3NlcnRfcW1wKHJlc3VsdCwgJ3JldHVybicsIHt9KQ0KPiAtICAgICAg
-ICByZXN1bHQgPSBzZWxmLnZtLnFtcCgiYmxvY2tkZXYtYWRkIiwgZHJpdmVyPSJudWxsLWFpbyIs
-DQo+ICsgICAgICAgIHJlc3VsdCA9IHNlbGYudm0ucW1wKCJibG9ja2Rldi1hZGQiLCBkcml2ZXI9
-Im51bGwtY28iLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVhZF96ZXJvZXM9
-VHJ1ZSwgbm9kZV9uYW1lPSJjZDEiKQ0KPiAgICAgICAgICAgc2VsZi5hc3NlcnRfcW1wKHJlc3Vs
-dCwgJ3JldHVybicsIHt9KQ0KPiAgIA0KPiBkaWZmIC0tZ2l0IGEvdGVzdHMvcWVtdS1pb3Rlc3Rz
-LzI0NSBiL3Rlc3RzL3FlbXUtaW90ZXN0cy8yNDUNCj4gaW5kZXggNDEyMThkNWYxZC4uZTY2YTIz
-YzVmMCAxMDA2NDQNCj4gLS0tIGEvdGVzdHMvcWVtdS1pb3Rlc3RzLzI0NQ0KPiArKysgYi90ZXN0
-cy9xZW11LWlvdGVzdHMvMjQ1DQo+IEBAIC01OTgsNyArNTk4LDcgQEAgY2xhc3MgVGVzdEJsb2Nr
-ZGV2UmVvcGVuKGlvdGVzdHMuUU1QVGVzdENhc2UpOg0KPiAgICAgICAgICAgIyMjIyMjIyMjIyMj
-IyMjIyMjDQo+ICAgICAgICAgICAjIyMjIyMgbnVsbCAjIyMjIyMNCj4gICAgICAgICAgICMjIyMj
-IyMjIyMjIyMjIyMjIw0KPiAtICAgICAgICBvcHRzID0geydkcml2ZXInOiAnbnVsbC1haW8nLCAn
-bm9kZS1uYW1lJzogJ3Jvb3QnLCAnc2l6ZSc6IDEwMjR9DQo+ICsgICAgICAgIG9wdHMgPSB7J2Ry
-aXZlcic6ICdudWxsLWNvJywgJ25vZGUtbmFtZSc6ICdyb290JywgJ3NpemUnOiAxMDI0fQ0KPiAg
-IA0KPiAgICAgICAgICAgcmVzdWx0ID0gc2VsZi52bS5xbXAoJ2Jsb2NrZGV2LWFkZCcsIGNvbnZf
-a2V5cyA9IEZhbHNlLCAqKm9wdHMpDQo+ICAgICAgICAgICBzZWxmLmFzc2VydF9xbXAocmVzdWx0
-LCAncmV0dXJuJywge30pDQo+IA0KDQpSZXZpZXdlZC1ieTogQW5kcmV5IFNoaW5rZXZpY2ggPGFu
-ZHJleS5zaGlua2V2aWNoQHZpcnR1b3p6by5jb20+DQotLSANCldpdGggdGhlIGJlc3QgcmVnYXJk
-cywNCkFuZHJleSBTaGlua2V2aWNoDQo=
+
+On 2019/9/17 =E4=B8=8B=E5=8D=884:48, Tian, Kevin wrote:
+>> From: Jason Wang [mailto:jasowang@redhat.com]
+>> Sent: Monday, September 16, 2019 4:33 PM
+>>
+>>
+>> On 2019/9/16 =E4=B8=8A=E5=8D=889:51, Tian, Kevin wrote:
+>>> Hi, Jason
+>>>
+>>> We had a discussion about dirty page tracking in VFIO, when vIOMMU
+>>> is enabled:
+>>>
+>>> https://lists.nongnu.org/archive/html/qemu-devel/2019-
+>> 09/msg02690.html
+>>> It's actually a similar model as vhost - Qemu cannot interpose the fa=
+st-
+>> path
+>>> DMAs thus relies on the kernel part to track and report dirty page
+>> information.
+>>> Currently Qemu tracks dirty pages in GFN level, thus demanding a
+>> translation
+>>> from IOVA to GPA. Then the open in our discussion is where this
+>> translation
+>>> should happen. Doing the translation in kernel implies a device iotlb
+>> flavor,
+>>> which is what vhost implements today. It requires potentially large
+>> tracking
+>>> structures in the host kernel, but leveraging the existing log_sync f=
+low in
+>> Qemu.
+>>> On the other hand, Qemu may perform log_sync for every removal of
+>> IOVA
+>>> mapping and then do the translation itself, then avoiding the GPA
+>> awareness
+>>> in the kernel side. It needs some change to current Qemu log-sync flo=
+w,
+>> and
+>>> may bring more overhead if IOVA is frequently unmapped.
+>>>
+>>> So we'd like to hear about your opinions, especially about how you ca=
+me
+>>> down to the current iotlb approach for vhost.
+>>
+>> We don't consider too much in the point when introducing vhost. And
+>> before IOTLB, vhost has already know GPA through its mem table
+>> (GPA->HVA). So it's nature and easier to track dirty pages at GPA leve=
+l
+>> then it won't any changes in the existing ABI.
+> This is the same situation as VFIO.
+>
+>> For VFIO case, the only advantages of using GPA is that the log can th=
+en
+>> be shared among all the devices that belongs to the VM. Otherwise
+>> syncing through IOVA is cleaner.
+> I still worry about the potential performance impact with this approach=
+.
+> In current mdev live migration series, there are multiple system calls
+> involved when retrieving the dirty bitmap information for a given memor=
+y
+> range.
+
+
+I haven't took a deep look at that series. Technically dirty bitmap=20
+could be shared between device and driver, then there's no system call=20
+in synchronization.
+
+
+> IOVA mappings might be changed frequently. Though one may
+> argue that frequent IOVA change already has bad performance, it's still
+> not good to introduce further non-negligible overhead in such situation=
+.
+
+
+Yes, it depends on the behavior of vIOMMU driver, e.g the frequency and=20
+granularity of the flushing.
+
+
+>
+> On the other hand, I realized that adding IOVA awareness in VFIO is
+> actually easy. Today VFIO already maintains a full list of IOVA and its
+> associated HVA in vfio_dma structure, according to VFIO_MAP and
+> VFIO_UNMAP. As long as we allow the latter two operations to accept
+> another parameter (GPA), IOVA->GPA mapping can be naturally cached
+> in existing vfio_dma objects.
+
+
+Note that the HVA to GPA mapping is not an 1:1 mapping. One HVA range=20
+could be mapped to several GPA ranges.
+
+
+>   Those objects are always updated according
+> to MAP and UNMAP ioctls to be up-to-date. Qemu then uniformly
+> retrieves the VFIO dirty bitmap for the entire GPA range in every pre-c=
+opy
+> round, regardless of whether vIOMMU is enabled. There is no need of
+> another IOTLB implementation, with the main ask on a v2 MAP/UNMAP
+> interface.
+
+
+Or provide GPA to HVA mapping as vhost did. But a question is, I believe=20
+device can only do dirty page logging through IOVA. So how do you handle=20
+the case when IOVA is removed in this case?
+
+Thanks
+
+
+>
+> Alex, your thoughts?
+>
+> Thanks
+> Kevin
 
