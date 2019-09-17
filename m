@@ -2,54 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F65B55BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 20:56:25 +0200 (CEST)
-Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE69B55E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 21:02:44 +0200 (CEST)
+Received: from localhost ([::1]:49810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAIeG-00072H-BH
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 14:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35063)
+	id 1iAIkM-00038r-MX
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 15:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34904)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iAIZm-0003RV-9t
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:51:47 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iAIY2-0002NC-Gr
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:50:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iAIZi-0006JF-Pa
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:51:44 -0400
-Resent-Date: Tue, 17 Sep 2019 14:51:44 -0400
-Resent-Message-Id: <E1iAIZi-0006JF-Pa@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21414)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iAIZg-0006DH-0K
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:51:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568746291; cv=none; d=zoho.com; s=zohoarc; 
- b=YpRVYN5CRPZJOoOVxRXpFcmBvC/oWRcFQJvUuauQ6stCbCfgllGrDRJFavC3FzTCjucTDgrmBAbTF3E9IWYu2xKlnAuW8lJMEQG4M65sh9ntoH4L8YROn0Kk0XdsYZCkcqY1+pxFJBE6QtwH6bS8ESBr8V0+9w2BtA7h49zmgm0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568746291;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=VT0whrIhmvyKLd/Ogi0OHLnJ/xWhDCYFV0Uzk4JUx8A=; 
- b=oJHNbUmyTan2AawkchwxXX04yMHZax+ABAGlHK02VxUf8Sk5ZV8eFLJc5zDvrFXLvEkx3CviQIsaCKeYFWkl7Z8bcBMxUw39lz/84aoBGkdbjV6Q7REvciwi+Ye5V903xp8Ghy++2YiXUQNAjJjBB68FmFWTKYpYv+jeDC2oBuY=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568746289928754.6840902789916;
- Tue, 17 Sep 2019 11:51:29 -0700 (PDT)
-In-Reply-To: <20190917122644.15736-1-johannes@sipsolutions.net>
-Message-ID: <156874628889.17151.11608401473041040949@5dec9699b7de>
+ (envelope-from <jsnow@redhat.com>) id 1iAIXz-0004rd-Tl
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:49:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54924)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iAIXz-0004rU-Oy
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 14:49:55 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D34B6C058CA4;
+ Tue, 17 Sep 2019 18:49:54 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20C9A600C4;
+ Tue, 17 Sep 2019 18:49:49 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 17 Sep 2019 14:49:48 -0400
+Message-Id: <20190917184948.24627-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: johannes@sipsolutions.net
-Date: Tue, 17 Sep 2019 11:51:29 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 17 Sep 2019 18:49:54 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.54
-Subject: Re: [Qemu-devel] [RFC] contrib: add vhost-user-sim
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] tests/vm: remove unused --target-list option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,92 +52,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, johannes.berg@intel.com, mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxNzEyMjY0NC4xNTcz
-Ni0xLWpvaGFubmVzQHNpcHNvbHV0aW9ucy5uZXQvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
-dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
-bW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUkZDXSBjb250cmliOiBh
-ZGQgdmhvc3QtdXNlci1zaW0KTWVzc2FnZS1pZDogMjAxOTA5MTcxMjI2NDQuMTU3MzYtMS1qb2hh
-bm5lc0BzaXBzb2x1dGlvbnMubmV0ClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9x
-ZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAxOTA5MTcxMjI2NDQuMTU3MzYtMS1q
-b2hhbm5lc0BzaXBzb2x1dGlvbnMubmV0IC0+IHBhdGNoZXcvMjAxOTA5MTcxMjI2NDQuMTU3MzYt
-MS1qb2hhbm5lc0BzaXBzb2x1dGlvbnMubmV0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVz
-dCcKZTg5NzQ5NiBjb250cmliOiBhZGQgdmhvc3QtdXNlci1zaW0KCj09PSBPVVRQVVQgQkVHSU4g
-PT09CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
-SU5FUlMgbmVlZCB1cGRhdGluZz8KIzczOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6
-IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyNTQ6IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1z
-aW0vY2FsLmM6MTcwOgorICAgICAgICBpZiAocnVubmluZ19lbnRyeSAmJiBlbnRyeSAhPSBydW5u
-aW5nX2VudHJ5ICYmIHJ1bm5pbmdfZW50cnktPnVwZGF0ZV91bnRpbCkgewoKRVJST1I6IGxpbmUg
-b3ZlciA5MCBjaGFyYWN0ZXJzCiMyNTc6IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1zaW0vY2Fs
-LmM6MTczOgorICAgICAgICAgICAgRFBSSU5UKCJ1cGRhdGUgJXMgdG8gYmUgZnJlZSB1bnRpbCAl
-bGxkIChkdWUgdG8gYWRkIHVubGVzcyBvZiAlcylcbiIsIHJ1bm5pbmdfZW50cnktPm5hbWUsIG5l
-eHR0aW1lLCBlbnRyeS0+bmFtZSk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzI2
-MDogRklMRTogY29udHJpYi92aG9zdC11c2VyLXNpbS9jYWwuYzoxNzY6CisgICAgICAgICAgICBE
-UFJJTlQoIm5vIHVwZGF0ZSBmb3IgcnVubmluZyBlbnRyeSAlc1xuIiwgcnVubmluZ19lbnRyeSA/
-IHJ1bm5pbmdfZW50cnktPm5hbWUgOiAiPG5vbmU+Iik7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNo
-YXJhY3RlcnMKIzI3ODogRklMRTogY29udHJpYi92aG9zdC11c2VyLXNpbS9jYWwuYzoxOTQ6Cisg
-ICAgICAgIERQUklOVCgidXBkYXRlICVzIHRvIGJlIGZyZWUgdW50aWwgJWxsZCAoZHVlIHRvIGFk
-ZCBvZiAlcylcbiIsIHJ1bm5pbmdfZW50cnktPm5hbWUsIG5leHR0aW1lLCBlbnRyeS0+bmFtZSk7
-CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzI4MTogRklMRTogY29udHJpYi92aG9z
-dC11c2VyLXNpbS9jYWwuYzoxOTc6CisgICAgICAgIERQUklOVCgibm8gdXBkYXRlIGZvciBydW5u
-aW5nIGVudHJ5ICVzXG4iLCBydW5uaW5nX2VudHJ5ID8gcnVubmluZ19lbnRyeS0+bmFtZSA6ICI8
-bm9uZT4iKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM1MjU6IEZJTEU6IGNv
-bnRyaWIvdmhvc3QtdXNlci1zaW0vbWFpbi5jOjk2OgorICAgICAgICAgICAgcHJpbnRmKCJVc2Fn
-ZTogJXMgLXMgdGltZS1kZXZpY2Utc29ja2V0IFstbiBuZXQtZGV2aWNlLXNvY2tldF0gfCBbIC1o
-IF1cbiIsCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRo
-aXMgc3RhdGVtZW50CiM1NDc6IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1zaW0vbWFpbi5jOjEx
-ODoKKyAgICBpZiAobmV0X3NvY2tldCkKWy4uLl0KCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFj
-dGVycwojNzQxOiBGSUxFOiBjb250cmliL3Zob3N0LXVzZXItc2ltL25ldC5jOjE1NjoKKyAgICBm
-cHJpbnRmKHN0ZGVyciwgImluc2VydCBJUlEgZnJvbSAlcyBhdCAlbGxkXG4iLCBuZGV2LT5lbnRy
-eS5uYW1lLCBjYWxlbmRhcl9nZXRfdGltZSgpKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFy
-YWN0ZXJzCiM5NTE6IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1zaW0vc2ltdGltZS5jOjExNDoK
-KyAgICAgICAgICAgIERQUklOVCgiICVkIHwgY2FsZW5kYXIgZW50cnkgYWRkZWQgZm9yICVsbGRc
-biIsIGNvbm4tPmlkeCwgbXNnLT50aW1lKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0
-ZXJzCiM5NTQ6IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1zaW0vc2ltdGltZS5jOjExNzoKKyAg
-ICAgICAgICAgIERQUklOVCgiICVkIHwgY2FsZW5kYXIgZW50cnkgdGltZSB1cGRhdGVkIGZvciAl
-bGxkXG4iLCBjb25uLT5pZHgsIG1zZy0+dGltZSk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJh
-Y3RlcnMKIzk4MDogRklMRTogY29udHJpYi92aG9zdC11c2VyLXNpbS9zaW10aW1lLmM6MTQzOgor
-ICAgIGdfYXNzZXJ0KGZ1bGxfd3JpdGUoZ19pb19jaGFubmVsX3VuaXhfZ2V0X2ZkKGNvbm4tPmNo
-YW4pLCAmcmVzcCwgc2l6ZW9mKHJlc3ApKSA9PSBzaXplb2YocmVzcCkpOwoKRVJST1I6IGxpbmUg
-b3ZlciA5MCBjaGFyYWN0ZXJzCiM5ODE6IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1zaW0vc2lt
-dGltZS5jOjE0NDoKKyAgICBEUFJJTlQoIiAlZCB8IHNlbnQgQUNLIGZvciBtZXNzYWdlICVzICgl
-bGxkLCB0aW1lICVsbGQpXG4iLCBjb25uLT5pZHgsIHNpbXRpbWVfb3Bfc3RyKG1zZy0+b3ApLCBt
-c2ctPm9wLCBtc2ctPnRpbWUpOwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM5OTE6
-IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1zaW0vc2ltdGltZS5jOjE1NDoKKyAgICBnX2Fzc2Vy
-dChmdWxsX3dyaXRlKGdfaW9fY2hhbm5lbF91bml4X2dldF9mZChjb25uLT5jaGFuKSwgbXNnLCBz
-aXplb2YoKm1zZykpID09IHNpemVvZigqbXNnKSk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJh
-Y3RlcnMKIzk5MzogRklMRTogY29udHJpYi92aG9zdC11c2VyLXNpbS9zaW10aW1lLmM6MTU2Ogor
-ICAgICAgICBnX2Fzc2VydChmdWxsX3JlYWQoZ19pb19jaGFubmVsX3VuaXhfZ2V0X2ZkKGNvbm4t
-PmNoYW4pLCBtc2csIHNpemVvZigqbXNnKSkgPT0gc2l6ZW9mKCptc2cpKTsKCkVSUk9SOiBicmFj
-ZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzk5Njog
-RklMRTogY29udHJpYi92aG9zdC11c2VyLXNpbS9zaW10aW1lLmM6MTU5OgorICAgICAgICBpZiAo
-bXNnLT5vcCA9PSBVTV9USU1FVFJBVkVMX0FDSykKWy4uLl0KCkVSUk9SOiBsaW5lIG92ZXIgOTAg
-Y2hhcmFjdGVycwojMTA0MzogRklMRTogY29udHJpYi92aG9zdC11c2VyLXNpbS9zaW10aW1lLmM6
-MjA2OgorICAgICAgICBwcmludGYoImNsaWVudCBkaXNjb25uZWN0ZWQsIG1hZGUgJWxsZCByZXF1
-ZXN0cyBhbmQgd2FpdGVkICVsbGQgdGltZXMsIHNlbnQgJWxsZCB1cGRhdGVzXG4iLAoKRVJST1I6
-IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMxMDQ4OiBGSUxFOiBjb250cmliL3Zob3N0LXVz
-ZXItc2ltL3NpbXRpbWUuYzoyMTE6CisgICAgICAgIC8vIGxlYWsgZm9yIG5vdyAuLi4gc291cmNl
-IGlzIHN0aWxsIGF0dGFjaGVkCgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzEw
-NDk6IEZJTEU6IGNvbnRyaWIvdmhvc3QtdXNlci1zaW0vc2ltdGltZS5jOjIxMjoKKyAgICAgICAg
-Ly9nX2ZyZWUoY29ubik7Cgp0b3RhbDogMTQgZXJyb3JzLCA1IHdhcm5pbmdzLCAxMTI3IGxpbmVz
-IGNoZWNrZWQKCkNvbW1pdCBlODk3NDk2OTJjYmEgKGNvbnRyaWI6IGFkZCB2aG9zdC11c2VyLXNp
-bSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNv
-bW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQK
-aHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MTcxMjI2NDQuMTU3MzYtMS1qb2hhbm5lc0Bz
-aXBzb2x1dGlvbnMubmV0L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
-aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
-Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
-bQ==
+It's not used; so remove the distraction.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ tests/vm/Makefile.include | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index fea348e845..61758101fa 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -28,7 +28,6 @@ vm-help vm-test:
+ 	@echo
+ 	@echo "Special variables:"
+ 	@echo "    BUILD_TARGET=3Dfoo		 - Override the build target"
+-	@echo "    TARGET_LIST=3Da,b,c    	 - Override target list in builds"
+ 	@echo '    EXTRA_CONFIGURE_OPTS=3D"..."'
+ 	@echo "    J=3D[0..9]*            	 - Override the -jN parameter for ma=
+ke commands"
+ 	@echo "    DEBUG=3D1              	 - Enable verbose output on host and=
+ interactive debugging"
+@@ -65,7 +64,6 @@ vm-build-%: $(IMAGES_DIR)/%.img
+ 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
+ 		--snapshot \
+ 		--build-qemu $(SRC_PATH) -- \
+-		$(if $(TARGET_LIST),--target-list=3D$(TARGET_LIST)) \
+ 		$(if $(EXTRA_CONFIGURE_OPTS),$(EXTRA_CONFIGURE_OPTS)), \
+ 		"  VM-BUILD $*")
+=20
+--=20
+2.21.0
 
 
