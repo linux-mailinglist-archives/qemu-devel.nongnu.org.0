@@ -2,54 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC8FB5302
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:34:19 +0200 (CEST)
-Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11980B5324
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:36:52 +0200 (CEST)
+Received: from localhost ([::1]:48386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAGQj-00023L-Aq
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1iAGTD-0004uy-2U
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iAGG9-0002X2-Cz
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:23:22 -0400
+ (envelope-from <groug@kaod.org>) id 1iAGKG-0006I4-DE
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:27:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iAGG8-0004rf-8x
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:23:21 -0400
-Resent-Date: Tue, 17 Sep 2019 12:23:21 -0400
-Resent-Message-Id: <E1iAGG8-0004rf-8x@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21587)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iAGG8-0004pL-02
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:23:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568737390; cv=none; d=zoho.com; s=zohoarc; 
- b=bRsIlNiPv/9y/RJ8ARaFEBGYZdLEgu93j97lndazwdpQV+TDrULkUjKVnAuAG0pRZz2tbVhKADQFch4KlAoEeS5Zg7AbaopeHE+zbCdRoWtVPv9qLUPxHmpayBFR3u9+KdfFHtCYNm6CLDTjLmdsNGPZJAXwhrgBKu1EfgIOd4U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568737390;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=YMIhBew8O4CtQyjctfNJJ1nlM+t0wYQoDvQpelwV5Ro=; 
- b=SD2192QZvSJUvNcS18wDxvwNiyAfteKmnDpYNsZntkpEHumyGygIEDFIU2zOwsesyotIid2aAcuFOmJEROrkGk7+MToNWWZWC5es/XeXSy7zBDNi3DgOQfc22F2oeHTx8uqtXo9e+qchcHL/cccJcBMb92AJtgEn/SDf6Hxelbk=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568737389694658.4046738810689;
- Tue, 17 Sep 2019 09:23:09 -0700 (PDT)
-In-Reply-To: <20190917111441.27405-1-kraxel@redhat.com>
-Message-ID: <156873738857.17151.7067327846844653377@5dec9699b7de>
+ (envelope-from <groug@kaod.org>) id 1iAGKE-0006I7-Go
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:27:35 -0400
+Received: from 5.mo3.mail-out.ovh.net ([87.98.178.36]:60164)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iAGKE-0006HE-8Y
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:27:34 -0400
+Received: from player799.ha.ovh.net (unknown [10.109.160.232])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id F0062227B18
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 18:27:31 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id 2D3BD9E56172;
+ Tue, 17 Sep 2019 16:26:57 +0000 (UTC)
+Date: Tue, 17 Sep 2019 18:26:56 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190917182656.1db277b1@bahia.lan>
+In-Reply-To: <de1d7856-3c59-0e94-2ba8-d0438e9d0ff6@redhat.com>
+References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
+ <156871571297.196432.545961868971946073.stgit@bahia.lan>
+ <de1d7856-3c59-0e94-2ba8-d0438e9d0ff6@redhat.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Tue, 17 Sep 2019 09:23:09 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 680887968690772361
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeigdejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH v3 0/2] ati: fix ati_cursor_define bug.
+X-Received-From: 87.98.178.36
+Subject: Re: [Qemu-devel] [PATCH 13/17] nbd: Pass local error object pointer
+ to error_append_hint()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,28 +58,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, qemu-devel@nongnu.org, flier_m@outlook.com,
- mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yuval Shaia <yuval.shaia@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxNzExMTQ0MS4yNzQw
-NS0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
-YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
-LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
-IEJFR0lOID09PQojISAvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRX
-T1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9
-PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IC0tZW5naW5l
-IGF1dG8gYnVpbGQgcWVtdTpmZWRvcmEgdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2ZlZG9yYS5k
-b2NrZXIgICAtLWFkZC1jdXJyZW50LXVzZXIgIApJbWFnZSBpcyB1cCB0byBkYXRlLgogIExEICAg
-ICAgZG9ja2VyLXRlc3QtbWluZ3dAZmVkb3JhLm1vCmNjOiBmYXRhbCBlcnJvcjogbm8gaW5wdXQg
-ZmlsZXMKY29tcGlsYXRpb24gdGVybWluYXRlZC4KbWFrZTogKioqIFtkb2NrZXItdGVzdC1taW5n
-d0BmZWRvcmEubW9dIEVycm9yIDQKCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
-Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDkxNzExMTQ0MS4yNzQwNS0xLWtyYXhlbEByZWRoYXQu
-Y29tL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
-Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
-LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Tue, 17 Sep 2019 10:15:07 -0500
+Eric Blake <eblake@redhat.com> wrote:
+
+> On 9/17/19 5:21 AM, Greg Kurz wrote:
+> > Ensure that hints are added even if errp is &error_fatal or &error_abort.
+> > 
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  nbd/client.c |   24 +++++++++++++-----------
+> >  nbd/server.c |    7 +++++--
+> >  2 files changed, 18 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/nbd/client.c b/nbd/client.c
+> > index b9dc829175f9..c6e6e4046fd5 100644
+> > --- a/nbd/client.c
+> > +++ b/nbd/client.c
+> > @@ -154,6 +154,7 @@ static int nbd_handle_reply_err(QIOChannel *ioc, NBDOptionReply *reply,
+> >                                  bool strict, Error **errp)
+> >  {
+> >      g_autofree char *msg = NULL;
+> > +    Error *local_err = NULL;
+> 
+> I'd prefer 'err' here...
+> 
+> >  
+> >      if (!(reply->type & (1 << 31))) {
+> >          return 1;
+> > @@ -161,14 +162,14 @@ static int nbd_handle_reply_err(QIOChannel *ioc, NBDOptionReply *reply,
+> >  
+> >      if (reply->length) {
+> >          if (reply->length > NBD_MAX_BUFFER_SIZE) {
+> > -            error_setg(errp, "server error %" PRIu32
+> > +            error_setg(&local_err, "server error %" PRIu32
+> 
+> so that &err doesn't change line lengths.
+> 
+> >      case NBD_REP_ERR_SHUTDOWN:
+> > -        error_setg(errp, "Server shutting down before option %" PRIu32 " (%s)",
+> > +        error_setg(&local_err, "Server shutting down before option %" PRIu32 " (%s)",
+> 
+> For example, here, you went beyond 80 columns.
+> 
+> At any rate, I'm assuming this will probably go in through Markus' error
+> tree as part of the whole series, rather than me needing to pick just
+> this patch through my NBD tree.
+> 
+> Whether or not you shorten the local variable name,
+> 
+
+Regardless of which tree this goes through, it will be code for
+which you're the official maintainer in the end. I'll gladly fix
+it to meet your needs :)
+
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> 
 
 
