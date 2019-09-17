@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C57EB52E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:24:47 +0200 (CEST)
-Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A47B5304
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 18:34:35 +0200 (CEST)
+Received: from localhost ([::1]:48348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAGHV-00032t-Sh
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:24:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
+	id 1iAGQy-0002C3-RQ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 12:34:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iAGFD-0001dw-KV
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:22:25 -0400
+ (envelope-from <eblake@redhat.com>) id 1iAGDZ-0000G3-W5
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:20:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iAGFB-0004EC-83
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:22:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48377)
+ (envelope-from <eblake@redhat.com>) id 1iAGDY-0003aH-Vw
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:20:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51756)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAGF9-0004DI-7T
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:22:19 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iAGDY-0003a2-NT
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 12:20:40 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 347DA18C8919;
- Tue, 17 Sep 2019 16:22:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 15EAD83F51;
+ Tue, 17 Sep 2019 16:20:40 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6D9B60852;
- Tue, 17 Sep 2019 16:22:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B266F600C4;
+ Tue, 17 Sep 2019 16:20:37 +0000 (UTC)
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190913201349.24332-1-armbru@redhat.com>
- <20190913201349.24332-14-armbru@redhat.com>
+ <20190913201349.24332-11-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <afbfd0e5-4441-e028-ec3e-ca7129fca342@redhat.com>
-Date: Tue, 17 Sep 2019 11:22:16 -0500
+Message-ID: <454671e9-480d-006b-cfb3-f17b19faf024@redhat.com>
+Date: Tue, 17 Sep 2019 11:20:36 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190913201349.24332-14-armbru@redhat.com>
+In-Reply-To: <20190913201349.24332-11-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Tue, 17 Sep 2019 16:22:17 +0000 (UTC)
+ boundary="9URgF3tNbtTRCcjr6CpH978q27BvTwPkD"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Tue, 17 Sep 2019 16:20:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 13/16] docs/devel/qapi-code-gen: Rewrite
- compatibility considerations
+Subject: Re: [Qemu-devel] [PATCH v3 10/16] qapi: Permit omitting all flat
+ union branches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,94 +90,59 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6
-Content-Type: multipart/mixed; boundary="HTmI1tKvRSobzmG5Znobb7o5lrdokXFbV";
+--9URgF3tNbtTRCcjr6CpH978q27BvTwPkD
+Content-Type: multipart/mixed; boundary="xarLqqJIOQBnoZlxKTOkoztATC5wmQvux";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <afbfd0e5-4441-e028-ec3e-ca7129fca342@redhat.com>
-Subject: Re: [PATCH v3 13/16] docs/devel/qapi-code-gen: Rewrite compatibility
- considerations
+Message-ID: <454671e9-480d-006b-cfb3-f17b19faf024@redhat.com>
+Subject: Re: [PATCH v3 10/16] qapi: Permit omitting all flat union branches
 References: <20190913201349.24332-1-armbru@redhat.com>
- <20190913201349.24332-14-armbru@redhat.com>
-In-Reply-To: <20190913201349.24332-14-armbru@redhat.com>
+ <20190913201349.24332-11-armbru@redhat.com>
+In-Reply-To: <20190913201349.24332-11-armbru@redhat.com>
 
---HTmI1tKvRSobzmG5Znobb7o5lrdokXFbV
+--xarLqqJIOQBnoZlxKTOkoztATC5wmQvux
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/13/19 3:13 PM, Markus Armbruster wrote:
-> We have some compatibility advice buried in sections "Enumeration
-> types" and "Struct types".  Compatibility is actually about commands
-> and events.  It devolves to the types used there.  All kinds of types,
-> not just enumerations and structs.
->=20
-> Replace the existing advice by a new section "Compatibility
-> considerations".
+> Absent flat union branches default to the empty struct (since commit
+> 800877bb16 "qapi: allow empty branches in flat unions").  But am
+
+s/am/an/
+
+> attempt to omit all of them is rejected with "Union 'FOO' has no
+> branches".  Harmless oddity, but it's easy to avoid, so do that.
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->  docs/devel/qapi-code-gen.txt | 95 +++++++++++++++++++++++-------------=
-
->  1 file changed, 60 insertions(+), 35 deletions(-)
-
-You asked me a question on v2 about a possible sentence to add about
-renaming types. Up to you if you want to fold that one in here, or leave
-it for a separate patch.
-
-
-> +Incompatible changes include removing return and event data members.
-> +
-> +Any change to a command definition's 'data' or one of the types used
-> +there (recursively) needs to consider send direction compatibility.
-> +
-> +Any change to a command definition's 'return', an event definition's
-> +'data', or one of the types used there (recursively) needs to consider=
-
-> +receive direction compatibility.
-> +
-> +Any change to types used in both contexts need to consider both.
-> +
-> +Members of enumeration types, complex types and alternate types may be=
-
-> +reordered freely.  For enumerations and alternate types, this doesn't
-> +affect the wire encoding.  For complex types, this might make the
-> +implementation emit JSON object members in a different order, which
-> +the Client JSON Protocol permits.
-> +
-> +
->  =3D=3D Code generation =3D=3D
-> =20
->  The QAPI code generator qapi-gen.py generates code and documentation
->=20
-
 --=20
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---HTmI1tKvRSobzmG5Znobb7o5lrdokXFbV--
+--xarLqqJIOQBnoZlxKTOkoztATC5wmQvux--
 
---SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6
+--9URgF3tNbtTRCcjr6CpH978q27BvTwPkD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BCDgACgkQp6FrSiUn
-Q2rh4gf/Rp6oxagg7BqZI/+f4BVzdBSd53Xc7N8F/u2aQJKqvWHmdMkZaN6sN3zl
-yZgTuFM6nXwObMMwZL8uuNEx/yOvs/FmXd56m9c4RvTUAAloBx9ni/2om3IaiYs3
-ocYh20zuC2+ZwiE2nBJDwX/yolcCj6gHQJD4X9dOcJMc7S2XfBZ9qt+UwZqP6w9Y
-zUCtLwo5HTZqRHTQULx9RU5WZ06Z/Qi1FE8IrjKjktELhKam4U/qZWZZd1Y8Qd3k
-gDvm2Poppkpz5uF+q9KWeNGymXgPA+cWPtsvepId9iwRASFwTCvct/4RVgV9622D
-I+xxwfjoBk7GfAXTSzIM2IzzKIJWWg==
-=TA1f
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2BB9QACgkQp6FrSiUn
+Q2rw1Af+Kdmyt0yRWKkSQ6ZvTXOZg2udbCK4mu+YyZDF5bZA6eSVwm07jCOoSggA
+ByosobPhQCzL4eFZejNiHi1gpCDM+G7LT3RY7rnXZGTyaJSqaMaHQJkh4x3gPdMm
+t+0E5Aj8OrZ66dXUzfZjig6/4TjnHgvDCzToUKBJbJM89wYZehnwADeCMiok0fGB
+9eURM3f2SNOKH4HEC5+E2HD7mEjXii4u1LdFLHvkEYpPzhtiKJwv4a4iT1rkk3CY
+17g2NYPUb09nJ76P2M3N6/ZDxVLrv2zAzejPGxBYvecX/IGH7HZTKtDJ/uu52G+Y
+gRE+lti4SkyhAuu9YiyvuJ7bD0ql5w==
+=MyWE
 -----END PGP SIGNATURE-----
 
---SJL5DqLfPuSq2rFuolYLjeIxF0bVWZIP6--
+--9URgF3tNbtTRCcjr6CpH978q27BvTwPkD--
 
