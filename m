@@ -2,53 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D652BB4A7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 11:29:53 +0200 (CEST)
-Received: from localhost ([::1]:43188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982B0B4A90
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 11:34:31 +0200 (CEST)
+Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA9o0-0002ZM-SK
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 05:29:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34733)
+	id 1iA9sT-0005iE-U2
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 05:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iA9gI-0003Wc-NL
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:21:56 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iA9q2-0004oe-Rk
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:31:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iA9gH-0005GO-CO
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:21:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58088)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iA9gH-0005Fn-4O
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:21:53 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C837C4627A
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 09:21:51 +0000 (UTC)
-Received: from work-vm (ovpn-116-53.ams2.redhat.com [10.36.116.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB97B5D6B2;
- Tue, 17 Sep 2019 09:21:43 +0000 (UTC)
-Date: Tue, 17 Sep 2019 10:21:41 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190917092141.GA3371@work-vm>
-References: <20190816143321.20903-1-dgilbert@redhat.com>
- <20190816143321.20903-2-dgilbert@redhat.com>
- <20190818065944-mutt-send-email-mst@kernel.org>
- <20190821191118.GN3309@work-vm>
- <20190822085237.GA20491@stefanha-x1.localdomain>
+ (envelope-from <alex.bennee@linaro.org>) id 1iA9q1-0002jv-G3
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:31:58 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43501)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iA9q1-0002h4-2N
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:31:57 -0400
+Received: by mail-wr1-x444.google.com with SMTP id q17so2310525wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 02:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=01NIAzPxt4FCKal2z0X9NukHMe58mfMpvUKcrLoiEyo=;
+ b=DsFUx432BkxHnBGOxHBp6X2ugj3SqRfE16+G3v/ZaROXyInBOkEtWrPK9KhE42wS1N
+ i98iI+jkHXgdBNoryHL6QM9Le59TtPpAT75+tMvbk1FE2Ng01/nezx3UKFHHns/QbYTh
+ Yt1MqtZwbBWIjHoRnMChpm1QNDqWl7/jl2Oar/HaCs8oObinU429jDcdrxTy8cC7LUZL
+ /m99bybyPOeDDZvVDgsqlna7acH/6XKG2oI+f6Bbfxyp6jvTLg4OpyJGfANTIeCgU4tU
+ Odk7L1F89fm75m4AUUWI4DvBikDOXXWuN9DYNRjR1RRGKqdWOdHhqmjnxFS7XPmVsZRS
+ avaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=01NIAzPxt4FCKal2z0X9NukHMe58mfMpvUKcrLoiEyo=;
+ b=UdzHnDyb4HGOyWZXJaJjs72y80UgbI3QR3YQOOJ38a+G75fcE4+tjkP4+XNz53CfY7
+ j7VvpMBDdz8FvxpF/6rswMZOk5hOd45L04Omnjxr5NP5YFwavNnTQKXL3o8LVd7gY5hf
+ u+imlM9Ptu5RJOE+fL1F6vQzl5VMlOuwe2yj+a5aQSgljPv30+HzvJ7fxoHAd69Udkcf
+ H1DXfjdi98wJ+v1jCJ7ZarDlUWhZakhxS2rwEhJDebcCNI/b/NrFCbp9VMQByDvzuhVf
+ UZeJsVrEARdTQNSugIqll4/UfWZxAXpsa5dacx9ei0Xr/w93XKvzt7VH35d7XzlAodjt
+ IxKg==
+X-Gm-Message-State: APjAAAWvhXF57MqRlU5577AGi0hfC9W6izrjZuhHFvG0d2k+9LkUEeg8
+ bhM2Q+BXrWS6TPvx9BV1wVCvmg==
+X-Google-Smtp-Source: APXvYqwy3dMUEFDdV3TzEjGEaQu8rH+yEJYRLDjtU5mP8Pm6DzJH0xFGqVu2DOyjR5FfHlEoXbQBFw==
+X-Received: by 2002:a5d:5592:: with SMTP id i18mr2034326wrv.316.1568712714715; 
+ Tue, 17 Sep 2019 02:31:54 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e20sm2686987wrc.34.2019.09.17.02.31.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Sep 2019 02:31:54 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4F4481FF87;
+ Tue, 17 Sep 2019 10:31:53 +0100 (BST)
+References: <20190915211940.30427-1-f4bug@amsat.org>
+ <20190915211940.30427-4-f4bug@amsat.org>
+ <20190916193245.GA15318@dhcp-17-173.bos.redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+In-reply-to: <20190916193245.GA15318@dhcp-17-173.bos.redhat.com>
+Date: Tue, 17 Sep 2019 10:31:53 +0100
+Message-ID: <87impr1d6e.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190822085237.GA20491@stefanha-x1.localdomain>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 17 Sep 2019 09:21:51 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] virtio: add vhost-user-fs base device
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v2 3/6] tests/acceptance: Test OpenBIOS on
+ the PReP/40p
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,122 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, vgoyal@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+ qemu-ppc@nongnu.org,
+ =?utf-8?Q?Herv?= =?utf-8?Q?=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> On Wed, Aug 21, 2019 at 08:11:18PM +0100, Dr. David Alan Gilbert wrote:
-> > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > On Fri, Aug 16, 2019 at 03:33:20PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > > > +static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> > > > +{
-> > > > +    /* Do nothing */
-> > > 
-> > > Why is this safe?  Is this because this never triggers?  assert(0) then?
-> > > If it triggers then backend won't be notified, which might
-> > > cause it to get stuck.
-> > 
-> > We never process these queues in qemu - always in the guest; so am I
-> > correct in thinking those shouldn't be used?
-> 
-> s/guest/vhost-user backend process/
-> 
-> vuf_handle_output() should never be called.
 
-It turns out it does get called in one case during cleanup, in the case
-where the daemon died before qemu,  virtio_bus_cleanup_host_notifier goes
-around the notifiers and calls all the ones where there's anything left
-in the eventfd.
+Cleber Rosa <crosa@redhat.com> writes:
 
-Dave
+> On Sun, Sep 15, 2019 at 11:19:37PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> User case from:
+>> https://mail.coreboot.org/pipermail/openbios/2018-May/010360.html
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>>  tests/acceptance/ppc_prep_40p.py | 32 ++++++++++++++++++++++++++++++++
+>>  1 file changed, 32 insertions(+)
+>>
+>> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_pre=
+p_40p.py
+>> index a0eac40d9f..87b5311b89 100644
+>> --- a/tests/acceptance/ppc_prep_40p.py
+>> +++ b/tests/acceptance/ppc_prep_40p.py
+>> @@ -82,3 +82,35 @@ class IbmPrep40pMachine(Test):
+>>          self.wait_for_console_pattern(fw_banner)
+>>          prompt_msg =3D 'Type any key to interrupt automatic startup'
+>>          self.wait_for_console_pattern(prompt_msg)
+>> +
+>> +    def test_openbios_192m(self):
+>> +        """
+>> +        :avocado: tags=3Darch:ppc
+>> +        :avocado: tags=3Dmachine:40p
+>> +        """
+>> +        self.vm.set_machine('40p')
+>> +        self.vm.set_console()
+>> +        self.vm.add_args('-m', '192')
+>
+> Is 192 a magic number (some kind of limit)?  Or just a value to check
+> against later?
 
-> > > > +}
-> > > > +
-> > > > +static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
-> > > > +                                            bool mask)
-> > > > +{
-> > > > +    VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > > > +
-> > > > +    vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
-> > > > +}
-> > > > +
-> > > > +static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
-> > > > +{
-> > > > +    VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > > > +
-> > > > +    return vhost_virtqueue_pending(&fs->vhost_dev, idx);
-> > > > +}
-> > > > +
-> > > > +static void vuf_device_realize(DeviceState *dev, Error **errp)
-> > > > +{
-> > > > +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> > > > +    VHostUserFS *fs = VHOST_USER_FS(dev);
-> > > > +    unsigned int i;
-> > > > +    size_t len;
-> > > > +    int ret;
-> > > > +
-> > > > +    if (!fs->conf.chardev.chr) {
-> > > > +        error_setg(errp, "missing chardev");
-> > > > +        return;
-> > > > +    }
-> > > > +
-> > > > +    if (!fs->conf.tag) {
-> > > > +        error_setg(errp, "missing tag property");
-> > > > +        return;
-> > > > +    }
-> > > > +    len = strlen(fs->conf.tag);
-> > > > +    if (len == 0) {
-> > > > +        error_setg(errp, "tag property cannot be empty");
-> > > > +        return;
-> > > > +    }
-> > > > +    if (len > sizeof_field(struct virtio_fs_config, tag)) {
-> > > > +        error_setg(errp, "tag property must be %zu bytes or less",
-> > > > +                   sizeof_field(struct virtio_fs_config, tag));
-> > > > +        return;
-> > > > +    }
-> > > > +
-> > > > +    if (fs->conf.num_queues == 0) {
-> > > > +        error_setg(errp, "num-queues property must be larger than 0");
-> > > > +        return;
-> > > > +    }
-> > > 
-> > > The strange thing is that actual # of queues is this number + 2.
-> > > And this affects an optimal number of vectors (see patch 2).
-> > > Not sure what a good solution is - include the
-> > > mandatory queues in the number?
-> > > Needs to be documented in some way.
-> > 
-> > Should we be doing nvectors the same way virtio-scsi-pci does it;
-> > with a magic 'unspecified' default where it sets the nvectors based on
-> > the number of queues?
-> > 
-> > I think my preference is not to show the users the mandatory queues.
-> 
-> I agree.  Users want to control multiqueue, not on the absolute number
-> of virtqueues including mandatory queues.
-> 
-> > > > +
-> > > > +    if (!is_power_of_2(fs->conf.queue_size)) {
-> > > > +        error_setg(errp, "queue-size property must be a power of 2");
-> > > > +        return;
-> > > > +    }
-> > > 
-> > > Hmm packed ring allows non power of 2 ...
-> > > We need to look into a generic helper to support VQ
-> > > size checks.
-> > 
-> > Which would also have to include the negotiation of where it's doing
-> > packaged ring?
-> 
-> It's impossible to perform this check at .realize() time since the
-> packed virtqueue layout is negotiated via a VIRTIO feature bit.  This
-> puts us in the awkward position of either failing when the guest has
-> already booted or rounding up the queue size for split ring layouts
-> (with a warning message?).
+Just the memory configured for the machine, checked bellow. Or are you
+wondering why 192m and not any other amount?
 
+>> +
+>> +        self.vm.launch()
+>> +        self.wait_for_console_pattern('>> OpenBIOS')
+>> +        self.wait_for_console_pattern('>> Memory: 192M')
+>> +        self.wait_for_console_pattern('>> CPU type PowerPC,604')
+>> +
+>
+> On my testing, this is a very stable test, I'm only getting PASSes.
+<snip>
 
 --
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Alex Benn=C3=A9e
 
