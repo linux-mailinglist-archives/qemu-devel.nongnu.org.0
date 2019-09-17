@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98854B5195
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:32:13 +0200 (CEST)
-Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0310EB51AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 17:39:42 +0200 (CEST)
+Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAFSd-00023W-C2
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:32:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34123)
+	id 1iAFZs-0007f9-GN
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 11:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iAFMf-0007W1-5h
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:26:02 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iAFOl-0000OP-Bs
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:28:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iAFMd-0006ao-Ic
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:26:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32884)
+ (envelope-from <kwolf@redhat.com>) id 1iAFOk-0007GF-87
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 11:28:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50424)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1iAFMY-0006Ym-Lg; Tue, 17 Sep 2019 11:25:54 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iAFOh-0007FM-MW; Tue, 17 Sep 2019 11:28:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 28D2158487;
- Tue, 17 Sep 2019 15:25:53 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3520B5C28C;
- Tue, 17 Sep 2019 15:25:47 +0000 (UTC)
-Date: Tue, 17 Sep 2019 17:25:45 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-Message-ID: <20190917172545.41e1dfb9@redhat.com>
-In-Reply-To: <5FC3163CFD30C246ABAA99954A238FA83F3F293A@lhreml524-mbs.china.huawei.com>
-References: <20190904085629.13872-1-shameerali.kolothum.thodi@huawei.com>
- <20190904085629.13872-6-shameerali.kolothum.thodi@huawei.com>
- <20190911150700.7a917d14@redhat.com>
- <5FC3163CFD30C246ABAA99954A238FA83F3F293A@lhreml524-mbs.china.huawei.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id C009A18CB8F4;
+ Tue, 17 Sep 2019 15:28:05 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-202.ams2.redhat.com
+ [10.36.116.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3AAA6012E;
+ Tue, 17 Sep 2019 15:27:57 +0000 (UTC)
+Date: Tue, 17 Sep 2019 17:27:56 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190917152756.GG4824@localhost.localdomain>
+References: <20190821165215.61406-1-vsementsov@virtuozzo.com>
+ <20190821165215.61406-2-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190821165215.61406-2-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 17 Sep 2019 15:25:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.63]); Tue, 17 Sep 2019 15:28:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.2 v10 05/11] hw/arm/virt: Enable
- device memory cold/hot plug with ACPI boot
+Subject: Re: [Qemu-devel] [PATCH v8 1/3] qemu-coroutine-sleep: introduce
+ qemu_co_sleep_wake
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,166 +59,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "sameo@linux.intel.com" <sameo@linux.intel.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "ard.biesheuvel@linaro.org" <ard.biesheuvel@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
- "sebastien.boeuf@intel.com" <sebastien.boeuf@intel.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: fam@euphon.net, sheepdog@lists.wpkg.org, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org,
+ namei.unix@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Sep 2019 10:30:45 +0000
-Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com> wrote:
+Am 21.08.2019 um 18:52 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Introduce a function to gracefully wake a coroutine sleeping in
+> qemu_co_sleep_ns().
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-> Hi Igor,
+Hm, this has become a bit more complex with the new sleep_state, but
+it's probably unavoidable even we need to timer_del() from the callback.
+
+>  include/qemu/coroutine.h    | 17 ++++++++++++--
+>  block/null.c                |  2 +-
+>  block/sheepdog.c            |  2 +-
+>  tests/test-bdrv-drain.c     |  6 ++---
+>  tests/test-block-iothread.c |  2 +-
+>  util/qemu-coroutine-sleep.c | 47 +++++++++++++++++++++++++++----------
+>  6 files changed, 55 insertions(+), 21 deletions(-)
 > 
-> > -----Original Message-----
-> > From: Igor Mammedov [mailto:imammedo@redhat.com]
-> > Sent: 11 September 2019 14:07
-> > To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-> > Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org;
-> > eric.auger@redhat.com; peter.maydell@linaro.org;
-> > shannon.zhaosl@gmail.com; sameo@linux.intel.com;
-> > sebastien.boeuf@intel.com; xuwei (O) <xuwei5@huawei.com>;
-> > lersek@redhat.com; ard.biesheuvel@linaro.org; Linuxarm
-> > <linuxarm@huawei.com>
-> > Subject: Re: [PATCH-for-4.2 v10 05/11] hw/arm/virt: Enable device memory
-> > cold/hot plug with ACPI boot
-> > 
-> > On Wed, 4 Sep 2019 09:56:23 +0100
-> > Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
-> > 
-> > [...]  
-> > > @@ -730,6 +733,19 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,  
-> > VirtMachineState *vms)  
-> > >                        vms->highmem, vms->highmem_ecam);
-> > >      acpi_dsdt_add_gpio(scope, &memmap[VIRT_GPIO],
-> > >                         (irqmap[VIRT_GPIO] + ARM_SPI_BASE));
-> > > +    if (vms->acpi_dev) {
-> > > +        build_ged_aml(scope, "\\_SB."GED_DEVICE,
-> > > +                      HOTPLUG_HANDLER(vms->acpi_dev),
-> > > +                      irqmap[VIRT_ACPI_GED] + ARM_SPI_BASE,  
-> > AML_SYSTEM_MEMORY,  
-> > > +                      memmap[VIRT_ACPI_GED].base);
-> > > +    }
-> > > +
-> > > +    if (vms->acpi_dev && ms->ram_slots) {
-> > > +        build_memory_hotplug_aml(scope, ms->ram_slots, "\\_SB",  
-> > NULL,  
-> > > +                                 AML_SYSTEM_MEMORY,
-> > > +  
-> > memmap[VIRT_PCDIMM_ACPI].base);  
-> > > +    }  
-> > one more thing (though non critical), if ms->ram_slots == 0 ^^^^
-> > makes IASL spew a warning
-> > 
-> >     External (_SB_.MHPC.MSCN, MethodObj)    // Warning: Unknown
-> > method, guessing 0 arguments
-> > 
-> > In general non-existing references within methods are fine if they aren't ever
-> > used.
-> > however we can be a little bit less sloppy.
-> > Below you advertise "event = ACPI_GED_MEM_HOTPLUG_EVT", and then here
-> > suddenly
-> > don't generate essential AML part for it here.  
-> 
-> Ok.
-> 
-> > For consistency if above is conditioned on ms->ram_slots != 0, probably
-> > it would be better to move that condition where you set 'event' value and
-> > check property value above instead of ms->ram_slots  
-> 
-> I understand the concern here, but not sure I get the suggestion to check 
-> the "property" instead of ms->ram_slots correctly. 
-> 
-> Is this what you have in mind?
-> 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 538b3bbefa..5c9269dca1 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -742,10 +742,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->                        memmap[VIRT_ACPI_GED].base);
->      }
+> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+> index 9801e7f5a4..96780a4902 100644
+> --- a/include/qemu/coroutine.h
+> +++ b/include/qemu/coroutine.h
+> @@ -274,9 +274,22 @@ void qemu_co_rwlock_wrlock(CoRwlock *lock);
+>  void qemu_co_rwlock_unlock(CoRwlock *lock);
 >  
-> -    if (vms->acpi_dev && ms->ram_slots) {
-> -        build_memory_hotplug_aml(scope, ms->ram_slots, "\\_SB", NULL,
-> -                                 AML_SYSTEM_MEMORY,
-> -                                 memmap[VIRT_PCDIMM_ACPI].base);
-> +    if (vms->acpi_dev) {
-> +        uint32_t event = object_property_get_uint(OBJECT(vms->acpi_dev),
-> +                                                  "ged-event", NULL);
-s/NULL/error_abort/
+>  /**
+> - * Yield the coroutine for a given duration
+> + * Yield the coroutine for a given duration. During this yield @sleep_state (if
+> + * not NULL) is set to opaque pointer, which may be used for
+> + * qemu_co_sleep_wake(). Be careful, the pointer is set back to zero when timer
+> + * shoots. Don't save obtained value to other variables and don't call
+> + * qemu_co_sleep_wake from another aio context.
+>   */
+> -void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns);
+> +void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns,
+> +                                   void **sleep_state);
 
-> +
-> +        if (event & ACPI_GED_MEM_HOTPLUG_EVT) {
-> +            build_memory_hotplug_aml(scope, ms->ram_slots, "\\_SB", NULL,
-> +                                     AML_SYSTEM_MEMORY,
-> +                                     memmap[VIRT_PCDIMM_ACPI].base);
-> +        }
->      }
+Let's make the typedef for QemuCoSleepState public so that we don't have
+to use a void pointer here.
+
+I wonder if it would make sense to rename this function and keep
+qemu_co_sleep_ns() as a wrapper (maybe even just macro) so that most
+callers don't have to add a NULL.
+
+> +/**
+> + * Wake a coroutine if it is sleeping by qemu_co_sleep_ns. Timer will be
+> + * deleted. @sleep_state must be the variable which address was given to
+> + * qemu_co_sleep_ns() and should be checked to be non-NULL before calling
+> + * qemu_co_sleep_wake().
+> + */
+> +void qemu_co_sleep_wake(void *sleep_state);
 >  
->      acpi_dsdt_add_power_button(scope);
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index bc152ea2b0..6b024b16df 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -534,8 +534,13 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
->  static inline DeviceState *create_acpi_ged(VirtMachineState *vms, qemu_irq *pic)
->  {
->      DeviceState *dev;
-> +    MachineState *ms = MACHINE(vms);
->      int irq = vms->irqmap[VIRT_ACPI_GED];
-> -    uint32_t event = ACPI_GED_MEM_HOTPLUG_EVT;
-> +    uint32_t event = 0;
-> +
-> +    if (ms->ram_slots) {
-> +        event = ACPI_GED_MEM_HOTPLUG_EVT;
-> +    }
->  
->      dev = qdev_create(NULL, TYPE_ACPI_GED);
->      qdev_prop_set_uint32(dev, "ged-event", event);
-> 
-> ---8---
->
-> Please let me know.
-Looks good to me.
+>  /**
+>   * Yield until a file descriptor becomes readable
 
-Thanks!
+The actual implementation looks right to me, so with a public
+QemuCoSleepState and optionally the wrapper:
 
-
-> 
-> Thanks,
-> Shameer
-> 
->  
-> > [...]  
-> > > +static inline DeviceState *create_acpi_ged(VirtMachineState *vms,  
-> > qemu_irq *pic)  
-> > > +{
-> > > +    DeviceState *dev;
-> > > +    int irq = vms->irqmap[VIRT_ACPI_GED];
-> > > +    uint32_t event = ACPI_GED_MEM_HOTPLUG_EVT;
-> > > +
-> > > +    dev = qdev_create(NULL, TYPE_ACPI_GED);
-> > > +    qdev_prop_set_uint32(dev, "ged-event", event);
-> > > +    qdev_init_nofail(dev);
-> > > +
-> > > +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0,  
-> > vms->memmap[VIRT_ACPI_GED].base);  
-> > > +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1,  
-> > vms->memmap[VIRT_PCDIMM_ACPI].base);  
-> > > +
-> > > +    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[irq]);
-> > > +
-> > > +    return dev;
-> > > +}
-> > > +  
-> > [...]  
-
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
