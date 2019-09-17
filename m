@@ -2,87 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85563B49E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 10:53:28 +0200 (CEST)
-Received: from localhost ([::1]:42860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A6CB4A2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 11:18:16 +0200 (CEST)
+Received: from localhost ([::1]:43032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA9El-00011s-AN
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 04:53:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
+	id 1iA9ck-0000aK-VS
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 05:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1iA9D4-0008Qs-Sd
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:51:44 -0400
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1iA9bk-000067-Ad
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:17:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1iA9D3-0004bZ-Bu
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:51:42 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32818
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1iA9D3-0004bI-65
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 04:51:41 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8H8l7rZ123935
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 04:51:39 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v2tkpmcwv-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 04:51:38 -0400
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Tue, 17 Sep 2019 09:51:37 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 17 Sep 2019 09:51:34 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8H8pXHm59310148
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Sep 2019 08:51:33 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27784AE059;
- Tue, 17 Sep 2019 08:51:33 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D1160AE045;
- Tue, 17 Sep 2019 08:51:30 +0000 (GMT)
-Received: from dhcp-9-120-237-81.in.ibm.com (unknown [9.120.237.81])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Tue, 17 Sep 2019 08:51:30 +0000 (GMT)
-Date: Tue, 17 Sep 2019 14:21:28 +0530
-From: Balamuruhan S <bala24@linux.ibm.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20190916093445.20507-1-bala24@linux.ibm.com>
- <20190916093445.20507-2-bala24@linux.ibm.com>
- <20190916185016.GF2884@work-vm>
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1iA9bh-0002Eu-2F
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:17:10 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:48746)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
+ id 1iA9bg-0002Bo-CL
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 05:17:09 -0400
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1402::301])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 50DB72E14CB;
+ Tue, 17 Sep 2019 12:17:03 +0300 (MSK)
+Received: from localhost (localhost [::1])
+ by mxbackcorp1g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
+ yyRhqfpTjZ-H22KAZ0H; Tue, 17 Sep 2019 12:17:03 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1568711823; bh=Af1ZBD9aiia+bIPcIPR+0AfhctCIRuUfvdgRVe7PntM=;
+ h=Subject:In-Reply-To:Date:References:To:From:Message-Id;
+ b=N2TZDWN1mjBpfTO7iCJfh6qNWGBuU20NfLDMxDwxZdO0Hyn4azl07R97kszJUzSxs
+ 9mibXuR1DLNKbFMoRv+AjDDMIKv+mkjjT5bx0yTDM04HANV22zRMHkfCdjyZehAYRb
+ D9oLUHm8FZPQCfh1RRNcDOvRumoYIU/Tum7V0PVc=
+Authentication-Results: mxbackcorp1g.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+X-Yandex-Sender-Uid: 1120000000071945
+X-Yandex-Avir: 1
+Received: from mxbackcorp1j.mail.yandex.net (localhost [::1])
+ by mxbackcorp1j.mail.yandex.net with LMTP id UfpiGzvVxh-gcTByfCw
+ for <yury-kotov@yandex-team.ru>; Tue, 17 Sep 2019 12:16:52 +0300
+Received: by sas1-fc7737ec834f.qloud-c.yandex.net with HTTP;
+ Tue, 17 Sep 2019 12:16:51 +0300
+From: Yury Kotov <yury-kotov@yandex-team.ru>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+In-Reply-To: <1568646858-17065-1-git-send-email-pbonzini@redhat.com>
+References: <1568646858-17065-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190916185016.GF2884@work-vm>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19091708-0016-0000-0000-000002AD0D46
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091708-0017-0000-0000-0000330DAFD3
-Message-Id: <20190917085128.GB30607@dhcp-9-120-237-81.in.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-17_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909170094
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [PATCH 1/3] tests/acceptance/migration: fix post
- migration check
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Tue, 17 Sep 2019 12:17:01 +0300
+Message-Id: <1330281568711811@sas1-fc7737ec834f.qloud-c.yandex.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 5.45.199.163
+Subject: Re: [Qemu-devel] [PULL v2 00/29] Misc patches for 2019-09-16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,97 +70,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, groug@kaod.org, qemu-devel@nongnu.org,
- sathnaga@linux.vnet.ibm.com, clg@kaod.org, crosa@redhat.com,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 16, 2019 at 07:50:44PM +0100, Dr. David Alan Gilbert wrote:
-> * Balamuruhan S (bala24@linux.ibm.com) wrote:
-> > assert `query-migrate` in target doesn't give migration
-> > status and test errors even if migration succeeds.
-> > 
-> > In target:
-> > {'execute': 'query-migrate'}
-> > {"return": {}}
-> 
-> On which version of qemu?
+Hi!
 
-sorry I worked on this earlier and I haven't notice the version,
-I re-tried the same in upstream Qemu and observed the one you have
-posted. Thanks, I will remove this change in the next version.
+16.09.2019, 19:17, "Paolo Bonzini" <pbonzini@redhat.com>:
+> The following changes since commit 138985c1ef8b66e4e5b383354e133e05d01d=
+0b5f:
+>
+> =C2=A0=C2=A0Merge remote-tracking branch 'remotes/amarkovic/tags/mips-q=
+ueue-sep-12-2019' into staging (2019-09-13 16:04:46 +0100)
+>
+> are available in the git repository at:
+>
+> =C2=A0=C2=A0git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 149c50cabcc4ea46a460d35fc876346ed441304c=
+:
+>
+> =C2=A0=C2=A0hw/i386/pc: Extract the x86 generic fw_cfg code (2019-09-16=
+ 17:13:09 +0200)
+>
+> ----------------------------------------------------------------
+> * Fix Patchew CI failures (myself)
+> * i386 fw_cfg refactoring (Philippe)
+> * pmem bugfix (Stefan)
+> * Support for accessing cstate MSRs (Wanpeng)
+> * exec.c cleanups (Wei Yang)
+> * Improved throttling (Yury)
+> * elf-ops.h coverity fix (Stefano)
+>
+> ----------------------------------------------------------------
+> v1->v2: missing S-o-b lines
+>
+> Cole Robinson (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386: Move CONFIG_ACPI_PCI to CO=
+NFIG_PC
+>
+> Paolo Bonzini (4):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0win32: fix README file in NSIS inst=
+aller
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0test-char: fix AddressSanitizer fai=
+lure
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0memory: inline and optimize devend_=
+memop
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Replace PCMachineState =
+argument with MachineState in fw_cfg_arch_create
+>
+> Philippe Mathieu-Daud=C3=A9 (14):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Use e820_get_num_entrie=
+s() to access e820_entries
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Extract e820 memory lay=
+out code
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Use address_space_memor=
+y in place
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Rename bochs_bios_init =
+as more generic fw_cfg_arch_create
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Pass the boot_cpus valu=
+e by argument
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Pass the apic_id_limit =
+value by argument
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Pass the CPUArchIdList =
+array by argument
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Let pc_build_smbios() t=
+ake a FWCfgState argument
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Let pc_build_smbios() t=
+ake a generic MachineState argument
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Rename pc_build_smbios(=
+) as generic fw_cfg_build_smbios()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Let pc_build_feature_co=
+ntrol() take a FWCfgState argument
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Let pc_build_feature_co=
+ntrol() take a MachineState argument
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Rename pc_build_feature=
+_control() as generic fw_cfg_build_*
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hw/i386/pc: Extract the x86 generic=
+ fw_cfg code
+>
+> Stefan Hajnoczi (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0memory: fetch pmem size in get_file=
+_size()
+>
+> Stefano Garzarella (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0elf-ops.h: fix int overflow in load=
+_elf()
+>
+> Wanpeng Li (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0i386/kvm: support guest access CORE=
+ cstate
+>
+> Wei Yang (5):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0exec.c: replace hwaddr with uint64_=
+t for better understanding
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0exec.c: get nodes_nb_alloc with one=
+ MAX calculation
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0exec.c: subpage->sub_section is alr=
+eady initialized to 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0exec.c: correct the maximum skip va=
+lue during compact
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0exec.c: add a check between constan=
+ts to see whether we could skip
+>
+> Yury Kotov (2):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0qemu-thread: Add qemu_cond_timedwai=
+t
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0cpus: Fix throttling during vm_stop
+>
 
-But I am observing the error often while executing `query-migrate` from
-test,
+Sorry, it looks like that you've missed the 3rd patch in the
+"High downtime with 95+ throttle pct" series:
+    tests/migration: Add a test for auto converge
 
-2019-09-17 03:15:34,797 qmp              L0167 DEBUG| >>> {'execute': 'query-migrate'}
-2019-09-17 03:15:34,798 qmp              L0175 DEBUG| <<< {'return': {'expected-downtime': 300, 'status': 'active', 'setup-time': 1, 'total-time': 102, 'ram': {'total': 536870912, 'postcopy-requests': 0, 'dirty-sync-count': 1, 'multifd-bytes': 0, 'pages-per-second': 0, 'page-size': 4096, 'remaining': 4521984, 'mbps': 0, 'transferred': 3372844, 'duplicate': 129430, 'dirty-pages-rate': 0, 'skipped': 0, 'normal-bytes': 2203648, 'normal': 538}}}
-2019-09-17 03:15:34,899 qmp              L0167 DEBUG| >>> {'execute': 'query-migrate'}
-2019-09-17 03:15:34,899 qmp              L0087 DEBUG| <<< {'timestamp': {'seconds': 1568704534, 'microseconds': 802440}, 'event': 'STOP'}
-2019-09-17 03:15:34,900 qmp              L0175 DEBUG| <<< {'return': {'status': 'completed', 'setup-time': 1, 'downtime': 30, 'total-time': 137, 'ram': {'total': 536870912, 'postcopy-requests': 0, 'dirty-sync-count': 4, 'multifd-bytes': 0, 'pages-per-second': 1299680, 'page-size': 4096, 'remaining': 0, 'mbps': 474.753235, 'transferred': 4548090, 'duplicate': 133244, 'dirty-pages-rate': 0, 'skipped': 0, 'normal-bytes': 3342336, 'normal': 816}}}
-2019-09-17 03:15:34,900 qmp              L0167 DEBUG| >>> {'execute': 'query-migrate'}
-2019-09-17 03:15:34,900 qmp              L0087 DEBUG| <<< {'timestamp': {'seconds': 1568704534, 'microseconds': 832595}, 'event': 'RESUME'}
-2019-09-17 03:15:35,545 stacktrace       L0039 ERROR|
-2019-09-17 03:15:35,545 stacktrace       L0042 ERROR| Reproduced traceback from: /usr/local/lib/python3.6/site-packages/avocado/core/test.py:853
-2019-09-17 03:15:35,547 stacktrace       L0045 ERROR| Traceback (most recent call last):
-2019-09-17 03:15:35,547 stacktrace       L0045 ERROR|   File "/home/bala/qemu/tests/acceptance/migration.py", line 47, in test_migration_with_tcp_localhost
-2019-09-17 03:15:35,547 stacktrace       L0045 ERROR|     self.assertEqual(dest_vm.command('query-migrate')['status'], 'completed')
-2019-09-17 03:15:35,547 stacktrace       L0045 ERROR|   File "/home/bala/qemu/tests/acceptance/avocado_qemu/../../../python/qemu/machine.py", line 378, in command
-2019-09-17 03:15:35,547 stacktrace       L0045 ERROR|     reply = self.qmp(cmd, conv_keys, **args)
-2019-09-17 03:15:35,547 stacktrace       L0045 ERROR|   File "/home/bala/qemu/tests/acceptance/avocado_qemu/../../../python/qemu/machine.py", line 370, in qmp
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|     return self._qmp.cmd(cmd, args=qmp_args)
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|   File "/home/bala/qemu/tests/acceptance/avocado_qemu/../../../python/qemu/qmp.py", line 191, in cmd
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|     return self.cmd_obj(qmp_cmd)
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|   File "/home/bala/qemu/tests/acceptance/avocado_qemu/../../../python/qemu/qmp.py", line 174, in cmd_obj
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|     resp = self.__json_read()
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|   File "/home/bala/qemu/tests/acceptance/avocado_qemu/../../../python/qemu/qmp.py", line 82, in __json_read
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|     data = self.__sockfile.readline()
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|   File "/usr/lib64/python3.6/socket.py", line 586, in readinto
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR|     return self._sock.recv_into(b)
-2019-09-17 03:15:35,548 stacktrace       L0045 ERROR| ConnectionResetError: [Errno 104] Connection reset by peer
+Or was there a reason for not adding it to PR?
 
-
-could you help me on what do I miss here ?
-
--- Bala
-
-> 
-> On the current version I see:
-> 
-> {"QMP": {"version": {"qemu": {"micro": 50, "minor": 1, "major": 4}, "package": "v4.1.0-852-g1a0b66e787"}, "capabilities": ["oob"]}}
-> { "execute": "qmp_capabilities" }
-> {"return": {}}
-> {'execute': 'query-migrate'}
-> {"return": {"status": "completed"}}
-> 
-> Dave
-> > Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
-> > ---
-> >  tests/acceptance/migration.py | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-> > index a44c1ae58f..0f3553c8f0 100644
-> > --- a/tests/acceptance/migration.py
-> > +++ b/tests/acceptance/migration.py
-> > @@ -44,7 +44,8 @@ class Migration(Test):
-> >              step=0.1,
-> >              args=(source_vm,)
-> >          )
-> > -        self.assertEqual(dest_vm.command('query-migrate')['status'], 'completed')
-> > -        self.assertEqual(source_vm.command('query-migrate')['status'], 'completed')
-> > +        self.assertEqual(source_vm.command('query-migrate')['status'],
-> > +                         'completed')
-> >          self.assertEqual(dest_vm.command('query-status')['status'], 'running')
-> > -        self.assertEqual(source_vm.command('query-status')['status'], 'postmigrate')
-> > +        self.assertEqual(source_vm.command('query-status')['status'],
-> > +                         'postmigrate')
-> > -- 
-> > 2.14.5
-> > 
-> > 
+> =C2=A0backends/hostmem-file.c | 22 -----
+> =C2=A0cpus.c | 25 +++--
+> =C2=A0default-configs/i386-softmmu.mak | 1 -
+> =C2=A0exec.c | 54 ++++++++---
+> =C2=A0hw/core/loader.c | 2 +
+> =C2=A0hw/i386/Kconfig | 1 +
+> =C2=A0hw/i386/Makefile.objs | 2 +-
+> =C2=A0hw/i386/e820_memory_layout.c | 59 +++++++++++
+> =C2=A0hw/i386/e820_memory_layout.h | 42 ++++++++
+> =C2=A0hw/i386/fw_cfg.c | 137 ++++++++++++++++++++++++++
+> =C2=A0hw/i386/fw_cfg.h | 7 ++
+> =C2=A0hw/i386/pc.c | 204 ++-------------------------------------
+> =C2=A0include/exec/memory.h | 19 +++-
+> =C2=A0include/hw/elf_ops.h | 5 +
+> =C2=A0include/hw/i386/pc.h | 11 ---
+> =C2=A0include/hw/loader.h | 1 +
+> =C2=A0include/qemu/osdep.h | 13 ---
+> =C2=A0include/qemu/thread.h | 19 ++++
+> =C2=A0linux-headers/linux/kvm.h | 4 +-
+> =C2=A0memory.c | 18 ----
+> =C2=A0qemu.nsi | 4 +-
+> =C2=A0target/i386/kvm.c | 4 +-
+> =C2=A0tests/test-char.c | 44 ++++-----
+> =C2=A0util/oslib-posix.c | 54 -----------
+> =C2=A0util/oslib-win32.c | 6 --
+> =C2=A0util/qemu-thread-posix.c | 41 +++++---
+> =C2=A0util/qemu-thread-win32.c | 17 ++++
+> =C2=A0util/qsp.c | 20 ++++
+> =C2=A028 files changed, 456 insertions(+), 380 deletions(-)
+> =C2=A0create mode 100644 hw/i386/e820_memory_layout.c
+> =C2=A0create mode 100644 hw/i386/e820_memory_layout.h
 > --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 1.8.3.1
 
+Regards,
+Yury
 
