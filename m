@@ -2,50 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8458B459E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 04:48:20 +0200 (CEST)
-Received: from localhost ([::1]:41482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3775B458B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Sep 2019 04:40:35 +0200 (CEST)
+Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iA3XP-0000W7-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 22:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44672)
+	id 1iA3Pu-0006Ux-E4
+	for lists+qemu-devel@lfdr.de; Mon, 16 Sep 2019 22:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iA3VN-0007kz-5H
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 22:46:15 -0400
+ (envelope-from <eblake@redhat.com>) id 1iA3Oy-00060y-7P
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 22:39:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iA3VK-00018J-MH
- for qemu-devel@nongnu.org; Mon, 16 Sep 2019 22:46:13 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:36521)
+ (envelope-from <eblake@redhat.com>) id 1iA3Ow-0006Rh-LJ
+ for qemu-devel@nongnu.org; Mon, 16 Sep 2019 22:39:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51588)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iA3V9-0000lU-S7; Mon, 16 Sep 2019 22:46:03 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46XSCg4FLZz9sNf; Tue, 17 Sep 2019 12:45:51 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1568688351;
- bh=m/Hi4Jjghm9AqWfIlbwkRzVQo+RODhJ9UkGWglJnJ8w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LL53jMkienWUrjhRAxy7/RxQE/SFbWsHLf1ZW6qTPCzznaOQFElfjVHwp1fy9BtWd
- qPA9r5rhaP9IaUQvAlzZya/zONC5TZFQkFIvNfKzKw61mg4gDasu/dDw8HkacLMyOu
- 1nYA6mmRcmdppSdpjiWPPD3kAcwBeXhm1ZGGKf6o=
-Date: Tue, 17 Sep 2019 12:25:10 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190917022510.GD8842@umbus.fritz.box>
-References: <20190916154847.28936-1-philmd@redhat.com>
- <20190916154847.28936-5-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iA3Or-0006PK-Q1; Mon, 16 Sep 2019 22:39:30 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6203210CC1E4;
+ Tue, 17 Sep 2019 02:39:28 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 820985D6A9;
+ Tue, 17 Sep 2019 02:39:25 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 16 Sep 2019 21:39:17 -0500
+Message-Id: <20190917023917.32226-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UoPmpPX/dBe4BELn"
-Content-Disposition: inline
-In-Reply-To: <20190916154847.28936-5-philmd@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 04/13] hw: Move M48T59 device from
- hw/timer/ to hw/rtc/ subdirectory
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Tue, 17 Sep 2019 02:39:28 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] nbd: Grab aio context lock in more places
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,321 +52,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: kwolf@redhat.com, "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ slp@redhat.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When iothreads are in use, the failure to grab the aio context results
+in an assertion failure when trying to unlock things during blk_unref,
+when trying to unlock a mutex that was not locked.  In short, all
+calls to nbd_export_put need to done while within the correct aio
+context.  But since nbd_export_put can recursively reach itself via
+nbd_export_close, and recursively grabbing the context would deadlock,
+we can't do the context grab directly in those functions, but must do
+so in their callers.
 
---UoPmpPX/dBe4BELn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hoist the use of the correct aio_context from nbd_export_new() to its
+caller qmp_nbd_server_add().  Then tweak qmp_nbd_server_remove(),
+nbd_eject_notifier(), and nbd_esport_close_all() to grab the right
+context, so that all callers during qemu now own the context before
+nbd_export_put() can call blk_unref().
 
-On Mon, Sep 16, 2019 at 05:48:38PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> The M48T59 is a Real Time Clock, not a timer.
-> Move it under the hw/rtc/ subdirectory.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  MAINTAINERS                         |  4 +-
->  hw/ppc/ppc405_boards.c              |  2 +-
->  hw/ppc/prep.c                       |  2 +-
->  hw/rtc/Kconfig                      |  3 ++
->  hw/rtc/Makefile.objs                |  4 ++
->  hw/{timer =3D> rtc}/m48t59-internal.h |  0
->  hw/{timer =3D> rtc}/m48t59-isa.c      |  4 +-
->  hw/{timer =3D> rtc}/m48t59.c          |  2 +-
->  hw/sparc/sun4m.c                    |  2 +-
->  hw/sparc64/sun4u.c                  |  2 +-
->  hw/timer/Kconfig                    |  3 --
->  hw/timer/Makefile.objs              |  4 --
->  include/hw/rtc/m48t59.h             | 57 +++++++++++++++++++++++++++++
+Remaining uses in qemu-nbd don't matter (since that use case does not
+support iothreads).
 
-Uh.. this file seems to be coming out of nowhere, which doesn't seem
-right for a code motion.
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
 
->  13 files changed, 73 insertions(+), 16 deletions(-)
->  rename hw/{timer =3D> rtc}/m48t59-internal.h (100%)
->  rename hw/{timer =3D> rtc}/m48t59-isa.c (98%)
->  rename hw/{timer =3D> rtc}/m48t59.c (99%)
->  create mode 100644 include/hw/rtc/m48t59.h
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 481f2318cb..679b026fe0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1064,9 +1064,9 @@ F: hw/pci-host/prep.[hc]
->  F: hw/isa/i82378.c
->  F: hw/isa/pc87312.c
->  F: hw/dma/i82374.c
-> -F: hw/timer/m48t59-isa.c
-> +F: hw/rtc/m48t59-isa.c
->  F: include/hw/isa/pc87312.h
-> -F: include/hw/timer/m48t59.h
-> +F: include/hw/rtc/m48t59.h
->  F: pc-bios/ppc_rom.bin
-> =20
->  sPAPR
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 388cae0b43..1f721feed6 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -29,7 +29,7 @@
->  #include "cpu.h"
->  #include "hw/ppc/ppc.h"
->  #include "ppc405.h"
-> -#include "hw/timer/m48t59.h"
-> +#include "hw/rtc/m48t59.h"
->  #include "hw/block/flash.h"
->  #include "sysemu/sysemu.h"
->  #include "sysemu/qtest.h"
-> diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-> index 3a51536e1a..862345c2ac 100644
-> --- a/hw/ppc/prep.c
-> +++ b/hw/ppc/prep.c
-> @@ -25,7 +25,7 @@
-> =20
->  #include "qemu/osdep.h"
->  #include "cpu.h"
-> -#include "hw/timer/m48t59.h"
-> +#include "hw/rtc/m48t59.h"
->  #include "hw/char/serial.h"
->  #include "hw/block/fdc.h"
->  #include "net/net.h"
-> diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-> index 7ffd702268..159c233517 100644
-> --- a/hw/rtc/Kconfig
-> +++ b/hw/rtc/Kconfig
-> @@ -1,3 +1,6 @@
-> +config M48T59
-> +    bool
-> +
->  config PL031
->      bool
-> =20
-> diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-> index 3cac0d5a63..c87f81405e 100644
-> --- a/hw/rtc/Makefile.objs
-> +++ b/hw/rtc/Makefile.objs
-> @@ -1,2 +1,6 @@
-> +common-obj-$(CONFIG_M48T59) +=3D m48t59.o
-> +ifeq ($(CONFIG_ISA_BUS),y)
-> +common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
-> +endif
->  common-obj-$(CONFIG_PL031) +=3D pl031.o
->  obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
-> diff --git a/hw/timer/m48t59-internal.h b/hw/rtc/m48t59-internal.h
-> similarity index 100%
-> rename from hw/timer/m48t59-internal.h
-> rename to hw/rtc/m48t59-internal.h
-> diff --git a/hw/timer/m48t59-isa.c b/hw/rtc/m48t59-isa.c
-> similarity index 98%
-> rename from hw/timer/m48t59-isa.c
-> rename to hw/rtc/m48t59-isa.c
-> index 5e5432abfd..7fde854c0f 100644
-> --- a/hw/timer/m48t59-isa.c
-> +++ b/hw/rtc/m48t59-isa.c
-> @@ -1,5 +1,5 @@
->  /*
-> - * QEMU M48T59 and M48T08 NVRAM emulation (ISA bus interface
-> + * QEMU M48T59 and M48T08 NVRAM emulation (ISA bus interface)
->   *
->   * Copyright (c) 2003-2005, 2007 Jocelyn Mayer
->   * Copyright (c) 2013 Herv=E9 Poussineau
-> @@ -26,7 +26,7 @@
->  #include "qemu/osdep.h"
->  #include "hw/isa/isa.h"
->  #include "hw/qdev-properties.h"
-> -#include "hw/timer/m48t59.h"
-> +#include "hw/rtc/m48t59.h"
->  #include "m48t59-internal.h"
->  #include "qemu/module.h"
-> =20
-> diff --git a/hw/timer/m48t59.c b/hw/rtc/m48t59.c
-> similarity index 99%
-> rename from hw/timer/m48t59.c
-> rename to hw/rtc/m48t59.c
-> index a9fc2f981a..fc592b9fb1 100644
-> --- a/hw/timer/m48t59.c
-> +++ b/hw/rtc/m48t59.c
-> @@ -27,7 +27,7 @@
->  #include "qemu-common.h"
->  #include "hw/irq.h"
->  #include "hw/qdev-properties.h"
-> -#include "hw/timer/m48t59.h"
-> +#include "hw/rtc/m48t59.h"
->  #include "qemu/timer.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/sysemu.h"
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 6c5a17a020..2aaa5bf1ae 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -31,7 +31,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/timer.h"
->  #include "hw/sparc/sun4m_iommu.h"
-> -#include "hw/timer/m48t59.h"
-> +#include "hw/rtc/m48t59.h"
->  #include "migration/vmstate.h"
->  #include "hw/sparc/sparc32_dma.h"
->  #include "hw/block/fdc.h"
-> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-> index 1ded2a4c9a..955082773b 100644
-> --- a/hw/sparc64/sun4u.c
-> +++ b/hw/sparc64/sun4u.c
-> @@ -36,7 +36,7 @@
->  #include "hw/pci-host/sabre.h"
->  #include "hw/char/serial.h"
->  #include "hw/char/parallel.h"
-> -#include "hw/timer/m48t59.h"
-> +#include "hw/rtc/m48t59.h"
->  #include "migration/vmstate.h"
->  #include "hw/input/i8042.h"
->  #include "hw/block/fdc.h"
-> diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-> index af415c8ef8..a57e9b59fc 100644
-> --- a/hw/timer/Kconfig
-> +++ b/hw/timer/Kconfig
-> @@ -24,9 +24,6 @@ config M41T80
->      bool
->      depends on I2C
-> =20
-> -config M48T59
-> -    bool
-> -
->  config TWL92230
->      bool
->      depends on I2C
-> diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-> index b0159189cf..fe2d1fbc40 100644
-> --- a/hw/timer/Makefile.objs
-> +++ b/hw/timer/Makefile.objs
-> @@ -7,10 +7,6 @@ common-obj-$(CONFIG_DS1338) +=3D ds1338.o
->  common-obj-$(CONFIG_HPET) +=3D hpet.o
->  common-obj-$(CONFIG_I8254) +=3D i8254_common.o i8254.o
->  common-obj-$(CONFIG_M41T80) +=3D m41t80.o
-> -common-obj-$(CONFIG_M48T59) +=3D m48t59.o
-> -ifeq ($(CONFIG_ISA_BUS),y)
-> -common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
-> -endif
->  common-obj-$(CONFIG_PUV3) +=3D puv3_ost.o
->  common-obj-$(CONFIG_TWL92230) +=3D twl92230.o
->  common-obj-$(CONFIG_XILINX) +=3D xilinx_timer.o
-> diff --git a/include/hw/rtc/m48t59.h b/include/hw/rtc/m48t59.h
-> new file mode 100644
-> index 0000000000..e7ea4e8761
-> --- /dev/null
-> +++ b/include/hw/rtc/m48t59.h
-> @@ -0,0 +1,57 @@
-> +/*
-> + * QEMU M48T59 and M48T08 NVRAM emulation
-> + *
-> + * Copyright (c) 2003-2005, 2007 Jocelyn Mayer
-> + * Copyright (c) 2013 Herv=E9 Poussineau
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-> + * of this software and associated documentation files (the "Software"),=
- to deal
-> + * in the Software without restriction, including without limitation the=
- rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be includ=
-ed in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-> + * THE SOFTWARE.
-> + */
-> +
-> +#ifndef HW_RTC_M48T59_H
-> +#define HW_RTC_M48T59_H
-> +
-> +#include "exec/hwaddr.h"
-> +#include "qom/object.h"
-> +
-> +#define TYPE_NVRAM "nvram"
-> +
-> +#define NVRAM_CLASS(klass) \
-> +    OBJECT_CLASS_CHECK(NvramClass, (klass), TYPE_NVRAM)
-> +#define NVRAM_GET_CLASS(obj) \
-> +    OBJECT_GET_CLASS(NvramClass, (obj), TYPE_NVRAM)
-> +#define NVRAM(obj) \
-> +    INTERFACE_CHECK(Nvram, (obj), TYPE_NVRAM)
-> +
-> +typedef struct Nvram Nvram;
-> +
-> +typedef struct NvramClass {
-> +    InterfaceClass parent;
-> +
-> +    uint32_t (*read)(Nvram *obj, uint32_t addr);
-> +    void (*write)(Nvram *obj, uint32_t addr, uint32_t val);
-> +    void (*toggle_lock)(Nvram *obj, int lock);
-> +} NvramClass;
-> +
-> +Nvram *m48t59_init_isa(ISABus *bus, uint32_t io_base, uint16_t size,
-> +                       int base_year, int type);
-> +Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
-> +                   uint32_t io_base, uint16_t size, int base_year,
-> +                   int type);
-> +
-> +#endif /* HW_M48T59_H */
+With this in place, my emailed formula [1] for causing an iothread
+assertion failure no longer hits, and all the -nbd and -qcow2 iotests
+still pass.  I would still like to update iotests to cover things (I
+could not quickly figure out how to make iotest 222 use iothreads -
+either we modify that one or add a new one), but wanted to get review
+started on this first.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03383.html
+
+ include/block/nbd.h |  1 +
+ blockdev-nbd.c      | 14 ++++++++++++--
+ nbd/server.c        | 23 +++++++++++++++++++----
+ 3 files changed, 32 insertions(+), 6 deletions(-)
+
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 21550747cf35..316fd705a9e4 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -340,6 +340,7 @@ void nbd_export_put(NBDExport *exp);
+
+ BlockBackend *nbd_export_get_blockdev(NBDExport *exp);
+
++AioContext *nbd_export_aio_context(NBDExport *exp);
+ NBDExport *nbd_export_find(const char *name);
+ void nbd_export_close_all(void);
+
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index 213f226ac1c4..6a8b206e1d74 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -151,6 +151,7 @@ void qmp_nbd_server_add(const char *device, bool has_=
+name, const char *name,
+     BlockBackend *on_eject_blk;
+     NBDExport *exp;
+     int64_t len;
++    AioContext *aio_context;
+
+     if (!nbd_server) {
+         error_setg(errp, "NBD server not running");
+@@ -173,11 +174,13 @@ void qmp_nbd_server_add(const char *device, bool ha=
+s_name, const char *name,
+         return;
+     }
+
++    aio_context =3D bdrv_get_aio_context(bs);
++    aio_context_acquire(aio_context);
+     len =3D bdrv_getlength(bs);
+     if (len < 0) {
+         error_setg_errno(errp, -len,
+                          "Failed to determine the NBD export's length");
+-        return;
++        goto out;
+     }
+
+     if (!has_writable) {
+@@ -190,13 +193,16 @@ void qmp_nbd_server_add(const char *device, bool ha=
+s_name, const char *name,
+     exp =3D nbd_export_new(bs, 0, len, name, NULL, bitmap, !writable, !w=
+ritable,
+                          NULL, false, on_eject_blk, errp);
+     if (!exp) {
+-        return;
++        goto out;
+     }
+
+     /* The list of named exports has a strong reference to this export n=
+ow and
+      * our only way of accessing it is through nbd_export_find(), so we =
+can drop
+      * the strong reference that is @exp. */
+     nbd_export_put(exp);
++
++ out:
++    aio_context_release(aio_context);
+ }
+
+ void qmp_nbd_server_remove(const char *name,
+@@ -204,6 +210,7 @@ void qmp_nbd_server_remove(const char *name,
+                            Error **errp)
+ {
+     NBDExport *exp;
++    AioContext *aio_context;
+
+     if (!nbd_server) {
+         error_setg(errp, "NBD server not running");
+@@ -220,7 +227,10 @@ void qmp_nbd_server_remove(const char *name,
+         mode =3D NBD_SERVER_REMOVE_MODE_SAFE;
+     }
+
++    aio_context =3D nbd_export_aio_context(exp);
++    aio_context_acquire(aio_context);
+     nbd_export_remove(exp, mode, errp);
++    aio_context_release(aio_context);
+ }
+
+ void qmp_nbd_server_stop(Error **errp)
+diff --git a/nbd/server.c b/nbd/server.c
+index 378784c1e54a..3003381c86b4 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1458,7 +1458,12 @@ static void blk_aio_detach(void *opaque)
+ static void nbd_eject_notifier(Notifier *n, void *data)
+ {
+     NBDExport *exp =3D container_of(n, NBDExport, eject_notifier);
++    AioContext *aio_context;
++
++    aio_context =3D exp->ctx;
++    aio_context_acquire(aio_context);
+     nbd_export_close(exp);
++    aio_context_release(aio_context);
+ }
+
+ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
+@@ -1477,12 +1482,11 @@ NBDExport *nbd_export_new(BlockDriverState *bs, u=
+int64_t dev_offset,
+      * NBD exports are used for non-shared storage migration.  Make sure
+      * that BDRV_O_INACTIVE is cleared and the image is ready for write
+      * access since the export could be available before migration hando=
+ver.
++     * ctx was acquired in the caller.
+      */
+     assert(name);
+     ctx =3D bdrv_get_aio_context(bs);
+-    aio_context_acquire(ctx);
+     bdrv_invalidate_cache(bs, NULL);
+-    aio_context_release(ctx);
+
+     /* Don't allow resize while the NBD server is running, otherwise we =
+don't
+      * care what happens with the node. */
+@@ -1490,7 +1494,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uin=
+t64_t dev_offset,
+     if (!readonly) {
+         perm |=3D BLK_PERM_WRITE;
+     }
+-    blk =3D blk_new(bdrv_get_aio_context(bs), perm,
++    blk =3D blk_new(ctx, perm,
+                   BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
+                   BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD);
+     ret =3D blk_insert_bs(blk, bs, errp);
+@@ -1557,7 +1561,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uin=
+t64_t dev_offset,
+     }
+
+     exp->close =3D close;
+-    exp->ctx =3D blk_get_aio_context(blk);
++    exp->ctx =3D ctx;
+     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, =
+exp);
+
+     if (on_eject_blk) {
+@@ -1590,11 +1594,18 @@ NBDExport *nbd_export_find(const char *name)
+     return NULL;
+ }
+
++AioContext *
++nbd_export_aio_context(NBDExport *exp)
++{
++    return exp->ctx;
++}
++
+ void nbd_export_close(NBDExport *exp)
+ {
+     NBDClient *client, *next;
+
+     nbd_export_get(exp);
++
+     /*
+      * TODO: Should we expand QMP NbdServerRemoveNode enum to allow a
+      * close mode that stops advertising the export to new clients but
+@@ -1684,9 +1695,13 @@ BlockBackend *nbd_export_get_blockdev(NBDExport *e=
+xp)
+ void nbd_export_close_all(void)
+ {
+     NBDExport *exp, *next;
++    AioContext *aio_context;
+
+     QTAILQ_FOREACH_SAFE(exp, &exports, next, next) {
++        aio_context =3D exp->ctx;
++        aio_context_acquire(aio_context);
+         nbd_export_close(exp);
++        aio_context_release(aio_context);
+     }
+ }
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.21.0
 
---UoPmpPX/dBe4BELn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2ARAYACgkQbDjKyiDZ
-s5KlVhAAk/e2HfMzKjc/NuIkKSEjYm4fLFRUH+NeEeKAyvzcwLJMeW715Txcuxze
-3RJkiXNfdUHtoLhZm4DreLPqOFih04y32flyHvS36d9Ch1iOroha9zgK1kGEjvxV
-Jw2d+f9penhSOjNjg+16Udh/83PXUCiVSZeM1zSoGMX7bHYgfcfEDnddLjOxSEt8
-7HGdQOwBV2+RUF4s4EnH7X4rWDlbeDzOTt8TJKOKvzkbo7AZdYOokgT281okk9WT
-JruArwM4X5cyEyf/Exlu5kkfBeSvq6MDoHQZYzFq+g+shJsd1A7r3y9Eu7S7iE/q
-xiZt+eJ07E92PGYwKnkPOFAiFDXfdcQ5xyf5ejFArvisn9959UJsLzadVX/Q7rd0
-MDfreSiiRAo9NFea3E8+qfHYNJAjL/tVpPf2Qqe/GD4cfH7Up7Z/HS7FpqX5KzZl
-liSvlhbN/Iuwdi+vdlfhB/V6cBijvxbLgBQQoQyKDrAM5t0p9g5J2DeWKbW2f3kG
-ze588W+yOc5kt4RXfV+5kU3bCEky2Zw/It3VF/tElTb8R6memKmWTtH0x9m0CLjn
-aNCEYV0aoJ82i3HUqNoHYUto0XMMe5AdoT2KQgxsZ1kYK5javcR/x8gsBJM+eewh
-GNz2XzEebWQXUxAlvoAm+LQ/fDaFkODvUWwSBOn7I7vCNx2igvI=
-=SQNh
------END PGP SIGNATURE-----
-
---UoPmpPX/dBe4BELn--
 
