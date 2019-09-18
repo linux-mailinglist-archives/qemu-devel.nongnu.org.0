@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F61B69C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:42:50 +0200 (CEST)
-Received: from localhost ([::1]:33480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BF7B69BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:41:18 +0200 (CEST)
+Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdya-0003SW-D1
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56087)
+	id 1iAdx6-0001xR-IX
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36109)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iAcVu-0005UA-Sy
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:09:07 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iAdT8-0006de-Cq
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 13:10:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iAcVt-0003zf-RO
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:09:06 -0400
-Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:52825)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcVt-0003z1-MC
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:09:05 -0400
-Received: from player799.ha.ovh.net (unknown [10.109.146.213])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 53BF1119FEF
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:09:04 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player799.ha.ovh.net (Postfix) with ESMTPSA id D12DE9F0EB16;
- Wed, 18 Sep 2019 16:08:58 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 18 Sep 2019 18:06:43 +0200
-Message-Id: <20190918160645.25126-24-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
-References: <20190918160645.25126-1-clg@kaod.org>
+ (envelope-from <no-reply@patchew.org>) id 1iAdT6-0006sb-Mh
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 13:10:17 -0400
+Resent-Date: Wed, 18 Sep 2019 13:10:17 -0400
+Resent-Message-Id: <E1iAdT6-0006sb-Mh@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21586)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iAdT6-0006r5-Ec
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 13:10:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1568826607; cv=none; d=zoho.com; s=zohoarc; 
+ b=kxfEF4ouIMlinaai46qZioV0ZqbFmhNgomkn+X/yTv2iSy+D4yJ8eau1zPmBdSmPlufVjVimg/F6s+dHu2NXkTx3ORa4UPvzt1X8WgtAHjADYoOsMI06hPh8ekmxXCng5z85dcvZaCybQZWMaUfyTIDpLUT0Gc/SFlZ+MQZrYbk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1568826607;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=fgtCjsI0wI5cDMSUh9c9QIU6Q/XqeF1HFAFNx+E3aq8=; 
+ b=d3ZttspW7wYYpBHYcU5zhkAuEyH6+tEcFZZFe8mVlV52l4esm0zplXybnYpGpIvH28nm192LDTqQxkH/ONJKmRZKTqYQIh4wlKuT2V00iu7IUGfLcfqMMR3pyoyGNt1rACgp4fWT2YHxkeb392l7iS8xVMOz+mRwIfJ4mRw9po8=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 156882660587820.82668213731438;
+ Wed, 18 Sep 2019 10:10:05 -0700 (PDT)
+In-Reply-To: <20190918084834.9729-1-amorenoz@redhat.com>
+Message-ID: <156882660456.17151.6049472857437201023@5dec9699b7de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6241989086273965030
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: amorenoz@redhat.com
+Date: Wed, 18 Sep 2019 10:10:05 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.44.159
-Subject: [Qemu-devel] [PATCH v4 23/25] ppc/xive: Check V bit in
- TM_PULL_POOL_CTX
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v2] vhost-user: save features if the char
+ dev is closed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,38 +62,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: ddstreet@canonical.com, amorenoz@redhat.com, pezhang@redhat.com,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A context should be 'valid' when pulled from the thread interrupt
-context registers.
-
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/intc/xive.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index cdc4ea8b0e51..07b7c3586c12 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -362,6 +362,11 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *x=
-ptr, XiveTCTX *tctx,
-=20
-     xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
-=20
-+    if (!vo) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: pulling invalid NVT %x/%x =
-!?\n",
-+                      nvt_blk, nvt_idx);
-+    }
-+
-     /* Invalidate CAM line */
-     qw1w2_new =3D xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
-     memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2_new, 4);
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxODA4NDgzNC45NzI5
+LTEtYW1vcmVub3pAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGFz
+YW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5kCnRoZWly
+IG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNhbiBwcm9i
+YWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
+YmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9
+eDg2XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAg
+Q0MgICAgICBxb2JqZWN0L3FsaXQubwogIENDICAgICAgcW9iamVjdC9xanNvbi5vCgpFbmNvZGlu
+ZyBlcnJvcjoKJ3V0Zi04JyBjb2RlYyBjYW4ndCBkZWNvZGUgYnl0ZSAweDk1IGluIHBvc2l0aW9u
+IDc5OTogaW52YWxpZCBzdGFydCBieXRlClRoZSBmdWxsIHRyYWNlYmFjayBoYXMgYmVlbiBzYXZl
+ZCBpbiAvdG1wL3NwaGlueC1lcnItbWhnNzc2eGoubG9nLCBpZiB5b3Ugd2FudCB0byByZXBvcnQg
+dGhlIGlzc3VlIHRvIHRoZSBkZXZlbG9wZXJzLgogIENDICAgICAgcW9iamVjdC9xb2JqZWN0Lm8K
+CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
+MTkwOTE4MDg0ODM0Ljk3MjktMS1hbW9yZW5vekByZWRoYXQuY29tL3Rlc3RpbmcuYXNhbi8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
