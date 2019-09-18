@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028A3B6759
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 17:46:14 +0200 (CEST)
-Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46435B6779
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 17:51:07 +0200 (CEST)
+Received: from localhost ([::1]:60264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAc9k-0005E5-LA
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 11:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49441)
+	id 1iAcET-0001PX-EI
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 11:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1iAbsP-00073s-JT
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:18 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iAbsC-0006g1-9T
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1iAbsO-0006mx-8O
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:17 -0400
-Received: from mail-pg1-f177.google.com ([209.85.215.177]:34228)
+ (envelope-from <palmer@dabbelt.com>) id 1iAbsB-0006dq-6w
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:04 -0400
+Received: from mail-pl1-f172.google.com ([209.85.214.172]:43878)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbsO-0006mD-0m
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:16 -0400
-Received: by mail-pg1-f177.google.com with SMTP id n9so62327pgc.1
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:28:15 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbsB-0006df-1X
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:03 -0400
+Received: by mail-pl1-f172.google.com with SMTP id 4so102514pld.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:28:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=0zhLpxGbfvJYXKDT6JDUoSPfFak+q70sNluuZCqQPHw=;
- b=aqrdvBJwUdrYLBBkHuQl524iZK0FHtFPdxw3+d34MqjDptEA5hPjDmlc+hKbMAX4G1
- b54XsXH5j8/y26lYAzpI7ACvQ3len/GXxiidwOf4BbBFPtrTKc+gF9A+MC7g9+woaVYb
- ZiUqbB8Z49aG2I9i8BRWcepq9NHIPGWR6uzGz5SWw3Tf+jjYX6/yxY2t34uxMMXvhZI8
- x2rzz4PYfuDcFhM7soR7N4Kj0EiVbq8nu7O1Fi+mSEP1wjS6VhDY66c1cp3MAGW1ilzC
- eM9bYQA1GEpWw1a7C+WRAwVsCPqZaTwtHpsw45MmMkZM9vJaxGH/qzRrZ7nXZuV32tNl
- BVhA==
-X-Gm-Message-State: APjAAAXYEGXy8IkA8XvHgdBKdUPH/uusf5JEOPDAYhSlCOGdKj6HJKXY
- 718Xol5laU9p1nxuESpzIM9fGA==
-X-Google-Smtp-Source: APXvYqx8ajtS3KPqIVO6RFPZoVwoWoaFGkzftQs0B4mggERLuOWo/9GwVttFWHfMKI+VsHN/QQNKUg==
-X-Received: by 2002:a65:67d4:: with SMTP id b20mr4497385pgs.445.1568820494753; 
- Wed, 18 Sep 2019 08:28:14 -0700 (PDT)
+ bh=3hJQGoN/dkKnxfz2wZzkBe8IK9Gek4+jV7PzGIOzZB8=;
+ b=H0Fi5WRUNFqfqxS3DzhwcH9lo+GJSyliC/X+2jY1sjeBgPDwHQsB+fxo7Yjwefr6bf
+ OiiB3iLY9tuwLLLEtqMU25ZyfWNmf0yZb6g9ivmZWsVBSt6/Nt0KRrXfPKyaOF4Ddrjg
+ TLHsWXQSgF4Jn6ChNCBBZdek1uEcLQOhwhkELkFBqWamF+SGW6NpuX6U0PpHHmhVKtbF
+ iH67kE++wFA34DUlfH12hyAtVS0qUkcd0dFgqx7uy+5xAPeU+nXFD5hfbWc49b8bnPlO
+ oGJN4Lt1mYGILmWMx32s9JX+4hiUNqZOEJINcds9PpWyX1pOpUhfWfgAzRb+YiHObXUi
+ VE+Q==
+X-Gm-Message-State: APjAAAVsDZJSPRRsmlRpls2XX3hSe5Uh2hToWNRBB1z1wkMq0CmGPwCm
+ qDFXoVXxnG+tJjDAKA0tvwBKUA==
+X-Google-Smtp-Source: APXvYqz6ITgl5VqJA2CcgEIysUKJiZgDsSs4WCCweE2oi8JRfSi0qMTrdBFMoKmoNNjEary89q2x2w==
+X-Received: by 2002:a17:902:b08f:: with SMTP id
+ p15mr4919925plr.158.1568820481795; 
+ Wed, 18 Sep 2019 08:28:01 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id f22sm5512651pgb.4.2019.09.18.08.28.13
+ by smtp.gmail.com with ESMTPSA id f128sm18465998pfg.143.2019.09.18.08.28.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 08:28:13 -0700 (PDT)
-Date: Wed, 18 Sep 2019 07:56:13 -0700
-Message-Id: <20190918145640.17349-22-palmer@sifive.com>
+ Wed, 18 Sep 2019 08:28:00 -0700 (PDT)
+Date: Wed, 18 Sep 2019 07:56:05 -0700
+Message-Id: <20190918145640.17349-14-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190918145640.17349-1-palmer@sifive.com>
 References: <20190918145640.17349-1-palmer@sifive.com>
@@ -53,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.177
-Subject: [Qemu-devel] [PULL 21/48] riscv: roms: Remove executable attribute
- of opensbi images
+X-Received-From: 209.85.214.172
+Subject: [Qemu-devel] [PULL 13/48] riscv: sifive_test: Add reset
+ functionality
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,38 +68,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-Like other binary files, the executable attribute of opensbi images
-should not be set.
+This adds a reset opcode for sifive_test device to trigger a system
+reset for testing purpose.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin
- pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin
- pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin
- 3 files changed, 0 insertions(+), 0 deletions(-)
- mode change 100755 => 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
- mode change 100755 => 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
- mode change 100755 => 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+ hw/riscv/sifive_test.c         | 4 ++++
+ include/hw/riscv/sifive_test.h | 3 ++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/pc-bios/opensbi-riscv32-virt-fw_jump.bin b/pc-bios/opensbi-riscv32-virt-fw_jump.bin
-old mode 100755
-new mode 100644
-diff --git a/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin b/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
-old mode 100755
-new mode 100644
-diff --git a/pc-bios/opensbi-riscv64-virt-fw_jump.bin b/pc-bios/opensbi-riscv64-virt-fw_jump.bin
-old mode 100755
-new mode 100644
+diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
+index afbb3aaf34..3557e16701 100644
+--- a/hw/riscv/sifive_test.c
++++ b/hw/riscv/sifive_test.c
+@@ -22,6 +22,7 @@
+ #include "hw/hw.h"
+ #include "hw/sysbus.h"
+ #include "qemu/module.h"
++#include "sysemu/runstate.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/hw.h"
+ #include "hw/riscv/sifive_test.h"
+@@ -42,6 +43,9 @@ static void sifive_test_write(void *opaque, hwaddr addr,
+             exit(code);
+         case FINISHER_PASS:
+             exit(0);
++        case FINISHER_RESET:
++            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++            return;
+         default:
+             break;
+         }
+diff --git a/include/hw/riscv/sifive_test.h b/include/hw/riscv/sifive_test.h
+index 3a603a6ead..1ec416ac1b 100644
+--- a/include/hw/riscv/sifive_test.h
++++ b/include/hw/riscv/sifive_test.h
+@@ -36,7 +36,8 @@ typedef struct SiFiveTestState {
+ 
+ enum {
+     FINISHER_FAIL = 0x3333,
+-    FINISHER_PASS = 0x5555
++    FINISHER_PASS = 0x5555,
++    FINISHER_RESET = 0x7777
+ };
+ 
+ DeviceState *sifive_test_create(hwaddr addr);
 -- 
 2.21.0
 
