@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925C8B6FBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 01:39:01 +0200 (CEST)
-Received: from localhost ([::1]:36114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36614B6FB4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 01:32:49 +0200 (CEST)
+Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAjXI-00039v-Ml
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 19:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33282)
+	id 1iAjRH-0005BU-Os
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 19:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iAjEa-0000OI-KH
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:41 -0400
+ (envelope-from <alxndr@bu.edu>) id 1iAjEe-0000UG-W3
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iAjEZ-0002Zf-HU
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:40 -0400
-Received: from mail-eopbgr710133.outbound.protection.outlook.com
- ([40.107.71.133]:31520 helo=NAM05-BY2-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1iAjEd-0002d2-OZ
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:44 -0400
+Received: from mail-eopbgr700101.outbound.protection.outlook.com
+ ([40.107.70.101]:49633 helo=NAM04-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAjEZ-0002XS-9f
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:39 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAjEd-0002bn-Ib
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:43 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C308pU3/eCfvuQm0zabaV03ZlNS4h65N/Kbb+/0arHO3u3JutIvXyzkuolm+STLx7hWcOZ6J+8tsSturU12LhdLYztsT94nha+iyYieTSr2+exvhXXuKNe1zI+fq4wRVoCpDke3Bg4cffc1s/jkNXkY1ZsP54Mv682ySZDO+4i49uWaN/7otMS08FbwELTCxB01rRLam2k8o2wd96W2DzLQCebVXOD2lcOttXgxEZLPpRh0hYJal4Ai0WyLqDby4DFKT7c1N0+cQITlR66uGavsDCiJqmA1pOC2XpaEUEqv8UnPfB1jUTV+mHJGFodW3Lwp7nGT834iMq4M4+aJiIg==
+ b=KlzHei6JJAIz8XHbV/URPV3b3v1UWWn3j/uoq9IQWSZNUHGGXa47lyVmMoIY8boII6QQG01RO/3ns6CYOJVMyUa4fS7/NoEGAP4t98D3xC4eoDmbCFbfMUzf93sZexOhLNn1/h/wNBL4tTT9qH58eHSZJ+ymHf3lQwGDlHHqaBj1/dQQD9wRDePonEVO+Ld9t7Jc+Jl3qHxmr9wIO5fbZSNc2urgz4qpyqXMeXQQvuPWls6QRpxCPLz9UQrSs1NzKCtNxfHGEXzpxcsPqg6N9J9jIP+dwyruQBD9ZohvpXMT4TKMWkAjaSjE9ViD6bbyB6DOXcucrf3zMPANtOFuqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/p1QzYibvxgsgwaKeWSS4iZiMu6nVwgS1ce72zdQKN8=;
- b=KOMFpfkDqnK/omwJye5rEU04ujMaOK6Lbh+aebOfaAR2EsGqP4SFA2qdrkMhuBA4OrWu6z7ObsYwEh9ZTehfDoDcDPiw8+HbCJ2iGp7GTDvYgRKWnPXaOeS63ol8HU13u8Q38Iy7vzQbmessYs6GyJjC3Bc+g4JKpbsqds0kqdoLz/JgKuC31VuLiGECrYqmCOpvmK2x4YCe1Im/ns7AkwOluRBZYRI9eYErwOEMIxDEb/YgjLXkUuGAI0ZXykAwTgTHgXYhE2PQdB0TzopnDPm9M8xqw08dAees0YkTLqI13bKK43gyQPk/MyhZh6KOyD0u8hZIiwO1LfqUjwmRCQ==
+ bh=EpkEAhjUBJN5+ZVIUazlzofX3SXyUQXSnl7WITZRu5o=;
+ b=D8BbI6u83e8qOQQwJaPs5dufvLRgbsVa17NHN3p0H+kJs3MhOgsEBN0AyJSKsdLvf1sF7iEEUrpZLFgFmfLm3eCDODbWtv1/QX5bug0lplNzriRmpiSHXVkIHqYri8QYwT7olGmjXGYtmouEAdQ/UHJR5mlb62O8m6YD5VColw6Edxli589gLeI8O6B3DdhRkab7NCkBWl+cCmeiEmVK+bCSXnjwNyBj9edQzKqLmy4rIJOg04SGlmYqUQ+sbMGTSI6wfM2xHidSKT3RAs9WYXWdANIXd1u7mrOYY3s331608OTiFdq2OdL7kPmt9S3i5OQiTycZ/w/iutmpQYmVBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/p1QzYibvxgsgwaKeWSS4iZiMu6nVwgS1ce72zdQKN8=;
- b=QomFLKn/tWKlTLquVQ5orS03fPSYaEO6RPTYM1dpBcR6QJMYUCNKtPzNX9aFE3Qur8I2u5y0rWlj9iUc3qVISUcYDSrYLpn6Ij9pMFRlt6bJpypkR9lsPp8d13/Mb/uZSYp6L3wzETC+315dK49/mKryn/SCsMRoSkEniCOfPks=
+ bh=EpkEAhjUBJN5+ZVIUazlzofX3SXyUQXSnl7WITZRu5o=;
+ b=5sJbO1ijFi9qfGsMkIG7YdUbwnfHoVeLjopYMMgxPeoHb0qNSqJK8fHqrhwuukwo81xOARgw5zYw0Dz3pgxX2HX/cYS5OdJJyUudgsJZ06oePnQ13UCoPE/a1jl4fZQMy+C+nclqRSLUDGnpIFonYkMgFK8X/K/oMCFEGlpn32k=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB3016.namprd03.prod.outlook.com (10.175.117.149) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Wed, 18 Sep 2019 23:19:37 +0000
+ 15.20.2284.20; Wed, 18 Sep 2019 23:19:42 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6d88:c5bd:41ad:b107]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6d88:c5bd:41ad:b107%3]) with mapi id 15.20.2263.023; Wed, 18 Sep 2019
- 23:19:37 +0000
+ 23:19:42 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v3 10/22] tests: provide test variables to other targets
-Thread-Index: AQHVbneK1DI7wM20KUi8FpcmDyQxBg==
-Date: Wed, 18 Sep 2019 23:19:37 +0000
-Message-ID: <20190918231846.22538-11-alxndr@bu.edu>
+Thread-Topic: [PATCH v3 15/22] fuzz: Add target/fuzz makefile rules
+Thread-Index: AQHVbneNYJpjK54Mx0qJT8VRNItNog==
+Date: Wed, 18 Sep 2019 23:19:42 +0000
+Message-ID: <20190918231846.22538-16-alxndr@bu.edu>
 References: <20190918231846.22538-1-alxndr@bu.edu>
 In-Reply-To: <20190918231846.22538-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -64,39 +64,38 @@ x-clientproxiedby: BL0PR02CA0124.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6cb57690-b2ce-4584-c529-08d73c8eac7a
+x-ms-office365-filtering-correlation-id: b6b284d7-6e57-4b1a-8542-08d73c8eaf75
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
  SRVR:CY4PR03MB3016; 
 x-ms-traffictypediagnostic: CY4PR03MB3016:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR03MB30163D36C5635AD0E0254DB7BA8E0@CY4PR03MB3016.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-microsoft-antispam-prvs: <CY4PR03MB3016F1A48B64DA14D1ED7E61BA8E0@CY4PR03MB3016.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:397;
 x-forefront-prvs: 01644DCF4A
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(39860400002)(366004)(376002)(136003)(346002)(396003)(199004)(189003)(66066001)(86362001)(52116002)(478600001)(2616005)(7736002)(71190400001)(8676002)(36756003)(71200400001)(14454004)(54906003)(316002)(786003)(6486002)(14444005)(81156014)(75432002)(256004)(6436002)(305945005)(6916009)(6512007)(5640700003)(386003)(486006)(26005)(11346002)(186003)(102836004)(99286004)(76176011)(66946007)(446003)(476003)(66476007)(66556008)(64756008)(66446008)(6506007)(5660300002)(4326008)(2501003)(2351001)(6116002)(81166006)(50226002)(25786009)(1076003)(2906002)(88552002)(8936002)(3846002);
+ SFS:(10019020)(4636009)(39860400002)(366004)(376002)(136003)(346002)(396003)(199004)(189003)(66066001)(86362001)(52116002)(478600001)(2616005)(7736002)(71190400001)(8676002)(36756003)(71200400001)(14454004)(54906003)(316002)(786003)(6486002)(81156014)(75432002)(256004)(6436002)(305945005)(6916009)(6512007)(5640700003)(386003)(486006)(26005)(11346002)(186003)(102836004)(99286004)(76176011)(66946007)(446003)(476003)(66476007)(66556008)(64756008)(66446008)(6506007)(5660300002)(4326008)(2501003)(2351001)(6116002)(81166006)(50226002)(25786009)(1076003)(2906002)(88552002)(8936002)(3846002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB3016;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 2Dt4xdyyGNelqVHsP2gzH9Eh2aektxmPrp1l0wAkciqH6v9sH3RTKbTmsfQxVTLJeASNSbndfyu2dy7EU6qrxyKxTw7b4NZ8gP0OKMsMwrpl3llz40I0wMxAQ2bNvM9XgOsJp4szJtAL6ij56PyQ4rLVnO991LfA1mWlrUtdes3HdwfoCR4xWsGDzf8brhNa+XLvKnCmHAQFzxGvDzcveJVBbEzBBPt7xBE07NYIyyJLN6J2qbsGV58BcY1ABFKQU9/N+StjTGjyBU1IKSE/yoGJn7u10B/53tQM4yOQ1afhJKj0R6InPUXO0b1pw/jnfxfngQj8jb+5CbOAgSKTGkq0FIu2xXx77I14Al+kqLmdhnCB63K3AiE0o/XNSGflkh6KS8xsQAL0w51Ep3piUrRLPTv7AAu6n2oCLOiY0mM=
+x-microsoft-antispam-message-info: TWNa7U1KOptnJPi74njIVYP8eLNvo6knUBJIuT948IIbnpvfh2lLkN3WoWo7G2T/9EQbrZmqBFepxTIPCf378EPGUfHYXmbLBugU4C3UyptznwrAJmvcktjGSJmu5Hyyz3bphTiMi+lzbk6LUMN5KyDlKVG59CJ7Me8alH7QRj0GAhHRNsQerD33cC3UoyB6PmdBLSSydTOTDOc5tw0Y1fs2pcHwpNvN5oKL3zM0PQmv2SvSdPcg7vm4HHbIcv6lmXc6UslyO86mY29DQkzuL57bXSLz+WaDjCpjDc8gLTScNDfJxgY1aRKS/1vzR8qoKjEhBT6n29rlGCp/U75izdLUQehJN9Z38XdgX7p+I+aI6xehKUmBBUTVKX1YNAtENx4pammuOt1wD/MuUBy8MQfjkvht7FCXVCcIVI9kATQ=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cb57690-b2ce-4584-c529-08d73c8eac7a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 23:19:37.5582 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6b284d7-6e57-4b1a-8542-08d73c8eaf75
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 23:19:42.5470 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ln3VSPqwd7jg+767FgqotgSwC8iINl3/HTFdGE0QaIwZaDRrPNHNGJH7o8Q/NwJK
+X-MS-Exchange-CrossTenant-userprincipalname: eEfQ/hLjObUl/r6F64Ipb1TXfcHAoxoVRTU1ds0DmKr5pP2mb+B9RQJyMqhPZ+hG
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB3016
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.71.133
-Subject: [Qemu-devel] [PATCH v3 10/22] tests: provide test variables to
- other targets
+X-Received-From: 40.107.70.101
+Subject: [Qemu-devel] [PATCH v3 15/22] fuzz: Add target/fuzz makefile rules
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,41 +113,75 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before, when tests/Makefile.include was included, the contents would be
-ignored if config-host.mak was defined. Moving the ifneq responsible for
-this allows a target to depend on both testing-related and host-related
-objects. For example the virtual-device fuzzer relies on both
-libqtest/libqos objects and softmmu objects.
-
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- tests/Makefile.include | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Makefile        | 12 +++++++++++-
+ Makefile.objs   |  6 +++++-
+ Makefile.target |  1 +
+ 3 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index b39860a8d0..a9b3c36259 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -27,7 +27,6 @@ check-help:
- 	@echo "Default options are -k and (for $(MAKE) V=3D1) --verbose; they can=
- be"
- 	@echo "changed with variable GTESTER_OPTIONS."
-=20
--ifneq ($(wildcard config-host.mak),)
- export SRC_PATH
-=20
- # TODO don't duplicate $(SRC_PATH)/Makefile's qapi-py here
-@@ -860,6 +859,8 @@ tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y=
-)
-=20
- SPEED =3D quick
-=20
-+ifneq ($(wildcard config-host.mak),)
+diff --git a/Makefile b/Makefile
+index 3a43492340..5e5033a500 100644
+--- a/Makefile
++++ b/Makefile
+@@ -426,6 +426,7 @@ dummy :=3D $(call unnest-vars,, \
+                 qom-obj-y \
+                 io-obj-y \
+                 common-obj-y \
++                softmmu-obj-y \
+                 common-obj-m \
+                 ui-obj-y \
+                 ui-obj-m \
+@@ -463,7 +464,16 @@ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
+ $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
+-$(SOFTMMU_ALL_RULES): $(softmmu-main-y)
++$(SOFTMMU_ALL_RULES): $(softmmu-obj-y)
 +
- # gtester tests, possibly with verbose output
- # do_test_tap runs all tests, even if some of them fail, while do_test_hum=
-an
- # stops at the first failure unless -k is given on the command line
++SOFTMMU_FUZZ_RULES=3D$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
++$(SOFTMMU_FUZZ_RULES): $(authz-obj-y)
++$(SOFTMMU_FUZZ_RULES): $(block-obj-y)
++$(SOFTMMU_FUZZ_RULES): $(chardev-obj-y)
++$(SOFTMMU_FUZZ_RULES): $(crypto-obj-y)
++$(SOFTMMU_FUZZ_RULES): $(io-obj-y)
++$(SOFTMMU_FUZZ_RULES): config-all-devices.mak
++$(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
+=20
+ SOFTMMU_FUZZ_RULES=3D$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
+ $(SOFTMMU_FUZZ_RULES): $(authz-obj-y)
+diff --git a/Makefile.objs b/Makefile.objs
+index bb1cfa05ef..99ea6b66de 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -87,9 +87,13 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
+=20
+ common-obj-y +=3D qapi/
+=20
+-softmmu-main-y =3D main.o
+ endif
+=20
++ifneq ($(CONFIG_FUZZ),y)
++softmmu-obj-y =3D main.o
++endif
++
++
+ #######################################################################
+ # Target-independent parts used in system and user emulation
+ common-obj-y +=3D cpus-common.o
+diff --git a/Makefile.target b/Makefile.target
+index 6065989964..f3efe3debd 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -194,6 +194,7 @@ all-obj-$(CONFIG_SOFTMMU) +=3D $(block-obj-y) $(chardev=
+-obj-y)
+ all-obj-$(CONFIG_USER_ONLY) +=3D $(crypto-user-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) +=3D $(crypto-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) +=3D $(io-obj-y)
++all-obj-$(CONFIG_SOFTMMU) +=3D $(softmmu-obj-y)
+=20
+ ifdef CONFIG_SOFTMMU
+ $(QEMU_PROG_BUILD): config-devices.mak
 --=20
 2.23.0
 
