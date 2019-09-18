@@ -2,76 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD4CB623C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 13:26:54 +0200 (CEST)
-Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E43B624E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 13:34:32 +0200 (CEST)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAY6n-0005pQ-8T
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 07:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45443)
+	id 1iAYEA-0001lC-Qw
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 07:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iAY4w-0004b4-1X
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 07:24:59 -0400
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAYCY-0001AO-Ks
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 07:32:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iAY4u-00054O-KQ
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 07:24:57 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54984)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iAY4t-00053l-Uh
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 07:24:56 -0400
-Received: by mail-wm1-x343.google.com with SMTP id p7so2166738wmp.4
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 04:24:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=QCfrlPo3gi0pRC2bFXoDJAOcIK/1t1gNeLswZkIWMhQ=;
- b=dtyRmTr8Y2ED915UJmbmJCAxO9qEu9OC/e3qISfRbRNlIMQ+Wss1CTHpU+zisAyu22
- xOfXNw3GmxtaJu+tmwcX60yxPDwfcOuQfXd+AiP9/Ar8r92mnnqQGv+UXCtcu0Ao6cup
- YeKtmrhG5XIXrc92nwVmJcKIgQK+lPDs/P1M+DLFBbOQwuT3oO7i2xz28H47WYVW6WPD
- i141QpXYsXPqNgVKj0MOONQ7qcVZWdEqMr1iScggb/3oCRWiicdunqn5p9MIUWn9CiUx
- 0EHPxux6b0S1JAO5q0U5VuzdzW4psJeu4u+pymfP/ic2tFtZ0jHCOB+g7G4xTB0pAWz/
- sPcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=QCfrlPo3gi0pRC2bFXoDJAOcIK/1t1gNeLswZkIWMhQ=;
- b=Fm1GmGhOBdayKrdD00L67/ouWRRyBmAhIb+I3DzzJVZ6Y2/f+HIz5k1rvD4/k1Ez2S
- Anuxhmahz7UFGLqRuOwUSlX0o7VpxL9ZkxTwJ1ZuhqoGV0c6uMr7+k8i/j+t/8GAe6RH
- xwM/i11HSdMcxf9H5O6palw3ZBh/MwXGKFjiFkq8EmWn9sjWpWpK7GgCJEZU5KxfzZwQ
- AouB+WQ7Dmvfe4PGdia4i0B8Qprp8aotQtoKakA2c1E/S5ak+q3KRJMovmnF7BzBgcdU
- LzabyzR7dMzeYo5fIlxqnEp4+gHYseiB7NyI9Zup/0bkU4jFJY6b1cV+TxGxIL2F5xsK
- +ahQ==
-X-Gm-Message-State: APjAAAWoxViJU1hREzsAsY3A0kIKfdWJKfzrhPUJ6KT3kCV7NBInqXEs
- HCGK3+6vSz8kmhTlIiOhbbQb6A==
-X-Google-Smtp-Source: APXvYqwjpTDIw2xNtAa/WUePs8ju8r5YhgFCf0yATtSExfD3yYYKBIe9eRJ4o2ecG+sJtjrQoHDnqA==
-X-Received: by 2002:a7b:c013:: with SMTP id c19mr2296325wmb.34.1568805894275; 
- Wed, 18 Sep 2019 04:24:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t14sm4258580wrs.6.2019.09.18.04.24.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 04:24:53 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E0C541FF87;
- Wed, 18 Sep 2019 12:24:52 +0100 (BST)
-References: <20190916135806.1269-1-david@redhat.com>
- <20190916135806.1269-30-david@redhat.com> <875zlq0wd4.fsf@linaro.org>
- <1f44e951-2b08-82b0-a7e7-7459b140731f@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: David Hildenbrand <david@redhat.com>
-In-reply-to: <1f44e951-2b08-82b0-a7e7-7459b140731f@redhat.com>
-Date: Wed, 18 Sep 2019 12:24:52 +0100
-Message-ID: <871rwd26ez.fsf@linaro.org>
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAYCW-0000oF-IC
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 07:32:50 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:45724)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAYCV-0000mS-6I
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 07:32:48 -0400
+Received: from PASHAISP (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id D457054011C;
+ Wed, 18 Sep 2019 14:32:43 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: =?utf-8?Q?'Alex_Benn=C3=A9e'?= <alex.bennee@linaro.org>
+References: <156872146565.1757.3033215873677512474.stgit@pasha-Precision-3630-Tower>
+ <87blvi21cz.fsf@linaro.org> <001101d56dfa$bef4e630$3cdeb290$@ru>
+ <8736gt28dp.fsf@linaro.org>
+In-Reply-To: <8736gt28dp.fsf@linaro.org>
+Date: Wed, 18 Sep 2019 14:32:46 +0300
+Message-ID: <001c01d56e14$cbccb710$63662530$@ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v3 29/29] tests/tcg: target/s390x: Test MVO
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdVuDcU84dkeosxXRBOPH+KCLOi5rAABMZ1Q
+Content-Language: ru
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 83.149.199.45
+Subject: Re: [Qemu-devel] [for-4.2 PATCH 0/6] Block-related record/replay
+ fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,105 +53,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Dan =?utf-8?Q?Hor=C3=A1k?= <dan@danny.cz>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Stefano Brivio <sbrivio@redhat.com>,
- qemu-s390x@nongnu.org, Cole Robinson <crobinso@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
+ crosthwaite.peter@gmail.com, ciro.santilli@gmail.com, jasowang@redhat.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
+ boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
+ mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> From: Alex Benn=C3=A9e [mailto:alex.bennee@linaro.org]
+> Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
+>=20
+> >> -----Original Message-----
+> >> From: Alex Benn=C3=A9e [mailto:alex.bennee@linaro.org]
+> >> Sent: Tuesday, September 17, 2019 10:02 PM
+> >> To: Pavel Dovgalyuk
+> >> Cc: qemu-devel@nongnu.org; kwolf@redhat.com; =
+peter.maydell@linaro.org;
+> >> crosthwaite.peter@gmail.com; boost.lists@gmail.com; =
+artem.k.pisarenko@gmail.com;
+> >> quintela@redhat.com; ciro.santilli@gmail.com; jasowang@redhat.com; =
+mst@redhat.com;
+> >> armbru@redhat.com; mreitz@redhat.com; =
+maria.klimushenkova@ispras.ru; dovgaluk@ispras.ru;
+> >> kraxel@redhat.com; pavel.dovgaluk@ispras.ru; =
+thomas.dullien@googlemail.com;
+> >> pbonzini@redhat.com; dgilbert@redhat.com; rth@twiddle.net
+> >> Subject: Re: [for-4.2 PATCH 0/6] Block-related record/replay fixes
+> >>
+> >>
+> >> Pavel Dovgalyuk <pavel.dovgaluk@gmail.com> writes:
+> >>
+> >> > The set of patches include the block-related updates
+> >> > of the record/replay icount feature:
+> >> >  - application of 'snapshot' option on the file layer instead of
+> >> >    the top one: command line and documentation fix
+> >> >  - implementation of bdrv_snapshot_goto for blkreplay driver
+> >> >  - start/stop fix in replay mode with attached block devices
+> >> >  - record/replay of bh oneshot events, used in the block layer
+> >>
+> >> Can we come up with a reasonable smoke test to verify record/replay =
+is
+> >> functional? AIUI we don't need a full OS but we do need a block =
+device
+> >> to store the replay data. Could we use one of the simple system =
+tests
+> >> like "memory" and run that through a record and replay cycle?
+> >
+> > That's would be great.
+> > I'm not familiar with testing framework and couldn't find "memory"
+> > test that you refer to.
+>=20
+> The memory test code is in tests/tcg/multiarch/system and gets =
+combined
+> with the boot code for whichever target can build it. For example on
+> aarch64 it is run like:
+>=20
+>   timeout 15  $BLD/aarch64-softmmu/qemu-system-aarch64 -monitor none =
+-display none -chardev
+> file,path=3Dmemory.out,id=3Doutput  -M virt -cpu max -display none =
+-semihosting-config
+> enable=3Don,target=3Dnative,chardev=3Doutput -kernel memory
 
-David Hildenbrand <david@redhat.com> writes:
+Yes, rr testing could be that simple, but in full system emulation mode.
+Simplest tests may be run even without the block devices:
 
-> On 18.09.19 11:47, Alex Benn=C3=A9e wrote:
->>
->> David Hildenbrand <david@redhat.com> writes:
->>
->>> Let's add the simple test based on the example from the PoP.
->>>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> ---
->>>  tests/tcg/s390x/Makefile.target |  1 +
->>>  tests/tcg/s390x/mvo.c           | 25 +++++++++++++++++++++++++
->>>  2 files changed, 26 insertions(+)
->>>  create mode 100644 tests/tcg/s390x/mvo.c
->>>
->>> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile=
-.target
->>> index 151dc075aa..6a3bfa8b29 100644
->>> --- a/tests/tcg/s390x/Makefile.target
->>> +++ b/tests/tcg/s390x/Makefile.target
->>> @@ -6,3 +6,4 @@ TESTS+=3Dipm
->>>  TESTS+=3Dexrl-trt
->>>  TESTS+=3Dexrl-trtr
->>>  TESTS+=3Dpack
->>> +TESTS+=3Dmvo
->>> diff --git a/tests/tcg/s390x/mvo.c b/tests/tcg/s390x/mvo.c
->>> new file mode 100644
->>> index 0000000000..5546fe2a97
->>> --- /dev/null
->>> +++ b/tests/tcg/s390x/mvo.c
->>> @@ -0,0 +1,25 @@
->>> +#include <stdint.h>
->>> +#include <stdio.h>
->>> +
->>> +int main(void)
->>> +{
->>> +    uint8_t dest[6] =3D {0xff, 0x77, 0x88, 0x99, 0x0c, 0xff};
->>> +    uint8_t src[5] =3D {0xee, 0x12, 0x34, 0x56, 0xee};
->>> +    uint8_t expected[6] =3D {0xff, 0x01, 0x23, 0x45, 0x6c, 0xff};
->>> +    int i;
->>> +
->>> +    asm volatile (
->>> +        "    mvo 0(4,%[dest]),0(3,%[src])\n"
->>> +        :
->>> +        : [dest] "d" (dest + 1),
->>> +          [src] "d" (src + 1)
->>> +        : "memory");
->>> +
->>> +    for (i =3D 0; i < sizeof(expected); i++) {
->>> +        if (dest[i] !=3D expected[i]) {
->>> +            fprintf(stderr, "bad data\n");
->>> +            return 1;
->>> +        }
->>> +    }
->>> +    return 0;
->>> +}
->>
->> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>
->> but...
->>
->> can this test be expanded to check the page cross cases that caused you
->> so much trouble to track down?
->
-> I might add a MVC test that tries to reproduce this. But with
-> speculative page faults and things like that it might not be very easy
-> to reproduce. However, I can give it a try.
+qemu-system-aarch64 -monitor none -display none -chardev =
+file,path=3Dmemory.out,id=3Doutput
+-M virt -cpu max -kernel memory -net none -icount =
+shift=3D5,rr=3Drecord,rrfile=3Drecord.bin
 
-I may not be fully understanding the correct behaviour but wouldn't the
-test be:
+Better testing must include some block device like Linux boot image or =
+something similar.
 
-  * map two page's worth of address space
-  * mprot(!write) the top page
-  * attempt mvc based copy to mmap region (say p0+(PAGE_SIZE>>1) to p1+(PAG=
-E_SIZE>>1))
-  * catch the fault
-  * check the bottom page wasn't written to
+> The test binaries will be in $BLD/tests/tcg/aarch64-softmmu and are
+> built when you run "make check-tcg" and have either the appropriate
+> cross compilers installed on your system or docker enabled and setup
+> (see docs/devel/testing.rst).
+>=20
+> > Replay test must at least the following:
+> > 1. record some execution
+> > 2. replay that execution
+> >
+> > And there could be several endings:
+> > 1. record stalled
+> > 2. record crashed
+> > 3. replay stalled
+> > 4. replay crashed
+> > 5. all executions finished successfully
+>=20
+> If you can provide an appropriate set of invocations I can plumb them
+> into the Makefiles for you.
 
-or does the test need to be lower level and run in kernel mode in
-softmmu and catch the appropriate low level exceptions?
+That will be great, thank you.
 
->
-> Thanks!
->
->>
->> --
->> Alex Benn=C3=A9e
->>
+Pavel Dovgalyuk
 
-
---
-Alex Benn=C3=A9e
 
