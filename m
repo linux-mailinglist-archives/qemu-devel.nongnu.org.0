@@ -2,81 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035D5B5CE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 08:30:37 +0200 (CEST)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80768B5DE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 09:19:53 +0200 (CEST)
+Received: from localhost ([::1]:55242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iATU3-00008R-JM
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 02:30:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35037)
+	id 1iAUFk-0002Fz-KT
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 03:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iATSq-00082D-0q
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 02:29:21 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iAUD8-0000gE-1g
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 03:17:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iATSm-00074c-6T
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 02:29:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35656)
+ (envelope-from <dgibson@ozlabs.org>) id 1iAUD7-0003DR-02
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 03:17:09 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50549 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iATSh-00071p-Ew; Wed, 18 Sep 2019 02:29:11 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1A19118C8914;
- Wed, 18 Sep 2019 06:29:10 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-168.ams2.redhat.com
- [10.36.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 977EC600CC;
- Wed, 18 Sep 2019 06:29:03 +0000 (UTC)
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190917092004.999-1-mreitz@redhat.com>
- <20190917092004.999-6-mreitz@redhat.com>
- <fb3673f7-8694-2be1-f843-8786167049c4@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <0cf07aa2-d17c-5ad8-0bb4-828215136cb5@redhat.com>
-Date: Wed, 18 Sep 2019 08:29:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iAUD5-0003CL-PI
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 03:17:08 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46YBB64z9Dz9sP3; Wed, 18 Sep 2019 17:17:02 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1568791022;
+ bh=Ee6r39NQyeFY3c3LXfZ/hGKxzW7XEVMggHRBTMEmFE4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=XjwOh60eAF1SNxMdVrt/t+eQg4sbB83SYEH/hC7x75hL59JscT5oXHaytdRdNXj/p
+ UtwN9ovBDl3a6P9YssXpA7Qi1JjKLNOUfr8ew8iWQAiXRbAhl7fkIYIytPB/pe/Ipl
+ QKqZQoQfVdNMVcq8B0dOdBgIKxiDyK3AK4AZuz5g=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: ehabkost@redhat.com,
+	crosa@redhat.com
+Date: Wed, 18 Sep 2019 17:06:54 +1000
+Message-Id: <20190918070654.19356-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <fb3673f7-8694-2be1-f843-8786167049c4@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xGImeWskqBhyMUu9bMT0nuDvEkNXdyiOp"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Wed, 18 Sep 2019 06:29:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 5/7] iotests: Test driver whitelisting
- in 093
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [RESEND PATCH] tests/acceptance: Specify arch for
+ QueryCPUModelExpansion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,73 +53,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xGImeWskqBhyMUu9bMT0nuDvEkNXdyiOp
-Content-Type: multipart/mixed; boundary="XWcrdN410TJqBZJ0OUghTGmZjvVBeiJJs";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <0cf07aa2-d17c-5ad8-0bb4-828215136cb5@redhat.com>
-Subject: Re: [PATCH v4 5/7] iotests: Test driver whitelisting in 093
-References: <20190917092004.999-1-mreitz@redhat.com>
- <20190917092004.999-6-mreitz@redhat.com>
- <fb3673f7-8694-2be1-f843-8786167049c4@virtuozzo.com>
-In-Reply-To: <fb3673f7-8694-2be1-f843-8786167049c4@virtuozzo.com>
+At the moment this test runs on whatever the host arch is.  But it looks
+for 'unavailable-features' which is an x86 specific cpu property.  Tag it
+to always use qemu-system-x86_64.
 
---XWcrdN410TJqBZJ0OUghTGmZjvVBeiJJs
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+---
+ tests/acceptance/cpu_queries.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On 17.09.19 16:25, Andrey Shinkevich wrote:
->=20
->=20
-> On 17/09/2019 12:20, Max Reitz wrote:
->> null-aio may not be whitelisted.  Skip all test cases that require it.=
+I sent this a while back, but it seems to have been forgotten.  As far
+as I can tell the current logic is Just Plain Wrong, on any host other
+than x86.
 
->>
->> (And skip the whole test if null-co is not whitelisted.)
-> This solution has been persisting since v1. Nevertheless, I am still no=
-t=20
-> clear why not to run the test if the null-aio is the only whitelisted=20
-> driver? Will the null-aio be supported in future?
+diff --git a/tests/acceptance/cpu_queries.py b/tests/acceptance/cpu_queri=
+es.py
+index e71edec39f..af47d2795a 100644
+--- a/tests/acceptance/cpu_queries.py
++++ b/tests/acceptance/cpu_queries.py
+@@ -18,6 +18,9 @@ class QueryCPUModelExpansion(Test):
+     """
+=20
+     def test(self):
++        """
++        :avocado: tags=3Darch:x86_64
++        """
+         self.vm.set_machine('none')
+         self.vm.add_args('-S')
+         self.vm.launch()
+--=20
+2.21.0
 
-I don=E2=80=99t see a reason why we=E2=80=99d remove it.  But chances are=
-, if any of the
-null* drivers is whitelisted, it=E2=80=99ll be null-co (because we barely=
- use
-the AIO block driver interface anymore).
-
-Max
-
-
---XWcrdN410TJqBZJ0OUghTGmZjvVBeiJJs--
-
---xGImeWskqBhyMUu9bMT0nuDvEkNXdyiOp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2Bzq0ACgkQ9AfbAGHV
-z0DXkggAtJa9T0p3AUq6gXzJdFx5lzfQIyrQkkCayHHyDu8TraHfl0UWbU4yNPV3
-cIygQYNhwB9R+yqw7S1/1j78+GjVF1DDkyDDFb+/KaaZ5YV6ROtZC1cuqC1q374q
-WmP00Jj01xrStMcyxRLv84LIkLJEMDzFYtMDWus/CNrKtMI4xc3am4odOZZiCRv/
-1kLnCDmDItzxVMGAdn0rfNX+AEqulPM26oadEm2fZnNhr1zEO0fP4vOHX+KP5SGK
-yca71FuFQrb4CTe3sI1/pbQuT9WU1fWtq7Y4LQiJVvC685b1Kx6TBHEqzfr0NiaT
-/INcwWo5MOhNeyPpxkG2LHLb+pzigw==
-=K9Wq
------END PGP SIGNATURE-----
-
---xGImeWskqBhyMUu9bMT0nuDvEkNXdyiOp--
 
