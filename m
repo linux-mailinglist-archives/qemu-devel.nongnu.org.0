@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82CEB6FA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 01:26:04 +0200 (CEST)
-Received: from localhost ([::1]:35976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326BEB6F9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 01:23:10 +0200 (CEST)
+Received: from localhost ([::1]:35952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAjKl-0006Do-7m
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 19:26:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33214)
+	id 1iAjHw-0002o8-Dq
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 19:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33243)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iAjEW-0000GK-KZ
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:37 -0400
+ (envelope-from <alxndr@bu.edu>) id 1iAjEY-0000J0-EX
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iAjEU-0002Ub-RH
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:36 -0400
-Received: from mail-eopbgr710132.outbound.protection.outlook.com
- ([40.107.71.132]:6167 helo=NAM05-BY2-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1iAjEX-0002Wh-D5
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:38 -0400
+Received: from mail-eopbgr680129.outbound.protection.outlook.com
+ ([40.107.68.129]:42238 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAjEU-0002SZ-JN
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:34 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAjEX-0002Vm-85
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 19:19:37 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SHTy4WhzBrsbqx4tFlnabG+bj/4kvjLCodgwpKZneBGE3sI96ySWdZpJNXx7fFpdf6PQN/L6D2PdHWuo4IfAWBQ3We/FjpTCZqp3i1/fl92ojaUip4ERsmoJHcKTcxYmJ30hbp3EjnnJRYEi+F8ERbtmh5PnXoQAK2RVTlkOWvMMuhpMRGK91uBCpyBdIc3BgTaXQBnmZO513ALqmrI3416L95zWWZIkUMI3DAaLgZKskLrYQozLfiG+j5XomG3p94MrE7+PVfcNI9Lk2R6e2UCy0SQ2n5/Hf4GaTI2+68eFTeKnM/V/ZeBlkDJAxG7F5b8V8XJRJD5A9/gRKvJTfA==
+ b=XDWVh8CLMuXnqwEQaUph15SOI9eV5uq87I7YpyKmGa6Tu04TOvSYReIh+vGwWeYogr47Ddpyig6Ph0LSAiXStq8EedViwMyK0sx3y1wOaAby0zxrTUy44OASWAs44NHr6VMXT9Z4tKp7Otcfew8E3cglQa0Fsi2KZASnENM9AdYbYSdVW/E6Y4VhKp5bYNLXRyVdjoUXPhh8UXJv5n6UXJ14EL8Wo53Q8JwbTTTA8D8XWEfq+5OBYQLgX9uzL9H/FakVVLqLMlr8YvTNYnAmhhcQI02N4StoQS7jdEIzIxHygF8/dr29wGPv4OG9COKJJDLA+59Ks8lVv+/LYDS2BA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VT+9bNaJb5U/5qjKkIuVId2sNqiXfCsoNNkJNF9cROM=;
- b=mfWQWvggHZit4fYqkNH0sZMpbYY+ZVv3/r4xrRAcav1GG/BRmzjld4+83bDcQWg4G3jb5k1kWlJi6tlfO8fE37/Eq9AYxUg/ZVqWRRgfq8sFggRmewTzpR1bdVP7KezIdC4m0M4HHG1tx9paDyIpIngOPWOwpmViWmr9V+poQsSLS6jklUd9AOPsAfJP4htBKYbC2ea5kGb4NYMBacOZPAHgMd3M5QSpTHka0pXvdvv7Lzw7UeWtLsoHvX+0Wm9OT3icD+lkMQNw84qiLgrcs2XSKWS4KlxMT5HjT0xStcjuvpM3PUkxuJem9C4j/cHTx155XThH5p3tg/rXb2UMuw==
+ bh=pgJ+FDSetf9Xbcixba+4dxJmPzmsrIkckesKqeaQtJM=;
+ b=fM1kmZNk9XZ9hmOykZOfny64wdG2DcQqsLSgGFBZcGSk3N49YkvPwnbyywZgNDGnrJVsSlTOQ3WgeM2cNZ9T+FDmjsSKmDvpy2NeMBI+UvRFkKD5SY+FSebHXUYN8UmTUTFOUceN6ggsD9FNweI59BfmSO3AZc+nn5QkTZJmQwsTYYrNo4FUR5S0z3LK48ewSh2Voh6ghzzVvBBVBcUDicK69U673MRkwLJq88F0UugmowAtNuJPrdws1KWK2OqNDKDnpXHvKJBMXWFYWD1Q5HBztFEXALDvTU6PyAEN9izo7Dy17KQ2hxb0hIADp+YG7VGdFOmBdd3F8P7kDQkqeQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VT+9bNaJb5U/5qjKkIuVId2sNqiXfCsoNNkJNF9cROM=;
- b=q2sXyTsB93zVpd9V/sAqllEQA72amUg2pekG4Z7Udrr5sN3VyBgZDv56sIkiJZvQxfrxyFxk7vLGKrqRxbIybpqGEQY2dEZHngN8w8kdpO+yu3NnJaWfhCpdNBvfc97gt3Ox7JFThHIt4JpeWK9wmcmZMYhG3n3LSe+/a3fS/iA=
+ bh=pgJ+FDSetf9Xbcixba+4dxJmPzmsrIkckesKqeaQtJM=;
+ b=H8HIecMMQ5EGkzmgbcxRIdyHUcDIxKc4aBeHu7YwcOTQD/2WeFdh/NZqkB7hoW6WUxwLGsrAzLdqPOxTlH/+GyAye+kqB1XoKctMZFVM2lSv+q3DxKC3L/8KcQ2VNSdTbsRKduyrGKuAufbcNsHXhlhHNGHgnV53IoATbMLbqYM=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
- CY4PR03MB3016.namprd03.prod.outlook.com (10.175.117.149) with Microsoft SMTP
+ CY4PR03MB2695.namprd03.prod.outlook.com (10.173.43.138) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Wed, 18 Sep 2019 23:19:32 +0000
+ 15.20.2263.15; Wed, 18 Sep 2019 23:19:35 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6d88:c5bd:41ad:b107]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6d88:c5bd:41ad:b107%3]) with mapi id 15.20.2263.023; Wed, 18 Sep 2019
- 23:19:32 +0000
+ 23:19:35 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v3 05/22] libqtest: Add a layer of abstraciton to
- send/recv
-Thread-Index: AQHVbneHp+c4RlezBUGXNefN9Lzx6g==
-Date: Wed, 18 Sep 2019 23:19:32 +0000
-Message-ID: <20190918231846.22538-6-alxndr@bu.edu>
+Thread-Topic: [PATCH v3 08/22] module: check module wasn't already initialized
+Thread-Index: AQHVbneIl3rR1NcDEEWCktt8ha+RNw==
+Date: Wed, 18 Sep 2019 23:19:35 +0000
+Message-ID: <20190918231846.22538-9-alxndr@bu.edu>
 References: <20190918231846.22538-1-alxndr@bu.edu>
 In-Reply-To: <20190918231846.22538-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -65,39 +64,39 @@ x-clientproxiedby: BL0PR02CA0124.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 61bedc98-488c-41f4-4134-08d73c8ea991
+x-ms-office365-filtering-correlation-id: 00b2fcf6-8c94-466a-b300-08d73c8eab3b
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:CY4PR03MB3016; 
-x-ms-traffictypediagnostic: CY4PR03MB3016:
+ SRVR:CY4PR03MB2695; 
+x-ms-traffictypediagnostic: CY4PR03MB2695:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR03MB301686B59EAB4110DD5E4D15BA8E0@CY4PR03MB3016.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:81;
+x-microsoft-antispam-prvs: <CY4PR03MB26951D8614F51CF2A43A93EEBA8E0@CY4PR03MB2695.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
 x-forefront-prvs: 01644DCF4A
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(39860400002)(366004)(376002)(136003)(346002)(396003)(199004)(189003)(66066001)(86362001)(52116002)(478600001)(2616005)(7736002)(71190400001)(8676002)(36756003)(71200400001)(14454004)(54906003)(316002)(786003)(6486002)(81156014)(75432002)(256004)(6436002)(305945005)(6916009)(6512007)(5640700003)(386003)(486006)(26005)(11346002)(186003)(102836004)(99286004)(76176011)(66946007)(446003)(476003)(66476007)(66556008)(64756008)(66446008)(6506007)(5660300002)(4326008)(2501003)(2351001)(6116002)(81166006)(50226002)(25786009)(1076003)(2906002)(88552002)(8936002)(3846002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB3016;
+ SFS:(10019020)(4636009)(39860400002)(396003)(366004)(136003)(376002)(346002)(199004)(189003)(2501003)(36756003)(86362001)(316002)(2351001)(6916009)(3846002)(6486002)(6506007)(6436002)(76176011)(386003)(52116002)(88552002)(75432002)(2906002)(99286004)(5660300002)(5640700003)(6116002)(6512007)(4326008)(25786009)(7736002)(186003)(50226002)(305945005)(102836004)(66476007)(446003)(26005)(2616005)(476003)(66446008)(478600001)(71190400001)(14454004)(64756008)(71200400001)(66066001)(786003)(8676002)(54906003)(1076003)(486006)(11346002)(66556008)(66946007)(8936002)(81166006)(81156014)(256004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2695;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Ss5Ty4LCveZQDBkvOrxDU359eszrbLiO1kk0S4bzbGEJiv9z6TiDbeW66mEFD0UrGU37mydeV0vRpzWTOzsKlB4VoG8R5wvVGHdSPwOjQTfsDz7KuP80X+nEMgfbR1ARemgzllA9Rwd2VcAYGiQzK7qrLV3AxWEtFIgmyn2JS2AVczAdi/WJg/naZH01io3y/FvEeQGCYBB/tX2nvDN5fAeX0pHo5N9GLmM8NQNbsKFgN/rx85FG7VjKvPjSv3eYv/KpSbk5HPqsgcTFr8px58I9EdIq1tpDIxsmIFgqgXFX82Zg6mReukQrJP86jG55aacEA6UVlgQc3sOu3OGL545f5F0oDplEiFspMW2ZAMJqN5CjEMur+9iPFuqO/Mn+HqaRHZuY3kKJxc4Faj/NCQbAP9MheJgoFE9xCcUHT18=
+x-microsoft-antispam-message-info: jxR9/qZ+6YW4O01lbq39j//hbCfjMWQVCzafJnOpwdbmIudLMGSmTmW0jX+l+o+g+5PS3SstrECLqXlBabA9ZjhcmiC3giPgqyFuhCenZ2QSitH3f+jjsbxQAFIW/tgfpTTNwObvzqKmt9x77PQeU9Gno8iaIGhA+HvdOIFjLdQkXfWH1P99pBXnIes5Ic2Bm7VU260ZbP997X0seJ32fRmh7k6iVMfBcoq0QXBRZuEHQM+vsvw77aXlhiyUqF5dFC8CfqQ9XhdfGGwPbHiVv0RNNZ7Dl5jnvq86VDx6jrJRrGBit7Tv2vktJiII10rs9U8RfJPADPzXsLAjTbF/kn6A2U3JiVeX18A7wQwfmCBUzbxLaTczzVA8D2ge+Bg+T5fmMqmnSBr5AqxMfz1ue5Ez+f6MkAI5h2gTRlyKPTQ=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61bedc98-488c-41f4-4134-08d73c8ea991
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 23:19:32.7694 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00b2fcf6-8c94-466a-b300-08d73c8eab3b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 23:19:35.4202 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TP2qhLR81rhovJeZgLWpcJ8nsQqU958T6ABvNrKjZf3erfWEPbxtYfBwZxoZ3LR2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB3016
+X-MS-Exchange-CrossTenant-userprincipalname: AJcXg6hiMwN8+nR9XNh0/TVNgLPjNVWEFMgpmsifVocpgz+/RIszQ1gb5DjVtzQ5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2695
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.71.132
-Subject: [Qemu-devel] [PATCH v3 05/22] libqtest: Add a layer of abstraciton
- to send/recv
+X-Received-From: 40.107.68.129
+Subject: [Qemu-devel] [PATCH v3 08/22] module: check module wasn't already
+ initialized
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,180 +108,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Oleinik, Alexander" <alxndr@bu.edu>, "bsd@redhat.com" <bsd@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
+ "Oleinik, Alexander" <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes it simple to swap the transport functions for qtest commands
-to and from the qtest client. For example, now it is possible to
-directly pass qtest commands to a server handler that exists within the
-same process, without the standard way of writing to a file descriptor.
+The virtual-device fuzzer must initialize QOM, prior to running
+vl:qemu_init, so that it can use the qos_graph to identify the arguments
+required to initialize a guest for libqos-assisted fuzzing. This change
+prevents errors when vl:qemu_init tries to (re)initialize the previously
+initialized QOM module.
 
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- tests/libqtest.c | 64 +++++++++++++++++++++++++++++++++++++++---------
- tests/libqtest.h |  1 -
- 2 files changed, 53 insertions(+), 12 deletions(-)
+ util/module.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index 4a7556462d..19feea9e17 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -35,6 +35,15 @@
- #define SOCKET_TIMEOUT 50
- #define SOCKET_MAX_FDS 16
+diff --git a/util/module.c b/util/module.c
+index e9fe3e5422..841e490e06 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -30,6 +30,7 @@ typedef struct ModuleEntry
+ typedef QTAILQ_HEAD(, ModuleEntry) ModuleTypeList;
 =20
-+
-+typedef struct QTestClientTransportOps {
-+    void     (*send)(void* , const char*, size_t);
-+    void     *send_opaque;
-+
-+    GString* (*recv_line)(void *);
-+    void     *recv_line_opaque;
-+} QTestTransportOps;
-+
- struct QTestState
- {
-     int fd;
-@@ -45,13 +54,28 @@ struct QTestState
-     bool big_endian;
-     bool irq_level[MAX_IRQ];
-     GString *rx;
-+    QTestTransportOps ops;
- };
+ static ModuleTypeList init_type_list[MODULE_INIT_MAX];
++static bool modules_init_done[MODULE_INIT_MAX];
 =20
- static GHookList abrt_hooks;
- static struct sigaction sigact_old;
-+static GString *recv_str;
+ static ModuleTypeList dso_init_list;
 =20
- static int qtest_query_target_endianness(QTestState *s);
+@@ -91,11 +92,17 @@ void module_call_init(module_init_type type)
+     ModuleTypeList *l;
+     ModuleEntry *e;
 =20
-+static void qtest_client_socket_send(void *opaque,
-+        const char *buf, size_t size);
-+static void socket_send(int fd, const char *buf, size_t size);
++    if (modules_init_done[type]) {
++        return;
++    }
 +
-+static GString *qtest_client_socket_recv_line(void *);
-+static GString *qtest_client_inproc_recv_line(void *);
-+
-+static void qtest_client_set_tx_handler(QTestState *s,
-+        void (*send)(void *, const char *, size_t), void *opaque);
-+static void qtest_client_set_rx_handler(QTestState *s,
-+        GString * (*recv)(void *), void *opaque);
-+
-+
- static int init_socket(const char *socket_path)
- {
-     struct sockaddr_un addr;
-@@ -234,6 +258,9 @@ QTestState *qtest_init_without_qmp_handshake(const char=
- *extra_args)
-     sock =3D init_socket(socket_path);
-     qmpsock =3D init_socket(qmp_socket_path);
+     l =3D find_type(type);
 =20
-+    qtest_client_set_rx_handler(s, qtest_client_socket_recv_line, s);
-+    qtest_client_set_tx_handler(s, qtest_client_socket_send, &(s->fd));
-+
-     qtest_add_abrt_handler(kill_qemu_hook_func, s);
-=20
-     command =3D g_strdup_printf("exec %s "
-@@ -360,8 +387,9 @@ void qtest_quit(QTestState *s)
-     g_free(s);
- }
-=20
--static void socket_send(int fd, const char *buf, size_t size)
-+static void qtest_client_socket_send(void *opaque, const char *buf, size_t=
- size)
- {
-+    int fd =3D *((int *)opaque);
-     size_t offset;
-=20
-     offset =3D 0;
-@@ -379,22 +407,22 @@ static void socket_send(int fd, const char *buf, size=
-_t size)
+     QTAILQ_FOREACH(e, l, node) {
+         e->init();
      }
- }
-=20
--static void socket_sendf(int fd, const char *fmt, va_list ap)
-+static void socket_send(int fd, const char *buf, size_t size)
- {
--    gchar *str =3D g_strdup_vprintf(fmt, ap);
--    size_t size =3D strlen(str);
--
--    socket_send(fd, str, size);
--    g_free(str);
-+    qtest_client_socket_send(&fd, buf, size);
- }
-=20
- static void GCC_FMT_ATTR(2, 3) qtest_sendf(QTestState *s, const char *fmt,=
- ...)
- {
-     va_list ap;
--
-     va_start(ap, fmt);
--    socket_sendf(s->fd, fmt, ap);
-+    gchar *str =3D g_strdup_vprintf(fmt, ap);
-     va_end(ap);
 +
-+    size_t size =3D strlen(str);
-+
-+    s->ops.send(s, str, size);
-+    g_free(str);
++    modules_init_done[type] =3D true;
  }
 =20
- /* Sends a message and file descriptors to the socket.
-@@ -431,8 +459,9 @@ static void socket_send_fds(int socket_fd, int *fds, si=
-ze_t fds_num,
-     g_assert_cmpint(ret, >, 0);
- }
-=20
--static GString *qtest_recv_line(QTestState *s)
-+static GString *qtest_client_socket_recv_line(void* opaque)
- {
-+    QTestState *s =3D opaque;
-     GString *line;
-     size_t offset;
-     char *eol;
-@@ -468,7 +497,7 @@ static gchar **qtest_rsp(QTestState *s, int expected_ar=
-gs)
-     int i;
-=20
- redo:
--    line =3D qtest_recv_line(s);
-+    line =3D s->ops.recv_line(s->ops.recv_line_opaque);
-     words =3D g_strsplit(line->str, " ", 0);
-     g_string_free(line, TRUE);
-=20
-@@ -1327,3 +1356,16 @@ void qmp_assert_error_class(QDict *rsp, const char *=
-class)
-=20
-     qobject_unref(rsp);
- }
-+
-+static void qtest_client_set_tx_handler(QTestState *s,
-+                    void (*send)(void*, const char*, size_t), void *opaque=
-)
-+{
-+    s->ops.send =3D send;
-+    s->ops.send_opaque =3D opaque;
-+}
-+static void qtest_client_set_rx_handler(QTestState *s,
-+                    GString* (*recv)(void *), void *opaque)
-+{
-+    s->ops.recv_line =3D recv;
-+    s->ops.recv_line_opaque =3D opaque;
-+}
-diff --git a/tests/libqtest.h b/tests/libqtest.h
-index a177e502d9..40fa235a52 100644
---- a/tests/libqtest.h
-+++ b/tests/libqtest.h
-@@ -716,5 +716,4 @@ bool qtest_probe_child(QTestState *s);
-  * Set expected exit status of the child.
-  */
- void qtest_set_expected_status(QTestState *s, int status);
--
- #endif
+ #ifdef CONFIG_MODULES
 --=20
 2.23.0
 
