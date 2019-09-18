@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2133CB6131
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:14:14 +0200 (CEST)
-Received: from localhost ([::1]:56944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE073B6121
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:11:48 +0200 (CEST)
+Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWyS-0005OV-Fm
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:14:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59661)
+	id 1iAWw7-0002Yo-CT
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59672)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iAWeu-0003N7-Io
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:54:01 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iAWew-0003Pk-De
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:54:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iAWet-0007Gz-EQ
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:54:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36800)
+ (envelope-from <stefanha@redhat.com>) id 1iAWev-0007I9-AW
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:54:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56476)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAWet-0007Gh-9N
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:53:59 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAWev-0007Hf-5L
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:54:01 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9B04359465;
- Wed, 18 Sep 2019 09:53:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 77E2E300CB2B;
+ Wed, 18 Sep 2019 09:54:00 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3E9C60872;
- Wed, 18 Sep 2019 09:53:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08B551001B30;
+ Wed, 18 Sep 2019 09:53:59 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 18 Sep 2019 10:53:34 +0100
-Message-Id: <20190918095335.7646-3-stefanha@redhat.com>
+Date: Wed, 18 Sep 2019 10:53:35 +0100
+Message-Id: <20190918095335.7646-4-stefanha@redhat.com>
 In-Reply-To: <20190918095335.7646-1-stefanha@redhat.com>
 References: <20190918095335.7646-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 18 Sep 2019 09:53:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Wed, 18 Sep 2019 09:54:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/3] audio: add -audiodev pa,
- in|out.latency= to documentation
+Subject: [Qemu-devel] [PATCH v2 3/3] audio: fix ALSA period-length typo in
+ documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,38 +60,38 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "latency" parameter wasn't covered by the documentation.
-
+Fixes: f0b3d811529 ("audio: -audiodev command line option: documentation"=
+)
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- qemu-options.hx | 5 +++++
- 1 file changed, 5 insertions(+)
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/qemu-options.hx b/qemu-options.hx
-index a4f9f74f52..6d7fe57dd4 100644
+index 6d7fe57dd4..0f79c70c37 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -470,6 +470,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
-     "-audiodev pa,id=3Did[,prop[=3Dvalue][,...]]\n"
-     "                server=3D PulseAudio server address\n"
-     "                in|out.name=3D source/sink device name\n"
-+    "                in|out.latency=3D desired latency in microseconds\n=
-"
+@@ -445,7 +445,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+ #ifdef CONFIG_AUDIO_ALSA
+     "-audiodev alsa,id=3Did[,prop[=3Dvalue][,...]]\n"
+     "                in|out.dev=3D name of the audio device to use\n"
+-    "                in|out.period-len=3D length of period in microsecon=
+ds\n"
++    "                in|out.period-length=3D length of period in microse=
+conds\n"
+     "                in|out.try-poll=3D attempt to use poll mode\n"
+     "                threshold=3D threshold (in microseconds) when playb=
+ack starts\n"
  #endif
- #ifdef CONFIG_AUDIO_SDL
-     "-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]\n"
-@@ -630,6 +631,10 @@ Sets the PulseAudio @var{server} to connect to.
- @item in|out.name=3D@var{sink}
- Use the specified source/sink for recording/playback.
+@@ -546,7 +546,7 @@ ALSA specific options are:
+ Specify the ALSA @var{device} to use for input and/or output.  Default
+ is @code{default}.
 =20
-+@item in|out.latency=3D@var{usecs}
-+Desired latency in microseconds.  The PulseAudio server will try to hono=
-r this
-+value but actual latencies may be lower or higher.
-+
- @end table
+-@item in|out.period-len=3D@var{usecs}
++@item in|out.period-length=3D@var{usecs}
+ Sets the period length in microseconds.
 =20
- @item -audiodev sdl,id=3D@var{id}[,@var{prop}[=3D@var{value}][,...]]
+ @item in|out.try-poll=3Don|off
 --=20
 2.21.0
 
