@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3AAB6E7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 22:52:15 +0200 (CEST)
-Received: from localhost ([::1]:35168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58235B6E86
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 22:54:38 +0200 (CEST)
+Received: from localhost ([::1]:35210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAgvu-0005Bc-BY
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 16:52:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46797)
+	id 1iAgyD-00081h-C3
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 16:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iAgtv-0003u0-EL
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 16:50:12 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1iAguK-0004MN-GL
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 16:50:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iAgtu-0007FA-E1
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 16:50:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33876)
+ (envelope-from <mlevitsk@redhat.com>) id 1iAguJ-0007d6-AE
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 16:50:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39594)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1iAgts-0007Cc-97; Wed, 18 Sep 2019 16:50:08 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iAguG-0007cB-RC; Wed, 18 Sep 2019 16:50:33 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9AA1E85537;
- Wed, 18 Sep 2019 20:50:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1A84C8667D;
+ Wed, 18 Sep 2019 20:50:32 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 402F560C18;
- Wed, 18 Sep 2019 20:49:57 +0000 (UTC)
-Message-ID: <eea7d7f61e886a5eaa0277986acbe8f9a0a46d16.camel@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CADE810018F8;
+ Wed, 18 Sep 2019 20:50:27 +0000 (UTC)
+Message-ID: <fb155f86e86822ea2e7f4e41932b967878a99716.camel@redhat.com>
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Wed, 18 Sep 2019 23:49:57 +0300
-In-Reply-To: <20190918095144.955-3-mreitz@redhat.com>
+Date: Wed, 18 Sep 2019 23:50:26 +0300
+In-Reply-To: <20190918095144.955-4-mreitz@redhat.com>
 References: <20190918095144.955-1-mreitz@redhat.com>
- <20190918095144.955-3-mreitz@redhat.com>
+ <20190918095144.955-4-mreitz@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 18 Sep 2019 20:50:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Wed, 18 Sep 2019 20:50:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/8] block/cor: Drop cor_co_truncate()
+Subject: Re: [Qemu-devel] [PATCH 3/8] block: Do not truncate file node when
+ formatting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,46 +63,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 2019-09-18 at 11:51 +0200, Max Reitz wrote:
-> No other filter driver has a .bdrv_co_truncate() implementation, and
-> there is no need to because the general block layer code can handle it
-> just as well.
+> There is no reason why the format drivers need to truncate the protocol
+> node when formatting it.  When using the old .bdrv_co_create_ops()
+> interface, the file will be created with no size option anyway, which
+> generally gives it a size of 0.  (Exceptions are block devices, which
+> cannot be truncated anyway.)
+> 
+> When using blockdev-create, the user must have given the file node some
+> size anyway, so there is no reason why we should override that.
+> 
+> qed is an exception, it needs the file to start completely empty (as
+> explained by c743849bee7333c7ef256b7e12e34ed6f907064f).
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  block/copy-on-read.c | 8 --------
->  1 file changed, 8 deletions(-)
+>  block/parallels.c | 5 -----
+>  block/qcow.c      | 5 -----
+>  block/qcow2.c     | 6 ------
+>  3 files changed, 16 deletions(-)
 > 
-> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-> index 6631f30205..e95223d3cb 100644
-> --- a/block/copy-on-read.c
-> +++ b/block/copy-on-read.c
-> @@ -73,13 +73,6 @@ static int64_t cor_getlength(BlockDriverState *bs)
->  }
+> diff --git a/block/parallels.c b/block/parallels.c
+> index 7cd2714b69..905cac35c6 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -563,11 +563,6 @@ static int coroutine_fn parallels_co_create(BlockdevCreateOptions* opts,
+>      blk_set_allow_write_beyond_eof(blk, true);
 >  
->  
-> -static int coroutine_fn cor_co_truncate(BlockDriverState *bs, int64_t offset,
-> -                                        PreallocMode prealloc, Error **errp)
-> -{
-> -    return bdrv_co_truncate(bs->file, offset, prealloc, errp);
-> -}
+>      /* Create image format */
+> -    ret = blk_truncate(blk, 0, PREALLOC_MODE_OFF, errp);
+> -    if (ret < 0) {
+> -        goto out;
+> -    }
 > -
+>      bat_entries = DIV_ROUND_UP(total_size, cl_size);
+>      bat_sectors = DIV_ROUND_UP(bat_entry_off(bat_entries), cl_size);
+>      bat_sectors = (bat_sectors *  cl_size) >> BDRV_SECTOR_BITS;
+> diff --git a/block/qcow.c b/block/qcow.c
+> index 5bdf72ba33..17705015ca 100644
+> --- a/block/qcow.c
+> +++ b/block/qcow.c
+> @@ -858,11 +858,6 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+>      blk_set_allow_write_beyond_eof(qcow_blk, true);
+>  
+>      /* Create image format */
+> -    ret = blk_truncate(qcow_blk, 0, PREALLOC_MODE_OFF, errp);
+> -    if (ret < 0) {
+> -        goto exit;
+> -    }
 > -
->  static int coroutine_fn cor_co_preadv(BlockDriverState *bs,
->                                        uint64_t offset, uint64_t bytes,
->                                        QEMUIOVector *qiov, int flags)
-> @@ -139,7 +132,6 @@ static BlockDriver bdrv_copy_on_read = {
->      .bdrv_child_perm                    = cor_child_perm,
+>      memset(&header, 0, sizeof(header));
+>      header.magic = cpu_to_be32(QCOW_MAGIC);
+>      header.version = cpu_to_be32(QCOW_VERSION);
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 4d16393e61..4978ccc7be 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -3186,12 +3186,6 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+>      }
+>      blk_set_allow_write_beyond_eof(blk, true);
 >  
->      .bdrv_getlength                     = cor_getlength,
-> -    .bdrv_co_truncate                   = cor_co_truncate,
->  
->      .bdrv_co_preadv                     = cor_co_preadv,
->      .bdrv_co_pwritev                    = cor_co_pwritev,
+> -    /* Clear the protocol layer and preallocate it if necessary */
+> -    ret = blk_truncate(blk, 0, PREALLOC_MODE_OFF, errp);
+> -    if (ret < 0) {
+> -        goto out;
+> -    }
+> -
+>      /* Write the header */
+>      QEMU_BUILD_BUG_ON((1 << MIN_CLUSTER_BITS) < sizeof(*header));
+>      header = g_malloc0(cluster_size);
+
+As long as bdrv_co_create_ops still creates the underlying file with bdrv_create_file or so,
+I also don't see a reason to truncate it to 0 afterward.
+Especially for block devices...
+So,
+
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
-
-
 
 
