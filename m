@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85998B6881
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:52:56 +0200 (CEST)
-Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE53B6889
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:57:06 +0200 (CEST)
+Received: from localhost ([::1]:32834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdCJ-0004m2-9o
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50967)
+	id 1iAdGL-0000np-LH
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iAbvo-0002GT-9j
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:49 -0400
+ (envelope-from <david@redhat.com>) id 1iAbvq-0002Ii-Gu
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iAbvn-0000q6-15
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57776)
+ (envelope-from <david@redhat.com>) id 1iAbvp-0000ru-2G
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47938)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iAbvm-0000pL-SH; Wed, 18 Sep 2019 11:31:46 -0400
+ id 1iAbvo-0000rD-TI; Wed, 18 Sep 2019 11:31:49 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2C58F30821C2;
- Wed, 18 Sep 2019 15:31:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 32F863060399;
+ Wed, 18 Sep 2019 15:31:48 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-119.ams2.redhat.com [10.36.117.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8525B5D70D;
- Wed, 18 Sep 2019 15:31:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75ED55D6A5;
+ Wed, 18 Sep 2019 15:31:46 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 18 Sep 2019 17:29:19 +0200
-Message-Id: <20190918152922.18949-27-david@redhat.com>
+Date: Wed, 18 Sep 2019 17:29:20 +0200
+Message-Id: <20190918152922.18949-28-david@redhat.com>
 In-Reply-To: <20190918152922.18949-1-david@redhat.com>
 References: <20190918152922.18949-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 18 Sep 2019 15:31:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Wed, 18 Sep 2019 15:31:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 26/29] s390x/tcg: MVZ:
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 27/29] s390x/tcg: MVST:
  Fault-safe handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,49 +62,66 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can process a maximum of 256 bytes, crossing two pages.
+Access at most single pages and document why. Using the access helpers
+might over-indicate watchpoints within the same page, I guess we can
+live with that.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ target/s390x/mem_helper.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index fbf65ac42b..c836b69fcc 100644
+index c836b69fcc..671e917dc1 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -547,13 +547,22 @@ void HELPER(mvo)(CPUS390XState *env, uint32_t l, ui=
-nt64_t dest, uint64_t src)
- /* move zones  */
- void HELPER(mvz)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64_t=
- src)
+@@ -860,23 +860,33 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t =
+r0, uint64_t r1, uint64_t r2)
+ /* string copy */
+ uint32_t HELPER(mvst)(CPUS390XState *env, uint32_t r1, uint32_t r2)
  {
 +    const int mmu_idx =3D cpu_mmu_index(env, false);
-+    S390Access srca1, srca2, desta;
+     const uint64_t d =3D get_address(env, r1);
+     const uint64_t s =3D get_address(env, r2);
+     const uint8_t c =3D env->regs[0];
++    const int len =3D MIN(-(d | TARGET_PAGE_MASK), -(s | TARGET_PAGE_MAS=
+K));
++    S390Access srca, desta;
      uintptr_t ra =3D GETPC();
-     int i;
+-    uint32_t len;
++    int i;
 =20
--    for (i =3D 0; i <=3D l; i++) {
--        uint8_t b =3D cpu_ldub_data_ra(env, dest + i, ra) & 0x0f;
--        b |=3D cpu_ldub_data_ra(env, src + i, ra) & 0xf0;
--        cpu_stb_data_ra(env, dest + i, b, ra);
-+    /* MVZ always copies one more byte than specified - maximum is 256 *=
-/
-+    l++;
-+
-+    srca1 =3D access_prepare(env, src, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
-+    for (i =3D 0; i < l; i++) {
-+        const uint8_t x =3D (access_get_byte(env, &srca1, i, ra) & 0xf0)=
- |
-+                          (access_get_byte(env, &srca2, i, ra) & 0x0f);
-+
-+        access_set_byte(env, &desta, i, x, ra);
+     if (env->regs[0] & 0xffffff00ull) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ILEN_AUTO, ra);
      }
- }
 =20
+-    /* Lest we fail to service interrupts in a timely manner, limit the
+-       amount of work we're willing to do.  For now, let's cap at 8k.  *=
+/
+-    for (len =3D 0; len < 0x2000; ++len) {
+-        uint8_t v =3D cpu_ldub_data_ra(env, s + len, ra);
+-        cpu_stb_data_ra(env, d + len, v, ra);
++    /*
++     * Our access should not exceed single pages, as we must not report =
+access
++     * exceptions exceeding the actually copied range (which we don't kn=
+ow at
++     * this point). We might over-indicate watchpoints within the pages
++     * (if we ever care, we have to limit processing to a single byte).
++     */
++    srca =3D access_prepare(env, s, len, MMU_DATA_LOAD, mmu_idx, ra);
++    desta =3D access_prepare(env, d, len, MMU_DATA_STORE, mmu_idx, ra);
++    for (i =3D 0; i < len; i++) {
++        const uint8_t v =3D access_get_byte(env, &srca, i, ra);
++
++        access_set_byte(env, &desta, i, v, ra);
+         if (v =3D=3D c) {
+-            set_address_zero(env, r1, d + len);
++            set_address_zero(env, r1, d + i);
+             return 1;
+         }
+     }
 --=20
 2.21.0
 
