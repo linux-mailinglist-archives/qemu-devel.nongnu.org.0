@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AB2B610F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:08:18 +0200 (CEST)
-Received: from localhost ([::1]:56870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1BFB611E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:11:32 +0200 (CEST)
+Received: from localhost ([::1]:56924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWsi-0006ky-QQ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
+	id 1iAWvr-0002Az-9D
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iAWlo-0001UL-8T
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:01:09 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iAWdU-0001YP-27
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iAWlm-0003sJ-3A
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:01:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42714)
+ (envelope-from <mreitz@redhat.com>) id 1iAWdS-00065Y-Qf
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58970)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iAWlj-0003m7-9J
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:01:05 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iAWdQ-00064O-Ea; Wed, 18 Sep 2019 05:52:28 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1D03010DCC8E;
- Wed, 18 Sep 2019 10:00:58 +0000 (UTC)
-Received: from gondolin (dhcp-192-230.str.redhat.com [10.33.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E2BD5C21E;
- Wed, 18 Sep 2019 10:00:54 +0000 (UTC)
-Date: Wed, 18 Sep 2019 12:00:52 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <20190918120052.6120f8d8.cohuck@redhat.com>
-In-Reply-To: <CAJSP0QVMjw_zm16MRo25Gq0J9w=9vrKDZtaH=WGwjSJiDAVm9Q@mail.gmail.com>
-References: <CAJSP0QVMjw_zm16MRo25Gq0J9w=9vrKDZtaH=WGwjSJiDAVm9Q@mail.gmail.com>
-Organization: Red Hat GmbH
+ by mx1.redhat.com (Postfix) with ESMTPS id C3FA918C4266;
+ Wed, 18 Sep 2019 09:52:27 +0000 (UTC)
+Received: from localhost (ovpn-116-168.ams2.redhat.com [10.36.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E01960603;
+ Wed, 18 Sep 2019 09:52:21 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed, 18 Sep 2019 11:51:44 +0200
+Message-Id: <20190918095144.955-9-mreitz@redhat.com>
+In-Reply-To: <20190918095144.955-1-mreitz@redhat.com>
+References: <20190918095144.955-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Wed, 18 Sep 2019 10:00:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.62]); Wed, 18 Sep 2019 09:52:27 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Call for volunteers: LWN.net articles about KVM
- Forum talks
+Subject: [Qemu-devel] [PATCH 8/8] Revert "qemu-img: Check post-truncation
+ size"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,51 +55,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
- kvm <kvm@vger.kernel.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Sep 2019 14:02:59 +0100
-Stefan Hajnoczi <stefanha@gmail.com> wrote:
+This reverts commit 5279b30392da7a3248b320c75f20c61e3a95863c.
 
-> Hi,
-> LWN.net is a popular open source news site that covers Linux and other
-> open source communities (Python, GNOME, Debian, etc).  It has published
-> a few KVM articles in the past too.
-> 
-> Let's raise awareness of QEMU, KVM, and libvirt by submitting articles covering
-> KVM Forum.
+We no longer need this check because exact=3Dtrue forces the block driver
+to give the image the exact size requested by the user.
 
-Great idea!
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ qemu-img.c | 39 ++++-----------------------------------
+ 1 file changed, 4 insertions(+), 35 deletions(-)
 
-> 
-> I am looking for ~5 volunteers who are attending KVM Forum to write an article
-> about a talk they find interesting.
-> 
-> Please pick a talk you'd like to cover and reply to this email thread.
-> I will then send an email to LWN with a heads-up so they can let us know
-> if they are interested in publishing a KVM Forum special.  I will not
-> ask LWN.net for money.
-> 
-> KVM Forum schedule:
-> https://events.linuxfoundation.org/events/kvm-forum-2019/program/schedule/
-
-I think it might make sense to cover "Managing Matryoshkas: Testing
-Nested Guests" (Marc Hartmayer) and "Nesting&testing" (Vitaly
-Kuznetsov) in one article, and I volunteer for that.
-> 
-> LWN.net guidelines:
-> https://lwn.net/op/AuthorGuide.lwn
-> "Our general guideline is for articles to be around 1500 words in
-> length, though somewhat longer or shorter can work too. The best
-> articles cover a fairly narrow topic completely, without any big
-> omissions or any extra padding."
-> 
-> I volunteer to cover Michael Tsirkin's "VirtIO without the Virt -
-> Towards Implementations in Hardware" talk.
-> 
-> Thanks,
-> Stefan
+diff --git a/qemu-img.c b/qemu-img.c
+index a3169b6113..148f6b8b0e 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -3648,7 +3648,7 @@ static int img_resize(int argc, char **argv)
+     Error *err =3D NULL;
+     int c, ret, relative;
+     const char *filename, *fmt, *size;
+-    int64_t n, total_size, current_size, new_size;
++    int64_t n, total_size, current_size;
+     bool quiet =3D false;
+     BlockBackend *blk =3D NULL;
+     PreallocMode prealloc =3D PREALLOC_MODE_OFF;
+@@ -3829,42 +3829,11 @@ static int img_resize(int argc, char **argv)
+      * success when the image has not actually been resized.
+      */
+     ret =3D blk_truncate(blk, total_size, true, prealloc, &err);
+-    if (ret < 0) {
++    if (!ret) {
++        qprintf(quiet, "Image resized.\n");
++    } else {
+         error_report_err(err);
+-        goto out;
+-    }
+-
+-    new_size =3D blk_getlength(blk);
+-    if (new_size < 0) {
+-        error_report("Failed to verify truncated image length: %s",
+-                     strerror(-new_size));
+-        ret =3D -1;
+-        goto out;
+     }
+-
+-    /* Some block drivers implement a truncation method, but only so
+-     * the user can cause qemu to refresh the image's size from disk.
+-     * The idea is that the user resizes the image outside of qemu and
+-     * then invokes block_resize to inform qemu about it.
+-     * (This includes iscsi and file-posix for device files.)
+-     * Of course, that is not the behavior someone invoking
+-     * qemu-img resize would find useful, so we catch that behavior
+-     * here and tell the user. */
+-    if (new_size !=3D total_size && new_size =3D=3D current_size) {
+-        error_report("Image was not resized; resizing may not be support=
+ed "
+-                     "for this image");
+-        ret =3D -1;
+-        goto out;
+-    }
+-
+-    if (new_size !=3D total_size) {
+-        warn_report("Image should have been resized to %" PRIi64
+-                    " bytes, but was resized to %" PRIi64 " bytes",
+-                    total_size, new_size);
+-    }
+-
+-    qprintf(quiet, "Image resized.\n");
+-
+ out:
+     blk_unref(blk);
+     if (ret) {
+--=20
+2.21.0
 
 
