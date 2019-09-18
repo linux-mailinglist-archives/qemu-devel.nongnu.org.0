@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46999B67E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:18:39 +0200 (CEST)
-Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1489B67D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:13:11 +0200 (CEST)
+Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAcf7-0005sS-AC
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49997)
+	id 1iAcZq-0000Dv-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1iAbsu-0007r2-SQ
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:49 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iAbsw-0007tL-Ae
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1iAbst-0007Bp-Mr
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:48 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:43487)
+ (envelope-from <palmer@dabbelt.com>) id 1iAbsv-0007Cs-0r
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:50 -0400
+Received: from mail-pl1-f169.google.com ([209.85.214.169]:42959)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbst-0007BO-Ha
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:47 -0400
-Received: by mail-pf1-f196.google.com with SMTP id a2so185095pfo.10
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:28:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbsu-0007CK-Qq
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:48 -0400
+Received: by mail-pl1-f169.google.com with SMTP id e5so107167pls.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:28:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=oPwMt36c+qjgfMs2sORHI/jyAZMzpgus3H9ildbbPVw=;
- b=CgQpSGo6LfF95LAoTMhiA4XjRzYIm8e3na0ee7YXtjfA9W9lTZC5V2c1pN0uVtq4pd
- OcG36aMRqvUvFrKoKuOSIt1ahokZkcAe+GVg50/zjq4iwZUK1oatPoy8nNBMMV45Fx1/
- 6KMxkMHXVFkn/nsYylCbE4AJVqxvCInvdPFLNygey+aSSBlFOQsF9Sib6OeD6Wq4odLU
- SuZJF2cfkt/nG0TMDT3rM1GSLIzs3WAkCymi37liWOq1h3Y9+9SZm5nHT7AqOt06yPyY
- w1KBxEfhHsA9su5nR8tAvbkBScqcfdCyuCCEXJIiUfMPLKdFJXBgKWYWdc+QNPcDaW8D
- nLJQ==
-X-Gm-Message-State: APjAAAXIW+V0w/zg8iJT6djDWlI7Tda4/+I/Mlecv/UvI1TGYFyaXYyf
- wuBcXcfHwZdY/wwYIEuAPU63YoFtd8s=
-X-Google-Smtp-Source: APXvYqy54FRPgOoq321R1y28p5bMKtWiDdHc9O/jShzz6Mn+b5D+avw3d0oiHP7PPLnoKtdFkNzrSw==
-X-Received: by 2002:a17:90a:aa82:: with SMTP id
- l2mr4552715pjq.73.1568820526378; 
- Wed, 18 Sep 2019 08:28:46 -0700 (PDT)
+ bh=9GK2Bf5OnfdKtfsKMa0SLxJhchcsTnh1ghEkn9cP/2k=;
+ b=ZFFqzfrPeTWDwNk0vq/j4QPwxMjTRqERwwVG6M4Mji7TJUSq60x5dokL3mdBwccHRb
+ gNmK2no/X0+88vJctUmTFqQ/WGb/9QrHuYmyK8rpgVS6COu1yjg0G1YVKX4KLB6BQ7od
+ GUNNhBM79quDT9zU/vhn5J29/q4DGRdGpYTsTK4ygLgd1RIIJZ7RcgELFAKEQdTbn5WE
+ xUD3PZp9t1YiR9dXE1CqbY+FW7GeBH3hT9vVRT72MdwB9mgytUWML5SI7RAXK8Hsr5kH
+ 872IfbIJqHBL3WN5PkX3SPs9koq4gDBrE/lo9mCtaq3pcdiXrDUuHU3KdFlt9j4AjTzw
+ OIvw==
+X-Gm-Message-State: APjAAAWXDBQ9PBIuPsuhU3GCjnhjptROskIY2KRITknb8WF+ZnPmj4A2
+ GJrTfTKGPnJQhb9lfUU6ShMWpQ==
+X-Google-Smtp-Source: APXvYqyiKwA35t3fOAUJzRR8AbMlggMF5egaBiXgqGMq+ISNVpS8hKvuNv4tAaDkm5FPDau0dJOBPA==
+X-Received: by 2002:a17:902:9001:: with SMTP id
+ a1mr4896053plp.148.1568820527754; 
+ Wed, 18 Sep 2019 08:28:47 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id o42sm3331187pjo.32.2019.09.18.08.28.45
+ by smtp.gmail.com with ESMTPSA id y14sm5706798pge.7.2019.09.18.08.28.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 08:28:45 -0700 (PDT)
-Date: Wed, 18 Sep 2019 07:56:36 -0700
-Message-Id: <20190918145640.17349-45-palmer@sifive.com>
+ Wed, 18 Sep 2019 08:28:47 -0700 (PDT)
+Date: Wed, 18 Sep 2019 07:56:37 -0700
+Message-Id: <20190918145640.17349-46-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190918145640.17349-1-palmer@sifive.com>
 References: <20190918145640.17349-1-palmer@sifive.com>
@@ -54,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.196
-Subject: [Qemu-devel] [PULL 44/48] riscv: sifive_u: Update model and
- compatible strings in device tree
+X-Received-From: 209.85.214.169
+Subject: [Qemu-devel] [PULL 45/48] target/riscv: Use both register name and
+ ABI name
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,40 +68,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@sifive.com>
+Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
+ qemu-devel@nongnu.org, Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Atish Patra <atish.patra@wdc.com>
 
-This updates model and compatible strings to use the same strings
-as used in the Linux kernel device tree (hifive-unleashed-a00.dts).
+Use both the generic register name and ABI name for the general purpose
+registers and floating point registers.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_u.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/riscv/cpu.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 444c699f49..9f8e84bf2e 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -96,8 +96,9 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         exit(1);
-     }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 6d52f97d7c..f13e298a36 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -34,17 +34,20 @@
+ static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
  
--    qemu_fdt_setprop_string(fdt, "/", "model", "ucbbar,spike-bare,qemu");
--    qemu_fdt_setprop_string(fdt, "/", "compatible", "ucbbar,spike-bare-dev");
-+    qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
-+    qemu_fdt_setprop_string(fdt, "/", "compatible",
-+                            "sifive,hifive-unleashed-a00");
-     qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x2);
-     qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x2);
+ const char * const riscv_int_regnames[] = {
+-  "zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
+-  "s0",   "s1", "a0",  "a1",  "a2", "a3", "a4", "a5",
+-  "a6",   "a7", "s2",  "s3",  "s4", "s5", "s6", "s7",
+-  "s8",   "s9", "s10", "s11", "t3", "t4", "t5", "t6"
++  "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
++  "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
++  "x14/a4",  "x15/a5", "x16/a6", "x17/a7", "x18/s2", "x19/s3",  "x20/s4",
++  "x21/s5",  "x22/s6", "x23/s7", "x24/s8", "x25/s9", "x26/s10", "x27/s11",
++  "x28/t3",  "x29/t4", "x30/t5", "x31/t6"
+ };
  
+ const char * const riscv_fpr_regnames[] = {
+-  "ft0", "ft1", "ft2",  "ft3",  "ft4", "ft5", "ft6",  "ft7",
+-  "fs0", "fs1", "fa0",  "fa1",  "fa2", "fa3", "fa4",  "fa5",
+-  "fa6", "fa7", "fs2",  "fs3",  "fs4", "fs5", "fs6",  "fs7",
+-  "fs8", "fs9", "fs10", "fs11", "ft8", "ft9", "ft10", "ft11"
++  "f0/ft0",   "f1/ft1",  "f2/ft2",   "f3/ft3",   "f4/ft4",  "f5/ft5",
++  "f6/ft6",   "f7/ft7",  "f8/fs0",   "f9/fs1",   "f10/fa0", "f11/fa1",
++  "f12/fa2",  "f13/fa3", "f14/fa4",  "f15/fa5",  "f16/fa6", "f17/fa7",
++  "f18/fs2",  "f19/fs3", "f20/fs4",  "f21/fs5",  "f22/fs6", "f23/fs7",
++  "f24/fs8",  "f25/fs9", "f26/fs10", "f27/fs11", "f28/ft8", "f29/ft9",
++  "f30/ft10", "f31/ft11"
+ };
+ 
+ const char * const riscv_excp_names[] = {
 -- 
 2.21.0
 
