@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0772CB60D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 11:55:04 +0200 (CEST)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D541B60E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 11:59:12 +0200 (CEST)
+Received: from localhost ([::1]:56790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWfu-00031V-DM
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 05:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59326)
+	id 1iAWjv-0007BK-Ap
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 05:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iAWdG-0001H0-9r
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:19 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iAWdJ-0001LM-Gu
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iAWdB-0005j2-V4
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55718)
+ (envelope-from <mreitz@redhat.com>) id 1iAWdI-0005ni-As
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58772)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iAWd9-0005gN-GF; Wed, 18 Sep 2019 05:52:11 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iAWdF-0005kb-Ka; Wed, 18 Sep 2019 05:52:17 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CCD7B308A9E0;
- Wed, 18 Sep 2019 09:52:10 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EF96C46288;
+ Wed, 18 Sep 2019 09:52:16 +0000 (UTC)
 Received: from localhost (ovpn-116-168.ams2.redhat.com [10.36.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB5A119C70;
- Wed, 18 Sep 2019 09:52:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7270A5C219;
+ Wed, 18 Sep 2019 09:52:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed, 18 Sep 2019 11:51:41 +0200
-Message-Id: <20190918095144.955-6-mreitz@redhat.com>
+Date: Wed, 18 Sep 2019 11:51:42 +0200
+Message-Id: <20190918095144.955-7-mreitz@redhat.com>
 In-Reply-To: <20190918095144.955-1-mreitz@redhat.com>
 References: <20190918095144.955-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 18 Sep 2019 09:52:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Wed, 18 Sep 2019 09:52:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/8] block: Evaluate @exact in protocol drivers
+Subject: [Qemu-devel] [PATCH 6/8] block: Let format drivers pass @exact
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,72 +60,102 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have two protocol drivers that return success when trying to shrink a
-block device even though they cannot shrink it.  This behavior is now
-only allowed with exact=3Dfalse, so they should return an error with
-exact=3Dtrue.
+When truncating a format node, the @exact parameter is generally handled
+simply by virtue of the format storing the new size in the image
+metadata.  Such formats do not need to pass on the parameter to their
+file nodes.
+
+There are exceptions, though:
+- raw and crypto cannot store the image size, and thus must pass on
+  @exact.
+
+- When using qcow2 with an external data file, it just makes sense to
+  keep its size in sync with the qcow2 virtual disk (because the
+  external data file is the virtual disk).  Therefore, we should pass
+  @exact when truncating it.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 8 +++++++-
- block/iscsi.c      | 7 ++++++-
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ block/crypto.c     |  2 +-
+ block/qcow2.c      | 15 ++++++++++++++-
+ block/raw-format.c |  2 +-
+ 3 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index d8755c5fac..a85f3486d1 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2028,6 +2028,7 @@ static int coroutine_fn raw_co_truncate(BlockDriver=
-State *bs, int64_t offset,
-     }
+diff --git a/block/crypto.c b/block/crypto.c
+index e5a1a2cdf3..24823835c1 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -311,7 +311,7 @@ block_crypto_co_truncate(BlockDriverState *bs, int64_=
+t offset, bool exact,
 =20
-     if (S_ISREG(st.st_mode)) {
-+        /* Always resizes to the exact @offset */
-         return raw_regular_truncate(bs, s->fd, offset, prealloc, errp);
-     }
+     offset +=3D payload_offset;
 =20
-@@ -2038,7 +2039,12 @@ static int coroutine_fn raw_co_truncate(BlockDrive=
-rState *bs, int64_t offset,
-     }
+-    return bdrv_co_truncate(bs->file, offset, false, prealloc, errp);
++    return bdrv_co_truncate(bs->file, offset, exact, prealloc, errp);
+ }
 =20
-     if (S_ISCHR(st.st_mode) || S_ISBLK(st.st_mode)) {
--        if (offset > raw_getlength(bs)) {
-+        int64_t cur_length =3D raw_getlength(bs);
-+
-+        if (offset !=3D cur_length && exact) {
-+            error_setg(errp, "Cannot resize device files");
-+            return -ENOTSUP;
-+        } else if (offset > cur_length) {
-             error_setg(errp, "Cannot grow device files");
-             return -EINVAL;
-         }
-diff --git a/block/iscsi.c b/block/iscsi.c
-index a90426270a..cc2072ff6c 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2126,6 +2126,7 @@ static int coroutine_fn iscsi_co_truncate(BlockDriv=
-erState *bs, int64_t offset,
-                                           Error **errp)
- {
-     IscsiLun *iscsilun =3D bs->opaque;
-+    int64_t cur_length;
-     Error *local_err =3D NULL;
-=20
-     if (prealloc !=3D PREALLOC_MODE_OFF) {
-@@ -2145,7 +2146,11 @@ static int coroutine_fn iscsi_co_truncate(BlockDri=
+ static void block_crypto_close(BlockDriverState *bs)
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 157b9b75d9..4ef19dd29a 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3822,6 +3822,13 @@ static int coroutine_fn qcow2_co_truncate(BlockDri=
 verState *bs, int64_t offset,
-         return -EIO;
-     }
+         if ((last_cluster + 1) * s->cluster_size < old_file_size) {
+             Error *local_err =3D NULL;
 =20
--    if (offset > iscsi_getlength(bs)) {
-+    cur_length =3D iscsi_getlength(bs);
-+    if (offset !=3D cur_length && exact) {
-+        error_setg(errp, "Cannot resize iSCSI devices");
-+        return -ENOTSUP;
-+    } else if (offset > cur_length) {
-         error_setg(errp, "Cannot grow iSCSI devices");
-         return -EINVAL;
-     }
++            /*
++             * Do not pass @exact here: It will not help the user if
++             * we get an error here just because they wanted to shrink
++             * their qcow2 image (on a block device) with qemu-img.
++             * (And on the qcow2 layer, the @exact requirement is
++             * always fulfilled, so there is no need to pass it on.)
++             */
+             bdrv_co_truncate(bs->file, (last_cluster + 1) * s->cluster_s=
+ize,
+                              false, PREALLOC_MODE_OFF, &local_err);
+             if (local_err) {
+@@ -3840,7 +3847,12 @@ static int coroutine_fn qcow2_co_truncate(BlockDri=
+verState *bs, int64_t offset,
+     switch (prealloc) {
+     case PREALLOC_MODE_OFF:
+         if (has_data_file(bs)) {
+-            ret =3D bdrv_co_truncate(s->data_file, offset, false, preall=
+oc, errp);
++            /*
++             * If the caller wants an exact resize, the external data
++             * file should be resized to the exact target size, too,
++             * so we pass @exact here.
++             */
++            ret =3D bdrv_co_truncate(s->data_file, offset, exact, preall=
+oc, errp);
+             if (ret < 0) {
+                 goto fail;
+             }
+@@ -3925,6 +3937,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriv=
+erState *bs, int64_t offset,
+         /* Allocate the data area */
+         new_file_size =3D allocation_start +
+                         nb_new_data_clusters * s->cluster_size;
++        /* Image file grows, so @exact does not matter */
+         ret =3D bdrv_co_truncate(bs->file, new_file_size, false, preallo=
+c, errp);
+         if (ret < 0) {
+             error_prepend(errp, "Failed to resize underlying file: ");
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 57d84d0bae..3a76ec7dd2 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -387,7 +387,7 @@ static int coroutine_fn raw_co_truncate(BlockDriverSt=
+ate *bs, int64_t offset,
+=20
+     s->size =3D offset;
+     offset +=3D s->offset;
+-    return bdrv_co_truncate(bs->file, offset, false, prealloc, errp);
++    return bdrv_co_truncate(bs->file, offset, exact, prealloc, errp);
+ }
+=20
+ static void raw_eject(BlockDriverState *bs, bool eject_flag)
 --=20
 2.21.0
 
