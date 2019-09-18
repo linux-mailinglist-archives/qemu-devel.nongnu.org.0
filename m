@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5FCB6457
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:28:04 +0200 (CEST)
-Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7ACB644B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:24:01 +0200 (CEST)
+Received: from localhost ([::1]:59022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAa02-0005MD-RH
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:28:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58855)
+	id 1iAZw8-0001jU-Hd
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iAZhU-0004sT-7K
+ id 1iAZhU-0004sU-93
  for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iAZhQ-0003fD-Ny
+ id 1iAZhQ-0003ex-Ev
  for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:51 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:43854 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:43862 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iAZhI-0003Yx-OK; Wed, 18 Sep 2019 09:08:41 -0400
+ id 1iAZhI-0003Yz-MD; Wed, 18 Sep 2019 09:08:40 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 296FD86B58D0B5171D67;
+ by Forcepoint Email with ESMTP id 3033912B67A7096BC16C;
  Wed, 18 Sep 2019 21:08:38 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 18 Sep 2019 21:08:27 +0800
+ 14.3.439.0; Wed, 18 Sep 2019 21:08:31 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Date: Wed, 18 Sep 2019 14:06:32 +0100
-Message-ID: <20190918130633.4872-11-shameerali.kolothum.thodi@huawei.com>
+Date: Wed, 18 Sep 2019 14:06:33 +0100
+Message-ID: <20190918130633.4872-12-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
 In-Reply-To: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
 References: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
@@ -42,8 +42,8 @@ X-Originating-IP: [10.202.227.237]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 45.249.212.32
-Subject: [Qemu-devel] [PATCH-for-4.2 v11 10/11] tests: Update ACPI tables
- list for upcoming arm/virt tests
+Subject: [Qemu-devel] [PATCH-for-4.2 v11 11/11] tests: Add bios tests to
+ arm/virt
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,43 +61,88 @@ Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is in preparation to add numamem and memhp tests to
-arm/virt platform. The bios-tables-test-allowed-diff.h
-is updated with a list of expected ACPI tables that needs to be
-present in tests/data/acpi/virt folder.
+This adds numamem and memhp tests for arm/virt platform.
 
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
-v10 --> v11
+v10-->v11
 
-As per Michael's suggestion updated bios-tables-test-allowed-diff.h
-instead of adding expected files directly.
+Added Igor's R-by.
+
+In order to avoid "make check" failure, the files listed in patch #10
+has to be added to tests/data/acpi/virt folder before this patch.
 ---
- tests/bios-tables-test-allowed-diff.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tests/bios-tables-test.c | 49 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
-index 7b4adbc822..3776dd2f3d 100644
---- a/tests/bios-tables-test-allowed-diff.h
-+++ b/tests/bios-tables-test-allowed-diff.h
-@@ -1,2 +1,17 @@
- /* List of comma-separated changed AML files to ignore */
- "tests/data/acpi/virt/DSDT",
-+"tests/data/acpi/virt/APIC.memhp",
-+"tests/data/acpi/virt/APIC.numamem",
-+"tests/data/acpi/virt/DSDT.memhp",
-+"tests/data/acpi/virt/DSDT.numamem",
-+"tests/data/acpi/virt/FACP.memhp",
-+"tests/data/acpi/virt/FACP.numamem",
-+"tests/data/acpi/virt/GTDT.memhp",
-+"tests/data/acpi/virt/GTDT.numamem",
-+"tests/data/acpi/virt/MCFG.memhp",
-+"tests/data/acpi/virt/MCFG.numamem",
-+"tests/data/acpi/virt/SLIT.memhp",
-+"tests/data/acpi/virt/SPCR.memhp",
-+"tests/data/acpi/virt/SPCR.numamem",
-+"tests/data/acpi/virt/SRAT.memhp",
-+"tests/data/acpi/virt/SRAT.numamem",
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 9b3d8b0d1b..6d9e2e41b0 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -870,6 +870,53 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
+     test_acpi_tcg_dimm_pxm(MACHINE_PC);
+ }
+ 
++static void test_acpi_virt_tcg_memhp(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .accel = "tcg",
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 256ULL * 1024 * 1024,
++    };
++
++    data.variant = ".memhp";
++    test_acpi_one(" -cpu cortex-a57"
++                  " -m 256M,slots=3,maxmem=1G"
++                  " -object memory-backend-ram,id=ram0,size=128M"
++                  " -object memory-backend-ram,id=ram1,size=128M"
++                  " -numa node,memdev=ram0 -numa node,memdev=ram1"
++                  " -numa dist,src=0,dst=1,val=21",
++                  &data);
++
++    free_test_data(&data);
++
++}
++
++static void test_acpi_virt_tcg_numamem(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .accel = "tcg",
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
++
++    data.variant = ".numamem";
++    test_acpi_one(" -cpu cortex-a57"
++                  " -object memory-backend-ram,id=ram0,size=128M"
++                  " -numa node,memdev=ram0",
++                  &data);
++
++    free_test_data(&data);
++
++}
++
+ static void test_acpi_virt_tcg(void)
+ {
+     test_data data = {
+@@ -916,6 +963,8 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
++        qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
++        qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+     }
+     ret = g_test_run();
+     boot_sector_cleanup(disk);
 -- 
 2.17.1
 
