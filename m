@@ -2,106 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2083FB690D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:28:13 +0200 (CEST)
-Received: from localhost ([::1]:33310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8A7B691C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:31:11 +0200 (CEST)
+Received: from localhost ([::1]:33364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdkR-0005JZ-FJ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58577)
+	id 1iAdnJ-0000Go-HB
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:31:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iAcqR-0005Lj-BH
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:30:21 -0400
+ (envelope-from <clg@kaod.org>) id 1iAcUq-00047g-Bb
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iAcqO-0001FI-JF
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:30:19 -0400
-Received: from mail-eopbgr130102.outbound.protection.outlook.com
- ([40.107.13.102]:1606 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iAcqN-0001Dw-W8; Wed, 18 Sep 2019 12:30:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J9EIX8YSBCCVoLYNJ0GwxDuBZp1kmfGWr0W/MZaLbuXbI/tljM68SExkZm2Q7eMlWvVsoap6D7f0gHR+UvK46wexay9Cqo1TSPAdR2HrPTpSRpze1PmbTr7THa0aitv972AM9mXcHG6lgoztjtEQpDNAoACXpHGLRNSxm2YBVjNJdTDp3OsqGB5+yyCidb4L/Q6fsDhw3/ZxPonr+Qu2/hjC122/Ujh6+cwc34SQSmlcBKJ2osmdvAjQ6YtD/HcP/8wbbYxP9/zgSizzlRN676wLbQAf0mxaN1SdEeQRN1vdDgpuF5lRX9fd0hAbsz6Z0ciQQUQtDijXMpCVnaCFbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=irAJ5S8PRnpu2Q75SotJBIkdq0jZz1A6M/srI4x9HuE=;
- b=bJx5cSKtNDaveeKXqUPm1E++hQjgzOS9+4DSYBUS9JeO/FJpjZeyHDTutmqnfZHaY+AT2vQHt/UZ2Of5pZJ6HE2GATRTGaBg5G/LUEPm5oKQ+yNW8LjowfpHIKRS4dWDYmheyFWXBy5j4NrnP0YStAijX7dEPJNWyvk9HhzDjWI3KzL5SNtkLv0tw0hOTVyYt8jIGBDM1s6qjjVDmBtdKEtOvlIw8gCLNs/JYetAIdSeh6TdkHvkivj9cR8ODJ40to/pzFnnH8NZekZA7oUV19ShDt4rx83geudIvPJ4qMKTnOr6FXTn2YL/ij/D+YcjgLfswoTBNntJpZ2e+Sa9tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=irAJ5S8PRnpu2Q75SotJBIkdq0jZz1A6M/srI4x9HuE=;
- b=MnjGXssrpAzOxW72qqTfMibFz2m95BJcRFRX9L8qk74GVuVQeKZdPrFfIa0bhbGV+jShYepK8LJEFs/huJpsBW2RjXhUoBZVhvXeKOgezb5qUHA5Nvc+uv5JDjBob1flQLMSKs5s2umQib9C4MLXfjT4ZH39pxmM37QK6O9BxZU=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5322.eurprd08.prod.outlook.com (10.255.185.82) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.19; Wed, 18 Sep 2019 16:30:13 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2263.023; Wed, 18 Sep 2019
- 16:30:13 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH 4/4] iotests: Add test for failing mirror
- complete
-Thread-Index: AQHVaXUjK8AjziD5Y0Klk3y7b6bIcqcxqcMA
-Date: Wed, 18 Sep 2019 16:30:13 +0000
-Message-ID: <19f8eac0-7722-4894-72bb-df7501ca20ef@virtuozzo.com>
-References: <20190912135632.13925-1-mreitz@redhat.com>
- <20190912135632.13925-5-mreitz@redhat.com>
-In-Reply-To: <20190912135632.13925-5-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0301CA0008.eurprd03.prod.outlook.com
- (2603:10a6:3:76::18) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190918193010246
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 01f6c005-6d50-42d3-889e-08d73c557b36
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5322; 
-x-ms-traffictypediagnostic: DB8PR08MB5322:
-x-microsoft-antispam-prvs: <DB8PR08MB532206CF0178B1CFFABDB7BFC18E0@DB8PR08MB5322.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01644DCF4A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(39850400004)(376002)(136003)(396003)(346002)(189003)(199004)(26005)(31686004)(386003)(6506007)(186003)(36756003)(86362001)(54906003)(99286004)(8936002)(102836004)(52116002)(2906002)(81166006)(81156014)(8676002)(110136005)(5660300002)(71190400001)(31696002)(71200400001)(76176011)(316002)(3846002)(6116002)(66446008)(64756008)(66556008)(486006)(2501003)(6512007)(476003)(2616005)(11346002)(446003)(66476007)(14444005)(256004)(66946007)(7736002)(478600001)(25786009)(229853002)(6436002)(14454004)(66066001)(6486002)(4326008)(305945005)(6246003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5322;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Q8d60j5AvymEmQusMw/74JiQ0CG0fmSzhDSMH93NZGgYlkx/IL/r+y6nFZ0J1u/kXUEYNt+lJqwZC4t++LPXfD/z6hCY8aCi5JXH3pSmOWc8pPXkvN7ao1chaesbmbkPjJPTtgkOIFnZMARfkMlcpiEVYHZYUsFlG/LW8cn3Oc9b5ymmVE1wIWfj5w3Vs1so285f1Ase9vic32ZO/t5nG0RRd+40r+IyXyyjTfzXiw4ywqmZ084Ks1g7aOaBjJSMduBxFYH9lnjbliA01wSapvYavkPLq7AfIhkYU37inBdVzgtMRoYYIJbYwqmsIG9rOCxhHgy2kxBLltYMkFC226pAXF3AIc58uIhNb8AhsCWFWj2Ifb/0YYxeN345Gc088G069HDmFCwcAhOmVjk/VUi1siXvGgv60+gJBsl1v5g=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <507DFE54A3EA754681137E41F77E66FF@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <clg@kaod.org>) id 1iAcUo-0003Ie-O3
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:00 -0400
+Received: from 3.mo178.mail-out.ovh.net ([46.105.44.197]:53776)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcUo-0003Gk-I2
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:58 -0400
+Received: from player799.ha.ovh.net (unknown [10.108.54.87])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id C3B7B795E5
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:07:56 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id 524CA9F0E6E5;
+ Wed, 18 Sep 2019 16:07:51 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 18 Sep 2019 18:06:31 +0200
+Message-Id: <20190918160645.25126-12-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
+References: <20190918160645.25126-1-clg@kaod.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01f6c005-6d50-42d3-889e-08d73c557b36
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 16:30:13.4683 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: x0Nq+lZbH4m1TRAA8dLKFihm+sVQTXEx566w9ZBBPzv1P9JSdBzCkmygqd/4DzCvSbU8erAJ78rhY6flWCNkyLcCxT37XiyGCJ0O/3MV8VY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5322
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.102
-Subject: Re: [Qemu-devel] [PATCH 4/4] iotests: Add test for failing mirror
- complete
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 6222848788649642982
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeljecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.44.197
+Subject: [Qemu-devel] [PATCH v4 11/25] ppc/xive: Move the TIMA operations to
+ the controller model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,80 +56,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTIuMDkuMjAxOSAxNjo1NiwgTWF4IFJlaXR6IHdyb3RlOg0KPiBTaWduZWQtb2ZmLWJ5OiBNYXgg
-UmVpdHogPG1yZWl0ekByZWRoYXQuY29tPg0KPiAtLS0NCj4gICB0ZXN0cy9xZW11LWlvdGVzdHMv
-MDQxICAgICB8IDQ0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICAg
-dGVzdHMvcWVtdS1pb3Rlc3RzLzA0MS5vdXQgfCAgNCArKy0tDQo+ICAgMiBmaWxlcyBjaGFuZ2Vk
-LCA0NiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL3Rl
-c3RzL3FlbXUtaW90ZXN0cy8wNDEgYi90ZXN0cy9xZW11LWlvdGVzdHMvMDQxDQo+IGluZGV4IDg1
-Njg0MjYzMTEuLjg0YmM2ZDY1ODEgMTAwNzU1DQo+IC0tLSBhL3Rlc3RzL3FlbXUtaW90ZXN0cy8w
-NDENCj4gKysrIGIvdGVzdHMvcWVtdS1pb3Rlc3RzLzA0MQ0KPiBAQCAtMTEyMSw2ICsxMTIxLDUw
-IEBAIGNsYXNzIFRlc3RPcnBoYW5lZFNvdXJjZShpb3Rlc3RzLlFNUFRlc3RDYXNlKToNCj4gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhcmdldD0nZGVzdC1ybycpDQo+ICAgICAgICAg
-ICBzZWxmLmFzc2VydF9xbXAocmVzdWx0LCAnZXJyb3IvY2xhc3MnLCAnR2VuZXJpY0Vycm9yJykN
-Cj4gICANCj4gKyAgICBkZWYgdGVzdF9mYWlsaW5nX3Blcm1pc3Npb25faW5fY29tcGxldGUoc2Vs
-Zik6DQo+ICsgICAgICAgIHNlbGYuYXNzZXJ0X25vX2FjdGl2ZV9ibG9ja19qb2JzKCkNCj4gKw0K
-PiArICAgICAgICAjIFVuc2hhcmUgY29uc2lzdGVudC1yZWFkIG9uIHRoZSB0YXJnZXQNCj4gKyAg
-ICAgICAgIyAoVGhlIG1pcnJvciBqb2IgZG9lcyBub3QgY2FyZSkNCj4gKyAgICAgICAgcmVzdWx0
-ID0gc2VsZi52bS5xbXAoJ2Jsb2NrZGV2LWFkZCcsDQo+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGRyaXZlcj0nYmxrZGVidWcnLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBub2RlX25hbWU9J2Rlc3QtcGVybScsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGltYWdlPSdkZXN0JywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaGFyZV9j
-aGlsZF9wZXJtcz1bJ2NvbnNpc3RlbnQtcmVhZCddKQ0KPiArICAgICAgICBzZWxmLmFzc2VydF9x
-bXAocmVzdWx0LCAncmV0dXJuJywge30pDQo+ICsNCj4gKyAgICAgICAgcmVzdWx0ID0gc2VsZi52
-bS5xbXAoJ2Jsb2NrZGV2LW1pcnJvcicsIGpvYl9pZD0nam9iJywgZGV2aWNlPSdzcmMnLA0KPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzeW5jPSdmdWxsJywgdGFyZ2V0PSdkZXN0JywN
-Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsdGVyX25vZGVfbmFtZT0nbWlycm9y
-LWZpbHRlcicpDQo+ICsgICAgICAgIHNlbGYuYXNzZXJ0X3FtcChyZXN1bHQsICdyZXR1cm4nLCB7
-fSkNCj4gKw0KPiArICAgICAgICAjIFJlcXVpcmUgY29uc2lzdGVudC1yZWFkIG9uIHRoZSBzb3Vy
-Y2UNCj4gKyAgICAgICAgIyAoV2UgY2FuIG9ubHkgYWRkIHRoaXMgbm9kZSBvbmNlIHRoZSBqb2Ig
-aGFzIHN0YXJ0ZWQsIG9yIGl0DQo+ICsgICAgICAgICMgd2lsbCBjb21wbGFpbiB0aGF0IGl0IGRv
-ZXMgbm90IHdhbnQgdG8gcnVuIG9uIG5vbi1yb290IG5vZGVzKQ0KPiArICAgICAgICByZXN1bHQg
-PSBzZWxmLnZtLnFtcCgnYmxvY2tkZXYtYWRkJywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgZHJpdmVyPSdibGtkZWJ1ZycsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IG5vZGVfbmFtZT0nc3JjLXBlcm0nLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBp
-bWFnZT0nc3JjJywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFrZV9jaGlsZF9w
-ZXJtcz1bJ2NvbnNpc3RlbnQtcmVhZCddKQ0KPiArICAgICAgICBzZWxmLmFzc2VydF9xbXAocmVz
-dWx0LCAncmV0dXJuJywge30pDQo+ICsNCj4gKyAgICAgICAgIyBXaGlsZSBjb21wbGV0aW5nLCBt
-aXJyb3Igd2lsbCBhdHRlbXB0IHRvIHJlcGxhY2Ugc3JjIGJ5DQo+ICsgICAgICAgICMgZGVzdCwg
-d2hpY2ggbXVzdCBmYWlsIGJlY2F1c2Ugc3JjLXBlcm0gcmVxdWlyZXMNCj4gKyAgICAgICAgIyBj
-b25zaXN0ZW50LXJlYWQgYnV0IGRlc3QtcGVybSBkb2VzIG5vdCBzaGFyZSBpdDsgdGh1cw0KPiAr
-ICAgICAgICAjIGFib3J0aW5nIHRoZSBqb2Igd2hlbiBpdCBpcyBzdXBwb3NlZCB0byBjb21wbGV0
-ZQ0KPiArICAgICAgICBzZWxmLmNvbXBsZXRlX2FuZF93YWl0KCdqb2InLA0KPiArICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGNvbXBsZXRpb25fZXJyb3I9J09wZXJhdGlvbiBub3QgcGVy
-bWl0dGVkJykNCj4gKw0KPiArICAgICAgICAjIEFzc2VydCB0aGF0IGFsbCBvZiBvdXIgbm9kZXMg
-YXJlIHN0aWxsIHRoZXJlIChleGNlcHQgZm9yIHRoZQ0KPiArICAgICAgICAjIG1pcnJvciBmaWx0
-ZXIsIHdoaWNoIHNob3VsZCBiZSBnb25lIGRlc3BpdGUgdGhlIGZhaWx1cmUpDQo+ICsgICAgICAg
-IG5vZGVzID0gc2VsZi52bS5xbXAoJ3F1ZXJ5LW5hbWVkLWJsb2NrLW5vZGVzJylbJ3JldHVybidd
-DQo+ICsgICAgICAgIG5vZGVzID0gbGlzdChtYXAobGFtYmRhIGltYWdlOiBpbWFnZVsnbm9kZS1u
-YW1lJ10sIG5vZGVzKSkNCg0KdXNpbmcgbGlzdCBjb21wcmVoZW5zaW9uIGlzIGEgYml0IG1vcmUg
-cHl0aG9uaWM6DQpub2RlcyA9IFtub2RlWydub2RlLW5hbWUnXSBmb3Igbm9kZSBpbiBub2Rlc10N
-Cg0KPiArDQo+ICsgICAgICAgIGZvciBleHBlY3QgaW4gWydzcmMnLCAnc3JjLXBlcm0nLCAnZGVz
-dCcsICdkZXN0LXBlcm0nXToNCj4gKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0VHJ1ZShleHBlY3Qg
-aW4gbm9kZXMsICclcyBkaXNhcHBlYXJlZCcgJSBleHBlY3QpDQo+ICsgICAgICAgIHNlbGYuYXNz
-ZXJ0RmFsc2UoJ21pcnJvci1maWx0ZXInIGluIG5vZGVzLA0KPiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICdNaXJyb3IgZmlsdGVyIG5vZGUgZGlkIG5vdCBkaXNhcHBlYXInKQ0KPiArDQo+ICAg
-aWYgX19uYW1lX18gPT0gJ19fbWFpbl9fJzoNCj4gICAgICAgaW90ZXN0cy5tYWluKHN1cHBvcnRl
-ZF9mbXRzPVsncWNvdzInLCAncWVkJ10sDQo+ICAgICAgICAgICAgICAgICAgICBzdXBwb3J0ZWRf
-cHJvdG9jb2xzPVsnZmlsZSddKQ0KPiBkaWZmIC0tZ2l0IGEvdGVzdHMvcWVtdS1pb3Rlc3RzLzA0
-MS5vdXQgYi90ZXN0cy9xZW11LWlvdGVzdHMvMDQxLm91dA0KPiBpbmRleCAyYzQ0OGI0MjM5Li5m
-NDk2YmU5MTk3IDEwMDY0NA0KPiAtLS0gYS90ZXN0cy9xZW11LWlvdGVzdHMvMDQxLm91dA0KPiAr
-KysgYi90ZXN0cy9xZW11LWlvdGVzdHMvMDQxLm91dA0KPiBAQCAtMSw1ICsxLDUgQEANCj4gLS4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLg0KPiArLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLg0KPiAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLVJhbiA5MCB0ZXN0cw0KPiArUmFu
-IDkxIHRlc3RzDQo+ICAgDQo+ICAgT0sNCj4gDQoNCg0KV2l0aCBvciB3aXRob3V0IG15IHN1Z2dl
-c3Rpb246DQpSZXZpZXdlZC1ieTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVu
-dHNvdkB2aXJ0dW96em8uY29tPg0KDQpJIGNoZWNrZWQsIHRoYXQgaXQgcGFzcywgYW5kIHRoYXQg
-ZmFpbHMgKGdlbmVyYXRlcyBzZWdmYXVsdCkgaWYgZHJvcCBwYXRjaCAwMToNClRlc3RlZC1ieTog
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0K
-DQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+This also removes the need of the get_tctx() XiveRouter handler in the
+core XIVE framework.
+
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ include/hw/ppc/xive.h |  1 -
+ hw/intc/pnv_xive.c    | 35 ++++++++++++++++++++++++++++++++++-
+ hw/intc/spapr_xive.c  | 33 +++++++++++++++++++++++++++++++--
+ hw/intc/xive.c        | 29 -----------------------------
+ 4 files changed, 65 insertions(+), 33 deletions(-)
+
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 536deea8c622..9d9cd88dd17e 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -462,7 +462,6 @@ typedef struct XiveENDSource {
+ #define XIVE_TM_OS_PAGE         0x2
+ #define XIVE_TM_USER_PAGE       0x3
+=20
+-extern const MemoryRegionOps xive_tm_ops;
+ void xive_tctx_tm_write(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offs=
+et,
+                         uint64_t value, unsigned size);
+ uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveTCTX *tctx, hwaddr o=
+ffset,
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 3d6fcf9ac139..40e18fb44811 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -1475,6 +1475,39 @@ static const MemoryRegionOps xive_tm_indirect_ops =
+=3D {
+     },
+ };
+=20
++static void pnv_xive_tm_write(void *opaque, hwaddr offset,
++                              uint64_t value, unsigned size)
++{
++    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
++    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
++    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
++
++    xive_tctx_tm_write(XIVE_PRESENTER(xive), tctx, offset, value, size);
++}
++
++static uint64_t pnv_xive_tm_read(void *opaque, hwaddr offset, unsigned s=
+ize)
++{
++    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
++    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
++    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
++
++    return xive_tctx_tm_read(XIVE_PRESENTER(xive), tctx, offset, size);
++}
++
++const MemoryRegionOps pnv_xive_tm_ops =3D {
++    .read =3D pnv_xive_tm_read,
++    .write =3D pnv_xive_tm_write,
++    .endianness =3D DEVICE_BIG_ENDIAN,
++    .valid =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++    .impl =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++};
++
+ /*
+  * Interrupt controller XSCOM region.
+  */
+@@ -1832,7 +1865,7 @@ static void pnv_xive_realize(DeviceState *dev, Erro=
+r **errp)
+                           "xive-pc", PNV9_XIVE_PC_SIZE);
+=20
+     /* Thread Interrupt Management Area (Direct) */
+-    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops,
++    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &pnv_xive_tm_ops=
+,
+                           xive, "xive-tima", PNV9_XIVE_TM_SIZE);
+=20
+     qemu_register_reset(pnv_xive_reset, dev);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index eefc0d4c36b9..e00a9bdd901b 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -222,6 +222,35 @@ void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
+     memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
+ }
+=20
++static void spapr_xive_tm_write(void *opaque, hwaddr offset,
++                          uint64_t value, unsigned size)
++{
++    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
++
++    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
+);
++}
++
++static uint64_t spapr_xive_tm_read(void *opaque, hwaddr offset, unsigned=
+ size)
++{
++    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
++
++    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
+;
++}
++
++const MemoryRegionOps spapr_xive_tm_ops =3D {
++    .read =3D spapr_xive_tm_read,
++    .write =3D spapr_xive_tm_write,
++    .endianness =3D DEVICE_BIG_ENDIAN,
++    .valid =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++    .impl =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++};
++
+ static void spapr_xive_end_reset(XiveEND *end)
+ {
+     memset(end, 0, sizeof(*end));
+@@ -331,8 +360,8 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
+r **errp)
+     qemu_register_reset(spapr_xive_reset, dev);
+=20
+     /* TIMA initialization */
+-    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops, xi=
+ve,
+-                          "xive.tima", 4ull << TM_SHIFT);
++    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &spapr_xive_tm_o=
+ps,
++                          xive, "xive.tima", 4ull << TM_SHIFT);
+     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xive->tm_mmio);
+=20
+     /*
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 9bb09ed6ee7b..11432f04f5c3 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -483,35 +483,6 @@ uint64_t xive_tctx_tm_read(XivePresenter *xptr, Xive=
+TCTX *tctx, hwaddr offset,
+     return xive_tm_raw_read(tctx, offset, size);
+ }
+=20
+-static void xive_tm_write(void *opaque, hwaddr offset,
+-                          uint64_t value, unsigned size)
+-{
+-    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
+_cpu);
+-
+-    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
+);
+-}
+-
+-static uint64_t xive_tm_read(void *opaque, hwaddr offset, unsigned size)
+-{
+-    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
+_cpu);
+-
+-    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
+;
+-}
+-
+-const MemoryRegionOps xive_tm_ops =3D {
+-    .read =3D xive_tm_read,
+-    .write =3D xive_tm_write,
+-    .endianness =3D DEVICE_BIG_ENDIAN,
+-    .valid =3D {
+-        .min_access_size =3D 1,
+-        .max_access_size =3D 8,
+-    },
+-    .impl =3D {
+-        .min_access_size =3D 1,
+-        .max_access_size =3D 8,
+-    },
+-};
+-
+ static char *xive_tctx_ring_print(uint8_t *ring)
+ {
+     uint32_t w2 =3D xive_tctx_word2(ring);
+--=20
+2.21.0
+
 
