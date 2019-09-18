@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4135EB6428
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:16:23 +0200 (CEST)
-Received: from localhost ([::1]:58909 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD97B6421
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:13:08 +0200 (CEST)
+Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAZoi-0002lA-Cm
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58725)
+	id 1iAZla-0007fK-6y
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:13:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iAZh6-0004Pf-Nx
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:29 -0400
+ id 1iAZhH-0004dw-7i
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iAZh5-0003Q5-FL
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:28 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2238 helo=huawei.com)
+ id 1iAZhF-0003YG-UI
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:39 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:43064 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iAZh2-0003NB-Ps; Wed, 18 Sep 2019 09:08:25 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id EC85D335BFB28D9FDBF9;
- Wed, 18 Sep 2019 21:08:22 +0800 (CST)
+ id 1iAZhD-0003U1-1m; Wed, 18 Sep 2019 09:08:35 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 1EE1B9715570B0A05909;
+ Wed, 18 Sep 2019 21:08:33 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 18 Sep 2019 21:08:12 +0800
+ 14.3.439.0; Wed, 18 Sep 2019 21:08:23 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Date: Wed, 18 Sep 2019 14:06:28 +0100
-Message-ID: <20190918130633.4872-7-shameerali.kolothum.thodi@huawei.com>
+Date: Wed, 18 Sep 2019 14:06:31 +0100
+Message-ID: <20190918130633.4872-10-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
 In-Reply-To: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
 References: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
@@ -41,9 +41,9 @@ Content-Type: text/plain
 X-Originating-IP: [10.202.227.237]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.191
-Subject: [Qemu-devel] [PATCH-for-4.2 v11 06/11] hw/arm/virt-acpi-build: Add
- PC-DIMM in SRAT
+X-Received-From: 45.249.212.35
+Subject: [Qemu-devel] [PATCH-for-4.2 v11 09/11] docs/specs: Add ACPI GED
+ documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,62 +61,106 @@ Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generate Memory Affinity Structures for PC-DIMM ranges.
-
-Also, Linux and Windows need ACPI SRAT table to make memory hotplug
-work properly, however currently QEMU doesn't create SRAT table if
-numa options aren't present on CLI. Hence add support(>=4.2) to
-create numa node automatically (auto_enable_numa_with_memhp) when
-QEMU is started with memory hotplug enabled but without '-numa'
-options on CLI.
+Documents basic concepts of ACPI Generic Event device(GED)
+and interface between QEMU and the ACPI BIOS.
 
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
- hw/arm/virt-acpi-build.c | 8 ++++++++
- hw/arm/virt.c            | 2 ++
- 2 files changed, 10 insertions(+)
+Addressed Peter's comments,
+ -changed to rst format.
+ -typo/grammer corrections.
+---
+ docs/specs/acpi_hw_reduced_hotplug.rst | 70 ++++++++++++++++++++++++++
+ docs/specs/index.rst                   |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 docs/specs/acpi_hw_reduced_hotplug.rst
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index cadeea0f41..c97661ad68 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -546,6 +546,14 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         }
-     }
- 
-+    if (ms->device_memory) {
-+        numamem = acpi_data_push(table_data, sizeof *numamem);
-+        build_srat_memory(numamem, ms->device_memory->base,
-+                          memory_region_size(&ms->device_memory->mr),
-+                          ms->numa_state->num_nodes - 1,
-+                          MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
-+    }
+diff --git a/docs/specs/acpi_hw_reduced_hotplug.rst b/docs/specs/acpi_hw_reduced_hotplug.rst
+new file mode 100644
+index 0000000000..911a98255b
+--- /dev/null
++++ b/docs/specs/acpi_hw_reduced_hotplug.rst
+@@ -0,0 +1,70 @@
++==================================================
++QEMU and ACPI BIOS Generic Event Device interface
++==================================================
 +
-     build_header(linker, table_data, (void *)(table_data->data + srat_start),
-                  "SRAT", table_data->len - srat_start, 3, NULL, NULL);
- }
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index f926477ba5..d221841c42 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2051,6 +2051,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     hc->plug = virt_machine_device_plug_cb;
-     hc->unplug_request = virt_machine_device_unplug_request_cb;
-     mc->numa_mem_supported = true;
-+    mc->auto_enable_numa_with_memhp = true;
- }
++The ACPI *Generic Event Device* (GED) is a HW reduced platform
++specific device introduced in ACPI v6.1 that handles all platform
++events, including the hotplug ones. GED is modelled as a device
++in the namespace with a _HID defined to be ACPI0013. This document
++describes the interface between QEMU and the ACPI BIOS.
++
++GED allows HW reduced platforms to handle interrupts in ACPI ASL
++statements. It follows a very similar approach to the _EVT method
++from GPIO events. All interrupts are listed in  _CRS and the handler
++is written in _EVT method. However, the QEMU implementation uses a
++single interrupt for the GED device, relying on an IO memory region
++to communicate the type of device affected by the interrupt. This way,
++we can support up to 32 events with a unique interrupt.
++
++**Here is an example,**
++
++::
++
++   Device (\_SB.GED)
++   {
++       Name (_HID, "ACPI0013")
++       Name (_UID, Zero)
++       Name (_CRS, ResourceTemplate ()
++       {
++           Interrupt (ResourceConsumer, Edge, ActiveHigh, Exclusive, ,, )
++           {
++               0x00000029,
++           }
++       })
++       OperationRegion (EREG, SystemMemory, 0x09080000, 0x04)
++       Field (EREG, DWordAcc, NoLock, WriteAsZeros)
++       {
++           ESEL,   32
++       }
++       Method (_EVT, 1, Serialized)
++       {
++           Local0 = ESEL // ESEL = IO memory region which specifies the
++                         // device type.
++           If (((Local0 & One) == One))
++           {
++               MethodEvent1()
++           }
++           If ((Local0 & 0x2) == 0x2)
++           {
++               MethodEvent2()
++           }
++           ...
++       }
++   }
++
++GED IO interface (4 byte access)
++--------------------------------
++**read access:**
++
++::
++
++   [0x0-0x3] Event selector bit field (32 bit) set by QEMU.
++
++    bits:
++       0: Memory hotplug event
++       1: System power down event
++    2-31: Reserved
++
++**write_access:**
++
++Nothing is expected to be written into GED IO memory
+diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+index 40adb97c5e..984ba44029 100644
+--- a/docs/specs/index.rst
++++ b/docs/specs/index.rst
+@@ -12,3 +12,4 @@ Contents:
  
- static void virt_instance_init(Object *obj)
-@@ -2156,6 +2157,7 @@ static void virt_machine_4_1_options(MachineClass *mc)
-     virt_machine_4_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len);
-     vmc->no_ged = true;
-+    mc->auto_enable_numa_with_memhp = false;
- }
- DEFINE_VIRT_MACHINE(4, 1)
- 
+    ppc-xive
+    ppc-spapr-xive
++   acpi_hw_reduced_hotplug
 -- 
 2.17.1
 
