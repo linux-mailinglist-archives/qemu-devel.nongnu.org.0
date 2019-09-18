@@ -2,74 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A238B612E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:12:48 +0200 (CEST)
-Received: from localhost ([::1]:56930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C702B6136
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:15:59 +0200 (CEST)
+Received: from localhost ([::1]:56964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWx5-0003uW-8s
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33348)
+	id 1iAX0A-0007SP-Al
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:15:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iAWqA-0005Yb-3o
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:05:39 -0400
+ (envelope-from <poletaev@ispras.ru>) id 1iAWsW-0007pG-NR
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:08:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iAWq8-0007ow-Pq
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:05:38 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34895)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iAWq8-0007mv-Ho
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:05:36 -0400
-Received: by mail-wm1-x341.google.com with SMTP id y21so1848993wmi.0
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 03:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Z0zRKdp2nWIQsyrG+mOBKCwlS65rFtkbaBXjhseSnVQ=;
- b=Zsr7z/V9jYiwT44d4MLUR9I3bOreJ0hiGxc61oyNl8P30a25FFF0wv7NwZOQdrXALG
- BN/2dZG4a82KlP1d2FyOChs2UFVzI0iW2tIAr9V0ur9rkKOyBmsUl3LPkS/bH1BHkOPn
- 66tHi9diKD/Gp6Sj7IGxk+L+1OD1/e7NCG++q/oBhq4FtAYRWt/yIWYiffosggXvanw8
- lgdxYMZMOXfhF6xn7SpBbwa5oH440v9edZoY2YSUU5BELB/9xWPAQfSExleZcbaPYpOI
- utsLEEZeGCDHNC6RDSm0DA0KAK6PXTUSXlFYhBoNGKi7CzCsJAP6PMhegZtmgaeelaT4
- Losg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Z0zRKdp2nWIQsyrG+mOBKCwlS65rFtkbaBXjhseSnVQ=;
- b=BEXZyo50QXdSPuf8vVdggtBq7pfoSkUhb5iVxkgC2sU13PU4wQkJ0dI+d3DnZrznFr
- kP3O4ipmprLnjGBGMzHM32zSx3M2NDRLtrstz7u3WS9yQUTBzJ6f/14TpWU+4zE3V4Qv
- KxMNcGYDC0a9sgARe3Kk0D5jov/JxwMXvpQSv2wTNAZLDGCAyCzAsY6gyeWTbdZsZkyJ
- Jk4bIqUYouinaAP3fKiDQOvBT35BlUwrFz8SdarA6jlDDA/dlMIHl7MvZ9ay0VnWuT7M
- koml7VVtpMCJGuty9N6RwW7MkTAcABzZoBHEJgUMyhD0GnV2Fu+eAXGUV+DgP/qnJuEA
- gf6g==
-X-Gm-Message-State: APjAAAXQ6NrCMQJn4odYg2GoO28LZ/T6Llwax3BxOwCAH92VSd93sBML
- NpPcd5LR0oyTH1oSRS6UJDI=
-X-Google-Smtp-Source: APXvYqx6cRQn90k1OoBmXoI7qiYi2w9lxY5WjimsdeqsEedJ07owLJw/TI3EZPYjdcXSshIX67Ew7g==
-X-Received: by 2002:a05:600c:2059:: with SMTP id
- p25mr2281016wmg.50.1568801135321; 
- Wed, 18 Sep 2019 03:05:35 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id r2sm5335084wrm.3.2019.09.18.03.05.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 03:05:34 -0700 (PDT)
-Date: Wed, 18 Sep 2019 11:05:33 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: piaojun <piaojun@huawei.com>
-Message-ID: <20190918100533.GF26027@stefanha-x1.localdomain>
-References: <20190917160057.11847-1-dgilbert@redhat.com>
- <20190917160057.11847-4-dgilbert@redhat.com>
- <5D8187F9.1090303@huawei.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NGIwU0kFl1Z1A3An"
-Content-Disposition: inline
-In-Reply-To: <5D8187F9.1090303@huawei.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v3 3/3] virtio: add vhost-user-fs-pci device
+ (envelope-from <poletaev@ispras.ru>) id 1iAWsV-0002Ky-CA
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:08:04 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:33516)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <poletaev@ispras.ru>) id 1iAWsV-0002GY-5F
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:08:03 -0400
+Received: from Dimon-PC.lan02.inno (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 9261E5400FC;
+ Wed, 18 Sep 2019 13:07:58 +0300 (MSK)
+From: Dmitry Poletaev <poletaev@ispras.ru>
+To: qemu-devel@nongnu.org
+Date: Wed, 18 Sep 2019 13:07:06 +0300
+Message-Id: <20190918100706.19753-1-poletaev@ispras.ru>
+X-Mailer: git-send-email 2.11.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 83.149.199.45
+Subject: [Qemu-devel] [PATCH] Fix wrong behavior of cpu_memory_rw_debug()
+ function in SMM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,152 +43,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, mst@redhat.com, cohuck@redhat.com,
- "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- stefanha@redhat.com, vgoyal@redhat.com
+Cc: pbonzini@redhat.com, Dmitry Poletaev <poletaev@ispras.ru>,
+ ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+There is a problem, that you don't have access to the data using cpu_memory_rw_debug() function when in SMM. You can't remotely debug SMM mode program because of that for example.
+Likely attrs version of get_phys_page_debug should be used to get correct asidx at the end to handle access properly.
+Here the patch to fix it.
 
---NGIwU0kFl1Z1A3An
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dmitry Poletaev <poletaev@ispras.ru>
+---
+ target/i386/cpu.c    | 2 +-
+ target/i386/cpu.h    | 3 ++-
+ target/i386/helper.c | 5 ++++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-On Wed, Sep 18, 2019 at 09:27:21AM +0800, piaojun wrote:
->=20
->=20
-> On 2019/9/18 0:00, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >=20
-> > Add the PCI version of vhost-user-fs.
-> >=20
-> > Launch QEMU like this:
-> >=20
-> >   qemu -chardev socket,path=3D/tmp/vhost-fs.sock,id=3Dchr0
-> >        -device x-vhost-user-fs-pci,tag=3Dmyfs,chardev=3Dchr0
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > Signed-off-by: Sebastien Boeuf <sebastien.boeuf@intel.com>
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> >  hw/virtio/Makefile.objs       |  1 +
-> >  hw/virtio/vhost-user-fs-pci.c | 85 +++++++++++++++++++++++++++++++++++
-> >  2 files changed, 86 insertions(+)
-> >  create mode 100644 hw/virtio/vhost-user-fs-pci.c
-> >=20
-> > diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
-> > index 47ffbf22c4..e2f70fbb89 100644
-> > --- a/hw/virtio/Makefile.objs
-> > +++ b/hw/virtio/Makefile.objs
-> > @@ -15,6 +15,7 @@ obj-$(CONFIG_VHOST_USER_FS) +=3D vhost-user-fs.o
-> >  obj-$(call land,$(CONFIG_VIRTIO_CRYPTO),$(CONFIG_VIRTIO_PCI)) +=3D vir=
-tio-crypto-pci.o
-> >  obj-$(CONFIG_VIRTIO_PMEM) +=3D virtio-pmem.o
-> >  common-obj-$(call land,$(CONFIG_VIRTIO_PMEM),$(CONFIG_VIRTIO_PCI)) +=
-=3D virtio-pmem-pci.o
-> > +obj-$(call land,$(CONFIG_VHOST_USER_FS),$(CONFIG_VIRTIO_PCI)) +=3D vho=
-st-user-fs-pci.o
-> >  obj-$(CONFIG_VHOST_VSOCK) +=3D vhost-vsock.o
-> > =20
-> >  ifeq ($(CONFIG_VIRTIO_PCI),y)
-> > diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pc=
-i.c
-> > new file mode 100644
-> > index 0000000000..0e70985094
-> > --- /dev/null
-> > +++ b/hw/virtio/vhost-user-fs-pci.c
-> > @@ -0,0 +1,85 @@
-> > +/*
-> > + * Vhost-user filesystem virtio device PCI glue
-> > + *
-> > + * Copyright 2018-2019 Red Hat, Inc.
-> > + *
-> > + * Authors:
-> > + *  Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * (at your option) any later version.  See the COPYING file in the
-> > + * top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "hw/qdev-properties.h"
-> > +#include "hw/virtio/vhost-user-fs.h"
-> > +#include "virtio-pci.h"
-> > +
-> > +struct VHostUserFSPCI {
-> > +    VirtIOPCIProxy parent_obj;
-> > +    VHostUserFS vdev;
-> > +};
-> > +
-> > +typedef struct VHostUserFSPCI VHostUserFSPCI;
-> > +
-> > +#define TYPE_VHOST_USER_FS_PCI "vhost-user-fs-pci-base"
-> > +
-> > +#define VHOST_USER_FS_PCI(obj) \
-> > +        OBJECT_CHECK(VHostUserFSPCI, (obj), TYPE_VHOST_USER_FS_PCI)
-> > +
-> > +static Property vhost_user_fs_pci_properties[] =3D {
-> > +    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
-> > +                       DEV_NVECTORS_UNSPECIFIED),
-> > +    DEFINE_PROP_END_OF_LIST(),
-> > +};
-> > +
-> > +static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error =
-**errp)
-> > +{
-> > +    VHostUserFSPCI *dev =3D VHOST_USER_FS_PCI(vpci_dev);
-> > +    DeviceState *vdev =3D DEVICE(&dev->vdev);
-> > +
-> > +    if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
-> > +        vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 1;
-> > +    }
-> > +
-> > +    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
-> > +    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-> > +}
-> > +
-> > +static void vhost_user_fs_pci_class_init(ObjectClass *klass, void *dat=
-a)
-> > +{
-> > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> > +    VirtioPCIClass *k =3D VIRTIO_PCI_CLASS(klass);
-> > +    PCIDeviceClass *pcidev_k =3D PCI_DEVICE_CLASS(klass);
-> > +    k->realize =3D vhost_user_fs_pci_realize;
-> > +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> > +    dc->props =3D vhost_user_fs_pci_properties;
-> > +    pcidev_k->vendor_id =3D PCI_VENDOR_ID_REDHAT_QUMRANET;
-> > +    pcidev_k->device_id =3D 0; /* Set by virtio-pci based on virtio id=
- */
->=20
-> Why not set *PCI_DEVICE_ID_VIRTIO_FS* here just like virtio_blk? I'm
-> not very familiar with this code, and just compare it with the other
-> same logic.
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 9e0bac31e8..8ade4ed2c6 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5984,7 +5984,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+ #ifndef CONFIG_USER_ONLY
+     cc->asidx_from_attrs = x86_asidx_from_attrs;
+     cc->get_memory_mapping = x86_cpu_get_memory_mapping;
+-    cc->get_phys_page_debug = x86_cpu_get_phys_page_debug;
++    cc->get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug;
+     cc->write_elf64_note = x86_cpu_write_elf64_note;
+     cc->write_elf64_qemunote = x86_cpu_write_elf64_qemunote;
+     cc->write_elf32_note = x86_cpu_write_elf32_note;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5f6e3a029a..bbd00d8deb 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1549,7 +1549,8 @@ void x86_cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
+ 
+ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags);
+ 
+-hwaddr x86_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
++                                         MemTxAttrs *attrs);
+ 
+ int x86_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+ int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 0fa51be646..c3a6e4fabe 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -715,7 +715,8 @@ void cpu_x86_update_cr4(CPUX86State *env, uint32_t new_cr4)
+ }
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-hwaddr x86_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
++                                         MemTxAttrs *attrs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+@@ -725,6 +726,8 @@ hwaddr x86_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     uint32_t page_offset;
+     int page_size;
+ 
++    *attrs = cpu_get_mem_attrs(env);
++
+     a20_mask = x86_get_a20_mask(env);
+     if (!(env->cr[0] & CR0_PG_MASK)) {
+         pte = addr & a20_mask;
+-- 
+2.11.0
 
-The comment indicates that virtio-pci computes the correct PCI Device ID
-based on the VIRTIO Device ID.  The PCI Device ID depends on the
-Legacy/Transitional/Modern mode supported by the device and therefore
-cannot be hardcoded.  If we set it here it will be overwritten later
-anyway.
-
-Stefan
-
---NGIwU0kFl1Z1A3An
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2CAWwACgkQnKSrs4Gr
-c8gbIwgApD3esCkIXpaVv1LJDa05dPRXphz6v0grsXaItRfnpM6C5Qcwd/feNJKo
-NpaskAHZDFfbOg/RwfS5pzz2334n9gMG9XUfPuiPR0jQFLFg5AgG1TpyyJYr0gV+
-ckABfo5mcSZKKeiTtSo3ZVqwqiYcymNMWY3XbP5OanqQtdH3ceIx8qmRCjL6uY5g
-dTIL3Ph5f/tkRlicCLsNC+czLAvnJDM/xlt6UA8mAacL0tzZF1ti9Hkptscbq3Xr
-LLvbsPB8X1yvWbpTwNYNSQoyNzL4XGx4NXSRFy3Z3tgStSld5M/hgIzerHFR/aqy
-jAzZWR1qr4BehgrXC2k6HsTTchpNPw==
-=Lsw+
------END PGP SIGNATURE-----
-
---NGIwU0kFl1Z1A3An--
 
