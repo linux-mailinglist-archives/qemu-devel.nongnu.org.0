@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19197B6105
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:03:58 +0200 (CEST)
-Received: from localhost ([::1]:56836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AB2B610F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:08:18 +0200 (CEST)
+Received: from localhost ([::1]:56870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWoV-0002Qj-VY
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60496)
+	id 1iAWsi-0006ky-QQ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iAWjs-0000Bo-Ug
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:59:09 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iAWlo-0001UL-8T
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:01:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iAWjr-00030d-Aw
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:59:08 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41211)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iAWjr-0002zh-1M
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:59:07 -0400
-Received: by mail-wr1-x441.google.com with SMTP id h7so6190674wrw.8
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 02:59:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=mP5VpQ0WyZTLovTFPfOeLZ/O9elbfNGNPa/4uBLqy74=;
- b=hWbcG7D1aW1rE+kM5pUV3KlDOgFQ5ALc/efycE/Cp8fGJFM2lIToIPavdG7p2GlzaW
- 0TBvdCCcrvqjwTCa1uPiRSol3CGEh10aBXAYUPDyRA/6V1kp97dAHXtoNLuEtbDgiay0
- bTztFf0LFs4H6ua2aZxqaQvLPoWGle/jmc/csZJglXO0Fzf2Ia0fJYSRF3m8YjhTd9Vb
- 8tMT8H7rw2Zv3h6+kA+vz4IVxlAfMwx4OTjydaaAo9mfs37jw0qGuN6ZtIuNEX6hGNzv
- Y320fNLok6x6KGj98x448Hf6q/3beC68eYahjoVS10rnDaBYk0qWaG9N/IB3MfRIoFgK
- ZrcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=mP5VpQ0WyZTLovTFPfOeLZ/O9elbfNGNPa/4uBLqy74=;
- b=e4320Mj5QzCR7Vi7JojkIfeV2zxdg5d0l5PUipvFujrqSon1Q82zI12SQaKC84cnUk
- V0x1oZTUqRiT8KRg6S12FFYeMexiM3/OqNYlJDB54bfeSdH1irTm5+fNQkZDdNDsqZ9y
- FOQ5VqpXxQhAnnuxyEagTfxpBAHB5UpuF7fumx5DGFz6QSPJlh7rJlZXr/cc4NW0gKMn
- oEepeLhRq+yy5K5mIUqmBDt2q77BQTjhVB9phC2Vht367w/UGk6LJx/i91TxRmB+/RdJ
- KldEovvm0VkMvMQcpFxwSHvyRqMCE7Asn6MBXwp2+fz1fS+n8cfbphQoaZ109hy3L67S
- ZDWg==
-X-Gm-Message-State: APjAAAX766MYH+J41z059riCu9OnYFZFxzWk3kzB+sN8t/rtFxeSTrwK
- FHKrnthMkBVp7lV6BLOKTYhaYg==
-X-Google-Smtp-Source: APXvYqxvtt9rHY95EX1/u/cKSzikOBOBE1zUIoim3RyI0TZ7KL8pp1Kllk/Frl4eAoJ1FTUl6NwpHQ==
-X-Received: by 2002:adf:e603:: with SMTP id p3mr2263484wrm.102.1568800744165; 
- Wed, 18 Sep 2019 02:59:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u10sm10325850wrg.55.2019.09.18.02.59.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 02:59:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CF0EE1FF87;
- Wed, 18 Sep 2019 10:59:02 +0100 (BST)
-References: <1615bbe5-3033-3b76-5cfb-52e343dc4d67@freepascal.org>
- <ae7415a9-54be-14de-9590-f9ff6ef025c4@redhat.com>
- <ddb842e7-dd48-1e74-20db-dea75de0552d@freepascal.org>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pierre Muller <pierre@freepascal.org>
-In-reply-to: <ddb842e7-dd48-1e74-20db-dea75de0552d@freepascal.org>
-Date: Wed, 18 Sep 2019 10:59:02 +0100
-Message-ID: <874l1a0vtl.fsf@linaro.org>
+ (envelope-from <cohuck@redhat.com>) id 1iAWlm-0003sJ-3A
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:01:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42714)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iAWlj-0003m7-9J
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 06:01:05 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1D03010DCC8E;
+ Wed, 18 Sep 2019 10:00:58 +0000 (UTC)
+Received: from gondolin (dhcp-192-230.str.redhat.com [10.33.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E2BD5C21E;
+ Wed, 18 Sep 2019 10:00:54 +0000 (UTC)
+Date: Wed, 18 Sep 2019 12:00:52 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Message-ID: <20190918120052.6120f8d8.cohuck@redhat.com>
+In-Reply-To: <CAJSP0QVMjw_zm16MRo25Gq0J9w=9vrKDZtaH=WGwjSJiDAVm9Q@mail.gmail.com>
+References: <CAJSP0QVMjw_zm16MRo25Gq0J9w=9vrKDZtaH=WGwjSJiDAVm9Q@mail.gmail.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH] * include/fpu/softfloat.h
- (floatx80_invalid_encoding): Handle m68k specific infinity pattern.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Wed, 18 Sep 2019 10:00:58 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Call for volunteers: LWN.net articles about KVM
+ Forum talks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,85 +57,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- laurent@vivier.eu
+Cc: libvir-list@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
+ kvm <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 17 Sep 2019 14:02:59 +0100
+Stefan Hajnoczi <stefanha@gmail.com> wrote:
 
-Pierre Muller <pierre@freepascal.org> writes:
+> Hi,
+> LWN.net is a popular open source news site that covers Linux and other
+> open source communities (Python, GNOME, Debian, etc).  It has published
+> a few KVM articles in the past too.
+> 
+> Let's raise awareness of QEMU, KVM, and libvirt by submitting articles covering
+> KVM Forum.
 
->   Hi Thomas,
->
->   I tried to use git format-patch -s below,
-> and change the commit message that appears below:
->
->
-> muller@gcc123:~/gnu/qemu/qemu$ git format-patch -s a017dc6d43aaa4ffc7be40=
-ae3adee4086be9cec2^
-> 0001-Fix-floatx80_invalid_encoding-function-for-m68k-cpu.patch
-> muller@gcc123:~/gnu/qemu/qemu$ cat
-> 0001-Fix-floatx80_invalid_encoding-function-for-m68k-cpu.patch
+Great idea!
 
-It's best to send the patches directly (i.e. don't include them in a
-larger email). This is because when maintainers apply the email they end
-up with a bunch of additional stuff and the corrupting of subject line.
+> 
+> I am looking for ~5 volunteers who are attending KVM Forum to write an article
+> about a talk they find interesting.
+> 
+> Please pick a talk you'd like to cover and reply to this email thread.
+> I will then send an email to LWN with a heads-up so they can let us know
+> if they are interested in publishing a KVM Forum special.  I will not
+> ask LWN.net for money.
+> 
+> KVM Forum schedule:
+> https://events.linuxfoundation.org/events/kvm-forum-2019/program/schedule/
 
-> From a017dc6d43aaa4ffc7be40ae3adee4086be9cec2 Mon Sep 17 00:00:00 2001
-> From: Pierre Muller <pierre@freepascal.org>
-> Date: Wed, 18 Sep 2019 08:04:19 +0000
-> Subject: [PATCH]    Fix floatx80_invalid_encoding function for m68k cpu
->
->     As m68k accepts different patterns for infinity,
->     and additional test for valid infinity must be added
->     for m68k cpu target.
->
-> Signed-off-by: Pierre Muller <pierre@freepascal.org>
-> ---
->  include/fpu/softfloat.h | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-> index ecb8ba0114..dea24384e9 100644
-> --- a/include/fpu/softfloat.h
-> +++ b/include/fpu/softfloat.h
-> @@ -685,10 +685,17 @@ static inline int floatx80_is_any_nan(floatx80 a)
->  | pseudo-infinities and un-normal numbers. It does not include
->  | pseudo-denormals, which must still be correctly handled as inputs even
->  | if they are never generated as outputs.
-> +| As m68k accepts different patterns for infinity, thus an additional te=
-st
-> +| for valid infinity value must be added for m68k CPU.
->  *-----------------------------------------------------------------------=
------*/
->  static inline bool floatx80_invalid_encoding(floatx80 a)
->  {
-> +#if defined (TARGET_M68K)
-> +    return ((a.low & (1ULL << 63)) =3D=3D 0 && (a.high & 0x7FFF) !=3D 0)
-> +           && (! floatx80_is_infinity(a));
-> +#else
->      return (a.low & (1ULL << 63)) =3D=3D 0 && (a.high & 0x7FFF) !=3D 0;
-> +#endif
->  }
+I think it might make sense to cover "Managing Matryoshkas: Testing
+Nested Guests" (Marc Hartmayer) and "Nesting&testing" (Vitaly
+Kuznetsov) in one article, and I volunteer for that.
+> 
+> LWN.net guidelines:
+> https://lwn.net/op/AuthorGuide.lwn
+> "Our general guideline is for articles to be around 1500 words in
+> length, though somewhat longer or shorter can work too. The best
+> articles cover a fairly narrow topic completely, without any big
+> omissions or any extra padding."
+> 
+> I volunteer to cover Michael Tsirkin's "VirtIO without the Virt -
+> Towards Implementations in Hardware" talk.
+> 
+> Thanks,
+> Stefan
 
-As most of the test is the same we could rewrite this to:
-
- bool invalid =3D (a.low & (1ULL << 63)) =3D=3D 0 && (a.high & 0x7FFF) !=3D=
- 0;
- #if defined (TARGET_M68K)
- invalid &=3D !floatx80_is_infinity(a)
- #endif
- return invalid;
-
-The compiler should be able to simplify the logic from there.
-
-Do we have any test cases that we could add to tests/tcg/m68k?
-
->
->  #define floatx80_zero make_floatx80(0x0000, 0x0000000000000000LL)
-
-
---
-Alex Benn=C3=A9e
 
