@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299AFB6832
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:33:00 +0200 (CEST)
-Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E85B6851
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:39:44 +0200 (CEST)
+Received: from localhost ([::1]:60798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAct0-00060d-8E
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:32:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51046)
+	id 1iAczW-0006Mu-Em
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:39:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iAbvu-0002NC-Ub
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:56 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iAbyJ-0004It-VN
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:34:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iAbvt-0000uz-Ex
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48908)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iAbvt-0000uS-7n; Wed, 18 Sep 2019 11:31:53 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 653A48A1C99;
- Wed, 18 Sep 2019 15:31:52 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-119.ams2.redhat.com [10.36.117.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94F0F5D6A5;
- Wed, 18 Sep 2019 15:31:50 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iAbyI-0002O9-EZ
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:34:23 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37675)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iAbyI-0002NM-4t
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:34:22 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f16so574210wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nw6PVinSAUrcIMGIAvVonphLXCK81yYui4fSQKYKk34=;
+ b=v9ZHGN5XYk/54c177sVnFKjbEPkLxncglg7jsdAcsu22tqJ+RxztVVzU99jX/ARyrd
+ j8Iv6/hi3IoJwFHhqZ2sWP6l9nLdrs8xJpwZAbZBiwDBjyBNH8I/r+U0b7mzCD9c1qgx
+ xuENWXFtjPL4n0JUsiBYJfi2iB6ByZEgF+eWsspKgsscMry1J1h+LgSC/aISg9GoN37S
+ 1Fkt0a1Be77NA10HE0gs4B3U7xoBwXeDm+iFnbT7RUw7Miw1F3JcVOP0GLvEtHxItICx
+ QPBbXdDfhDEnVbAJX1XnOcDzup+miOZh2HylW5iIrq93biH1ZxY7sK65F4qPzFEK4Ao9
+ ohQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nw6PVinSAUrcIMGIAvVonphLXCK81yYui4fSQKYKk34=;
+ b=I6Je9vEsdRNDn8N5QWljR1LXIaN3CjGUxe19mDjcXdP730hR05oZ9QyNcvvkjwx7mN
+ VVncMG3hyeZgRXQfq3ftFHd9MDR+JR+n+MdSEMQJ61pDqerlDeXn+mZKVrG5klCZqES2
+ p3zANKxFXzx2Do9zmQkRUnblQQ8P6eUHZsBxoUtDzDemchYsregOD7xso56Yy4dTca1N
+ ns/3AEyBs361LOtQ8f1z0mJoxxcVbOBCLsHBQ23LiUJwuGAwsvXjsAFQP8y1JoZT2o3s
+ CGUI5lLD37d0ARf2bs22EDz8sfWkdOfP1OzR2Uue46ECPTlCKJejeKcFMilB6ruFew3a
+ W61Q==
+X-Gm-Message-State: APjAAAW4onnRIL28uiF84k2myeWVMUtKdqLCQM6D3+mmXiE8UXzHwP55
+ AZwM0kJRwhoqfz4pv9FjUorHeg==
+X-Google-Smtp-Source: APXvYqxeMjaSv9noz3Ge8jCt7NSLGZ448kl2U1xp4tRHmzqkrp5abidEFYFNhFvyzdVn4yTHKq+a/Q==
+X-Received: by 2002:a05:600c:252:: with SMTP id 18mr3133293wmj.4.1568820860786; 
+ Wed, 18 Sep 2019 08:34:20 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g1sm5199698wrv.68.2019.09.18.08.34.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Sep 2019 08:34:20 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 68DD11FF87;
+ Wed, 18 Sep 2019 16:34:19 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 18 Sep 2019 17:29:22 +0200
-Message-Id: <20190918152922.18949-30-david@redhat.com>
-In-Reply-To: <20190918152922.18949-1-david@redhat.com>
-References: <20190918152922.18949-1-david@redhat.com>
+Date: Wed, 18 Sep 2019 16:33:35 +0100
+Message-Id: <20190918153335.20797-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Wed, 18 Sep 2019 15:31:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 29/29] tests/tcg: target/s390x:
- Test MVO
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH] tests/tcg: add simple record/replay smoke test
+ for aarch64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,67 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's add the simple test based on the example from the PoP.
+This adds two new tests that re-use the memory test to check basic
+record replay functionality is still working. We have to define our
+own runners rather than using the default pattern as we want to change
+the test name but re-use the memory binary.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+We declare the test binaries as PHONY as they don't rely exist.
+
+[AJB: A better test would output some sort of timer value or other
+otherwise variable value so we could compare the record and replay
+outputs and ensure they match]
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>
 ---
- tests/tcg/s390x/Makefile.target |  1 +
- tests/tcg/s390x/mvo.c           | 25 +++++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 tests/tcg/s390x/mvo.c
+ tests/tcg/aarch64/Makefile.softmmu-target | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.t=
-arget
-index 151dc075aa..6a3bfa8b29 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -6,3 +6,4 @@ TESTS+=3Dipm
- TESTS+=3Dexrl-trt
- TESTS+=3Dexrl-trtr
- TESTS+=3Dpack
-+TESTS+=3Dmvo
-diff --git a/tests/tcg/s390x/mvo.c b/tests/tcg/s390x/mvo.c
-new file mode 100644
-index 0000000000..5546fe2a97
---- /dev/null
-+++ b/tests/tcg/s390x/mvo.c
-@@ -0,0 +1,25 @@
-+#include <stdint.h>
-+#include <stdio.h>
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index 4c4aaf61dd3..b4b39579634 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -32,3 +32,24 @@ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ 
+ # Running
+ QEMU_OPTS+=-M virt -cpu max -display none -semihosting-config enable=on,target=native,chardev=output -kernel
 +
-+int main(void)
-+{
-+    uint8_t dest[6] =3D {0xff, 0x77, 0x88, 0x99, 0x0c, 0xff};
-+    uint8_t src[5] =3D {0xee, 0x12, 0x34, 0x56, 0xee};
-+    uint8_t expected[6] =3D {0xff, 0x01, 0x23, 0x45, 0x6c, 0xff};
-+    int i;
++# Simple Record/Replay Test
++.PHONY: memory-record
++run-memory-record: memory-record memory
++	$(call run-test, $<, \
++	  $(QEMU) -monitor none -display none \
++		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
++		  -icount shift=5$(COMMA)rr=record$(COMMA)rrfile=record.bin \
++	   	  $(QEMU_OPTS) memory, \
++	  "$< on $(TARGET_NAME)")
 +
-+    asm volatile (
-+        "    mvo 0(4,%[dest]),0(3,%[src])\n"
-+        :
-+        : [dest] "d" (dest + 1),
-+          [src] "d" (src + 1)
-+        : "memory");
++.PHONY: memory-replay
++run-memory-replay: memory-replay run-memory-record
++	$(call run-test, $<, \
++	  $(QEMU) -monitor none -display none \
++		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
++		  -icount shift=5$(COMMA)rr=replay$(COMMA)rrfile=record.bin \
++	   	  $(QEMU_OPTS) memory, \
++	  "$< on $(TARGET_NAME)")
 +
-+    for (i =3D 0; i < sizeof(expected); i++) {
-+        if (dest[i] !=3D expected[i]) {
-+            fprintf(stderr, "bad data\n");
-+            return 1;
-+        }
-+    }
-+    return 0;
-+}
---=20
-2.21.0
++TESTS+=memory-record memory-replay
+-- 
+2.20.1
 
 
