@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AC9B5AEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 07:31:43 +0200 (CEST)
-Received: from localhost ([::1]:54684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B159B5B0B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 07:47:12 +0200 (CEST)
+Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iASZ3-0003lc-Fe
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 01:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53587)
+	id 1iASo2-0002Ov-PP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 01:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iASUO-0002LW-A2
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:54 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iASls-0001c8-Rj
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:44:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iASUM-00073e-Bw
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:52 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:44425)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iASUM-00072u-5M
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:50 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id q15so255258pll.11
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 22:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9uud/rh9P2t2h4DIelDsx28iFQpChIhakBWJac9SU70=;
- b=y/+oaWBuyI5yPWanOBQjTAR3Z0htuRA5jPPHDcShFxZq0c1RH+4WxEzr0sIC0N0v5Y
- VIlwG+MFMq2zgpeVY7Z0dt6D5ctHHywnDAip5nHY1T/6UuH2WWuIWvhMftLbkpzVb/NK
- PpWLsdyVBbn4CmKYy/4Ho5INVsfuK6Jo0OR4YoxKc/wYitS55B2tpsWrkJmGTFPQs+WN
- FCumZ0VmMe6h6zzD8cllxustDwK5Mjw+sa0R2ft6NBzZ5vUZQkmi3mv7zlPNgXJcHubF
- quN1bG3tY/JoESN0cgWQuUh5KeEJa2xJg+UhyLkfkuJ7+SEQlEMBG52i/835RSdur6Oy
- 9EGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=9uud/rh9P2t2h4DIelDsx28iFQpChIhakBWJac9SU70=;
- b=IrJqCKLoMt6NZFJC4Nac3QQCdIFTGzXDdNq2sRYJzZSLdtjNzOq1keHBgaMbZVVpVM
- N3cj0hy3U2fZwyeewhZHmZkWROMjC9kZD6mDQFrtEudgYaffKzof7Xm/JHcWYsJ/ZLgY
- JWpuM9q1P4iPfx+TbrCEZhbNNmuBrn6Ce53ix6CIVRfMhKxrC9hCvDyFZcOqoh4rQce+
- dgpdKPCBUI4oJAVsbe2dbReI2/2fiGQjQqridbCdYIXX38DVCetZnSniIcdN5S+uSuA9
- tQDWMfcIsMG29iO0YQf6wvn1N+vd3wkoj7yju7jI6dTZZMiDwkL/t2paCzjcps83nTo3
- kt9A==
-X-Gm-Message-State: APjAAAX5B1mQraRb92nN3zB8UWkXTbMgxigAdbatSo4LEXsw/+7hnpL0
- LRFA1PSK8rNQ3FiPhQcET6RW+LzMlbI=
-X-Google-Smtp-Source: APXvYqwNuO2yOuuo+tsqTQoa7EkVzRR0KYQHjqtVVrGnEGqhntmbrG5xSJuIe0kmkqzmoXQqT28HFg==
-X-Received: by 2002:a17:902:aa4a:: with SMTP id
- c10mr2305065plr.340.1568784408240; 
- Tue, 17 Sep 2019 22:26:48 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id a1sm3457234pgd.74.2019.09.17.22.26.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 22:26:47 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 17 Sep 2019 22:26:41 -0700
-Message-Id: <20190918052641.21300-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190918052641.21300-1-richard.henderson@linaro.org>
-References: <20190918052641.21300-1-richard.henderson@linaro.org>
+ (envelope-from <dgibson@ozlabs.org>) id 1iASlr-00018h-4z
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:44:56 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:38641)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iASlp-00013b-J7; Wed, 18 Sep 2019 01:44:55 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46Y87g2p5Jz9sNf; Wed, 18 Sep 2019 15:44:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1568785487;
+ bh=iVEqO8W5FVfGbJxtTdGkvq3y8guHqadQEdwfH1vREHQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dac9nHQpWAFtZ4VGtmMU8WAGwq5lX1p+mF67oqUHNk0gPPRk/5139vUI36yucaKv6
+ Ze6zy0TZXKyT86ssgZOhBdTIFZ92gjC7edwIJqoW4krnSC64LuEiDcKVHaSh2a6OFa
+ upBKk7wVbChpKDa+YOMZfCsP5PDShxr3A0uaZBlw=
+Date: Wed, 18 Sep 2019 15:44:26 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190918054426.GI2440@umbus.fritz.box>
+References: <20190731141233.1340-1-clg@kaod.org>
+ <1a52b8c6-b29a-d223-0dfb-8aa24bf1d5aa@kaod.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sl5MdczEF/OU2Miu"
+Content-Disposition: inline
+In-Reply-To: <1a52b8c6-b29a-d223-0dfb-8aa24bf1d5aa@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62a
-Subject: [Qemu-devel] [RFC 3/3] cputlb: Remove ATOMIC_MMU_DECLS
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v3 00/18] ppc/pnv: add XIVE support for KVM
+ guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,144 +57,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This macro no longer has a non-empty definition.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/atomic_template.h | 12 ------------
- accel/tcg/cputlb.c          |  1 -
- accel/tcg/user-exec.c       |  1 -
- 3 files changed, 14 deletions(-)
+--sl5MdczEF/OU2Miu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
-index 287433d809..107660d5d3 100644
---- a/accel/tcg/atomic_template.h
-+++ b/accel/tcg/atomic_template.h
-@@ -95,7 +95,6 @@
- ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
-                               ABI_TYPE cmpv, ABI_TYPE newv EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
-     DATA_TYPE ret;
- 
-@@ -113,7 +112,6 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
- #if HAVE_ATOMIC128
- ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP;
- 
-     ATOMIC_TRACE_LD;
-@@ -125,7 +123,6 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
- void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
-                      ABI_TYPE val EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
- 
-     ATOMIC_TRACE_ST;
-@@ -137,7 +134,6 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
- ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
-                            ABI_TYPE val EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
-     DATA_TYPE ret;
- 
-@@ -151,7 +147,6 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
- ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
-                         ABI_TYPE val EXTRA_ARGS)                    \
- {                                                                   \
--    ATOMIC_MMU_DECLS;                                               \
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                           \
-     DATA_TYPE ret;                                                  \
-                                                                     \
-@@ -183,7 +178,6 @@ GEN_ATOMIC_HELPER(xor_fetch)
- ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
-                         ABI_TYPE xval EXTRA_ARGS)                   \
- {                                                                   \
--    ATOMIC_MMU_DECLS;                                               \
-     XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                          \
-     XDATA_TYPE cmp, old, new, val = xval;                           \
-                                                                     \
-@@ -229,7 +223,6 @@ GEN_ATOMIC_HELPER_FN(umax_fetch, MAX,  DATA_TYPE, new)
- ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
-                               ABI_TYPE cmpv, ABI_TYPE newv EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
-     DATA_TYPE ret;
- 
-@@ -247,7 +240,6 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
- #if HAVE_ATOMIC128
- ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP;
- 
-     ATOMIC_TRACE_LD;
-@@ -259,7 +251,6 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
- void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
-                      ABI_TYPE val EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
- 
-     ATOMIC_TRACE_ST;
-@@ -272,7 +263,6 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
- ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
-                            ABI_TYPE val EXTRA_ARGS)
- {
--    ATOMIC_MMU_DECLS;
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
-     ABI_TYPE ret;
- 
-@@ -286,7 +276,6 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
- ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
-                         ABI_TYPE val EXTRA_ARGS)                    \
- {                                                                   \
--    ATOMIC_MMU_DECLS;                                               \
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                           \
-     DATA_TYPE ret;                                                  \
-                                                                     \
-@@ -316,7 +305,6 @@ GEN_ATOMIC_HELPER(xor_fetch)
- ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
-                         ABI_TYPE xval EXTRA_ARGS)                   \
- {                                                                   \
--    ATOMIC_MMU_DECLS;                                               \
-     XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                          \
-     XDATA_TYPE ldo, ldn, old, new, val = xval;                      \
-                                                                     \
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 7c4c763b88..d048fc82c9 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1748,7 +1748,6 @@ void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
- #define EXTRA_ARGS     , TCGMemOpIdx oi, uintptr_t retaddr
- #define ATOMIC_NAME(X) \
-     HELPER(glue(glue(glue(atomic_ ## X, SUFFIX), END), _mmu))
--#define ATOMIC_MMU_DECLS 
- #define ATOMIC_MMU_LOOKUP atomic_mmu_lookup(env, addr, oi, retaddr)
- #define ATOMIC_MMU_CLEANUP
- 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 71c4bf6477..c353e452ea 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -748,7 +748,6 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
- }
- 
- /* Macro to call the above, with local variables from the use context.  */
--#define ATOMIC_MMU_DECLS do {} while (0)
- #define ATOMIC_MMU_LOOKUP  atomic_mmu_lookup(env, addr, DATA_SIZE, GETPC())
- #define ATOMIC_MMU_CLEANUP do { clear_helper_retaddr(); } while (0)
- 
--- 
-2.17.1
+On Tue, Sep 17, 2019 at 01:54:24PM +0200, C=E9dric Le Goater wrote:
+> On 31/07/2019 16:12, C=E9dric Le Goater wrote:
+> > Hello,
+> >=20
+> > The QEMU PowerNV machine emulates a baremetal OpenPOWER system and
+> > acts as an hypervisor (L0). Supporting emulation of KVM to run guests
+> > (L1) requires a few more extensions, among which guest support for the
+> > XIVE interrupt controller on POWER9 processor.
+> >=20
+> > The following changes add new per-CPU PowerNV machines and extend the
+> > XIVE models with the new XiveFabric and XivePresenter interfaces to
+> > provide support for XIVE escalations and interrupt resend. This
+> > mechanism is used by XIVE to notify the hypervisor that a vCPU is not
+> > dispatched on a HW thread. Tested on a QEMU PowerNV machine and a
+> > simple QEMU pseries guest doing network on a local bridge.
+> >=20
+> > The XIVE interrupt controller offers a way to increase the XIVE
+> > resources per chip by configuring multiple XIVE blocks on a chip. This
+> > is not currently supported by the model. However, some configurations,
+> > such as OPAL/skiboot, use one block-per-chip configuration with some
+> > optimizations. One of them is to override the hardwired chip ID by the
+> > block id in the PowerBUS operations and for CAM line compares. This
+> > patchset improves the support for this setup. Tested with 4 chips.
+>=20
+> David,
+>=20
+> Do you want me to resend this patchset ? or you just didn't have time
+> to look at it ? =20
 
+Mostly, I just haven't had time.  I'm also finding the patches pretty
+difficult to read and review.  I don't think that's an indication
+they're bad, just that what they're doing is necessarily complex, but
+it's still made it hard to tackle them.
+
+> Patch 16 has changed a little since. The get_block_id() handler has=20
+> moved to the XiveRouterClass.
+
+You, might as well repost, so I'm looking at the latest stuff.  I
+can't promise I'll be able to look at the new set terribly soon
+though.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--sl5MdczEF/OU2Miu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2BxDgACgkQbDjKyiDZ
+s5IGQRAAibMKjsrsupI88D/TtsinyUDwys3ONSiqv2ASjUVGYS6EBcCFyASGqQC1
+jLEgpTOhKnE8lFSlUoiAMrpj073AG0R7xbq87BG2efUoOUxCpELO3juvXwRHt2Wu
+q8+5F5SqL/Az/MBv4Pd5YnVs0WTXvGX33KGErtuVmUXT3ny1XNJK5/aeBdZBoyv0
+jcTd6ykm9el/F0OYX8mtU5O+ccZFY8DRSmEL0sKKBfxH+ub9OGW3I/qgzBExU+KT
+mRwlZe0RO7+14+o1zDw19Su9QxN5f+2/1hF8x704LqtrUNL6RzWQvo3tzcFBDfsB
+m6jNpVjHNTtW0UpCCpXj973qs+n2IeQ+SQnsKmnAwaEc0wbJP86N3d4oROvRyiHt
+l1eIjMQfBRqqydBU+k8fN66XQUkhIucobCp/R3vkrNTsYe/ZYG/gT2OFM3MruCfn
+yGmH2ZMAj87leWPHRTg9Fjz/ZRx7y6XUNU75sh+/0C0s19iJUGWRW9A9T4aQSO5z
+feaAObWjSfocStJOpAM1rgivJ2IYBxDt4WKH/U2hBEAbtmdxi7GIzAkgTxiwZwnK
+LWDZPyawipMF60w9eF/sj3uiZMe8czuXmHtovJj1YrjU4/ZnXEdq6BxFmIohTQFE
+jwmNLrSMwENp4JfNz3y+DXle7pevv7aZNXrp4jmwEPf1Ip99HT4=
+=Vj1F
+-----END PGP SIGNATURE-----
+
+--sl5MdczEF/OU2Miu--
 
