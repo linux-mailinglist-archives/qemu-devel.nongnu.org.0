@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11F2B6909
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:27:25 +0200 (CEST)
-Received: from localhost ([::1]:33298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7367FB6901
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:23:06 +0200 (CEST)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdjg-0004Xv-Gr
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55674)
+	id 1iAdfU-0000ni-K3
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55942)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iAcUk-0003zw-LR
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:55 -0400
+ (envelope-from <clg@kaod.org>) id 1iAcVU-0004wa-Tp
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iAcUj-0003D8-29
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:54 -0400
-Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:46029)
+ (envelope-from <clg@kaod.org>) id 1iAcVT-0003l1-3R
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:40 -0400
+Received: from 15.mo6.mail-out.ovh.net ([188.165.39.161]:50603)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcUi-0003C5-TI
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:53 -0400
-Received: from player799.ha.ovh.net (unknown [10.109.160.253])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 67D5C119FF0
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:07:51 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcVS-0003i6-Ps
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:39 -0400
+Received: from player799.ha.ovh.net (unknown [10.108.42.174])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 592481DDA89
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:08:36 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player799.ha.ovh.net (Postfix) with ESMTPSA id CC2B39F0E68D;
- Wed, 18 Sep 2019 16:07:45 +0000 (UTC)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id 540D59F0E99C;
+ Wed, 18 Sep 2019 16:08:30 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 18 Sep 2019 18:06:30 +0200
-Message-Id: <20190918160645.25126-11-clg@kaod.org>
+Date: Wed, 18 Sep 2019 18:06:38 +0200
+Message-Id: <20190918160645.25126-19-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
 References: <20190918160645.25126-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6221441411813182438
+X-Ovh-Tracer-Id: 6234107785789606886
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeljecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.251.49
-Subject: [Qemu-devel] [PATCH v4 10/25] ppc/pnv: Clarify how the TIMA is
- accessed on a multichip system
+X-Received-From: 188.165.39.161
+Subject: [Qemu-devel] [PATCH v4 18/25] ppc/pnv: Skip empty slots of the XIVE
+ NVT table
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,108 +61,50 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TIMA MMIO space is shared among the chips. To identify the chip
-from which the access is being done, the PowerBUS uses a 'chip' field
-in the load/store messages. QEMU does not model these messages,
-instead, we extract the chip id from the CPU PIR and do a lookup at
-the machine level to fetch the targeted interrupt controller.
-
-Introduce pnv_get_chip() and pnv_xive_tm_get_xive() helpers to clarify
-this process in pnv_xive_get_tctx(). The latter will be removed in the
-subsequent patches but the same principle will be kept.
+We try to loop on the full table skipping empty indirect pages which
+are not necessarily allocated. This is useful to dump the contexts of
+the KVM vCPUs.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/pnv.h | 13 +++++++++++++
- hw/intc/pnv_xive.c   | 40 +++++++++++++++++++++++-----------------
- 2 files changed, 36 insertions(+), 17 deletions(-)
+ hw/intc/pnv_xive.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 1cdbe55bf86c..5e01a9f3df95 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -185,6 +185,19 @@ static inline bool pnv_is_power9(PnvMachineState *pn=
-v)
-     return pnv_chip_is_power9(pnv->chips[0]);
- }
-=20
-+static inline PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_=
-id)
-+{
-+    int i;
-+
-+    for (i =3D 0; i < pnv->num_chips; i++) {
-+        PnvChip *chip =3D pnv->chips[i];
-+        if (chip->chip_id =3D=3D chip_id) {
-+            return chip;
-+        }
-+    }
-+    return NULL;
-+}
-+
- #define PNV_FDT_ADDR          0x01000000
- #define PNV_TIMEBASE_FREQ     512000000ULL
-=20
 diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 5c9483b394ab..3d6fcf9ac139 100644
+index 782775136288..a986d4ed9364 100644
 --- a/hw/intc/pnv_xive.c
 +++ b/hw/intc/pnv_xive.c
-@@ -464,31 +464,37 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, =
-uint8_t format,
-     return count;
- }
+@@ -1641,6 +1641,12 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D {
+     },
+ };
 =20
 +/*
-+ * The TIMA MMIO space is shared among the chips and to identify the
-+ * chip from which the access is being done, we extract the chip id
-+ * from the PIR.
++ * skiboot uses an indirect NVT table with 64k subpages
 + */
-+static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu)
-+{
-+    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-+    PnvChip *chip;
-+    PnvXive *xive;
++#define XIVE_NVT_COUNT          (1 << XIVE_NVT_SHIFT)
++#define XIVE_NVT_PER_PAGE       (0x10000 / sizeof(XiveNVT))
 +
-+    chip =3D pnv_get_chip(pnv, cpu_chip_id(cpu));
-+    assert(chip);
-+    xive =3D &PNV9_CHIP(chip)->xive;
-+
-+    if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
-+        xive_error(xive, "IC: CPU %x is not enabled", cpu_pir(cpu));
-+    }
-+    return xive;
-+}
-+
- static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+ static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
+                                     Monitor *mon)
  {
-     PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
--    PnvXive *xive =3D NULL;
--    CPUPPCState *env =3D &cpu->env;
--    int pir =3D env->spr_cb[SPR_PIR].default_value;
-+    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
-=20
--    /*
--     * Perform an extra check on the HW thread enablement.
--     *
--     * The TIMA is shared among the chips and to identify the chip
--     * from which the access is being done, we extract the chip id
--     * from the PIR.
--     */
--    xive =3D pnv_xive_get_ic((pir >> 8) & 0xf);
-     if (!xive) {
-         return NULL;
+@@ -1694,10 +1700,12 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monit=
+or *mon)
+         xive_end_eas_pic_print_info(&end, i++, mon);
      }
 =20
--    if (!(xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(pir & 0x3f))) {
--        xive_error(PNV_XIVE(xrtr), "IC: CPU %x is not enabled", pir);
--    }
--
--    return tctx;
-+    return XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+-    monitor_printf(mon, "XIVE[%x] NVTT\n", blk);
+-    i =3D 0;
+-    while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
+-        xive_nvt_pic_print_info(&nvt, i++, mon);
++    monitor_printf(mon, "XIVE[%x] NVTT %08x .. %08x\n", blk, 0,
++                   XIVE_NVT_COUNT - 1);
++    for (i =3D 0; i < XIVE_NVT_COUNT; i +=3D XIVE_NVT_PER_PAGE) {
++        while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
++            xive_nvt_pic_print_info(&nvt, i++, mon);
++        }
+     }
  }
 =20
- /*
 --=20
 2.21.0
 
