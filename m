@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8161B69C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:41:32 +0200 (CEST)
-Received: from localhost ([::1]:33478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A5AB69D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:46:41 +0200 (CEST)
+Received: from localhost ([::1]:33508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdxL-0002GY-5j
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55913)
+	id 1iAe2G-0006Rk-OK
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:46:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56008)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iAcVM-0004na-Ir
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:33 -0400
+ (envelope-from <clg@kaod.org>) id 1iAcVi-0005Ep-O5
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iAcVL-0003f3-AA
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:32 -0400
-Received: from 6.mo179.mail-out.ovh.net ([46.105.56.76]:52746)
+ (envelope-from <clg@kaod.org>) id 1iAcVh-0003t8-Mq
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:54 -0400
+Received: from 12.mo1.mail-out.ovh.net ([87.98.162.229]:47571)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcVL-0003ed-4f
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:31 -0400
-Received: from player799.ha.ovh.net (unknown [10.109.146.175])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 5011714130A
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:08:30 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcVh-0003sk-HO
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:53 -0400
+Received: from player799.ha.ovh.net (unknown [10.109.143.209])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id A926F19022E
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:08:52 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player799.ha.ovh.net (Postfix) with ESMTPSA id C87359F0E909;
- Wed, 18 Sep 2019 16:08:24 +0000 (UTC)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id 40D949F0EA94;
+ Wed, 18 Sep 2019 16:08:47 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 18 Sep 2019 18:06:37 +0200
-Message-Id: <20190918160645.25126-18-clg@kaod.org>
+Date: Wed, 18 Sep 2019 18:06:41 +0200
+Message-Id: <20190918160645.25126-22-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
 References: <20190918160645.25126-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6232418937404492774
+X-Ovh-Tracer-Id: 6238611387565378534
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.56.76
-Subject: [Qemu-devel] [PATCH v4 17/25] ppc/pnv: Dump the XIVE NVT table
+X-Received-From: 87.98.162.229
+Subject: [Qemu-devel] [PATCH v4 21/25] ppc/pnv: Quiesce some XIVE errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,78 +60,50 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is to track the configuration of the base END index of the vCPU
-and the Interrupt Pending Buffer. The NVT IPB is updated when an
-interrupt can not be presented to a vCPU.
+When dumping the END and NVT tables, the error logging is too noisy.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive_regs.h |  2 ++
- hw/intc/pnv_xive.c         | 22 ++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+ hw/intc/pnv_xive.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index dea0318e7e89..dd42c33cef35 100644
---- a/include/hw/ppc/xive_regs.h
-+++ b/include/hw/ppc/xive_regs.h
-@@ -232,6 +232,8 @@ typedef struct XiveNVT {
-         uint32_t        w0;
- #define NVT_W0_VALID             PPC_BIT32(0)
-         uint32_t        w1;
-+#define NVT_W1_EQ_BLOCK          PPC_BITMASK32(0, 3)
-+#define NVT_W1_EQ_INDEX          PPC_BITMASK32(4, 31)
-         uint32_t        w2;
-         uint32_t        w3;
-         uint32_t        w4;
 diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index b7d505839e68..782775136288 100644
+index 8fa78e1c6cd9..4c1fa024cdf5 100644
 --- a/hw/intc/pnv_xive.c
 +++ b/hw/intc/pnv_xive.c
-@@ -1641,6 +1641,21 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D {
-     },
- };
+@@ -29,7 +29,7 @@
 =20
-+static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
-+                                    Monitor *mon)
-+{
-+    uint8_t  eq_blk =3D xive_get_field32(NVT_W1_EQ_BLOCK, nvt->w1);
-+    uint32_t eq_idx =3D xive_get_field32(NVT_W1_EQ_INDEX, nvt->w1);
-+
-+    if (!xive_nvt_is_valid(nvt)) {
-+        return;
-+    }
-+
-+    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x\n", nvt_idx,
-+                   eq_blk, eq_idx,
-+                   xive_get_field32(NVT_W4_IPB, nvt->w4));
-+}
-+
- void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
- {
-     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
-@@ -1649,6 +1664,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
- *mon)
-     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
-     XiveEAS eas;
-     XiveEND end;
-+    XiveNVT nvt;
-     int i;
+ #include "pnv_xive_regs.h"
 =20
-     monitor_printf(mon, "XIVE[%x] Source %08x .. %08x\n", blk, srcno0,
-@@ -1677,6 +1693,12 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monito=
-r *mon)
-     while (!xive_router_get_end(xrtr, blk, i, &end)) {
-         xive_end_eas_pic_print_info(&end, i++, mon);
+-#define XIVE_DEBUG
++#undef XIVE_DEBUG
+=20
+ /*
+  * Virtual structures table (VST)
+@@ -174,7 +174,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
+ive, uint32_t type,
+     vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
+=20
+     if (!(vsd & VSD_ADDRESS_MASK)) {
++#ifdef XIVE_DEBUG
+         xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
+;
++#endif
+         return 0;
      }
-+
-+    monitor_printf(mon, "XIVE[%x] NVTT\n", blk);
-+    i =3D 0;
-+    while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
-+        xive_nvt_pic_print_info(&nvt, i++, mon);
-+    }
- }
 =20
- static void pnv_xive_reset(void *dev)
+@@ -195,7 +197,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
+ive, uint32_t type,
+         vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
+=20
+         if (!(vsd & VSD_ADDRESS_MASK)) {
++#ifdef XIVE_DEBUG
+             xive_error(xive, "VST: invalid %s entry %x !?", info->name, =
+idx);
++#endif
+             return 0;
+         }
+=20
 --=20
 2.21.0
 
