@@ -2,57 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08870B6890
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:58:55 +0200 (CEST)
-Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D429BB687E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:51:16 +0200 (CEST)
+Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdI5-0002jv-HB
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53997)
+	id 1iAdAh-0002NJ-LI
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1iAcHm-0007OS-T7
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:54:32 -0400
+ (envelope-from <clg@kaod.org>) id 1iAcU1-0002xS-U2
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1iAcHk-0006LO-9B
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:54:30 -0400
-Received: from zuban.uni-paderborn.de ([131.234.189.17]:45900)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1iAcHg-0006HS-AE; Wed, 18 Sep 2019 11:54:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=s4lpbnat6TSWjuKXDEHizuRR0GmBn3p4YXm2C/S1cFE=; b=pKPzZjRBFp39nQbzc9X+606ox+
- QWRZxzOy7YsUeAC1dRiLqbImMLs1XnDJQ5G3ebo8T4HrfEhbxG7C2103PGsfAMap0gOMQnoIjEvus
- KEZk6Bf0QDuLRPLb5OK5fb5T7B4N4nUkAcW1yif/FIrNrVgUpGlgoYEGqq9ovUBbadeQ=;
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Konopik, Andreas" <andreas.konopik@fau.de>
-References: <9cf47438fa943b28ee987cea7b76a459@fau.de>
- <CAFEAcA-oP9QkYnQr1SQUvTks+9ySjDCn0G5yuULdOBepQi-PSw@mail.gmail.com>
- <75c41dce4fe333c0304f5e80e3ea6f34@fau.de>
- <CAFEAcA8q=QvwroUA3XQji5bqR5W4nXR=oUxbA16J0qP4Ch5sjA@mail.gmail.com>
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-ID: <c60f34de-daef-3985-9bce-b780611222e7@mail.uni-paderborn.de>
-Date: Wed, 18 Sep 2019 17:54:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <clg@kaod.org>) id 1iAcU0-0002c4-Fu
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:09 -0400
+Received: from 5.mo2.mail-out.ovh.net ([87.98.181.248]:32989)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcU0-0002bD-8Q
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:08 -0400
+Received: from player799.ha.ovh.net (unknown [10.108.35.185])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id 916F21AD385
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:07:06 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id C2DBD9F0E37F;
+ Wed, 18 Sep 2019 16:07:00 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 18 Sep 2019 18:06:22 +0200
+Message-Id: <20190918160645.25126-3-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
+References: <20190918160645.25126-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8q=QvwroUA3XQji5bqR5W4nXR=oUxbA16J0qP4Ch5sjA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US-large
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.7.2805085, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2019.9.18.154817, AntiVirus-Engine: 5.65.0,
- AntiVirus-Data: 2019.9.9.5650001
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 6208775040059739110
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeljecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 131.234.189.17
-Subject: Re: [Qemu-devel] [Qemu-discuss] Segmentation fault on target tricore
+X-Received-From: 87.98.181.248
+Subject: [Qemu-devel] [PATCH v4 02/25] ppc/xive: Implement the XivePresenter
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,87 +56,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- qemu-discuss <qemu-discuss@nongnu.org>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Each XIVE Router model, sPAPR and PowerNV, now implements the 'match_nvt'
+handler of the XivePresenter QOM interface. This is simply moving code
+and taking into account the new API.
 
-On 9/17/19 3:45 PM, Peter Maydell wrote:
-> On Tue, 17 Sep 2019 at 14:06, Konopik, Andreas <andreas.konopik@fau.de> wrote:
->>>> Using gdb and valgrind I found out that:
->>>> - 'gen_mtcr()' and 'gen_mfcr()' access uninitialized values, i.e.
->>>> CSFRs,
->>>> which leads to the Segfault
->>>> - The uninitialised values were created by stack allocation of
->>>> DisasContext in 'gen_intermediate_code()'
->>> This definitely sounds like a bug: do you have a stack
->>> backtrace from valgrind or gdb of the bad access and the
->>> segfault?
->>>
->>> [...]
->>> Thread 3 "qemu-system-tri" received signal SIGSEGV, Segmentation fault.
->>> [Switching to Thread 0x7ffff10a4700 (LWP 146730)]
->>> 0x00005555556edb67 in gen_mfcr (ret=0xab0, offset=<optimized out>,
->>>     ctx=<optimized out>)
->>>     at /home/akonopik/qemu_src/target/tricore/cpu.h:274
->>> 274       return (env->features & (1ULL << feature)) != 0;
->>> (gdb) bt
->>> #0  0x00005555556edb67 in gen_mfcr
->>>     (ret=0xab0, offset=<optimized out>, ctx=<optimized out>)
->>>     at /home/akonopik/qemu_src/target/tricore/cpu.h:274
-> It looks like tricore_tr_init_disas_context() isn't
-> initializing ctx->env. If this is the problem then this
-> patch ought to fix it:
->
-> diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-> index c574638c9f7..305d896cd2c 100644
-> --- a/target/tricore/translate.c
-> +++ b/target/tricore/translate.c
-> @@ -8793,6 +8793,7 @@ static void
-> tricore_tr_init_disas_context(DisasContextBase *dcbase,
->       CPUTriCoreState *env = cs->env_ptr;
->       ctx->mem_idx = cpu_mmu_index(env, false);
->       ctx->hflags = (uint32_t)ctx->base.tb->flags;
-> +    ctx->env = env;
->   }
->
->   static void tricore_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+To be noted that the xive_router_get_tctx() helper is not used anymore
+when doing CAM matching and will be removed later on after other changes.
 
-thanks for the patch. I'll add it to my queue.
+The XIVE presenter model is still too simple for the PowerNV machine
+and the CAM matching algo is not correct on multichip system. Subsequent
+patches will introduce more changes to scan all chips of the system.
 
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/intc/pnv_xive.c   | 41 +++++++++++++++++++++++++++++++++++++++++
+ hw/intc/spapr_xive.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ hw/intc/xive.c       | 43 +++++++------------------------------------
+ 3 files changed, 89 insertions(+), 36 deletions(-)
 
->
->
-> Aside to Bastian: passing the CPU env pointer into the
-> DisasContext isn't ideal, because it makes it quite easy
-> for translate.c code to accidentally use fields of the
-> env struct that aren't valid for use at translate time.
-> I think the only uses of ctx->env you have are for checking
-> feature bits -- I recommend following what target/arm does here:
->   * in tricore_tr_init_disas_context(), instead of copying the
->     env pointer, just copy env->features into ctx->features
->   * have a tricore_dc_feature(DisasContext *dc, int feature)
->     that checks for the feature bit in dc->features
->
-> That way you only have access in translate.c code to
-> information that's safe to bake into generated code, and
-> it's harder to accidentally introduce bugs where generated
-> code depends on CPU state that isn't kept in the TB flags.
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index ed6e9d71bbfa..ae449aa1119b 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -392,6 +392,45 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+     return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
+ }
+=20
++static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
++                              uint8_t nvt_blk, uint32_t nvt_idx,
++                              bool cam_ignore, uint8_t priority,
++                              uint32_t logic_serv, XiveTCTXMatch *match)
++{
++    CPUState *cs;
++    int count =3D 0;
++
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++        XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
++        int ring;
++
++        /*
++         * Check the thread context CAM lines and record matches.
++         */
++        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_blk, =
+nvt_idx,
++                                         cam_ignore, logic_serv);
++        /*
++         * Save the context and follow on to catch duplicates, that we
++         * don't support yet.
++         */
++        if (ring !=3D -1) {
++            if (match->tctx) {
++                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a "
++                              "thread context NVT %x/%x\n",
++                              nvt_blk, nvt_idx);
++                return -1;
++            }
++
++            match->ring =3D ring;
++            match->tctx =3D tctx;
++            count++;
++        }
++    }
++
++    return count;
++}
++
+ static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+ {
+     PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+@@ -1797,6 +1836,7 @@ static void pnv_xive_class_init(ObjectClass *klass,=
+ void *data)
+     PnvXScomInterfaceClass *xdc =3D PNV_XSCOM_INTERFACE_CLASS(klass);
+     XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
+     XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
++    XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
+=20
+     xdc->dt_xscom =3D pnv_xive_dt_xscom;
+=20
+@@ -1812,6 +1852,7 @@ static void pnv_xive_class_init(ObjectClass *klass,=
+ void *data)
+     xrc->get_tctx =3D pnv_xive_get_tctx;
+=20
+     xnc->notify =3D pnv_xive_notify;
++    xpc->match_nvt  =3D pnv_xive_match_nvt;
+ };
+=20
+ static const TypeInfo pnv_xive_info =3D {
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index c1c97192a7d2..eefc0d4c36b9 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -422,6 +422,44 @@ static XiveTCTX *spapr_xive_get_tctx(XiveRouter *xrt=
+r, CPUState *cs)
+     return spapr_cpu_state(cpu)->tctx;
+ }
+=20
++static int spapr_xive_match_nvt(XivePresenter *xptr, uint8_t format,
++                                uint8_t nvt_blk, uint32_t nvt_idx,
++                                bool cam_ignore, uint8_t priority,
++                                uint32_t logic_serv, XiveTCTXMatch *matc=
+h)
++{
++    CPUState *cs;
++    int count =3D 0;
++
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++        XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
++        int ring;
++
++        /*
++         * Check the thread context CAM lines and record matches.
++         */
++        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_blk, =
+nvt_idx,
++                                         cam_ignore, logic_serv);
++        /*
++         * Save the matching thread interrupt context and follow on to
++         * check for duplicates which are invalid.
++         */
++        if (ring !=3D -1) {
++            if (match->tctx) {
++                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a th=
+read "
++                              "context NVT %x/%x\n", nvt_blk, nvt_idx);
++                return -1;
++            }
++
++            match->ring =3D ring;
++            match->tctx =3D tctx;
++            count++;
++        }
++    }
++
++    return count;
++}
++
+ static const VMStateDescription vmstate_spapr_xive_end =3D {
+     .name =3D TYPE_SPAPR_XIVE "/end",
+     .version_id =3D 1,
+@@ -499,6 +537,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
++    XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
+=20
+     dc->desc    =3D "sPAPR XIVE Interrupt Controller";
+     dc->props   =3D spapr_xive_properties;
+@@ -511,6 +550,8 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+     xrc->get_nvt =3D spapr_xive_get_nvt;
+     xrc->write_nvt =3D spapr_xive_write_nvt;
+     xrc->get_tctx =3D spapr_xive_get_tctx;
++
++    xpc->match_nvt  =3D spapr_xive_match_nvt;
+ }
+=20
+ static const TypeInfo spapr_xive_info =3D {
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index aa45ac2e06cb..fff50429f8ac 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1381,43 +1381,14 @@ static bool xive_presenter_match(XiveRouter *xrtr=
+, uint8_t format,
+                                  bool cam_ignore, uint8_t priority,
+                                  uint32_t logic_serv, XiveTCTXMatch *mat=
+ch)
+ {
+-    CPUState *cs;
++    XivePresenter *xptr =3D XIVE_PRESENTER(xrtr);
++    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
++    int count;
+=20
+-    /*
+-     * TODO (PowerNV): handle chip_id overwrite of block field for
+-     * hardwired CAM compares
+-     */
+-
+-    CPU_FOREACH(cs) {
+-        XiveTCTX *tctx =3D xive_router_get_tctx(xrtr, cs);
+-        int ring;
+-
+-        /*
+-         * HW checks that the CPU is enabled in the Physical Thread
+-         * Enable Register (PTER).
+-         */
+-
+-        /*
+-         * Check the thread context CAM lines and record matches. We
+-         * will handle CPU exception delivery later
+-         */
+-        ring =3D xive_presenter_tctx_match(XIVE_PRESENTER(xrtr), tctx, f=
+ormat,
+-                                         nvt_blk, nvt_idx,
+-                                         cam_ignore, logic_serv);
+-        /*
+-         * Save the context and follow on to catch duplicates, that we
+-         * don't support yet.
+-         */
+-        if (ring !=3D -1) {
+-            if (match->tctx) {
+-                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a th=
+read "
+-                              "context NVT %x/%x\n", nvt_blk, nvt_idx);
+-                return false;
+-            }
+-
+-            match->ring =3D ring;
+-            match->tctx =3D tctx;
+-        }
++    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
++                           priority, logic_serv, match);
++    if (count < 0) {
++        return false;
+     }
+=20
+     if (!match->tctx) {
+--=20
+2.21.0
 
-
-Yes, this is not intended to stay this way. However, it was a necessary 
-change for the translate_loop conversion. I'll try removing ctx->env 
-from TriCore.
-
-Cheers,
-
-Bastian
-
-
->
-> thanks
-> -- PMM
->
 
