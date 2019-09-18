@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868AFB69C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:43:32 +0200 (CEST)
-Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E3EB6A1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:58:29 +0200 (CEST)
+Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdzG-0003tc-VU
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36474)
+	id 1iAe3G-0007i0-2d
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56116)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iAdUl-0000OV-7U
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 13:12:01 -0400
+ (envelope-from <clg@kaod.org>) id 1iAcW0-0005ax-Ri
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:09:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iAdUh-0007qt-Nx
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 13:11:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37080)
+ (envelope-from <clg@kaod.org>) id 1iAcVz-00042f-Bm
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:09:12 -0400
+Received: from 4.mo2.mail-out.ovh.net ([87.98.172.75]:49365)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iAdUg-0007nv-S2
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 13:11:55 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD16611A03
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 17:11:51 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-125-22.rdu2.redhat.com
- [10.10.125.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3BC695C219;
- Wed, 18 Sep 2019 17:11:44 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu devel list <qemu-devel@nongnu.org>
-Date: Wed, 18 Sep 2019 19:11:41 +0200
-Message-Id: <20190918171141.15957-1-lersek@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcVz-00041q-6c
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:09:11 -0400
+Received: from player799.ha.ovh.net (unknown [10.109.143.216])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id BB6EE1AD3E9
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:09:09 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id 552AF9F0EB3D;
+ Wed, 18 Sep 2019 16:09:04 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 18 Sep 2019 18:06:44 +0200
+Message-Id: <20190918160645.25126-25-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
+References: <20190918160645.25126-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 18 Sep 2019 17:11:51 +0000 (UTC)
+X-Ovh-Tracer-Id: 6243396460226907110
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeljecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] edk2 build scripts: work around TianoCore#1607
- without forcing Python 2
+X-Received-From: 87.98.172.75
+Subject: [Qemu-devel] [PATCH v4 24/25] ppc/pnv: Improve trigger data
+ definition
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,146 +56,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It turns out that forcing python2 for running the edk2 "build" utility is
-neither necessary nor sufficient.
+The trigger definition is used for triggers both for HW source
+interrupts, PHB, PSI, as well as for rerouting interrupts between
+Interrupt Controller.
 
-Forcing python2 is not sufficient for two reasons:
+HW source controllers set bit0 of word0 to =E2=80=980=E2=80=99 as they pr=
+ovide EAS
+information (EAS block + EAS index) in the 8 byte data and not END
+information, and bit1 of word0 to =E2=80=981=E2=80=99 to signal that the =
+state bit
+check has been performed.
 
-- QEMU is moving away from python2, with python2 nearing EOL,
+Introduce these new trigger bits and rename the XIVE_SRCNO macros in
+XIVE_EAS to reflect better the nature of the data. This is breaking
+the notification for the PSI model which will be fixed in the next
+patch.
 
-- according to my most recent testing, the lacking dependency information
-  in the makefiles that are generated by edk2's "build" utility can cause
-  parallel build failures even when "build" is executed by python2.
-
-And forcing python2 is not necessary because we can still return to the
-original idea of filtering out jobserver-related options from MAKEFLAGS.
-So do that.
-
-With this patch, the guest UEFI binaries that are used as part of the BIO=
-S
-tables test, and the OVMF and ArmVirtQemu platform firmwares, will be
-built strictly in a single job, regardless of an outermost "-jN" make
-option. Alas, there appears to be no reliable way to build edk2 in an
-(outer make, inner make) environment, with a jobserver enabled.
-
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: John Snow <jsnow@redhat.com>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reported-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
+ include/hw/ppc/xive_regs.h | 24 +++++++++++++++++++++---
+ hw/intc/pnv_xive.c         | 16 ++++++++++++----
+ hw/intc/xive.c             |  4 ++--
+ 3 files changed, 35 insertions(+), 9 deletions(-)
 
-Notes:
-    - Tested on RHEL7 (where the outer "make" sets the old-style
-      "--jobserver-fds" flag) and on Fedora 29 (where the outer "make" se=
-ts
-      the new-style "--jobserver-auth" flag).
-   =20
-    - I've rebuilt all the edk2 binaries with this patch applied. Everyth=
-ing
-      works fine. However, if you test this patch, you might notice that =
-git
-      reports all the build products as modified. That's because when usi=
-ng
-      the python3 code in edk2 BaseTools, the generated makefiles differ
-      greatly from the ones generated when running in python2 mode (e.g. =
-due
-      to different random seeds in python hashes / dictionaries). As a
-      result, parts of the firmware volumes / firmware filesystems could
-      appear in a different order than before. This is harmless, and does=
-n't
-      necessitate checking in the rebuilt binaries.
-
- roms/edk2-build.sh             |  4 +---
- roms/edk2-funcs.sh             | 17 +++++++++++++++++
- tests/uefi-test-tools/build.sh |  6 +++---
- 3 files changed, 21 insertions(+), 6 deletions(-)
-
-diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
-index 4f46f8a6a217..8161c55ef507 100755
---- a/roms/edk2-build.sh
-+++ b/roms/edk2-build.sh
-@@ -27,9 +27,6 @@ shift $num_args
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index dd42c33cef35..83a2f2cc1318 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -22,9 +22,27 @@
+ /*
+  * Interrupt source number encoding on PowerBUS
+  */
+-#define XIVE_SRCNO_BLOCK(srcno) (((srcno) >> 28) & 0xf)
+-#define XIVE_SRCNO_INDEX(srcno) ((srcno) & 0x0fffffff)
+-#define XIVE_SRCNO(blk, idx)    ((uint32_t)(blk) << 28 | (idx))
++/*
++ * Trigger data definition
++ *
++ * The trigger definition is used for triggers both for HW source
++ * interrupts (PHB, PSI), as well as for rerouting interrupts between
++ * Interrupt Controller.
++ *
++ * HW source controllers set bit0 of word0 to =E2=80=980=E2=80=99 as the=
+y provide EAS
++ * information (EAS block + EAS index) in the 8 byte data and not END
++ * information, and bit1 of word0 to =E2=80=981=E2=80=99 to signal that =
+the state bit
++ * check has been performed.
++ */
++#define XIVE_TRIGGER_END        PPC_BIT(0)
++#define XIVE_TRIGGER_EAS        PPC_BIT(1)
++
++/*
++ * QEMU macros to manipulate the trigger payload in native endian
++ */
++#define XIVE_EAS_BLOCK(n)       (((n) >> 28) & 0xf)
++#define XIVE_EAS_INDEX(n)       ((n) & 0x0fffffff)
++#define XIVE_EAS(blk, idx)      ((uint32_t)(blk) << 28 | (idx))
 =20
- cd edk2
+ #define TM_SHIFT                16
 =20
--# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607>.
--export PYTHON_COMMAND=3Dpython2
--
- # Source "edksetup.sh" carefully.
- set +e +u +C
- source ./edksetup.sh
-@@ -43,6 +40,7 @@ fi
- # any), for the edk2 "build" utility.
- source ../edk2-funcs.sh
- edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
-+MAKEFLAGS=3D$(qemu_edk2_quirk_tianocore_1607 "$MAKEFLAGS")
- edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
- qemu_edk2_set_cross_env "$emulation_target"
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 4c1fa024cdf5..61af3f23000f 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -385,7 +385,7 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_t=
+ blk, uint32_t idx,
+      * EAT lookups should be local to the IC
+      */
+     if (pnv_xive_block_id(xive) !=3D blk) {
+-        xive_error(xive, "VST: EAS %x is remote !?", XIVE_SRCNO(blk, idx=
+));
++        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx))=
+;
+         return -1;
+     }
 =20
-diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
-index a9fae7ee891b..3f4485b201f1 100644
---- a/roms/edk2-funcs.sh
-+++ b/roms/edk2-funcs.sh
-@@ -251,3 +251,20 @@ qemu_edk2_get_thread_count()
-     printf '1\n'
-   fi
+@@ -502,7 +502,7 @@ static void pnv_xive_notify(XiveNotifier *xn, uint32_=
+t srcno)
+     PnvXive *xive =3D PNV_XIVE(xn);
+     uint8_t blk =3D pnv_xive_block_id(xive);
+=20
+-    xive_router_notify(xn, XIVE_SRCNO(blk, srcno));
++    xive_router_notify(xn, XIVE_EAS(blk, srcno));
  }
-+
-+
-+# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607> by
-+# filtering jobserver-related flags out of MAKEFLAGS. Print the result t=
-o the
-+# standard output.
-+#
-+# Parameters:
-+#   $1: the value of the MAKEFLAGS variable
-+qemu_edk2_quirk_tianocore_1607()
-+{
-+  local makeflags=3D"$1"
-+
-+  printf %s "$makeflags" \
-+  | LC_ALL=3DC sed --regexp-extended \
-+      --expression=3D's/--jobserver-(auth|fds)=3D[0-9]+,[0-9]+//' \
-+      --expression=3D's/-j([0-9]+)?//'
-+}
-diff --git a/tests/uefi-test-tools/build.sh b/tests/uefi-test-tools/build=
-.sh
-index 8aa7935c43bb..eba7964a163b 100755
---- a/tests/uefi-test-tools/build.sh
-+++ b/tests/uefi-test-tools/build.sh
-@@ -29,9 +29,6 @@ export PACKAGES_PATH=3D$(realpath -- "$edk2_dir")
- export WORKSPACE=3D$PWD
- mkdir -p Conf
 =20
--# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607>.
--export PYTHON_COMMAND=3Dpython2
--
- # Source "edksetup.sh" carefully.
- set +e +u +C
- source "$PACKAGES_PATH/edksetup.sh"
-@@ -46,12 +43,15 @@ fi
- source "$edk2_dir/../edk2-funcs.sh"
- edk2_arch=3D$(qemu_edk2_get_arch "$emulation_target")
- edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
-+MAKEFLAGS=3D$(qemu_edk2_quirk_tianocore_1607 "$MAKEFLAGS")
-+edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
- qemu_edk2_set_cross_env "$emulation_target"
+ /*
+@@ -1287,12 +1287,20 @@ static const MemoryRegionOps pnv_xive_ic_reg_ops =
+=3D {
 =20
- # Build the UEFI binary
- mkdir -p log
- build \
-   --arch=3D"$edk2_arch" \
-+  -n "$edk2_thread_count" \
-   --buildtarget=3DDEBUG \
-   --platform=3DUefiTestToolsPkg/UefiTestToolsPkg.dsc \
-   --tagname=3D"$edk2_toolchain" \
+ static void pnv_xive_ic_hw_trigger(PnvXive *xive, hwaddr addr, uint64_t =
+val)
+ {
++    uint8_t blk =3D XIVE_EAS_BLOCK(val);
++    uint32_t idx =3D XIVE_EAS_INDEX(val);
++
+     /*
+      * Forward the source event notification directly to the Router.
+      * The source interrupt number should already be correctly encoded
+      * with the chip block id by the sending device (PHB, PSI).
+      */
+-    xive_router_notify(XIVE_NOTIFIER(xive), val);
++    if (val & XIVE_TRIGGER_EAS) {
++        xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx));
++    } else {
++        xive_error(xive, "IC: END trigger at @0x%"HWADDR_PRIx" data 0x%"=
+PRIx64,
++                   addr, val);
++    }
+ }
+=20
+ static void pnv_xive_ic_notify_write(void *opaque, hwaddr addr, uint64_t=
+ val,
+@@ -1683,7 +1691,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
+ *mon)
+     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+     uint8_t blk =3D pnv_xive_block_id(xive);
+     uint8_t chip_id =3D xive->chip->chip_id;
+-    uint32_t srcno0 =3D XIVE_SRCNO(blk, 0);
++    uint32_t srcno0 =3D XIVE_EAS(blk, 0);
+     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
+     XiveEAS eas;
+     XiveEND end;
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 07b7c3586c12..6702f32be601 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1652,8 +1652,8 @@ do_escalation:
+ void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
+ {
+     XiveRouter *xrtr =3D XIVE_ROUTER(xn);
+-    uint8_t eas_blk =3D XIVE_SRCNO_BLOCK(lisn);
+-    uint32_t eas_idx =3D XIVE_SRCNO_INDEX(lisn);
++    uint8_t eas_blk =3D XIVE_EAS_BLOCK(lisn);
++    uint32_t eas_idx =3D XIVE_EAS_INDEX(lisn);
+     XiveEAS eas;
+=20
+     /* EAS cache lookup */
 --=20
-2.19.1.3.g30247aa5d201
+2.21.0
 
 
