@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06948B6899
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:02:24 +0200 (CEST)
-Received: from localhost ([::1]:32896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DAFB68AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:09:57 +0200 (CEST)
+Received: from localhost ([::1]:33100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdLR-0005C2-IR
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:02:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51025)
+	id 1iAdSl-0004hz-RE
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55530)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iAbvs-0002L7-IO
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:54 -0400
+ (envelope-from <clg@kaod.org>) id 1iAcUO-0003Ty-8a
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iAbvr-0000tK-6m
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:31:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60930)
+ (envelope-from <clg@kaod.org>) id 1iAcUN-0002se-3V
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:32 -0400
+Received: from 4.mo179.mail-out.ovh.net ([46.105.36.149]:41824)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iAbvr-0000sv-0y; Wed, 18 Sep 2019 11:31:51 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4A37A86663;
- Wed, 18 Sep 2019 15:31:50 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-119.ams2.redhat.com [10.36.117.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DA125D6A5;
- Wed, 18 Sep 2019 15:31:48 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 18 Sep 2019 17:29:21 +0200
-Message-Id: <20190918152922.18949-29-david@redhat.com>
-In-Reply-To: <20190918152922.18949-1-david@redhat.com>
-References: <20190918152922.18949-1-david@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcUM-0002rX-Td
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:31 -0400
+Received: from player799.ha.ovh.net (unknown [10.109.159.62])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 51E7214130A
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:07:29 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id BACB29F0E535;
+ Wed, 18 Sep 2019 16:07:23 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 18 Sep 2019 18:06:26 +0200
+Message-Id: <20190918160645.25126-7-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
+References: <20190918160645.25126-1-clg@kaod.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 18 Sep 2019 15:31:50 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 6215248964917955558
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 28/29] s390x/tcg: MVO:
- Fault-safe handling
+X-Received-From: 46.105.36.149
+Subject: [Qemu-devel] [PATCH v4 06/25] ppc/pnv: Implement the XiveFabric
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,78 +56,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each operand can have a maximum length of 16. Make sure to prepare all
-reads/writes before writing.
+The CAM line matching on the PowerNV machine now scans all chips of
+the system and all CPUs of a chip to find a dispatched NVT in the
+thread contexts.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/s390x/mem_helper.c | 27 +++++++++++++++------------
- 1 file changed, 15 insertions(+), 12 deletions(-)
+ hw/ppc/pnv.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 671e917dc1..5045420020 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -516,31 +516,34 @@ void HELPER(mvn)(CPUS390XState *env, uint32_t l, ui=
-nt64_t dest, uint64_t src)
- /* move with offset  */
- void HELPER(mvo)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64_t=
- src)
- {
-+    const int mmu_idx =3D cpu_mmu_index(env, false);
-+    /* MVO always processes one more byte than specified - maximum is 16=
- */
-+    const int len_dest =3D (l >> 4) + 1;
-+    const int len_src =3D (l & 0xf) + 1;
-     uintptr_t ra =3D GETPC();
--    int len_dest =3D l >> 4;
--    int len_src =3D l & 0xf;
-     uint8_t byte_dest, byte_src;
--    int i;
-+    S390Access srca, desta;
-+    int i, j;
-=20
--    src +=3D len_src;
--    dest +=3D len_dest;
-+    srca =3D access_prepare(env, src, len_src, MMU_DATA_LOAD, mmu_idx, r=
-a);
-+    desta =3D access_prepare(env, dest, len_dest, MMU_DATA_STORE, mmu_id=
-x, ra);
-=20
-     /* Handle rightmost byte */
--    byte_src =3D cpu_ldub_data_ra(env, src, ra);
--    byte_dest =3D cpu_ldub_data_ra(env, dest, ra);
-+    byte_dest =3D cpu_ldub_data_ra(env, dest + len_dest - 1, ra);
-+    byte_src =3D access_get_byte(env, &srca, len_src - 1, ra);
-     byte_dest =3D (byte_dest & 0x0f) | (byte_src << 4);
--    cpu_stb_data_ra(env, dest, byte_dest, ra);
-+    access_set_byte(env, &desta, len_dest - 1, byte_dest, ra);
-=20
-     /* Process remaining bytes from right to left */
--    for (i =3D 1; i <=3D len_dest; i++) {
-+    for (i =3D len_dest - 2, j =3D len_src - 2; i >=3D 0; i--, j--) {
-         byte_dest =3D byte_src >> 4;
--        if (len_src - i >=3D 0) {
--            byte_src =3D cpu_ldub_data_ra(env, src - i, ra);
-+        if (j >=3D 0) {
-+            byte_src =3D access_get_byte(env, &srca, j, ra);
-         } else {
-             byte_src =3D 0;
-         }
-         byte_dest |=3D byte_src << 4;
--        cpu_stb_data_ra(env, dest - i, byte_dest, ra);
-+        access_set_byte(env, &desta, i, byte_dest, ra);
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 77a86c6a2301..ca24dd62df23 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1378,6 +1378,35 @@ static void pnv_pic_print_info(InterruptStatsProvi=
+der *obj,
      }
  }
 =20
++static int pnv_xive_match_nvt(XiveFabric *xfb, uint8_t format,
++                               uint8_t nvt_blk, uint32_t nvt_idx,
++                               bool cam_ignore, uint8_t priority,
++                               uint32_t logic_serv,
++                               XiveTCTXMatch *match)
++{
++    PnvMachineState *pnv =3D PNV_MACHINE(xfb);
++    int total_count =3D 0;
++    int i;
++
++    for (i =3D 0; i < pnv->num_chips; i++) {
++        Pnv9Chip *chip9 =3D PNV9_CHIP(pnv->chips[i]);
++        XivePresenter *xptr =3D XIVE_PRESENTER(&chip9->xive);
++        XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
++        int count;
++
++        count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ign=
+ore,
++                               priority, logic_serv, match);
++
++        if (count < 0) {
++            return count;
++        }
++
++        total_count +=3D count;
++    }
++
++    return total_count;
++}
++
+ static void pnv_get_num_chips(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp)
+ {
+@@ -1441,9 +1470,11 @@ static void pnv_machine_power8_class_init(ObjectCl=
+ass *oc, void *data)
+ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc =3D MACHINE_CLASS(oc);
++    XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
+=20
+     mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER9";
+     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power9_v2.0");
++    xfc->match_nvt =3D pnv_xive_match_nvt;
+=20
+     mc->alias =3D "powernv";
+ }
+@@ -1495,6 +1526,7 @@ static void pnv_machine_class_init(ObjectClass *oc,=
+ void *data)
+         .interfaces =3D (InterfaceInfo[]) {               \
+             { TYPE_XICS_FABRIC },                       \
+             { TYPE_INTERRUPT_STATS_PROVIDER },          \
++            { TYPE_XIVE_FABRIC },                       \
+             { },                                        \
+         },                                              \
+     }
 --=20
 2.21.0
 
