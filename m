@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B320CB60CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 11:51:20 +0200 (CEST)
-Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F91EB60D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 11:55:41 +0200 (CEST)
+Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWcJ-00089p-Im
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 05:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58710)
+	id 1iAWgV-0003pg-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 05:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <johannes@sipsolutions.net>) id 1iAWaN-0006vC-IX
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:49:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iAWd2-00013D-On
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <johannes@sipsolutions.net>) id 1iAWaM-000429-CJ
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:49:19 -0400
-Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:54172
- helo=sipsolutions.net)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
- id 1iAWaM-00041L-5n
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:49:18 -0400
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <johannes@sipsolutions.net>)
- id 1iAWaJ-0007ln-8h; Wed, 18 Sep 2019 11:49:15 +0200
-Message-ID: <317365a128caca1e683b94677d93dea98c2928c2.camel@sipsolutions.net>
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 18 Sep 2019 11:49:14 +0200
-In-Reply-To: <20190918093932.GC26027@stefanha-x1.localdomain>
- (sfid-20190918_113946_369130_4FBC46BB)
-References: <20190917122559.15555-1-johannes@sipsolutions.net>
- <20190918093932.GC26027@stefanha-x1.localdomain>
- (sfid-20190918_113946_369130_4FBC46BB)
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+ (envelope-from <mreitz@redhat.com>) id 1iAWcy-0005X3-W6
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58676)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iAWcq-0005T2-EC; Wed, 18 Sep 2019 05:51:52 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1E79D2026F;
+ Wed, 18 Sep 2019 09:51:50 +0000 (UTC)
+Received: from localhost (ovpn-116-168.ams2.redhat.com [10.36.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9ADAD5C21E;
+ Wed, 18 Sep 2019 09:51:46 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed, 18 Sep 2019 11:51:36 +0200
+Message-Id: <20190918095144.955-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:4f8:191:4433::2
-Subject: Re: [Qemu-devel] [PATCH] libvhost-user: handle NOFD flag in
- call/kick/err better
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Wed, 18 Sep 2019 09:51:50 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/8] block: Add @exact parameter to
+ bdrv_co_truncate()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,63 +54,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-09-18 at 10:39 +0100, Stefan Hajnoczi wrote:
-> 
-> >  vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg)
-> >  {
-> >      int index = vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
-> > +    bool nofd = vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
-> >  
-> >      if (index >= dev->max_queues) {
-> >          vmsg_close_fds(vmsg);
-> > @@ -927,8 +928,12 @@ vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg)
-> >          return false;
-> >      }
-> >  
-> > -    if (vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK ||
-> > -        vmsg->fd_num != 1) {
-> > +    if (nofd) {
-> > +        vmsg_close_fds(vmsg);
-> > +        return true;
-> > +    }
+Hi,
 
-So in this particular code you quoted, I actually just aligned to have
-the same "bool nofd" variable - and I made it return "true" when no FD
-was given.
+This series is supposed to pull out some of the problems from my
+=E2=80=9CGeneric file creation fallback=E2=80=9D series.
 
-It couldn't make use of what you proposed:
+The blk_truncate_for_formatting() function added there was buggy, as
+Maxim noted, in that it did not check whether blk_truncate() actually
+resized the block node to the target offset.  One way to fix this is to
+add a parameter to it that forces the block driver to do so, and that is
+done by this series.
 
-> With the following change to vmsg_close_fds():
-> 
->   for (i = 0; i < vmsg->fd_num; i++) {
->       close(vmsg->fds[i]);
->   }
-> + for (i = 0; i < sizeof(vmsg->fd_num) / sizeof(vmsg->fd_num[0]); i++) {
-> +     vmsg->fds[i] = -1;
-> + }
-> + vmsg->fd_num = 0;
-> 
-> ...the message handler functions below can use vmsg->fds[0] (-1) without
-> worrying about NOFD.  This makes the code simpler.
+I think this is generally useful (you can see the diff stat saldo is
+only +23 lines), because it allows us to drop a special check in
+qemu-img resize, and it fixes a bug in qed (which has relied on this
+behavior for over 8 years, but unfortunately bdrv_truncate()=E2=80=99s be=
+havior
+changed quite exactly 8 years ago).
 
-because fd_num != 1 leads to the original code returning false, which
-leads to the ring not getting started in vu_set_vring_kick_exec(). So we
-need the special code here, can be argued if I should pull out the test
-into the "bool nofd" variable or not ... *shrug*
+However, in the process I noticed we actually don=E2=80=99t need
+blk_truncate_for_formatting(): The underlying problem is that some
+format drivers truncate their underlying file node to 0 before
+formatting it to drop all data.  So they should pass exact=3Dtrue, but
+they cannot, because this would break creation on block devices.  Hence
+blk_truncate_for_formatting().
 
-The changes in vu_set_vring_kick_exec() and vu_set_vring_err_exec()
-would indeed then not be necessary, but in vu_set_vring_call_exec() we
-should still avoid the eventfd_write() if it's going to get -1.
+It turns out, though, that three of the four drivers in question don=E2=80=
+=99t
+need to truncate their file node at all.  The remaining one is qed which
+simply really should pass exact=3Dtrue (it=E2=80=99s a bug fix).
+
+(I do drop those blk_truncate() invocations in this series, because
+otherwise I feel like it is impossible to decide whether they should get
+exact=3Dfalse or exact=3Dtrue.  Either way is wrong.)
 
 
-So, yeah - could be a bit simpler there. I'd say being explicit here is
-easier to understand and thus nicer, but your (or Michael's I guess?)
-call.
+Max Reitz (8):
+  block: Handle filter truncation like native impl.
+  block/cor: Drop cor_co_truncate()
+  block: Do not truncate file node when formatting
+  block: Add @exact parameter to bdrv_co_truncate()
+  block: Evaluate @exact in protocol drivers
+  block: Let format drivers pass @exact
+  block: Pass truncate exact=3Dtrue where reasonable
+  Revert "qemu-img: Check post-truncation size"
 
-johannes
+ include/block/block.h          |  6 ++---
+ include/block/block_int.h      | 17 ++++++++++++-
+ include/sysemu/block-backend.h |  4 +--
+ block/block-backend.c          |  6 ++---
+ block/commit.c                 |  5 ++--
+ block/copy-on-read.c           |  8 ------
+ block/crypto.c                 |  8 +++---
+ block/file-posix.c             | 11 ++++++--
+ block/file-win32.c             |  3 ++-
+ block/gluster.c                |  1 +
+ block/io.c                     | 29 ++++++++++++---------
+ block/iscsi.c                  | 10 ++++++--
+ block/mirror.c                 |  4 +--
+ block/nfs.c                    |  2 +-
+ block/parallels.c              | 18 +++++++------
+ block/qcow.c                   |  9 ++-----
+ block/qcow2-refcount.c         |  2 +-
+ block/qcow2.c                  | 45 +++++++++++++++++++++------------
+ block/qed.c                    |  3 ++-
+ block/raw-format.c             |  5 ++--
+ block/rbd.c                    |  1 +
+ block/sheepdog.c               |  5 ++--
+ block/ssh.c                    |  3 ++-
+ block/vdi.c                    |  2 +-
+ block/vhdx-log.c               |  4 +--
+ block/vhdx.c                   |  7 +++---
+ block/vmdk.c                   |  8 +++---
+ block/vpc.c                    |  2 +-
+ blockdev.c                     |  2 +-
+ qemu-img.c                     | 46 ++++++++--------------------------
+ qemu-io-cmds.c                 |  7 +++++-
+ tests/test-block-iothread.c    |  8 +++---
+ 32 files changed, 157 insertions(+), 134 deletions(-)
+
+--=20
+2.21.0
 
 
