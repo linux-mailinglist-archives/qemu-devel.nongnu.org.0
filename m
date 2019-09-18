@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85561B6A39
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 20:07:13 +0200 (CEST)
-Received: from localhost ([::1]:33958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F8FB6A38
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 20:06:44 +0200 (CEST)
+Received: from localhost ([::1]:33954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAeMC-0004AD-AJ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 14:07:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45821)
+	id 1iAeLi-0003da-0n
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 14:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iAeI4-0001x4-QS
+ (envelope-from <richard.henderson@linaro.org>) id 1iAeI5-0001y5-P3
  for qemu-devel@nongnu.org; Wed, 18 Sep 2019 14:02:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iAeI3-0000Q7-Fv
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 14:02:56 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43954)
+ (envelope-from <richard.henderson@linaro.org>) id 1iAeI4-0000RE-HV
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 14:02:57 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:41085)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iAeI3-0000PD-9j
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 14:02:55 -0400
-Received: by mail-pl1-x644.google.com with SMTP id 4so307981pld.10
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 11:02:55 -0700 (PDT)
+ id 1iAeI4-0000QG-C4
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 14:02:56 -0400
+Received: by mail-pf1-x436.google.com with SMTP id q7so487625pfh.8
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 11:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=F0Wia2jROmE5C4iTuiunWjrpETRbCBBXCQqEWgtA9Tk=;
- b=fjTJJ7EeFA6oP1ilpFPq1+qr075q8lqMKWWSwVRU5gXxfFj7Fpa8jVnZy5XwpgUqTa
- 7H0JkeVKQ7ewwUsmdqPaX4prMBYHsAarBs1ijdz3qtExql2OPI8asqfcuaKKmhuy58Ya
- kszpOgXyYCs8xg6Qttfm846djVuCo0ujskKB3bIXwUNIAJ9H70kGDj/kIciJEDwASUFe
- nxYnHtmTHLnNu/FkVKNfopfgEqN5yy1btxReBsm0P7QO0KBJYYNAuSmTcfuwaxzDbrrU
- bHOYYd0E2sfYROO8GPViHZg7oAScTwkVYq6ddXxN7fnETrEowgUTMpG45WoVm3Ej08Fh
- tc4w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=YucIarDiughcNjItqw4GzM0WuzRRGrmYnyWJbXHK1Xc=;
+ b=uFGlCSOWaQ9pQd3SvbCiO9C6FlvhlqZSoeFpvmgEgvp3iwl1XnrYNWgeu3zb5nUqd3
+ g2P5J2ghYZUwV2iS7KA3lfqAyOq3Vb/oDz7V7zb3BFWQ1du1w89Q73UzS8ZYRmrUJPdk
+ VkAzEkZ9XcoWj0kmsHR+bNH3f9jxmA8jAftVbTBItI+2Ia+C9Qq6IYqrpxzHIfs7atiX
+ 3n4c+MGZ6TWyd9BnYtbIkr5T1i1dfBvHjhWA8T43KTW8jP2AUKnmFFKi7aCRSNwh2/xq
+ jt8xd9JMbz/WFG+97tLpYltfNdmfkVSARZqo1Or9dADhbKdSBM0BsbZ4uBm+f0nKQiVL
+ tcow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=F0Wia2jROmE5C4iTuiunWjrpETRbCBBXCQqEWgtA9Tk=;
- b=jqXtMd2PRb57NiOY4qNsF2hFBHoygne6w+i4XHfI7UjahOvPWoSZvitasM4WOn7Zd+
- 3I9Pye7CVr3HxedEKyzW93xIxOJ5GkVp8Mmg2XkulWQ7PZKFj1gbG/JE7iM1Ku2wY3Uc
- ekY1/E6BS2RGNIy9lwlwmq57J6DCYMKq+ijLKiphnTpGBZOp7gGzdugSM5OnVp8oME0I
- FbIyRRVoN4/VgRdy8EkFcpKWKOAPDWasx05nbXZk1HoVcIfCKWi0Q2qC2X3osfj67+Yy
- rWq4y9Ms7RrXcVI8L+8Yy0glYLLT5Y0P31zQ3kSlalim0Iiygqgvm22uNN//MB0p6dju
- V3HA==
-X-Gm-Message-State: APjAAAVqh46XQ/ogarZQiiixAs45yVNm3EBZsMT9VEhqvLeHmK9CfSOW
- NTtBm23W2auYOBhJoQnWmzH3GE57HJs=
-X-Google-Smtp-Source: APXvYqxgv53dlU+odOgGdW4/5rUSJpGTWmGLU3lgMKJF/o+Se529uAxtmjDUnQIiaoh4nOGEFhA1Ng==
-X-Received: by 2002:a17:902:b20a:: with SMTP id
- t10mr5521579plr.277.1568829772960; 
- Wed, 18 Sep 2019 11:02:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=YucIarDiughcNjItqw4GzM0WuzRRGrmYnyWJbXHK1Xc=;
+ b=dPZOaePNTQuy1AyR2mvzCJahFgOJFKAYCnWmzxpRTOoa9MyjQaH/XvYQI59A7TLHJE
+ jGP9vNHK5U2OJ/BZuni+U5NQlVpvxZ0Gh7Q0CDQRf8TKn8rzKAaY5QXUeR3Paeus5I8W
+ Ep4IalCshhwKlXIw56mWZq8pCUm3oC91JLvAcrkNIgSxmGTVZFgqObE1gcgkd3PMpyYI
+ zze8Uzm1urnVRtO5XeXTs58bFKCnHNB1ANGWHX8tPRebr4+JWX5zzS+BCJmXweYHyXU+
+ GCjfBiRcimNkXmOqj1vKzOG63rTp6g95+ll+7vjaDJ4OWtiQBJB/I0XAjk/1LSFpH/xj
+ GHNg==
+X-Gm-Message-State: APjAAAX8m3hGz2lPSo//HS2VvGPeZ+rda0yXKFwWPhXrvmaJTtO7dH9F
+ n4blPaAG6i1r+ZaII59/HwKzx+yZcEI=
+X-Google-Smtp-Source: APXvYqxjB8+UqTp0iZwFqovSRuG/3lZJcaCgJvnTQ3VSJlNBpkCkpqAFr1ZivhXzc7i/x0VPM8gBJQ==
+X-Received: by 2002:a63:cf0a:: with SMTP id j10mr5032746pgg.388.1568829774491; 
+ Wed, 18 Sep 2019 11:02:54 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id b16sm13319518pfb.54.2019.09.18.11.02.51
+ by smtp.gmail.com with ESMTPSA id b16sm13319518pfb.54.2019.09.18.11.02.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 11:02:52 -0700 (PDT)
+ Wed, 18 Sep 2019 11:02:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 18 Sep 2019 11:02:46 -0700
-Message-Id: <20190918180251.32003-1-richard.henderson@linaro.org>
+Date: Wed, 18 Sep 2019 11:02:47 -0700
+Message-Id: <20190918180251.32003-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190918180251.32003-1-richard.henderson@linaro.org>
+References: <20190918180251.32003-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [RFC v2 0/5] Move notdirty handling to cputlb
+X-Received-From: 2607:f8b0:4864:20::436
+Subject: [Qemu-devel] [RFC v2 1/5] cputlb: Disable __always_inline__ without
+ optimization
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,47 +81,60 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RFC because it *still* doesn't work, just like v1.
+This forced inlining can result in missing symbols,
+which makes a debugging build harder to follow.
 
-However this time the changes are extremely minimal, and now
-I really *really* don't understand why they don't work, because
-as far as I can tell the new locking is *identical* with the
-current i/o path.
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/compiler.h | 11 +++++++++++
+ accel/tcg/cputlb.c      |  4 ++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-In particular, the actual access happens between _prepare
-and _complete, just like before.  Indeed, since this doesn't
-work as-is, then I can't believe the atomic path works either.
-
-I have included the TLB_BSWAP stuff just so that the
-patch set is self-contained.
-
-I did experiment with qemu_ram_addr_from_host_nofail(), but
-an assertion for equality with addr + iotlbentry->addr does
-not trigger.  As expected, really, since that's what the i/o
-path uses.  One more cleanup for the atomics path...
-
-Ideas?
-
-
-r~
-
-
-Richard Henderson (5):
-  cputlb: Disable __always_inline__ without optimization
-  cputlb: Replace switches in load/store_helper with callback
-  cputlb: Introduce TLB_BSWAP
-  exec: Adjust notdirty tracing
-  cputlb: Move NOTDIRTY handling from I/O path to TLB path
-
- include/exec/cpu-all.h    |   2 +
- include/exec/cpu-common.h |   1 -
- include/qemu/compiler.h   |  11 ++
- accel/tcg/cputlb.c        | 243 +++++++++++++++++++++-----------------
- exec.c                    |  57 +--------
- memory.c                  |  20 ----
- trace-events              |   4 +-
- 7 files changed, 157 insertions(+), 181 deletions(-)
-
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 09fc44cca4..d6d400c523 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -170,6 +170,17 @@
+ # define QEMU_NONSTRING
+ #endif
+ 
++/*
++ * Forced inlining may be desired to encourage constant propagation
++ * of function parameters.  However, it can also make debugging harder,
++ * so disable it for a non-optimizing build.
++ */
++#if defined(__OPTIMIZE__) && __has_attribute(always_inline)
++#define QEMU_ALWAYS_INLINE  __attribute__((always_inline))
++#else
++#define QEMU_ALWAYS_INLINE
++#endif
++
+ /* Implement C11 _Generic via GCC builtins.  Example:
+  *
+  *    QEMU_GENERIC(x, (float, sinf), (long double, sinl), sin) (x)
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index abae79650c..2222b87764 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1281,7 +1281,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+ typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
+                                 TCGMemOpIdx oi, uintptr_t retaddr);
+ 
+-static inline uint64_t __attribute__((always_inline))
++static inline uint64_t QEMU_ALWAYS_INLINE
+ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+             uintptr_t retaddr, MemOp op, bool code_read,
+             FullLoadHelper *full_load)
+@@ -1530,7 +1530,7 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
+  * Store Helpers
+  */
+ 
+-static inline void __attribute__((always_inline))
++static inline void QEMU_ALWAYS_INLINE
+ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+              TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
+ {
 -- 
 2.17.1
 
