@@ -2,100 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E63B6405
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:07:28 +0200 (CEST)
-Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6857BB6424
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:15:43 +0200 (CEST)
+Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAZg7-0003SG-Nh
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58321)
+	id 1iAZo5-00021t-Ic
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:15:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iAZe2-0002Sg-98
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:05:19 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1iAZgs-00048p-7k
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iAZe0-0007jH-V5
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:05:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33404)
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1iAZgq-0003F6-7S
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:08:14 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:42438 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iAZdw-0007b8-Qm; Wed, 18 Sep 2019 09:05:13 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 781D24E926;
- Wed, 18 Sep 2019 13:05:11 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-90.ams2.redhat.com [10.36.116.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E1C460126;
- Wed, 18 Sep 2019 13:05:06 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190912001633.11372-1-jsnow@redhat.com>
- <20190912001633.11372-2-jsnow@redhat.com>
- <974b64b8-a191-c529-4e77-6a38b372c4b8@virtuozzo.com>
- <e5d871da-c5e1-1a5e-4714-387cbc93a055@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <2eea4fa4-cee1-9007-0ff9-784d004c2668@redhat.com>
-Date: Wed, 18 Sep 2019 15:05:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1iAZgm-00031p-Fb; Wed, 18 Sep 2019 09:08:08 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id A3F8C43B493B396779E0;
+ Wed, 18 Sep 2019 21:07:57 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.439.0; Wed, 18 Sep 2019 21:07:48 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <imammedo@redhat.com>
+Date: Wed, 18 Sep 2019 14:06:22 +0100
+Message-ID: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <e5d871da-c5e1-1a5e-4714-387cbc93a055@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Wed, 18 Sep 2019 13:05:11 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.202.227.237]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 1/4] iotests: add script_initialize
+X-Received-From: 45.249.212.35
+Subject: [Qemu-devel] [PATCH-for-4.2 v11 00/11] ARM virt: ACPI memory
+ hotplug support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,41 +53,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ mst@redhat.com, linuxarm@huawei.com, xuwei5@hisilicon.com,
+ shannon.zhaosl@gmail.com, sebastien.boeuf@intel.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/09/2019 00.29, John Snow wrote:
->=20
->=20
-> On 9/16/19 10:56 AM, Vladimir Sementsov-Ogievskiy wrote:
-[...]
->> Finally do we support something except linux for iotests?
->> for bash tests _supported_os also used only with "Linux" in 87 tests..
+This series is an attempt to provide device memory hotplug support 
+on ARM virt platform. This is based on Eric's recent works here[1]
+and carries some of the pc-dimm related patches dropped from his
+series.
 
-The iotests in the "auto" group are supposed to work on other OSes
-beside Linux, too, since they are run automatically during "make check"
-now. You can use github with cirrus-ci to check FreeBSD and macOS, see
-e.g.: https://cirrus-ci.com/build/5114679677943808
+The kernel support for arm64 memory hot add was added recently by
+Robin and hence the guest kernel should be => 5.0-rc1.
 
-Travis has support for macOS, too.
+NVDIM support is not included currently as we still have an unresolved
+issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
+can be included, but not done for now, for keeping it simple.
 
-And to test them on OpenBSD (or FreeBSD), you can use the VM tests, e.g.
-something like this:
+This makes use of GED device to sent hotplug ACPI events to the
+Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
+Sebastien to add the hardware-reduced support to Nemu using GED
+device[3]. (Please shout if I got the author/signed-off wrong for
+those patches or missed any names).
 
-make vm-build-openbsd J=3D8 BUILD_TARGET=3Dcheck-block \
-  EXTRA_CONFIGURE_OPTS=3D--target-list=3Dx86_64-softmmu
+This is sanity tested on a HiSilicon ARM64 platform and appreciate
+any further testing.
 
-> aaand lastly, running `make check` doesn't happen to call any of the
-> tests that appear broken on FreeBSD right now, so I'm just going to go
-> ahead and say we can open Pandora's box and make the default python tes=
-t
-> behavior to run on any OS, and start re-blacklisting the edge-cases as
-> we find them.
+Note:
+Attempted adding dimm_pxm test case to bios-tables-test for arm/virt.
+But noticed the issue decribed here[5]. This is under investigation 
+now.
 
-Sounds good. If it breaks on FreeBSD or macOS, we'll find out with
-cirrus-ci or Travis pretty soon.
+Thanks,
+Shameer
 
- Thomas
+[1] https://patchwork.kernel.org/cover/10837565/
+[2] https://patchwork.kernel.org/cover/10783589/
+[3] https://github.com/intel/nemu/blob/topic/virt-x86/hw/acpi/ged.c
+[4] http://lists.infradead.org/pipermail/linux-arm-kernel/2019-May/651763.html
+[5] https://www.mail-archive.com/qemu-devel@nongnu.org/msg632651.html
+
+v10 --> v11
+-Changed patch #10 to update bios-tables-test-allowed-diff.h with a
+ list of expected ACPI tables.
+-GED document changed to rst format (patch #9)
+-Addressed comments from Igor (patch #3 & #5)
+-Igor's R-by to #7, #8 & #11.
+
+v9 --> v10
+ -Fix for "make check" failure on x86_64(Patch #1).
+ -Minor updates based on Eric's comments.
+ -Dropped patch "hw/arm/virt: Add 4.2 machine type" as this is already
+  in master now.
+ -Added R-by tags by Eric.
+
+v8 --> v9
+ -Changes related to GED being a TYPE_SYS_BUS_DEVICE now.
+ -Re-arranged patches 8 and 9.
+ -Added GED ABI documentation(patch #10).
+ -Added numamem and memhp tests to arm/virt(#11 and #12)
+ -Dropped few R-by tags as code has changed a bit.
+ -Please see Individual patch history for details.
+ 
+v7 --> v8
+ -Addressed comments from Igor.Please see individual patches.
+ -Updated bios-tables-test-allowed-diff.h to avoid "make check"
+  failure (patch #6) and dropped patch #10
+ -Added Igor's R-by to patches 4 & 5.
+ -Dropped Erics's R-by from patch #9 for now.
+
+v6 --> v7
+- Added 4.2 machine support and restricted GED creation for < 4.2
+  This is to address the migration test fail reported by Eric.
+- Included "tests: Update DSDT ACPI table.." patch(#10) from Eric
+  to fix the "make check" bios-tables-test failure.
+  
+v5 --> v6
+
+-Addressed comments from Eric.
+-Added R-by from Eric and Igor.
+
+v4 --> v5
+-Removed gsi/ged-irq routing in virt.
+-Added Migration support.
+-Dropped support for DT coldplug case based on the discussions
+ here[4]
+-Added system_powerdown support through GED.
+
+v3 --> v4
+Addressed comments from Igor and Eric,
+-Renamed "virt-acpi" to "acpi-ged".
+-Changed ged device parent to TYPE_DEVICE.
+-Introduced DT memory node property "hotpluggable" to resolve device
+ memory being treated as early boot memory issue(patch #7).
+-Combined patches #3 and #9 from v3 into #3.
+
+v2 --> v3
+
+Addressed comments from Igor and Eric,
+-Made virt acpi device platform independent and moved
+ to hw/acpi/generic_event_device.c
+-Moved ged specific code into hw/acpi/generic_event_device.c
+-Introduced an opt-in feature "fdt" to resolve device-memory being
+ treated as early boot memory.
+-Dropped patch #1 from v2.
+
+RFC --> v2
+
+-Use GED device instead of GPIO for ACPI hotplug events.
+-Removed NVDIMM support for now.
+-Includes dropped patches from Eric's v9 series.
+
+Eric Auger (1):
+  hw/arm/virt: Add memory hotplug framework
+
+Samuel Ortiz (2):
+  hw/acpi: Do not create memory hotplug method when handler is not
+    defined
+  hw/acpi: Add ACPI Generic Event Device Support
+
+Shameer Kolothum (8):
+  hw/acpi: Make ACPI IO address space configurable
+  hw/arm/virt: Enable device memory cold/hot plug with ACPI boot
+  hw/arm/virt-acpi-build: Add PC-DIMM in SRAT
+  hw/arm: Factor out powerdown notifier from GPIO
+  hw/arm: Use GED for system_powerdown event
+  docs/specs: Add ACPI GED documentation
+  tests: Update ACPI tables list for upcoming arm/virt tests
+  tests: Add bios tests to arm/virt
+
+ docs/specs/acpi_hw_reduced_hotplug.rst |  70 ++++++
+ docs/specs/index.rst                   |   1 +
+ hw/acpi/Kconfig                        |   4 +
+ hw/acpi/Makefile.objs                  |   1 +
+ hw/acpi/generic_event_device.c         | 311 +++++++++++++++++++++++++
+ hw/acpi/memory_hotplug.c               |  43 ++--
+ hw/arm/Kconfig                         |   4 +
+ hw/arm/virt-acpi-build.c               |  35 ++-
+ hw/arm/virt.c                          | 124 +++++++++-
+ hw/i386/acpi-build.c                   |   7 +-
+ hw/i386/pc.c                           |   3 +
+ include/hw/acpi/acpi_dev_interface.h   |   1 +
+ include/hw/acpi/generic_event_device.h | 103 ++++++++
+ include/hw/acpi/memory_hotplug.h       |   9 +-
+ include/hw/arm/virt.h                  |   5 +
+ include/hw/i386/pc.h                   |   3 +
+ tests/bios-tables-test-allowed-diff.h  |  16 ++
+ tests/bios-tables-test.c               |  49 ++++
+ 18 files changed, 748 insertions(+), 41 deletions(-)
+ create mode 100644 docs/specs/acpi_hw_reduced_hotplug.rst
+ create mode 100644 hw/acpi/generic_event_device.c
+ create mode 100644 include/hw/acpi/generic_event_device.h
+
+-- 
+2.17.1
+
+
 
