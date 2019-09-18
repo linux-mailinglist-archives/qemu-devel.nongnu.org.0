@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F2EB676B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 17:47:28 +0200 (CEST)
-Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7932B674B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 17:41:15 +0200 (CEST)
+Received: from localhost ([::1]:60178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAcAw-0005mw-Ex
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 11:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
+	id 1iAc4w-00014o-0o
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 11:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1iAbrx-0006Mv-7p
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:27:50 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iAbs9-0006bb-D0
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1iAbrw-0006TJ-1n
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:27:49 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:39788)
+ (envelope-from <palmer@dabbelt.com>) id 1iAbs8-0006bo-9G
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:01 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:41544)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbrv-0006Se-SB
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:27:47 -0400
-Received: by mail-pf1-f195.google.com with SMTP id i1so201368pfa.6
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:27:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbs8-0006bW-3Z
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:00 -0400
+Received: by mail-pg1-f194.google.com with SMTP id x15so36380pgg.8
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:28:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=ObpRu4yWGJ56Lce0E8Qj/S0MZ1B/JMtbNndq30ymwo0=;
- b=p7XPQSH5Os1bX+o6AqGLinhM0Zlm1qdmm4ZKAl38xk8DzAd1PGBjlYNQD64qzS7bxS
- Jz+tpZMxfoWF3iXHx+S1glErefKpQywR4ByRMghPxC0levi5paSdOVTT0A+v1jRA0i/3
- Vuu5of1FTSWmPEkJdULWn1OLqw5u1Hj4L7asg4R2bgkc1lOqs7K5Dv03HqnltdHnYi2n
- 0SpwnfLArwn1xACho05aOGiteLx+wQsmTrg7G4LHIaIHhWZJHlp3jTI0DCnaAXN58whu
- /YIw0R0IvDDD/GiB39uRK4mOWrH4eyL6r7DX6JR2GgHilv6Sc1Cv2LTACq6ESltzN3hu
- G0ZQ==
-X-Gm-Message-State: APjAAAUmR4LVY85KnaTmF5mK2cNN1J2vF/1sujyPGa+5o+1ROx8hauCG
- 07SMKVP0Q0q1JbcjfNTTJqSZVg==
-X-Google-Smtp-Source: APXvYqzalaVF/UtW5QClUcNY5hqPSb6pUDyth2/zz1ByScXYulkSUxKELM8zmC6Pw7G/ixHGpbS7Fg==
-X-Received: by 2002:a63:eb52:: with SMTP id b18mr2090909pgk.71.1568820466587; 
- Wed, 18 Sep 2019 08:27:46 -0700 (PDT)
+ bh=JhWZs3kYQOWNeKlb2pNkOyfw/b4rNeIZqwng3Q4zhcI=;
+ b=ramZ30ObRgnbJjh3MASXwFXm6rf1/8fFsqNQ7gluyer+a+uHx+WuiCEqt2NqxWFxdE
+ ay+oivGpnUUxGcIGxeJCv2ilLcw6ck3QTIUQK40ermfmxIUMlC2ShUd0ZY6rF/vM92nD
+ 6f0XwNSfhGfE3nAeZb8s2S42p49ATWFheOdbBmn6SwNBZg/4Ce4L6s4nYV9Qis6jCBn/
+ W9JHUoyE92LdgTIOF5H7NKzNGiTVJn00etzhvRBmsC5F4K0ekQtK1h3JWMGp5V0JLigK
+ KECqCIQUBcnfBgh0rNqYbIe/WJiSfcstwLqGnBE6R9cuhl9i52XvMamgaSDFz/T1UM/B
+ rp+A==
+X-Gm-Message-State: APjAAAVFbKMzK2pa8iho4OT0ebok57ZgvTn7+w3V7KZgmcYWUykuGrZp
+ VH3y6EHMAh3nfxmFHGvCerct/5zsAh4=
+X-Google-Smtp-Source: APXvYqzqHelCSqlljqByqBbSQ64IyZY/gtKz4+pYFTcK/H7Xc57YaL3meCdOUH47gbb4MRqn7TuopA==
+X-Received: by 2002:aa7:9a48:: with SMTP id x8mr4645432pfj.201.1568820479005; 
+ Wed, 18 Sep 2019 08:27:59 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id l124sm6998219pgl.54.2019.09.18.08.27.45
+ by smtp.gmail.com with ESMTPSA id a4sm6595516pfn.110.2019.09.18.08.27.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 08:27:45 -0700 (PDT)
-Date: Wed, 18 Sep 2019 07:56:01 -0700
-Message-Id: <20190918145640.17349-10-palmer@sifive.com>
+ Wed, 18 Sep 2019 08:27:58 -0700 (PDT)
+Date: Wed, 18 Sep 2019 07:56:03 -0700
+Message-Id: <20190918145640.17349-12-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190918145640.17349-1-palmer@sifive.com>
 References: <20190918145640.17349-1-palmer@sifive.com>
@@ -53,9 +53,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.195
-Subject: [Qemu-devel] [PULL 09/48] riscv: rv32: Root page table address can
- be larger than 32-bit
+X-Received-From: 209.85.215.194
+Subject: [Qemu-devel] [PULL 11/48] riscv: Resolve full path of the given
+ bios image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,63 +75,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-For RV32, the root page table's PPN has 22 bits hence its address
-bits could be larger than the maximum bits that target_ulong is
-able to represent. Use hwaddr instead.
+At present when "-bios image" is supplied, we just use the straight
+path without searching for the configured data directories. Like
+"-bios default", we add the same logic so that "-L" actually works.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_helper.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/riscv/boot.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 96373b67d8..87dd6a6ece 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -186,12 +186,12 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
- 
-     *prot = 0;
- 
--    target_ulong base;
-+    hwaddr base;
-     int levels, ptidxbits, ptesize, vm, sum;
-     int mxr = get_field(env->mstatus, MSTATUS_MXR);
- 
-     if (env->priv_ver >= PRIV_VERSION_1_10_0) {
--        base = get_field(env->satp, SATP_PPN) << PGSHIFT;
-+        base = (hwaddr)get_field(env->satp, SATP_PPN) << PGSHIFT;
-         sum = get_field(env->mstatus, MSTATUS_SUM);
-         vm = get_field(env->satp, SATP_MODE);
-         switch (vm) {
-@@ -211,7 +211,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-           g_assert_not_reached();
-         }
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 10f7991490..2e92fb0680 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -72,14 +72,14 @@ void riscv_find_and_load_firmware(MachineState *machine,
+         firmware_filename = riscv_find_firmware(default_machine_firmware);
      } else {
--        base = env->sptbr << PGSHIFT;
-+        base = (hwaddr)(env->sptbr) << PGSHIFT;
-         sum = !get_field(env->mstatus, MSTATUS_PUM);
-         vm = get_field(env->mstatus, MSTATUS_VM);
-         switch (vm) {
-@@ -249,7 +249,7 @@ restart:
-                            ((1 << ptidxbits) - 1);
+         firmware_filename = machine->firmware;
++        if (strcmp(firmware_filename, "none")) {
++            firmware_filename = riscv_find_firmware(firmware_filename);
++        }
+     }
  
-         /* check that physical address of PTE is legal */
--        target_ulong pte_addr = base + idx * ptesize;
-+        hwaddr pte_addr = base + idx * ptesize;
- 
-         if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-             !pmp_hart_has_privs(env, pte_addr, sizeof(target_ulong),
-@@ -261,7 +261,7 @@ restart:
- #elif defined(TARGET_RISCV64)
-         target_ulong pte = ldq_phys(cs->as, pte_addr);
- #endif
--        target_ulong ppn = pte >> PTE_PPN_SHIFT;
-+        hwaddr ppn = pte >> PTE_PPN_SHIFT;
- 
-         if (!(pte & PTE_V)) {
-             /* Invalid PTE */
+     if (strcmp(firmware_filename, "none")) {
+         /* If not "none" load the firmware */
+         riscv_load_firmware(firmware_filename, firmware_load_addr);
+-    }
+-
+-    if (!strcmp(machine->firmware, "default")) {
+         g_free(firmware_filename);
+     }
+ }
 -- 
 2.21.0
 
