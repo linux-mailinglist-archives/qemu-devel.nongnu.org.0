@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1BFB611E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:11:32 +0200 (CEST)
-Received: from localhost ([::1]:56924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2133CB6131
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:14:14 +0200 (CEST)
+Received: from localhost ([::1]:56944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWvr-0002Az-9D
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59444)
+	id 1iAWyS-0005OV-Fm
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iAWdU-0001YP-27
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:33 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iAWeu-0003N7-Io
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:54:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iAWdS-00065Y-Qf
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58970)
+ (envelope-from <stefanha@redhat.com>) id 1iAWet-0007Gz-EQ
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:54:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36800)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iAWdQ-00064O-Ea; Wed, 18 Sep 2019 05:52:28 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAWet-0007Gh-9N
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:53:59 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C3FA918C4266;
- Wed, 18 Sep 2019 09:52:27 +0000 (UTC)
-Received: from localhost (ovpn-116-168.ams2.redhat.com [10.36.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E01960603;
- Wed, 18 Sep 2019 09:52:21 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Wed, 18 Sep 2019 11:51:44 +0200
-Message-Id: <20190918095144.955-9-mreitz@redhat.com>
-In-Reply-To: <20190918095144.955-1-mreitz@redhat.com>
-References: <20190918095144.955-1-mreitz@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 9B04359465;
+ Wed, 18 Sep 2019 09:53:58 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3E9C60872;
+ Wed, 18 Sep 2019 09:53:49 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 18 Sep 2019 10:53:34 +0100
+Message-Id: <20190918095335.7646-3-stefanha@redhat.com>
+In-Reply-To: <20190918095335.7646-1-stefanha@redhat.com>
+References: <20190918095335.7646-1-stefanha@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Wed, 18 Sep 2019 09:52:27 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Wed, 18 Sep 2019 09:53:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 8/8] Revert "qemu-img: Check post-truncation
- size"
+Subject: [Qemu-devel] [PATCH v2 2/3] audio: add -audiodev pa,
+ in|out.latency= to documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,82 +55,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Zolt=C3=A1n=20K=C5=91v=C3=A1g=C3=B3?= <DirtY.iCE.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 5279b30392da7a3248b320c75f20c61e3a95863c.
+The "latency" parameter wasn't covered by the documentation.
 
-We no longer need this check because exact=3Dtrue forces the block driver
-to give the image the exact size requested by the user.
-
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- qemu-img.c | 39 ++++-----------------------------------
- 1 file changed, 4 insertions(+), 35 deletions(-)
+ qemu-options.hx | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index a3169b6113..148f6b8b0e 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3648,7 +3648,7 @@ static int img_resize(int argc, char **argv)
-     Error *err =3D NULL;
-     int c, ret, relative;
-     const char *filename, *fmt, *size;
--    int64_t n, total_size, current_size, new_size;
-+    int64_t n, total_size, current_size;
-     bool quiet =3D false;
-     BlockBackend *blk =3D NULL;
-     PreallocMode prealloc =3D PREALLOC_MODE_OFF;
-@@ -3829,42 +3829,11 @@ static int img_resize(int argc, char **argv)
-      * success when the image has not actually been resized.
-      */
-     ret =3D blk_truncate(blk, total_size, true, prealloc, &err);
--    if (ret < 0) {
-+    if (!ret) {
-+        qprintf(quiet, "Image resized.\n");
-+    } else {
-         error_report_err(err);
--        goto out;
--    }
--
--    new_size =3D blk_getlength(blk);
--    if (new_size < 0) {
--        error_report("Failed to verify truncated image length: %s",
--                     strerror(-new_size));
--        ret =3D -1;
--        goto out;
-     }
--
--    /* Some block drivers implement a truncation method, but only so
--     * the user can cause qemu to refresh the image's size from disk.
--     * The idea is that the user resizes the image outside of qemu and
--     * then invokes block_resize to inform qemu about it.
--     * (This includes iscsi and file-posix for device files.)
--     * Of course, that is not the behavior someone invoking
--     * qemu-img resize would find useful, so we catch that behavior
--     * here and tell the user. */
--    if (new_size !=3D total_size && new_size =3D=3D current_size) {
--        error_report("Image was not resized; resizing may not be support=
-ed "
--                     "for this image");
--        ret =3D -1;
--        goto out;
--    }
--
--    if (new_size !=3D total_size) {
--        warn_report("Image should have been resized to %" PRIi64
--                    " bytes, but was resized to %" PRIi64 " bytes",
--                    total_size, new_size);
--    }
--
--    qprintf(quiet, "Image resized.\n");
--
- out:
-     blk_unref(blk);
-     if (ret) {
+diff --git a/qemu-options.hx b/qemu-options.hx
+index a4f9f74f52..6d7fe57dd4 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -470,6 +470,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+     "-audiodev pa,id=3Did[,prop[=3Dvalue][,...]]\n"
+     "                server=3D PulseAudio server address\n"
+     "                in|out.name=3D source/sink device name\n"
++    "                in|out.latency=3D desired latency in microseconds\n=
+"
+ #endif
+ #ifdef CONFIG_AUDIO_SDL
+     "-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]\n"
+@@ -630,6 +631,10 @@ Sets the PulseAudio @var{server} to connect to.
+ @item in|out.name=3D@var{sink}
+ Use the specified source/sink for recording/playback.
+=20
++@item in|out.latency=3D@var{usecs}
++Desired latency in microseconds.  The PulseAudio server will try to hono=
+r this
++value but actual latencies may be lower or higher.
++
+ @end table
+=20
+ @item -audiodev sdl,id=3D@var{id}[,@var{prop}[=3D@var{value}][,...]]
 --=20
 2.21.0
 
