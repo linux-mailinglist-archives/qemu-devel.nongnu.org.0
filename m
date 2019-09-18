@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2816EB5AE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 07:28:23 +0200 (CEST)
-Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D44B5AED
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 07:33:34 +0200 (CEST)
+Received: from localhost ([::1]:54710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iASVp-0002Kq-F3
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 01:28:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53413)
+	id 1iASar-00060n-Sg
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 01:33:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iASTb-0001rw-62
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:04 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iASUK-0002L0-Bo
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iASTY-0006Pz-Kd
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39856)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iASTW-0006OK-TW
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:25:59 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6795F859FF
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 05:25:56 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id 32so1912698wrk.15
- for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 22:25:56 -0700 (PDT)
+ (envelope-from <richard.henderson@linaro.org>) id 1iASUI-00070j-1e
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:47 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38880)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iASUH-00070I-RS
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 01:26:45 -0400
+Received: by mail-pl1-x644.google.com with SMTP id w10so2562958plq.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Sep 2019 22:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=M0oPGEaqH2K0JM4e4Q7AnuXfBw3BK1zS9WU3J+Hs32Q=;
+ b=kgMJWTmmvgPkqbGOeJbvMfofApSU6yJvNsimM06Z1kaP1LCr2wfDHiLVALZHfvOXvl
+ wmz55T1a7Srdfm4XXX7/fFlWkIeG0A5nG6jLBLtrroDH+oA4sGsrr28821ls30Xb0008
+ /N7gEOvwmtARsLQPuydjCILcuNFjW08uKOpqjCVnb1iNIgf/q6NIs4hvnkXHqEWUu/h3
+ PpUDKgh4oecjJqjcXFyXIUtSpnxZJEtcqHXDiQ5xAxZiTEQzZ/tfdjXunLKrp/lzLaNq
+ jyJ/+czUPITJEtPJ+17afe+wMe3sCBsI6qKaitFIg0QhPGLyQ3IR2Ulxx+vY1JfUWw//
+ FF0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=vevpk34rXm6JK5vv7gijD1iPBGu2RaEosfU/ZfCaERU=;
- b=H+PBBtOZvPXSAkyNm9qV07NY4SAHZi0rXoWPjpYVb2lP+ruUiZmf+lBYc8WNnH1j/5
- 28pjuiQQt3I/09bgUp38LFi84Ld276vLfg8NAlEAeSD40H2/EXoyREJWm5Oeqz5lq/Rc
- P9O5dFzT39bylRuj737/HXUfHVqHeklbPreCjDASwPmk0fAogV/OcQ1ooYZfeV+7s6A/
- fjMAkXwS8/uH4liqQQwh2Sd/kold5SNqCian+hO1X10+WUVBQY4yKQO8Wo4tle63AmwN
- cAqI5f85YlmKAg4Y/ENAdOn+20IB++YBVpzo0LJM3zeO3bQAW2wYQ+USCIy+R8Oj/DaX
- 7+rQ==
-X-Gm-Message-State: APjAAAUOStTDc57m2z74+gpl1kI45cIRDRzowK4o+Jr4UmKIR891zbij
- 0FzbU+ZJ7dFA4GSKbMg5HWgpdWTcmomEb/pU3oKd/qpdva2EPzuqu9BE2K5giWe4eAj4xlLs1QQ
- qNKQnWGtbD2A47lo=
-X-Received: by 2002:a5d:6647:: with SMTP id f7mr1445363wrw.170.1568784355175; 
- Tue, 17 Sep 2019 22:25:55 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwYL85ObLRUr9ngqs86URaXSkVjUzvDoZEQAUpTYL+WvaoBe/J9EwgNupa9A3PZ1EunB+rqfQ==
-X-Received: by 2002:a5d:6647:: with SMTP id f7mr1445346wrw.170.1568784354935; 
- Tue, 17 Sep 2019 22:25:54 -0700 (PDT)
-Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
- [95.120.215.139])
- by smtp.gmail.com with ESMTPSA id s13sm1052056wmc.28.2019.09.17.22.25.53
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=M0oPGEaqH2K0JM4e4Q7AnuXfBw3BK1zS9WU3J+Hs32Q=;
+ b=Cu9umt6zm+54gaApYOAN63GuJTY6RrOKonyCgaG9ac3zbUuxzmOmRRVkSuRJ/Xk3U3
+ IrMPu8JtM7JByBwOptzK6dK4/3JcjSKzlreQUF33KVf5NjN71FOIF/ly2v5+6nmr2rkD
+ set6j0l9gc4oyubuSYb4m7/R3uk+6Maf3BYz/X2MSy8mNnfX6q1OKRpODdvnLX/a2RNv
+ wLNMEX6VqYE7Ubk7iYW6CMZXcgLbamYqESld5rj0halAKk12kGFxmsX7yOVPrAfeF1pZ
+ EDZoWZrP8Z2BERGNk3mFQ25zNzi9a95rmV1zG2jgKPxR1O5U8P7gb7LoKHe2sjT7kisx
+ EbQg==
+X-Gm-Message-State: APjAAAUUdkjaFb5EKz0sq83m0K3x+IXkecPFgu+H1l1uigYH7oCZLAp5
+ GHkywTFjHJw58KlBLFxkhcl0GDyXcTU=
+X-Google-Smtp-Source: APXvYqzxjEKMXguDTmT38eKW13BpyDa4ic8BQUm2UdJoN+bIrTTuc8egN1bYucq7y5u5nFOweCBjqQ==
+X-Received: by 2002:a17:902:b20a:: with SMTP id
+ t10mr2357286plr.277.1568784404173; 
+ Tue, 17 Sep 2019 22:26:44 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a1sm3457234pgd.74.2019.09.17.22.26.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 22:25:54 -0700 (PDT)
-References: <CAJSP0QVMjw_zm16MRo25Gq0J9w=9vrKDZtaH=WGwjSJiDAVm9Q@mail.gmail.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
+ Tue, 17 Sep 2019 22:26:43 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-In-reply-to: <CAJSP0QVMjw_zm16MRo25Gq0J9w=9vrKDZtaH=WGwjSJiDAVm9Q@mail.gmail.com>
-Date: Wed, 18 Sep 2019 07:25:46 +0200
-Message-ID: <87k1a6yy3p.fsf@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Call for volunteers: LWN.net articles about KVM
- Forum talks
+Date: Tue, 17 Sep 2019 22:26:38 -0700
+Message-Id: <20190918052641.21300-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: [Qemu-devel] [RFC 0/3] Move notdirty handling to cputlb
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,69 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, kvm <kvm@vger.kernel.org>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+RFC because this doesn't work, and I don't quite understand why.
+The only failing test is {i386,x86_64} pxe-test -- the other
+migration tests that use notdirty all pass.
+
+Note that if you try to reproduce this on x86, you'll likely
+have to --disable-kvm, as otherwise the pxe-test will skip tcg.
+
+Anyone who knows how this works willing to have a look?
 
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
-
-> Hi,
-> LWN.net is a popular open source news site that covers Linux and other
-> open source communities (Python, GNOME, Debian, etc).  It has published
-> a few KVM articles in the past too.
->
-> Let's raise awareness of QEMU, KVM, and libvirt by submitting articles covering
-> KVM Forum.
->
-> I am looking for ~5 volunteers who are attending KVM Forum to write an article
-> about a talk they find interesting.
->
-> Please pick a talk you'd like to cover and reply to this email thread.
-> I will then send an email to LWN with a heads-up so they can let us know
-> if they are interested in publishing a KVM Forum special.  I will not
-> ask LWN.net for money.
->
-> KVM Forum schedule:
-> https://events.linuxfoundation.org/events/kvm-forum-2019/program/schedule/
->
-> LWN.net guidelines:
-> https://lwn.net/op/AuthorGuide.lwn
-> "Our general guideline is for articles to be around 1500 words in
-> length, though somewhat longer or shorter can work too. The best
-> articles cover a fairly narrow topic completely, without any big
-> omissions or any extra padding."
->
-> I volunteer to cover Michael Tsirkin's "VirtIO without the Virt -
-> Towards Implementations in Hardware" talk.
-
-I volunteer to cover Jun Nakajima's  "Enhancing KVM for Guest Protection
-and Security"
-
-Sergio.
+r~
 
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Richard Henderson (3):
+  exec: Adjust notdirty tracing
+  cputlb: Move NOTDIRTY handling from I/O path to TLB path
+  cputlb: Remove ATOMIC_MMU_DECLS
 
------BEGIN PGP SIGNATURE-----
+ accel/tcg/atomic_template.h    | 12 -----
+ include/exec/cpu-common.h      |  1 -
+ include/exec/memory-internal.h | 53 +++----------------
+ accel/tcg/cputlb.c             | 65 +++++++++++++----------
+ accel/tcg/user-exec.c          |  1 -
+ exec.c                         | 97 +++++++---------------------------
+ memory.c                       | 20 -------
+ trace-events                   |  4 +-
+ 8 files changed, 63 insertions(+), 190 deletions(-)
 
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2Bv9oACgkQ9GknjS8M
-AjXK7hAAnAk5MQVl8C7cK2i3gybVBP2D0o2A6JADUprU37pP+Uuhsy2M5Oh8K/Ra
-4wG6GH/cQeQCRNfhMJ8mcAtkm0K7iF3EQrtklLceSBjS8VJLpNPmG52O5xtGJcnt
-kioUPLe17zg5axrnAl/AhEtM8KHKYu3IdYSCGNiZbVVo+CfMBJOO/qk3IJOppVQ+
-O5R5ukO2htiRsro7m4v+9lva2xp5mou6RAbA2U6QdDfVAFL9IUw24nRQ9Vtj7d5j
-jeV/TDuoEzssmLVQ2I6oEybtdbyR9MQqXhi/FXXrrCGBStgfI+MzBBNG2UXco7FG
-4eGbhQ6c5I2c63uh2yk8ZyNKy4aIuyUA11vw9ZGFmyOIn3VS9Ru4ZqGiEcnkXsjm
-8SfFU+mTv1IQyIY2uWWOr988DdFTObpIs6bSHJFjoTow6+cCtdEiNB6iHQXYUJSE
-2IFuOanzD+Yga9L8JEeVfQwgTXK/JUUMA3AEm9BXnw/dackiLz4JaqmnPVRrwnjd
-epxjqo+vzzcHUeMwGalgpj3iH0N3QEUmIDAfJl06Is5X5x1/GK0RKfI7jq6/6xYv
-J6OdHX97NZiIvqRL43mdDNOpfeyqrjebocoaqXc70qBA/XFDwO1cpcMxUmnxuOG/
-Vk/b4kK75ZhBtUa85Pjim5HiR+P1gqzBLdO4DyW/pNW/hAbcKiA=
-=lNS2
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+2.17.1
+
 
