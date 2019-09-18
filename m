@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4DFB6108
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:04:21 +0200 (CEST)
-Received: from localhost ([::1]:56840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091F6B610E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 12:07:52 +0200 (CEST)
+Received: from localhost ([::1]:56868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAWot-0002xQ-Nl
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:04:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59397)
+	id 1iAWsI-0005yP-Ba
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 06:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iAWdM-0001PQ-KI
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:25 -0400
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAWd8-00016d-I2
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iAWdL-0005tH-7m
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51496)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iAWdI-0005nU-El; Wed, 18 Sep 2019 05:52:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C4C82A3D394;
- Wed, 18 Sep 2019 09:52:19 +0000 (UTC)
-Received: from localhost (ovpn-116-168.ams2.redhat.com [10.36.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 430835C219;
- Wed, 18 Sep 2019 09:52:19 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Wed, 18 Sep 2019 11:51:43 +0200
-Message-Id: <20190918095144.955-8-mreitz@redhat.com>
-In-Reply-To: <20190918095144.955-1-mreitz@redhat.com>
-References: <20190918095144.955-1-mreitz@redhat.com>
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAWd6-0005f0-PV
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:10 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:59390)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAWd5-0005Zu-6B
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 05:52:08 -0400
+Received: from PASHAISP (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 2B93F54012D;
+ Wed, 18 Sep 2019 12:52:04 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: "'Kevin Wolf'" <kwolf@redhat.com>
+References: <156872146565.1757.3033215873677512474.stgit@pasha-Precision-3630-Tower>
+ <156872148244.1757.2888672921697745021.stgit@pasha-Precision-3630-Tower>
+ <20190918091831.GD5207@localhost.localdomain>
+ <001201d56e02$9d88b5f0$d89a21d0$@ru>
+ <20190918093305.GF5207@localhost.localdomain>
+ <001401d56e04$b93c02a0$2bb407e0$@ru>
+ <20190918094436.GG5207@localhost.localdomain>
+In-Reply-To: <20190918094436.GG5207@localhost.localdomain>
+Date: Wed, 18 Sep 2019 12:52:07 +0300
+Message-ID: <001501d56e06$bbd7aa30$3386fe90$@ru>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Wed, 18 Sep 2019 09:52:19 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 7/8] block: Pass truncate exact=true where
- reasonable
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdVuBbW50rdB38yITRCrR+5XGzNPVAAAC9IQ
+Content-Language: ru
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 83.149.199.45
+Subject: Re: [Qemu-devel] [for-4.2 PATCH 3/6] replay: update docs for
+ record/replay with block devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,135 +57,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
+ crosthwaite.peter@gmail.com, ciro.santilli@gmail.com, jasowang@redhat.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ alex.bennee@linaro.org, 'Pavel Dovgalyuk' <pavel.dovgaluk@gmail.com>,
+ maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
+ boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
+ mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a change in behavior, so all instances need a good
-justification.  The comments added here should explain my reasoning.
+> From: Kevin Wolf [mailto:kwolf@redhat.com]
+> Am 18.09.2019 um 11:37 hat Pavel Dovgalyuk geschrieben:
+> > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > Am 18.09.2019 um 11:22 hat Pavel Dovgalyuk geschrieben:
+> > > > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > > > Am 17.09.2019 um 13:58 hat Pavel Dovgalyuk geschrieben:
+> > > > > > From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+> > > > > >
+> > > > > > This patch updates the description of the command lines for using
+> > > > > > record/replay with attached block devices.
+> > > > > >
+> > > > > > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+> > > > > > ---
+> > > > > >  docs/replay.txt |   12 +++++++++---
+> > > > > >  1 file changed, 9 insertions(+), 3 deletions(-)
+> > > > > >
+> > > > > > diff --git a/docs/replay.txt b/docs/replay.txt
+> > > > > > index ee6aee9861..ce97c3f72f 100644
+> > > > > > --- a/docs/replay.txt
+> > > > > > +++ b/docs/replay.txt
+> > > > > > @@ -27,7 +27,7 @@ Usage of the record/replay:
+> > > > > >   * First, record the execution with the following command line:
+> > > > > >      qemu-system-i386 \
+> > > > > >       -icount shift=7,rr=record,rrfile=replay.bin \
+> > > > > > -     -drive file=disk.qcow2,if=none,id=img-direct \
+> > > > > > +     -drive file=disk.qcow2,if=none,snapshot,id=img-direct \
+> > > > > >       -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay \
+> > > > > >       -device ide-hd,drive=img-blkreplay \
+> > > > > >       -netdev user,id=net1 -device rtl8139,netdev=net1 \
+> > > > > > @@ -35,7 +35,7 @@ Usage of the record/replay:
+> > > > > >   * After recording, you can replay it by using another command line:
+> > > > > >      qemu-system-i386 \
+> > > > > >       -icount shift=7,rr=replay,rrfile=replay.bin \
+> > > > > > -     -drive file=disk.qcow2,if=none,id=img-direct \
+> > > > > > +     -drive file=disk.qcow2,if=none,snapshot,id=img-direct \
+> > > > > >       -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay \
+> > > > > >       -device ide-hd,drive=img-blkreplay \
+> > > > > >       -netdev user,id=net1 -device rtl8139,netdev=net1 \
+> > > > > > @@ -223,7 +223,7 @@ Block devices record/replay module intercepts calls of
+> > > > > >  bdrv coroutine functions at the top of block drivers stack.
+> > > > > >  To record and replay block operations the drive must be configured
+> > > > > >  as following:
+> > > > > > - -drive file=disk.qcow2,if=none,id=img-direct
+> > > > > > + -drive file=disk.qcow2,if=none,snapshot,id=img-direct
+> > > > > >   -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay
+> > > > > >   -device ide-hd,drive=img-blkreplay
+> > > > > >
+> > > > > > @@ -252,6 +252,12 @@ This snapshot is created at start of recording and restored at
+> > > start
+> > > > > >  of replaying. It also can be loaded while replaying to roll back
+> > > > > >  the execution.
+> > > > > >
+> > > > > > +'snapshot' flag of the disk image must be removed to save the snapshots
+> > > > > > +in the overlay (or original image) instead of using the temporary overlay.
+> > > > > > + -drive file=disk.ovl,if=none,id=img-direct
+> > > > > > + -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay
+> > > > > > + -device ide-hd,drive=img-blkreplay
+> > > > >
+> > > > > Wait, didn't patch 2 just make -snapshot unconditionally incompatible
+> > > > > with replay? So isn't saving the snapshot in the original image the only
+> > > > > supported mode now?
+> > > >
+> > > > There are two ways to run record/replay:
+> > > > 1. Disk with snapshot option and any image to make it unchanged
+> > > > 2. Disk with overlay without snapshot option to save VM snapshots on it
+> > >
+> > > Yes, I think I understand the two options that you intend to make
+> > > available, but when -snapshot sets a replay blocker, how can 1. still
+> > > work? Is there some code that ignores replay blockers?
+> >
+> > I checked the text and don't see anything about global "-snapshot" option.
+> > All references are about drive snapshot flag.
+> > Can you point me where did I missed that?
+> 
+> Oh, sorry, you're right and I misread.
+> 
+> However, global -snapshot is just a convenient shortcut for specifying
+> snapshot=on for all -drive arguments. So if -snapshot is incompatible
+> with replay, shouldn't manually marking all drives as snapshot=on be
+> incompatible as well?
+> 
+> Maybe you're really interested in some specific drive not having
+> snapshot=on? But then it might be better to check that specific drive
+> instad of forbidding just the shortcut for setting it.
 
-qed already had a comment that suggests it always expected
-bdrv_truncate()/blk_truncate() to behave as if exact=3Dtrue were passed
-(c743849bee7 came eight months before 55b949c8476), so it was simply
-broken until now.
+-snapshot adds the flag for top-level drive, making driver operations
+dependent on temporary file structure.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/parallels.c | 11 +++++++++--
- block/qcow2.c     |  6 +++++-
- block/qed.c       |  2 +-
- qemu-img.c        |  7 ++++++-
- qemu-io-cmds.c    |  7 ++++++-
- 5 files changed, 27 insertions(+), 6 deletions(-)
+Moving this overlay beneath blkreplay driver makes drive operations
+deterministic for the top-level device.
 
-diff --git a/block/parallels.c b/block/parallels.c
-index a1a92c97a4..603211f83c 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -487,7 +487,12 @@ static int coroutine_fn parallels_co_check(BlockDriv=
-erState *bs,
-         res->leaks +=3D count;
-         if (fix & BDRV_FIX_LEAKS) {
-             Error *local_err =3D NULL;
--            ret =3D bdrv_truncate(bs->file, res->image_end_offset, false=
-,
-+
-+            /*
-+             * In order to really repair the image, we must shrink it.
-+             * That means we have to pass exact=3Dtrue.
-+             */
-+            ret =3D bdrv_truncate(bs->file, res->image_end_offset, true,
-                                 PREALLOC_MODE_OFF, &local_err);
-             if (ret < 0) {
-                 error_report_err(local_err);
-@@ -880,7 +885,9 @@ static void parallels_close(BlockDriverState *bs)
-     if ((bs->open_flags & BDRV_O_RDWR) && !(bs->open_flags & BDRV_O_INAC=
-TIVE)) {
-         s->header->inuse =3D 0;
-         parallels_update_header(bs);
--        bdrv_truncate(bs->file, s->data_end << BDRV_SECTOR_BITS, false,
-+
-+        /* errors are ignored, so we might as well pass exact=3Dtrue */
-+        bdrv_truncate(bs->file, s->data_end << BDRV_SECTOR_BITS, true,
-                       PREALLOC_MODE_OFF, NULL);
-     }
-=20
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 4ef19dd29a..eba165de7f 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -5057,7 +5057,11 @@ static int qcow2_amend_options(BlockDriverState *b=
-s, QemuOpts *opts,
-             return ret;
-         }
-=20
--        ret =3D blk_truncate(blk, new_size, false, PREALLOC_MODE_OFF, er=
-rp);
-+        /*
-+         * Amending image options should ensure that the image has
-+         * exactly the given new values, so pass exact=3Dtrue here.
-+         */
-+        ret =3D blk_truncate(blk, new_size, true, PREALLOC_MODE_OFF, err=
-p);
-         blk_unref(blk);
-         if (ret < 0) {
-             return ret;
-diff --git a/block/qed.c b/block/qed.c
-index 7c2a65af40..8005cfc305 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -674,7 +674,7 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCr=
-eateOptions *opts,
-     l1_size =3D header.cluster_size * header.table_size;
-=20
-     /* File must start empty and grow, check truncate is supported */
--    ret =3D blk_truncate(blk, 0, false, PREALLOC_MODE_OFF, errp);
-+    ret =3D blk_truncate(blk, 0, true, PREALLOC_MODE_OFF, errp);
-     if (ret < 0) {
-         goto out;
-     }
-diff --git a/qemu-img.c b/qemu-img.c
-index f8694f4f72..a3169b6113 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3823,7 +3823,12 @@ static int img_resize(int argc, char **argv)
-         }
-     }
-=20
--    ret =3D blk_truncate(blk, total_size, false, prealloc, &err);
-+    /*
-+     * The user expects the image to have the desired size after
-+     * resizing, so pass @exact=3Dtrue.  It is of no use to report
-+     * success when the image has not actually been resized.
-+     */
-+    ret =3D blk_truncate(blk, total_size, true, prealloc, &err);
-     if (ret < 0) {
-         error_report_err(err);
-         goto out;
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 5e9017c979..1b7e700020 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -1710,7 +1710,12 @@ static int truncate_f(BlockBackend *blk, int argc,=
- char **argv)
-         return offset;
-     }
-=20
--    ret =3D blk_truncate(blk, offset, false, PREALLOC_MODE_OFF, &local_e=
-rr);
-+    /*
-+     * qemu-io is a debugging tool, so let us be strict here and pass
-+     * exact=3Dtrue.  It is better to err on the "emit more errors" side
-+     * than to be overly permissive.
-+     */
-+    ret =3D blk_truncate(blk, offset, true, PREALLOC_MODE_OFF, &local_er=
-r);
-     if (ret < 0) {
-         error_report_err(local_err);
-         return ret;
---=20
-2.21.0
+Pavel Dovgalyuk
 
 
