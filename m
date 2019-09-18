@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DAFB68AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:09:57 +0200 (CEST)
-Received: from localhost ([::1]:33100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF2BB689F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 19:06:16 +0200 (CEST)
+Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAdSl-0004hz-RE
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55530)
+	id 1iAdPC-0008Jr-Ke
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 13:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iAcUO-0003Ty-8a
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:33 -0400
+ (envelope-from <clg@kaod.org>) id 1iAcVZ-00052F-1a
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iAcUN-0002se-3V
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:32 -0400
-Received: from 4.mo179.mail-out.ovh.net ([46.105.36.149]:41824)
+ (envelope-from <clg@kaod.org>) id 1iAcVX-0003no-HM
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:44 -0400
+Received: from 12.mo1.mail-out.ovh.net ([87.98.162.229]:39987)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcUM-0002rX-Td
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:07:31 -0400
-Received: from player799.ha.ovh.net (unknown [10.109.159.62])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 51E7214130A
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:07:29 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iAcVX-0003mu-BX
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 12:08:43 -0400
+Received: from player799.ha.ovh.net (unknown [10.109.160.23])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id C8BE619029F
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 18:08:41 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player799.ha.ovh.net (Postfix) with ESMTPSA id BACB29F0E535;
- Wed, 18 Sep 2019 16:07:23 +0000 (UTC)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id 51A019F0EA12;
+ Wed, 18 Sep 2019 16:08:36 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 18 Sep 2019 18:06:26 +0200
-Message-Id: <20190918160645.25126-7-clg@kaod.org>
+Date: Wed, 18 Sep 2019 18:06:39 +0200
+Message-Id: <20190918160645.25126-20-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190918160645.25126-1-clg@kaod.org>
 References: <20190918160645.25126-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6215248964917955558
+X-Ovh-Tracer-Id: 6235515161851562982
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekgdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.36.149
-Subject: [Qemu-devel] [PATCH v4 06/25] ppc/pnv: Implement the XiveFabric
- interface
+X-Received-From: 87.98.162.229
+Subject: [Qemu-devel] [PATCH v4 19/25] ppc/pnv: Introduce a
+ pnv_xive_block_id() helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,79 +61,209 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CAM line matching on the PowerNV machine now scans all chips of
-the system and all CPUs of a chip to find a dispatched NVT in the
-thread contexts.
+When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID field
+overrides the hardwired chip ID in the Powerbus operations and for CAM
+compares. This is typically used in the one block-per-chip configuration
+to associate a unique block id number to each IC of the system.
+
+Simplify the model with a pnv_xive_block_id() helper and remove
+'tctx_chipid' which becomes useless.
+
+The model does support multiple blocks per chip.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/pnv.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ include/hw/ppc/pnv_xive.h |  3 --
+ hw/intc/pnv_xive.c        | 68 ++++++++++++++++++++-------------------
+ 2 files changed, 35 insertions(+), 36 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 77a86c6a2301..ca24dd62df23 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1378,6 +1378,35 @@ static void pnv_pic_print_info(InterruptStatsProvi=
-der *obj,
-     }
+diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
+index 4fdaa9247d65..f4c7caad40ee 100644
+--- a/include/hw/ppc/pnv_xive.h
++++ b/include/hw/ppc/pnv_xive.h
+@@ -72,9 +72,6 @@ typedef struct PnvXive {
+     /* Interrupt controller registers */
+     uint64_t      regs[0x300];
+=20
+-    /* Can be configured by FW */
+-    uint32_t      tctx_chipid;
+-
+     /*
+      * Virtual Structure Descriptor tables : EAT, SBE, ENDT, NVTT, IRQ
+      * These are in a SRAM protected by ECC.
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index a986d4ed9364..8c352315f6f5 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -85,13 +85,30 @@ static inline uint64_t SETFIELD(uint64_t mask, uint64=
+_t word,
+     return (word & ~mask) | ((value << ctz64(mask)) & mask);
  }
 =20
-+static int pnv_xive_match_nvt(XiveFabric *xfb, uint8_t format,
-+                               uint8_t nvt_blk, uint32_t nvt_idx,
-+                               bool cam_ignore, uint8_t priority,
-+                               uint32_t logic_serv,
-+                               XiveTCTXMatch *match)
++/*
++ * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
++ * field overrides the hardwired chip ID in the Powerbus operations
++ * and for CAM compares
++ */
++static uint8_t pnv_xive_block_id(PnvXive *xive)
 +{
-+    PnvMachineState *pnv =3D PNV_MACHINE(xfb);
-+    int total_count =3D 0;
-+    int i;
++    uint8_t blk =3D xive->chip->chip_id;
++    uint64_t cfg_val =3D xive->regs[PC_TCTXT_CFG >> 3];
 +
-+    for (i =3D 0; i < pnv->num_chips; i++) {
-+        Pnv9Chip *chip9 =3D PNV9_CHIP(pnv->chips[i]);
-+        XivePresenter *xptr =3D XIVE_PRESENTER(&chip9->xive);
-+        XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
-+        int count;
-+
-+        count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ign=
-ore,
-+                               priority, logic_serv, match);
-+
-+        if (count < 0) {
-+            return count;
-+        }
-+
-+        total_count +=3D count;
++    if (cfg_val & PC_TCTXT_CHIPID_OVERRIDE) {
++        blk =3D GETFIELD(PC_TCTXT_CHIPID, cfg_val);
 +    }
 +
-+    return total_count;
++    return blk;
 +}
 +
- static void pnv_get_num_chips(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp)
+ /*
+  * Remote access to controllers. HW uses MMIOs. For now, a simple scan
+  * of the chips is good enough.
+  *
+  * TODO: Block scope support
+  */
+-static PnvXive *pnv_xive_get_ic(uint8_t blk)
++static PnvXive *pnv_xive_get_remote(uint8_t blk)
  {
-@@ -1441,9 +1470,11 @@ static void pnv_machine_power8_class_init(ObjectCl=
-ass *oc, void *data)
- static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc =3D MACHINE_CLASS(oc);
-+    XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
+     PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
+     int i;
+@@ -100,7 +117,7 @@ static PnvXive *pnv_xive_get_ic(uint8_t blk)
+         Pnv9Chip *chip9 =3D PNV9_CHIP(pnv->chips[i]);
+         PnvXive *xive =3D &chip9->xive;
 =20
-     mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER9";
-     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power9_v2.0");
-+    xfc->match_nvt =3D pnv_xive_match_nvt;
-=20
-     mc->alias =3D "powernv";
- }
-@@ -1495,6 +1526,7 @@ static void pnv_machine_class_init(ObjectClass *oc,=
- void *data)
-         .interfaces =3D (InterfaceInfo[]) {               \
-             { TYPE_XICS_FABRIC },                       \
-             { TYPE_INTERRUPT_STATS_PROVIDER },          \
-+            { TYPE_XIVE_FABRIC },                       \
-             { },                                        \
-         },                                              \
+-        if (xive->chip->chip_id =3D=3D blk) {
++        if (pnv_xive_block_id(xive) =3D=3D blk) {
+             return xive;
+         }
      }
+@@ -212,7 +229,7 @@ static uint64_t pnv_xive_vst_addr(PnvXive *xive, uint=
+32_t type, uint8_t blk,
+=20
+     /* Remote VST access */
+     if (GETFIELD(VSD_MODE, vsd) =3D=3D VSD_MODE_FORWARD) {
+-        xive =3D pnv_xive_get_ic(blk);
++        xive =3D pnv_xive_get_remote(blk);
+=20
+         return xive ? pnv_xive_vst_addr(xive, type, blk, idx) : 0;
+     }
+@@ -360,7 +377,10 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+ {
+     PnvXive *xive =3D PNV_XIVE(xrtr);
+=20
+-    if (pnv_xive_get_ic(blk) !=3D xive) {
++    /*
++     * EAT lookups should be local to the IC
++     */
++    if (pnv_xive_block_id(xive) !=3D blk) {
+         xive_error(xive, "VST: EAS %x is remote !?", XIVE_SRCNO(blk, idx=
+));
+         return -1;
+     }
+@@ -471,7 +491,7 @@ static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu)
+ static void pnv_xive_notify(XiveNotifier *xn, uint32_t srcno)
+ {
+     PnvXive *xive =3D PNV_XIVE(xn);
+-    uint8_t blk =3D xive->chip->chip_id;
++    uint8_t blk =3D pnv_xive_block_id(xive);
+=20
+     xive_router_notify(xn, XIVE_SRCNO(blk, srcno));
+ }
+@@ -835,20 +855,7 @@ static void pnv_xive_ic_reg_write(void *opaque, hwad=
+dr offset,
+     case PC_TCTXT_CFG:
+         /*
+          * TODO: block group support
+-         *
+-         * PC_TCTXT_CFG_BLKGRP_EN
+-         * PC_TCTXT_CFG_HARD_CHIPID_BLK :
+-         *   Moves the chipid into block field for hardwired CAM compare=
+s.
+-         *   Block offset value is adjusted to 0b0..01 & ThrdId
+-         *
+-         *   Will require changes in xive_presenter_tctx_match(). I am
+-         *   not sure how to handle that yet.
+          */
+-
+-        /* Overrides hardwired chip ID with the chip ID field */
+-        if (val & PC_TCTXT_CHIPID_OVERRIDE) {
+-            xive->tctx_chipid =3D GETFIELD(PC_TCTXT_CHIPID, val);
+-        }
+         break;
+     case PC_TCTXT_TRACK:
+         /*
+@@ -1665,7 +1672,8 @@ static void xive_nvt_pic_print_info(XiveNVT *nvt, u=
+int32_t nvt_idx,
+ void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
+ {
+     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+-    uint8_t blk =3D xive->chip->chip_id;
++    uint8_t blk =3D pnv_xive_block_id(xive);
++    uint8_t chip_id =3D xive->chip->chip_id;
+     uint32_t srcno0 =3D XIVE_SRCNO(blk, 0);
+     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
+     XiveEAS eas;
+@@ -1673,12 +1681,12 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monit=
+or *mon)
+     XiveNVT nvt;
+     int i;
+=20
+-    monitor_printf(mon, "XIVE[%x] Source %08x .. %08x\n", blk, srcno0,
+-                   srcno0 + nr_ipis - 1);
++    monitor_printf(mon, "XIVE[%x] #%d Source %08x .. %08x\n", chip_id, b=
+lk,
++                   srcno0, srcno0 + nr_ipis - 1);
+     xive_source_pic_print_info(&xive->ipi_source, srcno0, mon);
+=20
+-    monitor_printf(mon, "XIVE[%x] EAT %08x .. %08x\n", blk, srcno0,
+-                   srcno0 + nr_ipis - 1);
++    monitor_printf(mon, "XIVE[%x] #%d EAT %08x .. %08x\n", chip_id, blk,
++                   srcno0, srcno0 + nr_ipis - 1);
+     for (i =3D 0; i < nr_ipis; i++) {
+         if (xive_router_get_eas(xrtr, blk, i, &eas)) {
+             break;
+@@ -1688,20 +1696,20 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monit=
+or *mon)
+         }
+     }
+=20
+-    monitor_printf(mon, "XIVE[%x] ENDT\n", blk);
++    monitor_printf(mon, "XIVE[%x] #%d ENDT\n", chip_id, blk);
+     i =3D 0;
+     while (!xive_router_get_end(xrtr, blk, i, &end)) {
+         xive_end_pic_print_info(&end, i++, mon);
+     }
+=20
+-    monitor_printf(mon, "XIVE[%x] END Escalation EAT\n", blk);
++    monitor_printf(mon, "XIVE[%x] #%d END Escalation EAT\n", chip_id, bl=
+k);
+     i =3D 0;
+     while (!xive_router_get_end(xrtr, blk, i, &end)) {
+         xive_end_eas_pic_print_info(&end, i++, mon);
+     }
+=20
+-    monitor_printf(mon, "XIVE[%x] NVTT %08x .. %08x\n", blk, 0,
+-                   XIVE_NVT_COUNT - 1);
++    monitor_printf(mon, "XIVE[%x] #%d NVTT %08x .. %08x\n", chip_id, blk=
+,
++                   0, XIVE_NVT_COUNT - 1);
+     for (i =3D 0; i < XIVE_NVT_COUNT; i +=3D XIVE_NVT_PER_PAGE) {
+         while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
+             xive_nvt_pic_print_info(&nvt, i++, mon);
+@@ -1715,12 +1723,6 @@ static void pnv_xive_reset(void *dev)
+     XiveSource *xsrc =3D &xive->ipi_source;
+     XiveENDSource *end_xsrc =3D &xive->end_source;
+=20
+-    /*
+-     * Use the PnvChip id to identify the XIVE interrupt controller.
+-     * It can be overriden by configuration at runtime.
+-     */
+-    xive->tctx_chipid =3D xive->chip->chip_id;
+-
+     /* Default page size (Should be changed at runtime to 64k) */
+     xive->ic_shift =3D xive->vc_shift =3D xive->pc_shift =3D 12;
+=20
 --=20
 2.21.0
 
