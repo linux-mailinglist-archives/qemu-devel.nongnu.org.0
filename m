@@ -2,60 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB76B59CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 04:40:06 +0200 (CEST)
-Received: from localhost ([::1]:54204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73B4B5A32
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 05:58:23 +0200 (CEST)
+Received: from localhost ([::1]:54388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAPsz-0007Ez-1V
-	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 22:40:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41205)
+	id 1iAR6k-0004Ft-9e
+	for lists+qemu-devel@lfdr.de; Tue, 17 Sep 2019 23:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46074)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fam@euphon.net>) id 1iAPrq-0006nt-0t
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 22:38:55 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iAR4C-0003HO-St
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 23:55:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fam@euphon.net>) id 1iAPrn-0004X5-Ra
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 22:38:52 -0400
-Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17807)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fam@euphon.net>) id 1iAPrm-0004St-Cw
- for qemu-devel@nongnu.org; Tue, 17 Sep 2019 22:38:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568774310; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=g1WTDuxJr3GPmnvbe0qo+SMbkdq/KqoVEMAg8+8swerEiSo3EYdS9FawuOS9XC4DYm8AnQ6mZ0lIH2WkVzc3bOmPbCFhuNSFQvOjtfpCRFb8mhdk+excPBoEPdY5O4RNhsaYY6fzZdIajNDbQrp2aH9W+OavruHSKhGh1JdjQ80=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1568774310;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To:ARC-Authentication-Results;
- bh=8DiG6a8Xd6gRVOV3MBYVEjvkWs6LbpJD8/sLf5bGR5w=; 
- b=C+wElI05P7P45kT+7FVwZu9CbMXjJ5SAcgq2GtX8x9w95DVsGKv1fPf7FEEKdjr8NT/eqtBpyAysO0aU+PveW9WM21TyQ9fyvOOsfRdzeuUIOM4/oc5e7+LIxJrJezbkYKpy4z+jVlAc9HS/9M04eYUpJstOOk39it5Y7SdJgOU=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1568774310; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- l=1647; bh=8DiG6a8Xd6gRVOV3MBYVEjvkWs6LbpJD8/sLf5bGR5w=;
- b=SaLLf0iJrmbRP3X4JEFQp4NqWuKGI8Zc3FXpfYpJxePox30NdaToh3XarcuErmOQ
- 9XKypSou9km/K2++Dl9GLZa4xrocJPxqQue2qCEMoigwiA3kf+of8198NiWTS41j4/i
- aJ7xz+/PPPrESfMyCDZS0xSpH+me6BlYgkdZrDao=
-Received: from localhost (120.52.147.46 [120.52.147.46]) by mx.zoho.com.cn
- with SMTPS id 1568774308339255.02150867556645;
- Wed, 18 Sep 2019 10:38:28 +0800 (CST)
-Date: Wed, 18 Sep 2019 10:38:26 +0800
-From: Fam Zheng <fam@euphon.net>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190918023826.GA28483@magic>
-References: <156825315333.21839.4459418365355602992@5dec9699b7de>
- <06e01dd7-d464-729d-3cc6-b9440dd5e18e@redhat.com>
+ (envelope-from <dgibson@ozlabs.org>) id 1iAR4B-0001yJ-CC
+ for qemu-devel@nongnu.org; Tue, 17 Sep 2019 23:55:44 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:53715)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iAR49-0001ua-TZ; Tue, 17 Sep 2019 23:55:43 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46Y5jc2FHvz9sNf; Wed, 18 Sep 2019 13:55:32 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1568778932;
+ bh=MR0TN8nYgOoLtwVJWvO5G3hJ9rE0cPiPIEHANYjYN88=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ILqb8Sbb1qt9K4RXCxv56OFipaI/myM7pFtgzs4X+Q4eOjj9z7kxmK2iIhkpjZEHM
+ enT9Fjn/ZcqJ2ul7OF/vouJvmqyHnFrY3cNJCEB0ZfSdLkZkrelggUg9zNB5scx519
+ Fg2Z+hw8lpvMZLMQmIPQa+ATfrASyZ/6JNqhAf7E=
+Date: Wed, 18 Sep 2019 10:46:42 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190918004642.GC2440@umbus.fritz.box>
+References: <20190916093445.20507-1-bala24@linux.ibm.com>
+ <20190916093445.20507-4-bala24@linux.ibm.com>
+ <20190916144709.GD2884@work-vm>
+ <20190917084537.GA30607@dhcp-9-120-237-81.in.ibm.com>
+ <20190917094425.GD3370@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uh9ZiVrAOUUm9fzH"
 Content-Disposition: inline
-In-Reply-To: <06e01dd7-d464-729d-3cc6-b9440dd5e18e@redhat.com>
+In-Reply-To: <20190917094425.GD3370@work-vm>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-ZohoCNMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 124.251.121.243
-Subject: Re: [Qemu-devel] [PATCH] docker: add sanitizers back to clang build
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH 3/3] tests/acceptance/migration: test to
+ migrate will all machine types
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,61 +60,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, groug@kaod.org, qemu-devel@nongnu.org,
+ sathnaga@linux.vnet.ibm.com, clg@kaod.org, crosa@redhat.com,
+ qemu-ppc@nongnu.org, Balamuruhan S <bala24@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 09/12 19:07, John Snow wrote:
-> 
-> 
-> On 9/11/19 9:52 PM, no-reply@patchew.org wrote:
-> > Patchew URL: https://patchew.org/QEMU/20190912014442.5757-1-jsnow@redhat.com/
-> > 
-> > 
-> > 
-> > Hi,
-> > 
-> > This series seems to have some coding style problems. See output below for
-> > more information:
-> > 
-> > Subject: [Qemu-devel] [PATCH] docker: add sanitizers back to clang build
-> > Message-id: 20190912014442.5757-1-jsnow@redhat.com
-> > Type: series
-> > 
-> > === TEST SCRIPT BEGIN ===
-> > #!/bin/bash
-> > git rev-parse base > /dev/null || exit 0
-> > git config --local diff.renamelimit 0
-> > git config --local diff.renames True
-> > git config --local diff.algorithm histogram
-> > ./scripts/checkpatch.pl --mailback base..
-> > === TEST SCRIPT END ===
-> > 
-> > From https://github.com/patchew-project/qemu
-> >  * [new tag]         patchew/20190912014442.5757-1-jsnow@redhat.com -> patchew/20190912014442.5757-1-jsnow@redhat.com
-> > Switched to a new branch 'test'
-> > 96d44b9 docker: add sanitizers back to clang build
-> > 
-> > === OUTPUT BEGIN ===
-> > ERROR: Missing Signed-off-by: line(s)
-> 
-> GDI.
-> 
-> I keep adding this to my configuration files, but it keeps "falling
-> off", somehow.
-> 
-> I have some patches in the works for stgit where I'm going to work
-> through some test cases for setting profile variables and try to fix this.
-> 
-> In the meantime:
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
 
-Isn't this because you inserted a '---' line in the middle of the commit
-message so the part after it is ditched by 'git am'?
+--uh9ZiVrAOUUm9fzH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This feels a bit hard to catch, wondering what is in the works. :)
+On Tue, Sep 17, 2019 at 10:44:25AM +0100, Dr. David Alan Gilbert wrote:
+> * Balamuruhan S (bala24@linux.ibm.com) wrote:
+> > On Mon, Sep 16, 2019 at 03:50:06PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Balamuruhan S (bala24@linux.ibm.com) wrote:
+> > > > add migration test to query machine types supported by qemu binary
+> > > > and migrate vm will all supported type.
+> > > >=20
+> > > > Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
+> > >=20
+> > > Depending on the architecture you might find that some machine types
+> > > aren't migratable while some are.
+> >=20
+> > Thanks Dave, is there a way to query/check whether a machine type on the
+> > architecture is migratable or should we try migrating and handle except=
+ion
+> > on failure ?
+>=20
+> I don't know a way to detect it; you can add -only-migratable to get
+> qemu to fai early if a device is declared as being non-migratable; but
+> that still doesn't say that all the devices have actually been tested
+> migrating.
 
-Fam
+At present we kind of have an informal distinction between those
+machine types that are mature and maintained enough to support
+migration (which I think is just pc, q35, pseries and arm virt) and
+those which aren't.
 
+There isn't, as far as I know, a way to detect this.
+
+I know we've mentioned at least briefly the idea of formalizing this
+distinction at qemu summit, but I don't think the discussion went
+anywhere.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--uh9ZiVrAOUUm9fzH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2BfnEACgkQbDjKyiDZ
+s5J2Vw//WijngvwtoL4/jDC9LjmDRKBCS4k48c1qJg6D4hdixG7P03d82uka/9ne
+vINnzFN2uXwnlGuUvRV65+tbWHDyUJ6rf0FIKuO+H/EHgcJlcRF6mkd2Ko3Qk6z1
+IXoQ+evfZOuNTDxFYbiAM0BBBoAFjRZ/cFE2dhHf57iLPGsLGl5G1ErnBOexden0
+YzuywgoyscPjKmLL54++AF/BBYAHCvxNhXVVozLOLFlPhqd4m5GUxp4swBGdi2K4
+03oAKvo7dhQKyWygPvEI6Li7GBknEvwP4cnVe2odT3f/uYmi4mgtFRAx5ssVnS96
+wWNQ7kCgrqJE2zLl2+9v+ZLUuEDUJ9b8Rcl/dfRwscYyoCp0RbfJFuJZdu/BSX2T
+Db29HbHY6Q38HbxsF9N+xaCrUzn69QUtkLS99j2EjC1a/z9RQA23HSG3fkDsvhj2
+C1rOEhE9rZlLo/raOSQRd12TyI4Yowh/abC65XqP/bf0KcDaC6fYi2Ul8SZS9kXN
+cURahBhVL+ukqb/UvJmL5gwJEnB/QdfIHsk9SO6gAvkUzYet4u0532SfhugZdErD
+V+hafBD6sgMi89jUe6sLKWkjKwk4zjQjWAkHeq9zrq3KJdh7JYtE7QCuG2J0IYGG
+4sb2Lp6MyrLOzJlLb0qzdq4XkuX3hJULqDiPZdJpd2lza4B53W4=
+=FQ6T
+-----END PGP SIGNATURE-----
+
+--uh9ZiVrAOUUm9fzH--
 
