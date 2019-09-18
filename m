@@ -2,106 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B78B6447
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:21:33 +0200 (CEST)
-Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59C5B6459
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 15:28:31 +0200 (CEST)
+Received: from localhost ([::1]:59050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAZti-0006uR-T5
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59970)
+	id 1iAa0U-0005hC-Q4
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 09:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iAZpa-0004Ze-I0
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:17:15 -0400
+ (envelope-from <sw@weilnetz.de>) id 1iAZqP-0005JP-Vz
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:18:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iAZpZ-0000Xp-HD
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:17:14 -0400
-Received: from mail-eopbgr20123.outbound.protection.outlook.com
- ([40.107.2.123]:42138 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iAZpM-0000Qj-T9; Wed, 18 Sep 2019 09:17:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QO6qAA/rCjz1U8UFb1cUPwTYZnwLa3RldlV2I6jQdsGknssBXl2sONtwPPe6+cEn+2qhy8AcnXx8auXFBfNCBdul6yR2YaaET5myzyHmweLmlnNTsceQHpztBmUZt8lZ9mydrcU8vmja9Gzhhxsfg5LO4OJ9mSjW6rZg7qIo26ulBn9hXJdSLvTohG5QPNgI1Gr1G5/5Z+eyA91bFyWXmm6law4Dku5WXILFJKI4lCSzNdCuwY21LjtXTOeiF+GnPyTSr/qnHecczL6GNxXxEWRNgKCXE1LbLwL6qMGRXYRpXdPLemaou+q43jgxS9/pnGUVh31wfaWwePxGeh+kPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lYDjrYK0mPp/Y+f90eHpXx/6/GcJYrFFgyBYs2HYcEE=;
- b=VL6g0tBqVQ17TWFj12NmOelCKwR4SApgsHWPsoAk5dvIjRAyog0xqCEykx9zz+6AkSxXP4BgP8dclpq5HjOUaGcKjCZO3/JyndkKJhf4l0csrCGc/tX9CM2u9FegC9DQprY8BTN6BHExBDeuMR94qMhzjnG/D/4OJV8+3fDu2kkJssSl8lpKtKaG2XrLYyUNPTbsDZBD4qdCzuxw+OmdsZ7cPHC2wuRXjb6g+PHYxuxJSrNfTltHILrtp1yO3TlioBsFw1MkS2q2xEdG5Xcvi2uipsEKwhsWCu5+s1RYQQ0X7ImHrHrucUXCijSvyitXTVsg0WJ9M1Gex6A/vZf9kA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lYDjrYK0mPp/Y+f90eHpXx/6/GcJYrFFgyBYs2HYcEE=;
- b=FUSV5iOW48trRCew0ESMp4xx/ftfn/D3QY1234xWKVYcIInNEmNJgcE8D/DULDeI9VPro/5WKed5DB9z3cVC6j4scj7/rAS3Ptbp87M5LMQl8g0hFqRBABKMzDDqNeMITi0a3v1QLHkYUq0rZIm7kYcXu6AeAmHST0VGmRNNdo8=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5356.eurprd08.prod.outlook.com (52.133.240.88) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Wed, 18 Sep 2019 13:16:57 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2263.023; Wed, 18 Sep 2019
- 13:16:57 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v5 1/5] iotests: remove 'linux' from default
- supported platforms
-Thread-Index: AQHVbbJ83xWXTdpl9kaJA80cfyBhIqcxa0qA
-Date: Wed, 18 Sep 2019 13:16:57 +0000
-Message-ID: <795e48f2-fc6c-d985-2c35-6cdf3fec732a@virtuozzo.com>
-References: <20190917234549.22910-1-jsnow@redhat.com>
- <20190917234549.22910-2-jsnow@redhat.com>
-In-Reply-To: <20190917234549.22910-2-jsnow@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0501CA0014.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::24) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190918161655417
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2ed318e3-274f-4476-ae43-08d73c3a7b63
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5356; 
-x-ms-traffictypediagnostic: DB8PR08MB5356:
-x-microsoft-antispam-prvs: <DB8PR08MB5356DEC20E6368C1BE5FC00EC18E0@DB8PR08MB5356.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 01644DCF4A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(136003)(396003)(346002)(366004)(376002)(189003)(199004)(229853002)(31696002)(305945005)(4326008)(7736002)(8676002)(71190400001)(66066001)(66476007)(64756008)(6436002)(66946007)(66556008)(86362001)(66446008)(31686004)(102836004)(446003)(486006)(8936002)(25786009)(81166006)(6506007)(81156014)(386003)(3846002)(6116002)(71200400001)(2906002)(26005)(11346002)(2616005)(186003)(478600001)(476003)(14454004)(2501003)(14444005)(76176011)(256004)(52116002)(316002)(36756003)(6246003)(54906003)(110136005)(6486002)(99286004)(5660300002)(6512007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5356;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: LujxQuhgN8i4wd2+C9eNHD/m4slYb6PTjVKnoY7HXPtE23suZY6MdCDLCgV8ZjuWpl742KKkocNCnSQJksSZg31AsDuAiky7oC88wbj0JMeqbXNp2F6aYHgbr3X47Bx5cK5l3Cxt6lhScs3Uiu6qdtMXFJSF9PrI29bstpSWThDCw7pM6PKQtqmgzuW8RVo8brrYY+KeOpz9c+CLOeuqghhd/wJaARa0KvydQIH/GmjEzeIuU5H1jE/l3EFYuxe10ISSSVMC6ZEvfrVGEOZo9zNzU6g1+SfgSlJCKBBnIrStCbDO3+lK1B1rfThNjRqxB6sGZUpk+I8MEPpnLsqqbxpMzESiXfDLq5wp3HvIU8PV956pj320Se81CFqffcWjSIAez0vo7lhABbLdAMgfBXTVNXrA+zwQddEV66BwhIw=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <797C3CE1FF29EA4E8C4F0CB478B6B45F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <sw@weilnetz.de>) id 1iAZqL-00012Y-Rf
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:18:05 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]:36624
+ helo=v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1iAZqJ-00010O-Ph
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 09:18:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 9AFC4DB92A7;
+ Wed, 18 Sep 2019 15:17:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
+Received: from v2201612906741603.powersrv.de ([127.0.0.1])
+ by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id E2hfdaK7uZ1d; Wed, 18 Sep 2019 15:17:53 +0200 (CEST)
+Received: from [134.155.36.73] (edv13.bib.uni-mannheim.de [134.155.36.73])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 27317DB92A3;
+ Wed, 18 Sep 2019 15:17:53 +0200 (CEST)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190918121101.30690-1-philmd@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=sw@weilnetz.de; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <a06746f8-9eeb-134e-7616-d9f18c6d7120@weilnetz.de>
+Date: Wed, 18 Sep 2019 15:17:44 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ed318e3-274f-4476-ae43-08d73c3a7b63
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 13:16:57.3565 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +TQMVTFXafyW6lJXdZsKxip+m4NTypPECAAPNZFHaLKvxMSXy471Pth++0IsuiLnXcyJY8HB6p9qKbpmT+uxF6ub3jddeNt0TsSoD9s2Dkk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5356
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.2.123
-Subject: Re: [Qemu-devel] [PATCH v5 1/5] iotests: remove 'linux' from
- default supported platforms
+In-Reply-To: <20190918121101.30690-1-philmd@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="1L80hL4dmri8Ze2SVhJlwin2JyhNx9JwX"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 37.120.169.71
+Subject: Re: [Qemu-devel] [PATCH] target/i386: Fix broken build with WHPX
+ enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,29 +105,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Lucian Petrut <lpetrut@cloudbasesolutions.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Justin Terry <juterry@microsoft.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ilias Maratos <i.maratos@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTguMDkuMjAxOSAyOjQ1LCBKb2huIFNub3cgd3JvdGU6DQo+IHZlcmlmeV9wbGF0Zm9ybSB3aWxs
-IGNoZWNrIGFuIGV4cGxpY2l0IHdoaXRlbGlzdCBhbmQgYmxhY2tsaXN0IGluc3RlYWQuDQo+IFRo
-ZSBkZWZhdWx0IHdpbGwgbm93IGJlIGFzc3VtZWQgdG8gYmUgYWxsb3dlZCB0byBydW4gYW55d2hl
-cmUuDQo+IA0KPiBGb3IgdGVzdHMgdGhhdCBkbyBub3Qgc3BlY2lmeSB0aGVpciBwbGF0Zm9ybXMg
-ZXhwbGljaXRseSwgdGhpcyBoYXMgdGhlIGVmZmVjdCBvZg0KPiBlbmFibGluZyB0aGVzZSB0ZXN0
-cyBvbiBub24tbGludXggcGxhdGZvcm1zLiBGb3IgdGVzdHMgdGhhdCBhbHdheXMgc3BlY2lmaWVk
-DQo+IGxpbnV4IGV4cGxpY2l0bHksIHRoZXJlIGlzIG5vIGNoYW5nZS4NCj4gDQo+IEZvciBQeXRo
-b24gdGVzdHMgb24gRnJlZUJTRCBhdCBsZWFzdDsgb25seSBzZXZlbiBweXRob24gdGVzdHMgZmFp
-bDoNCj4gMDQ1IDE0NyAxNDkgMTY5IDE5NCAxOTkgMjExDQo+IA0KPiAwNDUgYW5kIDE0OSBhcHBl
-YXIgdG8gYmUgbWlzY29uZmlndXJhdGlvbnMsDQo+IDE0NyBhbmQgMTk0IGFyZSB0aGUgQUZfVU5J
-WCBwYXRoIHRvbyBsb25nIGVycm9yLA0KPiAxNjkgYW5kIDE5OSBhcmUgYml0bWFwIG1pZ3JhdGlv
-biBidWdzLCBhbmQNCj4gMjExIGlzIGEgYnVnIHRoYXQgc2hvd3MgdXAgb24gTGludXggcGxhdGZv
-cm1zLCB0b28uDQo+IA0KPiBUaGlzIGlzIGF0IGxlYXN0IGdvb2QgZXZpZGVuY2UgdGhhdCB0aGVz
-ZSB0ZXN0cyBhcmUgbm90IExpbnV4LW9ubHkuIElmDQo+IHRoZXkgYXJlbid0IHN1aXRhYmxlIGZv
-ciBvdGhlciBwbGF0Zm9ybXMsIHRoZXkgc2hvdWxkIGJlIGRpc2FibGVkIG9uIGENCj4gcGVyLXBs
-YXRmb3JtIGJhc2lzIGFzIGFwcHJvcHJpYXRlLg0KPiANCj4gVGhlcmVmb3JlLCBsZXQncyBzd2l0
-Y2ggdGhlc2Ugb24gYW5kIGRlYWwgd2l0aCB0aGUgZmFpbHVyZXMuDQo+IA0KPiBTaWduZWQtb2Zm
-LWJ5OiBKb2huIFNub3c8anNub3dAcmVkaGF0LmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWly
-IFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KLS0gDQpC
-ZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--1L80hL4dmri8Ze2SVhJlwin2JyhNx9JwX
+Content-Type: multipart/mixed; boundary="4uhrKSNKAzRefcnAf2oq8G8DPMoc8tXHe";
+ protected-headers="v1"
+From: Stefan Weil <sw@weilnetz.de>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Justin Terry <juterry@microsoft.com>,
+ Lucian Petrut <lpetrut@cloudbasesolutions.com>,
+ Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ilias Maratos <i.maratos@gmail.com>
+Message-ID: <a06746f8-9eeb-134e-7616-d9f18c6d7120@weilnetz.de>
+Subject: Re: [PATCH] target/i386: Fix broken build with WHPX enabled
+References: <20190918121101.30690-1-philmd@redhat.com>
+In-Reply-To: <20190918121101.30690-1-philmd@redhat.com>
+
+--4uhrKSNKAzRefcnAf2oq8G8DPMoc8tXHe
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+
+Am 18.09.2019 um 14:11 schrieb Philippe Mathieu-Daud=C3=A9:
+> The WHPX build is broken since commit 12e9493df92 which removed the
+> "hw/boards.h" where MachineState is declared:
+>
+>   $ ./configure \
+>      --enable-hax --enable-whpx
+>
+>   $ make x86_64-softmmu/all
+>   [...]
+>     CC      x86_64-softmmu/target/i386/whpx-all.o
+>   target/i386/whpx-all.c: In function 'whpx_accel_init':
+>   target/i386/whpx-all.c:1378:25: error: dereferencing pointer to
+>   incomplete type 'MachineState' {aka 'struct MachineState'}
+>        whpx->mem_quota =3D ms->ram_size;
+>                            ^~
+>   make[1]: *** [rules.mak:69: target/i386/whpx-all.o] Error 1
+>     CC      x86_64-softmmu/trace/generated-helpers.o
+>   make[1]: Target 'all' not remade because of errors.
+>   make: *** [Makefile:471: x86_64-softmmu/all] Error 2
+>
+> Restore this header, partially reverting commit 12e9493df92.
+>
+> Fixes: 12e9493df92
+> Reported-by: Ilias Maratos <i.maratos@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  target/i386/whpx-all.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+> index 0c15241ae4..def0c28480 100644
+> --- a/target/i386/whpx-all.c
+> +++ b/target/i386/whpx-all.c
+> @@ -18,6 +18,7 @@
+>  #include "sysemu/cpus.h"
+>  #include "sysemu/runstate.h"
+>  #include "qemu/main-loop.h"
+> +#include "hw/boards.h"
+>  #include "qemu/error-report.h"
+>  #include "qapi/error.h"
+>  #include "migration/blocker.h"
+
+
+Thank you for fixing this.
+
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+
+
+
+
+--4uhrKSNKAzRefcnAf2oq8G8DPMoc8tXHe--
+
+--1L80hL4dmri8Ze2SVhJlwin2JyhNx9JwX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJdgi6CAAoJEOCMIdVndFCtvAYQAJMGBj9MiUzoTBkgLvAmlkCP
+YMT1MEYHxsau8GkKx8cxWT1uZ3NNBAt24Yco2UOLbNAduK5q9DLQ/Vs9Z/LagyMY
+TXIUeRJBilrZ8wqn10kvDpx14wjhKzzzCUv/gaHyFH8m4yjCrEa5B1bNg0/f9QF9
+Tx3x8rcfhE5DykIerYMoeB1wMTREzTjpp/+QjbehtPJpg2LYPLN6LPYIMEJjcrwb
+8yS104THk7Jb26MwZiVfKNb7EeG3DnoOoakRYVNmUZL7UsbO2qkPT0gD34eRvaja
+vOp+n3Ekm5x0hnKY7fMsel81d9EAkXxuF9Y4qrnSZFpKOH6vDmGYd79pB4Ucqzj1
+jsJzz4PAap8biL/aKpXUsmt7R33pu1CIRqRe+a8cUQdQvaZQ0VsKQJCqrtp4jWrf
+lf4iaml8TT3/NjeXyhP86ICv+godu42jyTjKAOP05RJRIH+tJ2mVopg0j7p/zDcL
+SaMjS8Kw+s9hElhoOmBZmv4fxItPrtyI3CjS//uJUQRj82oLFIRhEPpzASo1VPU5
+TbbxMF6+tMELc7CXpP1kKTlwTPYBb9qo1VUTihyFALlqDiTJ2hS7cqGxMfhdhbnU
+285aEJuIvXYGEKeOtXfzO7uIHnysxO2Fg+udPViYz0V5Kf7uyKqkbB0s7YqzTn1X
+Qq/pZfPjpi7iEW8Gc4rp
+=ZmL5
+-----END PGP SIGNATURE-----
+
+--1L80hL4dmri8Ze2SVhJlwin2JyhNx9JwX--
 
