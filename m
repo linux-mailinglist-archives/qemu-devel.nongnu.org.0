@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E62CB67C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:11:23 +0200 (CEST)
-Received: from localhost ([::1]:60476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D73B67D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Sep 2019 18:14:14 +0200 (CEST)
+Received: from localhost ([::1]:60502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAcY6-0005qx-04
-	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1iAcar-0001WT-HI
+	for lists+qemu-devel@lfdr.de; Wed, 18 Sep 2019 12:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49867)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1iAbsl-0007c7-Fu
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:40 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iAbsm-0007et-HV
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1iAbsk-00073n-4x
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:39 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:46276)
+ (envelope-from <palmer@dabbelt.com>) id 1iAbsl-000761-FP
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:40 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46824)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbsj-00073G-UP
- for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:38 -0400
-Received: by mail-pl1-f194.google.com with SMTP id q24so93157plr.13
- for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:28:37 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iAbsl-00075B-9b
+ for qemu-devel@nongnu.org; Wed, 18 Sep 2019 11:28:39 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q5so174238pfg.13
+ for <qemu-devel@nongnu.org>; Wed, 18 Sep 2019 08:28:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=dMC8KBUimeo1KaZM5SCh8e6L1Wsgzgt11zDiG6xpaww=;
- b=SeYNhL89my9AbJ5SZZI8D+WbL1E5pKgRg36OMvRaECOYn2lnjOnBgWD7BwsXt3srl1
- U5RTLRwomMiWXDqf7lElMzoOFeue1NpPg1ae3WXHxe1eB9hrDZad9VxAIgiFGJUqEQK2
- qeTyIxCdZB9jrpbJXNX652Z9LP1/vS7YKaZJJwTZK13hDAwKGy/Gu2HfIy90uM/ier/x
- fN5GrAT0FQd15RBngrOV6MlVQ10NTjRkBloUo0QhdtX7DD55KyIaZ32A05ZuNi6X5/Vq
- CPgI8x2BnB3RDOgfYuKKjahYffXPXL0JfFyzNdwgqWUhF8OUoJvlW3z0os8Llz5chXmQ
- QBsA==
-X-Gm-Message-State: APjAAAX8knlYKoIV0CH9eaqj4zm+KXFLOpvxX3wIrOvwyo2bgX4Ae/YL
- 2vA7mXlu0J1N2dT8a3l5OglNSg==
-X-Google-Smtp-Source: APXvYqz2MrhtG5Qm8HtUIz+1t6qoPKJKVpqum/r+LHQj/Vu1aujjvHOIFApVjsUiZIlP2VlyVhVwcg==
-X-Received: by 2002:a17:902:720a:: with SMTP id
- ba10mr4911393plb.328.1568820516781; 
- Wed, 18 Sep 2019 08:28:36 -0700 (PDT)
+ bh=lLKWAarlvSIO6KN2Vy3OsCwWDCZvaYqKoz3K8rh/mk4=;
+ b=EG/yaZI8R029paM1B/e7Q8h+Vc4t3/G3OK1hlxbO9yGnnWiUylWYdzNTpnaxRfTM+m
+ zpcC7mLszXrl9McILrieGxAjhBC55oMQ0tEMoUclBstvNT+iqIRLBqqJakCSaFQmUQeB
+ 8BOk+NoCQzEHd2UzCYE1Wjpih0jBuL8twbaLF53gK7JatEr0wl3B2u9v6fQP1vTaUc3c
+ kpWb+P9sUAdTwSJPfGVn8yceQjAe7iaUy2NmyEJ69jWrooz6XV7pgdQzHlVMU1xvUo+k
+ HgIiQXOMHejTJqF2u4TU8/5PvRb7Vi7KBtm97TxfGOLzKeFwuvnovJUKRcHyEhKHV7YG
+ l5WQ==
+X-Gm-Message-State: APjAAAXLEDzqaU4g4Zw1gRbtfTAuzyx2vNi1gLIdNspQqcEZfG4cAIA5
+ NdCVZMDKIW+KNN5OTb+bkIfBjA==
+X-Google-Smtp-Source: APXvYqxefurZXwlUHHZwFgNAu580GpKGIuQlex55N0m5bTmV5a13L5xkM5/UXsWvnV8hgZvyrn881Q==
+X-Received: by 2002:a17:90a:3aa6:: with SMTP id
+ b35mr4431131pjc.94.1568820518044; 
+ Wed, 18 Sep 2019 08:28:38 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id v3sm2548724pfm.119.2019.09.18.08.28.35
+ by smtp.gmail.com with ESMTPSA id w5sm6166236pfn.96.2019.09.18.08.28.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 08:28:36 -0700 (PDT)
-Date: Wed, 18 Sep 2019 07:56:29 -0700
-Message-Id: <20190918145640.17349-38-palmer@sifive.com>
+ Wed, 18 Sep 2019 08:28:37 -0700 (PDT)
+Date: Wed, 18 Sep 2019 07:56:30 -0700
+Message-Id: <20190918145640.17349-39-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190918145640.17349-1-palmer@sifive.com>
 References: <20190918145640.17349-1-palmer@sifive.com>
@@ -54,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.214.194
-Subject: [Qemu-devel] [PULL 37/48] riscv: sifive_u: Update UART base
- addresses and IRQs
+X-Received-From: 209.85.210.194
+Subject: [Qemu-devel] [PULL 38/48] riscv: sifive_u: Change UART node name in
+ device tree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,57 +68,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
- qemu-devel@nongnu.org, Jonathan Behrens <fintelia@gmail.com>,
- Chih-Min Chao <chihmin.chao@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-This updates the UART base address and IRQs to match the hardware.
+OpenSBI for fu540 does DT fix up (see fu540_modify_dt()) by updating
+chosen "stdout-path" to point to "/soc/serial@...", and U-Boot will
+use this information to locate the serial node and probe its driver.
+However currently we generate the UART node name as "/soc/uart@...",
+causing U-Boot fail to find the serial node in DT.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Jonathan Behrens <fintelia@gmail.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_u.c         | 4 ++--
- include/hw/riscv/sifive_u.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/riscv/sifive_u.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 9e698a11c4..b66eaef607 100644
+index b66eaef607..24f8c19eee 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -62,8 +62,8 @@ static const struct MemmapEntry {
-     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
-     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
-     [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
--    [SIFIVE_U_UART0] =    { 0x10013000,     0x1000 },
--    [SIFIVE_U_UART1] =    { 0x10023000,     0x1000 },
-+    [SIFIVE_U_UART0] =    { 0x10010000,     0x1000 },
-+    [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
-     [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
-     [SIFIVE_U_GEM] =      { 0x100900FC,     0x2000 },
- };
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index bb46745356..7dfd1cb22e 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -65,8 +65,8 @@ enum {
- };
+@@ -286,7 +286,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     uartclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
+     g_free(nodename);
  
- enum {
--    SIFIVE_U_UART0_IRQ = 3,
--    SIFIVE_U_UART1_IRQ = 4,
-+    SIFIVE_U_UART0_IRQ = 4,
-+    SIFIVE_U_UART1_IRQ = 5,
-     SIFIVE_U_GEM_IRQ = 0x35
- };
- 
+-    nodename = g_strdup_printf("/soc/uart@%lx",
++    nodename = g_strdup_printf("/soc/serial@%lx",
+         (long)memmap[SIFIVE_U_UART0].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,uart0");
 -- 
 2.21.0
 
