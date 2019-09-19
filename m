@@ -2,52 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE1CB7FA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:06:49 +0200 (CEST)
-Received: from localhost ([::1]:46716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE63B7FB4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:08:18 +0200 (CEST)
+Received: from localhost ([::1]:46728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAztH-0001KC-JP
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48125)
+	id 1iAzuj-0003bS-BL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iAzoy-00077I-N7
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:02:22 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iAzpj-0008CB-CF
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:03:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iAzow-0008KN-Ch
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:02:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44052)
+ (envelope-from <jsnow@redhat.com>) id 1iAzph-0000YG-LW
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:03:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53566)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iAzow-0008KF-3r
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:02:18 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iAzpd-0000Us-Bq; Thu, 19 Sep 2019 13:03:01 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 238B410CC1F8;
- Thu, 19 Sep 2019 17:02:17 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-121-45.rdu2.redhat.com
- [10.10.121.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A29A5C1D4;
- Thu, 19 Sep 2019 17:02:08 +0000 (UTC)
-Subject: Re: [Qemu-devel] [PATCH 1/2] q35: implement 128K SMRAM at default
- SMBASE address
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20190917130708.10281-1-imammedo@redhat.com>
- <20190917130708.10281-2-imammedo@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <561f4440-7c06-10d7-80ce-bbfa810fec59@redhat.com>
-Date: Thu, 19 Sep 2019 19:02:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ by mx1.redhat.com (Postfix) with ESMTPS id B484E6412E;
+ Thu, 19 Sep 2019 17:02:59 +0000 (UTC)
+Received: from [10.10.125.66] (ovpn-125-66.rdu2.redhat.com [10.10.125.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BAA6D5E1B7;
+ Thu, 19 Sep 2019 17:02:37 +0000 (UTC)
+Subject: Re: [Qemu-devel] [PATCH 4/4] iotests: Add test for failing mirror
+ complete
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190912135632.13925-1-mreitz@redhat.com>
+ <20190912135632.13925-5-mreitz@redhat.com>
+ <377314de-2a77-0fe7-e5ea-07f368c504ec@redhat.com>
+ <37b2e17e-6a66-f044-98cf-7603cac5f66f@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <f9018735-2cfd-d568-ca17-0b78352c93fc@redhat.com>
+Date: Thu, 19 Sep 2019 13:02:37 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190917130708.10281-2-imammedo@redhat.com>
+In-Reply-To: <37b2e17e-6a66-f044-98cf-7603cac5f66f@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Thu, 19 Sep 2019 17:02:17 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Thu, 19 Sep 2019 17:02:59 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,360 +136,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yingwen.chen@intel.com, Brijesh Singh <brijesh.singh@amd.com>,
- devel@edk2.groups.io, phillip.goerl@oracle.com, alex.williamson@redhat.com,
- jiewen.yao@intel.com, jun.nakajima@intel.com, michael.d.kinney@intel.com,
- pbonzini@redhat.com, boris.ostrovsky@oracle.com, rfc@edk2.groups.io,
- joao.m.martins@oracle.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
-
-(+Brijesh)
-
-long-ish pondering ahead, with a question at the end.
-
-On 09/17/19 15:07, Igor Mammedov wrote:
-> Use commit (2f295167e0 q35/mch: implement extended TSEG sizes) for
-> inspiration and (ab)use reserved register in config space at 0x9c
-> offset [*] to extend q35 pci-host with ability to use 128K at
-> 0x30000 as SMRAM and hide it (like TSEG) from non-SMM context.
->
-> Usage:
->   1: write 0xff in the register
->   2: if the feature is supported, follow up read from the register
->      should return 0x01. At this point RAM at 0x30000 is still
->      available for SMI handler configuration from non-SMM context
->   3: writing 0x02 in the register, locks SMBASE area, making its contents
->      available only from SMM context. In non-SMM context, reads return
->      0xff and writes are ignored. Further writes into the register are
->      ignored until the system reset.
-
-I haven't written any OVMF code for this yet, but I've spent a few hours
-thinking about it. Progress! :)
-
-So, this looks really promising.
-
-I'm commenting now for summarizing my thoughts before I write the --
-initially minimal -- counterpart patches in OVMF.
-
-There is one complication that deserves this separate email, and that's
-SEV's effect on the SMM save state map. It is the topic of the following
-edk2 commit range:
-
-  1  61a044c6c15f OvmfPkg/MemEncryptSevLib: find pages of initial SMRAM
-                  save state map
-  2  86defc2c2575 OvmfPkg/PlatformPei: SEV: allocate pages of initial
-                  SMRAM save state map
-  3  5ef3b66fec13 OvmfPkg/SmmCpuFeaturesLib: SEV: encrypt+free pages of
-                  init. save state map
-  4  5e2e5647b9fb OvmfPkg/AmdSevDxe: decrypt the pages of the initial
-                  SMRAM save state map
-
-For performing the initial SMBASE relocation, QEMU+KVM have to read the
-save state map from guest RAM. For that, under SEV, the guest RAM has to
-be decrypted before, and re-encrypted after. Meanwhile, the guest RAM
-(while decrypted) should not leak other (unrelated) information to the
-hypervisor.
-
-Therefore the above edk2 commits implement the following procedure:
-
-(a.1) in OvmfPkg/PlatformPei, the page in which the save state map
-      exists, is allocated away from other firmware components
-
-(a.2) in AmdSevDxe, which runs early in the DXE phase (via APRIORI DXE
-      file), we decrypt the page in question
-
-(a.3) PiSmmCpuDxeSmm, after it performs the initial SMBASE relocation,
-      calls a hook in SmmCpuFeaturesLib -- and in that hook, we
-      re-encrypt the page, and also release (free) it for other uses
-      (firmware and OS both)
-
-Clearly, the above conflicts (or at least intersects) with reserving
-128KB (32 pages) at 0x3_0000, i.e. at [0x3_0000..0x4_FFFF], forever,
-from the OS. (That area is going to be locked to SMM, and so the OS
-should see from the UEFI memmap that it should not touch it.) The
-conflict exists because the save state map is in the last kilobyte of
-page#15 (from said pages #0..#31) -- the save state map is at
-[0x3_FC00..0x3_FFFF].
-
-So here's my plan:
-
-(b.1) In PlatformPei, probe the QEMU feature by writing 0xFF to register
-      0x9C, and reading back 0x01. If the feature is available, then:
-
-(b.1.1) set a new dynamic PCD to TRUE
-
-(b.1.2) allocate away (as reserved memory) the range
-        [0x3_0000..0x4_FFFF]
-
-(b.2) In PlatformPei, conditionalize the current, SEV-specific,
-      allocation of the save state map, on the PCD being FALSE.
-      (Modifying (a.1).) This will prevent a conflicting
-      double-allocation (double coverage by memory allocation HOBs)
-
-(b.3) In AmdSevDxe, don't touch the decryption of the save state map
-      (a.2)
-
-(b.4) in the SmmCpuFeaturesLib hook, preserve the re-encryption of the
-      save state map (part of (a.3))
-
-(b.5) in the SmmCpuFeaturesLib hook, conditionalize the freeing of the
-      save state map, on the PCD being FALSE. (Modifying (a.3).) This
-      will prevent a hole from being punched in the allocation that
-      covers [0x3_0000..0x4_FFFF], and the entire allocation will
-      survive into OS runtime.
-
-The above steps ensure that, while the decrypt/encrypt steps prevail,
-the save state map allocations will be ingested by the larger, and
-longer-term,  [0x3_0000..0x4_FFFF] allocation.
-
-Furthermore:
-
-(b.6) Extend SmmAccessDxe to write 0x02 to register 0x9C, in an
-      EFI_DXE_MM_READY_TO_LOCK_PROTOCOL notification callback, if the
-      PCD is true. This will cause the [0x3_0000..0x4_FFFF] area to be
-      locked down at the same time with the rest of SMRAM (i.e., TSEG).
-
-(b.7) Extend SmmAccessDxe to save S3 boot script opcodes for writing
-      0x02 to register 0x9C, if the PCD is true. This makes sure that
-      the above lockdown will occur also during S3 resume, before the OS
-      is reached. (The S3 boot script is executed *after* SMBASE
-      relocation and TSEG locking, during S3 resume.)
-
-Considering (b.6) and (b.7), the "lockdown on normal boot" (from (b.6))
-could actually be merged into (b.5) -- we don't necessarily have to
-delay the normal boot lockdown of [0x3_0000..0x4_FFFF] until platform
-BDS signals EFI_DXE_MM_READY_TO_LOCK_PROTOCOL; we could do it right
-after initial SMBASE relocation.
-
-However: I'd really like to keep (b.6) and (b.7) together, in the same
-driver, and (b.7) is really inappropriate for PiSmmCpuDxeSmm (into which
-SmmCpuFeaturesLib is linked). For writing S3 boot script opcodes in
-(b.7), we need another protocol notify (on EFI_S3_SAVE_STATE_PROTOCOL),
-and sneaking that kind of callback into PiSmmCpuDxeSmm sounds really
-bad. Hence I plan to add both (b.6) and (b.7) to SmmAccessDxe.
-
-I'll report back with my findings; just wanted to give a heads-up (to
-myself as well :))
-
-Finally: can you please remind me why we lock down 128KB (32 pages) at
-0x3_0000, and not just half of that? What do we need the range at
-[0x4_0000..0x4_FFFF] for?
-
-Thanks!
-Laszlo
 
 
->
-> *) https://www.mail-archive.com/qemu-devel@nongnu.org/msg455991.html
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  include/hw/pci-host/q35.h | 10 +++++
->  hw/i386/pc.c              |  4 +-
->  hw/pci-host/q35.c         | 80 +++++++++++++++++++++++++++++++++++----
->  3 files changed, 86 insertions(+), 8 deletions(-)
->
-> diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
-> index b3bcf2e632..976fbae599 100644
-> --- a/include/hw/pci-host/q35.h
-> +++ b/include/hw/pci-host/q35.h
-> @@ -32,6 +32,7 @@
->  #include "hw/acpi/ich9.h"
->  #include "hw/pci-host/pam.h"
->  #include "hw/i386/intel_iommu.h"
-> +#include "qemu/units.h"
->
->  #define TYPE_Q35_HOST_DEVICE "q35-pcihost"
->  #define Q35_HOST_DEVICE(obj) \
-> @@ -54,6 +55,8 @@ typedef struct MCHPCIState {
->      MemoryRegion smram_region, open_high_smram;
->      MemoryRegion smram, low_smram, high_smram;
->      MemoryRegion tseg_blackhole, tseg_window;
-> +    MemoryRegion smbase_blackhole, smbase_window;
-> +    bool has_smram_at_smbase;
->      Range pci_hole;
->      uint64_t below_4g_mem_size;
->      uint64_t above_4g_mem_size;
-> @@ -97,6 +100,13 @@ typedef struct Q35PCIHost {
->  #define MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_QUERY  0xffff
->  #define MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_MAX    0xfff
->
-> +#define MCH_HOST_BRIDGE_SMBASE_SIZE            (128 * KiB)
-> +#define MCH_HOST_BRIDGE_SMBASE_ADDR            0x30000
-> +#define MCH_HOST_BRIDGE_F_SMBASE               0x9c
-> +#define MCH_HOST_BRIDGE_F_SMBASE_QUERY         0xff
-> +#define MCH_HOST_BRIDGE_F_SMBASE_IN_RAM        0x01
-> +#define MCH_HOST_BRIDGE_F_SMBASE_LCK           0x02
-> +
->  #define MCH_HOST_BRIDGE_PCIEXBAR               0x60    /* 64bit register */
->  #define MCH_HOST_BRIDGE_PCIEXBAR_SIZE          8       /* 64bit register */
->  #define MCH_HOST_BRIDGE_PCIEXBAR_DEFAULT       0xb0000000
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index bad866fe44..288d28358a 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -119,7 +119,9 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
->  /* Physical Address of PVH entry point read from kernel ELF NOTE */
->  static size_t pvh_start_addr;
->
-> -GlobalProperty pc_compat_4_1[] = {};
-> +GlobalProperty pc_compat_4_1[] = {
-> +    { "mch", "smbase-smram", "off" },
-> +};
->  const size_t pc_compat_4_1_len = G_N_ELEMENTS(pc_compat_4_1);
->
->  GlobalProperty pc_compat_4_0[] = {};
-> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> index 158d270b9f..c1bd9f78ae 100644
-> --- a/hw/pci-host/q35.c
-> +++ b/hw/pci-host/q35.c
-> @@ -275,20 +275,20 @@ static const TypeInfo q35_host_info = {
->   * MCH D0:F0
->   */
->
-> -static uint64_t tseg_blackhole_read(void *ptr, hwaddr reg, unsigned size)
-> +static uint64_t blackhole_read(void *ptr, hwaddr reg, unsigned size)
->  {
->      return 0xffffffff;
->  }
->
-> -static void tseg_blackhole_write(void *opaque, hwaddr addr, uint64_t val,
-> -                                 unsigned width)
-> +static void blackhole_write(void *opaque, hwaddr addr, uint64_t val,
-> +                            unsigned width)
->  {
->      /* nothing */
->  }
->
-> -static const MemoryRegionOps tseg_blackhole_ops = {
-> -    .read = tseg_blackhole_read,
-> -    .write = tseg_blackhole_write,
-> +static const MemoryRegionOps blackhole_ops = {
-> +    .read = blackhole_read,
-> +    .write = blackhole_write,
->      .endianness = DEVICE_NATIVE_ENDIAN,
->      .valid.min_access_size = 1,
->      .valid.max_access_size = 4,
-> @@ -430,6 +430,46 @@ static void mch_update_ext_tseg_mbytes(MCHPCIState *mch)
->      }
->  }
->
-> +static void mch_update_smbase_smram(MCHPCIState *mch)
-> +{
-> +    PCIDevice *pd = PCI_DEVICE(mch);
-> +    uint8_t *reg = pd->config + MCH_HOST_BRIDGE_F_SMBASE;
-> +    bool lck;
-> +
-> +    if (!mch->has_smram_at_smbase) {
-> +        return;
-> +    }
-> +
-> +    if (*reg == MCH_HOST_BRIDGE_F_SMBASE_QUERY) {
-> +        pd->wmask[MCH_HOST_BRIDGE_F_SMBASE] =
-> +            MCH_HOST_BRIDGE_F_SMBASE_LCK;
-> +        *reg = MCH_HOST_BRIDGE_F_SMBASE_IN_RAM;
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * default/reset state, discard written value
-> +     * which will disable SMRAM balackhole at SMBASE
-> +     */
-> +    if (pd->wmask[MCH_HOST_BRIDGE_F_SMBASE] == 0xff) {
-> +        *reg = 0x00;
-> +    }
-> +
-> +    memory_region_transaction_begin();
-> +    if (*reg & MCH_HOST_BRIDGE_F_SMBASE_LCK) {
-> +        /* disable all writes */
-> +        pd->wmask[MCH_HOST_BRIDGE_F_SMBASE] &=
-> +            ~MCH_HOST_BRIDGE_F_SMBASE_LCK;
-> +        *reg = MCH_HOST_BRIDGE_F_SMBASE_LCK;
-> +        lck = true;
-> +    } else {
-> +        lck = false;
-> +    }
-> +    memory_region_set_enabled(&mch->smbase_blackhole, lck);
-> +    memory_region_set_enabled(&mch->smbase_window, lck);
-> +    memory_region_transaction_commit();
-> +}
-> +
->  static void mch_write_config(PCIDevice *d,
->                                uint32_t address, uint32_t val, int len)
->  {
-> @@ -456,6 +496,10 @@ static void mch_write_config(PCIDevice *d,
->                         MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_SIZE)) {
->          mch_update_ext_tseg_mbytes(mch);
->      }
-> +
-> +    if (ranges_overlap(address, len, MCH_HOST_BRIDGE_F_SMBASE, 1)) {
-> +        mch_update_smbase_smram(mch);
-> +    }
->  }
->
->  static void mch_update(MCHPCIState *mch)
-> @@ -464,6 +508,7 @@ static void mch_update(MCHPCIState *mch)
->      mch_update_pam(mch);
->      mch_update_smram(mch);
->      mch_update_ext_tseg_mbytes(mch);
-> +    mch_update_smbase_smram(mch);
->
->      /*
->       * pci hole goes from end-of-low-ram to io-apic.
-> @@ -514,6 +559,9 @@ static void mch_reset(DeviceState *qdev)
->                       MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_QUERY);
->      }
->
-> +    d->config[MCH_HOST_BRIDGE_F_SMBASE] = 0;
-> +    d->wmask[MCH_HOST_BRIDGE_F_SMBASE] = 0xff;
-> +
->      mch_update(mch);
->  }
->
-> @@ -563,7 +611,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
->      memory_region_add_subregion(&mch->smram, 0xfeda0000, &mch->high_smram);
->
->      memory_region_init_io(&mch->tseg_blackhole, OBJECT(mch),
-> -                          &tseg_blackhole_ops, NULL,
-> +                          &blackhole_ops, NULL,
->                            "tseg-blackhole", 0);
->      memory_region_set_enabled(&mch->tseg_blackhole, false);
->      memory_region_add_subregion_overlap(mch->system_memory,
-> @@ -575,6 +623,23 @@ static void mch_realize(PCIDevice *d, Error **errp)
->      memory_region_set_enabled(&mch->tseg_window, false);
->      memory_region_add_subregion(&mch->smram, mch->below_4g_mem_size,
->                                  &mch->tseg_window);
-> +
-> +    memory_region_init_io(&mch->smbase_blackhole, OBJECT(mch), &blackhole_ops,
-> +                          NULL, "smbase-blackhole",
-> +                          MCH_HOST_BRIDGE_SMBASE_SIZE);
-> +    memory_region_set_enabled(&mch->smbase_blackhole, false);
-> +    memory_region_add_subregion_overlap(mch->system_memory,
-> +                                        MCH_HOST_BRIDGE_SMBASE_ADDR,
-> +                                        &mch->smbase_blackhole, 1);
-> +
-> +    memory_region_init_alias(&mch->smbase_window, OBJECT(mch),
-> +                             "smbase-window", mch->ram_memory,
-> +                             MCH_HOST_BRIDGE_SMBASE_ADDR,
-> +                             MCH_HOST_BRIDGE_SMBASE_SIZE);
-> +    memory_region_set_enabled(&mch->smbase_window, false);
-> +    memory_region_add_subregion(&mch->smram, MCH_HOST_BRIDGE_SMBASE_ADDR,
-> +                                &mch->smbase_window);
-> +
->      object_property_add_const_link(qdev_get_machine(), "smram",
->                                     OBJECT(&mch->smram), &error_abort);
->
-> @@ -601,6 +666,7 @@ uint64_t mch_mcfg_base(void)
->  static Property mch_props[] = {
->      DEFINE_PROP_UINT16("extended-tseg-mbytes", MCHPCIState, ext_tseg_mbytes,
->                         16),
-> +    DEFINE_PROP_BOOL("smbase-smram", MCHPCIState, has_smram_at_smbase, true),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
->
+On 9/19/19 12:58 PM, Max Reitz wrote:
+> On 18.09.19 20:46, John Snow wrote:
+>>
+>>
+>> On 9/12/19 9:56 AM, Max Reitz wrote:
+>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>> ---
+>>> =C2=A0 tests/qemu-iotests/041=C2=A0=C2=A0=C2=A0=C2=A0 | 44 ++++++++++=
+++++++++++++++++++++++++++++
+>>> =C2=A0 tests/qemu-iotests/041.out |=C2=A0 4 ++--
+>>> =C2=A0 2 files changed, 46 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+>>> index 8568426311..84bc6d6581 100755
+>>> --- a/tests/qemu-iotests/041
+>>> +++ b/tests/qemu-iotests/041
+>>> @@ -1121,6 +1121,50 @@ class TestOrphanedSource(iotests.QMPTestCase):
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 target=3D'dest-ro')
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assert_qm=
+p(result, 'error/class', 'GenericError')
+>>> =C2=A0 +=C2=A0=C2=A0=C2=A0 def test_failing_permission_in_complete(se=
+lf):
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assert_no_active_blo=
+ck_jobs()
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Unshare consistent-read=
+ on the target
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # (The mirror job does no=
+t care)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 result =3D self.vm.qmp('b=
+lockdev-add',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 driver=3D'blkdebug',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 node_name=3D'dest-perm',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 image=3D'dest',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 unshare_child_perms=3D['consistent-read'])
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assert_qmp(result, '=
+return', {})
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 result =3D self.vm.qmp('b=
+lockdev-mirror', job_id=3D'job',
+>>> device=3D'src',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 sync=3D'full', target=3D'dest',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 filter_node_name=3D'mirror-filter')
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assert_qmp(result, '=
+return', {})
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Require consistent-read=
+ on the source
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # (We can only add this n=
+ode once the job has started, or it
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # will complain that it d=
+oes not want to run on non-root nodes)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 result =3D self.vm.qmp('b=
+lockdev-add',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 driver=3D'blkdebug',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 node_name=3D'src-perm',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 image=3D'src',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 take_child_perms=3D['consistent-read'])
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assert_qmp(result, '=
+return', {})
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # While completing, mirro=
+r will attempt to replace src by
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # dest, which must fail b=
+ecause src-perm requires
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # consistent-read but des=
+t-perm does not share it; thus
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # aborting the job when i=
+t is supposed to complete
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.complete_and_wait('j=
+ob',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 completion_error=3D'Operation not
+>>> permitted')
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Assert that all of our =
+nodes are still there (except for the
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # mirror filter, which sh=
+ould be gone despite the failure)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nodes =3D self.vm.qmp('qu=
+ery-named-block-nodes')['return']
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nodes =3D list(map(lambda=
+ image: image['node-name'], nodes))
+>>
+>> Sadly, the list comprehension is a good suggestion. Squash it in if
+>> you'd like.
+>=20
+> You know I don=E2=80=99t, but I=E2=80=99ll do it anyway.
+>=20
 
+Don't you dare make me feel bad by re-spinning, though.
+
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for expect in ['src', 'sr=
+c-perm', 'dest', 'dest-perm']:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
+elf.assertTrue(expect in nodes, '%s disappeared' % expect)
+>>
+>> I could be a real weenie and say "why not use a tuple here?"
+>=20
+> OK.
+>=20
+>> but, I'll only pretend I didn't say that instead of couching it in a
+>> self-deprecating wrapper to the same end effect.
+>>
+>> (I'm a weenie.)
+>>
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assertFalse('mirror-=
+filter' in nodes,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 'Mirror filter node did not disappear')
+>>> +
+>>> =C2=A0 if __name__ =3D=3D '__main__':
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iotests.main(supported_fmts=3D['qcow2'=
+, 'qed'],
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 supported_protocols=3D['file'])
+>>> diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
+>>> index 2c448b4239..f496be9197 100644
+>>> --- a/tests/qemu-iotests/041.out
+>>> +++ b/tests/qemu-iotests/041.out
+>>> @@ -1,5 +1,5 @@
+>>> -....................................................................=
+......................
+>>>
+>>> +....................................................................=
+.......................
+>>>
+>>> =C2=A0 --------------------------------------------------------------=
+--------
+>>> -Ran 90 tests
+>>> +Ran 91 tests
+>>> =C2=A0 =C2=A0 OK
+>>>
+>>
+>> Or don't do anything, because I'm just being obnoxious, and I owe you
+>> one for giving you bad advice last round.
+>=20
+> Come on, I have better (more selfish) reasons.
+>=20
+> For the list comprehension: I want to introduce as many instances of
+> map/filter as I can so using those functions becomes normal.
+>=20
+
+They have their uses! But also they're usually just simply longer and
+aren't worth using where list comprehensions do.
+
+> For the tuple: This is a test, nobody cares whether it uses 60 bytes
+> more memory or is 10 =C2=B5s slower or lets something be mutable when i=
+t is
+> actually never changed.  As such, I like to use the most general
+> solution which is simply a list.
+>=20
+
+I did say I was being a weenie. You really can take the reviewed-by!
 
