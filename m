@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7CAB83B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:50:02 +0200 (CEST)
-Received: from localhost ([::1]:48786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E207EB83C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:56:27 +0200 (CEST)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4JN-0002Ac-8P
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:50:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56228)
+	id 1iB4Pa-0000vD-1T
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53603)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1iB49R-0001Tu-79
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:51 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3us-0002q2-NS
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1iB49M-00069e-WA
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:44 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:42040)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uo-0000fA-BE
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:42 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41621)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49M-00069Y-R2
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:40 -0400
-Received: by mail-oi1-x241.google.com with SMTP id i185so9735oif.9
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:40 -0700 (PDT)
+ (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
+ id 1iB3um-0000cU-9F
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:38 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h7so4600673wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=cVK217iyCckYWeLWjL20H8sYo3oU/9iWz2Z9ZL5bhw8=;
- b=hru8wI973heFuYi/HxwK1UZ45mIPRZqK5XJdwzGl6uUQeG96OsTQUIhGYKy9gBb/DQ
- W+dYf3fYBUeqCUlIaEg9gX7rBH93OZFPbt+aJSIg7ntTGMJoEnlULq6CN2BtkkJqAkd/
- oZSo3oFTcHtaWjw2ROGFosYqOXK+cQUDBDK+TcJl1PlWLR1ISdHL7E/REOdWPD7LOZl4
- 6OiYthZoyjz8qGUVtwnD9HN0kxqaBxxEEuhbx2v+6pam6D+D80UQ3sg3GZyIndqh7Paq
- S4e+jTZKTWXABFIv3IoFhw6SmpuMk/tSMDIDgPSuzw18fIUSp3vn37gke2AiyF7nl2xP
- zBHw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Gi7pblj+Bwol9X24xindAAcvDumLdRvVUdNioHniCYg=;
+ b=BaSOBsSYSWbFu+g0HUlWUo0cCTzKDoD2rvpXpZ/cXfOVu7ECOhI1Io41rc2EWPS7T6
+ WalhlPhj1o2hQJ7FZJIaXbBXAxlAYlghKJWoZXw8ar4bEampx9kB4tPCa11FtJBRxHDY
+ 9BkfbubQx8C+brzKffPoH/JM5CPVMSc5nQ+dG61+HuqQPQqZlgwUilw4a8i+4dVfMDSV
+ ZXNhW74yMJuWpFuz2qhPy5uLcFY6FeqkTkPmGWu5BtnRAxNWK7UATTvh4grmXPALFCtR
+ 37r7qUgDxoTH6woa9pcUwn4RSf8+KDxx+CKTv2erhP3ep9oHGwn/72LsSkWh9y/kgS8b
+ pEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=cVK217iyCckYWeLWjL20H8sYo3oU/9iWz2Z9ZL5bhw8=;
- b=e0cAbKuHLul+yT91i5TL/CRXHQDNFAr6z4k55FuhN2NRsGE3l574bazr3y4so+lYJM
- h0hv3sA/HdzOTVoYMc65GvbrExX5s/9jSN9G740mrD473pv3uskKo8ZF9kXAu3+m4dpy
- tnX44GDEMGQD2ClnSt8MkqKoGJoAauNmhjzB6mNkTyjpG2yXBoIkVASXVNQuab9lK5AT
- agL6ZcMgO3IY+0KPSOz+WX1Ee3BGZlSULjs/yDKbycJ+uwdePK6vr2fne65IOgJ0zZkR
- sEZhcZ1iP3HavYxHF4RbV3xLqhGGK2Oe20BfvTp4xnL/2KZxDoXFEv//kg4Bu/2VCsIj
- Otdg==
-X-Gm-Message-State: APjAAAXg6Yj5/cqA9E9LSYE/0V+AujuUK7s9yjJrzDcjrDuFLcxbhZfu
- WqrVzlU2nFv9AMbZK8KXvg==
-X-Google-Smtp-Source: APXvYqzDNP0IC6aL+Nq1/7VRCiTRB1CQRvuZ02UGd3SaqgAxo/UoHfg3rjUltDldqKoXFU7MMms9pw==
-X-Received: by 2002:a54:4382:: with SMTP id u2mr63112oiv.96.1568929179958;
- Thu, 19 Sep 2019 14:39:39 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id v6sm38601oie.4.2019.09.19.14.39.36
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Gi7pblj+Bwol9X24xindAAcvDumLdRvVUdNioHniCYg=;
+ b=UzUPqqUn6XFo48LxP9RiG1U47vcESusM9UR0uG1DaVl789zD7d8KiwZSjbUdNpPTkU
+ XCFule9mOq0j/049GLgdIoxrbqb0OoctUjxPJEluHLV9bW7Y3ntNRX2iyQfz6cmepqXf
+ if5SBGZrtVirpvti9Gdo1ckrHY2Jh09CFq449liR2x38ms9abr30ltUaCcDh/iHl6iuL
+ wZnoqUlfy9iwPhxhSE+uWLgpe5H6X2LMEdq2j3QrIUODobWgwI7QQ0j6iGNDKoxvVfSM
+ ivueb6fo5kn2weYBMuJtcEbn/7gjbJd/Ogy0qiBc1G3ohyPnMe0+QsLktu8abr/lIP07
+ KaUA==
+X-Gm-Message-State: APjAAAVP5vUK8L6P3S8uam2K1ijhegks9HV8hTcKzzI6fGrHf9+PDMdx
+ wXskMDxymhJPmZm1I/XZxctyMyGM
+X-Google-Smtp-Source: APXvYqyFi0qHutc6LAvDJGkPS9e6k1PI1Twl+ZqBvxpgjb6zn3d5Q/fT2LFQArYgidDGZniaGJT53w==
+X-Received: by 2002:a5d:4c45:: with SMTP id n5mr8478642wrt.100.1568928274391; 
+ Thu, 19 Sep 2019 14:24:34 -0700 (PDT)
+Received: from nullptr.home.dirty-ice.org
+ (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
+ [2a01:36c:113:74ef::5])
+ by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:39:36 -0700 (PDT)
-Received: from t560.minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPA id 1D93918059D;
- Thu, 19 Sep 2019 21:39:36 +0000 (UTC)
-From: minyard@acm.org
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 04/15] tests:ipmi: Fix IPMI BT tests
-Date: Thu, 19 Sep 2019 16:39:13 -0500
-Message-Id: <20190919213924.31852-5-minyard@acm.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190919213924.31852-1-minyard@acm.org>
-References: <20190919213924.31852-1-minyard@acm.org>
+ Thu, 19 Sep 2019 14:24:33 -0700 (PDT)
+From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
+ <dirty.ice.hu@gmail.com>
+X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
+ <DirtY.iCE.hu@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 12/24] audio: unify input and output mixeng buffer
+ management
+Date: Thu, 19 Sep 2019 23:24:20 +0200
+Message-Id: <a78caeb2eeb6348ecb45bb2c81709570ef8ac5b3.1568927990.git.DirtY.iCE.hu@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
+References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,100 +84,487 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Fam Zheng <famz@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Corey Minyard <cminyard@mvista.com>
+Usage notes: hw->samples became hw->{mix,conv}_buf->size, except before
+initialization (audio_pcm_hw_alloc_resources_*), hw->samples gives the
+initial size of the STSampleBuffer.  The next commit tries to fix this
+inconsistency.
 
-The IPMI BT tests had a race condition, if it receive an IPMI command
-to enable interrupt, it would write the message to enable interrupts
-after it wrote the command response.  So the test code could
-receive the command response and issue the next command before the
-device handled the interrupt enable command, and thus no interrupt.
-
-So send the message to enable interrupt before the command response.
-
-Also add some sleeps to give qemu time to handle responses, there was
-no delay before, and it could result in an invalid timeout.
-
-And re-enable the tests, as hopefully they are fixed now.
-
-Note that I was unable to reproduce this even with the instructions
-Peter gave me, but hopefully this fixes the issue.
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Corey Minyard <cminyard@mvista.com>
+Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- tests/Makefile.include | 3 +--
- tests/ipmi-bt-test.c   | 6 ++++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ audio/audio.c          | 122 +++++++++++++++++++++--------------------
+ audio/audio_int.h      |  12 ++--
+ audio/audio_template.h |  19 +++----
+ audio/ossaudio.c       |   3 +-
+ 4 files changed, 80 insertions(+), 76 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 793632ca72..479664f899 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -170,8 +170,7 @@ check-qtest-i386-$(CONFIG_SGA) += tests/boot-serial-test$(EXESUF)
- check-qtest-i386-$(CONFIG_SLIRP) += tests/pxe-test$(EXESUF)
- check-qtest-i386-y += tests/rtc-test$(EXESUF)
- check-qtest-i386-$(CONFIG_ISA_IPMI_KCS) += tests/ipmi-kcs-test$(EXESUF)
--# Disabled temporarily as it fails intermittently especially under NetBSD VM
--# check-qtest-i386-$(CONFIG_ISA_IPMI_BT) += tests/ipmi-bt-test$(EXESUF)
-+check-qtest-i386-$(CONFIG_ISA_IPMI_BT) += tests/ipmi-bt-test$(EXESUF)
- check-qtest-i386-y += tests/i440fx-test$(EXESUF)
- check-qtest-i386-y += tests/fw_cfg-test$(EXESUF)
- check-qtest-i386-y += tests/device-plug-test$(EXESUF)
-diff --git a/tests/ipmi-bt-test.c b/tests/ipmi-bt-test.c
-index fc4c83b5db..a42207d416 100644
---- a/tests/ipmi-bt-test.c
-+++ b/tests/ipmi-bt-test.c
-@@ -30,7 +30,7 @@
- #include <netinet/tcp.h>
+diff --git a/audio/audio.c b/audio/audio.c
+index 435bcf20c1..ba07fb77dd 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -544,8 +544,8 @@ static size_t audio_pcm_hw_find_min_in (HWVoiceIn *hw)
+ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+ {
+     size_t live = hw->total_samples_captured - audio_pcm_hw_find_min_in (hw);
+-    if (audio_bug(__func__, live > hw->samples)) {
+-        dolog("live=%zu hw->samples=%zu\n", live, hw->samples);
++    if (audio_bug(__func__, live > hw->conv_buf->size)) {
++        dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
+         return 0;
+     }
+     return live;
+@@ -554,17 +554,17 @@ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+ static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
+ {
+     size_t clipped = 0;
+-    size_t pos = hw->rpos;
++    size_t pos = hw->mix_buf->pos;
  
+     while (len) {
+-        st_sample *src = hw->mix_buf + pos;
++        st_sample *src = hw->mix_buf->samples + pos;
+         uint8_t *dst = advance(pcm_buf, clipped << hw->info.shift);
+-        size_t samples_till_end_of_buf = hw->samples - pos;
++        size_t samples_till_end_of_buf = hw->mix_buf->size - pos;
+         size_t samples_to_clip = MIN(len, samples_till_end_of_buf);
  
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu-common.h"
+         hw->clip(dst, src, samples_to_clip);
  
- #define IPMI_IRQ        5
-@@ -99,6 +99,7 @@ static void bt_wait_b_busy(void)
-     unsigned int count = 1000;
-     while (IPMI_BT_CTLREG_GET_B_BUSY() != 0) {
-         g_assert(--count != 0);
-+        usleep(100);
+-        pos = (pos + samples_to_clip) % hw->samples;
++        pos = (pos + samples_to_clip) % hw->mix_buf->size;
+         len -= samples_to_clip;
+         clipped += samples_to_clip;
+     }
+@@ -579,17 +579,17 @@ static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
+     ssize_t live = hw->total_samples_captured - sw->total_hw_samples_acquired;
+     ssize_t rpos;
+ 
+-    if (audio_bug(__func__, live < 0 || live > hw->samples)) {
+-        dolog("live=%zu hw->samples=%zu\n", live, hw->samples);
++    if (audio_bug(__func__, live < 0 || live > hw->conv_buf->size)) {
++        dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
+         return 0;
+     }
+ 
+-    rpos = hw->wpos - live;
++    rpos = hw->conv_buf->pos - live;
+     if (rpos >= 0) {
+         return rpos;
+     }
+     else {
+-        return hw->samples + rpos;
++        return hw->conv_buf->size + rpos;
      }
  }
  
-@@ -107,6 +108,7 @@ static void bt_wait_b2h_atn(void)
-     unsigned int count = 1000;
-     while (IPMI_BT_CTLREG_GET_B2H_ATN() == 0) {
-         g_assert(--count != 0);
-+        usleep(100);
+@@ -599,11 +599,11 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+     size_t samples, live, ret = 0, swlim, isamp, osamp, rpos, total = 0;
+     struct st_sample *src, *dst = sw->buf;
+ 
+-    rpos = audio_pcm_sw_get_rpos_in (sw) % hw->samples;
++    rpos = audio_pcm_sw_get_rpos_in(sw) % hw->conv_buf->size;
+ 
+     live = hw->total_samples_captured - sw->total_hw_samples_acquired;
+-    if (audio_bug(__func__, live > hw->samples)) {
+-        dolog("live_in=%zu hw->samples=%zu\n", live, hw->samples);
++    if (audio_bug(__func__, live > hw->conv_buf->size)) {
++        dolog("live_in=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
+         return 0;
      }
+ 
+@@ -616,11 +616,11 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+     swlim = MIN (swlim, samples);
+ 
+     while (swlim) {
+-        src = hw->conv_buf + rpos;
+-        if (hw->wpos > rpos) {
+-            isamp = hw->wpos - rpos;
++        src = hw->conv_buf->samples + rpos;
++        if (hw->conv_buf->pos > rpos) {
++            isamp = hw->conv_buf->pos - rpos;
+         } else {
+-            isamp = hw->samples - rpos;
++            isamp = hw->conv_buf->size - rpos;
+         }
+ 
+         if (!isamp) {
+@@ -630,7 +630,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+ 
+         st_rate_flow (sw->rate, src, dst, &isamp, &osamp);
+         swlim -= osamp;
+-        rpos = (rpos + isamp) % hw->samples;
++        rpos = (rpos + isamp) % hw->conv_buf->size;
+         dst += osamp;
+         ret += osamp;
+         total += isamp;
+@@ -678,8 +678,8 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
+     if (nb_live1) {
+         size_t live = smin;
+ 
+-        if (audio_bug(__func__, live > hw->samples)) {
+-            dolog("live=%zu hw->samples=%zu\n", live, hw->samples);
++        if (audio_bug(__func__, live > hw->mix_buf->size)) {
++            dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
+             return 0;
+         }
+         return live;
+@@ -699,11 +699,11 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+         return size;
+     }
+ 
+-    hwsamples = sw->hw->samples;
++    hwsamples = sw->hw->mix_buf->size;
+ 
+     live = sw->total_hw_samples_mixed;
+     if (audio_bug(__func__, live > hwsamples)) {
+-        dolog("live=%zu hw->samples=%zu\n", live, hwsamples);
++        dolog("live=%zu hw->mix_buf->size=%zu\n", live, hwsamples);
+         return 0;
+     }
+ 
+@@ -714,7 +714,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+         return 0;
+     }
+ 
+-    wpos = (sw->hw->rpos + live) % hwsamples;
++    wpos = (sw->hw->mix_buf->pos + live) % hwsamples;
+     samples = size >> sw->info.shift;
+ 
+     dead = hwsamples - live;
+@@ -740,7 +740,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+         st_rate_flow_mix (
+             sw->rate,
+             sw->buf + pos,
+-            sw->hw->mix_buf + wpos,
++            sw->hw->mix_buf->samples + wpos,
+             &isamp,
+             &osamp
+             );
+@@ -868,7 +868,7 @@ size_t AUD_read(SWVoiceIn *sw, void *buf, size_t size)
+ 
+ int AUD_get_buffer_size_out (SWVoiceOut *sw)
+ {
+-    return sw->hw->samples << sw->hw->info.shift;
++    return sw->hw->mix_buf->size << sw->hw->info.shift;
  }
  
-@@ -240,13 +242,13 @@ static void emu_msg_handler(void)
-         write_emu_msg(msg, msg_len);
-     } else if ((msg[1] == set_bmc_globals_cmd[0]) &&
-                (msg[2] == set_bmc_globals_cmd[1])) {
-+        write_emu_msg(enable_irq_cmd, sizeof(enable_irq_cmd));
-         memcpy(msg + 1, set_bmc_globals_rsp, sizeof(set_bmc_globals_rsp));
-         msg_len = sizeof(set_bmc_globals_rsp) + 1;
-         msg[msg_len] = -ipmb_checksum(msg, msg_len, 0);
-         msg_len++;
-         msg[msg_len++] = 0xa0;
-         write_emu_msg(msg, msg_len);
--        write_emu_msg(enable_irq_cmd, sizeof(enable_irq_cmd));
-     } else {
-         g_assert(0);
+ void AUD_set_active_out (SWVoiceOut *sw, int on)
+@@ -969,8 +969,9 @@ static size_t audio_get_avail (SWVoiceIn *sw)
      }
+ 
+     live = sw->hw->total_samples_captured - sw->total_hw_samples_acquired;
+-    if (audio_bug(__func__, live > sw->hw->samples)) {
+-        dolog("live=%zu sw->hw->samples=%zu\n", live, sw->hw->samples);
++    if (audio_bug(__func__, live > sw->hw->conv_buf->size)) {
++        dolog("live=%zu sw->hw->conv_buf->size=%zu\n", live,
++              sw->hw->conv_buf->size);
+         return 0;
+     }
+ 
+@@ -993,12 +994,13 @@ static size_t audio_get_free(SWVoiceOut *sw)
+ 
+     live = sw->total_hw_samples_mixed;
+ 
+-    if (audio_bug(__func__, live > sw->hw->samples)) {
+-        dolog("live=%zu sw->hw->samples=%zu\n", live, sw->hw->samples);
++    if (audio_bug(__func__, live > sw->hw->mix_buf->size)) {
++        dolog("live=%zu sw->hw->mix_buf->size=%zu\n", live,
++              sw->hw->mix_buf->size);
+         return 0;
+     }
+ 
+-    dead = sw->hw->samples - live;
++    dead = sw->hw->mix_buf->size - live;
+ 
+ #ifdef DEBUG_OUT
+     dolog ("%s: get_free live %d dead %d ret %" PRId64 "\n",
+@@ -1023,12 +1025,12 @@ static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
+ 
+             n = samples;
+             while (n) {
+-                size_t till_end_of_hw = hw->samples - rpos2;
++                size_t till_end_of_hw = hw->mix_buf->size - rpos2;
+                 size_t to_write = MIN(till_end_of_hw, n);
+                 size_t bytes = to_write << hw->info.shift;
+                 size_t written;
+ 
+-                sw->buf = hw->mix_buf + rpos2;
++                sw->buf = hw->mix_buf->samples + rpos2;
+                 written = audio_pcm_sw_write (sw, NULL, bytes);
+                 if (written - bytes) {
+                     dolog("Could not mix %zu bytes into a capture "
+@@ -1037,14 +1039,14 @@ static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
+                     break;
+                 }
+                 n -= to_write;
+-                rpos2 = (rpos2 + to_write) % hw->samples;
++                rpos2 = (rpos2 + to_write) % hw->mix_buf->size;
+             }
+         }
+     }
+ 
+-    n = MIN(samples, hw->samples - rpos);
+-    mixeng_clear(hw->mix_buf + rpos, n);
+-    mixeng_clear(hw->mix_buf, samples - n);
++    n = MIN(samples, hw->mix_buf->size - rpos);
++    mixeng_clear(hw->mix_buf->samples + rpos, n);
++    mixeng_clear(hw->mix_buf->samples, samples - n);
+ }
+ 
+ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+@@ -1056,7 +1058,7 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+         void *buf = hw->pcm_ops->get_buffer_out(hw, &size);
+         if (!buf) {
+             /* retrying will likely won't help, drop everything. */
+-            hw->rpos = (hw->rpos + live) % hw->samples;
++            hw->mix_buf->pos = (hw->mix_buf->pos + live) % hw->mix_buf->size;
+             return clipped + live;
+         }
+ 
+@@ -1067,7 +1069,7 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+ 
+         live -= proc;
+         clipped += proc;
+-        hw->rpos = (hw->rpos + proc) % hw->samples;
++        hw->mix_buf->pos = (hw->mix_buf->pos + proc) % hw->mix_buf->size;
+ 
+         if (proc == 0 || proc < decr) {
+             break;
+@@ -1091,8 +1093,8 @@ static void audio_run_out (AudioState *s)
+             live = 0;
+         }
+ 
+-        if (audio_bug(__func__, live > hw->samples)) {
+-            dolog ("live=%zu hw->samples=%zu\n", live, hw->samples);
++        if (audio_bug(__func__, live > hw->mix_buf->size)) {
++            dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
+             continue;
+         }
+ 
+@@ -1123,13 +1125,13 @@ static void audio_run_out (AudioState *s)
+             continue;
+         }
+ 
+-        prev_rpos = hw->rpos;
++        prev_rpos = hw->mix_buf->pos;
+         played = audio_pcm_hw_run_out(hw, live);
+         replay_audio_out(&played);
+-        if (audio_bug(__func__, hw->rpos >= hw->samples)) {
+-            dolog("hw->rpos=%zu hw->samples=%zu played=%zu\n",
+-                  hw->rpos, hw->samples, played);
+-            hw->rpos = 0;
++        if (audio_bug(__func__, hw->mix_buf->pos >= hw->mix_buf->size)) {
++            dolog("hw->mix_buf->pos=%zu hw->mix_buf->size=%zu played=%zu\n",
++                  hw->mix_buf->pos, hw->mix_buf->size, played);
++            hw->mix_buf->pos = 0;
+         }
+ 
+ #ifdef DEBUG_OUT
+@@ -1186,6 +1188,7 @@ static void audio_run_out (AudioState *s)
+ static size_t audio_pcm_hw_run_in(HWVoiceIn *hw, size_t samples)
+ {
+     size_t conv = 0;
++    STSampleBuffer *conv_buf = hw->conv_buf;
+ 
+     while (samples) {
+         size_t proc;
+@@ -1199,10 +1202,10 @@ static size_t audio_pcm_hw_run_in(HWVoiceIn *hw, size_t samples)
+         }
+ 
+         proc = MIN(size >> hw->info.shift,
+-                   hw->samples - hw->wpos);
++                   conv_buf->size - conv_buf->pos);
+ 
+-        hw->conv(hw->conv_buf + hw->wpos, buf, proc);
+-        hw->wpos = (hw->wpos + proc) % hw->samples;
++        hw->conv(conv_buf->samples + conv_buf->pos, buf, proc);
++        conv_buf->pos = (conv_buf->pos + proc) % conv_buf->size;
+ 
+         samples -= proc;
+         conv += proc;
+@@ -1222,9 +1225,10 @@ static void audio_run_in (AudioState *s)
+ 
+         if (replay_mode != REPLAY_MODE_PLAY) {
+             captured = audio_pcm_hw_run_in(
+-                hw, hw->samples - audio_pcm_hw_get_live_in(hw));
++                hw, hw->conv_buf->size - audio_pcm_hw_get_live_in(hw));
+         }
+-        replay_audio_in(&captured, hw->conv_buf, &hw->wpos, hw->samples);
++        replay_audio_in(&captured, hw->conv_buf->samples, &hw->conv_buf->pos,
++                        hw->conv_buf->size);
+ 
+         min = audio_pcm_hw_find_min_in (hw);
+         hw->total_samples_captured += captured - min;
+@@ -1255,14 +1259,14 @@ static void audio_run_capture (AudioState *s)
+         SWVoiceOut *sw;
+ 
+         captured = live = audio_pcm_hw_get_live_out (hw, NULL);
+-        rpos = hw->rpos;
++        rpos = hw->mix_buf->pos;
+         while (live) {
+-            size_t left = hw->samples - rpos;
++            size_t left = hw->mix_buf->size - rpos;
+             size_t to_capture = MIN(live, left);
+             struct st_sample *src;
+             struct capture_callback *cb;
+ 
+-            src = hw->mix_buf + rpos;
++            src = hw->mix_buf->samples + rpos;
+             hw->clip (cap->buf, src, to_capture);
+             mixeng_clear (src, to_capture);
+ 
+@@ -1270,10 +1274,10 @@ static void audio_run_capture (AudioState *s)
+                 cb->ops.capture (cb->opaque, cap->buf,
+                                  to_capture << hw->info.shift);
+             }
+-            rpos = (rpos + to_capture) % hw->samples;
++            rpos = (rpos + to_capture) % hw->mix_buf->size;
+             live -= to_capture;
+         }
+-        hw->rpos = rpos;
++        hw->mix_buf->pos = rpos;
+ 
+         for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
+             if (!sw->active && sw->empty) {
+@@ -1321,7 +1325,7 @@ void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
+     ssize_t start;
+ 
+     if (unlikely(!hw->buf_emul)) {
+-        size_t calc_size = hw->samples << hw->info.shift;
++        size_t calc_size = hw->conv_buf->size << hw->info.shift;
+         hw->buf_emul = g_malloc(calc_size);
+         hw->size_emul = calc_size;
+         hw->pos_emul = hw->pending_emul = 0;
+@@ -1357,7 +1361,7 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
+ void *audio_generic_get_buffer_out(HWVoiceOut *hw, size_t *size)
+ {
+     if (unlikely(!hw->buf_emul)) {
+-        size_t calc_size = hw->samples << hw->info.shift;
++        size_t calc_size = hw->mix_buf->size << hw->info.shift;
+ 
+         hw->buf_emul = g_malloc(calc_size);
+         hw->size_emul = calc_size;
+@@ -1764,11 +1768,11 @@ CaptureVoiceOut *AUD_add_capture(
+ 
+         /* XXX find a more elegant way */
+         hw->samples = 4096 * 4;
+-        hw->mix_buf = g_new0(struct st_sample, hw->samples);
++        audio_pcm_hw_alloc_resources_out(hw);
+ 
+         audio_pcm_init_info (&hw->info, as);
+ 
+-        cap->buf = g_malloc0_n(hw->samples, 1 << hw->info.shift);
++        cap->buf = g_malloc0_n(hw->mix_buf->size, 1 << hw->info.shift);
+ 
+         hw->clip = mixeng_clip
+             [hw->info.nchannels == 2]
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index c76d7c39e8..20021df9e8 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -52,6 +52,11 @@ struct audio_pcm_info {
+ typedef struct AudioState AudioState;
+ typedef struct SWVoiceCap SWVoiceCap;
+ 
++typedef struct STSampleBuffer {
++    size_t pos, size;
++    st_sample samples[];
++} STSampleBuffer;
++
+ typedef struct HWVoiceOut {
+     AudioState *s;
+     int enabled;
+@@ -60,11 +65,9 @@ typedef struct HWVoiceOut {
+     struct audio_pcm_info info;
+ 
+     f_sample *clip;
+-
+-    size_t rpos;
+     uint64_t ts_helper;
+ 
+-    struct st_sample *mix_buf;
++    STSampleBuffer *mix_buf;
+     void *buf_emul;
+     size_t pos_emul, pending_emul, size_emul;
+ 
+@@ -84,11 +87,10 @@ typedef struct HWVoiceIn {
+ 
+     t_sample *conv;
+ 
+-    size_t wpos;
+     size_t total_samples_captured;
+     uint64_t ts_helper;
+ 
+-    struct st_sample *conv_buf;
++    STSampleBuffer *conv_buf;
+     void *buf_emul;
+     size_t pos_emul, pending_emul, size_emul;
+ 
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index ff4a173f18..87c6d2d271 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -76,16 +76,15 @@ static void glue (audio_pcm_hw_free_resources_, TYPE) (HW *hw)
+     HWBUF = NULL;
+ }
+ 
+-static bool glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
++static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
+ {
+-    HWBUF = audio_calloc(__func__, hw->samples, sizeof(struct st_sample));
+-    if (!HWBUF) {
+-        dolog("Could not allocate " NAME " buffer (%zu samples)\n",
+-              hw->samples);
+-        return false;
++    size_t samples = hw->samples;
++    if (audio_bug(__func__, samples == 0)) {
++        dolog("Attempted to allocate empty buffer\n");
+     }
+ 
+-    return true;
++    HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
++    HWBUF->size = samples;
+ }
+ 
+ static void glue (audio_pcm_sw_free_resources_, TYPE) (SW *sw)
+@@ -104,7 +103,7 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+ {
+     int samples;
+ 
+-    samples = ((int64_t) sw->hw->samples << 32) / sw->ratio;
++    samples = ((int64_t) sw->HWBUF->size << 32) / sw->ratio;
+ 
+     sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
+     if (!sw->buf) {
+@@ -280,9 +279,7 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
+         [hw->info.swap_endianness]
+         [audio_bits_to_index (hw->info.bits)];
+ 
+-    if (!glue(audio_pcm_hw_alloc_resources_, TYPE)(hw)) {
+-        goto err1;
+-    }
++    glue(audio_pcm_hw_alloc_resources_, TYPE)(hw);
+ 
+     QLIST_INSERT_HEAD (&s->glue (hw_head_, TYPE), hw, entries);
+     glue (s->nb_hw_voices_, TYPE) -= 1;
+diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+index 2782512706..76c082d5e2 100644
+--- a/audio/ossaudio.c
++++ b/audio/ossaudio.c
+@@ -585,7 +585,8 @@ static int oss_ctl_out (HWVoiceOut *hw, int cmd, ...)
+                 return 0;
+             }
+ 
+-            audio_pcm_info_clear_buf(&hw->info, hw->buf_emul, hw->samples);
++            audio_pcm_info_clear_buf(
++                &hw->info, hw->buf_emul, hw->mix_buf->size);
+             trig = PCM_ENABLE_OUTPUT;
+             if (ioctl (oss->fd, SNDCTL_DSP_SETTRIGGER, &trig) < 0) {
+                 oss_logerr (
 -- 
-2.17.1
+2.23.0
 
 
