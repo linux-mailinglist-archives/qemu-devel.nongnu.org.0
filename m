@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEA8B778D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:36:51 +0200 (CEST)
-Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177FAB7797
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:40:00 +0200 (CEST)
+Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtnt-0002XY-Sz
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53769)
+	id 1iAtqx-00068z-0z
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iAtkc-0007y4-Vd
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:33:27 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iAtlu-0001Dz-PK
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:34:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iAtkb-0005RR-Sj
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:33:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36488)
+ (envelope-from <stefanha@redhat.com>) id 1iAtlt-0005sS-Fv
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:34:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51026)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtkb-0005R2-Hl
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:33:25 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtlt-0005sD-9b
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:34:45 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD86836955;
- Thu, 19 Sep 2019 10:33:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 56FE5301E135;
+ Thu, 19 Sep 2019 10:34:44 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1C7819C5B;
- Thu, 19 Sep 2019 10:33:20 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:33:19 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A101E19C5B;
+ Thu, 19 Sep 2019 10:34:41 +0000 (UTC)
+Date: Thu, 19 Sep 2019 11:34:40 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190919103319.GM3606@stefanha-x1.localdomain>
+Message-ID: <20190919103440.GN3606@stefanha-x1.localdomain>
 References: <20190918231846.22538-1-alxndr@bu.edu>
+ <20190918231846.22538-13-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/jvaajy/zP2g41+Q"
+ protocol="application/pgp-signature"; boundary="XBg9NAhDNArbJUtw"
 Content-Disposition: inline
-In-Reply-To: <20190918231846.22538-1-alxndr@bu.edu>
+In-Reply-To: <20190918231846.22538-13-alxndr@bu.edu>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 19 Sep 2019 10:33:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 19 Sep 2019 10:34:44 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 00/22] Add virtual device fuzzing support
+Subject: Re: [Qemu-devel] [PATCH v3 12/22] libqos: move useful qos-test
+ funcs to qos_external
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,50 +59,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
  "bsd@redhat.com" <bsd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laurent Vivier <lvivier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/jvaajy/zP2g41+Q
+--XBg9NAhDNArbJUtw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 11:19:27PM +0000, Oleinik, Alexander wrote:
->  create mode 100644 docs/devel/fuzzing.txt
->  create mode 100644 main.c
->  create mode 100644 tests/fuzz/Makefile.include
->  create mode 100644 tests/fuzz/fork_fuzz.c
->  create mode 100644 tests/fuzz/fork_fuzz.h
->  create mode 100644 tests/fuzz/fork_fuzz.ld
->  create mode 100644 tests/fuzz/fuzz.c
->  create mode 100644 tests/fuzz/fuzz.h
->  create mode 100644 tests/fuzz/i440fx_fuzz.c
->  create mode 100644 tests/fuzz/qos_fuzz.c
->  create mode 100644 tests/fuzz/qos_fuzz.h
->  create mode 100644 tests/fuzz/virtio_net_fuzz.c
+On Wed, Sep 18, 2019 at 11:19:39PM +0000, Oleinik, Alexander wrote:
+> The moved functions are not specific to qos-test and might be useful
+> elsewhere. For example the virtual-device fuzzer makes use of them for
+> qos-assisted fuzz-targets.
+>=20
+> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+> ---
+>  tests/Makefile.include      |   1 +
+>  tests/libqos/qos_external.c | 151 ++++++++++++++++++++++++++++++++++++
+>  tests/libqos/qos_external.h |  10 +++
+>  tests/qos-test.c            | 140 ++-------------------------------
+>  4 files changed, 167 insertions(+), 135 deletions(-)
 >  create mode 100644 tests/libqos/qos_external.c
 >  create mode 100644 tests/libqos/qos_external.h
 
-Please ensure that all new files have copyright/license headers.  When
-code was moved from an old file, use the old file's copyright/license.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---/jvaajy/zP2g41+Q
+--XBg9NAhDNArbJUtw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DWW8ACgkQnKSrs4Gr
-c8h9GQf+MTg4yM3hN3ZL7hO9DF2zNCRm2bIhtEez9fd3L4qIOVXAbEudNqqfaVqO
-hsQDIseSzfiqCko48s5CNdW+slwd9ChGXkvh3cqc+D2CR8lZIBSf11WF6tqZetcr
-0EEQXJBhdq4xXhaJh9ZoAm52Bm78IPhzYIyNy/zcUKnxjQBDw8sFGH6qoDqjpSA/
-Zoc4ozGpkQyrUQi2bSBB5BnVVvvohCcXebjPnjZ70J7IY6CVP9/3Z5hxWVU5vSZf
-P5wCFwtWkNxW65w1UaJiAvAvJZeakN3HtEsYChAKzzU47/D6pLGe2RvF6Y6wQEso
-Kphl23AemGau3QgkmIOh+vIeqNr3hA==
-=/nBz
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DWcAACgkQnKSrs4Gr
+c8if5QgAqmHUZ60LcUGU9tKeJi3UZb+NZSAerlq5CWkmy7jx7W3H3rvuvs3huje7
+vzzK8Nxs7OWgTdsfE4TeN5X1gJ924iBBo3NC0PRj2xohKKZ53fjU3TXl00FivRna
+h517ofAG8vMve6P78CTYonkA9O9hltkvRVi7r+ZYw6H+F5E55X+ypj0Tca76/GX1
+xiChIAMfxg0c3lZeWDDJt9R8ep7w3AsyZdhP0OguAP5dmz4pgQXZHasyBb77RFES
+YNGCWFjIWWqmoNsMxgIXvXSZ5u+hheC6jE25/BTY0GYJuW8R4EcPYZ1rKcbyiOQY
+DQp/pk6Qvy8jUd9Z1ACMARMTdqB2jQ==
+=pglG
 -----END PGP SIGNATURE-----
 
---/jvaajy/zP2g41+Q--
+--XBg9NAhDNArbJUtw--
 
