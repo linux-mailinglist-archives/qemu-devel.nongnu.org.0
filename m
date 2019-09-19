@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2E3B7E94
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 17:52:59 +0200 (CEST)
-Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCFBB7EEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 18:19:08 +0200 (CEST)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAyjr-0004O0-15
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 11:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38751)
+	id 1iAz97-0008Fw-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 12:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iAyiN-0003Zc-V4
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 11:51:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iAz4e-00066q-E9
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:14:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iAyiM-0007A6-Jz
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 11:51:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60376)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1iAyiG-00073A-8A; Thu, 19 Sep 2019 11:51:20 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 373CA308FBA0;
- Thu, 19 Sep 2019 15:51:18 +0000 (UTC)
-Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A6AE608A5;
- Thu, 19 Sep 2019 15:50:48 +0000 (UTC)
-Date: Thu, 19 Sep 2019 16:50:45 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [RFC] error: auto propagated local_err
-Message-ID: <20190919155045.GS20217@redhat.com>
-References: <20190918130244.24257-1-vsementsov@virtuozzo.com>
- <abb14088-6af2-5db2-da0d-0948fd4ac81c@redhat.com>
- <20190919091720.GB10163@localhost.localdomain>
- <57483252-273c-4606-47a8-eddeb840109a@redhat.com>
- <35c972e1-bdb5-cbcb-ed45-6a51f19af98c@virtuozzo.com>
- <696673be-95c8-3f75-551c-26fccd230eb1@virtuozzo.com>
- <152afb5b-8efb-d968-d595-94f58ad02a04@redhat.com>
- <20190919144948.GR20217@redhat.com>
- <b5128e58-8b90-233d-6bb1-cc9009852d8d@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iAyqg-0000Gd-DE
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:00:03 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51971)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iAyqg-0000FZ-4f
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:00:02 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id 7so5242839wme.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 09:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mxbpLFgbvXahsfaVwZ9WqZ1fAPev+aEfkTXQWBTT2B0=;
+ b=do31j4xLBXcXlW/y83xkvfwl6HVbamfqvv4inkU34bFFphJSIBzFAO9gdNYxUWg1vx
+ Sa9dfCdnNiTVOcLz1v6/tbhBy2fZUb9ABI7nIA30gu0DW7IBtAbVcci7IB/54IbXuJRO
+ MYOstFPlnCgzqujG3mZ6EqOmXMPGuIMIp0njWD4ASzS9yD4/WQtq4Ps3t0r+IyBJdPT9
+ pjfcRZI1Sh38cJZXiJBv2UzuL9M153XcmWAOB3kcUsg45fkp24Z0CLwh2yC80qRkUVE+
+ kng8308mnHSP/2wgLP5k608e39XLT4vyraQihXmPvBEIz7tSGB8Ax5Ejl0Y95EdtcsjP
+ EYnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mxbpLFgbvXahsfaVwZ9WqZ1fAPev+aEfkTXQWBTT2B0=;
+ b=qDm2bmymwvhMWl8RavYDS04o4Jka2f/3IA0irhRhCg6oeICyQXo84kPktvAJJ8BdaM
+ GI3Gvm8CVbRwOzIbj1n/MkiyKJDNW9Ck50r6Y8VQnADVGu9ExATxbyPanaCWuda839rt
+ RvCGslAWa0osOPym8xJOlA8t4DeoHJoJlP39hQeXqd/VIfdP8RZHgo9/BpD6yT/tKE6a
+ Qsy09vewhRE4JDBkblR1T9xwyaAOkpPKAb3AL3wBqNB9B1yC3ZzyR7eNobOlvyytVd4g
+ kbq/nuZUE4oMPJWtWPYO7O/SC45QGK0FCVl7gP1Wx0zEdbdMIz+++wE9sCSqbNIkcDIh
+ 26Og==
+X-Gm-Message-State: APjAAAWwDRp5nefY6RfsmWGKkyzyFFNftF5qCRPCdz3WU/x3KZgRGCh8
+ uGwhJ4Z3GHiwFU8KzBY/zQsgrsRY3oo3Ag==
+X-Google-Smtp-Source: APXvYqyl4YiPZ93ASMweC9DA/+C0QorDddtMAujRVexaKvcrXwrDEkeY+2YJHqleW6PsgYUuQYVBVQ==
+X-Received: by 2002:a1c:9615:: with SMTP id y21mr3494503wmd.5.1568908800022;
+ Thu, 19 Sep 2019 09:00:00 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id r6sm6131493wmh.38.2019.09.19.08.59.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 08:59:59 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Makefile: Fix in-tree builds when Sphinx is available
+Date: Thu, 19 Sep 2019 16:59:57 +0100
+Message-Id: <20190919155957.12618-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b5128e58-8b90-233d-6bb1-cc9009852d8d@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 19 Sep 2019 15:51:18 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,133 +75,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "fam@euphon.net" <fam@euphon.net>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "mst@redhat.com" <mst@redhat.com>, "codyprime@gmail.com" <codyprime@gmail.com>,
- "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "david@redhat.com" <david@redhat.com>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "groug@kaod.org" <groug@kaod.org>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 10:24:20AM -0500, Eric Blake wrote:
-> On 9/19/19 9:49 AM, Daniel P. Berrang=C3=A9 wrote:
->=20
-> >> ALWAYS using MAKE_ERRP_SAFE() on entry to any function that has an E=
-rror
-> >> **errp parameter is dirt-simple to explain.  It has no performance
-> >> penalty if the user passed in a normal error or error_abort (the cos=
-t of
-> >> an 'if' hidden in the macro is probably negligible compared to
-> >> everything else we do), and has no semantic penalty if the user pass=
-ed
-> >> in NULL or error_fatal (we now get the behavior we want with less
-> >> boilerplate).
-> >>
-> >> Having to think 'does this method require me to use MAKE_ERRP_SAFE, =
-or
-> >> can I omit it?' does not provide the same simplicity.
-> >=20
-> > The flipside is that MAKE_ERRP_SAFE hides a bunch of logic, so you do=
-n't
-> > really know what its doing without looking at it, and this is QEMU
-> > custom concept so one more thing to learn for new contributors.
-> >=20
-> > While I think it is a nice trick, personally I think we would be bett=
-er
-> > off if we simply used a code pattern which does not require de-refere=
-ncing
-> > 'errp' at all, aside from exceptional cases. IOW, no added macro in 9=
-5%
-> > of all our methods using Error **errp.
->=20
-> If 100% of our callsites use the macro, then new contributors will
-> quickly learn by observation alone that the macro usage must be
-> important on any new function taking Error **errp, whether or not they
-> actually read the macro to see what it does.  If only 5% of our
-> callsites use the macro, it's harder to argue that a new user will pick
-> up on the nuances by observation alone (presumably, our docs would also
-> spell it out, but we know that not everyone reads those...).
+In commit 27a296fce9821e we switched the qemu-ga manpage over to
+being built from Sphinx.  The makefile rules for this were correct
+for an out-of-tree build, but break for in-tree builds if Sphinx is
+present and we're trying to build the documentation.
 
-To get some slightly less made-up stats, I did some searching:
+Specifically, because Sphinx refuses to build output files into
+the same directory as its sources, for an in-tree build we tell
+it to build into a subdirectory docs/built, and set up a makefile
+variable MANUAL_BUILDDIR indicating where the docs are going.
+The makefile rule telling Make how to build qemu-ga.8 correctly
+used this variable, but the lines adding qemu-ga.8 to the list
+of DOCS to be built and the 'make install' rune did not. The
+effect was that for an in-tree build we told Make to build
+'docs/interop/qemu-ga.8' but did not provide a specific rule for
+doing so, which caused Make to fall back to the old rules.make
+rule for building any "%.8" file. Make tried to invoke texi2pod
+with a bogus command line, resulting in the error:
 
-  - 4408  methods with an 'errp' parameter declared
+  GEN     docs/interop/qemu-ga.8
+No filename or title
+make: *** [rules.mak:394: docs/interop/qemu-ga.8]
 
-     git grep 'Error \*\*errp'|  wc -l
+Fix this by using $(MANUAL_BUILDDIR) when constructing the
+list of DOCS files we want to build and also in the source
+file name we install for 'make install'.
 
-  - 696 methods with an 'Error *local' declared (what other names
-    do we use for this?)
+(Among other things, this broke the Shippable CI builds.)
 
-     git grep 'Error \*local' | wc -l
+Reported-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ Makefile | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-  - 1243 methods with an 'errp' parameter which have void
-    return value (fuzzy number - my matching is quite crude)
+diff --git a/Makefile b/Makefile
+index 111082ce545..a0c1430b407 100644
+--- a/Makefile
++++ b/Makefile
+@@ -324,8 +324,19 @@ endif
+ endif
+ endif
+ 
++# Sphinx does not allow building manuals into the same directory as
++# the source files, so if we're doing an in-tree QEMU build we must
++# build the manuals into a subdirectory (and then install them from
++# there for 'make install'). For an out-of-tree build we can just
++# use the docs/ subdirectory in the build tree as normal.
++ifeq ($(realpath $(SRC_PATH)),$(realpath .))
++MANUAL_BUILDDIR := docs/built
++else
++MANUAL_BUILDDIR := docs
++endif
++
+ ifdef BUILD_DOCS
+-DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 docs/interop/qemu-ga.8
++DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
+ DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
+ DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
+ DOCS+=docs/qemu-block-drivers.7
+@@ -699,17 +710,6 @@ dist: qemu-$(VERSION).tar.bz2
+ qemu-%.tar.bz2:
+ 	$(SRC_PATH)/scripts/make-release "$(SRC_PATH)" "$(patsubst qemu-%.tar.bz2,%,$@)"
+ 
+-# Sphinx does not allow building manuals into the same directory as
+-# the source files, so if we're doing an in-tree QEMU build we must
+-# build the manuals into a subdirectory (and then install them from
+-# there for 'make install'). For an out-of-tree build we can just
+-# use the docs/ subdirectory in the build tree as normal.
+-ifeq ($(realpath $(SRC_PATH)),$(realpath .))
+-MANUAL_BUILDDIR := docs/built
+-else
+-MANUAL_BUILDDIR := docs
+-endif
+-
+ define clean-manual =
+ rm -rf $(MANUAL_BUILDDIR)/$1/_static
+ rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(MANUAL_BUILDDIR)/$1/*.html
+@@ -819,7 +819,7 @@ ifdef CONFIG_TRACE_SYSTEMTAP
+ 	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
+ endif
+ ifneq (,$(findstring qemu-ga,$(TOOLS)))
+-	$(INSTALL_DATA) docs/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
++	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
+ 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.txt "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
+-- 
+2.20.1
 
-     git grep 'Error \*\*errp'|  grep -E '(^| )void' | wc -l
-
-  - 11 methods using error_append_hint with a local_err
-
-     git grep append_hint | grep local | wc -l
-
-
-This suggests to me, that if we used the 'return 0 / return -1' conventio=
-n
-to indicate failure for the methods which currently return void, we could
-potentially only have 11 cases where a local error object is genuinely
-needed.=20
-
-If my numbers are at all accurate, I still believe we're better off
-changing the return type and eliminating essentially all use of local
-error variables, as void funcs/local error objects appear to be the
-minority coding pattern.
-
-
-> > There are lots of neat things we could do with auto-cleanup functions=
- we
-> > I think we need to be wary of hiding too much cleverness behind macro=
-s
-> > when doing so overall.
->=20
-> The benefit of getting rid of the 'Error *local_err =3D NULL; ...
-> error_propagate()' boilerplate is worth the cleverness, in my opinion,
-> but especially if also accompanied by CI coverage that we abide by our
-> new rules.
-
-At least we're both wanting to eliminate the local error + propagation.
-The difference is whether we're genuinely eliminating it, or just hiding
-it from view via auto-cleanup & macro magic
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
 
