@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88FFB78DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 14:03:46 +0200 (CEST)
-Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E9EB78FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 14:12:19 +0200 (CEST)
+Received: from localhost ([::1]:43262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAvA1-0001x8-C0
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 08:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35058)
+	id 1iAvIH-00016S-Lv
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 08:12:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iAv7e-0000B1-Lj
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:01:19 -0400
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAvGm-0008Q9-4b
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:10:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iAv7Z-0004rm-Ch
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:01:18 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42535)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iAv7X-0004pg-FN
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:01:13 -0400
-Received: by mail-ot1-x343.google.com with SMTP id c10so2791209otd.9
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 05:01:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EdTIMrnVvzS5sjYLnYIH1AGMHz/4PyMthWkJ35hZwco=;
- b=qIkad+/rXiltmZq+sDZGJDtu+Fq7RxUvhMN0LcvOxx9l1UnFQIJA2DJFjjNtXWoycU
- 9JF6f6NaOUuGgu0Si6gr3ndBfV5OcUWwaFpCQSSAr8Ezu8g9iXLpLTur1Fiwgii/g07F
- 2vnLTmzKRFrkiVA6NshvBuETq/WW8svm3of5VyKnBjhgIhW9EOPV8XevqFAQXt/KRvEM
- LiXALHSJsTc2S9yHHZdE3urw/1o9IuVi5a2JNiZDcJfg0QduTuKUxvGiAgG6CE2q4nj5
- jgWqpY3uABcBz6gUBOIg63TIBMg+btqPej78GbrivD2vlAE2lJ7JH9CzcK32ckq9H4JF
- g0ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EdTIMrnVvzS5sjYLnYIH1AGMHz/4PyMthWkJ35hZwco=;
- b=FBoDMFqM8Z+XF6knYS2tpCVHT6hZRtZ7CzLQcEjQA9AQJy3nyvCAVUxyOrlR0cnYzg
- GxpX7Esm7ItS40+sUTyoZqP3+KTO/zPEARHi3kSvGzGGHfrRVF74aYYTZYODSF9NRCX3
- 0WkUCrh28SoLti1vbQk+b/PXXpMmvLVcpt5ww7WyjrwHl9UYxlrf66c+URvkOmfdaHR8
- HUwhM7Ys/4MTmcFSFJpFcVy1LkN9hOJqUvLc3k/bLsIMBD6qMY7UocPSjysy+2TSx1Y2
- eTDZPLKueNVgXIpe1e5Q3B2rXfODN+9hOVlzmuQrLUvXCi+9QobqHXBQTwuRuiK8elHc
- GboA==
-X-Gm-Message-State: APjAAAXzkIDMeEfdAggLFLnq5pxmBgxkN8th0g/rKDfquoLzpdsVE1Y3
- evTmSXasxcurEYeGqUH53CGs9t2cvdWZxvyLpJY3sPB0VNM=
-X-Google-Smtp-Source: APXvYqyedN16tbtMkTYGqoUjBpssMfbLPtl3rtnv4cpYotjSfGV2bDC2h33EwdcLokQgLucCGYukbsogaos4JSAGUlc=
-X-Received: by 2002:a9d:6d0a:: with SMTP id o10mr5826691otp.221.1568894469618; 
- Thu, 19 Sep 2019 05:01:09 -0700 (PDT)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAvGk-0002xe-Mv
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:10:43 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:54758)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iAvGk-0002wM-BN
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:10:42 -0400
+Received: from PASHAISP (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id BB86C54006B;
+ Thu, 19 Sep 2019 15:10:39 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: "'Kevin Wolf'" <kwolf@redhat.com>
+References: <156872146565.1757.3033215873677512474.stgit@pasha-Precision-3630-Tower>
+ <156872148244.1757.2888672921697745021.stgit@pasha-Precision-3630-Tower>
+ <20190918091831.GD5207@localhost.localdomain>
+ <001201d56e02$9d88b5f0$d89a21d0$@ru>
+ <20190918093305.GF5207@localhost.localdomain>
+ <001401d56e04$b93c02a0$2bb407e0$@ru>
+ <20190918094436.GG5207@localhost.localdomain>
+ <001501d56e06$bbd7aa30$3386fe90$@ru>
+ <20190919085302.GA10163@localhost.localdomain>
+ <001901d56ec9$620ae260$2620a720$@ru>
+ <20190919112702.GC10163@localhost.localdomain>
+In-Reply-To: <20190919112702.GC10163@localhost.localdomain>
+Date: Thu, 19 Sep 2019 15:10:43 +0300
+Message-ID: <001a01d56ee3$4354a530$c9fdef90$@ru>
 MIME-Version: 1.0
-References: <20190913154952.27724-1-peter.maydell@linaro.org>
- <20190913154952.27724-13-peter.maydell@linaro.org>
- <9ede7068-7f92-3e1a-c1f8-c0994eddf671@redhat.com>
-In-Reply-To: <9ede7068-7f92-3e1a-c1f8-c0994eddf671@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 13:00:57 +0100
-Message-ID: <CAFEAcA8nj27YwR3F0NA8JiV2yqqLcBzZ6T42Ue5FV2cUcmRoaQ@mail.gmail.com>
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PULL 12/12] qemu-ga: Convert invocation
- documentation to rST
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdVu3TCh99HaQPpZRl+PLQNFGURpMgABc84g
+Content-Language: ru
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 83.149.199.45
+Subject: Re: [Qemu-devel] [for-4.2 PATCH 3/6] replay: update docs for
+ record/replay with block devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,43 +61,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru, quintela@redhat.com,
+ ciro.santilli@gmail.com, jasowang@redhat.com, crosthwaite.peter@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, alex.bennee@linaro.org,
+ maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
+ boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
+ mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Sep 2019 at 02:25, Eric Blake <eblake@redhat.com> wrote:
->
-> On 9/13/19 10:49 AM, Peter Maydell wrote:
-> > The qemu-ga documentation is currently in qemu-ga.texi in
-> > Texinfo format, which we present to the user as:
-> >  * a qemu-ga manpage
-> >  * a section of the main qemu-doc HTML documentation
+> From: Kevin Wolf [mailto:kwolf@redhat.com]
+> Am 19.09.2019 um 11:05 hat Pavel Dovgalyuk geschrieben:
+> > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > > >
+> > > > > However, global -snapshot is just a convenient shortcut for specifying
+> > > > > snapshot=on for all -drive arguments. So if -snapshot is incompatible
+> > > > > with replay, shouldn't manually marking all drives as snapshot=on be
+> > > > > incompatible as well?
+> > > > >
+> > > > > Maybe you're really interested in some specific drive not having
+> > > > > snapshot=on? But then it might be better to check that specific drive
+> > > > > instad of forbidding just the shortcut for setting it.
+> > > >
+> > > > -snapshot adds the flag for top-level drive, making driver operations
+> > > > dependent on temporary file structure.
+> > > >
+> > > > Moving this overlay beneath blkreplay driver makes drive operations
+> > > > deterministic for the top-level device.
+> > >
+> > > So the real requirement is that blkreplay is the top-level node of any
+> > > guest device, right? And only because of this, you can't use -snapshot
+> > > (or snapshot=on on the blkreplay driver).
+> > >
+> > > If we instead check e.g. in blk_insert_bs() or blk_attach_dev() that in
+> > > record/replay mode, the root node of the BlockBackend is blkreplay,
+> > > wouldn't we catch many more incorrect setups?
 > >
-> > Convert the documentation to rST format, and present it to
-> > the user as:
-> >  * a qemu-ga manpage
-> >  * part of the interop/ Sphinx manual
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > Reviewed-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-> > Tested-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-> > Message-id: 20190905131040.8350-1-peter.maydell@linaro.org
-> > ---
->
-> In an incremental build on Fedora 30, I'm now seeing:
->
->         CHK version_gen.h
->   GEN     docs/interop/qemu-ga.8
-> No filename or title
-> make: *** [/home/eblake/qemu/rules.mak:394: docs/interop/qemu-ga.8]
-> Error 255
->
-> and suspect this patch introduced it.  It may be that I just need to
-> nuke intermediate artifacts rather than an actual problem with the
-> patch, but I'd welcome help in identifying the problem.
+> > That sounds interesting.
+> > Will it help to check that every backend is connected to blkreplay?
+> 
+> Yes, it would return an error when you try to attach a non-blkreplay
+> node to a BlockBackend (and every guest device uses a BlockBackend).
+> 
+> Note that this restriction would currently make block jobs unavailable
+> on non-blkreplay nodes as they also use BlockBackends internally (though
+> this is going to change in the long run). I believe this restriction is
+> harmless and the typical replay use case doesn't involve any block jobs,
+> but if you do think it's a problem, blk_attach_dev() would be the place
+> that affects only devices.
+> 
+> > How then this check has to be done?
+> 
+> Only compile-tested, but maybe something like below?
+> 
+> Kevin
+> 
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index 0422acdf1c..9fa72bea51 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -955,6 +955,7 @@ static inline BlockDriverState *backing_bs(BlockDriverState *bs)
+>  extern BlockDriver bdrv_file;
+>  extern BlockDriver bdrv_raw;
+>  extern BlockDriver bdrv_qcow2;
+> +extern BlockDriver bdrv_blkreplay;
+> 
+>  int coroutine_fn bdrv_co_preadv(BdrvChild *child,
+>      int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
+> diff --git a/block/blkreplay.c b/block/blkreplay.c
+> index 2b7931b940..16a4f1df6a 100644
+> --- a/block/blkreplay.c
+> +++ b/block/blkreplay.c
+> @@ -126,7 +126,7 @@ static int coroutine_fn blkreplay_co_flush(BlockDriverState *bs)
+>      return ret;
+>  }
+> 
+> -static BlockDriver bdrv_blkreplay = {
+> +BlockDriver bdrv_blkreplay = {
+>      .format_name            = "blkreplay",
+>      .instance_size          = 0,
+> 
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 1c605d5444..c57d3d9fdf 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -17,6 +17,7 @@
+>  #include "block/throttle-groups.h"
+>  #include "hw/qdev-core.h"
+>  #include "sysemu/blockdev.h"
+> +#include "sysemu/replay.h"
+>  #include "sysemu/runstate.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-events-block.h"
+> @@ -808,6 +809,12 @@ void blk_remove_bs(BlockBackend *blk)
+>  int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+>  {
+>      ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+> +
+> +    if (replay_mode != REPLAY_MODE_NONE && bs->drv != &bdrv_blkreplay) {
+> +        error_setg(errp, "Root node must be blkreplay");
+> +        return -ENOTSUP;
+> +    }
 
-If you build with V=1 what does it say it's doing?
+I guess this is opposite direction - bs->drv is bdrv_file.
+And we should check its parent.
 
-thanks
--- PMM
+> +
+>      bdrv_ref(bs);
+>      blk->root = bdrv_root_attach_child(bs, "root", &child_root, blk->ctx,
+>                                         blk->perm, blk->shared_perm, blk, errp);
+
+Pavel Dovgalyuk
+
 
