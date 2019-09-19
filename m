@@ -2,52 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6D9B77A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:44:55 +0200 (CEST)
-Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94BEB77BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:50:15 +0200 (CEST)
+Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtvi-0003hL-4L
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54880)
+	id 1iAu0s-0006Ah-R6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:50:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iAtt2-0001cy-9T
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:42:09 -0400
+ (envelope-from <philmd@redhat.com>) id 1iAtzw-0005ht-Sc
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:49:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iAtt1-0000sA-8N
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:42:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39684)
+ (envelope-from <philmd@redhat.com>) id 1iAtzv-0004Yg-Q4
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:49:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55128)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtt1-0000rj-1r
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:42:07 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAtzv-0004YL-KS
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:49:15 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4D46A10DCC82;
- Thu, 19 Sep 2019 10:42:06 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CC345D9CC;
- Thu, 19 Sep 2019 10:42:03 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:42:02 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190919104202.GP3606@stefanha-x1.localdomain>
-References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-15-alxndr@bu.edu>
+ by mx1.redhat.com (Postfix) with ESMTPS id ADF7C4E4E6
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:49:14 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-74.brq.redhat.com [10.40.204.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44589608C2;
+ Thu, 19 Sep 2019 10:49:09 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 19 Sep 2019 12:49:07 +0200
+Message-Id: <20190919104907.18005-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eAnxKwVhzStH6fSc"
-Content-Disposition: inline
-In-Reply-To: <20190918231846.22538-15-alxndr@bu.edu>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Thu, 19 Sep 2019 10:42:06 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 19 Sep 2019 10:49:14 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 14/22] libqtest: add in-process qtest.c
- tx/rx handlers
+Subject: [Qemu-devel] [PATCH] util/qemu-option: Document the get_opt_value()
+ function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,43 +54,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Coverity noticed commit 950c4e6c94 introduced a dereference before
+null check in get_opt_value (CID1391003):
 
---eAnxKwVhzStH6fSc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  In get_opt_value: All paths that lead to this null pointer
+  comparison already dereference the pointer earlier (CWE-476)
 
-On Wed, Sep 18, 2019 at 11:19:41PM +0000, Oleinik, Alexander wrote:
-> @@ -830,6 +832,9 @@ char *qtest_hmp(QTestState *s, const char *fmt, ...)
-> =20
->  const char *qtest_get_arch(void)
+We fixed this in commit 6e3ad3f0e31, but relaxed the check in commit
+0c2f6e7ee99 because "No callers of get_opt_value() pass in a NULL
+for the 'value' parameter".
 
-Maybe this should be per QTestState just like big_endian, but the global
-qtest_arch variable is okay for now.
+Since this function is publicly exposed, it risks new users to do
+the same error again. Avoid that documenting the 'value' argument
+must not be NULL.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ include/qemu/option.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
---eAnxKwVhzStH6fSc
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index 844587cab3..141d6a883d 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -28,6 +28,18 @@
+=20
+ #include "qemu/queue.h"
+=20
++/**
++ * get_opt_value
++ * @p: a pointer to the option name, delimited by commas
++ * @value: a non-NULL pointer that will received the delimited options
++ *
++ * The @value char pointer will be allocated and filled with
++ * the delimited options.
++ * It is an error to pass a non-NULL @value parameter.
++ *
++ * Returns the position of the comma delimiter/zero byte after the
++ * option name in @p.
++ */
+ const char *get_opt_value(const char *p, char **value);
+=20
+ void parse_option_size(const char *name, const char *value,
+--=20
+2.20.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DW3oACgkQnKSrs4Gr
-c8i35AgAiA6pKrmgTet/BoWn+A2KFwuD3mVV4uYSKVYhrI+vVO6LN5bEj0mvSEhc
-UkVEONf5HJKmin2kzkmXhOdPRI8XobHUgZZLYonCd5xot20G3SGDpaI2S5DQ34IT
-oGv8MkyJafEIakKgpmABrb0Y84OGLK6HXnA+BTe6Q3KHcAL23DtznzokyRoTBagk
-Yk8oCgYHZZ4VM4IAWzHY19zomgAIC7QcasrXL7OyyR9IAA84vZXRh8eZnCRIO4W1
-GHp7jmMeo0j2QK3OST43YJzdaMsyAfjoTZnNLGiSBTuynbD3A7MAiU0hVnh3PTZ+
-voTEpr0xVRA1kvD471XZ69NXNytomw==
-=F4oS
------END PGP SIGNATURE-----
-
---eAnxKwVhzStH6fSc--
 
