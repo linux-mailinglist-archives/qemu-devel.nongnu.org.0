@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43387B7D58
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:58:07 +0200 (CEST)
-Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27BDB7D47
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:55:57 +0200 (CEST)
+Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAxsk-000866-CF
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:58:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59144)
+	id 1iAxqe-0005sa-QY
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iAxlX-0001cP-7M
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:50:41 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iAxlD-0001MR-Fr
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:50:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iAxlU-0002TT-7g
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:50:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42442)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1iAxlL-0002NK-NN; Thu, 19 Sep 2019 10:50:27 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 842C42A09A0;
- Thu, 19 Sep 2019 14:50:25 +0000 (UTC)
-Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0C3D60872;
- Thu, 19 Sep 2019 14:49:50 +0000 (UTC)
-Date: Thu, 19 Sep 2019 15:49:48 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [RFC] error: auto propagated local_err
-Message-ID: <20190919144948.GR20217@redhat.com>
-References: <20190918130244.24257-1-vsementsov@virtuozzo.com>
- <abb14088-6af2-5db2-da0d-0948fd4ac81c@redhat.com>
- <20190919091720.GB10163@localhost.localdomain>
- <57483252-273c-4606-47a8-eddeb840109a@redhat.com>
- <35c972e1-bdb5-cbcb-ed45-6a51f19af98c@virtuozzo.com>
- <696673be-95c8-3f75-551c-26fccd230eb1@virtuozzo.com>
- <152afb5b-8efb-d968-d595-94f58ad02a04@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iAxlB-0002FA-BH
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:50:18 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38861)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iAxlA-0002Da-Uq
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:50:17 -0400
+Received: by mail-pl1-x641.google.com with SMTP id w10so1734311plq.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 07:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wBnU7eQH7P9dq4SImhH4m+UMr+hvTy4A4AU61yNo/3Q=;
+ b=gabaamDJqbVBPQ5OaB4VLzMvr0A8cOkh+P/+ET+m7UIaDLZ2O9q+xlLIOdUe2tLuqa
+ 8XTs6UtDBdkuOWZqPmSUGufX6Ocu3v6wrICglV31n46T64ptZa0hrABRhq3hwIfGoR2I
+ 6chrxZLQXDMqAnRFl2MgnwODFRrqnZhKaFmOZ2o38QGdDTntYLs1ufjOHezhxetItDv/
+ uYNdWwX3vkNCsfLuFWUHOi/J5AtsAWwq/vrF+4tICZCKFszOuhP253ZUCUrieg7/J7Y5
+ 8deEfiEhnJ+8FRLUFItbH2PsAORjf1VeITF7AZWl2he78V8J79T+kUflXnPmDUqyKOyp
+ VEOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wBnU7eQH7P9dq4SImhH4m+UMr+hvTy4A4AU61yNo/3Q=;
+ b=MB/zz2gcNFpZokFAWN4/nl+yhmqk1wgxnayH7kq2BbIq5g6wiLE2aKvuejy76HOTb3
+ Fjmwv5tkVQExV2CWBzrr7B4UvpR1jveoDaVMgK4mIAk2NekI4S1xCQIXZFeLkAqK5ZuM
+ rPs5vBhzoQ+eOeoYJppxM1WgVfw49AjFi6/cD9ehuOGU9yArr4LzyPuRtwd1Z90msAFr
+ XKiY3lnHPySMTeX21oS6f3cib3ACjFAlJWoZxywY/esMgO0yt6HbjontzwNSsXlFuifz
+ tv/+jo91/r+ko5zGsXuQ2mvj1WjsUZThFj59aQlraOZby1eLHTnsyuoNm3nhZs5n5ZI9
+ DJoQ==
+X-Gm-Message-State: APjAAAXL4BsQGOsAK+GHKNvpFmQTG0iJIzffQWbAcF4xXmFM1j0H6nvM
+ kXoPAHdbbrNXXYtmtJ9l9oO+qA==
+X-Google-Smtp-Source: APXvYqwqsuul27S5q5PuartbeWbNJL8et0wV8hhDiLroFlUV+MrmjNXM4uizdwfm1AgLdYs3Gw15AA==
+X-Received: by 2002:a17:902:6b84:: with SMTP id
+ p4mr10618381plk.168.1568904615163; 
+ Thu, 19 Sep 2019 07:50:15 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id s141sm10546361pfs.13.2019.09.19.07.50.13
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 19 Sep 2019 07:50:14 -0700 (PDT)
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH v1 10/28] target/riscv: Convert
+ mie and mstatus to pointers
+To: Alistair Francis <alistair23@gmail.com>,
+ Jonathan Behrens <fintelia@gmail.com>
+References: <850360df8fc15a3671bf2237f972ebaf09110015.1566603412.git.alistair.francis@wdc.com>
+ <mhng-b813f03d-c23e-405a-8213-c4c9b22a6831@palmer-si-x1e>
+ <CANnJOVFNqXEg9KkJC4CHkt0KTt2_6HjyhU2CvMROW+e79mDncA@mail.gmail.com>
+ <CAKmqyKMfODSjbBm5ZgmHYYzzrf3B_4WEbANeKXo6rSO6V5Pzeg@mail.gmail.com>
+ <CANnJOVGPW1ppNdx+=KAvgNhgGQPvJxjyGY=rxunicu=f++xhiQ@mail.gmail.com>
+ <CAKmqyKPQPrPKdkaRjZ7P75jamuqEq6BABir56VrYGm=ZSFpAww@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <18b87754-d5b2-e4f1-bdc5-92ad26b97379@linaro.org>
+Date: Thu, 19 Sep 2019 07:50:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAKmqyKPQPrPKdkaRjZ7P75jamuqEq6BABir56VrYGm=ZSFpAww@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <152afb5b-8efb-d968-d595-94f58ad02a04@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 19 Sep 2019 14:50:25 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,90 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "fam@euphon.net" <fam@euphon.net>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "mst@redhat.com" <mst@redhat.com>, "codyprime@gmail.com" <codyprime@gmail.com>,
- "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "david@redhat.com" <david@redhat.com>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "groug@kaod.org" <groug@kaod.org>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <Anup.Patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 09:44:14AM -0500, Eric Blake wrote:
-> On 9/19/19 9:30 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 
-> >>
-> >> To the same topic, of minimization: should we always call MAKE_ERRP_SAFE at function top, or only
-> >> in block, where it is needed (assume, we dereference it only inside some "if" or "while"?
-> >> Kevin, is something bad in propagation, when it not related to error_abort?
-> >>
-> >>
-> > 
-> > Or, even, we may use MAKE_ERRP_SAFE on every function, which have Error **errp argument, even if we neither
-> > dereference it nor append hints? Is it what you propose by "SINGLE paradigm"? It's of course simpler to script,
-> > to check in checkpatch and to maintain.
-> 
-> Yes. The simpler we make the rules, and the less boilerplate it entails,
-> the more likely that we can:
-> 
-> a) avoid exceptions and corner cases that cost review time
-> b) automate the conversion into complying with the rule
-> c) codify those rules in syntax check to ensure they are followed
-> post-conversion
-> 
-> ALWAYS using MAKE_ERRP_SAFE() on entry to any function that has an Error
-> **errp parameter is dirt-simple to explain.  It has no performance
-> penalty if the user passed in a normal error or error_abort (the cost of
-> an 'if' hidden in the macro is probably negligible compared to
-> everything else we do), and has no semantic penalty if the user passed
-> in NULL or error_fatal (we now get the behavior we want with less
-> boilerplate).
-> 
-> Having to think 'does this method require me to use MAKE_ERRP_SAFE, or
-> can I omit it?' does not provide the same simplicity.
+On 9/18/19 4:47 PM, Alistair Francis wrote:
+> I'm not a fan of the pointer method that I'm using, but to me it seems
+> the least worst in terms of handling future code, keeping everythign
+> consistnent and avoiding complex access rules.
 
-The flipside is that MAKE_ERRP_SAFE hides a bunch of logic, so you don't
-really know what its doing without looking at it, and this is QEMU
-custom concept so one more thing to learn for new contributors.
+FWIW, I prefer the "banked" register method used by ARM.
 
-While I think it is a nice trick, personally I think we would be better
-off if we simply used a code pattern which does not require de-referencing
-'errp' at all, aside from exceptional cases. IOW, no added macro in 95%
-of all our methods using Error **errp.
+enum {
+    M_REG_NS = 0,    /* non-secure mode */
+    M_REG_S = 1,     /* secure mode */
+    M_REG_NUM_BANKS = 2,
+};
 
-There are lots of neat things we could do with auto-cleanup functions we
-I think we need to be wary of hiding too much cleverness behind macros
-when doing so overall.
+...
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+        uint32_t vecbase[M_REG_NUM_BANKS];
+        uint32_t basepri[M_REG_NUM_BANKS];
+        uint32_t control[M_REG_NUM_BANKS];
+
+The major difference that I see is that a pointer can only represent a single
+state at a single time.  With an index, different parts of the code can ask
+different questions that may have different states.  E.g. "are we currently in
+secure mode" vs "will the exception return to secure mode".
+
+
+r~
 
