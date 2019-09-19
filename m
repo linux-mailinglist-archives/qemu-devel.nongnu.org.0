@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAFDB7B92
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:05:45 +0200 (CEST)
-Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3126FB7B78
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:03:09 +0200 (CEST)
+Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAx43-00068R-TH
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
+	id 1iAx1X-00036w-IM
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iAwx0-0007Dl-Fy
+ (envelope-from <laurent@vivier.eu>) id 1iAwx0-0007Ju-RD
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:58:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iAwtc-0003l0-Ps
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:54:57 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:59585)
+ (envelope-from <laurent@vivier.eu>) id 1iAwtc-0003kO-1L
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:54:56 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:49025)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iAwtb-0003j5-A4; Thu, 19 Sep 2019 09:54:55 -0400
+ id 1iAwta-0003id-O0; Thu, 19 Sep 2019 09:54:54 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mqro7-1hoadM1XPd-00mqC0; Thu, 19 Sep 2019 15:54:49 +0200
+ id 1MhTt7-1hfCyv0523-00eciQ; Thu, 19 Sep 2019 15:54:50 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu, 19 Sep 2019 15:54:39 +0200
-Message-Id: <20190919135443.15164-5-laurent@vivier.eu>
+Date: Thu, 19 Sep 2019 15:54:40 +0200
+Message-Id: <20190919135443.15164-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190919135443.15164-1-laurent@vivier.eu>
 References: <20190919135443.15164-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0kbdgrvWoaromifnmGUDSe91cfeXzXS8GwPBAzwU68BC5waGoM7
- trP9/k7N+jk5acjocP+2K78wUfL+y8Q8EyQeh2Bhnj0xCH6Lt7ON7lUeZ5r/khAK7xUOHyO
- ZqE9+If6hgRNTqFa7ap0acnVsOceXys2bHNwISgqM4GPQ27XpKIuLexnKGOPDGOaU+ZAuS7
- YYEvh6NW8niFTPw5bdhrQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s29iUPYgn2A=:44CGhlphQwpD/Nij3XjO1W
- k8dYCEEKEs5pB7DhGuD5dBby7BGBi0f2lPfzMUorW0xsaMUmsTj34Rz/nTgvJKnevZ9a5A0Yy
- bzWsTgybkhdQYQlekg0F7sDoymX82EKYIBOuud1aGjUEQ9O3rVET2j1QKnZxYl8WtyoZXU3KR
- C/OHEg8Rl6rWFxqUDvV97FJOWP1SWGf2RFiNR8UB4q/8wyVpcetCGAbuuf5toFUHyJbZu08W5
- USBY4Gu/tcjo4W/Xlhgj0spFf3xn+CQ8L1+L0njJ6zqfyWwDo5pTWsDol1HDrhaG3NawLZ9z2
- WxgSCIq8JYXg28wSrEC/z6+D76YwC7GNNnnK7EUFwSD+6jhTYn5qhPPkDFruSZmhDsEfJNCVH
- 3EyapSDZAasa5arp8CZOua7b1LlKoF93bBas6AALvZMbf8bG4jIB1uKFE6CIEMf5Wf/8dFAOX
- LijVEIQxeRQ8ZNmqGNI4Qd4kN9o/I5MlqIUtZNdH7Q2NplGclZCy5YWDbtnViAJlbo2LVeLf/
- qeyKDdIkz69FdmWQGNsXYOnfw03VvR7FfRH9EzMXaRLXSpU1DrsS/rtTWT+yCpu0+2RCAr4OU
- Gytji/pbr0VbXO04n+btEsQulVBh+3adgK5R9+VPt5XkFBD/nCD4nXK1tU3MXSTpmy9OPa056
- P48wq/W3iNG7dmgfHwOoqtgpku0MkxxJfRVUbCr+LBop+pK60JaWatt8wSPuB7FY4p4VgS/At
- Oy7MqWg38+AZBBw83zpG6T976WYYP8L0SkuPFJ0T2IymHswpD/BBwrQ+NX3EN80gaZLfrSRaD
- lXU38NDkYobOA50ncHxQ49hupHLIjM9F3E3vz7qHkVpjyU3jZom1z+dzeC23pLE9qaeKRPFr1
- rNd2lo/evVvt6FwdVXzTHbW2AIkz8Cwz1yrvy6xkY=
+X-Provags-ID: V03:K1:aCTxE/55gxbTEXoflVlPh1bltVT25udlMGvcJr7t/q40R7ThRgb
+ H9aELoPdCdw3fzMls7LEHETnxZo30bLIp7ADV3kE/zD+kCZkXFVdWKV2UBWb00F+B44mog2
+ rTRee6KCrDi5mpqkPMcf/Yr8PlCXsl19JNdRgJ6ueh/TAGp4n/85rl6U1331qdsrgE50oYF
+ nBkAVeA7eyA9SD5wQ4TUQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LQh90LL5D1s=:7sJ6Ylpn3dSOlJk6yvb0ZQ
+ s/CF4HeSaVxPPAlrGlHBVXYvtiBmLjM3j61nbARM2cTzm2NzuiK10EfWZDBCmbo4gl19W2/yf
+ XIOtYeU8SFZW+DcWe4+dmaLGRx5mMbQSzmuFS9ya5xYfFzl2y0Hhm3N4eV/Z5AVQp9NHqfO/l
+ z8SlSm7E6unDioBv25aWBBqPq8W0htevjkpXDsbtXWXe6hrMuvZ6feF90tRhVjvRn8PcbKkYb
+ f/n7oMYC9lDgAod6BxcwbQaYqve752wzP59HP/cwEqgZvkmyTKMlXdIIb9894YciFFxq2rQZo
+ s98DeTqWDZq2YnDzSM3Fkm4ZB3MKHxzChGhAxLGcwM5GkQpdBCvxUZ56yqzFhFe/n4KhJkJxL
+ JaaqLK1sntyzXb1sErITgM/oEtsloSPhC4lcWDGvC7E38zEDD3E5TXsCHAtfa7Q9qxMVfyAus
+ L8JD75UvzUCaI2/yC4SSqECqNQXFukg6S9XU4TLTPXHQ3yZaY1NjiECF/RYATf0V7UG3xihzQ
+ usbQ3kJmvAospcGaca/Mc1+nd9M8h+280dBRmqwkCFKsARP3lzJ5bLWrakgGCvS5di2lxFumW
+ 1Ify2qn9v3tKt2Wsy/0Aq++luMigKm34u8JVEYd048A29kLLaFF9ARPZRH2SmyeNwpb2YE/bo
+ oE2iaZsxN81RRkxeOrQLn1Z/EFPMyyVWxuqvWugqshrGuPiMB8S/fBTWUckAoe80Sdb3KIKed
+ +h8VikBrX9M/psSsbh5OaMRKO+kt1ZRrwg60zIIVjjYq0OL8YmhtCl3lZK+tC4UysovBLGYsU
+ DcP6sZYGzLScw6VE0zM3LRz50QNZk0nBW+8OabE7gXfFC65Styn4LwyjxwgNv0I+6fdk/rkqU
+ lwqM4Hf8SBWTCjU8lFaiM2kVvDrxlkJtR21vvuS/Y=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 4/8] target/m68k/fpu_helper.c: rename the access
- arguments
+X-Received-From: 217.72.192.73
+Subject: [Qemu-devel] [PULL 5/8] build: Don't ignore qapi-visit-core.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,75 +65,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: KONRAD Frederic <frederic.konrad@adacore.com>
+From: Eric Blake <eblake@redhat.com>
 
-The "access" arguments clash with a macro under Windows with MinGW:
-  CC      m68k-softmmu/target/m68k/fpu_helper.o
-  target/m68k/fpu_helper.c: In function 'fmovem_predec':
-  target/m68k/fpu_helper.c:405:56: error: macro "access" passed 4 arguments,
-   but takes just 2
-               size = access(env, addr, &env->fregs[i], ra);
+This file is version-controlled, and not generated from a .json file.
 
-So this renames them access_fn.
-
-Tested with:
- ./configure --target-list=m68k-softmmu
- make -j8
-
-Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
+Fixes: bf582c3461b
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1568296920-29939-1-git-send-email-frederic.konrad@adacore.com>
+Message-Id: <20190912184607.3507-1-eblake@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/fpu_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
-index 9b039c856df8..4137542ec03b 100644
---- a/target/m68k/fpu_helper.c
-+++ b/target/m68k/fpu_helper.c
-@@ -396,14 +396,14 @@ typedef int (*float_access)(CPUM68KState *env, uint32_t addr, FPReg *fp,
-                             uintptr_t ra);
- 
- static uint32_t fmovem_predec(CPUM68KState *env, uint32_t addr, uint32_t mask,
--                               float_access access)
-+                              float_access access_fn)
- {
-     uintptr_t ra = GETPC();
-     int i, size;
- 
-     for (i = 7; i >= 0; i--, mask <<= 1) {
-         if (mask & 0x80) {
--            size = access(env, addr, &env->fregs[i], ra);
-+            size = access_fn(env, addr, &env->fregs[i], ra);
-             if ((mask & 0xff) != 0x80) {
-                 addr -= size;
-             }
-@@ -414,14 +414,14 @@ static uint32_t fmovem_predec(CPUM68KState *env, uint32_t addr, uint32_t mask,
- }
- 
- static uint32_t fmovem_postinc(CPUM68KState *env, uint32_t addr, uint32_t mask,
--                               float_access access)
-+                               float_access access_fn)
- {
-     uintptr_t ra = GETPC();
-     int i, size;
- 
-     for (i = 0; i < 8; i++, mask <<= 1) {
-         if (mask & 0x80) {
--            size = access(env, addr, &env->fregs[i], ra);
-+            size = access_fn(env, addr, &env->fregs[i], ra);
-             addr += size;
-         }
-     }
+diff --git a/.gitignore b/.gitignore
+index e9bbc006d39e..7de868d1eab4 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -41,6 +41,7 @@
+ /qapi/qapi-types-*.[ch]
+ /qapi/qapi-types.[ch]
+ /qapi/qapi-visit-*.[ch]
++!/qapi/qapi-visit-core.c
+ /qapi/qapi-visit.[ch]
+ /qapi/qapi-doc.texi
+ /qemu-doc.html
 -- 
 2.21.0
 
