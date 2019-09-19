@@ -2,53 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959FAB78B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:53:07 +0200 (CEST)
-Received: from localhost ([::1]:42680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E65B78C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:57:26 +0200 (CEST)
+Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAuzh-0006V7-PL
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33426)
+	id 1iAv3t-0003Ut-1h
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iAuxm-00055K-Kj
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:51:07 -0400
+ (envelope-from <philmd@redhat.com>) id 1iAv1K-0001YW-Fo
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:54:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iAuvf-0006N1-J9
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:48:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32970)
+ (envelope-from <philmd@redhat.com>) id 1iAv1J-0000T4-1w
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:54:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:4081)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iAuvf-0006Mx-EM
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:48:55 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAv1I-0000SN-RH
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:54:45 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9D43C307BCC4;
- Thu, 19 Sep 2019 11:48:54 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
- [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E3BB19C6A;
- Thu, 19 Sep 2019 11:48:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 99BCB17444; Thu, 19 Sep 2019 13:48:53 +0200 (CEST)
-Date: Thu, 19 Sep 2019 13:48:53 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190919114853.rz5saa6vzd3amw5c@sirius.home.kraxel.org>
-References: <20190919070918.16059-1-kraxel@redhat.com>
- <CAFEAcA9+xzQx0tFuXWzM7CpGFvVEivhZ_d9QMbCaDP2tgmeaOg@mail.gmail.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id D355C369AC
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 11:54:43 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id f10so1466596wmh.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 04:54:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oZSJkfEIC7y9ibClBt5n6B80dJNhG+DmuFapUmQSFY8=;
+ b=jg0FObEinwX3SBw2Q95vnQI41oAG5ugZ3vvZqbvAxax3LGylJymvLFSnIOaVmN70zi
+ L3lAAcPrzxrnEqhQ5+cNONxU/MVfEbm41bBnYVj/Vv/JcNgqoCB7HtOW/EBDV21H6Iz/
+ VGvJLTTAzI+gg9otA+ptcIHX8Zqg92i4bFwKGqSIXBDmfHQmXe1MJSuSAfOA+LQtIQM6
+ rP7LxWIRd3Ljz1i/LIZEVnvtM6JMHvJx2JFOhBvtXF+D/y5pjUWWA37FuuGaawNMYkCA
+ cpAFexaDAKmANVJNiSoXhUgUzt+zCjuOSZj63fNYoV/jo9CuQIr22lsYpHCBnR0Lswp9
+ Qb8w==
+X-Gm-Message-State: APjAAAWBeU7iOqT2cTYE2/thNTb0DAfyUvOb2x/In9vkKBNqY3iYrKp2
+ U0VeWNabm4SGPz3NaJmVmEAqmKk9p6b2D5ielEyhhiGPDEujvtldu9qHyvHcrSZzhFlEo+cfNwr
+ YY12vBds8FyArwGI=
+X-Received: by 2002:adf:fd8c:: with SMTP id d12mr7331787wrr.142.1568894082481; 
+ Thu, 19 Sep 2019 04:54:42 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw+BEIFQTB4rKVw5jZiSspCL39KpO2qcB15nFR/dwbfIVh0pXVTyIL6C9H1H5vTCNSAUkM7Zw==
+X-Received: by 2002:adf:fd8c:: with SMTP id d12mr7331758wrr.142.1568894082132; 
+ Thu, 19 Sep 2019 04:54:42 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id 17sm9083687wrl.15.2019.09.19.04.54.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Sep 2019 04:54:41 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20190919105932.19412-1-philmd@redhat.com>
+ <04454c37-ad8b-b69b-3f40-bb78f0c20ef2@weilnetz.de>
+ <20190919114152.GK20217@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <982785f8-6864-46cb-dca2-0a9877c2d92e@redhat.com>
+Date: Thu, 19 Sep 2019 13:54:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9+xzQx0tFuXWzM7CpGFvVEivhZ_d9QMbCaDP2tgmeaOg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 19 Sep 2019 11:48:54 +0000 (UTC)
+In-Reply-To: <20190919114152.GK20217@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 0/4] Ui 20190919 patches
+Subject: Re: [Qemu-devel] [PATCH 0/2] testing: Build WHPX enabled binaries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,51 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Lucian Petrut <lpetrut@cloudbasesolutions.com>,
+ qemu-devel@nongnu.org, Justin Terry <juterry@microsoft.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Ilias Maratos <i.maratos@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 11:13:30AM +0100, Peter Maydell wrote:
-> On Thu, 19 Sep 2019 at 08:11, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > The following changes since commit 89ea03a7dc83ca36b670ba7f787802791fcb04b1:
-> >
-> >   Merge remote-tracking branch 'remotes/huth-gitlab/tags/m68k-pull-2019-09-07' into staging (2019-09-09 09:48:34 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kraxel.org/qemu tags/ui-20190919-pull-request
-> >
-> > for you to fetch changes up to 6bf21f3d83e95bcc4ba35a7a07cc6655e8b010b0:
-> >
-> >   vnc: fix memory leak when vnc disconnect (2019-09-17 13:45:10 +0200)
-> >
-> > ----------------------------------------------------------------
-> > ui: add barrier client.
-> > ui: bugfixes for vnc & egl.
-> >
-> > ----------------------------------------------------------------
-> >
-> > Gerd Hoffmann (2):
-> >   ui/egl: fix framebuffer reads
-> >   vnc: fix websocket field in events
-> >
-> > Laurent Vivier (1):
-> >   ui: add an embedded Barrier client
-> >
-> > Li Qiang (1):
-> >   vnc: fix memory leak when vnc disconnect
-> 
-> Dropping this pullreq because Li raised an issue with patch 4.
+On 9/19/19 1:41 PM, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Sep 19, 2019 at 01:18:57PM +0200, Stefan Weil wrote:
+>> Am 19.09.2019 um 12:59 schrieb Philippe Mathieu-Daud=C3=A9:
+>>> Add a job to cross-build QEMU with WHPX enabled.
+>>>
+>>> Use the Win10SDK headers from the Android Project, as commented
+>>> in https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03842.htm=
+l
+>>>
+>>> Based-on: <20190918121101.30690-1-philmd@redhat.com>
+>>> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03844.html
+>>>
+>>> Philippe Mathieu-Daud=C3=A9 (2):
+>>>   tests/docker: Add fedora-win10sdk-cross image
+>>>   .shippable.yml: Build WHPX enabled binaries
+>>>
+>>>  .shippable.yml                                |  2 ++
+>>>  tests/docker/Makefile.include                 |  1 +
+>>>  .../dockerfiles/fedora-win10sdk-cross.docker  | 21 +++++++++++++++++=
+++
+>>>  3 files changed, 24 insertions(+)
+>>>  create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.do=
+cker
+>>>
+>>
+>> Please note that the required header files are part of the Win10SDK
+>> which is not published under a free license, so I am afraid that they
+>> cannot be used with QEMU code to produce free binaries.
+>=20
+> Can you elaborate on why you think that is the case ?
+>=20
+> Looking at the 3 header files used, all they contain are struct
+> definitions and integer constants, fortunately no functional
+> code in macros or inline functions. As such, it is questionable
+> whether the headers alone can be considered copyrightable material.
+> Any compatible implementation that follows the WHPX API/ABI will by
+> neccessity be the same, modulo code style.
+>=20
+> Further, from a GPL POV, these headers should fall under the system
+> libraries exception, as WHPX is core low level operating system
+> functionality.
+>=20
+> There's a valid legal question as to how to we got access to the
+> files in the first place. Assuming they are freely distributable
+> though, given their hosting on Google Android downloads.
+>=20
+> So the fact that the headers are not under an open source / free
+> license doesn't look like it should impact the ability to distribute
+> the resulting QEMU binaries.
 
-Discussion here:
- https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00030.html
-  https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04161.html
-   https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04220.html
+Are we distributing the resulting binaries?
+I don't think so, we only build until linking in a scratch container and
+discard its content, we don't have access to the container storage via
+Shippable (also Travis). We only use the exit code and the console
+output from the build.
 
-Summary: all fine, there is no race.
+We are not distributing those headers neither, as we currently do not
+distribute the docker images.
 
-cheers,
-  Gerd
+Regards,
 
+Phil.
 
