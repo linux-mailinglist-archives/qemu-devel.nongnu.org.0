@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE377B8019
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:38:08 +0200 (CEST)
-Received: from localhost ([::1]:47088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D20B800E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:34:14 +0200 (CEST)
+Received: from localhost ([::1]:47032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0Na-00084a-RB
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:38:06 -0400
+	id 1iB0Jp-0003RE-3E
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:34:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iB07S-0008UJ-18
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:27 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iB07Q-0008UJ-RI
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iAzvN-0003pJ-Nx
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:08:58 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:42659)
+ (envelope-from <alex.bennee@linaro.org>) id 1iAzwh-0004Kj-68
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:20 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52486)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iAzvN-0003ow-GF
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:08:57 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id i185so3338005oif.9
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:08:57 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iAzwg-0004KD-Uy
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:19 -0400
+Received: by mail-wm1-x332.google.com with SMTP id x2so5535851wmj.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aTRi6tT55RAkYx7Li11LL7xBS9tOOOaLa888zMSma7E=;
- b=eiWyH2rfvPL1hfDMJTJftugwJ6VKg4MAuOiAd7uncY3Ch9mHI6nO3OuywZPCwGhppX
- Vf/m/D7L/3vDy3PyCeZBTO2x0sqGlrTwrFqFpTP2KG3LuIspx3v4AnicVlYfpkIWx+Zi
- luxA6ExRi1pzu/419JGpzH1p0EybTEm4BeYf35Q0o3kMsz7mL2R8re0Z5/mJKeo/3rC5
- tFp81SHm+sVCi61kWmmX+xTx4fKPWN1lE8wFsc5jLEuH8TEqHHvJITzftFaFROvTnduS
- ZgOv4NL3YLNf8THQQ7tkgqanfoCjiEWeCu/5+3TJmHMHO7o61qx48Nzi41mrLDTRM35E
- jTkQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QUh3NVS0+++zbl6WS3omFFjk+nAk4Oz62zwaYtcIJbk=;
+ b=yaYHrIYMwj60iB+h00ZOp8E4oitW1BLS07x2xMQl1yRTRkIttrn5M6eqL9+HtZ9zkm
+ 8CXemClrMETqkXcD5X7NWFKieIbrY3y7IHPQq8Cyz3wOytACckmp0NLrmbF2t+8NISOk
+ x3gjFmv49oYV8OZwjdCeUG2DDNQwf+eVvLAeegLlQc3Q3zO8iKhd5NDpJKs6pWURI1KT
+ Snjpx9JlIt8NT/skBvvzU4FgaluBlb6Ho9QHq3tSFafcTCvf4UUcs4xIR9tix0j2DyaD
+ 7bSBquH3JXbmWBnI2vYIGifQUWuP+FLabUCKMJKULgH68P4FpyYArCAbkaMp3jbDZJBa
+ SEfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aTRi6tT55RAkYx7Li11LL7xBS9tOOOaLa888zMSma7E=;
- b=CtNoxwfnuLh1do8ni/mRz6cCj5vTZVH+Np5Y1upwZRxZJDmpLE9IgwhC3YKEpw7DT5
- uVIJJ5lg8XgJfjX3mgWon4cHCNtbtb/1j+oxfeQzDDfrMupOtoq6GPr9i1n2N/+yZHN0
- 1ExxYnoZSMp7rD+et2e5cXDXzFU1MT+rbZDmvAxircNEfvb7pIfRRyMELbkAnMrZl7Oc
- DXFznSA9aJSpUpkK+n1ZAqaXTekXQwj6hpzCh4ldlWqQg+w9UNdIhjxMW+SGQKmE/qhO
- 54ZVS95luenUeXohgqsXu7r2GdtIuO67Up+5QzIpac8CAWX6K+Q/H7k1K2XGz5+z/V/+
- tQsQ==
-X-Gm-Message-State: APjAAAUWYGy5DZSd8Ifm/OJhxLMYgMUku5ktArXL+tZoDtmteAE+Mfev
- r/y7WJ4Zl6a3CNI2MbNuKPcOZw6ujFCa22tZ69Kii2wNhXU=
-X-Google-Smtp-Source: APXvYqx2kaJxDOXY/rkLtND6vROE3hSq9/ZGuX3y7hKZ+t3+Ujsv63AJk0DrG+zwkkX5ke7r0704oiFRpm/vNk1vf1g=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr3023103oib.48.1568912936471; 
- Thu, 19 Sep 2019 10:08:56 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QUh3NVS0+++zbl6WS3omFFjk+nAk4Oz62zwaYtcIJbk=;
+ b=qiO22IkFqAdt4eFyB17KMbZMWGcnYPT/GwoBBgvnyE3xsZHCmynaW28Q4OCbvDTx0d
+ +vm2jqLpG/y6GOJwd90vw07aWC4A7iWt3psEdrbInWKPNzqFzyTag3cnpxDOMaWoS6Uv
+ GN9xGiCyIVI+huUll/aYy/Cj44fmxY5nenrSoh9aMQAbqXkXVw44kjjJdj4GeJW3vw8r
+ PHnGg4cPvixcz0tWpcn0hNMctzR8n/PNSD7S2iQvyuGZjPLXFb6J/7urtZcdnRWUHl37
+ K8wUc2qk8tFiecXLH50odgjfubXenbYNEJDQlaqREHRvzc/nQEAWlKSr0YTQaVlVLt2r
+ 62zg==
+X-Gm-Message-State: APjAAAWHR0mH2FJa+XKEMzPEoKYe6KldxpJquGllJFylGmwR4O7g/ra3
+ r1M/KKdLcTClf6vsLIezzAopOQ==
+X-Google-Smtp-Source: APXvYqzIxGK1qJBLcTIxSCpNWtp1qldpsBXxgWOSh96BhWHIk37C3wztdvN66uvMaunSOLSrKFkNYA==
+X-Received: by 2002:a1c:f01a:: with SMTP id a26mr3709735wmb.84.1568913017757; 
+ Thu, 19 Sep 2019 10:10:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w4sm9016322wrv.66.2019.09.19.10.10.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 10:10:16 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D4B1E1FF8F;
+ Thu, 19 Sep 2019 18:10:15 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 02/16] tests/docker: fix DOCKER_PARTIAL_IMAGES
+Date: Thu, 19 Sep 2019 18:10:01 +0100
+Message-Id: <20190919171015.12681-3-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190919171015.12681-1-alex.bennee@linaro.org>
+References: <20190919171015.12681-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <9c6bf92a-0869-cf5d-222b-305e55393ebb@schrodt.org>
-In-Reply-To: <9c6bf92a-0869-cf5d-222b-305e55393ebb@schrodt.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 18:08:45 +0100
-Message-ID: <CAFEAcA-GdcL+4yOnn1-SbD-8F8THA1TN5japT6Sk27GwtwBNnA@mail.gmail.com>
-Subject: Re: Will the qemu-devel prefix in the mails come back?
-To: Martin Schrodt <martin@schrodt.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22d
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,21 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Sep 2019 at 18:06, Martin Schrodt <martin@schrodt.org> wrote:
->
-> Does anybody know?
->
-> My mail filter would appreciate :)
+Finger trouble in a previous clean-up inadvertently set
+DEBIAN_PARTIAL_IMAGES instead of DOCKER_PARTIAL_IMAGES. Also fix the
+typo to debian-9-mxe.
 
-Sorry, no. See the announcement sent out last week:
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01645.html
+Fixes: 44d5a8bf5d2
+Signed-off-by: John Snow <jsnow@redhat.com>
+[AJB: merged fix from Message-Id: <20190917185537.25417-1-jsnow@redhat.com>]
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/docker/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We recommend you filter using the List-Id: header instead.
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 50a400b573a..3fc7a863e51 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -7,7 +7,7 @@ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ DOCKER_DEPRECATED_IMAGES := debian
+ # we don't run tests on intermediate images (used as base by another image)
+ DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian-sid
+-DEBIAN_PARTIAL_IMAGES += debian8-mxe debian-9-mxe debian-ports debian-bootstrap
++DOCKER_PARTIAL_IMAGES += debian8-mxe debian9-mxe debian-ports debian-bootstrap
+ DOCKER_IMAGES := $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+-- 
+2.20.1
 
-thanks
--- PMM
 
