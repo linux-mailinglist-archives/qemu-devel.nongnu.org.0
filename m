@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAFDB773D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:19:54 +0200 (CEST)
-Received: from localhost ([::1]:41894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE5EB7745
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:23:07 +0200 (CEST)
+Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtXV-00084V-3p
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50760)
+	id 1iAtac-000392-I1
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iAtRv-0004J5-Rc
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:14:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1iAtTV-00062z-EA
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:15:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iAtRu-0003So-HE
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:14:07 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34283)
+ (envelope-from <bounces@canonical.com>) id 1iAtTT-0004gm-HS
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:15:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46720)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iAtRu-0003SZ-C4
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:14:06 -0400
-Received: by mail-ot1-x343.google.com with SMTP id m19so737219otp.1
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 03:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HWd4EgdIZ9PR027Le8RmBtLaPSPzr3iLhqzc8GiPJMg=;
- b=GigOSWm89Z4/aDC+7uS9B7JdTbUkkPKeVgBbB5tEvYrdNgxGRovhFhK1Lu81qnQ2F6
- QSrKS4gzG8J3wYDz9+OmuVYZHQ6fwfZqD/NeDSef15DRKGI6LWb6WAwywhCSQa4KMjzX
- bWKLCEGlSyZhSUc5Ie0WQwwnmkqv6z7961C9jqTtRSORDHpuS/HoDsHVwLZoMMwj7Cm9
- iF/8dGFbKtwyaM02ltmeRGwMzhZdmBnhMAwdLu+4SedXJaU1WkuEg82E/bIq3D6llJm8
- z0BIZhikMksjzwF1YBg/iY4TQVksWbjVeLa2XKCN1vhII4ZBwkd2ZbMnT1a/3zdj5w71
- d7vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HWd4EgdIZ9PR027Le8RmBtLaPSPzr3iLhqzc8GiPJMg=;
- b=ZzM1KQ14py7udHz2GqL0zmcUndpksdTj6ppJ0NoC4Bx6Sna9qSOMFC6dM0zwnxKCv7
- k+WBMQluiLz50aPsxzGLR4XwPFLJR4TVQUz5JwSjiNmn1HjXu3DoYIRr2yqo1U4FpuB8
- TTmRLZlM33YKwQKOpX1L2JR2GYZJ4NDZ7XSZo5Jax0uEd+reGZ75CoHdtN+lybLRd1rw
- t2MJYn9wL9fdxj4s9V4phbJtB8N7/ktHz2ydP7k6Px3Zfbl89gUkQbqleu6brvPyGTw/
- HzcJlmKuKDutdqexR+zTC6F0+lftfM9UefvTCMYckiMe2LIklv8oXOhRWaYuiBUpd+Gw
- 8m8Q==
-X-Gm-Message-State: APjAAAVN6r2xtELc1nctnpLI/diNtScuDO5H4RjaWTaJJTmNQQjPQOwP
- bccg3Sdz/xH34wH0vl5NubxYJDP7DFri7viXymUOyw==
-X-Google-Smtp-Source: APXvYqygKN+Asnjz87rmLpCEBzTmLzkBsHcM3oRaoriSm/dY9WJhsfWq8LL0eKawpIQnwVLZdzPbz3208X4enm4DEyM=
-X-Received: by 2002:a9d:5e11:: with SMTP id d17mr6259149oti.135.1568888045700; 
- Thu, 19 Sep 2019 03:14:05 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iAtTS-0004g5-VN
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:15:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iAtTR-0002Jm-Eq
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:15:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4C7682E80D3
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:15:41 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190917151011.24588-1-mst@redhat.com>
-In-Reply-To: <20190917151011.24588-1-mst@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Sep 2019 10:06:54 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 11:13:54 +0100
-Message-ID: <CAFEAcA-GSdBxVzA3FgNWhGULr5Njb3PVN=cEONS+Vm9B2N_b_Q@mail.gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PULL 00/10] virtio, vhost, pc: features, fixes,
- cleanups.
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: patrickvl pmaydell
+X-Launchpad-Bug-Reporter: Patrick van Logchem (patrickvl)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156888568548.4915.345807497840369560.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156888761506.4877.11494281799690018117.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ffd7fa5c78c08eb1b431f538ae5bce626f81fe33
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1844644] Re: Compiler warnings using MSVC
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,61 +64,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1844644 <1844644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Sep 2019 at 16:10, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 138985c1ef8b66e4e5b383354e133e05d01d0b5f:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-sep-12-2019' into staging (2019-09-13 16:04:46 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 44e687a4d9ab327761e221844ced7dc9c23350a5:
->
->   virtio-mmio: implement modern (v2) personality (virtio-1) (2019-09-16 11:17:06 -0400)
->
-> ----------------------------------------------------------------
-> virtio,vhost,pc: features, fixes, cleanups.
->
-> Virtio 1.0 support for virtio-mmio.
-> Misc fixes, cleanups.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
-> Laurent Vivier (1):
->       MAINTAINERS: update virtio-rng and virtio-serial maintainer
->
-> Pankaj Gupta (1):
->       virtio pmem: user document
->
-> Peter Xu (4):
->       intel_iommu: Sanity check vfio-pci config on machine init done
->       qdev/machine: Introduce hotplug_allowed hook
->       pc/q35: Disallow vfio-pci hotplug without VT-d caching mode
->       intel_iommu: Remove the caching-mode check during flag change
->
-> Raphael Norwitz (2):
->       vhost-user-blk: prevent using uninitialized vqs
->       backends/vhost-user.c: prevent using uninitialized vqs
->
-> Sergio Lopez (1):
->       virtio-mmio: implement modern (v2) personality (virtio-1)
->
-> Wei Yang (1):
->       docs/nvdimm: add example on persistent backend setup
+Hi; MSVC is not a supported compiler for QEMU. We expect it to be built
+with either gcc or llvm.
 
 
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-Applied, thanks.
+-- =
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1844644
 
--- PMM
+Title:
+  Compiler warnings using MSVC
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  The following line of code results in an implicit truncation of an uint16=
+_t value to an uint8_t variable, which triggers a compiler warning in MSVC =
+: https://github.com/qemu/qemu/blob/f8c3db33a5e863291182f8862ddf81618a7c619=
+4/hw/usb/dev-hub.c#L387
+  (Two lines down, the same thing happens.)
+
+  This warning can be silenced by doing an explicit truncation, for
+  example by a casting the value explicitly to uint8_t type, or by
+  anding the value with 0xFF.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1844644/+subscriptions
 
