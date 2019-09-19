@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707F9B8514
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:17:35 +0200 (CEST)
-Received: from localhost ([::1]:49102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88322B8556
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:20:16 +0200 (CEST)
+Received: from localhost ([::1]:49148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4k2-0007iC-CR
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:17:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58601)
+	id 1iB4md-0002ZZ-J9
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59557)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iB4Te-0007ch-QP
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:00:40 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iB4cG-0000AN-7m
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:09:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iB4Tc-00070K-Ey
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:00:38 -0400
-Resent-Date: Thu, 19 Sep 2019 18:00:37 -0400
-Resent-Message-Id: <E1iB4Tc-00070K-Ey@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21498)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iB4Ta-0006xL-Tq
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:00:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568929522; cv=none; d=zoho.com; s=zohoarc; 
- b=GtoQde5MKAE6XVZf1Q3SdZbzhMtHdfy+EfyJ/M0NSOroZ+iDgZuRFXAJ/NtHKgiqVQQrdZH2KF9BrEjieLcd4ihXV4CBBProO6NRAdJSsbCVoM/vayrR6cnUzcCQIVkRnpd2FFQ0ISALE3VLcVz+o0av0F/LEtshmrRrKnJWNsY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568929522;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=uJlDRFVd4YFxQuABmiwO6OUNGdRvMui5uGwqXcPYV4Q=; 
- b=XctdeEl8sKOZPypmFMuaTJKvIou/l2XKjnMPc9fcgmbl1SgMNUepCtBUjT3pi8LmVhOt11DpXY6XgeljyuEMahFnV50m8p9ML9YC8EVLNyhOx+8CS/lLc/MKFdoUD84xl/4CigYVvgh8mu4yaQZ1iziF9J52i+ucWqULd9npjlM=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568929521314583.9665974081732;
- Thu, 19 Sep 2019 14:45:21 -0700 (PDT)
-In-Reply-To: <20190919070918.16059-1-kraxel@redhat.com>
-Subject: Re: [Qemu-devel] [PULL 0/4] Ui 20190919 patches
-Message-ID: <156892952036.2125.13005753593339332862@1c8ae44fe5c0>
+ (envelope-from <richard.henderson@linaro.org>) id 1iB4cF-0002wX-2z
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:09:32 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39276)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iB4cE-0002w9-Rt
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:09:30 -0400
+Received: by mail-pg1-x543.google.com with SMTP id u17so2644983pgi.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 15:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DkZVL945NAnYHjWuiXZVXLZifIDxk/sIZLtif3ChFoE=;
+ b=Ljq7lKhP5vhf0x3PV29onNMfkxqUiSH44ZvtKQz6ZkLngzVNTZC5k0cvtLMK5j8Kab
+ k5I5ODe731GeEu1TF8vrDVwhGl+KNTqr7xbGl6Gh0iwroi4BHBrr9IWVoYZ2Myqj7PtG
+ SBBQZWbZ8uTGdfiBpJCwYd43E+MRVod15lYLHzhQeU+wJC8rxUg8P5DjX8bpKCPblIGd
+ cl9Gv1Isl09P06Q5PM7jSmqjdn0KS1XY6noF7qfTeiQZMkv/GqCiHKz0uQeFzQd/L+x9
+ y5kh7flp5bdjnVg3VxDsFnCfWcfy7fAMf1s87KZCBq30JRaLd2RClyCEnrdH5mXJiGT5
+ K7MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DkZVL945NAnYHjWuiXZVXLZifIDxk/sIZLtif3ChFoE=;
+ b=m2sL+QCrB/Yon2lsipG+J4Nv8nbG9O6m642J4KQX4Bofhk++Qh6yHVUtoaOeVtE3NW
+ OxvlGL0ZlrBr13MJRTPeFrjgEAOud2gdP/sqauNxLD0oc8rdA43obPK1RwqP5B4fRnTA
+ +bEUTJ+U2gGZekO0nvBHI1I00Ivyifag1nI6W+0afikXJpS5HfyIxvkSejrQDYKsiwbg
+ te/oPA0wWfNeadqwOgLmwneqwGwFKd9WefbDVOE0Ixth0zH87vQvavGD2sgKNotsPGXo
+ dBuuT2Oczdg5W2rJcG8+5EkxlR3blBut8tLLv3/dcP9ue70TGyiL1VciKmqYjRLNsjTR
+ Y3bg==
+X-Gm-Message-State: APjAAAVPOt5XM81XtSB9zqupVvgl9xuYQRLaCVaID9qitNVmuTxS1m6D
+ cJxwQsdvZiZws782fuuAjT+ZwQ==
+X-Google-Smtp-Source: APXvYqwZGF9/EjxGtzE7GXn0x31jpAMryJ8X8zyBtjNDW9E3/1eENt8tj4Gyjm+tUcPtsEKH3z7ZvQ==
+X-Received: by 2002:a17:90a:de0f:: with SMTP id
+ m15mr128386pjv.107.1568930969517; 
+ Thu, 19 Sep 2019 15:09:29 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id v68sm4052pfv.47.2019.09.19.15.09.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 19 Sep 2019 15:09:28 -0700 (PDT)
+Subject: Re: [PATCH v2 10/16] tests/tcg: add generic version of float_convs
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190919171015.12681-1-alex.bennee@linaro.org>
+ <20190919171015.12681-11-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <c6cd971c-e84c-c5c9-b313-2e454e02a1da@linaro.org>
+Date: Thu, 19 Sep 2019 15:09:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Thu, 19 Sep 2019 14:45:21 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.54
+In-Reply-To: <20190919171015.12681-11-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,48 +85,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxOTA3MDkxOC4xNjA1
-OS0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpNZXNzYWdlLWlkOiAyMDE5MDkxOTA3MDkxOC4xNjA1OS0xLWtyYXhlbEByZWRo
-YXQuY29tClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUFVMTCAwLzRdIFVpIDIwMTkwOTE5IHBhdGNo
-ZXMKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdp
-dCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hl
-Y2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBk
-YXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0
-byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjhjMjM0MDMgdm5jOiBmaXggbWVtb3J5IGxlYWsgd2hlbiB2
-bmMgZGlzY29ubmVjdAo0M2E4YmRiIHVpOiBhZGQgYW4gZW1iZWRkZWQgQmFycmllciBjbGllbnQK
-N2RjNmY0YyB2bmM6IGZpeCB3ZWJzb2NrZXQgZmllbGQgaW4gZXZlbnRzCmFjYTZhNGEgdWkvZWds
-OiBmaXggZnJhbWVidWZmZXIgcmVhZHMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvNCBDaGVja2lu
-ZyBjb21taXQgYWNhNmE0YWIxNjkzICh1aS9lZ2w6IGZpeCBmcmFtZWJ1ZmZlciByZWFkcykKMi80
-IENoZWNraW5nIGNvbW1pdCA3ZGM2ZjRjYWEyZWYgKHZuYzogZml4IHdlYnNvY2tldCBmaWVsZCBp
-biBldmVudHMpCjMvNCBDaGVja2luZyBjb21taXQgNDNhOGJkYjFmN2U2ICh1aTogYWRkIGFuIGVt
-YmVkZGVkIEJhcnJpZXIgY2xpZW50KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBm
-aWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM2MDogCm5ldyBmaWxlIG1v
-ZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDEyMzkgbGluZXMgY2hlY2tl
-ZAoKUGF0Y2ggMy80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQvNCBDaGVja2luZyBjb21t
-aXQgOGMyMzQwMzlhMzRlICh2bmM6IGZpeCBtZW1vcnkgbGVhayB3aGVuIHZuYyBkaXNjb25uZWN0
-KQpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4QikKIzEyMDog
-RklMRTogdWkvdm5jLWVuYy10aWdodC5jOjM1NToKKyAgICAgICAgZGF0YSA9ICh1aW50IyNicHAj
-I190ICopdnMtPnRpZ2h0LT50aWdodC5idWZmZXI7ICAgICAgICAgICAgICAgIFwKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgODY5
-IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MTkw
-NzA5MTguMTYwNTktMS1rcmF4ZWxAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+On 9/19/19 10:10 AM, Alex Bennée wrote:
+> This is broadly similar to the existing fcvt test for ARM but using
+> the generic float testing framework. We should be able to pare down
+> the ARM fcvt test case to purely half-precision with or without the
+> Alt HP provision.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
