@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14800B7820
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:05:34 +0200 (CEST)
-Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BE1B7873
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:27:12 +0200 (CEST)
+Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAuFh-0006Gf-5U
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57044)
+	id 1iAuac-0007yP-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iAuDK-0005EZ-1Q
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:03:08 -0400
+ (envelope-from <thuth@redhat.com>) id 1iAuY5-0005rC-JP
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:24:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iAuDJ-0007cX-5i
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:03:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30210
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iAuJm-00022V-Mt
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:09:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48370)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAuDI-0007c9-P9
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:03:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1568890983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=99g3hLnAk0d5Ikj5XS9R91cbufIy1oLhGJR0Fszckoo=;
- b=RFpGMpFY6HObj/JripzvpVjrVcRTP4fVlFJ7XXR0dhMgrKODSpA7NJtxUBHoXoU71jFU/C
- /94+5WBNjLEvfJ4Pm4oFnlAO4W3cMQhRxZlPvQKkJuu3RTOVeFngPLeIZvmbgvxzWROxFl
- ZLlle1pzP8k0/Wr+MCX2w3mGb4a0xBc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-pNXaZqfbNEKQUkHHboStLg-1; Thu, 19 Sep 2019 07:02:59 -0400
-Received: by mail-wm1-f70.google.com with SMTP id l3so1557132wmf.8
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 04:02:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o8V8PDjgyLEZg73yT/dfos+m3pqZM721NH0eN1Ms3Dw=;
- b=RCyFIlejdjLpErA2XvKXnpg2auu4NqrKBddGCZRLbE7rg7+X8ULH8a0AOSxZ169b+u
- jRi1MZO7MtJ7wC4v0Rr2g2O7k0T49IxcQ8OPvQ69D4dIVZXqYr65fD8dv02nqAtX0ofv
- cmdXQluxPGGQRuGsyrKODHMTvTEBn30WXJAWUm0gYn0AS2+91fl748veMcV5JRKVmVqQ
- nSjdCTHuoxneUXWvCzt3cIh+HgO1RC7zMmtVMSqPuNRyRup5KvGr9BMnrUVXL7NZXhsw
- N6l7JmSpeM/PxpkPOq23ckcXU/oN2axcZFkZnonp0jtZJxjUxVp7rTWwUAL/8vJi87Ek
- 5+Vw==
-X-Gm-Message-State: APjAAAVORztxye81KfbWJGMXTEVKKxPKl3XFanuXHZQwSH+DWjHBu0Mg
- hH/WXB2b9U/cru/jkQyRRH+pRJCIf8WPwyy6RrN9PHWJyTjCdq+AFbqdxDtHz/gaZy7Nqx1yHNf
- nfW7etujEI3zjNBQ=
-X-Received: by 2002:a1c:9ec9:: with SMTP id h192mr2406333wme.105.1568890977877; 
- Thu, 19 Sep 2019 04:02:57 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxkn1/zTrvAY7vR8XbdJzuVlfjgUu08wM22iQ44HMMFh4bv+cmB1LefwS/2Hswv4fJ1MdKAFA==
-X-Received: by 2002:a1c:9ec9:: with SMTP id h192mr2406321wme.105.1568890977737; 
- Thu, 19 Sep 2019 04:02:57 -0700 (PDT)
-Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id d22sm3940484wmb.44.2019.09.19.04.02.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Sep 2019 04:02:57 -0700 (PDT)
-To: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iAuJm-00021O-Fc
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:09:46 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BBF9510576EE;
+ Thu, 19 Sep 2019 11:09:41 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-72.ams2.redhat.com [10.36.116.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8284B608A5;
+ Thu, 19 Sep 2019 11:09:36 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 References: <20190919105932.19412-1-philmd@redhat.com>
- <20190919105932.19412-3-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d89a1e52-af32-dce8-4b95-288520472783@redhat.com>
-Date: Thu, 19 Sep 2019 13:02:56 +0200
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <2be4643a-44c4-32c3-5a71-7b7a279ea370@redhat.com>
+Date: Thu, 19 Sep 2019 13:09:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190919105932.19412-3-philmd@redhat.com>
+In-Reply-To: <20190919105932.19412-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: pNXaZqfbNEKQUkHHboStLg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Thu, 19 Sep 2019 11:09:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
-Subject: Re: [Qemu-devel] [PATCH 2/2] .shippable.yml: Build WHPX enabled
- binaries
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/2] testing: Build WHPX enabled binaries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,36 +103,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefan Weil <sw@weilnetz.de>,
- Lucian Petrut <lpetrut@cloudbasesolutions.com>,
- Ilias Maratos <i.maratos@gmail.com>, Justin Terry <juterry@microsoft.com>
+Cc: Fam Zheng <fam@euphon.net>, Lucian Petrut <lpetrut@cloudbasesolutions.com>,
+ Stefan Weil <sw@weilnetz.de>, Justin Terry <juterry@microsoft.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Ilias Maratos <i.maratos@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/19/19 12:59 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .shippable.yml | 2 ++
->  1 file changed, 2 insertions(+)
+On 19/09/2019 12.59, Philippe Mathieu-Daud=C3=A9 wrote:
+> Add a job to cross-build QEMU with WHPX enabled.
 >=20
-> diff --git a/.shippable.yml b/.shippable.yml
-> index bbc6f88510..01b33bd034 100644
-> --- a/.shippable.yml
-> +++ b/.shippable.yml
-> @@ -25,6 +25,8 @@ env:
->        TARGET_LIST=3Dmips64el-softmmu,mips64el-linux-user
->      - IMAGE=3Ddebian-ppc64el-cross
->        TARGET_LIST=3Dppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
-> +    - IMAGE=3Dfedora-win10sdk-cross
-> +      TARGET_LIST=3Dx86_64-softmmu,i386-softmmu
-
-Note for Alex, if this patch is accepted, I think we can remove
-x86_64-softmmu from TARGET_LIST in the debian-win64-cross job, since
-this one duplicates it (and even covers more).
-
->  build:
->    pre_ci:
->      # usually host ARCH is set by configure
+> Use the Win10SDK headers from the Android Project, as commented
+> in https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03842.html
 >=20
+> Based-on: <20190918121101.30690-1-philmd@redhat.com>
+> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03844.html
+>=20
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   tests/docker: Add fedora-win10sdk-cross image
+>   .shippable.yml: Build WHPX enabled binaries
+>=20
+>  .shippable.yml                                |  2 ++
+>  tests/docker/Makefile.include                 |  1 +
+>  .../dockerfiles/fedora-win10sdk-cross.docker  | 21 +++++++++++++++++++
+>  3 files changed, 24 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.dock=
+er
 
+Don't you want to include a fix for the #include "hw/boards.h" problem
+in your series? ... or is it not happening with your builds here?
+
+ Thomas
 
