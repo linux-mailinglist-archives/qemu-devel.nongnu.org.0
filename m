@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF36B7373
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:52:53 +0200 (CEST)
-Received: from localhost ([::1]:38424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D33B7382
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:54:29 +0200 (CEST)
+Received: from localhost ([::1]:38448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAqJA-0001th-Do
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48761)
+	id 1iAqKi-0004Fq-HL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48755)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iAqGy-0000SW-Tk
+ (envelope-from <dgibson@ozlabs.org>) id 1iAqGy-0000Rq-Lf
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iAqGw-0000ly-Sn
+ (envelope-from <dgibson@ozlabs.org>) id 1iAqGw-0000lr-Rg
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:50:36 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:53951)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47497 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iAqGv-0000id-WB; Thu, 19 Sep 2019 02:50:34 -0400
+ id 1iAqGv-0000ij-Pl; Thu, 19 Sep 2019 02:50:34 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46YnXz2s6Tz9sN1; Thu, 19 Sep 2019 16:50:27 +1000 (AEST)
+ id 46YnXz4b33z9sP6; Thu, 19 Sep 2019 16:50:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1568875827;
- bh=GJsiqyoqUtbGSB3n50A0E121onT4qQT7wmlXKyrx/a0=;
+ bh=xbfGkM3gkdlM8wDdWtaazH7GqADRuJVvYEA6g9qX528=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eKV7g9FJ2533yt/9JY2bJYUIbL7RAkf6Qm+szznYovXrCGMiP+L914E0n03jd1nIg
- PEtvok4uifCpAI/TW6l/irUZFq/QjRfArKUdxHKjOZFhERI3ErItlro6rUoKJeNwsl
- H7Enn/FTeEpRzKVfHurV2YckRczrgORrL70ldVAc=
-Date: Thu, 19 Sep 2019 16:29:04 +1000
+ b=pg+l19NaOWlRkqtzsYhoHCyXofIuAz+rjF2e2oD6z63tA28kcXhjYA+q2UVN/K9yp
+ wltTu+gdTrmfwygTeVXn4qlEj6qBPq1zvEoSdso0qNqEDtz8a90FOCK6QdUqZnZQZv
+ kybSqPoyiwiVTL1LZNf/ADKI/9L63vuvS/ffYOag=
+Date: Thu, 19 Sep 2019 16:29:17 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Paul A. Clarke" <pc@us.ibm.com>
-Message-ID: <20190919062904.GC22790@umbus.fritz.box>
-References: <1568817081-1345-1-git-send-email-pc@us.ibm.com>
+Message-ID: <20190919062917.GD22790@umbus.fritz.box>
+References: <1568817082-1384-1-git-send-email-pc@us.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RIYY1s2vRbPFwWeW"
+ protocol="application/pgp-signature"; boundary="Qrgsu6vtpU/OV/zm"
 Content-Disposition: inline
-In-Reply-To: <1568817081-1345-1-git-send-email-pc@us.ibm.com>
+In-Reply-To: <1568817082-1384-1-git-send-email-pc@us.ibm.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v3 1/2] ppc: Add support for 'mffscrn',
- 'mffscrni' instructions
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v3 2/2] ppc: Add support for 'mffsce'
+ instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,231 +60,96 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---RIYY1s2vRbPFwWeW
+--Qrgsu6vtpU/OV/zm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 09:31:21AM -0500, Paul A. Clarke wrote:
+On Wed, Sep 18, 2019 at 09:31:22AM -0500, Paul A. Clarke wrote:
 > From: "Paul A. Clarke" <pc@us.ibm.com>
 >=20
 > ISA 3.0B added a set of Floating-Point Status and Control Register (FPSCR)
 > instructions: mffsce, mffscdrn, mffscdrni, mffscrn, mffscrni, mffsl.
-> This patch adds support for 'mffscrn' and 'mffscrni' instructions.
+> This patch adds support for 'mffsce' instruction.
 >=20
-> 'mffscrn' and 'mffscrni' are similar to 'mffsl', except they do not return
-> the status bits (FI, FR, FPRF) and they also set the rounding mode in the
-> FPSCR.
+> 'mffsce' is identical to 'mffs', except that it also clears the exception
+> enable bits in the FPSCR.
 >=20
-> On CPUs without support for 'mffscrn'/'mffscrni' (below ISA 3.0), the
-> instructions will execute identically to 'mffs'.
+> On CPUs without support for 'mffsce' (below ISA 3.0), the
+> instruction will execute identically to 'mffs'.
 >=20
 > Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 Applied to ppc-for-4.2, thanks.
 
 > ---
-> v3:
-> - Fix v2 change which cleared inadvertently clearned DRN.
-> - Remove FP_MODE, use FP_DRN and FP_RN explicitly instead.
-> - I did not remove the FPSCR_DRN[012] or FP_DRN[012] defines, as it's
->   clearer to me that it's a 3-bit field, but am happy to respin if that
->   is preferred.
-> v2:
-> - Add DRN to returned FPSCR value.
-> - Add DRN defines to target/ppc/cpu.h.
+> v3: no changes.
+> v2: no changes.
 >=20
->  target/ppc/cpu.h                   |  9 ++++-
->  target/ppc/dfp_helper.c            |  2 +-
->  target/ppc/internal.h              |  3 ++
->  target/ppc/translate/fp-impl.inc.c | 69 ++++++++++++++++++++++++++++++++=
-+++++-
->  target/ppc/translate/fp-ops.inc.c  |  4 +++
->  5 files changed, 84 insertions(+), 3 deletions(-)
+>  target/ppc/translate/fp-impl.inc.c | 30 ++++++++++++++++++++++++++++++
+>  target/ppc/translate/fp-ops.inc.c  |  2 ++
+>  2 files changed, 32 insertions(+)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index eaee1a5..a23c645 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -559,6 +559,9 @@ enum {
-> =20
->  /***********************************************************************=
-******/
->  /* Floating point status and control register                           =
-     */
-> +#define FPSCR_DRN2   34 /* Decimal Floating-Point rounding control      =
-     */
-> +#define FPSCR_DRN1   33 /* Decimal Floating-Point rounding control      =
-     */
-> +#define FPSCR_DRN0   32 /* Decimal Floating-Point rounding control      =
-     */
->  #define FPSCR_FX     31 /* Floating-point exception summary             =
-     */
->  #define FPSCR_FEX    30 /* Floating-point enabled exception summary     =
-     */
->  #define FPSCR_VX     29 /* Floating-point invalid operation exception su=
-mm.  */
-> @@ -592,6 +595,7 @@ enum {
->  #define FPSCR_NI     2  /* Floating-point non-IEEE mode                 =
-     */
->  #define FPSCR_RN1    1
->  #define FPSCR_RN0    0  /* Floating-point rounding control              =
-     */
-> +#define fpscr_drn    (((env->fpscr) & FP_DRN) >> FPSCR_DRN0)
->  #define fpscr_fex    (((env->fpscr) >> FPSCR_FEX)    & 0x1)
->  #define fpscr_vx     (((env->fpscr) >> FPSCR_VX)     & 0x1)
->  #define fpscr_ox     (((env->fpscr) >> FPSCR_OX)     & 0x1)
-> @@ -627,6 +631,10 @@ enum {
->  #define fpscr_eex (((env->fpscr) >> FPSCR_XX) & ((env->fpscr) >> FPSCR_X=
-E) &  \
->                     0x1F)
-> =20
-> +#define FP_DRN2         (1ull << FPSCR_DRN2)
-> +#define FP_DRN1         (1ull << FPSCR_DRN1)
-> +#define FP_DRN0         (1ull << FPSCR_DRN0)
-> +#define FP_DRN          (FP_DRN2 | FP_DRN1 | FP_DRN0)
->  #define FP_FX           (1ull << FPSCR_FX)
->  #define FP_FEX          (1ull << FPSCR_FEX)
->  #define FP_VX           (1ull << FPSCR_VX)
-> @@ -662,7 +670,6 @@ enum {
->  #define FP_RN0          (1ull << FPSCR_RN0)
->  #define FP_RN           (FP_RN1 | FP_RN0)
-> =20
-> -#define FP_MODE         FP_RN
->  #define FP_ENABLES      (FP_VE | FP_OE | FP_UE | FP_ZE | FP_XE)
->  #define FP_STATUS       (FP_FR | FP_FI | FP_FPRF)
-> =20
-> diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-> index f102177..da8e08a 100644
-> --- a/target/ppc/dfp_helper.c
-> +++ b/target/ppc/dfp_helper.c
-> @@ -48,7 +48,7 @@ static void dfp_prepare_rounding_mode(decContext *conte=
-xt, uint64_t fpscr)
->  {
->      enum rounding rnd;
-> =20
-> -    switch ((fpscr >> 32) & 0x7) {
-> +    switch ((fpscr & FP_DRN) >> FPSCR_DRN0) {
->      case 0:
->          rnd =3D DEC_ROUND_HALF_EVEN;
->          break;
-> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> index d3d327e..15d655b 100644
-> --- a/target/ppc/internal.h
-> +++ b/target/ppc/internal.h
-> @@ -157,6 +157,9 @@ EXTRACT_HELPER(FPL, 25, 1);
->  EXTRACT_HELPER(FPFLM, 17, 8);
->  EXTRACT_HELPER(FPW, 16, 1);
-> =20
-> +/* mffscrni */
-> +EXTRACT_HELPER(RM, 11, 2);
-> +
->  /* addpcis */
->  EXTRACT_HELPER_SPLIT_3(DX, 10, 6, 6, 5, 16, 1, 1, 0, 0)
->  #if defined(TARGET_PPC64)
 > diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp=
 -impl.inc.c
-> index 7cd9d8d..75f9523 100644
+> index 75f9523..d8e27bf 100644
 > --- a/target/ppc/translate/fp-impl.inc.c
 > +++ b/target/ppc/translate/fp-impl.inc.c
-> @@ -634,11 +634,78 @@ static void gen_mffsl(DisasContext *ctx)
->      gen_reset_fpstatus();
->      tcg_gen_extu_tl_i64(t0, cpu_fpscr);
->      /* Mask everything except mode, status, and enables.  */
-> -    tcg_gen_andi_i64(t0, t0, FP_MODE | FP_STATUS | FP_ENABLES);
-> +    tcg_gen_andi_i64(t0, t0, FP_DRN | FP_STATUS | FP_ENABLES | FP_RN);
->      set_fpr(rD(ctx->opcode), t0);
+> @@ -639,6 +639,36 @@ static void gen_mffsl(DisasContext *ctx)
 >      tcg_temp_free_i64(t0);
 >  }
 > =20
-> +static void gen_helper_mffscrn(DisasContext *ctx, TCGv_i64 t1)
+> +/* mffsce */
+> +static void gen_mffsce(DisasContext *ctx)
 > +{
-> +    TCGv_i64 t0 =3D tcg_temp_new_i64();
-> +    TCGv_i32 mask =3D tcg_const_i32(0x0001);
+> +    TCGv_i64 t0;
+> +    TCGv_i32 mask;
+> +
+> +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+> +        return gen_mffs(ctx);
+> +    }
+> +
+> +    if (unlikely(!ctx->fpu_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_FPU);
+> +        return;
+> +    }
+> +
+> +    t0 =3D tcg_temp_new_i64();
 > +
 > +    gen_reset_fpstatus();
 > +    tcg_gen_extu_tl_i64(t0, cpu_fpscr);
-> +    tcg_gen_andi_i64(t0, t0, FP_DRN | FP_ENABLES | FP_RN);
 > +    set_fpr(rD(ctx->opcode), t0);
 > +
-> +    /* Mask FPSCR value to clear RN.  */
-> +    tcg_gen_andi_i64(t0, t0, ~FP_RN);
-> +
-> +    /* Merge RN into FPSCR value.  */
-> +    tcg_gen_or_i64(t0, t0, t1);
-> +
+> +    /* Clear exception enable bits in the FPSCR.  */
+> +    tcg_gen_andi_i64(t0, t0, ~FP_ENABLES);
+> +    mask =3D tcg_const_i32(0x0003);
 > +    gen_helper_store_fpscr(cpu_env, t0, mask);
 > +
 > +    tcg_temp_free_i32(mask);
 > +    tcg_temp_free_i64(t0);
 > +}
 > +
-> +/* mffscrn */
-> +static void gen_mffscrn(DisasContext *ctx)
-> +{
-> +    TCGv_i64 t1;
-> +
-> +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-> +        return gen_mffs(ctx);
-> +    }
-> +
-> +    if (unlikely(!ctx->fpu_enabled)) {
-> +        gen_exception(ctx, POWERPC_EXCP_FPU);
-> +        return;
-> +    }
-> +
-> +    t1 =3D tcg_temp_new_i64();
-> +    get_fpr(t1, rB(ctx->opcode));
-> +    /* Mask FRB to get just RN.  */
-> +    tcg_gen_andi_i64(t1, t1, FP_RN);
-> +
-> +    gen_helper_mffscrn(ctx, t1);
-> +
-> +    tcg_temp_free_i64(t1);
-> +}
-> +
-> +/* mffscrni */
-> +static void gen_mffscrni(DisasContext *ctx)
-> +{
-> +    TCGv_i64 t1;
-> +
-> +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-> +        return gen_mffs(ctx);
-> +    }
-> +
-> +    if (unlikely(!ctx->fpu_enabled)) {
-> +        gen_exception(ctx, POWERPC_EXCP_FPU);
-> +        return;
-> +    }
-> +
-> +    t1 =3D tcg_const_i64((uint64_t)RM(ctx->opcode));
-> +
-> +    gen_helper_mffscrn(ctx, t1);
-> +
-> +    tcg_temp_free_i64(t1);
-> +}
-> +
->  /* mtfsb0 */
->  static void gen_mtfsb0(DisasContext *ctx)
+>  static void gen_helper_mffscrn(DisasContext *ctx, TCGv_i64 t1)
 >  {
+>      TCGv_i64 t0 =3D tcg_temp_new_i64();
 > diff --git a/target/ppc/translate/fp-ops.inc.c b/target/ppc/translate/fp-=
 ops.inc.c
-> index 88ebc25..f2bcf0e 100644
+> index f2bcf0e..88fab65 100644
 > --- a/target/ppc/translate/fp-ops.inc.c
 > +++ b/target/ppc/translate/fp-ops.inc.c
-> @@ -107,6 +107,10 @@ GEN_HANDLER(mcrfs, 0x3F, 0x00, 0x02, 0x0063F801, PPC=
-_FLOAT),
+> @@ -105,6 +105,8 @@ GEN_HANDLER_E(fmrgew, 0x3F, 0x06, 0x1E, 0x00000001, P=
+PC_NONE, PPC2_VSX207),
+>  GEN_HANDLER_E(fmrgow, 0x3F, 0x06, 0x1A, 0x00000001, PPC_NONE, PPC2_VSX20=
+7),
+>  GEN_HANDLER(mcrfs, 0x3F, 0x00, 0x02, 0x0063F801, PPC_FLOAT),
 >  GEN_HANDLER_E_2(mffs, 0x3F, 0x07, 0x12, 0x00, 0x00000000, PPC_FLOAT, PPC=
 _NONE),
+> +GEN_HANDLER_E_2(mffsce, 0x3F, 0x07, 0x12, 0x01, 0x00000000, PPC_FLOAT,
+> +    PPC2_ISA300),
 >  GEN_HANDLER_E_2(mffsl, 0x3F, 0x07, 0x12, 0x18, 0x00000000, PPC_FLOAT,
 >      PPC2_ISA300),
-> +GEN_HANDLER_E_2(mffscrn, 0x3F, 0x07, 0x12, 0x16, 0x00000000, PPC_FLOAT,
-> +    PPC_NONE),
-> +GEN_HANDLER_E_2(mffscrni, 0x3F, 0x07, 0x12, 0x17, 0x00000000, PPC_FLOAT,
-> +    PPC_NONE),
->  GEN_HANDLER(mtfsb0, 0x3F, 0x06, 0x02, 0x001FF800, PPC_FLOAT),
->  GEN_HANDLER(mtfsb1, 0x3F, 0x06, 0x01, 0x001FF800, PPC_FLOAT),
->  GEN_HANDLER(mtfsf, 0x3F, 0x07, 0x16, 0x00000000, PPC_FLOAT),
+>  GEN_HANDLER_E_2(mffscrn, 0x3F, 0x07, 0x12, 0x16, 0x00000000, PPC_FLOAT,
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -293,25 +157,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---RIYY1s2vRbPFwWeW
+--Qrgsu6vtpU/OV/zm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2DICoACgkQbDjKyiDZ
-s5L3JA/8DVJB0KYzhG75tnj7HOzk67Z/idyVMY0HGcornKmytIiPZPoF5rr2szYW
-RTFOyjyqnlhf6+KkB/fdRfBXwaxyCbdW5BFl2xgwF5XXx8Gds6n4UCw3LV6nWKq5
-TFar9oQ+jVDSaXoZjBQoSBMU9idG0EfRWrsPRxxCqPVfRy/NB5c8ymycFhVUi2b6
-72ac6p4FcRitxKyhU0QKvK83DxrEF2KrAwp6LUYXCbicS5pOKw+nZYQkn31TqEAH
-D4HnRLvBkew+dd24xNGVLL3e3zYQ4G8uncwF5Yu+AAgw0foCcyFXiCFX6zdoS4+G
-htoroeT18oS89NVmgK4gCrqgpBOf+o2xg/3FCHWz9oACcZ4Sg2qdidLDS8FCFsNN
-ESXQbjB/H7Glcfi/U2YCUTh4yPsLoG25VESP9WPy6hzoAwM6d+3FCPfpBlMrcP8Z
-IXVvauZmApvMeUQ/KHFk6dXJ7ryLfU49JquTR6U+8RDUJkHG63pCdM4goUo04BVq
-skJIEy5EALYxSKXW4A2ASidplPxDtFzQS4fVfxFVOX+x/r9BgoMvIMLdoTaDSLMn
-k0/2ZdZJgBLnaPM9vlPSs0TBcdSBqQumWnywebvlH1hErPx0iebr4G1EmpI+Slza
-mfdPdixSK6+JRzloWmi3vbnWPvamPSGdkvd3/VrlS1jK9leiVGA=
-=TeOQ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2DID0ACgkQbDjKyiDZ
+s5J33BAApS+htTS0V7IiZOmIRt/DZnTVI2dBMkCojf3iqa1c5bD+0d841xpniEYp
+9dv6hqHTAzDskra28Jm9+B5vafgvn0tLamMoNQg8x4w1A41FwagC8LfzFqtJD7Dd
+bFc3woGe4PDKspeYF2qCOhTMYfFFN4QV/bfKB4GIcS/uvyFnvHUdpmbEVsTtuyqR
+TN0v+DkS6AMpBsDhfFeb5BrHXTx5RJ0iZKgEkHnehEE075osWXHLUdupzRCU3Ic1
+l9FKxh7lYYpCE3SwHqnLhgT6+SO9fBUtDm7WEZjYA8ctLMnB99JVeq3ziCJTqvHg
+TKVnf8ZzvrrG5rPJZA5e2D8qVYLy/3BLr2jRjjNPoNwDVkgFoH6X3KUU+lsUeizm
+eYSe2TdNkPlVwib0eFRYNQN0b22meVizAuBcWcmCOFawk1c8NDDzwk71k6bQbrRJ
+AtZbqid59suhZ7QyCiHwvurSxRSSN7514wFCOjklDrwCbyBqotebPftkjt7DCMVb
+Grqzvw/YQO/5DcwgysorX/joijCxfFc3/lbMuR5G97tjBTdd3yDNjmwQKRK5CQqT
+/cSHn55lKfeAYb0GsDJ+eqaHhuRC/rN3k6GCYyQU92g4P3sDssjX5KDGnN6ESpqk
+UZ/KCJ2qYs4b+jyYFB126TzX1EWOoBH5nv91x6vxfJOzxsH4rlI=
+=tYZw
 -----END PGP SIGNATURE-----
 
---RIYY1s2vRbPFwWeW--
+--Qrgsu6vtpU/OV/zm--
 
