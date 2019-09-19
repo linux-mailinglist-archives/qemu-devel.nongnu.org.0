@@ -2,51 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF191B8082
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:57:43 +0200 (CEST)
-Received: from localhost ([::1]:47412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758ADB8084
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:59:28 +0200 (CEST)
+Received: from localhost ([::1]:47441 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0gY-00048g-N6
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52444)
+	id 1iB0iF-0006oA-EA
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iB0Iw-0003qb-1O
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:33:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1iB0Ji-0004oP-GR
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:34:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iB0Iu-0000Lk-Qm
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:33:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:7453)
+ (envelope-from <philmd@redhat.com>) id 1iB0Jh-0000et-BC
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:34:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41097
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iB0Iu-0000LR-L1
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:33:16 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0287730860B5
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 17:33:16 +0000 (UTC)
-Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E85310016EB;
- Thu, 19 Sep 2019 17:33:13 +0000 (UTC)
-Date: Thu, 19 Sep 2019 18:33:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 3/5] migration: Use automatic rcu_read unlock in ram.c
-Message-ID: <20190919173311.GF22853@redhat.com>
-References: <20190913102538.24167-1-dgilbert@redhat.com>
- <20190913102538.24167-4-dgilbert@redhat.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iB0Jh-0000dJ-3B
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:34:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1568914443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=FgMSUEMLTcQQd072cUBgIejALGIZYCF3cz20sMMFYz0=;
+ b=I+eDMQxDxgIPlGG/mRv/ie66azevLGIaG2YyqbbNHa8vobcIDOcx8SuYNi/aVb382KI6ts
+ 2WjrCiR2cfLVFwJUhOS8b1n0ohfW9vy0nVXAymojscGxQ4Tsy/WvycQdOw7iQUNPnaexq9
+ 5ttAK634zLnwrrM8EiV4TPXQldwQDFE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-OOdWeArbOJKMYWLwN7HRsw-1; Thu, 19 Sep 2019 13:33:59 -0400
+Received: by mail-wm1-f72.google.com with SMTP id o188so2150093wmo.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:33:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FgMSUEMLTcQQd072cUBgIejALGIZYCF3cz20sMMFYz0=;
+ b=Hl1OsFyztA97zJM5NE2E9C9eTT4zb3CSP/AZiK9bK+R74dFYVcsyHu66qhMpH1rXsT
+ uUs5y8LiF3EH65WlAqcG867grtCFed0EOKZZ9tE8fkLBgI931GFri/gpnkJPtC6XbkRQ
+ zfy9tkgEKZvXQIMVvh38uXqr2wlrsNkxY8HPAhPjB5N1JGbQ1JCTPifNH3a2zaTtMuNA
+ MpzO2Q4pjDMGiqPWQwhWJSMPss2pYFqymR2YF+t+JGdIaythYIF7RSrobnC8+cOi333Z
+ fQF5UoibBkljQ+hXCPoYMZxiuG2/QlwyV4NfJ6GCYTufx9dqbCs6pWo2+6M4X0mFlwix
+ YpqQ==
+X-Gm-Message-State: APjAAAVTVMuXs0YLqcFiRTJFbNnEwrrjjPN6g1LX1dePjzNYD8ExrZNH
+ 6tKqKhMvBnoV3B9GTCcYVWbNqFaWV7Thd4KtBYFtcOeo7iV6l8J+dsPlDoZuc5kkMMoiftvAkav
+ uB7f2CI1q8LoEr+s=
+X-Received: by 2002:a1c:c589:: with SMTP id v131mr3683449wmf.163.1568914437981; 
+ Thu, 19 Sep 2019 10:33:57 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx/jUs+zkjYhc9aHWNBHVkHW9r6cojJY8/IpgWt7cvmmrnp0OPtz8KL1ChYOjsV3J1Xj08+hQ==
+X-Received: by 2002:a1c:c589:: with SMTP id v131mr3683438wmf.163.1568914437807; 
+ Thu, 19 Sep 2019 10:33:57 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id d78sm8986184wmd.47.2019.09.19.10.33.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Sep 2019 10:33:57 -0700 (PDT)
+Subject: Re: Will the qemu-devel prefix in the mails come back?
+To: Martin Schrodt <martin@schrodt.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <9c6bf92a-0869-cf5d-222b-305e55393ebb@schrodt.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <41127b88-93af-a1ea-232b-ed5290102396@redhat.com>
+Date: Thu, 19 Sep 2019 19:33:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190913102538.24167-4-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 19 Sep 2019 17:33:16 +0000 (UTC)
+In-Reply-To: <9c6bf92a-0869-cf5d-222b-305e55393ebb@schrodt.org>
+Content-Language: en-US
+X-MC-Unique: OOdWeArbOJKMYWLwN7HRsw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,33 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 13, 2019 at 11:25:36AM +0100, Dr. David Alan Gilbert (git) wr=
-ote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> Use the automatic read unlocker in migration/ram.c
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  migration/ram.c | 260 ++++++++++++++++++++++--------------------------
->  1 file changed, 121 insertions(+), 139 deletions(-)
+Hi Martin,
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+On 9/19/19 7:04 PM, Martin Schrodt wrote:
+> Does anybody know?
 
+This change has been announced here:
+https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01645.html
+
+> My mail filter would appreciate :)
+In the previous link there is a hint about updating your mail filter :)
 
 Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+
+Phil.
+
 
