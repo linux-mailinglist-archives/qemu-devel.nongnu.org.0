@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E56B83C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:57:33 +0200 (CEST)
-Received: from localhost ([::1]:48852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279D8B83BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:53:54 +0200 (CEST)
+Received: from localhost ([::1]:48818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4Qe-0002PV-B6
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56197)
+	id 1iB4N6-0006PZ-N6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:53:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1iB49M-0001OI-FD
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:41 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1iB49Z-0001W2-UH
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1iB49K-00067L-KF
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:40 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42040)
+ (envelope-from <tcminyard@gmail.com>) id 1iB49L-00067W-5f
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:51 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43686)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49K-00066d-Eu
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:38 -0400
-Received: by mail-oi1-x242.google.com with SMTP id i185so9645oif.9
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49K-00066k-V8
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:39 -0400
+Received: by mail-oi1-x241.google.com with SMTP id t84so5521oih.10
  for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=2enA2drY9wCo/Kbo6LykccKQHzAX5G3+0exxgdSFwus=;
- b=PbxI/KY5U17FVMmi07N4QszOJdO8215ZeQd+QmrxM0mDJLoLNoWhEzliX9m9fhVgC7
- 3d2r20sLJxXTkdzL8QHlSNNv47KCG9UTW69unxsrxQZIz7449VsDQSP6LMvmPdoymZ20
- q5XfOLVYq6zYUOOmycK60z6Z1nWjqarTubDh0lPySbUAS43nwFWl9CkLQwnojo69LC5y
- BYDxoukHCizBnvcCyfTT6iCSTfK2k17zHIXYgnKGZLM9iC+82wfDY/BYSQq40IEug7KI
- HtFx0ssy4pSSv+iR4Yz2iTPn95M4j5s7CWKsGPSUUN6UtDLY6oKC2Uj9BMyeEB/xlD56
- TfEg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=Vieta1X04i/SCs0pvbOIwKwN90/dIHs868zzWk/WUvk=;
+ b=Q3c5iV/QLclzXeadOegbKBTIjw779E4O3K+NB25XGRPtbzqQ6YgqDIHCOC4ynrB85M
+ bSTmBPY4qEdXKwF3tGAHeVBgL4jXgIfwdM4NF+Zp3C/Ea6GwkN9Ny/FG9dRrT1lv4ZuQ
+ J65NnZhbvmW5j9OQblW/vxThez5kAvftWJCfp5vMqfPEB86W7xH1+hMWYUA9bHPUx5vd
+ azGhKkOuZthRv4dhlADsL2eDMjITui3QcclpHEfpUZCQlzwihsoAkRocL5X7xksAzpcj
+ 0fiSNba09x0JYzzG1jNeX79WF5PAYnp9PoGuB7j1UvD09mJQx1MuWz0IeF1m/rLh5iew
+ pfvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=2enA2drY9wCo/Kbo6LykccKQHzAX5G3+0exxgdSFwus=;
- b=mK8m9GU7RWwQRPL/EqU2ByA7uFHx2YKph2bp65gMZWu4awnj9oOU9eyX/31L8FHPJv
- j/tNa9WD/B2/ApdJDzxD6OdqScWiee+Kd6jEZ8CQBRHsUqOsvKW3PEhgAeCsHCcq9Zsf
- C6h5H4qHKaiFRUyD3eHzABejKKu2pKBpKNnlQxVGtnyXk0KqduiNXkHJ2XshuG2Jyl0w
- /T0i26O6MdTfdp2A55DE/ZW3tS4pm8OV4nFB11kMfwUPSY42Tzwq8ZrjXYyjh/jNAYzC
- p09TPnBaAPbAcv9gCKDBnk0bGeb0Kqrkd5JjnW7mPNYoURnSsLZcf+IJKzYt9QGREklh
- x5tQ==
-X-Gm-Message-State: APjAAAV8qZr1D5vPQiE+/aoOb2Gt2ndq/PpoUvwgw9Se3DdDZZNk2Pl6
- QBzs3D/ThuZXq5CkPX3zAQ==
-X-Google-Smtp-Source: APXvYqyl5sDjBouSZSrHVbTD88q/TQ0lqvv7rVArKdHqPYdiqL2G1myPRhxuz5M47QPZTD8bKm6xHw==
-X-Received: by 2002:aca:fccb:: with SMTP id a194mr71066oii.52.1568929176557;
- Thu, 19 Sep 2019 14:39:36 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id 67sm41696otj.21.2019.09.19.14.39.35
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=Vieta1X04i/SCs0pvbOIwKwN90/dIHs868zzWk/WUvk=;
+ b=kB1HS+tILejjPqjJ3qK1pe9Ydq14RMwEeoi6fxmfKEMIPNFyjEMGjqSpBCYpcD7je2
+ d9vkqwyT+5+1GcjZ7NwjdDwSLLZDGwkFvUS+6fN8BtfhVLkEcJjJpl3pSg9c2CzB4nHD
+ 9h8Lf/Ua8wPx4b+DNPODEkKMYRFQqcNXe01G0flqccnBiv1MBAT2t2Yn7iIsjV8uBPwJ
+ AFQwc4vgF+AQs/fH+L7jH5dpbLSBGP22UXswj8b1SbLs0Ef1wHk/xkVxOlTSjC+INv9L
+ 55jNnXCzDvXZ1XCox20YtsR4SWumUJswk5PdhRbmth8em9ldhav7RBuehksqALOIgA7j
+ txlg==
+X-Gm-Message-State: APjAAAWJl12ug3I1jnqTRTcVA1nXrRzq8lsNBzZf4Qcop3832o0VI3VD
+ /g12MAF98CaVZ1NTqnTVsA==
+X-Google-Smtp-Source: APXvYqwVtJCdOSLwXHpleUZ7VSyo3ZBD1QvwcfjawDG9QNvZgeUHVHINaoyRm6UULxUvLYfPvIVr6A==
+X-Received: by 2002:aca:4b85:: with SMTP id y127mr66837oia.70.1568929177082;
+ Thu, 19 Sep 2019 14:39:37 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id e5sm27780otr.81.2019.09.19.14.39.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:39:35 -0700 (PDT)
+ Thu, 19 Sep 2019 14:39:36 -0700 (PDT)
 Received: from t560.minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPA id 1C3F01800CE;
+ by serve.minyard.net (Postfix) with ESMTPA id 9B7F11800D2;
  Thu, 19 Sep 2019 21:39:35 +0000 (UTC)
 From: minyard@acm.org
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 00/15] ipmi: Bug fixes, add new interfaces
-Date: Thu, 19 Sep 2019 16:39:09 -0500
-Message-Id: <20190919213924.31852-1-minyard@acm.org>
+Subject: [PATCH 01/15] ipmi: Fix watchdog NMI handling
+Date: Thu, 19 Sep 2019 16:39:10 -0500
+Message-Id: <20190919213924.31852-2-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190919213924.31852-1-minyard@acm.org>
+References: <20190919213924.31852-1-minyard@acm.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,7 +76,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <famz@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+Cc: Corey Minyard <cminyard@mvista.com>, Fam Zheng <famz@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
@@ -82,104 +86,57 @@ Cc: Fam Zheng <famz@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I haven't gotten a lot of commentary on this, but I assume that means
-that everything is ok.  It's been posted a few times and the last time
-I received no issues, just a couple of reviews.  I would like more
-review.  But I'm not quite sure what to do about that, I've been
-hanging on to these changes far too long.
+From: Corey Minyard <cminyard@mvista.com>
 
-The following changes since commit a77d20bafcd4cb7684168a9b4c6dc2a321aaeb50:
+The wrong logic was used for detection (so it wouldn't work at all)
+and the wrong interface was used to inject the NMI if the detection
+logic was correct.
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20190919-pull-request' into staging (2019-09-19 17:16:07 +0100)
+Signed-off-by: Corey Minyard <cminyard@mvista.com>
+---
+ hw/ipmi/ipmi.c         | 6 +++---
+ hw/ipmi/ipmi_bmc_sim.c | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-are available in the Git repository at:
-
-  https://github.com/cminyard/qemu.git tags/ipmi-for-release-2019-09-19
-
-for you to fetch changes up to d9b74295c6528fd68cebdea116b283e46543b2a2:
-
-  pc: Add an SMB0 ACPI device to q35 (2019-09-19 14:41:58 -0500)
-
-----------------------------------------------------------------
-ipmi: Some bug fixes and new interfaces
-
-Some bug fixes for the watchdog and hopeful the BT tests.
-
-Change the IPMI UUID handling to give the user the ability to set it or
-not have it.
-
-Add a PCI interface.
-
-Add an SMBus interfaces.
-
--corey
-
-----------------------------------------------------------------
-Corey Minyard (15):
-      ipmi: Fix watchdog NMI handling
-      ipmi: Fix the get watchdog command
-      ipmi: Generate an interrupt on watchdog pretimeout expiry
-      tests:ipmi: Fix IPMI BT tests
-      qdev: Add a no default uuid property
-      ipmi: Add a UUID device property
-      ipmi: Split out KCS-specific code from ISA KCS code
-      ipmi: Split out BT-specific code from ISA BT code
-      ipmi: Allow a size value to be passed for I/O space
-      smbios:ipmi: Ignore IPMI devices with no fwinfo function
-      ipmi: Add PCI IPMI interfaces
-      ipmi: Add an SMBus IPMI interface
-      acpi: Add i2c serial bus CRS handling
-      ipmi: Fix SSIF ACPI handling to use the right CRS
-      pc: Add an SMB0 ACPI device to q35
-
- default-configs/i386-softmmu.mak |   3 +
- hw/acpi/aml-build.c              |  40 ++++
- hw/acpi/ipmi-stub.c              |   2 +-
- hw/acpi/ipmi.c                   |  13 +-
- hw/i386/Kconfig                  |   3 +
- hw/i386/acpi-build.c             |  17 +-
- hw/i386/pc_piix.c                |  12 +-
- hw/i386/pc_q35.c                 |   9 +-
- hw/ipmi/Kconfig                  |  15 ++
- hw/ipmi/Makefile.objs            |   5 +-
- hw/ipmi/ipmi.c                   |   6 +-
- hw/ipmi/ipmi_bmc_sim.c           |  30 ++-
- hw/ipmi/ipmi_bt.c                | 437 ++++++++++++++++++++++++++++++++++++++
- hw/ipmi/ipmi_kcs.c               | 423 +++++++++++++++++++++++++++++++++++++
- hw/ipmi/isa_ipmi_bt.c            | 443 ++-------------------------------------
- hw/ipmi/isa_ipmi_kcs.c           | 419 ++----------------------------------
- hw/ipmi/pci_ipmi_bt.c            | 146 +++++++++++++
- hw/ipmi/pci_ipmi_kcs.c           | 146 +++++++++++++
- hw/ipmi/smbus_ipmi.c             | 384 +++++++++++++++++++++++++++++++++
- hw/smbios/smbios_type_38.c       |   3 +
- include/hw/acpi/aml-build.h      |  18 ++
- include/hw/acpi/ipmi.h           |   2 +-
- include/hw/i386/pc.h             |   2 +
- include/hw/ipmi/ipmi.h           |   7 +-
- include/hw/ipmi/ipmi_bt.h        |  73 +++++++
- include/hw/ipmi/ipmi_kcs.h       |  76 +++++++
- include/hw/pci/pci.h             |   1 +
- include/hw/qdev-properties.h     |   7 +
- qemu-options.hx                  |  10 +-
- tests/Makefile.include           |   3 +-
- tests/data/acpi/q35/DSDT         | Bin 7841 -> 7879 bytes
- tests/data/acpi/q35/DSDT.bridge  | Bin 7858 -> 7896 bytes
- tests/data/acpi/q35/DSDT.cphp    | Bin 8304 -> 8342 bytes
- tests/data/acpi/q35/DSDT.dimmpxm | Bin 9494 -> 9532 bytes
- tests/data/acpi/q35/DSDT.ipmibt  | Bin 7916 -> 7954 bytes
- tests/data/acpi/q35/DSDT.memhp   | Bin 9200 -> 9238 bytes
- tests/data/acpi/q35/DSDT.mmio64  | Bin 8971 -> 9009 bytes
- tests/data/acpi/q35/DSDT.numamem | Bin 7847 -> 7885 bytes
- tests/ipmi-bt-test.c             |   6 +-
- 39 files changed, 1902 insertions(+), 859 deletions(-)
- create mode 100644 hw/ipmi/ipmi_bt.c
- create mode 100644 hw/ipmi/ipmi_kcs.c
- create mode 100644 hw/ipmi/pci_ipmi_bt.c
- create mode 100644 hw/ipmi/pci_ipmi_kcs.c
- create mode 100644 hw/ipmi/smbus_ipmi.c
- create mode 100644 include/hw/ipmi/ipmi_bt.h
- create mode 100644 include/hw/ipmi/ipmi_kcs.h
-
-
+diff --git a/hw/ipmi/ipmi.c b/hw/ipmi/ipmi.c
+index 136c86b7a7..cbe158f815 100644
+--- a/hw/ipmi/ipmi.c
++++ b/hw/ipmi/ipmi.c
+@@ -28,9 +28,8 @@
+ #include "qom/object_interfaces.h"
+ #include "sysemu/runstate.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-commands-misc.h"
+-#include "qapi/visitor.h"
+ #include "qemu/module.h"
++#include "hw/nmi.h"
+ 
+ static uint32_t ipmi_current_uuid = 1;
+ 
+@@ -60,7 +59,8 @@ static int ipmi_do_hw_op(IPMIInterface *s, enum ipmi_op op, int checkonly)
+         if (checkonly) {
+             return 0;
+         }
+-        qmp_inject_nmi(NULL);
++        /* We don't care what CPU we use. */
++        nmi_monitor_handle(0, NULL);
+         return 0;
+ 
+     case IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP:
+diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
+index 246a6d390c..8f63bb7181 100644
+--- a/hw/ipmi/ipmi_bmc_sim.c
++++ b/hw/ipmi/ipmi_bmc_sim.c
+@@ -1194,7 +1194,7 @@ static void set_watchdog_timer(IPMIBmcSim *ibs,
+         break;
+ 
+     case IPMI_BMC_WATCHDOG_PRE_NMI:
+-        if (!k->do_hw_op(s, IPMI_SEND_NMI, 1)) {
++        if (k->do_hw_op(s, IPMI_SEND_NMI, 1)) {
+             /* NMI not supported. */
+             rsp_buffer_set_error(rsp, IPMI_CC_INVALID_DATA_FIELD);
+             return;
+-- 
+2.17.1
 
 
