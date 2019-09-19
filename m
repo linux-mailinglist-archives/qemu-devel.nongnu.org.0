@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B351CB8027
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:40:06 +0200 (CEST)
-Received: from localhost ([::1]:47104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C276B8010
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:35:21 +0200 (CEST)
+Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0PT-0001dy-UE
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:40:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50079)
+	id 1iB0Kt-0004Ue-B3
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:35:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iB073-0008Kv-RH
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1iB071-0008UJ-QI
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iB016-0007E1-5l
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:14:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39560)
+ (envelope-from <philmd@redhat.com>) id 1iB025-0007jf-8C
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:15:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35926)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iB015-0007Dm-U2
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:14:52 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iB025-0007jH-3m
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:15:53 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9DC83308FBA0;
- Thu, 19 Sep 2019 17:14:50 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-8.rdu2.redhat.com [10.10.123.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50D5960C80;
- Thu, 19 Sep 2019 17:14:46 +0000 (UTC)
-Date: Thu, 19 Sep 2019 13:14:44 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: Problems with MIPS Malta SSH tests in make check-acceptance
-Message-ID: <20190919171444.GA6495@localhost.localdomain>
-References: <20190918071654.GK2440@umbus.fritz.box>
- <20190919011452.GA23168@localhost.localdomain>
- <20190919165632.GA5821@localhost.localdomain>
- <8bc26c85-253e-ff20-c3e0-1ecdb56d60c0@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 575387FDC9
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 17:15:52 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id v18so1303442wro.16
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:15:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3b4CNt5+8dtPSM9K8ChuiHIDFKo5h36ioAuOEXlnZ00=;
+ b=AAqUiVe/76D1y9tyvQw53LNcH6FnEqbd+DbPzlZxPAG5u4dVZA43rweFfhrGsuy5eG
+ hVonMqgrgJO6wTVIU23NONLW1XgIWB832i9iV+NOHBIm6I3xPGkxyjCxULRY2loAL1B1
+ zx1gai2uWD2U4Nnb9rrz4L7eS73HUEzwCWbl0+kGwzB2WahDETot+tvFTBeGK6JNT38I
+ ubLPIZLemVJdWiJyWEboC3CvcRMYuerZowHY78XB+ms57pcq79S0p3IPtwnEyiRTspcH
+ MMmnBKuVEAs7w4aErxQEk0vfbOkxLHXXP0WE1PWz+RhImSsZv5qwdPsFVm+EyVZX+MU0
+ oQ/A==
+X-Gm-Message-State: APjAAAVxsJowi1tPc2e4QG1NgzSAZpZv4cLlq4hs62uPv90i7SWngKsz
+ WvXziNE8SCBy06KgL+Z9QmtcfY6PG09ntlgjB65kGfGPe0wsENZI2srbuDnhSf36vwKcGnGwoWl
+ mukbBwigke0gfEDc=
+X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr3658231wme.22.1568913350924; 
+ Thu, 19 Sep 2019 10:15:50 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyYXJ5DKzj/2N0E82bHapy5b99f3e3a8vfjBUv2XXEXSI8vf4Zo8w0jR8JO5Rd/7ejWylc9/Q==
+X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr3658215wme.22.1568913350744; 
+ Thu, 19 Sep 2019 10:15:50 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id 189sm12532260wma.6.2019.09.19.10.15.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Sep 2019 10:15:50 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] iotests: Require Python 3.6 or later
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20190919162905.21830-1-kwolf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d19b2194-4880-94fd-57e5-8bea73dcbc2f@redhat.com>
+Date: Thu, 19 Sep 2019 19:15:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <8bc26c85-253e-ff20-c3e0-1ecdb56d60c0@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 19 Sep 2019 17:14:50 +0000 (UTC)
+In-Reply-To: <20190919162905.21830-1-kwolf@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,162 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, ehabkost@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, thuth@redhat.com, jsnow@redhat.com,
+ ehabkost@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 07:00:49PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 9/19/19 6:56 PM, Cleber Rosa wrote:
-> > On Wed, Sep 18, 2019 at 09:14:58PM -0400, Cleber Rosa wrote:
-> >> On Wed, Sep 18, 2019 at 05:16:54PM +1000, David Gibson wrote:
-> >>> Hi,
-> >>>
-> >>> I'm finding make check-acceptance is currently useless for me as a
-> >>> pre-pull test, because a bunch of the tests are not at all reliable=
-.
-> >>> There are a bunch which I'm still investigating, but for now I'm
-> >>> looking at the MIPS Malta SSH tests.
-> >>>
-> >>> There seem to be at least two problems here.  First, the test inclu=
-des
-> >>> a download of a pretty big guest disk image.  This can easily exhau=
-st
-> >>> the 2m30 timeout on its own.
-> >>>
-> >>
-> >> You're correct that successes and failures on those tests depend
-> >> largely on bandwith.  On a shared environment I used for tests
-> >> the download of those images take roughly 400 seconds, resulting
-> >> in failures.  On my own machine, around 60, and the tests pass.
-> >>
-> >> There's a conceptual and conflicting problem in that the environment
-> >> for tests to run should be prepared beforehand.  The conflicting
-> >> solutions can be:
-> >>
-> >>  * extensive bootstrapping of the test execution environment, such
-> >>    as the installation of guests from ISOs or installation trees, or
-> >>    the download of "default" images wether the tests will use it or
-> >>    not (this is what Avocado-VT does/requires)
-> >>
-> >>  * keeping test assets in the tree (Avocado allows this if you have
-> >>    a your_test.py.data/ directory), but it's not practical for large
-> >>    files or files that can't or shouldn't be redistributed
-> >>
-> >>> Even without the timeout, it makes the test really slow, even on
-> >>> repeated runs.  Is there some way we can make the image download pa=
-rt
-> >>> of "building" the tests rather than actually running the testsuite,=
- so
-> >>> that a) the test themselves go faster and b) we don't include the
-> >>> download in the test timeout - obviously the download speed is huge=
-ly
-> >>> dependent on factors that aren't really related to what we're testi=
-ng
-> >>> here.
-> >>>
-> >>
-> >> On Avocado version 72.0 we attempted to minimize the isse by
-> >> implementing a "vmimage" command.  So, if you expect to use Fedora 3=
-0
-> >> aarch64 images, you could run before your tests:
-> >>
-> >>  $ avocado vmimage get --distro fedora --distro-version 30 --arch aa=
-rch64
-> >>
-> >> And to list the images on your cache:
-> >>
-> >>  $ avocado vmimage list
-> >>
-> >> Unfortunately, this test doesn't use the vmimage API.  Actually that
-> >> is fine because not all test assets map nicely to the vmimage goal,
-> >> and should keep using the more generic (and lower level) fetch_asset=
-().
-> >>
-> >> We're now working on various "asset fetcher" improvements that shoul=
-d
-> >> allow us to check/cache all assets before a test is executed.  Also,
-> >> we're adding a mode in which the "fetch_asset()" API will default to
-> >> cancel (aka SKIP) a test if the asset could not be downloaded.
-> >>
-> >> If you're interested in the card we're using to track that new featu=
-re:
-> >>
-> >>   https://trello.com/c/T3SC1sZs/1521-implement-fetch-assets-command-=
-line-parameter
-> >>
-> >> Another possibility that we've prototyped, and we'll be working on
-> >> further, is to make a specific part of the "test" code execution
-> >> (really a pre-test phase) to be executed without a timeout and even =
-be
-> >> tried a number of times before bailing out and skipping the test.
-> >>
-> >>> In the meantime, I tried hacking it by just increasing the timeout =
-to
-> >>> 10m.  That got several of the tests working for me, but one still
-> >>> failed.  Specifically 'LinuxSSH.test_mips_malta32eb_kernel3_2_0' st=
-ill
-> >>> timed out for me, but now after booting the guest, rather than duri=
-ng
-> >>> the image download.  Looking at the avocado log file I'm seeing a
-> >>> bunch of soft lockup messages from the guest console, AFAICT.  So i=
-t
-> >>> looks like we have a real bug here, which I suspect has been
-> >>> overlooked precisely because the download problems mean this test
-> >>> isn't reliable.
-> >>>
-> >>
-> >> I've schedulled a 100 executions of `make check-acceptance` builds, =
-with
-> >> the linux_ssh_mips_malta.py tests having a 1500 seconds timeout.  Th=
-e
-> >> very first execution already brought interesting results:
-> >>
-> >>  ...
-> >>  (15/39) /home/cleber/src/qemu/tests/acceptance/linux_ssh_mips_malta=
-.py:LinuxSSH.test_mips_malta32eb_kernel3_2_0: PASS (198.38 s)
-> >>  (16/39) /home/cleber/src/qemu/tests/acceptance/linux_ssh_mips_malta=
-.py:LinuxSSH.test_mips_malta64el_kernel3_2_0: FAIL: Failure message found=
- in console: Oops (22.83 s)
-> >>
-> >> I'll let you know about my full results.  This should also serve as =
-a
-> >> starting point to a discussion about the reliability of other tests,
-> >> as you mentioned before.
-> >=20
-> > Out of the 100 executions on a ppc64le host, the results that contain
-> > failures and errors:
-> >=20
-> > 15-/home/cleber/src/qemu/tests/acceptance/linux_ssh_mips_malta.py:Lin=
-uxSSH.test_mips_malta32eb_kernel3_2_0
-> >   - PASS: 92
-> >   - INTERRUPTED: 4
-> >   - FAIL: 4
-> > 16-/home/cleber/src/qemu/tests/acceptance/linux_ssh_mips_malta.py:Lin=
-uxSSH.test_mips_malta64el_kernel3_2_0
-> >   - PASS: 95
-> >   - FAIL: 5
-> >=20
-> > FAIL means that self.fail() was called, which means 'Oops' was found
-> > in the console.  INTERRUPTED here means that the test timeout kicked
-> > in, and I can back David's statements about soft lockups.
-> >=20
-> > Let me know if anyone wants access to the full logs/results.
+On 9/19/19 6:29 PM, Kevin Wolf wrote:
+> v2:
 >=20
-> Can you check if the FAIL case are this bug please?
+> - Provide the right exit code from Python instead of having a
+>   potentially confusing negation in the shell script
 >=20
-> https://bugs.launchpad.net/qemu/+bug/1833661
->
-
-Yes, the errors do match.  I posted an updated there:
-
-  https://bugs.launchpad.net/qemu/+bug/1833661/comments/3
-
-Cheers,
-- Cleber.
-
-> Thanks,
+> - Raised the minimal version to 3.6. If we're going to use a different
+>   version than QEMU as a whole anyway, we can use a version that suits
+>   us best. 3.5 would only be for Debian Stretch, and we don't really
+>   care that much about running Python test cases on it.
 >=20
-> Phil.
+> - Added a patch to remove Python 2 compatibility code
 >=20
+> Kevin Wolf (2):
+>   iotests: Require Python 3.6 or later
+>   iotests: Remove Python 2 compatibility code
+>=20
+>  tests/qemu-iotests/044                   |  3 ---
+>  tests/qemu-iotests/163                   |  3 ---
+>  tests/qemu-iotests/check                 | 13 ++++++++++++-
+>  tests/qemu-iotests/iotests.py            | 13 +++----------
+>  tests/qemu-iotests/nbd-fault-injector.py |  7 +++----
+>  5 files changed, 18 insertions(+), 21 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
