@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93589B787D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:30:13 +0200 (CEST)
-Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74512B7872
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:27:07 +0200 (CEST)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAudX-0003uf-NB
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:30:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59246)
+	id 1iAuaX-0007pI-PK
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59216)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iAuY1-0005sQ-H5
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:24:30 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iAuY0-0005s6-I3
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:24:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iAuPI-0004Dk-UJ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:15:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47722)
+ (envelope-from <pbonzini@redhat.com>) id 1iAuSc-0005jz-UJ
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:18:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iAuPI-0004C6-Ob
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:15:28 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iAuSc-0005jh-PN
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:18:54 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E1784369AC
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 11:15:27 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id s25so1444542wmh.1
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 04:15:27 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id D2B98C04AC69
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 11:18:53 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id w8so910733wrm.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 04:18:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PwxkuA9Fta2/xMsPNhKg8aTRVvMjXHQn/kkB9GFcmVw=;
- b=Tn1rnfJnwwz7wkhXogmKiVWpvDI6MsHAKjp/r5F03Gv5RD99LdE/+63F6ECz2xpn0Z
- k3j2wR1JRL652/MJCVLg7OFkPF6Mp8T40pqOrFa0KqLdW0krPDlE0fF7dtcjLZRQdPwS
- ZaXsuI0+1SjM1k8tOnubm+tROjYNEh5EujVhQZw5ykdPFLUTVWvUA0FE9KgltzWZhNQD
- jaxC7X/QdH6dODsZac2n2i7W8fcKDUfaZlToFxfhwX8PTd/evav9hstX7Yc2My1TJ5o0
- 90VxT06zWxP5gtjJ17oeAa0dh89/ZnnUGa4rcPamftER7fPrtEgLkE9HG/icidcqx0Qx
- sj6A==
-X-Gm-Message-State: APjAAAUfr0bVCnI/BFjH1h7GJ/YAAgNqHK0GChPg2WpqGaFWyXrwYj2g
- SkIwzBMV0/DKfrIFBdisjG8k6ev+Cz8KmcBcs5UPpeWWSmgwHU3WcPMBufTOAUOw/080wW3Lzj4
- JvY3BCRONb3ca0VM=
-X-Received: by 2002:a1c:4384:: with SMTP id q126mr2609773wma.153.1568891726608; 
- Thu, 19 Sep 2019 04:15:26 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyXh/+X6SkPqxz+sBlP6s+IHiZKHy2N2KvWwGsTEcP6hqVo5AV3MIpVVfrgifaDkg3A5cLpjg==
-X-Received: by 2002:a1c:4384:: with SMTP id q126mr2609756wma.153.1568891726380; 
- Thu, 19 Sep 2019 04:15:26 -0700 (PDT)
+ bh=6t1EyRsJugVbFVs+NalSvbZU/PDV4M+CkZL9piu3b7c=;
+ b=sijjyUuXnJC2HpvTfZDEQEeol8YOlNW7OK5F7oYjJoWS0KBrOjtZbzU/SDM6qV4RF4
+ w4neTtqKXNnE+EStmRbPRjyfHc4KKA1qp3tLeTkoV1sdWq4QlBhyONlaQgy+CNrvXlBL
+ vjXNwLyKOUhJPsWpKe0v8oqEr6aAxDs8IBqVUVwD/p14G3ac12aCJgmG6dpSBrL/eylY
+ gQEIegGqpluRFMVpl1GHk47e7NTLJ6naP8pjqzZjEcyOu8ZZzvFPaRmhcwAyb42tTEk5
+ uOo1bMCD/7xg3ME9qoAT0uCkVQfTWWPJLuCPWVswc8MuiH/W/ME52kFEIXR2mmxsW3cG
+ lWWQ==
+X-Gm-Message-State: APjAAAVOIp9W91HnqL58sAeF+UqqbFsi/Kmcc7XgeA61KdLtS5ufyes/
+ ksswil39ua95m8ssS1AfiKDrDA3CgWJR3+TLAxi3YlzW+8m0x5fYDoBhbR7JMNvahDDbtYmUvyx
+ hqNQufW97uBIJYHo=
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr2452359wmk.49.1568891932490; 
+ Thu, 19 Sep 2019 04:18:52 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyO5FIdiPn9Sc8nMEN2yQLT84K802Uo1nUYekcS4xFqDVtAHFgz/EGDKwwwu9Sboqcm4H9PBw==
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr2452337wmk.49.1568891932244; 
+ Thu, 19 Sep 2019 04:18:52 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c46c:2acb:d8d2:21d8?
  ([2001:b07:6468:f312:c46c:2acb:d8d2:21d8])
- by smtp.gmail.com with ESMTPSA id s12sm14260632wra.82.2019.09.19.04.15.25
+ by smtp.gmail.com with ESMTPSA id l13sm4343038wmj.25.2019.09.19.04.18.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Sep 2019 04:15:25 -0700 (PDT)
+ Thu, 19 Sep 2019 04:18:51 -0700 (PDT)
 To: "Oleinik, Alexander" <alxndr@bu.edu>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-3-alxndr@bu.edu>
+ <20190918231846.22538-6-alxndr@bu.edu>
 From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <9bd3100e-0e14-46c1-e086-29b3b26a41d4@redhat.com>
-Date: Thu, 19 Sep 2019 13:15:25 +0200
+Message-ID: <a2ac1b44-8a93-8b81-c44d-133f7eefe944@redhat.com>
+Date: Thu, 19 Sep 2019 13:18:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190918231846.22538-3-alxndr@bu.edu>
+In-Reply-To: <20190918231846.22538-6-alxndr@bu.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 02/22] libqos: Rename i2c_send and
- i2c_recv
+Subject: Re: [Qemu-devel] [PATCH v3 05/22] libqtest: Add a layer of
+ abstraciton to send/recv
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,13 +89,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19/09/19 01:19, Oleinik, Alexander wrote:
-> The names i2c_send and i2c_recv collide with functions defined in
-> hw/i2c/core.c. This causes an error when linking against libqos and
-> softmmu simultaneously (for example when using qtest inproc). Rename the
-> libqos functions to avoid this.
+> +static GString *qtest_client_inproc_recv_line(void *);
 
-I'd prefer "qi2c_{send,recv}" since that is consistent with "qvirtio_"
-functions and with the name of the "QI2CDevice" struct.
+This is not defined as of this patch, please move it to patch 14.
+
+>  
+> +    qtest_client_set_rx_handler(s, qtest_client_socket_recv_line, s);
+> +    qtest_client_set_tx_handler(s, qtest_client_socket_send, &(s->fd));
+> +
+
+I think you can pass "s" to the tx handler as well, and remove the
+send_opaque and recv_opaque fields?
 
 Paolo
 
