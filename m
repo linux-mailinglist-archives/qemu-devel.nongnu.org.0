@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172D9B84E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:16:21 +0200 (CEST)
-Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370CCB84B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:13:39 +0200 (CEST)
+Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4iq-0006HQ-5T
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:16:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56405)
+	id 1iB4gE-0003HE-0l
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56403)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1iB49t-0001g3-QV
+ (envelope-from <tcminyard@gmail.com>) id 1iB49t-0001g1-Q7
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1iB49h-0006Fz-1Z
+ (envelope-from <tcminyard@gmail.com>) id 1iB49i-0006GZ-3B
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:10 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35899)
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41645)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49f-0006Cc-Rs
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:00 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 67so4471096oto.3
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49h-0006DL-Jf
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:01 -0400
+Received: by mail-oi1-x241.google.com with SMTP id w17so13263oiw.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HuIlwjKgrYEWVysrX6UaajuLncKSjIW4O4CwrkB0y4Y=;
- b=PvWyjs77AR/GCV9MoxR3KPs9pIIv64biuBt1NPwYGTVmt52LKUc2wtyl8h4bpE+QQb
- A3c0tRd0OvozF6tefKImb8Ta3DdbzefYTgHbGy7fAn6+LsDk81jU33EpLHKcvnan+nAo
- hCOCCfEvrdI1U+a7U6UtZafdL3ezGNFniWrwVLAHuc0MMcUkpr33zK4kwmZLllBPcwJ2
- wUTMK3OyvXlPCYQiCofiKfc5BWznugqH52OUTUL6vZFFv5z7tNpMegpRi3hrEQBuy1uH
- QyD82N9kTRzfeOAO8I3AS8oohx3VL7rd1cBEaYNlFYaNpDokBGKBqI3ZR3yOlQOI3Qzd
- ci6w==
+ bh=WgyVtq9w6PvClORTpivvOhmxn0kbUdDtW15cfLnsIag=;
+ b=TJbxOARoZ0uYDI7F+ZBw/2P1mA/mfxoitGUNvTQztvEi5l4fK2PevTGq6I1CvhrS3G
+ McPR/nsQDFNi1/XQULBQoJuQW2ZHm3YNPiwAATFWnG2MFyE0CMP1dPT6ZG7avY69lmR/
+ T+ljxj3/TAo26K+Qje4UssGPm5IZdRd+VA3CYbNff8DVcL6u/RxseXdI+4Rzp3aD8J+a
+ UITA96QA+EkVyehFMlfED69TPDkRL1o7zyIdPDF4UPmFbb1uuBHl8Y4I6WrxLYxni8nR
+ 6Xx1co7dbo9up/zxLPf3qvWQ4vOgFyiKlcxdqXvnICaDbUdq1WgefZicsX+dNUh24NfV
+ ejEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=HuIlwjKgrYEWVysrX6UaajuLncKSjIW4O4CwrkB0y4Y=;
- b=cX5IQB5klOZMauwlhiNfVY/ayT0A35jd7E5peZZwrc5TUzdE/2xJ3xf57hgI4qXTwi
- G/bh7k+tDi5Lefd4jbFikuVV8vJiax3R2YP0ragVEtTG5mL6eHSU6lbRHN5J3peUStnb
- 9LRCovOuu2d/P5+HuPyw+mXz5JH66G7s1dzXrIJgJ1YOG7Wclnu5B1cVJEV9NLrjrhpm
- wKkmevQ6z6yOA6pyyX5LtCXZLB9lc8gTOQySBJ3J6ZdemE/vGERnkOvDcaSY72Z62IX0
- dWEwUK3tTlG6FwEOtdCtTEfEOWEQFKLtQym5SBDlGa3AZ5rQYnQqmnbrkgGPlpxA2g/t
- 0WNw==
-X-Gm-Message-State: APjAAAV8azjykqOYPyk9c03ZL4Lz7ZLZMFnbjglk8Ft2OWa+lwRhf4p4
- GU+AP5Z8tMS/V4q4DUCkgg==
-X-Google-Smtp-Source: APXvYqyeIX6yy/oitmkSzrYZnNOmZuVIEqGRE18sOrLz8zikNST3+a16geQfsdRQqUuN9TGAqft37Q==
-X-Received: by 2002:a9d:962:: with SMTP id 89mr4800417otp.261.1568929186957;
- Thu, 19 Sep 2019 14:39:46 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id e9sm29432oie.58.2019.09.19.14.39.38
+ bh=WgyVtq9w6PvClORTpivvOhmxn0kbUdDtW15cfLnsIag=;
+ b=BcGfCwK5DV4aC/wCQF0rFV+ofzuGnaKowXP37xVNOWNwIAW1DweM4O4uPUubqRtUEu
+ g7tfUkbT6w/b8Zh4K/Aiq2xKWhJRkCg2mumimA+4fiL6IA+xDrY8giFZQYq5m4BCL8Wr
+ w0P8kwKz+idTFmZcSELNLoxSVjYJdbdX3Oq/HHP6U64JiUUAfMjnMbvN8O/FSqwJ4n/O
+ kyYrAgDNjEGbAvNZvMnO9iMR9ljqV5tW2qFALdHWOJT2jKtXId517Lblr7xyuryGhgyb
+ gWgoU5O44Y2PQX0o33vYDbyub9av1B2N9zDFcaO6BuYrByBdDEbdub1jSxr4RQvuAjSR
+ KDiw==
+X-Gm-Message-State: APjAAAUTqpZYd2ospWuGj+j1hBnnqHCr7Xp29vlmeWM2EUBGu0QZ3KXi
+ QIysxRrGHSO4FWSs6MKwPA==
+X-Google-Smtp-Source: APXvYqwq1G1VJ4q62ElrN/BsbVMNVBn1Cql/EANQH7UAnUEcCE8s2MU1qhALhDZgDrt9dnytuEjxJQ==
+X-Received: by 2002:aca:50c2:: with SMTP id e185mr48033oib.152.1568929190461; 
+ Thu, 19 Sep 2019 14:39:50 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.136.59])
+ by smtp.gmail.com with ESMTPSA id x140sm34370oix.42.2019.09.19.14.39.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:39:40 -0700 (PDT)
+ Thu, 19 Sep 2019 14:39:48 -0700 (PDT)
 Received: from t560.minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPA id 560DD1805A3;
+ by serve.minyard.net (Postfix) with ESMTPA id C596C1805B3;
  Thu, 19 Sep 2019 21:39:37 +0000 (UTC)
 From: minyard@acm.org
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 12/15] ipmi: Add an SMBus IPMI interface
-Date: Thu, 19 Sep 2019 16:39:21 -0500
-Message-Id: <20190919213924.31852-13-minyard@acm.org>
+Subject: [PATCH 15/15] pc: Add an SMB0 ACPI device to q35
+Date: Thu, 19 Sep 2019 16:39:24 -0500
+Message-Id: <20190919213924.31852-16-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190919213924.31852-1-minyard@acm.org>
 References: <20190919213924.31852-1-minyard@acm.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,452 +88,226 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
+This is so I2C devices can be found in the ACPI namespace.  Currently
+that's only IPMI, but devices can be easily added now.
+
+Adding the devices required some PCI information, and the bus itself
+to be added to the PCMachineState structure.
+
+Note that this only works on Q35, the ACPI for PIIX4 is not capable
+of handling an SMBus device.
+
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
 ---
- default-configs/i386-softmmu.mak |   1 +
- hw/i386/Kconfig                  |   1 +
- hw/ipmi/Kconfig                  |   5 +
- hw/ipmi/Makefile.objs            |   1 +
- hw/ipmi/smbus_ipmi.c             | 384 +++++++++++++++++++++++++++++++
- 5 files changed, 392 insertions(+)
- create mode 100644 hw/ipmi/smbus_ipmi.c
+ hw/i386/acpi-build.c             |  15 +++++++++++++++
+ hw/i386/pc_piix.c                |  12 ++++++------
+ hw/i386/pc_q35.c                 |   9 +++++----
+ include/hw/i386/pc.h             |   2 ++
+ tests/data/acpi/q35/DSDT         | Bin 7841 -> 7879 bytes
+ tests/data/acpi/q35/DSDT.bridge  | Bin 7858 -> 7896 bytes
+ tests/data/acpi/q35/DSDT.cphp    | Bin 8304 -> 8342 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm | Bin 9494 -> 9532 bytes
+ tests/data/acpi/q35/DSDT.ipmibt  | Bin 7916 -> 7954 bytes
+ tests/data/acpi/q35/DSDT.memhp   | Bin 9200 -> 9238 bytes
+ tests/data/acpi/q35/DSDT.mmio64  | Bin 8971 -> 9009 bytes
+ tests/data/acpi/q35/DSDT.numamem | Bin 7847 -> 7885 bytes
+ 12 files changed, 28 insertions(+), 10 deletions(-)
 
-diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
-index 2294c0be5a..4229900f57 100644
---- a/default-configs/i386-softmmu.mak
-+++ b/default-configs/i386-softmmu.mak
-@@ -12,6 +12,7 @@
- #CONFIG_ISA_IPMI_KCS=n
- #CONFIG_PCI_IPMI_KCS=n
- #CONFIG_PCI_IPMI_BT=n
-+#CONFIG_IPMI_SSIF=n
- #CONFIG_PCI_DEVICES=n
- #CONFIG_PVPANIC=n
- #CONFIG_QXL=n
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index d10f4e3e8b..c5c9d4900e 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -10,6 +10,7 @@ config PC
-     imply ISA_IPMI_BT
-     imply PCI_IPMI_KCS
-     imply PCI_IPMI_BT
-+    imply IPMI_SSIF
-     imply ISA_DEBUG
-     imply PARALLEL
-     imply PCI_DEVICES
-diff --git a/hw/ipmi/Kconfig b/hw/ipmi/Kconfig
-index 12db4e81ad..9befd4f422 100644
---- a/hw/ipmi/Kconfig
-+++ b/hw/ipmi/Kconfig
-@@ -30,3 +30,8 @@ config PCI_IPMI_BT
-     bool
-     depends on PCI
-     select IPMI
-+
-+config IPMI_SSIF
-+    bool
-+    depends on I2C
-+    select IPMI
-diff --git a/hw/ipmi/Makefile.objs b/hw/ipmi/Makefile.objs
-index 2d7f080a86..3cca10bc50 100644
---- a/hw/ipmi/Makefile.objs
-+++ b/hw/ipmi/Makefile.objs
-@@ -5,3 +5,4 @@ common-obj-$(CONFIG_ISA_IPMI_KCS) += isa_ipmi_kcs.o
- common-obj-$(CONFIG_PCI_IPMI_KCS) += pci_ipmi_kcs.o
- common-obj-$(CONFIG_ISA_IPMI_BT) += isa_ipmi_bt.o
- common-obj-$(CONFIG_PCI_IPMI_BT) += pci_ipmi_bt.o
-+common-obj-$(CONFIG_IPMI_SSIF) += smbus_ipmi.o
-diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
-new file mode 100644
-index 0000000000..2a9470d9df
---- /dev/null
-+++ b/hw/ipmi/smbus_ipmi.c
-@@ -0,0 +1,384 @@
-+/*
-+ * QEMU IPMI SMBus (SSIF) emulation
-+ *
-+ * Copyright (c) 2015,2016 Corey Minyard, MontaVista Software, LLC
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#include "qemu/osdep.h"
-+#include "migration/vmstate.h"
-+#include "hw/i2c/smbus_slave.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "hw/ipmi/ipmi.h"
-+
-+#define TYPE_SMBUS_IPMI "smbus-ipmi"
-+#define SMBUS_IPMI(obj) OBJECT_CHECK(SMBusIPMIDevice, (obj), TYPE_SMBUS_IPMI)
-+
-+#define SSIF_IPMI_REQUEST                       2
-+#define SSIF_IPMI_MULTI_PART_REQUEST_START      6
-+#define SSIF_IPMI_MULTI_PART_REQUEST_MIDDLE     7
-+#define SSIF_IPMI_MULTI_PART_REQUEST_END        8
-+#define SSIF_IPMI_RESPONSE                      3
-+#define SSIF_IPMI_MULTI_PART_RESPONSE_MIDDLE    9
-+#define SSIF_IPMI_MULTI_PART_RETRY              0xa
-+
-+#define MAX_SSIF_IPMI_MSG_SIZE 255
-+#define MAX_SSIF_IPMI_MSG_CHUNK 32
-+
-+#define IPMI_GET_SYS_INTF_CAP_CMD 0x57
-+
-+typedef struct SMBusIPMIDevice {
-+    SMBusDevice parent;
-+
-+    IPMIBmc *bmc;
-+
-+    uint8_t outmsg[MAX_SSIF_IPMI_MSG_SIZE];
-+    uint32_t outlen;
-+    uint32_t currblk;
-+
-+    /* Holds the SMBUS message currently being sent to the host. */
-+    uint8_t outbuf[MAX_SSIF_IPMI_MSG_CHUNK + 1]; /* len + message. */
-+    uint32_t outpos;
-+
-+    uint8_t inmsg[MAX_SSIF_IPMI_MSG_SIZE];
-+    uint32_t inlen;
-+
-+    /*
-+     * This is a response number that we send with the command to make
-+     * sure that the response matches the command.
-+     */
-+    uint8_t waiting_rsp;
-+
-+    uint32_t uuid;
-+} SMBusIPMIDevice;
-+
-+static void smbus_ipmi_handle_event(IPMIInterface *ii)
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 8acf12df9a..4e0f9f425a 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1809,6 +1809,18 @@ static Aml *build_q35_osc_method(void)
+     return method;
+ }
+ 
++static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
 +{
-+    /* No interrupts, so nothing to do here. */
++    Aml *scope = aml_scope("_SB.PCI0");
++    Aml *dev = aml_device("SMB0");
++
++    aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0005")));
++    aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
++    build_acpi_ipmi_devices(dev, BUS(smbus), "\\_SB.PCI0.SMB0");
++    aml_append(scope, dev);
++    aml_append(table, scope);
 +}
 +
-+static void smbus_ipmi_handle_rsp(IPMIInterface *ii, uint8_t msg_id,
-+                                  unsigned char *rsp, unsigned int rsp_len)
-+{
-+    SMBusIPMIDevice *sid = SMBUS_IPMI(ii);
-+
-+    if (sid->waiting_rsp == msg_id) {
-+        sid->waiting_rsp++;
-+
-+        if (rsp_len > MAX_SSIF_IPMI_MSG_SIZE) {
-+            rsp[2] = IPMI_CC_REQUEST_DATA_TRUNCATED;
-+            rsp_len = MAX_SSIF_IPMI_MSG_SIZE;
+ static void
+ build_dsdt(GArray *table_data, BIOSLinker *linker,
+            AcpiPmInfo *pm, AcpiMiscInfo *misc,
+@@ -1862,6 +1874,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         build_q35_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
+         build_q35_pci0_int(dsdt);
++        if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
++            build_smb0(dsdt, pcms->smbus, ICH9_SMB_DEV, ICH9_SMB_FUNC);
 +        }
-+        memcpy(sid->outmsg, rsp, rsp_len);
-+        sid->outlen = rsp_len;
-+        sid->outpos = 0;
-+        sid->currblk = 0;
-+    }
-+}
-+
-+static void smbus_ipmi_set_atn(IPMIInterface *ii, int val, int irq)
-+{
-+    /* This is where PEC would go. */
-+}
-+
-+static void smbus_ipmi_set_irq_enable(IPMIInterface *ii, int val)
-+{
-+}
-+
-+static void smbus_ipmi_send_msg(SMBusIPMIDevice *sid)
-+{
-+    uint8_t *msg = sid->inmsg;
-+    uint32_t len = sid->inlen;
-+    IPMIBmcClass *bk = IPMI_BMC_GET_CLASS(sid->bmc);
-+
-+    sid->outlen = 0;
-+    sid->outpos = 0;
-+    sid->currblk = 0;
-+
-+    if (msg[0] == (IPMI_NETFN_APP << 2) && msg[1] == IPMI_GET_SYS_INTF_CAP_CMD)
-+    {
-+        /* We handle this ourself. */
-+        sid->outmsg[0] = (IPMI_NETFN_APP + 1) << 2;
-+        sid->outmsg[1] = msg[1];
-+        if (len < 3) {
-+            sid->outmsg[2] = IPMI_CC_REQUEST_DATA_LENGTH_INVALID;
-+            sid->outlen = 3;
-+        } else if ((msg[2] & 0x0f) != 0) {
-+            sid->outmsg[2] = IPMI_CC_INVALID_DATA_FIELD;
-+            sid->outlen = 3;
-+        } else {
-+            sid->outmsg[2] = 0;
-+            sid->outmsg[3] = 0;
-+            sid->outmsg[4] = (2 << 6); /* Multi-part supported. */
-+            sid->outmsg[5] = MAX_SSIF_IPMI_MSG_SIZE;
-+            sid->outmsg[6] = MAX_SSIF_IPMI_MSG_SIZE;
-+            sid->outlen = 7;
-+        }
-+        return;
-+    }
-+
-+    bk->handle_command(sid->bmc, sid->inmsg, sid->inlen, sizeof(sid->inmsg),
-+                       sid->waiting_rsp);
-+}
-+
-+static uint8_t ipmi_receive_byte(SMBusDevice *dev)
-+{
-+    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
-+
-+    if (sid->outpos >= sizeof(sid->outbuf)) {
-+        return 0xff;
-+    }
-+
-+    return sid->outbuf[sid->outpos++];
-+}
-+
-+static int ipmi_load_readbuf(SMBusIPMIDevice *sid)
-+{
-+    unsigned int block = sid->currblk, pos, len;
-+
-+    if (sid->outlen == 0) {
-+        return -1;
-+    }
-+
-+    if (sid->outlen <= 32) {
-+        if (block != 0) {
-+            return -1;
-+        }
-+        sid->outbuf[0] = sid->outlen;
-+        memcpy(sid->outbuf + 1, sid->outmsg, sid->outlen);
-+        sid->outpos = 0;
-+        return 0;
-+    }
-+
-+    if (block == 0) {
-+        sid->outbuf[0] = 32;
-+        sid->outbuf[1] = 0;
-+        sid->outbuf[2] = 1;
-+        memcpy(sid->outbuf + 3, sid->outmsg, 30);
-+        sid->outpos = 0;
-+        return 0;
-+    }
-+
-+    /*
-+     * Calculate the position in outmsg.  30 for the first block, 31
-+     * for the rest of the blocks.
-+     */
-+    pos = 30 + (block - 1) * 31;
-+
-+    if (pos >= sid->outlen) {
-+        return -1;
-+    }
-+
-+    len = sid->outlen - pos;
-+    if (len > 31) {
-+        /* More chunks after this. */
-+        len = 31;
-+        /* Blocks start at 0 for the first middle transaction. */
-+        sid->outbuf[1] = block - 1;
-+    } else {
-+        sid->outbuf[1] = 0xff; /* End of message marker. */
-+    }
-+
-+    sid->outbuf[0] = len + 1;
-+    memcpy(sid->outbuf + 2, sid->outmsg + pos, len);
-+    sid->outpos = 0;
-+    return 0;
-+}
-+
-+static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
-+{
-+    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
-+    bool send = false;
-+    uint8_t cmd;
-+    int ret = 0;
-+
-+    /* length is guaranteed to be >= 1. */
-+    cmd = *buf++;
-+    len--;
-+
-+    /* Handle read request, which don't have any data in the write part. */
-+    switch (cmd) {
-+    case SSIF_IPMI_RESPONSE:
-+        sid->currblk = 0;
-+        ret = ipmi_load_readbuf(sid);
-+        break;
-+
-+    case SSIF_IPMI_MULTI_PART_RESPONSE_MIDDLE:
-+        sid->currblk++;
-+        ret = ipmi_load_readbuf(sid);
-+        break;
-+
-+    case SSIF_IPMI_MULTI_PART_RETRY:
-+        if (len >= 1) {
-+            sid->currblk = buf[0];
-+            ret = ipmi_load_readbuf(sid);
-+        } else {
-+            ret = -1;
-+        }
-+        break;
-+
-+    default:
-+        break;
-+    }
-+
-+    /* This should be a message write, make the length is there and correct. */
-+    if (len >= 1) {
-+        if (*buf != len - 1 || *buf > MAX_SSIF_IPMI_MSG_CHUNK) {
-+            return -1; /* Bogus message */
-+        }
-+        buf++;
-+        len--;
-+    }
-+
-+    switch (cmd) {
-+    case SSIF_IPMI_REQUEST:
-+        send = true;
-+        /* FALLTHRU */
-+    case SSIF_IPMI_MULTI_PART_REQUEST_START:
-+        if (len < 2) {
-+            return -1; /* Bogus. */
-+        }
-+        memcpy(sid->inmsg, buf, len);
-+        sid->inlen = len;
-+        break;
-+
-+    case SSIF_IPMI_MULTI_PART_REQUEST_END:
-+        send = true;
-+        /* FALLTHRU */
-+    case SSIF_IPMI_MULTI_PART_REQUEST_MIDDLE:
-+        if (!sid->inlen) {
-+            return -1; /* Bogus. */
-+        }
-+        if (sid->inlen + len > MAX_SSIF_IPMI_MSG_SIZE) {
-+            sid->inlen = 0; /* Discard the message. */
-+            return -1; /* Bogus. */
-+        }
-+        if (len < 32) {
-+            /*
-+             * Special hack, a multi-part middle that is less than 32 bytes
-+             * marks the end of a message.  The specification is fairly
-+             * confusing, so some systems to this, even sending a zero
-+             * length end message to mark the end.
-+             */
-+            send = true;
-+        }
-+        memcpy(sid->inmsg + sid->inlen, buf, len);
-+        sid->inlen += len;
-+        break;
-+    }
-+
-+    if (send && sid->inlen) {
-+        smbus_ipmi_send_msg(sid);
-+    }
-+
-+    return ret;
-+}
-+
-+static const VMStateDescription vmstate_smbus_ipmi = {
-+    .name = TYPE_SMBUS_IPMI,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields      = (VMStateField[]) {
-+        VMSTATE_SMBUS_DEVICE(parent, SMBusIPMIDevice),
-+        VMSTATE_UINT8(waiting_rsp, SMBusIPMIDevice),
-+        VMSTATE_UINT32(outlen, SMBusIPMIDevice),
-+        VMSTATE_UINT32(currblk, SMBusIPMIDevice),
-+        VMSTATE_UINT8_ARRAY(outmsg, SMBusIPMIDevice, MAX_SSIF_IPMI_MSG_SIZE),
-+        VMSTATE_UINT32(outpos, SMBusIPMIDevice),
-+        VMSTATE_UINT8_ARRAY(outbuf, SMBusIPMIDevice,
-+                            MAX_SSIF_IPMI_MSG_CHUNK + 1),
-+        VMSTATE_UINT32(inlen, SMBusIPMIDevice),
-+        VMSTATE_UINT8_ARRAY(inmsg, SMBusIPMIDevice, MAX_SSIF_IPMI_MSG_SIZE),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void smbus_ipmi_realize(DeviceState *dev, Error **errp)
-+{
-+    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
-+    IPMIInterface *ii = IPMI_INTERFACE(dev);
-+
-+    if (!sid->bmc) {
-+        error_setg(errp, "IPMI device requires a bmc attribute to be set");
-+        return;
-+    }
-+
-+    sid->uuid = ipmi_next_uuid();
-+
-+    sid->bmc->intf = ii;
-+}
-+
-+static void smbus_ipmi_init(Object *obj)
-+{
-+    SMBusIPMIDevice *sid = SMBUS_IPMI(obj);
-+
-+    ipmi_bmc_find_and_link(OBJECT(obj), (Object **) &sid->bmc);
-+}
-+
-+static void smbus_ipmi_get_fwinfo(struct IPMIInterface *ii, IPMIFwInfo *info)
-+{
-+    SMBusIPMIDevice *sid = SMBUS_IPMI(ii);
-+
-+    info->interface_name = "smbus";
-+    info->interface_type = IPMI_SMBIOS_SSIF;
-+    info->ipmi_spec_major_revision = 2;
-+    info->ipmi_spec_minor_revision = 0;
-+    info->i2c_slave_address = sid->bmc->slave_addr;
-+    info->base_address = sid->parent.i2c.address;
-+    info->memspace = IPMI_MEMSPACE_SMBUS;
-+    info->register_spacing = 1;
-+    info->uuid = sid->uuid;
-+}
-+
-+static void smbus_ipmi_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
-+    SMBusDeviceClass *sc = SMBUS_DEVICE_CLASS(oc);
-+
-+    sc->receive_byte = ipmi_receive_byte;
-+    sc->write_data = ipmi_write_data;
-+    dc->vmsd = &vmstate_smbus_ipmi;
-+    dc->realize = smbus_ipmi_realize;
-+    iic->set_atn = smbus_ipmi_set_atn;
-+    iic->handle_rsp = smbus_ipmi_handle_rsp;
-+    iic->handle_if_event = smbus_ipmi_handle_event;
-+    iic->set_irq_enable = smbus_ipmi_set_irq_enable;
-+    iic->get_fwinfo = smbus_ipmi_get_fwinfo;
-+}
-+
-+static const TypeInfo smbus_ipmi_info = {
-+    .name          = TYPE_SMBUS_IPMI,
-+    .parent        = TYPE_SMBUS_DEVICE,
-+    .instance_size = sizeof(SMBusIPMIDevice),
-+    .instance_init = smbus_ipmi_init,
-+    .class_init    = smbus_ipmi_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_IPMI_INTERFACE },
-+        { }
-+    }
-+};
-+
-+static void smbus_ipmi_register_types(void)
-+{
-+    type_register_static(&smbus_ipmi_info);
-+}
-+
-+type_init(smbus_ipmi_register_types)
+     }
+ 
+     if (pcmc->legacy_cpu_hotplug) {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 2362675149..6824b72124 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -283,15 +283,14 @@ else {
+ 
+     if (pcmc->pci_enabled && acpi_enabled) {
+         DeviceState *piix4_pm;
+-        I2CBus *smbus;
+ 
+         smi_irq = qemu_allocate_irq(pc_acpi_smi_interrupt, first_cpu, 0);
+         /* TODO: Populate SPD eeprom data.  */
+-        smbus = piix4_pm_init(pci_bus, piix3_devfn + 3, 0xb100,
+-                              pcms->gsi[9], smi_irq,
+-                              pc_machine_is_smm_enabled(pcms),
+-                              &piix4_pm);
+-        smbus_eeprom_init(smbus, 8, NULL, 0);
++        pcms->smbus = piix4_pm_init(pci_bus, piix3_devfn + 3, 0xb100,
++                                    pcms->gsi[9], smi_irq,
++                                    pc_machine_is_smm_enabled(pcms),
++                                    &piix4_pm);
++        smbus_eeprom_init(pcms->smbus, 8, NULL, 0);
+ 
+         object_property_add_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+                                  TYPE_HOTPLUG_HANDLER,
+@@ -476,6 +475,7 @@ static void pc_i440fx_3_1_machine_options(MachineClass *m)
+ 
+     pc_i440fx_4_0_machine_options(m);
+     m->is_default = 0;
++    pcmc->do_not_add_smb_acpi = true;
+     m->smbus_no_migration_support = true;
+     m->alias = NULL;
+     pcmc->pvh_enabled = false;
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index d4e8a1cb9f..8fad20f314 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -316,10 +316,10 @@ static void pc_q35_init(MachineState *machine)
+ 
+     if (pcms->smbus_enabled) {
+         /* TODO: Populate SPD eeprom data.  */
+-        smbus_eeprom_init(ich9_smb_init(host_bus,
+-                                        PCI_DEVFN(ICH9_SMB_DEV, ICH9_SMB_FUNC),
+-                                        0xb100),
+-                          8, NULL, 0);
++        pcms->smbus = ich9_smb_init(host_bus,
++                                    PCI_DEVFN(ICH9_SMB_DEV, ICH9_SMB_FUNC),
++                                    0xb100);
++        smbus_eeprom_init(pcms->smbus, 8, NULL, 0);
+     }
+ 
+     pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
+@@ -421,6 +421,7 @@ static void pc_q35_3_1_machine_options(MachineClass *m)
+ 
+     pc_q35_4_0_machine_options(m);
+     m->default_kernel_irqchip_split = false;
++    pcmc->do_not_add_smb_acpi = true;
+     m->smbus_no_migration_support = true;
+     m->alias = NULL;
+     pcmc->pvh_enabled = false;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 062feeb69e..6df4f4b6fb 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -38,6 +38,7 @@ struct PCMachineState {
+     HotplugHandler *acpi_dev;
+     ISADevice *rtc;
+     PCIBus *bus;
++    I2CBus *smbus;
+     FWCfgState *fw_cfg;
+     qemu_irq *gsi;
+     PFlashCFI01 *flash[2];
+@@ -117,6 +118,7 @@ typedef struct PCMachineClass {
+     bool rsdp_in_ram;
+     int legacy_acpi_table_size;
+     unsigned acpi_data_size;
++    bool do_not_add_smb_acpi;
+ 
+     /* SMBIOS compat: */
+     bool smbios_defaults;
+diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
+index f9f36d1645c9b57aea38350d67dfaa143845697d..77ea60ffed421c566138fe6341421f579129a582 100644
+GIT binary patch
+delta 62
+zcmZ2zd)$`GCD<k8xEuomWBo=hV@Xw2z4&0K_yA{5gXkv7U|%N#j(87G7aleN23C%E
+RN0%TTW(IkN%{G#$tN;mh4yXVC
+
+delta 24
+fcmX?ZyU>=)CD<iop&SDPquoX>W690Qk}0eJT(JhZ
+
+diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
+index 29176832ca9842c6654273ae1246321aa38b2821..fbc2d40000428b402586ea9302b5ccf36ef8de1e 100644
+GIT binary patch
+delta 62
+zcmdmFd&8E?CD<k8h8zO}qx?oLV@Xw2z4&0K_yA{5gXkv7U|%N#j(87G7aleN23C%E
+RN0%TTW(IkN%{G!{tN;Tx4vYW*
+
+delta 24
+fcmca%yUCWzCD<iolN<vB<Gqbs#*&+pB}-WWXCMci
+
+diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
+index 19bdb5d21050f24aaacbafb1f84d6e1d541876c6..6a896cb2142feadbcabc6276b59c138a7e93f540 100644
+GIT binary patch
+delta 62
+zcmez1FwK$6CD<iongRm@<ByG8#*(V4dhx+d@d3`B2GLED!M;ug9Pu8WE<9`k46GdS
+RjxIqw%nb4jn{6ab*a06=4(I>?
+
+delta 24
+fcmbQ{_`!k8CD<jTK!JgQar;ItW690QlE&-+VHF1X
+
+diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
+index 727fe489b4c8cdd39476ff61e7d7664c816f5291..23fdf5e60a5069f60d6c680ac9c68c4a8a81318e 100644
+GIT binary patch
+delta 62
+zcmbQ{wa1IgCD<jzMwNkq@!&=-V@Xw2z4&0K_yA{5gXkv7U|%N#j(87G7aleN23C%E
+RN0%TTW(IkN%{G#^xB>h%4&?v<
+
+delta 24
+fcmdnvHO-65CD<iIOqGFwv0)>ZvE=4t$(!5&ShNQA
+
+diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
+index 9634930e6125de4375d87a56a353f636985599d4..c3fca0a71efa7b55c958a49f305389426fbe7922 100644
+GIT binary patch
+delta 62
+zcmaE3JIRjACD<iINS=X#aq&j3I!RSkz4&0K_yA{5gXkv7U|%N#j(87G7aleN23C%E
+RN0%TTW(IkN&Fzw@tN{Nt4#fZf
+
+delta 24
+fcmbPa_r{jXCD<k8jT{35WAa9>I?2uJBvV)cXHo~&
+
+diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
+index dad5dc8db2f13bdb0de001da42c13b18286c3061..2abd0e36cd1344cbca3fa4ab59c5db2ea326d125 100644
+GIT binary patch
+delta 62
+zcmez1KFx#6CD<iIOof4gv0x*Yv81Z1UVN}qe1Nm3L3ER3u&<K=N4$rp3lEzB11m?o
+Rqe~DEGlM+CW*f;ZTmbN04s`$k
+
+delta 24
+fcmbQ{@xh(TCD<k8gE9jHqrpZlW690QlAE~zWv~Z^
+
+diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
+index 20f627ed08a0cae4e144f3e4dd7dd5f1d8d0318c..b32034a11c1f8a0a156df3765df44b14a88dbb4d 100644
+GIT binary patch
+delta 62
+zcmeBn+vvvS66_LUsLa5?sI!sFSW;D0FFx2QKET=2Ai7C1*w@K`Bi_T)g@;Xmft4fP
+R(Itq7nL(amvyJ3=P5{<m4j2Fc
+
+delta 24
+fcmdn!*6qgS66_Mft<1o{_<AFkvE=4t$#a|lSziY!
+
+diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
+index 7b96a972804e95e191d9d3bf9a965e90f6f7e555..d8b2b47f8b47067d375021a30086ca97d8aca43f 100644
+GIT binary patch
+delta 62
+zcmZ2(d)AiACD<k8tQ-Raqvl2~V@Xw2z4&0K_yA{5gXkv7U|%N#j(87G7aleN23C%E
+RN0%TTW(IkN%{G$RtN{IN4r%}Z
+
+delta 24
+fcmX?WyWEz`CD<ioxf}xn<BN@4#*&+pC9_xoWX}hC
+
 -- 
 2.17.1
 
