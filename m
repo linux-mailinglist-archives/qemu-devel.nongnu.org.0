@@ -2,75 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BAFB7CCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:30:01 +0200 (CEST)
-Received: from localhost ([::1]:45014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89706B7D35
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:50:05 +0200 (CEST)
+Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAxRY-0000D6-Sp
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56120)
+	id 1iAxky-0008Bn-0J
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:50:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iAxPP-000701-Vz
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:27:48 -0400
+ (envelope-from <david@redhat.com>) id 1iAxgZ-0004ue-9G
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:45:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iAxPO-00007M-Sd
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:27:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57488)
+ (envelope-from <david@redhat.com>) id 1iAxY5-000636-VW
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:36:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34002)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iAxPO-000060-Mw
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:27:46 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iAxY5-00062X-Nw
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:36:45 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E063211A07
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:27:45 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id t11so1145883wro.10
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 07:27:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lKzcvFrFvsuwnxzjekpKEEzUuyIDEDYX7lbIC2J4SSc=;
- b=YEwM9EkoGZFFBF7Gr0EqTpTo7LB3+SxGup8an+FjTHc3byNfWNbC4NDQ6blcZgGqgM
- zoDQ6t9DDM453UAr9YeqERU9EGRVC0REnYds5/vmkrrzCn0Vw6pH7I8P91wPCpPQZuvF
- bEC7i3qmSRqktAaqBBrtNTBqM0uScoInhywmIU1cXuE65R8TN42TMX+GrMUJ+7ggzw3m
- aqk6wEPhrP9Yb8E9DrdqZf5jtmtEtmMj80FF4I4Yun23KkvcTAP+/2SfE7WRcl33Mp1V
- EyFfd7AVHpEQ9cG9wVLaZHQLs55HbW5swq++gKxl/g4pJ5MayGBhR4uSc5Z9apyQB2FF
- qiSg==
-X-Gm-Message-State: APjAAAWAtP+fQLDf7yx5h/7QWjNKbl3qCkFiX2BD5fb2Db1MQrejRfjt
- EQUiOq+Xp8yaSc8ggN5R2x4SPQ0/jWa93vyKdU8GRcUYfozbsixWwJfoCfIaeUAVRqt8ZsJqX6x
- 1Cmr91GltIvXaauo=
-X-Received: by 2002:a1c:49d4:: with SMTP id w203mr2963695wma.132.1568903264611; 
- Thu, 19 Sep 2019 07:27:44 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwWHpid1hKmrP9o9mnI8qIsygxO0YvM00EZKuMQe4PeOB9ufNP3dV/JP7ovlKx3DrL8Qj4aFw==
-X-Received: by 2002:a1c:49d4:: with SMTP id w203mr2963668wma.132.1568903264364; 
- Thu, 19 Sep 2019 07:27:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c46c:2acb:d8d2:21d8?
- ([2001:b07:6468:f312:c46c:2acb:d8d2:21d8])
- by smtp.gmail.com with ESMTPSA id s9sm8060432wme.36.2019.09.19.07.27.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Sep 2019 07:27:43 -0700 (PDT)
-Subject: Re: [PATCH v3 05/22] libqtest: Add a layer of abstraciton to send/recv
-To: "Oleinik, Alexander" <alxndr@bu.edu>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-6-alxndr@bu.edu>
- <a2ac1b44-8a93-8b81-c44d-133f7eefe944@redhat.com>
- <60437a730d3df6a3248cd944eacd4555b40d00bc.camel@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 610608A1C94;
+ Thu, 19 Sep 2019 14:36:44 +0000 (UTC)
+Received: from [10.36.118.9] (unknown [10.36.118.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 379445D9CD;
+ Thu, 19 Sep 2019 14:36:36 +0000 (UTC)
+Subject: Re: [RFC v2 1/5] cputlb: Disable __always_inline__ without
+ optimization
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190918180251.32003-1-richard.henderson@linaro.org>
+ <20190918180251.32003-2-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <d07eebbd-2c4d-3f0a-790e-72d1965f6ca0@redhat.com>
-Date: Thu, 19 Sep 2019 16:27:43 +0200
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <7fe2ef2e-6401-1db4-23ce-6189ea68763c@redhat.com>
+Date: Thu, 19 Sep 2019 16:36:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <60437a730d3df6a3248cd944eacd4555b40d00bc.camel@bu.edu>
+In-Reply-To: <20190918180251.32003-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Thu, 19 Sep 2019 14:36:44 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,25 +105,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/09/19 15:27, Oleinik, Alexander wrote:
-> On Thu, 2019-09-19 at 13:18 +0200, Paolo Bonzini wrote:
->> I think you can pass "s" to the tx handler as well, and remove the
->> send_opaque and recv_opaque fields?
+On 18.09.19 20:02, Richard Henderson wrote:
+> This forced inlining can result in missing symbols,
+> which makes a debugging build harder to follow.
 > 
-> Qtest also uses this function to communicate over qmp  (different fd).
-> I can probably make the tx handler a wrapper which accepts "s", and
-> passes s->fd to the real socket_send.
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/qemu/compiler.h | 11 +++++++++++
+>  accel/tcg/cputlb.c      |  4 ++--
+>  2 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+> index 09fc44cca4..d6d400c523 100644
+> --- a/include/qemu/compiler.h
+> +++ b/include/qemu/compiler.h
+> @@ -170,6 +170,17 @@
+>  # define QEMU_NONSTRING
+>  #endif
+>  
+> +/*
+> + * Forced inlining may be desired to encourage constant propagation
+> + * of function parameters.  However, it can also make debugging harder,
+> + * so disable it for a non-optimizing build.
+> + */
+> +#if defined(__OPTIMIZE__) && __has_attribute(always_inline)
+> +#define QEMU_ALWAYS_INLINE  __attribute__((always_inline))
+> +#else
+> +#define QEMU_ALWAYS_INLINE
+> +#endif
+> +
+>  /* Implement C11 _Generic via GCC builtins.  Example:
+>   *
+>   *    QEMU_GENERIC(x, (float, sinf), (long double, sinl), sin) (x)
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index abae79650c..2222b87764 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1281,7 +1281,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+>  typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
+>                                  TCGMemOpIdx oi, uintptr_t retaddr);
+>  
+> -static inline uint64_t __attribute__((always_inline))
+> +static inline uint64_t QEMU_ALWAYS_INLINE
+>  load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+>              uintptr_t retaddr, MemOp op, bool code_read,
+>              FullLoadHelper *full_load)
+> @@ -1530,7 +1530,7 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
+>   * Store Helpers
+>   */
+>  
+> -static inline void __attribute__((always_inline))
+> +static inline void QEMU_ALWAYS_INLINE
+>  store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+>               TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
+>  {
+> 
 
-Yes, exactly.
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
 
 Thanks,
 
-Paolo
-
+David / dhildenb
 
