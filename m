@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47606B839B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:44:37 +0200 (CEST)
-Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9C2B83AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:48:23 +0200 (CEST)
+Received: from localhost ([::1]:48778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4E7-000525-HW
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53534)
+	id 1iB4Hl-0008VD-P0
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53601)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3um-0002ka-BT
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:38 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3us-0002q0-Mt
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3ui-0000bA-7a
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:35 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40382)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uq-0000hd-G2
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:42 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33156)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iB3uh-0000ab-NU
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:31 -0400
-Received: by mail-wr1-x444.google.com with SMTP id l3so4606216wru.7
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:31 -0700 (PDT)
+ id 1iB3uo-0000ch-6r
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:38 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b9so4661328wrs.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DqChsnZIXAGMvroXVL0MQvbI8g2z6bOPhBgHC6Jjg7E=;
- b=GZoy3rJ+MBZPHWm8aLBo+DW4vhl+T6zJX5wzbxAkNBxcje9tixaySk378VTxtJBS4R
- 7QQdVkYZ9ucpmSAOdW3K0QFLZB12zzzhLZszAsjhrPuwZgSb6+NlgzZC3d3FkfG1WZbW
- PKQVa87wST5WIWuLUMlUVQWPg6h1Yynokgxpjt/O7oW4lCCEcXS3lNnh6qhhTkz/b33c
- /VXfsrnCUFo9re1me/gfA3oQa+rEivvweqMJZpG5FQgw7tRs7Dy5CWU3f2mC5XVctAyz
- YYgSbnAYY+R1AQ1n+7HQWq6+8Hl0R7J5AsMj7oQv4GlwhuYtD6r3X94CB4H7NZJOVDWf
- 2fYw==
+ bh=y4hrO1Uu0paB0JQc174Zf7748JlB8HDxf5+LZFaxdz0=;
+ b=rsIbEQ06TfwRVZ1wmzumLJutCNaRqM7GZS6WyrD7cDSY9lRviBEhur8G8wOnb0luzv
+ e5MdNpKX5OfiyGafmVB6ji/YY2qq2Thwryim1oBMP449FUXZCcEk/pbozx77LyR3HKIT
+ i5k5mg55HqDh5v5M+kxD9qGXySYkve2MN9FuaAe+luYUIl1oTbYqfjpKKObBhJqLX9yG
+ aXgBMZhRYOtYyKNE4KxqqIL2DCNJiyPWguwGGhdhUx+B+2bGWQDKmavWhpQUKj2IPBMg
+ nP+LL1IgQWwS3N5U3H4EDdK20psDPIKuhDOktwj0MygstxRL5HN3Jlb3F2529/MhYeP6
+ VuCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DqChsnZIXAGMvroXVL0MQvbI8g2z6bOPhBgHC6Jjg7E=;
- b=VHolHVZCixaU+D1GG6LEFwHZcbX7ZasF0RiTVH9U7HuPFzlbS3av8Us7W0PegAp/9m
- fYUpImX/XOJSx1rS6TSg6BJHvs3l4mV4fRQvZNi+Depz7bP8aOElt3Irl8IO+58Ilvi+
- NCLloBMfAPqPor9KtiL8zCqZnF/OjYdnYLqWQEBtO9pzOiJ8ACOsGEW+PH6a/V4tw08m
- K0A5mUK5nBuXfj/14YVUvfh1Xx8eJa/mbs1oguYLW7D9+Z/4RAEEAeS7V3wAeMASMSrE
- EXgh3Y7LIbSEptzXfs7BQYVhETLdjkbue76hNWKYsF8S9MLig36nL9oIoJAmyFJ8errM
- fOqg==
-X-Gm-Message-State: APjAAAVpEJtPNSlz+OO//sbCmxCynreVbTRS5WRFQcDcQBcex9ZnsvlL
- XskcETij/M2S4hKOTTMGUX+V2fK5
-X-Google-Smtp-Source: APXvYqyj4jqMyVqM9gCjrgzpFzSPmLnJPDKuuBIqumfRIYx+IKExCAxZFTSZz9ZVkuDoI1l+ILmgyA==
-X-Received: by 2002:a5d:4582:: with SMTP id p2mr9162217wrq.305.1568928270279; 
- Thu, 19 Sep 2019 14:24:30 -0700 (PDT)
+ bh=y4hrO1Uu0paB0JQc174Zf7748JlB8HDxf5+LZFaxdz0=;
+ b=tw+6iNbZlaLrDBfAlBEqKn9ugCdc9XNUhBpc4C0vsQkJ3528oEW2GWqwVlY8/+zD6w
+ rmNN9FEJR7rtgZsYJXOK7sQ9dZupRsx0Km0XBOSduVytOPnU+TTrsvKA0dvtdJ4Lnmgh
+ 60045Q4xpyaqc+l4fGYW84/ckstsuXNC3P7gavNMqJ7Xqtt6pfRcUSmv6/hnFAa9SwEZ
+ 7CBpYgio1oN/sF3NOo1Tl2L0cnlvrcT3fdljiT/SGnLuJbozsDrc/bARo3rcv7bGGLuM
+ cKpdHKTTt4g1SeeIkQX3fPOknnBr83XRvtyYf8VN4V82/G8F+vr44JnDlZF2yU46PyjZ
+ SC/Q==
+X-Gm-Message-State: APjAAAVmhaynkD2GA9W59iCQoONTwQKbZZsfXaxm9Wogqk5U8b9abMHj
+ nq6uHtZTkC43RdBTX0oC3jSqGbOu
+X-Google-Smtp-Source: APXvYqw4MUzM4YotE+OPeAo10U1rk2AwxQ23giluPxjEsGevYJQ2SdMeLT179aDGK/ZJk2pM9hnXVA==
+X-Received: by 2002:a5d:4b4e:: with SMTP id w14mr8483626wrs.191.1568928275328; 
+ Thu, 19 Sep 2019 14:24:35 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:74ef::5])
- by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.29
+ by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:24:29 -0700 (PDT)
+ Thu, 19 Sep 2019 14:24:35 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 08/24] sdlaudio: port to the new audio backend api
-Date: Thu, 19 Sep 2019 23:24:16 +0200
-Message-Id: <ac1722a03fb1b530c2081f46585ce7fa80ebef6c.1568927990.git.DirtY.iCE.hu@gmail.com>
+Subject: [PATCH v4 13/24] audio: common rate control code for timer based
+ outputs
+Date: Thu, 19 Sep 2019 23:24:21 +0200
+Message-Id: <fd0fe5b95b13fa26d09ae77a72f99d0ea411de14.1568927990.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
@@ -87,136 +88,346 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This commit removes the ad-hoc rate-limiting code from noaudio and
+wavaudio, and replaces them with a (slightly modified) code from
+spiceaudio.  This way multiple write calls (for example when the
+circular buffer wraps around) do not cause problems.
+
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/sdlaudio.c | 87 +++++++++++++++++++++++-------------------------
- 1 file changed, 42 insertions(+), 45 deletions(-)
+ audio/audio.c      | 30 +++++++++++++++++++++++++++
+ audio/audio_int.h  |  9 ++++++++
+ audio/noaudio.c    | 49 ++++++++++++++++++++------------------------
+ audio/spiceaudio.c | 51 ++++++++--------------------------------------
+ audio/wavaudio.c   | 21 +++++++++----------
+ 5 files changed, 79 insertions(+), 81 deletions(-)
 
-diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-index 14b11f0335..f7ac8cd101 100644
---- a/audio/sdlaudio.c
-+++ b/audio/sdlaudio.c
-@@ -41,8 +41,6 @@
- 
- typedef struct SDLVoiceOut {
-     HWVoiceOut hw;
--    size_t live;
--    size_t decr;
- } SDLVoiceOut;
- 
- static struct SDLAudioState {
-@@ -184,62 +182,59 @@ static void sdl_callback (void *opaque, Uint8 *buf, int len)
-     SDLVoiceOut *sdl = opaque;
-     SDLAudioState *s = &glob_sdl;
-     HWVoiceOut *hw = &sdl->hw;
--    size_t samples = len >> hw->info.shift;
--    size_t to_mix, decr;
- 
--    if (s->exit || !sdl->live) {
-+    if (s->exit) {
-         return;
-     }
- 
-     /* dolog ("in callback samples=%zu live=%zu\n", samples, sdl->live); */
- 
--    to_mix = MIN(samples, sdl->live);
--    decr = to_mix;
--    while (to_mix) {
--        size_t chunk = MIN(to_mix, hw->samples - hw->rpos);
--        struct st_sample *src = hw->mix_buf + hw->rpos;
--
--        /* dolog ("in callback to_mix %zu, chunk %zu\n", to_mix, chunk); */
--        hw->clip(buf, src, chunk);
--        hw->rpos = (hw->rpos + chunk) % hw->samples;
--        to_mix -= chunk;
--        buf += chunk << hw->info.shift;
-+    while (hw->pending_emul && len) {
-+        size_t write_len;
-+        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-+        if (start < 0) {
-+            start += hw->size_emul;
-+        }
-+        assert(start >= 0 && start < hw->size_emul);
-+
-+        write_len = MIN(MIN(hw->pending_emul, len),
-+                        hw->size_emul - start);
-+
-+        memcpy(buf, hw->buf_emul + start, write_len);
-+        hw->pending_emul -= write_len;
-+        len -= write_len;
-+        buf += write_len;
-     }
--    samples -= decr;
--    sdl->live -= decr;
--    sdl->decr += decr;
- 
--    /* dolog ("done len=%zu\n", len); */
--
--    /* SDL2 does not clear the remaining buffer for us, so do it on our own */
--    if (samples) {
--        memset(buf, 0, samples << hw->info.shift);
-+    /* clear remaining buffer that we couldn't fill with data */
-+    if (len) {
-+        memset(buf, 0, len);
+diff --git a/audio/audio.c b/audio/audio.c
+index ba07fb77dd..fab1e35718 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -2051,3 +2051,33 @@ const char *audio_get_id(QEMUSoundCard *card)
+         return "";
      }
  }
++
++void audio_rate_start(RateCtl *rate)
++{
++    memset(rate, 0, sizeof(RateCtl));
++    rate->start_ticks = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++}
++
++size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,
++                            size_t bytes_avail)
++{
++    int64_t now;
++    int64_t ticks;
++    int64_t bytes;
++    int64_t samples;
++    size_t ret;
++
++    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    ticks = now - rate->start_ticks;
++    bytes = muldiv64(ticks, info->bytes_per_second, NANOSECONDS_PER_SECOND);
++    samples = (bytes - rate->bytes_sent) >> info->shift;
++    if (samples < 0 || samples > 65536) {
++        AUD_log(NULL, "Resetting rate control (%" PRId64 " samples)\n", samples);
++        audio_rate_start(rate);
++        samples = 0;
++    }
++
++    ret = MIN(samples << info->shift, bytes_avail);
++    rate->bytes_sent += ret;
++    return ret;
++}
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 20021df9e8..778615ccaf 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -242,6 +242,15 @@ void *audio_calloc (const char *funcname, int nmemb, size_t size);
  
--static size_t sdl_run_out(HWVoiceOut *hw, size_t live)
+ void audio_run(AudioState *s, const char *msg);
+ 
++typedef struct RateCtl {
++    int64_t start_ticks;
++    int64_t bytes_sent;
++} RateCtl;
++
++void audio_rate_start(RateCtl *rate);
++size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,
++                            size_t bytes_avail);
++
+ #define VOICE_ENABLE 1
+ #define VOICE_DISABLE 2
+ #define VOICE_VOLUME 3
+diff --git a/audio/noaudio.c b/audio/noaudio.c
+index b054fd225b..9f1cc67df9 100644
+--- a/audio/noaudio.c
++++ b/audio/noaudio.c
+@@ -33,33 +33,27 @@
+ 
+ typedef struct NoVoiceOut {
+     HWVoiceOut hw;
+-    int64_t old_ticks;
++    RateCtl rate;
+ } NoVoiceOut;
+ 
+ typedef struct NoVoiceIn {
+     HWVoiceIn hw;
+-    int64_t old_ticks;
++    RateCtl rate;
+ } NoVoiceIn;
+ 
+ static size_t no_write(HWVoiceOut *hw, void *buf, size_t len)
+ {
+     NoVoiceOut *no = (NoVoiceOut *) hw;
+-    int64_t now;
+-    int64_t ticks;
+-    int64_t bytes;
+-
+-    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    ticks = now - no->old_ticks;
+-    bytes = muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_SECOND);
+-
+-    no->old_ticks = now;
+-    return MIN(len, bytes);
++    return audio_rate_get_bytes(&hw->info, &no->rate, len);
+ }
+ 
+ static int no_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
+ {
++    NoVoiceOut *no = (NoVoiceOut *) hw;
++
+     audio_pcm_init_info (&hw->info, as);
+     hw->samples = 1024;
++    audio_rate_start(&no->rate);
+     return 0;
+ }
+ 
+@@ -70,15 +64,21 @@ static void no_fini_out (HWVoiceOut *hw)
+ 
+ static int no_ctl_out (HWVoiceOut *hw, int cmd, ...)
+ {
+-    (void) hw;
+-    (void) cmd;
++    NoVoiceOut *no = (NoVoiceOut *) hw;
++
++    if (cmd == VOICE_ENABLE) {
++        audio_rate_start(&no->rate);
++    }
+     return 0;
+ }
+ 
+ static int no_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+ {
++    NoVoiceIn *no = (NoVoiceIn *) hw;
++
+     audio_pcm_init_info (&hw->info, as);
+     hw->samples = 1024;
++    audio_rate_start(&no->rate);
+     return 0;
+ }
+ 
+@@ -89,25 +89,20 @@ static void no_fini_in (HWVoiceIn *hw)
+ 
+ static size_t no_read(HWVoiceIn *hw, void *buf, size_t size)
+ {
+-    size_t to_clear;
+     NoVoiceIn *no = (NoVoiceIn *) hw;
++    int64_t bytes = audio_rate_get_bytes(&hw->info, &no->rate, size);
+ 
+-    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    int64_t ticks = now - no->old_ticks;
+-    int64_t bytes =
+-        muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_SECOND);
+-
+-    no->old_ticks = now;
+-    to_clear = MIN(bytes, size);
+-
+-    audio_pcm_info_clear_buf(&hw->info, buf, to_clear >> hw->info.shift);
+-    return to_clear;
++    audio_pcm_info_clear_buf(&hw->info, buf, bytes >> hw->info.shift);
++    return bytes;
+ }
+ 
+ static int no_ctl_in (HWVoiceIn *hw, int cmd, ...)
+ {
+-    (void) hw;
+-    (void) cmd;
++    NoVoiceIn *no = (NoVoiceIn *) hw;
++
++    if (cmd == VOICE_ENABLE) {
++        audio_rate_start(&no->rate);
++    }
+     return 0;
+ }
+ 
+diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
+index ff4e4dcbb0..4ce4f94c6d 100644
+--- a/audio/spiceaudio.c
++++ b/audio/spiceaudio.c
+@@ -40,15 +40,10 @@
+ #define LINE_IN_SAMPLES (256 * 4)
+ #endif
+ 
+-typedef struct SpiceRateCtl {
+-    int64_t               start_ticks;
+-    int64_t               bytes_sent;
+-} SpiceRateCtl;
+-
+ typedef struct SpiceVoiceOut {
+     HWVoiceOut            hw;
+     SpicePlaybackInstance sin;
+-    SpiceRateCtl          rate;
++    RateCtl               rate;
+     int                   active;
+     uint32_t              *frame;
+     uint32_t              fpos;
+@@ -58,7 +53,7 @@ typedef struct SpiceVoiceOut {
+ typedef struct SpiceVoiceIn {
+     HWVoiceIn             hw;
+     SpiceRecordInstance   sin;
+-    SpiceRateCtl          rate;
++    RateCtl               rate;
+     int                   active;
+ } SpiceVoiceIn;
+ 
+@@ -89,32 +84,6 @@ static void spice_audio_fini (void *opaque)
+     /* nothing */
+ }
+ 
+-static void rate_start (SpiceRateCtl *rate)
 -{
+-    memset (rate, 0, sizeof (*rate));
+-    rate->start_ticks = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-}
+-
+-static int rate_get_samples (struct audio_pcm_info *info, SpiceRateCtl *rate)
+-{
+-    int64_t now;
+-    int64_t ticks;
+-    int64_t bytes;
+-    int64_t samples;
+-
+-    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    ticks = now - rate->start_ticks;
+-    bytes = muldiv64(ticks, info->bytes_per_second, NANOSECONDS_PER_SECOND);
+-    samples = (bytes - rate->bytes_sent) >> info->shift;
+-    if (samples < 0 || samples > 65536) {
+-        error_report("Resetting rate control (%" PRId64 " samples)", samples);
+-        rate_start(rate);
+-        samples = 0;
+-    }
+-    rate->bytes_sent += samples << info->shift;
+-    return samples;
+-}
+-
+ /* playback */
+ 
+ static int line_out_init(HWVoiceOut *hw, struct audsettings *as,
+@@ -154,7 +123,6 @@ static void line_out_fini (HWVoiceOut *hw)
+ static void *line_out_get_buffer(HWVoiceOut *hw, size_t *size)
+ {
+     SpiceVoiceOut *out = container_of(hw, SpiceVoiceOut, hw);
 -    size_t decr;
--    SDLVoiceOut *sdl = (SDLVoiceOut *) hw;
--
--    SDL_LockAudio();
--
--    if (sdl->decr > live) {
--        ldebug ("sdl->decr %d live %d sdl->live %d\n",
--                sdl->decr,
--                live,
--                sdl->live);
-+#define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args, fail, unlock) \
-+    static ret_type glue(sdl_, name)args_decl                           \
-+    {                                                                   \
-+        ret_type ret;                                                   \
-+                                                                        \
-+        SDL_LockAudio();                                                \
-+                                                                        \
-+        ret = glue(audio_generic_, name)args;                           \
-+                                                                        \
-+        SDL_UnlockAudio();                                              \
-+        return ret;                                                     \
+ 
+     if (!out->frame) {
+         spice_server_playback_get_buffer(&out->sin, &out->frame, &out->fsize);
+@@ -162,12 +130,10 @@ static void *line_out_get_buffer(HWVoiceOut *hw, size_t *size)
      }
  
--    decr = MIN (sdl->decr, live);
--    sdl->decr -= decr;
+     if (out->frame) {
+-        decr = rate_get_samples(&hw->info, &out->rate);
+-        decr = MIN(out->fsize - out->fpos, decr);
 -
--    sdl->live = live;
-+SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
-+                 (hw, size), *size = 0, sdl_unlock)
-+SDL_WRAPPER_FUNC(put_buffer_out_nowrite, size_t,
-+                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-+                 /*nothing*/, sdl_unlock_and_post)
-+SDL_WRAPPER_FUNC(write, size_t,
-+                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-+                 /*nothing*/, sdl_unlock_and_post)
- 
--    SDL_UnlockAudio();
--
--    return decr;
--}
-+#undef SDL_WRAPPER_FUNC
- 
- static void sdl_fini_out (HWVoiceOut *hw)
+-        *size = decr << hw->info.shift;
++        *size = audio_rate_get_bytes(
++            &hw->info, &out->rate, (out->fsize - out->fpos) << hw->info.shift);
+     } else {
+-        rate_start(&out->rate);
++        audio_rate_start(&out->rate);
+     }
+     return out->frame + out->fpos;
+ }
+@@ -197,7 +163,7 @@ static int line_out_ctl (HWVoiceOut *hw, int cmd, ...)
+             break;
+         }
+         out->active = 1;
+-        rate_start (&out->rate);
++        audio_rate_start(&out->rate);
+         spice_server_playback_start (&out->sin);
+         break;
+     case VOICE_DISABLE:
+@@ -273,8 +239,7 @@ static void line_in_fini (HWVoiceIn *hw)
+ static size_t line_in_read(HWVoiceIn *hw, void *buf, size_t len)
  {
-@@ -336,7 +331,9 @@ static void sdl_audio_fini (void *opaque)
- static struct audio_pcm_ops sdl_pcm_ops = {
-     .init_out = sdl_init_out,
-     .fini_out = sdl_fini_out,
--    .run_out  = sdl_run_out,
-+    .write    = sdl_write,
-+    .get_buffer_out = sdl_get_buffer_out,
-+    .put_buffer_out = sdl_put_buffer_out_nowrite,
-     .ctl_out  = sdl_ctl_out,
- };
+     SpiceVoiceIn *in = container_of (hw, SpiceVoiceIn, hw);
+-    uint64_t delta_samp = rate_get_samples(&hw->info, &in->rate);
+-    uint64_t to_read = MIN(len >> 2, delta_samp);
++    uint64_t to_read = audio_rate_get_bytes(&hw->info, &in->rate, len) >> 2;
+     size_t ready = spice_server_record_get_samples(&in->sin, buf, to_read);
+ 
+     /* XXX: do we need this? */
+@@ -296,7 +261,7 @@ static int line_in_ctl (HWVoiceIn *hw, int cmd, ...)
+             break;
+         }
+         in->active = 1;
+-        rate_start (&in->rate);
++        audio_rate_start(&in->rate);
+         spice_server_record_start (&in->sin);
+         break;
+     case VOICE_DISABLE:
+diff --git a/audio/wavaudio.c b/audio/wavaudio.c
+index 78af2f1338..85f5ff9c28 100644
+--- a/audio/wavaudio.c
++++ b/audio/wavaudio.c
+@@ -35,21 +35,15 @@
+ typedef struct WAVVoiceOut {
+     HWVoiceOut hw;
+     FILE *f;
+-    int64_t old_ticks;
++    RateCtl rate;
+     int total_samples;
+ } WAVVoiceOut;
+ 
+ static size_t wav_write_out(HWVoiceOut *hw, void *buf, size_t len)
+ {
+     WAVVoiceOut *wav = (WAVVoiceOut *) hw;
+-    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    int64_t ticks = now - wav->old_ticks;
+-    int64_t bytes =
+-        muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_SECOND);
+-
+-    bytes = MIN(bytes, len);
+-    bytes = bytes >> hw->info.shift << hw->info.shift;
+-    wav->old_ticks = now;
++    int64_t bytes = audio_rate_get_bytes(&hw->info, &wav->rate, len);
++    assert(bytes >> hw->info.shift << hw->info.shift == bytes);
+ 
+     if (bytes && fwrite(buf, bytes, 1, wav->f) != 1) {
+         dolog("wav_write_out: fwrite of %" PRId64 " bytes failed\nReason: %s\n",
+@@ -130,6 +124,8 @@ static int wav_init_out(HWVoiceOut *hw, struct audsettings *as,
+                strerror(errno));
+         return -1;
+     }
++
++    audio_rate_start(&wav->rate);
+     return 0;
+ }
+ 
+@@ -179,8 +175,11 @@ static void wav_fini_out (HWVoiceOut *hw)
+ 
+ static int wav_ctl_out (HWVoiceOut *hw, int cmd, ...)
+ {
+-    (void) hw;
+-    (void) cmd;
++    WAVVoiceOut *wav = (WAVVoiceOut *) hw;
++
++    if (cmd == VOICE_ENABLE) {
++        audio_rate_start(&wav->rate);
++    }
+     return 0;
+ }
  
 -- 
 2.23.0
