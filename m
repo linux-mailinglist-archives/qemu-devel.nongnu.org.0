@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC074B83CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:02:29 +0200 (CEST)
-Received: from localhost ([::1]:48875 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A0FB8401
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:07:35 +0200 (CEST)
+Received: from localhost ([::1]:48956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4VP-000724-Rv
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56216)
+	id 1iB4aL-00059g-UL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1iB49P-0001T0-Rn
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:51 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1iB49b-0001Xm-6T
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1iB49L-000684-Gb
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:43 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:40008)
+ (envelope-from <tcminyard@gmail.com>) id 1iB49Q-0006AN-3q
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:51 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46631)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49L-00067S-Ak
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:39 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k9so16840oib.7
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:39 -0700 (PDT)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49P-0006AC-TQ
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:39:44 -0400
+Received: by mail-oi1-x243.google.com with SMTP id k25so3980224oiw.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=gp7YET4wc6HTTyajO3GZqgH8xALg6OOqzmcQarhMc/A=;
- b=oYnvqhqJcstRfXPGzvwwhURw/CTGjpBQ9arB7+1FkxrsE7XWR/wtiphJOYFv051TgR
- MvS2bxB8BkU6gBXubfXCXWCUuSHrBcdvVFZsTg/Jvoxy3hMTOCgr0iJ/XjHXQvtu0g41
- oIBrkd7oaQbWgcx91M/qGt5y0cLWQGlWtMcWTWEpb30SiOrqD+vRE6RN0G+8N3MNw62F
- I3+ns0EmwZRzPU80J03cX/QbI3Z28QDA3B9GcdYPQeRZ+ZesjzT/n+mw3ROdwyL5vVpj
- 1rMyYEgdq0THVS28Im65gkiQ3K6yxeciJdQ2sDriUKRqysbN6qv9k2jnKDqpVQCp1t9X
- pRrQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gWzJgnmTsjgDALss2ZvZftEVRHxBMzzLKAhMT/OJ2C4=;
+ b=ZkPB2Qv/ZTphNpr1Cclbl3gSK3dZziExaL0MZGDcu14/ggovvDLoCqNMeeng7b5b2r
+ PHSWJn9qIh6Ujt9mZnbKfVA8Y0egX9Ix5dMJr11C/8mckWjSVf0LuiOtJ7fGzDVKUopu
+ wrD1LZ17BvJBm0C/HZOLsjKTn7HUe+tjMO19ki6RSwd9nI9clh4e96zISBLlGtxRdZdj
+ LODrkSMe9fOZyH0zYDEwnui6mZ3pbMGe4Q7ZOCu5NtAJ08sGjtorTbBlOAc7sJ0U3O41
+ sKaU5pig5DkOD8ipzGuGxPWjzOE0+e0AN6z0TIAmeZbrVN3EFQCxN52HyfFxGqwdh6Yt
+ Oqyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=gp7YET4wc6HTTyajO3GZqgH8xALg6OOqzmcQarhMc/A=;
- b=R4eA7aJYW7OpPIfTOZimBGK7FS1oW6GkLa68AymaFMtS/b0ZtKawbXFAG3NBH3kC8s
- 0uYpdtJhOO7BlzEkgPuQD4hjDxeAxEWyJh0xOgRv+jP2o34JZVIkyh2HsukAtkqpAc5z
- S0rudx9rY4TfiDK7Uq51WTi9aps4qZJaHa+H93RoQNoTE6vw8ozwgtwFmvadvSQy/VcG
- c5mapmbfj9DRo2N8f/A1eMFlELGqRTtYLW//ljglghVRIBV9y+arJjKrViEATptrkZCg
- vzPVDoiNB5zS9M2Kglx1VTzEFeh6RVvIOGhxCHwzXHPgqXjPE7waQnpb6hVbtiTBd/Bs
- ffPQ==
-X-Gm-Message-State: APjAAAWDv2jfOH88QWvdJNlAaYRdTjBHL2Mcc0uofcButgUdv1YkfEpI
- cCEu03bXhiBz/9DGbECq1g==
-X-Google-Smtp-Source: APXvYqwt9tTqXxSnj8j1BDdudFVIpeMcEUlprODOq+y3u0gGgk1qWwoKocw3R5zmXYHZfdTEFZ6sIg==
-X-Received: by 2002:a54:410f:: with SMTP id l15mr60371oic.92.1568929178513;
- Thu, 19 Sep 2019 14:39:38 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=gWzJgnmTsjgDALss2ZvZftEVRHxBMzzLKAhMT/OJ2C4=;
+ b=lQF7fTU01lUorYT2cx0VDP2mCyZVN0lismbqKwYzMmbsCnxC9vfJGmIC6p7TnfPwNC
+ NdpZJ/Xv8oAw4EDdJ21Dmls2Kq4ZqcO9OP+OLxjxCVoTZ1ShohZ3m1T2+9WCLpxMVmM0
+ DAdQq9SauS0vsfi9vK2OuodaEEDthxQ8H9/+nAAS0l1JIUum+ILjiKeqej1a7wIAFyef
+ RTZWXPg6nVg6+fdUtZVjCKdX2ESblUzrq4DW4dqyKTA/KGe1XTidV/cjaBZmUDx+kGZy
+ Px2rku4SN7DRQCPlgCmm1Vvfjf9yIqeVFd1VZUojr4vj43gyyIpx4ummk1Hpzq5Et1xC
+ Je3Q==
+X-Gm-Message-State: APjAAAWZLgyOdcRPkmgGpfHxVDKhYy12Mm/ngjGztklAZs0KxSgtMpjA
+ w2nc16PEwregkFOPa2kwMg==
+X-Google-Smtp-Source: APXvYqyQ2lfqpjjaLX6qhYLtBAa2f+Bq/a8RtqwE2Z8IalQXEMAvxn3ouTVqfzjEf4vI/h7jvpsbPQ==
+X-Received: by 2002:aca:4cf:: with SMTP id 198mr22057oie.109.1568929183027;
+ Thu, 19 Sep 2019 14:39:43 -0700 (PDT)
 Received: from serve.minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id w20sm31167otk.73.2019.09.19.14.39.36
+ by smtp.gmail.com with ESMTPSA id 8sm35705oti.41.2019.09.19.14.39.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:39:36 -0700 (PDT)
+ Thu, 19 Sep 2019 14:39:40 -0700 (PDT)
 Received: from t560.minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPA id E727018059C;
- Thu, 19 Sep 2019 21:39:35 +0000 (UTC)
+ by serve.minyard.net (Postfix) with ESMTPA id 37AEE18059E;
+ Thu, 19 Sep 2019 21:39:36 +0000 (UTC)
 From: minyard@acm.org
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 03/15] ipmi: Generate an interrupt on watchdog pretimeout
- expiry
-Date: Thu, 19 Sep 2019 16:39:12 -0500
-Message-Id: <20190919213924.31852-4-minyard@acm.org>
+Subject: [PATCH 05/15] qdev: Add a no default uuid property
+Date: Thu, 19 Sep 2019 16:39:14 -0500
+Message-Id: <20190919213924.31852-6-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190919213924.31852-1-minyard@acm.org>
 References: <20190919213924.31852-1-minyard@acm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,29 +92,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
-Add the watchdog pretimeout to the bits that cause an interrupt on attn.
-Otherwise the user won't know.
+This is for IPMI, which will behave differently if the UUID is
+not set.
 
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
+Cc: Fam Zheng <famz@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/ipmi/ipmi_bmc_sim.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/hw/qdev-properties.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-index afb99e33d7..6e6cd1b47d 100644
---- a/hw/ipmi/ipmi_bmc_sim.c
-+++ b/hw/ipmi/ipmi_bmc_sim.c
-@@ -477,7 +477,9 @@ static int attn_set(IPMIBmcSim *ibs)
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 2e98dd60db..c6a8cb5516 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -238,6 +238,13 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+ #define DEFINE_PROP_AUDIODEV(_n, _s, _f) \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_audiodev, QEMUSoundCard)
  
- static int attn_irq_enabled(IPMIBmcSim *ibs)
- {
--    return (IPMI_BMC_MSG_INTS_ON(ibs) && IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE_SET(ibs))
-+    return (IPMI_BMC_MSG_INTS_ON(ibs) &&
-+            (IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE_SET(ibs) ||
-+             IPMI_BMC_MSG_FLAG_WATCHDOG_TIMEOUT_MASK_SET(ibs)))
-         || (IPMI_BMC_EVBUF_FULL_INT_ENABLED(ibs) &&
-             IPMI_BMC_MSG_FLAG_EVT_BUF_FULL_SET(ibs));
- }
++#define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) {        \
++        .name      = (_name),                                      \
++        .info      = &qdev_prop_uuid,                              \
++        .offset    = offsetof(_state, _field)                      \
++            + type_check(QemuUUID, typeof_field(_state, _field)),  \
++        }
++
+ #define DEFINE_PROP_END_OF_LIST()               \
+     {}
+ 
 -- 
 2.17.1
 
