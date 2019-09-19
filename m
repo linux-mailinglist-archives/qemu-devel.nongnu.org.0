@@ -2,74 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9A8B821F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 22:05:09 +0200 (CEST)
-Received: from localhost ([::1]:48284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F948B8243
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 22:10:22 +0200 (CEST)
+Received: from localhost ([::1]:48330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB2fr-00085N-9V
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 16:05:07 -0400
+	id 1iB2kv-00066f-4K
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 16:10:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:45151)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iB2ck-0005cB-3M
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 16:01:55 -0400
+ (envelope-from <tasleson@redhat.com>) id 1iB2dA-0005cB-5S
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 16:02:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iB2Xb-0007hS-Dv
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 15:56:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:26238)
+ (envelope-from <tasleson@redhat.com>) id 1iB2QA-00026x-Ci
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 15:48:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55336)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iB2Xb-0007gz-46
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 15:56:35 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <tasleson@redhat.com>) id 1iB2Q8-00025e-Cl
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 15:48:52 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EED04C002966
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 19:56:33 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id k67so2127372wmf.3
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 12:56:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oKh+dd3twrBieLkpF1MRMcDhF+VT2bQOxBt6igrSwlI=;
- b=TsMRyCTsYtlhShvsg3CDHDR8Np5NDAKk+2WcPxqe0a1G9PerVbP1BwJwgsNniY1d3h
- wmHBAbgOtA8WVlOQYKN559tjVq2nk4A5Sud0o1Z6EEC7Cs9F3yyXSUSsrIse8+yDhHR0
- DUfKDRurezi24AvWyzgnATJMKiOC7XAfHNgHzDje+hDVlrGwb++A3mzp7NccJdAeWb6H
- aR2kW+nt/V5CwBfAJQhVXHxBga/bNtS0/WGb6v5wItR6yYRfzEVHgnNfaStry63EukZT
- D5nngjBvg9kkbFQApIFlGlxwLGL/PIfPKTvF3fTub7GKZsu2lLaYeoB17HqGB0hR2WpR
- 55/A==
-X-Gm-Message-State: APjAAAWBQWfTWHYjZoAs3GR3ggkEqR9ksCA8NC6nhQE38P+MYg2Vcb/O
- oTJGAy631w3Evp6/7GVXrGdfT4Jo9YvwaJy0QA9RkSnll+GUtEteZuJoivaHyTh4XOFf+W8/82m
- TYBxzhE/kwFrY5/g=
-X-Received: by 2002:a1c:cb83:: with SMTP id b125mr4434963wmg.43.1568922992659; 
- Thu, 19 Sep 2019 12:56:32 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwGNPEEsN6G2AG4lAeYrLT1xBO3IOA9yfP7Su+1RvmRnm5TcC9GCNmxtG4KyYI+CDnH4x/4tg==
-X-Received: by 2002:a1c:cb83:: with SMTP id b125mr4434950wmg.43.1568922992451; 
- Thu, 19 Sep 2019 12:56:32 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id c8sm9510911wrr.49.2019.09.19.12.56.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Sep 2019 12:56:31 -0700 (PDT)
-Subject: Re: [PATCH] edk2 build scripts: work around TianoCore#1607 without
- forcing Python 2
-To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
-References: <20190918171141.15957-1-lersek@redhat.com>
- <2d02cb02-27ce-081b-c9ec-4c4430503749@redhat.com>
- <6a5b3a61-0d52-6866-9fb9-4d71e5f01483@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f6266a5b-6f9b-fa2c-2e4f-9d12cdb8b375@redhat.com>
-Date: Thu, 19 Sep 2019 21:56:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 66B2A18C8900
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 19:48:50 +0000 (UTC)
+Received: from sulaco.redhat.com (ovpn-112-12.phx2.redhat.com [10.3.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88CF45D6D0;
+ Thu, 19 Sep 2019 19:48:49 +0000 (UTC)
+From: Tony Asleson <tasleson@redhat.com>
+To: qemu-devel@nongnu.org,
+	kwolf@redhat.com
+Subject: [RFC 1/4] Add qapi for block error injection
+Date: Thu, 19 Sep 2019 14:48:44 -0500
+Message-Id: <20190919194847.18518-2-tasleson@redhat.com>
+In-Reply-To: <20190919194847.18518-1-tasleson@redhat.com>
+References: <20190919194847.18518-1-tasleson@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6a5b3a61-0d52-6866-9fb9-4d71e5f01483@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Thu, 19 Sep 2019 19:48:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -84,141 +55,392 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/19/19 9:08 PM, Laszlo Ersek wrote:
-> On 09/19/19 18:39, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 9/18/19 7:11 PM, Laszlo Ersek wrote:
->>> It turns out that forcing python2 for running the edk2 "build" utilit=
-y is
->>> neither necessary nor sufficient.
->>>
->>> Forcing python2 is not sufficient for two reasons:
->>>
->>> - QEMU is moving away from python2, with python2 nearing EOL,
->>>
->>> - according to my most recent testing, the lacking dependency informa=
-tion
->>>   in the makefiles that are generated by edk2's "build" utility can c=
-ause
->>>   parallel build failures even when "build" is executed by python2.
->>>
->>> And forcing python2 is not necessary because we can still return to t=
-he
->>> original idea of filtering out jobserver-related options from MAKEFLA=
-GS.
->>> So do that.
->>
->> FYI I tried uninstalling python2 on Fedora 29,
->>
->> $ make -C roms efi -j8
->> make: Entering directory '/home/phil/source/qemu/roms'
->> make -C edk2/BaseTools \
->>         EXTRA_OPTFLAGS=3D'' \
->>         EXTRA_LDFLAGS=3D''
+Proof of concept code to dynamically create/delete media errors
+for block devices using the qapi interface.  This is useful for testing
+the OS and the block and FS layers for error handling.  Utilizing this
+in a VM allows it to be OS agnostic and test the OS at it's lowest levels
+of hardware interaction.
 
-^ this is the 'edk2-basetools' target from roms/Makefile.
+Signed-off-by: Tony Asleson <tasleson@redhat.com>
+---
+ block/Makefile.objs  |   2 +-
+ block/error_inject.c | 179 +++++++++++++++++++++++++++++++++++++++++++
+ block/error_inject.h |  43 +++++++++++
+ block/qapi.c         |  18 +++++
+ qapi/block.json      |  36 +++++++++
+ 5 files changed, 277 insertions(+), 1 deletion(-)
+ create mode 100644 block/error_inject.c
+ create mode 100644 block/error_inject.h
 
->> make[1]: Entering directory '/home/phil/source/qemu/roms/edk2/BaseTool=
-s'
->> [...]
->> make -C Tests
->> make[2]: Entering directory
->> '/home/phil/source/qemu/roms/edk2/BaseTools/Tests'
->> /bin/sh: python: command not found
->> make[2]: *** [GNUmakefile:11: test] Error 127
->>
->> 'python' seems to be provided by python-unversioned-command which is
->> wired to Python2:
->>
->> $ dnf info python-unversioned-command
->> Last metadata expiration check: 0:03:08 ago on Thu 19 Sep 2019 04:21:2=
-1
->> PM UTC.
->> Available Packages
->> Name         : python-unversioned-command
->> Version      : 2.7.16
->> Release      : 2.fc29
->> Arch         : noarch
->> Size         : 13 k
->> Source       : python2-2.7.16-2.fc29.src.rpm
->> Repo         : updates
->> Summary      : The "python" command that runs Python 2
->> URL          : https://www.python.org/
->> License      : Python
->> Description  : This package contains /usr/bin/python - the "python"
->> command that runs Python 2.
->>
->> I had to manually run update-alternatives to continue:
->>
->> $ sudo update-alternatives --install /usr/bin/python python
->> /usr/bin/python3 69
->>
->> Not sure this is the expected behavior, it is confusing.
->>
->=20
-> The python detection is not fool-proof in edk2. A description is given =
-at:
->=20
-> https://github.com/tianocore/tianocore.github.io/wiki/BaseTools-Support=
--Python2-Python3
->=20
-> To summarize that, it works like this, on Linux:
->=20
-> - if you set PYTHON_COMMAND, then the binary pointed to by
-> PYTHON_COMMAND will be used. The edk2 build infrastructure will
-> determine whether the pointed-to binary is python 2 or python 3, and
-> branch to the corresponding implementation of the build tools.
->=20
-> - Otherwise, *minor* version auto-detection is attempted. With
-> PYTHON3_ENABLE unset, or set to "TRUE", this minor version autodetectio=
-n
-> will aim at minor versions of python3.
->=20
-> - Otherwise (=3D PYTHON3_ENABLE set to a string different from "TRUE"),
-> the minor version auto-detection will focus on python2.
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index 35f3bca4d9..c8fcbc276b 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -1,4 +1,4 @@
+-block-obj-y +=3D raw-format.o vmdk.o vpc.o
++block-obj-y +=3D raw-format.o vmdk.o vpc.o error_inject.o
+ block-obj-$(CONFIG_QCOW1) +=3D qcow.o
+ block-obj-$(CONFIG_VDI) +=3D vdi.o
+ block-obj-$(CONFIG_CLOOP) +=3D cloop.o
+diff --git a/block/error_inject.c b/block/error_inject.c
+new file mode 100644
+index 0000000000..26a47dfb8c
+--- /dev/null
++++ b/block/error_inject.c
+@@ -0,0 +1,179 @@
++/*
++ * Error injection code for block devices
++ *
++ * Copyright (c) 2019 Red Hat, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
++ * of this software and associated documentation files (the "Software"),=
+ to deal
++ * in the Software without restriction, including without limitation the=
+ rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be includ=
+ed in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
++ * THE SOFTWARE.
++ */
++
++#include "error_inject.h"
++
++#include <gmodule.h>
++
++#include "qemu/thread.h"
++
++static QemuMutex error_inject_lock;
++static GHashTable *error_inject_data;
++
++
++static void delete_lba_entries(void *entry)
++{
++    GSequence *e =3D (GSequence *) entry;
++    g_sequence_free(e);
++}
++
++struct value {
++    uint64_t error_lba;
++
++    /*
++     * TODO Actually do something with behavior
++     */
++    MediaErrorBehavior behavior;
++    /*
++     * TODO Add data for generating bitrot, when we do change free funct=
+ion
++     */
++};
++
++static int key_compare(gconstpointer a, gconstpointer b, gpointer data)
++{
++    uint64_t left =3D ((struct value *)a)->error_lba;
++    uint64_t right =3D ((struct value *)b)->error_lba;
++
++    if (left < right) {
++        return -1;
++    } else if (left > right) {
++        return 1;
++    } else {
++        return 0;
++    }
++}
++
++static uint64_t error_lba_get(GSequenceIter *iter)
++{
++    gpointer tmp =3D g_sequence_get(iter);
++    return ((struct value *)tmp)->error_lba;
++}
++
++void media_error_create(const char *device_id, uint64_t lba,
++                        MediaErrorBehavior behavior)
++{
++    qemu_mutex_lock(&error_inject_lock);
++
++    GSequence *block_device =3D g_hash_table_lookup(error_inject_data, d=
+evice_id);
++    if (!block_device) {
++        block_device =3D g_sequence_new(g_free);
++        char *key =3D strdup(device_id);
++        g_hash_table_insert(error_inject_data, key, block_device);
++    }
++
++    struct value lookup =3D {lba, MEDIA_ERROR_BEHAVIOR__MAX};
++    if (!g_sequence_lookup(block_device, &lookup, key_compare, NULL)) {
++        struct value *val =3D g_new(struct value, 1);
++        val->error_lba =3D lba;
++        val->behavior =3D behavior;
++
++        g_sequence_insert_sorted(block_device, val, key_compare, NULL);
++    }
++
++    qemu_mutex_unlock(&error_inject_lock);
++}
++
++void media_error_delete(const char *device_id, uint64_t lba)
++{
++    qemu_mutex_lock(&error_inject_lock);
++
++    GSequence *block_device =3D g_hash_table_lookup(error_inject_data, d=
+evice_id);
++    if (block_device) {
++        struct value find =3D { lba, MEDIA_ERROR_BEHAVIOR__MAX};
++        GSequenceIter *found =3D g_sequence_lookup(block_device, &find,
++                                                 key_compare, NULL);
++        if (found) {
++            g_sequence_remove(found);
++        }
++    }
++
++    qemu_mutex_unlock(&error_inject_lock);
++}
++
++int error_in_read(const char *device_id, uint64_t lba, uint64_t len,
++                  uint64_t *error_lba)
++{
++    uint64_t error_sector =3D 0;
++    const uint64_t transfer_end =3D lba + len;
++    int ec =3D 0;
++    *error_lba =3D 0xFFFFFFFFFFFFFFFF;
++
++    qemu_mutex_lock(&error_inject_lock);
++
++    GSequence *block_device =3D g_hash_table_lookup(error_inject_data, d=
+evice_id);
++    if (block_device && g_sequence_get_length(block_device) !=3D 0) {
++        struct value find =3D {lba, MEDIA_ERROR_BEHAVIOR__MAX};
++        GSequenceIter *iter =3D g_sequence_search(block_device, &find,
++                                                key_compare, NULL);
++
++        /*
++         * g_sequence_seach returns where the item would be inserted.
++         * In the case of a direct match, it's spot is inserted after th=
+e
++         * existing, thus we need to check the one immediately before
++         * the insertion point to see if it is the one we are looking fo=
+r.
++         */
++        GSequenceIter *prev =3D g_sequence_iter_prev(iter);
++        error_sector =3D error_lba_get(prev);
++
++        if (error_sector >=3D lba && error_sector < transfer_end) {
++            *error_lba =3D error_sector;
++            ec =3D 1;
++        } else {
++            /*
++             * Lets look at next until we find one in our transfer or ba=
+il
++             * if the error(s) logical block address are greater than th=
+e
++             * end of our transfer.
++             */
++            while (!g_sequence_iter_is_end(iter)) {
++                error_sector =3D error_lba_get(iter);
++
++                if (error_sector >=3D transfer_end) {
++                    break;
++                }
++                if (error_sector >=3D lba && error_sector < transfer_end=
+) {
++                    *error_lba =3D error_sector;
++                    ec =3D 1;
++                    break;
++                } else {
++                    iter =3D g_sequence_iter_next(iter);
++                }
++            }
++        }
++    }
++
++    qemu_mutex_unlock(&error_inject_lock);
++
++    return ec;
++}
++
++
++static void __attribute__((__constructor__)) error_inject_init(void)
++{
++    qemu_mutex_init(&error_inject_lock);
++
++    error_inject_data =3D g_hash_table_new_full(g_str_hash,
++                                              g_str_equal,
++                                              g_free,
++                                              delete_lba_entries);
++}
+diff --git a/block/error_inject.h b/block/error_inject.h
+new file mode 100644
+index 0000000000..5f2d143c90
+--- /dev/null
++++ b/block/error_inject.h
+@@ -0,0 +1,43 @@
++/*
++ * Error injection code for block devices
++ *
++ * Copyright (c) 2019 Red Hat, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
++ * of this software and associated documentation files (the "Software"),=
+ to deal
++ * in the Software without restriction, including without limitation the=
+ rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be includ=
+ed in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
++ * THE SOFTWARE.
++ */
++
++#ifndef ERROR_INJECT
++#define ERROR_INJECT
++#include "qemu/osdep.h"
++
++#include <stdint.h>
++
++#include "qapi/qapi-commands-block.h"
++#include "qapi/qapi-types-block.h"
++
++
++void media_error_create(const char *device_id, uint64_t lba,
++                        MediaErrorBehavior behavior);
++void media_error_delete(const char *device_id, uint64_t lba);
++
++
++int error_in_read(const char *device_id, uint64_t lba, uint64_t len,
++                  uint64_t *error_lba);
++
++#endif
+diff --git a/block/qapi.c b/block/qapi.c
+index 15f1030264..d66201a831 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -26,11 +26,14 @@
+ #include "qemu-common.h"
+ #include "block/qapi.h"
+ #include "block/block_int.h"
++#include "block/error_inject.h"
+ #include "block/throttle-groups.h"
+ #include "block/write-threshold.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-block.h"
+ #include "qapi/qapi-commands-block-core.h"
+ #include "qapi/qobject-output-visitor.h"
++#include "qapi/qapi-types-block.h"
+ #include "qapi/qapi-visit-block-core.h"
+ #include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qdict.h"
+@@ -841,3 +844,18 @@ void bdrv_image_info_dump(ImageInfo *info)
+         bdrv_image_info_specific_dump(info->format_specific);
+     }
+ }
++
++void qmp_media_error_create(const char *device_id, uint64_t lba,
++        MediaErrorBehavior behavior, Error **errp)
++{
++    /*
++     * We could validate the device_id and lba for existence and range, =
+but we
++     * want to be able to add entries before a device is hot plugged too=
+.
++     */
++    media_error_create(device_id, lba, behavior);
++}
++
++void qmp_media_error_delete(const char *device_id, uint64_t lba, Error *=
+*errp)
++{
++    media_error_delete(device_id, lba);
++}
+diff --git a/qapi/block.json b/qapi/block.json
+index 145c268bb6..2b11954b44 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -453,3 +453,39 @@
+ { 'event': 'QUORUM_REPORT_BAD',
+   'data': { 'type': 'QuorumOpType', '*error': 'str', 'node-name': 'str',
+             'sector-num': 'int', 'sectors-count': 'int' } }
++
++##
++# @MediaErrorBehavior:
++#
++# Enumerated type for classifying type of read error behavior.
++#
++##
++{ 'enum': 'MediaErrorBehavior', 'data': ['hard', 'fixed_on_write', 'flak=
+ey'] }
++
++##
++# @media-error-create:
++#
++# Example:
++# -> {"execute": "media-error-create",
++#     "arguments": {"device_id": "12345678, "lba" : 10000, "behavior" : =
+"hard"}}
++# <- { "return": {} }
++#
++# Create a synthetic media error for the specified logical block address=
+ when
++# it is read by the guest OS.
++#
++##
++{ 'command':'media-error-create',
++  'data': {'device_id': 'str', 'lba': 'uint64', 'behavior': 'MediaErrorB=
+ehavior'}}
++
++##
++# @media-error-delete:
++#
++# Delete a synthetic media error for the specified logical block address=
+.
++#
++# # Example:
++# -> {"execute": "media-error-delete",
++#     "arguments": {"device_id": "01020304", "lba" : 10000}
++# <- { "return": {} }
++##
++{ 'command':'media-error-delete',
++  'data': {'device_id': 'str', 'lba': 'uint64'}}
+--=20
+2.21.0
 
-What you document regarding PYTHON3_ENABLE is valid once we sourced
-edksetup.sh which is done in Makefile.edk2, one step after the previous
-call:
-
-efi: edk2-basetools               # call 1 (python failing)
-	$(MAKE) -f Makefile.edk2  # call 2 sourcing edksetup.sh
-
-> With this patch applied, the middle case is active. Apparently it fails=
-,
-> because the edk2 build tools developers could not foresee the situation=
-s
-> that you've exposed the auto-detection to, on Ubuntu and Fedora. Back
-> when I tested the python3 enablement in edk2, I checked the patches in
-> the following environments:
->=20
-> - on RHEL-7 with the system python 2,
-> - on RHEL-7 with python3.4 from EPEL-7,
-> - on RHEL-8 with python3.6,
-> - on RHEL-8 with platform-python.
->=20
-> Everything worked fine for me. I have no clue what's going on in Ubuntu
-> and in Fedora.
->=20
-> Can we require all build host installations -- where we expect to run
-> "make efi" -- to provide a Python 3 binary on $PATH that is plainly
-> called "python3"?
-
-Kevin recently suggested a similar patch (in another area):
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04377.html
-
-> Then I think this patch should work. (If necessary, I could set
-> "PYTHON_COMMAND=3Dpython3", too.)
-
-Yes, I confirm forcing "PYTHON_COMMAND=3Dpython3 make -C roms efi" works.
-
-Not sure what is the cleaner way to fix this although...
-
-Regards,
-
-Phil.
 
