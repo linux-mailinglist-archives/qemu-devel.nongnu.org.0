@@ -2,31 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32086B7780
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:33:53 +0200 (CEST)
-Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA24B778E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:37:04 +0200 (CEST)
+Received: from localhost ([::1]:42136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtl1-0007On-HB
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51213)
+	id 1iAto7-0002no-Ca
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iAtUg-0006vE-Mj
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:16:59 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iAtZG-0002jJ-32
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:21:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iAtUf-000599-J3
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:16:58 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:57305)
+ (envelope-from <laurent@vivier.eu>) id 1iAtZE-0007H9-VL
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:21:41 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:54047)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iAtUd-00057w-61; Thu, 19 Sep 2019 06:16:55 -0400
+ id 1iAtZE-0007Fw-MX; Thu, 19 Sep 2019 06:21:40 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MhUHt-1hfOMY3M1L-00egsx; Thu, 19 Sep 2019 12:16:45 +0200
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20190914145155.19360-1-chewi@gentoo.org>
- <457c3a3c-d1b3-9f73-e156-24add1347e07@vivier.eu>
- <20190919083708.mwqjq6qzyemqlxpq@sirius.home.kraxel.org>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mo7eX-1hqQul1Ocl-00pdLE; Thu, 19 Sep 2019 12:21:32 +0200
+To: Greg Kurz <groug@kaod.org>, Laurent Vivier <lvivier@redhat.com>
+References: <156829664683.2070256.13400788010568373502.stgit@bahia.tls.ibm.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -71,37 +69,37 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <8dad2ef4-87ed-27ca-da22-a9ef4fa87cde@vivier.eu>
-Date: Thu, 19 Sep 2019 12:16:43 +0200
+Message-ID: <d1e77b74-1d51-f34d-95a4-3d3d8579ec33@vivier.eu>
+Date: Thu, 19 Sep 2019 12:21:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190919083708.mwqjq6qzyemqlxpq@sirius.home.kraxel.org>
+In-Reply-To: <156829664683.2070256.13400788010568373502.stgit@bahia.tls.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XlEZBwdXFBaFc5nCniATF0QI6DP4LKIUiVCmNzs+kCqi9m0X++u
- NYbw/hB14EHikwB/Fvf4FowCA2ay5WaJFTTU16Log7iDmkm9esHgC8c6Rq/fHrbySpyxJKc
- l1mMFRgNBBObJWzrZisWiXWZQNuXKWLculm9JQbn36SupElkx9jsZyoDxca+2O1pJQYv4vr
- VBol+PrvOzlWdTOhu8GpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DNR4n1OFd64=:IuOZpARHYq/kihz0v0HB8F
- lqA4DqmzT1Ik3AikHI6jnSFIfpKgk8L+rvr7pE3DMVTLSHE8WlMKRAxqUUyAy4rhWOR+uhO7O
- 5Ck7cFMklOnpGejlc9LybPJWXXnSJ19g18NL+l/nAb8x+VrRvD6kBxMBTJ5wa9nRU/jGL8LsS
- qwPDadoVV04ZK3A0HdPzrXDHhDs3x5gNl5G7SIzmSAa8okmdWpquRArEE2v1BqE+wnOO7mJG1
- fptgBFDTx6KEDY3z4uxTqAX0bbnytdMOreGe9hc1wfKx+8aafNqIxRhxQzoQWf3Te+aLUHUa3
- 0G9ojDVcrqFzw50SIWbaAOI46z0MBdk2dEEexdMh/lfq429EC5ZF8NY1ARwEL8tKZr3d3A0XQ
- LsccC1M/PJH/6J5T4TSZckacnB39wM/xDll743U70dyHKz9lRITTWHVpKtJ2q5huxvqXV4G8/
- z8YUkJmfoKyVtTUu0DzZIFaofK+evzduj7KvacIb20rbCr6lnI3Z/L6ceIyW8Z4du4hXoVYX0
- Cev2nIceweNYk/KElGJr+eTuSINab4GTTStAHVwwDuAr2kg0Wc811NrZlZVDJz/zRRpdGIjtD
- 5qKy+U2bso+c7fvGYzfCTEKtFmhMXjeZFlO4Y4hA1SDkchg+cF9qiB8IvduxXxwoDvEYim1XU
- htrvz+n5MLYbKZA9IIAZsFV2qeeskZHmTVU0K88mVqNA5K6N316DQGVRCweN8GFts5os8hB+P
- Zs492qTTcmZzrnRQ6/qZbVZnnuGA7lwUdlETa1oklfBl0DxSeGDb+UYYi6LHOlWOCBZr4biTR
- GW3rnXNOfmtZHd39RDNs5LLPAkySP5rYuOfGLT/xgBLY29cEa9vy6OhFabFab/BqGcuOQEpiA
- U+b+7BjaAJbAVe38MQ/zjj6t4Wveh3x2Lov691RFk=
+X-Provags-ID: V03:K1:iHOoImrR0aZ+geA6kYlJTyGjyae5xJc/bdwEIkJ6DE/sPTh97rs
+ ItByvkyE8t5WnZ66czEZ2Vg6nA80Co/N66RYAtoSJu35QlsyiTGW9PwF9xrqrizJbB6nCug
+ I2AiGo48dFXr/77YTS2tN5ScTzm4dsGlagzPptloFHRnbmVPU+ffjfD7kDj/l1wzhPY9EBm
+ wKQ7Irrc9GACa38yHsp2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JWV8X1up7zM=:oHcm0axsFEn7zSWMpdnLgn
+ qkQMU4SPbtVPlUoYvtUWQ7AsFUKXujG43GehUSbTbHOQ0MkMpFLeuVkyHY3HRNkpE28SDXMGk
+ hRqINbm8HtJwdGcX3yBOt6/ZgPMh+msOIcMV1Vkhpv6jwYqvULaivrxhqafUPgabbWI0La52S
+ Ah+nYzK6cjAQ5yWPC8mYuVO/iTmuVS3hSFu+I077rV1gx8dLcnycYVZR22TagV39/z1hmyLDx
+ GVjooA5VbYuyA4xVWVbMqlWhbDkp1mXNZhVlQw1KlpMtQbgnahN4RAG830FzrOuWTOI13P8gG
+ 2x1vNDxX6jLDBbxlj5j9azJAZfD2pOFMP4hDxUA6uz9TozOsMu5ak4rYhJ5t0Lb/7l/x794bk
+ Kk1eEltC4pYwwVRruwLSX83cpOlHGRCv0qrIDvZzQffM1Rfd25g0U4lC56Q+PwZygTVpnak6e
+ 9r8xxC9u+cDq/h9cpuW09l5Kd2MGzNIIZZXGAnyvNSbkM4ztLM3S4q8x7QDcs+AB2oMXMgHhy
+ KU44V92geTr27pWmXr9uNR6N02hCj/BccHeBfYsj1KwWmTQ8Ul+xP/YNKMi+kD9ZiYXtNWEvm
+ kiE9eOJem9OmG4xKa4Et7XX+qMrfxnC7BT+4PLcqrMAfv3qp3I0x3W1RDvsrQI99SrEsZSnZJ
+ iDijYW88IP7HoCJe1KGf72/YLgsqFvibwycpwGSn2R+iP0j/GFI+q4/8VO4BVXt8Oupbh3ulj
+ Dk8yqRxN/cfE5G14rlG0bTC6F2AIZ7PppNcf1BRV7P9wF9b25gv/0VgCcCZtta9fuymnWOPyG
+ UPWB/Z8EHzxPDYYrk/CUFgl9ZXWDHHfGQ835xTBHbUsBYwPsU6o4GD6J4uH7cxqeBHDKwmV2T
+ YPKwurvcmbASU+6BaHCt0oaAVnAEu/VQLJ8y3D+7I=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] configure: Add xkbcommon
- configure options
+X-Received-From: 217.72.192.74
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] kvm: Fix typo in header of
+ kvm_device_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,58 +111,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, James Le Cuirot <chewi@gentoo.org>,
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/09/2019 à 10:37, Gerd Hoffmann a écrit :
-> On Mon, Sep 16, 2019 at 10:15:15AM +0200, Laurent Vivier wrote:
->> Le 14/09/2019 à 16:51, James Le Cuirot a écrit :
->>> This dependency is currently "automagic", which is bad for distributions.
->>>
->>> Signed-off-by: James Le Cuirot <chewi@gentoo.org>
->>> ---
->>>  configure | 5 +++++
->>>  1 file changed, 5 insertions(+)
->>>
->>> diff --git a/configure b/configure
->>> index 30aad233d1..30544f52e6 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -1521,6 +1521,10 @@ for opt do
->>>    ;;
->>>    --disable-libpmem) libpmem=no
->>>    ;;
->>> +  --enable-xkbcommon) xkbcommon=yes
->>> +  ;;
->>> +  --disable-xkbcommon) xkbcommon=no
->>> +  ;;
->>>    *)
->>>        echo "ERROR: unknown option $opt"
->>>        echo "Try '$0 --help' for more information"
->>> @@ -1804,6 +1808,7 @@ disabled with --disable-FEATURE, default is enabled if available:
->>>    capstone        capstone disassembler support
->>>    debug-mutex     mutex debugging support
->>>    libpmem         libpmem support
->>> +  xkbcommon       xkbcommon support
->>>  
->>>  NOTE: The object files are built at the place where configure is launched
->>>  EOF
->>>
->>
->> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->>
->> cc: Gerd Hoffmann <kraxel@redhat.com>
+Le 12/09/2019 à 15:57, Greg Kurz a écrit :
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  include/sysemu/kvm.h |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index 909bcd77cf82..fd674772ab31 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -308,7 +308,7 @@ int kvm_vm_check_attr(KVMState *s, uint32_t group, uint64_t attr);
+>  int kvm_device_check_attr(int fd, uint32_t group, uint64_t attr);
+>  
+>  /**
+> - * kvm_device_access - set or get value of a specific vm attribute
+> + * kvm_device_access - set or get value of a specific device attribute
+>   * @fd: The device file descriptor
+>   * @group: the group
+>   * @attr: the attribute of that group to set or get
+> 
 > 
 
-Gerd,
-
-do you take this through your ui branch or should I take through the
-trivial patches branch?
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
