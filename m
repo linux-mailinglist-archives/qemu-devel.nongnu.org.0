@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FB3B7794
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:39:44 +0200 (CEST)
-Received: from localhost ([::1]:42182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E13B7779
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:31:04 +0200 (CEST)
+Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtqh-00061A-Ff
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54315)
+	id 1iAtiI-0003sm-S1
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52065)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iAtoX-0004LE-6H
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:37:30 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1iAtbV-0006Jm-T7
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:24:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iAtoV-00074M-Ru
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:37:29 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41064)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iAtoV-00073l-Lt
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:37:27 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iAtoS-00013k-Nj
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:37:24 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 45C8A2E81B0
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:37:14 +0000 (UTC)
+ (envelope-from <yan.y.zhao@intel.com>) id 1iAtbT-0000LR-JH
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:24:00 -0400
+Received: from mga04.intel.com ([192.55.52.120]:42469)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1iAtbT-0000KZ-9M
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:23:59 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2019 03:23:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,523,1559545200"; d="scan'208";a="188050233"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2019 03:23:54 -0700
+Date: Thu, 19 Sep 2019 06:16:11 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Message-ID: <20190919101611.GF18391@joy-OptiPlex-7040>
+References: <AADFC41AFE54684AB9EE6CBC0274A5D19D57B1D1@SHSMSX104.ccr.corp.intel.com>
+ <6d73572e-1e89-b04a-bdd6-98ac73798083@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57B90C@SHSMSX104.ccr.corp.intel.com>
+ <204219fa-ee72-ca60-52a4-fb4bbc887773@redhat.com>
+ <20190919052819.GA18391@joy-OptiPlex-7040>
+ <7b6d6343-33de-ebd7-9846-af54a45a82a2@redhat.com>
+ <20190919061756.GB18391@joy-OptiPlex-7040>
+ <e0efbdc0-aad9-0d17-ec68-36460865501f@redhat.com>
+ <20190919062954.GC18391@joy-OptiPlex-7040>
+ <297143e5-a0b5-4873-77bf-7d2a97ec3c7c@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Sep 2019 10:15:43 -0000
-From: YanFu Cho <1782300@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: colo
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: danielafu pjtsao
-X-Launchpad-Bug-Reporter: PJ Tsao (pjtsao)
-X-Launchpad-Bug-Modifier: YanFu Cho (danielafu)
-References: <153189901344.31406.13269648308515707918.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156888814339.26585.8129640344644092139.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e7c031e2392ef7ea88fe312e1c87833bd5966296
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1782300] Re: COLO unable to failover to secondary
- VM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <297143e5-a0b5-4873-77bf-7d2a97ec3c7c@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.120
+Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,136 +67,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1782300 <1782300@bugs.launchpad.net>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ 'Alex Williamson' <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I also meet the same problem.
-Does anybody have solutions for this problem?
+On Thu, Sep 19, 2019 at 06:06:52PM +0800, Jason Wang wrote:
+> 
+> On 2019/9/19 下午2:29, Yan Zhao wrote:
+> > On Thu, Sep 19, 2019 at 02:32:03PM +0800, Jason Wang wrote:
+> >> On 2019/9/19 下午2:17, Yan Zhao wrote:
+> >>> On Thu, Sep 19, 2019 at 02:09:53PM +0800, Jason Wang wrote:
+> >>>> On 2019/9/19 下午1:28, Yan Zhao wrote:
+> >>>>> On Thu, Sep 19, 2019 at 09:05:12AM +0800, Jason Wang wrote:
+> >>>>>> On 2019/9/18 下午4:37, Tian, Kevin wrote:
+> >>>>>>>> From: Jason Wang [mailto:jasowang@redhat.com]
+> >>>>>>>> Sent: Wednesday, September 18, 2019 2:10 PM
+> >>>>>>>>
+> >>>>>>>>>> Note that the HVA to GPA mapping is not an 1:1 mapping. One HVA
+> >>>>>>>> range
+> >>>>>>>>>> could be mapped to several GPA ranges.
+> >>>>>>>>> This is fine. Currently vfio_dma maintains IOVA->HVA mapping.
+> >>>>>>>>>
+> >>>>>>>>> btw under what condition HVA->GPA is not 1:1 mapping? I didn't realize it.
+> >>>>>>>> I don't remember the details e.g memory region alias? And neither kvm
+> >>>>>>>> nor kvm API does forbid this if my memory is correct.
+> >>>>>>>>
+> >>>>>>> I checkedhttps://qemu.weilnetz.de/doc/devel/memory.html, which
+> >>>>>>> provides an example of aliased layout. However, its aliasing is all
+> >>>>>>> 1:1, instead of N:1. From guest p.o.v every writable GPA implies an
+> >>>>>>> unique location. Why would we hit the situation where multiple
+> >>>>>>> write-able GPAs are mapped to the same HVA (i.e. same physical
+> >>>>>>> memory location)?
+> >>>>>> I don't know, just want to say current API does not forbid this. So we
+> >>>>>> probably need to take care it.
+> >>>>>>
+> >>>>> yes, in KVM API level, it does not forbid two slots to have the same HVA(slot->userspace_addr).
+> >>>>> But
+> >>>>> (1) there's only one kvm instance for each vm for each qemu process.
+> >>>>> (2) all ramblock->host (corresponds to HVA and slot->userspace_addr) in one qemu
+> >>>>> process is non-overlapping as it's obtained from mmmap().
+> >>>>> (3) qemu ensures two kvm slots will not point to the same section of one ramblock.
+> >>>>>
+> >>>>> So, as long as kvm instance is not shared in two processes, and
+> >>>>> there's no bug in qemu, we can assure that HVA to GPA is 1:1.
+> >>>> Well, you leave this API for userspace, so you can't assume qemu is the
+> >>>> only user or any its behavior. If you had you should limit it in the API
+> >>>> level instead of open window for them.
+> >>>>
+> >>>>
+> >>>>> But even if there are two processes operating on the same kvm instance
+> >>>>> and manipulating on memory slots, adding an extra GPA along side current
+> >>>>> IOVA & HVA to ioctl VFIO_IOMMU_MAP_DMA can still let driver knows the
+> >>>>> right IOVA->GPA mapping, right?
+> >>>> It looks fragile. Consider HVA was mapped to both GPA1 and GPA2. Guest
+> >>>> maps IOVA to GPA2, so we have IOVA GPA2 HVA in the new ioctl and then
+> >>>> log through GPA2. If userspace is trying to sync through GPA1, it will
+> >>>> miss the dirty page. So for safety we need log both GPA1 and GPA2. (See
+> >>>> what has been done in log_write_hva() in vhost.c). The only way to do
+> >>>> that is to maintain an independent HVA to GPA mapping like what KVM or
+> >>>> vhost did.
+> >>>>
+> >>> why GPA1 and GPA2 should be both dirty?
+> >>> even they have the same HVA due to overlaping virtual address space in
+> >>> two processes, they still correspond to two physical pages.
+> >>> don't get what's your meaning:)
+> >> The point is not leave any corner case that is hard to debug or fix in
+> >> the future.
+> >>
+> >> Let's just start by a single process, the API allows userspace to maps
+> >> HVA to both GPA1 and GPA2. Since it knows GPA1 and GPA2 are equivalent,
+> >> it's ok to sync just through GPA1. That means if you only log GPA2, it
+> >> won't work.
+> >>
+> > In that case, cannot log dirty according to HPA.
+> > because kvm cannot tell whether it's an valid case (the two GPAs are equivalent)
+> > or an invalid case (the two GPAs are not equivalent, but with the same
+> > HVA value).
+> >
+> > Right?
+> 
+> 
+> There no need any examination on whether it was 'valid' or not. It's as 
+> simple as logging both GPA1 and GPA2. Then you won't need to care any 
+> corner case.
+>
+But, if GPA1 and GPA2 point to the same HVA, it means they point to the
+same page. Then if you only log GPA2, and send GPA2 to target,  it
+should still works, unless in the target side GPA1 and GPA2 do not point to
+the same HVA?
 
--- =
+In what condition you met it in reality?
+Please kindly point it out :)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1782300
 
-Title:
-  COLO unable to failover to secondary VM
 
-Status in QEMU:
-  New
-
-Bug description:
-  I test COLO feature on my host following docs/COLO-FT.txt in qemu folder,=
- but fail to failover to secondary VM. =
-
-  Is there any mistake in my execution steps?
-
-  Execution environment:
-  QEMU v2.12.0-rc4
-  OS:     Ubuntu 16.04.3 LTS
-  Kernel: Linux 4.4.35
-  Secondary VM IP: noted as "a.b.c.d"
-
-  Execution steps:
-  # Primary
-  ${COLO_PATH}/x86_64-softmmu/qemu-system-x86_64 \
-      -enable-kvm \
-      -m 512M \
-      -smp 2 \
-      -qmp stdio \
-      -vnc :7 \
-      -name primary \
-      -device piix3-usb-uhci \
-      -device usb-tablet \
-      -netdev tap,id=3Dtap0,vhost=3Doff \
-      -device virtio-net-pci,id=3Dnet-pci0,netdev=3Dtap0 \
-      -drive if=3Dvirtio,id=3Dprimary-disk0,driver=3Dquorum,read-pattern=3D=
-fifo,vote-threshold=3D1,\
-          children.0.file.filename=3D${IMG_PATH},\
-          children.0.driver=3Draw -S
-
-  # Secondary
-  ${COLO_PATH}/x86_64-softmmu/qemu-system-x86_64 \
-      -enable-kvm \
-      -m 512M \
-      -smp 2 \
-      -qmp stdio \
-      -vnc :8 \
-      -name secondary \
-      -device piix3-usb-uhci \
-      -device usb-tablet \
-      -netdev tap,id=3Dtap1,vhost=3Doff \
-      -device virtio-net-pci,id=3Dnet-pci0,netdev=3Dtap1 \
-      -drive if=3Dnone,id=3Dsecondary-disk0,file.filename=3D${IMG_PATH},dri=
-ver=3Draw,node-name=3Dnode0 \
-      -drive if=3Dvirtio,id=3Dactive-disk0,driver=3Dreplication,mode=3Dseco=
-ndary,\
-          file.driver=3Dqcow2,top-id=3Dactive-disk0,\
-          file.file.filename=3D$ACTIVE_DISK,\
-          file.backing.driver=3Dqcow2,\
-          file.backing.file.filename=3D$HIDDEN_DISK,\
-          file.backing.backing=3Dsecondary-disk0 \
-      -incoming tcp:0:8888
-
-  # Enter into Secondary:
-  {'execute':'qmp_capabilities'}
-  { 'execute': 'nbd-server-start',
-      'arguments': {'addr': {'type': 'inet', 'data': {'host': 'a.b.c.d', 'p=
-ort': '8889'} } }
-  }
-  {'execute': 'nbd-server-add', 'arguments': {'device': 'secondary-disk0', =
-'writable': true } }
-
-  # Enter into Primary:
-  {'execute':'qmp_capabilities'}
-  {'execute': 'human-monitor-command',
-      'arguments': {
-          'command-line': 'drive_add -n buddy driver=3Dreplication,mode=3Dp=
-rimary,file.driver=3Dnbd,file.host=3Da.b.c.d,file.port=3D8889,file.export=
-=3Dsecondary-disk0,node-name=3Dnbd_client0'
-      }
-  }
-  { 'execute':'x-blockdev-change', 'arguments':{'parent': 'primary-disk0', =
-'node': 'nbd_client0' } }
-  { 'execute': 'migrate-set-capabilities',
-      'arguments': {'capabilities': [ {'capability': 'x-colo', 'state': tru=
-e } ] } }
-  { 'execute': 'migrate', 'arguments': {'uri': 'tcp:a.b.c.d:8888' } }
-
-  # To test failover
-  Primary
-  { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'primary-disk0'=
-, 'child': 'children.1'}}
-  { 'execute': 'human-monitor-command','arguments': {'command-line': 'drive=
-_del nbd_client0'}}
-
-  Secondary
-  { 'execute': 'nbd-server-stop' }
-
-  Stop Primary
-  Send ^C signal to terminate PVM.
-
-  Secondary
-  { "execute": "x-colo-lost-heartbeat" }
-
-  =
-
-  # Result:
-  Primary (Use ^C to terminate)
-  qemu-system-x86_64: Can't receive COLO message: Input/output error
-  qemu-system-x86_64: terminating on signal 2
-  {"timestamp": {"seconds": 1531815575, "microseconds": 997696}, "event": "=
-SHUTDOWN", "data": {"guest":false}}
-
-  Secondary
-  { 'execute': 'nbd-server-stop' }
-  {"return": {}}
-  { "execute": "x-colo-lost-heartbeat" }
-  {"return": {}}
-  qemu-system-x86_64: Can't receive COLO message: Input/output error
-  Segmentation fault
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1782300/+subscriptions
+> Thanks
+> 
+> 
+> >
+> > Thanks
+> > Yan
+> >
+> >
 
