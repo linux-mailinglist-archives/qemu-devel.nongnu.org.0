@@ -2,104 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A45B7751
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:25:30 +0200 (CEST)
-Received: from localhost ([::1]:42014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E0FB7744
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:22:57 +0200 (CEST)
+Received: from localhost ([::1]:41946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtcv-0006oD-1j
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50425)
+	id 1iAtaS-0002kk-CN
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iAtP9-00020z-Il
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:11:16 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iAtRX-00048K-SI
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:13:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iAtP8-0001qR-G0
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:11:15 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:46587)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iAtP6-0001mP-19; Thu, 19 Sep 2019 06:11:12 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mqro7-1hom7H2MID-00moRK; Thu, 19 Sep 2019 12:10:58 +0200
-To: Greg Kurz <groug@kaod.org>, Laurent Vivier <lvivier@redhat.com>
-References: <156829664683.2070256.13400788010568373502.stgit@bahia.tls.ibm.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
- dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
- ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
- HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
- rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
- jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
- NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
- WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
- lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
- BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
- gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
- +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
- rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
- 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
- wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
- ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
- d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
- 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
- tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
- inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
- 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
- VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
- US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
- w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
- FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
- hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
- ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
- ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
- OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
- JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
- ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <34c6e639-d3b4-734e-bd89-bb1d8eb098f4@vivier.eu>
-Date: Thu, 19 Sep 2019 12:10:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iAtRW-0003Bd-Sb
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:13:43 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:40229)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iAtRW-0003BC-NH
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:13:42 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id y39so2565332ota.7
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 03:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uyAyULeZ/lfdoeG/aOU+yeLsvvzhqnAPkluREammeJI=;
+ b=WHGMNt8vJ9MDu8tVuXqWXryPtJQYFaD+pnI8o3nB9T0evafHd3dv360YJYI5CvC5Ai
+ ea2sRzxNZPuaHH/VeGBky02d9hesm8/VcfPgd22kRS/zb0UpAUPMXQqAF/xsOueVquXr
+ 8aaxS/0fnu9vgAwnP6PdWyXiu/cfQQGUuc5+w4AheySzqh4K545bSCJb7cBXj5MhB+mk
+ Y3CqrBfTzpzegwlwURL3n/HZ3gAyEght4jcxcB/kIoLcq93pDlKOrwu9fyDgJ/UNS5Nf
+ XzIQXXpMYPbOoDmJJ72/trusD86T1xMVnNg0+/hGv+pwHAsy6RHoMK0dKmk9flyqE1Z2
+ 4ReQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uyAyULeZ/lfdoeG/aOU+yeLsvvzhqnAPkluREammeJI=;
+ b=PiERwOHtU481rAas/vQdmT1GrWbeErtJwW9pydHgi1IHbZVP9zoFbuddIzIG0unuan
+ uXQhvpJnEFUj/SbyYKJZdYDxVNzBuEpsF5BSF60BVIHoq6N4Tok+F3z/H3Lx5atewjC7
+ nIVDyjol18jIwN9eysDXWKrkQjiy27lVWdgf11QEbSwqsQkUlJtnRe3zAsil2GtCCyiK
+ Ys6anWW+YgEEzsPz/uVAy6o2Hr4yR82+kbcdi6CNl/UCNXFSB11ioWTWbnVYZwUT8qqw
+ a1ZRl68CXX2J07bTQUK2t8ryErZfXVFrk3OS2vAFVq2dhrZLKhyEerLUCcMLP1OvLx5D
+ sscg==
+X-Gm-Message-State: APjAAAW6dy/cgrMmAvCKy+M0RjphU+ruBKp80laeYyb9Vmc4YThUxCkK
+ D4mCkD2TR+wVEnRaXhQmub4cYlZVFZxnBZTR0OB+AGd89bY=
+X-Google-Smtp-Source: APXvYqwJn+bUnzLm7tdZkQQ1Ej6gBaQP23Jiss1a5IOgBomx94Hd0aofQ9UXU7cbGrNGPdw+QYSHCP/c7GUHNIIWz3A=
+X-Received: by 2002:a05:6830:16c9:: with SMTP id
+ l9mr2993619otr.97.1568888021738; 
+ Thu, 19 Sep 2019 03:13:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <156829664683.2070256.13400788010568373502.stgit@bahia.tls.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eyJ1Rawxssvql5AajtQFRRvPa5E9FPciCoo0LRuuPeTEZsuu7k5
- eTzujRnIuhFEYydgKyIXxKxrabUzf/1w3R17X/eMkFpZA7r//fncgGKmM8kmC2KyqHCmL2/
- NqrMovxd9Jz31Y9jc11QMLdrvovrAESE3B/DKNL8gRICY2JZ+/72LPcB/l2qP+xg+prt21t
- 4xryzuo0WfIFW68nExWbg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7CLH2JpjIo4=:0Xk8U9QU0ek33eAQaE/8Q4
- s27Xhhxv9pFPw4Fvxi3gtTscXY294m8tfuU8e4p9ym3NLP+mM6QxNGn1s/fGFSjZ6gP1vuQCd
- y0IDH0AbgY+ISXd/Ytl4J/tIdUBbPm7iF7Xzze1dUKImuQzblAidhqB4vKZsW/FznvOMyNQgS
- ULJREY1HQ1B9z3u+uk85tMGZAFarDILdqmAk3h5NNXK7Y1lPurMat5HftnUf/Ec+gfn1glMfG
- FfTN4gnlEkYh5TmiIlwv3Q2uOtExzx7oN2NOfKBymiGENQTS4DnUhog0Q+kJzctb0XiVVfLlX
- nHNapUdUlTNh+XSqro22m/irM3dgJteAhO4qTUtC0279UHv/3GCGiIcoi49KLupPBmtSfVVoJ
- YwO6reaDrMqwrDUstjEk3XllX5kI6x+M0S1h1hA6RGz1ZHMJmLDX/1WLGJIxGgjWtOI+mChMU
- lYyQ1B+YO/m6mFkoWAeAEe6wyHI65t6scXbWpeGucHMAtTI2ejqzFk30WaO4hTyVeruupmiBu
- ShgZ5RV7FufCbgWu3dKmbBMAQzEn/8crU+VUTORPoJSQKg0otOeAeWcc5cDOfa/hB+IQZmLPQ
- OIVpLKMkhP/aOEJZ176KQIIWPw3U2fDLvpRXwnFQH7UNxTAU+W5hlXTucbK52kpIOiXgSMFK0
- omk07Qr3JU20wWnIFmp9hIMhM3Z25pyvdMRncCCYLS6QaY751JR1Go3O7/99xu7vkchtYlku7
- IRoD9kjFc0yi68x4s1Ov0nHfOnjbIoi83KyMe+PCyUID6TPfrgdJxRsYWSgiJ2/aqhfIfVqfV
- jPUQSvTt6CMHBjFeZxyq8pupglek1hn7FA1KG2B61SIXzqJgVU1xW4VDGXwBLC/88va1eyCsx
- 8DHUEIkKO54FY7jPTsJ/1ei7vgdieqRNvbjU7IJAI=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] kvm: Fix typo in header of
- kvm_device_access()
+References: <20190919070918.16059-1-kraxel@redhat.com>
+In-Reply-To: <20190919070918.16059-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Sep 2019 11:13:30 +0100
+Message-ID: <CAFEAcA9+xzQx0tFuXWzM7CpGFvVEivhZ_d9QMbCaDP2tgmeaOg@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
+Subject: Re: [Qemu-devel] [PULL 0/4] Ui 20190919 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,32 +72,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 12/09/2019 à 15:57, Greg Kurz a écrit :
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  include/sysemu/kvm.h |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> index 909bcd77cf82..fd674772ab31 100644
-> --- a/include/sysemu/kvm.h
-> +++ b/include/sysemu/kvm.h
-> @@ -308,7 +308,7 @@ int kvm_vm_check_attr(KVMState *s, uint32_t group, uint64_t attr);
->  int kvm_device_check_attr(int fd, uint32_t group, uint64_t attr);
->  
->  /**
-> - * kvm_device_access - set or get value of a specific vm attribute
-> + * kvm_device_access - set or get value of a specific device attribute
->   * @fd: The device file descriptor
->   * @group: the group
->   * @attr: the attribute of that group to set or get
-> 
-> 
+On Thu, 19 Sep 2019 at 08:11, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 89ea03a7dc83ca36b670ba7f787802791fcb04b1:
+>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/m68k-pull-2019-09-07' into staging (2019-09-09 09:48:34 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/ui-20190919-pull-request
+>
+> for you to fetch changes up to 6bf21f3d83e95bcc4ba35a7a07cc6655e8b010b0:
+>
+>   vnc: fix memory leak when vnc disconnect (2019-09-17 13:45:10 +0200)
+>
+> ----------------------------------------------------------------
+> ui: add barrier client.
+> ui: bugfixes for vnc & egl.
+>
+> ----------------------------------------------------------------
+>
+> Gerd Hoffmann (2):
+>   ui/egl: fix framebuffer reads
+>   vnc: fix websocket field in events
+>
+> Laurent Vivier (1):
+>   ui: add an embedded Barrier client
+>
+> Li Qiang (1):
+>   vnc: fix memory leak when vnc disconnect
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Dropping this pullreq because Li raised an issue with patch 4.
+
+thanks
+-- PMM
 
