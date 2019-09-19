@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89ABAB72FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:05:35 +0200 (CEST)
-Received: from localhost ([::1]:37962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2373EB7302
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:08:43 +0200 (CEST)
+Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iApZO-0007Sr-EQ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:05:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42795)
+	id 1iApcP-0002Jh-Ts
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iApM6-0002BV-Rp
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:52 -0400
+ (envelope-from <clg@kaod.org>) id 1iApML-0002Td-9R
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:52:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iApM5-0008Vk-BF
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:50 -0400
-Received: from 19.mo3.mail-out.ovh.net ([178.32.98.231]:54574)
+ (envelope-from <clg@kaod.org>) id 1iApMJ-0000Dr-1G
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:52:05 -0400
+Received: from 8.mo1.mail-out.ovh.net ([178.33.110.239]:33408)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iApM5-0008US-5L
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:49 -0400
-Received: from player788.ha.ovh.net (unknown [10.109.160.143])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id 8003F225BAA
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 07:51:47 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iApMI-0000Cp-Pd
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:52:02 -0400
+Received: from player788.ha.ovh.net (unknown [10.108.35.128])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id C312019023F
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 07:52:00 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player788.ha.ovh.net (Postfix) with ESMTPSA id DF88C9F175BC;
- Thu, 19 Sep 2019 05:51:40 +0000 (UTC)
+ by player788.ha.ovh.net (Postfix) with ESMTPSA id 1451F9F1760E;
+ Thu, 19 Sep 2019 05:51:54 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 07:49:55 +0200
-Message-Id: <20190919055002.6729-15-clg@kaod.org>
+Date: Thu, 19 Sep 2019 07:49:57 +0200
+Message-Id: <20190919055002.6729-17-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190919055002.6729-1-clg@kaod.org>
 References: <20190919055002.6729-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 1689694286966786833
+X-Ovh-Tracer-Id: 1693353461538458385
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.98.231
-Subject: [Qemu-devel] [PATCH 14/21] aspeed/i2c: Introduce an object class
- per SoC
+X-Received-From: 178.33.110.239
+Subject: [Qemu-devel] [PATCH 16/21] aspeed: Introduce an object class per SoC
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,186 +61,451 @@ Cc: Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It prepares ground for register differences between SoCs.
+It prepares ground for the AST2600.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/i2c/aspeed_i2c.h | 15 ++++++++++
- hw/arm/aspeed_soc.c         |  3 +-
- hw/i2c/aspeed_i2c.c         | 60 ++++++++++++++++++++++++++++++++-----
- 3 files changed, 69 insertions(+), 9 deletions(-)
+ include/hw/arm/aspeed_soc.h |   9 +--
+ hw/arm/aspeed.c             |   4 +-
+ hw/arm/aspeed_soc.c         | 148 +++++++++++++++++++-----------------
+ 3 files changed, 84 insertions(+), 77 deletions(-)
 
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index a2753f0bbbaa..6e2dae7db818 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -25,6 +25,8 @@
- #include "hw/sysbus.h"
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index b427f2668a8a..667dfec0f7b6 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -57,7 +57,9 @@ typedef struct AspeedSoCState {
+ #define TYPE_ASPEED_SOC "aspeed-soc"
+ #define ASPEED_SOC(obj) OBJECT_CHECK(AspeedSoCState, (obj), TYPE_ASPEED_=
+SOC)
 =20
- #define TYPE_ASPEED_I2C "aspeed.i2c"
-+#define TYPE_ASPEED_2400_I2C TYPE_ASPEED_I2C "-ast2400"
-+#define TYPE_ASPEED_2500_I2C TYPE_ASPEED_I2C "-ast2500"
- #define ASPEED_I2C(obj) \
-     OBJECT_CHECK(AspeedI2CState, (obj), TYPE_ASPEED_I2C)
-=20
-@@ -59,6 +61,19 @@ typedef struct AspeedI2CState {
-     AspeedI2CBus busses[ASPEED_I2C_NR_BUSSES];
- } AspeedI2CState;
-=20
-+#define ASPEED_I2C_CLASS(klass) \
-+     OBJECT_CLASS_CHECK(AspeedI2CClass, (klass), TYPE_ASPEED_I2C)
-+#define ASPEED_I2C_GET_CLASS(obj) \
-+     OBJECT_GET_CLASS(AspeedI2CClass, (obj), TYPE_ASPEED_I2C)
+-typedef struct AspeedSoCInfo {
++typedef struct AspeedSoCClass {
++    DeviceClass parent_class;
 +
-+typedef struct AspeedI2CClass {
-+    SysBusDeviceClass parent_class;
-+
-+    uint8_t num_busses;
-+    uint8_t reg_size;
-+    uint8_t gap;
-+} AspeedI2CClass;
-+
- I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr);
+     const char *name;
+     const char *cpu_type;
+     uint32_t silicon_rev;
+@@ -67,11 +69,6 @@ typedef struct AspeedSoCInfo {
+     const int *irqmap;
+     const hwaddr *memmap;
+     uint32_t num_cpus;
+-} AspeedSoCInfo;
+-
+-typedef struct AspeedSoCClass {
+-    DeviceClass parent_class;
+-    AspeedSoCInfo *info;
+ } AspeedSoCClass;
 =20
- #endif /* ASPEED_I2C_H */
+ #define ASPEED_SOC_CLASS(klass)                                         =
+\
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 30e280484262..52993f84b461 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -215,7 +215,7 @@ static void aspeed_board_init(MachineState *machine,
+     memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_siz=
+e);
+     memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
+     memory_region_add_subregion(get_system_memory(),
+-                                sc->info->memmap[ASPEED_SDRAM],
++                                sc->memmap[ASPEED_SDRAM],
+                                 &bmc->ram_container);
+=20
+     max_ram_size =3D object_property_get_uint(OBJECT(&bmc->soc), "max-ra=
+m-size",
+@@ -246,7 +246,7 @@ static void aspeed_board_init(MachineState *machine,
+     }
+=20
+     aspeed_board_binfo.ram_size =3D ram_size;
+-    aspeed_board_binfo.loader_start =3D sc->info->memmap[ASPEED_SDRAM];
++    aspeed_board_binfo.loader_start =3D sc->memmap[ASPEED_SDRAM];
+     aspeed_board_binfo.nb_cpus =3D bmc->soc.num_cpus;
+=20
+     if (cfg->i2c_init) {
 diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 5c5fcb810944..e60f198d92c1 100644
+index e60f198d92c1..a063be9fd795 100644
 --- a/hw/arm/aspeed_soc.c
 +++ b/hw/arm/aspeed_soc.c
-@@ -188,8 +188,9 @@ static void aspeed_soc_init(Object *obj)
-     object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
-                                    OBJECT(&s->scu), &error_abort);
+@@ -115,35 +115,11 @@ static const int aspeed_soc_ast2400_irqmap[] =3D {
 =20
-+    snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-     sysbus_init_child_obj(obj, "i2c", OBJECT(&s->i2c), sizeof(s->i2c),
--                          TYPE_ASPEED_I2C);
-+                          typename);
+ #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
 =20
-     snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
-     sysbus_init_child_obj(obj, "fmc", OBJECT(&s->fmc), sizeof(s->fmc),
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index a956eb384922..fabdb01e9747 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -408,10 +408,11 @@ static void aspeed_i2c_reset(DeviceState *dev)
+-static const AspeedSoCInfo aspeed_socs[] =3D {
+-    {
+-        .name         =3D "ast2400-a1",
+-        .cpu_type     =3D ARM_CPU_TYPE_NAME("arm926"),
+-        .silicon_rev  =3D AST2400_A1_SILICON_REV,
+-        .sram_size    =3D 0x8000,
+-        .spis_num     =3D 1,
+-        .wdts_num     =3D 2,
+-        .irqmap       =3D aspeed_soc_ast2400_irqmap,
+-        .memmap       =3D aspeed_soc_ast2400_memmap,
+-        .num_cpus     =3D 1,
+-    }, {
+-        .name         =3D "ast2500-a1",
+-        .cpu_type     =3D ARM_CPU_TYPE_NAME("arm1176"),
+-        .silicon_rev  =3D AST2500_A1_SILICON_REV,
+-        .sram_size    =3D 0x9000,
+-        .spis_num     =3D 2,
+-        .wdts_num     =3D 3,
+-        .irqmap       =3D aspeed_soc_ast2500_irqmap,
+-        .memmap       =3D aspeed_soc_ast2500_memmap,
+-        .num_cpus     =3D 1,
+-    },
+-};
+-
+ static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
  {
-     int i;
-     AspeedI2CState *s =3D ASPEED_I2C(dev);
-+    AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(s);
+     AspeedSoCClass *sc =3D ASPEED_SOC_GET_CLASS(s);
 =20
-     s->intr_status =3D 0;
-=20
--    for (i =3D 0; i < ASPEED_I2C_NR_BUSSES; i++) {
-+    for (i =3D 0; i < aic->num_busses; i++) {
-         s->busses[i].intr_ctrl =3D 0;
-         s->busses[i].intr_status =3D 0;
-         s->busses[i].cmd =3D 0;
-@@ -421,7 +422,7 @@ static void aspeed_i2c_reset(DeviceState *dev)
+-    return qdev_get_gpio_in(DEVICE(&s->vic), sc->info->irqmap[ctrl]);
++    return qdev_get_gpio_in(DEVICE(&s->vic), sc->irqmap[ctrl]);
  }
 =20
- /*
-- * Address Definitions
-+ * Address Definitions (AST2400 and AST2500)
-  *
-  *   0x000 ... 0x03F: Global Register
-  *   0x040 ... 0x07F: Device 1
-@@ -446,22 +447,24 @@ static void aspeed_i2c_realize(DeviceState *dev, Er=
-ror **errp)
-     int i;
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-     AspeedI2CState *s =3D ASPEED_I2C(dev);
-+    AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(s);
+ static void aspeed_soc_init(Object *obj)
+@@ -154,13 +130,13 @@ static void aspeed_soc_init(Object *obj)
+     char socname[8];
+     char typename[64];
 =20
-     sysbus_init_irq(sbd, &s->irq);
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_i2c_ctrl_ops, s,
-                           "aspeed.i2c", 0x1000);
-     sysbus_init_mmio(sbd, &s->iomem);
-=20
--    for (i =3D 0; i < ASPEED_I2C_NR_BUSSES; i++) {
--        char name[16];
--        int offset =3D i < 7 ? 1 : 5;
-+    for (i =3D 0; i < aic->num_busses; i++) {
-+        char name[32];
-+        int offset =3D i < aic->gap ? 1 : 5;
-         snprintf(name, sizeof(name), "aspeed.i2c.%d", i);
-         s->busses[i].controller =3D s;
-         s->busses[i].id =3D i;
-         s->busses[i].bus =3D i2c_init_bus(dev, name);
-         memory_region_init_io(&s->busses[i].mr, OBJECT(dev),
--                              &aspeed_i2c_bus_ops, &s->busses[i], name, =
-0x40);
--        memory_region_add_subregion(&s->iomem, 0x40 * (i + offset),
-+                              &aspeed_i2c_bus_ops, &s->busses[i], name,
-+                              aic->reg_size);
-+        memory_region_add_subregion(&s->iomem, aic->reg_size * (i + offs=
-et),
-                                     &s->busses[i].mr);
+-    if (sscanf(sc->info->name, "%7s", socname) !=3D 1) {
++    if (sscanf(sc->name, "%7s", socname) !=3D 1) {
+         g_assert_not_reached();
      }
+=20
+-    for (i =3D 0; i < sc->info->num_cpus; i++) {
++    for (i =3D 0; i < sc->num_cpus; i++) {
+         object_initialize_child(obj, "cpu[*]", OBJECT(&s->cpu[i]),
+-                                sizeof(s->cpu[i]), sc->info->cpu_type,
++                                sizeof(s->cpu[i]), sc->cpu_type,
+                                 &error_abort, NULL);
+     }
+=20
+@@ -168,7 +144,7 @@ static void aspeed_soc_init(Object *obj)
+     sysbus_init_child_obj(obj, "scu", OBJECT(&s->scu), sizeof(s->scu),
+                           typename);
+     qdev_prop_set_uint32(DEVICE(&s->scu), "silicon-rev",
+-                         sc->info->silicon_rev);
++                         sc->silicon_rev);
+     object_property_add_alias(obj, "hw-strap1", OBJECT(&s->scu),
+                               "hw-strap1", &error_abort);
+     object_property_add_alias(obj, "hw-strap2", OBJECT(&s->scu),
+@@ -200,7 +176,7 @@ static void aspeed_soc_init(Object *obj)
+     object_property_add_alias(obj, "dram", OBJECT(&s->fmc), "dram",
+                               &error_abort);
+=20
+-    for (i =3D 0; i < sc->info->spis_num; i++) {
++    for (i =3D 0; i < sc->spis_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.spi%d-%s", i + 1, s=
+ocname);
+         sysbus_init_child_obj(obj, "spi[*]", OBJECT(&s->spi[i]),
+                               sizeof(s->spi[i]), typename);
+@@ -214,7 +190,7 @@ static void aspeed_soc_init(Object *obj)
+     object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+                               "max-ram-size", &error_abort);
+=20
+-    for (i =3D 0; i < sc->info->wdts_num; i++) {
++    for (i =3D 0; i < sc->wdts_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+         sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
+                               sizeof(s->wdt[i]), typename);
+@@ -252,13 +228,13 @@ static void aspeed_soc_realize(DeviceState *dev, Er=
+ror **errp)
+     Error *err =3D NULL, *local_err =3D NULL;
+=20
+     /* IO space */
+-    create_unimplemented_device("aspeed_soc.io", sc->info->memmap[ASPEED=
+_IOMEM],
++    create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM=
+],
+                                 ASPEED_SOC_IOMEM_SIZE);
+=20
+-    if (s->num_cpus > sc->info->num_cpus) {
++    if (s->num_cpus > sc->num_cpus) {
+         warn_report("%s: invalid number of CPUs %d, using default %d",
+-                    sc->info->name, s->num_cpus, sc->info->num_cpus);
+-        s->num_cpus =3D sc->info->num_cpus;
++                    sc->name, s->num_cpus, sc->num_cpus);
++        s->num_cpus =3D sc->num_cpus;
+     }
+=20
+     /* CPU */
+@@ -272,13 +248,13 @@ static void aspeed_soc_realize(DeviceState *dev, Er=
+ror **errp)
+=20
+     /* SRAM */
+     memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
+-                           sc->info->sram_size, &err);
++                           sc->sram_size, &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+     }
+     memory_region_add_subregion(get_system_memory(),
+-                                sc->info->memmap[ASPEED_SRAM], &s->sram)=
+;
++                                sc->memmap[ASPEED_SRAM], &s->sram);
+=20
+     /* SCU */
+     object_property_set_bool(OBJECT(&s->scu), true, "realized", &err);
+@@ -286,7 +262,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->scu), 0, sc->info->memmap[ASPEED_=
+SCU]);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->scu), 0, sc->memmap[ASPEED_SCU]);
+=20
+     /* VIC */
+     object_property_set_bool(OBJECT(&s->vic), true, "realized", &err);
+@@ -294,7 +270,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->vic), 0, sc->info->memmap[ASPEED_=
+VIC]);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->vic), 0, sc->memmap[ASPEED_VIC]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->vic), 0,
+                        qdev_get_gpio_in(DEVICE(&s->cpu), ARM_CPU_IRQ));
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->vic), 1,
+@@ -306,7 +282,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->rtc), 0, sc->info->memmap[ASPEED_=
+RTC]);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->rtc), 0, sc->memmap[ASPEED_RTC]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->rtc), 0,
+                        aspeed_soc_get_irq(s, ASPEED_RTC));
+=20
+@@ -317,7 +293,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         return;
+     }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->timerctrl), 0,
+-                    sc->info->memmap[ASPEED_TIMER1]);
++                    sc->memmap[ASPEED_TIMER1]);
+     for (i =3D 0; i < ASPEED_TIMER_NR_TIMERS; i++) {
+         qemu_irq irq =3D aspeed_soc_get_irq(s, ASPEED_TIMER1 + i);
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+@@ -326,7 +302,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+     /* UART - attach an 8250 to the IO space as our UART5 */
+     if (serial_hd(0)) {
+         qemu_irq uart5 =3D aspeed_soc_get_irq(s, ASPEED_UART5);
+-        serial_mm_init(get_system_memory(), sc->info->memmap[ASPEED_UART=
+5], 2,
++        serial_mm_init(get_system_memory(), sc->memmap[ASPEED_UART5], 2,
+                        uart5, 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN)=
+;
+     }
+=20
+@@ -336,12 +312,12 @@ static void aspeed_soc_realize(DeviceState *dev, Er=
+ror **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, sc->info->memmap[ASPEED_=
+I2C]);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, sc->memmap[ASPEED_I2C]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
+                        aspeed_soc_get_irq(s, ASPEED_I2C));
+=20
+     /* FMC, The number of CS is set at the board level */
+-    object_property_set_int(OBJECT(&s->fmc), sc->info->memmap[ASPEED_SDR=
+AM],
++    object_property_set_int(OBJECT(&s->fmc), sc->memmap[ASPEED_SDRAM],
+                             "sdram-base", &err);
+     if (err) {
+         error_propagate(errp, err);
+@@ -352,14 +328,14 @@ static void aspeed_soc_realize(DeviceState *dev, Er=
+ror **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 0, sc->info->memmap[ASPEED_=
+FMC]);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 0, sc->memmap[ASPEED_FMC]);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 1,
+                     s->fmc.ctrl->flash_window_base);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->fmc), 0,
+                        aspeed_soc_get_irq(s, ASPEED_FMC));
+=20
+     /* SPI */
+-    for (i =3D 0; i < sc->info->spis_num; i++) {
++    for (i =3D 0; i < sc->spis_num; i++) {
+         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
+         object_property_set_bool(OBJECT(&s->spi[i]), true, "realized",
+                                  &local_err);
+@@ -369,7 +345,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+             return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 0,
+-                        sc->info->memmap[ASPEED_SPI1 + i]);
++                        sc->memmap[ASPEED_SPI1 + i]);
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 1,
+                         s->spi[i].ctrl->flash_window_base);
+     }
+@@ -380,10 +356,10 @@ static void aspeed_soc_realize(DeviceState *dev, Er=
+ror **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdmc), 0, sc->info->memmap[ASPEED=
+_SDMC]);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdmc), 0, sc->memmap[ASPEED_SDMC]=
+);
+=20
+     /* Watch dog */
+-    for (i =3D 0; i < sc->info->wdts_num; i++) {
++    for (i =3D 0; i < sc->wdts_num; i++) {
+         AspeedWDTClass *awc =3D ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+=20
+         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized", &=
+err);
+@@ -392,7 +368,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+             return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
+-                        sc->info->memmap[ASPEED_WDT] + i * awc->offset);
++                        sc->memmap[ASPEED_WDT] + i * awc->offset);
+     }
+=20
+     /* Net */
+@@ -408,7 +384,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+            return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
+-                        sc->info->memmap[ASPEED_ETH1 + i]);
++                        sc->memmap[ASPEED_ETH1 + i]);
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
+                            aspeed_soc_get_irq(s, ASPEED_ETH1 + i));
+     }
+@@ -420,7 +396,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         return;
+     }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->xdma), 0,
+-                    sc->info->memmap[ASPEED_XDMA]);
++                    sc->memmap[ASPEED_XDMA]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->xdma), 0,
+                        aspeed_soc_get_irq(s, ASPEED_XDMA));
+=20
+@@ -430,7 +406,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, sc->info->memmap[ASPEED=
+_GPIO]);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, sc->memmap[ASPEED_GPIO]=
+);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
+                        aspeed_soc_get_irq(s, ASPEED_GPIO));
+=20
+@@ -441,7 +417,7 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         return;
+     }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
+-                    sc->info->memmap[ASPEED_SDHCI]);
++                    sc->memmap[ASPEED_SDHCI]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
+                        aspeed_soc_get_irq(s, ASPEED_SDHCI));
  }
-@@ -481,11 +484,51 @@ static const TypeInfo aspeed_i2c_info =3D {
-     .parent        =3D TYPE_SYS_BUS_DEVICE,
-     .instance_size =3D sizeof(AspeedI2CState),
-     .class_init    =3D aspeed_i2c_class_init,
-+    .class_size =3D sizeof(AspeedI2CClass),
-+    .abstract   =3D true,
-+};
-+
-+static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedI2CClass *aic =3D ASPEED_I2C_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2400 I2C Controller";
-+
-+    aic->num_busses =3D 14;
-+    aic->reg_size =3D 0x40;
-+    aic->gap =3D 7;
-+}
-+
-+static const TypeInfo aspeed_2400_i2c_info =3D {
-+    .name =3D TYPE_ASPEED_2400_I2C,
-+    .parent =3D TYPE_ASPEED_I2C,
-+    .class_init =3D aspeed_2400_i2c_class_init,
-+};
-+
-+static void aspeed_2500_i2c_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedI2CClass *aic =3D ASPEED_I2C_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2500 I2C Controller";
-+
-+    aic->num_busses =3D 14;
-+    aic->reg_size =3D 0x40;
-+    aic->gap =3D 7;
-+}
-+
-+static const TypeInfo aspeed_2500_i2c_info =3D {
-+    .name =3D TYPE_ASPEED_2500_I2C,
-+    .parent =3D TYPE_ASPEED_I2C,
-+    .class_init =3D aspeed_2500_i2c_class_init,
+@@ -453,9 +429,7 @@ static Property aspeed_soc_properties[] =3D {
+ static void aspeed_soc_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(oc);
+-    AspeedSoCClass *sc =3D ASPEED_SOC_CLASS(oc);
+=20
+-    sc->info =3D (AspeedSoCInfo *) data;
+     dc->realize =3D aspeed_soc_realize;
+     /* Reason: Uses serial_hds and nd_table in realize() directly */
+     dc->user_creatable =3D false;
+@@ -465,26 +439,62 @@ static void aspeed_soc_class_init(ObjectClass *oc, =
+void *data)
+ static const TypeInfo aspeed_soc_type_info =3D {
+     .name           =3D TYPE_ASPEED_SOC,
+     .parent         =3D TYPE_DEVICE,
+-    .instance_init  =3D aspeed_soc_init,
+     .instance_size  =3D sizeof(AspeedSoCState),
+     .class_size     =3D sizeof(AspeedSoCClass),
++    .class_init     =3D aspeed_soc_class_init,
+     .abstract       =3D true,
  };
 =20
- static void aspeed_i2c_register_types(void)
+-static void aspeed_soc_register_types(void)
++static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
  {
-     type_register_static(&aspeed_i2c_info);
-+    type_register_static(&aspeed_2400_i2c_info);
-+    type_register_static(&aspeed_2500_i2c_info);
+-    int i;
++    AspeedSoCClass *sc =3D ASPEED_SOC_CLASS(oc);
+=20
+-    type_register_static(&aspeed_soc_type_info);
+-    for (i =3D 0; i < ARRAY_SIZE(aspeed_socs); ++i) {
+-        TypeInfo ti =3D {
+-            .name       =3D aspeed_socs[i].name,
+-            .parent     =3D TYPE_ASPEED_SOC,
+-            .class_init =3D aspeed_soc_class_init,
+-            .class_data =3D (void *) &aspeed_socs[i],
+-        };
+-        type_register(&ti);
+-    }
++    sc->name         =3D "ast2400-a1";
++    sc->cpu_type     =3D ARM_CPU_TYPE_NAME("arm926");
++    sc->silicon_rev  =3D AST2400_A1_SILICON_REV;
++    sc->sram_size    =3D 0x8000;
++    sc->spis_num     =3D 1;
++    sc->wdts_num     =3D 2;
++    sc->irqmap       =3D aspeed_soc_ast2400_irqmap;
++    sc->memmap       =3D aspeed_soc_ast2400_memmap;
++    sc->num_cpus     =3D 1;
++}
++
++static const TypeInfo aspeed_soc_ast2400_type_info =3D {
++    .name           =3D "ast2400-a1",
++    .parent         =3D TYPE_ASPEED_SOC,
++    .instance_init  =3D aspeed_soc_init,
++    .instance_size  =3D sizeof(AspeedSoCState),
++    .class_init     =3D aspeed_soc_ast2400_class_init,
++};
++
++static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
++{
++    AspeedSoCClass *sc =3D ASPEED_SOC_CLASS(oc);
++
++    sc->name         =3D "ast2500-a1";
++    sc->cpu_type     =3D ARM_CPU_TYPE_NAME("arm1176");
++    sc->silicon_rev  =3D AST2500_A1_SILICON_REV;
++    sc->sram_size    =3D 0x9000;
++    sc->spis_num     =3D 2;
++    sc->wdts_num     =3D 3;
++    sc->irqmap       =3D aspeed_soc_ast2500_irqmap;
++    sc->memmap       =3D aspeed_soc_ast2500_memmap;
++    sc->num_cpus     =3D 1;
  }
 =20
- type_init(aspeed_i2c_register_types)
-@@ -494,9 +537,10 @@ type_init(aspeed_i2c_register_types)
- I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr)
- {
-     AspeedI2CState *s =3D ASPEED_I2C(dev);
-+    AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(s);
-     I2CBus *bus =3D NULL;
-=20
--    if (busnr >=3D 0 && busnr < ASPEED_I2C_NR_BUSSES) {
-+    if (busnr >=3D 0 && busnr < aic->num_busses) {
-         bus =3D s->busses[busnr].bus;
-     }
-=20
++static const TypeInfo aspeed_soc_ast2500_type_info =3D {
++    .name           =3D "ast2500-a1",
++    .parent         =3D TYPE_ASPEED_SOC,
++    .instance_init  =3D aspeed_soc_init,
++    .instance_size  =3D sizeof(AspeedSoCState),
++    .class_init     =3D aspeed_soc_ast2500_class_init,
++};
++static void aspeed_soc_register_types(void)
++{
++    type_register_static(&aspeed_soc_type_info);
++    type_register_static(&aspeed_soc_ast2400_type_info);
++    type_register_static(&aspeed_soc_ast2500_type_info);
++};
++
+ type_init(aspeed_soc_register_types)
 --=20
 2.21.0
 
