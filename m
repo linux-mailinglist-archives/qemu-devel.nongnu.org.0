@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3240CB796B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 14:29:53 +0200 (CEST)
-Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D2CB79F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 14:58:27 +0200 (CEST)
+Received: from localhost ([::1]:43682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAvZI-0007Sd-9p
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 08:29:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1iAw0u-0005vH-Ok
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 08:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41468)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iAvWx-0005wj-8N
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:27:28 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iAvsR-0006KH-Hd
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:49:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iAvWv-0005DZ-M5
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:27:26 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44848)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iAvWt-0004xJ-Hz
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:27:25 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 21so2844874otj.11
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 05:27:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=01YN0A8DWIRGqUZeKm/Pn2I2QWNXv9febKb7C1fFe5Y=;
- b=iTVPQDnulHZTuWBXrdQqVhU1J95kyL/cmmiaZum+8DMubU28m+6VS5al58A7l6QLs3
- BEWmWjmSoRdNOO98obA/LanUDholfGSQIKJHzRZ7wAKYBr1wuZJuxCnOfywQfFRdgT18
- WlDvAYenwaXWCbgU4iiFyOSD6Zkgnq8/+pr4OJlnziQ6zIHgmrGHp65H/XwKMuasVMRN
- P6VjjGKdiZHEWVtqsoMe3YfHaoe4WLjty+A6GLbY3zu0ylvRekinxYC+JHSyiG7qjsUs
- aU1VjEmzrBQl/aIRccxcOpwEXGqKQm63nGmXq+Gzmw2WOQSv8mho705SBDPSwPDYnK7i
- mXrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=01YN0A8DWIRGqUZeKm/Pn2I2QWNXv9febKb7C1fFe5Y=;
- b=d51KaNNtzap+lS/uDPEboVHA27irVZAUIzGVf7rtuLzmnASU6s4i3hX7upyAl6H6NK
- QsmcK40Y5B+RoZlD7MrwekyGI9F31S23vzmv3gJZpaZH57L8rGUTYqPjVSzjNR486TQ5
- 0tUZW9m9gKYO6P2cWohs12DO+BOprUd3Du6WqTlTIFusQa17wvcx6Olmn3oUc+pmy/QA
- jcvl47OrZv9mfVM7AAForD7tc7Ie5I4HB2IR3vySEELGNYp+e+cn0rs21/499WMELXlN
- 37+2i+DI/0Cudw9aZKVjOttnMGOeJnqSiHIFIIYLyuGyb69cJlXposM1FtlMTn6myNcv
- 5Edw==
-X-Gm-Message-State: APjAAAVqfaK+QmnQm54JYi6545PBLqjcacA5n9tgKixhaBg7DOb2xx7q
- XXF+MSa1N/nvbmsshs2oPv9DztfumAdFy1aBfBDyKQ==
-X-Google-Smtp-Source: APXvYqzdZ0vZ7lMPM2dBINWWafmydBKWMcwbq6NH1Th9fR4puVdP+zP2SnaxATH8x+LI7sE8cMrkk1YowaH3bzjV+LY=
-X-Received: by 2002:a05:6830:16c9:: with SMTP id
- l9mr3326998otr.97.1568896027579; 
- Thu, 19 Sep 2019 05:27:07 -0700 (PDT)
+ (envelope-from <cohuck@redhat.com>) id 1iAvmH-00021f-Vf
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:43:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48360)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1iAvmH-00020p-QO; Thu, 19 Sep 2019 08:43:17 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1F6D2C057F20;
+ Thu, 19 Sep 2019 12:43:17 +0000 (UTC)
+Received: from localhost (dhcp-192-230.str.redhat.com [10.33.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1908260BF1;
+ Thu, 19 Sep 2019 12:43:13 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Sep 2019 14:41:09 +0200
+Message-Id: <20190919124115.11510-29-cohuck@redhat.com>
+In-Reply-To: <20190919124115.11510-1-cohuck@redhat.com>
+References: <20190919124115.11510-1-cohuck@redhat.com>
 MIME-Version: 1.0
-References: <20190918145640.17349-1-palmer@sifive.com>
-In-Reply-To: <20190918145640.17349-1-palmer@sifive.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 13:26:56 +0100
-Message-ID: <CAFEAcA_h3+Zm=PXiGV7THCL0wJz_RyWEjfCrSJV2exWOZQ0Dig@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PULL] RISC-V Patches for the 4.2 Soft Freeze,
- Part 1, v3
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Thu, 19 Sep 2019 12:43:17 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 28/34] s390x/tcg: MVO: Fault-safe handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,62 +54,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Sep 2019 at 16:27, Palmer Dabbelt <palmer@sifive.com> wrote:
->
-> The following changes since commit f8c3db33a5e863291182f8862ddf81618a7c6194:
->
->   target/sparc: Switch to do_transaction_failed() hook (2019-09-17 12:01:00 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/palmer-dabbelt/qemu.git tags/riscv-for-master-4.2-sf1-v3
->
-> for you to fetch changes up to b3e86929189c526d22ef49e18f2f5066535f6deb:
->
->   gdbstub: riscv: fix the fflags registers (2019-09-17 08:42:50 -0700)
->
-> ----------------------------------------------------------------
-> RISC-V Patches for the 4.2 Soft Freeze, Part 1, v3
->
-> This contains quite a few patches that I'd like to target for 4.2.
-> They're mostly emulation fixes for the sifive_u board, which now much
-> more closely matches the hardware and can therefor run the same fireware
-> as what gets loaded onto the board.  Additional user-visible
-> improvements include:
->
-> * support for loading initrd files from the command line into Linux, via
->   /chosen/linux,initrd-{start,end} device tree nodes.
-> * The conversion of LOG_TRACE to trace events.
-> * The addition of clock DT nodes for our uart and ethernet.
->
-> This also includes some preliminary work for the H extension patches,
-> but does not include the H extension patches as I haven't had time to
-> review them yet.
->
-> This passes my OE boot test on 32-bit and 64-bit virt machines, as well
-> as a 64-bit upstream Linux boot on the sifive_u machine.  It has been
-> fixed to actually pass "make check" this time.
->
-> Changes since v2 (never made it to the list):
->
-> * Sets the sifive_u machine default core count to 2 instead of 5.
->
-> Changes since v1 <20190910190513.21160-1-palmer@sifive.com>:
->
-> * Sets the sifive_u machine default core count to 5 instead of 1, as
->   it's impossible to have a single core sifive_u machine.
->
+From: David Hildenbrand <david@redhat.com>
 
+Each operand can have a maximum length of 16. Make sure to prepare all
+reads/writes before writing.
 
-Applied, thanks.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/mem_helper.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 671e917dc1f8..504542002033 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -516,31 +516,34 @@ void HELPER(mvn)(CPUS390XState *env, uint32_t l, ui=
+nt64_t dest, uint64_t src)
+ /* move with offset  */
+ void HELPER(mvo)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64_t=
+ src)
+ {
++    const int mmu_idx =3D cpu_mmu_index(env, false);
++    /* MVO always processes one more byte than specified - maximum is 16=
+ */
++    const int len_dest =3D (l >> 4) + 1;
++    const int len_src =3D (l & 0xf) + 1;
+     uintptr_t ra =3D GETPC();
+-    int len_dest =3D l >> 4;
+-    int len_src =3D l & 0xf;
+     uint8_t byte_dest, byte_src;
+-    int i;
++    S390Access srca, desta;
++    int i, j;
+=20
+-    src +=3D len_src;
+-    dest +=3D len_dest;
++    srca =3D access_prepare(env, src, len_src, MMU_DATA_LOAD, mmu_idx, r=
+a);
++    desta =3D access_prepare(env, dest, len_dest, MMU_DATA_STORE, mmu_id=
+x, ra);
+=20
+     /* Handle rightmost byte */
+-    byte_src =3D cpu_ldub_data_ra(env, src, ra);
+-    byte_dest =3D cpu_ldub_data_ra(env, dest, ra);
++    byte_dest =3D cpu_ldub_data_ra(env, dest + len_dest - 1, ra);
++    byte_src =3D access_get_byte(env, &srca, len_src - 1, ra);
+     byte_dest =3D (byte_dest & 0x0f) | (byte_src << 4);
+-    cpu_stb_data_ra(env, dest, byte_dest, ra);
++    access_set_byte(env, &desta, len_dest - 1, byte_dest, ra);
+=20
+     /* Process remaining bytes from right to left */
+-    for (i =3D 1; i <=3D len_dest; i++) {
++    for (i =3D len_dest - 2, j =3D len_src - 2; i >=3D 0; i--, j--) {
+         byte_dest =3D byte_src >> 4;
+-        if (len_src - i >=3D 0) {
+-            byte_src =3D cpu_ldub_data_ra(env, src - i, ra);
++        if (j >=3D 0) {
++            byte_src =3D access_get_byte(env, &srca, j, ra);
+         } else {
+             byte_src =3D 0;
+         }
+         byte_dest |=3D byte_src << 4;
+-        cpu_stb_data_ra(env, dest - i, byte_dest, ra);
++        access_set_byte(env, &desta, i, byte_dest, ra);
+     }
+ }
+=20
+--=20
+2.20.1
 
--- PMM
 
