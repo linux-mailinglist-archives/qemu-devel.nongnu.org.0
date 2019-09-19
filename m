@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C34B7AA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:37:27 +0200 (CEST)
-Received: from localhost ([::1]:44114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA832B7A99
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:35:28 +0200 (CEST)
+Received: from localhost ([::1]:44072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAwcf-0006Vh-Aj
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41479)
+	id 1iAwak-0003VF-UX
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42545)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iAvsh-0006Le-64
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:50:00 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iAvx2-0002jC-Q4
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:54:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iAvke-0007zX-3X
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:41:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33286)
+ (envelope-from <stefanha@redhat.com>) id 1iAvx1-00018B-M7
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:54:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39298)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1iAvkd-0007wJ-SJ; Thu, 19 Sep 2019 08:41:36 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAvx1-00016B-Fu
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:54:23 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 328CE30B2502;
- Thu, 19 Sep 2019 12:41:35 +0000 (UTC)
-Received: from localhost (dhcp-192-230.str.redhat.com [10.33.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8321460BF1;
- Thu, 19 Sep 2019 12:41:31 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 14:40:45 +0200
-Message-Id: <20190919124115.11510-5-cohuck@redhat.com>
-In-Reply-To: <20190919124115.11510-1-cohuck@redhat.com>
-References: <20190919124115.11510-1-cohuck@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2197C2A09D3;
+ Thu, 19 Sep 2019 12:54:22 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A32E65DC18;
+ Thu, 19 Sep 2019 12:54:17 +0000 (UTC)
+Date: Thu, 19 Sep 2019 13:54:16 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Oleinik, Alexander" <alxndr@bu.edu>
+Message-ID: <20190919125416.GR3606@stefanha-x1.localdomain>
+References: <20190918231846.22538-1-alxndr@bu.edu>
+ <20190918231846.22538-18-alxndr@bu.edu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3XZQkxCYp0f/VEFS"
+Content-Disposition: inline
+In-Reply-To: <20190918231846.22538-18-alxndr@bu.edu>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 19 Sep 2019 12:41:35 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.38]); Thu, 19 Sep 2019 12:54:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 04/34] s390x/tcg: MVCL: Process max 4k bytes at
- a time
+Subject: Re: [Qemu-devel] [PATCH v3 17/22] fuzz: add support for fork-based
+ fuzzing.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,105 +59,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
 
-Process max 4k bytes at a time, writing back registers between the
-accesses. The instruction is interruptible.
-    "For operands longer than 2K bytes, access exceptions are not
-    recognized for locations more than 2K bytes beyond the current locati=
-on
-    being processed."
-Note that on z/Architecture, 2k vs. 4k access cannot get differentiated a=
-s
-long as pages are not crossed. This seems to be a leftover from ESA/390.
-Simply stay within single pages.
+--3XZQkxCYp0f/VEFS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-MVCL handling is quite different than MVCLE/MVCLU handling, so split up
-the handlers.
+On Wed, Sep 18, 2019 at 11:19:44PM +0000, Oleinik, Alexander wrote:
+> diff --git a/exec.c b/exec.c
+> index 235d6bc883..d3838f4ea4 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -2295,7 +2295,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+>          qemu_ram_setup_dump(new_block->host, new_block->max_length);
+>          qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUGEPAGE);
+>          /* MADV_DONTFORK is also needed by KVM in absence of synchronous MMU */
+> +#ifndef CONFIG_FUZZ /* This conflicts with fork-based fuzzing */
+>          qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_DONTFORK);
+> +#endif
+>          ram_block_notify_add(new_block->host, new_block->max_length);
+>      }
+>  }
 
-Defer interrupt handling, as that will require more thought, add a TODO
-for that.
+I didn't check Makefile changes but regular softmmu binaries should
+continue to work with --enable-fuzzing so we cannot use #ifdef here.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/mem_helper.c | 44 +++++++++++++++++++++++++++++++++------
- 1 file changed, 38 insertions(+), 6 deletions(-)
+Perhaps this should be a runtime check similar to qtest_enabled():
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 223312a4b194..58ab2e48e341 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -798,19 +798,51 @@ uint32_t HELPER(mvcl)(CPUS390XState *env, uint32_t =
-r1, uint32_t r2)
-     uint64_t srclen =3D env->regs[r2 + 1] & 0xffffff;
-     uint64_t src =3D get_address(env, r2);
-     uint8_t pad =3D env->regs[r2 + 1] >> 24;
--    uint32_t cc;
-+    uint32_t cc, cur_len;
-=20
-     if (is_destructive_overlap(env, dest, src, MIN(srclen, destlen))) {
-         cc =3D 3;
-+    } else if (srclen =3D=3D destlen) {
-+        cc =3D 0;
-+    } else if (destlen < srclen) {
-+        cc =3D 1;
-     } else {
--        cc =3D do_mvcl(env, &dest, &destlen, &src, &srclen, pad, 1, ra);
-+        cc =3D 2;
-     }
-=20
--    env->regs[r1 + 1] =3D deposit64(env->regs[r1 + 1], 0, 24, destlen);
--    env->regs[r2 + 1] =3D deposit64(env->regs[r2 + 1], 0, 24, srclen);
--    set_address_zero(env, r1, dest);
--    set_address_zero(env, r2, src);
-+    /* We might have to zero-out some bits even if there was no action. =
-*/
-+    if (unlikely(!destlen || cc =3D=3D 3)) {
-+        set_address_zero(env, r2, src);
-+        set_address_zero(env, r1, dest);
-+        return cc;
-+    } else if (!srclen) {
-+        set_address_zero(env, r2, src);
-+    }
-=20
-+    /*
-+     * Only perform one type of type of operation (move/pad) in one step=
-.
-+     * Stay within single pages.
-+     */
-+    while (destlen) {
-+        cur_len =3D MIN(destlen, -(dest | TARGET_PAGE_MASK));
-+        if (!srclen) {
-+            fast_memset(env, dest, pad, cur_len, ra);
-+        } else {
-+            cur_len =3D MIN(MIN(srclen, -(src | TARGET_PAGE_MASK)), cur_=
-len);
-+
-+            fast_memmove(env, dest, src, cur_len, ra);
-+            src =3D wrap_address(env, src + cur_len);
-+            srclen -=3D cur_len;
-+            env->regs[r2 + 1] =3D deposit64(env->regs[r2 + 1], 0, 24, sr=
-clen);
-+            set_address_zero(env, r2, src);
-+        }
-+        dest =3D wrap_address(env, dest + cur_len);
-+        destlen -=3D cur_len;
-+        env->regs[r1 + 1] =3D deposit64(env->regs[r1 + 1], 0, 24, destle=
-n);
-+        set_address_zero(env, r1, dest);
-+
-+        /* TODO: Deliver interrupts. */
-+    }
-     return cc;
- }
-=20
---=20
-2.20.1
+  /* The fuzzer's fork child requires access to guest RAM */
+  if (!fuzz_enabled()) {
+      qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_DONTFORK);
+  }
 
+--3XZQkxCYp0f/VEFS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DengACgkQnKSrs4Gr
+c8htKAf/c69Ja43ixHjcSvoB34SuiG9qPxXe8Mcj4DWp/43tD+loRVSAW+xu3fWL
+R9E0bDW5IvgmK2jskwuYKkuICKBBK+P2aHY9aOePgqNxAVjpoK7tvDKMiVf5B6Gw
+Ma+XMSrTWR5vKyKkvZShLMkn/03DbaHUMEnM6pN2eIPHtVxR109FZf1UofbWSf/I
+VxgYCUnZu5ygJPnvwnXzy3OV/51/OqkCyf7PEwWZPAEYwYuFkWx12cph0KUDm4T8
+FmwV6QHRphApS75Lw9lb0k7Yj/iBVgN5WC4DniaxL8ypFNhcFYnUcC0+cE3TBQBu
+pE6XC/dq94MoLMb/XigVtQ98DRSscw==
+=UtSC
+-----END PGP SIGNATURE-----
+
+--3XZQkxCYp0f/VEFS--
 
