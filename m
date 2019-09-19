@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39682B787E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:30:16 +0200 (CEST)
-Received: from localhost ([::1]:42572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB50B7885
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:33:48 +0200 (CEST)
+Received: from localhost ([::1]:42616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAuda-0003xW-HX
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:30:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59777)
+	id 1iAuh1-0007xI-2G
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59967)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iAuaj-0001Pu-1I
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:27:18 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iAucQ-0003sp-K3
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:29:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iAuah-0002bl-OJ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:27:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42676)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iAuah-0002bP-Go
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:27:15 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9E42F10CC1E6;
- Thu, 19 Sep 2019 11:27:14 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.36.116.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 549E660872;
- Thu, 19 Sep 2019 11:27:04 +0000 (UTC)
-Date: Thu, 19 Sep 2019 13:27:02 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <20190919112702.GC10163@localhost.localdomain>
-References: <156872146565.1757.3033215873677512474.stgit@pasha-Precision-3630-Tower>
- <156872148244.1757.2888672921697745021.stgit@pasha-Precision-3630-Tower>
- <20190918091831.GD5207@localhost.localdomain>
- <001201d56e02$9d88b5f0$d89a21d0$@ru>
- <20190918093305.GF5207@localhost.localdomain>
- <001401d56e04$b93c02a0$2bb407e0$@ru>
- <20190918094436.GG5207@localhost.localdomain>
- <001501d56e06$bbd7aa30$3386fe90$@ru>
- <20190919085302.GA10163@localhost.localdomain>
- <001901d56ec9$620ae260$2620a720$@ru>
+ (envelope-from <alex.bennee@linaro.org>) id 1iAucO-0003g9-Pv
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:29:02 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43564)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iAucO-0003ff-GK
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:29:00 -0400
+Received: by mail-wr1-x443.google.com with SMTP id q17so2684981wrx.10
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 04:29:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3VSlKKNw5EpL9Fi4aF6CtAPG6bR3KVIOfeYUVZua+a0=;
+ b=heBdtpaVW3d33q0NoKJ4/oJweg6uAk6yyL/rFj8Ru94EhrJRIW43Zrnyn1/r9NSm/h
+ 5alddaG2Jt0FmDVsYi9YfY96OlJJCLJP3wCuBMC1POOaRJXNyUwLe4lha/XNlJ73Q5Mr
+ N8Og01Tr06n/NbyLzOfJ9plzGIjeKzoqlfHVO/1wEDhCLMsJrwBuCnbBjkGjmK/M/tFU
+ saO2NgSBkstDzissIg9yuCqBABC4wEV+kvr6zRNdiBMqZ+FsR99B2B0mVU/8tWHWsmjz
+ G8qmM0MLnHrqJsEnB20/TXgD828xbWav2PmQrRimZxvvTJ129MT1XGCI/7UH6tLh2c7r
+ qopw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=3VSlKKNw5EpL9Fi4aF6CtAPG6bR3KVIOfeYUVZua+a0=;
+ b=ZAGxcJt/8aNe0S9GnTvT4JfU2a14wWa88e9oLfL67BTHYMI/C/zeNKu9xhM3jO/MRp
+ GvxbvLWm1HOY8JXsOrj8BvxIUtZ3dm4DRA65rvHKz1Ja1LdWL1xePRS6xGy9zztLvpUc
+ w7ovH0SC2HiybBm0E00pZQkpI4QIaPfNhCE6dRPUDFMqUs8U62MD4lYHLCHJVIaOjOs6
+ Cbt39e4VbmsWdD2xH6IUeu19IrphG9sZ0awTFUOzoJp57v3EFUkGSUc4Qw6c0xUmNocS
+ 0hgWwh2kanP9D69IiSKeEiCKLeNg1S9YOroYtR9o/Wzml8zspbvlfMZ/FxDvQvWXvyq5
+ ZsXQ==
+X-Gm-Message-State: APjAAAUWc89sgZq0Qb5iGCmPUHAmQ1r8WkBeHntE3lwp2m9DsHnmW5d3
+ 5aL+J1TJVamDPQB5kLviiJmMHg==
+X-Google-Smtp-Source: APXvYqyGqvGuTmq1DXnyIEhojHqpmNblLoG+lbwdaHdm7n7bPXRoAXvFINzLTq0keRkW2ZplS8Rn4A==
+X-Received: by 2002:a5d:4985:: with SMTP id r5mr6677105wrq.139.1568892539181; 
+ Thu, 19 Sep 2019 04:28:59 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q192sm7110465wme.23.2019.09.19.04.28.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 04:28:58 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D8FD91FF87;
+ Thu, 19 Sep 2019 12:28:57 +0100 (BST)
+References: <20190919105932.19412-1-philmd@redhat.com>
+ <20190919105932.19412-2-philmd@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+In-reply-to: <20190919105932.19412-2-philmd@redhat.com>
+Date: Thu, 19 Sep 2019 12:28:57 +0100
+Message-ID: <87pnjwzfra.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <001901d56ec9$620ae260$2620a720$@ru>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Thu, 19 Sep 2019 11:27:14 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [for-4.2 PATCH 3/6] replay: update docs for
- record/replay with block devices
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH 1/2] tests/docker: Add
+ fedora-win10sdk-cross image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,109 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru, quintela@redhat.com,
- ciro.santilli@gmail.com, jasowang@redhat.com, crosthwaite.peter@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, alex.bennee@linaro.org,
- maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
- boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
- mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
- rth@twiddle.net
+Cc: Fam Zheng <fam@euphon.net>, Lucian Petrut <lpetrut@cloudbasesolutions.com>,
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ Justin Terry <juterry@microsoft.com>, Ilias Maratos <i.maratos@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.09.2019 um 11:05 hat Pavel Dovgalyuk geschrieben:
-> > From: Kevin Wolf [mailto:kwolf@redhat.com]
-> > > >
-> > > > However, global -snapshot is just a convenient shortcut for specifying
-> > > > snapshot=on for all -drive arguments. So if -snapshot is incompatible
-> > > > with replay, shouldn't manually marking all drives as snapshot=on be
-> > > > incompatible as well?
-> > > >
-> > > > Maybe you're really interested in some specific drive not having
-> > > > snapshot=on? But then it might be better to check that specific drive
-> > > > instad of forbidding just the shortcut for setting it.
-> > >
-> > > -snapshot adds the flag for top-level drive, making driver operations
-> > > dependent on temporary file structure.
-> > >
-> > > Moving this overlay beneath blkreplay driver makes drive operations
-> > > deterministic for the top-level device.
-> > 
-> > So the real requirement is that blkreplay is the top-level node of any
-> > guest device, right? And only because of this, you can't use -snapshot
-> > (or snapshot=on on the blkreplay driver).
-> > 
-> > If we instead check e.g. in blk_insert_bs() or blk_attach_dev() that in
-> > record/replay mode, the root node of the BlockBackend is blkreplay,
-> > wouldn't we catch many more incorrect setups?
-> 
-> That sounds interesting.
-> Will it help to check that every backend is connected to blkreplay?
 
-Yes, it would return an error when you try to attach a non-blkreplay
-node to a BlockBackend (and every guest device uses a BlockBackend).
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Note that this restriction would currently make block jobs unavailable
-on non-blkreplay nodes as they also use BlockBackends internally (though
-this is going to change in the long run). I believe this restriction is
-harmless and the typical replay use case doesn't involve any block jobs,
-but if you do think it's a problem, blk_attach_dev() would be the place
-that affects only devices.
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  tests/docker/Makefile.include                 |  1 +
+>  .../dockerfiles/fedora-win10sdk-cross.docker  | 21 +++++++++++++++++++
+>  2 files changed, 22 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+>
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+> index 50a400b573..0df72a810b 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -125,6 +125,7 @@ docker-image-debian-ppc64-cross: docker-image-debian10
+>  docker-image-debian-riscv64-cross: docker-image-debian10
+>  docker-image-debian-sh4-cross: docker-image-debian10
+>  docker-image-debian-sparc64-cross: docker-image-debian10
+> +docker-image-fedora-win10sdk-cross: docker-image-fedora
+>
+>  docker-image-travis: NOUSER=3D1
+>
+> diff --git a/tests/docker/dockerfiles/fedora-win10sdk-cross.docker b/test=
+s/docker/dockerfiles/fedora-win10sdk-cross.docker
+> new file mode 100644
+> index 0000000000..1aafdad483
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+> @@ -0,0 +1,21 @@
+> +#
+> +# Docker MinGW64 cross-compiler target with WHPX header installed
+> +#
+> +# This docker target builds on the Fedora 30 base image.
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +#
+> +FROM qemu:fedora
+> +
+> +# Install headers extracted by the Android folks from the win10sdk.iso:
+> +# https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk
+> +ENV WIN10SDK_INCDIR /usr/local/include/win10sdk
+> +RUN mkdir ${WIN10SDK_INCDIR} && \
+> +    for hdr in WinHvEmulation.h WinHvPlatformDefs.h WinHvPlatform.h; do \
+> +        curl -s "https://android.googlesource.com/platform/prebuilts/gcc=
+/linux-x86/host/x86_64-w64-mingw32-4.8/+/1bde9c3b14f3a3b081ada6e32da9f28706=
+71b46f/x86_64-w64-mingw32/include/${hdr}?format=3DTEXT" | base64 --decode >=
+ ${WIN10SDK_INCDIR}/${hdr}; \
+> +    done
 
-> How then this check has to be done?
+Hmm I guess this is a stable URL as Google never deletes anything?
 
-Only compile-tested, but maybe something like below?
+> +
+> +ENV QEMU_CONFIGURE_OPTS ${QEMU_CONFIGURE_OPTS} \
+> +    --cross-prefix=3Dx86_64-w64-mingw32- \
+> +    --extra-cflags=3D"-I ${WIN10SDK_INCDIR}" --disable-werror \
+> +    --enable-hax --enable-whpx
 
-Kevin
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 0422acdf1c..9fa72bea51 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -955,6 +955,7 @@ static inline BlockDriverState *backing_bs(BlockDriverState *bs)
- extern BlockDriver bdrv_file;
- extern BlockDriver bdrv_raw;
- extern BlockDriver bdrv_qcow2;
-+extern BlockDriver bdrv_blkreplay;
- 
- int coroutine_fn bdrv_co_preadv(BdrvChild *child,
-     int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
-diff --git a/block/blkreplay.c b/block/blkreplay.c
-index 2b7931b940..16a4f1df6a 100644
---- a/block/blkreplay.c
-+++ b/block/blkreplay.c
-@@ -126,7 +126,7 @@ static int coroutine_fn blkreplay_co_flush(BlockDriverState *bs)
-     return ret;
- }
- 
--static BlockDriver bdrv_blkreplay = {
-+BlockDriver bdrv_blkreplay = {
-     .format_name            = "blkreplay",
-     .instance_size          = 0,
- 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 1c605d5444..c57d3d9fdf 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -17,6 +17,7 @@
- #include "block/throttle-groups.h"
- #include "hw/qdev-core.h"
- #include "sysemu/blockdev.h"
-+#include "sysemu/replay.h"
- #include "sysemu/runstate.h"
- #include "qapi/error.h"
- #include "qapi/qapi-events-block.h"
-@@ -808,6 +809,12 @@ void blk_remove_bs(BlockBackend *blk)
- int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
- {
-     ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
-+
-+    if (replay_mode != REPLAY_MODE_NONE && bs->drv != &bdrv_blkreplay) {
-+        error_setg(errp, "Root node must be blkreplay");
-+        return -ENOTSUP;
-+    }
-+
-     bdrv_ref(bs);
-     blk->root = bdrv_root_attach_child(bs, "root", &child_root, blk->ctx,
-                                        blk->perm, blk->shared_perm, blk, errp);
+--
+Alex Benn=C3=A9e
 
