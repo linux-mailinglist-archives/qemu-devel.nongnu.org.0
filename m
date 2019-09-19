@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7103B75B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 11:08:39 +0200 (CEST)
-Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B416B759C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 11:00:27 +0200 (CEST)
+Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAsQY-0007bc-A5
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 05:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36473)
+	id 1iAsIc-0006ka-7X
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 05:00:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iAs0H-0002Ts-7B
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:41:30 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iAs98-0004rg-Tr
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iAs0G-0001sG-0W
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:41:28 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40847)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iAs0F-0001s7-Nx
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:41:27 -0400
-Received: by mail-wm1-x344.google.com with SMTP id b24so2903647wmj.5
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 01:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=vXsoGHNUZZQbFoVEmo5YhF6fjxUVggvhJv3xcfyMLIw=;
- b=um3f5ql5YxEXUM4Sd/m47l0J7ijl2SFww42xP98tJZ7bzL3+4Qs+jLPIXAfR9M9vbn
- WD8R0E4F7Yy8nBwbcLulYUI06XnBQ5DTW4/ZVMa4QC4CBWR7CkSgBRyuXqjTQCshKXLi
- J2klHxGYQCnCRN+qtcGfStsFFokKkIQNcqPGhx+OywkZgQZM/MVM7hq1je/kmBuVlZ27
- EOI4vZ5ekUpWkhPgNyyA9CY5tP6IjRrxEUpoZlHfumnK7oe5ZYaq3pESxGjNGIoQRi9C
- 7OAgjARxIUjDUgftRVXNtBUJ98w5NOz+4HBKdBR75TIPwBhKP8R2NZIQMoBlEpp+YnrL
- IGSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=vXsoGHNUZZQbFoVEmo5YhF6fjxUVggvhJv3xcfyMLIw=;
- b=Pu8pIqu1JdZkgQyNqoZRa/maRzUTWv9TF2XyI2KpgmRedbWiKVQv/5fGcEzUNf9Qu3
- I2kAvF3KqBb64U0dmcaWxxOiKUqtINkqoMU3cGDPwGir34R+XAIZRGPD+TKlO4TKfUSr
- edFfF87lEjOptDTjtJu0HmJGhAT/cPvHsfgND4sDC7CbVNHUoUB01jr6/kfk9ng6olx4
- 7ZspRfLVmMj3iC0mOR2KPoFkR3K/lkfqE/Tytc1oEZ1QxxLMPn9u+TmcWIBhsjedKPRt
- d7naQe7uk3bgICDrAKIiF4GIocTo84s8A7CUbOVCHlMI4FrP1hKTnGRiC1ntg6qp2ihr
- 0rEw==
-X-Gm-Message-State: APjAAAUbxBC9HUuG4M7cyOBFy6aqn5OpeSN0Mo/tB9mvBLx06ob8Q3LV
- ndrGjQ7x9FfelrEPmi3HPke/cKLnOHw=
-X-Google-Smtp-Source: APXvYqzhF66VPMOKD/YKncDX/1JZ9zv6c2RQhuzZsb5xj9oW24ANGND1Il863qqocfMLUMkqPBZjTQ==
-X-Received: by 2002:a1c:9a94:: with SMTP id c142mr1739904wme.172.1568882486204; 
- Thu, 19 Sep 2019 01:41:26 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l13sm3792939wmj.25.2019.09.19.01.41.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 01:41:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BA3D51FF87;
- Thu, 19 Sep 2019 09:41:24 +0100 (BST)
-References: <20190918222546.11696-1-jsnow@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: John Snow <jsnow@redhat.com>
-In-reply-to: <20190918222546.11696-1-jsnow@redhat.com>
-Date: Thu, 19 Sep 2019 09:41:24 +0100
-Message-ID: <87v9toznij.fsf@linaro.org>
+ (envelope-from <cohuck@redhat.com>) id 1iAs97-00051A-MV
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:50:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35012)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1iAs92-0004zE-Lg; Thu, 19 Sep 2019 04:50:32 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 32046317529C;
+ Thu, 19 Sep 2019 08:50:31 +0000 (UTC)
+Received: from gondolin (dhcp-192-230.str.redhat.com [10.33.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AAB9F19C5B;
+ Thu, 19 Sep 2019 08:50:11 +0000 (UTC)
+Date: Thu, 19 Sep 2019 10:50:08 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190919105008.103ede60.cohuck@redhat.com>
+In-Reply-To: <89d76bbe-8053-e817-2ccb-322bccf1533e@redhat.com>
+References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
+ <156871569396.196432.12307975838741351907.stgit@bahia.lan>
+ <20190917132412.6610576c.cohuck@redhat.com>
+ <20190917183620.044e980d@bahia.lan>
+ <20190918122628.7acb9284.cohuck@redhat.com>
+ <89d76bbe-8053-e817-2ccb-322bccf1533e@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH] docker: remove python2.7 from docker9-mxe
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 19 Sep 2019 08:50:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 10/17] s390x/css: Pass local error object
+ pointer to error_append_hint()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,45 +62,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
+ Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-s390x@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 18 Sep 2019 12:46:42 -0500
+Eric Blake <eblake@redhat.com> wrote:
 
-John Snow <jsnow@redhat.com> writes:
+> On 9/18/19 5:26 AM, Cornelia Huck wrote:
+> > On Tue, 17 Sep 2019 18:36:20 +0200
+> > Greg Kurz <groug@kaod.org> wrote:
+> >   
+> >> On Tue, 17 Sep 2019 13:24:12 +0200
+> >> Cornelia Huck <cohuck@redhat.com> wrote:
+> >>  
+> >>> On Tue, 17 Sep 2019 12:21:34 +0200
+> >>> Greg Kurz <groug@kaod.org> wrote:
+> >>>     
+> >>>> Ensure that hints are added even if errp is &error_fatal or &error_abort.
+> >>>>
+> >>>> Signed-off-by: Greg Kurz <groug@kaod.org>
+> >>>> ---
+> >>>>  hw/s390x/s390-ccw.c |    6 ++++--
+> >>>>  1 file changed, 4 insertions(+), 2 deletions(-)    
+> >>>
+> >>> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> >>>
+> >>> Can also take this via the s390 tree, let me know what would work best.    
+> >>
+> >> I guess it would be easier to merge if each individual patch goes
+> >> through the corresponding sub-maintainer tree. But Eric mentioned
+> >> in another mail that the whole whole series could maybe go through
+> >> Markus' error tree... so, I don't know which is best. :)  
+> > 
+> > Ok, it's probably best to take this through the s390 tree, as I plan to
+> > send a pull request tomorrow :)  
+> 
+> If we go with Vladimir's idea of auto-propagation, this change just gets
+> rewritten again as part of our simplifications to drop all use of
+> 'local_err' in favor of instead using the macro that makes errp always
+> safe to use locally.
+> 
 
-> When it was based on docker8 which uses python-minimal, it needed this.
-> It no longer does.
-
-Queued to testing/next, thanks.
->
-> Goodbye, python2.7.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/docker/dockerfiles/debian9-mxe.docker | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/d=
-ockerfiles/debian9-mxe.docker
-> index 7431168dad..62ff1cecf2 100644
-> --- a/tests/docker/dockerfiles/debian9-mxe.docker
-> +++ b/tests/docker/dockerfiles/debian9-mxe.docker
-> @@ -16,7 +16,6 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv=
--keys C6BF758A33A3A276 &&
->  RUN apt-get update && \
->      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->      apt-get install -y --no-install-recommends \
-> -        libpython2.7-stdlib \
->          $(apt-get -s install -y --no-install-recommends gw32.shared-ming=
-w-w64 | egrep "^Inst mxe-x86-64-unknown-" | cut -d\  -f2)
->
-> -ENV PATH $PATH:/usr/lib/mxe/usr/bin/
-> +ENV PATH $PATH:/usr/lib/mxe/usr/bin/
-
-
---
-Alex Benn=C3=A9e
+Fair enough. That auto-propagation approach really looks nice, so I'll
+go ahead and unqueue this patch again.
 
