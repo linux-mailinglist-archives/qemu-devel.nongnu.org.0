@@ -2,43 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAF9B7326
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:26:55 +0200 (CEST)
-Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BCFB7344
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:38:55 +0200 (CEST)
+Received: from localhost ([::1]:38244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAptx-00076X-1j
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46134)
+	id 1iAq5e-0003hI-0D
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47154)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1iApsx-0006LR-F9
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:25:48 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1iAq4k-00030z-O8
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:37:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1iApsv-0006km-By
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:25:46 -0400
-Received: from mga12.intel.com ([192.55.52.136]:2262)
+ (envelope-from <yan.y.zhao@intel.com>) id 1iAq4i-0006Vu-V8
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:37:58 -0400
+Received: from mga06.intel.com ([134.134.136.31]:38621)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1iApsv-0006hQ-3n
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:25:45 -0400
+ id 1iAq4i-0006TV-Lv
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:37:56 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2019 23:25:40 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2019 23:37:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,522,1559545200"; d="scan'208";a="177952696"
+X-IronPort-AV: E=Sophos;i="5.64,522,1559545200"; d="scan'208";a="181378000"
 Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
  ([10.239.13.9])
- by orsmga007.jf.intel.com with ESMTP; 18 Sep 2019 23:25:39 -0700
-Date: Thu, 19 Sep 2019 02:17:56 -0400
+ by orsmga008.jf.intel.com with ESMTP; 18 Sep 2019 23:37:37 -0700
+Date: Thu, 19 Sep 2019 02:29:54 -0400
 From: Yan Zhao <yan.y.zhao@intel.com>
 To: Jason Wang <jasowang@redhat.com>
-Message-ID: <20190919061756.GB18391@joy-OptiPlex-7040>
-References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
- <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
+Message-ID: <20190919062954.GC18391@joy-OptiPlex-7040>
+References: <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
  <8302a4ae-1914-3046-b3b5-b3234d7dda02@redhat.com>
  <AADFC41AFE54684AB9EE6CBC0274A5D19D57B1D1@SHSMSX104.ccr.corp.intel.com>
  <6d73572e-1e89-b04a-bdd6-98ac73798083@redhat.com>
@@ -46,15 +44,17 @@ References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.c
  <204219fa-ee72-ca60-52a4-fb4bbc887773@redhat.com>
  <20190919052819.GA18391@joy-OptiPlex-7040>
  <7b6d6343-33de-ebd7-9846-af54a45a82a2@redhat.com>
+ <20190919061756.GB18391@joy-OptiPlex-7040>
+ <e0efbdc0-aad9-0d17-ec68-36460865501f@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7b6d6343-33de-ebd7-9846-af54a45a82a2@redhat.com>
+In-Reply-To: <e0efbdc0-aad9-0d17-ec68-36460865501f@redhat.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.136
+X-Received-From: 134.134.136.31
 Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,68 +74,82 @@ Cc: "Tian, Kevin" <kevin.tian@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 02:09:53PM +0800, Jason Wang wrote:
+On Thu, Sep 19, 2019 at 02:32:03PM +0800, Jason Wang wrote:
 > 
-> On 2019/9/19 下午1:28, Yan Zhao wrote:
-> > On Thu, Sep 19, 2019 at 09:05:12AM +0800, Jason Wang wrote:
-> >> On 2019/9/18 下午4:37, Tian, Kevin wrote:
-> >>>> From: Jason Wang [mailto:jasowang@redhat.com]
-> >>>> Sent: Wednesday, September 18, 2019 2:10 PM
+> On 2019/9/19 下午2:17, Yan Zhao wrote:
+> > On Thu, Sep 19, 2019 at 02:09:53PM +0800, Jason Wang wrote:
+> >> On 2019/9/19 下午1:28, Yan Zhao wrote:
+> >>> On Thu, Sep 19, 2019 at 09:05:12AM +0800, Jason Wang wrote:
+> >>>> On 2019/9/18 下午4:37, Tian, Kevin wrote:
+> >>>>>> From: Jason Wang [mailto:jasowang@redhat.com]
+> >>>>>> Sent: Wednesday, September 18, 2019 2:10 PM
+> >>>>>>
+> >>>>>>>> Note that the HVA to GPA mapping is not an 1:1 mapping. One HVA
+> >>>>>> range
+> >>>>>>>> could be mapped to several GPA ranges.
+> >>>>>>> This is fine. Currently vfio_dma maintains IOVA->HVA mapping.
+> >>>>>>>
+> >>>>>>> btw under what condition HVA->GPA is not 1:1 mapping? I didn't realize it.
+> >>>>>> I don't remember the details e.g memory region alias? And neither kvm
+> >>>>>> nor kvm API does forbid this if my memory is correct.
+> >>>>>>
+> >>>>> I checked https://qemu.weilnetz.de/doc/devel/memory.html, which
+> >>>>> provides an example of aliased layout. However, its aliasing is all
+> >>>>> 1:1, instead of N:1. From guest p.o.v every writable GPA implies an
+> >>>>> unique location. Why would we hit the situation where multiple
+> >>>>> write-able GPAs are mapped to the same HVA (i.e. same physical
+> >>>>> memory location)?
+> >>>> I don't know, just want to say current API does not forbid this. So we
+> >>>> probably need to take care it.
 > >>>>
-> >>>>>> Note that the HVA to GPA mapping is not an 1:1 mapping. One HVA
-> >>>> range
-> >>>>>> could be mapped to several GPA ranges.
-> >>>>> This is fine. Currently vfio_dma maintains IOVA->HVA mapping.
-> >>>>>
-> >>>>> btw under what condition HVA->GPA is not 1:1 mapping? I didn't realize it.
-> >>>> I don't remember the details e.g memory region alias? And neither kvm
-> >>>> nor kvm API does forbid this if my memory is correct.
-> >>>>
-> >>> I checked https://qemu.weilnetz.de/doc/devel/memory.html, which
-> >>> provides an example of aliased layout. However, its aliasing is all
-> >>> 1:1, instead of N:1. From guest p.o.v every writable GPA implies an
-> >>> unique location. Why would we hit the situation where multiple
-> >>> write-able GPAs are mapped to the same HVA (i.e. same physical
-> >>> memory location)?
+> >>> yes, in KVM API level, it does not forbid two slots to have the same HVA(slot->userspace_addr).
+> >>> But
+> >>> (1) there's only one kvm instance for each vm for each qemu process.
+> >>> (2) all ramblock->host (corresponds to HVA and slot->userspace_addr) in one qemu
+> >>> process is non-overlapping as it's obtained from mmmap().
+> >>> (3) qemu ensures two kvm slots will not point to the same section of one ramblock.
+> >>>
+> >>> So, as long as kvm instance is not shared in two processes, and
+> >>> there's no bug in qemu, we can assure that HVA to GPA is 1:1.
 > >>
-> >> I don't know, just want to say current API does not forbid this. So we
-> >> probably need to take care it.
+> >> Well, you leave this API for userspace, so you can't assume qemu is the
+> >> only user or any its behavior. If you had you should limit it in the API
+> >> level instead of open window for them.
 > >>
-> > yes, in KVM API level, it does not forbid two slots to have the same HVA(slot->userspace_addr).
-> > But
-> > (1) there's only one kvm instance for each vm for each qemu process.
-> > (2) all ramblock->host (corresponds to HVA and slot->userspace_addr) in one qemu
-> > process is non-overlapping as it's obtained from mmmap().
-> > (3) qemu ensures two kvm slots will not point to the same section of one ramblock.
-> >
-> > So, as long as kvm instance is not shared in two processes, and
-> > there's no bug in qemu, we can assure that HVA to GPA is 1:1.
+> >>
+> >>> But even if there are two processes operating on the same kvm instance
+> >>> and manipulating on memory slots, adding an extra GPA along side current
+> >>> IOVA & HVA to ioctl VFIO_IOMMU_MAP_DMA can still let driver knows the
+> >>> right IOVA->GPA mapping, right?
+> >>
+> >> It looks fragile. Consider HVA was mapped to both GPA1 and GPA2. Guest
+> >> maps IOVA to GPA2, so we have IOVA GPA2 HVA in the new ioctl and then
+> >> log through GPA2. If userspace is trying to sync through GPA1, it will
+> >> miss the dirty page. So for safety we need log both GPA1 and GPA2. (See
+> >> what has been done in log_write_hva() in vhost.c). The only way to do
+> >> that is to maintain an independent HVA to GPA mapping like what KVM or
+> >> vhost did.
+> >>
+> > why GPA1 and GPA2 should be both dirty?
+> > even they have the same HVA due to overlaping virtual address space in
+> > two processes, they still correspond to two physical pages.
+> > don't get what's your meaning :)
 > 
 > 
-> Well, you leave this API for userspace, so you can't assume qemu is the 
-> only user or any its behavior. If you had you should limit it in the API 
-> level instead of open window for them.
+> The point is not leave any corner case that is hard to debug or fix in 
+> the future.
 > 
-> 
-> >
-> > But even if there are two processes operating on the same kvm instance
-> > and manipulating on memory slots, adding an extra GPA along side current
-> > IOVA & HVA to ioctl VFIO_IOMMU_MAP_DMA can still let driver knows the
-> > right IOVA->GPA mapping, right?
-> 
-> 
-> It looks fragile. Consider HVA was mapped to both GPA1 and GPA2. Guest 
-> maps IOVA to GPA2, so we have IOVA GPA2 HVA in the new ioctl and then 
-> log through GPA2. If userspace is trying to sync through GPA1, it will 
-> miss the dirty page. So for safety we need log both GPA1 and GPA2. (See 
-> what has been done in log_write_hva() in vhost.c). The only way to do 
-> that is to maintain an independent HVA to GPA mapping like what KVM or 
-> vhost did.
-> 
-why GPA1 and GPA2 should be both dirty?
-even they have the same HVA due to overlaping virtual address space in
-two processes, they still correspond to two physical pages.
-don't get what's your meaning :)
+> Let's just start by a single process, the API allows userspace to maps 
+> HVA to both GPA1 and GPA2. Since it knows GPA1 and GPA2 are equivalent, 
+> it's ok to sync just through GPA1. That means if you only log GPA2, it 
+> won't work.
+>
+In that case, cannot log dirty according to HPA.
+because kvm cannot tell whether it's an valid case (the two GPAs are equivalent)
+or an invalid case (the two GPAs are not equivalent, but with the same
+HVA value).
+
+Right?
 
 Thanks
 Yan
@@ -148,16 +162,21 @@ Yan
 > > Thanks
 > > Yan
 > >
-> >>> Is Qemu doing its own same-content memory
-> >>> merging in GPA level, similar to KSM?
-> >>
-> >> AFAIK, it doesn't.
-> >>
+> >
 > >> Thanks
 > >>
 > >>
 > >>> Thanks
-> >>> Kevin
-> >>
-> >>
+> >>> Yan
+> >>>
+> >>>>> Is Qemu doing its own same-content memory
+> >>>>> merging in GPA level, similar to KSM?
+> >>>> AFAIK, it doesn't.
+> >>>>
+> >>>> Thanks
+> >>>>
+> >>>>
+> >>>>> Thanks
+> >>>>> Kevin
+> >>>>
 
