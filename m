@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FCAB7301
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:08:21 +0200 (CEST)
-Received: from localhost ([::1]:37980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63702B72F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:01:15 +0200 (CEST)
+Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iApc4-0001r3-DA
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:08:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42649)
+	id 1iApVB-0003lS-QI
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:01:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iApLg-0001b6-3B
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:25 -0400
+ (envelope-from <clg@kaod.org>) id 1iApLs-0001r8-P1
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iApLe-0008D7-9g
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:23 -0400
-Received: from 4.mo69.mail-out.ovh.net ([46.105.42.102]:46187)
+ (envelope-from <clg@kaod.org>) id 1iApLq-0008Kt-R2
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:36 -0400
+Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]:40401)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iApLe-0008By-2H
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:22 -0400
-Received: from player788.ha.ovh.net (unknown [10.109.143.136])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id 38E4B6979D
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 07:51:20 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iApLq-0008Jq-HP
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:51:34 -0400
+Received: from player788.ha.ovh.net (unknown [10.109.146.175])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 2201024EFDE
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 07:51:33 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player788.ha.ovh.net (Postfix) with ESMTPSA id 8E9269F174A3;
- Thu, 19 Sep 2019 05:51:13 +0000 (UTC)
+ by player788.ha.ovh.net (Postfix) with ESMTPSA id AFB9D9F17522;
+ Thu, 19 Sep 2019 05:51:26 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 07:49:51 +0200
-Message-Id: <20190919055002.6729-11-clg@kaod.org>
+Date: Thu, 19 Sep 2019 07:49:53 +0200
+Message-Id: <20190919055002.6729-13-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190919055002.6729-1-clg@kaod.org>
 References: <20190919055002.6729-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 1682094464071207697
+X-Ovh-Tracer-Id: 1685753637732715281
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.42.102
-Subject: [Qemu-devel] [PATCH 10/21] watchdog/aspeed: Introduce an object
- class per SoC
+X-Received-From: 87.98.174.144
+Subject: [Qemu-devel] [PATCH 12/21] aspeed/smc: Add AST2600 support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,294 +61,278 @@ Cc: Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It cleanups the current models for the Aspeed AST2400 and AST2500 SoCs
-and prepares ground for future SoCs. It removes the need of the
-'silicon_rev' property.
+The AST2600 SoC SMC controller is a SPI only controller now and has a
+few extensions which we will need to take into account when SW
+requires it.
+
+ - 4BYTE mode
+ - HCLK divider has changed (SPI Training)
+ - CE0-2 Read Timing Compensation registers
+
+This is enough to support u-boot.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/watchdog/wdt_aspeed.h |  18 ++++-
- hw/arm/aspeed_soc.c              |   9 ++-
- hw/watchdog/wdt_aspeed.c         | 122 ++++++++++++++++---------------
- 3 files changed, 86 insertions(+), 63 deletions(-)
+ include/hw/ssi/aspeed_smc.h |   2 +
+ hw/ssi/aspeed_smc.c         | 129 +++++++++++++++++++++++++++++++++---
+ 2 files changed, 123 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_a=
-speed.h
-index 8c5691ce2047..796342764e2e 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -16,6 +16,8 @@
- #define TYPE_ASPEED_WDT "aspeed.wdt"
- #define ASPEED_WDT(obj) \
-     OBJECT_CHECK(AspeedWDTState, (obj), TYPE_ASPEED_WDT)
-+#define TYPE_ASPEED_2400_WDT TYPE_ASPEED_WDT "-ast2400"
-+#define TYPE_ASPEED_2500_WDT TYPE_ASPEED_WDT "-ast2500"
+diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+index 5176ff6bf95f..84f268de3091 100644
+--- a/include/hw/ssi/aspeed_smc.h
++++ b/include/hw/ssi/aspeed_smc.h
+@@ -49,6 +49,8 @@ typedef struct AspeedSMCController {
+     hwaddr dma_flash_mask;
+     hwaddr dma_dram_mask;
+     uint32_t nregs;
++    uint32_t (*segment_to_reg)(const AspeedSegments *seg);
++    void (*reg_to_segment)(uint32_t reg, AspeedSegments *seg);
+ } AspeedSMCController;
 =20
- #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
+ typedef struct AspeedSMCFlash {
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 9ffc7e01179a..1be53b5e53ac 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -54,10 +54,8 @@
 =20
-@@ -30,8 +32,20 @@ typedef struct AspeedWDTState {
-=20
-     AspeedSCUState *scu;
-     uint32_t pclk_freq;
--    uint32_t silicon_rev;
--    uint32_t ext_pulse_width_mask;
- } AspeedWDTState;
-=20
-+#define ASPEED_WDT_CLASS(klass) \
-+     OBJECT_CLASS_CHECK(AspeedWDTClass, (klass), TYPE_ASPEED_WDT)
-+#define ASPEED_WDT_GET_CLASS(obj) \
-+     OBJECT_GET_CLASS(AspeedWDTClass, (obj), TYPE_ASPEED_WDT)
+ /* CE Control Register */
+ #define R_CE_CTRL            (0x04 / 4)
+-#define   CTRL_EXTENDED4       4  /* 32 bit addressing for SPI */
+-#define   CTRL_EXTENDED3       3  /* 32 bit addressing for SPI */
+-#define   CTRL_EXTENDED2       2  /* 32 bit addressing for SPI */
+-#define   CTRL_EXTENDED1       1  /* 32 bit addressing for SPI */
 +
-+typedef struct AspeedWDTClass {
-+    SysBusDeviceClass parent_class;
-+
-+    uint32_t offset;
-+    uint32_t ext_pulse_width_mask;
-+    uint32_t reset_ctrl_reg;
-+    void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
-+}  AspeedWDTClass;
-+
- #endif /* WDT_ASPEED_H */
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index aaf18d3e42f1..5c5fcb810944 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -214,10 +214,9 @@ static void aspeed_soc_init(Object *obj)
-                               "max-ram-size", &error_abort);
++#define   CTRL_4B_AUTOREAD     4  /* 4B address Auto-Read command select=
+ion */
+ #define   CTRL_EXTENDED0       0  /* 32 bit addressing for SPI */
 =20
-     for (i =3D 0; i < sc->info->wdts_num; i++) {
-+        snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
-         sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
--                              sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
--        qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
--                                    sc->info->silicon_rev);
-+                              sizeof(s->wdt[i]), typename);
-         object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
-                                        OBJECT(&s->scu), &error_abort);
-     }
-@@ -384,13 +383,15 @@ static void aspeed_soc_realize(DeviceState *dev, Er=
-ror **errp)
+ /* Interrupt Control and Status Register */
+@@ -71,8 +69,11 @@
 =20
-     /* Watch dog */
-     for (i =3D 0; i < sc->info->wdts_num; i++) {
-+        AspeedWDTClass *awc =3D ASPEED_WDT_GET_CLASS(&s->wdt[i]);
-+
-         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized", &=
-err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
-         }
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
--                        sc->info->memmap[ASPEED_WDT] + i * 0x20);
-+                        sc->info->memmap[ASPEED_WDT] + i * awc->offset);
-     }
+ /* CEx Control Register */
+ #define R_CTRL0           (0x10 / 4)
++#define   CTRL_IO_QPI              (1 << 31)
++#define   CTRL_IO_QUAD_DATA        (1 << 30)
+ #define   CTRL_IO_DUAL_DATA        (1 << 29)
+ #define   CTRL_IO_DUAL_ADDR_DATA   (1 << 28) /* Includes dummies */
++#define   CTRL_IO_QUAD_ADDR_DATA   (1 << 28) /* Includes dummies */
+ #define   CTRL_CMD_SHIFT           16
+ #define   CTRL_CMD_MASK            0xff
+ #define   CTRL_DUMMY_HIGH_SHIFT    14
+@@ -84,7 +85,7 @@
+ #define   CTRL_DUMMY_LOW_SHIFT     6 /* 2 bits [7:6] */
+ #define   CTRL_CE_STOP_ACTIVE      (1 << 2)
+ #define   CTRL_CMD_MODE_MASK       0x3
+-#define     CTRL_READMODE          0x0
++#define     CTRL_READMODE          0x0 /* AST2600: 4BYTE READ */
+ #define     CTRL_FREADMODE         0x1
+ #define     CTRL_WRITEMODE         0x2
+ #define     CTRL_USERMODE          0x3
+@@ -135,8 +136,11 @@
 =20
-     /* Net */
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index f710036535da..fc0e6c486a70 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -54,21 +54,6 @@ static bool aspeed_wdt_is_enabled(const AspeedWDTState=
- *s)
-     return s->regs[WDT_CTRL] & WDT_CTRL_ENABLE;
- }
+ /* Misc Control Register #2 */
+ #define R_TIMINGS         (0x94 / 4)
++#define R_CE0_READ_TIMING (0x94 / 4)
++#define R_CE1_READ_TIMING (0x98 / 4)
++#define R_CE2_READ_TIMING (0x9C / 4)
 =20
--static bool is_ast2500(const AspeedWDTState *s)
--{
--    switch (s->silicon_rev) {
--    case AST2500_A0_SILICON_REV:
--    case AST2500_A1_SILICON_REV:
--        return true;
--    case AST2400_A0_SILICON_REV:
--    case AST2400_A1_SILICON_REV:
--    default:
--        break;
--    }
--
--    return false;
--}
--
- static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned si=
-ze)
- {
-     AspeedWDTState *s =3D ASPEED_WDT(opaque);
-@@ -124,6 +109,7 @@ static void aspeed_wdt_write(void *opaque, hwaddr off=
-set, uint64_t data,
-                              unsigned size)
- {
-     AspeedWDTState *s =3D ASPEED_WDT(opaque);
-+    AspeedWDTClass *awc =3D ASPEED_WDT_GET_CLASS(s);
-     bool enable =3D data & WDT_CTRL_ENABLE;
-=20
-     offset >>=3D 2;
-@@ -153,24 +139,13 @@ static void aspeed_wdt_write(void *opaque, hwaddr o=
-ffset, uint64_t data,
-         }
-         break;
-     case WDT_RESET_WIDTH:
--    {
--        uint32_t property =3D data & WDT_POLARITY_MASK;
--
--        if (property && is_ast2500(s)) {
--            if (property =3D=3D WDT_ACTIVE_HIGH_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_ACTIVE_HIG=
-H;
--            } else if (property =3D=3D WDT_ACTIVE_LOW_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_ACTIVE_HI=
-GH;
--            } else if (property =3D=3D WDT_PUSH_PULL_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_PUSH_PULL;
--            } else if (property =3D=3D WDT_OPEN_DRAIN_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_PUSH_PULL=
-;
--            }
-+        if (awc->reset_pulse) {
-+            awc->reset_pulse(s, data & WDT_POLARITY_MASK);
-         }
--        s->regs[WDT_RESET_WIDTH] &=3D ~s->ext_pulse_width_mask;
--        s->regs[WDT_RESET_WIDTH] |=3D data & s->ext_pulse_width_mask;
-+        s->regs[WDT_RESET_WIDTH] &=3D ~awc->ext_pulse_width_mask;
-+        s->regs[WDT_RESET_WIDTH] |=3D data & awc->ext_pulse_width_mask;
-         break;
--    }
-+
-     case WDT_TIMEOUT_STATUS:
-     case WDT_TIMEOUT_CLEAR:
-         qemu_log_mask(LOG_UNIMP,
-@@ -226,9 +201,10 @@ static void aspeed_wdt_reset(DeviceState *dev)
- static void aspeed_wdt_timer_expired(void *dev)
- {
-     AspeedWDTState *s =3D ASPEED_WDT(dev);
-+    uint32_t reset_ctrl_reg =3D ASPEED_WDT_GET_CLASS(s)->reset_ctrl_reg;
-=20
-     /* Do not reset on SDRAM controller reset */
--    if (s->scu->regs[SCU_RESET_CONTROL1] & SCU_RESET_SDRAM) {
-+    if (s->scu->regs[reset_ctrl_reg] & SCU_RESET_SDRAM) {
-         timer_del(s->timer);
-         s->regs[WDT_CTRL] =3D 0;
-         return;
-@@ -256,25 +232,6 @@ static void aspeed_wdt_realize(DeviceState *dev, Err=
-or **errp)
-     }
-     s->scu =3D ASPEED_SCU(obj);
-=20
--    if (!is_supported_silicon_rev(s->silicon_rev)) {
--        error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
--                s->silicon_rev);
--        return;
--    }
--
--    switch (s->silicon_rev) {
--    case AST2400_A0_SILICON_REV:
--    case AST2400_A1_SILICON_REV:
--        s->ext_pulse_width_mask =3D 0xff;
--        break;
--    case AST2500_A0_SILICON_REV:
--    case AST2500_A1_SILICON_REV:
--        s->ext_pulse_width_mask =3D 0xfffff;
--        break;
--    default:
--        g_assert_not_reached();
--    }
--
-     s->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, aspeed_wdt_timer_expir=
-ed, dev);
-=20
-     /* FIXME: This setting should be derived from the SCU hw strapping
-@@ -287,20 +244,15 @@ static void aspeed_wdt_realize(DeviceState *dev, Er=
-ror **errp)
-     sysbus_init_mmio(sbd, &s->iomem);
- }
-=20
--static Property aspeed_wdt_properties[] =3D {
--    DEFINE_PROP_UINT32("silicon-rev", AspeedWDTState, silicon_rev, 0),
--    DEFINE_PROP_END_OF_LIST(),
--};
--
- static void aspeed_wdt_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-+    dc->desc =3D "ASPEED Watchdog Controller";
-     dc->realize =3D aspeed_wdt_realize;
-     dc->reset =3D aspeed_wdt_reset;
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     dc->vmsd =3D &vmstate_aspeed_wdt;
--    dc->props =3D aspeed_wdt_properties;
- }
-=20
- static const TypeInfo aspeed_wdt_info =3D {
-@@ -308,12 +260,68 @@ static const TypeInfo aspeed_wdt_info =3D {
-     .name  =3D TYPE_ASPEED_WDT,
-     .instance_size  =3D sizeof(AspeedWDTState),
-     .class_init =3D aspeed_wdt_class_init,
-+    .class_size    =3D sizeof(AspeedWDTClass),
-+    .abstract      =3D true,
-+};
-+
-+static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedWDTClass *awc =3D ASPEED_WDT_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2400 Watchdog Controller";
-+    awc->offset =3D 0x20;
-+    awc->ext_pulse_width_mask =3D 0xff;
-+    awc->reset_ctrl_reg =3D SCU_RESET_CONTROL1;
-+}
-+
-+static const TypeInfo aspeed_2400_wdt_info =3D {
-+    .name =3D TYPE_ASPEED_2400_WDT,
-+    .parent =3D TYPE_ASPEED_WDT,
-+    .instance_size =3D sizeof(AspeedWDTState),
-+    .class_init =3D aspeed_2400_wdt_class_init,
-+};
-+
-+static void aspeed_2500_wdt_reset_pulse(AspeedWDTState *s, uint32_t prop=
-erty)
-+{
-+    if (property) {
-+        if (property =3D=3D WDT_ACTIVE_HIGH_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_ACTIVE_HIGH;
-+        } else if (property =3D=3D WDT_ACTIVE_LOW_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_ACTIVE_HIGH;
-+        } else if (property =3D=3D WDT_PUSH_PULL_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_PUSH_PULL;
-+        } else if (property =3D=3D WDT_OPEN_DRAIN_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_PUSH_PULL;
-+        }
-+    }
-+}
-+
-+static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedWDTClass *awc =3D ASPEED_WDT_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2500 Watchdog Controller";
-+    awc->offset =3D 0x20;
-+    awc->ext_pulse_width_mask =3D 0xfffff;
-+    awc->reset_ctrl_reg =3D SCU_RESET_CONTROL1;
-+    awc->reset_pulse =3D aspeed_2500_wdt_reset_pulse;
-+}
-+
-+static const TypeInfo aspeed_2500_wdt_info =3D {
-+    .name =3D TYPE_ASPEED_2500_WDT,
-+    .parent =3D TYPE_ASPEED_WDT,
-+    .instance_size =3D sizeof(AspeedWDTState),
-+    .class_init =3D aspeed_2500_wdt_class_init,
+-/* SPI controller registers and bits */
++/* AST2400 SPI1 controller registers and bits */
+ #define R_SPI_CONF        (0x00 / 4)
+ #define   SPI_CONF_ENABLE_W0   0
+ #define R_SPI_CTRL0       (0x4 / 4)
+@@ -212,6 +216,36 @@ static const AspeedSegments aspeed_segments_ast2500_=
+spi2[] =3D {
+     { 0x3A000000, 96 * 1024 * 1024 }, /* end address is readonly */
  };
 =20
- static void wdt_aspeed_register_types(void)
++/*
++ * AST2600 definitions
++ */
++#define ASPEED26_SOC_FMC_FLASH_BASE   0x20000000
++#define ASPEED26_SOC_SPI_FLASH_BASE   0x30000000
++#define ASPEED26_SOC_SPI2_FLASH_BASE  0x50000000
++
++static const AspeedSegments aspeed_segments_ast2600_fmc[] =3D {
++    { 0x20000000, 128 * 1024 * 1024 }, /* start address is readonly */
++    { 0x0, 0 }, /* disabled */
++    { 0x0, 0 }, /* disabled */
++};
++
++static const AspeedSegments aspeed_segments_ast2600_spi1[] =3D {
++    { 0x30000000, 128 * 1024 * 1024 }, /* start address is readonly */
++    { 0x0, 0 }, /* disabled */
++};
++
++static const AspeedSegments aspeed_segments_ast2600_spi2[] =3D {
++    { 0x50000000, 128 * 1024 * 1024 }, /* start address is readonly */
++    { 0x0, 0 }, /* disabled */
++    { 0x0, 0 }, /* disabled */
++};
++
++static uint32_t aspeed_smc_segment_to_reg(const AspeedSegments *seg);
++static void aspeed_smc_reg_to_segment(uint32_t reg, AspeedSegments *seg)=
+;
++
++static uint32_t aspeed_2600_smc_segment_to_reg(const AspeedSegments *seg=
+);
++static void aspeed_2600_smc_reg_to_segment(uint32_t reg, AspeedSegments =
+*seg);
++
+ static const AspeedSMCController controllers[] =3D {
+     {
+         .name              =3D "aspeed.smc-ast2400",
+@@ -226,6 +260,8 @@ static const AspeedSMCController controllers[] =3D {
+         .flash_window_size =3D 0x6000000,
+         .has_dma           =3D false,
+         .nregs             =3D ASPEED_SMC_R_SMC_MAX,
++        .segment_to_reg    =3D aspeed_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_smc_reg_to_segment,
+     }, {
+         .name              =3D "aspeed.fmc-ast2400",
+         .r_conf            =3D R_CONF,
+@@ -241,6 +277,8 @@ static const AspeedSMCController controllers[] =3D {
+         .dma_flash_mask    =3D 0x0FFFFFFC,
+         .dma_dram_mask     =3D 0x1FFFFFFC,
+         .nregs             =3D ASPEED_SMC_R_MAX,
++        .segment_to_reg    =3D aspeed_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_smc_reg_to_segment,
+     }, {
+         .name              =3D "aspeed.spi1-ast2400",
+         .r_conf            =3D R_SPI_CONF,
+@@ -254,6 +292,8 @@ static const AspeedSMCController controllers[] =3D {
+         .flash_window_size =3D 0x10000000,
+         .has_dma           =3D false,
+         .nregs             =3D ASPEED_SMC_R_SPI_MAX,
++        .segment_to_reg    =3D aspeed_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_smc_reg_to_segment,
+     }, {
+         .name              =3D "aspeed.fmc-ast2500",
+         .r_conf            =3D R_CONF,
+@@ -269,6 +309,8 @@ static const AspeedSMCController controllers[] =3D {
+         .dma_flash_mask    =3D 0x0FFFFFFC,
+         .dma_dram_mask     =3D 0x3FFFFFFC,
+         .nregs             =3D ASPEED_SMC_R_MAX,
++        .segment_to_reg    =3D aspeed_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_smc_reg_to_segment,
+     }, {
+         .name              =3D "aspeed.spi1-ast2500",
+         .r_conf            =3D R_CONF,
+@@ -282,6 +324,8 @@ static const AspeedSMCController controllers[] =3D {
+         .flash_window_size =3D 0x8000000,
+         .has_dma           =3D false,
+         .nregs             =3D ASPEED_SMC_R_MAX,
++        .segment_to_reg    =3D aspeed_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_smc_reg_to_segment,
+     }, {
+         .name              =3D "aspeed.spi2-ast2500",
+         .r_conf            =3D R_CONF,
+@@ -295,6 +339,53 @@ static const AspeedSMCController controllers[] =3D {
+         .flash_window_size =3D 0x8000000,
+         .has_dma           =3D false,
+         .nregs             =3D ASPEED_SMC_R_MAX,
++        .segment_to_reg    =3D aspeed_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_smc_reg_to_segment,
++    }, {
++        .name              =3D "aspeed.fmc-ast2600",
++        .r_conf            =3D R_CONF,
++        .r_ce_ctrl         =3D R_CE_CTRL,
++        .r_ctrl0           =3D R_CTRL0,
++        .r_timings         =3D R_TIMINGS,
++        .conf_enable_w0    =3D CONF_ENABLE_W0,
++        .max_slaves        =3D 3,
++        .segments          =3D aspeed_segments_ast2600_fmc,
++        .flash_window_base =3D ASPEED26_SOC_FMC_FLASH_BASE,
++        .flash_window_size =3D 0x10000000,
++        .has_dma           =3D true,
++        .nregs             =3D ASPEED_SMC_R_MAX,
++        .segment_to_reg    =3D aspeed_2600_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_2600_smc_reg_to_segment,
++    }, {
++        .name              =3D "aspeed.spi1-ast2600",
++        .r_conf            =3D R_CONF,
++        .r_ce_ctrl         =3D R_CE_CTRL,
++        .r_ctrl0           =3D R_CTRL0,
++        .r_timings         =3D R_TIMINGS,
++        .conf_enable_w0    =3D CONF_ENABLE_W0,
++        .max_slaves        =3D 2,
++        .segments          =3D aspeed_segments_ast2600_spi1,
++        .flash_window_base =3D ASPEED26_SOC_SPI_FLASH_BASE,
++        .flash_window_size =3D 0x10000000,
++        .has_dma           =3D false,
++        .nregs             =3D ASPEED_SMC_R_MAX,
++        .segment_to_reg    =3D aspeed_2600_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_2600_smc_reg_to_segment,
++    }, {
++        .name              =3D "aspeed.spi2-ast2600",
++        .r_conf            =3D R_CONF,
++        .r_ce_ctrl         =3D R_CE_CTRL,
++        .r_ctrl0           =3D R_CTRL0,
++        .r_timings         =3D R_TIMINGS,
++        .conf_enable_w0    =3D CONF_ENABLE_W0,
++        .max_slaves        =3D 3,
++        .segments          =3D aspeed_segments_ast2600_spi2,
++        .flash_window_base =3D ASPEED26_SOC_SPI2_FLASH_BASE,
++        .flash_window_size =3D 0x10000000,
++        .has_dma           =3D false,
++        .nregs             =3D ASPEED_SMC_R_MAX,
++        .segment_to_reg    =3D aspeed_2600_smc_segment_to_reg,
++        .reg_to_segment    =3D aspeed_2600_smc_reg_to_segment,
+     },
+ };
+=20
+@@ -307,7 +398,7 @@ static const AspeedSMCController controllers[] =3D {
+  *        |  end   |  start |   0    |   0    |
+  *
+  */
+-static inline uint32_t aspeed_smc_segment_to_reg(const AspeedSegments *s=
+eg)
++static uint32_t aspeed_smc_segment_to_reg(const AspeedSegments *seg)
  {
-     watchdog_add_model(&model);
-     type_register_static(&aspeed_wdt_info);
-+    type_register_static(&aspeed_2400_wdt_info);
-+    type_register_static(&aspeed_2500_wdt_info);
+     uint32_t reg =3D 0;
+     reg |=3D ((seg->addr >> 23) & SEG_START_MASK) << SEG_START_SHIFT;
+@@ -315,12 +406,34 @@ static inline uint32_t aspeed_smc_segment_to_reg(co=
+nst AspeedSegments *seg)
+     return reg;
  }
 =20
- type_init(wdt_aspeed_register_types)
+-static inline void aspeed_smc_reg_to_segment(uint32_t reg, AspeedSegment=
+s *seg)
++static void aspeed_smc_reg_to_segment(uint32_t reg, AspeedSegments *seg)
+ {
+     seg->addr =3D ((reg >> SEG_START_SHIFT) & SEG_START_MASK) << 23;
+     seg->size =3D (((reg >> SEG_END_SHIFT) & SEG_END_MASK) << 23) - seg-=
+>addr;
+ }
+=20
++/*
++ * AST2600 uses a 1MB unit
++ */
++static uint32_t aspeed_2600_smc_segment_to_reg(const AspeedSegments *seg=
+)
++{
++    uint32_t reg =3D 0;
++
++    /* Disabled segments have a nil register */
++    if (!seg->addr) {
++        return 0;
++    }
++    reg |=3D (seg->addr >> 20) & 0xffff;
++    reg |=3D (((seg->addr + seg->size) >> 20) & 0xffff) << 16;
++    return reg;
++}
++
++static void aspeed_2600_smc_reg_to_segment(uint32_t reg, AspeedSegments =
+*seg)
++{
++    seg->addr =3D (reg & 0xffff) << 20;
++    seg->size =3D (((reg >> 16) & 0xffff) << 20) - seg->addr;
++}
++
+ static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
+                                      const AspeedSegments *new,
+                                      int cs)
 --=20
 2.21.0
 
