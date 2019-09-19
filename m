@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D60B7720
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:06:49 +0200 (CEST)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10134B7725
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:09:16 +0200 (CEST)
+Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtKp-00036y-H5
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49184)
+	id 1iAtND-0006sP-2e
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iAtHW-0000sD-ON
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:03:23 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iAtJW-0002fK-5i
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:05:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iAtHV-0006aN-Ir
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:03:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33572)
+ (envelope-from <cohuck@redhat.com>) id 1iAtJU-0007S2-Pa
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:05:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40211)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtHV-0006XH-BF
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:03:21 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1iAtJU-0007Ro-Jg; Thu, 19 Sep 2019 06:05:24 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BFC713084032;
- Thu, 19 Sep 2019 10:03:19 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7F145D9E5;
- Thu, 19 Sep 2019 10:03:16 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:03:15 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190919100315.GE3606@stefanha-x1.localdomain>
-References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-2-alxndr@bu.edu>
+ by mx1.redhat.com (Postfix) with ESMTPS id E6D10C057EC0;
+ Thu, 19 Sep 2019 10:05:23 +0000 (UTC)
+Received: from gondolin (dhcp-192-230.str.redhat.com [10.33.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F2285D6B0;
+ Thu, 19 Sep 2019 10:05:23 +0000 (UTC)
+Date: Thu, 19 Sep 2019 12:05:21 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Message-ID: <20190919120521.1d93a9b3.cohuck@redhat.com>
+In-Reply-To: <20190918161514.15575-1-thuth@redhat.com>
+References: <20190918161514.15575-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qOrJKOH36bD5yhNe"
-Content-Disposition: inline
-In-Reply-To: <20190918231846.22538-2-alxndr@bu.edu>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 19 Sep 2019 10:03:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Thu, 19 Sep 2019 10:05:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 01/22] softmmu: split off vl.c:main()
- into main.c
+Subject: Re: [Qemu-devel] [PULL SUBSYSTEM s390x 0/3] Minor fixes for the
+ s390-ccw firmware
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,81 +57,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 18 Sep 2019 18:15:11 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
---qOrJKOH36bD5yhNe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> This pull request is not for master !
+> 
+>  Hi Cornelia,
+> 
+> the following changes since commit f8c3db33a5e863291182f8862ddf81618a7c6194:
+> 
+>   target/sparc: Switch to do_transaction_failed() hook (2019-09-17 12:01:00 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/huth/qemu.git tags/s390-ccw-bios-2019-09-18
+> 
+> for you to fetch changes up to 6b2a203579068127d7e93cb6f45d828ca04a2153:
+> 
+>   pc-bios/s390-ccw: Rebuild the s390-netboot.img firmware image (2019-09-18 17:47:27 +0200)
+> 
+> ----------------------------------------------------------------
+> - Small fixes for the s390-ccw firmware
+> - I did *not* rebuild the s390-ccw.img since the patch did not
+>   make a difference at all - seems like GCC was smart enough
+>   already to put the zeroed array into the BSS before
+> ----------------------------------------------------------------
+> 
+> Thomas Huth (2):
+>       pc-bios/s390-ccw: Do not pre-initialize empty array
+>       pc-bios/s390-ccw: Rebuild the s390-netboot.img firmware image
+> 
+> Yifan Luo (1):
+>       pc-bios/s390-ccw/net: fix a possible memory leak in get_uuid()
+> 
+>  pc-bios/s390-ccw/main.c    |   2 +-
+>  pc-bios/s390-ccw/netmain.c |   1 +
+>  pc-bios/s390-netboot.img   | Bin 67232 -> 67232 bytes
+>  3 files changed, 2 insertions(+), 1 deletion(-)
 
-On Wed, Sep 18, 2019 at 11:19:28PM +0000, Oleinik, Alexander wrote:
-> diff --git a/vl.c b/vl.c
-> index 630f5c5e9c..327510c81f 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -36,18 +36,6 @@
->  #include "sysemu/seccomp.h"
->  #include "sysemu/tcg.h"
-> =20
-> -#ifdef CONFIG_SDL
-> -#if defined(__APPLE__) || defined(main)
-> -#include <SDL.h>
-> -int qemu_main(int argc, char **argv, char **envp);
-> -int main(int argc, char **argv)
-> -{
-> -    return qemu_main(argc, argv, NULL);
-> -}
-> -#undef main
-> -#define main qemu_main
-> -#endif
-> -#endif /* CONFIG_SDL */
-> =20
->  #ifdef CONFIG_COCOA
->  #undef main
-
-This looks suspicious.  Should the #ifdef CONFIG_COCOA be moved into
-main.c?
-
-> @@ -1794,7 +1782,7 @@ static bool main_loop_should_exit(void)
->      return false;
->  }
-> =20
-> -static void main_loop(void)
-> +void main_loop(void)
->  {
->  #ifdef CONFIG_PROFILER
->      int64_t ti;
-> @@ -2869,7 +2857,7 @@ static void user_register_global_props(void)
->                        global_init_func, NULL, NULL);
->  }
-> =20
-> -int main(int argc, char **argv, char **envp)
-> +int qemu_init(int argc, char **argv, char **envp)
-
-The return value is confusing.  0 =3D success, >0 error exit code, but the
-function may also invoke exit(0) to terminate successfully.
-
-It's simpler to make this function void and invoke exit(3) directly.
-
---qOrJKOH36bD5yhNe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DUmMACgkQnKSrs4Gr
-c8ga6Qf+Lhmk147RD9tK7sA6nk6K59xDboci9sqkDehAqelPH0xxNctCmao/qPLN
-rqYWjDontsUyEVJDB0EZZ3JA/dspiH0dR2WWdiBXs9CvD7iiJ+KHVikRxqcGO8+8
-Jkx116pOovNHIJZ2A7D585Y0WJg+h3qtpZRuhSvUhal5vSxF901mGWIsGTgxCkbS
-PDopYlnv5qs00fux4VaDOFa/C7R7zEbOjfqdVAMscGxw6xhZmEgeXSkL5M2zNemt
-BTLWzKt5zOIhdbr7jzuWfKdD/k3omkBvOQ6sjVBbiHhm7skwquSFX0WoI/8gjSfp
-srT+PaUp10imuczdkFMWT005BiyJyQ==
-=khqk
------END PGP SIGNATURE-----
-
---qOrJKOH36bD5yhNe--
+Thanks, pulled.
 
