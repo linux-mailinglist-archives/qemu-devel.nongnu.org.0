@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF84B8013
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:36:16 +0200 (CEST)
-Received: from localhost ([::1]:47056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CAFB8025
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:39:41 +0200 (CEST)
+Received: from localhost ([::1]:47096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0Ln-0005nx-Ai
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50079)
+	id 1iB0P5-00019j-8p
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iB06t-0008Kv-5M
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:52 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iB07F-0008UJ-BI
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iB05m-0000Oy-Uv
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:19:44 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51649)
+ (envelope-from <peter.maydell@linaro.org>) id 1iAzwu-0004Uq-HI
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:33 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:39585)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iB05m-0000OX-NN
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:19:42 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 7so5580577wme.1
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:19:42 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iAzwu-0004UI-AN
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:32 -0400
+Received: by mail-oi1-x231.google.com with SMTP id w144so3397607oia.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9KzFKDieUQ0ZocRaEPSFD2NAIupLGWoORjl8U1JZy58=;
- b=JjNW3GJjd7o4+WlIbaiGLZfdMPRuwsOPRbOE/dILPFjnjCA+xUhajV/gk0RnJjKRu4
- BeorQ5tYCCB7ozP9g+JHrgQzUXfXlGm5LLTM7ygD9ymIHglJARq2qNt84Oo+p0Zn5gvw
- yhKl4jPhhjD/ITzHRVWpuG1s5BEyfQUWc0hImXFrlPVjFcHHLRuwmn1pr6s/CORob0nW
- h0L3keq2bYf1uS+HxYoGR8PRPnsFiNYYfLczl2blHT5gHNMmZpEAPlzSBjXlfb1XwzAx
- 6ZcCXLgyAGSk6gsM01V5vwK04OIR47Q1a+XWMQS8BwPjlq1mkkpHOkYU9KdSvhR6Yfe/
- zu7Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FAB56JFUu/yqM7hm8jrd94XMu1x4vrGYZIwKIFYAjFI=;
+ b=iWzA0JQHEQ9C0YnxgVOSCoKbIubodbDcjr3bXeiIXIq8Kde1xoDAfrLqxXMJL6iMhG
+ Cc4DpNIdqcdahXc1x4dHpBjMMAJxs6wKMZ+9Jq9bMB97g4TzO3nBB43nAeWL4d35JjW6
+ 9uwWfIfehjE/5aThhZcteChRA54GcX1amZib6vMrVWudWSOzoIkst9ZPTIayCFlpBgqA
+ 5c+lCkvBZSqAXEhhnlDA4qAXno0KvqaupG94usR6LLuM/7lCPvO+JupkFYxUshzY6Kk4
+ lTTrnOZrv67iLeIYEHfcIuZQpqULx/bB89g2DrGW/GNlDObes1WHc2v13ORm3b9nQGxz
+ XhRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9KzFKDieUQ0ZocRaEPSFD2NAIupLGWoORjl8U1JZy58=;
- b=MtUI88rI4r2cZx0QyA5DmnjQbsXevEFsrIAA9uAXo9VUdfU9HT+LQosPVuOZDYUWrk
- tR9fUcfuKMaungVOcOFTCSs2XmfqwFZIOVHIL0rfMAerWQrUW7DJm4yrwgUAYYYeGwOk
- G1R/XwQrSQw64FDK087kwX1sTJcnd+mzpmseXIniRxp32x6qT3l6zHBIpCsvIumr/yXg
- a92JgDWAszUE6FY44Ca9c4hTL5pyb4IrBTYoNY/u61GXB16CdPXUi/AG+WziRb7vZzFo
- jqDQjSMXyaPQtLx+kK501BCVn9jLRT4NdyIjgbHF6KRiBsbcYeyVW+dc+bXPTEcrsD/b
- Ivjw==
-X-Gm-Message-State: APjAAAXrnD0RdF67j+G/5/H8rhiWfCJZgIrHhqSTJ3bzj1IFDlPXZh+r
- RgoQ9P365AS8XrSepJwjYUGuwfFyzFM=
-X-Google-Smtp-Source: APXvYqyvashH4wJKjB8lrKIEttfiI5bDbWGrp085lEOxhE/co9aOnMaeYvuYqVZzd+zH2c9I95Lc9g==
-X-Received: by 2002:a05:600c:204a:: with SMTP id
- p10mr3977039wmg.175.1568913581547; 
- Thu, 19 Sep 2019 10:19:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j26sm16970160wrd.2.2019.09.19.10.19.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 10:19:40 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3D8211FF9F;
- Thu, 19 Sep 2019 18:10:17 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/16] Makefile: fix-up qemu-ga.8 paths to take in-src
- builds into account
-Date: Thu, 19 Sep 2019 18:10:15 +0100
-Message-Id: <20190919171015.12681-17-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190919171015.12681-1-alex.bennee@linaro.org>
-References: <20190919171015.12681-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FAB56JFUu/yqM7hm8jrd94XMu1x4vrGYZIwKIFYAjFI=;
+ b=dDdRPYXWIhoo8Ppj5ANBnKy7//JttZJa/RPHrzxLeBRsi5KdKwnOgjF6Id+JEo594a
+ LP5eVBB52IN5tZ4M11he57Gr0pDPCOUsdyRvd1T+8MwWy69hrWYIE7dD0/MlZuLSYooi
+ PBS5oVbtLoLPdTo3BUv3AFq3agPPb/gX4Y4dvi6yGhDWzoWYycMKxbdBwkFxpoFbiehf
+ rhdu3DnsJPRMidJEcBd75NV4x2huNppE5C/9bJmudkSaLCe/7JQAg8T4LgMhpIEK3ZWz
+ XVzIL4xT4OoLmPlvhtnRnrtgkDircDclXgFPUl5xgI7biImUYH91B6CrCwGeY0n/dzwj
+ CqJA==
+X-Gm-Message-State: APjAAAW9K9QztDSBuycfYjd6nnyPZDj0Gxy7O+5M22U6ImeHPPZWN4JM
+ 6H5ESp9b+0EUqHxu6fTJQd31ESm4jDL56+LpNdEPTQ==
+X-Google-Smtp-Source: APXvYqxRZVlhegsAylO9qXC1cu18bKpdy+v/FGTqZb2W2a7lN9UpFD+z4ZxqQHShSRfEqnH093rfhi0PqS7EPLN4A7k=
+X-Received: by 2002:aca:b646:: with SMTP id g67mr3170823oif.163.1568913031415; 
+ Thu, 19 Sep 2019 10:10:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190919070918.16059-1-kraxel@redhat.com>
+In-Reply-To: <20190919070918.16059-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Sep 2019 18:10:20 +0100
+Message-ID: <CAFEAcA_=_xZEGVxEjNG8XF+pdjpLQP_tJOX-dZcViUBnLAKVeA@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PULL 0/4] Ui 20190919 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::231
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,74 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We tweak MANUAL_BUILDIR for in-src builds because sphinx won't build
-documents inside a source tree. This was causing the document build to
-fail on things like shippable which were using in-tree builds.
+On Thu, 19 Sep 2019 at 08:11, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 89ea03a7dc83ca36b670ba7f787802791fcb04b1:
+>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/m68k-pull-2019-09-07' into staging (2019-09-09 09:48:34 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/ui-20190919-pull-request
+>
+> for you to fetch changes up to 6bf21f3d83e95bcc4ba35a7a07cc6655e8b010b0:
+>
+>   vnc: fix memory leak when vnc disconnect (2019-09-17 13:45:10 +0200)
+>
+> ----------------------------------------------------------------
+> ui: add barrier client.
+> ui: bugfixes for vnc & egl.
+>
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- Makefile | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 3cf5b1e7539..8da33595edd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -324,8 +324,19 @@ endif
- endif
- endif
- 
-+# Sphinx does not allow building manuals into the same directory as
-+# the source files, so if we're doing an in-tree QEMU build we must
-+# build the manuals into a subdirectory (and then install them from
-+# there for 'make install'). For an out-of-tree build we can just
-+# use the docs/ subdirectory in the build tree as normal.
-+ifeq ($(realpath $(SRC_PATH)),$(realpath .))
-+MANUAL_BUILDDIR := docs/built
-+else
-+MANUAL_BUILDDIR := docs
-+endif
-+
- ifdef BUILD_DOCS
--DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 docs/interop/qemu-ga.8
-+DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
- DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
- DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
- DOCS+=docs/qemu-block-drivers.7
-@@ -703,17 +714,6 @@ dist: qemu-$(VERSION).tar.bz2
- qemu-%.tar.bz2:
- 	$(SRC_PATH)/scripts/make-release "$(SRC_PATH)" "$(patsubst qemu-%.tar.bz2,%,$@)"
- 
--# Sphinx does not allow building manuals into the same directory as
--# the source files, so if we're doing an in-tree QEMU build we must
--# build the manuals into a subdirectory (and then install them from
--# there for 'make install'). For an out-of-tree build we can just
--# use the docs/ subdirectory in the build tree as normal.
--ifeq ($(realpath $(SRC_PATH)),$(realpath .))
--MANUAL_BUILDDIR := docs/built
--else
--MANUAL_BUILDDIR := docs
--endif
--
- define clean-manual =
- rm -rf $(MANUAL_BUILDDIR)/$1/_static
- rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(MANUAL_BUILDDIR)/$1/*.html
-@@ -823,7 +823,7 @@ ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
- endif
- ifneq (,$(findstring qemu-ga,$(TOOLS)))
--	$(INSTALL_DATA) docs/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.txt "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
--- 
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
