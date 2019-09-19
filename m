@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF563B8384
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:39:03 +0200 (CEST)
-Received: from localhost ([::1]:48694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8422BB8382
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:38:45 +0200 (CEST)
+Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB48j-0006hl-8Y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53572)
+	id 1iB48R-0006K8-SA
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53573)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uq-0002oz-KN
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uq-0002p1-KV
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uo-0000ex-9O
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uo-0000f5-AX
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:40 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40962)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42848)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iB3um-0000bf-5o
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:37 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h7so4600542wrw.8
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:33 -0700 (PDT)
+ id 1iB3um-0000c1-6a
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:38 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n14so4593161wrw.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I1lTNtGdmCXDaEAxgrssEq6HlR95R7rdwP0M4w4IEEo=;
- b=SLWRQjRfTBl2M1TNSdQ4dKVNKSadRdGd+XpCibc1dpzIi5FfTtJ/ULTJn4fjhsvEs3
- uzTKHeQ2fL0RRmoXHYy+HNbFOgNRHhodDXoBJ2Dfok4q9GZsFkC5OlgHhTD9OiDFq+mv
- C4RcvvJzRSktwEuF8hiQ78zgftN/R7iIPX0HQsy6F76Rf35J96k7rqUyd6+sVySAso0S
- c+D93kxq06GvJ9V9mbEhIcRZoVKRMgU3WinQhRnlngAUqn1skdNhXBMPZokW/WR7LWck
- yOfsRx0pqhjmowZimLz94L0O2lUIJj79QppziDTuPPm+BGgxr2k4TglgBLUs8vAAwA8l
- /0Zg==
+ bh=9dCYX3ixRkcD+NNYc2l8dezINSISvFmfcL42McUxrm0=;
+ b=bovBLDSJNnZOgdbXvDo8RtHwR+LPe/4E4GAsQD0Cc8m4Pg+bf4IrbLTcxMwUGiQE8e
+ G/xpt23eZubCz0w1hqlvjr30VNKDxxPAqIJ/WHHhknM0wmdZgUx0bA+CN0VMskTwRMD9
+ A9M+3+CmQrh+acr2x1PA3EgzTbCyt+/BQch4P1aafoqiIUHVdG5qLMnqUpJdlOU3zC02
+ PMZo7/YBG3RPNb6MId1s8XxaSEhaEMO7QoyWAUVftYVZAt8GB7zdx9vbxV9e52IhBJ+H
+ CgMskfQ+qNW2u1X6kt9prMEpaePHPT0CQ+ZnS2J17ASe5FhisLGoxYdt3jOjLwwz/Jbq
+ MiQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I1lTNtGdmCXDaEAxgrssEq6HlR95R7rdwP0M4w4IEEo=;
- b=BY8Ea6ujYBATKGKiCt5kIDz0oLiOffQfPjAKnR7DOKLozGBh8M58QBbj9wIVJFFHsZ
- KsoqT9Edc0UVOkYax8AjVoloe65SU5bM0a6Dgikg8L/DiL3g1b0JuEcSV/FtN4GA/oLS
- 3uTFOiWdbbylb9Tk3vR15NuC4LFRrlXZ6dkgisxbhAjg28AXhFWaCvkLrla++0sfYNlc
- 1IdgYu0hbmL+CXToqaQGAMaugeEMuYV9nuhKXQ2wbwexSwWoZJuLH3+qVYWaaILGC7Fe
- 3V7dQSJ6rmZ7kaMumdHBZIGKxV7m2TGEr98W2lTTKTfxPiXi5Ha8ZaE+jvZkkFKUo/ny
- V4fw==
-X-Gm-Message-State: APjAAAVh+geQuuAiLzkd31HfnhbiofVPAxW/4ZiV7CDsAdikpqzOxiZY
- x7ktVZMaWq20euv3GonnWBDa81sd
-X-Google-Smtp-Source: APXvYqx2l8reSeyBKZTu2QZYuXmUiH6QPK6syP7WnrUufcjbh2Jp4OP7CSVONRUGLYxiS4jRjxX0WA==
-X-Received: by 2002:a5d:620d:: with SMTP id y13mr7861038wru.86.1568928272515; 
- Thu, 19 Sep 2019 14:24:32 -0700 (PDT)
+ bh=9dCYX3ixRkcD+NNYc2l8dezINSISvFmfcL42McUxrm0=;
+ b=oh5HizJZRc/jyFr28t0NyIh7SNdL2QJcxyavCZFC5kDuhhj/tYqd9PuA5iQMR9EOHh
+ X93N18SZw0vT9ceAyMVCYf6CUnSKNHSJqqfmUdOD9USaFD+Gs/3y+SKdUjTscGzrP5Hh
+ tLQcqJs38w5sfEtanwxeeuei7KhfoVRmiAZsKkLmDDhjrBj2hfR6tchQ8jJLlbRQ0uXS
+ OcEItBisbow6dFgW4eH8PXVru+IomLM/D5Uvt9wVZqBX6107MY2Rd9tvvhbEo+EmjWPu
+ kax4ySNmSUyhwxIAyx6FFwyPW937W8+U69K6e/FQjlciLtyW2MOV9K9/vkUjgzkPI55G
+ uHkA==
+X-Gm-Message-State: APjAAAVQGiaF/gRK8pY2EU2HB7pkp8E7ZA1fWJg2sOG9jttod25oKTK6
+ PeJ0cARYjMm1OFnDt4rIW8dwU3po
+X-Google-Smtp-Source: APXvYqw1z6OfEI2T3e7BW0Ep3EM8RMtg1BGiHKGmZhLHVxnZuroF691FuFpIRmDMW6cE6s53xoaSdQ==
+X-Received: by 2002:a5d:628f:: with SMTP id k15mr7984384wru.124.1568928273602; 
+ Thu, 19 Sep 2019 14:24:33 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:74ef::5])
- by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.31
+ by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:24:31 -0700 (PDT)
+ Thu, 19 Sep 2019 14:24:33 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/24] wavaudio: port to the new audio backend api
-Date: Thu, 19 Sep 2019 23:24:18 +0200
-Message-Id: <eede77aeb9c17b379948b0b6d2ac10f45d74fa62.1568927990.git.DirtY.iCE.hu@gmail.com>
+Subject: [PATCH v4 11/24] audio: remove remains of the old backend api
+Date: Thu, 19 Sep 2019 23:24:19 +0200
+Message-Id: <497decab6d0f0fb9529bea63ec7ce0bd7b553038.1568927990.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,121 +89,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
+ audio/audio.c     | 42 ++++++------------------------------------
+ audio/audio_int.h |  7 -------
+ 2 files changed, 6 insertions(+), 43 deletions(-)
 
-Notes:
-    Changes from v3:
-    
-    * fix compilation on 32-bit targets
-
- audio/wavaudio.c | 54 ++++++++----------------------------------------
- 1 file changed, 9 insertions(+), 45 deletions(-)
-
-diff --git a/audio/wavaudio.c b/audio/wavaudio.c
-index b6eeeb4e26..78af2f1338 100644
---- a/audio/wavaudio.c
-+++ b/audio/wavaudio.c
-@@ -36,52 +36,28 @@ typedef struct WAVVoiceOut {
-     HWVoiceOut hw;
-     FILE *f;
-     int64_t old_ticks;
--    void *pcm_buf;
-     int total_samples;
- } WAVVoiceOut;
+diff --git a/audio/audio.c b/audio/audio.c
+index e29a1e15eb..435bcf20c1 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -541,7 +541,7 @@ static size_t audio_pcm_hw_find_min_in (HWVoiceIn *hw)
+     return m;
+ }
  
--static size_t wav_run_out(HWVoiceOut *hw, size_t live)
-+static size_t wav_write_out(HWVoiceOut *hw, void *buf, size_t len)
+-size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
++static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
  {
-     WAVVoiceOut *wav = (WAVVoiceOut *) hw;
--    size_t rpos, decr, samples;
--    uint8_t *dst;
--    struct st_sample *src;
-     int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-     int64_t ticks = now - wav->old_ticks;
-     int64_t bytes =
-         muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_SECOND);
+     size_t live = hw->total_samples_captured - audio_pcm_hw_find_min_in (hw);
+     if (audio_bug(__func__, live > hw->samples)) {
+@@ -551,29 +551,7 @@ size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+     return live;
+ }
  
--    if (bytes > INT_MAX) {
--        samples = INT_MAX >> hw->info.shift;
+-size_t audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf,
+-                             size_t live, size_t pending)
+-{
+-    size_t left = hw->samples - pending;
+-    size_t len = MIN (left, live);
+-    size_t clipped = 0;
+-
+-    while (len) {
+-        struct st_sample *src = hw->mix_buf + hw->rpos;
+-        uint8_t *dst = advance (pcm_buf, hw->rpos << hw->info.shift);
+-        size_t samples_till_end_of_buf = hw->samples - hw->rpos;
+-        size_t samples_to_clip = MIN (len, samples_till_end_of_buf);
+-
+-        hw->clip (dst, src, samples_to_clip);
+-
+-        hw->rpos = (hw->rpos + samples_to_clip) % hw->samples;
+-        len -= samples_to_clip;
+-        clipped += samples_to_clip;
 -    }
--    else {
--        samples = bytes >> hw->info.shift;
--    }
+-    return clipped;
+-}
 -
-+    bytes = MIN(bytes, len);
-+    bytes = bytes >> hw->info.shift << hw->info.shift;
-     wav->old_ticks = now;
--    decr = MIN (live, samples);
--    samples = decr;
--    rpos = hw->rpos;
--    while (samples) {
--        int left_till_end_samples = hw->samples - rpos;
--        int convert_samples = MIN (samples, left_till_end_samples);
--
--        src = hw->mix_buf + rpos;
--        dst = advance (wav->pcm_buf, rpos << hw->info.shift);
--
--        hw->clip (dst, src, convert_samples);
--        if (fwrite (dst, convert_samples << hw->info.shift, 1, wav->f) != 1) {
--            dolog ("wav_run_out: fwrite of %d bytes failed\nReaons: %s\n",
--                   convert_samples << hw->info.shift, strerror (errno));
+-static void audio_pcm_hw_clip_out2(HWVoiceOut *hw, void *pcm_buf, size_t len)
++static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
+ {
+     size_t clipped = 0;
+     size_t pos = hw->rpos;
+@@ -1083,7 +1061,7 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+         }
+ 
+         decr = MIN(size >> hw->info.shift, live);
+-        audio_pcm_hw_clip_out2(hw, buf, decr);
++        audio_pcm_hw_clip_out(hw, buf, decr);
+         proc = hw->pcm_ops->put_buffer_out(hw, buf, decr << hw->info.shift) >>
+             hw->info.shift;
+ 
+@@ -1146,11 +1124,7 @@ static void audio_run_out (AudioState *s)
+         }
+ 
+         prev_rpos = hw->rpos;
+-        if (hw->pcm_ops->run_out) {
+-            played = hw->pcm_ops->run_out(hw, live);
+-        } else {
+-            played = audio_pcm_hw_run_out(hw, live);
 -        }
++        played = audio_pcm_hw_run_out(hw, live);
+         replay_audio_out(&played);
+         if (audio_bug(__func__, hw->rpos >= hw->samples)) {
+             dolog("hw->rpos=%zu hw->samples=%zu played=%zu\n",
+@@ -1247,12 +1221,8 @@ static void audio_run_in (AudioState *s)
+         size_t captured = 0, min;
  
--        rpos = (rpos + convert_samples) % hw->samples;
--        samples -= convert_samples;
--        wav->total_samples += convert_samples;
-+    if (bytes && fwrite(buf, bytes, 1, wav->f) != 1) {
-+        dolog("wav_write_out: fwrite of %" PRId64 " bytes failed\nReason: %s\n",
-+              bytes, strerror(errno));
-     }
+         if (replay_mode != REPLAY_MODE_PLAY) {
+-            if (hw->pcm_ops->run_in) {
+-                captured = hw->pcm_ops->run_in(hw);
+-            } else {
+-                captured = audio_pcm_hw_run_in(
+-                    hw, hw->samples - audio_pcm_hw_get_live_in(hw));
+-            }
++            captured = audio_pcm_hw_run_in(
++                hw, hw->samples - audio_pcm_hw_get_live_in(hw));
+         }
+         replay_audio_in(&captured, hw->conv_buf, &hw->wpos, hw->samples);
  
--    hw->rpos = rpos;
--    return decr;
-+    wav->total_samples += bytes >> hw->info.shift;
-+    return bytes;
- }
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 8fb1ca8a8d..c76d7c39e8 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -153,7 +153,6 @@ struct audio_driver {
+ struct audio_pcm_ops {
+     int    (*init_out)(HWVoiceOut *hw, audsettings *as, void *drv_opaque);
+     void   (*fini_out)(HWVoiceOut *hw);
+-    size_t (*run_out)(HWVoiceOut *hw, size_t live);
+     size_t (*write)   (HWVoiceOut *hw, void *buf, size_t size);
+     /*
+      * get a buffer that after later can be passed to put_buffer_out; optional
+@@ -171,7 +170,6 @@ struct audio_pcm_ops {
  
- /* VICE code: Store number as little endian. */
-@@ -137,13 +113,6 @@ static int wav_init_out(HWVoiceOut *hw, struct audsettings *as,
-     audio_pcm_init_info (&hw->info, &wav_as);
+     int    (*init_in) (HWVoiceIn *hw, audsettings *as, void *drv_opaque);
+     void   (*fini_in) (HWVoiceIn *hw);
+-    size_t (*run_in)(HWVoiceIn *hw);
+     size_t (*read)    (HWVoiceIn *hw, void *buf, size_t size);
+     void  *(*get_buffer_in)(HWVoiceIn *hw, size_t *size);
+     void   (*put_buffer_in)(HWVoiceIn *hw, void *buf, size_t size);
+@@ -237,11 +235,6 @@ audio_driver *audio_driver_lookup(const char *name);
+ void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as);
+ void audio_pcm_info_clear_buf (struct audio_pcm_info *info, void *buf, int len);
  
-     hw->samples = 1024;
--    wav->pcm_buf = audio_calloc(__func__, hw->samples, 1 << hw->info.shift);
--    if (!wav->pcm_buf) {
--        dolog("Could not allocate buffer (%zu bytes)\n",
--              hw->samples << hw->info.shift);
--        return -1;
--    }
+-size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw);
 -
-     le_store (hdr + 22, hw->info.nchannels, 2);
-     le_store (hdr + 24, hw->info.freq, 4);
-     le_store (hdr + 28, hw->info.freq << (bits16 + stereo), 4);
-@@ -153,8 +122,6 @@ static int wav_init_out(HWVoiceOut *hw, struct audsettings *as,
-     if (!wav->f) {
-         dolog ("Failed to open wave file `%s'\nReason: %s\n",
-                wav_path, strerror(errno));
--        g_free (wav->pcm_buf);
--        wav->pcm_buf = NULL;
-         return -1;
-     }
- 
-@@ -208,9 +175,6 @@ static void wav_fini_out (HWVoiceOut *hw)
-                wav->f, strerror (errno));
-     }
-     wav->f = NULL;
+-size_t audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf,
+-                             size_t live, size_t pending);
 -
--    g_free (wav->pcm_buf);
--    wav->pcm_buf = NULL;
- }
- 
- static int wav_ctl_out (HWVoiceOut *hw, int cmd, ...)
-@@ -234,7 +198,7 @@ static void wav_audio_fini (void *opaque)
- static struct audio_pcm_ops wav_pcm_ops = {
-     .init_out = wav_init_out,
-     .fini_out = wav_fini_out,
--    .run_out  = wav_run_out,
-+    .write    = wav_write_out,
-     .ctl_out  = wav_ctl_out,
- };
+ int audio_bug (const char *funcname, int cond);
+ void *audio_calloc (const char *funcname, int nmemb, size_t size);
  
 -- 
 2.23.0
