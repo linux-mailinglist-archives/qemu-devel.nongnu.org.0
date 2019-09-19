@@ -2,102 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98715B7AD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:50:33 +0200 (CEST)
-Received: from localhost ([::1]:44362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3C2B7B3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:55:47 +0200 (CEST)
+Received: from localhost ([::1]:44460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAwpM-0003d3-Lw
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:50:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46587)
+	id 1iAwuQ-0003QN-Bo
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47096)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iAwT4-00051d-U8
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:27:32 -0400
+ (envelope-from <eblake@redhat.com>) id 1iAwVJ-0007Nx-Hc
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:29:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iAwT2-0000VO-PI
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:27:30 -0400
-Received: from mail-co1nam05on072e.outbound.protection.outlook.com
- ([2a01:111:f400:fe50::72e]:33856
- helo=NAM05-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAwT1-0000TP-1g
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:27:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Oh1AcWex7hmmcKvcVwY5WPUPzOEsx3k6Xw0gTGEuphYdNUUlmrzUfRSqQFimrMvsAjdFYOmnEeONQagoCfQw+r9NQFgGvPSBColZU3SOUdYFDx7BOHvswPxLfuGlfuteyAy5lSgNjV3c81cFwosVBdiVPtMk4WkmaFv0BipviCWkHRILzKpos2IyslC4rN4nBL6brLPvWwa2ZgUyGjX/Z663iTpJyIA9OEnE12rZSCXK7GR39wpxJSy4fgKnRv43p7KbnlfzlxgK1KBseycn3mdNpQekwwagdS+Y14FPIUPf2OsTbX3wY88MVEFjsfLi4lG3nQjWwhUR7T4pD269zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GBBs/HEo/SBd5hVGyWSQdvpbTX+9MFc5Flxvp3+ZTWM=;
- b=GieVIDMmRJEAxOLP4PVrOjY8VwbUuLB+DBV6EDWFAJp6XftvjbXkHjYhaHL5bGwcQCRF7xQ1vhSXLbv3bkvn2etKfDexQGKYjM2iEvQjqZ0NXKw93RMhCH9CUHw/6x8AtqgyrP7WgiqcGm1L0aBAOx8yuVRtMClD29JLSQ73/fejzES3vx/tDykWLkF3BcDeVaZwt1nUfhtLh0RiHsXqoUd1M/Qyvj+bDFnh7wNqL74yC5Ig0K3dEd7yqH05Dvp9Nm1BBgB4pmu6ATjjwr+hV1pZN9nn0D0mkCgvmAmfqJrk0jflSbrkDM/rG4HPm10ZJ3B9XcG+vw+KgjC+05Zrjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GBBs/HEo/SBd5hVGyWSQdvpbTX+9MFc5Flxvp3+ZTWM=;
- b=VttxfIBKBysmA5zHVDP8kCpCU3l11nSt/HGB+jKwqVs+jFFFdHmHMA2+IMI7OoB+OaEZJPEAmG2VFFrlzJQZt/9zW20DnOyH3DgmCABp+yL0L+hKm4aubNx7PrPOWXZEs04ROU4Utf9Nj9rzZlt4/JGKeIZaIAtLnU+wvJFIg3c=
-Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
- CY4PR03MB2933.namprd03.prod.outlook.com (10.175.115.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.20; Thu, 19 Sep 2019 13:27:24 +0000
-Received: from CY4PR03MB2872.namprd03.prod.outlook.com
- ([fe80::6d88:c5bd:41ad:b107]) by CY4PR03MB2872.namprd03.prod.outlook.com
- ([fe80::6d88:c5bd:41ad:b107%3]) with mapi id 15.20.2284.009; Thu, 19 Sep 2019
- 13:27:24 +0000
-From: "Oleinik, Alexander" <alxndr@bu.edu>
-To: "pbonzini@redhat.com" <pbonzini@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v3 05/22] libqtest: Add a layer of abstraciton to
- send/recv
-Thread-Index: AQHVbneHp+c4RlezBUGXNefN9Lzx6qcy2xcAgAAj5wA=
-Date: Thu, 19 Sep 2019 13:27:24 +0000
-Message-ID: <60437a730d3df6a3248cd944eacd4555b40d00bc.camel@bu.edu>
-References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-6-alxndr@bu.edu>
- <a2ac1b44-8a93-8b81-c44d-133f7eefe944@redhat.com>
-In-Reply-To: <a2ac1b44-8a93-8b81-c44d-133f7eefe944@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
-x-originating-ip: [128.197.127.33]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c4ae3e5d-0898-43d8-f7a3-08d73d051bbe
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:CY4PR03MB2933; 
-x-ms-traffictypediagnostic: CY4PR03MB2933:
-x-microsoft-antispam-prvs: <CY4PR03MB2933CAEF2C22E3349FEA464ABA890@CY4PR03MB2933.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:913;
-x-forefront-prvs: 016572D96D
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(39860400002)(396003)(136003)(346002)(376002)(366004)(189003)(199004)(76116006)(76176011)(476003)(229853002)(305945005)(99286004)(3846002)(2906002)(2501003)(186003)(26005)(88552002)(6436002)(71200400001)(6116002)(7736002)(6512007)(118296001)(6486002)(8676002)(102836004)(6506007)(91956017)(71190400001)(36756003)(86362001)(786003)(256004)(8936002)(14454004)(66446008)(4326008)(110136005)(2616005)(81156014)(81166006)(66066001)(66556008)(75432002)(486006)(4744005)(316002)(66476007)(5660300002)(6246003)(446003)(11346002)(64756008)(478600001)(66946007)(54906003)(25786009);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2933;
- H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: bu.edu does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: WY/wgMw3A/4TJR0imALZrghwQzq8jAgW2pjIeHC/2OkCX4NRpWrojej36mO903w2s8QrZ2dVVN6FZ0UZob0s2Bhn/kqE8OcsH81TwS2Xn45EbiOSKkS3MCX4jJdnEyAAgFKwuHb4xLLv94fBXBEXiR+pKWJYm9Zr+DvNTsUfgZ00KIckoMCB7ZUtf7fwonUtgtxZsp104bWE/HhbQY/EtDqjOnRnRQirvIR4Lt/9IPpHUbevR1vFMltPVZvwDChiCSPYhJcm9zZr46ERDsfRNeXbgOnWjqoVIBTWzUJ3p4KkrUAUrOHC6ZfhkzcsqJY6jbJQRsjS4XG7ujA5cZzoAX/zo8JD6jVlzbev0He+3iEdxEtJCNFuhRkBATV5r8Sw+QKUJWFrl1cdsnTaAhjW1VqvohcDV09AOZnz9fMoWHs=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <31A84C238F1E8442A2879E6C9236BF53@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <eblake@redhat.com>) id 1iAwVI-0002eR-EX
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:29:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47694)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iAwVD-0002ap-88; Thu, 19 Sep 2019 09:29:43 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1E76C2D6A04;
+ Thu, 19 Sep 2019 13:29:42 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8126E60C18;
+ Thu, 19 Sep 2019 13:29:14 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190918130244.24257-1-vsementsov@virtuozzo.com>
+ <abb14088-6af2-5db2-da0d-0948fd4ac81c@redhat.com>
+ <0497ac1e-c841-39cd-9944-48dd54c5b0f0@virtuozzo.com>
+ <9450fbfd-0f8b-d10f-7577-64805917f67a@redhat.com>
+ <26217614-77cf-9519-f94b-d606864f4d46@redhat.com>
+ <1c82faa5-9443-bc3d-6df2-dbfd82a7b830@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <f10d759b-58b0-f3f8-5250-9b4f11f10433@redhat.com>
+Date: Thu, 19 Sep 2019 08:29:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4ae3e5d-0898-43d8-f7a3-08d73d051bbe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 13:27:24.4376 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hV0WNT1onELulCqOW7h34GjvXOga8x+7+t7Pw6F8gcrwAp9PZmFcRe5QcoIlz2Zf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2933
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe50::72e
-Subject: Re: [Qemu-devel] [PATCH v3 05/22] libqtest: Add a layer of
- abstraciton to send/recv
+In-Reply-To: <1c82faa5-9443-bc3d-6df2-dbfd82a7b830@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Thu, 19 Sep 2019 13:29:42 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC] error: auto propagated local_err
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,17 +89,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "mst@redhat.com" <mst@redhat.com>, "codyprime@gmail.com" <codyprime@gmail.com>,
+ "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "david@redhat.com" <david@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "groug@kaod.org" <groug@kaod.org>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "kwolf@redhat.com" <kwolf@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
+ "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVGh1LCAyMDE5LTA5LTE5IGF0IDEzOjE4ICswMjAwLCBQYW9sbyBCb256aW5pIHdyb3RlOg0K
-PiBJIHRoaW5rIHlvdSBjYW4gcGFzcyAicyIgdG8gdGhlIHR4IGhhbmRsZXIgYXMgd2VsbCwgYW5k
-IHJlbW92ZSB0aGUNCj4gc2VuZF9vcGFxdWUgYW5kIHJlY3Zfb3BhcXVlIGZpZWxkcz8NCg0KUXRl
-c3QgYWxzbyB1c2VzIHRoaXMgZnVuY3Rpb24gdG8gY29tbXVuaWNhdGUgb3ZlciBxbXAgIChkaWZm
-ZXJlbnQgZmQpLg0KSSBjYW4gcHJvYmFibHkgbWFrZSB0aGUgdHggaGFuZGxlciBhIHdyYXBwZXIg
-d2hpY2ggYWNjZXB0cyAicyIsIGFuZA0KcGFzc2VzIHMtPmZkIHRvIHRoZSByZWFsIHNvY2tldF9z
-ZW5kLg0KDQo=
+On 9/19/19 1:47 AM, Vladimir Sementsov-Ogievskiy wrote:
+
+>> "The evaluations of the initialization list expressions are
+>> indeterminately sequenced with respect to one another and thus the order
+>> in which any side effects occur is unspecified."
+>>
+>> which does not bode well for the assignment to __auto_errp_prop.errp.
+>> All changes to errp would have to be within the same initializer.  Maybe:
+>>
+>> #define MAKE_ERRP_SAFE() \
+>>    g_auto(ErrorPropagator) __auto_errp_prop = { \
+>>      .local_err = (__auto_errp_prop.err = errp, \
+>>          (errp = &__auto_errp_prop.local_err), NULL) }
+> 
+> Is it guaranteed that .errp will not be initialized to NULL after evaluating of
+> .local_err initializer?
+
+Probably not.
+
+> 
+>>
+>> but by the time you get that complicated, just using a statement is
+>> easier to read.
+
+Either two declarations (the second being an unused dummy variable
+declared solely for its initializer's side-effects) or a declaration and
+a statement are the only sane ways I can see to provide guaranteed
+ordering.  It's hidden behind a macro, so I don't care which.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
