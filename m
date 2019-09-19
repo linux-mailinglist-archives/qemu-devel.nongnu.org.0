@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A761DB779D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:41:54 +0200 (CEST)
-Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD831B77A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:43:49 +0200 (CEST)
+Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtsn-0000Qg-IF
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:41:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54448)
+	id 1iAtue-0002le-SN
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54605)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iAtos-0004nl-DL
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:37:51 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1iAtr9-0007G5-Af
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:40:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iAtor-0007F6-CK
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:37:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38788)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtor-0007Ev-6V
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:37:49 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 73F8B100EFBA;
- Thu, 19 Sep 2019 10:37:48 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBF525D6B0;
- Thu, 19 Sep 2019 10:37:42 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:37:41 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190919103741.GO3606@stefanha-x1.localdomain>
-References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-14-alxndr@bu.edu>
+ (envelope-from <liq3ea@gmail.com>) id 1iAtr7-0008Ni-Us
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:40:11 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:46742)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1iAtr5-0008Kr-Sm
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:40:09 -0400
+Received: by mail-ot1-x335.google.com with SMTP id f21so2577665otl.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 03:40:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EsfUqyYl6KMSxRF+Xa1BlWxkzqCBC1ScQLdTQmdFPnI=;
+ b=D1JTA0Bf7i0j5ekrtb3g3iNOFlvXVqO5NhKw3Wd56lm6AuyZGdb5UxIeNzwUS4EJ2m
+ 3trj5A2g5jk6pHu67KyQbiY8+gjL0NHdqysmnT/COueBrmXMk0bDju32Fk8+5RAbKwkT
+ t0btssLdUmz6b/t/cgcLqyQAqOIfbBY+BHcBgUcogDi36y2AMN05MbZnna/xCRfQDJ61
+ /73au1LoN6VxTpFKMX3LESE5/v3ZcmNajgEZKiswO7Whm9g/i/EXyBYna6RRgWfSp5u2
+ QrDBKdANl80kYHiDGkygsHe4vdi7YyVP20BWmwSeIUu3hpkAs69BulYtv+KURNFN7L6J
+ lWlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EsfUqyYl6KMSxRF+Xa1BlWxkzqCBC1ScQLdTQmdFPnI=;
+ b=lcHc9Z9Rp9Q3pvGsRw87xuC9sUNGFmUosylztf/JbXJMuDlFUJ+4OeFe4XKh/IDfJA
+ NR+R7rD6NEkaPKhaBDlN8jBopnTAJhj5eanu2n6jyZ+2Og+HbFrN+dmSiP7uyUsggKCn
+ APAt9FAMEEcklo0ZXq+8HkUrbLKnwJIfMiVkSnf72QZlZeKqJ0nuJh85eO/XtatLOxa6
+ ZZdQsC2D+eQUUx/3TYcyq5j5wjc4EIRlHwoCIiYkd5fYX7aLY+U2+vC7xAnYCqUgdtEb
+ EaP+raIjUCVPz14bHgb2pK4t5GfHn17DEqM2FAUw/vaMmAhjlSaUumhw7fF3cxkfp5KU
+ nDTA==
+X-Gm-Message-State: APjAAAWS1B1+vExvfThhBHfd5eB479xdXNfzrL8/Kq/G9oMQD1KO2gz9
+ J7AW9Z8kMOasa+AEh8rreg/u8YVIXb7wXPcxSac=
+X-Google-Smtp-Source: APXvYqxUvOBpbS95mv/Ev3epya0S4fN4ZiHTAY0J7ytG2p/TfnJzphGTyW8Ax5pUUQNrMhO4zHSdDQMOqd7lDmfq1DY=
+X-Received: by 2002:a05:6830:1f16:: with SMTP id
+ u22mr3220695otg.181.1568889605448; 
+ Thu, 19 Sep 2019 03:40:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="f0PSjARDFl/vfYT5"
-Content-Disposition: inline
-In-Reply-To: <20190918231846.22538-14-alxndr@bu.edu>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Thu, 19 Sep 2019 10:37:48 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 13/22] libqtest: make qtest_bufwrite
- send "atomic"
+References: <7d22c299-29fe-8479-ee14-17d521bb9d6b@huawei.com>
+ <CAKXe6SL+LC4RVRy+4oAKnuS=qMFDG4A0iyoL0hqg_f76gSrmBA@mail.gmail.com>
+ <43E932EA88344C498D975E4FF00CF41E2EAB29A5@dggeml529-mbx.china.huawei.com>
+ <CAKXe6SJB4fc_2a0gz8JJ_LD6Qh65DDXaFVhJSspTHQxxn4=UQg@mail.gmail.com>
+ <20190919085434.i2vkxasicqxfegvt@sirius.home.kraxel.org>
+In-Reply-To: <20190919085434.i2vkxasicqxfegvt@sirius.home.kraxel.org>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 19 Sep 2019 18:39:29 +0800
+Message-ID: <CAKXe6S+E8K_QRWWATk67PfaQ2+UxXoedk1yn_tK-4Z42AJcyzg@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::335
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] Discussion: vnc: memory leak in zrle_compress_data
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,72 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "bsd@redhat.com" <bsd@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- jsnow@redhat.com
+Cc: fangying <fangying1@huawei.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, zhouyibo <zhouyibo3@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Gerd Hoffmann <kraxel@redhat.com> =E4=BA=8E2019=E5=B9=B49=E6=9C=8819=E6=97=
+=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=884:54=E5=86=99=E9=81=93=EF=BC=9A
 
---f0PSjARDFl/vfYT5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Sun, Sep 01, 2019 at 10:43:42PM +0800, Li Qiang wrote:
+> > fangying <fangying1@huawei.com> =E4=BA=8E2019=E5=B9=B49=E6=9C=881=E6=97=
+=A5=E5=91=A8=E6=97=A5 =E4=B8=8B=E5=8D=888:29=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > > Nice work, your patch does fix this issue in my test.
+> > >
+> > > I think we should make VncState.zlib to be a pointer type as well.
+> > >
+> > > Since we are going to use pointers instead of copy, we must make sure
+> that
+> > > there=E2=80=99s no race condition of pointer members between the loca=
+l vs (vnc
+> > > worker thread) and origin vs (main thread).
+> > >
+> > >
+> >
+> > Yes, there is a race between the main thread and vnc thread.
+>
+> Where do you see a race?  The main thread allocates the data structures
+> before any job is started, cleans up after the jobs have been stopped
+> and never accesses them otherwise.
+>
+> So unless I missed something the data structures are never accessed in
+> parallel from multiple threads.
+>
 
-On Wed, Sep 18, 2019 at 11:19:40PM +0000, Oleinik, Alexander wrote:
-> When using qtest "in-process" communication, qtest_sendf directly calls
-> a function in the server (qtest.c). Combining the contents of the
-> subsequent socket_sends into the qtest_sendf, makes it so the server can
-> immediately handle the command, without building a local buffer and
-> waiting for a newline.
->=20
-> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
-> ---
->  tests/libqtest.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/tests/libqtest.c b/tests/libqtest.c
-> index 19feea9e17..d770462869 100644
-> --- a/tests/libqtest.c
-> +++ b/tests/libqtest.c
-> @@ -1086,9 +1086,7 @@ void qtest_bufwrite(QTestState *s, uint64_t addr, c=
-onst void *data, size_t size)
->      gchar *bdata;
-> =20
->      bdata =3D g_base64_encode(data, size);
-> -    qtest_sendf(s, "b64write 0x%" PRIx64 " 0x%zx ", addr, size);
-> -    socket_send(s->fd, bdata, strlen(bdata));
-> -    socket_send(s->fd, "\n", 1);
-> +    qtest_sendf(s, "b64write 0x%" PRIx64 " 0x%zx %s\n", addr, size, bdat=
-a);
->      qtest_rsp(s, 0);
->      g_free(bdata);
->  }
-> --=20
-> 2.23.0
+I checked the code again. Seems you're right.
 
-Cc John Snow, who added the b64write command.
+Thanks Gerd, this strengthen my understanding of the vnc working mechanism.
 
-The downside to doing this is that sprintf-formatting needs to be
-performed on the entire base64 buffer.  This slows things down slightly
-and a larger temporary buffer needs to be allocated, but I'm not sure it
-matters.
 
---f0PSjARDFl/vfYT5
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Li Qiang
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DWnUACgkQnKSrs4Gr
-c8i9qwf/WLzFN5PYw3GjtAEzHsqFxYXzdc4ZHb4phouJmFsEkdpO8Rk+i3WV4Waz
-5z1FA4Dc2c4iPpxgMlx1b9JaX7DfejNdmjUR8gYLyHNXdxtUkgUl+aQFSK5ncC2z
-jZXhgsdhDA88y0HQJr/Bu1o41UocjDpARVe7dEHt6WZQt5NmUR24YDG/747ERfQs
-wChib+CQIO4gLD576Ts/Y7D3sbCpkC1ji85txnvMD5JpNQEb8tNo05dV32rZwhs1
-48YtXAPOFFhvfGbATSDUEgst6S0h8gj300fcNb6pIM3m+HOajWHm+wFiREWnTstv
-IVn/0FrMEs21DjTcgD6kcjQtyuKaxg==
-=Nlpt
------END PGP SIGNATURE-----
-
---f0PSjARDFl/vfYT5--
-
+>
+> > Maybe we should add a lock just like the 'vs->output_mutex'.
+>
+> output is a different story.  The output buffer is accessed in parallel
+> (job thread produces and main thread consumes), so we actually need a
+> lock here for synchronization.
+>
+> cheers,
+>   Gerd
+>
+>
