@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8730AB7B4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:57:13 +0200 (CEST)
-Received: from localhost ([::1]:44482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F7AB7BB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:09:58 +0200 (CEST)
+Received: from localhost ([::1]:44688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAwvo-0005GV-HC
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49629)
+	id 1iAx88-0002Px-HS
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iAwgO-0004Hy-RD
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:41:18 -0400
+ (envelope-from <alxndr@bu.edu>) id 1iAwx8-0007b5-Jz
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:58:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iAwgI-0003UI-Vd
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:41:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38160)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAwgI-0003Sk-3x
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:41:10 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 45AF53C919
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 13:41:08 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id t185so1664933wmg.4
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 06:41:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JyVcq6QNd+Ibgp+/I6fPLr0QMJpfD1F2fjpsmJKmmSI=;
- b=HQWKtjS/yR+RtBIL5wGGQNJGNPj6O5ZrPBrWeg+BjMhFaJZnv3M9YWcM+97m9J6Jv2
- 9/2tZF5Z9b/HcHY6iDtP5i8ejGzONR2D3n/6cWGwS7yU3cUym1g5aA2XB6f1R1Zf3ssp
- Ll5Pbtse1J79awwrfGne0W1mRupANMHuP5nBmsFZYTJoE9pPT2j3Aq5lETxBUNfE/xTT
- zx5Noy5IJ5BgANhJMZe2xoF0lL5aVZFa9jFNI4NGZjJVf9P5ly+HNbm+OaT/3rDhiHrk
- yEcXSmqE652lJscbw6dMlJWaCsasMupPRqnV8lxauN4rEOSzAtiGjwhGuo9K/VQ/DNku
- jJZw==
-X-Gm-Message-State: APjAAAVm3opI/ERigL9F/c7NmJxFlJP4tkjFwkgrMogtjGB0W2Rzepzd
- kcTg5dnunDsQKZuqCpEjvKuoc4KB+Fe1myec2nwD0hwxSgzPSTsVSrMagabiUgqR1dbEjb34zRU
- l7HXa8VSO5gYNu3U=
-X-Received: by 2002:a1c:4946:: with SMTP id w67mr2918589wma.131.1568900467013; 
- Thu, 19 Sep 2019 06:41:07 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy5Y29PcwfKZJJY6v6ootWBFyNiz3SHmYG+J0Ro2QS6awZvyaNnAqKMC3eBB5VZufbmfPboUg==
-X-Received: by 2002:a1c:4946:: with SMTP id w67mr2918573wma.131.1568900466745; 
- Thu, 19 Sep 2019 06:41:06 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id c132sm8095513wme.27.2019.09.19.06.41.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Sep 2019 06:41:06 -0700 (PDT)
-To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
-References: <20190918171141.15957-1-lersek@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f2cf7004-5bc0-93ad-fe09-2bb6cfbbe116@redhat.com>
-Date: Thu, 19 Sep 2019 15:41:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190918171141.15957-1-lersek@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <alxndr@bu.edu>) id 1iAwo4-0008Nm-70
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:49:13 -0400
+Received: from mail-eopbgr810105.outbound.protection.outlook.com
+ ([40.107.81.105]:41578 helo=NAM01-BY2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAwo3-0008Mq-WB
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:49:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SiNtWyXNA0kHE50yMFg0jrMcEuDmphYexaupaIF0sKRJZvOMSvXQYixHYP5Csa/nWBUCKvTDh7hFCTBmmgz/1/XKPPVUBYC5+s/cNz63t1AFDcKmpZ5pETF5Xo9KoUOzNsqbzbsz9zRX6Q7f36/GqyUTCO5WLS6Esyc01sACTYCi2Xj0kl/oY1LdqRCMC1KSUtMeVZ0gW8tmgg5LW4D3FIEH7dR+djF022GY1N4hO81RCV+wwhBNUA6xZGlrk5f+xiyMxSqYRRnaZPFN55hKdpazqahq5ACGwXSpBzkXKUTuM/T2ebRAHVkf4F4TWsow+4yKW/Rn+kA6GQTAodtZNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=co382q/0Aj8LtfsCWfT7QfiAMVmq3B3TQpFrvjSNLFo=;
+ b=On+1dSOxm3L3u6Mn2CrWNxOQhMA9CL4fZydGJaLAXX0HXg3Fgw/T82RaZJ/NSZfCmt9ICguDcp7OiS1pJF6d0FdBMKw6zQaXNQen1jZ4YT13qkgLDGr7N/QM45MxItRYU3dqtdIUHcX+Zmfc2zyhl7ATYUCzs3xbfjBxmKjPl5oPh8MiV2Pe2/n9nZbfseQzFpwSFcxOx/H0Zkc+P9HyNX2ddS2EmIhp8FNM5cVPO3079IDNylpcnYH2FwzErLTW6asLRY/ITGlqNCL4E0A9E1v52wjA/vMSLkcG9CJRaFiKV2rC+G4RD/g+CXSyHE/06CmE6fNz1WtQYMuVC2+itg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=co382q/0Aj8LtfsCWfT7QfiAMVmq3B3TQpFrvjSNLFo=;
+ b=zkORMskfSb2WDJKjyOw9Aoht4cMkYd7yWDupSVEEOVqFKkcIBYthDvtyiYlwe5Er3HoYtUgIkMjMIZgKjlts6973GNS3h2QWCuwIGPufUfne8TIVo8OYIaS/lrtd3NPdbLE73LCqONZId7zTQauL6I4CA/V0TiYk/ap0/XTqW1A=
+Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
+ CY4PR03MB2934.namprd03.prod.outlook.com (10.175.120.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.19; Thu, 19 Sep 2019 13:49:10 +0000
+Received: from CY4PR03MB2872.namprd03.prod.outlook.com
+ ([fe80::6d88:c5bd:41ad:b107]) by CY4PR03MB2872.namprd03.prod.outlook.com
+ ([fe80::6d88:c5bd:41ad:b107%3]) with mapi id 15.20.2284.009; Thu, 19 Sep 2019
+ 13:49:10 +0000
+From: "Oleinik, Alexander" <alxndr@bu.edu>
+To: "stefanha@redhat.com" <stefanha@redhat.com>
+Thread-Topic: [PATCH v3 16/22] fuzz: add fuzzer skeleton
+Thread-Index: AQHVbneNlE8fR7mgcUOLZqeMV0v7Racy9B0AgAAQ8QA=
+Date: Thu, 19 Sep 2019 13:49:09 +0000
+Message-ID: <8e30396855a53bbc3b1de2468fabef314d1f8f07.camel@bu.edu>
+References: <20190918231846.22538-1-alxndr@bu.edu>
+ <20190918231846.22538-17-alxndr@bu.edu>
+ <20190919124824.GQ3606@stefanha-x1.localdomain>
+In-Reply-To: <20190919124824.GQ3606@stefanha-x1.localdomain>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] edk2 build scripts: work around
- TianoCore#1607 without forcing Python 2
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
+x-originating-ip: [128.197.127.33]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 97151059-eec6-4132-f546-08d73d0825e9
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:CY4PR03MB2934; 
+x-ms-traffictypediagnostic: CY4PR03MB2934:
+x-microsoft-antispam-prvs: <CY4PR03MB2934C2AE70324B563BD818FCBA890@CY4PR03MB2934.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 016572D96D
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(376002)(39860400002)(136003)(396003)(346002)(366004)(199004)(189003)(102836004)(86362001)(11346002)(6506007)(14454004)(91956017)(6916009)(54906003)(478600001)(76176011)(476003)(2616005)(2351001)(186003)(25786009)(2501003)(76116006)(118296001)(446003)(8936002)(486006)(99286004)(81166006)(81156014)(1730700003)(6246003)(7736002)(3846002)(2906002)(786003)(66556008)(26005)(75432002)(6116002)(36756003)(71190400001)(71200400001)(305945005)(6512007)(66066001)(8676002)(316002)(4326008)(64756008)(66446008)(256004)(6436002)(88552002)(5640700003)(229853002)(5660300002)(66946007)(6486002)(66476007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2934;
+ H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: bu.edu does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 1h+Kv9EuhQqdjPOR5SJtP40YyR9uYcGhXLL0s+3tgWx9EcguOQxNzW/5dVDKSavJ5uQc7vheWIBE69/lPBwkfj9ceyli+nD3fTE/TkZHv+p2nEqH/K0zupDeR2TI5OkoLST+vLjRk/oTfml7yIkXPv5wF7t0Q+14OJ+rnjG+x9DD4r1sx7OvNbBG0SMnfy33UEex9SQYBMNrPgk268/dGfV8w24m1a7ze6kjaYWMLm+DhvBOKL85Kwj9oDwuF3k3PfZDHxJKghLZLHw7Yr2KbHBLYpVhL9EeKp2txeF7E2hd/p10x3IdBX+3v9pYIKc0wcKoo0b+6aFzPVfIJ6xWaHacRjnbcXZNGYL7YaKi25bb/VdHdJ2tH3uS6UZkHWPVg6Op+BdBVkHSMaLitVh8Nu91HxEOnfJD84NruhzjIck=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C2EBB67D903D4345BB30D9BA92D037C2@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97151059-eec6-4132-f546-08d73d0825e9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 13:49:09.9657 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0tjZbX3Xnec/u6xR99hhgchCK+DcYbFw2w6bZVpI8prVoQTg1wh2xJqo/DY1t9/S
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2934
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.81.105
+Subject: Re: [Qemu-devel] [PATCH v3 16/22] fuzz: add fuzzer skeleton
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,207 +105,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Laszlo,
-
-On 9/18/19 7:11 PM, Laszlo Ersek wrote:
-> It turns out that forcing python2 for running the edk2 "build" utility =
-is
-> neither necessary nor sufficient.
->=20
-> Forcing python2 is not sufficient for two reasons:
->=20
-> - QEMU is moving away from python2, with python2 nearing EOL,
->=20
-> - according to my most recent testing, the lacking dependency informati=
-on
->   in the makefiles that are generated by edk2's "build" utility can cau=
-se
->   parallel build failures even when "build" is executed by python2.
->=20
-> And forcing python2 is not necessary because we can still return to the
-> original idea of filtering out jobserver-related options from MAKEFLAGS=
-.
-> So do that.
->=20
-> With this patch, the guest UEFI binaries that are used as part of the B=
-IOS
-> tables test, and the OVMF and ArmVirtQemu platform firmwares, will be
-> built strictly in a single job, regardless of an outermost "-jN" make
-> option. Alas, there appears to be no reliable way to build edk2 in an
-> (outer make, inner make) environment, with a jobserver enabled.
->=20
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reported-by: John Snow <jsnow@redhat.com>
-> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-> ---
->=20
-> Notes:
->     - Tested on RHEL7 (where the outer "make" sets the old-style
->       "--jobserver-fds" flag) and on Fedora 29 (where the outer "make" =
-sets
->       the new-style "--jobserver-auth" flag).
->    =20
->     - I've rebuilt all the edk2 binaries with this patch applied. Every=
-thing
->       works fine. However, if you test this patch, you might notice tha=
-t git
->       reports all the build products as modified. That's because when u=
-sing
->       the python3 code in edk2 BaseTools, the generated makefiles diffe=
-r
->       greatly from the ones generated when running in python2 mode (e.g=
-. due
->       to different random seeds in python hashes / dictionaries). As a
->       result, parts of the firmware volumes / firmware filesystems coul=
-d
->       appear in a different order than before. This is harmless, and do=
-esn't
->       necessitate checking in the rebuilt binaries.
->=20
->  roms/edk2-build.sh             |  4 +---
->  roms/edk2-funcs.sh             | 17 +++++++++++++++++
->  tests/uefi-test-tools/build.sh |  6 +++---
->  3 files changed, 21 insertions(+), 6 deletions(-)
->=20
-> diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
-> index 4f46f8a6a217..8161c55ef507 100755
-> --- a/roms/edk2-build.sh
-> +++ b/roms/edk2-build.sh
-> @@ -27,9 +27,6 @@ shift $num_args
-> =20
->  cd edk2
-> =20
-> -# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607>.
-> -export PYTHON_COMMAND=3Dpython2
-> -
->  # Source "edksetup.sh" carefully.
->  set +e +u +C
->  source ./edksetup.sh
-> @@ -43,6 +40,7 @@ fi
->  # any), for the edk2 "build" utility.
->  source ../edk2-funcs.sh
->  edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
-> +MAKEFLAGS=3D$(qemu_edk2_quirk_tianocore_1607 "$MAKEFLAGS")
->  edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
->  qemu_edk2_set_cross_env "$emulation_target"
-> =20
-> diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
-> index a9fae7ee891b..3f4485b201f1 100644
-> --- a/roms/edk2-funcs.sh
-> +++ b/roms/edk2-funcs.sh
-> @@ -251,3 +251,20 @@ qemu_edk2_get_thread_count()
->      printf '1\n'
->    fi
->  }
-> +
-> +
-> +# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607> =
-by
-> +# filtering jobserver-related flags out of MAKEFLAGS. Print the result=
- to the
-> +# standard output.
-> +#
-> +# Parameters:
-> +#   $1: the value of the MAKEFLAGS variable
-> +qemu_edk2_quirk_tianocore_1607()
-> +{
-> +  local makeflags=3D"$1"
-> +
-> +  printf %s "$makeflags" \
-> +  | LC_ALL=3DC sed --regexp-extended \
-> +      --expression=3D's/--jobserver-(auth|fds)=3D[0-9]+,[0-9]+//' \
-> +      --expression=3D's/-j([0-9]+)?//'
-> +}
-> diff --git a/tests/uefi-test-tools/build.sh b/tests/uefi-test-tools/bui=
-ld.sh
-> index 8aa7935c43bb..eba7964a163b 100755
-> --- a/tests/uefi-test-tools/build.sh
-> +++ b/tests/uefi-test-tools/build.sh
-> @@ -29,9 +29,6 @@ export PACKAGES_PATH=3D$(realpath -- "$edk2_dir")
->  export WORKSPACE=3D$PWD
->  mkdir -p Conf
-> =20
-> -# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607>.
-> -export PYTHON_COMMAND=3Dpython2
-> -
->  # Source "edksetup.sh" carefully.
->  set +e +u +C
->  source "$PACKAGES_PATH/edksetup.sh"
-> @@ -46,12 +43,15 @@ fi
->  source "$edk2_dir/../edk2-funcs.sh"
->  edk2_arch=3D$(qemu_edk2_get_arch "$emulation_target")
->  edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
-> +MAKEFLAGS=3D$(qemu_edk2_quirk_tianocore_1607 "$MAKEFLAGS")
-> +edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
->  qemu_edk2_set_cross_env "$emulation_target"
-> =20
->  # Build the UEFI binary
->  mkdir -p log
->  build \
->    --arch=3D"$edk2_arch" \
-> +  -n "$edk2_thread_count" \
->    --buildtarget=3DDEBUG \
->    --platform=3DUefiTestToolsPkg/UefiTestToolsPkg.dsc \
->    --tagname=3D"$edk2_toolchain" \
->=20
-
-Very clear explanation, thanks.
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Hmm this failed on Ubuntu Xenial which is the image we use for Travis-CI:
-
-$ lsb_release -a
-Distributor ID:	Ubuntu
-Description:	Ubuntu 16.04.6 LTS
-Release:	16.04
-Codename:	xenial
-
-make -f Makefile.edk2
-make[1]: Entering directory '/home/phil/qemu/roms'
-if test -d edk2/.git; then \
-	cd edk2 && git submodule update --init --force; \
-fi
-./edk2-build.sh \
-	aarch64 \
-	--arch=3DAARCH64 \
-	--platform=3DArmVirtPkg/ArmVirtQemu.dsc \
-	-D NETWORK_IP6_ENABLE \
-	-D NETWORK_HTTP_BOOT_ENABLE
-WORKSPACE: /home/phil/qemu/roms/edk2
-EDK_TOOLS_PATH: /home/phil/qemu/roms/edk2/BaseTools
-CONF_PATH: /home/phil/qemu/roms/edk2/Conf
-Copying $EDK_TOOLS_PATH/Conf/build_rule.template
-     to /home/phil/qemu/roms/edk2/Conf/build_rule.txt
-Copying $EDK_TOOLS_PATH/Conf/tools_def.template
-     to /home/phil/qemu/roms/edk2/Conf/tools_def.txt
-Copying $EDK_TOOLS_PATH/Conf/target.template
-     to /home/phil/qemu/roms/edk2/Conf/target.txt
-pyenv: python3.7: command not found
-The `python3.7' command exists in these Python versions:
-  3.7
-  3.7.1
-
-Makefile.edk2:62: recipe for target '../pc-bios/edk2-aarch64-code.fd' fai=
-led
-make[1]: *** [../pc-bios/edk2-aarch64-code.fd] Error 127
-make[1]: Leaving directory '/home/phil/qemu/roms'
-Makefile:168: recipe for target 'efi' failed
-make: *** [efi] Error 2
-make: Leaving directory '/home/phil/qemu/roms'
-The command "make -C roms efi -j2" exited with 2.
-
-The local Python3 version is:
-
-$ apt-cache show python3-minimal
-Package: python3-minimal
-Version: 3.5.1-3
-
-Any idea which script is choosing python3.7?
+T24gVGh1LCAyMDE5LTA5LTE5IGF0IDEzOjQ4ICswMTAwLCBTdGVmYW4gSGFqbm9jemkgd3JvdGU6
+DQoNCj4gPiArDQo+ID4gK3ZvaWQgcmVib290KFFUZXN0U3RhdGUgKnMpDQo+ID4gK3sNCj4gPiAr
+ICAgIHFlbXVfc3lzdGVtX3Jlc2V0KFNIVVRET1dOX0NBVVNFX0dVRVNUX1JFU0VUKTsNCj4gPiAr
+fQ0KPiANCj4gV2h5IGRvZXMgcmVib290KCkgdGFrZSBhbiB1bnVzZWQgYXJndW1lbnQ/DQpJdCB3
+YXMgbmVlZGVkIHdoZW4gSSBoYWQgYSByZXNldF9zdGF0ZShzKSBwb2ludGVyIHdoaWNoIHdhcyBz
+ZXBhcmF0ZQ0KZnJvbSBmdXp6KCkuIFNpbmNlIGZ1enooKSBpcyByZXNwb25zaWJsZSBmb3IgaW5p
+dGlhbGl6aW5nIGFuZCByZXNldHRpbmcNCnN0YXRlIG5vdywgSSdsbCByZW1vdmUgaXQuDQoNCj4g
+DQo+ID4gK3N0YXRpYyB2b2lkIHVzYWdlKGNoYXIgKnBhdGgpDQo+ID4gK3sNCj4gPiArICAgIHBy
+aW50ZigiVXNhZ2U6ICVzIC0tRlVaWl9UQVJHRVQgW0xJQkZVWlpFUiBBUkdVTUVOVFNdXG4iLA0K
+PiA+IHBhdGgpOw0KPiA+ICsgICAgcHJpbnRmKCJ3aGVyZSAtLUZVWlpfVEFSR0VUIGlzIG9uZSBv
+ZjpcbiIpOw0KPiANCj4gSXMgdGhlICItLSIgcHJlZml4IGEgbGliZnV6emVyIHJlcXVpcmVtZW50
+PyAgSSB3b3VsZCBoYXZlIGV4cGVjdGVkDQo+IGVpdGhlciBGVVpaX1RBUkdFVCBieSBpdHNlbGYg
+b3IgLS1mdXp6LXRhcmdldD1GVVpaX1RBUkdFVCAoYSBwcm9wZXJseQ0KPiBmb3JtYXR0ZWQgbG9u
+ZyBvcHRpb24pIHNvIHRoYXQgY29sbGlzaW9ucyB3aXRoIG90aGVyIGNvbW1hbmQtbGluZQ0KPiBv
+cHRpb25zIGFyZSBub3QgcG9zc2libGUuDQpZZXMgbGliZnV6emVyIHdpbGwgb25seSBwYXNzIGFy
+Z3VtZW50cyB0aGF0IHN0YXJ0IHdpdGggIi0tIi4gSSBjYW4NCnJlcGxhY2UgaXQgd2l0aCAtLWZ1
+enotdGFyZ2V0PUZVWlpfVEFSR0VULiBBbHRlcm5hdGl2ZWx5LCBJIGNhbiB0cnkgdG8NCmJ1aWxk
+IHNlcGFyYXRlIGJpbmFyaWVzIGZvciBlYWNoIHRhcmdldC4gSXQgbWlnaHQgd2FzdGUgZGlzayBz
+cGFjZSwgYnV0DQp3ZSB3b3VsZG4ndCBuZWVkIGFyZ3VtZW50cyAoLS10cmFjZSBjb3VsZCBiZSBy
+ZXBsYWNlIHdpdGggVFJBQ0U9MSBpbg0KRU5WKS4gV2l0aCB0aGlzIGRlc2lnbiwgSSdtIG5vdCBz
+dXJlIHdoYXQgdG8gZG8gd2l0aCBjb2RlIHN1Y2ggYXMNCmk0NDBmeF9mdXp6LmMgd2hpY2ggcmUt
+cHVycG9zZXMgc29tZSBmdW5jdGlvbnMgZm9yIG11bHRpcGxlIGRpZmZlcmVudA0KZnV6eiB0YXJn
+ZXRzLg0KDQo+ID4gK3R5cGVkZWYgc3RydWN0IEZ1enpUYXJnZXQgew0KPiA+ICsgICAgR1N0cmlu
+ZyAqbmFtZTsNCj4gPiArICAgIEdTdHJpbmcgKmRlc2NyaXB0aW9uOw0KPiA+ICsgICAgdm9pZCgq
+cHJlX21haW4pKHZvaWQpOw0KPiA+ICsgICAgdm9pZCgqcHJlX2Z1enopKFFUZXN0U3RhdGUgKik7
+DQo+ID4gKyAgICB2b2lkKCpmdXp6KShRVGVzdFN0YXRlICosIGNvbnN0IHVuc2lnbmVkIGNoYXIg
+Kiwgc2l6ZV90KTsNCj4gPiArICAgIGludCBtYWluX2FyZ2M7DQo+ID4gKyAgICBjaGFyICoqbWFp
+bl9hcmd2Ow0KPiA+ICt9IEZ1enpUYXJnZXQ7DQo+ID4gKw0KPiA+ICt2b2lkIHNldF9mdXp6X3Rh
+cmdldF9hcmdzKGludCBhcmdjLCBjaGFyICoqYXJndik7DQo+ID4gK3ZvaWQgcmVib290KFFUZXN0
+U3RhdGUgKik7DQo+ID4gK3ZvaWQgZnV6el9hZGRfdGFyZ2V0KGNvbnN0IGNoYXIgKm5hbWUsIGNv
+bnN0IGNoYXIgKmRlc2NyaXB0aW9uLA0KPiA+IEZ1enpUYXJnZXQNCj4gPiArICAgICAgICAqdGFy
+Z2V0KTsNCj4gDQo+IFRoaXMgaXMgYSBzdHJhbmdlIEFQSS4gIEkgY2FuJ3QgbWFrZSBzZW5zZSBv
+ZiB0aGUgc3RydWN0LA0KPiBmdXp6X2FkZF90YXJnZXQoKSwgYW5kIHNldF9mdXp6X3RhcmdldF9h
+cmdzKCkgd2l0aG91dCByZWFkaW5nIHRoZQ0KPiBpbXBsZW1lbnRhdGlvbjoNCj4gDQo+IDEuIHNl
+dF9mdXp6X3RhcmdldF9hcmdzKCkgaW1wbGllcyB0aGF0IHRoZXJlIGlzIGdsb2JhbCBzdGF0ZSBi
+dXQgdGhlbg0KPiAgICBGdXp6VGFyZ2V0IGFsc28gaGFzIG1haW5fYXJnYyBhbmQgbWFpbl9hcmd2
+IGZpZWxkcy4gIEknbSBub3Qgc3VyZQ0KPiAgICB3aGF0IHRoZSByZWxhdGlvbnNoaXAgaXMuDQpU
+aGlzIGlzIGVzc2VudGlhbGx5IHRoZXJlIGZvciB0aGUgUU9TIHN1cHBvcnQuIEZvciBRT1MgdGFy
+Z2V0cywgd2hlbg0KcnVubmluZyBmdXp6X2FkZF9xb3NfdGFyZ2V0KCksIHdlIGRvbid0IHlldCBr
+bm93IGFyZ2MgYW5kIGFyZ3YsIHNpbmNlDQp0aGF0IHJlcXVpcmVzIHdhbGtpbmcgdGhlIFFPU0dy
+YXBoLiBXaGVuIHdlIGhhdmUgcG9wdWxhdGVkIHRoZQ0KRnV6elRhcmdldExpc3QsIFFPU0dyYXBo
+IGFuZCBwYXJzZWQgdGhlIC0tRlVaWl9UQVJHRVQsIHdlIHNldCBnbG9iYWwNCkZ1enpUYXJnZXQg
+YW5kIGNoZWNrIGFnYWluc3QgaXQgd2hpbGUgd2Fsa2luZyB0aGUgUU9TR3JhcGguIFdoZW4gd2UN
+CmZpbmQgdGhlIG1hdGNoaW5nIHBhdGgsIHdlIHRoZW4ga25vdyB0aGUgYXJnYy9hcmd2IGFuZCBj
+YW4gc2V0IHRoZW0gZm9yDQp0aGUgZ2xvYmFsIGZ1enpfdGFyZ2V0LiBTaW5jZSBxb3NfZnV6ei5j
+IHN0aWxsIG5lZWRzIG1ham9yIHdvcmsgZHVlIHRvDQphbGwgb2YgdGhlIGR1cGxpY2F0ZWQgY29k
+ZSwgSSdsbCB0YWtlIGFub3RoZXIgc3RhYiBhdCB0aGlzLiBNYXliZSB3ZQ0KY2FuIGlkZW50aWZ5
+IHRoZSBhcmdjL2FyZ3YgaW1tZWRpYXRlbHkgd2hlbiB3ZSBhZGQgdGhlIGZ1enogdGFyZ2V0IG5v
+ZGUNCnRvIHRoZSBRT1NHcmFwaC4gVGhpcyBpcyBhbm90aGVyIGNhc2UgZm9yICJlYWNoIHRhcmdl
+dCBoYXMgaXRzIG93bg0KYmluYXJ5Iiwgc2luY2UgdGhhdCBjb3VsZCBhdm9pZCBtdWNoIG9mIHRo
+aXMgY29tcGxleGl0eSwgc2luY2Ugd2UNCndvdWxkbid0IG5lZWQgdGhlIGZ1enpfdGFyZ2V0X2xp
+c3QuDQoNCj4gMi4gZnV6el9hZGRfdGFyZ2V0KCkgdGFrZXMgbmFtZSBhbmQgZGVzY3JpcHRpb24g
+YXMgYXJndW1lbnRzIGJ1dA0KPiBleHBlY3RzDQo+ICAgIHRoZSBjYWxsZXIgdG8gcG9wdWxhdGUg
+dGhlIHN0cnVjdCBhcmcncyBwcmVfbWFpbigpLCBwcmVfZnV6eigpLA0KPiAgICBmdXp6KCkgZnVu
+Y3Rpb24gcG9pbnRlcnMuICBUaGlzIGlzIGluY29uc2lzdGVudCBhbmQgdW5kb2N1bWVudGVkLg0K
+PiANCj4gQSBjbGVhbmVyIEFQSToNCj4gDQo+ICAgLyogRWFjaCBmdXp6IHRhcmdldCBpbXBsZW1l
+bnRzIHRoZSBmb2xsb3dpbmcgaW50ZXJmYWNlOiAqLw0KPiAgIHR5cGVkZWYgc3RydWN0IHsNCj4g
+ICAgICAgY29uc3QgY2hhciAqbmFtZTsgICAgICAgIC8qIGNvbW1hbmQtbGluZSBvcHRpb24gZm9y
+IHRoaXMgdGFyZ2V0DQo+ICovDQo+ICAgICAgIGNvbnN0IGNoYXIgKmRlc2NyaXB0aW9uOyAvKiBo
+dW1hbi1yZWFkYWJsZSBoZWxwIHRleHQgKi8NCj4gDQo+ICAgICAgIC8qIFRPRE8gZG9jdW1lbnRh
+dGlvbiAqLw0KPiAgICAgICB2b2lkICgqcHJlX21haW4pKHZvaWQpOw0KPiANCj4gICAgICAgLyog
+VE9ETyBkb2N1bWVudGF0aW9uICovDQo+ICAgICAgIHZvaWQgKCpwcmVfZnV6eikoUVRlc3RTdGF0
+ZSAqKTsNCj4gDQo+ICAgICAgIC8qIFRPRE8gZG9jdW1lbnRhdGlvbiAqLw0KPiAgICAgICB2b2lk
+ICgqZnV6eikoUVRlc3RTdGF0ZSAqLCBjb25zdCB1bnNpZ25lZCBjaGFyICosIHNpemVfdCk7DQo+
+ICAgfSBGdXp6VGFyZ2V0Ow0KDQpTb3VuZHMgZ29vZC4gU2hvdWxkIHRoZXJlIGFsc28gYmUgYXJn
+YyBhbmQgYXJndiBoZXJlPyANCg0KPiAgIHZvaWQgZnV6el9yZWdpc3Rlcl90YXJnZXQoY29uc3Qg
+RnV6elRhcmdldCAqdGFyZ2V0KTsNCg0K
 
