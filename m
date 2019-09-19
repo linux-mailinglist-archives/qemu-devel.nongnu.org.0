@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642B0B7ACE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:49:29 +0200 (CEST)
-Received: from localhost ([::1]:44342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8A5B7AB3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:43:17 +0200 (CEST)
+Received: from localhost ([::1]:44258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAwoJ-0002DY-AV
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:49:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
+	id 1iAwiJ-000533-Hg
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:43:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iAw9f-0006tj-Qx
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:07:28 -0400
+ (envelope-from <alxndr@bu.edu>) id 1iAwO7-0006cT-Ds
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:22:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iAw9e-0004lK-NT
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:07:27 -0400
-Received: from mail-eopbgr820139.outbound.protection.outlook.com
- ([40.107.82.139]:6472 helo=NAM01-SN1-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1iAwO6-0004xD-4w
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:22:22 -0400
+Received: from mail-eopbgr750129.outbound.protection.outlook.com
+ ([40.107.75.129]:23422 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAw9e-0004ih-Ip
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:07:26 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAwO5-0004vm-Tq
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:22:22 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ajKT475yuYJgxTFv7hegO9VJOuETZZ4LfOOAlqvTTv4JK5vtlegvCpQJBW7mWvssLCGxf9SXiWjDSyaKqQFieamJevuYzT4zr44/8Oovjzb7ipXWsfJevBA8xol8r6jACxVsU0kt8n+E9egy8StKkeMjq5zYQZ1iUcEHS/m6KlUydXkfnV/jb0+Jd6T8zOYVXMEhRUYCJsritXcjnKVdB9OTTWo5vHKHRkel0lZo8tQLoMI6ULnzebCIpvBsr8nbARpCqsFDUx/mY7neattRrMmBg68UbyYtUvQ/yt7dWvYUH9u/RX/jYZ64K8MeXs8XbdUdQ1fgDWEe/DFQP0fuhA==
+ b=DTPEEJrsSgxBBDI3V8jxqm6P2IjdWcytYQ6qD+d3NJvCS6eEq5i3b6eVu216Mcd+Vucd6LXXrYgF75B4YrqB+yYJ8Ql5N42iFYcaZ4uU3UPef60Rji4vnakt6dAnh8Hf49YDoJ5+dg4YKVYUjSdYLx0zKYXFWCBSoMG1PtXiTmV5d/PUIn1wSQd5PS5V3xZWzCQKIBhyCs3AkFL2hm+N/pd83rRnJBSnp7ZQttA0O1YleBCF+iKLx/3MMMkAJLzYTUqcMRn7wj15HEY7Bk3qtXaKfCdcz/U3aJxXYMvZ/7MDoPN2fwJG7UIor2s710XoJQRpZLhxtQWboVFTqyoDRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vU8DCQ8hAOyxhDPYIUKWVzzKVxXvABRebfsTDp3cHZ8=;
- b=VC4SW0E1Uxr7pcskzCMZxd6InXaPUoysYFJSTfYupgSjN7J8iMcGyo63wAY2tA4YertwPFKKC5KWgp4NOG0ZWvj2vCpkX1DRVL1izpELaOZRaK1bCK1Y4TQP0oBmjfGAfXtznOaFK52XqqSrAM5SxfpXpdOgkdRFsBa2JfZV+4FJ+0JkqQE0zMchVDiuXtFs7ChvPRlmLs2u/zamH5l17UCclvsSFamjdXN0YYY9Q0Wfvx9TiMfRXaK/RUas5k/+3pZMxqc2WZQgLxwNJG2D5gVU7Pg05xjpmRhQTB6dpsirQ1wIkJEA2m8Fdz4HHZcKrN+jNq57auS+eaXRqs3IGA==
+ bh=/+yjTVFj9IMtFZfwMEf8RQzD7L7ofxA38hocboGgxKY=;
+ b=KASjeFLdB2TJM18XTqGk7t+qTepDdve4kUmI9RerSuVIf/UfTXEl8QV0zh42CTpDHMkiVnAUr9SD1FdcE5CRKL9eWj2J+g0zZS8N629JVgzgw2Zz3GlIV9HPWU1RqFmZA4tF8Mj4W6EqsflP5vW38QDnhnQ/D1le6+3F9qAmcHRExbFWdQ5GCngwC1PkmQA7RwOdA+qi0lO/yO3RrSeuTQGgQAHJZpGwektEOrUQz9lwlT/afUh8K2a344zfBmKz4XWYzFJ8bsM5kOOBmo1G0ipoiQFMafuaUHjmpUKfGrIrg1HoabZf+XjIMOu0th6oj8waGcNGXtozyG1y2U2Mvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vU8DCQ8hAOyxhDPYIUKWVzzKVxXvABRebfsTDp3cHZ8=;
- b=Vg6Hf1kard04GhhR0KpJ2cTSwr+on3lSmdcrh0iOr0r0tuQc6FzfXyt42yjSy88Jlux8r1gm9b9lfJCnps8ST6sdZhWA/Tsu3RgMxcbg/ckpTBVxxgCFY0hAPk1KfbDtUbpknzcl2et+EfwYqrAVrw2cPe/W7MJV4YmFpMDmsyQ=
+ bh=/+yjTVFj9IMtFZfwMEf8RQzD7L7ofxA38hocboGgxKY=;
+ b=fDLyqs9KYC8isbkryxMZFP8+3J7eWUimLsnYTxktOCP19dDfy9TUn9A2onUeEY2Fuw1Tg7jM2poM6qYu6ErT0KwagDj1S0a6Dsu+58XDPSwvHNGGNSieH6dWZLIHZhtVYr/twbzu+xWAXBtlkRKLNdxMG1R/xgMkJkV2+ZQlLi4=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
- CY4PR03MB2760.namprd03.prod.outlook.com (10.173.39.14) with Microsoft SMTP
+ CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.19; Thu, 19 Sep 2019 13:07:25 +0000
+ 15.20.2284.20; Thu, 19 Sep 2019 13:22:20 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6d88:c5bd:41ad:b107]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6d88:c5bd:41ad:b107%3]) with mapi id 15.20.2284.009; Thu, 19 Sep 2019
- 13:07:25 +0000
+ 13:22:20 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "stefanha@redhat.com" <stefanha@redhat.com>
-Thread-Topic: [PATCH v3 06/22] fuzz: add configure flag --enable-fuzzing
-Thread-Index: AQHVbneHyovnzJrtBU6Jp3gZ4trMkqcyzSgAgAAsQIA=
-Date: Thu, 19 Sep 2019 13:07:25 +0000
-Message-ID: <9d95d2b4aea5919efcae052a25efa121d734ca85.camel@bu.edu>
+Thread-Topic: [PATCH v3 14/22] libqtest: add in-process qtest.c tx/rx handlers
+Thread-Index: AQHVbneM5DHTVNsf2EWK27C25kPhHKcy0M4AgAAsxQA=
+Date: Thu, 19 Sep 2019 13:22:20 +0000
+Message-ID: <7cb180b719c4ce154ce5000f526fd083b7672f77.camel@bu.edu>
 References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-7-alxndr@bu.edu>
- <20190919102858.GJ3606@stefanha-x1.localdomain>
-In-Reply-To: <20190919102858.GJ3606@stefanha-x1.localdomain>
+ <20190918231846.22538-15-alxndr@bu.edu>
+ <20190919104202.GP3606@stefanha-x1.localdomain>
+In-Reply-To: <20190919104202.GP3606@stefanha-x1.localdomain>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -61,40 +61,40 @@ X-MS-TNEF-Correlator:
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-originating-ip: [128.197.127.33]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 86dd5545-1fcb-4ba6-69a4-08d73d0250d1
+x-ms-office365-filtering-correlation-id: fb6ca60f-32c3-4576-970a-08d73d0466b1
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:CY4PR03MB2760; 
-x-ms-traffictypediagnostic: CY4PR03MB2760:
-x-microsoft-antispam-prvs: <CY4PR03MB27607C189AB4F8A42CAD27F6BA890@CY4PR03MB2760.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3383;
+ SRVR:CY4PR03MB2872; 
+x-ms-traffictypediagnostic: CY4PR03MB2872:
+x-microsoft-antispam-prvs: <CY4PR03MB287265E42B640333D98F4BBBBA890@CY4PR03MB2872.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 016572D96D
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(376002)(39860400002)(136003)(396003)(346002)(189003)(199004)(66476007)(64756008)(66946007)(66556008)(26005)(91956017)(102836004)(71190400001)(256004)(486006)(4326008)(76116006)(11346002)(2616005)(2351001)(71200400001)(476003)(305945005)(6486002)(6512007)(5640700003)(446003)(75432002)(6246003)(118296001)(2501003)(4744005)(7736002)(229853002)(5660300002)(6436002)(14454004)(186003)(478600001)(66066001)(3846002)(66446008)(6506007)(25786009)(1730700003)(8676002)(36756003)(81166006)(54906003)(88552002)(81156014)(99286004)(786003)(316002)(6116002)(86362001)(6916009)(2906002)(8936002)(76176011);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2760;
+ SFS:(10019020)(4636009)(366004)(396003)(39860400002)(376002)(346002)(136003)(189003)(199004)(66066001)(6916009)(81166006)(81156014)(1730700003)(8676002)(786003)(6512007)(446003)(14454004)(2616005)(99286004)(11346002)(118296001)(36756003)(2501003)(6116002)(6246003)(6486002)(2906002)(3846002)(88552002)(6436002)(54906003)(229853002)(7736002)(305945005)(8936002)(316002)(5640700003)(66946007)(91956017)(75432002)(64756008)(256004)(66446008)(66556008)(86362001)(186003)(2351001)(76116006)(4326008)(66476007)(5660300002)(26005)(4744005)(76176011)(71200400001)(71190400001)(478600001)(476003)(102836004)(6506007)(25786009)(486006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2872;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: mJds7YdrM8MVBg1gFL5fJ4gNI6GfBP1OIZvLWk3g/ShSB2Ch6FKXTgWlKKAaRwlyCgeZUJwnRRiaEzRSReXnRH7ctVETOCwfryPHyjZM4YNNIvQYpYBavl81Lg8i6/grKmFpbC/3fZ8z8xJLpPkqxZekjZWJ/2dI9z5mViHfzbsMca6eR6MrPFbgV8Jly2SPXjS9xvTvQmgZT6lYoAmyF+UDYVibfFmYd4WrtVQgKdNZyKDTxKdtct938DkW4xsXcOARVeRozuc1RIU23quGPJnNrVr90qVJvclDzh4xBry036JScymFSejy/dQJulE1+LGrhkWwl+oRTQ5c2BxeleM3b2YpfybTPslzhwhA1he7Qj/LCy5+WXV4lKyKF7VNXlVSQYKIMBiLH63QLdWnyy+l6R96AfI0ZlQd8L9SQ8s=
+x-microsoft-antispam-message-info: nNw+AYkgXNgBZ11MBIeN8glmPbH6TQIgAzf6y0Cur2TAhRWXc3a+r4hYob/Sedv9ETnYbTBoZ6NQS3KcsKM12/vwSmNg1pr8ff4Kp2vrxFigqZLahZJMGZpj2bEBAUYjwPwTce+CMsTTAZ4u3MP96MEudAZVERU+wuY312Ymmi7r3y944ZDKBlVcxAmZCEqlRqaWFnjlJqfeD1lTSabb2FmtJ+raKUEv/oTMe9PWmmwP/WU5GZUMklXuWjCLRtkYnjbZsyPpviSfjDSKaelY3ArwF/Hz/1NoVuZSx6jOrBb86pEOzBWxKJNldS5HnDFloyis4iIEL9toOzDU+Z5SYStIeS4XLqUucf/DfGtN36AhxduVc2UJ7DYbR1NsyZg22RLGcGfQzwSTpA14o8yE5nbQG/+WEYyHFdFU4kq1T4o=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <8922F0043F46FB4BBB60E98EE04C51C8@namprd03.prod.outlook.com>
+Content-ID: <9E55A5D127A8824A81E60CB0321B3ACD@namprd03.prod.outlook.com>
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86dd5545-1fcb-4ba6-69a4-08d73d0250d1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 13:07:25.0495 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb6ca60f-32c3-4576-970a-08d73d0466b1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 13:22:20.7582 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wDYDMcCrIoJ12JaR9NXsMKbcz6lXo6XYkSYZI24jTWzPR7Z+CoOY3WHDjqyCIqXc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2760
+X-MS-Exchange-CrossTenant-userprincipalname: WnzkgkxLBV3Q6Zb5aub01tFDimItOakvGCySZ0CBxhFQsvu8pCB+Fzu3HKFd2xeG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2872
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.82.139
-Subject: Re: [Qemu-devel] [PATCH v3 06/22] fuzz: add configure flag
- --enable-fuzzing
+X-Received-From: 40.107.75.129
+Subject: Re: [Qemu-devel] [PATCH v3 14/22] libqtest: add in-process qtest.c
+ tx/rx handlers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,18 +106,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "bsd@redhat.com" <bsd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "lvivier@redhat.com" <lvivier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVGh1LCAyMDE5LTA5LTE5IGF0IDExOjI4ICswMTAwLCBTdGVmYW4gSGFqbm9jemkgd3JvdGU6
-DQo+IElzIC1mc2FuaXRpemU9ZnV6emVyIGEgY2xhbmctb25seSBvcHRpb24/ICBJZiB5ZXMsIHRo
-ZW4gcGxlYXNlIGVuc3VyZQ0KPiB0aGF0IHRoZXJlIGlzIGEgZnJpZW5kbHkgZXJyb3IgbWVzc2Fn
-ZSB3aGVuIC4vY29uZmlndXJlIGlzIHJ1biB3aXRoDQo+IGdjYy4NCj4gWW91IGNvdWxkIHByb2Jl
-IGlmIC1mc2FuaXRpemU9ZnV6emVyIHdvcmtzIGFuZCB0aGVuIGNoZWNrIHRoYXQNCj4gZnV6emlu
-Zz1ubyB3aGVuIHRoaXMgZmVhdHVyZSBpcyB1bmF2YWlsYWJsZS4NClllcywgZnNhbnRpemllcj1m
-dXp6ZXIgaXMgYSBjbGFuZy1vbmx5IGZlYXR1cmUuIEknbGwgYWRkIGEgcHJvYmUgZm9yDQppdC4N
-Cg==
+T24gVGh1LCAyMDE5LTA5LTE5IGF0IDExOjQyICswMTAwLCBTdGVmYW4gSGFqbm9jemkgd3JvdGU6
+DQo+IE9uIFdlZCwgU2VwIDE4LCAyMDE5IGF0IDExOjE5OjQxUE0gKzAwMDAsIE9sZWluaWssIEFs
+ZXhhbmRlciB3cm90ZToNCj4gPiBAQCAtODMwLDYgKzgzMiw5IEBAIGNoYXIgKnF0ZXN0X2htcChR
+VGVzdFN0YXRlICpzLCBjb25zdCBjaGFyICpmbXQsDQo+ID4gLi4uKQ0KPiA+ICANCj4gPiAgY29u
+c3QgY2hhciAqcXRlc3RfZ2V0X2FyY2godm9pZCkNCj4gDQo+IE1heWJlIHRoaXMgc2hvdWxkIGJl
+IHBlciBRVGVzdFN0YXRlIGp1c3QgbGlrZSBiaWdfZW5kaWFuLCBidXQgdGhlDQo+IGdsb2JhbA0K
+PiBxdGVzdF9hcmNoIHZhcmlhYmxlIGlzIG9rYXkgZm9yIG5vdy4NCj4gDQoNCkkgd2FzIHdvcnJp
+ZWQgdGhhdCB0aGUgc2FtZSBRVGVzdFN0YXRlIG1heSBiZSByZXVzZWQgdG8gcnVuIHRlc3RzIGZv
+cg0KZGlmZmVyZW50IGZvciBxZW11LXN5c3RlbSBiaW5hcmllcywgYnV0IEkgY2FuIHNlZSB0aGF0
+IHRoaXMgaXMgbm90DQpwb3NzaWJsZS4gSSdsbCBtYWtlIHRoaXMgY2hhbmdlLg0K
 
