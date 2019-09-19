@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC89AB7AB4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:44:00 +0200 (CEST)
-Received: from localhost ([::1]:44282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9B1B7AAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:40:17 +0200 (CEST)
+Received: from localhost ([::1]:44206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAwj1-0006Tn-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
+	id 1iAwfP-0001st-KT
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iAw2o-0000RM-JG
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:00:24 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAw3z-0001FZ-Nr
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:01:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iAw2m-0006eC-I0
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:00:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41550)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iAw2l-0006dW-Ra
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:00:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EBA1630833BE;
- Thu, 19 Sep 2019 13:00:18 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.36.116.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41E005C1D4;
- Thu, 19 Sep 2019 13:00:07 +0000 (UTC)
-Date: Thu, 19 Sep 2019 15:00:05 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <20190919130005.GF10163@localhost.localdomain>
-References: <20190918091831.GD5207@localhost.localdomain>
- <001201d56e02$9d88b5f0$d89a21d0$@ru>
- <20190918093305.GF5207@localhost.localdomain>
- <001401d56e04$b93c02a0$2bb407e0$@ru>
- <20190918094436.GG5207@localhost.localdomain>
- <001501d56e06$bbd7aa30$3386fe90$@ru>
- <20190919085302.GA10163@localhost.localdomain>
- <001901d56ec9$620ae260$2620a720$@ru>
- <20190919112702.GC10163@localhost.localdomain>
- <001a01d56ee3$4354a530$c9fdef90$@ru>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iAw3y-0007oP-9l
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:01:35 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33165)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iAw3y-0007j9-0q
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:01:34 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b9so3053665wrs.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 06:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sGOXzi5ZsuNGi1Cd4gJPvQa18cyrbKBjt28OnHQ1ECU=;
+ b=OJBYcXKGhstSS519cHOjRVNOmG+gaqlVUPGeJlKNHo2y0rf1VeIDFhuE2YlVtE3OjQ
+ hAsHRIWbwosPa6TOjl7OkulQ8YJNxDy12efAeqcvnNiq0P6R/PtM1Zu6FaBjc7BGWJgy
+ NlHGFvAmGDXXDsvbkMzPFylpPv+DW7sIPEEdzG35J7Elzf8RIePYjFdx/nmNuqrBgP4a
+ e3VYYJIKaXK682zWGbjaYIRR47+Mj4WQIXN2aSfQL1QqfV46Yj+V4sfS0aSYQ1EtGui+
+ S/LA2gWqyp/Hf5oN/gzf+xFV0Uwp1wNafM1nvBfQhq8yK355yR0uUaZV7B6V1BNMc74L
+ fJUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=sGOXzi5ZsuNGi1Cd4gJPvQa18cyrbKBjt28OnHQ1ECU=;
+ b=QWGETsAxavssA7vnSqkP2siw4QnygbEK7MunXSKthRRZ8ymIgZAlvrieEfGnR91WI8
+ GV36aahOaDCOYXPRd+uYpazm8pTx8RDCCDh6eCdYxqlQEKoKKWCevdBogpnYyWh0ZV/i
+ 23bxmrjsT8QYMWwQLeplbPucdwU+g00Z+jNsXp2QuP1jhnbO6dq3P2bvyeUoeZT0DxKy
+ BP3jNKQSoUyFDOyb+VlXblGwpBllDzc3p+dVSSafHY57sF5LzqgVYornfFeUxgbr6QG6
+ 8AuCmP103uXugtBqM/xd9EcRtksUY0ymEdk3xE3F7tdJKNj+D2wGsYa+cFcgDrHeosFd
+ n3lA==
+X-Gm-Message-State: APjAAAX1rNtUsi7/AnuayFeBxUu3bS/iefqofYVQDxCpQbqRjEDhNi6M
+ UJ5MMQ8D4DpPBz7CCjIhR1jqwVdV
+X-Google-Smtp-Source: APXvYqzYahwpgslgpqjFEQLPdrOciZPV7SQzWFec6fYO/iaPgJk/kIMm7o7qOBqlVHD6cEgqqbXcHg==
+X-Received: by 2002:a5d:4985:: with SMTP id r5mr6989362wrq.139.1568898090894; 
+ Thu, 19 Sep 2019 06:01:30 -0700 (PDT)
+Received: from donizetti.lan ([2001:b07:6468:f312:c46c:2acb:d8d2:21d8])
+ by smtp.gmail.com with ESMTPSA id k26sm2019623wmj.33.2019.09.19.06.01.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 06:01:29 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 19 Sep 2019 15:01:28 +0200
+Message-Id: <20190919130128.28770-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <001a01d56ee3$4354a530$c9fdef90$@ru>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 19 Sep 2019 13:00:19 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [for-4.2 PATCH 3/6] replay: update docs for
- record/replay with block devices
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [qemu-web PATCH] Gemfile: use a fixed version of sassc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,118 +75,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru, quintela@redhat.com,
- ciro.santilli@gmail.com, jasowang@redhat.com, crosthwaite.peter@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, alex.bennee@linaro.org,
- maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
- boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
- mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
- rth@twiddle.net
+Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.09.2019 um 14:10 hat Pavel Dovgalyuk geschrieben:
-> > From: Kevin Wolf [mailto:kwolf@redhat.com]
-> > Am 19.09.2019 um 11:05 hat Pavel Dovgalyuk geschrieben:
-> > > > From: Kevin Wolf [mailto:kwolf@redhat.com]
-> > > > > >
-> > > > > > However, global -snapshot is just a convenient shortcut for specifying
-> > > > > > snapshot=on for all -drive arguments. So if -snapshot is incompatible
-> > > > > > with replay, shouldn't manually marking all drives as snapshot=on be
-> > > > > > incompatible as well?
-> > > > > >
-> > > > > > Maybe you're really interested in some specific drive not having
-> > > > > > snapshot=on? But then it might be better to check that specific drive
-> > > > > > instad of forbidding just the shortcut for setting it.
-> > > > >
-> > > > > -snapshot adds the flag for top-level drive, making driver operations
-> > > > > dependent on temporary file structure.
-> > > > >
-> > > > > Moving this overlay beneath blkreplay driver makes drive operations
-> > > > > deterministic for the top-level device.
-> > > >
-> > > > So the real requirement is that blkreplay is the top-level node of any
-> > > > guest device, right? And only because of this, you can't use -snapshot
-> > > > (or snapshot=on on the blkreplay driver).
-> > > >
-> > > > If we instead check e.g. in blk_insert_bs() or blk_attach_dev() that in
-> > > > record/replay mode, the root node of the BlockBackend is blkreplay,
-> > > > wouldn't we catch many more incorrect setups?
-> > >
-> > > That sounds interesting.
-> > > Will it help to check that every backend is connected to blkreplay?
-> > 
-> > Yes, it would return an error when you try to attach a non-blkreplay
-> > node to a BlockBackend (and every guest device uses a BlockBackend).
-> > 
-> > Note that this restriction would currently make block jobs unavailable
-> > on non-blkreplay nodes as they also use BlockBackends internally (though
-> > this is going to change in the long run). I believe this restriction is
-> > harmless and the typical replay use case doesn't involve any block jobs,
-> > but if you do think it's a problem, blk_attach_dev() would be the place
-> > that affects only devices.
-> > 
-> > > How then this check has to be done?
-> > 
-> > Only compile-tested, but maybe something like below?
-> > 
-> > Kevin
-> > 
-> > diff --git a/include/block/block_int.h b/include/block/block_int.h
-> > index 0422acdf1c..9fa72bea51 100644
-> > --- a/include/block/block_int.h
-> > +++ b/include/block/block_int.h
-> > @@ -955,6 +955,7 @@ static inline BlockDriverState *backing_bs(BlockDriverState *bs)
-> >  extern BlockDriver bdrv_file;
-> >  extern BlockDriver bdrv_raw;
-> >  extern BlockDriver bdrv_qcow2;
-> > +extern BlockDriver bdrv_blkreplay;
-> > 
-> >  int coroutine_fn bdrv_co_preadv(BdrvChild *child,
-> >      int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
-> > diff --git a/block/blkreplay.c b/block/blkreplay.c
-> > index 2b7931b940..16a4f1df6a 100644
-> > --- a/block/blkreplay.c
-> > +++ b/block/blkreplay.c
-> > @@ -126,7 +126,7 @@ static int coroutine_fn blkreplay_co_flush(BlockDriverState *bs)
-> >      return ret;
-> >  }
-> > 
-> > -static BlockDriver bdrv_blkreplay = {
-> > +BlockDriver bdrv_blkreplay = {
-> >      .format_name            = "blkreplay",
-> >      .instance_size          = 0,
-> > 
-> > diff --git a/block/block-backend.c b/block/block-backend.c
-> > index 1c605d5444..c57d3d9fdf 100644
-> > --- a/block/block-backend.c
-> > +++ b/block/block-backend.c
-> > @@ -17,6 +17,7 @@
-> >  #include "block/throttle-groups.h"
-> >  #include "hw/qdev-core.h"
-> >  #include "sysemu/blockdev.h"
-> > +#include "sysemu/replay.h"
-> >  #include "sysemu/runstate.h"
-> >  #include "qapi/error.h"
-> >  #include "qapi/qapi-events-block.h"
-> > @@ -808,6 +809,12 @@ void blk_remove_bs(BlockBackend *blk)
-> >  int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
-> >  {
-> >      ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
-> > +
-> > +    if (replay_mode != REPLAY_MODE_NONE && bs->drv != &bdrv_blkreplay) {
-> > +        error_setg(errp, "Root node must be blkreplay");
-> > +        return -ENOTSUP;
-> > +    }
-> 
-> I guess this is opposite direction - bs->drv is bdrv_file.
-> And we should check its parent.
+Jekyll failed to run with sassc 2.2.0 due to a LoadError, so the
+Gemfile was requiring an earlier version (2.1.0 in practice).
+Since the bug has been fixed, remove the workaround and instead
+require a fixed version.
 
-If bs->drv is bdrv_file, you want this to fail because only
-bdrv_blkreplay should be able to be attached to devices.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ Gemfile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-bs doesn't have any parents here in the common case, it's the root node
-of the BlockBackend.
+diff --git a/Gemfile b/Gemfile
+index b76a4fd..2117bba 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -24,4 +24,4 @@ group :jekyll_plugins do
+ end
+ 
+ # for https://github.com/sass/sassc-ruby/issues/146
+-gem "sassc", "< 2.2.0"
++gem "sassc", ">= 2.2.1"
+-- 
+2.21.0
 
-Kevin
 
