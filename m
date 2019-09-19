@@ -2,49 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA06B7313
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:15:14 +0200 (CEST)
-Received: from localhost ([::1]:38042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63317B7316
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:18:18 +0200 (CEST)
+Received: from localhost ([::1]:38074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iApij-0000c9-7V
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43019)
+	id 1iAplh-0003Ds-GU
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:18:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iApMk-0002oj-AE
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:52:32 -0400
+ (envelope-from <thuth@redhat.com>) id 1iApVf-0005IH-4a
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:01:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iApMi-0000VH-Ik
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:52:30 -0400
-Received: from 15.mo6.mail-out.ovh.net ([188.165.39.161]:52004)
+ (envelope-from <thuth@redhat.com>) id 1iApVc-0006ET-52
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:01:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34268)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iApMi-0000UQ-AN
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 01:52:28 -0400
-Received: from player788.ha.ovh.net (unknown [10.108.35.159])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id D39241E1510
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 07:52:26 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player788.ha.ovh.net (Postfix) with ESMTPSA id 5C03F9F176A0;
- Thu, 19 Sep 2019 05:52:20 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 07:50:01 +0200
-Message-Id: <20190919055002.6729-21-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190919055002.6729-1-clg@kaod.org>
-References: <20190919055002.6729-1-clg@kaod.org>
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iApVb-0006B4-Tj
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:01:40 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2C41C307D853;
+ Thu, 19 Sep 2019 06:01:37 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-72.ams2.redhat.com [10.36.116.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EFC95D6B0;
+ Thu, 19 Sep 2019 06:01:30 +0000 (UTC)
+To: "Oleinik, Alexander" <alxndr@bu.edu>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190918231846.22538-1-alxndr@bu.edu>
+ <20190918231846.22538-3-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <adef69da-6966-33c1-9c52-6c4c4c98fe35@redhat.com>
+Date: Thu, 19 Sep 2019 08:01:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 1700671810984708881
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190918231846.22538-3-alxndr@bu.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Thu, 19 Sep 2019 06:01:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.39.161
-Subject: [Qemu-devel] [PATCH 20/21] aspeed: add support for the Aspeed MII
- controller of the AST2600
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 02/22] libqos: Rename i2c_send and
+ i2c_recv
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,308 +105,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "bsd@redhat.com" <bsd@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AST2600 SoC has an extra controller to set the PHY registers.
+On 19/09/2019 01.19, Oleinik, Alexander wrote:
+> The names i2c_send and i2c_recv collide with functions defined in
+> hw/i2c/core.c. This causes an error when linking against libqos and
+> softmmu simultaneously (for example when using qtest inproc). Rename the
+> libqos functions to avoid this.
+> 
+> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+> ---
+>  tests/libqos/i2c-imx.c  |  8 ++++----
+>  tests/libqos/i2c-omap.c |  8 ++++----
+>  tests/libqos/i2c.c      | 10 +++++-----
+>  tests/libqos/i2c.h      |  4 ++--
+>  tests/pca9552-test.c    | 10 +++++-----
+>  5 files changed, 20 insertions(+), 20 deletions(-)
+> 
+> diff --git a/tests/libqos/i2c-imx.c b/tests/libqos/i2c-imx.c
+> index f33ece55a3..c1dcc9fb1d 100644
+> --- a/tests/libqos/i2c-imx.c
+> +++ b/tests/libqos/i2c-imx.c
+> @@ -37,7 +37,7 @@ static void imx_i2c_set_slave_addr(IMXI2C *s, uint8_t addr,
+>                   (addr << 1) | (direction == IMX_I2C_READ ? 1 : 0));
+>  }
+>  
+> -static void imx_i2c_send(I2CAdapter *i2c, uint8_t addr,
+> +static void imx_i2c_test_send(I2CAdapter *i2c, uint8_t addr,
+>                           const uint8_t *buf, uint16_t len)
+>  {
+>      IMXI2C *s = container_of(i2c, IMXI2C, parent);
+> @@ -97,7 +97,7 @@ static void imx_i2c_send(I2CAdapter *i2c, uint8_t addr,
+>      g_assert((status & I2SR_IBB) == 0);
+>  }
+>  
+> -static void imx_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+> +static void imx_i2c_test_recv(I2CAdapter *i2c, uint8_t addr,
+>                           uint8_t *buf, uint16_t len)
+>  {
+>      IMXI2C *s = container_of(i2c, IMXI2C, parent);
+> @@ -202,8 +202,8 @@ void imx_i2c_init(IMXI2C *s, QTestState *qts, uint64_t addr)
+>  
+>      s->obj.get_driver = imx_i2c_get_driver;
+>  
+> -    s->parent.send = imx_i2c_send;
+> -    s->parent.recv = imx_i2c_recv;
+> +    s->parent.send = imx_i2c_test_send;
+> +    s->parent.recv = imx_i2c_test_recv;
+>      s->parent.qts = qts;
+>  }
+>  
+> diff --git a/tests/libqos/i2c-omap.c b/tests/libqos/i2c-omap.c
+> index 9ae8214fa8..284f765a3b 100644
+> --- a/tests/libqos/i2c-omap.c
+> +++ b/tests/libqos/i2c-omap.c
+> @@ -50,7 +50,7 @@ static void omap_i2c_set_slave_addr(OMAPI2C *s, uint8_t addr)
+>      g_assert_cmphex(data, ==, addr);
+>  }
+>  
+> -static void omap_i2c_send(I2CAdapter *i2c, uint8_t addr,
+> +static void omap_i2c_test_send(I2CAdapter *i2c, uint8_t addr,
+>                            const uint8_t *buf, uint16_t len)
+>  {
+>      OMAPI2C *s = container_of(i2c, OMAPI2C, parent);
+> @@ -94,7 +94,7 @@ static void omap_i2c_send(I2CAdapter *i2c, uint8_t addr,
+>      g_assert((data & OMAP_I2C_CON_STP) == 0);
+>  }
+>  
+> -static void omap_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+> +static void omap_i2c_test_recv(I2CAdapter *i2c, uint8_t addr,
+>                            uint8_t *buf, uint16_t len)
+>  {
+>      OMAPI2C *s = container_of(i2c, OMAPI2C, parent);
+> @@ -182,8 +182,8 @@ void omap_i2c_init(OMAPI2C *s, QTestState *qts, uint64_t addr)
+>      s->obj.get_driver = omap_i2c_get_driver;
+>      s->obj.start_hw = omap_i2c_start_hw;
+>  
+> -    s->parent.send = omap_i2c_send;
+> -    s->parent.recv = omap_i2c_recv;
+> +    s->parent.send = omap_i2c_test_send;
+> +    s->parent.recv = omap_i2c_test_recv;
+>      s->parent.qts = qts;
+>  }
+>  
+> diff --git a/tests/libqos/i2c.c b/tests/libqos/i2c.c
+> index 156114e745..b96a37b69b 100644
+> --- a/tests/libqos/i2c.c
+> +++ b/tests/libqos/i2c.c
+> @@ -10,12 +10,12 @@
+>  #include "libqos/i2c.h"
+>  #include "libqtest.h"
+>  
+> -void i2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
+> +void i2c_test_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
+>  {
+>      i2cdev->bus->send(i2cdev->bus, i2cdev->addr, buf, len);
+>  }
+>  
+> -void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
+> +void i2c_test_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
+>  {
+>      i2cdev->bus->recv(i2cdev->bus, i2cdev->addr, buf, len);
+>  }
+> @@ -23,8 +23,8 @@ void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
+>  void i2c_read_block(QI2CDevice *i2cdev, uint8_t reg,
+>                      uint8_t *buf, uint16_t len)
+>  {
+> -    i2c_send(i2cdev, &reg, 1);
+> -    i2c_recv(i2cdev, buf, len);
+> +    i2c_test_send(i2cdev, &reg, 1);
+> +    i2c_test_recv(i2cdev, buf, len);
+>  }
+>  
+>  void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+> @@ -33,7 +33,7 @@ void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+>      uint8_t *cmd = g_malloc(len + 1);
+>      cmd[0] = reg;
+>      memcpy(&cmd[1], buf, len);
+> -    i2c_send(i2cdev, cmd, len + 1);
+> +    i2c_test_send(i2cdev, cmd, len + 1);
+>      g_free(cmd);
+>  }
+>  
+> diff --git a/tests/libqos/i2c.h b/tests/libqos/i2c.h
+> index 945b65b34c..9a4d6579a2 100644
+> --- a/tests/libqos/i2c.h
+> +++ b/tests/libqos/i2c.h
+> @@ -47,8 +47,8 @@ struct QI2CDevice {
+>  void *i2c_device_create(void *i2c_bus, QGuestAllocator *alloc, void *addr);
+>  void add_qi2c_address(QOSGraphEdgeOptions *opts, QI2CAddress *addr);
+>  
+> -void i2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
+> -void i2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
+> +void i2c_test_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
+> +void i2c_test_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
+>  
+>  void i2c_read_block(QI2CDevice *dev, uint8_t reg,
+>                      uint8_t *buf, uint16_t len);
+> diff --git a/tests/pca9552-test.c b/tests/pca9552-test.c
+> index 4b800d3c3e..9844177d79 100644
+> --- a/tests/pca9552-test.c
+> +++ b/tests/pca9552-test.c
+> @@ -32,22 +32,22 @@ static void receive_autoinc(void *obj, void *data, QGuestAllocator *alloc)
+>  
+>      pca9552_init(i2cdev);
+>  
+> -    i2c_send(i2cdev, &reg, 1);
+> +    i2c_test_send(i2cdev, &reg, 1);
+>  
+>      /* PCA9552_LS0 */
+> -    i2c_recv(i2cdev, &resp, 1);
+> +    i2c_test_recv(i2cdev, &resp, 1);
+>      g_assert_cmphex(resp, ==, 0x54);
+>  
+>      /* PCA9552_LS1 */
+> -    i2c_recv(i2cdev, &resp, 1);
+> +    i2c_test_recv(i2cdev, &resp, 1);
+>      g_assert_cmphex(resp, ==, 0x55);
+>  
+>      /* PCA9552_LS2 */
+> -    i2c_recv(i2cdev, &resp, 1);
+> +    i2c_test_recv(i2cdev, &resp, 1);
+>      g_assert_cmphex(resp, ==, 0x55);
+>  
+>      /* PCA9552_LS3 */
+> -    i2c_recv(i2cdev, &resp, 1);
+> +    i2c_test_recv(i2cdev, &resp, 1);
+>      g_assert_cmphex(resp, ==, 0x54);
+>  }
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- include/hw/arm/aspeed_soc.h |   5 ++
- include/hw/net/ftgmac100.h  |  17 ++++
- hw/arm/aspeed_ast2600.c     |  20 +++++
- hw/net/ftgmac100.c          | 162 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 204 insertions(+)
-
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 088a5d108185..43478f617879 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -52,6 +52,7 @@ typedef struct AspeedSoCState {
-     AspeedSDMCState sdmc;
-     AspeedWDTState wdt[ASPEED_WDTS_NUM];
-     FTGMAC100State ftgmac100[ASPEED_MACS_NUM];
-+    AspeedMiiState mii[ASPEED_MACS_NUM];
-     AspeedGPIOState gpio;
-     AspeedGPIOState gpio_1_8v;
-     AspeedSDHCIState sdhci;
-@@ -117,6 +118,10 @@ enum {
-     ASPEED_ETH2,
-     ASPEED_ETH3,
-     ASPEED_ETH4,
-+    ASPEED_MII1,
-+    ASPEED_MII2,
-+    ASPEED_MII3,
-+    ASPEED_MII4,
-     ASPEED_SDRAM,
-     ASPEED_XDMA,
- };
-diff --git a/include/hw/net/ftgmac100.h b/include/hw/net/ftgmac100.h
-index 94cfe0533297..ab37e7b2b8ae 100644
---- a/include/hw/net/ftgmac100.h
-+++ b/include/hw/net/ftgmac100.h
-@@ -66,4 +66,21 @@ typedef struct FTGMAC100State {
-     uint32_t rxdes0_edorr;
- } FTGMAC100State;
-=20
-+#define TYPE_ASPEED_MII "aspeed-mmi"
-+#define ASPEED_MII(obj) OBJECT_CHECK(AspeedMiiState, (obj), TYPE_ASPEED_=
-MII)
-+
-+/*
-+ * AST2600 MII controller
-+ */
-+typedef struct AspeedMiiState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+
-+    FTGMAC100State *nic;
-+
-+    MemoryRegion iomem;
-+    uint32_t phycr;
-+    uint32_t phydata;
-+} AspeedMiiState;
-+
- #endif
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index ec51f9b6e617..26ad9c3394e2 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -31,6 +31,10 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
-     [ASPEED_FMC]       =3D 0x1E620000,
-     [ASPEED_SPI1]      =3D 0x1E630000,
-     [ASPEED_SPI2]      =3D 0x1E641000,
-+    [ASPEED_MII1]      =3D 0x1E650000,
-+    [ASPEED_MII2]      =3D 0x1E650008,
-+    [ASPEED_MII3]      =3D 0x1E650010,
-+    [ASPEED_MII4]      =3D 0x1E650018,
-     [ASPEED_ETH1]      =3D 0x1E660000,
-     [ASPEED_ETH3]      =3D 0x1E670000,
-     [ASPEED_ETH2]      =3D 0x1E680000,
-@@ -180,6 +184,12 @@ static void aspeed_soc_ast2600_init(Object *obj)
-     for (i =3D 0; i < sc->macs_num; i++) {
-         sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[=
-i]),
-                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
-+
-+        sysbus_init_child_obj(obj, "mii[*]", &s->mii[i], sizeof(s->mii[i=
-]),
-+                              TYPE_ASPEED_MII);
-+        object_property_add_const_link(OBJECT(&s->mii[i]), "nic",
-+                                       OBJECT(&s->ftgmac100[i]),
-+                                       &error_abort);
-     }
-=20
-     sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xdma)=
-,
-@@ -416,6 +426,16 @@ static void aspeed_soc_ast2600_realize(DeviceState *=
-dev, Error **errp)
-                         sc->memmap[ASPEED_ETH1 + i]);
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
-                            aspeed_soc_get_irq(s, ASPEED_ETH1 + i));
-+
-+        object_property_set_bool(OBJECT(&s->mii[i]), true, "realized",
-+                                 &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->mii[i]), 0,
-+                        sc->memmap[ASPEED_MII1 + i]);
-     }
-=20
-     /* XDMA */
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 04c78e85170b..eb8b441461a1 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -15,6 +15,7 @@
- #include "hw/irq.h"
- #include "hw/net/ftgmac100.h"
- #include "sysemu/dma.h"
-+#include "qapi/error.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "net/checksum.h"
-@@ -1087,9 +1088,170 @@ static const TypeInfo ftgmac100_info =3D {
-     .class_init =3D ftgmac100_class_init,
- };
-=20
-+/*
-+ * AST2600 MII controller
-+ */
-+#define ASPEED_MII_PHYCR_FIRE        BIT(31)
-+#define ASPEED_MII_PHYCR_ST_22       BIT(28)
-+#define ASPEED_MII_PHYCR_OP(x)       ((x) & (ASPEED_MII_PHYCR_OP_WRITE |=
- \
-+                                             ASPEED_MII_PHYCR_OP_READ))
-+#define ASPEED_MII_PHYCR_OP_WRITE    BIT(26)
-+#define ASPEED_MII_PHYCR_OP_READ     BIT(27)
-+#define ASPEED_MII_PHYCR_DATA(x)     (x & 0xffff)
-+#define ASPEED_MII_PHYCR_PHY(x)      (((x) >> 21) & 0x1f)
-+#define ASPEED_MII_PHYCR_REG(x)      (((x) >> 16) & 0x1f)
-+
-+#define ASPEED_MII_PHYDATA_IDLE      BIT(16)
-+
-+static void aspeed_mii_transition(AspeedMiiState *s, bool fire)
-+{
-+    if (fire) {
-+        s->phycr |=3D ASPEED_MII_PHYCR_FIRE;
-+        s->phydata &=3D ~ASPEED_MII_PHYDATA_IDLE;
-+    } else {
-+        s->phycr &=3D ~ASPEED_MII_PHYCR_FIRE;
-+        s->phydata |=3D ASPEED_MII_PHYDATA_IDLE;
-+    }
-+}
-+
-+static void aspeed_mii_do_phy_ctl(AspeedMiiState *s)
-+{
-+    uint8_t reg;
-+    uint16_t data;
-+
-+    if (!(s->phycr & ASPEED_MII_PHYCR_ST_22)) {
-+        aspeed_mii_transition(s, !ASPEED_MII_PHYCR_FIRE);
-+        qemu_log_mask(LOG_UNIMP, "%s: unsupported ST code\n", __func__);
-+        return;
-+    }
-+
-+    /* Nothing to do */
-+    if (!(s->phycr & ASPEED_MII_PHYCR_FIRE)) {
-+        return;
-+    }
-+
-+    reg =3D ASPEED_MII_PHYCR_REG(s->phycr);
-+    data =3D ASPEED_MII_PHYCR_DATA(s->phycr);
-+
-+    switch (ASPEED_MII_PHYCR_OP(s->phycr)) {
-+    case ASPEED_MII_PHYCR_OP_WRITE:
-+        do_phy_write(s->nic, reg, data);
-+        break;
-+    case ASPEED_MII_PHYCR_OP_READ:
-+        s->phydata =3D (s->phydata & ~0xffff) | do_phy_read(s->nic, reg)=
-;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid OP code %08x\n",
-+                      __func__, s->phycr);
-+    }
-+
-+    aspeed_mii_transition(s, !ASPEED_MII_PHYCR_FIRE);
-+}
-+
-+static uint64_t aspeed_mii_read(void *opaque, hwaddr addr, unsigned size=
-)
-+{
-+    AspeedMiiState *s =3D ASPEED_MII(opaque);
-+
-+    switch (addr) {
-+    case 0x0:
-+        return s->phycr;
-+    case 0x4:
-+        return s->phydata;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static void aspeed_mii_write(void *opaque, hwaddr addr,
-+                             uint64_t value, unsigned size)
-+{
-+    AspeedMiiState *s =3D ASPEED_MII(opaque);
-+
-+    switch (addr) {
-+    case 0x0:
-+        s->phycr =3D value & ~(s->phycr & ASPEED_MII_PHYCR_FIRE);
-+        break;
-+    case 0x4:
-+        s->phydata =3D value & ~(0xffff | ASPEED_MII_PHYDATA_IDLE);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    aspeed_mii_transition(s, !!(s->phycr & ASPEED_MII_PHYCR_FIRE));
-+    aspeed_mii_do_phy_ctl(s);
-+}
-+
-+static const MemoryRegionOps aspeed_mii_ops =3D {
-+    .read =3D aspeed_mii_read,
-+    .write =3D aspeed_mii_write,
-+    .valid.min_access_size =3D 4,
-+    .valid.max_access_size =3D 4,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void aspeed_mii_reset(DeviceState *dev)
-+{
-+    AspeedMiiState *s =3D ASPEED_MII(dev);
-+
-+    s->phycr =3D 0;
-+    s->phydata =3D 0;
-+
-+    aspeed_mii_transition(s, !!(s->phycr & ASPEED_MII_PHYCR_FIRE));
-+};
-+
-+static void aspeed_mii_realize(DeviceState *dev, Error **errp)
-+{
-+    AspeedMiiState *s =3D ASPEED_MII(dev);
-+    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-+    Object *obj;
-+    Error *local_err =3D NULL;
-+
-+    obj =3D object_property_get_link(OBJECT(dev), "nic", &local_err);
-+    if (!obj) {
-+        error_propagate(errp, local_err);
-+        error_prepend(errp, "required link 'nic' not found: ");
-+        return;
-+    }
-+
-+    s->nic =3D FTGMAC100(obj);
-+
-+    memory_region_init_io(&s->iomem, OBJECT(dev), &aspeed_mii_ops, s,
-+                          TYPE_ASPEED_MII, 0x8);
-+    sysbus_init_mmio(sbd, &s->iomem);
-+}
-+
-+static const VMStateDescription vmstate_aspeed_mii =3D {
-+    .name =3D TYPE_ASPEED_MII,
-+    .version_id =3D 1,
-+    .minimum_version_id =3D 1,
-+    .fields =3D (VMStateField[]) {
-+        VMSTATE_UINT32(phycr, FTGMAC100State),
-+        VMSTATE_UINT32(phydata, FTGMAC100State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+static void aspeed_mii_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+
-+    dc->vmsd =3D &vmstate_aspeed_mii;
-+    dc->reset =3D aspeed_mii_reset;
-+    dc->realize =3D aspeed_mii_realize;
-+    dc->desc =3D "Aspeed MII controller";
-+}
-+
-+static const TypeInfo aspeed_mii_info =3D {
-+    .name =3D TYPE_ASPEED_MII,
-+    .parent =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_size =3D sizeof(AspeedMiiState),
-+    .class_init =3D aspeed_mii_class_init,
-+};
-+
- static void ftgmac100_register_types(void)
- {
-     type_register_static(&ftgmac100_info);
-+    type_register_static(&aspeed_mii_info);
- }
-=20
- type_init(ftgmac100_register_types)
---=20
-2.21.0
-
+Acked-by: Thomas Huth <thuth@redhat.com>
 
