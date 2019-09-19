@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F69B8375
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:34:13 +0200 (CEST)
-Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94194B8383
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:38:48 +0200 (CEST)
+Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB444-00011s-5s
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53498)
+	id 1iB48U-0006Rm-TW
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3ug-0002gP-Le
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:31 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3ui-0002iY-E8
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3ue-0000Yx-TR
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:30 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36228)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uf-0000Zr-SO
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:32 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41618)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iB3ue-0000YN-Ky
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:28 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y19so4640842wrd.3
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:28 -0700 (PDT)
+ id 1iB3uf-0000Z2-Iz
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:29 -0400
+Received: by mail-wr1-x442.google.com with SMTP id h7so4600352wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aJOgLJbUU33d0sFNF8d3VZOVm5JVuSp9jkJ/aPDzPik=;
- b=kl7AawCnYB5geqEpJnk7wWBcA4LtB+XIaptOZDGNPT+NLXmPKa6rmv+WgkxWiOigL8
- TgPQiGSSep7Vkb4D8moXtAz9Ze6cpUPKCRUJ4pKv2UmGazAieM7gjq4jAT/8aQR+UZeH
- 1t2KhAtXklEvSwOpjEo2xqQs+uNF7lrBqzHITSPjdTymT554+gm8RfeWIkSNmSWDv5ws
- /thkB2R9NQU5xA7x+u1uHuSwGi+10uZEw3lRrb4n1He5sygqLKz3lhr+26DTlHWTDj3d
- QNozvN6DN2eFTHI/JMK/sDeor41V6rDQOPsjGrrT5Z5LGn/a0S0yay5p5CWS+bflYoSY
- ajoQ==
+ bh=y7iHNMJr/K6vEM5IKPVSAJe6YZjvyzTOTmHMWROPW74=;
+ b=vQIkB1EcBBmxPUHCNIwLJIjXaPAMrautVO8u2twW3Wrl9hU5d+up/TrD6cpZO/v1yf
+ dIUOvaXAzAmn9Gptihk4yq+Uw0lvU3SHLuchnLpZZmi0OBQhB5HJQvOI6m+PgefHgt4w
+ 7BFyQOGdSgmI7LmKqOLrSqGYbeiwTm6+gbt+2a/HRv66K6987XBfZtnmt3owQyE/D4V7
+ sLcwXe5slTwXDPbfaFL5RdJIaL48SPqCEJQqfDiHtgVNyhyK4P2KDHgWUN7omQMv0/C3
+ xEbdXQ6Fl0KY/Rt9DyIp+MCYt8lqtQhQz+B6+ueTYtBnv+vOOr/Ct1JSrxCd56OhN1df
+ JXhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aJOgLJbUU33d0sFNF8d3VZOVm5JVuSp9jkJ/aPDzPik=;
- b=KcqYpuKu8Fl8Td7ZiX9Rhnt2AQzLdeHMaeEa4D59xUsN7mtMSfZHiPBMASLE1bjoy8
- 5uL1fxwDr1kkEMQTH2OtpLJwaE9ndPR1tFVvyj51NmDo14ZsDZKSnLZfp1uqOSAitijG
- ctoqHZcIiW4b9aL4HqKSUXg+CEdOMaq3SWWemCPUrdlDbSeN8x0zCt8u9E5rg4LdB21K
- /XXQlWI9y4fCKPVVM+PBurImMcFaKmK3EAB1ACPyUhn6AnFTz9NJrerlEtJPyS6YQKDY
- xm07zE/F15qnLwUtxi/gjpOicynV4OfBsEjrckhM+c7cFsAyQycT6hajmzOrFgegx78n
- wJHA==
-X-Gm-Message-State: APjAAAW3ENxkphfCvmvBW3udEi8vyaDKOo/8VOYhWjKXVs4orkoUNDOx
- mlniN7PdN6L+jWtILbhz8pAxQL1c
-X-Google-Smtp-Source: APXvYqxAqP7Tthxp9pGMcTNLy2HT9/Z2CcjlSTrk9dj7gmuZsUXVdJDaUx8FfTxirK9ZZQKz7kP8Ag==
-X-Received: by 2002:a05:6000:188:: with SMTP id
- p8mr6279571wrx.220.1568928267271; 
- Thu, 19 Sep 2019 14:24:27 -0700 (PDT)
+ bh=y7iHNMJr/K6vEM5IKPVSAJe6YZjvyzTOTmHMWROPW74=;
+ b=JujgTyX4w/AXB/MZLcLq1Lfs5c/ry9d+p0MdIlh2DZ92Q6mUOTeJNxkZUY8LUlrDXl
+ KYxWe1LG1LATtDnxyek7qFyDsllOXqFtNSUZ1KRvhQFjp8zU675ScNFp/LkVp94EoqGz
+ tWQR0vDfAka2Z1oujyOvj84CLLFxKzetKHhL3QO7uon5tA6+WGgOe/uNju/ASbjaQ7G0
+ beSEafACnR6fZ4c/InbTy235IZ2kl3gGz5T5DoHK445fiExOpF98tRejSB3sf1+ffwNs
+ CJIa5ENGBC06No4Msj1BdVNklxOHprEUGZSpLHT6BcB/PHS/lTChm2w6CWfy1jIB71k9
+ TeQw==
+X-Gm-Message-State: APjAAAVIMB6Gfc8pUCS35D7BQSRM+dOnE0yh6PoLwFpUX2ys0RPOA7YV
+ Ty+N9mNf2HjNJHqKRthL9YFo6P6i
+X-Google-Smtp-Source: APXvYqweeAR1BP+dIwEmLFfUDRJCS4f1fHwjkvWN1MzqQHBXoC9c4s1riqHkQZVSbzBMpAteWiS3IA==
+X-Received: by 2002:a5d:660c:: with SMTP id n12mr8973194wru.286.1568928268226; 
+ Thu, 19 Sep 2019 14:24:28 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:74ef::5])
- by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.25
+ by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:24:26 -0700 (PDT)
+ Thu, 19 Sep 2019 14:24:27 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/24] noaudio: port to the new audio backend api
-Date: Thu, 19 Sep 2019 23:24:13 +0200
-Message-Id: <10eebdd2e1529c2bd403ef98dd9d346c6d4ca3d1.1568927990.git.DirtY.iCE.hu@gmail.com>
+Subject: [PATCH v4 06/24] ossaudio: port to the new audio backend api
+Date: Thu, 19 Sep 2019 23:24:14 +0200
+Message-Id: <22ab335146acd8099779583edcf6ed46de836bd6.1568927990.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
@@ -90,92 +89,410 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/noaudio.c | 43 +++++++++++++++++--------------------------
- 1 file changed, 17 insertions(+), 26 deletions(-)
+ audio/ossaudio.c | 272 +++++++++++++++++------------------------------
+ 1 file changed, 96 insertions(+), 176 deletions(-)
 
-diff --git a/audio/noaudio.c b/audio/noaudio.c
-index 0fb2629cf2..b054fd225b 100644
---- a/audio/noaudio.c
-+++ b/audio/noaudio.c
-@@ -41,10 +41,9 @@ typedef struct NoVoiceIn {
-     int64_t old_ticks;
- } NoVoiceIn;
+diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+index 1696933688..2782512706 100644
+--- a/audio/ossaudio.c
++++ b/audio/ossaudio.c
+@@ -40,19 +40,15 @@
  
--static size_t no_run_out(HWVoiceOut *hw, size_t live)
-+static size_t no_write(HWVoiceOut *hw, void *buf, size_t len)
- {
-     NoVoiceOut *no = (NoVoiceOut *) hw;
--    size_t decr, samples;
-     int64_t now;
-     int64_t ticks;
-     int64_t bytes;
-@@ -52,13 +51,9 @@ static size_t no_run_out(HWVoiceOut *hw, size_t live)
-     now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-     ticks = now - no->old_ticks;
-     bytes = muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_SECOND);
--    bytes = MIN(bytes, SIZE_MAX);
--    samples = bytes >> hw->info.shift;
+ typedef struct OSSVoiceOut {
+     HWVoiceOut hw;
+-    void *pcm_buf;
+     int fd;
+-    int wpos;
+     int nfrags;
+     int fragsize;
+     int mmapped;
+-    int pending;
+     Audiodev *dev;
+ } OSSVoiceOut;
  
-     no->old_ticks = now;
--    decr = MIN (live, samples);
--    hw->rpos = (hw->rpos + decr) % hw->samples;
--    return decr;
-+    return MIN(len, bytes);
+ typedef struct OSSVoiceIn {
+     HWVoiceIn hw;
+-    void *pcm_buf;
+     int fd;
+     int nfrags;
+     int fragsize;
+@@ -371,98 +367,87 @@ static int oss_open(int in, struct oss_params *req, audsettings *as,
+     return -1;
  }
  
- static int no_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
-@@ -92,25 +87,21 @@ static void no_fini_in (HWVoiceIn *hw)
-     (void) hw;
+-static void oss_write_pending (OSSVoiceOut *oss)
++static size_t oss_get_available_bytes(OSSVoiceOut *oss)
+ {
+-    HWVoiceOut *hw = &oss->hw;
++    int err;
++    struct count_info cntinfo;
++    assert(oss->mmapped);
+ 
+-    if (oss->mmapped) {
+-        return;
++    err = ioctl(oss->fd, SNDCTL_DSP_GETOPTR, &cntinfo);
++    if (err < 0) {
++        oss_logerr(errno, "SNDCTL_DSP_GETOPTR failed\n");
++        return 0;
+     }
+ 
+-    while (oss->pending) {
+-        int samples_written;
+-        ssize_t bytes_written;
+-        int samples_till_end = hw->samples - oss->wpos;
+-        int samples_to_write = MIN (oss->pending, samples_till_end);
+-        int bytes_to_write = samples_to_write << hw->info.shift;
+-        void *pcm = advance (oss->pcm_buf, oss->wpos << hw->info.shift);
++    return audio_ring_dist(cntinfo.ptr, oss->hw.pos_emul, oss->hw.size_emul);
++}
+ 
+-        bytes_written = write (oss->fd, pcm, bytes_to_write);
+-        if (bytes_written < 0) {
+-            if (errno != EAGAIN) {
+-                oss_logerr (errno, "failed to write %d bytes\n",
+-                            bytes_to_write);
+-            }
+-            break;
+-        }
++static void *oss_get_buffer_out(HWVoiceOut *hw, size_t *size)
++{
++    OSSVoiceOut *oss = (OSSVoiceOut *) hw;
++    if (oss->mmapped) {
++        *size = MIN(oss_get_available_bytes(oss), hw->size_emul - hw->pos_emul);
++        return hw->buf_emul + hw->pos_emul;
++    } else {
++        return audio_generic_get_buffer_out(hw, size);
++    }
++}
+ 
+-        if (bytes_written & hw->info.align) {
+-            dolog ("misaligned write asked for %d, but got %zd\n",
+-                   bytes_to_write, bytes_written);
+-            return;
+-        }
++static size_t oss_put_buffer_out(HWVoiceOut *hw, void *buf, size_t size)
++{
++    OSSVoiceOut *oss = (OSSVoiceOut *) hw;
++    if (oss->mmapped) {
++        assert(buf == hw->buf_emul + hw->pos_emul && size < hw->size_emul);
+ 
+-        samples_written = bytes_written >> hw->info.shift;
+-        oss->pending -= samples_written;
+-        oss->wpos = (oss->wpos + samples_written) % hw->samples;
+-        if (bytes_written - bytes_to_write) {
+-            break;
+-        }
++        hw->pos_emul = (hw->pos_emul + size) % hw->size_emul;
++        return size;
++    } else {
++        return audio_generic_put_buffer_out(hw, buf, size);
+     }
  }
  
--static size_t no_run_in(HWVoiceIn *hw)
-+static size_t no_read(HWVoiceIn *hw, void *buf, size_t size)
+-static size_t oss_run_out(HWVoiceOut *hw, size_t live)
++static size_t oss_write(HWVoiceOut *hw, void *buf, size_t len)
  {
-+    size_t to_clear;
-     NoVoiceIn *no = (NoVoiceIn *) hw;
--    size_t live = audio_pcm_hw_get_live_in(hw);
--    size_t dead = hw->samples - live;
--    size_t samples = 0;
+     OSSVoiceOut *oss = (OSSVoiceOut *) hw;
+-    int err;
+-    size_t decr;
+-    struct audio_buf_info abinfo;
+-    struct count_info cntinfo;
+-    size_t bufsize;
 -
--    if (dead) {
--        int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--        int64_t ticks = now - no->old_ticks;
--        int64_t bytes =
--            muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_SECOND);
--
--        no->old_ticks = now;
--        bytes = MIN (bytes, SIZE_MAX);
--        samples = bytes >> hw->info.shift;
--        samples = MIN (samples, dead);
+-    bufsize = hw->samples << hw->info.shift;
++    size_t pos;
+ 
+     if (oss->mmapped) {
+-        int bytes, pos;
++        size_t total_len;
++        len = MIN(len, oss_get_available_bytes(oss));
+ 
+-        err = ioctl (oss->fd, SNDCTL_DSP_GETOPTR, &cntinfo);
+-        if (err < 0) {
+-            oss_logerr (errno, "SNDCTL_DSP_GETOPTR failed\n");
+-            return 0;
+-        }
++        total_len = len;
++        while (len) {
++            size_t to_copy = MIN(len, hw->size_emul - hw->pos_emul);
++            memcpy(hw->buf_emul + hw->pos_emul, buf, to_copy);
+ 
+-        pos = hw->rpos << hw->info.shift;
+-        bytes = audio_ring_dist (cntinfo.ptr, pos, bufsize);
+-        decr = MIN (bytes >> hw->info.shift, live);
 -    }
--    return samples;
-+
-+    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    int64_t ticks = now - no->old_ticks;
-+    int64_t bytes =
-+        muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_SECOND);
-+
-+    no->old_ticks = now;
-+    to_clear = MIN(bytes, size);
-+
-+    audio_pcm_info_clear_buf(&hw->info, buf, to_clear >> hw->info.shift);
-+    return to_clear;
+-    else {
+-        err = ioctl (oss->fd, SNDCTL_DSP_GETOSPACE, &abinfo);
+-        if (err < 0) {
+-            oss_logerr (errno, "SNDCTL_DSP_GETOPTR failed\n");
+-            return 0;
++            hw->pos_emul = (hw->pos_emul + to_copy) % hw->pos_emul;
++            buf += to_copy;
++            len -= to_copy;
+         }
++        return total_len;
++    }
+ 
+-        if (abinfo.bytes > bufsize) {
+-            trace_oss_invalid_available_size(abinfo.bytes, bufsize);
+-            abinfo.bytes = bufsize;
+-        }
++    pos = 0;
++    while (len) {
++        ssize_t bytes_written;
++        void *pcm = advance(buf, pos);
+ 
+-        if (abinfo.bytes < 0) {
+-            trace_oss_invalid_available_size(abinfo.bytes, bufsize);
+-            return 0;
++        bytes_written = write(oss->fd, pcm, len);
++        if (bytes_written < 0) {
++            if (errno != EAGAIN) {
++                oss_logerr(errno, "failed to write %zu bytes\n",
++                           len);
++            }
++            return pos;
+         }
+ 
+-        decr = MIN (abinfo.bytes >> hw->info.shift, live);
+-        if (!decr) {
+-            return 0;
++        pos += bytes_written;
++        if (bytes_written < len) {
++            break;
+         }
++        len -= bytes_written;
+     }
+-
+-    decr = audio_pcm_hw_clip_out (hw, oss->pcm_buf, decr, oss->pending);
+-    oss->pending += decr;
+-    oss_write_pending (oss);
+-
+-    return decr;
++    return pos;
  }
  
- static int no_ctl_in (HWVoiceIn *hw, int cmd, ...)
-@@ -133,12 +124,12 @@ static void no_audio_fini (void *opaque)
- static struct audio_pcm_ops no_pcm_ops = {
-     .init_out = no_init_out,
-     .fini_out = no_fini_out,
--    .run_out  = no_run_out,
-+    .write    = no_write,
-     .ctl_out  = no_ctl_out,
+ static void oss_fini_out (HWVoiceOut *hw)
+@@ -473,18 +458,13 @@ static void oss_fini_out (HWVoiceOut *hw)
+     ldebug ("oss_fini\n");
+     oss_anal_close (&oss->fd);
  
-     .init_in  = no_init_in,
-     .fini_in  = no_fini_in,
--    .run_in   = no_run_in,
-+    .read     = no_read,
-     .ctl_in   = no_ctl_in
+-    if (oss->pcm_buf) {
+-        if (oss->mmapped) {
+-            err = munmap (oss->pcm_buf, hw->samples << hw->info.shift);
+-            if (err) {
+-                oss_logerr(errno, "Failed to unmap buffer %p, size %zu\n",
+-                           oss->pcm_buf, hw->samples << hw->info.shift);
+-            }
+-        }
+-        else {
+-            g_free (oss->pcm_buf);
++    if (oss->mmapped && hw->buf_emul) {
++        err = munmap(hw->buf_emul, hw->size_emul);
++        if (err) {
++            oss_logerr(errno, "Failed to unmap buffer %p, size %zu\n",
++                       hw->buf_emul, hw->size_emul);
+         }
+-        oss->pcm_buf = NULL;
++        hw->buf_emul = NULL;
+     }
+ }
+ 
+@@ -535,19 +515,20 @@ static int oss_init_out(HWVoiceOut *hw, struct audsettings *as,
+ 
+     oss->mmapped = 0;
+     if (oopts->has_try_mmap && oopts->try_mmap) {
+-        oss->pcm_buf = mmap (
++        hw->size_emul = hw->samples << hw->info.shift;
++        hw->buf_emul = mmap(
+             NULL,
+-            hw->samples << hw->info.shift,
++            hw->size_emul,
+             PROT_READ | PROT_WRITE,
+             MAP_SHARED,
+             fd,
+             0
+             );
+-        if (oss->pcm_buf == MAP_FAILED) {
++        if (hw->buf_emul == MAP_FAILED) {
+             oss_logerr(errno, "Failed to map %zu bytes of DAC\n",
+-                       hw->samples << hw->info.shift);
+-        }
+-        else {
++                       hw->size_emul);
++            hw->buf_emul = NULL;
++        } else {
+             int err;
+             int trig = 0;
+             if (ioctl (fd, SNDCTL_DSP_SETTRIGGER, &trig) < 0) {
+@@ -567,30 +548,16 @@ static int oss_init_out(HWVoiceOut *hw, struct audsettings *as,
+             }
+ 
+             if (!oss->mmapped) {
+-                err = munmap (oss->pcm_buf, hw->samples << hw->info.shift);
++                err = munmap(hw->buf_emul, hw->size_emul);
+                 if (err) {
+                     oss_logerr(errno, "Failed to unmap buffer %p size %zu\n",
+-                               oss->pcm_buf, hw->samples << hw->info.shift);
++                               hw->buf_emul, hw->size_emul);
+                 }
++                hw->buf_emul = NULL;
+             }
+         }
+     }
+ 
+-    if (!oss->mmapped) {
+-        oss->pcm_buf = audio_calloc(__func__,
+-                                    hw->samples,
+-                                    1 << hw->info.shift);
+-        if (!oss->pcm_buf) {
+-            dolog (
+-                "Could not allocate DAC buffer (%zu samples, each %d bytes)\n",
+-                hw->samples,
+-                1 << hw->info.shift
+-                );
+-            oss_anal_close (&fd);
+-            return -1;
+-        }
+-    }
+-
+     oss->fd = fd;
+     oss->dev = dev;
+     return 0;
+@@ -618,7 +585,7 @@ static int oss_ctl_out (HWVoiceOut *hw, int cmd, ...)
+                 return 0;
+             }
+ 
+-            audio_pcm_info_clear_buf (&hw->info, oss->pcm_buf, hw->samples);
++            audio_pcm_info_clear_buf(&hw->info, hw->buf_emul, hw->samples);
+             trig = PCM_ENABLE_OUTPUT;
+             if (ioctl (oss->fd, SNDCTL_DSP_SETTRIGGER, &trig) < 0) {
+                 oss_logerr (
+@@ -692,13 +659,6 @@ static int oss_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+     }
+ 
+     hw->samples = (obt.nfrags * obt.fragsize) >> hw->info.shift;
+-    oss->pcm_buf = audio_calloc(__func__, hw->samples, 1 << hw->info.shift);
+-    if (!oss->pcm_buf) {
+-        dolog("Could not allocate ADC buffer (%zu samples, each %d bytes)\n",
+-              hw->samples, 1 << hw->info.shift);
+-        oss_anal_close (&fd);
+-        return -1;
+-    }
+ 
+     oss->fd = fd;
+     oss->dev = dev;
+@@ -710,78 +670,36 @@ static void oss_fini_in (HWVoiceIn *hw)
+     OSSVoiceIn *oss = (OSSVoiceIn *) hw;
+ 
+     oss_anal_close (&oss->fd);
+-
+-    g_free(oss->pcm_buf);
+-    oss->pcm_buf = NULL;
+ }
+ 
+-static size_t oss_run_in(HWVoiceIn *hw)
++static size_t oss_read(HWVoiceIn *hw, void *buf, size_t len)
+ {
+     OSSVoiceIn *oss = (OSSVoiceIn *) hw;
+-    int hwshift = hw->info.shift;
+-    int i;
+-    size_t live = audio_pcm_hw_get_live_in (hw);
+-    size_t dead = hw->samples - live;
+-    size_t read_samples = 0;
+-    struct {
+-        size_t add;
+-        size_t len;
+-    } bufs[2] = {
+-        { .add = hw->wpos, .len = 0 },
+-        { .add = 0,        .len = 0 }
+-    };
+-
+-    if (!dead) {
+-        return 0;
+-    }
+-
+-    if (hw->wpos + dead > hw->samples) {
+-        bufs[0].len = (hw->samples - hw->wpos) << hwshift;
+-        bufs[1].len = (dead - (hw->samples - hw->wpos)) << hwshift;
+-    }
+-    else {
+-        bufs[0].len = dead << hwshift;
+-    }
++    size_t pos = 0;
+ 
+-    for (i = 0; i < 2; ++i) {
++    while (len) {
+         ssize_t nread;
+ 
+-        if (bufs[i].len) {
+-            void *p = advance (oss->pcm_buf, bufs[i].add << hwshift);
+-            nread = read (oss->fd, p, bufs[i].len);
+-
+-            if (nread > 0) {
+-                if (nread & hw->info.align) {
+-                    dolog("warning: Misaligned read %zd (requested %zu), "
+-                          "alignment %d\n", nread, bufs[i].add << hwshift,
+-                          hw->info.align + 1);
+-                }
+-                read_samples += nread >> hwshift;
+-                hw->conv (hw->conv_buf + bufs[i].add, p, nread >> hwshift);
+-            }
++        void *dst = advance(buf, pos);
++        nread = read(oss->fd, dst, len);
+ 
+-            if (bufs[i].len - nread) {
+-                if (nread == -1) {
+-                    switch (errno) {
+-                    case EINTR:
+-                    case EAGAIN:
+-                        break;
+-                    default:
+-                        oss_logerr(
+-                            errno,
+-                            "Failed to read %zu bytes of audio (to %p)\n",
+-                            bufs[i].len, p
+-                            );
+-                        break;
+-                    }
+-                }
++        if (nread == -1) {
++            switch (errno) {
++            case EINTR:
++            case EAGAIN:
++                break;
++            default:
++                oss_logerr(errno, "Failed to read %zu bytes of audio (to %p)\n",
++                           len, dst);
+                 break;
+             }
+         }
++
++        pos += nread;
++        len -= nread;
+     }
+ 
+-    hw->wpos = (hw->wpos + read_samples) % hw->samples;
+-    return read_samples;
++    return pos;
+ }
+ 
+ static int oss_ctl_in (HWVoiceIn *hw, int cmd, ...)
+@@ -845,12 +763,14 @@ static void oss_audio_fini (void *opaque)
+ static struct audio_pcm_ops oss_pcm_ops = {
+     .init_out = oss_init_out,
+     .fini_out = oss_fini_out,
+-    .run_out  = oss_run_out,
++    .write    = oss_write,
++    .get_buffer_out = oss_get_buffer_out,
++    .put_buffer_out = oss_put_buffer_out,
+     .ctl_out  = oss_ctl_out,
+ 
+     .init_in  = oss_init_in,
+     .fini_in  = oss_fini_in,
+-    .run_in   = oss_run_in,
++    .read     = oss_read,
+     .ctl_in   = oss_ctl_in
  };
  
 -- 
