@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4F9B7FF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:25:08 +0200 (CEST)
-Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4054EB8000
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:29:49 +0200 (CEST)
+Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0B0-0002vn-LC
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:25:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50079)
+	id 1iB0FW-0007Ke-HH
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:29:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iB06n-0008Kv-Qm
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:47 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1iB06w-0008UJ-8p
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iB05o-0000QA-Nf
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:19:46 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37941)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iB05o-0000PY-Fw
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:19:44 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 3so4883673wmi.3
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/SabVeqMLjGlYBjbqwgWwIsgPvMvXk0prLQNMqx1ZLQ=;
- b=l9IaJXbHzaDjv78RIwWaOcwMt7q+aF9wRZFg39Qqxc20uro1e7b9AcojUQNciBAAUC
- 2+3bmB5l70LPmbiKuId6ZAp/YoYgE+qZxtMGRQhe9eAk9kmSKB+Z8XD2STa1HhHga7aj
- vWKNGPBisKtpCtJZFeCMw/WtROEeYYKqe3IDvseq07wHK4V/0skgDfS+hIbbqBHQ8c2p
- Mx7I+4GUyOe1/zB4UuYMPqULuMIwo+57z3/fKRUF+PdHfbjKs7xqS+qPAZ2IBZNZwhqU
- 3M9hGBJSHI/vvg5Glr01qsBsPN3FG7hyRCCjCk1hnu4cn7IPewRcFxL4QWpw5VBW6SU6
- zbKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/SabVeqMLjGlYBjbqwgWwIsgPvMvXk0prLQNMqx1ZLQ=;
- b=DRADp6c06HZBvvtWy2I7pH4NsRneF1zWD5Ab1bxBqNkZoMFvCbjBKIstCkLETPVUDU
- Wn9OsGFJufy0ZKvI/pz8LOvTAjAo30VosH0R2G9OTxNLC6ra+g3eLhOX79ASVo2MUIjN
- RyexlzfQOiVUAUVnz2yw+t++eFJr01EE7+MS0J1V9HOnb05Yznqx54HhaCjElcItO8Oq
- cmDxVZYJIHIj8rCCtpINK5FLqqrIS3kNgyHq41c02i44sh65QoT7WSlgtcSjZw/nF6/S
- ZmUmnpJK94wkMi72DRtEdGMp9cKUQb7IDgEM8cJ15H2iX2eVRO/e2/ztXUiwLlNqclFr
- 52Cw==
-X-Gm-Message-State: APjAAAUG5yuh3yFMJf3iX1bf20TMHqf5N3LRym6icgkIIYdOfQu34Mk2
- wrC8l/BNaYJHiV7JBRZ4E7PPPQ==
-X-Google-Smtp-Source: APXvYqx3Nk+j0sqeD0lEUHPT+wNLc3/P+ehPJ1Kf7h9SSGv1yUv7ecijwyS6cjV33qU4csSjPVea8Q==
-X-Received: by 2002:a05:600c:28d:: with SMTP id
- 13mr3884920wmk.84.1568913583400; 
- Thu, 19 Sep 2019 10:19:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z142sm12389182wmc.24.2019.09.19.10.19.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 10:19:40 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 292F31FF8C;
- Thu, 19 Sep 2019 18:10:17 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 15/16] docs/devel: add "check-tcg" to testing.rst
-Date: Thu, 19 Sep 2019 18:10:14 +0100
-Message-Id: <20190919171015.12681-16-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190919171015.12681-1-alex.bennee@linaro.org>
-References: <20190919171015.12681-1-alex.bennee@linaro.org>
+ (envelope-from <alex.williamson@redhat.com>) id 1iB06s-0000rN-VX
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44610)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1iB06s-0000qn-O0
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:50 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 538D43022465;
+ Thu, 19 Sep 2019 17:20:49 +0000 (UTC)
+Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB45660872;
+ Thu, 19 Sep 2019 17:20:48 +0000 (UTC)
+Date: Thu, 19 Sep 2019 11:20:48 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
+Message-ID: <20190919112048.09b3edaa@x1.home>
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D57B785@SHSMSX104.ccr.corp.intel.com>
+References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
+ <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
+ <20190917085404.3b063e53@x1.home>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57AFBA@SHSMSX104.ccr.corp.intel.com>
+ <a82101bf-f8a7-5ddd-5abe-6060762d9abe@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57B785@SHSMSX104.ccr.corp.intel.com>
+Organization: Red Hat
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 19 Sep 2019 17:20:49 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,97 +63,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It was pointed out we haven't documented the check-tcg part of the
-build system. Attempt to rectify that now.
+On Wed, 18 Sep 2019 07:21:05 +0000
+"Tian, Kevin" <kevin.tian@intel.com> wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- docs/devel/testing.rst | 62 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+> > From: Jason Wang [mailto:jasowang@redhat.com]
+> > Sent: Wednesday, September 18, 2019 2:04 PM
+> >=20
+> > On 2019/9/18 =E4=B8=8A=E5=8D=889:31, Tian, Kevin wrote: =20
+> > >> From: Alex Williamson [mailto:alex.williamson@redhat.com]
+> > >> Sent: Tuesday, September 17, 2019 10:54 PM
+> > >>
+> > >> On Tue, 17 Sep 2019 08:48:36 +0000
+> > >> "Tian, Kevin"<kevin.tian@intel.com>  wrote:
+> > >> =20
+> > >>>> From: Jason Wang [mailto:jasowang@redhat.com]
+> > >>>> Sent: Monday, September 16, 2019 4:33 PM
+> > >>>>
+> > >>>>
+> > >>>> On 2019/9/16 =E4=B8=8A=E5=8D=889:51, Tian, Kevin wrote: =20
+> > >>>>> Hi, Jason
+> > >>>>>
+> > >>>>> We had a discussion about dirty page tracking in VFIO, when =20
+> > vIOMMU =20
+> > >>>>> is enabled:
+> > >>>>>
+> > >>>>> https://lists.nongnu.org/archive/html/qemu-devel/2019- =20
+> > >>>> 09/msg02690.html =20
+> > >>>>> It's actually a similar model as vhost - Qemu cannot interpose th=
+e =20
+> > fast- =20
+> > >>>> path =20
+> > >>>>> DMAs thus relies on the kernel part to track and report dirty pag=
+e =20
+> > >>>> information. =20
+> > >>>>> Currently Qemu tracks dirty pages in GFN level, thus demanding a =
+=20
+> > >>>> translation =20
+> > >>>>> from IOVA to GPA. Then the open in our discussion is where this =
+=20
+> > >>>> translation =20
+> > >>>>> should happen. Doing the translation in kernel implies a device i=
+otlb =20
+> > >>>> flavor, =20
+> > >>>>> which is what vhost implements today. It requires potentially lar=
+ge =20
+> > >>>> tracking =20
+> > >>>>> structures in the host kernel, but leveraging the existing log_sy=
+nc =20
+> > flow =20
+> > >> in =20
+> > >>>> Qemu. =20
+> > >>>>> On the other hand, Qemu may perform log_sync for every removal =20
+> > of =20
+> > >>>> IOVA =20
+> > >>>>> mapping and then do the translation itself, then avoiding the GPA=
+ =20
+> > >>>> awareness =20
+> > >>>>> in the kernel side. It needs some change to current Qemu log-sync=
+ =20
+> > >> flow, =20
+> > >>>> and =20
+> > >>>>> may bring more overhead if IOVA is frequently unmapped.
+> > >>>>>
+> > >>>>> So we'd like to hear about your opinions, especially about how yo=
+u =20
+> > >> came =20
+> > >>>>> down to the current iotlb approach for vhost. =20
+> > >>>> We don't consider too much in the point when introducing vhost. And
+> > >>>> before IOTLB, vhost has already know GPA through its mem table
+> > >>>> (GPA->HVA). So it's nature and easier to track dirty pages at GPA =
+level
+> > >>>> then it won't any changes in the existing ABI. =20
+> > >>> This is the same situation as VFIO. =20
+> > >> It is?  VFIO doesn't know GPAs, it only knows HVA, HPA, and IOVA.  In
+> > >> some cases IOVA is GPA, but not all. =20
+> > > Well, I thought vhost has a similar design, that the index of its mem=
+ table
+> > > is GPA when vIOMMU is off and then becomes IOVA when vIOMMU is on.
+> > > But I may be wrong here. Jason, can you help clarify? I saw two
+> > > interfaces which poke the mem table: VHOST_SET_MEM_TABLE (for GPA)
+> > > and VHOST_IOTLB_UPDATE (for IOVA). Are they used exclusively or =20
+> > together? =20
+> > > =20
+> >=20
+> > Actually, vhost maintains two interval trees, mem table GPA->HVA, and
+> > device IOTLB IOVA->HVA. Device IOTLB is only used when vIOMMU is
+> > enabled, and in that case mem table is used only when vhost need to
+> > track dirty pages (do reverse lookup of memtable to get HVA->GPA). So in
+> > conclusion, for datapath, they are used exclusively, but they need
+> > cowork for logging dirty pages when device IOTLB is enabled.
+> >  =20
+>=20
+> OK. Then it's different from current VFIO design, which maintains only
+> one tree which is indexed by either GPA or IOVA exclusively, upon=20
+> whether vIOMMU is in use.=20
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index bf75675fb04..1feee3ad101 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -266,6 +266,8 @@ another application on the host may have locked the file, possibly leading to a
- test failure.  If using such devices are explicitly desired, consider adding
- ``locking=off`` option to disable image locking.
- 
-+.. _docker-ref:
-+
- Docker based tests
- ==================
- 
-@@ -799,3 +801,63 @@ And remove any package you want with::
- 
- If you've used ``make check-acceptance``, the Python virtual environment where
- Avocado is installed will be cleaned up as part of ``make check-clean``.
-+
-+Testing with "make check-tcg"
-+=============================
-+
-+The check-tcg tests are intended for simple smoke tests of both
-+linux-user and softmmu TCG functionality. However to build test
-+programs for guest targets you need to have cross compilers available.
-+If your distribution supports cross compilers you can do something as
-+simple as::
-+
-+  apt install gcc-aarch64-linux-gnu
-+
-+The configure script will automatically pick up their presence.
-+Sometimes compilers have slightly odd names so the availability of
-+them can be prompted by passing in the appropriate configure option
-+for the architecture in question, for example::
-+
-+  $(configure) --cross-cc-aarch64=aarch64-cc
-+
-+There is also a ``--cross-cc-flags-ARCH`` flag in case additional
-+compiler flags are needed to build for a given target.
-+
-+If you have the ability to run containers as the user you can also
-+take advantage of the build systems "Docker" support. It will then use
-+containers to build any test case for an enabled guest where there is
-+no system compiler available. See :ref: `_docker-ref` for details.
-+
-+TCG test dependencies
-+---------------------
-+
-+The TCG tests are deliberately very light on dependencies and are
-+either totally bare with minimal gcc lib support (for softmmu tests)
-+or just glibc (for linux-user tests). This is because getting a cross
-+compiler to work with additional libraries can be challenging.
-+
-+Other TCG Tests
-+---------------
-+
-+There are a number of out-of-tree test suites that are used for more
-+extensive testing of processor features.
-+
-+KVM Unit Tests
-+~~~~~~~~~~~~~~
-+
-+The KVM unit tests are designed to run as a Guest OS under KVM but
-+there is no reason why they can't exercise the TCG as well. It
-+provides a minimal OS kernel with hooks for enabling the MMU as well
-+as reporting test results via a special device::
-+
-+  https://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git
-+
-+Linux Test Project
-+~~~~~~~~~~~~~~~~~~
-+
-+The LTP is focused on exercising the syscall interface of a Linux
-+kernel. It checks that syscalls behave as documented and strives to
-+exercise as many corner cases as possible. It is a useful test suite
-+to run to exercise QEMU's linux-user code::
-+
-+  https://linux-test-project.github.io/
--- 
-2.20.1
+Nit, the VFIO tree is only ever indexed by IOVA.  The MAP_DMA ioctl is
+only ever performed with an IOVA.  Userspace decides how that IOVA maps
+to GPA, VFIO only needs to know how the IOVA maps to HPA via the HVA.
+Thanks,
 
+Alex
 
