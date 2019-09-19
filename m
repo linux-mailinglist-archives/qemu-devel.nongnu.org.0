@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B30B7781
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:33:57 +0200 (CEST)
-Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEA8B778D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:36:51 +0200 (CEST)
+Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtl5-0007Ux-GG
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53344)
+	id 1iAtnt-0002XY-Sz
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53769)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iAtiC-0005Aa-SF
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:30:57 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iAtkc-0007y4-Vd
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:33:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iAtiB-0004YE-O4
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:30:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40954)
+ (envelope-from <stefanha@redhat.com>) id 1iAtkb-0005RR-Sj
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:33:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36488)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtiB-0004Xx-HZ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:30:55 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtkb-0005R2-Hl
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:33:25 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C2544308FC4D;
- Thu, 19 Sep 2019 10:30:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DD86836955;
+ Thu, 19 Sep 2019 10:33:24 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F01E819C6A;
- Thu, 19 Sep 2019 10:30:47 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:30:46 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1C7819C5B;
+ Thu, 19 Sep 2019 10:33:20 +0000 (UTC)
+Date: Thu, 19 Sep 2019 11:33:19 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190919103046.GK3606@stefanha-x1.localdomain>
+Message-ID: <20190919103319.GM3606@stefanha-x1.localdomain>
 References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-9-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="k18oBAwMkTg3OUap"
+ protocol="application/pgp-signature"; boundary="/jvaajy/zP2g41+Q"
 Content-Disposition: inline
-In-Reply-To: <20190918231846.22538-9-alxndr@bu.edu>
+In-Reply-To: <20190918231846.22538-1-alxndr@bu.edu>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 19 Sep 2019 10:30:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Thu, 19 Sep 2019 10:33:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 08/22] module: check module wasn't
- already initialized
+Subject: Re: [Qemu-devel] [PATCH v3 00/22] Add virtual device fuzzing support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,39 +64,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---k18oBAwMkTg3OUap
+--/jvaajy/zP2g41+Q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 11:19:35PM +0000, Oleinik, Alexander wrote:
-> The virtual-device fuzzer must initialize QOM, prior to running
-> vl:qemu_init, so that it can use the qos_graph to identify the arguments
-> required to initialize a guest for libqos-assisted fuzzing. This change
-> prevents errors when vl:qemu_init tries to (re)initialize the previously
-> initialized QOM module.
->=20
-> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
-> ---
->  util/module.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+On Wed, Sep 18, 2019 at 11:19:27PM +0000, Oleinik, Alexander wrote:
+>  create mode 100644 docs/devel/fuzzing.txt
+>  create mode 100644 main.c
+>  create mode 100644 tests/fuzz/Makefile.include
+>  create mode 100644 tests/fuzz/fork_fuzz.c
+>  create mode 100644 tests/fuzz/fork_fuzz.h
+>  create mode 100644 tests/fuzz/fork_fuzz.ld
+>  create mode 100644 tests/fuzz/fuzz.c
+>  create mode 100644 tests/fuzz/fuzz.h
+>  create mode 100644 tests/fuzz/i440fx_fuzz.c
+>  create mode 100644 tests/fuzz/qos_fuzz.c
+>  create mode 100644 tests/fuzz/qos_fuzz.h
+>  create mode 100644 tests/fuzz/virtio_net_fuzz.c
+>  create mode 100644 tests/libqos/qos_external.c
+>  create mode 100644 tests/libqos/qos_external.h
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Please ensure that all new files have copyright/license headers.  When
+code was moved from an old file, use the old file's copyright/license.
 
---k18oBAwMkTg3OUap
+--/jvaajy/zP2g41+Q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DWNYACgkQnKSrs4Gr
-c8hYTAgAubYlptHJRH9RB47G35ZPR659x0R2LYa1r9KJieMX1UNGusZcXkk1W+SG
-Rivv27g5MSYcZJybyuJ3AZESJVbqzNzYbGpbLuX+Q9weXAY+tmitRu2fx8Rdyd49
-zlxCOwk5GZ/3WwOs1zN59iCzXVirmR3reC19zvVLxM2ImdFYWFSMmgw26AL4X47D
-Y4w6NW+eEMkphCF4H+FIqnBssevQPtAASiHtVkX6ATwjQNCeaIgtP8mA1UoTah00
-MDYkO3r2I7FeFWU0G/FNhVyDLBSlurUGgtp+9XFZ8JIj60AUqrhKKGFfI07WBeqw
-NRMaatVbS8ScQqxytFHw2sm27py7tg==
-=MRll
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DWW8ACgkQnKSrs4Gr
+c8h9GQf+MTg4yM3hN3ZL7hO9DF2zNCRm2bIhtEez9fd3L4qIOVXAbEudNqqfaVqO
+hsQDIseSzfiqCko48s5CNdW+slwd9ChGXkvh3cqc+D2CR8lZIBSf11WF6tqZetcr
+0EEQXJBhdq4xXhaJh9ZoAm52Bm78IPhzYIyNy/zcUKnxjQBDw8sFGH6qoDqjpSA/
+Zoc4ozGpkQyrUQi2bSBB5BnVVvvohCcXebjPnjZ70J7IY6CVP9/3Z5hxWVU5vSZf
+P5wCFwtWkNxW65w1UaJiAvAvJZeakN3HtEsYChAKzzU47/D6pLGe2RvF6Y6wQEso
+Kphl23AemGau3QgkmIOh+vIeqNr3hA==
+=/nBz
 -----END PGP SIGNATURE-----
 
---k18oBAwMkTg3OUap--
+--/jvaajy/zP2g41+Q--
 
