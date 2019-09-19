@@ -2,55 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B416B759C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 11:00:27 +0200 (CEST)
-Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05589B75AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 11:05:53 +0200 (CEST)
+Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAsIc-0006ka-7X
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 05:00:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
+	id 1iAsNr-0003o1-BD
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 05:05:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37959)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iAs98-0004rg-Tr
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:50:39 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iAsDp-0002Ss-Md
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:55:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iAs97-00051A-MV
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:50:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35012)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1iAs92-0004zE-Lg; Thu, 19 Sep 2019 04:50:32 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 32046317529C;
- Thu, 19 Sep 2019 08:50:31 +0000 (UTC)
-Received: from gondolin (dhcp-192-230.str.redhat.com [10.33.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAB9F19C5B;
- Thu, 19 Sep 2019 08:50:11 +0000 (UTC)
-Date: Thu, 19 Sep 2019 10:50:08 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Message-ID: <20190919105008.103ede60.cohuck@redhat.com>
-In-Reply-To: <89d76bbe-8053-e817-2ccb-322bccf1533e@redhat.com>
-References: <156871562997.196432.17776290406203122029.stgit@bahia.lan>
- <156871569396.196432.12307975838741351907.stgit@bahia.lan>
- <20190917132412.6610576c.cohuck@redhat.com>
- <20190917183620.044e980d@bahia.lan>
- <20190918122628.7acb9284.cohuck@redhat.com>
- <89d76bbe-8053-e817-2ccb-322bccf1533e@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <alex.bennee@linaro.org>) id 1iAsDn-00063p-Pt
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:55:29 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33539)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iAsDl-00061D-Q3
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:55:27 -0400
+Received: by mail-wr1-x429.google.com with SMTP id b9so2237229wrs.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 01:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=moOYIlwVv2orNBoRZOLsxJ1gRHB+D+sr3AXlvcuI33M=;
+ b=GH8kLnjs3SMJAj8lfDNLf49b0KX8hGUhblzK4E8hSBYvQ9RnWkv758Re4iYM8UgEQT
+ 3OcO6vfOWXa3e55zgsCw+fBrcrM6wXS+KuJj97ST505WPuzXadwzCeQCP5JqZF9y9ujG
+ 9erKnQ7xZx7c7ivTkjVLk72GG0Zo5dpuAGrPemoeGTA7mGrKxBq1EK3eAw4S+ugLUxeH
+ AJWrNt4XFBhQcSrZ16h3BXGWfjgi4XoLg68xuf3WpbbU38C1D1rHPw8uxtJQO1Hqli9+
+ 0lCh+zzCl9RB2cdkz/sMfmRGCDhRO8Y7FGIFnSsCIG603IfUSYsyoj5rCDYcl3kziB6d
+ BdKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=moOYIlwVv2orNBoRZOLsxJ1gRHB+D+sr3AXlvcuI33M=;
+ b=Wavvn1xQodjJatX/pFQOWae/yO4xWQyf7zF15O7KZZMz4IHz+7X41PUNH6eLNd2dil
+ C8RU7/NWtdd6pqKPsZi8KhDuJH3Q3O5kuDdNkjXWbVMFGrrxMO3Kv7Bs4lR/ce+b0tGM
+ JwTaVzGppdqX+80xPftx8uCh5YQj0cDyMUXci38lM9zYYYFnpANDpaWVhOAnpi+RKKeP
+ XVbjFLEDF+fEdd8GtOlqY0KjW13uGOiU9gage8e5GRziRsVCvDImQNIhXhel0KRxQF+o
+ k5V30U/x06k0sQP6SMa1jlxSXJ/O7xDqlrEpYqyhUxxXn1dOGK0XMkO/VKmtxwvn/yzF
+ P5tA==
+X-Gm-Message-State: APjAAAVVyizfhRMW+C2/tjbI0yZsVT3bwV40Adf2cSRPsLwmRA8OKHvB
+ khVCn23/pU/gcG0YLn/eFeypOqbPwxw=
+X-Google-Smtp-Source: APXvYqx7u+wJ03S8ycFL/IDWI3hFvWncLiVVyXfvmpDvFevpGnxsRpZnChwKojbfF4ITMxfQP5XMPg==
+X-Received: by 2002:a5d:46c4:: with SMTP id g4mr5759543wrs.189.1568883321913; 
+ Thu, 19 Sep 2019 01:55:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s9sm6915869wme.36.2019.09.19.01.55.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 01:55:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2C9B31FF87;
+ Thu, 19 Sep 2019 09:55:20 +0100 (BST)
+References: <db0d4563-2cc0-fe20-f9ee-3c73766e489f@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+In-reply-to: <db0d4563-2cc0-fe20-f9ee-3c73766e489f@redhat.com>
+Date: Thu, 19 Sep 2019 09:55:20 +0100
+Message-ID: <87tv98zmvb.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 19 Sep 2019 08:50:31 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 10/17] s390x/css: Pass local error object
- pointer to error_append_hint()
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::429
+Subject: Re: [Qemu-devel] Docker Tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,65 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
- Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-s390x@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Sep 2019 12:46:42 -0500
-Eric Blake <eblake@redhat.com> wrote:
 
-> On 9/18/19 5:26 AM, Cornelia Huck wrote:
-> > On Tue, 17 Sep 2019 18:36:20 +0200
-> > Greg Kurz <groug@kaod.org> wrote:
-> >   
-> >> On Tue, 17 Sep 2019 13:24:12 +0200
-> >> Cornelia Huck <cohuck@redhat.com> wrote:
-> >>  
-> >>> On Tue, 17 Sep 2019 12:21:34 +0200
-> >>> Greg Kurz <groug@kaod.org> wrote:
-> >>>     
-> >>>> Ensure that hints are added even if errp is &error_fatal or &error_abort.
-> >>>>
-> >>>> Signed-off-by: Greg Kurz <groug@kaod.org>
-> >>>> ---
-> >>>>  hw/s390x/s390-ccw.c |    6 ++++--
-> >>>>  1 file changed, 4 insertions(+), 2 deletions(-)    
-> >>>
-> >>> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> >>>
-> >>> Can also take this via the s390 tree, let me know what would work best.    
-> >>
-> >> I guess it would be easier to merge if each individual patch goes
-> >> through the corresponding sub-maintainer tree. But Eric mentioned
-> >> in another mail that the whole whole series could maybe go through
-> >> Markus' error tree... so, I don't know which is best. :)  
-> > 
-> > Ok, it's probably best to take this through the s390 tree, as I plan to
-> > send a pull request tomorrow :)  
-> 
-> If we go with Vladimir's idea of auto-propagation, this change just gets
-> rewritten again as part of our simplifications to drop all use of
-> 'local_err' in favor of instead using the macro that makes errp always
-> safe to use locally.
-> 
+John Snow <jsnow@redhat.com> writes:
 
-Fair enough. That auto-propagation approach really looks nice, so I'll
-go ahead and unqueue this patch again.
+> Hi, I'm having a regular trainwreck here w/ the Docker test suite and I
+> have a few questions;
+>
+> 1. Which tests should I expect to work by default? for instance,
+> make-debug doesn't but I think that might be normal. Is that the only
+> one?
+
+test-build is the only one that just builds. As a lot of the docker
+images are cross compilers you generally can't run tests with them which
+limits the use of tests that run make check.
+
+> 2. Should all tests work for all targets?
+
+No for reasons of cross compilers. However we should be at the point
+that:
+
+  make docker-test-build
+
+should run and complete all the builds it can (with non-x86 systems
+skipping a whole chunk). There is some re-factoring work to be done to
+make the whole system a bit more friendly to multiple host architectures.
+
+> 3. Which images can I use to run tests? e.g. make docker-test-quick@XXXX
+> .. the help output shows me ALL images, including your partial ones.
+
+It does? It filters out the partial ones for me. Broadly the mainline OS
+ones are all capable of building and running tests
+(centos/debian-amd64/fedora/ubuntu/travis).
+
+> I
+> think we only want to see non-partial images for help output, or make
+> clear which ones are for tests and which ones are just images.
+>
+> 4. docker8 is listed as a partial image, but doesn't appear to be
+> consumed by anything. Can it be removed?
+
+Yes.
+
+>
+> - Ditto for debian-sid.
+
+Probably - I almost removed it last time but Phillipe convinced me to
+keep it in. I think now buster is out and has packaged gcc's for all the
+old arches (alpha etc) we can probably get rid of it.
+
+> - Ditto for debian-ports.
+
+This was useful for compilers for old arches but I think it can be got
+rid of now. It's basically sid with a different repo URL.
+
+> (should debian-sid and debian-ports actually be promoted to non-partial
+> images? or, how do I configure the other debian targets to use these as
+> a base instead?)
+
+For true any Debian you want you can use Debian bootstrap - although
+it's main use case is for setting up binfmt_misc foreign arch images.
+
+--
+Alex Benn=C3=A9e
 
