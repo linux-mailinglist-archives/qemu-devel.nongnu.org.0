@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F4214B772E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:12:03 +0200 (CEST)
-Received: from localhost ([::1]:41818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA22B7738
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:17:54 +0200 (CEST)
+Received: from localhost ([::1]:41882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtPu-0001G6-Ih
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
+	id 1iAtVY-0006B3-AD
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49926)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iAtLC-0005IF-GC
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:07:11 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iAtM0-0006Ob-9t
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:08:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iAtLB-00088h-3t
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:07:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34328)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iAtLA-00088S-Rv
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:07:09 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 31D343084037;
- Thu, 19 Sep 2019 10:07:08 +0000 (UTC)
-Received: from [10.72.12.81] (ovpn-12-81.pek2.redhat.com [10.72.12.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7382119C6A;
- Thu, 19 Sep 2019 10:07:00 +0000 (UTC)
-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
- <8302a4ae-1914-3046-b3b5-b3234d7dda02@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57B1D1@SHSMSX104.ccr.corp.intel.com>
- <6d73572e-1e89-b04a-bdd6-98ac73798083@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57B90C@SHSMSX104.ccr.corp.intel.com>
- <204219fa-ee72-ca60-52a4-fb4bbc887773@redhat.com>
- <20190919052819.GA18391@joy-OptiPlex-7040>
- <7b6d6343-33de-ebd7-9846-af54a45a82a2@redhat.com>
- <20190919061756.GB18391@joy-OptiPlex-7040>
- <e0efbdc0-aad9-0d17-ec68-36460865501f@redhat.com>
- <20190919062954.GC18391@joy-OptiPlex-7040>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <297143e5-a0b5-4873-77bf-7d2a97ec3c7c@redhat.com>
-Date: Thu, 19 Sep 2019 18:06:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1iAtLy-00004z-Lg
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:07:59 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55772)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iAtLy-0008Vq-B7
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:07:58 -0400
+Received: by mail-wm1-x342.google.com with SMTP id a6so3695972wma.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 03:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=T3X7iW8zonxKhxux5mIWJQXmtTE452vWJrhhuOcOjwk=;
+ b=U9YQeCKw7PdAdwiOd3aeqj0HJW+9wkNKJ93JbqumT4sjqZfdBR4X/zbyWSGS8YYEyl
+ B4/H9gkMcRy/lRNJiQzIsFS1rBAPIjxSz/0N/JQ27gdtxsfOESFTDYqRsqjCze0syLL8
+ svZeSsJO84jsdg5StKF6l/8zpVauPdef2aiie1NYnBBplO2xfWg0EVz1vkfHhb5t6WVX
+ m/zLsAc3s8YfNgnD05niV6jo6TWOOsfotehQ4n1dQ0bA/NwVzWId2IPje9MdzY7ScWAc
+ Hnu7IpsdTy7VmcwmIhRIDOwhg2RuImjGITkpp7HSpQcbU55Cee9CW8OGfCi8x2wmeQrW
+ UtWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=T3X7iW8zonxKhxux5mIWJQXmtTE452vWJrhhuOcOjwk=;
+ b=C69EsK9h6YSulQ4pDfLSFpm8WZ1oJ+TCTDZ7d5gWZnr6w8V99G+1ZSmVYLav8iOEY+
+ ebYPTP+J7YIum7rTZeBu+kwWepALixeGd6Oio9GubdVNpz0+KS0mhKmIJg+nfY0NLm1r
+ vG0xDXnI9ReytAGHrqLGRoAKN7TP4aGK8TeWbWXCRpyiylWjTSIlTM8NYiLmfnsL0k1Y
+ XBluod3J3XgiHODeMVe1kwXezzar9xA+vlvNJN0I/SUsU5NL6cHWImr03FXssG5QsPoD
+ moObIMYG7ydznVSjIPudQuLwZ04qKqsrop5vyT1USVUXkaaRJx9shKuiAVfBKj7YuMZo
+ YqXw==
+X-Gm-Message-State: APjAAAXui+iDsSrREMzgUCXmGGuenlensWA511jx5P+ozJMbThPplUZh
+ pck2iFFn4t+Q+kyHpnF7QfzvJA==
+X-Google-Smtp-Source: APXvYqyXxcLYuX69g6uD9+yWOWrfuFvJ5Vepl35Opal7YyrDJFF4IGKKTtZeNyf0RTKOoLzcsKMsXA==
+X-Received: by 2002:a1c:a74f:: with SMTP id q76mr2244915wme.16.1568887676602; 
+ Thu, 19 Sep 2019 03:07:56 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e20sm14319040wrc.34.2019.09.19.03.07.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 03:07:55 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 48A301FF87;
+ Thu, 19 Sep 2019 11:07:55 +0100 (BST)
+References: <20190918153335.20797-1-alex.bennee@linaro.org>
+ <001801d56ec7$d80940d0$881bc270$@ru>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+In-reply-to: <001801d56ec7$d80940d0$881bc270$@ru>
+Date: Thu, 19 Sep 2019 11:07:55 +0100
+Message-ID: <87sgoszjic.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190919062954.GC18391@joy-OptiPlex-7040>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 19 Sep 2019 10:07:08 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH] tests/tcg: add simple record/replay smoke
+ test for aarch64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,121 +83,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- 'Alex Williamson' <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: 'Peter Maydell' <peter.maydell@linaro.org>,
+ "'open list:ARM TCG CPUs'" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2019/9/19 =E4=B8=8B=E5=8D=882:29, Yan Zhao wrote:
-> On Thu, Sep 19, 2019 at 02:32:03PM +0800, Jason Wang wrote:
->> On 2019/9/19 =E4=B8=8B=E5=8D=882:17, Yan Zhao wrote:
->>> On Thu, Sep 19, 2019 at 02:09:53PM +0800, Jason Wang wrote:
->>>> On 2019/9/19 =E4=B8=8B=E5=8D=881:28, Yan Zhao wrote:
->>>>> On Thu, Sep 19, 2019 at 09:05:12AM +0800, Jason Wang wrote:
->>>>>> On 2019/9/18 =E4=B8=8B=E5=8D=884:37, Tian, Kevin wrote:
->>>>>>>> From: Jason Wang [mailto:jasowang@redhat.com]
->>>>>>>> Sent: Wednesday, September 18, 2019 2:10 PM
->>>>>>>>
->>>>>>>>>> Note that the HVA to GPA mapping is not an 1:1 mapping. One HV=
-A
->>>>>>>> range
->>>>>>>>>> could be mapped to several GPA ranges.
->>>>>>>>> This is fine. Currently vfio_dma maintains IOVA->HVA mapping.
->>>>>>>>>
->>>>>>>>> btw under what condition HVA->GPA is not 1:1 mapping? I didn't =
-realize it.
->>>>>>>> I don't remember the details e.g memory region alias? And neithe=
-r kvm
->>>>>>>> nor kvm API does forbid this if my memory is correct.
->>>>>>>>
->>>>>>> I checkedhttps://qemu.weilnetz.de/doc/devel/memory.html, which
->>>>>>> provides an example of aliased layout. However, its aliasing is a=
-ll
->>>>>>> 1:1, instead of N:1. From guest p.o.v every writable GPA implies =
-an
->>>>>>> unique location. Why would we hit the situation where multiple
->>>>>>> write-able GPAs are mapped to the same HVA (i.e. same physical
->>>>>>> memory location)?
->>>>>> I don't know, just want to say current API does not forbid this. S=
-o we
->>>>>> probably need to take care it.
->>>>>>
->>>>> yes, in KVM API level, it does not forbid two slots to have the sam=
-e HVA(slot->userspace_addr).
->>>>> But
->>>>> (1) there's only one kvm instance for each vm for each qemu process=
-.
->>>>> (2) all ramblock->host (corresponds to HVA and slot->userspace_addr=
-) in one qemu
->>>>> process is non-overlapping as it's obtained from mmmap().
->>>>> (3) qemu ensures two kvm slots will not point to the same section o=
-f one ramblock.
->>>>>
->>>>> So, as long as kvm instance is not shared in two processes, and
->>>>> there's no bug in qemu, we can assure that HVA to GPA is 1:1.
->>>> Well, you leave this API for userspace, so you can't assume qemu is =
-the
->>>> only user or any its behavior. If you had you should limit it in the=
- API
->>>> level instead of open window for them.
->>>>
->>>>
->>>>> But even if there are two processes operating on the same kvm insta=
-nce
->>>>> and manipulating on memory slots, adding an extra GPA along side cu=
-rrent
->>>>> IOVA & HVA to ioctl VFIO_IOMMU_MAP_DMA can still let driver knows t=
-he
->>>>> right IOVA->GPA mapping, right?
->>>> It looks fragile. Consider HVA was mapped to both GPA1 and GPA2. Gue=
-st
->>>> maps IOVA to GPA2, so we have IOVA GPA2 HVA in the new ioctl and the=
-n
->>>> log through GPA2. If userspace is trying to sync through GPA1, it wi=
-ll
->>>> miss the dirty page. So for safety we need log both GPA1 and GPA2. (=
-See
->>>> what has been done in log_write_hva() in vhost.c). The only way to d=
-o
->>>> that is to maintain an independent HVA to GPA mapping like what KVM =
-or
->>>> vhost did.
->>>>
->>> why GPA1 and GPA2 should be both dirty?
->>> even they have the same HVA due to overlaping virtual address space i=
-n
->>> two processes, they still correspond to two physical pages.
->>> don't get what's your meaning:)
->> The point is not leave any corner case that is hard to debug or fix in
->> the future.
+Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
+
+> Thanks!
+>
+> This seem to correctly run record and replay command lines.
+> When I break the replay correctness, then the test reports a timeout erro=
+r.
+>
+> However, we need some kind of a manual for tcg testing. I had to dig thro=
+ugh makefile and configure
+> scripts to undestand that testing needs the cross compilers to be install=
+ed.
+> Then I installed a random cross compiler and everything worked
+> normally.
+
+I shall add a section to the testing.rst documentation.
+
+>
+> Pavel Dovgalyuk
+>
+>> -----Original Message-----
+>> From: Alex Benn=C3=A9e [mailto:alex.bennee@linaro.org]
+>> Sent: Wednesday, September 18, 2019 6:34 PM
+>> To: qemu-devel@nongnu.org
+>> Cc: Alex Benn=C3=A9e; Pavel Dovgalyuk; Peter Maydell; open list:ARM TCG =
+CPUs
+>> Subject: [PATCH] tests/tcg: add simple record/replay smoke test for aarc=
+h64
 >>
->> Let's just start by a single process, the API allows userspace to maps
->> HVA to both GPA1 and GPA2. Since it knows GPA1 and GPA2 are equivalent=
-,
->> it's ok to sync just through GPA1. That means if you only log GPA2, it
->> won't work.
+>> This adds two new tests that re-use the memory test to check basic
+>> record replay functionality is still working. We have to define our
+>> own runners rather than using the default pattern as we want to change
+>> the test name but re-use the memory binary.
 >>
-> In that case, cannot log dirty according to HPA.
-> because kvm cannot tell whether it's an valid case (the two GPAs are eq=
-uivalent)
-> or an invalid case (the two GPAs are not equivalent, but with the same
-> HVA value).
->
-> Right?
+>> We declare the test binaries as PHONY as they don't rely exist.
+>>
+>> [AJB: A better test would output some sort of timer value or other
+>> otherwise variable value so we could compare the record and replay
+>> outputs and ensure they match]
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+>> ---
+>>  tests/tcg/aarch64/Makefile.softmmu-target | 21 +++++++++++++++++++++
+>>  1 file changed, 21 insertions(+)
+>>
+>> diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch=
+64/Makefile.softmmu-
+>> target
+>> index 4c4aaf61dd3..b4b39579634 100644
+>> --- a/tests/tcg/aarch64/Makefile.softmmu-target
+>> +++ b/tests/tcg/aarch64/Makefile.softmmu-target
+>> @@ -32,3 +32,24 @@ memory: CFLAGS+=3D-DCHECK_UNALIGNED=3D1
+>>
+>>  # Running
+>>  QEMU_OPTS+=3D-M virt -cpu max -display none -semihosting-config
+>> enable=3Don,target=3Dnative,chardev=3Doutput -kernel
+>> +
+>> +# Simple Record/Replay Test
+>> +.PHONY: memory-record
+>> +run-memory-record: memory-record memory
+>> +	$(call run-test, $<, \
+>> +	  $(QEMU) -monitor none -display none \
+>> +		  -chardev file$(COMMA)path=3D$<.out$(COMMA)id=3Doutput \
+>> +		  -icount shift=3D5$(COMMA)rr=3Drecord$(COMMA)rrfile=3Drecord.bin \
+>> +	   	  $(QEMU_OPTS) memory, \
+>> +	  "$< on $(TARGET_NAME)")
+>> +
+>> +.PHONY: memory-replay
+>> +run-memory-replay: memory-replay run-memory-record
+>> +	$(call run-test, $<, \
+>> +	  $(QEMU) -monitor none -display none \
+>> +		  -chardev file$(COMMA)path=3D$<.out$(COMMA)id=3Doutput \
+>> +		  -icount shift=3D5$(COMMA)rr=3Dreplay$(COMMA)rrfile=3Drecord.bin \
+>> +	   	  $(QEMU_OPTS) memory, \
+>> +	  "$< on $(TARGET_NAME)")
+>> +
+>> +TESTS+=3Dmemory-record memory-replay
+>> --
+>> 2.20.1
 
 
-There no need any examination on whether it was 'valid' or not. It's as=20
-simple as logging both GPA1 and GPA2. Then you won't need to care any=20
-corner case.
-
-Thanks
-
-
->
-> Thanks
-> Yan
->
->
+--
+Alex Benn=C3=A9e
 
