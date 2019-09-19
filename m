@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AC6B855D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:20:42 +0200 (CEST)
-Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58716B858F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:22:29 +0200 (CEST)
+Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4n3-0003CZ-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:20:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57531)
+	id 1iB4om-00057z-Aj
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tasleson@redhat.com>) id 1iB4JD-0003dq-EY
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:49:53 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iB4ai-00078f-TB
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:07:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tasleson@redhat.com>) id 1iB4JB-0002EG-Pp
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:49:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47282)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tasleson@redhat.com>)
- id 1iB4J8-0002B9-8q; Thu, 19 Sep 2019 17:49:46 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8846E308A9E2;
- Thu, 19 Sep 2019 21:49:45 +0000 (UTC)
-Received: from [10.3.112.12] (ovpn-112-12.phx2.redhat.com [10.3.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B04160BF1;
- Thu, 19 Sep 2019 21:49:41 +0000 (UTC)
-Subject: Re: [RFC 4/4] ahci media error reporting
-To: John Snow <jsnow@redhat.com>
-References: <20190919194847.18518-1-tasleson@redhat.com>
- <20190919194847.18518-5-tasleson@redhat.com>
- <df07a621-8515-2414-2f59-a7eb7eebd75b@redhat.com>
-From: Tony Asleson <tasleson@redhat.com>
-Organization: Red Hat
-Message-ID: <afac6895-9a42-1eaa-3068-3e3dfdd1bd23@redhat.com>
-Date: Thu, 19 Sep 2019 16:49:40 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iB4ae-0001Fe-1M
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:07:56 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44284)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iB4ad-0001BZ-PI
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 18:07:51 -0400
+Received: by mail-pl1-x643.google.com with SMTP id q15so2217436pll.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 15:07:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zn109NspYuddncozafqxVjUrrzvHkyw69jS7Iiefkx8=;
+ b=UQsS66C6C9IjyVpY7ax8CgvPkPxh+9rJ/eDfBi3NJeyYkDZKVl3B6ibLfCH8W/Uaop
+ BVrgOSjQtwUUUEj2VSwBHjHtQN4n6zt1aM7tPmI0lmHJOiUVPj3RLtnEFqvarerJ9/FH
+ RSTj/A6keeEsXa5TjmG9VrUbMEpm7NO9ugpR01i8PSNog0hC8VEdDWoTGpcmCRBFqu/R
+ AhrQVNqii2W9bZwLKXOXX6dVr01/xIjxEmIKJS5Y8V1ak9MuNz0ik+RVnzuI48Y/XY+W
+ D/tyt3u6HGNEolXz921Sm55PlPVWtqreCt6tw2wX2NJq/Fggzk7WTgCgvETFkGDuVpEL
+ GsAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zn109NspYuddncozafqxVjUrrzvHkyw69jS7Iiefkx8=;
+ b=Zb8/gGCZ+woEACuPdVJuaHEEPjmxbTpXrZitFFuWC+ezL3w2B0RTMM4Mqif0ZKR5Q3
+ ZeZIl8s+qsqmw7epEHiaIGWyoDWuqvNws0j4iVbsBnRK+CT/Jypao39H28B2eWBfHwUu
+ bbrIaa39/MVbJ4SqeLoe40MVMECp/zlR0p0sVFwxn+vJX3kfaUPEGW6WCwihY0ZMLwmP
+ Hf3ihJGVBVJGiCW1qbK4fdz2Y6aXkzwkkt54NJb8pr3jYBXdQIc6IHUS+LuOfcBGaAD1
+ qM2aq4z7B5vnLAJikVTiA1L7m+qywvbRBLvC5iO5hZ/9EE88OlBiYGiFr4MjhlumKs0x
+ IFGg==
+X-Gm-Message-State: APjAAAWwcovkL6A2vQnAhYiAC75z6NtFkeTWBkDbUbgqmYTBGT41bBml
+ XTKmMFVvCPR8qvzkIxyS+JTkVQ==
+X-Google-Smtp-Source: APXvYqwf1+KlV06d6P5/M8Cjx6hnXKuha3OOA6KfrNJC2lfXgemwubSmZrStYOtTs7k6f1Vu/wSjQw==
+X-Received: by 2002:a17:902:8b83:: with SMTP id
+ ay3mr12592214plb.32.1568930870441; 
+ Thu, 19 Sep 2019 15:07:50 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id x10sm2815pfr.44.2019.09.19.15.07.49
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 19 Sep 2019 15:07:49 -0700 (PDT)
+Subject: Re: [PATCH v2 09/16] tests/tcg: add float_madds test to multiarch
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190919171015.12681-1-alex.bennee@linaro.org>
+ <20190919171015.12681-10-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <fe7844c1-d34d-0f6c-627d-b3ddf1334dae@linaro.org>
+Date: Thu, 19 Sep 2019 15:07:47 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <df07a621-8515-2414-2f59-a7eb7eebd75b@redhat.com>
+In-Reply-To: <20190919171015.12681-10-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 19 Sep 2019 21:49:45 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,192 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: tasleson@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/19/19 3:43 PM, John Snow wrote:
+On 9/19/19 10:10 AM, Alex Bennée wrote:
+> This is a generic floating point multiply and accumulate test for
+> single precision floating point values. I've split of the common float
+> functions into a helper library so additional tests can use the same
+> common code.
 > 
+> As I don't have references for all architectures I've allowed some
+> flexibility for tests to pass without reference files. They can be
+> added as we get collect them.
 > 
-> On 9/19/19 3:48 PM, Tony Asleson wrote:
->> Initial attempt at returning a media error for ahci.  This is certainly
->> wrong and needs serious improvement.
->>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > 
-> Hi; I have the unfortunate distinction of being the AHCI maintainer.
-> Please CC me on future revisions and discussion if you are interacting
-> with my problem child.
+> ---
+> v2
+>   - allow tests to add addition patterns to the list
+>   - conditional diff-out
+>   - use __builtin_fmaf instead of forcing optimisation
+>   - use hex floating point definitions and output
+> v3
+>   - remove add_const stuff, make explicit tests explicit
+>   - various style clean-ups
+> ---
 
-Will do and thank you for taking a look at this!
-
-> Also remember to CC qemu-block.
-> 
->> Signed-off-by: Tony Asleson <tasleson@redhat.com>
->> ---
->>  hw/ide/ahci.c | 27 +++++++++++++++++++++++++++
->>  1 file changed, 27 insertions(+)
->>
->> diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
->> index d45393c019..f487764106 100644
->> --- a/hw/ide/ahci.c
->> +++ b/hw/ide/ahci.c
->> @@ -36,6 +36,7 @@
->>  #include "hw/ide/internal.h"
->>  #include "hw/ide/pci.h"
->>  #include "ahci_internal.h"
->> +#include "block/error_inject.h"
->>  
->>  #include "trace.h"
->>  
->> @@ -999,6 +1000,22 @@ static void ncq_err(NCQTransferState *ncq_tfs)
->>      ncq_tfs->used = 0;
->>  }
->>  
->> +/*
->> + * Figure out correct way to report media error, this is at best a guess
->> + * and based on the output of linux kernel, not even remotely close.
->> + */
-> 
-> Depends on what kind of error, exactly, you're trying to report, and at
-> what level. (AHCI, NCQ, SATA, ATA?)
-
-I was trying to return a media error, like a 3/1101 for SCSI device.  I
-think that is at the ATA level?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-> Keep in mind that you've inserted an error path for SATA drives using
-> NCQ, but seemingly haven't touched SATA drives not using NCQ, or ATAPI
-> devices using either PATA/SATA, or ATA drives on PATA.
-
-Correct, but for trying out a simple read on a SATA drive for Linux I
-end up here first :-)  Well, until the kernel retries a number of times
-and finally gives up and returns an error while also disabling NCQ for
-the device.
-
-
->> +static void ncq_media_err(NCQTransferState *ncq_tfs, uint64_t err_sector)
->> +{
->> +    IDEState *ide_state = &ncq_tfs->drive->port.ifs[0];
->> +
->> +    ide_state->error = ECC_ERR;
->> +    ide_state->status = READY_STAT | ERR_STAT;
->> +    ncq_tfs->drive->port_regs.scr_err |= (1 << ncq_tfs->tag);
->> +    ncq_tfs->lba = err_sector;
->> +    qemu_sglist_destroy(&ncq_tfs->sglist);
->> +    ncq_tfs->used = 0;
->> +}
->> +
-> 
-> If you are definitely very sure you only want an ide_state error
-> difference, you could just as well call ncq_err and then patch
-> ide_state->error.
-> 
-> (I am not sure that's what you want, but... maybe it is?)
-
-As I mentioned above, return an unrecoverable media error.
-
-SCSI sense data can report the first sector in error and I thought I
-could do the same for SATA too?
-
-> I'd have to check -- because I can't say the AHCI emulator was designed
-> so much as congealed -- but you might need calls to ncq_finish.
-> 
-> usually, ncq_cb handles the return from any NCQ command and will call
-> ncq_err and ncq_finish as appropriate to tidy up the command.
-> 
-> It might be a mistake that execute_ncq_command issues ncq_err in the
-> `default` arm of the switch statement without a call to finish.
-> 
-> If we do call ncq_finish from this context I'm not sure if we want
-> block_acct_done here unconditionally. We may not have started a block
-> accounting operation if we never started a backend operation. Everything
-> else looks about right to me.
-> 
-> 
->>  static void ncq_finish(NCQTransferState *ncq_tfs)
->>  {
->>      /* If we didn't error out, set our finished bit. Errored commands
->> @@ -1065,6 +1082,8 @@ static void execute_ncq_command(NCQTransferState *ncq_tfs)
->>  {
->>      AHCIDevice *ad = ncq_tfs->drive;
->>      IDEState *ide_state = &ad->port.ifs[0];
->> +    uint64_t error_sector = 0;
->> +    char device_id[32];
->>      int port = ad->port_no;
->>  
->>      g_assert(is_ncq(ncq_tfs->cmd));
->> @@ -1072,6 +1091,14 @@ static void execute_ncq_command(NCQTransferState *ncq_tfs)
->>  
->>      switch (ncq_tfs->cmd) {
->>      case READ_FPDMA_QUEUED:
->> +        sprintf(device_id, "%lu", ide_state->wwn);
-> 
-> This seems suspicious for your design in general, but I'd like to not
-> run sprintf to a buffer in the hotpath for NCQ.
-
-I totally agree.
-
-I started out using integers in the call for error_in_read, as that is
-what SCSI uses internally for wwn.  Then I did NVMe and it's using a
-string that doesn't apparently need to be an integer for the wwn? so I
-changed it to being a string to accommodate.
-
-I also find it interesting that when a SATA device wwid is dumped out
-within the guest it doesn't appear to have any correlation with the wwn
-that was passed in on the command line, eg.
-
--device ide-drive,drive=satadisk,bus=ahci.0,wwn=8675309
-
-$cat /sys/block/sda/device/wwid
-t10.ATA     QEMU HARDDISK                           QM00005
-
-
-This does correlate for SCSI
-
--device scsi-hd,drive=hd,wwn=12345678
-
-$ cat /sys/block/sdc/device/wwid
-naa.0000000000bc614e
-
-
-as 0xbc614e = 12345678
-
-
-For NVMe, the wwn is in the wwid, but it's not immediately obvious.
-
-Being able to correlate between the command line and what you find in
-the guest would be good.
-
-
-> If you need this, I'd do it when wwn is set and just grab it from the
-> state structure.
-> 
->> +
->> +        if (error_in_read(device_id, ncq_tfs->lba,
->> +                ncq_tfs->sector_count, &error_sector)) {
->> +            ncq_media_err(ncq_tfs, error_sector);
->> +            return;
->> +        }
->> +
-> 
-> One of the downsides to trying to trigger read error injections
-> per-device instead of per-node is that now you have to goof around with
-> device-specific code everywhere>
-> I suppose from your cover letter you *WANT* device-specific error
-> exercising, which would necessitate a different design from blkdebug,
-> but it means you have to add support for the framework per-device and it
-> might be very tricky to get right.
-
-Yes, goal was to be able to selectively pick one or more specific block
-devices and then create one or more block errors on each device with
-potentially different error behavior for each block in error.
-
-
->>          trace_execute_ncq_command_read(ad->hba, port, ncq_tfs->tag,
->>                                         ncq_tfs->sector_count, ncq_tfs->lba);
->>          dma_acct_start(ide_state->blk, &ncq_tfs->acct,
->>
-
+r~
 
