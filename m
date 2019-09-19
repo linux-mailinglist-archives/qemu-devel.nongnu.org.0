@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2CFB7560
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 10:43:55 +0200 (CEST)
-Received: from localhost ([::1]:40248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E367B7552
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 10:40:41 +0200 (CEST)
+Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAs2c-0004SB-GB
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 04:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35762)
+	id 1iArzT-0000H5-Kh
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 04:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iArvg-00055b-UJ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:48 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iArvT-0004nu-U0
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iArve-0000FW-Ew
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33454)
+ (envelope-from <kraxel@redhat.com>) id 1iArvS-000091-TL
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59930)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iArvd-0000Dw-R2
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:42 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iArvS-00008p-OL
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:30 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D96BB898104;
- Thu, 19 Sep 2019 08:36:40 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 193BF3C919;
+ Thu, 19 Sep 2019 08:36:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
  [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 614095D9CC;
- Thu, 19 Sep 2019 08:36:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D073860C18;
+ Thu, 19 Sep 2019 08:36:26 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 687EC9B1A; Thu, 19 Sep 2019 10:36:30 +0200 (CEST)
+ id 14D211747D; Thu, 19 Sep 2019 10:36:26 +0200 (CEST)
+Date: Thu, 19 Sep 2019 10:36:26 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 19 Sep 2019 10:36:23 +0200
-Message-Id: <20190919083629.29998-21-kraxel@redhat.com>
-In-Reply-To: <20190919083629.29998-1-kraxel@redhat.com>
-References: <20190919083629.29998-1-kraxel@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <20190919083626.qjilasttfb5pv5ao@sirius.home.kraxel.org>
+References: <20190918095335.7646-1-stefanha@redhat.com>
+ <20190918095335.7646-3-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Thu, 19 Sep 2019 08:36:40 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190918095335.7646-3-stefanha@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Thu, 19 Sep 2019 08:36:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 20/26] audio: basic support for multichannel
- audio
+Subject: Re: [Qemu-devel] [PATCH v2 2/3] audio: add -audiodev pa,
+ in|out.latency= to documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,59 +61,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kővágó@redhat.com, =?UTF-8?q?Zolt=C3=A1n?= <DirtY.iCE.hu@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?utf-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <DirtY.iCE.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
+On Wed, Sep 18, 2019 at 10:53:34AM +0100, Stefan Hajnoczi wrote:
+> The "latency" parameter wasn't covered by the documentation.
 
-Which currently only means removing some checks.  Old code won't require
-more than two channels, but new code will need it.
+Doesn't apply cleanly (on top of the surround sound patch series).
+Picked the other two into the pull request.
+Please rebase & resend once this is merged.
 
-Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
->
-Message-id: 00998152d6e1c25b3194b9b71e27f14c4d26f396.1568574965.git.DirtY=
-.iCE.hu@gmail.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- audio/alsaaudio.c | 7 -------
- audio/audio.c     | 2 +-
- 2 files changed, 1 insertion(+), 8 deletions(-)
+thanks,
+  Gerd
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index eddf013a537c..f37ce1ce8570 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -493,13 +493,6 @@ static int alsa_open(bool in, struct alsa_params_req=
- *req,
-         goto err;
-     }
-=20
--    if (nchannels !=3D 1 && nchannels !=3D 2) {
--        alsa_logerr2 (err, typ,
--                      "Can not handle obtained number of channels %d\n",
--                      nchannels);
--        goto err;
--    }
--
-     if (apdo->buffer_length) {
-         int dir =3D 0;
-         unsigned int btime =3D apdo->buffer_length;
-diff --git a/audio/audio.c b/audio/audio.c
-index c00f4deddd3d..7fc3aa9d1637 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -242,7 +242,7 @@ static int audio_validate_settings (struct audsetting=
-s *as)
- {
-     int invalid;
-=20
--    invalid =3D as->nchannels !=3D 1 && as->nchannels !=3D 2;
-+    invalid =3D as->nchannels < 1;
-     invalid |=3D as->endianness !=3D 0 && as->endianness !=3D 1;
-=20
-     switch (as->fmt) {
---=20
-2.18.1
-
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  qemu-options.hx | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index a4f9f74f52..6d7fe57dd4 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -470,6 +470,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+>      "-audiodev pa,id=id[,prop[=value][,...]]\n"
+>      "                server= PulseAudio server address\n"
+>      "                in|out.name= source/sink device name\n"
+> +    "                in|out.latency= desired latency in microseconds\n"
+>  #endif
+>  #ifdef CONFIG_AUDIO_SDL
+>      "-audiodev sdl,id=id[,prop[=value][,...]]\n"
+> @@ -630,6 +631,10 @@ Sets the PulseAudio @var{server} to connect to.
+>  @item in|out.name=@var{sink}
+>  Use the specified source/sink for recording/playback.
+>  
+> +@item in|out.latency=@var{usecs}
+> +Desired latency in microseconds.  The PulseAudio server will try to honor this
+> +value but actual latencies may be lower or higher.
+> +
+>  @end table
+>  
+>  @item -audiodev sdl,id=@var{id}[,@var{prop}[=@var{value}][,...]]
+> -- 
+> 2.21.0
+> 
 
