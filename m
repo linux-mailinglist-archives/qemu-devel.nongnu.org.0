@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05589B75AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 11:05:53 +0200 (CEST)
-Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00F7B75B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 11:08:52 +0200 (CEST)
+Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAsNr-0003o1-BD
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 05:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37959)
+	id 1iAsQl-00080m-39
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 05:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38332)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iAsDp-0002Ss-Md
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:55:31 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iAsI6-00085S-Lo
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:59:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iAsDn-00063p-Pt
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:55:29 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33539)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iAsDl-00061D-Q3
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:55:27 -0400
-Received: by mail-wr1-x429.google.com with SMTP id b9so2237229wrs.0
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 01:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=moOYIlwVv2orNBoRZOLsxJ1gRHB+D+sr3AXlvcuI33M=;
- b=GH8kLnjs3SMJAj8lfDNLf49b0KX8hGUhblzK4E8hSBYvQ9RnWkv758Re4iYM8UgEQT
- 3OcO6vfOWXa3e55zgsCw+fBrcrM6wXS+KuJj97ST505WPuzXadwzCeQCP5JqZF9y9ujG
- 9erKnQ7xZx7c7ivTkjVLk72GG0Zo5dpuAGrPemoeGTA7mGrKxBq1EK3eAw4S+ugLUxeH
- AJWrNt4XFBhQcSrZ16h3BXGWfjgi4XoLg68xuf3WpbbU38C1D1rHPw8uxtJQO1Hqli9+
- 0lCh+zzCl9RB2cdkz/sMfmRGCDhRO8Y7FGIFnSsCIG603IfUSYsyoj5rCDYcl3kziB6d
- BdKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=moOYIlwVv2orNBoRZOLsxJ1gRHB+D+sr3AXlvcuI33M=;
- b=Wavvn1xQodjJatX/pFQOWae/yO4xWQyf7zF15O7KZZMz4IHz+7X41PUNH6eLNd2dil
- C8RU7/NWtdd6pqKPsZi8KhDuJH3Q3O5kuDdNkjXWbVMFGrrxMO3Kv7Bs4lR/ce+b0tGM
- JwTaVzGppdqX+80xPftx8uCh5YQj0cDyMUXci38lM9zYYYFnpANDpaWVhOAnpi+RKKeP
- XVbjFLEDF+fEdd8GtOlqY0KjW13uGOiU9gage8e5GRziRsVCvDImQNIhXhel0KRxQF+o
- k5V30U/x06k0sQP6SMa1jlxSXJ/O7xDqlrEpYqyhUxxXn1dOGK0XMkO/VKmtxwvn/yzF
- P5tA==
-X-Gm-Message-State: APjAAAVVyizfhRMW+C2/tjbI0yZsVT3bwV40Adf2cSRPsLwmRA8OKHvB
- khVCn23/pU/gcG0YLn/eFeypOqbPwxw=
-X-Google-Smtp-Source: APXvYqx7u+wJ03S8ycFL/IDWI3hFvWncLiVVyXfvmpDvFevpGnxsRpZnChwKojbfF4ITMxfQP5XMPg==
-X-Received: by 2002:a5d:46c4:: with SMTP id g4mr5759543wrs.189.1568883321913; 
- Thu, 19 Sep 2019 01:55:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s9sm6915869wme.36.2019.09.19.01.55.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 01:55:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2C9B31FF87;
- Thu, 19 Sep 2019 09:55:20 +0100 (BST)
-References: <db0d4563-2cc0-fe20-f9ee-3c73766e489f@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: John Snow <jsnow@redhat.com>
-In-reply-to: <db0d4563-2cc0-fe20-f9ee-3c73766e489f@redhat.com>
-Date: Thu, 19 Sep 2019 09:55:20 +0100
-Message-ID: <87tv98zmvb.fsf@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1iAsI5-0001Gx-IV
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:59:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59342)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iAsHy-00019Y-Df; Thu, 19 Sep 2019 04:59:46 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3D0A13175282;
+ Thu, 19 Sep 2019 08:59:45 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-52.brq.redhat.com
+ [10.40.204.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 58E4F1001947;
+ Thu, 19 Sep 2019 08:59:26 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20190918130244.24257-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d2a793c1-aae7-6e22-8baa-0c403c111e5c@redhat.com>
+Date: Thu, 19 Sep 2019 10:59:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190918130244.24257-1-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 19 Sep 2019 08:59:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::429
-Subject: Re: [Qemu-devel] Docker Tests
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC] error: auto propagated local_err
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,71 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, peter.maydell@linaro.org, mst@redhat.com,
+ codyprime@gmail.com, mark.cave-ayland@ilande.co.uk, mdroth@linux.vnet.ibm.com,
+ kraxel@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
+ david@redhat.com, armbru@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, marcandre.lureau@redhat.com, rth@twiddle.net,
+ farman@linux.ibm.com, groug@kaod.org, dgilbert@redhat.com,
+ alex.williamson@redhat.com, qemu-arm@nongnu.org, stefanha@redhat.com,
+ jsnow@redhat.com, david@gibson.dropbear.id.au, kwolf@redhat.com,
+ berrange@redhat.com, cohuck@redhat.com, qemu-s390x@nongnu.org,
+ sundeep.lkml@gmail.com, qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 18.09.19 15:02, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+>=20
+> Here is a proposal (three of them, actually) of auto propagation for
+> local_err, to not call error_propagate on every exit point, when we
+> deal with local_err.
+>=20
+> It also may help make Greg's series[1] about error_append_hint smaller.
+>=20
+> See definitions and examples below.
+>=20
+> I'm cc-ing to this RFC everyone from series[1] CC list, as if we like
+> it, the idea will touch same code (and may be more).
+>=20
+> [1]: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03449.htm=
+l
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/qapi/error.h | 102 +++++++++++++++++++++++++++++++++++++++++++
+>  block.c              |  63 ++++++++++++--------------
+>  block/backup.c       |   8 +++-
+>  block/gluster.c      |   7 +++
+>  4 files changed, 144 insertions(+), 36 deletions(-)
 
-John Snow <jsnow@redhat.com> writes:
+If the combination of =E2=80=9Cif (local_err) { error_propagate(...); ...=
+ }=E2=80=9D is
+what=E2=80=99s cumbersome, can=E2=80=99t this be done simpler by adding a=
+n
+error_propagate() variant with a return value?
 
-> Hi, I'm having a regular trainwreck here w/ the Docker test suite and I
-> have a few questions;
->
-> 1. Which tests should I expect to work by default? for instance,
-> make-debug doesn't but I think that might be normal. Is that the only
-> one?
+i.e.
 
-test-build is the only one that just builds. As a lot of the docker
-images are cross compilers you generally can't run tests with them which
-limits the use of tests that run make check.
+bool has_error_then_propagate(Error **errp, Error *err)
+{
+    if (!err) {
+        return false;
+    }
+    error_propagate(errp, err);
+    return true;
+}
 
-> 2. Should all tests work for all targets?
+And then turn all instances of
 
-No for reasons of cross compilers. However we should be at the point
-that:
+if (local_err) {
+    error_propagate(errp, local_err);
+    ...
+}
 
-  make docker-test-build
+into
 
-should run and complete all the builds it can (with non-x86 systems
-skipping a whole chunk). There is some re-factoring work to be done to
-make the whole system a bit more friendly to multiple host architectures.
+if (has_error_then_propagate(errp, local_err)) {
+    ...
+}
 
-> 3. Which images can I use to run tests? e.g. make docker-test-quick@XXXX
-> .. the help output shows me ALL images, including your partial ones.
+?
 
-It does? It filters out the partial ones for me. Broadly the mainline OS
-ones are all capable of building and running tests
-(centos/debian-amd64/fedora/ubuntu/travis).
-
-> I
-> think we only want to see non-partial images for help output, or make
-> clear which ones are for tests and which ones are just images.
->
-> 4. docker8 is listed as a partial image, but doesn't appear to be
-> consumed by anything. Can it be removed?
-
-Yes.
-
->
-> - Ditto for debian-sid.
-
-Probably - I almost removed it last time but Phillipe convinced me to
-keep it in. I think now buster is out and has packaged gcc's for all the
-old arches (alpha etc) we can probably get rid of it.
-
-> - Ditto for debian-ports.
-
-This was useful for compilers for old arches but I think it can be got
-rid of now. It's basically sid with a different repo URL.
-
-> (should debian-sid and debian-ports actually be promoted to non-partial
-> images? or, how do I configure the other debian targets to use these as
-> a base instead?)
-
-For true any Debian you want you can use Debian bootstrap - although
-it's main use case is for setting up binfmt_misc foreign arch images.
-
---
-Alex Benn=C3=A9e
+Max
 
