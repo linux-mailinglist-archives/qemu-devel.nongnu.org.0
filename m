@@ -2,58 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5476B7BE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:13:13 +0200 (CEST)
-Received: from localhost ([::1]:44726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2DCB7BF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:18:18 +0200 (CEST)
+Received: from localhost ([::1]:44830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAxBH-0007HJ-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
+	id 1iAxGD-0004RM-Ew
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:18:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iAwx2-0007Dl-Mo
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:58:30 -0400
+ (envelope-from <alxndr@bu.edu>) id 1iAx0P-0003CW-MN
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:01:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iAwtZ-0003iK-DR
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:54:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:39945)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iAwtZ-0003hb-4N; Thu, 19 Sep 2019 09:54:53 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Md6AP-1han871umB-00aCra; Thu, 19 Sep 2019 15:54:48 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Thu, 19 Sep 2019 15:54:38 +0200
-Message-Id: <20190919135443.15164-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190919135443.15164-1-laurent@vivier.eu>
-References: <20190919135443.15164-1-laurent@vivier.eu>
+ (envelope-from <alxndr@bu.edu>) id 1iAx0O-00088S-Ej
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:01:57 -0400
+Received: from mail-eopbgr800091.outbound.protection.outlook.com
+ ([40.107.80.91]:7296 helo=NAM03-DM3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iAx0O-00086x-5r
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 10:01:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fHzHNspWsDd45DZaYzwwxPs4W7IiljclpL/gql5+u06CcEz6o2yj93fGgWmMEtentS8BmXbauNVvDZyLLEOEBbZkT56aWIbrKfg6hK5UTK6iyd7wgU6jzEsG4sTFnQcyaJDRLU8JFCfFGtjCRVZRHQs36t2lZaDs7Ht7rgpB/PjIM1PyYY5TJMNcqv8CJX/M3jmHEDtVFcK2b3iuDWRMOltB3L1Lpk9K6ZbSga3NPMpsjqfRPr7Ove+bYCdSdpxkLAUTXIvvTcVkaQvMjxgr3OlCUbl0qiPsbge6dauVmn7San39xO6W27Hm1o9JMkvGRrYIK0vnlWr9b8YNBdbHQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcRMxvL5aIEhhXCB1Vxliwv6M5IJkNYYN0R8OwIZSIM=;
+ b=mUNR7/PDYPCiT76RisAlm2zi1Ne8vfZOzN9eL1gXkv4XDtlP78JXndSIeyBQM3r/yhU7RpYN0LO4JYceXBwWXcCP+7JCPrgu9i2US5Vh/qbpTvW/EmAW4Ku0c5I3R4cpltoGJ9TFxeotdlC/CJT9n+XmhdGX6dwy/7AR17Xm3/cKIfVdTsrCrDA8RFOHYEwnstGnruV/H/93Z/TL8VY5IMGAtLO/1xRvsB4MY9VkpfBAuzzjzjCusjcA9G0bVmBPj6Yxmjtq6E9eoXQ5RV1V8zh9DH5sVyOuy/vjWlW0YVix7P2xaxjp8whcwHnQ4/cwNkwm8ADRdBDtc904TzQrPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcRMxvL5aIEhhXCB1Vxliwv6M5IJkNYYN0R8OwIZSIM=;
+ b=XngyfooCer+iatT6pkfEa8eTIXpRdBtDPjzmceuSsLUEXY6ul58bz+3vmqsEwdx97Jqi/WG5KnyPAkJta4XP6LXnkGrW7Vu8Cf8oD6HMz4ZOOx8X+KNN/Z6/g4VILlt9xekGSwtr0Rz3dYKfdme1cscyN8Z3QiXXTOWUEYSTJ9M=
+Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
+ CY4PR03MB2568.namprd03.prod.outlook.com (10.173.41.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.18; Thu, 19 Sep 2019 14:01:53 +0000
+Received: from CY4PR03MB2872.namprd03.prod.outlook.com
+ ([fe80::6d88:c5bd:41ad:b107]) by CY4PR03MB2872.namprd03.prod.outlook.com
+ ([fe80::6d88:c5bd:41ad:b107%3]) with mapi id 15.20.2284.009; Thu, 19 Sep 2019
+ 14:01:53 +0000
+From: "Oleinik, Alexander" <alxndr@bu.edu>
+To: "stefanha@redhat.com" <stefanha@redhat.com>
+Thread-Topic: [PATCH v3 17/22] fuzz: add support for fork-based fuzzing.
+Thread-Index: AQHVbneO8lKIXFBEJ0KI61E+89ePjacy9cAAgAAS4IA=
+Date: Thu, 19 Sep 2019 14:01:53 +0000
+Message-ID: <e90af06e25d1a98300002c5f6326307e4fd242d9.camel@bu.edu>
+References: <20190918231846.22538-1-alxndr@bu.edu>
+ <20190918231846.22538-18-alxndr@bu.edu>
+ <20190919125416.GR3606@stefanha-x1.localdomain>
+In-Reply-To: <20190919125416.GR3606@stefanha-x1.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
+x-originating-ip: [128.197.127.33]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6c4e1527-3f7b-44a4-4cbd-08d73d09ecd5
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:CY4PR03MB2568; 
+x-ms-traffictypediagnostic: CY4PR03MB2568:
+x-microsoft-antispam-prvs: <CY4PR03MB25682B712880C1B54EFB3546BA890@CY4PR03MB2568.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 016572D96D
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(136003)(376002)(39860400002)(366004)(396003)(346002)(189003)(199004)(3846002)(25786009)(2351001)(91956017)(76176011)(75432002)(5640700003)(6116002)(7736002)(71190400001)(26005)(2616005)(478600001)(99286004)(476003)(186003)(6512007)(11346002)(6506007)(446003)(102836004)(305945005)(71200400001)(2906002)(88552002)(5660300002)(66066001)(6436002)(36756003)(66476007)(1730700003)(4326008)(76116006)(6486002)(66946007)(66556008)(81166006)(2501003)(486006)(316002)(81156014)(786003)(118296001)(66446008)(256004)(6246003)(14454004)(64756008)(8676002)(6916009)(54906003)(229853002)(86362001)(8936002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2568;
+ H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: bu.edu does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: cJVloFl7btsQ0twrJ7FN4ugRvIpjlxl2Cp8SgerkPv+TAS/2Dapabn3l47pfCiEcOSR4o94LNCE498s/kIlS3I9g0xIGaFUx1AZMyo1SfawCdEZbuEjLTsA8dTOPzHD5fZDaDz86P0LeGS8jihq6YmcQXqN425vmkb6rT8eN2KE4J4xatYjoOA6RD1ZTjNgM7mxxjQvq+yb2BJuE0O6xMyDl0CV+QQa3IFk+ycers+7bne5qrbZvX5PjIxwAcI4a/XAbmX1RkcstIyHePekegtl55vL/7JpY15QMenvV4OZdu4i+6uTa+ADY4d3i2p6gDCT9oeIFO4XElRlq2dPobZgQVzC62q7vJsj9UxgsZegP7bB2mUl1rRWwHI2FUBNbvCHaWvhnfuQFOH2qegkInZJDRjOYbQZkd4QaM6r9rQ4=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A2FF152280D46D4492341EDD2F3EA724@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SMeMu5RPOQoX5EG7ToWuGiXxNEBcKDlPdbYxiLnwkVN3lFN1LSn
- uXF7kLKM+XF86gBvQf3vs4DFsXwtg8XAJcOljG4E/bustw2tMSccVi5naAowVYf4GxCCFVb
- bGMkV3qlsXsEFs3S8XfL/qepbcGQCXXHhb8/9m15M+WzRm82fTqz5G7yC5hUGoJ+zjvJTHj
- y/8yShNLHqIVN8Wx3DlVQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7LdlLPoGuBE=:Nz1hGprNHVO7pM05+Q61uZ
- T96JpsjGypEUo58Sjj17YSY8Vg5GXZqAZRjyovN2LH9DHFsu1dnIRGSjUggJ6YHGCRwTMb4JB
- hmQrEpFf9LqH9T2Hp/tvn+yeJwUM+1uBQuJX45QsIqBpA608z4JZJqDnzQ6yUI73aZnzKD2F1
- eXfXJUmewIAqylRq9COD8m+NJepXW0y3vRn4fHDMGK/tgXzRjtvbqI10bKwq28/5TvQXs7DHX
- ywiVe7qaynAeOo4eNcGizpt5w5RyvM2kF18w8kTGIw3qIxCH9U6XQb8IAouKJV/k2GK0H2jtj
- T7eGkeE2fNyWEGYYBL7d7dlm7HZqjIoJFdt71fXUEMG+ovFS3Iu+Ctuw3wvw0Ewxt11pkfM4o
- /zlbiK0gr+rHooSpXVyJdFAuDaVm2EF+KFKkBdXxlr//WOxFmsmWLYOMH4rGXiXTWN8bPysQa
- PtL9nqiCIZCBeVP9UOHeBjMFiP5Ojq8BDVcWd2nyNt6Hm5deWgFs+4GDnky7O8U3XQKddNwqT
- mq2ky745Zhc9MtBxtR6JH2hDt5NH7HZqf2Hf+bVMel9kXXrFeq3ZtiJj71f2zibXELhuVPHDU
- HwBCtZApeGhPuEz9h8qIUIe8OQtDJMmCpow/YbwzuOqjxj5HxBoHFENtHHqkmPFBHarmr/1DY
- 6QTHuIjdQT69VXzLikW01etmH7EasoDJ8hrMwzOtUhVSmFsCHUe3y1sRYuoDnTD8FA/7cAQOG
- qrBFQoCK+FgCm7sBmtDjGoI631yYRuTwPtcK+VxqW1Ec0J3yge3WDQ591q8bzR1moeDIHuFVa
- Vll6hFlzb1ykya4fRkqgZAylZ8DQfrwtHVF/jsIU9KbzkaBioWw31yK6SuzF5RL4whHMnwoT/
- hVW/8gDxikELBN/XJGjw==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: [Qemu-devel] [PULL 3/8] Replace '-machine accel=xyz' with '-accel
- xyz'
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c4e1527-3f7b-44a4-4cbd-08d73d09ecd5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 14:01:53.2186 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: b+CpcV9ocj/zZ0bn4E9grdaHYkQ4nbaq1muEDX9uXJ+rvF+0ATAfR9aVDcTY7RxV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2568
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.80.91
+Subject: Re: [Qemu-devel] [PATCH v3 17/22] fuzz: add support for fork-based
+ fuzzing.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,114 +106,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
-
-We've got a separate option to configure the accelerator nowadays, which
-is shorter to type and the preferred way of specifying an accelerator.
-Use it in the source and examples to show that it is the favored option.
-(However, do not touch the places yet which also specify other machine
-options or multiple accelerators - these are currently still better
-handled with one single "-machine" statement instead)
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20190904052739.22123-1-thuth@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- python/qemu/qtest.py                | 2 +-
- qemu-deprecated.texi                | 3 +--
- qemu-options.hx                     | 2 +-
- tests/libqtest.c                    | 2 +-
- tests/migration/guestperf/engine.py | 2 +-
- tests/qemu-iotests/172              | 2 +-
- 6 files changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
-index eebcc233ed5c..3f1d2cb32543 100644
---- a/python/qemu/qtest.py
-+++ b/python/qemu/qtest.py
-@@ -96,7 +96,7 @@ class QEMUQtestMachine(QEMUMachine):
-     def _base_args(self):
-         args = super(QEMUQtestMachine, self)._base_args()
-         args.extend(['-qtest', 'unix:path=' + self._qtest_path,
--                     '-machine', 'accel=qtest'])
-+                     '-accel', 'qtest'])
-         return args
- 
-     def _pre_launch(self):
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 9d74a1cfc017..01245e0b1c4b 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -26,8 +26,7 @@ The @option{enforce-config-section} parameter is replaced by the
- 
- @subsection -no-kvm (since 1.3.0)
- 
--The ``-no-kvm'' argument is now a synonym for setting
--``-machine accel=tcg''.
-+The ``-no-kvm'' argument is now a synonym for setting ``-accel tcg''.
- 
- @subsection -usbdevice (since 2.10.0)
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index bbfd936d29ec..80c16fa317e5 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4156,7 +4156,7 @@ STEXI
- Enable FIPS 140-2 compliance mode.
- ETEXI
- 
--HXCOMM Deprecated by -machine accel=tcg property
-+HXCOMM Deprecated by -accel tcg
- DEF("no-kvm", 0, QEMU_OPTION_no_kvm, "", QEMU_ARCH_I386)
- 
- DEF("msg", HAS_ARG, QEMU_OPTION_msg,
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index 4a7556462d65..38e4f5b5871e 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -241,7 +241,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-                               "-qtest-log %s "
-                               "-chardev socket,path=%s,id=char0 "
-                               "-mon chardev=char0,mode=control "
--                              "-machine accel=qtest "
-+                              "-accel qtest "
-                               "-display none "
-                               "%s", qemu_binary, socket_path,
-                               getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null",
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index f13dbea8000d..1dd04ce33b72 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -287,7 +287,7 @@ class Engine(object):
-             cmdline = "'" + cmdline + "'"
- 
-         argv = [
--            "-machine", "accel=kvm",
-+            "-accel", "kvm",
-             "-cpu", "host",
-             "-kernel", self._kernel,
-             "-initrd", self._initrd,
-diff --git a/tests/qemu-iotests/172 b/tests/qemu-iotests/172
-index ba7dad905751..d67997e5f62b 100755
---- a/tests/qemu-iotests/172
-+++ b/tests/qemu-iotests/172
-@@ -55,7 +55,7 @@ do_run_qemu()
-             done
-         fi
-         echo quit
--    ) | $QEMU -machine accel=qtest -nographic -monitor stdio -serial none "$@"
-+    ) | $QEMU -accel qtest -nographic -monitor stdio -serial none "$@"
-     echo
- }
- 
--- 
-2.21.0
-
+T24gVGh1LCAyMDE5LTA5LTE5IGF0IDEzOjU0ICswMTAwLCBTdGVmYW4gSGFqbm9jemkgd3JvdGU6
+DQo+IE9uIFdlZCwgU2VwIDE4LCAyMDE5IGF0IDExOjE5OjQ0UE0gKzAwMDAsIE9sZWluaWssIEFs
+ZXhhbmRlciB3cm90ZToNCj4gPiBkaWZmIC0tZ2l0IGEvZXhlYy5jIGIvZXhlYy5jDQo+ID4gaW5k
+ZXggMjM1ZDZiYzg4My4uZDM4MzhmNGVhNCAxMDA2NDQNCj4gPiAtLS0gYS9leGVjLmMNCj4gPiAr
+KysgYi9leGVjLmMNCj4gPiBAQCAtMjI5NSw3ICsyMjk1LDkgQEAgc3RhdGljIHZvaWQgcmFtX2Js
+b2NrX2FkZChSQU1CbG9jaw0KPiA+ICpuZXdfYmxvY2ssIEVycm9yICoqZXJycCwgYm9vbCBzaGFy
+ZWQpDQo+ID4gICAgICAgICAgcWVtdV9yYW1fc2V0dXBfZHVtcChuZXdfYmxvY2stPmhvc3QsIG5l
+d19ibG9jay0NCj4gPiA+bWF4X2xlbmd0aCk7DQo+ID4gICAgICAgICAgcWVtdV9tYWR2aXNlKG5l
+d19ibG9jay0+aG9zdCwgbmV3X2Jsb2NrLT5tYXhfbGVuZ3RoLA0KPiA+IFFFTVVfTUFEVl9IVUdF
+UEFHRSk7DQo+ID4gICAgICAgICAgLyogTUFEVl9ET05URk9SSyBpcyBhbHNvIG5lZWRlZCBieSBL
+Vk0gaW4gYWJzZW5jZSBvZg0KPiA+IHN5bmNocm9ub3VzIE1NVSAqLw0KPiA+ICsjaWZuZGVmIENP
+TkZJR19GVVpaIC8qIFRoaXMgY29uZmxpY3RzIHdpdGggZm9yay1iYXNlZCBmdXp6aW5nICovDQo+
+ID4gICAgICAgICAgcWVtdV9tYWR2aXNlKG5ld19ibG9jay0+aG9zdCwgbmV3X2Jsb2NrLT5tYXhf
+bGVuZ3RoLA0KPiA+IFFFTVVfTUFEVl9ET05URk9SSyk7DQo+ID4gKyNlbmRpZg0KPiA+ICAgICAg
+ICAgIHJhbV9ibG9ja19ub3RpZnlfYWRkKG5ld19ibG9jay0+aG9zdCwgbmV3X2Jsb2NrLQ0KPiA+
+ID5tYXhfbGVuZ3RoKTsNCj4gPiAgICAgIH0NCj4gPiAgfQ0KPiANCj4gSSBkaWRuJ3QgY2hlY2sg
+TWFrZWZpbGUgY2hhbmdlcyBidXQgcmVndWxhciBzb2Z0bW11IGJpbmFyaWVzIHNob3VsZA0KPiBj
+b250aW51ZSB0byB3b3JrIHdpdGggLS1lbmFibGUtZnV6emluZyBzbyB3ZSBjYW5ub3QgdXNlICNp
+ZmRlZiBoZXJlLg0KPiBQZXJoYXBzIHRoaXMgc2hvdWxkIGJlIGEgcnVudGltZSBjaGVjayBzaW1p
+bGFyIHRvIHF0ZXN0X2VuYWJsZWQoKQ0KDQpZZXMgLSBJJ2xsIGFkZCBhIHJ1bnRpbWUgY2hlY2su
+IFRoZSBtYWtlZmlsZSByZXF1aXJlcyBhIG1ha2UgY2xlYW4NCmJldHdlZW4gc29mdG1tdSBhbmQg
+ZnV6emVyIGJ1aWxkcywgc2luY2UgdGhlICIubyJzIGZvciB0aGUgZnV6emVyIGJ1aWxkDQphcmUg
+Y29tcGlsZWQgd2l0aCBmc2FuaXRpemU9ZnV6emVyKG11c3QgYmUgbGlua2VkIGFnYWluc3QgbGli
+ZnV6emVyKS4gDQpJIGNhbiBzZWUgdGhhdCB0aGUgI2lmbmRlZiBDT05GSUdfRlVaWiBpcyBhIHBy
+b3BlciBzb2Z0bW11IGJ1aWxkcyB3aXRoDQotLWVuYWJsZS1mdXp6ZXIgYXJlIGN1cnJlbnRseSBi
+cm9rZW4gZHVlIHRvIHRoZSBpZm5kZWYgQ09ORklHX0ZVWloNCmNoZWNrLg0K
 
