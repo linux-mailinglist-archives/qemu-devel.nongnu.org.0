@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A0FB7A12
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:05:52 +0200 (CEST)
-Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2334DB7A23
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 15:08:03 +0200 (CEST)
+Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAw86-0003D6-Bq
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:05:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41468)
+	id 1iAwAD-0005O9-BM
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 09:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iAvsW-0006KH-Kt
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:49:45 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iAvsV-0006Ji-Iy
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:49:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iAvlq-0001Ow-9k
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:42:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50768)
+ (envelope-from <cohuck@redhat.com>) id 1iAvm2-0001ic-Va
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:43:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40736)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1iAvlq-0001Nv-4h; Thu, 19 Sep 2019 08:42:50 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iAvm1-0001bO-0s; Thu, 19 Sep 2019 08:43:02 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 76DC410C0939;
- Thu, 19 Sep 2019 12:42:49 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AE82718C891B;
+ Thu, 19 Sep 2019 12:42:57 +0000 (UTC)
 Received: from localhost (dhcp-192-230.str.redhat.com [10.33.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC49A5D6B2;
- Thu, 19 Sep 2019 12:42:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D751C60BF1;
+ Thu, 19 Sep 2019 12:42:54 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 14:41:02 +0200
-Message-Id: <20190919124115.11510-22-cohuck@redhat.com>
+Date: Thu, 19 Sep 2019 14:41:04 +0200
+Message-Id: <20190919124115.11510-24-cohuck@redhat.com>
 In-Reply-To: <20190919124115.11510-1-cohuck@redhat.com>
 References: <20190919124115.11510-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Thu, 19 Sep 2019 12:42:49 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Thu, 19 Sep 2019 12:42:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 21/34] s390x/tcg: OC: Fault-safe handling
+Subject: [Qemu-devel] [PULL 23/34] s390x/tcg: NC: Fault-safe handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,12 +70,11 @@ Signed-off-by: David Hildenbrand <david@redhat.com>
  1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 853b9557cf26..0574c31d9a03 100644
+index a2118a82e3ca..20fc17d44de0 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -383,17 +383,26 @@ uint32_t HELPER(xc)(CPUS390XState *env, uint32_t l,=
- uint64_t dest,
- static uint32_t do_helper_oc(CPUS390XState *env, uint32_t l, uint64_t de=
+@@ -323,17 +323,26 @@ static int mmu_idx_from_as(uint8_t as)
+ static uint32_t do_helper_nc(CPUS390XState *env, uint32_t l, uint64_t de=
 st,
                               uint64_t src, uintptr_t ra)
  {
@@ -89,8 +88,8 @@ st,
 =20
 -    for (i =3D 0; i <=3D l; i++) {
 -        uint8_t x =3D cpu_ldub_data_ra(env, src + i, ra);
--        x |=3D cpu_ldub_data_ra(env, dest + i, ra);
-+    /* OC always processes one more byte than specified - maximum is 256=
+-        x &=3D cpu_ldub_data_ra(env, dest + i, ra);
++    /* NC always processes one more byte than specified - maximum is 256=
  */
 +    l++;
 +
@@ -98,7 +97,7 @@ st,
 +    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, mmu_idx, ra);
 +    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
 +    for (i =3D 0; i < l; i++) {
-+        const uint8_t x =3D access_get_byte(env, &srca1, i, ra) |
++        const uint8_t x =3D access_get_byte(env, &srca1, i, ra) &
 +                          access_get_byte(env, &srca2, i, ra);
 +
          c |=3D x;
