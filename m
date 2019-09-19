@@ -2,48 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E29B79E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 14:57:08 +0200 (CEST)
-Received: from localhost ([::1]:43676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648D0B79CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 14:53:15 +0200 (CEST)
+Received: from localhost ([::1]:43638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAvze-0004mg-5h
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 08:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41479)
+	id 1iAvvu-000075-4X
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 08:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iAvsJ-0006Le-0I
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:49:32 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iAvsB-0006Ji-Je
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:49:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iAvmY-0002Lc-PH
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:43:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53340)
+ (envelope-from <pbonzini@redhat.com>) id 1iAvou-0005bx-Gh
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:46:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57218)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1iAvmY-0002KX-CJ; Thu, 19 Sep 2019 08:43:34 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iAvou-0005al-9F
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 08:46:00 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A82413084037;
- Thu, 19 Sep 2019 12:43:33 +0000 (UTC)
-Received: from localhost (dhcp-192-230.str.redhat.com [10.33.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 013CB6013A;
- Thu, 19 Sep 2019 12:43:30 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Sep 2019 14:41:15 +0200
-Message-Id: <20190919124115.11510-35-cohuck@redhat.com>
-In-Reply-To: <20190919124115.11510-1-cohuck@redhat.com>
-References: <20190919124115.11510-1-cohuck@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 4940387642
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 12:45:59 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id t11so1007254wrq.19
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 05:45:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F2hjPOW93W8+OdeJLvYCKKNrC6tn8HHEz3RxjVBWKrU=;
+ b=sobT8/URssLiKtyFhzfl1L3ZDdj0kkPkc12K/7t/p79yjMCYlfWCxLLveNCZCF4nBo
+ KKBL8ua6/vaMkLRV1isN8dnpInNerQBAlLFFmaEagalfJ/hf7tapaN3dyPDVopkYTUtM
+ pbiFsdk+RjM/y7qAEr1LZZ4cGrrBBNgY2+JvRJBcsaY7+BkkfB+HgbtKIGaEB4qyh1LJ
+ jVnevqzHcA3EmOlueKB+wn80BuMr74pGFnYn8x2gUQ+4UEZZPFTLD3kGTO0SQUBuWUWI
+ 9i69m50bkztjb1qS0ZZX/zCKLW2oiToi57g6U6QYW+bhh3npZCXaUPKPPo1fcMwXvWyc
+ E/Ug==
+X-Gm-Message-State: APjAAAUAZZwu1F3WIbIQpBmQgiSLykW1O1v9Pib4FTbtcqEKdKIDVwCP
+ gv+hqT2o+Syt5iOxu9/UkQcwfozObdbAvFoSvVh/Uoi7a588ubTgEtWNOsQBFGIl4neD8u40anZ
+ OkhD839O/4u4C4qA=
+X-Received: by 2002:a5d:6a06:: with SMTP id m6mr7586291wru.190.1568897157775; 
+ Thu, 19 Sep 2019 05:45:57 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzOEc5HB38C0LwVKR4cN6MZAm9Nv6B2BnHiP8MWsEXtAj6QkhWustFkyo16Bmc0PidHA77c0g==
+X-Received: by 2002:a5d:6a06:: with SMTP id m6mr7586272wru.190.1568897157482; 
+ Thu, 19 Sep 2019 05:45:57 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c46c:2acb:d8d2:21d8?
+ ([2001:b07:6468:f312:c46c:2acb:d8d2:21d8])
+ by smtp.gmail.com with ESMTPSA id r20sm12634514wrg.61.2019.09.19.05.45.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Sep 2019 05:45:56 -0700 (PDT)
+To: Jason Wang <jasowang@redhat.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ "Zhao, Yan Y" <yan.y.zhao@intel.com>
+References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
+ <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
+ <8302a4ae-1914-3046-b3b5-b3234d7dda02@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57B1D1@SHSMSX104.ccr.corp.intel.com>
+ <6d73572e-1e89-b04a-bdd6-98ac73798083@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57B90C@SHSMSX104.ccr.corp.intel.com>
+ <204219fa-ee72-ca60-52a4-fb4bbc887773@redhat.com>
+ <20190919052819.GA18391@joy-OptiPlex-7040>
+ <7b6d6343-33de-ebd7-9846-af54a45a82a2@redhat.com>
+ <20190919061756.GB18391@joy-OptiPlex-7040>
+ <e0efbdc0-aad9-0d17-ec68-36460865501f@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D57DD2A@SHSMSX104.ccr.corp.intel.com>
+ <1ec55b2e-6a59-f1df-0604-5b524da0f001@redhat.com>
+ <00084b36-3281-7c8d-5057-427eaabfb174@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <8fb74d6c-5449-bccb-deab-5300f2a50122@redhat.com>
+Date: Thu, 19 Sep 2019 14:45:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 19 Sep 2019 12:43:33 +0000 (UTC)
+In-Reply-To: <00084b36-3281-7c8d-5057-427eaabfb174@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 34/34] s390x/cpumodel: Add the z15 name to the
- description of gen15a
+Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,42 +95,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: 'Alex Williamson' <alex.williamson@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+On 19/09/19 14:39, Jason Wang wrote:
+>> In general, userspace cannot assume that it's okay to sync just throug=
+h
+>> GPA1.=C2=A0 It must sync the host page if *either* GPA1 or GPA2 are ma=
+rked
+>> dirty.
+>=20
+> Maybe we need document this somewhere.
 
-We now know that gen15a is called z15.
+Well, it's implicit but it should be kind of obvious.  The dirty page
+only tells you that the guest wrote to the GPA, HVAs are never mentioned
+in the documentation.
 
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-Id: <20190918144214.229936-1-borntraeger@de.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- target/s390x/cpu_models.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Paolo
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 1d16d7d5e794..009afc38b92d 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -84,7 +84,7 @@ static S390CPUDef s390_cpu_defs[] =3D {
-     CPUDEF_INIT(0x3906, 14, 1, 47, 0x08000000U, "z14", "IBM z14 GA1"),
-     CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
-     CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model=
- ZR1 GA1"),
--    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM 8561 GA1"=
-),
-+    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1")=
-,
-     CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"=
-),
- };
-=20
---=20
-2.20.1
+> Any other issue that still need to be covered consider userspace need t=
+o
+> sync both GPAs?
+>=20
+> Thanks
+>=20
 
 
