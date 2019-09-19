@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377B9B78B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:56:11 +0200 (CEST)
-Received: from localhost ([::1]:42724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E04B78C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:59:41 +0200 (CEST)
+Received: from localhost ([::1]:42774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAv2f-0001rv-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:56:09 -0400
+	id 1iAv64-00075f-T6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:59:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:33426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iAuyQ-00055K-49
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:51:47 -0400
+ (envelope-from <berrange@redhat.com>) id 1iAuyM-00055K-Lj
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:51:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iAulK-0000vb-4h
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:38:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50757)
+ (envelope-from <berrange@redhat.com>) id 1iAuoz-0003Wn-6O
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:42:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55714)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iAulI-0000uN-SA; Thu, 19 Sep 2019 07:38:12 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iAuoz-0003WZ-19
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:42:01 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 32738A3D39E;
- Thu, 19 Sep 2019 11:38:12 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.36.116.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B87B5D9E5;
- Thu, 19 Sep 2019 11:38:02 +0000 (UTC)
-Date: Thu, 19 Sep 2019 13:38:01 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Message-ID: <20190919113801.GD10163@localhost.localdomain>
-References: <20190916112411.21636-1-slp@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 227CAC04B940;
+ Thu, 19 Sep 2019 11:42:00 +0000 (UTC)
+Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C1A45D6B2;
+ Thu, 19 Sep 2019 11:41:54 +0000 (UTC)
+Date: Thu, 19 Sep 2019 12:41:52 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Weil <sw@weilnetz.de>
+Message-ID: <20190919114152.GK20217@redhat.com>
+References: <20190919105932.19412-1-philmd@redhat.com>
+ <04454c37-ad8b-b69b-3f40-bb78f0c20ef2@weilnetz.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190916112411.21636-1-slp@redhat.com>
+In-Reply-To: <04454c37-ad8b-b69b-3f40-bb78f0c20ef2@weilnetz.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Thu, 19 Sep 2019 11:38:12 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Thu, 19 Sep 2019 11:42:00 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3] virtio-blk: schedule
- virtio_notify_config to run on main context
+Subject: Re: [Qemu-devel] [PATCH 0/2] testing: Build WHPX enabled binaries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,82 +58,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, stefanha@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Lucian Petrut <lpetrut@cloudbasesolutions.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Justin Terry <juterry@microsoft.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Ilias Maratos <i.maratos@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.09.2019 um 13:24 hat Sergio Lopez geschrieben:
-> virtio_notify_config() needs to acquire the global mutex, which isn't
-> allowed from an iothread, and may lead to a deadlock like this:
-> 
->  - main thead
->   * Has acquired: qemu_global_mutex.
->   * Is trying the acquire: iothread AioContext lock via
->     AIO_WAIT_WHILE (after aio_poll).
-> 
->  - iothread
->   * Has acquired: AioContext lock.
->   * Is trying to acquire: qemu_global_mutex (via
->     virtio_notify_config->prepare_mmio_access).
-> 
-> If virtio_blk_resize() is called from an iothread, schedule
-> virtio_notify_config() to be run in the main context BH.
-> 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
-> Changelog
-> 
-> v3:
->  - Unconditionally schedule the work to be done in the main context BH
->    (thanks John Snow and Kevin Wolf).
-> 
-> v2:
->  - Use aio_bh_schedule_oneshot instead of scheduling a coroutine
->    (thanks Kevin Wolf).
->  - Switch from RFC to v2 patch.
-> ---
->  hw/block/virtio-blk.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index 18851601cb..0163285f6f 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -16,6 +16,7 @@
->  #include "qemu/iov.h"
->  #include "qemu/module.h"
->  #include "qemu/error-report.h"
-> +#include "qemu/main-loop.h"
->  #include "trace.h"
->  #include "hw/block/block.h"
->  #include "hw/qdev-properties.h"
-> @@ -1086,11 +1087,25 @@ static int virtio_blk_load_device(VirtIODevice *vdev, QEMUFile *f,
->      return 0;
->  }
->  
-> +static void virtio_resize_cb(void *opaque)
-> +{
-> +    VirtIODevice *vdev = opaque;
-> +
-> +    assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-> +    virtio_notify_config(vdev);
-> +}
-> +
->  static void virtio_blk_resize(void *opaque)
->  {
->      VirtIODevice *vdev = VIRTIO_DEVICE(opaque);
->  
-> -    virtio_notify_config(vdev);
-> +    /*
-> +     * virtio_notify_config() needs to acquire the global mutex,
-> +     * so it can't be called from an iothread. Instead, schedule
-> +     * it to be run in the main context BH.
-> +     */
-> +    aio_bh_schedule_oneshot(qemu_get_aio_context(),
-> +                            virtio_resize_cb, vdev);
+On Thu, Sep 19, 2019 at 01:18:57PM +0200, Stefan Weil wrote:
+> Am 19.09.2019 um 12:59 schrieb Philippe Mathieu-Daud=C3=A9:
+> > Add a job to cross-build QEMU with WHPX enabled.
+> >
+> > Use the Win10SDK headers from the Android Project, as commented
+> > in https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03842.htm=
+l
+> >
+> > Based-on: <20190918121101.30690-1-philmd@redhat.com>
+> > https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03844.html
+> >
+> > Philippe Mathieu-Daud=C3=A9 (2):
+> >   tests/docker: Add fedora-win10sdk-cross image
+> >   .shippable.yml: Build WHPX enabled binaries
+> >
+> >  .shippable.yml                                |  2 ++
+> >  tests/docker/Makefile.include                 |  1 +
+> >  .../dockerfiles/fedora-win10sdk-cross.docker  | 21 +++++++++++++++++=
+++
+> >  3 files changed, 24 insertions(+)
+> >  create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.do=
+cker
+> >
+>=20
+> Please note that the required header files are part of the Win10SDK
+> which is not published under a free license, so I am afraid that they
+> cannot be used with QEMU code to produce free binaries.
 
-This fits on a single line. With this fixed:
+Can you elaborate on why you think that is the case ?
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Looking at the 3 header files used, all they contain are struct
+definitions and integer constants, fortunately no functional
+code in macros or inline functions. As such, it is questionable
+whether the headers alone can be considered copyrightable material.
+Any compatible implementation that follows the WHPX API/ABI will by
+neccessity be the same, modulo code style.
+
+Further, from a GPL POV, these headers should fall under the system
+libraries exception, as WHPX is core low level operating system
+functionality.
+
+There's a valid legal question as to how to we got access to the
+files in the first place. Assuming they are freely distributable
+though, given their hosting on Google Android downloads.
+
+So the fact that the headers are not under an open source / free
+license doesn't look like it should impact the ability to distribute
+the resulting QEMU binaries.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
