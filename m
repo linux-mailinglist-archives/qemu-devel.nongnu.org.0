@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBA3B7F50
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 18:43:00 +0200 (CEST)
-Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0D3B7F53
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 18:44:27 +0200 (CEST)
+Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAzWF-0007KU-79
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 12:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45177)
+	id 1iAzXe-0000EQ-Ka
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 12:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iAzV1-0005v6-4f
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:41:44 -0400
+ (envelope-from <thuth@redhat.com>) id 1iAzWO-0007sn-K6
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:43:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iAzV0-000467-2p
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:41:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48424)
+ (envelope-from <thuth@redhat.com>) id 1iAzWN-00058c-EW
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:43:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48478)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iAzUx-00042n-Fq; Thu, 19 Sep 2019 12:41:39 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iAzWK-00052Q-J2; Thu, 19 Sep 2019 12:43:04 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CC2727FDC9;
- Thu, 19 Sep 2019 16:41:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CE7393082E66;
+ Thu, 19 Sep 2019 16:43:03 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-72.ams2.redhat.com [10.36.116.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D83B75D6B0;
- Thu, 19 Sep 2019 16:41:28 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] iotests: Require Python 3.6 or later
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D73E560BF1;
+ Thu, 19 Sep 2019 16:42:56 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] iotests: Remove Python 2 compatibility code
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20190919162905.21830-1-kwolf@redhat.com>
- <20190919162905.21830-2-kwolf@redhat.com>
+ <20190919162905.21830-3-kwolf@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -78,18 +78,18 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <d397cf47-094d-5b46-8cbe-837033ed1c56@redhat.com>
-Date: Thu, 19 Sep 2019 18:41:27 +0200
+Message-ID: <09a9cf74-a6f0-bce7-ceac-052cd8ea7ae8@redhat.com>
+Date: Thu, 19 Sep 2019 18:42:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190919162905.21830-2-kwolf@redhat.com>
+In-Reply-To: <20190919162905.21830-3-kwolf@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 19 Sep 2019 16:41:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Thu, 19 Sep 2019 16:43:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,51 +109,105 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19/09/2019 18.29, Kevin Wolf wrote:
-> Running iotests is not required to build QEMU, so we can have stricter
-> version requirements for Python here and can make use of new features
-> and drop compatibility code earlier.
+> Some scripts check the Python version number and have two code paths to
+> accomodate both Python 2 and 3. Remove the code specific to Python 2 and
+> assert the minimum version of 3.6 instead (check skips Python tests in
+> this case, so the assertion would only ever trigger if a Python script
+> is executed manually).
 > 
-> This makes qemu-iotests skip all Python tests if a Python version before
-> 3.6 is used for the build.
-> 
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  tests/qemu-iotests/check | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+>  tests/qemu-iotests/044                   |  3 ---
+>  tests/qemu-iotests/163                   |  3 ---
+>  tests/qemu-iotests/iotests.py            | 13 +++----------
+>  tests/qemu-iotests/nbd-fault-injector.py |  7 +++----
+>  4 files changed, 6 insertions(+), 20 deletions(-)
 > 
-> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> index 875399d79f..588c453a94 100755
-> --- a/tests/qemu-iotests/check
-> +++ b/tests/qemu-iotests/check
-> @@ -633,6 +633,12 @@ then
->      export SOCKET_SCM_HELPER="$build_iotests/socket_scm_helper"
->  fi
+> diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+> index 05ea1f49c5..8b2afa2a11 100755
+> --- a/tests/qemu-iotests/044
+> +++ b/tests/qemu-iotests/044
+> @@ -28,9 +28,6 @@ import struct
+>  import subprocess
+>  import sys
 >  
-> +python_usable=false
-> +if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >= (3,6) else 1)'
-> +then
-> +    python_usable=true
-> +fi
+> -if sys.version_info.major == 2:
+> -    range = xrange
+> -
+>  test_img = os.path.join(iotests.test_dir, 'test.img')
+>  
+>  class TestRefcountTableGrowth(iotests.QMPTestCase):
+> diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
+> index 081ccc8ac1..d94728e080 100755
+> --- a/tests/qemu-iotests/163
+> +++ b/tests/qemu-iotests/163
+> @@ -21,9 +21,6 @@
+>  import os, random, iotests, struct, qcow2, sys
+>  from iotests import qemu_img, qemu_io, image_size
+>  
+> -if sys.version_info.major == 2:
+> -    range = xrange
+> -
+>  test_img = os.path.join(iotests.test_dir, 'test.img')
+>  check_img = os.path.join(iotests.test_dir, 'check.img')
+>  
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index b26271187c..9fb5181c3d 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -35,6 +35,7 @@ from collections import OrderedDict
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+>  from qemu import qtest
+>  
+> +assert sys.version_info >= (3,6)
+>  
+>  # This will not work if arguments contain spaces but is necessary if we
+>  # want to support the override options that ./check supports.
+> @@ -250,10 +251,7 @@ def image_size(img):
+>      return json.loads(r)['virtual-size']
+>  
+>  def is_str(val):
+> -    if sys.version_info.major >= 3:
+> -        return isinstance(val, str)
+> -    else:
+> -        return isinstance(val, str) or isinstance(val, unicode)
+> +    return isinstance(val, str)
+>  
+>  test_dir_re = re.compile(r"%s" % test_dir)
+>  def filter_test_dir(msg):
+> @@ -935,12 +933,7 @@ def execute_test(test_function=None,
+>      else:
+>          # We need to filter out the time taken from the output so that
+>          # qemu-iotest can reliably diff the results against master output.
+> -        if sys.version_info.major >= 3:
+> -            output = io.StringIO()
+> -        else:
+> -            # io.StringIO is for unicode strings, which is not what
+> -            # 2.x's test runner emits.
+> -            output = io.BytesIO()
+> +        output = io.StringIO()
+>  
+>      logging.basicConfig(level=(logging.DEBUG if debug else logging.WARN))
+>  
+> diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotests/nbd-fault-injector.py
+> index 6b2d659dee..43f095ceef 100755
+> --- a/tests/qemu-iotests/nbd-fault-injector.py
+> +++ b/tests/qemu-iotests/nbd-fault-injector.py
+> @@ -48,10 +48,9 @@ import sys
+>  import socket
+>  import struct
+>  import collections
+> -if sys.version_info.major >= 3:
+> -    import configparser
+> -else:
+> -    import ConfigParser as configparser
+> +import configparser
 > +
->  default_machine=$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*//p')
->  default_alias_machine=$($QEMU_PROG -machine help | \
->     sed -n "/(alias of $default_machine)/ { s/ .*//p; q; }")
-> @@ -809,7 +815,12 @@ do
->          start=$(_wallclock)
+> +assert sys.version_info >= (3,6)
 >  
->          if [ "$(head -n 1 "$source_iotests/$seq")" == "#!/usr/bin/env python" ]; then
-> -            run_command="$PYTHON $seq"
-> +            if $python_usable; then
-> +                run_command="$PYTHON $seq"
-> +            else
-> +                run_command="false"
-> +                echo "Unsupported Python version" > $seq.notrun
-> +            fi
->          else
->              run_command="./$seq"
->          fi
-> 
+>  FAKE_DISK_SIZE = 8 * 1024 * 1024 * 1024 # 8 GB
+>  
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
