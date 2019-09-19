@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4054EB8000
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:29:49 +0200 (CEST)
-Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE377B8019
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:38:08 +0200 (CEST)
+Received: from localhost ([::1]:47088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0FW-0007Ke-HH
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:29:48 -0400
+	id 1iB0Na-00084a-RB
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:38:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iB06w-0008UJ-8p
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iB07S-0008UJ-18
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iB06s-0000rN-VX
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44610)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iB06s-0000qn-O0
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:50 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 538D43022465;
- Thu, 19 Sep 2019 17:20:49 +0000 (UTC)
-Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB45660872;
- Thu, 19 Sep 2019 17:20:48 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:20:48 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
-Message-ID: <20190919112048.09b3edaa@x1.home>
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D57B785@SHSMSX104.ccr.corp.intel.com>
-References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
- <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
- <20190917085404.3b063e53@x1.home>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57AFBA@SHSMSX104.ccr.corp.intel.com>
- <a82101bf-f8a7-5ddd-5abe-6060762d9abe@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57B785@SHSMSX104.ccr.corp.intel.com>
-Organization: Red Hat
+ (envelope-from <peter.maydell@linaro.org>) id 1iAzvN-0003pJ-Nx
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:08:58 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:42659)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iAzvN-0003ow-GF
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:08:57 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id i185so3338005oif.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aTRi6tT55RAkYx7Li11LL7xBS9tOOOaLa888zMSma7E=;
+ b=eiWyH2rfvPL1hfDMJTJftugwJ6VKg4MAuOiAd7uncY3Ch9mHI6nO3OuywZPCwGhppX
+ Vf/m/D7L/3vDy3PyCeZBTO2x0sqGlrTwrFqFpTP2KG3LuIspx3v4AnicVlYfpkIWx+Zi
+ luxA6ExRi1pzu/419JGpzH1p0EybTEm4BeYf35Q0o3kMsz7mL2R8re0Z5/mJKeo/3rC5
+ tFp81SHm+sVCi61kWmmX+xTx4fKPWN1lE8wFsc5jLEuH8TEqHHvJITzftFaFROvTnduS
+ ZgOv4NL3YLNf8THQQ7tkgqanfoCjiEWeCu/5+3TJmHMHO7o61qx48Nzi41mrLDTRM35E
+ jTkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aTRi6tT55RAkYx7Li11LL7xBS9tOOOaLa888zMSma7E=;
+ b=CtNoxwfnuLh1do8ni/mRz6cCj5vTZVH+Np5Y1upwZRxZJDmpLE9IgwhC3YKEpw7DT5
+ uVIJJ5lg8XgJfjX3mgWon4cHCNtbtb/1j+oxfeQzDDfrMupOtoq6GPr9i1n2N/+yZHN0
+ 1ExxYnoZSMp7rD+et2e5cXDXzFU1MT+rbZDmvAxircNEfvb7pIfRRyMELbkAnMrZl7Oc
+ DXFznSA9aJSpUpkK+n1ZAqaXTekXQwj6hpzCh4ldlWqQg+w9UNdIhjxMW+SGQKmE/qhO
+ 54ZVS95luenUeXohgqsXu7r2GdtIuO67Up+5QzIpac8CAWX6K+Q/H7k1K2XGz5+z/V/+
+ tQsQ==
+X-Gm-Message-State: APjAAAUWYGy5DZSd8Ifm/OJhxLMYgMUku5ktArXL+tZoDtmteAE+Mfev
+ r/y7WJ4Zl6a3CNI2MbNuKPcOZw6ujFCa22tZ69Kii2wNhXU=
+X-Google-Smtp-Source: APXvYqx2kaJxDOXY/rkLtND6vROE3hSq9/ZGuX3y7hKZ+t3+Ujsv63AJk0DrG+zwkkX5ke7r0704oiFRpm/vNk1vf1g=
+X-Received: by 2002:aca:50d8:: with SMTP id e207mr3023103oib.48.1568912936471; 
+ Thu, 19 Sep 2019 10:08:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 19 Sep 2019 17:20:49 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+References: <9c6bf92a-0869-cf5d-222b-305e55393ebb@schrodt.org>
+In-Reply-To: <9c6bf92a-0869-cf5d-222b-305e55393ebb@schrodt.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Sep 2019 18:08:45 +0100
+Message-ID: <CAFEAcA-GdcL+4yOnn1-SbD-8F8THA1TN5japT6Sk27GwtwBNnA@mail.gmail.com>
+Subject: Re: Will the qemu-devel prefix in the mails come back?
+To: Martin Schrodt <martin@schrodt.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,110 +71,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Sep 2019 07:21:05 +0000
-"Tian, Kevin" <kevin.tian@intel.com> wrote:
+On Thu, 19 Sep 2019 at 18:06, Martin Schrodt <martin@schrodt.org> wrote:
+>
+> Does anybody know?
+>
+> My mail filter would appreciate :)
 
-> > From: Jason Wang [mailto:jasowang@redhat.com]
-> > Sent: Wednesday, September 18, 2019 2:04 PM
-> >=20
-> > On 2019/9/18 =E4=B8=8A=E5=8D=889:31, Tian, Kevin wrote: =20
-> > >> From: Alex Williamson [mailto:alex.williamson@redhat.com]
-> > >> Sent: Tuesday, September 17, 2019 10:54 PM
-> > >>
-> > >> On Tue, 17 Sep 2019 08:48:36 +0000
-> > >> "Tian, Kevin"<kevin.tian@intel.com>  wrote:
-> > >> =20
-> > >>>> From: Jason Wang [mailto:jasowang@redhat.com]
-> > >>>> Sent: Monday, September 16, 2019 4:33 PM
-> > >>>>
-> > >>>>
-> > >>>> On 2019/9/16 =E4=B8=8A=E5=8D=889:51, Tian, Kevin wrote: =20
-> > >>>>> Hi, Jason
-> > >>>>>
-> > >>>>> We had a discussion about dirty page tracking in VFIO, when =20
-> > vIOMMU =20
-> > >>>>> is enabled:
-> > >>>>>
-> > >>>>> https://lists.nongnu.org/archive/html/qemu-devel/2019- =20
-> > >>>> 09/msg02690.html =20
-> > >>>>> It's actually a similar model as vhost - Qemu cannot interpose th=
-e =20
-> > fast- =20
-> > >>>> path =20
-> > >>>>> DMAs thus relies on the kernel part to track and report dirty pag=
-e =20
-> > >>>> information. =20
-> > >>>>> Currently Qemu tracks dirty pages in GFN level, thus demanding a =
-=20
-> > >>>> translation =20
-> > >>>>> from IOVA to GPA. Then the open in our discussion is where this =
-=20
-> > >>>> translation =20
-> > >>>>> should happen. Doing the translation in kernel implies a device i=
-otlb =20
-> > >>>> flavor, =20
-> > >>>>> which is what vhost implements today. It requires potentially lar=
-ge =20
-> > >>>> tracking =20
-> > >>>>> structures in the host kernel, but leveraging the existing log_sy=
-nc =20
-> > flow =20
-> > >> in =20
-> > >>>> Qemu. =20
-> > >>>>> On the other hand, Qemu may perform log_sync for every removal =20
-> > of =20
-> > >>>> IOVA =20
-> > >>>>> mapping and then do the translation itself, then avoiding the GPA=
- =20
-> > >>>> awareness =20
-> > >>>>> in the kernel side. It needs some change to current Qemu log-sync=
- =20
-> > >> flow, =20
-> > >>>> and =20
-> > >>>>> may bring more overhead if IOVA is frequently unmapped.
-> > >>>>>
-> > >>>>> So we'd like to hear about your opinions, especially about how yo=
-u =20
-> > >> came =20
-> > >>>>> down to the current iotlb approach for vhost. =20
-> > >>>> We don't consider too much in the point when introducing vhost. And
-> > >>>> before IOTLB, vhost has already know GPA through its mem table
-> > >>>> (GPA->HVA). So it's nature and easier to track dirty pages at GPA =
-level
-> > >>>> then it won't any changes in the existing ABI. =20
-> > >>> This is the same situation as VFIO. =20
-> > >> It is?  VFIO doesn't know GPAs, it only knows HVA, HPA, and IOVA.  In
-> > >> some cases IOVA is GPA, but not all. =20
-> > > Well, I thought vhost has a similar design, that the index of its mem=
- table
-> > > is GPA when vIOMMU is off and then becomes IOVA when vIOMMU is on.
-> > > But I may be wrong here. Jason, can you help clarify? I saw two
-> > > interfaces which poke the mem table: VHOST_SET_MEM_TABLE (for GPA)
-> > > and VHOST_IOTLB_UPDATE (for IOVA). Are they used exclusively or =20
-> > together? =20
-> > > =20
-> >=20
-> > Actually, vhost maintains two interval trees, mem table GPA->HVA, and
-> > device IOTLB IOVA->HVA. Device IOTLB is only used when vIOMMU is
-> > enabled, and in that case mem table is used only when vhost need to
-> > track dirty pages (do reverse lookup of memtable to get HVA->GPA). So in
-> > conclusion, for datapath, they are used exclusively, but they need
-> > cowork for logging dirty pages when device IOTLB is enabled.
-> >  =20
->=20
-> OK. Then it's different from current VFIO design, which maintains only
-> one tree which is indexed by either GPA or IOVA exclusively, upon=20
-> whether vIOMMU is in use.=20
+Sorry, no. See the announcement sent out last week:
+https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01645.html
 
-Nit, the VFIO tree is only ever indexed by IOVA.  The MAP_DMA ioctl is
-only ever performed with an IOVA.  Userspace decides how that IOVA maps
-to GPA, VFIO only needs to know how the IOVA maps to HPA via the HVA.
-Thanks,
+We recommend you filter using the List-Id: header instead.
 
-Alex
+thanks
+-- PMM
 
