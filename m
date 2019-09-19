@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9885EB8396
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:43:21 +0200 (CEST)
-Received: from localhost ([::1]:48726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17ADBB83B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:50:05 +0200 (CEST)
+Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4Ct-0003c1-VS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53604)
+	id 1iB4JP-0002Ct-Md
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53669)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3us-0002q5-MD
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:44 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uv-0002uE-Qt
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uq-0000hi-Ga
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:42 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40967)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uu-0000k9-2G
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:45 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45124)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iB3uo-0000eX-8H
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:38 -0400
-Received: by mail-wr1-x434.google.com with SMTP id h7so4600766wrw.8
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:38 -0700 (PDT)
+ id 1iB3ut-0000jk-QL
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:43 -0400
+Received: by mail-wr1-x442.google.com with SMTP id r5so4574832wrm.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SAJE24jrD+6zgfdi/kjreA5oPQEW/oM4tr6aWGLatS8=;
- b=T729J/bi5mNiTOXtjBdx/MmujoNm0zzx/BBO1/CPFFXJZcgThXQrbOq8uzpKF5HDOb
- pw3vud2Ca+C+USedsJrxM+EcuKxB/JgsLJjjbSn4r7x6VO+g1ZSu0RgBiBz4hW3TwYGI
- qPAuKIjdDuk+aJkdfGhM9friSpf8cXs3C5X4BiwPzz+JR8uGLcGF8ibXDunq0JTcrZqs
- xSGikditgUy1xH186Is6u4ZPTDt46a8izcEFnwjAnR0MV4W4xI+sr2RyKSBtiY+Ap7QX
- zRTCkdsaVM9voPf2bjfFslaq7A65Ofe4OPCwOUvr8eMZhnVvwGOjWTv1rxd0VgR/TCpj
- eXCw==
+ bh=8TTUthXqXhh1DdLxMpTCEbLpELmMAAhIVdhapb9+b1E=;
+ b=sEAIDvr/w/jncZIJMs54Dwu0Vf6ErZ6zInfGFlcIdGGHx0ARaMrzeZHH04/kn4zsdi
+ 8vpxpliz6Pw7Q8Ye4VbHR6hAoWMqOSpIFifBdvW7Vv7nYBUXqslr9IDH0s/9KLBZ6Fpy
+ o4wG/HMbY9+hhAYkeCrgJolnhIfE8VhYI8PYWd9qB2OZQI8XYKMj6oHRCO4L8YdkRQJq
+ QLUQJRJVE51pOIqBJaSKm699xN64cRUeX4jMQko1cE/lUTUay+xQAb9BcdTJnrrPy7J5
+ rYAUmihTEd4wntEFDssFXa2A2rk8i7h57r36+a920RqVoSabazwbxi1nXVznh497opci
+ f6fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SAJE24jrD+6zgfdi/kjreA5oPQEW/oM4tr6aWGLatS8=;
- b=FqqJHJWIrifmzo5sw7fsOYieZLyCEXg4TQus4vvHNv7QNmneNkksqtBHfP1CQafLBI
- DlrrjcVQm1EEXtnBLq/uC1/XigUkmcNDmAv8O/nlwq7hxkya7Z9319X1SGr9RrFv/Lut
- VLFxJOAiczxA3CYQZEjNbikaC4KT3umNxjMCIJbnunBlO3ZVni6jbuv7MSbo5GnsxBu1
- Ny31+6tRv/3o4cVOZyd3sPnGpPpd5UiBrBinrY59gCWFBuT1GFxda4910NLeX+hA9Q9p
- yCk0HTpU6SGW+cimo89X5XzCweyJwFd1wZJcEeL9+SdLTU6IgwnneWOCnLG5K9hJh/1A
- QRMg==
-X-Gm-Message-State: APjAAAVyoPKjIuqJokXehtjvyubIUy1CwYC910TzQiLlASWdGjRTs0bm
- UY6Q38Y2+0lnJSxijSs1x2aLKDIz
-X-Google-Smtp-Source: APXvYqylUWYkxcp/rt9vR5158j6CZuG4ZQeJ2Hz0o9VBP16zRV56KaFwHtMVRGksgkQ1y/SQn1zLqA==
-X-Received: by 2002:a5d:5384:: with SMTP id d4mr8582649wrv.255.1568928276927; 
- Thu, 19 Sep 2019 14:24:36 -0700 (PDT)
+ bh=8TTUthXqXhh1DdLxMpTCEbLpELmMAAhIVdhapb9+b1E=;
+ b=C9wpggCKMj099ZEb6qbMQ/6/tNvAZXzjyj7DwQul0/aWnAAmNiSXpOpt6YJobT57EM
+ d2Hu1viiggqmyw3nOhVBI8txWRKrRP4Kip9WnJ4WwWkqlSrRGvX0rUcYbkJHheQRgM74
+ C2WH/Xguv20jjqvT/6CrGLMjwHpq1zOnO3lzqZjWPIYXChVnmIKskpsJ5GJcl8YV6F1H
+ LQw0AI0bkX0o3JS7x8m1OTLIiJ8hWijRQm/9VERcXQKU/0hq6BAmc56IOLBCvz7Skyyq
+ DGdY3vL3Hxmz3N9ffigKiPUfq3xoxG3qfD7y9Ep7WT0iABBwv89dAjOu9F4Hb8Q0gAc4
+ VImw==
+X-Gm-Message-State: APjAAAUNfBemjWTzWam92iwdskF45WPNXxm2BMzUW/gghN95YHxByXE1
+ MLJfsIOc3DoaO0HyRo66q4JI5q4b
+X-Google-Smtp-Source: APXvYqy57j1yKJ8ycKOBM8xXk+FK10g9C+YzUBKnW+tpElyuEeURZrmgAKbi6ZdgP7PUbfLMOOF5HA==
+X-Received: by 2002:a5d:4dcb:: with SMTP id f11mr2834732wru.239.1568928282547; 
+ Thu, 19 Sep 2019 14:24:42 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:74ef::5])
- by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.36
+ by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:24:36 -0700 (PDT)
+ Thu, 19 Sep 2019 14:24:42 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 15/24] audio: add mixing-engine option (documentation)
-Date: Thu, 19 Sep 2019 23:24:23 +0200
-Message-Id: <68c4b4bd438e9cb5c97aed32ee31e3dabd96cbf6.1568927990.git.DirtY.iCE.hu@gmail.com>
+Subject: [PATCH v4 22/24] usb-audio: do not count on avail bytes actually
+ available
+Date: Thu, 19 Sep 2019 23:24:30 +0200
+Message-Id: <aee95223703429f21a7ebf502095d5976091c773.1568927990.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
@@ -71,7 +72,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,91 +84,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow us to disable mixeng when we use a decent backend.
-
-Disabling mixeng have a few advantages:
-* we no longer convert the audio output from one format to another, when
-  the underlying audio system would just convert it to a third format.
-  We no longer convert, only the underlying system, when needed.
-* the underlying system probably has better resampling and sample format
-  converting methods anyway...
-* we may support formats that the mixeng currently does not support (S24
-  or float samples, more than two channels)
-* when using an audio server (like pulseaudio) different sound card
-  outputs will show up as separate streams, even if we use only one
-  backend
-
-Disadvantages:
-* audio capturing no longer works (wavcapture, and vnc audio extension)
-* some backends only support a single playback stream or very picky
-  about the audio format.  In this case we can't disable mixeng.
-
-However mixeng is not removed, only made optional, so this shouldn't be
-a big concern.
+This assumption is no longer true when mixeng is turned off.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
+ hw/usb/dev-audio.c | 28 +++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
-Notes:
-    Changes from v1:
-    
-    * renamed mixeng to mixing-engine
-
- qapi/audio.json | 5 +++++
- qemu-options.hx | 6 ++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 9fefdf5186..0535eff794 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -11,6 +11,10 @@
- # General audio backend options that are used for both playback and
- # recording.
- #
-+# @mixing-engine: use QEMU's mixing engine to mix all streams inside QEMU. When
-+#                 set to off, fixed-settings must be also off. Not every backend
-+#                 compatible with the off setting (default on, since 4.2)
-+#
- # @fixed-settings: use fixed settings for host input/output. When off,
- #                  frequency, channels and format must not be
- #                  specified (default true)
-@@ -31,6 +35,7 @@
- ##
- { 'struct': 'AudiodevPerDirectionOptions',
-   'data': {
-+    '*mixing-engine':  'bool',
-     '*fixed-settings': 'bool',
-     '*frequency':      'uint32',
-     '*channels':       'uint32',
-diff --git a/qemu-options.hx b/qemu-options.hx
-index bbfd936d29..395427422a 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -433,6 +433,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
-     "                specifies the audio backend to use\n"
-     "                id= identifier of the backend\n"
-     "                timer-period= timer period in microseconds\n"
-+    "                in|out.mixing-engine= use mixing engine to mix streams inside QEMU\n"
-     "                in|out.fixed-settings= use fixed settings for host audio\n"
-     "                in|out.frequency= frequency to use with fixed settings\n"
-     "                in|out.channels= number of channels to use with fixed settings\n"
-@@ -503,6 +504,11 @@ Identifies the audio backend.
- Sets the timer @var{period} used by the audio subsystem in microseconds.
- Default is 10000 (10 ms).
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index ae42e5a2f1..74c99b1f12 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -319,30 +319,31 @@ static int streambuf_put(struct streambuf *buf, USBPacket *p)
+ {
+     uint32_t free = buf->size - (buf->prod - buf->cons);
  
-+@item in|out.mixing-engine=on|off
-+Use QEMU's mixing engine to mix all streams inside QEMU.  When off,
-+@var{fixed-settings} must be off too.  Not every backend is fully
-+compatible with the off setting.  Default is on.
+-    if (!free) {
++    if (free < USBAUDIO_PACKET_SIZE) {
+         return 0;
+     }
+     if (p->iov.size != USBAUDIO_PACKET_SIZE) {
+         return 0;
+     }
+-    assert(free >= USBAUDIO_PACKET_SIZE);
 +
- @item in|out.fixed-settings=on|off
- Use fixed settings for host audio.  When off, it will change based on
- how the guest opens the sound card.  In this case you must not specify
+     usb_packet_copy(p, buf->data + (buf->prod % buf->size),
+                     USBAUDIO_PACKET_SIZE);
+     buf->prod += USBAUDIO_PACKET_SIZE;
+     return USBAUDIO_PACKET_SIZE;
+ }
+ 
+-static uint8_t *streambuf_get(struct streambuf *buf)
++static uint8_t *streambuf_get(struct streambuf *buf, size_t *len)
+ {
+     uint32_t used = buf->prod - buf->cons;
+     uint8_t *data;
+ 
+     if (!used) {
++        *len = 0;
+         return NULL;
+     }
+-    assert(used >= USBAUDIO_PACKET_SIZE);
+     data = buf->data + (buf->cons % buf->size);
+-    buf->cons += USBAUDIO_PACKET_SIZE;
++    *len = MIN(buf->prod - buf->cons,
++               buf->size - (buf->cons % buf->size));
+     return data;
+ }
+ 
+@@ -374,16 +375,21 @@ static void output_callback(void *opaque, int avail)
+     USBAudioState *s = opaque;
+     uint8_t *data;
+ 
+-    for (;;) {
+-        if (avail < USBAUDIO_PACKET_SIZE) {
++    while (avail) {
++        size_t written, len;
++
++        data = streambuf_get(&s->out.buf, &len);
++        if (!data) {
+             return;
+         }
+-        data = streambuf_get(&s->out.buf);
+-        if (!data) {
++
++        written = AUD_write(s->out.voice, data, len);
++        avail -= written;
++        s->out.buf.cons += written;
++
++        if (written < len) {
+             return;
+         }
+-        AUD_write(s->out.voice, data, USBAUDIO_PACKET_SIZE);
+-        avail -= USBAUDIO_PACKET_SIZE;
+     }
+ }
+ 
 -- 
 2.23.0
 
