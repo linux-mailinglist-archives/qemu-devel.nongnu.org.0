@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4C6B7FFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:27:36 +0200 (CEST)
-Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A684B7FF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:24:58 +0200 (CEST)
+Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0DP-0005Gt-KN
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
+	id 1iB0Aq-0002re-9Z
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iB07P-0008UJ-7k
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iB06m-0008Ns-NX
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iAzwi-0004La-FZ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:21 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52489)
+ (envelope-from <alex.bennee@linaro.org>) id 1iAzwk-0004Mo-BZ
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:23 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36824)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iAzwi-0004Kv-8A
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:20 -0400
-Received: by mail-wm1-x335.google.com with SMTP id x2so5535941wmj.2
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:10:20 -0700 (PDT)
+ id 1iAzwk-0004MI-5X
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:22 -0400
+Received: by mail-wr1-x436.google.com with SMTP id y19so3938263wrd.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ROcEXk4VlPnAKdNfwfPvcGYJ80CFnYnY+S2Rny52Nig=;
- b=K+oneVqMntgvacF/QwvgdIWnZ+iqP61QhjnSWz3HUiIMnTVPQW8+k4Y1URy08n7YfR
- k/kivN3Cl4xh/gxb3T+YEXdxkxx+aIarEG5U/JqLNYIBQwxR7rF+Jag4fYyf3I2tPMpD
- I7gXfXP1UBNIoFIMYtVwzNzvtKFzG9HnOMxTCOQFyj4+lzWKr3lbAyT42FIbYePC8Hlv
- XQMAjMsdauN8We8+3v1UfmpjQpXxX8bmqnoGgd085W2CYYyqsBG/H/2L4AbCEmHs/k3w
- V1b+IrQj/cxJvaDwidc+xvLDFmHAVUcxajEzLxmeHUnDb5Xg5Kh1R5J8D+ECZS0JlLGs
- YruA==
+ bh=tblJT4RtEixMQfFRyBeEWlegYmtqzQLK4AhwWipF6ds=;
+ b=z8Ezy9WSh8HJaGUWe64aWKbGuLS8CCtrtrg+ZH9LZaPg86K2Pye/CIBYeQ27EaqUoE
+ zFB6VyEIWSNK4dEtqOhrKGl5X01eDKpI0VMAYZ4E4cFQPxWoFbEjlbEEYcnXSNsT62aL
+ rXGZHt5ZmxmwXo6CYKT588jBk8wfNOapWtOjVLHvB9eGNHwH2FPN6m2a56XstJWA2C5b
+ 8PNigtXV6qz/ALYS+shvxFdHP82P7zsEhAM7VGBjHLJNQYQNNpqigL0pFyVGXdXSzjqY
+ UoZTgh7rvZOg56wnO0kSSLAEF+ebWTlj2iKm6oOgIEJqOE2Lsx3W6F5br78Nm4GSZqev
+ rPkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ROcEXk4VlPnAKdNfwfPvcGYJ80CFnYnY+S2Rny52Nig=;
- b=udQ2hunpK1zR0tC5uraPchW0ACSq0INN9os3RWMxDCg/+lW4uY5I5/cquIgzP4585T
- b2fHdSSdnu9kpoTORuCTCo9cDolwCbz21pwzDNsnWRKkRqb3wq+UQ4iIn6UP/iIt/yY0
- A9UuscAKxNh4/aitUinlFQ+1UZ6C92sEfx2j7+OhaF8jWTl79my9GW51I3DFrYM6pKVv
- zQPVJum8Nkk3v65UXHcrCjTz5LAhAafUcvKbOEAE5nf5kiSudisyrAnNa2C0x6d3BWQ0
- CVymPMzaQCfh4DooyKvKVNMvy4ocYR/ZPqiEckeOIeX0d861rgQRHC2nKZYnPDQjpTWJ
- Nvog==
-X-Gm-Message-State: APjAAAUREnMGFFLlRsLySzOkRSSYC+O0il4iQy+cpwmXnDHtTKiMWQt5
- lIeGuLEy7LzpyU2tQK5hZH3crA==
-X-Google-Smtp-Source: APXvYqzK7PmrHbs3U0flW+np4Ek+hyDa6VpRfJ3lQPBOL8IKz0xeyQ3q0rMfh4z4T+Lerql5q6qijA==
-X-Received: by 2002:a05:600c:2059:: with SMTP id
- p25mr3974611wmg.50.1568913019152; 
- Thu, 19 Sep 2019 10:10:19 -0700 (PDT)
+ bh=tblJT4RtEixMQfFRyBeEWlegYmtqzQLK4AhwWipF6ds=;
+ b=Qafy7A1vDwjhd+aRAR9QHHYdefno64fcYp7VZb3dLPhtOqQ7gnk6cHPJ4S7uPpvlV+
+ qCuHgYo5o7XZWUG4iiF7EKeKDhB9+RoLApuI8L26P40Xw9zK78a06c30TAo8Nw5VeC9M
+ 08hb4iGxVZAZg9yS3m9Dt8OvOZbfoO7LnLl902neXzFw4t3kLUzBm/SPQvIuJdWw4iGJ
+ oZeC4t9zto+84oeBzlVYgyj5/WvxkSVngK0KqYLu89n3y99Eco9H000r8t6DnR2tUY51
+ VCpDz2H+97NfCyMBY8NQuB4ZtMMBSqadckJvxqlWnARP4EwKrnh2YUlOk3s20ILiYfTk
+ Ey4g==
+X-Gm-Message-State: APjAAAVw6dA5I7l2fTjopkMEEUjnWHIw3fhTtu1cYBQT+10PWGEau7n6
+ DIi0sGgUWWsUR47FbUeu/6jMCg==
+X-Google-Smtp-Source: APXvYqwh0++D3UTChkg8Agrlg60ftFKvp9PFNyOlnzkSIkF1zMW3gHSx5PTZ2a6yykL2udny0SM7KA==
+X-Received: by 2002:adf:fac3:: with SMTP id a3mr8269280wrs.24.1568913021040;
+ Thu, 19 Sep 2019 10:10:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f143sm11670669wme.40.2019.09.19.10.10.16
+ by smtp.gmail.com with ESMTPSA id b184sm10000262wmg.47.2019.09.19.10.10.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 10:10:16 -0700 (PDT)
+ Thu, 19 Sep 2019 10:10:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E9B641FF90;
- Thu, 19 Sep 2019 18:10:15 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1F88B1FF92;
+ Thu, 19 Sep 2019 18:10:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 03/16] tests/docker: remove python2.7 from docker9-mxe
-Date: Thu, 19 Sep 2019 18:10:02 +0100
-Message-Id: <20190919171015.12681-4-alex.bennee@linaro.org>
+Subject: [PATCH  v2 05/16] podman: fix command invocation
+Date: Thu, 19 Sep 2019 18:10:04 +0100
+Message-Id: <20190919171015.12681-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190919171015.12681-1-alex.bennee@linaro.org>
 References: <20190919171015.12681-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,31 +90,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-When it was based on docker8 which uses python-minimal, it needed this.
-It no longer does.
-
-Goodbye, python2.7.
+Oops; there's no argv here.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190918222546.11696-1-jsnow@redhat.com>
+Message-Id: <20190913193821.17756-1-jsnow@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/debian9-mxe.docker | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/docker/docker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/dockerfiles/debian9-mxe.docker
-index 7431168dad9..62ff1cecf2d 100644
---- a/tests/docker/dockerfiles/debian9-mxe.docker
-+++ b/tests/docker/dockerfiles/debian9-mxe.docker
-@@ -16,7 +16,6 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C6BF758A33A3A276 &&
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt-get install -y --no-install-recommends \
--        libpython2.7-stdlib \
-         $(apt-get -s install -y --no-install-recommends gw32.shared-mingw-w64 | egrep "^Inst mxe-x86-64-unknown-" | cut -d\  -f2)
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 4dca6006d2f..890e874ba93 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -338,7 +338,7 @@ class Docker(object):
+             cmd = [ "-u", str(uid) ] + cmd
+             # podman requires a bit more fiddling
+             if self._command[0] == "podman":
+-                argv.insert(0, '--userns=keep-id')
++                cmd.insert(0, '--userns=keep-id')
  
--ENV PATH $PATH:/usr/lib/mxe/usr/bin/ 
-+ENV PATH $PATH:/usr/lib/mxe/usr/bin/
+         ret = self._do_check(["run", "--label",
+                              "com.qemu.instance.uuid=" + label] + cmd,
 -- 
 2.20.1
 
