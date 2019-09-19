@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54565B7731
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:12:50 +0200 (CEST)
-Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E0AB773C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:19:08 +0200 (CEST)
+Received: from localhost ([::1]:41892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtQf-00027U-6D
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50142)
+	id 1iAtWk-0007F0-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iAtNi-0008K2-Rb
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:09:48 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iAtOa-0001Im-5D
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:10:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iAtNh-0000qo-FM
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:09:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41690)
+ (envelope-from <stefanha@redhat.com>) id 1iAtOY-0001M8-Tq
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:10:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51590)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1iAtNc-0000mV-1n; Thu, 19 Sep 2019 06:09:40 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtOY-0001Le-Ns
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:10:38 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 50DFD3168BEB;
- Thu, 19 Sep 2019 10:09:38 +0000 (UTC)
-Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A149A5C21E;
- Thu, 19 Sep 2019 10:09:05 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:09:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190919100903.GF20217@redhat.com>
-References: <20190918130244.24257-1-vsementsov@virtuozzo.com>
- <abb14088-6af2-5db2-da0d-0948fd4ac81c@redhat.com>
- <20190919091720.GB10163@localhost.localdomain>
+ by mx1.redhat.com (Postfix) with ESMTPS id 0CBA11107;
+ Thu, 19 Sep 2019 10:10:38 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5D4610001BC;
+ Thu, 19 Sep 2019 10:10:34 +0000 (UTC)
+Date: Thu, 19 Sep 2019 11:10:33 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Oleinik, Alexander" <alxndr@bu.edu>
+Message-ID: <20190919101033.GH3606@stefanha-x1.localdomain>
+References: <20190918231846.22538-1-alxndr@bu.edu>
+ <20190918231846.22538-5-alxndr@bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vtJ+CqYNzKB4ukR4"
 Content-Disposition: inline
-In-Reply-To: <20190919091720.GB10163@localhost.localdomain>
+In-Reply-To: <20190918231846.22538-5-alxndr@bu.edu>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 19 Sep 2019 10:09:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 19 Sep 2019 10:10:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] error: auto propagated local_err
+Subject: Re: [Qemu-devel] [PATCH v3 04/22] qtest: add qtest_server_send
+ abstraction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,99 +59,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: fam@euphon.net, peter.maydell@linaro.org, mst@redhat.com,
- codyprime@gmail.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- armbru@redhat.com, kraxel@redhat.com, mreitz@redhat.com, qemu-block@nongnu.org,
- quintela@redhat.com, david@redhat.com, mdroth@linux.vnet.ibm.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, marcandre.lureau@redhat.com,
- rth@twiddle.net, farman@linux.ibm.com, groug@kaod.org, dgilbert@redhat.com,
- alex.williamson@redhat.com, qemu-arm@nongnu.org, stefanha@redhat.com,
- jsnow@redhat.com, david@gibson.dropbear.id.au,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, cohuck@redhat.com,
- qemu-s390x@nongnu.org, sundeep.lkml@gmail.com, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laurent Vivier <lvivier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 11:17:20AM +0200, Kevin Wolf wrote:
-> Am 18.09.2019 um 19:10 hat Eric Blake geschrieben:
-> > On 9/18/19 8:02 AM, Vladimir Sementsov-Ogievskiy wrote:
-> > > + */
-> > > +#define MAKE_ERRP_SAFE(errp) \
-> > > +g_auto(ErrorPropagationStruct) (__auto_errp_prop) = {.errp = (errp)}; \
-> > > +if ((errp) == NULL || *(errp) == error_abort || *(errp) == error_fatal) { \
-> > > +    (errp) = &__auto_errp_prop.local_err; \
-> > > +}
-> > 
-> > Not written to take a trailing semicolon in the caller.
-> > 
-> > You could even set __auto_errp_prop unconditionally rather than trying
-> > to reuse incoming errp (the difference being that error_propagate() gets
-> > called more frequently).
-> 
-> I think this difference is actually a problem.
-> 
-> When debugging things, I hate error_propagate(). It means that the Error
-> (specifically its fields src/func/line) points to the outermost
-> error_propagate() rather than the place where the error really happened.
-> It also makes error_abort completely useless because at the point where
-> the process gets aborted, the interesting information is already lost.
 
-Yeah, that is very frustrating. For personal development you can eventually
-figure it out, but with customer support requests, all you get is the
-stack trace and you've no core file to investigate, so you're stuck.
-IOW, as a general principle, we should strive to minimize the usage
-of error propagate.
+--vtJ+CqYNzKB4ukR4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The key reason why we typically need the propagate calls, is because
-we allow the passed in Error **errp parameter to be NULL, while at the
-same time we want to inspect it to see if its contents are non-NULL
-to detect failure. I venture to suggest that this is flawed API
-design on our part. We should not need to inspect the error object
-to see if a method call fails - the return value can be used for
-this purpose.
+On Wed, Sep 18, 2019 at 11:19:31PM +0000, Oleinik, Alexander wrote:
+> qtest_server_send is a function pointer specifying the handler used to
+> transmit data to the qtest client. In the standard configuration, this
+> calls the CharBackend handler, but now it is possible for other types of
+> handlers, e.g direct-function calls if the qtest client and server
+> exist within the same process (inproc)
+>=20
+> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+> ---
+>  include/sysemu/qtest.h |  3 +++
+>  qtest.c                | 17 +++++++++++++++--
+>  2 files changed, 18 insertions(+), 2 deletions(-)
 
-IOW, instead of this pattern with typically 'void' methods
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-     extern void somemethod(Error **errp);
+--vtJ+CqYNzKB4ukR4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-     void thismethod(Error **errp) {
-        Error *local_err = NULL;
-	...
-        somemethod(&local_err);
-        if (local_err) {
-	    error_propagate(errp, local_err);
-	    return;
-	}
-        ...
-     }
+-----BEGIN PGP SIGNATURE-----
 
-We should be preferring
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DVBkACgkQnKSrs4Gr
+c8h3MQf/YRqUoC4hBQy28LRE05rWsSY3nKAXSY3dPpesL5rFNdsA7/q3qFn9C1Nz
+fxNAxg22dEvfOD1w/nSIYcv0tLzhTmIzf17VAPduN+0/mgXxw1QtnjWtSZbty0pe
+JzXPLuRjP0B8XZcI7Sizyv/3FuMlH7Mx6iq0hqTvDNzeWO6tfBLhqUnqcuKkbqjU
+euwGAONRBervAGB4Kko7JuuHxGoXJqiWRAYyyitp+byKprLk0VIXsSfQhglqlE6f
+7SUF7Hbipp0QumThgxjKjMH5r4/sBIEfkz9YMtWY4rZMAXQmHJQ870ehaUGUFlzp
+fAS4pR1BfFhKW+nMg8F1o8kV+2X6WQ==
+=M7mu
+-----END PGP SIGNATURE-----
 
-     extern int somemethod(Error **errp);
-
-     int thismethod(Error **errp) {
-	...
-        if (somemethod(errp) < 0) {
-	    return -1;
-	}
-        ...
-     }
-
-ie only using the Error object to bubble up the *details* of
-the error, not as the mechanism for finding if an error occurred.
-
-There is of course a downside with this approach, in that a
-method might set 'errp' but return 0, or not set 'errp' but
-return -1. I think this is outweighed by the simpler code
-pattern overall though.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--vtJ+CqYNzKB4ukR4--
 
