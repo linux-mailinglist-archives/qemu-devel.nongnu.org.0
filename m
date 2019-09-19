@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF549B7FAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:07:35 +0200 (CEST)
-Received: from localhost ([::1]:46722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4C6B7FFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:27:36 +0200 (CEST)
+Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAzu2-0002OT-JO
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48330)
+	id 1iB0DP-0005Gt-KN
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <martin@schrodt.org>) id 1iAzr0-0000Yj-6Q
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:04:27 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iB07P-0008UJ-7k
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <martin@schrodt.org>) id 1iAzqy-0001gs-7x
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:04:25 -0400
-Received: from zapp.schrodt.org ([46.4.119.246]:36866)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <martin@schrodt.org>) id 1iAzqy-0001f6-0p
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:04:24 -0400
-Received: from [178.254.117.28] (port=52602 helo=[192.168.61.123])
- by zapp.schrodt.org with esmtpsa (TLSv1.3:TLS_AES_128_GCM_SHA256:128)
- (Exim 4.92.2) (envelope-from <martin@schrodt.org>)
- id 1iAzqq-0004DU-B2
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:04:16 +0200
+ (envelope-from <alex.bennee@linaro.org>) id 1iAzwi-0004La-FZ
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:21 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52489)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iAzwi-0004Kv-8A
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:20 -0400
+Received: by mail-wm1-x335.google.com with SMTP id x2so5535941wmj.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ROcEXk4VlPnAKdNfwfPvcGYJ80CFnYnY+S2Rny52Nig=;
+ b=K+oneVqMntgvacF/QwvgdIWnZ+iqP61QhjnSWz3HUiIMnTVPQW8+k4Y1URy08n7YfR
+ k/kivN3Cl4xh/gxb3T+YEXdxkxx+aIarEG5U/JqLNYIBQwxR7rF+Jag4fYyf3I2tPMpD
+ I7gXfXP1UBNIoFIMYtVwzNzvtKFzG9HnOMxTCOQFyj4+lzWKr3lbAyT42FIbYePC8Hlv
+ XQMAjMsdauN8We8+3v1UfmpjQpXxX8bmqnoGgd085W2CYYyqsBG/H/2L4AbCEmHs/k3w
+ V1b+IrQj/cxJvaDwidc+xvLDFmHAVUcxajEzLxmeHUnDb5Xg5Kh1R5J8D+ECZS0JlLGs
+ YruA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ROcEXk4VlPnAKdNfwfPvcGYJ80CFnYnY+S2Rny52Nig=;
+ b=udQ2hunpK1zR0tC5uraPchW0ACSq0INN9os3RWMxDCg/+lW4uY5I5/cquIgzP4585T
+ b2fHdSSdnu9kpoTORuCTCo9cDolwCbz21pwzDNsnWRKkRqb3wq+UQ4iIn6UP/iIt/yY0
+ A9UuscAKxNh4/aitUinlFQ+1UZ6C92sEfx2j7+OhaF8jWTl79my9GW51I3DFrYM6pKVv
+ zQPVJum8Nkk3v65UXHcrCjTz5LAhAafUcvKbOEAE5nf5kiSudisyrAnNa2C0x6d3BWQ0
+ CVymPMzaQCfh4DooyKvKVNMvy4ocYR/ZPqiEckeOIeX0d861rgQRHC2nKZYnPDQjpTWJ
+ Nvog==
+X-Gm-Message-State: APjAAAUREnMGFFLlRsLySzOkRSSYC+O0il4iQy+cpwmXnDHtTKiMWQt5
+ lIeGuLEy7LzpyU2tQK5hZH3crA==
+X-Google-Smtp-Source: APXvYqzK7PmrHbs3U0flW+np4Ek+hyDa6VpRfJ3lQPBOL8IKz0xeyQ3q0rMfh4z4T+Lerql5q6qijA==
+X-Received: by 2002:a05:600c:2059:: with SMTP id
+ p25mr3974611wmg.50.1568913019152; 
+ Thu, 19 Sep 2019 10:10:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f143sm11670669wme.40.2019.09.19.10.10.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 10:10:16 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E9B641FF90;
+ Thu, 19 Sep 2019 18:10:15 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-From: Martin Schrodt <martin@schrodt.org>
-Subject: Will the qemu-devel prefix in the mails come back?
-Autocrypt: addr=martin@schrodt.org; prefer-encrypt=mutual; keydata=
- mQENBFG43owBCADieX6Xjfput3Qz+1gov8WoGxfwcyPRHBPpFzSoo+UsgbOllBS0SIAC3ORP
- 1Z7M+GI4a7O0+hJQl743cpfB/ZkQJONYut1KyBWGhUSBS6Nz4Zfbxam4+m/m/SsWz2cvfDqY
- MBaLo0MrFW1dVhGMPxwFUwtSPQP6OheRL5tg3zbHdX341A2JGEz906mrYE/8X/brPgNHhzBC
- nB9umfhxZRw0/t8i8y8nbH6xsMfdZhkT6BGg9hxal4+aONDOJYgLbNJWjp8h9BjWbioPjYAr
- 8xd1KDtbe3vD5GwDH2jYx/OtrE/QucOA3OEspRU4bL18Ap51gEmlsXlDgRHXbRddHRkZABEB
- AAG0I01hcnRpbiBTY2hyb2R0IDxtYXJ0aW5Ac2Nocm9kdC5vcmc+iQE4BBMBAgAiBQJRuN6M
- AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAnNj/b8/ABtPRcB/4zcpD1pzNWgrHF
- 8mseJ545mclasaaTy7nyMY6pLykylEtuPRSLllmFfW117Iw+yPPpEDquAsCwCVOh20V2rkrc
- 6NdzIBxthg39yDGKxH8R7+1HlJymhCYrAJCGQ92Xenx8fCmZCwLH3MwI9jwlHUWZWj3kWD8x
- HXmxdzl20k+xHJvcjgFClt3YRnYhzpF3XcnaTbW9u72FQx3DAjQRL3m73x8Qyf2fZQ5S5k/p
- 6rI2MktCXeia//t58sELPHAC39rnBIAp5+V/ElCExETYyDKM8pJuTxwJ1ahl/hVBvE9eih2W
- AJi9+jv4c7p36RT+55sdTtnxAreKHPzlb4atOHiruQENBFG43owBCADOb+GZjZm9pBfSIIL5
- u2GbMYyq+hCMUrNgzciyoZ6kLLEfCvQnQhdKV3Gv11Ccgv7s1efQcS09KCbP8p07yGVztD4b
- J2mQgntvmnfeo5OF/G/byFv85WUPRpTTQ5uafsGbPJk8TMw62AMHf8xxSTxOoiagUiW4SpyZ
- AakKG84BJccCSouNC2otM6Cc0/mLttd6OcQKJXDsrIy+z2Iu8t3+EkTC19+CJACHauqDQ7LN
- D5zyVxuq1mm6UybZoyh3JzfMuyFnMjaPfjcPK10cxoNCRAmu3INYwwZxV3dmmBJFgo1/QNqi
- aIm9R0k0C49PBtCj+GcE+PWjqmOYpYydXcbJABEBAAGJAR8EGAECAAkFAlG43owCGwwACgkQ
- JzY/2/PwAbSEBQgAh0miFBtYNFUnunC5lE1FcHnVlMkQ0hdikkEE8zS/4mNBDrnvUp++ww8A
- qJHvjvplp+GBIKk+77cT0UD2lKxYvy6cRfrLsspJdhUrD2q1vNW7rZHg7qCCfFCtCFOnC4aL
- FLpFQMPufNJ7TmzDUoesqADFSboeotC3RsS7/lsIqZXOmCNdIxv9YPPL8OuM3XiT8e0WxWYK
- NduiMIDjA0qSm060q5OUNaBbBO8QNlfQ8KGSKrbaMFaEgbOGoQF7LCa21uJ5v/wDvmyX3JRe
- WxUKWruIMBJbyRwVc8T9uTzVMHqKa+q5cOUVi3Ncs1XRaAg2Em0IqEbT/Jx2A8491Jg+Sg==
-Message-ID: <9c6bf92a-0869-cf5d-222b-305e55393ebb@schrodt.org>
-Date: Thu, 19 Sep 2019 19:04:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+Subject: [PATCH  v2 03/16] tests/docker: remove python2.7 from docker9-mxe
+Date: Thu, 19 Sep 2019 18:10:02 +0100
+Message-Id: <20190919171015.12681-4-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190919171015.12681-1-alex.bennee@linaro.org>
+References: <20190919171015.12681-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.4.119.246
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,15 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
+ John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Does anybody know?
+From: John Snow <jsnow@redhat.com>
 
-My mail filter would appreciate :)
+When it was based on docker8 which uses python-minimal, it needed this.
+It no longer does.
 
-Thank you,
+Goodbye, python2.7.
 
-Martin
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20190918222546.11696-1-jsnow@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/docker/dockerfiles/debian9-mxe.docker | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/dockerfiles/debian9-mxe.docker
+index 7431168dad9..62ff1cecf2d 100644
+--- a/tests/docker/dockerfiles/debian9-mxe.docker
++++ b/tests/docker/dockerfiles/debian9-mxe.docker
+@@ -16,7 +16,6 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C6BF758A33A3A276 &&
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt-get install -y --no-install-recommends \
+-        libpython2.7-stdlib \
+         $(apt-get -s install -y --no-install-recommends gw32.shared-mingw-w64 | egrep "^Inst mxe-x86-64-unknown-" | cut -d\  -f2)
+ 
+-ENV PATH $PATH:/usr/lib/mxe/usr/bin/ 
++ENV PATH $PATH:/usr/lib/mxe/usr/bin/
+-- 
+2.20.1
 
 
