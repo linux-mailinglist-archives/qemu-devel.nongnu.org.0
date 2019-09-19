@@ -2,47 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A3DB7374
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:52:55 +0200 (CEST)
-Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CE0B7372
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 08:52:51 +0200 (CEST)
+Received: from localhost ([::1]:38422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAqJC-0001wz-S5
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48771)
+	id 1iAqJ8-0001qJ-8b
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 02:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iAqGz-0000T8-Hn
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:50:40 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iAqGl-00007I-Cj
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:50:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iAqGw-0000m5-Ti
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:50:37 -0400
-Received: from ozlabs.org ([203.11.71.1]:46637)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iAqGv-0000ie-Pf; Thu, 19 Sep 2019 02:50:34 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46YnXz3sYdz9sNw; Thu, 19 Sep 2019 16:50:27 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1568875827;
- bh=E2wrbo8bYX8+mIM3gK/lzT+Ncx57wXWAM7/UhhltWnI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CXBzsN1n1sUnSpknTt/xSIKq59hisvlaWs1O1KP9+sHxrPBOqNTg4FyWiCU8eo0Hr
- 5fO8GFjZrrLfQcf6h+sUTAiv/rW3B6/sGL8yFUp4Buy/MoMNjaPIAiMl+BMuJx6UGj
- cZ1feOjuRHhLbtw6kQgxCDuO9d2NilwhaoHHLo7I=
-Date: Thu, 19 Sep 2019 16:30:00 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Paul A. Clarke" <pc@us.ibm.com>
-Message-ID: <20190919063000.GE22790@umbus.fritz.box>
-References: <1568817169-1721-1-git-send-email-pc@us.ibm.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iAqGk-0000ea-7K
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 02:50:23 -0400
+Received: from mail-vi1eur04on0705.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0e::705]:44465
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iAqGh-0000aS-8u; Thu, 19 Sep 2019 02:50:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZLZdipfurvIlvQyk4YucY+JvctAlc00vhGxB6WJfXXm8miZEo7wA9iL0yWx4Dt1UJD7DoYE/QfVKfMlFcPqalXYLI043JXZ5NhGtZEYgjfFa6nG1VlPgfwh56C9oY0w1eSqCuDKBjV8TU94tm2ZEKQc8Swje6ArKdPfkjn2B1Oh+Voh9QrFnWULlvmb8LfOwfrflXPfrcDG7tjjUonwuvcXVzffkKR6ls/7HYPSyuvoGH+347RKqqDlboCNQP0grUo1zBOp97qbZE9xZ0izYOYacwU8X5lRVNcZt4SZ9ViRE5aUGliO8cqtP8WoB5H6k/j//dvi52M0EkkbBGu3npQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gc51InVgKv/kSTI23+jEmRjLrB7LyYT32ji47mRFFx8=;
+ b=hRORh4GPUFKrvBMeXwwcgL7wpNobOFakSo+s2ldzHuU1Sv/Ma/lz/KI14z7jnVQpi3nxIHtPp4imfHS55WMBxTOe1N4WLUS6TJptndbGy5siN9lCvruimQlCDX7Ks24jZr40LWKjv2kP7/FbSCXe9+wI7QgfycvTdlfTQRzgPL5xBS1zk1KRnglNR/0Bm78Gd30ErftAi8tfq6EzpTpmBLCtGS2PcGwkEvatfII6uf5yRGZbRrqLMfprYA37+C8X2HV0B16Wf5KfEUsQ/2VnCeNOwiDxqVnUocDYld4QvnWfZsm3nACH+t+z1OERGjGVtTO0NbX8pSgrh3g3QsGyKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gc51InVgKv/kSTI23+jEmRjLrB7LyYT32ji47mRFFx8=;
+ b=owF8ja6UKq2+t9GAsJhOwnvYmNuYDewkYnjwPNrmyHe2OUFa13ssihIclJ4x34Ffd6piLI9uY73Q8Ych2xY0eHhtuYa0TNKaor4iHWOOWXgc6Vutv0wy1Y2zoBidKWrV2u5mFtWyGuetQNMk6ja1j3njRPy9Qga7SNAif9Zq1BM=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5482.eurprd08.prod.outlook.com (52.133.241.73) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.20; Thu, 19 Sep 2019 06:50:16 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.009; Thu, 19 Sep 2019
+ 06:50:16 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: John Snow <jsnow@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [Qemu-devel] [PATCH v12 1/2] block/backup: fix max_transfer
+ handling for copy_range
+Thread-Index: AQHVbXIGXsS3qVTuXkS042Ce+aUetqcx27qAgAC2W4A=
+Date: Thu, 19 Sep 2019 06:50:16 +0000
+Message-ID: <c1e597ab-5a27-c484-36f8-43734f54bc80@virtuozzo.com>
+References: <20190917160731.10895-1-vsementsov@virtuozzo.com>
+ <20190917160731.10895-2-vsementsov@virtuozzo.com>
+ <4122264a-f7db-8b76-6930-87e2287c49b8@redhat.com>
+In-Reply-To: <4122264a-f7db-8b76-6930-87e2287c49b8@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0301CA0013.eurprd03.prod.outlook.com
+ (2603:10a6:3:76::23) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190919095013822
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b682cba4-ef14-477a-436b-08d73ccda0df
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB5482; 
+x-ms-traffictypediagnostic: DB8PR08MB5482:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB8PR08MB54820B1A8596B79B0C4F4F74C1890@DB8PR08MB5482.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 016572D96D
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(366004)(136003)(376002)(396003)(39840400004)(189003)(199004)(6436002)(478600001)(81156014)(4326008)(66446008)(8676002)(8936002)(110136005)(2501003)(7736002)(5660300002)(54906003)(6486002)(14454004)(305945005)(6512007)(386003)(2906002)(25786009)(102836004)(11346002)(31686004)(186003)(53546011)(256004)(6506007)(26005)(446003)(81166006)(66066001)(36756003)(66476007)(229853002)(66556008)(66946007)(64756008)(3846002)(6116002)(316002)(52116002)(6246003)(76176011)(86362001)(71200400001)(71190400001)(486006)(476003)(99286004)(107886003)(31696002)(2616005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5482;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 88WVGheA3QApQxZW1Jj2LcrKai3ntBzVUSU1gwxQR8qkDkSW68ht2suqlhR4JVCv8ATpkyaKMb6ivF+ceHFsmj986arNn5WMvhGdmKE8+NHl9497V8L252GSi6eM4s4eqQ1cuHYq5ukT63kXc4kxiDioxLDDuFHQabCqODpAJUOvo/SFq9pa2PGKnYCKBLmo7Qg6fOOl2b7qlSJkriWglB5a1p9L/XTUbF9BWJTkfURF98OZl5EbPvmUd0fZWSdi2xQF3fi8/U6VSj0yQyEyNPAlBAPAqip+F6LQMMGxlmQM/CHL9luFyz637T/5Muz9iuSKVkqBPqeMmVJSCQoBDsATrCadJ6X+MO4Tm7WGbhXwoS5mrqV6j5T+7NiMPUGamXhS7hA87pwqQcSGkVv6slCUBPAg2mrT9oIAQZtplp8=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D03A5E48E281294BAA23B7958B66B765@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fWddYNRDgTk9wQGZ"
-Content-Disposition: inline
-In-Reply-To: <1568817169-1721-1-git-send-email-pc@us.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] ppc: Use FPSCR defines instead of constants
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b682cba4-ef14-477a-436b-08d73ccda0df
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 06:50:16.2814 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 77YLXacP2WLHqK3ZZHNMJ63spjpVt6lhwRbYntJ67lO1hfigWfs0ztI8S580AIwCS/VK61rMWnOvaZFPEbt34TUblKREJjhx/sA9nni52T0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5482
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe0e::705
+Subject: Re: [Qemu-devel] [PATCH v12 1/2] block/backup: fix max_transfer
+ handling for copy_range
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,527 +115,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---fWddYNRDgTk9wQGZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 18, 2019 at 09:32:49AM -0500, Paul A. Clarke wrote:
-> From: "Paul A. Clarke" <pc@us.ibm.com>
->=20
-> There are FPSCR-related defines in target/ppc/cpu.h which can be used in
-> place of constants and explicit shifts which arguably improve the code a
-> bit in places.
->=20
-> Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
-
-Applied to ppc-for-4.2, thanks.
-
-> ---
-> I confirmed that the generated assembly is identical before and after
-> the patch.
->=20
->  target/ppc/dfp_helper.c |   8 ++--
->  target/ppc/fpu_helper.c | 122 ++++++++++++++++++++++++------------------=
-------
->  2 files changed, 65 insertions(+), 65 deletions(-)
->=20
-> diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-> index da8e08a..7533991 100644
-> --- a/target/ppc/dfp_helper.c
-> +++ b/target/ppc/dfp_helper.c
-> @@ -220,8 +220,8 @@ static void dfp_set_FPRF_from_FRT_with_context(struct=
- PPC_DFP *dfp,
->      default:
->          assert(0); /* should never get here */
->      }
-> -    dfp->env->fpscr &=3D ~(0x1F << 12);
-> -    dfp->env->fpscr |=3D (fprf << 12);
-> +    dfp->env->fpscr &=3D ~FP_FPRF;
-> +    dfp->env->fpscr |=3D (fprf << FPSCR_FPRF);
->  }
-> =20
->  static void dfp_set_FPRF_from_FRT(struct PPC_DFP *dfp)
-> @@ -369,8 +369,8 @@ static void dfp_set_CRBF_from_T(struct PPC_DFP *dfp)
-> =20
->  static void dfp_set_FPCC_from_CRBF(struct PPC_DFP *dfp)
->  {
-> -    dfp->env->fpscr &=3D ~(0xF << 12);
-> -    dfp->env->fpscr |=3D (dfp->crbf << 12);
-> +    dfp->env->fpscr &=3D ~FP_FPCC;
-> +    dfp->env->fpscr |=3D (dfp->crbf << FPSCR_FPCC);
->  }
-> =20
->  static inline void dfp_makeQNaN(decNumber *dn)
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 4b1a2e6..dc38324 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -180,7 +180,7 @@ static void set_fprf_from_class(CPUPPCState *env, int=
- class)
->      };
->      bool isneg =3D class & is_neg;
-> =20
-> -    env->fpscr &=3D ~(0x1F << FPSCR_FPRF);
-> +    env->fpscr &=3D ~FP_FPRF;
->      env->fpscr |=3D fprf[ctz32(class)][isneg] << FPSCR_FPRF;
->  }
-> =20
-> @@ -199,12 +199,12 @@ COMPUTE_FPRF(float128)
->  static void finish_invalid_op_excp(CPUPPCState *env, int op, uintptr_t r=
-etaddr)
->  {
->      /* Update the floating-point invalid operation summary */
-> -    env->fpscr |=3D 1 << FPSCR_VX;
-> +    env->fpscr |=3D FP_VX;
->      /* Update the floating-point exception summary */
->      env->fpscr |=3D FP_FX;
->      if (fpscr_ve !=3D 0) {
->          /* Update the floating-point enabled exception summary */
-> -        env->fpscr |=3D 1 << FPSCR_FEX;
-> +        env->fpscr |=3D FP_FEX;
->          if (fp_exceptions_enabled(env)) {
->              raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
->                                     POWERPC_EXCP_FP | op, retaddr);
-> @@ -215,11 +215,11 @@ static void finish_invalid_op_excp(CPUPPCState *env=
-, int op, uintptr_t retaddr)
->  static void finish_invalid_op_arith(CPUPPCState *env, int op,
->                                      bool set_fpcc, uintptr_t retaddr)
->  {
-> -    env->fpscr &=3D ~((1 << FPSCR_FR) | (1 << FPSCR_FI));
-> +    env->fpscr &=3D ~(FP_FR | FP_FI);
->      if (fpscr_ve =3D=3D 0) {
->          if (set_fpcc) {
-> -            env->fpscr &=3D ~(0xF << FPSCR_FPCC);
-> -            env->fpscr |=3D 0x11 << FPSCR_FPCC;
-> +            env->fpscr &=3D ~FP_FPCC;
-> +            env->fpscr |=3D (FP_C | FP_FU);
->          }
->      }
->      finish_invalid_op_excp(env, op, retaddr);
-> @@ -228,7 +228,7 @@ static void finish_invalid_op_arith(CPUPPCState *env,=
- int op,
->  /* Signalling NaN */
->  static void float_invalid_op_vxsnan(CPUPPCState *env, uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXSNAN;
-> +    env->fpscr |=3D FP_VXSNAN;
->      finish_invalid_op_excp(env, POWERPC_EXCP_FP_VXSNAN, retaddr);
->  }
-> =20
-> @@ -236,7 +236,7 @@ static void float_invalid_op_vxsnan(CPUPPCState *env,=
- uintptr_t retaddr)
->  static void float_invalid_op_vxisi(CPUPPCState *env, bool set_fpcc,
->                                     uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXISI;
-> +    env->fpscr |=3D FP_VXISI;
->      finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXISI, set_fpcc, retadd=
-r);
->  }
-> =20
-> @@ -244,7 +244,7 @@ static void float_invalid_op_vxisi(CPUPPCState *env, =
-bool set_fpcc,
->  static void float_invalid_op_vxidi(CPUPPCState *env, bool set_fpcc,
->                                     uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXIDI;
-> +    env->fpscr |=3D FP_VXIDI;
->      finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXIDI, set_fpcc, retadd=
-r);
->  }
-> =20
-> @@ -252,7 +252,7 @@ static void float_invalid_op_vxidi(CPUPPCState *env, =
-bool set_fpcc,
->  static void float_invalid_op_vxzdz(CPUPPCState *env, bool set_fpcc,
->                                     uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXZDZ;
-> +    env->fpscr |=3D FP_VXZDZ;
->      finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXZDZ, set_fpcc, retadd=
-r);
->  }
-> =20
-> @@ -260,7 +260,7 @@ static void float_invalid_op_vxzdz(CPUPPCState *env, =
-bool set_fpcc,
->  static void float_invalid_op_vximz(CPUPPCState *env, bool set_fpcc,
->                                     uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXIMZ;
-> +    env->fpscr |=3D FP_VXIMZ;
->      finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXIMZ, set_fpcc, retadd=
-r);
->  }
-> =20
-> @@ -268,7 +268,7 @@ static void float_invalid_op_vximz(CPUPPCState *env, =
-bool set_fpcc,
->  static void float_invalid_op_vxsqrt(CPUPPCState *env, bool set_fpcc,
->                                      uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXSQRT;
-> +    env->fpscr |=3D FP_VXSQRT;
->      finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXSQRT, set_fpcc, retad=
-dr);
->  }
-> =20
-> @@ -276,13 +276,13 @@ static void float_invalid_op_vxsqrt(CPUPPCState *en=
-v, bool set_fpcc,
->  static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
->                                    uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXVC;
-> +    env->fpscr |=3D FP_VXVC;
->      if (set_fpcc) {
-> -        env->fpscr &=3D ~(0xF << FPSCR_FPCC);
-> -        env->fpscr |=3D 0x11 << FPSCR_FPCC;
-> +        env->fpscr &=3D ~FP_FPCC;
-> +        env->fpscr |=3D (FP_C | FP_FU);
->      }
->      /* Update the floating-point invalid operation summary */
-> -    env->fpscr |=3D 1 << FPSCR_VX;
-> +    env->fpscr |=3D FP_VX;
->      /* Update the floating-point exception summary */
->      env->fpscr |=3D FP_FX;
->      /* We must update the target FPR before raising the exception */
-> @@ -292,7 +292,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, b=
-ool set_fpcc,
->          cs->exception_index =3D POWERPC_EXCP_PROGRAM;
->          env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_VXVC;
->          /* Update the floating-point enabled exception summary */
-> -        env->fpscr |=3D 1 << FPSCR_FEX;
-> +        env->fpscr |=3D FP_FEX;
->          /* Exception is differed */
->      }
->  }
-> @@ -301,12 +301,12 @@ static void float_invalid_op_vxvc(CPUPPCState *env,=
- bool set_fpcc,
->  static void float_invalid_op_vxcvi(CPUPPCState *env, bool set_fpcc,
->                                     uintptr_t retaddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_VXCVI;
-> -    env->fpscr &=3D ~((1 << FPSCR_FR) | (1 << FPSCR_FI));
-> +    env->fpscr |=3D FP_VXCVI;
-> +    env->fpscr &=3D ~(FP_FR | FP_FI);
->      if (fpscr_ve =3D=3D 0) {
->          if (set_fpcc) {
-> -            env->fpscr &=3D ~(0xF << FPSCR_FPCC);
-> -            env->fpscr |=3D 0x11 << FPSCR_FPCC;
-> +            env->fpscr &=3D ~FP_FPCC;
-> +            env->fpscr |=3D (FP_C | FP_FU);
->          }
->      }
->      finish_invalid_op_excp(env, POWERPC_EXCP_FP_VXCVI, retaddr);
-> @@ -314,13 +314,13 @@ static void float_invalid_op_vxcvi(CPUPPCState *env=
-, bool set_fpcc,
-> =20
->  static inline void float_zero_divide_excp(CPUPPCState *env, uintptr_t ra=
-ddr)
->  {
-> -    env->fpscr |=3D 1 << FPSCR_ZX;
-> -    env->fpscr &=3D ~((1 << FPSCR_FR) | (1 << FPSCR_FI));
-> +    env->fpscr |=3D FP_ZX;
-> +    env->fpscr &=3D ~(FP_FR | FP_FI);
->      /* Update the floating-point exception summary */
->      env->fpscr |=3D FP_FX;
->      if (fpscr_ze !=3D 0) {
->          /* Update the floating-point enabled exception summary */
-> -        env->fpscr |=3D 1 << FPSCR_FEX;
-> +        env->fpscr |=3D FP_FEX;
->          if (fp_exceptions_enabled(env)) {
->              raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
->                                     POWERPC_EXCP_FP | POWERPC_EXCP_FP_ZX,
-> @@ -333,19 +333,19 @@ static inline void float_overflow_excp(CPUPPCState =
-*env)
->  {
->      CPUState *cs =3D env_cpu(env);
-> =20
-> -    env->fpscr |=3D 1 << FPSCR_OX;
-> +    env->fpscr |=3D FP_OX;
->      /* Update the floating-point exception summary */
->      env->fpscr |=3D FP_FX;
->      if (fpscr_oe !=3D 0) {
->          /* XXX: should adjust the result */
->          /* Update the floating-point enabled exception summary */
-> -        env->fpscr |=3D 1 << FPSCR_FEX;
-> +        env->fpscr |=3D FP_FEX;
->          /* We must update the target FPR before raising the exception */
->          cs->exception_index =3D POWERPC_EXCP_PROGRAM;
->          env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_OX;
->      } else {
-> -        env->fpscr |=3D 1 << FPSCR_XX;
-> -        env->fpscr |=3D 1 << FPSCR_FI;
-> +        env->fpscr |=3D FP_XX;
-> +        env->fpscr |=3D FP_FI;
->      }
->  }
-> =20
-> @@ -353,13 +353,13 @@ static inline void float_underflow_excp(CPUPPCState=
- *env)
->  {
->      CPUState *cs =3D env_cpu(env);
-> =20
-> -    env->fpscr |=3D 1 << FPSCR_UX;
-> +    env->fpscr |=3D FP_UX;
->      /* Update the floating-point exception summary */
->      env->fpscr |=3D FP_FX;
->      if (fpscr_ue !=3D 0) {
->          /* XXX: should adjust the result */
->          /* Update the floating-point enabled exception summary */
-> -        env->fpscr |=3D 1 << FPSCR_FEX;
-> +        env->fpscr |=3D FP_FEX;
->          /* We must update the target FPR before raising the exception */
->          cs->exception_index =3D POWERPC_EXCP_PROGRAM;
->          env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_UX;
-> @@ -370,13 +370,13 @@ static inline void float_inexact_excp(CPUPPCState *=
-env)
->  {
->      CPUState *cs =3D env_cpu(env);
-> =20
-> -    env->fpscr |=3D 1 << FPSCR_FI;
-> -    env->fpscr |=3D 1 << FPSCR_XX;
-> +    env->fpscr |=3D FP_FI;
-> +    env->fpscr |=3D FP_XX;
->      /* Update the floating-point exception summary */
->      env->fpscr |=3D FP_FX;
->      if (fpscr_xe !=3D 0) {
->          /* Update the floating-point enabled exception summary */
-> -        env->fpscr |=3D 1 << FPSCR_FEX;
-> +        env->fpscr |=3D FP_FEX;
->          /* We must update the target FPR before raising the exception */
->          cs->exception_index =3D POWERPC_EXCP_PROGRAM;
->          env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_XX;
-> @@ -433,7 +433,7 @@ void helper_fpscr_clrbit(CPUPPCState *env, uint32_t b=
-it)
->          case FPSCR_VXCVI:
->              if (!fpscr_ix) {
->                  /* Set VX bit to zero */
-> -                env->fpscr &=3D ~(1 << FPSCR_VX);
-> +                env->fpscr &=3D ~FP_VX;
->              }
->              break;
->          case FPSCR_OX:
-> @@ -447,7 +447,7 @@ void helper_fpscr_clrbit(CPUPPCState *env, uint32_t b=
-it)
->          case FPSCR_XE:
->              if (!fpscr_eex) {
->                  /* Set the FEX bit */
-> -                env->fpscr &=3D ~(1 << FPSCR_FEX);
-> +                env->fpscr &=3D ~FP_FEX;
->              }
->              break;
->          default:
-> @@ -504,7 +504,7 @@ void helper_fpscr_setbit(CPUPPCState *env, uint32_t b=
-it)
->          case FPSCR_VXSOFT:
->          case FPSCR_VXSQRT:
->          case FPSCR_VXCVI:
-> -            env->fpscr |=3D 1 << FPSCR_VX;
-> +            env->fpscr |=3D FP_VX;
->              env->fpscr |=3D FP_FX;
->              if (fpscr_ve !=3D 0) {
->                  goto raise_ve;
-> @@ -580,7 +580,7 @@ void helper_fpscr_setbit(CPUPPCState *env, uint32_t b=
-it)
->              break;
->          raise_excp:
->              /* Update the floating-point enabled exception summary */
-> -            env->fpscr |=3D 1 << FPSCR_FEX;
-> +            env->fpscr |=3D FP_FEX;
->              /* We have to update Rc1 before raising the exception */
->              cs->exception_index =3D POWERPC_EXCP_PROGRAM;
->              break;
-> @@ -596,8 +596,8 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t ar=
-g, uint32_t mask)
-> =20
->      prev =3D env->fpscr;
->      new =3D (target_ulong)arg;
-> -    new &=3D ~0x60000000LL;
-> -    new |=3D prev & 0x60000000LL;
-> +    new &=3D ~(FP_FEX | FP_VX);
-> +    new |=3D prev & (FP_FEX | FP_VX);
->      for (i =3D 0; i < sizeof(target_ulong) * 2; i++) {
->          if (mask & (1 << i)) {
->              env->fpscr &=3D ~(0xFLL << (4 * i));
-> @@ -606,17 +606,17 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t =
-arg, uint32_t mask)
->      }
->      /* Update VX and FEX */
->      if (fpscr_ix !=3D 0) {
-> -        env->fpscr |=3D 1 << FPSCR_VX;
-> +        env->fpscr |=3D FP_VX;
->      } else {
-> -        env->fpscr &=3D ~(1 << FPSCR_VX);
-> +        env->fpscr &=3D ~FP_VX;
->      }
->      if ((fpscr_ex & fpscr_eex) !=3D 0) {
-> -        env->fpscr |=3D 1 << FPSCR_FEX;
-> +        env->fpscr |=3D FP_FEX;
->          cs->exception_index =3D POWERPC_EXCP_PROGRAM;
->          /* XXX: we should compute it properly */
->          env->error_code =3D POWERPC_EXCP_FP;
->      } else {
-> -        env->fpscr &=3D ~(1 << FPSCR_FEX);
-> +        env->fpscr &=3D ~FP_FEX;
->      }
->      fpscr_set_rounding_mode(env);
->  }
-> @@ -639,7 +639,7 @@ static void do_float_check_status(CPUPPCState *env, u=
-intptr_t raddr)
->      if (status & float_flag_inexact) {
->          float_inexact_excp(env);
->      } else {
-> -        env->fpscr &=3D ~(1 << FPSCR_FI); /* clear the FPSCR[FI] bit */
-> +        env->fpscr &=3D ~FP_FI; /* clear the FPSCR[FI] bit */
->      }
-> =20
->      if (cs->exception_index =3D=3D POWERPC_EXCP_PROGRAM &&
-> @@ -1138,8 +1138,8 @@ void helper_fcmpu(CPUPPCState *env, uint64_t arg1, =
-uint64_t arg2,
->          ret =3D 0x02UL;
->      }
-> =20
-> -    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
-> -    env->fpscr |=3D ret << FPSCR_FPRF;
-> +    env->fpscr &=3D ~FP_FPCC;
-> +    env->fpscr |=3D ret << FPSCR_FPCC;
->      env->crf[crfD] =3D ret;
->      if (unlikely(ret =3D=3D 0x01UL
->                   && (float64_is_signaling_nan(farg1.d, &env->fp_status) =
-||
-> @@ -1169,9 +1169,9 @@ void helper_fcmpo(CPUPPCState *env, uint64_t arg1, =
-uint64_t arg2,
->          ret =3D 0x02UL;
->      }
-> =20
-> -    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
-> -    env->fpscr |=3D ret << FPSCR_FPRF;
-> -    env->crf[crfD] =3D ret;
-> +    env->fpscr &=3D ~FP_FPCC;
-> +    env->fpscr |=3D ret << FPSCR_FPCC;
-> +    env->crf[crfD] =3D (uint32_t) ret;
->      if (unlikely(ret =3D=3D 0x01UL)) {
->          float_invalid_op_vxvc(env, 1, GETPC());
->          if (float64_is_signaling_nan(farg1.d, &env->fp_status) ||
-> @@ -2431,8 +2431,8 @@ void helper_xscmpexpdp(CPUPPCState *env, uint32_t o=
-pcode,
->          }
->      }
-> =20
-> -    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
-> -    env->fpscr |=3D cc << FPSCR_FPRF;
-> +    env->fpscr &=3D ~FP_FPCC;
-> +    env->fpscr |=3D cc << FPSCR_FPCC;
->      env->crf[BF(opcode)] =3D cc;
-> =20
->      do_float_check_status(env, GETPC());
-> @@ -2460,8 +2460,8 @@ void helper_xscmpexpqp(CPUPPCState *env, uint32_t o=
-pcode,
->          }
->      }
-> =20
-> -    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
-> -    env->fpscr |=3D cc << FPSCR_FPRF;
-> +    env->fpscr &=3D ~FP_FPCC;
-> +    env->fpscr |=3D cc << FPSCR_FPCC;
->      env->crf[BF(opcode)] =3D cc;
-> =20
->      do_float_check_status(env, GETPC());
-> @@ -2505,8 +2505,8 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,=
-                      \
->          cc |=3D CRF_EQ;                                                 =
-   \
->      }                                                                   =
- \
->                                                                          =
- \
-> -    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);                              =
-   \
-> -    env->fpscr |=3D cc << FPSCR_FPRF;                                   =
-   \
-> +    env->fpscr &=3D ~FP_FPCC;                                           =
-   \
-> +    env->fpscr |=3D cc << FPSCR_FPCC;                                   =
-   \
->      env->crf[BF(opcode)] =3D cc;                                        =
-   \
->                                                                          =
- \
->      do_float_check_status(env, GETPC());                                =
- \
-> @@ -2553,8 +2553,8 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,=
-                     \
->          cc |=3D CRF_EQ;                                                 =
-  \
->      }                                                                   \
->                                                                          \
-> -    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);                              =
-  \
-> -    env->fpscr |=3D cc << FPSCR_FPRF;                                   =
-  \
-> +    env->fpscr &=3D ~FP_FPCC;                                           =
-  \
-> +    env->fpscr |=3D cc << FPSCR_FPCC;                                   =
-  \
->      env->crf[BF(opcode)] =3D cc;                                        =
-  \
->                                                                          \
->      do_float_check_status(env, GETPC());                                \
-> @@ -3242,8 +3242,8 @@ void helper_##op(CPUPPCState *env, uint32_t opcode)=
-         \
->                                                              \
->          if (scrf) {                                         \
->              cc =3D sign << CRF_LT_BIT | match << CRF_EQ_BIT;  \
-> -            env->fpscr &=3D ~(0x0F << FPSCR_FPRF);            \
-> -            env->fpscr |=3D cc << FPSCR_FPRF;                 \
-> +            env->fpscr &=3D ~FP_FPCC;                         \
-> +            env->fpscr |=3D cc << FPSCR_FPCC;                 \
->              env->crf[BF(opcode)] =3D cc;                      \
->          } else {                                            \
->              t.tfld =3D match ? fld_max : 0;                   \
-> @@ -3286,8 +3286,8 @@ void helper_xststdcsp(CPUPPCState *env, uint32_t op=
-code, ppc_vsr_t *xb)
->                               &env->fp_status), &env->fp_status);
-> =20
->      cc =3D sign << CRF_LT_BIT | match << CRF_EQ_BIT | not_sp << CRF_SO_B=
-IT;
-> -    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
-> -    env->fpscr |=3D cc << FPSCR_FPRF;
-> +    env->fpscr &=3D ~FP_FPCC;
-> +    env->fpscr |=3D cc << FPSCR_FPCC;
->      env->crf[BF(opcode)] =3D cc;
->  }
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---fWddYNRDgTk9wQGZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2DIGcACgkQbDjKyiDZ
-s5IcZBAAkQJ0WFOSLk724axVnqfdvHvjZaR8wx2vvfYVjyJ9Nf0qsP1h0hmoQPlS
-p/o2J3OBrwtHo7fkwuFulcYtoGaSzICzLtSsxsdzWatGC/GjCpMQugWzI7XjGjVQ
-tmS6vHkqY7XX744LUOZksExVVkgc9uQPnADWTYQ+BbF6thBCRhYr3AJMiOnnpEVH
-jGzg2O3oZO9D1R4YJoLz0/mozDz4/zGH6pq2REbFXjmBR2YihnUIcTSESbb0CRk5
-mI0OquYNo2b9H7Jw6a9QEHQ7+kiSU8z3YppZByApCr8SdosE8/feRLB26RadKvNy
-aGT+IDQyzIhqeP8iS19UKFbVcgQC6KJFiX/ACC8dEkJgPj1oMxrSvwQysCDChlWa
-wcpyujkujs6dK5ADsTdKBNw9DPjCVvvxgYx9O1HJwuOCHtTvtq6g7DmCzM+p+OMi
-zLs9oHwwmJX1mRPA1UNrvvslSLLWcljs8Y6i0n+ZpAB16qzMQtaOwKCKs7eszlvi
-q7/0uWL38DoSjWfTzzIj/G0cUvVQ2q/BFx9d4Y45FWwaIAvIBHUQEmi2JWd9iifw
-rmdIrlUpDJ0eBm2ZvxANb4vxtJWRQ2foTaDQXzzZx55itaXBoBzf2mXA16iLoKEW
-/MPplv8XKPzAg9rMJgON5HsxIpdWJmqLo/AkmRaF1mgzAf7Pw04=
-=TObZ
------END PGP SIGNATURE-----
-
---fWddYNRDgTk9wQGZ--
+MTguMDkuMjAxOSAyMjo1NywgSm9obiBTbm93IHdyb3RlOg0KPiANCj4gDQo+IE9uIDkvMTcvMTkg
+MTI6MDcgUE0sIFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgd3JvdGU6DQo+PiBPZiBjb3Vy
+c2UsIFFFTVVfQUxJR05fVVAgaXMgYSB0eXBvLCBpdCBzaG91bGQgYmUgUUVNVV9BTElHTl9ET1dO
+LCBhcyB3ZQ0KPj4gYXJlIHRyeWluZyB0byBmaW5kIGFsaWduZWQgc2l6ZSB3aGljaCBzYXRpc2Z5
+IGJvdGggc291cmNlIGFuZCB0YXJnZXQuDQo+PiBBbHNvLCBkb24ndCBpZ25vcmUgdG9vIHNtYWxs
+IG1heF90cmFuc2Zlci4gSW4gdGhpcyBjYXNlIHNlZW1zIHNhZmVyIHRvDQo+PiBkaXNhYmxlIGNv
+cHlfcmFuZ2UuDQo+Pg0KPj4gRml4ZXM6IDlkZWQ0YTAxMTQ5NjhlDQo+PiBTaWduZWQtb2ZmLWJ5
+OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+
+DQo+PiAtLS0NCj4+IMKgIGJsb2NrL2JhY2t1cC5jIHwgMTIgKysrKysrKystLS0tDQo+PiDCoCAx
+IGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRp
+ZmYgLS1naXQgYS9ibG9jay9iYWNrdXAuYyBiL2Jsb2NrL2JhY2t1cC5jDQo+PiBpbmRleCA3NjNm
+MGQ3ZmY2Li5kOGZkYmZhZGZlIDEwMDY0NA0KPj4gLS0tIGEvYmxvY2svYmFja3VwLmMNCj4+ICsr
+KyBiL2Jsb2NrL2JhY2t1cC5jDQo+PiBAQCAtNzQxLDEyICs3NDEsMTYgQEAgQmxvY2tKb2IgKmJh
+Y2t1cF9qb2JfY3JlYXRlKGNvbnN0IGNoYXIgKmpvYl9pZCwgQmxvY2tEcml2ZXJTdGF0ZSAqYnMs
+DQo+PiDCoMKgwqDCoMKgIGpvYi0+Y2x1c3Rlcl9zaXplID0gY2x1c3Rlcl9zaXplOw0KPj4gwqDC
+oMKgwqDCoCBqb2ItPmNvcHlfYml0bWFwID0gY29weV9iaXRtYXA7DQo+PiDCoMKgwqDCoMKgIGNv
+cHlfYml0bWFwID0gTlVMTDsNCj4+IC3CoMKgwqAgam9iLT51c2VfY29weV9yYW5nZSA9ICFjb21w
+cmVzczsgLyogY29tcHJlc3Npb24gaXNuJ3Qgc3VwcG9ydGVkIGZvciBpdCAqLw0KPj4gwqDCoMKg
+wqDCoCBqb2ItPmNvcHlfcmFuZ2Vfc2l6ZSA9IE1JTl9OT05fWkVSTyhibGtfZ2V0X21heF90cmFu
+c2Zlcihqb2ItPmNvbW1vbi5ibGspLA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBibGtf
+Z2V0X21heF90cmFuc2Zlcihqb2ItPnRhcmdldCkpOw0KPj4gLcKgwqDCoCBqb2ItPmNvcHlfcmFu
+Z2Vfc2l6ZSA9IE1BWChqb2ItPmNsdXN0ZXJfc2l6ZSwNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgUUVNVV9BTElHTl9VUChq
+b2ItPmNvcHlfcmFuZ2Vfc2l6ZSwNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGpvYi0+Y2x1c3Rlcl9zaXplKSk7DQo+PiArwqDCoMKgIGpvYi0+Y29weV9yYW5nZV9zaXplID0g
+UUVNVV9BTElHTl9ET1dOKGpvYi0+Y29weV9yYW5nZV9zaXplLA0KPj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBqb2ItPmNsdXN0ZXJfc2l6ZSk7DQo+PiArwqDCoMKgIC8qDQo+PiArwqDC
+oMKgwqAgKiBDb21wcmVzc2lvbiBpcyBub3Qgc3VwcG9ydGVkIGZvciBjb3B5X3JhbmdlLiBBbHNv
+LCB3ZSBkb24ndCB3YW50IHRvDQo+PiArwqDCoMKgwqAgKiBoYW5kbGUgc21hbGwgbWF4X3RyYW5z
+ZmVyIGZvciBjb3B5X3JhbmdlICh3aGljaCBjdXJyZW50bHkgZG9uJ3QNCj4+ICvCoMKgwqDCoCAq
+IGhhbmRsZSBtYXhfdHJhbnNmZXIgYXQgYWxsKS4NCj4+ICvCoMKgwqDCoCAqLw0KPj4gK8KgwqDC
+oCBqb2ItPnVzZV9jb3B5X3JhbmdlID0gIWNvbXByZXNzICYmIGpvYi0+Y29weV9yYW5nZV9zaXpl
+ID4gMDsNCj4+IMKgwqDCoMKgwqAgLyogUmVxdWlyZWQgcGVybWlzc2lvbnMgYXJlIGFscmVhZHkg
+dGFrZW4gd2l0aCB0YXJnZXQncyBibGtfbmV3KCkgKi8NCj4+IMKgwqDCoMKgwqAgYmxvY2tfam9i
+X2FkZF9iZHJ2KCZqb2ItPmNvbW1vbiwgInRhcmdldCIsIHRhcmdldCwgMCwgQkxLX1BFUk1fQUxM
+LA0KPj4NCj4gDQo+IEknbSBjbGVhciBvbiB0aGUgYWxpZ25tZW50IGZpeCwgSSdtIG5vdCBjbGVh
+ciBvbiB0aGUgY29tbWVudCBhYm91dCBtYXhfdHJhbnNmZXIgYW5kIGhvdyBpdCByZWxhdGVzIHRv
+IGNvcHlfcmFuZ2Vfc2l6ZSBiZWluZyBub24temVyby4NCj4gDQo+ICJzbWFsbCBtYXggdHJhbnNm
+ZXIiIC0tIHdoYXQgaGFwcGVucyB3aGVuIGl0J3MgemVybz8gd2UncmUgYXBwYXJlbnRseSBPSyB3
+aXRoIGEgc2luZ2xlIGNsdXN0ZXIsIGJ1dCB3aGVuIGl0J3MgemVybywgd2hhdCBoYXBwZW5zPw0K
+DQppZiBpdCB6ZXJvIGl0IG1lYW5zIHRoYXQgc291cmNlIG9yIHRhcmdldCByZXF1aXJlcyBtYXhf
+dHJhbnNmZXIgbGVzcyB0aGFuIGNsdXN0ZXJfc2l6ZS4gSXQgc2VlbXMgbm90IHZhbGlkIHRvIGNh
+bGwgY29weV9yYW5nZSBpbiB0aGlzIGNhc2UuDQpTdGlsbCBpdCdzIE9LIHRvIHVzZSBub3JtYWwg
+cmVhZC93cml0ZSwgYXMgdGhleSBoYW5kbGUgbWF4X3RyYW5zZmVyIGludGVybmFsbHkgaW4gYSBs
+b29wIChjb3B5X3JhbmdlIGRvZXNuJ3QgZG8gaXQpLg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZs
+YWRpbWlyDQo=
 
