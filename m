@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C276B8010
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:35:21 +0200 (CEST)
-Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96C1B8065
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:48:31 +0200 (CEST)
+Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0Kt-0004Ue-B3
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
+	id 1iB0Xe-0002mV-CP
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iB071-0008UJ-QI
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:00 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iB07O-0000JK-OV
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:21:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iB025-0007jf-8C
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:15:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35926)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iB025-0007jH-3m
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:15:53 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 575387FDC9
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 17:15:52 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id v18so1303442wro.16
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:15:52 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1iAzwj-0004Lz-6F
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:22 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34213)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iAzwi-0004LT-Ve
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:21 -0400
+Received: by mail-wm1-x344.google.com with SMTP id y135so7642637wmc.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CCrWZlrAxxrJZBUu+oP477w2n13YI50PJV59anpksr4=;
+ b=BaG9Db08x1Qa/PxygQOVTvtkIyBibdb4t7y+ICQkop/gZxUNWgXowJ6BPvEHIql7qW
+ ybvH4Rh1sqDpEKWa2kl7qS1RyldNiI3d+yro9farCA2x/qGJEJ33BV/F7OqFa1ja8xFh
+ BMKvMP7wKV0YVtTp7Tu0bwudYc2f1GoAG1M2bV0pJHYS3ZtPqNQTneLao72V2z4KyrVC
+ VlKtmjtcxvIuFCdKw2MFLc6we8tnCuYEO9Iu2bJT0NtAEIqlbtifq0plMYB7VfroSTg7
+ +eKmHjDO7CnVtHp2SXAecjXr1Wk+ieJ1Rn5HPfreacQ34Xne/8XzAX8l57H8pRuDI6y0
+ s7mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3b4CNt5+8dtPSM9K8ChuiHIDFKo5h36ioAuOEXlnZ00=;
- b=AAqUiVe/76D1y9tyvQw53LNcH6FnEqbd+DbPzlZxPAG5u4dVZA43rweFfhrGsuy5eG
- hVonMqgrgJO6wTVIU23NONLW1XgIWB832i9iV+NOHBIm6I3xPGkxyjCxULRY2loAL1B1
- zx1gai2uWD2U4Nnb9rrz4L7eS73HUEzwCWbl0+kGwzB2WahDETot+tvFTBeGK6JNT38I
- ubLPIZLemVJdWiJyWEboC3CvcRMYuerZowHY78XB+ms57pcq79S0p3IPtwnEyiRTspcH
- MMmnBKuVEAs7w4aErxQEk0vfbOkxLHXXP0WE1PWz+RhImSsZv5qwdPsFVm+EyVZX+MU0
- oQ/A==
-X-Gm-Message-State: APjAAAVxsJowi1tPc2e4QG1NgzSAZpZv4cLlq4hs62uPv90i7SWngKsz
- WvXziNE8SCBy06KgL+Z9QmtcfY6PG09ntlgjB65kGfGPe0wsENZI2srbuDnhSf36vwKcGnGwoWl
- mukbBwigke0gfEDc=
-X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr3658231wme.22.1568913350924; 
- Thu, 19 Sep 2019 10:15:50 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyYXJ5DKzj/2N0E82bHapy5b99f3e3a8vfjBUv2XXEXSI8vf4Zo8w0jR8JO5Rd/7ejWylc9/Q==
-X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr3658215wme.22.1568913350744; 
- Thu, 19 Sep 2019 10:15:50 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id 189sm12532260wma.6.2019.09.19.10.15.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Sep 2019 10:15:50 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] iotests: Require Python 3.6 or later
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20190919162905.21830-1-kwolf@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d19b2194-4880-94fd-57e5-8bea73dcbc2f@redhat.com>
-Date: Thu, 19 Sep 2019 19:15:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CCrWZlrAxxrJZBUu+oP477w2n13YI50PJV59anpksr4=;
+ b=eanuwZwasSziQvXQEJttpeIaUIytuc6Z6daGNr+MxvryOpxBNgc1Qz4hroGwZ8KhL5
+ LoTuwXEmbw2tn2x+uPc3eEOFQ1wl5NTI6pkn8I/pe0ExCPGEqFF5RIubZqLNbBy5xFCd
+ dGswOmjrq9KK88tACXji4Owdc9DbfmslFfLsrBavHlVj9yCqReRrAes3CoKCJJA527Q2
+ NhNs1z5V2kL0cF1RDVJulf6eLAJSXoIUMy9zy93Nb3tTFcjPdH3n7yNRJU1vhNVaSrIH
+ +gdIDzWDdFsg6BsVS3Jd15+OH2IDmk2upZe+w13j4B4hlSzIGadvJAP+A3b+1RTHtYRd
+ +Tpw==
+X-Gm-Message-State: APjAAAW2wTKJNL984nsg2/o7+30Z8+UQGFbPR2dfSzEUUH+wyu3uCUVw
+ TALXolxnHbFEjGGE3ZUXSSifTA==
+X-Google-Smtp-Source: APXvYqymbbxErAqOoXBy13R/t8n0/Fc5S4uFkTbAh1XJ9EV/qAO3aSrRpJ1rny0SrvL9xKIvfXYCCg==
+X-Received: by 2002:a1c:1f08:: with SMTP id f8mr3874144wmf.46.1568913019810;
+ Thu, 19 Sep 2019 10:10:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a13sm19762180wrf.73.2019.09.19.10.10.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 10:10:17 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 090F31FF91;
+ Thu, 19 Sep 2019 18:10:16 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 04/16] tests/docker: reduce scary warnings from failed
+ inspect
+Date: Thu, 19 Sep 2019 18:10:03 +0100
+Message-Id: <20190919171015.12681-5-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190919171015.12681-1-alex.bennee@linaro.org>
+References: <20190919171015.12681-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190919162905.21830-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,34 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, thuth@redhat.com, jsnow@redhat.com,
- ehabkost@redhat.com, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/19/19 6:29 PM, Kevin Wolf wrote:
-> v2:
->=20
-> - Provide the right exit code from Python instead of having a
->   potentially confusing negation in the shell script
->=20
-> - Raised the minimal version to 3.6. If we're going to use a different
->   version than QEMU as a whole anyway, we can use a version that suits
->   us best. 3.5 would only be for Debian Stretch, and we don't really
->   care that much about running Python test cases on it.
->=20
-> - Added a patch to remove Python 2 compatibility code
->=20
-> Kevin Wolf (2):
->   iotests: Require Python 3.6 or later
->   iotests: Remove Python 2 compatibility code
->=20
->  tests/qemu-iotests/044                   |  3 ---
->  tests/qemu-iotests/163                   |  3 ---
->  tests/qemu-iotests/check                 | 13 ++++++++++++-
->  tests/qemu-iotests/iotests.py            | 13 +++----------
->  tests/qemu-iotests/nbd-fault-injector.py |  7 +++----
->  5 files changed, 18 insertions(+), 21 deletions(-)
+There is a race here in the clean-up code so lets just accept that
+sometimes the active task we just looked up might have finished before
+we got to inspect it.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/docker/docker.py | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
+
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 29613afd489..4dca6006d2f 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -235,20 +235,24 @@ class Docker(object):
+         if not only_active:
+             cmd.append("-a")
+         for i in self._output(cmd).split():
+-            resp = self._output(["inspect", i])
+-            labels = json.loads(resp)[0]["Config"]["Labels"]
+-            active = json.loads(resp)[0]["State"]["Running"]
+-            if not labels:
+-                continue
+-            instance_uuid = labels.get("com.qemu.instance.uuid", None)
+-            if not instance_uuid:
+-                continue
+-            if only_known and instance_uuid not in self._instances:
+-                continue
+-            print("Terminating", i)
+-            if active:
+-                self._do(["kill", i])
+-            self._do(["rm", i])
++            try:
++                resp = self._output(["inspect", i])
++                labels = json.loads(resp)[0]["Config"]["Labels"]
++                active = json.loads(resp)[0]["State"]["Running"]
++                if not labels:
++                    continue
++                instance_uuid = labels.get("com.qemu.instance.uuid", None)
++                if not instance_uuid:
++                    continue
++                if only_known and instance_uuid not in self._instances:
++                    continue
++                print("Terminating", i)
++                if active:
++                    self._do(["kill", i])
++                    self._do(["rm", i])
++            except subprocess.CalledProcessError:
++                # i likely finished running before we got here
++                pass
+ 
+     def clean(self):
+         self._do_kill_instances(False, False)
+-- 
+2.20.1
+
 
