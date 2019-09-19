@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74143B7F3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 18:36:33 +0200 (CEST)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4EEB7F35
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 18:34:09 +0200 (CEST)
+Received: from localhost ([::1]:46370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAzQ0-0008PP-En
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 12:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43753)
+	id 1iAzNf-0006Hh-RX
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 12:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43771)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iAzJM-00048V-DH
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:29:41 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iAzJO-0004Ag-Bb
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:29:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iAzJL-00021i-H0
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:29:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49234)
+ (envelope-from <kwolf@redhat.com>) id 1iAzJN-00023e-BU
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 12:29:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47734)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iAzJJ-0001xw-0Z; Thu, 19 Sep 2019 12:29:37 -0400
+ id 1iAzJL-000200-44; Thu, 19 Sep 2019 12:29:39 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 49F0A308212D;
- Thu, 19 Sep 2019 16:29:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6FADC308213F;
+ Thu, 19 Sep 2019 16:29:38 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.116.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9FB260566;
- Thu, 19 Sep 2019 16:29:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95B0F60BAE;
+ Thu, 19 Sep 2019 16:29:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 0/2] iotests: Require Python 3.6 or later
-Date: Thu, 19 Sep 2019 18:29:03 +0200
-Message-Id: <20190919162905.21830-1-kwolf@redhat.com>
+Subject: [PATCH v2 1/2] iotests: Require Python 3.6 or later
+Date: Thu, 19 Sep 2019 18:29:04 +0200
+Message-Id: <20190919162905.21830-2-kwolf@redhat.com>
+In-Reply-To: <20190919162905.21830-1-kwolf@redhat.com>
+References: <20190919162905.21830-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Thu, 19 Sep 2019 16:29:36 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 19 Sep 2019 16:29:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -57,29 +59,53 @@ Cc: kwolf@redhat.com, thuth@redhat.com, ehabkost@redhat.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
+Running iotests is not required to build QEMU, so we can have stricter
+version requirements for Python here and can make use of new features
+and drop compatibility code earlier.
 
-- Provide the right exit code from Python instead of having a
-  potentially confusing negation in the shell script
+This makes qemu-iotests skip all Python tests if a Python version before
+3.6 is used for the build.
 
-- Raised the minimal version to 3.6. If we're going to use a different
-  version than QEMU as a whole anyway, we can use a version that suits
-  us best. 3.5 would only be for Debian Stretch, and we don't really
-  care that much about running Python test cases on it.
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ tests/qemu-iotests/check | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-- Added a patch to remove Python 2 compatibility code
-
-Kevin Wolf (2):
-  iotests: Require Python 3.6 or later
-  iotests: Remove Python 2 compatibility code
-
- tests/qemu-iotests/044                   |  3 ---
- tests/qemu-iotests/163                   |  3 ---
- tests/qemu-iotests/check                 | 13 ++++++++++++-
- tests/qemu-iotests/iotests.py            | 13 +++----------
- tests/qemu-iotests/nbd-fault-injector.py |  7 +++----
- 5 files changed, 18 insertions(+), 21 deletions(-)
-
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 875399d79f..588c453a94 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -633,6 +633,12 @@ then
+     export SOCKET_SCM_HELPER=3D"$build_iotests/socket_scm_helper"
+ fi
+=20
++python_usable=3Dfalse
++if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >=3D (3,6) els=
+e 1)'
++then
++    python_usable=3Dtrue
++fi
++
+ default_machine=3D$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*=
+//p')
+ default_alias_machine=3D$($QEMU_PROG -machine help | \
+    sed -n "/(alias of $default_machine)/ { s/ .*//p; q; }")
+@@ -809,7 +815,12 @@ do
+         start=3D$(_wallclock)
+=20
+         if [ "$(head -n 1 "$source_iotests/$seq")" =3D=3D "#!/usr/bin/en=
+v python" ]; then
+-            run_command=3D"$PYTHON $seq"
++            if $python_usable; then
++                run_command=3D"$PYTHON $seq"
++            else
++                run_command=3D"false"
++                echo "Unsupported Python version" > $seq.notrun
++            fi
+         else
+             run_command=3D"./$seq"
+         fi
 --=20
 2.20.1
 
