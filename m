@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFF1B83B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 23:52:37 +0200 (CEST)
-Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0D7B83CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:00:06 +0200 (CEST)
+Received: from localhost ([::1]:48872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4Lr-0005AP-IA
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 17:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
+	id 1iB4T6-0005lH-MG
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:00:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3us-0002q1-Ly
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:45 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uv-0002tS-EG
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3uq-0000i5-MC
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:42 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38891)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iB3ut-0000jq-BR
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:45 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46637)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iB3uq-0000fI-Dh
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:40 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 3so5632860wmi.3
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:38 -0700 (PDT)
+ id 1iB3ut-0000is-2u
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:24:43 -0400
+Received: by mail-wr1-x444.google.com with SMTP id o18so4579870wrv.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CkbcNK8c6K6YdTYC4vE0JkUjaFLBw/HOWigtjbt3gZ8=;
- b=RvVizH8mZTJdV+ThiTVZKQI0S5aRua2Y8XCdXxj4n9lugF5qBGulqDicdWq9nPIVg0
- aidXHYpNxqqg6lRvjx2xplmSOtCrgyPmDUIh9qrejIKkvCfoy7be/E5e8l1dFGGcUQTY
- bK/c71i0AwUo9zadUAsHtqoDQpRAErIBIzzDfRoAW9PytKlOb0yGuyBoQaFS5xIgthAo
- S7QEL4k2SWnZN2lHy6yOuVV5VHl/nYAdmbbgYhsw/ZKCtCNjTdwj5+7jrI4MoLm3cHgb
- kI4fSOIJ/KLFFCLCd/7KrvLFG7Xfy+g3e4tB79cUCH6QXLt5rofG2N2bG8+4c+2iODVC
- 2w8w==
+ bh=yGxCQiMWd3+h7OUolo7+j9DrxcBH9Yz1dYvYs0gOXqo=;
+ b=ktJAOxZT0NTQZfY4adOCjCLRlTRu745Q4ye3K1mJeic1SKuOrcXvZPszIl10UylYeV
+ Wrn4CxbipRsBv55ISjiG2/eUKkAqC+ftZlZ+4GR5RNRCZnnpI+5/vAsttJl2gqzMHxtk
+ Wl7CyVoaqymiIFFaB304cZBaNDXKPEiRRkI4DFrhDLHZsVA886wWSmnYJbDgRI0Ol1eT
+ vJ4GehOVZUCWl1JIU8rtTDCujdTA66FZyuS1zJkiftBQmPErevaQn5MoFcUWdBZj1OaC
+ +zo3Nu3WLpXEh0IkZ+OX50j8+Jj2hd+CEv0Fnmb2Gxt1nRWn8xMWBCx5ExiyjVgr3GfF
+ EQ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CkbcNK8c6K6YdTYC4vE0JkUjaFLBw/HOWigtjbt3gZ8=;
- b=P+HJMBgYcx7kUoi4+8pf9dwvDsRI8hRH8a+QJc5YU3ScCXQxXtk52PcBX9MxYmgciQ
- PPoVbNOJMTHb8hPaqM5sgoQcRQ2zU53OiF3+5kATkFOB7Iidzibvdbu52fGodGZFaFGz
- yLC+gcIxsLYYhxv+DmdBNW54Ff4GtMpdKbbK6CGyKau62UJ9tHQo4hP0UH7JvjRUzqfh
- v/46XsPr/OmARLpWANwhoL09CJJkFdOlMsqVuRZ9XV7rsDM8pW/nllUcLgblzIlDzUsr
- n4zlAv7yhDf5O2jzMD8Q0BV+RJQWyW8s2u71hDUOIlRl7yMxgtQfGvSnvLJ9QRoIAl7s
- aLfA==
-X-Gm-Message-State: APjAAAVTJwjLZLWBVSHcFxlAwsbQbjy5VU9YHMS21lsf0nqngLYL08j0
- MFlUarylebOqD70Ne+DlNzP30GO7
-X-Google-Smtp-Source: APXvYqwXqhl7qLA3iKDBWGJmMtl7L8p/42YCKt/Ijt4JEXI4TLZt4JusV0847SErLOKAAUnlXhuavg==
-X-Received: by 2002:a05:600c:1103:: with SMTP id b3mr75885wma.3.1568928277780; 
- Thu, 19 Sep 2019 14:24:37 -0700 (PDT)
+ bh=yGxCQiMWd3+h7OUolo7+j9DrxcBH9Yz1dYvYs0gOXqo=;
+ b=V56OtbV8lpu/0XM1b4z0fcNeYvovKELfnRNvE9YuqxKvyVuPWeCIrwpyuB/rifgESh
+ jZ4s0Sk+icJyrYEsHYjlTHqzGnD0v4NSm9KAiaYIAmtsjh3kVMzDGHqioKKmIjJ85dnn
+ cN2zPjk9jyoE791DK3Zxo9SrwBWW6Et6T9SWY2/L1PMQcTrKIP+giJO5ZClKOLCqTPZb
+ BieTtKDsCxxjYO4HlnZjki1cQgmDr6FgT6wFy6q5X2nAxeYImrBaUv1qbPLkaIHneOyc
+ HhAPFjFvDIJ0NX5YG4EJA4dIFCb9UzKzdXbCu9/iy6guDzSlcroK3RAXtROcI3KjXV3g
+ pqOA==
+X-Gm-Message-State: APjAAAXz6oKSiBfGs//TXfzVOP+7aDWLG4/JYos2KRh6OZRmJSm/Rah6
+ 9Iwdwvy1PFIjuo7vgtrUCJGyZDsE
+X-Google-Smtp-Source: APXvYqzT4zBmE9z9FSGlCKtuFMbF6jyyuB6ES6nDmks+9wBgGQ4wbDXhWurNYtT9cM+D02goIPv/sg==
+X-Received: by 2002:a5d:660c:: with SMTP id n12mr8973719wru.286.1568928281692; 
+ Thu, 19 Sep 2019 14:24:41 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-74ef-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:74ef::5])
- by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.37
+ by smtp.gmail.com with ESMTPSA id w125sm13191292wmg.32.2019.09.19.14.24.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 14:24:37 -0700 (PDT)
+ Thu, 19 Sep 2019 14:24:41 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/24] audio: make mixeng optional
-Date: Thu, 19 Sep 2019 23:24:24 +0200
-Message-Id: <a04b17f2f4e8d81e72d17ec6b030ab7ff9855efd.1568927990.git.DirtY.iCE.hu@gmail.com>
+Subject: [PATCH v4 21/24] paaudio: channel-map option
+Date: Thu, 19 Sep 2019 23:24:29 +0200
+Message-Id: <8f650662fd6cc50baaede260581aeb560eed44fb.1568927990.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,204 +83,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implementation of the previously added mixing-engine option.
+Add an option to change the channel map used by pulseaudio.  If not
+specified, falls back to an OSS compatible channel map.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/audio.c          | 70 ++++++++++++++++++++++++++++++++++++++----
- audio/audio_template.h | 20 ++++++++----
- 2 files changed, 78 insertions(+), 12 deletions(-)
+ audio/paaudio.c | 18 ++++++++++++++----
+ qapi/audio.json |  7 +++++--
+ qemu-options.hx |  9 +++++++++
+ 3 files changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 7128ee98dc..d616a4af98 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -838,32 +838,46 @@ static void audio_timer (void *opaque)
-  */
- size_t AUD_write(SWVoiceOut *sw, void *buf, size_t size)
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index d195b1caa8..20402b0718 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -338,17 +338,27 @@ static pa_stream *qpa_simple_new (
+         pa_stream_direction_t dir,
+         const char *dev,
+         const pa_sample_spec *ss,
+-        const pa_channel_map *map,
++        const char *map,
+         const pa_buffer_attr *attr,
+         int *rerror)
  {
-+    HWVoiceOut *hw;
-+
-     if (!sw) {
-         /* XXX: Consider options */
-         return size;
-     }
-+    hw = sw->hw;
+     int r;
+     pa_stream *stream;
+     pa_stream_flags_t flags;
++    pa_channel_map pa_map;
  
--    if (!sw->hw->enabled) {
-+    if (!hw->enabled) {
-         dolog ("Writing to disabled voice %s\n", SW_NAME (sw));
-         return 0;
-     }
+     pa_threaded_mainloop_lock(c->mainloop);
  
--    return audio_pcm_sw_write(sw, buf, size);
-+    if (audio_get_pdo_out(hw->s->dev)->mixing_engine) {
-+        return audio_pcm_sw_write(sw, buf, size);
-+    } else {
-+        return hw->pcm_ops->write(hw, buf, size);
+-    stream = pa_stream_new(c->context, name, ss, map);
++    if (map && !pa_channel_map_parse(&pa_map, map)) {
++        dolog("Invalid channel map specified: '%s'\n", map);
++        map = NULL;
 +    }
- }
- 
- size_t AUD_read(SWVoiceIn *sw, void *buf, size_t size)
- {
-+    HWVoiceIn *hw;
-+
-     if (!sw) {
-         /* XXX: Consider options */
-         return size;
-     }
-+    hw = sw->hw;
- 
--    if (!sw->hw->enabled) {
-+    if (!hw->enabled) {
-         dolog ("Reading from disabled voice %s\n", SW_NAME (sw));
-         return 0;
-     }
- 
--    return audio_pcm_sw_read(sw, buf, size);
-+    if (audio_get_pdo_in(hw->s->dev)->mixing_engine) {
-+        return audio_pcm_sw_read(sw, buf, size);
-+    } else {
-+        return hw->pcm_ops->read(hw, buf, size);
-+    }
- }
- 
- int AUD_get_buffer_size_out (SWVoiceOut *sw)
-@@ -1090,6 +1104,26 @@ static void audio_run_out (AudioState *s)
-     HWVoiceOut *hw = NULL;
-     SWVoiceOut *sw;
- 
-+    if (!audio_get_pdo_out(s->dev)->mixing_engine) {
-+        while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
-+            /* there is exactly 1 sw for each hw with no mixeng */
-+            sw = hw->sw_head.lh_first;
-+
-+            if (hw->pending_disable) {
-+                hw->enabled = 0;
-+                hw->pending_disable = 0;
-+                if (hw->pcm_ops->enable_out) {
-+                    hw->pcm_ops->enable_out(hw, false);
-+                }
-+            }
-+
-+            if (sw->active) {
-+                sw->callback.fn(sw->callback.opaque, INT_MAX);
-+            }
-+        }
-+        return;
++    if (!map) {
++        pa_channel_map_init_extend(&pa_map, ss->channels,
++                                   PA_CHANNEL_MAP_OSS);
 +    }
 +
-     while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
-         size_t played, live, prev_rpos, free;
-         int nb_live, cleanup_required;
-@@ -1227,6 +1261,17 @@ static void audio_run_in (AudioState *s)
- {
-     HWVoiceIn *hw = NULL;
++    stream = pa_stream_new(c->context, name, ss, &pa_map);
+     if (!stream) {
+         goto fail;
+     }
+@@ -421,7 +431,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
+         PA_STREAM_PLAYBACK,
+         ppdo->has_name ? ppdo->name : NULL,
+         &ss,
+-        NULL,                   /* channel map */
++        ppdo->has_channel_map ? ppdo->channel_map : NULL,
+         &ba,                    /* buffering attributes */
+         &error
+         );
+@@ -470,7 +480,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+         PA_STREAM_RECORD,
+         ppdo->has_name ? ppdo->name : NULL,
+         &ss,
+-        NULL,                   /* channel map */
++        ppdo->has_channel_map ? ppdo->channel_map : NULL,
+         &ba,                    /* buffering attributes */
+         &error
+         );
+diff --git a/qapi/audio.json b/qapi/audio.json
+index 0535eff794..07003808cb 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -214,13 +214,16 @@
+ # @latency: latency you want PulseAudio to achieve in microseconds
+ #           (default 15000)
+ #
++# @channel-map: channel map to use (default: OSS compatible map, since: 4.2)
++#
+ # Since: 4.0
+ ##
+ { 'struct': 'AudiodevPaPerDirectionOptions',
+   'base': 'AudiodevPerDirectionOptions',
+   'data': {
+-    '*name': 'str',
+-    '*latency': 'uint32' } }
++    '*name':        'str',
++    '*latency':     'uint32',
++    '*channel-map': 'str' } }
  
-+    if (!audio_get_pdo_in(s->dev)->mixing_engine) {
-+        while ((hw = audio_pcm_hw_find_any_enabled_in(s, hw))) {
-+            /* there is exactly 1 sw for each hw with no mixeng */
-+            SWVoiceIn *sw = hw->sw_head.lh_first;
-+            if (sw->active) {
-+                sw->callback.fn(sw->callback.opaque, INT_MAX);
-+            }
-+        }
-+        return;
-+    }
+ ##
+ # @AudiodevPaOptions:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 395427422a..f3bc342f98 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -471,6 +471,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+     "-audiodev pa,id=id[,prop[=value][,...]]\n"
+     "                server= PulseAudio server address\n"
+     "                in|out.name= source/sink device name\n"
++    "                in|out.channel-map= channel map to use\n"
+ #endif
+ #ifdef CONFIG_AUDIO_SDL
+     "-audiodev sdl,id=id[,prop[=value][,...]]\n"
+@@ -636,6 +637,14 @@ Sets the PulseAudio @var{server} to connect to.
+ @item in|out.name=@var{sink}
+ Use the specified source/sink for recording/playback.
+ 
++@item in|out.channel-map=@var{map}
++Use the specified channel map.  The default is an OSS compatible
++channel map.  Do not forget to escape commas inside the map:
 +
-     while ((hw = audio_pcm_hw_find_any_enabled_in(s, hw))) {
-         SWVoiceIn *sw;
-         size_t captured = 0, min;
-@@ -1751,6 +1796,11 @@ CaptureVoiceOut *AUD_add_capture(
-         s = audio_init(NULL, NULL);
-     }
- 
-+    if (!audio_get_pdo_out(s->dev)->mixing_engine) {
-+        dolog("Can't capture with mixeng disabled\n");
-+        return NULL;
-+    }
++@example
++-audiodev pa,id=example,sink.channel-map=front-left,,front-right
++@end example
 +
-     if (audio_validate_settings (as)) {
-         dolog ("Invalid settings were passed when trying to add capture\n");
-         audio_print_settings (as);
-@@ -1905,9 +1955,13 @@ void audio_create_pdos(Audiodev *dev)
- static void audio_validate_per_direction_opts(
-     AudiodevPerDirectionOptions *pdo, Error **errp)
- {
-+    if (!pdo->has_mixing_engine) {
-+        pdo->has_mixing_engine = true;
-+        pdo->mixing_engine = true;
-+    }
-     if (!pdo->has_fixed_settings) {
-         pdo->has_fixed_settings = true;
--        pdo->fixed_settings = true;
-+        pdo->fixed_settings = pdo->mixing_engine;
-     }
-     if (!pdo->fixed_settings &&
-         (pdo->has_frequency || pdo->has_channels || pdo->has_format)) {
-@@ -1915,6 +1969,10 @@ static void audio_validate_per_direction_opts(
-                    "You can't use frequency, channels or format with fixed-settings=off");
-         return;
-     }
-+    if (!pdo->mixing_engine && pdo->fixed_settings) {
-+        error_setg(errp, "You can't use fixed-settings without mixeng");
-+        return;
-+    }
+ @end table
  
-     if (!pdo->has_frequency) {
-         pdo->has_frequency = true;
-@@ -1926,7 +1984,7 @@ static void audio_validate_per_direction_opts(
-     }
-     if (!pdo->has_voices) {
-         pdo->has_voices = true;
--        pdo->voices = 1;
-+        pdo->voices = pdo->mixing_engine ? 1 : INT_MAX;
-     }
-     if (!pdo->has_format) {
-         pdo->has_format = true;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index 235d1acbbe..b6c5466cff 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -78,13 +78,17 @@ static void glue (audio_pcm_hw_free_resources_, TYPE) (HW *hw)
- 
- static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
- {
--    size_t samples = hw->samples;
--    if (audio_bug(__func__, samples == 0)) {
--        dolog("Attempted to allocate empty buffer\n");
--    }
-+    if (glue(audio_get_pdo_, TYPE)(hw->s->dev)->mixing_engine) {
-+        size_t samples = hw->samples;
-+        if (audio_bug(__func__, samples == 0)) {
-+            dolog("Attempted to allocate empty buffer\n");
-+        }
- 
--    HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
--    HWBUF->size = samples;
-+        HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
-+        HWBUF->size = samples;
-+    } else {
-+        HWBUF = NULL;
-+    }
- }
- 
- static void glue (audio_pcm_sw_free_resources_, TYPE) (SW *sw)
-@@ -103,6 +107,10 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
- {
-     int samples;
- 
-+    if (!glue(audio_get_pdo_, TYPE)(sw->s->dev)->mixing_engine) {
-+        return 0;
-+    }
-+
-     samples = ((int64_t) sw->HWBUF->size << 32) / sw->ratio;
- 
-     sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
+ @item -audiodev sdl,id=@var{id}[,@var{prop}[=@var{value}][,...]]
 -- 
 2.23.0
 
