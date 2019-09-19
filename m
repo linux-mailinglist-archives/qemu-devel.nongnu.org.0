@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB763B7BA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:07:20 +0200 (CEST)
-Received: from localhost ([::1]:44656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A528B7B6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 16:01:54 +0200 (CEST)
+Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAx5b-0007Zv-4m
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51677)
+	id 1iAx0K-0001JK-Dc
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 10:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iAwx3-0007Ju-8T
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:58:30 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iAwwz-00078M-HM
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:58:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iAwtZ-0003iP-Dh
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:54:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:56749)
+ (envelope-from <laurent@vivier.eu>) id 1iAwti-0003ni-EF
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 09:55:03 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:50151)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iAwtZ-0003hQ-4m; Thu, 19 Sep 2019 09:54:53 -0400
+ id 1iAwth-0003me-5G; Thu, 19 Sep 2019 09:55:01 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MzQPe-1hxhL10WUC-00vTB3; Thu, 19 Sep 2019 15:54:51 +0200
+ id 1MfqGN-1hhwns0vNZ-00gGbg; Thu, 19 Sep 2019 15:54:53 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu, 19 Sep 2019 15:54:42 +0200
-Message-Id: <20190919135443.15164-8-laurent@vivier.eu>
+Date: Thu, 19 Sep 2019 15:54:43 +0200
+Message-Id: <20190919135443.15164-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190919135443.15164-1-laurent@vivier.eu>
 References: <20190919135443.15164-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ylawjwZlxVZ4xVBU3x9HCZaGo5YuJfOAOxnCb0ZVuv0AJoxjbkz
- U8Cgosd3FNVmqSUgJGzNTjaNJ8S9Cy9Q37FYVsyMxeLuABZ7wJrxOvdt2H8v04pnSnZBjf3
- 2oeYXSo9uuv5b05Z0xs8XEzISF9KzYMpzPI1jn5LvdYZFIilLb29PjbYl8Y3w/5+n8X0l8k
- p/Rw0O3cLaujo5xBZ7V5Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EXKRn/qhaHg=:JDyOyegwVGoyg+O/cBdeu3
- R+IKDxm9Jbh55COAbIORwLTccQKnAr7RGAkvqsrXq5bk2HM+NzxB6CCjaA2SYB846Imsgszpl
- eiRmLUH9v1tvTXv98zG7rnmbGx8C1uHmhA/O4/BQdn1siAUKbTzn4nCbW8ddbp0kW5CxhH2Vn
- LPj+4TElH91zVlZhjaA8nyizQFqZA3Og8BKRInEQkminx3ZG3H1berIUnYUWHfefiGlQ/FtIC
- av0m0RhuVah1asidfG4DgtlGGSVTuTrFqIhhSDyGZd3VtY6INChH6ffCyuUgj4Rwd0TVB1l4v
- dR3AHVRBDDCUKfEuKtAq+ACSlSul+zMl6e7qgPY2Zu+Cb3p1jrbtDnMcqOrR7QDMXeex7x45i
- 4GrlsYxERtwSCK+r5Edza5B3kiSl9w3diqRhKONnBOfKCwrx8moDrZcTBri6c3wGo5TTLy3WE
- uY/M7h8nIJV/G3ygrlvww9mvZ3aTeZT9wbdgsYo096deFGFTJeeT9H0MCBEwRRUOri6IuBa+4
- 13/WsNb4V48LxhwoCwuGQHgq6XBZGjZVpNEe+KDBfEnp4pGHWTVZ11CS+xlbgevvVnHeZH6ep
- MRTs98zXMfqpEJ5ntwGUxJZyYxTvaB/ZhgSFzyb7ww8IrQu3RVx2QtLNwYdhQ0zd6+ISTAcmG
- V3zowd1xG1TEhOKNyCalfgOTWIqwOmQjqjCwbodauZ/Gq9Ni8fIjV6SW/zKhx9JQgB8fXrB5K
- SMeAx/7mEajIDHbD02spVpE8PCnnBkwyfV1X1dPCyux6loHrrtZf0jxrtbHVHP+FgqYpVnXv0
- 2AsirqpTc8coVUde7XoeEtsQdZuxQhQUtCaR4kQSVchDRkLLHECmY1QUcXtpMlyQUa9Dh2yuv
- az8fqaNrdnYGFfiYeWUQ==
+X-Provags-ID: V03:K1:f+6zjxTbKi06c4tDhzzvg9koiK38E/wSTMmp6zkUdD6cg0MOIHA
+ xnG+2TBfmoYe3oNcP0VTXUPBplYRXxiGpbwzz2W7Wgrux/2lS5efTH0qGT9HOgF7iKz0I/S
+ OUiB3HYM4fIaBPDrCy1E8ZTL090aIG5e30PkIG6dll0wqPRoBg+3jt2XRBQ00QXoj5GWdFv
+ hmw9qRWwxA+Ahxn3C6UfQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zxUz0HElFP4=:odiie1ryMABIwcTj2eaOXM
+ cgWVvlq/2FLpSdChEYD0nxvFOSAo8suACDHFziAdSmfMrjXgjNvDQ3Vdtc4zBLfWVgjMIzhWO
+ i9JO7IdflhwbQ1p7TnkmNq7wuJWfWLtUVDJ/znwBWXXPQI5nIIPV9A82NeY8vJPKbJOpwOhJs
+ 4uVg1s72byEkA1StZ4BkkjAAkpS4qyFKofm2RJFg7Cuff40ZpdpR3zmJKLlDKD41u4zzycumx
+ Jvnk/WHEPRfpptogvsU27uB9iP4eN75Dv7mxAHjcwoWVH/1HmPsTZrDfZ/+V+5/ixa1zem8Yq
+ oWvRU6vLHAQhbClHB2hHbK3eLQiODAp9jEMr3wbl2h3M0KVQ67r04RaB85/RQnZ/Nc6QmGmlQ
+ h+sdYgDrmVr4ITp35b75J5Vy4/mMv3JzESEdJC4y72KafT/X7ZW6ZWBYEjXMdLxWE7UtItWah
+ QA8w2NYMNiO5H5BoFfelqu5lWC44BeMaU2FdDi3pGkJUN3B7kGQM0rjni3aGGEx87AToMNRkd
+ 0k7ZILyoJMYEl4SB2+7H9yWciVlWSpXE18Dp4XnU4+nVVDQRqpiczvZkA2QGGlqEm2+OXUM9B
+ O1u0anT038KB2rdIMnXjfT7nynrs0GYw0iEtSJ4PNZY1ZaeTzYCg+Gfb/pofhRxwHbvyOQ570
+ /ihAUlYGxImsZ+dLoJAtw7mpGbYJgt52GLwh+gQozERi5jen6X5slrQjpEgBg7VANLCDvX5MC
+ PM1Rt+NoB26N41R3MXQFOAy2vLd9JV+p6RVNZQlkj26/1CTry2Dyn/95Q+bp+XE/Ozn9ulcDO
+ +2Ky0zW63FbQMk2Q8fkva5juGEQ8VPSuh8wpr97UfOtwNHSmGQgQgXmxzWAyK8Uzw9uafK2u4
+ PCPmUA+/0QUY4pqoAwZ8CCxQIO5jzXiw5rYjESFhI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: [Qemu-devel] [PULL 7/8] kvm: Fix typo in header of
- kvm_device_access()
+X-Received-From: 217.72.192.74
+Subject: [Qemu-devel] [PULL 8/8] configure: Add xkbcommon configure options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,33 +65,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>
+Cc: James Le Cuirot <chewi@gentoo.org>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: James Le Cuirot <chewi@gentoo.org>
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156829664683.2070256.13400788010568373502.stgit@bahia.tls.ibm.com>
+This dependency is currently "automagic", which is bad for distributions.
+
+Signed-off-by: James Le Cuirot <chewi@gentoo.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20190914145155.19360-1-chewi@gentoo.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/sysemu/kvm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 909bcd77cf82..fd674772ab31 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -308,7 +308,7 @@ int kvm_vm_check_attr(KVMState *s, uint32_t group, uint64_t attr);
- int kvm_device_check_attr(int fd, uint32_t group, uint64_t attr);
+diff --git a/configure b/configure
+index 30aad233d17c..30544f52e630 100755
+--- a/configure
++++ b/configure
+@@ -1521,6 +1521,10 @@ for opt do
+   ;;
+   --disable-libpmem) libpmem=no
+   ;;
++  --enable-xkbcommon) xkbcommon=yes
++  ;;
++  --disable-xkbcommon) xkbcommon=no
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1804,6 +1808,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   capstone        capstone disassembler support
+   debug-mutex     mutex debugging support
+   libpmem         libpmem support
++  xkbcommon       xkbcommon support
  
- /**
-- * kvm_device_access - set or get value of a specific vm attribute
-+ * kvm_device_access - set or get value of a specific device attribute
-  * @fd: The device file descriptor
-  * @group: the group
-  * @attr: the attribute of that group to set or get
+ NOTE: The object files are built at the place where configure is launched
+ EOF
 -- 
 2.21.0
 
