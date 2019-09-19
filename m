@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E367B7552
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 10:40:41 +0200 (CEST)
-Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19317B7567
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 10:46:07 +0200 (CEST)
+Received: from localhost ([::1]:40270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iArzT-0000H5-Kh
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 04:40:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35654)
+	id 1iAs4j-000763-1Q
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 04:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iArvT-0004nu-U0
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:32 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iArvo-0005BS-Pc
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iArvS-000091-TL
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59930)
+ (envelope-from <kraxel@redhat.com>) id 1iArvj-0000If-PY
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54680)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iArvS-00008p-OL
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:30 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iArvi-0000Hn-HW
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:47 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 193BF3C919;
- Thu, 19 Sep 2019 08:36:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 90F5C10C093C
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 08:36:45 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
  [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D073860C18;
- Thu, 19 Sep 2019 08:36:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A37BE100197A;
+ Thu, 19 Sep 2019 08:36:41 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 14D211747D; Thu, 19 Sep 2019 10:36:26 +0200 (CEST)
-Date: Thu, 19 Sep 2019 10:36:26 +0200
+ id 9A5BE1FCCD; Thu, 19 Sep 2019 10:36:30 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190919083626.qjilasttfb5pv5ao@sirius.home.kraxel.org>
-References: <20190918095335.7646-1-stefanha@redhat.com>
- <20190918095335.7646-3-stefanha@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190918095335.7646-3-stefanha@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 19 Sep 2019 08:36:30 +0000 (UTC)
+To: qemu-devel@nongnu.org
+Date: Thu, 19 Sep 2019 10:36:28 +0200
+Message-Id: <20190919083629.29998-26-kraxel@redhat.com>
+In-Reply-To: <20190919083629.29998-1-kraxel@redhat.com>
+References: <20190919083629.29998-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Thu, 19 Sep 2019 08:36:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/3] audio: add -audiodev pa,
- in|out.latency= to documentation
+Subject: [Qemu-devel] [PULL 25/26] audio: fix buffer-length typo in
+ documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,51 +56,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- =?utf-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <DirtY.iCE.hu@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 18, 2019 at 10:53:34AM +0100, Stefan Hajnoczi wrote:
-> The "latency" parameter wasn't covered by the documentation.
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Doesn't apply cleanly (on top of the surround sound patch series).
-Picked the other two into the pull request.
-Please rebase & resend once this is merged.
+Fixes: f0b3d811529 ("audio: -audiodev command line option: documentation")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20190918095335.7646-2-stefanha@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-thanks,
-  Gerd
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 6aee778896b8..e9417e6561b8 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -440,7 +440,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+     "                in|out.format= sample format to use with fixed settings\n"
+     "                valid values: s8, s16, s32, u8, u16, u32\n"
+     "                in|out.voices= number of voices to use\n"
+-    "                in|out.buffer-len= length of buffer in microseconds\n"
++    "                in|out.buffer-length= length of buffer in microseconds\n"
+     "-audiodev none,id=id,[,prop[=value][,...]]\n"
+     "                dummy driver that discards all output\n"
+ #ifdef CONFIG_AUDIO_ALSA
+@@ -531,7 +531,7 @@ Valid values are: @code{s8}, @code{s16}, @code{s32}, @code{u8},
+ @item in|out.voices=@var{voices}
+ Specify the number of @var{voices} to use.  Default is 1.
+ 
+-@item in|out.buffer=@var{usecs}
++@item in|out.buffer-length=@var{usecs}
+ Sets the size of the buffer in microseconds.
+ 
+ @end table
+-- 
+2.18.1
 
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  qemu-options.hx | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index a4f9f74f52..6d7fe57dd4 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -470,6 +470,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
->      "-audiodev pa,id=id[,prop[=value][,...]]\n"
->      "                server= PulseAudio server address\n"
->      "                in|out.name= source/sink device name\n"
-> +    "                in|out.latency= desired latency in microseconds\n"
->  #endif
->  #ifdef CONFIG_AUDIO_SDL
->      "-audiodev sdl,id=id[,prop[=value][,...]]\n"
-> @@ -630,6 +631,10 @@ Sets the PulseAudio @var{server} to connect to.
->  @item in|out.name=@var{sink}
->  Use the specified source/sink for recording/playback.
->  
-> +@item in|out.latency=@var{usecs}
-> +Desired latency in microseconds.  The PulseAudio server will try to honor this
-> +value but actual latencies may be lower or higher.
-> +
->  @end table
->  
->  @item -audiodev sdl,id=@var{id}[,@var{prop}[=@var{value}][,...]]
-> -- 
-> 2.21.0
-> 
 
