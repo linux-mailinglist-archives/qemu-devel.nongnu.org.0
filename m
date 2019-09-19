@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14693B8468
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:10:45 +0200 (CEST)
-Received: from localhost ([::1]:48984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172D9B84E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 00:16:21 +0200 (CEST)
+Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB4dP-0008LH-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:10:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56406)
+	id 1iB4iq-0006HQ-5T
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 18:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56405)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1iB49t-0001g4-QV
+ (envelope-from <tcminyard@gmail.com>) id 1iB49t-0001g3-QV
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1iB49h-0006GL-Vs
+ (envelope-from <tcminyard@gmail.com>) id 1iB49h-0006Fz-1Z
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:10 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46633)
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35899)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49h-0006Ck-Iy
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:01 -0400
-Received: by mail-oi1-x244.google.com with SMTP id k25so3980360oiw.13
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:48 -0700 (PDT)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iB49f-0006Cc-Rs
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 17:40:00 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 67so4471096oto.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 14:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ZeJscWWKCUqiou1c6ENFoRKdom+VlVVzvF6Ij/ADxY8=;
- b=LlIuVFu7iox26nwKXtbnS5S+yTa30ZO7hy++XNwNRDS1LdFU6vXAquZVcm+pY2M+hL
- zjIXst0ODSEGNUX2t6X3osUEblt6nZgwLkHjMJivLdhaiXAeThohJ0ffj1XP9O2c6xJf
- SqPOlKgkn297XMFwtlTNrmlwoMsyHJwO+6q+JHVi1BPzsc5Mwkc46rCZWrn+9f/e6+e3
- Fv/r4sSh9pIwTmjkLLZ3ZalMgnBZOJGG7qptMkg5xiNZwLjuJQhfMtb5y5doUTVBwaY7
- GebK4DGF57u7RQtlhXaCB/cdSNhQ1ggYX1nEmUKIiA6nxFB3L0f6KzyY0hmBtXA/xcfK
- jvqg==
+ bh=HuIlwjKgrYEWVysrX6UaajuLncKSjIW4O4CwrkB0y4Y=;
+ b=PvWyjs77AR/GCV9MoxR3KPs9pIIv64biuBt1NPwYGTVmt52LKUc2wtyl8h4bpE+QQb
+ A3c0tRd0OvozF6tefKImb8Ta3DdbzefYTgHbGy7fAn6+LsDk81jU33EpLHKcvnan+nAo
+ hCOCCfEvrdI1U+a7U6UtZafdL3ezGNFniWrwVLAHuc0MMcUkpr33zK4kwmZLllBPcwJ2
+ wUTMK3OyvXlPCYQiCofiKfc5BWznugqH52OUTUL6vZFFv5z7tNpMegpRi3hrEQBuy1uH
+ QyD82N9kTRzfeOAO8I3AS8oohx3VL7rd1cBEaYNlFYaNpDokBGKBqI3ZR3yOlQOI3Qzd
+ ci6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=ZeJscWWKCUqiou1c6ENFoRKdom+VlVVzvF6Ij/ADxY8=;
- b=YWID6/liIgbkPsJXiU88Ns3Q6HfKKlBsLQGZWrBep5b7REwiEtvbHJQWU3qUlsLagd
- Nm2qf+HvSDNsSR5DEfEqOxqJ1iyuxtABd+1yXCfaoFhxBt6kuRSD/78y41Yt8swzD2L6
- 3yzAABppkwKolExmApxV/+3WNohCu9gC5PXoSH0oe4+rFRJsskAVZbcv98ElrqmRzL9L
- 2hbfPJ0XSwQ/6GmmQf2GFN2fP+ijk2lV1ucsEHs/QTxhw3lOH0tzlYsN4/QMkYF6eMYP
- 1QqSOkV4Zwp7J5z6nT0ATnUPmZuzQQibZRAUvVoAc4rYHQvc2+hbfsvrO+SrKlkf1a94
- D+jw==
-X-Gm-Message-State: APjAAAX0pNY7VWuD0u06LLwfCF0sEgQJfdYQqVyC91IATLzRxE2JqRj2
- MLJhKJdT7vv9VfFv4FSOdA==
-X-Google-Smtp-Source: APXvYqzf9CzQ5a6EGZ4mrTk1/AzSLiZYNEhChc+eoim7fdSaJwaxUICqY7YTn/9JbrKz/nDvdD5Mqg==
-X-Received: by 2002:aca:701:: with SMTP id 1mr27606oih.85.1568929187394;
- Thu, 19 Sep 2019 14:39:47 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id t10sm32498oib.49.2019.09.19.14.39.38
+ bh=HuIlwjKgrYEWVysrX6UaajuLncKSjIW4O4CwrkB0y4Y=;
+ b=cX5IQB5klOZMauwlhiNfVY/ayT0A35jd7E5peZZwrc5TUzdE/2xJ3xf57hgI4qXTwi
+ G/bh7k+tDi5Lefd4jbFikuVV8vJiax3R2YP0ragVEtTG5mL6eHSU6lbRHN5J3peUStnb
+ 9LRCovOuu2d/P5+HuPyw+mXz5JH66G7s1dzXrIJgJ1YOG7Wclnu5B1cVJEV9NLrjrhpm
+ wKkmevQ6z6yOA6pyyX5LtCXZLB9lc8gTOQySBJ3J6ZdemE/vGERnkOvDcaSY72Z62IX0
+ dWEwUK3tTlG6FwEOtdCtTEfEOWEQFKLtQym5SBDlGa3AZ5rQYnQqmnbrkgGPlpxA2g/t
+ 0WNw==
+X-Gm-Message-State: APjAAAV8azjykqOYPyk9c03ZL4Lz7ZLZMFnbjglk8Ft2OWa+lwRhf4p4
+ GU+AP5Z8tMS/V4q4DUCkgg==
+X-Google-Smtp-Source: APXvYqyeIX6yy/oitmkSzrYZnNOmZuVIEqGRE18sOrLz8zikNST3+a16geQfsdRQqUuN9TGAqft37Q==
+X-Received: by 2002:a9d:962:: with SMTP id 89mr4800417otp.261.1568929186957;
+ Thu, 19 Sep 2019 14:39:46 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id e9sm29432oie.58.2019.09.19.14.39.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Sep 2019 14:39:40 -0700 (PDT)
 Received: from t560.minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPA id 2950E1800D2;
+ by serve.minyard.net (Postfix) with ESMTPA id 560DD1805A3;
  Thu, 19 Sep 2019 21:39:37 +0000 (UTC)
 From: minyard@acm.org
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 11/15] ipmi: Add PCI IPMI interfaces
-Date: Thu, 19 Sep 2019 16:39:20 -0500
-Message-Id: <20190919213924.31852-12-minyard@acm.org>
+Subject: [PATCH 12/15] ipmi: Add an SMBus IPMI interface
+Date: Thu, 19 Sep 2019 16:39:21 -0500
+Message-Id: <20190919213924.31852-13-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190919213924.31852-1-minyard@acm.org>
 References: <20190919213924.31852-1-minyard@acm.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,89 +88,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
-Pretty straightforward, just hook the current KCS and BT code into
-the PCI system with the proper configuration.
-
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
 ---
- default-configs/i386-softmmu.mak |   2 +
- hw/i386/Kconfig                  |   2 +
- hw/ipmi/Kconfig                  |  10 +++
- hw/ipmi/Makefile.objs            |   2 +
- hw/ipmi/pci_ipmi_bt.c            | 146 +++++++++++++++++++++++++++++++
- hw/ipmi/pci_ipmi_kcs.c           | 146 +++++++++++++++++++++++++++++++
- include/hw/pci/pci.h             |   1 +
- 7 files changed, 309 insertions(+)
- create mode 100644 hw/ipmi/pci_ipmi_bt.c
- create mode 100644 hw/ipmi/pci_ipmi_kcs.c
+ default-configs/i386-softmmu.mak |   1 +
+ hw/i386/Kconfig                  |   1 +
+ hw/ipmi/Kconfig                  |   5 +
+ hw/ipmi/Makefile.objs            |   1 +
+ hw/ipmi/smbus_ipmi.c             | 384 +++++++++++++++++++++++++++++++
+ 5 files changed, 392 insertions(+)
+ create mode 100644 hw/ipmi/smbus_ipmi.c
 
 diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
-index ba3fb3ff50..2294c0be5a 100644
+index 2294c0be5a..4229900f57 100644
 --- a/default-configs/i386-softmmu.mak
 +++ b/default-configs/i386-softmmu.mak
-@@ -10,6 +10,8 @@
- #CONFIG_ISA_DEBUG=n
- #CONFIG_ISA_IPMI_BT=n
+@@ -12,6 +12,7 @@
  #CONFIG_ISA_IPMI_KCS=n
-+#CONFIG_PCI_IPMI_KCS=n
-+#CONFIG_PCI_IPMI_BT=n
+ #CONFIG_PCI_IPMI_KCS=n
+ #CONFIG_PCI_IPMI_BT=n
++#CONFIG_IPMI_SSIF=n
  #CONFIG_PCI_DEVICES=n
  #CONFIG_PVPANIC=n
  #CONFIG_QXL=n
 diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index c7a9d6315c..d10f4e3e8b 100644
+index d10f4e3e8b..c5c9d4900e 100644
 --- a/hw/i386/Kconfig
 +++ b/hw/i386/Kconfig
-@@ -8,6 +8,8 @@ config PC
-     imply HYPERV
-     imply ISA_IPMI_KCS
+@@ -10,6 +10,7 @@ config PC
      imply ISA_IPMI_BT
-+    imply PCI_IPMI_KCS
-+    imply PCI_IPMI_BT
+     imply PCI_IPMI_KCS
+     imply PCI_IPMI_BT
++    imply IPMI_SSIF
      imply ISA_DEBUG
      imply PARALLEL
      imply PCI_DEVICES
 diff --git a/hw/ipmi/Kconfig b/hw/ipmi/Kconfig
-index b944fae100..12db4e81ad 100644
+index 12db4e81ad..9befd4f422 100644
 --- a/hw/ipmi/Kconfig
 +++ b/hw/ipmi/Kconfig
-@@ -20,3 +20,13 @@ config ISA_IPMI_BT
+@@ -30,3 +30,8 @@ config PCI_IPMI_BT
      bool
-     depends on ISA_BUS
+     depends on PCI
      select IPMI
 +
-+config PCI_IPMI_KCS
++config IPMI_SSIF
 +    bool
-+    depends on PCI
-+    select IPMI
-+
-+config PCI_IPMI_BT
-+    bool
-+    depends on PCI
++    depends on I2C
 +    select IPMI
 diff --git a/hw/ipmi/Makefile.objs b/hw/ipmi/Makefile.objs
-index 4ffa45a66c..2d7f080a86 100644
+index 2d7f080a86..3cca10bc50 100644
 --- a/hw/ipmi/Makefile.objs
 +++ b/hw/ipmi/Makefile.objs
-@@ -2,4 +2,6 @@ common-obj-$(CONFIG_IPMI) += ipmi.o ipmi_kcs.o ipmi_bt.o
- common-obj-$(CONFIG_IPMI_LOCAL) += ipmi_bmc_sim.o
- common-obj-$(CONFIG_IPMI_EXTERN) += ipmi_bmc_extern.o
- common-obj-$(CONFIG_ISA_IPMI_KCS) += isa_ipmi_kcs.o
-+common-obj-$(CONFIG_PCI_IPMI_KCS) += pci_ipmi_kcs.o
+@@ -5,3 +5,4 @@ common-obj-$(CONFIG_ISA_IPMI_KCS) += isa_ipmi_kcs.o
+ common-obj-$(CONFIG_PCI_IPMI_KCS) += pci_ipmi_kcs.o
  common-obj-$(CONFIG_ISA_IPMI_BT) += isa_ipmi_bt.o
-+common-obj-$(CONFIG_PCI_IPMI_BT) += pci_ipmi_bt.o
-diff --git a/hw/ipmi/pci_ipmi_bt.c b/hw/ipmi/pci_ipmi_bt.c
+ common-obj-$(CONFIG_PCI_IPMI_BT) += pci_ipmi_bt.o
++common-obj-$(CONFIG_IPMI_SSIF) += smbus_ipmi.o
+diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
 new file mode 100644
-index 0000000000..6ed925a665
+index 0000000000..2a9470d9df
 --- /dev/null
-+++ b/hw/ipmi/pci_ipmi_bt.c
-@@ -0,0 +1,146 @@
++++ b/hw/ipmi/smbus_ipmi.c
+@@ -0,0 +1,384 @@
 +/*
-+ * QEMU PCI IPMI BT emulation
++ * QEMU IPMI SMBus (SSIF) emulation
 + *
-+ * Copyright (c) 2017 Corey Minyard, MontaVista Software, LLC
++ * Copyright (c) 2015,2016 Corey Minyard, MontaVista Software, LLC
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a copy
 + * of this software and associated documentation files (the "Software"), to deal
@@ -192,291 +175,365 @@ index 0000000000..6ed925a665
 + */
 +#include "qemu/osdep.h"
 +#include "migration/vmstate.h"
++#include "hw/i2c/smbus_slave.h"
 +#include "qapi/error.h"
-+#include "hw/ipmi/ipmi_bt.h"
-+#include "hw/pci/pci.h"
++#include "qemu/error-report.h"
++#include "hw/ipmi/ipmi.h"
 +
-+#define TYPE_PCI_IPMI_BT "pci-ipmi-bt"
-+#define PCI_IPMI_BT(obj) OBJECT_CHECK(PCIIPMIBTDevice, (obj), \
-+                                       TYPE_PCI_IPMI_BT)
++#define TYPE_SMBUS_IPMI "smbus-ipmi"
++#define SMBUS_IPMI(obj) OBJECT_CHECK(SMBusIPMIDevice, (obj), TYPE_SMBUS_IPMI)
 +
-+typedef struct PCIIPMIBTDevice {
-+    PCIDevice dev;
-+    IPMIBT bt;
-+    bool irq_enabled;
++#define SSIF_IPMI_REQUEST                       2
++#define SSIF_IPMI_MULTI_PART_REQUEST_START      6
++#define SSIF_IPMI_MULTI_PART_REQUEST_MIDDLE     7
++#define SSIF_IPMI_MULTI_PART_REQUEST_END        8
++#define SSIF_IPMI_RESPONSE                      3
++#define SSIF_IPMI_MULTI_PART_RESPONSE_MIDDLE    9
++#define SSIF_IPMI_MULTI_PART_RETRY              0xa
++
++#define MAX_SSIF_IPMI_MSG_SIZE 255
++#define MAX_SSIF_IPMI_MSG_CHUNK 32
++
++#define IPMI_GET_SYS_INTF_CAP_CMD 0x57
++
++typedef struct SMBusIPMIDevice {
++    SMBusDevice parent;
++
++    IPMIBmc *bmc;
++
++    uint8_t outmsg[MAX_SSIF_IPMI_MSG_SIZE];
++    uint32_t outlen;
++    uint32_t currblk;
++
++    /* Holds the SMBUS message currently being sent to the host. */
++    uint8_t outbuf[MAX_SSIF_IPMI_MSG_CHUNK + 1]; /* len + message. */
++    uint32_t outpos;
++
++    uint8_t inmsg[MAX_SSIF_IPMI_MSG_SIZE];
++    uint32_t inlen;
++
++    /*
++     * This is a response number that we send with the command to make
++     * sure that the response matches the command.
++     */
++    uint8_t waiting_rsp;
++
 +    uint32_t uuid;
-+} PCIIPMIBTDevice;
++} SMBusIPMIDevice;
 +
-+static void pci_ipmi_raise_irq(IPMIBT *ik)
++static void smbus_ipmi_handle_event(IPMIInterface *ii)
 +{
-+    PCIIPMIBTDevice *pik = ik->opaque;
-+
-+    pci_set_irq(&pik->dev, true);
++    /* No interrupts, so nothing to do here. */
 +}
 +
-+static void pci_ipmi_lower_irq(IPMIBT *ik)
++static void smbus_ipmi_handle_rsp(IPMIInterface *ii, uint8_t msg_id,
++                                  unsigned char *rsp, unsigned int rsp_len)
 +{
-+    PCIIPMIBTDevice *pik = ik->opaque;
++    SMBusIPMIDevice *sid = SMBUS_IPMI(ii);
 +
-+    pci_set_irq(&pik->dev, false);
++    if (sid->waiting_rsp == msg_id) {
++        sid->waiting_rsp++;
++
++        if (rsp_len > MAX_SSIF_IPMI_MSG_SIZE) {
++            rsp[2] = IPMI_CC_REQUEST_DATA_TRUNCATED;
++            rsp_len = MAX_SSIF_IPMI_MSG_SIZE;
++        }
++        memcpy(sid->outmsg, rsp, rsp_len);
++        sid->outlen = rsp_len;
++        sid->outpos = 0;
++        sid->currblk = 0;
++    }
 +}
 +
-+static void pci_ipmi_bt_realize(PCIDevice *pd, Error **errp)
++static void smbus_ipmi_set_atn(IPMIInterface *ii, int val, int irq)
 +{
-+    PCIIPMIBTDevice *pik = PCI_IPMI_BT(pd);
-+    IPMIInterface *ii = IPMI_INTERFACE(pd);
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
++    /* This is where PEC would go. */
++}
 +
-+    if (!pik->bt.bmc) {
-+        error_setg(errp, "IPMI device requires a bmc attribute to be set");
++static void smbus_ipmi_set_irq_enable(IPMIInterface *ii, int val)
++{
++}
++
++static void smbus_ipmi_send_msg(SMBusIPMIDevice *sid)
++{
++    uint8_t *msg = sid->inmsg;
++    uint32_t len = sid->inlen;
++    IPMIBmcClass *bk = IPMI_BMC_GET_CLASS(sid->bmc);
++
++    sid->outlen = 0;
++    sid->outpos = 0;
++    sid->currblk = 0;
++
++    if (msg[0] == (IPMI_NETFN_APP << 2) && msg[1] == IPMI_GET_SYS_INTF_CAP_CMD)
++    {
++        /* We handle this ourself. */
++        sid->outmsg[0] = (IPMI_NETFN_APP + 1) << 2;
++        sid->outmsg[1] = msg[1];
++        if (len < 3) {
++            sid->outmsg[2] = IPMI_CC_REQUEST_DATA_LENGTH_INVALID;
++            sid->outlen = 3;
++        } else if ((msg[2] & 0x0f) != 0) {
++            sid->outmsg[2] = IPMI_CC_INVALID_DATA_FIELD;
++            sid->outlen = 3;
++        } else {
++            sid->outmsg[2] = 0;
++            sid->outmsg[3] = 0;
++            sid->outmsg[4] = (2 << 6); /* Multi-part supported. */
++            sid->outmsg[5] = MAX_SSIF_IPMI_MSG_SIZE;
++            sid->outmsg[6] = MAX_SSIF_IPMI_MSG_SIZE;
++            sid->outlen = 7;
++        }
 +        return;
 +    }
 +
-+    pik->uuid = ipmi_next_uuid();
-+
-+    pik->bt.bmc->intf = ii;
-+    pik->bt.opaque = pik;
-+
-+    pci_config_set_prog_interface(pd->config, 0x02); /* BT */
-+    pci_config_set_interrupt_pin(pd->config, 0x01);
-+    pik->bt.use_irq = 1;
-+    pik->bt.raise_irq = pci_ipmi_raise_irq;
-+    pik->bt.lower_irq = pci_ipmi_lower_irq;
-+
-+    iic->init(ii, 8, errp);
-+    if (*errp) {
-+        return;
-+    }
-+    pci_register_bar(pd, 0, PCI_BASE_ADDRESS_SPACE_IO, &pik->bt.io);
++    bk->handle_command(sid->bmc, sid->inmsg, sid->inlen, sizeof(sid->inmsg),
++                       sid->waiting_rsp);
 +}
 +
-+const VMStateDescription vmstate_PCIIPMIBTDevice = {
-+    .name = TYPE_IPMI_INTERFACE_PREFIX "pci-bt",
++static uint8_t ipmi_receive_byte(SMBusDevice *dev)
++{
++    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
++
++    if (sid->outpos >= sizeof(sid->outbuf)) {
++        return 0xff;
++    }
++
++    return sid->outbuf[sid->outpos++];
++}
++
++static int ipmi_load_readbuf(SMBusIPMIDevice *sid)
++{
++    unsigned int block = sid->currblk, pos, len;
++
++    if (sid->outlen == 0) {
++        return -1;
++    }
++
++    if (sid->outlen <= 32) {
++        if (block != 0) {
++            return -1;
++        }
++        sid->outbuf[0] = sid->outlen;
++        memcpy(sid->outbuf + 1, sid->outmsg, sid->outlen);
++        sid->outpos = 0;
++        return 0;
++    }
++
++    if (block == 0) {
++        sid->outbuf[0] = 32;
++        sid->outbuf[1] = 0;
++        sid->outbuf[2] = 1;
++        memcpy(sid->outbuf + 3, sid->outmsg, 30);
++        sid->outpos = 0;
++        return 0;
++    }
++
++    /*
++     * Calculate the position in outmsg.  30 for the first block, 31
++     * for the rest of the blocks.
++     */
++    pos = 30 + (block - 1) * 31;
++
++    if (pos >= sid->outlen) {
++        return -1;
++    }
++
++    len = sid->outlen - pos;
++    if (len > 31) {
++        /* More chunks after this. */
++        len = 31;
++        /* Blocks start at 0 for the first middle transaction. */
++        sid->outbuf[1] = block - 1;
++    } else {
++        sid->outbuf[1] = 0xff; /* End of message marker. */
++    }
++
++    sid->outbuf[0] = len + 1;
++    memcpy(sid->outbuf + 2, sid->outmsg + pos, len);
++    sid->outpos = 0;
++    return 0;
++}
++
++static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
++{
++    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
++    bool send = false;
++    uint8_t cmd;
++    int ret = 0;
++
++    /* length is guaranteed to be >= 1. */
++    cmd = *buf++;
++    len--;
++
++    /* Handle read request, which don't have any data in the write part. */
++    switch (cmd) {
++    case SSIF_IPMI_RESPONSE:
++        sid->currblk = 0;
++        ret = ipmi_load_readbuf(sid);
++        break;
++
++    case SSIF_IPMI_MULTI_PART_RESPONSE_MIDDLE:
++        sid->currblk++;
++        ret = ipmi_load_readbuf(sid);
++        break;
++
++    case SSIF_IPMI_MULTI_PART_RETRY:
++        if (len >= 1) {
++            sid->currblk = buf[0];
++            ret = ipmi_load_readbuf(sid);
++        } else {
++            ret = -1;
++        }
++        break;
++
++    default:
++        break;
++    }
++
++    /* This should be a message write, make the length is there and correct. */
++    if (len >= 1) {
++        if (*buf != len - 1 || *buf > MAX_SSIF_IPMI_MSG_CHUNK) {
++            return -1; /* Bogus message */
++        }
++        buf++;
++        len--;
++    }
++
++    switch (cmd) {
++    case SSIF_IPMI_REQUEST:
++        send = true;
++        /* FALLTHRU */
++    case SSIF_IPMI_MULTI_PART_REQUEST_START:
++        if (len < 2) {
++            return -1; /* Bogus. */
++        }
++        memcpy(sid->inmsg, buf, len);
++        sid->inlen = len;
++        break;
++
++    case SSIF_IPMI_MULTI_PART_REQUEST_END:
++        send = true;
++        /* FALLTHRU */
++    case SSIF_IPMI_MULTI_PART_REQUEST_MIDDLE:
++        if (!sid->inlen) {
++            return -1; /* Bogus. */
++        }
++        if (sid->inlen + len > MAX_SSIF_IPMI_MSG_SIZE) {
++            sid->inlen = 0; /* Discard the message. */
++            return -1; /* Bogus. */
++        }
++        if (len < 32) {
++            /*
++             * Special hack, a multi-part middle that is less than 32 bytes
++             * marks the end of a message.  The specification is fairly
++             * confusing, so some systems to this, even sending a zero
++             * length end message to mark the end.
++             */
++            send = true;
++        }
++        memcpy(sid->inmsg + sid->inlen, buf, len);
++        sid->inlen += len;
++        break;
++    }
++
++    if (send && sid->inlen) {
++        smbus_ipmi_send_msg(sid);
++    }
++
++    return ret;
++}
++
++static const VMStateDescription vmstate_smbus_ipmi = {
++    .name = TYPE_SMBUS_IPMI,
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields      = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(dev, PCIIPMIBTDevice),
-+        VMSTATE_STRUCT(bt, PCIIPMIBTDevice, 1, vmstate_IPMIBT, IPMIBT),
++        VMSTATE_SMBUS_DEVICE(parent, SMBusIPMIDevice),
++        VMSTATE_UINT8(waiting_rsp, SMBusIPMIDevice),
++        VMSTATE_UINT32(outlen, SMBusIPMIDevice),
++        VMSTATE_UINT32(currblk, SMBusIPMIDevice),
++        VMSTATE_UINT8_ARRAY(outmsg, SMBusIPMIDevice, MAX_SSIF_IPMI_MSG_SIZE),
++        VMSTATE_UINT32(outpos, SMBusIPMIDevice),
++        VMSTATE_UINT8_ARRAY(outbuf, SMBusIPMIDevice,
++                            MAX_SSIF_IPMI_MSG_CHUNK + 1),
++        VMSTATE_UINT32(inlen, SMBusIPMIDevice),
++        VMSTATE_UINT8_ARRAY(inmsg, SMBusIPMIDevice, MAX_SSIF_IPMI_MSG_SIZE),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void pci_ipmi_bt_instance_init(Object *obj)
++static void smbus_ipmi_realize(DeviceState *dev, Error **errp)
 +{
-+    PCIIPMIBTDevice *pik = PCI_IPMI_BT(obj);
++    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
++    IPMIInterface *ii = IPMI_INTERFACE(dev);
 +
-+    ipmi_bmc_find_and_link(obj, (Object **) &pik->bt.bmc);
-+}
-+
-+static void *pci_ipmi_bt_get_backend_data(IPMIInterface *ii)
-+{
-+    PCIIPMIBTDevice *pik = PCI_IPMI_BT(ii);
-+
-+    return &pik->bt;
-+}
-+
-+static void pci_ipmi_bt_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(oc);
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
-+
-+    pdc->vendor_id = PCI_VENDOR_ID_QEMU;
-+    pdc->device_id = PCI_DEVICE_ID_QEMU_IPMI;
-+    pdc->revision = 1;
-+    pdc->class_id = PCI_CLASS_SERIAL_IPMI;
-+
-+    dc->vmsd = &vmstate_PCIIPMIBTDevice;
-+    dc->desc = "PCI IPMI BT";
-+    pdc->realize = pci_ipmi_bt_realize;
-+
-+    iic->get_backend_data = pci_ipmi_bt_get_backend_data;
-+    ipmi_bt_class_init(iic);
-+}
-+
-+static const TypeInfo pci_ipmi_bt_info = {
-+    .name          = TYPE_PCI_IPMI_BT,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PCIIPMIBTDevice),
-+    .instance_init = pci_ipmi_bt_instance_init,
-+    .class_init    = pci_ipmi_bt_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_IPMI_INTERFACE },
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { }
-+    }
-+};
-+
-+static void pci_ipmi_bt_register_types(void)
-+{
-+    type_register_static(&pci_ipmi_bt_info);
-+}
-+
-+type_init(pci_ipmi_bt_register_types)
-diff --git a/hw/ipmi/pci_ipmi_kcs.c b/hw/ipmi/pci_ipmi_kcs.c
-new file mode 100644
-index 0000000000..eeba63baa4
---- /dev/null
-+++ b/hw/ipmi/pci_ipmi_kcs.c
-@@ -0,0 +1,146 @@
-+/*
-+ * QEMU PCI IPMI KCS emulation
-+ *
-+ * Copyright (c) 2017 Corey Minyard, MontaVista Software, LLC
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#include "qemu/osdep.h"
-+#include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "hw/ipmi/ipmi_kcs.h"
-+#include "hw/pci/pci.h"
-+
-+#define TYPE_PCI_IPMI_KCS "pci-ipmi-kcs"
-+#define PCI_IPMI_KCS(obj) OBJECT_CHECK(PCIIPMIKCSDevice, (obj), \
-+                                       TYPE_PCI_IPMI_KCS)
-+
-+typedef struct PCIIPMIKCSDevice {
-+    PCIDevice dev;
-+    IPMIKCS kcs;
-+    bool irq_enabled;
-+    uint32_t uuid;
-+} PCIIPMIKCSDevice;
-+
-+static void pci_ipmi_raise_irq(IPMIKCS *ik)
-+{
-+    PCIIPMIKCSDevice *pik = ik->opaque;
-+
-+    pci_set_irq(&pik->dev, true);
-+}
-+
-+static void pci_ipmi_lower_irq(IPMIKCS *ik)
-+{
-+    PCIIPMIKCSDevice *pik = ik->opaque;
-+
-+    pci_set_irq(&pik->dev, false);
-+}
-+
-+static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **errp)
-+{
-+    PCIIPMIKCSDevice *pik = PCI_IPMI_KCS(pd);
-+    IPMIInterface *ii = IPMI_INTERFACE(pd);
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+
-+    if (!pik->kcs.bmc) {
++    if (!sid->bmc) {
 +        error_setg(errp, "IPMI device requires a bmc attribute to be set");
 +        return;
 +    }
 +
-+    pik->uuid = ipmi_next_uuid();
++    sid->uuid = ipmi_next_uuid();
 +
-+    pik->kcs.bmc->intf = ii;
-+    pik->kcs.opaque = pik;
-+
-+    pci_config_set_prog_interface(pd->config, 0x01); /* KCS */
-+    pci_config_set_interrupt_pin(pd->config, 0x01);
-+    pik->kcs.use_irq = 1;
-+    pik->kcs.raise_irq = pci_ipmi_raise_irq;
-+    pik->kcs.lower_irq = pci_ipmi_lower_irq;
-+
-+    iic->init(ii, 8, errp);
-+    if (*errp) {
-+        return;
-+    }
-+    pci_register_bar(pd, 0, PCI_BASE_ADDRESS_SPACE_IO, &pik->kcs.io);
++    sid->bmc->intf = ii;
 +}
 +
-+const VMStateDescription vmstate_PCIIPMIKCSDevice = {
-+    .name = TYPE_IPMI_INTERFACE_PREFIX "pci-kcs",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields      = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(dev, PCIIPMIKCSDevice),
-+        VMSTATE_STRUCT(kcs, PCIIPMIKCSDevice, 1, vmstate_IPMIKCS, IPMIKCS),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void pci_ipmi_kcs_instance_init(Object *obj)
++static void smbus_ipmi_init(Object *obj)
 +{
-+    PCIIPMIKCSDevice *pik = PCI_IPMI_KCS(obj);
++    SMBusIPMIDevice *sid = SMBUS_IPMI(obj);
 +
-+    ipmi_bmc_find_and_link(obj, (Object **) &pik->kcs.bmc);
++    ipmi_bmc_find_and_link(OBJECT(obj), (Object **) &sid->bmc);
 +}
 +
-+static void *pci_ipmi_kcs_get_backend_data(IPMIInterface *ii)
++static void smbus_ipmi_get_fwinfo(struct IPMIInterface *ii, IPMIFwInfo *info)
 +{
-+    PCIIPMIKCSDevice *pik = PCI_IPMI_KCS(ii);
++    SMBusIPMIDevice *sid = SMBUS_IPMI(ii);
 +
-+    return &pik->kcs;
++    info->interface_name = "smbus";
++    info->interface_type = IPMI_SMBIOS_SSIF;
++    info->ipmi_spec_major_revision = 2;
++    info->ipmi_spec_minor_revision = 0;
++    info->i2c_slave_address = sid->bmc->slave_addr;
++    info->base_address = sid->parent.i2c.address;
++    info->memspace = IPMI_MEMSPACE_SMBUS;
++    info->register_spacing = 1;
++    info->uuid = sid->uuid;
 +}
 +
-+static void pci_ipmi_kcs_class_init(ObjectClass *oc, void *data)
++static void smbus_ipmi_class_init(ObjectClass *oc, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(oc);
-+    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(oc);
 +    IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
++    SMBusDeviceClass *sc = SMBUS_DEVICE_CLASS(oc);
 +
-+    pdc->vendor_id = PCI_VENDOR_ID_QEMU;
-+    pdc->device_id = PCI_DEVICE_ID_QEMU_IPMI;
-+    pdc->revision = 1;
-+    pdc->class_id = PCI_CLASS_SERIAL_IPMI;
-+
-+    dc->vmsd = &vmstate_PCIIPMIKCSDevice;
-+    dc->desc = "PCI IPMI KCS";
-+    pdc->realize = pci_ipmi_kcs_realize;
-+
-+    iic->get_backend_data = pci_ipmi_kcs_get_backend_data;
-+    ipmi_kcs_class_init(iic);
++    sc->receive_byte = ipmi_receive_byte;
++    sc->write_data = ipmi_write_data;
++    dc->vmsd = &vmstate_smbus_ipmi;
++    dc->realize = smbus_ipmi_realize;
++    iic->set_atn = smbus_ipmi_set_atn;
++    iic->handle_rsp = smbus_ipmi_handle_rsp;
++    iic->handle_if_event = smbus_ipmi_handle_event;
++    iic->set_irq_enable = smbus_ipmi_set_irq_enable;
++    iic->get_fwinfo = smbus_ipmi_get_fwinfo;
 +}
 +
-+static const TypeInfo pci_ipmi_kcs_info = {
-+    .name          = TYPE_PCI_IPMI_KCS,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PCIIPMIKCSDevice),
-+    .instance_init = pci_ipmi_kcs_instance_init,
-+    .class_init    = pci_ipmi_kcs_class_init,
++static const TypeInfo smbus_ipmi_info = {
++    .name          = TYPE_SMBUS_IPMI,
++    .parent        = TYPE_SMBUS_DEVICE,
++    .instance_size = sizeof(SMBusIPMIDevice),
++    .instance_init = smbus_ipmi_init,
++    .class_init    = smbus_ipmi_class_init,
 +    .interfaces = (InterfaceInfo[]) {
 +        { TYPE_IPMI_INTERFACE },
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
 +        { }
 +    }
 +};
 +
-+static void pci_ipmi_kcs_register_types(void)
++static void smbus_ipmi_register_types(void)
 +{
-+    type_register_static(&pci_ipmi_kcs_info);
++    type_register_static(&smbus_ipmi_info);
 +}
 +
-+type_init(pci_ipmi_kcs_register_types)
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 1b840e61a2..f3f0ffd5fb 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -55,6 +55,7 @@ extern bool pci_available;
- /* QEMU/Bochs VGA (0x1234) */
- #define PCI_VENDOR_ID_QEMU               0x1234
- #define PCI_DEVICE_ID_QEMU_VGA           0x1111
-+#define PCI_DEVICE_ID_QEMU_IPMI          0x1112
- 
- /* VMWare (0x15ad) */
- #define PCI_VENDOR_ID_VMWARE             0x15ad
++type_init(smbus_ipmi_register_types)
 -- 
 2.17.1
 
