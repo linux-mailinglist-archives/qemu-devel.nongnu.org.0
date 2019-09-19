@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A684B7FF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:24:58 +0200 (CEST)
-Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7C3B8001
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 19:29:53 +0200 (CEST)
+Received: from localhost ([::1]:46960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB0Aq-0002re-9Z
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50104)
+	id 1iB0Fb-0007He-5n
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 13:29:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50079)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iB06m-0008Ns-NX
+ (envelope-from <alex.bennee@linaro.org>) id 1iB06m-0008Kv-Dg
  for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iAzwk-0004Mo-BZ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:23 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36824)
+ (envelope-from <alex.bennee@linaro.org>) id 1iB05p-0000Qp-Je
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:19:46 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38307)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iAzwk-0004MI-5X
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:10:22 -0400
-Received: by mail-wr1-x436.google.com with SMTP id y19so3938263wrd.3
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:10:22 -0700 (PDT)
+ id 1iB05p-0000QL-Dh
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 13:19:45 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id l11so3959499wrx.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 10:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tblJT4RtEixMQfFRyBeEWlegYmtqzQLK4AhwWipF6ds=;
- b=z8Ezy9WSh8HJaGUWe64aWKbGuLS8CCtrtrg+ZH9LZaPg86K2Pye/CIBYeQ27EaqUoE
- zFB6VyEIWSNK4dEtqOhrKGl5X01eDKpI0VMAYZ4E4cFQPxWoFbEjlbEEYcnXSNsT62aL
- rXGZHt5ZmxmwXo6CYKT588jBk8wfNOapWtOjVLHvB9eGNHwH2FPN6m2a56XstJWA2C5b
- 8PNigtXV6qz/ALYS+shvxFdHP82P7zsEhAM7VGBjHLJNQYQNNpqigL0pFyVGXdXSzjqY
- UoZTgh7rvZOg56wnO0kSSLAEF+ebWTlj2iKm6oOgIEJqOE2Lsx3W6F5br78Nm4GSZqev
- rPkw==
+ bh=ViSX4enI+dJcwOYnkvEKIVP5m0g4W0h9r7phsHaVvOg=;
+ b=fO/EGBtg+Hgg5YwmmBS5OjMtmY/zofAdKarO8oZqAaMzN6VAtXZnHqRU7lgWW3oZ3c
+ aE6rgrAyRSwlmSpgv336tEKQIwy1wZzwYblEPg/y9ucGLKr/TMf7BJTLaq6TmXMdytSt
+ /8wM68ByqWkNNR7GXZEzUiU65XpIIu+SaSO6xAczar18JnsB/nu7sMsGKHSULrs0E8AO
+ Zq8XeJBsc4dI33A3c68CRAaRT/57/+dhH3fXDQ0XoNqHmP/o9knjFZ2sKRh2BbJoH/uV
+ IFPpP0KMO4lPPNYpfbn/oZKcGt9XnEl0TyDw/xeo+im16QX8ponworjvY2wJAWqv/rbJ
+ SkRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tblJT4RtEixMQfFRyBeEWlegYmtqzQLK4AhwWipF6ds=;
- b=Qafy7A1vDwjhd+aRAR9QHHYdefno64fcYp7VZb3dLPhtOqQ7gnk6cHPJ4S7uPpvlV+
- qCuHgYo5o7XZWUG4iiF7EKeKDhB9+RoLApuI8L26P40Xw9zK78a06c30TAo8Nw5VeC9M
- 08hb4iGxVZAZg9yS3m9Dt8OvOZbfoO7LnLl902neXzFw4t3kLUzBm/SPQvIuJdWw4iGJ
- oZeC4t9zto+84oeBzlVYgyj5/WvxkSVngK0KqYLu89n3y99Eco9H000r8t6DnR2tUY51
- VCpDz2H+97NfCyMBY8NQuB4ZtMMBSqadckJvxqlWnARP4EwKrnh2YUlOk3s20ILiYfTk
- Ey4g==
-X-Gm-Message-State: APjAAAVw6dA5I7l2fTjopkMEEUjnWHIw3fhTtu1cYBQT+10PWGEau7n6
- DIi0sGgUWWsUR47FbUeu/6jMCg==
-X-Google-Smtp-Source: APXvYqwh0++D3UTChkg8Agrlg60ftFKvp9PFNyOlnzkSIkF1zMW3gHSx5PTZ2a6yykL2udny0SM7KA==
-X-Received: by 2002:adf:fac3:: with SMTP id a3mr8269280wrs.24.1568913021040;
- Thu, 19 Sep 2019 10:10:21 -0700 (PDT)
+ bh=ViSX4enI+dJcwOYnkvEKIVP5m0g4W0h9r7phsHaVvOg=;
+ b=SIb2TEV0ZaexJFHTojvgIywHrt3icZ4z9vBNZUl9pifdsijYE+HfMXfOlUe4GOlGWa
+ robo8E3hem2wOartLudqLZYtFTKJAYX69EmAR2hxtkQk8tKCU4PhWGCv0ScgNcbwhWo1
+ u33D+pHpjPWBl/4jR8W+HEEUYN3BH3oUNDDRyH2kMNRD7HseLZkns3R4xkXrstAMMa4C
+ 6VIVT9Pl4O7PhH+a87HCkfxPOVw2rpbFDC0fboz82jz+1gd/rYSn3o7iZhzWgoePVbmb
+ N1GdFK60queTPBf0G9FUAfWjDzjqUXFOVjQJ3ffhkSi06XA2szqShQH2zKsM4TYzk9Ng
+ dBgg==
+X-Gm-Message-State: APjAAAWkVZeY+joYMU4KrPLL4jsTR+D6mJqM2PmYmkvHHrPbpQUiy2KQ
+ 7iegmktDOLpw1xthetEarO4trQ==
+X-Google-Smtp-Source: APXvYqxPP2dGkV4DQSqmEOfzk3v8eqeQ6mzlMX6jFVRe5kZ18pgqTHxSvwC2RYtCNCTrVDdu+wQwpg==
+X-Received: by 2002:a5d:40c4:: with SMTP id b4mr8666185wrq.214.1568913584283; 
+ Thu, 19 Sep 2019 10:19:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b184sm10000262wmg.47.2019.09.19.10.10.17
+ by smtp.gmail.com with ESMTPSA id v64sm8979316wmf.12.2019.09.19.10.19.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 10:10:19 -0700 (PDT)
+ Thu, 19 Sep 2019 10:19:40 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1F88B1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id E179F1FF9C;
  Thu, 19 Sep 2019 18:10:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 05/16] podman: fix command invocation
-Date: Thu, 19 Sep 2019 18:10:04 +0100
-Message-Id: <20190919171015.12681-6-alex.bennee@linaro.org>
+Subject: [PATCH  v2 12/16] tests/docker: Add fedora-win10sdk-cross image
+Date: Thu, 19 Sep 2019 18:10:11 +0100
+Message-Id: <20190919171015.12681-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190919171015.12681-1-alex.bennee@linaro.org>
 References: <20190919171015.12681-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,37 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
- John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org, Fam Zheng <fam@euphon.net>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Oops; there's no argv here.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190913193821.17756-1-jsnow@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190919105932.19412-2-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/docker.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/docker/Makefile.include                 |  1 +
+ .../dockerfiles/fedora-win10sdk-cross.docker  | 21 +++++++++++++++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.docker
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 4dca6006d2f..890e874ba93 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -338,7 +338,7 @@ class Docker(object):
-             cmd = [ "-u", str(uid) ] + cmd
-             # podman requires a bit more fiddling
-             if self._command[0] == "podman":
--                argv.insert(0, '--userns=keep-id')
-+                cmd.insert(0, '--userns=keep-id')
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 3fc7a863e51..d796f71b63a 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -125,6 +125,7 @@ docker-image-debian-ppc64-cross: docker-image-debian10
+ docker-image-debian-riscv64-cross: docker-image-debian10
+ docker-image-debian-sh4-cross: docker-image-debian10
+ docker-image-debian-sparc64-cross: docker-image-debian10
++docker-image-fedora-win10sdk-cross: docker-image-fedora
  
-         ret = self._do_check(["run", "--label",
-                              "com.qemu.instance.uuid=" + label] + cmd,
+ docker-image-travis: NOUSER=1
+ 
+diff --git a/tests/docker/dockerfiles/fedora-win10sdk-cross.docker b/tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+new file mode 100644
+index 00000000000..1aafdad483c
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+@@ -0,0 +1,21 @@
++#
++# Docker MinGW64 cross-compiler target with WHPX header installed
++#
++# This docker target builds on the Fedora 30 base image.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++FROM qemu:fedora
++
++# Install headers extracted by the Android folks from the win10sdk.iso:
++# https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk
++ENV WIN10SDK_INCDIR /usr/local/include/win10sdk
++RUN mkdir ${WIN10SDK_INCDIR} && \
++    for hdr in WinHvEmulation.h WinHvPlatformDefs.h WinHvPlatform.h; do \
++        curl -s "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/host/x86_64-w64-mingw32-4.8/+/1bde9c3b14f3a3b081ada6e32da9f2870671b46f/x86_64-w64-mingw32/include/${hdr}?format=TEXT" | base64 --decode > ${WIN10SDK_INCDIR}/${hdr}; \
++    done
++
++ENV QEMU_CONFIGURE_OPTS ${QEMU_CONFIGURE_OPTS} \
++    --cross-prefix=x86_64-w64-mingw32- \
++    --extra-cflags="-I ${WIN10SDK_INCDIR}" --disable-werror \
++    --enable-hax --enable-whpx
 -- 
 2.20.1
 
