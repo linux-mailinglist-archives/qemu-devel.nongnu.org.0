@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E65B78C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:57:26 +0200 (CEST)
-Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2842B78DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 14:04:42 +0200 (CEST)
+Received: from localhost ([::1]:43090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAv3t-0003Ut-1h
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34048)
+	id 1iAvAv-0003Cx-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 08:04:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iAv1K-0001YW-Fo
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:54:47 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iAv07-0007zV-BP
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:53:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iAv1J-0000T4-1w
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:54:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:4081)
+ (envelope-from <mreitz@redhat.com>) id 1iAv04-0007sz-Or
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:53:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48664)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAv1I-0000SN-RH
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:54:45 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iAuzy-0007m9-O3; Thu, 19 Sep 2019 07:53:22 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D355C369AC
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 11:54:43 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id f10so1466596wmh.8
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 04:54:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oZSJkfEIC7y9ibClBt5n6B80dJNhG+DmuFapUmQSFY8=;
- b=jg0FObEinwX3SBw2Q95vnQI41oAG5ugZ3vvZqbvAxax3LGylJymvLFSnIOaVmN70zi
- L3lAAcPrzxrnEqhQ5+cNONxU/MVfEbm41bBnYVj/Vv/JcNgqoCB7HtOW/EBDV21H6Iz/
- VGvJLTTAzI+gg9otA+ptcIHX8Zqg92i4bFwKGqSIXBDmfHQmXe1MJSuSAfOA+LQtIQM6
- rP7LxWIRd3Ljz1i/LIZEVnvtM6JMHvJx2JFOhBvtXF+D/y5pjUWWA37FuuGaawNMYkCA
- cpAFexaDAKmANVJNiSoXhUgUzt+zCjuOSZj63fNYoV/jo9CuQIr22lsYpHCBnR0Lswp9
- Qb8w==
-X-Gm-Message-State: APjAAAWBeU7iOqT2cTYE2/thNTb0DAfyUvOb2x/In9vkKBNqY3iYrKp2
- U0VeWNabm4SGPz3NaJmVmEAqmKk9p6b2D5ielEyhhiGPDEujvtldu9qHyvHcrSZzhFlEo+cfNwr
- YY12vBds8FyArwGI=
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr7331787wrr.142.1568894082481; 
- Thu, 19 Sep 2019 04:54:42 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw+BEIFQTB4rKVw5jZiSspCL39KpO2qcB15nFR/dwbfIVh0pXVTyIL6C9H1H5vTCNSAUkM7Zw==
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr7331758wrr.142.1568894082132; 
- Thu, 19 Sep 2019 04:54:42 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id 17sm9083687wrl.15.2019.09.19.04.54.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Sep 2019 04:54:41 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
-References: <20190919105932.19412-1-philmd@redhat.com>
- <04454c37-ad8b-b69b-3f40-bb78f0c20ef2@weilnetz.de>
- <20190919114152.GK20217@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <982785f8-6864-46cb-dca2-0a9877c2d92e@redhat.com>
-Date: Thu, 19 Sep 2019 13:54:40 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id 8697710CC1F8;
+ Thu, 19 Sep 2019 11:53:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74BFF5D6B0;
+ Thu, 19 Sep 2019 11:52:54 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190918130244.24257-1-vsementsov@virtuozzo.com>
+ <d2a793c1-aae7-6e22-8baa-0c403c111e5c@redhat.com>
+ <e0ba76d9-19cd-2894-b5d8-a19932e2d69d@virtuozzo.com>
+ <9f41abd9-bef6-d7f1-0e52-df14a50cbe38@redhat.com>
+ <7aa85eb5-d765-d337-7f5d-09d7a981253f@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9b1f5c35-b67d-dab2-c0cc-a39e88bc92c0@redhat.com>
+Date: Thu, 19 Sep 2019 13:52:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190919114152.GK20217@redhat.com>
+In-Reply-To: <7aa85eb5-d765-d337-7f5d-09d7a981253f@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Thu, 19 Sep 2019 11:53:21 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] testing: Build WHPX enabled binaries
+Subject: Re: [Qemu-devel] [RFC] error: auto propagated local_err
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,73 +88,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Lucian Petrut <lpetrut@cloudbasesolutions.com>,
- qemu-devel@nongnu.org, Justin Terry <juterry@microsoft.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Ilias Maratos <i.maratos@gmail.com>
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "mst@redhat.com" <mst@redhat.com>, "codyprime@gmail.com" <codyprime@gmail.com>,
+ "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "david@redhat.com" <david@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "groug@kaod.org" <groug@kaod.org>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "kwolf@redhat.com" <kwolf@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
+ "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/19/19 1:41 PM, Daniel P. Berrang=C3=A9 wrote:
-> On Thu, Sep 19, 2019 at 01:18:57PM +0200, Stefan Weil wrote:
->> Am 19.09.2019 um 12:59 schrieb Philippe Mathieu-Daud=C3=A9:
->>> Add a job to cross-build QEMU with WHPX enabled.
+On 19.09.19 12:03, Vladimir Sementsov-Ogievskiy wrote:
+> 19.09.2019 12:33, Max Reitz wrote:
+>> On 19.09.19 11:14, Vladimir Sementsov-Ogievskiy wrote:
+>>> 19.09.2019 11:59, Max Reitz wrote:
+>>>> On 18.09.19 15:02, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> Hi all!
+>>>>>
+>>>>> Here is a proposal (three of them, actually) of auto propagation fo=
+r
+>>>>> local_err, to not call error_propagate on every exit point, when we
+>>>>> deal with local_err.
+>>>>>
+>>>>> It also may help make Greg's series[1] about error_append_hint smal=
+ler.
+>>>>>
+>>>>> See definitions and examples below.
+>>>>>
+>>>>> I'm cc-ing to this RFC everyone from series[1] CC list, as if we li=
+ke
+>>>>> it, the idea will touch same code (and may be more).
+>>>>>
+>>>>> [1]: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03449=
+.html
+>>>>>
+>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.c=
+om>
+>>>>> ---
+>>>>>    include/qapi/error.h | 102 +++++++++++++++++++++++++++++++++++++=
+++++++
+>>>>>    block.c              |  63 ++++++++++++--------------
+>>>>>    block/backup.c       |   8 +++-
+>>>>>    block/gluster.c      |   7 +++
+>>>>>    4 files changed, 144 insertions(+), 36 deletions(-)
+>>>>
+>>>> If the combination of =E2=80=9Cif (local_err) { error_propagate(...)=
+; ... }=E2=80=9D is
+>>>> what=E2=80=99s cumbersome, can=E2=80=99t this be done simpler by add=
+ing an
+>>>> error_propagate() variant with a return value?
+>>>>
+>>>> i.e.
+>>>>
+>>>> bool has_error_then_propagate(Error **errp, Error *err)
+>>>> {
+>>>>       if (!err) {
+>>>>           return false;
+>>>>       }
+>>>>       error_propagate(errp, err);
+>>>>       return true;
+>>>> }
+>>>>
+>>>> And then turn all instances of
+>>>>
+>>>> if (local_err) {
+>>>>       error_propagate(errp, local_err);
+>>>>       ...
+>>>> }
+>>>>
+>>>> into
+>>>>
+>>>> if (has_error_then_propagate(errp, local_err)) {
+>>>>       ...
+>>>> }
+>>>>
+>>>> ?
+>>>>
+>>>> Max
+>>>>
 >>>
->>> Use the Win10SDK headers from the Android Project, as commented
->>> in https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03842.htm=
-l
->>>
->>> Based-on: <20190918121101.30690-1-philmd@redhat.com>
->>> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03844.html
->>>
->>> Philippe Mathieu-Daud=C3=A9 (2):
->>>   tests/docker: Add fedora-win10sdk-cross image
->>>   .shippable.yml: Build WHPX enabled binaries
->>>
->>>  .shippable.yml                                |  2 ++
->>>  tests/docker/Makefile.include                 |  1 +
->>>  .../dockerfiles/fedora-win10sdk-cross.docker  | 21 +++++++++++++++++=
-++
->>>  3 files changed, 24 insertions(+)
->>>  create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.do=
-cker
->>>
+>>> No, originally cumbersome is introducing local_err in a lot of new pl=
+aces by
+>>> Greg's series. MAKE_ERRP_SAFE macro makes it as simple as one macro c=
+all
+>>> instead (in each function where we need local_err).
 >>
->> Please note that the required header files are part of the Win10SDK
->> which is not published under a free license, so I am afraid that they
->> cannot be used with QEMU code to produce free binaries.
+>> Does it need more than one local_err per function?
+>>
+>> Because if it didn=E2=80=99t, I=E2=80=99d find one =E2=80=9CError *loc=
+al_err;=E2=80=9D simpler than one
+>> macro incantation.
+>>
+>> (It has the same LoC, and it makes code readers ask the same question:
+>> =E2=80=9CWhy do we need it?=E2=80=9D  Which has the same answer for bo=
+th; but one is
+>> immediately readable code, whereas the other is a macro.)
 >=20
-> Can you elaborate on why you think that is the case ?
->=20
-> Looking at the 3 header files used, all they contain are struct
-> definitions and integer constants, fortunately no functional
-> code in macros or inline functions. As such, it is questionable
-> whether the headers alone can be considered copyrightable material.
-> Any compatible implementation that follows the WHPX API/ABI will by
-> neccessity be the same, modulo code style.
->=20
-> Further, from a GPL POV, these headers should fall under the system
-> libraries exception, as WHPX is core low level operating system
-> functionality.
->=20
-> There's a valid legal question as to how to we got access to the
-> files in the first place. Assuming they are freely distributable
-> though, given their hosting on Google Android downloads.
->=20
-> So the fact that the headers are not under an open source / free
-> license doesn't look like it should impact the ability to distribute
-> the resulting QEMU binaries.
+> Not the same, you didn't count error_propagate
 
-Are we distributing the resulting binaries?
-I don't think so, we only build until linking in a scratch container and
-discard its content, we don't have access to the container storage via
-Shippable (also Travis). We only use the exit code and the console
-output from the build.
+I did, because it would part of the if () statement in my proposal.
 
-We are not distributing those headers neither, as we currently do not
-distribute the docker images.
+> And your example don't match Greg's case, there no "if (local_err)" in =
+it,
 
-Regards,
+Ah, right, I see.  OK then.
 
-Phil.
+> just "error_append_hint(errp)", which don't work for error_fatal and er=
+ror_abort
+> (Yes, I agree with Kevin, that it should work only for error_fatal)
+
+True.
+
+[...]
+
+>> Now Kevin has given an actual advantage, which is that local_err
+>> complicates debugging.  I=E2=80=99ve never had that problem myself, bu=
+t that
+>> would indeed be an advantage that may warrant some magic.
+
+Although after some more consideration I realized this probably cannot
+be achieved with this series, actually.
+
+Max
 
