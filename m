@@ -2,57 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C246EB7839
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:09:26 +0200 (CEST)
-Received: from localhost ([::1]:42472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14800B7820
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 13:05:34 +0200 (CEST)
+Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAuJR-00025C-U8
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
+	id 1iAuFh-0006Gf-5U
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 07:05:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57044)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iAuBl-0003mb-4R
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:01:30 -0400
+ (envelope-from <philmd@redhat.com>) id 1iAuDK-0005EZ-1Q
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:03:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iAuBg-0006K6-5g
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:01:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34526)
+ (envelope-from <philmd@redhat.com>) id 1iAuDJ-0007cX-5i
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:03:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30210
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1iAuBg-0006Iz-0A; Thu, 19 Sep 2019 07:01:24 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1365518C8935;
- Thu, 19 Sep 2019 11:01:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
- [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A703360C80;
- Thu, 19 Sep 2019 11:01:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9E9081747D; Thu, 19 Sep 2019 13:01:20 +0200 (CEST)
-Date: Thu, 19 Sep 2019 13:01:20 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <20190919110120.l7s4hvpqmcgqofhi@sirius.home.kraxel.org>
-References: <20190914145155.19360-1-chewi@gentoo.org>
- <457c3a3c-d1b3-9f73-e156-24add1347e07@vivier.eu>
- <20190919083708.mwqjq6qzyemqlxpq@sirius.home.kraxel.org>
- <8dad2ef4-87ed-27ca-da22-a9ef4fa87cde@vivier.eu>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iAuDI-0007c9-P9
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 07:03:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1568890983;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=99g3hLnAk0d5Ikj5XS9R91cbufIy1oLhGJR0Fszckoo=;
+ b=RFpGMpFY6HObj/JripzvpVjrVcRTP4fVlFJ7XXR0dhMgrKODSpA7NJtxUBHoXoU71jFU/C
+ /94+5WBNjLEvfJ4Pm4oFnlAO4W3cMQhRxZlPvQKkJuu3RTOVeFngPLeIZvmbgvxzWROxFl
+ ZLlle1pzP8k0/Wr+MCX2w3mGb4a0xBc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-pNXaZqfbNEKQUkHHboStLg-1; Thu, 19 Sep 2019 07:02:59 -0400
+Received: by mail-wm1-f70.google.com with SMTP id l3so1557132wmf.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 04:02:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o8V8PDjgyLEZg73yT/dfos+m3pqZM721NH0eN1Ms3Dw=;
+ b=RCyFIlejdjLpErA2XvKXnpg2auu4NqrKBddGCZRLbE7rg7+X8ULH8a0AOSxZ169b+u
+ jRi1MZO7MtJ7wC4v0Rr2g2O7k0T49IxcQ8OPvQ69D4dIVZXqYr65fD8dv02nqAtX0ofv
+ cmdXQluxPGGQRuGsyrKODHMTvTEBn30WXJAWUm0gYn0AS2+91fl748veMcV5JRKVmVqQ
+ nSjdCTHuoxneUXWvCzt3cIh+HgO1RC7zMmtVMSqPuNRyRup5KvGr9BMnrUVXL7NZXhsw
+ N6l7JmSpeM/PxpkPOq23ckcXU/oN2axcZFkZnonp0jtZJxjUxVp7rTWwUAL/8vJi87Ek
+ 5+Vw==
+X-Gm-Message-State: APjAAAVORztxye81KfbWJGMXTEVKKxPKl3XFanuXHZQwSH+DWjHBu0Mg
+ hH/WXB2b9U/cru/jkQyRRH+pRJCIf8WPwyy6RrN9PHWJyTjCdq+AFbqdxDtHz/gaZy7Nqx1yHNf
+ nfW7etujEI3zjNBQ=
+X-Received: by 2002:a1c:9ec9:: with SMTP id h192mr2406333wme.105.1568890977877; 
+ Thu, 19 Sep 2019 04:02:57 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxkn1/zTrvAY7vR8XbdJzuVlfjgUu08wM22iQ44HMMFh4bv+cmB1LefwS/2Hswv4fJ1MdKAFA==
+X-Received: by 2002:a1c:9ec9:: with SMTP id h192mr2406321wme.105.1568890977737; 
+ Thu, 19 Sep 2019 04:02:57 -0700 (PDT)
+Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id d22sm3940484wmb.44.2019.09.19.04.02.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Sep 2019 04:02:57 -0700 (PDT)
+To: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20190919105932.19412-1-philmd@redhat.com>
+ <20190919105932.19412-3-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d89a1e52-af32-dce8-4b95-288520472783@redhat.com>
+Date: Thu, 19 Sep 2019 13:02:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <8dad2ef4-87ed-27ca-da22-a9ef4fa87cde@vivier.eu>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Thu, 19 Sep 2019 11:01:22 +0000 (UTC)
+In-Reply-To: <20190919105932.19412-3-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: pNXaZqfbNEKQUkHHboStLg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] configure: Add xkbcommon
- configure options
+X-Received-From: 207.211.31.81
+Subject: Re: [Qemu-devel] [PATCH 2/2] .shippable.yml: Build WHPX enabled
+ binaries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,69 +94,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, James Le Cuirot <chewi@gentoo.org>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Stefan Weil <sw@weilnetz.de>,
+ Lucian Petrut <lpetrut@cloudbasesolutions.com>,
+ Ilias Maratos <i.maratos@gmail.com>, Justin Terry <juterry@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 12:16:43PM +0200, Laurent Vivier wrote:
-> Le 19/09/2019 =E0 10:37, Gerd Hoffmann a =E9crit=A0:
-> > On Mon, Sep 16, 2019 at 10:15:15AM +0200, Laurent Vivier wrote:
-> >> Le 14/09/2019 =E0 16:51, James Le Cuirot a =E9crit=A0:
-> >>> This dependency is currently "automagic", which is bad for distribu=
-tions.
-> >>>
-> >>> Signed-off-by: James Le Cuirot <chewi@gentoo.org>
-> >>> ---
-> >>>  configure | 5 +++++
-> >>>  1 file changed, 5 insertions(+)
-> >>>
-> >>> diff --git a/configure b/configure
-> >>> index 30aad233d1..30544f52e6 100755
-> >>> --- a/configure
-> >>> +++ b/configure
-> >>> @@ -1521,6 +1521,10 @@ for opt do
-> >>>    ;;
-> >>>    --disable-libpmem) libpmem=3Dno
-> >>>    ;;
-> >>> +  --enable-xkbcommon) xkbcommon=3Dyes
-> >>> +  ;;
-> >>> +  --disable-xkbcommon) xkbcommon=3Dno
-> >>> +  ;;
-> >>>    *)
-> >>>        echo "ERROR: unknown option $opt"
-> >>>        echo "Try '$0 --help' for more information"
-> >>> @@ -1804,6 +1808,7 @@ disabled with --disable-FEATURE, default is e=
-nabled if available:
-> >>>    capstone        capstone disassembler support
-> >>>    debug-mutex     mutex debugging support
-> >>>    libpmem         libpmem support
-> >>> +  xkbcommon       xkbcommon support
-> >>> =20
-> >>>  NOTE: The object files are built at the place where configure is l=
-aunched
-> >>>  EOF
-> >>>
-> >>
-> >> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> >>
-> >> cc: Gerd Hoffmann <kraxel@redhat.com>
-> >=20
-> > Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> >=20
+On 9/19/19 12:59 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  .shippable.yml | 2 ++
+>  1 file changed, 2 insertions(+)
 >=20
-> Gerd,
+> diff --git a/.shippable.yml b/.shippable.yml
+> index bbc6f88510..01b33bd034 100644
+> --- a/.shippable.yml
+> +++ b/.shippable.yml
+> @@ -25,6 +25,8 @@ env:
+>        TARGET_LIST=3Dmips64el-softmmu,mips64el-linux-user
+>      - IMAGE=3Ddebian-ppc64el-cross
+>        TARGET_LIST=3Dppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
+> +    - IMAGE=3Dfedora-win10sdk-cross
+> +      TARGET_LIST=3Dx86_64-softmmu,i386-softmmu
+
+Note for Alex, if this patch is accepted, I think we can remove
+x86_64-softmmu from TARGET_LIST in the debian-win64-cross job, since
+this one duplicates it (and even covers more).
+
+>  build:
+>    pre_ci:
+>      # usually host ARCH is set by configure
 >=20
-> do you take this through your ui branch or should I take through the
-> trivial patches branch?
 
-Trivial branch is fine (have not picked this up b/c I saw qemu-trivial
-on cc).
-
-cheers,
-  Gerd
-
->=20
-> Thanks,
-> Laurent
 
