@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17DFB8820
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 01:38:23 +0200 (CEST)
-Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B311CB881B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 01:37:01 +0200 (CEST)
+Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB60E-0006s6-PU
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 19:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39283)
+	id 1iB5yu-0004nr-Kf
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 19:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39298)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iB5s9-0006Jv-Vl
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:03 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iB5sB-0006L3-DN
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iB5s8-0000l9-QQ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:01 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39637)
+ (envelope-from <richard.henderson@linaro.org>) id 1iB5sA-0000lq-4X
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:03 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42686)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iB5s8-0000kg-Kg
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:00 -0400
-Received: by mail-pg1-x544.google.com with SMTP id u17so2734856pgi.6
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 16:30:00 -0700 (PDT)
+ id 1iB5s9-0000lQ-Tp
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:02 -0400
+Received: by mail-pg1-x544.google.com with SMTP id z12so2722886pgp.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 16:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rPvPWOfw9gxBJUIgR2g0hYWJxDjG7PfgkcfZjjTlu/I=;
- b=dNgytJWu3DysilndtjVQ/G7mr/w5sHBC6L9k/4mLvM9lNAp0Q87LNCJbKLDdu9YMlZ
- ECO8Ed6likncOc70MbwGpKuPiO4ZovS09XzfiWiKLanRkpmeGqijIVBZn9/7eLPbdTjI
- iDR6TdNJlS+1DEUfkYsU4ZEVYvWZYi95RI0lGs0Trrl8mDYwaoxt30NJIy/ukVmkTKi1
- m1Vqh4y1cNPVH8m3+v4K4BqiKYbAG4UfqNEhndHqCppX6vvRTpAr4yhnKAcOHL7U8/al
- 6b+4y/8a39dHndeTfago1M+PKL/XzK1qkQ3oNsLDF+aQzdquXs+VV/RgXBCyejLDfxmh
- /tIA==
+ bh=3xo3uadk4TAHtPwy0OEr5aDTmDZwQ+SU4GyeG6+uHcw=;
+ b=a46hdUq/Uplx3ALd41T3Y825t5C6Ac10mta7RtSqNUsbENNIPYV48/5HZE9t4RhCHt
+ LvPkx4U3VY+Cbgg0/igei+MbVxlOnXPO5d2lpLASe0AYRqLy9VSoO7it8Pl7YIiuoncX
+ bilSp+Z753KWPwh3p0tGBicHbGZQ68m/APNXzbxB/wXlFvbcQQYpJpfjTCuS2XoZv9DB
+ MCAJCFaAog/R0G8ge4Qf1z6p8pPK/uswNDCIs0T9p3QVfag2l9Y28MmlXGnwa/2Xm/S7
+ XShD9lxQybseO7V3Ru9vaFbrXPQSYYssK6vtyhqbq50O+HV3EzqWhM5OgkKR9d1weoyB
+ e5hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=rPvPWOfw9gxBJUIgR2g0hYWJxDjG7PfgkcfZjjTlu/I=;
- b=SFgDi/CwvRl9i24uGviXEmTPC6AlAyG3fgR84fmfdJ0wSb/iQURoz02XqHuA4Zlnsr
- nmbG85POPzEzNEZk4ydkgLubLiFcmu3fvt2Jnc1m0NJnEf3feDBEGjpl3nKkgpFMLVHI
- dWtJVknzF/wvGZmZC/mujMHOT4ZbiN3dNVDw9z8i5REGqWxvGrVbf2OY5sLkrpU4fCcY
- Cg+ocgrGezuyluDnWcx4lRzKdH1PlT/jNyeIjCfQfXn8FutHYphNFsRWUV9+uCeQopad
- qFJfaW/d45jpv9AiCYv5SO0k30rK0R356uTjB7x40sdwSHmOq2gigoMF63wM8qnf5CFi
- 9hdA==
-X-Gm-Message-State: APjAAAWaOCXZyppp+QpZ6bjOlLqdBFbGJ6dzaItq0q/vQN5hKKLWvCmm
- e2SBDOIsHPPc/2RZLpAMAQzz6+ih8ok=
-X-Google-Smtp-Source: APXvYqwwKD41Bg75H1C+OpoqU3JFXgkQSjsoBOWiN2ZsJr1bhJ335I4+0vWWo+GtQOOzY9vmrtEwEQ==
-X-Received: by 2002:a63:1918:: with SMTP id z24mr11162633pgl.94.1568935799385; 
- Thu, 19 Sep 2019 16:29:59 -0700 (PDT)
+ bh=3xo3uadk4TAHtPwy0OEr5aDTmDZwQ+SU4GyeG6+uHcw=;
+ b=p8TLCnPwBH260VjDXKdcBiCN6Z+KoXALsu0OkY0fuwKONdz5GDrALJnCCdjRsLB2jW
+ WxG1jG1jicHBZiHVf59K9g2JeScOYuqhkzYSCKSkcXSDzqX788Jt0Ib2nVCiZIqr5hlF
+ aXYWdIoFXCrCtgsdk9gvk11z378wVF8MNV5aZ1nQRHHHBD/OVzkfMMgJm56K+B0/PY6o
+ ZvScqGKlmlbkbNDnuU2mcdOl6X5qjwtfzFNW8ydoT6Qlq/4vAEAT/pdCfMisLYTGjtdW
+ 4ReKO9YAYWBY9jlg6rKCHF6wTQ3GeVabe/aIpPKQVGIlV3V9oLZG9bYCBBIz+TOmzd+J
+ 7B+g==
+X-Gm-Message-State: APjAAAUGWCdKa5jYiyaHfV1cmut8SM8R/BL4vlMDPIuDmNsVrC63jQTj
+ iPUB1knq20vcLcOBQE9MpvuphlRXb+M=
+X-Google-Smtp-Source: APXvYqyse6//CGLyn6zPRTDp6ATheHlIB2fOeLsOzYV+PUVjXpsOu8fOQbThdi/BgXuXJ5HmIfzWEQ==
+X-Received: by 2002:a63:225f:: with SMTP id t31mr11575495pgm.50.1568935800607; 
+ Thu, 19 Sep 2019 16:30:00 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id h8sm103340pfo.64.2019.09.19.16.29.58
+ by smtp.gmail.com with ESMTPSA id h8sm103340pfo.64.2019.09.19.16.29.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 16:29:58 -0700 (PDT)
+ Thu, 19 Sep 2019 16:30:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] exec: Restrict TARGET_PAGE_BITS_VARY assert to
- CONFIG_DEBUG_TCG
-Date: Thu, 19 Sep 2019 16:29:49 -0700
-Message-Id: <20190919232952.6382-5-richard.henderson@linaro.org>
+Subject: [PATCH 5/7] exec: Promote TARGET_PAGE_MASK to target_long
+Date: Thu, 19 Sep 2019 16:29:50 -0700
+Message-Id: <20190919232952.6382-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190919232952.6382-1-richard.henderson@linaro.org>
 References: <20190919232952.6382-1-richard.henderson@linaro.org>
@@ -80,31 +79,31 @@ Cc: pbonzini@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reduces the size of a release build by about 10k.
-Noticably, within the tlb miss helpers.
+There are some uint64_t uses that expect TARGET_PAGE_MASK to
+extend for a 32-bit, so this must continue to be a signed type.
+Define based on TARGET_PAGE_BITS not TARGET_PAGE_SIZE; this
+will make a following patch more clear.
+
+This should not have a functional effect so far.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ include/exec/cpu-all.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index a53b761b48..b11ee1f711 100644
+index b11ee1f711..34d36cebca 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -215,7 +215,11 @@ typedef struct {
-     int bits;
- } TargetPageBits;
- extern const TargetPageBits target_page;
--#define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
-+# ifdef CONFIG_DEBUG_TCG
-+#  define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
-+# else
-+#  define TARGET_PAGE_BITS target_page.bits
-+# endif
- #else
- #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
+@@ -225,7 +225,7 @@ extern const TargetPageBits target_page;
  #endif
+ 
+ #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
+-#define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
++#define TARGET_PAGE_MASK ((target_long)-1 << TARGET_PAGE_BITS)
+ #define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) & TARGET_PAGE_MASK)
+ 
+ /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
 -- 
 2.17.1
 
