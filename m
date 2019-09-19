@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0947B7585
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 10:56:52 +0200 (CEST)
-Received: from localhost ([::1]:40368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5C5B7597
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 10:59:32 +0200 (CEST)
+Received: from localhost ([::1]:40394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAsF9-0002ye-Ad
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 04:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35831)
+	id 1iAsHi-0005wK-Qn
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 04:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iArvk-000595-4r
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:52 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iArvp-0005C9-LW
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iArvg-0000H1-Af
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41100)
+ (envelope-from <kraxel@redhat.com>) id 1iArvk-0000JD-7d
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37054)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iArvf-0000GL-UK
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:44 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iArvj-0000Ho-0z
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 04:36:47 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E2CB630832C8;
- Thu, 19 Sep 2019 08:36:42 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9A48188383D
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 08:36:45 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
  [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D904360C18;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBEEF1001B2C;
  Thu, 19 Sep 2019 08:36:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 915981FCC2; Thu, 19 Sep 2019 10:36:30 +0200 (CEST)
+ id A36921FCCE; Thu, 19 Sep 2019 10:36:30 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 19 Sep 2019 10:36:27 +0200
-Message-Id: <20190919083629.29998-25-kraxel@redhat.com>
+Date: Thu, 19 Sep 2019 10:36:29 +0200
+Message-Id: <20190919083629.29998-27-kraxel@redhat.com>
 In-Reply-To: <20190919083629.29998-1-kraxel@redhat.com>
 References: <20190919083629.29998-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 19 Sep 2019 08:36:42 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Thu, 19 Sep 2019 08:36:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 24/26] usbaudio: change playback counters to 64
- bit
+Subject: [Qemu-devel] [PULL 26/26] audio: fix ALSA period-length typo in
+ documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,83 +56,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kővágó@redhat.com, =?UTF-8?q?Zolt=C3=A1n?= <DirtY.iCE.hu@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-With stereo playback, they need about 375 minutes of continuous audio
-playback to overflow, which is usually not a problem (as stopping and
-later resuming playback resets the counters).  But with 7.1 audio, they
-only need about 95 minutes to overflow.
-
-After the overflow, the buf->prod % USBAUDIO_PACKET_SIZE(channels)
-assertion no longer holds true, which will result in overflowing the
-buffer.  With 64 bit variables, it would take about 762000 years to
-overflow.
-
-Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
->
-Message-id: c0a8d934c145bab55506e0623cc0206e2632a196.1568574965.git.DirtY=
-.iCE.hu@gmail.com
+Fixes: f0b3d811529 ("audio: -audiodev command line option: documentation")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20190918095335.7646-4-stefanha@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-audio.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
-index e42bdfbdc101..ea604bbb8e4a 100644
---- a/hw/usb/dev-audio.c
-+++ b/hw/usb/dev-audio.c
-@@ -578,9 +578,9 @@ static const USBDesc desc_audio_multi =3D {
-=20
- struct streambuf {
-     uint8_t *data;
--    uint32_t size;
--    uint32_t prod;
--    uint32_t cons;
-+    size_t size;
-+    uint64_t prod;
-+    uint64_t cons;
- };
-=20
- static void streambuf_init(struct streambuf *buf, uint32_t size,
-@@ -601,7 +601,7 @@ static void streambuf_fini(struct streambuf *buf)
-=20
- static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t c=
-hannels)
- {
--    uint32_t free =3D buf->size - (buf->prod - buf->cons);
-+    int64_t free =3D buf->size - (buf->prod - buf->cons);
-=20
-     if (free < USBAUDIO_PACKET_SIZE(channels)) {
-         return 0;
-@@ -610,6 +610,8 @@ static int streambuf_put(struct streambuf *buf, USBPa=
-cket *p, uint32_t channels)
-         return 0;
-     }
-=20
-+    /* can happen if prod overflows */
-+    assert(buf->prod % USBAUDIO_PACKET_SIZE(channels) =3D=3D 0);
-     usb_packet_copy(p, buf->data + (buf->prod % buf->size),
-                     USBAUDIO_PACKET_SIZE(channels));
-     buf->prod +=3D USBAUDIO_PACKET_SIZE(channels);
-@@ -618,10 +620,10 @@ static int streambuf_put(struct streambuf *buf, USB=
-Packet *p, uint32_t channels)
-=20
- static uint8_t *streambuf_get(struct streambuf *buf, size_t *len)
- {
--    uint32_t used =3D buf->prod - buf->cons;
-+    int64_t used =3D buf->prod - buf->cons;
-     uint8_t *data;
-=20
--    if (!used) {
-+    if (used <=3D 0) {
-         *len =3D 0;
-         return NULL;
-     }
---=20
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e9417e6561b8..877edc677160 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -446,7 +446,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+ #ifdef CONFIG_AUDIO_ALSA
+     "-audiodev alsa,id=id[,prop[=value][,...]]\n"
+     "                in|out.dev= name of the audio device to use\n"
+-    "                in|out.period-len= length of period in microseconds\n"
++    "                in|out.period-length= length of period in microseconds\n"
+     "                in|out.try-poll= attempt to use poll mode\n"
+     "                threshold= threshold (in microseconds) when playback starts\n"
+ #endif
+@@ -552,7 +552,7 @@ ALSA specific options are:
+ Specify the ALSA @var{device} to use for input and/or output.  Default
+ is @code{default}.
+ 
+-@item in|out.period-len=@var{usecs}
++@item in|out.period-length=@var{usecs}
+ Sets the period length in microseconds.
+ 
+ @item in|out.try-poll=on|off
+-- 
 2.18.1
 
 
