@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3479BB778F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:37:20 +0200 (CEST)
-Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B30B7781
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Sep 2019 12:33:57 +0200 (CEST)
+Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iAtoN-0003AJ-8T
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:37:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53077)
+	id 1iAtl5-0007Ux-GG
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 06:33:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iAtgP-0002zu-1D
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:29:06 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iAtiC-0005Aa-SF
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:30:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iAtgN-0003Z3-Or
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:29:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:5430)
+ (envelope-from <stefanha@redhat.com>) id 1iAtiB-0004YE-O4
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:30:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40954)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtgN-0003Yn-IX
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:29:03 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iAtiB-0004Xx-HZ
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 06:30:55 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B6A53C057E9F;
- Thu, 19 Sep 2019 10:29:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C2544308FC4D;
+ Thu, 19 Sep 2019 10:30:54 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CB5919C5B;
- Thu, 19 Sep 2019 10:28:59 +0000 (UTC)
-Date: Thu, 19 Sep 2019 11:28:58 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F01E819C6A;
+ Thu, 19 Sep 2019 10:30:47 +0000 (UTC)
+Date: Thu, 19 Sep 2019 11:30:46 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190919102858.GJ3606@stefanha-x1.localdomain>
+Message-ID: <20190919103046.GK3606@stefanha-x1.localdomain>
 References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-7-alxndr@bu.edu>
+ <20190918231846.22538-9-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="07FIeBX8hApXX6Bi"
+ protocol="application/pgp-signature"; boundary="k18oBAwMkTg3OUap"
 Content-Disposition: inline
-In-Reply-To: <20190918231846.22538-7-alxndr@bu.edu>
+In-Reply-To: <20190918231846.22538-9-alxndr@bu.edu>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Thu, 19 Sep 2019 10:29:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Thu, 19 Sep 2019 10:30:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 06/22] fuzz: add configure flag
- --enable-fuzzing
+Subject: Re: [Qemu-devel] [PATCH v3 08/22] module: check module wasn't
+ already initialized
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,79 +66,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---07FIeBX8hApXX6Bi
+--k18oBAwMkTg3OUap
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 11:19:33PM +0000, Oleinik, Alexander wrote:
+On Wed, Sep 18, 2019 at 11:19:35PM +0000, Oleinik, Alexander wrote:
+> The virtual-device fuzzer must initialize QOM, prior to running
+> vl:qemu_init, so that it can use the qos_graph to identify the arguments
+> required to initialize a guest for libqos-assisted fuzzing. This change
+> prevents errors when vl:qemu_init tries to (re)initialize the previously
+> initialized QOM module.
+>=20
 > Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 > ---
->  configure | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/configure b/configure
-> index 30aad233d1..775f46f55a 100755
-> --- a/configure
-> +++ b/configure
-> @@ -498,6 +498,7 @@ libxml2=3D""
->  debug_mutex=3D"no"
->  libpmem=3D""
->  default_devices=3D"yes"
-> +fuzzing=3D"no"
-> =20
->  supported_cpu=3D"no"
->  supported_os=3D"no"
-> @@ -1521,6 +1522,8 @@ for opt do
->    ;;
->    --disable-libpmem) libpmem=3Dno
->    ;;
-> +  --enable-fuzzing) fuzzing=3Dyes
-> +  ;;
+>  util/module.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-Please add --disable-fuzzing, the ./configure script says:
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-  # Always add --enable-foo and --disable-foo command line args.
-
->    *)
->        echo "ERROR: unknown option $opt"
->        echo "Try '$0 --help' for more information"
-> @@ -6429,6 +6432,7 @@ echo "capstone          $capstone"
->  echo "libpmem support   $libpmem"
->  echo "libudev           $libudev"
->  echo "default devices   $default_devices"
-> +echo "fuzzing support   $fuzzing"
-> =20
->  if test "$supported_cpu" =3D "no"; then
->      echo
-> @@ -7258,6 +7262,10 @@ fi
->  if test "$sheepdog" =3D "yes" ; then
->    echo "CONFIG_SHEEPDOG=3Dy" >> $config_host_mak
->  fi
-> +if test "$fuzzing" =3D "yes" ; then
-> +  FUZZ_LDFLAGS=3D" -fsanitize=3Daddress,fuzzer"
-> +  FUZZ_CFLAGS=3D" -fsanitize=3Daddress,fuzzer"
-> +fi
-
-Is -fsanitize=3Dfuzzer a clang-only option?  If yes, then please ensure
-that there is a friendly error message when ./configure is run with gcc.
-You could probe if -fsanitize=3Dfuzzer works and then check that
-fuzzing=3Dno when this feature is unavailable.
-
---07FIeBX8hApXX6Bi
+--k18oBAwMkTg3OUap
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DWGoACgkQnKSrs4Gr
-c8irbAf+KSkxNsRW2N+HFIUxh54gGgKarGbDilKTOeDG9yGvZnKETjb0Yz02sLET
-iIX5OQjzcWqE9Vetvghyw1IOoL+iWZteHStAah4zfBqSOYA62YSXqDLKBzOCIbZu
-5s7beSj9SuqvROSH5XSLnIzw7OVWgqigRf6Qj3DbtIbJu8U28PX3v8UoPT8uKxBl
-yO/uHUHyD8UUpAFIy+HGm5ZLn27e9zoKLMGNVnC4yxqHiGxnIr4cUbnFouutgGik
-b2Xe2EwH1z2p/LL4luIuPnz87frUrxkCJOVKoa7EIUIDOcNxbUqTqtXneLiEh/0s
-dmqTV3S8M1RmA/RYzbmm3zTWgCVsnA==
-=aerc
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2DWNYACgkQnKSrs4Gr
+c8hYTAgAubYlptHJRH9RB47G35ZPR659x0R2LYa1r9KJieMX1UNGusZcXkk1W+SG
+Rivv27g5MSYcZJybyuJ3AZESJVbqzNzYbGpbLuX+Q9weXAY+tmitRu2fx8Rdyd49
+zlxCOwk5GZ/3WwOs1zN59iCzXVirmR3reC19zvVLxM2ImdFYWFSMmgw26AL4X47D
+Y4w6NW+eEMkphCF4H+FIqnBssevQPtAASiHtVkX6ATwjQNCeaIgtP8mA1UoTah00
+MDYkO3r2I7FeFWU0G/FNhVyDLBSlurUGgtp+9XFZ8JIj60AUqrhKKGFfI07WBeqw
+NRMaatVbS8ScQqxytFHw2sm27py7tg==
+=MRll
 -----END PGP SIGNATURE-----
 
---07FIeBX8hApXX6Bi--
+--k18oBAwMkTg3OUap--
 
