@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA69EB975C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 20:49:32 +0200 (CEST)
-Received: from localhost ([::1]:34666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1B9B9760
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 20:51:55 +0200 (CEST)
+Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBNyF-0007mQ-Hp
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 14:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53308)
+	id 1iBO0Y-0001Np-KC
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 14:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53860)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iBNwW-00073o-H6
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:47:46 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iBNyk-0000GY-3B
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:50:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iBNwV-0003RF-Eo
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:47:44 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:35155)
+ (envelope-from <alistair23@gmail.com>) id 1iBNyi-00051h-Oe
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:50:01 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35809)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iBNwV-0003NJ-3q; Fri, 20 Sep 2019 14:47:43 -0400
-Received: by mail-lf1-x142.google.com with SMTP id w6so5749294lfl.2;
- Fri, 20 Sep 2019 11:47:42 -0700 (PDT)
+ id 1iBNyi-00051M-Gy
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:50:00 -0400
+Received: by mail-lj1-x243.google.com with SMTP id m7so8074515lji.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 11:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rnFGOHnHSmx+gH8pWbprb1CW/SxRheV3caXJkoIiCzY=;
- b=YS2evtAUM6y2aGPOPa1089EIes7ZyrD6K225uJ18Tmelojl7Nc46cCBuD+1Wky4te4
- vrwJOtQ+9sm1wXyc2RbE7z2dQyzDGK2nKRfE/er+omkNPuZAbe6mjBO6kDJaxDdPxgYN
- cCq6tXGM6pGPRfqbv+5Dc9yTngG7WvC/pzc/W/jptcKkWwjlQeOPPbnm/RkM2vgkuvAE
- JRB5LQmBkjRS2L9PlZlHZLXqF3hkdWW4g5yin3lv9lYtDcUiTYpdp0FwbSuwWyHSB2Sl
- 5TKnYKDrc+WBjopCeg+C9/qujXZpAs560/FhRVD8gBBTlxfqEGoc9lBbyDYXNRLu+Unr
- UuQw==
+ :cc; bh=VbEgoFgtwbLwBLi/Z5fRf6m51jP1tfd7k4yqNpjwsUY=;
+ b=JcO8jRsze3uzifnvnfKMIOf0oFHzbXMajhongLr1i7PChRk0F/xv2IvP5yJncLHXUL
+ AbHstR8lClLku6btJ/T3dCaHSY3pioFV8OPGsRHvvOfOTA2adQRf++tAKzojMkI+bols
+ zxIn7KFgE6XfgsYcquUdxFVHwZqbE74TwUzBwvzdOtA/OQt7s2OJ9YpXLxWRxUYAfkgj
+ wqFx1VrSNqGODTyb6dyvUPNX/TGBIPyDXad8b+P2TrNp2HNDo+pJft7DkNfGhcziWF47
+ oLfuFASqYQ6IWide4WHekcysJp3/0X9ma7memKZKIgaZB8iuUVkavTJJgaQgV6IfJPu4
+ Gvcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rnFGOHnHSmx+gH8pWbprb1CW/SxRheV3caXJkoIiCzY=;
- b=TR63kUahnpaSlyla9Adf5H7AOvuU/k5FRYFeFcTjIuMDzuFfOdV33MGSERw2uxooKM
- kI0nj+FydCKOuUSJG3n86XBr3pnhgkIBBuKpTc+lmVkClqDogzigxWKQYncNNKyEHidc
- eSXQ82+KbWkYhwP03Zsgr9HJG7e4ncvTXKCPpntt3TlA8Ws80kjD4atj03yo/ydbedKa
- aIe9XKCf32ijp4rPomYCbLOtiuPOV+4yuQGgHNHitnhz5653OV36aremXqcjSKh23OoL
- lk1h6P5wnFR/3DJdpmGICgvsB3FH2WxBpqYIzkUYegGpXeqF2yt8HcCHQSLEDJt3MkFH
- GwQw==
-X-Gm-Message-State: APjAAAWNwgSDL1rRpV91OX0ZnzGAoiNWD07fVu5/BnB/AcAFLuY3K60O
- WYQKzh1AEHa70mSslThA41KirVb/X3aL8IM/0kw=
-X-Google-Smtp-Source: APXvYqwrvTxVmlB3g+zYmarQJmvXonLkXwX95FW/DkO5q5gAnHeC/I0tpWjQx0euwbwLaiJgTyFJDEGWi1bNnFPu110=
-X-Received: by 2002:ac2:484a:: with SMTP id 10mr3388328lfy.135.1569005260940; 
- Fri, 20 Sep 2019 11:47:40 -0700 (PDT)
+ bh=VbEgoFgtwbLwBLi/Z5fRf6m51jP1tfd7k4yqNpjwsUY=;
+ b=R2hKwhmgQ3kW+Z/luxpMYvN9twEkQllS/SMwR8vGMusLIlmQtWxMNk+agjMtqRlv2q
+ FIEjo2cPpgS3CRMZ2+zhIgHFaUt7M6BlIiUJGavW9thuS0HMhIKRauaposvcmvc/Vc/R
+ lB4x9GK6WAbXuH2PJ9qGdZLVcpuOVSEx3RyijxLGNbmkez8+usj07odQrfd5PvvxtHdq
+ nXBuFevSZwusHEBk2fi7UV8bkrY4XYc5h4ZRuiAqSxBhAnHL6Htcj9V/sX67WueEPojR
+ 4A8uTUoyW0Xm9u1WmdukFWY/F8aplTO4O5dBlPvS52n8NyuwEMr6m60WfvU3NtPeVM8A
+ pgiw==
+X-Gm-Message-State: APjAAAVxGns3B2JyKk423xAKnrruBr+DkTVkPg53nyzi6qUYXYPfsRgf
+ ku+jgwy3ck7Au0vJ22YZNVbImGQS2916xhpxC5U=
+X-Google-Smtp-Source: APXvYqwIS1CUnxJ+5ZGCqNSqZqPeqP3Bm5Ng8GyC1AWRJU80Azwn7c1Hsn/0Naq4ujNfWZeH/X0A62aapdZQGDMKKZI=
+X-Received: by 2002:a2e:91c7:: with SMTP id u7mr9643752ljg.146.1569005398912; 
+ Fri, 20 Sep 2019 11:49:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <1568990834-9371-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1568990834-9371-1-git-send-email-bmeng.cn@gmail.com>
+References: <20190920125008.13604-1-peter.maydell@linaro.org>
+In-Reply-To: <20190920125008.13604-1-peter.maydell@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 20 Sep 2019 11:43:05 -0700
-Message-ID: <CAKmqyKMFUs_KsR7JJbnWF=inCfd1o6ebCa4s++JkPJK71r=+kg@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Skip checking CSR privilege level in debugger mode
-To: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 20 Sep 2019 11:45:23 -0700
+Message-ID: <CAKmqyKOZdwGe-HM7YxAaTgEGOesaLBQxwMtRRF1=k1qqF-B14Q@mail.gmail.com>
+Subject: Re: [PATCH] Remove unassigned_access CPU hook
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::142
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,54 +71,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Zong Li <zong.li@sifive.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 20, 2019 at 7:48 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Fri, Sep 20, 2019 at 5:52 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> If we are in debugger mode, skip the CSR privilege level checking
-> so that we can read/write all CSRs. Otherwise we get:
+> All targets have now migrated away from the old unassigned_access
+> hook to the new do_transaction_failed hook. This means we can remove
+> the core-code infrastructure for that hook and the code that calls it.
 >
-> (gdb) p/x $mtvec
-> Could not fetch register "mtvec"; remote failure reply 'E14'
->
-> when the hart is currently in S-mode.
->
-> Reported-by: Zong Li <zong.li@sifive.com>
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
+> Based-on: <cover.1568762497.git.alistair.francis@wdc.com>
+> ("[PATCH v1 0/2] RISC-V: Convert to do_transaction_failed hook")
+>  -- the last of the conversions isn't in master yet, but I figured
+> I might as well put the cleanup patch out for review.
 >
->  target/riscv/csr.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  include/hw/core/cpu.h | 24 ------------------------
+>  accel/tcg/cputlb.c    |  1 -
+>  memory.c              |  7 -------
+>  3 files changed, 32 deletions(-)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index f767ad2..974c9c2 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -801,7 +801,10 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
->  #if !defined(CONFIG_USER_ONLY)
->      int csr_priv = get_field(csrno, 0x300);
->      int read_only = get_field(csrno, 0xC00) == 3;
-> -    if ((write_mask && read_only) || (env->priv < csr_priv)) {
-> +    if ((!env->debugger) && (env->priv < csr_priv)) {
-> +        return -1;
-> +    }
-> +    if (write_mask && read_only) {
->          return -1;
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index c7cda65c66d..a5a13e26a20 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -71,10 +71,6 @@ typedef enum MMUAccessType {
+>
+>  typedef struct CPUWatchpoint CPUWatchpoint;
+>
+> -typedef void (*CPUUnassignedAccess)(CPUState *cpu, hwaddr addr,
+> -                                    bool is_write, bool is_exec, int opaque,
+> -                                    unsigned size);
+> -
+>  struct TranslationBlock;
+>
+>  /**
+> @@ -86,8 +82,6 @@ struct TranslationBlock;
+>   * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
+>   * @has_work: Callback for checking if there is work to do.
+>   * @do_interrupt: Callback for interrupt handling.
+> - * @do_unassigned_access: Callback for unassigned access handling.
+> - * (this is deprecated: new targets should use do_transaction_failed instead)
+>   * @do_unaligned_access: Callback for unaligned access handling, if
+>   * the target defines #TARGET_ALIGNED_ONLY.
+>   * @do_transaction_failed: Callback for handling failed memory transactions
+> @@ -174,7 +168,6 @@ typedef struct CPUClass {
+>      int reset_dump_flags;
+>      bool (*has_work)(CPUState *cpu);
+>      void (*do_interrupt)(CPUState *cpu);
+> -    CPUUnassignedAccess do_unassigned_access;
+>      void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+>                                  MMUAccessType access_type,
+>                                  int mmu_idx, uintptr_t retaddr);
+> @@ -414,12 +407,6 @@ struct CPUState {
+>       */
+>      uintptr_t mem_io_pc;
+>      vaddr mem_io_vaddr;
+> -    /*
+> -     * This is only needed for the legacy cpu_unassigned_access() hook;
+> -     * when all targets using it have been converted to use
+> -     * cpu_transaction_failed() instead it can be removed.
+> -     */
+> -    MMUAccessType mem_io_access_type;
+>
+>      int kvm_fd;
+>      struct KVMState *kvm_state;
+> @@ -879,17 +866,6 @@ void cpu_interrupt(CPUState *cpu, int mask);
+>  #ifdef NEED_CPU_H
+>
+>  #ifdef CONFIG_SOFTMMU
+> -static inline void cpu_unassigned_access(CPUState *cpu, hwaddr addr,
+> -                                         bool is_write, bool is_exec,
+> -                                         int opaque, unsigned size)
+> -{
+> -    CPUClass *cc = CPU_GET_CLASS(cpu);
+> -
+> -    if (cc->do_unassigned_access) {
+> -        cc->do_unassigned_access(cpu, addr, is_write, is_exec, opaque, size);
+> -    }
+> -}
+> -
+>  static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+>                                          MMUAccessType access_type,
+>                                          int mmu_idx, uintptr_t retaddr)
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index abae79650c0..9c21b320eb4 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -914,7 +914,6 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
 >      }
+>
+>      cpu->mem_io_vaddr = addr;
+> -    cpu->mem_io_access_type = access_type;
+>
+>      if (mr->global_locking && !qemu_mutex_iothread_locked()) {
+>          qemu_mutex_lock_iothread();
+> diff --git a/memory.c b/memory.c
+> index b9dd6b94cac..93a05395cff 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -1278,10 +1278,6 @@ static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+>  #ifdef DEBUG_UNASSIGNED
+>      printf("Unassigned mem read " TARGET_FMT_plx "\n", addr);
 >  #endif
+> -    if (current_cpu != NULL) {
+> -        bool is_exec = current_cpu->mem_io_access_type == MMU_INST_FETCH;
+> -        cpu_unassigned_access(current_cpu, addr, false, is_exec, 0, size);
+> -    }
+>      return 0;
+>  }
+>
+> @@ -1291,9 +1287,6 @@ static void unassigned_mem_write(void *opaque, hwaddr addr,
+>  #ifdef DEBUG_UNASSIGNED
+>      printf("Unassigned mem write " TARGET_FMT_plx " = 0x%"PRIx64"\n", addr, val);
+>  #endif
+> -    if (current_cpu != NULL) {
+> -        cpu_unassigned_access(current_cpu, addr, true, false, 0, size);
+> -    }
+>  }
+>
+>  static bool unassigned_mem_accepts(void *opaque, hwaddr addr,
 > --
-> 2.7.4
+> 2.20.1
 >
 >
 
