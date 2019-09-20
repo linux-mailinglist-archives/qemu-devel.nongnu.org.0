@@ -2,61 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678D8B94F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:10:01 +0200 (CEST)
-Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A736B94E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:04:35 +0200 (CEST)
+Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLTr-0002eH-P9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48024)
+	id 1iBLOa-0004tn-JB
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:04:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iBLBF-0002P6-JD
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:47 -0400
+ (envelope-from <clg@kaod.org>) id 1iBL6a-0007zY-6l
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:46:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iBLB8-0004yB-TW
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58648)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iBLB8-0004xt-MJ
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iBLB6-0000Zh-Mq
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:50:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9559F2E80C7
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:50:36 +0000 (UTC)
+ (envelope-from <clg@kaod.org>) id 1iBL6W-0003VL-7F
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:45:55 -0400
+Received: from 14.mo5.mail-out.ovh.net ([188.165.51.82]:60361)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iBL6W-0003SR-1C
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:45:52 -0400
+Received: from player694.ha.ovh.net (unknown [10.109.160.153])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 3A7E924F59E
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:45:49 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player694.ha.ovh.net (Postfix) with ESMTPSA id C3C669FC0D11;
+ Fri, 20 Sep 2019 15:45:35 +0000 (UTC)
+Subject: Re: [PATCH 01/15] ipmi: Fix watchdog NMI handling
+To: minyard@acm.org, Peter Maydell <peter.maydell@linaro.org>
+References: <20190919213924.31852-1-minyard@acm.org>
+ <20190919213924.31852-2-minyard@acm.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <f2d62bba-8e46-7359-2340-d07e4424f53e@kaod.org>
+Date: Fri, 20 Sep 2019 17:45:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190919213924.31852-2-minyard@acm.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 17594437847848946616
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvddvgdelvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Sep 2019 15:36:58 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1844814@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: trace
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <156899381888.13411.12132927689585572811.malonedeb@gac.canonical.com>
-Subject: [Bug 1844814] [NEW] trace: SystemTap documentation out of date
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7e62b8ea63e1c9f55178932b6392846e2645f2be
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 188.165.51.82
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,80 +58,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1844814 <1844814@bugs.launchpad.net>
+Cc: Corey Minyard <cminyard@mvista.com>, Fam Zheng <famz@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 19/09/2019 23:39, minyard@acm.org wrote:
+> From: Corey Minyard <cminyard@mvista.com>
+>=20
+> The wrong logic was used for detection (so it wouldn't work at all)
+> and the wrong interface was used to inject the NMI if the detection
+> logic was correct.
+>=20
+> Signed-off-by: Corey Minyard <cminyard@mvista.com>
 
-The docs/devel/tracing.txt help suggest:
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-    scripts/tracetool.py --backends=3Ddtrace --format=3Dstap \
-                         --binary path/to/qemu-binary \
-                         --target-type system \
-                         --target-name x86_64 \
-                         <trace-events-all >qemu.stp
+C.
 
-but since commit 2098c56a9bc this comment is outdated:
+> ---
+>  hw/ipmi/ipmi.c         | 6 +++---
+>  hw/ipmi/ipmi_bmc_sim.c | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/ipmi/ipmi.c b/hw/ipmi/ipmi.c
+> index 136c86b7a7..cbe158f815 100644
+> --- a/hw/ipmi/ipmi.c
+> +++ b/hw/ipmi/ipmi.c
+> @@ -28,9 +28,8 @@
+>  #include "qom/object_interfaces.h"
+>  #include "sysemu/runstate.h"
+>  #include "qapi/error.h"
+> -#include "qapi/qapi-commands-misc.h"
+> -#include "qapi/visitor.h"
+>  #include "qemu/module.h"
+> +#include "hw/nmi.h"
+> =20
+>  static uint32_t ipmi_current_uuid =3D 1;
+> =20
+> @@ -60,7 +59,8 @@ static int ipmi_do_hw_op(IPMIInterface *s, enum ipmi_=
+op op, int checkonly)
+>          if (checkonly) {
+>              return 0;
+>          }
+> -        qmp_inject_nmi(NULL);
+> +        /* We don't care what CPU we use. */
+> +        nmi_monitor_handle(0, NULL);
+>          return 0;
+> =20
+>      case IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP:
+> diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
+> index 246a6d390c..8f63bb7181 100644
+> --- a/hw/ipmi/ipmi_bmc_sim.c
+> +++ b/hw/ipmi/ipmi_bmc_sim.c
+> @@ -1194,7 +1194,7 @@ static void set_watchdog_timer(IPMIBmcSim *ibs,
+>          break;
+> =20
+>      case IPMI_BMC_WATCHDOG_PRE_NMI:
+> -        if (!k->do_hw_op(s, IPMI_SEND_NMI, 1)) {
+> +        if (k->do_hw_op(s, IPMI_SEND_NMI, 1)) {
+>              /* NMI not supported. */
+>              rsp_buffer_set_error(rsp, IPMI_CC_INVALID_DATA_FIELD);
+>              return;
+>=20
 
-  $ scripts/tracetool.py --backends=3Ddtrace --format=3Dstap \
-    --binary mips-softmmu/qemu-system-mips \
-    --target-type system \
-    --target-name mips trace-events-all
-  Error: group name is required
-
-The offending commit seems:
-
-commit 2098c56a9bc5901e145fa5d4759f075808811685
-Author: Daniel P. Berrange <berrange@redhat.com>
-Date:   Wed Jan 25 16:14:14 2017 +0000
-
-    trace: move setting of group name into Makefiles
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: trace
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1844814
-
-Title:
-  trace: SystemTap documentation out of date
-
-Status in QEMU:
-  New
-
-Bug description:
-  The docs/devel/tracing.txt help suggest:
-
-      scripts/tracetool.py --backends=3Ddtrace --format=3Dstap \
-                           --binary path/to/qemu-binary \
-                           --target-type system \
-                           --target-name x86_64 \
-                           <trace-events-all >qemu.stp
-
-  but since commit 2098c56a9bc this comment is outdated:
-
-    $ scripts/tracetool.py --backends=3Ddtrace --format=3Dstap \
-      --binary mips-softmmu/qemu-system-mips \
-      --target-type system \
-      --target-name mips trace-events-all
-    Error: group name is required
-
-  The offending commit seems:
-
-  commit 2098c56a9bc5901e145fa5d4759f075808811685
-  Author: Daniel P. Berrange <berrange@redhat.com>
-  Date:   Wed Jan 25 16:14:14 2017 +0000
-
-      trace: move setting of group name into Makefiles
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1844814/+subscriptions
 
