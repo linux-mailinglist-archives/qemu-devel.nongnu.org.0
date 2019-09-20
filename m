@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D95B9426
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:38:58 +0200 (CEST)
-Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6226AB9438
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:41:33 +0200 (CEST)
+Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBKzp-0007yV-0v
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:38:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44094)
+	id 1iBL2J-0002E5-LA
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBKq3-00014T-QD
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:52 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBKpS-0000Zn-6y
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBKq1-0004fH-ON
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39978)
+ (envelope-from <mreitz@redhat.com>) id 1iBKpP-0004G4-IJ
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45140)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBKpq-0004XO-2v; Fri, 20 Sep 2019 11:28:38 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iBKpL-0004BG-T9; Fri, 20 Sep 2019 11:28:08 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3259C8A1C92;
- Fri, 20 Sep 2019 15:28:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B4A8910CC1F9;
+ Fri, 20 Sep 2019 15:28:06 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFFD45D6A7;
- Fri, 20 Sep 2019 15:28:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 294D519C5B;
+ Fri, 20 Sep 2019 15:28:05 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 13/22] mirror: Double-check immediately before replacing
-Date: Fri, 20 Sep 2019 17:27:55 +0200
-Message-Id: <20190920152804.12875-14-mreitz@redhat.com>
-In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
-References: <20190920152804.12875-1-mreitz@redhat.com>
+Subject: [PATCH 00/22] block: Fix check_to_replace_node()
+Date: Fri, 20 Sep 2019 17:27:42 +0200
+Message-Id: <20190920152804.12875-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Fri, 20 Sep 2019 15:28:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.65]); Fri, 20 Sep 2019 15:28:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -59,44 +58,118 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no guarantee that we can still replace the node we want to
-replace at the end of the mirror job.  Double-check by calling
-bdrv_recurse_can_replace().
+Based-on: <20190912135632.13925-1-mreitz@redhat.com>
+(=E2=80=9Cmirror: Do not dereference invalid pointers=E2=80=9D)
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/mirror.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 706d80fced..d877637e1e 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -695,7 +695,19 @@ static int mirror_exit_common(Job *job)
-          * drain potential other users of the BDS before changing the gr=
-aph. */
-         assert(s->in_drain);
-         bdrv_drained_begin(target_bs);
--        bdrv_replace_node(to_replace, target_bs, &local_err);
-+        /*
-+         * Cannot use check_to_replace_node() here, because that would
-+         * check for an op blocker on @to_replace, and we have our own
-+         * there.
-+         */
-+        if (bdrv_recurse_can_replace(src, to_replace)) {
-+            bdrv_replace_node(to_replace, target_bs, &local_err);
-+        } else {
-+            error_setg(&local_err, "Can no longer replace '%s' by '%s', =
-"
-+                       "because it can no longer be guaranteed that doin=
-g so "
-+                       "would not lead to an abrupt change of visible da=
-ta",
-+                       to_replace->node_name, target_bs->node_name);
-+        }
-         bdrv_drained_end(target_bs);
-         if (local_err) {
-             error_report_err(local_err);
+Hi,
+
+We have this function bdrv_is_first_non_filter(), and I don=E2=80=99t kno=
+w what
+we have it for exactly.  It=E2=80=99s used in three places:
+1. To allow snapshots only on such nodes,
+2. To allow resizing only on such nodes,
+3. For check_to_replace_node().
+
+In none of these places it=E2=80=99s clear why we=E2=80=99d want it.
+
+For (1), snapshots should just work for every node that supports backing
+nodes.  We have such checks in place, so we don=E2=80=99t need to call
+bdrv_is_first_non_filter(); and it should be fine to snapshot nodes
+somewhere down a backing chain, too.
+
+For (2), bdrv_truncate() should work on any node.  There is no reason
+why we=E2=80=99d prevent the user from invoking block_resize only on the =
+first
+non-filter in a chain.  We now have the RESIZE permission, and as long
+as that can be taken, any node can be resized.
+
+For (3), it is just wrong.  The main reason it was introduced here was
+to replace broken Quorum children.  But Quorum isn=E2=80=99t actually a f=
+ilter,
+and that is evidenced precisely here: The user wants to replace a child
+that *does not* match the overall quorum.  We need something else
+entirely here, namely a special bdrv_recurse_can_replace() function.
+
+That the current approach doesn=E2=80=99t actually work can be seen by at=
+taching
+some other parent to a Quorum child, and then trying to replace that
+child; Quorum will happily agree, but nobody asked that other parent
+what they think of suddenly changing the data on their child.
+
+It isn=E2=80=99t wrong to let a node be replaced when there are only filt=
+ers
+between it and the source node (because then they must have the same
+data).  What=E2=80=99s wrong is that Quorum calls itself a filter.
+
+In the new .bdrv_recurse_can_replace(), Quorum can be more aware of all
+of this.  So it verifies that there is noone else who might care about
+sudden data change by unsharing CONSISTENT_READ and taking the WRITE
+permission.
+
+
+The second problem is that mirror never checked whether the combination
+of mirror command (drive/blockdev), sync mode, and @replaces asks for a
+loop.  While bdrv_replace_node() was fixed in commit
+ec9f10fe064f2abb9dc60a9fa580d8d0933f2acf to never create loops, mirror
+should still reject such a configuration because it will probably not
+achieve what the user expects.
+
+
+Other things this series does:
+- Fix Quorum=E2=80=99s permissions: It cannot share WRITE or RESIZE permi=
+ssions
+  because that would break the Quorum
+- Drop .is_filter =3D true from Quorum
+- Add some tests
+
+
+(In case you=E2=80=99re wondering, yes, this 22-patch series does replace=
+ a
+single patch from my 42-patch series =E2=80=9CDeal with filters=E2=80=9D.=
+)
+
+
+Max Reitz (22):
+  blockdev: Allow external snapshots everywhere
+  blockdev: Allow resizing everywhere
+  block: Drop bdrv_is_first_non_filter()
+  iotests: Let 041 use -blockdev for quorum children
+  quorum: Fix child permissions
+  block: Add bdrv_recurse_can_replace()
+  blkverify: Implement .bdrv_recurse_can_replace()
+  quorum: Store children in own structure
+  quorum: Add QuorumChild.to_be_replaced
+  quorum: Implement .bdrv_recurse_can_replace()
+  block: Use bdrv_recurse_can_replace()
+  block: Remove bdrv_recurse_is_first_non_filter()
+  mirror: Double-check immediately before replacing
+  quorum: Stop marking it as a filter
+  mirror: Prevent loops
+  iotests: Use complete_and_wait() in 155
+  iotests: Add VM.assert_block_path()
+  iotests: Resolve TODOs in 041
+  iotests: Use self.image_len in TestRepairQuorum
+  iotests: Add tests for invalid Quorum @replaces
+  iotests: Check that @replaces can replace filters
+  iotests: Mirror must not attempt to create loops
+
+ include/block/block.h         |   5 -
+ include/block/block_int.h     |  19 ++-
+ block.c                       | 115 +++++++++------
+ block/blkverify.c             |  20 +--
+ block/copy-on-read.c          |   9 --
+ block/mirror.c                |  31 +++-
+ block/quorum.c                | 155 ++++++++++++++++----
+ block/replication.c           |   7 -
+ block/throttle.c              |   8 -
+ blockdev.c                    |  58 ++++++--
+ tests/qemu-iotests/041        | 268 +++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/041.out    |   4 +-
+ tests/qemu-iotests/155        |   7 +-
+ tests/qemu-iotests/iotests.py |  48 ++++++
+ 14 files changed, 602 insertions(+), 152 deletions(-)
+
 --=20
 2.21.0
 
