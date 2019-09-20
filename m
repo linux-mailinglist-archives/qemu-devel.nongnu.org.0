@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66FFB93ED
+	by mail.lfdr.de (Postfix) with ESMTPS id B32C5B93EC
 	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:27:27 +0200 (CEST)
-Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBKog-0007Y5-Sh
+	id 1iBKog-0007XW-NL
 	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43461)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iBKnJ-0006Hb-3c
+ (envelope-from <bounces@canonical.com>) id 1iBKnJ-0006Hd-GS
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:26:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iBKnH-0003Tf-TJ
+ (envelope-from <bounces@canonical.com>) id 1iBKnI-0003Ts-3z
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:26:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37626)
+Received: from indium.canonical.com ([91.189.90.7]:37678)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iBKnH-0003TB-1t
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:25:59 -0400
+ id 1iBKnH-0003TQ-Sh
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:26:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iBKnF-0004w8-2H
+ id 1iBKnF-0004wG-PK
  for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:25:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9BA542E817A
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:25:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8917C2E819B
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:25:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Sep 2019 15:17:47 -0000
+Date: Fri, 20 Sep 2019 15:18:56 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon pmaydell rth
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Commenters: glaubitz pmaydell
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156639548437.26869.13792283715555746637.malonedeb@gac.canonical.com>
-Message-Id: <156899266746.5144.12283007101714930974.malone@chaenomeles.canonical.com>
-Subject: [Bug 1840922] Re: qemu-arm for cortex-m33 aborts with unhandled CPU
- exception 0x8
+References: <156518306048.32528.10373743991208371347.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156899273640.812.14671509408363934087.malone@wampee.canonical.com>
+Subject: [Bug 1839325] Re: Go programs crash on qemu-sh4 due to issues with
+ atomics
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19048";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 34c6bdc53217e9aa377167c304d54631f9c631dd
+X-Launchpad-Hash: aec023021b564fa47f184663b4a2c05ffdae288d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,57 +65,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1840922 <1840922@bugs.launchpad.net>
+Reply-To: Bug 1839325 <1839325@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in master as commit 5e5584c89f36b, will be in the 4.2 release.
+I'm going to close this bug, since it's a problem with the gccgo
+codegen, not a QEMU bug. (I'm interested in any response you get from
+the go/gcc upstream folks, though.)
 
 
 ** Changed in: qemu
-       Status: Confirmed =3D> Fix Committed
+       Status: New =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1840922
+https://bugs.launchpad.net/bugs/1839325
 
 Title:
-  qemu-arm for cortex-m33 aborts with unhandled CPU exception 0x8
+  Go programs crash on qemu-sh4 due to issues with atomics
 
 Status in QEMU:
-  Fix Committed
+  Invalid
 
 Bug description:
-  Hi,
+  After #1738545 [1] was fixed, Go applications work fine on qemu-arm
+  but still crash on qemu-sh4. From the backtrace, it looks like an
+  issue with the atomics in qemu-sh4:
 
-  While experimenting with running the GCC testsuite with cortex-m33 as tar=
-get (to exercise v8-m code), I came across this failure:
-  qemu: unhandled CPU exception 0x8 - aborting
-  R00=3Dfffeaf58 R01=3Dfffeaf58 R02=3D00000000 R03=3Dfffeaf5d
-  R04=3Dfffeaf5c R05=3Dfffeaf9c R06=3D00000000 R07=3Dfffeaf80
-  R08=3D00000000 R09=3D00000000 R10=3D00019dbc R11=3D00000000
-  R12=3D000000f0 R13=3Dfffeaf58 R14=3D000081f3 R15=3Dfffeaf5c
-  XPSR=3D61000000 -ZC- T NS priv-thread
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6033=
-c908
+  (sid-sh4-sbuild)root@epyc:/# cat hello.go
+  package main
 
-  I'm using arm-eabi-gcc, so it targets bare-metal, not linux.
+  import "fmt"
 
-  The testcase is GCC's
-  gcc/testsuite/gcc.c-torture/execute/20000822-1.c; it works when
-  compiled at -O2, but crashes when compiled at -Os. The test uses
-  nested functions, so it creates a trampoline on the stack, whose
-  address may be a problem. But since the stack address seems to be in
-  the same range in the O2 and Os cases, it's not that clear.
+  func main() {
+        fmt.Println("hello world")
+  }
 
-  I'm attaching the C source, asm, binary executables and qemu traces
-  with in_asm,cpu.
+  (sid-sh4-sbuild)root@epyc:/# gccgo-9 hello.go -o hello
+  (sid-sh4-sbuild)root@epyc:/# ./hello =
 
-  I execute the binaries with:
-  qemu-arm --cpu cortex-m33  ./20000822-1.exe.Os
+  panic: (        runtime runtime.errorString) (0x7f74527c,0x80a038)
+  fatal error: panic on system stack
+  panic: (        runtime runtime.errorString) (0x7f74527c,0x80a038)
+  fatal error: panic on system stack
+
+  runtime stack:
+  runtime..z2finternal..z2fatomic.Load64
+          ../../../src/libgo/go/runtime/internal/atomic/atomic.c:37
+  runtime_mstart
+          ../../../src/libgo/runtime/proc.c:596
+
+  goroutine 1 [running]:
+          goroutine running on other thread; stack unavailable
+
+  runtime stack:
+  runtime..z2finternal..z2fatomic.Load64
+          ../../../src/libgo/go/runtime/internal/atomic/atomic.c:37
+  runtime_mstart
+          ../../../src/libgo/runtime/proc.c:596
+  (sid-sh4-sbuild)root@epyc:/#
+
+  The same sample Go program runs fine on my SH7785LCR SH4 evaluation
+  board:
+
+  root@tirpitz:~> uname -a
+  Linux tirpitz 3.16.7-ckt7 #8 PREEMPT Fri Oct 21 18:47:41 CEST 2016 sh4a G=
+NU/Linux
+  root@tirpitz:~> cat hello.go
+  package main
+
+  import "fmt"
+
+  func main() {
+        fmt.Println("hello world")
+  }
+
+  root@tirpitz:~> gccgo-9 hello.go -o hello
+  root@tirpitz:~> ./hello =
+
+  hello world
+  root@tirpitz:~>
+
+  Please note: In order to be able to reproduce this, one also needs to
+  revert commit 61dedf2af7 [2], otherwise the Go application crashes
+  differently:
+
+  (sid-sh4-sbuild)root@epyc:/# ./hello        =
+
+  Unhandled trap: 0x180
+  pc=3D0x7e5f7f9e sr=3D0x00000000 pr=3D0x7ee3d582 fpscr=3D0x00080004
+  spc=3D0x00000000 ssr=3D0x00000000 gbr=3D0x7e590480 vbr=3D0x00000000
+  sgr=3D0x00000000 dbr=3D0x00000000 delayed_pc=3D0x7e5f7f60 fpul=3D0x00034f=
+3b
+  r0=3D0x008007d4 r1=3D0x00000000 r2=3D0xfffe0b2a r3=3D0x00000002
+  r4=3D0x008006e4 r5=3D0x00872000 r6=3D0x00200000 r7=3D0x00000000
+  r8=3D0x7f7bca7c r9=3D0x7fffebd4 r10=3D0x00800480 r11=3D0x7f7bc0f0
+  r12=3D0x7f7a3fa4 r13=3D0x008004c0 r14=3D0x7f7b2238 r15=3D0x7fffebd0
+  r16=3D0x00000000 r17=3D0x00000000 r18=3D0x00000000 r19=3D0x00000000
+  r20=3D0x00000000 r21=3D0x00000000 r22=3D0x00000000 r23=3D0x00000000
+  (sid-sh4-sbuild)root@epyc:/#
+
+  > [1] https://bugs.launchpad.net/bugs/1738545
+  > [2] https://bugs.launchpad.net/bugs/1796520
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1840922/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1839325/+subscriptions
 
