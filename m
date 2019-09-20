@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A211EB95DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:39:08 +0200 (CEST)
-Received: from localhost ([::1]:33616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B72B95BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:34:47 +0200 (CEST)
+Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLw3-0004z9-0o
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
+	id 1iBLrp-0007M1-7n
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iBLgo-00021A-Ma
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:23:24 -0400
+ (envelope-from <zhlb29@foxmail.com>) id 1iBLnJ-0004mF-Rc
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:30:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iBLgm-0000nd-RT
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:23:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42728)
+ (envelope-from <zhlb29@foxmail.com>) id 1iBLnB-0003pJ-P0
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:29:58 -0400
+Received: from smtpbguseast2.qq.com ([54.204.34.130]:40971)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBLgm-0000nD-Jw
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:23:20 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0755785542
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 16:23:19 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id j3so2478503wrn.7
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 09:23:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vC1/bThsnxl3zifbqkqI2EgPJt7hJCdy7szE5bN6Oi8=;
- b=MzxBZmlF/6ptzalFf4KHDlNIdQIOO1aqCrrgH//QNhshmRX0n44k5WpvB6oj3kykD1
- by9bCTGyCOSbA+fM0t+5AflcjaOQTfn1eNn7h68/jgVxe1Kxne6Cw2lrzxYWMb2zMQvB
- kTfNPZoTcbr2094veStSnhov2CEh2cdgyLIydXo2lUI3udVaJPEzCzfWggwJh7UieTZb
- evo5Hv2zeQmPTrv3wZ8w+pkOS83/WeNndJZwyQep3xG/5yzG2zu6t9KdjA/qaLEjB7w4
- kjZOi/vMcL5s9pR/AKfGneYP39RzUDE/UTJKolTPSCv0IRPKylzxEJ7Jk1jHMLVqQzRZ
- wmOw==
-X-Gm-Message-State: APjAAAVF2+h4SDCUj8hp65ZoYNAaCW99jK+1Rs/3zKWojykcqW6GxxNq
- cbdq3Ij8x8TZ1YgiFnKgKQ9DCI7vrWuHxlcBpZ/Xdn4GFFJB+inq+BE+pA6hZqrqnp8BiTNAuKM
- yWD6Sy3OO0n3JEC8=
-X-Received: by 2002:a7b:c74a:: with SMTP id w10mr4149635wmk.30.1568996597768; 
- Fri, 20 Sep 2019 09:23:17 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwwkCnDsAhxyUaHomDRT4r/XH8yUNNVRS9qnyItegEUFp6bLqpGp2g9DphcjcERf7h2eYCQyg==
-X-Received: by 2002:a7b:c74a:: with SMTP id w10mr4149623wmk.30.1568996597560; 
- Fri, 20 Sep 2019 09:23:17 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id u10sm3141866wrg.55.2019.09.20.09.23.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Sep 2019 09:23:16 -0700 (PDT)
-Subject: Re: [PATCH 3/3] docker: remove unused debian-sid and debian-ports
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>
-References: <20190920001413.22567-1-jsnow@redhat.com>
- <20190920001413.22567-4-jsnow@redhat.com>
- <731ae95b-7c70-43ca-bea9-28b00de232d5@redhat.com>
- <c7b12028-0294-0d9c-3e94-60b2ba7d3528@redhat.com> <87d0fvym64.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <77355885-6422-5a6a-bd32-e3871e35213e@redhat.com>
-Date: Fri, 20 Sep 2019 18:23:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <87d0fvym64.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+ (Exim 4.71) (envelope-from <zhlb29@foxmail.com>) id 1iBLn9-0003nQ-Kq
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:29:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1568996987;
+ bh=v3GVc+3ugmo9VU+fZbiHnRklbNk2UZztE4hFNZ1s8RM=;
+ h=From:To:Subject:Mime-Version:Date:Message-ID;
+ b=vJ4hc0mtHI6Zlt3GktX1MNu4/xDPW6GziKspWSGq58emGDULWeut1SvvFvDiv5Ydo
+ CEG1U5B9jYskgYi7oEHSvr5fuZRvxJL/OisFynTVkvacuQEju4vBgnvLeu+4ciqi7X
+ P7pR2TqTHSlm2K03wDXBzJiMOjwaOMUXmU0lzBAs=
+X-QQ-SSF: 00000000000000F000000000000000G
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 123.114.36.138
+In-Reply-To: <CAFEAcA-GEtZUVU838Cb0j7ekUzrQ9VTLFfFVL37BALzk_VQFBA@mail.gmail.com>
+References: <tencent_7BDD949D4C752E2A291A6A02@qq.com>
+ <CAFEAcA9QDrwUAdZWX7n_gO9afnT4n9+i8ZdqOcxrNbvi6n9=sw@mail.gmail.com>
+ <tencent_5378456F7A2F471F74C049FC@qq.com>
+ <CAFEAcA87Pb4Mk8McdaZHe41s=Cc1EeCknKfikRm6F+QoxKsdgg@mail.gmail.com>
+ <tencent_7D89E27172EB5C93465EFBB4@qq.com>
+ <CAFEAcA-GEtZUVU838Cb0j7ekUzrQ9VTLFfFVL37BALzk_VQFBA@mail.gmail.com>
+X-QQ-STYLE: 
+X-QQ-mid: webenglish1t1568996986t660451
+From: "=?ISO-8859-1?B?TGlibyBaaG91?=" <zhlb29@foxmail.com>
+To: "=?ISO-8859-1?B?UGV0ZXIgTWF5ZGVsbA==?=" <peter.maydell@linaro.org>
+Subject: Re:  Initialize data memory in user space emulation
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="ISO-8859-1"
+Content-Transfer-Encoding: base64
+Date: Sat, 21 Sep 2019 00:29:46 +0800
+X-Priority: 3
+Message-ID: <tencent_2CB77C2B1C2DB29264EB30A0@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-ReplyHash: 3138484263
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
+ id ; Sat, 21 Sep 2019 00:29:46 +0800 (CST)
+Feedback-ID: webenglish:foxmail.com:bgforeign:bgforeign4
+X-QQ-Bgrelay: 1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 54.204.34.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,94 +72,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Cc: =?ISO-8859-1?B?cWVtdS1kZXZlbA==?= <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/19 6:20 PM, Alex Benn=C3=A9e wrote:
-> John Snow <jsnow@redhat.com> writes:
->> On 9/20/19 4:49 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> On 9/20/19 2:14 AM, John Snow wrote:
->>>> These are listed as "partial" images, but have no user.
->>>> Remove them.
->>>
->>> Well, I have WiP users from them. I could restore this content when t=
-hey
->>> are ready... Ports is the base of deprecated Debian archs. On the oth=
-er
->>> side Sid is the base for edge development I use from time to time to
->>> test latest gcc/binutils.
->>> I'll try to find time to raise WiP branches to PoC.
->>>
->>
->> I think that's the right thing to do. Right now, the docker tests
->> directory has a lot of stale entries and unusable tests. That might be
->> fine for the people working on it, but it makes it hard to understand
->> and use for those of us who only occasionally traipse into the directo=
-ry.
->>
->> I'm removing all references to python2 -- but if there's no way for me
->> to test debian-sid and debian-ports, I can't test changes I need to ma=
-ke
->> to these "partial images", so they should be removed until they are
->> consumable.
->>
->> While I am sympathetic to the idea of having a library of partial imag=
-es
->> to use for future tests, they're prone to rot if there's no way to
->> exercise them in-tree.
->=20
-> Don't forget some "partial" images are only used for building TCG tests
-> - we want to keep them. But as git is forever I can drop the sid/ports
-> stuff for now until Phillipe has something to use them again.
+VGhhbmtzIGZvciB5b3VyIGluc2lnaHRmdWwgaW5wdXQuIEkgd2lsbCBjb21lIGJhY2sgdG8g
+dGhpcyB0aHJlYWQgYWZ0ZXIgSSB0cmllZCBhbGwgdGhlIG9wdGlvbnMuCgpDaGVlcnMsCkxp
+Ym8gWmhvdQoKCgoKLS0tLS0tLS0tLS0tLS0tLS0tIE9yaWdpbmFsIC0tLS0tLS0tLS0tLS0t
+LS0tLQpGcm9tOiAgIlBldGVyIE1heWRlbGwiOzxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+
+OwpTZW5kIHRpbWU6IFNhdHVyZGF5LCBTZXAgMjEsIDIwMTkgMDowOCBBTQpUbzogIkxpYm8g
+WmhvdSI8emhsYjI5QGZveG1haWwuY29tPjsgCkNjOiAicWVtdS1kZXZlbCI8cWVtdS1kZXZl
+bEBub25nbnUub3JnPjsgClN1YmplY3Q6ICBSZTogSW5pdGlhbGl6ZSBkYXRhIG1lbW9yeSBp
+biB1c2VyIHNwYWNlIGVtdWxhdGlvbgoKCgpPbiBGcmksIDIwIFNlcCAyMDE5IGF0IDE2OjI2
+LCBMaWJvIFpob3UgPHpobGIyOUBmb3htYWlsLmNvbT4gd3JvdGU6Cj4KPiBJIGFjdHVhbGx5
+IHRob3VnaHQgYWJvdXQgaGFja2luZyBpdCB0byBtbWFwIGZyb20gZmlsZSBpbnRvIGd1ZXN0
+IG1lbW9yeSBiZWZvcmUgcnVubmluZyBFTEYuIEluIGluY2x1ZGUvZXhlYy9tZW1vcnkuaCwg
+dGhlIGZ1bmN0aW9uIG1lbW9yeV9yZWdpb25faW5pdF9yYW1fZnJvbV9maWxlIHNvdW5kcyBs
+aWtlIHdoYXQgSSBuZWVkLiBCdXQgdGhlIGVudGlyZSBtZW1vcnkuaCBzb3VyY2UgZmlsZSBp
+cyB3cmFwcGVkIGJ5ICNpZm5kZWYgQ09ORklHX1VTRVJfT05MWSwgSSBjYW5ub3QgdXNlIHRo
+YXQgQVBJIGluIHVzZXIgc3BhY2UgZW11bGF0aW9uLCByaWdodD8KCkNvcnJlY3QsIHlvdSBk
+b24ndCB3YW50IHRvIHVzZSB0aGF0LiBZb3Ugd2FudAp0byBwdXQgc29tZSBjb2RlIGluIGxp
+bnV4LXVzZXIvbWFpbi5jLCBwcm9iYWJseQpqdXN0IGFmdGVyIHRoZSBjYWxsIHRvIHNpZ25h
+bF9pbml0KCksIHdoaWNoIG9wZW5zCnRoZSBob3N0IGZpbGUgYW5kIHRoZW4gY2FsbHMgdGFy
+Z2V0X21tYXAoKSB0byBtbWFwCml0IGludG8gdGhlIGhvc3QuCgpJZiB5b3UgaGFwcGVuIHRv
+IGhhdmUgdGhlIHNvdXJjZSBmb3IgdGhlIGd1ZXN0IHByb2dyYW0sCnlvdSBjb3VsZCBhbHNv
+IGp1c3QgbWFrZSBpdCBkbyB0aGUgb3BlbiBhbmQgbW1hcCgpIGl0c2VsZgphcyB0aGUgZmly
+c3QgdGhpbmcgaXQgZG9lcyBpbiBtYWluKCkgLS0gdGhpcyBpcyBiYXNpY2FsbHkKZXF1aXZh
+bGVudC4gT3IgaWYgdGhlIGd1ZXN0IHByb2dyYW0gaXMgZHluYW1pY2FsbHkgbGlua2VkCnRo
+ZW4geW91IGNhbiB1c2UgUUVNVSdzIC1FIG9wdGlvbiB0byBzZXQgdGhlIExEX1BSRUxPQUQK
+ZW52aXJvbm1lbnQgdmFyaWFibGUgZm9yIHRoZSBndWVzdCB0byBtYWtlIGl0IGxvYWQgYSBn
+dWVzdApzaGFyZWQgbGlicmFyeSB0aGF0IGhhcyBhIGNvbnN0cnVjdG9yIGZ1bmN0aW9uIHRo
+YXQgZG9lcwp0aGUgb3Blbi9tbWFwIGJlZm9yZSB0aGUgZ3Vlc3QgbWFpbigpIGdldHMgY29u
+dHJvbC4KCnRoYW5rcwotLSBQTU0=
 
-For Sid I have this case:
 
--- >8 --
-#
-# Docker Renesas RX cross-compiler target
-#
-# This docker target builds on the debian Sid base image.
-#
-# Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-#
-# SPDX-License-Identifier: GPL-2.0-or-later
-#
-FROM qemu:debian-sid
 
-MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-    apt install -y --no-install-recommends \
-        wget
-RUN wget -qO - https://ftpmirror.gnu.org/binutils/binutils-2.32.tar.xz \
-    | tar -C /usr/src -xJf - && \
-    cd /usr/src/binutils-2.32 && \
-        CFLAGS=3D-w \
-        ./configure --prefix=3D/usr --disable-nls
---target=3Drx-unknown-linux && \
-        make && make install && \
-        rm -rf /usr/src/binutils-2.32
-
-RUN git clone -b rx-trunk http://pf.osdn.net/gitroot/y/ys/ysato/gcc.git \
-    /usr/src/gcc
-
-RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-    apt install -y --no-install-recommends \
-        libgmp-dev libmpfr-dev libmpc-dev
-
-RUN cd /usr/src/gcc && \
-    CPPFLAGS=3D-w \
-    ./configure --target=3Drx-unknown-linux \
-        --prefix=3D/usr --disable-nls \
-        --enable-languages=3Dc --disable-shared \
-        --disable-threads --with-uclibc \
-        --disable-libssp --disable-libquadmath \
-        --disable-libgomp --disable-libatomic && \
-    make && make install && \
-    rm -rf /usr/src/gcc
-
-# This image isn't designed for building QEMU but building tests
-ENV QEMU_CONFIGURE_OPTS --disable-system --disable-user
----
 
