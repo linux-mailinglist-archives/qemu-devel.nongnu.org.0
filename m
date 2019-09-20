@@ -2,68 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77ECB881A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 01:36:59 +0200 (CEST)
-Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2654B8863
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 02:16:04 +0200 (CEST)
+Received: from localhost ([::1]:49980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB5ys-0004lz-J5
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 19:36:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39323)
+	id 1iB6ah-00053H-3E
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 20:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iB5sD-0006N2-Si
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:07 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iB6Z6-00049a-EE
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 20:14:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iB5sC-0000or-Do
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:05 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37745)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iB5sC-0000ob-8X
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 19:30:04 -0400
-Received: by mail-pg1-x544.google.com with SMTP id c17so2740479pgg.4
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 16:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=eTxCu2cA0J5WLFUs9gnavWyyP8aOc6nLl3OMieDyOi4=;
- b=xoEDfWuROv4YFw1LWKYMRw2b9hAAwTGmud08hZSU5t1+yR/CkGrEmolBOqpNUU/6bU
- EnH1o4MNLUHLkiittMyysm+wsy4b+fPUPAM2R5asjkTqQU5xNm3PF+LqS7uwsi4Y3gaC
- 40JESRBLKt0WSFFa82fu09B4QkLWX7Z1OTZR779n8HeXfQLHtHssmxJ75/uKWR0/Pnco
- jURXiY/bDMgGUaUeSr27SL+7rCsSqg5z4QkARxJHCXHkYdUvkx+afuyY4LSzGIdpGPpa
- zAFtn/bR1WtTSq6WhQNJZY0W5IFJJ0VDbRSlce858WUlAc/HJFdZN3roEWSEREdaUnOw
- AVeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=eTxCu2cA0J5WLFUs9gnavWyyP8aOc6nLl3OMieDyOi4=;
- b=tQJLi2n3R9f42dpJsR0qY27H/10lVOHAsN8G61IDZGI9NIpSdZMzIolqWKTDPNP3x9
- ADE7c9UiXB1CQTBTkxK6u3BEAxzeoUe6l0WQx8lX4zbbhob3D86Bk9OMjv/yvjanlLKw
- gMz+VvkjYZf/yMzV7fzJoVEZ8ZwP6WsewtKw6bg0fNF1IFDvqsgUsoulDiKgpfdOfL2b
- pXm6ePVxvwB3oYOEHa4W3HaAdqtL5b6lhNCh9CfZQSU+TcqrxGZCQa0AxV0YAc+gzJM5
- cBG4ZvJe24XumciI705wR/bM7jy3X+rdkUemGKKmBUukN2lohVA6J/InWaXIZ/Lq8EEv
- XUtw==
-X-Gm-Message-State: APjAAAUAkL9lv6ySwnEaRbEe/ZftExSjgN9eLB9QRHFXEv1+71LGTP5v
- O6HaWT99cht2Z1Huitv2qKQgCst+/AM=
-X-Google-Smtp-Source: APXvYqwwhF8uJe8zv+kLWI3rt2GaSs+KwcKFLVz3pJwN1s8gAMhlaji3y9pamKrXkACHXqv0/Ra51g==
-X-Received: by 2002:a63:1b66:: with SMTP id b38mr11652296pgm.54.1568935802877; 
- Thu, 19 Sep 2019 16:30:02 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id h8sm103340pfo.64.2019.09.19.16.30.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 16:30:02 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <jsnow@redhat.com>) id 1iB6Z4-00051l-1t
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 20:14:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35420)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iB6Z3-00050k-Sr
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 20:14:21 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5C4C6190C019;
+ Fri, 20 Sep 2019 00:14:20 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-38.bos.redhat.com [10.18.17.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74AC419C5B;
+ Fri, 20 Sep 2019 00:14:14 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] exec: Cache TARGET_PAGE_MASK for TARGET_PAGE_BITS_VARY
-Date: Thu, 19 Sep 2019 16:29:52 -0700
-Message-Id: <20190919232952.6382-8-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190919232952.6382-1-richard.henderson@linaro.org>
-References: <20190919232952.6382-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+Subject: [PATCH 0/3] docker: misc cleanups
+Date: Thu, 19 Sep 2019 20:14:10 -0400
+Message-Id: <20190920001413.22567-1-jsnow@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Fri, 20 Sep 2019 00:14:20 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,63 +52,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This eliminates a set of runtime shifts.  It turns out that we
-require TARGET_PAGE_MASK more often than TARGET_PAGE_SIZE, so
-redefine TARGET_PAGE_SIZE based on TARGET_PAGE_MASK instead of
-the other way around.
+Another handful of misc tidyups.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/cpu-all.h | 8 ++++++--
- exec-vary.c            | 1 +
- 2 files changed, 7 insertions(+), 2 deletions(-)
+Note: this WILL conflict with the other cleanups already in-flight, but
+I didn't have a convenient branch to base against at the time; but
+it should be pretty trivial to resolve/respin.
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 5246770271..2db73c7a27 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -213,19 +213,23 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
- typedef struct {
-     bool decided;
-     int bits;
-+    target_long mask;
- } TargetPageBits;
- extern const TargetPageBits target_page;
- # ifdef CONFIG_DEBUG_TCG
- #  define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
-+#  define TARGET_PAGE_MASK (assert(target_page.decided), target_page.mask)
- # else
- #  define TARGET_PAGE_BITS target_page.bits
-+#  define TARGET_PAGE_MASK target_page.mask
- # endif
-+# define TARGET_PAGE_SIZE  ((int)-TARGET_PAGE_MASK)
- #else
- #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
-+#define TARGET_PAGE_SIZE   (1 << TARGET_PAGE_BITS)
-+#define TARGET_PAGE_MASK   ((target_long)-1 << TARGET_PAGE_BITS)
- #endif
- 
--#define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
--#define TARGET_PAGE_MASK ((target_long)-1 << TARGET_PAGE_BITS)
- #define TARGET_PAGE_ALIGN(addr) \
-     (((addr) + ~TARGET_PAGE_MASK) & TARGET_PAGE_MASK)
- 
-diff --git a/exec-vary.c b/exec-vary.c
-index 67cdf57a9c..26daf281f2 100644
---- a/exec-vary.c
-+++ b/exec-vary.c
-@@ -83,5 +83,6 @@ void finalize_target_page_bits(void)
-         init_target_page.bits = TARGET_PAGE_BITS_MIN;
-     }
-     init_target_page.decided = true;
-+    init_target_page.mask = (target_long)-1 << init_target_page.bits;
- #endif
- }
--- 
-2.17.1
+John Snow (3):
+  docker: remove 'deprecated' image definitions
+  docker: remove debian8-mxe definitions
+  docker: remove unused debian-sid and debian-ports
+
+ tests/docker/Makefile.include                |  9 +++--
+ tests/docker/dockerfiles/debian-ports.docker | 36 --------------------
+ tests/docker/dockerfiles/debian-sid.docker   | 35 -------------------
+ 3 files changed, 4 insertions(+), 76 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-ports.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
+
+--=20
+2.21.0
 
 
