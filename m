@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A86BB9693
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 19:39:07 +0200 (CEST)
-Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690CEB96B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 19:48:08 +0200 (CEST)
+Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBMs6-0004pZ-NZ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 13:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38403)
+	id 1iBN0p-0003i4-6k
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 13:48:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1iBMq2-0003AU-7w
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:36:59 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBMyT-00021v-SM
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:45:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1iBMq1-00078S-0T
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:36:58 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:32930)
+ (envelope-from <bounces@canonical.com>) id 1iBMyS-0001ak-0M
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:45:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35386)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iBMq0-000781-Rn
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:36:56 -0400
-Received: by mail-ot1-x341.google.com with SMTP id g25so6907844otl.0
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 10:36:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=kVSGwlADvn7uHaPpKz/TZ2c6P00DfPajzzp7HoeRYJY=;
- b=oWu2iaAARDt8vawQpXHTIv2QhPcoXhWymArZpsQRpHbQC+rNlU38zghUBvwZCphg5r
- /Lh+ul0P+7a8e9z3vT/7sa/+UUdOvJEvnV1XxIjqGy62apE5Br8gTDF4Tm6ELwB++m5k
- QvYW1zjRH2eHHzW9Ncj5IMepHbOk4RX350cSGcuLMUZUc6aAXNYOtcw3TQrOQhRZOlPq
- wD0YbQM6DNMh2vHQx+z6WgoGIMwXolrcy3cZrjTPkLdQ2oU5QIxc+HWUiOgR1tETngic
- WUgZ8MZJunYHCddLy7phpRM9j3ndDqdg/mMt/B1WaZcPnHokZiTE/3bECnFHM2iNPIvV
- Syrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to
- :user-agent;
- bh=kVSGwlADvn7uHaPpKz/TZ2c6P00DfPajzzp7HoeRYJY=;
- b=Jcko/MSEcsAjVKZd+hrfXd/Q1Nm0uhUMqNWp23NK3A+ahQT5eUxXEzyHxT4AIbbjd8
- 26mUYZx7mURBxEp2mOK4MNVeqAZoh+m0xZkswG2S75PtLIbMgBeytHUhDqx43ePtSP87
- wUnDk7fUczRJNS7d/wR+tqU3f5dSq46sbvU89AGvAgEDG0t6o81L3b09wq7bOtREj+ad
- PaOIgFp/vE12hItzPBA3j83UC6DWB9HEv9lDgA4uUAzVkIxfJW+L2aKeE8ax2HU8O9/o
- SeQbOwGUTikrdQCioA82LAE94YrYAIrI6BJcr3NJhi033KV5Eor+8OxjEzsCSoBKmCj5
- xaiQ==
-X-Gm-Message-State: APjAAAX8aub37FobEsL8YUvS0GcIUY6rd1VkGV++WNY9dVU8i74d5MNv
- eYUWQDThaa6l/oJ/omyZ1w==
-X-Google-Smtp-Source: APXvYqyRl1/wFaiFDfTaNjLvnciiCwq0fatcfAlnGvhgqefOV34uPkxroukHTo3xgiIcLftxb/ZHoA==
-X-Received: by 2002:a9d:51cb:: with SMTP id d11mr7663589oth.112.1569001015684; 
- Fri, 20 Sep 2019 10:36:55 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id x16sm681196oie.7.2019.09.20.10.36.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Sep 2019 10:36:55 -0700 (PDT)
-Received: from t560 (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPSA id 6037B1800CE;
- Fri, 20 Sep 2019 17:36:54 +0000 (UTC)
-Date: Fri, 20 Sep 2019 12:36:53 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 00/15] ipmi: Bug fixes, add new interfaces
-Message-ID: <20190920173653.GE31565@t560>
-References: <20190919213924.31852-1-minyard@acm.org>
- <CAFEAcA-wEcsRDSjs-QD2kWspTx=mHmcY9etO7KgPVcyRh_XxUw@mail.gmail.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iBMyR-0001Yw-Qt
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:45:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iBMyP-0007Hq-1f
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:45:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0515B2E80CC
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:45:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-wEcsRDSjs-QD2kWspTx=mHmcY9etO7KgPVcyRh_XxUw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Sep 2019 17:37:09 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nathanchance pmaydell
+X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156885735889.27264.8945287928013294736.malonedeb@soybean.canonical.com>
+Message-Id: <156900102964.5144.14836724327815998118.malone@chaenomeles.canonical.com>
+Subject: [Bug 1844597] Re: fc1120a7f5f2d4b601003205c598077d3eb11ad2 causes a
+ kernel panic in vfp_init on a clang built kernel
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e6e5f331e2593b52905a48c8165a2dd80c9a8d43
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,66 +64,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Fam Zheng <famz@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1844597 <1844597@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 20, 2019 at 01:57:48PM +0100, Peter Maydell wrote:
-> On Thu, 19 Sep 2019 at 22:39, <minyard@acm.org> wrote:
-> >
-> > I haven't gotten a lot of commentary on this, but I assume that means
-> > that everything is ok.  It's been posted a few times and the last time
-> > I received no issues, just a couple of reviews.  I would like more
-> > review.  But I'm not quite sure what to do about that, I've been
-> > hanging on to these changes far too long.
-> >
-> > The following changes since commit a77d20bafcd4cb7684168a9b4c6dc2a321aaeb50:
-> >
-> >   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20190919-pull-request' into staging (2019-09-19 17:16:07 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://github.com/cminyard/qemu.git tags/ipmi-for-release-2019-09-19
-> >
-> > for you to fetch changes up to d9b74295c6528fd68cebdea116b283e46543b2a2:
-> >
-> >   pc: Add an SMB0 ACPI device to q35 (2019-09-19 14:41:58 -0500)
-> >
-> > ----------------------------------------------------------------
-> > ipmi: Some bug fixes and new interfaces
-> >
-> > Some bug fixes for the watchdog and hopeful the BT tests.
-> >
-> > Change the IPMI UUID handling to give the user the ability to set it or
-> > not have it.
-> >
-> > Add a PCI interface.
-> >
-> > Add an SMBus interfaces.
-> 
-> Hi -- is this intended to be a pull request to be applied to
-> master? It's in the form of a pullreq but the subject header
-> says "PATCH" and you seem to be asking for more review, so I'm
-> not sure...
+Thanks. I've diagnosed the problem -- when we boot a kernel directly
+into non-secure state on an AArch32 CPU which implements EL3, we need to
+set the NSACR.{CP11,CP10} bits so that Non-Secure is allowed to use the
+FPU, but we weren't doing that. The omission didn't matter until commit
+fc1120a7f5 because before that point we were ignoring the NSACR trap
+bits entirely... Patch coming up shortly.
 
-Dang, it was meant to be a pull request for master.  I would like
-more review, and I didn't think I would get any, but it turns out
-I have gotten it for the most important parts, so pulling it
-should be good, I think.
+-- =
 
-I can add the reviews and request a pull properly, if you like.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1844597
 
-Thanks,
+Title:
+  fc1120a7f5f2d4b601003205c598077d3eb11ad2 causes a kernel panic in
+  vfp_init on a clang built kernel
 
--corey
+Status in QEMU:
+  New
 
-> 
-> thanks
-> -- PMM
+Bug description:
+  Commit 4cdabee7d6d2 ("ARM: configs: aspeed_g5: Enable AST2600") [1] in
+  the Linux kernel enabled CONFIG_VFP. When building this config with
+  Clang, the resulting kernel does not boot after commit fc1120a7f5
+  ("target/arm: Implement NSACR gating of floating point") [2] (present
+  since the 4.1.0 release).
+
+  The QEMU command:
+
+  qemu-system-arm -m 512m \
+                  -machine romulus-bmc \
+                  -no-reboot \
+                  -dtb out/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dtb \
+                  -initrd rootfs.cpio \
+                  -display none \
+                  -serial mon:stdio \
+                  -kernel ${KBF}/arch/arm/boot/zImage
+
+  If it is needed, the rootfs we are using is provided at a link below
+  [3].
+
+  Debugging with QEMU reveals that the kernel panics in vfp_init,
+  specifically at the line:
+
+  vfpsid =3D fmrx(FPSID);
+
+  in arch/arm/vfp/vfpmodule.c because of an illegal instruction:
+
+  [    0.058685] VFP support v0.3: =
+
+  [    0.059159] Internal error: Oops - undefined instruction: 0 [#1] SMP A=
+RM
+  [    0.059525] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.3.0-next-20190=
+918-dirty #1
+  [    0.059547] Hardware name: Generic DT based system
+  [    0.059702] PC is at vfp_init+0x50/0x1f4
+  [    0.059721] LR is at vfp_init+0x4c/0x1f4
+  [    0.059738] pc : [<80b0383c>]    lr : [<80b03838>]    psr: 60000153
+  [    0.059756] sp : 9e497ec0  ip : 00000020  fp : 9e497ed8
+  [    0.059773] r10: 00000000  r9 : ffffe000  r8 : 80c06048
+  [    0.059792] r7 : 00000000  r6 : 80c0caac  r5 : 80c6c418  r4 : 80b037ec
+  [    0.059811] r3 : 00000000  r2 : 339aa372  r1 : 00000000  r0 : 00000012
+  [    0.059859] Flags: nZCv  IRQs on  FIQs off  Mode SVC_32  ISA ARM  Segm=
+ent none
+  [    0.059883] Control: 00c5387d  Table: 80004008  DAC: 00000051
+  [    0.059997] Process swapper/0 (pid: 1, stack limit =3D 0x(ptrval))
+  [    0.060048] Stack: (0x9e497ec0 to 0x9e498000)
+  [    0.060205] 7ec0: 80b037ec 80b6bf0c 80b037ec ffffffff 00000000 0000000=
+0 9e497f48 80b01100
+  [    0.060310] 7ee0: 00000000 9eeff9e0 80a85734 809eb9be 00000000 8014b7f=
+4 9eeff9e0 80a85734
+  [    0.060408] 7f00: 9e497f48 8014b7f4 000000a4 00000001 00000001 0000000=
+0 80b0133c 9e497f38
+  [    0.060509] 7f20: 00000000 9eeff9d5 339aa372 80b6be80 80b6bf0c 0000000=
+0 00000000 00000000
+  [    0.060606] 7f40: 00000000 00000000 9e497f70 80b01864 00000001 0000000=
+1 00000000 80b0133c
+  [    0.060703] 7f60: 00000001 8085d268 00000000 00000000 9e497f80 80b0175=
+8 00000000 00000000
+  [    0.060800] 7f80: 9e497f90 80b015e4 00000000 8085d268 9e497fa8 8085d27=
+c 00000000 8085d268
+  [    0.060897] 7fa0: 00000000 00000000 00000000 801010e8 00000000 0000000=
+0 00000000 00000000
+  [    0.060993] 7fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
+0 00000000 00000000
+  [    0.061090] 7fe0: 00000000 00000000 00000000 00000000 00000013 0000000=
+0 00000000 00000000
+  [    0.061625] [<80b0383c>] (vfp_init) from [<80b01100>] (do_one_initcall=
++0xa8/0x1e0)
+  [    0.061722] [<80b01100>] (do_one_initcall) from [<80b01864>] (do_initc=
+all_level+0xfc/0x12c)
+  [    0.061742] [<80b01864>] (do_initcall_level) from [<80b01758>] (do_bas=
+ic_setup+0x2c/0x3c)
+  [    0.061759] [<80b01758>] (do_basic_setup) from [<80b015e4>] (kernel_in=
+it_freeable+0x68/0x104)
+  [    0.061777] [<80b015e4>] (kernel_init_freeable) from [<8085d27c>] (ker=
+nel_init+0x14/0x26c)
+  [    0.061798] [<8085d27c>] (kernel_init) from [<801010e8>] (ret_from_for=
+k+0x14/0x2c)
+  [    0.061835] Exception stack(0x9e497fb0 to 0x9e497ff8)
+  [    0.061896] 7fa0:                                     00000000 0000000=
+0 00000000 00000000
+  [    0.061998] 7fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
+0 00000000 00000000
+  [    0.062080] 7fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+  [    0.062263] Code: e5860000 e59f0174 ebd9d8fc e59f5170 (eef04a10) =
+
+  [    0.062679] ---[ end trace 2d338c91e4e74562 ]---
+
+  Before fc1120a7f5:
+
+  [    0.069418] VFP support v0.3: implementor 41 architecture 1 part 20
+  variant b rev 5
+
+  Should you need to reproduce this locally:
+
+  * clang 9.0.0 or later is needed to build this config. If you do not
+  have easy access to such a build, we have a clang build script
+  available [4] that can help with this:
+
+  % ./build-llvm.py --branch llvmorg-9.0.0-rc6 \
+                    --build-stage1-only \
+                    --projects clang \
+                    --targets ARM
+
+  * Because of an unrelated build issue, linux-next needs to be used (or
+  the singular patch that resolves it needs to be cherry-picked on top
+  of 4cdabee7d6d2 [5]). The kernel make command used:
+
+  % make -j$(nproc) -s \
+         ARCH=3Darm \
+         CC=3Dclang \
+         CROSS_COMPILE=3Darm-linux-gnueabi- \
+         O=3Dout \
+         distclean aspeed_g5_defconfig all
+
+  [1]: https://git.kernel.org/linus/4cdabee7d6d2e439fea726a101e448c4ca6837f4
+  [2]: https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dfc1120a7f5f2d4b601=
+003205c598077d3eb11ad2
+  [3]: https://github.com/ClangBuiltLinux/continuous-integration/blob/800d8=
+4bf8c55ee04c50ed4c78144a96d889a91c5/images/arm/rootfs.cpio
+  [4]: https://github.com/ClangBuiltLinux/tc-build
+  [5]: http://git.armlinux.org.uk/cgit/linux-arm.git/commit/?id=3D7b3948597=
+372e5a6b314208ac320362c204b7f0f
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1844597/+subscriptions
 
