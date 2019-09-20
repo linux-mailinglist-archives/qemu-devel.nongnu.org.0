@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE753B94FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:11:53 +0200 (CEST)
-Received: from localhost ([::1]:33074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182ACB9512
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:17:02 +0200 (CEST)
+Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLVg-00059A-F7
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48061)
+	id 1iBLae-0002mF-Hs
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iBLBM-0002RW-LL
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:53 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBLFz-0007er-Ss
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iBLBL-00051D-8C
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59360)
+ (envelope-from <bounces@canonical.com>) id 1iBLFy-0007s7-1t
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36886)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iBLBL-00050m-2j
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:51 -0400
+ id 1iBLFx-0007rp-I4
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iBLBH-0000nT-Hu
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:50:47 +0000
+ id 1iBLFw-0002Or-OD
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:55:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 65BBD2E80DE
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:50:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B0A322E80CB
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:55:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Sep 2019 15:38:40 -0000
-From: Vitaly Kuznetsov <1811533@bugs.launchpad.net>
+Date: Fri, 20 Sep 2019 15:48:16 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1844817@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: trace
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h djdatte vkuznets zaltysz
-X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Vitaly Kuznetsov (vkuznets)
-References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
-Message-Id: <156899392075.26730.527039292397667656.malone@soybean.canonical.com>
-Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
- hv_stimer
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <156899449679.4991.3377250373042418918.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1844817] [NEW] trace: dynamic width format syntax not validated
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19048";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 34b9f2d56817c3d9f763cde779f3ca2cba3f4b37
+X-Launchpad-Hash: 096545b6d416ad4d740516e58d7f05f5222ddfb2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,91 +65,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
+Reply-To: Bug 1844817 <1844817@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No, I think it's the other way around: clearing guest pages is
-unrelated. It is easy to check with the following kernel patch:
+Public bug reported:
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index fff790a3f4ee..73c574f930e3 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -776,7 +776,7 @@ int kvm_hv_activate_synic(struct kvm_vcpu *vcpu, bool d=
-ont_zero_synic_pages)
-         */
-        kvm_vcpu_deactivate_apicv(vcpu);
-        synic->active =3D true;
--       synic->dont_zero_synic_pages =3D dont_zero_synic_pages;
-+       synic->dont_zero_synic_pages =3D false;
-        return 0;
- }
+The dtrace via stap backend cannot support the dynamic '*' width format.
 
-my expectation is that the issue will remain.
+Eric noted in https://lists.gnu.org/archive/html/qemu-
+devel/2019-09/msg04720.html:
 
-Now what *can* be causing it: when in-QEMU synic is initialized it
-creates two memory subregions: for Event page and for Message page
-(HV_X64_MSR_SIEFP/HV_X64_MSR_SIMP MSRs). These regions are always 4k in
-size and they can me anywhere in guest's memory, not necessarily 2M
-aligned.
+  https://sourceware.org/systemtap/langref.pdf
 
-Now, (if I understood correctly) in vhost code,
-vhost_region_add_section() is trying to align to qemu_ram_pagesize() and
-this may intersect with synic regions.
+  section 9.2 printf, states:
 
-We need to summon someone who understands memory_region_* magic in QEMU
-and vhost in particular.
+  "The printf formatting directives are similar to those of C, except that
+  they are fully checked for type by the translator."
+
+  and does NOT list handling for '*' under precision or width.
+
+Some trace events have been merged without checking this:
+
+$ git ls-files|fgrep trace-event|xargs git grep '*\("\|x\)'
+hw/block/trace-events:11:pflash_io_read(uint64_t offset, int width, int fmt=
+_width, uint32_t value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" =
+width:%d value:0x%0*x cmd:0x%02x wcycle:%u"
+hw/block/trace-events:12:pflash_io_write(uint64_t offset, int width, int fm=
+t_width, uint32_t value, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d val=
+ue:0x%0*x wcycle:%u"
+hw/block/trace-events:13:pflash_data_read(uint64_t offset, int width, uint3=
+2_t value) "data offset:0x%04"PRIx64" value:0x%0*x"
+hw/block/trace-events:14:pflash_data_write(uint64_t offset, int width, uint=
+32_t value, uint64_t counter) "data offset:0x%04"PRIx64" value:0x%0*x count=
+er:0x%016"PRIx64
+hw/mips/trace-events:2:gt64120_read(const char *regname, int width, uint64_=
+t value) "gt64120 read %s value:0x%0*" PRIx64
+hw/mips/trace-events:3:gt64120_write(const char *regname, int width, uint64=
+_t value) "gt64120 write %s value:0x%0*" PRIx64
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: trace
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1811533
+https://bugs.launchpad.net/bugs/1844817
 
 Title:
-  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
+  trace: dynamic width format syntax not validated
 
 Status in QEMU:
-  Confirmed
+  New
 
 Bug description:
-  Host:
-  Gentoo linux x86_64, kernel 4.20.1
-  Qemu 3.1.0 =
+  The dtrace via stap backend cannot support the dynamic '*' width
+  format.
 
-  CPU: Intel i7 6850K
-  Chipset: X99
+  Eric noted in https://lists.gnu.org/archive/html/qemu-
+  devel/2019-09/msg04720.html:
 
-  Guest:
-  Windows 10 Pro 64bit (1809)
-  Machine type: pc-q35_3.1
-  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
-pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
-=3D0x1fff
-  Memory: 16GB backed by 2MB huge pages
+    https://sourceware.org/systemtap/langref.pdf
 
-  Issue:
-  Once guest is started, log gets flooded with:
+    section 9.2 printf, states:
 
-  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
-  coherent sections at 103000
+    "The printf formatting directives are similar to those of C, except that
+    they are fully checked for type by the translator."
 
-  or
+    and does NOT list handling for '*' under precision or width.
 
-  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
-  prior to previous 1f000
+  Some trace events have been merged without checking this:
 
-  (line endings change)
-
-  and as time goes guest loses network access (virtio-net-pci) and
-  general performance diminishes to extent of freezing applications.
-
-  Observations:
-  1) problem disappears when hv_stimer is removed
-  2) problem disappears when memory backing with huge pages is disabled
-  3) problem disappears when machine type is downgraded to pc-q35_3.0
+  $ git ls-files|fgrep trace-event|xargs git grep '*\("\|x\)'
+  hw/block/trace-events:11:pflash_io_read(uint64_t offset, int width, int f=
+mt_width, uint32_t value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64=
+" width:%d value:0x%0*x cmd:0x%02x wcycle:%u"
+  hw/block/trace-events:12:pflash_io_write(uint64_t offset, int width, int =
+fmt_width, uint32_t value, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d v=
+alue:0x%0*x wcycle:%u"
+  hw/block/trace-events:13:pflash_data_read(uint64_t offset, int width, uin=
+t32_t value) "data offset:0x%04"PRIx64" value:0x%0*x"
+  hw/block/trace-events:14:pflash_data_write(uint64_t offset, int width, ui=
+nt32_t value, uint64_t counter) "data offset:0x%04"PRIx64" value:0x%0*x cou=
+nter:0x%016"PRIx64
+  hw/mips/trace-events:2:gt64120_read(const char *regname, int width, uint6=
+4_t value) "gt64120 read %s value:0x%0*" PRIx64
+  hw/mips/trace-events:3:gt64120_write(const char *regname, int width, uint=
+64_t value) "gt64120 write %s value:0x%0*" PRIx64
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1844817/+subscriptions
 
