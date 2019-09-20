@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D44B8DCF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:31:52 +0200 (CEST)
-Received: from localhost ([::1]:57076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3874B8DD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:32:36 +0200 (CEST)
+Received: from localhost ([::1]:57098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBFGY-00078X-V4
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51823)
+	id 1iBFHH-0000Kc-JS
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:32:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iBF8X-0005j1-HI
+ (envelope-from <sgarzare@redhat.com>) id 1iBF8X-0005nI-RH
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:23:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iBF09-0000Zx-QR
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:14:54 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34582)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1iBF08-0000Yp-LC; Fri, 20 Sep 2019 05:14:52 -0400
-Received: by mail-wm1-x341.google.com with SMTP id y135so9079607wmc.1;
- Fri, 20 Sep 2019 02:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=/cqtzKqcWrCsVrZjWVxWwEKHDNeAGI8dMMmo4mDIy1s=;
- b=cuzezCxLCM7OGimJK69z3aNUaXArnZbN9z2nHUTDV6RRzWxj/J3oVvBm7nlDEecgWj
- +h1nnrCj5MZn1RyuTburoph88Fzfr01bxSfjbwYaxb77+Y7ibjJAiseFPYjPmkHNWue2
- JXwmoOMD48koVcM3U7Eph+C9yruuvFJdjC+s9eI9Tfr0DpfQQ/L0KoMn+BO2I/XNWfuV
- SjSfraFG4VR6rC5G+u/zPMRuFbx8kH4brRVtwX0KEvitB5ApnuKjbcAose0qMn9sdM+h
- r2eOb12nrfe6XZLpNCQau/iMyF2ak0cijAB3FrjdBDNtvBUkGzr8ZIQTEmEBY7PW9JPz
- vdrg==
+ (envelope-from <sgarzare@redhat.com>) id 1iBF0I-0000fd-UT
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:15:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36032)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iBF0I-0000el-PU
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:15:02 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 42FE97BDA6
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 09:15:01 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id v13so2005746wrq.23
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 02:15:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=/cqtzKqcWrCsVrZjWVxWwEKHDNeAGI8dMMmo4mDIy1s=;
- b=G7hAvXXKKrsqOrWrBcD1EQHZHpY6CYU5/dYlI0xuHxQzzgRmSGDfruFIDOHF+vzIWB
- Iyrct8DwA12TBSwkSTK4tamF7dxsbZ+4sj9N0FF3wA7lX0DPJ4xoAi3Qznt0lswBcyYq
- KzN/7jOIfoewSkqY7LkdMNjlBluDj/c1Wc+vmx9wFPCQnLNiAfBlQJNMpTs8ZTFjVpLh
- 05bX17uPXoR2He12elXXLd5VlfyigG+l4yWRe6++AflX/66U9vuGZt1jb25RrhSrVfPY
- DR+SXGoe6w8SOolsYUNkWLgNWZoaZt84FijekjNw+U+rTar0XUURpzsO50HT+rgSMf0F
- GhzQ==
-X-Gm-Message-State: APjAAAWS2F3PAvTSpFlFJCpEgtGcJwlT8TY1una/N3N0ULfq+qyIvbVa
- FGVp8Mz7IYz4UqiDrrIXsrs=
-X-Google-Smtp-Source: APXvYqyNT9s9NW5zDy0cdHEqCfz9rrFT67A8aiTvSIkdY5eddLkFpNIQWFEc3Be//ASopo6s12JUvg==
-X-Received: by 2002:a1c:a404:: with SMTP id n4mr2601479wme.41.1568970891010;
- Fri, 20 Sep 2019 02:14:51 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id l18sm1630813wrc.18.2019.09.20.02.14.49
+ bh=sNfsJgsIyOv71awToOVs97vuH1M2dMkzbt40tu53VFY=;
+ b=KbLz/LekjxJbOcXTW7vc2Wq6WY+QUdoC0GUvNwLTEfLfHRk/+VOQaj6BNFuH/tiIG3
+ 8oR/zySDJoF24tThz3UhI0yqqXu222maP8Mhp13KIz5twv6GqD+e12YeWB06GuOa7uGy
+ 4BUR2YmvrXP6fOBEhmnczDTVc9hDk7FV/OdzZR24cJDVj9RQHakokLfo+zUmaHLQIB2h
+ 3PEEKDu3kslZUU1lGXBijWxa2ONIyns2xryhJo3YeDMURsVD9d9izQkYQ/5cyHQIxy4B
+ 41jiU9v0jHmLNB6cFi9RWGwcjrux0u/Dp2cWSjB2WIaL+Mw/NKOd2NqoCQdhljkgYkZp
+ QDKw==
+X-Gm-Message-State: APjAAAUR2RMZAb2KTno8nvrMfq7Y9zt64IctfQ8jZmeYr6hjv3XFVeh2
+ b08hNsZEghVByAUcYlXrfIKxrBtzVOFZqUUi5ec/2Twm2+QAddSH4EwQeNkocbVPkdtwd9bgQ35
+ QOFeJuq6cTWbXQL8=
+X-Received: by 2002:a5d:4611:: with SMTP id t17mr11111405wrq.135.1568970899980; 
+ Fri, 20 Sep 2019 02:14:59 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyuK8HjpXuGcJVznGkPu9jTgW7DXy9J7CEvZtOQCRB9iFoP8LlZZrKVT5m25It48Vl8UwLG9Q==
+X-Received: by 2002:a5d:4611:: with SMTP id t17mr11111387wrq.135.1568970899776; 
+ Fri, 20 Sep 2019 02:14:59 -0700 (PDT)
+Received: from steredhat (host170-61-dynamic.36-79-r.retail.telecomitalia.it.
+ [79.36.61.170])
+ by smtp.gmail.com with ESMTPSA id g24sm1460163wrb.35.2019.09.20.02.14.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Sep 2019 02:14:49 -0700 (PDT)
-Date: Fri, 20 Sep 2019 10:14:48 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [Qemu-block] [PATCH v3] virtio-blk: schedule
- virtio_notify_config to run on main context
-Message-ID: <20190920091448.GG14365@stefanha-x1.localdomain>
-References: <20190916112411.21636-1-slp@redhat.com>
+ Fri, 20 Sep 2019 02:14:59 -0700 (PDT)
+Date: Fri, 20 Sep 2019 11:14:56 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v2] target/i386: clean up comments over 80 chars per line
+Message-ID: <20190920091456.c6r4lcnsts6jw2v7@steredhat>
+References: <20190920053136.945-1-tao3.xu@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AGZzQgpsuUlWC1xT"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190916112411.21636-1-slp@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+In-Reply-To: <20190920053136.945-1-tao3.xu@intel.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,69 +76,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com,
+ ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Sep 20, 2019 at 01:31:36PM +0800, Tao Xu wrote:
+> Drop the duplicate definition of CPUID_7_0_ECX_VBMI. And add some
+> comments, clean up comments over 80 chars per line.
+> 
+> There is an extra line in comment of CPUID_8000_0008_EBX_WBNOINVD,
+> remove the extra enter and spaces.
 
---AGZzQgpsuUlWC1xT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Might it be better to split this patch into two?
 
-On Mon, Sep 16, 2019 at 01:24:12PM +0200, Sergio Lopez wrote:
-> virtio_notify_config() needs to acquire the global mutex, which isn't
-> allowed from an iothread, and may lead to a deadlock like this:
->=20
->  - main thead
->   * Has acquired: qemu_global_mutex.
->   * Is trying the acquire: iothread AioContext lock via
->     AIO_WAIT_WHILE (after aio_poll).
->=20
->  - iothread
->   * Has acquired: AioContext lock.
->   * Is trying to acquire: qemu_global_mutex (via
->     virtio_notify_config->prepare_mmio_access).
->=20
-> If virtio_blk_resize() is called from an iothread, schedule
-> virtio_notify_config() to be run in the main context BH.
->=20
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
-> Changelog
->=20
-> v3:
->  - Unconditionally schedule the work to be done in the main context BH
->    (thanks John Snow and Kevin Wolf).
->=20
-> v2:
->  - Use aio_bh_schedule_oneshot instead of scheduling a coroutine
->    (thanks Kevin Wolf).
->  - Switch from RFC to v2 patch.
-> ---
->  hw/block/virtio-blk.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
+One where you fix the comments over 80 chars rand one where you drop the
+CPUID_7_0_ECX_VBMI definition.
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+Thanks,
+Stefano
 
-Stefan
-
---AGZzQgpsuUlWC1xT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2EmIgACgkQnKSrs4Gr
-c8gxbQgAn7WW3OCn/zEPV/rkVcKprjJFBPi/QPeRfOKToDJAtnYfbPPAdlilgxBe
-0nVUypzio2N/G4ubqlxm36ZQyseRKrtCZ6j+XbBDt7QsvloxJKskv9NJMGlZ9DuF
-Ij1n9BhrhgFyVDQQSwZy62WGdgN7cYMqt2w3XKHOfFx7zzj7Qw+2gTuaIKCgC/vX
-FM/JUqtu7bI61NaQEsNlQ7x2b4DE9rqWHCzPymLGfFsKxf2TzklX53tGdfl576Wc
-EJTU3V3fIgxJZrd6q61E38HwOjzWf57jMVNVrArQGrgRreHNJrj5R3RSWJNfo0fk
-IPHua6ADG2Gg6JGZbMAmM6f/ZrSaZA==
-=DWwK
------END PGP SIGNATURE-----
-
---AGZzQgpsuUlWC1xT--
 
