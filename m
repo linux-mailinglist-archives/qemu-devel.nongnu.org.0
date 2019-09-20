@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BEBB94A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:57:02 +0200 (CEST)
-Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4156B9480
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:53:06 +0200 (CEST)
+Received: from localhost ([::1]:32830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLHI-0007ny-JW
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43947)
+	id 1iBLDV-0003dO-FP
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBKpk-0000pP-1k
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:33 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBKpy-00011E-3Y
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBKpi-0004Um-8u
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:21200)
+ (envelope-from <mreitz@redhat.com>) id 1iBKpu-0004aE-91
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39996)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBKpe-0004QY-PY; Fri, 20 Sep 2019 11:28:27 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iBKpo-0004WZ-40; Fri, 20 Sep 2019 11:28:36 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6B934C057F88;
- Fri, 20 Sep 2019 15:28:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DA21218C4277;
+ Fri, 20 Sep 2019 15:28:34 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB8B15D9C3;
- Fri, 20 Sep 2019 15:28:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F47C60C57;
+ Fri, 20 Sep 2019 15:28:34 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 08/22] quorum: Store children in own structure
-Date: Fri, 20 Sep 2019 17:27:50 +0200
-Message-Id: <20190920152804.12875-9-mreitz@redhat.com>
+Subject: [PATCH 12/22] block: Remove bdrv_recurse_is_first_non_filter()
+Date: Fri, 20 Sep 2019 17:27:54 +0200
+Message-Id: <20190920152804.12875-13-mreitz@redhat.com>
 In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
 References: <20190920152804.12875-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Fri, 20 Sep 2019 15:28:25 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 20 Sep 2019 15:28:34 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -59,242 +59,276 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be useful when we want to store additional attributes for each
-child.
+It no longer has any users.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/quorum.c | 58 ++++++++++++++++++++++++++++----------------------
- 1 file changed, 33 insertions(+), 25 deletions(-)
+ include/block/block.h     |  4 ----
+ include/block/block_int.h |  8 --------
+ block.c                   | 33 ---------------------------------
+ block/blkverify.c         | 15 ---------------
+ block/copy-on-read.c      |  9 ---------
+ block/quorum.c            | 18 ------------------
+ block/replication.c       |  7 -------
+ block/throttle.c          |  8 --------
+ 8 files changed, 102 deletions(-)
 
+diff --git a/include/block/block.h b/include/block/block.h
+index d3ccab4722..2944980c03 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -400,10 +400,6 @@ int bdrv_amend_options(BlockDriverState *bs_new, Qem=
+uOpts *opts,
+                        BlockDriverAmendStatusCB *status_cb, void *cb_opa=
+que,
+                        Error **errp);
+=20
+-/* external snapshots */
+-bool bdrv_recurse_is_first_non_filter(BlockDriverState *bs,
+-                                      BlockDriverState *candidate);
+-
+ /* check if a named node can be replaced when doing drive-mirror */
+ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+                                         const char *node_name, Error **e=
+rrp);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 0be7d12f04..70f26530c9 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -95,14 +95,6 @@ struct BlockDriver {
+      * must implement them and return -ENOTSUP.
+      */
+     bool is_filter;
+-    /* for snapshots block filter like Quorum can implement the
+-     * following recursive callback.
+-     * It's purpose is to recurse on the filter children while calling
+-     * bdrv_recurse_is_first_non_filter on them.
+-     * For a sample implementation look in the future Quorum block filte=
+r.
+-     */
+-    bool (*bdrv_recurse_is_first_non_filter)(BlockDriverState *bs,
+-                                             BlockDriverState *candidate=
+);
+     /*
+      * Return true if @to_replace can be replaced by a BDS with the
+      * same data as @bs without it affecting @bs's behavior (that is,
+diff --git a/block.c b/block.c
+index 02177bde9a..0d9b3de98f 100644
+--- a/block.c
++++ b/block.c
+@@ -6173,39 +6173,6 @@ int bdrv_amend_options(BlockDriverState *bs, QemuO=
+pts *opts,
+     return bs->drv->bdrv_amend_options(bs, opts, status_cb, cb_opaque, e=
+rrp);
+ }
+=20
+-/* This function will be called by the bdrv_recurse_is_first_non_filter =
+method
+- * of block filter and by bdrv_is_first_non_filter.
+- * It is used to test if the given bs is the candidate or recurse more i=
+n the
+- * node graph.
+- */
+-bool bdrv_recurse_is_first_non_filter(BlockDriverState *bs,
+-                                      BlockDriverState *candidate)
+-{
+-    /* return false if basic checks fails */
+-    if (!bs || !bs->drv) {
+-        return false;
+-    }
+-
+-    /* the code reached a non block filter driver -> check if the bs is
+-     * the same as the candidate. It's the recursion termination conditi=
+on.
+-     */
+-    if (!bs->drv->is_filter) {
+-        return bs =3D=3D candidate;
+-    }
+-    /* Down this path the driver is a block filter driver */
+-
+-    /* If the block filter recursion method is defined use it to recurse=
+ down
+-     * the node graph.
+-     */
+-    if (bs->drv->bdrv_recurse_is_first_non_filter) {
+-        return bs->drv->bdrv_recurse_is_first_non_filter(bs, candidate);
+-    }
+-
+-    /* the driver is a block filter but don't allow to recurse -> return=
+ false
+-     */
+-    return false;
+-}
+-
+ /*
+  * This function checks whether the given @to_replace is allowed to be
+  * replaced by a node that always shows the same data as @bs.  This is
+diff --git a/block/blkverify.c b/block/blkverify.c
+index 0add3ab483..ba6b1853ae 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -268,20 +268,6 @@ static int blkverify_co_flush(BlockDriverState *bs)
+     return bdrv_co_flush(s->test_file->bs);
+ }
+=20
+-static bool blkverify_recurse_is_first_non_filter(BlockDriverState *bs,
+-                                                  BlockDriverState *cand=
+idate)
+-{
+-    BDRVBlkverifyState *s =3D bs->opaque;
+-
+-    bool perm =3D bdrv_recurse_is_first_non_filter(bs->file->bs, candida=
+te);
+-
+-    if (perm) {
+-        return true;
+-    }
+-
+-    return bdrv_recurse_is_first_non_filter(s->test_file->bs, candidate)=
+;
+-}
+-
+ static bool blkverify_recurse_can_replace(BlockDriverState *bs,
+                                           BlockDriverState *to_replace)
+ {
+@@ -341,7 +327,6 @@ static BlockDriver bdrv_blkverify =3D {
+     .bdrv_co_flush                    =3D blkverify_co_flush,
+=20
+     .is_filter                        =3D true,
+-    .bdrv_recurse_is_first_non_filter =3D blkverify_recurse_is_first_non=
+_filter,
+     .bdrv_recurse_can_replace         =3D blkverify_recurse_can_replace,
+ };
+=20
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 6631f30205..3204259513 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -125,13 +125,6 @@ static void cor_lock_medium(BlockDriverState *bs, bo=
+ol locked)
+ }
+=20
+=20
+-static bool cor_recurse_is_first_non_filter(BlockDriverState *bs,
+-                                            BlockDriverState *candidate)
+-{
+-    return bdrv_recurse_is_first_non_filter(bs->file->bs, candidate);
+-}
+-
+-
+ static BlockDriver bdrv_copy_on_read =3D {
+     .format_name                        =3D "copy-on-read",
+=20
+@@ -151,8 +144,6 @@ static BlockDriver bdrv_copy_on_read =3D {
+=20
+     .bdrv_co_block_status               =3D bdrv_co_block_status_from_fi=
+le,
+=20
+-    .bdrv_recurse_is_first_non_filter   =3D cor_recurse_is_first_non_fil=
+ter,
+-
+     .has_variable_length                =3D true,
+     .is_filter                          =3D true,
+ };
 diff --git a/block/quorum.c b/block/quorum.c
-index 17b439056f..cf2171cc74 100644
+index 81b57dbae2..7a8f8b5475 100644
 --- a/block/quorum.c
 +++ b/block/quorum.c
-@@ -65,9 +65,13 @@ typedef struct QuorumVotes {
-     bool (*compare)(QuorumVoteValue *a, QuorumVoteValue *b);
- } QuorumVotes;
-=20
-+typedef struct QuorumChild {
-+    BdrvChild *child;
-+} QuorumChild;
-+
- /* the following structure holds the state of one quorum instance */
- typedef struct BDRVQuorumState {
--    BdrvChild **children;  /* children BlockDriverStates */
-+    QuorumChild *children;
-     int num_children;      /* children count */
-     unsigned next_child_index;  /* the index of the next child that shou=
-ld
-                                  * be added
-@@ -264,7 +268,7 @@ static void quorum_report_bad_versions(BDRVQuorumStat=
-e *s,
-         }
-         QLIST_FOREACH(item, &version->items, next) {
-             quorum_report_bad(QUORUM_OP_TYPE_READ, acb->offset, acb->byt=
-es,
--                              s->children[item->index]->bs->node_name, 0=
-);
-+                              s->children[item->index].child->bs->node_n=
-ame, 0);
-         }
-     }
+@@ -808,23 +808,6 @@ static coroutine_fn int quorum_co_flush(BlockDriverS=
+tate *bs)
+     return result;
  }
-@@ -279,7 +283,7 @@ static void quorum_rewrite_entry(void *opaque)
-      * corrupted data.
-      * Mask out BDRV_REQ_WRITE_UNCHANGED because this overwrites the
-      * area with different data from the other children. */
--    bdrv_co_pwritev(s->children[co->idx], acb->offset, acb->bytes,
-+    bdrv_co_pwritev(s->children[co->idx].child, acb->offset, acb->bytes,
-                     acb->qiov, acb->flags & ~BDRV_REQ_WRITE_UNCHANGED);
 =20
-     /* Wake up the caller after the last rewrite */
-@@ -578,8 +582,8 @@ static void read_quorum_children_entry(void *opaque)
-     int i =3D co->idx;
-     QuorumChildRequest *sacb =3D &acb->qcrs[i];
-=20
--    sacb->bs =3D s->children[i]->bs;
--    sacb->ret =3D bdrv_co_preadv(s->children[i], acb->offset, acb->bytes=
-,
-+    sacb->bs =3D s->children[i].child->bs;
-+    sacb->ret =3D bdrv_co_preadv(s->children[i].child, acb->offset, acb-=
->bytes,
-                                &acb->qcrs[i].qiov, 0);
-=20
-     if (sacb->ret =3D=3D 0) {
-@@ -605,7 +609,8 @@ static int read_quorum_children(QuorumAIOCB *acb)
-=20
-     acb->children_read =3D s->num_children;
-     for (i =3D 0; i < s->num_children; i++) {
--        acb->qcrs[i].buf =3D qemu_blockalign(s->children[i]->bs, acb->qi=
-ov->size);
-+        acb->qcrs[i].buf =3D qemu_blockalign(s->children[i].child->bs,
-+                                           acb->qiov->size);
-         qemu_iovec_init(&acb->qcrs[i].qiov, acb->qiov->niov);
-         qemu_iovec_clone(&acb->qcrs[i].qiov, acb->qiov, acb->qcrs[i].buf=
-);
-     }
-@@ -647,8 +652,8 @@ static int read_fifo_child(QuorumAIOCB *acb)
-     /* We try to read the next child in FIFO order if we failed to read =
-*/
-     do {
-         n =3D acb->children_read++;
--        acb->qcrs[n].bs =3D s->children[n]->bs;
--        ret =3D bdrv_co_preadv(s->children[n], acb->offset, acb->bytes,
-+        acb->qcrs[n].bs =3D s->children[n].child->bs;
-+        ret =3D bdrv_co_preadv(s->children[n].child, acb->offset, acb->b=
-ytes,
-                              acb->qiov, 0);
-         if (ret < 0) {
-             quorum_report_bad_acb(&acb->qcrs[n], ret);
-@@ -688,8 +693,8 @@ static void write_quorum_entry(void *opaque)
-     int i =3D co->idx;
-     QuorumChildRequest *sacb =3D &acb->qcrs[i];
-=20
--    sacb->bs =3D s->children[i]->bs;
--    sacb->ret =3D bdrv_co_pwritev(s->children[i], acb->offset, acb->byte=
-s,
-+    sacb->bs =3D s->children[i].child->bs;
-+    sacb->ret =3D bdrv_co_pwritev(s->children[i].child, acb->offset, acb=
-->bytes,
-                                 acb->qiov, acb->flags);
-     if (sacb->ret =3D=3D 0) {
-         acb->success_count++;
-@@ -743,12 +748,12 @@ static int64_t quorum_getlength(BlockDriverState *b=
-s)
-     int i;
-=20
-     /* check that all file have the same length */
--    result =3D bdrv_getlength(s->children[0]->bs);
-+    result =3D bdrv_getlength(s->children[0].child->bs);
-     if (result < 0) {
-         return result;
-     }
-     for (i =3D 1; i < s->num_children; i++) {
--        int64_t value =3D bdrv_getlength(s->children[i]->bs);
-+        int64_t value =3D bdrv_getlength(s->children[i].child->bs);
-         if (value < 0) {
-             return value;
-         }
-@@ -774,10 +779,10 @@ static coroutine_fn int quorum_co_flush(BlockDriver=
-State *bs)
-     error_votes.compare =3D quorum_64bits_compare;
-=20
-     for (i =3D 0; i < s->num_children; i++) {
--        result =3D bdrv_co_flush(s->children[i]->bs);
-+        result =3D bdrv_co_flush(s->children[i].child->bs);
-         if (result) {
-             quorum_report_bad(QUORUM_OP_TYPE_FLUSH, 0, 0,
--                              s->children[i]->bs->node_name, result);
-+                              s->children[i].child->bs->node_name, resul=
-t);
-             result_value.l =3D result;
-             quorum_count_vote(&error_votes, &result_value, i);
-         } else {
-@@ -803,7 +808,7 @@ static bool quorum_recurse_is_first_non_filter(BlockD=
-riverState *bs,
-     int i;
-=20
-     for (i =3D 0; i < s->num_children; i++) {
--        bool perm =3D bdrv_recurse_is_first_non_filter(s->children[i]->b=
-s,
-+        bool perm =3D bdrv_recurse_is_first_non_filter(s->children[i].ch=
+-static bool quorum_recurse_is_first_non_filter(BlockDriverState *bs,
+-                                               BlockDriverState *candida=
+te)
+-{
+-    BDRVQuorumState *s =3D bs->opaque;
+-    int i;
+-
+-    for (i =3D 0; i < s->num_children; i++) {
+-        bool perm =3D bdrv_recurse_is_first_non_filter(s->children[i].ch=
 ild->bs,
-                                                      candidate);
-         if (perm) {
-             return true;
-@@ -932,7 +937,7 @@ static int quorum_open(BlockDriverState *bs, QDict *o=
-ptions, int flags,
-     }
+-                                                     candidate);
+-        if (perm) {
+-            return true;
+-        }
+-    }
+-
+-    return false;
+-}
+-
+ static bool quorum_recurse_can_replace(BlockDriverState *bs,
+                                        BlockDriverState *to_replace)
+ {
+@@ -1255,7 +1238,6 @@ static BlockDriver bdrv_quorum =3D {
+     .bdrv_child_perm                    =3D quorum_child_perm,
 =20
-     /* allocate the children array */
--    s->children =3D g_new0(BdrvChild *, s->num_children);
-+    s->children =3D g_new0(QuorumChild, s->num_children);
-     opened =3D g_new0(bool, s->num_children);
+     .is_filter                          =3D true,
+-    .bdrv_recurse_is_first_non_filter   =3D quorum_recurse_is_first_non_=
+filter,
+     .bdrv_recurse_can_replace           =3D quorum_recurse_can_replace,
 =20
-     for (i =3D 0; i < s->num_children; i++) {
-@@ -940,8 +945,9 @@ static int quorum_open(BlockDriverState *bs, QDict *o=
-ptions, int flags,
-         ret =3D snprintf(indexstr, 32, "children.%d", i);
-         assert(ret < 32);
-=20
--        s->children[i] =3D bdrv_open_child(NULL, options, indexstr, bs,
--                                         &child_format, false, &local_er=
-r);
-+        s->children[i].child =3D bdrv_open_child(NULL, options, indexstr=
-, bs,
-+                                               &child_format, false,
-+                                               &local_err);
-         if (local_err) {
-             ret =3D -EINVAL;
-             goto close_exit;
-@@ -962,7 +968,7 @@ close_exit:
-         if (!opened[i]) {
-             continue;
-         }
--        bdrv_unref_child(bs, s->children[i]);
-+        bdrv_unref_child(bs, s->children[i].child);
-     }
-     g_free(s->children);
-     g_free(opened);
-@@ -979,7 +985,7 @@ static void quorum_close(BlockDriverState *bs)
-     int i;
-=20
-     for (i =3D 0; i < s->num_children; i++) {
--        bdrv_unref_child(bs, s->children[i]);
-+        bdrv_unref_child(bs, s->children[i].child);
-     }
-=20
-     g_free(s->children);
-@@ -1022,8 +1028,10 @@ static void quorum_add_child(BlockDriverState *bs,=
- BlockDriverState *child_bs,
-         s->next_child_index--;
-         goto out;
-     }
--    s->children =3D g_renew(BdrvChild *, s->children, s->num_children + =
-1);
--    s->children[s->num_children++] =3D child;
-+    s->children =3D g_renew(QuorumChild, s->children, s->num_children + =
-1);
-+    s->children[s->num_children++] =3D (QuorumChild){
-+        .child =3D child,
-+    };
-=20
- out:
-     bdrv_drained_end(bs);
-@@ -1036,7 +1044,7 @@ static void quorum_del_child(BlockDriverState *bs, =
-BdrvChild *child,
-     int i;
-=20
-     for (i =3D 0; i < s->num_children; i++) {
--        if (s->children[i] =3D=3D child) {
-+        if (s->children[i].child =3D=3D child) {
-             break;
-         }
-     }
-@@ -1059,7 +1067,7 @@ static void quorum_del_child(BlockDriverState *bs, =
-BdrvChild *child,
-     /* We can safely remove this child now */
-     memmove(&s->children[i], &s->children[i + 1],
-             (s->num_children - i - 1) * sizeof(BdrvChild *));
--    s->children =3D g_renew(BdrvChild *, s->children, --s->num_children)=
-;
-+    s->children =3D g_renew(QuorumChild, s->children, --s->num_children)=
-;
-     bdrv_unref_child(bs, child);
-=20
-     bdrv_drained_end(bs);
-@@ -1100,7 +1108,7 @@ static void quorum_gather_child_options(BlockDriver=
-State *bs, QDict *target,
-=20
-     for (i =3D 0; i < s->num_children; i++) {
-         qlist_append(children_list,
--                     qobject_ref(s->children[i]->bs->full_open_options))=
-;
-+                     qobject_ref(s->children[i].child->bs->full_open_opt=
-ions));
-     }
+     .strong_runtime_opts                =3D quorum_strong_runtime_opts,
+diff --git a/block/replication.c b/block/replication.c
+index 99532ce521..d6681b6c84 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -306,12 +306,6 @@ out:
+     return ret;
  }
+=20
+-static bool replication_recurse_is_first_non_filter(BlockDriverState *bs=
+,
+-                                                    BlockDriverState *ca=
+ndidate)
+-{
+-    return bdrv_recurse_is_first_non_filter(bs->file->bs, candidate);
+-}
+-
+ static void secondary_do_checkpoint(BDRVReplicationState *s, Error **err=
+p)
+ {
+     Error *local_err =3D NULL;
+@@ -699,7 +693,6 @@ static BlockDriver bdrv_replication =3D {
+     .bdrv_co_writev             =3D replication_co_writev,
+=20
+     .is_filter                  =3D true,
+-    .bdrv_recurse_is_first_non_filter =3D replication_recurse_is_first_n=
+on_filter,
+=20
+     .has_variable_length        =3D true,
+     .strong_runtime_opts        =3D replication_strong_runtime_opts,
+diff --git a/block/throttle.c b/block/throttle.c
+index 0349f42257..71f4bb0ad1 100644
+--- a/block/throttle.c
++++ b/block/throttle.c
+@@ -207,12 +207,6 @@ static void throttle_reopen_abort(BDRVReopenState *r=
+eopen_state)
+     reopen_state->opaque =3D NULL;
+ }
+=20
+-static bool throttle_recurse_is_first_non_filter(BlockDriverState *bs,
+-                                                 BlockDriverState *candi=
+date)
+-{
+-    return bdrv_recurse_is_first_non_filter(bs->file->bs, candidate);
+-}
+-
+ static void coroutine_fn throttle_co_drain_begin(BlockDriverState *bs)
+ {
+     ThrottleGroupMember *tgm =3D bs->opaque;
+@@ -252,8 +246,6 @@ static BlockDriver bdrv_throttle =3D {
+     .bdrv_co_pwrite_zeroes              =3D   throttle_co_pwrite_zeroes,
+     .bdrv_co_pdiscard                   =3D   throttle_co_pdiscard,
+=20
+-    .bdrv_recurse_is_first_non_filter   =3D   throttle_recurse_is_first_=
+non_filter,
+-
+     .bdrv_attach_aio_context            =3D   throttle_attach_aio_contex=
+t,
+     .bdrv_detach_aio_context            =3D   throttle_detach_aio_contex=
+t,
 =20
 --=20
 2.21.0
