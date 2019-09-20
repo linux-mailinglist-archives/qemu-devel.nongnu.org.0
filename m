@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2984B9368
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:52:15 +0200 (CEST)
-Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9586FB9394
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:59:12 +0200 (CEST)
+Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBKGb-0006Zs-MF
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37665)
+	id 1iBKNL-0006aw-Kg
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38753)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBKBt-0003N2-O0
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:47:22 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iBKJb-00035w-A1
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:55:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBKBs-0003AF-Nf
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:47:21 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38573)
+ (envelope-from <peter.maydell@linaro.org>) id 1iBKJZ-0005qt-Ub
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:55:18 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:35254)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1iBKBs-00039q-ID; Fri, 20 Sep 2019 10:47:20 -0400
-Received: by mail-pl1-x644.google.com with SMTP id w10so3291676plq.5;
- Fri, 20 Sep 2019 07:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Jkm0ljehZywZ2iXiHGqHTmmKoGBleQrarPOjldtOvIw=;
- b=XB0mj5rAi5k79Ektlt4WBY57icoLPPhHkMPmbmnBljNKjTjkBqc2d9kjHAuvMPeoZ/
- la2CTfKjIrwU1xcGLdB3w1iBMVAG8xlKUImd6C1ns33vXeJ5wGwYicVV155wwY7GmQaJ
- vw5YEzd4v2B4eGRh4jWHcaq9L4oFCQRL+qjnu2kHD4rFHi/VWvZsX70E1DHyt+cHR0vn
- nzIkpMlCcN7jFQLbHSAVyofb9Vk+Tz1ZQID4vsjv68wXaNyknZrPj0tadnk0tEM0Vgns
- P1tF3KNTMFaoITjKsBTNJWDvJCBqcIZPIoAGSJxYeeqaOCZBI9X1sZLdzgbOiR8PVxmH
- jOyA==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iBKJZ-0005pZ-M5
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:55:17 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id x3so2000872oig.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 07:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Y9FKcspW8AA+Sguyz9oliXeiHN9biuqloItbBmO4zQc=;
+ b=b6q17ZiL+cRd2zO/M+YLfrOZ6AesD2zpM191rdoBTfiK9hOy9oQ4WPBlfUTv+l7sBp
+ DcQM4ik4a6PLjS251EM8Ewqk8zfj/ITTdJXXY84d/1eleIsdRYS8BHeMmA2WNVWNOYkm
+ lNpPJ/5X/2ZkEblEpfBL92qBpvS57W0uW8nsmvTU94jUv6OVxrn1R8+wLR0hHgUP2+z3
+ Ttf/oi3kJqSUOdPIFJzKZCu+WzAotoyQUAf76BBEvqngKTNjZQnLDmUJG2AD0RVJ/xyw
+ xhsoFpu5fusK81wMDNpqZdyJFecqRgfoAJYMdZJVqCNtDSviCazMyvjxoVweGSDzxAH9
+ k4JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Jkm0ljehZywZ2iXiHGqHTmmKoGBleQrarPOjldtOvIw=;
- b=OGng49z3I33flhgw2BM9vBPyeKCPpdAbArt0vNG/0R8QZqckiRpna5Xl/GrUQABcVN
- KC+88zjw3q4VI3eHZt/qm3T/RqDixXWBU1VxBCwOuD7RnsV2MFMx4aS0HeenfsBPgYrH
- mycgxFw/OhSC/LkDtPA9Xr7ltlTGnbBrRjSxamsdUcKIhiwLRaEI/aWaJ3vakyU9elVs
- TQ/abxILqviimhstjStciGN/lEuqSriuez3vRUEcx0jn6/b3W7yri6p2EM7BGQBzdMl3
- c5bhVBFd+cvD3kTPUNyhc+6E/3/1flyTSJqpkZGm+UbIwefNPwtoJBIYCCYn8R6PkhdS
- IVKA==
-X-Gm-Message-State: APjAAAUqXC2OyPHX7LwLnjuZykfQWxAvjoChouGaBazuaKAO+EUGYgXL
- geJW6DXCw5CRtHyc3MqJVgA=
-X-Google-Smtp-Source: APXvYqyGBNdYrp4JC7beAU5zXlZzIA9enGnaEvnTJY6vDmxh+5uNBMrYRJv8syXWW6UzoINAGPe2YA==
-X-Received: by 2002:a17:902:a406:: with SMTP id
- p6mr17492719plq.134.1568990839606; 
- Fri, 20 Sep 2019 07:47:19 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id m102sm2483247pje.5.2019.09.20.07.47.18
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 20 Sep 2019 07:47:19 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH] riscv: Skip checking CSR privilege level in debugger mode
-Date: Fri, 20 Sep 2019 07:47:14 -0700
-Message-Id: <1568990834-9371-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Y9FKcspW8AA+Sguyz9oliXeiHN9biuqloItbBmO4zQc=;
+ b=iNKnPLwNIYPqvk7cHC3fzcNZ/UAdtM9bjfsj2iTluUIudxxqsw8HiIzs/QSoMdIWMH
+ xWbbyscR57822jHLPqP+ifHbD8+aGFoTt60hV59ZrifvbcqscMRD9SSOdStXiJGnITrh
+ mR5qkpEQRkntd7jMX4TEZAPn0iW2aHqGVKKjSFO6ZlEH26BsxiK2NyO78z1dEvuE1x8O
+ XTaiKskKebzy+AMuTF0OSWro0FH5aAm2KPOfgHURiHXe1W0+zUkZICIUGkE4sXVwe6+U
+ OMN256duqETh7ryWkZbK9sD9+GiC/WT4A1OVmoUxegE9uJn/6eJM39GHy6Me2bi8Ey4d
+ F1YQ==
+X-Gm-Message-State: APjAAAULTM/79Rj1uUv42QeXypBQuCYirE6OJ7ZsaVOeI/SWoKe9M8Q8
+ TSJhBC5RO4jqmfpG3c/PEF7YRJzG8n/jSCu3niEkIA==
+X-Google-Smtp-Source: APXvYqz21CZTpCbsqHV48a6wWBi/vki3tZwc1JdFp9rLJzwfKZWe6l/mKYfDwnlZYyADg6r8WTSKp8sD7xHsa8tjPoc=
+X-Received: by 2002:aca:53d4:: with SMTP id h203mr3142040oib.146.1568991313146; 
+ Fri, 20 Sep 2019 07:55:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <tencent_7BDD949D4C752E2A291A6A02@qq.com>
+ <CAFEAcA9QDrwUAdZWX7n_gO9afnT4n9+i8ZdqOcxrNbvi6n9=sw@mail.gmail.com>
+ <tencent_5378456F7A2F471F74C049FC@qq.com>
+In-Reply-To: <tencent_5378456F7A2F471F74C049FC@qq.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Sep 2019 15:55:02 +0100
+Message-ID: <CAFEAcA87Pb4Mk8McdaZHe41s=Cc1EeCknKfikRm6F+QoxKsdgg@mail.gmail.com>
+Subject: Re: Initialize data memory in user space emulation
+To: Libo Zhou <zhlb29@foxmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::22b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,42 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zong Li <zong.li@sifive.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we are in debugger mode, skip the CSR privilege level checking
-so that we can read/write all CSRs. Otherwise we get:
+On Fri, 20 Sep 2019 at 15:49, Libo Zhou <zhlb29@foxmail.com> wrote:
+> I need to emulate a Digital Signal Processor. The DSP essentially has onl=
+y basic MIPS ISA, and it manipulates the data stored in a "data memory". I =
+can run an ELF with user space emulation, what I need to additionally do is=
+ to initialize the "data memory" first, then run an ELF that manipulates th=
+e data in the "data memory", and finally see if the resulting data are corr=
+ect or not.
 
-(gdb) p/x $mtvec
-Could not fetch register "mtvec"; remote failure reply 'E14'
+QEMU doesn't really support doing that kind of thing, because
+actual Linux binaries don't execute in an environment like that.
+You could probably hack QEMU to mmap a file into the guest's
+memory before we start to run the userspace process, but there's
+nothing that will do what you want out of the box.
 
-when the hart is currently in S-mode.
-
-Reported-by: Zong Li <zong.li@sifive.com>
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
-
- target/riscv/csr.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index f767ad2..974c9c2 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -801,7 +801,10 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
- #if !defined(CONFIG_USER_ONLY)
-     int csr_priv = get_field(csrno, 0x300);
-     int read_only = get_field(csrno, 0xC00) == 3;
--    if ((write_mask && read_only) || (env->priv < csr_priv)) {
-+    if ((!env->debugger) && (env->priv < csr_priv)) {
-+        return -1;
-+    }
-+    if (write_mask && read_only) {
-         return -1;
-     }
- #endif
--- 
-2.7.4
-
+thanks
+-- PMM
 
