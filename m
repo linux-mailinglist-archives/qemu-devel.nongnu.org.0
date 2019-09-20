@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6FBB8F0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:36:24 +0200 (CEST)
-Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCE0B8F0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:38:02 +0200 (CEST)
+Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBHD4-0006mA-T8
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:36:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37978)
+	id 1iBHEf-0000jK-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iBHAU-0004iX-BI
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:43 -0400
+ (envelope-from <philmd@redhat.com>) id 1iBHAY-0004kB-7H
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iBHAS-00016K-GR
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36176)
+ (envelope-from <philmd@redhat.com>) id 1iBHAX-00018d-7m
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40515)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBHAS-00014H-Bs
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:40 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBHAX-00017b-2V
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:45 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 10F903082124;
- Fri, 20 Sep 2019 11:33:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3375D81F0D;
+ Fri, 20 Sep 2019 11:33:43 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.206.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4DE010027AA;
- Fri, 20 Sep 2019 11:33:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CB3A104B500;
+ Fri, 20 Sep 2019 11:33:38 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Justin Terry <juterry@microsoft.com>
-Subject: [PATCH v2 0/3] testing: Build WHPX enabled binaries
-Date: Fri, 20 Sep 2019 13:33:26 +0200
-Message-Id: <20190920113329.16787-1-philmd@redhat.com>
+Subject: [PATCH v2 1/3] target/i386: Fix broken build with WHPX enabled
+Date: Fri, 20 Sep 2019 13:33:27 +0200
+Message-Id: <20190920113329.16787-2-philmd@redhat.com>
+In-Reply-To: <20190920113329.16787-1-philmd@redhat.com>
+References: <20190920113329.16787-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 20 Sep 2019 11:33:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Fri, 20 Sep 2019 11:33:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,43 +62,51 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Ilias Maratos <i.maratos@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a job to cross-build QEMU with WHPX enabled.
+The WHPX build is broken since commit 12e9493df92 which removed the
+"hw/boards.h" where MachineState is declared:
 
-Since the WHPX is currently broken, include the patch required to have
-successful Shippable build.
+  $ ./configure \
+     --enable-hax --enable-whpx
 
-I previously included the WHPX headers shared by the Android project,
-and Daniel asked me to check the EULA. While trying to manually
-install the Windows SDK, I noticed the installer fetches archives
-directly, kindly asking where they are stored via the /fwlink API.
-Do the same, fetch the required archives and extract them. No need
-to accept EULA...
+  $ make x86_64-softmmu/all
+  [...]
+    CC      x86_64-softmmu/target/i386/whpx-all.o
+  target/i386/whpx-all.c: In function 'whpx_accel_init':
+  target/i386/whpx-all.c:1378:25: error: dereferencing pointer to
+  incomplete type 'MachineState' {aka 'struct MachineState'}
+       whpx->mem_quota =3D ms->ram_size;
+                           ^~
+  make[1]: *** [rules.mak:69: target/i386/whpx-all.o] Error 1
+    CC      x86_64-softmmu/trace/generated-helpers.o
+  make[1]: Target 'all' not remade because of errors.
+  make: *** [Makefile:471: x86_64-softmmu/all] Error 2
 
-Docker build the image first, then build QEMU in a instance of this
-image. The image is internal to Shippable, the instances are not
-reachable and are thrown once the build is finished. What we collect
-from Shippable is the console output of QEMU build process, and if
-the build process succeed or failed. So far we do not redistribute
-the image or built binaries.
+Restore this header, partially reverting commit 12e9493df92.
 
-Philippe Mathieu-Daud=C3=A9 (3):
-  target/i386: Fix broken build with WHPX enabled
-  tests/docker: Add fedora-win10sdk-cross image
-  .shippable.yml: Build WHPX enabled binaries
+Fixes: 12e9493df92
+Reported-by: Ilias Maratos <i.maratos@gmail.com>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ target/i386/whpx-all.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- .shippable.yml                                |  2 ++
- target/i386/whpx-all.c                        |  1 +
- tests/docker/Makefile.include                 |  2 ++
- .../dockerfiles/fedora-win10sdk-cross.docker  | 23 ++++++++++++++++
- tests/docker/dockerfiles/win10sdk-dl.sh       | 27 +++++++++++++++++++
- 5 files changed, 55 insertions(+)
- create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.docker
- create mode 100755 tests/docker/dockerfiles/win10sdk-dl.sh
-
+diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+index 0c15241ae4..def0c28480 100644
+--- a/target/i386/whpx-all.c
++++ b/target/i386/whpx-all.c
+@@ -18,6 +18,7 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/runstate.h"
+ #include "qemu/main-loop.h"
++#include "hw/boards.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "migration/blocker.h"
 --=20
 2.20.1
 
