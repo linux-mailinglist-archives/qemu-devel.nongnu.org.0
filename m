@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754C1B88E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 03:20:56 +0200 (CEST)
-Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3020B8900
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 03:47:05 +0200 (CEST)
+Received: from localhost ([::1]:50520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB7bT-0006Ho-9x
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 21:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49621)
+	id 1iB80m-000879-ME
+	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 21:47:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iB7Zl-000594-DO
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 21:19:10 -0400
+ (envelope-from <zhengxiang9@huawei.com>) id 1iB7zl-00078Y-0H
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 21:46:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iB7Zj-0005G4-SF
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 21:19:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46654)
+ (envelope-from <zhengxiang9@huawei.com>) id 1iB7zj-0008MH-Fa
+ for qemu-devel@nongnu.org; Thu, 19 Sep 2019 21:46:00 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:46516 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iB7Zj-0005Fs-KT
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 21:19:07 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C0BC0C024AEC;
- Fri, 20 Sep 2019 01:19:06 +0000 (UTC)
-Received: from [10.72.12.88] (ovpn-12-88.pek2.redhat.com [10.72.12.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFCB95D9CD;
- Fri, 20 Sep 2019 01:18:59 +0000 (UTC)
-Subject: Re: [Qemu-devel] vhost, iova, and dirty page tracking
-To: "Tian, Kevin" <kevin.tian@intel.com>, Paolo Bonzini
- <pbonzini@redhat.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>
-References: <AADFC41AFE54684AB9EE6CBC0274A5D19D577BEA@SHSMSX104.ccr.corp.intel.com>
- <60110ea3-9228-7e5d-ea32-05c72a95af0b@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57A080@SHSMSX104.ccr.corp.intel.com>
- <8302a4ae-1914-3046-b3b5-b3234d7dda02@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57B1D1@SHSMSX104.ccr.corp.intel.com>
- <6d73572e-1e89-b04a-bdd6-98ac73798083@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57B90C@SHSMSX104.ccr.corp.intel.com>
- <204219fa-ee72-ca60-52a4-fb4bbc887773@redhat.com>
- <20190919052819.GA18391@joy-OptiPlex-7040>
- <7b6d6343-33de-ebd7-9846-af54a45a82a2@redhat.com>
- <20190919061756.GB18391@joy-OptiPlex-7040>
- <e0efbdc0-aad9-0d17-ec68-36460865501f@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D57DD2A@SHSMSX104.ccr.corp.intel.com>
- <1ec55b2e-6a59-f1df-0604-5b524da0f001@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D587E3C@SHSMSX104.ccr.corp.intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <51578ae6-cc36-3b1a-9184-70a847e58712@redhat.com>
-Date: Fri, 20 Sep 2019 09:18:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <zhengxiang9@huawei.com>)
+ id 1iB7zf-0008HI-ID; Thu, 19 Sep 2019 21:45:56 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 171465FE99D9A574D1B7;
+ Fri, 20 Sep 2019 09:45:47 +0800 (CST)
+Received: from [127.0.0.1] (10.133.224.57) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Fri, 20 Sep 2019
+ 09:45:36 +0800
+Subject: Re: [PATCH v18 2/6] docs: APEI GHES generation and CPER record
+ description
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190906083152.25716-1-zhengxiang9@huawei.com>
+ <20190906083152.25716-3-zhengxiang9@huawei.com>
+ <CAFEAcA_MGiatTVCEbnoy5D7S_j9H1DyPkqWMb8uBKL_oycyVDg@mail.gmail.com>
+From: Xiang Zheng <zhengxiang9@huawei.com>
+Message-ID: <8235139e-0b72-1e9c-23d0-2d87afcce5a0@huawei.com>
+Date: Fri, 20 Sep 2019 09:45:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D587E3C@SHSMSX104.ccr.corp.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA_MGiatTVCEbnoy5D7S_j9H1DyPkqWMb8uBKL_oycyVDg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Fri, 20 Sep 2019 01:19:06 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.133.224.57]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,98 +57,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Alex Williamson' <alex.williamson@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>, QEMU
+ Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ James Morse <james.morse@arm.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Peter, thanks for your review!
 
-On 2019/9/20 =E4=B8=8A=E5=8D=886:54, Tian, Kevin wrote:
->> From: Paolo Bonzini [mailto:pbonzini@redhat.com]
->> Sent: Thursday, September 19, 2019 7:14 PM
+On 2019/9/19 21:25, Peter Maydell wrote:
+> On Fri, 6 Sep 2019 at 09:33, Xiang Zheng <zhengxiang9@huawei.com> wrote:
 >>
->> On 19/09/19 09:16, Tian, Kevin wrote:
->>>>> why GPA1 and GPA2 should be both dirty?
->>>>> even they have the same HVA due to overlaping virtual address space
->> in
->>>>> two processes, they still correspond to two physical pages.
->>>>> don't get what's your meaning :)
->>>> The point is not leave any corner case that is hard to debug or fix =
-in
->>>> the future.
->>>>
->>>> Let's just start by a single process, the API allows userspace to ma=
-ps
->>>> HVA to both GPA1 and GPA2. Since it knows GPA1 and GPA2 are
->> equivalent,
->>>> it's ok to sync just through GPA1. That means if you only log GPA2, =
-it
->>>> won't work.
->>> I noted KVM itself doesn't consider such situation (one HVA is mapped
->>> to multiple GPAs), when doing its dirty page tracking. If you look at
->>> kvm_vcpu_mark_page_dirty, it simply finds the unique memslot which
->>> contains the dirty gfn and then set the dirty bit within that slot. I=
-t
->>> doesn't attempt to walk all memslots to find out any other GPA which
->>> may be mapped to the same HVA.
->>>
->>> So there must be some disconnect here. let's hear from Paolo first an=
-d
->>> understand the rationale behind such situation.
->> In general, userspace cannot assume that it's okay to sync just throug=
-h
->> GPA1.  It must sync the host page if *either* GPA1 or GPA2 are marked
->> dirty.
-> Agree. In this case the kernel only needs to track whether GPA1 or
-> GPA2 is dirtied by guest operations.
-
-
-Not necessarily guest operations.
-
-
->   The reason why vhost has to
-> set both GPA1 and GPA2 is due to its own design - it maintains
-> IOVA->HVA and GPA->HVA mappings thus given a IOVA you have
-> to reverse lookup GPA->HVA memTable which gives multiple possible
-> GPAs.
-
-
-So if userspace need to track both GPA1 and GPA2, vhost can just stop=20
-when it found a one HVA->GPA mapping there.
-
-
->   But in concept if vhost can maintain a IOVA->GPA mapping,
-> then it is straightforward to set the right GPA every time when a IOVA
-> is tracked.
-
-
-That means, the translation is done twice by software, IOVA->GPA and=20
-GPA->HVA for each packet.
-
-Thanks
-
-
->
->> The situation really only arises in special cases.  For example,
->> 0xfffe0000..0xffffffff and 0xe0000..0xfffff might be the same memory.
->>  From "info mtree" before the guest boots:
+>> From: Dongjiu Geng <gengdongjiu@huawei.com>
 >>
->>      0000000000000000-ffffffffffffffff (prio -1, i/o): pci
->>        00000000000e0000-00000000000fffff (prio 1, i/o): alias isa-bios
->> @pc.bios 0000000000020000-000000000003ffff
->>        00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios
+>> Add APEI/GHES detailed design document
 >>
->> However, non-x86 machines may have other cases of aliased memory so
->> it's
->> a case that you should cover.
->>
-> Above example is read-only, thus won't be touched in logdirty path.
-> But now I agree that a specific architecture may define two
-> writable GPA ranges with one as the alias to the other, as long as
-> such case is explicitly documented so guest OS won't treat them as
-> separate memory pages.
->
-> Thanks
-> Kevin
+>> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+>> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+>> ---
+>>  docs/specs/acpi_hest_ghes.txt | 88 +++++++++++++++++++++++++++++++++++
+>>  1 file changed, 88 insertions(+)
+>>  create mode 100644 docs/specs/acpi_hest_ghes.txt
+> 
+> Hi; new documentation in docs/specs should be in rst format and
+> listed in the contents page for the manual at docs/specs/index.rst,
+> please. Conversion from plain text should hopefully be fairly
+> straightforward.
+> 
+
+Got it!
+
+> 
+> I've also provided some minor typo/grammar fixes below.
+> 
+Thanks, I will fix them soon.
+
+> 
+>> diff --git a/docs/specs/acpi_hest_ghes.txt b/docs/specs/acpi_hest_ghes.txt
+>> new file mode 100644
+>> index 0000000000..690d4b2bd0
+>> --- /dev/null
+>> +++ b/docs/specs/acpi_hest_ghes.txt
+>> @@ -0,0 +1,88 @@
+>> +APEI tables generating and CPER record
+>> +=============================
+>> +
+>> +Copyright (C) 2019 Huawei Corporation.
+>> +
+>> +Design Details:
+>> +-------------------
+>> +
+>> +       etc/acpi/tables                                 etc/hardware_errors
+>> +    ====================                      ==========================================
+>> ++ +--------------------------+            +-----------------------+
+>> +| | HEST                     |            |    address            |            +--------------+
+>> +| +--------------------------+            |    registers          |            | Error Status |
+>> +| | GHES1                    |            | +---------------------+            | Data Block 1 |
+>> +| +--------------------------+ +--------->| |error_block_address1 |----------->| +------------+
+>> +| | .................        | |          | +---------------------+            | |  CPER      |
+>> +| | error_status_address-----+-+ +------->| |error_block_address2 |--------+   | |  CPER      |
+>> +| | .................        |   |        | +---------------------+        |   | |  ....      |
+>> +| | read_ack_register--------+-+ |        | |    ..............   |        |   | |  CPER      |
+>> +| | read_ack_preserve        | | |        +-----------------------+        |   | +------------+
+>> +| | read_ack_write           | | | +----->| |error_block_addressN |------+ |   | Error Status |
+>> ++ +--------------------------+ | | |      | +---------------------+      | |   | Data Block 2 |
+>> +| | GHES2                    | +-+-+----->| |read_ack_register1   |      | +-->| +------------+
+>> ++ +--------------------------+   | |      | +---------------------+      |     | |  CPER      |
+>> +| | .................        |   | | +--->| |read_ack_register2   |      |     | |  CPER      |
+>> +| | error_status_address-----+---+ | |    | +---------------------+      |     | |  ....      |
+>> +| | .................        |     | |    | |  .............      |      |     | |  CPER      |
+>> +| | read_ack_register--------+-----+-+    | +---------------------+      |     +-+------------+
+>> +| | read_ack_preserve        |     |   +->| |read_ack_registerN   |      |     | |..........  |
+>> +| | read_ack_write           |     |   |  | +---------------------+      |     | +------------+
+>> ++ +--------------------------|     |   |                                 |     | Error Status |
+>> +| | ...............          |     |   |                                 |     | Data Block N |
+>> ++ +--------------------------+     |   |                                 +---->| +------------+
+>> +| | GHESN                    |     |   |                                       | |  CPER      |
+>> ++ +--------------------------+     |   |                                       | |  CPER      |
+>> +| | .................        |     |   |                                       | |  ....      |
+>> +| | error_status_address-----+-----+   |                                       | |  CPER      |
+>> +| | .................        |         |                                       +-+------------+
+>> +| | read_ack_register--------+---------+
+>> +| | read_ack_preserve        |
+>> +| | read_ack_write           |
+>> ++ +--------------------------+
+>> +
+>> +(1) QEMU generates the ACPI HEST table. This table goes in the current
+>> +    "etc/acpi/tables" fw_cfg blob. Each error source has different
+>> +    notification types.
+>> +
+>> +(2) A new fw_cfg blob called "etc/hardware_errors" is introduced. QEMU
+>> +    also need to populate this blob. The "etc/hardwre_errors" fw_cfg blob
+> 
+> "needs". "hardware_errors".
+> 
+>> +    contains an address registers table and an Error Status Data Block table.
+>> +
+>> +(3) The address registers table contains N Error Block Address entries
+>> +    and N Read Ack Register entries, the size for each entry is 8-byte.
+> 
+> ". The size".
+> 
+>> +    The Error Status Data Block table contains N Error Status Data Block
+>> +    entries, the size for each entry is 4096(0x1000) bytes. The total size
+> 
+> 
+> ". The size"
+> 
+>> +    for "etc/hardware_errors" fw_cfg blob is (N * 8 * 2 + N * 4096) bytes.
+> 
+> "for the"
+> 
+>> +    N is the kinds of hardware error sources.
+> 
+> Not sure what you had in mind here. Possibly either "N is the number of kinds of
+> hardware error sources" or "N is the number of hardware error sources" ?
+
+Yes, I mean "N is the number of kinds of hardware error sources".
+
+> 
+>> +
+>> +(4) QEMU generates the ACPI linker/loader script for the firmware, the
+> 
+> ". The"
+> 
+>> +    firmware pre-allocates memory for "etc/acpi/tables", "etc/hardware_errors"
+>> +    and copies blobs content there.
+> 
+> "blob contents"
+> 
+>> +
+>> +(5) QEMU generates N ADD_POINTER commands, which patch address in the
+> 
+> "addresses"
+> 
+>> +    "error_status_address" fields of the HEST table with a pointer to the
+>> +    corresponding "address registers" in "etc/hardware_errors" blob.
+> 
+> "in the"
+> 
+>> +
+>> +(6) QEMU generates N ADD_POINTER commands, which patch address in the
+> 
+> "addresses"
+> 
+>> +    "read_ack_register" fields of the HEST table with a pointer to the
+>> +    corresponding "address registers" in "etc/hardware_errors" blob.
+> 
+> "in the"
+> 
+>> +
+>> +(7) QEMU generates N ADD_POINTER commands for the firmware, which patch
+>> +    address in the " error_block_address" fields with a pointer to the
+> 
+> "addresses". Stray extra space after open-quote.
+> 
+>> +    respective "Error Status Data Block" in "etc/hardware_errors" blob.
+> 
+> "in the"
+> 
+>> +
+>> +(8) QEMU defines a third and write-only fw_cfg blob which is called
+>> +    "etc/hardware_errors_addr". Through that blob, the firmware can send back
+>> +    the guest-side allocation addresses to QEMU. The "etc/hardware_errors_addr"
+>> +    blob contains a 8-byte entry. QEMU generates a single WRITE_POINTER commands
+> 
+> "command"
+> 
+>> +    for the firmware, the firmware will write back the start address of
+> 
+> ". The"
+> 
+>> +    "etc/hardware_errors" blob to fw_cfg file "etc/hardware_errors_addr".
+> 
+> "to the fw_cfg file"
+> 
+>> +
+>> +(9) When QEMU gets SIGBUS from the kernel, QEMU formats the CPER right into
+> 
+> "a SIGBUS"
+> 
+>> +    guest memory, and then injects whatever interrupt (or assert whatever GPIO
+> 
+> "or asserts"
+> 
+>> +    line) as a notification which is necessary for notifying the guest.
+>> +
+>> +(10) This notification (in virtual hardware) will be handled by guest kernel,
+> 
+> "the guest kernel"
+> 
+>> +    guest APEI driver will read the CPER which is recorded by QEMU and do the
+> 
+> "and the guest APEI driver"
+> 
+>> +    recovery.
+> 
+> thanks
+> -- PMM
+> 
+> .
+> 
+
+-- 
+
+Thanks,
+Xiang
+
 
