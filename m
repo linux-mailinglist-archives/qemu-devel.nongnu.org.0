@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3A1B8AEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 08:15:07 +0200 (CEST)
-Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D46B8B2C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 08:37:54 +0200 (CEST)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBCCA-0003I7-BA
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 02:15:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46765)
+	id 1iBCYD-0005O6-68
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 02:37:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@aj.id.au>) id 1iBCB0-0002It-QR
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:13:55 -0400
+ (envelope-from <peterx@redhat.com>) id 1iBCUA-0000dO-Cp
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:33:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew@aj.id.au>) id 1iBCAz-0001Fk-To
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:13:54 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:49749)
+ (envelope-from <peterx@redhat.com>) id 1iBCDg-0002Cf-RQ
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:16:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47644)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrew@aj.id.au>)
- id 1iBCAx-0001Ew-TE; Fri, 20 Sep 2019 02:13:51 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DFE4F21FAE;
- Fri, 20 Sep 2019 02:13:50 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Fri, 20 Sep 2019 02:13:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=LZSTyP8hhFA33zJ3/GxY0fvVBoarZil
- W6nvwlyPXnoc=; b=foMwp06PjykJm6EluTBp+8KTBSgd26jcUt6qgmyuEYGWFmH
- 2MowGygMfvvW/duWRFN1XdwZ5FwXZxLkB83G92lA8HgyVK+hLim1hSnGg3dKQKgo
- YtNiLqGhDQ7tqgSJmI0r8pPd+w5P0hrimvCCerd4mLGttD6TynsdCZDN6k+oo99v
- NAA4WLXlprsV2XUFBRxBl6Z8EE7I5F8SfYidN5isDV2ks6HNnSO/JyNu8IM4cCDI
- sRcm3tYBccFF02aiAjW43vQ9aJAkac63TfXaym2h16iZ8M0BAWU07zLqdfMKoKXj
- 0EIGP8LltOaq+Rc3Rh+IsbA8nBw4XX5se+VP7nA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LZSTyP
- 8hhFA33zJ3/GxY0fvVBoarZilW6nvwlyPXnoc=; b=kGW8zzqjp/57kzW+Z7nRCC
- /1CjxEEn+TV8TCZDC7IL6mRSdp6Qt2hjml280AmLLGDt6FHvPLxx7TLKqRccEeIG
- OUp9uRe17GK5c9TQbOltD7o6LBewbmB+CAoTQ3D/LES3pijQ5hwNmxTNyvaWKouJ
- 8TKmAz9lXKvFlN67b9xW+yZ6BKATq5N8XemhxZUPR+q3wIpd/DIRmVmjd+LDqpfD
- 9bLYhpwwOCPCOX4DjzJ1/jzJNOcROlNs54mHBAPIAwObH+clqMDEoeyBD3nWaQFz
- XquXj+i9M4ZeTiIA//u7FsRKTP0wDYWnJvjsEOzUopz9RLZ5zzjXmx1aI5T7B3PA
- ==
-X-ME-Sender: <xms:HW6EXVMXX_87ZIinGME7KdvXT_rbxWSZ3xqQauJj64KOseMKG5Ud4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddugddutdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:HW6EXaXshK7eaKNIyqpkaWCWtDaaEzQgeULzOaGLmT4AhfP9LoZCAw>
- <xmx:HW6EXVs73MHPpv2WvtsefuTP2qunpa4fSE6oHQyDxU3PGKmgEnPt2A>
- <xmx:HW6EXTYaewSyHkSHAVjKZDj_fimfOZEy8KtVumD_h2mvxXSGXzoJ5A>
- <xmx:Hm6EXWvFrC-LkhSHZxIjulJFC5IcLiXCSCyzChdvmiGIOm8mPEFVfQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C4071E00A9; Fri, 20 Sep 2019 02:13:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-238-g170a812-fmstable-20190913v1
-Mime-Version: 1.0
-Message-Id: <6113c3cd-acd8-4f0a-915f-e189d6ebef84@www.fastmail.com>
-In-Reply-To: <c9f58ca3-36ee-e8bb-a350-29729f4f24df@linaro.org>
-References: <20190912065631.12473-1-andrew@aj.id.au>
- <CAFEAcA_h80VQVC0jE7v8kmsuXU=16+KXSKQ-qhuRNTct7X6X7g@mail.gmail.com>
- <c9f58ca3-36ee-e8bb-a350-29729f4f24df@linaro.org>
-Date: Fri, 20 Sep 2019 15:44:26 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Richard Henderson" <richard.henderson@linaro.org>,
- "Peter Maydell" <peter.maydell@linaro.org>
-Subject: =?UTF-8?Q?Re:_[Qemu-devel]_[PATCH_v5]_target-arm:_Make_the_counter_tick_?=
- =?UTF-8?Q?relative_to_cntfrq?=
-Content-Type: text/plain
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iBCDg-0002Bx-K5
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:16:40 -0400
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 61C4E4E919
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 06:16:39 +0000 (UTC)
+Received: by mail-pf1-f198.google.com with SMTP id f2so3956164pfk.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 23:16:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=63eRVRiPaHYQAoA4Qw85V6AzIpWXz87aoXIxFk5UGjM=;
+ b=ZQlifqMJvlXqJp2DOLFRbqrfZgGE7yxqN3eYdodMoSd0/jBqvTvirFS1ybX64DpZdx
+ tbKv+411vfYj9wMmWNEj09wzOJbH3q5+brTEcChpc7oITZHq6D0YNsmlPe0zUvvOXvoL
+ ytXgaSzFbgfHXYYy5alwVTFnWRf12UWFEG+ltiW+dRq9SqqGxAPyf+bRP/rFMXQkrSv7
+ LrS9VgcHkBLbpmxpX9Kb/Uq1XO7spf2pOF7o79fY5QWNaz4JlKHfASNXn5xpXJ9rR3id
+ EL7g7g2za0nfrZkgAOVpNFcw02+3777akjwOs469vDl+e8eS6Y5FLQe6XxiVMG+q0PNE
+ VVOg==
+X-Gm-Message-State: APjAAAVx9PlGu/VaBc/WFkG/yRsAunLxaPqgCf80xtWeGQqIsanKCiCO
+ q3tBGE6Bxl16cUsFHxNq/MCLRUVbUoWjoDo3S6nOL+0VgI6qPg1sfHm/ujnQIjzmvTl3pCqKHm+
+ egeR2PnGLhnJ7tHk=
+X-Received: by 2002:a17:90a:28c5:: with SMTP id
+ f63mr2693192pjd.67.1568960198693; 
+ Thu, 19 Sep 2019 23:16:38 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzxbcnICr/V90GshTFflbxvsv8yjc+JZulY2XZALIJnD02YkooYpv7/slAOOWoOBICJPAb6kQ==
+X-Received: by 2002:a17:90a:28c5:: with SMTP id
+ f63mr2693166pjd.67.1568960198416; 
+ Thu, 19 Sep 2019 23:16:38 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id v8sm1517528pje.6.2019.09.19.23.16.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Sep 2019 23:16:37 -0700 (PDT)
+Date: Fri, 20 Sep 2019 14:16:28 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 0/5] Allow memory_region_register_iommu_notifier() to
+ fail
+Message-ID: <20190920061628.GD12858@xz-x1>
+References: <20190919121845.29520-1-eric.auger@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190919121845.29520-1-eric.auger@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 66.111.4.29
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,29 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 19, 2019 at 02:18:40PM +0200, Eric Auger wrote:
+> This series allows the memory_region_register_iommu_notifier()
+> to fail. As of now, when a MAP notifier is attempted to be
+> registered along with SMMUv3, Intel iommu without caching mode
+> or AMD IOMMU, we exit in the IOMMU MR notify_flag_changed()
+> callback. In case of VFIO assigned device hotplug, this could be
+> handled more nicely directly within the VFIO code, simply rejecting
+> the hotplug without exiting. This is what the series achieves
+> by handling the memory_region_register_iommu_notifier() returned
+> value.
 
+Could I ask what's the code path for ARM when the hot plug failed?  Is
+that vfio_realize() then vfio_connect_container() will fail with this?
 
-On Wed, 18 Sep 2019, at 04:55, Richard Henderson wrote:
-> On 9/17/19 12:14 PM, Peter Maydell wrote:
-> >> +static Property arm_cpu_gt_cntfrq_property =
-> >> +            DEFINE_PROP_UINT64("cntfrq", ARMCPU, gt_cntfrq,
-> >> +                               (1000 * 1000 * 1000) / GTIMER_SCALE);
-> > I think it would be helpful to have a comment saynig what units
-> > this property is in.
-> > 
-> 
-> Should this be NANOSECONDS_PER_SECOND?
-> It's certainly a suspicious use of 1e9 otherwise.
+    if (container->error) {
+        ret = container->error;
+        error_setg_errno(errp, -ret,
+                         "memory listener initialization failed for container");
+        goto listener_release_exit;
+    }
 
-You're right that it should be NANOSECONDS_PER_SECOND but
-this was just code motion of the definition of the reset value for
-CNTFRQ_EL0 in target/arm/helper.c.
+If so, I would again suggest you to use Error** in patch 1.  IMHO we
+can let vfio_listener_region_add() to be the first one to use the
+Error** so that instead of this:
 
-Andrew
+    /*
+     * On the initfn path, store the first error in the container so we
+     * can gracefully fail.  Runtime, there's not much we can do other
+     * than throw a hardware error.
+     */
+    if (!container->initialized) {
+        if (!container->error) {
+            container->error = ret;
+        }
+    } else {
+        hw_error("vfio: DMA mapping failed, unable to continue");
+    }
+
+We can also cache the Error** into container and return to user if the
+user is using QMP which should be better than the int number (or
+again, maybe return both errors?).  IIUC error_report() will not work
+for QMP.
+
+Regards,
+
+-- 
+Peter Xu
 
