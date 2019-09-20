@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEBDB9457
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:46:06 +0200 (CEST)
-Received: from localhost ([::1]:32776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC4AB9443
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:42:18 +0200 (CEST)
+Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBL6j-0006Ci-Gp
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:46:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43742)
+	id 1iBL32-0003KE-MY
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBKpU-0000a7-40
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:18 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBKpg-0000jE-2m
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBKpQ-0004Hb-7s
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:7871)
+ (envelope-from <mreitz@redhat.com>) id 1iBKpe-0004Qx-QV
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39886)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBKpN-0004Ct-Nq; Fri, 20 Sep 2019 11:28:09 -0400
+ id 1iBKpa-0004NW-EX; Fri, 20 Sep 2019 11:28:22 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 103DD30615C1;
- Fri, 20 Sep 2019 15:28:09 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9754718C4270;
+ Fri, 20 Sep 2019 15:28:20 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B2505C1B5;
- Fri, 20 Sep 2019 15:28:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 301835C1B5;
+ Fri, 20 Sep 2019 15:28:20 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 01/22] blockdev: Allow external snapshots everywhere
-Date: Fri, 20 Sep 2019 17:27:43 +0200
-Message-Id: <20190920152804.12875-2-mreitz@redhat.com>
+Subject: [PATCH 06/22] block: Add bdrv_recurse_can_replace()
+Date: Fri, 20 Sep 2019 17:27:48 +0200
+Message-Id: <20190920152804.12875-7-mreitz@redhat.com>
 In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
 References: <20190920152804.12875-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 20 Sep 2019 15:28:09 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 20 Sep 2019 15:28:20 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -59,46 +59,103 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no good reason why we would allow external snapshots only on
-the first non-filter node in a chain.  Parent BDSs should not care
-whether their child is replaced by a snapshot.  (If they do care, they
-should announce that via freezing the chain, which is checked in
-bdrv_append() through bdrv_set_backing_hd().)
+After a couple of follow-up patches, this function will replace
+bdrv_recurse_is_first_non_filter() in check_to_replace_node().
 
-Before we had bdrv_is_first_non_filter() here (since 212a5a8f095), there
-was a special function bdrv_check_ext_snapshot() that allowed snapshots
-by default, but block drivers could override this.  Only blkverify did
-so, however.
-
-It is not clear to me why blkverify would do so; maybe just so that the
-testee block driver would not be replaced.  The introducing commit
-f6186f49e2c does not explain why.  Maybe because 08b24cfe376 would have
-been the correct solution?  (Which adds a .supports_backing check.)
+bdrv_recurse_is_first_non_filter() is both not sufficiently specific for
+check_to_replace_node() (it allows cases that should not be allowed,
+like replacing child nodes of quorum with dissenting data that have more
+parents than just quorum), and it is too restrictive (it is perfectly
+fine to replace filters).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- blockdev.c | 5 -----
- 1 file changed, 5 deletions(-)
+ include/block/block_int.h | 10 ++++++++++
+ block.c                   | 38 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
 
-diff --git a/blockdev.c b/blockdev.c
-index f89e48fc79..b62b33dc03 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1596,11 +1596,6 @@ static void external_snapshot_prepare(BlkActionSta=
-te *common,
-         }
-     }
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 5fd4f17d93..0be7d12f04 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -103,6 +103,13 @@ struct BlockDriver {
+      */
+     bool (*bdrv_recurse_is_first_non_filter)(BlockDriverState *bs,
+                                              BlockDriverState *candidate=
+);
++    /*
++     * Return true if @to_replace can be replaced by a BDS with the
++     * same data as @bs without it affecting @bs's behavior (that is,
++     * without it being visible to @bs's parents).
++     */
++    bool (*bdrv_recurse_can_replace)(BlockDriverState *bs,
++                                     BlockDriverState *to_replace);
 =20
--    if (!bdrv_is_first_non_filter(state->old_bs)) {
--        error_setg(errp, QERR_FEATURE_DISABLED, "snapshot");
--        goto out;
--    }
--
-     if (action->type =3D=3D TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_SY=
-NC) {
-         BlockdevSnapshotSync *s =3D action->u.blockdev_snapshot_sync.dat=
-a;
-         const char *format =3D s->has_format ? s->format : "qcow2";
+     int (*bdrv_probe)(const uint8_t *buf, int buf_size, const char *file=
+name);
+     int (*bdrv_probe_device)(const char *filename);
+@@ -1254,6 +1261,9 @@ void bdrv_format_default_perms(BlockDriverState *bs=
+, BdrvChild *c,
+                                uint64_t perm, uint64_t shared,
+                                uint64_t *nperm, uint64_t *nshared);
+=20
++bool bdrv_recurse_can_replace(BlockDriverState *bs,
++                              BlockDriverState *to_replace);
++
+ /*
+  * Default implementation for drivers to pass bdrv_co_block_status() to
+  * their file.
+diff --git a/block.c b/block.c
+index 7d99ca692c..a2deca4ac9 100644
+--- a/block.c
++++ b/block.c
+@@ -6206,6 +6206,44 @@ bool bdrv_recurse_is_first_non_filter(BlockDriverS=
+tate *bs,
+     return false;
+ }
+=20
++/*
++ * This function checks whether the given @to_replace is allowed to be
++ * replaced by a node that always shows the same data as @bs.  This is
++ * used for example to verify whether the mirror job can replace
++ * @to_replace by the target mirrored from @bs.
++ * To be replaceable, @bs and @to_replace may either be guaranteed to
++ * always show the same data (because they are only connected through
++ * filters), or some driver may allow replacing one of its children
++ * because it can guarantee that this child's data is not visible at
++ * all (for example, for dissenting quorum children that have no other
++ * parents).
++ */
++bool bdrv_recurse_can_replace(BlockDriverState *bs,
++                              BlockDriverState *to_replace)
++{
++    if (!bs || !bs->drv) {
++        return false;
++    }
++
++    if (bs =3D=3D to_replace) {
++        return true;
++    }
++
++    /* For filters, we can recurse on our own */
++    if (bs->drv->is_filter) {
++        BdrvChild *child =3D bs->file ?: bs->backing;
++        return bdrv_recurse_can_replace(child->bs, to_replace);
++    }
++
++    /* See what the driver can do */
++    if (bs->drv->bdrv_recurse_can_replace) {
++        return bs->drv->bdrv_recurse_can_replace(bs, to_replace);
++    }
++
++    /* Safe default */
++    return false;
++}
++
+ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+                                         const char *node_name, Error **e=
+rrp)
+ {
 --=20
 2.21.0
 
