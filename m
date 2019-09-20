@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524A9B9194
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:21:38 +0200 (CEST)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77480B91B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:25:22 +0200 (CEST)
+Received: from localhost ([::1]:60186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBJmy-00047a-BY
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60600)
+	id 1iBJqb-0007dU-1T
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:25:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iBJl3-0002mm-Ba
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:19:38 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iBJmB-0004Db-Cq
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:20:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iBJl1-0007ur-Kb
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:19:36 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46574)
+ (envelope-from <peter.maydell@linaro.org>) id 1iBJmA-0000FA-DQ
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:20:47 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39673)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iBJl1-0007uG-DN
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:19:35 -0400
-Received: by mail-oi1-x244.google.com with SMTP id k25so1854121oiw.13
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 07:19:35 -0700 (PDT)
+ id 1iBJmA-0000EQ-7d
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:20:46 -0400
+Received: by mail-ot1-x344.google.com with SMTP id s22so6324940otr.6
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 07:20:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=H8Lf3cUrmDx5FlUUH+IBWW18Vqv5/1olFq80IuJniCU=;
- b=t+8npP86dDDaM0R9eII9ufyNcahdUqRuRSDIc2pKj60goDG2y8DyveWR4X2TAmFW+C
- 7kD6PM5SQcyz55moqqmp7iauRwECQOx7HmijQhUhxKJ4wz8NIQjkRKA/vpgVbUf1LqKy
- viZ77/YI+RT8KAbh51zZelB21v68gnWG2TzthRGLiEVGnCao3B7wHKVC7MQI84ct6b7J
- VyBEeEek5gKz/8Tx9lhbJnnZaoNnCib6JF6YaWx0DsIi42zy27kpEB9joCNlK9+KyOyE
- OK1VUC84Y7gueUpgVrYdrphHqkdJVyjqr/Scgh/sLL0Czp2NBj9s0fYPS5v1uatVnjuI
- 58lg==
+ :cc; bh=iMFLoESln03YhHdd7mSshoIuqzJ4tBEbRYnNYY2klVE=;
+ b=PtI93D64jAMNEy9yRbXSZ67oe+bTIL9mDEndErSlkgfQhncsbpAP+A7Ka3F0Vp6kEr
+ gbu6r3RjGwBM3c0WCvU55qx0amrCTOuzYre1UdgaJtKt6yyFh7NhEEoYbuqud+/jgg6R
+ az/YKBL5UJbbaA3d7htKHN2mPMrmC2q3VRwYzcBX79bgU417m/dHxZdktWSsjhToirnh
+ /fld8gbh6OtbH+9FgKdt3MTLpyg9ILeUPXq0VWN2D0qk8wypcFzW4uuJVYoMsY7OH8zT
+ ZvJ/w8Xls9WxCQlgSCF7waKl5+d6i++4XBnLfmwvsk4WktghkwNUxP1dJjVFQjKiNlKk
+ Nfhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=H8Lf3cUrmDx5FlUUH+IBWW18Vqv5/1olFq80IuJniCU=;
- b=NKzaN2UjdM2oRK6EAjK7bq4TlNNLAdU3XPXw6X+sXG9XPAkn5t2wzucJFcOddLaA8J
- Jb7u3DYWR/F3UqL5fLjdNd8hc6hFop8q2bbfXHM6t6Yr/IXiSq0AvRcp5nkn1MVeZWP+
- yE2kgySEd5MlcgcL48TKNRGLPrKblFNEy7B0cdKrEcX89HF3BF1joEmjd7mwXU+bvXf2
- 3hMc7lCbc4M2kAnEZxHm7nXTdmeWBrqTjo4OTAW9nY2MeWwbN7DvqS31X5tBiJ2ocTcO
- rhKmq8YN8arvWYbXMnb2DdpsK3LRWW0CX1n2KsHd34uoHgpYY5STa2tVTiGlJILbqPyu
- Po+Q==
-X-Gm-Message-State: APjAAAXFIBFKUFfGLLMkRz5aDG2Zexad4lCtyDzaFFYSsp8t0I64JOlk
- tC9o0dcUXVT4RDbuJlAzkBe1zUn/Xvaa1h5CuMX1rw==
-X-Google-Smtp-Source: APXvYqzat/pqJIrTEKTFeXtrCE9KohDuz5HwP2Ew9lyWk7mjwfzMXe4/uJjahGypUMoSFFz/T19+WnbbfSaa1AR9HMg=
-X-Received: by 2002:aca:53d4:: with SMTP id h203mr2994207oib.146.1568989173884; 
- Fri, 20 Sep 2019 07:19:33 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=iMFLoESln03YhHdd7mSshoIuqzJ4tBEbRYnNYY2klVE=;
+ b=Dt+wHj1/RZPcAo1lISUGHclW0hswWtxOslNhrs1UUg4hbKCFrnLTVZAqps+N0ZuZrr
+ CrZPhULahJ4n+NN31KsY/yW6C01CLX47DCKrEI/1ZLZ17aXj09W4BhYWB1WPYooJtkPb
+ q74Mumn4MUM3M04xbuIeqZBA17dlFkjRnOkFgXqp4HerqdRhpXSRDDZ7CED4/f7rV+9k
+ Edv/9LANZbzB4Vj2Rec94g6x99d1vpcTwaUYxgYJlnHyKwPmEnOVMUNDTgNlt1iR1cwq
+ Q29C0VCw4qU8Bos4bc75+qoVdCh8SyCSwoGLOaywwBz2ff3By/S4l1YfY65C0Je2kEqT
+ JudA==
+X-Gm-Message-State: APjAAAWzB0waPb5tZ46FpWTbVE9gXxfbrAiFtmV7CimYBgb/wabt06Z2
+ mN0AUBu01CvHdskTi2YfQWmkaIpzkqkhjHCRjdR9MA==
+X-Google-Smtp-Source: APXvYqwhZF4d2BjQ2mh9ToN1e65zT6Py9oRVu8NOXFaHtxA5dkrqD0OlthgLY8BkWp9C3P5TESPJkGzi6Wx6StAWLMU=
+X-Received: by 2002:a9d:562:: with SMTP id 89mr12286001otw.232.1568989245380; 
+ Fri, 20 Sep 2019 07:20:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190920141248.12887-1-philmd@redhat.com>
-In-Reply-To: <20190920141248.12887-1-philmd@redhat.com>
+ <deb6f913-7d80-dacc-4fa4-07c848343e0c@redhat.com>
+In-Reply-To: <deb6f913-7d80-dacc-4fa4-07c848343e0c@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Sep 2019 15:19:22 +0100
-Message-ID: <CAFEAcA981SOP7UqgXYcTt1s29TfiUwxWc9GoJd+m+BO4WHrz_g@mail.gmail.com>
+Date: Fri, 20 Sep 2019 15:20:34 +0100
+Message-ID: <CAFEAcA-O6b5zc=Qp-49Fc9_tQ+a+Stk6DfnwwzDON+RZfSDSfA@mail.gmail.com>
 Subject: Re: [PATCH] memory: Replace DEBUG_UNASSIGNED printf calls by trace
  events
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,75 +74,19 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Sep 2019 at 15:12, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Now that the unassigned_access CPU hooks have been removed,
-> the unassigned_mem_read/write functions are only used for
-> debugging purpose.
-> Simplify by converting them to in-place trace events.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Based-on: <20190920125008.13604-1-peter.maydell@linaro.org>
-> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04668.html
-> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03705.html
->
-> I first wrote:
->
->   These functions are declared using the CPUReadMemoryFunc/
->   CPUWriteMemoryFunc prototypes. Since it is confusing to
->   have such prototype only use for debugging, convert them
->   to in-place trace events.
->
-> But it doesn't provide helpful information and is rather confusing.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> @@ -1437,7 +1418,8 @@ MemTxResult memory_region_dispatch_read(MemoryRegio=
-n *mr,
->      MemTxResult r;
->
->      if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-> -        *pval =3D unassigned_mem_read(mr, addr, size);
-> +        trace_memory_region_invalid_read(size, addr);
-> +        *pval =3D 0; /* FIXME now this value shouldn't be accessed in gu=
-est */
+On Fri, 20 Sep 2019 at 15:17, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> I think it's simplest if all series (RISC-V, remove unassigned_access,
+> this one) go through the RISC-V tree.
 
-This FIXME comment is not entirely correct.
-
-Unassigned memory will RAZ/WI and the 0 will be seen by:
- * guest CPUs which don't implement a do_transaction_failed hook
-   (or which have a hook that doesn't always raise an exception)
- * other transaction masters, such as DMA controllers, if they
-   choose to ignore the MemTxResult (or use an API that doesn't
-   expose the MemTxResult)
-
-> diff --git a/trace-events b/trace-events
-> index 823a4ae64e..83dbeb4b46 100644
-> --- a/trace-events
-> +++ b/trace-events
-> @@ -62,6 +62,8 @@ memory_region_tb_read(int cpu_index, uint64_t addr, uin=
-t64_t value, unsigned siz
->  memory_region_tb_write(int cpu_index, uint64_t addr, uint64_t value, uns=
-igned size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
->  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, ui=
-nt64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx6=
-4" size %u"
->  memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, u=
-int64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx=
-64" size %u"
-> +memory_region_invalid_read(unsigned size, uint64_t addr) "invalid read s=
-ize %u addr 0x%"PRIx64
-> +memory_region_invalid_write(unsigned size, uint64_t addr, int fmt_width,=
- uint64_t value) "invalid write size %u addr 0x%"PRIx64" value 0x%0*"PRIx64
-
-Do all our trace backends support format strings which use the
-"dynamic format width specified via '*'" syntax ?
+I don't inherently object but IME the risc-v tree tends to move
+comparatively slowly. The initial risc-v conversion patchset
+should definitely go via the risc-v tree, anyway.
 
 thanks
 -- PMM
