@@ -2,50 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64605B9508
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:15:10 +0200 (CEST)
-Received: from localhost ([::1]:33141 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE753B94FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:11:53 +0200 (CEST)
+Received: from localhost ([::1]:33074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLYr-0000Wh-83
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:15:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44285)
+	id 1iBLVg-00059A-F7
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48061)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBKqD-0001Eb-Oj
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:29:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBLBM-0002RW-LL
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBKqC-0004mW-2s
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:29:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33956)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBKq7-0004hf-Nz; Fri, 20 Sep 2019 11:28:55 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 839E78980F5;
- Fri, 20 Sep 2019 15:28:53 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D8EA60167;
- Fri, 20 Sep 2019 15:28:52 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 20/22] iotests: Add tests for invalid Quorum @replaces
-Date: Fri, 20 Sep 2019 17:28:02 +0200
-Message-Id: <20190920152804.12875-21-mreitz@redhat.com>
-In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
-References: <20190920152804.12875-1-mreitz@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iBLBL-00051D-8C
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59360)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iBLBL-00050m-2j
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iBLBH-0000nT-Hu
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:50:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 65BBD2E80DE
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:50:45 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Fri, 20 Sep 2019 15:28:53 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Sep 2019 15:38:40 -0000
+From: Vitaly Kuznetsov <1811533@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h djdatte vkuznets zaltysz
+X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Vitaly Kuznetsov (vkuznets)
+References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
+Message-Id: <156899392075.26730.527039292397667656.malone@soybean.canonical.com>
+Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
+ hv_stimer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 34b9f2d56817c3d9f763cde779f3ca2cba3f4b37
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,133 +66,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add two tests to see that you cannot replace a Quorum child with the
-mirror job while the child is in use by a different parent.
+No, I think it's the other way around: clearing guest pages is
+unrelated. It is easy to check with the following kernel patch:
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/041     | 57 +++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/041.out |  4 +--
- 2 files changed, 58 insertions(+), 3 deletions(-)
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index fff790a3f4ee..73c574f930e3 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -776,7 +776,7 @@ int kvm_hv_activate_synic(struct kvm_vcpu *vcpu, bool d=
+ont_zero_synic_pages)
+         */
+        kvm_vcpu_deactivate_apicv(vcpu);
+        synic->active =3D true;
+-       synic->dont_zero_synic_pages =3D dont_zero_synic_pages;
++       synic->dont_zero_synic_pages =3D false;
+        return 0;
+ }
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 20ae9750b7..148dc47ce4 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -34,6 +34,8 @@ quorum_img3 =3D os.path.join(iotests.test_dir, 'quorum3=
-.img')
- quorum_repair_img =3D os.path.join(iotests.test_dir, 'quorum_repair.img'=
-)
- quorum_snapshot_file =3D os.path.join(iotests.test_dir, 'quorum_snapshot=
-.img')
-=20
-+nbd_sock_path =3D os.path.join(iotests.test_dir, 'nbd.sock')
-+
- class TestSingleDrive(iotests.QMPTestCase):
-     image_len =3D 1 * 1024 * 1024 # MB
-     qmp_cmd =3D 'drive-mirror'
-@@ -901,7 +903,8 @@ class TestRepairQuorum(iotests.QMPTestCase):
-=20
-     def tearDown(self):
-         self.vm.shutdown()
--        for i in self.IMAGES + [ quorum_repair_img, quorum_snapshot_file=
- ]:
-+        for i in self.IMAGES + [ quorum_repair_img, quorum_snapshot_file=
-,
-+                                 nbd_sock_path ]:
-             # Do a try/except because the test may have deleted some ima=
-ges
-             try:
-                 os.remove(i)
-@@ -1075,6 +1078,58 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         self.assert_has_block_node("repair0", quorum_repair_img)
-         self.vm.assert_block_path('quorum0/children.1', 'repair0')
-=20
-+    '''
-+    Check that we cannot replace a Quorum child when it has other
-+    parents.
-+    '''
-+    def test_with_other_parent(self):
-+        result =3D self.vm.qmp('nbd-server-start',
-+                             addr=3D{
-+                                 'type': 'unix',
-+                                 'data': {'path': nbd_sock_path}
-+                             })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('nbd-server-add', device=3D'img1')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('drive-mirror', job_id=3D'mirror', device=
-=3D'quorum0',
-+                             sync=3D'full', node_name=3D'repair0', repla=
-ces=3D'img1',
-+                             target=3Dquorum_repair_img, format=3Diotest=
-s.imgfmt)
-+        self.assert_qmp(result, 'error/desc',
-+                        "Cannot replace 'img1' by a node mirrored from "
-+                        "'quorum0', because it cannot be guaranteed that=
- doing "
-+                        "so would not lead to an abrupt change of visibl=
-e data")
-+
-+    '''
-+    The same as test_with_other_parent(), but add the NBD server only
-+    when the mirror job is already running.
-+    '''
-+    def test_with_other_parents_after_mirror_start(self):
-+        result =3D self.vm.qmp('nbd-server-start',
-+                             addr=3D{
-+                                 'type': 'unix',
-+                                 'data': {'path': nbd_sock_path}
-+                             })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('drive-mirror', job_id=3D'mirror', device=
-=3D'quorum0',
-+                             sync=3D'full', node_name=3D'repair0', repla=
-ces=3D'img1',
-+                             target=3Dquorum_repair_img, format=3Diotest=
-s.imgfmt)
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('nbd-server-add', device=3D'img1')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # The full error message goes to stderr, so we unfortunately
-+        # cannot check it here
-+        self.complete_and_wait('mirror',
-+                               completion_error=3D'Operation not permitt=
-ed')
-+
-+        # Should not have been replaced
-+        self.vm.assert_block_path('quorum0/children.1', 'img1')
-+
-+
- # Test mirroring with a source that does not have any parents (not even =
-a
- # BlockBackend)
- class TestOrphanedSource(iotests.QMPTestCase):
-diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
-index f496be9197..ffc779b4d1 100644
---- a/tests/qemu-iotests/041.out
-+++ b/tests/qemu-iotests/041.out
-@@ -1,5 +1,5 @@
--........................................................................=
-...................
-+........................................................................=
-.....................
- ----------------------------------------------------------------------
--Ran 91 tests
-+Ran 93 tests
-=20
- OK
---=20
-2.21.0
+my expectation is that the issue will remain.
 
+Now what *can* be causing it: when in-QEMU synic is initialized it
+creates two memory subregions: for Event page and for Message page
+(HV_X64_MSR_SIEFP/HV_X64_MSR_SIMP MSRs). These regions are always 4k in
+size and they can me anywhere in guest's memory, not necessarily 2M
+aligned.
+
+Now, (if I understood correctly) in vhost code,
+vhost_region_add_section() is trying to align to qemu_ram_pagesize() and
+this may intersect with synic regions.
+
+We need to summon someone who understands memory_region_* magic in QEMU
+and vhost in particular.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1811533
+
+Title:
+  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Host:
+  Gentoo linux x86_64, kernel 4.20.1
+  Qemu 3.1.0 =
+
+  CPU: Intel i7 6850K
+  Chipset: X99
+
+  Guest:
+  Windows 10 Pro 64bit (1809)
+  Machine type: pc-q35_3.1
+  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
+pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
+=3D0x1fff
+  Memory: 16GB backed by 2MB huge pages
+
+  Issue:
+  Once guest is started, log gets flooded with:
+
+  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
+  coherent sections at 103000
+
+  or
+
+  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
+  prior to previous 1f000
+
+  (line endings change)
+
+  and as time goes guest loses network access (virtio-net-pci) and
+  general performance diminishes to extent of freezing applications.
+
+  Observations:
+  1) problem disappears when hv_stimer is removed
+  2) problem disappears when memory backing with huge pages is disabled
+  3) problem disappears when machine type is downgraded to pc-q35_3.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
 
