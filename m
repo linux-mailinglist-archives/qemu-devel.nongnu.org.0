@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC4AB9443
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:42:18 +0200 (CEST)
-Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8F5B945B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:48:02 +0200 (CEST)
+Received: from localhost ([::1]:32784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBL32-0003KE-MY
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43888)
+	id 1iBL8b-0007Oj-7d
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBKpg-0000jE-2m
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:29 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBKpj-0000pL-TE
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBKpe-0004Qx-QV
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39886)
+ (envelope-from <mreitz@redhat.com>) id 1iBKpi-0004Uu-N1
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:11115)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBKpa-0004NW-EX; Fri, 20 Sep 2019 11:28:22 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1iBKpg-0004SF-Fa; Fri, 20 Sep 2019 11:28:28 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9754718C4270;
- Fri, 20 Sep 2019 15:28:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B8ED03082E10;
+ Fri, 20 Sep 2019 15:28:27 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 301835C1B5;
- Fri, 20 Sep 2019 15:28:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5244D60606;
+ Fri, 20 Sep 2019 15:28:27 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 06/22] block: Add bdrv_recurse_can_replace()
-Date: Fri, 20 Sep 2019 17:27:48 +0200
-Message-Id: <20190920152804.12875-7-mreitz@redhat.com>
+Subject: [PATCH 09/22] quorum: Add QuorumChild.to_be_replaced
+Date: Fri, 20 Sep 2019 17:27:51 +0200
+Message-Id: <20190920152804.12875-10-mreitz@redhat.com>
 In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
 References: <20190920152804.12875-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 20 Sep 2019 15:28:20 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Fri, 20 Sep 2019 15:28:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -59,103 +59,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After a couple of follow-up patches, this function will replace
-bdrv_recurse_is_first_non_filter() in check_to_replace_node().
-
-bdrv_recurse_is_first_non_filter() is both not sufficiently specific for
-check_to_replace_node() (it allows cases that should not be allowed,
-like replacing child nodes of quorum with dissenting data that have more
-parents than just quorum), and it is too restrictive (it is perfectly
-fine to replace filters).
+We will need this to verify that Quorum can let one of its children be
+replaced without breaking anything else.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block_int.h | 10 ++++++++++
- block.c                   | 38 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
+ block/quorum.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 5fd4f17d93..0be7d12f04 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -103,6 +103,13 @@ struct BlockDriver {
-      */
-     bool (*bdrv_recurse_is_first_non_filter)(BlockDriverState *bs,
-                                              BlockDriverState *candidate=
-);
-+    /*
-+     * Return true if @to_replace can be replaced by a BDS with the
-+     * same data as @bs without it affecting @bs's behavior (that is,
-+     * without it being visible to @bs's parents).
-+     */
-+    bool (*bdrv_recurse_can_replace)(BlockDriverState *bs,
-+                                     BlockDriverState *to_replace);
+diff --git a/block/quorum.c b/block/quorum.c
+index cf2171cc74..207054a64e 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -67,6 +67,13 @@ typedef struct QuorumVotes {
 =20
-     int (*bdrv_probe)(const uint8_t *buf, int buf_size, const char *file=
-name);
-     int (*bdrv_probe_device)(const char *filename);
-@@ -1254,6 +1261,9 @@ void bdrv_format_default_perms(BlockDriverState *bs=
-, BdrvChild *c,
-                                uint64_t perm, uint64_t shared,
-                                uint64_t *nperm, uint64_t *nshared);
-=20
-+bool bdrv_recurse_can_replace(BlockDriverState *bs,
-+                              BlockDriverState *to_replace);
+ typedef struct QuorumChild {
+     BdrvChild *child;
 +
- /*
-  * Default implementation for drivers to pass bdrv_co_block_status() to
-  * their file.
-diff --git a/block.c b/block.c
-index 7d99ca692c..a2deca4ac9 100644
---- a/block.c
-+++ b/block.c
-@@ -6206,6 +6206,44 @@ bool bdrv_recurse_is_first_non_filter(BlockDriverS=
-tate *bs,
-     return false;
++    /*
++     * If set, check whether this node can be replaced without any
++     * other parent noticing: Unshare CONSISTENT_READ, and take the
++     * WRITE permission.
++     */
++    bool to_be_replaced;
+ } QuorumChild;
+=20
+ /* the following structure holds the state of one quorum instance */
+@@ -1128,6 +1135,16 @@ static void quorum_child_perm(BlockDriverState *bs=
+, BdrvChild *c,
+                               uint64_t perm, uint64_t shared,
+                               uint64_t *nperm, uint64_t *nshared)
+ {
++    BDRVQuorumState *s =3D bs->opaque;
++    int i;
++
++    for (i =3D 0; i < s->num_children; i++) {
++        if (s->children[i].child =3D=3D c) {
++            break;
++        }
++    }
++    assert(!c || i < s->num_children);
++
+     *nperm =3D perm & DEFAULT_PERM_PASSTHROUGH;
+=20
+     /*
+@@ -1137,6 +1154,12 @@ static void quorum_child_perm(BlockDriverState *bs=
+, BdrvChild *c,
+     *nshared =3D (shared & (BLK_PERM_CONSISTENT_READ |
+                           BLK_PERM_WRITE_UNCHANGED))
+              | DEFAULT_PERM_UNCHANGED;
++
++    if (c && s->children[i].to_be_replaced) {
++        /* Prepare for sudden data changes */
++        *nperm |=3D BLK_PERM_WRITE;
++        *nshared &=3D ~BLK_PERM_CONSISTENT_READ;
++    }
  }
 =20
-+/*
-+ * This function checks whether the given @to_replace is allowed to be
-+ * replaced by a node that always shows the same data as @bs.  This is
-+ * used for example to verify whether the mirror job can replace
-+ * @to_replace by the target mirrored from @bs.
-+ * To be replaceable, @bs and @to_replace may either be guaranteed to
-+ * always show the same data (because they are only connected through
-+ * filters), or some driver may allow replacing one of its children
-+ * because it can guarantee that this child's data is not visible at
-+ * all (for example, for dissenting quorum children that have no other
-+ * parents).
-+ */
-+bool bdrv_recurse_can_replace(BlockDriverState *bs,
-+                              BlockDriverState *to_replace)
-+{
-+    if (!bs || !bs->drv) {
-+        return false;
-+    }
-+
-+    if (bs =3D=3D to_replace) {
-+        return true;
-+    }
-+
-+    /* For filters, we can recurse on our own */
-+    if (bs->drv->is_filter) {
-+        BdrvChild *child =3D bs->file ?: bs->backing;
-+        return bdrv_recurse_can_replace(child->bs, to_replace);
-+    }
-+
-+    /* See what the driver can do */
-+    if (bs->drv->bdrv_recurse_can_replace) {
-+        return bs->drv->bdrv_recurse_can_replace(bs, to_replace);
-+    }
-+
-+    /* Safe default */
-+    return false;
-+}
-+
- BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
-                                         const char *node_name, Error **e=
-rrp)
- {
+ static const char *const quorum_strong_runtime_opts[] =3D {
 --=20
 2.21.0
 
