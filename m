@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F18B91CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:26:33 +0200 (CEST)
-Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FB6B9220
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:29:54 +0200 (CEST)
+Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBJrj-0000VB-NY
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32779)
+	id 1iBJuy-0003ZN-2e
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmV-0004Yb-OM
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:08 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmW-0004Zf-PX
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000st-Fd
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:07 -0400
-Received: from relay.sw.ru ([185.231.240.75]:43804)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000tU-RH
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:08 -0400
+Received: from relay.sw.ru ([185.231.240.75]:43796)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmQ-0000gE-7W; Fri, 20 Sep 2019 10:21:02 -0400
+ id 1iBJmQ-0000g8-DM; Fri, 20 Sep 2019 10:21:02 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmM-0006b5-DU; Fri, 20 Sep 2019 17:20:58 +0300
+ id 1iBJmM-0006b5-KE; Fri, 20 Sep 2019 17:20:58 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v13 02/15] block/backup: fix backup_cow_with_offload for last
- cluster
-Date: Fri, 20 Sep 2019 17:20:43 +0300
-Message-Id: <20190920142056.12778-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v13 03/15] block/backup: split shareable copying part from
+ backup_do_cow
+Date: Fri, 20 Sep 2019 17:20:44 +0300
+Message-Id: <20190920142056.12778-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190920142056.12778-1-vsementsov@virtuozzo.com>
 References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
@@ -55,29 +55,84 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We shouldn't try to copy bytes beyond EOF. Fix it.
+Split copying logic which will be shared with backup-top filter.
 
-Fixes: 9ded4a0114968e
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- block/backup.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/backup.c | 47 ++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 32 insertions(+), 15 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index db20249063..99177f03f8 100644
+index 99177f03f8..98d7f7a905 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -161,7 +161,7 @@ static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
+@@ -248,26 +248,18 @@ static int64_t backup_bitmap_reset_unallocated(BackupBlockJob *s,
+     return ret;
+ }
  
-     assert(QEMU_IS_ALIGNED(job->copy_range_size, job->cluster_size));
-     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
--    nbytes = MIN(job->copy_range_size, end - start);
-+    nbytes = MIN(job->copy_range_size, MIN(end, job->len) - start);
-     nr_clusters = DIV_ROUND_UP(nbytes, job->cluster_size);
-     bdrv_reset_dirty_bitmap(job->copy_bitmap, start,
-                             job->cluster_size * nr_clusters);
+-static int coroutine_fn backup_do_cow(BackupBlockJob *job,
+-                                      int64_t offset, uint64_t bytes,
+-                                      bool *error_is_read,
+-                                      bool is_write_notifier)
++static int coroutine_fn backup_do_copy(BackupBlockJob *job,
++                                       int64_t start, uint64_t bytes,
++                                       bool *error_is_read,
++                                       bool is_write_notifier)
+ {
+-    CowRequest cow_request;
+     int ret = 0;
+-    int64_t start, end; /* bytes */
++    int64_t end = bytes + start; /* bytes */
+     void *bounce_buffer = NULL;
+     int64_t status_bytes;
+ 
+-    qemu_co_rwlock_rdlock(&job->flush_rwlock);
+-
+-    start = QEMU_ALIGN_DOWN(offset, job->cluster_size);
+-    end = QEMU_ALIGN_UP(bytes + offset, job->cluster_size);
+-
+-    trace_backup_do_cow_enter(job, start, offset, bytes);
+-
+-    wait_for_overlapping_requests(job, start, end);
+-    cow_request_begin(&cow_request, job, start, end);
++    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
++    assert(QEMU_IS_ALIGNED(end, job->cluster_size));
+ 
+     while (start < end) {
+         int64_t dirty_end;
+@@ -326,6 +318,31 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
+         qemu_vfree(bounce_buffer);
+     }
+ 
++    return ret;
++}
++
++static int coroutine_fn backup_do_cow(BackupBlockJob *job,
++                                      int64_t offset, uint64_t bytes,
++                                      bool *error_is_read,
++                                      bool is_write_notifier)
++{
++    CowRequest cow_request;
++    int ret = 0;
++    int64_t start, end; /* bytes */
++
++    qemu_co_rwlock_rdlock(&job->flush_rwlock);
++
++    start = QEMU_ALIGN_DOWN(offset, job->cluster_size);
++    end = QEMU_ALIGN_UP(bytes + offset, job->cluster_size);
++
++    trace_backup_do_cow_enter(job, start, offset, bytes);
++
++    wait_for_overlapping_requests(job, start, end);
++    cow_request_begin(&cow_request, job, start, end);
++
++    ret = backup_do_copy(job, start, end - start, error_is_read,
++                         is_write_notifier);
++
+     cow_request_end(&cow_request);
+ 
+     trace_backup_do_cow_return(job, offset, bytes, ret);
 -- 
 2.21.0
 
