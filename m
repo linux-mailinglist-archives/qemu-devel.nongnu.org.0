@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB2EB95A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:27:20 +0200 (CEST)
-Received: from localhost ([::1]:33414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7B6B957C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:23:42 +0200 (CEST)
+Received: from localhost ([::1]:33354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLkc-0000DG-TT
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50060)
+	id 1iBLh6-0000qu-Un
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iBLNi-0005h9-U4
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:03:45 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iBLdx-00072o-8M
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:20:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iBLNd-0001yX-6V
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:03:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50746)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBLNZ-0001vN-8K
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:03:31 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9B10AC049E36
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 16:03:23 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id f11so2439887wrt.18
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 09:03:23 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1iBLdu-0007pW-Ub
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:20:24 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45516)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iBLdu-0007pC-L3
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:20:22 -0400
+Received: by mail-wr1-x442.google.com with SMTP id r5so7310152wrm.12
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 09:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HhkQCBzfmEfLy/cHwPg1NqRpsRScXyMR058tobAzHbI=;
+ b=hY2tWa+cNT4qbEAHeycJ5ESfVelPWJRUWDFP1zgcNnOuEQkqxuJMnt/Onu4qV/n7xQ
+ osgcn/KmptBfIvpaUc2stxM2XMtnGpByRrXzgm0OoUY/A6CZwZwPbZYn8DnQgpIA12rP
+ PMW3eJZ33yMjx+aI/iwFmTcMsZBOgtKV3BG7jLaYCoJOt7EalGfOXrvtPbKT3Zd/zNvT
+ ZIXriR0mMWYJcy6KvEwdQ3WbVVvzV16+PxW937Lpnv42gxnkkPwpqMdIi1Id7RzVw14N
+ YgxNT//5g98hGFfJemDoDL8IHNZZmhh6lw1cJR2RG/LWJYxCQ5GnXQY4Wd9nDwYOirFR
+ f3lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IEq6ZJW21f8AqWQkDCj+9mJuatGwG8DNkqvKQmdqPsc=;
- b=R7Td4q1U0UrDPpC9nXMn3k8BZ9s1N8YamX9GJjdBulZyXP3UJZsuZtH1KxflRAUdgS
- 8SK3X0ITsc0VHMGhwaBBjdQQv5zDruPBMIiizT151y2pDqP/uon+ylzUNj3Xtfdbjgya
- /AcjYgd7WEoVj1X9AOVTy9SllVWZ3OvkuwmU3GTA8lZazJYus2phgDWehEa35SJbeicE
- yMLvO4Rd7dRkcWbItZ9MBPe+tQdjyaHdHAyqEdqNcRx4ADcca0omzBeMHUZCllKMQLaX
- rQ864g92lICEkRngOjrILZaYtfGy3dkJU5PGO2yAnWFvTm9O0pE37nXNtEtberqlAG39
- nbQw==
-X-Gm-Message-State: APjAAAUr6i0KfyQHCIFiAogZs+VBB4u+u8XjSrB8af73Adb3LHSMTtkA
- IEQSoc86X4BfRPtcc6hSUIGkbJnKCSSLiHBJbOai2ZaPXzG7KeIkXR2zw4JcCKd+H57YFqAGNxo
- Q6MzxXijQ4QULv0Q=
-X-Received: by 2002:a1c:f317:: with SMTP id q23mr3968473wmq.33.1568995402410; 
- Fri, 20 Sep 2019 09:03:22 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw4tFXayaeS/jGc9BwscxqwbqzW8hpegXRi3f1qIaUE3PsbQrr5D2+T1+FjVeBey6vgATYzbA==
-X-Received: by 2002:a1c:f317:: with SMTP id q23mr3968456wmq.33.1568995402251; 
- Fri, 20 Sep 2019 09:03:22 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id m18sm3609097wrg.97.2019.09.20.09.03.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Sep 2019 09:03:21 -0700 (PDT)
-Subject: Re: [PATCH] memory: Replace DEBUG_UNASSIGNED printf calls by trace
- events
-To: Eric Blake <eblake@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20190920141248.12887-1-philmd@redhat.com>
- <CAFEAcA981SOP7UqgXYcTt1s29TfiUwxWc9GoJd+m+BO4WHrz_g@mail.gmail.com>
- <f817b9a4-272e-c4c0-a4c4-5b5ebd7fd917@redhat.com>
- <CAFEAcA9KAc4viUy1X6f=f9Xm=_+H_JDJh1+USOHyPG76v5f_jw@mail.gmail.com>
- <a4c4f869-710d-930d-54f3-d43882cbb869@redhat.com>
- <e6169704-2af8-95e7-d64d-9de8b5768cdc@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d15786aa-6bb0-19a7-1969-14cc37f8d889@redhat.com>
-Date: Fri, 20 Sep 2019 18:03:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=HhkQCBzfmEfLy/cHwPg1NqRpsRScXyMR058tobAzHbI=;
+ b=Oi6DGCoVshwUniRAOv8DCzbL5VBSE7ud6lbq8rBav8eYw9YAyIrJBi+IURLv/h/DmF
+ xynzBK4vHzxCaGnFP8sQUAaa3uK9cFPwmMGPQls9zBls2tWymBQFAOj5vAh9S6RjS6BQ
+ c7LNJyE0l6w6xrTIbGYnyqHXtbRt00LLOMOOvrhw/pzbXWEjfJJ4h6HzW7tWYG2/7oXm
+ w1afacGFmzRVJFopcOJ2Qi3IzvqSPB2JaI0noK0E1/+/8pfvPq6TRhOG6gtLWb+J8c85
+ f+BNdfw+xnThfDwmTp1BTeC0G8J9+8REoZmFXRH4fMsCt4asic/QClFDgoiZ3oLab3Fw
+ BPxg==
+X-Gm-Message-State: APjAAAWco4Cbs9Zlwip8TNOR3L75fiwnLPAmjbh06lEY4J9BzDZI1HHA
+ iOgXGAH4hN00EUzqxhv6OgmT1g==
+X-Google-Smtp-Source: APXvYqwxwR4mjF/D34AR0rJ+4n+tDB/9YiqdgZW1xSvvgRS7rYjDyQXfZvTxsjDyKOxMWl1gBZYZ6w==
+X-Received: by 2002:adf:cf0e:: with SMTP id o14mr12625699wrj.277.1568996420827; 
+ Fri, 20 Sep 2019 09:20:20 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s13sm2265276wmc.28.2019.09.20.09.20.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2019 09:20:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 59DCE1FF87;
+ Fri, 20 Sep 2019 17:20:19 +0100 (BST)
+References: <20190920001413.22567-1-jsnow@redhat.com>
+ <20190920001413.22567-4-jsnow@redhat.com>
+ <731ae95b-7c70-43ca-bea9-28b00de232d5@redhat.com>
+ <c7b12028-0294-0d9c-3e94-60b2ba7d3528@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 3/3] docker: remove unused debian-sid and debian-ports
+In-reply-to: <c7b12028-0294-0d9c-3e94-60b2ba7d3528@redhat.com>
+Date: Fri, 20 Sep 2019 17:20:19 +0100
+Message-ID: <87d0fvym64.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <e6169704-2af8-95e7-d64d-9de8b5768cdc@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,61 +84,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Laurent Desnogues <laurent.desnogues@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Llu=c3=ads_Vilanova?= <vilanova@ac.upc.edu>
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Daniel and Llu=C3=ADs,
 
-On 9/20/19 5:01 PM, Eric Blake wrote:
-> On 9/20/19 9:39 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->=20
->>>> I thought I read a comment about it between Eric/Stefan but I can't =
-find
->>>> it, maybe I dreamed it. (Cc'ed Eric).
->=20
-> Not from me.  But looking at scripts/tracetool/format/log_stap.py, I
-> suspect the dtrace via stap backend cannot support it.
->=20
-> Researching further,
->=20
-> https://sourceware.org/systemtap/langref.pdf
->=20
-> section 9.2 printf, states:
->=20
-> "The printf formatting directives are similar to those of C, except tha=
-t
-> they are fully checked for type by the translator."
->=20
-> and does NOT list handling for '*' under precision or width.
->=20
+John Snow <jsnow@redhat.com> writes:
 
-Thanks for checking this.
+> On 9/20/19 4:49 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 9/20/19 2:14 AM, John Snow wrote:
+>>> These are listed as "partial" images, but have no user.
+>>> Remove them.
+>>
+>> Well, I have WiP users from them. I could restore this content when they
+>> are ready... Ports is the base of deprecated Debian archs. On the other
+>> side Sid is the base for edge development I use from time to time to
+>> test latest gcc/binutils.
+>> I'll try to find time to raise WiP branches to PoC.
+>>
+>
+> I think that's the right thing to do. Right now, the docker tests
+> directory has a lot of stale entries and unusable tests. That might be
+> fine for the people working on it, but it makes it hard to understand
+> and use for those of us who only occasionally traipse into the directory.
+>
+> I'm removing all references to python2 -- but if there's no way for me
+> to test debian-sid and debian-ports, I can't test changes I need to make
+> to these "partial images", so they should be removed until they are
+> consumable.
+>
+> While I am sympathetic to the idea of having a library of partial images
+> to use for future tests, they're prone to rot if there's no way to
+> exercise them in-tree.
 
+Don't forget some "partial" images are only used for building TCG tests
+- we want to keep them. But as git is forever I can drop the sid/ports
+stuff for now until Phillipe has something to use them again.
+
+>
+> You can always re-add them when you have a user.
+>
+> --js
+>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>  tests/docker/Makefile.include                |  4 +--
+>>>  tests/docker/dockerfiles/debian-ports.docker | 36 --------------------
+>>>  tests/docker/dockerfiles/debian-sid.docker   | 35 -------------------
+>>>  3 files changed, 2 insertions(+), 73 deletions(-)
+>>>  delete mode 100644 tests/docker/dockerfiles/debian-ports.docker
+>>>  delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
 >>>
->>> If my grep is correct we currently use the syntax already in
->>> gt64120_read, gt64120_write, pflash_io_read, pflash_io_write,
->>> pflash_data_read and pflash_data_write trace events.
->>
->> If you use 'git blame' you'll notice I added all of them, so better
->> let's get a proper confirmation from Stefan :)
->>
->> I plan to use them more, I find them helpful to directly see the acces=
-s
->> size looking at the value width.
->=20
-> You'll probably have to revert that, or else teach the various backend
-> generators how to dumb-down a format string containing it when coupled
-> with a backend that doesn't support it natively.
+>>> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.incl=
+ude
+>>> index 7af476d957..c282b5c520 100644
+>>> --- a/tests/docker/Makefile.include
+>>> +++ b/tests/docker/Makefile.include
+>>> @@ -5,8 +5,8 @@
+>>>  DOCKER_SUFFIX :=3D .docker
+>>>  DOCKER_FILES_DIR :=3D $(SRC_PATH)/tests/docker/dockerfiles
+>>>  # we don't run tests on intermediate images (used as base by another i=
+mage)
+>>> -DOCKER_PARTIAL_IMAGES :=3D debian8 debian9 debian10 debian-sid
+>>> -DEBIAN_PARTIAL_IMAGES +=3D debian-9-mxe debian-ports debian-bootstrap
+>>> +DOCKER_PARTIAL_IMAGES :=3D debian8 debian9 debian10
+>>> +DEBIAN_PARTIAL_IMAGES +=3D debian-9-mxe debian-bootstrap
+>>>  DOCKER_IMAGES :=3D $(sort $(notdir $(basename $(wildcard $(DOCKER_FILE=
+S_DIR)/*.docker))))
+>>>  DOCKER_TARGETS :=3D $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+>>>  # Use a global constant ccache directory to speed up repetitive builds
+>>> diff --git a/tests/docker/dockerfiles/debian-ports.docker b/tests/docke=
+r/dockerfiles/debian-ports.docker
+>>> deleted file mode 100644
+>>> index 61bc3f2993..0000000000
+>>> --- a/tests/docker/dockerfiles/debian-ports.docker
+>>> +++ /dev/null
+>>> @@ -1,36 +0,0 @@
+>>> -#
+>>> -# Docker multiarch cross-compiler target
+>>> -#
+>>> -# This docker target is builds on Debian Ports cross compiler targets
+>>> -# to build distro with a selection of cross compilers for building tes=
+t binaries.
+>>> -#
+>>> -# On its own you can't build much but the docker-foo-cross targets
+>>> -# build on top of the base debian image.
+>>> -#
+>>> -FROM debian:unstable
+>>> -
+>>> -MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> -
+>>> -RUN echo "deb [arch=3Damd64] http://deb.debian.org/debian unstable mai=
+n" > /etc/apt/sources.list
+>>> -
+>>> -# Duplicate deb line as deb-src
+>>> -RUN cat /etc/apt/sources.list | sed -ne "s/^deb\ \(\[.*\]\ \)\?\(.*\)/=
+deb-src \2/p" >> /etc/apt/sources.list
+>>> -
+>>> -# Setup some basic tools we need
+>>> -RUN apt-get update && \
+>>> -    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
+>>> -    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>>> -    apt-get install -y --no-install-recommends \
+>>> -        bison \
+>>> -        build-essential \
+>>> -        ca-certificates \
+>>> -        clang \
+>>> -        debian-ports-archive-keyring \
+>>> -        flex \
+>>> -        gettext \
+>>> -        git \
+>>> -        pkg-config \
+>>> -        psmisc \
+>>> -        python \
+>>> -        texinfo \
+>>> -        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cu=
+t -d\  -f2)
+>>> diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/=
+dockerfiles/debian-sid.docker
+>>> deleted file mode 100644
+>>> index 2a1bcc33b2..0000000000
+>>> --- a/tests/docker/dockerfiles/debian-sid.docker
+>>> +++ /dev/null
+>>> @@ -1,35 +0,0 @@
+>>> -#
+>>> -# Debian Sid Base
+>>> -#
+>>> -# Currently we can build all our guests with cross-compilers in the
+>>> -# latest Debian release (Buster). However new compilers will first
+>>> -# arrive in Sid. However Sid is a rolling distro which may be broken
+>>> -# at any particular time. To try and mitigate this we use Debian's
+>>> -# snapshot archive which provides a "stable" view of what state Sid
+>>> -# was in.
+>>> -#
+>>> -
+>>> -# This must be earlier than the snapshot date we are aiming for
+>>> -FROM debian:sid-20190812-slim
+>>> -
+>>> - # Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
+>>> -ENV DEBIAN_SNAPSHOT_DATE "20190820"
+>>> -RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [=
+check-valid-until=3Dno] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPS=
+HOT_DATE} \2%" /etc/apt/sources.list
+>>> -
+>>> -# Duplicate deb line as deb-src
+>>> -RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/s=
+ources.list
+>>> -
+>>> -# Install common build utilities
+>>> -RUN apt update && \
+>>> -    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
+>>> -    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>>> -    apt install -y --no-install-recommends \
+>>> -        bison \
+>>> -        build-essential \
+>>> -        ca-certificates \
+>>> -        flex \
+>>> -        git \
+>>> -        pkg-config \
+>>> -        psmisc \
+>>> -        python \
+>>> -        texinfo || { echo "Failed to build - see debian-sid.docker not=
+es"; exit 1; }
+>>>
 
-OK, I'll see what is doable with the backend generators, else revert/fix
-the trace events already introduced :(
 
-Regards,
-
-Phil.
+--
+Alex Benn=C3=A9e
 
