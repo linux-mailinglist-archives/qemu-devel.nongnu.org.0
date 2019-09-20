@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B4DB89BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 05:34:50 +0200 (CEST)
-Received: from localhost ([::1]:50802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5241B8A26
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 06:27:05 +0200 (CEST)
+Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iB9h2-0003DN-Il
-	for lists+qemu-devel@lfdr.de; Thu, 19 Sep 2019 23:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58648)
+	id 1iBAVc-000535-8b
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 00:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@aj.id.au>) id 1iB9fw-0002gP-RH
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 23:33:41 -0400
+ (envelope-from <andrew@aj.id.au>) id 1iBARj-0002JC-GD
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 00:23:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew@aj.id.au>) id 1iB9fv-0008N8-NZ
- for qemu-devel@nongnu.org; Thu, 19 Sep 2019 23:33:40 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:42949)
+ (envelope-from <andrew@aj.id.au>) id 1iBAFX-0000FS-3P
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 00:10:28 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:54869)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrew@aj.id.au>)
- id 1iB9ft-0008Kx-1c; Thu, 19 Sep 2019 23:33:37 -0400
+ id 1iBAFV-0000D2-EF; Fri, 20 Sep 2019 00:10:25 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 626B8494;
- Thu, 19 Sep 2019 23:33:34 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 8858A43B;
+ Fri, 20 Sep 2019 00:10:23 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 19 Sep 2019 23:33:34 -0400
+ by compute4.internal (MEProxy); Fri, 20 Sep 2019 00:10:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=ah7cQPmHf2Gk7WcmfSJ5XdfKJIREpKF
- JSm/kt3ZWmFo=; b=G6/Q01QfqhKg5dseK28VH/R7gwDemg3+6F/2TdBowN/E4HY
- ODzE/xsjZoLquflwS7z0EkzbHS6PXyjUkzLIMtDzhsdd7TfDFyq7TXjA+3sAu8ZR
- aXWhLumurK29+DusijthSrna+3zXK1CSgC6jfOEwuzlZbYb5u2nP51cFxhd9nQtf
- TgDj2K/LbwivUlqtq1zvKAprGwDl6tDSwghXMc9zqLHDQvJAJddt4w/9H6NXBpVb
- ivDLs8UjFz4kBbmLqmMQNiD/SuPbIca2drMr+Ev6ZpQ/EsgqCuVbOsVjP6A83Ogg
- OudiiJ/Nq+wMi3YIZwRhUvijJsF7iSApokCJj2w==
+ :subject:content-type:content-transfer-encoding; s=fm3; bh=UW1Cg
+ mzJ7CdZcE8MiL6kgnKE/N4lIiJRMpjE0HFtCl4=; b=DsaXz8IBNKHv7T9zWfwtf
+ FZOt5Y7XO7B6fRpz7omkuvp20iaGoNTrpEKIj5QgvCJNyBuy1qCKYdHNV4uvdXV1
+ Ho5/16Sx1YLpojCutoqvTexX8UeMFKmQFnqFs9EgZHaUDSnGwjFwIwRaBOmSmwZc
+ w1iLbMynKpb+EwdpUGJ6JygJGINT+VKE+3PZP+yq3V8HLEioJ5O93TEIuxkUP+Lj
+ e9oEQjs8s8/s193G70re55sdbpi5g2eZKNpvcHW38BKx3z4x9MxbgvnJyESBnOAD
+ hNQmbRf8pfw0+fRPGQ6yWjKeunhojz+uGUpTUMQy7yPoyiIq+N2qwj+T2IDCuIFC
+ A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ah7cQP
- mHf2Gk7WcmfSJ5XdfKJIREpKFJSm/kt3ZWmFo=; b=v31LoSfYj19Xbu4DkDvcuW
- Jf/3E7GPBUkDMdXazvQHnBcRqkOsruG82fSjZUTBjuBntaEu2kj+AA1e7GuAaFqf
- ZHC6uocI4/OTUlTTudcKnHXNex4LLAWTB/HOCDe4y4nKgQTyfH0UBDSU8cQk2m8X
- vQ1bxKKKrN1lVygWJHN4RaFMeCS7oFVhSbMVS0TAoPmXpzdd4OdVenv4dETAwO2b
- 7/cfIplJTyr0AkCpVB6h3TSFu7Ms9mLnmXWZdpLFBTlXmuTaIJzsb9OO5LxXeFoq
- k5Pp63wfT0Z1PpToZ2P3E/C9qLhY0mm4nOuPB5Cq/+efwKFPn8t+947NYT7W0emA
- ==
-X-ME-Sender: <xms:jUiEXRV0InU27Zg5MMJYUHj-gIyNb1H81FyjRG5KwgQD5VFFq1G_mA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddugdejvdcutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=UW1CgmzJ7CdZcE8MiL6kgnKE/N4lIiJRMpjE0HFtC
+ l4=; b=zcCUfpDJghFAelT+A5siZrZk+qCrqdkBPh42N/6tKw2d5lqEi6jpivVYt
+ xSwmPMihvyK5moG+Vuow9dSTUsiNnzxhh9YJ1fpQrYCxyworel4p+6Ly+rz9hkVC
+ XABcVOWpZTBZTAO6bQrtlhpEGdpASJFmi9CrQ/1MoUucygUk7bAbyW1q4FHVtXvd
+ 8k3osFsCkhV+7v/TvD8Qe2uEVs0ujsc6tRsWO1M9Y2En47QaDBKN6Pz68XeNMVN9
+ uknO4BeqkLB01qSDQNr7UhJyqNlKAepaDrVjMGVWNsSXAxoiuhiif0E8aFVUjqSX
+ +IKBBmRxHBDpdyoV636MrMuaem1LA==
+X-ME-Sender: <xms:LlGEXboU_Qk2lXc0-TW2Ot_Rxhud_wUWAtF54MPOXGbShCEw2oaNPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddugdejlecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffohhmrg
- hinhepphgrthgthhgvfidrohhrghenucfrrghrrghmpehmrghilhhfrhhomheprghnughr
- vgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:jUiEXV3nTNuhZjAjMjqZmSL1tPhZiKnm6Nm7LUgsr6Gmj1noU8DrAw>
- <xmx:jUiEXQ8EqWl36QYLCHaPI49FcAqM6mtRuCJb20jHNcOzx27-3xKVWQ>
- <xmx:jUiEXTdFnO6s4pR_xVoeq2chKJOZDwKJANwmps4CpdmbROJNzWVWug>
- <xmx:jkiEXbnAi8Y76nL3m_YXWcrEpkmuhgPHzylakmvqsCvDard3FsgYQw>
+ fjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:LlGEXdHmqroc77K2MSlS64zJQPlBWqLBkkcpY3yTuD0afj-RGhANFg>
+ <xmx:LlGEXVkVTkFSyzM81e0XQUFl7MHGU5BUlziWf-F55x3MDjlrDRXVIg>
+ <xmx:LlGEXYmQQ7qtSkidxFDD85GfFhZbcKeac9dqmaUtrwVvlI_2gCtOIQ>
+ <xmx:L1GEXYtLgMyK_jYSUc5y_i-9zTrm28XEvic08YL2Ens_N7hu3WIy1Q>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 1EAB3E00A9; Thu, 19 Sep 2019 23:33:33 -0400 (EDT)
+ id 4A997E00A9; Fri, 20 Sep 2019 00:10:22 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-238-g170a812-fmstable-20190913v1
 Mime-Version: 1.0
-Message-Id: <d0707b66-4446-457b-a5fa-2b4225db9ad5@www.fastmail.com>
-In-Reply-To: <156892658765.2125.17871103047730488122@1c8ae44fe5c0>
-References: <156892658765.2125.17871103047730488122@1c8ae44fe5c0>
-Date: Fri, 20 Sep 2019 13:04:09 +0930
+Message-Id: <139c3f7e-465e-4efb-b6c7-213dcd2ec6b7@www.fastmail.com>
+In-Reply-To: <20190919055002.6729-4-clg@kaod.org>
+References: <20190919055002.6729-1-clg@kaod.org>
+ <20190919055002.6729-4-clg@kaod.org>
+Date: Fri, 20 Sep 2019 13:40:58 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: no-reply <no-reply@patchew.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Subject: =?UTF-8?Q?Re:_[Qemu-devel]_[PATCH_00/21]_aspeed:_Add_support_for_the_AST?=
- =?UTF-8?Q?2600_SoC?=
-Content-Type: text/plain
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Peter Maydell" <peter.maydell@linaro.org>
+Subject: Re: [PATCH 03/21] hw: aspeed_scu: Add AST2600 support
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 64.147.123.20
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,45 +87,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On Fri, 20 Sep 2019, at 06:26, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20190919055002.6729-1-clg@kaod.org/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the docker-quick@centos7 build test. Please find the 
-> testing commands and
-> their output below. If you have Docker installed, you can probably 
-> reproduce it
-> locally.
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> make docker-image-centos7 V=1 NETWORK=1
-> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
-> === TEST SCRIPT END ===
-> 
-> libudev           no
-> default devices   yes
-> 
-> warning: Python 2 support is deprecated
-> warning: Python 3 will be required for building future versions of QEMU
-> cross containers  no
-> 
-> NOTE: guest cross-compilers enabled: cc
-> ---
-> Property '.cntfrq' not found
+On Thu, 19 Sep 2019, at 15:19, C=C3=A9dric Le Goater wrote:
+> From: Joel Stanley <joel@jms.id.au>
+>=20
+> The SCU controller on the AST2600 SoC has extra registers. Increase
+> the number of regs of the model and introduce a new field in the class=
 
-Ah, we should drop the patch introducing the CNTFRQ configuration for the 2600
-as well given the patch adding support to configure it isn't part of the series.
+> to customize the MemoryRegion operations depending on the SoC model.
+>=20
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> [clg: - improved commit log
+>       - changed vmstate version
+>       - reworked model integration into new objet class ]
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  include/hw/misc/aspeed_scu.h |   7 +-
+>  hw/misc/aspeed_scu.c         | 190 +++++++++++++++++++++++++++++++++-=
+-
+>  2 files changed, 189 insertions(+), 8 deletions(-)
+
+...
+
+> +static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset,=20
+> uint64_t data,
+> +                                     unsigned size)
+> +{
+> +    AspeedSCUState *s =3D ASPEED_SCU(opaque);
+> +    int reg =3D TO_REG(offset);
+> +
+> +    if (reg >=3D ASPEED_AST2600_SCU_NR_REGS) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds write at offset 0x%"=20
+> HWADDR_PRIx "\n",
+> +                      __func__, offset);
+> +        return;
+> +    }
+> +
+> +    if (reg > PROT_KEY && !s->regs[PROT_KEY]) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: SCU is locked!\n",=20
+> __func__);
+> +    }
+> +
+> +    trace_aspeed_scu_write(offset, size, data);
+> +
+> +    switch (reg) {
+> +    case AST2600_PROT_KEY:
+> +        s->regs[reg] =3D (data =3D=3D ASPEED_SCU_PROT_KEY) ? 1 : 0;
+> +        return;
+> +    case AST2600_HW_STRAP1:
+> +    case AST2600_HW_STRAP2:
+> +        if (s->regs[reg + 2]) {
+> +            return;
+> +        }
+> +        /* fall through */
+> +    case AST2600_SYS_RST_CTRL:
+> +    case AST2600_SYS_RST_CTRL2:
+> +        /* W1S (Write 1 to set) registers */
+> +        s->regs[reg] |=3D data;
+> +        return;
+> +    case AST2600_SYS_RST_CTRL_CLR:
+> +    case AST2600_SYS_RST_CTRL2_CLR:
+> +    case AST2600_HW_STRAP1_CLR:
+> +    case AST2600_HW_STRAP2_CLR:
+> +        /* W1C (Write 1 to clear) registers */
+> +        s->regs[reg] &=3D ~data;
+
+This clear should respect the protection register for each strap case.
 
 Andrew
 
