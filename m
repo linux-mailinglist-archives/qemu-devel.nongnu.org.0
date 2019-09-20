@@ -2,50 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEDFB8D0F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 10:41:30 +0200 (CEST)
-Received: from localhost ([::1]:56414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A73B8D14
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 10:43:19 +0200 (CEST)
+Received: from localhost ([::1]:56552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBETo-0003yq-No
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 04:41:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45649)
+	id 1iBEVa-0007Gr-9a
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 04:43:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iBEQo-0001ZM-3l
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:38:23 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBETE-0004oh-9L
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:40:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iBEQm-0002jd-AS
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:38:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41114)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iBEQm-0002j1-3O
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:38:20 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 61BAA3B558
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 08:38:19 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-165.rdu2.redhat.com
- [10.10.120.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F5D860BF1;
- Fri, 20 Sep 2019 08:38:18 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu devel list <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/2] edk2 build scripts: work around TianoCore#1607 without
- forcing Python 2
-Date: Fri, 20 Sep 2019 10:38:08 +0200
-Message-Id: <20190920083808.21399-3-lersek@redhat.com>
-In-Reply-To: <20190920083808.21399-1-lersek@redhat.com>
-References: <20190920083808.21399-1-lersek@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBETB-0003gE-U0
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:40:51 -0400
+Received: from mail-eopbgr70123.outbound.protection.outlook.com
+ ([40.107.7.123]:15942 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iBET9-0003fS-M1; Fri, 20 Sep 2019 04:40:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iQP3PNrwwHulu01igaaZvNPW4W9bSi5zMOlXRrm425Tgc6HOHO1VPTxti1duqBNzpksuE69gdzufLIdftdWnzyEw0C5aCywvB8vDwFsm5ndxWRs7UT1+sn5CrGMIAFRYgCUrMQSwOtaYgo7z8QYb9SkzF2QduwwGZXOROiw14k0MWSYwZ/lUnPSyeDHAc4A+/UOO/YFXML4jLx/JajbqCm8+dMxJb0UX2MOVP+tBkpcA8XmNhbHfXbLpHV6uIZ118LtAQ+a6wlwwE2vAlE6E+dt3zNVha1kYw0I0AmT1Z8TX9s10Tb9IHwqolw3svOFRzL3FoH8tn/USrinvDiAR8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=99X0s4lC8DGm96td+BZWrDUtn4PzlOuggZrEqS1J2TY=;
+ b=GH72+2oDG3RHFyB8GIvD56v6abIsp9361ZLGTigagUHcqMuWt7w4F9ZkLRjxrk7BmRP0YEFwgm5V+0TQ7PV5EisAIIQw3T+yuE4f/kecZJrNWoH/eoQwg4PoC00VW1Ve24E66gfD/ryG2b/qltyUiXnCZHJ+J4VulcF5j7hPbkOuGfydqVswZKuU4oA0KCesr0IkYnapS5TdgpsCgfjFL0bts1WIIhsoHWhmbpVmBh0HzVDpevsID8I3Sp2KN4Y8g1HpEfdw/m1OTFbND+Y5XX87wPdTeVq+O6wisAvczIVGWTno1rVPc607SioIcF+M+FR2FEgxSMoC6AVfzUMVHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=99X0s4lC8DGm96td+BZWrDUtn4PzlOuggZrEqS1J2TY=;
+ b=v5KuIN/EkG67yD8NkOM62q8fqVUeAvyjM4CW9FlyDPiMwSotcqo2eCtNF4yNILLri0q5vG5s4kSAyf/2qkHJvu8aJGMtFvnY8gZNk1W4M5hnwjUbu3+ch5/dU/IVP6pCtLhObKy41YsBYtObqfJ8T1JQA4nO3EUKfixm3fBVKfo=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5385.eurprd08.prod.outlook.com (52.133.241.7) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.20; Fri, 20 Sep 2019 08:40:45 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Fri, 20 Sep 2019
+ 08:40:45 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 1/2] iotests: Require Python 3.6 or later
+Thread-Topic: [PATCH v2 1/2] iotests: Require Python 3.6 or later
+Thread-Index: AQHVbwgAcItFOgHuMUm6UeC6gwu0i6c0QBwA
+Date: Fri, 20 Sep 2019 08:40:45 +0000
+Message-ID: <5f0e3c27-1c33-0f9b-485b-c3e4a6700138@virtuozzo.com>
+References: <20190919162905.21830-1-kwolf@redhat.com>
+ <20190919162905.21830-2-kwolf@redhat.com>
+In-Reply-To: <20190919162905.21830-2-kwolf@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P190CA0002.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::12)
+ To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190920114042825
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 64aff1a4-eba7-4a88-e4ae-08d73da63aa4
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB5385; 
+x-ms-traffictypediagnostic: DB8PR08MB5385:
+x-microsoft-antispam-prvs: <DB8PR08MB538521796CBDA7C95B8DB025C1880@DB8PR08MB5385.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:404;
+x-forefront-prvs: 0166B75B74
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(366004)(136003)(396003)(39850400004)(346002)(189003)(199004)(66946007)(76176011)(52116002)(86362001)(66476007)(31696002)(66556008)(66446008)(64756008)(102836004)(6486002)(386003)(6506007)(2906002)(6246003)(71190400001)(71200400001)(36756003)(14444005)(66066001)(6116002)(4326008)(3846002)(6436002)(2501003)(256004)(478600001)(8936002)(316002)(99286004)(14454004)(81156014)(54906003)(26005)(110136005)(25786009)(81166006)(229853002)(31686004)(2616005)(476003)(446003)(5660300002)(11346002)(486006)(8676002)(7736002)(186003)(6512007)(305945005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5385;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: GzVbVE6Cx06NetS2aUUcWLqArmJ/4FLrLOkMbQHog+4lvotYaj8gqOl/C5RPhzMrSMqQYjqPhxT6Y2MHo0yVryDG3oQp+alblw2/2RryKfAkspke7pBQAL8WFYM9eoOSDG2VYq+mPPhGUNn757+spIsjLm7C2bbRN1/I1RXIF9k71ZMdngSx0getpZzNBP3IFs4w64C7fDfdf7bv6xgvi0E2mUiC2U03Oa5EghSCHiG2oAwketeljo9y06xFzMO6KOuiTy+xT/6+OthPQRdgPsRl0gLhJTdsdUi4F/5HPywKDoIpJA4MNOVUb648Gwvqk85erOOtnjtE29nzd3MaRs5+LC1IdN9lJjwFVc2mQ07v4RVvFVWczHgTA80q3yUIkg+EB6VYcOBZmGpE7ow0YOzS9/7xsxMXhfvpRjKbaXM=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F41FB9785540AB44BB63CAA1CF7253AE@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 20 Sep 2019 08:38:19 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64aff1a4-eba7-4a88-e4ae-08d73da63aa4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2019 08:40:45.5115 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aqvnmh5AGxYModcLtgZ5TwTa9nldgQo5i0zqogvgO7YWnoXTqvyFww+ltCE9TFfJm+EtNYZhOUoegcmWcAIhfs2YxeUFhSK4oyn5c85JzwE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5385
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.123
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,186 +111,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It turns out that forcing python2 for running the edk2 "build" utility is
-neither necessary nor sufficient.
-
-Forcing python2 is not sufficient for two reasons:
-
-- QEMU is moving away from python2, with python2 nearing EOL,
-
-- according to my most recent testing, the lacking dependency information
-  in the makefiles that are generated by edk2's "build" utility can cause
-  parallel build failures even when "build" is executed by python2.
-
-And forcing python2 is not necessary because we can still return to the
-original idea of filtering out jobserver-related options from MAKEFLAGS.
-So do that.
-
-While at it, cut short edk2's auto-detection of the python3.* minor
-version, by setting PYTHON_COMMAND to "python3" (which we expect to be
-available wherever we intend to build edk2).
-
-With this patch, the guest UEFI binaries that are used as part of the BIO=
-S
-tables test, and the OVMF and ArmVirtQemu platform firmwares, will be
-built strictly in a single job, regardless of an outermost "-jN" make
-option. Alas, there appears to be no reliable way to build edk2 in an
-(outer make, inner make) environment, with a jobserver enabled.
-
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: John Snow <jsnow@redhat.com>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reported-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Laszlo Ersek <lersek@redhat.com>
----
-
-Notes:
-    v2:
-   =20
-    - set PYTHON_COMMAND to python3; update commit message [Phil]
-   =20
-    - do not pick up any feedback tags from v1 (v2 is not a trivial updat=
-e)
-   =20
-    v1:
-   =20
-    - Tested on RHEL7 (where the outer "make" sets the old-style
-      "--jobserver-fds" flag) and on Fedora 29 (where the outer "make" se=
-ts
-      the new-style "--jobserver-auth" flag).
-   =20
-    - I've rebuilt all the edk2 binaries with this patch applied. Everyth=
-ing
-      works fine. However, if you test this patch, you might notice that =
-git
-      reports all the build products as modified. That's because when usi=
-ng
-      the python3 code in edk2 BaseTools, the generated makefiles differ
-      greatly from the ones generated when running in python2 mode (e.g. =
-due
-      to different random seeds in python hashes / dictionaries). As a
-      result, parts of the firmware volumes / firmware filesystems could
-      appear in a different order than before. This is harmless, and does=
-n't
-      necessitate checking in the rebuilt binaries.
-
- roms/Makefile                  |  1 +
- tests/uefi-test-tools/Makefile |  1 +
- roms/edk2-build.sh             |  4 ++--
- roms/edk2-funcs.sh             | 17 +++++++++++++++++
- tests/uefi-test-tools/build.sh |  6 ++++--
- 5 files changed, 25 insertions(+), 4 deletions(-)
-
-diff --git a/roms/Makefile b/roms/Makefile
-index 6cf07d3b44ee..06339efa6fc4 100644
---- a/roms/Makefile
-+++ b/roms/Makefile
-@@ -141,6 +141,7 @@ build-efi-roms: build-pxe-roms
- #
- edk2-basetools:
- 	$(MAKE) -C edk2/BaseTools \
-+		PYTHON_COMMAND=3D$${EDK2_PYTHON_COMMAND:-python3} \
- 		EXTRA_OPTFLAGS=3D'$(EDK2_BASETOOLS_OPTFLAGS)' \
- 		EXTRA_LDFLAGS=3D'$(EDK2_BASETOOLS_LDFLAGS)'
-=20
-diff --git a/tests/uefi-test-tools/Makefile b/tests/uefi-test-tools/Makef=
-ile
-index 7e0177d7337e..1dcddcdbbabf 100644
---- a/tests/uefi-test-tools/Makefile
-+++ b/tests/uefi-test-tools/Makefile
-@@ -100,6 +100,7 @@ Build/bios-tables-test.%.efi: build-edk2-tools
-=20
- build-edk2-tools:
- 	$(MAKE) -C $(edk2_dir)/BaseTools \
-+		PYTHON_COMMAND=3D$${EDK2_PYTHON_COMMAND:-python3} \
- 		EXTRA_OPTFLAGS=3D'$(EDK2_BASETOOLS_OPTFLAGS)' \
- 		EXTRA_LDFLAGS=3D'$(EDK2_BASETOOLS_LDFLAGS)'
-=20
-diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
-index 4f46f8a6a217..d5391c763728 100755
---- a/roms/edk2-build.sh
-+++ b/roms/edk2-build.sh
-@@ -27,8 +27,7 @@ shift $num_args
-=20
- cd edk2
-=20
--# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607>.
--export PYTHON_COMMAND=3Dpython2
-+export PYTHON_COMMAND=3D${EDK2_PYTHON_COMMAND:-python3}
-=20
- # Source "edksetup.sh" carefully.
- set +e +u +C
-@@ -43,6 +42,7 @@ fi
- # any), for the edk2 "build" utility.
- source ../edk2-funcs.sh
- edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
-+MAKEFLAGS=3D$(qemu_edk2_quirk_tianocore_1607 "$MAKEFLAGS")
- edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
- qemu_edk2_set_cross_env "$emulation_target"
-=20
-diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
-index a9fae7ee891b..3f4485b201f1 100644
---- a/roms/edk2-funcs.sh
-+++ b/roms/edk2-funcs.sh
-@@ -251,3 +251,20 @@ qemu_edk2_get_thread_count()
-     printf '1\n'
-   fi
- }
-+
-+
-+# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607> by
-+# filtering jobserver-related flags out of MAKEFLAGS. Print the result t=
-o the
-+# standard output.
-+#
-+# Parameters:
-+#   $1: the value of the MAKEFLAGS variable
-+qemu_edk2_quirk_tianocore_1607()
-+{
-+  local makeflags=3D"$1"
-+
-+  printf %s "$makeflags" \
-+  | LC_ALL=3DC sed --regexp-extended \
-+      --expression=3D's/--jobserver-(auth|fds)=3D[0-9]+,[0-9]+//' \
-+      --expression=3D's/-j([0-9]+)?//'
-+}
-diff --git a/tests/uefi-test-tools/build.sh b/tests/uefi-test-tools/build=
-.sh
-index 8aa7935c43bb..3b78f3084069 100755
---- a/tests/uefi-test-tools/build.sh
-+++ b/tests/uefi-test-tools/build.sh
-@@ -29,8 +29,7 @@ export PACKAGES_PATH=3D$(realpath -- "$edk2_dir")
- export WORKSPACE=3D$PWD
- mkdir -p Conf
-=20
--# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=3D1607>.
--export PYTHON_COMMAND=3Dpython2
-+export PYTHON_COMMAND=3D${EDK2_PYTHON_COMMAND:-python3}
-=20
- # Source "edksetup.sh" carefully.
- set +e +u +C
-@@ -46,12 +45,15 @@ fi
- source "$edk2_dir/../edk2-funcs.sh"
- edk2_arch=3D$(qemu_edk2_get_arch "$emulation_target")
- edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
-+MAKEFLAGS=3D$(qemu_edk2_quirk_tianocore_1607 "$MAKEFLAGS")
-+edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
- qemu_edk2_set_cross_env "$emulation_target"
-=20
- # Build the UEFI binary
- mkdir -p log
- build \
-   --arch=3D"$edk2_arch" \
-+  -n "$edk2_thread_count" \
-   --buildtarget=3DDEBUG \
-   --platform=3DUefiTestToolsPkg/UefiTestToolsPkg.dsc \
-   --tagname=3D"$edk2_toolchain" \
---=20
-2.19.1.3.g30247aa5d201
-
+MTkuMDkuMjAxOSAxOToyOSwgS2V2aW4gV29sZiB3cm90ZToNCj4gUnVubmluZyBpb3Rlc3RzIGlz
+IG5vdCByZXF1aXJlZCB0byBidWlsZCBRRU1VLCBzbyB3ZSBjYW4gaGF2ZSBzdHJpY3Rlcg0KPiB2
+ZXJzaW9uIHJlcXVpcmVtZW50cyBmb3IgUHl0aG9uIGhlcmUgYW5kIGNhbiBtYWtlIHVzZSBvZiBu
+ZXcgZmVhdHVyZXMNCj4gYW5kIGRyb3AgY29tcGF0aWJpbGl0eSBjb2RlIGVhcmxpZXIuDQo+IA0K
+PiBUaGlzIG1ha2VzIHFlbXUtaW90ZXN0cyBza2lwIGFsbCBQeXRob24gdGVzdHMgaWYgYSBQeXRo
+b24gdmVyc2lvbiBiZWZvcmUNCj4gMy42IGlzIHVzZWQgZm9yIHRoZSBidWlsZC4NCj4gDQo+IFN1
+Z2dlc3RlZC1ieTogRWR1YXJkbyBIYWJrb3N0IDxlaGFia29zdEByZWRoYXQuY29tPg0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBLZXZpbiBXb2xmIDxrd29sZkByZWRoYXQuY29tPg0KPiAtLS0NCj4gICB0ZXN0
+cy9xZW11LWlvdGVzdHMvY2hlY2sgfCAxMyArKysrKysrKysrKystDQo+ICAgMSBmaWxlIGNoYW5n
+ZWQsIDEyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90
+ZXN0cy9xZW11LWlvdGVzdHMvY2hlY2sgYi90ZXN0cy9xZW11LWlvdGVzdHMvY2hlY2sNCj4gaW5k
+ZXggODc1Mzk5ZDc5Zi4uNTg4YzQ1M2E5NCAxMDA3NTUNCj4gLS0tIGEvdGVzdHMvcWVtdS1pb3Rl
+c3RzL2NoZWNrDQo+ICsrKyBiL3Rlc3RzL3FlbXUtaW90ZXN0cy9jaGVjaw0KPiBAQCAtNjMzLDYg
+KzYzMywxMiBAQCB0aGVuDQo+ICAgICAgIGV4cG9ydCBTT0NLRVRfU0NNX0hFTFBFUj0iJGJ1aWxk
+X2lvdGVzdHMvc29ja2V0X3NjbV9oZWxwZXIiDQo+ICAgZmkNCj4gICANCj4gK3B5dGhvbl91c2Fi
+bGU9ZmFsc2UNCj4gK2lmICRQWVRIT04gLWMgJ2ltcG9ydCBzeXM7IHN5cy5leGl0KDAgaWYgc3lz
+LnZlcnNpb25faW5mbyA+PSAoMyw2KSBlbHNlIDEpJw0KPiArdGhlbg0KPiArICAgIHB5dGhvbl91
+c2FibGU9dHJ1ZQ0KPiArZmkNCj4gKw0KPiAgIGRlZmF1bHRfbWFjaGluZT0kKCRRRU1VX1BST0cg
+LW1hY2hpbmUgaGVscCB8IHNlZCAtbiAnLyhkZWZhdWx0KS8gcy8gLiovL3AnKQ0KPiAgIGRlZmF1
+bHRfYWxpYXNfbWFjaGluZT0kKCRRRU1VX1BST0cgLW1hY2hpbmUgaGVscCB8IFwNCj4gICAgICBz
+ZWQgLW4gIi8oYWxpYXMgb2YgJGRlZmF1bHRfbWFjaGluZSkvIHsgcy8gLiovL3A7IHE7IH0iKQ0K
+PiBAQCAtODA5LDcgKzgxNSwxMiBAQCBkbw0KPiAgICAgICAgICAgc3RhcnQ9JChfd2FsbGNsb2Nr
+KQ0KPiAgIA0KPiAgICAgICAgICAgaWYgWyAiJChoZWFkIC1uIDEgIiRzb3VyY2VfaW90ZXN0cy8k
+c2VxIikiID09ICIjIS91c3IvYmluL2VudiBweXRob24iIF07IHRoZW4NCj4gLSAgICAgICAgICAg
+IHJ1bl9jb21tYW5kPSIkUFlUSE9OICRzZXEiDQo+ICsgICAgICAgICAgICBpZiAkcHl0aG9uX3Vz
+YWJsZTsgdGhlbg0KDQpobW0gSSB3YW50ZWQgdG8gc2F5IHRoYXQgdGhpcyBzaG91bGQgbm90IHdv
+cmssIGFzIHB5dGhvbl91c2FibGUgaXMgYSBzdHJpbmcuIEJ1dCBJIGNoZWNrZWQNCmFuZCBzZWUg
+LSBpdCdzIHdvcmsuIFdvdy4gR29vZ2xlZC4gQW5kIG5vdyBJIHVuZGVyc3RhbmQgdGhhdCBoZXJl
+ICJmYWxzZSIgb3IgInRydWUiIGNvbW1hbmQNCmlzIGNhbGxlZCwgdG8gb2J0YWluIGl0J3MgcmV0
+dXJuIHZhbHVlLi4gSSBkb24ndCBsaWtlIGJhc2ggYW5kIGRvbid0IGtub3cgaXRzIGJlc3QgcHJh
+Y3RpY2UsDQpidXQgSSdkIHByZWZlciBweXRob25fdXNhYmxlIHRvIGJlIGp1c3QgcmV0dXJuIHZh
+bHVlIG9mIHlvdXIgcHl0aG9uIGNvbW1hbmQsIGxpa2UNCg0KYWJvdmU6DQoNCiAgICRQWVRIT04g
+LWMgJ2ltcG9ydCBzeXM7IHN5cy5leGl0KDAgaWYgc3lzLnZlcnNpb25faW5mbyA+PSAoMyw2KSBl
+bHNlIDEpJw0KICAgcHl0aG9uX3VzYWJsZT0kPw0KDQphbmQgaGVyZToNCg0KICAgaWYgWyAkcHl0
+aG9uX3VzYWJsZSAtZXEgMCBdOyB0aGVuDQoNCg0KPiArICAgICAgICAgICAgICAgIHJ1bl9jb21t
+YW5kPSIkUFlUSE9OICRzZXEiDQo+ICsgICAgICAgICAgICBlbHNlDQo+ICsgICAgICAgICAgICAg
+ICAgcnVuX2NvbW1hbmQ9ImZhbHNlIg0KPiArICAgICAgICAgICAgICAgIGVjaG8gIlVuc3VwcG9y
+dGVkIFB5dGhvbiB2ZXJzaW9uIiA+ICRzZXEubm90cnVuDQo+ICsgICAgICAgICAgICBmaQ0KPiAg
+ICAgICAgICAgZWxzZQ0KPiAgICAgICAgICAgICAgIHJ1bl9jb21tYW5kPSIuLyRzZXEiDQo+ICAg
+ICAgICAgICBmaQ0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
