@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A570B8DBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:27:56 +0200 (CEST)
-Received: from localhost ([::1]:57044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E281DB8D97
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:25:29 +0200 (CEST)
+Received: from localhost ([::1]:57020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBFCl-0002df-6G
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:27:55 -0400
+	id 1iBFAO-0007Rn-4R
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:25:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:51823)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBF8K-0005j1-T7
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:23:21 -0400
+ (envelope-from <stefanha@gmail.com>) id 1iBF8C-0005j1-Tz
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:23:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBF4H-0002oM-Fb
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:19:10 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43152)
+ (envelope-from <stefanha@gmail.com>) id 1iBF7V-0004no-Hv
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:22:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33142)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1iBF4H-0002o1-Ax; Fri, 20 Sep 2019 05:19:09 -0400
-Received: by mail-pg1-x543.google.com with SMTP id d4so384463pgd.10;
- Fri, 20 Sep 2019 02:19:09 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iBF7V-0004mH-C6
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:22:29 -0400
+Received: by mail-wr1-x441.google.com with SMTP id b9so6031201wrs.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 02:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=u/XXhvAolCieP6V1RN94aOGfpzypnA1RhoVy7PHOsac=;
- b=fCXLmIG49+wsif6g44N7pNcQD6/9BmxjmVA5KQTrRgjFD2tsRIZX+1PyccTorw7Iib
- dgS9gyUJbhQZeXc0SM2zgwf/Wd7vNxUmUNABsWp3gINu1cKdb9i88/K5Vv8Gwsfu7yno
- aG9HRXbFp/S2ighvtle2f3bqBcPkRb6skyj0TjMHhm1hIaZaI8fjZ24SdnyK5YLDDThX
- boOVG4iXDWqeIRTuXYvVRWoH+exh2cVL29zvUzOPZaw6jX3BvA/zHEY/dE6M/Jx5474D
- x64zAu7qSCUPMk/gmeA+iM+vcJTUAilDGSf2UoBWcZhttyFTsTZJdrEZv2WIOFYQdCZM
- sTLw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=uY+XY95t7uvNSQINcea61sKZRvXuKMDMs4G/Vpb11Sg=;
+ b=mpA583s+LX7KmE78WCNl76g3AfsuYRMElXojSYKCBorg8o4bOfBi2bR3Z+q2HdJ0R2
+ nLGczG2jL+STVw1OFgu42CoTSWamNaFYPQjLeMWCP7XjGXcaq7mCJagfhpsejv824iPR
+ +E/1J8K5XSgxuw/MTts2gY8Qhzb1ngjBxiEeGIHdlupn0NWUCnROsvdEEUjR2XbisUES
+ 5pvlJKekU0sDHI1u6Ba6A4gZ43d2c619123L5kbaPmgpCJuwHkT1840Qu+qoeulHKBne
+ rndjeh3XvD4EMQAblHbxA+Gq9m5xvDcd8ax5LrDkzQJo3/EETmd6X83eC/AAKyMVURbu
+ ZFxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=u/XXhvAolCieP6V1RN94aOGfpzypnA1RhoVy7PHOsac=;
- b=cu2IHxxLQ/I1PR4XEVrRt+0SgtTBeRJ88ifob9Tcs7ultaaiiJ5zEsdtOOsOMIXp1X
- p99K3yg9yg/DB/fceT4b8OJXThPX3vhFzToi+9fQv9bLhvYkRBHe3x2rIZK9cPjmmO4n
- axTr+mQvkZI98qxziuFsNvJS4U9SlKOPgydNDrrJy3JUdrTSxy7Ihxbf4ucqX/HQnYSu
- vw38ChiK4oaDvYvW5sxbCHxZlkKUM3o5ogeyLERufSaQ6/84+Ty6dP8OEQo6iZZW9bIl
- XPXEH1ZCTvPrBhilVB8znfo6JEcsCzd1Y3o41/mYuf0juUUoyuE+JFNRuWAE5yNwzzfr
- /8mg==
-X-Gm-Message-State: APjAAAWwKqT65Uf75NFxuaFKTXM0phmd6OYEsho3XA0xbA6yh/bqk9ur
- bLA5XoAVfp2IKcHuI3Dzhm4=
-X-Google-Smtp-Source: APXvYqyNkevPjfniTbLQjpKGLV/cndKHIk/8BrfTVG4+L/jfaW16pBBCaSuavhqNn9USlEeQdgcSQQ==
-X-Received: by 2002:a17:90a:1903:: with SMTP id 3mr3513369pjg.80.1568971148373; 
- Fri, 20 Sep 2019 02:19:08 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id m9sm1500731pjf.11.2019.09.20.02.19.07
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 20 Sep 2019 02:19:07 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH 2/2] riscv: sifive_u: Add ethernet0 to the aliases node
-Date: Fri, 20 Sep 2019 02:19:02 -0700
-Message-Id: <1568971142-27979-2-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1568971142-27979-1-git-send-email-bmeng.cn@gmail.com>
-References: <1568971142-27979-1-git-send-email-bmeng.cn@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=uY+XY95t7uvNSQINcea61sKZRvXuKMDMs4G/Vpb11Sg=;
+ b=I38cZEhq6HQSi5dX0BNpMjQNiNDAbSGPL73d9S8vyeWHPlC+HXUVdFHhi/piEhf8s0
+ 4OEvZQgsph+bOaaVsIOfPFgamYYLNEGsh+myOxdQkngmQmQtmlJhb0st8cw0QJy3HlEc
+ byNY5YPPUlSaLqOlq+JkbMDxhZ9Dyk0724EXmPORGENwJSecJ92mphg32+RImnvS5Imj
+ DSrRnGkI0fCbqkpVzDS0wPoLGc6izFrz3QO7Hll6rsgqlaybCEpYKJ1HQx1SSo/EKVMk
+ h5KkkX2loQ65BSn5mrqf2QXbRY6S54wLoBbJUIMxfA75NETBCnNn6lyt8WUtyTXEEVGh
+ 0/wA==
+X-Gm-Message-State: APjAAAXk/s2ZJUz4GVImoxEgkOSMuiTq5UNxZEXyMzjIK3yzu3c4i5q5
+ IMjrnxmte6TnbsORXsckUD4=
+X-Google-Smtp-Source: APXvYqwt4kSn/9rIgR35o6ZeVm3f+UPQYQeVOgWj2I6Cf+UZb/DyYONI26ED6EtDf1E6ZYJUQtG67w==
+X-Received: by 2002:a05:6000:1632:: with SMTP id
+ v18mr239579wrb.233.1568971348364; 
+ Fri, 20 Sep 2019 02:22:28 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id o9sm2252703wrh.46.2019.09.20.02.22.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2019 02:22:27 -0700 (PDT)
+Date: Fri, 20 Sep 2019 10:22:26 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Tony Asleson <tasleson@redhat.com>
+Subject: Re: [RFC 0/4] POC: Generating realistic block errors
+Message-ID: <20190920092226.GH14365@stefanha-x1.localdomain>
+References: <20190919194847.18518-1-tasleson@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="CEUtFxTsmBsHRLs3"
+Content-Disposition: inline
+In-Reply-To: <20190919194847.18518-1-tasleson@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,45 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U-Boot expects this alias to be in place in order to fix up the mac
-address of the ethernet node.
 
-This is to keep in sync with Linux kernel commit below:
-https://patchwork.kernel.org/patch/11133033/
+--CEUtFxTsmBsHRLs3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+On Thu, Sep 19, 2019 at 02:48:43PM -0500, Tony Asleson wrote:
+> For a long time I thought that VMs could be a great way to improve OS
+> code quality by modifying the simulated hardware to return errors to
+> exercise error paths in the OSs, specifically in block devices for right =
+now.
+> A number of different approaches are available within the Linux kernel, e=
+g.
+> scsi-debug, dm-flakey, and others.  However, I always though it would be =
+best to
+> simulate it from the hardware.  To fully exercise the entire stack.  As a
+> bonus it's OS agnostic for those projects that cross OSs and it's availab=
+le
+> before the OS even boots.
+>=20
+> This POC needs a lot more work, but it's what I have so far.  Learning QE=
+MU
+> internals, plus some of the different bus types has been interesting to s=
+ay
+> the least.  I'm most familiar with SCSI, but the others are foreign to me.
+> AHCI/SATA/ATA is very interesting with it's history and the associated co=
+de to
+> handle it's evolution.
+>=20
+> Eventually I think it would be useful to add functionality for errors on
+> write paths, timeouts, and different error behaviors.  Like media error(s=
+) that
+> are corrected by a re-write (simulate failed write on power loss), bit rot
+> injection etc.  I know a number of these can be solved different ways,
+> but embracing them from the VM environment seems ideal to me.  Expanding
+> to gather statistics on IO patterns, histograms etc. could be very
+> useful too.  Having the ability to start/stop information collection and
+> then have access to what happened and in what order could allow for
+> better error injection of key FS structures and software RAID solutions t=
+oo.
+>=20
+> I've recently been informed that blkdebug exists.  From a cursory investi=
+gation
+> it does appear have overlap, but I haven't given it a try yet.  From look=
+ing
+> at the code to insert my changes it appears that some of the errors I'm
+> generating are different than what for example an EIO on a read_aio does,=
+ but
+> I'm not sure.  Perhaps some of the other features that I've outlined above
+> already exist too in some other capacity of QEMU?
 
- hw/riscv/sifive_u.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+blkdebug is purely at the QEMU block layer level.  It is not aware of
+storage controller-specific error information or features.  If you want
+to inject NVMe- or SCSI-specific errors that make no sense in QEMU's
+block layer, then trying to do it in blkdebug becomes a layering
+violation.  This justifies adding a new error injection feature directly
+into AHCI, virtio-scsi, NVMe, etc devices.
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 02dd761..1ac51e3 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -270,6 +270,10 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         s->soc.gem.conf.macaddr.a, ETH_ALEN);
-     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
-     qemu_fdt_setprop_cell(fdt, nodename, "#size-cells", 0);
-+
-+    qemu_fdt_add_subnode(fdt, "/aliases");
-+    qemu_fdt_setprop_string(fdt, "/aliases", "ethernet0", nodename);
-+
-     g_free(nodename);
- 
-     nodename = g_strdup_printf("/soc/ethernet@%lx/ethernet-phy@0",
-@@ -297,7 +301,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
-     }
- 
--    qemu_fdt_add_subnode(fdt, "/aliases");
-     qemu_fdt_setprop_string(fdt, "/aliases", "serial0", nodename);
- 
-     g_free(nodename);
--- 
-2.7.4
+What I like about blkdebug is the state machine and relatively powerful
+tests that this enables.  It makes sense to reuse those for storage
+controller-specific error injection too.  In the future we may wish to
+reuse it for network cards and other emulated devices too!
 
+Perhaps the error injection "engine" (the core blkdebug code) can be
+extracted and reused?
+
+--CEUtFxTsmBsHRLs3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2EmlIACgkQnKSrs4Gr
+c8hnAgf/RT2GTcwF1OaAX0BWkn9Zk+4lGVSTtT8laRScFbQZrm5ZNaNZMYbYscDg
+65ZnaVhGWLNovWXTijv88Eve6nJa9LL818G3zUzVTwcwdRaIZigU1SfXYCYRsBPb
+1ZuUaLE6Qx/xqn8QCbPolV46VXgtlMtAt/GGsY4niYlIR4T5+a/bAubbC5XO4egJ
+3xZ3QH/ikvjAu8+X/Pxo8HKgwfYRd9U4Z0+qqCAGYCLSd2TLsCZjO8A7Lkqkg0vF
+3CMuTb7oLQ4htdAhD0WPOXTOnG3LRp3XdKyJbahGjXeDCU2MYYS3rSOQuMZSXC0h
+4TxtkJby0ofHG2kLvp/H2HoIcKvPQQ==
+=yRfL
+-----END PGP SIGNATURE-----
+
+--CEUtFxTsmBsHRLs3--
 
