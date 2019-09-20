@@ -2,78 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CB3B9987
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:11:25 +0200 (CEST)
-Received: from localhost ([::1]:35752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36163B9996
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:17:34 +0200 (CEST)
+Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBR7c-00080V-Eh
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:11:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57257)
+	id 1iBRDY-0005rF-HJ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iBR66-0006q6-Ld
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:09:52 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iBR9I-0008T0-EE
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:13:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iBR64-0005gI-Cb
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:09:50 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:32987)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iBR61-0005fW-8m
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:09:46 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q10so5455986pfl.0
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:09:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Xq6CjTsGZJR9XwIXAsothWRRID2FfNd4/CnJWbG8XTM=;
- b=Wydt88o8wqr9s6XOMuXl1rGL6qL6HGEF3+opEmxczu8NZuMzPKPMiuquy8fXQWY0qg
- l7vuSspLHTPzhoaG5YNumwuE05CGagRwls+ttmxKmAkueKos6K+453WZmFJcU//b8Wse
- TS9rOZ6BXnPuEJAL8OMtnjHWpbB36SGP50YiSmhFvd16o+nSjgBOY1Q5PXBPKrSqk9na
- 7HZpkOZonKR6AgLaUcn/WNn1Zyu234WBCuWyBOWhHRzNe/6TXrbApp58WSxmMk1UTxdO
- UtY8EPEN/32fft32iiov2H5qFVX8sbJvomxzZJSt7lfuDmUPxpKHKd2Nw5kSzdL3+aJH
- spjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xq6CjTsGZJR9XwIXAsothWRRID2FfNd4/CnJWbG8XTM=;
- b=en74SrHSTyaGJG8L/ntRaiXZ6JrnIg9RmcCnLh5GyM6sFvWQOQCmV4nrXKQpXq8vzN
- VyJN05zOe2Zhg9gVGCLjBEMqbaBm9WBa/rE1ILsWtfoVvKvzVcmTKCvI7BldFgXi7JX2
- Qwb32VRV6jgFdTc03N/m/KikM4dtq5sbQu6aoVZL6oGDHZbiIJ2LGmDDySh8K/x2mJgz
- spTOujp+P766ZxjkWJGG6p88D47yTu5Lj2wKshXIa9u0Ldur2QDy6FAZv9nOTsQ3ISu5
- XYaeihV/LNcwK5YqvF3RoX7MAqU5zI8B1q4D3jMHD+2e+8kDJMEMPWWNaoO+wya9tcX0
- ynEQ==
-X-Gm-Message-State: APjAAAVJCDbQG+Iyfbp4qbUB9MattBt29G/0hU8fCCfDO2KxOg3M3j6B
- /FmpiM0GNhniDrztnJ2EFI1uhQ==
-X-Google-Smtp-Source: APXvYqz5JelNdtvqL+XIhk1bmq9WBlrlX2ISeidqgXyz7O6rOYDUVY/H+U2T513vCCkNd/0abesKTg==
-X-Received: by 2002:a63:5b23:: with SMTP id p35mr17082669pgb.366.1569017383421; 
- Fri, 20 Sep 2019 15:09:43 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id v44sm3832336pgn.17.2019.09.20.15.09.42
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 20 Sep 2019 15:09:42 -0700 (PDT)
-Subject: Re: [PATCH v2 10/16] tests/tcg: add generic version of float_convs
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20190919171015.12681-1-alex.bennee@linaro.org>
- <20190919171015.12681-11-alex.bennee@linaro.org>
- <c6cd971c-e84c-c5c9-b313-2e454e02a1da@linaro.org> <87impnz568.fsf@linaro.org>
- <87h857z32j.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <0b0c45c7-4b9b-0d03-01aa-25a689a8f914@linaro.org>
-Date: Fri, 20 Sep 2019 15:09:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <jsnow@redhat.com>) id 1iBR9H-0006xX-Bk
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:13:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48758)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iBR9H-0006x2-6G
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:13:07 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D0BAF85546;
+ Fri, 20 Sep 2019 22:13:05 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-38.bos.redhat.com [10.18.17.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E76C5D9C3;
+ Fri, 20 Sep 2019 22:12:56 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] docker: misc cleanups
+Date: Fri, 20 Sep 2019 18:12:50 -0400
+Message-Id: <20190920221255.30412-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87h857z32j.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Fri, 20 Sep 2019 22:13:05 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,29 +53,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/19 3:15 AM, Alex Bennée wrote:
-> I can't figure out what is meant to be going on with CONVERT_BITS. It
-> seems to be implying there is a direct relationship between status flags
-> and the exception disable bits. But that is confusing because integer
-> overflow (IOV) and float overflow (OVF) are different flags bit I assume
-> both suppressed by Overflow Disable (OVFD).
+This should include anything I've sent so far (not including the RFC for
+more exploratory changes) that hasn't already been included in a roundup
+by Alex Benn=C3=A9e.
 
-I had failed to notice that the kernel routine plays with INV and not IOV for
-the emulation of CVTTQ, so it's the SWCR_TRAP_ENABLE_INV bit that controls
-whether CVTTQ/S raises a signal.
+Mostly, it removes unused docker files and replaces python2 with python3
+in all of the container environments.
 
-Will fix.
+V2:
+- Rolled in python2 --> python3 conversion
+- Added travis conversion to python patch
+- Remove debian8 dockerfile, which is also now unused.
 
-> Why are we doing this magic 32 bit shuffling anyway? Is it purely to
-> save 32 bits of a mostly empty lower half of the FPCR register?
+John Snow (5):
+  docker: move tests from python2 to python3
+  docker: remove 'deprecated' image definitions
+  docker: remove debian8-mxe definitions
+  docker: remove unused debian-sid and debian-ports
+  docker: removed unused debian8 partial image
 
-Yes.  Which is not a great answer, but it was done years ago and there's little
-point in changing it back now.
+ tests/docker/Makefile.include                 |  8 ++---
+ tests/docker/dockerfiles/centos7.docker       |  2 +-
+ tests/docker/dockerfiles/debian-ports.docker  |  2 +-
+ tests/docker/dockerfiles/debian-sid.docker    |  2 +-
+ .../dockerfiles/debian-xtensa-cross.docker    |  2 +-
+ tests/docker/dockerfiles/debian10.docker      |  2 +-
+ tests/docker/dockerfiles/debian8.docker       | 34 -------------------
+ tests/docker/dockerfiles/debian9.docker       |  2 +-
+ tests/docker/dockerfiles/travis.docker        |  2 +-
+ tests/docker/dockerfiles/ubuntu.docker        |  2 +-
+ tests/docker/dockerfiles/ubuntu1804.docker    |  2 +-
+ 11 files changed, 12 insertions(+), 48 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian8.docker
 
+--=20
+2.21.0
 
-r~
 
