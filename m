@@ -2,48 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0C0B95E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:40:17 +0200 (CEST)
-Received: from localhost ([::1]:33628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87C3B95E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:43:19 +0200 (CEST)
+Received: from localhost ([::1]:33668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLx9-0006TE-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
+	id 1iBM06-0002wT-OR
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:43:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iBLel-0007fg-PZ
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:21:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iBLls-00039Q-Ki
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:28:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iBLej-0008Cn-MF
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:21:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59744)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iBLed-00089B-P6; Fri, 20 Sep 2019 12:21:09 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CCB823082E24;
- Fri, 20 Sep 2019 16:21:05 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-81.ams2.redhat.com
- [10.36.117.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6003646A1;
- Fri, 20 Sep 2019 16:21:04 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 1/4] block/snapshot: Restrict set of snapshot nodes
-Date: Fri, 20 Sep 2019 18:20:55 +0200
-Message-Id: <20190920162058.29743-2-kwolf@redhat.com>
-In-Reply-To: <20190920162058.29743-1-kwolf@redhat.com>
-References: <20190920162058.29743-1-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iBLlq-0003CO-VH
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:28:36 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33331)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iBLlq-0003CD-EA
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:28:34 -0400
+Received: by mail-ot1-x341.google.com with SMTP id g25so6728825otl.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 09:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W+RrZzCeCmMgB4WeC6Z58QwhwbPLh+zvqQ+h5E+YFy0=;
+ b=lQhsFyP7EGi0zd3IzccMmfFH7f5n9CHwoml1LUu95Nq3ujSvQSH3qgI9DLxIY9dKJ0
+ liqrsHzilv8BflyTp038QYlN7/7HCADpoVmOb8t4NDgJ4cMFnWTr7AfHeElMtaPIvJco
+ QJQz74iIccY8x2+xt9aFaW6IY2xpAf+2IJYdFfcua9TofSukEi8tVTNMYx0He8mJ5oIv
+ ketaB7bBMxvljaziGilD+rw7yruXS5rRe9fAB9JE9o+uxDu22Uiyk3hwN6uKgSZWO0tt
+ 5IwYV3nZrQ0bM0S6GzaVrjLBDBbm9X3ynypeJ5Ftn9cPyP8vX7neySWL0RIxATbyjd3q
+ jjQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W+RrZzCeCmMgB4WeC6Z58QwhwbPLh+zvqQ+h5E+YFy0=;
+ b=KTdVvCgkwJhrQqHmnmXZ3cynnk4f7LQTH66iIbDgsiUok9VfCNfNl8glDnhQfL6S46
+ ICAcPE/M1aAjSt1zGVB/nIhRPAGRz6FFNHiFUKwTCoOCJuc8VurrvBGBOkdOgJoZ7RIi
+ ZIpL7POkoLTXePiBwHMvWotYZJj54XcoJ7kJ7d7FcBXjxVuflp+wx2jN7l0LNbu49ONg
+ YJTLLi+BIaJXQM8yL0BIdEuz+onurLQ0wLn4k9bKzOjpVpWF2q5I4ZS0g/bx1N9gvs5u
+ 234ahuW83umtS3yMeejPOnb1GHujrCFaA1mWvmoEXJMxXQrkcrRlo4MHzxk3P5itd8Fh
+ XtaA==
+X-Gm-Message-State: APjAAAWoR74ZDpxJuMzWEt/WDDB2fphsDMmOdu/wNjvOT9z8kK7wPeNO
+ oli1T0XZ5cnywcvlLPMZkSKPozxw8AdJF0VJ3uZ/1Q==
+X-Google-Smtp-Source: APXvYqyDdOKfkN5Qe3LvQ/BCDyQ0kpsTQYGlNQa8WCnsch5DrsihvG28xH16N9DYlxP5FflbJzgU2JZof58qtK0LusQ=
+X-Received: by 2002:a9d:4615:: with SMTP id y21mr4921025ote.97.1568996913411; 
+ Fri, 20 Sep 2019 09:28:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 20 Sep 2019 16:21:05 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+References: <20190919135443.15164-1-laurent@vivier.eu>
+In-Reply-To: <20190919135443.15164-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Sep 2019 17:28:22 +0100
+Message-ID: <CAFEAcA8QkkKQ_kMZ2x0xsW1Sp3sK+=i+QRGcDQ+rzq9emustSg@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PULL 0/8] Trivial branch patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,134 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nodes involved in internal snapshots were those that were returned by
-bdrv_next(), inserted and not read-only. bdrv_next() in turn returns all
-nodes that are either the root node of a BlockBackend or monitor-owned
-nodes.
+On Thu, 19 Sep 2019 at 15:02, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit f8c3db33a5e863291182f8862ddf81618a7c6194:
+>
+>   target/sparc: Switch to do_transaction_failed() hook (2019-09-17 12:01:00 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+>
+> for you to fetch changes up to 754119198de633683d7af79bc08e73c2de9df011:
+>
+>   configure: Add xkbcommon configure options (2019-09-19 14:42:31 +0200)
+>
+> ----------------------------------------------------------------
+> Trivial patches 20190919
+>
 
-With the typical -drive use, this worked well enough. However, in the
-typical -blockdev case, the user defines one node per option, making all
-nodes monitor-owned nodes. This includes protocol nodes etc. which often
-are not snapshottable, so "savevm" only returns an error.
 
-Change the conditions so that internal snapshot still include all nodes
-that have a BlockBackend attached (we definitely want to snapshot
-anything attached to a guest device and probably also the built-in NBD
-server; snapshotting block job BlockBackends is more of an accident, but
-a preexisting one), but other monitor-owned nodes are only included if
-they have no parents.
+Applied, thanks.
 
-This makes internal snapshots usable again with typical -blockdev
-configurations.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Peter Krempa <pkrempa@redhat.com>
-Tested-by: Peter Krempa <pkrempa@redhat.com>
----
- block/snapshot.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/block/snapshot.c b/block/snapshot.c
-index f2f48f926a..8081616ae9 100644
---- a/block/snapshot.c
-+++ b/block/snapshot.c
-@@ -31,6 +31,7 @@
- #include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/option.h"
-+#include "sysemu/block-backend.h"
-=20
- QemuOptsList internal_snapshot_opts =3D {
-     .name =3D "snapshot",
-@@ -384,6 +385,16 @@ int bdrv_snapshot_load_tmp_by_id_or_name(BlockDriver=
-State *bs,
-     return ret;
- }
-=20
-+static bool bdrv_all_snapshots_includes_bs(BlockDriverState *bs)
-+{
-+    if (!bdrv_is_inserted(bs) || bdrv_is_read_only(bs)) {
-+        return false;
-+    }
-+
-+    /* Include all nodes that are either in use by a BlockBackend, or th=
-at
-+     * aren't attached to any node, but owned by the monitor. */
-+    return bdrv_has_blk(bs) || QLIST_EMPTY(&bs->parents);
-+}
-=20
- /* Group operations. All block drivers are involved.
-  * These functions will properly handle dataplane (take aio_context_acqu=
-ire
-@@ -399,7 +410,7 @@ bool bdrv_all_can_snapshot(BlockDriverState **first_b=
-ad_bs)
-         AioContext *ctx =3D bdrv_get_aio_context(bs);
-=20
-         aio_context_acquire(ctx);
--        if (bdrv_is_inserted(bs) && !bdrv_is_read_only(bs)) {
-+        if (bdrv_all_snapshots_includes_bs(bs)) {
-             ok =3D bdrv_can_snapshot(bs);
-         }
-         aio_context_release(ctx);
-@@ -426,8 +437,9 @@ int bdrv_all_delete_snapshot(const char *name, BlockD=
-riverState **first_bad_bs,
-         AioContext *ctx =3D bdrv_get_aio_context(bs);
-=20
-         aio_context_acquire(ctx);
--        if (bdrv_can_snapshot(bs) &&
--                bdrv_snapshot_find(bs, snapshot, name) >=3D 0) {
-+        if (bdrv_all_snapshots_includes_bs(bs) &&
-+            bdrv_snapshot_find(bs, snapshot, name) >=3D 0)
-+        {
-             ret =3D bdrv_snapshot_delete(bs, snapshot->id_str,
-                                        snapshot->name, err);
-         }
-@@ -455,7 +467,7 @@ int bdrv_all_goto_snapshot(const char *name, BlockDri=
-verState **first_bad_bs,
-         AioContext *ctx =3D bdrv_get_aio_context(bs);
-=20
-         aio_context_acquire(ctx);
--        if (bdrv_can_snapshot(bs)) {
-+        if (bdrv_all_snapshots_includes_bs(bs)) {
-             ret =3D bdrv_snapshot_goto(bs, name, errp);
-         }
-         aio_context_release(ctx);
-@@ -481,7 +493,7 @@ int bdrv_all_find_snapshot(const char *name, BlockDri=
-verState **first_bad_bs)
-         AioContext *ctx =3D bdrv_get_aio_context(bs);
-=20
-         aio_context_acquire(ctx);
--        if (bdrv_can_snapshot(bs)) {
-+        if (bdrv_all_snapshots_includes_bs(bs)) {
-             err =3D bdrv_snapshot_find(bs, &sn, name);
-         }
-         aio_context_release(ctx);
-@@ -512,7 +524,7 @@ int bdrv_all_create_snapshot(QEMUSnapshotInfo *sn,
-         if (bs =3D=3D vm_state_bs) {
-             sn->vm_state_size =3D vm_state_size;
-             err =3D bdrv_snapshot_create(bs, sn);
--        } else if (bdrv_can_snapshot(bs)) {
-+        } else if (bdrv_all_snapshots_includes_bs(bs)) {
-             sn->vm_state_size =3D 0;
-             err =3D bdrv_snapshot_create(bs, sn);
-         }
-@@ -538,7 +550,7 @@ BlockDriverState *bdrv_all_find_vmstate_bs(void)
-         bool found;
-=20
-         aio_context_acquire(ctx);
--        found =3D bdrv_can_snapshot(bs);
-+        found =3D bdrv_all_snapshots_includes_bs(bs) && bdrv_can_snapsho=
-t(bs);
-         aio_context_release(ctx);
-=20
-         if (found) {
---=20
-2.20.1
-
+-- PMM
 
