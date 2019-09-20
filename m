@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60887B8EDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:17:07 +0200 (CEST)
-Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC53B8ED5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:12:19 +0200 (CEST)
+Received: from localhost ([::1]:57760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBGuQ-0004rB-HJ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35821)
+	id 1iBGpm-0000lj-EA
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35150)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iBGtE-0004Rn-JQ
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:15:53 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBGno-0007oy-FN
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:10:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iBGtD-0000cC-An
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:15:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45154)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iBGtD-0000aE-6N
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:15:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iBGtA-0007pc-L6
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 11:15:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BE8FA2E80D5
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 11:15:47 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1iBGnn-0006Ut-4x
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:10:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58596)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iBGnj-0006TH-DF; Fri, 20 Sep 2019 07:10:11 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0D9FA10C0518;
+ Fri, 20 Sep 2019 11:10:08 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E12260C18;
+ Fri, 20 Sep 2019 11:10:06 +0000 (UTC)
+Subject: Re: [PATCH v5 0/5] qcow2: async handling of fragmented io
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190916175324.18478-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d4d62196-84c2-0a90-312d-391493eae158@redhat.com>
+Date: Fri, 20 Sep 2019 13:10:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Sep 2019 11:02:03 -0000
-From: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena?= <1811533@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h djdatte zaltysz
-X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
- =?utf-8?q?=29?=
-References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
-Message-Id: <156897732311.13532.11518773038615564797.malone@gac.canonical.com>
-Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
- hv_stimer
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 046fd35c06b6988453d092088efac668fa68d799
+In-Reply-To: <20190916175324.18478-1-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Qa4NBWBcEazN6ap9w4pzEj5PB5Shgkh8x"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Fri, 20 Sep 2019 11:10:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,69 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another observation:
-Adding CPU flag x-hv-synic-kvm-only also fixes the issue, because it switch=
-es only synic to Qemu 3.0 behavior, leaving other features of > Qemu 3.0 av=
-ailable.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Qa4NBWBcEazN6ap9w4pzEj5PB5Shgkh8x
+Content-Type: multipart/mixed; boundary="1VeI5mY2MKNuRV2LU9rEOXP8ezAeryQfU";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, den@openvz.org
+Message-ID: <d4d62196-84c2-0a90-312d-391493eae158@redhat.com>
+Subject: Re: [PATCH v5 0/5] qcow2: async handling of fragmented io
+References: <20190916175324.18478-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20190916175324.18478-1-vsementsov@virtuozzo.com>
 
-This observation can be related to this commit:
-https://github.com/qemu/qemu/commit/9b4cf107b09d18ac30f46fd1c4de8585ccba030c
+--1VeI5mY2MKNuRV2LU9rEOXP8ezAeryQfU
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I will post full qemu command line later.
+On 16.09.19 19:53, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+>=20
+> Here is an asynchronous scheme for handling fragmented qcow2
+> reads and writes. Both qcow2 read and write functions loops through
+> sequential portions of data. The series aim it to parallelize these
+> loops iterations.
+> It improves performance for fragmented qcow2 images, I've tested it
+> as described below.
 
--- =
+Thanks again, applied to my block branch:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1811533
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 
-Title:
-  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
+> v5: fix 026 and rebase on Max's block branch [perf results not updated]=
+:
+>=20
+> 01: new, prepare 026 to not fail
+> 03: - drop read_encrypted blkdbg event [Kevin]
+>     - assert((x & (BDRV_SECTOR_SIZE - 1)) =3D=3D 0) -> assert(QEMU_IS_A=
+LIGNED(x, BDRV_SECTOR_SIZE)) [rebase]
+>     - full host offset in argument of qcow2_co_decrypt [rebase]
+> 04: - substitute remaining qcow2_co_do_pwritev by qcow2_co_pwritev_task=
+ in comment [Max]
+>     - full host offset in argument of qcow2_co_encrypt [rebase]
+> 05: - Now patch don't affect 026 iotest, so its output is not changed
+>=20
+> Rebase changes seems trivial, so, I've kept r-b marks.
 
-Status in QEMU:
-  Confirmed
+(For the record, I didn=E2=80=99t consider them trivial, or I=E2=80=99d=E2=
+=80=99ve applied
+Maxim=E2=80=99s series on top of yours.  I consider a conflict to be triv=
+ially
+resolvable only if there is only one way of doing it; but when I
+resolved the conflicts myself, I resolved the one in patch 3 differently
+from you =E2=80=93 I added an offset_in_cluster variable to
+qcow2_co_preadv_encrypted().  Sure, it=E2=80=99s still simple and the dif=
+ference
+is minor, but that was exactly where I thought that I can=E2=80=99t consi=
+der
+this trivial.)
 
-Bug description:
-  Host:
-  Gentoo linux x86_64, kernel 4.20.1
-  Qemu 3.1.0 =
+Max
 
-  CPU: Intel i7 6850K
-  Chipset: X99
 
-  Guest:
-  Windows 10 Pro 64bit (1809)
-  Machine type: pc-q35_3.1
-  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
-pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
-=3D0x1fff
-  Memory: 16GB backed by 2MB huge pages
+--1VeI5mY2MKNuRV2LU9rEOXP8ezAeryQfU--
 
-  Issue:
-  Once guest is started, log gets flooded with:
+--Qa4NBWBcEazN6ap9w4pzEj5PB5Shgkh8x
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
-  coherent sections at 103000
+-----BEGIN PGP SIGNATURE-----
 
-  or
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2Es4wACgkQ9AfbAGHV
+z0D5Iwf/U2HtNixP4gjdTwceqvutOMK/C5MnFwawUjz6d84+Iz52VS0htukVBTXF
+lQeczce5GaOXQIPSWD6LonAOm1vYGiiP4CR3RdHMmuULmrJQ6ZtXuyEULh6JipJ1
+wbir/NNTW7Fi5MFmVXoVMt36SwCFqwTHZ72xA0TI+gEBb1SkSupkXMUbWlftjGN5
+kElnG0O/rQwpamtl3AdzX4VKpjHHxmyzbgOvbjRScumN7VNu4bXMctCSCPuBndCG
+3hJZkFDBTEnzBJJpFoME6F0H1MWOWTaNXQvcYSQdm2UbxSys5EadQSjDkt323bP8
+VGW5zua2KdHexiZgJjgfib8CMI9a8w==
+=qMep
+-----END PGP SIGNATURE-----
 
-  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
-  prior to previous 1f000
-
-  (line endings change)
-
-  and as time goes guest loses network access (virtio-net-pci) and
-  general performance diminishes to extent of freezing applications.
-
-  Observations:
-  1) problem disappears when hv_stimer is removed
-  2) problem disappears when memory backing with huge pages is disabled
-  3) problem disappears when machine type is downgraded to pc-q35_3.0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
+--Qa4NBWBcEazN6ap9w4pzEj5PB5Shgkh8x--
 
