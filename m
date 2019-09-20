@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B299AB8DE2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:37:44 +0200 (CEST)
-Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5DFB8DED
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:39:43 +0200 (CEST)
+Received: from localhost ([::1]:57200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBFMF-0006vA-F8
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
+	id 1iBFOA-00017T-RZ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:39:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iBFDS-0005Ax-GY
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:28:39 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iBFEi-0007JK-A8
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:29:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iBFDR-0008Hx-Dz
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:28:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43006)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iBFDR-0008Hb-9k
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:28:37 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6B05E641C7;
- Fri, 20 Sep 2019 09:28:36 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-165.rdu2.redhat.com
- [10.10.120.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83B0F60C80;
- Fri, 20 Sep 2019 09:28:23 +0000 (UTC)
-Subject: Re: [edk2-devel] [Qemu-devel] [PATCH 1/2] q35: implement 128K SMRAM
- at default SMBASE address
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20190917130708.10281-1-imammedo@redhat.com>
- <20190917130708.10281-2-imammedo@redhat.com>
- <561f4440-7c06-10d7-80ce-bbfa810fec59@redhat.com>
- <20190920102855.3fe2b689@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a581abbc-ec03-c332-b225-6f7cd3cfadae@redhat.com>
-Date: Fri, 20 Sep 2019 11:28:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <alex.bennee@linaro.org>) id 1iBFEg-0000at-QK
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:29:55 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37017)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iBFEg-0000aF-He
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:29:54 -0400
+Received: by mail-wr1-x442.google.com with SMTP id i1so6014830wro.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 02:29:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=x2KaTDjPeZJHU0g6DHHdIw1QpmDe4SwTMzfo8BdB1Is=;
+ b=NKKlCIBNLk3tUvjAlOfEdip80ytm4GkscXeO/jd7aiPo2b77hOl0/UxdqzObepLdfr
+ i3RnbZVn6xmTI8Sc1PJPTMHZoDkvDGuRyr7gem1/KxxlYfnyi8c/xzgjmEDI4s3LXMrT
+ 1G9T3Fe6u3nk4iXbPehhEPo3xFPGZNK1CKdVqF7qI6Lx/ojdApm12S+DZyWA9onv3t7H
+ KT5OVQWrW4TyeTH4u1Qvv1puGm6qQWDAHGu8ebCrekB4z5SmvMAn53gKzPtW2H5TVojC
+ g7iOyWmoQ0QA+/kMJr+lvKN/ovut3EYdTpv4CghX0BUM/VXTaqW341lphtb3qfIoTg54
+ I74g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=x2KaTDjPeZJHU0g6DHHdIw1QpmDe4SwTMzfo8BdB1Is=;
+ b=cv+lj+LrHr3XUi4pbeZfJWxn6RT8AnMafCDRhWk0LepCWHqzHpGq5Wo9Cj47h/3+VH
+ Lhg6gVIfsH0CkrHykrq8KsFnoDkzYovCYjvyjncPusKJC6ztbQyTB/uF7E6TQEnlPlGy
+ P5h1eDzc8bzvE0GA0Odw/+faFGA5DkVBrQLEev1m4Hl/5jEeCEQZjypGy8M9zSCzxLn9
+ pSMXo2t0Y7lITlBKXKbSrHLHvlIZiS/fnnKSicb2X83A2fzYooF/JOK1c1s3vV419a9K
+ 0MG9tDfqL4txg6re6xnYE8vfVVbyWdAx3Dgxf5SC9F6ojiXlbB5/4HXG5ZaBnjUhwMa2
+ atNg==
+X-Gm-Message-State: APjAAAVnmfE08zLWk8TDczGGxv2njtzF26vTkiW5Tod4cBT+/W2MVDQe
+ qsK11iK/WfSQ8g9QtZ2w+HHagw==
+X-Google-Smtp-Source: APXvYqxm4UC+tw5LLuq8f98Z36IyOU2GYy5nnunRfs3+OFYD2rmghdTJxbxFERYEyPR4IjiZbT4l8g==
+X-Received: by 2002:a5d:6302:: with SMTP id i2mr11693215wru.249.1568971792828; 
+ Fri, 20 Sep 2019 02:29:52 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 33sm2030532wra.41.2019.09.20.02.29.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2019 02:29:52 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 298E81FF87;
+ Fri, 20 Sep 2019 10:29:51 +0100 (BST)
+References: <20190919171015.12681-1-alex.bennee@linaro.org>
+ <20190919171015.12681-11-alex.bennee@linaro.org>
+ <c6cd971c-e84c-c5c9-b313-2e454e02a1da@linaro.org>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 10/16] tests/tcg: add generic version of float_convs
+In-reply-to: <c6cd971c-e84c-c5c9-b313-2e454e02a1da@linaro.org>
+Date: Fri, 20 Sep 2019 10:29:51 +0100
+Message-ID: <87impnz568.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190920102855.3fe2b689@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 20 Sep 2019 09:28:36 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,51 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yingwen.chen@intel.com, Brijesh Singh <brijesh.singh@amd.com>,
- devel@edk2.groups.io, phillip.goerl@oracle.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com, jiewen.yao@intel.com, jun.nakajima@intel.com,
- michael.d.kinney@intel.com, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- rfc@edk2.groups.io, joao.m.martins@oracle.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/20/19 10:28, Igor Mammedov wrote:
-> On Thu, 19 Sep 2019 19:02:07 +0200
-> "Laszlo Ersek" <lersek@redhat.com> wrote:
-> 
->> Hi Igor,
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 9/19/19 10:10 AM, Alex Benn=C3=A9e wrote:
+>> This is broadly similar to the existing fcvt test for ARM but using
+>> the generic float testing framework. We should be able to pare down
+>> the ARM fcvt test case to purely half-precision with or without the
+>> Alt HP provision.
 >>
->> (+Brijesh)
->>
->> long-ish pondering ahead, with a question at the end.
-> [...]
-> 
->> Finally: can you please remind me why we lock down 128KB (32 pages) at
->> 0x3_0000, and not just half of that? What do we need the range at
->> [0x4_0000..0x4_FFFF] for?
-> 
-> 
-> If I recall correctly, CPU consumes 64K of save/restore area.
-> The rest 64K are temporary RAM for using in SMI relocation handler,
-> if it's possible to get away without it then we can drop it and
-> lock only 64K required for CPU state. It won't help with SEV
-> conflict though as it's in the first 64K.
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-OK. Let's go with 128KB for now. Shrinking the area is always easier
-than growing it.
+This test seems to be tripping up alpha-linux-user be generating FPU
+exceptions. AFAICT we are meant to start with software exceptions
+disabled but:
 
-> On QEMU side,  we can drop black-hole approach and allocate
-> dedicated SMRAM region, which explicitly gets mapped into
-> RAM address space and after SMI hanlder initialization, gets
-> unmapped (locked). So that SMRAM would be accessible only
-> from SMM context. That way RAM at 0x30000 could be used as
-> normal when SMRAM is unmapped.
+  cpu_alpha_store_fpcr: enabled exceptions: 2000000
 
-I prefer the black-hole approach, introduced in your current patch
-series, if it can work. Way less opportunity for confusion.
+from the get go is what causes the eventual trip up.
 
-I've started work on the counterpart OVMF patches; I'll report back.
+>
+>
+> r~
 
-Thanks
-Laszlo
+
+--
+Alex Benn=C3=A9e
 
