@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D39B94F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:09:00 +0200 (CEST)
-Received: from localhost ([::1]:32996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2151B94FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:12:01 +0200 (CEST)
+Received: from localhost ([::1]:33080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLSs-0000UN-Mb
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
+	id 1iBLVo-0005PG-5g
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iBLAv-00027D-Uz
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:30 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBKqC-0001C5-4E
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:29:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iBLAq-0004up-P7
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:25 -0400
-Received: from 19.mo4.mail-out.ovh.net ([87.98.179.66]:33841)
+ (envelope-from <mreitz@redhat.com>) id 1iBKqA-0004lV-E5
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54210)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iBLAq-0004u5-J4
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:20 -0400
-Received: from player735.ha.ovh.net (unknown [10.109.160.232])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id EF653201AE9
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:50:17 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player735.ha.ovh.net (Postfix) with ESMTPSA id C969FA10B912;
- Fri, 20 Sep 2019 15:50:05 +0000 (UTC)
-Subject: Re: [PATCH 02/15] ipmi: Fix the get watchdog command
-To: minyard@acm.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20190919213924.31852-1-minyard@acm.org>
- <20190919213924.31852-3-minyard@acm.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <998c62cf-4a36-3f9a-1c50-953108967a79@kaod.org>
-Date: Fri, 20 Sep 2019 17:50:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iBKq5-0004g4-MO; Fri, 20 Sep 2019 11:28:55 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2ED4730832DC;
+ Fri, 20 Sep 2019 15:28:51 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BDDEE5C220;
+ Fri, 20 Sep 2019 15:28:50 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 19/22] iotests: Use self.image_len in TestRepairQuorum
+Date: Fri, 20 Sep 2019 17:28:01 +0200
+Message-Id: <20190920152804.12875-20-mreitz@redhat.com>
+In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
+References: <20190920152804.12875-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190919213924.31852-3-minyard@acm.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 17670154615394569144
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvddvgdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Fri, 20 Sep 2019 15:28:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.179.66
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,53 +54,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Fam Zheng <famz@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/09/2019 23:39, minyard@acm.org wrote:
-> From: Corey Minyard <cminyard@mvista.com>
->=20
-> It wasn't returning the set timeout like it should have been.
+041's TestRepairQuorum has its own image_len, no need to refer to
+TestSingleDrive.  (This patch allows uncommenting TestSingleDrive to
+speed up 041 during test testing.)
 
-Looking at=20
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/041 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  27.7 Get Watchdog Timer Command
-
-This looks correct.
-
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
->=20
-> Signed-off-by: Corey Minyard <cminyard@mvista.com>
-> ---
->  hw/ipmi/ipmi_bmc_sim.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-> index 8f63bb7181..afb99e33d7 100644
-> --- a/hw/ipmi/ipmi_bmc_sim.c
-> +++ b/hw/ipmi/ipmi_bmc_sim.c
-> @@ -1228,6 +1228,8 @@ static void get_watchdog_timer(IPMIBmcSim *ibs,
->      rsp_buffer_push(rsp, ibs->watchdog_action);
->      rsp_buffer_push(rsp, ibs->watchdog_pretimeout);
->      rsp_buffer_push(rsp, ibs->watchdog_expired);
-> +    rsp_buffer_push(rsp, ibs->watchdog_timeout & 0xff);
-> +    rsp_buffer_push(rsp, (ibs->watchdog_timeout >> 8) & 0xff);
->      if (ibs->watchdog_running) {
->          long timeout;
->          timeout =3D ((ibs->watchdog_expiry - ipmi_getmonotime() + 5000=
-0000)
->=20
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index ca126de3ff..20ae9750b7 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -880,7 +880,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
+         # Add each individual quorum images
+         for i in self.IMAGES:
+             qemu_img('create', '-f', iotests.imgfmt, i,
+-                     str(TestSingleDrive.image_len))
++                     str(self.image_len))
+             # Assign a node name to each quorum image in order to manipu=
+late
+             # them
+             opts =3D "node-name=3Dimg%i" % self.IMAGES.index(i)
+--=20
+2.21.0
 
 
