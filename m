@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4BDB9674
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BC0B9675
 	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 19:22:26 +0200 (CEST)
-Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBMbw-0001LG-SF
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 13:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35309)
+	id 1iBMbx-0001Ll-NR
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 13:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iBMaG-0000TO-8J
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:20:41 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBMaG-0000TR-VB
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:20:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iBMaE-0008Fa-FD
+ (envelope-from <bounces@canonical.com>) id 1iBMaE-0008Fi-I6
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:20:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47046)
+Received: from indium.canonical.com ([91.189.90.7]:47062)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iBMaE-0008FO-6D
+ id 1iBMaE-0008FP-Cf
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 13:20:38 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iBMaC-0004w0-NE
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:20:36 +0000
+ id 1iBMaD-0004vy-6b
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:20:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9CE3B2E80CC
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:20:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 30A752E80C9
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:20:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Sep 2019 17:12:51 -0000
+Date: Fri, 20 Sep 2019 17:13:27 -0000
 From: Nathan Chancellor <1844597@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: nathanchance pmaydell
 X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
 X-Launchpad-Bug-Modifier: Nathan Chancellor (nathanchance)
 References: <156885735889.27264.8945287928013294736.malonedeb@soybean.canonical.com>
-Message-Id: <156899957115.27688.11875541195253482394.malone@soybean.canonical.com>
+Message-Id: <156899960800.26694.9765262233399241142.malone@soybean.canonical.com>
 Subject: [Bug 1844597] Re: fc1120a7f5f2d4b601003205c598077d3eb11ad2 causes a
  kernel panic in vfp_init on a clang built kernel
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19048";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 3aa5f38bcadd159a373092f15fb610668eb877b5
+X-Launchpad-Hash: 9fb2d2f37f049c2cf8c6727190517e1fe76d7bc3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,14 +68,9 @@ Reply-To: Bug 1844597 <1844597@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ugh, sorry, I forget that I can actually upload files to these platforms
-:(
-
-Done, let me know if you need anything else!
-
-** Attachment added: "zImage"
-   https://bugs.launchpad.net/qemu/+bug/1844597/+attachment/5290032/+files/=
-zImage
+** Attachment added: "aspeed-bmc-opp-romulus.dtb"
+   https://bugs.launchpad.net/qemu/+bug/1844597/+attachment/5290033/+files/=
+aspeed-bmc-opp-romulus.dtb
 
 -- =
 
