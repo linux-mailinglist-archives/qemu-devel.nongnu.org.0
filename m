@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB486B8B28
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 08:35:56 +0200 (CEST)
-Received: from localhost ([::1]:52722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A32B8B66
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 09:06:36 +0200 (CEST)
+Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBCWJ-0002uv-N9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 02:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50265)
+	id 1iBCzy-0008Dj-VT
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 03:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iBCTz-0000vi-Bs
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:33:33 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1iBCys-0007PV-Ej
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:05:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iBCJt-0004vB-Hp
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:23:06 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37346)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iBCJs-0004uO-V7
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 02:23:05 -0400
-Received: by mail-wr1-x441.google.com with SMTP id i1so5481176wro.4
- for <qemu-devel@nongnu.org>; Thu, 19 Sep 2019 23:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=iawjsINkvq/vgQvQ5tf7a7F6hE+44gxnpEzi3QeXFHw=;
- b=ZaY896fcxRG38im9GFRBWfzhoFSdeC9w06wMSVMoQ0VLDMHY2nJAWcP6nbf5J3FskS
- 35Ejit8WiLvM8+R4TEFm3Csy7nCAztrozndOgx0tJ+z4Uga2Bp92xdIimDxQCrB1F0u6
- S9LnEwO9Xw7Ir5zxaPKuXNynOo8rjHn053F5kk7/2ruWaVN7Kp94vgM8IHdxa2ov9HlC
- De2SF0wNG2lurUBsXE8fDzRvsOWNb3KvzbcJWeok8w8bIWxjdrgh/Iffj2Z8nPsQLZ8y
- ajHCm6S1QBzh1Y/UgTr6xE9XM3StHvSFrG80GVTA4bJVv2jAVilk2kD8fzu4QqhVii1c
- fDOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=iawjsINkvq/vgQvQ5tf7a7F6hE+44gxnpEzi3QeXFHw=;
- b=rexqIVsgL/Ym5J1wPotEAttkCrWbD3c3vOBfBml1qYFm4xR3ryTpbWBZ7CC//E1mqi
- RTC422kazn4rmkQ5dwbN6XkeR9Vugm3JLUutlBrDucmF/OrUJfzNbt7Al0/blusDCdM+
- zaGH5+v0Dg/teQYxxRLOdG8L8wYDLtMB1G5Vm8LbODMtp8OziFUvkI5D+C0FXeDfv8tU
- i7qw5eW954OdTsuTZl5bvXkubq9oxVcQQ5ub34C9J5+/UsVQXUpYrcrSoU4s1AD759jO
- 9ofa3Vjz7PkYLDuojV1Q6cFPXMQq+eIliifoe0Sfx0UqsOhr3UcrEdGFeuML/Ho+7H5W
- KwAA==
-X-Gm-Message-State: APjAAAVA7/24pl4zDVdesJaiiIvCd/0ngH3OsV4KiyaH1E195eAzT3vv
- ShUruHE7Or52MuvgCN0bjkT/qA==
-X-Google-Smtp-Source: APXvYqz2Kpo23RlRYpiWUd7B0eUD6D9FkvlSHXQ4icLKPrl3/j4x7C4V8FqxNYE0B9WxGgMeDcNRZg==
-X-Received: by 2002:adf:f547:: with SMTP id j7mr10779523wrp.119.1568960583405; 
- Thu, 19 Sep 2019 23:23:03 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y3sm11293831wmg.2.2019.09.19.23.23.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Sep 2019 23:23:02 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A639E1FF87;
- Fri, 20 Sep 2019 07:23:01 +0100 (BST)
-References: <20190910084349.28817-1-alex.bennee@linaro.org>
- <20190910084349.28817-32-alex.bennee@linaro.org>
- <984feb48-31a9-2fc0-e1e7-e9d7a78b706f@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PULL 31/45] tests/docker: add more images to PARTIAL_IMAGES
- when not on x86_64
-In-reply-to: <984feb48-31a9-2fc0-e1e7-e9d7a78b706f@redhat.com>
-Date: Fri, 20 Sep 2019 07:23:01 +0100
-Message-ID: <87k1a3zdtm.fsf@linaro.org>
+ (envelope-from <eric.auger@redhat.com>) id 1iBCyr-0006RM-B8
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:05:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53232)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iBCyn-0006LN-Kd; Fri, 20 Sep 2019 03:05:21 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id ABE3B86E86F;
+ Fri, 20 Sep 2019 07:05:20 +0000 (UTC)
+Received: from [10.36.117.220] (ovpn-117-220.ams2.redhat.com [10.36.117.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2016D19D7A;
+ Fri, 20 Sep 2019 07:05:09 +0000 (UTC)
+Subject: Re: [PATCH v2 0/5] Allow memory_region_register_iommu_notifier() to
+ fail
+To: Peter Xu <peterx@redhat.com>
+References: <20190919121845.29520-1-eric.auger@redhat.com>
+ <20190920061628.GD12858@xz-x1>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <29a66cfd-b363-9c8a-4bc1-998ae4e3fbea@redhat.com>
+Date: Fri, 20 Sep 2019 09:05:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
+In-Reply-To: <20190920061628.GD12858@xz-x1>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 20 Sep 2019 07:05:20 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,81 +60,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Peter,
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On 9/20/19 8:16 AM, Peter Xu wrote:
+> On Thu, Sep 19, 2019 at 02:18:40PM +0200, Eric Auger wrote:
+>> This series allows the memory_region_register_iommu_notifier()
+>> to fail. As of now, when a MAP notifier is attempted to be
+>> registered along with SMMUv3, Intel iommu without caching mode
+>> or AMD IOMMU, we exit in the IOMMU MR notify_flag_changed()
+>> callback. In case of VFIO assigned device hotplug, this could be
+>> handled more nicely directly within the VFIO code, simply rejecting
+>> the hotplug without exiting. This is what the series achieves
+>> by handling the memory_region_register_iommu_notifier() returned
+>> value.
+> 
+> Could I ask what's the code path for ARM when the hot plug failed?  Is
+> that vfio_realize() then vfio_connect_container() will fail with this?
+> 
+>     if (container->error) {
+>         ret = container->error;
+>         error_setg_errno(errp, -ret,
+>                          "memory listener initialization failed for container");
+>         goto listener_release_exit;
+>     }
+> 
+Yes that path is exercised.
 
-> Hi Alex,
->
-> On 9/10/19 10:43 AM, Alex Benn=C3=A9e wrote:
->> This prevents us trying to do builds which we can't complete.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>
->> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.inclu=
-de
->> index 7df8dbe1a17..50a400b573a 100644
->> --- a/tests/docker/Makefile.include
->> +++ b/tests/docker/Makefile.include
->> @@ -106,6 +106,15 @@ docker-image-debian-s390x-cross: docker-image-debia=
-n9
->>  docker-image-debian-win32-cross: docker-image-debian9-mxe
->>  docker-image-debian-win64-cross: docker-image-debian9-mxe
->>
->> +# For non-x86 hosts not all cross-compilers have been packaged
->> +ifneq ($(ARCH),x86_64)
->> +DOCKER_PARTIAL_IMAGES +=3D debian-mips-cross debian-mipsel-cross debian=
--mips64el-cross
->> +DOCKER_PARTIAL_IMAGES +=3D debian-ppc64el-cross
->> +DOCKER_PARTIAL_IMAGES +=3D debian-s390x-cross
->> +DOCKER_PARTIAL_IMAGES +=3D debian-win32-cross debian-win64-cross
->> +DOCKER_PARTIAL_IMAGES +=3D fedora travis
->> +endif
->> +
->>  docker-image-debian-alpha-cross: docker-image-debian10
->>  docker-image-debian-arm64-cross: docker-image-debian10
->>  docker-image-debian-hppa-cross: docker-image-debian10
->>
->
-> I wanted to run the Travis tests locally (per
-> docs/devel/testing.rst:364) but I got:
->
-> $ make docker-travis@travis
->   LD      docker-travis@travis.mo
-> cc: fatal error: no input files
-> compilation terminated.
-> make: *** [rules.mak:118: docker-travis@travis.mo] Error 1
->
-> Bisected to this patch:
->
-> e5389e44147e4c8d652006ed086c48f74684726a is the first bad commit
-> commit e5389e44147e4c8d652006ed086c48f74684726a
-> Author: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Date:   Thu Aug 15 19:40:48 2019 +0000
->
->     tests/docker: add more images to PARTIAL_IMAGES when not on x86_64
->
->     This prevents us trying to do builds which we can't complete.
->
-> Removing 'travis' from this list we get it working again.
+> If so, I would again suggest you to use Error** in patch 1.  IMHO we
+> can let vfio_listener_region_add() to be the first one to use the
+> Error** so that instead of this:
+> 
+>     /*
+>      * On the initfn path, store the first error in the container so we
+>      * can gracefully fail.  Runtime, there's not much we can do other
+>      * than throw a hardware error.
+>      */
+>     if (!container->initialized) {
+>         if (!container->error) {
+>             container->error = ret;
+>         }
+>     } else {
+>         hw_error("vfio: DMA mapping failed, unable to continue");
+>     }
 
-Have you run configure? I had to work around this in shippable:
+OK. I agree that's better. That's also more code change ;-)
 
-    # usually host ARCH is set by configure
-    - echo "ARCH=3D$(uname -m)" > config-host.mak
+But let's do it!
 
-I guess more logic could be put in if the ARCH is empty
+Thank you for the review!
 
->
+Best Regards
+
+Eric
+> 
+> We can also cache the Error** into container and return to user if the
+> user is using QMP which should be better than the int number (or
+> again, maybe return both errors?).  IIUC error_report() will not work
+> for QMP.
+> 
 > Regards,
->
-> Phil.
-
-
---
-Alex Benn=C3=A9e
+> 
 
