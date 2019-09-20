@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B723AB9446
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:42:23 +0200 (CEST)
-Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D428CB9442
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:42:16 +0200 (CEST)
+Received: from localhost ([::1]:60986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBL38-0003UL-J1
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:42:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44029)
+	id 1iBL31-0003Hy-Em
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBKpy-00011H-4b
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:47 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBKq3-00014S-Oe
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBKpu-0004a4-7o
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42000)
+ (envelope-from <mreitz@redhat.com>) id 1iBKq1-0004fL-OL
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47268)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBKpl-0004VY-4E; Fri, 20 Sep 2019 11:28:33 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iBKpu-0004Ys-8L; Fri, 20 Sep 2019 11:28:42 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5A5223086228;
- Fri, 20 Sep 2019 15:28:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7AFD9308421A;
+ Fri, 20 Sep 2019 15:28:39 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E66BC100194E;
- Fri, 20 Sep 2019 15:28:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15FE45D9E5;
+ Fri, 20 Sep 2019 15:28:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 11/22] block: Use bdrv_recurse_can_replace()
-Date: Fri, 20 Sep 2019 17:27:53 +0200
-Message-Id: <20190920152804.12875-12-mreitz@redhat.com>
+Subject: [PATCH 14/22] quorum: Stop marking it as a filter
+Date: Fri, 20 Sep 2019 17:27:56 +0200
+Message-Id: <20190920152804.12875-15-mreitz@redhat.com>
 In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
 References: <20190920152804.12875-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 20 Sep 2019 15:28:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Fri, 20 Sep 2019 15:28:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -59,57 +59,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let check_to_replace_node() use the more specialized
-bdrv_recurse_can_replace() instead of
-bdrv_recurse_is_first_non_filter(), which is too restrictive.
+Quorum is not a filter, for example because it cannot guarantee which of
+its children will serve the next request.  Thus, any of its children may
+differ from the data visible to quorum's parents.
+
+We have other filters with multiple children, but they differ in this
+aspect:
+
+- blkverify quits the whole qemu process if its children differ.  As
+  such, we can always skip it when we want to skip it (as a filter node)
+  by going to any of its children.  Both have the same data.
+
+- replication generally serves requests from bs->file, so this is its
+  only actually filtered child.
+
+- Block job filters currently only have one child, but they will
+  probably get more children in the future.  Still, they will always
+  have only one actually filtered child.
+
+Having "filters" as a dedicated node category only makes sense if you
+can skip them by going to a one fixed child that always shows the same
+data as the filter node.  Quorum cannot fulfill this, so it is not a
+filter.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ block/quorum.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index a2deca4ac9..02177bde9a 100644
---- a/block.c
-+++ b/block.c
-@@ -6244,6 +6244,17 @@ bool bdrv_recurse_can_replace(BlockDriverState *bs=
-,
-     return false;
- }
+diff --git a/block/quorum.c b/block/quorum.c
+index 7a8f8b5475..7f56b4df7c 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -1237,7 +1237,6 @@ static BlockDriver bdrv_quorum =3D {
 =20
-+/*
-+ * Check whether the given @node_name can be replaced by a node that
-+ * has the same data as @parent_bs.  If so, return @node_name's BDS;
-+ * NULL otherwise.
-+ *
-+ * @node_name must be a (recursive) *child of @parent_bs (or this
-+ * function will return NULL).
-+ *
-+ * The result (whether the node can be replaced or not) is only valid
-+ * for as long as no graph changes occur.
-+ */
- BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
-                                         const char *node_name, Error **e=
-rrp)
- {
-@@ -6268,8 +6279,11 @@ BlockDriverState *check_to_replace_node(BlockDrive=
-rState *parent_bs,
-      * Another benefit is that this tests exclude backing files which ar=
-e
-      * blocked by the backing blockers.
-      */
--    if (!bdrv_recurse_is_first_non_filter(parent_bs, to_replace_bs)) {
--        error_setg(errp, "Only top most non filter can be replaced");
-+    if (!bdrv_recurse_can_replace(parent_bs, to_replace_bs)) {
-+        error_setg(errp, "Cannot replace '%s' by a node mirrored from '%=
-s', "
-+                   "because it cannot be guaranteed that doing so would =
-not "
-+                   "lead to an abrupt change of visible data",
-+                   node_name, parent_bs->node_name);
-         to_replace_bs =3D NULL;
-         goto out;
-     }
+     .bdrv_child_perm                    =3D quorum_child_perm,
+=20
+-    .is_filter                          =3D true,
+     .bdrv_recurse_can_replace           =3D quorum_recurse_can_replace,
+=20
+     .strong_runtime_opts                =3D quorum_strong_runtime_opts,
 --=20
 2.21.0
 
