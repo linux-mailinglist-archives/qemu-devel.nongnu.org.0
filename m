@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CA0B9502
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:14:16 +0200 (CEST)
-Received: from localhost ([::1]:33130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7236B9520
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:20:37 +0200 (CEST)
+Received: from localhost ([::1]:33218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLXy-0007q2-O9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49991)
+	id 1iBLe7-0005aU-2L
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48171)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBLMy-0005L6-EZ
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:02:53 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iBLC6-0003D6-6V
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:51:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBLMx-0001kd-95
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:02:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60910)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBLMu-0001jf-2b; Fri, 20 Sep 2019 12:02:48 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3105B317528B;
- Fri, 20 Sep 2019 16:02:47 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EBE0B19C68;
- Fri, 20 Sep 2019 16:02:45 +0000 (UTC)
-Subject: Re: [PATCH 1/2] block/snapshot: Restrict set of snapshot nodes
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20190917110443.2029-1-kwolf@redhat.com>
- <20190917110443.2029-2-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <9c129131-8617-ce52-67c7-5109c3d07d43@redhat.com>
-Date: Fri, 20 Sep 2019 18:02:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <no-reply@patchew.org>) id 1iBLC4-0005Bj-2m
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:51:37 -0400
+Resent-Date: Fri, 20 Sep 2019 11:51:37 -0400
+Resent-Message-Id: <E1iBLC4-0005Bj-2m@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21944)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iBLC3-0005BI-QL; Fri, 20 Sep 2019 11:51:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1568994543; cv=none; d=zoho.com; s=zohoarc; 
+ b=eY+DaVum+8J2w3I39Wv+zC0De/xZIen719ey7V+lw8yiPLkgNTExqmWnzGReGWt57DGBSBHC6cOYUkA0DJ+W66y2Rd1XctvWT+cuNFGmUQ3iNHA74kljSELUwffwhfUxxgOsiKqUhaxolSmxX41HubzAm1Tj0llfEFgm7YNWREg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1568994543;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=tTfi92Ime6VEmjFx6bJ8LSyWC6FS7DF0UtbG/sW8nm8=; 
+ b=RvmGCMBVcRn5rXArOBAxqnider8RzSnIuSLrqpr2s+pL1wEdTrIA7LwNZt5Liqa9mNiWuBCAxnj21ZwJ0fks5bjt3KPbn8BdbyPn6b885AClhCoFUYYRMOa/zJ4Hbs/0z0bNANSWQiZ5STA8Noti7YjZjWHVhFb8yXyDNidgYiE=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1568994541676383.26895998389296;
+ Fri, 20 Sep 2019 08:49:01 -0700 (PDT)
+In-Reply-To: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
+Subject: Re: [Qemu-devel] [PATCH-for-4.2 v11 00/11] ARM virt: ACPI memory
+ hotplug support
+Message-ID: <156899453956.5071.11055733674708746891@1c8ae44fe5c0>
 MIME-Version: 1.0
-In-Reply-To: <20190917110443.2029-2-kwolf@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="h7w45LYcXU1EuiUfiVreJ6Uo3cQMQziGz"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 20 Sep 2019 16:02:47 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: shameerali.kolothum.thodi@huawei.com
+Date: Fri, 20 Sep 2019 08:49:01 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 136.143.188.59
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,81 +61,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ shannon.zhaosl@gmail.com, mst@redhat.com, qemu-devel@nongnu.org,
+ xuwei5@hisilicon.com, linuxarm@huawei.com, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, sebastien.boeuf@intel.com,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---h7w45LYcXU1EuiUfiVreJ6Uo3cQMQziGz
-Content-Type: multipart/mixed; boundary="6Exkiay8oUICvUdif09W0Fnw0JuWP7Aid";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: pkrempa@redhat.com, qemu-devel@nongnu.org
-Message-ID: <9c129131-8617-ce52-67c7-5109c3d07d43@redhat.com>
-Subject: Re: [PATCH 1/2] block/snapshot: Restrict set of snapshot nodes
-References: <20190917110443.2029-1-kwolf@redhat.com>
- <20190917110443.2029-2-kwolf@redhat.com>
-In-Reply-To: <20190917110443.2029-2-kwolf@redhat.com>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxODEzMDYzMy40ODcy
+LTEtc2hhbWVlcmFsaS5rb2xvdGh1bS50aG9kaUBodWF3ZWkuY29tLwoKCgpIaSwKClRoaXMgc2Vy
+aWVzIGZhaWxlZCB0aGUgZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZp
+bmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhh
+dmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxs
+eS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1h
+Z2UtY2VudG9zNyBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50
+b3M3IFNIT1dfRU5WPTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCmxp
+YnVkZXYgICAgICAgICAgIG5vCmRlZmF1bHQgZGV2aWNlcyAgIHllcwoKd2FybmluZzogUHl0aG9u
+IDIgc3VwcG9ydCBpcyBkZXByZWNhdGVkCndhcm5pbmc6IFB5dGhvbiAzIHdpbGwgYmUgcmVxdWly
+ZWQgZm9yIGJ1aWxkaW5nIGZ1dHVyZSB2ZXJzaW9ucyBvZiBRRU1VCmNyb3NzIGNvbnRhaW5lcnMg
+IG5vCgpOT1RFOiBndWVzdCBjcm9zcy1jb21waWxlcnMgZW5hYmxlZDogY2MKLS0tCkxvb2tpbmcg
+Zm9yIGV4cGVjdGVkIGZpbGUgJ3Rlc3RzL2RhdGEvYWNwaS92aXJ0L1NSQVQubnVtYW1lbScKTG9v
+a2luZyBmb3IgZXhwZWN0ZWQgZmlsZSAndGVzdHMvZGF0YS9hY3BpL3ZpcnQvU1JBVCcKKioKRVJS
+T1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL2Jpb3MtdGFibGVzLXRlc3QuYzozMjc6bG9hZF9l
+eHBlY3RlZF9hbWw6IGFzc2VydGlvbiBmYWlsZWQ6IChleHBfc2R0LmFtbF9maWxlKQpFUlJPUiAt
+IEJhaWwgb3V0ISBFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvYmlvcy10YWJsZXMtdGVz
+dC5jOjMyNzpsb2FkX2V4cGVjdGVkX2FtbDogYXNzZXJ0aW9uIGZhaWxlZDogKGV4cF9zZHQuYW1s
+X2ZpbGUpCm1ha2U6ICoqKiBbY2hlY2stcXRlc3QtYWFyY2g2NF0gRXJyb3IgMQptYWtlOiAqKiog
+V2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgY2hlY2stcXRlc3QteDg2
+XzY0OiB0ZXN0cy92bWdlbmlkLXRlc3QKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTE4MTMwNjMzLjQ4NzItMS1zaGFtZWVyYWxpLmtv
+bG90aHVtLnRob2RpQGh1YXdlaS5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
---6Exkiay8oUICvUdif09W0Fnw0JuWP7Aid
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 17.09.19 13:04, Kevin Wolf wrote:
-> Nodes involved in internal snapshots were those that were returned by
-> bdrv_next(), inserted and not read-only. bdrv_next() in turn returns al=
-l
-> nodes that are either the root node of a BlockBackend or monitor-owned
-> nodes.
->=20
-> With the typical -drive use, this worked well enough. However, in the
-> typical -blockdev case, the user defines one node per option, making al=
-l
-> nodes monitor-owned nodes. This includes protocol nodes etc. which ofte=
-n
-> are not snapshottable, so "savevm" only returns an error.
->=20
-> Change the conditions so that internal snapshot still include all nodes=
-
-> that have a BlockBackend attached (we definitely want to snapshot
-> anything attached to a guest device and probably also the built-in NBD
-> server; snapshotting block job BlockBackends is more of an accident, bu=
-t
-> a preexisting one), but other monitor-owned nodes are only included if
-> they have no parents.
->=20
-> This makes internal snapshots usable again with typical -blockdev
-> configurations.
->=20
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  block/snapshot.c | 26 +++++++++++++++++++-------
->  1 file changed, 19 insertions(+), 7 deletions(-)
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---6Exkiay8oUICvUdif09W0Fnw0JuWP7Aid--
-
---h7w45LYcXU1EuiUfiVreJ6Uo3cQMQziGz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2E+CQACgkQ9AfbAGHV
-z0A9sgf7BBeDfbDKakazvNJxY16S4gzHxJs0mRQ80IhEUVsczDE7yjEsqMEoehrH
-wT4kxpszxzaiI6qB0KMTh+jPK1aPHfpuwdsttpkVSVSWPTSPru3vxHJGpx3i0ePq
-2lkBFr2jNnjbRKlCucziy5mgX9dHnJhdmvBSEiZF7RrIZrt9HgRSQIqCtm1vB5lj
-o1FH/iLWSGH6tm4FKUROUTU38fgxxyx2L8mhhMr7RHV0J5JKgE0fWL+MRZrVjLBL
-L61/8c8vTh+5M9tmRPGozmRyvb+ElcU1EJiuYeCdyANPoT3WF6kHULFImMcfsuF0
-RBJhod20EgJaGSVWTkEQui0hMDqZGg==
-=WcJw
------END PGP SIGNATURE-----
-
---h7w45LYcXU1EuiUfiVreJ6Uo3cQMQziGz--
 
