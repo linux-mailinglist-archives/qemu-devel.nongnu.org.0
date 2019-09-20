@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182ACB9512
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:17:02 +0200 (CEST)
-Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F43DB9501
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:13:32 +0200 (CEST)
+Received: from localhost ([::1]:33118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLae-0002mF-Hs
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48738)
+	id 1iBLXG-0006xe-Eh
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iBLFz-0007er-Ss
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:41 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBLFt-0007Zi-M1
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iBLFy-0007s7-1t
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36886)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iBLFx-0007rp-I4
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iBLFw-0002Or-OD
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:55:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B0A322E80CB
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:55:36 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1iBLFp-0007og-O4
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:55:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51340)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iBLFl-0007dK-GR; Fri, 20 Sep 2019 11:55:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 792D418C4275;
+ Fri, 20 Sep 2019 15:55:24 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E98519C68;
+ Fri, 20 Sep 2019 15:55:17 +0000 (UTC)
+Subject: Re: [PATCH v13 00/15] backup-top filter driver for backup
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <de10d9ad-52c9-525d-b36e-7497535d5360@redhat.com>
+Date: Fri, 20 Sep 2019 17:55:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Sep 2019 15:48:16 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1844817@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: trace
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <156899449679.4991.3377250373042418918.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1844817] [NEW] trace: dynamic width format syntax not validated
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 096545b6d416ad4d740516e58d7f05f5222ddfb2
+In-Reply-To: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="9g9NadtOg3RGmQSqk7AYd4njVwSfSFF9P"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 20 Sep 2019 15:55:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,99 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1844817 <1844817@bugs.launchpad.net>
+Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--9g9NadtOg3RGmQSqk7AYd4njVwSfSFF9P
+Content-Type: multipart/mixed; boundary="rM9FXzvbRq57vCzHKNvQnLwMYiXtcPh4w";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: den@openvz.org, qemu-devel@nongnu.org, eblake@redhat.com,
+ armbru@redhat.com, xiechanglong.d@gmail.com, wencongyang2@huawei.com,
+ fam@euphon.net, stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com
+Message-ID: <de10d9ad-52c9-525d-b36e-7497535d5360@redhat.com>
+Subject: Re: [PATCH v13 00/15] backup-top filter driver for backup
+References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20190920142056.12778-1-vsementsov@virtuozzo.com>
 
-The dtrace via stap backend cannot support the dynamic '*' width format.
+--rM9FXzvbRq57vCzHKNvQnLwMYiXtcPh4w
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Eric noted in https://lists.gnu.org/archive/html/qemu-
-devel/2019-09/msg04720.html:
+On 20.09.19 16:20, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+>=20
+> These series introduce backup-top driver. It's a filter-node, which
+> do copy-before-write operation. Mirror uses filter-node for handling
+> guest writes, let's move to filter-node (from write-notifiers) for
+> backup too.
+>=20
+> v11,v12 -> v13 changes:
+>=20
+> [v12 was two fixes in separate: [PATCH v12 0/2] backup: copy_range fixe=
+s]
+>=20
+> 01: new in v12, in v13 change comment
+> 02: in v12: add "Fixes: " to commit msg, in v13 add John's r-b
+> 05: rebase on 01
+> 07: rebase on 01. It still a clean movement, keep r-b
 
-  https://sourceware.org/systemtap/langref.pdf
+Thanks, applied to my block branch:
 
-  section 9.2 printf, states:
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 
-  "The printf formatting directives are similar to those of C, except that
-  they are fully checked for type by the translator."
-
-  and does NOT list handling for '*' under precision or width.
-
-Some trace events have been merged without checking this:
-
-$ git ls-files|fgrep trace-event|xargs git grep '*\("\|x\)'
-hw/block/trace-events:11:pflash_io_read(uint64_t offset, int width, int fmt=
-_width, uint32_t value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" =
-width:%d value:0x%0*x cmd:0x%02x wcycle:%u"
-hw/block/trace-events:12:pflash_io_write(uint64_t offset, int width, int fm=
-t_width, uint32_t value, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d val=
-ue:0x%0*x wcycle:%u"
-hw/block/trace-events:13:pflash_data_read(uint64_t offset, int width, uint3=
-2_t value) "data offset:0x%04"PRIx64" value:0x%0*x"
-hw/block/trace-events:14:pflash_data_write(uint64_t offset, int width, uint=
-32_t value, uint64_t counter) "data offset:0x%04"PRIx64" value:0x%0*x count=
-er:0x%016"PRIx64
-hw/mips/trace-events:2:gt64120_read(const char *regname, int width, uint64_=
-t value) "gt64120 read %s value:0x%0*" PRIx64
-hw/mips/trace-events:3:gt64120_write(const char *regname, int width, uint64=
-_t value) "gt64120 write %s value:0x%0*" PRIx64
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Max
 
 
-** Tags: trace
+--rM9FXzvbRq57vCzHKNvQnLwMYiXtcPh4w--
 
--- =
+--9g9NadtOg3RGmQSqk7AYd4njVwSfSFF9P
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1844817
+-----BEGIN PGP SIGNATURE-----
 
-Title:
-  trace: dynamic width format syntax not validated
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2E9mMACgkQ9AfbAGHV
+z0DCMgf+IhH/O6WEN+EdrO9N8P9VFgrPRidEU+nbyl5OovrxmQxvHItanaWix8Cl
+JuMH112/YhHdeVD8zcV4qdoBlHIrkg5GKpPfJd+U4FpzS6iILfPEQNFnnaYawI+l
+wf5zKMTPae0S9jO1fJJiNba0/QhKdybIERhtlZeSxoR7peq161JIBzsfoL2YHSN6
+C1usuDM/MnM6hhIs7OrC42FiekjfHVhJs7lOAaF3egyUY1gtFnbcUbZopOmUKrzV
+uXlQ4napjTGFd7F0aHT5YUuUe89X2+BORM1P3LyPzHpw+iSlH3ZRH/ls4WvP7q/I
+IwkoZFZ+lKsx3YT9WkqyaLtU6uabTw==
+=Q0sN
+-----END PGP SIGNATURE-----
 
-Status in QEMU:
-  New
-
-Bug description:
-  The dtrace via stap backend cannot support the dynamic '*' width
-  format.
-
-  Eric noted in https://lists.gnu.org/archive/html/qemu-
-  devel/2019-09/msg04720.html:
-
-    https://sourceware.org/systemtap/langref.pdf
-
-    section 9.2 printf, states:
-
-    "The printf formatting directives are similar to those of C, except that
-    they are fully checked for type by the translator."
-
-    and does NOT list handling for '*' under precision or width.
-
-  Some trace events have been merged without checking this:
-
-  $ git ls-files|fgrep trace-event|xargs git grep '*\("\|x\)'
-  hw/block/trace-events:11:pflash_io_read(uint64_t offset, int width, int f=
-mt_width, uint32_t value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64=
-" width:%d value:0x%0*x cmd:0x%02x wcycle:%u"
-  hw/block/trace-events:12:pflash_io_write(uint64_t offset, int width, int =
-fmt_width, uint32_t value, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d v=
-alue:0x%0*x wcycle:%u"
-  hw/block/trace-events:13:pflash_data_read(uint64_t offset, int width, uin=
-t32_t value) "data offset:0x%04"PRIx64" value:0x%0*x"
-  hw/block/trace-events:14:pflash_data_write(uint64_t offset, int width, ui=
-nt32_t value, uint64_t counter) "data offset:0x%04"PRIx64" value:0x%0*x cou=
-nter:0x%016"PRIx64
-  hw/mips/trace-events:2:gt64120_read(const char *regname, int width, uint6=
-4_t value) "gt64120 read %s value:0x%0*" PRIx64
-  hw/mips/trace-events:3:gt64120_write(const char *regname, int width, uint=
-64_t value) "gt64120 write %s value:0x%0*" PRIx64
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1844817/+subscriptions
+--9g9NadtOg3RGmQSqk7AYd4njVwSfSFF9P--
 
