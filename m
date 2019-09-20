@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15D6B94CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:02:03 +0200 (CEST)
-Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2654EB94F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:09:00 +0200 (CEST)
+Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLM9-0003Ba-Pp
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43982)
+	id 1iBLSs-0000WV-1A
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iBKpo-0000ub-5Z
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:38 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iBKq7-00016j-S2
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iBKpl-0004W1-FK
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48784)
+ (envelope-from <mreitz@redhat.com>) id 1iBKq5-0004hS-Kd
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:28:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:15065)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iBKpi-0004Uj-Of; Fri, 20 Sep 2019 11:28:30 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iBKpz-0004au-Nv; Fri, 20 Sep 2019 11:28:47 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1643B18C890D;
- Fri, 20 Sep 2019 15:28:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4950810C0928;
+ Fri, 20 Sep 2019 15:28:44 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C59A60606;
- Fri, 20 Sep 2019 15:28:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D566A60C80;
+ Fri, 20 Sep 2019 15:28:43 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 10/22] quorum: Implement .bdrv_recurse_can_replace()
-Date: Fri, 20 Sep 2019 17:27:52 +0200
-Message-Id: <20190920152804.12875-11-mreitz@redhat.com>
+Subject: [PATCH 16/22] iotests: Use complete_and_wait() in 155
+Date: Fri, 20 Sep 2019 17:27:58 +0200
+Message-Id: <20190920152804.12875-17-mreitz@redhat.com>
 In-Reply-To: <20190920152804.12875-1-mreitz@redhat.com>
 References: <20190920152804.12875-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Fri, 20 Sep 2019 15:28:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Fri, 20 Sep 2019 15:28:44 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -59,96 +59,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This way, we get to see errors during the completion phase.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/quorum.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ tests/qemu-iotests/155 | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/block/quorum.c b/block/quorum.c
-index 207054a64e..81b57dbae2 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -825,6 +825,67 @@ static bool quorum_recurse_is_first_non_filter(Block=
-DriverState *bs,
-     return false;
- }
+diff --git a/tests/qemu-iotests/155 b/tests/qemu-iotests/155
+index e19485911c..d7ef2579d3 100755
+--- a/tests/qemu-iotests/155
++++ b/tests/qemu-iotests/155
+@@ -163,12 +163,7 @@ class MirrorBaseClass(BaseClass):
 =20
-+static bool quorum_recurse_can_replace(BlockDriverState *bs,
-+                                       BlockDriverState *to_replace)
-+{
-+    BDRVQuorumState *s =3D bs->opaque;
-+    int i;
-+
-+    for (i =3D 0; i < s->num_children; i++) {
-+        /*
-+         * We have no idea whether our children show the same data as
-+         * this node (@bs).  It is actually highly likely that
-+         * @to_replace does not, because replacing a broken child is
-+         * one of the main use cases here.
-+         *
-+         * We do know that the new BDS will match @bs, so replacing
-+         * any of our children by it will be safe.  It cannot change
-+         * the data this quorum node presents to its parents.
-+         *
-+         * However, replacing @to_replace by @bs in any of our
-+         * children's chains may change visible data somewhere in
-+         * there.  We therefore cannot recurse down those chains with
-+         * bdrv_recurse_can_replace().
-+         * (More formally, bdrv_recurse_can_replace() requires that
-+         * @to_replace will be replaced by something matching the @bs
-+         * passed to it.  We cannot guarantee that.)
-+         *
-+         * Thus, we can only check whether any of our immediate
-+         * children matches @to_replace.
-+         *
-+         * (In the future, we might add a function to recurse down a
-+         * chain that checks that nothing there cares about a change
-+         * in data from the respective child in question.  For
-+         * example, most filters do not care when their child's data
-+         * suddenly changes, as long as their parents do not care.)
-+         */
-+        if (s->children[i].child->bs =3D=3D to_replace) {
-+            Error *local_err =3D NULL;
-+
-+            /*
-+             * We now have to ensure that there is no other parent
-+             * that cares about replacing this child by a node with
-+             * potentially different data.
-+             */
-+            s->children[i].to_be_replaced =3D true;
-+            bdrv_child_refresh_perms(bs, s->children[i].child, &local_er=
-r);
-+
-+            /* Revert permissions */
-+            s->children[i].to_be_replaced =3D false;
-+            bdrv_child_refresh_perms(bs, s->children[i].child, &error_ab=
-ort);
-+
-+            if (local_err) {
-+                error_free(local_err);
-+                return false;
-+            }
-+
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- static int quorum_valid_threshold(int threshold, int num_children, Error=
- **errp)
- {
+         self.assert_qmp(result, 'return', {})
 =20
-@@ -1195,6 +1256,7 @@ static BlockDriver bdrv_quorum =3D {
+-        self.vm.event_wait('BLOCK_JOB_READY')
+-
+-        result =3D self.vm.qmp('block-job-complete', device=3D'mirror-jo=
+b')
+-        self.assert_qmp(result, 'return', {})
+-
+-        self.vm.event_wait('BLOCK_JOB_COMPLETED')
++        self.complete_and_wait('mirror-job')
 =20
-     .is_filter                          =3D true,
-     .bdrv_recurse_is_first_non_filter   =3D quorum_recurse_is_first_non_=
-filter,
-+    .bdrv_recurse_can_replace           =3D quorum_recurse_can_replace,
-=20
-     .strong_runtime_opts                =3D quorum_strong_runtime_opts,
- };
+     def testFull(self):
+         self.runMirror('full')
 --=20
 2.21.0
 
