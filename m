@@ -2,52 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64526B8F0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:37:16 +0200 (CEST)
-Received: from localhost ([::1]:57984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B71B8F13
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:40:28 +0200 (CEST)
+Received: from localhost ([::1]:58010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBHDv-00080o-Eq
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38053)
+	id 1iBHH1-000379-R6
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:40:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38421)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iBHAi-0004sS-Kz
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:57 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBHCd-0007Ts-3q
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:35:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iBHAg-0001Dt-L8
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57836)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBHAe-0001CX-LZ
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:33:54 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 834F510C093B;
- Fri, 20 Sep 2019 11:33:51 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.206.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 018A4100EBA3;
- Fri, 20 Sep 2019 11:33:47 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Justin Terry <juterry@microsoft.com>
-Subject: [PATCH v2 3/3] .shippable.yml: Build WHPX enabled binaries
-Date: Fri, 20 Sep 2019 13:33:29 +0200
-Message-Id: <20190920113329.16787-4-philmd@redhat.com>
-In-Reply-To: <20190920113329.16787-1-philmd@redhat.com>
-References: <20190920113329.16787-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iBHCb-0002Qp-6L
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:35:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35458)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iBHCZ-0002Oz-VS
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:35:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iBHCW-0003ld-SX
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 11:35:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A93752E818E
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 11:35:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 20 Sep 2019 11:33:51 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Sep 2019 11:24:09 -0000
+From: Vitaly Kuznetsov <1811533@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h djdatte vkuznets zaltysz
+X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Vitaly Kuznetsov (vkuznets)
+References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
+Message-Id: <156897864965.5297.6376112563150033037.malone@chaenomeles.canonical.com>
+Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
+ hv_stimer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 34d16ce65e38ad740de40d71ad93eed694ae7730
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,35 +66,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- .shippable.yml | 2 ++
- 1 file changed, 2 insertions(+)
+x-hv-synic-kvm-only does two things:
+1) Disables in-QEMU synic and this should be unrelated to the issue as it i=
+s unrelated to stimers.
 
-diff --git a/.shippable.yml b/.shippable.yml
-index bbc6f88510..01b33bd034 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -25,6 +25,8 @@ env:
-       TARGET_LIST=3Dmips64el-softmmu,mips64el-linux-user
-     - IMAGE=3Ddebian-ppc64el-cross
-       TARGET_LIST=3Dppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
-+    - IMAGE=3Dfedora-win10sdk-cross
-+      TARGET_LIST=3Dx86_64-softmmu,i386-softmmu
- build:
-   pre_ci:
-     # usually host ARCH is set by configure
---=20
-2.20.1
+2) Doesn't clear guest pages (HV_X64_MSR_SIEFP/HV_X64_MSR_SIMP). This
+can actually be related to huge pages if the cleanup is causing huge
+page split. Synic pages are 4k. I still fail to see how this is vhost
+related.
 
+I'll try to take a look.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1811533
+
+Title:
+  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Host:
+  Gentoo linux x86_64, kernel 4.20.1
+  Qemu 3.1.0 =
+
+  CPU: Intel i7 6850K
+  Chipset: X99
+
+  Guest:
+  Windows 10 Pro 64bit (1809)
+  Machine type: pc-q35_3.1
+  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
+pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
+=3D0x1fff
+  Memory: 16GB backed by 2MB huge pages
+
+  Issue:
+  Once guest is started, log gets flooded with:
+
+  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
+  coherent sections at 103000
+
+  or
+
+  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
+  prior to previous 1f000
+
+  (line endings change)
+
+  and as time goes guest loses network access (virtio-net-pci) and
+  general performance diminishes to extent of freezing applications.
+
+  Observations:
+  1) problem disappears when hv_stimer is removed
+  2) problem disappears when memory backing with huge pages is disabled
+  3) problem disappears when machine type is downgraded to pc-q35_3.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
 
