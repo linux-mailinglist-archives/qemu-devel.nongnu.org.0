@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DE2B8DD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:32:36 +0200 (CEST)
-Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A7CB8DCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:30:31 +0200 (CEST)
+Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBFHG-00082K-RO
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:32:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52419)
+	id 1iBFFF-0006KT-Jw
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:30:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52842)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iBFA8-0008Lo-O9
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:25:13 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iBFCb-0004D6-Nb
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:27:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iBFA7-0006lY-6Z
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:25:12 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44576)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iBFA6-0006kk-Sf
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:25:11 -0400
-Received: by mail-wr1-x431.google.com with SMTP id i18so5960129wru.11
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 02:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=oBFEI71HD7mdwqT7Kc4qkUVg/evrwV9SmGS8veW5fF8=;
- b=lfenEHgrFtVMKc3VM5N0InySG+SidbUz7wJEbEaXtR8XCJIqzEWYvNaIxd20ryagx4
- gog3Dx6yyH1HdvRvuspqlnOM8aoFtSuRG2zaT1g8rpfcoGiC3oEvj34OZJGK28jzFNzI
- jyBtG/ApfXV8VsNbjyr3lD3QdWZhcrqqjkvzQLag4sDLWZJXW9PafamCaFl1c+kKSxlT
- EkfJXU9akLs0V0+/rxgybwz8QisUb7stZU5R+fREgTjAAxX3xzooLlD1ToG6GoYV6R2j
- KVzwEgsr6NWFS/y36siTpL2mtgTBI1Oq9wTX9ZTwtIaChqO9uH/Pm5/aMtD3M6G3PHnk
- p99Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=oBFEI71HD7mdwqT7Kc4qkUVg/evrwV9SmGS8veW5fF8=;
- b=I5TdF6+1Hmq4p5pNVmAkbbk+fzUo9emV0D3zHJvRrmp8ZryTY1BnckxHj87+Ck7Pko
- RxMGAY/jO1QfNUt4vrY6DQAnou8bmvASZWY20AVRyqVr4GtVF11gDiW+wA7m89mbLS62
- z6ZMLenVkaZj1zJ5CFXP1UHktWrjMI+EvfZirZWHD7FjgZt3MI3DURISC2jGtpq3vwdN
- 2/1uUX7bEZjjK9z0LVOt6KExhHXv52n3CoEA4e6QHK99WWZz+o2HM8J4boIjC5iRl4MF
- tSDaJxJeN+6/NlC/yyhvSQ2nS5oXzQzJBbl41x3CmKKmE+Rih0pawHq1/qqvUX8pUkwj
- zy6g==
-X-Gm-Message-State: APjAAAUjv60cJBrAyhQqAU7Z8muzcKEI4dfk10HYrb20zVlFBf3cfudh
- fPVa+7DVXUUnPBYG57+Pww0=
-X-Google-Smtp-Source: APXvYqxxIYRyrFfQIUe7ikd9ws9XY7gnpdGspntQeIKgBpmJPlrq6PwIy5IuNch0+OWYy5EbfLEnaw==
-X-Received: by 2002:adf:f1c3:: with SMTP id z3mr11776495wro.147.1568971509148; 
- Fri, 20 Sep 2019 02:25:09 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id 13sm1117380wmj.29.2019.09.20.02.25.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Sep 2019 02:25:08 -0700 (PDT)
-Date: Fri, 20 Sep 2019 10:25:06 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Tony Asleson <tasleson@redhat.com>
-Subject: Re: [RFC 0/4] POC: Generating realistic block errors
-Message-ID: <20190920092506.GI14365@stefanha-x1.localdomain>
-References: <20190919194847.18518-1-tasleson@redhat.com>
+ (envelope-from <kwolf@redhat.com>) id 1iBFCa-0007uQ-JG
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:27:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47272)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iBFCX-0007sg-66; Fri, 20 Sep 2019 05:27:41 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9FDB118C427A;
+ Fri, 20 Sep 2019 09:27:39 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-81.ams2.redhat.com
+ [10.36.117.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B46A75C1B5;
+ Fri, 20 Sep 2019 09:27:30 +0000 (UTC)
+Date: Fri, 20 Sep 2019 11:27:29 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 1/2] iotests: Require Python 3.6 or later
+Message-ID: <20190920092729.GC5458@localhost.localdomain>
+References: <20190919162905.21830-1-kwolf@redhat.com>
+ <20190919162905.21830-2-kwolf@redhat.com>
+ <5f0e3c27-1c33-0f9b-485b-c3e4a6700138@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tctmm6wHVGT/P6vA"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190919194847.18518-1-tasleson@redhat.com>
+In-Reply-To: <5f0e3c27-1c33-0f9b-485b-c3e4a6700138@virtuozzo.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 20 Sep 2019 09:27:39 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,43 +59,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 20.09.2019 um 10:40 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 19.09.2019 19:29, Kevin Wolf wrote:
+> > Running iotests is not required to build QEMU, so we can have stricter
+> > version requirements for Python here and can make use of new features
+> > and drop compatibility code earlier.
+> > 
+> > This makes qemu-iotests skip all Python tests if a Python version before
+> > 3.6 is used for the build.
+> > 
+> > Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >   tests/qemu-iotests/check | 13 ++++++++++++-
+> >   1 file changed, 12 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+> > index 875399d79f..588c453a94 100755
+> > --- a/tests/qemu-iotests/check
+> > +++ b/tests/qemu-iotests/check
+> > @@ -633,6 +633,12 @@ then
+> >       export SOCKET_SCM_HELPER="$build_iotests/socket_scm_helper"
+> >   fi
+> >   
+> > +python_usable=false
+> > +if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >= (3,6) else 1)'
+> > +then
+> > +    python_usable=true
+> > +fi
+> > +
+> >   default_machine=$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*//p')
+> >   default_alias_machine=$($QEMU_PROG -machine help | \
+> >      sed -n "/(alias of $default_machine)/ { s/ .*//p; q; }")
+> > @@ -809,7 +815,12 @@ do
+> >           start=$(_wallclock)
+> >   
+> >           if [ "$(head -n 1 "$source_iotests/$seq")" == "#!/usr/bin/env python" ]; then
+> > -            run_command="$PYTHON $seq"
+> > +            if $python_usable; then
+> 
+> hmm I wanted to say that this should not work, as python_usable is a
+> string. But I checked and see - it's work. Wow. Googled. And now I
+> understand that here "false" or "true" command is called, to obtain
+> it's return value.. I don't like bash and don't know its best
+> practice, but I'd prefer python_usable to be just return value of your
+> python command, like
+> 
+> above:
+> 
+>    $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >= (3,6) else 1)'
+>    python_usable=$?
+> 
+> and here:
+> 
+>    if [ $python_usable -eq 0 ]; then
 
---tctmm6wHVGT/P6vA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I'm just trying to be consistent with other variables used in the
+'check' script. It has many boolean variables and they all end up
+calling the true/false commands.
 
-On Thu, Sep 19, 2019 at 02:48:43PM -0500, Tony Asleson wrote:
-> I've recently been informed that blkdebug exists.
+And actually I think the version used is easier to read, even if maybe
+not as easy to understand why exactly it works.
 
-By the way, if error injection only needs to report media errors, then
-the existing blkdebug feature should be sufficient to do this.
-
-I think adding storage controller-specific error injection is only
-really necessary for injection SCSI-, AHCI-, or NVMe-specific errors
-that the QEMU block layer has no concept of.
-
-So the question is: can blkdebug already do what you need? :)
-
-Stefan
-
---tctmm6wHVGT/P6vA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2EmvIACgkQnKSrs4Gr
-c8iTFQf/YAgMcILC5ofSBGLZF3iet03soIQr38gNkjD94C8wQyijgQkScxQoNR4J
-MzqwsigJJhFqU9LiKXW0ZrAtyREY9wUzI84GEZ6oXVFWmDEKz2cE9sq3HvyhLEOg
-lsZnCy6J4qDGjQSGX3gV6Z9OOvXk75mvb5yzTGsH04su0GMZDNIyB400zmVCfTKq
-J++t54qybx5FzmU3Gu/3jExw2uZAXIN5kvwbILsPnafSlksi08zxwaWjilHeaCmf
-KPDLenbOs3H2bVf71rlglWdHMb0ZPcfeb4Kqk6lRT0u2C6/o7x44V98sOPKL2OoP
-DKaYKcoie/JikbWuVvo4Y6wr17+4Ww==
-=TVze
------END PGP SIGNATURE-----
-
---tctmm6wHVGT/P6vA--
+Kevin
 
