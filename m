@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73586B95E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:42:44 +0200 (CEST)
-Received: from localhost ([::1]:33666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EEFB95F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:47:56 +0200 (CEST)
+Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLzX-00021d-8n
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51592)
+	id 1iBM4Y-0007eK-GY
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:47:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iBLXY-0000CR-Bb
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:13:49 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iBLcG-0005JY-AJ
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:18:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iBLXW-0005gG-Cp
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:13:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58244)
+ (envelope-from <jsnow@redhat.com>) id 1iBLcE-0007R4-Ph
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:18:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41122)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iBLXR-0005dM-R4; Fri, 20 Sep 2019 12:13:42 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1iBLcA-0007OX-6J; Fri, 20 Sep 2019 12:18:34 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0A5E4308FC4D;
- Fri, 20 Sep 2019 16:13:41 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F1C7085542;
+ Fri, 20 Sep 2019 16:18:32 +0000 (UTC)
 Received: from [10.18.17.38] (dhcp-17-38.bos.redhat.com [10.18.17.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE24860167;
- Fri, 20 Sep 2019 16:13:36 +0000 (UTC)
-Subject: Re: [PATCH v13 00/15] backup-top filter driver for backup
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
- <de10d9ad-52c9-525d-b36e-7497535d5360@redhat.com>
- <eeac5b7f-b841-0575-bc36-62326b2bd378@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 720681001B12;
+ Fri, 20 Sep 2019 16:18:32 +0000 (UTC)
+Subject: Re: [RFC 4/4] ahci media error reporting
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190919194847.18518-1-tasleson@redhat.com>
+ <20190919194847.18518-5-tasleson@redhat.com>
+ <df07a621-8515-2414-2f59-a7eb7eebd75b@redhat.com>
+ <20190920084327.GB5458@localhost.localdomain>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -111,18 +110,18 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <f6c09be8-c38a-6059-80d1-b829154583c7@redhat.com>
-Date: Fri, 20 Sep 2019 12:13:36 -0400
+Message-ID: <5ffcd3c0-eaa6-acdb-8c70-8ebb6b559c53@redhat.com>
+Date: Fri, 20 Sep 2019 12:18:32 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <eeac5b7f-b841-0575-bc36-62326b2bd378@virtuozzo.com>
+In-Reply-To: <20190920084327.GB5458@localhost.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 20 Sep 2019 16:13:41 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Fri, 20 Sep 2019 16:18:33 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -136,50 +135,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
- "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Tony Asleson <tasleson@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 9/20/19 12:01 PM, Vladimir Sementsov-Ogievskiy wrote:
-> 20.09.2019 18:55, Max Reitz wrote:
->> On 20.09.19 16:20, Vladimir Sementsov-Ogievskiy wrote:
->>> Hi all!
->>>
->>> These series introduce backup-top driver. It's a filter-node, which
->>> do copy-before-write operation. Mirror uses filter-node for handling
->>> guest writes, let's move to filter-node (from write-notifiers) for
->>> backup too.
->>>
->>> v11,v12 -> v13 changes:
->>>
->>> [v12 was two fixes in separate: [PATCH v12 0/2] backup: copy_range fixes]
->>>
->>> 01: new in v12, in v13 change comment
->>> 02: in v12: add "Fixes: " to commit msg, in v13 add John's r-b
->>> 05: rebase on 01
->>> 07: rebase on 01. It still a clean movement, keep r-b
+On 9/20/19 4:43 AM, Kevin Wolf wrote:
+> Am 19.09.2019 um 22:43 hat John Snow geschrieben:
+>> I'd have to check -- because I can't say the AHCI emulator was designed
+>> so much as congealed -- but you might need calls to ncq_finish.
 >>
->> Thanks, applied to my block branch:
+>> usually, ncq_cb handles the return from any NCQ command and will call
+>> ncq_err and ncq_finish as appropriate to tidy up the command.
 >>
->> https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+>> It might be a mistake that execute_ncq_command issues ncq_err in the
+>> `default` arm of the switch statement without a call to finish.
 >>
+>> If we do call ncq_finish from this context I'm not sure if we want
+>> block_acct_done here unconditionally. We may not have started a block
+>> accounting operation if we never started a backend operation. Everything
+>> else looks about right to me.
 > 
-> You made my day!
-> Thank you!!
+> With that much uncertainty, the one thing I'm pretty certain of is that
+> someone (TM) should write some qtests - if only to figure out what
+> really happens.
 > 
 
-Guess that definitively settles the need for the creation time write
-notifier, huh? :)
+For sure -- I handle the normative cases, but I don't test what happens
+if you issue an unsupported NCQ command. (I don't know what real
+hardware does right now, either. I'm sure I could read the spec and find
+out, but don't have a testing setup that lets me analyze real hardware
+anymore.)
 
-Congrats!
+I will have to defer this to someone (TM), but I suspect the code (that
+I suspect was used as a basis for inserting a new error pathway in this
+patch) is wrong and is missing a call to ncq_finish -- but that call
+needs to not call the block accounting cleanup, because we didn't start
+an operation in this case.
+
+That's my Official Hunch.
 
 --js
 
