@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069F6B8BC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 09:48:00 +0200 (CEST)
-Received: from localhost ([::1]:53908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C4DB8BC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 09:48:14 +0200 (CEST)
+Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBDe2-0003g2-Hr
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 03:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60826)
+	id 1iBDeG-0003zL-EO
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 03:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iBDaH-0001dI-0q
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:06 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iBDaQ-0001m3-2A
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iBDaE-0005Xb-A8
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:04 -0400
-Received: from mga17.intel.com ([192.55.52.151]:9868)
+ (envelope-from <tao3.xu@intel.com>) id 1iBDaO-0005cB-KT
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:13 -0400
+Received: from mga17.intel.com ([192.55.52.151]:9881)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iBDaD-0005VQ-Fh
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:02 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iBDaO-0005Yc-Dj
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:12 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2019 00:43:59 -0700
+ 20 Sep 2019 00:44:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,527,1559545200"; d="scan'208";a="212495042"
+X-IronPort-AV: E=Sophos;i="5.64,527,1559545200"; d="scan'208";a="212495118"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga004.fm.intel.com with ESMTP; 20 Sep 2019 00:43:58 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 20 Sep 2019 00:44:10 -0700
 From: Tao Xu <tao3.xu@intel.com>
 To: imammedo@redhat.com,
 	eblake@redhat.com,
 	ehabkost@redhat.com
-Subject: [PATCH v12 03/11] qapi: Add builtin type time
-Date: Fri, 20 Sep 2019 15:43:41 +0800
-Message-Id: <20190920074349.2616-4-tao3.xu@intel.com>
+Subject: [PATCH v12 09/11] hmat acpi: Build System Locality Latency and
+ Bandwidth Information Structure(s)
+Date: Fri, 20 Sep 2019 15:43:47 +0800
+Message-Id: <20190920074349.2616-10-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190920074349.2616-1-tao3.xu@intel.com>
 References: <20190920074349.2616-1-tao3.xu@intel.com>
@@ -60,191 +61,197 @@ Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add optional builtin type time, fallback is uint64. This type use
-qemu_strtotime_ps() for pre-converting time suffix to numbers.
+From: Liu Jingqi <jingqi.liu@intel.com>
 
+This structure describes the memory access latency and bandwidth
+information from various memory access initiator proximity domains.
+The latency and bandwidth numbers represented in this structure
+correspond to rated latency and bandwidth for the platform.
+The software could use this information as hint for optimization.
+
+Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
 
-No changes in v11 and v12.
+Changes in v12:
+    - Fix a bug that if HMAT is enabled and without hmat-lb setting,
+      QEMU will crash. (reported by Danmei Wei)
 
-New patch in v10.
+Changes in v11:
+    - Calculate base in build_hmat_lb().
 ---
- include/qapi/visitor-impl.h  |  4 ++++
- include/qapi/visitor.h       |  9 +++++++++
- qapi/opts-visitor.c          | 22 ++++++++++++++++++++++
- qapi/qapi-visit-core.c       | 12 ++++++++++++
- qapi/qobject-input-visitor.c | 18 ++++++++++++++++++
- qapi/trace-events            |  1 +
- scripts/qapi/common.py       |  2 ++
- 7 files changed, 68 insertions(+)
+ hw/acpi/hmat.c | 126 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ hw/acpi/hmat.h |   2 +
+ 2 files changed, 127 insertions(+), 1 deletion(-)
 
-diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-index 8ccb3b6c20..e0979563c7 100644
---- a/include/qapi/visitor-impl.h
-+++ b/include/qapi/visitor-impl.h
-@@ -88,6 +88,10 @@ struct Visitor
-     void (*type_size)(Visitor *v, const char *name, uint64_t *obj,
-                       Error **errp);
+diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
+index 1368fce7ee..e7be849581 100644
+--- a/hw/acpi/hmat.c
++++ b/hw/acpi/hmat.c
+@@ -27,6 +27,7 @@
+ #include "qemu/osdep.h"
+ #include "sysemu/numa.h"
+ #include "hw/acpi/hmat.h"
++#include "qemu/error-report.h"
  
-+    /* Optional; fallback is type_uint64() */
-+    void (*type_time)(Visitor *v, const char *name, uint64_t *obj,
-+                      Error **errp);
-+
-     /* Must be set */
-     void (*type_bool)(Visitor *v, const char *name, bool *obj, Error **errp);
- 
-diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index 5b2ed3f202..4c3198b1c5 100644
---- a/include/qapi/visitor.h
-+++ b/include/qapi/visitor.h
-@@ -554,6 +554,15 @@ void visit_type_int64(Visitor *v, const char *name, int64_t *obj,
- void visit_type_size(Visitor *v, const char *name, uint64_t *obj,
-                      Error **errp);
- 
-+/*
-+ * Visit a uint64_t value.
-+ * Like visit_type_uint64(), except that some visitors may choose to
-+ * recognize numbers with timeunit suffix, such as "ps", "ns", "us"
-+ * "ms" and "s".
-+ */
-+void visit_type_time(Visitor *v, const char *name, uint64_t *obj,
-+                     Error **errp);
-+
  /*
-  * Visit a boolean value.
-  *
-diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
-index 324b197495..d73b2e51a0 100644
---- a/qapi/opts-visitor.c
-+++ b/qapi/opts-visitor.c
-@@ -508,6 +508,27 @@ opts_type_size(Visitor *v, const char *name, uint64_t *obj, Error **errp)
-     processed(ov, name);
+  * ACPI 6.3:
+@@ -67,11 +68,105 @@ static void build_hmat_mpda(GArray *table_data, uint16_t flags, int initiator,
+     build_append_int_noprefix(table_data, 0, 8);
  }
  
-+static void
-+opts_type_time(Visitor *v, const char *name, uint64_t *obj, Error **errp)
++static bool entry_overflow(uint64_t *lb_data, uint64_t base, int len)
 +{
-+    OptsVisitor *ov = to_ov(v);
-+    const QemuOpt *opt;
-+    int err;
++    int i;
 +
-+    opt = lookup_scalar(ov, name, errp);
-+    if (!opt) {
-+        return;
++    for (i = 0; i < len; i++) {
++        if (lb_data[i] / base >= UINT16_MAX) {
++            return true;
++        }
 +    }
 +
-+    err = qemu_strtotime_ps(opt->str ? opt->str : "", NULL, obj);
-+    if (err < 0) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, opt->name,
-+                   "a time value");
-+        return;
-+    }
-+
-+    processed(ov, name);
++    return false;
 +}
- 
- static void
- opts_optional(Visitor *v, const char *name, bool *present)
-@@ -555,6 +576,7 @@ opts_visitor_new(const QemuOpts *opts)
-     ov->visitor.type_int64  = &opts_type_int64;
-     ov->visitor.type_uint64 = &opts_type_uint64;
-     ov->visitor.type_size   = &opts_type_size;
-+    ov->visitor.type_time   = &opts_type_time;
-     ov->visitor.type_bool   = &opts_type_bool;
-     ov->visitor.type_str    = &opts_type_str;
- 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 5365561b07..ac8896455c 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -277,6 +277,18 @@ void visit_type_size(Visitor *v, const char *name, uint64_t *obj,
-     }
- }
- 
-+void visit_type_time(Visitor *v, const char *name, uint64_t *obj,
-+                     Error **errp)
++/*
++ * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
++ * Structure: Table 5-146
++ */
++static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
++                          uint32_t num_initiator, uint32_t num_target,
++                          uint32_t *initiator_list, int type)
 +{
-+    assert(obj);
-+    trace_visit_type_time(v, name, obj);
-+    if (v->type_time) {
-+        v->type_time(v, name, obj, errp);
++    uint8_t mask = 0x0f;
++    uint32_t s = num_initiator;
++    uint32_t t = num_target;
++    uint64_t base = 1;
++    uint64_t *lb_data;
++    int i, unit;
++
++    /* Type */
++    build_append_int_noprefix(table_data, 1, 2);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* Length */
++    build_append_int_noprefix(table_data, 32 + 4 * s + 4 * t + 2 * s * t, 4);
++    /* Flags: Bits [3:0] Memory Hierarchy, Bits[7:4] Reserved */
++    build_append_int_noprefix(table_data, hmat_lb->hierarchy & mask, 1);
++    /* Data Type */
++    build_append_int_noprefix(table_data, hmat_lb->data_type, 1);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* Number of Initiator Proximity Domains (s) */
++    build_append_int_noprefix(table_data, s, 4);
++    /* Number of Target Proximity Domains (t) */
++    build_append_int_noprefix(table_data, t, 4);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 4);
++
++    if (HMAT_IS_LATENCY(type)) {
++        unit = 1000;
++        lb_data = hmat_lb->latency;
 +    } else {
-+        v->type_uint64(v, name, obj, errp);
++        unit = 1024;
++        lb_data = hmat_lb->bandwidth;
++    }
++
++    while (entry_overflow(lb_data, base, s * t)) {
++        for (i = 0; i < s * t; i++) {
++            if (!QEMU_IS_ALIGNED(lb_data[i], unit * base)) {
++                error_report("Invalid latency/bandwidth input, all "
++                "latencies/bandwidths should be specified in the same units.");
++                exit(1);
++            }
++        }
++        base *= unit;
++    }
++
++    /* Entry Base Unit */
++    build_append_int_noprefix(table_data, base, 8);
++
++    /* Initiator Proximity Domain List */
++    for (i = 0; i < s; i++) {
++        build_append_int_noprefix(table_data, initiator_list[i], 4);
++    }
++
++    /* Target Proximity Domain List */
++    for (i = 0; i < t; i++) {
++        build_append_int_noprefix(table_data, i, 4);
++    }
++
++    /* Latency or Bandwidth Entries */
++    for (i = 0; i < s * t; i++) {
++        uint16_t entry;
++
++        if (HMAT_IS_LATENCY(type)) {
++            entry = hmat_lb->latency[i] / base;
++        } else {
++            entry = hmat_lb->bandwidth[i] / base;
++        }
++
++        build_append_int_noprefix(table_data, entry, 2);
 +    }
 +}
 +
- void visit_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
+ /* Build HMAT sub table structures */
+ static void hmat_build_table_structs(GArray *table_data, NumaState *nstat)
  {
-     assert(obj);
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 32236cbcb1..9b66941d8a 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -627,6 +627,23 @@ static void qobject_input_type_size_keyval(Visitor *v, const char *name,
+     uint16_t flags;
+-    int i;
++    uint32_t *initiator_list = NULL;
++    int i, j, hrchy, type;
++    HMAT_LB_Info *numa_hmat_lb;
+ 
+     for (i = 0; i < nstat->num_nodes; i++) {
+         flags = 0;
+@@ -82,6 +177,35 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *nstat)
+ 
+         build_hmat_mpda(table_data, flags, nstat->nodes[i].initiator, i);
      }
- }
- 
-+static void qobject_input_type_time_keyval(Visitor *v, const char *name,
-+                                           uint64_t *obj, Error **errp)
-+{
-+    QObjectInputVisitor *qiv = to_qiv(v);
-+    const char *str = qobject_input_get_keyval(qiv, name, errp);
 +
-+    if (!str) {
-+        return;
++    if (nstat->num_initiator) {
++        initiator_list = g_malloc0(nstat->num_initiator * sizeof(uint32_t));
++        for (i = 0, j = 0; i < nstat->num_nodes; i++) {
++            if (nstat->nodes[i].has_cpu) {
++                initiator_list[j] = i;
++                j++;
++            }
++        }
 +    }
 +
-+    if (qemu_strtotime_ps(str, NULL, obj) < 0) {
-+        /* TODO report -ERANGE more nicely */
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-+                   full_name(qiv, name), "time");
-+    }
-+}
++    /*
++     * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
++     * Structure: Table 5-146
++     */
++    for (hrchy = HMAT_LB_MEM_MEMORY;
++         hrchy <= HMAT_LB_MEM_CACHE_3RD_LEVEL; hrchy++) {
++        for (type = HMAT_LB_DATA_ACCESS_LATENCY;
++             type <= HMAT_LB_DATA_WRITE_BANDWIDTH; type++) {
++            numa_hmat_lb = nstat->hmat_lb[hrchy][type];
 +
- static void qobject_input_optional(Visitor *v, const char *name, bool *present)
- {
-     QObjectInputVisitor *qiv = to_qiv(v);
-@@ -708,6 +725,7 @@ Visitor *qobject_input_visitor_new_keyval(QObject *obj)
-     v->visitor.type_any = qobject_input_type_any;
-     v->visitor.type_null = qobject_input_type_null;
-     v->visitor.type_size = qobject_input_type_size_keyval;
-+    v->visitor.type_time = qobject_input_type_time_keyval;
-     v->keyval = true;
- 
-     return &v->visitor;
-diff --git a/qapi/trace-events b/qapi/trace-events
-index 5eb4afa110..c4605a7ccc 100644
---- a/qapi/trace-events
-+++ b/qapi/trace-events
-@@ -29,6 +29,7 @@ visit_type_int16(void *v, const char *name, int16_t *obj) "v=%p name=%s obj=%p"
- visit_type_int32(void *v, const char *name, int32_t *obj) "v=%p name=%s obj=%p"
- visit_type_int64(void *v, const char *name, int64_t *obj) "v=%p name=%s obj=%p"
- visit_type_size(void *v, const char *name, uint64_t *obj) "v=%p name=%s obj=%p"
-+visit_type_time(void *v, const char *name, uint64_t *obj) "v=%p name=%s obj=%p"
- visit_type_bool(void *v, const char *name, bool *obj) "v=%p name=%s obj=%p"
- visit_type_str(void *v, const char *name, char **obj) "v=%p name=%s obj=%p"
- visit_type_number(void *v, const char *name, void *obj) "v=%p name=%s obj=%p"
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index d61bfdc526..3a6f108794 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -35,6 +35,7 @@ builtin_types = {
-     'uint32':   'QTYPE_QNUM',
-     'uint64':   'QTYPE_QNUM',
-     'size':     'QTYPE_QNUM',
-+    'time':     'QTYPE_QNUM',
-     'any':      None,           # any QType possible, actually
-     'QType':    'QTYPE_QSTRING',
++            if (numa_hmat_lb) {
++                build_hmat_lb(table_data, numa_hmat_lb, nstat->num_initiator,
++                              nstat->num_nodes, initiator_list, type);
++            }
++        }
++    }
++
++    g_free(initiator_list);
  }
-@@ -1834,6 +1835,7 @@ class QAPISchema(object):
-                   ('uint32', 'int',     'uint32_t'),
-                   ('uint64', 'int',     'uint64_t'),
-                   ('size',   'int',     'uint64_t'),
-+                  ('time',   'int',     'uint64_t'),
-                   ('bool',   'boolean', 'bool'),
-                   ('any',    'value',   'QObject' + pointer_suffix),
-                   ('null',   'null',    'QNull' + pointer_suffix)]:
+ 
+ void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat)
+diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
+index 0c1839cf6f..1154dfb48e 100644
+--- a/hw/acpi/hmat.h
++++ b/hw/acpi/hmat.h
+@@ -40,6 +40,8 @@
+  */
+ #define HMAT_PROX_INIT_VALID 0x1
+ 
++#define HMAT_IS_LATENCY(type) (type <= HMAT_LB_DATA_WRITE_LATENCY)
++
+ void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat);
+ 
+ #endif
 -- 
 2.20.1
 
