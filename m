@@ -2,47 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC44B997E
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:09:20 +0200 (CEST)
-Received: from localhost ([::1]:35716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD94B9993
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:16:03 +0200 (CEST)
+Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBR54-0006Md-RE
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:08:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57088)
+	id 1iBRC6-0004MZ-Eu
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iBR45-0005wT-9O
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:07:46 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iBR8s-00070n-0c
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:12:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iBR43-00036E-VM
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:07:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55053)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iBR3z-0002t9-Tv; Fri, 20 Sep 2019 18:07:40 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 23F913086218;
- Fri, 20 Sep 2019 22:07:37 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF57D5D9C3;
- Fri, 20 Sep 2019 22:07:31 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/1] tests: Use iothreads during iotest 223
-Date: Fri, 20 Sep 2019 17:07:29 -0500
-Message-Id: <20190920220729.31801-1-eblake@redhat.com>
-In-Reply-To: <20190917023917.32226-1-eblake@redhat.com>
-References: <20190917023917.32226-1-eblake@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1iBR8q-0006UO-Lk
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:12:41 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:43903)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iBR8q-0006UA-Aw; Fri, 20 Sep 2019 18:12:40 -0400
+Received: by mail-lj1-x243.google.com with SMTP id n14so3436518ljj.10;
+ Fri, 20 Sep 2019 15:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZfAWoHJgDaLpaFvT81RSKFrNh8Gv/h5ToHqyeRHEvqY=;
+ b=cbZSg6NkoDARs6aifAIYRhl+UVpZwhN9H+rhRXY+vkLvlbXn2c6L+1khErmNgyr4lY
+ mm4UGi+6txTYC8Szw1NARwJ7T2vYPzbr5HBYogVINJAxiTXiLUwrwnYYUwUODmokvuCb
+ SA9wG5jz6KeSddFs7OsJqVuVN7ewmGgaiEW1s8nFuPpD4bLSmFeuAL+96oKSABwsc6FJ
+ Q2ukpOxFjCQJoHJ5/JjaCP9PyveY0LtIenns+VhvnSvy4wvF9bwneAKHZoNM8PweweTJ
+ m2GVqIhD18MLFFkORHiYaEdA3V3yp3dFd71Zbl5RAKxecrX9o/2v1Edo35lS1mA9ITsR
+ WbsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZfAWoHJgDaLpaFvT81RSKFrNh8Gv/h5ToHqyeRHEvqY=;
+ b=P0dyeO+rQp4BmkRDk3gGsGEOyacDGUKCKqr5CM7wQlM2qhRn8kmoP46LwR/ajIsPq3
+ /neADCV2yg7LyJaHGCei8I3zPrvLciUPLPXWCi3l5ziyHWD24cyicKLzq88NiE4g1+KB
+ PWzPGfYsAI160yPqi5/n8CU5zU2Fb5qEeutTmjdvweqEep3g0Y2Wyv9l4uGmA/d3x+HP
+ 11+iOToEF9jCM5Sh7AMDvtPs3EjX7Z8zsZovThZKPVxGfslERbZebJZ4ReV7KhVVFgYb
+ 9CK3cFWViPVmoxAcjZslsn6sz2vshrCTwZ1YM6C6Kl/RJOskSuQuubEFoDLZ3tRJF8Lk
+ a6PQ==
+X-Gm-Message-State: APjAAAWwnPaQgNIstUHRoaB6Ve/X8j0wBWkZHrNkTQf2dZS2p7n3EEoy
+ HHN+YtOCskWWgT2JLFSYzV2xL+VpKkhV8Fawjrc=
+X-Google-Smtp-Source: APXvYqwPtdaUQrcNtB58wfxwzsFABCcD1cXh6SR/Y8Vemm/1COHP+NZVcUmq6U11E3p017JGN2Gzfvi/HSVUv1pCE0k=
+X-Received: by 2002:a2e:9081:: with SMTP id l1mr10451657ljg.33.1569017552379; 
+ Fri, 20 Sep 2019 15:12:32 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 20 Sep 2019 22:07:37 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+References: <cover.1568931866.git.alistair.francis@wdc.com>
+ <d3357e0b87cce025418f6383ce971246ded547bd.1568931866.git.alistair.francis@wdc.com>
+ <CAEUhbmV7Ao6L25HM+8AJLP8unn=HhvdRc1Kt+tUQgRB4S4zsBQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmV7Ao6L25HM+8AJLP8unn=HhvdRc1Kt+tUQgRB4S4zsBQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 20 Sep 2019 15:07:56 -0700
+Message-ID: <CAKmqyKO=PahfKej1Ch6=x3zcxN8R26Gkd9dsjScMSHPxitp=rA@mail.gmail.com>
+Subject: Re: [PATCH v1 4/6] riscv/sifive_u: Add the start-in-flash property
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,76 +72,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com,
- "open list:Block layer core" <qemu-block@nongnu.org>, slp@redhat.com,
- Max Reitz <mreitz@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Doing so catches the bugs we just fixed with NBD not properly using
-correct contexts.
+On Thu, Sep 19, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, Sep 20, 2019 at 6:32 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > Add a property that when set to true QEMU will jump from the ROM code to
+> > the start of flash memory instead of DRAM which is the default
+> > behaviour.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/riscv/sifive_u.c         | 27 +++++++++++++++++++++++++++
+> >  include/hw/riscv/sifive_u.h |  2 ++
+> >  2 files changed, 29 insertions(+)
+> >
+> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> > index c3949fb316..b7cd3631cd 100644
+> > --- a/hw/riscv/sifive_u.c
+> > +++ b/hw/riscv/sifive_u.c
+> > @@ -373,6 +373,10 @@ static void riscv_sifive_u_init(MachineState *machine)
+> >                                         /* dtb: */
+> >      };
+> >
+> > +    if (s->start_in_flash) {
+> > +        reset_vec[6] = memmap[SIFIVE_U_FLASH0].base; /* start: .dword FLASH0_BASE */
+> > +    }
+> > +
+> >      /* copy in the reset vector in little_endian byte order */
+> >      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
+> > @@ -544,8 +548,31 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+> >          memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
+> >  }
+> >
+> > +static bool virt_get_start_in_flash(Object *obj, Error **errp)
+> > +{
+> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
+> > +
+> > +    return s->start_in_flash;
+> > +}
+> > +
+> > +static void virt_set_start_in_flash(Object *obj, bool value, Error **errp)
+> > +{
+> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
+> > +
+> > +    s->start_in_flash = value;
+> > +}
+> > +
+> >  static void riscv_sifive_u_machine_instance_init(Object *obj)
+> >  {
+> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
+> > +
+> > +    s->start_in_flash = false;
+> > +    object_property_add_bool(obj, "start-in-flash", virt_get_start_in_flash,
+> > +                             virt_set_start_in_flash, NULL);
+> > +    object_property_set_description(obj, "start-in-flash",
+> > +                                    "Set on to tell QEMU's ROM to jump to " \
+> > +                                    "flash. Otherwise QEMU will jump to DRAM",
+> > +                                    NULL);
+> >
+> >  }
+> >
+> > diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+> > index a921079fbe..2656b43c58 100644
+> > --- a/include/hw/riscv/sifive_u.h
+> > +++ b/include/hw/riscv/sifive_u.h
+> > @@ -57,6 +57,8 @@ typedef struct SiFiveUState {
+> >
+> >      void *fdt;
+> >      int fdt_size;
+> > +
+> > +    bool start_in_flash;
+> >  } SiFiveUState;
+> >
+> >  enum {
+>
+> This patch chose a different way from the one used in patch "[v1,6/6]
+> riscv/virt: Jump to pflash if specified":
+>
+> - this patch uses reset_vec[6] while patch [6/6] defines a variable start_addr
+> - this patch adds a "start-in-flash" property to the machine, while
+> patch [6/6] tests against drive IF_PFLASH
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
+Yes, we do it differently for the sifive_u board as the sifive_u board
+doesn't use pflash so there is no way to know if the user has loaded
+anything into the SPI memory.
 
-This is https://bugzilla.redhat.com/show_bug.cgi?id=3D1741094,
-distinct from Sergio's patch also related to aiocontext in NBD, which is
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1748253
+>
+> We should be consistent and I would prefer to use the patch [6/6] way.
+> On Unleashed an SPI flash is mounted so we cannot add a PFlash to
+> sifive_u machine like what was done on virt machine, so we should test
+> IF_MTD instead. Thoughts?
 
-I could not easily figure out how to tweak iotests to cover Sergio's
-issue, but really want to get both fixes in a pull request soon.
+How would we test that?
 
- tests/qemu-iotests/223     | 6 ++++--
- tests/qemu-iotests/223.out | 1 +
- 2 files changed, 5 insertions(+), 2 deletions(-)
+Right now I am loading the binary in SPI with the -device loader
+option. The machine can't really know what is/isn't loaded there.
 
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index cc48e78ea7dc..2ba3d8124b4f 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -2,7 +2,7 @@
- #
- # Test reading dirty bitmap over NBD
- #
--# Copyright (C) 2018 Red Hat, Inc.
-+# Copyright (C) 2018-2019 Red Hat, Inc.
- #
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
-@@ -109,7 +109,7 @@ echo
- echo "=3D=3D=3D End dirty bitmaps, and start serving image over NBD =3D=3D=
-=3D"
- echo
+It's not ideal, but I don't see a nicer way.
 
--_launch_qemu 2> >(_filter_nbd)
-+_launch_qemu -object iothread,id=3Dio0 2> >(_filter_nbd)
+Alistair
 
- # Intentionally provoke some errors as well, to check error handling
- silent=3D
-@@ -117,6 +117,8 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"qmp_capabili=
-ties"}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
-   "arguments":{"driver":"qcow2", "node-name":"n",
-     "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
-+_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
-+  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-disable",
-   "arguments":{"node":"n", "name":"b"}}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 5d00398c11cb..23b34fcd202e 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -27,6 +27,7 @@ wrote 2097152/2097152 bytes at offset 2097152
- {"return": {}}
- {"return": {}}
- {"return": {}}
-+{"return": {}}
- {"error": {"class": "GenericError", "desc": "NBD server not running"}}
- {"return": {}}
- {"error": {"class": "GenericError", "desc": "NBD server already running"=
-}}
---=20
-2.21.0
-
+>
+> Regards,
+> Bin
 
