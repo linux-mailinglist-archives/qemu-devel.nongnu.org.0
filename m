@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E13B999E
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:21:53 +0200 (CEST)
-Received: from localhost ([::1]:35832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC398B99A3
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:24:22 +0200 (CEST)
+Received: from localhost ([::1]:35874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBRHj-0002Uk-Om
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57820)
+	id 1iBRK9-0005wl-TZ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:24:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iBR9u-0003kM-EG
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:13:48 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iBRD1-0007QQ-0B
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:17:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iBR9t-00075R-8u
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:13:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42274)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iBR9q-000752-Q7; Fri, 20 Sep 2019 18:13:43 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D4DB010C0928;
- Fri, 20 Sep 2019 22:03:37 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4068260BE2;
- Fri, 20 Sep 2019 22:03:32 +0000 (UTC)
-Subject: Re: [Qemu-block] [PATCH v2] nbd/server: attach client channel to the
- export's AioContext
-To: John Snow <jsnow@redhat.com>, Sergio Lopez <slp@redhat.com>,
- qemu-block@nongnu.org
-References: <20190912110032.26395-1-slp@redhat.com>
- <4e84115f-5317-7e84-a30f-3ed94b170f06@redhat.com>
- <d2911bb2-8fad-cb55-0f60-073345282186@redhat.com>
- <598fd2ca-14e6-12fd-c3fc-7b9c8e198952@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <9839e070-d59d-78fb-b47e-521ac8dc9c72@redhat.com>
-Date: Fri, 20 Sep 2019 17:03:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alistair23@gmail.com>) id 1iBRCx-0007WS-7N
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:16:57 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:34662)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iBRCu-0007W4-R3; Fri, 20 Sep 2019 18:16:53 -0400
+Received: by mail-lj1-x242.google.com with SMTP id j19so7009746lja.1;
+ Fri, 20 Sep 2019 15:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4sh6Z+qjqwOJVncCA0V/d++uMQ2Ey+b5XabXdVXv4Ko=;
+ b=Y4Y4r1eiFXznBiEGWmDI/0usJa0+vYATFZD2VbFEvowvmd9wyMA1CgADgobJ1629Ah
+ LaR6CjODOEBL6eL5Y/X+yttWyDcU7ITtThE8colfsM/Yaw8plhlqHjML712dwHfL+6TJ
+ H49DRinwAOBTaeiwQ7svVWXfuapUX6kJnL4q9GFqUR80HnTlgPe2GooAHMx4PPbXVD6J
+ wKh/m4aqDrU1hFLIw/KawWmx7CqpN0Rcl0UEelrMYASekEwHJEwu7YQNFq+56vQVZ9A8
+ 4gS3I2JeH/HlCF/1gT+FPlOlRBZux1wph4EF12NQBCMTXEYgccHThzkBct+oR2IbIvw8
+ 1y2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4sh6Z+qjqwOJVncCA0V/d++uMQ2Ey+b5XabXdVXv4Ko=;
+ b=HqhgF4SEUb2GEwfhEqfsdlVCADqOfv5tUOa4ftvHMdBeJu+q6tU6U6dNvrH/WcqrYc
+ YfSQiANtN2O5eXnoSHZVBrrn1NraMwYZTcRnvmXRMNe5Xcwq4EEAVb6LJ2SYlw8270mI
+ tQGs+Dtef5PCF2QBX1XInucE44myLZSPab0V7fAXRDf+GDIIWn0bybQSOOnJ1BG+rgzW
+ JgNnssCkOwKu2/w7HJT2o6UlUO/O1vQzNuplx6v3tnTY2x/6F1MTnPvcO2C4I0uM8iNf
+ /7ZQXvGdAu/8jz6uyCJDPQw6BNWramejC+0gTLNOrj/9gyUtdFy5NZNpYCYDiOwzr8AG
+ K3vA==
+X-Gm-Message-State: APjAAAWJTK+TdhVXxnxnbQ6PjqwBf5cBq5gtr880bSIoam1eVwRJX9cY
+ 6iLD1JbJkuPMJnQxlbdpPK1BQmhso+kFIDzpgj8=
+X-Google-Smtp-Source: APXvYqyx//Vjjgth3hCWeGVjjKPWeD2NleOKQB48wxkW1/45S02YwQeSq52GxOI0OnHgabiELyoH8FRjppJTEqbRw0U=
+X-Received: by 2002:a2e:3902:: with SMTP id g2mr10544171lja.196.1569017810244; 
+ Fri, 20 Sep 2019 15:16:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <598fd2ca-14e6-12fd-c3fc-7b9c8e198952@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="N0PR8KxstS5ZEk05TWdtEJgAXZut30f5e"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 20 Sep 2019 22:03:37 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+References: <cover.1568931866.git.alistair.francis@wdc.com>
+ <0a5c141a26fada6d93d06e996a2f24e1b269ec50.1568931866.git.alistair.francis@wdc.com>
+ <CAEUhbmVvDKQqQYE-riq=cvSrCe_NMoW_KDsLjh8CVHRUhJvk9A@mail.gmail.com>
+In-Reply-To: <CAEUhbmVvDKQqQYE-riq=cvSrCe_NMoW_KDsLjh8CVHRUhJvk9A@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 20 Sep 2019 15:12:12 -0700
+Message-ID: <CAKmqyKOofA3U+8kjMkzQ0sNd1=uwJHq3c9eaLZdoNCb7=e-PAw@mail.gmail.com>
+Subject: Re: [PATCH v1 5/6] riscv/virt: Add the PFlash CFI01 device
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,89 +72,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---N0PR8KxstS5ZEk05TWdtEJgAXZut30f5e
-Content-Type: multipart/mixed; boundary="OBG5AFVOf06MEk1FDh3TfBSCNgTrW7BSD";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>, Sergio Lopez <slp@redhat.com>,
- qemu-block@nongnu.org
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
-Message-ID: <9839e070-d59d-78fb-b47e-521ac8dc9c72@redhat.com>
-Subject: Re: [Qemu-block] [PATCH v2] nbd/server: attach client channel to the
- export's AioContext
-References: <20190912110032.26395-1-slp@redhat.com>
- <4e84115f-5317-7e84-a30f-3ed94b170f06@redhat.com>
- <d2911bb2-8fad-cb55-0f60-073345282186@redhat.com>
- <598fd2ca-14e6-12fd-c3fc-7b9c8e198952@redhat.com>
-In-Reply-To: <598fd2ca-14e6-12fd-c3fc-7b9c8e198952@redhat.com>
+On Thu, Sep 19, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, Sep 20, 2019 at 6:36 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > Add the CFI01 PFlash to the RISC-V virt board. This is the same PFlash
+> > from the ARM Virt board and the implementation is based on the ARM Virt
+> > board. This allows users to specify flash files from the command line.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/riscv/Kconfig        |  1 +
+> >  hw/riscv/virt.c         | 81 +++++++++++++++++++++++++++++++++++++++++
+> >  include/hw/riscv/virt.h |  3 ++
+> >  3 files changed, 85 insertions(+)
+> >
+> > diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> > index fb19b2df3a..b12660b9f8 100644
+> > --- a/hw/riscv/Kconfig
+> > +++ b/hw/riscv/Kconfig
+> > @@ -36,4 +36,5 @@ config RISCV_VIRT
+> >      select SERIAL
+> >      select VIRTIO_MMIO
+> >      select PCI_EXPRESS_GENERIC_BRIDGE
+> > +    select PFLASH_CFI01
+> >      select SIFIVE
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index d36f5625ec..ca002ecea7 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -26,6 +26,7 @@
+> >  #include "hw/boards.h"
+> >  #include "hw/loader.h"
+> >  #include "hw/sysbus.h"
+> > +#include "hw/qdev-properties.h"
+> >  #include "hw/char/serial.h"
+> >  #include "target/riscv/cpu.h"
+> >  #include "hw/riscv/riscv_hart.h"
+> > @@ -61,12 +62,72 @@ static const struct MemmapEntry {
+> >      [VIRT_PLIC] =        {  0xc000000,     0x4000000 },
+> >      [VIRT_UART0] =       { 0x10000000,         0x100 },
+> >      [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
+> > +    [VIRT_FLASH] =       { 0x20000000,     0x2000000 },
+> >      [VIRT_DRAM] =        { 0x80000000,           0x0 },
+> >      [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
+> >      [VIRT_PCIE_PIO] =    { 0x03000000,    0x00010000 },
+> >      [VIRT_PCIE_ECAM] =   { 0x30000000,    0x10000000 },
+> >  };
+> >
+> > +#define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
+> > +
+> > +static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
+> > +                                       const char *name,
+> > +                                       const char *alias_prop_name)
+> > +{
+> > +    /*
+> > +     * Create a single flash device.  We use the same parameters as
+> > +     * the flash devices on the ARM virt board.
+> > +     */
+> > +    DeviceState *dev = qdev_create(NULL, TYPE_PFLASH_CFI01);
+> > +
+> > +    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
+> > +    qdev_prop_set_uint8(dev, "width", 4);
+> > +    qdev_prop_set_uint8(dev, "device-width", 2);
+> > +    qdev_prop_set_bit(dev, "big-endian", false);
+> > +    qdev_prop_set_uint16(dev, "id0", 0x89);
+> > +    qdev_prop_set_uint16(dev, "id1", 0x18);
+> > +    qdev_prop_set_uint16(dev, "id2", 0x00);
+> > +    qdev_prop_set_uint16(dev, "id3", 0x00);
+> > +    qdev_prop_set_string(dev, "name", name);
+>
+> alias_prop_name is unused? ARM virt has 2 more calls in the same function here.
 
---OBG5AFVOf06MEk1FDh3TfBSCNgTrW7BSD
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Yep, you are right. I have removed this.
 
-On 9/20/19 2:11 PM, Eric Blake wrote:
-> On 9/20/19 1:49 PM, John Snow wrote:
->>
->=20
->>>> To fix this, as soon we have the export corresponding to the client,=
+>
+> > +
+> > +    return PFLASH_CFI01(dev);
+> > +}
+> > +
+> > +static void virt_flash_create(RISCVVirtState *s)
+> > +{
+> > +    s->flash[0] = virt_flash_create1(s, "virt.flash0", "pflash0");
+> > +    s->flash[1] = virt_flash_create1(s, "virt.flash1", "pflash1");
+>
+> I don't think we should mirror what is used on ARM virt board to
+> create 2 flash for sifive_u. For ARM virt, there are 2 flashes because
+> they need distinguish secure and non-secure. For sifive_u, only one is
+> enough.
 
->>>> we call qio_channel_attach_aio_context() to attach the QIOChannel
->>>> context to the export's AioContext. This matches with the logic at
->>>> blk_aio_attached().
->>>>
->=20
->>>
->>> I assume this patch has been superseded by Eric's later patches?
->>
->> Nevermind -- my filtering got messed up slightly and I missed the
->> followup. I see that Eric staged this.
->=20
-> I actually think both patches are needed: this one covers transactions,=
+I went back and forward about 1 or 2. Two seems more usable as maybe
+someone wants to include two pflash files? The Xilinx machine also has
+two so I'm kind of used to 2, but I'm not really fussed.
 
-> while my later patch was on top of this to protect shutdown.  But now
-> you've made me curious; I'll see if my patch hoisted in front still
-> solves everything, or if we really do need both.
->=20
+Unless anyone else wants two I will change it to 1.
 
-Nope, both patches are still needed.  Sergio's fixes the assertion:
-    (qemu) qemu-kvm: io/channel.c:411: qio_channel_restart_read:
-Assertion `qemu_get_current_aio_context() =3D=3D
-qemu_coroutine_get_aio_context(co)' failed.
+Alistair
 
-while mine fixes:
-+qemu: qemu_mutex_unlock_impl: Operation not permitted
-
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---OBG5AFVOf06MEk1FDh3TfBSCNgTrW7BSD--
-
---N0PR8KxstS5ZEk05TWdtEJgAXZut30f5e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2FTLMACgkQp6FrSiUn
-Q2oawQf/fck9NDdrt1lRVeOooml3M961Uh4s5EjkFHBe1KU7U9+9pVjYrx7rqZ1x
-tAqEcZqMnFrRqLobntJHCchTJC1PdWly9OeAb6NVIIwUsn+3JtKktF7KUkudi2hF
-PnkPzCgvyOqDJKnm0B+LIehqLPh6FrWeafRkvniGT25CkZaucZCAKAU9fOnsIhFx
-MGIDNrW+SJizuucpVa/pWNJNYN6snwl6xNoZLiiS7wHU7VNGifM5w7GqAqFKX5kO
-gr/AtU0n8tne3Vj6L0Ib0+rco8WRWHGk1f7lHzU5w3CwgJ/FOiPx7Dk+ZxgNnBzO
-gaKHB4IjCAASVDrg3PVoVJjcNvjZNw==
-=WbXY
------END PGP SIGNATURE-----
-
---N0PR8KxstS5ZEk05TWdtEJgAXZut30f5e--
+>
+> > +}
+> > +
+> > +static void virt_flash_map1(PFlashCFI01 *flash,
+> > +                            hwaddr base, hwaddr size,
+> > +                            MemoryRegion *sysmem)
+> > +{
+> > +    DeviceState *dev = DEVICE(flash);
+> > +
+> > +    assert(size % VIRT_FLASH_SECTOR_SIZE == 0);
+> > +    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
+> > +    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
+> > +    qdev_init_nofail(dev);
+> > +
+> > +    memory_region_add_subregion(sysmem, base,
+> > +                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev),
+> > +                                                       0));
+> > +}
+> > +
+> > +static void virt_flash_map(RISCVVirtState *s,
+> > +                           MemoryRegion *sysmem)
+> > +{
+> > +    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
+> > +    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
+> > +
+> > +    virt_flash_map1(s->flash[0], flashbase, flashsize,
+> > +                    sysmem);
+> > +    virt_flash_map1(s->flash[1], flashbase + flashsize, flashsize,
+> > +                    sysmem);
+> > +}
+> > +
+> >  static void create_pcie_irq_map(void *fdt, char *nodename,
+> >                                  uint32_t plic_phandle)
+> >  {
+> > @@ -121,6 +182,8 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+> >      char *nodename;
+> >      uint32_t plic_phandle, phandle = 1;
+> >      int i;
+> > +    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
+> > +    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
+> >
+> >      fdt = s->fdt = create_device_tree(&s->fdt_size);
+> >      if (!fdt) {
+> > @@ -316,6 +379,15 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+> >          qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+> >      }
+> >      g_free(nodename);
+> > +
+> > +    nodename = g_strdup_printf("/flash@%" PRIx64, flashbase);
+> > +    qemu_fdt_add_subnode(s->fdt, nodename);
+> > +    qemu_fdt_setprop_string(s->fdt, nodename, "compatible", "cfi-flash");
+> > +    qemu_fdt_setprop_sized_cells(s->fdt, nodename, "reg",
+> > +                                 2, flashbase, 2, flashsize,
+> > +                                 2, flashbase + flashsize, 2, flashsize);
+> > +    qemu_fdt_setprop_cell(s->fdt, nodename, "bank-width", 4);
+> > +    g_free(nodename);
+> >  }
+> >
+> >
+> > @@ -496,6 +568,15 @@ static void riscv_virt_board_init(MachineState *machine)
+> >          0, qdev_get_gpio_in(DEVICE(s->plic), UART0_IRQ), 399193,
+> >          serial_hd(0), DEVICE_LITTLE_ENDIAN);
+> >
+> > +    virt_flash_create(s);
+> > +
+> > +    /* Map legacy -drive if=pflash to machine properties */
+> > +    for (i = 0; i < ARRAY_SIZE(s->flash); i++) {
+> > +        pflash_cfi01_legacy_drive(s->flash[i],
+> > +                                  drive_get(IF_PFLASH, 0, i));
+> > +    }
+> > +    virt_flash_map(s, system_memory);
+> > +
+> >      g_free(plic_hart_config);
+> >  }
+> >
+> > diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+> > index 6e5fbe5d3b..2ca8bd3512 100644
+> > --- a/include/hw/riscv/virt.h
+> > +++ b/include/hw/riscv/virt.h
+> > @@ -21,6 +21,7 @@
+> >
+> >  #include "hw/riscv/riscv_hart.h"
+> >  #include "hw/sysbus.h"
+> > +#include "hw/block/flash.h"
+> >
+> >  typedef struct {
+> >      /*< private >*/
+> > @@ -29,6 +30,7 @@ typedef struct {
+> >      /*< public >*/
+> >      RISCVHartArrayState soc;
+> >      DeviceState *plic;
+> > +    PFlashCFI01 *flash[2];
+> >      void *fdt;
+> >      int fdt_size;
+> >  } RISCVVirtState;
+> > @@ -41,6 +43,7 @@ enum {
+> >      VIRT_PLIC,
+> >      VIRT_UART0,
+> >      VIRT_VIRTIO,
+> > +    VIRT_FLASH,
+> >      VIRT_DRAM,
+> >      VIRT_PCIE_MMIO,
+> >      VIRT_PCIE_PIO,
+> > --
+>
+> Regards,
+> Bin
 
