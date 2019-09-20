@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDF2B95DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:40:13 +0200 (CEST)
-Received: from localhost ([::1]:33626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73586B95E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:42:44 +0200 (CEST)
+Received: from localhost ([::1]:33666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLx6-0006NT-Ap
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:40:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
+	id 1iBLzX-00021d-8n
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iBLUn-0005FP-GY
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:10:59 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iBLXY-0000CR-Bb
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:13:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iBLUl-0004V2-DM
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:10:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59422)
+ (envelope-from <jsnow@redhat.com>) id 1iBLXW-0005gG-Cp
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:13:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58244)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iBLUl-0004Ug-4g
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:10:55 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iBLXR-0005dM-R4; Fri, 20 Sep 2019 12:13:42 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3F4093082138;
- Fri, 20 Sep 2019 16:10:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0A5E4308FC4D;
+ Fri, 20 Sep 2019 16:13:41 +0000 (UTC)
 Received: from [10.18.17.38] (dhcp-17-38.bos.redhat.com [10.18.17.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 056595C207;
- Fri, 20 Sep 2019 16:10:50 +0000 (UTC)
-Subject: Re: [PATCH 3/3] docker: remove unused debian-sid and debian-ports
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190920001413.22567-1-jsnow@redhat.com>
- <20190920001413.22567-4-jsnow@redhat.com>
- <731ae95b-7c70-43ca-bea9-28b00de232d5@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE24860167;
+ Fri, 20 Sep 2019 16:13:36 +0000 (UTC)
+Subject: Re: [PATCH v13 00/15] backup-top filter driver for backup
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+ <de10d9ad-52c9-525d-b36e-7497535d5360@redhat.com>
+ <eeac5b7f-b841-0575-bc36-62326b2bd378@virtuozzo.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -110,18 +111,18 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <c7b12028-0294-0d9c-3e94-60b2ba7d3528@redhat.com>
-Date: Fri, 20 Sep 2019 12:10:50 -0400
+Message-ID: <f6c09be8-c38a-6059-80d1-b829154583c7@redhat.com>
+Date: Fri, 20 Sep 2019 12:13:36 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <731ae95b-7c70-43ca-bea9-28b00de232d5@redhat.com>
+In-Reply-To: <eeac5b7f-b841-0575-bc36-62326b2bd378@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 20 Sep 2019 16:10:54 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.43]); Fri, 20 Sep 2019 16:13:41 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -135,166 +136,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
+ "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 9/20/19 4:49 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 9/20/19 2:14 AM, John Snow wrote:
->> These are listed as "partial" images, but have no user.
->> Remove them.
->=20
-> Well, I have WiP users from them. I could restore this content when the=
-y
-> are ready... Ports is the base of deprecated Debian archs. On the other
-> side Sid is the base for edge development I use from time to time to
-> test latest gcc/binutils.
-> I'll try to find time to raise WiP branches to PoC.
->=20
+On 9/20/19 12:01 PM, Vladimir Sementsov-Ogievskiy wrote:
+> 20.09.2019 18:55, Max Reitz wrote:
+>> On 20.09.19 16:20, Vladimir Sementsov-Ogievskiy wrote:
+>>> Hi all!
+>>>
+>>> These series introduce backup-top driver. It's a filter-node, which
+>>> do copy-before-write operation. Mirror uses filter-node for handling
+>>> guest writes, let's move to filter-node (from write-notifiers) for
+>>> backup too.
+>>>
+>>> v11,v12 -> v13 changes:
+>>>
+>>> [v12 was two fixes in separate: [PATCH v12 0/2] backup: copy_range fixes]
+>>>
+>>> 01: new in v12, in v13 change comment
+>>> 02: in v12: add "Fixes: " to commit msg, in v13 add John's r-b
+>>> 05: rebase on 01
+>>> 07: rebase on 01. It still a clean movement, keep r-b
+>>
+>> Thanks, applied to my block branch:
+>>
+>> https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+>>
+> 
+> You made my day!
+> Thank you!!
+> 
 
-I think that's the right thing to do. Right now, the docker tests
-directory has a lot of stale entries and unusable tests. That might be
-fine for the people working on it, but it makes it hard to understand
-and use for those of us who only occasionally traipse into the directory.
+Guess that definitively settles the need for the creation time write
+notifier, huh? :)
 
-I'm removing all references to python2 -- but if there's no way for me
-to test debian-sid and debian-ports, I can't test changes I need to make
-to these "partial images", so they should be removed until they are
-consumable.
-
-While I am sympathetic to the idea of having a library of partial images
-to use for future tests, they're prone to rot if there's no way to
-exercise them in-tree.
-
-You can always re-add them when you have a user.
+Congrats!
 
 --js
-
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  tests/docker/Makefile.include                |  4 +--
->>  tests/docker/dockerfiles/debian-ports.docker | 36 -------------------=
--
->>  tests/docker/dockerfiles/debian-sid.docker   | 35 -------------------
->>  3 files changed, 2 insertions(+), 73 deletions(-)
->>  delete mode 100644 tests/docker/dockerfiles/debian-ports.docker
->>  delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
->>
->> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.inc=
-lude
->> index 7af476d957..c282b5c520 100644
->> --- a/tests/docker/Makefile.include
->> +++ b/tests/docker/Makefile.include
->> @@ -5,8 +5,8 @@
->>  DOCKER_SUFFIX :=3D .docker
->>  DOCKER_FILES_DIR :=3D $(SRC_PATH)/tests/docker/dockerfiles
->>  # we don't run tests on intermediate images (used as base by another =
-image)
->> -DOCKER_PARTIAL_IMAGES :=3D debian8 debian9 debian10 debian-sid
->> -DEBIAN_PARTIAL_IMAGES +=3D debian-9-mxe debian-ports debian-bootstrap
->> +DOCKER_PARTIAL_IMAGES :=3D debian8 debian9 debian10
->> +DEBIAN_PARTIAL_IMAGES +=3D debian-9-mxe debian-bootstrap
->>  DOCKER_IMAGES :=3D $(sort $(notdir $(basename $(wildcard $(DOCKER_FIL=
-ES_DIR)/*.docker))))
->>  DOCKER_TARGETS :=3D $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
->>  # Use a global constant ccache directory to speed up repetitive build=
-s
->> diff --git a/tests/docker/dockerfiles/debian-ports.docker b/tests/dock=
-er/dockerfiles/debian-ports.docker
->> deleted file mode 100644
->> index 61bc3f2993..0000000000
->> --- a/tests/docker/dockerfiles/debian-ports.docker
->> +++ /dev/null
->> @@ -1,36 +0,0 @@
->> -#
->> -# Docker multiarch cross-compiler target
->> -#
->> -# This docker target is builds on Debian Ports cross compiler targets
->> -# to build distro with a selection of cross compilers for building te=
-st binaries.
->> -#
->> -# On its own you can't build much but the docker-foo-cross targets
->> -# build on top of the base debian image.
->> -#
->> -FROM debian:unstable
->> -
->> -MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> -
->> -RUN echo "deb [arch=3Damd64] http://deb.debian.org/debian unstable ma=
-in" > /etc/apt/sources.list
->> -
->> -# Duplicate deb line as deb-src
->> -RUN cat /etc/apt/sources.list | sed -ne "s/^deb\ \(\[.*\]\ \)\?\(.*\)=
-/deb-src \2/p" >> /etc/apt/sources.list
->> -
->> -# Setup some basic tools we need
->> -RUN apt-get update && \
->> -    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
->> -    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->> -    apt-get install -y --no-install-recommends \
->> -        bison \
->> -        build-essential \
->> -        ca-certificates \
->> -        clang \
->> -        debian-ports-archive-keyring \
->> -        flex \
->> -        gettext \
->> -        git \
->> -        pkg-config \
->> -        psmisc \
->> -        python \
->> -        texinfo \
->> -        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | c=
-ut -d\  -f2)
->> diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker=
-/dockerfiles/debian-sid.docker
->> deleted file mode 100644
->> index 2a1bcc33b2..0000000000
->> --- a/tests/docker/dockerfiles/debian-sid.docker
->> +++ /dev/null
->> @@ -1,35 +0,0 @@
->> -#
->> -# Debian Sid Base
->> -#
->> -# Currently we can build all our guests with cross-compilers in the
->> -# latest Debian release (Buster). However new compilers will first
->> -# arrive in Sid. However Sid is a rolling distro which may be broken
->> -# at any particular time. To try and mitigate this we use Debian's
->> -# snapshot archive which provides a "stable" view of what state Sid
->> -# was in.
->> -#
->> -
->> -# This must be earlier than the snapshot date we are aiming for
->> -FROM debian:sid-20190812-slim
->> -
->> - # Use a snapshot known to work (see http://snapshot.debian.org/#Usag=
-e)
->> -ENV DEBIAN_SNAPSHOT_DATE "20190820"
->> -RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb =
-[check-valid-until=3Dno] \1snapshot.debian.org/archive/debian/${DEBIAN_SN=
-APSHOT_DATE} \2%" /etc/apt/sources.list
->> -
->> -# Duplicate deb line as deb-src
->> -RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/=
-sources.list
->> -
->> -# Install common build utilities
->> -RUN apt update && \
->> -    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
->> -    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->> -    apt install -y --no-install-recommends \
->> -        bison \
->> -        build-essential \
->> -        ca-certificates \
->> -        flex \
->> -        git \
->> -        pkg-config \
->> -        psmisc \
->> -        python \
->> -        texinfo || { echo "Failed to build - see debian-sid.docker no=
-tes"; exit 1; }
->>
 
