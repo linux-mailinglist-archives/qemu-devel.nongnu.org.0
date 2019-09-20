@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9904B8BCF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 09:51:46 +0200 (CEST)
-Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E004B8C0D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 09:54:29 +0200 (CEST)
+Received: from localhost ([::1]:54012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBDhh-0000AE-4b
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 03:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60799)
+	id 1iBDkJ-0003Wp-SO
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 03:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iBDaF-0001dB-0h
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:04 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iBDaH-0001dM-0a
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iBDaD-0005XC-K5
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:02 -0400
-Received: from mga17.intel.com ([192.55.52.151]:9877)
+ (envelope-from <tao3.xu@intel.com>) id 1iBDaE-0005Xz-QR
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:04 -0400
+Received: from mga17.intel.com ([192.55.52.151]:9868)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iBDaD-0005Wd-BH
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:01 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iBDaE-0005VQ-Hs
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:44:02 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2019 00:43:58 -0700
+ 20 Sep 2019 00:44:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,527,1559545200"; d="scan'208";a="212495037"
+X-IronPort-AV: E=Sophos;i="5.64,527,1559545200"; d="scan'208";a="212495048"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga004.fm.intel.com with ESMTP; 20 Sep 2019 00:43:56 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 20 Sep 2019 00:43:59 -0700
 From: Tao Xu <tao3.xu@intel.com>
 To: imammedo@redhat.com,
 	eblake@redhat.com,
 	ehabkost@redhat.com
-Subject: [PATCH v12 02/11] tests/cutils: Add test for qemu_strtotime_ps()
-Date: Fri, 20 Sep 2019 15:43:40 +0800
-Message-Id: <20190920074349.2616-3-tao3.xu@intel.com>
+Subject: [PATCH v12 04/11] tests: Add test for QAPI builtin type time
+Date: Fri, 20 Sep 2019 15:43:42 +0800
+Message-Id: <20190920074349.2616-5-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190920074349.2616-1-tao3.xu@intel.com>
 References: <20190920074349.2616-1-tao3.xu@intel.com>
@@ -60,8 +60,9 @@ Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test the input of basic, time suffixes, float, invaild, trailing and
-overflow.
+Add tests for time input such as zero, around limit of precision,
+signed upper limit, actual upper limit, beyond limits, time suffixes,
+and etc.
 
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
@@ -70,225 +71,200 @@ No changes in v11 and v12.
 
 New patch in v10.
 ---
- tests/test-cutils.c | 199 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 199 insertions(+)
+ tests/test-keyval.c                | 125 +++++++++++++++++++++++++++++
+ tests/test-qobject-input-visitor.c |  29 +++++++
+ 2 files changed, 154 insertions(+)
 
-diff --git a/tests/test-cutils.c b/tests/test-cutils.c
-index 1aa8351520..19c967d3d5 100644
---- a/tests/test-cutils.c
-+++ b/tests/test-cutils.c
-@@ -2179,6 +2179,193 @@ static void test_qemu_strtosz_metric(void)
-     g_assert(endptr == str + 6);
+diff --git a/tests/test-keyval.c b/tests/test-keyval.c
+index 09b0ae3c68..b36914f0fc 100644
+--- a/tests/test-keyval.c
++++ b/tests/test-keyval.c
+@@ -490,6 +490,130 @@ static void test_keyval_visit_size(void)
+     visit_free(v);
  }
  
-+static void test_qemu_strtotime_ps_simple(void)
++static void test_keyval_visit_time(void)
 +{
-+    const char *str;
-+    const char *endptr;
-+    int err;
-+    uint64_t res = 0xbaadf00d;
++    Error *err = NULL;
++    Visitor *v;
++    QDict *qdict;
++    uint64_t time;
 +
-+    str = "0";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0);
-+    g_assert(endptr == str + 1);
++    /* Lower limit zero */
++    qdict = keyval_parse("time1=0", NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &error_abort);
++    g_assert_cmpuint(time, ==, 0);
++    visit_check_struct(v, &error_abort);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +
-+    str = "56789";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 56789);
-+    g_assert(endptr == str + 5);
++    /* Around limit of precision: 2^53-1, 2^53, 2^53+1 */
++    qdict = keyval_parse("time1=9007199254740991,"
++                         "time2=9007199254740992,"
++                         "time3=9007199254740993",
++                         NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &error_abort);
++    g_assert_cmphex(time, ==, 0x1fffffffffffff);
++    visit_type_time(v, "time2", &time, &error_abort);
++    g_assert_cmphex(time, ==, 0x20000000000000);
++    visit_type_time(v, "time3", &time, &error_abort);
++    g_assert_cmphex(time, ==, 0x20000000000000);
++    visit_check_struct(v, &error_abort);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +
-+    err = qemu_strtotime_ps(str, NULL, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 56789);
++    /* Close to signed upper limit 0x7ffffffffffffc00 (53 msbs set) */
++    qdict = keyval_parse("time1=9223372036854774784," /* 7ffffffffffffc00 */
++                         "time2=9223372036854775295", /* 7ffffffffffffdff */
++                         NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &error_abort);
++    g_assert_cmphex(time, ==, 0x7ffffffffffffc00);
++    visit_type_time(v, "time2", &time, &error_abort);
++    g_assert_cmphex(time, ==, 0x7ffffffffffffc00);
++    visit_check_struct(v, &error_abort);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +
-+    /* Note: precision is 53 bits since we're parsing with strtod() */
++    /* Close to actual upper limit 0xfffffffffffff800 (53 msbs set) */
++    qdict = keyval_parse("time1=18446744073709549568," /* fffffffffffff800 */
++                         "time2=18446744073709550591", /* fffffffffffffbff */
++                         NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &error_abort);
++    g_assert_cmphex(time, ==, 0xfffffffffffff800);
++    visit_type_time(v, "time2", &time, &error_abort);
++    g_assert_cmphex(time, ==, 0xfffffffffffff800);
++    visit_check_struct(v, &error_abort);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +
-+    str = "9007199254740991"; /* 2^53-1 */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0x1fffffffffffff);
-+    g_assert(endptr == str + 16);
++    /* Beyond limits */
++    qdict = keyval_parse("time1=-1,"
++                         "time2=18446744073709550592", /* fffffffffffffc00 */
++                         NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &err);
++    error_free_or_abort(&err);
++    visit_type_time(v, "time2", &time, &err);
++    error_free_or_abort(&err);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +
-+    str = "9007199254740992"; /* 2^53 */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0x20000000000000);
-+    g_assert(endptr == str + 16);
++    /* Suffixes */
++    qdict = keyval_parse("time1=2ps,time2=3.4ns,time3=5us,"
++                         "time4=0.6ms,time5=700s",
++                         NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &error_abort);
++    g_assert_cmpuint(time, ==, 2);
++    visit_type_time(v, "time2", &time, &error_abort);
++    g_assert_cmpuint(time, ==, 3400);
++    visit_type_time(v, "time3", &time, &error_abort);
++    g_assert_cmphex(time, ==, 5 * 1000 * 1000);
++    visit_type_time(v, "time4", &time, &error_abort);
++    g_assert_cmphex(time, ==, 600 * 1000 * 1000);
++    visit_type_time(v, "time5", &time, &error_abort);
++    g_assert_cmphex(time, ==, 700 * 1000000000000ULL);
++    visit_check_struct(v, &error_abort);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +
-+    str = "9007199254740993"; /* 2^53+1 */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0x20000000000000); /* rounded to 53 bits */
-+    g_assert(endptr == str + 16);
++    /* Beyond limit with suffix */
++    qdict = keyval_parse("time1=18446745s", NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &err);
++    error_free_or_abort(&err);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +
-+    str = "18446744073709549568"; /* 0xfffffffffffff800 (53 msbs set) */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0xfffffffffffff800);
-+    g_assert(endptr == str + 20);
-+
-+    str = "18446744073709550591"; /* 0xfffffffffffffbff */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0xfffffffffffff800); /* rounded to 53 bits */
-+    g_assert(endptr == str + 20);
-+
-+    /* 0x7ffffffffffffe00..0x7fffffffffffffff get rounded to
-+     * 0x8000000000000000, thus -ERANGE; see test_qemu_strtosz_erange() */
++    /* Trailing crap */
++    qdict = keyval_parse("time1=89ks,time2=ns", NULL, &error_abort);
++    v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    qobject_unref(qdict);
++    visit_start_struct(v, NULL, NULL, 0, &error_abort);
++    visit_type_time(v, "time1", &time, &err);
++    error_free_or_abort(&err);
++    visit_type_time(v, "time2", &time, &err);;
++    error_free_or_abort(&err);
++    visit_end_struct(v, NULL);
++    visit_free(v);
 +}
 +
-+static void test_qemu_strtotime_ps_units(void)
-+{
-+    const char *ps = "1ps";
-+    const char *ns = "1ns";
-+    const char *us = "1us";
-+    const char *ms = "1ms";
-+    const char *s = "1s";
-+    int err;
-+    const char *endptr;
-+    uint64_t res = 0xbaadf00d;
-+
-+    err = qemu_strtotime_ps(ps, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 1);
-+    g_assert(endptr == ps + 3);
-+
-+    err = qemu_strtotime_ps(ns, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 1000);
-+    g_assert(endptr == ns + 3);
-+
-+    err = qemu_strtotime_ps(us, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 1000000);
-+    g_assert(endptr == us + 3);
-+
-+    err = qemu_strtotime_ps(ms, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 1000000000LL);
-+    g_assert(endptr == ms + 3);
-+
-+    err = qemu_strtotime_ps(s, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 1000000000000ULL);
-+    g_assert(endptr == s + 2);
-+}
-+
-+static void test_qemu_strtotime_ps_float(void)
-+{
-+    const char *str = "56.789ns";
-+    int err;
-+    const char *endptr;
-+    uint64_t res = 0xbaadf00d;
-+
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 56.789 * 1000);
-+    g_assert(endptr == str + 8);
-+}
-+
-+static void test_qemu_strtotime_ps_invalid(void)
-+{
-+    const char *str;
-+    const char *endptr;
-+    int err;
-+    uint64_t res = 0xbaadf00d;
-+
-+    str = "";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert(endptr == str);
-+
-+    str = " \t ";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert(endptr == str);
-+
-+    str = "crap";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert(endptr == str);
-+
-+    str = "inf";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert(endptr == str);
-+
-+    str = "NaN";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert(endptr == str);
-+}
-+
-+static void test_qemu_strtotime_ps_trailing(void)
-+{
-+    const char *str;
-+    int err;
-+    uint64_t res = 0xbaadf00d;
-+
-+    str = "123xxx";
-+
-+    err = qemu_strtotime_ps(str, NULL, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+}
-+
-+static void test_qemu_strtotime_ps_erange(void)
-+{
-+    const char *str;
-+    const char *endptr;
-+    int err;
-+    uint64_t res = 0xbaadf00d;
-+
-+    str = "-1";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -ERANGE);
-+    g_assert(endptr == str + 2);
-+
-+    str = "18446744073709550592"; /* 0xfffffffffffffc00 */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -ERANGE);
-+    g_assert(endptr == str + 20);
-+
-+    str = "18446744073709551615"; /* 2^64-1 */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -ERANGE);
-+    g_assert(endptr == str + 20);
-+
-+    str = "18446744073709551616"; /* 2^64 */
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -ERANGE);
-+    g_assert(endptr == str + 20);
-+
-+    str = "200000000000000s";
-+    err = qemu_strtotime_ps(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -ERANGE);
-+    g_assert(endptr == str + 16);
-+}
-+
- int main(int argc, char **argv)
+ static void test_keyval_visit_dict(void)
  {
-     g_test_init(&argc, &argv, NULL);
-@@ -2456,5 +2643,17 @@ int main(int argc, char **argv)
-     g_test_add_func("/cutils/strtosz/metric",
-                     test_qemu_strtosz_metric);
- 
-+    g_test_add_func("/cutils/strtotime/simple",
-+                    test_qemu_strtotime_ps_simple);
-+    g_test_add_func("/cutils/strtotime/units",
-+                    test_qemu_strtotime_ps_units);
-+    g_test_add_func("/cutils/strtotime/float",
-+                    test_qemu_strtotime_ps_float);
-+    g_test_add_func("/cutils/strtotime/invalid",
-+                    test_qemu_strtotime_ps_invalid);
-+    g_test_add_func("/cutils/strtotime/trailing",
-+                    test_qemu_strtotime_ps_trailing);
-+    g_test_add_func("/cutils/strtotime/erange",
-+                    test_qemu_strtotime_ps_erange);
-     return g_test_run();
+     Error *err = NULL;
+@@ -678,6 +802,7 @@ int main(int argc, char *argv[])
+     g_test_add_func("/keyval/visit/bool", test_keyval_visit_bool);
+     g_test_add_func("/keyval/visit/number", test_keyval_visit_number);
+     g_test_add_func("/keyval/visit/size", test_keyval_visit_size);
++    g_test_add_func("/keyval/visit/time", test_keyval_visit_time);
+     g_test_add_func("/keyval/visit/dict", test_keyval_visit_dict);
+     g_test_add_func("/keyval/visit/list", test_keyval_visit_list);
+     g_test_add_func("/keyval/visit/optional", test_keyval_visit_optional);
+diff --git a/tests/test-qobject-input-visitor.c b/tests/test-qobject-input-visitor.c
+index 6bacabf063..4b5820b744 100644
+--- a/tests/test-qobject-input-visitor.c
++++ b/tests/test-qobject-input-visitor.c
+@@ -366,6 +366,31 @@ static void test_visitor_in_size_str_fail(TestInputVisitorData *data,
+     error_free_or_abort(&err);
  }
+ 
++static void test_visitor_in_time_str_keyval(TestInputVisitorData *data,
++                                            const void *unused)
++{
++    uint64_t res, value = 265 * 1000 * 1000;
++    Visitor *v;
++
++    v = visitor_input_test_init_full(data, true, "\"265us\"");
++
++    visit_type_time(v, NULL, &res, &error_abort);
++    g_assert_cmpfloat(res, ==, value);
++}
++
++static void test_visitor_in_time_str_fail(TestInputVisitorData *data,
++                                          const void *unused)
++{
++    uint64_t res = 0;
++    Visitor *v;
++    Error *err = NULL;
++
++    v = visitor_input_test_init(data, "\"265us\"");
++
++    visit_type_time(v, NULL, &res, &err);
++    error_free_or_abort(&err);
++}
++
+ static void test_visitor_in_string(TestInputVisitorData *data,
+                                    const void *unused)
+ {
+@@ -1311,6 +1336,10 @@ int main(int argc, char **argv)
+                            NULL, test_visitor_in_size_str_keyval);
+     input_visitor_test_add("/visitor/input/size_str_fail",
+                            NULL, test_visitor_in_size_str_fail);
++    input_visitor_test_add("/visitor/input/time_str_keyval",
++                           NULL, test_visitor_in_time_str_keyval);
++    input_visitor_test_add("/visitor/input/time_str_fail",
++                           NULL, test_visitor_in_time_str_fail);
+     input_visitor_test_add("/visitor/input/string",
+                            NULL, test_visitor_in_string);
+     input_visitor_test_add("/visitor/input/enum",
 -- 
 2.20.1
 
