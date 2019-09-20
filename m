@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17CDB924B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:31:30 +0200 (CEST)
-Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E010B9345
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:39:36 +0200 (CEST)
+Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBJwX-0004LD-0a
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32804)
+	id 1iBK4M-0003Ek-WC
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32974)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmW-0004Z1-8D
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:09 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmo-0004tQ-8i
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000t6-Kr
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:08 -0400
-Received: from relay.sw.ru ([185.231.240.75]:43782)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmn-000125-2r
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:26 -0400
+Received: from relay.sw.ru ([185.231.240.75]:43814)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmQ-0000g6-Aa; Fri, 20 Sep 2019 10:21:02 -0400
+ id 1iBJmk-0000gG-FN; Fri, 20 Sep 2019 10:21:22 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmN-0006b5-DN; Fri, 20 Sep 2019 17:20:59 +0300
+ id 1iBJmO-0006b5-7C; Fri, 20 Sep 2019 17:21:00 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v13 08/15] block: teach bdrv_debug_breakpoint skip filters
- with backing
-Date: Fri, 20 Sep 2019 17:20:49 +0300
-Message-Id: <20190920142056.12778-9-vsementsov@virtuozzo.com>
+Subject: [PATCH v13 12/15] block/io: refactor wait_serialising_requests
+Date: Fri, 20 Sep 2019 17:20:53 +0300
+Message-Id: <20190920142056.12778-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190920142056.12778-1-vsementsov@virtuozzo.com>
 References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
@@ -55,75 +54,68 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Teach bdrv_debug_breakpoint and bdrv_debug_remove_breakpoint skip
-filters with backing. This is needed to implement and use in backup job
-it's own backup_top filter driver (like mirror already has one), and
-without this improvement, breakpoint removal will fail at least in 55
-iotest.
+Split out do_wait_serialising_requests with additional possibility to
+not actually wait but just check, that there is something to wait for.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 34 ++++++++++++++++++++++++++--------
- 1 file changed, 26 insertions(+), 8 deletions(-)
+ block/io.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/block.c b/block.c
-index 5944124845..1c7c199849 100644
---- a/block.c
-+++ b/block.c
-@@ -5164,14 +5164,35 @@ void bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event)
-     bs->drv->bdrv_debug_event(bs, event);
+diff --git a/block/io.c b/block/io.c
+index f8c3596131..f5f7b7357c 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -786,12 +786,13 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
+     bdrv_wakeup(bs);
  }
  
--int bdrv_debug_breakpoint(BlockDriverState *bs, const char *event,
--                          const char *tag)
-+static BlockDriverState *bdrv_find_debug_node(BlockDriverState *bs)
+-static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
++static bool coroutine_fn do_wait_serialising_requests(BdrvTrackedRequest *self,
++                                                      bool wait)
  {
-     while (bs && bs->drv && !bs->drv->bdrv_debug_breakpoint) {
--        bs = bs->file ? bs->file->bs : NULL;
-+        if (bs->file) {
-+            bs = bs->file->bs;
-+            continue;
-+        }
-+
-+        if (bs->drv->is_filter && bs->backing) {
-+            bs = bs->backing->bs;
-+            continue;
-+        }
-+
-+        break;
-     }
+     BlockDriverState *bs = self->bs;
+     BdrvTrackedRequest *req;
+     bool retry;
+-    bool waited = false;
++    bool found = false;
  
-     if (bs && bs->drv && bs->drv->bdrv_debug_breakpoint) {
-+        assert(bs->drv->bdrv_debug_remove_breakpoint);
-+        return bs;
-+    }
-+
-+    return NULL;
+     if (!atomic_read(&bs->serialising_in_flight)) {
+         return false;
+@@ -817,11 +818,13 @@ static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
+                  * will wait for us as soon as it wakes up, then just go on
+                  * (instead of producing a deadlock in the former case). */
+                 if (!req->waiting_for) {
+-                    self->waiting_for = req;
+-                    qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
+-                    self->waiting_for = NULL;
+-                    retry = true;
+-                    waited = true;
++                    found = true;
++                    if (wait) {
++                        self->waiting_for = req;
++                        qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
++                        self->waiting_for = NULL;
++                        retry = true;
++                    }
+                     break;
+                 }
+             }
+@@ -829,7 +832,12 @@ static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
+         qemu_co_mutex_unlock(&bs->reqs_lock);
+     } while (retry);
+ 
+-    return waited;
++    return found;
 +}
 +
-+int bdrv_debug_breakpoint(BlockDriverState *bs, const char *event,
-+                          const char *tag)
++static bool coroutine_fn wait_serialising_requests(BdrvTrackedRequest *self)
 +{
-+    bs = bdrv_find_debug_node(bs);
-+    if (bs) {
-         return bs->drv->bdrv_debug_breakpoint(bs, event, tag);
-     }
++    return do_wait_serialising_requests(self, true);
+ }
  
-@@ -5180,11 +5201,8 @@ int bdrv_debug_breakpoint(BlockDriverState *bs, const char *event,
- 
- int bdrv_debug_remove_breakpoint(BlockDriverState *bs, const char *tag)
- {
--    while (bs && bs->drv && !bs->drv->bdrv_debug_remove_breakpoint) {
--        bs = bs->file ? bs->file->bs : NULL;
--    }
--
--    if (bs && bs->drv && bs->drv->bdrv_debug_remove_breakpoint) {
-+    bs = bdrv_find_debug_node(bs);
-+    if (bs) {
-         return bs->drv->bdrv_debug_remove_breakpoint(bs, tag);
-     }
- 
+ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
 -- 
 2.21.0
 
