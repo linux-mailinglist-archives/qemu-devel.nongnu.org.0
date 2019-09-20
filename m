@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD94B9993
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:16:03 +0200 (CEST)
-Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CB3B9987
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 00:11:25 +0200 (CEST)
+Received: from localhost ([::1]:35752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBRC6-0004MZ-Eu
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
+	id 1iBR7c-00080V-Eh
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 18:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iBR8s-00070n-0c
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:12:43 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iBR66-0006q6-Ld
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:09:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iBR8q-0006UO-Lk
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:12:41 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:43903)
+ (envelope-from <richard.henderson@linaro.org>) id 1iBR64-0005gI-Cb
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:09:50 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:32987)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iBR8q-0006UA-Aw; Fri, 20 Sep 2019 18:12:40 -0400
-Received: by mail-lj1-x243.google.com with SMTP id n14so3436518ljj.10;
- Fri, 20 Sep 2019 15:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZfAWoHJgDaLpaFvT81RSKFrNh8Gv/h5ToHqyeRHEvqY=;
- b=cbZSg6NkoDARs6aifAIYRhl+UVpZwhN9H+rhRXY+vkLvlbXn2c6L+1khErmNgyr4lY
- mm4UGi+6txTYC8Szw1NARwJ7T2vYPzbr5HBYogVINJAxiTXiLUwrwnYYUwUODmokvuCb
- SA9wG5jz6KeSddFs7OsJqVuVN7ewmGgaiEW1s8nFuPpD4bLSmFeuAL+96oKSABwsc6FJ
- Q2ukpOxFjCQJoHJ5/JjaCP9PyveY0LtIenns+VhvnSvy4wvF9bwneAKHZoNM8PweweTJ
- m2GVqIhD18MLFFkORHiYaEdA3V3yp3dFd71Zbl5RAKxecrX9o/2v1Edo35lS1mA9ITsR
- WbsQ==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iBR61-0005fW-8m
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 18:09:46 -0400
+Received: by mail-pf1-x442.google.com with SMTP id q10so5455986pfl.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Xq6CjTsGZJR9XwIXAsothWRRID2FfNd4/CnJWbG8XTM=;
+ b=Wydt88o8wqr9s6XOMuXl1rGL6qL6HGEF3+opEmxczu8NZuMzPKPMiuquy8fXQWY0qg
+ l7vuSspLHTPzhoaG5YNumwuE05CGagRwls+ttmxKmAkueKos6K+453WZmFJcU//b8Wse
+ TS9rOZ6BXnPuEJAL8OMtnjHWpbB36SGP50YiSmhFvd16o+nSjgBOY1Q5PXBPKrSqk9na
+ 7HZpkOZonKR6AgLaUcn/WNn1Zyu234WBCuWyBOWhHRzNe/6TXrbApp58WSxmMk1UTxdO
+ UtY8EPEN/32fft32iiov2H5qFVX8sbJvomxzZJSt7lfuDmUPxpKHKd2Nw5kSzdL3+aJH
+ spjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZfAWoHJgDaLpaFvT81RSKFrNh8Gv/h5ToHqyeRHEvqY=;
- b=P0dyeO+rQp4BmkRDk3gGsGEOyacDGUKCKqr5CM7wQlM2qhRn8kmoP46LwR/ajIsPq3
- /neADCV2yg7LyJaHGCei8I3zPrvLciUPLPXWCi3l5ziyHWD24cyicKLzq88NiE4g1+KB
- PWzPGfYsAI160yPqi5/n8CU5zU2Fb5qEeutTmjdvweqEep3g0Y2Wyv9l4uGmA/d3x+HP
- 11+iOToEF9jCM5Sh7AMDvtPs3EjX7Z8zsZovThZKPVxGfslERbZebJZ4ReV7KhVVFgYb
- 9CK3cFWViPVmoxAcjZslsn6sz2vshrCTwZ1YM6C6Kl/RJOskSuQuubEFoDLZ3tRJF8Lk
- a6PQ==
-X-Gm-Message-State: APjAAAWwnPaQgNIstUHRoaB6Ve/X8j0wBWkZHrNkTQf2dZS2p7n3EEoy
- HHN+YtOCskWWgT2JLFSYzV2xL+VpKkhV8Fawjrc=
-X-Google-Smtp-Source: APXvYqwPtdaUQrcNtB58wfxwzsFABCcD1cXh6SR/Y8Vemm/1COHP+NZVcUmq6U11E3p017JGN2Gzfvi/HSVUv1pCE0k=
-X-Received: by 2002:a2e:9081:: with SMTP id l1mr10451657ljg.33.1569017552379; 
- Fri, 20 Sep 2019 15:12:32 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xq6CjTsGZJR9XwIXAsothWRRID2FfNd4/CnJWbG8XTM=;
+ b=en74SrHSTyaGJG8L/ntRaiXZ6JrnIg9RmcCnLh5GyM6sFvWQOQCmV4nrXKQpXq8vzN
+ VyJN05zOe2Zhg9gVGCLjBEMqbaBm9WBa/rE1ILsWtfoVvKvzVcmTKCvI7BldFgXi7JX2
+ Qwb32VRV6jgFdTc03N/m/KikM4dtq5sbQu6aoVZL6oGDHZbiIJ2LGmDDySh8K/x2mJgz
+ spTOujp+P766ZxjkWJGG6p88D47yTu5Lj2wKshXIa9u0Ldur2QDy6FAZv9nOTsQ3ISu5
+ XYaeihV/LNcwK5YqvF3RoX7MAqU5zI8B1q4D3jMHD+2e+8kDJMEMPWWNaoO+wya9tcX0
+ ynEQ==
+X-Gm-Message-State: APjAAAVJCDbQG+Iyfbp4qbUB9MattBt29G/0hU8fCCfDO2KxOg3M3j6B
+ /FmpiM0GNhniDrztnJ2EFI1uhQ==
+X-Google-Smtp-Source: APXvYqz5JelNdtvqL+XIhk1bmq9WBlrlX2ISeidqgXyz7O6rOYDUVY/H+U2T513vCCkNd/0abesKTg==
+X-Received: by 2002:a63:5b23:: with SMTP id p35mr17082669pgb.366.1569017383421; 
+ Fri, 20 Sep 2019 15:09:43 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id v44sm3832336pgn.17.2019.09.20.15.09.42
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 20 Sep 2019 15:09:42 -0700 (PDT)
+Subject: Re: [PATCH v2 10/16] tests/tcg: add generic version of float_convs
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20190919171015.12681-1-alex.bennee@linaro.org>
+ <20190919171015.12681-11-alex.bennee@linaro.org>
+ <c6cd971c-e84c-c5c9-b313-2e454e02a1da@linaro.org> <87impnz568.fsf@linaro.org>
+ <87h857z32j.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <0b0c45c7-4b9b-0d03-01aa-25a689a8f914@linaro.org>
+Date: Fri, 20 Sep 2019 15:09:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <cover.1568931866.git.alistair.francis@wdc.com>
- <d3357e0b87cce025418f6383ce971246ded547bd.1568931866.git.alistair.francis@wdc.com>
- <CAEUhbmV7Ao6L25HM+8AJLP8unn=HhvdRc1Kt+tUQgRB4S4zsBQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmV7Ao6L25HM+8AJLP8unn=HhvdRc1Kt+tUQgRB4S4zsBQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 20 Sep 2019 15:07:56 -0700
-Message-ID: <CAKmqyKO=PahfKej1Ch6=x3zcxN8R26Gkd9dsjScMSHPxitp=rA@mail.gmail.com>
-Subject: Re: [PATCH v1 4/6] riscv/sifive_u: Add the start-in-flash property
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <87h857z32j.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,116 +85,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 19, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Fri, Sep 20, 2019 at 6:32 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > Add a property that when set to true QEMU will jump from the ROM code to
-> > the start of flash memory instead of DRAM which is the default
-> > behaviour.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/sifive_u.c         | 27 +++++++++++++++++++++++++++
-> >  include/hw/riscv/sifive_u.h |  2 ++
-> >  2 files changed, 29 insertions(+)
-> >
-> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> > index c3949fb316..b7cd3631cd 100644
-> > --- a/hw/riscv/sifive_u.c
-> > +++ b/hw/riscv/sifive_u.c
-> > @@ -373,6 +373,10 @@ static void riscv_sifive_u_init(MachineState *machine)
-> >                                         /* dtb: */
-> >      };
-> >
-> > +    if (s->start_in_flash) {
-> > +        reset_vec[6] = memmap[SIFIVE_U_FLASH0].base; /* start: .dword FLASH0_BASE */
-> > +    }
-> > +
-> >      /* copy in the reset vector in little_endian byte order */
-> >      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-> >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
-> > @@ -544,8 +548,31 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-> >          memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
-> >  }
-> >
-> > +static bool virt_get_start_in_flash(Object *obj, Error **errp)
-> > +{
-> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > +
-> > +    return s->start_in_flash;
-> > +}
-> > +
-> > +static void virt_set_start_in_flash(Object *obj, bool value, Error **errp)
-> > +{
-> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > +
-> > +    s->start_in_flash = value;
-> > +}
-> > +
-> >  static void riscv_sifive_u_machine_instance_init(Object *obj)
-> >  {
-> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > +
-> > +    s->start_in_flash = false;
-> > +    object_property_add_bool(obj, "start-in-flash", virt_get_start_in_flash,
-> > +                             virt_set_start_in_flash, NULL);
-> > +    object_property_set_description(obj, "start-in-flash",
-> > +                                    "Set on to tell QEMU's ROM to jump to " \
-> > +                                    "flash. Otherwise QEMU will jump to DRAM",
-> > +                                    NULL);
-> >
-> >  }
-> >
-> > diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-> > index a921079fbe..2656b43c58 100644
-> > --- a/include/hw/riscv/sifive_u.h
-> > +++ b/include/hw/riscv/sifive_u.h
-> > @@ -57,6 +57,8 @@ typedef struct SiFiveUState {
-> >
-> >      void *fdt;
-> >      int fdt_size;
-> > +
-> > +    bool start_in_flash;
-> >  } SiFiveUState;
-> >
-> >  enum {
->
-> This patch chose a different way from the one used in patch "[v1,6/6]
-> riscv/virt: Jump to pflash if specified":
->
-> - this patch uses reset_vec[6] while patch [6/6] defines a variable start_addr
-> - this patch adds a "start-in-flash" property to the machine, while
-> patch [6/6] tests against drive IF_PFLASH
+On 9/20/19 3:15 AM, Alex Bennée wrote:
+> I can't figure out what is meant to be going on with CONVERT_BITS. It
+> seems to be implying there is a direct relationship between status flags
+> and the exception disable bits. But that is confusing because integer
+> overflow (IOV) and float overflow (OVF) are different flags bit I assume
+> both suppressed by Overflow Disable (OVFD).
 
-Yes, we do it differently for the sifive_u board as the sifive_u board
-doesn't use pflash so there is no way to know if the user has loaded
-anything into the SPI memory.
+I had failed to notice that the kernel routine plays with INV and not IOV for
+the emulation of CVTTQ, so it's the SWCR_TRAP_ENABLE_INV bit that controls
+whether CVTTQ/S raises a signal.
 
->
-> We should be consistent and I would prefer to use the patch [6/6] way.
-> On Unleashed an SPI flash is mounted so we cannot add a PFlash to
-> sifive_u machine like what was done on virt machine, so we should test
-> IF_MTD instead. Thoughts?
+Will fix.
 
-How would we test that?
+> Why are we doing this magic 32 bit shuffling anyway? Is it purely to
+> save 32 bits of a mostly empty lower half of the FPCR register?
 
-Right now I am loading the binary in SPI with the -device loader
-option. The machine can't really know what is/isn't loaded there.
+Yes.  Which is not a great answer, but it was done years ago and there's little
+point in changing it back now.
 
-It's not ideal, but I don't see a nicer way.
 
-Alistair
-
->
-> Regards,
-> Bin
+r~
 
