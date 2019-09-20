@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A736B94E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:04:35 +0200 (CEST)
-Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D39B94F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:09:00 +0200 (CEST)
+Received: from localhost ([::1]:32996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBLOa-0004tn-JB
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:04:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47315)
+	id 1iBLSs-0000UN-Mb
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iBL6a-0007zY-6l
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:46:01 -0400
+ (envelope-from <clg@kaod.org>) id 1iBLAv-00027D-Uz
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iBL6W-0003VL-7F
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:45:55 -0400
-Received: from 14.mo5.mail-out.ovh.net ([188.165.51.82]:60361)
+ (envelope-from <clg@kaod.org>) id 1iBLAq-0004up-P7
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:25 -0400
+Received: from 19.mo4.mail-out.ovh.net ([87.98.179.66]:33841)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iBL6W-0003SR-1C
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:45:52 -0400
-Received: from player694.ha.ovh.net (unknown [10.109.160.153])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 3A7E924F59E
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:45:49 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iBLAq-0004u5-J4
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:50:20 -0400
+Received: from player735.ha.ovh.net (unknown [10.109.160.232])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id EF653201AE9
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 17:50:17 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player694.ha.ovh.net (Postfix) with ESMTPSA id C3C669FC0D11;
- Fri, 20 Sep 2019 15:45:35 +0000 (UTC)
-Subject: Re: [PATCH 01/15] ipmi: Fix watchdog NMI handling
+ by player735.ha.ovh.net (Postfix) with ESMTPSA id C969FA10B912;
+ Fri, 20 Sep 2019 15:50:05 +0000 (UTC)
+Subject: Re: [PATCH 02/15] ipmi: Fix the get watchdog command
 To: minyard@acm.org, Peter Maydell <peter.maydell@linaro.org>
 References: <20190919213924.31852-1-minyard@acm.org>
- <20190919213924.31852-2-minyard@acm.org>
+ <20190919213924.31852-3-minyard@acm.org>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <f2d62bba-8e46-7359-2340-d07e4424f53e@kaod.org>
-Date: Fri, 20 Sep 2019 17:45:34 +0200
+Message-ID: <998c62cf-4a36-3f9a-1c50-953108967a79@kaod.org>
+Date: Fri, 20 Sep 2019 17:50:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190919213924.31852-2-minyard@acm.org>
+In-Reply-To: <20190919213924.31852-3-minyard@acm.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 17594437847848946616
+X-Ovh-Tracer-Id: 17670154615394569144
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvddvgdelvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvddvgdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.51.82
+X-Received-From: 87.98.179.66
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,60 +70,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 19/09/2019 23:39, minyard@acm.org wrote:
 > From: Corey Minyard <cminyard@mvista.com>
 >=20
-> The wrong logic was used for detection (so it wouldn't work at all)
-> and the wrong interface was used to inject the NMI if the detection
-> logic was correct.
->=20
-> Signed-off-by: Corey Minyard <cminyard@mvista.com>
+> It wasn't returning the set timeout like it should have been.
+
+Looking at=20
+
+  27.7 Get Watchdog Timer Command
+
+This looks correct.
+
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
+Thanks,
+
 C.
 
-> ---
->  hw/ipmi/ipmi.c         | 6 +++---
->  hw/ipmi/ipmi_bmc_sim.c | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/hw/ipmi/ipmi.c b/hw/ipmi/ipmi.c
-> index 136c86b7a7..cbe158f815 100644
-> --- a/hw/ipmi/ipmi.c
-> +++ b/hw/ipmi/ipmi.c
-> @@ -28,9 +28,8 @@
->  #include "qom/object_interfaces.h"
->  #include "sysemu/runstate.h"
->  #include "qapi/error.h"
-> -#include "qapi/qapi-commands-misc.h"
-> -#include "qapi/visitor.h"
->  #include "qemu/module.h"
-> +#include "hw/nmi.h"
-> =20
->  static uint32_t ipmi_current_uuid =3D 1;
-> =20
-> @@ -60,7 +59,8 @@ static int ipmi_do_hw_op(IPMIInterface *s, enum ipmi_=
-op op, int checkonly)
->          if (checkonly) {
->              return 0;
->          }
-> -        qmp_inject_nmi(NULL);
-> +        /* We don't care what CPU we use. */
-> +        nmi_monitor_handle(0, NULL);
->          return 0;
-> =20
->      case IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP:
+> Signed-off-by: Corey Minyard <cminyard@mvista.com>
+> ---
+>  hw/ipmi/ipmi_bmc_sim.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
 > diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-> index 246a6d390c..8f63bb7181 100644
+> index 8f63bb7181..afb99e33d7 100644
 > --- a/hw/ipmi/ipmi_bmc_sim.c
 > +++ b/hw/ipmi/ipmi_bmc_sim.c
-> @@ -1194,7 +1194,7 @@ static void set_watchdog_timer(IPMIBmcSim *ibs,
->          break;
-> =20
->      case IPMI_BMC_WATCHDOG_PRE_NMI:
-> -        if (!k->do_hw_op(s, IPMI_SEND_NMI, 1)) {
-> +        if (k->do_hw_op(s, IPMI_SEND_NMI, 1)) {
->              /* NMI not supported. */
->              rsp_buffer_set_error(rsp, IPMI_CC_INVALID_DATA_FIELD);
->              return;
+> @@ -1228,6 +1228,8 @@ static void get_watchdog_timer(IPMIBmcSim *ibs,
+>      rsp_buffer_push(rsp, ibs->watchdog_action);
+>      rsp_buffer_push(rsp, ibs->watchdog_pretimeout);
+>      rsp_buffer_push(rsp, ibs->watchdog_expired);
+> +    rsp_buffer_push(rsp, ibs->watchdog_timeout & 0xff);
+> +    rsp_buffer_push(rsp, (ibs->watchdog_timeout >> 8) & 0xff);
+>      if (ibs->watchdog_running) {
+>          long timeout;
+>          timeout =3D ((ibs->watchdog_expiry - ipmi_getmonotime() + 5000=
+0000)
 >=20
 
 
