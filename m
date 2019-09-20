@@ -2,34 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC9DB91E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:28:53 +0200 (CEST)
-Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F45B91B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:25:14 +0200 (CEST)
+Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBJtz-0002sq-Tp
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32822)
+	id 1iBJqT-0007Wx-Ep
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmW-0004ZJ-Fz
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmW-0004Z6-9G
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000tN-Ob
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000t0-Jt
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:08 -0400
-Received: from relay.sw.ru ([185.231.240.75]:43784)
+Received: from relay.sw.ru ([185.231.240.75]:43800)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmQ-0000gB-FL; Fri, 20 Sep 2019 10:21:02 -0400
+ id 1iBJmQ-0000g7-7d; Fri, 20 Sep 2019 10:21:02 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmL-0006b5-VF; Fri, 20 Sep 2019 17:20:58 +0300
+ id 1iBJmM-0006b5-7T; Fri, 20 Sep 2019 17:20:58 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v13 00/15] backup-top filter driver for backup
-Date: Fri, 20 Sep 2019 17:20:41 +0300
-Message-Id: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v13 01/15] block/backup: fix max_transfer handling for
+ copy_range
+Date: Fri, 20 Sep 2019 17:20:42 +0300
+Message-Id: <20190920142056.12778-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
@@ -52,63 +55,45 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Of course, QEMU_ALIGN_UP is a typo, it should be QEMU_ALIGN_DOWN, as we
+are trying to find aligned size which satisfy both source and target.
+Also, don't ignore too small max_transfer. In this case seems safer to
+disable copy_range.
 
-These series introduce backup-top driver. It's a filter-node, which
-do copy-before-write operation. Mirror uses filter-node for handling
-guest writes, let's move to filter-node (from write-notifiers) for
-backup too.
+Fixes: 9ded4a0114968e
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/backup.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-v11,v12 -> v13 changes:
-
-[v12 was two fixes in separate: [PATCH v12 0/2] backup: copy_range fixes]
-
-01: new in v12, in v13 change comment
-02: in v12: add "Fixes: " to commit msg, in v13 add John's r-b
-05: rebase on 01
-07: rebase on 01. It still a clean movement, keep r-b
-
-Vladimir Sementsov-Ogievskiy (15):
-  block/backup: fix max_transfer handling for copy_range
-  block/backup: fix backup_cow_with_offload for last cluster
-  block/backup: split shareable copying part from backup_do_cow
-  block/backup: improve comment about image fleecing
-  block/backup: introduce BlockCopyState
-  block/backup: fix block-comment style
-  block: move block_copy from block/backup.c to separate file
-  block: teach bdrv_debug_breakpoint skip filters with backing
-  iotests: prepare 124 and 257 bitmap querying for backup-top filter
-  iotests: 257: drop unused Drive.device field
-  iotests: 257: drop device_add
-  block/io: refactor wait_serialising_requests
-  block: add lock/unlock range functions
-  block: introduce backup-top filter driver
-  block/backup: use backup-top instead of write notifiers
-
- qapi/block-core.json          |   8 +-
- block/backup-top.h            |  37 ++
- include/block/block-copy.h    |  84 ++++
- include/block/block_int.h     |   5 +
- block.c                       |  34 +-
- block/backup-top.c            | 240 ++++++++++++
- block/backup.c                | 440 ++++-----------------
- block/block-copy.c            | 346 ++++++++++++++++
- block/io.c                    |  68 +++-
- block/replication.c           |   2 +-
- blockdev.c                    |   1 +
- block/Makefile.objs           |   3 +
- block/trace-events            |  14 +-
- tests/qemu-iotests/056        |   8 +-
- tests/qemu-iotests/124        |  83 ++--
- tests/qemu-iotests/257        |  91 ++---
- tests/qemu-iotests/257.out    | 714 ++++++++++++++--------------------
- tests/qemu-iotests/iotests.py |  27 ++
- 18 files changed, 1287 insertions(+), 918 deletions(-)
- create mode 100644 block/backup-top.h
- create mode 100644 include/block/block-copy.h
- create mode 100644 block/backup-top.c
- create mode 100644 block/block-copy.c
-
+diff --git a/block/backup.c b/block/backup.c
+index 763f0d7ff6..db20249063 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -741,12 +741,19 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     job->cluster_size = cluster_size;
+     job->copy_bitmap = copy_bitmap;
+     copy_bitmap = NULL;
+-    job->use_copy_range = !compress; /* compression isn't supported for it */
+     job->copy_range_size = MIN_NON_ZERO(blk_get_max_transfer(job->common.blk),
+                                         blk_get_max_transfer(job->target));
+-    job->copy_range_size = MAX(job->cluster_size,
+-                               QEMU_ALIGN_UP(job->copy_range_size,
+-                                             job->cluster_size));
++    job->copy_range_size = QEMU_ALIGN_DOWN(job->copy_range_size,
++                                           job->cluster_size);
++    /*
++     * Set use_copy_range, consider the following:
++     * 1. Compression is not supported for copy_range.
++     * 2. copy_range does not respect max_transfer (it's a TODO), so we factor
++     *    that in here. If max_transfer is smaller than the job->cluster_size,
++     *    we do not use copy_range (in that case it's zero after aligning down
++     *    above).
++     */
++    job->use_copy_range = !compress && job->copy_range_size > 0;
+ 
+     /* Required permissions are already taken with target's blk_new() */
+     block_job_add_bdrv(&job->common, "target", target, 0, BLK_PERM_ALL,
 -- 
 2.21.0
 
