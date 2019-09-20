@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6C6B8A2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 06:39:12 +0200 (CEST)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD28B8A48
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 06:59:28 +0200 (CEST)
+Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBAhL-0000Wc-Lh
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 00:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35134)
+	id 1iBB0v-0000hi-VS
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 00:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iBAeK-0008KK-4c
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 00:36:05 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1iBAwO-0006pC-1z
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 00:54:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iBAeJ-00045T-6K
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 00:36:04 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:45438)
+ (envelope-from <joel.stan@gmail.com>) id 1iBArO-0000JF-5a
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 00:49:34 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:41775)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iBAeC-00043y-3i; Fri, 20 Sep 2019 00:35:57 -0400
-Received: by mail-qt1-x843.google.com with SMTP id c21so7141506qtj.12;
- Thu, 19 Sep 2019 21:35:55 -0700 (PDT)
+ id 1iBArN-0000Ii-05; Fri, 20 Sep 2019 00:49:33 -0400
+Received: by mail-qt1-x842.google.com with SMTP id x4so7196950qtq.8;
+ Thu, 19 Sep 2019 21:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=P0HGbdxrmbTwLhsFf8fVFclc5uy3emLEDmnjj7AIK8M=;
- b=g2U9nS2VednVRdiFMpV7J7Ba9Qm6fFmjdBb9Pp8+kg/7QygSNe+nebT3LpG21D7W0w
- RIz2h4Wkg/14fOFEOFcytNSGAMIt1Xg98RpKKtxA01dKKTpN8adLxBt0Qdfm355Qc1i2
- 7cgR7IvyEfU+IX5O2Atw/qUyQn0mQCHWV5pno=
+ bh=Us5aXQGzLrmIIkeQXkb6cvh9sVzCeORLwtOtWfJTk58=;
+ b=gZOzeLTlO9EuP5rgy9rBjyb1UwdzmfIIRmSN2AJMp+iH/w2nORcVDfMiHUN/2YkwU5
+ nPltxsRVYKUlyq7G1zjriyIHvWbvk33Wpp9SkiL3zIMpAoYkLnY9DrDVgkMEMxlYkGvt
+ rpDoqwoVME20DtU8UC0mT0n5tLDNDGv7W4dS8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=P0HGbdxrmbTwLhsFf8fVFclc5uy3emLEDmnjj7AIK8M=;
- b=fFLoa1l69VW3c8TxbQ4rkyuApSI12Bhn1+ztTDE2qRx2p6joHJsEgrU4tKjX0UlCGW
- ONkhUJQj0Ez4/k9zMG9QIWy9K6k/jYmomW6YBlNfgyTUyfnHXI9tr+NUMGS/4+0x5f02
- cIr3mODB9mdzDg4HMaoBqXgldQTuTrDJgO3KJp7idLUN0iYh3hqvijw5E+7+s9COMDKu
- lxnSJr46w+/8jLJSiXjV+BGcblWbdAgJjROSkb+xH8iDrgFAnNOUAOGaL1XMIRHLyJfY
- MJSpm/HlEtRV/DxATf1GfttsVnB7zJsUe0ZY5YhhWbZHu5/JBabOA1r9dfJ13SARyFzi
- nVSg==
-X-Gm-Message-State: APjAAAXhcZaclQ/7yGPnRpB+ZKGJAvZrz3sLJt/Tih2LzMWWtVOmxBUP
- +HgyynoiSkVHovh1qWKHLAMRrLkxrq6y3I5jiqM=
-X-Google-Smtp-Source: APXvYqydi2r1niOdEcq7f/TqVh0U8iIb2UUeNyD7BU7sVZRo8JQctZPttneS+kVliQhurL2bGLWgIirKwEjjhPpr0Xc=
-X-Received: by 2002:ac8:2d8b:: with SMTP id p11mr1218945qta.220.1568954154594; 
- Thu, 19 Sep 2019 21:35:54 -0700 (PDT)
+ bh=Us5aXQGzLrmIIkeQXkb6cvh9sVzCeORLwtOtWfJTk58=;
+ b=Ma5n8c38tqjvTdUMTDkE2eaH6C52EUf60QBmP5HlI05cQJwkqgzmx56xXFR1kDa3e+
+ rgeuVXzc4V3nJ960l4A3/sU9sHu7hjqrp+W8I1DTpW7OsHwB9hrNx2He45tpYubi35iy
+ 3nkXltn2Yp/KGPJMcFW3uvfHEUMSSKKd5HXuS9AlPzjJfU6Z646ijkDj/nKBjmOAmBu4
+ /28GqvmTGdB59s+IdbdTWlV44horimYk3Muf6MLWBcesSK0J6sahzrkHtvdh2L8xysjb
+ EQV++GPx7z0l3wFk3pmgooJ9+HJCo7ZGlQsYZ7lg+PvjM7pvDMY1PLem4BjFgIb2ZR22
+ mg2A==
+X-Gm-Message-State: APjAAAWnNTeCEAy02LMAv//D71VtYjbWIswCdhZvZYzdqDcLt7EwNB2E
+ 81ON5ga2PdOO5j69RAzUoh52yLy/bx39izSAmcU=
+X-Google-Smtp-Source: APXvYqyc3tCmuyk/E/uETWZ+y2NXZgYHKnhBkvFlOzSveMIgpp94Fd2GcWIEB9hwYB2QI9fCdUu+XRuwP14SmH7FDb0=
+X-Received: by 2002:a0c:a9d3:: with SMTP id c19mr11468897qvb.172.1568954972387; 
+ Thu, 19 Sep 2019 21:49:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190919055002.6729-1-clg@kaod.org>
- <20190919055002.6729-18-clg@kaod.org>
-In-Reply-To: <20190919055002.6729-18-clg@kaod.org>
+ <20190919055002.6729-17-clg@kaod.org>
+In-Reply-To: <20190919055002.6729-17-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 20 Sep 2019 04:35:43 +0000
-Message-ID: <CACPK8XffSK65RAc-kgbZrvxbr9cEF3uYEu6_tpN=9oDwrNgs-w@mail.gmail.com>
-Subject: Re: [PATCH 17/21] aspeed/soc: Add AST2600 support
+Date: Fri, 20 Sep 2019 04:49:21 +0000
+Message-ID: <CACPK8Xe+bDvA2D6eT0ypMBOymkjR2jDdqzEBxiFPEpvL=6nKSQ@mail.gmail.com>
+Subject: Re: [PATCH 16/21] aspeed: Introduce an object class per SoC
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
+X-Received-From: 2607:f8b0:4864:20::842
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,31 +77,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 19 Sep 2019 at 05:52, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> Initial definitions for a simple machine using an AST2600 SoC (Cortex
-> CPU).
->
-> The Cortex CPU and its interrupt controller are too complex to handle
-> in the common Aspeed SoC framework. We introduce a new Aspeed SoC
-> class with instance_init and realize handlers to handle the differences
-> with the AST2400 and the AST2500 SoCs. This will add extra work to
-> keep in sync both models with future extensions but it makes the code
-> clearer.
+> It prepares ground for the AST2600.
 >
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-
-One small addition below. If you don't resend I can do a follow up patch fo=
-r it:
-
-> +
-> +static const int aspeed_soc_ast2600_irqmap[] =3D {
-
-> +    [ASPEED_ETH1]      =3D 2,
-> +    [ASPEED_ETH2]      =3D 3,
-
-We need to add ETH3 and ETH4 here. They look like this:
-
-    [ASPEED_ETH3]      =3D 32,
-    [ASPEED_ETH4]      =3D 33,
 
