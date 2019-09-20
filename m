@@ -2,53 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE36AB8EC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:02:28 +0200 (CEST)
-Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60887B8EDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 13:17:07 +0200 (CEST)
+Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBGgF-0003AE-O9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34221)
+	id 1iBGuQ-0004rB-HJ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 07:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35821)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iBGef-0002g2-8r
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:00:50 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBGtE-0004Rn-JQ
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:15:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iBGec-0002AI-86
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:00:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53184)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1iBGec-000297-3q; Fri, 20 Sep 2019 07:00:46 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1B36F3082E6E;
- Fri, 20 Sep 2019 11:00:44 +0000 (UTC)
-Received: from gondolin (dhcp-192-230.str.redhat.com [10.33.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 876C967C6C;
- Fri, 20 Sep 2019 11:00:40 +0000 (UTC)
-Date: Fri, 20 Sep 2019 13:00:38 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PULL 00/34] s390x update
-Message-ID: <20190920130038.4eaad8f0.cohuck@redhat.com>
-In-Reply-To: <CAFEAcA-WLayY+jL9mKV6zrstSZOynja7=k6Cjx4wR9g33jFPQA@mail.gmail.com>
-References: <20190919124115.11510-1-cohuck@redhat.com>
- <CAFEAcA-WLayY+jL9mKV6zrstSZOynja7=k6Cjx4wR9g33jFPQA@mail.gmail.com>
-Organization: Red Hat GmbH
+ (envelope-from <bounces@canonical.com>) id 1iBGtD-0000cC-An
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:15:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45154)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iBGtD-0000aE-6N
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 07:15:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iBGtA-0007pc-L6
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 11:15:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BE8FA2E80D5
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 11:15:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 20 Sep 2019 11:00:44 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Sep 2019 11:02:03 -0000
+From: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena?= <1811533@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h djdatte zaltysz
+X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
+Message-Id: <156897732311.13532.11518773038615564797.malone@gac.canonical.com>
+Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
+ hv_stimer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 046fd35c06b6988453d092088efac668fa68d799
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,58 +67,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Sep 2019 11:45:18 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
+Another observation:
+Adding CPU flag x-hv-synic-kvm-only also fixes the issue, because it switch=
+es only synic to Qemu 3.0 behavior, leaving other features of > Qemu 3.0 av=
+ailable.
 
-> On Thu, 19 Sep 2019 at 13:41, Cornelia Huck <cohuck@redhat.com> wrote:
-> >
-> > The following changes since commit f8c3db33a5e863291182f8862ddf81618a7c6194:
-> >
-> >   target/sparc: Switch to do_transaction_failed() hook (2019-09-17 12:01:00 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://github.com/cohuck/qemu tags/s390x-20190919
-> >
-> > for you to fetch changes up to 37105adebeb28e60da3cb1ef82231d7ed8d23589:
-> >
-> >   Merge tag 'tags/s390-ccw-bios-2019-09-18' into s390-next-staging (2019-09-19 12:04:01 +0200)
-> >
-> > ----------------------------------------------------------------
-> > - bugfixes in tcg and the ccw bios
-> > - gen15a is called z15
-> > - officially require a 3.15 kernel or later for kvm
-> >
-> > ----------------------------------------------------------------  
-> 
-> Hi -- I'm afraid this pullreq results in new warnings from
-> the runtime-sanitizer build when 'make check' is run:
-> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> QTEST_QEMU_BINARY=s390x-softmmu/qemu-system-s390x
-> QTEST_QEMU_IMG=qemu-img tests
-> /boot-serial-test -m=quick -k --tap < /dev/null |
-> ./scripts/tap-driver.pl --test-name="boot-serial-test"
-> /home/petmay01/linaro/qemu-for-merges/target/s390x/mem_helper.c:293:17:
-> runtime error: null pointer passed as argument 1, which is declared to
-> never be null
-> /usr/include/string.h:47:14: note: nonnull attribute specified here
-> /home/petmay01/linaro/qemu-for-merges/target/s390x/mem_helper.c:293:32:
-> runtime error: null pointer passed as argument 2, which is declared to
-> never be null
-> 
-> (and the same warnings for a few other tests).
-> 
-> Looks like you sometimes can pass NULL pointers to the source
-> and destination of memmove(). This isn't permitted by the
-> standard even in the case where the size argument is zero.
-> 
-> thanks
-> -- PMM
+This observation can be related to this commit:
+https://github.com/qemu/qemu/commit/9b4cf107b09d18ac30f46fd1c4de8585ccba030c
 
-David, can you take a look?
+I will post full qemu command line later.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1811533
+
+Title:
+  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Host:
+  Gentoo linux x86_64, kernel 4.20.1
+  Qemu 3.1.0 =
+
+  CPU: Intel i7 6850K
+  Chipset: X99
+
+  Guest:
+  Windows 10 Pro 64bit (1809)
+  Machine type: pc-q35_3.1
+  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
+pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
+=3D0x1fff
+  Memory: 16GB backed by 2MB huge pages
+
+  Issue:
+  Once guest is started, log gets flooded with:
+
+  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
+  coherent sections at 103000
+
+  or
+
+  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
+  prior to previous 1f000
+
+  (line endings change)
+
+  and as time goes guest loses network access (virtio-net-pci) and
+  general performance diminishes to extent of freezing applications.
+
+  Observations:
+  1) problem disappears when hv_stimer is removed
+  2) problem disappears when memory backing with huge pages is disabled
+  3) problem disappears when machine type is downgraded to pc-q35_3.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
 
