@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67654B93DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:21:12 +0200 (CEST)
-Received: from localhost ([::1]:60754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66FFB93ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 17:27:27 +0200 (CEST)
+Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBKid-00047C-Gh
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42236)
+	id 1iBKog-0007Y5-Sh
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 11:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iBKfQ-0001QK-31
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:17:53 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBKnJ-0006Hb-3c
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:26:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iBKfO-0000l2-R5
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:17:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42468)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBKfO-0000ke-7C
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:17:50 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6DF3C8553A
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:17:49 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id c188so1101286wmd.9
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 08:17:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ba0DkmVxjzyjZ1gWYbvilORb5HjRSlU0ZAjenofWjjQ=;
- b=SEmuKpd6Csa/blDYrBdye627MVlLSADzH6GV9UR+b75NXHm1ZSian9rR9SmeMqHJ9r
- SZYXCHLJocAUqEGnlTDgEAlWSE4vpgdL6ZI+wLSRW9awafGXE8UxUU55sxgbCJrahbkr
- Zdo/KDjoA8BgGdM5Ro97qgBRsjEWKuzG8/DOrjWYkP3hPUa4h9dzXEOWlmhGI2DmbOIK
- /P5BdZY2ybsb6Sk010fdAervO0/uwEBoYNTTuyUgS+sZVtU0svUFGnT7RzYyXohP0anU
- IL+tyl6W+sBXX4ilbmUKBiUj8QeFDcuBPEZSExdWzIQzUCK271GXuH/t/4foLRFgb4xP
- Va5A==
-X-Gm-Message-State: APjAAAVYUcJpGbidbgE96b1FNu7RbyY3XlonRWM93dK15ee9gmLX3lSb
- hHFPEKqBNnde0IC3LLyS8xI17O8Q4hl1UbP1BizdZITQ2F39je+24qXageW8+VRhp4hPzuf9yvT
- L3lFru0Z1HajyiOQ=
-X-Received: by 2002:adf:fac3:: with SMTP id a3mr12783629wrs.24.1568992668241; 
- Fri, 20 Sep 2019 08:17:48 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxfsPmuTKJ3PQisnZ3kwB6ouumJOZSHUyyx8sP/BbJkD+LoPEuT7jC2Rrz+J6Y43+mk+iMbJg==
-X-Received: by 2002:adf:fac3:: with SMTP id a3mr12783614wrs.24.1568992668062; 
- Fri, 20 Sep 2019 08:17:48 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id c10sm4058872wrf.58.2019.09.20.08.17.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Sep 2019 08:17:47 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
-To: qemu-devel@nongnu.org, Justin Terry <juterry@microsoft.com>
-References: <20190920113329.16787-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <01f2f0ee-a288-921a-58f4-78aeb4d457e1@redhat.com>
-Date: Fri, 20 Sep 2019 17:17:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <bounces@canonical.com>) id 1iBKnH-0003Tf-TJ
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:26:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37626)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iBKnH-0003TB-1t
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 11:25:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iBKnF-0004w8-2H
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:25:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9BA542E817A
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 15:25:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190920113329.16787-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Sep 2019 15:17:47 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: christophe-lyon pmaydell rth
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156639548437.26869.13792283715555746637.malonedeb@gac.canonical.com>
+Message-Id: <156899266746.5144.12283007101714930974.malone@chaenomeles.canonical.com>
+Subject: [Bug 1840922] Re: qemu-arm for cortex-m33 aborts with unhandled CPU
+ exception 0x8
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 34c6bdc53217e9aa377167c304d54631f9c631dd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,44 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1840922 <1840922@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/19 1:33 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Add a job to cross-build QEMU with WHPX enabled.
->=20
-> Since the WHPX is currently broken, include the patch required to have
-> successful Shippable build.
->=20
-> I previously included the WHPX headers shared by the Android project,
-> and Daniel asked me to check the EULA. While trying to manually
-> install the Windows SDK, I noticed the installer fetches archives
-> directly, kindly asking where they are stored via the /fwlink API.
-> Do the same, fetch the required archives and extract them. No need
-> to accept EULA...
->=20
-> Docker build the image first, then build QEMU in a instance of this
-> image. The image is internal to Shippable, the instances are not
-> reachable and are thrown once the build is finished. What we collect
-> from Shippable is the console output of QEMU build process, and if
-> the build process succeed or failed. So far we do not redistribute
-> the image or built binaries.
->=20
-> Philippe Mathieu-Daud=C3=A9 (3):
->   target/i386: Fix broken build with WHPX enabled
->   tests/docker: Add fedora-win10sdk-cross image
->   .shippable.yml: Build WHPX enabled binaries
+Fixed in master as commit 5e5584c89f36b, will be in the 4.2 release.
 
-FWIW here is the result of this series:
-https://app.shippable.com/github/philmd/qemu/runs/516/11/console
-Duration 17 minutes (1076 seconds)
 
-4m49s building the qemu:fedora-win10sdk-cross docker image,
-11m10s building WHPX QEMU.
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Committed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1840922
+
+Title:
+  qemu-arm for cortex-m33 aborts with unhandled CPU exception 0x8
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Hi,
+
+  While experimenting with running the GCC testsuite with cortex-m33 as tar=
+get (to exercise v8-m code), I came across this failure:
+  qemu: unhandled CPU exception 0x8 - aborting
+  R00=3Dfffeaf58 R01=3Dfffeaf58 R02=3D00000000 R03=3Dfffeaf5d
+  R04=3Dfffeaf5c R05=3Dfffeaf9c R06=3D00000000 R07=3Dfffeaf80
+  R08=3D00000000 R09=3D00000000 R10=3D00019dbc R11=3D00000000
+  R12=3D000000f0 R13=3Dfffeaf58 R14=3D000081f3 R15=3Dfffeaf5c
+  XPSR=3D61000000 -ZC- T NS priv-thread
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6033=
+c908
+
+  I'm using arm-eabi-gcc, so it targets bare-metal, not linux.
+
+  The testcase is GCC's
+  gcc/testsuite/gcc.c-torture/execute/20000822-1.c; it works when
+  compiled at -O2, but crashes when compiled at -Os. The test uses
+  nested functions, so it creates a trampoline on the stack, whose
+  address may be a problem. But since the stack address seems to be in
+  the same range in the O2 and Os cases, it's not that clear.
+
+  I'm attaching the C source, asm, binary executables and qemu traces
+  with in_asm,cpu.
+
+  I execute the binaries with:
+  qemu-arm --cpu cortex-m33  ./20000822-1.exe.Os
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1840922/+subscriptions
 
