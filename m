@@ -2,66 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77480B91B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:25:22 +0200 (CEST)
-Received: from localhost ([::1]:60186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC9DB91E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:28:53 +0200 (CEST)
+Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBJqb-0007dU-1T
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
+	id 1iBJtz-0002sq-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iBJmB-0004Db-Cq
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:20:48 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmW-0004ZJ-Fz
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iBJmA-0000FA-DQ
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:20:47 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39673)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iBJmA-0000EQ-7d
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:20:46 -0400
-Received: by mail-ot1-x344.google.com with SMTP id s22so6324940otr.6
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 07:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iMFLoESln03YhHdd7mSshoIuqzJ4tBEbRYnNYY2klVE=;
- b=PtI93D64jAMNEy9yRbXSZ67oe+bTIL9mDEndErSlkgfQhncsbpAP+A7Ka3F0Vp6kEr
- gbu6r3RjGwBM3c0WCvU55qx0amrCTOuzYre1UdgaJtKt6yyFh7NhEEoYbuqud+/jgg6R
- az/YKBL5UJbbaA3d7htKHN2mPMrmC2q3VRwYzcBX79bgU417m/dHxZdktWSsjhToirnh
- /fld8gbh6OtbH+9FgKdt3MTLpyg9ILeUPXq0VWN2D0qk8wypcFzW4uuJVYoMsY7OH8zT
- ZvJ/w8Xls9WxCQlgSCF7waKl5+d6i++4XBnLfmwvsk4WktghkwNUxP1dJjVFQjKiNlKk
- Nfhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iMFLoESln03YhHdd7mSshoIuqzJ4tBEbRYnNYY2klVE=;
- b=Dt+wHj1/RZPcAo1lISUGHclW0hswWtxOslNhrs1UUg4hbKCFrnLTVZAqps+N0ZuZrr
- CrZPhULahJ4n+NN31KsY/yW6C01CLX47DCKrEI/1ZLZ17aXj09W4BhYWB1WPYooJtkPb
- q74Mumn4MUM3M04xbuIeqZBA17dlFkjRnOkFgXqp4HerqdRhpXSRDDZ7CED4/f7rV+9k
- Edv/9LANZbzB4Vj2Rec94g6x99d1vpcTwaUYxgYJlnHyKwPmEnOVMUNDTgNlt1iR1cwq
- Q29C0VCw4qU8Bos4bc75+qoVdCh8SyCSwoGLOaywwBz2ff3By/S4l1YfY65C0Je2kEqT
- JudA==
-X-Gm-Message-State: APjAAAWzB0waPb5tZ46FpWTbVE9gXxfbrAiFtmV7CimYBgb/wabt06Z2
- mN0AUBu01CvHdskTi2YfQWmkaIpzkqkhjHCRjdR9MA==
-X-Google-Smtp-Source: APXvYqwhZF4d2BjQ2mh9ToN1e65zT6Py9oRVu8NOXFaHtxA5dkrqD0OlthgLY8BkWp9C3P5TESPJkGzi6Wx6StAWLMU=
-X-Received: by 2002:a9d:562:: with SMTP id 89mr12286001otw.232.1568989245380; 
- Fri, 20 Sep 2019 07:20:45 -0700 (PDT)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000tN-Ob
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:08 -0400
+Received: from relay.sw.ru ([185.231.240.75]:43784)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iBJmQ-0000gB-FL; Fri, 20 Sep 2019 10:21:02 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iBJmL-0006b5-VF; Fri, 20 Sep 2019 17:20:58 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v13 00/15] backup-top filter driver for backup
+Date: Fri, 20 Sep 2019 17:20:41 +0300
+Message-Id: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190920141248.12887-1-philmd@redhat.com>
- <deb6f913-7d80-dacc-4fa4-07c848343e0c@redhat.com>
-In-Reply-To: <deb6f913-7d80-dacc-4fa4-07c848343e0c@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Sep 2019 15:20:34 +0100
-Message-ID: <CAFEAcA-O6b5zc=Qp-49Fc9_tQ+a+Stk6DfnwwzDON+RZfSDSfA@mail.gmail.com>
-Subject: Re: [PATCH] memory: Replace DEBUG_UNASSIGNED printf calls by trace
- events
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,21 +45,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ wencongyang2@huawei.com, xiechanglong.d@gmail.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, jsnow@redhat.com, stefanha@redhat.com, den@openvz.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Sep 2019 at 15:17, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> I think it's simplest if all series (RISC-V, remove unassigned_access,
-> this one) go through the RISC-V tree.
+Hi all!
 
-I don't inherently object but IME the risc-v tree tends to move
-comparatively slowly. The initial risc-v conversion patchset
-should definitely go via the risc-v tree, anyway.
+These series introduce backup-top driver. It's a filter-node, which
+do copy-before-write operation. Mirror uses filter-node for handling
+guest writes, let's move to filter-node (from write-notifiers) for
+backup too.
 
-thanks
--- PMM
+v11,v12 -> v13 changes:
+
+[v12 was two fixes in separate: [PATCH v12 0/2] backup: copy_range fixes]
+
+01: new in v12, in v13 change comment
+02: in v12: add "Fixes: " to commit msg, in v13 add John's r-b
+05: rebase on 01
+07: rebase on 01. It still a clean movement, keep r-b
+
+Vladimir Sementsov-Ogievskiy (15):
+  block/backup: fix max_transfer handling for copy_range
+  block/backup: fix backup_cow_with_offload for last cluster
+  block/backup: split shareable copying part from backup_do_cow
+  block/backup: improve comment about image fleecing
+  block/backup: introduce BlockCopyState
+  block/backup: fix block-comment style
+  block: move block_copy from block/backup.c to separate file
+  block: teach bdrv_debug_breakpoint skip filters with backing
+  iotests: prepare 124 and 257 bitmap querying for backup-top filter
+  iotests: 257: drop unused Drive.device field
+  iotests: 257: drop device_add
+  block/io: refactor wait_serialising_requests
+  block: add lock/unlock range functions
+  block: introduce backup-top filter driver
+  block/backup: use backup-top instead of write notifiers
+
+ qapi/block-core.json          |   8 +-
+ block/backup-top.h            |  37 ++
+ include/block/block-copy.h    |  84 ++++
+ include/block/block_int.h     |   5 +
+ block.c                       |  34 +-
+ block/backup-top.c            | 240 ++++++++++++
+ block/backup.c                | 440 ++++-----------------
+ block/block-copy.c            | 346 ++++++++++++++++
+ block/io.c                    |  68 +++-
+ block/replication.c           |   2 +-
+ blockdev.c                    |   1 +
+ block/Makefile.objs           |   3 +
+ block/trace-events            |  14 +-
+ tests/qemu-iotests/056        |   8 +-
+ tests/qemu-iotests/124        |  83 ++--
+ tests/qemu-iotests/257        |  91 ++---
+ tests/qemu-iotests/257.out    | 714 ++++++++++++++--------------------
+ tests/qemu-iotests/iotests.py |  27 ++
+ 18 files changed, 1287 insertions(+), 918 deletions(-)
+ create mode 100644 block/backup-top.h
+ create mode 100644 include/block/block-copy.h
+ create mode 100644 block/backup-top.c
+ create mode 100644 block/block-copy.c
+
+-- 
+2.21.0
+
 
