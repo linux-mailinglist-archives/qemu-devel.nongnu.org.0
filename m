@@ -2,109 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016E9B8C1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 09:56:12 +0200 (CEST)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9229FB8C35
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 10:02:31 +0200 (CEST)
+Received: from localhost ([::1]:54206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBDlz-0005Ea-RK
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 03:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33745)
+	id 1iBDs6-0003c9-6F
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 04:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBDiy-00031E-5T
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:53:05 -0400
+ (envelope-from <philmd@redhat.com>) id 1iBDoH-0001Mj-Vt
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:58:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBDiw-0000uh-O1
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:53:04 -0400
-Received: from mail-eopbgr140108.outbound.protection.outlook.com
- ([40.107.14.108]:59886 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBDis-0000sx-Jp; Fri, 20 Sep 2019 03:52:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i4c9JglCK5djSyOKy/XCI0GQ/7Qit8BOBfMx8176jbxjyZ+6sNzJbCKm74VaXQS4o7rRiEDA2Vcjeq00SYa42CuxfgiTVmnj2Q5uVA8EC+rCnZIqRrx4CZyeCnkTf8aQ2qJyDY4895nc9kCEvSMvpuYHpVgnZtQGX2/jp/g2dUY+f5HJliHsFWWZeVjmco2i5M22v+6HeqaLDK9mY5b5l9Glc+HVbyvadWvS39Te+iZ3+XYjMbbFTxFQ5/03THM+uNfZeY8Z4lcdaUP+Ty7RuFRBrZ4fdKf6U1DR2weHc0jI14Zj3Ffvyk1laYW7wV7cUeSzVjtX43nP3sQjthbmPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AxmJB1iSYX4e9zOFC8l4Wed4skfNRpq3BBzpx4O03f8=;
- b=JhKOI2oXShRpwaHDX8g8kQFnDy3tw3C0qa6Kxa+UoTFw+ddv7A34H3mSI1ja+5ezwjIzN8lIqpX17r5ETbr3RjVbRkkU3aF6rbHyrmdDThLIWNt0bQrzf/qTVIXuovv0b67gnLyxp5jS4wLzV82r0DblxD+mByaxgceIGm/oCoEqQy7G8CHcQw//2edYAVU5VX/LqLy+tSwLpO/54sPqy+1RB1DJFQa3OPBkAhzaMATfVyAznRsNyxMZNoI3lt2JWd+6T9YCeDb37SPCsxNwfNbr6iwVwZ5b+jJLPhCv01L26n06eEO93e+AvVxC/3p5gwrfA92iEHj1AmdMhrh/Jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AxmJB1iSYX4e9zOFC8l4Wed4skfNRpq3BBzpx4O03f8=;
- b=cRaiQt23qcoOSHFP0+9p8WRmRb10VyIHFltm9LFIIhDGnKRmSICYKRCusaitszaNXsIjcLIMZ9JfMasQ90jFnn2tENyOwrZ4EeW0ERP8c1w6nk+2frVbtFCkQnXi3Lg3Knqk8cHukQ07V/jY2TaBDKJ0i3GPXEsc8BwF9tGAsNk=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5417.eurprd08.prod.outlook.com (52.133.241.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.19; Fri, 20 Sep 2019 07:52:56 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Fri, 20 Sep 2019
- 07:52:56 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: John Snow <jsnow@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [Qemu-devel] [PATCH v12 1/2] block/backup: fix max_transfer
- handling for copy_range
-Thread-Topic: [Qemu-devel] [PATCH v12 1/2] block/backup: fix max_transfer
- handling for copy_range
-Thread-Index: AQHVbXIGXsS3qVTuXkS042Ce+aUetqcx27qAgAC2W4CAATQ4gIAAb5+A
-Date: Fri, 20 Sep 2019 07:52:55 +0000
-Message-ID: <cdac6db0-8530-b431-5205-e22ec15d75c1@virtuozzo.com>
-References: <20190917160731.10895-1-vsementsov@virtuozzo.com>
- <20190917160731.10895-2-vsementsov@virtuozzo.com>
- <4122264a-f7db-8b76-6930-87e2287c49b8@redhat.com>
- <c1e597ab-5a27-c484-36f8-43734f54bc80@virtuozzo.com>
- <79e21dc0-ad26-e085-d7d9-89cfa66e7123@redhat.com>
-In-Reply-To: <79e21dc0-ad26-e085-d7d9-89cfa66e7123@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR07CA0010.eurprd07.prod.outlook.com
- (2603:10a6:7:67::20) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190920105253467
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8c27fed2-a9bf-4d5d-382d-08d73d9f8c32
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5417; 
-x-ms-traffictypediagnostic: DB8PR08MB5417:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB54177CE0495DCB42DD2D4084C1880@DB8PR08MB5417.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1186;
-x-forefront-prvs: 0166B75B74
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(136003)(39850400004)(346002)(366004)(376002)(189003)(199004)(5660300002)(99286004)(476003)(11346002)(66446008)(66556008)(66476007)(2616005)(486006)(6116002)(31686004)(446003)(8676002)(76176011)(81156014)(81166006)(8936002)(6506007)(3846002)(186003)(102836004)(64756008)(52116002)(386003)(25786009)(53546011)(26005)(54906003)(110136005)(316002)(305945005)(6246003)(4326008)(478600001)(107886003)(256004)(66946007)(229853002)(6436002)(6512007)(2501003)(71200400001)(71190400001)(7736002)(2906002)(14454004)(31696002)(36756003)(66066001)(86362001)(6486002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5417;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: g278MFkL4eOcfA3yi1dCY4iDIbhkFV8sqCttDdaZ5JQWyXtn1OjvGQHOD69lO40wpoS0d8FFIUSlNHMTHFe3yQM1tErbiWprXsptsvkKp2xNHWUvrJRPpVyoDaci3SZzkNZC2vKXKtd/zUmuzxpH0UdK4W+LWdTQRgNADVoT9wTr6e+bAWuN8Ck5XbBvwgP5e0CWDAgZA4ITdFGk5pH98WQ4X2dq3tOInU2SMfFJg6S65WKp4bWsyNYJKWwcuxROycuhZ1x8PDyQswRV7TjPHQd1uPt/+P7WQG/TdZdxWtio42Thv0y95WxJskk2TssaWLQmztvdyWd9kka8ye/rzzLTg2ZoEo7Hxh/iYbWJM204ApbXoG16orfuhPVy8DIzPPG0VxJ/U+vgY1jZm545s54sNHwiFSd56dO0LTnY+zE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EE3385F6C1F0914A9C22746807FAFB4E@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1iBDoF-00035P-Cp
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:58:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37408)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBDoF-00035A-6M
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 03:58:31 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2FB8F81F07
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 07:58:30 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id n3so837859wmf.3
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 00:58:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KGn5/4uqP4WoBV74qQ5FgM9uECyyUIlv8ObsZhJdKFo=;
+ b=A6FTx9h3k8P5FccopAALTXFFBDJUrDVH9rqMTVdd0Ms68g1AaRt9W6cDweWvPzoiWB
+ a+MIEgBOMu0rdnMWhfnzj7jECP4dhZ+WYkDYK283PRStfRqL52hzoNTsip8C5wf+bgdw
+ Abm1jK5MFabKooj6+Gy47TirhXB9h6xIDXN4ZSPJB44NY+3frztOzYs3I3b2vIV/zezg
+ QBVDUfsFBDHCrCzs3vDUGwDtbX91rbAxO/cfObZzKgzA5iae/RzK4VTckMyuFAF2z3TM
+ VItDuDtN9oA3+F1WGnEJ0WoTa5284jxlIDxIVSewZXNGyqH5u6w61Iw30Vhhss9edbw0
+ SgiA==
+X-Gm-Message-State: APjAAAVBjxET0+ibXKC+Ui2SZqD3FGRzexbJcKPbko8CWZ0S/X0Bm/WD
+ AqaJMXIFy4IAJGuE6tCKLHYKGupbgo8tY/KKsOQpqnENZpLyjQeLEdNQEgLaWgWmLZ+GRpGEjMQ
+ O6OMIfsJyWOtZvio=
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr45198wrv.315.1568966308841;
+ Fri, 20 Sep 2019 00:58:28 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxAG49GqeWGx7wKx0jwxOjLXDdvI3Cmgu++pgiNpg0FqLsnzm0L6cDL0mdF8q3M3YVl5uFf3g==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr45182wrv.315.1568966308553;
+ Fri, 20 Sep 2019 00:58:28 -0700 (PDT)
+Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id t1sm1156637wrn.57.2019.09.20.00.58.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Sep 2019 00:58:27 -0700 (PDT)
+Subject: Re: [PATCH] edk2 build scripts: work around TianoCore#1607 without
+ forcing Python 2
+To: Laszlo Ersek <lersek@redhat.com>, qemu devel list
+ <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20190918171141.15957-1-lersek@redhat.com>
+ <2d02cb02-27ce-081b-c9ec-4c4430503749@redhat.com>
+ <6a5b3a61-0d52-6866-9fb9-4d71e5f01483@redhat.com>
+ <f6266a5b-6f9b-fa2c-2e4f-9d12cdb8b375@redhat.com>
+ <e23ac2ec-a15f-bb17-a82a-46730707d208@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <60e1c8b1-1694-7c5e-47b3-07570898a167@redhat.com>
+Date: Fri, 20 Sep 2019 09:58:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c27fed2-a9bf-4d5d-382d-08d73d9f8c32
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2019 07:52:56.0032 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2ihRx5t9TGv0++Y1uybICEd6PBHImbSaDVhUqHO49TR6Wf6vB/hTCi6L0We3BRKXYAx3eh2PtMBRPvi35SVTc5l8V72u49coYIXjlzeX/LI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5417
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.14.108
+In-Reply-To: <e23ac2ec-a15f-bb17-a82a-46730707d208@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,84 +87,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjAuMDkuMjAxOSA0OjEzLCBKb2huIFNub3cgd3JvdGU6DQo+IA0KPiANCj4gT24gOS8xOS8xOSAy
-OjUwIEFNLCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4gMTguMDkuMjAx
-OSAyMjo1NywgSm9obiBTbm93IHdyb3RlOg0KPj4+DQo+Pj4NCj4+PiBPbiA5LzE3LzE5IDEyOjA3
-IFBNLCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4+PiBPZiBjb3Vyc2Us
-IFFFTVVfQUxJR05fVVAgaXMgYSB0eXBvLCBpdCBzaG91bGQgYmUgUUVNVV9BTElHTl9ET1dOLCBh
-cyB3ZQ0KPj4+PiBhcmUgdHJ5aW5nIHRvIGZpbmQgYWxpZ25lZCBzaXplIHdoaWNoIHNhdGlzZnkg
-Ym90aCBzb3VyY2UgYW5kIHRhcmdldC4NCj4+Pj4gQWxzbywgZG9uJ3QgaWdub3JlIHRvbyBzbWFs
-bCBtYXhfdHJhbnNmZXIuIEluIHRoaXMgY2FzZSBzZWVtcyBzYWZlciB0bw0KPj4+PiBkaXNhYmxl
-IGNvcHlfcmFuZ2UuDQo+Pj4+DQo+Pj4+IEZpeGVzOiA5ZGVkNGEwMTE0OTY4ZQ0KPj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1
-b3p6by5jb20+DQo+Pj4+IC0tLQ0KPj4+PiAgwqAgYmxvY2svYmFja3VwLmMgfCAxMiArKysrKysr
-Ky0tLS0NCj4+Pj4gIMKgIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDQgZGVsZXRp
-b25zKC0pDQo+Pj4+DQo+Pj4+IGRpZmYgLS1naXQgYS9ibG9jay9iYWNrdXAuYyBiL2Jsb2NrL2Jh
-Y2t1cC5jDQo+Pj4+IGluZGV4IDc2M2YwZDdmZjYuLmQ4ZmRiZmFkZmUgMTAwNjQ0DQo+Pj4+IC0t
-LSBhL2Jsb2NrL2JhY2t1cC5jDQo+Pj4+ICsrKyBiL2Jsb2NrL2JhY2t1cC5jDQo+Pj4+IEBAIC03
-NDEsMTIgKzc0MSwxNiBAQCBCbG9ja0pvYiAqYmFja3VwX2pvYl9jcmVhdGUoY29uc3QgY2hhciAq
-am9iX2lkLCBCbG9ja0RyaXZlclN0YXRlICpicywNCj4+Pj4gIMKgwqDCoMKgwqAgam9iLT5jbHVz
-dGVyX3NpemUgPSBjbHVzdGVyX3NpemU7DQo+Pj4+ICDCoMKgwqDCoMKgIGpvYi0+Y29weV9iaXRt
-YXAgPSBjb3B5X2JpdG1hcDsNCj4+Pj4gIMKgwqDCoMKgwqAgY29weV9iaXRtYXAgPSBOVUxMOw0K
-Pj4+PiAtwqDCoMKgIGpvYi0+dXNlX2NvcHlfcmFuZ2UgPSAhY29tcHJlc3M7IC8qIGNvbXByZXNz
-aW9uIGlzbid0IHN1cHBvcnRlZCBmb3IgaXQgKi8NCj4+Pj4gIMKgwqDCoMKgwqAgam9iLT5jb3B5
-X3JhbmdlX3NpemUgPSBNSU5fTk9OX1pFUk8oYmxrX2dldF9tYXhfdHJhbnNmZXIoam9iLT5jb21t
-b24uYmxrKSwNCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYmxrX2dldF9tYXhfdHJh
-bnNmZXIoam9iLT50YXJnZXQpKTsNCj4+Pj4gLcKgwqDCoCBqb2ItPmNvcHlfcmFuZ2Vfc2l6ZSA9
-IE1BWChqb2ItPmNsdXN0ZXJfc2l6ZSwNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBRRU1VX0FMSUdOX1VQKGpvYi0+Y29w
-eV9yYW5nZV9zaXplLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBqb2It
-PmNsdXN0ZXJfc2l6ZSkpOw0KPj4+PiArwqDCoMKgIGpvYi0+Y29weV9yYW5nZV9zaXplID0gUUVN
-VV9BTElHTl9ET1dOKGpvYi0+Y29weV9yYW5nZV9zaXplLA0KPj4+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIGpvYi0+Y2x1c3Rlcl9zaXplKTsNCj4+Pj4gK8KgwqDCoCAvKg0KPj4+PiAr
-wqDCoMKgwqAgKiBDb21wcmVzc2lvbiBpcyBub3Qgc3VwcG9ydGVkIGZvciBjb3B5X3JhbmdlLiBB
-bHNvLCB3ZSBkb24ndCB3YW50IHRvDQo+Pj4+ICvCoMKgwqDCoCAqIGhhbmRsZSBzbWFsbCBtYXhf
-dHJhbnNmZXIgZm9yIGNvcHlfcmFuZ2UgKHdoaWNoIGN1cnJlbnRseSBkb24ndA0KPj4+PiArwqDC
-oMKgwqAgKiBoYW5kbGUgbWF4X3RyYW5zZmVyIGF0IGFsbCkuDQo+Pj4+ICvCoMKgwqDCoCAqLw0K
-Pj4+PiArwqDCoMKgIGpvYi0+dXNlX2NvcHlfcmFuZ2UgPSAhY29tcHJlc3MgJiYgam9iLT5jb3B5
-X3JhbmdlX3NpemUgPiAwOw0KPj4+PiAgwqDCoMKgwqDCoCAvKiBSZXF1aXJlZCBwZXJtaXNzaW9u
-cyBhcmUgYWxyZWFkeSB0YWtlbiB3aXRoIHRhcmdldCdzIGJsa19uZXcoKSAqLw0KPj4+PiAgwqDC
-oMKgwqDCoCBibG9ja19qb2JfYWRkX2JkcnYoJmpvYi0+Y29tbW9uLCAidGFyZ2V0IiwgdGFyZ2V0
-LCAwLCBCTEtfUEVSTV9BTEwsDQo+Pj4+DQo+Pj4NCj4+PiBJJ20gY2xlYXIgb24gdGhlIGFsaWdu
-bWVudCBmaXgsIEknbSBub3QgY2xlYXIgb24gdGhlIGNvbW1lbnQgYWJvdXQgbWF4X3RyYW5zZmVy
-IGFuZCBob3cgaXQgcmVsYXRlcyB0byBjb3B5X3JhbmdlX3NpemUgYmVpbmcgbm9uLXplcm8uDQo+
-Pj4NCj4+PiAic21hbGwgbWF4IHRyYW5zZmVyIiAtLSB3aGF0IGhhcHBlbnMgd2hlbiBpdCdzIHpl
-cm8/IHdlJ3JlIGFwcGFyZW50bHkgT0sgd2l0aCBhIHNpbmdsZSBjbHVzdGVyLCBidXQgd2hlbiBp
-dCdzIHplcm8sIHdoYXQgaGFwcGVucz8NCj4+DQo+PiBpZiBpdCB6ZXJvIGl0IG1lYW5zIHRoYXQg
-c291cmNlIG9yIHRhcmdldCByZXF1aXJlcyBtYXhfdHJhbnNmZXIgbGVzcyB0aGFuIGNsdXN0ZXJf
-c2l6ZS4gSXQgc2VlbXMgbm90IHZhbGlkIHRvIGNhbGwgY29weV9yYW5nZSBpbiB0aGlzIGNhc2Uu
-DQo+PiBTdGlsbCBpdCdzIE9LIHRvIHVzZSBub3JtYWwgcmVhZC93cml0ZSwgYXMgdGhleSBoYW5k
-bGUgbWF4X3RyYW5zZmVyIGludGVybmFsbHkgaW4gYSBsb29wIChjb3B5X3JhbmdlIGRvZXNuJ3Qg
-ZG8gaXQpLg0KPj4NCj4gDQo+IG9oLCBJJ20gLi4uIHNvcnJ5LCBJIGp1c3QgZGlkbid0IHF1aXRl
-IHVuZGVyc3RhbmQgdGhlIGNvbW1lbnQuDQo+IA0KPiBZb3UncmUganVzdCBtYWtpbmcgc3VyZSBj
-b3B5X3JhbmdlIGFmdGVyIGFsbCBvZiBvdXIgY2hlY2tzIGlzIG5vbi16ZXJvLA0KPiBwbGFpbiBh
-bmQgc2ltcGxlLiBJZiBtYXhfdHJhbnNmZXIgd2FzICpzbWFsbGVyIHRoYW4gYSBqb2IgY2x1c3Rl
-ciosIHdlDQo+IG1pZ2h0IGVuZCB1cCB3aXRoIGEgY29weV9yYW5nZSBzaXplIHRoYXQncyB6ZXJv
-LCB3aGljaCBpcyBvYnZpb3VzbHkuLi4NCj4gbm90IHVzZWZ1bC4NCj4gDQo+IFNvLCBJIG1pZ2h0
-IHBocmFzZSAiQWxzbywgd2UgZG9uJ3Qgd2FudCB0by4uLiIgYXM6DQo+IA0KPiAiY29weV9yYW5n
-ZSBkb2VzIG5vdCByZXNwZWN0IG1heF90cmFuc2Zlciwgc28gd2UgZmFjdG9yIHRoYXQgaW4gaGVy
-ZS4gSWYNCj4gaXQncyBzbWFsbGVyIHRoYW4gdGhlIGpvYi0+Y2x1c3Rlcl9zaXplLCB3ZSBhcmUg
-dW5hYmxlIHRvIHVzZSBjb3B5X3JhbmdlLiINCg0KDQpXZSBhY3R1YWxseSBhYmxlIHRvOiBqdXN0
-IHVzaW5nIGEgbG9vcCBhbmQgY2FsbGluZyBjb3B5X3JhbmdlIHNldmVyYWwgdGltZXMuIE1heSBi
-ZSBqdXN0Og0KDQpjb3B5X3JhbmdlIGRvZXMgbm90IHJlc3BlY3QgbWF4X3RyYW5zZmVyLCBzbyB3
-ZSBmYWN0b3IgdGhhdCBpbiBoZXJlLiBJZg0KaXQncyBzbWFsbGVyIHRoYW4gdGhlIGpvYi0+Y2x1
-c3Rlcl9zaXplLCB3ZSBkbyBub3QgdXNlIGNvcHlfcmFuZ2UuDQoNCj4gDQo+IEp1c3QgYSBzdWdn
-ZXN0aW9uLCB0aG91Z2gsIHNvOg0KPiANCj4gUmV2aWV3ZWQtYnk6IEpvaG4gU25vdyA8anNub3dA
-cmVkaGF0LmNvbT4NCj4gDQo+IA0KPiAoU0hPVUxEIGNvcHlfcmFuZ2UgcmVzcGVjdCBtYXhfdHJh
-bnNmZXI/IEkgZ3Vlc3MgaXQgd291bGQgYmUgcXVpdGUNCj4gZGlmZmVyZW50IC0tIGl0IHdvdWxk
-IG9ubHkgY291bnQgdGhpbmdzIGl0IGhhZCB0byBmYWxsIGJhY2sgYW5kIGFjdHVhbGx5DQo+ICp0
-cmFuc2ZlciosIHJpZ2h0PyBJIHN1cHBvc2UgdGhhdCBiZWNhdXNlIGl0IGNhbiBoYXZlIHRoYXQg
-ZmFsbGJhY2sgd2UNCj4gbmVlZCB0byBhY2NvbW1vZGF0ZSBpdCBoZXJlIGluIGJhY2t1cC5jLCBo
-ZW5jZSB0aGlzIHdvcmthcm91bmQgY2xhbXAuKQ0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywN
-ClZsYWRpbWlyDQo=
+On 9/19/19 11:40 PM, Laszlo Ersek wrote:
+> On 09/19/19 21:56, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 9/19/19 9:08 PM, Laszlo Ersek wrote:
+>>> On 09/19/19 18:39, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> On 9/18/19 7:11 PM, Laszlo Ersek wrote:
+>>>>> It turns out that forcing python2 for running the edk2 "build" util=
+ity is
+>>>>> neither necessary nor sufficient.
+>>>>>
+>>>>> Forcing python2 is not sufficient for two reasons:
+>>>>>
+>>>>> - QEMU is moving away from python2, with python2 nearing EOL,
+>>>>>
+>>>>> - according to my most recent testing, the lacking dependency infor=
+mation
+>>>>>   in the makefiles that are generated by edk2's "build" utility can=
+ cause
+>>>>>   parallel build failures even when "build" is executed by python2.
+>>>>>
+>>>>> And forcing python2 is not necessary because we can still return to=
+ the
+>>>>> original idea of filtering out jobserver-related options from MAKEF=
+LAGS.
+>>>>> So do that.
+>>>>
+>>>> FYI I tried uninstalling python2 on Fedora 29,
+>>>>
+>>>> $ make -C roms efi -j8
+>>>> make: Entering directory '/home/phil/source/qemu/roms'
+>>>> make -C edk2/BaseTools \
+>>>>         EXTRA_OPTFLAGS=3D'' \
+>>>>         EXTRA_LDFLAGS=3D''
+>>
+>> ^ this is the 'edk2-basetools' target from roms/Makefile.
+>>
+>>>> make[1]: Entering directory '/home/phil/source/qemu/roms/edk2/BaseTo=
+ols'
+>>>> [...]
+>>>> make -C Tests
+>>>> make[2]: Entering directory
+>>>> '/home/phil/source/qemu/roms/edk2/BaseTools/Tests'
+>>>> /bin/sh: python: command not found
+>>>> make[2]: *** [GNUmakefile:11: test] Error 127
+>>>>
+>>>> 'python' seems to be provided by python-unversioned-command which is
+>>>> wired to Python2:
+>>>>
+>>>> $ dnf info python-unversioned-command
+>>>> Last metadata expiration check: 0:03:08 ago on Thu 19 Sep 2019 04:21=
+:21
+>>>> PM UTC.
+>>>> Available Packages
+>>>> Name         : python-unversioned-command
+>>>> Version      : 2.7.16
+>>>> Release      : 2.fc29
+>>>> Arch         : noarch
+>>>> Size         : 13 k
+>>>> Source       : python2-2.7.16-2.fc29.src.rpm
+>>>> Repo         : updates
+>>>> Summary      : The "python" command that runs Python 2
+>>>> URL          : https://www.python.org/
+>>>> License      : Python
+>>>> Description  : This package contains /usr/bin/python - the "python"
+>>>> command that runs Python 2.
+>>>>
+>>>> I had to manually run update-alternatives to continue:
+>>>>
+>>>> $ sudo update-alternatives --install /usr/bin/python python
+>>>> /usr/bin/python3 69
+>>>>
+>>>> Not sure this is the expected behavior, it is confusing.
+>>>>
+>>>
+>>> The python detection is not fool-proof in edk2. A description is give=
+n at:
+>>>
+>>> https://github.com/tianocore/tianocore.github.io/wiki/BaseTools-Suppo=
+rt-Python2-Python3
+>>>
+>>> To summarize that, it works like this, on Linux:
+>>>
+>>> - if you set PYTHON_COMMAND, then the binary pointed to by
+>>> PYTHON_COMMAND will be used. The edk2 build infrastructure will
+>>> determine whether the pointed-to binary is python 2 or python 3, and
+>>> branch to the corresponding implementation of the build tools.
+>>>
+>>> - Otherwise, *minor* version auto-detection is attempted. With
+>>> PYTHON3_ENABLE unset, or set to "TRUE", this minor version autodetect=
+ion
+>>> will aim at minor versions of python3.
+>>>
+>>> - Otherwise (=3D PYTHON3_ENABLE set to a string different from "TRUE"=
+),
+>>> the minor version auto-detection will focus on python2.
+>>
+>> What you document regarding PYTHON3_ENABLE is valid once we sourced
+>> edksetup.sh which is done in Makefile.edk2, one step after the previou=
+s
+>> call:
+>>
+>> efi: edk2-basetools               # call 1 (python failing)
+>> 	$(MAKE) -f Makefile.edk2  # call 2 sourcing edksetup.sh
+>>
+>>> With this patch applied, the middle case is active. Apparently it fai=
+ls,
+>>> because the edk2 build tools developers could not foresee the situati=
+ons
+>>> that you've exposed the auto-detection to, on Ubuntu and Fedora. Back
+>>> when I tested the python3 enablement in edk2, I checked the patches i=
+n
+>>> the following environments:
+>>>
+>>> - on RHEL-7 with the system python 2,
+>>> - on RHEL-7 with python3.4 from EPEL-7,
+>>> - on RHEL-8 with python3.6,
+>>> - on RHEL-8 with platform-python.
+>>>
+>>> Everything worked fine for me. I have no clue what's going on in Ubun=
+tu
+>>> and in Fedora.
+>>>
+>>> Can we require all build host installations -- where we expect to run
+>>> "make efi" -- to provide a Python 3 binary on $PATH that is plainly
+>>> called "python3"?
+>>
+>> Kevin recently suggested a similar patch (in another area):
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04377.html
+>>
+>>> Then I think this patch should work. (If necessary, I could set
+>>> "PYTHON_COMMAND=3Dpython3", too.)
+>>
+>> Yes, I confirm forcing "PYTHON_COMMAND=3Dpython3 make -C roms efi" wor=
+ks.
+>>
+>> Not sure what is the cleaner way to fix this although...
+>=20
+> Thanks for the analysis!
+>=20
+> I understand the issue now.
+>=20
+> - "edk2/BaseTools/GNUmakefile" runs $(MAKE) in three subdirs:
+>   - Source/C,
+>   - Source/Python,
+>   - Tests (which depends on the former two)
+>=20
+> - "edk2/BaseTools/Source/C/GNUmakefile" builds fine
+> - "edk2/BaseTools/Source/Python/GNUmakefile" does nothing
+> - "edk2/BaseTools/Tests/GNUmakefile" depends on PYTHON_COMMAND -- which
+>   should either come from the user, or from sourcing "edksetup.sh"
+>=20
+> Therefore the issue is:
+>=20
+> - the "edk2-basetools" target in "roms/Makefile" does not
+>   run (more precisely, does not "source") edksetup.sh
+>=20
+> - the "build-edk2-tools" target in "tests/uefi-test-tools/Makefile"
+>   does not run (more precisely, does not "source") edksetup.sh
+>=20
+> I don't think I will reorganize the dependencies in those makefiles. No=
+r
+
+Exactly, nor do I.
+
+> will I source edksetup.sh in the makefile recipes. Instead, I'll
+> directly set PYTHON_COMMAND=3Dpython3 in the "tools" recipes, and in th=
+e
+> build wrapper shell scripts.
+
+I notice this:
+
+ $ git grep -i python configure
+ ...
+ configure:1832:python=3D"$python -B"
+ ...
+ configure:7287:echo "PYTHON=3D$python" >> $config_host_mak
+ ...
+ configure:7863:echo "export PYTHON=3D'$python'" >> "$iotests_common_env"
+
+While config-host.mak is too QEMU specific, the iotest common.env is
+very simple:
+
+ $ cat tests/qemu-iotests/common.env
+ # Automatically generated by configure - do not modify
+ export PYTHON=3D'python3 -B'
+
+I'm not sure we need to run ./configure to run any make target in the
+roms/ directory (since we use 'make -C roms ...'), this script doesn't
+even clone the required submodules, we need to call 'make
+git-submodule-update' first.
+
+Note that when there is no 'python3' in $PATH, the ./configure script
+checks for python2, but does not use generic 'python':
+
+configure:901:for binary in "${PYTHON-python3}" python python2
+configure:905:        python=3D"$binary"
+
+> I'll try to post v2 soon.
+
+While forcing PYTHON_COMMAND in roms/Makefile would help, I think part
+of the proper way to fix this is generic to QEMU.
+
+Not sure what is the cleaner way yet :/
+
+Regards,
+
+Phil.
 
