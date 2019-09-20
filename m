@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48BA2B8FCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 14:29:43 +0200 (CEST)
-Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1601EB8FDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 14:39:33 +0200 (CEST)
+Received: from localhost ([::1]:58950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBI2f-0005Bb-Rg
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 08:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
+	id 1iBICB-0002He-Lh
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 08:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iBI0n-00048B-RG
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 08:27:46 -0400
+ (envelope-from <eblake@redhat.com>) id 1iBIBB-0001i2-9R
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 08:38:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iBI0l-0002DI-6F
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 08:27:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55206)
+ (envelope-from <eblake@redhat.com>) id 1iBIBA-00007u-05
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 08:38:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44534)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iBI0k-0002Bo-TM
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 08:27:43 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iBIB6-00005K-IG; Fri, 20 Sep 2019 08:38:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DE5C910CC203;
- Fri, 20 Sep 2019 12:27:40 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D0703105786C;
+ Fri, 20 Sep 2019 12:38:23 +0000 (UTC)
 Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83A645D6B2;
- Fri, 20 Sep 2019 12:27:40 +0000 (UTC)
-Subject: Re: [PATCH] Makefile: Fix in-tree builds when Sphinx is available
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20190919155957.12618-1-peter.maydell@linaro.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF20D5C220;
+ Fri, 20 Sep 2019 12:38:20 +0000 (UTC)
+Subject: Re: [PATCH v2] nbd/server: attach client channel to the export's
+ AioContext
+To: Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org
+References: <20190912110032.26395-1-slp@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,18 +59,18 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <a72e3d2a-ff05-a85b-616c-2bd47a1575e2@redhat.com>
-Date: Fri, 20 Sep 2019 07:27:39 -0500
+Message-ID: <b186ebf4-bf9f-b653-938f-9219e3722c07@redhat.com>
+Date: Fri, 20 Sep 2019 07:38:19 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190919155957.12618-1-peter.maydell@linaro.org>
+In-Reply-To: <20190912110032.26395-1-slp@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="KZLgfSbw1mfUPCsElhba6fV4JFKSu5uSp"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+ boundary="ZiPJhoLPShnHOrKjLM2QRnFe8N1Vco2Tt"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Fri, 20 Sep 2019 12:27:40 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.64]); Fri, 20 Sep 2019 12:38:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,50 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KZLgfSbw1mfUPCsElhba6fV4JFKSu5uSp
-Content-Type: multipart/mixed; boundary="SE4n6lDcHWhTGBI7NdFhgfFO79siRi1R0";
+--ZiPJhoLPShnHOrKjLM2QRnFe8N1Vco2Tt
+Content-Type: multipart/mixed; boundary="zvtd6IYAqitCuFrGQ8di7CPLt5QdYoLSp";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Message-ID: <a72e3d2a-ff05-a85b-616c-2bd47a1575e2@redhat.com>
-Subject: Re: [PATCH] Makefile: Fix in-tree builds when Sphinx is available
-References: <20190919155957.12618-1-peter.maydell@linaro.org>
-In-Reply-To: <20190919155957.12618-1-peter.maydell@linaro.org>
+To: Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com
+Message-ID: <b186ebf4-bf9f-b653-938f-9219e3722c07@redhat.com>
+Subject: Re: [PATCH v2] nbd/server: attach client channel to the export's
+ AioContext
+References: <20190912110032.26395-1-slp@redhat.com>
+In-Reply-To: <20190912110032.26395-1-slp@redhat.com>
 
---SE4n6lDcHWhTGBI7NdFhgfFO79siRi1R0
+--zvtd6IYAqitCuFrGQ8di7CPLt5QdYoLSp
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 9/19/19 10:59 AM, Peter Maydell wrote:
-> In commit 27a296fce9821e we switched the qemu-ga manpage over to
-> being built from Sphinx.  The makefile rules for this were correct
-> for an out-of-tree build, but break for in-tree builds if Sphinx is
-> present and we're trying to build the documentation.
+On 9/12/19 6:00 AM, Sergio Lopez wrote:
+> On creation, the export's AioContext is set to the same one as the
+> BlockBackend, while the AioContext in the client QIOChannel is left
+> untouched.
 >=20
-
-> Fix this by using $(MANUAL_BUILDDIR) when constructing the
-> list of DOCS files we want to build and also in the source
-> file name we install for 'make install'.
+> As a result, when using data-plane, nbd_client_receive_next_request()
+> schedules coroutines in the IOThread AioContext, while the client's
+> QIOChannel is serviced from the main_loop, potentially triggering the
+> assertion at qio_channel_restart_[read|write].
 >=20
-> (Among other things, this broke the Shippable CI builds.)
+> To fix this, as soon we have the export corresponding to the client,
+> we call qio_channel_attach_aio_context() to attach the QIOChannel
+> context to the export's AioContext. This matches with the logic at
+> blk_aio_attached().
 >=20
-> Reported-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1748253
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
 > ---
->  Makefile | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
+> Changelog
+>=20
+> v2:
+>  - Attach the channel once after negotiation completes, avoiding
+>    duplication. (thanks Kevin Wolf).
+> ---
+>  nbd/server.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/nbd/server.c b/nbd/server.c
+> index 28c3c8be85..31d624e146 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+> @@ -1297,6 +1297,11 @@ static coroutine_fn int nbd_negotiate(NBDClient =
+*client, Error **errp)
+>          return ret;
+>      }
+> =20
+> +    /* Attach the channel to the same AioContext as the export */
+> +    if (client->exp && client->exp->ctx) {
+> +        qio_channel_attach_aio_context(client->ioc, client->exp->ctx);=
 
-Tested in-tree builds both with and without sphinx installed:
+> +    }
+> +
 
-Tested-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Will queue through my NBD tree.
+
+>      assert(!client->optlen);
+>      trace_nbd_negotiate_success();
+> =20
+>=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -134,24 +164,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---SE4n6lDcHWhTGBI7NdFhgfFO79siRi1R0--
+--zvtd6IYAqitCuFrGQ8di7CPLt5QdYoLSp--
 
---KZLgfSbw1mfUPCsElhba6fV4JFKSu5uSp
+--ZiPJhoLPShnHOrKjLM2QRnFe8N1Vco2Tt
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2ExbsACgkQp6FrSiUn
-Q2p6sgf+IDTQoc1586ULwDLoF1vyZ8z0Vb9RhQxZQm0FbB4YuMWxXcQ1tVJQAoyL
-i86iaKD+NSTCF41jcWSNgFyGfjj5n9BHK6z0PoBnayGsq2u1siNFBPsnyrCBloa8
-187bicCJ0Eb3nIfwe+5+UYsGnkBcM8CUZiu6p13irhjnEpA4cEkhW/1QHBrcSerE
-8BZ5BTc4jf1bb19P23+Cv5CmvJxe6xoh8onIgdU+LfPdm5qvteT8KC+Gslf6tZom
-9CaL4bawOHOJs6IXVHwRt9V4S2dMcasXvAnXwKy65bvc/F7ogcKMR2lXjre8kiY5
-MQ3swNWoxuyOaFubQ/40E4/erNNvYA==
-=sWrR
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2EyDsACgkQp6FrSiUn
+Q2oYrwf+IXgXe+29Bn0pGxRZyX4mblLr1peEfL1X+v+opeaarZD3VrEIGpaJuhAg
+WETJWBa5DWIX7KoQBDmpvA4LeV7/JOtIe3gQNdd/YxV87K/xp0NTlNg0YkORa0Fb
+qJXvW4I3xdFeAihj+zDgCgqKQ+sreDtgi0BXGYo9KJqDqgT+UUappSCIO5QSV5KX
+N3Wgh1/eNGyoSEwfb4AQe1Y2cjPWf+MA0lceuh5SXrXH4UJB+IHXze+JERJ5oBjz
+UPJRaBBsL+zRwSaFMqC1a25KMhA8BWJul7+d/qP2BYmrf1v5Y6twlLVdxhtJTQDJ
+XKIunGW6sj1UwDyX2NvI3c3/XT1oYw==
+=nbPr
 -----END PGP SIGNATURE-----
 
---KZLgfSbw1mfUPCsElhba6fV4JFKSu5uSp--
+--ZiPJhoLPShnHOrKjLM2QRnFe8N1Vco2Tt--
 
