@@ -2,48 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E69B9347
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:39:56 +0200 (CEST)
-Received: from localhost ([::1]:60320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E99B9355
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:44:50 +0200 (CEST)
+Received: from localhost ([::1]:60358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBK4g-0003bm-VC
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:39:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33850)
+	id 1iBK9R-0008D8-6l
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33013)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1iBJs7-0002PN-On
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:26:56 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJms-0004yG-LI
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1iBJs6-00034I-HK
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:26:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46532)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmr-00013S-44
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:30 -0400
+Received: from relay.sw.ru ([185.231.240.75]:43996)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1iBJs6-000346-Cf
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:26:54 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B72BE59449;
- Fri, 20 Sep 2019 14:26:53 +0000 (UTC)
-Received: from angien.brq.redhat.com (unknown [10.43.2.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC57319D7A;
- Fri, 20 Sep 2019 14:26:49 +0000 (UTC)
-From: Peter Krempa <pkrempa@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] qapi: Allow introspecting fix for savevm's cooperation
- with blockdev
-Date: Fri, 20 Sep 2019 16:26:45 +0200
-Message-Id: <992ea9ca130b4fb6dbf82726aa3b1d8040c16944.1568989362.git.pkrempa@redhat.com>
-In-Reply-To: <cover.1568989362.git.pkrempa@redhat.com>
-References: <cover.1568989362.git.pkrempa@redhat.com>
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iBJmo-0000sH-4w; Fri, 20 Sep 2019 10:21:26 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iBJmN-0006b5-R1; Fri, 20 Sep 2019 17:20:59 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v13 10/15] iotests: 257: drop unused Drive.device field
+Date: Fri, 20 Sep 2019 17:20:51 +0300
+Message-Id: <20190920142056.12778-11-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190920142056.12778-1-vsementsov@virtuozzo.com>
+References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 20 Sep 2019 14:26:53 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,57 +47,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ wencongyang2@huawei.com, xiechanglong.d@gmail.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, jsnow@redhat.com, stefanha@redhat.com, den@openvz.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-savevm was buggy as it considered all monitor owned block device nodes
-for snapshot. With introduction of -blockdev the common usage made all
-nodes including protocol nodes monitor owned and thus considered for
-snapshot. This was fixed but clients need to be able to detect whether
-this fix is present.
+After previous commit Drive.device is actually unused. Drop it together
+with .name property.  While being here reuse .node in qmp commands
+instead of writing 'drive0' twice.
 
-Since savevm does not have an QMP alternative add the feature for the
-'human-monitor-command' backdoor which is used to call this command in
-modern use.
-
-Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/misc.json | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/257 | 37 +++++++++++++++----------------------
+ 1 file changed, 15 insertions(+), 22 deletions(-)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 6bd11f50e6..673445dfa9 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -1020,6 +1020,12 @@
- #
- # @cpu-index: The CPU to use for commands that require an implicit CPU
- #
-+# Features:
-+# @savevm-blockdev-monitor-nodes: If present, the savevm monitor command=
- only
-+#                                 snapshots monitor owned nodes if they =
-have no
-+#                                 parents. This allows to use 'savevm' w=
-ith
-+#                                 -blockdev. (since 4.2)
-+#
- # Returns: the output of the command as a string
- #
- # Since: 0.14.0
-@@ -1047,7 +1053,8 @@
- ##
- { 'command': 'human-monitor-command',
-   'data': {'command-line': 'str', '*cpu-index': 'int'},
--  'returns': 'str' }
-+  'returns': 'str',
-+  'features' : [ { 'name': 'savevm-blockdev-monitor-nodes' } ] }
-
- ##
- # @change:
---=20
+diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+index 6b368e1e70..5d77202157 100755
+--- a/tests/qemu-iotests/257
++++ b/tests/qemu-iotests/257
+@@ -148,11 +148,6 @@ class Drive:
+         self.fmt = None
+         self.size = None
+         self.node = None
+-        self.device = None
+-
+-    @property
+-    def name(self):
+-        return self.node or self.device
+ 
+     def img_create(self, fmt, size):
+         self.fmt = fmt
+@@ -201,7 +196,7 @@ def blockdev_backup(vm, device, target, sync, **kwargs):
+ def blockdev_backup_mktarget(drive, target_id, filepath, sync, **kwargs):
+     target_drive = Drive(filepath, vm=drive.vm)
+     target_drive.create_target(target_id, drive.fmt, drive.size)
+-    blockdev_backup(drive.vm, drive.name, target_id, sync, **kwargs)
++    blockdev_backup(drive.vm, drive.node, target_id, sync, **kwargs)
+ 
+ def reference_backup(drive, n, filepath):
+     log("--- Reference Backup #{:d} ---\n".format(n))
+@@ -229,7 +224,7 @@ def perform_writes(drive, n):
+             pattern.offset,
+             pattern.size)
+         log(cmd)
+-        log(drive.vm.hmp_qemu_io(drive.name, cmd))
++        log(drive.vm.hmp_qemu_io(drive.node, cmd))
+     bitmaps = drive.vm.query_bitmaps()
+     log({'bitmaps': bitmaps}, indent=2)
+     log('')
+@@ -324,18 +319,17 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+                 }]
+             }
+ 
++        drive0.node = 'drive0'
+         vm.qmp_log('blockdev-add',
+                    filters=[iotests.filter_qmp_testfiles],
+-                   node_name="drive0",
++                   node_name=drive0.node,
+                    driver=drive0.fmt,
+                    file=file_config)
+-        drive0.node = 'drive0'
+-        drive0.device = 'device0'
+         # Use share-rw to allow writes directly to the node;
+         # The anonymous block-backend for this configuration prevents us
+         # from using HMP's qemu-io commands to address the device.
+-        vm.qmp_log("device_add", id=drive0.device,
+-                   drive=drive0.name, driver="scsi-hd",
++        vm.qmp_log("device_add", id='device0',
++                   drive=drive0.node, driver="scsi-hd",
+                    share_rw=True)
+         log('')
+ 
+@@ -343,7 +337,7 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+         perform_writes(drive0, 0)
+         reference_backup(drive0, 0, fbackup0)
+         log('--- Add Bitmap ---\n')
+-        vm.qmp_log("block-dirty-bitmap-add", node=drive0.name,
++        vm.qmp_log("block-dirty-bitmap-add", node=drive0.node,
+                    name="bitmap0", granularity=GRANULARITY)
+         log('')
+         ebitmap = EmulatedBitmap()
+@@ -358,7 +352,7 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+         # 1 - Test Backup (w/ Optional induced failure)
+         if failure == 'intermediate':
+             # Activate blkdebug induced failure for second-to-next read
+-            log(vm.hmp_qemu_io(drive0.name, 'flush'))
++            log(vm.hmp_qemu_io(drive0.node, 'flush'))
+             log('')
+         job = backup(drive0, 1, bsync1, msync_mode,
+                      bitmap="bitmap0", bitmap_mode=bsync_mode)
+@@ -426,7 +420,7 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+ 
+         log('--- Cleanup ---\n')
+         vm.qmp_log("block-dirty-bitmap-remove",
+-                   node=drive0.name, name="bitmap0")
++                   node=drive0.node, name="bitmap0")
+         bitmaps = vm.query_bitmaps()
+         log({'bitmaps': bitmaps}, indent=2)
+         vm.shutdown()
+@@ -467,22 +461,21 @@ def test_backup_api():
+             'filename': drive0.path
+         }
+ 
++        drive0.node = 'drive0'
+         vm.qmp_log('blockdev-add',
+                    filters=[iotests.filter_qmp_testfiles],
+-                   node_name="drive0",
++                   node_name=drive0.node,
+                    driver=drive0.fmt,
+                    file=file_config)
+-        drive0.node = 'drive0'
+-        drive0.device = 'device0'
+-        vm.qmp_log("device_add", id=drive0.device,
+-                   drive=drive0.name, driver="scsi-hd")
++        vm.qmp_log("device_add", id='device0',
++                   drive=drive0.node, driver="scsi-hd")
+         log('')
+ 
+         target0 = Drive(backup_path, vm=vm)
+         target0.create_target("backup_target", drive0.fmt, drive0.size)
+         log('')
+ 
+-        vm.qmp_log("block-dirty-bitmap-add", node=drive0.name,
++        vm.qmp_log("block-dirty-bitmap-add", node=drive0.node,
+                    name="bitmap0", granularity=GRANULARITY)
+         log('')
+ 
+@@ -521,7 +514,7 @@ def test_backup_api():
+             log("-- Sync mode {:s} tests --\n".format(sync_mode))
+             for bitmap in (None, 'bitmap404', 'bitmap0'):
+                 for policy in error_cases[sync_mode][bitmap]:
+-                    blockdev_backup(drive0.vm, drive0.name, "backup_target",
++                    blockdev_backup(drive0.vm, drive0.node, "backup_target",
+                                     sync_mode, job_id='api_job',
+                                     bitmap=bitmap, bitmap_mode=policy)
+                     log('')
+-- 
 2.21.0
 
 
