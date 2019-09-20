@@ -2,55 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7640B97AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 21:18:29 +0200 (CEST)
-Received: from localhost ([::1]:34898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E43B97B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 21:19:52 +0200 (CEST)
+Received: from localhost ([::1]:34906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBOQF-00088F-Je
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 15:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
+	id 1iBORa-0000fD-HQ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 15:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tasleson@redhat.com>) id 1iBONn-00078k-34
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:15:55 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1iBOOD-0007X2-Ed
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:16:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tasleson@redhat.com>) id 1iBONl-0003bM-Uj
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:15:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35900)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tasleson@redhat.com>) id 1iBONl-0003b9-P5
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:15:53 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E070918C426E
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 19:15:52 +0000 (UTC)
-Received: from [10.3.112.12] (ovpn-112-12.phx2.redhat.com [10.3.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 23F8F1001B22;
- Fri, 20 Sep 2019 19:15:51 +0000 (UTC)
-Subject: Re: [RFC 0/4] POC: Generating realistic block errors
-To: Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-References: <20190919194847.18518-1-tasleson@redhat.com>
- <20190920083630.GA5458@localhost.localdomain>
- <566d0d07-35fc-2d66-a47c-00526546b31e@redhat.com>
- <c1c6ae56-ce0e-fddc-d72a-98a748b5c897@redhat.com>
-From: Tony Asleson <tasleson@redhat.com>
-Organization: Red Hat
-Message-ID: <c109c513-362e-d042-d34b-700a64ff17a2@redhat.com>
-Date: Fri, 20 Sep 2019 14:15:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <tcminyard@gmail.com>) id 1iBOOC-0003iP-0z
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:16:21 -0400
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:42229)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iBOOB-0003iB-Ro
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:16:19 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id c10so7089855otd.9
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 12:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
+ :content-disposition:user-agent;
+ bh=o7+kgu+xY+953dXIXVI5jqUkNpm5tC+MfzzEFDTxHkc=;
+ b=qRL2bTMDj7ZMVjB+VIJlaZc6R5NCceJFqs+w3nPi8brFxP0fJWprtR01LvFsImfYun
+ hbP7w5ui8PCdnw9FXuImbChlXTNpP4DBsdBQpUg86qF9cWotCgBlhKNB0GVEs93zNLTU
+ 4gT8qN720M2UggICTtnl1zeLvTJ388D2opb7JqyUQuItJVFD0SPG6JKwcUEe15RgbLal
+ t+0ftMQvPdY7yJfjr+iw4vz7/8Mm8bIzxBYjt3GdV5Vzj3shT2q4Vy9pt5Gi6LrAXBwW
+ R+ZRsOR2QodKVDQ5g+wKG5BPrT2t+2ppBBXPkFJyBeXEQjRxt9FHNoM1kuyI5ErD1onG
+ q62A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:mime-version:content-disposition:user-agent;
+ bh=o7+kgu+xY+953dXIXVI5jqUkNpm5tC+MfzzEFDTxHkc=;
+ b=HV5I2AoCHYx0CSINzIH61l889i88RAeRMuolKJeVVR3rPAsMo5HPbTouwP0yLyfLQ2
+ 1Y58JHEjyV9isC5/jwYoxir1mGcA6WRJhASKRgbgEwutqkv8WGawxT+EtXZiDWhbHaNL
+ oKYeDo+0cITb+i1sgggxAedXfedUKZxLzwZR3SaqzkIy0UNmrrLoHQxNg1GhDLela48F
+ ZZqGeAhPx3iVENRIUfdnZW/aN/isNxFurQcT+LaTDHsdV51Lo20ETdbIywKWTYqv/LZM
+ nebpZZZFCIAOiPuJej42ReQ32/4gogZ702GeVtPGfv1e3pD5LUyrHwtwtURPVmS80Hab
+ 9V6A==
+X-Gm-Message-State: APjAAAUd8FLL/xrcgfsNP4C7r1dRtGphi8QJkyyngZidLfkKUuQq9D6r
+ RWtioZJ6O5l2Q+Nmt1jaPw==
+X-Google-Smtp-Source: APXvYqyNnmh9qyo9FrGSyJivjlmT9mWxk5ZEKAeK8+0UOkVpDN1UDOutwtgJc1cJimT7Fi2Pam9yuw==
+X-Received: by 2002:a9d:4e0b:: with SMTP id p11mr3034865otf.280.1569006978798; 
+ Fri, 20 Sep 2019 12:16:18 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.136.59])
+ by smtp.gmail.com with ESMTPSA id 67sm950054otq.34.2019.09.20.12.16.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2019 12:16:18 -0700 (PDT)
+Received: from t560 (unknown [192.168.27.180])
+ by serve.minyard.net (Postfix) with ESMTPSA id 8D98F1800CE;
+ Fri, 20 Sep 2019 19:16:17 +0000 (UTC)
+Date: Fri, 20 Sep 2019 14:16:16 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL] Request pull for IPMI changes
+Message-ID: <20190920191616.GF31565@t560>
 MIME-Version: 1.0
-In-Reply-To: <c1c6ae56-ce0e-fddc-d72a-98a748b5c897@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 20 Sep 2019 19:15:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,26 +78,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: tasleson@redhat.com
-Cc: qemu-devel@nongnu.org
+Reply-To: minyard@acm.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/19 12:08 PM, Eric Blake wrote:
-> I am worried, however, that making data transactions have to go through
-> QMP to get an answer on how to handle a specific guest request will slow
-> things down; QMP is not built to be an efficient dataplane interface.
+The following changes since commit a77d20bafcd4cb7684168a9b4c6dc2a321aaeb50:
 
-IMHO we only need to make the code path efficient up to the point we
-know we have an IO operation that contains sector(s) that we want to do
-something with.  Once that happens I don't think it will be an issue for
-those to be slower.  A real spinning disk drive takes longer to handle a
-request when it encounters an error too.
+  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20190919-pull-request' into staging (2019-09-19 17:16:07 +0100)
 
-> If you truly want isolation (where another process receives all guest
-> transactions, and makes decisions on how to handle them)
+are available in the Git repository at:
 
-It would only handle specific sector(s) of interest, not all.
+  https://github.com/cminyard/qemu.git tags/ipmi-for-release-2019-09-20
 
--Tony
+for you to fetch changes up to ebe15582cafeb944a1c6e99aa526e81a1551c567:
+
+  pc: Add an SMB0 ACPI device to q35 (2019-09-20 14:09:24 -0500)
+
+----------------------------------------------------------------
+ipmi: Some bug fixes and new interfaces
+
+Some bug fixes for the watchdog and hopefully the BT tests.
+
+Change the IPMI UUID handling to give the user the ability to set it or
+not have it.
+
+Add a PCI interface.
+
+Add an SMBus interfaces.
+
+-corey
+
+----------------------------------------------------------------
+Corey Minyard (15):
+      ipmi: Fix watchdog NMI handling
+      ipmi: Fix the get watchdog command
+      ipmi: Generate an interrupt on watchdog pretimeout expiry
+      tests:ipmi: Fix IPMI BT tests
+      qdev: Add a no default uuid property
+      ipmi: Add a UUID device property
+      ipmi: Split out KCS-specific code from ISA KCS code
+      ipmi: Split out BT-specific code from ISA BT code
+      ipmi: Allow a size value to be passed for I/O space
+      smbios:ipmi: Ignore IPMI devices with no fwinfo function
+      ipmi: Add PCI IPMI interfaces
+      ipmi: Add an SMBus IPMI interface
+      acpi: Add i2c serial bus CRS handling
+      ipmi: Fix SSIF ACPI handling to use the right CRS
+      pc: Add an SMB0 ACPI device to q35
+
+ default-configs/i386-softmmu.mak |   3 +
+ hw/acpi/aml-build.c              |  40 ++++
+ hw/acpi/ipmi-stub.c              |   2 +-
+ hw/acpi/ipmi.c                   |  13 +-
+ hw/i386/Kconfig                  |   3 +
+ hw/i386/acpi-build.c             |  17 +-
+ hw/i386/pc_piix.c                |  12 +-
+ hw/i386/pc_q35.c                 |   9 +-
+ hw/ipmi/Kconfig                  |  15 ++
+ hw/ipmi/Makefile.objs            |   5 +-
+ hw/ipmi/ipmi.c                   |   6 +-
+ hw/ipmi/ipmi_bmc_sim.c           |  30 ++-
+ hw/ipmi/ipmi_bt.c                | 437 ++++++++++++++++++++++++++++++++++++++
+ hw/ipmi/ipmi_kcs.c               | 423 +++++++++++++++++++++++++++++++++++++
+ hw/ipmi/isa_ipmi_bt.c            | 443 ++-------------------------------------
+ hw/ipmi/isa_ipmi_kcs.c           | 419 ++----------------------------------
+ hw/ipmi/pci_ipmi_bt.c            | 146 +++++++++++++
+ hw/ipmi/pci_ipmi_kcs.c           | 146 +++++++++++++
+ hw/ipmi/smbus_ipmi.c             | 384 +++++++++++++++++++++++++++++++++
+ hw/smbios/smbios_type_38.c       |   3 +
+ include/hw/acpi/aml-build.h      |  18 ++
+ include/hw/acpi/ipmi.h           |   2 +-
+ include/hw/i386/pc.h             |   2 +
+ include/hw/ipmi/ipmi.h           |   7 +-
+ include/hw/ipmi/ipmi_bt.h        |  73 +++++++
+ include/hw/ipmi/ipmi_kcs.h       |  76 +++++++
+ include/hw/pci/pci.h             |   1 +
+ include/hw/qdev-properties.h     |   7 +
+ qemu-options.hx                  |  10 +-
+ tests/Makefile.include           |   3 +-
+ tests/data/acpi/q35/DSDT         | Bin 7841 -> 7879 bytes
+ tests/data/acpi/q35/DSDT.bridge  | Bin 7858 -> 7896 bytes
+ tests/data/acpi/q35/DSDT.cphp    | Bin 8304 -> 8342 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm | Bin 9494 -> 9532 bytes
+ tests/data/acpi/q35/DSDT.ipmibt  | Bin 7916 -> 7954 bytes
+ tests/data/acpi/q35/DSDT.memhp   | Bin 9200 -> 9238 bytes
+ tests/data/acpi/q35/DSDT.mmio64  | Bin 8971 -> 9009 bytes
+ tests/data/acpi/q35/DSDT.numamem | Bin 7847 -> 7885 bytes
+ tests/ipmi-bt-test.c             |   6 +-
+ 39 files changed, 1902 insertions(+), 859 deletions(-)
+ create mode 100644 hw/ipmi/ipmi_bt.c
+ create mode 100644 hw/ipmi/ipmi_kcs.c
+ create mode 100644 hw/ipmi/pci_ipmi_bt.c
+ create mode 100644 hw/ipmi/pci_ipmi_kcs.c
+ create mode 100644 hw/ipmi/smbus_ipmi.c
+ create mode 100644 include/hw/ipmi/ipmi_bt.h
+ create mode 100644 include/hw/ipmi/ipmi_kcs.h
+
 
