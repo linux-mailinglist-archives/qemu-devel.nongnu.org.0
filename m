@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BDEB8DEC
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:39:41 +0200 (CEST)
-Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87823B8DF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:41:47 +0200 (CEST)
+Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBFO8-000112-HL
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53206)
+	id 1iBFQA-0003db-KR
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:41:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iBFFV-0000g1-Pw
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:30:46 -0400
+ (envelope-from <stefanha@gmail.com>) id 1iBFHu-00035b-75
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:33:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iBFFU-00012Q-FR
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:30:45 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39249)
+ (envelope-from <stefanha@gmail.com>) id 1iBFHt-0001i7-2F
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:33:14 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54198)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iBFFU-000128-A9
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:30:44 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v17so1561746wml.4
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 02:30:43 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iBFHs-0001gR-T7
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:33:13 -0400
+Received: by mail-wm1-x341.google.com with SMTP id i16so1666465wmd.3
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 02:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=G8RkydC9fyS+9DowRdyR75v2P4QWmuikrazCyvBJfZA=;
- b=fh41yg/sM699N80Twp9hsxAHnC/EZSoGNfeTl16J3BjXdKzheFGQxlAkTUW8PoRdKJ
- rECObB0tWyRyGr8rMbgwl1hNF9DNGnV/L+vH3vQeAyTKX7eA55NI8EaA+3gomHTYPdM8
- ot74DCy+fNcGNl6Fn8Do4W4qUX9FQIVNodnmG9Vw8ZSOGstjhEn8moqKh/dqq2VBy37Y
- lBV6fhLzcG0j/64eHVzErOrs741fF2LmNZtLo4G8b1pDxTaKuGD/PYfoZhnA9Uz4SLbe
- VQnhrYdyNyi51+sSt42T/fi3ezjki+06KH6j3VmOPIXvpxXCimtKzEIWRZeKuVeCgEkL
- r8Hw==
+ bh=u5JD/arwHx7yqdJ2TQdpKJ1SBfUXxtoSL6+sljSqECk=;
+ b=ZLtQlko9iCwvTWVrxlJ97McsWBmIfEwXGt4Z9e2ZqcqeJfrbTv5Cn7X0c0XtIXh6mN
+ pBAjbzBCEWxonJ+kpKyxWas1srb/5VHULRYvNrq/+rAxw/Mv4YeTL4+kWYYrK2LKOELT
+ kSfhMGKxhu+Mw+GLn/XGiwb+gfFfy33nspFfFn+aXCz+Nj8bSBJxYqAXnIa+6usFJq05
+ Zln8fV+lQZu5E47N0KI1k9uDq0kicE84d07xLwuOA2/Jr7FNJ5tXPAIaX37DfSdTVTN6
+ /sP71XCdMyVqomUq9fgx5VWfWQtW7ZMQYJPNdlaOxG0bTQQfQkP5HscjWh5VJWu9dR9G
+ zAmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=G8RkydC9fyS+9DowRdyR75v2P4QWmuikrazCyvBJfZA=;
- b=i99w3i7WuPXGzCN4bgEbS03SH80iBlMOeKSUEXRlUk3OfLebCnCB5GRiWQ7GKjl67C
- 97+55yBz4trqfYkAHS9bJsSIzqbFLABgyLYV9JeHdbWmthK23UMU2nYOEOhhkxR5X6CY
- QTwim/ts20593I6nED/DZQ/8bnrYIvgbbvXSSzW4plog7Wv3EZPS7ByNPU6xW1/t0E83
- Dy7QGmGB1hnFqKCdRkbFRWD8Brd8SxA4MKL7gVSoeOPfu2ihskBJ+d/EM09QqFaFn2rE
- kJMTPa5/eNaqHbPLXez+Adzub0MxKyBkDc5S+HtQd7vGLQqWf9g5Ox8VLI/Que8JMOy7
- VZyg==
-X-Gm-Message-State: APjAAAWL9c9J7DU/V117WLb2MBYOYMmK4S4WAkTjTpQEbzMjQ2sqqMJL
- JxfYYuHBRwtcglx/y+2Fiog=
-X-Google-Smtp-Source: APXvYqwiE10VLIi6pfrkyX3WMSNiY7FO0bqobAgG33T2NTHmOJWSLwda1HVIedq811NKD72cbmv5Dw==
-X-Received: by 2002:a1c:2d44:: with SMTP id t65mr2699212wmt.12.1568971842724; 
- Fri, 20 Sep 2019 02:30:42 -0700 (PDT)
+ bh=u5JD/arwHx7yqdJ2TQdpKJ1SBfUXxtoSL6+sljSqECk=;
+ b=mCtpiQh25ZQAzmAd5i7TgENtLsKIYBo/PcgEjc9lkBUsXpTw+uOV/qzOSIfJ82hw3P
+ L4nTo9Mng6GGZwJnXUV1IArAwCvCVxs2INPJKgq4IcTMrHEL7Q2MpIG71Xm31ETLEc6k
+ rbcOB//2k0Rw9a/RLYe/2BVN/WdEkEByika0xFUTzouoX1zAWL4KSfSaC0Hd4RA3LUvs
+ BlnXLi2X7k5CykUtIm5eig1x4V9E18HT09Uad7aBIhPm66Y+YaXTKdT/bNQDvbOX/lMC
+ RUvqXy4RmE+WxK9T5b9f/YmvLSiObRFWPdNlu1vHcFL8QRdS3tAUSwW/ZTiPSBXe+iOL
+ jzdA==
+X-Gm-Message-State: APjAAAXEf5VMy29amRGAhiTEgqONiTPzq3HN8VoCOY7fNrhAcjrC9CHm
+ MV2jiTT52f0xbAnvgL3XzaE=
+X-Google-Smtp-Source: APXvYqymOnbamCBI+7D/veujaYxoPrkrEdjFo9RXY90z86QQDlx212LdsD2RazflP4rileCWAZ/FQA==
+X-Received: by 2002:a7b:c956:: with SMTP id i22mr2855111wml.90.1568971991984; 
+ Fri, 20 Sep 2019 02:33:11 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id y12sm1574380wrn.74.2019.09.20.02.30.41
+ by smtp.gmail.com with ESMTPSA id k24sm822953wmi.1.2019.09.20.02.33.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Sep 2019 02:30:41 -0700 (PDT)
-Date: Fri, 20 Sep 2019 10:30:40 +0100
+ Fri, 20 Sep 2019 02:33:11 -0700 (PDT)
+Date: Fri, 20 Sep 2019 10:33:09 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
 To: "Oleinik, Alexander" <alxndr@bu.edu>
-Subject: Re: [Qemu-devel] [PATCH v3 16/22] fuzz: add fuzzer skeleton
-Message-ID: <20190920093040.GJ14365@stefanha-x1.localdomain>
+Subject: Re: [Qemu-devel] [PATCH v3 17/22] fuzz: add support for fork-based
+ fuzzing.
+Message-ID: <20190920093309.GK14365@stefanha-x1.localdomain>
 References: <20190918231846.22538-1-alxndr@bu.edu>
- <20190918231846.22538-17-alxndr@bu.edu>
- <20190919124824.GQ3606@stefanha-x1.localdomain>
- <8e30396855a53bbc3b1de2468fabef314d1f8f07.camel@bu.edu>
+ <20190918231846.22538-18-alxndr@bu.edu>
+ <20190919125416.GR3606@stefanha-x1.localdomain>
+ <e90af06e25d1a98300002c5f6326307e4fd242d9.camel@bu.edu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HSQ3hISbU3Um6hch"
+ protocol="application/pgp-signature"; boundary="3MHXEHrrXKLGx71o"
 Content-Disposition: inline
-In-Reply-To: <8e30396855a53bbc3b1de2468fabef314d1f8f07.camel@bu.edu>
+In-Reply-To: <e90af06e25d1a98300002c5f6326307e4fd242d9.camel@bu.edu>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -84,80 +85,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
  "bsd@redhat.com" <bsd@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---HSQ3hISbU3Um6hch
+--3MHXEHrrXKLGx71o
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 19, 2019 at 01:49:09PM +0000, Oleinik, Alexander wrote:
-> On Thu, 2019-09-19 at 13:48 +0100, Stefan Hajnoczi wrote:
-> > > +static void usage(char *path)
-> > > +{
-> > > +    printf("Usage: %s --FUZZ_TARGET [LIBFUZZER ARGUMENTS]\n",
-> > > path);
-> > > +    printf("where --FUZZ_TARGET is one of:\n");
+On Thu, Sep 19, 2019 at 02:01:53PM +0000, Oleinik, Alexander wrote:
+> On Thu, 2019-09-19 at 13:54 +0100, Stefan Hajnoczi wrote:
+> > On Wed, Sep 18, 2019 at 11:19:44PM +0000, Oleinik, Alexander wrote:
+> > > diff --git a/exec.c b/exec.c
+> > > index 235d6bc883..d3838f4ea4 100644
+> > > --- a/exec.c
+> > > +++ b/exec.c
+> > > @@ -2295,7 +2295,9 @@ static void ram_block_add(RAMBlock
+> > > *new_block, Error **errp, bool shared)
+> > >          qemu_ram_setup_dump(new_block->host, new_block-
+> > > >max_length);
+> > >          qemu_madvise(new_block->host, new_block->max_length,
+> > > QEMU_MADV_HUGEPAGE);
+> > >          /* MADV_DONTFORK is also needed by KVM in absence of
+> > > synchronous MMU */
+> > > +#ifndef CONFIG_FUZZ /* This conflicts with fork-based fuzzing */
+> > >          qemu_madvise(new_block->host, new_block->max_length,
+> > > QEMU_MADV_DONTFORK);
+> > > +#endif
+> > >          ram_block_notify_add(new_block->host, new_block-
+> > > >max_length);
+> > >      }
+> > >  }
 > >=20
-> > Is the "--" prefix a libfuzzer requirement?  I would have expected
-> > either FUZZ_TARGET by itself or --fuzz-target=3DFUZZ_TARGET (a properly
-> > formatted long option) so that collisions with other command-line
-> > options are not possible.
-> Yes libfuzzer will only pass arguments that start with "--". I can
-> replace it with --fuzz-target=3DFUZZ_TARGET. Alternatively, I can try to
-> build separate binaries for each target. It might waste disk space, but
-> we wouldn't need arguments (--trace could be replace with TRACE=3D1 in
-> ENV). With this design, I'm not sure what to do with code such as
-> i440fx_fuzz.c which re-purposes some functions for multiple different
-> fuzz targets.
-
-Building a single fuzzing binary with all targets feels natural.  Please
-support the --fuzz-target=3DTARGET syntax though.
-
-> > A cleaner API:
-> >=20
-> >   /* Each fuzz target implements the following interface: */
-> >   typedef struct {
-> >       const char *name;        /* command-line option for this target
-> > */
-> >       const char *description; /* human-readable help text */
-> >=20
-> >       /* TODO documentation */
-> >       void (*pre_main)(void);
-> >=20
-> >       /* TODO documentation */
-> >       void (*pre_fuzz)(QTestState *);
-> >=20
-> >       /* TODO documentation */
-> >       void (*fuzz)(QTestState *, const unsigned char *, size_t);
-> >   } FuzzTarget;
+> > I didn't check Makefile changes but regular softmmu binaries should
+> > continue to work with --enable-fuzzing so we cannot use #ifdef here.
+> > Perhaps this should be a runtime check similar to qtest_enabled()
 >=20
-> Sounds good. Should there also be argc and argv here?=20
+> Yes - I'll add a runtime check. The makefile requires a make clean
+> between softmmu and fuzzer builds, since the ".o"s for the fuzzer build
+> are compiled with fsanitize=3Dfuzzer(must be linked against libfuzzer).=
+=20
+> I can see that the #ifndef CONFIG_FUZZ is a proper softmmu builds with
+> --enable-fuzzer are currently broken due to the ifndef CONFIG_FUZZ
+> check.
 
-If they are read-only and provided by the FuzzTarget, then yes.  The
-reason I consider this "cleaner" is because the FuzzTarget struct is
-stateless and just captures the information about the fuzz target
-instead of mixing it with runtime state.  But like I said, I didn't
-really understand the design of the struct so maybe I don't understand
-the full problem :).
+In that case the fuzzer is a whole different make target and shouldn't
+share .o files with *-softmmu/ build directories.
 
---HSQ3hISbU3Um6hch
+Stefan
+
+--3MHXEHrrXKLGx71o
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2EnEAACgkQnKSrs4Gr
-c8jIpQgAqQxSRWnibtnoec+sEQY8Imk0MrTC96ckkSQjUiqK5E5JpTbW1alYt228
-DWsNhd94bjQu/TX12S6UhUr78escJ2EcSuIMYXbwZV3ZZ7zVkQEW1qPZoM/T9BAc
-xc6stb/uiorIQ0z0qOYalShqrX9JUBf22Y6iWDOvGX/6/Ju1TnoYZPBDcL/ct08v
-P4kxhk7TKJV83r9OJpifDVEplxXlTI4T/G/HiWOFazfRMhHnrFo73YQ/hUEvXdkK
-WlniKEgU1CqVywD785LSP9EuiX/h5imK1Jr90SjcmmVNmO7p2KisTg3O7XSYAXqf
-szexV41mEnWLyh8bK6581vGXjt2JXQ==
-=cOOr
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2EnNUACgkQnKSrs4Gr
+c8hdYAgAhIvIdVQBR96/gCEGESWRBys4KJtU/Nte4t8ivUVbJMjcDTrchqpxHju8
+m3f/QOq3eDN0e+iUMKae/etpkjIHQUzAazwdvioOXY+D+JbxjZKsJwrUtDJd/OCW
+g457T5uuYin1kEj1qTvf91J0zd27+PiTw9zbqhDGkAL3LPfqpml4SSwNYaLsFM8E
+9p2EDcHdUkTvTMyVKJEUAZcAJhmSc4MdHxJuzhZA0hiAkeCZXf0xHIKbypG3M0gd
+araMmL8cOFUf90q55jmUhbC2oZb4lmdJZcYvFL1G3k7CL3yE8TtB5hXKbYvSgQjE
+fyDAd6oPC3ry2YycIQWcEAsBajYJKA==
+=X0fH
 -----END PGP SIGNATURE-----
 
---HSQ3hISbU3Um6hch--
+--3MHXEHrrXKLGx71o--
 
