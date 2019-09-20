@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC919B8D0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 10:40:56 +0200 (CEST)
-Received: from localhost ([::1]:56404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130D3B8D12
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 10:41:32 +0200 (CEST)
+Received: from localhost ([::1]:56416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBETH-000375-00
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 04:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45523)
+	id 1iBETq-0003zX-Gl
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 04:41:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iBEQM-0001HR-7D
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:37:55 -0400
+ (envelope-from <lersek@redhat.com>) id 1iBEQl-0001Z0-H3
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:38:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iBEQK-0002Uw-I7
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:37:53 -0400
-Resent-Date: Fri, 20 Sep 2019 04:37:53 -0400
-Resent-Message-Id: <E1iBEQK-0002Uw-I7@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21888)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iBEQK-0002S2-BE
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:37:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1568968661; cv=none; d=zoho.com; s=zohoarc; 
- b=PajaabaT/Ii9jPpAIzN1zf1QA1IcV3vBymO7sD0FL4N/tp9qCbmljFqAua++XlfdpxIQ/VmGrrM5A7/EzUjI4i2mdfHd/Ad9aqusxV+UzSY0K3IdW4SrGvgTSdC9UpG5CK0amz4tTPiGC03n5ssELFVn77AQ4oewgWMncbDXW6s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1568968661;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=v/qPoq7tMgYKqWQBa8diZCv8I1fuL6Qm+vQ/9fuSSEI=; 
- b=dc5ucsPnmyyk4tMVcgK4GmieMck6lb1ZSDxfxtk8I0NBVMvthZF5nYsWL2W6lvfywoul+afm38a0QlUWN2dazM2PSUYdEx7H+s3v3PElo+nEpC7JUiZ+hmU6hpbWJ8+ohBgUY33IuDMEOh8uxDXAyipcORBnWGZiqwB62M3Wh1c=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1568968660492437.8497847561687;
- Fri, 20 Sep 2019 01:37:40 -0700 (PDT)
-In-Reply-To: <20190919091043.24503-1-kraxel@redhat.com>
-Subject: Re: [Qemu-devel] [PULL 0/2] Ati 20190919 patches
-Message-ID: <156896865960.4246.8851490343337518889@1c8ae44fe5c0>
+ (envelope-from <lersek@redhat.com>) id 1iBEQk-0002iT-8H
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:38:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55574)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iBEQj-0002iI-Kv
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 04:38:17 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E917910C0929
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 08:38:16 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-165.rdu2.redhat.com
+ [10.10.120.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA72060BF1;
+ Fri, 20 Sep 2019 08:38:10 +0000 (UTC)
+From: Laszlo Ersek <lersek@redhat.com>
+To: qemu devel list <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/2] edk2 build scripts: eliminate python 2 dependency
+Date: Fri, 20 Sep 2019 10:38:06 +0200
+Message-Id: <20190920083808.21399-1-lersek@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Fri, 20 Sep 2019 01:37:40 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Fri, 20 Sep 2019 08:38:16 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.58
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,32 +54,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkxOTA5MTA0My4yNDUw
-My0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpNZXNzYWdlLWlkOiAyMDE5MDkxOTA5MTA0My4yNDUwMy0xLWtyYXhlbEByZWRo
-YXQuY29tClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUFVMTCAwLzJdIEF0aSAyMDE5MDkxOSBwYXRj
-aGVzClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApn
-aXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2Nh
-bCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVl
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2No
-ZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVw
-ZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRw
-czovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAg
-cGF0Y2hldy8yMDE5MDkyMDA4MjU0My4yMzQ0NC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbSAt
-PiBwYXRjaGV3LzIwMTkwOTIwMDgyNTQzLjIzNDQ0LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29t
-ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKCj09PSBPVVRQVVQgQkVHSU4gPT09CmNo
-ZWNrcGF0Y2gucGw6IG5vIHJldmlzaW9ucyByZXR1cm5lZCBmb3IgcmV2bGlzdCAnMScKPT09IE9V
-VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMjU1CgoKVGhlIGZ1
-bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDkxOTA5
-MTA0My4yNDUwMy0xLWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
-ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
-cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
-ZGV2ZWxAcmVkaGF0LmNvbQ==
+v1 URL:
+http://mid.mail-archive.com/20190918171141.15957-1-lersek@redhat.com
+
+Updates are noted on each patch.
+
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Thanks
+Laszlo
+
+Laszlo Ersek (2):
+  edk2 build scripts: honor external BaseTools flags with
+    uefi-test-tools
+  edk2 build scripts: work around TianoCore#1607 without forcing Python
+    2
+
+ roms/Makefile                  |  1 +
+ roms/edk2-build.sh             |  4 ++--
+ roms/edk2-funcs.sh             | 17 +++++++++++++++++
+ tests/uefi-test-tools/Makefile |  5 ++++-
+ tests/uefi-test-tools/build.sh |  6 ++++--
+ 5 files changed, 28 insertions(+), 5 deletions(-)
+
+--=20
+2.19.1.3.g30247aa5d201
 
 
