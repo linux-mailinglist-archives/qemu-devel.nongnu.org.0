@@ -2,46 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE3CB95F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:50:15 +0200 (CEST)
-Received: from localhost ([::1]:33774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C65CB9601
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 18:53:28 +0200 (CEST)
+Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBM6o-0001QR-OZ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:50:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52942)
+	id 1iBM9v-0004hJ-Jn
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 12:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54265)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iBLep-0007iT-H5
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:21:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1iBLlV-0002wU-B0
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:28:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iBLen-0008El-NG
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:21:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44942)
+ (envelope-from <philmd@redhat.com>) id 1iBLlQ-00031i-De
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:28:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50986)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iBLeh-0008BL-Ns; Fri, 20 Sep 2019 12:21:13 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iBLlQ-00031U-5X
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 12:28:08 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 03D6981F01;
- Fri, 20 Sep 2019 16:21:10 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-81.ams2.redhat.com
- [10.36.117.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F25D4646A1;
- Fri, 20 Sep 2019 16:21:08 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 4/4] iotests: Remove Python 2 compatibility code
-Date: Fri, 20 Sep 2019 18:20:58 +0200
-Message-Id: <20190920162058.29743-5-kwolf@redhat.com>
-In-Reply-To: <20190920162058.29743-1-kwolf@redhat.com>
-References: <20190920162058.29743-1-kwolf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 972B983F45
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 16:28:06 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id c1so2477762wrb.12
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 09:28:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Zu3bPOo/xJ8Hl4J7P6fPHUSXQfc6ARL6LzwY0LA4f6o=;
+ b=BaXQR49o8T1c+O5Fxb2bfpKv2rk6Z0+3EbnQ4ddBNIxlctk1+/yxSA3MNG4W1VyLX/
+ JEUmZwsHjc/kgQBFkCdBbSFul27lMbmi9hjKpx9T415lyidmHdxD0GVN2i+nVJ//wg57
+ LYgChz9czPAbzsZzlEpA29CFvWrBEY8xfLRMyHnl+C0vKxm+tHFLp8D3vvQixCo08ocE
+ fbHkQKgbWoczqB45bg+bde0zZFIaEJwMcIQA1Ql41aGt4w45PCAmW1RaQ6I6CODW2CWr
+ LKHE/Xmtj7XSAVMTDzjTHz7iLSjW5i9gLBA07dHEE2oimQ+P/kyM+k7UPtqmlDbAc6O0
+ t4Gg==
+X-Gm-Message-State: APjAAAXYL4iRw7IhpKR+Pe8anf9qaSVeHVM52Umx46FB123cyNmZ3k+w
+ Q3pQvPlcJqjz4X0AwLP4/iyiidGaq6hpyMYga9Af9cHAx9oVp8kCrxhKAsNfdko6aswdbHzzH03
+ qk57UshXkoOe7RgI=
+X-Received: by 2002:a5d:5643:: with SMTP id j3mr251902wrw.357.1568996885331;
+ Fri, 20 Sep 2019 09:28:05 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxw+XxzC7kOijzMv2jm4PEnDUYnOHWHaDsI6bhkBN1NF7oT2beDlqbeD6YpAc1q6bGFvBlEUw==
+X-Received: by 2002:a5d:5643:: with SMTP id j3mr251890wrw.357.1568996885098;
+ Fri, 20 Sep 2019 09:28:05 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id m62sm3145712wmm.35.2019.09.20.09.28.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Sep 2019 09:28:04 -0700 (PDT)
+Subject: Re: [PATCH 3/3] docker: remove unused debian-sid and debian-ports
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>
+References: <20190920001413.22567-1-jsnow@redhat.com>
+ <20190920001413.22567-4-jsnow@redhat.com>
+ <731ae95b-7c70-43ca-bea9-28b00de232d5@redhat.com>
+ <c7b12028-0294-0d9c-3e94-60b2ba7d3528@redhat.com> <87d0fvym64.fsf@linaro.org>
+ <77355885-6422-5a6a-bd32-e3871e35213e@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <4bf8c4ed-806e-6ee8-0031-5ce43dc52803@redhat.com>
+Date: Fri, 20 Sep 2019 18:28:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 20 Sep 2019 16:21:10 +0000 (UTC)
+In-Reply-To: <77355885-6422-5a6a-bd32-e3871e35213e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -56,119 +86,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some scripts check the Python version number and have two code paths to
-accomodate both Python 2 and 3. Remove the code specific to Python 2 and
-assert the minimum version of 3.6 instead (check skips Python tests in
-this case, so the assertion would only ever trigger if a Python script
-is executed manually).
+On 9/20/19 6:23 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 9/20/19 6:20 PM, Alex Benn=C3=A9e wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>>> On 9/20/19 4:49 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> On 9/20/19 2:14 AM, John Snow wrote:
+>>>>> These are listed as "partial" images, but have no user.
+>>>>> Remove them.
+>>>>
+>>>> Well, I have WiP users from them. I could restore this content when =
+they
+>>>> are ready... Ports is the base of deprecated Debian archs. On the ot=
+her
+>>>> side Sid is the base for edge development I use from time to time to
+>>>> test latest gcc/binutils.
+>>>> I'll try to find time to raise WiP branches to PoC.
+>>>>
+>>>
+>>> I think that's the right thing to do. Right now, the docker tests
+>>> directory has a lot of stale entries and unusable tests. That might b=
+e
+>>> fine for the people working on it, but it makes it hard to understand
+>>> and use for those of us who only occasionally traipse into the direct=
+ory.
+>>>
+>>> I'm removing all references to python2 -- but if there's no way for m=
+e
+>>> to test debian-sid and debian-ports, I can't test changes I need to m=
+ake
+>>> to these "partial images", so they should be removed until they are
+>>> consumable.
+>>>
+>>> While I am sympathetic to the idea of having a library of partial ima=
+ges
+>>> to use for future tests, they're prone to rot if there's no way to
+>>> exercise them in-tree.
+>>
+>> Don't forget some "partial" images are only used for building TCG test=
+s
+>> - we want to keep them. But as git is forever I can drop the sid/ports
+>> stuff for now until Phillipe has something to use them again.
+>=20
+> For Sid I have this case:
+>=20
+> -- >8 --
+> #
+> # Docker Renesas RX cross-compiler target
+> #
+> # This docker target builds on the debian Sid base image.
+> #
+> # Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
+> #
+> # SPDX-License-Identifier: GPL-2.0-or-later
+> #
+> FROM qemu:debian-sid
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/044                   |  3 ---
- tests/qemu-iotests/163                   |  3 ---
- tests/qemu-iotests/iotests.py            | 13 +++----------
- tests/qemu-iotests/nbd-fault-injector.py |  7 +++----
- 4 files changed, 6 insertions(+), 20 deletions(-)
+Oh well nevermind it is old, so it probably now works with debian-10.
 
-diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
-index 05ea1f49c5..8b2afa2a11 100755
---- a/tests/qemu-iotests/044
-+++ b/tests/qemu-iotests/044
-@@ -28,9 +28,6 @@ import struct
- import subprocess
- import sys
-=20
--if sys.version_info.major =3D=3D 2:
--    range =3D xrange
--
- test_img =3D os.path.join(iotests.test_dir, 'test.img')
-=20
- class TestRefcountTableGrowth(iotests.QMPTestCase):
-diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
-index 081ccc8ac1..d94728e080 100755
---- a/tests/qemu-iotests/163
-+++ b/tests/qemu-iotests/163
-@@ -21,9 +21,6 @@
- import os, random, iotests, struct, qcow2, sys
- from iotests import qemu_img, qemu_io, image_size
-=20
--if sys.version_info.major =3D=3D 2:
--    range =3D xrange
--
- test_img =3D os.path.join(iotests.test_dir, 'test.img')
- check_img =3D os.path.join(iotests.test_dir, 'check.img')
-=20
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index b26271187c..9fb5181c3d 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -35,6 +35,7 @@ from collections import OrderedDict
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
- from qemu import qtest
-=20
-+assert sys.version_info >=3D (3,6)
-=20
- # This will not work if arguments contain spaces but is necessary if we
- # want to support the override options that ./check supports.
-@@ -250,10 +251,7 @@ def image_size(img):
-     return json.loads(r)['virtual-size']
-=20
- def is_str(val):
--    if sys.version_info.major >=3D 3:
--        return isinstance(val, str)
--    else:
--        return isinstance(val, str) or isinstance(val, unicode)
-+    return isinstance(val, str)
-=20
- test_dir_re =3D re.compile(r"%s" % test_dir)
- def filter_test_dir(msg):
-@@ -935,12 +933,7 @@ def execute_test(test_function=3DNone,
-     else:
-         # We need to filter out the time taken from the output so that
-         # qemu-iotest can reliably diff the results against master outpu=
-t.
--        if sys.version_info.major >=3D 3:
--            output =3D io.StringIO()
--        else:
--            # io.StringIO is for unicode strings, which is not what
--            # 2.x's test runner emits.
--            output =3D io.BytesIO()
-+        output =3D io.StringIO()
-=20
-     logging.basicConfig(level=3D(logging.DEBUG if debug else logging.WAR=
-N))
-=20
-diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotest=
-s/nbd-fault-injector.py
-index 6b2d659dee..43f095ceef 100755
---- a/tests/qemu-iotests/nbd-fault-injector.py
-+++ b/tests/qemu-iotests/nbd-fault-injector.py
-@@ -48,10 +48,9 @@ import sys
- import socket
- import struct
- import collections
--if sys.version_info.major >=3D 3:
--    import configparser
--else:
--    import ConfigParser as configparser
-+import configparser
-+
-+assert sys.version_info >=3D (3,6)
-=20
- FAKE_DISK_SIZE =3D 8 * 1024 * 1024 * 1024 # 8 GB
-=20
---=20
-2.20.1
+I used the Ports base for sparc32 and x32, I don't have them on my
+workstation I'll check during the WE.
 
+> MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>=20
+> RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>     apt install -y --no-install-recommends \
+>         wget
+> RUN wget -qO - https://ftpmirror.gnu.org/binutils/binutils-2.32.tar.xz =
+\
+>     | tar -C /usr/src -xJf - && \
+>     cd /usr/src/binutils-2.32 && \
+>         CFLAGS=3D-w \
+>         ./configure --prefix=3D/usr --disable-nls
+> --target=3Drx-unknown-linux && \
+>         make && make install && \
+>         rm -rf /usr/src/binutils-2.32
+>=20
+> RUN git clone -b rx-trunk http://pf.osdn.net/gitroot/y/ys/ysato/gcc.git=
+ \
+>     /usr/src/gcc
+>=20
+> RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>     apt install -y --no-install-recommends \
+>         libgmp-dev libmpfr-dev libmpc-dev
+>=20
+> RUN cd /usr/src/gcc && \
+>     CPPFLAGS=3D-w \
+>     ./configure --target=3Drx-unknown-linux \
+>         --prefix=3D/usr --disable-nls \
+>         --enable-languages=3Dc --disable-shared \
+>         --disable-threads --with-uclibc \
+>         --disable-libssp --disable-libquadmath \
+>         --disable-libgomp --disable-libatomic && \
+>     make && make install && \
+>     rm -rf /usr/src/gcc
+>=20
+> # This image isn't designed for building QEMU but building tests
+> ENV QEMU_CONFIGURE_OPTS --disable-system --disable-user
+> ---
+>=20
 
