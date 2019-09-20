@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0094CB9188
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:19:42 +0200 (CEST)
-Received: from localhost ([::1]:60036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E75FB9196
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:22:10 +0200 (CEST)
+Received: from localhost ([::1]:60074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBJl6-0002Cq-TG
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60263)
+	id 1iBJnV-0004Ng-2b
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iBJim-0000Io-3d
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:17:17 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iBJjI-0000f0-DX
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:17:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iBJik-0006ix-Vq
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:17:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56252)
+ (envelope-from <pbonzini@redhat.com>) id 1iBJjG-00072N-Qr
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:17:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50900)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iBJii-0006h1-E7; Fri, 20 Sep 2019 10:17:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iBJjE-000713-OQ
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:17:46 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A66F62A09A0;
- Fri, 20 Sep 2019 14:17:11 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F2D1460C18;
- Fri, 20 Sep 2019 14:17:10 +0000 (UTC)
-Subject: Re: [PATCH v5 0/5] qcow2: async handling of fragmented io
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-References: <20190916175324.18478-1-vsementsov@virtuozzo.com>
- <d4d62196-84c2-0a90-312d-391493eae158@redhat.com>
- <93e72727-c46c-d30a-1f38-634237186126@virtuozzo.com>
- <d392d630-23e5-cc21-c8f5-8c2ec3d4f70b@redhat.com>
- <ea14f4bc-9a0c-0147-e963-9019fc9f4f2b@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 14EB881F0D
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 14:17:42 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id b6so2363010wrx.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 07:17:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=M+Olj4paE8U3OqyeMc7yScWhXmf0T+EZnBZnBnpFgqo=;
+ b=iz//mJWzMuU3X0nDXI/2WlQOfxxsxiN1lz7UqLfV6nAKPHWDNlElqpOGhw0ggWHjL9
+ HjAtFGWxO3H48h3uIOCOYOsYousGU6wwkeolqj0xdY2nYjBK+whmpV4uZHxEZufdvFSx
+ Y+/ZTXB9BpFHUsOujJyuzq6RSp+Y+kFZkTPUXcf1S49jlbRtd20CiHKooQ09piWYwhuh
+ lvm+f6JiX4GvxGpWInSYPX1j3btuk2xKQuOD68+7APJOsuImsjFNAVfI+ZJ1oPnc8Ngu
+ WrNR2HN8up4LhBkHNbsWROtdpFTSfsCRJ0P5nhMdxXhs1a0i9zXXBOjDkCHHASqdi72v
+ +VRg==
+X-Gm-Message-State: APjAAAUy58FxzOHp+daslMWTSiZOuU1uRTtH4Nj7+bFfvO0RyPGi1TB6
+ 74+i/hYRKnYO7eNbNYIRE60HFFO6ej2MpXGpRHjqSmrRFLHvIrr746TlYnLj0OhpOFW49LQtxkC
+ PijmunXjret4wHJk=
+X-Received: by 2002:a05:6000:82:: with SMTP id
+ m2mr12764690wrx.241.1568989060688; 
+ Fri, 20 Sep 2019 07:17:40 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzWeR7ZKQeheuuhKleYPJIkoRA2qaKnJ+Wrp2t6wXfV+Vw/aGqTuzbUgzQA0u+yScuZ+h4E6A==
+X-Received: by 2002:a05:6000:82:: with SMTP id
+ m2mr12764666wrx.241.1568989060385; 
+ Fri, 20 Sep 2019 07:17:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c46c:2acb:d8d2:21d8?
+ ([2001:b07:6468:f312:c46c:2acb:d8d2:21d8])
+ by smtp.gmail.com with ESMTPSA id o22sm3094863wra.96.2019.09.20.07.17.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Sep 2019 07:17:39 -0700 (PDT)
+Subject: Re: [PATCH] memory: Replace DEBUG_UNASSIGNED printf calls by trace
+ events
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190920141248.12887-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <35b1c4ff-76eb-f07e-5e74-f88e7c811414@redhat.com>
-Date: Fri, 20 Sep 2019 09:17:10 -0500
+Message-ID: <deb6f913-7d80-dacc-4fa4-07c848343e0c@redhat.com>
+Date: Fri, 20 Sep 2019 16:17:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <ea14f4bc-9a0c-0147-e963-9019fc9f4f2b@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="IdvxqZvljxBbm1mqPNUg8C8SGBcCBDJid"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 20 Sep 2019 14:17:11 +0000 (UTC)
+In-Reply-To: <20190920141248.12887-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,82 +84,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Denis Lunev <den@virtuozzo.com>
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IdvxqZvljxBbm1mqPNUg8C8SGBcCBDJid
-Content-Type: multipart/mixed; boundary="cfjDq3wJAe1r5DBxbeixNW1NHaZWi50nQ";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Denis Lunev <den@virtuozzo.com>
-Message-ID: <35b1c4ff-76eb-f07e-5e74-f88e7c811414@redhat.com>
-Subject: Re: [PATCH v5 0/5] qcow2: async handling of fragmented io
-References: <20190916175324.18478-1-vsementsov@virtuozzo.com>
- <d4d62196-84c2-0a90-312d-391493eae158@redhat.com>
- <93e72727-c46c-d30a-1f38-634237186126@virtuozzo.com>
- <d392d630-23e5-cc21-c8f5-8c2ec3d4f70b@redhat.com>
- <ea14f4bc-9a0c-0147-e963-9019fc9f4f2b@virtuozzo.com>
-In-Reply-To: <ea14f4bc-9a0c-0147-e963-9019fc9f4f2b@virtuozzo.com>
-
---cfjDq3wJAe1r5DBxbeixNW1NHaZWi50nQ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 9/20/19 7:53 AM, Vladimir Sementsov-Ogievskiy wrote:
-
->>
->> It doesn=E2=80=99t matter much to me, I diff all patches anyway. :-)
->>
+On 20/09/19 16:12, Philippe Mathieu-Daud=C3=A9 wrote:
+> Now that the unassigned_access CPU hooks have been removed,
+> the unassigned_mem_read/write functions are only used for
+> debugging purpose.
+> Simplify by converting them to in-place trace events.
 >=20
-> then a bit offtopic:
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Based-on: <20190920125008.13604-1-peter.maydell@linaro.org>
+> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04668.html
+> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03705.html
 >=20
-> Which tools are you use?
+> I first wrote:
 >=20
-> I've some scripts to compare different versions of one serie (or to che=
-ck, what
-> was changed in patches during some porting process..).. The core thing =
-is to filter
-> some not interesting numbers and hashes, which makes diffs dirty, and t=
-hen call vimdiff.
-> But maybe I've reinvented the wheel.
+>   These functions are declared using the CPUReadMemoryFunc/
+>   CPUWriteMemoryFunc prototypes. Since it is confusing to
+>   have such prototype only use for debugging, convert them
+>   to in-place trace events.
+>=20
+> But it doesn't provide helpful information and is rather confusing.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-I use git-backport-diff to get a gui comparison between two patch
-series; https://github.com/codyprime/git-scripts.git
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I think it's simplest if all series (RISC-V, remove unassigned_access,
+this one) go through the RISC-V tree.
 
+Paolo
 
---cfjDq3wJAe1r5DBxbeixNW1NHaZWi50nQ--
+> ---
+>  memory.c     | 24 +++---------------------
+>  trace-events |  2 ++
+>  2 files changed, 5 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/memory.c b/memory.c
+> index 93a05395cf..07e80a637a 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -35,8 +35,6 @@
+>  #include "hw/boards.h"
+>  #include "migration/vmstate.h"
+> =20
+> -//#define DEBUG_UNASSIGNED
+> -
+>  static unsigned memory_region_transaction_depth;
+>  static bool memory_region_update_pending;
+>  static bool ioeventfd_update_pending;
+> @@ -1272,23 +1270,6 @@ static void iommu_memory_region_initfn(Object *o=
+bj)
+>      mr->is_iommu =3D true;
+>  }
+> =20
+> -static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+> -                                    unsigned size)
+> -{
+> -#ifdef DEBUG_UNASSIGNED
+> -    printf("Unassigned mem read " TARGET_FMT_plx "\n", addr);
+> -#endif
+> -    return 0;
+> -}
+> -
+> -static void unassigned_mem_write(void *opaque, hwaddr addr,
+> -                                 uint64_t val, unsigned size)
+> -{
+> -#ifdef DEBUG_UNASSIGNED
+> -    printf("Unassigned mem write " TARGET_FMT_plx " =3D 0x%"PRIx64"\n"=
+, addr, val);
+> -#endif
+> -}
+> -
+>  static bool unassigned_mem_accepts(void *opaque, hwaddr addr,
+>                                     unsigned size, bool is_write,
+>                                     MemTxAttrs attrs)
+> @@ -1437,7 +1418,8 @@ MemTxResult memory_region_dispatch_read(MemoryReg=
+ion *mr,
+>      MemTxResult r;
+> =20
+>      if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
+> -        *pval =3D unassigned_mem_read(mr, addr, size);
+> +        trace_memory_region_invalid_read(size, addr);
+> +        *pval =3D 0; /* FIXME now this value shouldn't be accessed in =
+guest */
+>          return MEMTX_DECODE_ERROR;
+>      }
+> =20
+> @@ -1481,7 +1463,7 @@ MemTxResult memory_region_dispatch_write(MemoryRe=
+gion *mr,
+>      unsigned size =3D memop_size(op);
+> =20
+>      if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
+> -        unassigned_mem_write(mr, addr, data, size);
+> +        trace_memory_region_invalid_write(size, addr, size << 1, data)=
+;
+>          return MEMTX_DECODE_ERROR;
+>      }
+> =20
+> diff --git a/trace-events b/trace-events
+> index 823a4ae64e..83dbeb4b46 100644
+> --- a/trace-events
+> +++ b/trace-events
+> @@ -62,6 +62,8 @@ memory_region_tb_read(int cpu_index, uint64_t addr, u=
+int64_t value, unsigned siz
+>  memory_region_tb_write(int cpu_index, uint64_t addr, uint64_t value, u=
+nsigned size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, =
+uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"P=
+RIx64" size %u"
+>  memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr,=
+ uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"=
+PRIx64" size %u"
+> +memory_region_invalid_read(unsigned size, uint64_t addr) "invalid read=
+ size %u addr 0x%"PRIx64
+> +memory_region_invalid_write(unsigned size, uint64_t addr, int fmt_widt=
+h, uint64_t value) "invalid write size %u addr 0x%"PRIx64" value 0x%0*"PR=
+Ix64
+>  flatview_new(void *view, void *root) "%p (root %p)"
+>  flatview_destroy(void *view, void *root) "%p (root %p)"
+>  flatview_destroy_rcu(void *view, void *root) "%p (root %p)"
+>=20
 
---IdvxqZvljxBbm1mqPNUg8C8SGBcCBDJid
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2E32YACgkQp6FrSiUn
-Q2pPCQf/QvVX0xZa7N2Tjl8q+PFmX/sjkeOIttq0hXoiWv1R2UpmRCcZFzf4Wkoi
-uF3cLW4zmdYVVf51i4L/S3n8EZf5N7b+KBS1Wvya3KoZGEyif4CwazDFAs4RoZ38
-MG/wU+ZGKQW6x32vNbxhBPA1D9o+48fJy5ORLqXYx0OcelK7gLeaYQLWCL9W6gaq
-FTh0Lu3YsiiamrFiNroATS6dSZWnK8NPR8wB0xjfiCevrDWK3SfNnEjq7gwtjerJ
-f8oTKCj9W7QjFzNJT+ZQCEkiwZxSzhY9YeCXiSAP8AKwlnXJmIYyik5rs/oNtQU0
-4+KS//lecVxVuCYfA52HNomJKr6aPg==
-=Zt7j
------END PGP SIGNATURE-----
-
---IdvxqZvljxBbm1mqPNUg8C8SGBcCBDJid--
 
