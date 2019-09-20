@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A10B8D9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:25:46 +0200 (CEST)
-Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E590DB8DC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 11:28:38 +0200 (CEST)
+Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBFAe-00083b-TL
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:25:44 -0400
+	id 1iBFDR-0003jo-G9
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 05:28:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:51853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhlb29@foxmail.com>) id 1iBF8U-0005nI-LG
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:23:32 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1iBF8K-0005nI-Ti
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:23:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhlb29@foxmail.com>) id 1iBF18-0001B5-FP
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:15:55 -0400
-Received: from smtpbgeu1.qq.com ([52.59.177.22]:44123)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhlb29@foxmail.com>) id 1iBF17-00016G-Gr
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:15:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1568970939;
- bh=hRmCv+roy9K/PEwD0JktNzxRXy89jC54EjZpmYUexY0=;
- h=From:To:Subject:Mime-Version:Date:Message-ID;
- b=tSfmOerxKBzj3pJ7zi8EX0/A0GcM5h23IPVBx57Bi39woTiHRBp5yTTo8zTgOgmGg
- XKneNS8JsJoL1m3P9Cy+fVHpPy5zzO1Lv9X3DWzrAPoWAWAI4gMmMqbs1AouR2sU6+
- wXY5HTN1iXEmltN1r7x7NtgQZyANtxH/ZTHwrAYA=
-X-QQ-SSF: 00000000000000F000000000000000G
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 128.189.13.171
-X-QQ-STYLE: 
-X-QQ-mid: webenglish1t1568970938t680328
-From: "=?ISO-8859-1?B?TGlibyBaaG91?=" <zhlb29@foxmail.com>
-To: "=?ISO-8859-1?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
-Subject: Initialize data memory in user space emulation
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_5D8498BA_0BD78840_41E9D5A2"
-Content-Transfer-Encoding: 8Bit
-Date: Fri, 20 Sep 2019 17:15:38 +0800
-X-Priority: 3
-Message-ID: <tencent_7BDD949D4C752E2A291A6A02@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Fri, 20 Sep 2019 17:15:39 +0800 (CST)
-Feedback-ID: webenglish:foxmail.com:bgforeign:bgforeign2
-X-QQ-Bgrelay: 1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 52.59.177.22
+ (envelope-from <bmeng.cn@gmail.com>) id 1iBF4G-0002nx-OS
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 05:19:09 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44927)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1iBF4G-0002nb-HY; Fri, 20 Sep 2019 05:19:08 -0400
+Received: by mail-pl1-x641.google.com with SMTP id q15so2888072pll.11;
+ Fri, 20 Sep 2019 02:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id;
+ bh=m9UduNtnihfL2Oqo445LRoF5PGEV/LiXCQ4Ew/lAK+U=;
+ b=LyOoewGNLDkcKhlgHT2gTSOZ9v7FMPyPHHnyk3yJkiBLy4wFcciZYH6hfqH56iJxby
+ zYiar3xBTY/b7vdzdSiRLlhYfn7ZHBMdkgpZI2AMDEja+BSTzSHIoaqhKW13KD8Mk9/n
+ AqrQzZx1sY4UYtK85U/6DpY6vOEfWQOUopFiWdCIeveA/2dWz7FV+7vjjmyNGzWixPfS
+ G3ujGOkI3/ZHt1k+rjUoGBzI5m1ZndLm0cLzor0W5YD4+1uDlLqXi/bUTcXpFekcGcHp
+ 21y3JlPkNV8izYWbxYFJclwBIRC09QSyDhlV3EeHjHLCBHYeR9rFy48NBcKeCBLvXnsY
+ KmlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=m9UduNtnihfL2Oqo445LRoF5PGEV/LiXCQ4Ew/lAK+U=;
+ b=sMpRIkNSl8G9BMK2GtDiZJnBDABUjQ3mcRimoyb3g5BqpXXWFZAcBtg7w1NLgjEOrr
+ vBiVhbucIX3yu2HhRZhbQbPH8au9ONB82sj9yrIE2hL3qGJr1RJz/217TyT0j2OeToy3
+ htIgx/jBQ+y6uEbCY9nLfMPL5QaQmw+vfhJSn2V0hcIHK23j0RCMgmgo2IF/h26myTBG
+ QiUZImdOHQlTUWHSc2aAJw3H6lQ8333FCnIDdoPQmqyCD/SOK0glSCoSGRxV329OFF/Z
+ PMOnzQ1zghVwWiMEGguL5io8ssSKEkdVatAWs2fvd3zjTfs1sSrzTr4bUonWXjSc2pBB
+ oyAg==
+X-Gm-Message-State: APjAAAXYdVgb0iG0707cNhM0/hqkWQ0L77ZjznwpylPb1UBB3L2FMuvM
+ 706cMPx5D566ncr3aanpyZo=
+X-Google-Smtp-Source: APXvYqwhctsHGWX1V0uUa4KzrkxilqzyC6XfZzayC+EJiePEktopX5vqX/6qUcMargGcqixguHEE2w==
+X-Received: by 2002:a17:902:7c94:: with SMTP id
+ y20mr3759593pll.229.1568971147620; 
+ Fri, 20 Sep 2019 02:19:07 -0700 (PDT)
+Received: from localhost.localdomain (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id m9sm1500731pjf.11.2019.09.20.02.19.06
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Fri, 20 Sep 2019 02:19:07 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 1/2] riscv: sifive_u: Drop "clock-frequency" property of cpu
+ nodes
+Date: Fri, 20 Sep 2019 02:19:01 -0700
+Message-Id: <1568971142-27979-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 1.7.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,42 +78,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+The "clock-frequency" property of cpu nodes isn't required. Drop it.
 
-------=_NextPart_5D8498BA_0BD78840_41E9D5A2
-Content-Type: text/plain;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
+This is to keep in sync with Linux kernel commit below:
+https://patchwork.kernel.org/patch/11133031/
 
-SGkgYWxsLA0KDQoNCkkgbmVlZCBhIHdheSB0byBtYW5pcHVsYXRlIGRhdGEgc2F2ZWQgaW4g
-YSByZXNlcnZlZCBtZW1vcnkgcmVnaW9uIGluIGxpbnV4IHVzZXIgc3BhY2UgZW11bGF0aW9u
-LiBJIGZvdW5kIHRoZSAtQiBvcHRpb24gdmVyeSBwcm9taXNpbmcuICBEb2N1bWVudGF0aW9u
-IHNheXMgaXQgaXMgdXNlZnVsIHdoZW4gdGhlIGFkZHJlc3MgcmVnaW9uIHJlcXVpcmVkIGJ5
-IGd1ZXN0IGFwcGxpY2F0aW9ucyBpcyByZXNlcnZlZCBvbiB0aGUgaG9zdC4NCg0KDQpCdXQg
-aG93IGNhbiBJIGluaXRpYWxpemUgdGhhdCBtZW1vcnkgd2l0aCBkYXRhPw0KDQoNCg0KVGhh
-bmtzLA0KTGlibyBaaG91
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+---
 
-------=_NextPart_5D8498BA_0BD78840_41E9D5A2
-Content-Type: text/html;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
+ hw/riscv/sifive_u.c         | 2 --
+ include/hw/riscv/sifive_u.h | 1 -
+ 2 files changed, 3 deletions(-)
 
-PGRpdj48Zm9udCBjb2xvcj0iIzAwMzM2NiI+SGkgYWxsLDwvZm9udD48L2Rpdj48ZGl2Pjxm
-b250IGNvbG9yPSIjMDAzMzY2Ij48YnI+PC9mb250PjwvZGl2PjxkaXY+PGZvbnQgY29sb3I9
-IiMwMDMzNjYiPkkgbmVlZCBhIHdheSB0byBtYW5pcHVsYXRlIGRhdGEgc2F2ZWQgaW4gYSBy
-ZXNlcnZlZCBtZW1vcnkgcmVnaW9uIGluIGxpbnV4IHVzZXIgc3BhY2UgZW11bGF0aW9uLiBJ
-IGZvdW5kIHRoZSAtQiBvcHRpb24gdmVyeSBwcm9taXNpbmcuJm5ic3A7IERvY3VtZW50YXRp
-b24gc2F5cyBpdCBpcyB1c2VmdWwgd2hlbiB0aGUgYWRkcmVzcyByZWdpb24gcmVxdWlyZWQg
-YnkgZ3Vlc3QgYXBwbGljYXRpb25zIGlzIHJlc2VydmVkIG9uIHRoZSBob3N0LjwvZm9udD48
-L2Rpdj48ZGl2Pjxmb250IGNvbG9yPSIjMDAzMzY2Ij48YnI+PC9mb250PjwvZGl2PjxkaXY+
-PGZvbnQgY29sb3I9IiMwMDMzNjYiPkJ1dCBob3cgY2FuIEkgaW5pdGlhbGl6ZSB0aGF0IG1l
-bW9yeSB3aXRoIGRhdGE/PGJyPjwvZm9udD48L2Rpdj48ZGl2Pjxmb250IGNvbG9yPSIjMDAz
-MzY2Ij48YnI+PC9mb250PjwvZGl2PjxkaXY+PGZvbnQgY29sb3I9IiMwMDMzNjYiPlRoYW5r
-cyw8L2ZvbnQ+PC9kaXY+PGRpdj48Zm9udCBjb2xvcj0iIzAwMzM2NiI+TGlibyBaaG91PGJy
-PjwvZm9udD48L2Rpdj4=
-
-------=_NextPart_5D8498BA_0BD78840_41E9D5A2--
-
-
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 9f8e84b..02dd761 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -151,8 +151,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
+         char *isa;
+         qemu_fdt_add_subnode(fdt, nodename);
+-        qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
+-                              SIFIVE_U_CLOCK_FREQ);
+         /* cpu 0 is the management hart that does not have mmu */
+         if (cpu != 0) {
+             qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index e4df298..4850805 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -75,7 +75,6 @@ enum {
+ };
+ 
+ enum {
+-    SIFIVE_U_CLOCK_FREQ = 1000000000,
+     SIFIVE_U_HFCLK_FREQ = 33333333,
+     SIFIVE_U_RTCCLK_FREQ = 1000000
+ };
+-- 
+2.7.4
 
 
