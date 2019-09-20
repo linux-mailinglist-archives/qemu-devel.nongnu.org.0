@@ -2,58 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363D2B977A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 21:00:33 +0200 (CEST)
-Received: from localhost ([::1]:34776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F75B97AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 21:18:52 +0200 (CEST)
+Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBO8t-0005n6-8R
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 15:00:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55010)
+	id 1iBOQc-0008US-DJ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 15:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tasleson@redhat.com>) id 1iBO3n-0001Il-17
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:55:16 -0400
+ (envelope-from <bounces@canonical.com>) id 1iBONg-00076L-1w
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:15:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tasleson@redhat.com>) id 1iBO3m-0007Ri-0D
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:55:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46742)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tasleson@redhat.com>) id 1iBO3l-0007RD-Q2
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 14:55:13 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1EFEB10DCC8B
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 18:55:13 +0000 (UTC)
-Received: from [10.3.112.12] (ovpn-112-12.phx2.redhat.com [10.3.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7AA5360C18;
- Fri, 20 Sep 2019 18:55:12 +0000 (UTC)
-Subject: Re: [RFC 0/4] POC: Generating realistic block errors
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190919194847.18518-1-tasleson@redhat.com>
- <20190920083630.GA5458@localhost.localdomain>
- <566d0d07-35fc-2d66-a47c-00526546b31e@redhat.com>
- <20190920181119.GF5458@localhost.localdomain>
-From: Tony Asleson <tasleson@redhat.com>
-Organization: Red Hat
-Message-ID: <4d1d6516-fc4a-6258-e993-452f92cdfa28@redhat.com>
-Date: Fri, 20 Sep 2019 13:55:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bounces@canonical.com>) id 1iBONe-0003Wi-Bd
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:15:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48802)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iBONd-0003TG-8D
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:15:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iBONb-00012B-0v
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 19:15:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0446D2E80CC
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 19:15:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190920181119.GF5458@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Fri, 20 Sep 2019 18:55:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Sep 2019 19:01:46 -0000
+From: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena?= <1811533@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h djdatte vkuznets zaltysz
+X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
+Message-Id: <156900610636.4953.7933770886441859746.malone@chaenomeles.canonical.com>
+Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
+ hv_stimer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 48487facfff8d540cd4f7e55851488acb55aedf3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,26 +67,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: tasleson@redhat.com
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/19 1:11 PM, Kevin Wolf wrote:
-> Emitting a QMP event when blkdebug injects an error makes sense to me.
-> 
-> I wouldn't use it for this case, though, because this would become racy.
-> It could happen that the guest writes to the image, which sends a QMP
-> event, and then reads before the external program has removed the error.
+As asked by dgilbert-h, I am attaching my qemu command line. It is
+ripped from libvirt log.
 
-My POC had a single lock protecting it's shared state.  I'm kind of
-surprised no one jumped on that because it's a big point of lock
-contention.  One could argue that the state data and associated lock(s)
-should be on each device which leads me to the next point.  I think with
-careful locking and sequencing we could address this race condition so
-that the error was removed before the write completed.  In fact it would
-need to work that way to allow the external test code the ability to
-perturb the data before it's written if that's what the test wanted to do.
+** Attachment added: "Bug reproducing Qemu command line from libvirt log."
+   https://bugs.launchpad.net/qemu/+bug/1811533/+attachment/5290067/+files/=
+qemu_cmdln.txt
 
--Tony
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1811533
+
+Title:
+  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Host:
+  Gentoo linux x86_64, kernel 4.20.1
+  Qemu 3.1.0 =
+
+  CPU: Intel i7 6850K
+  Chipset: X99
+
+  Guest:
+  Windows 10 Pro 64bit (1809)
+  Machine type: pc-q35_3.1
+  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
+pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
+=3D0x1fff
+  Memory: 16GB backed by 2MB huge pages
+
+  Issue:
+  Once guest is started, log gets flooded with:
+
+  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
+  coherent sections at 103000
+
+  or
+
+  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
+  prior to previous 1f000
+
+  (line endings change)
+
+  and as time goes guest loses network access (virtio-net-pci) and
+  general performance diminishes to extent of freezing applications.
+
+  Observations:
+  1) problem disappears when hv_stimer is removed
+  2) problem disappears when memory backing with huge pages is disabled
+  3) problem disappears when machine type is downgraded to pc-q35_3.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
 
