@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FB6B9220
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:29:54 +0200 (CEST)
-Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4251AB919F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Sep 2019 16:24:38 +0200 (CEST)
+Received: from localhost ([::1]:60178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBJuy-0003ZN-2e
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:29:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32832)
+	id 1iBJpt-0006ms-3C
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 10:24:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmW-0004Zf-PX
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:10 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmW-0004Z5-8a
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000tU-RH
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iBJmU-0000tC-MZ
  for qemu-devel@nongnu.org; Fri, 20 Sep 2019 10:21:08 -0400
-Received: from relay.sw.ru ([185.231.240.75]:43796)
+Received: from relay.sw.ru ([185.231.240.75]:43818)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmQ-0000g8-DM; Fri, 20 Sep 2019 10:21:02 -0400
+ id 1iBJmQ-0000gH-EY; Fri, 20 Sep 2019 10:21:02 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iBJmM-0006b5-KE; Fri, 20 Sep 2019 17:20:58 +0300
+ id 1iBJmM-0006b5-PW; Fri, 20 Sep 2019 17:20:58 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v13 03/15] block/backup: split shareable copying part from
- backup_do_cow
-Date: Fri, 20 Sep 2019 17:20:44 +0300
-Message-Id: <20190920142056.12778-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v13 04/15] block/backup: improve comment about image fleecing
+Date: Fri, 20 Sep 2019 17:20:45 +0300
+Message-Id: <20190920142056.12778-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190920142056.12778-1-vsementsov@virtuozzo.com>
 References: <20190920142056.12778-1-vsementsov@virtuozzo.com>
@@ -55,84 +54,38 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split copying logic which will be shared with backup-top filter.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup.c | 47 ++++++++++++++++++++++++++++++++---------------
- 1 file changed, 32 insertions(+), 15 deletions(-)
+ block/backup.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index 99177f03f8..98d7f7a905 100644
+index 98d7f7a905..ae28849660 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -248,26 +248,18 @@ static int64_t backup_bitmap_reset_unallocated(BackupBlockJob *s,
-     return ret;
- }
+@@ -747,9 +747,18 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     job->bitmap_mode = bitmap_mode;
  
--static int coroutine_fn backup_do_cow(BackupBlockJob *job,
--                                      int64_t offset, uint64_t bytes,
--                                      bool *error_is_read,
--                                      bool is_write_notifier)
-+static int coroutine_fn backup_do_copy(BackupBlockJob *job,
-+                                       int64_t start, uint64_t bytes,
-+                                       bool *error_is_read,
-+                                       bool is_write_notifier)
- {
--    CowRequest cow_request;
-     int ret = 0;
--    int64_t start, end; /* bytes */
-+    int64_t end = bytes + start; /* bytes */
-     void *bounce_buffer = NULL;
-     int64_t status_bytes;
- 
--    qemu_co_rwlock_rdlock(&job->flush_rwlock);
--
--    start = QEMU_ALIGN_DOWN(offset, job->cluster_size);
--    end = QEMU_ALIGN_UP(bytes + offset, job->cluster_size);
--
--    trace_backup_do_cow_enter(job, start, offset, bytes);
--
--    wait_for_overlapping_requests(job, start, end);
--    cow_request_begin(&cow_request, job, start, end);
-+    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
-+    assert(QEMU_IS_ALIGNED(end, job->cluster_size));
- 
-     while (start < end) {
-         int64_t dirty_end;
-@@ -326,6 +318,31 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-         qemu_vfree(bounce_buffer);
-     }
- 
-+    return ret;
-+}
-+
-+static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-+                                      int64_t offset, uint64_t bytes,
-+                                      bool *error_is_read,
-+                                      bool is_write_notifier)
-+{
-+    CowRequest cow_request;
-+    int ret = 0;
-+    int64_t start, end; /* bytes */
-+
-+    qemu_co_rwlock_rdlock(&job->flush_rwlock);
-+
-+    start = QEMU_ALIGN_DOWN(offset, job->cluster_size);
-+    end = QEMU_ALIGN_UP(bytes + offset, job->cluster_size);
-+
-+    trace_backup_do_cow_enter(job, start, offset, bytes);
-+
-+    wait_for_overlapping_requests(job, start, end);
-+    cow_request_begin(&cow_request, job, start, end);
-+
-+    ret = backup_do_copy(job, start, end - start, error_is_read,
-+                         is_write_notifier);
-+
-     cow_request_end(&cow_request);
- 
-     trace_backup_do_cow_return(job, offset, bytes, ret);
+     /*
+-     * Set write flags:
+-     * 1. Detect image-fleecing (and similar) schemes
+-     * 2. Handle compression
++     * If source is in backing chain of target assume that target is going to be
++     * used for "image fleecing", i.e. it should represent a kind of snapshot of
++     * source at backup-start point in time. And target is going to be read by
++     * somebody (for example, used as NBD export) during backup job.
++     *
++     * In this case, we need to add BDRV_REQ_SERIALISING write flag to avoid
++     * intersection of backup writes and third party reads from target,
++     * otherwise reading from target we may occasionally read already updated by
++     * guest data.
++     *
++     * For more information see commit f8d59dfb40bb and test
++     * tests/qemu-iotests/222
+      */
+     job->write_flags =
+         (bdrv_chain_contains(target, bs) ? BDRV_REQ_SERIALISING : 0) |
 -- 
 2.21.0
 
