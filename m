@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE24EB9DDA
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 14:37:26 +0200 (CEST)
-Received: from localhost ([::1]:41654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39ACCB9DFA
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 15:11:27 +0200 (CEST)
+Received: from localhost ([::1]:41820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBedh-0008SH-FG
-	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 08:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55549)
+	id 1iBfAc-0001IZ-3Z
+	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 09:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBecZ-00081Y-IP
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 08:36:16 -0400
+ (envelope-from <vvavrychuk@gmail.com>) id 1iBZT9-0004nP-Oz
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 03:06:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBecY-0002tH-Lj
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 08:36:15 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:44300)
+ (envelope-from <vvavrychuk@gmail.com>) id 1iBZT8-0001zh-DQ
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 03:06:11 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:46441)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1iBecY-0002qn-HJ; Sat, 21 Sep 2019 08:36:14 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id f1so3461596ybq.11;
- Sat, 21 Sep 2019 05:36:14 -0700 (PDT)
+ (Exim 4.71) (envelope-from <vvavrychuk@gmail.com>)
+ id 1iBZT7-0001yQ-Jc
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 03:06:09 -0400
+Received: by mail-lj1-x241.google.com with SMTP id e17so9058462ljf.13
+ for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 00:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TXBd93KAs24bxiz8SZaxncJGIf8FJxZkPGIs9goyUM0=;
- b=FvyaLbCGsk2cdlzKcuzGwyVayU9i1cMKhE4X0D1Ts63aVUKEFOZY2Ex9UcskOc0BnP
- S60pTmpagzwwOEW1uCFm2vT2BC4f9EbGg5Qy90eCmVRe+vqGzh9A5lg5alhIXSCiEq4O
- o/g1cTE37mQWYp4fKfdE46dB5i4bd1z3tIiBMJVRNClWTn/5TqexgV2J6UNCF9yobVkL
- itzZblmczFelPW53d5xxy82fQXYk1GjtAZchgRQzwEvk6KfWeb+3sbMUTYNMTDgSPyxV
- divveAsjfoIWGOdAulm0FXmuShhdKjH+IJUE7dVTQURl/PGXpi47I9y7oMrfcVi3CE7l
- D1qQ==
+ h=in-reply-to:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-transfer-encoding:content-language;
+ bh=rjdSGKN4ZlM0jQwLqZTBTz0vfDBhuv1yVmg18hbtJK8=;
+ b=XKt3xr4AZSCHnnfLRRZXC+DddTvWb1uspj0sIK4iC+aT0tjuFiX/wNg/N/mda3rB6E
+ 1ZeFG2cazxnnegkyG9MsHdewd3gy0PeMkk1MpW9AKlNGCKx3fLc5JhnygVSSbM/0nqIi
+ Rn58t9LQooRS+PhLhP73VYh9GV9IjIk/omfSxaWNIYpDXdiS1j3YLA4fJL/GebojJ55R
+ KQiU6mJp8+F9xOvFBUo7TnkAGRzPiwTh4hbD//Bl+YffFDk0Q5AFgKCUb7oHKNYVgn7V
+ ZR+EJqRa17xcgdzkIP6aZJenpHfWRrFrrSPl5ug/hciZIjosXwzaioVb1xU67CPB8eIs
+ QZWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TXBd93KAs24bxiz8SZaxncJGIf8FJxZkPGIs9goyUM0=;
- b=PXyE5vqDrRUAAKYLNnyFpPtER9l/jvM2+uH8iCewvtOBXbIv+Hs3v51/TRbDsgb9e9
- 3M0J29yXnzu+XKCeE5G2iTtb5pGpzya3N6aDCvjSYk0lNUZjrFQjXtRyviwlOuJZFhvd
- RU2T/1kjvvlwSPPb7oozLMWxcfwJykz0PPnCFziQhd+/dwEnw4Yj6fNyBbc8Hxmyq0Mz
- 8TNTIyNJtCnLdwTz75AiU2hD+U29dmaPA1TpA6nLecAE5bz+nv5YQpHC7kcWOiIVQGEC
- UGiVvIQKxl/J4CGeOmqiQsg5eNyP+iZ+hNFiEC7wamdv1g3X9RFTv3jsB2oitkm5KCvB
- K36A==
-X-Gm-Message-State: APjAAAXmBe6jArlwBVbSaOzaQQ/1L42vzRCgNnn5+cRae/gq0xUtkb7V
- oohnbCQe+aqNYBW9Irfqr5rj+nPThp6jcAFcZ2k=
-X-Google-Smtp-Source: APXvYqz9ruEaYB36JVR54q90qPbLz3ghXTUNbvM1YCdWXIPaR9bN7q1vhJY/5z3Mz6DU6PkQjFwmJaTth0nugUp5e8A=
-X-Received: by 2002:a25:ae09:: with SMTP id a9mr14874688ybj.11.1569069372483; 
- Sat, 21 Sep 2019 05:36:12 -0700 (PDT)
+ h=x-gm-message-state:in-reply-to:to:cc:from:subject:message-id:date
+ :user-agent:mime-version:content-transfer-encoding:content-language;
+ bh=rjdSGKN4ZlM0jQwLqZTBTz0vfDBhuv1yVmg18hbtJK8=;
+ b=a9925ZKXbF3DcpBq0G5jMGEuGdgUHhuO2j4/FJ+pFjyTNRpYO56SBzz/MRhsQMjB78
+ rF/ATkrMMSmxuLfiofpCv1KxH49nkuEMoEASmUrDSOjjnhmWERnGh8LBn7g30nBSu8F/
+ 8XtZol5I4KGEbOBMTnDC8yL9YULLJzBJTEmolPPyNzQ0XD/VNmkmlEvTMOORjd1rZY3m
+ 27PuJxwENkKlX/xG8/CEwUSRq9bPHQfZl3N5Hyj9rf610XCMxwgGzxrSQhek2e2ApCQl
+ 3JNA5aailFmQekdQiLTaR9cqnwUeewuAEtgLq9u+aDXXrEl/g1wCWXyCautISajOHdJr
+ 5Tbw==
+X-Gm-Message-State: APjAAAUwN7goW47hmg2WYB8CHyl/B5X82nYmWlzjtHMwgRSH8AQQJIn/
+ sOgR5wnJlt244ZYYojNylnWfZwKBBX0=
+X-Google-Smtp-Source: APXvYqxVi0uEazLGvhI33sAYsmisYOG6dmlyclSMTgDbkZMmUAqr451k01Y4fRohGG0KiXRhjAzgOA==
+X-Received: by 2002:a2e:2e17:: with SMTP id u23mr11612749lju.26.1569049566992; 
+ Sat, 21 Sep 2019 00:06:06 -0700 (PDT)
+Received: from [192.168.1.4] ([213.174.16.211])
+ by smtp.gmail.com with ESMTPSA id t10sm983636ljt.68.2019.09.21.00.06.05
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 21 Sep 2019 00:06:06 -0700 (PDT)
+In-Reply-To: <20190913120559.40835-1-slp@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+From: Vasyl Vavrychuk <vvavrychuk@gmail.com>
+Subject: Re: [Qemu-devel] [PATCH v3] virtio-mmio: implement modern (v2),
+ personality (virtio-1)
+Message-ID: <a51cbe82-9213-d535-a43b-57f68f78475d@gmail.com>
+Date: Sat, 21 Sep 2019 10:06:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <1569044491-7875-1-git-send-email-bmeng.cn@gmail.com>
- <fad9668d-14e8-40c1-2c02-9a6197e88397@redhat.com>
-In-Reply-To: <fad9668d-14e8-40c1-2c02-9a6197e88397@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 21 Sep 2019 20:36:01 +0800
-Message-ID: <CAEUhbmUM8jPc=qkHkm2yJU2YVsv7ppRdrn+ZODtfSKpHO=nC7w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] riscv: hw: Drop "clock-frequency" property of cpu
- nodes
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
+X-Received-From: 2a00:1450:4864:20::241
+X-Mailman-Approved-At: Sat, 21 Sep 2019 09:09:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,32 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+Hi, Sergio,
 
-On Sat, Sep 21, 2019 at 4:51 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Hi Bin,
->
-> On 9/21/19 7:41 AM, Bin Meng wrote:
-> > The "clock-frequency" property of cpu nodes isn't required. Drop it.
-> >
-> > This is to keep in sync with Linux kernel commit below:
-> > https://patchwork.kernel.org/patch/11133031/
->
-> What happens if you run a older kernel that doesn't contain the
-> referenced patch?
->
+ > For this reason, the v2 personality is disabled, keeping the legacy
+ > behavior as default. Machine types willing to use v2, can enable it
+ > using MachineClass's compat_props.
+...
+ > +    DEFINE_PROP_BOOL("force-legacy", VirtIOMMIOProxy, legacy, true),
 
-This property has never been required by the kernel since the beginning.
+Currently, I am not enable to set "force-legacy" to false from command 
+line for
+virt machine.
 
-Regards,
-Bin
+I think, the "force-legacy" and compat_props should work the other way 
+around.
+
+The "force-legacy" should be set to false by default to select a new 
+behaviour.
+Instead of this hw_compat_4_1 should be modified to keep the old behaviour:
+
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -29,6 +29,7 @@
+
+  GlobalProperty hw_compat_4_1[] = {
+      { "virtio-pci", "x-pcie-flr-init", "off" },
++    { "virtio-mmio", "force-legacy", "on" },
+  };
+  const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
+
+
+This way, one can keep the old behaviour by doing "-M virt-4.1"
+
+Best regards,
+Vasyl
+
 
