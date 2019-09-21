@@ -2,93 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3246CB9DF9
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 15:11:24 +0200 (CEST)
-Received: from localhost ([::1]:41818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B812B9E10
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 15:24:53 +0200 (CEST)
+Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBfAY-0001CN-EM
-	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 09:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38354)
+	id 1iBfNb-00066S-O9
+	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 09:24:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59757)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <arvidjaar@gmail.com>) id 1iBb9c-0006vx-0C
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 04:54:09 -0400
+ (envelope-from <Stewart.Hildebrand@dornerworks.com>)
+ id 1iBfMf-0005ZR-T5
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 09:23:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arvidjaar@gmail.com>) id 1iBb9a-0000Ii-TD
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 04:54:07 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:39018)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <arvidjaar@gmail.com>) id 1iBb9a-0000E9-9X
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 04:54:06 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id y3so7860692ljj.6
- for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 01:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=bieKq7AyvjeJPWRkTs6/pJYEcLemLgq4FZ7EpICf4X0=;
- b=bULyPf1GHvXu0hDeCXpSVxiMXBLlJDlfB2YNNCH3ZKiHJKeXUYz1ts9SkaJRqZRgLA
- 9/NOZGEPWX+zHVMqt+juWs6Br0J8+KVA4ZGA0nqg30kuD28sFIAQSwHfie3xXOPaPf55
- 6QZoEM6W6hCvNObAcLD6JCE2iBwoe1Kled1qWdIYr/cFV9LopmGMYSNwYoS3fPWsgNnW
- kCiXKGd6GqP+KYpGNGwh8VcHWs/SYv7nu1T1/KBQQdHCfcV1XUBGc9JIQFcAa1mXnQna
- +GOJN0Z6jeOWlGjs/hbvhx2k+WDdKTfbRMPNUfOAnK7JSdh1UR8zmSJKHLRLxwk1JJcX
- UMoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
- :date:user-agent:mime-version:content-language
- :content-transfer-encoding;
- bh=bieKq7AyvjeJPWRkTs6/pJYEcLemLgq4FZ7EpICf4X0=;
- b=ixI2lNKddbd7LN7KZD6uoW9sEAA2jX4dV4HIc/CvkKIx+bcQsY20a/71uOy0RUlMyM
- E2x/5AISGF8frveZkTnNHtOLbvqk8zEUgaRG1kv1k1sMum7W4BSjRPEtieh17uWXbal+
- ZqaOg53Rlj6he+iuXsrVm4uWVffSFyfIp8K3CHstAvTuCOKqKlE6GcMbF2lKIXvy2vyO
- bX89+G2seDmGhhxoGeVf4d3KscmR7l+ebAbQgq6bU6nLekk0EaANOSCy+9+fc69Sd2Z+
- QtV/HHVJQNTnXX1hd3sI1on+rHhg5HCZvdOHgp4uUxaQRAn1eCOMh8blcuQ3l4BKG52O
- lQBw==
-X-Gm-Message-State: APjAAAVNNr4h+BI8krt9Js6f/zLI/bPHwvHqBnKW//4WZvxHAw2JJB8v
- Nz4d/akAmBzCSckq/WhLYUvmNzzIyGc=
-X-Google-Smtp-Source: APXvYqwiC72eWUuG5F+y1uACPyVSpq9/amggeL3tu0NS0ofnFXHomOt6MwDxRFAEZsZiNb0DKqtc7Q==
-X-Received: by 2002:a2e:808c:: with SMTP id i12mr11587928ljg.78.1569056043878; 
- Sat, 21 Sep 2019 01:54:03 -0700 (PDT)
-Received: from [192.168.1.5] (109-252-54-49.nat.spd-mgts.ru. [109.252.54.49])
- by smtp.gmail.com with ESMTPSA id
- q88sm1019026lje.57.2019.09.21.01.54.02 for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 21 Sep 2019 01:54:03 -0700 (PDT)
-To: qemu-devel@nongnu.org
-From: Andrei Borzenkov <arvidjaar@gmail.com>
-Subject: Cannot login into emulated smartcard with OpenSC because it expects
- external PIN pad.
-Openpgp: preference=signencrypt
-Autocrypt: addr=arvidjaar@gmail.com; prefer-encrypt=mutual; keydata=
- xsDiBDxiRwwRBAC3CN9wdwpVEqUGmSoqF8tWVIT4P/bLCSZLkinSZ2drsblKpdG7x+guxwts
- +LgI8qjf/q5Lah1TwOqzDvjHYJ1wbBauxZ03nDzSLUhD4Ms1IsqlIwyTLumQs4vcQdvLxjFs
- G70aDglgUSBogtaIEsiYZXl4X0j3L9fVstuz4/wXtwCg1cN/yv/eBC0tkcM1nsJXQrC5Ay8D
- /1aA5qPticLBpmEBxqkf0EMHuzyrFlqVw1tUjZ+Ep2LMlem8malPvfdZKEZ71W1a/XbRn8FE
- SOp0tUa5GwdoDXgEp1CJUn+WLurR0KPDf01E4j/PHHAoABgrqcOTcIVoNpv2gNiBySVsNGzF
- XTeY/Yd6vQclkqjBYONGN3r9R8bWA/0Y1j4XK61qjowRk3Iy8sBggM3PmmNRUJYgroerpcAr
- 2byz6wTsb3U7OzUZ1Llgisk5Qum0RN77m3I37FXlIhCmSEY7KZVzGNW3blugLHcfw/HuCB7R
- 1w5qiLWKK6eCQHL+BZwiU8hX3dtTq9d7WhRW5nsVPEaPqudQfMSi/Ux1kc0mQW5kcmVpIEJv
- cnplbmtvdiA8YXJ2aWRqYWFyQGdtYWlsLmNvbT7CZQQTEQIAJQIbAwYLCQgHAwIGFQgCCQoL
- BBYCAwECHgECF4AFAliWAiQCGQEACgkQR6LMutpd94wFGwCeNuQnMDxve/Fo3EvYIkAOn+zE
- 21cAnRCQTXd1hTgcRHfpArEd/Rcb5+SczsBNBDxiRyQQBACQtME33UHfFOCApLki4kLFrIw1
- 5A5asua10jm5It+hxzI9jDR9/bNEKDTKSciHnM7aRUggLwTt+6CXkMy8an+tVqGL/MvDc4/R
- KKlZxj39xP7wVXdt8y1ciY4ZqqZf3tmmSN9DlLcZJIOT82DaJZuvr7UJ7rLzBFbAUh4yRKaN
- nwADBwQAjNvMr/KBcGsV/UvxZSm/mdpvUPtcw9qmbxCrqFQoB6TmoZ7F6wp/rL3TkQ5UElPR
- gsG12+Dk9GgRhnnxTHCFgN1qTiZNX4YIFpNrd0au3W/Xko79L0c4/49ten5OrFI/psx53fhY
- vLYfkJnc62h8hiNeM6kqYa/x0BEddu92ZG7CRgQYEQIABgUCPGJHJAAKCRBHosy62l33jMhd
- AJ48P7WDvKLQQ5MKnn2D/TI337uA/gCgn5mnvm4SBctbhaSBgckRmgSxfwQ=
-Message-ID: <f3e43a87-3fb7-68c0-2ed7-8805ae67a372@gmail.com>
-Date: Sat, 21 Sep 2019 11:54:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <Stewart.Hildebrand@dornerworks.com>)
+ id 1iBfMe-0001li-RI
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 09:23:53 -0400
+Received: from mail.dornerworks.com ([12.207.209.150]:35801
+ helo=webmail.dornerworks.com) by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <Stewart.Hildebrand@dornerworks.com>)
+ id 1iBfMe-0001kO-MN; Sat, 21 Sep 2019 09:23:52 -0400
+From: Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Esteban Bosse <estebanbosse@gmail.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, Pekka Enberg <penberg@iki.fi>,
+ =?utf-8?B?Wm9sdMOhbiBCYWxkYXN6dGk=?= <bztemail@gmail.com>
+Subject: RE: [Qemu-arm] [RFC PATCH 00/14] hw/arm: Add the Raspberry Pi 4B
+Thread-Topic: [Qemu-arm] [RFC PATCH 00/14] hw/arm: Add the Raspberry Pi 4B
+Thread-Index: AQHVY0TkMHB97Y0/60qxJoIoRMQ4KKc2NZsg
+Date: Sat, 21 Sep 2019 13:25:36 +0000
+Message-ID: <e27f5b1a3e92494086340831c3c8513c@dornerworks.com>
+References: <20190904171315.8354-1-f4bug@amsat.org>
+In-Reply-To: <20190904171315.8354-1-f4bug@amsat.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::22e
-X-Mailman-Approved-At: Sat, 21 Sep 2019 09:09:01 -0400
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.58.139.46]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 12.207.209.150
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,29 +56,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-USB card reader emulated by QEMU announces presence of PIN pad. OpenSC
-will not request PIN from user in this case and assumes PIN is being
-entered off-band on external device. Unfortunately QEMU does not seem to
-offer PIN entry and access to card always fails.
-
-Changing device to not announce non-existing capability fixes it and
-allows to use OpenSC framework with emulated card.
-
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -398,7 +398,7 @@ static const uint8_t qemu_ccid_descriptor[] = {
-                      * u16 wLcdLayout; XXYY Number of lines (XX) and
-chars per
-                      * line for LCD display used for PIN entry. 0000 -
-no LCD
-                      */
--        0x01,       /*
-+        0x00,       /*
-                      * u8  bPINSupport; 01h PIN Verification,
-                      *                  02h PIN Modification
-                      */
-
+T24gV2VkbmVzZGF5LCBTZXB0ZW1iZXIgNCwgMjAxOSAxOjEzIFBNLCBQaGlsaXBwZSBNYXRoaWV1
+LURhdWTDqSB3cm90ZToNCj5Fc3RlYmFuIHdyb3RlIG1lIG92ZXIgdGhlIHdlZWtlbmQgYXNraW5n
+IGFib3V0IHJhc3BpNCBwcm9ncmVzcy4NCj5JIGNsZWFuZWQgdXAgbXkgcGF0Y2hlcy9ub3RlcyB0
+byBwYXNzIGhpbS4gT3RoZXIgaGVscCBpcyBhbHNvIHdlbGNvbWVkIDopDQo+SSBnb3Qgc2NhcmVk
+IHRyeWluZyB0byB1bmRlcnN0YW5kIGhvdyB0byB1c2UgdGhlIEdJQywgYW5kIHdpcmUgdGhlIHZh
+cmlvdXMNCj5JUlFzLg0KPg0KPk1vc3QgaW1wb3J0YW50IG5vdGVzIGFib3V0IHRlc3RpbmcgYXJl
+IGluIHBhdGNoICMxMjoNCj4iQWRkIHRoZSBCQ00yODM4IHdoaWNoIHVzZXMgYSBHSUN2MiINCj4N
+Cj5Ob3QgbXVjaCB3b3JrcyB5ZXQsIGl0IG9ubHkgcnVucyBhIGJpdCB1bnRpbCBjb25maWd1cmlu
+ZyB0aGUgR0lDLg0KPg0KPmJyYW5jaCBwdXNoZWQgYXQgaHR0cHM6Ly9naXRsYWIuY29tL3BoaWxt
+ZC9xZW11L2NvbW1pdHMvcmFzcGk0X3dpcA0KPg0KPlJlZ2FyZHMsDQo+DQo+UGhpbC4NCg0KSXQg
+c2VlbXMgdXBzdHJlYW0gbGludXggbWF5IGJlIGFkb3B0aW5nIHRoZSBCQ00yNzExIG5hbWluZyBj
+b252ZW50aW9uIFsxXSwgdGhvdWdoIGl0IGRvZXNuJ3QgbG9vayBsaWtlIHRoZSBzZXJpZXMgWzFd
+IGhhcyBiZWVuIGNvbW1pdHRlZCB5ZXQuIFRoZSBTb0MgbmFtZSBpbiBkb2N1bWVudGF0aW9uIGlz
+IEJDTTI3MTEgWzJdLiBJIGhhdmUgbm8gb3BpbmlvbiBvbiB3aGljaCBuYW1pbmcgY29udmVudGlv
+biB0aGUgUUVNVSBjb21tdW5pdHkgYWRvcHRzLCBJIHNpbXBseSB3YW50ZWQgdG8gcGFzcyBhbG9u
+ZyB0aGlzIG9ic2VydmF0aW9uLg0KDQotU3Rldw0KDQpbMV0gaHR0cHM6Ly9wYXRjaHdvcmsua2Vy
+bmVsLm9yZy9jb3Zlci8xMTA5MjYxMy8NClsyXSBodHRwczovL3d3dy5yYXNwYmVycnlwaS5vcmcv
+ZG9jdW1lbnRhdGlvbi9oYXJkd2FyZS9yYXNwYmVycnlwaS9iY20yNzExL1JFQURNRS5tZA0K
 
