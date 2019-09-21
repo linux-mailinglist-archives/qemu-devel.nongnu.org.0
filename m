@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BC8B9C51
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 06:40:14 +0200 (CEST)
-Received: from localhost ([::1]:38844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B87B9C54
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 06:42:40 +0200 (CEST)
+Received: from localhost ([::1]:38912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBXBr-0000iN-U1
-	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 00:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40660)
+	id 1iBXEF-0003Bb-Gq
+	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 00:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iBX5K-0003RY-BL
+ (envelope-from <richard.henderson@linaro.org>) id 1iBX5K-0003R9-0h
  for qemu-devel@nongnu.org; Sat, 21 Sep 2019 00:33:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iBX5F-0006Y3-8Q
+ (envelope-from <richard.henderson@linaro.org>) id 1iBX5F-0006Xt-42
  for qemu-devel@nongnu.org; Sat, 21 Sep 2019 00:33:25 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:47014)
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:41511)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iBX5E-0006QK-HN
+ id 1iBX5E-0006R7-HU
  for qemu-devel@nongnu.org; Sat, 21 Sep 2019 00:33:20 -0400
-Received: by mail-pf1-x444.google.com with SMTP id q5so5852658pfg.13
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 21:33:07 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id t10so4136681plr.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 21:33:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8832rs/gjYJtK2KCkPzbjErZga7EWVI26gkEzFEjWFQ=;
- b=PO0GiQse2Tt2buMzBBQF17lZ2BDMqCf8+qVTGxSzCAQzsfwfnbeZvlxMEzupWX6wLH
- 5j1MdnUOo5gN83hnqC8x1HzuoI5Z4GUpQTb/4RLZ/devOLCueelWgLKzGlt8RRiuMLWw
- sI0fbHFdgZVUIB3KdZSys4UamvIKkcqXiQ5GwCNeC6b+3T9t7IIjFC9hcVn2j3PauHs8
- lKCBtyemq+6SX1W0ao6sx5uzHbzkJ8lgf4XTGbugaW/Z/x2AGoK+4iaPbEj1mz0/mQlZ
- R25hB3gjt3iSDkBzd37NQjjP1/mBdX6goqqU73oYR/DWVAjLYcEK+DmiBmsaPqowPMsi
- zV8g==
+ bh=ZAz7iFPOWkaueNLTk5914u9zAUBjebd4K9tG0kc56ik=;
+ b=W6TlkkmRUo8U+sKO+9O8huqeCjEkeVuFYHPwo1VRE8I61vhfsMZyE81CNh5nXf7SuO
+ QSGuWaIm/HZsHpLkX21TygExtQi0MwQo0zTyfw+pfmdq7VsgpIAFXE1PhP/CcqHFt4dG
+ yLVRleLCnNdjQecZPR9jSm/T5yinzn2QqpxH62gGckopHa1pvNxyD47xol+buMzBNtfI
+ PcvPXOMVHd3UjUFx8UvqoMjigQyJoDhpFjtcZs4vi/rAyHTJE7vTml58eVPzbSzuhKc9
+ ssOOTL2ZY3GAKK57+cE2ruwd0fI5RotF+phYxpljhXhtXZzpXrh08UQNGAE1seP3HQLy
+ 306w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=8832rs/gjYJtK2KCkPzbjErZga7EWVI26gkEzFEjWFQ=;
- b=tVuv9+jTzqDyo7UxB13nPk+Z6JRpdphZt/agZSwyAGaJF8E2OidnOIc+eeHFbtzeqZ
- eEVpX7pBqC1arzTG0cIDe4a6gxaxcXUklloFC7XSSwEUD62jivProMB5KywWnm1WKswq
- dzT4rRpFOnrin6Pdel43XPnZwV2ZYJ+9WErP1ckho2WG9YZB1lxjtDsgXHVdoDCd7p0q
- 1bgrTH/PeswywmjygkYirTOls5KPZyMKWIm6elR2ibqsp95O5O6SPAV7meY3TaF7wmjg
- c89e27StsPTSxWQzt8V0vzzV9bwumbZceZAGx8VH/P2Zo0ccG18btEC57jCLazghfn5L
- BHBg==
-X-Gm-Message-State: APjAAAWE7Crtgu/bP7EbYGy32dOz034GZlytCUmHcu4SiO5JJLNQv1cK
- URI9LxTgOTBOO51lsr9sFY0ZJUterVU=
-X-Google-Smtp-Source: APXvYqyEAoWRisG1pyxAcwIk1bHr4UWk6rkI6/6B8WMjvhmPvJgtkgyZmQWwxnOp+hxbx1s+D+phJA==
-X-Received: by 2002:a63:1f1f:: with SMTP id f31mr18413877pgf.353.1569040385641; 
- Fri, 20 Sep 2019 21:33:05 -0700 (PDT)
+ bh=ZAz7iFPOWkaueNLTk5914u9zAUBjebd4K9tG0kc56ik=;
+ b=XHmrMak2wq8cM3/dlm8NMM/2bm3azqLz65ztcjZuth8NV55jzJYIJM9uRDAdQePn46
+ GpqriLMbg3NYvYxFPUUJaUcdkGWX/DVdqr5uPJvN15UBihTSdwqBHjKd7ceU0ICpTK7B
+ 9AV0+bUxagVYOChHt3hqRV+EiIl9ekffOmuB809rdTR8+6f8n45WJvCjzQ6rM+PFgE5B
+ s9HMA3XJIuYYzxukTD4io5O2g8oY9Se9sdkrUA3yKHG3XRam5GLjMVb29/Tg2MUohv6L
+ 32XZa0b7dRO00XbHz0GN/LI9EZltwS6i2rosxN88QVscljWoonylydFoPEzwlbtO3wqO
+ xu4Q==
+X-Gm-Message-State: APjAAAXfrdEBTnJzC27hez1b2rWOBCvhX06+4eUvRWLd343OT87P2brQ
+ Bi3+f2M3xd6wzRguaIUa5KgrZUOuRNs=
+X-Google-Smtp-Source: APXvYqyhXN29OIOLcB/QAYkPoberrx+FTOZNo8vt0tIzRbQunVzmOhO6HjmrrE52MgfsRLTtmgfT6w==
+X-Received: by 2002:a17:902:ac98:: with SMTP id
+ h24mr21012369plr.64.1569040388609; 
+ Fri, 20 Sep 2019 21:33:08 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 193sm4179986pfc.59.2019.09.20.21.33.04
+ by smtp.gmail.com with ESMTPSA id 193sm4179986pfc.59.2019.09.20.21.33.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Sep 2019 21:33:05 -0700 (PDT)
+ Fri, 20 Sep 2019 21:33:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] target/alpha: Handle SWCR_MAP_DMZ earlier
-Date: Fri, 20 Sep 2019 21:32:53 -0700
-Message-Id: <20190921043256.4575-5-richard.henderson@linaro.org>
+Subject: [PATCH 6/7] target/alpha: Mask IOV exception with INV for user-only
+Date: Fri, 20 Sep 2019 21:32:55 -0700
+Message-Id: <20190921043256.4575-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190921043256.4575-1-richard.henderson@linaro.org>
 References: <20190921043256.4575-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,38 +80,35 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we're converting the swcr to fpcr format for exceptions,
-it's trivial to add FPCR_DNZ to the set of fpcr bits overriden.
-No functional change.
+The kernel masks the integer overflow exception with the
+software invalid exception mask.  Include IOV in the set
+of exception bits masked by fpcr_exc_enable.
+
+Fixes the new float_convs test.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/helper.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ target/alpha/helper.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index e21c488aa3..2f959c65ef 100644
+index 1b3479738b..55d7274d94 100644
 --- a/target/alpha/helper.c
 +++ b/target/alpha/helper.c
-@@ -57,7 +57,7 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
-      * the software exception mask.
+@@ -58,6 +58,13 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
       */
      uint32_t soft_fpcr = alpha_ieee_swcr_to_fpcr(env->swcr) >> 32;
--    fpcr |= soft_fpcr & FPCR_STATUS_MASK;
-+    fpcr |= soft_fpcr & (FPCR_STATUS_MASK | FPCR_DNZ);
+     fpcr |= soft_fpcr & (FPCR_STATUS_MASK | FPCR_DNZ);
++
++    /*
++     * The IOV exception is disabled by the kernel with SWCR_TRAP_ENABLE_INV,
++     * which got mapped by alpha_ieee_swcr_to_fpcr to FPCR_INVD.
++     * Add FPCR_IOV to fpcr_exc_enable so that it is handled identically.
++     */
++    t |= CONVERT_BIT(soft_fpcr, FPCR_INVD, FPCR_IOV);
  #endif
  
      t |= CONVERT_BIT(fpcr, FPCR_INED, FPCR_INE);
-@@ -73,9 +73,6 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
-     env->fpcr_flush_to_zero = (fpcr & FPCR_UNFD) && (fpcr & FPCR_UNDZ);
-     env->fp_status.flush_inputs_to_zero = (fpcr & FPCR_DNZ) != 0;
- #ifdef CONFIG_USER_ONLY
--    if (env->swcr & SWCR_MAP_DMZ) {
--        env->fp_status.flush_inputs_to_zero = 1;
--    }
-     if (env->swcr & SWCR_MAP_UMZ) {
-         env->fpcr_flush_to_zero = 1;
-     }
 -- 
 2.17.1
 
