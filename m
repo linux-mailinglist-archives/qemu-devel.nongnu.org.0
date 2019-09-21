@@ -2,62 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249E7B9BCF
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 03:14:39 +0200 (CEST)
-Received: from localhost ([::1]:36606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124C4B9BE1
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 03:41:23 +0200 (CEST)
+Received: from localhost ([::1]:36708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBTyv-0005ma-NS
-	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 21:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56113)
+	id 1iBUOn-0003dj-Kj
+	for lists+qemu-devel@lfdr.de; Fri, 20 Sep 2019 21:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <incredible.tack@gmail.com>) id 1iBOAG-0007Mf-Bi
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:01:58 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iBUNu-0003DG-4K
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 21:40:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <incredible.tack@gmail.com>) id 1iBOAE-0003gY-85
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:01:56 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53836)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <incredible.tack@gmail.com>)
- id 1iBOAC-0003e6-74
- for qemu-devel@nongnu.org; Fri, 20 Sep 2019 15:01:54 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id i16so3629031wmd.3
- for <qemu-devel@nongnu.org>; Fri, 20 Sep 2019 12:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=oxdvlxxBL97ZJrjo/qzPpYv9v7YPNbs+U5iOTGBBQ9c=;
- b=ZAvwBMeE5F6n5JV+RZmWcjezoi4b7nqcJqJTFdmVsoQ+t2VTYwJ1z8c9tq8cXXFzKQ
- eDkPIq+ZrHIJJzh7T99WcevEDkEjej2A0r3M8cisOVpt/B8BuWcOQUovOpeHhIWxrPYD
- 4ErRC9efFdgzC7gFZbdRiAV/hcm05IXIYJr7r6jxhi+32vvVKnzA+YjXEvuuHbVKBmVw
- dnXsZ61TRMPrbMSRSrCMtfqdEYy8oFzC/OgA/80xdmji0PNhJOda+HT9ytDH1ppiJAze
- 7vMNuzIKgdVMVfo99muCWrrqGarOKjQMtUiuQ96H1vWLpEojvptBN2KJpktyb8mf4O++
- GNwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=oxdvlxxBL97ZJrjo/qzPpYv9v7YPNbs+U5iOTGBBQ9c=;
- b=h3Vyi915m5j6Jf0PKxx3xclrSf6Uxs7X26YlJeArRQ3CqW20NeDogkgV5hd9reEBNx
- rWGk7mpNO0xvx3IPf841IfnGesvcoXKtRDSVoPrP4RBPC2NrtSANUPjR0uFWyIOCkkcD
- nHlB71w4vzmGSlAxZe3GgVHsKJagsNCpDXz6hDbj+k8baFqNjwXgINjHW1IThdV62l4R
- PEai5ZCZd9LAjHp4uiWfV/XJ9WlRbvFh2NRrpJzvF3NvjnATKtjnzg3Xn5T1Y7zeXuQq
- nHbxd9pEC32a5Xzh+M41a9ubQVixI37EStxd4t6VnBDvHVO8ltOx2DyvfoOiw3gpvXWV
- qVBw==
-X-Gm-Message-State: APjAAAXPRxHgNPHfgn3tvlyXy1RsjsxtMfepWj8gDgiHACslg/iGkQ13
- GJFZfjeR7td0TdOn+xKY5yeoHGYNkkmB22ZSGAsfBJEVpgI=
-X-Google-Smtp-Source: APXvYqwQr4G/hi9tFcOoJB+jML5ZhKhFXqPafxS5PY8Ka6tooY47PGAmqKxVLTCz+WC9M6RrYQsbvhB3eJC0/McB6j8=
-X-Received: by 2002:a7b:c5c5:: with SMTP id n5mr4424538wmk.69.1569006108070;
- Fri, 20 Sep 2019 12:01:48 -0700 (PDT)
+ (envelope-from <no-reply@patchew.org>) id 1iBUNr-0000nT-Tx
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 21:40:25 -0400
+Resent-Date: Fri, 20 Sep 2019 21:40:25 -0400
+Resent-Message-Id: <E1iBUNr-0000nT-Tx@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21563)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iBUNr-0000k4-Im
+ for qemu-devel@nongnu.org; Fri, 20 Sep 2019 21:40:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1569029994; cv=none; d=zoho.com; s=zohoarc; 
+ b=QF2QAVAAo7nVDeDn3lU33PKHfcQiHXdYMFDscdgAcwXg5K022Tu13unz6S2RRO0I/psVKZ0CvE3Vkx7WAPHf4ZXsfUkuPI1XmVVSnVvzBdpj8vtgWR/HmsQixeEj4xXjGipjZoux2IgRdtLqbiX+M8FPD2Dy53Vjs3WujPSo01g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1569029994;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=jSW4Dk1vzSdwFJaaf9R78m3LVMN/mHcSKhTgrQyUf1s=; 
+ b=cdp+KVwVwQjXl5U7SRD0OmyI3PCQ3yeHxe6IKVdK41oM4KuvA6BXhhLK1HpmhJrFKl7qdBE05ytCDEnMMxGqSLTSr7tEk5dLaisVBs6W0eJOlR4uWnzrJKJYa5tirAWdK+1n/2XRxbgNDry8VP9lVzEfKJvibEEtW3afaPGPeH8=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1569029993759558.2509693219075;
+ Fri, 20 Sep 2019 18:39:53 -0700 (PDT)
+In-Reply-To: <20190920074349.2616-1-tao3.xu@intel.com>
+Subject: Re: [PATCH v12 00/11] Build ACPI Heterogeneous Memory Attribute Table
+ (HMAT)
+Message-ID: <156902999228.6626.2651850156767944067@1c8ae44fe5c0>
 MIME-Version: 1.0
-From: Jintack Lim <incredible.tack@gmail.com>
-Date: Fri, 20 Sep 2019 12:01:36 -0700
-Message-ID: <CAHyh4xhYrUbK0aEJmKp3_kOJG2E+AQLMUjyf7_pXVJgbqgv5JA@mail.gmail.com>
-Subject: Migration failure when running nested VMs
-To: QEMU Devel Mailing List <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32e
-X-Mailman-Approved-At: Fri, 20 Sep 2019 21:10:46 -0400
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: tao3.xu@intel.com
+Date: Fri, 20 Sep 2019 18:39:53 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,48 +62,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, jingqi.liu@intel.com, tao3.xu@intel.com,
+ fan.du@intel.com, qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
+ imammedo@redhat.com, dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyMDA3NDM0OS4yNjE2
+LTEtdGFvMy54dUBpbnRlbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
+YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
+LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
+IEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBORVRX
+T1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBKPTE0
+IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKbGlidWRldiAgICAgICAgICAgbm8K
+ZGVmYXVsdCBkZXZpY2VzICAgeWVzCgp3YXJuaW5nOiBQeXRob24gMiBzdXBwb3J0IGlzIGRlcHJl
+Y2F0ZWQKd2FybmluZzogUHl0aG9uIDMgd2lsbCBiZSByZXF1aXJlZCBmb3IgYnVpbGRpbmcgZnV0
+dXJlIHZlcnNpb25zIG9mIFFFTVUKY3Jvc3MgY29udGFpbmVycyAgbm8KCk5PVEU6IGd1ZXN0IGNy
+b3NzLWNvbXBpbGVycyBlbmFibGVkOiBjYwotLS0KTG9va2luZyBmb3IgZXhwZWN0ZWQgZmlsZSAn
+dGVzdHMvZGF0YS9hY3BpL3BjL1NSQVQuYWNwaWhtYXQnCkxvb2tpbmcgZm9yIGV4cGVjdGVkIGZp
+bGUgJ3Rlc3RzL2RhdGEvYWNwaS9wYy9TUkFUJwoqKgpFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMv
+dGVzdHMvYmlvcy10YWJsZXMtdGVzdC5jOjMyNzpsb2FkX2V4cGVjdGVkX2FtbDogYXNzZXJ0aW9u
+IGZhaWxlZDogKGV4cF9zZHQuYW1sX2ZpbGUpCkVSUk9SIC0gQmFpbCBvdXQhIEVSUk9SOi90bXAv
+cWVtdS10ZXN0L3NyYy90ZXN0cy9iaW9zLXRhYmxlcy10ZXN0LmM6MzI3OmxvYWRfZXhwZWN0ZWRf
+YW1sOiBhc3NlcnRpb24gZmFpbGVkOiAoZXhwX3NkdC5hbWxfZmlsZSkKbWFrZTogKioqIFtjaGVj
+ay1xdGVzdC14ODZfNjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQg
+am9icy4uLi4KICBURVNUICAgIGlvdGVzdC1xY293MjogMDM4CgoKVGhlIGZ1bGwgbG9nIGlzIGF2
+YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDkyMDA3NDM0OS4yNjE2LTEt
+dGFvMy54dUBpbnRlbC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNz
+YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
+Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
+ZWxAcmVkaGF0LmNvbQ==
 
-I'm seeing VM live migration failure when a VM is running a nested VM.
-I'm using latest Linux kernel (v5.3) and QEMU (v4.1.0). I also tried
-v5.2, but the result was the same. Kernel versions in L1 and L2 VM are
-v4.18, but I don't think that matters.
-
-The symptom is that L2 VM kernel crashes in different places after
-migration but the call stack is mostly related to memory management
-like [1] and [2]. The kernel crash happens almost all the time. While
-L2 VM gets kernel panic, L1 VM runs fine after the migration. Both L1
-and L2 VM were doing nothing during migration.
-
-I found a few clues about this issue.
-1) It happens with a relatively large memory for L1 (24G), but it does
-not with a smaller size (3G).
-
-2) Dead migration worked; when I ran "stop" command in the qemu
-monitor for L1 first and did migration, migration worked always. It
-also worked when I only stopped L2 VM and kept L1 live during the
-migration.
-
-With those two clues, I guess maybe some dirty pages made by L2 are
-not transferred to the destination correctly, but I'm not really sure.
-
-3) It happens on Intel(R) Xeon(R) Silver 4114 CPU, but it does not on
-Intel(R) Xeon(R) CPU E5-2630 v3 CPU.
-
-This makes me confused because I thought migrating nested state
-doesn't depend on the underlying hardware.. Anyways, L1-only migration
-with the large memory size (24G) works on both CPUs without any
-problem.
-
-I would appreciate any comments/suggestions to fix this problem.
-
-Thanks,
-Jintack
-
-
-[1]https://paste.ubuntu.com/p/XGDKH45yt4/
-[2]https://paste.ubuntu.com/p/CpbVTXJCyc/
 
