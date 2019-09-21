@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1A6B9E4D
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 17:06:25 +0200 (CEST)
-Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F89B9E50
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 17:08:12 +0200 (CEST)
+Received: from localhost ([::1]:42318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBgxs-0005oc-1Y
-	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 11:06:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39773)
+	id 1iBgzb-0007p1-4p
+	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 11:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iBgw5-0004KV-M1
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:04:34 -0400
+ (envelope-from <thuth@redhat.com>) id 1iBgw6-0004L1-2l
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:04:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iBgw4-0003Dg-NG
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:04:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51844)
+ (envelope-from <thuth@redhat.com>) id 1iBgw4-0003Dm-UM
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:04:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40496)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iBgw1-0003CV-9R; Sat, 21 Sep 2019 11:04:29 -0400
+ id 1iBgw2-0003Cr-A5; Sat, 21 Sep 2019 11:04:30 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A54088535D;
- Sat, 21 Sep 2019 15:04:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 87CF23082B45;
+ Sat, 21 Sep 2019 15:04:29 +0000 (UTC)
 Received: from thuth.com (ovpn-116-27.ams2.redhat.com [10.36.116.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2025E608A5;
- Sat, 21 Sep 2019 15:04:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16C1160920;
+ Sat, 21 Sep 2019 15:04:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 0/4] Make it possible to compile with CONFIG_ARM_V7M=n
-Date: Sat, 21 Sep 2019 17:04:16 +0200
-Message-Id: <20190921150420.30743-1-thuth@redhat.com>
+Subject: [PATCH 1/4] target/arm: Make cpu_register() and set_feature()
+ available for other files
+Date: Sat, 21 Sep 2019 17:04:17 +0200
+Message-Id: <20190921150420.30743-2-thuth@redhat.com>
+In-Reply-To: <20190921150420.30743-1-thuth@redhat.com>
+References: <20190921150420.30743-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Sat, 21 Sep 2019 15:04:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Sat, 21 Sep 2019 15:04:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,38 +59,139 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We've got CONFIG_ARM_V7M, but it currently can't be disabled.
-Here are some patches that should allow to disable the switch
-(if the corresponding boards are disabled, too).
+Move the common set_feature() and unset_feature() functions from cpu.c and
+cpu64.c to internals.h, and make cpu_register() (renamed to arm_cpu_register())
+available from there, too, so we can register CPUs also from other files
+in the future.
 
-RFC -> v1:
- - Move the definitions into internals.h instead of cpu.h in the 1st patch
- - Instead of creating an ugly stubs file, simply make armv7m_nvic.c
-   mandatory for linking.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ target/arm/cpu.c       | 20 ++------------------
+ target/arm/cpu64.c     | 17 +----------------
+ target/arm/internals.h | 18 ++++++++++++++++++
+ 3 files changed, 21 insertions(+), 34 deletions(-)
 
-Thomas Huth (4):
-  target/arm: Make cpu_register() and set_feature() available for other
-    files
-  target/arm: Move cortex-m related functions to new file v7m.c
-  hw/arm: Move armv7m_nvic.c to hw/arm/ and always enable it for arm
-    builds
-  default-configs: Do not enforce CONFIG_ARM_V7M anymore
-
- default-configs/arm-softmmu.mak |   3 -
- hw/arm/Makefile.objs            |   2 +
- hw/{intc => arm}/armv7m_nvic.c  |   0
- hw/arm/trace-events             |  17 +++
- hw/intc/Makefile.objs           |   1 -
- hw/intc/trace-events            |  17 ---
- target/arm/Makefile.objs        |   1 +
- target/arm/cpu.c                | 166 +--------------------------
- target/arm/cpu64.c              |  17 +--
- target/arm/internals.h          |  18 +++
- target/arm/v7m.c                | 193 ++++++++++++++++++++++++++++++++
- 11 files changed, 234 insertions(+), 201 deletions(-)
- rename hw/{intc => arm}/armv7m_nvic.c (100%)
- create mode 100644 target/arm/v7m.c
-
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 2399c14471..f1f9eecdc8 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -614,16 +614,6 @@ static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
+ 
+ #endif
+ 
+-static inline void set_feature(CPUARMState *env, int feature)
+-{
+-    env->features |= 1ULL << feature;
+-}
+-
+-static inline void unset_feature(CPUARMState *env, int feature)
+-{
+-    env->features &= ~(1ULL << feature);
+-}
+-
+ static int
+ print_insn_thumb1(bfd_vma pc, disassemble_info *info)
+ {
+@@ -2515,12 +2505,6 @@ static void arm_max_initfn(Object *obj)
+ 
+ #endif /* !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64) */
+ 
+-struct ARMCPUInfo {
+-    const char *name;
+-    void (*initfn)(Object *obj);
+-    void (*class_init)(ObjectClass *oc, void *data);
+-};
+-
+ static const ARMCPUInfo arm_cpus[] = {
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+     { .name = "arm926",      .initfn = arm926_initfn },
+@@ -2681,7 +2665,7 @@ static void cpu_register_class_init(ObjectClass *oc, void *data)
+     acc->info = data;
+ }
+ 
+-static void cpu_register(const ARMCPUInfo *info)
++void arm_cpu_register(const ARMCPUInfo *info)
+ {
+     TypeInfo type_info = {
+         .parent = TYPE_ARM_CPU,
+@@ -2722,7 +2706,7 @@ static void arm_cpu_register_types(void)
+     type_register_static(&idau_interface_type_info);
+ 
+     while (info->name) {
+-        cpu_register(info);
++        arm_cpu_register(info);
+         info++;
+     }
+ 
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index d7f5bf610a..5239ba5529 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
++#include "internals.h"
+ #include "qemu/module.h"
+ #if !defined(CONFIG_USER_ONLY)
+ #include "hw/loader.h"
+@@ -29,16 +30,6 @@
+ #include "kvm_arm.h"
+ #include "qapi/visitor.h"
+ 
+-static inline void set_feature(CPUARMState *env, int feature)
+-{
+-    env->features |= 1ULL << feature;
+-}
+-
+-static inline void unset_feature(CPUARMState *env, int feature)
+-{
+-    env->features &= ~(1ULL << feature);
+-}
+-
+ #ifndef CONFIG_USER_ONLY
+ static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+@@ -396,12 +387,6 @@ static void aarch64_max_initfn(Object *obj)
+     }
+ }
+ 
+-struct ARMCPUInfo {
+-    const char *name;
+-    void (*initfn)(Object *obj);
+-    void (*class_init)(ObjectClass *oc, void *data);
+-};
+-
+ static const ARMCPUInfo aarch64_cpus[] = {
+     { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
+     { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 232d963875..e71196ed5f 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1046,4 +1046,22 @@ void arm_log_exception(int idx);
+ 
+ #endif /* !CONFIG_USER_ONLY */
+ 
++static inline void set_feature(CPUARMState *env, int feature)
++{
++    env->features |= 1ULL << feature;
++}
++
++static inline void unset_feature(CPUARMState *env, int feature)
++{
++    env->features &= ~(1ULL << feature);
++}
++
++struct ARMCPUInfo {
++    const char *name;
++    void (*initfn)(Object *obj);
++    void (*class_init)(ObjectClass *oc, void *data);
++};
++
++void arm_cpu_register(const ARMCPUInfo *info);
++
+ #endif
 -- 
 2.18.1
 
