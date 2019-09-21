@@ -2,46 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5F4B9E4E
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 17:06:32 +0200 (CEST)
-Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A87B9EA8
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Sep 2019 17:26:15 +0200 (CEST)
+Received: from localhost ([::1]:42412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBgxz-000630-M5
-	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 11:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39844)
+	id 1iBhH3-0005sJ-La
+	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 11:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iBgwC-0004PV-Jj
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:04:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iBhFs-00053W-VL
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:25:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iBgwB-0003Fy-BZ
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:04:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46728)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iBgw7-0003EV-VH; Sat, 21 Sep 2019 11:04:36 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 455F9882FB;
- Sat, 21 Sep 2019 15:04:35 +0000 (UTC)
-Received: from thuth.com (ovpn-116-27.ams2.redhat.com [10.36.116.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA237608A5;
- Sat, 21 Sep 2019 15:04:33 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 4/4] default-configs: Do not enforce CONFIG_ARM_V7M anymore
-Date: Sat, 21 Sep 2019 17:04:20 +0200
-Message-Id: <20190921150420.30743-5-thuth@redhat.com>
-In-Reply-To: <20190921150420.30743-1-thuth@redhat.com>
-References: <20190921150420.30743-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Sat, 21 Sep 2019 15:04:35 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+ (envelope-from <richard.henderson@linaro.org>) id 1iBhFr-0003by-De
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:25:00 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:34075)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iBhFr-0003bq-7X
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 11:24:59 -0400
+Received: by mail-pl1-x644.google.com with SMTP id d3so4581198plr.1
+ for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 08:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bB1j4rEX84ivv+h42P8l+qVSUWexyhqEhC3J+SgOpbg=;
+ b=tMOnsQgVBpCfUfRMYScX7fymkcPFqIA9N5DoIZfxgGk5bGKn6eEgAukbrVSEWXq2AA
+ 5Uy24y75Nl5mMJy7+F2KSDMVUp7RsQUXx7azzs/C1MjYSwxZ2OpZtGJ69Uqq6pRUASMO
+ vZxUAUNr3nSiXg9xRkubW0y4ZBl2qmczR4T7vmDe/ks8EZC+XW4gWdV6Eqr3ob7ARwbs
+ CE9sVDx0hXN7WEBmxrgXWymT5b+3BIxFqr9+uygs0bs7bty+OaHNlCYmZMTJRnvkjvyB
+ PqvZRTSmUgAGXJkYcTgLcTu4mA2occx7nmjNFBENVE3iyU/X49xFTdnyWBECS/RiSKBa
+ O35g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bB1j4rEX84ivv+h42P8l+qVSUWexyhqEhC3J+SgOpbg=;
+ b=G/fdOL5fLSWD/1yv2QQS1gRrbanen3HK/Y5BmwYOwE9mVfT6bPy2YSKpI+fnRk+VJI
+ cKNM4Iv0ErsJeOH2U9DK8Fb2S3hjWwJ9fquMEtQ3e7oz4Nd28S8nZzM4PwKvnBShhQEk
+ ORxRli29HI90NdL/NkOXmmbKu0W2k98KSxM20L0VMTYeA7D8T7oRuhnMfETXLFZr26LH
+ nRHr1+vCH/k1esCRbm2oJjiwkERDRa+SxXe1tnYxhzeOhjcqUg5LpEURWnWvAvOOafMA
+ QTIWoZ/dPYxxrYepMTXo6mVoSbaK2bblteIN4GH5Sz7DXgFWyJ8VMqeyE/LCWmKsoZzE
+ td2Q==
+X-Gm-Message-State: APjAAAXtDPJsB4JaFZLu70MzrMmUD0xbwnH206HEaV3cCiyhCIEIZNO8
+ ahagivDwRDzu6L7Z1mzJAc7CLg==
+X-Google-Smtp-Source: APXvYqwf8dcwZycnHIzcJpGZVDGird/hnP2CEjP+vThHBA7ZTEeSfxwSKpd/D//sNf/WVAEVrQZEqg==
+X-Received: by 2002:a17:902:9f91:: with SMTP id
+ g17mr21261100plq.298.1569079498074; 
+ Sat, 21 Sep 2019 08:24:58 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id i1sm10824936pfe.136.2019.09.21.08.24.56
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 21 Sep 2019 08:24:56 -0700 (PDT)
+Subject: Re: [PATCH] hw/m68k/next-cube: Avoid static RTC variables and
+ introduce control register
+To: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org
+References: <20190921091738.26953-1-huth@tuxfamily.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <e27eb89c-433f-add0-b9db-43d77a83ef49@linaro.org>
+Date: Sat, 21 Sep 2019 08:24:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190921091738.26953-1-huth@tuxfamily.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,34 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arm builds can now be done without CONFIG_ARM_V7M, so do not
-enforce this config switch anymore, it's getting selected in
-hw/arm/Kconfig automatically if needed.
+On 9/21/19 2:17 AM, Thomas Huth wrote:
+> Coverity currently complains that the "if (0x00 & (0x80 >> (phase - 8))"
+> in next-cube.c can never be true. Right it is. The "0x00" is meant as value
+> of the control register of the RTC, which is currently not implemented yet.
+> Thus, let's add a register variable for this now. However, the RTC
+> registers are currently defined as static variables in nextscr2_write(),
+> which is quite ugly. Thus let's also move the RTC variables to the main
+> machine state instead. In the long run, we should likely even refactor
+> the whole RTC code into a separate device in a separate file, but that's
+> something for calm winter nights later... as a first step, cleaning up
+> the static variables and shutting up the warning from Coverity should
+> be sufficient.
+> 
+> Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- default-configs/arm-softmmu.mak | 3 ---
- 1 file changed, 3 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
-index 1f2e0e7fde..64f5ac24bf 100644
---- a/default-configs/arm-softmmu.mak
-+++ b/default-configs/arm-softmmu.mak
-@@ -1,8 +1,5 @@
- # Default configuration for arm-softmmu
- 
--# TODO: ARM_V7M is currently always required - make this more flexible!
--CONFIG_ARM_V7M=y
--
- # CONFIG_PCI_DEVICES=n
- # CONFIG_TEST_DEVICES=n
- 
--- 
-2.18.1
+>                      /* for now 0x00 */
+> -                    if (0x00 & (0x80 >> (phase - 8))) {
+> +                    if (rtc->control & (0x80 >> (phase - 8))) {
 
+You might kill the comment too.
+
+
+r~
 
