@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82319BA099
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 06:14:33 +0200 (CEST)
-Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C832BA144
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 08:48:30 +0200 (CEST)
+Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBtGa-0003ov-IM
-	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 00:14:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
+	id 1iBvfY-0007Kc-Sy
+	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 02:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iBt4f-0008M1-9n
- for qemu-devel@nongnu.org; Sun, 22 Sep 2019 00:02:14 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iBvej-0006v6-Tt
+ for qemu-devel@nongnu.org; Sun, 22 Sep 2019 02:47:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iBt4e-0002qN-9Q
- for qemu-devel@nongnu.org; Sun, 22 Sep 2019 00:02:13 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33290)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iBt4e-0002pN-2x
- for qemu-devel@nongnu.org; Sun, 22 Sep 2019 00:02:12 -0400
-Received: by mail-pf1-x443.google.com with SMTP id q10so7016847pfl.0
- for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 21:02:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Lb3EeQrSzIyUVdyvEpicOamQhqcf++6Y1nzM2XmSLEA=;
- b=o5ljQ25+FhXMkpZV2b36iqMbRhpRijiL4e8u0qMSMpkMhKpXGEV8pOISuGlNWOJJME
- qlwNjrGKbvWlUDzPx1jIEQsCxj+dYVpG/ydjsEUueIyvg2XkoLEO6c5FntJ0nkf+Nu8g
- HFYm5On+p/T08UX6hZ+KdlLcGO4VfJYUtraJIgwsK71VgMd6NEuJKcQ1C4QrdmoYkn95
- OyjaHHIvamTaZ5otPOy4wh0rc9CgCzEnBmFOXMioxdL4VmO+9oWvvZHhoR2k8iaO1QtU
- B5/PRltPelTUSiysTA9SgvfUTeFrKKKQB55ou4fcC0PWW+XyoT0+b5Y/Ot8wuiKcUBn7
- O9YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Lb3EeQrSzIyUVdyvEpicOamQhqcf++6Y1nzM2XmSLEA=;
- b=li7+3jMvs6hJSIOuoml68exO9CnLaMhajVl/hDGXwUckQw7tYd/o4URu95ro+j8yZD
- cIKBrvvlupl8JQwCpO8SN9PxH1Mc4eKYhAxZkH5qwbYRivBhNCZHIrJnjfRVFFNe22Q0
- d6vZq1sLHn016NcSUjEB7xixTdX/cS2gESqWo6tOkHYp9YH656unmgmS1Naidqf3PaKr
- RssYED86sVf7y4NB1oBOk75OB6DOFCw/o3Ehh8HNpPCbN6312kQVCS0rqa2nI/5OmyzI
- Ndg9WvpsOrGHNVKhdc6NrU8o91J6+UrQ985RM17Bbn+O/zZDh07AEIJ9nIGDepT8OfWs
- mwDg==
-X-Gm-Message-State: APjAAAUhdEP4TEwJW0ABbK1OcTqzb/B/9h3mSNdHJZfSvWU8RV8LGQeO
- gCD/MRCBcAMoVowMW0r92QenRw==
-X-Google-Smtp-Source: APXvYqzGhgPQfGGLgvyE2El4CZ++DFKGJT0MDHyCqi3dM1aoBKxNsBGlGbQUNhGZrZ06PZ/aqt2s8g==
-X-Received: by 2002:a17:90a:f98f:: with SMTP id
- cq15mr5652614pjb.54.1569124930414; 
- Sat, 21 Sep 2019 21:02:10 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id a17sm7184252pfc.26.2019.09.21.21.02.09
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 21 Sep 2019 21:02:09 -0700 (PDT)
-Subject: Re: [PATCH v3 00/20] Move rom and notdirty handling to cputlb
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20190922035458.14879-1-richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <2f13f98e-3e6c-f147-a8ab-dffff547abd0@linaro.org>
-Date: Sat, 21 Sep 2019 21:02:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
+ (envelope-from <no-reply@patchew.org>) id 1iBveZ-00017A-Bj
+ for qemu-devel@nongnu.org; Sun, 22 Sep 2019 02:47:37 -0400
+Resent-Date: Sun, 22 Sep 2019 02:47:37 -0400
+Resent-Message-Id: <E1iBveZ-00017A-Bj@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21426)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iBveZ-0000zE-0r
+ for qemu-devel@nongnu.org; Sun, 22 Sep 2019 02:47:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1569134811; cv=none; d=zoho.com; s=zohoarc; 
+ b=dTHVh4U543i5CP1nzTzJniaqhTFb+1cWS8z+lo+rSqumHwJHvYMw5kU+RGdxy0zZnv9KC9hwIOfKzOHzWdj51WEOKOfQ2R7I/xqpK6bqQ+CVeardNe8RGxhfd2U0aqkyUNgYzAk28aIJUqfn393e4qMG+qpH8Gi2vRhqMfgQeaE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1569134811;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=Ibe8FNkWbgTKkyd4rRo/5csM/bByzlEWQ3OzNp+wYpo=; 
+ b=A8UDyusVH/iOP5iWENgS14vt9YQmyZXLMHoIB/Apwa6MAAHl/15taP2pg7MkeFRf8mYeHOPw7MJ9OOochJIp4KfZ+IU511ZUasCtL4E3kjbF5dMh072WhC37RqJBrm9e0rWUPWHIiQkV7xLSjophcjVvrMd0o1fh9sSKVNl8wio=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1569134808632619.9523183915364;
+ Sat, 21 Sep 2019 23:46:48 -0700 (PDT)
 In-Reply-To: <20190922035458.14879-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [PATCH v3 00/20] Move rom and notdirty handling to cputlb
+Message-ID: <156913480730.9436.3763884186277417250@1c8ae44fe5c0>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Sat, 21 Sep 2019 23:46:48 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,24 +61,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
- david@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ stefanha@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/19 8:54 PM, Richard Henderson wrote:
-> Richard Henderson (20):
->   exec: Use TARGET_PAGE_BITS_MIN for TLB flags
->   exec: Split out variable page size support to exec-vary.c
->   exec: Use const alias for TARGET_PAGE_BITS_VARY
->   exec: Restrict TARGET_PAGE_BITS_VARY assert to CONFIG_DEBUG_TCG
->   exec: Promote TARGET_PAGE_MASK to target_long
->   exec: Tidy TARGET_PAGE_ALIGN
->   exec: Cache TARGET_PAGE_MASK for TARGET_PAGE_BITS_VARY
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyMjAzNTQ1OC4xNDg3
+OS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwOTIyMDM1NDU4LjE0ODc5LTEt
+cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFUQ0ggdjMgMDAvMjBdIE1v
+dmUgcm9tIGFuZCBub3RkaXJ0eSBoYW5kbGluZyB0byBjcHV0bGIKVHlwZTogc2VyaWVzCgo9PT0g
+VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
+ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
+IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20v
+cGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDE5MDky
+MjAzNTQ1OC4xNDg3OS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8y
+MDE5MDkyMjAzNTQ1OC4xNDg3OS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKU3dpdGNo
+ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwozNGRkMTMwIGNwdXRsYjogUGFzcyByZXRhZGRyIHRv
+IHRiX2NoZWNrX3dhdGNocG9pbnQKN2Q5NTgyMSBjcHV0bGI6IFBhc3MgcmV0YWRkciB0byB0Yl9p
+bnZhbGlkYXRlX3BoeXNfcGFnZV9mYXN0CjBmODJmN2EgY3B1dGxiOiBSZW1vdmUgdGJfaW52YWxp
+ZGF0ZV9waHlzX3BhZ2VfcmFuZ2UgaXNfY3B1X3dyaXRlX2FjY2VzcwoxNDNiODk3IGNwdXRsYjog
+UmVtb3ZlIGNwdS0+bWVtX2lvX3ZhZGRyCjFhYzgyMDEgY3B1dGxiOiBIYW5kbGUgVExCX05PVERJ
+UlRZIGluIHByb2JlX2FjY2VzcwpkOWZmMWEzIGNwdXRsYjogTWVyZ2UgYW5kIG1vdmUgbWVtb3J5
+X25vdGRpcnR5X3dyaXRlX3twcmVwYXJlLCBjb21wbGV0ZX0KMzJhYmJhZSBjcHV0bGI6IFBhcnRp
+YWxseSBpbmxpbmUgbWVtb3J5X3JlZ2lvbl9zZWN0aW9uX2dldF9pb3RsYgozOTc2ZWY5IGNwdXRs
+YjogTW92ZSBOT1RESVJUWSBoYW5kbGluZyBmcm9tIEkvTyBwYXRoIHRvIFRMQiBwYXRoCjRmM2U4
+YWEgY3B1dGxiOiBNb3ZlIFJPTSBoYW5kbGluZyBmcm9tIEkvTyBwYXRoIHRvIFRMQiBwYXRoCjNj
+NDJlOTggZXhlYzogQWRqdXN0IG5vdGRpcnR5IHRyYWNpbmcKZTNiYjI3NiBjcHV0bGI6IEludHJv
+ZHVjZSBUTEJfQlNXQVAKZTQ4MzI2YSBjcHV0bGI6IFJlcGxhY2Ugc3dpdGNoZXMgaW4gbG9hZC9z
+dG9yZV9oZWxwZXIgd2l0aCBjYWxsYmFjawoyODdiNzAwIGNwdXRsYjogRGlzYWJsZSBfX2Fsd2F5
+c19pbmxpbmVfXyB3aXRob3V0IG9wdGltaXphdGlvbgo4YzgwMWFlIGV4ZWM6IENhY2hlIFRBUkdF
+VF9QQUdFX01BU0sgZm9yIFRBUkdFVF9QQUdFX0JJVFNfVkFSWQoyZjc2NjU1IGV4ZWM6IFRpZHkg
+VEFSR0VUX1BBR0VfQUxJR04KYWE3ZmRmMiBleGVjOiBQcm9tb3RlIFRBUkdFVF9QQUdFX01BU0sg
+dG8gdGFyZ2V0X2xvbmcKMjBjNmU2MiBleGVjOiBSZXN0cmljdCBUQVJHRVRfUEFHRV9CSVRTX1ZB
+UlkgYXNzZXJ0IHRvIENPTkZJR19ERUJVR19UQ0cKNGRiNGM4NyBleGVjOiBVc2UgY29uc3QgYWxp
+YXMgZm9yIFRBUkdFVF9QQUdFX0JJVFNfVkFSWQowZDM0NTdlIGV4ZWM6IFNwbGl0IG91dCB2YXJp
+YWJsZSBwYWdlIHNpemUgc3VwcG9ydCB0byBleGVjLXZhcnkuYwpiNGIyYzA1IGV4ZWM6IFVzZSBU
+QVJHRVRfUEFHRV9CSVRTX01JTiBmb3IgVExCIGZsYWdzCgo9PT0gT1VUUFVUIEJFR0lOID09PQox
+LzIwIENoZWNraW5nIGNvbW1pdCBiNGIyYzA1ZWFhMTIgKGV4ZWM6IFVzZSBUQVJHRVRfUEFHRV9C
+SVRTX01JTiBmb3IgVExCIGZsYWdzKQoyLzIwIENoZWNraW5nIGNvbW1pdCAwZDM0NTdlZTI4NTAg
+KGV4ZWM6IFNwbGl0IG91dCB2YXJpYWJsZSBwYWdlIHNpemUgc3VwcG9ydCB0byBleGVjLXZhcnku
+YykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
+TkVSUyBuZWVkIHVwZGF0aW5nPwojMzM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAg
+ZXJyb3JzLCAxIHdhcm5pbmdzLCAxMjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yMCBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgozLzIwIENoZWNraW5nIGNvbW1pdCA0ZGI0Yzg3ODJkOGMgKGV4
+ZWM6IFVzZSBjb25zdCBhbGlhcyBmb3IgVEFSR0VUX1BBR0VfQklUU19WQVJZKQpFUlJPUjogZXh0
+ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojNTg6IEZJTEU6IGV4ZWMtdmFyeS5j
+OjUzOgorZXh0ZXJuIGNvbnN0IFRhcmdldFBhZ2VCaXRzIHRhcmdldF9wYWdlCgp0b3RhbDogMSBl
+cnJvcnMsIDAgd2FybmluZ3MsIDgyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMjAgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KCjQvMjAgQ2hlY2tpbmcgY29tbWl0IDIwYzZlNjIwY2VlOSAoZXhl
+YzogUmVzdHJpY3QgVEFSR0VUX1BBR0VfQklUU19WQVJZIGFzc2VydCB0byBDT05GSUdfREVCVUdf
+VENHKQo1LzIwIENoZWNraW5nIGNvbW1pdCBhYTdmZGYyNTBmMmIgKGV4ZWM6IFByb21vdGUgVEFS
+R0VUX1BBR0VfTUFTSyB0byB0YXJnZXRfbG9uZykKNi8yMCBDaGVja2luZyBjb21taXQgMmY3NjY1
+NTY0NjdkIChleGVjOiBUaWR5IFRBUkdFVF9QQUdFX0FMSUdOKQo3LzIwIENoZWNraW5nIGNvbW1p
+dCA4YzgwMWFlMjQ2ZmUgKGV4ZWM6IENhY2hlIFRBUkdFVF9QQUdFX01BU0sgZm9yIFRBUkdFVF9Q
+QUdFX0JJVFNfVkFSWSkKOC8yMCBDaGVja2luZyBjb21taXQgMjg3YjcwMGQ1MDA2IChjcHV0bGI6
+IERpc2FibGUgX19hbHdheXNfaW5saW5lX18gd2l0aG91dCBvcHRpbWl6YXRpb24pCldBUk5JTkc6
+IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM1MDogRklM
+RTogaW5jbHVkZS9xZW11L2NvbXBpbGVyLmg6MTc4OgorI2lmIGRlZmluZWQoX19PUFRJTUlaRV9f
+KSAmJiBfX2hhc19hdHRyaWJ1dGUoYWx3YXlzX2lubGluZSkKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgMzMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8yMCBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgo5LzIwIENoZWNraW5nIGNvbW1pdCBlNDgzMjZhZTMxMjcgKGNwdXRsYjogUmVwbGFj
+ZSBzd2l0Y2hlcyBpbiBsb2FkL3N0b3JlX2hlbHBlciB3aXRoIGNhbGxiYWNrKQoxMC8yMCBDaGVj
+a2luZyBjb21taXQgZTNiYjI3NmNkZTNiIChjcHV0bGI6IEludHJvZHVjZSBUTEJfQlNXQVApCjEx
+LzIwIENoZWNraW5nIGNvbW1pdCAzYzQyZTk4ZTVhNGEgKGV4ZWM6IEFkanVzdCBub3RkaXJ0eSB0
+cmFjaW5nKQoxMi8yMCBDaGVja2luZyBjb21taXQgNGYzZThhYTM1NGJjIChjcHV0bGI6IE1vdmUg
+Uk9NIGhhbmRsaW5nIGZyb20gSS9PIHBhdGggdG8gVExCIHBhdGgpCjEzLzIwIENoZWNraW5nIGNv
+bW1pdCAzOTc2ZWY5NTQ5YTAgKGNwdXRsYjogTW92ZSBOT1RESVJUWSBoYW5kbGluZyBmcm9tIEkv
+TyBwYXRoIHRvIFRMQiBwYXRoKQoxNC8yMCBDaGVja2luZyBjb21taXQgMzJhYmJhZTQ3OTQyIChj
+cHV0bGI6IFBhcnRpYWxseSBpbmxpbmUgbWVtb3J5X3JlZ2lvbl9zZWN0aW9uX2dldF9pb3RsYikK
+MTUvMjAgQ2hlY2tpbmcgY29tbWl0IGQ5ZmYxYTNlM2I4MiAoY3B1dGxiOiBNZXJnZSBhbmQgbW92
+ZSBtZW1vcnlfbm90ZGlydHlfd3JpdGVfe3ByZXBhcmUsIGNvbXBsZXRlfSkKMTYvMjAgQ2hlY2tp
+bmcgY29tbWl0IDFhYzgyMDE1MWUyZiAoY3B1dGxiOiBIYW5kbGUgVExCX05PVERJUlRZIGluIHBy
+b2JlX2FjY2VzcykKMTcvMjAgQ2hlY2tpbmcgY29tbWl0IDE0M2I4OTdiZThlNCAoY3B1dGxiOiBS
+ZW1vdmUgY3B1LT5tZW1faW9fdmFkZHIpCjE4LzIwIENoZWNraW5nIGNvbW1pdCAwZjgyZjdhNzM2
+NWQgKGNwdXRsYjogUmVtb3ZlIHRiX2ludmFsaWRhdGVfcGh5c19wYWdlX3JhbmdlIGlzX2NwdV93
+cml0ZV9hY2Nlc3MpCjE5LzIwIENoZWNraW5nIGNvbW1pdCA3ZDk1ODIxZjhjZTkgKGNwdXRsYjog
+UGFzcyByZXRhZGRyIHRvIHRiX2ludmFsaWRhdGVfcGh5c19wYWdlX2Zhc3QpCjIwLzIwIENoZWNr
+aW5nIGNvbW1pdCAzNGRkMTMwZTFiNTAgKGNwdXRsYjogUGFzcyByZXRhZGRyIHRvIHRiX2NoZWNr
+X3dhdGNocG9pbnQpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
+IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
+Zy9sb2dzLzIwMTkwOTIyMDM1NDU4LjE0ODc5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9y
+Zy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
+bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-I didn't mean to include the TARGET_PAGE_BITS_VARY patches.
-Ignore the first 7, or review them at your pleasure.  ;-)
-
-
-r~
 
