@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EADBA03A
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 04:20:51 +0200 (CEST)
-Received: from localhost ([::1]:44572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5579BA06F
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 05:57:31 +0200 (CEST)
+Received: from localhost ([::1]:44886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBrUY-0002CF-LT
-	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 22:20:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34360)
+	id 1iBt06-0003Gj-CY
+	for lists+qemu-devel@lfdr.de; Sat, 21 Sep 2019 23:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40759)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBrTV-0001Xy-Tv
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 22:19:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iBsxk-0001Kf-0x
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1iBrTU-0004f0-Jk
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 22:19:45 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:43474)
+ (envelope-from <richard.henderson@linaro.org>) id 1iBsxi-00083o-BU
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:03 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36011)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1iBrTU-0004ep-Fc; Sat, 21 Sep 2019 22:19:44 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id m143so4125781ybf.10;
- Sat, 21 Sep 2019 19:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5TXMBFJyTzsMHF0WmjbpGFRjjVz7dsOcEaBtbNDlHQw=;
- b=q7U4GVl2j7cpZ2+rC7jr7zYzgvT3UTMJJPr5iS3uh7qB5vBC7h/kEx0bEqY+gbJLia
- 9oo0LPylsyw0/vK0Hkbcjviv8MUV51E4eAe9SqY00QHTLPloongwSppQjz6O1aEsotlq
- McIIFpjEFt/GVS2Q0+l58MOYLlrVSLLKmNUhKHKjZ1wPCz8KO6e8oDZyMyLuuafHPC3y
- TYRih4wIlYDzjFXhAlomlJywdu1P8YRbV3abAs6HfPjv5P4hQRGsFn/27N6bcsu1GxBR
- BuONyfj70QE4J/Ighc6omrmSUrmJOlmBahPA/mUe1Olmw94MdO7ixppWQt5/DKF5KUNC
- s2Dw==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iBsxi-00083B-3s
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:02 -0400
+Received: by mail-pf1-x433.google.com with SMTP id y22so6995063pfr.3
+ for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 20:55:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nkp5DxXrfb5+kqCil3lm91S8kYDhJGMwbCnbuLySTx4=;
+ b=pDlDtViwFswECgq5fIIHTWqsxHhZ4vxt8+11mwEvzJF5fkeomn5hWREiLs2FBWSDQc
+ 1l5/ozNFopY+ps7fCAWcCbuT1MyhwbJ5s33Rem4GkwZMIeMQBeL4olkfh/Z+pcJdNudc
+ 5iRIEHcL8QGq6+hOSU8KFgJ0Gmz7bDClZ0Zi4u0+DUIhLX6AUNKUMx51FR2bXAO9koGk
+ UVIINZgd5ifbernsw9QzRsuL39Lbb30PP7e6sJa7336O5PfMV+W2z6KGxDhiDWtV+TVz
+ fsUeMg8NzBjiZZCcys08s91pHQT03XEunGMeq++0xgEYtcP29cNKupy5krQPMwHx0VK2
+ mflQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5TXMBFJyTzsMHF0WmjbpGFRjjVz7dsOcEaBtbNDlHQw=;
- b=GKfpMiezuAgZkwgt6LwoGSj/u4gjgJBW1TUUUealpts/oOAHCG2PpzQeLXsez1mBoZ
- AGkNcmjynEiUtUR+rMROvPe8iLHYI0SYts/F6TwvOsU6XNAGZoPK3wLGqmEkSlPgiRDw
- 5h3AbuppFtqtaqWYe/RAVBFTTbwCqij4K7J/ZHmG3D34nulcCHI9qP4honxnx7JhYjbd
- 2qUG9kuFWkdOJPqMQwAnqIO2w8diYIHx61q8pTfudzaHgmGKxyIbJfNDxS22lBM0xB4g
- FFp51o4mXWq7nD4f53JzaKWdPXSWCCyP1wUlRxujf016Rb3waD00EmCdCWcLsj9bJZOa
- lhYQ==
-X-Gm-Message-State: APjAAAVJg64dRDGEB+xwlcG21uPl569c5yAPq75e2l/KnCw3Nw92l5MM
- T4q/uHWTXhbkcU1Yfy1n3lwYEenerTskjc05/cA=
-X-Google-Smtp-Source: APXvYqwVyG8B4L2MebuuuePpAScnJP2syqKiTeDv7GdkZ/SSZAML5L+QJLV6RAfk1KlpP8+Jv0aoQibUy9/StBjy8WM=
-X-Received: by 2002:a25:b911:: with SMTP id x17mr15163142ybj.29.1569118783462; 
- Sat, 21 Sep 2019 19:19:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nkp5DxXrfb5+kqCil3lm91S8kYDhJGMwbCnbuLySTx4=;
+ b=afocY6+KIwuJl8JX9tkc+xGuCSGeGOstrMonGGCvPjU5JcMZYoBKJxIyOEaIb224Ch
+ /blNq65AWUT8IACZP0bAuXNKScCS3Zy2V1yWIwUP/nlsJr5o6RImGbhm64L3o70gVdoj
+ aydA2vWGK0CA915N0cWDsMt3P0umDMP3S0vnXPjS82aBOJ3yAjrZsMyMXR/RtE1qI2+5
+ XgjuhYNnvEH9JU/c8AwFu9Qj8ZYZKQqGcrNN7/VfGg609XHSxpvIkXa9lHlDRLTOn+wp
+ 2R/BIrFMk/21QWZkGpuuIaBzFmNhF5LsydVvJzo4o89JAJuAfjuKpjT4W2j7hRWyUr2D
+ Uv/A==
+X-Gm-Message-State: APjAAAXNYmHCgUJxSGOHbPRsG5HnL5EMXxsGLYBKucQFihCwuxme8HUL
+ NSs/2o6NT06Tx0F9KDOuV2H/dszvIcU=
+X-Google-Smtp-Source: APXvYqy8vQHUvPIxxlFbbTOCZpxuNREuR6dYs44PaTpvJx062vojoqOiJ2Hc6bC0XVhfs8seBKuMUA==
+X-Received: by 2002:a62:75d2:: with SMTP id q201mr26448034pfc.43.1569124500577; 
+ Sat, 21 Sep 2019 20:55:00 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id z4sm6452921pjt.17.2019.09.21.20.54.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 21 Sep 2019 20:54:59 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/20] Move rom and notdirty handling to cputlb
+Date: Sat, 21 Sep 2019 20:54:38 -0700
+Message-Id: <20190922035458.14879-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <cover.1568931866.git.alistair.francis@wdc.com>
- <d3357e0b87cce025418f6383ce971246ded547bd.1568931866.git.alistair.francis@wdc.com>
- <CAEUhbmV7Ao6L25HM+8AJLP8unn=HhvdRc1Kt+tUQgRB4S4zsBQ@mail.gmail.com>
- <CAKmqyKO=PahfKej1Ch6=x3zcxN8R26Gkd9dsjScMSHPxitp=rA@mail.gmail.com>
-In-Reply-To: <CAKmqyKO=PahfKej1Ch6=x3zcxN8R26Gkd9dsjScMSHPxitp=rA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 22 Sep 2019 10:19:31 +0800
-Message-ID: <CAEUhbmVO=POsb+Jpy12w=WD-vLM9Km0YrryaGYc1PLYdSzka5A@mail.gmail.com>
-Subject: Re: [PATCH v1 4/6] riscv/sifive_u: Add the start-in-flash property
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b42
+X-Received-From: 2607:f8b0:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,122 +77,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 21, 2019 at 6:12 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Thu, Sep 19, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Fri, Sep 20, 2019 at 6:32 AM Alistair Francis
-> > <alistair.francis@wdc.com> wrote:
-> > >
-> > > Add a property that when set to true QEMU will jump from the ROM code to
-> > > the start of flash memory instead of DRAM which is the default
-> > > behaviour.
-> > >
-> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  hw/riscv/sifive_u.c         | 27 +++++++++++++++++++++++++++
-> > >  include/hw/riscv/sifive_u.h |  2 ++
-> > >  2 files changed, 29 insertions(+)
-> > >
-> > > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> > > index c3949fb316..b7cd3631cd 100644
-> > > --- a/hw/riscv/sifive_u.c
-> > > +++ b/hw/riscv/sifive_u.c
-> > > @@ -373,6 +373,10 @@ static void riscv_sifive_u_init(MachineState *machine)
-> > >                                         /* dtb: */
-> > >      };
-> > >
-> > > +    if (s->start_in_flash) {
-> > > +        reset_vec[6] = memmap[SIFIVE_U_FLASH0].base; /* start: .dword FLASH0_BASE */
-> > > +    }
-> > > +
-> > >      /* copy in the reset vector in little_endian byte order */
-> > >      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-> > >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
-> > > @@ -544,8 +548,31 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-> > >          memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
-> > >  }
-> > >
-> > > +static bool virt_get_start_in_flash(Object *obj, Error **errp)
-> > > +{
-> > > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > > +
-> > > +    return s->start_in_flash;
-> > > +}
-> > > +
-> > > +static void virt_set_start_in_flash(Object *obj, bool value, Error **errp)
-> > > +{
-> > > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > > +
-> > > +    s->start_in_flash = value;
-> > > +}
-> > > +
-> > >  static void riscv_sifive_u_machine_instance_init(Object *obj)
-> > >  {
-> > > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > > +
-> > > +    s->start_in_flash = false;
-> > > +    object_property_add_bool(obj, "start-in-flash", virt_get_start_in_flash,
-> > > +                             virt_set_start_in_flash, NULL);
-> > > +    object_property_set_description(obj, "start-in-flash",
-> > > +                                    "Set on to tell QEMU's ROM to jump to " \
-> > > +                                    "flash. Otherwise QEMU will jump to DRAM",
-> > > +                                    NULL);
-> > >
-> > >  }
-> > >
-> > > diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-> > > index a921079fbe..2656b43c58 100644
-> > > --- a/include/hw/riscv/sifive_u.h
-> > > +++ b/include/hw/riscv/sifive_u.h
-> > > @@ -57,6 +57,8 @@ typedef struct SiFiveUState {
-> > >
-> > >      void *fdt;
-> > >      int fdt_size;
-> > > +
-> > > +    bool start_in_flash;
-> > >  } SiFiveUState;
-> > >
-> > >  enum {
-> >
-> > This patch chose a different way from the one used in patch "[v1,6/6]
-> > riscv/virt: Jump to pflash if specified":
-> >
-> > - this patch uses reset_vec[6] while patch [6/6] defines a variable start_addr
-> > - this patch adds a "start-in-flash" property to the machine, while
-> > patch [6/6] tests against drive IF_PFLASH
->
-> Yes, we do it differently for the sifive_u board as the sifive_u board
-> doesn't use pflash so there is no way to know if the user has loaded
-> anything into the SPI memory.
->
+Ok!  Third time is the charm, because this time it works.
 
-OK.
+New to v3:
 
-> >
-> > We should be consistent and I would prefer to use the patch [6/6] way.
-> > On Unleashed an SPI flash is mounted so we cannot add a PFlash to
-> > sifive_u machine like what was done on virt machine, so we should test
-> > IF_MTD instead. Thoughts?
->
-> How would we test that?
->
-> Right now I am loading the binary in SPI with the -device loader
-> option. The machine can't really know what is/isn't loaded there.
->
-> It's not ideal, but I don't see a nicer way.
+  * Covert io_mem_rom with a new TLB_ROM bit.
 
-I think we need write a SiFive SPI model to support this in a clean
-way. Ideally we should simulate the hardware boot workflow as
-documented in the FU540 manual chapter 6 "Boot Process".
+  * This in turn means that there are no longer any special RAM
+    case along along the MMIO path -- they all have devices on
+    the other end.
 
-Regards,
-Bin
+  * This in turn means that we can fold the bulk of 
+    memory_region_section_get_iotlb into tlb_set_page_with_attrs,
+    a couple of redundant tests vs the MemoryRegion.
+    The result in patch 14 is, IMO, much more understandable.
+
+  * Fold away uses of cpu->mem_io_pc in tb_invalidate_phys_page__locked,
+    the cause of the problems for my previous two patch sets.
+
+    BTW, I was correct with my guess in the v2 cover letter that the use
+    of memory_notdirty_write_{prepare,complete} within atomic_mmu_lookup
+    must have been broken, for not setting mem_io_pc.  :-P
+
+  * Fix a missed use of cpu->mem_io_pc in tb_check_watchpoint,
+    which meant that the previous TLB_WATCHPOINT cleanup was a
+    titch broken.
+
+The remaining two users of cpu->mem_io_pc are hw/misc/mips_itu.c and
+target/i386/helper.c.  I haven't looked, but I assume that these are
+legitimately on the MMIO path, and there probably isn't a decent way
+to remove the uses.
+
+
+r~
+
+
+Richard Henderson (20):
+  exec: Use TARGET_PAGE_BITS_MIN for TLB flags
+  exec: Split out variable page size support to exec-vary.c
+  exec: Use const alias for TARGET_PAGE_BITS_VARY
+  exec: Restrict TARGET_PAGE_BITS_VARY assert to CONFIG_DEBUG_TCG
+  exec: Promote TARGET_PAGE_MASK to target_long
+  exec: Tidy TARGET_PAGE_ALIGN
+  exec: Cache TARGET_PAGE_MASK for TARGET_PAGE_BITS_VARY
+  cputlb: Disable __always_inline__ without optimization
+  cputlb: Replace switches in load/store_helper with callback
+  cputlb: Introduce TLB_BSWAP
+  exec: Adjust notdirty tracing
+  cputlb: Move ROM handling from I/O path to TLB path
+  cputlb: Move NOTDIRTY handling from I/O path to TLB path
+  cputlb: Partially inline memory_region_section_get_iotlb
+  cputlb: Merge and move memory_notdirty_write_{prepare,complete}
+  cputlb: Handle TLB_NOTDIRTY in probe_access
+  cputlb: Remove cpu->mem_io_vaddr
+  cputlb: Remove tb_invalidate_phys_page_range is_cpu_write_access
+  cputlb: Pass retaddr to tb_invalidate_phys_page_fast
+  cputlb: Pass retaddr to tb_check_watchpoint
+
+ Makefile.target                |   2 +-
+ accel/tcg/translate-all.h      |   8 +-
+ include/exec/cpu-all.h         |  48 ++--
+ include/exec/cpu-common.h      |   3 -
+ include/exec/exec-all.h        |   6 +-
+ include/exec/memory-internal.h |  65 ------
+ include/hw/core/cpu.h          |   2 -
+ include/qemu-common.h          |   6 +
+ include/qemu/compiler.h        |  11 +
+ accel/tcg/cputlb.c             | 388 +++++++++++++++++++--------------
+ accel/tcg/translate-all.c      |  51 ++---
+ exec-vary.c                    |  88 ++++++++
+ exec.c                         | 192 +---------------
+ hw/core/cpu.c                  |   1 -
+ memory.c                       |  20 --
+ trace-events                   |   4 +-
+ 16 files changed, 403 insertions(+), 492 deletions(-)
+ create mode 100644 exec-vary.c
+
+-- 
+2.17.1
+
 
