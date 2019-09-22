@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2ABBA09B
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 06:16:14 +0200 (CEST)
-Received: from localhost ([::1]:45178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82319BA099
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 06:14:33 +0200 (CEST)
+Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBtIC-0005fq-ON
-	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 00:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41005)
+	id 1iBtGa-0003ov-IM
+	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 00:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iBsy8-000205-VL
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:29 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iBt4f-0008M1-9n
+ for qemu-devel@nongnu.org; Sun, 22 Sep 2019 00:02:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iBsy7-0008N2-P7
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:28 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41016)
+ (envelope-from <richard.henderson@linaro.org>) id 1iBt4e-0002qN-9Q
+ for qemu-devel@nongnu.org; Sun, 22 Sep 2019 00:02:13 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33290)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iBsy7-0008MY-J3
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:27 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q7so6974798pfh.8
- for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 20:55:27 -0700 (PDT)
+ id 1iBt4e-0002pN-2x
+ for qemu-devel@nongnu.org; Sun, 22 Sep 2019 00:02:12 -0400
+Received: by mail-pf1-x443.google.com with SMTP id q10so7016847pfl.0
+ for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 21:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=kZbTTJGGFu81f0ejGjFeWXy3vD4smmCaoq9ERb/1yZk=;
- b=YLHucrYFMviJNmlYZ/QnUNsCjp/v/VFyvhNa/tNx7v2jtAE5mwCOaZZUOiD8dUDZDm
- jcQiz1KLWWUOB2RommGkSQljhz3xRjEwzNsSFwIV8y5NUhJFpYVIJGYBXWm5axLQGL6s
- +if1gOlVBMH7G1HLLY4PHkM6X2kwHqz8L8YXpb+syGAWusb+XfH+vB0LUmjwtCZu4kAW
- 9xbOKINboU4+NG7IXjiGVIc9RRB5TbaLwTRUcgREDYSMiybrBlj2+XReruREnqQCA2Se
- Phd3SvY25j9iw7oYrTcIR6HYhdDBQ13A5McD6n47VLQMUWZFXewkCwiB7v/YDpSLan6Q
- LTOg==
+ h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Lb3EeQrSzIyUVdyvEpicOamQhqcf++6Y1nzM2XmSLEA=;
+ b=o5ljQ25+FhXMkpZV2b36iqMbRhpRijiL4e8u0qMSMpkMhKpXGEV8pOISuGlNWOJJME
+ qlwNjrGKbvWlUDzPx1jIEQsCxj+dYVpG/ydjsEUueIyvg2XkoLEO6c5FntJ0nkf+Nu8g
+ HFYm5On+p/T08UX6hZ+KdlLcGO4VfJYUtraJIgwsK71VgMd6NEuJKcQ1C4QrdmoYkn95
+ OyjaHHIvamTaZ5otPOy4wh0rc9CgCzEnBmFOXMioxdL4VmO+9oWvvZHhoR2k8iaO1QtU
+ B5/PRltPelTUSiysTA9SgvfUTeFrKKKQB55ou4fcC0PWW+XyoT0+b5Y/Ot8wuiKcUBn7
+ O9YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=kZbTTJGGFu81f0ejGjFeWXy3vD4smmCaoq9ERb/1yZk=;
- b=iLzpNQjJrfpw9nXhEYbLDW8l/rxOmljMKPhFBoQHmTHkF5+OcVmLg4Wqk83TW9PKWZ
- OxYMh5wD5PODFS9O3aw694nIouo9JeaE7wrTwdv3BQGSDlOZDWBE8ixGQYhYwqprXkCp
- dEYIU/6Nd0JRJDHRD3erDrH2Id9gbYC2tLKsUDmzUZV+NxIkLfEJzQQQQwryyuNfg5r6
- yD83Pv+9mTVYVIuu7kTTnetOhSeLEfY7RibKsEOXQ+1nAPtY2C8wawK6WdfFhnlInvcR
- LICK4fb7dV2WS6pU8ZdqiihwFT0wmy9N8SIAtwbLJcjtsguY0oxxma6J9JE3fAIsvuP6
- EQcg==
-X-Gm-Message-State: APjAAAXv0AT0sI5vE6/CLDA62x8eBJYLlvQEM+Ib06B23GE9tchejwtL
- A4GnOFRbYr6wTTc0Q1Y6qcsDPoIAXsg=
-X-Google-Smtp-Source: APXvYqyWNdq0wnjge3LKZ+3BBax+d+Y58SqQ3JwPDN/gp6w2pZEUrw4qx09j2wYU3EozkCQMAUwEZg==
-X-Received: by 2002:a63:31d8:: with SMTP id
- x207mr23008887pgx.428.1569124526008; 
- Sat, 21 Sep 2019 20:55:26 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id z4sm6452921pjt.17.2019.09.21.20.55.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Sep 2019 20:55:25 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Lb3EeQrSzIyUVdyvEpicOamQhqcf++6Y1nzM2XmSLEA=;
+ b=li7+3jMvs6hJSIOuoml68exO9CnLaMhajVl/hDGXwUckQw7tYd/o4URu95ro+j8yZD
+ cIKBrvvlupl8JQwCpO8SN9PxH1Mc4eKYhAxZkH5qwbYRivBhNCZHIrJnjfRVFFNe22Q0
+ d6vZq1sLHn016NcSUjEB7xixTdX/cS2gESqWo6tOkHYp9YH656unmgmS1Naidqf3PaKr
+ RssYED86sVf7y4NB1oBOk75OB6DOFCw/o3Ehh8HNpPCbN6312kQVCS0rqa2nI/5OmyzI
+ Ndg9WvpsOrGHNVKhdc6NrU8o91J6+UrQ985RM17Bbn+O/zZDh07AEIJ9nIGDepT8OfWs
+ mwDg==
+X-Gm-Message-State: APjAAAUhdEP4TEwJW0ABbK1OcTqzb/B/9h3mSNdHJZfSvWU8RV8LGQeO
+ gCD/MRCBcAMoVowMW0r92QenRw==
+X-Google-Smtp-Source: APXvYqzGhgPQfGGLgvyE2El4CZ++DFKGJT0MDHyCqi3dM1aoBKxNsBGlGbQUNhGZrZ06PZ/aqt2s8g==
+X-Received: by 2002:a17:90a:f98f:: with SMTP id
+ cq15mr5652614pjb.54.1569124930414; 
+ Sat, 21 Sep 2019 21:02:10 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a17sm7184252pfc.26.2019.09.21.21.02.09
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 21 Sep 2019 21:02:09 -0700 (PDT)
+Subject: Re: [PATCH v3 00/20] Move rom and notdirty handling to cputlb
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/20] cputlb: Pass retaddr to tb_check_watchpoint
-Date: Sat, 21 Sep 2019 20:54:58 -0700
-Message-Id: <20190922035458.14879-21-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190922035458.14879-1-richard.henderson@linaro.org>
 References: <20190922035458.14879-1-richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <2f13f98e-3e6c-f147-a8ab-dffff547abd0@linaro.org>
+Date: Sat, 21 Sep 2019 21:02:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190922035458.14879-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,69 +88,19 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes the previous TLB_WATCHPOINT patches because we are currently
-failing to set cpu->mem_io_pc with the call to cpu_check_watchpoint.
-Pass down the retaddr directly because it's readily available.
+On 9/21/19 8:54 PM, Richard Henderson wrote:
+> Richard Henderson (20):
+>   exec: Use TARGET_PAGE_BITS_MIN for TLB flags
+>   exec: Split out variable page size support to exec-vary.c
+>   exec: Use const alias for TARGET_PAGE_BITS_VARY
+>   exec: Restrict TARGET_PAGE_BITS_VARY assert to CONFIG_DEBUG_TCG
+>   exec: Promote TARGET_PAGE_MASK to target_long
+>   exec: Tidy TARGET_PAGE_ALIGN
+>   exec: Cache TARGET_PAGE_MASK for TARGET_PAGE_BITS_VARY
 
-Fixes: 50b107c5d61
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/translate-all.h | 2 +-
- accel/tcg/translate-all.c | 6 +++---
- exec.c                    | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+I didn't mean to include the TARGET_PAGE_BITS_VARY patches.
+Ignore the first 7, or review them at your pleasure.  ;-)
 
-diff --git a/accel/tcg/translate-all.h b/accel/tcg/translate-all.h
-index 135c1ea96a..a557b4e2bb 100644
---- a/accel/tcg/translate-all.h
-+++ b/accel/tcg/translate-all.h
-@@ -30,7 +30,7 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
-                                   tb_page_addr_t start, int len,
-                                   uintptr_t retaddr);
- void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
--void tb_check_watchpoint(CPUState *cpu);
-+void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr);
- 
- #ifdef CONFIG_USER_ONLY
- int page_unprotect(target_ulong address, uintptr_t pc);
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index db77fb221b..66d4bc4341 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2142,16 +2142,16 @@ static bool tb_invalidate_phys_page(tb_page_addr_t addr, uintptr_t pc)
- #endif
- 
- /* user-mode: call with mmap_lock held */
--void tb_check_watchpoint(CPUState *cpu)
-+void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
- {
-     TranslationBlock *tb;
- 
-     assert_memory_lock();
- 
--    tb = tcg_tb_lookup(cpu->mem_io_pc);
-+    tb = tcg_tb_lookup(retaddr);
-     if (tb) {
-         /* We can use retranslation to find the PC.  */
--        cpu_restore_state_from_tb(cpu, tb, cpu->mem_io_pc, true);
-+        cpu_restore_state_from_tb(cpu, tb, retaddr, true);
-         tb_phys_invalidate(tb, -1);
-     } else {
-         /* The exception probably happened in a helper.  The CPU state should
-diff --git a/exec.c b/exec.c
-index fed25d029b..ceeef4cd4b 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2724,7 +2724,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                 cpu->watchpoint_hit = wp;
- 
-                 mmap_lock();
--                tb_check_watchpoint(cpu);
-+                tb_check_watchpoint(cpu, ra);
-                 if (wp->flags & BP_STOP_BEFORE_ACCESS) {
-                     cpu->exception_index = EXCP_DEBUG;
-                     mmap_unlock();
--- 
-2.17.1
 
+r~
 
