@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9334FBA088
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 06:01:13 +0200 (CEST)
-Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7968FBA08C
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 06:05:17 +0200 (CEST)
+Received: from localhost ([::1]:44982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBt3g-0006W7-4p
-	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 00:01:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1iBt7b-0001JT-T9
+	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 00:05:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iBsxs-0001UX-4E
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iBsxt-0001Xl-FS
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iBsxq-0008Aa-QW
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:11 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42061)
+ (envelope-from <richard.henderson@linaro.org>) id 1iBsxs-0008DV-5W
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:13 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:34721)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iBsxq-000895-Fr
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:10 -0400
-Received: by mail-pg1-x543.google.com with SMTP id z12so5989896pgp.9
- for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 20:55:10 -0700 (PDT)
+ id 1iBsxr-0008CG-Vd
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:12 -0400
+Received: by mail-pf1-x430.google.com with SMTP id b128so7003121pfa.1
+ for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 20:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FsCp0gCrwtqGaCEDQ93XosqgirYhBXr/1xdf8PdGGas=;
- b=PlhE/CzcglvYxaWY5KpLAyLbBtSarBV8kHwCZKVGE47A8yZagFzO7/CSas0XgIpSF5
- VcpP5cKSlqKYAyNw9y/5vTrSZPWYaeZCexaCvCpVI/+sbZGAcBaPw7Ng4l+R0e7vedPE
- WbClDOtahs9rA1f1fFz87Y0UN/muG9q+3b9MkE87Z6sDlq9UErRN6fHDGq26cLchYMBC
- yXc/USUKBOhG6raPS5uhzR7cDzi+hRKB2rYAJCYxK9++Pq3Pe82naWHsD0Azudcht1Xr
- O4l+xGa/sakos4M0FcG0KsyaMZbdIZbOc6ecEEjtI51lJFL4g9OScv7onBlVC1b6f5OL
- lDRw==
+ bh=GvMaV7tcHk1BMJ7VP3GkIN7btKhgbcJH5l/u+8AvH70=;
+ b=cj5ggUHidfOL/BT0sd8EjORAvUhNGdFPkVx2xconxgmgFbD4Yq2vrE3tkMXHaqr6mr
+ 5qlBuqLKALdb8ir71i5e/sWUEeoDbN+JDorpcmBdp+LOZ3jaCkCPQDLNHgCizD/3cmum
+ 49XbqcwUFgDPdXOLS9VC4U1NwXBTOJCj86O1FQVVyH36QhdO0a57NE0RclQacTDz6oXi
+ For1qR7H86kTrKEedWbKfxwpGPUD+dFLwNrrSUakEjhSbkW/0I4jnZp749idp0Fm9toZ
+ Ko42D+HzMhsGD2N1wIfWFdj2rBs7qVueqZ+uP29R8ISboI16dQxZr1ZU/ZQxd3nfAkqg
+ qUnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=FsCp0gCrwtqGaCEDQ93XosqgirYhBXr/1xdf8PdGGas=;
- b=VW5J0BuDfd9c/d8hMSsqevaWdXq1ak224SK+EQxdvbrYv+K78UxikiPez8HpoSNh3w
- 5OwZKrGFEbpyuUXfEF4TXefMMb8BWi1JyB0TCy7oQmqVb82T5Hn99cXwbPxEOkD3VjvZ
- Gkct+LdAKMAUcJ0oE0N/ZMXhSTR43elVIE81MA9eZHQRcxp9tKolrywteHf7INsYE56v
- JH6lPVkt40g9JN6DaM19hSpOjnDyF3Olg4fGNA27gXoXXGMwbM/NMApN1+aWIzEyKADK
- V/NGIo1ApjC0N3Sb85Uyq4YhNjDPc0n0gdtVKPOwoDPDNg/cu/sOyOS8N+06krfIxhn/
- 9sBg==
-X-Gm-Message-State: APjAAAUpAJPDcujUgqHgG7T4saLLbt2fr1aT/xRVFgu1RVMjm8rfbxK+
- L+Y2kx9B2Yrvo9VY1ppbYrUALfLbBjY=
-X-Google-Smtp-Source: APXvYqz8G/ejmhZgF83MNaofzoCabOX/1pPJMgm0el6rkBH/hQ2FQEGTUFIeFByG6p2X95fx1z7cYQ==
-X-Received: by 2002:a63:dd0a:: with SMTP id t10mr23127705pgg.354.1569124509265; 
- Sat, 21 Sep 2019 20:55:09 -0700 (PDT)
+ bh=GvMaV7tcHk1BMJ7VP3GkIN7btKhgbcJH5l/u+8AvH70=;
+ b=ZW95F0H3NJk8XGlLO9O+D58Nr47P6YmzNcvKEv7tOgcGr0DL0clRLwx8tDBZMjUSJ8
+ a4wibNksTwBJV32PP9DCFEiIbQtKNCGaRoNmXlRk/U4y64utGxlYSd9RZqdQDVxbxTpp
+ zf1NG1TunT+YGATbT5apYO//UgPJpwJeK7JCV0TfOLZO3ftTTwygp2J2PFO5HXMx+r19
+ bQ0WmlVn0FdA2ym6whgmg1DLfWbJLbTwf8moLh2vNM59Ow8JXZ+xhFGG2jhhDrrPdBev
+ 7DOf8oyNEWqm9JOr62IRTSfZyPBowzAUN47Z5EkIyrnrGMQxekIOr0sTKzI2CLxAQNrq
+ L25Q==
+X-Gm-Message-State: APjAAAX5Q3N7k2cAd2eaaug08115aLlcS4aJpp5E53+dUpSGvTsTdykv
+ +zz33HfBZ1jXY64Dd+dwbvrLxHmk0SA=
+X-Google-Smtp-Source: APXvYqxHUh+f72AyLcktyKv6xTSIWIZZeItBfXl9DtXimvcLPvAuyZj1Agfvt5PSrMSzsjX2S1MzmA==
+X-Received: by 2002:a17:90a:e38b:: with SMTP id
+ b11mr13329399pjz.138.1569124510414; 
+ Sat, 21 Sep 2019 20:55:10 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id z4sm6452921pjt.17.2019.09.21.20.55.08
+ by smtp.gmail.com with ESMTPSA id z4sm6452921pjt.17.2019.09.21.20.55.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Sep 2019 20:55:08 -0700 (PDT)
+ Sat, 21 Sep 2019 20:55:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/20] exec: Cache TARGET_PAGE_MASK for
- TARGET_PAGE_BITS_VARY
-Date: Sat, 21 Sep 2019 20:54:45 -0700
-Message-Id: <20190922035458.14879-8-richard.henderson@linaro.org>
+Subject: [PATCH v3 08/20] cputlb: Disable __always_inline__ without
+ optimization
+Date: Sat, 21 Sep 2019 20:54:46 -0700
+Message-Id: <20190922035458.14879-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190922035458.14879-1-richard.henderson@linaro.org>
 References: <20190922035458.14879-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,59 +82,61 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This eliminates a set of runtime shifts.  It turns out that we
-require TARGET_PAGE_MASK more often than TARGET_PAGE_SIZE, so
-redefine TARGET_PAGE_SIZE based on TARGET_PAGE_MASK instead of
-the other way around.
+This forced inlining can result in missing symbols,
+which makes a debugging build harder to follow.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 8 ++++++--
- exec-vary.c            | 1 +
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ include/qemu/compiler.h | 11 +++++++++++
+ accel/tcg/cputlb.c      |  4 ++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 5246770271..2db73c7a27 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -213,19 +213,23 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
- typedef struct {
-     bool decided;
-     int bits;
-+    target_long mask;
- } TargetPageBits;
- extern const TargetPageBits target_page;
- # ifdef CONFIG_DEBUG_TCG
- #  define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
-+#  define TARGET_PAGE_MASK (assert(target_page.decided), target_page.mask)
- # else
- #  define TARGET_PAGE_BITS target_page.bits
-+#  define TARGET_PAGE_MASK target_page.mask
- # endif
-+# define TARGET_PAGE_SIZE  ((int)-TARGET_PAGE_MASK)
- #else
- #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
-+#define TARGET_PAGE_SIZE   (1 << TARGET_PAGE_BITS)
-+#define TARGET_PAGE_MASK   ((target_long)-1 << TARGET_PAGE_BITS)
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 09fc44cca4..d6d400c523 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -170,6 +170,17 @@
+ # define QEMU_NONSTRING
  #endif
  
--#define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
--#define TARGET_PAGE_MASK ((target_long)-1 << TARGET_PAGE_BITS)
- #define TARGET_PAGE_ALIGN(addr) \
-     (((addr) + ~TARGET_PAGE_MASK) & TARGET_PAGE_MASK)
++/*
++ * Forced inlining may be desired to encourage constant propagation
++ * of function parameters.  However, it can also make debugging harder,
++ * so disable it for a non-optimizing build.
++ */
++#if defined(__OPTIMIZE__) && __has_attribute(always_inline)
++#define QEMU_ALWAYS_INLINE  __attribute__((always_inline))
++#else
++#define QEMU_ALWAYS_INLINE
++#endif
++
+ /* Implement C11 _Generic via GCC builtins.  Example:
+  *
+  *    QEMU_GENERIC(x, (float, sinf), (long double, sinl), sin) (x)
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index abae79650c..2222b87764 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1281,7 +1281,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+ typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
+                                 TCGMemOpIdx oi, uintptr_t retaddr);
  
-diff --git a/exec-vary.c b/exec-vary.c
-index 67cdf57a9c..26daf281f2 100644
---- a/exec-vary.c
-+++ b/exec-vary.c
-@@ -83,5 +83,6 @@ void finalize_target_page_bits(void)
-         init_target_page.bits = TARGET_PAGE_BITS_MIN;
-     }
-     init_target_page.decided = true;
-+    init_target_page.mask = (target_long)-1 << init_target_page.bits;
- #endif
- }
+-static inline uint64_t __attribute__((always_inline))
++static inline uint64_t QEMU_ALWAYS_INLINE
+ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+             uintptr_t retaddr, MemOp op, bool code_read,
+             FullLoadHelper *full_load)
+@@ -1530,7 +1530,7 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
+  * Store Helpers
+  */
+ 
+-static inline void __attribute__((always_inline))
++static inline void QEMU_ALWAYS_INLINE
+ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+              TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
+ {
 -- 
 2.17.1
 
