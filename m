@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91666BA096
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 06:12:38 +0200 (CEST)
-Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C647CBA09A
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Sep 2019 06:14:46 +0200 (CEST)
+Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iBtEj-0001OV-8L
-	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 00:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40970)
+	id 1iBtGn-00049d-Tg
+	for lists+qemu-devel@lfdr.de; Sun, 22 Sep 2019 00:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iBsy5-0001tc-Bd
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:26 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iBsy6-0001wH-Bw
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iBsy3-0008Kt-Sx
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:25 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44556)
+ (envelope-from <richard.henderson@linaro.org>) id 1iBsy5-0008Lm-0L
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:26 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41685)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iBsy3-0008KT-LZ
- for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:23 -0400
-Received: by mail-pl1-x642.google.com with SMTP id q15so4954379pll.11
- for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 20:55:23 -0700 (PDT)
+ id 1iBsy4-0008LI-PE
+ for qemu-devel@nongnu.org; Sat, 21 Sep 2019 23:55:24 -0400
+Received: by mail-pl1-x641.google.com with SMTP id t10so4964599plr.8
+ for <qemu-devel@nongnu.org>; Sat, 21 Sep 2019 20:55:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ToVeCrPKjDs8wNyDQYleTQmt7ApWfc5+CUsaiKNo26w=;
- b=m0MaqjUYkr9stJiKXjGopdqhG9rTUZy1hB90ac1UPuPjsuJ03RytcMXSvCNrYsEVz4
- J/MZyWxQAxNorfzu4UvOooZmoqyPdAIxNT+tM1irVR+WlmV0S6OZYvv/GbCy6UfvtulE
- gZKUVKDC51+ty9EDvB+TgQ25aMQ79qgMxOJqqdLQZrGNAjcytdsCS3SKbH729CV+51KL
- B+Ys7SZblMl6vK0TUqxbTUsSvMqrbMOMopHHk2hZiRrQ1vmzZr4/HLsj+5IfUDbS3aKh
- c9gQnBHyL4VTEF8GLsRxIdgj8Z2NpwEIi/x5NkPOijzhb8DNqB+EDyo7wG1mR1/hVi/i
- X+UA==
+ bh=Ss7y4dx7Ozqbb6/ZwGCVABLVohdKahfSvIHor1C9aWE=;
+ b=mR1Po/VFhedo64cklbQLJtV7ILp2Doi8K3Aey46xzAvTpRclB+hCWfpDiae31WELk7
+ Ft22XvMFWbnX5nQvO8H6fN6Px5Jv+Af4dN+d5Aa9IXvnzpRTS37vLzNuEjuRHD1BDzCO
+ xqifaw7UBHGvkoql1fuWNPwXqkqqPWFm7ECCHiNvX7lj3PT7fir8KqL7EnMeW2GeljKF
+ MyxCvbAtGwViD+DiyF1bh6JwvsOD9r/0b6PwNQ7V5RkPMidL/qo1B366KoGGzreEI8a7
+ x+JGB2JgunXxqlL2bZIuMyU6iyaODzGj58uHphKz6ClAusoj+SPlATmCxSZQ8iVPRCu3
+ 3yKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ToVeCrPKjDs8wNyDQYleTQmt7ApWfc5+CUsaiKNo26w=;
- b=sjvEyqtY4J7DZ/wMp1yYlJCgEsAgsD4FoXA2T4qneiPx1nrVySyAtY0damlUjG9lci
- 5ZyIh/rGLUjpC50ueeV8LsDFCDVatnKLL6TVWTi9DtTesGBzbMyotKnA+kf6ovO/mEBr
- oRkSj6WLZJoBHBFlG32Q2RO7omzI3eRN/U/Ml3muuYicM9DjftQummbxFGnoNVB59hOG
- 5sfUrxvYX33BgM5AQ4Sl1cWnIP20O8ZwtRm8iI6vZHaVEN8UnmLkGy9H038c5QuzV+gz
- ff8bWGnM98lCxtExCKRW0PNrMEYyV7yqZmOuk9NGU8jYFNJTlN2w1FxrK8NeqxhnNv5e
- o0HQ==
-X-Gm-Message-State: APjAAAVPzdf+OScSwDtaIuk1moakcAXayy9ei8e0mLmisI0c14Q3s0zp
- C3Jkoj2+6/ZNndk8txMyj4oGcECOp/A=
-X-Google-Smtp-Source: APXvYqzFPUd20hgQixKWWc0r1tmUH49sVgX+BGPxuuP6532s1e3YVbTIQ5XlEUbT34trnYuYhAZpvA==
-X-Received: by 2002:a17:902:426:: with SMTP id
- 35mr25954265ple.192.1569124522370; 
- Sat, 21 Sep 2019 20:55:22 -0700 (PDT)
+ bh=Ss7y4dx7Ozqbb6/ZwGCVABLVohdKahfSvIHor1C9aWE=;
+ b=flwGlg8OJedNn0ib3fSLpOEj5blDFCFKJURbEwadsyDeZn6aknRVSpTIG7ihsLXAan
+ iiRUqwfxfZwJ5fwppjE3n3IqSbT6QCItfRtixcrywruN58WC2C223LZQOQYp1UBBT9ow
+ O71nX5/HhKtTT+Ok8KmGEp89BITPgdJPNwWi/r1JeGU/lhyefTIGvqBG834Gsn+b0ZZI
+ AGpwesfywOzzfWk9ZiNpBEIe0d8itzsQY9vjdfA16oibhCQqw2lRfXtzEO0siWfgOiyl
+ ftjDGeenmR+4J4NYJdiNclON+FzzUvZpzGw3V3hN6+4ftt3vnzNkTRXl8DvqAF0rnHO2
+ k6lg==
+X-Gm-Message-State: APjAAAW8w/6mdHfjzWNOIwyUMd+OUnrRMCTEPaecmaubgIwaH1yWK7Gt
+ ZYzBY6QKsD5dVTCZ8S59XSOQJwPouPs=
+X-Google-Smtp-Source: APXvYqxGP0fYPzAjHte0+MY7WeOnjdkAYrCSYxEG811+hCQoTjbbhg5+wAzN0KVF6tcQz8fU8SxnoA==
+X-Received: by 2002:a17:902:fe86:: with SMTP id
+ x6mr25554899plm.28.1569124523489; 
+ Sat, 21 Sep 2019 20:55:23 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id z4sm6452921pjt.17.2019.09.21.20.55.21
+ by smtp.gmail.com with ESMTPSA id z4sm6452921pjt.17.2019.09.21.20.55.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Sep 2019 20:55:21 -0700 (PDT)
+ Sat, 21 Sep 2019 20:55:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/20] cputlb: Remove cpu->mem_io_vaddr
-Date: Sat, 21 Sep 2019 20:54:55 -0700
-Message-Id: <20190922035458.14879-18-richard.henderson@linaro.org>
+Subject: [PATCH v3 18/20] cputlb: Remove tb_invalidate_phys_page_range
+ is_cpu_write_access
+Date: Sat, 21 Sep 2019 20:54:56 -0700
+Message-Id: <20190922035458.14879-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190922035458.14879-1-richard.henderson@linaro.org>
 References: <20190922035458.14879-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,68 +82,76 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the merge of notdirty handling into store_helper,
-the last user of cpu->mem_io_vaddr was removed.
+All callers pass false to this argument.  Remove it and pass the
+constant on to tb_invalidate_phys_page_range__locked.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h | 2 --
- accel/tcg/cputlb.c    | 2 --
- hw/core/cpu.c         | 1 -
- 3 files changed, 5 deletions(-)
+ accel/tcg/translate-all.h | 3 +--
+ accel/tcg/translate-all.c | 6 ++----
+ exec.c                    | 4 ++--
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index c7cda65c66..031f587e51 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -338,7 +338,6 @@ struct qemu_work_item;
-  * @next_cpu: Next CPU sharing TB cache.
-  * @opaque: User data.
-  * @mem_io_pc: Host Program Counter at which the memory was accessed.
-- * @mem_io_vaddr: Target virtual address at which the memory was accessed.
-  * @kvm_fd: vCPU file descriptor for KVM.
-  * @work_mutex: Lock to prevent multiple access to queued_work_*.
-  * @queued_work_first: First asynchronous work pending.
-@@ -413,7 +412,6 @@ struct CPUState {
-      * we store some rarely used information in the CPU context.
-      */
-     uintptr_t mem_io_pc;
--    vaddr mem_io_vaddr;
-     /*
-      * This is only needed for the legacy cpu_unassigned_access() hook;
-      * when all targets using it have been converted to use
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 6f4096bd0d..257c59c08c 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -927,7 +927,6 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         cpu_io_recompile(cpu, retaddr);
+diff --git a/accel/tcg/translate-all.h b/accel/tcg/translate-all.h
+index 64f5fd9a05..31f2117188 100644
+--- a/accel/tcg/translate-all.h
++++ b/accel/tcg/translate-all.h
+@@ -28,8 +28,7 @@ struct page_collection *page_collection_lock(tb_page_addr_t start,
+ void page_collection_unlock(struct page_collection *set);
+ void tb_invalidate_phys_page_fast(struct page_collection *pages,
+                                   tb_page_addr_t start, int len);
+-void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end,
+-                                   int is_cpu_write_access);
++void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
+ void tb_check_watchpoint(CPUState *cpu);
+ 
+ #ifdef CONFIG_USER_ONLY
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 5d1e08b169..de4b697163 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1983,8 +1983,7 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
+  *
+  * Called with mmap_lock held for user-mode emulation
+  */
+-void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end,
+-                                   int is_cpu_write_access)
++void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end)
+ {
+     struct page_collection *pages;
+     PageDesc *p;
+@@ -1996,8 +1995,7 @@ void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end,
+         return;
      }
+     pages = page_collection_lock(start, end);
+-    tb_invalidate_phys_page_range__locked(pages, p, start, end,
+-                                          is_cpu_write_access);
++    tb_invalidate_phys_page_range__locked(pages, p, start, end, 0);
+     page_collection_unlock(pages);
+ }
  
--    cpu->mem_io_vaddr = addr;
-     cpu->mem_io_access_type = access_type;
+diff --git a/exec.c b/exec.c
+index 090bcc05da..fed25d029b 100644
+--- a/exec.c
++++ b/exec.c
+@@ -978,7 +978,7 @@ const char *parse_cpu_option(const char *cpu_option)
+ void tb_invalidate_phys_addr(target_ulong addr)
+ {
+     mmap_lock();
+-    tb_invalidate_phys_page_range(addr, addr + 1, 0);
++    tb_invalidate_phys_page_range(addr, addr + 1);
+     mmap_unlock();
+ }
  
-     if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-@@ -967,7 +966,6 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     if (!cpu->can_do_io) {
-         cpu_io_recompile(cpu, retaddr);
+@@ -1005,7 +1005,7 @@ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs)
+         return;
      }
--    cpu->mem_io_vaddr = addr;
-     cpu->mem_io_pc = retaddr;
+     ram_addr = memory_region_get_ram_addr(mr) + addr;
+-    tb_invalidate_phys_page_range(ram_addr, ram_addr + 1, 0);
++    tb_invalidate_phys_page_range(ram_addr, ram_addr + 1);
+     rcu_read_unlock();
+ }
  
-     if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 0035845511..73b1ee34d0 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -261,7 +261,6 @@ static void cpu_common_reset(CPUState *cpu)
-     cpu->interrupt_request = 0;
-     cpu->halted = 0;
-     cpu->mem_io_pc = 0;
--    cpu->mem_io_vaddr = 0;
-     cpu->icount_extra = 0;
-     atomic_set(&cpu->icount_decr_ptr->u32, 0);
-     cpu->can_do_io = 1;
 -- 
 2.17.1
 
