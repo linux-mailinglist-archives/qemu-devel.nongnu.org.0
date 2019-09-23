@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D73BB6B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:28:17 +0200 (CEST)
-Received: from localhost ([::1]:57246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F56BB6D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:34:20 +0200 (CEST)
+Received: from localhost ([::1]:57310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCPK4-0006g2-Fm
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:28:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
+	id 1iCPPv-00064K-AN
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iCPIX-0005tI-1Z
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:26:41 -0400
+ (envelope-from <bounces@canonical.com>) id 1iCPMk-0004Ue-9z
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:31:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iCPIV-00059S-J6
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:26:40 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:46213)
+ (envelope-from <bounces@canonical.com>) id 1iCPMj-00080U-6e
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:31:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53494)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iCPIV-000593-E0
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:26:39 -0400
-Received: by mail-oi1-x230.google.com with SMTP id k25so7688058oiw.13
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 07:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pUJMIwlRC35F16IRiTlQDkb1yg7LBO645U7ovCDYNHY=;
- b=oplEybGOj94kRtAl4BAk7qozkQ5wwZHAIBCbTI24++1ZEMimGNWmG8T9MJQzVSuygc
- dABvyyzpx881DTImAelxjfs8xaBIQoAwgCW8Jc/opmHQli3cFHNMBtyCn/qsFHMYb9YB
- 187HBaKYObLcQXVwqSB0X1zozWMYEDx4w1ltHpXd/I2S5vAG+K9iGSQnqZYF18oF+7dC
- pRBp1MRuAMsE5ymirR6ECoPwMd1Y93RXy3Wi2I0qCd6IxhSolODnbyUIiHR8vPM1vKVt
- MAKfY6uERcCRmxmxKK4fXReLfuBGKajevx2vNgqlgEuHFHmsGK/s7t5LeBRCxh/1TUFP
- 3xJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pUJMIwlRC35F16IRiTlQDkb1yg7LBO645U7ovCDYNHY=;
- b=r2NESlQfFqj+gh10rKZHFwGR2cMPvsvML5zI7nnKKJzWjVRgrY+tsQSab6upeKzboy
- vnMO8mrt7CbujofXga5JnLBJKHc+Sl9XJ8J6JA4TmQq1hrXp+l9kt4tWaFbY1uaJDf3a
- 8bCmo7rRAxDOZ05LHacqQSvKjExJB80hxt+KbNPvW2A72il3jmBGomRCJzSmea+2q4kr
- lG9GZnANd9KPh87cNwol4cqGxpCVsjyEbpIqH8rky8otmj/cv808QesOkH7jU0vaszZ1
- j/HbdM0EfN0wRvVo8JNFUYBeCzMOLGbVhMW25bcB7Db/zlhIgwn43cxAVcH/LWRIZEdQ
- tJbg==
-X-Gm-Message-State: APjAAAWv1xkNAH67Pm2HHEWMUSloxhgcnrS6Mm35NPYZ4fxulGaSzq3W
- 07hcwv9Vbl5C90fty7xkdC7zpsZr8pFTPdXWA9o9Xg==
-X-Google-Smtp-Source: APXvYqwbT+rb+p2T2DHMlCQ7A19q3SBaFY7NfS+flRFNR9vrv55gkSExQuB/frLaIPbizj1hPm2MLz/9MA2SmOYWgQo=
-X-Received: by 2002:aca:53d4:: with SMTP id h203mr268247oib.146.1569248796367; 
- Mon, 23 Sep 2019 07:26:36 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iCPMj-0007ym-0Q
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:31:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iCPMh-0000qW-QN
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 14:30:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C6AB12E80C9
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 14:30:59 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190923073921.13357-1-borntraeger@de.ibm.com>
-In-Reply-To: <20190923073921.13357-1-borntraeger@de.ibm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Sep 2019 14:25:31 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Sep 2019 15:26:25 +0100
-Message-ID: <CAFEAcA-nxLF2HooiEUkVAnL_q04zAOMzVkvfug7ed4Q0pXcrKQ@mail.gmail.com>
-Subject: Re: [PULL 0/5] s390x update
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::230
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: marler8997 pmaydell
+X-Launchpad-Bug-Reporter: Jonathan Marler (marler8997)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <152881015650.27433.14455383509623030686.malonedeb@gac.canonical.com>
+Message-Id: <156924873193.5337.3827035666461540280.malone@chaenomeles.canonical.com>
+Subject: [Bug 1776486] Re: detect error when kernel and initrd images exceed
+ ram size
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1c130aa185e2df574aadfd157645064f5dd747e8
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,43 +66,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yifan Luo <luoyifan@cmss.chinamobile.com>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1776486 <1776486@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Sep 2019 at 08:39, Christian Borntraeger
-<borntraeger@de.ibm.com> wrote:
->
-> Peter,
->
-> here is the non-tcg subset of the s390x updates.
->
->
-> The following changes since commit 4300b7c2cd9f3f273804e8cca325842ccb93b1ad:
->
->   Merge remote-tracking branch 'remotes/cleber/tags/python-next-pull-request' into staging (2019-09-20 17:28:43 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/borntraeger/qemu.git tags/s390x-20190923
->
-> for you to fetch changes up to 7505deca0bfa859136ec6419dbafc504f22fcac2:
->
->   s390x/cpumodel: Add the z15 name to the description of gen15a (2019-09-23 09:15:28 +0200)
->
-> ----------------------------------------------------------------
-> - bugfixes in ccw bios
-> - gen15a is called z15
-> - officially require a 3.15 kernel or later for kvm
->
+As of the 4.1 release we should now do a better job of identifying
+overlaps between initrd, kernel, end of ram, etc, for the built-in arm
+bootloader.
 
-Applied, thanks.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Released
 
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1776486
+
+Title:
+  detect error when kernel and initrd images exceed ram size
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  I was unable to figure out why my VM wasn't booting when I added a
+  "-initrd" image.  I would launch qemu and get no output, and no error
+  message, it would just spin.
+
+  Turns out my initrd image was around 270 MB but I wasn't giving an
+  explicit ram size to qemu.  I was told the default memory size was
+  around 120 MB so this was definitely a problem.  I think that the qemu
+  "pseudo-bootloader" should detect when the kernel image and initrd
+  image sizes exceed the size of ram and print a nice error to the user,
+  something like:
+
+  Error: the total size of the given boot images (342M) exceeds the size
+  allocated for memory (120M)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1776486/+subscriptions
 
