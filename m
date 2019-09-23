@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9D1BB641
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:11:59 +0200 (CEST)
-Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B741BBB64F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:14:03 +0200 (CEST)
+Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCP4I-0003Fj-Vm
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35783)
+	id 1iCP6I-0005Ee-Q7
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:14:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iCP36-0002g8-Sq
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:10:46 -0400
+ (envelope-from <crosa@redhat.com>) id 1iCP4g-0004Ka-PY
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:12:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iCP35-0004SB-0C
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:10:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:5520)
+ (envelope-from <crosa@redhat.com>) id 1iCP4e-00056W-MK
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:12:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52047)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iCP34-0004Rd-NX
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:10:42 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iCP4e-00055L-AE
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:12:20 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 62471C049E32
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 14:10:41 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id c1so4904650wrb.12
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 07:10:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=wZ9Am3xjNOcITRpZcEMQUWZd224R3lH/D0A3UUoperE=;
- b=ZAYc889VMXUNdGnwFG5FSK4rJk2HJ/ihH0bBLpzt+7gmCfez+QPje3VJcIr5vGZ4oc
- aHBHvkFfeZ8HbD64xloz7+ijQmLgVCL00oUUNOW7SqlYsPA6sEC1Apa3YMxNM/I8De/L
- DP18RBWO7p3ao0XBjeCLMioZQ2+tR4wgaAY5tHCJe1nPTI0X+DOBsWrG1SuNOJ2e5+5i
- qIt+qgvf7BNE84cH9oPOZVpaTRvzeYd4vSUAvdP0M/f+0AYLVM3aH18pxMMNJx0E0Kkd
- FsSAojOPsoDrvP6FHWWrnVUEcdTNLzPj/zh47hzSgwRFaCVyJe8kC5nt8sQiFVNNcvYC
- BoBg==
-X-Gm-Message-State: APjAAAWtYAVhoefoyleRoasfsxrlvzzL6Fbc/+pQ2HzIJVW0ygfhDpmu
- THZuumdTWDS/yuFSfXsif3Q8KcnzlUnR5sSn3ccQ0HYkoWr4QagCGkJrWx+4Usocxw8s3+rL1e1
- qOzk42HLrioKGhlA=
-X-Received: by 2002:a1c:9dc1:: with SMTP id g184mr13573957wme.77.1569247840028; 
- Mon, 23 Sep 2019 07:10:40 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyd1cdtlPobZ6azC/gQefHCTThxx0bTxzq74uXrU6uP/il6w8PtUgkGLfU6xSd3DVqYfYzyuQ==
-X-Received: by 2002:a1c:9dc1:: with SMTP id g184mr13573933wme.77.1569247839723; 
- Mon, 23 Sep 2019 07:10:39 -0700 (PDT)
-Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
- [95.120.215.139])
- by smtp.gmail.com with ESMTPSA id y13sm14708990wrg.8.2019.09.23.07.10.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2019 07:10:39 -0700 (PDT)
-References: <20190917023917.32226-1-eblake@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] nbd: Grab aio context lock in more places
-In-reply-to: <20190917023917.32226-1-eblake@redhat.com>
-Date: Mon, 23 Sep 2019 16:10:27 +0200
-Message-ID: <87d0frcdd8.fsf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 40F35757C6;
+ Mon, 23 Sep 2019 14:12:18 +0000 (UTC)
+Received: from dhcp-17-179.bos.redhat.com (dhcp-17-179.bos.redhat.com
+ [10.18.17.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DE871001B30;
+ Mon, 23 Sep 2019 14:12:12 +0000 (UTC)
+Date: Mon, 23 Sep 2019 10:12:11 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 1/2] tests/migration: Fail on unexpected migration states
+Message-ID: <20190923141211.GA9445@dhcp-17-179.bos.redhat.com>
+References: <20190923131022.15498-1-dgilbert@redhat.com>
+ <20190923131022.15498-2-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190923131022.15498-2-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 23 Sep 2019 14:12:18 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,237 +58,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: thuth@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-
-
-Eric Blake <eblake@redhat.com> writes:
-
-> When iothreads are in use, the failure to grab the aio context results
-> in an assertion failure when trying to unlock things during blk_unref,
-> when trying to unlock a mutex that was not locked.  In short, all
-> calls to nbd_export_put need to done while within the correct aio
-> context.  But since nbd_export_put can recursively reach itself via
-> nbd_export_close, and recursively grabbing the context would deadlock,
-> we can't do the context grab directly in those functions, but must do
-> so in their callers.
->
-> Hoist the use of the correct aio_context from nbd_export_new() to its
-> caller qmp_nbd_server_add().  Then tweak qmp_nbd_server_remove(),
-> nbd_eject_notifier(), and nbd_esport_close_all() to grab the right
-> context, so that all callers during qemu now own the context before
-> nbd_export_put() can call blk_unref().
->
-> Remaining uses in qemu-nbd don't matter (since that use case does not
-> support iothreads).
->
-> Suggested-by: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+On Mon, Sep 23, 2019 at 02:10:21PM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> We've got various places where we wait for a migration to enter
+> a given state; but if we enter an unexpected state we tend to fail
+> in odd ways; add a mechanism for explicitly testing for any state
+> which we shouldn't be in.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->
-> With this in place, my emailed formula [1] for causing an iothread
-> assertion failure no longer hits, and all the -nbd and -qcow2 iotests
-> still pass.  I would still like to update iotests to cover things (I
-> could not quickly figure out how to make iotest 222 use iothreads -
-> either we modify that one or add a new one), but wanted to get review
-> started on this first.
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03383.html
->
->  include/block/nbd.h |  1 +
->  blockdev-nbd.c      | 14 ++++++++++++--
->  nbd/server.c        | 23 +++++++++++++++++++----
->  3 files changed, 32 insertions(+), 6 deletions(-)
->
-> diff --git a/include/block/nbd.h b/include/block/nbd.h
-> index 21550747cf35..316fd705a9e4 100644
-> --- a/include/block/nbd.h
-> +++ b/include/block/nbd.h
-> @@ -340,6 +340,7 @@ void nbd_export_put(NBDExport *exp);
->
->  BlockBackend *nbd_export_get_blockdev(NBDExport *exp);
->
-> +AioContext *nbd_export_aio_context(NBDExport *exp);
->  NBDExport *nbd_export_find(const char *name);
->  void nbd_export_close_all(void);
->
-> diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-> index 213f226ac1c4..6a8b206e1d74 100644
-> --- a/blockdev-nbd.c
-> +++ b/blockdev-nbd.c
-> @@ -151,6 +151,7 @@ void qmp_nbd_server_add(const char *device, bool has_name, const char *name,
->      BlockBackend *on_eject_blk;
->      NBDExport *exp;
->      int64_t len;
-> +    AioContext *aio_context;
->
->      if (!nbd_server) {
->          error_setg(errp, "NBD server not running");
-> @@ -173,11 +174,13 @@ void qmp_nbd_server_add(const char *device, bool has_name, const char *name,
->          return;
->      }
->
-> +    aio_context = bdrv_get_aio_context(bs);
-> +    aio_context_acquire(aio_context);
->      len = bdrv_getlength(bs);
->      if (len < 0) {
->          error_setg_errno(errp, -len,
->                           "Failed to determine the NBD export's length");
-> -        return;
-> +        goto out;
->      }
->
->      if (!has_writable) {
-> @@ -190,13 +193,16 @@ void qmp_nbd_server_add(const char *device, bool has_name, const char *name,
->      exp = nbd_export_new(bs, 0, len, name, NULL, bitmap, !writable, !writable,
->                           NULL, false, on_eject_blk, errp);
->      if (!exp) {
-> -        return;
-> +        goto out;
->      }
->
->      /* The list of named exports has a strong reference to this export now and
->       * our only way of accessing it is through nbd_export_find(), so we can drop
->       * the strong reference that is @exp. */
->      nbd_export_put(exp);
-> +
-> + out:
-> +    aio_context_release(aio_context);
+>  tests/migration-test.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/migration-test.c b/tests/migration-test.c
+> index 258aa064d4..9c62ee5331 100644
+> --- a/tests/migration-test.c
+> +++ b/tests/migration-test.c
+> @@ -255,15 +255,19 @@ static void read_blocktime(QTestState *who)
 >  }
->
->  void qmp_nbd_server_remove(const char *name,
-> @@ -204,6 +210,7 @@ void qmp_nbd_server_remove(const char *name,
->                             Error **errp)
+>  
+>  static void wait_for_migration_status(QTestState *who,
+> -                                      const char *goal)
+> +                                      const char *goal,
+> +                                      const char **ungoals)
 >  {
->      NBDExport *exp;
-> +    AioContext *aio_context;
->
->      if (!nbd_server) {
->          error_setg(errp, "NBD server not running");
-> @@ -220,7 +227,10 @@ void qmp_nbd_server_remove(const char *name,
->          mode = NBD_SERVER_REMOVE_MODE_SAFE;
->      }
->
-> +    aio_context = nbd_export_aio_context(exp);
-> +    aio_context_acquire(aio_context);
->      nbd_export_remove(exp, mode, errp);
-> +    aio_context_release(aio_context);
->  }
->
->  void qmp_nbd_server_stop(Error **errp)
-> diff --git a/nbd/server.c b/nbd/server.c
-> index 378784c1e54a..3003381c86b4 100644
-> --- a/nbd/server.c
-> +++ b/nbd/server.c
-> @@ -1458,7 +1458,12 @@ static void blk_aio_detach(void *opaque)
->  static void nbd_eject_notifier(Notifier *n, void *data)
+>      while (true) {
+>          bool completed;
+>          char *status;
+> +        const char **ungoal;
+>  
+>          status = migrate_query_status(who);
+>          completed = strcmp(status, goal) == 0;
+> -        g_assert_cmpstr(status, !=,  "failed");
+> +        for (ungoal = ungoals; *ungoal; ungoal++) {
+> +            g_assert_cmpstr(status, !=,  *ungoal);
+> +        }
+>          g_free(status);
+>          if (completed) {
+>              return;
+> @@ -274,7 +278,8 @@ static void wait_for_migration_status(QTestState *who,
+>  
+>  static void wait_for_migration_complete(QTestState *who)
 >  {
->      NBDExport *exp = container_of(n, NBDExport, eject_notifier);
-> +    AioContext *aio_context;
-> +
-> +    aio_context = exp->ctx;
-> +    aio_context_acquire(aio_context);
->      nbd_export_close(exp);
-> +    aio_context_release(aio_context);
+> -    wait_for_migration_status(who, "completed");
+> +    wait_for_migration_status(who, "completed",
+> +                              (const char * []) { "failed", NULL });
 >  }
->
->  NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-> @@ -1477,12 +1482,11 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
->       * NBD exports are used for non-shared storage migration.  Make sure
->       * that BDRV_O_INACTIVE is cleared and the image is ready for write
->       * access since the export could be available before migration handover.
-> +     * ctx was acquired in the caller.
+>  
+>  static void wait_for_migration_pass(QTestState *who)
+> @@ -809,7 +814,9 @@ static void test_postcopy_recovery(void)
+>       * Wait until postcopy is really started; we can only run the
+>       * migrate-pause command during a postcopy
 >       */
->      assert(name);
->      ctx = bdrv_get_aio_context(bs);
-> -    aio_context_acquire(ctx);
->      bdrv_invalidate_cache(bs, NULL);
-> -    aio_context_release(ctx);
->
->      /* Don't allow resize while the NBD server is running, otherwise we don't
->       * care what happens with the node. */
-> @@ -1490,7 +1494,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
->      if (!readonly) {
->          perm |= BLK_PERM_WRITE;
->      }
-> -    blk = blk_new(bdrv_get_aio_context(bs), perm,
-> +    blk = blk_new(ctx, perm,
->                    BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
->                    BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD);
->      ret = blk_insert_bs(blk, bs, errp);
-> @@ -1557,7 +1561,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
->      }
->
->      exp->close = close;
-> -    exp->ctx = blk_get_aio_context(blk);
-> +    exp->ctx = ctx;
->      blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
->
->      if (on_eject_blk) {
-> @@ -1590,11 +1594,18 @@ NBDExport *nbd_export_find(const char *name)
->      return NULL;
->  }
->
-> +AioContext *
-> +nbd_export_aio_context(NBDExport *exp)
-> +{
-> +    return exp->ctx;
-> +}
-> +
->  void nbd_export_close(NBDExport *exp)
->  {
->      NBDClient *client, *next;
->
->      nbd_export_get(exp);
-> +
-
-I'm not sure if this new line was added here on purpose.
-
+> -    wait_for_migration_status(from, "postcopy-active");
+> +    wait_for_migration_status(from, "postcopy-active",
+> +                              (const char * []) { "failed",
+> +                                                  "completed", NULL });
+>  
 >      /*
->       * TODO: Should we expand QMP NbdServerRemoveNode enum to allow a
->       * close mode that stops advertising the export to new clients but
-> @@ -1684,9 +1695,13 @@ BlockBackend *nbd_export_get_blockdev(NBDExport *exp)
->  void nbd_export_close_all(void)
->  {
->      NBDExport *exp, *next;
-> +    AioContext *aio_context;
+>       * Manually stop the postcopy migration. This emulates a network
+> @@ -822,7 +829,9 @@ static void test_postcopy_recovery(void)
+>       * migrate-recover command can only succeed if destination machine
+>       * is in the paused state
+>       */
+> -    wait_for_migration_status(to, "postcopy-paused");
+> +    wait_for_migration_status(to, "postcopy-paused",
+> +                              (const char * []) { "failed", "active",
+> +                                                  "completed", NULL });
+>  
+>      /*
+>       * Create a new socket to emulate a new channel that is different
+> @@ -836,7 +845,9 @@ static void test_postcopy_recovery(void)
+>       * Try to rebuild the migration channel using the resume flag and
+>       * the newly created channel
+>       */
+> -    wait_for_migration_status(from, "postcopy-paused");
+> +    wait_for_migration_status(from, "postcopy-paused",
+> +                              (const char * []) { "failed", "active",
+> +                                                  "completed", NULL });
+>      migrate(from, uri, "{'resume': true}");
+>      g_free(uri);
+>  
+> -- 
+> 2.21.0
+> 
 >
->      QTAILQ_FOREACH_SAFE(exp, &exports, next, next) {
-> +        aio_context = exp->ctx;
-> +        aio_context_acquire(aio_context);
->          nbd_export_close(exp);
-> +        aio_context_release(aio_context);
->      }
->  }
 
-Otherwise, LGTM.
+LGTM (tested with x86_64 and aarch64 targets on an x86_64 host).
 
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2I0lMACgkQ9GknjS8M
-AjVYVQ/8C4p7akWa3o0KSBvTAJPZQtlDDGJp4cdnvlfbPawkt4S6qCg4lmfjT6c3
-Q/1Ai6ACMwZuea7t4+//1lCFeMAfXT07ZeLbkwCrUXTyoux1sSpxkVP1cQhGve17
-R/TUUGUUu0IIZygISqXuxE84p9ZQiOhPsYM7stGzDeX69DqTOv2yw2fVpYqsBtrd
-rusGex4HKSoiR9Lyj5e2pWSI0N1/ArvrpHcQYUHSoKWCWGdlkJh6l8A8tDeWka/q
-BqfvB1vM3MnfD85OAJrXbq7gDH2qHxMx2Lkj5EkHNzzMA8piRUwSGUY1ARHgkuhr
-6P2YMj0Fuaqa0tmcu0OyXIkwE1B+6oKV1+Pa6zaW01Nz0W/7euQZKyzeVeAwBNJK
-jIQceVk0RoxrsCDc2KRaQyiqFWt4OSD5UDq635LQwn1gm0Bv1Eom1xjTrK16aHcj
-x+RhYEyvYe8Mx5cLpzMTAznd3krXj+k4aIk5TsZ/0va3g6Hu7JJC7Ug2MYwAkto3
-t00MwBaGfxAw4EU3x++/tJKfI0/Dl8zSOKazY2AEtdbC+O5z2B86pdC0xNwxswjw
-bBS+QOO/BWqMAv29VxJzcgLkYd9UTs9lZw74gl6bOHSt4NmMK8Roukopmyx9O/Ew
-xAD59uoLf0L1ozxB2eqetddw1ZN6mayxnccKrBF8z73sov6aQfM=
-=f2nz
------END PGP SIGNATURE-----
---=-=-=--
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 
