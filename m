@@ -2,41 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087DABB99C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:31:37 +0200 (CEST)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691FABB9BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:38:17 +0200 (CEST)
+Received: from localhost ([::1]:59470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRFP-0005ii-R0
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:31:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57102)
+	id 1iCRLr-0003FL-Sz
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:38:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxO-0002Qw-Gn
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:13:01 -0400
+ (envelope-from <zhlb29@foxmail.com>) id 1iCRAR-0003Bu-En
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:26:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxM-0003jC-S6
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:58 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39506)
+ (envelope-from <zhlb29@foxmail.com>) id 1iCRAM-00051l-Tw
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:26:25 -0400
+Received: from smtpbg520.qq.com ([203.205.250.49]:46758 helo=smtpbg.qq.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQxM-0003a7-Gv; Mon, 23 Sep 2019 12:12:56 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQx1-0001Fp-PU; Mon, 23 Sep 2019 19:12:35 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v2 9/9] fix-compilation: includes
-Date: Mon, 23 Sep 2019 19:12:31 +0300
-Message-Id: <20190923161231.22028-10-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190923161231.22028-1-vsementsov@virtuozzo.com>
-References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ (Exim 4.71) (envelope-from <zhlb29@foxmail.com>) id 1iCRAK-0004yL-1b
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:26:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1569255958;
+ bh=2ZrM3LWC+baHXp6S5oiCyuhPkCA5tqvZLRYWI6pMOgw=;
+ h=From:To:Subject:Mime-Version:Date:Message-ID;
+ b=xW3StHc/JepG7s/il4ia+DGqwRq8DeRi2m3zRHaQy/hBHmZAhuXNSN3kJw+7tBdT+
+ jNkeyRy2GY5RBMlTNFOtxTzOmO/Zlk0PNb3HidnarWuqYuO9j9GaYlDV5MkiyhjDGH
+ 3pPbXKO2Y2UCcRto276pTM51VHbNAoDaJ+wAbuVE=
+X-QQ-SSF: 00000000000000F000000000000000G
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 221.221.97.28
+X-QQ-STYLE: 
+X-QQ-mid: webenglish1t1569255957t178447
+From: "=?ISO-8859-1?B?TGlibyBaaG91?=" <zhlb29@foxmail.com>
+To: "=?ISO-8859-1?B?UGhpbGlwcGUgTWF0aGlldS1EYXVk?=" <philmd@redhat.com>,
+ "=?ISO-8859-1?B?UGV0ZXIgTWF5ZGVsbA==?=" <peter.maydell@linaro.org>
+Subject: Re: illegal hardware instruction during MIPS-I ELF linux useremulation
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="ISO-8859-1"
+Content-Transfer-Encoding: base64
+Date: Tue, 24 Sep 2019 00:25:57 +0800
+X-Priority: 3
+Message-ID: <tencent_28AAA62B694825C348B1DF49@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
+ id ; Tue, 24 Sep 2019 00:25:57 +0800 (CST)
+Feedback-ID: webenglish:foxmail.com:bgweb:bgweb5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-X-Mailman-Approved-At: Mon, 23 Sep 2019 12:26:10 -0400
+X-Received-From: 203.205.250.49
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,155 +64,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, codyprime@gmail.com, jan.kiszka@siemens.com,
- berto@igalia.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- arikalo@wavecomp.com, pasic@linux.ibm.com, hpoussin@reactos.org,
- anthony.perard@citrix.com, samuel.thibault@ens-lyon.org, philmd@redhat.com,
- green@moxielogic.com, lvivier@redhat.com, ehabkost@redhat.com,
- xiechanglong.d@gmail.com, pl@kamp.de, dgilbert@redhat.com, b.galvani@gmail.com,
- eric.auger@redhat.com, alex.williamson@redhat.com, ronniesahlberg@gmail.com,
- jsnow@redhat.com, rth@twiddle.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- andrew@aj.id.au, crwulff@gmail.com, sundeep.lkml@gmail.com, michael@walle.cc,
- qemu-ppc@nongnu.org, kbastian@mail.uni-paderborn.de, imammedo@redhat.com,
- fam@euphon.net, peter.maydell@linaro.org, sheepdog@lists.wpkg.org,
- david@redhat.com, palmer@sifive.com, thuth@redhat.com, jcmvbkbc@gmail.com,
- den@openvz.org, hare@suse.com, sstabellini@kernel.org, arei.gonglei@huawei.com,
- namei.unix@gmail.com, atar4qemu@gmail.com, farman@linux.ibm.com,
- amit@kernel.org, sw@weilnetz.de, groug@kaod.org, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, peter.chubb@nicta.com.au, clg@kaod.org, shorne@gmail.com,
- qemu-riscv@nongnu.org, cohuck@redhat.com, amarkovic@wavecomp.com,
- aurelien@aurel32.net, pburton@wavecomp.com, sagark@eecs.berkeley.edu,
- jasowang@redhat.com, kraxel@redhat.com, edgar.iglesias@gmail.com,
- gxt@mprc.pku.edu.cn, ari@tuxera.com, quintela@redhat.com,
- mdroth@linux.vnet.ibm.com, lersek@redhat.com, borntraeger@de.ibm.com,
- antonynpavlov@gmail.com, dillaman@redhat.com, joel@jms.id.au,
- xen-devel@lists.xenproject.org, integration@gluster.org, rjones@redhat.com,
- Andrew.Baumann@microsoft.com, mreitz@redhat.com, walling@linux.ibm.com,
- mst@redhat.com, mark.cave-ayland@ilande.co.uk, v.maffione@gmail.com,
- marex@denx.de, armbru@redhat.com, marcandre.lureau@redhat.com,
- alistair@alistair23.me, paul.durrant@citrix.com, pavel.dovgaluk@ispras.ru,
- g.lettieri@iet.unipi.it, rizzo@iet.unipi.it, david@gibson.dropbear.id.au,
- akrowiak@linux.ibm.com, berrange@redhat.com, xiaoguangrong.eric@gmail.com,
- pmorel@linux.ibm.com, wencongyang2@huawei.com, jcd@tribudubois.net,
- pbonzini@redhat.com, stefanb@linux.ibm.com
+Cc: =?ISO-8859-1?B?cWVtdS1kZXZlbA==?= <qemu-devel@nongnu.org>,
+ =?ISO-8859-1?B?QWxla3NhbmRhciBNYXJrb3ZpYw==?= <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hmm. Should we allow empty stubs with errp parameter without calling
-new macro?
-
-Or, just apply this commit before auto-generated commit.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- target/ppc/kvm_ppc.h        | 2 ++
- target/s390x/cpu_models.h   | 1 +
- hw/i386/kvm/apic.c          | 1 +
- hw/misc/arm11scu.c          | 1 +
- hw/misc/mps2-scc.c          | 1 +
- hw/pci-bridge/dec.c         | 1 +
- qapi/qapi-dealloc-visitor.c | 1 +
- stubs/xen-hvm.c             | 1 +
- 8 files changed, 9 insertions(+)
-
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 807c245e90..f6366c19aa 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -9,6 +9,8 @@
- #ifndef KVM_PPC_H
- #define KVM_PPC_H
- 
-+#include "qapi/error.h"
-+
- #define TYPE_HOST_POWERPC_CPU POWERPC_CPU_TYPE_NAME("host")
- 
- #ifdef CONFIG_KVM
-diff --git a/target/s390x/cpu_models.h b/target/s390x/cpu_models.h
-index 5329045a71..062161c5fa 100644
---- a/target/s390x/cpu_models.h
-+++ b/target/s390x/cpu_models.h
-@@ -16,6 +16,7 @@
- #include "cpu_features.h"
- #include "gen-features.h"
- #include "hw/core/cpu.h"
-+#include "qapi/error.h"
- 
- /* static CPU definition */
- struct S390CPUDef {
-diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
-index d125b370f4..cadf75b71c 100644
---- a/hw/i386/kvm/apic.c
-+++ b/hw/i386/kvm/apic.c
-@@ -18,6 +18,7 @@
- #include "sysemu/hw_accel.h"
- #include "sysemu/kvm.h"
- #include "target/i386/kvm_i386.h"
-+#include "qapi/error.h"
- 
- static inline void kvm_apic_set_reg(struct kvm_lapic_state *kapic,
-                                     int reg_id, uint32_t val)
-diff --git a/hw/misc/arm11scu.c b/hw/misc/arm11scu.c
-index befc85f321..9c1fec7825 100644
---- a/hw/misc/arm11scu.c
-+++ b/hw/misc/arm11scu.c
-@@ -13,6 +13,7 @@
- #include "hw/qdev-properties.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- 
- static uint64_t mpcore_scu_read(void *opaque, hwaddr offset,
-                                 unsigned size)
-diff --git a/hw/misc/mps2-scc.c b/hw/misc/mps2-scc.c
-index f2a00d3235..c41e776996 100644
---- a/hw/misc/mps2-scc.c
-+++ b/hw/misc/mps2-scc.c
-@@ -26,6 +26,7 @@
- #include "hw/registerfields.h"
- #include "hw/misc/mps2-scc.h"
- #include "hw/qdev-properties.h"
-+#include "qapi/error.h"
- 
- REG32(CFG0, 0)
- REG32(CFG1, 4)
-diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
-index fbe781474e..06445e0545 100644
---- a/hw/pci-bridge/dec.c
-+++ b/hw/pci-bridge/dec.c
-@@ -31,6 +31,7 @@
- #include "hw/pci/pci_host.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_bus.h"
-+#include "qapi/error.h"
- 
- /* debug DEC */
- //#define DEBUG_DEC
-diff --git a/qapi/qapi-dealloc-visitor.c b/qapi/qapi-dealloc-visitor.c
-index 3ee4c7a2e7..e265e29234 100644
---- a/qapi/qapi-dealloc-visitor.c
-+++ b/qapi/qapi-dealloc-visitor.c
-@@ -16,6 +16,7 @@
- #include "qapi/dealloc-visitor.h"
- #include "qapi/qmp/qnull.h"
- #include "qapi/visitor-impl.h"
-+#include "qapi/error.h"
- 
- struct QapiDeallocVisitor
- {
-diff --git a/stubs/xen-hvm.c b/stubs/xen-hvm.c
-index 840a2a0d09..350c762c64 100644
---- a/stubs/xen-hvm.c
-+++ b/stubs/xen-hvm.c
-@@ -12,6 +12,7 @@
- #include "hw/xen/xen.h"
- #include "exec/memory.h"
- #include "qapi/qapi-commands-misc.h"
-+#include "qapi/error.h"
- 
- int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
- {
--- 
-2.21.0
+SGkgUGhpbGlwcGUsIFBldGVyLAoKSW4gdGFyZ2V0L21pcHMvdHJhbnNsYXRlX2luaXQuaW5j
+LmMgeW91IGNhbiBhY3R1YWxseSBzZWUgdGhhdCBDUFVfTUlQUzMyIHVsdGltYXRlbHkgY29u
+dGFpbnMgSVNBX01JUFMxLiBJdCdzIGp1c3Qgbm8gQ1BVIG1vZGVsIGV4cGxpY2l0bHkgdXNl
+cyBJU0FfTUlQUy4gQnV0IEkgYWdyZWUgdGhhdCBpZiBteSBhc3NlbWJseSBoYXMgYSByZW1v
+dmVkIGluc3RydWN0aW9uIHRoZW4gaXQncyBwb3NzaWJsZSB0byBoYXZlIGFuIGludmFsaWQg
+bWFjaGluZSBjb2RlIGluIG15IHByb2dyYW0uCgpBcyBmb3IgdGhlIGNyb3NzLWNvbXBpbGVy
+LCBJIHVzZWQgYSB0b29sIGNoYWluIGNvbnRhaW5pbmcgYSBjb21waWxlciwgYW4gYXNzZW1i
+bGVyLCBhbmQgYSBsaW5rZXIuIEkgcHJvZHVjZWQgdGhlIGZpbmFsIEVMRiBsaWtlIHRoaXM6
+CgokIG1pcHNlbC1saW51eC11bmtub3duLWdjYyAtZyAtUyB0ZXN0LmMgLW8gdGVzdC5zCiQg
+bWlwc2VsLWxpbnV4LXVua25vd24tYXMgLWcgdGVzdC5zIC1vIHRlc3QubwokIG1pcHNlbC1s
+aW51eC11bmtub3duLWxkIHRlc3QubyAtbyB0ZXN0CgpGb3IgbXkgcWVtdSwgSSBkaWQ6Cgok
+IC4uL2NvbmZpZ3VyZSAtLWVuYWJsZS1kZWJ1ZyAtLXRhcmdldC1saXN0PW1pcHNlbC1saW51
+eC11c2VyCiQgbWFrZSAtajQKCkhlcmUgYXJlIHRoZSBjb250ZW50cyBvZiBteSBzb3VyY2Ug
+YW5kIGdlbmVyYXRlZCBhc3NlbWJseToKCiQgY2F0IHRlc3QuYwppbnQgbWFpbih2b2lkKQp7
+CiAgICBpbnQgYSA9IDE7CiAgICBpbnQgYiA9IDI7CiAgICBpbnQgYyA9IGEgKyBiOwogICAg
+cmV0dXJuIDA7Cn0KCiQgY2F0IHRlc3QucwoJLnNlY3Rpb24gLm1kZWJ1Zy5hYmkzMgoJLnBy
+ZXZpb3VzCgkuZ251X2F0dHJpYnV0ZSA0LCAzCgkuYWJpY2FsbHMKCS5zZWN0aW9uCS5kZWJ1
+Z19hYmJyZXYsIiIsQHByb2diaXRzCiRMZGVidWdfYWJicmV2MDoKCS5zZWN0aW9uCS5kZWJ1
+Z19pbmZvLCIiLEBwcm9nYml0cwokTGRlYnVnX2luZm8wOgoJLnNlY3Rpb24JLmRlYnVnX2xp
+bmUsIiIsQHByb2diaXRzCiRMZGVidWdfbGluZTA6CgkudGV4dAokTHRleHQwOgoJLmFsaWdu
+CTIKCS5nbG9ibAltYWluCiRMRkIwID0gLgoJLmZpbGUgMSAidGVzdC5jIgoJLmxvYyAxIDIg
+MAoJLmNmaV9zdGFydHByb2MKCS5zZXQJbm9taXBzMTYKCS5lbnQJbWFpbgoJLnR5cGUJbWFp
+biwgQGZ1bmN0aW9uCm1haW46CgkuZnJhbWUJJGZwLDMyLCQzMQkJIyB2YXJzPSAxNiwgcmVn
+cz0gMS8wLCBhcmdzPSAwLCBncD0gOAoJLm1hc2sJMHg0MDAwMDAwMCwtNAoJLmZtYXNrCTB4
+MDAwMDAwMDAsMAoJLnNldAlub3Jlb3JkZXIKCS5zZXQJbm9tYWNybwoJCglhZGRpCSRzcCwk
+c3AsLTMyCgkuY2ZpX2RlZl9jZmFfb2Zmc2V0IDMyCglzdwkkZnAsMjgoJHNwKQoJbm9wCglu
+b3AKCW1vdmUJJGZwLCRzcAoJLmNmaV9vZmZzZXQgMzAsIC00CgkuY2ZpX2RlZl9jZmFfcmVn
+aXN0ZXIgMzAKCS5sb2MgMSAzIDAKCWxpCSQyLDEJCQkjIDB4MQoJc3cJJDIsMTYoJGZwKQoJ
+bm9wCglub3AKCS5sb2MgMSA0IDAKCWxpCSQyLDIJCQkjIDB4MgoJc3cJJDIsMTIoJGZwKQoJ
+bm9wCglub3AKCS5sb2MgMSA1IDAKCWx3CSQzLDE2KCRmcCkKCWx3CSQyLDEyKCRmcCkKCW5v
+cAoJbm9wCglhZGQJJDIsJDMsJDIKCXN3CSQyLDgoJGZwKQoJbm9wCglub3AKCS5sb2MgMSA2
+IDAKCW1vdmUJJDIsJDAKCS5sb2MgMSA3IDAKCW1vdmUJJHNwLCRmcAoJbHcJJGZwLDI4KCRz
+cCkKCWFkZGkJJHNwLCRzcCwzMgoJagkkMzEKCW5vcAoJbm9wCglub3AKCW5vcAoJbm9wCgoJ
+LnNldAltYWNybwoJCgoJLmVuZAltYWluCgkuY2ZpX2VuZHByb2MKJExGRTA6Cgkuc2l6ZQlt
+YWluLCAuLW1haW4KJExldGV4dDA6Cgkuc2VjdGlvbgkuZGVidWdfbG9jLCIiLEBwcm9nYml0
+cwokTGRlYnVnX2xvYzA6CiRMTFNUMDoKCS40Ynl0ZQkkTEZCMC0kTHRleHQwCgkuNGJ5dGUJ
+JExGRTAtJEx0ZXh0MAoJLjJieXRlCTB4MgoJLmJ5dGUJMHg4ZQoJLnNsZWIxMjggMzIKCS40
+Ynl0ZQkweDAKCS40Ynl0ZQkweDAKCS5zZWN0aW9uCS5kZWJ1Z19pbmZvCgkuNGJ5dGUJMHg2
+YgoJLjJieXRlCTB4MgoJLjRieXRlCSRMZGVidWdfYWJicmV2MAoJLmJ5dGUJMHg0CgkudWxl
+YjEyOCAweDEKCS40Ynl0ZQkkTEFTRjAKCS5ieXRlCTB4MQoJLjRieXRlCSRMQVNGMQoJLjRi
+eXRlCSRMQVNGMgoJLjRieXRlCSRMdGV4dDAKCS40Ynl0ZQkkTGV0ZXh0MAoJLjRieXRlCSRM
+ZGVidWdfbGluZTAKCS51bGViMTI4IDB4MgoJLmJ5dGUJMHgxCgkuNGJ5dGUJJExBU0YzCgku
+Ynl0ZQkweDEKCS5ieXRlCTB4MQoJLmJ5dGUJMHgxCgkuNGJ5dGUJMHg2NwoJLjRieXRlCSRM
+RkIwCgkuNGJ5dGUJJExGRTAKCS40Ynl0ZQkkTExTVDAKCS40Ynl0ZQkweDY3CgkudWxlYjEy
+OCAweDMKCS5hc2NpaQkiYVwwMDAiCgkuYnl0ZQkweDEKCS5ieXRlCTB4MwoJLjRieXRlCTB4
+NjcKCS5ieXRlCTB4MgoJLmJ5dGUJMHg5MQoJLnNsZWIxMjggLTE2CgkudWxlYjEyOCAweDMK
+CS5hc2NpaQkiYlwwMDAiCgkuYnl0ZQkweDEKCS5ieXRlCTB4NAoJLjRieXRlCTB4NjcKCS5i
+eXRlCTB4MgoJLmJ5dGUJMHg5MQoJLnNsZWIxMjggLTIwCgkudWxlYjEyOCAweDMKCS5hc2Np
+aQkiY1wwMDAiCgkuYnl0ZQkweDEKCS5ieXRlCTB4NQoJLjRieXRlCTB4NjcKCS5ieXRlCTB4
+MgoJLmJ5dGUJMHg5MQoJLnNsZWIxMjggLTI0CgkuYnl0ZQkweDAKCS51bGViMTI4IDB4NAoJ
+LmJ5dGUJMHg0CgkuYnl0ZQkweDUKCS5hc2NpaQkiaW50XDAwMCIKCS5ieXRlCTB4MAoJLnNl
+Y3Rpb24JLmRlYnVnX2FiYnJldgoJLnVsZWIxMjggMHgxCgkudWxlYjEyOCAweDExCgkuYnl0
+ZQkweDEKCS51bGViMTI4IDB4MjUKCS51bGViMTI4IDB4ZQoJLnVsZWIxMjggMHgxMwoJLnVs
+ZWIxMjggMHhiCgkudWxlYjEyOCAweDMKCS51bGViMTI4IDB4ZQoJLnVsZWIxMjggMHgxYgoJ
+LnVsZWIxMjggMHhlCgkudWxlYjEyOCAweDExCgkudWxlYjEyOCAweDEKCS51bGViMTI4IDB4
+MTIKCS51bGViMTI4IDB4MQoJLnVsZWIxMjggMHgxMAoJLnVsZWIxMjggMHg2CgkuYnl0ZQkw
+eDAKCS5ieXRlCTB4MAoJLnVsZWIxMjggMHgyCgkudWxlYjEyOCAweDJlCgkuYnl0ZQkweDEK
+CS51bGViMTI4IDB4M2YKCS51bGViMTI4IDB4YwoJLnVsZWIxMjggMHgzCgkudWxlYjEyOCAw
+eGUKCS51bGViMTI4IDB4M2EKCS51bGViMTI4IDB4YgoJLnVsZWIxMjggMHgzYgoJLnVsZWIx
+MjggMHhiCgkudWxlYjEyOCAweDI3CgkudWxlYjEyOCAweGMKCS51bGViMTI4IDB4NDkKCS51
+bGViMTI4IDB4MTMKCS51bGViMTI4IDB4MTEKCS51bGViMTI4IDB4MQoJLnVsZWIxMjggMHgx
+MgoJLnVsZWIxMjggMHgxCgkudWxlYjEyOCAweDQwCgkudWxlYjEyOCAweDYKCS51bGViMTI4
+IDB4MQoJLnVsZWIxMjggMHgxMwoJLmJ5dGUJMHgwCgkuYnl0ZQkweDAKCS51bGViMTI4IDB4
+MwoJLnVsZWIxMjggMHgzNAoJLmJ5dGUJMHgwCgkudWxlYjEyOCAweDMKCS51bGViMTI4IDB4
+OAoJLnVsZWIxMjggMHgzYQoJLnVsZWIxMjggMHhiCgkudWxlYjEyOCAweDNiCgkudWxlYjEy
+OCAweGIKCS51bGViMTI4IDB4NDkKCS51bGViMTI4IDB4MTMKCS51bGViMTI4IDB4MgoJLnVs
+ZWIxMjggMHhhCgkuYnl0ZQkweDAKCS5ieXRlCTB4MAoJLnVsZWIxMjggMHg0CgkudWxlYjEy
+OCAweDI0CgkuYnl0ZQkweDAKCS51bGViMTI4IDB4YgoJLnVsZWIxMjggMHhiCgkudWxlYjEy
+OCAweDNlCgkudWxlYjEyOCAweGIKCS51bGViMTI4IDB4MwoJLnVsZWIxMjggMHg4CgkuYnl0
+ZQkweDAKCS5ieXRlCTB4MAoJLmJ5dGUJMHgwCgkuc2VjdGlvbgkuZGVidWdfcHVibmFtZXMs
+IiIsQHByb2diaXRzCgkuNGJ5dGUJMHgxNwoJLjJieXRlCTB4MgoJLjRieXRlCSRMZGVidWdf
+aW5mbzAKCS40Ynl0ZQkweDZmCgkuNGJ5dGUJMHgyNQoJLmFzY2lpCSJtYWluXDAwMCIKCS40
+Ynl0ZQkweDAKCS5zZWN0aW9uCS5kZWJ1Z19hcmFuZ2VzLCIiLEBwcm9nYml0cwoJLjRieXRl
+CTB4MWMKCS4yYnl0ZQkweDIKCS40Ynl0ZQkkTGRlYnVnX2luZm8wCgkuYnl0ZQkweDQKCS5i
+eXRlCTB4MAoJLjJieXRlCTB4MAoJLjJieXRlCTB4MAoJLjRieXRlCSRMdGV4dDAKCS40Ynl0
+ZQkkTGV0ZXh0MC0kTHRleHQwCgkuNGJ5dGUJMHgwCgkuNGJ5dGUJMHgwCgkuc2VjdGlvbgku
+ZGVidWdfc3RyLCJNUyIsQHByb2diaXRzLDEKJExBU0YwOgoJLmFzY2lpCSJHTlUgQyA0LjQu
+MFwwMDAiCiRMQVNGMToKCS5hc2NpaQkidGVzdC5jXDAwMCIKJExBU0YyOgoJLmFzY2lpCSIv
+ZXhwb3J0L3Bmcy9ob21lL2x0ZV9kc3AvemhvdWxpYm8vdGVzdFwwMDAiCiRMQVNGMzoKCS5h
+c2NpaQkibWFpblwwMDAiCgkuaWRlbnQJIkdDQzogKEdOVSkgNC40LjAiCgpPbmUgcG9pbnQg
+dG8gbm90ZSwgSSBkaWQgYWxsIHRoaXMgY29tcGlsYXRpb24gcHJvY2VzcyBvbiBhIHJlbW90
+ZSBtYWNoaW5lIGFuZCBjb3BpZWQgYWxsIHRoZXNlIGZpbGVzIHRvIG15IG93biBQQyB3aXRo
+IFFFTVUuIFRoZSBwYXRoIC9leHBvcnQvLi4uIGlzIGEgcmVtb3RlIHBhdGgsIGJ1dCBJIGRv
+bid0IHRoaW5rIHRoYXQncyBhIHByb2JsZW0gdGhvdWdoLgpQbGVhc2UgbGV0IG1lIGtub3cg
+aWYgeW91IG5lZWQgbW9yZSBpbmZvcm1hdGlvbi4gSSBhcHByZWNpYXRlIHlvdXIgaGVscC4K
+ClRoYW5rcywKTGlibyBaaG91CgotLS0tLS0tLS0tLS0tLS0tLS0gT3JpZ2luYWwgLS0tLS0t
+LS0tLS0tLS0tLS0tCkZyb206ICAiUGhpbGlwcGUgTWF0aGlldS1EYXVkICI7PHBoaWxtZEBy
+ZWRoYXQuY29tPjsKU2VuZCB0aW1lOiBNb25kYXksIFNlcCAyMywgMjAxOSAxMDo1MCBQTQpU
+bzogIlBldGVyIE1heWRlbGwiPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz47IApDYzogIkFs
+ZWtzYW5kYXIgTWFya292aWMiPGFsZWtzYW5kYXIubS5tYWlsQGdtYWlsLmNvbT47ICJMaWJv
+IFpob3UiPHpobGIyOUBmb3htYWlsLmNvbT47ICJxZW11LWRldmVsIjxxZW11LWRldmVsQG5v
+bmdudS5vcmc+OyAKU3ViamVjdDogIFJlOiBpbGxlZ2FsIGhhcmR3YXJlIGluc3RydWN0aW9u
+IGR1cmluZyBNSVBTLUkgRUxGIGxpbnV4IHVzZXJlbXVsYXRpb24KCgoKT24gOS8yMy8xOSA0
+OjQyIFBNLCBQZXRlciBNYXlkZWxsIHdyb3RlOgo+IE9uIE1vbiwgMjMgU2VwIDIwMTkgYXQg
+MTU6NDAsIFBoaWxpcHBlIE1hdGhpZXUtRGF1ZCAgPHBoaWxtZEByZWRoYXQuY29tPiB3cm90
+ZToKPj4gU28gY3VycmVudGx5IHRoZXJlIGlzIG5vIE1JUFMtSSBvbmx5IENQVS4KPj4gTm90
+ZSB0aGF0IHRoZSBjb2RlIGdvdCB3cml0dGVuIHdpdGggTUlQUzMyIGluIG1pbmQsIGFuZCBp
+bXBsZW1lbnRpbmcKPj4gTUlQUy1JIHJlcXVpcmVzIGEgY29uc2lkZXJhYmxlIGFtb3VudCBv
+ZiBjaGFuZ2UgaW4gdGhlIGNvZGViYXNlLgo+IAo+IC4uLmJ1dCBNSVBTLUkgYmluYXJpZXMg
+c2hvdWxkIHJ1biBvbiBNSVBTLUlJIGFuZCBuZXdlciBDUFVzLCBzaG91bGRuJ3QKPiB0aGV5
+PwoKU29tZSBNSVBTLUkgaW5zdHJ1Y3Rpb25zIHdoZXJlIHJlbW92ZWQgZm9yIE1JUFMtSUkg
+KGFzIFJGRSkgYW5kIHRoZXkgYXJlCm5vdCBpbXBsZW1lbnRlZC4gQWxzbyBzb21lIENQMCBy
+ZWdpc3RlcnMgYXJlIGRpZmZlcmVudC4KCj4+IElNTyBpdCBpcyBsaWtlbHkgdGhlIFJGRSAo
+UmV0dXJuIGZyb20gRXhjZXB0aW9uKSBpbnN0cnVjdGlvbi4KPiAKPiBJdCBzZWVtcyB1bmxp
+a2VseSB0aGF0IGEgbGludXggdXNlcnNwYWNlIGJpbmFyeSB3b3VsZCBiZSB0cnlpbmcgdG8K
+PiBleGVjdXRlIFJGRS4uLgoKT2ggSSB0aG91Z2h0IGl0IHdhcyBzeXN0ZW0gZW11bGF0aW9u
+LCBpbmRlZWQgaXQgY2FuJ3QgYmUgUkZFLgoKT25lIEdDQyByZWxlYXNlIHRhcmdldHRpbmcg
+UjMwMDAgKFBoaWxpcHMgUFIzMTcwMCwgVG9zaGliYSBUWDM5KSBkb2Vzbid0CmVtaXQgTk9Q
+IGZvciBicmFuY2gncyBkZWxheSBzbG90LiBJIHJlbWVtYmVyIFFFTVUgZmFpbHMgdG8gcnVu
+IHRoZQpiaW5hcmllcyBpdCBnZW5lcmF0ZXMsIGJ1dCBJIGRvbid0IHJlbWVtYmVyIGhvdyBp
+dCBmYWlscy4KCkxpYm8sIGNhbiB5b3UgcHJvdmlkZSBtb3JlIGluZm9ybWF0aW9uIGFib3V0
+IHRoZSBjcm9zcy1jb21waWxlciB5b3UgdXNlCmFuZCB0aGUgZmxhZ3MgeW91IHVzZSB3aGVu
+IGNhbGxpbmcgaXQgcGxlYXNlPwoKVGhhbmtzLAoKUGhpbC4=
 
 
