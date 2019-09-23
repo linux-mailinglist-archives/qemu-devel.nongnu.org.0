@@ -2,38 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DCDBB3A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:26:47 +0200 (CEST)
-Received: from localhost ([::1]:55900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7649BB39C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:23:44 +0200 (CEST)
+Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCNQT-0004rn-R1
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 08:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48175)
+	id 1iCNNX-0001hi-Hn
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 08:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1iCNIF-0006tk-SP
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:18:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iCNJi-0007ph-6x
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:19:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1iCNID-0001nE-Ab
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:18:15 -0400
-Received: from relay.sw.ru ([185.231.240.75]:59158)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1iCNI7-0001iF-6P; Mon, 23 Sep 2019 08:18:07 -0400
-Received: from [172.16.25.154] (helo=xantnef-ws.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1iCNI5-0007xx-OV; Mon, 23 Sep 2019 15:18:05 +0300
-From: Anton Nefedov <anton.nefedov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v10 8/9] file-posix: account discard operations
-Date: Mon, 23 Sep 2019 15:17:36 +0300
-Message-Id: <20190923121737.83281-9-anton.nefedov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190923121737.83281-1-anton.nefedov@virtuozzo.com>
-References: <20190923121737.83281-1-anton.nefedov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
+ (envelope-from <peter.maydell@linaro.org>) id 1iCNJf-0002FX-6o
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:19:45 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:44868)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iCNJe-0002FF-VD
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:19:43 -0400
+Received: by mail-ot1-x332.google.com with SMTP id 21so11837729otj.11
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 05:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TU72nRS6vrGhj/ZwwO/XbiFj78nK4ba+JHVAFSZmzRU=;
+ b=KWHb2i1iZRzuTcf3bP3s3rh/XEU3qiFrDVH9OPrFxWGbWc4WULXiJJ3m3/j3L4UA9g
+ GOCwDJQ5rViibTz7llDoIvMwv4mZmQcReBnG2nhVXqmCzrD0XrMSYYkNuJK3xHN0+4jM
+ uLVcziT8GaMHThAEhDQdVzJU6DCpwcp8/ZByC1SEtRMJMduvf+vzGzpNcnmNp1ahsRdd
+ qM2+eNQ4250J0Tnc+Q8ewu5SA3RaqKMcBbm90RaukEZr4+u8/52/LDsRbxCnCciaG+T3
+ SKIUxfcIbS+H8quvopgHiAiM9kQ6lR7b+CaKdYmfquynrh3o4Cc2VRVIbz84CN3pMzyI
+ 5OSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TU72nRS6vrGhj/ZwwO/XbiFj78nK4ba+JHVAFSZmzRU=;
+ b=cMzX+AOpJqd4jxi40hY1/W3uYUBOvI7zr5PMtdTlZTuK48lhzUqNAVqEZ5iAX5b6Ys
+ +tZqCbLlDPErayl7mKuhIhbWGvzG8EdrD7DYTwJdCx2FA3klvDuxMeE5RxxVTxv2T/Cp
+ 3SNXoEwomkXQD5hFQHsfgFvSzZtU27jThfT4vS1//nKtFytrFAODgZOLDhhzGQ2z9zuh
+ GwlxhYRkIBbt5qNLcKlNvQoZojMM7PkgormI+GMhdX2gQbNBXYqOkGWPIlEjnnQSrAi7
+ w4S6uBZdJOxAJtwaXvbQGBTgCDG5zimM89jnLiBRJpXlpz58gw4/xC0QcxNZqncn+uA9
+ rjYw==
+X-Gm-Message-State: APjAAAVH9PzJpgWqB5RzDBl1SWcT7aeEuETf6CYYefPDQ1HHtWscrvCn
+ +N+9cs15P8QbAE9M6KKEisM5oWSoQtwJM+FX8EXtTg==
+X-Google-Smtp-Source: APXvYqzXcvQbvlN6cfVpM8SP9315GGvXlp0ERehYxDcIK2WMBeCafggUYRSoESMebuftrhx9r3DKbiKi/+pyKcnzlzc=
+X-Received: by 2002:a9d:6d0a:: with SMTP id o10mr19982946otp.221.1569241181458; 
+ Mon, 23 Sep 2019 05:19:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <tencent_5D6D8ED31E83C5675AB8AA3C@qq.com>
+ <tencent_6E390A001F25D33F67930C37@qq.com>
+In-Reply-To: <tencent_6E390A001F25D33F67930C37@qq.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 Sep 2019 13:19:30 +0100
+Message-ID: <CAFEAcA98asDEZru6ht3PVN6g9duXnTTEHsuUzckFHZmV3+sqXw@mail.gmail.com>
+Subject: Re: illegal hardware instruction during MIPS-I ELF linux user
+ emulation
+To: Libo Zhou <zhlb29@foxmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,91 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- den@virtuozzo.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- Anton Nefedov <anton.nefedov@virtuozzo.com>, pbonzini@redhat.com,
- jsnow@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will help to identify how many of the user-issued discard operations
-(accounted on a device level) have actually suceeded down on the host file
-(even though the numbers will not be exactly the same if non-raw format
-driver is used (e.g. qcow2 sending metadata discards)).
+On Mon, 23 Sep 2019 at 13:08, Libo Zhou <zhlb29@foxmail.com> wrote:
+>
+> Any help guys? Is there a way to look at the ELF binary code to see if th=
+e instructions have invalid encoding scheme? Since I used a custom compiler=
+ that claims to have MIPS-I instructions. I doubt it though because 'file' =
+command gives a reasonable output saying it surely is MIPS-I.
 
-Note that these numbers will not include discards triggered by
-write-zeroes + MAY_UNMAP calls.
+'file' just looks at the header on the file to see what it
+claims to be. It doesn't look through the rest of the file
+to check what actual instructions the compiler emitted.
+You can use 'objdump' if you want to disassemble a file.
 
-Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/file-posix.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+I would start by using the QEMU gdbstub to connect a
+MIPS-aware gdb. Then when the SIGILL arrives you can see
+what instruction the guest program was trying to execute.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index f12c06de2d..f3934c4e10 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -161,6 +161,11 @@ typedef struct BDRVRawState {
-     bool needs_alignment;
-     bool drop_cache;
-     bool check_cache_dropped;
-+    struct {
-+        uint64_t discard_nb_ok;
-+        uint64_t discard_nb_failed;
-+        uint64_t discard_bytes_ok;
-+    } stats;
- 
-     PRManager *pr_mgr;
- } BDRVRawState;
-@@ -2660,11 +2665,22 @@ static void coroutine_fn raw_co_invalidate_cache(BlockDriverState *bs,
- #endif /* !__linux__ */
- }
- 
-+static void raw_account_discard(BDRVRawState *s, uint64_t nbytes, int ret)
-+{
-+    if (ret) {
-+        s->stats.discard_nb_failed++;
-+    } else {
-+        s->stats.discard_nb_ok++;
-+        s->stats.discard_bytes_ok += nbytes;
-+    }
-+}
-+
- static coroutine_fn int
- raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool blkdev)
- {
-     BDRVRawState *s = bs->opaque;
-     RawPosixAIOData acb;
-+    int ret;
- 
-     acb = (RawPosixAIOData) {
-         .bs             = bs,
-@@ -2678,7 +2694,9 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool blkdev)
-         acb.aio_type |= QEMU_AIO_BLKDEV;
-     }
- 
--    return raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
-+    ret = raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
-+    raw_account_discard(s, bytes, ret);
-+    return ret;
- }
- 
- static coroutine_fn int
-@@ -3301,10 +3319,12 @@ static int fd_open(BlockDriverState *bs)
- static coroutine_fn int
- hdev_co_pdiscard(BlockDriverState *bs, int64_t offset, int bytes)
- {
-+    BDRVRawState *s = bs->opaque;
-     int ret;
- 
-     ret = fd_open(bs);
-     if (ret < 0) {
-+        raw_account_discard(s, bytes, ret);
-         return ret;
-     }
-     return raw_do_pdiscard(bs, offset, bytes, true);
--- 
-2.17.1
-
+thanks
+-- PMM
 
