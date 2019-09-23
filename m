@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF544BBE68
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 00:25:39 +0200 (CEST)
-Received: from localhost ([::1]:36472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F77BBEB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:03:41 +0200 (CEST)
+Received: from localhost ([::1]:37048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCWm2-0007Jw-Vu
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 18:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58843)
+	id 1iCXMp-0007Fp-He
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peff@peff.net>) id 1iCWkm-0006gh-Ad
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 18:24:21 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJT-0005Q5-U5
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peff@peff.net>) id 1iCWkl-0004Zp-1g
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 18:24:20 -0400
-Received: from cloud.peff.net ([104.130.231.41]:49134)
- by eggs.gnu.org with smtp (Exim 4.71) (envelope-from <peff@peff.net>)
- id 1iCWkj-0004Yb-0s
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 18:24:18 -0400
-Received: (qmail 30872 invoked by uid 109); 23 Sep 2019 22:24:16 -0000
-Received: from Unknown (HELO peff.net) (10.0.1.2)
- by cloud.peff.net (qpsmtpd/0.94) with SMTP; Mon, 23 Sep 2019 22:24:16 +0000
-Authentication-Results: cloud.peff.net; auth=none
-Received: (qmail 4891 invoked by uid 111); 23 Sep 2019 22:26:37 -0000
-Received: from sigill.intra.peff.net (HELO sigill.intra.peff.net) (10.0.0.7)
- by peff.net (qpsmtpd/0.94) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPS;
- Mon, 23 Sep 2019 18:26:37 -0400
-Authentication-Results: peff.net; auth=none
-Date: Mon, 23 Sep 2019 18:24:15 -0400
-From: Jeff King <peff@peff.net>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [Qemu-devel] [PATCH v6 0/4] 9p: Fix file ID collisions
-Message-ID: <20190923222415.GA22495@sigill.intra.peff.net>
-References: <cover.1566503584.git.qemu_oss@crudebyte.com>
- <305577c2-709a-b632-4056-6582771176ac@redhat.com>
- <20190909142511.GA20726@sigill.intra.peff.net>
- <56046367.TiUlWITyhT@silver>
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJR-0007tm-HH
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:11 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:33846)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iCXJR-0007sB-Au
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:09 -0400
+Received: by mail-pg1-x530.google.com with SMTP id y35so441pgl.1
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8/hX23yLRxMIHSb6BM/Tb9ngaY0hFIkGRxY//0dFwRI=;
+ b=qDDWv5j2KeSRf5Lmm1JZ6BMJ9AIbF/YSmHKaLbpyNoeE4fSmtRqBd4Cu8Sm2vv4TFD
+ Gf1HPg0e5XAPlT4A/3S5dn1jdILvJcTi4NBIOXhFHueUiqrN5W5ROi1hGIdiGJSiWIEI
+ SaYAAFKe6U/nrO4elYNyPincNTpVSofHpwT1NjUkIkAPTN0EsagzARelbHmMErI3Fdol
+ XXHG61bSubyddeiMmvWNrgxWM2baUK1MnxpBLdtAHCk4V42vvyVOo+q/VZCaKnSjL3xZ
+ nULDoiTTywokN4rnZPTSmOEUgmGcYQW+aGHrwMezXcJNXjHn4QUxf4K0uieul2sAN6tn
+ Bqbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8/hX23yLRxMIHSb6BM/Tb9ngaY0hFIkGRxY//0dFwRI=;
+ b=IcoAYDlMf8XIgW1pj0RQBKkC+EpyNClQHSRIyLn2gWMeU+YcPkbVd1t/IJsxDti/j3
+ 3Qr8FDEG2jqTZxHh+CMm/xmrqzW9Yj8vByjTwIhmWmY7A7hp5uGB4MXjE4TRFRmc/j+Z
+ 8Vi5uZj1cx1IS8cOYehpaQE6Gu1hPVFH0ZhWxV4ZTxKf0S4F08r3nWg04QO6pogR5zsW
+ ZfzCZmwI6lTbR6byMXYPi+xvXsshvUpNiGGNjjeTi4u5AaCcHJJKfTyJTza8KbeZu3v1
+ QEFdN7ku8Uh14QY/jZ7OwKB+z+qzOmV3ENl1kB713Jm0CxSpNmpE+vhfTJYQNIH2rdrD
+ oIwQ==
+X-Gm-Message-State: APjAAAVvfLUWOSXFokQ/GZFRu4Hx8WBrV4u66M+un1WYNRnqUmdZXvxn
+ KYPQl0BHChYz88pgSasp8ok/TDM6980=
+X-Google-Smtp-Source: APXvYqyGa2LHWPIfuw5NHIxCAqUrWqwMCPfhciwIS/3z5Yb4b8PqaGZ447PvaA9I9HggC4uT1xtpfQ==
+X-Received: by 2002:a63:2b01:: with SMTP id r1mr2134219pgr.19.1569279607425;
+ Mon, 23 Sep 2019 16:00:07 -0700 (PDT)
+Received: from localhost.localdomain ([12.206.46.59])
+ by smtp.gmail.com with ESMTPSA id 74sm11674810pfy.78.2019.09.23.16.00.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2019 16:00:06 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/16] Move rom and notdirty handling to cputlb
+Date: Mon, 23 Sep 2019 15:59:48 -0700
+Message-Id: <20190923230004.9231-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <56046367.TiUlWITyhT@silver>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 104.130.231.41
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::530
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,67 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, stefanha@gmail.com, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, git@vger.kernel.org, antonios.motakis@huawei.com,
- dgilbert@redhat.com
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 23, 2019 at 01:19:18PM +0200, Christian Schoenebeck wrote:
+Changes since v3:
+  * Don't accidentally include the TARGET_PAGE_BITS_VARY patch set.  ;-)
+  * Remove __has_attribute(__always_inline__).
+  * Use single load/store_memop function instead of separate small wrappers.
+  * Introduce optimize_away to assert the code folds away as expected.
 
-> >  	if (cmit_fmt_is_mail(pp->fmt)) {
-> > -		if (pp->from_ident && ident_cmp(pp->from_ident, &ident)) {
-> > +		if (pp->always_use_in_body_from ||
-> > +		    (pp->from_ident && ident_cmp(pp->from_ident, &ident))) {
-> >  			struct strbuf buf = STRBUF_INIT;
-> > 
-> >  			strbuf_addstr(&buf, "From: ");
-> > 
-> > but most of the work would be ferrying that option from the command line
-> > down to the pretty-print code.
-> > 
-> > That would work in conjunction with "--from" to avoid a duplicate. It
-> > might require send-email learning about the option to avoid doing its
-> > own in-body-from management. If you only care about send-email, it might
-> > be easier to just add the option there.
-> 
-> Would it simplify the changes in git if that would be made a
-> "git config [--global]" setting only? That is, would that probably simplify 
-> that task to one simple function call there in pretty.c?
+Patches without review:
 
-I think a config option would make sense, but we generally try to avoid
-adding a config option that doesn't have a matching command-line option.
+0003-qemu-compiler.h-Add-optimize_away.patch
+0004-cputlb-Use-optimize_away-in-load-store_helpers.patch
+0005-cputlb-Split-out-load-store_memop.patch
+0010-cputlb-Partially-inline-memory_region_section_get.patch
+0011-cputlb-Merge-and-move-memory_notdirty_write_-prep.patch
+0012-cputlb-Handle-TLB_NOTDIRTY-in-probe_access.patch
 
-I also think saving implementation work there is orthogonal. You can as
-easily make a global "always_use_in_body_from" as you can call a global
-config_get_bool("format-patch.always_use_in_body_from"). :)
 
-And anyway, it's not _that_ much work to pass it around. At least as
-much would go into writing documentation and tests. One of the reasons I
-left the patch above as a sketch is that I'm not 100% convinced this is
-a useful feature. Somebody caring enough about it to make a real patch
-would send a signal there.
+r~
 
-> On the other hand, considering the already existing --from argument and 
-> "format.from" config option:
-> https://git-scm.com/docs/git-config#Documentation/git-config.txt-formatfrom
-> 
-> Wouldn't it make sense to just drop the currently existing sender != author 
-> string comparison in git and simply always add the "From:" line to the email's 
-> body if "format.from yes" is used, instead of introducing a suggested 2nd 
-> (e.g. "always-from") option? I mean sure automatically removing redundant 
-> information in the generated emails if sender == author sounds nice on first 
-> thought, but does it address anything useful in practice to justify 
-> introduction of a 2nd related option?
 
-Yes, the resulting mail would be correct, in the sense that it could be
-applied just fine by git-am. But I think it would be uglier. IOW, I
-consider the presence of the in-body From to be a clue that something
-interesting is going on (like forwarding somebody else's patch). So from
-my perspective, it would just be useless noise. Other communities may
-have different opinions, though (I think I have seen some kernel folks
-always including all of the possible in-body headers, including Date).
-But it seems like it makes sense to keep both possibilities.
+Richard Henderson (16):
+  exec: Use TARGET_PAGE_BITS_MIN for TLB flags
+  cputlb: Disable __always_inline__ without optimization
+  qemu/compiler.h: Add optimize_away
+  cputlb: Use optimize_away in load/store_helpers
+  cputlb: Split out load/store_memop
+  cputlb: Introduce TLB_BSWAP
+  exec: Adjust notdirty tracing
+  cputlb: Move ROM handling from I/O path to TLB path
+  cputlb: Move NOTDIRTY handling from I/O path to TLB path
+  cputlb: Partially inline memory_region_section_get_iotlb
+  cputlb: Merge and move memory_notdirty_write_{prepare,complete}
+  cputlb: Handle TLB_NOTDIRTY in probe_access
+  cputlb: Remove cpu->mem_io_vaddr
+  cputlb: Remove tb_invalidate_phys_page_range is_cpu_write_access
+  cputlb: Pass retaddr to tb_invalidate_phys_page_fast
+  cputlb: Pass retaddr to tb_check_watchpoint
 
--Peff
+ accel/tcg/translate-all.h      |   8 +-
+ include/exec/cpu-all.h         |  23 ++-
+ include/exec/cpu-common.h      |   3 -
+ include/exec/exec-all.h        |   6 +-
+ include/exec/memory-internal.h |  65 -------
+ include/hw/core/cpu.h          |   2 -
+ include/qemu/compiler.h        |  26 +++
+ accel/tcg/cputlb.c             | 340 +++++++++++++++++++--------------
+ accel/tcg/translate-all.c      |  51 +++--
+ exec.c                         | 158 +--------------
+ hw/core/cpu.c                  |   1 -
+ memory.c                       |  20 --
+ trace-events                   |   4 +-
+ 13 files changed, 279 insertions(+), 428 deletions(-)
+
+-- 
+2.17.1
+
 
