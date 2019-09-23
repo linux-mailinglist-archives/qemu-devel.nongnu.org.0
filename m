@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E152EBB745
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:56:21 +0200 (CEST)
-Received: from localhost ([::1]:57666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B515BB74A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:56:58 +0200 (CEST)
+Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCPlE-00081K-Mv
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42467)
+	id 1iCPlp-0000W2-FA
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCPis-000625-Rv
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:53:55 -0400
+ (envelope-from <philmd@redhat.com>) id 1iCPjX-00076y-PW
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:54:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCPiq-0003St-Rf
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:53:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40374)
+ (envelope-from <philmd@redhat.com>) id 1iCPjW-0003qi-Kz
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:54:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46304)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iCPik-0003Qu-Ne; Mon, 23 Sep 2019 10:53:46 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCPjW-0003qP-CL
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:54:34 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 233AA8A1C9B;
- Mon, 23 Sep 2019 14:53:45 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3EF75D9E2;
- Mon, 23 Sep 2019 14:53:29 +0000 (UTC)
-Subject: Re: [PATCH v9 1/3] qemu-coroutine-sleep: introduce qemu_co_sleep_wake
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190917171322.4127-1-vsementsov@virtuozzo.com>
- <20190917171322.4127-2-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <389eb681-a04c-9506-c648-989871f2129d@redhat.com>
-Date: Mon, 23 Sep 2019 09:53:28 -0500
+ by mx1.redhat.com (Postfix) with ESMTPS id 7F8B2757CC
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 14:54:33 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id 32so4926741wrk.15
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 07:54:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zP/jlV1v/3MhIk9YH7uyR0if4+SvbBKgh10XpUaUcqw=;
+ b=qKJjCNmuOVQOf/eYTiMVuLNvyKcx71e170fYFTfgnY6PlX/8Q6Ib6LbkofDK5dNeSa
+ XU93Vf5BaKtb95/4YGzbSY9z7veYdrJJ63OfaBGs3JpbNvOYdPTTM0rGIjJOa607yHHt
+ LZYeZAtMykw3ldhys9QAjsa8XTBpnLQhfxzeYjYXyJpqbu9kb9reJfH1hczkCtRxNDMF
+ WaBKGQh1B/AnkoXpOiGLpskF7uBnXliNLZpPH3SWhBFMvhYZB0Rrp/PIKgKGVkrsDf69
+ Yh+1zQwL5coIKYqrHlZpn5sGj2iE1e4Bsdi27iz0ZacOw8T+Z//CzWuqYeKZhpnF86OT
+ 5Pjw==
+X-Gm-Message-State: APjAAAV8JPxzzrodCd7ZwQyiQQkhRSD9YN/l9CvAMWxUH6gUGc0nhuXy
+ x42rmX/b57kuDdhTb5BdFsYhLMYdicGATw2NLfaYNBecAw3DcgvZLRz9rtcl5gt4n5GClpj+vqH
+ 0L57GXSDhlx1WJiY=
+X-Received: by 2002:adf:f78a:: with SMTP id q10mr21763719wrp.276.1569250472238; 
+ Mon, 23 Sep 2019 07:54:32 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzJYBhinpCcpvtj/FGmej5hv+YchOC8OLDy6gVP3cELq0hJmgD/R+cGcWqWE+gkiTYupXQDUQ==
+X-Received: by 2002:adf:f78a:: with SMTP id q10mr21763707wrp.276.1569250472071; 
+ Mon, 23 Sep 2019 07:54:32 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id n2sm9808489wmc.1.2019.09.23.07.54.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Sep 2019 07:54:31 -0700 (PDT)
+Subject: Re: [PATCH] hw/ptimer: Assert next_event is newer than last_event
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190921101703.17935-1-philmd@redhat.com>
+ <CAFEAcA8RfAPuV9LfL3c01KU+sCtAcWkHsLR7e-4QNJVcniq7Cg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <ec6ddb30-6ae4-a3fb-e97c-58758df65650@redhat.com>
+Date: Mon, 23 Sep 2019 16:54:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190917171322.4127-2-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="NBItDcunsF5jxh84oAOOZQgVGRnJd22C1"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Mon, 23 Sep 2019 14:53:45 +0000 (UTC)
+In-Reply-To: <CAFEAcA8RfAPuV9LfL3c01KU+sCtAcWkHsLR7e-4QNJVcniq7Cg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,70 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org,
- stefanha@redhat.com, mreitz@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NBItDcunsF5jxh84oAOOZQgVGRnJd22C1
-Content-Type: multipart/mixed; boundary="3xXVX2XmoiZBONt35NtwaHfFHQNi5r5Ox";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, mreitz@redhat.com,
- kwolf@redhat.com, den@openvz.org
-Message-ID: <389eb681-a04c-9506-c648-989871f2129d@redhat.com>
-Subject: Re: [PATCH v9 1/3] qemu-coroutine-sleep: introduce qemu_co_sleep_wake
-References: <20190917171322.4127-1-vsementsov@virtuozzo.com>
- <20190917171322.4127-2-vsementsov@virtuozzo.com>
-In-Reply-To: <20190917171322.4127-2-vsementsov@virtuozzo.com>
-
---3xXVX2XmoiZBONt35NtwaHfFHQNi5r5Ox
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 9/17/19 12:13 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Introduce a function to gracefully wake a coroutine sleeping in
-> qemu_co_sleep_ns().
+On 9/23/19 4:40 PM, Peter Maydell wrote:
+> On Sat, 21 Sep 2019 at 11:17, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com> wrote:
+>>
+>> If the period is too big, the 'delta * period' product result
+>> might overflow, resulting in a negative number, then the
+>> next_event ends before the last_event. This is buggy, as there
+>> is no forward progress. Assert this can not happen.
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>  hw/core/ptimer.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/hw/core/ptimer.c b/hw/core/ptimer.c
+>> index d58e2dfdb0..88085d4c81 100644
+>> --- a/hw/core/ptimer.c
+>> +++ b/hw/core/ptimer.c
+>> @@ -125,6 +125,9 @@ static void ptimer_reload(ptimer_state *s, int del=
+ta_adjust)
+>>
+>>      s->last_event =3D s->next_event;
+>>      s->next_event =3D s->last_event + delta * period;
+>> +    /* Verify forward progress */
+>> +    g_assert(s->next_event > s->last_event);
+>> +
+>>      if (period_frac) {
+>>          s->next_event +=3D ((int64_t)period_frac * delta) >> 32;
+>>      }
+>> --
 >=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/qemu/coroutine.h    | 23 +++++++++++++++--
->  util/qemu-coroutine-sleep.c | 51 +++++++++++++++++++++++++++----------=
+> Can this only happen if a QEMU timer model using the ptimer
+> code has a bug, or is it guest-triggerable for some of our
+> timer models?
 
->  2 files changed, 59 insertions(+), 15 deletions(-)
->=20
+I hit this running a raspi4 guest, I had incorrectly initialized a clock
+using the core cpu frequency, while I had to use the APB one (in my
+case, core_cpu_freq / 2). The guest use a high value to configure a slow
+timer, which in my buggy case made QEMU hang in hard way to debug.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+So yes, it seems guest-triggerable if the implementation is broken.
+Using assert() is OK for broken implementation, right?
+Or should we audit all ptimer calls?
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Regards,
 
-
---3xXVX2XmoiZBONt35NtwaHfFHQNi5r5Ox--
-
---NBItDcunsF5jxh84oAOOZQgVGRnJd22C1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2I3GgACgkQp6FrSiUn
-Q2oBJgf/WIpDgTA/kYq5OTlGZZJk3UyLVMwReNuRY30mW9wK/n1MaJnzkcV2r1/s
-YiUqzkRhtnajs8HdMpW8OtT+Vs7MooSVjN4+aSnv8fNknZW1eGG50JE9hS6AFTQl
-brk63mBcgrPcs0v5ifVvIp4jXsVEQLnr3U3Lxo7TQxpstXUwSbM/PTrH5UlRy3Wo
-tnPTpvKM1RsKOLHHu+ODPRQyONE9NpdD0nQA4DR3hBAI7Fl9n6HEYGja62SUwtMa
-fLBFVA0yd9Yj3TpFwOhOrnfL4PP370fBCWGfWMVj2Zgu3QvNVSwMnewP7SrWQOFE
-B6eT0NfHOmtnnpER1Hx9vwnZIL+wpA==
-=9D26
------END PGP SIGNATURE-----
-
---NBItDcunsF5jxh84oAOOZQgVGRnJd22C1--
+Phil.
 
