@@ -2,53 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8336BBD42
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 22:47:45 +0200 (CEST)
-Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF3BBBD7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 23:00:11 +0200 (CEST)
+Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCVFI-000267-Jh
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 16:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40666)
+	id 1iCVRK-0001zU-05
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 17:00:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iCVEF-0001cp-TO
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 16:46:41 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCTDL-0003lz-AX
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:37:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iCVED-0000TZ-Oa
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 16:46:39 -0400
-Resent-Date: Mon, 23 Sep 2019 16:46:39 -0400
-Resent-Message-Id: <E1iCVED-0000TZ-Oa@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21552)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iCVED-0000TI-JO; Mon, 23 Sep 2019 16:46:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569271574; cv=none; d=zoho.com; s=zohoarc; 
- b=cckKefqyTDmq7IoAM9lTUpgCcC2vyEyOaW7NrzPJTRG2+MOs+lvcHKjaJcvBbqCOAmHq70+JsGURDLnjd2JNLhjxQOE3TjqarJN59ts+O8FUAMkz+S6mlA4KaZx1eH3LUN7bOP08EBd+UKmdSqT3cUGZiURZ0BETUH/HFNU7qSQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569271574;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=7dTIf3J1noxTkhCVIsUNmH5cx4+SuxKzVDdWc9aIbz8=; 
- b=PWzWPKu0qTV4vhrqEqcOgYLKHbD/oum37TIUri7gRptYz/5qTk4DYmnsH88usKQt9oD50k76XI3ujMQiV1Aivkn7Eg7gTV3RJ2fmEpb0eyBnJL1bzZ7xhwv00jyFKbEWp772rcE7fEUz6PNwBQwQfO7og2noJeZ4gvXUdhRF1Z0=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 156927157298533.42848053937166;
- Mon, 23 Sep 2019 13:46:12 -0700 (PDT)
-In-Reply-To: <20190923080712.23951-1-david@redhat.com>
-Subject: Re: [PULL 00/30] s390x/tcg update
-Message-ID: <156927157151.20054.12597056234400748636@1c8ae44fe5c0>
+ (envelope-from <eblake@redhat.com>) id 1iCTDJ-0003Lf-W7
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:37:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10785)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iCTDF-0003KR-77; Mon, 23 Sep 2019 14:37:29 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5833310DCC84;
+ Mon, 23 Sep 2019 18:37:27 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9317460C5E;
+ Mon, 23 Sep 2019 18:35:52 +0000 (UTC)
+Subject: Re: [RFC v2 3/9] errp: rename errp to errp_in where it is IN-argument
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
+ <20190923161231.22028-4-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <8ad05d4f-e7e6-d7b5-dce4-c4d24ac81e0e@redhat.com>
+Date: Mon, 23 Sep 2019 13:35:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: david@redhat.com
-Date: Mon, 23 Sep 2019 13:46:12 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20190923161231.22028-4-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Mon, 23 Sep 2019 18:37:28 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
+X-Received-From: 209.132.183.28
+X-Mailman-Approved-At: Mon, 23 Sep 2019 16:51:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,115 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, thuth@redhat.com, david@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- rth@twiddle.net
+Cc: stefanha@redhat.com, codyprime@gmail.com, jan.kiszka@siemens.com,
+ berto@igalia.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
+ arikalo@wavecomp.com, pasic@linux.ibm.com, hpoussin@reactos.org,
+ anthony.perard@citrix.com, samuel.thibault@ens-lyon.org, philmd@redhat.com,
+ green@moxielogic.com, lvivier@redhat.com, ehabkost@redhat.com,
+ xiechanglong.d@gmail.com, pl@kamp.de, dgilbert@redhat.com, b.galvani@gmail.com,
+ eric.auger@redhat.com, alex.williamson@redhat.com, ronniesahlberg@gmail.com,
+ jsnow@redhat.com, rth@twiddle.net, kwolf@redhat.com, andrew@aj.id.au,
+ crwulff@gmail.com, sundeep.lkml@gmail.com, michael@walle.cc,
+ qemu-ppc@nongnu.org, kbastian@mail.uni-paderborn.de, imammedo@redhat.com,
+ fam@euphon.net, peter.maydell@linaro.org, sheepdog@lists.wpkg.org,
+ david@redhat.com, palmer@sifive.com, thuth@redhat.com, jcmvbkbc@gmail.com,
+ den@openvz.org, hare@suse.com, sstabellini@kernel.org, arei.gonglei@huawei.com,
+ namei.unix@gmail.com, atar4qemu@gmail.com, farman@linux.ibm.com,
+ amit@kernel.org, sw@weilnetz.de, groug@kaod.org, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, peter.chubb@nicta.com.au, clg@kaod.org, shorne@gmail.com,
+ qemu-riscv@nongnu.org, cohuck@redhat.com, amarkovic@wavecomp.com,
+ aurelien@aurel32.net, pburton@wavecomp.com, sagark@eecs.berkeley.edu,
+ jasowang@redhat.com, kraxel@redhat.com, edgar.iglesias@gmail.com,
+ gxt@mprc.pku.edu.cn, ari@tuxera.com, quintela@redhat.com,
+ mdroth@linux.vnet.ibm.com, lersek@redhat.com, borntraeger@de.ibm.com,
+ antonynpavlov@gmail.com, dillaman@redhat.com, joel@jms.id.au,
+ xen-devel@lists.xenproject.org, integration@gluster.org, rjones@redhat.com,
+ Andrew.Baumann@microsoft.com, mreitz@redhat.com, walling@linux.ibm.com,
+ mst@redhat.com, mark.cave-ayland@ilande.co.uk, v.maffione@gmail.com,
+ marex@denx.de, armbru@redhat.com, marcandre.lureau@redhat.com,
+ alistair@alistair23.me, paul.durrant@citrix.com, pavel.dovgaluk@ispras.ru,
+ g.lettieri@iet.unipi.it, rizzo@iet.unipi.it, david@gibson.dropbear.id.au,
+ akrowiak@linux.ibm.com, berrange@redhat.com, xiaoguangrong.eric@gmail.com,
+ pmorel@linux.ibm.com, wencongyang2@huawei.com, jcd@tribudubois.net,
+ pbonzini@redhat.com, stefanb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyMzA4MDcxMi4yMzk1
-MS0xLWRhdmlkQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwOTIzMDgwNzEyLjIzOTUxLTEtZGF2aWRAcmVkaGF0
-LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8zMF0gczM5MHgvdGNnIHVwZGF0ZQpUeXBlOiBzZXJpZXMK
-Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
-ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
-bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHVi
-LmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIw
-MTkwOTIzMDgwNzEyLjIzOTUxLTEtZGF2aWRAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMTkwOTIz
-MDgwNzEyLjIzOTUxLTEtZGF2aWRAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2gg
-J3Rlc3QnCjg0NDQ1OTQgdGVzdHMvdGNnOiB0YXJnZXQvczM5MHg6IFRlc3QgTVZDCmVlMmVkNmQg
-dGVzdHMvdGNnOiB0YXJnZXQvczM5MHg6IFRlc3QgTVZPCjdiMGU4MGUgczM5MHgvdGNnOiBNVk86
-IEZhdWx0LXNhZmUgaGFuZGxpbmcKOTc5MGJlZCBzMzkweC90Y2c6IE1WU1Q6IEZhdWx0LXNhZmUg
-aGFuZGxpbmcKMTI2NThkMiBzMzkweC90Y2c6IE1WWjogRmF1bHQtc2FmZSBoYW5kbGluZwozNzFj
-YWUxIHMzOTB4L3RjZzogTVZOOiBGYXVsdC1zYWZlIGhhbmRsaW5nCjg3YTdjYmQgczM5MHgvdGNn
-OiBNVkNJTjogRmF1bHQtc2FmZSBoYW5kbGluZwoyMDBhMzlhIHMzOTB4L3RjZzogTkM6IEZhdWx0
-LXNhZmUgaGFuZGxpbmcKMDhjZTFkYiBzMzkweC90Y2c6IFhDOiBGYXVsdC1zYWZlIGhhbmRsaW5n
-CmVmMmViMGIgczM5MHgvdGNnOiBPQzogRmF1bHQtc2FmZSBoYW5kbGluZwoxYTAxZDc4IHMzOTB4
-L3RjZzogTVZDTFU6IEZhdWx0LXNhZmUgaGFuZGxpbmcKMjViYWFmZSBzMzkweC90Y2c6IE1WQzog
-RmF1bHQtc2FmZSBoYW5kbGluZyBvbiBkZXN0cnVjdGl2ZSBvdmVybGFwcwo4ODQ4ODMyIHMzOTB4
-L3RjZzogTVZDUy9NVkNQOiBVc2UgYWNjZXNzX21lbW1vdmUoKQpmYWUzNGY4IHMzOTB4L3RjZzog
-RmF1bHQtc2FmZSBtZW1tb3ZlCjRiYjdlMmQgczM5MHgvdGNnOiBGYXVsdC1zYWZlIG1lbXNldApk
-OTY1ZWMyIHMzOTB4L3RjZzogQWx3YXlzIHVzZSBNTVVfVVNFUl9JRFggZm9yIENPTkZJR19VU0VS
-X09OTFkKNWE1ZGNmMiBzMzkweC90Y2c6IE1WU1Q6IEZpeCBzdG9yaW5nIGJhY2sgdGhlIGFkZHJl
-c3NlcyB0byByZWdpc3RlcnMKNTdjNDU3OCBzMzkweC90Y2c6IE1WU1Q6IENoZWNrIGZvciBzcGVj
-aWZpY2F0aW9uIGV4Y2VwdGlvbnMKYjQ1ZDgyZSBzMzkweC90Y2c6IE1WQ1MvTVZDUDogUHJvcGVy
-bHkgd3JhcCB0aGUgbGVuZ3RoCjk2YTU5OTIgczM5MHgvdGNnOiBNVkNPUzogTGVuZ3RocyBhcmUg
-MzIgYml0IGluIDI0LzMxLWJpdCBtb2RlCjk3YThkYjcgczM5MHgvdGNnOiBNVkNTL01WQ1A6IENo
-ZWNrIGZvciBzcGVjaWFsIG9wZXJhdGlvbiBleGNlcHRpb25zCmJhMzdiZjAgczM5MHgvdGNnOiBN
-VkNMVS9NVkNMRTogUHJvY2VzcyBtYXggNGsgYnl0ZXMgYXQgYSB0aW1lCmYyZDM2YjMgczM5MHgv
-dGNnOiBNVlBHOiBQcm9wZXJseSB3cmFwIHRoZSBhZGRyZXNzZXMKMmI1ZDI5NSBzMzkweC90Y2c6
-IE1WUEc6IENoZWNrIGZvciBzcGVjaWZpY2F0aW9uIGV4Y2VwdGlvbnMKZThjYzg5MSBzMzkweC90
-Y2c6IE1WQzogVXNlIGlzX2Rlc3RydWN0aXZlX292ZXJsYXAoKQphZmM3YjMzIHMzOTB4L3RjZzog
-TVZDOiBJbmNyZW1lbnQgdGhlIGxlbmd0aCBvbmNlCjk3MjAwNTkgczM5MHgvdGNnOiBNVkNMOiBQ
-cm9jZXNzIG1heCA0ayBieXRlcyBhdCBhIHRpbWUKNmYwNWE1MiBzMzkweC90Y2c6IE1WQ0w6IERl
-dGVjdCBkZXN0cnVjdGl2ZSBvdmVybGFwcwpjZGVlYzUzIHMzOTB4L3RjZzogTVZDTDogWmVybyBv
-dXQgdW51c2VkIGJpdHMgb2YgYWRkcmVzcwpjNDkzOGVkIHMzOTB4L3RjZzogUmVzZXQgZXhjZXB0
-aW9uX2luZGV4IHRvIC0xIGluc3RlYWQgb2YgMAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8zMCBD
-aGVja2luZyBjb21taXQgYzQ5MzhlZGIxM2JjIChzMzkweC90Y2c6IFJlc2V0IGV4Y2VwdGlvbl9p
-bmRleCB0byAtMSBpbnN0ZWFkIG9mIDApCjIvMzAgQ2hlY2tpbmcgY29tbWl0IGNkZWVjNTMyYWQz
-NSAoczM5MHgvdGNnOiBNVkNMOiBaZXJvIG91dCB1bnVzZWQgYml0cyBvZiBhZGRyZXNzKQozLzMw
-IENoZWNraW5nIGNvbW1pdCA2ZjA1YTUyNGIyOTkgKHMzOTB4L3RjZzogTVZDTDogRGV0ZWN0IGRl
-c3RydWN0aXZlIG92ZXJsYXBzKQo0LzMwIENoZWNraW5nIGNvbW1pdCA5NzIwMDU5MmY2ODIgKHMz
-OTB4L3RjZzogTVZDTDogUHJvY2VzcyBtYXggNGsgYnl0ZXMgYXQgYSB0aW1lKQo1LzMwIENoZWNr
-aW5nIGNvbW1pdCBhZmM3YjMzYTVlNTUgKHMzOTB4L3RjZzogTVZDOiBJbmNyZW1lbnQgdGhlIGxl
-bmd0aCBvbmNlKQo2LzMwIENoZWNraW5nIGNvbW1pdCBlOGNjODkxMDc0YzMgKHMzOTB4L3RjZzog
-TVZDOiBVc2UgaXNfZGVzdHJ1Y3RpdmVfb3ZlcmxhcCgpKQo3LzMwIENoZWNraW5nIGNvbW1pdCAy
-YjVkMjk1MDRjZDAgKHMzOTB4L3RjZzogTVZQRzogQ2hlY2sgZm9yIHNwZWNpZmljYXRpb24gZXhj
-ZXB0aW9ucykKOC8zMCBDaGVja2luZyBjb21taXQgZjJkMzZiM2NjNjVlIChzMzkweC90Y2c6IE1W
-UEc6IFByb3Blcmx5IHdyYXAgdGhlIGFkZHJlc3NlcykKOS8zMCBDaGVja2luZyBjb21taXQgYmEz
-N2JmMDJhZjI0IChzMzkweC90Y2c6IE1WQ0xVL01WQ0xFOiBQcm9jZXNzIG1heCA0ayBieXRlcyBh
-dCBhIHRpbWUpCjEwLzMwIENoZWNraW5nIGNvbW1pdCA5N2E4ZGI3NTdhMDQgKHMzOTB4L3RjZzog
-TVZDUy9NVkNQOiBDaGVjayBmb3Igc3BlY2lhbCBvcGVyYXRpb24gZXhjZXB0aW9ucykKMTEvMzAg
-Q2hlY2tpbmcgY29tbWl0IDk2YTU5OTI5M2YzNiAoczM5MHgvdGNnOiBNVkNPUzogTGVuZ3RocyBh
-cmUgMzIgYml0IGluIDI0LzMxLWJpdCBtb2RlKQoxMi8zMCBDaGVja2luZyBjb21taXQgYjQ1ZDgy
-ZTJkZjg2IChzMzkweC90Y2c6IE1WQ1MvTVZDUDogUHJvcGVybHkgd3JhcCB0aGUgbGVuZ3RoKQox
-My8zMCBDaGVja2luZyBjb21taXQgNTdjNDU3ODMxMDZiIChzMzkweC90Y2c6IE1WU1Q6IENoZWNr
-IGZvciBzcGVjaWZpY2F0aW9uIGV4Y2VwdGlvbnMpCjE0LzMwIENoZWNraW5nIGNvbW1pdCA1YTVk
-Y2YyNzRhMDMgKHMzOTB4L3RjZzogTVZTVDogRml4IHN0b3JpbmcgYmFjayB0aGUgYWRkcmVzc2Vz
-IHRvIHJlZ2lzdGVycykKMTUvMzAgQ2hlY2tpbmcgY29tbWl0IGQ5NjVlYzI4ZGQ3YyAoczM5MHgv
-dGNnOiBBbHdheXMgdXNlIE1NVV9VU0VSX0lEWCBmb3IgQ09ORklHX1VTRVJfT05MWSkKMTYvMzAg
-Q2hlY2tpbmcgY29tbWl0IDRiYjdlMmQ3OWViOCAoczM5MHgvdGNnOiBGYXVsdC1zYWZlIG1lbXNl
-dCkKMTcvMzAgQ2hlY2tpbmcgY29tbWl0IGZhZTM0Zjg0MTc0MCAoczM5MHgvdGNnOiBGYXVsdC1z
-YWZlIG1lbW1vdmUpCjE4LzMwIENoZWNraW5nIGNvbW1pdCA4ODQ4ODMyMWZkMDcgKHMzOTB4L3Rj
-ZzogTVZDUy9NVkNQOiBVc2UgYWNjZXNzX21lbW1vdmUoKSkKMTkvMzAgQ2hlY2tpbmcgY29tbWl0
-IDI1YmFhZmUzZGM0NCAoczM5MHgvdGNnOiBNVkM6IEZhdWx0LXNhZmUgaGFuZGxpbmcgb24gZGVz
-dHJ1Y3RpdmUgb3ZlcmxhcHMpCjIwLzMwIENoZWNraW5nIGNvbW1pdCAxYTAxZDc4NGU1MjYgKHMz
-OTB4L3RjZzogTVZDTFU6IEZhdWx0LXNhZmUgaGFuZGxpbmcpCjIxLzMwIENoZWNraW5nIGNvbW1p
-dCBlZjJlYjBiODE0MzcgKHMzOTB4L3RjZzogT0M6IEZhdWx0LXNhZmUgaGFuZGxpbmcpCjIyLzMw
-IENoZWNraW5nIGNvbW1pdCAwOGNlMWRiMTY1ZjYgKHMzOTB4L3RjZzogWEM6IEZhdWx0LXNhZmUg
-aGFuZGxpbmcpCjIzLzMwIENoZWNraW5nIGNvbW1pdCAyMDBhMzlhNjY0NmMgKHMzOTB4L3RjZzog
-TkM6IEZhdWx0LXNhZmUgaGFuZGxpbmcpCjI0LzMwIENoZWNraW5nIGNvbW1pdCA4N2E3Y2JkNmVj
-YjggKHMzOTB4L3RjZzogTVZDSU46IEZhdWx0LXNhZmUgaGFuZGxpbmcpCjI1LzMwIENoZWNraW5n
-IGNvbW1pdCAzNzFjYWUxZDI3MmYgKHMzOTB4L3RjZzogTVZOOiBGYXVsdC1zYWZlIGhhbmRsaW5n
-KQoyNi8zMCBDaGVja2luZyBjb21taXQgMTI2NThkMjRmNzRjIChzMzkweC90Y2c6IE1WWjogRmF1
-bHQtc2FmZSBoYW5kbGluZykKMjcvMzAgQ2hlY2tpbmcgY29tbWl0IDk3OTBiZWRjZWFmYSAoczM5
-MHgvdGNnOiBNVlNUOiBGYXVsdC1zYWZlIGhhbmRsaW5nKQoyOC8zMCBDaGVja2luZyBjb21taXQg
-N2IwZTgwZTc3YWQxIChzMzkweC90Y2c6IE1WTzogRmF1bHQtc2FmZSBoYW5kbGluZykKMjkvMzAg
-Q2hlY2tpbmcgY29tbWl0IGVlMmVkNmQxYzhlMSAodGVzdHMvdGNnOiB0YXJnZXQvczM5MHg6IFRl
-c3QgTVZPKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1B
-SU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3Rh
-bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDI5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDI5LzMwIGhh
-cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
-YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
-RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMwLzMwIENoZWNraW5nIGNvbW1pdCA4NDQ0NTk0ZDFl
-YmEgKHRlc3RzL3RjZzogdGFyZ2V0L3MzOTB4OiBUZXN0IE1WQykKV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-MzA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHVzZSBzaWdhY3Rpb24gdG8gZXN0YWJs
-aXNoIHNpZ25hbCBoYW5kbGVyczsgc2lnbmFsIGlzIG5vdCBwb3J0YWJsZQojNjg6IEZJTEU6IHRl
-c3RzL3RjZy9zMzkweC9tdmMuYzozNDoKKyAgICBpZiAoc2lnbmFsKFNJR1NFR1YsIGhhbmRsZV9z
-aWdzZWd2KSA9PSBTSUdfRVJSKSB7Cgp0b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDExMyBs
-aW5lcyBjaGVja2VkCgpQYXRjaCAzMC8zMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MjMw
-ODA3MTIuMjM5NTEtMS1kYXZpZEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
-ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
-cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
-ZGV2ZWxAcmVkaGF0LmNvbQ==
+On 9/23/19 11:12 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Error **errp is almost always OUT-argument: it's assumed to be NULL, or
+> pointer to NULL-initialized pointer, or pointer to error_abort or
+> error_fatal, for callee to report error.
+> 
+> But very few functions (most of the are error API) instead get Error
+> **errp as IN-argument: it's assumed to be set, and callee should clean
+> it. In such cases, rename errp to errp_in.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/monitor/hmp.h |  2 +-
+>  include/qapi/error.h  |  8 ++++----
+>  ui/vnc.h              |  2 +-
+>  monitor/hmp-cmds.c    |  8 ++++----
+>  ui/vnc.c              | 10 +++++-----
+>  util/error.c          |  2 +-
+>  6 files changed, 16 insertions(+), 16 deletions(-)
 
+This is worthwhile, regardless of the fate of the rest of the series.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
