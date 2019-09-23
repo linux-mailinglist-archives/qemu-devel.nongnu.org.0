@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E057BBBEDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:15:37 +0200 (CEST)
-Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECA6BBED9
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:13:18 +0200 (CEST)
+Received: from localhost ([::1]:37200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCXYO-00026i-OE
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:15:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35802)
+	id 1iCXW9-0007dh-AF
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:13:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCXJe-0005aS-SL
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJe-0005aP-Rg
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCXJb-00083a-VD
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJc-00084a-WF
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:22 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41688)
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46080)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCXJa-00082R-HO
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:18 -0400
-Received: by mail-pg1-x544.google.com with SMTP id s1so7779745pgv.8
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:17 -0700 (PDT)
+ id 1iCXJc-00083S-NV
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:20 -0400
+Received: by mail-pg1-x542.google.com with SMTP id a3so8866196pgm.13
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=dvpk1u15QL1a//tCscA4fTR0Q7V0VdpD0cml5SNVwXw=;
- b=jPY2q1BUbJbbn0HIxBFk5OFVhQWSQsIvTzJVNUEoAoYnkUiibsZeQbr80nQ1hr6b7H
- R7uwt4gekkjrm0N7AoQqMmwR1/98KC0/FOa5BFnU2s6b2Kqp0u+/nOTkdqCqvprwOOx+
- KYOPPwlqbtffibReWD4yM/wawcfbP6v2mg/Agr0qrhRxGwkVvi9SQ5Y5XRV2xLHWj7ca
- gAdcK1lWlLUf2kcpWQCJaWwxiedf+5ATo92sZnfYL8eJhVAYbkMg/Yin3Ty1QVu20Hjf
- zY9fQZzP1MM200JBaFwefcu9g7CwSVdqizra0dcqbr4bijYZx8uHoHHug3lkst76jdte
- bjjQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Z4fsQyjcOSp3U9YW2COSXHromnUnZCH6RDomXXmObRw=;
+ b=eQS98y/xBy3Oc/KtVKeGFQ7UGXjjt/Ek8TMuDTKXa5zNYbpSjDCn6BHefK9x5U+lVd
+ h4qGAm02aS+vATpeck6e3Sk3JwpYlpshtidTSdjDcPix/Vg+UrhoRIH8D79zF24UHSM/
+ jeOllPlk3FOjoqoac70erAXhpkcRKfk2dk0WSPpAnlTFoytf8raBHM/kgy0R94GScnIO
+ yBR62STPIdQpHSR2xEJ0ARHs9Q09NIVAYZpVdgAQHdKy74gHSqNLm/XvfS1KECNOE448
+ LRYY04+vxqjpt1PCHI4nEv5DQKc+1rK4NHIMJCi3jpNTpfJ2i5/tYtSpckkRfibbKnz4
+ VL9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=dvpk1u15QL1a//tCscA4fTR0Q7V0VdpD0cml5SNVwXw=;
- b=jVGbnSSNEVyCD/mECdVUzdv5So4C2Yp/XWiY6J3BMmyhGR2pj7++NBdDdea6zq0Nea
- ZaQuWsNiVz0B4ugqdAPr7i8izO0jjKsizZyX2zWjg8HXoLaNRVGva1YIcH1vzrcmjbvx
- TF8k1ZkmznlWo0AqyC29yI6EKDpVUsQy3jJuX7KHaeDn0XeCHsfJXMYvvOuG2GM06f+V
- i01BenHcKEqPmyBLBMTBG6SNv4P3U4fPggQhIkAO4vhTSIThUoeDLEPU7vKcqc/kplgM
- hbcodh4Va3SDnhtCGoN4MeI0qXF5AqY9c3AndQgMc7Dn6NcQ1nYSzh3CnFqOzknlDfze
- j9qg==
-X-Gm-Message-State: APjAAAVUPaA85hzGUK48Itzy6cmGOtOqPmBJAs2sJ2sOz/D7G5Kogkj0
- WW/Z+LrAPKnHTMydFbfyZTmXlSgJOXc=
-X-Google-Smtp-Source: APXvYqzcOVvORg6oq9BxB+PzKh++f7hEc08WYoV0ZD6tdNYygMuCQH+xQCy21IxVF9x2rX7ojyp9lw==
-X-Received: by 2002:a17:90a:37c9:: with SMTP id
- v67mr2015517pjb.29.1569279615730; 
- Mon, 23 Sep 2019 16:00:15 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=Z4fsQyjcOSp3U9YW2COSXHromnUnZCH6RDomXXmObRw=;
+ b=afkFQdpBb3aSsN5JWcRiKRAU35Cay5wdsPzmGWsFoakOBK0uDy4MZWhTaOqy2VAD1S
+ hkJBD8MwF/7YaXit4q/+/sxc3FFjqsG/xYUPneGXINPRtKA9q+MU406R6P/ufFOO6nYt
+ cGVF+ERtIpA8a8BzxI1O1puvIq2jcQ01ZMgz/60v4/Rz2ebqvmb3wsapeuBpE3RvouNU
+ 4kDicdduKhQpoA7PDxOO6T4kOB6EEJlX+lyBznyOMcJEJpLUndaBsGgrEPUcXWO5ELku
+ MewjrJU3jK5t5roDJZrWLLq3UcnlTZ38BQxqQNKB1AImp9wrVGXTN6G0HfO4O4Jk/TmW
+ 7A1A==
+X-Gm-Message-State: APjAAAXxisJ4QegyCwih6aIoVVpnhAwPtHX4KhhyeIqs6HFewo9lmsso
+ 3GsT874taQ2Wbe5WckW+KtBNXmj59TQ=
+X-Google-Smtp-Source: APXvYqxrv2a4sm1urB/r/ahrbDHLIr40TnlL/muTLnuchX4oVlD3tUpXVLSwb8M8LdCNt1mG4n1Rrg==
+X-Received: by 2002:a62:7684:: with SMTP id r126mr2170607pfc.26.1569279618689; 
+ Mon, 23 Sep 2019 16:00:18 -0700 (PDT)
 Received: from localhost.localdomain ([12.206.46.59])
- by smtp.gmail.com with ESMTPSA id 74sm11674810pfy.78.2019.09.23.16.00.14
+ by smtp.gmail.com with ESMTPSA id 74sm11674810pfy.78.2019.09.23.16.00.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2019 16:00:15 -0700 (PDT)
+ Mon, 23 Sep 2019 16:00:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/16] cputlb: Split out load/store_memop
-Date: Mon, 23 Sep 2019 15:59:53 -0700
-Message-Id: <20190923230004.9231-6-richard.henderson@linaro.org>
+Subject: [PATCH v4 07/16] exec: Adjust notdirty tracing
+Date: Mon, 23 Sep 2019 15:59:55 -0700
+Message-Id: <20190923230004.9231-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190923230004.9231-1-richard.henderson@linaro.org>
 References: <20190923230004.9231-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,162 +83,103 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will shortly be using these more than once.
+The memory_region_tb_read tracepoint is unreachable, since notdirty
+is supposed to apply only to writes.  The memory_region_tb_write
+tracepoint is mis-named, because notdirty is not only used for TB
+invalidation.  It is also used for e.g. VGA RAM updates and migration.
 
+Replace memory_region_tb_write with memory_notdirty_write_access,
+and place it in memory_notdirty_write_prepare where it can catch
+all of the instances.  Add memory_notdirty_set_dirty to log when
+we no longer intercept writes to a page.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 110 +++++++++++++++++++++++----------------------
- 1 file changed, 57 insertions(+), 53 deletions(-)
+ exec.c       | 3 +++
+ memory.c     | 4 ----
+ trace-events | 4 ++--
+ 3 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index e529af6d09..430ba4a69d 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1281,6 +1281,29 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
- typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
-                                 TCGMemOpIdx oi, uintptr_t retaddr);
+diff --git a/exec.c b/exec.c
+index 8b998974f8..5f2587b621 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2755,6 +2755,8 @@ void memory_notdirty_write_prepare(NotDirtyInfo *ndi,
+     ndi->size = size;
+     ndi->pages = NULL;
  
-+static inline uint64_t QEMU_ALWAYS_INLINE
-+load_memop(const void *haddr, MemOp op)
-+{
-+    switch (op) {
-+    case MO_UB:
-+        return ldub_p(haddr);
-+    case MO_BEUW:
-+        return lduw_be_p(haddr);
-+    case MO_LEUW:
-+        return lduw_le_p(haddr);
-+    case MO_BEUL:
-+        return (uint32_t)ldl_be_p(haddr);
-+    case MO_LEUL:
-+        return (uint32_t)ldl_le_p(haddr);
-+    case MO_BEQ:
-+        return ldq_be_p(haddr);
-+    case MO_LEQ:
-+        return ldq_le_p(haddr);
-+    default:
-+        optimize_away();
-+    }
-+}
++    trace_memory_notdirty_write_access(mem_vaddr, ram_addr, size);
 +
- static inline uint64_t QEMU_ALWAYS_INLINE
- load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-             uintptr_t retaddr, MemOp op, bool code_read,
-@@ -1373,33 +1396,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
- 
-  do_aligned_access:
-     haddr = (void *)((uintptr_t)addr + entry->addend);
--    switch (op) {
--    case MO_UB:
--        res = ldub_p(haddr);
--        break;
--    case MO_BEUW:
--        res = lduw_be_p(haddr);
--        break;
--    case MO_LEUW:
--        res = lduw_le_p(haddr);
--        break;
--    case MO_BEUL:
--        res = (uint32_t)ldl_be_p(haddr);
--        break;
--    case MO_LEUL:
--        res = (uint32_t)ldl_le_p(haddr);
--        break;
--    case MO_BEQ:
--        res = ldq_be_p(haddr);
--        break;
--    case MO_LEQ:
--        res = ldq_le_p(haddr);
--        break;
--    default:
--        optimize_away();
--    }
--
--    return res;
-+    return load_memop(haddr, op);
+     assert(tcg_enabled());
+     if (!cpu_physical_memory_get_dirty_flag(ram_addr, DIRTY_MEMORY_CODE)) {
+         ndi->pages = page_collection_lock(ram_addr, ram_addr + size);
+@@ -2779,6 +2781,7 @@ void memory_notdirty_write_complete(NotDirtyInfo *ndi)
+     /* we remove the notdirty callback only if the code has been
+        flushed */
+     if (!cpu_physical_memory_is_clean(ndi->ram_addr)) {
++        trace_memory_notdirty_set_dirty(ndi->mem_vaddr);
+         tlb_set_dirty(ndi->cpu, ndi->mem_vaddr);
+     }
  }
+diff --git a/memory.c b/memory.c
+index b9dd6b94ca..57c44c97db 100644
+--- a/memory.c
++++ b/memory.c
+@@ -438,7 +438,6 @@ static MemTxResult  memory_region_read_accessor(MemoryRegion *mr,
+         /* Accesses to code which has previously been translated into a TB show
+          * up in the MMIO path, as accesses to the io_mem_notdirty
+          * MemoryRegion. */
+-        trace_memory_region_tb_read(get_cpu_index(), addr, tmp, size);
+     } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+         trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
+@@ -465,7 +464,6 @@ static MemTxResult memory_region_read_with_attrs_accessor(MemoryRegion *mr,
+         /* Accesses to code which has previously been translated into a TB show
+          * up in the MMIO path, as accesses to the io_mem_notdirty
+          * MemoryRegion. */
+-        trace_memory_region_tb_read(get_cpu_index(), addr, tmp, size);
+     } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+         trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
+@@ -490,7 +488,6 @@ static MemTxResult memory_region_write_accessor(MemoryRegion *mr,
+         /* Accesses to code which has previously been translated into a TB show
+          * up in the MMIO path, as accesses to the io_mem_notdirty
+          * MemoryRegion. */
+-        trace_memory_region_tb_write(get_cpu_index(), addr, tmp, size);
+     } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+         trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
+@@ -515,7 +512,6 @@ static MemTxResult memory_region_write_with_attrs_accessor(MemoryRegion *mr,
+         /* Accesses to code which has previously been translated into a TB show
+          * up in the MMIO path, as accesses to the io_mem_notdirty
+          * MemoryRegion. */
+-        trace_memory_region_tb_write(get_cpu_index(), addr, tmp, size);
+     } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+         trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
+diff --git a/trace-events b/trace-events
+index 823a4ae64e..20821ba545 100644
+--- a/trace-events
++++ b/trace-events
+@@ -52,14 +52,14 @@ dma_map_wait(void *dbs) "dbs=%p"
+ find_ram_offset(uint64_t size, uint64_t offset) "size: 0x%" PRIx64 " @ 0x%" PRIx64
+ find_ram_offset_loop(uint64_t size, uint64_t candidate, uint64_t offset, uint64_t next, uint64_t mingap) "trying size: 0x%" PRIx64 " @ 0x%" PRIx64 ", offset: 0x%" PRIx64" next: 0x%" PRIx64 " mingap: 0x%" PRIx64
+ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_madvise, bool need_fallocate, int ret) "%s@%p + 0x%zx: madvise: %d fallocate: %d ret: %d"
++memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
++memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
  
- /*
-@@ -1415,7 +1412,8 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
- static uint64_t full_ldub_mmu(CPUArchState *env, target_ulong addr,
-                               TCGMemOpIdx oi, uintptr_t retaddr)
- {
--    return load_helper(env, addr, oi, retaddr, MO_UB, false, full_ldub_mmu);
-+    return load_helper(env, addr, oi, retaddr, MO_UB, false,
-+                       full_ldub_mmu);
- }
- 
- tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong addr,
-@@ -1530,6 +1528,36 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
-  * Store Helpers
-  */
- 
-+static inline void QEMU_ALWAYS_INLINE
-+store_memop(void *haddr, uint64_t val, MemOp op)
-+{
-+    switch (op) {
-+    case MO_UB:
-+        stb_p(haddr, val);
-+        break;
-+    case MO_BEUW:
-+        stw_be_p(haddr, val);
-+        break;
-+    case MO_LEUW:
-+        stw_le_p(haddr, val);
-+        break;
-+    case MO_BEUL:
-+        stl_be_p(haddr, val);
-+        break;
-+    case MO_LEUL:
-+        stl_le_p(haddr, val);
-+        break;
-+    case MO_BEQ:
-+        stq_be_p(haddr, val);
-+        break;
-+    case MO_LEQ:
-+        stq_le_p(haddr, val);
-+        break;
-+    default:
-+        optimize_away();
-+    }
-+}
-+
- static inline void QEMU_ALWAYS_INLINE
- store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-              TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
-@@ -1657,31 +1685,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
- 
-  do_aligned_access:
-     haddr = (void *)((uintptr_t)addr + entry->addend);
--    switch (op) {
--    case MO_UB:
--        stb_p(haddr, val);
--        break;
--    case MO_BEUW:
--        stw_be_p(haddr, val);
--        break;
--    case MO_LEUW:
--        stw_le_p(haddr, val);
--        break;
--    case MO_BEUL:
--        stl_be_p(haddr, val);
--        break;
--    case MO_LEUL:
--        stl_le_p(haddr, val);
--        break;
--    case MO_BEQ:
--        stq_be_p(haddr, val);
--        break;
--    case MO_LEQ:
--        stq_le_p(haddr, val);
--        break;
--    default:
--        optimize_away();
--    }
-+    store_memop(haddr, val, op);
- }
- 
- void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
+ # memory.c
+ memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
+-memory_region_tb_read(int cpu_index, uint64_t addr, uint64_t value, unsigned size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+-memory_region_tb_write(int cpu_index, uint64_t addr, uint64_t value, unsigned size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ flatview_new(void *view, void *root) "%p (root %p)"
 -- 
 2.17.1
 
