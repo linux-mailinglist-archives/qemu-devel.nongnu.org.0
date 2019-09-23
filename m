@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909AABAEA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 09:47:06 +0200 (CEST)
-Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4ACBAE9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 09:43:24 +0200 (CEST)
+Received: from localhost ([::1]:53094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJ3p-0003Pd-7D
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 03:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
+	id 1iCJ0F-0008Ui-6q
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 03:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38713)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iCIwX-0006eL-Kb
+ (envelope-from <borntraeger@de.ibm.com>) id 1iCIwY-0006ec-PX
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iCIwW-00050m-0M
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63712
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <borntraeger@de.ibm.com>) id 1iCIwX-00053e-3M
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:34 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44272)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iCIwV-0004zh-O9
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:31 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8N7bD7W116514
+ id 1iCIwW-00050g-Js
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:32 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8N7bJGV122493
  for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 03:39:31 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2v6srmg81f-1
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v6prbwunw-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
  for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 03:39:31 -0400
 Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Mon, 23 Sep 2019 08:39:28 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Mon, 23 Sep 2019 08:39:29 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
  Mon, 23 Sep 2019 08:39:25 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8N7dN0U42533118
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x8N7dNxY43581706
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 23 Sep 2019 07:39:23 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 71AE352054;
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B5EFDA405E;
+ Mon, 23 Sep 2019 07:39:23 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC9AFA404D;
  Mon, 23 Sep 2019 07:39:23 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 5C56052050;
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Mon, 23 Sep 2019 07:39:23 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id 1D24BE02AA; Mon, 23 Sep 2019 09:39:23 +0200 (CEST)
+ id 6BE69E02A0; Mon, 23 Sep 2019 09:39:23 +0200 (CEST)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/5] s390x/kvm: Officially require at least kernel 3.15
-Date: Mon, 23 Sep 2019 09:39:20 +0200
+Subject: [PULL 5/5] s390x/cpumodel: Add the z15 name to the description of
+ gen15a
+Date: Mon, 23 Sep 2019 09:39:21 +0200
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190923073921.13357-1-borntraeger@de.ibm.com>
 References: <20190923073921.13357-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19092307-0016-0000-0000-000002AF775B
+x-cbid: 19092307-0020-0000-0000-000003707384
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19092307-0017-0000-0000-00003310325D
-Message-Id: <20190923073921.13357-5-borntraeger@de.ibm.com>
+x-cbparentid: 19092307-0021-0000-0000-000021C62C8D
+Message-Id: <20190923073921.13357-6-borntraeger@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-23_02:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=783 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1909230076
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,74 +100,27 @@ Cc: Yifan Luo <luoyifan@cmss.chinamobile.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+We now know that gen15a is called z15.
 
-Since QEMU v2.10, the KVM acceleration does not work on older kernels
-anymore since the code accidentally requires the KVM_CAP_DEVICE_CTRL
-capability now - it should have been optional instead.
-Instead of fixing the bug, we asked in the ChangeLog of QEMU 2.11 - 3.0
-that people should speak up if they still need support of QEMU running
-with KVM on older kernels, but seems like nobody really complained.
-Thus let's make this official now and turn it into a proper error
-message, telling the users to use at least kernel 3.15 now.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190913091443.27565-1-thuth@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- hw/intc/s390_flic_kvm.c | 6 ------
- hw/intc/trace-events    | 1 -
- target/s390x/kvm.c      | 7 +++++++
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ target/s390x/cpu_models.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index 819aa5e198b7..cedccba8a9c7 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -589,12 +589,6 @@ static void kvm_s390_flic_realize(DeviceState *dev, Error **errp)
-         goto fail;
-     }
-     flic_state->fd = -1;
--    if (!kvm_check_extension(kvm_state, KVM_CAP_DEVICE_CTRL)) {
--        error_setg_errno(&errp_local, errno, "KVM is missing capability"
--                         " KVM_CAP_DEVICE_CTRL");
--        trace_flic_no_device_api(errno);
--        goto fail;
--    }
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 1d16d7d5e794..009afc38b92d 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -84,7 +84,7 @@ static S390CPUDef s390_cpu_defs[] = {
+     CPUDEF_INIT(0x3906, 14, 1, 47, 0x08000000U, "z14", "IBM z14 GA1"),
+     CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
+     CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
+-    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM 8561 GA1"),
++    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1"),
+     CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
+ };
  
-     cd.type = KVM_DEV_TYPE_FLIC;
-     ret = kvm_vm_ioctl(kvm_state, KVM_CREATE_DEVICE, &cd);
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 90c9d07c1a66..719f46b51628 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -75,7 +75,6 @@ xics_ics_simple_eoi(int nr) "ics_eoi: irq 0x%x"
- 
- # s390_flic_kvm.c
- flic_create_device(int err) "flic: create device failed %d"
--flic_no_device_api(int err) "flic: no Device Contral API support %d"
- flic_reset_failed(int err) "flic: reset failed %d"
- 
- # s390_flic.c
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index cea71ac7c3dd..97a662ad0ebf 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -316,6 +316,13 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
- 
-     mc->default_cpu_type = S390_CPU_TYPE_NAME("host");
-+
-+    if (!kvm_check_extension(kvm_state, KVM_CAP_DEVICE_CTRL)) {
-+        error_report("KVM is missing capability KVM_CAP_DEVICE_CTRL - "
-+                     "please use kernel 3.15 or newer");
-+        return -1;
-+    }
-+
-     cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
-     cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
-     cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
 -- 
 2.21.0
 
