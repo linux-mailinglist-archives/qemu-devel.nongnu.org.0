@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5BFBAE99
+	by mail.lfdr.de (Postfix) with ESMTPS id 759F2BAE98
 	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 09:43:22 +0200 (CEST)
-Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJ0C-0008Vy-Vv
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 03:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38668)
+	id 1iCJ0C-0008RT-FO
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 03:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iCIwX-0006eJ-8w
+ (envelope-from <borntraeger@de.ibm.com>) id 1iCIwX-0006eG-2a
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iCIwV-0004zG-CT
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20148
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <borntraeger@de.ibm.com>) id 1iCIwV-0004zp-Gl
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48100)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iCIwV-0004wB-30
+ id 1iCIwV-0004vK-5T
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 03:39:31 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8N7bkr1080059
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 03:39:29 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v6recb88h-1
+ x8N7bCkp086230
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 03:39:28 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v5fgtmrqf-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 03:39:29 -0400
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 03:39:28 -0400
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Mon, 23 Sep 2019 08:39:27 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Mon, 23 Sep 2019 08:39:25 +0100
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
  Mon, 23 Sep 2019 08:39:23 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8N7dMpQ45154310
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x8N7ctSV21889482
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 23 Sep 2019 07:39:22 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 16D93A4053;
+ Mon, 23 Sep 2019 07:38:55 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5EF4E11C054;
  Mon, 23 Sep 2019 07:39:22 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0D683A404D;
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4BF3E11C050;
  Mon, 23 Sep 2019 07:39:22 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Mon, 23 Sep 2019 07:39:22 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id A6601E02A0; Mon, 23 Sep 2019 09:39:21 +0200 (CEST)
+ id 0B472E02AA; Mon, 23 Sep 2019 09:39:22 +0200 (CEST)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/5] s390x update
-Date: Mon, 23 Sep 2019 09:39:16 +0200
+Subject: [PULL 1/5] pc-bios/s390-ccw: Do not pre-initialize empty array
+Date: Mon, 23 Sep 2019 09:39:17 +0200
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190923073921.13357-1-borntraeger@de.ibm.com>
+References: <20190923073921.13357-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19092307-0020-0000-0000-000003707382
+x-cbid: 19092307-0012-0000-0000-0000034F763D
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19092307-0021-0000-0000-000021C62C8B
-Message-Id: <20190923073921.13357-1-borntraeger@de.ibm.com>
+x-cbparentid: 19092307-0013-0000-0000-0000218A009F
+Message-Id: <20190923073921.13357-2-borntraeger@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-23_02:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=878 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=885 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1909230076
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,53 +94,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Yifan Luo <luoyifan@cmss.chinamobile.com>, Thomas Huth <thuth@redhat.com>,
  David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
  qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter,
+From: Thomas Huth <thuth@redhat.com>
 
-here is the non-tcg subset of the s390x updates.
+Since commit 339686a358b11a231aa5b6d1424e7a1460d7f277 ("pc-bios/s390-ccw:
+zero out bss section"), we are clearing now the BSS in start.S, so there
+is no need to pre-initialize the loadparm_str array with zeroes anymore.
 
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ pc-bios/s390-ccw/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit 4300b7c2cd9f3f273804e8cca325842ccb93b1ad:
-
-  Merge remote-tracking branch 'remotes/cleber/tags/python-next-pull-request' into staging (2019-09-20 17:28:43 +0100)
-
-are available in the Git repository at:
-
-  git://github.com/borntraeger/qemu.git tags/s390x-20190923
-
-for you to fetch changes up to 7505deca0bfa859136ec6419dbafc504f22fcac2:
-
-  s390x/cpumodel: Add the z15 name to the description of gen15a (2019-09-23 09:15:28 +0200)
-
-----------------------------------------------------------------
-- bugfixes in ccw bios
-- gen15a is called z15
-- officially require a 3.15 kernel or later for kvm
-
-----------------------------------------------------------------
-Christian Borntraeger (2):
-      Merge tag 's390-ccw-bios-2019-09-18' of https://gitlab.com/huth/qemu into s390-next
-      s390x/cpumodel: Add the z15 name to the description of gen15a
-
-Thomas Huth (3):
-      pc-bios/s390-ccw: Do not pre-initialize empty array
-      pc-bios/s390-ccw: Rebuild the s390-netboot.img firmware image
-      s390x/kvm: Officially require at least kernel 3.15
-
-Yifan Luo (1):
-      pc-bios/s390-ccw/net: fix a possible memory leak in get_uuid()
-
- hw/intc/s390_flic_kvm.c    |   6 ------
- hw/intc/trace-events       |   1 -
- pc-bios/s390-ccw/main.c    |   2 +-
- pc-bios/s390-ccw/netmain.c |   1 +
- pc-bios/s390-netboot.img   | Bin 67232 -> 67232 bytes
- target/s390x/cpu_models.c  |   2 +-
- target/s390x/kvm.c         |   7 +++++++
- 7 files changed, 10 insertions(+), 9 deletions(-)
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index a69c73349e8f..a21b38628075 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -17,7 +17,7 @@
+ 
+ char stack[PAGE_SIZE * 8] __attribute__((__aligned__(PAGE_SIZE)));
+ static SubChannelId blk_schid = { .one = 1 };
+-static char loadparm_str[LOADPARM_LEN + 1] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
++static char loadparm_str[LOADPARM_LEN + 1];
+ QemuIplParameters qipl;
+ IplParameterBlock iplb __attribute__((__aligned__(PAGE_SIZE)));
+ static bool have_iplb;
+-- 
+2.21.0
 
 
