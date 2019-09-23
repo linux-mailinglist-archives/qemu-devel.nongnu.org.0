@@ -2,87 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7EBBB738
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:53:19 +0200 (CEST)
-Received: from localhost ([::1]:57608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F34BB73C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:53:51 +0200 (CEST)
+Received: from localhost ([::1]:57612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCPiH-0003jW-GZ
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42010)
+	id 1iCPio-0004OO-83
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iCPfl-0002J2-Ph
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:50:42 -0400
+ (envelope-from <crosa@redhat.com>) id 1iCPgE-0002eb-4x
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:51:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iCPfk-0002ER-OT
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:50:41 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54396
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1iCPgB-0002Oo-It
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:51:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50260)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCPfk-0002Do-KH
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:50:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569250239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=mdFeExCw32J/66tvTWmcQHCCx94/AeBgk4A+Q6gTNUs=;
- b=EORVKrGWhmFsmlfOXXgQoNkYjYXTCkZjcXDEolanndeqHWCJBuCI1YKYtQ9rmTds93h439
- 2KncWjv9ZdRjkevOLvRvj4mCSutnF+l+WplvZ2foJv0+j4DYZ1or2oBydlACQ4TFw6B8Ic
- sXpCM2bVldO+ehzK2DE3LXfyT1VXtNM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-tsehaL97O7irFrnLsy6t0Q-1; Mon, 23 Sep 2019 10:50:38 -0400
-Received: by mail-wm1-f72.google.com with SMTP id 190so6832450wme.4
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 07:50:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6FHtdn929Y1JFOp+pGJ+LlPRgHOmWcAbNQIFojgmtlo=;
- b=Oj3VCFS2os4QxywAN0K2/D1rT33pkeSQfJ2Zary2d6zkhSSmrtZxSIaemg5oWdFrN7
- VUhu8DyWmOXUp4PMeI72XPFjs45T9Qt0gHO+TiSkS97XyPUFPwMI9ck2c9uRXZXfIDyT
- AYAVciRjx10aTDSJPfvcm9FPBMFwNrA4RLkZLibpjnmHUzjQ9/6Imanu3D9KzoDOonbM
- P/1hM/Aj4SIl3r/aenXCEnJzVpPmVOgvsoAapQ0sa52uoeWk/Llf7/AW2OBmWpD7z0CQ
- +w6IdVu4y1YbWEjbp0NrT43L1T4IuKNVT3MZB/8XIeGNy09FwT9dU5eS8UGgjsenhii+
- K1NA==
-X-Gm-Message-State: APjAAAUJwvQzKH289dyVbZmITZ9OhvMUgYwplrbqgPYm5+OvMB/tSf6+
- IBPosQE0RvcBHq/rtR8WVpWNOeFWgvXaTrj+kxC3MbOaWlVJgSGZ2Nth5Abty8qjOOTE/OZbff7
- Xupifw9NbLbAToNw=
-X-Received: by 2002:a5d:4a52:: with SMTP id v18mr5027362wrs.368.1569250236917; 
- Mon, 23 Sep 2019 07:50:36 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzgNuhFe6Asz1ZpMgPsmcG5YBvtrCZJfwQXoWHqVKJmCNn/D8AhDLxoilrjF9Q4ohs/UtO2cg==
-X-Received: by 2002:a5d:4a52:: with SMTP id v18mr5027351wrs.368.1569250236730; 
- Mon, 23 Sep 2019 07:50:36 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id v2sm21512022wmf.18.2019.09.23.07.50.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Sep 2019 07:50:36 -0700 (PDT)
-Subject: Re: illegal hardware instruction during MIPS-I ELF linux user
- emulation
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <tencent_5D6D8ED31E83C5675AB8AA3C@qq.com>
- <c722d11e-e0ff-8a91-d8f3-ee0a31f1df33@redhat.com>
- <CAFEAcA-iiLihZp-W_kjO3bJXza-+Q-eofagv8N_DbhkbdCUwPA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <97a2103b-8cc7-8526-1d79-3e023d27756e@redhat.com>
-Date: Mon, 23 Sep 2019 16:50:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iCPgB-0002OF-Au
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:51:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E82B1307D90D;
+ Mon, 23 Sep 2019 14:51:05 +0000 (UTC)
+Received: from dhcp-17-179.bos.redhat.com (dhcp-17-179.bos.redhat.com
+ [10.18.17.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C44B660166;
+ Mon, 23 Sep 2019 14:50:59 +0000 (UTC)
+Date: Mon, 23 Sep 2019 10:50:57 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH] docker: move tests from python2 to python3
+Message-ID: <20190923145057.GC9445@dhcp-17-179.bos.redhat.com>
+References: <20190920200049.27216-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-iiLihZp-W_kjO3bJXza-+Q-eofagv8N_DbhkbdCUwPA@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: tsehaL97O7irFrnLsy6t0Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190920200049.27216-1-jsnow@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Mon, 23 Sep 2019 14:51:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,40 +57,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Libo Zhou <zhlb29@foxmail.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/19 4:42 PM, Peter Maydell wrote:
-> On Mon, 23 Sep 2019 at 15:40, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->> So currently there is no MIPS-I only CPU.
->> Note that the code got written with MIPS32 in mind, and implementing
->> MIPS-I requires a considerable amount of change in the codebase.
->=20
-> ...but MIPS-I binaries should run on MIPS-II and newer CPUs, shouldn't
-> they?
+On Fri, Sep 20, 2019 at 04:00:49PM -0400, John Snow wrote:
+> As part of the push to drop python2 support, replace any explicit python2
+> dependencies with python3 versions.
+> 
+> For centos, python2 still exists as an implicit dependency, but by adding
+> python3 we will be able to build even if the configure script begins to
+> require python 3.5+.
+> 
+> Tested with centos7, fedora, ubuntu, ubuntu1804, and debian 9 (amd64).
+> Tested under a custom configure script that requires Python 3.5+.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/docker/dockerfiles/centos7.docker             | 2 +-
+>  tests/docker/dockerfiles/debian-ports.docker        | 2 +-
+>  tests/docker/dockerfiles/debian-sid.docker          | 2 +-
+>  tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 +-
+>  tests/docker/dockerfiles/debian10.docker            | 2 +-
+>  tests/docker/dockerfiles/debian8.docker             | 3 +--
+>  tests/docker/dockerfiles/debian9.docker             | 2 +-
+>  tests/docker/dockerfiles/ubuntu.docker              | 2 +-
+>  tests/docker/dockerfiles/ubuntu1804.docker          | 2 +-
+>  9 files changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+> index e0b9d7dbe9..953637065c 100644
+> --- a/tests/docker/dockerfiles/centos7.docker
+> +++ b/tests/docker/dockerfiles/centos7.docker
+> @@ -25,6 +25,7 @@ ENV PACKAGES \
+>      nettle-devel \
+>      perl-Test-Harness \
+>      pixman-devel \
+> +    python3 \
 
-Some MIPS-I instructions where removed for MIPS-II (as RFE) and they are
-not implemented. Also some CP0 registers are different.
+Good, this gives us Python 3.6 (currently seeing package version
+3.6.8-10.el7).
 
->> IMO it is likely the RFE (Return from Exception) instruction.
->=20
-> It seems unlikely that a linux userspace binary would be trying to
-> execute RFE...
+>      SDL-devel \
+>      spice-glib-devel \
+>      spice-server-devel \
+> @@ -34,4 +35,3 @@ ENV PACKAGES \
+>      zlib-devel
+>  RUN yum install -y $PACKAGES
+>  RUN rpm -q $PACKAGES | sort > /packages.txt
+> -
+> diff --git a/tests/docker/dockerfiles/debian-ports.docker b/tests/docker/dockerfiles/debian-ports.docker
+> index 61bc3f2993..f1ea8d3bd1 100644
+> --- a/tests/docker/dockerfiles/debian-ports.docker
+> +++ b/tests/docker/dockerfiles/debian-ports.docker
+> @@ -31,6 +31,6 @@ RUN apt-get update && \
+>          git \
+>          pkg-config \
+>          psmisc \
+> -        python \
+> +        python3 \
 
-Oh I thought it was system emulation, indeed it can't be RFE.
+On my testing, Python 3.7.4-4 gets installed here at this time.
 
-One GCC release targetting R3000 (Philips PR31700, Toshiba TX39) doesn't
-emit NOP for branch's delay slot. I remember QEMU fails to run the
-binaries it generates, but I don't remember how it fails.
+I wonder if this "unstable" distro can/will give us Python 3.8 in the
+near future and the consequences of that...  assuming that's a feature
+for now.
 
-Libo, can you provide more information about the cross-compiler you use
-and the flags you use when calling it please?
+>          texinfo \
+>          $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+> diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/dockerfiles/debian-sid.docker
+> index 2a1bcc33b2..dcb8e83715 100644
+> --- a/tests/docker/dockerfiles/debian-sid.docker
+> +++ b/tests/docker/dockerfiles/debian-sid.docker
+> @@ -31,5 +31,5 @@ RUN apt update && \
+>          git \
+>          pkg-config \
+>          psmisc \
+> -        python \
+> +        python3 \
 
-Thanks,
+Python 3.7.4-2 gets installed here.
 
-Phil.
+>          texinfo || { echo "Failed to build - see debian-sid.docker notes"; exit 1; }
+> diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+> index b9c2e2e531..e6f93f65ee 100644
+> --- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+> @@ -18,7 +18,7 @@ RUN apt-get update && \
+>          flex \
+>          gettext \
+>          git \
+> -        python-minimal
+> +        python3-minimal
 
+I'm getting Python 3.5.3-1+deb9u1 here, so it LGTM.
+
+>  
+>  ENV CPU_LIST csp dc232b dc233c
+>  ENV TOOLCHAIN_RELEASE 2018.02
+> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+> index 30a78813f2..dad498b52e 100644
+> --- a/tests/docker/dockerfiles/debian10.docker
+> +++ b/tests/docker/dockerfiles/debian10.docker
+> @@ -26,7 +26,7 @@ RUN apt update && \
+>          git \
+>          pkg-config \
+>          psmisc \
+> -        python \
+> +        python3 \
+
+Python 3.7.3-2 gets installed here on my testing.
+
+>          python3-sphinx \
+>          texinfo \
+>          $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+> diff --git a/tests/docker/dockerfiles/debian8.docker b/tests/docker/dockerfiles/debian8.docker
+> index 1212a85c35..be67023826 100644
+> --- a/tests/docker/dockerfiles/debian8.docker
+> +++ b/tests/docker/dockerfiles/debian8.docker
+> @@ -30,5 +30,4 @@ RUN apt update && \
+>          git \
+>          gnupg \
+>          pkg-config \
+> -        python-minimal
+> -
+> +        python3-minimal
+
+This results in the Python package version 3.4.2-1+deb8u7 being
+installed, so it's *NOT* enough for the 3.5+ requirements.
+
+I suppose it'd be time to retire those distros instead of updating
+them?
+
+> diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
+> index b36f1d4ed8..8cbd742bb5 100644
+> --- a/tests/docker/dockerfiles/debian9.docker
+> +++ b/tests/docker/dockerfiles/debian9.docker
+> @@ -26,7 +26,7 @@ RUN apt update && \
+>          git \
+>          pkg-config \
+>          psmisc \
+> -        python \
+> +        python3 \
+
+Python 3.5.3-1+deb9u1 here, meeting the requirement.
+
+>          python3-sphinx \
+>          texinfo \
+>          $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+> diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+> index a4f601395c..f486492224 100644
+> --- a/tests/docker/dockerfiles/ubuntu.docker
+> +++ b/tests/docker/dockerfiles/ubuntu.docker
+> @@ -60,7 +60,7 @@ ENV PACKAGES flex bison \
+>      libvte-2.91-dev \
+>      libxen-dev \
+>      make \
+> -    python-yaml \
+> +    python3-yaml \
+
+Python 3.7.3-2ubuntu0.1 gets installed here, meeting the requirement.
+
+>      python3-sphinx \
+>      sparse \
+>      texinfo \
+> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+> index 883f9bcf31..3cc4f492c4 100644
+> --- a/tests/docker/dockerfiles/ubuntu1804.docker
+> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
+> @@ -47,7 +47,7 @@ ENV PACKAGES flex bison \
+>      libvte-2.91-dev \
+>      libxen-dev \
+>      make \
+> -    python-yaml \
+> +    python3-yaml \
+
+Not related to this patch, but the lack of an explicit python3 package
+line gets to me. :)
+
+Anyway, this ends up pulling Python 3.6.7-1~18.04, so LGTM.
+
+>      python3-sphinx \
+>      sparse \
+>      texinfo \
+> -- 
+> 2.21.0
+> 
+> 
+
+The only issue I see here is what action to take with regards to
+debian8.docker.
+
+- Cleber.
 
