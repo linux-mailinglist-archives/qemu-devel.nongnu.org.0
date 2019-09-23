@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8896BBB5C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:51:34 +0200 (CEST)
-Received: from localhost ([::1]:56810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A68BB5D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:57:01 +0200 (CEST)
+Received: from localhost ([::1]:56918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCOkX-0008DR-Je
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:51:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
+	id 1iCOpo-0003qx-91
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iCOa1-0007SG-8i
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1iCOos-0003Pa-4B
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:56:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iCOZz-0007Zv-GN
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33340)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iCOZz-0007Zd-8y
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:39 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8ACBF58569;
- Mon, 23 Sep 2019 13:40:38 +0000 (UTC)
-Received: from dhcp-17-179.bos.redhat.com (dhcp-17-179.bos.redhat.com
- [10.18.17.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FCA619C58;
- Mon, 23 Sep 2019 13:40:37 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PULL 7/7] Acceptance tests: use avocado.utils.ssh for SSH interaction
-Date: Mon, 23 Sep 2019 09:40:19 -0400
-Message-Id: <20190923134019.8548-8-crosa@redhat.com>
-In-Reply-To: <20190923134019.8548-1-crosa@redhat.com>
-References: <20190923134019.8548-1-crosa@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iCOoq-0004qg-S0
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:56:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46454)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iCOoq-0004qC-MH
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:56:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iCOoo-0005Dz-Uh
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 13:55:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CFE9E2E80C9
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 13:55:58 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Mon, 23 Sep 2019 13:40:38 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Sep 2019 13:43:47 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ilg karl-erik-zimmerman pmaydell
+X-Launchpad-Bug-Reporter: Liviu Ionescu (ilg)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20130826101205.25802.19011.malonedeb@soybean.canonical.com>
+Message-Id: <156924622799.5337.3996293478856402411.malone@chaenomeles.canonical.com>
+Subject: [Bug 1216845] Re: qemu-system-arm semihosting always calls exit(0)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 30fe523a58212f371d83ca2169b0cefed247c6b2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,240 +65,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1216845 <1216845@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This replaces paramiko with avocado.utils.ssh module, which is based
-on a (open)ssh binary, supposedly more ubiquitous.
+https://patchew.org/QEMU/20190916141544.17540-1-peter.maydell@linaro.org/
+is a patchset which adds semihosting v2 support to QEMU. With those
+patches and a guest binary which understands semihosting v2 and knows
+how to probe for the existence of the EXIT_EXTENDED extension, arm guest
+binaries will be able to pass a non-zero exit status.
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190919225905.10829-1-crosa@redhat.com>
-[Cleber: consolidated existing skipUnless from tests to setUp]
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- tests/acceptance/linux_ssh_mips_malta.py | 78 ++++++++----------------
- tests/requirements.txt                   |  3 +-
- 2 files changed, 25 insertions(+), 56 deletions(-)
 
-diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/=
-linux_ssh_mips_malta.py
-index 1d334432a0..25a1df5098 100644
---- a/tests/acceptance/linux_ssh_mips_malta.py
-+++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -9,13 +9,13 @@ import os
- import re
- import base64
- import logging
--import paramiko
- import time
-=20
- from avocado import skipUnless
- from avocado_qemu import Test
- from avocado.utils import process
- from avocado.utils import archive
-+from avocado.utils import ssh
-=20
-=20
- class LinuxSSH(Test):
-@@ -26,35 +26,19 @@ class LinuxSSH(Test):
-     VM_IP =3D '127.0.0.1'
-=20
-     IMAGE_INFO =3D {
--        'be': {
--            'image_url': 'https://people.debian.org/~aurel32/qemu/mips/'
--                         'debian_wheezy_mips_standard.qcow2',
--            'image_hash': '8987a63270df67345b2135a6b7a4885a35e392d5',
--            'rsa_hostkey': b'AAAAB3NzaC1yc2EAAAADAQABAAABAQCca1VitiyLAdQ=
-Old'
--                           b'zT43IOEVJZ0wHD78GJi8wDAjMiYWUzNSSn0rXGQsINH=
-uH5'
--                           b'IlF+kBZsHinb/FtKCAyS9a8uCHhQI4SuB4QhAb0+39M=
-lUw'
--                           b'Mm0CLkctgM2eUUZ6MQMQvDlqnue6CCkxN62EZYbaxmb=
-y7j'
--                           b'CQa1125o1HRKBvdGm2zrJWxXAfA+f1v6jHLyE8Jnu83=
-eQ+'
--                           b'BFY25G+Vzx1PVc3zQBwJ8r0NGTRqy2//oWQP0h+bMsg=
-eFe'
--                           b'KH/J3RJM22vg6+I4JAdBFcxnK+l781h1FuRxOn4O/Xs=
-lbg'
--                           b'go6WtB4V4TOsw2E/KfxI5IZ/icxF+swVcnvF46Hf3uQ=
-c/0'
--                           b'BBqb',
--        },
--        'le': {
--            'image_url': 'https://people.debian.org/~aurel32/qemu/mipsel=
-/'
--                         'debian_wheezy_mipsel_standard.qcow2',
--            'image_hash': '7866764d9de3ef536ffca24c9fb9f04ffdb45802',
--            'rsa_hostkey': b'AAAAB3NzaC1yc2EAAAADAQABAAABAQClXJlBT71HL5y=
-Kvv'
--                           b'gfC7jmxSWx5zSBCzET6CLZczwAafSIs7YKfNOy/dQTx=
-huk'
--                           b'yIGFUugZFoF3E9PzdhunuyvyTd56MPoNIqFbb5rGokw=
-U5I'
--                           b'TOx3dBHZR0mClypL6MVrwe0bsiIb8GhF1zioNwcsaAZ=
-nAi'
--                           b'KfXStVDtXvn/kLLq+xLABYt48CC5KYWoFaCoICskLAY=
-+qo'
--                           b'L+LWyAnQisj4jAH8VSaSKIImFpfkHWEXPhHcC4ZBlDK=
-tnH'
--                           b'po9vhfCHgnfW3Pzrqmk8BI4HysqPFVmJWkJGlGUL+sG=
-eg3'
--                           b'ZZolAYuDXGuBrw8ooPJq2v2dOH+z6dyD2q/ypmAbyPq=
-j5C'
--                           b'rc8H',
--        },
--    }
-+        'be': {'image_url': ('https://people.debian.org/~aurel32/qemu/mi=
-ps/'
-+                             'debian_wheezy_mips_standard.qcow2'),
-+               'image_hash': '8987a63270df67345b2135a6b7a4885a35e392d5'}=
-,
-+        'le': {'image_url': ('https://people.debian.org/~aurel32/qemu/mi=
-psel/'
-+                             'debian_wheezy_mipsel_standard.qcow2'),
-+               'image_hash': '7866764d9de3ef536ffca24c9fb9f04ffdb45802'}
-+        }
-+
-+
-+    @skipUnless(ssh.SSH_CLIENT_BINARY, 'No SSH client available')
-+    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
-ut')
-+    def setUp(self):
-+        super(LinuxSSH, self).setUp()
-=20
-     def wait_for_console_pattern(self, success_message,
-                                  failure_message=3D'Oops'):
-@@ -78,23 +62,14 @@ class LinuxSSH(Test):
-         self.log.debug("sshd listening on port:" + port)
-         return port
-=20
--    def ssh_connect(self, username, password, rsa_hostkey_b64=3DNone):
-+    def ssh_connect(self, username, password):
-         self.ssh_logger =3D logging.getLogger('ssh')
--        self.ssh_username =3D username
--        self.ssh_ps1 =3D '# ' if username is 'root' else '$ '
--        self.ssh_client =3D paramiko.SSHClient()
-         port =3D self.get_portfwd()
--        if rsa_hostkey_b64:
--            rsa_hostkey_bin =3D base64.b64decode(rsa_hostkey_b64)
--            rsa_hostkey =3D paramiko.RSAKey(data =3D rsa_hostkey_bin)
--            ipport =3D '[%s]:%s' % (self.VM_IP, port)
--            self.ssh_logger.debug('ipport ' + ipport)
--            self.ssh_client.get_host_keys().add(ipport, 'ssh-rsa', rsa_h=
-ostkey)
-+        self.ssh_session =3D ssh.Session(self.VM_IP, port=3Dint(port),
-+                                       user=3Dusername, password=3Dpassw=
-ord)
-         for i in range(10):
-             try:
--                self.ssh_client.connect(self.VM_IP, int(port),
--                                        username, password, banner_timeo=
-ut=3D90)
--                self.ssh_logger.info("Entering interactive session.")
-+                self.ssh_session.connect()
-                 return
-             except:
-                 time.sleep(4)
-@@ -102,15 +77,15 @@ class LinuxSSH(Test):
-         self.fail("sshd timeout")
-=20
-     def ssh_disconnect_vm(self):
--        self.ssh_client.close()
-+        self.ssh_session.quit()
-=20
-     def ssh_command(self, command, is_root=3DTrue):
--        self.ssh_logger.info(self.ssh_ps1 + command)
--        stdin, stdout, stderr =3D self.ssh_client.exec_command(command)
--        stdout_lines =3D [line.strip('\n') for line in stdout]
-+        self.ssh_logger.info(command)
-+        result =3D self.ssh_session.cmd(command)
-+        stdout_lines =3D [line.rstrip() for line in result.stdout_text.s=
-plitlines()]
-         for line in stdout_lines:
-             self.ssh_logger.info(line)
--        stderr_lines =3D [line.strip('\n') for line in stderr]
-+        stderr_lines =3D [line.rstrip() for line in result.stderr_text.s=
-plitlines()]
-         for line in stderr_lines:
-             self.ssh_logger.warning(line)
-         return stdout_lines, stderr_lines
-@@ -119,7 +94,6 @@ class LinuxSSH(Test):
-         image_url =3D self.IMAGE_INFO[endianess]['image_url']
-         image_hash =3D self.IMAGE_INFO[endianess]['image_hash']
-         image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_ha=
-sh)
--        rsa_hostkey_b64 =3D self.IMAGE_INFO[endianess]['rsa_hostkey']
-=20
-         self.vm.set_machine('malta')
-         self.vm.set_console()
-@@ -138,7 +112,7 @@ class LinuxSSH(Test):
-         self.wait_for_console_pattern(console_pattern)
-         self.log.info('sshd ready')
-=20
--        self.ssh_connect('root', 'root', rsa_hostkey_b64=3Drsa_hostkey_b=
-64)
-+        self.ssh_connect('root', 'root')
-=20
-     def shutdown_via_ssh(self):
-         self.ssh_command('poweroff')
-@@ -222,7 +196,6 @@ class LinuxSSH(Test):
-         self.run_common_commands()
-         self.shutdown_via_ssh()
-=20
--    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
-ut')
-     def test_mips_malta32eb_kernel3_2_0(self):
-         """
-         :avocado: tags=3Darch:mips
-@@ -237,7 +210,6 @@ class LinuxSSH(Test):
-=20
-         self.check_mips_malta('be', kernel_path, 'mips')
-=20
--    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
-ut')
-     def test_mips_malta32el_kernel3_2_0(self):
-         """
-         :avocado: tags=3Darch:mipsel
-@@ -252,7 +224,6 @@ class LinuxSSH(Test):
-=20
-         self.check_mips_malta('le', kernel_path, 'mips')
-=20
--    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
-ut')
-     def test_mips_malta64eb_kernel3_2_0(self):
-         """
-         :avocado: tags=3Darch:mips64
-@@ -266,7 +237,6 @@ class LinuxSSH(Test):
-         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-         self.check_mips_malta('be', kernel_path, 'mips64')
-=20
--    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
-ut')
-     def test_mips_malta64el_kernel3_2_0(self):
-         """
-         :avocado: tags=3Darch:mips64el
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index bd1f7590ed..a2a587223a 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -1,5 +1,4 @@
- # Add Python module requirements, one per line, to be installed
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
--avocado-framework=3D=3D68.0
--paramiko=3D=3D2.4.2
-+avocado-framework=3D=3D72.0
---=20
-2.21.0
+** Changed in: qemu
+       Status: Confirmed =3D> In Progress
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1216845
+
+Title:
+  qemu-system-arm semihosting always calls exit(0)
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  In my embedded ARM project I have a bunch of unit tests that I run in
+  a POSIX synthetic environment, and, as usual for POSIX processes,
+  these tests return 0 for success and !=3D0 for error.
+
+  Now I expanded the testing environment to run some of these tests
+  compiled for ARM, under QEMU, with the tracing messages forwarded via
+  the semihosting API.
+
+  Up to now everything is fine with the emulation.
+
+  However I have a problem with passing the failure code back to the
+  operating system, to drive the continuous integration framework.
+
+  I checked the arm-semi.c code and for SYS_EXIT and I discovered that
+  the parameter passed is ignored and it always calls exit(0):
+
+      case SYS_EXIT:
+          gdb_exit(env, 0);
+          exit(0);
+
+  To solve my problem I temporarily made a patch, and for cases that
+  should return non zero codes, I call an unsupported BKPT instruction,
+  which makes QEMU abort, and pass an non zero code (1) back to the
+  operating system.
+
+      qemu: Unsupported SemiHosting SWI 0xf1
+
+  This kludge is more or less functional, but is quite inconvenient.
+
+  After checking the ARM manuals, I discovered that SYS_EXIT is not
+  standard, and the 0x18 code used for it originally was used for
+  angel_SWIreason_ReportException, which has a slightly different
+  purpose.
+
+  Now the question:
+
+  Would it be possible to no longer ignore the code passed to 0x18, and
+  if it is non zero, to call exit() with a different value?
+
+  The suggested rule would be:
+
+  if (code =3D=3D0 || code =3D=3D 0x20026)
+    exit(0);
+  elif (code < 256)
+    exit(code);
+  else
+    exit(1);
+
+  The value 0x20026 means ADP_Stopped_ApplicationExit, and, if I
+  understood it right, it means that the program terminated
+  successfully. If this is not true, it can be removed from the first
+  conditional statement.
+
+  What do you think? Can this be added to arm-semi.c?
+
+  =
+
+  Regards,
+
+  Liviu
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1216845/+subscriptions
 
