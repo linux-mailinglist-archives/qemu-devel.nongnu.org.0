@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B539FBB327
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 13:52:43 +0200 (CEST)
-Received: from localhost ([::1]:55146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E85BB322
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 13:51:05 +0200 (CEST)
+Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCMtW-0000OD-Nq
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 07:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44075)
+	id 1iCMrw-00072J-8E
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 07:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iCMp2-0005Lc-Th
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:48:08 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCMq2-0005xR-At
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:49:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iCMp2-00064J-2W
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:48:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40574)
+ (envelope-from <armbru@redhat.com>) id 1iCMq1-0006ls-79
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:49:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58352)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iCMp1-00063j-TU
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:48:04 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCMq1-0006lH-1g
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:49:05 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1B7DF4E938
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 11:48:03 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id t11so4732318wrq.19
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 04:48:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wcMCtshWnSV/TbYLLNXk21ZVUDcM5NTRhYx7eBXHOo8=;
- b=B/W7Mch/dTarRGL0mwumk6PkXHWz/5VeDhGSBq1ah061hZcwHv7L+a+nQO+qBcnXfj
- ah9ks83OgDh/cPrFZ9cmToaM81Nx1Y3mvhupikfA2z9NBPYiNCB5+yYM0VmWmMm1vVsh
- PAdWlEyxCpjpiERVGFa/mq9+T0jnODP/TX5Qo6iebNKeRJJSbkXWBpD9Oh9VJs0SGSyB
- wUZ6PiPXFaCtdlqt8HDvwFJhChuW0oLILF6lyUhJhEuj+ldOi1Ua8f0qmLZ6RABUXwrX
- 64OjthS03K6DD98aeE7AtYTtolkvx42BsweDnMIrO0+6tpi+TMfPOB2u1KWt68LGWs/y
- 7oCA==
-X-Gm-Message-State: APjAAAUziCFHVgepP0GYZ4pBYJmXrroTZKBjl2JmfnvK/QHy3prOo0sA
- lLLmVPWpy1kGD4Shb7ABZ1iXAz6XwpCa7lBzIt83THgNTSoT+W5RSlfiyAGSxXTuLWVcgYivQjR
- 1i6VlToiSj+O+ybo=
-X-Received: by 2002:a5d:6a09:: with SMTP id m9mr9229745wru.12.1569239281539;
- Mon, 23 Sep 2019 04:48:01 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxkTAZfDYhqT+1sefLRpdnF369n4VcfRg2xo375gJSGvjt/9z96AMYCDABg8jimfXDqj+mW0w==
-X-Received: by 2002:a5d:6a09:: with SMTP id m9mr9229727wru.12.1569239281239;
- Mon, 23 Sep 2019 04:48:01 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
- ([2001:b07:6468:f312:9520:22e6:6416:5c36])
- by smtp.gmail.com with ESMTPSA id t6sm16858164wmf.8.2019.09.23.04.48.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Sep 2019 04:48:00 -0700 (PDT)
-Subject: Re: Migration failure when running nested VMs
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jintack Lim <incredible.tack@gmail.com>
-References: <CAHyh4xhYrUbK0aEJmKp3_kOJG2E+AQLMUjyf7_pXVJgbqgv5JA@mail.gmail.com>
- <20190923104245.GA2866@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <6fa1b7a6-52c8-fc98-c532-f2c0484d04b0@redhat.com>
-Date: Mon, 23 Sep 2019 13:48:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 495D61DDA;
+ Mon, 23 Sep 2019 11:49:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F6C4196AE;
+ Mon, 23 Sep 2019 11:49:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0B22A113864E; Mon, 23 Sep 2019 13:49:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v3 00/16] qapi: Schema language cleanups &
+ doc improvements
+References: <20190913201349.24332-1-armbru@redhat.com>
+ <32fcbd17-4500-0984-dec6-01598a02c541@redhat.com>
+Date: Mon, 23 Sep 2019 13:49:00 +0200
+In-Reply-To: <32fcbd17-4500-0984-dec6-01598a02c541@redhat.com> (Eric Blake's
+ message of "Tue, 17 Sep 2019 11:31:08 -0500")
+Message-ID: <87wodznsgj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20190923104245.GA2866@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Mon, 23 Sep 2019 11:49:04 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,20 +61,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Devel Mailing List <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@redhat.com, Peter Krempa <pkrempa@redhat.com>,
+ qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/09/19 12:42, Dr. David Alan Gilbert wrote:
-> 
-> With those two clues, I guess maybe some dirty pages made by L2 are
-> not transferred to the destination correctly, but I'm not really sure.
-> 
-> 3) It happens on Intel(R) Xeon(R) Silver 4114 CPU, but it does not on
-> Intel(R) Xeon(R) CPU E5-2630 v3 CPU.
+Eric Blake <eblake@redhat.com> writes:
 
-Hmm, try disabling pml (kvm_intel.pml=0).  This would be the main
-difference, memory-management wise, between those two machines.
+> On 9/13/19 3:13 PM, Markus Armbruster wrote:
+>> v3:
+>> * PATCH 05
+>>   - Typo fixed [Eric]
+>> * PATCH 06+07
+>>   - Additional comments [Eric]
+>> * PATCH 11
+>>   - Replace one more QAPISchemaMember by QAPISchemaEnumMember
+>> * PATCH 13+15
+>>   - Doc phrasing tweaks [Eric]
+>> * PATCH 14+15
+>>   - Belatedly update for v2's restriction to printable ASCII [Eric]
+>>   - Correct claim "order of top-level expression doesn't matter" [Eric]
+>> * PATCH 15
+>>   - Fix EBNF for PRAGMA [Eric]
+>
+> Peter Krempa's proposal to add features to commands (for introspecting
+> Kevin's recent savevm fix) slightly conflicts with this.
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03586.html
 
-Paolo
+I'm pretty sure it'll conflict plenty more with the
+not-yet-posted-to-avoid-scaring-off-reviewers part of my work.  We'll
+work it out :)
 
