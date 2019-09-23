@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83275BB0EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 11:07:22 +0200 (CEST)
-Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEC8BB105
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 11:09:14 +0200 (CEST)
+Received: from localhost ([::1]:53986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCKJV-0004ZC-D1
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 05:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
+	id 1iCKLJ-0006MG-6T
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 05:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCK3X-0000dU-5M
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:50:52 -0400
+ (envelope-from <david@redhat.com>) id 1iCK6j-0003a5-LK
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:54:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCK3V-0000xq-Pi
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:50:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51140)
+ (envelope-from <david@redhat.com>) id 1iCK6e-0001b3-NN
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:54:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45680)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCK3V-0000xj-GL
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:50:49 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCK55-0001Cp-ED
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:54:03 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C43C03175295;
- Mon, 23 Sep 2019 08:50:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C2ECB8A1C91;
+ Mon, 23 Sep 2019 08:52:26 +0000 (UTC)
 Received: from [10.36.116.207] (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95A411001B08;
- Mon, 23 Sep 2019 08:50:44 +0000 (UTC)
-Subject: Re: [PATCH v3 17/20] cputlb: Remove cpu->mem_io_vaddr
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9616960BF7;
+ Mon, 23 Sep 2019 08:52:22 +0000 (UTC)
+Subject: Re: [PATCH v3 18/20] cputlb: Remove tb_invalidate_phys_page_range
+ is_cpu_write_access
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190922035458.14879-1-richard.henderson@linaro.org>
- <20190922035458.14879-18-richard.henderson@linaro.org>
+ <20190922035458.14879-19-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,18 +80,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <6f60ce26-3019-ca7d-27f0-4073409e1bd1@redhat.com>
-Date: Mon, 23 Sep 2019 10:50:44 +0200
+Message-ID: <4926b925-7019-3146-c9c7-a7fe18b8c378@redhat.com>
+Date: Mon, 23 Sep 2019 10:52:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190922035458.14879-18-richard.henderson@linaro.org>
+In-Reply-To: <20190922035458.14879-19-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 23 Sep 2019 08:50:48 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Mon, 23 Sep 2019 08:52:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,69 +110,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22.09.19 05:54, Richard Henderson wrote:
-> With the merge of notdirty handling into store_helper,
-> the last user of cpu->mem_io_vaddr was removed.
+> All callers pass false to this argument.  Remove it and pass the
+> constant on to tb_invalidate_phys_page_range__locked.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/hw/core/cpu.h | 2 --
->  accel/tcg/cputlb.c    | 2 --
->  hw/core/cpu.c         | 1 -
->  3 files changed, 5 deletions(-)
+>  accel/tcg/translate-all.h | 3 +--
+>  accel/tcg/translate-all.c | 6 ++----
+>  exec.c                    | 4 ++--
+>  3 files changed, 5 insertions(+), 8 deletions(-)
 > 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index c7cda65c66..031f587e51 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -338,7 +338,6 @@ struct qemu_work_item;
->   * @next_cpu: Next CPU sharing TB cache.
->   * @opaque: User data.
->   * @mem_io_pc: Host Program Counter at which the memory was accessed.
-> - * @mem_io_vaddr: Target virtual address at which the memory was accessed.
->   * @kvm_fd: vCPU file descriptor for KVM.
->   * @work_mutex: Lock to prevent multiple access to queued_work_*.
->   * @queued_work_first: First asynchronous work pending.
-> @@ -413,7 +412,6 @@ struct CPUState {
->       * we store some rarely used information in the CPU context.
->       */
->      uintptr_t mem_io_pc;
-> -    vaddr mem_io_vaddr;
->      /*
->       * This is only needed for the legacy cpu_unassigned_access() hook;
->       * when all targets using it have been converted to use
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index 6f4096bd0d..257c59c08c 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -927,7 +927,6 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
->          cpu_io_recompile(cpu, retaddr);
+> diff --git a/accel/tcg/translate-all.h b/accel/tcg/translate-all.h
+> index 64f5fd9a05..31f2117188 100644
+> --- a/accel/tcg/translate-all.h
+> +++ b/accel/tcg/translate-all.h
+> @@ -28,8 +28,7 @@ struct page_collection *page_collection_lock(tb_page_addr_t start,
+>  void page_collection_unlock(struct page_collection *set);
+>  void tb_invalidate_phys_page_fast(struct page_collection *pages,
+>                                    tb_page_addr_t start, int len);
+> -void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end,
+> -                                   int is_cpu_write_access);
+> +void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
+>  void tb_check_watchpoint(CPUState *cpu);
+>  
+>  #ifdef CONFIG_USER_ONLY
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index 5d1e08b169..de4b697163 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1983,8 +1983,7 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
+>   *
+>   * Called with mmap_lock held for user-mode emulation
+>   */
+> -void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end,
+> -                                   int is_cpu_write_access)
+> +void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end)
+>  {
+>      struct page_collection *pages;
+>      PageDesc *p;
+> @@ -1996,8 +1995,7 @@ void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end,
+>          return;
 >      }
->  
-> -    cpu->mem_io_vaddr = addr;
->      cpu->mem_io_access_type = access_type;
->  
->      if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-> @@ -967,7 +966,6 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
->      if (!cpu->can_do_io) {
->          cpu_io_recompile(cpu, retaddr);
->      }
-> -    cpu->mem_io_vaddr = addr;
->      cpu->mem_io_pc = retaddr;
->  
->      if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-> index 0035845511..73b1ee34d0 100644
-> --- a/hw/core/cpu.c
-> +++ b/hw/core/cpu.c
-> @@ -261,7 +261,6 @@ static void cpu_common_reset(CPUState *cpu)
->      cpu->interrupt_request = 0;
->      cpu->halted = 0;
->      cpu->mem_io_pc = 0;
-> -    cpu->mem_io_vaddr = 0;
->      cpu->icount_extra = 0;
->      atomic_set(&cpu->icount_decr_ptr->u32, 0);
->      cpu->can_do_io = 1;
-> 
+>      pages = page_collection_lock(start, end);
+> -    tb_invalidate_phys_page_range__locked(pages, p, start, end,
+> -                                          is_cpu_write_access);
+> +    tb_invalidate_phys_page_range__locked(pages, p, start, end, 0);
+
+I'd prefer "false" to highlight the semantics, but as it's and int ...
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
