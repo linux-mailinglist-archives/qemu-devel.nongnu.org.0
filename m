@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF3BBBD7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 23:00:11 +0200 (CEST)
-Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D079BBD63
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 22:56:47 +0200 (CEST)
+Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCVRK-0001zU-05
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 17:00:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51393)
+	id 1iCVO1-0007KJ-GZ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 16:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCTDL-0003lz-AX
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:37:37 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCTKZ-0007Ub-Hr
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:45:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCTDJ-0003Lf-W7
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:37:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:10785)
+ (envelope-from <eblake@redhat.com>) id 1iCTKY-0006ZH-AB
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:45:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54236)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iCTDF-0003KR-77; Mon, 23 Sep 2019 14:37:29 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iCTKT-0006WP-Ia; Mon, 23 Sep 2019 14:44:57 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5833310DCC84;
- Mon, 23 Sep 2019 18:37:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 90020308624A;
+ Mon, 23 Sep 2019 18:44:56 +0000 (UTC)
 Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9317460C5E;
- Mon, 23 Sep 2019 18:35:52 +0000 (UTC)
-Subject: Re: [RFC v2 3/9] errp: rename errp to errp_in where it is IN-argument
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D7E81001B05;
+ Mon, 23 Sep 2019 18:44:29 +0000 (UTC)
+Subject: Re: [RFC v2 5/9] net/net: fix local variable shadowing in
+ net_client_init
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
- <20190923161231.22028-4-vsementsov@virtuozzo.com>
+ <20190923161231.22028-6-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -60,18 +61,18 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <8ad05d4f-e7e6-d7b5-dce4-c4d24ac81e0e@redhat.com>
-Date: Mon, 23 Sep 2019 13:35:51 -0500
+Message-ID: <ce58d998-cc75-9eae-1bab-7e1c7c3737d1@redhat.com>
+Date: Mon, 23 Sep 2019 13:44:28 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190923161231.22028-4-vsementsov@virtuozzo.com>
+In-Reply-To: <20190923161231.22028-6-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Mon, 23 Sep 2019 18:37:28 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Mon, 23 Sep 2019 18:44:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Mailman-Approved-At: Mon, 23 Sep 2019 16:51:49 -0400
@@ -121,25 +122,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/23/19 11:12 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Error **errp is almost always OUT-argument: it's assumed to be NULL, or
-> pointer to NULL-initialized pointer, or pointer to error_abort or
-> error_fatal, for callee to report error.
-> 
-> But very few functions (most of the are error API) instead get Error
-> **errp as IN-argument: it's assumed to be set, and callee should clean
-> it. In such cases, rename errp to errp_in.
+> Don't shadow Error *err: it's a bad thing. This patch also simplifies
+> following Error propagation conversion.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  include/monitor/hmp.h |  2 +-
->  include/qapi/error.h  |  8 ++++----
->  ui/vnc.h              |  2 +-
->  monitor/hmp-cmds.c    |  8 ++++----
->  ui/vnc.c              | 10 +++++-----
->  util/error.c          |  2 +-
->  6 files changed, 16 insertions(+), 16 deletions(-)
+>  net/net.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-This is worthwhile, regardless of the fate of the rest of the series.
+Can be applied independently of the rest of this series.
+
+> 
+> diff --git a/net/net.c b/net/net.c
+> index 84aa6d8d00..5fc72511c1 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -1128,10 +1128,10 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+>  
+>              if (substrings[1]) {
+>                  /* User-specified prefix length.  */
+> -                int err;
+> +                int ret2;
+>  
+> -                err = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
+> -                if (err) {
+> +                ret2 = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
+> +                if (ret2) {
+
+In fact, you don't need ret2; you could just:
+
+if (qemu_strtoul(...)) {
+
+at which point you could then join:
+
+if (substrings[1] &&
+    qemus_strtoul(...)) {
+
+>                      error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+>                                 "ipv6-prefixlen", "a number");
+>                      goto out;
+> 
+
+Either way,
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
