@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4D8BB9CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:41:50 +0200 (CEST)
-Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABFDBB9E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:48:50 +0200 (CEST)
+Received: from localhost ([::1]:59680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRPJ-00063T-EO
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60323)
+	id 1iCRW5-0003Zf-AC
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33904)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCRBm-0004kg-TD
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:27:51 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCRM2-0004pv-To
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:38:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCRBj-00062n-Jf
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:27:49 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40628)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCRM1-0003Yh-RQ
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:38:26 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35421)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCRBg-0005yY-Gb
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:27:44 -0400
-Received: by mail-pg1-x541.google.com with SMTP id w10so8274597pgj.7
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 09:27:41 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iCRM1-0003YD-Ka
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:38:25 -0400
+Received: by mail-wm1-x342.google.com with SMTP id y21so10034077wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 09:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rO0g7EOh0tvBPdiYHt6dI9Z8ycD2hhFeMn5mbp6DCbA=;
- b=LTOGWcDcnNoswoe5TgZIZOf5cP++4irgGg4OBpcnUYZ0gObyhkSLewJJHYPmSpzKjh
- ppgHwYEpf/lIlf9mj9FvB0MhSUlbxKJbU71iLjIy4UF0UMGLVbT/A0lsQk3YnI6NgMp8
- dXmoVyTQ97rmdm9PwSyIfoBJz0z58N0enD/rQx6JATDrnyewD8ckQ6eol3UFciXj2Ml/
- MT6v41zOVGmPsP54dcTGiduNSBc1FH9QVD2Pm3qJqN/qqMcOITx2hhGGuoQZiGneqDA9
- TqrWsskr0WmJnE0jbvp/9Vd526MXi6jRCujEnHuRJPq4vR7w5rYOct5qKDVVP+K2dUjQ
- 9b4A==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4iYBPV5kH0RT9QR+mMvnp41T8jOC200THIzrjz1eWk8=;
+ b=KK1FCyd3dVf+fUJOQsM7JXLKg5D4J+BRjeEWr+P6X2W3qSQ4P+n8ZtTEoaWT4n9abT
+ WcyfBvcvCPuJetgfLFaL+BL17A4QhlhEv75R/iVwlxkxKFy/SvDMLJkFW76F/NwCqn0K
+ HFOJVUCVHxfuzv7wbQNjl6y5XWOh1e7d03Ous//XTpdNYks7cFNVIrP5kgy46cFWydu3
+ LiTztHMRCSIdHWx9tt7dt8i9BBkmXA0PMJKa9Cks3c7ERX1iM53s9QzGoeP8S5epzI0p
+ IRHyqQ7Q4895GfAmOxKQyFSzIZ5rA/K3VTP8iQNSbLp+3WRc5aBPPZ+X0hGcIDWMXf1G
+ AWIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rO0g7EOh0tvBPdiYHt6dI9Z8ycD2hhFeMn5mbp6DCbA=;
- b=IiCRp52fojfFkH+LT+wi9tvIQaKR7KswMAR/c9NgDfhDTg+ML+Z/8ab55hZBOQWsbW
- I3T0mTyBiW1GT7fv8wqArxxGLhO7WWbTVsLpbSh13Ezk9pk2oxoMo0YpS/vW3iP4wxaw
- vwcC4PoKF7K5qM2L0iyjecGH78eyc5OseRDC9dOCRKo3Ow+I0GcebjyRuxd6/3SZCubZ
- dVBsz2smHXmYw1lxfE4lXLS+vv48opE4d0ihqZaOWkHuay6tY8v3tL26Yg7RVB7Y0fpV
- GTzOSGPysOsz4xtUc4tiv7zLJhEV3rJpj8lytZ5oUe4mwbRsCaYWUp2qQksxrDd3wyRY
- +Trg==
-X-Gm-Message-State: APjAAAUL/D6XpGWyzM/rQE5HF3SjbycH97G8Rpm7p1KX0MkfqlJ0doUv
- F+1wQsJiegoESulszpZebwuvtw==
-X-Google-Smtp-Source: APXvYqwXcpOHeFuD92veW7nwg1FYnMNcVwgqw9574LI9s0XkZwzFQe0n9EhHk9D+G6iPR1hZHIVEFA==
-X-Received: by 2002:a63:7016:: with SMTP id l22mr708751pgc.443.1569256060331; 
- Mon, 23 Sep 2019 09:27:40 -0700 (PDT)
-Received: from [172.20.32.216] ([12.157.10.118])
- by smtp.gmail.com with ESMTPSA id l24sm9719432pff.151.2019.09.23.09.27.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 23 Sep 2019 09:27:39 -0700 (PDT)
-Subject: Re: [PATCH v3 02/20] exec: Split out variable page size support to
- exec-vary.c
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190922035458.14879-1-richard.henderson@linaro.org>
- <20190922035458.14879-3-richard.henderson@linaro.org>
- <b0ac3ea7-3aa1-60b5-127a-6476003adaca@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <a072a488-07d1-2981-4f52-20121f12690f@linaro.org>
-Date: Mon, 23 Sep 2019 09:27:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4iYBPV5kH0RT9QR+mMvnp41T8jOC200THIzrjz1eWk8=;
+ b=VUCEMj0DE2nUYoz6aWBvNefzx+2TvUZhd+EUar8SXg9BL7L4N8+9197KbJ993tlTxM
+ kEUKF2G3g4BKhpbrWUuMCM5xUVwzDl5Tyq1/ycML8n10xGTww2PBbblLlvLud1WDZqsB
+ iP+mZNaP/wa5ATuYVveKTOW+X9bCCJlrfYSO2kBbUp7IVENT30hWOZmWDLtSD3k//wuj
+ LabShOj9wgm6t4Gy+sum7md0DFY+vIiWv23QevP19ibzOq4le8u8vrLPSN7hDPHMr9hT
+ cR58UwLL9EBmESO3nP2QMycqsSbKU+ROx7yrNVr8W2Nl0GF6E9wu8Pk5bhQ3kyeT6eWj
+ yNmQ==
+X-Gm-Message-State: APjAAAWFuEwb3q6xq8tbDcPmrZbtl+Rtjxd8I3ejxmPR4XEOLijoKFzz
+ 5JARBqI+5+ualyFeRsO6o+l0rA==
+X-Google-Smtp-Source: APXvYqzIkNiG3tu4UztzIK8h9j5VL79Jq02FQjcfOskuw6qK+gAba1v7qy8Xe/p1D0Iw878yJs9wNg==
+X-Received: by 2002:a1c:3281:: with SMTP id y123mr415360wmy.34.1569256704152; 
+ Mon, 23 Sep 2019 09:38:24 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w125sm24779300wmg.32.2019.09.23.09.38.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2019 09:38:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C767B1FF87;
+ Mon, 23 Sep 2019 17:38:22 +0100 (BST)
+References: <20190921043256.4575-1-richard.henderson@linaro.org>
+ <20190921043256.4575-6-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 5/7] target/alpha: Write to fpcr_flush_to_zero once
+In-reply-to: <20190921043256.4575-6-richard.henderson@linaro.org>
+Date: Mon, 23 Sep 2019 17:38:22 +0100
+Message-ID: <87o8zbary9.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <b0ac3ea7-3aa1-60b5-127a-6476003adaca@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,26 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/19 1:26 AM, David Hildenbrand wrote:
->> +void finalize_target_page_bits(void)
->> +{
->> +#ifdef TARGET_PAGE_BITS_VARY
->> +    if (target_page_bits == 0) {
->> +        target_page_bits = TARGET_PAGE_BITS_MIN;
->> +    }
->> +    target_page_bits_decided = true;
->> +#endif
->> +}
-> I wonder if it would be nicer to handle this in the header file instead,
-> providing dummy functions there.
 
-No can do, because set_preferred_target_page_bits is used by vl.c, which is
-compiled once and so does not have access to cpu.h definitions.
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Tidy the computation of the value; no functional change.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  target/alpha/helper.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+> index 2f959c65ef..1b3479738b 100644
+> --- a/target/alpha/helper.c
+> +++ b/target/alpha/helper.c
+> @@ -69,14 +69,13 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_=
+t val)
+>      env->fpcr_exc_enable =3D ~t & FPCR_STATUS_MASK;
+>
+>      env->fpcr_dyn_round =3D rm_map[(fpcr & FPCR_DYN_MASK) >> FPCR_DYN_SH=
+IFT];
+> -
+> -    env->fpcr_flush_to_zero =3D (fpcr & FPCR_UNFD) && (fpcr & FPCR_UNDZ);
+>      env->fp_status.flush_inputs_to_zero =3D (fpcr & FPCR_DNZ) !=3D 0;
+> +
+> +    t =3D (fpcr & FPCR_UNFD) && (fpcr & FPCR_UNDZ);
+>  #ifdef CONFIG_USER_ONLY
+> -    if (env->swcr & SWCR_MAP_UMZ) {
+> -        env->fpcr_flush_to_zero =3D 1;
+> -    }
+> +    t |=3D (env->swcr & SWCR_MAP_UMZ) !=3D 0;
+>  #endif
+> +    env->fpcr_flush_to_zero =3D t;
+>  }
+>
+>  uint64_t helper_load_fpcr(CPUAlphaState *env)
 
 
-r~
+--
+Alex Benn=C3=A9e
 
