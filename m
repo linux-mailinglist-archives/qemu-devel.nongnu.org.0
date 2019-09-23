@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC549BB9AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:36:21 +0200 (CEST)
-Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CAF7BB99B
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:31:30 +0200 (CEST)
+Received: from localhost ([::1]:59376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRK0-0001Io-4m
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:36:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57127)
+	id 1iCRFH-0005qL-V2
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxP-0002Rv-Ou
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:13:01 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxO-0002QO-JL
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:13:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxN-0003l1-Tt
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:59 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39502)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxM-0003iB-Ig
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:57 -0400
+Received: from relay.sw.ru ([185.231.240.75]:39528)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQxN-0003a9-HI; Mon, 23 Sep 2019 12:12:57 -0400
+ id 1iCQxM-0003aD-9p; Mon, 23 Sep 2019 12:12:56 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQx0-0001Fp-4Q; Mon, 23 Sep 2019 19:12:34 +0300
+ id 1iCQx0-0001Fp-Dl; Mon, 23 Sep 2019 19:12:34 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 5/9] net/net: fix local variable shadowing in net_client_init
-Date: Mon, 23 Sep 2019 19:12:27 +0300
-Message-Id: <20190923161231.22028-6-vsementsov@virtuozzo.com>
+Subject: [RFC v2 6/9] scripts: add coccinelle script to use auto propagated
+ errp
+Date: Mon, 23 Sep 2019 19:12:28 +0300
+Message-Id: <20190923161231.22028-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190923161231.22028-1-vsementsov@virtuozzo.com>
 References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
@@ -82,32 +83,100 @@ Cc: stefanha@redhat.com, codyprime@gmail.com, jan.kiszka@siemens.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't shadow Error *err: it's a bad thing. This patch also simplifies
-following Error propagation conversion.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- net/net.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/coccinelle/auto-propagated-errp.cocci | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
 
-diff --git a/net/net.c b/net/net.c
-index 84aa6d8d00..5fc72511c1 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1128,10 +1128,10 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
- 
-             if (substrings[1]) {
-                 /* User-specified prefix length.  */
--                int err;
-+                int ret2;
- 
--                err = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
--                if (err) {
-+                ret2 = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
-+                if (ret2) {
-                     error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                                "ipv6-prefixlen", "a number");
-                     goto out;
+diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/scripts/coccinelle/auto-propagated-errp.cocci
+new file mode 100644
+index 0000000000..1a3f006f0b
+--- /dev/null
++++ b/scripts/coccinelle/auto-propagated-errp.cocci
+@@ -0,0 +1,82 @@
++@@
++identifier fn;
++identifier local_err;
++@@
++
++ fn(..., Error **errp)
++ {
+++    ERRP_FUNCTION_BEGIN();
++ }
++
++@rule1@
++identifier fn;
++identifier local_err;
++@@
++
++ fn(..., Error **errp)
++ {
++     <...
++-    Error *local_err = NULL;
++     ...>
++ }
++
++@@
++identifier rule1.fn;
++identifier rule1.local_err;
++identifier out;
++@@
++
++ fn(...)
++ {
++     <...
++-    goto out;
+++    return;
++     ...>
++- out:
++-    error_propagate(errp, local_err);
++ }
++
++@@
++identifier rule1.fn;
++identifier rule1.local_err;
++@@
++
++ fn(...)
++ {
++     <...
++(
++-    error_free(local_err);
++-    local_err = NULL;
+++    error_free_errp(errp);
++|
++-    error_free(local_err);
+++    error_free_errp(errp);
++|
++-    error_report_err(local_err);
+++    error_report_errp(errp);
++|
++-    warn_report_err(local_err);
+++    warn_report_errp(errp);
++|
++-    error_propagate(errp, local_err);
++)
++     ...>
++ }
++
++@@
++identifier rule1.fn;
++identifier rule1.local_err;
++@@
++
++ fn(...)
++ {
++     <...
++(
++-    &local_err
+++    errp
++|
++-    local_err
+++    *errp
++)
++     ...>
++ }
 -- 
 2.21.0
 
