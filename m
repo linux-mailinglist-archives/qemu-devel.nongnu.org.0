@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEDEBB011
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:56:52 +0200 (CEST)
-Received: from localhost ([::1]:53880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA5BBB033
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 11:03:07 +0200 (CEST)
+Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCK9L-00050V-Hq
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50480)
+	id 1iCKFO-0000Qp-FP
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 05:03:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCK7A-0003wW-54
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:54:37 -0400
+ (envelope-from <david@redhat.com>) id 1iCJlN-0008Nr-JG
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:32:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCK78-0001oh-1O
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:54:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35447)
+ (envelope-from <david@redhat.com>) id 1iCJlM-00008T-EN
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:32:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45936)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCK77-0001oU-Pe
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:54:33 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCJlM-00008D-6P
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:32:04 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 104A318C427C;
- Mon, 23 Sep 2019 08:54:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7A55318CB8E1;
+ Mon, 23 Sep 2019 08:32:03 +0000 (UTC)
 Received: from [10.36.116.207] (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D2B760C80;
- Mon, 23 Sep 2019 08:54:26 +0000 (UTC)
-Subject: Re: [PATCH v3 20/20] cputlb: Pass retaddr to tb_check_watchpoint
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 488D761F21;
+ Mon, 23 Sep 2019 08:31:59 +0000 (UTC)
+Subject: Re: [PATCH v3 07/20] exec: Cache TARGET_PAGE_MASK for
+ TARGET_PAGE_BITS_VARY
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190922035458.14879-1-richard.henderson@linaro.org>
- <20190922035458.14879-21-richard.henderson@linaro.org>
+ <20190922035458.14879-8-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,18 +80,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <b90e8f58-f55b-c9ed-f005-c803e9ff1bd6@redhat.com>
-Date: Mon, 23 Sep 2019 10:54:25 +0200
+Message-ID: <47d1d688-f89f-3c89-07a5-7d4a9816bf96@redhat.com>
+Date: Mon, 23 Sep 2019 10:31:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190922035458.14879-21-richard.henderson@linaro.org>
+In-Reply-To: <20190922035458.14879-8-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Mon, 23 Sep 2019 08:54:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.63]); Mon, 23 Sep 2019 08:32:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,71 +110,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22.09.19 05:54, Richard Henderson wrote:
-> Fixes the previous TLB_WATCHPOINT patches because we are currently
-> failing to set cpu->mem_io_pc with the call to cpu_check_watchpoint.
-> Pass down the retaddr directly because it's readily available.
+> This eliminates a set of runtime shifts.  It turns out that we
+> require TARGET_PAGE_MASK more often than TARGET_PAGE_SIZE, so
+> redefine TARGET_PAGE_SIZE based on TARGET_PAGE_MASK instead of
+> the other way around.
 > 
-> Fixes: 50b107c5d61
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  accel/tcg/translate-all.h | 2 +-
->  accel/tcg/translate-all.c | 6 +++---
->  exec.c                    | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
+>  include/exec/cpu-all.h | 8 ++++++--
+>  exec-vary.c            | 1 +
+>  2 files changed, 7 insertions(+), 2 deletions(-)
 > 
-> diff --git a/accel/tcg/translate-all.h b/accel/tcg/translate-all.h
-> index 135c1ea96a..a557b4e2bb 100644
-> --- a/accel/tcg/translate-all.h
-> +++ b/accel/tcg/translate-all.h
-> @@ -30,7 +30,7 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
->                                    tb_page_addr_t start, int len,
->                                    uintptr_t retaddr);
->  void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
-> -void tb_check_watchpoint(CPUState *cpu);
-> +void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr);
->  
->  #ifdef CONFIG_USER_ONLY
->  int page_unprotect(target_ulong address, uintptr_t pc);
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index db77fb221b..66d4bc4341 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -2142,16 +2142,16 @@ static bool tb_invalidate_phys_page(tb_page_addr_t addr, uintptr_t pc)
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index 5246770271..2db73c7a27 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -213,19 +213,23 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
+>  typedef struct {
+>      bool decided;
+>      int bits;
+> +    target_long mask;
+>  } TargetPageBits;
+>  extern const TargetPageBits target_page;
+>  # ifdef CONFIG_DEBUG_TCG
+>  #  define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
+> +#  define TARGET_PAGE_MASK (assert(target_page.decided), target_page.mask)
+>  # else
+>  #  define TARGET_PAGE_BITS target_page.bits
+> +#  define TARGET_PAGE_MASK target_page.mask
+>  # endif
+> +# define TARGET_PAGE_SIZE  ((int)-TARGET_PAGE_MASK)
+>  #else
+>  #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
+> +#define TARGET_PAGE_SIZE   (1 << TARGET_PAGE_BITS)
+> +#define TARGET_PAGE_MASK   ((target_long)-1 << TARGET_PAGE_BITS)
 >  #endif
 >  
->  /* user-mode: call with mmap_lock held */
-> -void tb_check_watchpoint(CPUState *cpu)
-> +void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
->  {
->      TranslationBlock *tb;
+> -#define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
+> -#define TARGET_PAGE_MASK ((target_long)-1 << TARGET_PAGE_BITS)
+>  #define TARGET_PAGE_ALIGN(addr) \
+>      (((addr) + ~TARGET_PAGE_MASK) & TARGET_PAGE_MASK)
 >  
->      assert_memory_lock();
->  
-> -    tb = tcg_tb_lookup(cpu->mem_io_pc);
-> +    tb = tcg_tb_lookup(retaddr);
->      if (tb) {
->          /* We can use retranslation to find the PC.  */
-> -        cpu_restore_state_from_tb(cpu, tb, cpu->mem_io_pc, true);
-> +        cpu_restore_state_from_tb(cpu, tb, retaddr, true);
->          tb_phys_invalidate(tb, -1);
->      } else {
->          /* The exception probably happened in a helper.  The CPU state should
-> diff --git a/exec.c b/exec.c
-> index fed25d029b..ceeef4cd4b 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -2724,7 +2724,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
->                  cpu->watchpoint_hit = wp;
->  
->                  mmap_lock();
-> -                tb_check_watchpoint(cpu);
-> +                tb_check_watchpoint(cpu, ra);
->                  if (wp->flags & BP_STOP_BEFORE_ACCESS) {
->                      cpu->exception_index = EXCP_DEBUG;
->                      mmap_unlock();
+> diff --git a/exec-vary.c b/exec-vary.c
+> index 67cdf57a9c..26daf281f2 100644
+> --- a/exec-vary.c
+> +++ b/exec-vary.c
+> @@ -83,5 +83,6 @@ void finalize_target_page_bits(void)
+>          init_target_page.bits = TARGET_PAGE_BITS_MIN;
+>      }
+>      init_target_page.decided = true;
+> +    init_target_page.mask = (target_long)-1 << init_target_page.bits;
+>  #endif
+>  }
 > 
-
-Finally, a lot of this stuff gets cleaned up :)
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
