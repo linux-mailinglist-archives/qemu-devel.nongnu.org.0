@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33559BB9A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:31:58 +0200 (CEST)
-Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC549BB9AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:36:21 +0200 (CEST)
+Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRFk-0006Is-8v
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:31:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57094)
+	id 1iCRK0-0001Io-4m
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxO-0002QV-Gi
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:59 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxP-0002Rv-Ou
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:13:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxM-0003ix-QC
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:58 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39492)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxN-0003l1-Tt
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:59 -0400
+Received: from relay.sw.ru ([185.231.240.75]:39502)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQxM-0003a5-F2; Mon, 23 Sep 2019 12:12:56 -0400
+ id 1iCQxN-0003a9-HI; Mon, 23 Sep 2019 12:12:57 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQwz-0001Fp-Os; Mon, 23 Sep 2019 19:12:33 +0300
+ id 1iCQx0-0001Fp-4Q; Mon, 23 Sep 2019 19:12:34 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 4/9] hw/core/loader-fit: fix freeing errp in fit_load_fdt
-Date: Mon, 23 Sep 2019 19:12:26 +0300
-Message-Id: <20190923161231.22028-5-vsementsov@virtuozzo.com>
+Subject: [RFC v2 5/9] net/net: fix local variable shadowing in net_client_init
+Date: Mon, 23 Sep 2019 19:12:27 +0300
+Message-Id: <20190923161231.22028-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190923161231.22028-1-vsementsov@virtuozzo.com>
 References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
@@ -82,26 +82,32 @@ Cc: stefanha@redhat.com, codyprime@gmail.com, jan.kiszka@siemens.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fit_load_fdt forget to zero errp. Fix it.
+Don't shadow Error *err: it's a bad thing. This patch also simplifies
+following Error propagation conversion.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/core/loader-fit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/net.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
-index 953b16bc82..fe5bcc6700 100644
---- a/hw/core/loader-fit.c
-+++ b/hw/core/loader-fit.c
-@@ -200,7 +200,7 @@ static int fit_load_fdt(const struct fit_loader *ldr, const void *itb,
-     err = fit_image_addr(itb, img_off, "load", &load_addr, errp);
-     if (err == -ENOENT) {
-         load_addr = ROUND_UP(kernel_end, 64 * KiB) + (10 * MiB);
--        error_free(*errp);
-+        error_free_errp(errp);
-     } else if (err) {
-         error_prepend(errp, "unable to read FDT load address from FIT: ");
-         ret = err;
+diff --git a/net/net.c b/net/net.c
+index 84aa6d8d00..5fc72511c1 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1128,10 +1128,10 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+ 
+             if (substrings[1]) {
+                 /* User-specified prefix length.  */
+-                int err;
++                int ret2;
+ 
+-                err = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
+-                if (err) {
++                ret2 = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
++                if (ret2) {
+                     error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                                "ipv6-prefixlen", "a number");
+                     goto out;
 -- 
 2.21.0
 
