@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E591BB39A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:23:01 +0200 (CEST)
-Received: from localhost ([::1]:55848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142F5BB3A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:26:52 +0200 (CEST)
+Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCNMp-0000sR-KC
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 08:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48174)
+	id 1iCNQY-00052i-QW
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 08:26:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48173)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1iCNIF-0006tj-S8
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:18:17 -0400
+ (envelope-from <anton.nefedov@virtuozzo.com>) id 1iCNIF-0006ti-Rj
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:18:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1iCNID-0001nB-A2
+ (envelope-from <anton.nefedov@virtuozzo.com>) id 1iCNID-0001nT-B8
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:18:15 -0400
-Received: from relay.sw.ru ([185.231.240.75]:59142)
+Received: from relay.sw.ru ([185.231.240.75]:59146)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1iCNI7-0001hn-KT; Mon, 23 Sep 2019 08:18:07 -0400
+ id 1iCNI7-0001hp-Km; Mon, 23 Sep 2019 08:18:08 -0400
 Received: from [172.16.25.154] (helo=xantnef-ws.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1iCNI4-0007xx-7U; Mon, 23 Sep 2019 15:18:04 +0300
+ id 1iCNI4-0007xx-MB; Mon, 23 Sep 2019 15:18:04 +0300
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v10 4/9] ide: account UNMAP (TRIM) operations
-Date: Mon, 23 Sep 2019 15:17:32 +0300
-Message-Id: <20190923121737.83281-5-anton.nefedov@virtuozzo.com>
+Subject: [PATCH v10 5/9] scsi: store unmap offset and nb_sectors in request
+ struct
+Date: Mon, 23 Sep 2019 15:17:33 +0300
+Message-Id: <20190923121737.83281-6-anton.nefedov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190923121737.83281-1-anton.nefedov@virtuozzo.com>
 References: <20190923121737.83281-1-anton.nefedov@virtuozzo.com>
@@ -52,46 +53,50 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- hw/ide/core.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+it allows to report it in the error handler
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index e6e54c6c9a..754ff4dc34 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -442,6 +442,14 @@ static void ide_issue_trim_cb(void *opaque, int ret)
-     TrimAIOCB *iocb = opaque;
-     IDEState *s = iocb->s;
+Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
+---
+ hw/scsi/scsi-disk.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 915641a0f1..b3dd21800d 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -1608,8 +1608,6 @@ static void scsi_unmap_complete_noio(UnmapCBData *data, int ret)
+ {
+     SCSIDiskReq *r = data->r;
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
+-    uint64_t sector_num;
+-    uint32_t nb_sectors;
  
-+    if (iocb->i >= 0) {
-+        if (ret >= 0) {
-+            block_acct_done(blk_get_stats(s->blk), &s->acct);
-+        } else {
-+            block_acct_failed(blk_get_stats(s->blk), &s->acct);
-+        }
-+    }
-+
-     if (ret >= 0) {
-         while (iocb->j < iocb->qiov->niov) {
-             int j = iocb->j;
-@@ -459,10 +467,14 @@ static void ide_issue_trim_cb(void *opaque, int ret)
-                 }
+     assert(r->req.aiocb == NULL);
+     if (scsi_disk_req_check_error(r, ret, false)) {
+@@ -1617,16 +1615,18 @@ static void scsi_unmap_complete_noio(UnmapCBData *data, int ret)
+     }
  
-                 if (!ide_sect_range_ok(s, sector, count)) {
-+                    block_acct_invalid(blk_get_stats(s->blk), BLOCK_ACCT_UNMAP);
-                     iocb->ret = -EINVAL;
-                     goto done;
-                 }
+     if (data->count > 0) {
+-        sector_num = ldq_be_p(&data->inbuf[0]);
+-        nb_sectors = ldl_be_p(&data->inbuf[8]) & 0xffffffffULL;
+-        if (!check_lba_range(s, sector_num, nb_sectors)) {
++        r->sector = ldq_be_p(&data->inbuf[0])
++            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
++        r->sector_count = (ldl_be_p(&data->inbuf[8]) & 0xffffffffULL)
++            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
++        if (!check_lba_range(s, r->sector, r->sector_count)) {
+             scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
+             goto done;
+         }
  
-+                block_acct_start(blk_get_stats(s->blk), &s->acct,
-+                                 count << BDRV_SECTOR_BITS, BLOCK_ACCT_UNMAP);
-+
-                 /* Got an entry! Submit and exit.  */
-                 iocb->aiocb = blk_aio_pdiscard(s->blk,
-                                                sector << BDRV_SECTOR_BITS,
+         r->req.aiocb = blk_aio_pdiscard(s->qdev.conf.blk,
+-                                        sector_num * s->qdev.blocksize,
+-                                        nb_sectors * s->qdev.blocksize,
++                                        r->sector * BDRV_SECTOR_SIZE,
++                                        r->sector_count * BDRV_SECTOR_SIZE,
+                                         scsi_unmap_complete, data);
+         data->count--;
+         data->inbuf += 16;
 -- 
 2.17.1
 
