@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606BABB51E
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:21:25 +0200 (CEST)
-Received: from localhost ([::1]:56456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572FFBB52F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:25:28 +0200 (CEST)
+Received: from localhost ([::1]:56510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCOHL-00008B-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56007)
+	id 1iCOLH-0002uQ-Dh
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCOE2-0007E0-2J
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:18:00 -0400
+ (envelope-from <peterx@redhat.com>) id 1iCOKC-0002MK-Fx
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:24:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCOE0-0001u3-Cu
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:17:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:31691)
+ (envelope-from <peterx@redhat.com>) id 1iCOKB-0007ip-IY
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:24:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49374)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCOE0-0001tR-7v
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:17:56 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iCOKB-0007iS-CV
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:24:19 -0400
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 48AA01895A41;
- Mon, 23 Sep 2019 13:17:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C19C660BFB;
- Mon, 23 Sep 2019 13:17:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4F13E113864E; Mon, 23 Sep 2019 15:17:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>
-Subject: Re: [Qemu-devel] [PATCH 3/3] audio: paaudio: ability to specify
- stream name
-References: <cover.1568157545.git.DirtY.iCE.hu@gmail.com>
- <2d6e337c474ac84172d0809e6959c26b21d48120.1568157545.git.DirtY.iCE.hu@gmail.com>
-Date: Mon, 23 Sep 2019 15:17:50 +0200
-In-Reply-To: <2d6e337c474ac84172d0809e6959c26b21d48120.1568157545.git.DirtY.iCE.hu@gmail.com>
- (=?utf-8?B?IkvFkXbDoWfDsywgWm9sdMOhbiIncw==?= message of "Wed, 11 Sep 2019
- 01:26:20 +0200")
-Message-ID: <87h853m9s1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5447B83F3D
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 13:24:18 +0000 (UTC)
+Received: by mail-pl1-f200.google.com with SMTP id d1so8563500plj.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 06:24:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=51Lvc+oZ4iF9OX/rYG0s6r+aSOXa7YFt6xtyTuSnSTA=;
+ b=P2Y7uQIL5ev2Tgmu5WdXpuBWzeCZRVnaChmxqfhW/cS23YjjJRs9mAuVgRgluA8OQq
+ LdNGVAfjKWPI2sJR9k/uAnhIPZnmygPbjBGkjgSFNNsGKBqOEJaB35PnBGz6hbtx86z0
+ 589KmXaTIGvGU2Dmbcbr9fF//c4LyxXgiIBXLbJymO5QxBC1UwWyYBAueDQYV6s8mJj/
+ MBkOqhTICrT7SHR7Sw/6PCbbAAabKoji1prHcfmiBVlFZtK0t6b4nawj4ZhFxOBBjK4I
+ GdNbQcLp/zeADsd+9n5LOQ/dVJNCoBu2A5MYSqvF3Rc/eM5AaaRnNDElzfgp7japVhVv
+ aUAA==
+X-Gm-Message-State: APjAAAVtrpMqt5G6+YcjlnapBUNzqfbU6jlCjbOp0aPbLb+8WeS515fZ
+ Wzg3ZZ6o6Z/SVSrQBH6+yEeQWs2TLPesOVIj/QojCdhlf5LIS0kwrY6j7MuMp9yPCnDLcNs86tB
+ OPDvFOhsLY3xbpAk=
+X-Received: by 2002:a63:364d:: with SMTP id d74mr9340803pga.416.1569245057771; 
+ Mon, 23 Sep 2019 06:24:17 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwn7R8ExqL6dOo9RfNbf8CbbqOVquGI7iXg6B+P5lt0xSf+BoNvzTVs9iL98Hj+Fq3p4eit6w==
+X-Received: by 2002:a63:364d:: with SMTP id d74mr9340769pga.416.1569245057394; 
+ Mon, 23 Sep 2019 06:24:17 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id h2sm18786911pfq.108.2019.09.23.06.24.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2019 06:24:16 -0700 (PDT)
+Date: Mon, 23 Sep 2019 21:24:07 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 0/2] migration test tweeks
+Message-ID: <20190923132407.GA28074@xz-x1>
+References: <20190923131022.15498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Mon, 23 Sep 2019 13:17:54 +0000 (UTC)
+Content-Disposition: inline
+In-Reply-To: <20190923131022.15498-1-dgilbert@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,71 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: thuth@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com> writes:
+On Mon, Sep 23, 2019 at 02:10:20PM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Alex noticed that some of the postcopy tests would occasionally
+> hang; this series adds some checks to make them more likely
+> to assert than hang in some failure cases, and changes
+> the migration bandwidth so that under load it's much more likely
+> to manage to land in postcopy.
+> 
+> Dr. David Alan Gilbert (2):
+>   tests/migration: Fail on unexpected migration states
+>   tests/migration/postcopy: trim migration bandwidth
 
-> This can be used to identify stream in tools like pavucontrol when one
-> creates multiple -audiodevs or runs multiple qemu instances.
->
-> Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com>
-> ---
->  audio/paaudio.c | 4 ++--
->  qapi/audio.json | 6 ++++++
->  2 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/audio/paaudio.c b/audio/paaudio.c
-> index 19b7e39092..d9cff9a2be 100644
-> --- a/audio/paaudio.c
-> +++ b/audio/paaudio.c
-> @@ -563,7 +563,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audset=
-tings *as,
->=20=20
->      pa->stream =3D qpa_simple_new (
->          c,
-> -        g->dev->id,
-> +        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
->          PA_STREAM_PLAYBACK,
->          ppdo->has_name ? ppdo->name : NULL,
->          &ss,
-> @@ -631,7 +631,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsetti=
-ngs *as, void *drv_opaque)
->=20=20
->      pa->stream =3D qpa_simple_new (
->          c,
-> -        g->dev->id,
-> +        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
->          PA_STREAM_RECORD,
->          ppdo->has_name ? ppdo->name : NULL,
->          &ss,
-> diff --git a/qapi/audio.json b/qapi/audio.json
-> index 9fefdf5186..e45218f081 100644
-> --- a/qapi/audio.json
-> +++ b/qapi/audio.json
-> @@ -206,6 +206,11 @@
->  #
->  # @name: name of the sink/source to use
->  #
-> +# @stream-name: name of the PulseAudio stream created by qemu.  Can be
-> +#               used to identify the stream in PulseAudio when you
-> +#               create multiple PulseAudio devices or run multiple qemu
-> +#               instances (default: audiodev's id, since 4.2)
-> +#
->  # @latency: latency you want PulseAudio to achieve in microseconds
->  #           (default 15000)
->  #
-> @@ -215,6 +220,7 @@
->    'base': 'AudiodevPerDirectionOptions',
->    'data': {
->      '*name': 'str',
-> +    '*stream-name': 'str',
->      '*latency': 'uint32' } }
->=20=20
->  ##
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-QAPI schema
-Acked-by: Markus Armbruster <armbru@redhat.com>
+I might be even more aggresive on patch 2 when turning down the
+bandwidth. :)
+
+Another thing I thought about on the hang issue is that maybe we can
+give a timeout for the waits and when the timeout triggers before a
+directly assert in the test case we send sigabrt to QEMU (just like
+what kill_qemu does) then we could have a chance to see the cores.
+Not sure whether that could help, though.
+
+Regards,
+
+-- 
+Peter Xu
 
