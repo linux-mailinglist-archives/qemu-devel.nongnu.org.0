@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CADFBAFD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:41:39 +0200 (CEST)
-Received: from localhost ([::1]:53718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F816BAFE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:48:01 +0200 (CEST)
+Received: from localhost ([::1]:53792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJuc-0000jp-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43010)
+	id 1iCK0m-000676-Fn
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCJOC-0002Pf-TQ
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:10 -0400
+ (envelope-from <david@redhat.com>) id 1iCJOV-0002oP-Jh
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCJOB-0004Fy-PT
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41898)
+ (envelope-from <david@redhat.com>) id 1iCJOU-0004TE-EX
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53742)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iCJOB-0004Fh-KU; Mon, 23 Sep 2019 04:08:07 -0400
+ id 1iCJOU-0004Ss-9M; Mon, 23 Sep 2019 04:08:26 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E89DB30860D3;
- Mon, 23 Sep 2019 08:08:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 911B310C092E;
+ Mon, 23 Sep 2019 08:08:25 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53BEE19C78;
- Mon, 23 Sep 2019 08:08:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E46D519C78;
+ Mon, 23 Sep 2019 08:08:23 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 19/30] s390x/tcg: MVC: Fault-safe handling on destructive
- overlaps
-Date: Mon, 23 Sep 2019 10:07:01 +0200
-Message-Id: <20190923080712.23951-20-david@redhat.com>
+Subject: [PULL 26/30] s390x/tcg: MVZ: Fault-safe handling
+Date: Mon, 23 Sep 2019 10:07:08 +0200
+Message-Id: <20190923080712.23951-27-david@redhat.com>
 In-Reply-To: <20190923080712.23951-1-david@redhat.com>
 References: <20190923080712.23951-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 23 Sep 2019 08:08:07 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Mon, 23 Sep 2019 08:08:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -63,31 +62,48 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The last remaining bit for MVC is handling destructive overlaps in a
-fault-safe way.
+We can process a maximum of 256 bytes, crossing two pages.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/s390x/mem_helper.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 04c4228f13..aed53a37da 100644
+index 7c981f7902..b781362e16 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -438,8 +438,9 @@ static uint32_t do_helper_mvc(CPUS390XState *env, uin=
-t32_t l, uint64_t dest,
-         access_memmove(env, &desta, &srca, ra);
-     } else {
-         for (i =3D 0; i < l; i++) {
--            uint8_t x =3D cpu_ldub_data_ra(env, src + i, ra);
--            cpu_stb_data_ra(env, dest + i, x, ra);
-+            uint8_t byte =3D access_get_byte(env, &srca, i, ra);
+@@ -553,13 +553,22 @@ void HELPER(mvo)(CPUS390XState *env, uint32_t l, ui=
+nt64_t dest, uint64_t src)
+ /* move zones  */
+ void HELPER(mvz)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64_t=
+ src)
+ {
++    const int mmu_idx =3D cpu_mmu_index(env, false);
++    S390Access srca1, srca2, desta;
+     uintptr_t ra =3D GETPC();
+     int i;
+=20
+-    for (i =3D 0; i <=3D l; i++) {
+-        uint8_t b =3D cpu_ldub_data_ra(env, dest + i, ra) & 0x0f;
+-        b |=3D cpu_ldub_data_ra(env, src + i, ra) & 0xf0;
+-        cpu_stb_data_ra(env, dest + i, b, ra);
++    /* MVZ always copies one more byte than specified - maximum is 256 *=
+/
++    l++;
 +
-+            access_set_byte(env, &desta, i, byte, ra);
-         }
++    srca1 =3D access_prepare(env, src, l, MMU_DATA_LOAD, mmu_idx, ra);
++    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, mmu_idx, ra);
++    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
++    for (i =3D 0; i < l; i++) {
++        const uint8_t x =3D (access_get_byte(env, &srca1, i, ra) & 0xf0)=
+ |
++                          (access_get_byte(env, &srca2, i, ra) & 0x0f);
++
++        access_set_byte(env, &desta, i, x, ra);
      }
+ }
 =20
 --=20
 2.21.0
