@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20969BB340
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:00:00 +0200 (CEST)
-Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE41DBB354
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:07:51 +0200 (CEST)
+Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCN0X-0004VI-TG
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 07:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45208)
+	id 1iCN8A-0001j9-GX
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 08:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iCMyI-0003It-QY
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:57:41 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iCMyO-0003Lt-Ic
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:57:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iCMyH-0006pk-Gh
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:57:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40752)
+ (envelope-from <mreitz@redhat.com>) id 1iCMyM-0006sv-GN
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:57:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42260)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iCMyE-0006n0-Oc; Mon, 23 Sep 2019 07:57:34 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iCMyI-0006q4-9P; Mon, 23 Sep 2019 07:57:38 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 00E3210C092E;
- Mon, 23 Sep 2019 11:57:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9A12C3090FC4;
+ Mon, 23 Sep 2019 11:57:37 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2685E5D9CA;
- Mon, 23 Sep 2019 11:57:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6B9719D70;
+ Mon, 23 Sep 2019 11:57:34 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 0/4] mirror: Do not dereference invalid pointers
-Date: Mon, 23 Sep 2019 13:57:24 +0200
-Message-Id: <20190923115728.28250-1-mreitz@redhat.com>
+Subject: [PATCH v2 1/4] mirror: Do not dereference invalid pointers
+Date: Mon, 23 Sep 2019 13:57:25 +0200
+Message-Id: <20190923115728.28250-2-mreitz@redhat.com>
+In-Reply-To: <20190923115728.28250-1-mreitz@redhat.com>
+References: <20190923115728.28250-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Mon, 23 Sep 2019 11:57:33 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Mon, 23 Sep 2019 11:57:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,118 +61,55 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+mirror_exit_common() may be called twice (if it is called from
+mirror_prepare() and fails, it will be called from mirror_abort()
+again).
 
-The fix (patch 1) is pretty straightforward; patch 2 (which I need for
-the test) may not be.
+In such a case, many of the pointers in the MirrorBlockJob object will
+already be freed.  This can be seen most reliably for s->target, which
+is set to NULL (and then dereferenced by blk_bs()).
 
-The biggest problem with patch 2 is that you can use it to uncover where
-our permission handling is broken.  For example, devising the test case
-(patch 4) was very difficult because I kept running into the
-&error_abort that mirror_exit_common() passes when dropping the
-mirror_top_bs.
+Cc: qemu-stable@nongnu.org
+Fixes: 737efc1eda23b904fbe0e66b37715fb0e5c3e58b
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/mirror.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-The problem is that mirror_top_bs does not take the same permissions
-that its parent takes.  Ergo using &error_abort when dropping it is
-wrong: The parent may require more permissions that mirror_top_bs did,
-and so dropping mirror_top_bs may fail.
-
-Now what=E2=80=99s really bad is that this cannot be fixed with our curre=
-nt
-permission system.  mirror_top_bs was introduced precisely so it does
-not take CONSISTENT_READ, but can still allow parents to take it (for
-active commits).  But what if there is actually something besides the
-mirror job that unshares CONSISTENT_READ?
-
-
-Imagine this:
-
-      mirror target BB       mirror source BB
-                  |             |
-                  v             v
-mirror_top_bs -> top -> mid -> base
-                  ^
-                  |
-             other_parent
-
-The source BB unshares CONSISTENT_READ on the base.  mirror_top_bs
-ensures that its parents can read from top even though top itself cannot
-allow CONSISTENT_READ to be taken.  So far so good.
-
-But what if other_parent also unshares CONSISTENT_READ?  Then,
-mirror_top_bs has no business allowing its parents to take it.
-
-No idea how to fix that.  (I suppose mirror_top_bs would need some way
-to verify that there is no other party that has unshared CONSISTENT_READ
-but its associated source BB.  In the future, we want the source BB to
-go away and instead have the source be an immediate BdrvChild of
-mirror_top_bs.  Maybe we can then build something into the block layer
-so that a node can only restore CONSISTENT_READ when it was that node
-that broke it?)
-
-
-Anyway.  You can see something arising from this problem simply by
-unsharing CONSISTENT_READ on the target node.  (Just drop the src-perm
-node from the test I add in patch 4.)  Replacing the source with the
-target will then work fine (because mirror_top_bs doesn=E2=80=99t care ab=
-out
-CONSISTENT_READ being removed), but then you cannot drop mirror_top_bs =E2=
-=80=93
-because its parent does want CONSISTENT_READ.  Thus, the &error_abort
-aborts.
-
-
-While this is a more special case, I have no idea how to fix this one
-either.
-
-
-Soo...  This series just fixes one thing, and leaves another unfixed
-because I have no idea how to fix it.  Worse, it adds parameters to
-blkdebug to actually see the problem.  Do we want to let blkdebug be
-able to crash qemu (because of a bug in qemu)?
-
-
-v2:
-- Patch 2: Dropped BlockdevPermission, we have BlockPermission already
-- Patch 4:
-  - Use list comprehension instead of map() + lambda
-    (Though I notice that over time my aversion of list comprehensions
-    only grows)
-
-  - Use a tuple instead of a list for a collection of values that isn=E2=80=
-=99t
-    modified
-
-git-backport-diff against v1:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream pat=
-ch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
-
-001/4:[----] [--] 'mirror: Do not dereference invalid pointers'
-002/4:[0027] [FC] 'blkdebug: Allow taking/unsharing permissions'
-003/4:[----] [--] 'iotests: Add @error to wait_until_completed'
-004/4:[0004] [FC] 'iotests: Add test for failing mirror complete'
-
-
-Max Reitz (4):
-  mirror: Do not dereference invalid pointers
-  blkdebug: Allow taking/unsharing permissions
-  iotests: Add @error to wait_until_completed
-  iotests: Add test for failing mirror complete
-
- qapi/block-core.json          |  14 ++++-
- block/blkdebug.c              | 106 +++++++++++++++++++++++++++++++++-
- block/mirror.c                |  13 +++--
- tests/qemu-iotests/041        |  44 ++++++++++++++
- tests/qemu-iotests/041.out    |   4 +-
- tests/qemu-iotests/iotests.py |  18 ++++--
- 6 files changed, 185 insertions(+), 14 deletions(-)
-
+diff --git a/block/mirror.c b/block/mirror.c
+index fe984efb90..706d80fced 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -620,11 +620,11 @@ static int mirror_exit_common(Job *job)
+ {
+     MirrorBlockJob *s =3D container_of(job, MirrorBlockJob, common.job);
+     BlockJob *bjob =3D &s->common;
+-    MirrorBDSOpaque *bs_opaque =3D s->mirror_top_bs->opaque;
++    MirrorBDSOpaque *bs_opaque;
+     AioContext *replace_aio_context =3D NULL;
+-    BlockDriverState *src =3D s->mirror_top_bs->backing->bs;
+-    BlockDriverState *target_bs =3D blk_bs(s->target);
+-    BlockDriverState *mirror_top_bs =3D s->mirror_top_bs;
++    BlockDriverState *src;
++    BlockDriverState *target_bs;
++    BlockDriverState *mirror_top_bs;
+     Error *local_err =3D NULL;
+     bool abort =3D job->ret < 0;
+     int ret =3D 0;
+@@ -634,6 +634,11 @@ static int mirror_exit_common(Job *job)
+     }
+     s->prepared =3D true;
+=20
++    mirror_top_bs =3D s->mirror_top_bs;
++    bs_opaque =3D mirror_top_bs->opaque;
++    src =3D mirror_top_bs->backing->bs;
++    target_bs =3D blk_bs(s->target);
++
+     if (bdrv_chain_contains(src, target_bs)) {
+         bdrv_unfreeze_backing_chain(mirror_top_bs, target_bs);
+     }
 --=20
 2.21.0
 
