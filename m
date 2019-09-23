@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B97BB59F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:43:39 +0200 (CEST)
-Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EC7BB5A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:43:43 +0200 (CEST)
+Received: from localhost ([::1]:56738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCOcr-0000Rv-KE
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59417)
+	id 1iCOcv-0000Yp-Tw
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iCOZq-0007Hj-8x
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:31 -0400
+ (envelope-from <crosa@redhat.com>) id 1iCOZt-0007IR-4y
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iCOZp-0007Wt-1q
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50957)
+ (envelope-from <crosa@redhat.com>) id 1iCOZs-0007Xc-44
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52682)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iCOZo-0007Wj-TO
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:29 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iCOZr-0007XQ-Vd
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:40:32 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C56E1302C066;
- Mon, 23 Sep 2019 13:40:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DE89F10C092B;
+ Mon, 23 Sep 2019 13:40:30 +0000 (UTC)
 Received: from dhcp-17-179.bos.redhat.com (dhcp-17-179.bos.redhat.com
  [10.18.17.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52C7919C58;
- Mon, 23 Sep 2019 13:40:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E67AD19C77;
+ Mon, 23 Sep 2019 13:40:26 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PULL 0/7] Python (acceptance tests) queue - 2019-09-23
-Date: Mon, 23 Sep 2019 09:40:12 -0400
-Message-Id: <20190923134019.8548-1-crosa@redhat.com>
+Subject: [PULL 1/7] Acceptance test machine_m68k_nextcube.py: relax the error
+ code pattern
+Date: Mon, 23 Sep 2019 09:40:13 -0400
+Message-Id: <20190923134019.8548-2-crosa@redhat.com>
+In-Reply-To: <20190923134019.8548-1-crosa@redhat.com>
+References: <20190923134019.8548-1-crosa@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Mon, 23 Sep 2019 13:40:27 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Mon, 23 Sep 2019 13:40:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -58,61 +61,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Aleksandar Rikalo <arikalo@wavecomp.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4300b7c2cd9f3f273804e8cca325842ccb93b1=
-ad:
+Instead of looking for a specific error, let's relax the pattern
+because different errors have been seen (I'm consistenly getting 52)
+and the real goal of this test is to validate the framebuffer
+operation, and not to reproduce one specific error.
 
-  Merge remote-tracking branch 'remotes/cleber/tags/python-next-pull-requ=
-est' into staging (2019-09-20 17:28:43 +0100)
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+Message-Id: <20190919161400.26399-1-crosa@redhat.com>
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ tests/acceptance/machine_m68k_nextcube.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  git://github.com/clebergnu/qemu.git tags/python-next-pull-request
-
-for you to fetch changes up to 2fe6f4d9babb957244676fdf23b9a7ca2323034b:
-
-  Acceptance tests: use avocado.utils.ssh for SSH interaction (2019-09-20=
- 17:13:41 -0400)
-
-----------------------------------------------------------------
-Improvements include:
-
- * Relaxed error code pattern on machine_m68k_nextcube.py
- * Better naming and separation of tests in x86_cpu_model_versions.py
- * New checks on guest side on linux_ssh_mips_malta.py
- * Use of avocado.utils.ssh, and thus "/usr/bin/ssh" for SSH
-   interaction
-
-A Travis-CI check for this branch can be seen at:
-
- * https://travis-ci.org/clebergnu/qemu/builds/587665790
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (2):
-  tests/acceptance: Refactor and improve reporting in
-    linux_ssh_mips_malta.py
-  tests/acceptance: Add new test cases in linux_ssh_mips_malta.py
-
-Cleber Rosa (5):
-  Acceptance test machine_m68k_nextcube.py: relax the error code pattern
-  Acceptance test x86_cpu_model_versions: shutdown VMs
-  Acceptance test x86_cpu_model_versions: fix mismatches between test
-    and messages
-  Acceptance test x86_cpu_model_versions: split into smaller tests
-  Acceptance tests: use avocado.utils.ssh for SSH interaction
-
- tests/acceptance/linux_ssh_mips_malta.py   | 159 ++++++++++++---------
- tests/acceptance/machine_m68k_nextcube.py  |   2 +-
- tests/acceptance/x86_cpu_model_versions.py |  22 ++-
- tests/requirements.txt                     |   3 +-
- 4 files changed, 110 insertions(+), 76 deletions(-)
-
+diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance=
+/machine_m68k_nextcube.py
+index e09cab9f20..fcd2c58ee7 100644
+--- a/tests/acceptance/machine_m68k_nextcube.py
++++ b/tests/acceptance/machine_m68k_nextcube.py
+@@ -116,6 +116,6 @@ class NextCubeMachine(Test):
+             if len(line):
+                 console_logger.debug(line)
+         self.assertIn('Testing the FPU, SCC', text)
+-        self.assertIn('System test failed. Error code 51', text)
++        self.assertIn('System test failed. Error code', text)
+         self.assertIn('Boot command', text)
+         self.assertIn('Next>', text)
 --=20
 2.21.0
 
