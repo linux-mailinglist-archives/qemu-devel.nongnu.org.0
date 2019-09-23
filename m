@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F69BBA09
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:56:44 +0200 (CEST)
-Received: from localhost ([::1]:59830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7D6BBA13
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 19:00:01 +0200 (CEST)
+Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRdi-0003os-AR
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36091)
+	id 1iCRgu-0007WT-VK
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 13:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iCRXd-0005mm-Fy
+ (envelope-from <pbonzini@redhat.com>) id 1iCRXc-0005mQ-Vt
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:50:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iCRXc-0000gl-4C
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:50:25 -0400
-Received: from 7.mo69.mail-out.ovh.net ([46.105.50.32]:35514)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iCRXb-0000ef-Tm
+ (envelope-from <pbonzini@redhat.com>) id 1iCRXb-0000gY-TI
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:50:24 -0400
-Received: from player788.ha.ovh.net (unknown [10.108.54.13])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id DAF7D6A5A0
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 18:50:19 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player788.ha.ovh.net (Postfix) with ESMTPSA id 302E6A1A5679;
- Mon, 23 Sep 2019 16:50:13 +0000 (UTC)
-Date: Mon, 23 Sep 2019 18:50:12 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [Qemu-devel] [PATCH v7 0/3] 9p: Fix file ID collisions
-Message-ID: <20190923185012.06131248@bahia.lan>
-In-Reply-To: <7439377.rdf1oF7g69@silver>
-References: <cover.1567680121.git.qemu_oss@crudebyte.com>
- <2537302.ZFCiNNprIf@silver> <20190923164653.5b79797a@bahia.lan>
- <7439377.rdf1oF7g69@silver>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mx1.redhat.com ([209.132.183.28]:40370)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iCRXb-0000g6-Nv
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:50:23 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E0A9E76520
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:50:22 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id r21so5209370wme.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 09:50:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+9MIoogSi04qbEM4kUnN48So0U0Za51LpTDDBnnhERA=;
+ b=DO1Dbq39tPxk2Q5nv2m8dBqfNlbft0VsiusHq8ctr+PVImeBuClSbb4y0nsD8iiyDF
+ oSQ83R9F7RR8h2oG67BQRtYhTe0cdpJyMVDp/lqQ8X9L0EMqF4pgxMZSzYayC+RSE9WN
+ q8DL9Viaodco6hU+xqXeY/tgXSdaEZvzmIpIoWBmCl66E63DJHASUGW28wkDzx1Ve43l
+ oxxd9RFX8WjLjzh7xxbaXLulmAJXNXjGGE3ZTxFer+8Ow9RXfUZHIBuW0fhms/zvML7e
+ HS/ZxHFE+7lJ4z7dSN63Guhue5QkB9CJPT6yohWfP2sK6eNeKKVaXzgWf4Ax3tPLrV2o
+ toJw==
+X-Gm-Message-State: APjAAAWOOJ4YXEJGO5lG/UwTleWbgwK9GiGPEYDfmwkpJJMX5fP2QRjh
+ umEO/65wA1i9qk0nKeIlOOkfqoSlrHttRv1QZIIxEs/ALj2/hkuCy3upcTYXs058RkVBEDMbHgB
+ L2LO0DTRVhvN7HD4=
+X-Received: by 2002:a5d:4590:: with SMTP id p16mr339547wrq.82.1569257421620;
+ Mon, 23 Sep 2019 09:50:21 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzKf5tlCunYpfP2+gEF9p2nNs0Zgjkqc4GGmDcoGkUtQ8lz1WDlOmgRr9QnvczcTL/4ful1SA==
+X-Received: by 2002:a5d:4590:: with SMTP id p16mr339532wrq.82.1569257421383;
+ Mon, 23 Sep 2019 09:50:21 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
+ ([2001:b07:6468:f312:9520:22e6:6416:5c36])
+ by smtp.gmail.com with ESMTPSA id e3sm6929448wme.39.2019.09.23.09.50.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Sep 2019 09:50:20 -0700 (PDT)
+Subject: Re: [PATCH v3 18/20] cputlb: Remove tb_invalidate_phys_page_range
+ is_cpu_write_access
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190922035458.14879-1-richard.henderson@linaro.org>
+ <20190922035458.14879-19-richard.henderson@linaro.org>
+ <4926b925-7019-3146-c9c7-a7fe18b8c378@redhat.com>
+ <5410485a-d14b-57ad-67a2-c4eb876417af@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <83a40fac-cfb1-1a5c-dd15-dff32529eeb2@redhat.com>
+Date: Mon, 23 Sep 2019 18:50:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <5410485a-d14b-57ad-67a2-c4eb876417af@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 17855365151793977664
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdekgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.50.32
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,59 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, "Daniel P.
- =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Antonios Motakis <antonios.motakis@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: alex.bennee@linaro.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Sep 2019 17:03:23 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On 23/09/19 18:05, Richard Henderson wrote:
+> On 9/23/19 1:52 AM, David Hildenbrand wrote:
+>>> -    tb_invalidate_phys_page_range__locked(pages, p, start, end,
+>>> -                                          is_cpu_write_access);
+>>> +    tb_invalidate_phys_page_range__locked(pages, p, start, end, 0);
+>>
+>> I'd prefer "false" to highlight the semantics, but as it's and int ...
+>>
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+> 
+> I did think of that, but then the next patch changes this last argument to
+> "uintptr_t retaddr", so then it's not really a boolean argument anymore, and
+> "0" is exactly what we want.
 
-> On Montag, 23. September 2019 16:46:53 CEST Greg Kurz wrote:
-> > > > > > I'll do some
-> > > > > > more manual testing and issue a PR when I'm confident enough.
-> > > > > 
-> > > > > That would be highly appreciated! So far I am the only one ever having
-> > > > > tested this patch set at all!
-> > > > 
-> > > > Just to clarify, I won't thoroughly test it. My main concern is that it
-> > > > doesn't break things.
-> > > 
-> > > So in other words you are only going to test the default behaviour
-> > > --multidevs=warn?
-> > 
-> > This I've already done, along with multidevs=forbid.
-> > 
-> > Now I plan to run the PJD test suite from Tuxera with a simple
-> > cross-device setup and --multidevs=remap. And that's it.
-> 
-> Well, Ok then, however at least some simple, manual, final "ls -i" of the 
-> inode numbers on guest would not hurt though. ;-)
-> 
-> > > If yes, and since that would mean I was the only person ever having tested
-> > > the actual fix, shouldn't --multidevs=remap|forbid better be marked as
-> > > experimental (docs and runtime warning) for now? Maybe that would also
-> > > anticipate receiving feedback from people actually using it later on.
-> > Makes sense. I don't think it is worth having a runtime warning,
-> > but I'll turn remap to x-remap and amend the docs.
-> 
-> Mwa, I would like to veto against your "x-remap" plan though. Keep in mind I 
-> also have to send out a patch for libvirt for this fix. Even I would not have 
-> read "x" to stand for "experimental". So I would definitely favor a runtime 
-> warning instead of renaming that parameter.
-> 
+Yeah, 0 is fine here.
 
-Hmmm... I don't see the point in adding a warning for a feature that
-is only active if the user explicitly asks for it. And, anyway, this
-still is an experimental feature, right ? Not sure it is time to have
-libvirt to support it yet.
-
-Maybe Daniel can comment on libvirt adoption of new features ?
-
-> I can send a patch on top for docs and warning if you want.
-> 
-> 
+Paolo
 
 
