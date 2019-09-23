@@ -2,94 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0ACFBAF83
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:28:10 +0200 (CEST)
-Received: from localhost ([::1]:53574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A45BAF91
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:30:56 +0200 (CEST)
+Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJhZ-0003RM-1M
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45626)
+	id 1iCJkE-0006IA-Fi
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCJdf-0000Nn-Tq
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:24:09 -0400
+ (envelope-from <david@redhat.com>) id 1iCJNw-000265-8o
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:07:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCJdd-00061t-47
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:24:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37308)
+ (envelope-from <david@redhat.com>) id 1iCJNu-00048b-Qe
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:07:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41860)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCJdc-00061Y-Ru
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:24:05 -0400
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iCJNu-00048N-FR; Mon, 23 Sep 2019 04:07:50 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EF88E18C8921;
- Mon, 23 Sep 2019 08:24:03 +0000 (UTC)
-Received: from [10.36.116.207] (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF76319C78;
- Mon, 23 Sep 2019 08:24:00 +0000 (UTC)
-Subject: Re: [PATCH v3 00/20] Move rom and notdirty handling to cputlb
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190922035458.14879-1-richard.henderson@linaro.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id C202F30833C1;
+ Mon, 23 Sep 2019 08:07:49 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-207.ams2.redhat.com [10.36.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FE2319D70;
+ Mon, 23 Sep 2019 08:07:47 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <bb8ca136-42bb-280f-c6ad-3f04b8fe19eb@redhat.com>
-Date: Mon, 23 Sep 2019 10:23:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 14/30] s390x/tcg: MVST: Fix storing back the addresses to
+ registers
+Date: Mon, 23 Sep 2019 10:06:56 +0200
+Message-Id: <20190923080712.23951-15-david@redhat.com>
+In-Reply-To: <20190923080712.23951-1-david@redhat.com>
+References: <20190923080712.23951-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190922035458.14879-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Mon, 23 Sep 2019 08:24:04 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Mon, 23 Sep 2019 08:07:49 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,101 +56,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.09.19 05:54, Richard Henderson wrote:
-> Ok!  Third time is the charm, because this time it works.
+24 and 31-bit address space handling is wrong when it comes to storing
+back the addresses to the register.
 
-Yeay :) I don't wanna know how hard it was to debug that...
+While at it, read gprs 0 implicitly.
 
-> 
-> New to v3:
-> 
->   * Covert io_mem_rom with a new TLB_ROM bit.
-> 
->   * This in turn means that there are no longer any special RAM
->     case along along the MMIO path -- they all have devices on
->     the other end.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/helper.h      |  2 +-
+ target/s390x/insn-data.def |  2 +-
+ target/s390x/mem_helper.c  | 26 +++++++++++---------------
+ target/s390x/translate.c   |  8 ++++++--
+ 4 files changed, 19 insertions(+), 19 deletions(-)
 
-That sounds like a really nice cleanup.
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index e9aff83b05..56e8149866 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -20,7 +20,7 @@ DEF_HELPER_FLAGS_4(mvn, TCG_CALL_NO_WG, void, env, i32,=
+ i64, i64)
+ DEF_HELPER_FLAGS_4(mvo, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+ DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i64, i64)
+ DEF_HELPER_FLAGS_4(mvz, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+-DEF_HELPER_4(mvst, i64, env, i64, i64, i64)
++DEF_HELPER_3(mvst, i32, env, i32, i32)
+ DEF_HELPER_4(ex, void, env, i32, i64, i64)
+ DEF_HELPER_FLAGS_4(stam, TCG_CALL_NO_WG, void, env, i32, i64, i32)
+ DEF_HELPER_FLAGS_4(lam, TCG_CALL_NO_WG, void, env, i32, i64, i32)
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index f421184fcd..449eee1662 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -637,7 +637,7 @@
+ /* MOVE PAGE */
+     C(0xb254, MVPG,    RRE,   Z,   r1_o, r2_o, 0, 0, mvpg, 0)
+ /* MOVE STRING */
+-    C(0xb255, MVST,    RRE,   Z,   r1_o, r2_o, 0, 0, mvst, 0)
++    C(0xb255, MVST,    RRE,   Z,   0, 0, 0, 0, mvst, 0)
+ /* MOVE WITH OPTIONAL SPECIFICATION */
+     C(0xc800, MVCOS,   SSF,   MVCOS, la1, a2, 0, 0, mvcos, 0)
+ /* MOVE WITH OFFSET */
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index ec27be174b..a24506676b 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -700,18 +700,18 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t =
+r0, uint64_t r1, uint64_t r2)
+     return 0; /* data moved */
+ }
+=20
+-/* string copy (c is string terminator) */
+-uint64_t HELPER(mvst)(CPUS390XState *env, uint64_t c, uint64_t d, uint64=
+_t s)
++/* string copy */
++uint32_t HELPER(mvst)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ {
++    const uint64_t d =3D get_address(env, r1);
++    const uint64_t s =3D get_address(env, r2);
++    const uint8_t c =3D env->regs[0];
+     uintptr_t ra =3D GETPC();
+     uint32_t len;
+=20
+-    if (c & 0xffffff00ull) {
++    if (env->regs[0] & 0xffffff00ull) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ILEN_AUTO, ra);
+     }
+-    c =3D c & 0xff;
+-    d =3D wrap_address(env, d);
+-    s =3D wrap_address(env, s);
+=20
+     /* Lest we fail to service interrupts in a timely manner, limit the
+        amount of work we're willing to do.  For now, let's cap at 8k.  *=
+/
+@@ -719,17 +719,13 @@ uint64_t HELPER(mvst)(CPUS390XState *env, uint64_t =
+c, uint64_t d, uint64_t s)
+         uint8_t v =3D cpu_ldub_data_ra(env, s + len, ra);
+         cpu_stb_data_ra(env, d + len, v, ra);
+         if (v =3D=3D c) {
+-            /* Complete.  Set CC=3D1 and advance R1.  */
+-            env->cc_op =3D 1;
+-            env->retxl =3D s;
+-            return d + len;
++            set_address_zero(env, r1, d + len);
++            return 1;
+         }
+     }
+-
+-    /* Incomplete.  Set CC=3D3 and signal to advance R1 and R2.  */
+-    env->cc_op =3D 3;
+-    env->retxl =3D s + len;
+-    return d + len;
++    set_address_zero(env, r1, d + len);
++    set_address_zero(env, r2, s + len);
++    return 3;
+ }
+=20
+ /* load access registers r1 to r3 from memory at a2 */
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 2927247c82..b0a2500e5f 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -3488,9 +3488,13 @@ static DisasJumpType op_mvpg(DisasContext *s, Disa=
+sOps *o)
+=20
+ static DisasJumpType op_mvst(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_mvst(o->in1, cpu_env, regs[0], o->in1, o->in2);
++    TCGv_i32 t1 =3D tcg_const_i32(get_field(s->fields, r1));
++    TCGv_i32 t2 =3D tcg_const_i32(get_field(s->fields, r2));
++
++    gen_helper_mvst(cc_op, cpu_env, t1, t2);
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t2);
+     set_cc_static(s);
+-    return_low128(o->in2);
+     return DISAS_NEXT;
+ }
+=20
+--=20
+2.21.0
 
-> 
->   * This in turn means that we can fold the bulk of 
->     memory_region_section_get_iotlb into tlb_set_page_with_attrs,
->     a couple of redundant tests vs the MemoryRegion.
->     The result in patch 14 is, IMO, much more understandable.
-> 
->   * Fold away uses of cpu->mem_io_pc in tb_invalidate_phys_page__locked,
->     the cause of the problems for my previous two patch sets.
-> 
->     BTW, I was correct with my guess in the v2 cover letter that the use
->     of memory_notdirty_write_{prepare,complete} within atomic_mmu_lookup
->     must have been broken, for not setting mem_io_pc.  :-P
-> 
->   * Fix a missed use of cpu->mem_io_pc in tb_check_watchpoint,
->     which meant that the previous TLB_WATCHPOINT cleanup was a
->     titch broken.
-
-So there was a PC already getting stored.
-
-> 
-> The remaining two users of cpu->mem_io_pc are hw/misc/mips_itu.c and
-> target/i386/helper.c.  I haven't looked, but I assume that these are
-> legitimately on the MMIO path, and there probably isn't a decent way
-> to remove the uses.
-> 
-> 
-> r~
-> 
-> 
-> Richard Henderson (20):
->   exec: Use TARGET_PAGE_BITS_MIN for TLB flags
->   exec: Split out variable page size support to exec-vary.c
->   exec: Use const alias for TARGET_PAGE_BITS_VARY
->   exec: Restrict TARGET_PAGE_BITS_VARY assert to CONFIG_DEBUG_TCG
->   exec: Promote TARGET_PAGE_MASK to target_long
->   exec: Tidy TARGET_PAGE_ALIGN
->   exec: Cache TARGET_PAGE_MASK for TARGET_PAGE_BITS_VARY
->   cputlb: Disable __always_inline__ without optimization
->   cputlb: Replace switches in load/store_helper with callback
->   cputlb: Introduce TLB_BSWAP
->   exec: Adjust notdirty tracing
->   cputlb: Move ROM handling from I/O path to TLB path
->   cputlb: Move NOTDIRTY handling from I/O path to TLB path
->   cputlb: Partially inline memory_region_section_get_iotlb
->   cputlb: Merge and move memory_notdirty_write_{prepare,complete}
->   cputlb: Handle TLB_NOTDIRTY in probe_access
->   cputlb: Remove cpu->mem_io_vaddr
->   cputlb: Remove tb_invalidate_phys_page_range is_cpu_write_access
->   cputlb: Pass retaddr to tb_invalidate_phys_page_fast
->   cputlb: Pass retaddr to tb_check_watchpoint
-> 
->  Makefile.target                |   2 +-
->  accel/tcg/translate-all.h      |   8 +-
->  include/exec/cpu-all.h         |  48 ++--
->  include/exec/cpu-common.h      |   3 -
->  include/exec/exec-all.h        |   6 +-
->  include/exec/memory-internal.h |  65 ------
->  include/hw/core/cpu.h          |   2 -
->  include/qemu-common.h          |   6 +
->  include/qemu/compiler.h        |  11 +
->  accel/tcg/cputlb.c             | 388 +++++++++++++++++++--------------
->  accel/tcg/translate-all.c      |  51 ++---
->  exec-vary.c                    |  88 ++++++++
->  exec.c                         | 192 +---------------
->  hw/core/cpu.c                  |   1 -
->  memory.c                       |  20 --
->  trace-events                   |   4 +-
->  16 files changed, 403 insertions(+), 492 deletions(-)
->  create mode 100644 exec-vary.c
-> 
-
-
--- 
-
-Thanks,
-
-David / dhildenb
 
