@@ -2,47 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A794DBAFD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:43:29 +0200 (CEST)
-Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A47BAFDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:44:06 +0200 (CEST)
+Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJwO-0002k1-Aa
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:43:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43305)
+	id 1iCJwy-0003DY-Gj
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43168)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCJOe-0002yu-I1
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:37 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1iCJOR-0002hc-VE
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCJOd-0004Wk-7X
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39090)
+ (envelope-from <sgarzare@redhat.com>) id 1iCJOQ-0004Pv-Jb
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48878)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iCJOd-0004WM-2L; Mon, 23 Sep 2019 04:08:35 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iCJOQ-0004Oy-9J
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:22 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 55995C0546FB;
- Mon, 23 Sep 2019 08:08:34 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE9C719C78;
- Mon, 23 Sep 2019 08:08:29 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 29/30] tests/tcg: target/s390x: Test MVO
-Date: Mon, 23 Sep 2019 10:07:11 +0200
-Message-Id: <20190923080712.23951-30-david@redhat.com>
-In-Reply-To: <20190923080712.23951-1-david@redhat.com>
-References: <20190923080712.23951-1-david@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 5220C356F9
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 08:08:21 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id q10so4518755wro.22
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 01:08:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=xATpn9gkkJpKGqIBeLkk1WAFIkbpTrWqf1TP3ewJ8MQ=;
+ b=bXlnxFDVjHaiv/t7Rmt8XzRU0V9hmwlZly6CiYbB9XYhuJczr/E//UybVlXbRvxcaD
+ 7KH0RZn2VR9BRzmjv2nR290MZF6pQxVTVI1p7T/EkcvWo9bnixyg3hVzKFQ4t+FFRkVx
+ ViTzKNUaG7ti9W36zR7o4Pwy9lYUFQy4jOPNOYmdgPpsekJMThVYqxL4wr0FtNMmlNv+
+ KHfGTAtbftyjPqD48qkzJOfaEnFvt2ALhNJCkK/BOdLosPQGkp4dFQSVO+kHWfquJP88
+ 0znAcIwpnj2LOP8JIp5ndFstWeVb15vg/M1DBpJidEWnGUvbzeFdpgqz6Uc6lbdXQxrC
+ Tp0Q==
+X-Gm-Message-State: APjAAAVtdfBlhFbaF0HXAtVdrZvAm1rG8aoCfTgtm3Q9W7zZL4w8qnCo
+ fbi8dy9Da0CsNAcqnBun9nZnZCxvnT4wHHH9p7UG+mLpsouHK0YM9QJ/Vc72Hk48kADtKjn//T/
+ 5xvybP+iVm40Zn5g=
+X-Received: by 2002:a7b:cc97:: with SMTP id p23mr13245787wma.111.1569226099997; 
+ Mon, 23 Sep 2019 01:08:19 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwSw72rrjmGFti2WyFLHYX6xQfFdgIsu2h5mkvpex9QcWhB8cRlq66pDD/tXbrQO1cXTT1lwA==
+X-Received: by 2002:a7b:cc97:: with SMTP id p23mr13245768wma.111.1569226099760; 
+ Mon, 23 Sep 2019 01:08:19 -0700 (PDT)
+Received: from steredhat (host170-61-dynamic.36-79-r.retail.telecomitalia.it.
+ [79.36.61.170])
+ by smtp.gmail.com with ESMTPSA id s1sm24520280wrg.80.2019.09.23.01.08.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2019 01:08:19 -0700 (PDT)
+Date: Mon, 23 Sep 2019 10:08:16 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v3 2/2] target/i386: drop the duplicated definition of
+ cpuid AVX512_VBMI marco
+Message-ID: <20190923080816.hzfzikw5mx4n3ejn@steredhat>
+References: <20190923063041.12420-1-tao3.xu@intel.com>
+ <20190923063041.12420-3-tao3.xu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 23 Sep 2019 08:08:34 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190923063041.12420-3-tao3.xu@intel.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,67 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com,
+ ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's add the simple test based on the example from the PoP.
+On Mon, Sep 23, 2019 at 02:30:41PM +0800, Tao Xu wrote:
+> Drop the duplicated definition of cpuid AVX512_VBMI marco and rename it
+> as CPUID_7_0_ECX_AVX512_VBMI.
+> 
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
+>  target/i386/cpu.c           | 4 ++--
+>  target/i386/cpu.h           | 3 +--
+>  target/i386/hvf/x86_cpuid.c | 2 +-
+>  3 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 9e0bac31e8..f87fe88259 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -2412,7 +2412,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
+>              CPUID_7_0_EBX_SMAP,
+>          .features[FEAT_7_0_ECX] =
+> -            CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
+> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
+>              CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
+>              CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
+>              CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
+> @@ -2470,7 +2470,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512CD |
+>              CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT,
+>          .features[FEAT_7_0_ECX] =
+> -            CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
+> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
+>              CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
+>              CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
+>              CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index fa4c4cad79..61f6287294 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -695,8 +695,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+>  #define CPUID_7_0_EBX_AVX512VL          (1U << 31)
+>  
+>  /* AVX-512 Vector Byte Manipulation Instruction */
+> -#define CPUID_7_0_ECX_AVX512BMI         (1U << 1)
+> -#define CPUID_7_0_ECX_VBMI              (1U << 1)
+> +#define CPUID_7_0_ECX_AVX512_VBMI       (1U << 1)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- tests/tcg/s390x/Makefile.target |  1 +
- tests/tcg/s390x/mvo.c           | 25 +++++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 tests/tcg/s390x/mvo.c
+Since we're here, should we also update CPUID_7_0_ECX_VBMI2?
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.t=
-arget
-index 151dc075aa..6a3bfa8b29 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -6,3 +6,4 @@ TESTS+=3Dipm
- TESTS+=3Dexrl-trt
- TESTS+=3Dexrl-trtr
- TESTS+=3Dpack
-+TESTS+=3Dmvo
-diff --git a/tests/tcg/s390x/mvo.c b/tests/tcg/s390x/mvo.c
-new file mode 100644
-index 0000000000..5546fe2a97
---- /dev/null
-+++ b/tests/tcg/s390x/mvo.c
-@@ -0,0 +1,25 @@
-+#include <stdint.h>
-+#include <stdio.h>
-+
-+int main(void)
-+{
-+    uint8_t dest[6] =3D {0xff, 0x77, 0x88, 0x99, 0x0c, 0xff};
-+    uint8_t src[5] =3D {0xee, 0x12, 0x34, 0x56, 0xee};
-+    uint8_t expected[6] =3D {0xff, 0x01, 0x23, 0x45, 0x6c, 0xff};
-+    int i;
-+
-+    asm volatile (
-+        "    mvo 0(4,%[dest]),0(3,%[src])\n"
-+        :
-+        : [dest] "d" (dest + 1),
-+          [src] "d" (src + 1)
-+        : "memory");
-+
-+    for (i =3D 0; i < sizeof(expected); i++) {
-+        if (dest[i] !=3D expected[i]) {
-+            fprintf(stderr, "bad data\n");
-+            return 1;
-+        }
-+    }
-+    return 0;
-+}
---=20
-2.21.0
-
+Thanks,
+Stefano
 
