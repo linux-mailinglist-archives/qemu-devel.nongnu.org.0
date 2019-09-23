@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED69BB4B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:03:33 +0200 (CEST)
-Received: from localhost ([::1]:56252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6591EBB4F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:07:10 +0200 (CEST)
+Received: from localhost ([::1]:56312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCO02-0002eD-Tl
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53223)
+	id 1iCO3Z-0006mz-GB
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCNwt-00025x-GK
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:00:17 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCO00-0003q9-Gx
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:03:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCNwr-0002xz-E8
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:00:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:8361)
+ (envelope-from <armbru@redhat.com>) id 1iCNzz-000457-2N
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:03:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60286)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCNwo-0002vw-Ce
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:00:13 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCNzy-00044z-QF
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:03:27 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 29988305FC56;
- Mon, 23 Sep 2019 13:00:09 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C96986012D;
- Mon, 23 Sep 2019 13:00:04 +0000 (UTC)
-Subject: Re: [Qemu-devel] [PATCH v2 13/16] docs/devel/qapi-code-gen: Rewrite
- compatibility considerations
-To: Markus Armbruster <armbru@redhat.com>
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-14-armbru@redhat.com>
- <60b61f7c-fe08-e78b-dd52-775959af99d9@redhat.com>
- <87tv9g8cf4.fsf@dusky.pond.sub.org>
- <f71d6dd3-c9f5-7b89-a536-cf7e9baaff51@redhat.com>
- <87impjp77y.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <84f90c22-4983-dc9c-bf0e-5297b9ea7658@redhat.com>
-Date: Mon, 23 Sep 2019 08:00:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 12396356DC;
+ Mon, 23 Sep 2019 13:03:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC50060C63;
+ Mon, 23 Sep 2019 13:03:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 36574113864E; Mon, 23 Sep 2019 15:03:24 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Palmer Dabbelt <palmer@sifive.com>
+Subject: Re: [Qemu-devel] [PATCH] vl.c: Report unknown machines correctly
+References: <20190915202011.30459-1-palmer@sifive.com>
+Date: Mon, 23 Sep 2019 15:03:24 +0200
+In-Reply-To: <20190915202011.30459-1-palmer@sifive.com> (Palmer Dabbelt's
+ message of "Sun, 15 Sep 2019 13:20:11 -0700")
+Message-ID: <8736gnnp0j.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87impjp77y.fsf@dusky.pond.sub.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SPTnie9j44n3UFRDCTvfwE7UjA3rXvyym"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 23 Sep 2019 13:00:09 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Mon, 23 Sep 2019 13:03:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,95 +59,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SPTnie9j44n3UFRDCTvfwE7UjA3rXvyym
-Content-Type: multipart/mixed; boundary="2N2zf51N3NQJ47PrrEkQPnoCloPZa0MDQ";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
-Message-ID: <84f90c22-4983-dc9c-bf0e-5297b9ea7658@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v2 13/16] docs/devel/qapi-code-gen: Rewrite
- compatibility considerations
-References: <20190910063724.28470-1-armbru@redhat.com>
- <20190910063724.28470-14-armbru@redhat.com>
- <60b61f7c-fe08-e78b-dd52-775959af99d9@redhat.com>
- <87tv9g8cf4.fsf@dusky.pond.sub.org>
- <f71d6dd3-c9f5-7b89-a536-cf7e9baaff51@redhat.com>
- <87impjp77y.fsf@dusky.pond.sub.org>
-In-Reply-To: <87impjp77y.fsf@dusky.pond.sub.org>
+Palmer Dabbelt <palmer@sifive.com> writes:
 
---2N2zf51N3NQJ47PrrEkQPnoCloPZa0MDQ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> I was recently typing in a QEMU command line, and ended up with
+> something like
+>
+>     qemu-system-riscv64 -machine virt ... -M 8G
+>
+> which is, in retrospect, obviously incorrect: there is no "8G" machine.
+> I should have typed something like
+>
+>     qemu-system-riscv64 -machine virt ... -m 8G
+>
+> but since QEMU was giving me the excessively unhelpful error message
+>
+>     qemu-system-riscv64: -machine virt: unsupported machine type
+>     Use -machine help to list supported machines
+>
+> I had to spend a few minutes scratching my head to figure out what was
+> going on.  For some reason I felt like I'd done that before, so I
+> figured I'd take a whack at fixing the problem this time.  It turns out
+> the error reporting for non-existant machines is just wrong: the invalid
+> machine is detected after we've lost the argument pointer, so it just
+> prints out the first instance of "-machine" instead of the one we're
+> actually looking for.
+>
+> I've fixed this by just printing out "-machine $NAME" directly, but I
+> feel like there's a better way to do this.  Specifically, my issue is
+> that it always prints out "-machine" instead of "-M" -- that's actually
+> a regression for users just passing a single invalid machine via "-M",
+> which I assume is the more common case.
+>
+> I'm not sure how to do this right, though, and my flight is boarding so
+> I figured I'd send this out as a way to ask the question.  I didn't have
+> time to run the test suite or figure out how to add a test for this, as
+> I'm assuming there's a better way to do it.
+>
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> ---
+>  vl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/vl.c b/vl.c
+> index 630f5c5e9c..821a5d91c8 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -2487,7 +2487,7 @@ static MachineClass *machine_parse(const char *name, GSList *machines)
+>  
+>      mc = find_machine(name, machines);
+>      if (!mc) {
+> -        error_report("unsupported machine type");
+> +        error_printf("-machine %s: unsupported machine type\n", name);
+>          error_printf("Use -machine help to list supported machines\n");
+>          exit(1);
+>      }
 
-On 9/23/19 6:44 AM, Markus Armbruster wrote:
+This is an instance of QemuOpts features undermining each other.
 
->>>> Worth mentioning that type names themselves are NOT part of the
->>>> interface, and may be freely renamed?
->>>
->>> Care to suggest a suitable sentence?
->>
->> Although member names within a type cannot be changed without affectin=
-g
->> compatibility,
->=20
-> This part seems redundant with the previous paragraph.
->=20
->>                changes to type names themselves do not affect the
->> protocol.  As such, complex types may be freely renamed or refactored,=
+error_report() uses the "current location".  A few judiciously placed
+loc_FOO() ensure many error_report() just work.  For instance, anything
+within main()'s two loops over argv[] has the current location point to
+the current option or argument.
 
->=20
-> All types (enums, structs, simple & flat unions, alternates) actually,
-> not just complex ones (structs, unions).
->=20
->> such as splitting members from one type into a common base type, as lo=
-ng
->> as the resulting set of members remain compatible.
->=20
-> What does it mean for a set of members to be compatible?  We don't
-> actually define that...
->=20
-> What about:
->=20
->   Since type names are not visible in the Client JSON Protocol, types
->   may be freely renamed.  Even certain refactorings are invisible, such=
+= QemuOpts feature #1: capture option location =
 
->   as splitting members from one type into a common base type.
+A struct QemuOpts stores a complex option for later use.  Since many
+such later uses call error_report(), it captures the option's location,
+so you can make the current location point to it again.  It's even
+automatic with qemu_opts_foreach().
 
-Seems reasonable to me.
+= QemuOpts feature #2: option merging =
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+You can request multiple options to be merged[*] by putting .merge_lists
+= true into the QemuOptsList.  qemu_machine_opts does.  -machine a=b
+-machine x=y gets merged into -machine a=b,x=y.
+
+= The two feature don't want to play with each other =
+
+With option merging, we can have any number of *actual* option
+locations, but QemuOpts can capture just one, so we arbitrarily capture
+the first one.  In your example, that's "-machine virt", which is
+misleading, because the offending location is actually "-M 8G".
+
+By the time we realized the features don't play with each other, we were
+too deeply invested into both features to say "either feature is fine,
+but we can't have both".
+
+To make them play, we'd have to capture locations at the struct QemuOpt
+level instead.  Looks like an awful lot of work just to make a few error
+messages less confusing.  Makes me sad, because I do value decent error
+messages.
 
 
---2N2zf51N3NQJ47PrrEkQPnoCloPZa0MDQ--
 
---SPTnie9j44n3UFRDCTvfwE7UjA3rXvyym
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2IwdQACgkQp6FrSiUn
-Q2q09wf+OAF+HmkWrt8cq7IuR8289jKFIuZkGZTjQob1b5SMFLMu6HYOdUfTr6c7
-1z1eQSWQI2ubmkzfMWQaBpDnARGeM38z5yyRQuk3X40EDVTf0Il8jMX3UEBi5yMF
-xj1Zp2MzRmIoKcUk/imCU38dvh8sh3uz/rFhpDCd0PKAasQgSPvsreHzuffJpJ0u
-NNX6NC9qeQcRthed7z37mlZhyfTWNx/IuabFjNTZI5JsgghN0ObAXsyGt/VkmKOD
-zpUQNnwfKBAqIJg0at8Xs+ghBvxe8fhv8U+FL33oxYEomM4TjH1nxhVtsOaaWyHf
-/pmh/lC6gj6zdQ2RxhrSDPysCacEtA==
-=+qj3
------END PGP SIGNATURE-----
-
---SPTnie9j44n3UFRDCTvfwE7UjA3rXvyym--
+[*] Multiple options with the same ID.  A detail that isn't relevant
+here, I think.  Can explain if you're curious.
 
