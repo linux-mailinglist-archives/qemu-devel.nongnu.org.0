@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1569BB638
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:07:32 +0200 (CEST)
-Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C75BB655
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 16:14:30 +0200 (CEST)
+Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCOzz-0001aa-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35239)
+	id 1iCP6j-0005nH-KE
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 10:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iCOyp-00016a-CZ
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:06:20 -0400
+ (envelope-from <bounces@canonical.com>) id 1iCP3b-000369-DL
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:11:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iCOyo-0002YA-1L
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:06:19 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:47003)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1iCOyn-0002Xq-Hy
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:06:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=22llBNfbndwaBYScXQgsW3NF+ilPPdgJ2hH4eHOYNcY=; b=IRX/pGiYL+mrU+OqsydwJHYHBy
- O90OO0MyEuI3tGgaw2EELUqIvcx4mFs56JvGvJmRAg3xQHOs1A7jQWiUGGoj1naI0hBt0zUrBCEST
- W41Bj+U/6i6NUQjuVfZ3Uev0lLAP6dFnPuWqWI25kt0fT48+A5j/AbIvFudGzNGVNG88HRwvKJtqt
- rrRP0Dl2S7oS5hO4vlVg+r5pKDHGT4kXmVibxC/mwlAOJvZQSZ6qoaHmUxRlHhze7kxh4tDUMfnGk
- evXgwTtPmV/2EY+LJivO0MMRaf93xvz5xblKSk328zWqPc/Xur3B83jNQ7clAea1HKGouiXXm7dRW
- p91t+j78zMYWiIF7VR1XPRk3hUZs7YuMJSLLILurUE4IpAcfT5ZNs2AVtR9I6DxwM6v2sGiUX1wDb
- tL+4ynz48iWiR2wmIU2pSjCNfpFUHwJRMKZm0sQLgqqD9wIxPPMUGZYbnC8KkY5Qzd6CZ8Fw47gcQ
- DVKKVcec6iLJECra3H9SQzyrVW6fsI5WITWBhTaUbKpAq7Ksqjw+Fc90JLyBwe4l2U5NypIHlOuRE
- 7InwIRDhz7IQOfvIHtUo/PaHNgUzNmiIO/AP2q9NQk/DmEtdO7lkWO83OHEJHfNJ+UZc2qzPCYEad
- SZ7lMxZ+LtX+7hIx3vO9JAFnYNQHue1s2Pu4qOhRE=;
-To: qemu-devel@nongnu.org
-Subject: Re: [Qemu-devel] [PATCH v7 0/3] 9p: Fix file ID collisions
-Date: Mon, 23 Sep 2019 16:06:13 +0200
-Message-ID: <2537302.ZFCiNNprIf@silver>
-In-Reply-To: <20190923145611.7ca240e8@bahia.lan>
-References: <cover.1567680121.git.qemu_oss@crudebyte.com>
- <2376196.qMJLftDnS9@silver> <20190923145611.7ca240e8@bahia.lan>
+ (envelope-from <bounces@canonical.com>) id 1iCP3a-0004io-2J
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:11:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50766)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iCP3Z-0004iW-TI
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 10:11:14 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iCP3X-0007ja-VV
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 14:11:12 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id ECC052E80C7
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 14:11:11 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Sep 2019 13:57:02 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell robert-hu
+X-Launchpad-Bug-Reporter: Robert Hu (robert-hu)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20170426091517.1328.12576.malonedeb@gac.canonical.com>
+Message-Id: <156924702293.4429.12415362038035121399.malone@chaenomeles.canonical.com>
+Subject: =?utf-8?q?=5BBug_1686350=5D_Re=3A_=5BKVM=5D_The_qemu_=E2=80=98-cpu?=
+ =?utf-8?q?=E2=80=99_option_not_have_skylake_server_cpu_model?=
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 294daa34899cc373667fd14086ba0cc395b67d4b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,98 +65,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Antonios Motakis <antonios.motakis@huawei.com>
+Reply-To: Bug 1686350 <1686350@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Christian Schoenebeck <qemu_oss@crudebyte.com>
-From: Christian Schoenebeck via <qemu-devel@nongnu.org>
 
-On Montag, 23. September 2019 14:56:11 CEST Greg Kurz wrote:
-> On Mon, 23 Sep 2019 11:50:46 +0200
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Freitag, 13. September 2019 19:01:57 CEST Greg Kurz wrote:
-> > > So I did some changes in 1/3 and pushed everything to 9p-next.
-> > 
-> > I've reviewed your changes. Some notes:
-> > 
-> > Patch 1:
-> > https://github.com/gkurz/qemu/commit/9295011c5a961603959b966c8aa6ad9840fe6
-> > db2> 
-> > * Typo 1:
-> > 	error_append_hint(&local_err, "Valide options are: multidevs="
-> > 	
-> > 	Valide -> Valid
-> > 
-> > * Typo 2 in log comment:
-> > 	[groug: - Moved "multidevs" parsing the local backend.
-> > 	->
-> > 	[groug: - Moved "multidevs" parsing to the local backend.
-> 
-> Fixed.
-
-Thanks! Saw it, looks fine now.
-
-> > > I'll do some
-> > > more manual testing and issue a PR when I'm confident enough.
-> > 
-> > That would be highly appreciated! So far I am the only one ever having
-> > tested this patch set at all!
-> 
-> Just to clarify, I won't thoroughly test it. My main concern is that it
-> doesn't break things. 
-
-So in other words you are only going to test the default behaviour
---multidevs=warn?
-
-If yes, and since that would mean I was the only person ever having tested the 
-actual fix, shouldn't --multidevs=remap|forbid better be marked as 
-experimental (docs and runtime warning) for now? Maybe that would also 
-anticipate receiving feedback from people actually using it later on.
-
-> I usually rely on this:
-> 
-> https://www.tuxera.com/community/posix-test-suite/
-
-Well, that website is far from being too verbose of what that test suite 
-actually encompasses.
-
-> > > It would be nice to have some sort of automated test for that in 'make
-> > > check'. My first thought is to simulate a cross-device setup with the
-> > > synth
-> > > backend, because it might be difficult to do this on a real filesystem
-> > > without requiring elevated privileges.
-> > 
-> > Hmm, since I neither haven't used the synth backend before, nor added qemu
-> > test cases so far, I am yet missing the complete picture here. My initial
-> > suggested approach would have been using loopback devices for simulating
-> > two file systems, but yes that's probably not viable due to required
-> > permissions. How would the synth backend help here? I mean you would need
-> > to simulate specific inode numbers and device numbers in some way for the
-> > test cases.
-> The synth backend allows to simulate anything you want, provided you
-> code it of course :)
-> 
-> It is currently used to run some 9p protocol conformance tests. Have a
-> look at the backend code to get the idea.
-> 
-> hw/9pfs/9p-synth.h
-> hw/9pfs/9p-synth.c
-> 
-> and the test program:
-> 
-> tests/virtio-9p-test.c
-> 
-> It currently doesn't care for st_dev/st_ino at all, but I guess
-> it shouldn't be that hard to add the necessary bits.
-
-I see. Well, I will look at it, but that will definitely not be one of my 
-current high priority tasks that would happen in the next few weeks (simply 
-due to my work load).
+The Skylake-Server cpu type was added for either QEMU 3.0 or 3.1, so
+this bug is fix-released.
 
 
+** Changed in: qemu
+       Status: New =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1686350
+
+Title:
+  [KVM] The qemu =E2=80=98-cpu=E2=80=99 option not have skylake server cpu =
+model
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Environment:
+  -------------------
+  KVM commit/branch: bd17117b/next
+  Qemu commit/branch: cd1ea508/master
+  Host OS: RHEL7.3 ia32e
+  Host Kernel:4.11.0-rc3
+  Bug detailed description:
+  ----------------------------------
+  In latest qemu commit the qemu still not have skylake server cpu model
+  Reproduce steps:
+  -------------------------
+  [root@skl-2s2 ~]# qemu-system-x86_64 -cpu help
+  Available CPUs:
+  x86 486
+  x86 Broadwell-noTSX Intel Core Processor (Broadwell, no TSX)
+  x86 Broadwell Intel Core Processor (Broadwell)
+  x86 Conroe Intel Celeron_4x0 (Conroe/Merom Class Core 2)
+  x86 Haswell-noTSX Intel Core Processor (Haswell, no TSX)
+  x86 Haswell Intel Core Processor (Haswell)
+  x86 IvyBridge Intel Xeon E3-12xx v2 (Ivy Bridge)
+  x86 Nehalem Intel Core i7 9xx (Nehalem Class Core i7)
+  x86 Opteron_G1 AMD Opteron 240 (Gen 1 Class Opteron)
+  x86 Opteron_G2 AMD Opteron 22xx (Gen 2 Class Opteron)
+  x86 Opteron_G3 AMD Opteron 23xx (Gen 3 Class Opteron)
+  x86 Opteron_G4 AMD Opteron 62xx class CPU
+  x86 Opteron_G5 AMD Opteron 63xx class CPU
+  x86 Penryn Intel Core 2 Duo P9xxx (Penryn Class Core 2)
+  x86 SandyBridge Intel Xeon E312xx (Sandy Bridge)
+  x86 Skylake-Client Intel Core Processor (Skylake)
+  x86 Westmere Westmere E56xx/L56xx/X56xx (Nehalem-C)
+  x86 athlon QEMU Virtual CPU version 2.5+
+  x86 core2duo Intel(R) Core(TM)2 Duo CPU T7700 @ 2.40GHz
+  x86 coreduo Genuine Intel(R) CPU T2600 @ 2.16GHz
+  x86 kvm32 Common 32-bit KVM processor
+  x86 kvm64 Common KVM processor
+  x86 n270 Intel(R) Atom(TM) CPU N270 @ 1.60GHz
+  x86 pentium
+  x86 pentium2
+  x86 pentium3
+  x86 phenom AMD Phenom(tm) 9550 Quad-Core Processor
+  x86 qemu32 QEMU Virtual CPU version 2.5+
+  x86 qemu64 QEMU Virtual CPU version 2.5+
+  x86 base base CPU model type with no features enabled
+  x86 host KVM processor with all supported host features (only available i=
+n KVM mode)
+  x86 max Enables all features supported by the accelerator in the current =
+host
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1686350/+subscriptions
 
