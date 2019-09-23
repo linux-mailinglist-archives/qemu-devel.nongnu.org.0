@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9A8BB426
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:48:31 +0200 (CEST)
-Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DD7BB458
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 14:52:52 +0200 (CEST)
+Received: from localhost ([::1]:56156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCNlW-0004JQ-HD
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 08:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51959)
+	id 1iCNpj-0006uV-Pw
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 08:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iCNk5-0003hG-CP
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:47:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1iCNo5-0005oD-TJ
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:51:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iCNk4-0006nL-3P
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:47:00 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35714)
+ (envelope-from <bounces@canonical.com>) id 1iCNo4-0000G9-FK
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:51:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60836)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iCNk3-0006mx-Uj
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:47:00 -0400
-Received: by mail-oi1-x243.google.com with SMTP id x3so7437262oig.2
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 05:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jV176iHH3a7T3Z7Nm5lkp7y1hfpdPt8AAf1Vbsv9mlo=;
- b=ukmwFMMKvEdg+p8uYqffGx9MIw3iVA0NQ0HICz+kzsAifpdL87G+WZS+QTbU5Oo2uL
- QtkiOdoPdwl+VWDDN+m8AkodmYd36usz/3fv8wc9+pWs3EWPJ+RgSx+mSzcgBjewxnmK
- ATcGf3/uMbzHsF8PdR2ghT73zXer69FJUQhapDOxvF4r6R2s7iXXDCpmWGxMCW/3aLac
- 32vGMROG6ORpspMu7n5xtg4y1nApBt3p4CcCBp1WS5k4HQ2pRU1t6Hnb7GnzC3F8NQC1
- la72AkUR8Ev4dA72iOOn1ZYHsSVt63WJJsZpkWiU8zga0PQUedtEPwG3C8h8Mr+CKLD9
- gOIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jV176iHH3a7T3Z7Nm5lkp7y1hfpdPt8AAf1Vbsv9mlo=;
- b=pkjEbdk01Lxb04aCrEbzDIxF9EhiuVHMvB/+YgNWO5GQRWQLgf4cO6YaTnbeU0PT86
- 2cUdyY84c2Vul6p/S75w6oADfub0+AhO6qlDdVBIbabKSUuxQtrL/+g3tlSVgmlQUD38
- G9hdyWzp81p7/oMkEqiobQsGl2eW5oljvSfRvqoYVcmIcmRDezGHJG+RHZrU3kC8TlbN
- rhBY5yFHnCrxPCRKnOBBhHIbMgkpIVQXglpU5o7ZeogeQ6IlluDmZr5zDhSpjaTbRZjc
- ZuIDZDhY4lPmyYEbGMK5jCsgF/f4DmXSMsLnOdy+Ej2s6L3JmrlHWsbFDwjPJboDN8Zz
- OXZA==
-X-Gm-Message-State: APjAAAUNA+MwEzRcQTkib4wjdxtzajyqMgyyJ0KrzUr51B7zhXGuXYAl
- lDsilRTh8xCUQRBb5eqcbBEZIKJTl81pJzPfXf8/OA==
-X-Google-Smtp-Source: APXvYqzmBuWVB3XNOwg1Jm00EZvD9MBkuGvA6s7KtruGDKZv8PGmMjIoCLiagpuE10y13JBQFu9eiz7MQZp/Qn+xFaM=
-X-Received: by 2002:aca:f54d:: with SMTP id t74mr13547038oih.170.1569242818897; 
- Mon, 23 Sep 2019 05:46:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iCNo4-0000FR-9g
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 08:51:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iCNo1-0004w5-KB
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 12:51:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D90E52E81B7
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 12:51:02 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190923121712.22971-1-thuth@redhat.com>
- <CAFEAcA9jOD_mFOeVaAo5qsoj-Q0-U5qF8c85Am4ObgSn3b6irg@mail.gmail.com>
- <cff2b157-910a-a97d-3fe1-a862e781eac8@redhat.com>
-In-Reply-To: <cff2b157-910a-a97d-3fe1-a862e781eac8@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Sep 2019 13:46:47 +0100
-Message-ID: <CAFEAcA-bUT4o0=Vs7zrnx_aS0XBaWuedsUv-rMu5cimV7S5a9A@mail.gmail.com>
-Subject: Re: [PATCH] Disallow colons in the parameter of "-accel"
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Sep 2019 12:38:02 -0000
+From: Frank Heimes <1842774@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=frank.heimes@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
+ status=In Progress; importance=High; assignee=canonical-kernel-team; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=linux;
+ component=main; status=In Progress; importance=High;
+ assignee=canonical-kernel-team; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=linux; 
+ component=main; status=In Progress; importance=High;
+ assignee=canonical-kernel-team; 
+X-Launchpad-Bug-Tags: architecture-s39064 bugnameltc-181268 severity-high
+ targetmilestone-inin1910
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke bugproxy frank-heimes
+X-Launchpad-Bug-Reporter: bugproxy (bugproxy)
+X-Launchpad-Bug-Modifier: Frank Heimes (frank-heimes)
+References: <156764756485.6162.5365845259935486076.malonedeb@soybean.canonical.com>
+Message-Id: <156924228502.32250.10595638828693152882.launchpad@wampee.canonical.com>
+Subject: [Bug 1842774] Re: Enhanced Hardware Support - Finalize Naming
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 68adce9ed8dcf409587cbffb25cf6a62239f0ad5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,45 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1842774 <1842774@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Sep 2019 at 13:42, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 23/09/2019 14.23, Peter Maydell wrote:
-> > This seems pretty ugly.
->
-> Yes. The whole "-accel" option is currently ugly. My patch is just a
-> temporary work-around to prevent that we later have to deal with the
-> fact that users started to use this colon here in the wild and we would
-> then have to fight to get rid of it again.
->
-> > If -accel is the way we're recommending
-> > users configure the accelerator then it should support syntax
-> > for specifying everything we could do with the old -machine...
-> > option.
->
-> No, we certainly don't want to have the colon in here. The idea is
-> rather that you could specify multiply "-accel" options one day, e.g.:
->
->  -accel tcg,tb-size=2048 -accel kvm,kernel_irqchip=on
->
-> ... and then the accelators are used with the right parameters in the
-> order of availability.
->
-> Per-accelerator parameters just don't work here if you allow the colon.
->
-> (IMHO we should not have let the -accel code enter the repository in
-> this shape, but rather insist on a proper implementation right from the
-> start - but now that it's there, we have to deal with it and should make
-> sure that it does not get worse)
+** Information type changed from Private to Public
 
-Ah, I hadn't realised that -accel was a (relatively) long-standing
-option; I'd just noticed some patches going past recently suggesting
-we were starting to recommend it over -machine accel=.
-Thanks for trying to clean it up a bit.
+-- =
 
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1842774
+
+Title:
+  Enhanced Hardware Support - Finalize Naming
+
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+Status in linux package in Ubuntu:
+  In Progress
+Status in linux source package in Bionic:
+  In Progress
+Status in linux source package in Disco:
+  In Progress
+
+Bug description:
+  SRU Justification:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  [Impact]
+
+  * Add / activate support for IBM z15 and LinuxONE III systems
+
+  [Fix]
+
+  * a0e2251132995b962281aa80ab54a9288f9e0b6b a0e2251 "s390: add support
+  for IBM z15 machines"
+
+  [Test Case]
+
+  * check and verify cpuinfo - regression testing is possible by
+  Canonical/me
+
+  * functional testing is currently only doable by IBM
+
+  [Regression Potential]
+
+  * There is regression potential with having new code in and the flags
+  added/active
+
+  * but the code changes are pretty straight forward, just add config,
+  cases and defs
+
+  * and are not used on existing systems, just on the new generation
+  that is not yet out in the field
+
+  [Other Info]
+
+  * SRU of LP 1842916 merged with (this) LP 1842774
+
+  __________
+
+  This feature request will provide the final naming of the next machine
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1842774/+subscriptions
 
