@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85F0BB11F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 11:12:14 +0200 (CEST)
-Received: from localhost ([::1]:54044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D9FBB142
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 11:20:15 +0200 (CEST)
+Received: from localhost ([::1]:54152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCKOD-0001DF-H8
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 05:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52719)
+	id 1iCKVy-0007j2-1e
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 05:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iCKM1-0007wM-GO
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 05:09:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1iCKTO-0006HP-DO
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 05:17:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iCKLy-0008Dc-IZ
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 05:09:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25373
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iCKTL-0006Px-SJ
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 05:17:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53540)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCKLy-0008BN-9k
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 05:09:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569229792;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=jKga1tA8YbDtAFc6D1iqzbhRz2b0Enh0pJ0iCH4FGGM=;
- b=A7NrIvdPAiA+v+Zdy9FXfFjmdQ27ZZL+LCuvRZheEL08rebslpvGfFK3RA4V6mkRwsQY+D
- nSbx475Uc+wgP2zdSEA0qzqLzOaOjgdXmej4kw3kdE8oxn1cvx05hDihWmEeUfNAebLe7i
- f0dXDqco11RmI7qsf5zSSvKBz9eNJFA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-SYZG9033OUqBH5zy9OBEoA-1; Mon, 23 Sep 2019 05:09:50 -0400
-Received: by mail-wm1-f72.google.com with SMTP id r21so4706561wme.5
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 02:09:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCKTL-0006PY-KG
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 05:17:31 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 388CA3DE05
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 09:17:30 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id n6so4567933wrm.20
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 02:17:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3UZ5UpiM5VMl98zukP4c1o3KaJWeHTA6Ym5KGThfkEM=;
- b=hxkVAUfrJq7LlLAu+VKgFwz5oYF2rdwOd7P85B9yjERdzFkNdndcU+r2N64Csz9/Kz
- 6QIFTYwu3Vm9e60pyqrT3b4xmJ+CmIpIxa8jYf+5HUmYHGLi7UoqNLY1N1YJFN23dF2I
- zGRHXX8Aa06fZ7GgS6drZ1FvCYIVifjCUZfXRXj0xFxZw2zJhIw5oo7jMPqrLHsjcEG3
- dPUoIMXfe82bnMK+ECh3Pt+gHlKpf+nKeAW6MhzgEX+6N/NLgdJxa6AP/ZWC1O9p+QLm
- QQVY3j1I4Mu/HoqzUogWgWwo2t0NVsbvrH0+Hf+BXgj/bVjhF3UE39MTHLBrmZiCd4rT
- RSrg==
-X-Gm-Message-State: APjAAAWYJ4vNYCsODBESf99LmQrejQRoQXgviRjHZnfX8r4YTUn0/bey
- dFwnYU1rt+VHsjYRcp59lifPXc+bYPqQEGRXxpkmG0hlk78eQAWmbsEiid7TyuGMCsv7pJyP4uS
- glfe2snw6D+Wm0Jw=
-X-Received: by 2002:a1c:7fcc:: with SMTP id a195mr13236487wmd.27.1569229788925; 
- Mon, 23 Sep 2019 02:09:48 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxBenpdZaKKg5q9L3EU1AiYKwI145GhCLELXT1Fp+0+lNx/eUzMDqapCop+zqB5NYN9Q2+HDw==
-X-Received: by 2002:a1c:7fcc:: with SMTP id a195mr13236469wmd.27.1569229788709; 
- Mon, 23 Sep 2019 02:09:48 -0700 (PDT)
+ bh=MOYlPRguPRrD1KGYJ7Kfm5he1pKx+lxYRTsa3YhWERc=;
+ b=aof780KIKzmqGuEiLDOMRbgWW3klxnfJFx97HQXnXyS3Pa+Ipw8EM0ZThrBen1oADa
+ kUVFfWfACOil1vrbcVpwznZEBQSSLT1qHCKJ6bYu7Vpp6zHXIoqu2+wKCcBreL8WTsX/
+ T4LmVakwl6Wvysqvc0jLk3sOcB42vI0yyGmIKY5/20jXIyO7MrAFnv8pscbCMWDuJx6K
+ vt1dtzuPICNscXq29m/hEO9HO23X1rYYgFX6PZiLmzxAEjfFIxhpFOvoMhjFFPqCSIK5
+ k0Ns0dWlt0BxJEtDfoU13Pu8wXsrDKfiLjKxkT6YZ/minaZOrBwha5CIgI6TP7v651R0
+ 3Gbw==
+X-Gm-Message-State: APjAAAW4s24ssvBJpzHmfv1QYogaRX9g0vaxOewByzlXcgSkIoo6uVZ0
+ GjtSBzqHG3pso/IpIuN/dNX9hJ6csnPvomqDL+FTWbJe+9xHxi6iZ7wHJqgZQIRdxZeLFqZI1/T
+ U4v9Wf1XXVErQrIQ=
+X-Received: by 2002:a1c:9a95:: with SMTP id c143mr707726wme.89.1569230248920; 
+ Mon, 23 Sep 2019 02:17:28 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzR/D46PMOyQ+Mr+Hj27/umcyFt2pPuVtMqoGhvFn8nRh3tXbAPYZ5TlVAiFWhwh++BcI86zQ==
+X-Received: by 2002:a1c:9a95:: with SMTP id c143mr707711wme.89.1569230248712; 
+ Mon, 23 Sep 2019 02:17:28 -0700 (PDT)
 Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id p85sm19949506wme.23.2019.09.23.02.09.47
+ by smtp.gmail.com with ESMTPSA id g13sm10105993wrm.42.2019.09.23.02.17.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Sep 2019 02:09:48 -0700 (PDT)
-Subject: Re: [PATCH v1 6/6] riscv/virt: Jump to pflash if specified
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
-References: <cover.1568931866.git.alistair.francis@wdc.com>
- <a3649f52a79eff39c707546d88ecd25b753dbf33.1568931866.git.alistair.francis@wdc.com>
- <CAEUhbmVcupHEesoyrfnyCfSUg4Q8pZnyUt=3hpC_g11BL1wxwg@mail.gmail.com>
+ Mon, 23 Sep 2019 02:17:28 -0700 (PDT)
+Subject: Re: [PATCH v3 11/20] exec: Adjust notdirty tracing
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190922035458.14879-1-richard.henderson@linaro.org>
+ <20190922035458.14879-12-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <b6236eec-d60a-c502-e010-f3ca137e8b89@redhat.com>
-Date: Mon, 23 Sep 2019 11:09:47 +0200
+Message-ID: <ef3e3279-b0dc-3e33-36fb-a1b020f7f310@redhat.com>
+Date: Mon, 23 Sep 2019 11:17:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmVcupHEesoyrfnyCfSUg4Q8pZnyUt=3hpC_g11BL1wxwg@mail.gmail.com>
+In-Reply-To: <20190922035458.14879-12-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: SYZG9033OUqBH5zy9OBEoA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,73 +82,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/19 7:15 AM, Bin Meng wrote:
-> On Fri, Sep 20, 2019 at 6:35 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
->>
->> If the user supplied pflash to QEMU then change the reset code to jump
->> to the pflash base address instead of the DRAM base address.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>  hw/riscv/virt.c | 10 +++++++++-
->>  1 file changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->> index ca002ecea7..ed25cc6761 100644
->> --- a/hw/riscv/virt.c
->> +++ b/hw/riscv/virt.c
->> @@ -441,6 +441,7 @@ static void riscv_virt_board_init(MachineState *mach=
-ine)
->>      MemoryRegion *mask_rom =3D g_new(MemoryRegion, 1);
->>      char *plic_hart_config;
->>      size_t plic_hart_config_len;
->> +    target_ulong start_addr =3D memmap[VIRT_DRAM].base;
->>      int i;
->>      unsigned int smp_cpus =3D machine->smp.cpus;
->>
->> @@ -487,6 +488,13 @@ static void riscv_virt_board_init(MachineState *mac=
-hine)
->>          }
->>      }
->>
->> +    if (drive_get(IF_PFLASH, 0, 0)) {
->> +        /* Pflash was supplied, let's overwrite the address we jump to =
-after
+On 9/22/19 5:54 AM, Richard Henderson wrote:
+> The memory_region_tb_read tracepoint is unreachable, since notdirty
+> is supposed to apply only to writes.  The memory_region_tb_write
+> tracepoint is mis-named, because notdirty is not only used for TB
+> invalidation.  It is also used for e.g. VGA RAM updates and migration.
 >=20
-> nits: wrong multi-line comment format
+> Replace memory_region_tb_write with memory_notdirty_write_access,
+> and place it in memory_notdirty_write_prepare where it can catch
+> all of the instances.  Add memory_notdirty_set_dirty to log when
+> we no longer intercept writes to a page.
 >=20
->> +         * reset to the base of the flash.
->> +         */
->> +        start_addr =3D virt_memmap[VIRT_FLASH].base;
->> +    }
->> +
->>      /* reset vector */
->>      uint32_t reset_vec[8] =3D {
->>          0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(dtb) *=
-/
->> @@ -499,7 +507,7 @@ static void riscv_virt_board_init(MachineState *mach=
-ine)
->>  #endif
->>          0x00028067,                  /*     jr     t0 */
->>          0x00000000,
->> -        memmap[VIRT_DRAM].base,      /* start: .dword memmap[VIRT_DRAM]=
-.base */
->> +        start_addr,                  /* start: .dword */
->>          0x00000000,
->>                                       /* dtb: */
->>      };
->> --
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  exec.c       | 3 +++
+>  memory.c     | 4 ----
+>  trace-events | 4 ++--
+>  3 files changed, 5 insertions(+), 6 deletions(-)
 >=20
-> Otherwise,
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> diff --git a/exec.c b/exec.c
+> index 33bd0e36c1..7ce0515635 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -2721,6 +2721,8 @@ void memory_notdirty_write_prepare(NotDirtyInfo *=
+ndi,
+>      ndi->size =3D size;
+>      ndi->pages =3D NULL;
+> =20
+> +    trace_memory_notdirty_write_access(mem_vaddr, ram_addr, size);
+> +
+>      assert(tcg_enabled());
+>      if (!cpu_physical_memory_get_dirty_flag(ram_addr, DIRTY_MEMORY_COD=
+E)) {
+>          ndi->pages =3D page_collection_lock(ram_addr, ram_addr + size)=
+;
+> @@ -2745,6 +2747,7 @@ void memory_notdirty_write_complete(NotDirtyInfo =
+*ndi)
+>      /* we remove the notdirty callback only if the code has been
+>         flushed */
+>      if (!cpu_physical_memory_is_clean(ndi->ram_addr)) {
+> +        trace_memory_notdirty_set_dirty(ndi->mem_vaddr);
+>          tlb_set_dirty(ndi->cpu, ndi->mem_vaddr);
+>      }
+>  }
+> diff --git a/memory.c b/memory.c
+> index b9dd6b94ca..57c44c97db 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -438,7 +438,6 @@ static MemTxResult  memory_region_read_accessor(Mem=
+oryRegion *mr,
+>          /* Accesses to code which has previously been translated into =
+a TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_read(get_cpu_index(), addr, tmp, size);
+>      } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tm=
+p, size);
+> @@ -465,7 +464,6 @@ static MemTxResult memory_region_read_with_attrs_ac=
+cessor(MemoryRegion *mr,
+>          /* Accesses to code which has previously been translated into =
+a TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_read(get_cpu_index(), addr, tmp, size);
+>      } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tm=
+p, size);
+> @@ -490,7 +488,6 @@ static MemTxResult memory_region_write_accessor(Mem=
+oryRegion *mr,
+>          /* Accesses to code which has previously been translated into =
+a TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_write(get_cpu_index(), addr, tmp, size)=
+;
+>      } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, t=
+mp, size);
+> @@ -515,7 +512,6 @@ static MemTxResult memory_region_write_with_attrs_a=
+ccessor(MemoryRegion *mr,
+>          /* Accesses to code which has previously been translated into =
+a TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_write(get_cpu_index(), addr, tmp, size)=
+;
+>      } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, t=
+mp, size);
+> diff --git a/trace-events b/trace-events
+> index 823a4ae64e..20821ba545 100644
+> --- a/trace-events
+> +++ b/trace-events
+> @@ -52,14 +52,14 @@ dma_map_wait(void *dbs) "dbs=3D%p"
+>  find_ram_offset(uint64_t size, uint64_t offset) "size: 0x%" PRIx64 " @=
+ 0x%" PRIx64
+>  find_ram_offset_loop(uint64_t size, uint64_t candidate, uint64_t offse=
+t, uint64_t next, uint64_t mingap) "trying size: 0x%" PRIx64 " @ 0x%" PRI=
+x64 ", offset: 0x%" PRIx64" next: 0x%" PRIx64 " mingap: 0x%" PRIx64
+>  ram_block_discard_range(const char *rbname, void *hva, size_t length, =
+bool need_madvise, bool need_fallocate, int ret) "%s@%p + 0x%zx: madvise:=
+ %d fallocate: %d ret: %d"
+> +memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsign=
+ed size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
+> +memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
+> =20
+>  # memory.c
+>  memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_=
+t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" =
+size %u"
+>  memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64=
+_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64"=
+ size %u"
+>  memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, u=
+int64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"=
+PRIx64" size %u"
+>  memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, =
+uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%=
+"PRIx64" size %u"
+> -memory_region_tb_read(int cpu_index, uint64_t addr, uint64_t value, un=
+signed size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+> -memory_region_tb_write(int cpu_index, uint64_t addr, uint64_t value, u=
+nsigned size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, =
+uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"P=
+RIx64" size %u"
+>  memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr,=
+ uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"=
+PRIx64" size %u"
+>  flatview_new(void *view, void *root) "%p (root %p)"
+>=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
 
