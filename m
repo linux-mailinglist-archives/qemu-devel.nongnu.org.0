@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB227BBEDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:13:32 +0200 (CEST)
-Received: from localhost ([::1]:37204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0E2BBEE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:20:07 +0200 (CEST)
+Received: from localhost ([::1]:37306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCXWN-0007pL-Kp
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35951)
+	id 1iCXck-0005tg-Fw
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCXJo-0005kB-HU
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:34 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1iCXPH-0001mL-9V
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:06:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCXJm-0008AQ-M6
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:32 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36260)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCXJm-00089y-A1
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:30 -0400
-Received: by mail-pf1-x443.google.com with SMTP id y22so10153179pfr.3
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Fy8yqGvXJfEtemqcYdzYU9XShb4v7XS8MjArgMABc6w=;
- b=Uh7DC6M4fZGv0z+2vD70cpe39Z/CcwRdC5TWSZMpLxDgRH3zdsH/nTiIQKQowcqoRs
- So9Sh/D+dKzaLJxlP4ESNzSa+R97yG44+I6ynK41HU6bklBucFWfTWII/vq9ZKmUHdze
- BDxl3/O6ddErC5kbccJ0IeZttVhg+G5C15XSwaM2HpRgVc6b0+bSm9u63qqL/1tY+gNn
- kxZDyUDnJH47GksZKxejMA4Y75iROr+PgOPI/sRsuvICMMKCpnEbFkcyDXBc73FWGlxJ
- luvY2gwEv7XkRk7PBW4euFoP5ornrj0LiL6nk+MCEXTBw9KjnMp/NZw3eaGX1o3dP8Ly
- Vieg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Fy8yqGvXJfEtemqcYdzYU9XShb4v7XS8MjArgMABc6w=;
- b=FKXKgFTC+/tJOmhqYimtVgoq8V+nu6n62QSiUR1S0RQ4iobHjPYxvnJONaKvZ0JXj1
- mTeO5DzV/41Unz11IwOrrt4xd8zQGFQik9vEzq+iuLQpKUHftr78US0CafYKOSy0Scaq
- kmDKxN1XtowVGPPvieNAg7tFkOlkw0WvEPlBTSIgZOMMd3+vgYNsef4FSmOJhQPVqYVM
- MIIlst34i8BqNbR1iK38S0kQkifV2pH45sD1uWRgaJmjZOVSQ6bWcJJ8JR/vkMJOMOEX
- 5+JzdP79WzOPoM8MQ60FIN8PxQQeTnXNJSr9pxj4m/yWOdiaR1At4SjN0eyiDdzTov4h
- nAFg==
-X-Gm-Message-State: APjAAAWobTAi+kXCOVnUljYZPOOoLZVyPjYdcMNEvE0u5RuyPIjA0rzI
- MTT5iuOynGo8rr5EUoOIpJztmUIQTrU=
-X-Google-Smtp-Source: APXvYqw90MZayWlW0+DamggFyoSddng1+In5/zc/TN8TukxgCFFGpMHRgkN7HmH8QwiJCvIvfxQ4nA==
-X-Received: by 2002:a62:2f84:: with SMTP id v126mr2173907pfv.167.1569279628832; 
- Mon, 23 Sep 2019 16:00:28 -0700 (PDT)
-Received: from localhost.localdomain ([12.206.46.59])
- by smtp.gmail.com with ESMTPSA id 74sm11674810pfy.78.2019.09.23.16.00.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2019 16:00:28 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 15/16] cputlb: Pass retaddr to tb_invalidate_phys_page_fast
-Date: Mon, 23 Sep 2019 16:00:03 -0700
-Message-Id: <20190923230004.9231-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190923230004.9231-1-richard.henderson@linaro.org>
-References: <20190923230004.9231-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+ (envelope-from <alex.williamson@redhat.com>) id 1iCXPE-0004KV-Bj
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:06:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32844)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1iCXP9-0004Hf-1z; Mon, 23 Sep 2019 19:06:03 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C64CF83F3D;
+ Mon, 23 Sep 2019 23:06:00 +0000 (UTC)
+Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6AF55D9D5;
+ Mon, 23 Sep 2019 23:05:51 +0000 (UTC)
+Date: Mon, 23 Sep 2019 17:05:50 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 1/2] vfio: Turn the container error into an Error handle
+Message-ID: <20190923170550.252020d0@x1.home>
+In-Reply-To: <20190923065552.10602-2-eric.auger@redhat.com>
+References: <20190923065552.10602-1-eric.auger@redhat.com>
+ <20190923065552.10602-2-eric.auger@redhat.com>
+Organization: Red Hat
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Mon, 23 Sep 2019 23:06:00 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,142 +57,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
- david@redhat.com
+Cc: peter.maydell@linaro.org, mst@redhat.com, aik@ozlabs.ru,
+ qemu-devel@nongnu.org, peterx@redhat.com, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than rely on cpu->mem_io_pc, pass retaddr down directly.
+On Mon, 23 Sep 2019 08:55:51 +0200
+Eric Auger <eric.auger@redhat.com> wrote:
 
-Within tb_invalidate_phys_page_range__locked, the is_cpu_write_access
-parameter is non-zero exactly when retaddr would be non-zero, so that
-is a simple replacement.
+> The container error integer field is currently used to store
+> the first error potentially encountered during any
+> vfio_listener_region_add() call. However this fails to propagate
+> detailed error messages up to the vfio_connect_container caller.
+> Instead of using an integer, let's use an Error handle.
+> 
+> Messages are slightly reworded to accomodate the propagation.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  hw/vfio/common.c              | 61 +++++++++++++++++++++--------------
+>  hw/vfio/spapr.c               |  4 ++-
+>  include/hw/vfio/vfio-common.h |  2 +-
+>  3 files changed, 40 insertions(+), 27 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 3e03c495d8..a0670cc63a 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -503,12 +503,14 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>                                       MemoryRegionSection *section)
+>  {
+>      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> +    MemoryRegion *mr = section->mr;
 
-Recognize that current_tb_not_found is true only when mem_io_pc
-(and now retaddr) are also non-zero, so remove a redundant test.
+This looks like an entirely secondary change that obscures the primary
+purpose of this patch and isn't mentioned in the changelog.  It's also a
+bit inconsistent in places where we're references section->size and
+section->offset_within_address_space, but now mr instead of section->mr.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/translate-all.h |  3 ++-
- accel/tcg/cputlb.c        |  6 +-----
- accel/tcg/translate-all.c | 39 +++++++++++++++++++--------------------
- 3 files changed, 22 insertions(+), 26 deletions(-)
 
-diff --git a/accel/tcg/translate-all.h b/accel/tcg/translate-all.h
-index 31f2117188..135c1ea96a 100644
---- a/accel/tcg/translate-all.h
-+++ b/accel/tcg/translate-all.h
-@@ -27,7 +27,8 @@ struct page_collection *page_collection_lock(tb_page_addr_t start,
-                                              tb_page_addr_t end);
- void page_collection_unlock(struct page_collection *set);
- void tb_invalidate_phys_page_fast(struct page_collection *pages,
--                                  tb_page_addr_t start, int len);
-+                                  tb_page_addr_t start, int len,
-+                                  uintptr_t retaddr);
- void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
- void tb_check_watchpoint(CPUState *cpu);
- 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 0ca6ee60b3..ea5d12c59d 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1093,11 +1093,7 @@ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
-     if (!cpu_physical_memory_get_dirty_flag(ram_addr, DIRTY_MEMORY_CODE)) {
-         struct page_collection *pages
-             = page_collection_lock(ram_addr, ram_addr + size);
--
--        /* We require mem_io_pc in tb_invalidate_phys_page_range.  */
--        cpu->mem_io_pc = retaddr;
--
--        tb_invalidate_phys_page_fast(pages, ram_addr, size);
-+        tb_invalidate_phys_page_fast(pages, ram_addr, size, retaddr);
-         page_collection_unlock(pages);
-     }
- 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index de4b697163..db77fb221b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1889,7 +1889,7 @@ static void
- tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-                                       PageDesc *p, tb_page_addr_t start,
-                                       tb_page_addr_t end,
--                                      int is_cpu_write_access)
-+                                      uintptr_t retaddr)
- {
-     TranslationBlock *tb;
-     tb_page_addr_t tb_start, tb_end;
-@@ -1897,9 +1897,9 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
- #ifdef TARGET_HAS_PRECISE_SMC
-     CPUState *cpu = current_cpu;
-     CPUArchState *env = NULL;
--    int current_tb_not_found = is_cpu_write_access;
-+    bool current_tb_not_found = retaddr != 0;
-+    bool current_tb_modified = false;
-     TranslationBlock *current_tb = NULL;
--    int current_tb_modified = 0;
-     target_ulong current_pc = 0;
-     target_ulong current_cs_base = 0;
-     uint32_t current_flags = 0;
-@@ -1931,24 +1931,21 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-         if (!(tb_end <= start || tb_start >= end)) {
- #ifdef TARGET_HAS_PRECISE_SMC
-             if (current_tb_not_found) {
--                current_tb_not_found = 0;
--                current_tb = NULL;
--                if (cpu->mem_io_pc) {
--                    /* now we have a real cpu fault */
--                    current_tb = tcg_tb_lookup(cpu->mem_io_pc);
--                }
-+                current_tb_not_found = false;
-+                /* now we have a real cpu fault */
-+                current_tb = tcg_tb_lookup(retaddr);
-             }
-             if (current_tb == tb &&
-                 (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
--                /* If we are modifying the current TB, we must stop
--                its execution. We could be more precise by checking
--                that the modification is after the current PC, but it
--                would require a specialized function to partially
--                restore the CPU state */
--
--                current_tb_modified = 1;
--                cpu_restore_state_from_tb(cpu, current_tb,
--                                          cpu->mem_io_pc, true);
-+                /*
-+                 * If we are modifying the current TB, we must stop
-+                 * its execution. We could be more precise by checking
-+                 * that the modification is after the current PC, but it
-+                 * would require a specialized function to partially
-+                 * restore the CPU state.
-+                 */
-+                current_tb_modified = true;
-+                cpu_restore_state_from_tb(cpu, current_tb, retaddr, true);
-                 cpu_get_tb_cpu_state(env, &current_pc, &current_cs_base,
-                                      &current_flags);
-             }
-@@ -2042,7 +2039,8 @@ void tb_invalidate_phys_range(target_ulong start, target_ulong end)
-  * Call with all @pages in the range [@start, @start + len[ locked.
-  */
- void tb_invalidate_phys_page_fast(struct page_collection *pages,
--                                  tb_page_addr_t start, int len)
-+                                  tb_page_addr_t start, int len,
-+                                  uintptr_t retaddr)
- {
-     PageDesc *p;
- 
-@@ -2069,7 +2067,8 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
-         }
-     } else {
-     do_invalidate:
--        tb_invalidate_phys_page_range__locked(pages, p, start, start + len, 1);
-+        tb_invalidate_phys_page_range__locked(pages, p, start, start + len,
-+                                              retaddr);
-     }
- }
- #else
--- 
-2.17.1
+>      hwaddr iova, end;
+>      Int128 llend, llsize;
+>      void *vaddr;
+>      int ret;
+>      VFIOHostDMAWindow *hostwin;
+>      bool hostwin_found;
+> +    Error *err = NULL;
+>  
+>      if (vfio_listener_skipped_section(section)) {
+>          trace_vfio_listener_region_add_skip(
+> @@ -543,6 +545,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>                                 hostwin->max_iova - hostwin->min_iova + 1,
+>                                 section->offset_within_address_space,
+>                                 int128_get64(section->size))) {
+> +                error_setg(&err, "Overlap with existing IOMMU range "
+> +                                 "[0x%"PRIx64",0x%"PRIx64"]", hostwin->min_iova,
+> +                                 hostwin->max_iova - hostwin->min_iova + 1);
+>                  ret = -1;
+
+Agree with Peter here, we should no longer be gratuitously setting ret
+when it's not consumed.
+
+Alexey or David might want to comment on the error message here since
+we didn't have one previously, but we're only providing half the story
+above, the existing window that interferes but not the range we
+attempted to add that it interferes with.
+
+>                  goto fail;
+>              }
+> @@ -550,6 +555,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>  
+>          ret = vfio_spapr_create_window(container, section, &pgsize);
+>          if (ret) {
+> +            error_setg_errno(&err, -ret, "Failed to create SPAPR window");
+>              goto fail;
+>          }
+>  
+> @@ -559,7 +565,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>  #ifdef CONFIG_KVM
+>          if (kvm_enabled()) {
+>              VFIOGroup *group;
+> -            IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(section->mr);
+> +            IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(mr);
+>              struct kvm_vfio_spapr_tce param;
+>              struct kvm_device_attr attr = {
+>                  .group = KVM_DEV_VFIO_GROUP,
+> @@ -594,18 +600,17 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      }
+>  
+>      if (!hostwin_found) {
+> -        error_report("vfio: IOMMU container %p can't map guest IOVA region"
+> -                     " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx,
+> -                     container, iova, end);
+> +        error_setg(&err, "Container %p can't map guest IOVA region"
+> +                   " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx, container, iova, end);
+
+Note that here we print the start and end addresses, so I'm not sure
+why we chose to print [start,size] in the new message commented on
+above.
+
+>          ret = -EFAULT;
+>          goto fail;
+>      }
+>  
+> -    memory_region_ref(section->mr);
+> +    memory_region_ref(mr);
+>  
+> -    if (memory_region_is_iommu(section->mr)) {
+> +    if (memory_region_is_iommu(mr)) {
+>          VFIOGuestIOMMU *giommu;
+> -        IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(section->mr);
+> +        IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(mr);
+>          int iommu_idx;
+>  
+>          trace_vfio_listener_region_add_iommu(iova, end);
+> @@ -632,15 +637,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>                              iommu_idx);
+>          QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
+>  
+> -        memory_region_register_iommu_notifier(section->mr, &giommu->n);
+> +        memory_region_register_iommu_notifier(mr, &giommu->n);
+>          memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>  
+>          return;
+>      }
+>  
+> -    /* Here we assume that memory_region_is_ram(section->mr)==true */
+> +    /* Here we assume that memory_region_is_ram(mr)==true */
+>  
+> -    vaddr = memory_region_get_ram_ptr(section->mr) +
+> +    vaddr = memory_region_get_ram_ptr(mr) +
+>              section->offset_within_region +
+>              (iova - section->offset_within_address_space);
+>  
+> @@ -648,12 +653,12 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>  
+>      llsize = int128_sub(llend, int128_make64(iova));
+>  
+> -    if (memory_region_is_ram_device(section->mr)) {
+> +    if (memory_region_is_ram_device(mr)) {
+>          hwaddr pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+>  
+>          if ((iova & pgmask) || (int128_get64(llsize) & pgmask)) {
+>              trace_vfio_listener_region_add_no_dma_map(
+> -                memory_region_name(section->mr),
+> +                memory_region_name(mr),
+>                  section->offset_within_address_space,
+>                  int128_getlo(section->size),
+>                  pgmask + 1);
+> @@ -664,11 +669,12 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      ret = vfio_dma_map(container, iova, int128_get64(llsize),
+>                         vaddr, section->readonly);
+>      if (ret) {
+> -        error_report("vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+> -                     "0x%"HWADDR_PRIx", %p) = %d (%m)",
+> -                     container, iova, int128_get64(llsize), vaddr, ret);
+> -        if (memory_region_is_ram_device(section->mr)) {
+> +        error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+> +                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+> +                   container, iova, int128_get64(llsize), vaddr, ret);
+> +        if (memory_region_is_ram_device(mr)) {
+>              /* Allow unexpected mappings not to be fatal for RAM devices */
+> +            error_report_err(err);
+>              return;
+>          }
+>          goto fail;
+> @@ -677,7 +683,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      return;
+>  
+>  fail:
+> -    if (memory_region_is_ram_device(section->mr)) {
+> +    if (memory_region_is_ram_device(mr)) {
+>          error_report("failed to vfio_dma_map. pci p2p may not work");
+>          return;
+>      }
+> @@ -688,10 +694,14 @@ fail:
+>       */
+>      if (!container->initialized) {
+>          if (!container->error) {
+> -            container->error = ret;
+> +            error_propagate_prepend(&container->error, err,
+> +                                    "Region %s: ", memory_region_name(mr));
+> +        } else {
+> +            error_free(err);
+>          }
+>      } else {
+> -        hw_error("vfio: DMA mapping failed, unable to continue");
+
+As Peter notes, this removal is troubling.  Thanks,
+
+Alex
+
+> +        error_reportf_err(err,
+> +                          "vfio: DMA mapping failed, unable to continue: ");
+>      }
+>  }
+>  
+> @@ -1251,6 +1261,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      container = g_malloc0(sizeof(*container));
+>      container->space = space;
+>      container->fd = fd;
+> +    container->error = NULL;
+>      QLIST_INIT(&container->giommu_list);
+>      QLIST_INIT(&container->hostwin_list);
+>  
+> @@ -1308,9 +1319,9 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>                                       &address_space_memory);
+>              if (container->error) {
+>                  memory_listener_unregister(&container->prereg_listener);
+> -                ret = container->error;
+> -                error_setg(errp,
+> -                    "RAM memory listener initialization failed for container");
+> +                ret = -1;
+> +                error_propagate_prepend(errp, container->error,
+> +                    "RAM memory listener initialization failed: ");
+>                  goto free_container_exit;
+>              }
+>          }
+> @@ -1365,9 +1376,9 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      memory_listener_register(&container->listener, container->space->as);
+>  
+>      if (container->error) {
+> -        ret = container->error;
+> -        error_setg_errno(errp, -ret,
+> -                         "memory listener initialization failed for container");
+> +        ret = -1;
+> +        error_propagate_prepend(errp, container->error,
+> +            "memory listener initialization failed: ");
+>          goto listener_release_exit;
+>      }
+>  
+> diff --git a/hw/vfio/spapr.c b/hw/vfio/spapr.c
+> index 96c0ad9d9b..e853eebe11 100644
+> --- a/hw/vfio/spapr.c
+> +++ b/hw/vfio/spapr.c
+> @@ -17,6 +17,7 @@
+>  #include "hw/hw.h"
+>  #include "exec/ram_addr.h"
+>  #include "qemu/error-report.h"
+> +#include "qapi/error.h"
+>  #include "trace.h"
+>  
+>  static bool vfio_prereg_listener_skipped_section(MemoryRegionSection *section)
+> @@ -85,7 +86,8 @@ static void vfio_prereg_listener_region_add(MemoryListener *listener,
+>           */
+>          if (!container->initialized) {
+>              if (!container->error) {
+> -                container->error = ret;
+> +                error_setg_errno(&container->error, -ret,
+> +                                 "Memory registering failed");
+>              }
+>          } else {
+>              hw_error("vfio: Memory registering failed, unable to continue");
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 9107bd41c0..fd564209ac 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -71,7 +71,7 @@ typedef struct VFIOContainer {
+>      MemoryListener listener;
+>      MemoryListener prereg_listener;
+>      unsigned iommu_type;
+> -    int error;
+> +    Error *error;
+>      bool initialized;
+>      unsigned long pgsizes;
+>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
 
 
