@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F4EBB9AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:36:22 +0200 (CEST)
-Received: from localhost ([::1]:59452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5D3BB9B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:36:46 +0200 (CEST)
+Received: from localhost ([::1]:59462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRK0-0001J4-Vv
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57117)
+	id 1iCRKP-0001n9-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:36:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxP-0002RS-7G
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxO-0002Qi-JG
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:13:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxN-0003k8-7o
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxM-0003iK-JP
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:58 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39508)
+Received: from relay.sw.ru ([185.231.240.75]:39520)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQxM-0003a8-Tg; Mon, 23 Sep 2019 12:12:57 -0400
+ id 1iCQxM-0003aF-A4; Mon, 23 Sep 2019 12:12:56 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQwy-0001Fp-Od; Mon, 23 Sep 2019 19:12:32 +0300
+ id 1iCQwz-0001Fp-8w; Mon, 23 Sep 2019 19:12:33 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 2/9] qapi/error: add (Error **errp) cleaning APIs
-Date: Mon, 23 Sep 2019 19:12:24 +0300
-Message-Id: <20190923161231.22028-3-vsementsov@virtuozzo.com>
+Subject: [RFC v2 3/9] errp: rename errp to errp_in where it is IN-argument
+Date: Mon, 23 Sep 2019 19:12:25 +0300
+Message-Id: <20190923161231.22028-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190923161231.22028-1-vsementsov@virtuozzo.com>
 References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
@@ -82,62 +82,151 @@ Cc: stefanha@redhat.com, codyprime@gmail.com, jan.kiszka@siemens.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Error **errp is almost always OUT-argument: it's assumed to be NULL, or
+pointer to NULL-initialized pointer, or pointer to error_abort or
+error_fatal, for callee to report error.
+
+But very few functions (most of the are error API) instead get Error
+**errp as IN-argument: it's assumed to be set, and callee should clean
+it. In such cases, rename errp to errp_in.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/qapi/error.h | 22 ++++++++++++++++++++++
- util/error.c         |  6 +++---
- 2 files changed, 25 insertions(+), 3 deletions(-)
+ include/monitor/hmp.h |  2 +-
+ include/qapi/error.h  |  8 ++++----
+ ui/vnc.h              |  2 +-
+ monitor/hmp-cmds.c    |  8 ++++----
+ ui/vnc.c              | 10 +++++-----
+ util/error.c          |  2 +-
+ 6 files changed, 16 insertions(+), 16 deletions(-)
 
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index a0e9511440..f929814f1a 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -16,7 +16,7 @@
+ 
+ #include "qemu/readline.h"
+ 
+-void hmp_handle_error(Monitor *mon, Error **errp);
++void hmp_handle_error(Monitor *mon, Error **errp_in);
+ 
+ void hmp_info_name(Monitor *mon, const QDict *qdict);
+ void hmp_info_version(Monitor *mon, const QDict *qdict);
 diff --git a/include/qapi/error.h b/include/qapi/error.h
-index f6f4fa0fac..551385aa91 100644
+index 551385aa91..4264d22223 100644
 --- a/include/qapi/error.h
 +++ b/include/qapi/error.h
-@@ -297,6 +297,28 @@ void warn_report_err(Error *err);
-  */
- void error_report_err(Error *err);
- 
-+/*
-+ * Functions to clean Error **errp: call corresponding Error *err cleaning
-+ * function an set pointer to NULL
-+ */
-+static inline void error_free_errp(Error **errp)
-+{
-+    error_free(*errp_in);
-+    *errp_in = NULL;
-+}
-+
-+static inline void error_report_errp(Error **errp)
-+{
-+    error_report_err(*errp_in);
-+    *errp_in = NULL;
-+}
-+
-+static inline void warn_report_errp(Error **errp)
-+{
-+    warn_report_err(*errp_in);
-+    *errp_in = NULL;
-+}
-+
+@@ -283,7 +283,7 @@ void error_free(Error *err);
  /*
-  * Convenience function to error_prepend(), warn_report() and free @err.
+  * Convenience function to assert that *@errp is set, then silently free it.
   */
-diff --git a/util/error.c b/util/error.c
-index d4532ce318..dfba091757 100644
---- a/util/error.c
-+++ b/util/error.c
-@@ -273,9 +273,9 @@ void error_free(Error *err)
+-void error_free_or_abort(Error **errp);
++void error_free_or_abort(Error **errp_in);
  
- void error_free_or_abort(Error **errp)
+ /*
+  * Convenience function to warn_report() and free @err.
+@@ -301,19 +301,19 @@ void error_report_err(Error *err);
+  * Functions to clean Error **errp: call corresponding Error *err cleaning
+  * function an set pointer to NULL
+  */
+-static inline void error_free_errp(Error **errp)
++static inline void error_free_errp(Error **errp_in)
  {
--    assert(errp && *errp);
--    error_free(*errp);
--    *errp = NULL;
-+    assert(errp_in && *errp_in);
-+    error_free(*errp_in);
-+    *errp_in = NULL;
+     error_free(*errp_in);
+     *errp_in = NULL;
  }
  
- void error_propagate(Error **dst_errp, Error *local_err)
+-static inline void error_report_errp(Error **errp)
++static inline void error_report_errp(Error **errp_in)
+ {
+     error_report_err(*errp_in);
+     *errp_in = NULL;
+ }
+ 
+-static inline void warn_report_errp(Error **errp)
++static inline void warn_report_errp(Error **errp_in)
+ {
+     warn_report_err(*errp_in);
+     *errp_in = NULL;
+diff --git a/ui/vnc.h b/ui/vnc.h
+index fea79c2fc9..00e0b48f2f 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
+ 
+ /* Protocol stage functions */
+ void vnc_client_error(VncState *vs);
+-size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
++size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp_in);
+ 
+ void start_client_init(VncState *vs);
+ void start_auth_vnc(VncState *vs);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index b2551c16d1..941d5d0a45 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -60,11 +60,11 @@
+ #include <spice/enums.h>
+ #endif
+ 
+-void hmp_handle_error(Monitor *mon, Error **errp)
++void hmp_handle_error(Monitor *mon, Error **errp_in)
+ {
+-    assert(errp);
+-    if (*errp) {
+-        error_reportf_err(*errp, "Error: ");
++    assert(errp_in);
++    if (*errp_in) {
++        error_reportf_err(*errp_in, "Error: ");
+     }
+ }
+ 
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 87b8045afe..9d6384d9b1 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
+     g_free(vs);
+ }
+ 
+-size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
++size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp_in)
+ {
+     if (ret <= 0) {
+         if (ret == 0) {
+@@ -1320,14 +1320,14 @@ size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
+             vnc_disconnect_start(vs);
+         } else if (ret != QIO_CHANNEL_ERR_BLOCK) {
+             trace_vnc_client_io_error(vs, vs->ioc,
+-                                      errp ? error_get_pretty(*errp) :
++                                      errp_in ? error_get_pretty(*errp_in) :
+                                       "Unknown");
+             vnc_disconnect_start(vs);
+         }
+ 
+-        if (errp) {
+-            error_free(*errp);
+-            *errp = NULL;
++        if (errp_in) {
++            error_free(*errp_in);
++            *errp_in = NULL;
+         }
+         return 0;
+     }
+diff --git a/util/error.c b/util/error.c
+index dfba091757..b3ff3832d6 100644
+--- a/util/error.c
++++ b/util/error.c
+@@ -271,7 +271,7 @@ void error_free(Error *err)
+     }
+ }
+ 
+-void error_free_or_abort(Error **errp)
++void error_free_or_abort(Error **errp_in)
+ {
+     assert(errp_in && *errp_in);
+     error_free(*errp_in);
 -- 
 2.21.0
 
