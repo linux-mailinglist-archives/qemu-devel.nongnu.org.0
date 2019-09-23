@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A11BB9E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:50:05 +0200 (CEST)
-Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600FABB9FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:53:37 +0200 (CEST)
+Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRXH-0004Hr-Ru
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35035)
+	id 1iCRah-0008Fk-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCRSB-0001lO-N2
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:44:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCRHF-0000XQ-HK
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:33:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCRS9-0006WK-JI
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:44:47 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37537)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCRHD-0001LD-Ji
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:33:29 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52240)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCRS8-0006Vm-TX
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:44:45 -0400
-Received: by mail-wr1-x443.google.com with SMTP id i1so14763479wro.4
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 09:44:44 -0700 (PDT)
+ id 1iCRHA-0001JP-JW
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:33:27 -0400
+Received: by mail-wm1-x342.google.com with SMTP id x2so10739110wmj.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 09:33:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=FGJY4YyJcKGe5zH767lv83KHbec0j2Ny2zMvOd+NI+M=;
- b=vj0DUpcd0L2D9Seub1L3EJo0C4V0oKpduMMS+Z0QtJG01VEj27J3MC67bOCuPo261G
- MhcoiCtmbut3ZFk61TBvInB5xLttogOE1d03bTZGxAUsVeUcxTViZurFoWekryOCLZfW
- ueCbYMcaAVTPjjXTD3uqWQ6Nf+DOzn1wTPsSnzcwP68Uq1AiNVcWwKrVlycj7mnCaFnY
- Ba25wPCnMy8/CCdhgC5KjAeixAKO0mllPnhnt4GLq8xOv31F399CF+bDfo5dZCTPbeV0
- JFLucq3EjGkFaxxttDLP1erpOWSSRIQMHVyrlrguaYweR+DpLNR2DofEyAyGGB0DEx7b
- ICFQ==
+ bh=+afsgYaiG5Npfsc5OF+jPcwWxj/en5EfOlGmBL9Ooqs=;
+ b=UxYNrkMXs4manuGHj/Z0klAc+GuT2J1codxXduEbS4RlWgeNspDdgYY5DbH3hghXwP
+ Kwyxhw9/+UlQo8qcEal7D+lFgMLxJz4qc7QqbmYZ1Fm+xnn1EG8Fd1v1BmYTJWquarN+
+ 3XNtF3pWwFSTATbpKPjIeaHuhYEZR+T89Rez4jgs4Kxyw8lM9hgxKOWlw+RJTTo8jSjR
+ iPDvqr1YDRn/+Mdw0Oe8EVAqmeyeyyAor8mAaklgyLEkGOCYb2cU9u8f8FUWkhH1n5Lt
+ 8T4Xx81Ndec7o9Auo4cU4D0GkuKLjIlgbebwjojZhNpnHg3HXUvJQpV9MCESvb2CceEQ
+ JuCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=FGJY4YyJcKGe5zH767lv83KHbec0j2Ny2zMvOd+NI+M=;
- b=BYFnT0H8vpD08X/yT0IwCxBmO4s6TZPA40+0OT3VJJCCxfct5Zo8kSPhmNGssBnBsP
- qOwBv1g6YKc8UoJuI/DM9wpDahwGRuUQXeELDMbcSJbu9lu5TYjkt8ZRyjfTKNU43h0G
- a3FKdYtDVILDeJgyJ1apBRsPhsMlniKHj+3uPx76xp2fH2qfb3VisvrlnQGty1wKtFE6
- KRObR77/XpcbA7GQaDYkEPtO5BOaqkvMIUYTEtcD37kmecxmE2+9b0tN7cM2QuXpsWkV
- rr1p8U1CJ88dRbffCgyydaLlNPGvI+kTsATXccU0idvzaZyFTD4KB1tpppLESi4ZezL6
- 2yZQ==
-X-Gm-Message-State: APjAAAU75HSC9uBEMWKIYw5ozyn8RUoCgiNyYt3wermD3dxzpaucQEJO
- WlaSJxp/9MNuNr5N+tWs5/aCCw==
-X-Google-Smtp-Source: APXvYqy5eBYEzK991kqlCR5T8U7nTSb1Esm9PWh0bOpNypLZqjJ5qOM1MN08zmrvqY9w9RntdU/vvQ==
-X-Received: by 2002:a5d:4742:: with SMTP id o2mr233948wrs.253.1569257083299;
- Mon, 23 Sep 2019 09:44:43 -0700 (PDT)
+ bh=+afsgYaiG5Npfsc5OF+jPcwWxj/en5EfOlGmBL9Ooqs=;
+ b=HeXkucKk8v6F4UJNwcYpib491UbbO4/O2Q4d2DGt6kivsPQ9y0mlUJ+89QQ3ngzIXD
+ tY3bwoaHe+76Pj1hhFqAYAkxwaUyIgzjLOT1JpC+b+KHwPWq0p/tSBO+J65E7+rMisfm
+ JZvfgJKeEwi9RgAqqCFxHTTasoJ4YFDPfzhNoEvXJS9sjA/tyvKi0O4a3Euz0xObroV4
+ +K0iaKC5MzemO+7PrlEag47o4wy9nUGkmZpyKZTiZLKrNtgjyJQ7L3UCOX8/G4vAqx1r
+ Z4eqAF1Re9pt/85aCDvV5nKSdyo3Fs/qfcBILBspr2xASGGVxtGwyGkKBJ17r0r/QxXF
+ vZbQ==
+X-Gm-Message-State: APjAAAUd7RqO5cUcTwk253Q3ScNcxLjCxGMe9BdHkQ4AdN7H5BP41DYI
+ df/SBsKAMPFenI+o3xycTmfTqQ==
+X-Google-Smtp-Source: APXvYqyAp2+g9tTG6+JwOgALfSL6XMAQAxSjT05Ej5cE3XHEgmDmspl8yMVFLGD2oxzEJSzqmzmS+g==
+X-Received: by 2002:a1c:1aca:: with SMTP id a193mr423054wma.120.1569256402126; 
+ Mon, 23 Sep 2019 09:33:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s10sm20000732wmf.48.2019.09.23.09.44.42
+ by smtp.gmail.com with ESMTPSA id d193sm15656731wmd.0.2019.09.23.09.33.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2019 09:44:42 -0700 (PDT)
+ Mon, 23 Sep 2019 09:33:21 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0F98E1FF87;
- Mon, 23 Sep 2019 17:44:42 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id CEA0F1FF87;
+ Mon, 23 Sep 2019 17:33:20 +0100 (BST)
 References: <20190921043256.4575-1-richard.henderson@linaro.org>
+ <20190921043256.4575-3-richard.henderson@linaro.org>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 0/7] target/alpha: Fix linux-user exception for CVTTQ
-In-reply-to: <20190921043256.4575-1-richard.henderson@linaro.org>
-Date: Mon, 23 Sep 2019 17:44:42 +0100
-Message-ID: <87k19zarnp.fsf@linaro.org>
+Subject: Re: [PATCH 2/7] target/alpha: Fix SWCR_MAP_UMZ
+In-reply-to: <20190921043256.4575-3-richard.henderson@linaro.org>
+Date: Mon, 23 Sep 2019 17:33:20 +0100
+Message-ID: <87pnjras6n.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,37 +89,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Alex's new float_convs test dies with SIGFPE for alpha-linux-user.
->
-> This is fixed in patch 6, where I mask the exception similar to how
-> the kernel would, when passed through the software completion handler.
->
-> Patches 2 & 3 fix bugs that I noticed in the process; the rest are
-> simple cleanup, trying to make the code better or easier.
+> We were setting the wrong bit.  The fp_status.flush_to_zero
+> setting is overwritten
 
-Now Richard has eli5'd the CONVERT_BITS magic for me>
+".. in the generated code.."?
+
+> by either the constant 1 or the value
+> of fpcr_flush_to_zero depending on bits within an fp insn.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-the rest of the series.
-
+> ---
+>  target/alpha/helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->
-> r~
->
->
-> Richard Henderson (7):
->   target/alpha: Use array for FPCR_DYN conversion
->   target/alpha: Fix SWCR_MAP_UMZ
->   target/alpha: Fix SWCR_TRAP_ENABLE_MASK
->   target/alpha: Handle SWCR_MAP_DMZ earlier
->   target/alpha: Write to fpcr_flush_to_zero once
->   target/alpha: Mask IOV exception with INV for user-only
->   target/alpha: Tidy helper_fp_exc_raise_s
->
->  target/alpha/fpu_helper.c | 15 +++------
->  target/alpha/helper.c     | 68 +++++++++++++++++++--------------------
->  2 files changed, 38 insertions(+), 45 deletions(-)
+> diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+> index 6c1703682e..10602fb339 100644
+> --- a/target/alpha/helper.c
+> +++ b/target/alpha/helper.c
+> @@ -71,7 +71,7 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t =
+val)
+>          env->fp_status.flush_inputs_to_zero =3D 1;
+>      }
+>      if (env->swcr & SWCR_MAP_UMZ) {
+> -        env->fp_status.flush_to_zero =3D 1;
+> +        env->fpcr_flush_to_zero =3D 1;
+>      }
+>      env->fpcr_exc_enable &=3D ~(alpha_ieee_swcr_to_fpcr(env->swcr) >> 32=
+);
+>  #endif
 
 
 --
