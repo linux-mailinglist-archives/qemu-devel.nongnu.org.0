@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5D3BB9B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:36:46 +0200 (CEST)
-Received: from localhost ([::1]:59462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33559BB9A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 18:31:58 +0200 (CEST)
+Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCRKP-0001n9-Ox
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
+	id 1iCRFk-0006Is-8v
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 12:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxO-0002Qi-JG
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:13:00 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxO-0002QV-Gi
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxM-0003iK-JP
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCQxM-0003ix-QC
  for qemu-devel@nongnu.org; Mon, 23 Sep 2019 12:12:58 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39520)
+Received: from relay.sw.ru ([185.231.240.75]:39492)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQxM-0003aF-A4; Mon, 23 Sep 2019 12:12:56 -0400
+ id 1iCQxM-0003a5-F2; Mon, 23 Sep 2019 12:12:56 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCQwz-0001Fp-8w; Mon, 23 Sep 2019 19:12:33 +0300
+ id 1iCQwz-0001Fp-Os; Mon, 23 Sep 2019 19:12:33 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 3/9] errp: rename errp to errp_in where it is IN-argument
-Date: Mon, 23 Sep 2019 19:12:25 +0300
-Message-Id: <20190923161231.22028-4-vsementsov@virtuozzo.com>
+Subject: [RFC v2 4/9] hw/core/loader-fit: fix freeing errp in fit_load_fdt
+Date: Mon, 23 Sep 2019 19:12:26 +0300
+Message-Id: <20190923161231.22028-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190923161231.22028-1-vsementsov@virtuozzo.com>
 References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
@@ -82,151 +82,26 @@ Cc: stefanha@redhat.com, codyprime@gmail.com, jan.kiszka@siemens.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Error **errp is almost always OUT-argument: it's assumed to be NULL, or
-pointer to NULL-initialized pointer, or pointer to error_abort or
-error_fatal, for callee to report error.
-
-But very few functions (most of the are error API) instead get Error
-**errp as IN-argument: it's assumed to be set, and callee should clean
-it. In such cases, rename errp to errp_in.
+fit_load_fdt forget to zero errp. Fix it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/monitor/hmp.h |  2 +-
- include/qapi/error.h  |  8 ++++----
- ui/vnc.h              |  2 +-
- monitor/hmp-cmds.c    |  8 ++++----
- ui/vnc.c              | 10 +++++-----
- util/error.c          |  2 +-
- 6 files changed, 16 insertions(+), 16 deletions(-)
+ hw/core/loader-fit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index a0e9511440..f929814f1a 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -16,7 +16,7 @@
- 
- #include "qemu/readline.h"
- 
--void hmp_handle_error(Monitor *mon, Error **errp);
-+void hmp_handle_error(Monitor *mon, Error **errp_in);
- 
- void hmp_info_name(Monitor *mon, const QDict *qdict);
- void hmp_info_version(Monitor *mon, const QDict *qdict);
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index 551385aa91..4264d22223 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -283,7 +283,7 @@ void error_free(Error *err);
- /*
-  * Convenience function to assert that *@errp is set, then silently free it.
-  */
--void error_free_or_abort(Error **errp);
-+void error_free_or_abort(Error **errp_in);
- 
- /*
-  * Convenience function to warn_report() and free @err.
-@@ -301,19 +301,19 @@ void error_report_err(Error *err);
-  * Functions to clean Error **errp: call corresponding Error *err cleaning
-  * function an set pointer to NULL
-  */
--static inline void error_free_errp(Error **errp)
-+static inline void error_free_errp(Error **errp_in)
- {
-     error_free(*errp_in);
-     *errp_in = NULL;
- }
- 
--static inline void error_report_errp(Error **errp)
-+static inline void error_report_errp(Error **errp_in)
- {
-     error_report_err(*errp_in);
-     *errp_in = NULL;
- }
- 
--static inline void warn_report_errp(Error **errp)
-+static inline void warn_report_errp(Error **errp_in)
- {
-     warn_report_err(*errp_in);
-     *errp_in = NULL;
-diff --git a/ui/vnc.h b/ui/vnc.h
-index fea79c2fc9..00e0b48f2f 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
- 
- /* Protocol stage functions */
- void vnc_client_error(VncState *vs);
--size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
-+size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp_in);
- 
- void start_client_init(VncState *vs);
- void start_auth_vnc(VncState *vs);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index b2551c16d1..941d5d0a45 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -60,11 +60,11 @@
- #include <spice/enums.h>
- #endif
- 
--void hmp_handle_error(Monitor *mon, Error **errp)
-+void hmp_handle_error(Monitor *mon, Error **errp_in)
- {
--    assert(errp);
--    if (*errp) {
--        error_reportf_err(*errp, "Error: ");
-+    assert(errp_in);
-+    if (*errp_in) {
-+        error_reportf_err(*errp_in, "Error: ");
-     }
- }
- 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 87b8045afe..9d6384d9b1 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
-     g_free(vs);
- }
- 
--size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-+size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp_in)
- {
-     if (ret <= 0) {
-         if (ret == 0) {
-@@ -1320,14 +1320,14 @@ size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-             vnc_disconnect_start(vs);
-         } else if (ret != QIO_CHANNEL_ERR_BLOCK) {
-             trace_vnc_client_io_error(vs, vs->ioc,
--                                      errp ? error_get_pretty(*errp) :
-+                                      errp_in ? error_get_pretty(*errp_in) :
-                                       "Unknown");
-             vnc_disconnect_start(vs);
-         }
- 
--        if (errp) {
--            error_free(*errp);
--            *errp = NULL;
-+        if (errp_in) {
-+            error_free(*errp_in);
-+            *errp_in = NULL;
-         }
-         return 0;
-     }
-diff --git a/util/error.c b/util/error.c
-index dfba091757..b3ff3832d6 100644
---- a/util/error.c
-+++ b/util/error.c
-@@ -271,7 +271,7 @@ void error_free(Error *err)
-     }
- }
- 
--void error_free_or_abort(Error **errp)
-+void error_free_or_abort(Error **errp_in)
- {
-     assert(errp_in && *errp_in);
-     error_free(*errp_in);
+diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
+index 953b16bc82..fe5bcc6700 100644
+--- a/hw/core/loader-fit.c
++++ b/hw/core/loader-fit.c
+@@ -200,7 +200,7 @@ static int fit_load_fdt(const struct fit_loader *ldr, const void *itb,
+     err = fit_image_addr(itb, img_off, "load", &load_addr, errp);
+     if (err == -ENOENT) {
+         load_addr = ROUND_UP(kernel_end, 64 * KiB) + (10 * MiB);
+-        error_free(*errp);
++        error_free_errp(errp);
+     } else if (err) {
+         error_prepend(errp, "unable to read FDT load address from FIT: ");
+         ret = err;
 -- 
 2.21.0
 
