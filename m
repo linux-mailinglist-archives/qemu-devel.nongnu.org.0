@@ -2,53 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934C7BB01D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 11:00:21 +0200 (CEST)
-Received: from localhost ([::1]:53906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B290BB080
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 11:03:45 +0200 (CEST)
+Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCKCi-0007Ns-4v
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 05:00:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47554)
+	id 1iCKG0-0001AU-D1
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 05:03:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iCJoj-0003At-7l
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:35:34 -0400
+ (envelope-from <philmd@redhat.com>) id 1iCJqz-0005XC-I2
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:37:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iCJoh-0001ww-E7
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:35:32 -0400
-Received: from mga01.intel.com ([192.55.52.88]:24355)
+ (envelope-from <philmd@redhat.com>) id 1iCJqv-0003Vt-Bv
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:37:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58196)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iCJoh-0001un-5q
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:35:31 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2019 01:35:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,539,1559545200"; d="scan'208";a="388411360"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.214])
- ([10.239.196.214])
- by fmsmga005.fm.intel.com with ESMTP; 23 Sep 2019 01:35:23 -0700
-Subject: Re: [PATCH v3 2/2] target/i386: drop the duplicated definition of
- cpuid AVX512_VBMI marco
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20190923063041.12420-1-tao3.xu@intel.com>
- <20190923063041.12420-3-tao3.xu@intel.com>
- <20190923080816.hzfzikw5mx4n3ejn@steredhat>
-From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <b525b663-4a90-58b1-90e3-6c0b5b22e7d1@intel.com>
-Date: Mon, 23 Sep 2019 16:35:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCJqt-0003QJ-Ok
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:37:49 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BC4E681F22
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 08:37:45 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id m16so1366829wmg.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 01:37:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RFYnWbkfz1MBbuANm+asXdk8SH26k+1g537UA+wKKKM=;
+ b=KNbBjPztzBSR5ISOMqr0J9BFrLvtyaDPnZ0IgsH6/lehhrX7lSdL9Lg5GCBRmMpuTi
+ p+HzDVaz8O8p+5pLTvU/D+nhRnO+oENi6VlCsEDhm9vOcwWlC3cd2xM6zmVT97Fbk2O6
+ xm6nP3X7/Jt4melzgy9v/VaCZwWru3HSrPsSHnPz02uvS044L4gO0DGWN579HqdZAGHk
+ tg7YOaAZhVKD7hhFS6qSC+Hx+i1jmPB6Fjz8NiEkmZtMkTFEiethRX1/48q7E0OoFrwP
+ Mkxm0yy7fuMokGHnzlKFVZyqoRi+K6ZOxmPNBykIpU8YPALHljSnDmU5RfziUkSHFC38
+ /D8g==
+X-Gm-Message-State: APjAAAUi7WRAoiGRF9CnGmAvP9FvMUu+fxweESzU/HsH2kADXYByzozs
+ fH2DZLnMPBQzR53jFXCNux+nZw82CixvK86yg2sco8+gVKGarfSBAQ/bo4zRNyPYGdIapN8sUdt
+ CqmoTA1nsZGyLwjc=
+X-Received: by 2002:a05:600c:1089:: with SMTP id
+ e9mr13192389wmd.176.1569227864571; 
+ Mon, 23 Sep 2019 01:37:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxy2/mF1IAPr+/0FgpPwWHDBxfG2Koz3G2a0LwjRyenpOj0po/0KHlY0mo2H8GEJAKt+5gA+A==
+X-Received: by 2002:a05:600c:1089:: with SMTP id
+ e9mr13192373wmd.176.1569227864356; 
+ Mon, 23 Sep 2019 01:37:44 -0700 (PDT)
+Received: from [192.168.1.40] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id s9sm10303619wme.36.2019.09.23.01.37.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Sep 2019 01:37:43 -0700 (PDT)
+Subject: Re: [PATCH 0/4] Make it possible to compile with CONFIG_ARM_V7M=n
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20190921150420.30743-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <faa7f493-6c40-a5ac-cc70-8cba6e016cb8@redhat.com>
+Date: Mon, 23 Sep 2019 10:37:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190923080816.hzfzikw5mx4n3ejn@steredhat>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20190921150420.30743-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.88
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,62 +84,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com,
- ehabkost@redhat.com, rth@twiddle.net
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/2019 4:08 PM, Stefano Garzarella wrote:
-> On Mon, Sep 23, 2019 at 02:30:41PM +0800, Tao Xu wrote:
->> Drop the duplicated definition of cpuid AVX512_VBMI marco and rename it
->> as CPUID_7_0_ECX_AVX512_VBMI.
->>
->> Signed-off-by: Tao Xu <tao3.xu@intel.com>
->> ---
->>   target/i386/cpu.c           | 4 ++--
->>   target/i386/cpu.h           | 3 +--
->>   target/i386/hvf/x86_cpuid.c | 2 +-
->>   3 files changed, 4 insertions(+), 5 deletions(-)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index 9e0bac31e8..f87fe88259 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -2412,7 +2412,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
->>               CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
->>               CPUID_7_0_EBX_SMAP,
->>           .features[FEAT_7_0_ECX] =
->> -            CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
->> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
->>               CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
->>               CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
->>               CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
->> @@ -2470,7 +2470,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
->>               CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512CD |
->>               CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT,
->>           .features[FEAT_7_0_ECX] =
->> -            CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
->> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
->>               CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
->>               CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
->>               CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
->> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->> index fa4c4cad79..61f6287294 100644
->> --- a/target/i386/cpu.h
->> +++ b/target/i386/cpu.h
->> @@ -695,8 +695,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
->>   #define CPUID_7_0_EBX_AVX512VL          (1U << 31)
->>   
->>   /* AVX-512 Vector Byte Manipulation Instruction */
->> -#define CPUID_7_0_ECX_AVX512BMI         (1U << 1)
->> -#define CPUID_7_0_ECX_VBMI              (1U << 1)
->> +#define CPUID_7_0_ECX_AVX512_VBMI       (1U << 1)
-> 
-> Since we're here, should we also update CPUID_7_0_ECX_VBMI2?
-> 
-> Thanks,
-> Stefano
-> 
-Thank you for reminding me. I check the vmbi2's flag is 'avx512_vbmi2'. 
-And linux kernel source and SDM also use AVX512_VBMI2. I will update this.
+Hi Thomas,
+
+On 9/21/19 5:04 PM, Thomas Huth wrote:
+> We've got CONFIG_ARM_V7M, but it currently can't be disabled.
+> Here are some patches that should allow to disable the switch
+> (if the corresponding boards are disabled, too).
+
+What about the ARMv4/v5/v6/v7r?
 
