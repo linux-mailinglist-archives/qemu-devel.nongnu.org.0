@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A47BAFDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:44:06 +0200 (CEST)
-Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC28ABAFE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:48:57 +0200 (CEST)
+Received: from localhost ([::1]:53802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJwy-0003DY-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43168)
+	id 1iCK1g-0006bQ-Kx
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iCJOR-0002hc-VE
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:25 -0400
+ (envelope-from <sameid@google.com>) id 1iCJdU-0000Bg-C4
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:23:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iCJOQ-0004Pv-Jb
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48878)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iCJOQ-0004Oy-9J
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:22 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5220C356F9
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 08:08:21 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id q10so4518755wro.22
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 01:08:21 -0700 (PDT)
+ (envelope-from <sameid@google.com>) id 1iCJdS-0005zC-VO
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:23:56 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:36313)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <sameid@google.com>) id 1iCJdS-0005yc-P6
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:23:54 -0400
+Received: by mail-qk1-x741.google.com with SMTP id y189so14472153qkc.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 01:23:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zup5OGjRbCC5y3n0ahrU1EueS2lu3LX/Bqx9s4Gt/2g=;
+ b=itq2CRxzraAJu+//qZiNpTMbhEXJSLP8V1lALxxFWSKAkS310btzkD70mLZ3lMFhah
+ yFRspVPO4cteyqJPcoDhlIrcKPNKT7XJ3UCjdAB+qTwm1aqpWhM19mR4Ppe9BEnkQ/I8
+ T37BLQdnkP4ZcHr/I5cakIbVnHAjcCbOlO3np+uITURD1jpx92GsMl4Axys1PDy4bglM
+ PswXpHYCS2edC06nSuAsuCMSC2bOjB7k3HRDCY56DY/Uped9XcM3Ab+ezTGeiOLdfhcJ
+ oEhd4wR5xIN8Z6QE1192VErk3bFAfCku4vnF7moGVhUfA+Dun9297g17PDMjWu8ecEp8
+ 1GJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xATpn9gkkJpKGqIBeLkk1WAFIkbpTrWqf1TP3ewJ8MQ=;
- b=bXlnxFDVjHaiv/t7Rmt8XzRU0V9hmwlZly6CiYbB9XYhuJczr/E//UybVlXbRvxcaD
- 7KH0RZn2VR9BRzmjv2nR290MZF6pQxVTVI1p7T/EkcvWo9bnixyg3hVzKFQ4t+FFRkVx
- ViTzKNUaG7ti9W36zR7o4Pwy9lYUFQy4jOPNOYmdgPpsekJMThVYqxL4wr0FtNMmlNv+
- KHfGTAtbftyjPqD48qkzJOfaEnFvt2ALhNJCkK/BOdLosPQGkp4dFQSVO+kHWfquJP88
- 0znAcIwpnj2LOP8JIp5ndFstWeVb15vg/M1DBpJidEWnGUvbzeFdpgqz6Uc6lbdXQxrC
- Tp0Q==
-X-Gm-Message-State: APjAAAVtdfBlhFbaF0HXAtVdrZvAm1rG8aoCfTgtm3Q9W7zZL4w8qnCo
- fbi8dy9Da0CsNAcqnBun9nZnZCxvnT4wHHH9p7UG+mLpsouHK0YM9QJ/Vc72Hk48kADtKjn//T/
- 5xvybP+iVm40Zn5g=
-X-Received: by 2002:a7b:cc97:: with SMTP id p23mr13245787wma.111.1569226099997; 
- Mon, 23 Sep 2019 01:08:19 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwSw72rrjmGFti2WyFLHYX6xQfFdgIsu2h5mkvpex9QcWhB8cRlq66pDD/tXbrQO1cXTT1lwA==
-X-Received: by 2002:a7b:cc97:: with SMTP id p23mr13245768wma.111.1569226099760; 
- Mon, 23 Sep 2019 01:08:19 -0700 (PDT)
-Received: from steredhat (host170-61-dynamic.36-79-r.retail.telecomitalia.it.
- [79.36.61.170])
- by smtp.gmail.com with ESMTPSA id s1sm24520280wrg.80.2019.09.23.01.08.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2019 01:08:19 -0700 (PDT)
-Date: Mon, 23 Sep 2019 10:08:16 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v3 2/2] target/i386: drop the duplicated definition of
- cpuid AVX512_VBMI marco
-Message-ID: <20190923080816.hzfzikw5mx4n3ejn@steredhat>
-References: <20190923063041.12420-1-tao3.xu@intel.com>
- <20190923063041.12420-3-tao3.xu@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zup5OGjRbCC5y3n0ahrU1EueS2lu3LX/Bqx9s4Gt/2g=;
+ b=Kkm23akj5DQsIpqrgNmeCOylWBWPDj9aUCq21N0O39vYzl4a+odhG32OnBKNjMMr/G
+ zTYpYxITagYRk7vPHWuViQJPxAs2N0FHFPeKs4lwcN1s0E50e/u5tTq6kOR8qpazZNvn
+ VPDBRbB3bqCRTxQNuCQufIBJY9iEGrrRJzv9vrZqm5FAZL8V03CRicdFrNUxJYSStiAK
+ 6RDboFG/OoI+pHuPMTI8cCJkEkjaOpdk5R1oGHTYWeYT3wyktNa28fLuU9wv84x2XpjQ
+ Vs726TGFVJKBygA97Jr9/a1MB3bz88NCOyEf3N0XlXH7D9KAU9zhKQdNFSOmwlsOd4O4
+ xfnQ==
+X-Gm-Message-State: APjAAAXe/d+oivDKtdyDXE2W8vx1ZtRKyEIsssM35reu1m3cE8+8gyey
+ xrEVAISY4pc/TzAdB5zWZC8r3Pxk+JjZ5u6oRodWrEUU
+X-Google-Smtp-Source: APXvYqyB6HCUztMzv7U2NekC9ZcVe5ksO/AStIyrWwFmODwWjwEd/pcZeN4AUc/n2zNrmELLSCtmoZsCAZMtJgU9Rvw=
+X-Received: by 2002:a37:bd45:: with SMTP id n66mr15420969qkf.272.1569227032943; 
+ Mon, 23 Sep 2019 01:23:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190923063041.12420-3-tao3.xu@intel.com>
-User-Agent: NeoMutt/20180716
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+References: <20190827082427.64280-1-sameid@google.com>
+ <CAFr6bUky8Au-v6Y4yF+Ucg6H7Upc619WLR6tPzp3d6qy80+bsg@mail.gmail.com>
+In-Reply-To: <CAFr6bUky8Au-v6Y4yF+Ucg6H7Upc619WLR6tPzp3d6qy80+bsg@mail.gmail.com>
+Date: Mon, 23 Sep 2019 11:23:41 +0300
+Message-ID: <CAFr6bUmYT-U0eURtM5K=G0SNT7cRcW6jxUArUFqqEzxX5gbQFw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] Add Qemu to SeaBIOS LCHS interface
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,58 +70,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com,
- ehabkost@redhat.com, rth@twiddle.net
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, seabios@seabios.org,
+ Kevin OConnor <kevin@koconnor.net>, liran.alon@oracle.com, kraxel@redhat.com,
+ Karl Heubaum <karl.heubaum@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Sam Eiderman <sameid@google.com>
+From: Sam Eiderman via <qemu-devel@nongnu.org>
 
-On Mon, Sep 23, 2019 at 02:30:41PM +0800, Tao Xu wrote:
-> Drop the duplicated definition of cpuid AVX512_VBMI marco and rename it
-> as CPUID_7_0_ECX_AVX512_VBMI.
-> 
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> ---
->  target/i386/cpu.c           | 4 ++--
->  target/i386/cpu.h           | 3 +--
->  target/i386/hvf/x86_cpuid.c | 2 +-
->  3 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 9e0bac31e8..f87fe88259 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -2412,7 +2412,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
->              CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
->              CPUID_7_0_EBX_SMAP,
->          .features[FEAT_7_0_ECX] =
-> -            CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
-> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
->              CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
->              CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
->              CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
-> @@ -2470,7 +2470,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
->              CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512CD |
->              CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT,
->          .features[FEAT_7_0_ECX] =
-> -            CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
-> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
->              CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
->              CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
->              CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index fa4c4cad79..61f6287294 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -695,8 +695,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
->  #define CPUID_7_0_EBX_AVX512VL          (1U << 31)
->  
->  /* AVX-512 Vector Byte Manipulation Instruction */
-> -#define CPUID_7_0_ECX_AVX512BMI         (1U << 1)
-> -#define CPUID_7_0_ECX_VBMI              (1U << 1)
-> +#define CPUID_7_0_ECX_AVX512_VBMI       (1U << 1)
+Gentle ping
 
-Since we're here, should we also update CPUID_7_0_ECX_VBMI2?
-
-Thanks,
-Stefano
+On Wed, Sep 11, 2019 at 5:36 PM Sam Eiderman <sameid@google.com> wrote:
+>
+> Gentle ping
+>
+> On Tue, Aug 27, 2019, 11:24 Sam Eiderman <sameid@google.com> wrote:
+>>
+>> v1:
+>>
+>> Non-standard logical geometries break under QEMU.
+>>
+>> A virtual disk which contains an operating system which depends on
+>> logical geometries (consistent values being reported from BIOS INT13
+>> AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+>> logical geometries - for example 56 SPT (sectors per track).
+>> No matter what QEMU will guess - SeaBIOS, for large enough disks - will
+>> use LBA translation, which will report 63 SPT instead.
+>>
+>> In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
+>> all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
+>> report more than 16 physical heads when moved to an IDE controller, the
+>> ATA spec allows a maximum of 16 heads - this is an artifact of
+>> virtualization.
+>>
+>> By supplying the logical geometies directly we are able to support such
+>> "exotic" disks.
+>>
+>> We will use fw_cfg to do just that.
+>>
+>> v2:
+>>
+>> Fix missing parenthesis check in
+>>     "hd-geo-test: Add tests for lchs override"
+>>
+>> v3:
+>>
+>> * Rename fw_cfg key to "bios-geometry".
+>> * Remove "extendible" interface.
+>> * Add cpu_to_le32 fix as Laszlo suggested or big endian hosts
+>> * Fix last qtest commit - automatic docker tester for some reason does not have qemu-img set
+>>
+>> v4:
+>>
+>> * Change fw_cfg interface from mixed textual/binary to textual only
+>>
+>> v5:
+>>
+>> * Fix line > 80 chars in tests/hd-geo-test.c
+>>
+>> v6:
+>>
+>> * Small fixes for issues pointed by Max
+>> * (&conf->conf)->lcyls to conf->conf.lcyls and so on
+>> * Remove scsi_unrealize from everything other than scsi-hd
+>> * Add proper include to sysemu.h
+>> * scsi_device_unrealize() after scsi_device_purge_requests()
+>>
+>> Sam Eiderman (8):
+>>   block: Refactor macros - fix tabbing
+>>   block: Support providing LCHS from user
+>>   bootdevice: Add interface to gather LCHS
+>>   scsi: Propagate unrealize() callback to scsi-hd
+>>   bootdevice: Gather LCHS from all relevant devices
+>>   bootdevice: Refactor get_boot_devices_list
+>>   bootdevice: FW_CFG interface for LCHS values
+>>   hd-geo-test: Add tests for lchs override
+>>
+>>  bootdevice.c             | 148 ++++++++--
+>>  hw/block/virtio-blk.c    |   6 +
+>>  hw/ide/qdev.c            |   7 +-
+>>  hw/nvram/fw_cfg.c        |  14 +-
+>>  hw/scsi/scsi-bus.c       |  16 ++
+>>  hw/scsi/scsi-disk.c      |  12 +
+>>  include/hw/block/block.h |  22 +-
+>>  include/hw/scsi/scsi.h   |   1 +
+>>  include/sysemu/sysemu.h  |   4 +
+>>  tests/Makefile.include   |   2 +-
+>>  tests/hd-geo-test.c      | 582 +++++++++++++++++++++++++++++++++++++++
+>>  11 files changed, 773 insertions(+), 41 deletions(-)
+>>
+>> --
+>> 2.23.0.187.g17f5b7556c-goog
+>>
 
