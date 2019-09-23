@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F70BAF48
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:23:31 +0200 (CEST)
-Received: from localhost ([::1]:53518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A97BAF84
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:28:34 +0200 (CEST)
+Received: from localhost ([::1]:53576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJd3-0006yC-Cz
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43193)
+	id 1iCJhw-0003nS-SZ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCJOT-0002js-PL
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:26 -0400
+ (envelope-from <david@redhat.com>) id 1iCJOg-00031i-Qd
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCJOS-0004Rr-Iy
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35506)
+ (envelope-from <david@redhat.com>) id 1iCJOf-0004Xi-DU
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:08:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35998)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iCJOS-0004RG-Dk; Mon, 23 Sep 2019 04:08:24 -0400
+ id 1iCJOf-0004XR-5l; Mon, 23 Sep 2019 04:08:37 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9D4043084029;
- Mon, 23 Sep 2019 08:08:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7881D300C76A;
+ Mon, 23 Sep 2019 08:08:36 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB8CF19C78;
- Mon, 23 Sep 2019 08:08:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DBFA196B2;
+ Mon, 23 Sep 2019 08:08:34 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 25/30] s390x/tcg: MVN: Fault-safe handling
-Date: Mon, 23 Sep 2019 10:07:07 +0200
-Message-Id: <20190923080712.23951-26-david@redhat.com>
+Subject: [PULL 30/30] tests/tcg: target/s390x: Test MVC
+Date: Mon, 23 Sep 2019 10:07:12 +0200
+Message-Id: <20190923080712.23951-31-david@redhat.com>
 In-Reply-To: <20190923080712.23951-1-david@redhat.com>
 References: <20190923080712.23951-1-david@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 23 Sep 2019 08:08:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Mon, 23 Sep 2019 08:08:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -58,53 +59,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can process a maximum of 256 bytes, crossing two pages.
+Let's add a test that especially verifies that no data will be touched
+in case we cross page boundaries and one page access triggers a fault.
 
+Before the fault-safe handling fixes, the test failes with:
+      TEST    mvc on s390x
+    data modified during a fault
+    make[2]: *** [../Makefile.target:116: run-mvc] Error 1
+
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ tests/tcg/s390x/Makefile.target |   1 +
+ tests/tcg/s390x/mvc.c           | 109 ++++++++++++++++++++++++++++++++
+ 2 files changed, 110 insertions(+)
+ create mode 100644 tests/tcg/s390x/mvc.c
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index eeb2552979..7c981f7902 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -500,13 +500,22 @@ void HELPER(mvcin)(CPUS390XState *env, uint32_t l, =
-uint64_t dest, uint64_t src)
- /* move numerics  */
- void HELPER(mvn)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64_t=
- src)
- {
-+    const int mmu_idx =3D cpu_mmu_index(env, false);
-+    S390Access srca1, srca2, desta;
-     uintptr_t ra =3D GETPC();
-     int i;
-=20
--    for (i =3D 0; i <=3D l; i++) {
--        uint8_t v =3D cpu_ldub_data_ra(env, dest + i, ra) & 0xf0;
--        v |=3D cpu_ldub_data_ra(env, src + i, ra) & 0x0f;
--        cpu_stb_data_ra(env, dest + i, v, ra);
-+    /* MVN always copies one more byte than specified - maximum is 256 *=
-/
-+    l++;
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.t=
+arget
+index 6a3bfa8b29..241ef28f61 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -7,3 +7,4 @@ TESTS+=3Dexrl-trt
+ TESTS+=3Dexrl-trtr
+ TESTS+=3Dpack
+ TESTS+=3Dmvo
++TESTS+=3Dmvc
+diff --git a/tests/tcg/s390x/mvc.c b/tests/tcg/s390x/mvc.c
+new file mode 100644
+index 0000000000..aa552d52e5
+--- /dev/null
++++ b/tests/tcg/s390x/mvc.c
+@@ -0,0 +1,109 @@
++#include <stdint.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <string.h>
++#include <sys/mman.h>
++#include <signal.h>
++#include <setjmp.h>
 +
-+    srca1 =3D access_prepare(env, src, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, mmu_idx, ra);
-+    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, mmu_idx, ra);
-+    for (i =3D 0; i < l; i++) {
-+        const uint8_t x =3D (access_get_byte(env, &srca1, i, ra) & 0x0f)=
- |
-+                          (access_get_byte(env, &srca2, i, ra) & 0xf0);
++jmp_buf jmp_env;
 +
-+        access_set_byte(env, &desta, i, x, ra);
-     }
- }
-=20
++static void handle_sigsegv(int sig)
++{
++    siglongjmp(jmp_env, 1);
++}
++
++#define ALLOC_SIZE (2 * 4096)
++
++static inline void mvc_256(const char *dst, const char *src)
++{
++    asm volatile (
++        "    mvc 0(256,%[dst]),0(%[src])\n"
++        :
++        : [dst] "d" (dst),
++          [src] "d" (src)
++        : "memory");
++}
++
++int main(void)
++{
++    char *src, *dst;
++    int i;
++
++    /* register the SIGSEGV handler */
++    if (signal(SIGSEGV, handle_sigsegv) =3D=3D SIG_ERR) {
++        fprintf(stderr, "SIGSEGV not registered\n");
++        return 1;
++    }
++
++    /* prepare the buffers - two consecutive pages */
++    src =3D valloc(ALLOC_SIZE);
++    dst =3D valloc(ALLOC_SIZE);
++    memset(src, 0xff, ALLOC_SIZE);
++    memset(dst, 0x0, ALLOC_SIZE);
++
++    /* protect the second pages */
++    if (mprotect(src + 4096, 4096, PROT_NONE) ||
++        mprotect(dst + 4096, 4096, PROT_NONE)) {
++        fprintf(stderr, "mprotect failed\n");
++        return 1;
++    }
++
++    /* fault on second destination page */
++    if (sigsetjmp(jmp_env, 1) =3D=3D 0) {
++        mvc_256(dst + 4096 - 128, src);
++        fprintf(stderr, "fault not triggered\n");
++        return 1;
++    }
++
++    /* fault on second source page */
++    if (sigsetjmp(jmp_env, 1) =3D=3D 0) {
++        mvc_256(dst, src + 4096 - 128);
++        fprintf(stderr, "fault not triggered\n");
++        return 1;
++    }
++
++    /* fault on second source and second destination page */
++    if (sigsetjmp(jmp_env, 1) =3D=3D 0) {
++        mvc_256(dst + 4096 - 128, src + 4096 - 128);
++        fprintf(stderr, "fault not triggered\n");
++        return 1;
++    }
++
++    /* restore permissions */
++    if (mprotect(src + 4096, 4096, PROT_READ | PROT_WRITE) ||
++        mprotect(dst + 4096, 4096, PROT_READ | PROT_WRITE)) {
++        fprintf(stderr, "mprotect failed\n");
++        return 1;
++    }
++
++    /* no data must be touched during the faults */
++    for (i =3D 0; i < ALLOC_SIZE; i++) {
++        if (src[i] !=3D 0xff || dst[i]) {
++            fprintf(stderr, "data modified during a fault\n");
++            return 1;
++        }
++    }
++
++    /* test if MVC works now correctly accross page boundaries */
++    mvc_256(dst + 4096 - 128, src + 4096 - 128);
++    for (i =3D 0; i < ALLOC_SIZE; i++) {
++        if (src[i] !=3D 0xff) {
++            fprintf(stderr, "src modified\n");
++            return 1;
++        }
++        if (i < 4096 - 128 || i >=3D 4096 + 128) {
++            if (dst[i]) {
++                fprintf(stderr, "wrong dst modified\n");
++                return 1;
++            }
++        } else {
++            if (dst[i] !=3D 0xff) {
++                fprintf(stderr, "wrong data moved\n");
++                return 1;
++            }
++        }
++    }
++
++    return 0;
++}
 --=20
 2.21.0
 
