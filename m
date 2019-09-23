@@ -2,35 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F46ABAFDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:43:48 +0200 (CEST)
-Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66502BAFF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:51:20 +0200 (CEST)
+Received: from localhost ([::1]:53829 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJwd-00032k-RR
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
+	id 1iCK3y-0008Ss-TD
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46147)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1iCJun-0001bW-2t
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:41:50 -0400
+ (envelope-from <david@redhat.com>) id 1iCJg7-000328-7P
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:26:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1iCJul-0005s7-HF
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:41:48 -0400
-Received: from ozlabs.ru ([107.173.13.209]:44440)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>)
- id 1iCJul-0005ll-Bn; Mon, 23 Sep 2019 04:41:47 -0400
-Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
- by ozlabs.ru (Postfix) with ESMTP id B73ACAE80017;
- Mon, 23 Sep 2019 04:40:39 -0400 (EDT)
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH qemu] ppc/kvm: Skip writing DPDES back when in run time state
-Date: Mon, 23 Sep 2019 18:41:10 +1000
-Message-Id: <20190923084110.34643-1-aik@ozlabs.ru>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 107.173.13.209
+ (envelope-from <david@redhat.com>) id 1iCJg4-0006mi-KV
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:26:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52560)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCJg4-0006mY-CJ
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:26:36 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 942F4A26684;
+ Mon, 23 Sep 2019 08:26:35 +0000 (UTC)
+Received: from [10.36.116.207] (ovpn-116-207.ams2.redhat.com [10.36.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 618E760C5E;
+ Mon, 23 Sep 2019 08:26:31 +0000 (UTC)
+Subject: Re: [PATCH v3 02/20] exec: Split out variable page size support to
+ exec-vary.c
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190922035458.14879-1-richard.henderson@linaro.org>
+ <20190922035458.14879-3-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <b0ac3ea7-3aa1-60b5-127a-6476003adaca@redhat.com>
+Date: Mon, 23 Sep 2019 10:26:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190922035458.14879-3-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Mon, 23 Sep 2019 08:26:35 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,77 +105,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On POWER8 systems the Directed Privileged Door-bell Exception State
-register (DPDES) stores doorbell pending status, one bit per a thread
-of a core, set by "msgsndp" instruction. The register is shared among
-threads of the same core and KVM on POWER9 emulates it in a similar way
-(POWER9 does not have DPDES).
+On 22.09.19 05:54, Richard Henderson wrote:
+> The next patch will play a trick with "const" that will
+> confuse the compiler about the uses of target_page_bits
+> within exec.c.  Moving everything to a new file prevents
+> this confusion.
+>=20
+> No functional change so far.
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  Makefile.target       |  2 +-
+>  include/qemu-common.h |  6 +++++
+>  exec-vary.c           | 57 +++++++++++++++++++++++++++++++++++++++++++
+>  exec.c                | 34 --------------------------
+>  4 files changed, 64 insertions(+), 35 deletions(-)
+>  create mode 100644 exec-vary.c
+>=20
+> diff --git a/Makefile.target b/Makefile.target
+> index 5e916230c4..ca3d14efe1 100644
+> --- a/Makefile.target
+> +++ b/Makefile.target
+> @@ -107,7 +107,7 @@ obj-y +=3D trace/
+> =20
+>  #########################################################
+>  # cpu emulator library
+> -obj-y +=3D exec.o
+> +obj-y +=3D exec.o exec-vary.o
+>  obj-y +=3D accel/
+>  obj-$(CONFIG_TCG) +=3D tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg=
+-op-gvec.o
+>  obj-$(CONFIG_TCG) +=3D tcg/tcg-common.o tcg/optimize.o
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index 8d84db90b0..082da59e85 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -74,6 +74,12 @@ void cpu_exec_step_atomic(CPUState *cpu);
+>   */
+>  bool set_preferred_target_page_bits(int bits);
+> =20
+> +/**
+> + * finalize_target_page_bits:
+> + * Commit the final value set by set_preferred_target_page_bits.
+> + */
+> +void finalize_target_page_bits(void);
+> +
+>  /**
+>   * Sends a (part of) iovec down a socket, yielding when the socket is =
+full, or
+>   * Receives data into a (part of) iovec from a socket,
+> diff --git a/exec-vary.c b/exec-vary.c
+> new file mode 100644
+> index 0000000000..48c0ab306c
+> --- /dev/null
+> +++ b/exec-vary.c
+> @@ -0,0 +1,57 @@
+> +/*
+> + * Variable page size handling
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/li=
+censes/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "exec/exec-all.h"
+> +
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +int target_page_bits;
+> +bool target_page_bits_decided;
+> +#endif
+> +
+> +bool set_preferred_target_page_bits(int bits)
+> +{
+> +    /*
+> +     * The target page size is the lowest common denominator for all
+> +     * the CPUs in the system, so we can only make it smaller, never
+> +     * larger. And we can't make it smaller once we've committed to
+> +     * a particular size.
+> +     */
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +    assert(bits >=3D TARGET_PAGE_BITS_MIN);
+> +    if (target_page_bits =3D=3D 0 || target_page_bits > bits) {
+> +        if (target_page_bits_decided) {
+> +            return false;
+> +        }
+> +        target_page_bits =3D bits;
+> +    }
+> +#endif
+> +    return true;
+> +}
+> +
+> +void finalize_target_page_bits(void)
+> +{
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +    if (target_page_bits =3D=3D 0) {
+> +        target_page_bits =3D TARGET_PAGE_BITS_MIN;
+> +    }
+> +    target_page_bits_decided =3D true;
+> +#endif
+> +}
 
-DPDES is shared but QEMU assumes all SPRs are per thread so the only safe
-way to write DPDES back to VCPU before running a guest is doing so
-while all threads are pulled out of the guest so DPDES cannot change.
-There is only one situation when this condition is met: incoming migration
-when all threads are stopped. Otherwise any QEMU HMP/QMP command causing
-kvm_arch_put_registers() (for example printing registers or dumping memory)
-can clobber DPDES in a race with other vcpu threads.
+I wonder if it would be nicer to handle this in the header file instead,
+providing dummy functions there.
 
-This changes DPDES handling so it is not written to KVM at runtime.
+--=20
 
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
----
- target/ppc/kvm.c                | 5 +++++
- target/ppc/translate_init.inc.c | 9 ++++-----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+Thanks,
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 8c5b1f25cc95..820724cc7d15 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -993,6 +993,10 @@ int kvm_arch_put_registers(CPUState *cs, int level)
-         }
- 
-         kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &env->tb_env->tb_offset);
-+
-+        if (level > KVM_PUT_RUNTIME_STATE) {
-+            kvm_put_one_spr(cs, KVM_REG_PPC_DPDES, SPR_DPDES);
-+        }
- #endif /* TARGET_PPC64 */
-     }
- 
-@@ -1297,6 +1301,7 @@ int kvm_arch_get_registers(CPUState *cs)
-         }
- 
-         kvm_get_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &env->tb_env->tb_offset);
-+        kvm_get_one_spr(cs, KVM_REG_PPC_DPDES, SPR_DPDES);
- #endif
-     }
- 
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index 0fb11c7ac6da..ba726dec4d00 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -8200,11 +8200,10 @@ static void gen_spr_power8_dpdes(CPUPPCState *env)
- {
- #if !defined(CONFIG_USER_ONLY)
-     /* Directed Privileged Door-bell Exception State, used for IPI */
--    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
--                        SPR_NOACCESS, SPR_NOACCESS,
--                        &spr_read_generic, SPR_NOACCESS,
--                        &spr_read_generic, &spr_write_generic,
--                        KVM_REG_PPC_DPDES, 0x00000000);
-+    spr_register(env, SPR_DPDES, "DPDES",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, SPR_NOACCESS,
-+                 0x00000000);
- #endif
- }
- 
--- 
-2.17.1
-
+David / dhildenb
 
