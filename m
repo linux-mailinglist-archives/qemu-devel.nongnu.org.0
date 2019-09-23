@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A45BAF91
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:30:56 +0200 (CEST)
-Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DFBBAFA3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:34:21 +0200 (CEST)
+Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJkE-0006IA-Fi
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:30:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42877)
+	id 1iCJnX-0000fn-PO
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCJNw-000265-8o
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:07:53 -0400
+ (envelope-from <david@redhat.com>) id 1iCJO1-0002C1-GE
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:07:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCJNu-00048b-Qe
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:07:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41860)
+ (envelope-from <david@redhat.com>) id 1iCJO0-0004BF-D7
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:07:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47270)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iCJNu-00048N-FR; Mon, 23 Sep 2019 04:07:50 -0400
+ id 1iCJO0-0004Ax-85; Mon, 23 Sep 2019 04:07:56 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C202F30833C1;
- Mon, 23 Sep 2019 08:07:49 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8138989810B;
+ Mon, 23 Sep 2019 08:07:55 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FE2319D70;
- Mon, 23 Sep 2019 08:07:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 174A019C78;
+ Mon, 23 Sep 2019 08:07:49 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 14/30] s390x/tcg: MVST: Fix storing back the addresses to
- registers
-Date: Mon, 23 Sep 2019 10:06:56 +0200
-Message-Id: <20190923080712.23951-15-david@redhat.com>
+Subject: [PULL 15/30] s390x/tcg: Always use MMU_USER_IDX for CONFIG_USER_ONLY
+Date: Mon, 23 Sep 2019 10:06:57 +0200
+Message-Id: <20190923080712.23951-16-david@redhat.com>
 In-Reply-To: <20190923080712.23951-1-david@redhat.com>
 References: <20190923080712.23951-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 23 Sep 2019 08:07:49 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Mon, 23 Sep 2019 08:07:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -63,124 +62,64 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-24 and 31-bit address space handling is wrong when it comes to storing
-back the addresses to the register.
-
-While at it, read gprs 0 implicitly.
+Although we basically ignore the index all the time for CONFIG_USER_ONLY,
+let's simply skip all the checks and always return MMU_USER_IDX in
+cpu_mmu_index() and get_mem_index().
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/helper.h      |  2 +-
- target/s390x/insn-data.def |  2 +-
- target/s390x/mem_helper.c  | 26 +++++++++++---------------
- target/s390x/translate.c   |  8 ++++++--
- 4 files changed, 19 insertions(+), 19 deletions(-)
+ target/s390x/cpu.h       | 4 ++++
+ target/s390x/translate.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index e9aff83b05..56e8149866 100644
---- a/target/s390x/helper.h
-+++ b/target/s390x/helper.h
-@@ -20,7 +20,7 @@ DEF_HELPER_FLAGS_4(mvn, TCG_CALL_NO_WG, void, env, i32,=
- i64, i64)
- DEF_HELPER_FLAGS_4(mvo, TCG_CALL_NO_WG, void, env, i32, i64, i64)
- DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i64, i64)
- DEF_HELPER_FLAGS_4(mvz, TCG_CALL_NO_WG, void, env, i32, i64, i64)
--DEF_HELPER_4(mvst, i64, env, i64, i64, i64)
-+DEF_HELPER_3(mvst, i32, env, i32, i32)
- DEF_HELPER_4(ex, void, env, i32, i64, i64)
- DEF_HELPER_FLAGS_4(stam, TCG_CALL_NO_WG, void, env, i32, i64, i32)
- DEF_HELPER_FLAGS_4(lam, TCG_CALL_NO_WG, void, env, i32, i64, i32)
-diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index f421184fcd..449eee1662 100644
---- a/target/s390x/insn-data.def
-+++ b/target/s390x/insn-data.def
-@@ -637,7 +637,7 @@
- /* MOVE PAGE */
-     C(0xb254, MVPG,    RRE,   Z,   r1_o, r2_o, 0, 0, mvpg, 0)
- /* MOVE STRING */
--    C(0xb255, MVST,    RRE,   Z,   r1_o, r2_o, 0, 0, mvst, 0)
-+    C(0xb255, MVST,    RRE,   Z,   0, 0, 0, 0, mvst, 0)
- /* MOVE WITH OPTIONAL SPECIFICATION */
-     C(0xc800, MVCOS,   SSF,   MVCOS, la1, a2, 0, 0, mvcos, 0)
- /* MOVE WITH OFFSET */
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index ec27be174b..a24506676b 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -700,18 +700,18 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t =
-r0, uint64_t r1, uint64_t r2)
-     return 0; /* data moved */
- }
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 79202c0980..163dae13d7 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -328,6 +328,9 @@ extern const VMStateDescription vmstate_s390_cpu;
 =20
--/* string copy (c is string terminator) */
--uint64_t HELPER(mvst)(CPUS390XState *env, uint64_t c, uint64_t d, uint64=
-_t s)
-+/* string copy */
-+uint32_t HELPER(mvst)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ static inline int cpu_mmu_index(CPUS390XState *env, bool ifetch)
  {
-+    const uint64_t d =3D get_address(env, r1);
-+    const uint64_t s =3D get_address(env, r2);
-+    const uint8_t c =3D env->regs[0];
-     uintptr_t ra =3D GETPC();
-     uint32_t len;
-=20
--    if (c & 0xffffff00ull) {
-+    if (env->regs[0] & 0xffffff00ull) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ILEN_AUTO, ra);
++#ifdef CONFIG_USER_ONLY
++    return MMU_USER_IDX;
++#else
+     if (!(env->psw.mask & PSW_MASK_DAT)) {
+         return MMU_REAL_IDX;
      }
--    c =3D c & 0xff;
--    d =3D wrap_address(env, d);
--    s =3D wrap_address(env, s);
-=20
-     /* Lest we fail to service interrupts in a timely manner, limit the
-        amount of work we're willing to do.  For now, let's cap at 8k.  *=
-/
-@@ -719,17 +719,13 @@ uint64_t HELPER(mvst)(CPUS390XState *env, uint64_t =
-c, uint64_t d, uint64_t s)
-         uint8_t v =3D cpu_ldub_data_ra(env, s + len, ra);
-         cpu_stb_data_ra(env, d + len, v, ra);
-         if (v =3D=3D c) {
--            /* Complete.  Set CC=3D1 and advance R1.  */
--            env->cc_op =3D 1;
--            env->retxl =3D s;
--            return d + len;
-+            set_address_zero(env, r1, d + len);
-+            return 1;
-         }
+@@ -351,6 +354,7 @@ static inline int cpu_mmu_index(CPUS390XState *env, b=
+ool ifetch)
+     default:
+         abort();
      }
--
--    /* Incomplete.  Set CC=3D3 and signal to advance R1 and R2.  */
--    env->cc_op =3D 3;
--    env->retxl =3D s + len;
--    return d + len;
-+    set_address_zero(env, r1, d + len);
-+    set_address_zero(env, r2, s + len);
-+    return 3;
++#endif
  }
 =20
- /* load access registers r1 to r3 from memory at a2 */
+ static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong=
+ *pc,
 diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index 2927247c82..b0a2500e5f 100644
+index b0a2500e5f..a3e43ff9ec 100644
 --- a/target/s390x/translate.c
 +++ b/target/s390x/translate.c
-@@ -3488,9 +3488,13 @@ static DisasJumpType op_mvpg(DisasContext *s, Disa=
-sOps *o)
+@@ -318,6 +318,9 @@ static inline uint64_t ld_code4(CPUS390XState *env, u=
+int64_t pc)
 =20
- static DisasJumpType op_mvst(DisasContext *s, DisasOps *o)
+ static int get_mem_index(DisasContext *s)
  {
--    gen_helper_mvst(o->in1, cpu_env, regs[0], o->in1, o->in2);
-+    TCGv_i32 t1 =3D tcg_const_i32(get_field(s->fields, r1));
-+    TCGv_i32 t2 =3D tcg_const_i32(get_field(s->fields, r2));
-+
-+    gen_helper_mvst(cc_op, cpu_env, t1, t2);
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t2);
-     set_cc_static(s);
--    return_low128(o->in2);
-     return DISAS_NEXT;
++#ifdef CONFIG_USER_ONLY
++    return MMU_USER_IDX;
++#else
+     if (!(s->base.tb->flags & FLAG_MASK_DAT)) {
+         return MMU_REAL_IDX;
+     }
+@@ -333,6 +336,7 @@ static int get_mem_index(DisasContext *s)
+         tcg_abort();
+         break;
+     }
++#endif
  }
 =20
+ static void gen_exception(int excp)
 --=20
 2.21.0
 
