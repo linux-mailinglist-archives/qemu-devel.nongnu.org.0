@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146FEBBED4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:10:02 +0200 (CEST)
-Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E057BBBEDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:15:37 +0200 (CEST)
+Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCXSx-0004dz-Ck
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
+	id 1iCXYO-00026i-OE
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:15:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCXJb-0005Y2-2v
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:20 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJe-0005aS-SL
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCXJX-00081x-Mj
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:18 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41518)
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJb-00083a-VD
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:22 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41688)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCXJX-00081D-B3
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:15 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h7so15724475wrw.8
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:15 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iCXJa-00082R-HO
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:18 -0400
+Received: by mail-pg1-x544.google.com with SMTP id s1so7779745pgv.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=nT3xBaCVZhKK+bbM2D8EcQqUQ4OfyQS+TZn4Ujy4sco=;
- b=yYk9Oyl+LLaS4s8kIinyrdZYHrqkfFQs3CxSszgAi/WEwB5voqhQ9fLr8pjuo8Kdum
- owiLiMRkxSWBo4va7yptPf0JyafbMMiG0xPRo4nCYmF4w/DkhMvMJJ/6kbicS//ogzm+
- xlPYY6Ze4sPHgRh8t2QrZt7rL+sJ+IoNwcUwCViOQu0Vo4ouSOPbrGQ03QRwhVklqxP6
- 9J+LytGsmd1qQOPi11cz40YYBnO6TNQBUf4ZOJWRpGzfUGh1Kibp8/Y+Tp66MNERHmzD
- UZcufdHyto0dJS5+chOLMSVeG33hGpaBjnxO2dAN+H84wvP+2ojrslltYaNo+RCIQ7T2
- Yy/A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=dvpk1u15QL1a//tCscA4fTR0Q7V0VdpD0cml5SNVwXw=;
+ b=jPY2q1BUbJbbn0HIxBFk5OFVhQWSQsIvTzJVNUEoAoYnkUiibsZeQbr80nQ1hr6b7H
+ R7uwt4gekkjrm0N7AoQqMmwR1/98KC0/FOa5BFnU2s6b2Kqp0u+/nOTkdqCqvprwOOx+
+ KYOPPwlqbtffibReWD4yM/wawcfbP6v2mg/Agr0qrhRxGwkVvi9SQ5Y5XRV2xLHWj7ca
+ gAdcK1lWlLUf2kcpWQCJaWwxiedf+5ATo92sZnfYL8eJhVAYbkMg/Yin3Ty1QVu20Hjf
+ zY9fQZzP1MM200JBaFwefcu9g7CwSVdqizra0dcqbr4bijYZx8uHoHHug3lkst76jdte
+ bjjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=nT3xBaCVZhKK+bbM2D8EcQqUQ4OfyQS+TZn4Ujy4sco=;
- b=Qv8jb9Ptwa1VpwPyQAwSxtGeGfVxUJc9qFWNHcSbr9tbUTxF6UoJET6Ctltkb6738E
- UcFWND/mpb8vZyLkE/EA2brYhHm3mMa7uRTDHNqR824lF0+IAUN6U/GrfcJFRg1p8zGn
- IIP7ZgCdandmGD1HdzsY5WmFrV4pmEfCPxtL+GYyflzJ+Obxia4V/aTMVBBsF2amFy47
- EsaUc2/nr1P4pBKvFCIYzTe/VlqaBQ+LfWvLu5kpdufEaj/C1oO+WoBwtg836gtWyqwZ
- GE7Kx9ZTOt0ouugbYTn22Mdl6ywmlFurPeVLVtI3PFmt7NSkjKZefiLYKHa632D49KHO
- ProA==
-X-Gm-Message-State: APjAAAWJhEadbj7ZLm+4bz6L4pMVZuNLDX067hL8pWFzocv7XAOo5X1P
- czbt+NymLljV0a8g3gJD+8+K+g==
-X-Google-Smtp-Source: APXvYqz7iGbh/fFrwp9cjYdOFbH4GXZkzIIjTkVnCvClIvvCDgFyWBhNRKqmqjGmNItNxe8oxPL+7g==
-X-Received: by 2002:a05:6000:1002:: with SMTP id
- a2mr1166588wrx.272.1569279613923; 
- Mon, 23 Sep 2019 16:00:13 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o19sm16812013wro.50.2019.09.23.16.00.13
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=dvpk1u15QL1a//tCscA4fTR0Q7V0VdpD0cml5SNVwXw=;
+ b=jVGbnSSNEVyCD/mECdVUzdv5So4C2Yp/XWiY6J3BMmyhGR2pj7++NBdDdea6zq0Nea
+ ZaQuWsNiVz0B4ugqdAPr7i8izO0jjKsizZyX2zWjg8HXoLaNRVGva1YIcH1vzrcmjbvx
+ TF8k1ZkmznlWo0AqyC29yI6EKDpVUsQy3jJuX7KHaeDn0XeCHsfJXMYvvOuG2GM06f+V
+ i01BenHcKEqPmyBLBMTBG6SNv4P3U4fPggQhIkAO4vhTSIThUoeDLEPU7vKcqc/kplgM
+ hbcodh4Va3SDnhtCGoN4MeI0qXF5AqY9c3AndQgMc7Dn6NcQ1nYSzh3CnFqOzknlDfze
+ j9qg==
+X-Gm-Message-State: APjAAAVUPaA85hzGUK48Itzy6cmGOtOqPmBJAs2sJ2sOz/D7G5Kogkj0
+ WW/Z+LrAPKnHTMydFbfyZTmXlSgJOXc=
+X-Google-Smtp-Source: APXvYqzcOVvORg6oq9BxB+PzKh++f7hEc08WYoV0ZD6tdNYygMuCQH+xQCy21IxVF9x2rX7ojyp9lw==
+X-Received: by 2002:a17:90a:37c9:: with SMTP id
+ v67mr2015517pjb.29.1569279615730; 
+ Mon, 23 Sep 2019 16:00:15 -0700 (PDT)
+Received: from localhost.localdomain ([12.206.46.59])
+ by smtp.gmail.com with ESMTPSA id 74sm11674810pfy.78.2019.09.23.16.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2019 16:00:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 802911FF87;
- Tue, 24 Sep 2019 00:00:12 +0100 (BST)
-References: <20190919171015.12681-1-alex.bennee@linaro.org>
- <20190919171015.12681-5-alex.bennee@linaro.org>
- <20190923205115.GE6528@dhcp-17-179.bos.redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v2 04/16] tests/docker: reduce scary warnings from
- failed inspect
-In-reply-to: <20190923205115.GE6528@dhcp-17-179.bos.redhat.com>
-Date: Tue, 24 Sep 2019 00:00:12 +0100
-Message-ID: <87h852boub.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+ Mon, 23 Sep 2019 16:00:15 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 05/16] cputlb: Split out load/store_memop
+Date: Mon, 23 Sep 2019 15:59:53 -0700
+Message-Id: <20190923230004.9231-6-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190923230004.9231-1-richard.henderson@linaro.org>
+References: <20190923230004.9231-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +75,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org, qemu-arm@nongnu.org,
- Philippe =?utf-8?Q?Mathieu?= =?utf-8?Q?-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We will shortly be using these more than once.
 
-Cleber Rosa <crosa@redhat.com> writes:
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/cputlb.c | 110 +++++++++++++++++++++++----------------------
+ 1 file changed, 57 insertions(+), 53 deletions(-)
 
-> On Thu, Sep 19, 2019 at 06:10:03PM +0100, Alex Benn=C3=A9e wrote:
->> There is a race here in the clean-up code so lets just accept that
->> sometimes the active task we just looked up might have finished before
->> we got to inspect it.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  tests/docker/docker.py | 32 ++++++++++++++++++--------------
->>  1 file changed, 18 insertions(+), 14 deletions(-)
->>
->> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
->> index 29613afd489..4dca6006d2f 100755
->> --- a/tests/docker/docker.py
->> +++ b/tests/docker/docker.py
->> @@ -235,20 +235,24 @@ class Docker(object):
->>          if not only_active:
->>              cmd.append("-a")
->>          for i in self._output(cmd).split():
->> -            resp =3D self._output(["inspect", i])
->> -            labels =3D json.loads(resp)[0]["Config"]["Labels"]
->> -            active =3D json.loads(resp)[0]["State"]["Running"]
->> -            if not labels:
->> -                continue
->> -            instance_uuid =3D labels.get("com.qemu.instance.uuid", None)
->> -            if not instance_uuid:
->> -                continue
->> -            if only_known and instance_uuid not in self._instances:
->> -                continue
->> -            print("Terminating", i)
->> -            if active:
->> -                self._do(["kill", i])
->> -            self._do(["rm", i])
->> +            try:
->> +                resp =3D self._output(["inspect", i])
->> +                labels =3D json.loads(resp)[0]["Config"]["Labels"]
->> +                active =3D json.loads(resp)[0]["State"]["Running"]
->> +                if not labels:
->> +                    continue
->> +                instance_uuid =3D labels.get("com.qemu.instance.uuid", =
-None)
->> +                if not instance_uuid:
->> +                    continue
->> +                if only_known and instance_uuid not in self._instances:
->> +                    continue
->> +                print("Terminating", i)
->> +                if active:
->> +                    self._do(["kill", i])
->> +                    self._do(["rm", i])
->
-> Both podman and docker seem to handle "rm -f $INSTANCE" well, which
-> would by itself consolidate the two commands in one and minimize the
-> race condition.
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index e529af6d09..430ba4a69d 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1281,6 +1281,29 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+ typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
+                                 TCGMemOpIdx oi, uintptr_t retaddr);
+ 
++static inline uint64_t QEMU_ALWAYS_INLINE
++load_memop(const void *haddr, MemOp op)
++{
++    switch (op) {
++    case MO_UB:
++        return ldub_p(haddr);
++    case MO_BEUW:
++        return lduw_be_p(haddr);
++    case MO_LEUW:
++        return lduw_le_p(haddr);
++    case MO_BEUL:
++        return (uint32_t)ldl_be_p(haddr);
++    case MO_LEUL:
++        return (uint32_t)ldl_le_p(haddr);
++    case MO_BEQ:
++        return ldq_be_p(haddr);
++    case MO_LEQ:
++        return ldq_le_p(haddr);
++    default:
++        optimize_away();
++    }
++}
++
+ static inline uint64_t QEMU_ALWAYS_INLINE
+ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+             uintptr_t retaddr, MemOp op, bool code_read,
+@@ -1373,33 +1396,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+ 
+  do_aligned_access:
+     haddr = (void *)((uintptr_t)addr + entry->addend);
+-    switch (op) {
+-    case MO_UB:
+-        res = ldub_p(haddr);
+-        break;
+-    case MO_BEUW:
+-        res = lduw_be_p(haddr);
+-        break;
+-    case MO_LEUW:
+-        res = lduw_le_p(haddr);
+-        break;
+-    case MO_BEUL:
+-        res = (uint32_t)ldl_be_p(haddr);
+-        break;
+-    case MO_LEUL:
+-        res = (uint32_t)ldl_le_p(haddr);
+-        break;
+-    case MO_BEQ:
+-        res = ldq_be_p(haddr);
+-        break;
+-    case MO_LEQ:
+-        res = ldq_le_p(haddr);
+-        break;
+-    default:
+-        optimize_away();
+-    }
+-
+-    return res;
++    return load_memop(haddr, op);
+ }
+ 
+ /*
+@@ -1415,7 +1412,8 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+ static uint64_t full_ldub_mmu(CPUArchState *env, target_ulong addr,
+                               TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+-    return load_helper(env, addr, oi, retaddr, MO_UB, false, full_ldub_mmu);
++    return load_helper(env, addr, oi, retaddr, MO_UB, false,
++                       full_ldub_mmu);
+ }
+ 
+ tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong addr,
+@@ -1530,6 +1528,36 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
+  * Store Helpers
+  */
+ 
++static inline void QEMU_ALWAYS_INLINE
++store_memop(void *haddr, uint64_t val, MemOp op)
++{
++    switch (op) {
++    case MO_UB:
++        stb_p(haddr, val);
++        break;
++    case MO_BEUW:
++        stw_be_p(haddr, val);
++        break;
++    case MO_LEUW:
++        stw_le_p(haddr, val);
++        break;
++    case MO_BEUL:
++        stl_be_p(haddr, val);
++        break;
++    case MO_LEUL:
++        stl_le_p(haddr, val);
++        break;
++    case MO_BEQ:
++        stq_be_p(haddr, val);
++        break;
++    case MO_LEQ:
++        stq_le_p(haddr, val);
++        break;
++    default:
++        optimize_away();
++    }
++}
++
+ static inline void QEMU_ALWAYS_INLINE
+ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+              TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
+@@ -1657,31 +1685,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+ 
+  do_aligned_access:
+     haddr = (void *)((uintptr_t)addr + entry->addend);
+-    switch (op) {
+-    case MO_UB:
+-        stb_p(haddr, val);
+-        break;
+-    case MO_BEUW:
+-        stw_be_p(haddr, val);
+-        break;
+-    case MO_LEUW:
+-        stw_le_p(haddr, val);
+-        break;
+-    case MO_BEUL:
+-        stl_be_p(haddr, val);
+-        break;
+-    case MO_LEUL:
+-        stl_le_p(haddr, val);
+-        break;
+-    case MO_BEQ:
+-        stq_be_p(haddr, val);
+-        break;
+-    case MO_LEQ:
+-        stq_le_p(haddr, val);
+-        break;
+-    default:
+-        optimize_away();
+-    }
++    store_memop(haddr, val, op);
+ }
+ 
+ void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
+-- 
+2.17.1
 
-It's the self.__output which is the real race condition because
-check_output complains if the command doesn't succeed with 0. What we
-really need is to find somewhat of filtering the ps just for qemu
-instances and then just rm -f them as you suggest.
-
->
-> For unexisting containers, and no other errors, podman will return "1
-> if one of the specified containers did not exist, and no other
-> failure", as per its man page.  I couldn't find any guarantee that
-> docker will also return 1 on a similar situation, but that's what
-> I've experienced too:
->
->  $ docker rm -f CONTAINER_IS_NOW_FONE
->  Error response from daemon: No such container: CONTAINER_IS_NOW_GONE
->  $ echo $?
->  1
->
-> Maybe waiving exit status 1 and nothing else would do the trick here
-> and not hide other real problems?
->
-> - Cleber.
->
->> +            except subprocess.CalledProcessError:
->> +                # i likely finished running before we got here
->> +                pass
->>
->>      def clean(self):
->>          self._do_kill_instances(False, False)
->> --
->> 2.20.1
->>
->>
-
-
---
-Alex Benn=C3=A9e
 
