@@ -2,45 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC6FBB505
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:14:38 +0200 (CEST)
-Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89944BB51F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:21:54 +0200 (CEST)
+Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCOAn-0003X9-Ix
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55033)
+	id 1iCOHp-000147-Kx
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:21:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iCO7g-0001wp-2R
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:11:26 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCO8T-0002d2-U9
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:12:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iCO7e-0006Ux-VC
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:11:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56514)
+ (envelope-from <armbru@redhat.com>) id 1iCO8S-0006vw-LW
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:12:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42143)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iCO7a-0006Tk-1d; Mon, 23 Sep 2019 09:11:19 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCO8S-0006tb-Dj
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:12:12 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A62A4C01B81A;
- Mon, 23 Sep 2019 13:11:16 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1659710013D9;
- Mon, 23 Sep 2019 13:11:10 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-trivial@nongnu.org
-Subject: [PATCH v2] hw/arm/boot: Use the IEC binary prefix definitions
-Date: Mon, 23 Sep 2019 15:11:08 +0200
-Message-Id: <20190923131108.21459-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id B041E190C005;
+ Mon, 23 Sep 2019 13:12:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CCFE61559;
+ Mon, 23 Sep 2019 13:12:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CDEE0113864E; Mon, 23 Sep 2019 15:12:05 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>
+Subject: Re: [PATCH v4 21/24] paaudio: channel-map option
+References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
+ <8f650662fd6cc50baaede260581aeb560eed44fb.1568927990.git.DirtY.iCE.hu@gmail.com>
+Date: Mon, 23 Sep 2019 15:12:05 +0200
+In-Reply-To: <8f650662fd6cc50baaede260581aeb560eed44fb.1568927990.git.DirtY.iCE.hu@gmail.com>
+ (=?utf-8?B?IkvFkXbDoWfDsywgWm9sdMOhbiIncw==?= message of "Thu, 19 Sep 2019
+ 23:24:29 +0200")
+Message-ID: <87o8zbma1m.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 23 Sep 2019 13:11:16 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Mon, 23 Sep 2019 13:12:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,82 +62,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IEC binary prefixes ease code review: the unit is explicit.
+"K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v2: Use 4*GiB in arm_load_dtb (sgarzare)
----
- hw/arm/boot.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> Add an option to change the channel map used by pulseaudio.  If not
+> specified, falls back to an OSS compatible channel map.
+>
+> Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com>
+> ---
+>  audio/paaudio.c | 18 ++++++++++++++----
+>  qapi/audio.json |  7 +++++--
+>  qemu-options.hx |  9 +++++++++
+>  3 files changed, 28 insertions(+), 6 deletions(-)
+>
+> diff --git a/audio/paaudio.c b/audio/paaudio.c
+> index d195b1caa8..20402b0718 100644
+> --- a/audio/paaudio.c
+> +++ b/audio/paaudio.c
+> @@ -338,17 +338,27 @@ static pa_stream *qpa_simple_new (
+>          pa_stream_direction_t dir,
+>          const char *dev,
+>          const pa_sample_spec *ss,
+> -        const pa_channel_map *map,
+> +        const char *map,
+>          const pa_buffer_attr *attr,
+>          int *rerror)
+>  {
+>      int r;
+>      pa_stream *stream;
+>      pa_stream_flags_t flags;
+> +    pa_channel_map pa_map;
+>=20=20
+>      pa_threaded_mainloop_lock(c->mainloop);
+>=20=20
+> -    stream =3D pa_stream_new(c->context, name, ss, map);
+> +    if (map && !pa_channel_map_parse(&pa_map, map)) {
+> +        dolog("Invalid channel map specified: '%s'\n", map);
+> +        map =3D NULL;
+> +    }
+> +    if (!map) {
+> +        pa_channel_map_init_extend(&pa_map, ss->channels,
+> +                                   PA_CHANNEL_MAP_OSS);
+> +    }
+> +
+> +    stream =3D pa_stream_new(c->context, name, ss, &pa_map);
+>      if (!stream) {
+>          goto fail;
+>      }
+> @@ -421,7 +431,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audset=
+tings *as,
+>          PA_STREAM_PLAYBACK,
+>          ppdo->has_name ? ppdo->name : NULL,
+>          &ss,
+> -        NULL,                   /* channel map */
+> +        ppdo->has_channel_map ? ppdo->channel_map : NULL,
+>          &ba,                    /* buffering attributes */
+>          &error
+>          );
+> @@ -470,7 +480,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsetti=
+ngs *as, void *drv_opaque)
+>          PA_STREAM_RECORD,
+>          ppdo->has_name ? ppdo->name : NULL,
+>          &ss,
+> -        NULL,                   /* channel map */
+> +        ppdo->has_channel_map ? ppdo->channel_map : NULL,
+>          &ba,                    /* buffering attributes */
+>          &error
+>          );
+> diff --git a/qapi/audio.json b/qapi/audio.json
+> index 0535eff794..07003808cb 100644
+> --- a/qapi/audio.json
+> +++ b/qapi/audio.json
+> @@ -214,13 +214,16 @@
+>  # @latency: latency you want PulseAudio to achieve in microseconds
+>  #           (default 15000)
+>  #
+> +# @channel-map: channel map to use (default: OSS compatible map, since: =
+4.2)
+> +#
+>  # Since: 4.0
+>  ##
+>  { 'struct': 'AudiodevPaPerDirectionOptions',
+>    'base': 'AudiodevPerDirectionOptions',
+>    'data': {
+> -    '*name': 'str',
+> -    '*latency': 'uint32' } }
+> +    '*name':        'str',
+> +    '*latency':     'uint32',
+> +    '*channel-map': 'str' } }
+>=20=20
+>  ##
+>  # @AudiodevPaOptions:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 395427422a..f3bc342f98 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -471,6 +471,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+>      "-audiodev pa,id=3Did[,prop[=3Dvalue][,...]]\n"
+>      "                server=3D PulseAudio server address\n"
+>      "                in|out.name=3D source/sink device name\n"
+> +    "                in|out.channel-map=3D channel map to use\n"
+>  #endif
+>  #ifdef CONFIG_AUDIO_SDL
+>      "-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]\n"
+> @@ -636,6 +637,14 @@ Sets the PulseAudio @var{server} to connect to.
+>  @item in|out.name=3D@var{sink}
+>  Use the specified source/sink for recording/playback.
+>=20=20
+> +@item in|out.channel-map=3D@var{map}
+> +Use the specified channel map.  The default is an OSS compatible
+> +channel map.  Do not forget to escape commas inside the map:
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index bf97ef3e33..bc3e7be1e6 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -575,7 +575,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_i=
-nfo *binfo,
-         goto fail;
-     }
-=20
--    if (scells < 2 && binfo->ram_size >=3D (1ULL << 32)) {
-+    if (scells < 2 && binfo->ram_size >=3D 4 * GiB) {
-         /* This is user error so deserves a friendlier error message
-          * than the failure of setprop_sized_cells would provide
-          */
-@@ -1095,7 +1095,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cp=
-u,
-      * we might still make a bad choice here.
-      */
-     info->initrd_start =3D info->loader_start +
--        MIN(info->ram_size / 2, 128 * 1024 * 1024);
-+        MIN(info->ram_size / 2, 128 * MiB);
-     if (image_high_addr) {
-         info->initrd_start =3D MAX(info->initrd_start, image_high_addr);
-     }
-@@ -1155,13 +1155,13 @@ static void arm_setup_direct_kernel_boot(ARMCPU *=
-cpu,
-                  *
-                  * Let's play safe and prealign it to 2MB to give us som=
-e space.
-                  */
--                align =3D 2 * 1024 * 1024;
-+                align =3D 2 * MiB;
-             } else {
-                 /*
-                  * Some 32bit kernels will trash anything in the 4K page=
- the
-                  * initrd ends in, so make sure the DTB isn't caught up =
-in that.
-                  */
--                align =3D 4096;
-+                align =3D 4 * KiB;
-             }
-=20
-             /* Place the DTB after the initrd in memory with alignment. =
-*/
-@@ -1178,7 +1178,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cp=
-u,
-                 info->loader_start + KERNEL_ARGS_ADDR;
-             fixupcontext[FIXUP_ARGPTR_HI] =3D
-                 (info->loader_start + KERNEL_ARGS_ADDR) >> 32;
--            if (info->ram_size >=3D (1ULL << 32)) {
-+            if (info->ram_size >=3D 4 * GiB) {
-                 error_report("RAM size must be less than 4GB to boot"
-                              " Linux kernel using ATAGS (try passing a d=
-evice tree"
-                              " using -dtb)");
---=20
-2.20.1
+Awkward.
 
+> +
+> +@example
+> +-audiodev pa,id=3Dexample,sink.channel-map=3Dfront-left,,front-right
+> +@end example
+
+Makes me realize new AudiodevPaPerDirectionOptions member @channel-map
+is a list encoded in a string.  QAPI heavily frowns upon encoding stuff
+in strings.  Any reason why you can't (or don't want to) make it
+['str']?
+
+> +
+>  @end table
+>=20=20
+>  @item -audiodev sdl,id=3D@var{id}[,@var{prop}[=3D@var{value}][,...]]
 
