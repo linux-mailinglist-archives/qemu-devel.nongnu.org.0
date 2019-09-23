@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6591EBB4F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:07:10 +0200 (CEST)
-Received: from localhost ([::1]:56312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE4EBB501
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 15:11:24 +0200 (CEST)
+Received: from localhost ([::1]:56348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCO3Z-0006mz-GB
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53641)
+	id 1iCO7f-0000jF-DN
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 09:11:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCO00-0003q9-Gx
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:03:29 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCO4n-0007a1-Iv
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:08:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCNzz-000457-2N
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:03:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60286)
+ (envelope-from <eblake@redhat.com>) id 1iCO4m-0005NC-GQ
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:08:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:12321)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCNzy-00044z-QF
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 09:03:27 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iCO4j-0005MZ-Nm; Mon, 23 Sep 2019 09:08:21 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 12396356DC;
- Mon, 23 Sep 2019 13:03:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC50060C63;
- Mon, 23 Sep 2019 13:03:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 36574113864E; Mon, 23 Sep 2019 15:03:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Subject: Re: [Qemu-devel] [PATCH] vl.c: Report unknown machines correctly
-References: <20190915202011.30459-1-palmer@sifive.com>
-Date: Mon, 23 Sep 2019 15:03:24 +0200
-In-Reply-To: <20190915202011.30459-1-palmer@sifive.com> (Palmer Dabbelt's
- message of "Sun, 15 Sep 2019 13:20:11 -0700")
-Message-ID: <8736gnnp0j.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id BE6823C92D;
+ Mon, 23 Sep 2019 13:08:20 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE5CA10013D9;
+ Mon, 23 Sep 2019 13:08:15 +0000 (UTC)
+Subject: Re: [PATCH v2 01/11] qcrypto: add suport for amend options
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20190912223028.18496-1-mlevitsk@redhat.com>
+ <20190912223028.18496-2-mlevitsk@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <29336f49-c364-1263-664b-61a4a02be0be@redhat.com>
+Date: Mon, 23 Sep 2019 08:08:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20190912223028.18496-2-mlevitsk@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="iUGTTnk9YFpSxZimChNkXrsm3DSJJP3QJ"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 23 Sep 2019 13:03:26 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Mon, 23 Sep 2019 13:08:20 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,103 +84,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Palmer Dabbelt <palmer@sifive.com> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--iUGTTnk9YFpSxZimChNkXrsm3DSJJP3QJ
+Content-Type: multipart/mixed; boundary="JVCtDtOddfrqefqA7fIrsgCuFie8APiZi";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+Cc: Max Reitz <mreitz@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <29336f49-c364-1263-664b-61a4a02be0be@redhat.com>
+Subject: Re: [PATCH v2 01/11] qcrypto: add suport for amend options
+References: <20190912223028.18496-1-mlevitsk@redhat.com>
+ <20190912223028.18496-2-mlevitsk@redhat.com>
+In-Reply-To: <20190912223028.18496-2-mlevitsk@redhat.com>
 
-> I was recently typing in a QEMU command line, and ended up with
-> something like
->
->     qemu-system-riscv64 -machine virt ... -M 8G
->
-> which is, in retrospect, obviously incorrect: there is no "8G" machine.
-> I should have typed something like
->
->     qemu-system-riscv64 -machine virt ... -m 8G
->
-> but since QEMU was giving me the excessively unhelpful error message
->
->     qemu-system-riscv64: -machine virt: unsupported machine type
->     Use -machine help to list supported machines
->
-> I had to spend a few minutes scratching my head to figure out what was
-> going on.  For some reason I felt like I'd done that before, so I
-> figured I'd take a whack at fixing the problem this time.  It turns out
-> the error reporting for non-existant machines is just wrong: the invalid
-> machine is detected after we've lost the argument pointer, so it just
-> prints out the first instance of "-machine" instead of the one we're
-> actually looking for.
->
-> I've fixed this by just printing out "-machine $NAME" directly, but I
-> feel like there's a better way to do this.  Specifically, my issue is
-> that it always prints out "-machine" instead of "-M" -- that's actually
-> a regression for users just passing a single invalid machine via "-M",
-> which I assume is the more common case.
->
-> I'm not sure how to do this right, though, and my flight is boarding so
-> I figured I'd send this out as a way to ask the question.  I didn't have
-> time to run the test suite or figure out how to add a test for this, as
-> I'm assuming there's a better way to do it.
->
-> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+--JVCtDtOddfrqefqA7fIrsgCuFie8APiZi
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 9/12/19 5:30 PM, Maxim Levitsky wrote:
+> This adds the qcrypto_amend_options and corresponding
+> crypto driver callbacks for the  for encrypted
+
+grammar is off, did you miss a word where that double space is?
+
+> key managedment
+
+management
+
+>=20
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  vl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/vl.c b/vl.c
-> index 630f5c5e9c..821a5d91c8 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -2487,7 +2487,7 @@ static MachineClass *machine_parse(const char *name, GSList *machines)
->  
->      mc = find_machine(name, machines);
->      if (!mc) {
-> -        error_report("unsupported machine type");
-> +        error_printf("-machine %s: unsupported machine type\n", name);
->          error_printf("Use -machine help to list supported machines\n");
->          exit(1);
->      }
+>  crypto/block.c         | 31 +++++++++++++++++++++++++++++++
+>  crypto/blockpriv.h     |  8 ++++++++
+>  include/crypto/block.h | 22 ++++++++++++++++++++++
+>  3 files changed, 61 insertions(+)
+>=20
+> diff --git a/crypto/block.c b/crypto/block.c
+> index 325752871c..14b684de7f 100644
+> --- a/crypto/block.c
+> +++ b/crypto/block.c
+> @@ -115,6 +115,37 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCre=
+ateOptions *options,
+>  }
+> =20
+> =20
+> +int qcrypto_block_amend_options(QCryptoBlock *block,
+> +                                QCryptoBlockReadFunc readfunc,
+> +                                QCryptoBlockWriteFunc writefunc,
+> +                                void *opaque,
+> +                                QCryptoBlockCreateOptions *options,
+> +                                bool force,
+> +                                Error **errp)
+> +{
+> +    if (options->format !=3D block->format) {
+> +        error_setg(errp,
+> +                   "Its not possible to change encryption format with =
+amend interface");
+> +        return -1;
 
-This is an instance of QemuOpts features undermining each other.
+"It's" (here, you want the form meaning "It is")
 
-error_report() uses the "current location".  A few judiciously placed
-loc_FOO() ensure many error_report() just work.  For instance, anything
-within main()'s two loops over argv[] has the current location point to
-the current option or argument.
+Or reword the entire error to something shorter:
 
-= QemuOpts feature #1: capture option location =
+error_setg(errp, "cannot amend encryption format")
 
-A struct QemuOpts stores a complex option for later use.  Since many
-such later uses call error_report(), it captures the option's location,
-so you can make the current location point to it again.  It's even
-automatic with qemu_opts_foreach().
-
-= QemuOpts feature #2: option merging =
-
-You can request multiple options to be merged[*] by putting .merge_lists
-= true into the QemuOptsList.  qemu_machine_opts does.  -machine a=b
--machine x=y gets merged into -machine a=b,x=y.
-
-= The two feature don't want to play with each other =
-
-With option merging, we can have any number of *actual* option
-locations, but QemuOpts can capture just one, so we arbitrarily capture
-the first one.  In your example, that's "-machine virt", which is
-misleading, because the offending location is actually "-M 8G".
-
-By the time we realized the features don't play with each other, we were
-too deeply invested into both features to say "either feature is fine,
-but we can't have both".
-
-To make them play, we'd have to capture locations at the struct QemuOpt
-level instead.  Looks like an awful lot of work just to make a few error
-messages less confusing.  Makes me sad, because I do value decent error
-messages.
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
+--JVCtDtOddfrqefqA7fIrsgCuFie8APiZi--
 
-[*] Multiple options with the same ID.  A detail that isn't relevant
-here, I think.  Can explain if you're curious.
+--iUGTTnk9YFpSxZimChNkXrsm3DSJJP3QJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2Iw7wACgkQp6FrSiUn
+Q2ryCwf+MmXWH19E1HgzE+x+BfNK6rJwKfsKSM8L6LlQmedqAO8Se9ipuAlpnJP4
+dwwXD70d0//LHdIF5dGmGUKYr1XrIOfpYxvn+azQFkGoDn0WnYR6W9Di2YkXT0Oq
+Ygr31yjZsKgLcnLboQlP6jRRIqoZPKzFFDOXgfWwF3FwJ+xwTc58TpilLfQwsAkO
+zm128bv6nNdxouyTJHNy43/5gPu/2QyUBWqiBGoBW2n6nR3ptoWYCsr/FN6Ty2uK
+zeqAG7wE4jHDbb46DSygMwBR/GxU+0GaiOgCB/LkYLvuyQMMOp5L4/3oJk+xG3nD
+OvR0fC1GO3cmU+hdvs6IVVuChb2IdQ==
+=NAdF
+-----END PGP SIGNATURE-----
+
+--iUGTTnk9YFpSxZimChNkXrsm3DSJJP3QJ--
 
