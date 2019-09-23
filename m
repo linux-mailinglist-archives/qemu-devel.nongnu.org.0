@@ -2,89 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E714BB77D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 17:06:47 +0200 (CEST)
-Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2649BBB78C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 17:09:31 +0200 (CEST)
+Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCPvK-0002ho-2D
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 11:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43871)
+	id 1iCPxy-00065d-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 11:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44636)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1iCPsj-0000nT-Dh
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 11:04:06 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iCPwn-0005Gq-5D
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 11:08:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1iCPsi-0006t5-5v
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 11:04:05 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:1994)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1iCPsh-0006sF-JI
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 11:04:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1569251044;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1Y4/NeUeZiErZGzqGIl4KpmJrqnjb26duKO/7w9nXdI=;
- b=RMzap5spwByz6XZnkUkctElb5O5ZYeMMh7bXOa/oGW3VAC3mWvbmgyte
- 9NXCoNRQg0P83IHjqFxHkfke05Zu8vRWFxDn9CklO95y6PI8TP+8uQZBn
- x/i126buBRLVKaEN9DkZUQJ15zT/ayAiWAMGaqNbNivlGCuSCVEYWPM8o s=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: Af8RCcOLXn+JKGfge5/ttaGXwR/JdsgHkehCcsZBOLpIG5YBxbEtmXvFYS0WBAJF8bGi50GgAL
- hslrKvAgB+Yd9wcO2m6DOt/hIsbOLvxYH6Y8WVI4HARiA5mV9yGJs/usLf1tjGWU4S9ZlA3kUv
- vDRlwV7+2zUQxxmZrpbK30hZqcDivSFceEmGK9OzSlmnpYlklyER8q/hLQvysvJziWY5rItvOr
- Zg1DwfQ/F+UHpj18dAN1sTcbjIqbED5bbXB4ieZleigA0AuDxKYIyV/OnDAWxooF1O3p6x6PDI
- +9c=
-X-SBRS: 2.7
-X-MesageID: 5933806
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.64,540,1559534400"; 
-   d="scan'208";a="5933806"
-Date: Mon, 23 Sep 2019 16:03:56 +0100
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: Paul Durrant <paul.durrant@citrix.com>
-Subject: Re: [PATCH] xen-bus: only set the xen device frontend state if it is
- missing
-Message-ID: <20190923150356.GB1163@perard.uk.xensource.com>
-References: <20190918115745.39006-1-paul.durrant@citrix.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iCPwl-00017e-KF
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 11:08:16 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41591)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iCPwl-00017T-Br
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 11:08:15 -0400
+Received: by mail-ot1-x342.google.com with SMTP id g13so12393947otp.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 08:08:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ERJUb+dbN/w4nneNwABGCqg5RdaLapiiDr2Pd0CIAVo=;
+ b=dLKclUSA7hiKLiYWQI837sCtal4CaDnjvEiG6bQl8q8bKGKEDNzb3wq5asxhyOoYJr
+ SsCFrsI7HfyaTJeDGI2AVzjfeNjp1WYYX0/aSsbMIGqPCMFDaACfeAwpGaQvs1lEEgtg
+ 4uZUg0gu+YKTCru3eTXAXgLfhu2OHmau0yy5TqrkUW2t3oHQEjQB3tGYVBQpPq3gVTM+
+ IT0lNdHTev48yBTTsfbivY/C2QwmAN5h9mIQiKRvDyhsggYRZbBTokto5aDHfHKMxNvi
+ aD56wpnx6NkGd1bZ9qS6ctkNURwdRCKLxQEUrTKOkgj8lIXea/V4Ib33fa5/LL84HxrA
+ E4wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ERJUb+dbN/w4nneNwABGCqg5RdaLapiiDr2Pd0CIAVo=;
+ b=icuzi7c0HVqagzJfvrybeflE/03vvJE+EZtsSNngu0xMach3BJumbnLCBUc9Pa6rfw
+ 19Ix8LIShoOF7VkTbGNuGw6bug9S20c2MHB3rmtV5YjzsrE+PNQutUB3V7iXLMBJ/fFP
+ k2gEVoRCc5rPCFfXWw+3YHegtGJpgzHamNJucDmRXaut5ZENopUikz0nJL1L4BxEP4ZX
+ 8CnzSVeGBc2mPOqPoFPUiUI8bWZ/Za24wegJkvuHor4TvZ8vwO6pARvWeN+X0I6bcRFz
+ Jbt3t2i0bRvgIecjWvPNymgTvSlTFCD67p/o3rqfH441lMmqY3pxH5VX8vy5zsjtBu8v
+ e9IA==
+X-Gm-Message-State: APjAAAX6bX4w3GXuQXbJkVBuzM6UvS68U3y9HS3fmTc5fTXqx2Z7SB4h
+ 6A5PFaV87XU3aEW08km/on+vTkcPmsqA9BWJAM87ng==
+X-Google-Smtp-Source: APXvYqzkgscNcANa0dhKPYkKjpu5uMzvpO26xVxTV8iXtSTKGg70OjpqWAMM9Hrx1tDlhmgaUPdGoTqO7BlKMKQ1Zk4=
+X-Received: by 2002:a9d:4615:: with SMTP id y21mr219175ote.97.1569251294474;
+ Mon, 23 Sep 2019 08:08:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20190918115745.39006-1-paul.durrant@citrix.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.145.153
+References: <20190921101703.17935-1-philmd@redhat.com>
+ <CAFEAcA8RfAPuV9LfL3c01KU+sCtAcWkHsLR7e-4QNJVcniq7Cg@mail.gmail.com>
+ <ec6ddb30-6ae4-a3fb-e97c-58758df65650@redhat.com>
+In-Reply-To: <ec6ddb30-6ae4-a3fb-e97c-58758df65650@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 Sep 2019 16:08:03 +0100
+Message-ID: <CAFEAcA8+3KjJ61n_U-eM4ydPTNQpok2VRMpwQecYMGhGxcf9tw@mail.gmail.com>
+Subject: Re: [PATCH] hw/ptimer: Assert next_event is newer than last_event
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,31 +75,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xen-devel@lists.xenproject.org, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-devel@nongnu.org, Mark Syms <mark.syms@citrix.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 18, 2019 at 12:57:44PM +0100, Paul Durrant wrote:
-> From: Mark Syms <mark.syms@citrix.com>
-> 
-> Some toolstack implementations will set the frontend xenstore
-> keys to Initialising which will then trigger the in guest PV
-> drivers to begin initialising and some implementations will
-> then set their state to Closing. If this has occurred then
-> device realize must not overwrite the frontend keys as then
-> the handshake will stall.
-> 
-> Signed-off-by: Mark Syms <mark.syms@citrix.com>
-> 
-> Also avoid creating the frontend area if it already exists.
-> 
-> Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+On Mon, 23 Sep 2019 at 15:54, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 9/23/19 4:40 PM, Peter Maydell wrote:
+> > On Sat, 21 Sep 2019 at 11:17, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com> wrote:
+> >>
+> >> If the period is too big, the 'delta * period' product result
+> >> might overflow, resulting in a negative number, then the
+> >> next_event ends before the last_event. This is buggy, as there
+> >> is no forward progress. Assert this can not happen.
 
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+> > Can this only happen if a QEMU timer model using the ptimer
+> > code has a bug, or is it guest-triggerable for some of our
+> > timer models?
+>
+> I hit this running a raspi4 guest, I had incorrectly initialized a clock
+> using the core cpu frequency, while I had to use the APB one (in my
+> case, core_cpu_freq / 2). The guest use a high value to configure a slow
+> timer, which in my buggy case made QEMU hang in hard way to debug.
+>
+> So yes, it seems guest-triggerable if the implementation is broken.
+> Using assert() is OK for broken implementation, right?
 
-Thanks,
+Yeah, if this can only happen if QEMU code is broken then
+an assert is OK. I was just trying to find out what the
+cause was, since "this is buggy" isn't specific about where
+the bug is.
 
--- 
-Anthony PERARD
+> Or should we audit all ptimer calls?
+
+I don't think we specifically need an audit. We could perhaps
+expand the comment by the assert to specifically say that if
+the calculation of the next event overflowed then this indicates
+a bug in the QEMU device model using the ptimer API, so if
+somebody else runs into the assert they have a hint about
+what to look at. (An overflowed next_event indicates a time
+incredibly far in the future, given that it's a nanosecond
+time in an int64_t.)
+
+The other approach I thought of would be to make the ptimer
+code handle this sort of after-the-end-of-QEMU-universe time
+by saturating next_event to INT64_MAX rather than letting it
+overflow and wrap. Unfortunately while this would be fine for
+the 'timer event' part of the code, it would break
+ptimer_get_count() which calculates the current counter
+value by looking at the difference between the current
+time and the time of the next event (fixable but only with
+a bunch of messing about to treat a next_event of INT64_MAX
+as equivalent to the counter being disabled and tracking
+the counter value in s->delta). So an assert is the
+best thing I think.
+
+thanks
+-- PMM
 
