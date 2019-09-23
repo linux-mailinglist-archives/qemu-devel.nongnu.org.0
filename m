@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E85BB322
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 13:51:05 +0200 (CEST)
-Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4442CBB32A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 13:53:26 +0200 (CEST)
+Received: from localhost ([::1]:55158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCMrw-00072J-8E
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 07:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44232)
+	id 1iCMuD-0001NR-C3
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 07:53:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44525)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCMq2-0005xR-At
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:49:07 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iCMtD-0000XG-8i
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:52:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCMq1-0006ls-79
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:49:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58352)
+ (envelope-from <pbonzini@redhat.com>) id 1iCMtC-00019J-1b
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:52:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35288)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCMq1-0006lH-1g
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:49:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iCMtB-000188-PN
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 07:52:21 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 495D61DDA;
- Mon, 23 Sep 2019 11:49:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F6C4196AE;
- Mon, 23 Sep 2019 11:49:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0B22A113864E; Mon, 23 Sep 2019 13:49:00 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v3 00/16] qapi: Schema language cleanups &
- doc improvements
-References: <20190913201349.24332-1-armbru@redhat.com>
- <32fcbd17-4500-0984-dec6-01598a02c541@redhat.com>
-Date: Mon, 23 Sep 2019 13:49:00 +0200
-In-Reply-To: <32fcbd17-4500-0984-dec6-01598a02c541@redhat.com> (Eric Blake's
- message of "Tue, 17 Sep 2019 11:31:08 -0500")
-Message-ID: <87wodznsgj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id D9AEE4FCDA
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 11:52:20 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id 190so6541416wme.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 04:52:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sSRUGmpkqjCBncYBiL2Nf0gUwX95C0t8AFl/cfVvkgc=;
+ b=fSGBL4jGJL2DUJgO12agmEX7l0QGSgtj2i3dXGqdcW8FPFnM/FtqaXfICefPaL/86M
+ XtG+R3hULUwORptGp98wVmUzUJ41E40G1u6BjLMeKOYGz60v1tALKxBHbHdlrgXo4qUK
+ QP9CecegLl/08BaIKaxNHqZ725R2OQyEs6h3Yuy28ojFNGAbvonQLYNJyZ6W/Lrwv80f
+ aGFCqGbq/4hQ1BIJUU28Twm+qTYleCMxugnQ3B7377Y74pm+oYR42JXINt8R17pq0Rz6
+ ydiPlDx0H6lvxk63uOMnZAlOigywUPLCpIXQA+BzlHATJsf77Ak0oB2QSBqdTE1iuZYU
+ v7Gg==
+X-Gm-Message-State: APjAAAUjGl5HX+0YRmKWEtKCZVT35zEJDWZvIgdIn2LAXoViNNr2bSnG
+ tV7EmCThDkvC0+EqadVbvL39wsiaSq3fU27nxCRmY7yWh4cSHqrBSzK8BMtTkLLe+MT1V02tc/k
+ eiprQYSzLfLw8raw=
+X-Received: by 2002:adf:f8cf:: with SMTP id f15mr21258216wrq.292.1569239538889; 
+ Mon, 23 Sep 2019 04:52:18 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw9URtIpl/Xb7uAwk1Pp2XHBPPCvdkeV0d48XhCw7VjILVie61W4q4nQ8/gFlaV0Zc3TWE66Q==
+X-Received: by 2002:adf:f8cf:: with SMTP id f15mr21258202wrq.292.1569239538623; 
+ Mon, 23 Sep 2019 04:52:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
+ ([2001:b07:6468:f312:9520:22e6:6416:5c36])
+ by smtp.gmail.com with ESMTPSA id c6sm11827477wrb.60.2019.09.23.04.52.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Sep 2019 04:52:17 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PATCH] Replace '-machine accel=xyz' with '-accel
+ xyz'
+To: Markus Armbruster <armbru@redhat.com>
+References: <20190904052739.22123-1-thuth@redhat.com>
+ <5e8d67e5-842f-7cea-28a5-f07050615c38@redhat.com>
+ <87wodzp7vm.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <b27bedba-3046-2350-1f7b-7845277be66e@redhat.com>
+Date: Mon, 23 Sep 2019 13:52:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Mon, 23 Sep 2019 11:49:04 +0000 (UTC)
+In-Reply-To: <87wodzp7vm.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,35 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, Peter Krempa <pkrempa@redhat.com>,
- qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On 23/09/19 13:30, Markus Armbruster wrote:
+> -accel is yet another convenience option.  We have so many of them.  I
+> dislike the complexity they add to the CLI.  Here's how this one got in=
+:
+>=20
+> commit 8d4e9146b3568022ea5730d92841345d41275d66
+> Author: KONRAD Frederic <fred.konrad@greensocs.com>
+> Date:   Thu Feb 23 18:29:08 2017 +0000
+>=20
+>     tcg: add options for enabling MTTCG
+>    =20
+>     We know there will be cases where MTTCG won't work until additional=
+ work
+>     is done in the front/back ends to support. It will however be usefu=
+l to
+>     be able to turn it on.
+>    =20
+>     As a result MTTCG will default to off unless the combination is
+>     supported. However the user can turn it on for the sake of testing.
+>    =20
+>     Signed-off-by: KONRAD Frederic <fred.konrad@greensocs.com>
+>     [AJB: move to -accel tcg,thread=3Dmulti|single, defaults]
+>     Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>     Reviewed-by: Richard Henderson <rth@twiddle.net>
+>=20
+> Not a peep on why the existing options are so insufficient we must have
+> another one.
+>=20
+> Our CLI will remain the steaming mess it has become until we reform the
+> habits that got us there.
 
-> On 9/13/19 3:13 PM, Markus Armbruster wrote:
->> v3:
->> * PATCH 05
->>   - Typo fixed [Eric]
->> * PATCH 06+07
->>   - Additional comments [Eric]
->> * PATCH 11
->>   - Replace one more QAPISchemaMember by QAPISchemaEnumMember
->> * PATCH 13+15
->>   - Doc phrasing tweaks [Eric]
->> * PATCH 14+15
->>   - Belatedly update for v2's restriction to printable ASCII [Eric]
->>   - Correct claim "order of top-level expression doesn't matter" [Eric]
->> * PATCH 15
->>   - Fix EBNF for PRAGMA [Eric]
->
-> Peter Krempa's proposal to add features to commands (for introspecting
-> Kevin's recent savevm fix) slightly conflicts with this.
->
-> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03586.html
+-accel's accel suboption is currently defined as a convenience option,
+but it shouldn't be.  It's the older "-M accel=3Dfoo:bar" that should
+become "-accel foo -accel bar" and -accel then is the preferred way.
 
-I'm pretty sure it'll conflict plenty more with the
-not-yet-posted-to-avoid-scaring-off-reviewers part of my work.  We'll
-work it out :)
+The existing option "-M accel" was insufficient because it didn't allow
+accelerator-specific suboptions; they were all over the place ("-machine
+kernel_irqchip", "-tb-size", etc.) and indeed mostly in wrong places.
+
+Paolo
 
