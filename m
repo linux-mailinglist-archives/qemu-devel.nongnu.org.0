@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92917BBEBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:03:45 +0200 (CEST)
-Received: from localhost ([::1]:37056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79376BBEC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 01:07:25 +0200 (CEST)
+Received: from localhost ([::1]:37102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCXMu-0007Ks-24
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35724)
+	id 1iCXQS-00027r-BM
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 19:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35769)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCXJX-0005Rx-BL
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:16 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJb-0005Y1-2S
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCXJW-000815-8H
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:15 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33714)
+ (envelope-from <richard.henderson@linaro.org>) id 1iCXJY-00082F-3a
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:18 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39790)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCXJW-00080h-2I
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:14 -0400
-Received: by mail-pg1-x544.google.com with SMTP id i30so4573pgl.0
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:14 -0700 (PDT)
+ id 1iCXJX-00081W-Qm
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 19:00:15 -0400
+Received: by mail-pl1-x644.google.com with SMTP id s17so5724938plp.6
+ for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 16:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=5Kl11ZmsMIccTxhXV5md4kUi848D5Wwz0Vh+1GCVY20=;
- b=NY+RhAnUVegbSZ++M38hCn07AAmF9N20PcXLqREfICQIWIkg0+4VRaKv9aYF37Hb3r
- 2WObegdpu5p1sNo4kso5lrgGD9LNwh4wZ8plzDixSyfOVtrzDyOM+PgWW8XscZ5VJP/B
- OM0ZbEQUS5YB0PXUvb7mK+Wes4ZjINW2dx0FSyYUYXdetHk1tx3UiizySGXXaNuSCFrl
- IhU8wR2/t/SnZCo2f3fE0H9hJG8NZ7Q5CfNsK2wRVzFpU6qNyr4oFXaHmS9I5S2s5zlH
- vFY4M25VX22Ruyk1yBmumklzcRqK8ttJ5wzNp96HNsUejCgW87dwq7p0iQeKDok2WSck
- 2kjQ==
+ bh=QCKS3yxfLQ4jE5yT+JsFmTOrmseheZBe+jPLNTKKzwI=;
+ b=tQZ9bhlZ78sLR0JmELQxY75Ky/qNTx8OOgpz52R5Uw8qOCjxeKwQWqX2aKHXYGKMsd
+ 2oWixByLYfif6P7v505svSGt1w2akl0C+1u8K/iWFQ9yN9Odb2MsI8ZIEfgd1LUwV18b
+ hKwGPwukX+/AZtWCThzPvy8RNy19/h9KStpRoTFqJa/EYsdvfa0II9TFjeqDRirgBmrD
+ ALuRtmrMV6/sdCIbZKK2vjIebEUpJeDE7StIABJjmyN7aWjhhV9AV9oN3t5AHY73Muaf
+ iTBjiNPh6FFxmbSiRVTk7LHo3dvztMOdKPW4AjWI5/l8lBP/RGVI8TBeK2wh7S3lZY7P
+ QHOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=5Kl11ZmsMIccTxhXV5md4kUi848D5Wwz0Vh+1GCVY20=;
- b=lXHxtJ0IVX0mnz0K0M/KV+WwOUXGSDxRKRtcVYATGQUD1DO4IAICYGgLNjZegxwh/+
- aZ8oXUhJ/8Lul1Ntk3kju6P3jLdmeOGEEbRtgXaB3lUKGZxmQRn7wKJ6YefxlH8MK/Wn
- RKLIs1x0GvETMaO4NU7Z+WbMcLjbR32yUaKmcyABgspOPtgJK+u4eXav/qbbmULxA83t
- y44e1FExqO337gPElbgWeSNkmbkiHOWVld+SLv6j+N7tZH+NC72reo9uaD6etXRRC7H7
- v4/MYwBShh9kLvNNJBOpjoTUqdeBp8de8so7EU+K04JEJC9j7RHxt3E+x9PWbIGyM8uN
- ZwPw==
-X-Gm-Message-State: APjAAAVbQGsAPua8e7s4Ydt8L+rOF5EO8R8htAu3RUKq8BNBp9HkAtSy
- 1D3luY2WPgq0ws0sm+v+K+SyXmew5zs=
-X-Google-Smtp-Source: APXvYqy/XAM4d9FSDJViOlGxGyqDasp5Oio62vJR5qwzIKyxFs3orjrNfzCaC4r8ly1Le1zTVccHFQ==
-X-Received: by 2002:a63:505:: with SMTP id 5mr2189265pgf.297.1569279612724;
- Mon, 23 Sep 2019 16:00:12 -0700 (PDT)
+ bh=QCKS3yxfLQ4jE5yT+JsFmTOrmseheZBe+jPLNTKKzwI=;
+ b=tRkSY02VQCJlLIaNOxDfwIAf7B8+I2IlDdHyGN/n3dyDghZtAaV2QfU7aNMEkcRadQ
+ afPUHlFMRdmKIBPaHeoHblqrN9x/UZTpCkIwe9Eip+64DntIDD+0gYSTGb2IQsUJamb+
+ zwuJwUroUFRWm2vuTizRq6glplb1iU7QUzT81piZXS1U48HOTzMCcJfq2N1si42ctzwS
+ Gz80RdZEB98gHtoTB7iccOOdXBarR+hfRIyHHxzhlc8qgwuF0HVVACfXpclYHvMtZ57r
+ qFM74Rd2oNq7VWjyPBFbGoC8HLbQ9L+SUQj6AsEWAXo40AhqIpFyA/4tovhBhIv7TmRU
+ gu/w==
+X-Gm-Message-State: APjAAAXzM0FuwK+EbrSs34ctXi+eAX5Bhta9P/Gb+waZLhu5oTsKZ9LS
+ aR/3Ue2c5+uSWaOx6CQPA5AYfNaTzro=
+X-Google-Smtp-Source: APXvYqwFZaw2LXpvZuS8D76JQ543UEyNG5l3d2ap3N4S/lcMv/GvAO44UKu1ATvRm2oyYE490l/Hfw==
+X-Received: by 2002:a17:902:fe12:: with SMTP id
+ g18mr2107665plj.97.1569279614328; 
+ Mon, 23 Sep 2019 16:00:14 -0700 (PDT)
 Received: from localhost.localdomain ([12.206.46.59])
- by smtp.gmail.com with ESMTPSA id 74sm11674810pfy.78.2019.09.23.16.00.11
+ by smtp.gmail.com with ESMTPSA id 74sm11674810pfy.78.2019.09.23.16.00.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2019 16:00:12 -0700 (PDT)
+ Mon, 23 Sep 2019 16:00:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/16] qemu/compiler.h: Add optimize_away
-Date: Mon, 23 Sep 2019 15:59:51 -0700
-Message-Id: <20190923230004.9231-4-richard.henderson@linaro.org>
+Subject: [PATCH v4 04/16] cputlb: Use optimize_away in load/store_helpers
+Date: Mon, 23 Sep 2019 15:59:52 -0700
+Message-Id: <20190923230004.9231-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190923230004.9231-1-richard.henderson@linaro.org>
 References: <20190923230004.9231-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,38 +80,36 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use this as a compile-time assert that a particular
-code path is not reachable.
+Increase the current runtime assert to a compile-time assert.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/compiler.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ accel/tcg/cputlb.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 20780e722d..6604ccea92 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -221,4 +221,19 @@
- #define QEMU_GENERIC9(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC8(x, __VA_ARGS__))
- #define QEMU_GENERIC10(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC9(x, __VA_ARGS__))
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 2222b87764..e529af6d09 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1396,7 +1396,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         res = ldq_le_p(haddr);
+         break;
+     default:
+-        g_assert_not_reached();
++        optimize_away();
+     }
  
-+/**
-+ * optimize_away()
-+ *
-+ * The compiler, during optimization, is expected to prove that a call
-+ * to this function cannot be reached and remove it.  If the compiler
-+ * supports QEMU_ERROR, this will be reported at compile time; otherwise
-+ * this will be reported at link time, due to the missing symbol.
-+ */
-+#ifdef __OPTIMIZE__
-+extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
-+    optimize_away(void);
-+#else
-+#define optimize_away()  g_assert_not_reached()
-+#endif
-+
- #endif /* COMPILER_H */
+     return res;
+@@ -1680,8 +1680,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         stq_le_p(haddr, val);
+         break;
+     default:
+-        g_assert_not_reached();
+-        break;
++        optimize_away();
+     }
+ }
+ 
 -- 
 2.17.1
 
