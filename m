@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5EBBBBAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 20:35:21 +0200 (CEST)
-Received: from localhost ([::1]:60850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE86BBBAF
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 20:37:26 +0200 (CEST)
+Received: from localhost ([::1]:60864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCTBA-0000zM-Es
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 14:35:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50577)
+	id 1iCTDB-0002nW-Ez
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 14:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50912)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <incredible.tack@gmail.com>) id 1iCT8b-0008LR-N1
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:32:42 -0400
+ (envelope-from <lersek@redhat.com>) id 1iCTB4-0001b8-Rw
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:35:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <incredible.tack@gmail.com>) id 1iCT8a-0001Ch-Ml
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:32:41 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35551)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <incredible.tack@gmail.com>)
- id 1iCT8a-0001CZ-Ek
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:32:40 -0400
-Received: by mail-wr1-x433.google.com with SMTP id v8so15139346wrt.2
- for <qemu-devel@nongnu.org>; Mon, 23 Sep 2019 11:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OAOxUsADOghG0aSSZ/BOAkyKYbdJZxguJGoZ6//bd2g=;
- b=Sj5mNY6jnGj9FPerqHmuiHhFlqOrXz8lHrnXBqkTUAOrfTFIi6OSMGhVfuMZ0kHNj+
- 9u9s2xpHCzBytRloU/Wj3HWrLB4yz4wZbwzmWibj4zL8AajXOnOMwhMQ4mY2+aV7AR4D
- uM+G/UXiboIgu0u0rluf1HcoKBTWAU0093GTyRnDQUqL0Vc6TCJrgsR78fdw8/zbCJD0
- IAAiAhBUk5eyEjy7H908Jqkw2dW9Y2qKpQf+PJdXTeOySG+dUEeTXn0g/kqxIfMd9Uf7
- ZEpLj7WQr2TX2AEJ/XBJGATwRjyf9AC1Bv9ztn90e6D5CjjzkVXIakfue0EVszaGQDET
- tyKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OAOxUsADOghG0aSSZ/BOAkyKYbdJZxguJGoZ6//bd2g=;
- b=HZ9isQ5GhrvXsc5++HMCQVxnek5EutB2Pa9gRSeD8dlv8tXxzSkajjGxfQ0NKISF+a
- J2I+vmOV8Zdfa6UHOvjDqv+0+FizzNCleyS7XsNXdjRzL9W3SZ7KMT9NdoJqjyYmHuAu
- WRvWeafBjHjPWLRM8lHeL9joeQXX5x3DI57wqN3BJj6mMJ5XSfKHu+2E8Fi7qjT60gaa
- zweqYnwegDhRXlSPT2bxU7MoM6M8NrQqVHyvC9MXUkOf26aTedFNA2clCapgnFtGdAej
- yCrZCbnY2q5tcu0txIkuBk4a7kPvJ8TBfjJCcSlKPrk1v9evGRhy0evkyYXriW6oZCOA
- 4A0w==
-X-Gm-Message-State: APjAAAXAZ3egB7y17DPvPjn5Z6VEmYqEy9JOYvqd2CsLoOsrxeJbbwSf
- wU6axnStzrZUw5hP7IKBONHEjEIbSXyezl/7/NU=
-X-Google-Smtp-Source: APXvYqyAxKP/RN6BXlhgJjfxQjmQAxG+XpCYTBXah8SLfJeV1Vj4KZAr+rD7otPaSQmtIxEm0SGmOu/RPrSSZbBEFSg=
-X-Received: by 2002:a5d:5111:: with SMTP id s17mr528550wrt.59.1569263559305;
- Mon, 23 Sep 2019 11:32:39 -0700 (PDT)
+ (envelope-from <lersek@redhat.com>) id 1iCTB2-0002TQ-Ti
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:35:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45902)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iCTB2-0002R7-Kv
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 14:35:12 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E8B7F197BCE0;
+ Mon, 23 Sep 2019 18:35:10 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-2.rdu2.redhat.com
+ [10.10.120.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB3F45D9D5;
+ Mon, 23 Sep 2019 18:35:03 +0000 (UTC)
+Subject: Re: [edk2-devel] [Qemu-devel] [PATCH 1/2] q35: implement 128K SMRAM
+ at default SMBASE address
+From: Laszlo Ersek <lersek@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20190917130708.10281-1-imammedo@redhat.com>
+ <20190917130708.10281-2-imammedo@redhat.com>
+ <561f4440-7c06-10d7-80ce-bbfa810fec59@redhat.com>
+ <20190920102855.3fe2b689@redhat.com>
+ <a581abbc-ec03-c332-b225-6f7cd3cfadae@redhat.com>
+Message-ID: <c18f1ada-3eca-d5f1-da4f-e74181c5a862@redhat.com>
+Date: Mon, 23 Sep 2019 20:35:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <CAHyh4xhYrUbK0aEJmKp3_kOJG2E+AQLMUjyf7_pXVJgbqgv5JA@mail.gmail.com>
- <20190923104245.GA2866@work-vm>
- <6fa1b7a6-52c8-fc98-c532-f2c0484d04b0@redhat.com>
-In-Reply-To: <6fa1b7a6-52c8-fc98-c532-f2c0484d04b0@redhat.com>
-From: Jintack Lim <incredible.tack@gmail.com>
-Date: Mon, 23 Sep 2019 11:32:28 -0700
-Message-ID: <CAHyh4xgwTpM5rQ1qrwfjtqjHLj_U4Fes2Qmch0g=84yNxBQuZA@mail.gmail.com>
-Subject: Re: Migration failure when running nested VMs
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::433
+In-Reply-To: <a581abbc-ec03-c332-b225-6f7cd3cfadae@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Mon, 23 Sep 2019 18:35:11 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,37 +64,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Devel Mailing List <qemu-devel@nongnu.org>
+Cc: yingwen.chen@intel.com, Brijesh Singh <brijesh.singh@amd.com>,
+ devel@edk2.groups.io, phillip.goerl@oracle.com, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, jiewen.yao@intel.com, jun.nakajima@intel.com,
+ michael.d.kinney@intel.com, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
+ rfc@edk2.groups.io, joao.m.martins@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 23, 2019 at 4:48 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 23/09/19 12:42, Dr. David Alan Gilbert wrote:
-> >
-> > With those two clues, I guess maybe some dirty pages made by L2 are
-> > not transferred to the destination correctly, but I'm not really sure.
-> >
-> > 3) It happens on Intel(R) Xeon(R) Silver 4114 CPU, but it does not on
-> > Intel(R) Xeon(R) CPU E5-2630 v3 CPU.
->
-> Hmm, try disabling pml (kvm_intel.pml=0).  This would be the main
-> difference, memory-management wise, between those two machines.
->
+On 09/20/19 11:28, Laszlo Ersek wrote:
+> On 09/20/19 10:28, Igor Mammedov wrote:
+>> On Thu, 19 Sep 2019 19:02:07 +0200
+>> "Laszlo Ersek" <lersek@redhat.com> wrote:
+>>
+>>> Hi Igor,
+>>>
+>>> (+Brijesh)
+>>>
+>>> long-ish pondering ahead, with a question at the end.
+>> [...]
+>>
+>>> Finally: can you please remind me why we lock down 128KB (32 pages) at
+>>> 0x3_0000, and not just half of that? What do we need the range at
+>>> [0x4_0000..0x4_FFFF] for?
+>>
+>>
+>> If I recall correctly, CPU consumes 64K of save/restore area.
+>> The rest 64K are temporary RAM for using in SMI relocation handler,
+>> if it's possible to get away without it then we can drop it and
+>> lock only 64K required for CPU state. It won't help with SEV
+>> conflict though as it's in the first 64K.
+> 
+> OK. Let's go with 128KB for now. Shrinking the area is always easier
+> than growing it.
+> 
+>> On QEMU side,  we can drop black-hole approach and allocate
+>> dedicated SMRAM region, which explicitly gets mapped into
+>> RAM address space and after SMI hanlder initialization, gets
+>> unmapped (locked). So that SMRAM would be accessible only
+>> from SMM context. That way RAM at 0x30000 could be used as
+>> normal when SMRAM is unmapped.
+> 
+> I prefer the black-hole approach, introduced in your current patch
+> series, if it can work. Way less opportunity for confusion.
+> 
+> I've started work on the counterpart OVMF patches; I'll report back.
 
-Thank you, Paolo.
+I've got good results. For this (1/2) QEMU patch:
 
-This makes migration work successfully over 20 times in a row on
-Intel(R) Xeon(R) Silver 4114 CPU where migration failed almost always
-without disabling pml.
+Tested-by: Laszlo Ersek <lersek@redhat.com>
 
-I guess there's a problem in KVM pml code? I'm fine with disabling
-pml. But if you have patches to fix the issue, I'm willing to test it
-on the CPU.
+I tested the following scenarios. In every case, I verified the OVMF
+log, and also the "info mtree" monitor command's result (i.e. whether
+"smbase-blackhole" / "smbase-window" were disabled or enabled). Mostly,
+I diffed these text files between the test scenarios (looking for
+desired / undesired differences). In the Linux guests, I checked /
+compared the dmesg too (wrt. the UEFI memmap).
 
-Thanks,
-Jintack
+- unpatched OVMF (regression test), Fedora guest, normal boot and S3
 
-> Paolo
+- patched OVMF, but feature disabled with "-global mch.smbase-smram=off"
+(another regression test), Fedora guest, normal boot and S3
+
+- patched OVMF, feature enabled, Fedora and various Windows guests
+(win7, win8, win10 families, client/server), normal boot and S3
+
+- a subset of the above guests, with S3 disabled (-global
+  ICH9-LPC.disable_s3=1), and obviously S3 resume not tested
+
+SEV: used 5.2-ish Linux guest, with S3 disabled (no support under SEV
+for that now):
+
+- unpatched OVMF (regression test), normal boot
+
+- patched OVMF but feature disabled on the QEMU cmdline (another
+regression test), normal boot
+
+- patched OVMF, feature enabled, normal boot.
+
+I plan to post the OVMF patches tomorrow, for discussion.
+
+(It's likely too early to push these QEMU / edk2 patches right now -- we
+don't know yet if this path will take us to the destination. For now, it
+certainly looks great.)
+
+Thanks
+Laszlo
 
