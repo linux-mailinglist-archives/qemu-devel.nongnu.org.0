@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7B9BAFAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:35:07 +0200 (CEST)
-Received: from localhost ([::1]:53646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385E6BAFBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Sep 2019 10:37:36 +0200 (CEST)
+Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCJoH-0001d2-SB
-	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45829)
+	id 1iCJqh-0004LI-6G
+	for lists+qemu-devel@lfdr.de; Mon, 23 Sep 2019 04:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCJea-0001Sf-L2
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:25:06 -0400
+ (envelope-from <david@redhat.com>) id 1iCJjZ-0006hm-0L
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:30:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCJeY-0006H1-Ex
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:25:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33302)
+ (envelope-from <david@redhat.com>) id 1iCJjX-0007qv-3N
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:30:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35084)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCJeX-0006GW-SB
- for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:25:02 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCJjW-0007nz-RZ
+ for qemu-devel@nongnu.org; Mon, 23 Sep 2019 04:30:11 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EBD763090FC3;
- Mon, 23 Sep 2019 08:25:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7070210CC1F9;
+ Mon, 23 Sep 2019 08:30:09 +0000 (UTC)
 Received: from [10.36.116.207] (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2E9060166;
- Mon, 23 Sep 2019 08:24:57 +0000 (UTC)
-Subject: Re: [PATCH v3 01/20] exec: Use TARGET_PAGE_BITS_MIN for TLB flags
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 154645D71C;
+ Mon, 23 Sep 2019 08:30:01 +0000 (UTC)
+Subject: Re: [PATCH v3 05/20] exec: Promote TARGET_PAGE_MASK to target_long
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190922035458.14879-1-richard.henderson@linaro.org>
- <20190922035458.14879-2-richard.henderson@linaro.org>
+ <20190922035458.14879-6-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,18 +79,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <460bd9c8-e2b6-0db9-2db0-392621e5e613@redhat.com>
-Date: Mon, 23 Sep 2019 10:24:56 +0200
+Message-ID: <3702e894-72d8-a1d9-44b8-5c9941a09302@redhat.com>
+Date: Mon, 23 Sep 2019 10:30:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190922035458.14879-2-richard.henderson@linaro.org>
+In-Reply-To: <20190922035458.14879-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 23 Sep 2019 08:25:01 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Mon, 23 Sep 2019 08:30:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,50 +109,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22.09.19 05:54, Richard Henderson wrote:
-> These bits do not need to vary with the actual page size
-> used by the guest.
+> There are some uint64_t uses that expect TARGET_PAGE_MASK to
+> extend for a 32-bit, so this must continue to be a signed type.
+> Define based on TARGET_PAGE_BITS not TARGET_PAGE_SIZE; this
+> will make a following patch more clear.
+> 
+> This should not have a functional effect so far.
 > 
 > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/exec/cpu-all.h | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+>  include/exec/cpu-all.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index d2d443c4f9..e0c8dc540c 100644
+> index b11ee1f711..34d36cebca 100644
 > --- a/include/exec/cpu-all.h
 > +++ b/include/exec/cpu-all.h
-> @@ -317,20 +317,24 @@ CPUArchState *cpu_copy(CPUArchState *env);
+> @@ -225,7 +225,7 @@ extern const TargetPageBits target_page;
+>  #endif
 >  
->  #if !defined(CONFIG_USER_ONLY)
+>  #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
+> -#define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
+> +#define TARGET_PAGE_MASK ((target_long)-1 << TARGET_PAGE_BITS)
+>  #define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) & TARGET_PAGE_MASK)
 >  
-> -/* Flags stored in the low bits of the TLB virtual address.  These are
-> - * defined so that fast path ram access is all zeros.
-> +/*
-> + * Flags stored in the low bits of the TLB virtual address.
-> + * These are defined so that fast path ram access is all zeros.
->   * The flags all must be between TARGET_PAGE_BITS and
->   * maximum address alignment bit.
-> + *
-> + * Use TARGET_PAGE_BITS_MIN so that these bits are constant
-> + * when TARGET_PAGE_BITS_VARY is in effect.
->   */
->  /* Zero if TLB entry is valid.  */
-> -#define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS - 1))
-> +#define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS_MIN - 1))
->  /* Set if TLB entry references a clean RAM page.  The iotlb entry will
->     contain the page physical address.  */
-> -#define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS - 2))
-> +#define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS_MIN - 2))
->  /* Set if TLB entry is an IO callback.  */
-> -#define TLB_MMIO            (1 << (TARGET_PAGE_BITS - 3))
-> +#define TLB_MMIO            (1 << (TARGET_PAGE_BITS_MIN - 3))
->  /* Set if TLB entry contains a watchpoint.  */
-> -#define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS - 4))
-> +#define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS_MIN - 4))
->  
->  /* Use this mask to check interception with an alignment mask
->   * in a TCG backend.
+>  /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
 > 
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
