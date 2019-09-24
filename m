@@ -2,52 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DDABC558
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 11:59:17 +0200 (CEST)
-Received: from localhost ([::1]:43442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33F8BC561
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 12:08:02 +0200 (CEST)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iChbI-0000kG-J3
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 05:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58328)
+	id 1iChjl-00059X-KO
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 06:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59201)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iChXT-0006Gd-25
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:55:21 -0400
+ (envelope-from <philmd@redhat.com>) id 1iChe2-0001pW-QY
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 06:02:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iChXO-0006Qa-Tr
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:55:18 -0400
-Received: from 11.mo6.mail-out.ovh.net ([188.165.38.119]:56499)
+ (envelope-from <philmd@redhat.com>) id 1iChe1-0002x7-11
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 06:02:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48758)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iChXO-0006L9-F9
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:55:14 -0400
-Received: from player771.ha.ovh.net (unknown [10.108.54.94])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 5CF4E1E03D3
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 11:55:10 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player771.ha.ovh.net (Postfix) with ESMTPSA id 64263A2857AC;
- Tue, 24 Sep 2019 09:55:04 +0000 (UTC)
-Subject: Re: [PATCH 0/4] xics: Eliminate unnecessary class
-To: Greg Kurz <groug@kaod.org>
-References: <20190924045952.11412-1-david@gibson.dropbear.id.au>
- <cb87c744-a618-0627-5c2f-8f8e18616f6d@kaod.org>
- <20190924095200.7f624278@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <98e7128c-e305-ab7a-b138-da1c56266805@kaod.org>
-Date: Tue, 24 Sep 2019 11:55:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iChe0-0002wm-NK
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 06:02:04 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8FC06C04FFE0
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 10:02:03 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id o8so709013wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 03:02:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yq8QhZg5iRdVqYDqSOVBoi16ugnkoeuAfrfu/3VCu3U=;
+ b=Ccdc0sZnXSNPuALK/Wo9hfGWaL33LTBVIxpfDMVCo6Ebcv+j+Keq9CpGtFMZpBPYBp
+ spBSL7ct2+7hcJHG05nrGplFpRqC/ZUdvrbkMAzciSLn5EPrjcSEtCH80/msKESNd6Ot
+ u0S8S4jZnSuOcynG6o4Hrv0hf7q5PUSSs9+WPwgWCztS72wzeQygB0AKYHETMGw1spGV
+ pdQG9QgySaP0U0WkZ+9QndGRRMu1N+GEPbRZ8KxPofB1gSL1IrPFtRKXJ4+VE/LcTD5+
+ mCWophyoKXJFzMvLATqBFKgm9Eu435I+k9hNxFTaE1RFASXTEq6RIQGOuQqRgRJM8mUU
+ sQ2g==
+X-Gm-Message-State: APjAAAXnNJIs/eL4PUCr/YKMiXrpipdFHFvOf3/hLskFL9cT9rUCFpUb
+ oKUIuzs1R1L1JbtFSv4ViskwTFxC4PyC3w+9BTYhif8YNnuMJJzUUuhfQzg/OWeipS/+i1u7Bu1
+ dm7VTZSwvNJkQYNg=
+X-Received: by 2002:a7b:c776:: with SMTP id x22mr1794890wmk.123.1569319321808; 
+ Tue, 24 Sep 2019 03:02:01 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwKsknHkh/5poulMUZgu6eUCRe4ZWqPoljxcnEH/lP8Zwx38Lr7oAsQ57cUpEI17+tzRa1g8w==
+X-Received: by 2002:a7b:c776:: with SMTP id x22mr1794884wmk.123.1569319321630; 
+ Tue, 24 Sep 2019 03:02:01 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id x6sm1697084wmf.35.2019.09.24.03.02.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Sep 2019 03:02:00 -0700 (PDT)
+Subject: Re: [PATCH 3/4] hw/arm: Move armv7m_nvic.c to hw/arm/ and always
+ enable it for arm builds
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20190921150420.30743-1-thuth@redhat.com>
+ <20190921150420.30743-4-thuth@redhat.com>
+ <CAFEAcA_6UxMBeyOMM0iT5cnCQEpWXfRO2XMuV9ez_0Su2osXNg@mail.gmail.com>
+ <0389e9dc-7f78-5b27-4764-51f0bdef5bef@redhat.com>
+ <CAFEAcA8XSQs=fw839O4+tTUqy-DpNh-jdHxQsfYQxm-nTbvH4Q@mail.gmail.com>
+ <88bcb5b7-4f91-1cc2-39a1-bd919608737e@redhat.com>
+ <CAFEAcA_QAtK3GmyZoR7swNKwdxkXWZCzdK0G6Sk6OU_tQ9FV2A@mail.gmail.com>
+ <3a21d31e-fe74-9e0f-fe8d-f9c00a184fe3@redhat.com>
+ <CAFEAcA-ThXGZKr8--YZGUPiw4MaMVqMxKODhVepXCgjxox6ZQg@mail.gmail.com>
+ <11c77a5f-ab06-a743-dd45-311d1f15ec12@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <7eae032a-f730-d57b-f460-41fd06f8bc40@redhat.com>
+Date: Tue, 24 Sep 2019 12:01:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190924095200.7f624278@bahia.lan>
+In-Reply-To: <11c77a5f-ab06-a743-dd45-311d1f15ec12@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 16716517391917615880
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedtgddvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.38.119
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,405 +91,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gkurz@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/09/2019 09:52, Greg Kurz wrote:
-> On Tue, 24 Sep 2019 07:22:51 +0200
-> C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->=20
->> On 24/09/2019 06:59, David Gibson wrote:
->>> The XICS interrupt controller device used to have separate subtypes
->>> for the KVM and non-KVM variant of the device.  That was a bad idea,
->>> because it leaked information that should be entirely host-side
->>> implementation specific to the kinda-sorta guest visible QOM class
->>> names.
+On 9/24/19 11:48 AM, Thomas Huth wrote:
+> On 24/09/2019 11.42, Peter Maydell wrote:
+>> On Tue, 24 Sep 2019 at 05:44, Thomas Huth <thuth@redhat.com> wrote:
 >>>
->>> We eliminated the KVM specific class some time ago, but it's left
->>> behind a distinction between the TYPE_ICS_BASE abstract class and
->>> TYPE_ICS_SIMPLE subtype which no longer serves any purpose.
+>>> On 23/09/2019 20.50, Peter Maydell wrote:
+>>>> On Mon, 23 Sep 2019 at 19:36, Thomas Huth <thuth@redhat.com> wrote:
+>>>>> Just try to change "obj-$(CONFIG_ARM_V7M) += armv7m_nvic.o" into
+>>>>> "obj-y += armv7m_nvic.o" in hw/int/Makefile.objs, and you'll see it break:
+>>>>>
+>>>>>   CC      alpha-softmmu/hw/intc/armv7m_nvic.o
+>>>>> In file included from include/hw/intc/armv7m_nvic.h:13,
+>>>>>                  from hw/intc/armv7m_nvic.c:19:
+>>>>> target/arm/cpu.h:1416: error: "FPCR_DZE" redefined [-Werror]
+>>>>>  #define FPCR_DZE    (1 << 9)    /* Divide by Zero exception trap enable */
+>>>>
+>>>> Sure, so don't define CONFIG_ARM_V7M in a default-config for
+>>>> a non-Arm architecture. Then you get the behaviour you want:
+>>>> the file is compiled only for the arm targets.
 >>>
->>> This series collapses the two types back into one.
+>>> Sigh, the point of this series is that it should also possible to
+>>> compile *without* CONFIG_ARM_V7M in default-configs if you want (and
+>>> yes, there are people out there who want to be able to compile a
+>>> minimalistic QEMU). It's currently not possible to disable this switch.
+>>> But ok, if you're not really interested in providing a possibility to
+>>> make qemu-system-arm a little bit more flexible in this regard, never
+>>> mind, I'll look into other issues instead.
 >>
->> OK. Is it migration compatible ? because this is why we have kept
->=20
-> Yeah, the types themselves don't matter, only the format of the
-> binary stream described in the VMStateDescription does.
->=20
->> this subclass. I am glad we can remove it finally.=20
+>> No, I'm happy that we should be able to compile without CONFIG_ARM_V7M
+>> selected. I'm just confused about why you think this requires that
+>> we move this file out of hw/intc.
 >>
->=20
-> I was thinking we were keeping that for pnv...
-
-
-Yes, also. See the resend and reject handler in the code=20
-below.
-
-
-I have been maintaining this patch since QEMU 2.6. I think=20
-it is time for me to declare defeat on getting it merged=20
-and QEMU 4.2 will be the last rebase.=20
-
-
-C.=20
-
-
-/*
- * QEMU PowerPC PowerNV PHB3 model
- *
- * Copyright (c) 2014-2018, IBM Corporation.
- *
- * This code is licensed under the GPL version 2 or later. See the
- * COPYING file in the top-level directory.
- */
-#include "qemu/osdep.h"
-#include "qemu/log.h"
-#include "qapi/error.h"
-#include "qemu-common.h"
-#include "hw/pci-host/pnv_phb3_regs.h"
-#include "hw/pci-host/pnv_phb3.h"
-#include "hw/ppc/pnv.h"
-#include "hw/pci/msi.h"
-#include "monitor/monitor.h"
-#include "hw/irq.h"
-#include "hw/qdev-properties.h"
-#include "sysemu/reset.h"
-
-static uint64_t phb3_msi_ive_addr(PnvPHB3 *phb, int srcno)
-{
-    uint64_t ivtbar =3D phb->regs[PHB_IVT_BAR >> 3];
-    uint64_t phbctl =3D phb->regs[PHB_CONTROL >> 3];
-
-    if (!(ivtbar & PHB_IVT_BAR_ENABLE)) {
-        qemu_log_mask(LOG_GUEST_ERROR, "Failed access to disable IVT BAR =
-!");
-        return 0;
-    }
-
-    if (srcno >=3D (ivtbar & PHB_IVT_LENGTH_MASK)) {
-        qemu_log_mask(LOG_GUEST_ERROR, "MSI out of bounds (%d vs  0x%"PRI=
-x64")",
-                      srcno, (uint64_t) (ivtbar & PHB_IVT_LENGTH_MASK));
-        return 0;
-    }
-
-    ivtbar &=3D PHB_IVT_BASE_ADDRESS_MASK;
-
-    if (phbctl & PHB_CTRL_IVE_128_BYTES) {
-        return ivtbar + 128 * srcno;
-    } else {
-        return ivtbar + 16 * srcno;
-    }
-}
-
-static bool phb3_msi_read_ive(PnvPHB3 *phb, int srcno, uint64_t *out_ive)
-{
-    uint64_t ive_addr, ive;
-
-    ive_addr =3D phb3_msi_ive_addr(phb, srcno);
-    if (!ive_addr) {
-        return false;
-    }
-
-    if (dma_memory_read(&address_space_memory, ive_addr, &ive, sizeof(ive=
-))) {
-        qemu_log_mask(LOG_GUEST_ERROR, "Failed to read IVE at 0x%" PRIx64=
-,
-                      ive_addr);
-        return false;
-    }
-    *out_ive =3D be64_to_cpu(ive);
-
-    return true;
-}
-
-static void phb3_msi_set_p(Phb3MsiState *msi, int srcno, uint8_t gen)
-{
-    uint64_t ive_addr;
-    uint8_t p =3D 0x01 | (gen << 1);
-
-    ive_addr =3D phb3_msi_ive_addr(msi->phb, srcno);
-    if (!ive_addr) {
-        return;
-    }
-
-    if (dma_memory_write(&address_space_memory, ive_addr + 4, &p, 1)) {
-        qemu_log_mask(LOG_GUEST_ERROR,
-                      "Failed to write IVE (set P) at 0x%" PRIx64, ive_ad=
-dr);
-    }
-}
-
-static void phb3_msi_set_q(Phb3MsiState *msi, int srcno)
-{
-    uint64_t ive_addr;
-    uint8_t q =3D 0x01;
-
-    ive_addr =3D phb3_msi_ive_addr(msi->phb, srcno);
-    if (!ive_addr) {
-        return;
-    }
-
-    if (dma_memory_write(&address_space_memory, ive_addr + 5, &q, 1)) {
-        qemu_log_mask(LOG_GUEST_ERROR,
-                      "Failed to write IVE (set Q) at 0x%" PRIx64, ive_ad=
-dr);
-    }
-}
-
-static void phb3_msi_try_send(Phb3MsiState *msi, int srcno, bool force)
-{
-    ICSState *ics =3D ICS_BASE(msi);
-    uint64_t ive;
-    uint64_t server, prio, pq, gen;
-
-    if (!phb3_msi_read_ive(msi->phb, srcno, &ive)) {
-        return;
-    }
-
-    server =3D GETFIELD(IODA2_IVT_SERVER, ive);
-    prio =3D GETFIELD(IODA2_IVT_PRIORITY, ive);
-    if (!force) {
-        pq =3D GETFIELD(IODA2_IVT_Q, ive) | (GETFIELD(IODA2_IVT_P, ive) <=
-< 1);
-    } else {
-        pq =3D 0;
-    }
-    gen =3D GETFIELD(IODA2_IVT_GEN, ive);
-
-    /*
-     * The low order 2 bits are the link pointer (Type II interrupts).
-     * Shift back to get a valid IRQ server.
-     */
-    server >>=3D 2;
-
-    switch (pq) {
-    case 0: /* 00 */
-        if (prio =3D=3D 0xff) {
-            /* Masked, set Q */
-            phb3_msi_set_q(msi, srcno);
-        } else {
-            /* Enabled, set P and send */
-            phb3_msi_set_p(msi, srcno, gen);
-            icp_irq(ics, server, srcno + ics->offset, prio);
-        }
-        break;
-    case 2: /* 10 */
-        /* Already pending, set Q */
-        phb3_msi_set_q(msi, srcno);
-        break;
-    case 1: /* 01 */
-    case 3: /* 11 */
-    default:
-        /* Just drop stuff if Q already set */
-        break;
-    }
-}
-
-static void phb3_msi_set_irq(void *opaque, int srcno, int val)
-{
-    Phb3MsiState *msi =3D PHB3_MSI(opaque);
-
-    if (val) {
-        phb3_msi_try_send(msi, srcno, false);
-    }
-}
-
-
-void pnv_phb3_msi_send(Phb3MsiState *msi, uint64_t addr, uint16_t data,
-                       int32_t dev_pe)
-{
-    ICSState *ics =3D ICS_BASE(msi);
-    uint64_t ive;
-    uint16_t pe;
-    uint32_t src =3D ((addr >> 4) & 0xffff) | (data & 0x1f);
-
-    if (src >=3D ics->nr_irqs) {
-        qemu_log_mask(LOG_GUEST_ERROR, "MSI %d out of bounds", src);
-        return;
-    }
-    if (dev_pe >=3D 0) {
-        if (!phb3_msi_read_ive(msi->phb, src, &ive)) {
-            return;
-        }
-        pe =3D GETFIELD(IODA2_IVT_PE, ive);
-        if (pe !=3D dev_pe) {
-            qemu_log_mask(LOG_GUEST_ERROR,
-                          "MSI %d send by PE#%d but assigned to PE#%d",
-                          src, dev_pe, pe);
-            return;
-        }
-    }
-    qemu_irq_pulse(msi->qirqs[src]);
-}
-
-void pnv_phb3_msi_ffi(Phb3MsiState *msi, uint64_t val)
-{
-    /* Emit interrupt */
-    pnv_phb3_msi_send(msi, val, 0, -1);
-
-    /* Clear FFI lock */
-    msi->phb->regs[PHB_FFI_LOCK >> 3] =3D 0;
-}
-
-static void phb3_msi_reject(ICSState *ics, uint32_t nr)
-{
-    Phb3MsiState *msi =3D PHB3_MSI(ics);
-    unsigned int srcno =3D nr - ics->offset;
-    unsigned int idx =3D srcno >> 6;
-    unsigned int bit =3D 1ull << (srcno & 0x3f);
-
-    assert(srcno < PHB3_MAX_MSI);
-
-    msi->rba[idx] |=3D bit;
-    msi->rba_sum |=3D (1u << idx);
-}
-
-static void phb3_msi_resend(ICSState *ics)
-{
-    Phb3MsiState *msi =3D PHB3_MSI(ics);
-    unsigned int i, j;
-
-    if (msi->rba_sum =3D=3D 0) {
-        return;
-    }
-
-    for (i =3D 0; i < 32; i++) {
-        if ((msi->rba_sum & (1u << i)) =3D=3D 0) {
-            continue;
-        }
-        msi->rba_sum &=3D ~(1u << i);
-        for (j =3D 0; j < 64; j++) {
-            if ((msi->rba[i] & (1ull << j)) =3D=3D 0) {
-                continue;
-            }
-            msi->rba[i] &=3D ~(1u << j);
-            phb3_msi_try_send(msi, i * 64 + j, true);
-        }
-    }
-}
-
-static void phb3_msi_print_info(ICSState *ics, Monitor *mon)
-{
-    Phb3MsiState *msi =3D PHB3_MSI(ics);
-    int i;
-
-    for (i =3D 0; i < ics->nr_irqs; i++) {
-        uint64_t ive;
-
-        if (!phb3_msi_read_ive(msi->phb, i, &ive)) {
-            return;
-        }
-
-        if (GETFIELD(IODA2_IVT_PRIORITY, ive) =3D=3D 0xff) {
-            continue;
-        }
-
-        monitor_printf(mon, "  %4x %c%c server=3D%04x prio=3D%02x gen=3D%=
-d\n",
-                       ics->offset + i,
-                       GETFIELD(IODA2_IVT_P, ive) ? 'P' : '-',
-                       GETFIELD(IODA2_IVT_Q, ive) ? 'Q' : '-',
-                       (uint32_t) GETFIELD(IODA2_IVT_SERVER, ive) >> 2,
-                       (uint32_t) GETFIELD(IODA2_IVT_PRIORITY, ive),
-                       (uint32_t) GETFIELD(IODA2_IVT_GEN, ive));
-    }
-}
-
-static void phb3_msi_reset(DeviceState *dev)
-{
-    Phb3MsiState *msi =3D PHB3_MSI(dev);
-    ICSStateClass *icsc =3D ICS_BASE_GET_CLASS(dev);
-
-    icsc->parent_reset(dev);
-
-    memset(msi->rba, 0, sizeof(msi->rba));
-    msi->rba_sum =3D 0;
-}
-
-static void phb3_msi_reset_handler(void *dev)
-{
-    phb3_msi_reset(dev);
-}
-
-void pnv_phb3_msi_update_config(Phb3MsiState *msi, uint32_t base,
-                                uint32_t count)
-{
-    ICSState *ics =3D ICS_BASE(msi);
-
-    if (count > PHB3_MAX_MSI) {
-        count =3D PHB3_MAX_MSI;
-    }
-    ics->nr_irqs =3D count;
-    ics->offset =3D base;
-}
-
-static void phb3_msi_realize(DeviceState *dev, Error **errp)
-{
-    Phb3MsiState *msi =3D PHB3_MSI(dev);
-    ICSState *ics =3D ICS_BASE(msi);
-    ICSStateClass *icsc =3D ICS_BASE_GET_CLASS(ics);
-    Object *obj;
-    Error *local_err =3D NULL;
-
-    icsc->parent_realize(dev, &local_err);
-    if (local_err) {
-        error_propagate(errp, local_err);
-        return;
-    }
-
-    obj =3D object_property_get_link(OBJECT(dev), "phb", &local_err);
-    if (!obj) {
-        error_propagate(errp, local_err);
-        error_prepend(errp, "required link 'phb' not found: ");
-        return;
-    }
-    msi->phb =3D PNV_PHB3(obj);
-
-    msi->qirqs =3D qemu_allocate_irqs(phb3_msi_set_irq, msi, ics->nr_irqs=
-);
-
-    qemu_register_reset(phb3_msi_reset_handler, dev);
-}
-
-static void phb3_msi_instance_init(Object *obj)
-{
-    ICSState *ics =3D ICS_BASE(obj);
-
-    /* Will be overriden later */
-    ics->offset =3D 0;
-}
-
-static void phb3_msi_class_init(ObjectClass *klass, void *data)
-{
-    DeviceClass *dc =3D DEVICE_CLASS(klass);
-    ICSStateClass *isc =3D ICS_BASE_CLASS(klass);
-
-    device_class_set_parent_realize(dc, phb3_msi_realize,
-                                    &isc->parent_realize);
-    device_class_set_parent_reset(dc, phb3_msi_reset,
-                                  &isc->parent_reset);
-
-    isc->reject =3D phb3_msi_reject;
-    isc->resend =3D phb3_msi_resend;
-    isc->print_info =3D phb3_msi_print_info;
-}
-
-static const TypeInfo phb3_msi_info =3D {
-    .name =3D TYPE_PHB3_MSI,
-    .parent =3D TYPE_ICS_BASE,
-    .instance_size =3D sizeof(Phb3MsiState),
-    .class_init =3D phb3_msi_class_init,
-    .class_size =3D sizeof(ICSStateClass),
-    .instance_init =3D phb3_msi_instance_init,
-};
-
-static void pnv_phb3_msi_register_types(void)
-{
-    type_register_static(&phb3_msi_info);
-}
-
-type_init(pnv_phb3_msi_register_types)
+>> Case 1: arm target, CONFIG_ARM_V7M=y (presumably in a Kconfig world
+>> this is set by default if the user doesn't flip that switch):
+>> obj-$(CONFIG_ARM_V7M) expands to obj-y, file compiled, OK
+>> Case 2: arm target, CONFIG_ARM_V7M=n set by user via Kconfig:
+>> obj-$(CONFIG_ARM_V7M) expands to obj-n, file not compiled, which is
+>> also what we want
+> The problem is this "case 2" - it does not work. For example, try to
+> delete everything from default-configs/aarch64-softmmu.mak (especially
+> the "include"), and just stick a "CONFIG_ARM_VIRT=y" in there.
+> Linking of qemu-system-aarch64 will fail with lots of "undefined
+> reference to `armv7m_nvic_set_pending'" etc. messages.
+
+This is what I tried to fix with this patch:
+"target/arm: Do not build A/M-profile cpus when using KVM"
+https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05006.html
+
+I addressed Richard/your's review comments, so the series is ready for
+respin.
 
