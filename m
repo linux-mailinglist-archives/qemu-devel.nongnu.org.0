@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B9ABD520
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:58:29 +0200 (CEST)
-Received: from localhost ([::1]:43588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E01EBD51C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:53:13 +0200 (CEST)
+Received: from localhost ([::1]:43474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCtlM-0000iQ-FU
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:58:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36620)
+	id 1iCtgF-0000uC-Fc
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:53:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peff@peff.net>) id 1iCtQJ-0002ay-0p
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:44 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCtXl-0000k7-7q
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peff@peff.net>) id 1iCtQH-0001j7-Mj
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:42 -0400
-Received: from cloud.peff.net ([104.130.231.41]:50466)
- by eggs.gnu.org with smtp (Exim 4.71) (envelope-from <peff@peff.net>)
- id 1iCtQH-0001i7-Hv
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:41 -0400
-Received: (qmail 11496 invoked by uid 109); 24 Sep 2019 21:36:40 -0000
-Received: from Unknown (HELO peff.net) (10.0.1.2)
- by cloud.peff.net (qpsmtpd/0.94) with SMTP; Tue, 24 Sep 2019 21:36:40 +0000
-Authentication-Results: cloud.peff.net; auth=none
-Received: (qmail 12852 invoked by uid 111); 24 Sep 2019 21:39:02 -0000
-Received: from sigill.intra.peff.net (HELO sigill.intra.peff.net) (10.0.0.7)
- by peff.net (qpsmtpd/0.94) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPS;
- Tue, 24 Sep 2019 17:39:02 -0400
-Authentication-Results: peff.net; auth=none
-Date: Tue, 24 Sep 2019 17:36:38 -0400
-From: Jeff King <peff@peff.net>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: git format.from (was: 9p: Fix file ID collisions)
-Message-ID: <20190924213638.GE20858@sigill.intra.peff.net>
-References: <cover.1566503584.git.qemu_oss@crudebyte.com>
- <56046367.TiUlWITyhT@silver>
- <20190923222415.GA22495@sigill.intra.peff.net>
- <3312839.Zbq2WQg2AT@silver>
+ (envelope-from <richard.henderson@linaro.org>) id 1iCtXk-00078x-2a
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:25 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:41931)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iCtXj-000785-Sf
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:24 -0400
+Received: by mail-pg1-f193.google.com with SMTP id s1so2057937pgv.8
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dQksLTLNEueKsdhcISeGAXpoI0/6/XCEzuXpOzHb6Jc=;
+ b=N8o3vKE51uDkZp9XTUUNSf+FVAUHC7XMgSj9AzMRFBd5Z1N0lFAypppB3YtsVC0Ks1
+ k1/omHP2CnO6cvLE5pIn6qJT5u6XfnPys5Jv/hCIXG96EBzMFbj51wQV4Pnl50h7C7rx
+ WKKJ0wWEf83E/AfkI/mZhapY637B0XwJsp7MtFMYN+es5thYJzJqvy9MNI+eVCd+/fxO
+ 2RDOVMU29/cjvlebsp/2YfSGMGnZaXnt699z05c4UIoa1zRK0bwTkefwlW64aVJhV/QW
+ BcG/LFt7fHiNWoYWxXB2xBUUtvqvSUl2MMDMSe+ScznY1fzK1A/ioXMI7E6BMmivCY/N
+ DfZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dQksLTLNEueKsdhcISeGAXpoI0/6/XCEzuXpOzHb6Jc=;
+ b=omLDVMDkTaO6s2lBxjaNU6DCWesxvFOAnI1cgRXWw5nkjN6U6DSHFM/cNForww4NBY
+ EQaJBEExmfjb2uGSPjrueh46/XMXSciQkFmzgtPH68T+9AyieExaXVVk0rq5u7J5De/S
+ Dk4eTQfGUTOjWg3kJcMs/tGoDALSSXhxhqTxTFoxWKAmlAUS6mUuD/akYvT9o4bmOsGx
+ uisy40Ol0mop7yMYDG7VJCmoSWo7SKB/ZJZjZrY4RWOPr6ZyTuOe5u0+01/kEJopHc6S
+ 8zdbv3YYWV8/k0K0tRcG8lWoanQNY8xdzrW2FCBgyeFC7Wvip4ZYY2BslMNtqnKenV0c
+ Kqqw==
+X-Gm-Message-State: APjAAAUyGxcR2qUN1wxKvx+wdooXc5B7NegzAa4umqrP9F08s1OhIbHl
+ /7ByVZBPRrXOzgm/mNvpSJl3tg==
+X-Google-Smtp-Source: APXvYqxwrR7+8quuDxpBiYO6BOCmR/SIq341VEJ5kGz5r0vrsmw/5jGPbjiTfNMtN9oNu6/VdDAQJQ==
+X-Received: by 2002:a17:90a:7d06:: with SMTP id
+ g6mr2246220pjl.53.1569361275418; 
+ Tue, 24 Sep 2019 14:41:15 -0700 (PDT)
+Received: from [172.20.32.216] ([12.157.10.114])
+ by smtp.gmail.com with ESMTPSA id v44sm3654171pgn.17.2019.09.24.14.41.13
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 24 Sep 2019 14:41:14 -0700 (PDT)
+Subject: Re: [PATCH 5/7] target/ppc: change struct PPC_DFP decimal storage
+ from uint64[2] to ppc_vsr_t
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
+References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
+ <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <cba6a410-f7d3-9a93-a3da-342e1afacd0c@linaro.org>
+Date: Tue, 24 Sep 2019 14:41:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3312839.Zbq2WQg2AT@silver>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 104.130.231.41
+ [fuzzy]
+X-Received-From: 209.85.215.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,57 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, stefanha@gmail.com, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Ian Kelling <iank@fsf.org>, dgilbert@redhat.com,
- antonios.motakis@huawei.com, git@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 24, 2019 at 11:03:38AM +0200, Christian Schoenebeck wrote:
+On 9/24/19 8:35 AM, Mark Cave-Ayland wrote:
+>  struct PPC_DFP {
+>      CPUPPCState *env;
+> -    uint64_t t64[2], a64[2], b64[2];
+> +    ppc_vsr_t vt, va, vb;
 
-> > Yes, the resulting mail would be correct, in the sense that it could be
-> > applied just fine by git-am. But I think it would be uglier. IOW, I
-> > consider the presence of the in-body From to be a clue that something
-> > interesting is going on (like forwarding somebody else's patch). So from
-> > my perspective, it would just be useless noise. Other communities may
-> > have different opinions, though (I think I have seen some kernel folks
-> > always including all of the possible in-body headers, including Date).
-> > But it seems like it makes sense to keep both possibilities.
-> 
-> Exactly, current git behaviour is solely "prettier" (at first thought only 
-> though), but does not address anything useful in real life.
+This I don't think is a good idea.  It's not a vsr_t.
 
-I wouldn't agree with that. By being pretty, it also is functionally
-more useful (I can tell at a glance whether somebody is sending a patch
-from another author).
+I think this step would be clearer with
 
-> Current git behaviour does cause real life problems though: Many email lists 
-> are munging emails of patch senders whose domain is configured for requiring 
-> domain's emails being DKIM signed and/or being subject to SPF rules (a.k.a 
-> DMARC). So original sender's From: header is then automatically replaced by an 
-> alias (by e.g. mailman): https://en.wikipedia.org/wiki/DMARC#From:_rewriting
-> 
-> For instance the email header:
-> 
-> From: "Bob Bold" <bold@foo.com>
-> 
-> is automatically replaced by lists by something like
-> 
-> From: "Bob Bold via Somelist" <somelist@gnu.org>
-> 
-> And since git currently always drops the From: line from the email's body if
-> sender == author, as a consequence maintainers applying patches from such 
-> lists, always need to rewrite git history subsequently and have to replace 
-> patch author's identity manually for each commit to have their correct, real 
-> email address and real name in git history instead of something like
-> "Bob Bold via Somelist" <somelist@gnu.org>
-> 
-> So what do you find "uglier"? I prefer key info not being lost as default 
-> behaviour. :-)
+  union {
+    decimal64 d;
+    uint64_t i;
+  } u;
 
-Sure, for your list that munges From headers, always including an
-in-body From is way better. But for those of us _not_ on such lists, I'd
-much prefer not to force the in-body version on them.
+  union {
+    decimal128 d;
+    uint64_t i[2];
+  } u;
 
--Peff
+in the separate dfp_prepare_decimal{64,128} functions.  Which is basically what
+we have before, only smooshing the a64 and b64 scratch-pads together, and using
+a nice union instead of an ugly cast.
+
+
+r~
 
