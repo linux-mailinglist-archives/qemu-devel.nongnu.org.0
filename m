@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0D7BD41F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:17:37 +0200 (CEST)
-Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC9ABD417
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:13:21 +0200 (CEST)
+Received: from localhost ([::1]:51558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCsBk-0007ux-6a
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55601)
+	id 1iCs7b-000446-4h
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw3-0002Zw-Ld
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:26 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrw3-0002a1-L2
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw1-0004Vc-6S
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrw1-0004Vz-Bk
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:23 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37886)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35808)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCrw0-0004TY-RK
+ id 1iCrw1-0004UM-2i
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:21 -0400
-Received: by mail-wr1-x441.google.com with SMTP id i1so3630398wro.4
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:18 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id v8so3623029wrt.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wJdzvAZ41TKUWvjFeoNAGSzCvO5q5Lz+7iIWbJ7Vp+g=;
- b=BtTq1HMz6PswalfgUpIfNccBybOf+X/TTBdcbFTHcWtgymgEW8i2sDfcJcYqp1Ml8r
- WHkq1/qkqeXZ+Qmdjnj1AQt6JSpnytCtuJo8ja08mYnnWgVAoW19X+sGc+uVJvAmGDLY
- GPXgrTnrRoy2G1MJ4kJmIYdEUVV25tns103j2Wydyuj2lfU0vK2d0TR68nQ+4pj7/GTR
- 67nWItoUA/pnDniJ+QLXV2QHcSPhWfkROJr5xxSlkTolpCQs639SVKIC8P6kGICfC/TN
- Jg1qmQ9oziWhNP1Tzq1gv1pNJ0kMP9MjxSMPGBoyS6P24am/jOY+mL3KEDvHn7NZQ2rq
- XzTg==
+ bh=ehrUyxIk/TYD5FBHcYxV5NvPpPuPm/qI3SJa6YtXabo=;
+ b=ZD1lshxyFozfKyYn9kFEUZcYXEK3XYNK2+he5rjFHKf7OypyPJwmi7gqAOMXKapsEy
+ RaDB678kOZIqPVIgxOZpmjnoS9g/mJ3w0ImZcWJvgRwlr8ejSJ+cdCwHRF2g8zSHaotu
+ nPCm37KRh6Or97rVPBh9LVKcyJg+X23RUDlB+08D92ulu4LfEmcZxBcEWaY8vxFy3/y4
+ dGNEHGierd12rIBO6JWfNOwmBwGemVYj8HMXV5n9Y1wuSj6MbJJGd81WklqaBamHR7fW
+ iBK5NpFVIrzHh5lHyTTLAqtzvKGv0fNhtKkl+5w1zREwaFATh32uLzgA2vyWiSLbn5xD
+ rJjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wJdzvAZ41TKUWvjFeoNAGSzCvO5q5Lz+7iIWbJ7Vp+g=;
- b=FNkatTEn3fIR0qey5r0LvNAhSgjCBpQPO378AKpPCFojDCRsAvpN/dmvWQdbciX17X
- gG6tL1BrkyZGLG3/psxYb0UunqtzRgrXl98fnaUtrfZc292KOL4T6FJdVDKdHWWlZ0WY
- UeRtfsyG1hzp16zxHvg8qoMoI92UF4fvj03kOyW43awWLu9GQOg1L6pW5BE0GHTdDHFN
- hgzXCocKdWvLLGN7xJpbN9ZwIV25yDhBlJm/KPSBSEQ/HdjCqdSt25S0nXqNXKteZcXY
- 0xwvhh78zWpqXSjrSPSUT5JUay+ikVIaGkpEGhQMMcWtgdjIpB1/aTVhP/TiroiNu+wO
- l53w==
-X-Gm-Message-State: APjAAAWIwS8bv0AYtTNDQf7vWW0FbMK+oVIKchqk4+STDRHJRnKRYhQ4
- wkYQLTE9KCA3RvIbqltGiCqhWQ==
-X-Google-Smtp-Source: APXvYqxpmi+ZwD+Mos3e+LbS9u9I1p5RH6f5/H2bxHVUSQCbtGSKfyaWu+mXL7dYNF7p42ui0cRlBQ==
-X-Received: by 2002:adf:e546:: with SMTP id z6mr4629559wrm.113.1569358877629; 
- Tue, 24 Sep 2019 14:01:17 -0700 (PDT)
+ bh=ehrUyxIk/TYD5FBHcYxV5NvPpPuPm/qI3SJa6YtXabo=;
+ b=Ay/lxIGs/V2Bh/l/YPw9exkxwrXvM6MEEO3BiiY0jcBkT6n04WoXBcViOdoVVA+0RR
+ CAzqb8nIuaZZMByD0bK5SSZls0wXZX46Kb+O6Ptn6SnYIvbd4l5FgrXwgOJ9OYF+3uHM
+ DtTsZ+T+VrNL44FJkQtclSuwXS69nanYcPYRrixND6JX7n0rS1prCO/sJufHmc6F3PqH
+ OCJcFf/qIL7U572WSVVilGwXPPMieaOPRaNHPEuK2SjU6i4dCLi2zIzRkTyR+yvKrKEW
+ eBi3gPKoYJlqU084InxYyC6WUExWrbFpTCx8KyVEv6p2bcU3F1b8YpZGPCsvKXuhzkV+
+ AP3Q==
+X-Gm-Message-State: APjAAAWesNkG7GLe0oCIF2onLIkLF87dBp2Gpo4JINvl95AovPEFdJkc
+ h/HWI7NzaAvP+qNiD3iZpGckXQ==
+X-Google-Smtp-Source: APXvYqxym9SdfJr3PTGx+g191fi0fieLitQoNcLkOvRnoTBTMrk00PpqcZ9QdtIw3B/QGurIPat6AA==
+X-Received: by 2002:a5d:5005:: with SMTP id e5mr4923632wrt.79.1569358879836;
+ Tue, 24 Sep 2019 14:01:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d9sm5349354wrf.62.2019.09.24.14.01.10
+ by smtp.gmail.com with ESMTPSA id v20sm1217020wml.26.2019.09.24.14.01.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 14:01:14 -0700 (PDT)
+ Tue, 24 Sep 2019 14:01:15 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA5241FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id F3CD81FF9D;
  Tue, 24 Sep 2019 22:01:07 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 11/33] target/ppc: fix signal delivery for ppc64abi32
-Date: Tue, 24 Sep 2019 22:00:44 +0100
-Message-Id: <20190924210106.27117-12-alex.bennee@linaro.org>
+Subject: [PATCH  v3 13/33] tests/docker: fix DOCKER_PARTIAL_IMAGES
+Date: Tue, 24 Sep 2019 22:00:46 +0100
+Message-Id: <20190924210106.27117-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
 References: <20190924210106.27117-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,49 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
- Laurent Vivier <laurent@vivier.eu>,
+Cc: Fam Zheng <fam@euphon.net>, jsnow@redhat.com, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were incorrectly using the 64-bit AIX ABI instead of the 32-bit
-SYSV ABI for setting NIP for the signal handler.
+Finger trouble in a previous clean-up inadvertently set
+DEBIAN_PARTIAL_IMAGES instead of DOCKER_PARTIAL_IMAGES. Also fix the
+typo to debian-9-mxe.
 
+Fixes: 44d5a8bf5d2
+Signed-off-by: John Snow <jsnow@redhat.com>
+[AJB: merged fix from Message-Id: <20190917185537.25417-1-jsnow@redhat.com>]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
-v2
-  - change to wording
----
- linux-user/ppc/signal.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/docker/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index 619a56950df..5b82af6cb62 100644
---- a/linux-user/ppc/signal.c
-+++ b/linux-user/ppc/signal.c
-@@ -501,7 +501,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     int i, err = 0;
- #if defined(TARGET_PPC64)
-     struct target_sigcontext *sc = 0;
-+#if !defined(TARGET_ABI32)
-     struct image_info *image = ((TaskState *)thread_cpu->opaque)->info;
-+#endif
- #endif
- 
-     rt_sf_addr = get_sigframe(ka, env, sizeof(*rt_sf));
-@@ -557,7 +559,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     env->gpr[5] = (target_ulong) h2g(&rt_sf->uc);
-     env->gpr[6] = (target_ulong) h2g(rt_sf);
- 
--#if defined(TARGET_PPC64)
-+#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
-     if (get_ppc64_abi(image) < 2) {
-         /* ELFv1 PPC64 function pointers are pointers to OPD entries. */
-         struct target_func_ptr *handler =
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 50a400b573a..3fc7a863e51 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -7,7 +7,7 @@ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ DOCKER_DEPRECATED_IMAGES := debian
+ # we don't run tests on intermediate images (used as base by another image)
+ DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian-sid
+-DEBIAN_PARTIAL_IMAGES += debian8-mxe debian-9-mxe debian-ports debian-bootstrap
++DOCKER_PARTIAL_IMAGES += debian8-mxe debian9-mxe debian-ports debian-bootstrap
+ DOCKER_IMAGES := $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
 -- 
 2.20.1
 
