@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D674BD337
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:00:32 +0200 (CEST)
-Received: from localhost ([::1]:50400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6F6BD348
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:06:12 +0200 (CEST)
+Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCqz8-0001kt-VD
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:00:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
+	id 1iCr4d-0005HV-6u
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:06:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCqof-0000AI-Ry
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:49:43 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iCr3M-0004em-2K
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:04:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCqod-00081j-Ku
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:49:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48818)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCqod-00081O-5u
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:49:39 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 840F2308AA12;
- Tue, 24 Sep 2019 19:12:35 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6095D5D713;
- Tue, 24 Sep 2019 19:12:27 +0000 (UTC)
-Subject: Re: [PATCH 03/25] qapi: New QAPISourceInfo, replacing dict
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-4-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <d23eb583-4cc2-7d1b-80cc-b79bdc7282c5@redhat.com>
-Date: Tue, 24 Sep 2019 14:12:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-4-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="qgC1pTuMZDo3QihgvYdM10DCygcPh9D8l"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 24 Sep 2019 19:12:42 +0000 (UTC)
+ (envelope-from <palmer@dabbelt.com>) id 1iCr3K-0000WO-CH
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:04:51 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:39446)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iCr3K-0000V0-3V
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:04:50 -0400
+Received: by mail-pl1-f196.google.com with SMTP id s17so1427374plp.6
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 13:04:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=/rSgQcrRsIlsdxJKOZJom9LnTWOg9fHERF3t38GzndI=;
+ b=RxivST4S1nMRD9We4Hj/ihbjkT/xqGK54vIAyG2/wh/OIJnr73FYnQikgJlPHt1Mej
+ 4qqYd/CkkxowaO55I6ftvU7WEd+14zkeIZ0ZXz1IZNxh+Ra0zNMozjwGE2KhQ8J43CBT
+ O6koiQKctruS/0s3JiPDOdHqxD5sb2ROH4GZzylHsCYrl6QfpDx8sdKtSnT5hW7AGac/
+ T+rZTciPfR/nhRs5JPsCmopGc6qvTRwOgS1QnTueLA4ATqXOFr2Ag/p0DPf4azVaocgq
+ LU3l6MqikNhSVsShFBN1yWJZC8cn89Q9ALcGYMzEACvDnJlJM/HaqI67bSmcEj+Cl5KM
+ RcDQ==
+X-Gm-Message-State: APjAAAUKqKFk45N0porjU0OEroLb2cEyz9SCtiPbcyJJg38H4IJqR+DA
+ IWu46/7vyP6zmFaV9a0DmZovFA==
+X-Google-Smtp-Source: APXvYqzTWzT+/VxpflvcKQyYMNSWEXgmaY0QX0hoFv/RVz1Xb4cfn0PcA7n6tv9c06XRoqwRZip8QA==
+X-Received: by 2002:a17:902:56e:: with SMTP id
+ 101mr4973233plf.90.1569355487301; 
+ Tue, 24 Sep 2019 13:04:47 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id v44sm3533668pgn.17.2019.09.24.13.04.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 13:04:46 -0700 (PDT)
+Date: Tue, 24 Sep 2019 13:04:46 -0700 (PDT)
+X-Google-Original-Date: Tue, 24 Sep 2019 13:04:44 PDT (-0700)
+Subject: Re: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
+In-Reply-To: <CAKmqyKP+HNfzh5kCKkGDtfr=pDRwcjL+dUQ79NZEk+jMZ3q=_Q@mail.gmail.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-a172dfe8-dd34-427f-89dd-ca65da3145fb@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+ [fuzzy]
+X-Received-From: 209.85.214.196
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,92 +67,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: me@carlosedp.com, qemu-riscv@nongnu.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, joel@sing.id.au,
+ Alistair Francis <Alistair.Francis@wdc.com>, marco@decred.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---qgC1pTuMZDo3QihgvYdM10DCygcPh9D8l
-Content-Type: multipart/mixed; boundary="vlB29tc8zbW2BXTVCd2IarIJqEHipSMxr";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <d23eb583-4cc2-7d1b-80cc-b79bdc7282c5@redhat.com>
-Subject: Re: [PATCH 03/25] qapi: New QAPISourceInfo, replacing dict
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-4-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-4-armbru@redhat.com>
+On Tue, 24 Sep 2019 11:29:25 PDT (-0700), alistair23@gmail.com wrote:
+> On Mon, Jun 24, 2019 at 11:21 AM Joel Sing <joel@sing.id.au> wrote:
+>>
+>> On 19-06-17 16:52:44, Richard Henderson wrote:
+>> > On 6/16/19 12:19 PM, Joel Sing wrote:
+>> > > +    /*
+>> > > +     * Clear the load reservation, since an SC must fail if there is
+>> > > +     * an SC to any address, in between an LR and SC pair.
+>> > > +     */
+>> > > +    tcg_gen_movi_tl(load_res, 0);
+>> > > +
+>> > >      gen_set_label(l2);
+>> >
+>> > This clear needs to be moved down below label l2.
+>> > Otherwise, with lr / sc / sc, the second sc could succeed in error.
+>>
+>> Indeed, thanks.
+>>
+>> > FWIW, other targets have used -1 as the "invalid" load reservation, since the
+>> > architecture does not require address 0 to be unmapped.  This should be quite
+>> > visible in M-mode with paging disabled and ram at offset 0.  Often, other
+>> > targets require alignment for the lr/sc address, though I don't see that for riscv.
+>>
+>> I've switched to -1 as suggested. Regarding the alignment for reservations, the
+>> specification does require this, although I do not recall seeing any enforcement
+>> of this by qemu itself.
+>>
+>> New diff follows.
+>>
+>> From 8ef31a2ce8ef1cbeee92995a0b2994f480e9bb6d Mon Sep 17 00:00:00 2001
+>> From: Joel Sing <joel@sing.id.au>
+>> Date: Tue, 25 Jun 2019 02:44:24 +1000
+>> Subject: [PATCH] Clear load reservations on qemu riscv target
+>>
+>> This prevents a load reservation from being placed in one context/process,
+>> then being used in another, resulting in an SC succeeding incorrectly and
+>> breaking atomics.
+>>
+>> Signed-off-by: Joel Sing <joel@sing.id.au>
+>> ---
+>>  target/riscv/cpu.c                      | 1 +
+>>  target/riscv/cpu_helper.c               | 9 +++++++++
+>>  target/riscv/insn_trans/trans_rva.inc.c | 8 +++++++-
+>>  3 files changed, 17 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index d61bce6d55..e7c8bf48fc 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -281,6 +281,7 @@ static void riscv_cpu_reset(CPUState *cs)
+>>      env->pc = env->resetvec;
+>>  #endif
+>>      cs->exception_index = EXCP_NONE;
+>> +    env->load_res = -1;
+>>      set_default_nan_mode(1, &env->fp_status);
+>>  }
+>>
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index b17f169681..6a07b12e65 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -113,6 +113,15 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+>>      }
+>>      /* tlb_flush is unnecessary as mode is contained in mmu_idx */
+>>      env->priv = newpriv;
+>> +
+>> +    /* Clear the load reservation - otherwise a reservation placed in one
+>> +     * context/process can be used by another, resulting in an SC succeeding
+>> +     * incorrectly. Version 2.2 of the ISA specification explicitly requires
+>> +     * this behaviour, while later revisions say that the kernel "should" use
+>> +     * an SC instruction to force the yielding of a load reservation on a
+>> +     * preemptive context switch. As a result, do both.
+>> +     */
+>> +    env->load_res = -1;
+>>  }
+>>
+>>  /* get_physical_address - get the physical address for this virtual address
+>> diff --git a/target/riscv/insn_trans/trans_rva.inc.c b/target/riscv/insn_trans/trans_rva.inc.c
+>> index f6dbbc065e..fadd88849e 100644
+>> --- a/target/riscv/insn_trans/trans_rva.inc.c
+>> +++ b/target/riscv/insn_trans/trans_rva.inc.c
+>> @@ -61,7 +61,7 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+>>
+>>      gen_set_label(l1);
+>>      /*
+>> -     * Address comparion failure.  However, we still need to
+>> +     * Address comparison failure.  However, we still need to
+>>       * provide the memory barrier implied by AQ/RL.
+>>       */
+>>      tcg_gen_mb(TCG_MO_ALL + a->aq * TCG_BAR_LDAQ + a->rl * TCG_BAR_STRL);
+>> @@ -69,6 +69,12 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+>>      gen_set_gpr(a->rd, dat);
+>>
+>>      gen_set_label(l2);
+>> +    /*
+>> +     * Clear the load reservation, since an SC must fail if there is
+>> +     * an SC to any address, in between an LR and SC pair.
+>> +     */
+>> +    tcg_gen_movi_tl(load_res, -1);
+>> +
+>>      tcg_temp_free(dat);
+>>      tcg_temp_free(src1);
+>>      tcg_temp_free(src2);
+>> --
+>
+> This patch causes boot failures when booting systemd built with musl on RV64.
+>
+> It could possibly be a musl bug, but I wanted to throw that out here
+> first to see what people think.
 
---vlB29tc8zbW2BXTVCd2IarIJqEHipSMxr
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Looking at the musl port, I see at least one bug in their atomics jumping out 
+at me:
 
-On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> We track source locations with a dict of the form
->=20
->     {'file': FNAME, 'line': LINENO, parent': PARENT}
->=20
-> where PARENT is None for the main file, and the include directive's
-> source location for included files.
->=20
-> This is servicable enough, but the next commit will add information,
-> and that's going to come out cleaner if we turn this into a class.  So
-> do that.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
+diff --git a/arch/riscv64/atomic_arch.h b/arch/riscv64/atomic_arch.h
+index c9765342..41ad4d04 100644
+--- a/arch/riscv64/atomic_arch.h
++++ b/arch/riscv64/atomic_arch.h
+@@ -14,7 +14,7 @@ static inline int a_cas(volatile int *p, int t, int s)
+                "       sc.w.aqrl %1, %4, (%2)\n"
+                "       bnez %1, 1b\n"
+                "1:"
+-               : "=&r"(old), "=r"(tmp)
++               : "=&r"(old), "=&r"(tmp)
+                : "r"(p), "r"(t), "r"(s)
+                : "memory");
+        return old;
+@@ -31,7 +31,7 @@ static inline void *a_cas_p(volatile void *p, void *t, void *s)
+                "       sc.d.aqrl %1, %4, (%2)\n"
+                "       bnez %1, 1b\n"
+                "1:"
+-               : "=&r"(old), "=r"(tmp)
++               : "=&r"(old), "=&r"(tmp)
+                : "r"(p), "r"(t), "r"(s)
+                : "memory");
+        return old;
 
->  class QAPIError(Exception):
-> -    def __init__(self, fname, line, col, incl_info, msg):
-> +    def __init__(self, info, col, msg):
->          Exception.__init__(self)
+It's a shot in the dark as to whether that'll fix your bug, but I could at 
+least see a mechanism for it: before we yielded load reservations on context 
+switches then that backwards branch would never be taken, so we wouldn't notice 
+if tmp was allocated into one of the same registers as the inputs.  Even if it 
+doesn't fix your issue it's still a bug so I'll send the patch out, just LMK so 
+I can indicate how important the issue is.
 
-Unrelated to this patch, but I just noticed
-https://docs.quantifiedcode.com/python-anti-patterns/ today (in part
-based on my question on another patch about using 'list.get(key, False)'
-rather than 'key in list and list[key]').  In particular, I found
-https://docs.quantifiedcode.com/python-anti-patterns/correctness/missing_=
-argument_to_super.html
-which recommends using:
+This should manifest on hardware, but it looks like we managed to drop that SC 
+patch.  I'll go send the patch out now...
 
-def __init__(...):
-    super(QAPIError, self).__init__()
-
-(because of Python 2), while other sits state that with python 3, you
-can further get away with:
-
-def __init__(...):
-    super().__init(...)
-
-Should we be switching our code base to use super() in more places,
-rather than hard-coding the parent class name?
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---vlB29tc8zbW2BXTVCd2IarIJqEHipSMxr--
-
---qgC1pTuMZDo3QihgvYdM10DCygcPh9D8l
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KapsACgkQp6FrSiUn
-Q2oTUAf/bgbjrmpfhO42abfj7siWc7pI4zJ4vtuSah0bsrUIlyJGPk+6ESEgLIB3
-YTj1b2gVGsUvvEsfJJIAVKx8TfbSzJlZ2uGMB3Y/MOT7LOfP+f4NbQM4OFFGE4IM
-RF4N0xSp+JxkMdtKSwIIS2BsARPyc9IwImoVr0+WJZjT4MF9Y3KklrvkuyXy3ZAF
-QvRP1mhGDbY3Xd+AnEaBnbObBfbkZxA9N8cdHOnBQBSNJcEMuDWQCclFzd0elQ/x
-98aOYS0fzEN17LT315kOmVkJyhr5kk6T7cKOas7EKkO5ZZhSXNUYJddNu5GQCC6t
-RI/CPoGbKTfr4zkY7wBBcLbWP+kTTA==
-=lzOF
------END PGP SIGNATURE-----
-
---qgC1pTuMZDo3QihgvYdM10DCygcPh9D8l--
+>
+> Alistair
+>
+>> 2.21.0
+>>
+>>
 
