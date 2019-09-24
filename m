@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AB5BD3F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:02:45 +0200 (CEST)
-Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DC6BD408
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:07:15 +0200 (CEST)
+Received: from localhost ([::1]:51364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrxL-0002W4-Bl
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55207)
+	id 1iCs1h-0006WC-OY
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCruL-0001Z9-DE
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:59:38 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrw0-0002XS-S5
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCruJ-0003kO-Hn
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:59:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53714)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCruJ-0003k1-CQ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:59:35 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2D553300D1C2;
- Tue, 24 Sep 2019 20:59:34 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F01B95D9D5;
- Tue, 24 Sep 2019 20:59:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C35F9113864E; Tue, 24 Sep 2019 22:59:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 25/25] qapi: Improve source file read error handling
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-26-armbru@redhat.com>
- <24b79697-39bb-0154-3d3d-fd98ea8a9d5e@redhat.com>
-Date: Tue, 24 Sep 2019 22:59:32 +0200
-In-Reply-To: <24b79697-39bb-0154-3d3d-fd98ea8a9d5e@redhat.com> (Eric Blake's
- message of "Tue, 24 Sep 2019 14:57:09 -0500")
-Message-ID: <87v9th76mj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrvy-0004Te-AW
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:20 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53492)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iCrvs-0004S2-Nm
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:14 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id i16so1872257wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ySt7pD/3SmllFAju7l+MsS0NBMMOjjhxPQBaWQ/I4tE=;
+ b=CDK25Xtua8Jt8Er6Wea3BjoCq5V6lQuPxctGFturhp5AM/Dw2jxL6E15jwKiW2LFSn
+ l1gfb99UCbmPhdlZsy51m94kRrsjzPEDfyyWZ5cWmVsx2Y7Nm5spyc/DoTtSFFda6asl
+ VDIyrE4K0LV+w7XvU0hXuoyzVv6O0pSUln0Dv9t4dyuuhfZD6NxFFOIeyX8UCizRr4ff
+ nzGSwCBHj9PnPDncUi9iKKZQ+JgFtRUvKtdloBvINKjdtAMRS2FrnPtoaEJ/n2bxBD/Y
+ 4OEbYGhQhYIxGBIxkHqVIvsy6l5UI/lZg15UIZCbBwGEAFgs/ruq7tpQAsRu3oc41wWU
+ HNFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ySt7pD/3SmllFAju7l+MsS0NBMMOjjhxPQBaWQ/I4tE=;
+ b=FKUc6qOlT4P1aJ0/vkVGVlChBrHzg2QT7xt3D5Dl8x0lX1gguzE+O3o0MR89hlBmqJ
+ ghDfYDvgG9woh3xCyedz9H/jqeB2V0ABU8NfeQTcm5K7lxkX37y+V/7jQE2sixX4E+Wl
+ m/8o8XXg6y5rVkUfbDzAEUakh5bmu1mlvSptxJmckX+TIl+t2MQwUJS5xEAg6/qBiZjN
+ MzmMGnj2joJb4y/yqT/+2KyTI3mvVk30Uq/Xj9zH9Xcjm8H57kfH653PcfIrwK10MInb
+ f27V+91lTsC4jFyHfJJqQBDveF2KJwxm502PcQShpH8c7Dl8TOxFnc9evya2i9kGdcGw
+ obiA==
+X-Gm-Message-State: APjAAAVhhCvLEVVXe7ieHhgFdT1S2wo+vlrCkWXQDlU1vutjFmDoAQSh
+ nQHsmrtWJse0FI/4uhhPBWtoWA==
+X-Google-Smtp-Source: APXvYqwWM3zOFp+/bZcxeMHb+7hJ9U+zIFYI8QB4TH5S+F7WycAzv6JvULkYgJWgh4REK1x/Jn4aVg==
+X-Received: by 2002:a1c:4e01:: with SMTP id g1mr2381011wmh.134.1569358869404; 
+ Tue, 24 Sep 2019 14:01:09 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z6sm2015595wro.16.2019.09.24.14.01.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 14:01:07 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DA2B61FF87;
+ Tue, 24 Sep 2019 22:01:06 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 00/33] testing/next (docker,tcg, alpha ;-)
+Date: Tue, 24 Sep 2019 22:00:33 +0100
+Message-Id: <20190924210106.27117-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 24 Sep 2019 20:59:34 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,41 +79,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, jsnow@redhat.com,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Hi,
 
-> On 9/24/19 8:28 AM, Markus Armbruster wrote:
->> qap-gen.py crashes when it can't open the main schema file, and when
->
-> qapi-gen.py
+This should be the final iteration of the current testing/next queue
+before I send the Pull Request. Currently it contains some fixes from
+both David and Richard for migration and alpha respectively. I'm
+assuming David will get his PR in before I send mine but Richard is
+happy for me to merge the alpha changes.
 
-Will fix.
+I've included the latest iteration of Jon's docker cleanups. There is
+also another attempt at reducing the warnings from docker due to the
+race between inspect and rm. Whilst digging into that I think I've
+also fixed another race caused by shared uuids while running very
+parallel builds.
 
->> it can't read from any schema file.  Lazy.
->> 
->> Change QAPISchema.__init__() to take a file name instead of a file
->> object.  Move the open code from _include() to __init__(), so it's
->> used for the main schema file, too.
->> 
->> Move the read into the try for good measure, and rephrase the error
->> message.
->> 
->> Reporting open or read failure for the main schema file needs a
->> QAPISourceInfo representing "no source".  Make QAPISourceInfo cope
->> with fname=None.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  scripts/qapi/common.py                | 46 +++++++++++++++------------
->>  tests/qapi-schema/include-no-file.err |  2 +-
->>  2 files changed, 27 insertions(+), 21 deletions(-)
->> 
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+I also finally killed the powerpc-user-cross image which was still
+causing problems when trying to run all the test builds. I could have
+used the PARTIAL_IMAGE hack but then it would only been useful for
+testcases and we already have a nice cross compiler for those.
 
-Thanks!
+The following patches need review
+   15 - tests docker reduce scary warnings by cleaning up
+   18 - tests tcg re enable linux test for ppc64abi32
+   21 - tests tcg add simple record replay smoke test for
+   23 - docs devel add check tcg to testing.rst
+   33 - tests docker remove debian powerpc user cross
+
+Alex Bennée (11):
+  target/ppc: fix signal delivery for ppc64abi32
+  tests/docker: fix DOCKER_PARTIAL_IMAGES
+  tests/docker: reduce scary warnings by cleaning up clean up
+  tests/tcg: clean-up some comments after the de-tangling
+  tests/tcg: re-enable linux-test for ppc64abi32
+  tests/tcg: add float_madds test to multiarch
+  tests/tcg: add generic version of float_convs
+  tests/tcg: add simple record/replay smoke test for aarch64
+  configure: preserve PKG_CONFIG for subdir builds
+  docs/devel: add "check-tcg" to testing.rst
+  tests/docker: remove debian-powerpc-user-cross
+
+Dr. David Alan Gilbert (3):
+  tests/migration: Fail on unexpected migration states
+  tests/migration/postcopy: trim migration bandwidth
+  migration/postcopy: Recognise the recovery states as 'in_postcopy'
+
+John Snow (9):
+  tests/docker: add sanitizers back to clang build
+  tests/docker: remove python2.7 from debian9-mxe
+  podman: fix command invocation
+  docker: remove debian8-mxe definitions
+  docker: removed unused debian8 partial image
+  docker: remove 'deprecated' image definitions
+  docker: remove unused debian-ports
+  docker: remove unused debian-sid
+  docker: move tests from python2 to python3
+
+Philippe Mathieu-Daudé (3):
+  target/i386: Fix broken build with WHPX enabled
+  tests/docker: Add fedora-win10sdk-cross image
+  .shippable.yml: Build WHPX enabled binaries
+
+Richard Henderson (7):
+  target/alpha: Use array for FPCR_DYN conversion
+  target/alpha: Fix SWCR_MAP_UMZ
+  target/alpha: Fix SWCR_TRAP_ENABLE_MASK
+  target/alpha: Handle SWCR_MAP_DMZ earlier
+  target/alpha: Write to fpcr_flush_to_zero once
+  target/alpha: Mask IOV exception with INV for user-only
+  target/alpha: Tidy helper_fp_exc_raise_s
+
+ .shippable.yml                                |   2 +
+ Makefile                                      |   6 +-
+ configure                                     |   1 +
+ docs/devel/testing.rst                        |  62 ++
+ linux-user/ppc/signal.c                       |   4 +-
+ migration/migration.c                         |   9 +-
+ target/alpha/fpu_helper.c                     |  15 +-
+ target/alpha/helper.c                         |  64 +-
+ target/i386/whpx-all.c                        |   1 +
+ tests/docker/Makefile.include                 |  20 +-
+ tests/docker/docker.py                        |  36 +-
+ tests/docker/dockerfiles/centos7.docker       |   2 +-
+ tests/docker/dockerfiles/debian-ports.docker  |  36 -
+ .../debian-powerpc-user-cross.docker          |  21 -
+ tests/docker/dockerfiles/debian-sid.docker    |  35 -
+ .../dockerfiles/debian-xtensa-cross.docker    |   2 +-
+ tests/docker/dockerfiles/debian10.docker      |   2 +-
+ tests/docker/dockerfiles/debian8.docker       |  34 -
+ tests/docker/dockerfiles/debian9-mxe.docker   |   3 +-
+ tests/docker/dockerfiles/debian9.docker       |   2 +-
+ .../dockerfiles/fedora-win10sdk-cross.docker  |  23 +
+ tests/docker/dockerfiles/travis.docker        |   2 +-
+ tests/docker/dockerfiles/ubuntu.docker        |   2 +-
+ tests/docker/dockerfiles/ubuntu1804.docker    |   2 +-
+ tests/docker/dockerfiles/win10sdk-dl.sh       |  27 +
+ tests/docker/test-clang                       |   6 +-
+ tests/migration-test.c                        |  25 +-
+ tests/tcg/Makefile.target                     |  16 +-
+ tests/tcg/aarch64/Makefile.softmmu-target     |  21 +
+ tests/tcg/aarch64/Makefile.target             |   3 +-
+ tests/tcg/aarch64/float_convs.ref             | 748 +++++++++++++++++
+ tests/tcg/aarch64/float_madds.ref             | 768 ++++++++++++++++++
+ tests/tcg/arm/Makefile.target                 |  16 +-
+ tests/tcg/arm/float_convs.ref                 | 748 +++++++++++++++++
+ tests/tcg/arm/float_madds.ref                 | 768 ++++++++++++++++++
+ tests/tcg/multiarch/Makefile.target           |  23 +-
+ tests/tcg/multiarch/float_convs.c             | 105 +++
+ tests/tcg/multiarch/float_helpers.c           | 230 ++++++
+ tests/tcg/multiarch/float_helpers.h           |  26 +
+ tests/tcg/multiarch/float_madds.c             | 103 +++
+ 40 files changed, 3775 insertions(+), 244 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-ports.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-powerpc-user-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
+ delete mode 100644 tests/docker/dockerfiles/debian8.docker
+ create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+ create mode 100755 tests/docker/dockerfiles/win10sdk-dl.sh
+ create mode 100755 tests/tcg/aarch64/float_convs.ref
+ create mode 100644 tests/tcg/aarch64/float_madds.ref
+ create mode 100644 tests/tcg/arm/float_convs.ref
+ create mode 100644 tests/tcg/arm/float_madds.ref
+ create mode 100644 tests/tcg/multiarch/float_convs.c
+ create mode 100644 tests/tcg/multiarch/float_helpers.c
+ create mode 100644 tests/tcg/multiarch/float_helpers.h
+ create mode 100644 tests/tcg/multiarch/float_madds.c
+
+-- 
+2.20.1
+
 
