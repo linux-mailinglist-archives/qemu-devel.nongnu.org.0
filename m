@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1CBBC71D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:47:36 +0200 (CEST)
-Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9F4BC74A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:54:46 +0200 (CEST)
+Received: from localhost ([::1]:44416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCjI7-0008U6-Df
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42533)
+	id 1iCjP3-0004nc-Pv
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:54:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iCj2o-0002qt-MO
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:48 -0400
+ (envelope-from <drjones@redhat.com>) id 1iCj2V-0002W7-0r
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iCj2m-0005UH-Q5
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38726)
+ (envelope-from <drjones@redhat.com>) id 1iCj2S-0005LN-A1
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56258)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1iCj2h-0005SE-Je; Tue, 24 Sep 2019 07:31:39 -0400
+ id 1iCj2L-0005HW-Ko; Tue, 24 Sep 2019 07:31:18 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BAF03C054907;
- Tue, 24 Sep 2019 11:31:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B0B0E308FFB1;
+ Tue, 24 Sep 2019 11:31:16 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A406161F21;
- Tue, 24 Sep 2019 11:31:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6876C61F21;
+ Tue, 24 Sep 2019 11:31:14 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v4 9/9] target/arm/kvm: host cpu: Add support for sve<N>
- properties
-Date: Tue, 24 Sep 2019 13:31:05 +0200
-Message-Id: <20190924113105.19076-10-drjones@redhat.com>
+Subject: [PATCH v4 1/9] target/arm/monitor: Introduce
+ qmp_query_cpu_model_expansion
+Date: Tue, 24 Sep 2019 13:30:57 +0200
+Message-Id: <20190924113105.19076-2-drjones@redhat.com>
 In-Reply-To: <20190924113105.19076-1-drjones@redhat.com>
 References: <20190924113105.19076-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 24 Sep 2019 11:31:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 24 Sep 2019 11:31:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -62,331 +62,402 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow cpu 'host' to enable SVE when it's available, unless the
-user chooses to disable it with the added 'sve=3Doff' cpu property.
-Also give the user the ability to select vector lengths with the
-sve<N> properties. We don't adopt 'max' cpu's other sve property,
-sve-max-vq, because that property is difficult to use with KVM.
-That property assumes all vector lengths in the range from 1 up
-to and including the specified maximum length are supported, but
-there may be optional lengths not supported by the host in that
-range. With KVM one must be more specific when enabling vector
-lengths.
+Add support for the query-cpu-model-expansion QMP command to Arm. We
+do this selectively, only exposing CPU properties which represent
+optional CPU features which the user may want to enable/disable.
+Additionally we restrict the list of queryable cpu models to 'max',
+'host', or the current type when KVM is in use. And, finally, we only
+implement expansion type 'full', as Arm does not yet have a "base"
+CPU type. More details and example queries are described in a new
+document (docs/arm-cpu-features.rst).
+
+Note, certainly more features may be added to the list of advertised
+features, e.g. 'vfp' and 'neon'. The only requirement is that we can
+detect invalid configurations and emit failures at QMP query time.
+For 'vfp' and 'neon' this will require some refactoring to share a
+validation function between the QMP query and the CPU realize
+functions.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- docs/arm-cpu-features.rst | 19 ++++++++++++-------
- target/arm/cpu.c          |  3 +++
- target/arm/cpu.h          |  2 ++
- target/arm/cpu64.c        | 33 +++++++++++++++++----------------
- target/arm/kvm64.c        | 14 +++++++++++++-
- tests/arm-cpu-features.c  | 21 +++++++++++----------
- 6 files changed, 58 insertions(+), 34 deletions(-)
+ docs/arm-cpu-features.rst | 137 +++++++++++++++++++++++++++++++++++
+ qapi/machine-target.json  |   6 +-
+ target/arm/monitor.c      | 145 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 285 insertions(+), 3 deletions(-)
+ create mode 100644 docs/arm-cpu-features.rst
 
 diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
-index 939366f959cf..0c16eef7c8c2 100644
---- a/docs/arm-cpu-features.rst
+new file mode 100644
+index 000000000000..c79dcffb5556
+--- /dev/null
 +++ b/docs/arm-cpu-features.rst
-@@ -256,31 +256,36 @@ SVE CPU Property Examples
-=20
-      $ qemu-system-aarch64 -M virt -cpu max
-=20
--  3) Only enable the 128-bit vector length::
-+  3) When KVM is enabled, implicitly enable all host CPU supported vecto=
+@@ -0,0 +1,137 @@
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++ARM CPU Features
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Examples of probing and using ARM CPU features
++
++Introduction
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++CPU features are optional features that a CPU of supporting type may
++choose to implement or not.  In QEMU, optional CPU features have
++corresponding boolean CPU proprieties that, when enabled, indicate
++that the feature is implemented, and, conversely, when disabled,
++indicate that it is not implemented. An example of an ARM CPU feature
++is the Performance Monitoring Unit (PMU).  CPU types such as the
++Cortex-A15 and the Cortex-A57, which respectively implement ARM
++architecture reference manuals ARMv7-A and ARMv8-A, may both optionally
++implement PMUs.  For example, if a user wants to use a Cortex-A15 withou=
+t
++a PMU, then the `-cpu` parameter should contain `pmu=3Doff` on the QEMU
++command line, i.e. `-cpu cortex-a15,pmu=3Doff`.
++
++As not all CPU types support all optional CPU features, then whether or
++not a CPU property exists depends on the CPU type.  For example, CPUs
++that implement the ARMv8-A architecture reference manual may optionally
++support the AArch32 CPU feature, which may be enabled by disabling the
++`aarch64` CPU property.  A CPU type such as the Cortex-A15, which does
++not implement ARMv8-A, will not have the `aarch64` CPU property.
++
++QEMU's support may be limited for some CPU features, only partially
++supporting the feature or only supporting the feature under certain
++configurations.  For example, the `aarch64` CPU feature, which, when
++disabled, enables the optional AArch32 CPU feature, is only supported
++when using the KVM accelerator and when running on a host CPU type that
++supports the feature.
++
++CPU Feature Probing
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Determining which CPU features are available and functional for a given
++CPU type is possible with the `query-cpu-model-expansion` QMP command.
++Below are some examples where `scripts/qmp/qmp-shell` (see the top comme=
+nt
++block in the script for usage) is used to issue the QMP commands.
++
++(1) Determine which CPU features are available for the `max` CPU type
++    (Note, we started QEMU with qemu-system-aarch64, so `max` is
++     implementing the ARMv8-A reference manual in this case)::
++
++      (QEMU) query-cpu-model-expansion type=3Dfull model=3D{"name":"max"=
+}
++      { "return": {
++        "model": { "name": "max", "props": {
++        "pmu": true, "aarch64": true
++      }}}}
++
++We see that the `max` CPU type has the `pmu` and `aarch64` CPU features.
++We also see that the CPU features are enabled, as they are all `true`.
++
++(2) Let's try to disable the PMU::
++
++      (QEMU) query-cpu-model-expansion type=3Dfull model=3D{"name":"max"=
+,"props":{"pmu":false}}
++      { "return": {
++        "model": { "name": "max", "props": {
++        "pmu": false, "aarch64": true
++      }}}}
++
++We see it worked, as `pmu` is now `false`.
++
++(3) Let's try to disable `aarch64`, which enables the AArch32 CPU featur=
+e::
++
++      (QEMU) query-cpu-model-expansion type=3Dfull model=3D{"name":"max"=
+,"props":{"aarch64":false}}
++      {"error": {
++       "class": "GenericError", "desc":
++       "'aarch64' feature cannot be disabled unless KVM is enabled and 3=
+2-bit EL1 is supported"
++      }}
++
++It looks like this feature is limited to a configuration we do not
++currently have.
++
++(4) Let's try probing CPU features for the Cortex-A15 CPU type::
++
++      (QEMU) query-cpu-model-expansion type=3Dfull model=3D{"name":"cort=
+ex-a15"}
++      {"return": {"model": {"name": "cortex-a15", "props": {"pmu": true}=
+}}}
++
++Only the `pmu` CPU feature is available.
++
++A note about CPU feature dependencies
++-------------------------------------
++
++It's possible for features to have dependencies on other features. I.e.
++it may be possible to change one feature at a time without error, but
++when attempting to change all features at once an error could occur
++depending on the order they are processed.  It's also possible changing
++all at once doesn't generate an error, because a feature's dependencies
++are satisfied with other features, but the same feature cannot be change=
+d
++independently without error.  For these reasons callers should always
++attempt to make their desired changes all at once in order to ensure the
++collection is valid.
++
++A note about CPU models and KVM
++-------------------------------
++
++Named CPU models generally do not work with KVM.  There are a few cases
++that do work, e.g. using the named CPU model `cortex-a57` with KVM on a
++seattle host, but mostly if KVM is enabled the `host` CPU type must be
++used.  This means the guest is provided all the same CPU features as the
++host CPU type has.  And, for this reason, the `host` CPU type should
++enable all CPU features that the host has by default.  Indeed it's even
++a bit strange to allow disabling CPU features that the host has when usi=
+ng
++the `host` CPU type, but in the absence of CPU models it's the best we c=
+an
++do if we want to launch guests without all the host's CPU features enabl=
+ed.
++
++Enabling KVM also affects the `query-cpu-model-expansion` QMP command.  =
+The
++affect is not only limited to specific features, as pointed out in examp=
+le
++(3) of "CPU Feature Probing", but also to which CPU types may be expande=
+d.
++When KVM is enabled, only the `max`, `host`, and current CPU type may be
++expanded.  This restriction is necessary as it's not possible to know al=
+l
++CPU types that may work with KVM, but it does impose a small risk of use=
+rs
++experiencing unexpected errors.  For example on a seattle, as mentioned
++above, the `cortex-a57` CPU type is also valid when KVM is enabled.
++Therefore a user could use the `host` CPU type for the current type, but
++then attempt to query `cortex-a57`, however that query will fail with ou=
 r
-+     lengths with the `host` CPU type::
++restrictions.  This shouldn't be an issue though as management layers an=
+d
++users have been preferring the `host` CPU type for use with KVM for quit=
+e
++some time.  Additionally, if the KVM-enabled QEMU instance running on a
++seattle host is using the `cortex-a57` CPU type, then querying `cortex-a=
+57`
++will work.
 +
-+     $ qemu-system-aarch64 -M virt,accel=3Dkvm -cpu host
++Using CPU Features
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+  4) Only enable the 128-bit vector length::
++After determining which CPU features are available and supported for a
++given CPU type, then they may be selectively enabled or disabled on the
++QEMU command line with that CPU type::
++
++  $ qemu-system-aarch64 -M virt -cpu max,pmu=3Doff
++
++The example above disables the PMU for the `max` CPU type.
++
+diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+index 55310a6aa226..04623224720d 100644
+--- a/qapi/machine-target.json
++++ b/qapi/machine-target.json
+@@ -212,7 +212,7 @@
+ ##
+ { 'struct': 'CpuModelExpansionInfo',
+   'data': { 'model': 'CpuModelInfo' },
+-  'if': 'defined(TARGET_S390X) || defined(TARGET_I386)' }
++  'if': 'defined(TARGET_S390X) || defined(TARGET_I386) || defined(TARGET=
+_ARM)' }
 =20
-      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Don
+ ##
+ # @query-cpu-model-expansion:
+@@ -237,7 +237,7 @@
+ #   query-cpu-model-expansion while using these is not advised.
+ #
+ # Some architectures may not support all expansion types. s390x supports
+-# "full" and "static".
++# "full" and "static". Arm only supports "full".
+ #
+ # Returns: a CpuModelExpansionInfo. Returns an error if expanding CPU mo=
+dels is
+ #          not supported, if the model cannot be expanded, if the model =
+contains
+@@ -251,7 +251,7 @@
+   'data': { 'type': 'CpuModelExpansionType',
+             'model': 'CpuModelInfo' },
+   'returns': 'CpuModelExpansionInfo',
+-  'if': 'defined(TARGET_S390X) || defined(TARGET_I386)' }
++  'if': 'defined(TARGET_S390X) || defined(TARGET_I386) || defined(TARGET=
+_ARM)' }
 =20
--  4) Disable the 256-bit vector length and all larger vector lengths
-+  5) Disable the 256-bit vector length and all larger vector lengths
-      since 256 is a power-of-two (this results in only the 128-bit lengt=
-h
-      being enabled)::
+ ##
+ # @CpuDefinitionInfo:
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index 6457c3c87f7c..edca8aa885f0 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -21,8 +21,16 @@
+  */
 =20
-      $ qemu-system-aarch64 -M virt -cpu max,sve256=3Doff
+ #include "qemu/osdep.h"
++#include "hw/boards.h"
+ #include "kvm_arm.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "qapi/qobject-input-visitor.h"
++#include "qapi/qapi-commands-machine-target.h"
+ #include "qapi/qapi-commands-misc-target.h"
++#include "qapi/qmp/qerror.h"
++#include "qapi/qmp/qdict.h"
++#include "qom/qom-qobject.h"
 =20
--  5) Enable the 128-bit, 256-bit, and 512-bit vector lengths::
-+  6) Enable the 128-bit, 256-bit, and 512-bit vector lengths::
+ static GICCapability *gic_cap_new(int version)
+ {
+@@ -81,3 +89,140 @@ GICCapabilityList *qmp_query_gic_capabilities(Error *=
+*errp)
 =20
-      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Don,sve256=3Don,sve5=
-12=3Don
-=20
--  6) The same as (5), but since the 128-bit and 256-bit vector
-+  7) The same as (6), but since the 128-bit and 256-bit vector
-      lengths are required for the 512-bit vector length to be enabled,
-      then allow them to be auto-enabled::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve512=3Don
-=20
--  7) Do the same as (6), but by first disabling SVE and then re-enabling=
- it::
-+  8) Do the same as (7), but by first disabling SVE and then re-enabling=
- it::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve=3Doff,sve512=3Don,sve=3D=
-on
-=20
--  8) Force errors regarding the last vector length::
-+  9) Force errors regarding the last vector length::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Doff
-      $ qemu-system-aarch64 -M virt -cpu max,sve=3Doff,sve128=3Doff,sve=3D=
-on
-@@ -292,5 +297,5 @@ The examples in "SVE CPU Property Examples" exhibit m=
-any ways to select
- vector lengths which developers may find useful in order to avoid overly
- verbose command lines.  However, the recommended way to select vector
- lengths is to explicitly enable each desired length.  Therefore only
--example's (1), (3), and (5) exhibit recommended uses of the properties.
-+example's (1), (4), and (6) exhibit recommended uses of the properties.
-=20
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 522fed95b339..7695ae551218 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2671,6 +2671,9 @@ static void arm_host_initfn(Object *obj)
-     ARMCPU *cpu =3D ARM_CPU(obj);
-=20
-     kvm_arm_set_cpu_features_from_host(cpu);
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-+        aarch64_add_sve_properties(obj);
-+    }
-     arm_cpu_post_init(obj);
+     return head;
  }
-=20
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 11162484465a..5b9c3e4cd73d 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -974,11 +974,13 @@ int aarch64_cpu_gdb_write_register(CPUState *cpu, u=
-int8_t *buf, int reg);
- void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
- void aarch64_sve_change_el(CPUARMState *env, int old_el,
-                            int new_el, bool el0_a64);
-+void aarch64_add_sve_properties(Object *obj);
- #else
- static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) =
-{ }
- static inline void aarch64_sve_change_el(CPUARMState *env, int o,
-                                          int n, bool a)
- { }
-+static inline void aarch64_add_sve_properties(Object *obj) { }
- #endif
-=20
- #if !defined(CONFIG_TCG)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 18dd5e24ec61..e7cd420faa9d 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -579,6 +579,21 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v,=
- const char *name,
-     cpu->isar.id_aa64pfr0 =3D t;
- }
-=20
-+void aarch64_add_sve_properties(Object *obj)
++
++/*
++ * These are cpu model features we want to advertise. The order here
++ * matters as this is the order in which qmp_query_cpu_model_expansion
++ * will attempt to set them. If there are dependencies between features,
++ * then the order that considers those dependencies must be used.
++ */
++static const char *cpu_model_advertised_features[] =3D {
++    "aarch64", "pmu",
++    NULL
++};
++
++CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionTy=
+pe type,
++                                                     CpuModelInfo *model=
+,
++                                                     Error **errp)
 +{
-+    uint32_t vq;
++    CpuModelExpansionInfo *expansion_info;
++    const QDict *qdict_in =3D NULL;
++    QDict *qdict_out;
++    ObjectClass *oc;
++    Object *obj;
++    const char *name;
++    int i;
 +
-+    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
-+                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
-+
-+    for (vq =3D 1; vq <=3D ARM_MAX_VQ; ++vq) {
-+        char name[8];
-+        sprintf(name, "sve%d", vq * 128);
-+        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
-+                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal=
++    if (type !=3D CPU_MODEL_EXPANSION_TYPE_FULL) {
++        error_setg(errp, "The requested expansion type is not supported"=
 );
++        return NULL;
 +    }
++
++    if (!kvm_enabled() && !strcmp(model->name, "host")) {
++        error_setg(errp, "The CPU type '%s' requires KVM", model->name);
++        return NULL;
++    }
++
++    oc =3D cpu_class_by_name(TYPE_ARM_CPU, model->name);
++    if (!oc) {
++        error_setg(errp, "The CPU type '%s' is not a recognized ARM CPU =
+type",
++                   model->name);
++        return NULL;
++    }
++
++    if (kvm_enabled()) {
++        const char *cpu_type =3D current_machine->cpu_type;
++        int len =3D strlen(cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
++        bool supported =3D false;
++
++        if (!strcmp(model->name, "host") || !strcmp(model->name, "max"))=
+ {
++            /* These are kvmarm's recommended cpu types */
++            supported =3D true;
++        } else if (strlen(model->name) =3D=3D len &&
++                   !strncmp(model->name, cpu_type, len)) {
++            /* KVM is enabled and we're using this type, so it works. */
++            supported =3D true;
++        }
++        if (!supported) {
++            error_setg(errp, "We cannot guarantee the CPU type '%s' work=
+s "
++                             "with KVM on this host", model->name);
++            return NULL;
++        }
++    }
++
++    if (model->props) {
++        qdict_in =3D qobject_to(QDict, model->props);
++        if (!qdict_in) {
++            error_setg(errp, QERR_INVALID_PARAMETER_TYPE, "props", "dict=
+");
++            return NULL;
++        }
++    }
++
++    obj =3D object_new(object_class_get_name(oc));
++
++    if (qdict_in) {
++        Visitor *visitor;
++        Error *err =3D NULL;
++
++        visitor =3D qobject_input_visitor_new(model->props);
++        visit_start_struct(visitor, NULL, NULL, 0, &err);
++        if (err) {
++            object_unref(obj);
++            error_propagate(errp, err);
++            return NULL;
++        }
++
++        i =3D 0;
++        while ((name =3D cpu_model_advertised_features[i++]) !=3D NULL) =
+{
++            if (qdict_get(qdict_in, name)) {
++                object_property_set(obj, visitor, name, &err);
++                if (err) {
++                    break;
++                }
++            }
++        }
++
++        if (!err) {
++            visit_check_struct(visitor, &err);
++        }
++        visit_end_struct(visitor, NULL);
++        visit_free(visitor);
++        if (err) {
++            object_unref(obj);
++            error_propagate(errp, err);
++            return NULL;
++        }
++    }
++
++    expansion_info =3D g_new0(CpuModelExpansionInfo, 1);
++    expansion_info->model =3D g_malloc0(sizeof(*expansion_info->model));
++    expansion_info->model->name =3D g_strdup(model->name);
++
++    qdict_out =3D qdict_new();
++
++    i =3D 0;
++    while ((name =3D cpu_model_advertised_features[i++]) !=3D NULL) {
++        ObjectProperty *prop =3D object_property_find(obj, name, NULL);
++        if (prop) {
++            Error *err =3D NULL;
++            QObject *value;
++
++            assert(prop->get);
++            value =3D object_property_get_qobject(obj, name, &err);
++            assert(!err);
++
++            qdict_put_obj(qdict_out, name, value);
++        }
++    }
++
++    if (!qdict_size(qdict_out)) {
++        qobject_unref(qdict_out);
++    } else {
++        expansion_info->model->props =3D QOBJECT(qdict_out);
++        expansion_info->model->has_props =3D true;
++    }
++
++    object_unref(obj);
++
++    return expansion_info;
 +}
-+
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this =
-host);
-  * otherwise, a CPU with as many features enabled as our emulation suppo=
-rts.
-  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
-@@ -587,17 +602,11 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v=
-, const char *name,
- static void aarch64_max_initfn(Object *obj)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
--    uint32_t vq;
--    uint64_t t;
-=20
-     if (kvm_enabled()) {
-         kvm_arm_set_cpu_features_from_host(cpu);
--        if (kvm_arm_sve_supported(CPU(cpu))) {
--            t =3D cpu->isar.id_aa64pfr0;
--            t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
--            cpu->isar.id_aa64pfr0 =3D t;
--        }
-     } else {
-+        uint64_t t;
-         uint32_t u;
-         aarch64_a57_initfn(obj);
-=20
-@@ -697,17 +706,9 @@ static void aarch64_max_initfn(Object *obj)
- #endif
-     }
-=20
--    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
--                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
-+    aarch64_add_sve_properties(obj);
-     object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max=
-_vq,
-                         cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal=
-);
--
--    for (vq =3D 1; vq <=3D ARM_MAX_VQ; ++vq) {
--        char name[8];
--        sprintf(name, "sve%d", vq * 128);
--        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
--                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal=
-);
--    }
- }
-=20
- struct ARMCPUInfo {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index cff4217a8469..2da366ba113e 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -488,7 +488,9 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures=
- *ahcf)
-      * and then query that CPU for the relevant ID registers.
-      */
-     int fdarray[3];
-+    bool sve_supported;
-     uint64_t features =3D 0;
-+    uint64_t t;
-     int err;
-=20
-     /* Old kernels may not know about the PREFERRED_TARGET ioctl: howeve=
-r
-@@ -578,13 +580,23 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatur=
-es *ahcf)
-                               ARM64_SYS_REG(3, 0, 0, 3, 2));
-     }
-=20
-+    sve_supported =3D ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM=
-_SVE) > 0;
-+
-     kvm_arm_destroy_scratch_host_vcpu(fdarray);
-=20
-     if (err < 0) {
-         return false;
-     }
-=20
--   /* We can assume any KVM supporting CPU is at least a v8
-+    /* Add feature bits that can't appear until after VCPU init. */
-+    if (sve_supported) {
-+        t =3D ahcf->isar.id_aa64pfr0;
-+        t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-+        ahcf->isar.id_aa64pfr0 =3D t;
-+    }
-+
-+    /*
-+     * We can assume any KVM supporting CPU is at least a v8
-      * with VFPv4+Neon; this in turn implies most of the other
-      * feature bits.
-      */
-diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-index a0129aebf409..4dc067fb5558 100644
---- a/tests/arm-cpu-features.c
-+++ b/tests/arm-cpu-features.c
-@@ -351,7 +351,7 @@ static void sve_tests_sve_off_kvm(const void *data)
- {
-     QTestState *qts;
-=20
--    qts =3D qtest_init(MACHINE "-accel kvm -cpu max,sve=3Doff");
-+    qts =3D qtest_init(MACHINE "-accel kvm -cpu host,sve=3Doff");
-=20
-     /*
-      * We don't know if this host supports SVE so we don't
-@@ -360,8 +360,8 @@ static void sve_tests_sve_off_kvm(const void *data)
-      * and that using sve<N>=3Doff to explicitly disable vector
-      * lengths is OK too.
-      */
--    assert_sve_vls(qts, "max", 0, NULL);
--    assert_sve_vls(qts, "max", 0, "{ 'sve128': false }");
-+    assert_sve_vls(qts, "host", 0, NULL);
-+    assert_sve_vls(qts, "host", 0, "{ 'sve128': false }");
-=20
-     qtest_quit(qts);
- }
-@@ -428,8 +428,8 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-             "We cannot guarantee the CPU type 'cortex-a15' works "
-             "with KVM on this host", NULL);
-=20
--        assert_has_feature(qts, "max", "sve");
--        resp =3D do_query_no_props(qts, "max");
-+        assert_has_feature(qts, "host", "sve");
-+        resp =3D do_query_no_props(qts, "host");
-         kvm_supports_sve =3D resp_get_feature(resp, "sve");
-         vls =3D resp_get_sve_vls(resp);
-         qobject_unref(resp);
-@@ -440,7 +440,7 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-             sprintf(max_name, "sve%d", max_vq * 128);
-=20
-             /* Enabling a supported length is of course fine. */
--            assert_sve_vls(qts, "max", vls, "{ %s: true }", max_name);
-+            assert_sve_vls(qts, "host", vls, "{ %s: true }", max_name);
-=20
-             /* Get the next supported length smaller than max-vq. */
-             vq =3D 64 - __builtin_clzll(vls & ~BIT(max_vq - 1));
-@@ -449,7 +449,7 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-                  * We have at least one length smaller than max-vq,
-                  * so we can disable max-vq.
-                  */
--                assert_sve_vls(qts, "max", (vls & ~BIT(max_vq - 1)),
-+                assert_sve_vls(qts, "host", (vls & ~BIT(max_vq - 1)),
-                                "{ %s: false }", max_name);
-=20
-                 /*
-@@ -459,7 +459,7 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-                  */
-                 sprintf(name, "sve%d", vq * 128);
-                 error =3D g_strdup_printf("cannot disable %s", name);
--                assert_error(qts, "max", error,
-+                assert_error(qts, "host", error,
-                              "{ %s: true, %s: false }",
-                              max_name, name);
-                 g_free(error);
-@@ -472,7 +472,7 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-             vq =3D __builtin_ffsll(vls);
-             sprintf(name, "sve%d", vq * 128);
-             error =3D g_strdup_printf("cannot disable %s", name);
--            assert_error(qts, "max", error, "{ %s: false }", name);
-+            assert_error(qts, "host", error, "{ %s: false }", name);
-             g_free(error);
-=20
-             /* Get an unsupported length. */
-@@ -484,13 +484,14 @@ static void test_query_cpu_model_expansion_kvm(cons=
-t void *data)
-             if (vq <=3D SVE_MAX_VQ) {
-                 sprintf(name, "sve%d", vq * 128);
-                 error =3D g_strdup_printf("cannot enable %s", name);
--                assert_error(qts, "max", error, "{ %s: true }", name);
-+                assert_error(qts, "host", error, "{ %s: true }", name);
-                 g_free(error);
-             }
-         } else {
-             g_assert(vls =3D=3D 0);
-         }
-     } else {
-+        assert_has_not_feature(qts, "host", "sve");
-         assert_error(qts, "host",
-                      "'pmu' feature not supported by KVM on this host",
-                      "{ 'pmu': true }");
 --=20
 2.20.1
 
