@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FBDBC544
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 11:53:39 +0200 (CEST)
-Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F1FBC54F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 11:57:01 +0200 (CEST)
+Received: from localhost ([::1]:43410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iChVq-0003cQ-Br
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 05:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57449)
+	id 1iChZ6-0007Ad-Hc
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 05:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iChSt-000243-U4
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:50:37 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iChTA-00027o-Hc
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:50:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iChSr-0003eA-Is
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:50:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60584)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iChSo-0003Yo-Fl; Tue, 24 Sep 2019 05:50:30 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB50110C0940;
- Tue, 24 Sep 2019 09:50:29 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5153600CC;
- Tue, 24 Sep 2019 09:50:25 +0000 (UTC)
-Subject: Re: [PATCH v4 01/10] block: switch reopen queue from QSIMPLEQ to
- QTAILQ
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190807141226.193501-1-vsementsov@virtuozzo.com>
- <20190807141226.193501-2-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <3a883274-0248-b7e7-a386-e80271493a00@redhat.com>
-Date: Tue, 24 Sep 2019 11:50:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iChT8-0003lk-UQ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:50:52 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36500)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iChT3-0003kJ-IW
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:50:47 -0400
+Received: by mail-ot1-x344.google.com with SMTP id 67so919279oto.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 02:50:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Rb/CI/UDcICyJhhVG9b3e0movg5c/F1agPe9IRth4mg=;
+ b=j4tKQdc8ubJZe35qvKYdF+zyW0JCXvpyBMloHkE0upAoEXgZSrQoYEHdFox/j3/Wjx
+ WmcG6edaV4Aupt/IfpAWRK8d1G4CCEm8r0cuyliYLtP/AcB7ZlNiRL9t5mV4wDv0w9fL
+ VJqzakgI8lDyCchdviDPH6CCL/X0tOhUts2XEkUggh47PZrYGtK/mMVGILxzkRD5fAzx
+ ujn0i+LcWoSz7GfSzmIczFJUBAlOIrKs4DoA/XHTKvTRs79KuC63PClFLdMxJho1VXyx
+ RNO+myMAYbF9mXKgMcww+cRQwKKxanOFgST0w+Ko2WzsXsYOrOwQ989tWxdq0WUXBla+
+ Z3ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Rb/CI/UDcICyJhhVG9b3e0movg5c/F1agPe9IRth4mg=;
+ b=emb+Z1B3V8qFXTMi/tKEdhxLx+QNG8JJ9dksYeyCYcePtdZbcAR1qb73lJTCEfP0eq
+ xqtYFnjFVtxhCX1gD1fmE2TDewJPom92z+qHrz5Njyolicz5BO2djgLt1isblkp9jwYD
+ PHvH9o0CB0tdItO5RgnLnSWqbGlpFyzoYwsyjtDUJtKWm/eWxTY07nqt+KB0F/Wwi9CE
+ Aqxt8bZ1EyBac0zC6/d5S+EjE0huA+cK+nAmSBFfn9y+kGau9mxxJq8ye5mKsaGI2n4F
+ rcLXSptYz8cZI77L10OvUZqX6NPXQgXR1ok+RXu5kYc+5ZfC7qgA9vtSbQ2mjWx1lmpG
+ xG4w==
+X-Gm-Message-State: APjAAAVYMJbFjtDmMB5XgTePxHurwGgvvEOo8+lrwCcPFvAP5vcecVsA
+ w14ijzzCPw692Tx8bBfI6ppwNsVcJO0GDTICJPsiAg==
+X-Google-Smtp-Source: APXvYqx/yryZboylnU7k25e3/vfd7dzpCdQnivzpgn2VC8wmXwLIYDgiOsNWsx00vCanIO7wmnVmje0eTfIiyCK1aHU=
+X-Received: by 2002:a9d:4615:: with SMTP id y21mr1023464ote.97.1569318642069; 
+ Tue, 24 Sep 2019 02:50:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190807141226.193501-2-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="2XqCirFlWpfVQiJ20W3tjxA2QGUExTjir"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Tue, 24 Sep 2019 09:50:29 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+References: <20190924084201.107958-1-anup.patel@wdc.com>
+ <20190924084201.107958-2-anup.patel@wdc.com>
+In-Reply-To: <20190924084201.107958-2-anup.patel@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Sep 2019 10:50:31 +0100
+Message-ID: <CAFEAcA-cm2GaKHg7_VcSb-OHp8GA9KuWiyWbc6r3F1p7tLc35A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw: timer: Add Goldfish RTC device
+To: Anup Patel <Anup.Patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,69 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- den@openvz.org
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---2XqCirFlWpfVQiJ20W3tjxA2QGUExTjir
-Content-Type: multipart/mixed; boundary="ptVQb40qp4kEgW3meUABGq0syiZbcH3Iy";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, jsnow@redhat.com, fam@euphon.net,
- kwolf@redhat.com, den@openvz.org
-Message-ID: <3a883274-0248-b7e7-a386-e80271493a00@redhat.com>
-Subject: Re: [PATCH v4 01/10] block: switch reopen queue from QSIMPLEQ to
- QTAILQ
-References: <20190807141226.193501-1-vsementsov@virtuozzo.com>
- <20190807141226.193501-2-vsementsov@virtuozzo.com>
-In-Reply-To: <20190807141226.193501-2-vsementsov@virtuozzo.com>
-
---ptVQb40qp4kEgW3meUABGq0syiZbcH3Iy
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 07.08.19 16:12, Vladimir Sementsov-Ogievskiy wrote:
-> We'll need reverse-foreach in the following commit, QTAILQ support it,
-> so move to QTAILQ.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Tue, 24 Sep 2019 at 09:45, Anup Patel <Anup.Patel@wdc.com> wrote:
+>
+> This patch adds model for Google Goldfish virtual platform RTC device.
+>
+> We will be adding Goldfish RTC device to the QEMU RISC-V virt machine
+> for providing real date-time to Guest Linux. The corresponding Linux
+> driver for Goldfish RTC device is already available in upstream Linux.
+>
+> For now, VM migration support is not available for Goldfish RTC device
+> but it will be added later when we implement VM migration for KVM RISC-V.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
 > ---
->  include/block/block.h |  2 +-
->  block.c               | 22 +++++++++++-----------
->  2 files changed, 12 insertions(+), 12 deletions(-)
+> +
+> +static Property goldfish_rtc_properties[] = {
+> +    DEFINE_PROP_UINT64("tick-offset", GoldfishRTCState, tick_offset, 0),
+> +    DEFINE_PROP_UINT64("alarm-next", GoldfishRTCState, alarm_next, 0),
+> +    DEFINE_PROP_UINT32("alarm-running", GoldfishRTCState, alarm_running, 0),
+> +    DEFINE_PROP_UINT32("irq-pending", GoldfishRTCState, irq_pending, 0),
+> +    DEFINE_PROP_UINT32("irq-enabled", GoldfishRTCState, irq_enabled, 0),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
 
-There=E2=80=99s a comment above bdrv_reopen_queue_child() that speaks of
-QSIMPLE_INIT.  I suppose that should be QTAILQ_INIT now (and was just a
-bit wrong before).
+What are all these properties trying to do ?
 
-With that fixed:
+> +
+> +static void goldfish_rtc_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    dc->props = goldfish_rtc_properties;
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Missing reset function.
 
+If you don't want to implement migration support now
+you should at least put in something that block migration.
+(Personally I prefer to just write the vmstate, it's as
+easy as writing the code to block migrations.)
 
---ptVQb40qp4kEgW3meUABGq0syiZbcH3Iy--
-
---2XqCirFlWpfVQiJ20W3tjxA2QGUExTjir
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2J5t8ACgkQ9AfbAGHV
-z0AqBggAtuRXdRzFO9epf+pRERxVJpGEiaDb2JxecZPEXHlWFfZBH5ZHdX7v8p9j
-g8v5jaCdIqfS2tZXMHJz4GdcuLl9p28Tm3efBWVRkyOeHlD/pFl0B1ujfM8Czqd8
-do2v9JWukoEEepo1Cejul/W1Y1Jz0dk11MwZxRgWglndzQ0nTAKMx41ovu7KZheT
-bCYclqLFMG/wWLdosxZPD14+9PjE25ZoFvd2t1uHQtMYRoqtzsC4PPdQV3hs+cy7
-742HfxQ0t9RNblFOaiT3G0MUcDKBTJtLInGtbngg6F4fYSCLGNrVUSQaFAkn/3Vb
-9kODRMsaS/BztRBjGDh1hychRf3Lcg==
-=/CrR
------END PGP SIGNATURE-----
-
---2XqCirFlWpfVQiJ20W3tjxA2QGUExTjir--
+thanks
+-- PMM
 
