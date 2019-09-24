@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26956BD3BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:42:46 +0200 (CEST)
-Received: from localhost ([::1]:50906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F358EBD3BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:44:34 +0200 (CEST)
+Received: from localhost ([::1]:50926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCre0-0002O8-QV
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52593)
+	id 1iCrfl-0004Jq-Gg
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:44:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCrbL-00010o-QY
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:40:00 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCrdI-0002rS-FS
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:42:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCrbK-0002E0-OF
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:39:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54066)
+ (envelope-from <armbru@redhat.com>) id 1iCrdG-0003Ho-O2
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:42:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50070)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCrbI-0002Bo-Pc
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:39:58 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCrdG-0003Gd-F4
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:41:58 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B260F3175296;
- Tue, 24 Sep 2019 20:39:55 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E5A3600C8;
- Tue, 24 Sep 2019 20:39:55 +0000 (UTC)
-Subject: Re: [PATCH v3 03/25] net/net: fix local variable shadowing in
- net_client_init
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
- <20190924200902.4703-4-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <2032f138-7857-d07c-9c42-0f66ee0c87b3@redhat.com>
-Date: Tue, 24 Sep 2019 15:39:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id AC3968665A;
+ Tue, 24 Sep 2019 20:41:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 031FC60603;
+ Tue, 24 Sep 2019 20:41:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 89D7A113864E; Tue, 24 Sep 2019 22:41:49 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 16/25] qapi: Move context-sensitive checking to the proper
+ place
+References: <20190924132830.15835-1-armbru@redhat.com>
+ <20190924132830.15835-17-armbru@redhat.com>
+ <15b817d6-afa5-53c0-1fdd-2af4ad2a0bd8@redhat.com>
+Date: Tue, 24 Sep 2019 22:41:49 +0200
+In-Reply-To: <15b817d6-afa5-53c0-1fdd-2af4ad2a0bd8@redhat.com> (Eric Blake's
+ message of "Tue, 24 Sep 2019 12:49:34 -0500")
+Message-ID: <87zhit8m0i.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20190924200902.4703-4-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="09XZ4blHz7KUgWMKx2y5AyFwvWlCm1ss7"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 24 Sep 2019 20:39:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Tue, 24 Sep 2019 20:41:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,65 +62,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---09XZ4blHz7KUgWMKx2y5AyFwvWlCm1ss7
-Content-Type: multipart/mixed; boundary="8yTzYD1co1wKTstsZhFu0OItMpaKxOCAY";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>
-Message-ID: <2032f138-7857-d07c-9c42-0f66ee0c87b3@redhat.com>
-Subject: Re: [PATCH v3 03/25] net/net: fix local variable shadowing in
- net_client_init
-References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
- <20190924200902.4703-4-vsementsov@virtuozzo.com>
-In-Reply-To: <20190924200902.4703-4-vsementsov@virtuozzo.com>
+Eric Blake <eblake@redhat.com> writes:
 
---8yTzYD1co1wKTstsZhFu0OItMpaKxOCAY
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> On 9/24/19 8:28 AM, Markus Armbruster wrote:
+>> When we introduced the QAPISchema intermediate representation (commit
+>> ac88219a6c7), we took a shortcut: we left check_exprs() & friends
+>> alone instead of moving semantic checks into the
+>> QAPISchemaFOO.check().  The .check() assert check_exprs() did its job.
+>> 
+>> Time to finish the conversion job.  Move exactly the context-sensitive
+>> checks to the .check().  They replace assertions there.  Context-free
+>> checks stay put.
+>> 
+>> Fixes the misleading optional tag error demonstrated by test
+>> flat-union-optional-discriminator.
+>> 
+>> A few other error message improve.
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>
+>> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+>> index f5599559ac..ac4c898e51 100644
+>> --- a/scripts/qapi/common.py
+>
+> Thankfully, our large coverage of tests goes a long way to show that the
+> conversion is correct.  I didn't notice anything obvious that might have
+> been overlooked (we may still find things down the road, but I'm not
+> going to hold up this patch trying to find those things).  Meanwhile,
+> the conversion from assert to conditionals inside .check() looks complete.
 
-On 9/24/19 3:08 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Don't shadow Error *err: it's a bad thing.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  net/net.c | 17 +++++++----------
->  1 file changed, 7 insertions(+), 10 deletions(-)
->=20
+Additional arguments supporting correctness:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+* Every deleted check gets added back.
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+* Every added check replaces an assertion.
 
+>> +++ b/tests/qapi-schema/args-union.err
+>> @@ -1,2 +1,2 @@
+>>  tests/qapi-schema/args-union.json: In command 'oops':
+>> -tests/qapi-schema/args-union.json:3: 'data' for command 'oops' cannot use union type 'Uni'
+>> +tests/qapi-schema/args-union.json:3: command's 'data' can take union type 'Uni' only with 'boxed': true
+>
+> This one is definitely nicer.
+>
+>> +++ b/tests/qapi-schema/flat-union-discriminator-bad-name.err
+>> @@ -1,2 +1,2 @@
+>>  tests/qapi-schema/flat-union-discriminator-bad-name.json: In union 'MyUnion':
+>> -tests/qapi-schema/flat-union-discriminator-bad-name.json:7: discriminator of flat union 'MyUnion' uses invalid name '*switch'
+>> +tests/qapi-schema/flat-union-discriminator-bad-name.json:6: discriminator '*switch' is not a member of 'base'
+>> diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.json b/tests/qapi-schema/flat-union-discriminator-bad-name.json
+>> index ea84b75cac..3ae8c06a89 100644
+>> --- a/tests/qapi-schema/flat-union-discriminator-bad-name.json
+>> +++ b/tests/qapi-schema/flat-union-discriminator-bad-name.json
+>> @@ -1,5 +1,4 @@
+>>  # discriminator '*switch' isn't a member of base, 'switch' is
+>> -# reports "uses invalid name", which is good enough
+>>  { 'enum': 'Enum', 'data': [ 'one', 'two' ] }
+>>  { 'struct': 'Base',
+>>    'data': { '*switch': 'Enum' } }
+>
+> I find this one to be borderline in quality (if we have '*switch' in the
+> base, claiming that '*switch' is not a member of base is confusing until
+> you realize that base actually has an optional member named 'switch') -
+> but anyone that actually stumbles into this one will probably quickly
+> figure out their problem, and we may be revisiting it later anyways when
+> we finally include patches for a default discriminator.
+>
+>> +++ b/tests/qapi-schema/flat-union-optional-discriminator.err
+>> @@ -1,2 +1,2 @@
+>>  tests/qapi-schema/flat-union-optional-discriminator.json: In union 'MyUnion':
+>> -tests/qapi-schema/flat-union-optional-discriminator.json:7: discriminator 'switch' is not a member of 'base'
+>> +tests/qapi-schema/flat-union-optional-discriminator.json:6: discriminator member 'switch' of base type 'Base' must not be optional
+>> diff --git a/tests/qapi-schema/flat-union-optional-discriminator.json b/tests/qapi-schema/flat-union-optional-discriminator.json
+>> index 143ab23a0d..2e7f766f60 100644
+>> --- a/tests/qapi-schema/flat-union-optional-discriminator.json
+>> +++ b/tests/qapi-schema/flat-union-optional-discriminator.json
+>> @@ -1,5 +1,4 @@
+>>  # we require the discriminator to be non-optional
+>> -# FIXME reports "discriminator 'switch' is not a member of base struct 'Base'"
+>>  { 'enum': 'Enum', 'data': [ 'one', 'two' ] }
+>>  { 'struct': 'Base',
+>>    'data': { '*switch': 'Enum' } }
+>
+> And while the other one is borderline, I agree that this one is better.
+>
+>> +++ b/tests/qapi-schema/union-unknown.err
+>> @@ -1,2 +1,2 @@
+>>  tests/qapi-schema/union-unknown.json: In union 'Union':
+>> -tests/qapi-schema/union-unknown.json:2: member 'unknown' of union 'Union' uses unknown type 'MissingType'
+>> +tests/qapi-schema/union-unknown.json:2: union uses unknown type 'MissingType'
+>> diff --git a/tests/qapi-schema/union-unknown.json b/tests/qapi-schema/union-unknown.json
+>> index aa7e8143d8..64d3666176 100644
+>> --- a/tests/qapi-schema/union-unknown.json
+>> +++ b/tests/qapi-schema/union-unknown.json
+>> @@ -1,3 +1,3 @@
+>>  # we reject a union with unknown type in branch
+>>  { 'union': 'Union',
+>> -  'data': { 'unknown': 'MissingType' } }
+>> +  'data': { 'unknown': ['MissingType'] } }
+>> 
+>
+> And here you covered one more code path by going through an array type.
+>
+> Overall looks good.
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
---8yTzYD1co1wKTstsZhFu0OItMpaKxOCAY--
-
---09XZ4blHz7KUgWMKx2y5AyFwvWlCm1ss7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KfxoACgkQp6FrSiUn
-Q2qk5Qf9HMltl85aAPUPWX9ne/WXPkSCpC192zRO5pYwskZQM7eiBGRjKHbyCLHA
-aTNBWfkumP3OErVfHVU3tqs56tDta+cnvmwxcDWnnY2UED5BUTqEU7tGAVUqG6OO
-+aDVJ38RXlOWTLEXLpnDQTCpQVbW8JPlyZn1PNMNHNJZ0+PxU7eHqJW0uAXhNaj0
-g9rlRJc3+W5OJXeXE4MS1iGkXZE+ddtEjyha1OmYRebmrgWJ3+961EaWsuijWbS6
-p6BtfO8iHn3yFfFEGRa0Fa+UQl3P3U0+vVgjsP4fMacPSf0DZO/fzAqQzQEkzI8x
-FFTI8kSrkusy2o9oURsB5bpBv/XsPA==
-=nQci
------END PGP SIGNATURE-----
-
---09XZ4blHz7KUgWMKx2y5AyFwvWlCm1ss7--
+Thanks!
 
