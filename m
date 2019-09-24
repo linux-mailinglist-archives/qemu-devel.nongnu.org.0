@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75F6BCA66
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:38:56 +0200 (CEST)
-Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446D6BCA76
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:43:52 +0200 (CEST)
+Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClxv-0006RT-Rs
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38254)
+	id 1iCm2h-0002mS-0S
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iCla9-0001Ka-6V
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:14:22 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCkrt-00006M-Pk
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iCla7-00006p-SX
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:14:20 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:42276)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iCla7-00006F-LV
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:14:19 -0400
-Received: by mail-oi1-x244.google.com with SMTP id i185so1748321oif.9
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 07:14:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Mhd/FJiamKV8bgwxvhSM1XmfViMLPDMRpLbPk1h8UFQ=;
- b=j4yagwqXqS6lcOkOx5LSGKWlLY7JFtE0BSiUDKdT/0FUEo1UqAlkUOmbTGRRCzlYQd
- 0tH7T1+Gffnwm7zqlAzsr8aoQsWIMlsiFYsW1Ii58h7uXiPoElHc8mwCXHRugHNH4eim
- fI38tAv+rKuucYWaAa1KAfpC80eYWTfqeF2a6kOcA4zNzKhAWp7b9ULGsPrDeEdPMAd5
- dVToJBdinNNvbzgJkJOM+NNBgeN5Aw6o+4mNwuvXHZjbmiFDC4ifq2As5wVh0MHO8rRW
- BEtnDgNNrNoOozizNFmaIQBn1OZngb016lQmCXLeudMN6LAdO4KTi2/Hi/juPoAoFAY4
- z+wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Mhd/FJiamKV8bgwxvhSM1XmfViMLPDMRpLbPk1h8UFQ=;
- b=dEOmwlRM1EBsj7WULPAob3dIO/FPdk2C7crygiY+Kjf8K0Dwv74T58Y6sYG10FSnau
- u+BP3qr/GxXYdQsMEpUBBXFW9BWKyZSBPs/rQriqFS5VjLeTpwjP7+zjwtfb/f9ecJCo
- iojkV1Axs0yOGslAON+8CYMq8e8fD8QZ2nM6CQMzvYnoKzrbI42mr+Y8GHB4+7DN7JHu
- IN6ea8yy9ujIaNI5EAavmIGcS3TX9PwPJ8G4PY7X5crxYOZ6BmnhFWU4pJ8hQFkoxxem
- kHYow3R6clWlqTdcc7BUJCzm//vXZptFO2DLf4KZG+oaEh3A+Kptp85k/gIPltCQmZ9n
- QKXw==
-X-Gm-Message-State: APjAAAXt3HfcI5iBJ/HMEtssabjMdBFasEYR/BbaTqO6Op3QO+uqlEb4
- WP5n6cH2Iky0Cg2ddGEsRCG38B8DnnhjvBzv/qftng==
-X-Google-Smtp-Source: APXvYqyCHKxkL301M500Wq7L6Lv/EDs9iq+Q0krCF/oLYOe5OqnzTO2xYvrOB+osqHBO3nNrhIrC40YpcSs8q8zYVvw=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr255616oib.48.1569334458739; 
- Tue, 24 Sep 2019 07:14:18 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1iCkrr-0001QE-Tb
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51752)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrr-0001Pl-LG
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:35 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DE6AC10C093F;
+ Tue, 24 Sep 2019 13:28:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D121519C70;
+ Tue, 24 Sep 2019 13:28:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5C354113865F; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 01/25] qapi: Tighten QAPISchemaFOO.check() assertions
+Date: Tue, 24 Sep 2019 15:28:06 +0200
+Message-Id: <20190924132830.15835-2-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-1-armbru@redhat.com>
+References: <20190924132830.15835-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20190924141228.25009-1-philmd@redhat.com>
-In-Reply-To: <20190924141228.25009-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Sep 2019 15:14:07 +0100
-Message-ID: <CAFEAcA9a-OdpzLgqeO+iRTr3PNYxGZ+ECX_GVOQD0NLNk8OynA@mail.gmail.com>
-Subject: Re: [PATCH] hw/timer/pl031: Add warning "do not use as model to
- implement a RTC"
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Tue, 24 Sep 2019 13:28:34 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,24 +57,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 15:12, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Peter said we should "not use the pl031 as a good model of how
-> to do an RTC, it has some definite flaws."
-> Add this information to the PL031 header for other developers.
+When we introduced the QAPISchema intermediate representation (commit
+ac88219a6c7), we took a shortcut: we left check_exprs() & friends
+alone instead of moving semantic checks into the
+QAPISchemaFOO.check().  check_exprs() still checks and reports errors,
+and the .check() assert check_exprs() did the job.  There are a few
+gaps, though.
 
-Lots of our code is less than great. I'm not sure this
-specific case really justifies blazoning it in a comment header
-at the top of the file... (If you do want to put in a comment,
-being more specific about exactly what the problems are would
-be better.)
+QAPISchemaArrayType.check() neglects to assert the element type is not
+an array.  Add the assertion.
 
-thanks
--- PMM
+QAPISchemaObjectTypeVariants.check() neglects to assert the tag member
+is not optional.  Add the assertion.
+
+It neglects to assert the tag member is not conditional.  Add the
+assertion.
+
+It neglects to assert we actually have variants.  Add the assertion.
+
+It asserts the variants are object types, but neglects to assert they
+don't have variants.  Tighten the assertion.
+
+QAPISchemaObjectTypeVariants.check_clash() has the same issue.
+However, it can run only after .check().  Delete the assertion instead
+of tightening it.
+
+QAPISchemaAlternateType.check() neglects to assert the branch types
+don't conflict.  Fixing that isn't trivial, so add just a TODO comment
+for now.  It'll be resolved later in this series.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/common.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index b00caacca3..155b87b825 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -1362,6 +1362,7 @@ class QAPISchemaArrayType(QAPISchemaType):
+         QAPISchemaType.check(self, schema)
+         self.element_type =3D schema.lookup_type(self._element_type_name=
+)
+         assert self.element_type
++        assert not isinstance(self.element_type, QAPISchemaArrayType)
+=20
+     @property
+     def ifcond(self):
+@@ -1606,6 +1607,8 @@ class QAPISchemaObjectTypeVariants(object):
+             self.tag_member =3D seen[c_name(self._tag_name)]
+             assert self._tag_name =3D=3D self.tag_member.name
+         assert isinstance(self.tag_member.type, QAPISchemaEnumType)
++        assert not self.tag_member.optional
++        assert self.tag_member.ifcond =3D=3D []
+         if self._tag_name:    # flat union
+             # branches that are not explicitly covered get an empty type
+             cases =3D set([v.name for v in self.variants])
+@@ -1615,20 +1618,21 @@ class QAPISchemaObjectTypeVariants(object):
+                                                     m.ifcond)
+                     v.set_owner(self.tag_member.owner)
+                     self.variants.append(v)
++        assert self.variants
+         for v in self.variants:
+             v.check(schema)
+             # Union names must match enum values; alternate names are
+             # checked separately. Use 'seen' to tell the two apart.
+             if seen:
+                 assert v.name in self.tag_member.type.member_names()
+-                assert isinstance(v.type, QAPISchemaObjectType)
++                assert (isinstance(v.type, QAPISchemaObjectType)
++                        and not v.type.variants)
+                 v.type.check(schema)
+=20
+     def check_clash(self, info, seen):
+         for v in self.variants:
+             # Reset seen map for each variant, since qapi names from one
+             # branch do not affect another branch
+-            assert isinstance(v.type, QAPISchemaObjectType)
+             v.type.check_clash(info, dict(seen))
+=20
+=20
+@@ -1659,6 +1663,7 @@ class QAPISchemaAlternateType(QAPISchemaType):
+         seen =3D {}
+         for v in self.variants.variants:
+             v.check_clash(self.info, seen)
++            # TODO check conflicting qtypes
+             if self.doc:
+                 self.doc.connect_member(v)
+         if self.doc:
+--=20
+2.21.0
+
 
