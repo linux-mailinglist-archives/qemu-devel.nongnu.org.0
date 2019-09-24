@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86002BCADE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:09:20 +0200 (CEST)
-Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A900EBCAD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:06:03 +0200 (CEST)
+Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmRL-00032h-AM
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:09:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59808)
+	id 1iCmOA-0007JH-07
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:06:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iCkxq-0004ii-FS
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:34:47 -0400
+ (envelope-from <nsoffer@redhat.com>) id 1iClBs-0002ds-I0
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:49:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iCkxp-0004nv-4x
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:34:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43844)
+ (envelope-from <nsoffer@redhat.com>) id 1iClBq-0002UV-96
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:49:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iCkxo-0004ng-Ut
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:34:45 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
+ (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1iClBp-0002SI-Of
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:49:13 -0400
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C69208E582
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 13:34:43 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id v18so572807wro.16
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:34:43 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id D75E9C049E36
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 13:49:11 +0000 (UTC)
+Received: by mail-ot1-f69.google.com with SMTP id y24so1186034otk.15
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:49:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x8E8jJI8ppVYKUnDaKsY7fIXB00wM8h99RHCrtkZMJY=;
- b=T9fAwF5S8Xt3tOtgj4WLQ6mIUWDqwONXJeHfk0Xw+IV2tuWm/omZ5Q7SD0zVfFd0Bb
- 3tQmc0EuEhp8pnGpqoyfK793OM9dsv14V6u0b/I+RVtpZ8wePC4rAvCVgzvbqsfGkfiR
- M98BA1Z292K4dvqg6HPAPQS1v0lYRCF2wUhuamrtchSlRmN9JHxOx113Wh+DZIwnoMM5
- 2TPOp+FOxnEZQU5yXSUg2HOjyzK/WIIMEn9HpkLQ/ugZDGCbSjChJLN0o4GNsZVicj5V
- ag+E6qIK0uQlnLlYseE3Sgj9nU62afv+9N2pTltkaXglGNKmwLV4NGFuOnVsgTnwWyqO
- tCXw==
-X-Gm-Message-State: APjAAAVSmEUfqXBZZD1WS8S7/VBQ9w5VTOBLJh5GewslUnKLs3/Grm+B
- 41RHegvTHrwx16ZkkSC6xZ0a02jEHIaC9kZi8UIKVnUcxkuo5eld4t1f8nOZbOLj6anFiIY0Asd
- b9//UK3L7Vw8h+bU=
-X-Received: by 2002:a05:6000:162e:: with SMTP id
- v14mr2417623wrb.112.1569332082363; 
- Tue, 24 Sep 2019 06:34:42 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzDHK+EXK5B0OIXOAT49NMwdLfyjrS5AP66vchxyMwjBlNGDUVHtaDt/ilNGZexHYZQsn3H2A==
-X-Received: by 2002:a05:6000:162e:: with SMTP id
- v14mr2417594wrb.112.1569332082028; 
- Tue, 24 Sep 2019 06:34:42 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
- ([2001:b07:6468:f312:9520:22e6:6416:5c36])
- by smtp.gmail.com with ESMTPSA id t13sm5090317wra.70.2019.09.24.06.34.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Sep 2019 06:34:41 -0700 (PDT)
-Subject: Re: [PATCH v4 8/8] hw/i386: Introduce the microvm machine type
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20190924124433.96810-1-slp@redhat.com>
- <20190924124433.96810-9-slp@redhat.com>
- <2cbd2570-d158-c9ce-2a38-08c28cd291ea@redhat.com>
- <20190924092222-mutt-send-email-mst@kernel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <ee2e7983-7d80-a518-efd5-b52f8640bf90@redhat.com>
-Date: Tue, 24 Sep 2019 15:34:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Yd3R6KSv5z7jZ1WUYszFA0z9StOa+OrPRSmgLR2t9PU=;
+ b=hctG46UeJUajcDCNmWwJKgJylnj2cjvrVONrZysqo4+uEzgwtLCNuM7uhE7EICobuj
+ VZ4nxNodnJRW8OvHabluTdFc02G3PCZymraylS7P/Jkubv2SttS4gZIZV2G7MTzgINFE
+ Yjz7YdWFbWbgESZgcc0NC+jgsF42eIfgNlrptiaT4M2l0K3SmaTa0WVbQ6+jN++gMXiP
+ gxPB8t81vNGu49kpCvWJCwFjsVdJThBKTLCGp53E1ppX4GGjftufGPnavf2dNNKLnj2t
+ xJZm93n8UlMkHNkovdpfjPSzPNsgTsR2CX91HVIQYkonD2mPi7XDtCbXzMfc0G9317YH
+ HnXA==
+X-Gm-Message-State: APjAAAXsw4meq4jXGFatNfSjW2BQK7RROqZY7b55qhULr+QhFFpFsB4T
+ UbSu93/M2CR49M8zHo6QWi1+3WlZlh+8AwcH+yufAdRjVg9sLOOkYeh70sj0IzJY8Hu8pGrLr5I
+ uxMXjwo8Ny0x6k3RPnVgHOkitN6yEK8s=
+X-Received: by 2002:aca:f456:: with SMTP id s83mr106686oih.156.1569332951330; 
+ Tue, 24 Sep 2019 06:49:11 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqylG/KuhqyuxsKHVEQ+dO8HDpKvfugm7aGA5aU3lDU0EAbAg7V4NUAE36y4HiyHrkyfrn6jJoUOS218pVOcf5s=
+X-Received: by 2002:aca:f456:: with SMTP id s83mr106664oih.156.1569332951026; 
+ Tue, 24 Sep 2019 06:49:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190924092222-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190924123933.10607-1-eblake@redhat.com>
+ <20190924123933.10607-5-eblake@redhat.com>
+In-Reply-To: <20190924123933.10607-5-eblake@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 24 Sep 2019 16:49:00 +0300
+Message-ID: <CAMRbyyuwaRPgO0G5Jj8_tFO+rGbMi_F0V3JuQR-0qU3BAEoEJQ@mail.gmail.com>
+Subject: Re: [PULL 4/4] tests: Use iothreads during iotest 223
+To: Eric Blake <eblake@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000014ac9a05934ccdf2"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,32 +70,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>, lersek@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- kvm@vger.kernel.org, imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/09/19 15:24, Michael S. Tsirkin wrote:
-> On Tue, Sep 24, 2019 at 03:12:15PM +0200, Paolo Bonzini wrote:
->> On 24/09/19 14:44, Sergio Lopez wrote:
->>> microvm.option-roms=bool (Set off to disable loading option ROMs)
->>
->> Please make this x-option-roms
-> 
-> Why? We don't plan to support this going forward?
+--00000000000014ac9a05934ccdf2
+Content-Type: text/plain; charset="UTF-8"
 
-The option is only useful for SeaBIOS.  Since it doesn't have any effect
-for the default firmware, I think it's fair to consider it experimental.
+On Tue, Sep 24, 2019 at 4:18 PM Eric Blake <eblake@redhat.com> wrote:
 
-Paolo
+> Doing so catches the bugs we just fixed with NBD not properly using
+> correct contexts.
+>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Message-Id: <20190920220729.31801-1-eblake@redhat.com>
+> ---
+>  tests/qemu-iotests/223     | 6 ++++--
+>  tests/qemu-iotests/223.out | 1 +
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
+> index cc48e78ea7dc..2ba3d8124b4f 100755
+> --- a/tests/qemu-iotests/223
+> +++ b/tests/qemu-iotests/223
+> @@ -2,7 +2,7 @@
+>  #
+>  # Test reading dirty bitmap over NBD
+>  #
+> -# Copyright (C) 2018 Red Hat, Inc.
+> +# Copyright (C) 2018-2019 Red Hat, Inc.
+>  #
+>  # This program is free software; you can redistribute it and/or modify
+>  # it under the terms of the GNU General Public License as published by
+> @@ -109,7 +109,7 @@ echo
+>  echo "=== End dirty bitmaps, and start serving image over NBD ==="
+>  echo
+>
+> -_launch_qemu 2> >(_filter_nbd)
+> +_launch_qemu -object iothread,id=io0 2> >(_filter_nbd)
+>
 
->>> microvm.isa-serial=bool (Set off to disable the instantiation an ISA serial port)
->>> microvm.rtc=bool (Set off to disable the instantiation of an MC146818 RTC)
->>> microvm.kernel-cmdline=bool (Set off to disable adding virtio-mmio devices to the kernel cmdline)
->>
->> Perhaps auto-kernel-cmdline?
->>
->> Paolo
+But now we will not catch bugs in flows that do not use iothreads.
 
+I think it will be better to run this test twice, one with iothreads, one
+without.
+
+ # Intentionally provoke some errors as well, to check error handling
+>  silent=
+> @@ -117,6 +117,8 @@ _send_qemu_cmd $QEMU_HANDLE
+> '{"execute":"qmp_capabilities"}' "return"
+>  _send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
+>    "arguments":{"driver":"qcow2", "node-name":"n",
+>      "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
+> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
+> +  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
+>  _send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-disable",
+>    "arguments":{"node":"n", "name":"b"}}' "return"
+>  _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
+> diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+> index 5d00398c11cb..23b34fcd202e 100644
+> --- a/tests/qemu-iotests/223.out
+> +++ b/tests/qemu-iotests/223.out
+> @@ -27,6 +27,7 @@ wrote 2097152/2097152 bytes at offset 2097152
+>  {"return": {}}
+>  {"return": {}}
+>  {"return": {}}
+> +{"return": {}}
+>  {"error": {"class": "GenericError", "desc": "NBD server not running"}}
+>  {"return": {}}
+>  {"error": {"class": "GenericError", "desc": "NBD server already running"}}
+> --
+> 2.21.0
+>
+>
+>
+
+--00000000000014ac9a05934ccdf2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small;color:#000000"><span style=3D"color:rgb(34,34,34)">On Tue, Sep=
+ 24, 2019 at 4:18 PM Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com">eb=
+lake@redhat.com</a>&gt; wrote:</span><br></div></div><div class=3D"gmail_qu=
+ote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">Doing so catches the=
+ bugs we just fixed with NBD not properly using<br>
+correct contexts.<br>
+<br>
+Signed-off-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=
+=3D"_blank">eblake@redhat.com</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20190920220729.31801-1-eblake@redhat.com"=
+ target=3D"_blank">20190920220729.31801-1-eblake@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0tests/qemu-iotests/223=C2=A0 =C2=A0 =C2=A0| 6 ++++--<br>
+=C2=A0tests/qemu-iotests/223.out | 1 +<br>
+=C2=A02 files changed, 5 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223<br>
+index cc48e78ea7dc..2ba3d8124b4f 100755<br>
+--- a/tests/qemu-iotests/223<br>
++++ b/tests/qemu-iotests/223<br>
+@@ -2,7 +2,7 @@<br>
+=C2=A0#<br>
+=C2=A0# Test reading dirty bitmap over NBD<br>
+=C2=A0#<br>
+-# Copyright (C) 2018 Red Hat, Inc.<br>
++# Copyright (C) 2018-2019 Red Hat, Inc.<br>
+=C2=A0#<br>
+=C2=A0# This program is free software; you can redistribute it and/or modif=
+y<br>
+=C2=A0# it under the terms of the GNU General Public License as published b=
+y<br>
+@@ -109,7 +109,7 @@ echo<br>
+=C2=A0echo &quot;=3D=3D=3D End dirty bitmaps, and start serving image over =
+NBD =3D=3D=3D&quot;<br>
+=C2=A0echo<br>
+<br>
+-_launch_qemu 2&gt; &gt;(_filter_nbd)<br>
++_launch_qemu -object iothread,id=3Dio0 2&gt; &gt;(_filter_nbd)<br></blockq=
+uote><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:sm=
+all;color:rgb(0,0,0)">But now we will not catch bugs in flows that do not u=
+se iothreads.</div><div class=3D"gmail_default" style=3D"font-size:small;co=
+lor:rgb(0,0,0)"><br></div><div class=3D"gmail_default" style=3D"font-size:s=
+mall;color:rgb(0,0,0)">I think it will be better to run this test twice, on=
+e with iothreads, one without.</div></div><div class=3D"gmail_default" styl=
+e=3D"font-size:small;color:rgb(0,0,0)"><br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+=C2=A0# Intentionally provoke some errors as well, to check error handling<=
+br>
+=C2=A0silent=3D<br>
+@@ -117,6 +117,8 @@ _send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&=
+quot;qmp_capabilities&quot;}&#39; &quot;return&quot;<br>
+=C2=A0_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;blockdev-=
+add&quot;,<br>
+=C2=A0 =C2=A0&quot;arguments&quot;:{&quot;driver&quot;:&quot;qcow2&quot;, &=
+quot;node-name&quot;:&quot;n&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0&quot;file&quot;:{&quot;driver&quot;:&quot;file&quot;, =
+&quot;filename&quot;:&quot;&#39;&quot;$TEST_IMG&quot;&#39;&quot;}}}&#39; &q=
+uot;return&quot;<br>
++_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;x-blockdev-set=
+-iothread&quot;,<br>
++=C2=A0 &quot;arguments&quot;:{&quot;node-name&quot;:&quot;n&quot;, &quot;i=
+othread&quot;:&quot;io0&quot;}}&#39; &quot;return&quot;<br>
+=C2=A0_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;block-dir=
+ty-bitmap-disable&quot;,<br>
+=C2=A0 =C2=A0&quot;arguments&quot;:{&quot;node&quot;:&quot;n&quot;, &quot;n=
+ame&quot;:&quot;b&quot;}}&#39; &quot;return&quot;<br>
+=C2=A0_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;nbd-serve=
+r-add&quot;,<br>
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out<br>
+index 5d00398c11cb..23b34fcd202e 100644<br>
+--- a/tests/qemu-iotests/223.out<br>
++++ b/tests/qemu-iotests/223.out<br>
+@@ -27,6 +27,7 @@ wrote 2097152/2097152 bytes at offset 2097152<br>
+=C2=A0{&quot;return&quot;: {}}<br>
+=C2=A0{&quot;return&quot;: {}}<br>
+=C2=A0{&quot;return&quot;: {}}<br>
++{&quot;return&quot;: {}}<br>
+=C2=A0{&quot;error&quot;: {&quot;class&quot;: &quot;GenericError&quot;, &qu=
+ot;desc&quot;: &quot;NBD server not running&quot;}}<br>
+=C2=A0{&quot;return&quot;: {}}<br>
+=C2=A0{&quot;error&quot;: {&quot;class&quot;: &quot;GenericError&quot;, &qu=
+ot;desc&quot;: &quot;NBD server already running&quot;}}<br>
+-- <br>
+2.21.0<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--00000000000014ac9a05934ccdf2--
 
