@@ -2,47 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45063BCAD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:04:33 +0200 (CEST)
-Received: from localhost ([::1]:46734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1DFABCAFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:19:24 +0200 (CEST)
+Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmMh-00061k-1d
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42885)
+	id 1iCmb4-0004BD-Rg
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iCm6y-00081y-AK
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:17 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iClIj-0002BP-AN
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:56:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iCm6w-000439-RT
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46676)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1iCm6w-00042e-JP; Tue, 24 Sep 2019 10:48:14 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E3E1B99C42;
- Tue, 24 Sep 2019 14:48:13 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38DAF10013D9;
- Tue, 24 Sep 2019 14:48:12 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 4/4] s390: do not call
- memory_region_allocate_system_memory() multiple times
-Date: Tue, 24 Sep 2019 10:47:51 -0400
-Message-Id: <20190924144751.24149-5-imammedo@redhat.com>
-In-Reply-To: <20190924144751.24149-1-imammedo@redhat.com>
-References: <20190924144751.24149-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 24 Sep 2019 14:48:13 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+ (envelope-from <alex.bennee@linaro.org>) id 1iClIh-0006kh-Re
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:56:21 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33559)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iClIh-0006hP-KB
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:56:19 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b9so2080185wrs.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VZ+NFYcRuWNEduMtBKNgZAQq1lD5JOldft0P6C/wMzU=;
+ b=JLOOdPoZXsOr8cTE39lQHyLMfEpo3XrOtnRN6F+vWEesbaOgK/E2ZvjY/E3Rd1ARkL
+ sz/m97foyulbTwGdsdzuM+XdYmrpYhMOpuayDWIgRXHPwiF1hE74LRhzTPayJU+Fyghb
+ RcU9t38YdlJJOgO8fqQoYdW7BZLVQitKxFSThCZxcTwewxupqQn9lEiIsv//qE2ml8nf
+ NRmMkuVKxJ5utAhyAV+8BrICbX/NZ2cgfYyFQ18PNuQkp3RVM2Cd/UEZ0IptJE86elqb
+ PxGVD9W9pLJX7VGH6Ib1NhQY3sQaW73ZSUvDLuJ4iT+Hn6OOXM/P0u3YVvlDbMg/DAsS
+ QEjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=VZ+NFYcRuWNEduMtBKNgZAQq1lD5JOldft0P6C/wMzU=;
+ b=gBg9/Vd31PuN5mousT3JKHd5i8NRJo2Lk4lbsehKyW0zopOrLZlYRwXuKHNHRt9zbn
+ G3WJymaukQP8Wcp7uFREAUND8eRng9oaqeA5VTFhRNIgJhNbnSQ/G4JpPo9Kv99Js9tu
+ JhcJGKl2lUDFkAEJ0JQcinVWIuzfdbU3OUdHIGbxUPu/VTAF4GkhH5Ulc3T+M41JXLlO
+ daPpqZgcjDHqgxDB4kMe8sFtvsnIFjcbRxX/RuY30drrnJHWz7LMJ0mXdmOIoZtHeaaf
+ rdQLY8k5uaoDrV02PWFRlHRWjqpkA7oRp4jkCGnzGzrxqAUJk8hoQ6JsLrEB/vMIpd0b
+ zWxw==
+X-Gm-Message-State: APjAAAXIVcX+XTGxgXK/8KuEVrbh1qTLLne1IVca4LcHbosebj94fRhW
+ SfFNRfWDqH0YOx6pjKEksWJBJA==
+X-Google-Smtp-Source: APXvYqyPl7rQU0AnOLzJ5gJMXhaosnBt3s/SVSm/zmLlYOgoru0b8jdWBBYGMVru9UfAw1BIyPwd0Q==
+X-Received: by 2002:a5d:430e:: with SMTP id h14mr2394280wrq.18.1569333378338; 
+ Tue, 24 Sep 2019 06:56:18 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t18sm32267wmi.44.2019.09.24.06.56.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 06:56:17 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D5A8E1FF87;
+ Tue, 24 Sep 2019 14:56:16 +0100 (BST)
+References: <20190923230004.9231-1-richard.henderson@linaro.org>
+ <20190923230004.9231-3-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 02/16] cputlb: Disable __always_inline__ without
+ optimization
+In-reply-to: <20190923230004.9231-3-richard.henderson@linaro.org>
+Date: Tue, 24 Sep 2019 14:56:16 +0100
+Message-ID: <878sqdbxxb.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,136 +83,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, peterx@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s390 was trying to solve limited KVM memslot size issue by abusing
-memory_region_allocate_system_memory(), which breaks API contract
-where the function might be called only once.
 
-Beside an invalid use of API, the approach also introduced migration
-issue, since RAM chunks for each KVM_SLOT_MAX_BYTES are transferred in
-migration stream as separate RAMBlocks.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-After discussion [1], it was agreed to break migration from older
-QEMU for guest with RAM >8Tb (as it was relatively new (since 2.12)
-and considered to be not actually used downstream).
-Migration should keep working for guests with less than 8TB and for
-more than 8TB with QEMU 4.2 and newer binary.
-In case user tries to migrate more than 8TB guest, between incompatible
-QEMU versions, migration should fail gracefully due to non-exiting
-RAMBlock ID or RAMBlock size mismatch.
+> This forced inlining can result in missing symbols,
+> which makes a debugging build harder to follow.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Taking in account above and that now KVM code is able to split too
-big MemorySection into several memslots, partially revert commit
- (bb223055b s390-ccw-virtio: allow for systems larger that 7.999TB)
-and use kvm_set_max_memslot_size() to set KVMSlot size to
-KVM_SLOT_MAX_BYTES.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-1) [PATCH RFC v2 4/4] s390: do not call  memory_region_allocate_system_memory() multiple times
+> ---
+>  include/qemu/compiler.h | 11 +++++++++++
+>  accel/tcg/cputlb.c      |  4 ++--
+>  2 files changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+> index 09fc44cca4..20780e722d 100644
+> --- a/include/qemu/compiler.h
+> +++ b/include/qemu/compiler.h
+> @@ -170,6 +170,17 @@
+>  # define QEMU_NONSTRING
+>  #endif
+>
+> +/*
+> + * Forced inlining may be desired to encourage constant propagation
+> + * of function parameters.  However, it can also make debugging harder,
+> + * so disable it for a non-optimizing build.
+> + */
+> +#if defined(__OPTIMIZE__)
+> +#define QEMU_ALWAYS_INLINE  __attribute__((always_inline))
+> +#else
+> +#define QEMU_ALWAYS_INLINE
+> +#endif
+> +
+>  /* Implement C11 _Generic via GCC builtins.  Example:
+>   *
+>   *    QEMU_GENERIC(x, (float, sinf), (long double, sinl), sin) (x)
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index abae79650c..2222b87764 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1281,7 +1281,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, t=
+arget_ulong addr,
+>  typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
+>                                  TCGMemOpIdx oi, uintptr_t retaddr);
+>
+> -static inline uint64_t __attribute__((always_inline))
+> +static inline uint64_t QEMU_ALWAYS_INLINE
+>  load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+>              uintptr_t retaddr, MemOp op, bool code_read,
+>              FullLoadHelper *full_load)
+> @@ -1530,7 +1530,7 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *e=
+nv, target_ulong addr,
+>   * Store Helpers
+>   */
+>
+> -static inline void __attribute__((always_inline))
+> +static inline void QEMU_ALWAYS_INLINE
+>  store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+>               TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
+>  {
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v7:
-  - move KVM_SLOT_MAX_BYTES movement from kvm specific patch to here
-    (Peter Xu <peterx@redhat.com>)
-v3:
-  - drop migration compat code
 
-PS:
-I don't have access to a suitable system to test it with 8Tb split,
-so I've tested only hacked up KVM_SLOT_MAX_BYTES = 1Gb variant
----
- hw/s390x/s390-virtio-ccw.c | 30 +++---------------------------
- target/s390x/kvm.c         | 11 +++++++++++
- 2 files changed, 14 insertions(+), 27 deletions(-)
-
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 8bfb6684cb..18ad279a00 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -154,39 +154,15 @@ static void virtio_ccw_register_hcalls(void)
-                                    virtio_ccw_hcall_early_printk);
- }
- 
--/*
-- * KVM does only support memory slots up to KVM_MEM_MAX_NR_PAGES pages
-- * as the dirty bitmap must be managed by bitops that take an int as
-- * position indicator. If we have a guest beyond that we will split off
-- * new subregions. The split must happen on a segment boundary (1MB).
-- */
--#define KVM_MEM_MAX_NR_PAGES ((1ULL << 31) - 1)
--#define SEG_MSK (~0xfffffULL)
--#define KVM_SLOT_MAX_BYTES ((KVM_MEM_MAX_NR_PAGES * TARGET_PAGE_SIZE) & SEG_MSK)
- static void s390_memory_init(ram_addr_t mem_size)
- {
-     MemoryRegion *sysmem = get_system_memory();
--    ram_addr_t chunk, offset = 0;
--    unsigned int number = 0;
-+    MemoryRegion *ram = g_new(MemoryRegion, 1);
-     Error *local_err = NULL;
--    gchar *name;
- 
-     /* allocate RAM for core */
--    name = g_strdup_printf("s390.ram");
--    while (mem_size) {
--        MemoryRegion *ram = g_new(MemoryRegion, 1);
--        uint64_t size = mem_size;
--
--        /* KVM does not allow memslots >= 8 TB */
--        chunk = MIN(size, KVM_SLOT_MAX_BYTES);
--        memory_region_allocate_system_memory(ram, NULL, name, chunk);
--        memory_region_add_subregion(sysmem, offset, ram);
--        mem_size -= chunk;
--        offset += chunk;
--        g_free(name);
--        name = g_strdup_printf("s390.ram.%u", ++number);
--    }
--    g_free(name);
-+    memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_size);
-+    memory_region_add_subregion(sysmem, 0, ram);
- 
-     /*
-      * Configure the maximum page size. As no memory devices were created
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 97a662ad0e..54864c259c 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -28,6 +28,7 @@
- #include "cpu.h"
- #include "internal.h"
- #include "kvm_s390x.h"
-+#include "sysemu/kvm_int.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
-@@ -122,6 +123,15 @@
-  */
- #define VCPU_IRQ_BUF_SIZE(max_cpus) (sizeof(struct kvm_s390_irq) * \
-                                      (max_cpus + NR_LOCAL_IRQS))
-+/*
-+ * KVM does only support memory slots up to KVM_MEM_MAX_NR_PAGES pages
-+ * as the dirty bitmap must be managed by bitops that take an int as
-+ * position indicator. If we have a guest beyond that we will split off
-+ * new subregions. The split must happen on a segment boundary (1MB).
-+ */
-+#define KVM_MEM_MAX_NR_PAGES ((1ULL << 31) - 1)
-+#define SEG_MSK (~0xfffffULL)
-+#define KVM_SLOT_MAX_BYTES ((KVM_MEM_MAX_NR_PAGES * TARGET_PAGE_SIZE) & SEG_MSK)
- 
- static CPUWatchpoint hw_watchpoint;
- /*
-@@ -355,6 +365,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-      */
-     /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
- 
-+    kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
-     return 0;
- }
- 
--- 
-2.18.1
-
+--
+Alex Benn=C3=A9e
 
