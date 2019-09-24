@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC48BC821
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:47:20 +0200 (CEST)
-Received: from localhost ([::1]:45262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C710BC80C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:42:39 +0200 (CEST)
+Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkDu-0002tS-Ti
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50418)
+	id 1iCk9N-0007Kv-SC
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0j-0001IT-JI
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:46 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0i-0001IQ-Ke
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0g-0006t6-NX
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55460)
+ (envelope-from <armbru@redhat.com>) id 1iCk0h-0006tJ-3N
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52902)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0g-0006rs-Ec
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0g-0006sc-P4
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:38 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B3A152BF73
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0FEEF10C0936
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B2F95D721;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79E245B6A5;
  Tue, 24 Sep 2019 12:33:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 567B911386A7; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
+ id 6359E11385FD; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/37] qapi: Drop support for boxed alternate arguments
-Date: Tue, 24 Sep 2019 14:33:02 +0200
-Message-Id: <20190924123334.30645-6-armbru@redhat.com>
+Subject: [PULL 07/37] tests/qapi-schema: Demonstrate bad reporting of funny
+ characters
+Date: Tue, 24 Sep 2019 14:33:04 +0200
+Message-Id: <20190924123334.30645-8-armbru@redhat.com>
 In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
 References: <20190924123334.30645-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Tue, 24 Sep 2019 12:33:37 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Tue, 24 Sep 2019 12:33:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,164 +61,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commands and events can define their argument type inline (default) or
-by referring to another type ('boxed': true, since commit c818408e44
-"qapi: Implement boxed types for commands/events", v2.7.0).  The
-unboxed inline definition is an (anonymous) struct type.  The boxed
-type may be a struct, union, or alternate type.
-
-The latter is problematic: docs/interop/qemu-spec.txt requires the
-value of the 'data' key to be a json-object, but any non-degenerate
-alternate type has at least one branch that isn't.
-
-Fortunately, we haven't made use of alternates in this context outside
-tests/.  Drop support for them.
-
-QAPISchemaAlternateType.is_empty() is now unused.  Drop it, too.
+Invalid name 'not\\possible' is reported as 'not\possible'.  Control
+characters (quoted or not) are even more confusing.  Mark FIXME.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190913201349.24332-4-armbru@redhat.com>
+Message-Id: <20190913201349.24332-6-armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt            | 12 ++++++------
- scripts/qapi/common.py                  | 15 ++++-----------
- tests/qapi-schema/qapi-schema-test.json |  2 +-
- tests/qapi-schema/qapi-schema-test.out  |  2 +-
- 4 files changed, 12 insertions(+), 19 deletions(-)
+ tests/qapi-schema/enum-bad-name.err  | 2 +-
+ tests/qapi-schema/enum-bad-name.json | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index e8ec8ac1de..3d3931fb7a 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -612,9 +612,9 @@ the command.  Normally, 'data' is a dictionary for an=
- anonymous type,
- or names a struct type (possibly empty, but not a union), and its
- members are passed as separate arguments to this function.  If the
- command definition includes a key 'boxed' with the boolean value true,
--then 'data' is instead the name of any non-empty complex type
--(struct, union, or alternate), and a pointer to that QAPI type is
--passed as a single argument.
-+then 'data' is instead the name of any non-empty complex type (struct
-+or union), and a pointer to that QAPI type is passed as a single
-+argument.
-=20
- The generator also emits a marshalling function that extracts
- arguments for the user's function out of an input QDict, calls the
-@@ -714,9 +714,9 @@ The generator emits a function to send the event.  No=
-rmally, 'data' is
- a dictionary for an anonymous type, or names a struct type (possibly
- empty, but not a union), and its members are passed as separate
- arguments to this function.  If the event definition includes a key
--'boxed' with the boolean value true, then 'data' is instead the name of
--any non-empty complex type (struct, union, or alternate), and a
--pointer to that QAPI type is passed as a single argument.
-+'boxed' with the boolean value true, then 'data' is instead the name
-+of any non-empty complex type (struct or union), and a pointer to that
-+QAPI type is passed as a single argument.
-=20
-=20
- =3D=3D=3D Features =3D=3D=3D
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 9aefcfe015..54d02458b5 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -840,7 +840,7 @@ def check_command(expr, info):
-=20
-     args_meta =3D ['struct']
-     if boxed:
--        args_meta +=3D ['union', 'alternate']
-+        args_meta +=3D ['union']
-     check_type(info, "'data' for command '%s'" % name,
-                expr.get('data'), allow_dict=3Dnot boxed,
-                allow_metas=3Dargs_meta)
-@@ -858,7 +858,7 @@ def check_event(expr, info):
-=20
-     meta =3D ['struct']
-     if boxed:
--        meta +=3D ['union', 'alternate']
-+        meta +=3D ['union']
-     check_type(info, "'data' for event '%s'" % name,
-                expr.get('data'), allow_dict=3Dnot boxed,
-                allow_metas=3Dmeta)
-@@ -1690,9 +1690,6 @@ class QAPISchemaAlternateType(QAPISchemaType):
-         visitor.visit_alternate_type(self.name, self.info, self.ifcond,
-                                      self.variants)
-=20
--    def is_empty(self):
--        return False
--
-=20
- class QAPISchemaCommand(QAPISchemaEntity):
-     def __init__(self, name, info, doc, ifcond, arg_type, ret_type,
-@@ -1714,15 +1711,13 @@ class QAPISchemaCommand(QAPISchemaEntity):
-         QAPISchemaEntity.check(self, schema)
-         if self._arg_type_name:
-             self.arg_type =3D schema.lookup_type(self._arg_type_name)
--            assert (isinstance(self.arg_type, QAPISchemaObjectType) or
--                    isinstance(self.arg_type, QAPISchemaAlternateType))
-+            assert isinstance(self.arg_type, QAPISchemaObjectType)
-             self.arg_type.check(schema)
-             if self.boxed:
-                 if self.arg_type.is_empty():
-                     raise QAPISemError(self.info,
-                                        "Cannot use 'boxed' with empty ty=
-pe")
-             else:
--                assert not isinstance(self.arg_type, QAPISchemaAlternate=
-Type)
-                 assert not self.arg_type.variants
-         elif self.boxed:
-             raise QAPISemError(self.info, "Use of 'boxed' requires 'data=
-'")
-@@ -1750,15 +1745,13 @@ class QAPISchemaEvent(QAPISchemaEntity):
-         QAPISchemaEntity.check(self, schema)
-         if self._arg_type_name:
-             self.arg_type =3D schema.lookup_type(self._arg_type_name)
--            assert (isinstance(self.arg_type, QAPISchemaObjectType) or
--                    isinstance(self.arg_type, QAPISchemaAlternateType))
-+            assert isinstance(self.arg_type, QAPISchemaObjectType)
-             self.arg_type.check(schema)
-             if self.boxed:
-                 if self.arg_type.is_empty():
-                     raise QAPISemError(self.info,
-                                        "Cannot use 'boxed' with empty ty=
-pe")
-             else:
--                assert not isinstance(self.arg_type, QAPISchemaAlternate=
-Type)
-                 assert not self.arg_type.variants
-         elif self.boxed:
-             raise QAPISemError(self.info, "Use of 'boxed' requires 'data=
-'")
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
-qapi-schema-test.json
-index c6d59acc3e..0fadb4ddd7 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -180,7 +180,7 @@
- { 'event': 'EVENT_D',
-   'data': { 'a' : 'EventStructOne', 'b' : 'str', '*c': 'str', '*enum3': =
-'EnumOne' } }
- { 'event': 'EVENT_E', 'boxed': true, 'data': 'UserDefZero' }
--{ 'event': 'EVENT_F', 'boxed': true, 'data': 'UserDefAlternate' }
-+{ 'event': 'EVENT_F', 'boxed': true, 'data': 'UserDefFlatUnion' }
-=20
- # test that we correctly compile downstream extensions, as well as munge
- # ticklish names
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
-api-schema-test.out
-index 85d510bc00..5470a525f5 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -252,7 +252,7 @@ event EVENT_D q_obj_EVENT_D-arg
-    boxed=3DFalse
- event EVENT_E UserDefZero
-    boxed=3DTrue
--event EVENT_F UserDefAlternate
-+event EVENT_F UserDefFlatUnion
-    boxed=3DTrue
- enum __org.qemu_x-Enum
-     member __org.qemu_x-value
+diff --git a/tests/qapi-schema/enum-bad-name.err b/tests/qapi-schema/enum=
+-bad-name.err
+index 9c3c1002b7..26a09f84ad 100644
+--- a/tests/qapi-schema/enum-bad-name.err
++++ b/tests/qapi-schema/enum-bad-name.err
+@@ -1 +1 @@
+-tests/qapi-schema/enum-bad-name.json:2: Member of enum 'MyEnum' uses inv=
+alid name 'not^possible'
++tests/qapi-schema/enum-bad-name.json:3: Member of enum 'MyEnum' uses inv=
+alid name 'not\possible'
+diff --git a/tests/qapi-schema/enum-bad-name.json b/tests/qapi-schema/enu=
+m-bad-name.json
+index 8506562b31..1c4620edda 100644
+--- a/tests/qapi-schema/enum-bad-name.json
++++ b/tests/qapi-schema/enum-bad-name.json
+@@ -1,2 +1,3 @@
+ # we ensure all enum names can map to C
+-{ 'enum': 'MyEnum', 'data': [ 'not^possible' ] }
++# FIXME reports 'not\possible' instead of 'not\\possible'
++{ 'enum': 'MyEnum', 'data': [ 'not\\possible' ] }
 --=20
 2.21.0
 
