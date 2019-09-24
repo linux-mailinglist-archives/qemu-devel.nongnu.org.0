@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457DCBD530
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:01:16 +0200 (CEST)
-Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAB7BD51E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:55:33 +0200 (CEST)
+Received: from localhost ([::1]:43528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCto3-0003Mw-7a
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:01:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37999)
+	id 1iCtiW-0004CG-AM
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:55:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtUk-00066a-Q9
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:41:19 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCtfh-0001YE-0f
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtUj-0004Vs-8h
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:41:18 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:38855)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCtff-0003Qa-BS
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:36 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:51552)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCtUj-0004RJ-26
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:41:17 -0400
-Received: by mail-io1-f66.google.com with SMTP id u8so8531034iom.5
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:41:12 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iCtff-0003Pu-4I
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:35 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 7so2224301wme.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=g7Na4rBIeHw6b5t4qsn+LNFp5Bu3PBqrLCGvea+qAa4=;
- b=VDu09QHf2d8yo5eaT/RgiB64tZIUzvVqmp2rx1b0WnDQ90xzdMrRSYEpJaGFkW1slr
- NYO5EjnqP9FAa2nrh0HGjp54lTyTJXnOGgLwVcxzr/HK1vBjBMkA3Nf2KXBK2jJc7qou
- kcymcJQZg3B9N+jsAF8A2Fsn0VhfKWl5yqLPGkvD0VpuLrd6Riyz5rmXzcC/DLLFRE7n
- Baq/Kw+gdY7EvZ7zjV90JZaFJTSK3/jzacAuLQdMxXUZ8pM8V70EK2GNtd2fedNqhbC+
- LcYTpB/cSRHBqRCrdm3caiKkkVLP5GSpaywsr08ZFH0FoWt5OT3kcqqz2siccTsMbNYb
- /eCw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=NUugoBhEbrlg67mSoN0zDVzqKc0iZQAyUuDcywtPlx4=;
+ b=JoiF21wBKZVIfLMzhR+dd8EM0bFzxsn4N4flAg0GggES2zVxn7Ad9AdpiTDCw/iFnz
+ 39ecEKTg3weXpFPi6bboDNwcShOZCgL+Mqu6eX9c896Bo6Yi8TF5danhSmpxxNC8bE4Q
+ H3Z9enczuqwwInM/nTG9bhVTaSM8LV9xEj+Dkp4cyG4qH4jYmJ0SuH+egQ1ha6k82HQG
+ EYAxJJIBefh7+2tbD+L7rKS0AEcY1zH+5bcXWSeJ/DOM7nKqG8gG3ept35rGGrVndRsR
+ DOBDeHR03ksoo/19m/6MlqQcFVeQo5PAJEONrG6aZJNkoYlnqQv9it5ufdEHs6ltNSmI
+ AZbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=g7Na4rBIeHw6b5t4qsn+LNFp5Bu3PBqrLCGvea+qAa4=;
- b=YBMDQoghpLv1v7Z6UVKCpHpI6qENY99exqd0RSu8Hxwt0M2PVp3bYwU+cweF955Y+E
- 7iXk9dVnu5jhWHQunkViZWrTfYZJbzLtdL05/2oCQZ84hv364QvQnFvyH6d4ajE7IXVl
- ypSVqUpECMpQ3k5lvtOFYx0awVLB1Er0WUvYMH33aBbfkJkU8Uw1CxAPs29YR60LfPpu
- xNCW+F8m1XC72YiBEOH2Pap+YJPG7vo1ZClIxyuUuXVCmsrAj0+fohCNNOfnSeAyRfjO
- xzRGJNjhO2qW8g/ictF3ysfyH0fW80+BSz6h2owaOFDZeFo5of7aCSuH97LT99bVfdLr
- UHbA==
-X-Gm-Message-State: APjAAAXHK5+FYE/jRbETg2qzWODGwPKkC1GM+45ZL+Cif86EyMai11sM
- k+8FdWKJ4O8DyT9Fd0sXoWXcUGlvZeM=
-X-Google-Smtp-Source: APXvYqwYS3n7VI2orqYUbI+BhYcXfPh3XeZVkUVXWx0LHr2MlFucQnYQZHBllS5RlKHld22P96mqvg==
-X-Received: by 2002:a63:ff4a:: with SMTP id s10mr5169995pgk.166.1569361661074; 
- Tue, 24 Sep 2019 14:47:41 -0700 (PDT)
-Received: from [172.20.32.216] ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id j24sm3011917pff.71.2019.09.24.14.47.39
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Sep 2019 14:47:40 -0700 (PDT)
-Subject: Re: [PATCH 4/7] target/ppc: introduce dfp_finalize_decimal{64, 128}()
- helper functions
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
-References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
- <20190924153556.27575-5-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <db3dba14-a49d-69d3-5908-dfde9afd8166@linaro.org>
-Date: Tue, 24 Sep 2019 14:47:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=NUugoBhEbrlg67mSoN0zDVzqKc0iZQAyUuDcywtPlx4=;
+ b=QyVggufQHRZEAFzus93zTfPBswVNU9PaVR0PUWYiLWKy5TDZzCHHo6n0Jvg9D9yA6f
+ PfEOpoV7+0z1D79Uxps08hsx5zJmxnXuYjkn4UIfp/+XO31cyordAKj2rAzxHieOZp20
+ KfD3fNMK3C62cxHItGd7C4Ay4XrI+48HXrtmE/dDxRLAcUwhump3GO0fiZeV9DbB/4+q
+ Rln9+qtm1jbtgQXyA8bcycqmxTq4ZGQfcxCaREr5qUkdh1jEJPY0FiBHdNtuGhGWwEVk
+ pxdiy31CmzknF2K2ieV2MTmeIBfv2QVUpDbLRbprJSEQAFeZBNrIWDc0qjyjrh4UCkok
+ 5YkA==
+X-Gm-Message-State: APjAAAULHgxipTilhK32bAt5M1+weaR8qkZsRyHPbytxG5WVtpLNpP/U
+ 6LipBJ88GnFo4AlWktBDUnTjsEIXu+loKA==
+X-Google-Smtp-Source: APXvYqwovsC6RFP5IJpS9Dhft0hon1KBf6S+l5GtjPhOK9dsb2t1NNcZWakCQZ1p7iglTJ33U6VlGQ==
+X-Received: by 2002:a1c:a94b:: with SMTP id s72mr2830454wme.9.1569362001655;
+ Tue, 24 Sep 2019 14:53:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g4sm3868127wrw.9.2019.09.24.14.53.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 14:53:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F3D191FF87;
+ Tue, 24 Sep 2019 22:53:19 +0100 (BST)
+References: <20190923230004.9231-1-richard.henderson@linaro.org>
+ <20190923230004.9231-8-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 07/16] exec: Adjust notdirty tracing
+In-reply-to: <20190923230004.9231-8-richard.henderson@linaro.org>
+Date: Tue, 24 Sep 2019 22:53:19 +0100
+Message-ID: <87wodx9x9s.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190924153556.27575-5-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.166.66
+X-Received-From: 209.85.128.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,25 +82,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/19 8:35 AM, Mark Cave-Ayland wrote:
-> Most of the DFP helper functions call decimal{64,128}FromNumber() just before
-> returning in order to convert the decNumber stored in dfp.t64 back to a
-> Decimal{64,128} to write back to the FP registers.
-> 
-> Introduce new dfp_finalize_decimal{64,128}() helper functions which both enable
-> the parameter list to be reduced considerably, and also help minimise the
-> changes required in the next patch.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> The memory_region_tb_read tracepoint is unreachable, since notdirty
+> is supposed to apply only to writes.  The memory_region_tb_write
+> tracepoint is mis-named, because notdirty is not only used for TB
+> invalidation.  It is also used for e.g. VGA RAM updates and migration.
+>
+> Replace memory_region_tb_write with memory_notdirty_write_access,
+> and place it in memory_notdirty_write_prepare where it can catch
+> all of the instances.  Add memory_notdirty_set_dirty to log when
+> we no longer intercept writes to a page.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->  target/ppc/dfp_helper.c | 42 ++++++++++++++++++++++-------------------
->  1 file changed, 23 insertions(+), 19 deletions(-)
+>  exec.c       | 3 +++
+>  memory.c     | 4 ----
+>  trace-events | 4 ++--
+>  3 files changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/exec.c b/exec.c
+> index 8b998974f8..5f2587b621 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -2755,6 +2755,8 @@ void memory_notdirty_write_prepare(NotDirtyInfo *nd=
+i,
+>      ndi->size =3D size;
+>      ndi->pages =3D NULL;
+>
+> +    trace_memory_notdirty_write_access(mem_vaddr, ram_addr, size);
+> +
+>      assert(tcg_enabled());
+>      if (!cpu_physical_memory_get_dirty_flag(ram_addr, DIRTY_MEMORY_CODE)=
+) {
+>          ndi->pages =3D page_collection_lock(ram_addr, ram_addr + size);
+> @@ -2779,6 +2781,7 @@ void memory_notdirty_write_complete(NotDirtyInfo *n=
+di)
+>      /* we remove the notdirty callback only if the code has been
+>         flushed */
+>      if (!cpu_physical_memory_is_clean(ndi->ram_addr)) {
+> +        trace_memory_notdirty_set_dirty(ndi->mem_vaddr);
+>          tlb_set_dirty(ndi->cpu, ndi->mem_vaddr);
+>      }
+>  }
+> diff --git a/memory.c b/memory.c
+> index b9dd6b94ca..57c44c97db 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -438,7 +438,6 @@ static MemTxResult  memory_region_read_accessor(Memor=
+yRegion *mr,
+>          /* Accesses to code which has previously been translated into a =
+TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_read(get_cpu_index(), addr, tmp, size);
+>      } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp,=
+ size);
+> @@ -465,7 +464,6 @@ static MemTxResult memory_region_read_with_attrs_acce=
+ssor(MemoryRegion *mr,
+>          /* Accesses to code which has previously been translated into a =
+TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_read(get_cpu_index(), addr, tmp, size);
+>      } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp,=
+ size);
+> @@ -490,7 +488,6 @@ static MemTxResult memory_region_write_accessor(Memor=
+yRegion *mr,
+>          /* Accesses to code which has previously been translated into a =
+TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_write(get_cpu_index(), addr, tmp, size);
+>      } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp=
+, size);
+> @@ -515,7 +512,6 @@ static MemTxResult memory_region_write_with_attrs_acc=
+essor(MemoryRegion *mr,
+>          /* Accesses to code which has previously been translated into a =
+TB show
+>           * up in the MMIO path, as accesses to the io_mem_notdirty
+>           * MemoryRegion. */
+> -        trace_memory_region_tb_write(get_cpu_index(), addr, tmp, size);
+>      } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp=
+, size);
+> diff --git a/trace-events b/trace-events
+> index 823a4ae64e..20821ba545 100644
+> --- a/trace-events
+> +++ b/trace-events
+> @@ -52,14 +52,14 @@ dma_map_wait(void *dbs) "dbs=3D%p"
+>  find_ram_offset(uint64_t size, uint64_t offset) "size: 0x%" PRIx64 " @ 0=
+x%" PRIx64
+>  find_ram_offset_loop(uint64_t size, uint64_t candidate, uint64_t offset,=
+ uint64_t next, uint64_t mingap) "trying size: 0x%" PRIx64 " @ 0x%" PRIx64 =
+", offset: 0x%" PRIx64" next: 0x%" PRIx64 " mingap: 0x%" PRIx64
+>  ram_block_discard_range(const char *rbname, void *hva, size_t length, bo=
+ol need_madvise, bool need_fallocate, int ret) "%s@%p + 0x%zx: madvise: %d =
+fallocate: %d ret: %d"
+> +memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned=
+ size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
+> +memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
+>
+>  # memory.c
+>  memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t =
+value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size=
+ %u"
+>  memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t=
+ value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" siz=
+e %u"
+>  memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uin=
+t64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx=
+64" size %u"
+>  memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, ui=
+nt64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRI=
+x64" size %u"
+> -memory_region_tb_read(int cpu_index, uint64_t addr, uint64_t value, unsi=
+gned size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+> -memory_region_tb_write(int cpu_index, uint64_t addr, uint64_t value, uns=
+igned size) "cpu %d addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, ui=
+nt64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx6=
+4" size %u"
+>  memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, u=
+int64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx=
+64" size %u"
+>  flatview_new(void *view, void *root) "%p (root %p)"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-r~
+--
+Alex Benn=C3=A9e
 
