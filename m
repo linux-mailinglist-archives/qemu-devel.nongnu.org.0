@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB77DBCC68
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:26:32 +0200 (CEST)
-Received: from localhost ([::1]:48012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D277EBCC6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:28:15 +0200 (CEST)
+Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCne3-0005UW-7C
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48407)
+	id 1iCnfi-0006yL-4F
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iCmfF-0001Rg-6z
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:42 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCmuR-0008Fp-Or
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iCmfD-0006oQ-8S
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:40 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:46880 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iCmf8-0006jm-7H; Tue, 24 Sep 2019 11:23:34 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 72028C8DBC18647CE88C;
- Tue, 24 Sep 2019 23:23:27 +0800 (CST)
-Received: from linux-Bxxcye.huawei.com (10.175.104.222) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 24 Sep 2019 23:23:19 +0800
-From: Heyi Guo <guoheyi@huawei.com>
-To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
- <linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.cs.columbia.edu>
-Subject: [RFC PATCH 08/12] arm/sdei: add support to register interrupt bind
- notifier
-Date: Tue, 24 Sep 2019 23:21:47 +0800
-Message-ID: <1569338511-3572-9-git-send-email-guoheyi@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
-References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCmuN-0006CW-5g
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:23 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:35702
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iCmuM-0005e9-Tp; Tue, 24 Sep 2019 11:39:19 -0400
+Received: from host86-138-245-63.range86-138.btcentralplus.com
+ ([86.138.245.63] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iCmrW-0007WZ-KY; Tue, 24 Sep 2019 16:36:24 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, pc@us.ibm.com,
+ david@gibson.dropbear.id.au
+Date: Tue, 24 Sep 2019 16:35:52 +0100
+Message-Id: <20190924153556.27575-4-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
+References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.222]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.138.245.63
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH 3/7] target/ppc: update {get, set}_dfp{64,
+ 128}() helper functions to read/write DFP numbers correctly
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.35
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,136 +56,326 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
- James Morse <james.morse@arm.com>, Heyi Guo <guoheyi@huawei.com>,
- wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Other qemu modules related with the interrupt bind operation may want
-to be notified when guest requests to bind interrupt to sdei event, so
-we add register and unregister interfaces.
+Since commit ef96e3ae96 "target/ppc: move FP and VMX registers into aligned vsr
+register array" FP registers are no longer stored consecutively in memory and so
+the current method of combining FP register pairs into DFP numbers is incorrect.
 
-Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Dave Martin <Dave.Martin@arm.com>
-Cc: Marc Zyngier <marc.zyngier@arm.com>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: James Morse <james.morse@arm.com>
+Firstly update the definition of the dh_*_fprp defines in helper.h to reflect
+that FP registers are now stored as part of an array of ppc_vsr_t elements
+rather than plain uint64_t elements, and then introduce a new ppc_fprp_t type
+which conceptually represents a DFP even-odd register pair to be consumed by the
+DFP helper functions.
+
+Finally update the new DFP {get,set}_dfp{64,128}() helper functions to convert
+between DFP numbers and DFP even-odd register pairs correctly, making use of the
+existing VsrD() macro to access the correct elements regardless of host endian.
+
+Fixes: ef96e3ae96 "target/ppc: move FP and VMX registers into aligned vsr register array"
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- target/arm/sdei.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- target/arm/sdei.h | 17 +++++++++++++++++
- 2 files changed, 66 insertions(+)
+ target/ppc/cpu.h        |  1 +
+ target/ppc/dfp_helper.c | 80 +++++++++++++++++++++--------------------
+ target/ppc/helper.h     |  2 +-
+ 3 files changed, 44 insertions(+), 39 deletions(-)
 
-diff --git a/target/arm/sdei.c b/target/arm/sdei.c
-index 9ceb131..efdb681 100644
---- a/target/arm/sdei.c
-+++ b/target/arm/sdei.c
-@@ -45,6 +45,52 @@
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index eaee1a5575..b79bbc171f 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -235,6 +235,7 @@ typedef union _ppc_vsr_t {
+ } ppc_vsr_t;
  
- static QemuSDEState *sde_state;
+ typedef ppc_vsr_t ppc_avr_t;
++typedef ppc_vsr_t ppc_fprp_t;
  
-+typedef struct QemuSDEIBindNotifyEntry {
-+    QTAILQ_ENTRY(QemuSDEIBindNotifyEntry) entry;
-+    QemuSDEIBindNotify *func;
-+    void *opaque;
-+    int irq;
-+} QemuSDEIBindNotifyEntry;
-+
-+static QTAILQ_HEAD(, QemuSDEIBindNotifyEntry) bind_notifiers =
-+    QTAILQ_HEAD_INITIALIZER(bind_notifiers);
-+
-+void qemu_register_sdei_bind_notifier(QemuSDEIBindNotify *func,
-+                                      void *opaque, int irq)
-+{
-+    QemuSDEIBindNotifyEntry *be = g_new0(QemuSDEIBindNotifyEntry, 1);
-+
-+    be->func = func;
-+    be->opaque = opaque;
-+    be->irq = irq;
-+    QTAILQ_INSERT_TAIL(&bind_notifiers, be, entry);
-+}
-+
-+void qemu_unregister_sdei_bind_notifier(QemuSDEIBindNotify *func,
-+                                        void *opaque, int irq)
-+{
-+    QemuSDEIBindNotifyEntry *be;
-+
-+    QTAILQ_FOREACH(be, &bind_notifiers, entry) {
-+        if (be->func == func && be->opaque == opaque && be->irq == irq) {
-+            QTAILQ_REMOVE(&bind_notifiers, be, entry);
-+            g_free(be);
-+            return;
-+        }
-+    }
-+}
-+
-+static void sdei_notify_bind(int irq, int32_t event, bool bind)
-+{
-+    QemuSDEIBindNotifyEntry *be, *nbe;
-+
-+    QTAILQ_FOREACH_SAFE(be, &bind_notifiers, entry, nbe) {
-+        if (be->irq == irq) {
-+            be->func(be->opaque, irq, event, bind);
-+        }
-+    }
-+}
-+
- static void qemu_sde_prop_init(QemuSDEState *s)
- {
-     QemuSDEProp *sde_props = s->sde_props_state;
-@@ -502,6 +548,7 @@ static int32_t sdei_alloc_event_num(QemuSDEState *s, bool is_critical,
-             sde_props[index].interrupt = intid;
-             sde_props[index].is_shared = is_shared;
-             sde_props[index].is_critical = is_critical;
-+            sdei_notify_bind(intid, event, true);
-             override_qemu_irq(s, event, intid);
-             s->irq_map[intid] = event;
-             qemu_mutex_unlock(&sde_props[index].lock);
-@@ -522,6 +569,7 @@ static int32_t sdei_free_event_num_locked(QemuSDEState *s, QemuSDEProp *prop)
-         goto unlock_return;
-     }
- 
-+    sdei_notify_bind(prop->interrupt, prop->event_id, false);
-     restore_qemu_irq(s, prop->event_id, prop->interrupt);
-     s->irq_map[prop->interrupt] = SDEI_INVALID_EVENT_ID;
-     prop->event_id = SDEI_INVALID_EVENT_ID;
-@@ -1331,6 +1379,7 @@ static int qemu_sdei_post_load(void *opaque, int version_id)
-         int intid = sde_props[i].interrupt;
-         if (intid != SDEI_INVALID_INTERRUPT) {
-             s->irq_map[intid] = sde_props[i].event_id;
-+            sdei_notify_bind(intid, sde_props[i].event_id, true);
-             override_qemu_irq(s, sde_props[i].event_id, intid);
-         }
-     }
-diff --git a/target/arm/sdei.h b/target/arm/sdei.h
-index a61e788..feaaf1a 100644
---- a/target/arm/sdei.h
-+++ b/target/arm/sdei.h
-@@ -38,4 +38,21 @@ void sdei_handle_request(CPUState *cs, struct kvm_run *run);
-  */
- bool trigger_sdei_by_irq(int cpu, int irq);
- 
-+/*
-+ * Notify callback prototype; the argument "bind" tells whether it is a bind
-+ * operation or unbind one.
-+ */
-+typedef void QemuSDEIBindNotify(void *opaque, int irq,
-+                                int32_t event, bool bind);
-+/*
-+ * Register a notify callback for a specific interrupt bind operation; the
-+ * client be both notified by bind and unbind operation.
-+ */
-+void qemu_register_sdei_bind_notifier(QemuSDEIBindNotify *func,
-+                                      void *opaque, int irq);
-+/*
-+ * Unregister a notify callback for a specific interrupt bind operation.
-+ */
-+void qemu_unregister_sdei_bind_notifier(QemuSDEIBindNotify *func,
-+                                        void *opaque, int irq);
+ #if !defined(CONFIG_USER_ONLY)
+ /* Software TLB cache */
+diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+index cb98780d20..df9026ea5e 100644
+--- a/target/ppc/dfp_helper.c
++++ b/target/ppc/dfp_helper.c
+@@ -36,26 +36,26 @@
+ #define LO_IDX 0
  #endif
+ 
+-static void get_dfp64(uint64_t *dst, uint64_t *dfp)
++static void get_dfp64(uint64_t *dst, ppc_fprp_t *dfp)
+ {
+-    dst[0] = dfp[0];
++    dst[0] = dfp->VsrD(0);
+ }
+ 
+-static void get_dfp128(uint64_t *dst, uint64_t *dfp)
++static void get_dfp128(uint64_t *dst, ppc_fprp_t *dfp)
+ {
+-    dst[0] = dfp[HI_IDX];
+-    dst[1] = dfp[LO_IDX];
++    dst[HI_IDX] = dfp[0].VsrD(0);
++    dst[LO_IDX] = dfp[1].VsrD(0);
+ }
+ 
+-static void set_dfp64(uint64_t *dfp, uint64_t *src)
++static void set_dfp64(ppc_fprp_t *dfp, uint64_t *src)
+ {
+-    dfp[0] = src[0];
++    dfp->VsrD(0) = src[0];
+ }
+ 
+-static void set_dfp128(uint64_t *dfp, uint64_t *src)
++static void set_dfp128(ppc_fprp_t *dfp, uint64_t *src)
+ {
+-    dfp[0] = src[HI_IDX];
+-    dfp[1] = src[LO_IDX];
++    dfp[0].VsrD(0) = src[HI_IDX];
++    dfp[1].VsrD(0) = src[LO_IDX];
+ }
+ 
+ struct PPC_DFP {
+@@ -143,8 +143,8 @@ static void dfp_set_round_mode_from_immediate(uint8_t r, uint8_t rmc,
+     decContextSetRounding(&dfp->context, rnd);
+ }
+ 
+-static void dfp_prepare_decimal64(struct PPC_DFP *dfp, uint64_t *a,
+-                uint64_t *b, CPUPPCState *env)
++static void dfp_prepare_decimal64(struct PPC_DFP *dfp, ppc_fprp_t *a,
++                                  ppc_fprp_t *b, CPUPPCState *env)
+ {
+     decContextDefault(&dfp->context, DEC_INIT_DECIMAL64);
+     dfp_prepare_rounding_mode(&dfp->context, env->fpscr);
+@@ -167,8 +167,8 @@ static void dfp_prepare_decimal64(struct PPC_DFP *dfp, uint64_t *a,
+     }
+ }
+ 
+-static void dfp_prepare_decimal128(struct PPC_DFP *dfp, uint64_t *a,
+-                uint64_t *b, CPUPPCState *env)
++static void dfp_prepare_decimal128(struct PPC_DFP *dfp, ppc_fprp_t *a,
++                                   ppc_fprp_t *b, CPUPPCState *env)
+ {
+     decContextDefault(&dfp->context, DEC_INIT_DECIMAL128);
+     dfp_prepare_rounding_mode(&dfp->context, env->fpscr);
+@@ -416,7 +416,8 @@ static inline int dfp_get_digit(decNumber *dn, int n)
+ }
+ 
+ #define DFP_HELPER_TAB(op, dnop, postprocs, size)                              \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a, uint64_t *b)      \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,               \
++                 ppc_fprp_t *b)                                                \
+ {                                                                              \
+     struct PPC_DFP dfp;                                                        \
+     dfp_prepare_decimal##size(&dfp, a, b, env);                                \
+@@ -485,7 +486,7 @@ DFP_HELPER_TAB(ddiv, decNumberDivide, DIV_PPs, 64)
+ DFP_HELPER_TAB(ddivq, decNumberDivide, DIV_PPs, 128)
+ 
+ #define DFP_HELPER_BF_AB(op, dnop, postprocs, size)                            \
+-uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint64_t *b)               \
++uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *a, ppc_fprp_t *b)           \
+ {                                                                              \
+     struct PPC_DFP dfp;                                                        \
+     dfp_prepare_decimal##size(&dfp, a, b, env);                                \
+@@ -517,7 +518,7 @@ DFP_HELPER_BF_AB(dcmpo, decNumberCompare, CMPO_PPs, 64)
+ DFP_HELPER_BF_AB(dcmpoq, decNumberCompare, CMPO_PPs, 128)
+ 
+ #define DFP_HELPER_TSTDC(op, size)                                       \
+-uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint32_t dcm)        \
++uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *a, uint32_t dcm)      \
+ {                                                                        \
+     struct PPC_DFP dfp;                                                  \
+     int match = 0;                                                       \
+@@ -545,7 +546,7 @@ DFP_HELPER_TSTDC(dtstdc, 64)
+ DFP_HELPER_TSTDC(dtstdcq, 128)
+ 
+ #define DFP_HELPER_TSTDG(op, size)                                       \
+-uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint32_t dcm)        \
++uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *a, uint32_t dcm)      \
+ {                                                                        \
+     struct PPC_DFP dfp;                                                  \
+     int minexp, maxexp, nzero_digits, nzero_idx, is_negative, is_zero,   \
+@@ -600,7 +601,7 @@ DFP_HELPER_TSTDG(dtstdg, 64)
+ DFP_HELPER_TSTDG(dtstdgq, 128)
+ 
+ #define DFP_HELPER_TSTEX(op, size)                                       \
+-uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint64_t *b)         \
++uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *a, ppc_fprp_t *b)     \
+ {                                                                        \
+     struct PPC_DFP dfp;                                                  \
+     int expa, expb, a_is_special, b_is_special;                          \
+@@ -632,7 +633,7 @@ DFP_HELPER_TSTEX(dtstex, 64)
+ DFP_HELPER_TSTEX(dtstexq, 128)
+ 
+ #define DFP_HELPER_TSTSF(op, size)                                       \
+-uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint64_t *b)         \
++uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *a, ppc_fprp_t *b)     \
+ {                                                                        \
+     struct PPC_DFP dfp;                                                  \
+     unsigned k;                                                          \
+@@ -669,7 +670,7 @@ DFP_HELPER_TSTSF(dtstsf, 64)
+ DFP_HELPER_TSTSF(dtstsfq, 128)
+ 
+ #define DFP_HELPER_TSTSFI(op, size)                                     \
+-uint32_t helper_##op(CPUPPCState *env, uint32_t a, uint64_t *b)         \
++uint32_t helper_##op(CPUPPCState *env, uint32_t a, ppc_fprp_t *b)       \
+ {                                                                       \
+     struct PPC_DFP dfp;                                                 \
+     unsigned uim;                                                       \
+@@ -729,7 +730,7 @@ static void dfp_quantize(uint8_t rmc, struct PPC_DFP *dfp)
+ }
+ 
+ #define DFP_HELPER_QUAI(op, size)                                       \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b,            \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,        \
+                  uint32_t te, uint32_t rmc)                             \
+ {                                                                       \
+     struct PPC_DFP dfp;                                                 \
+@@ -755,8 +756,8 @@ DFP_HELPER_QUAI(dquai, 64)
+ DFP_HELPER_QUAI(dquaiq, 128)
+ 
+ #define DFP_HELPER_QUA(op, size)                                        \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,            \
+-                 uint64_t *b, uint32_t rmc)                             \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,        \
++                 ppc_fprp_t *b, uint32_t rmc)                           \
+ {                                                                       \
+     struct PPC_DFP dfp;                                                 \
+                                                                         \
+@@ -832,8 +833,8 @@ static void _dfp_reround(uint8_t rmc, int32_t ref_sig, int32_t xmax,
+ }
+ 
+ #define DFP_HELPER_RRND(op, size)                                       \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,            \
+-                 uint64_t *b, uint32_t rmc)                             \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,        \
++                 ppc_fprp_t *b, uint32_t rmc)                           \
+ {                                                                       \
+     struct PPC_DFP dfp;                                                 \
+     uint64_t a64;                                                       \
+@@ -861,7 +862,7 @@ DFP_HELPER_RRND(drrnd, 64)
+ DFP_HELPER_RRND(drrndq, 128)
+ 
+ #define DFP_HELPER_RINT(op, postprocs, size)                                   \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b,                   \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,               \
+              uint32_t r, uint32_t rmc)                                         \
+ {                                                                              \
+     struct PPC_DFP dfp;                                                        \
+@@ -899,7 +900,7 @@ static void RINTN_PPs(struct PPC_DFP *dfp)
+ DFP_HELPER_RINT(drintn, RINTN_PPs, 64)
+ DFP_HELPER_RINT(drintnq, RINTN_PPs, 128)
+ 
+-void helper_dctdp(CPUPPCState *env, uint64_t *t, uint64_t *b)
++void helper_dctdp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     uint64_t b64;
+@@ -915,7 +916,7 @@ void helper_dctdp(CPUPPCState *env, uint64_t *t, uint64_t *b)
+     dfp_set_FPRF_from_FRT(&dfp);
+ }
+ 
+-void helper_dctqpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
++void helper_dctqpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     uint64_t b64;
+@@ -930,7 +931,7 @@ void helper_dctqpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+     set_dfp128(t, dfp.t64);
+ }
+ 
+-void helper_drsp(CPUPPCState *env, uint64_t *t, uint64_t *b)
++void helper_drsp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     uint32_t t_short = 0;
+@@ -948,7 +949,7 @@ void helper_drsp(CPUPPCState *env, uint64_t *t, uint64_t *b)
+     set_dfp64(t, &t64);
+ }
+ 
+-void helper_drdpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
++void helper_drdpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     dfp_prepare_decimal128(&dfp, 0, b, env);
+@@ -967,7 +968,7 @@ void helper_drdpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+ }
+ 
+ #define DFP_HELPER_CFFIX(op, size)                                             \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)                   \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)               \
+ {                                                                              \
+     struct PPC_DFP dfp;                                                        \
+     uint64_t b64;                                                              \
+@@ -994,7 +995,7 @@ DFP_HELPER_CFFIX(dcffix, 64)
+ DFP_HELPER_CFFIX(dcffixq, 128)
+ 
+ #define DFP_HELPER_CTFIX(op, size)                                            \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)                  \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)              \
+ {                                                                             \
+     struct PPC_DFP dfp;                                                       \
+     dfp_prepare_decimal##size(&dfp, 0, b, env);                               \
+@@ -1057,7 +1058,8 @@ static inline void dfp_set_sign_128(uint64_t *t, uint8_t sgn)
+ }
+ 
+ #define DFP_HELPER_DEDPD(op, size)                                        \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b, uint32_t sp) \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,          \
++                 uint32_t sp)                                             \
+ {                                                                         \
+     struct PPC_DFP dfp;                                                   \
+     uint8_t digits[34];                                                   \
+@@ -1105,7 +1107,8 @@ static inline uint8_t dfp_get_bcd_digit_128(uint64_t *t, unsigned n)
+ }
+ 
+ #define DFP_HELPER_ENBCD(op, size)                                           \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b, uint32_t s)     \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
++                 uint32_t s)                                                 \
+ {                                                                            \
+     struct PPC_DFP dfp;                                                      \
+     uint8_t digits[32];                                                      \
+@@ -1166,7 +1169,7 @@ DFP_HELPER_ENBCD(denbcd, 64)
+ DFP_HELPER_ENBCD(denbcdq, 128)
+ 
+ #define DFP_HELPER_XEX(op, size)                               \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)   \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b) \
+ {                                                              \
+     struct PPC_DFP dfp;                                        \
+     uint64_t t64;                                              \
+@@ -1212,7 +1215,8 @@ static void dfp_set_raw_exp_128(uint64_t *t, uint64_t raw)
+ }
+ 
+ #define DFP_HELPER_IEX(op, size)                                          \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a, uint64_t *b) \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,          \
++                 ppc_fprp_t *b)                                           \
+ {                                                                         \
+     struct PPC_DFP dfp;                                                   \
+     uint64_t raw_qnan, raw_snan, raw_inf, max_exp, a64;                   \
+@@ -1309,7 +1313,7 @@ static void dfp_clear_lmd_from_g5msb(uint64_t *t)
+ }
+ 
+ #define DFP_HELPER_SHIFT(op, size, shift_left)                      \
+-void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,        \
++void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,    \
+                  uint32_t sh)                                       \
+ {                                                                   \
+     struct PPC_DFP dfp;                                             \
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 54ea9b9500..f843814b8a 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -686,7 +686,7 @@ DEF_HELPER_3(store_601_batu, void, env, i32, tl)
+ #endif
+ 
+ #define dh_alias_fprp ptr
+-#define dh_ctype_fprp uint64_t *
++#define dh_ctype_fprp ppc_fprp_t *
+ #define dh_is_signed_fprp dh_is_signed_ptr
+ 
+ DEF_HELPER_4(dadd, void, env, fprp, fprp, fprp)
 -- 
-1.8.3.1
+2.20.1
 
 
