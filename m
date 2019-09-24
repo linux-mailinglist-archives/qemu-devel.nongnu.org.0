@@ -2,45 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDE8BCBC5
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:47:22 +0200 (CEST)
-Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA8FBCBB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:43:45 +0200 (CEST)
+Received: from localhost ([::1]:47344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCn28-000669-On
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41155)
+	id 1iCmyd-0003H3-9J
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iClul-0004gY-Jf
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:35:43 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iCm6m-0007qD-UG
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCluj-0004dF-D9
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:35:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42584)
+ (envelope-from <imammedo@redhat.com>) id 1iCm6l-0003v7-C9
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:24829)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iClua-0004ZK-W4; Tue, 24 Sep 2019 10:35:30 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1iCm6l-0003ub-45; Tue, 24 Sep 2019 10:48:03 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E7F8A800DF2;
- Tue, 24 Sep 2019 14:35:26 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 785F060852;
- Tue, 24 Sep 2019 14:35:26 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 50FF33168BEB;
+ Tue, 24 Sep 2019 14:48:02 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3ED931001DCD;
+ Tue, 24 Sep 2019 14:47:54 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tests: More iotest 223 improvements
-Date: Tue, 24 Sep 2019 09:35:22 -0500
-Message-Id: <20190924143522.22902-3-eblake@redhat.com>
-In-Reply-To: <20190924143522.22902-1-eblake@redhat.com>
-References: <20190924143522.22902-1-eblake@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Tue, 24 Sep 2019 14:35:26 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH v7 0/4] s390: stop abusing
+ memory_region_allocate_system_memory()
+Date: Tue, 24 Sep 2019 10:47:47 -0400
+Message-Id: <20190924144751.24149-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 24 Sep 2019 14:48:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,230 +52,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nsoffer@redhat.com, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, peterx@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Run the test twice, once without iothreads, and again with, for more
-coverage of both setups.
+Changelog:
+  since v6:
+    - include and rebase on top of
+       [PATCH 0/2] kvm: clear dirty bitmaps from all overlapping memslots
+        https://www.mail-archive.com/qemu-devel@nongnu.org/msg646200.html
+    - minor fixups suggested during v6 review
+    - more testing incl. hacked x86
+  since v5:
+    - [1/2] fix migration that wasn't starting and make sure that KVM part
+      is able to handle 1:n MemorySection:memslot arrangement
+  since v3:
+    - fix compilation issue
+    - advance HVA along with GPA in kvm_set_phys_mem()
+  since v2:
+    - break migration from old QEMU (since 2.12-4.1) for guest with >8TB RAM
+      and drop migratable aliases patch as was agreed during v2 review
+    - drop 4.2 machines patch as it's not prerequisite anymore
+  since v1:
+    - include 4.2 machines patch for adding compat RAM layout on top
+    - 2/4 add missing in v1 patch for splitting too big MemorySection on
+          several memslots
+    - 3/4 amend code path on alias destruction to ensure that RAMBlock is
+          cleaned properly
+    - 4/4 add compat machine code to keep old layout (migration-wise) for
+          4.1 and older machines 
 
-Suggested-by: Nir Soffer <nsoffer@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/223     | 66 +++++++++++++++++++++++++
- tests/qemu-iotests/223.out | 98 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 164 insertions(+)
 
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index 2bcf922df8c4..2aa428d406f5 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -123,6 +123,72 @@ qemu_cmd '{"execute":"qmp_capabilities"}' "return"
- qemu_cmd '{"execute":"blockdev-add",
-   "arguments":{"driver":"qcow2", "node-name":"n",
-     "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
-+qemu_cmd '{"execute":"block-dirty-bitmap-disable",
-+  "arguments":{"node":"n", "name":"b"}}' "return"
-+qemu_cmd '{"execute":"nbd-server-add",
-+  "arguments":{"device":"n"}}' "error" # Attempt add without server
-+qemu_cmd '{"execute":"nbd-server-start",
-+  "arguments":{"addr":{"type":"unix",
-+    "data":{"path":"'"$TEST_DIR/nbd"'"}}}}' "return"
-+qemu_cmd '{"execute":"nbd-server-start",
-+  "arguments":{"addr":{"type":"unix",
-+    "data":{"path":"'"$TEST_DIR/nbd"1'"}}}}' "error" # Attempt second se=
-rver
-+$QEMU_NBD_PROG -L -k "$TEST_DIR/nbd"
-+qemu_cmd '{"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "bitmap":"b"}}' "return"
-+qemu_cmd '{"execute":"nbd-server-add",
-+  "arguments":{"device":"nosuch"}}' "error" # Attempt to export missing =
-node
-+qemu_cmd '{"execute":"nbd-server-add",
-+  "arguments":{"device":"n"}}' "error" # Attempt to export same name twi=
-ce
-+qemu_cmd '{"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "name":"n2",
-+  "bitmap":"b2"}}' "error" # enabled vs. read-only
-+qemu_cmd '{"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "name":"n2",
-+  "bitmap":"b3"}}' "error" # Missing bitmap
-+qemu_cmd '{"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "name":"n2", "writable":true,
-+  "bitmap":"b2"}}' "return"
-+$QEMU_NBD_PROG -L -k "$TEST_DIR/nbd"
-+
-+echo
-+echo "=3D=3D=3D Contrast normal status to large granularity dirty-bitmap=
- =3D=3D=3D"
-+echo
-+
-+QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
-+IMG=3D"driver=3Dnbd,export=3Dn,server.type=3Dunix,server.path=3D$TEST_DI=
-R/nbd"
-+$QEMU_IO -r -c 'r -P 0x22 512 512' -c 'r -P 0 512k 512k' -c 'r -P 0x11 1=
-m 1m' \
-+  -c 'r -P 0x33 2m 2m' --image-opts "$IMG" | _filter_qemu_io
-+$QEMU_IMG map --output=3Djson --image-opts \
-+  "$IMG" | _filter_qemu_img_map
-+$QEMU_IMG map --output=3Djson --image-opts \
-+  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b" | _filter_qemu_img_map
-+
-+echo
-+echo "=3D=3D=3D Contrast to small granularity dirty-bitmap =3D=3D=3D"
-+echo
-+
-+IMG=3D"driver=3Dnbd,export=3Dn2,server.type=3Dunix,server.path=3D$TEST_D=
-IR/nbd"
-+$QEMU_IMG map --output=3Djson --image-opts \
-+  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b2" | _filter_qemu_img_map
-+
-+echo
-+echo "=3D=3D=3D End qemu NBD server =3D=3D=3D"
-+echo
-+
-+qemu_cmd '{"execute":"nbd-server-remove",
-+  "arguments":{"name":"n"}}' "return"
-+qemu_cmd '{"execute":"nbd-server-remove",
-+  "arguments":{"name":"n2"}}' "return"
-+qemu_cmd '{"execute":"nbd-server-remove",
-+  "arguments":{"name":"n2"}}' "error" # Attempt duplicate clean
-+qemu_cmd '{"execute":"nbd-server-stop"}' "return"
-+qemu_cmd '{"execute":"nbd-server-stop"}' "error" # Again
-+
-+echo
-+echo "=3D=3D=3D Repeat, but using iothreads =3D=3D=3D"
-+echo
-+
- qemu_cmd '{"execute":"x-blockdev-set-iothread",
-   "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
- qemu_cmd '{"execute":"block-dirty-bitmap-disable",
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 8895ea838cbb..9dcab03ef9c8 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -30,6 +30,104 @@ wrote 2097152/2097152 bytes at offset 2097152
-   "arguments":{"driver":"qcow2", "node-name":"n",
-     "file":{"driver":"file", "filename":"TEST_DIR/t.qcow2"}}}
- {"return": {}}
-+ {"execute":"block-dirty-bitmap-disable",
-+  "arguments":{"node":"n", "name":"b"}}
-+{"return": {}}
-+ {"execute":"nbd-server-add",
-+  "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+ {"execute":"nbd-server-start",
-+  "arguments":{"addr":{"type":"unix",
-+    "data":{"path":"TEST_DIR/nbd"}}}}
-+{"return": {}}
-+ {"execute":"nbd-server-start",
-+  "arguments":{"addr":{"type":"unix",
-+    "data":{"path":"TEST_DIR/nbd1"}}}}
-+{"error": {"class": "GenericError", "desc": "NBD server already running"=
-}}
-+exports available: 0
-+ {"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "bitmap":"b"}}
-+{"return": {}}
-+ {"execute":"nbd-server-add",
-+  "arguments":{"device":"nosuch"}}
-+{"error": {"class": "GenericError", "desc": "Cannot find device=3Dnosuch=
- nor node_name=3Dnosuch"}}
-+ {"execute":"nbd-server-add",
-+  "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server already has expo=
-rt named 'n'"}}
-+ {"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "name":"n2",
-+  "bitmap":"b2"}}
-+{"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompa=
-tible with readonly export"}}
-+ {"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "name":"n2",
-+  "bitmap":"b3"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap 'b3' is not found"}}
-+ {"execute":"nbd-server-add",
-+  "arguments":{"device":"n", "name":"n2", "writable":true,
-+  "bitmap":"b2"}}
-+{"return": {}}
-+exports available: 2
-+ export: 'n'
-+  size:  4194304
-+  flags: 0x58f ( readonly flush fua df multi cache )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b
-+ export: 'n2'
-+  size:  4194304
-+  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b2
-+
-+=3D=3D=3D Contrast normal status to large granularity dirty-bitmap =3D=3D=
-=3D
-+
-+read 512/512 bytes at offset 512
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 524288
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 2097152/2097152 bytes at offset 2097152
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, =
-"offset": OFFSET},
-+{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": fa=
-lse, "offset": OFFSET},
-+{ "start": 1048576, "length": 3145728, "depth": 0, "zero": false, "data"=
-: true, "offset": OFFSET}]
-+[{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": false=
-},
-+{ "start": 65536, "length": 2031616, "depth": 0, "zero": false, "data": =
-true, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data"=
-: false}]
-+
-+=3D=3D=3D Contrast to small granularity dirty-bitmap =3D=3D=3D
-+
-+[{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "=
-offset": OFFSET},
-+{ "start": 512, "length": 512, "depth": 0, "zero": false, "data": false}=
-,
-+{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": t=
-rue, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data"=
-: false}]
-+
-+=3D=3D=3D End qemu NBD server =3D=3D=3D
-+
-+ {"execute":"nbd-server-remove",
-+  "arguments":{"name":"n"}}
-+{"return": {}}
-+ {"execute":"nbd-server-remove",
-+  "arguments":{"name":"n2"}}
-+{"return": {}}
-+ {"execute":"nbd-server-remove",
-+  "arguments":{"name":"n2"}}
-+{"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
-+ {"execute":"nbd-server-stop"}
-+{"return": {}}
-+ {"execute":"nbd-server-stop"}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+
-+=3D=3D=3D Repeat, but using iothreads =3D=3D=3D
-+
-  {"execute":"x-blockdev-set-iothread",
-   "arguments":{"node-name":"n", "iothread":"io0"}}
- {"return": {}}
---=20
-2.21.0
+While looking into unifying guest RAM allocation to use hostmem backends
+for initial RAM (especially when -mempath is used) and retiring
+memory_region_allocate_system_memory() API, leaving only single hostmem backend,
+I was inspecting how currently it is used by boards and it turns out several
+boards abuse it by calling the function several times (despite documented contract
+forbiding it).
+
+s390 is one of such boards where KVM limitation on memslot size got propagated
+to board design and memory_region_allocate_system_memory() was abused to satisfy
+KVM requirement for max RAM chunk where memory region alias would suffice.
+
+Unfortunately, memory_region_allocate_system_memory() usage created migration
+dependency where guest RAM is transferred in migration stream as several RAMBlocks
+if it's more than KVM_SLOT_MAX_BYTES. During v2 review it was agreed to ignore
+migration breakage (documenting it in release notes) and leaving only KVM fix.
+
+In order to replace these several RAM chunks with a single memdev and keep it
+working with KVM memslot size limit, the later was modified to deal with 
+memory section split on several KVMSlots and manual RAM splitting in s390
+was replace by single memory_region_allocate_system_memory() call.
+
+Tested:
+  * s390 with hacked KVM_SLOT_MAX_BYTES = 128Mb
+      - guest reboot cycle in ping-pong migration
+  * x86 with hacke max memslot = 128 and manual_dirty_log_protect enabled
+      - ping-pong migration with workload dirtying RAM around a split area
+
+
+
+Igor Mammedov (2):
+  kvm: split too big memory section on several memslots
+  s390: do not call memory_region_allocate_system_memory() multiple
+    times
+
+Paolo Bonzini (2):
+  kvm: extract kvm_log_clear_one_slot
+  kvm: clear dirty bitmaps from all overlapping memslots
+
+ include/sysemu/kvm_int.h   |   1 +
+ accel/kvm/kvm-all.c        | 238 +++++++++++++++++++++++--------------
+ hw/s390x/s390-virtio-ccw.c |  30 +----
+ target/s390x/kvm.c         |  11 ++
+ 4 files changed, 161 insertions(+), 119 deletions(-)
+
+-- 
+2.18.1
 
 
