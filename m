@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CEDBCE94
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:53:51 +0200 (CEST)
-Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE64BCE9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:58:21 +0200 (CEST)
+Received: from localhost ([::1]:48506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCo4U-00058b-Bv
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33559)
+	id 1iCo8p-0001Ow-T8
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCnr9-0002Ug-NJ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:40:04 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iCnra-0002u0-MN
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:40:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCnr8-0003qN-Lz
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:40:03 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:35886
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iCnr6-0003nZ-1q; Tue, 24 Sep 2019 12:40:00 -0400
-Received: from host86-138-245-63.range86-138.btcentralplus.com
- ([86.138.245.63] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iCnpE-0007qW-15; Tue, 24 Sep 2019 17:38:04 +0100
-To: Paul Clarke <pc@us.ibm.com>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ (envelope-from <pbonzini@redhat.com>) id 1iCnrZ-0004Bt-23
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:40:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:4580)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iCnrY-0004BS-Nf
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:40:28 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AA2FE87638
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 16:40:27 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id c188so288822wmd.9
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 09:40:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eS+CIoFof7zcv8exRAEa/0As+ciSjYoFHaD79dw/+EU=;
+ b=qpGiIM9Mb3KQ8GfRE7sybZ3nvQMYX2MhAJBwCA/NPYnal5ta7exCWIi7F+8jiTMipR
+ jZnqCmARNLyCEm9EiKR9CO+Vegw9bqGVdVMriSjuENiMIApqfdfEr1/habjgMWC6wzrE
+ UM63iralBqIaPyC/jGq6UdohfdniK/5nGoEimQK26UK7D+5Z7r70ct22v2GS7Wf0xc9f
+ NLvveTRJdrwguNAWRBBkiwylktwk2vNZllBsz3bCJSIVlE2Q2wiR6IfMK8nLVztVkqaF
+ XTCVoytfulkZvqOmQatsXDxT636KHB4b0/0q0L1z9QUsiyplffsSddtlvdTh7G+XM+ZI
+ aQxA==
+X-Gm-Message-State: APjAAAVBcAASoOxTRKkRXRWaCe+219p5dCnQifvBFwkhDvaEM3HZTqVF
+ AO5+w+w0QiFH7vorejoMQwlpfRTsuiLJNz6TpV1cx5k8AMNQuSA7kMWsDnxrBkGDECCCAN2dgh4
+ xABvT/1hYaUZLajw=
+X-Received: by 2002:a05:6000:1632:: with SMTP id
+ v18mr3375035wrb.233.1569343226299; 
+ Tue, 24 Sep 2019 09:40:26 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx3XAWrTal+QH2Gj16vKQrlrCqCOekmPDl6uxf0ahMcbnneBUT1mNyfZyVE/28zKcIT2/YbOQ==
+X-Received: by 2002:a05:6000:1632:: with SMTP id
+ v18mr3375007wrb.233.1569343225987; 
+ Tue, 24 Sep 2019 09:40:25 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
+ ([2001:b07:6468:f312:9520:22e6:6416:5c36])
+ by smtp.gmail.com with ESMTPSA id z1sm2939953wre.40.2019.09.24.09.40.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Sep 2019 09:40:25 -0700 (PDT)
+Subject: Re: [PATCH v4 1/2] vfio: Turn the container error into an Error handle
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ alex.williamson@redhat.com, peterx@redhat.com, aik@ozlabs.ru,
  david@gibson.dropbear.id.au
-References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
- <fcc3b597-856f-23bd-bc56-d886f021a2f4@us.ibm.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20190924082517.13724-1-eric.auger@redhat.com>
+ <20190924082517.13724-2-eric.auger@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <42934b76-1a54-1bf9-ef29-96d34e6c76c6@ilande.co.uk>
-Date: Tue, 24 Sep 2019 17:37:41 +0100
+Message-ID: <2068b2a4-768f-ef66-2b30-58b3ad203164@redhat.com>
+Date: Tue, 24 Sep 2019 18:40:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <fcc3b597-856f-23bd-bc56-d886f021a2f4@us.ibm.com>
+In-Reply-To: <20190924082517.13724-2-eric.auger@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.138.245.63
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/7] target/ppc: DFP fixes and improvements
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,22 +89,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/09/2019 17:30, Paul Clarke wrote:
-
-> Mark,
+On 24/09/19 10:25, Eric Auger wrote:
+> The container error integer field is currently used to store
+> the first error potentially encountered during any
+> vfio_listener_region_add() call. However this fails to propagate
+> detailed error messages up to the vfio_connect_container caller.
+> Instead of using an integer, let's use an Error handle.
 > 
-> What tree / branch would these patches apply to?  (I've tried qemu master, dgibson master and ppc-for-4.2, or I'm doing something wrong.)
+> Messages are slightly reworded to accomodate the propagation.
 > 
-> PC
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
+> ---
+> 
+> v3 -> v4:
+> - remove ret useless assignments and restore hw_error()
+> - remove mr local variable
+> - trace [start, end] instead of [start, size] and improve
+>   the message for overalp with existing DMA host window
+> ---
+>  hw/vfio/common.c              | 43 +++++++++++++++++++++++------------
+>  hw/vfio/spapr.c               |  4 +++-
+>  include/hw/vfio/vfio-common.h |  2 +-
+>  3 files changed, 32 insertions(+), 17 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 3e03c495d8..cebbb1c28a 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -509,6 +509,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      int ret;
+>      VFIOHostDMAWindow *hostwin;
+>      bool hostwin_found;
+> +    Error *err = NULL;
+>  
+>      if (vfio_listener_skipped_section(section)) {
+>          trace_vfio_listener_region_add_skip(
+> @@ -543,13 +544,20 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>                                 hostwin->max_iova - hostwin->min_iova + 1,
+>                                 section->offset_within_address_space,
+>                                 int128_get64(section->size))) {
+> -                ret = -1;
+> +                error_setg(&err,
+> +                    "region [0x%"PRIx64",0x%"PRIx64"] overlaps with existing"
+> +                    "host DMA window [0x%"PRIx64",0x%"PRIx64"]",
+> +                    section->offset_within_address_space,
+> +                    section->offset_within_address_space +
+> +                        int128_get64(section->size) - 1,
+> +                    hostwin->min_iova, hostwin->max_iova);
+>                  goto fail;
+>              }
+>          }
+>  
+>          ret = vfio_spapr_create_window(container, section, &pgsize);
+>          if (ret) {
+> +            error_setg_errno(&err, -ret, "Failed to create SPAPR window");
+>              goto fail;
+>          }
+>  
+> @@ -594,10 +602,8 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      }
+>  
+>      if (!hostwin_found) {
+> -        error_report("vfio: IOMMU container %p can't map guest IOVA region"
+> -                     " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx,
+> -                     container, iova, end);
+> -        ret = -EFAULT;
+> +        error_setg(&err, "Container %p can't map guest IOVA region"
+> +                   " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx, container, iova, end);
+>          goto fail;
+>      }
+>  
+> @@ -664,11 +670,12 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      ret = vfio_dma_map(container, iova, int128_get64(llsize),
+>                         vaddr, section->readonly);
+>      if (ret) {
+> -        error_report("vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+> -                     "0x%"HWADDR_PRIx", %p) = %d (%m)",
+> -                     container, iova, int128_get64(llsize), vaddr, ret);
+> +        error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+> +                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+> +                   container, iova, int128_get64(llsize), vaddr, ret);
+>          if (memory_region_is_ram_device(section->mr)) {
+>              /* Allow unexpected mappings not to be fatal for RAM devices */
+> +            error_report_err(err);
+>              return;
+>          }
+>          goto fail;
+> @@ -688,9 +695,14 @@ fail:
+>       */
+>      if (!container->initialized) {
+>          if (!container->error) {
+> -            container->error = ret;
+> +            error_propagate_prepend(&container->error, err,
+> +                                    "Region %s: ",
+> +                                    memory_region_name(section->mr));
+> +        } else {
+> +            error_free(err);
+>          }
+>      } else {
+> +        error_report_err(err);
+>          hw_error("vfio: DMA mapping failed, unable to continue");
+>      }
+>  }
+> @@ -1251,6 +1263,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      container = g_malloc0(sizeof(*container));
+>      container->space = space;
+>      container->fd = fd;
+> +    container->error = NULL;
+>      QLIST_INIT(&container->giommu_list);
+>      QLIST_INIT(&container->hostwin_list);
+>  
+> @@ -1308,9 +1321,9 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>                                       &address_space_memory);
+>              if (container->error) {
+>                  memory_listener_unregister(&container->prereg_listener);
+> -                ret = container->error;
+> -                error_setg(errp,
+> -                    "RAM memory listener initialization failed for container");
+> +                ret = -1;
+> +                error_propagate_prepend(errp, container->error,
+> +                    "RAM memory listener initialization failed: ");
+>                  goto free_container_exit;
+>              }
+>          }
+> @@ -1365,9 +1378,9 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      memory_listener_register(&container->listener, container->space->as);
+>  
+>      if (container->error) {
+> -        ret = container->error;
+> -        error_setg_errno(errp, -ret,
+> -                         "memory listener initialization failed for container");
+> +        ret = -1;
+> +        error_propagate_prepend(errp, container->error,
+> +            "memory listener initialization failed: ");
+>          goto listener_release_exit;
+>      }
+>  
+> diff --git a/hw/vfio/spapr.c b/hw/vfio/spapr.c
+> index 96c0ad9d9b..e853eebe11 100644
+> --- a/hw/vfio/spapr.c
+> +++ b/hw/vfio/spapr.c
+> @@ -17,6 +17,7 @@
+>  #include "hw/hw.h"
+>  #include "exec/ram_addr.h"
+>  #include "qemu/error-report.h"
+> +#include "qapi/error.h"
+>  #include "trace.h"
+>  
+>  static bool vfio_prereg_listener_skipped_section(MemoryRegionSection *section)
+> @@ -85,7 +86,8 @@ static void vfio_prereg_listener_region_add(MemoryListener *listener,
+>           */
+>          if (!container->initialized) {
+>              if (!container->error) {
+> -                container->error = ret;
+> +                error_setg_errno(&container->error, -ret,
+> +                                 "Memory registering failed");
+>              }
+>          } else {
+>              hw_error("vfio: Memory registering failed, unable to continue");
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 9107bd41c0..fd564209ac 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -71,7 +71,7 @@ typedef struct VFIOContainer {
+>      MemoryListener listener;
+>      MemoryListener prereg_listener;
+>      unsigned iommu_type;
+> -    int error;
+> +    Error *error;
+>      bool initialized;
+>      unsigned long pgsizes;
+>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+> 
 
-Hi Paul,
-
-I've just checked my local repo and I can confirm they are based on qemu master
-commit 8dc57281b8 "Merge remote-tracking branch
-'remotes/cleber/tags/python-next-pull-request' into staging".
-
-
-ATB,
-
-Mark.
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
