@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54B1BD3A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:33:28 +0200 (CEST)
-Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CE8BD3AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:36:41 +0200 (CEST)
+Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrV1-00006F-8K
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:33:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43980)
+	id 1iCrY8-0003zE-Im
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:36:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-0000qB-J4
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-0000qt-Q2
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8K-0002zi-PR
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8L-0002zy-5Z
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:02 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38094)
+Received: from relay.sw.ru ([185.231.240.75]:38106)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8K-0002sb-Hp
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:00 -0400
+ id 1iCr8K-0002sh-Tk
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr89-0001Mk-70; Tue, 24 Sep 2019 23:09:49 +0300
+ id 1iCr89-0001Mk-Dx; Tue, 24 Sep 2019 23:09:49 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/25] SCSI: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:50 +0300
-Message-Id: <20190924200902.4703-14-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 14/25] USB: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:51 +0300
+Message-Id: <20190924200902.4703-15-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>
+Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -75,34 +75,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/scsi/scsi-disk.c    | 1 +
- hw/scsi/scsi-generic.c | 1 +
- 2 files changed, 2 insertions(+)
+ hw/usb/ccid-card-emulated.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 915641a0f1..72ac308b6c 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2597,6 +2597,7 @@ static int get_device_type(SCSIDiskState *s)
+diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
+index 291e41db8a..9a2ea129dd 100644
+--- a/hw/usb/ccid-card-emulated.c
++++ b/hw/usb/ccid-card-emulated.c
+@@ -488,6 +488,7 @@ static uint32_t parse_enumeration(char *str,
  
- static void scsi_block_realize(SCSIDevice *dev, Error **errp)
+ static void emulated_realize(CCIDCardState *base, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
-     AioContext *ctx;
-     int sg_version;
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index e7798ebcd0..e955f4e0a5 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -653,6 +653,7 @@ static void scsi_generic_reset(DeviceState *dev)
- 
- static void scsi_generic_realize(SCSIDevice *s, Error **errp)
- {
-+    ERRP_FUNCTION_BEGIN();
-     int rc;
-     int sg_version;
-     struct sg_scsi_id scsiid;
+     EmulatedState *card = EMULATED_CCID_CARD(base);
+     VCardEmulError ret;
+     const EnumTable *ptable;
 -- 
 2.21.0
 
