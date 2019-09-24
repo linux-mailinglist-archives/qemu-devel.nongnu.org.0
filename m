@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF91BD58F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:48:55 +0200 (CEST)
-Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282CDBD587
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:40:46 +0200 (CEST)
+Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCuYA-0005IX-GM
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50853)
+	id 1iCuQG-00023C-QT
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCu1o-0006GZ-8e
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:15:29 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iCuOD-00018i-BY
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:38:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCu1n-0007jh-3I
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:15:28 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:41216)
+ (envelope-from <alistair23@gmail.com>) id 1iCuOB-0005q8-EF
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:38:37 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:35522)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCu1m-0007jL-Qy
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:15:27 -0400
-Received: by mail-pl1-x644.google.com with SMTP id t10so1588506plr.8
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 16:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Q2k3GUr3SAzAjwy6rPxhiGuKjd66qeUszHaOxEKx8rY=;
- b=rMkQP6UzR5MaO7TRZuHXnGLGxOIGWK1nVJacz1rbhSxewgbElrmeUVdrFuu/mQjry+
- zSjnlG6SmqzQIMo+EAGdaDOh1ewgy2notRomg31+qhTv/GG1LnUTOdlxYXV/YjCbTcDm
- rlTwhiifDp7TtJUoURrlxCFF9H6kezkmuvy1XQ++h2blZlGAtz+GDuaf52zd1DjiCqqA
- JaJ9Th1AnRKITwlZtLOYYzHf2UefonmDx3B8WiinVrrxdWmMgDexp1QsZGbSm5CFR0F5
- GpIykBwv6Q2+FGUDRbdFLkjlaVz3Ec7Aay2Nps79IX+r/Sl2PBO1/EbTr0nGBZryplDp
- Ewlw==
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iCuOB-0005q0-2Y; Tue, 24 Sep 2019 19:38:35 -0400
+Received: by mail-lf1-x142.google.com with SMTP id w6so2718440lfl.2;
+ Tue, 24 Sep 2019 16:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=O7OXBq3GJHcDeHuw8Xe56ZoJpLWvGCzQo3fbzFjvtXM=;
+ b=tdJ7qQQ10bApF4NoCrXARm99Fw+HEejqLe0V8MPc1czCxOimyu4TWHK+ZKE5m1rd6n
+ 0x3PtGMUIDzWS8tdw5pjCa2+Oj2Z+Rm0bqkGV+VPCR6gjCxDXuNnQDBimhsxI1GecevN
+ svoVjSMXFr5wGALDEJLuUZN3rq9arE8DhHrh55fsmhfXzal86zaI8wDOQATQ7hcMGn1K
+ xNACxAc0ubTUWjDt6tppclnIRJH0Fk7sCVfg13FXrqtPEEFEkSts3fZQNsubGhUs6s/O
+ xUO2ZIw04eEh3c5JUrxCP/2k8PrbebVhO7kYl5Xz+8l1pVXgww54oTLpvJVsRssGNbIv
+ Jvwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q2k3GUr3SAzAjwy6rPxhiGuKjd66qeUszHaOxEKx8rY=;
- b=r1qzDZip2jb+sV2Dj6zfQRsloWTRj+0yH7G6uxYF8jAi2y8gB0uPniQTlyPjRbMzmB
- XkXMkUZrr41NaWD4LpzAhwmovMnFX8sXtZqS8OB5EhFVKdOdvhHhR7dp8N92FcA9vyOl
- O+PhE0GrNIutniqAxpQ5qkHAc+AVG+E6JA822RTvqs5EdqoNz/GSjiLrsuWGVUfDabAL
- xJO7JSpCMUOU9jdWHAvFZ9x9pM/trPxAa0Hr6vsr2IUyXNLKUcsTs/Y5SIc/HL8Z1w2H
- mAC4RUqV69YYtRgub+GCzDJV9bTCNH/A3mkDsw9H8acTYVv/GgWC1gd1p2EDMDHdzsHD
- t4lA==
-X-Gm-Message-State: APjAAAUzn7ivmho7aGeoLD1MZZRiGuIpoZmgtffVQZaQjsHN/Twe6YdM
- ZuC+KM5l6T+glud41IrPwawfsXCkGXU=
-X-Google-Smtp-Source: APXvYqzno6UY8XO/fYdl0gEn4M0qrvRkQ/FPCI49iGOhmOLbrWD+KgvkZQUdwtooZYgqXaXBRhbuuQ==
-X-Received: by 2002:a17:902:b482:: with SMTP id
- y2mr5057574plr.334.1569360573206; 
- Tue, 24 Sep 2019 14:29:33 -0700 (PDT)
-Received: from [172.20.32.216] ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id q20sm3311132pfl.79.2019.09.24.14.29.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Sep 2019 14:29:32 -0700 (PDT)
-Subject: Re: [PATCH 1/7] target/ppc: introduce get_dfp{64,128}() helper
- functions
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
-References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
- <20190924153556.27575-2-mark.cave-ayland@ilande.co.uk>
- <e4e2220b-d23b-aa54-2c46-c937bd0efe86@linaro.org>
- <e4ba6c27-e57a-de8f-c993-4172db2ea01a@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <af723c90-4dc3-c45d-b3fa-75d7a7097833@linaro.org>
-Date: Tue, 24 Sep 2019 14:29:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=O7OXBq3GJHcDeHuw8Xe56ZoJpLWvGCzQo3fbzFjvtXM=;
+ b=IKNS/xbXB1gF1Eq0s1y6p2L0nrlYzp4Gud5jHi67TZAWTeY7jx2dtxdHNexw/o6OEt
+ msGG0Bp+lwY2mrG7WzmI03d5QyF3D8uR4NE/Icu9Wvmwh6u0aaugwUA9hyDQvzt1OxDA
+ itDUSKnGX3GpkQT62TTrO6IBTTQ8u4Utg5rV0G97Q+DZsSCTqhC8vl53ScNY6gJ6kO8N
+ +GLyAKyZBS4zz7rTifz8PZWFAGMejcQpgJVvcnzevmj7YtXxESYmNsK9Ub4Ny9FoCvdS
+ pm09W615RzgZvIA9w7wJY7p+IOLbLAQgdaVnBEkJ20pqGckLJO3yvhpd0Li5WeGkQKmd
+ wi7g==
+X-Gm-Message-State: APjAAAUmBvbS7/7uMM2VtKZR3lnxF4UejSvyWSVmTajrl+BpwW/s9F7l
+ 7T3iwawtQPXAXTLVMZmeJQ4syGKtpKp3c4S0mGA=
+X-Google-Smtp-Source: APXvYqyDljoD0U1sOS6WaHxuZ/kFsrDEa1FjerIWlcF6xcj9ml/pQg2ItCpR5PwppBX6qzIOAH8x0ioGSH75vElurpY=
+X-Received: by 2002:ac2:5e9e:: with SMTP id b30mr3512334lfq.5.1569368313639;
+ Tue, 24 Sep 2019 16:38:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e4ba6c27-e57a-de8f-c993-4172db2ea01a@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1569311902-12173-1-git-send-email-guoren@kernel.org>
+In-Reply-To: <1569311902-12173-1-git-send-email-guoren@kernel.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 24 Sep 2019 16:33:51 -0700
+Message-ID: <CAKmqyKMzpTKBT+urX_7qFASqcAd4kkfJmf6LUk-0V=0LOuHLxw@mail.gmail.com>
+Subject: Re: [PATCH V2] target/riscv: Bugfix reserved bits in PTE for RV64
+To: guoren@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2a00:1450:4864:20::142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,16 +70,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Guo Ren <ren_guo@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/19 2:05 PM, Mark Cave-Ayland wrote:
-> With the full patchset applied you'll see that get_dfp64() and friends are
-> in exactly the same form you show above, and if I swap the arguments then
-> the compiler does actually complain, although somewhat cryptically.
-Oh, good.  I'll finish reading the whole set before making too many more
-comments ahead of your actual steps.
+On Tue, Sep 24, 2019 at 12:58 AM <guoren@kernel.org> wrote:
+>
+> From: Guo Ren <ren_guo@c-sky.com>
+>
+> Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so we
+> need to ignore them. They can not be a part of ppn.
+>
+> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+>    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+>    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
 
+Thanks for the patch!
 
-r~
+The spec says "must be zeroed by software for forward compatibility"
+so I don't think it's correct for QEMU to zero out the bits.
+
+Does this fix a bug you are seeing?
+
+>
+> Changelog V2:
+>  - Bugfix pte destroyed cause boot fail
+>  - Change to AND with a mask instead of shifting both directions
+
+The changelog shouldn't be in the commit, it should be kept under the
+line line below.
+
+>
+> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+
+The change log should go here.
+
+>  target/riscv/cpu_bits.h   | 3 +++
+>  target/riscv/cpu_helper.c | 3 ++-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index e998348..ae8aa0f 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -470,6 +470,9 @@
+>  #define PTE_D               0x080 /* Dirty */
+>  #define PTE_SOFT            0x300 /* Reserved for Software */
+>
+> +/* Reserved highest 10 bits in PTE */
+> +#define PTE_RESERVED        ((target_ulong)0x3ff << 54)
+
+I think it's just easier to define this as 0xFFC0000000000000ULL and
+remove the cast.
+
+> +
+>  /* Page table PPN shift amount */
+>  #define PTE_PPN_SHIFT       10
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 87dd6a6..7a540cc 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -258,10 +258,11 @@ restart:
+>          }
+>  #if defined(TARGET_RISCV32)
+>          target_ulong pte = ldl_phys(cs->as, pte_addr);
+> +        hwaddr ppn = pte >> PTE_PPN_SHIFT;
+>  #elif defined(TARGET_RISCV64)
+>          target_ulong pte = ldq_phys(cs->as, pte_addr);
+> +        hwaddr ppn = (pte & ~PTE_RESERVED) >> PTE_PPN_SHIFT;
+>  #endif
+> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
+
+You don't have to move this shift
+
+>
+>          if (!(pte & PTE_V)) {
+>              /* Invalid PTE */
+> --
+> 2.7.4
+>
 
