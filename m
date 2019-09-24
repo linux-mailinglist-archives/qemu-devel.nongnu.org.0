@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9572DBCAEA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:13:27 +0200 (CEST)
-Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82DEABCAFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:18:04 +0200 (CEST)
+Received: from localhost ([::1]:46914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmVK-0006ZV-0Z
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35354)
+	id 1iCmZn-0003Ol-3n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iClJm-0002zt-3J
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:57:28 -0400
+ (envelope-from <philmd@redhat.com>) id 1iClRa-0000bx-HO
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:05:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iClJl-0000DJ-06
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:57:25 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34892)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iClJk-0000CX-Q5
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:57:24 -0400
-Received: by mail-oi1-x243.google.com with SMTP id x3so1717719oig.2
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:57:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vMmaji/RGvedZuk2RaAUa4vZZdlLr5fEGxEDI7CiFeE=;
- b=kqMZ+WtnkhbtzhvlhjXwwscfrRXT/w8p9CzN4cOMWKvu1omYxEUFGnwiU2zpMvcNof
- tqo8b9ZzusPkgOr4vPlOqEkOQCTGKUba1YjVfU41HNOdBPwflhfYjr2VCRGqg+D64tyt
- AVFqe3KQSLm/1rwq2Rit7zFsTuLfv8fOu8dHtGfBhE9z9iESI2eZZEEGfQ+A6TKZANzI
- 5AFhZRTPxDmjaeN805mMEAVeqJ5iypxiHSzKzjMELgH6A7Egkj4/hTN3Fs8iQsOvXu0L
- 5jEClyQpsguDnbqx3AXYQvG619RZmgUemA/a3EFpxBsqYkoGS/CsuBY7HrmjkZnWPwFw
- 0weQ==
+ (envelope-from <philmd@redhat.com>) id 1iClRY-0003qQ-0Z
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:05:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39921
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iClRX-0003pr-RT
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:05:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1569333927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=qsZFkBCjAg4NRJpBDgNBqwAYIrBs9cL8UQCX2si23RE=;
+ b=YQpSYbtLALT2reRAOTfU3RduiEu/GdPLP44YxspEX9pX1Zdy36m4aSt5gCclEJJSQb0cB9
+ da9FuPFDxFvPp3D9/UFHTDmhTzzTzGn0VEKW2ZNIvxDqB5Fj5Tx6GvX6EoqxbfQFTND9La
+ zzqklAuEUkY8BoBadEaDL5Y1/pdKjCM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-vlRp2KULNrWb0BhM9Vmxjg-1; Tue, 24 Sep 2019 10:05:25 -0400
+Received: by mail-wr1-f69.google.com with SMTP id j3so620365wrn.7
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 07:05:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vMmaji/RGvedZuk2RaAUa4vZZdlLr5fEGxEDI7CiFeE=;
- b=dsom2n+XZF/AgUbm9mdyqsZhJ3LljtkfD+3AVqwi9u4EjDBvYw++bxGpBnjsSYY6mY
- +cV4rYWkfD2myptkGzBwg0fsrfcnlJg1QflOVR34u+6v52cIu+H9CxHIWrB5txUo8mYR
- kUX1nMu4WWclaSehQ8Cm0ILj84JBLnElZyTBl5zwn7oZvXmNZHecNoKvoFqaMCTYTBPv
- LJT7mamYMDOfrEJ+XtkoUoXBBbSJcJemMiEcC1o21CYgOt0VvJA2BvocDlXCb7wUFCNX
- GM7pwDqs2d7s5XagUK9pO4i5xHS9A2mrJvl4Kq+fj5uwbTja6MDk7SIotrKzairNDqZ7
- Fqww==
-X-Gm-Message-State: APjAAAVfveNy7HmD7de6RYxkGBzY5dcF0z45GhuDK5os/pvG/QFm4UBP
- /Qqc0QQQ2swqZNtIvTpRBTRiQJN7lzEGi1B+8vLohQ==
-X-Google-Smtp-Source: APXvYqyk8uNERiTw5KlM/VZ2fU3MnQFHMG461Tkz+7/aVpoyCEKM5OREzdXY+E0Rc3W0AF6AZuwb9lcv6b1BpPLazyg=
-X-Received: by 2002:aca:f54d:: with SMTP id t74mr151470oih.170.1569333442752; 
- Tue, 24 Sep 2019 06:57:22 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SPLJnRLkroiJLQOvFWvOrYF8z/53F+MgKQSL9d4wxPk=;
+ b=WgQTQ+rHLuxZTffJJjGXJKDgrKUvSKjNZwsmiNlUIAu3hRUzg+Ek4q5w0JgI90syI7
+ RVtZSe/wb90Sp0WmcYYUS/c7gDx7YEptBEw4tr3J9cirTCLw6Vv66cI6BRD7HrzYpw7i
+ Tcqg20jurAWA4k8aNHqf0zNb7UsMPblC87NE91qySvK4FSFaY95UX60C3ZSjCZJUVvrs
+ V4iHX+8AOiFc5rHKpGMaWBiyPIKxsUimGWzih0+qPu+IAYU6gyc6xJf5tEg3bXo7GeDe
+ 1FtRH/SMs6XGxatir6HuGJYAFn4ZHiNz42MW9tMSEi2WvexY/OJyWINl+nzRRiUcsmmh
+ pnKA==
+X-Gm-Message-State: APjAAAXuz8y2jOEdDPWdLGETjy8ZYdNlHIY9kWk/TnU0rrTXfdpk8wHT
+ LuSXpBbtsYIlxGWiLqlzXF1sP7gVIqF6BgZ0JXheUm33t2H4puoZOlTZUNU40VNz1EH/MRSQ5Cm
+ n07YSEnHB3vmuZMs=
+X-Received: by 2002:a5d:694e:: with SMTP id r14mr2458772wrw.34.1569333924759; 
+ Tue, 24 Sep 2019 07:05:24 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzBwOmY8pOjEwJTG0GQU8tmcP9XUiJI3dCpuqjsVJH32z5rx2evgf7PoHPI0D1O73fzBbepjg==
+X-Received: by 2002:a5d:694e:: with SMTP id r14mr2458751wrw.34.1569333924579; 
+ Tue, 24 Sep 2019 07:05:24 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id f186sm126612wmg.21.2019.09.24.07.05.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Sep 2019 07:05:23 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] RTC support for QEMU RISC-V virt machine
+To: Anup Patel <Anup.Patel@wdc.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+References: <20190924131131.118155-1-anup.patel@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <735d696e-f0dc-cad3-acc3-056cf152cc22@redhat.com>
+Date: Tue, 24 Sep 2019 16:05:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190924124433.96810-1-slp@redhat.com>
-In-Reply-To: <20190924124433.96810-1-slp@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Sep 2019 14:57:11 +0100
-Message-ID: <CAFEAcA_2-achqUpTk1fDGWXcWPvTTLPvEtL+owNSWuZ5L3p=XA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Introduce the microvm machine type
-To: Sergio Lopez <slp@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+In-Reply-To: <20190924131131.118155-1-anup.patel@wdc.com>
+Content-Language: en-US
+X-MC-Unique: vlRp2KULNrWb0BhM9Vmxjg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,37 +95,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Atish Patra <Atish.Patra@wdc.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 14:25, Sergio Lopez <slp@redhat.com> wrote:
->
-> Microvm is a machine type inspired by both NEMU and Firecracker, and
-> constructed after the machine model implemented by the latter.
->
-> It's main purpose is providing users a minimalist machine type free
-> from the burden of legacy compatibility, serving as a stepping stone
-> for future projects aiming at improving boot times, reducing the
-> attack surface and slimming down QEMU's footprint.
+Hi Anup,
 
+On 9/24/19 3:11 PM, Anup Patel wrote:
+> This series adds RTC device to QEMU RISC-V virt machine. We have
+> selected Goldfish RTC device model for this. It's a pretty simple
+> synthetic device with few MMIO registers and no dependency external
+> clock. The driver for Goldfish RTC is already available in Linux so
+> we just need to enable it in Kconfig for RISCV and also update Linux
+> defconfigs.
+>=20
+> We have tested this series with Linux-5.3 plus defconfig changes
+> available in 'goldfish_rtc_v1' branch of:
+> https://github.com/avpatel/linux.git
+>=20
+> Changes since v1:
+>  - Removed redundant object properties from Goldfish RTC emulation
+>  - Added vmstate for Goldfish RTC
+>=20
+> Anup Patel (2):
+>   hw: timer: Add Goldfish RTC device
+>   riscv: virt: Use Goldfish RTC device
+>=20
+>  hw/riscv/Kconfig                |   1 +
+>  hw/riscv/virt.c                 |  15 ++
+>  hw/timer/Kconfig                |   3 +
+>  hw/timer/Makefile.objs          |   1 +
+>  hw/timer/goldfish_rtc.c         | 278 ++++++++++++++++++++++++++++++++
+>  include/hw/riscv/virt.h         |   2 +
+>  include/hw/timer/goldfish_rtc.h |  46 ++++++
 
->  docs/microvm.txt                 |  78 +++
+Minor comment, if my ongoing series "Split RTC devices from hw/timer/ to
+hw/rtc/" is accepted, you'd have to rebase this in hw/rtc/goldfish_rtc:
+https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03334.html
+(no logical change involved).
 
-I'm not sure how close to acceptance this patchset is at the
-moment, so not necessarily something you need to do now,
-but could new documentation in docs/ be in rst format, not
-plain text, please? (Ideally also they should be in the right
-manual subdirectory, but documentation of system emulation
-machines at the moment is still in texinfo format, so we
-don't have a subdir for it yet.)
+Regards,
 
-thanks
--- PMM
+Phil.
+
 
