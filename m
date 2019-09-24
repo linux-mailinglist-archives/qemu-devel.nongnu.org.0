@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD68EBD0C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:38:31 +0200 (CEST)
-Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1173BD0AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:32:51 +0200 (CEST)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iColi-0005KX-6V
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:38:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41812)
+	id 1iCogE-0008Oj-8W
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iCoZI-0003Fj-Ch
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:25:41 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCoVs-0008Jl-2K
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:22:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iCoZH-0003k8-9o
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:25:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42534)
+ (envelope-from <richard.henderson@linaro.org>) id 1iCoVq-0001vA-GK
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:22:07 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41274)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iCoZH-0003jU-3I
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:25:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iCoZG-0007tu-3G
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 17:25:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0B61B2E80CB
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 17:25:38 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iCoVq-0001uU-7j
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:22:06 -0400
+Received: by mail-pf1-x443.google.com with SMTP id q7so1757347pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 10:22:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ShJu3UJ26MTFMk5sHkGBGMjA9yGJor0G5wu1YDqz3nQ=;
+ b=m4ERP71ruEA+f7f3VOzwS6CnKrgBqPcP/dllq3dUR4yZL/teOtgQU0IiPH0tuMokfJ
+ /8lYNRJx7QAZQ4rP5i9oxtYZJwB2lhQ8y879JiCZn/KQbf37s12Qlpk80L873GM97E0D
+ eOfN2B/mUQNMIcXJSnMYpdaokDNrsstdAtU8NTV0nAscP4oTYN/UIXYOW//l7jbRpf93
+ sKVwn8VPp5WWky5vzR17zDhMJ49I0chQVYMqIYe8/IjMOUavNK2mVoDnsGDfV9k4J/Q9
+ PKC3IvddrRHWeannTG50Y9/tqCgZ+QCO3Bv3lYnMhu9A2amaRiez/+Hv2Ri/nyNd3lWY
+ WlJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ShJu3UJ26MTFMk5sHkGBGMjA9yGJor0G5wu1YDqz3nQ=;
+ b=n970/34hLbFCwdfJRbwY/A5q7zA+3g387k+Eb/40ll7E4+X620uxPiRPz6/jmu1zo7
+ QzN7jhRf5aanwBTiGNpK9nka+CdFmM1FhNvk61SbuoHSEdeT5TvdI8XiuNyshvUb971i
+ 8IQUYfJ+gkfDhILqKPFVqjR3KqMlY8SpUyKfk2/QXXA9Lw39pR8p2DfGNXLu9NuTZByR
+ tSq2wdm1NAOrdUUqFOPIF8HFbreMt5TFAuA1q+egShUN4dCYbiDFOfvEvsQ/AFLomNZi
+ y+sPKtkcJ/cibMp+PX+oNJnoYoihemYJvvKWFJ24RJRq39QeoYTYFtl0CEP/G5GV7bvL
+ RYQw==
+X-Gm-Message-State: APjAAAXmnwj8luMOLmrSECVTfB3tSjoP2ePadh8VmGKSCJ1ZC+C0tI8o
+ XAhCorTi/lZp2whaQvPllnTOKg==
+X-Google-Smtp-Source: APXvYqwdES36iTDesBszAPu1c9WMNm8/Acg71GaJMmSuV3Qws/XGOZ+ajo2HZnjIpRE92UHPF5K1sQ==
+X-Received: by 2002:a63:594f:: with SMTP id j15mr4193469pgm.57.1569345724490; 
+ Tue, 24 Sep 2019 10:22:04 -0700 (PDT)
+Received: from [172.20.32.216] ([12.206.46.59])
+ by smtp.gmail.com with ESMTPSA id r185sm2848063pfr.68.2019.09.24.10.22.02
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 24 Sep 2019 10:22:03 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PATCH 4/4] target/arm: Add support for DC CVAP & DC
+ CVADP ins
+To: Beata Michalska <beata.michalska@linaro.org>, qemu-devel@nongnu.org
+References: <20190910095610.4546-1-beata.michalska@linaro.org>
+ <20190910095610.4546-5-beata.michalska@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <c70f7562-c988-5eab-fa1e-fc8b5897e171@linaro.org>
+Date: Tue, 24 Sep 2019 10:22:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Sep 2019 17:16:48 -0000
-From: mustafa <1824704@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: drjs5x kraxel-redhat th-huth
-X-Launchpad-Bug-Reporter: mustafa (drjs5x)
-X-Launchpad-Bug-Modifier: mustafa (drjs5x)
-References: <155524844990.21262.8108456842078597088.malonedeb@chaenomeles.canonical.com>
- <156931144539.27379.15557350803171086406.malone@soybean.canonical.com>
-Message-Id: <CAE5RSKKodFALvdJiWE4r7FG5__Qp0QxpHNEbcFeMisWW62PVew@mail.gmail.com>
-Subject: Re: [Bug 1824704] Re: -k tr not working after v20171217! turkish
- keyboard dont working
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 241b284f2b0367121abf6dc4f8692a81f65ef089
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <20190910095610.4546-5-beata.michalska@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,44 +84,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1824704 <1824704@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, quintela@redhat.com, dgilbert@redhat.com,
+ shameerali.kolothum.thodi@huawei.com, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-after v20171217 all versions.
+On 9/10/19 2:56 AM, Beata Michalska wrote:
+> @@ -2229,7 +2229,8 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+>  #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
+>  #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
+>  #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
+> -#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
+> +#define ARM_CP_DC_CVAP           (ARM_CP_SPECIAL | 0x0600)
+> +#define ARM_LAST_SPECIAL         ARM_CP_DC_CVAP
 
--- =
+I don't see that this operation needs to be handled via "special".  It's a
+function call upon write, as for many other system registers.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1824704
+> +static inline bool isar_feature_aa64_dcpop(const ARMISARegisters *id)
+> +{
+> +    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) != 0;
+> +}
+> +
+> +static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
+> +{
+> +    return (FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >> 1) != 0;
+> +}
 
-Title:
-  -k tr not working after v20171217! turkish keyboard dont working
+The correct check is FIELD_EX(...) >= 2.  This is a 4-bit field, as with all of
+the others.
 
-Status in QEMU:
-  Incomplete
+> +static CPAccessResult aa64_cacheop_persist_access(CPUARMState *env,
+> +                                                  const ARMCPRegInfo *ri,
+> +                                                  bool isread)
+> +{
+> +    ARMCPU *cpu = env_archcpu(env);
+> +    /*
+> +     * Access is UNDEF if lacking implementation for either DC CVAP or DC CVADP
+> +     * DC CVAP ->  CRm: 0xc
+> +     * DC CVADP -> CRm: 0xd
+> +     */
+> +    return (ri->crm == 0xc && !cpu_isar_feature(aa64_dcpop, cpu)) ||
+> +           (ri->crm == 0xd && !cpu_isar_feature(aa64_dcpodp, cpu))
+> +           ? CP_ACCESS_TRAP_UNCATEGORIZED
+> +           : aa64_cacheop_access(env, ri, isread);
+> +}
+...
+> +    { .name = "DC_CVAP", .state = ARM_CP_STATE_AA64,
+> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 1,
+> +      .access = PL0_W, .type = ARM_CP_DC_CVAP,
+> +      .accessfn = aa64_cacheop_persist_access },
+> +    { .name = "DC_CVADP", .state = ARM_CP_STATE_AA64,
+> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 1,
+> +      .access = PL0_W, .type = ARM_CP_DC_CVAP,
+> +      .accessfn = aa64_cacheop_persist_access },
 
-Bug description:
-  hi qemu
+While this access function works, it's better to simply not register these at
+all when they're not supported.  Compare the registration of rndr_reginfo.
 
-  -k tr not working after v20171217! turkish keyboard dont working
+As I described above, I think this can use a normal write function.  In which
+case this would use .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END.
 
-  last working without proplem at v20171217!
+(I believe that ARM_CP_IO is not required, but I'm not 100% sure.  Certainly
+there does not seem to be anything in dc_cvap() that affects state which can
+queried from another virtual cpu, so there does not appear to be any reason to
+grab the global i/o lock.  The host kernel should be just fine with concurrent
+msync syscalls, or whatever it is that libpmem uses.)
 
-  after this version  tr keyboard proplem.
-  freedos  , winpe  ,  linux images   all dont working tr  turkish keyboard.
 
-  example   press key " =C3=A7 "  show " , "
-  example 2 press key " . "  show " =C3=A7 "
+> +void HELPER(dc_cvap)(CPUARMState *env, uint64_t vaddr_in)
+> +{
+> +#ifndef CONFIG_USER_ONLY
+> +    ARMCPU *cpu = env_archcpu(env);
+> +    /* CTR_EL0 System register -> DminLine, bits [19:16] */
+> +    uint64_t dline_size = 4 << ((cpu->ctr >> 16) & 0xF);
+> +    uint64_t vaddr = vaddr_in & ~(dline_size - 1);
+> +    void *haddr;
+> +    int mem_idx = cpu_mmu_index(env, false);
+> +
+> +    /* This won't be crossing page boundaries */
+> +    haddr = probe_read(env, vaddr, dline_size, mem_idx, GETPC());
+> +    if (haddr) {
+> +
+> +        ram_addr_t offset;
+> +        MemoryRegion *mr;
+> +
+> +        /*
+> +         * RCU critical section + ref counting,
+> +         * so that MR won't disappear behind the scene
+> +         */
+> +        rcu_read_lock();
+> +        mr = memory_region_from_host(haddr, &offset);
+> +        if (mr) {
+> +            memory_region_ref(mr);
+> +        }
+> +        rcu_read_unlock();
+> +
+> +        if (mr) {
+> +            memory_region_do_writeback(mr, offset, dline_size);
+> +            memory_region_unref(mr);
+> +        }
+> +    }
+> +#endif
 
-  tr keyboard work  always "en-us" kbd.
-  :((((((((
 
-  please fix this critical bug.
+We hold the rcu lock whenever a TB is executing.  I don't believe there's any
+point in increasing the lock count here.  Similarly with memory_region
+refcounts -- they cannot vanish while we're executing a TB.
 
-  Sincerely
+Thus I believe that about half of this function can fold away.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1824704/+subscriptions
+
+r~
 
