@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D9BBCCA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:41:57 +0200 (CEST)
-Received: from localhost ([::1]:48252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74077BCCF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:43:50 +0200 (CEST)
+Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCnsy-0002iF-2O
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51053)
+	id 1iCnun-0004pA-84
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:43:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCmuD-0007zP-2h
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:10 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCn2J-0007nR-N9
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:47:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCmuA-00062n-BA
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:08 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38827)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCn2H-00032l-JZ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:47:31 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCmu8-00061u-Ir
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 3so569144wmi.3
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:39:04 -0700 (PDT)
+ id 1iCn2H-00031y-4c
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:47:29 -0400
+Received: by mail-wr1-x441.google.com with SMTP id q17so2509909wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:47:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=qclRRxXYeP+oEHUpWSgbBttIh6GIZkCeB7ty9HlkVEc=;
- b=kGb2jcWztH1UW6soq/kMMeyhsU/4oWhGrovh4QKh0HCrqYnIz7ZnR17njbVHIJT6ZM
- JLTV61affaMIhNKJn5Dkag98R2b3ZyQgiuRf+Il5uXj8NLMRjDkPVrkpYoEyNRt0h1WN
- NKLCYMuZkkaabSzO4VIYOBtYekm+5a8jtdt6R0aqrGGQBwvo2vwQOcTewM1P6Daz0yJ0
- kpNZjnU8Zsp+3fILRo4zkvMovixz7/gVMxTwedDm8ZqjNPx7BDZfewgTxdP3/VUBht20
- rhaslLmk0GBYHMZiVWimjnk87jxV4W2dim5QE7mTDrhjNoT08CFeaaJpwA/0BqQl5w6s
- LscA==
+ bh=IRtcHPd8XxGP9F+gG+P5IzGuGOdTl9ePtKc5A0vVr/s=;
+ b=vjiyck8TAiFKAwFeA2l2FFLKW1wljDSb5eHdoTbBQFQQc7D7Ljbuldap2yTbuuayi3
+ DtemhvK7HT1yNh5MsY5L+uTDVqeLjk3kwlat3sMZ/b++eNbuTRkeW39Q+H44iAflDq8w
+ GAYzamBrE4r9SczrLIUDAkSJLJcUS99j8gLhiUANkLSQxON+RaQr3rf2BOPPUWbALsqo
+ LW0Qkc53pBwnfUXNz/nudVGP/YWDAJ5Cl7uLGYytwxR8aScSEBqcbpoZRVOZjxqkSmhy
+ oPgu7QRaTEC56eLw4tDgRSP4mOq3rKj+1SvWubFM3saPJW5X4nI9kmOJ4O3QKj416lIO
+ MCgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=qclRRxXYeP+oEHUpWSgbBttIh6GIZkCeB7ty9HlkVEc=;
- b=iJe8zMswGft3wpFVTvVrgv+2iB83flaQ+chgXhtURVjPEEG6KXL9Ya3+adh6rp0RP2
- T878ieIaKX5bWtHmhngK77em+xDsgK9iYa+fyOZN9+v80xPA81E+zE/Y2dxJU23D9U3q
- oiVhP3p7TCG/Cgl5HsgFb7OPbNQdOb4xbw4wT+8DwYokK4lKiOVZLCENntMFeT3SJDcE
- VLDFhE35u3z/FPFedVtXBiuw8u80YNY3r2Lv0yLJSJXaf/EW8OdYUKm+kBBIKofvfNa/
- x1jXAciMWjaz7KkQeydrq7VwAVih/Czn8tc7P9R/wqh9KCxtcs4W5viq6AxHoqD6yK/9
- h7CA==
-X-Gm-Message-State: APjAAAUdEXoBenUX8TiBFM7hRmiZxA1Gh1F12H0f3xLMfGsG5NsvosMt
- 2Z/BCZEQPYGTVo3jnq6LZH+cf4DAuZ5Eyg==
-X-Google-Smtp-Source: APXvYqy7ZSGtxyFuGxSISg9/X8mRsJyWWr0EGH1vzygtfFK8pmj3dICs1XqRz+Hni2LtjcI6iv6apQ==
-X-Received: by 2002:a1c:c78f:: with SMTP id x137mr813859wmf.42.1569339541820; 
- Tue, 24 Sep 2019 08:39:01 -0700 (PDT)
+ bh=IRtcHPd8XxGP9F+gG+P5IzGuGOdTl9ePtKc5A0vVr/s=;
+ b=MLBhd++IHxHPzHtI6hVZVRTRUkiP2loA37sts/1sg0rpjIowsCCl29Ib4UpZgtyyb3
+ lAjibZbUdkPLDd4y4DQGHKFaS9jp6P4sqN4H/lOXJR373UgK9Tmw6IVVw2G66cnBXE7t
+ FF8NIGb3/rOe9vX3hYBD5QnsCwI3EtaKv1JMvsxCy1W/nWZe8Q7v9pTsl4EGvyWgdnUR
+ y5pxbpFpJ7314Ugrku2hrUNvrSxn+8a6WuQZSG2KU9RhJwAbdJxd5nFzyDT3ySrNsQDI
+ UKqaBCdGaQ7acj1+j0b6BOw3w6TxcNRpw6Hx2EUsjs4nDFGae7oieWBKfnm3B+NMzw3o
+ z6dQ==
+X-Gm-Message-State: APjAAAXfWIzcFq8KOc7l6YMO+5CLKtQ8rWhVkf3MXwBOB0alYwJINwsU
+ m1Jc2IkXyfLccrpCxu4EfQWQMA==
+X-Google-Smtp-Source: APXvYqwOcwPzTYr7LDbJYQEKSn2G64TtoENhIVlQgVIZSlokoyzQFnZbZxdZqTbC+PPocSCGRLQNIg==
+X-Received: by 2002:adf:e64e:: with SMTP id b14mr3240963wrn.16.1569340047826; 
+ Tue, 24 Sep 2019 08:47:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u10sm478677wmm.0.2019.09.24.08.39.00
+ by smtp.gmail.com with ESMTPSA id v8sm3579636wra.79.2019.09.24.08.47.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 08:39:00 -0700 (PDT)
+ Tue, 24 Sep 2019 08:47:27 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 541381FF87;
- Tue, 24 Sep 2019 16:39:00 +0100 (BST)
-References: <20190923174942.12182-1-dgilbert@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id A3AC41FF87;
+ Tue, 24 Sep 2019 16:47:26 +0100 (BST)
+References: <20190923230004.9231-1-richard.henderson@linaro.org>
+ <20190923230004.9231-5-richard.henderson@linaro.org>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] migration/postcopy: Recognise the recovery states as
- 'in_postcopy'
-In-reply-to: <20190923174942.12182-1-dgilbert@redhat.com>
-Date: Tue, 24 Sep 2019 16:39:00 +0100
-Message-ID: <875zlhbt63.fsf@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 04/16] cputlb: Use optimize_away in load/store_helpers
+In-reply-to: <20190923230004.9231-5-richard.henderson@linaro.org>
+Date: Tue, 24 Sep 2019 16:47:26 +0100
+Message-ID: <8736glbss1.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,59 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- quintela@redhat.com
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Dr. David Alan Gilbert (git) <dgilbert@redhat.com> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Increase the current runtime assert to a compile-time assert.
 >
-> Various parts of the migration code do different things when they're
-> in postcopy mode; prior to this patch this has been 'postcopy-active'.
-> This patch extends 'in_postcopy' to include 'postcopy-paused' and
-> 'postcopy-recover'.
->
-> In particular, when you set the max-postcopy-bandwidth parameter, this
-> only affects the current migration fd if we're 'in_postcopy';
-> this leads to a race in the postcopy recovery test where it increases
-> the speed from 4k/sec to unlimited, but that increase can get ignored
-> if the change is made between the point at which the reconnection
-> happens and it transitions back to active.
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-In my xenial stress test I run 100 times and it never triggered the 180s
-timeout I set on my retry.py script:
-
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  migration/migration.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  accel/tcg/cputlb.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 01863a95f5..5f7e4d15e9 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1659,7 +1659,14 @@ bool migration_in_postcopy(void)
->  {
->      MigrationState *s =3D migrate_get_current();
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index 2222b87764..e529af6d09 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1396,7 +1396,7 @@ load_helper(CPUArchState *env, target_ulong addr, T=
+CGMemOpIdx oi,
+>          res =3D ldq_le_p(haddr);
+>          break;
+>      default:
+> -        g_assert_not_reached();
+> +        optimize_away();
+>      }
 >
-> -    return (s->state =3D=3D MIGRATION_STATUS_POSTCOPY_ACTIVE);
-> +    switch (s->state) {
-> +    case MIGRATION_STATUS_POSTCOPY_ACTIVE:
-> +    case MIGRATION_STATUS_POSTCOPY_PAUSED:
-> +    case MIGRATION_STATUS_POSTCOPY_RECOVER:
-> +        return true;
-> +    default:
-> +        return false;
-> +    }
+>      return res;
+> @@ -1680,8 +1680,7 @@ store_helper(CPUArchState *env, target_ulong addr, =
+uint64_t val,
+>          stq_le_p(haddr, val);
+>          break;
+>      default:
+> -        g_assert_not_reached();
+> -        break;
+> +        optimize_away();
+>      }
 >  }
->
->  bool migration_in_postcopy_after_devices(MigrationState *s)
 
 
 --
