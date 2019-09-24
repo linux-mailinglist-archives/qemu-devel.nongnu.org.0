@@ -2,56 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD5BBD3AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:38:04 +0200 (CEST)
-Received: from localhost ([::1]:50852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AABBD3B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:40:54 +0200 (CEST)
+Received: from localhost ([::1]:50894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrZT-0005xz-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52003)
+	id 1iCrcD-00011y-7F
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:40:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCrXI-0004LM-PU
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:35:51 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8N-0000sH-Tb
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCrXG-0006nb-2u
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:35:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49076)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-00030k-4B
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38132)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCrXF-0006nE-Cq
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:35:45 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A77C7356C5;
- Tue, 24 Sep 2019 20:35:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C980360C5D;
- Tue, 24 Sep 2019 20:35:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5B602113864E; Tue, 24 Sep 2019 22:35:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 06/25] qapi: Change frontend error messages to start with
- lower case
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-7-armbru@redhat.com>
- <ab13d1b0-319c-1f57-de17-1718090f0e25@redhat.com>
-Date: Tue, 24 Sep 2019 22:35:40 +0200
-In-Reply-To: <ab13d1b0-319c-1f57-de17-1718090f0e25@redhat.com> (Eric Blake's
- message of "Tue, 24 Sep 2019 10:17:16 -0500")
-Message-ID: <875zlha0v7.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iCr8L-0002tV-MP
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iCr8A-0001Mk-C9; Tue, 24 Sep 2019 23:09:50 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 17/25] virtio-9p: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:54 +0300
+Message-Id: <20190924200902.4703-18-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
+References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 24 Sep 2019 20:35:44 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,125 +48,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+If we want append hint to errp, we must use ERRP_FUNCTION_BEGIN macro.
+Otherwise hint will not be appended in case of errp == &fatal_err
+(program will exit before error_append_hint() call). Fix such cases.
 
-> On 9/24/19 8:28 AM, Markus Armbruster wrote:
->> Starting error messages with a capital letter complicates things when
->> text can get interpolated both at the beginning and in the middle of
->> an error message.  The next patch will do that.  Switch to lower case
->> to keep it simpler.
->>=20
->> For what it's worth, the GNU Coding Standards advise the message
->> "should not begin with a capital letter when it follows a program name
->> and/or file name, because that isn=E2=80=99t the beginning of a sentence=
-. (The
->> sentence conceptually starts at the beginning of the line.)"
->
-> We're inconsistent throughout the code base, but this is one place where
-> I like the GCS rationale.  Fixing it everywhere may not be worth the
-> churn, but fixing it within the subset of the qapi generator is worthwhil=
-e.
->
->>=20
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  scripts/qapi/common.py                        | 175 +++++++++---------
->>  tests/qapi-schema/alternate-any.err           |   2 +-
->
->>  tests/qapi-schema/unknown-expr-key.err        |   2 +-
->>  125 files changed, 215 insertions(+), 204 deletions(-)
->>  create mode 100644 tests/qapi-schema/escape-too-big.err
->>  create mode 100644 tests/qapi-schema/string-control.err
->>  create mode 100644 tests/qapi-schema/string-unclosed.err
->>  create mode 100644 tests/qapi-schema/string-unicode.err
->
-> Umm, what's going on here?
+This commit (together with its neighbors) was generated by
 
-Accident.
+git grep -l 'error_append_hint(errp' | while read f; do \
+spatch --sp-file scripts/coccinelle/fix-error_append_hint-usage.cocci \
+--in-place $f; done
 
-> You'll want to either drop these files (if they were leftovers in your
-> working directory from previous points in time), or defer their addition
-> to when the corresponding actual tests exist.
+and then
 
-I'll drop them,
+./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
 
->>      def get_doc(self, info):
->>          if self.val !=3D '##':
->> -            raise QAPIParseError(self, "Junk after '##' at start of "
->> -                                 "documentation comment")
->> +            raise QAPIParseError(
->> +                self, "junk after '##' at start of documentation commen=
-t")
->
-> Reformatting like this also makes grepping for a particular message easie=
-r.
->
->
->> @@ -868,8 +869,8 @@ def check_union(expr, info):
->>          enum_values =3D members.keys()
->>          allow_metas =3D ['built-in', 'union', 'alternate', 'struct', 'e=
-num']
->>          if base is not None:
->> -            raise QAPISemError(info, "Simple union '%s' must not have a=
- base" %
->> -                               name)
->> +            raise QAPISemError(
->> +                info, "simple union '%s' must not have a base" % name)
->>=20=20
->
-> A bit odd that you reformat here to get the second argument all on one
-> line...
->
->>      # Else, it's a flat union.
->>      else:
->> @@ -878,46 +879,47 @@ def check_union(expr, info):
->>                     base, allow_dict=3Dname,
->>                     allow_metas=3D['struct'])
->>          if not base:
->> -            raise QAPISemError(info, "Flat union '%s' must have a base"
->> +            raise QAPISemError(info, "flat union '%s' must have a base"
->>                                 % name)
->
-> ...but not here.  The reformatting is not the primary focus of the
-> patch, and doesn't hurt semantically whether or not you do it, but maybe
-> it is worth calling out in the commit message the criteria you used for
-> deciding when to reformat, and/or make the patch strive for more
-> consistency.
+(auto-msg was a file with this commit message)
 
-I admit I wobble between
+Still, for backporting it may be more comfortable to use only the first
+command and then do one huge commit.
 
-    raise QAPISemError(info, "some lengthy error message text with %s"
-                       % argument)
+Reported-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ hw/9pfs/9p-local.c | 1 +
+ hw/9pfs/9p-proxy.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-and
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 08e673a79c..6b1a805575 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1471,6 +1471,7 @@ static void local_cleanup(FsContext *ctx)
+ 
+ static void error_append_security_model_hint(Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     error_append_hint(errp, "Valid options are: security_model="
+                       "[passthrough|mapped-xattr|mapped-file|none]\n");
+ }
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 57a8c1c808..01ff411aea 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -1116,6 +1116,7 @@ static int connect_namedsocket(const char *path, Error **errp)
+ 
+ static void error_append_socket_sockfd_hint(Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     error_append_hint(errp, "Either specify socket=/some/path where /some/path"
+                       " points to a listening AF_UNIX socket or sock_fd=fd"
+                       " where fd is a file descriptor to a connected AF_UNIX"
+-- 
+2.21.0
 
-    raise QAPISemError(info,
-                       "some lengthy error message text with %s" % argument)
-
-and
-
-    raise QAPISemError(
-        info, "some lengthy error message text with %s" % argument)
-
-The first looks okay, but as a rule, lines should be broken at an
-operator with lowest precedence.
-
-The second tends to produce long lines.
-
-I'm still getting used to the third.
-
->               I'll leave that up to you; fixing the spurious new files,
-> and making your choice of where to place the linebreaks, doesn't affect
-> my ability to offer:
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-I'll have another look.
-
-Thanks!
 
