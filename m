@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F733BC929
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:51:10 +0200 (CEST)
-Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D294BC926
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:50:47 +0200 (CEST)
+Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClDg-0003Yb-3c
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52363)
+	id 1iClDJ-00030T-Om
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iCkCF-0002qd-8l
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:37 -0400
+ (envelope-from <slp@redhat.com>) id 1iCkCY-000320-Rp
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iCkCC-0004nk-K1
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58059)
+ (envelope-from <slp@redhat.com>) id 1iCkCX-0004sI-AI
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43174)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iCkCB-0004iw-Rw
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:32 -0400
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iCkCX-0004rr-2J
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:53 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1051A10CC1F7;
- Tue, 24 Sep 2019 12:45:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 51C45300D20B;
+ Tue, 24 Sep 2019 12:45:52 +0000 (UTC)
 Received: from dritchie.redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3062E60852;
- Tue, 24 Sep 2019 12:45:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DEAA608C2;
+ Tue, 24 Sep 2019 12:45:37 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/8] hw/i386: Factorize e820 related functions
-Date: Tue, 24 Sep 2019 14:44:27 +0200
-Message-Id: <20190924124433.96810-3-slp@redhat.com>
+Subject: [PATCH v4 5/8] fw_cfg: add "modify" functions for all types
+Date: Tue, 24 Sep 2019 14:44:30 +0200
+Message-Id: <20190924124433.96810-6-slp@redhat.com>
 In-Reply-To: <20190924124433.96810-1-slp@redhat.com>
 References: <20190924124433.96810-1-slp@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Tue, 24 Sep 2019 12:45:27 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Tue, 24 Sep 2019 12:45:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,311 +60,150 @@ Cc: Sergio Lopez <slp@redhat.com>, ehabkost@redhat.com, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract e820 related functions from pc.c, and put them in e820.c, so
-they can be shared with other components.
+This allows to alter the contents of an already added item.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- hw/i386/Makefile.objs |  1 +
- hw/i386/e820.c        | 99 +++++++++++++++++++++++++++++++++++++++++++
- hw/i386/e820.h        | 11 +++++
- hw/i386/pc.c          | 66 +----------------------------
- include/hw/i386/pc.h  | 11 -----
- target/i386/kvm.c     |  1 +
- 6 files changed, 114 insertions(+), 75 deletions(-)
- create mode 100644 hw/i386/e820.c
- create mode 100644 hw/i386/e820.h
+ hw/nvram/fw_cfg.c         | 29 +++++++++++++++++++++++++++
+ include/hw/nvram/fw_cfg.h | 42 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 71 insertions(+)
 
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index c5f20bbd72..149712db07 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -2,6 +2,7 @@ obj-$(CONFIG_KVM) +=3D kvm/
- obj-y +=3D multiboot.o
- obj-y +=3D pvh.o
- obj-y +=3D pc.o
-+obj-y +=3D e820.o
- obj-$(CONFIG_I440FX) +=3D pc_piix.o
- obj-$(CONFIG_Q35) +=3D pc_q35.o
- obj-y +=3D fw_cfg.o pc_sysfw.o
-diff --git a/hw/i386/e820.c b/hw/i386/e820.c
-new file mode 100644
-index 0000000000..d5c5c0d528
---- /dev/null
-+++ b/hw/i386/e820.c
-@@ -0,0 +1,99 @@
-+/*
-+ * Copyright (c) 2003-2004 Fabrice Bellard
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-+ * of this software and associated documentation files (the "Software"),=
- to deal
-+ * in the Software without restriction, including without limitation the=
- rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be includ=
-ed in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "qemu/cutils.h"
-+#include "qemu/units.h"
-+
-+#include "hw/i386/e820.h"
-+#include "hw/i386/fw_cfg.h"
-+
-+#define E820_NR_ENTRIES		16
-+
-+struct e820_entry {
-+    uint64_t address;
-+    uint64_t length;
-+    uint32_t type;
-+} QEMU_PACKED __attribute((__aligned__(4)));
-+
-+struct e820_table {
-+    uint32_t count;
-+    struct e820_entry entry[E820_NR_ENTRIES];
-+} QEMU_PACKED __attribute((__aligned__(4)));
-+
-+static struct e820_table e820_reserve;
-+static struct e820_entry *e820_table;
-+static unsigned e820_entries;
-+
-+int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
-+{
-+    int index =3D le32_to_cpu(e820_reserve.count);
-+    struct e820_entry *entry;
-+
-+    if (type !=3D E820_RAM) {
-+        /* old FW_CFG_E820_TABLE entry -- reservations only */
-+        if (index >=3D E820_NR_ENTRIES) {
-+            return -EBUSY;
-+        }
-+        entry =3D &e820_reserve.entry[index++];
-+
-+        entry->address =3D cpu_to_le64(address);
-+        entry->length =3D cpu_to_le64(length);
-+        entry->type =3D cpu_to_le32(type);
-+
-+        e820_reserve.count =3D cpu_to_le32(index);
-+    }
-+
-+    /* new "etc/e820" file -- include ram too */
-+    e820_table =3D g_renew(struct e820_entry, e820_table, e820_entries +=
- 1);
-+    e820_table[e820_entries].address =3D cpu_to_le64(address);
-+    e820_table[e820_entries].length =3D cpu_to_le64(length);
-+    e820_table[e820_entries].type =3D cpu_to_le32(type);
-+    e820_entries++;
-+
-+    return e820_entries;
-+}
-+
-+int e820_get_num_entries(void)
-+{
-+    return e820_entries;
-+}
-+
-+bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
-*length)
-+{
-+    if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
-pe)) {
-+        *address =3D le64_to_cpu(e820_table[idx].address);
-+        *length =3D le64_to_cpu(e820_table[idx].length);
-+        return true;
-+    }
-+    return false;
-+}
-+
-+void e820_create_fw_entry(FWCfgState *fw_cfg)
-+{
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
-+                     &e820_reserve, sizeof(e820_reserve));
-+    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-+                    sizeof(struct e820_entry) * e820_entries);
-+}
-diff --git a/hw/i386/e820.h b/hw/i386/e820.h
-new file mode 100644
-index 0000000000..569d1f0ab5
---- /dev/null
-+++ b/hw/i386/e820.h
-@@ -0,0 +1,11 @@
-+/* e820 types */
-+#define E820_RAM        1
-+#define E820_RESERVED   2
-+#define E820_ACPI       3
-+#define E820_NVS        4
-+#define E820_UNUSABLE   5
-+
-+int e820_add_entry(uint64_t address, uint64_t length, uint32_t type);
-+int e820_get_num_entries(void);
-+bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
-*length);
-+void e820_create_fw_entry(FWCfgState *fw_cfg);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 10e4ced0c6..3920aa7e85 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -30,6 +30,7 @@
- #include "hw/i386/apic.h"
- #include "hw/i386/topology.h"
- #include "hw/i386/fw_cfg.h"
-+#include "hw/i386/e820.h"
- #include "sysemu/cpus.h"
- #include "hw/block/fdc.h"
- #include "hw/ide.h"
-@@ -99,22 +100,6 @@
- #define DPRINTF(fmt, ...)
- #endif
-=20
--#define E820_NR_ENTRIES		16
--
--struct e820_entry {
--    uint64_t address;
--    uint64_t length;
--    uint32_t type;
--} QEMU_PACKED __attribute((__aligned__(4)));
--
--struct e820_table {
--    uint32_t count;
--    struct e820_entry entry[E820_NR_ENTRIES];
--} QEMU_PACKED __attribute((__aligned__(4)));
--
--static struct e820_table e820_reserve;
--static struct e820_entry *e820_table;
--static unsigned e820_entries;
- struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_MAX};
-=20
- GlobalProperty pc_compat_4_1[] =3D {};
-@@ -878,50 +863,6 @@ static void handle_a20_line_change(void *opaque, int=
- irq, int level)
-     x86_cpu_set_a20(cpu, level);
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 7dc3ac378e..aef1727250 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -690,6 +690,15 @@ void fw_cfg_add_string(FWCfgState *s, uint16_t key, =
+const char *value)
+     fw_cfg_add_bytes(s, key, g_memdup(value, sz), sz);
  }
 =20
--int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
--{
--    int index =3D le32_to_cpu(e820_reserve.count);
--    struct e820_entry *entry;
--
--    if (type !=3D E820_RAM) {
--        /* old FW_CFG_E820_TABLE entry -- reservations only */
--        if (index >=3D E820_NR_ENTRIES) {
--            return -EBUSY;
--        }
--        entry =3D &e820_reserve.entry[index++];
--
--        entry->address =3D cpu_to_le64(address);
--        entry->length =3D cpu_to_le64(length);
--        entry->type =3D cpu_to_le32(type);
--
--        e820_reserve.count =3D cpu_to_le32(index);
--    }
--
--    /* new "etc/e820" file -- include ram too */
--    e820_table =3D g_renew(struct e820_entry, e820_table, e820_entries +=
- 1);
--    e820_table[e820_entries].address =3D cpu_to_le64(address);
--    e820_table[e820_entries].length =3D cpu_to_le64(length);
--    e820_table[e820_entries].type =3D cpu_to_le32(type);
--    e820_entries++;
--
--    return e820_entries;
--}
--
--int e820_get_num_entries(void)
--{
--    return e820_entries;
--}
--
--bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
-*length)
--{
--    if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
-pe)) {
--        *address =3D le64_to_cpu(e820_table[idx].address);
--        *length =3D le64_to_cpu(e820_table[idx].length);
--        return true;
--    }
--    return false;
--}
--
- /* Calculates initial APIC ID for a specific CPU index
-  *
-  * Currently we need to be able to calculate the APIC ID from the CPU in=
-dex
-@@ -1024,10 +965,7 @@ static FWCfgState *bochs_bios_init(AddressSpace *as=
-, PCMachineState *pcms)
-                      acpi_tables, acpi_tables_len);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_overrid=
-e());
++void fw_cfg_modify_string(FWCfgState *s, uint16_t key, const char *value=
+)
++{
++    size_t sz =3D strlen(value) + 1;
++    char *old;
++
++    old =3D fw_cfg_modify_bytes_read(s, key, g_memdup(value, sz), sz);
++    g_free(old);
++}
++
+ void fw_cfg_add_i16(FWCfgState *s, uint16_t key, uint16_t value)
+ {
+     uint16_t *copy;
+@@ -720,6 +729,16 @@ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uin=
+t32_t value)
+     fw_cfg_add_bytes(s, key, copy, sizeof(value));
+ }
 =20
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
--                     &e820_reserve, sizeof(e820_reserve));
--    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
--                    sizeof(struct e820_entry) * e820_entries);
-+    e820_create_fw_entry(fw_cfg);
++void fw_cfg_modify_i32(FWCfgState *s, uint16_t key, uint32_t value)
++{
++    uint32_t *copy, *old;
++
++    copy =3D g_malloc(sizeof(value));
++    *copy =3D cpu_to_le32(value);
++    old =3D fw_cfg_modify_bytes_read(s, key, copy, sizeof(value));
++    g_free(old);
++}
++
+ void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uint64_t value)
+ {
+     uint64_t *copy;
+@@ -730,6 +749,16 @@ void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uin=
+t64_t value)
+     fw_cfg_add_bytes(s, key, copy, sizeof(value));
+ }
 =20
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
-     /* allocate memory for the NUMA channel: one (64bit) word for the nu=
-mber
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 19a837889d..062feeb69e 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -291,17 +291,6 @@ void pc_system_firmware_init(PCMachineState *pcms, M=
-emoryRegion *rom_memory);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
++void fw_cfg_modify_i64(FWCfgState *s, uint16_t key, uint64_t value)
++{
++    uint64_t *copy, *old;
++
++    copy =3D g_malloc(sizeof(value));
++    *copy =3D cpu_to_le64(value);
++    old =3D fw_cfg_modify_bytes_read(s, key, copy, sizeof(value));
++    g_free(old);
++}
++
+ void fw_cfg_set_order_override(FWCfgState *s, int order)
+ {
+     assert(s->fw_cfg_order_override =3D=3D 0);
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index 80e435d303..b5291eefad 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -98,6 +98,20 @@ void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, voi=
+d *data, size_t len);
+  */
+ void fw_cfg_add_string(FWCfgState *s, uint16_t key, const char *value);
 =20
--/* e820 types */
--#define E820_RAM        1
--#define E820_RESERVED   2
--#define E820_ACPI       3
--#define E820_NVS        4
--#define E820_UNUSABLE   5
--
--int e820_add_entry(uint64_t, uint64_t, uint32_t);
--int e820_get_num_entries(void);
--bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
--
- extern GlobalProperty pc_compat_4_1[];
- extern const size_t pc_compat_4_1_len;
++/**
++ * fw_cfg_modify_string:
++ * @s: fw_cfg device being modified
++ * @key: selector key value for new fw_cfg item
++ * @value: NUL-terminated ascii string
++ *
++ * Replace the fw_cfg item available by selecting the given key. The new
++ * data will consist of a dynamically allocated copy of the provided str=
+ing,
++ * including its NUL terminator. The data being replaced, assumed to hav=
+e
++ * been dynamically allocated during an earlier call to either
++ * fw_cfg_add_string() or fw_cfg_modify_string(), is freed before return=
+ing.
++ */
++void fw_cfg_modify_string(FWCfgState *s, uint16_t key, const char *value=
+);
++
+ /**
+  * fw_cfg_add_i16:
+  * @s: fw_cfg device being modified
+@@ -136,6 +150,20 @@ void fw_cfg_modify_i16(FWCfgState *s, uint16_t key, =
+uint16_t value);
+  */
+ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uint32_t value);
 =20
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 8023c679ea..8ce56db7d4 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -41,6 +41,7 @@
- #include "hw/i386/apic-msidef.h"
- #include "hw/i386/intel_iommu.h"
- #include "hw/i386/x86-iommu.h"
-+#include "hw/i386/e820.h"
++/**
++ * fw_cfg_modify_i32:
++ * @s: fw_cfg device being modified
++ * @key: selector key value for new fw_cfg item
++ * @value: 32-bit integer
++ *
++ * Replace the fw_cfg item available by selecting the given key. The new
++ * data will consist of a dynamically allocated copy of the given 32-bit
++ * value, converted to little-endian representation. The data being repl=
+aced,
++ * assumed to have been dynamically allocated during an earlier call to
++ * either fw_cfg_add_i32() or fw_cfg_modify_i32(), is freed before retur=
+ning.
++ */
++void fw_cfg_modify_i32(FWCfgState *s, uint16_t key, uint32_t value);
++
+ /**
+  * fw_cfg_add_i64:
+  * @s: fw_cfg device being modified
+@@ -148,6 +176,20 @@ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uin=
+t32_t value);
+  */
+ void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uint64_t value);
 =20
- #include "hw/pci/pci.h"
- #include "hw/pci/msi.h"
++/**
++ * fw_cfg_modify_i64:
++ * @s: fw_cfg device being modified
++ * @key: selector key value for new fw_cfg item
++ * @value: 64-bit integer
++ *
++ * Replace the fw_cfg item available by selecting the given key. The new
++ * data will consist of a dynamically allocated copy of the given 64-bit
++ * value, converted to little-endian representation. The data being repl=
+aced,
++ * assumed to have been dynamically allocated during an earlier call to
++ * either fw_cfg_add_i64() or fw_cfg_modify_i64(), is freed before retur=
+ning.
++ */
++void fw_cfg_modify_i64(FWCfgState *s, uint16_t key, uint64_t value);
++
+ /**
+  * fw_cfg_add_file:
+  * @s: fw_cfg device being modified
 --=20
 2.21.0
 
