@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF29BD060
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:14:21 +0200 (CEST)
-Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E54BD07C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:20:13 +0200 (CEST)
+Received: from localhost ([::1]:48994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCoOK-0008DX-5T
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:14:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60063)
+	id 1iCoTz-00057c-Lh
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:20:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCngG-0000fj-3j
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:28:49 -0400
+ (envelope-from <pc@us.ibm.com>) id 1iCniJ-0002mp-2t
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:30:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCngD-0005hi-J9
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:28:47 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46459)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCngB-0005eh-KQ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:28:43 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q5so1656741pfg.13
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 09:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6+EHufdxTefcW7FuNfEcjmSx0/t+YRSf/WWM/SjDXIE=;
- b=D0MDwwRF06bX+WcIrd0KK13yMEdrHt5cdTw22MiQZ773uLraKCld03XZMi5yeHzDNr
- Su75T/kys7aGGwM3z5IfebBSks1pUk0drDLisqlA5ISuEYiESs+vm6WVU9/lpKK6d4Yc
- 6KuOi1YbZG7viXbr7H6rbUh4RM4F5vwFjaRsHvAoE+c0Vfw6ZAmLZ9IRIw+jb4su0gqP
- uEOVfKG0HQZMt4SEHwjG2iir6LVgL0PJkEVqNNKjZ5kLpPUDhN+YsPHPDj22l/vLh7qg
- Uc4Duv4xukp9vm9r/T+qXUGjU6L5rwi/QUdlJKa1UgVFWdWETvyGXftePRGJuzAY7AIT
- cwwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6+EHufdxTefcW7FuNfEcjmSx0/t+YRSf/WWM/SjDXIE=;
- b=tU1E09qjl5V6Cxm/xFCcocOAyOK4MW2LmF3rCsFGicqD3MPYjiMEtRjD128OJUV2Gh
- D/477H8Ml7reoYlHMv6GDdLf21DKCDLFEOAB6EZeTpzfsjGYZc6KB2DNV2aEUCPNG6y8
- gEQqtZSKoyLCvcnuhX1tNMs40tgQZ/cypmqk6STEW+0VlmdWzuTV4FjeUYRnv9kY7IUO
- 8wSMCFiW4MuobPEVX4ncwL2Pa7C97m6kAbqbetRRuvMoeyj/GoZPNzmNo7HQCA5hcs9C
- 0J3kuufjafryVqQ6rHkBTZB6p2wj/mdanSYkYiUYajMkBebt9oPWK47R2TMQcGi9ycx3
- ofPg==
-X-Gm-Message-State: APjAAAWVzt0pfrA3g7XApkHmnkK5YFhSK+D7Tj/PXmpwjohBWasVrYb/
- ejK/v9B5GgmRfuaeFwp+o04pew==
-X-Google-Smtp-Source: APXvYqzm+QFqo9m79tHvAxAtLcdEI07St974YYyVLDnNoD33jVRQ/fF4gvvRTU1155/j4tUZkuXlaw==
-X-Received: by 2002:a62:53c7:: with SMTP id h190mr4321963pfb.208.1569342519829; 
- Tue, 24 Sep 2019 09:28:39 -0700 (PDT)
-Received: from [172.20.32.216] ([12.206.46.59])
- by smtp.gmail.com with ESMTPSA id a11sm3596797pfg.94.2019.09.24.09.28.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Sep 2019 09:28:38 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PATCH 2/4] Memory: Enable writeback for given
- memory region
-To: Beata Michalska <beata.michalska@linaro.org>, qemu-devel@nongnu.org
-References: <20190910095610.4546-1-beata.michalska@linaro.org>
- <20190910095610.4546-3-beata.michalska@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d8ca7a99-ca3d-00b8-f34c-82375ecb7c4d@linaro.org>
-Date: Tue, 24 Sep 2019 09:28:36 -0700
+ (envelope-from <pc@us.ibm.com>) id 1iCniH-000748-KA
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:30:54 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55406
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pc@us.ibm.com>)
+ id 1iCniC-0006zQ-BC; Tue, 24 Sep 2019 12:30:48 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8OGM6SX037630; Tue, 24 Sep 2019 12:30:34 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v7mh6eppc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2019 12:30:34 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8OGPH5h008861;
+ Tue, 24 Sep 2019 16:30:25 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03dal.us.ibm.com with ESMTP id 2v5bg75juq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2019 16:30:25 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8OGUOOc52953396
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 24 Sep 2019 16:30:24 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 33EE978067;
+ Tue, 24 Sep 2019 16:30:24 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7AC027805C;
+ Tue, 24 Sep 2019 16:30:23 +0000 (GMT)
+Received: from oc3272150783.ibm.com (unknown [9.160.71.206])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 24 Sep 2019 16:30:23 +0000 (GMT)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
+From: Paul Clarke <pc@us.ibm.com>
+Message-ID: <fcc3b597-856f-23bd-bc56-d886f021a2f4@us.ibm.com>
+Date: Tue, 24 Sep 2019 11:30:21 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190910095610.4546-3-beata.michalska@linaro.org>
+In-Reply-To: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+X-TM-AS-GCONF: 00
+Subject: Re:  [PATCH 0/7] target/ppc: DFP fixes and improvements
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-24_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909240148
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,41 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, quintela@redhat.com, dgilbert@redhat.com,
- shameerali.kolothum.thodi@huawei.com, eric.auger@redhat.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/19 2:56 AM, Beata Michalska wrote:
-> +int main(void) {
-> +#if defined(_POSIX_MAPPED_FILES) && _POSIX_MAPPED_FILES > 0 \
-> +&& defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
-> +return msync(NULL,0, MS_SYNC);
-> +#else
-> +#error Not supported
-> +#endif
-> +}
+Mark,
 
-Is there any particular reason to check _POSIX_MAPPED_FILES &
-_POSIX_SYNCHRONIZED_IO?  IIRC, you can use those to "safely" use MS_SYNC.  But
-this is a configure test, and an error is in fact our defined failure case, so
-"safely" doesn't seem particularly relevant.
+What tree / branch would these patches apply to?  (I've tried qemu master, dgibson master and ppc-for-4.2, or I'm doing something wrong.)
 
-Alternately, do we even support any systems (besides perhaps windows) that do
-not provide POSIX-2001 support, and so include msync + MS_SYNC?  My first guess
-is that we don't.
+PC
 
-> +        msync((void *)((uintptr_t)addr & qemu_host_page_mask),
-> +               HOST_PAGE_ALIGN(length), MS_SYNC);
-
-This isn't quite right.  If you move addr down to a lower address via this page
-mask, you must also increase length by the same amount, and only afterward
-increase length to the host page size.
-
-Consider addr == 0xffffff, length = 2.  This covers two pages, so you'd expect
-the final parameters to be, for 4k page size, 0xfff000, 0x2000.
-
-
-r~
+On 9/24/19 10:35 AM, Mark Cave-Ayland wrote:
+> This patchset fixes the DFP issue reported at https://urldefense.proofpoint.com/v2/url?u=https-3A__bugs.launchpad.net_qemu_-2Bbug_1841990&d=DwIDAg&c=jf_iaSHvJObTbx-siA1ZOg&r=0emNUfh2Pr0wDtXKlYJSCQ&m=NtaEgUJhN3SbT5hKyyOdgnt5ArLSzDw2l22WvleDMmU&s=qIBW6IX8pu3ej_AJj-toJH8PmhrvgJaXDJgbg1tgbY8&e= 
+> caused by the change in FP register storage in commit ef96e3ae96 "target/ppc:
+> move FP and VMX registers into aligned vsr register array" along with some
+> further tidy-up/improvements.
+> 
+> Patches 1 and 2 introduce get/set helper functions for reading and writing
+> DFP even-odd register pairs (rather than accessing the register pointers
+> directly) which then leads to the real fix in patch 3.
+> 
+> Following on from this patches 4 to 6 change the struct PPC_DFP internal
+> decimal representation from uint64[2] to ppc_vsr_t which enables us to use
+> the existing VsrD() macro to access the correct elements regardless of host
+> endian and remove the explicit HI_IDX and LO_IDX references.
+> 
+> Finally patch 7 simplifies the calls to set_dfp{64,128}() in DFP macros
+> which can now be generated directly by the preprocessor rather than requiring
+> an explicit if() statement.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> 
+> 
+> Mark Cave-Ayland (7):
+>   target/ppc: introduce get_dfp{64,128}() helper functions
+>   target/ppc: introduce set_dfp{64,128}() helper functions
+>   target/ppc: update {get,set}_dfp{64,128}() helper functions to
+>     read/write DFP numbers correctly
+>   target/ppc: introduce dfp_finalize_decimal{64,128}() helper functions
+>   target/ppc: change struct PPC_DFP decimal storage from uint64[2] to
+>     ppc_vsr_t
+>   target/ppc: use existing VsrD() macro to eliminate HI_IDX and LO_IDX
+>     from dfp_helper.c
+>   target/ppc: remove unnecessary if() around calls to set_dfp{64,128}()
+>     in DFP macros
+> 
+>  target/ppc/cpu.h        |   1 +
+>  target/ppc/dfp_helper.c | 384 ++++++++++++++++++++--------------------
+>  target/ppc/helper.h     |   2 +-
+>  3 files changed, 193 insertions(+), 194 deletions(-)
+> 
 
