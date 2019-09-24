@@ -2,68 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF34BC99D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:01:16 +0200 (CEST)
-Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14A2BC9BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:05:58 +0200 (CEST)
+Received: from localhost ([::1]:46060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClNQ-00044g-F1
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:01:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53934)
+	id 1iClS1-00083R-Fs
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56050)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tgolembi@redhat.com>) id 1iCkNi-0005T8-RN
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:57:28 -0400
+ (envelope-from <prvs=1633f89ff=Anup.Patel@wdc.com>)
+ id 1iCkc6-0000Zj-CG
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:12:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tgolembi@redhat.com>) id 1iCkNg-0002Vp-M0
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:57:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38228)
+ (envelope-from <prvs=1633f89ff=Anup.Patel@wdc.com>)
+ id 1iCkc5-0002wU-0l
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:12:18 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:59729)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tgolembi@redhat.com>) id 1iCkNg-0002VC-Dl
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:57:24 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 675B961D25
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:57:22 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id z205so900112wmb.7
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 05:57:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/Pu0u9SBVnxpZHrhBpHkP4Ys8a+qTjYYiub8MbGtnbI=;
- b=K67DVGL9WpZJXhKKAz91UWXyxm5h5O6upFM5em9UO7wXmmaOozex7uObioaD4eveun
- 5Cf61JPghhF2Xo4Erf8cjtvu/K35H8uhH7p8UZda/3hzPFbA7u5/m+KKSoYUirUXjKkV
- 2PHNPWTIcHhHfRVGxSn4hjJglrSRE6Ygvn+IbexFKolTpGIeJjWO7m3JJEtLjAVVHN0O
- RCdTPMJAPVhSVcKB1lwf1jeDtAAevbndkQf3Pm30vqa4M+dUsbmAGD+lIoe+0BJvbIb2
- /HHLjsVSFJ3RpDFrrvj/PKBETLPoHsmyuDQvPfO0uthv4YYzv1yxy5WLRIenAjR3ScUE
- +8Vw==
-X-Gm-Message-State: APjAAAWtqrFPGKNdYBHDl9El1zUDr05PDdYi0Pk59rlGCe/a3AoCYBxM
- wpBDZRiixVsnJuEypfqpMlH7lw5SF/fI6K0v5UNZbRmh4l8mUoQ++tcFKtdfkpnAMEqaVxxitEC
- NvLKmnDGTnLVwVT4=
-X-Received: by 2002:adf:e849:: with SMTP id d9mr2201977wrn.358.1569329840806; 
- Tue, 24 Sep 2019 05:57:20 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqz+DQrgBfVKIA7q03H5Zu41oKhEGOpQBSxnenx9cZX7aNJtQizh64kDGebiXGcGJBboS07GYg==
-X-Received: by 2002:adf:e849:: with SMTP id d9mr2201963wrn.358.1569329840513; 
- Tue, 24 Sep 2019 05:57:20 -0700 (PDT)
-Received: from auriga.brq.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id i14sm2421508wra.78.2019.09.24.05.57.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 05:57:19 -0700 (PDT)
-From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] qga: add command guest-get-devices for reporting VirtIO
- devices
-Date: Tue, 24 Sep 2019 14:57:19 +0200
-Message-Id: <95b2f9d76104ee09b43159528b35b96eb01bbd8c.1569329826.git.tgolembi@redhat.com>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.71) (envelope-from <prvs=1633f89ff=Anup.Patel@wdc.com>)
+ id 1iCkbz-0002rk-EJ; Tue, 24 Sep 2019 09:12:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1569330765; x=1600866765;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=YjRlnmJ8YkdtsmNOvvOzVJi1LZ55WMensqP3Mc6kIk8=;
+ b=V14XvdUTWBB3+xHbs0env0kV1ks+H7ez6J380kjgkhDQgLMeAMR0YQHh
+ qgRDOXwWOZbQUtt2n1VoxZwgtc7d2Ts0aNy8WhSbjm6yE1xwRxxApjncm
+ ogwhOweNRQcnodXeymTP5JSVDY9BVsJZBuFwjtFkr03fwEdGwH9VSOjVk
+ Q7Mia3h513wRmQkSf4Jz0KyNCLhw1bQwaGeF9LVccWFu05ulYgER1Zil9
+ mkXEDDCGFhfRdp2vam6XH09UYJ0MBrvN35fAeyTlk3EYRClC8mqpLpzka
+ aaE7Ebn8+G68mvZprznIL4ftSmwGiKiZsjY8dY8gky7phtBB1y3JP3sTk g==;
+IronPort-SDR: qg7vqfWNM10mICx27KvVsP2FqOA1IZItjbIESsw5V3+56LdpK+xvVzsDYlOPHg7oLQcR0u1zff
+ 9PBv6+l+lxsNfRzOdC2Y4vkvvRnM7T12h2FpL+BPMrW01hmwZB2Wr+QPKP8WOHLb7Uvpvso1p2
+ oWRZVC4cr4OswPagVZ/z2fn3GfgzaM0LV6jbfZERTcMjN5NHu4dsyMIoo3oAMX9w4mciJro7p5
+ s7QivoDY9qM6yYS7rwLRl5WS31GxWUdaIqGCOErwOo/1/AKNSROb/p1UTRj7yP6sIf3IYBvAob
+ u2I=
+X-IronPort-AV: E=Sophos;i="5.64,544,1559491200"; d="scan'208";a="219807936"
+Received: from mail-by2nam03lp2056.outbound.protection.outlook.com (HELO
+ NAM03-BY2-obe.outbound.protection.outlook.com) ([104.47.42.56])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2019 21:12:40 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FqQF9WME8UebDcDddN1ChEPrqZhFC4cDB51/fRIcFDXnyPDXzgYFy6LZVsD+bTRxlTn/b2Wv8pj5a3bsqt0YXN356mrvrwPkzmEWrEjnUdt5OypU8ORBCXH/Fb4V91MYZ46YRupWS2sCM6BiFlrHGIyqWPDPgv3mgpBZiBOSxMknJGVkq8hqUpWXy5KK54zGDMbyj7cPkj/6yGCE4QnObOYYrbNAo4RY29XBw0bvwsDFABaOiWka6Fgm5vpqsRxlUz82GdNKjzQBLTFlUf2lfctVghb2h22ONK5DS1hNVe9oG2IHNgUhtPSVW/l9EupSx9SV9+VQ/i+B6mKWRcv0bA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9QFalQcva71sTGAhg6PdUkHuKxqhy6hkayNCFUhn99w=;
+ b=XyuNjcvN3I6IYAW6pM5B5VE4HisV6XZMauCsnYulWV0DfVPypEVTsljGUQig9upusxsA8D8aniAbm+EcYCOC9Z3BjusQCDIuIa696ORC71HSL8dZrkuYCiWFf3WHr6ndaONL67/WHjkv4/5v41yTwGeqXKuFni3WcwbM0au1Yq/CyEteuuHXdXn3G7RPO/3zngrS367d21W7Rqm6GlubutevaMiKn98e2Lwae5NTrTeX0QRSkBGju8np14DdVO26hPdk11iUWyTS8qCfcWZivYEE73Y2fHCVdZ44xMX4ecXgkfZS/eV2HxuygwsU+rP4+dAWltp34RLgWFLuHzDptQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9QFalQcva71sTGAhg6PdUkHuKxqhy6hkayNCFUhn99w=;
+ b=tICtW9ogUJkNnltUAgoLsw8Xk1iP3B9oRSC8UYlXfTBre2KWpgKNfpF/ftFCNOKeDdOobHy85CFOCl64K/nAaqcIZLZ4FhCrI1w0Z9rMjUaKWoffBOjrEqC4djdl83iKQnUpdHS3v9bKc1+DG7tL2HqxV4+mvuuNTeU/HFg8kBs=
+Received: from MN2PR04MB6061.namprd04.prod.outlook.com (20.178.246.15) by
+ MN2PR04MB6318.namprd04.prod.outlook.com (52.132.168.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.20; Tue, 24 Sep 2019 13:12:07 +0000
+Received: from MN2PR04MB6061.namprd04.prod.outlook.com
+ ([fe80::e1a5:8de2:c3b1:3fb0]) by MN2PR04MB6061.namprd04.prod.outlook.com
+ ([fe80::e1a5:8de2:c3b1:3fb0%7]) with mapi id 15.20.2284.023; Tue, 24 Sep 2019
+ 13:12:07 +0000
+From: Anup Patel <Anup.Patel@wdc.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
+ <palmer@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>, Sagar
+ Karandikar <sagark@eecs.berkeley.edu>, Bastian Koppelmann
+ <kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 2/2] riscv: virt: Use Goldfish RTC device
+Thread-Topic: [PATCH v2 2/2] riscv: virt: Use Goldfish RTC device
+Thread-Index: AQHVctmqoY2WGh0s9UytwrGPM+rJ5g==
+Date: Tue, 24 Sep 2019 13:12:07 +0000
+Message-ID: <20190924131131.118155-3-anup.patel@wdc.com>
+References: <20190924131131.118155-1-anup.patel@wdc.com>
+In-Reply-To: <20190924131131.118155-1-anup.patel@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MA1PR01CA0148.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::18) To MN2PR04MB6061.namprd04.prod.outlook.com
+ (2603:10b6:208:d8::15)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Anup.Patel@wdc.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.17.1
+x-originating-ip: [49.207.51.80]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 49b4d693-1c5c-48da-b059-08d740f0cd1f
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:MN2PR04MB6318; 
+x-ms-traffictypediagnostic: MN2PR04MB6318:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR04MB6318D2B9461ED39766CEA91A8D840@MN2PR04MB6318.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:131;
+x-forefront-prvs: 0170DAF08C
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(346002)(376002)(366004)(396003)(39860400002)(136003)(199004)(189003)(8676002)(25786009)(476003)(305945005)(8936002)(81156014)(81166006)(6512007)(36756003)(3846002)(6116002)(6436002)(5660300002)(110136005)(54906003)(44832011)(71190400001)(71200400001)(2616005)(486006)(316002)(256004)(66066001)(7736002)(6486002)(11346002)(50226002)(446003)(6506007)(66946007)(1076003)(14454004)(64756008)(2906002)(186003)(99286004)(102836004)(2171002)(386003)(52116002)(26005)(478600001)(66476007)(76176011)(66556008)(86362001)(55236004)(66446008)(4326008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR04MB6318;
+ H:MN2PR04MB6061.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: s5A/bhsJTGu73adFdjsOABdc1CXMM1e6h4fqz3odkzAKfNNmR4g1cvLTZCCUUjhciLU7cNv4bdYO+GQ7LLAB55BOc3k20SWsMMLIIedmbFJ5JMuY50d+HaWFgTxTaiz0aVj+IX9H9sjrshn8r+JJtt0Jvl3RyDamJozbFSaCAolnR64eWPPfRZD2sLMz9Q4aW9aH2AivhwoJOhGjopa4cGbyLXAcd1AhBtqZE6Hd+utFRL3FOl8p7DgeLSzvWKyYuMI+ZQD/odYyNYtWgANHK50H6YDSLX2lp2kZ67b/6btV3brb7Nak5TQpm9gMOAPyBg1wGlX+1KS9N5tXY45frIMI+SlVKQ2WA5Yy7kDA55ojHpCCMxoVx6MHHgf6Y16eYtGkXZ2qmL9vQW8SlIrytbtKKkrBvSp6lZykm4ON8XM=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49b4d693-1c5c-48da-b059-08d740f0cd1f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2019 13:12:07.5628 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 43XNRYKuCe6tK0qcbAjPkCi6EwQ8tU49knAaMrhf2xMZJr4KvFzk5Fz48O/N92+3c1lm0ziIjgW02aSYnNpstQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6318
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 68.232.143.124
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,351 +133,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Atish Patra <Atish.Patra@wdc.com>, Anup Patel <Anup.Patel@wdc.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add command for reporting devices on Windows guest. The intent is not so
-much to report the devices but more importantly the driver (and its
-version) that is assigned to the device. This gives caller the
-information whether VirtIO drivers are installed and/or whether
-inadequate driver is used on a device (e.g. QXL device with base VGA
-driver).
+We extend QEMU RISC-V virt machine by adding Goldfish RTC device
+to it. This will allow Guest Linux to sync it's local date/time
+with Host date/time via RTC device.
 
-Signed-off-by: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
 ---
- qga/commands-posix.c |   9 ++
- qga/commands-win32.c | 209 ++++++++++++++++++++++++++++++++++++++++++-
- qga/qapi-schema.json |  32 +++++++
- 3 files changed, 249 insertions(+), 1 deletion(-)
+ hw/riscv/Kconfig        |  1 +
+ hw/riscv/virt.c         | 15 +++++++++++++++
+ include/hw/riscv/virt.h |  2 ++
+ 3 files changed, 18 insertions(+)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index dfc05f5b8a..58e93feef9 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2757,6 +2757,8 @@ GList *ga_command_blacklist_init(GList *blacklist)
-     blacklist =3D g_list_append(blacklist, g_strdup("guest-fstrim"));
- #endif
-=20
-+    blacklist =3D g_list_append(blacklist, g_strdup("guest-get-devices")=
-);
-+
-     return blacklist;
- }
-=20
-@@ -2977,3 +2979,10 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
-=20
-     return info;
- }
-+
-+GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+
-+    return NULL;
-+}
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 6b67f16faf..14c5607b66 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -21,10 +21,11 @@
- #ifdef CONFIG_QGA_NTDDSCSI
- #include <winioctl.h>
- #include <ntddscsi.h>
-+#endif
- #include <setupapi.h>
- #include <cfgmgr32.h>
- #include <initguid.h>
--#endif
-+#include <devpropdef.h>
- #include <lm.h>
- #include <wtsapi32.h>
- #include <wininet.h>
-@@ -38,6 +39,34 @@
- #include "qemu/host-utils.h"
- #include "qemu/base64.h"
-=20
-+/*
-+ * The following should be in devpkey.h, but it isn't. The key names wer=
-e
-+ * prefixed to avoid (future) name clashes. Once the definitions get int=
-o
-+ * mingw the following lines can be removed.
-+ */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_NAME, 0xb725f130, 0x47ef, 0x101a, 0xa5, 0x=
-f1, 0x02,
-+    0x60, 0x8c, 0x9e, 0xeb, 0xac, 10);  /* DEVPROP_TYPE_STRING */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_HardwareIds, 0xa45c254e, 0xdf1c, 0x=
-4efd, 0x80,
-+    0x20, 0x67, 0xd1, 0x46, 0xa8, 0x50, 0xe0, 3);
-+    /* DEVPROP_TYPE_STRING_LIST */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverDate, 0xa8b865dd, 0x2e3d, 0x4=
-094, 0xad,
-+    0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 2);  /* DEVPROP_TYPE_FILETI=
-ME */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverVersion, 0xa8b865dd, 0x2e3d, =
-0x4094,
-+    0xad, 0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 3);
-+    /* DEVPROP_TYPE_STRING */
-+/* The following shoud be in cfgmgr32.h, but it isn't */
-+#ifndef CM_Get_DevNode_Property
-+CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
-+    DEVINST          dnDevInst,
-+    CONST DEVPROPKEY *PropertyKey,
-+    DEVPROPTYPE      *PropertyType,
-+    PBYTE            PropertyBuffer,
-+    PULONG           PropertyBufferSize,
-+    ULONG            ulFlags
-+);
-+#define CM_Get_DevNode_Property CM_Get_DevNode_PropertyW
-+#endif
-+
- #ifndef SHTDN_REASON_FLAG_PLANNED
- #define SHTDN_REASON_FLAG_PLANNED 0x80000000
- #endif
-@@ -92,6 +121,8 @@ static OpenFlags guest_file_open_modes[] =3D {
-     g_free(suffix); \
- } while (0)
-=20
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GuestDeviceInfo, qapi_free_GuestDeviceInfo=
-)
-+
- static OpenFlags *find_open_flag(const char *mode_str)
- {
-     int mode;
-@@ -2234,3 +2265,179 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
-=20
-     return info;
- }
-+
-+/*
-+ * Safely get device property. Returned strings are using wide character=
-s.
-+ * Caller is responsible for freeing the buffer.
-+ */
-+static LPBYTE cm_get_property(DEVINST devInst, const DEVPROPKEY *propNam=
-e,
-+    PDEVPROPTYPE propType)
-+{
-+    CONFIGRET cr;
-+    g_autofree LPBYTE buffer =3D NULL;
-+    ULONG buffer_len =3D 0;
-+
-+    /* First query for needed space */
-+    cr =3D CM_Get_DevNode_PropertyW(devInst, propName, propType,
-+        buffer, &buffer_len, 0);
-+    if (cr !=3D CR_SUCCESS && cr !=3D CR_BUFFER_SMALL) {
-+
-+        slog("failed to get property size, error=3D0x%lx", cr);
-+        return NULL;
-+    }
-+    buffer =3D g_malloc(buffer_len+1);
-+    cr =3D CM_Get_DevNode_PropertyW(devInst, propName, propType,
-+        buffer, &buffer_len, 0);
-+    if (cr !=3D CR_SUCCESS) {
-+        slog("failed to get device property, error=3D0x%lx", cr);
-+        return NULL;
-+    }
-+    return g_steal_pointer(&buffer);
-+}
-+
-+static GStrv ga_get_hardware_ids(DEVINST devInstance)
-+{
-+    GStrv hw_ids =3D NULL;
-+    g_autoptr(GSList) values =3D NULL;
-+    GSList *current =3D NULL;
-+    gsize count =3D 0, i =3D 0;
-+    DEVPROPTYPE cm_type;
-+    LPWSTR id;
-+    g_autofree LPWSTR property =3D (LPWSTR)cm_get_property(devInstance,
-+        &qga_DEVPKEY_Device_HardwareIds, &cm_type);
-+    if (property =3D=3D NULL) {
-+        slog("failed to get hardware IDs");
-+        return NULL;
-+    }
-+    if (*property =3D=3D '\0') {
-+        /* empty list */
-+        return NULL;
-+    }
-+    for (id =3D property; '\0' !=3D *id; id +=3D lstrlenW(id) + 1) {
-+        values =3D g_slist_append(values,
-+            g_utf16_to_utf8(id, -1, NULL, NULL, NULL));
-+        count++;
-+    }
-+    hw_ids =3D g_new(char*, count+1);
-+    current =3D values;
-+    i =3D 0;
-+    for (; current !=3D NULL; current =3D g_slist_next(current), i++) {
-+        hw_ids[i] =3D g_steal_pointer(&current->data);
-+    }
-+    hw_ids[i] =3D NULL;
-+    return hw_ids;
-+}
-+
-+/*
-+ * https://docs.microsoft.com/en-us/windows-hardware/drivers/install/ide=
-ntifiers-for-pci-devices
-+ */
-+#define DEVICE_PCI_RE "PCI\\\\VEN_(1AF4|1B36)&DEV_([0-9A-B]{4})(&|$)"
-+
-+GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-+{
-+    GuestDeviceInfoList *head =3D NULL, *cur_item =3D NULL, *item =3D NU=
-LL;
-+    HDEVINFO dev_info =3D INVALID_HANDLE_VALUE;
-+    SP_DEVINFO_DATA dev_info_data;
-+    int i, j;
-+    GError *gerr =3D NULL;
-+    g_autoptr(GRegex) device_pci_re =3D NULL;
-+    DEVPROPTYPE cm_type;
-+
-+    device_pci_re =3D g_regex_new(DEVICE_PCI_RE,
-+        G_REGEX_ANCHORED | G_REGEX_OPTIMIZE, 0,
-+        &gerr);
-+    g_assert(device_pci_re !=3D NULL);
-+
-+    dev_info_data.cbSize =3D sizeof(SP_DEVINFO_DATA);
-+    dev_info =3D SetupDiGetClassDevs(0, 0, 0, DIGCF_PRESENT | DIGCF_ALLC=
-LASSES);
-+    if (dev_info =3D=3D INVALID_HANDLE_VALUE) {
-+        error_setg(errp, "failed to get device tree");
-+        return NULL;
-+    }
-+
-+    slog("enumerating devices");
-+    for (i =3D 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i+=
-+) {
-+        bool skip =3D true;
-+        SYSTEMTIME utc_date;
-+        g_autofree LPWSTR name =3D NULL;
-+        g_autofree LPFILETIME date =3D NULL;
-+        g_autofree LPWSTR version =3D NULL;
-+        g_auto(GStrv) hw_ids =3D NULL;
-+        g_autoptr(GuestDeviceInfo) device =3D g_new0(GuestDeviceInfo, 1)=
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index fb19b2df3a..b33753c780 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -34,6 +34,7 @@ config RISCV_VIRT
+     select PCI
+     select HART
+     select SERIAL
++    select GOLDFISH_RTC
+     select VIRTIO_MMIO
+     select PCI_EXPRESS_GENERIC_BRIDGE
+     select SIFIVE
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index d36f5625ec..95c42ab993 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -57,6 +57,7 @@ static const struct MemmapEntry {
+     [VIRT_DEBUG] =3D       {        0x0,         0x100 },
+     [VIRT_MROM] =3D        {     0x1000,       0x11000 },
+     [VIRT_TEST] =3D        {   0x100000,        0x1000 },
++    [VIRT_RTC] =3D         {   0x101000,        0x1000 },
+     [VIRT_CLINT] =3D       {  0x2000000,       0x10000 },
+     [VIRT_PLIC] =3D        {  0xc000000,     0x4000000 },
+     [VIRT_UART0] =3D       { 0x10000000,         0x100 },
+@@ -310,6 +311,17 @@ static void create_fdt(RISCVVirtState *s, const struct=
+ MemmapEntry *memmap,
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle)=
 ;
-+        g_autofree char* vendor_id =3D NULL;
-+        g_autofree char* device_id =3D NULL;
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", UART0_IRQ);
+=20
++    nodename =3D g_strdup_printf("/rtc@%lx",
++        (long)memmap[VIRT_RTC].base);
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible",
++        "google,goldfish-rtc");
++    qemu_fdt_setprop_cells(fdt, nodename, "reg",
++        0x0, memmap[VIRT_RTC].base,
++        0x0, memmap[VIRT_RTC].size);
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle)=
+;
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", RTC_IRQ);
 +
-+        name =3D (LPWSTR)cm_get_property(dev_info_data.DevInst,
-+            &qga_DEVPKEY_NAME, &cm_type);
-+        if (name =3D=3D NULL) {
-+            slog("failed to get device description");
-+            continue;
-+        }
-+        device->driver_name =3D g_utf16_to_utf8(name, -1, NULL, NULL, NU=
-LL);
-+        if (device->driver_name =3D=3D NULL) {
-+            error_setg(errp, "conversion to utf8 failed (driver name)");
-+            goto out;
-+        }
-+        slog("querying device: %s", device->driver_name);
-+        hw_ids =3D ga_get_hardware_ids(dev_info_data.DevInst);
-+        if (hw_ids =3D=3D NULL) {
-+            continue;
-+        }
-+        for (j=3D0; hw_ids[j] !=3D NULL; j++) {
-+            GMatchInfo *match_info;
-+            if (!g_regex_match(device_pci_re, hw_ids[j], 0, &match_info)=
-) {
-+                continue;
-+            }
-+            skip =3D false;
-+            vendor_id =3D g_match_info_fetch(match_info, 1);
-+            device_id =3D g_match_info_fetch(match_info, 2);
-+            device->vendor_id =3D g_ascii_strtoull(vendor_id, NULL, 16);
-+            device->device_id =3D g_ascii_strtoull(device_id, NULL, 16);
-+            g_match_info_free(match_info);
-+        }
-+        if (skip) {
-+            continue;
-+        }
+     qemu_fdt_add_subnode(fdt, "/chosen");
+     qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", nodename);
+     if (cmdline) {
+@@ -496,6 +508,9 @@ static void riscv_virt_board_init(MachineState *machine=
+)
+         0, qdev_get_gpio_in(DEVICE(s->plic), UART0_IRQ), 399193,
+         serial_hd(0), DEVICE_LITTLE_ENDIAN);
+=20
++    sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
++        qdev_get_gpio_in(DEVICE(s->plic), RTC_IRQ));
 +
-+        version =3D (LPWSTR)cm_get_property(dev_info_data.DevInst,
-+            &qga_DEVPKEY_Device_DriverVersion, &cm_type);
-+        if (version =3D=3D NULL) {
-+            slog("failed to get driver version");
-+            continue;
-+        }
-+        device->driver_version =3D g_utf16_to_utf8(version, -1, NULL,
-+            NULL, NULL);
-+        if (device->driver_version =3D=3D NULL) {
-+            error_setg(errp, "conversion to utf8 failed (driver version)=
-");
-+            goto out;
-+        }
-+
-+        date =3D (LPFILETIME)cm_get_property(dev_info_data.DevInst,
-+            &qga_DEVPKEY_Device_DriverDate, &cm_type);
-+        if (date =3D=3D NULL) {
-+            slog("failed to get driver date");
-+            continue;
-+        }
-+        FileTimeToSystemTime(date, &utc_date);
-+        device->driver_date =3D g_strdup_printf("%04d-%02d-%02d",
-+            utc_date.wYear, utc_date.wMonth, utc_date.wDay);
-+
-+        slog("driver: %s\ndriver version: %s,%s\n", device->driver_name,
-+            device->driver_date, device->driver_version);
-+        item =3D g_new0(GuestDeviceInfoList, 1);
-+        item->value =3D g_steal_pointer(&device);
-+        if (!cur_item) {
-+            head =3D cur_item =3D item;
-+        } else {
-+            cur_item->next =3D item;
-+            cur_item =3D item;
-+        }
-+        continue;
-+    }
-+
-+out:
-+    if (dev_info !=3D INVALID_HANDLE_VALUE) {
-+        SetupDiDestroyDeviceInfoList(dev_info);
-+    }
-+    return head;
-+}
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index fb4605cc19..fe04ff2f39 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1242,3 +1242,35 @@
- ##
- { 'command': 'guest-get-osinfo',
-   'returns': 'GuestOSInfo' }
-+
-+##
-+# @GuestDeviceInfo:
-+#
-+# @vendor-id: vendor ID
-+# @device-id: device ID
-+# @driver-name: name of the associated driver
-+# @driver-date: driver release date in format YYYY-MM-DD
-+# @driver-version: driver version
-+#
-+# Since: 4.2
-+##
-+{ 'struct': 'GuestDeviceInfo',
-+  'data': {
-+      'vendor-id': 'uint16',
-+      'device-id': 'uint16',
-+      'driver-name': 'str',
-+      'driver-date': 'str',
-+      'driver-version': 'str'
-+      } }
-+
-+##
-+# @guest-get-devices:
-+#
-+# Retrieve information about device drivers in Windows guest
-+#
-+# Returns: @GuestDeviceInfo
-+#
-+# Since: 4.2
-+##
-+{ 'command': 'guest-get-devices',
-+  'returns': ['GuestDeviceInfo'] }
+     g_free(plic_hart_config);
+ }
+=20
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index 6e5fbe5d3b..e6423258d3 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -37,6 +37,7 @@ enum {
+     VIRT_DEBUG,
+     VIRT_MROM,
+     VIRT_TEST,
++    VIRT_RTC,
+     VIRT_CLINT,
+     VIRT_PLIC,
+     VIRT_UART0,
+@@ -49,6 +50,7 @@ enum {
+=20
+ enum {
+     UART0_IRQ =3D 10,
++    RTC_IRQ =3D 11,
+     VIRTIO_IRQ =3D 1, /* 1 to 8 */
+     VIRTIO_COUNT =3D 8,
+     PCIE_IRQ =3D 0x20, /* 32 to 35 */
 --=20
-2.23.0
+2.17.1
 
 
