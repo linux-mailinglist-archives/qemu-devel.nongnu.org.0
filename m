@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7921BD52F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:01:01 +0200 (CEST)
-Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230D8BD51D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:55:24 +0200 (CEST)
+Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCtno-0003JL-Mn
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56807)
+	id 1iCtiN-000447-3S
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:55:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCs5G-0003Qp-Sv
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:11:05 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCs2R-0000Uw-0F
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:08:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCs56-0007a0-0x
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:54 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52764)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCs55-0007Zr-QG
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:43 -0400
-Received: by mail-wm1-x341.google.com with SMTP id r19so366880wmh.2
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zK0yuZrTDTwRTBFF7n6uiaAtWncNsTzP6ETmlJNaNAU=;
- b=Zf9WqoE4Je9zZcVUhCHtPA5iHtEqIvcSeKkEjz1gKvSblnE0Shd4jDh+To1F8b0EeA
- 4ps9n+Os7mydX7K22h0Y6LLwtBqeWoeohHF5UHVhx9UJ4TgA3p+3Q2UZL06RYQv9XsSV
- usoEceUCme/JK6ZTINYaHbcB1etRSKW5adkOcx4vVlI+wOKt5sHORZ9EwmVibZBAtcRv
- RlLkTgwwsk4qGKerZY97tpkraB+Rkv0iXPqNHt/a2fdcaiSRQ1DguZX2RdV2iOAqsvpS
- nqmydfjlhSpmbgtWyQe+2mpnGJ7hXEt2na+VR1kEmDox1xKa4xrioZY1DCx2I6XvoWS8
- 6dww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zK0yuZrTDTwRTBFF7n6uiaAtWncNsTzP6ETmlJNaNAU=;
- b=WVKH1dhfMlxIpPdMYv0VEjPzOuvm29YCXqaZahVvWnLHUM9uFg3UKZdjbzquphSnYh
- AXbgdYCJq0m5If3bBG8Q7M1HCw3ZsyNiPNcgQyM6VCSpyghk08PbPqywdiqjJMzlj1kc
- Snjx7cRKt4+921PHEHrlolqNbRM25M1BCcgNSob1v9OF/xIQBFFxr1PafAyQrP8BN6L5
- hGgnNxJSDBh4XAKtVmA7q7406KFJyA3WvSCQqwhQRkENDFYy5AQA0bhGS+su0BBEZxVl
- qKkUdDfI9pJoW6ttAo138zIh+iy8eRQmXG/KpsLaIcahmTdD3iDGwhxBC3KFF2xntooS
- 0psw==
-X-Gm-Message-State: APjAAAX6Bg5nVBcrRW28nRvSHoj9lEZsdJoTxd7I7o22Mxnn4d2SnI65
- g4zoY2ShisT1ATYdi/CoiT0ERQ==
-X-Google-Smtp-Source: APXvYqyXtLd2Riz0/RxPumHxEbMp0DS50QcuI6vdqhwtVKTDioFnvq/h4pGOQgLB49y7YqLbYku8fA==
-X-Received: by 2002:a1c:544e:: with SMTP id p14mr2499469wmi.72.1569359442782; 
- Tue, 24 Sep 2019 14:10:42 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a13sm5202467wrf.73.2019.09.24.14.10.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 14:10:41 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E39AA1FFAA;
- Tue, 24 Sep 2019 22:01:08 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 22/33] configure: preserve PKG_CONFIG for subdir builds
-Date: Tue, 24 Sep 2019 22:00:55 +0100
-Message-Id: <20190924210106.27117-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
-References: <20190924210106.27117-1-alex.bennee@linaro.org>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCs2P-0006XH-Nn
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:07:58 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:36386
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iCs2M-0006WB-Tc; Tue, 24 Sep 2019 17:07:55 -0400
+Received: from host86-138-245-63.range86-138.btcentralplus.com
+ ([86.138.245.63] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iCs0L-0000oA-V2; Tue, 24 Sep 2019 22:05:50 +0100
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
+References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
+ <20190924153556.27575-2-mark.cave-ayland@ilande.co.uk>
+ <e4e2220b-d23b-aa54-2c46-c937bd0efe86@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <e4ba6c27-e57a-de8f-c993-4172db2ea01a@ilande.co.uk>
+Date: Tue, 24 Sep 2019 22:05:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <e4e2220b-d23b-aa54-2c46-c937bd0efe86@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-SA-Exim-Connect-IP: 86.138.245.63
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 1/7] target/ppc: introduce get_dfp{64,128}() helper
+ functions
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,54 +86,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, jsnow@redhat.com,
- f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The slirp sub-module complains about not being able to find the glib
-library on cross-compiles because it is using the default pkg-config
-tool (which isn't installed in our cross-build docker images).
-Preserve PKG_CONFIG in our host config and pass it down to slirp.
+On 24/09/2019 20:21, Richard Henderson wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- Makefile  | 6 +++++-
- configure | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
+> On 9/24/19 8:35 AM, Mark Cave-Ayland wrote:
+>> +static void get_dfp64(uint64_t *dst, uint64_t *dfp)
+>> +{
+>> +    dst[0] = dfp[0];
+>> +}
+>> +
+>> +static void get_dfp128(uint64_t *dst, uint64_t *dfp)
+>> +{
+>> +    dst[0] = dfp[HI_IDX];
+>> +    dst[1] = dfp[LO_IDX];
+>> +}
+> 
+> I'm not keen on this.  I would prefer some type difference that prevents you
+> from getting the arguments the wrong way around.
+> 
+> I'm thinking that a combination helper like
+> 
+> static void get_dfp64(decNumber *out, uint64_t *in)
+> {
+>     union {
+>        uint64_t i;
+>        decimal64 d;
+>     } u;
+> 
+>     u.i = *in;
+>     decimal64ToNumber(&u.d, out);
+> }
+> 
+>> @@ -129,7 +140,7 @@ static void dfp_prepare_decimal64(struct PPC_DFP *dfp, uint64_t *a,
+>>      dfp->env = env;
+>>  
+>>      if (a) {
+>> -        dfp->a64[0] = *a;
+>> +        get_dfp64(dfp->a64, a);
+>>          decimal64ToNumber((decimal64 *)dfp->a64, &dfp->a);
+>>      } else {
+>>          dfp->a64[0] = 0;
+> 
+> becomes
+> 
+>     get_dfp64(&dfp->a, a);
+> 
+> and that might clean up a lot of the code.
 
-diff --git a/Makefile b/Makefile
-index a0c1430b407..8da33595edd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -510,7 +510,11 @@ capstone/all: .git-submodule-status
- 
- .PHONY: slirp/all
- slirp/all: .git-submodule-status
--	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp BUILD_DIR="$(BUILD_DIR)/slirp" CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)" CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(LDFLAGS)")
-+	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp		\
-+		BUILD_DIR="$(BUILD_DIR)/slirp" 			\
-+		PKG_CONFIG="$(PKG_CONFIG)" 				\
-+		CC="$(CC)" AR="$(AR)" 	LD="$(LD)" RANLIB="$(RANLIB)"	\
-+		CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(LDFLAGS)")
- 
- # Compatibility gunk to keep make working across the rename of targets
- # for recursion, to be removed some time after 4.1.
-diff --git a/configure b/configure
-index 397bb476e19..542f6aea3f6 100755
---- a/configure
-+++ b/configure
-@@ -7302,6 +7302,7 @@ echo "OBJCOPY=$objcopy" >> $config_host_mak
- echo "LD=$ld" >> $config_host_mak
- echo "RANLIB=$ranlib" >> $config_host_mak
- echo "NM=$nm" >> $config_host_mak
-+echo "PKG_CONFIG=$pkg_config_exe" >> $config_host_mak
- echo "WINDRES=$windres" >> $config_host_mak
- echo "CFLAGS=$CFLAGS" >> $config_host_mak
- echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
--- 
-2.20.1
+Right, and in fact I had a similar thought myself regarding type safety since one of
+the issues with working with the existing code in dfp_helper.c is that everything
+uses a uint64_t * which makes it really difficult to figure out why things are
+crashing if you make a typo :/
 
+Note that this patch simply introduces the helpers without making changes to the
+existing logic which is why both arguments are still uint64_t *. The real work is
+done in patch 3 where ppc_fptr_t type is introduced, and also see the switch from
+uint64_t * to ppc_vsr_t in patch 5.
+
+With the full patchset applied you'll see that get_dfp64() and friends are in exactly
+the same form you show above, and if I swap the arguments then the compiler does
+actually complain, although somewhat cryptically.
+
+>> @@ -617,10 +626,12 @@ uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint64_t *b)         \
+>>  {                                                                        \
+>>      struct PPC_DFP dfp;                                                  \
+>>      unsigned k;                                                          \
+>> +    uint64_t a64;                                                        \
+>>                                                                           \
+>>      dfp_prepare_decimal##size(&dfp, 0, b, env);                          \
+>>                                                                           \
+>> -    k = *a & 0x3F;                                                       \
+>> +    get_dfp64(&a64, a);                                                  \
+>> +    k = a64 & 0x3F;                                                      \
+>>                                                                           \
+>>      if (unlikely(decNumberIsSpecial(&dfp.b))) {                          \
+>>          dfp.crbf = 1;                                                    \
+> 
+> Whereas cases like this, where a scalar is being passed in, I don't think that
+> re-using the same helper is appropriate.  Ideally, they would be passed in by
+> value, and not by reference at all.  That, of course, requires changes to the
+> translator beyond the scope of this patch.
+
+Agreed. I was really keen to avoid any translator changes if possible since the PPC
+translator code tends to be quite tricky which is why I went with the above approach.
+
+>>  void helper_dctqpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+>>  {
+>>      struct PPC_DFP dfp;
+>> +    uint64_t b64;
+>>      dfp_prepare_decimal128(&dfp, 0, 0, env);
+>> -    decimal64ToNumber((decimal64 *)b, &dfp.t);
+>> +    get_dfp64(&b64, b);
+>> +    decimal64ToNumber((decimal64 *)&b64, &dfp.t);
+> 
+> This would become
+> 
+>     get_dfp64(&dfp.t, b);
+> 
+> with no intermediate b64 temp.
+
+Funnily enough that did cross my mind, but I wasn't 100% sure that this wasn't doing
+something extra within libdecnumber. If you think it makes sense then I can easily
+add it into a v2.
+
+
+ATB,
+
+Mark.
 
