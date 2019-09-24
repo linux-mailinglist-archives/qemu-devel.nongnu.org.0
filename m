@@ -2,54 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A7EBC8FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:37:10 +0200 (CEST)
-Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DFABC8F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:30:46 +0200 (CEST)
+Received: from localhost ([::1]:45656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCl09-0005Jp-2j
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
+	id 1iCktx-0000Fc-Bg
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:30:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0y-0001Uc-Qa
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:57 -0400
+ (envelope-from <slp@redhat.com>) id 1iCkCF-0002qc-8M
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0x-000791-GH
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46620)
+ (envelope-from <slp@redhat.com>) id 1iCkCC-0004nx-Jg
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38702)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0x-00078V-70
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:55 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iCkCB-0004n8-Rn
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:32 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 863D8305D637;
- Tue, 24 Sep 2019 12:33:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF2D15C1B2;
- Tue, 24 Sep 2019 12:33:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 963FB113864E; Tue, 24 Sep 2019 14:33:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v2] qapi/qmp-dispatch: Fix error class for
- reporting disabled commands
-References: <faeb030e6a1044f0fd88208edfdb1c5fafe5def9.1567171655.git.mprivozn@redhat.com>
- <87k1accq91.fsf@dusky.pond.sub.org>
- <e57985a8-6974-e2b4-a622-3b7eca50660c@redhat.com>
- <87impw598s.fsf@dusky.pond.sub.org>
-Date: Tue, 24 Sep 2019 14:33:50 +0200
-In-Reply-To: <87impw598s.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Fri, 13 Sep 2019 20:41:55 +0200")
-Message-ID: <87d0fp7u1d.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 68DA585362;
+ Tue, 24 Sep 2019 12:45:30 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B99360852;
+ Tue, 24 Sep 2019 12:45:27 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 3/8] hw/virtio: Factorize virtio-mmio headers
+Date: Tue, 24 Sep 2019 14:44:28 +0200
+Message-Id: <20190924124433.96810-4-slp@redhat.com>
+In-Reply-To: <20190924124433.96810-1-slp@redhat.com>
+References: <20190924124433.96810-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 24 Sep 2019 12:33:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Tue, 24 Sep 2019 12:45:30 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,72 +54,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, lcapitulino@redhat.com
+Cc: Sergio Lopez <slp@redhat.com>, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, lersek@redhat.com, mtosatti@redhat.com, kraxel@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+Put QOM and main struct definition in a separate header file, so it
+can be accessed from other components.
 
-> Michal Privoznik <mprivozn@redhat.com> writes:
->
->> On 9/13/19 2:52 PM, Markus Armbruster wrote:
->>> Michal Privoznik <mprivozn@redhat.com> writes:
->>>
->>>> If a command is disabled an error is reported. But due to usage
->>>> of error_setg() the class of the error is GenericError which does
->>>> not help callers in distinguishing this case from a case where a
->>>> qmp command fails regularly due to other reasons. Use
->>>> CommandNotFound error class which is much closer to the actual
->>>> root cause.
->>>>
->>>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
->>>> ---
->>>
->>> I'd like to tweak the commit message a bit:
->>>
->>>    qmp-dispatch: Use CommandNotFound error for disabled commands
->>>
->>>    If a command is disabled an error is reported.  But due to usage of
->>>    error_setg() the class of the error is GenericError which does not
->>>    help callers in distinguishing this case from a case where a qmp
->>>    command fails regularly due to other reasons.
->>>
->>>    We used to use class CommandDisabled until the great error
->>>    simplification (commit de253f1491 for QMP and commit 93b91c59db for
->>>    qemu-ga, both v1.2.0).
->>>
->>>    Use CommandNotFound error class, which is close enough.
->>>
->>> Objections?
->>>
->>
->> None, thanks for taking care of this.
->
-> Need to squash in:
->
-> diff --git a/tests/test-qga.c b/tests/test-qga.c
-> index 891aa3d322..1ca49bbced 100644
-> --- a/tests/test-qga.c
-> +++ b/tests/test-qga.c
-> @@ -668,7 +668,7 @@ static void test_qga_blacklist(gconstpointer data)
->      error = qdict_get_qdict(ret, "error");
->      class = qdict_get_try_str(error, "class");
->      desc = qdict_get_try_str(error, "desc");
-> -    g_assert_cmpstr(class, ==, "GenericError");
-> +    g_assert_cmpstr(class, ==, "CommandNotFound");
->      g_assert_nonnull(g_strstr_len(desc, -1, "has been disabled"));
->      qobject_unref(ret);
->  
-> @@ -677,7 +677,7 @@ static void test_qga_blacklist(gconstpointer data)
->      error = qdict_get_qdict(ret, "error");
->      class = qdict_get_try_str(error, "class");
->      desc = qdict_get_try_str(error, "desc");
-> -    g_assert_cmpstr(class, ==, "GenericError");
-> +    g_assert_cmpstr(class, ==, "CommandNotFound");
->      g_assert_nonnull(g_strstr_len(desc, -1, "has been disabled"));
->      qobject_unref(ret);
->  
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+---
+ hw/virtio/virtio-mmio.c         | 35 +------------------
+ include/hw/virtio/virtio-mmio.h | 60 +++++++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+), 34 deletions(-)
+ create mode 100644 include/hw/virtio/virtio-mmio.h
 
-I tried to include the amended patch in today's pull request, but
-observed "make check" hangs with it.
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index eccc795f28..6be6b298d5 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -29,44 +29,11 @@
+ #include "qemu/host-utils.h"
+ #include "qemu/module.h"
+ #include "sysemu/kvm.h"
+-#include "hw/virtio/virtio-bus.h"
++#include "hw/virtio/virtio-mmio.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+ #include "trace.h"
+=20
+-/* QOM macros */
+-/* virtio-mmio-bus */
+-#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
+-#define VIRTIO_MMIO_BUS(obj) \
+-        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
+-        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_CLASS(klass) \
+-        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS=
+)
+-
+-/* virtio-mmio */
+-#define TYPE_VIRTIO_MMIO "virtio-mmio"
+-#define VIRTIO_MMIO(obj) \
+-        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
+-
+-#define VIRT_MAGIC 0x74726976 /* 'virt' */
+-#define VIRT_VERSION 1
+-#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
+-
+-typedef struct {
+-    /* Generic */
+-    SysBusDevice parent_obj;
+-    MemoryRegion iomem;
+-    qemu_irq irq;
+-    /* Guest accessible state needing migration and reset */
+-    uint32_t host_features_sel;
+-    uint32_t guest_features_sel;
+-    uint32_t guest_page_shift;
+-    /* virtio-bus */
+-    VirtioBusState bus;
+-    bool format_transport_address;
+-} VirtIOMMIOProxy;
+-
+ static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
+ {
+     return kvm_eventfds_enabled();
+diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-m=
+mio.h
+new file mode 100644
+index 0000000000..2f3973f8c7
+--- /dev/null
++++ b/include/hw/virtio/virtio-mmio.h
+@@ -0,0 +1,60 @@
++/*
++ * Virtio MMIO bindings
++ *
++ * Copyright (c) 2011 Linaro Limited
++ *
++ * Author:
++ *  Peter Maydell <peter.maydell@linaro.org>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License; either version =
+2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef QEMU_VIRTIO_MMIO_H
++#define QEMU_VIRTIO_MMIO_H
++
++#include "hw/virtio/virtio-bus.h"
++
++/* QOM macros */
++/* virtio-mmio-bus */
++#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
++#define VIRTIO_MMIO_BUS(obj) \
++        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
++#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
++        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
++#define VIRTIO_MMIO_BUS_CLASS(klass) \
++        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS=
+)
++
++/* virtio-mmio */
++#define TYPE_VIRTIO_MMIO "virtio-mmio"
++#define VIRTIO_MMIO(obj) \
++        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
++
++#define VIRT_MAGIC 0x74726976 /* 'virt' */
++#define VIRT_VERSION 1
++#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
++
++typedef struct {
++    /* Generic */
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++    qemu_irq irq;
++    /* Guest accessible state needing migration and reset */
++    uint32_t host_features_sel;
++    uint32_t guest_features_sel;
++    uint32_t guest_page_shift;
++    /* virtio-bus */
++    VirtioBusState bus;
++    bool format_transport_address;
++} VirtIOMMIOProxy;
++
++#endif
+--=20
+2.21.0
+
 
