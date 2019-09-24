@@ -2,45 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D760CBC8E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:26:08 +0200 (CEST)
-Received: from localhost ([::1]:45606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC6DBC8C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:21:21 +0200 (CEST)
+Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkpT-0004f7-7N
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52287)
+	id 1iCkkp-0006da-RY
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56037)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iCkBn-0002eX-D3
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:08 -0400
+ (envelope-from <prvs=1633f89ff=Anup.Patel@wdc.com>)
+ id 1iCkc5-0000Xv-1l
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:12:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iCkBl-0004Wb-C7
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60248)
+ (envelope-from <prvs=1633f89ff=Anup.Patel@wdc.com>)
+ id 1iCkc3-0002v1-0r
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:12:16 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:42656)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iCkBl-0004WT-4b
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:05 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 29B7518C37B;
- Tue, 24 Sep 2019 12:45:04 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87B0D60852;
- Tue, 24 Sep 2019 12:44:50 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/8] Introduce the microvm machine type
-Date: Tue, 24 Sep 2019 14:44:25 +0200
-Message-Id: <20190924124433.96810-1-slp@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 24 Sep 2019 12:45:04 +0000 (UTC)
+ (Exim 4.71) (envelope-from <prvs=1633f89ff=Anup.Patel@wdc.com>)
+ id 1iCkbv-0002pB-TT; Tue, 24 Sep 2019 09:12:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1569330728; x=1600866728;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=sOZDNnFj2RaXKg4BqQV4BM1YNOfwyp6dIUaP+YfiUOA=;
+ b=etUHRYg4bKrGcO8oxk6MIwVfnKn5On6uimcOYjMNFIXx2nGGiRMlKheb
+ ZUTtv5oMQfa+oSDpgyGKbPfsxFHvbPapx154CP+r7Y59IJpshx5YVIMKn
+ 7fj9oxRkofOn4cYG6E8uyKkvn3+ol+CvNen+hR7OQaOtB7YR1dMUHl+BE
+ mGlAwuwCgldYtRHoj8deHQ08/XxQaY9Kkb8V2Be6xEesDP42Ajg15Cam7
+ 8BzqfZ87Mo5Ro7/rVBKOMTAHLw2B9d6tCscLGqqBA0hPjsIPhO9Zi8KX0
+ thQfKDrh9fgbfuuEm5BPBSyecum+jlEMHJT56bVRmQsnDeUKHVAS1rBSv A==;
+IronPort-SDR: MoLcxNKp6uYD385kCBGmFj94FQd3ReAXrPRVQFC/sIZvUuMi77I6QvvCiG6Dw4lOwKJTRpovKX
+ OV6ax5ddKIcb2EGbtfBKzyChfbpex8bix+TWe0LCUYTW/i/2LUQkxcPh3uxDiA8LpQZyou8zcy
+ OHNa7Mb0ck9VB+9yNXgXflLMBbttjLMFA02dDW/te8Dd85Qs+TAYeFa+h8YicvM4kpw40FY7+N
+ nc6A4korp5wn7g16/mDMMf94KjlbNxvgpQtQoyEej0x7GhB/XJIsjX/7ZNSgSqgAqZPphbYDKU
+ YRw=
+X-IronPort-AV: E=Sophos;i="5.64,544,1559491200"; d="scan'208";a="118970940"
+Received: from mail-by2nam03lp2058.outbound.protection.outlook.com (HELO
+ NAM03-BY2-obe.outbound.protection.outlook.com) ([104.47.42.58])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2019 21:11:59 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n28XsGHExklmLfHyp33hBqyw3X3+Kgikui9BiW5HlYDeRRxFPxyJscsnXSZumULQlkQZdh3OZ6iAXb6cUqhMuYUmu/DZgAXhF65fPrRWa/Vg9NGOo61H5AMB/JBOAJtzHsbnXoDtNGnlHz46jrptvv77AcDuM+heRK+SKmKKYPYTW5757B7Hw2vh8ByGv8EciK0GNbA/EocuMImgUADVHtJQuFM5jEM+SD6IfLZful7QNwqxdy/eozJegSROJUXuGaa3GoE/jWgT9tO0d2dx6OTpVfBV5KwL+AQWAOPsEdj6p4yMGisIWi3KRAmKTpzeZmKNTNlZxyUMixoFsU/6Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MFMTf9FB4jd7cxmHM9GoS8TqjRe4+/7fDWsZIr79Nb0=;
+ b=GPKwPxBlPa8uRwyInYUwDbuID0ju/h1WhZsI07GkXH4KaJqXg7BJQ4PKUJVPtsIwHi63sdqGhomAmqIyvDfXMJ8rsLaVVqiN3P0DlozXrkh7iTzTNsqCw8Nm8LKupY2dzEW4rwZ06IzeK7FZ8+WFsk5PCS3V/82+ulsJ4PipITmhAVHIY0VoXc8QgS5sz2KyQxxy+rYVPwO9kQKEx6qoDj2abAwmYtbHQj2KdcSn3qFbrnP6G2x2PLNhzY15lTIhOCvwtU//BlhYP9seTvDTshLyuwEaXSW+Si3WSsO1lGuA+DH28vbB0n9QmDiBrH+p+QJX3231ueTe0iYZnMdGEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MFMTf9FB4jd7cxmHM9GoS8TqjRe4+/7fDWsZIr79Nb0=;
+ b=NeH9htplXssFxZiP9pTu0Fot2svh9g1kFFY3tCa8wcRu7zFZQoq7fYgdw12AkhvloxVRwOiW/8Tx+4xOE4ZQUOqkJ0XNV71FsOW/qiApU/4PetIKKRJGxRh3aRFLRCg3M218TfAdLVDe+7L7PV8RzBj8hDfIkQzYBrW5y9ONtPk=
+Received: from MN2PR04MB6061.namprd04.prod.outlook.com (20.178.246.15) by
+ MN2PR04MB6318.namprd04.prod.outlook.com (52.132.168.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.20; Tue, 24 Sep 2019 13:11:57 +0000
+Received: from MN2PR04MB6061.namprd04.prod.outlook.com
+ ([fe80::e1a5:8de2:c3b1:3fb0]) by MN2PR04MB6061.namprd04.prod.outlook.com
+ ([fe80::e1a5:8de2:c3b1:3fb0%7]) with mapi id 15.20.2284.023; Tue, 24 Sep 2019
+ 13:11:57 +0000
+From: Anup Patel <Anup.Patel@wdc.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
+ <palmer@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>, Sagar
+ Karandikar <sagark@eecs.berkeley.edu>, Bastian Koppelmann
+ <kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 0/2] RTC support for QEMU RISC-V virt machine
+Thread-Topic: [PATCH v2 0/2] RTC support for QEMU RISC-V virt machine
+Thread-Index: AQHVctmkW8P3iH8gtEirKQ31pP1PTw==
+Date: Tue, 24 Sep 2019 13:11:57 +0000
+Message-ID: <20190924131131.118155-1-anup.patel@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MA1PR01CA0148.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::18) To MN2PR04MB6061.namprd04.prod.outlook.com
+ (2603:10b6:208:d8::15)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Anup.Patel@wdc.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.17.1
+x-originating-ip: [49.207.51.80]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5c08830f-ab2e-445a-daae-08d740f0c6dc
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:MN2PR04MB6318; 
+x-ms-traffictypediagnostic: MN2PR04MB6318:
+x-ms-exchange-purlcount: 1
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR04MB6318B708AF3606ED21B392568D840@MN2PR04MB6318.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0170DAF08C
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(346002)(376002)(366004)(396003)(39860400002)(136003)(199004)(189003)(8676002)(25786009)(476003)(305945005)(8936002)(81156014)(81166006)(6512007)(36756003)(3846002)(6116002)(6306002)(6436002)(5660300002)(110136005)(54906003)(44832011)(71190400001)(71200400001)(2616005)(486006)(316002)(256004)(66066001)(7736002)(14444005)(6486002)(50226002)(6506007)(66946007)(1076003)(14454004)(64756008)(2906002)(186003)(99286004)(102836004)(966005)(2171002)(386003)(52116002)(26005)(478600001)(66476007)(66556008)(86362001)(55236004)(66446008)(4326008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR04MB6318;
+ H:MN2PR04MB6061.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: KX8cgI2ut+PdDZn4e76d6FS+Krnd9YCcZrab07hjOUQHOAgYEHf99Y0AZ5LHn5FxqqwYifUOdsyh3dIUOV51ibSxtn4UPiamHt4vybpgIwHwjePSFuynkXvyxaN1mDd9xZwpaRUBLosaekFJmXbJAK4w/YJ6rf6dYxxZgvQZ09ZUwArv6FI/o9gRZl3rYuLf50gNJ25jm5M3b5vHTnyMT6lcP/ut6Mu3Smq5dU67+zNhoHVuuQdDJS4ufBBaBDu+Xq1nH9d3JzScV+eNRgtrDn6/DQhUb8cah5gjI02doILjqhludjdo7PiUYva6Gm42IKXzmx2z20KMEA/nWpRaXiFU3PvRGYBA39wncZmw0tguHRB8J9Fwf3v4nuzxlJPB7uw32CkyK6h0mouzWm6rlDQu3aGQsAfvmpMJL6ZZ6rwewhDSKOLOJKN+V7EHFNL4E8ovuyXiQ2p6Trfc5vXWkw==
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c08830f-ab2e-445a-daae-08d740f0c6dc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2019 13:11:57.4292 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yFMCvPFs4E8gyloNZuqzsEOZib4ZLSGy4BbrvnexMkKAHg7xB1s1GTszNWnYM4i7rZ09Mcd0w1SzXwJKb1xVdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6318
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.154.42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,176 +132,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, lersek@redhat.com, mtosatti@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: Atish Patra <Atish.Patra@wdc.com>, Anup Patel <Anup.Patel@wdc.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Microvm is a machine type inspired by both NEMU and Firecracker, and
-constructed after the machine model implemented by the latter.
+This series adds RTC device to QEMU RISC-V virt machine. We have
+selected Goldfish RTC device model for this. It's a pretty simple
+synthetic device with few MMIO registers and no dependency external
+clock. The driver for Goldfish RTC is already available in Linux so
+we just need to enable it in Kconfig for RISCV and also update Linux
+defconfigs.
 
-It's main purpose is providing users a minimalist machine type free
-from the burden of legacy compatibility, serving as a stepping stone
-for future projects aiming at improving boot times, reducing the
-attack surface and slimming down QEMU's footprint.
+We have tested this series with Linux-5.3 plus defconfig changes
+available in 'goldfish_rtc_v1' branch of:
+https://github.com/avpatel/linux.git
 
-The microvm machine type supports the following devices:
+Changes since v1:
+ - Removed redundant object properties from Goldfish RTC emulation
+ - Added vmstate for Goldfish RTC
 
- - ISA bus
- - i8259 PIC
- - LAPIC (implicit if using KVM)
- - IOAPIC (defaults to kernel_irqchip_split =3D true)
- - i8254 PIT
- - MC146818 RTC (optional)
- - kvmclock (if using KVM)
- - fw_cfg
- - One ISA serial port (optional)
- - Up to eight virtio-mmio devices (configured by the user)
+Anup Patel (2):
+  hw: timer: Add Goldfish RTC device
+  riscv: virt: Use Goldfish RTC device
 
-It supports the following machine-specific options:
+ hw/riscv/Kconfig                |   1 +
+ hw/riscv/virt.c                 |  15 ++
+ hw/timer/Kconfig                |   3 +
+ hw/timer/Makefile.objs          |   1 +
+ hw/timer/goldfish_rtc.c         | 278 ++++++++++++++++++++++++++++++++
+ include/hw/riscv/virt.h         |   2 +
+ include/hw/timer/goldfish_rtc.h |  46 ++++++
+ 7 files changed, 346 insertions(+)
+ create mode 100644 hw/timer/goldfish_rtc.c
+ create mode 100644 include/hw/timer/goldfish_rtc.h
 
-microvm.option-roms=3Dbool (Set off to disable loading option ROMs)
-microvm.isa-serial=3Dbool (Set off to disable the instantiation an ISA se=
-rial port)
-microvm.rtc=3Dbool (Set off to disable the instantiation of an MC146818 R=
-TC)
-microvm.kernel-cmdline=3Dbool (Set off to disable adding virtio-mmio devi=
-ces to the kernel cmdline)
-
-By default, microvm uses qboot as its BIOS, to obtain better boot
-times, but it's also compatible with SeaBIOS.
-
-As no current FW is able to boot from a block device using virtio-mmio
-as its transport, a microvm-based VM needs to be run using a host-side
-kernel and, optionally, an initrd image.
-
-This is an example of instantiating a microvm VM with a virtio-mmio
-based console:
-
-qemu-system-x86_64 -M microvm
- -enable-kvm -cpu host -m 512m -smp 2 \
- -kernel vmlinux -append "console=3Dhvc0 root=3D/dev/vda" \
- -nodefaults -no-user-config -nographic \
- -chardev stdio,id=3Dvirtiocon0,server \
- -device virtio-serial-device \
- -device virtconsole,chardev=3Dvirtiocon0 \
- -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
- -device virtio-blk-device,drive=3Dtest \
- -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
- -device virtio-net-device,netdev=3Dtap0
-
-This is another example, this time using an ISA serial port, useful
-for debugging purposes:
-
-qemu-system-x86_64 -M microvm \
- -enable-kvm -cpu host -m 512m -smp 2 \
- -kernel vmlinux -append "earlyprintk=3DttyS0 console=3DttyS0 root=3D/dev=
-/vda" \
- -nodefaults -no-user-config -nographic \
- -serial stdio \
- -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
- -device virtio-blk-device,drive=3Dtest \
- -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
- -device virtio-net-device,netdev=3Dtap0
-
-Finally, in this example a microvm VM is instantiated without RTC,
-without an ISA serial port and without loading the option ROMs,
-obtaining the smallest configuration:
-
-qemu-system-x86_64 -M microvm,rtc=3Doff,isa-serial=3Doff,option-roms=3Dof=
-f \
- -enable-kvm -cpu host -m 512m -smp 2 \
- -kernel vmlinux -append "console=3Dhvc0 root=3D/dev/vda" \
- -nodefaults -no-user-config -nographic \
- -chardev stdio,id=3Dvirtiocon0,server \
- -device virtio-serial-device \
- -device virtconsole,chardev=3Dvirtiocon0 \
- -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
- -device virtio-blk-device,drive=3Dtest \
- -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
- -device virtio-net-device,netdev=3Dtap0
-
----
-
-Changelog
-v4:
- - This is a complete rewrite of the whole patchset, with a focus on
-   reusing as much existing code as possible to ease the maintenance burd=
-en
-   and making the machine type as compatible as possible by default. As
-   a result, the number of lines dedicated specifically to microvm is
-   383 (code lines measured by "cloc") and, with the default
-   configuration, it's now able to boot both PVH ELF images and
-   bzImages with either SeaBIOS or qboot.
-
-v3:
-  - Add initrd support (thanks Stefano).
-
-v2:
-  - Drop "[PATCH 1/4] hw/i386: Factorize CPU routine".
-  - Simplify machine definition (thanks Eduardo).
-  - Remove use of unneeded NUMA-related callbacks (thanks Eduardo).
-  - Add a patch to factorize PVH-related functions.
-  - Replace use of Linux's Zero Page with PVH (thanks Maran and Paolo).
- =20
----
-Sergio Lopez (8):
-  hw/i386: Factorize PVH related functions
-  hw/i386: Factorize e820 related functions
-  hw/virtio: Factorize virtio-mmio headers
-  hw/i386: split PCMachineState deriving X86MachineState from it
-  fw_cfg: add "modify" functions for all types
-  roms: add microvm-bios (qboot) as binary and git submodule
-  docs/microvm.txt: document the new microvm machine type
-  hw/i386: Introduce the microvm machine type
-
- .gitmodules                      |   3 +
- default-configs/i386-softmmu.mak |   1 +
- docs/microvm.txt                 |  78 +++
- hw/acpi/cpu_hotplug.c            |  10 +-
- hw/i386/Kconfig                  |   4 +
- hw/i386/Makefile.objs            |   4 +
- hw/i386/acpi-build.c             |  31 +-
- hw/i386/amd_iommu.c              |   4 +-
- hw/i386/e820.c                   |  99 ++++
- hw/i386/e820.h                   |  11 +
- hw/i386/intel_iommu.c            |   4 +-
- hw/i386/microvm.c                | 512 +++++++++++++++++
- hw/i386/pc.c                     | 960 +++----------------------------
- hw/i386/pc_piix.c                |  48 +-
- hw/i386/pc_q35.c                 |  38 +-
- hw/i386/pc_sysfw.c               |  60 +-
- hw/i386/pvh.c                    | 113 ++++
- hw/i386/pvh.h                    |  10 +
- hw/i386/x86.c                    | 788 +++++++++++++++++++++++++
- hw/intc/ioapic.c                 |   3 +-
- hw/nvram/fw_cfg.c                |  29 +
- hw/virtio/virtio-mmio.c          |  35 +-
- include/hw/i386/microvm.h        |  80 +++
- include/hw/i386/pc.h             |  40 +-
- include/hw/i386/x86.h            |  97 ++++
- include/hw/nvram/fw_cfg.h        |  42 ++
- include/hw/virtio/virtio-mmio.h  |  60 ++
- pc-bios/bios-microvm.bin         | Bin 0 -> 65536 bytes
- roms/Makefile                    |   6 +
- roms/qboot                       |   1 +
- target/i386/kvm.c                |   1 +
- 31 files changed, 2102 insertions(+), 1070 deletions(-)
- create mode 100644 docs/microvm.txt
- create mode 100644 hw/i386/e820.c
- create mode 100644 hw/i386/e820.h
- create mode 100644 hw/i386/microvm.c
- create mode 100644 hw/i386/pvh.c
- create mode 100644 hw/i386/pvh.h
- create mode 100644 hw/i386/x86.c
- create mode 100644 include/hw/i386/microvm.h
- create mode 100644 include/hw/i386/x86.h
- create mode 100644 include/hw/virtio/virtio-mmio.h
- create mode 100755 pc-bios/bios-microvm.bin
- create mode 160000 roms/qboot
-
---=20
-2.21.0
-
+--
+2.17.1
 
