@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609C2BCBF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:55:28 +0200 (CEST)
-Received: from localhost ([::1]:47580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE57BBCBD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:50:44 +0200 (CEST)
+Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCn9y-0008Ux-Up
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45290)
+	id 1iCn5P-0000hh-5R
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:50:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iCmNn-0008PH-7K
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:05:40 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1iCmOP-0000jA-6T
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:06:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iCmNl-0005Nj-4b
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:05:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52056)
+ (envelope-from <eric.auger@redhat.com>) id 1iCmON-0005ht-Nl
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:06:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34452)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCmNk-0005NP-Ts
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:05:37 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iCmOK-0005fo-Gm; Tue, 24 Sep 2019 11:06:12 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 27AFD2D6A3F
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:05:36 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id k9so181935wmb.0
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:05:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Akw+NMEbOIq+0gkdjyK1hG8E93w0sSINVS7gM9l49t8=;
- b=hgTtlM+Ga2SuWo0KFFSiFNKC5P4JZDJvX354bsmGbzlFA2A8qH0Ehrj7Mr2ulCi7nH
- OIHnGxPYd41GL0NYkqPKUyYX0UR48fe2z7PCWTlf1Uf0YfeFE4I+n4LeETMh4Z9fYkW9
- 7ydmNwyY0GBhalgXludjfHbmlqrGLitgyKRRZAtO7RirksXftmDv1FhKbD4lMEg4t0Dk
- GDDBlg00YKA8+8Cb2drF61GRf3axOKfDTbQNfCaBuXG+1ah9ABqT38wtyj3H/VklgcKb
- rdPDyaS/deIcpA84TOpo8XQDRPfMSDa3Fslkq5hNHRd4CqBN0yo6SJk7hoiZFIHkXtLu
- 1gbg==
-X-Gm-Message-State: APjAAAUIKOkO4vA1OhLDNwkJPho5sROYVUr2VeD71dyjmsn6X33pIyHc
- FyQt/6MlDBee05qFnwOzQSLc1aibe7JAt/DlAqNRJAoOmcQDeDoYlatRc86COod46/fUpklQBOx
- Pr1xdWazaQKRgXFU=
-X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr483015wml.173.1569337534656; 
- Tue, 24 Sep 2019 08:05:34 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwwk9YsRGNGiJWfI0i1Hsm/h89TJu7mV6E+ek3sQ049b5FCLyOwBCWAUz+LEDOQ//YLdRQsVA==
-X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr482986wml.173.1569337534451; 
- Tue, 24 Sep 2019 08:05:34 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id b5sm325533wmj.18.2019.09.24.08.05.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Sep 2019 08:05:33 -0700 (PDT)
-Subject: Re: [PATCH v3 3/6] docker: remove 'deprecated' image definitions
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20190923181140.7235-1-jsnow@redhat.com>
- <20190923181140.7235-4-jsnow@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c990f39e-5748-c6a3-b071-0d4f279d2a1c@redhat.com>
-Date: Tue, 24 Sep 2019 17:05:31 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id 8EA4C18C4288;
+ Tue, 24 Sep 2019 15:06:11 +0000 (UTC)
+Received: from [10.36.116.30] (ovpn-116-30.ams2.redhat.com [10.36.116.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AF8A5D713;
+ Tue, 24 Sep 2019 15:06:07 +0000 (UTC)
+Subject: Re: [PATCH v4 3/9] target/arm: Allow SVE to be disabled via a CPU
+ property
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20190924113105.19076-1-drjones@redhat.com>
+ <20190924113105.19076-4-drjones@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <78300b0a-cb7e-ab08-ec65-92227feeb873@redhat.com>
+Date: Tue, 24 Sep 2019 17:06:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20190923181140.7235-4-jsnow@redhat.com>
+In-Reply-To: <20190924113105.19076-4-drjones@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Tue, 24 Sep 2019 15:06:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,55 +61,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/19 8:11 PM, John Snow wrote:
-> There isn't a debian.dockerfile anymore,
-> so perform some ghost-busting.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/docker/Makefile.include | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.incl=
-ude
-> index b20a810016..983224ad96 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -4,11 +4,10 @@
-> =20
->  DOCKER_SUFFIX :=3D .docker
->  DOCKER_FILES_DIR :=3D $(SRC_PATH)/tests/docker/dockerfiles
-> -DOCKER_DEPRECATED_IMAGES :=3D debian
->  # we don't run tests on intermediate images (used as base by another i=
-mage)
-> -DOCKER_PARTIAL_IMAGES :=3D debian debian9 debian10 debian-sid
-> +DOCKER_PARTIAL_IMAGES :=3D debian9 debian10 debian-sid
->  DOCKER_PARTIAL_IMAGES +=3D debian9-mxe debian-ports debian-bootstrap
-> -DOCKER_IMAGES :=3D $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(n=
-otdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
-> +DOCKER_IMAGES :=3D $(sort $(notdir $(basename $(wildcard $(DOCKER_FILE=
-S_DIR)/*.docker))))
->  DOCKER_TARGETS :=3D $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
->  # Use a global constant ccache directory to speed up repetitive builds
->  DOCKER_CCACHE_DIR :=3D $$HOME/.cache/qemu-docker-ccache
-> @@ -159,7 +158,7 @@ docker-image-debian-powerpc-user-cross: docker-binf=
-mt-image-debian-powerpc-user
->  DOCKER_USER_IMAGES +=3D debian-powerpc-user
-> =20
->  # Expand all the pre-requistes for each docker image and test combinat=
-ion
-> -$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES) $(D=
-OCKER_DEPRECATED_IMAGES)), \
-> +$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
->  	$(foreach t,$(DOCKER_TESTS) $(DOCKER_TOOLS), \
->  		$(eval .PHONY: docker-$t@$i) \
->  		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
->=20
+Hi Drew,
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 9/24/19 1:30 PM, Andrew Jones wrote:
+> Since 97a28b0eeac14 ("target/arm: Allow VFP and Neon to be disabled via
+> a CPU property") we can disable the 'max' cpu model's VFP and neon
+> features, but there's no way to disable SVE. Add the 'sve=on|off'
+> property to give it that flexibility. We also rename
+> cpu_max_get/set_sve_vq to cpu_max_get/set_sve_max_vq in order for them
+> to follow the typical *_get/set_<property-name> pattern.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Eric
+> ---
+>  target/arm/cpu.c         |  3 ++-
+>  target/arm/cpu64.c       | 42 ++++++++++++++++++++++++++++++++++------
+>  target/arm/monitor.c     |  2 +-
+>  tests/arm-cpu-features.c |  1 +
+>  4 files changed, 40 insertions(+), 8 deletions(-)
+> 
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 2399c144718d..73be2ebfdd39 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -200,7 +200,8 @@ static void arm_cpu_reset(CPUState *s)
+>          env->cp15.cpacr_el1 = deposit64(env->cp15.cpacr_el1, 16, 2, 3);
+>          env->cp15.cptr_el[3] |= CPTR_EZ;
+>          /* with maximum vector length */
+> -        env->vfp.zcr_el[1] = cpu->sve_max_vq - 1;
+> +        env->vfp.zcr_el[1] = cpu_isar_feature(aa64_sve, cpu) ?
+> +                             cpu->sve_max_vq - 1 : 0;
+>          env->vfp.zcr_el[2] = env->vfp.zcr_el[1];
+>          env->vfp.zcr_el[3] = env->vfp.zcr_el[1];
+>          /*
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index d7f5bf610a7d..8cdb0c79fa7a 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -256,15 +256,15 @@ static void aarch64_a72_initfn(Object *obj)
+>      define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
+>  }
+>  
+> -static void cpu_max_get_sve_vq(Object *obj, Visitor *v, const char *name,
+> -                               void *opaque, Error **errp)
+> +static void cpu_max_get_sve_max_vq(Object *obj, Visitor *v, const char *name,
+> +                                   void *opaque, Error **errp)
+>  {
+>      ARMCPU *cpu = ARM_CPU(obj);
+>      visit_type_uint32(v, name, &cpu->sve_max_vq, errp);
+>  }
+>  
+> -static void cpu_max_set_sve_vq(Object *obj, Visitor *v, const char *name,
+> -                               void *opaque, Error **errp)
+> +static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
+> +                                   void *opaque, Error **errp)
+>  {
+>      ARMCPU *cpu = ARM_CPU(obj);
+>      Error *err = NULL;
+> @@ -279,6 +279,34 @@ static void cpu_max_set_sve_vq(Object *obj, Visitor *v, const char *name,
+>      error_propagate(errp, err);
+>  }
+>  
+> +static void cpu_arm_get_sve(Object *obj, Visitor *v, const char *name,
+> +                            void *opaque, Error **errp)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +    bool value = cpu_isar_feature(aa64_sve, cpu);
+> +
+> +    visit_type_bool(v, name, &value, errp);
+> +}
+> +
+> +static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
+> +                            void *opaque, Error **errp)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +    Error *err = NULL;
+> +    bool value;
+> +    uint64_t t;
+> +
+> +    visit_type_bool(v, name, &value, &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +
+> +    t = cpu->isar.id_aa64pfr0;> +    t = FIELD_DP64(t, ID_AA64PFR0, SVE, value);
+> +    cpu->isar.id_aa64pfr0 = t;
+> +}
+> +
+>  /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+>   * otherwise, a CPU with as many features enabled as our emulation supports.
+>   * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+> @@ -391,8 +419,10 @@ static void aarch64_max_initfn(Object *obj)
+>  #endif
+>  
+>          cpu->sve_max_vq = ARM_MAX_VQ;
+> -        object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_vq,
+> -                            cpu_max_set_sve_vq, NULL, NULL, &error_fatal);
+> +        object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
+> +                            cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal);
+> +        object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
+> +                            cpu_arm_set_sve, NULL, NULL, &error_fatal);
+>      }
+>  }
+>  
+> diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+> index edca8aa885f0..4fddb6c252a3 100644
+> --- a/target/arm/monitor.c
+> +++ b/target/arm/monitor.c
+> @@ -97,7 +97,7 @@ GICCapabilityList *qmp_query_gic_capabilities(Error **errp)
+>   * then the order that considers those dependencies must be used.
+>   */
+>  static const char *cpu_model_advertised_features[] = {
+> -    "aarch64", "pmu",
+> +    "aarch64", "pmu", "sve",
+>      NULL
+>  };
+>  
+> diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+> index 198ff6d6b495..202bc0e3e823 100644
+> --- a/tests/arm-cpu-features.c
+> +++ b/tests/arm-cpu-features.c
+> @@ -179,6 +179,7 @@ static void test_query_cpu_model_expansion(const void *data)
+>  
+>      if (g_str_equal(qtest_get_arch(), "aarch64")) {
+>          assert_has_feature(qts, "max", "aarch64");
+> +        assert_has_feature(qts, "max", "sve");
+>          assert_has_feature(qts, "cortex-a57", "pmu");
+>          assert_has_feature(qts, "cortex-a57", "aarch64");
+>  
+> 
 
