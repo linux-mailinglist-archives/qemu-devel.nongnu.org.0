@@ -2,79 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB40BD53D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:06:41 +0200 (CEST)
-Received: from localhost ([::1]:43752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B9ABD520
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:58:29 +0200 (CEST)
+Received: from localhost ([::1]:43588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCttI-0000dg-Cw
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36679)
+	id 1iCtlM-0000iQ-FU
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36620)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtQP-0002jM-0h
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:50 -0400
+ (envelope-from <peff@peff.net>) id 1iCtQJ-0002ay-0p
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtQN-0001rk-Q3
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:48 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33839)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCtQN-0001nW-K3
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:47 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b128so2189006pfa.1
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:36:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=q3E+tLqCWUDQTPWISOun8wsnLQJ/9VZo9+vIlBqeaLo=;
- b=h+zEpaXgMrVdmO70TOX7b/KK3/AZxhjwFMdL2kECVDFAboUcVZUaaxEXASckODyivN
- PvQnTi2lvKlhG/CjeKc3jAfsNyq9adJlpA4Yb6ktCDjKDvOKuQztIhLqC2OTnZ+30Y6A
- SUiqFl2FCXW2fQ6mUlwjEhnI3kJN8VnUSQtk8b28L5/31uu/Jy6XSc8+d860EAhzT7Lc
- a7g6mtH3BleGV6oLMsqR0GIuiSJePvDrr0BwGNQPLnKF+YWwsBxJbgAvqY5nOpBCoUr5
- XCNSHRHpzoH4sB99nJRnu8JKVPfAcqVoRyN49DnRRQ9GbaaXWgIAbpdCwraYpoXQeUJE
- XMxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q3E+tLqCWUDQTPWISOun8wsnLQJ/9VZo9+vIlBqeaLo=;
- b=eaHKpXHzeQCbPiuSXMhujIBJrkvA7bSMKAkUQkDsOYkZmiWrukNDeB4RrkWjFZUJGS
- +iUQ0eg2seyidsF362Z5n7yTdyPCH4kegl/fGYLH9qPv8KdoHuqATQN3QpZ7ym/1hoII
- xi7q9+y4E822cZwNgIuHLv4/h9AtzUVOqjvQCv7J5OTD74hcx5NcQV5C+5dI3DjuDnsC
- 7dfT3qbNQqxL/1r3SCq6R+O71XFD04OVTRMPLjEpw2fPDvOgxFTrupLjy8YXqGAaYzZS
- 5CKuvAGs71HRGAZofCLQQJTRlcr8hboN1PE2R6DhQf93L1k/6bCwR191SRvCwfiXMfC0
- jdSw==
-X-Gm-Message-State: APjAAAXnRPqtyn1ULuO7Z8SjnnUGO3+7slNDUf+LGqrmIH5JWPI7+oEZ
- r5+BRI3FGqw3jeiB46t0dKUrEeJsSu8=
-X-Google-Smtp-Source: APXvYqwCIwCEZH1v56iNfBMplyGbmW258sTFaNrj4KSiuHRMRKFmtSHe/tgAFjW9N9fvVByeMaHihQ==
-X-Received: by 2002:a17:90a:fd86:: with SMTP id
- cx6mr2368480pjb.61.1569360797611; 
- Tue, 24 Sep 2019 14:33:17 -0700 (PDT)
-Received: from [172.20.32.216] ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id z13sm6310653pfq.121.2019.09.24.14.33.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Sep 2019 14:33:16 -0700 (PDT)
-Subject: Re: [PATCH 3/7] target/ppc: update {get, set}_dfp{64, 128}() helper
- functions to read/write DFP numbers correctly
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
-References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
- <20190924153556.27575-4-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <ea275839-b588-57db-2755-90fc9f01f2c2@linaro.org>
-Date: Tue, 24 Sep 2019 14:33:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <peff@peff.net>) id 1iCtQH-0001j7-Mj
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:42 -0400
+Received: from cloud.peff.net ([104.130.231.41]:50466)
+ by eggs.gnu.org with smtp (Exim 4.71) (envelope-from <peff@peff.net>)
+ id 1iCtQH-0001i7-Hv
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:36:41 -0400
+Received: (qmail 11496 invoked by uid 109); 24 Sep 2019 21:36:40 -0000
+Received: from Unknown (HELO peff.net) (10.0.1.2)
+ by cloud.peff.net (qpsmtpd/0.94) with SMTP; Tue, 24 Sep 2019 21:36:40 +0000
+Authentication-Results: cloud.peff.net; auth=none
+Received: (qmail 12852 invoked by uid 111); 24 Sep 2019 21:39:02 -0000
+Received: from sigill.intra.peff.net (HELO sigill.intra.peff.net) (10.0.0.7)
+ by peff.net (qpsmtpd/0.94) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPS;
+ Tue, 24 Sep 2019 17:39:02 -0400
+Authentication-Results: peff.net; auth=none
+Date: Tue, 24 Sep 2019 17:36:38 -0400
+From: Jeff King <peff@peff.net>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: git format.from (was: 9p: Fix file ID collisions)
+Message-ID: <20190924213638.GE20858@sigill.intra.peff.net>
+References: <cover.1566503584.git.qemu_oss@crudebyte.com>
+ <56046367.TiUlWITyhT@silver>
+ <20190923222415.GA22495@sigill.intra.peff.net>
+ <3312839.Zbq2WQg2AT@silver>
 MIME-Version: 1.0
-In-Reply-To: <20190924153556.27575-4-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <3312839.Zbq2WQg2AT@silver>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.195
+X-Received-From: 104.130.231.41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,36 +55,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, stefanha@gmail.com, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Ian Kelling <iank@fsf.org>, dgilbert@redhat.com,
+ antonios.motakis@huawei.com, git@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/19 8:35 AM, Mark Cave-Ayland wrote:
-> Since commit ef96e3ae96 "target/ppc: move FP and VMX registers into aligned vsr
-> register array" FP registers are no longer stored consecutively in memory and so
-> the current method of combining FP register pairs into DFP numbers is incorrect.
+On Tue, Sep 24, 2019 at 11:03:38AM +0200, Christian Schoenebeck wrote:
+
+> > Yes, the resulting mail would be correct, in the sense that it could be
+> > applied just fine by git-am. But I think it would be uglier. IOW, I
+> > consider the presence of the in-body From to be a clue that something
+> > interesting is going on (like forwarding somebody else's patch). So from
+> > my perspective, it would just be useless noise. Other communities may
+> > have different opinions, though (I think I have seen some kernel folks
+> > always including all of the possible in-body headers, including Date).
+> > But it seems like it makes sense to keep both possibilities.
 > 
-> Firstly update the definition of the dh_*_fprp defines in helper.h to reflect
-> that FP registers are now stored as part of an array of ppc_vsr_t elements
-> rather than plain uint64_t elements, and then introduce a new ppc_fprp_t type
-> which conceptually represents a DFP even-odd register pair to be consumed by the
-> DFP helper functions.
+> Exactly, current git behaviour is solely "prettier" (at first thought only 
+> though), but does not address anything useful in real life.
+
+I wouldn't agree with that. By being pretty, it also is functionally
+more useful (I can tell at a glance whether somebody is sending a patch
+from another author).
+
+> Current git behaviour does cause real life problems though: Many email lists 
+> are munging emails of patch senders whose domain is configured for requiring 
+> domain's emails being DKIM signed and/or being subject to SPF rules (a.k.a 
+> DMARC). So original sender's From: header is then automatically replaced by an 
+> alias (by e.g. mailman): https://en.wikipedia.org/wiki/DMARC#From:_rewriting
 > 
-> Finally update the new DFP {get,set}_dfp{64,128}() helper functions to convert
-> between DFP numbers and DFP even-odd register pairs correctly, making use of the
-> existing VsrD() macro to access the correct elements regardless of host endian.
+> For instance the email header:
 > 
-> Fixes: ef96e3ae96 "target/ppc: move FP and VMX registers into aligned vsr register array"
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  target/ppc/cpu.h        |  1 +
->  target/ppc/dfp_helper.c | 80 +++++++++++++++++++++--------------------
->  target/ppc/helper.h     |  2 +-
->  3 files changed, 44 insertions(+), 39 deletions(-)
+> From: "Bob Bold" <bold@foo.com>
+> 
+> is automatically replaced by lists by something like
+> 
+> From: "Bob Bold via Somelist" <somelist@gnu.org>
+> 
+> And since git currently always drops the From: line from the email's body if
+> sender == author, as a consequence maintainers applying patches from such 
+> lists, always need to rewrite git history subsequently and have to replace 
+> patch author's identity manually for each commit to have their correct, real 
+> email address and real name in git history instead of something like
+> "Bob Bold via Somelist" <somelist@gnu.org>
+> 
+> So what do you find "uglier"? I prefer key info not being lost as default 
+> behaviour. :-)
 
-Yay!  I really was getting ahead of things.
+Sure, for your list that munges From headers, always including an
+in-body From is way better. But for those of us _not_ on such lists, I'd
+much prefer not to force the in-body version on them.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+-Peff
 
