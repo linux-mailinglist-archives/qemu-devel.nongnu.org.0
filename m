@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9CDBC3CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 10:07:45 +0200 (CEST)
-Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21376BC3DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 10:09:31 +0200 (CEST)
+Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCfrM-0002Ka-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 04:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44501)
+	id 1iCft4-00042Y-7n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 04:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iCfoP-0000jo-1M
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:04:42 -0400
+ (envelope-from <david@redhat.com>) id 1iCfpC-00017p-IU
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:05:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iCfoN-0005rQ-TY
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:04:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54542)
+ (envelope-from <david@redhat.com>) id 1iCfp9-0006Ob-SW
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:05:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58086)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCfoN-0005rB-KQ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:04:39 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iCfp8-0006M6-SK
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:05:27 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C554369066;
- Tue, 24 Sep 2019 08:04:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D355388382B;
+ Tue, 24 Sep 2019 08:05:20 +0000 (UTC)
 Received: from [10.36.116.87] (ovpn-116-87.ams2.redhat.com [10.36.116.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE04D600C8;
- Tue, 24 Sep 2019 08:04:34 +0000 (UTC)
-Subject: Re: [PATCH v4 11/16] cputlb: Merge and move
- memory_notdirty_write_{prepare,complete}
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4DF210013D9;
+ Tue, 24 Sep 2019 08:05:16 +0000 (UTC)
+Subject: Re: [PATCH v4 12/16] cputlb: Handle TLB_NOTDIRTY in probe_access
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190923230004.9231-1-richard.henderson@linaro.org>
- <20190923230004.9231-12-richard.henderson@linaro.org>
+ <20190923230004.9231-13-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -80,18 +79,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <c8ded02b-4a34-00fb-f693-4f27709f658f@redhat.com>
-Date: Tue, 24 Sep 2019 10:04:34 +0200
+Message-ID: <6714c68d-e344-2fa9-d27f-6c085622ccf0@redhat.com>
+Date: Tue, 24 Sep 2019 10:05:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190923230004.9231-12-richard.henderson@linaro.org>
+In-Reply-To: <20190923230004.9231-13-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 24 Sep 2019 08:04:38 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Tue, 24 Sep 2019 08:05:20 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,30 +108,56 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[...]
+On 24.09.19 01:00, Richard Henderson wrote:
+> We can use notdirty_write for the write and
+> return a valid host pointer for this case.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/cputlb.c | 26 +++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
+> 
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index 09b0df87c6..d0bdef1eb3 100644
 > --- a/accel/tcg/cputlb.c
 > +++ b/accel/tcg/cputlb.c
-> @@ -33,6 +33,7 @@
->  #include "exec/helper-proto.h"
->  #include "qemu/atomic.h"
->  #include "qemu/atomic128.h"
-> +#include "translate-all.h"
+> @@ -1167,16 +1167,24 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+>          return NULL;
+>      }
 >  
->  /* DEBUG defines, enable DEBUG_TLB_LOG to log to the CPU_LOG_MMU target */
->  /* #define DEBUG_TLB */
-> @@ -1084,6 +1085,37 @@ tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr)
->      return qemu_ram_addr_from_host_nofail(p);
->  }
+> -    /* Handle watchpoints.  */
+> -    if (tlb_addr & TLB_WATCHPOINT) {
+> -        cpu_check_watchpoint(env_cpu(env), addr, size,
+> -                             env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
+> -                             wp_access, retaddr);
+> -    }
+> +    if (unlikely(tlb_addr & TLB_FLAGS_MASK)) {
+> +        CPUIOTLBEntry *iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
 >  
-> +static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
-> +                           CPUIOTLBEntry *iotlbentry, uintptr_t retaddr)
-
-I'd probably call this notdirty_write_access() like the tracepoint.
-
-This looks like a very nice cleanup.
+> -    /* Reject I/O access, or other required slow-path.  */
+> -    if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO | TLB_BSWAP | TLB_ROM)) {
+> -        return NULL;
+> +        /* Reject I/O access, or other required slow-path.  */
+> +        if (tlb_addr & (TLB_MMIO | TLB_BSWAP | TLB_ROM)) {
+> +            return NULL;
+> +        }
+> +
+> +        /* Handle watchpoints.  */
+> +        if (tlb_addr & TLB_WATCHPOINT) {
+> +            cpu_check_watchpoint(env_cpu(env), addr, size,
+> +                                 iotlbentry->attrs, wp_access, retaddr);
+> +        }
+> +
+> +        /* Handle clean RAM pages.  */
+> +        if (tlb_addr & TLB_NOTDIRTY) {
+> +            notdirty_write(env_cpu(env), addr, size, iotlbentry, retaddr);
+> +        }
+>      }
+>  
+>      return (void *)((uintptr_t)addr + entry->addend);
+> 
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
-
 
 -- 
 
