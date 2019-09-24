@@ -2,44 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44955BCBC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:48:31 +0200 (CEST)
-Received: from localhost ([::1]:47398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AE9BCBB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:44:25 +0200 (CEST)
+Received: from localhost ([::1]:47352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCn3F-0006yf-O5
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
+	id 1iCmzH-0003xe-Kn
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iCm6o-0007ro-N4
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:07 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCmGs-00022n-PH
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:58:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iCm6n-0003wD-6s
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45780)
+ (envelope-from <eblake@redhat.com>) id 1iCmGq-000231-EZ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:58:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46336)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1iCm6m-0003ve-Uw; Tue, 24 Sep 2019 10:48:05 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCmGq-00022R-5s
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:58:28 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 41CDE7DD11;
- Tue, 24 Sep 2019 14:48:04 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 953AF10013D9;
- Tue, 24 Sep 2019 14:48:02 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 1/4] kvm: extract kvm_log_clear_one_slot
-Date: Tue, 24 Sep 2019 10:47:48 -0400
-Message-Id: <20190924144751.24149-2-imammedo@redhat.com>
-In-Reply-To: <20190924144751.24149-1-imammedo@redhat.com>
-References: <20190924144751.24149-1-imammedo@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 277763090FC7;
+ Tue, 24 Sep 2019 14:58:26 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F25C510013D9;
+ Tue, 24 Sep 2019 14:58:21 +0000 (UTC)
+Subject: Re: [PATCH 04/25] qapi: Prefix frontend errors with an "in
+ definition" line
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190924132830.15835-1-armbru@redhat.com>
+ <20190924132830.15835-5-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <706dce25-b3c5-2911-a0d8-fa6582892c4b@redhat.com>
+Date: Tue, 24 Sep 2019 09:58:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190924132830.15835-5-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="sLpG8uA8IIAIAG2HOyDiW4SxLuTKzU0oY"
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 24 Sep 2019 14:48:04 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 24 Sep 2019 14:58:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,155 +85,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, peterx@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--sLpG8uA8IIAIAG2HOyDiW4SxLuTKzU0oY
+Content-Type: multipart/mixed; boundary="fppU9ciGNShQXAAAZs705RCjlMmyZ3w8D";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
+Message-ID: <706dce25-b3c5-2911-a0d8-fa6582892c4b@redhat.com>
+Subject: Re: [PATCH 04/25] qapi: Prefix frontend errors with an "in
+ definition" line
+References: <20190924132830.15835-1-armbru@redhat.com>
+ <20190924132830.15835-5-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-5-armbru@redhat.com>
 
-We may need to clear the dirty bitmap for more than one KVM memslot.
-First do some code movement with no semantic change.
+--fppU9ciGNShQXAAAZs705RCjlMmyZ3w8D
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
----
- accel/kvm/kvm-all.c | 102 ++++++++++++++++++++++++--------------------
- 1 file changed, 56 insertions(+), 46 deletions(-)
+On 9/24/19 8:28 AM, Markus Armbruster wrote:
+> We take pains to include the offending expression in error messages,
+> e.g.
+>=20
+>     tests/qapi-schema/alternate-any.json:2: alternate 'Alt' member 'one=
+' cannot use type 'any'
+>=20
+> But not always:
+>=20
+>     tests/qapi-schema/enum-if-invalid.json:2: 'if' condition must be a =
+string or a list of strings
+>=20
+> Instead of improving them one by one, report the offending expression
+> whenever it is known, like this:
+>=20
+>     tests/qapi-schema/enum-if-invalid.json: In enum 'TestIfEnum':
+>     tests/qapi-schema/enum-if-invalid.json:2: 'if' condition must be a =
+string or a list of strings
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index b09bad0804..e9e6086c09 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -575,55 +575,13 @@ out:
- #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
- #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
- 
--/**
-- * kvm_physical_log_clear - Clear the kernel's dirty bitmap for range
-- *
-- * NOTE: this will be a no-op if we haven't enabled manual dirty log
-- * protection in the host kernel because in that case this operation
-- * will be done within log_sync().
-- *
-- * @kml:     the kvm memory listener
-- * @section: the memory range to clear dirty bitmap
-- */
--static int kvm_physical_log_clear(KVMMemoryListener *kml,
--                                  MemoryRegionSection *section)
-+static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start, uint64_t size)
- {
-     KVMState *s = kvm_state;
-+    uint64_t end, bmap_start, start_delta, bmap_npages;
-     struct kvm_clear_dirty_log d;
--    uint64_t start, end, bmap_start, start_delta, bmap_npages, size;
-     unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
--    KVMSlot *mem = NULL;
--    int ret, i;
--
--    if (!s->manual_dirty_log_protect) {
--        /* No need to do explicit clear */
--        return 0;
--    }
--
--    start = section->offset_within_address_space;
--    size = int128_get64(section->size);
--
--    if (!size) {
--        /* Nothing more we can do... */
--        return 0;
--    }
--
--    kvm_slots_lock(kml);
--
--    /* Find any possible slot that covers the section */
--    for (i = 0; i < s->nr_slots; i++) {
--        mem = &kml->slots[i];
--        if (mem->start_addr <= start &&
--            start + size <= mem->start_addr + mem->memory_size) {
--            break;
--        }
--    }
--
--    /*
--     * We should always find one memslot until this point, otherwise
--     * there could be something wrong from the upper layer
--     */
--    assert(mem && i != s->nr_slots);
-+    int ret;
- 
-     /*
-      * We need to extend either the start or the size or both to
-@@ -694,7 +652,7 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
-     /* It should never overflow.  If it happens, say something */
-     assert(bmap_npages <= UINT32_MAX);
-     d.num_pages = bmap_npages;
--    d.slot = mem->slot | (kml->as_id << 16);
-+    d.slot = mem->slot | (as_id << 16);
- 
-     if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) == -1) {
-         ret = -errno;
-@@ -717,6 +675,58 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
-                  size / psize);
-     /* This handles the NULL case well */
-     g_free(bmap_clear);
-+    return ret;
-+}
-+
-+
-+/**
-+ * kvm_physical_log_clear - Clear the kernel's dirty bitmap for range
-+ *
-+ * NOTE: this will be a no-op if we haven't enabled manual dirty log
-+ * protection in the host kernel because in that case this operation
-+ * will be done within log_sync().
-+ *
-+ * @kml:     the kvm memory listener
-+ * @section: the memory range to clear dirty bitmap
-+ */
-+static int kvm_physical_log_clear(KVMMemoryListener *kml,
-+                                  MemoryRegionSection *section)
-+{
-+    KVMState *s = kvm_state;
-+    uint64_t start, size;
-+    KVMSlot *mem = NULL;
-+    int ret, i;
-+
-+    if (!s->manual_dirty_log_protect) {
-+        /* No need to do explicit clear */
-+        return 0;
-+    }
-+
-+    start = section->offset_within_address_space;
-+    size = int128_get64(section->size);
-+
-+    if (!size) {
-+        /* Nothing more we can do... */
-+        return 0;
-+    }
-+
-+    kvm_slots_lock(kml);
-+
-+    /* Find any possible slot that covers the section */
-+    for (i = 0; i < s->nr_slots; i++) {
-+        mem = &kml->slots[i];
-+        if (mem->start_addr <= start &&
-+            start + size <= mem->start_addr + mem->memory_size) {
-+            break;
-+        }
-+    }
-+
-+    /*
-+     * We should always find one memslot until this point, otherwise
-+     * there could be something wrong from the upper layer
-+     */
-+    assert(mem && i != s->nr_slots);
-+    ret = kvm_log_clear_one_slot(mem, kml->as_id, start, size);
- 
-     kvm_slots_unlock(kml);
- 
--- 
-2.18.1
+Works for me.
 
+>=20
+> Error messages that mention the offending expression become a bit
+> redundant, e.g.
+>=20
+>     tests/qapi-schema/alternate-any.json: In alternate 'Alt':
+>     tests/qapi-schema/alternate-any.json:2: alternate 'Alt' member 'one=
+' cannot use type 'any'
+>=20
+> I'll take care of that later in this series.
+
+Temporary verboseness is not a problem.
+
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  scripts/qapi/common.py                            | 15 ++++++++++++++-=
+
+>  tests/qapi-schema/alternate-any.err               |  1 +
+>  tests/qapi-schema/alternate-array.err             |  1 +
+
+Touches a lot.  But such is refactoring life.
+
+> +++ b/scripts/qapi/common.py
+> @@ -64,6 +64,12 @@ class QAPISourceInfo(object):
+>          self.fname =3D fname
+>          self.line =3D line
+>          self.parent =3D parent
+> +        self.defn_meta =3D None
+> +        self.defn_name =3D None
+> +
+> +    def set_defn(self, meta, name):
+> +        self.defn_meta =3D meta
+> +        self.defn_name =3D name
+> =20
+>      def next_line(self):
+>          info =3D copy.copy(self)
+> @@ -73,6 +79,12 @@ class QAPISourceInfo(object):
+>      def loc(self):
+>          return '%s:%d' % (self.fname, self.line)
+> =20
+> +    def in_defn(self):
+> +        if self.defn_name:
+> +            return "%s: In %s '%s':\n" % (self.fname,
+> +                                          self.defn_meta, self.defn_na=
+me)
+> +        return ''
+> +
+>      def include_path(self):
+>          ret =3D ''
+>          parent =3D self.parent
+> @@ -82,7 +94,7 @@ class QAPISourceInfo(object):
+>          return ret
+> =20
+>      def __str__(self):
+> -        return self.include_path() + self.loc()
+> +        return self.include_path() + self.in_defn() + self.loc()
+> =20
+> =20
+>  class QAPIError(Exception):
+> @@ -1127,6 +1139,7 @@ def check_exprs(exprs):
+>          normalize_if(expr)
+>          name =3D expr[meta]
+>          add_name(name, info, meta)
+> +        info.set_defn(meta, name)
+>          if doc and doc.symbol !=3D name:
+
+Rather simple addition.  Everything else in the patch is fallout.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--fppU9ciGNShQXAAAZs705RCjlMmyZ3w8D--
+
+--sLpG8uA8IIAIAG2HOyDiW4SxLuTKzU0oY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KLwwACgkQp6FrSiUn
+Q2rVrQf+OmIsGk+YZ6x8+UAb4EkHed/hgyzgxtWZyQEajQCzrswWk7uHv8kNMzP5
+0gIgjLoT2nVOv3uCHU2hEN7gdvVsbBCh3Bsw3ZBiJS7nrNJToGNeGOm+MR2PI/dB
+prtvZSeDWBuQwe70U7f9w90nPFGpOnxf+7JLuo2J4IsBihyerxlJKSvSdG/vYCDY
+7vIUKKW1wbzTCO1oy4PuHcvrONODY6RrixZ46u6FIkzVUgMJTW2PkD+zpfOHZdbO
+prsSEBhwmrsLtWazaCkgGJH41xXXsSUvV97VV/IyyBegq7RmROLY8PBBnEau/6Hj
+7yNlpk0HpjhcSDogJGTL0QXw4rZoqg==
+=Fc41
+-----END PGP SIGNATURE-----
+
+--sLpG8uA8IIAIAG2HOyDiW4SxLuTKzU0oY--
 
