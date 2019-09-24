@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE1CBC500
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 11:38:48 +0200 (CEST)
-Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6911BC514
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 11:43:40 +0200 (CEST)
+Received: from localhost ([::1]:43248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iChHT-0003Dg-CG
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 05:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55480)
+	id 1iChMB-0006A2-Me
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 05:43:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iChFu-0002LQ-0u
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:37:10 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iChL1-0005FQ-SG
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:42:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iChFs-0008AU-G9
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:37:09 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42347)
+ (envelope-from <peter.maydell@linaro.org>) id 1iChKz-0000pY-SM
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:42:27 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40207)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iChFs-0008AP-AS
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:37:08 -0400
-Received: by mail-ot1-x344.google.com with SMTP id c10so875691otd.9
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 02:37:07 -0700 (PDT)
+ id 1iChKy-0000p6-6F
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 05:42:25 -0400
+Received: by mail-ot1-x344.google.com with SMTP id y39so895805ota.7
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 02:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j6ljvtPLA42uZWyboGvieEJKtnNxN6pEL4wxfndceg0=;
- b=PgWVLxOFLYWDsRXszkryibvAeeqRauEk3muaAW7wtfBI1l8QBv43d8Y3H7UoPjL5q/
- CjHz7hXj5eyxsoBCJXvZsMnrJzmHx4w4zYY/0cnwul673Gujt8K2pQV+GV4rPR8ejdrw
- BqCUt/7pWwliUrCQRJmOH7LTNPlZ1s4fOFegCpXLymXDMAtNhzQES1XA+Pj7FPOslDHG
- MwyqfAVAzf8QHtp1IWjL8RhEFo30zj5f5S6C7KVN7QdzP9kGEvx/fD+k3YvW8fD1jadf
- zmufVGyGOQVosOLO0SA90+jf+xwebj3iX1WTTzD316BWAlpKhvEux2Ab7vMwvy094GPR
- WrYw==
+ :cc; bh=cnAncg5xcYVP1+ycJjXSP0cv8GqoSd2D/1n+EMJyTyc=;
+ b=OETQ8pceIAqHlzu7h8mkYSCJ1AEkjBcAQnnJY/pS5LHnP52AcMDPp9TGhr2frFDFOi
+ jb3I1mEE86hQSbrf5Dfsbo93y8NorEE6xRdhavAb3Zzgzb4bweesVYaKex4Y+3ktvdpX
+ wX8bVUlvcwOKu6gV5jdQTe872m1ESMSFepTzk5f1Hgx7IMyd/STQwR0LKtE5ixwoRmYh
+ JL4LvuRj1ab7oTi+mo8NKptFfhQ5lrHR5nlJrg5ttw+V54tnPHWiArZfCnB00al3VDec
+ 9paESACf/2Sasa2qyaaGtkFphtsSDLjl7SvSV+GhkFrakRW1/R57+DvBiREzoB7x7nQ8
+ Am8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=j6ljvtPLA42uZWyboGvieEJKtnNxN6pEL4wxfndceg0=;
- b=L/DSF1EUetUO9GBL5qJvqV/Na2NUxD6B2eprPLcpA0jSkpB+0YdBM3h8gKOCygljph
- XUCBH+YQugGkCmDlQA847v497i+n7TnPzrbYVAHCh38O81jxtARlODCOIl9CcdiBJE8a
- VSIiEyXfYzb1OMrIxGxmralTzyhrPAoJFjtFbqaLk6yve7ZMognhGVR8VJ2gDKDhSGmi
- hOGOHinmptQpUtV0jn+NBlX/qG7CVOxa0tAjixs4hbwjIqcRK57iNLW1mwPLPb+PAD5D
- Hh1jUrmLN52p9aSdQrEA+hxbypwLu+PN9BA41s9gUGk1e3qddMQWERBuJdz5SYgKEwMV
- ZaXg==
-X-Gm-Message-State: APjAAAXLhegOyx/xR0HZdrYIPF5BXkPIPvyEPHO9TO1Tq/HnAhBQYT+j
- AeknIZ3cxsxFXow4Jivz0ymTj1rLJnkYsvzA0t6K3Q==
-X-Google-Smtp-Source: APXvYqxgXkKMo6R0Adi4XojUYmOBkBOfcwJpfSPK/ceS+50Gk75Db8A4a4rV7sMMssMZFaV+Z9AUaTMS32IGxqHGoCk=
-X-Received: by 2002:a9d:562:: with SMTP id 89mr1118343otw.232.1569317827214;
- Tue, 24 Sep 2019 02:37:07 -0700 (PDT)
+ bh=cnAncg5xcYVP1+ycJjXSP0cv8GqoSd2D/1n+EMJyTyc=;
+ b=sHM4vLYIv7bPHi2KLJH+4dnU78p+Gln7gvPb906o5xdDJSE35y+8sU6bPks8kDbOfp
+ 6N/VPJ3aBbuI3hFLcBzSxS+sNdIpt+jSr0e9yJIw4RSNoyfd9H4xVnMrCo9cRWVCsb91
+ EsD9euRtc5ztnfIkcxlun5tnwp2GIPyVDZr5X+BSRFLoAn+chKuKdlhbwNCL4nS3DT9l
+ vfpyN0EfUEiUVj4+9p1Jf/h+H4kAIUN0jX83zIN7++VOwbNZ1vlMgF1y77H5MdyqoT/V
+ Xl3dV6c2B/r0paGaa61KgoLPdjTO4PmChw8BTtWJSkO8Ywo4cU0mMDuVOFGaCXaVuNsy
+ YNIQ==
+X-Gm-Message-State: APjAAAU4eaGcHulHu7gDEoD8gkbLLu+plun5umCbzP4T+nQfpP7eHId3
+ Pu+cuoL7r1CKcjSIbdk8lWAgN3Ov4+uZQxvr9nAG8Q==
+X-Google-Smtp-Source: APXvYqxqBu9iTZpMgjiGF1whr52DTFH7V1C5n8JNL5EAB1GYrnoOVzId1XmJlqDZuzTyaddQ5l9ZKoDQ/U58ZxkujTg=
+X-Received: by 2002:a9d:562:: with SMTP id 89mr1131804otw.232.1569318143210;
+ Tue, 24 Sep 2019 02:42:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <tencent_28AAA62B694825C348B1DF49@qq.com>
- <CAFEAcA8+bK0UyUWbXOiutyQZkCMSB_0Be7pJLKONSpA3CV9Pbw@mail.gmail.com>
- <tencent_0084E0586ADE9B2D30176A53@qq.com>
-In-Reply-To: <tencent_0084E0586ADE9B2D30176A53@qq.com>
+References: <20190921150420.30743-1-thuth@redhat.com>
+ <20190921150420.30743-4-thuth@redhat.com>
+ <CAFEAcA_6UxMBeyOMM0iT5cnCQEpWXfRO2XMuV9ez_0Su2osXNg@mail.gmail.com>
+ <0389e9dc-7f78-5b27-4764-51f0bdef5bef@redhat.com>
+ <CAFEAcA8XSQs=fw839O4+tTUqy-DpNh-jdHxQsfYQxm-nTbvH4Q@mail.gmail.com>
+ <88bcb5b7-4f91-1cc2-39a1-bd919608737e@redhat.com>
+ <CAFEAcA_QAtK3GmyZoR7swNKwdxkXWZCzdK0G6Sk6OU_tQ9FV2A@mail.gmail.com>
+ <3a21d31e-fe74-9e0f-fe8d-f9c00a184fe3@redhat.com>
+In-Reply-To: <3a21d31e-fe74-9e0f-fe8d-f9c00a184fe3@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Sep 2019 10:36:55 +0100
-Message-ID: <CAFEAcA_Jadb7A1588uWwmURz1N2G5ycsLcA+3N2Rb+NqyynPRQ@mail.gmail.com>
-Subject: Re: illegal hardware instruction during MIPS-I ELF linux useremulation
-To: Libo Zhou <zhlb29@foxmail.com>
+Date: Tue, 24 Sep 2019 10:42:11 +0100
+Message-ID: <CAFEAcA-ThXGZKr8--YZGUPiw4MaMVqMxKODhVepXCgjxox6ZQg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] hw/arm: Move armv7m_nvic.c to hw/arm/ and always
+ enable it for arm builds
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -73,35 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu-Daud <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 02:10, Libo Zhou <zhlb29@foxmail.com> wrote:
+On Tue, 24 Sep 2019 at 05:44, Thomas Huth <thuth@redhat.com> wrote:
 >
-> > Can you run QEMU with some debugging options:
+> On 23/09/2019 20.50, Peter Maydell wrote:
+> > On Mon, 23 Sep 2019 at 19:36, Thomas Huth <thuth@redhat.com> wrote:
+> >> Just try to change "obj-$(CONFIG_ARM_V7M) += armv7m_nvic.o" into
+> >> "obj-y += armv7m_nvic.o" in hw/int/Makefile.objs, and you'll see it break:
+> >>
+> >>   CC      alpha-softmmu/hw/intc/armv7m_nvic.o
+> >> In file included from include/hw/intc/armv7m_nvic.h:13,
+> >>                  from hw/intc/armv7m_nvic.c:19:
+> >> target/arm/cpu.h:1416: error: "FPCR_DZE" redefined [-Werror]
+> >>  #define FPCR_DZE    (1 << 9)    /* Divide by Zero exception trap enable */
+> >
+> > Sure, so don't define CONFIG_ARM_V7M in a default-config for
+> > a non-Arm architecture. Then you get the behaviour you want:
+> > the file is compiled only for the arm targets.
 >
-> > qemu-mipsel -d in_asm,exec,cpu,unimp,guest_errors,nochain -D debug.log
-> > -singlestep test
->
-> > and then put the resulting debug.log somewhere we can get it?
-> > (it'll probably be quite large)
->
-> The logging only shows this little information. It seems like only -d cpu works for a short while.
+> Sigh, the point of this series is that it should also possible to
+> compile *without* CONFIG_ARM_V7M in default-configs if you want (and
+> yes, there are people out there who want to be able to compile a
+> minimalistic QEMU). It's currently not possible to disable this switch.
+> But ok, if you're not really interested in providing a possibility to
+> make qemu-system-arm a little bit more flexible in this regard, never
+> mind, I'll look into other issues instead.
 
-> ----------------
-> IN: main
-> 0x00400094:  dmult.g    zero,sp,s8
+No, I'm happy that we should be able to compile without CONFIG_ARM_V7M
+selected. I'm just confused about why you think this requires that
+we move this file out of hw/intc.
 
-I think "dmult.g" is an instruction specific to the Loongson CPU; it
-is not in MIPS-I or even any of the other standard MIPS instruction
-sets, which is why the default CPU for qemu-mipsel doesn't accept it
-and is generating the SIGILL.
+Case 1: arm target, CONFIG_ARM_V7M=y (presumably in a Kconfig world
+this is set by default if the user doesn't flip that switch):
+obj-$(CONFIG_ARM_V7M) expands to obj-y, file compiled, OK
+Case 2: arm target, CONFIG_ARM_V7M=n set by user via Kconfig:
+obj-$(CONFIG_ARM_V7M) expands to obj-n, file not compiled, which is
+also what we want Case 3: not an arm target, CONFIG_ARM_V7M will be
+either 'n' (or empty?) and is not settable by user: expands to obj-n
+again, which is also what we want
 
-Something odd is going on here, because this doesn't seem to match
-the disassembly of the test binary that you gave previously.
+Is there some Kconfig restriction I'm not aware of that
+messes things up?
 
 thanks
 -- PMM
