@@ -2,36 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C7EBD351
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:09:34 +0200 (CEST)
-Received: from localhost ([::1]:50478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36FCFBD33E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:02:43 +0200 (CEST)
+Received: from localhost ([::1]:50426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCr7t-0007pE-JE
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43289)
+	id 1iCr1G-0003Nz-91
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iCr63-0006a5-CL
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:07:40 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iCqpJ-0000jS-Iv
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:50:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iCr61-00028e-Uf
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:07:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46486)
+ (envelope-from <jsnow@redhat.com>) id 1iCqpF-0008Sz-R7
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:50:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35884)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iCr5y-00027N-71; Tue, 24 Sep 2019 16:07:34 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iCqpF-0008Ot-IW
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:50:17 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DA18285550;
- Tue, 24 Sep 2019 18:49:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C8D053B738;
+ Tue, 24 Sep 2019 18:56:00 +0000 (UTC)
 Received: from [10.18.17.231] (dhcp-17-231.bos.redhat.com [10.18.17.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2871B5C21F;
- Tue, 24 Sep 2019 18:49:48 +0000 (UTC)
-Subject: Re: [Qemu-block] [PATCH v6 0/8] Add Qemu to SeaBIOS LCHS interface
-To: Sam Eiderman <sameid@google.com>, qemu-devel@nongnu.org
-References: <20190827082427.64280-1-sameid@google.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0808619C58;
+ Tue, 24 Sep 2019 18:55:54 +0000 (UTC)
+Subject: Re: docker: how to use it when developing on QEMU?
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+References: <44be7ab6-c648-9109-3d05-1afc57e9b021@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -107,17 +111,17 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <474297a9-f051-8068-ee62-21f09a6269eb@redhat.com>
-Date: Tue, 24 Sep 2019 14:49:48 -0400
+Message-ID: <e8f0f972-f826-9711-7509-4c3d7e4a5407@redhat.com>
+Date: Tue, 24 Sep 2019 14:55:54 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190827082427.64280-1-sameid@google.com>
+In-Reply-To: <44be7ab6-c648-9109-3d05-1afc57e9b021@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 24 Sep 2019 18:50:12 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Tue, 24 Sep 2019 18:56:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -132,112 +136,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, seabios@seabios.org,
- kevin@koconnor.net, liran.alon@oracle.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nobody was making movement on this patch series, and in response to Max
-acking the whole series, I was just going to send a pull request for the
-whole thing and see who barked, because nobody likes or hates this
-series enough to offer any feedback.
-
-Unfortunately, it's rotted on the vine a bit and has some conflicts with
-the testing infrastructure now:
-
-/home/jhuston/src/qemu.git/ide/tests/hd-geo-test.c: In function
-=E2=80=98test_override=E2=80=99:
-/home/jhuston/src/qemu.git/ide/tests/hd-geo-test.c:732:5: error:
-implicit declaration of function =E2=80=98qtest_start=E2=80=99
-[-Werror=3Dimplicit-function-declaration]
-  732 |     qtest_start(joined_args);
 
 
-You can jump right to the test by invoking it like this:
+On 9/24/19 11:25 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Recently more developers are enthusiast to use Docker/Podman,
+> and have been confused by the different configurations currently in the
+> QEMU repository.
+>=20
 
-> export QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64
-> make tests/hd-geo-test
+I think it's good evidence we need to improve the abstractions for this
+testing module. It's not easy to know what to do without getting direct
+feedback from the maintainers directly, which won't scale.
 
-It looks like some definitions got moved out from under our feet, but
-hopefully it won't take long to rectify.
+> There are at least 3 kind of categories I use:
+>=20
+> 1/ Image used to build QEMU
+>=20
+> These images should be restricted/updated to our "supported targets".
+> They are useful to (cross)build QEMU on variety of
+> host/target/distributions/distrib_versions.
+>=20
+> Example:
+>=20
+> - cross build Cris binary using the Fedora 30 toolchain on a Ubuntu
+> 18.04 x86_64.
+>   host:Ubuntu18.04/x86_64 docker_image:fedora-cris-cross
+>=20
+
+Is this supposed to be a command invocation? Can we see full command
+lines instead?
+
+> - cross build MinGW64 binary using Debian 9 MXE toolchain on a Ubuntu
+> aarch64:
+>   host:Ubuntu18.04/x86_64 docker_image:debian-win64-cross
+>=20
+> An image can not be meant to use on a daily basis, but to avoid
+> regression previous to release (I'd run them only on release candidate)=
+.
+>=20
+
+Do you mean to say "These images are not meant to be used on a daily
+basis, but instead on occasion to prevent regressions during release
+candidate testing." ?
+
+They can build QEMU, but I assume they can't run any tests. Is there a
+special "build-only" target that you can invoke from the Makefile to get
+these to run?
+
+> Example: building QEMU for the Gentoo PlayStation2 port:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg574468.html
+>=20
+> 2/ Image used to build test program used by QEMU
+>=20
+
+I think this is the category most people are wanting to get their hands
+on, usually.
+
+> These images provide enough to build binaries you can then use to test
+> QEMU. If you want to build more of these binaries, there is probably a
+> better way. Here we are only interested in testing.
+>=20
+> Example:
+>=20
+> - Test PowerPC Linux-user binaries with qemu-powerpc-linux-user
+>   docker_image:debian-powerpc-user-cross
+>=20
+> - Build EDK2 payload for Virt/AArch64
+>   It currently doesn't build with Fedora 30 and I'v to use a Fedora 29
+> image.
+>=20
+> Another case I had is when I tried to build a kernel for the Mipssim
+> machine (supported by QEMU). The Linux kernel code has been removed, so
+> I had to checkout an old kernel which is not buildable with my recent
+> host GCC. Using a docker based on a very old distribution worked. Anywa=
+y
+> Thomas Huth found it is easier to use buildroot for pre-3.6 kernels.
+>=20
+> Similarly, I am testing QEMU port from Stefan Weil, and he shared a
+> working binary supporting the MIPS AR7 target. To be able to use this
+> QEMU I use Debian Lenny and set
+> DEB_URL=3Dhttps://snapshot.debian.org/archive/debian/20091004T111800Z.
+> Yes, this will instanciate a Debian from 10 years ago.
+>=20
+> 3/ Bisecting
+>=20
+> Another of my docker uses is when bisecting before QEMU v3. I use image
+> using snapshot slighly older than the QEMU release, so my bisect script
+> can run without worrying about the library API incompatibilities or
+> newer GCC warnings.
+>=20
+
+Which images, tests, or invocations are useful for this?
+
+> So not all image have the same use. While they might not be useful to
+> build the latest QEMU, there are still useful for day-to-day developmen=
+t.
+>=20
+
+I would say that this has grown beyond the abstractions presented by the
+Docker makefile, which makes it hard to figure out how to use any of the
+tools in this directory.
+
+> Anyhow I agree we should document that better. Maybe the wiki is a good
+> starting point.
+>=20
+
+That might be a good place to organize your thoughts, but the source of
+truth must be the Makefile help invocation.
+
+> Regards,
+>=20
+> Phil.
+>=20
+
+
+We should split the images into a few categories in the makefile
+directly, in a programmatic way;
+
+1. Partial Images
+
+These images are not meant for building or testing anything directly.
+They are dependencies; they should be better distinguished in the
+Makefile help.
+
+2. Unrunnable Images
+
+These images would otherwise not be considered partial, but are
+conditionally unrunnable depending on the architecture of the host system=
+.
+
+3a. Images that can build QEMU
+
+Runnable images; but only useful for building QEMU and/or its tools. A
+lot of the cross-compiler images might fit into this category.
+
+3b. Images that can test QEMU
+
+Runnable images; but can run iotests, make check, and so on. We expect
+all of the tests defined, in general, to work for this image.
+
+
+Does that sound about right?
 
 --js
-
-On 8/27/19 4:24 AM, Sam Eiderman via Qemu-block wrote:
-> v1:
->=20
-> Non-standard logical geometries break under QEMU.
->=20
-> A virtual disk which contains an operating system which depends on
-> logical geometries (consistent values being reported from BIOS INT13
-> AH=3D08) will most likely break under QEMU/SeaBIOS if it has non-standa=
-rd
-> logical geometries - for example 56 SPT (sectors per track).
-> No matter what QEMU will guess - SeaBIOS, for large enough disks - will
-> use LBA translation, which will report 63 SPT instead.
->=20
-> In addition we can not enforce SeaBIOS to rely on phyiscal geometries a=
-t
-> all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
-> report more than 16 physical heads when moved to an IDE controller, the
-> ATA spec allows a maximum of 16 heads - this is an artifact of
-> virtualization.
->=20
-> By supplying the logical geometies directly we are able to support such
-> "exotic" disks.
->=20
-> We will use fw_cfg to do just that.
->=20
-> v2:
->=20
-> Fix missing parenthesis check in
->     "hd-geo-test: Add tests for lchs override"
->=20
-> v3:
->=20
-> * Rename fw_cfg key to "bios-geometry".
-> * Remove "extendible" interface.
-> * Add cpu_to_le32 fix as Laszlo suggested or big endian hosts
-> * Fix last qtest commit - automatic docker tester for some reason does =
-not have qemu-img set
->=20
-> v4:
->=20
-> * Change fw_cfg interface from mixed textual/binary to textual only
->=20
-> v5:
->=20
-> * Fix line > 80 chars in tests/hd-geo-test.c
->=20
-> v6:
->=20
-> * Small fixes for issues pointed by Max
-> * (&conf->conf)->lcyls to conf->conf.lcyls and so on
-> * Remove scsi_unrealize from everything other than scsi-hd
-> * Add proper include to sysemu.h
-> * scsi_device_unrealize() after scsi_device_purge_requests()
->=20
-> Sam Eiderman (8):
->   block: Refactor macros - fix tabbing
->   block: Support providing LCHS from user
->   bootdevice: Add interface to gather LCHS
->   scsi: Propagate unrealize() callback to scsi-hd
->   bootdevice: Gather LCHS from all relevant devices
->   bootdevice: Refactor get_boot_devices_list
->   bootdevice: FW_CFG interface for LCHS values
->   hd-geo-test: Add tests for lchs override
->=20
->  bootdevice.c             | 148 ++++++++--
->  hw/block/virtio-blk.c    |   6 +
->  hw/ide/qdev.c            |   7 +-
->  hw/nvram/fw_cfg.c        |  14 +-
->  hw/scsi/scsi-bus.c       |  16 ++
->  hw/scsi/scsi-disk.c      |  12 +
->  include/hw/block/block.h |  22 +-
->  include/hw/scsi/scsi.h   |   1 +
->  include/sysemu/sysemu.h  |   4 +
->  tests/Makefile.include   |   2 +-
->  tests/hd-geo-test.c      | 582 +++++++++++++++++++++++++++++++++++++++
->  11 files changed, 773 insertions(+), 41 deletions(-)
->=20
 
