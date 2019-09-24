@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDEEBCA1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:21:38 +0200 (CEST)
-Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 186D5BCA3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:29:12 +0200 (CEST)
+Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClhA-000644-SQ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58610)
+	id 1iCloU-0005pL-Gz
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iCkra-00088K-41
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:19 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCks1-0000EY-CK
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iCkrZ-0001JE-1N
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57696)
+ (envelope-from <armbru@redhat.com>) id 1iCkrw-0001Tb-8F
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53380)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iCkrY-0001J4-Q0
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:16 -0400
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrv-0001SS-JI
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:39 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1931658
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 13:28:16 +0000 (UTC)
-Received: by mail-qt1-f197.google.com with SMTP id r15so1912684qtn.12
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:28:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0siV7+IiGRtmpsjCKKKrKw8qwzwFcfU/O5o31oDtQNM=;
- b=hIttuOIJz4ulgCSYNkiD8V+uFu8Fwr12YFlbE9YmewKXDRekkfiJcZIaqqgHutGlvP
- y2k2odQejG1VJxl68IhgPS0p6Ozne+CXVtyCzprnEgqqh7zQDhXoKX5tb3hjynksvnQ9
- x5RRNb8f+tRDOLr2VitS+VZuJpNzQlLXpHjauDWqtngiHcSKatgq0WeOnMzGKNZ8qJh0
- 1eSzn1UPtMpdf5Als0QxCaTq9zJlU6oFnfQ8i52LNsE/7ZH590v+h2zzw0A387WIY6Rd
- fjRWKiHwbiwwaYW68F2aPG7m8qtkIIDQK5eAdYSJUM4sNCPefarzYcBKuyWg7k6h8Z9H
- Bumg==
-X-Gm-Message-State: APjAAAU7dGy8HZk+wwOE6iHjlAGv/JMaRf4PEQ+tni2z7t/0m+vvDEMb
- bib4OaO9zjNzLUK7IMHPn4//arjkqms3QMhowYGtx3p7+gs55WXiAxml8vSMmj5ns2sFTijSo70
- 7Gh0jm9K+9eQUZsU=
-X-Received: by 2002:a37:af81:: with SMTP id y123mr2346000qke.145.1569331695453; 
- Tue, 24 Sep 2019 06:28:15 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy8IETc94LHUvszYZmbbVF9ufeHqsjMgwcWGWqmPhUsAF9oomZniLkKp52I24u6LE51VHqlag==
-X-Received: by 2002:a37:af81:: with SMTP id y123mr2345985qke.145.1569331695302; 
- Tue, 24 Sep 2019 06:28:15 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id z72sm956187qka.115.2019.09.24.06.28.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 06:28:14 -0700 (PDT)
-Date: Tue, 24 Sep 2019 09:28:09 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH v4 8/8] hw/i386: Introduce the microvm machine type
-Message-ID: <20190924092435-mutt-send-email-mst@kernel.org>
-References: <20190924124433.96810-1-slp@redhat.com>
- <20190924124433.96810-9-slp@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 7F5A91918642;
+ Tue, 24 Sep 2019 13:28:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CBD8608C0;
+ Tue, 24 Sep 2019 13:28:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B1E611136424; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 24/25] qapi: Improve reporting of redefinition
+Date: Tue, 24 Sep 2019 15:28:29 +0200
+Message-Id: <20190924132830.15835-25-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-1-armbru@redhat.com>
+References: <20190924132830.15835-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190924124433.96810-9-slp@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Tue, 24 Sep 2019 13:28:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,63 +57,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, lersek@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- pbonzini@redhat.com, imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 24, 2019 at 02:44:33PM +0200, Sergio Lopez wrote:
-> +static void microvm_fix_kernel_cmdline(MachineState *machine)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(machine);
-> +    BusState *bus;
-> +    BusChild *kid;
-> +    char *cmdline;
-> +
-> +    /*
-> +     * Find MMIO transports with attached devices, and add them to the kernel
-> +     * command line.
-> +     *
-> +     * Yes, this is a hack, but one that heavily improves the UX without
-> +     * introducing any significant issues.
-> +     */
-> +    cmdline = g_strdup(machine->kernel_cmdline);
-> +    bus = sysbus_get_default();
-> +    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-> +        DeviceState *dev = kid->child;
-> +        ObjectClass *class = object_get_class(OBJECT(dev));
-> +
-> +        if (class == object_class_by_name(TYPE_VIRTIO_MMIO)) {
-> +            VirtIOMMIOProxy *mmio = VIRTIO_MMIO(OBJECT(dev));
-> +            VirtioBusState *mmio_virtio_bus = &mmio->bus;
-> +            BusState *mmio_bus = &mmio_virtio_bus->parent_obj;
-> +
-> +            if (!QTAILQ_EMPTY(&mmio_bus->children)) {
-> +                gchar *mmio_cmdline = microvm_get_mmio_cmdline(mmio_bus->name);
-> +                if (mmio_cmdline) {
-> +                    char *newcmd = g_strjoin(NULL, cmdline, mmio_cmdline, NULL);
-> +                    g_free(mmio_cmdline);
-> +                    g_free(cmdline);
-> +                    cmdline = newcmd;
-> +                }
-> +            }
-> +        }
-> +    }
-> +
-> +    fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) + 1);
-> +    fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
-> +}
+Point to the previous definition, unless it's a built-in.
 
-Can we rearrange this somewhat? Maybe the mmio constructor
-would format the device description and add to some list,
-and then microvm would just get stuff from that list
-and add it to kernel command line?
-This way it can also be controlled by a virtio-mmio property, so
-e.g. you can disable it per device if you like.
-In particular, this seems like a handy trick for any machine type
-using mmio.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/common.py                  | 5 +++++
+ tests/qapi-schema/redefined-command.err | 4 +++-
+ tests/qapi-schema/redefined-event.err   | 4 +++-
+ tests/qapi-schema/redefined-type.err    | 4 +++-
+ 4 files changed, 14 insertions(+), 3 deletions(-)
 
--- 
-MST
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index 29b75345bb..c38e7cf27d 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -1748,6 +1748,11 @@ class QAPISchema(object):
+         # because they're liable to clash in generated C.
+         other_ent =3D self._entity_dict.get(ent.name)
+         if other_ent:
++            if other_ent.info:
++                where =3D QAPIError(other_ent.info, None, "previous defi=
+nition")
++                raise QAPISemError(
++                    ent.info,
++                    "'%s' is already defined\n%s" % (ent.name, where))
+             raise QAPISemError(
+                 ent.info, "%s is already defined" % other_ent.describe()=
+)
+         self._entity_dict[ent.name] =3D ent
+diff --git a/tests/qapi-schema/redefined-command.err b/tests/qapi-schema/=
+redefined-command.err
+index b77a05d354..54e366bbf3 100644
+--- a/tests/qapi-schema/redefined-command.err
++++ b/tests/qapi-schema/redefined-command.err
+@@ -1,2 +1,4 @@
+ tests/qapi-schema/redefined-command.json: In command 'foo':
+-tests/qapi-schema/redefined-command.json:3: command 'foo' is already def=
+ined
++tests/qapi-schema/redefined-command.json:3: 'foo' is already defined
++tests/qapi-schema/redefined-command.json: In command 'foo':
++tests/qapi-schema/redefined-command.json:2: previous definition
+diff --git a/tests/qapi-schema/redefined-event.err b/tests/qapi-schema/re=
+defined-event.err
+index fd02d38157..606c6e4497 100644
+--- a/tests/qapi-schema/redefined-event.err
++++ b/tests/qapi-schema/redefined-event.err
+@@ -1,2 +1,4 @@
+ tests/qapi-schema/redefined-event.json: In event 'EVENT_A':
+-tests/qapi-schema/redefined-event.json:3: event 'EVENT_A' is already def=
+ined
++tests/qapi-schema/redefined-event.json:3: 'EVENT_A' is already defined
++tests/qapi-schema/redefined-event.json: In event 'EVENT_A':
++tests/qapi-schema/redefined-event.json:2: previous definition
+diff --git a/tests/qapi-schema/redefined-type.err b/tests/qapi-schema/red=
+efined-type.err
+index 39f51c14ea..77786f98ae 100644
+--- a/tests/qapi-schema/redefined-type.err
++++ b/tests/qapi-schema/redefined-type.err
+@@ -1,2 +1,4 @@
+ tests/qapi-schema/redefined-type.json: In enum 'foo':
+-tests/qapi-schema/redefined-type.json:3: struct type 'foo' is already de=
+fined
++tests/qapi-schema/redefined-type.json:3: 'foo' is already defined
++tests/qapi-schema/redefined-type.json: In struct 'foo':
++tests/qapi-schema/redefined-type.json:2: previous definition
+--=20
+2.21.0
+
 
