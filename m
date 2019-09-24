@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E26CBC877
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:01:20 +0200 (CEST)
-Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52BCBC896
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:07:56 +0200 (CEST)
+Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkRT-00074e-41
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50619)
+	id 1iCkXq-0003AS-Qd
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50570)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0q-0001MS-Cz
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:53 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0o-0001Ke-Mb
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0k-0006zF-If
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42800)
+ (envelope-from <armbru@redhat.com>) id 1iCk0k-0006yi-BB
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55284)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0k-0006wg-1U
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0j-0006wB-PZ
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:42 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F370B307D923
+ by mx1.redhat.com (Postfix) with ESMTPS id CF68218C8935
  for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CF5610013D9;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FDFD6012C;
  Tue, 24 Sep 2019 12:33:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2AE36113642B; Tue, 24 Sep 2019 14:33:35 +0200 (CEST)
+ id 33D9B113642C; Tue, 24 Sep 2019 14:33:35 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/37] qapi: Normalize 'if' in check_exprs(), like other sugar
-Date: Tue, 24 Sep 2019 14:33:28 +0200
-Message-Id: <20190924123334.30645-32-armbru@redhat.com>
+Subject: [PULL 32/37] qapi: Simplify check_keys()
+Date: Tue, 24 Sep 2019 14:33:29 +0200
+Message-Id: <20190924123334.30645-33-armbru@redhat.com>
 In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
 References: <20190924123334.30645-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 24 Sep 2019 12:33:41 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Tue, 24 Sep 2019 12:33:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,134 +60,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We normalize shorthand to longhand forms in check_expr(): enumeration
-values with normalize_enum(), feature values with
-normalize_features(), struct members, union branches and alternate
-branches with normalize_members().  If conditions are an exception: we
-normalize them in QAPISchemaEntity.check() and
-QAPISchemaMember.__init(), with listify_cond().  The idea goes back to
-commit 2cbc94376e "qapi: pass 'if' condition into QAPISchemaEntity
-objects", v3.0.0.
-
-Normalize in check_expr() instead, with new helper normalize_if().
+check_keys() parameter expr_elem expects a dictionary with keys 'expr'
+and 'info'.  Passing the two values separately is simpler, so do that.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190914153506.2151-14-armbru@redhat.com>
+Message-Id: <20190914153506.2151-15-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/common.py | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ scripts/qapi/common.py | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index cacee9b8bb..4d1f62e808 100644
+index 4d1f62e808..4d4e0be770 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -804,6 +804,7 @@ def check_type(info, source, value,
-         check_known_keys(info, "member '%s' of %s" % (key, source),
-                          arg, ['type'], ['if'])
-         check_if(arg, info)
-+        normalize_if(arg)
-         check_type(info, "Member '%s' of %s" % (key, source),
-                    arg['type'], allow_array=3DTrue,
-                    allow_metas=3D['built-in', 'union', 'alternate', 'str=
-uct',
-@@ -904,6 +905,7 @@ def check_union(expr, info):
-         check_known_keys(info, "member '%s' of union '%s'" % (key, name)=
-,
-                          value, ['type'], ['if'])
-         check_if(value, info)
-+        normalize_if(value)
-         # Each value must name a known type
-         check_type(info, "Member '%s' of union '%s'" % (key, name),
-                    value['type'],
-@@ -933,6 +935,7 @@ def check_alternate(expr, info):
-                          "member '%s' of alternate '%s'" % (key, name),
-                          value, ['type'], ['if'])
-         check_if(value, info)
-+        normalize_if(value)
-         typ =3D value['type']
-=20
-         # Ensure alternates have no type conflicts.
-@@ -978,6 +981,7 @@ def check_enum(expr, info):
-         check_known_keys(info, "member of enum '%s'" % name, member,
-                          ['name'], ['if'])
-         check_if(member, info)
-+        normalize_if(member)
-         check_name(info, "Member of enum '%s'" % name, member['name'],
-                    enum_member=3DTrue)
-=20
-@@ -1003,6 +1007,7 @@ def check_struct(expr, info):
-                              ['name'], ['if'])
-=20
-             check_if(f, info)
-+            normalize_if(f)
-             check_name(info, "Feature of struct %s" % name, f['name'])
+@@ -1029,9 +1029,7 @@ def check_known_keys(info, source, keys, required, =
+optional):
+                               source, pprint(allowed)))
 =20
 =20
-@@ -1067,6 +1072,12 @@ def normalize_features(features):
-                        for f in features]
+-def check_keys(expr_elem, meta, required, optional=3D[]):
+-    expr =3D expr_elem['expr']
+-    info =3D expr_elem['info']
++def check_keys(expr, info, meta, required, optional=3D[]):
+     name =3D expr[meta]
+     if not isinstance(name, str):
+         raise QAPISemError(info, "'%s' key must have a string value" % m=
+eta)
+@@ -1100,40 +1098,39 @@ def check_exprs(exprs):
 =20
-=20
-+def normalize_if(expr):
-+    ifcond =3D expr.get('if')
-+    if isinstance(ifcond, str):
-+        expr['if'] =3D [ifcond]
-+
-+
- def check_exprs(exprs):
-     global all_names
-=20
-@@ -1123,6 +1134,7 @@ def check_exprs(exprs):
+         if 'enum' in expr:
+             meta =3D 'enum'
+-            check_keys(expr_elem, 'enum', ['data'], ['if', 'prefix'])
++            check_keys(expr, info, 'enum', ['data'], ['if', 'prefix'])
+             normalize_enum(expr)
+             enum_types[expr[meta]] =3D expr
+         elif 'union' in expr:
+             meta =3D 'union'
+-            check_keys(expr_elem, 'union', ['data'],
++            check_keys(expr, info, 'union', ['data'],
+                        ['base', 'discriminator', 'if'])
+             normalize_members(expr.get('base'))
+             normalize_members(expr['data'])
+             union_types[expr[meta]] =3D expr
+         elif 'alternate' in expr:
+             meta =3D 'alternate'
+-            check_keys(expr_elem, 'alternate', ['data'], ['if'])
++            check_keys(expr, info, 'alternate', ['data'], ['if'])
+             normalize_members(expr['data'])
+         elif 'struct' in expr:
+             meta =3D 'struct'
+-            check_keys(expr_elem, 'struct', ['data'],
++            check_keys(expr, info, 'struct', ['data'],
+                        ['base', 'if', 'features'])
+             normalize_members(expr['data'])
+             normalize_features(expr.get('features'))
+             struct_types[expr[meta]] =3D expr
+         elif 'command' in expr:
+             meta =3D 'command'
+-            check_keys(expr_elem, 'command', [],
++            check_keys(expr, info, 'command', [],
+                        ['data', 'returns', 'gen', 'success-response',
+                         'boxed', 'allow-oob', 'allow-preconfig', 'if'])
+             normalize_members(expr.get('data'))
+         elif 'event' in expr:
+             meta =3D 'event'
+-            check_keys(expr_elem, 'event', [], ['data', 'boxed', 'if'])
++            check_keys(expr, info, 'event', [], ['data', 'boxed', 'if'])
+             normalize_members(expr.get('data'))
          else:
-             raise QAPISemError(expr_elem['info'],
-                                "Expression is missing metatype")
-+        normalize_if(expr)
+-            raise QAPISemError(expr_elem['info'],
+-                               "Expression is missing metatype")
++            raise QAPISemError(info, "Expression is missing metatype")
+         normalize_if(expr)
          name =3D expr[meta]
          add_name(name, info, meta)
-         if doc and doc.symbol !=3D name:
-@@ -1177,14 +1189,6 @@ def check_exprs(exprs):
- # Schema compiler frontend
- #
-=20
--def listify_cond(ifcond):
--    if not ifcond:
--        return []
--    if not isinstance(ifcond, list):
--        return [ifcond]
--    return ifcond
--
--
- class QAPISchemaEntity(object):
-     def __init__(self, name, info, doc, ifcond=3DNone):
-         assert name is None or isinstance(name, str)
-@@ -1197,7 +1201,7 @@ class QAPISchemaEntity(object):
-         # such place).
-         self.info =3D info
-         self.doc =3D doc
--        self._ifcond =3D ifcond  # self.ifcond is set only after .check(=
-)
-+        self._ifcond =3D ifcond or []
-=20
-     def c_name(self):
-         return c_name(self.name)
-@@ -1209,7 +1213,7 @@ class QAPISchemaEntity(object):
-             typ.check(schema)
-             self.ifcond =3D typ.ifcond
-         else:
--            self.ifcond =3D listify_cond(self._ifcond)
-+            self.ifcond =3D self._ifcond
-         if self.info:
-             self.module =3D os.path.relpath(self.info['file'],
-                                           os.path.dirname(schema.fname))
-@@ -1515,7 +1519,7 @@ class QAPISchemaMember(object):
-     def __init__(self, name, ifcond=3DNone):
-         assert isinstance(name, str)
-         self.name =3D name
--        self.ifcond =3D listify_cond(ifcond)
-+        self.ifcond =3D ifcond or []
-         self.owner =3D None
-=20
-     def set_owner(self, name):
 --=20
 2.21.0
 
