@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2923BD377
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:21:54 +0200 (CEST)
-Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7963BD383
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:26:18 +0200 (CEST)
+Received: from localhost ([::1]:50736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrJp-0004li-3T
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:21:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44057)
+	id 1iCrO5-00029W-DY
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8O-0000tc-RP
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:05 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8P-0000tu-5p
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-00031G-SA
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8N-00031m-Kp
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:04 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38146)
+Received: from relay.sw.ru ([185.231.240.75]:38158)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8M-0002u8-Ef
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:02 -0400
+ id 1iCr8N-0002uR-02
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8B-0001Mk-2H; Tue, 24 Sep 2019 23:09:51 +0300
+ id 1iCr8B-0001Mk-Kj; Tue, 24 Sep 2019 23:09:51 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/25] chardev: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:56 +0300
-Message-Id: <20190924200902.4703-20-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 21/25] QOM: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:58 +0300
+Message-Id: <20190924200902.4703-22-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,9 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -76,21 +76,29 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- chardev/spice.c | 1 +
- 1 file changed, 1 insertion(+)
+ qdev-monitor.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/chardev/spice.c b/chardev/spice.c
-index 241e2b7770..1421c85464 100644
---- a/chardev/spice.c
-+++ b/chardev/spice.c
-@@ -267,6 +267,7 @@ static void qemu_chr_open_spice_vmc(Chardev *chr,
-                                     bool *be_opened,
-                                     Error **errp)
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 148df9cacf..d0129411fb 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -328,6 +328,7 @@ static Object *qdev_get_peripheral_anon(void)
+ 
+ static void qbus_list_bus(DeviceState *dev, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     ChardevSpiceChannel *spicevmc = backend->u.spicevmc.data;
-     const char *type = spicevmc->type;
-     const char **psubtype = spice_server_char_device_recognized_subtypes();
+     BusState *child;
+     const char *sep = " ";
+ 
+@@ -342,6 +343,7 @@ static void qbus_list_bus(DeviceState *dev, Error **errp)
+ 
+ static void qbus_list_dev(BusState *bus, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     BusChild *kid;
+     const char *sep = " ";
+ 
 -- 
 2.21.0
 
