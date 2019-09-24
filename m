@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63AFBC6F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:35:49 +0200 (CEST)
-Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5E1BC6F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:36:24 +0200 (CEST)
+Received: from localhost ([::1]:44266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCj6i-0004Py-4N
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42199)
+	id 1iCj7H-0004nt-5l
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1iCj2L-0002Oy-5X
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:18 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2L-0002P1-Bj
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1iCj2J-0005GD-FY
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2J-0005GW-PU
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:16 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:17963)
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:17965)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1iCj2J-0005Fj-3R
+ id 1iCj2J-0005G2-Fk
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=citrix.com; s=securemail; t=1569324676;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=1fLJMTliI1vK08faPR4VUIwhEhfNNpZZbP4jagQup3M=;
- b=YCYszaQBpYeVnlO6Dn9zWntPpySIzAVfUPaTNXf+pPHSQbnK6MmAv0Ms
- IBahwY9hKqiDJr37zhi4Nm21Dp8Aw2gzGGxmHDSLe1g53+XQQRzo89862
- mJxk0Qch8bH1t1g4D6sacxgv7YidJ/ueHsrpKL8szkFZRZ7R+nDH+6M2o c=;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=7rCPwSSKvk2M6jbJf0UE2gfEyhfV5C3cyXczS3Hzueg=;
+ b=F+AQ+7pFGmymP1TOB02g4cPifrLBwpVYWZJ4vyca8Xn88K8rRyzFqy+2
+ VlCogXkoipQjYUYIZDhg4ADGy/tM2C54aqTmq3XPPEl5uiPTJt5yXWN3x
+ Z/nPDbpQ/0G5Z+PZNgYL2NgjhNJE62hpHwk6tK5seJqhmOZ0BZjeohbyb A=;
 Authentication-Results: esa2.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -59,24 +59,27 @@ Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: zQ+7TjXT5X9FCZjSpRAdICG/WkfHuexnxj8DB6Vb0CEetuZMn4DZCFhNOZuy7URZhkhqw1ffep
- i1teA1hYmyKHswVZq9Ny+lS492y3fRXUsmiUL5alaiJlwNFcNsKG39/KPveoo+qVEYr+qDTBE/
- mwSozZ7jgrqWvVKjMoXwG31kmDi0kf10eP4KQ4q0SJTqg4cvdAqEfeifrql1kcn3KeaRrNRM64
- uYgi6j2urGYObf1XtgmJY7474pey+1aAXalMIGxVoIbwDxJ/wkFjkmDwRbN2GmYNTGkeNuHHiM
- rR8=
+IronPort-SDR: eke+LBUkvZytegB6Sk+0JJUvlo/bUFpBhM86B1VtATWVSmGFc0DWd02S5V02djPBdpugXIYvj7
+ mQ8WePuGSqIX+ipGhOy0sXY2yrAnQ3bKQrzgyo0WJ8xfzJVbTFpDrwdMoARv1ArCQ2BiPlWpF2
+ YeJwObf55Dial9bB+rrSxZPW3H5gEO3MpHf2UphdEz9v9Hrar8Wcw3lV5EXLtN33FU12aIVFLX
+ vHMeE+u38d2jPfljIvdufQ0vLtgofIB/yV7ca3R1pxDbLsyciYwwPZYcfnZJ84fINrt8dQXpu5
+ Udk=
 X-SBRS: 2.7
-X-MesageID: 5977594
+X-MesageID: 5977595
 X-Ironport-Server: esa2.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.64,543,1559534400"; 
-   d="scan'208";a="5977594"
+   d="scan'208";a="5977595"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 0/7] xen queue 2019-09-24
-Date: Tue, 24 Sep 2019 12:30:19 +0100
-Message-ID: <20190924113026.255634-1-anthony.perard@citrix.com>
+Subject: [PULL 1/7] xen-bus: check whether the frontend is active during
+ device reset...
+Date: Tue, 24 Sep 2019 12:30:20 +0100
+Message-ID: <20190924113026.255634-2-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190924113026.255634-1-anthony.perard@citrix.com>
+References: <20190924113026.255634-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -98,42 +101,57 @@ Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2f93a3ecdd3bb060bd04f698ccafe66efd98563a:
+From: Paul Durrant <paul.durrant@citrix.com>
 
-  Merge remote-tracking branch 'remotes/davidhildenbrand/tags/s390x-tcg-2019-09-23' into staging (2019-09-23 15:44:52 +0100)
+...not the backend
 
-are available in the Git repository at:
+Commit cb323146 "xen-bus: Fix backend state transition on device reset"
+contained a subtle mistake. The hunk
 
-  https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20190924
+@@ -539,11 +556,11 @@ static void xen_device_backend_changed(void *opaque)
 
-for you to fetch changes up to 6bd6b955c0b2666263700d39db153ab43c5e0c9e:
+     /*
+      * If the toolstack (or unplug request callback) has set the backend
+-     * state to Closing, but there is no active frontend (i.e. the
+-     * state is not Connected) then set the backend state to Closed.
++     * state to Closing, but there is no active frontend then set the
++     * backend state to Closed.
+      */
+     if (xendev->backend_state == XenbusStateClosing &&
+-        xendev->frontend_state != XenbusStateConnected) {
++        !xen_device_state_is_active(state)) {
+         xen_device_backend_set_state(xendev, XenbusStateClosed);
+     }
 
-  xen-bus: only set the xen device frontend state if it is missing (2019-09-24 12:21:29 +0100)
+mistakenly replaced the check of 'xendev->frontend_state' with a check
+(now in a helper function) of 'state', which actually equates to
+'xendev->backend_state'.
 
-----------------------------------------------------------------
-Xen queue
+This patch fixes the mistake.
 
-* Update of maintainer email address
-* Fixes for xen-bus and xen-block
+Fixes: cb3231460747552d70af9d546dc53d8195bcb796
+Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <20190910171753.3775-1-paul.durrant@citrix.com>
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+ hw/xen/xen-bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Mark Syms (1):
-      xen-bus: only set the xen device frontend state if it is missing
+diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+index a04478ad4f..025df5e59f 100644
+--- a/hw/xen/xen-bus.c
++++ b/hw/xen/xen-bus.c
+@@ -560,7 +560,7 @@ static void xen_device_backend_changed(void *opaque)
+      * backend state to Closed.
+      */
+     if (xendev->backend_state == XenbusStateClosing &&
+-        !xen_device_state_is_active(state)) {
++        !xen_device_state_is_active(xendev->frontend_state)) {
+         xen_device_backend_set_state(xendev, XenbusStateClosed);
+     }
+ 
+-- 
+Anthony PERARD
 
-Paul Durrant (6):
-      xen-bus: check whether the frontend is active during device reset...
-      xen / notify: introduce a new XenWatchList abstraction
-      xen: introduce separate XenWatchList for XenDevice objects
-      xen: perform XenDevice clean-up in XenBus watch handler
-      MAINTAINERS: update my email address
-      xen-block: treat XenbusStateUnknown the same as XenbusStateClosed
-
- MAINTAINERS              |   2 +-
- hw/block/xen-block.c     |   1 +
- hw/xen/trace-events      |   9 +-
- hw/xen/xen-bus.c         | 316 ++++++++++++++++++++++++++++++++++-------------
- include/hw/xen/xen-bus.h |   8 +-
- include/qemu/notify.h    |   2 +
- util/notify.c            |   5 +
- 7 files changed, 249 insertions(+), 94 deletions(-)
 
