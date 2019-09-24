@@ -2,48 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E039BBC6F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:36:35 +0200 (CEST)
-Received: from localhost ([::1]:44268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2FBBC6FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:40:21 +0200 (CEST)
+Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCj7S-0005Ee-LM
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42364)
+	id 1iCjB5-0000UV-PE
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42230)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iCj2V-0002Ws-JD
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:29 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2N-0002P6-Fo
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iCj2T-0005Mj-Rm
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45752)
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2K-0005Gn-03
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:18 -0400
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:17963)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1iCj2Q-0005KC-Am; Tue, 24 Sep 2019 07:31:22 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8156310CC1F7;
- Tue, 24 Sep 2019 11:31:21 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65C0861F21;
- Tue, 24 Sep 2019 11:31:19 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH v4 3/9] target/arm: Allow SVE to be disabled via a CPU property
-Date: Tue, 24 Sep 2019 13:30:59 +0200
-Message-Id: <20190924113105.19076-4-drjones@redhat.com>
-In-Reply-To: <20190924113105.19076-1-drjones@redhat.com>
-References: <20190924113105.19076-1-drjones@redhat.com>
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1iCj2J-0005Fj-MH
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1569324676;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=7L6iSgcHG/c+uve0NKelK5BctXcMVLX+wsTXUpwg2PA=;
+ b=gVWMdnSXOgGum1hsw5KwBAploLA8Rud/jqxnz2hZtnpCgDSjJodQVWkC
+ IwtdP4dyXjfUBPA5RXlWQosviuw4qJZCQQc2ZyosW5PE/6D8Jn2E8R+ww
+ tJtU+SV8T+t2SO9rXZVGDovmNBmtooKRSzCPM9SYLiXDZi6emDVfUXaKA U=;
+Authentication-Results: esa2.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: HuWOP7dnM3Q5DQaZOixldM+ggIx6YQ8di8TGOZIxjE0xodRTpU2ECA9uQ5jwpR4v0zam/B367q
+ OFq+z1960EFxc3QQWuD22sz+710TD+SwIt0hCX+uZm5mbXQ9yQD6kEy18GOjoc7PWKR2lihvOl
+ 1sipdwWFjKpYa/hInkpnU1OcKxzx+IhdylJxQF7qLaO6rwzR7nBMSHdZHHFlla0NY+e37SQNgm
+ DXtBCucEgT1/choIucV+rh1zb+U3gMlLZOMtHC8pZlBcueBBs5aOtrI8EarOAeTg3fhhbG8keC
+ MKE=
+X-SBRS: 2.7
+X-MesageID: 5977597
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.64,543,1559534400"; 
+   d="scan'208";a="5977597"
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PULL 2/7] xen / notify: introduce a new XenWatchList abstraction
+Date: Tue, 24 Sep 2019 12:30:21 +0100
+Message-ID: <20190924113026.255634-3-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190924113026.255634-1-anthony.perard@citrix.com>
+References: <20190924113026.255634-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Tue, 24 Sep 2019 11:31:21 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.153
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,154 +95,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
- eric.auger@redhat.com, imammedo@redhat.com, alex.bennee@linaro.org,
- Dave.Martin@arm.com
+Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 97a28b0eeac14 ("target/arm: Allow VFP and Neon to be disabled via
-a CPU property") we can disable the 'max' cpu model's VFP and neon
-features, but there's no way to disable SVE. Add the 'sve=3Don|off'
-property to give it that flexibility. We also rename
-cpu_max_get/set_sve_vq to cpu_max_get/set_sve_max_vq in order for them
-to follow the typical *_get/set_<property-name> pattern.
+From: Paul Durrant <paul.durrant@citrix.com>
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Xenstore watch call-backs are already abstracted away from XenBus using
+the XenWatch data structure but the associated NotifierList manipulation
+and file handle registration is still open coded in various xen_bus_...()
+functions.
+This patch creates a new XenWatchList data structure to allow these
+interactions to be abstracted away from XenBus as well. This is in
+preparation for a subsequent patch which will introduce separate watch lists
+for XenBus and XenDevice objects.
+
+NOTE: This patch also introduces a new notifier_list_empty() helper function
+      for the purposes of adding an assertion that a XenWatchList is not
+      freed whilst its associated NotifierList is still occupied.
+
+Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+Reviewed-by: Anthony Perard <anthony.perard@citrix.com>
+Message-Id: <20190913082159.31338-2-paul.durrant@citrix.com>
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- target/arm/cpu.c         |  3 ++-
- target/arm/cpu64.c       | 42 ++++++++++++++++++++++++++++++++++------
- target/arm/monitor.c     |  2 +-
- tests/arm-cpu-features.c |  1 +
- 4 files changed, 40 insertions(+), 8 deletions(-)
+ hw/xen/trace-events      |   5 +-
+ hw/xen/xen-bus.c         | 117 +++++++++++++++++++++++++--------------
+ include/hw/xen/xen-bus.h |   3 +-
+ include/qemu/notify.h    |   2 +
+ util/notify.c            |   5 ++
+ 5 files changed, 87 insertions(+), 45 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2399c144718d..73be2ebfdd39 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -200,7 +200,8 @@ static void arm_cpu_reset(CPUState *s)
-         env->cp15.cpacr_el1 =3D deposit64(env->cp15.cpacr_el1, 16, 2, 3)=
-;
-         env->cp15.cptr_el[3] |=3D CPTR_EZ;
-         /* with maximum vector length */
--        env->vfp.zcr_el[1] =3D cpu->sve_max_vq - 1;
-+        env->vfp.zcr_el[1] =3D cpu_isar_feature(aa64_sve, cpu) ?
-+                             cpu->sve_max_vq - 1 : 0;
-         env->vfp.zcr_el[2] =3D env->vfp.zcr_el[1];
-         env->vfp.zcr_el[3] =3D env->vfp.zcr_el[1];
-         /*
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d7f5bf610a7d..8cdb0c79fa7a 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -256,15 +256,15 @@ static void aarch64_a72_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
+diff --git a/hw/xen/trace-events b/hw/xen/trace-events
+index bc82ecb1a5..ac8d9c20d2 100644
+--- a/hw/xen/trace-events
++++ b/hw/xen/trace-events
+@@ -19,9 +19,8 @@ xen_bus_unrealize(void) ""
+ xen_bus_enumerate(void) ""
+ xen_bus_type_enumerate(const char *type) "type: %s"
+ xen_bus_backend_create(const char *type, const char *path) "type: %s path: %s"
+-xen_bus_add_watch(const char *node, const char *key, char *token) "node: %s key: %s token: %s"
+-xen_bus_remove_watch(const char *node, const char *key, char *token) "node: %s key: %s token: %s"
+-xen_bus_watch(const char *token) "token: %s"
++xen_bus_add_watch(const char *node, const char *key) "node: %s key: %s"
++xen_bus_remove_watch(const char *node, const char *key) "node: %s key: %s"
+ xen_device_realize(const char *type, char *name) "type: %s name: %s"
+ xen_device_unrealize(const char *type, char *name) "type: %s name: %s"
+ xen_device_backend_state(const char *type, char *name, const char *state) "type: %s name: %s -> %s"
+diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+index 025df5e59f..28efaccff2 100644
+--- a/hw/xen/xen-bus.c
++++ b/hw/xen/xen-bus.c
+@@ -157,18 +157,60 @@ static void free_watch(XenWatch *watch)
+     g_free(watch);
  }
-=20
--static void cpu_max_get_sve_vq(Object *obj, Visitor *v, const char *name=
-,
--                               void *opaque, Error **errp)
-+static void cpu_max_get_sve_max_vq(Object *obj, Visitor *v, const char *=
-name,
-+                                   void *opaque, Error **errp)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
-     visit_type_uint32(v, name, &cpu->sve_max_vq, errp);
- }
-=20
--static void cpu_max_set_sve_vq(Object *obj, Visitor *v, const char *name=
-,
--                               void *opaque, Error **errp)
-+static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *=
-name,
-+                                   void *opaque, Error **errp)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
-     Error *err =3D NULL;
-@@ -279,6 +279,34 @@ static void cpu_max_set_sve_vq(Object *obj, Visitor =
-*v, const char *name,
-     error_propagate(errp, err);
- }
-=20
-+static void cpu_arm_get_sve(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
+ 
+-static XenWatch *xen_bus_add_watch(XenBus *xenbus, const char *node,
+-                                   const char *key, XenWatchHandler handler,
+-                                   void *opaque, Error **errp)
++struct XenWatchList {
++    struct xs_handle *xsh;
++    NotifierList notifiers;
++};
++
++static void watch_list_event(void *opaque)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+    bool value =3D cpu_isar_feature(aa64_sve, cpu);
++    XenWatchList *watch_list = opaque;
++    char **v;
++    const char *token;
 +
-+    visit_type_bool(v, name, &value, errp);
-+}
-+
-+static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+    Error *err =3D NULL;
-+    bool value;
-+    uint64_t t;
-+
-+    visit_type_bool(v, name, &value, &err);
-+    if (err) {
-+        error_propagate(errp, err);
++    v = xs_check_watch(watch_list->xsh);
++    if (!v) {
 +        return;
 +    }
 +
-+    t =3D cpu->isar.id_aa64pfr0;
-+    t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, value);
-+    cpu->isar.id_aa64pfr0 =3D t;
++    token = v[XS_WATCH_TOKEN];
++
++    notifier_list_notify(&watch_list->notifiers, (void *)token);
++
++    free(v);
 +}
 +
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this =
-host);
-  * otherwise, a CPU with as many features enabled as our emulation suppo=
-rts.
-  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
-@@ -391,8 +419,10 @@ static void aarch64_max_initfn(Object *obj)
- #endif
-=20
-         cpu->sve_max_vq =3D ARM_MAX_VQ;
--        object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve=
-_vq,
--                            cpu_max_set_sve_vq, NULL, NULL, &error_fatal=
-);
-+        object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve=
-_max_vq,
-+                            cpu_max_set_sve_max_vq, NULL, NULL, &error_f=
-atal);
-+        object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
-+                            cpu_arm_set_sve, NULL, NULL, &error_fatal);
++static XenWatchList *watch_list_create(struct xs_handle *xsh)
++{
++    XenWatchList *watch_list = g_new0(XenWatchList, 1);
++
++    g_assert(xsh);
++
++    watch_list->xsh = xsh;
++    notifier_list_init(&watch_list->notifiers);
++    qemu_set_fd_handler(xs_fileno(watch_list->xsh), watch_list_event, NULL,
++                        watch_list);
++
++    return watch_list;
++}
++
++static void watch_list_destroy(XenWatchList *watch_list)
++{
++    g_assert(notifier_list_empty(&watch_list->notifiers));
++    qemu_set_fd_handler(xs_fileno(watch_list->xsh), NULL, NULL, NULL);
++    g_free(watch_list);
++}
++
++static XenWatch *watch_list_add(XenWatchList *watch_list, const char *node,
++                                const char *key, XenWatchHandler handler,
++                                void *opaque, Error **errp)
+ {
+     XenWatch *watch = new_watch(node, key, handler, opaque);
+     Error *local_err = NULL;
+ 
+-    trace_xen_bus_add_watch(watch->node, watch->key, watch->token);
+-
+-    notifier_list_add(&xenbus->watch_notifiers, &watch->notifier);
++    notifier_list_add(&watch_list->notifiers, &watch->notifier);
+ 
+-    xs_node_watch(xenbus->xsh, node, key, watch->token, &local_err);
++    xs_node_watch(watch_list->xsh, node, key, watch->token, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+ 
+@@ -181,18 +223,34 @@ static XenWatch *xen_bus_add_watch(XenBus *xenbus, const char *node,
+     return watch;
+ }
+ 
+-static void xen_bus_remove_watch(XenBus *xenbus, XenWatch *watch,
+-                                 Error **errp)
++static void watch_list_remove(XenWatchList *watch_list, XenWatch *watch,
++                              Error **errp)
+ {
+-    trace_xen_bus_remove_watch(watch->node, watch->key, watch->token);
+-
+-    xs_node_unwatch(xenbus->xsh, watch->node, watch->key, watch->token,
++    xs_node_unwatch(watch_list->xsh, watch->node, watch->key, watch->token,
+                     errp);
+ 
+     notifier_remove(&watch->notifier);
+     free_watch(watch);
+ }
+ 
++static XenWatch *xen_bus_add_watch(XenBus *xenbus, const char *node,
++                                   const char *key, XenWatchHandler handler,
++                                   void *opaque, Error **errp)
++{
++    trace_xen_bus_add_watch(node, key);
++
++    return watch_list_add(xenbus->watch_list, node, key, handler, opaque,
++                          errp);
++}
++
++static void xen_bus_remove_watch(XenBus *xenbus, XenWatch *watch,
++                                 Error **errp)
++{
++    trace_xen_bus_remove_watch(watch->node, watch->key);
++
++    watch_list_remove(xenbus->watch_list, watch, errp);
++}
++
+ static void xen_bus_backend_create(XenBus *xenbus, const char *type,
+                                    const char *name, char *path,
+                                    Error **errp)
+@@ -338,35 +396,14 @@ static void xen_bus_unrealize(BusState *bus, Error **errp)
+         xenbus->backend_watch = NULL;
+     }
+ 
+-    if (!xenbus->xsh) {
+-        return;
++    if (xenbus->watch_list) {
++        watch_list_destroy(xenbus->watch_list);
++        xenbus->watch_list = NULL;
+     }
+ 
+-    qemu_set_fd_handler(xs_fileno(xenbus->xsh), NULL, NULL, NULL);
+-
+-    xs_close(xenbus->xsh);
+-}
+-
+-static void xen_bus_watch(void *opaque)
+-{
+-    XenBus *xenbus = opaque;
+-    char **v;
+-    const char *token;
+-
+-    g_assert(xenbus->xsh);
+-
+-    v = xs_check_watch(xenbus->xsh);
+-    if (!v) {
+-        return;
++    if (xenbus->xsh) {
++        xs_close(xenbus->xsh);
+     }
+-
+-    token = v[XS_WATCH_TOKEN];
+-
+-    trace_xen_bus_watch(token);
+-
+-    notifier_list_notify(&xenbus->watch_notifiers, (void *)token);
+-
+-    free(v);
+ }
+ 
+ static void xen_bus_realize(BusState *bus, Error **errp)
+@@ -390,9 +427,7 @@ static void xen_bus_realize(BusState *bus, Error **errp)
+         xenbus->backend_id = 0; /* Assume lack of node means dom0 */
+     }
+ 
+-    notifier_list_init(&xenbus->watch_notifiers);
+-    qemu_set_fd_handler(xs_fileno(xenbus->xsh), xen_bus_watch, NULL,
+-                        xenbus);
++    xenbus->watch_list = watch_list_create(xenbus->xsh);
+ 
+     module_call_init(MODULE_INIT_XEN_BACKEND);
+ 
+diff --git a/include/hw/xen/xen-bus.h b/include/hw/xen/xen-bus.h
+index 1c2d9dfdb8..88b84e29bb 100644
+--- a/include/hw/xen/xen-bus.h
++++ b/include/hw/xen/xen-bus.h
+@@ -14,6 +14,7 @@
+ 
+ typedef void (*XenWatchHandler)(void *opaque);
+ 
++typedef struct XenWatchList XenWatchList;
+ typedef struct XenWatch XenWatch;
+ typedef struct XenEventChannel XenEventChannel;
+ 
+@@ -63,7 +64,7 @@ typedef struct XenBus {
+     BusState qbus;
+     domid_t backend_id;
+     struct xs_handle *xsh;
+-    NotifierList watch_notifiers;
++    XenWatchList *watch_list;
+     XenWatch *backend_watch;
+ } XenBus;
+ 
+diff --git a/include/qemu/notify.h b/include/qemu/notify.h
+index a3d73e4bc7..bcfa70fb2e 100644
+--- a/include/qemu/notify.h
++++ b/include/qemu/notify.h
+@@ -40,6 +40,8 @@ void notifier_remove(Notifier *notifier);
+ 
+ void notifier_list_notify(NotifierList *list, void *data);
+ 
++bool notifier_list_empty(NotifierList *list);
++
+ /* Same as Notifier but allows .notify() to return errors */
+ typedef struct NotifierWithReturn NotifierWithReturn;
+ 
+diff --git a/util/notify.c b/util/notify.c
+index aee8d93cb0..76bab212ae 100644
+--- a/util/notify.c
++++ b/util/notify.c
+@@ -40,6 +40,11 @@ void notifier_list_notify(NotifierList *list, void *data)
      }
  }
-=20
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index edca8aa885f0..4fddb6c252a3 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -97,7 +97,7 @@ GICCapabilityList *qmp_query_gic_capabilities(Error **e=
-rrp)
-  * then the order that considers those dependencies must be used.
-  */
- static const char *cpu_model_advertised_features[] =3D {
--    "aarch64", "pmu",
-+    "aarch64", "pmu", "sve",
-     NULL
- };
-=20
-diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-index 198ff6d6b495..202bc0e3e823 100644
---- a/tests/arm-cpu-features.c
-+++ b/tests/arm-cpu-features.c
-@@ -179,6 +179,7 @@ static void test_query_cpu_model_expansion(const void=
- *data)
-=20
-     if (g_str_equal(qtest_get_arch(), "aarch64")) {
-         assert_has_feature(qts, "max", "aarch64");
-+        assert_has_feature(qts, "max", "sve");
-         assert_has_feature(qts, "cortex-a57", "pmu");
-         assert_has_feature(qts, "cortex-a57", "aarch64");
-=20
---=20
-2.20.1
+ 
++bool notifier_list_empty(NotifierList *list)
++{
++    return QLIST_EMPTY(&list->notifiers);
++}
++
+ void notifier_with_return_list_init(NotifierWithReturnList *list)
+ {
+     QLIST_INIT(&list->notifiers);
+-- 
+Anthony PERARD
 
 
