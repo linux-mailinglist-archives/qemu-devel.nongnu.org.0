@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AABBD3B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:40:54 +0200 (CEST)
-Received: from localhost ([::1]:50894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F34FBD3BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:44:13 +0200 (CEST)
+Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrcD-00011y-7F
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
+	id 1iCrfP-0003zq-Sx
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:44:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8N-0000sH-Tb
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:05 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8P-0000tv-5Y
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-00030k-4B
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38132)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8N-00031c-E7
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:04 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38150)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8L-0002tV-MP
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
+ id 1iCr8M-0002uJ-PT
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8A-0001Mk-C9; Tue, 24 Sep 2019 23:09:50 +0300
+ id 1iCr8B-0001Mk-Ag; Tue, 24 Sep 2019 23:09:51 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/25] virtio-9p: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:54 +0300
-Message-Id: <20190924200902.4703-18-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 20/25] cmdline: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:57 +0300
+Message-Id: <20190924200902.4703-21-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,7 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>
+Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -74,34 +75,29 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/9pfs/9p-local.c | 1 +
- hw/9pfs/9p-proxy.c | 1 +
- 2 files changed, 2 insertions(+)
+ util/qemu-option.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 08e673a79c..6b1a805575 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1471,6 +1471,7 @@ static void local_cleanup(FsContext *ctx)
- 
- static void error_append_security_model_hint(Error **errp)
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 97172b5eaa..7136d83b1d 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -145,6 +145,7 @@ static const QemuOptDesc *find_desc_by_name(const QemuOptDesc *desc,
+ void parse_option_size(const char *name, const char *value,
+                        uint64_t *ret, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     error_append_hint(errp, "Valid options are: security_model="
-                       "[passthrough|mapped-xattr|mapped-file|none]\n");
- }
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index 57a8c1c808..01ff411aea 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -1116,6 +1116,7 @@ static int connect_namedsocket(const char *path, Error **errp)
+     uint64_t size;
+     int err;
  
- static void error_append_socket_sockfd_hint(Error **errp)
+@@ -660,6 +661,7 @@ QemuOpts *qemu_opts_find(QemuOptsList *list, const char *id)
+ QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
+                            int fail_if_exists, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     error_append_hint(errp, "Either specify socket=/some/path where /some/path"
-                       " points to a listening AF_UNIX socket or sock_fd=fd"
-                       " where fd is a file descriptor to a connected AF_UNIX"
+     QemuOpts *opts = NULL;
+ 
+     if (id) {
 -- 
 2.21.0
 
