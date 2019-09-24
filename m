@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAA5BCE9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:58:59 +0200 (CEST)
-Received: from localhost ([::1]:48514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177C7BCE95
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:54:17 +0200 (CEST)
+Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCo9R-0002ET-JH
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52649)
+	id 1iCo4s-0005Rf-Bo
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53253)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCn20-0007Zx-RX
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:47:14 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCn5k-0003Gi-UP
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:51:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCn1y-0002oz-An
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:47:12 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53357)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCn5j-0005L8-Pa
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:51:04 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39475)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCn1w-0002lW-H8
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:47:10 -0400
-Received: by mail-wm1-x341.google.com with SMTP id i16so720818wmd.3
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:47:03 -0700 (PDT)
+ id 1iCn5j-0005Kg-Iw
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:51:03 -0400
+Received: by mail-wm1-x342.google.com with SMTP id v17so608085wml.4
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=rajj7ERgNsJfTJ1XcjplnlEd80wvTLAPfsECKLoJRZw=;
- b=qdvsAEEGc063MfCJqUDYB0mP8Iyqg28x8kRNb5vlaFElVxbpbwltI3Gyux/Oi8VTqQ
- Ho4a0xlNC5z2atnbOASZX8BejyMZqp2866cRNNZ6WR0xIESfw/ZMbjmG/EZf0n9PtdKu
- ZA0HzG+KGf6vXtS8MziYOx8FtKCtHCPJh82WJQFemghK4+sZjP/brZENnRDbaMiJfRaO
- C5joN6BlAsNcZQ9qsIEf8AwLbkFMp6fvFOdDtA3hSAosWJYiQx5/zv9UUHl5dO7JLqyq
- 7b6CQHFlQauSZ16iSekk+b96+VFjHr3aJx2sqnM0rsvTCbAkMnt+HSLTRKsmSVJ3aS6o
- jH5Q==
+ bh=r4SgzmwKdxJQB93mBgpVTzOKIPOHeR4CeMYrV4uJR0Q=;
+ b=auHJ8O5eyKjvfnsYc82om9b5DrpvuTeHwOtNJ4whlYFkLZKb1azhkrK4r0ZD+6D/a5
+ gdSFqxBbRh5XRvlbyMEAtc5wfQR9yr2MY6NJG8G1pzXy0wDWmkjO9VYtdHCFQRQLXz9E
+ WIpSU/IGia36+O7cUbBdaXwtKkGfVCf4Rh0JBLOVG41hk9aTZYM/p4K1YjPdoAXDXVOF
+ T1j+yS/I4XLExQYeWp7MwGI11ybRZYg5bLqcFnCwCTUCbkbQVpaEiois2gfLPqNhEpkI
+ oIphoPEFBZoX3U3hMBNt8AUNkckmMvm6bbSPdCjh/jfzlvErwYqUuNP+KDoLyMh8/97o
+ eoaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=rajj7ERgNsJfTJ1XcjplnlEd80wvTLAPfsECKLoJRZw=;
- b=Q3YA5oOziwodYAFyLy4SzLs5CZ1KReqK9PoFXgk0GeASwSiqr3fu5epnch3i8hIPiF
- T6YMgmE6GpVLWiCx0GIbdxcNP/1pc2Eljqg56feg0aA6bZGBCKd4fO1x35A9kM7yUpVj
- LSrmJiz7h+bjEaVOXPNJujdH7b8vPIxbSa5lKRMuzYz1qCh9rhAw+aEcC3g7WSfAfyMd
- 2dhFqmoVFE1LliR7Se9ROfAgLOqm83DwyQcVWynfeBmL0y02UTE6jH6sxCM3PUPoi2Wn
- Zo+xusGdoYvxO+emalJgo42K6OCoa2b3G0VqDuhEEDwOubmNvLzhgXtN7jrRGC8mepWI
- Qmqg==
-X-Gm-Message-State: APjAAAWttx8RHVTilH+VFRWJ+mVGUUUZOQqiWVmHk2uHZALbG3GH7t9o
- 2MC0oGsnRgciaVNORMD1T9usfw==
-X-Google-Smtp-Source: APXvYqzx/bKYBerosd8vWClefP5fCPvxu0kaRzOtVi+Macp7rcTpPuR50miX1WYHIccoufu2kpFDZA==
-X-Received: by 2002:a1c:4946:: with SMTP id w67mr768135wma.131.1569340022287; 
- Tue, 24 Sep 2019 08:47:02 -0700 (PDT)
+ bh=r4SgzmwKdxJQB93mBgpVTzOKIPOHeR4CeMYrV4uJR0Q=;
+ b=aIvOxr+xPB9riXbt7nhDzvQpetlT5oOj17huQGZC/zYLbqIGAvWsr562Zl3aRLV1ra
+ Rfx8N2AJk64iZXvhyg5PPblqYncu0KJbUlnOotLNT+vdvLwuug3Ug5ZML4CPj7s+Okq8
+ UCDByWVPiz7VuSULssJ55kqQaMhCJvNzFcfPcyiXwZGje6QI+XzrPBftMwFkUwy9DSrC
+ 90QUWcwfFVDo+A5bZgupvbtzm3RI/sGll3n5Vvolh2JKgqqnNO2iDUWdqMXydS9KqHfE
+ 6RCayG4JoZmGQcWOfs/6e2TVmgbf1jgPN0cZs3TiFjPV0WRZOr5z58RaN5o+spAQKW0p
+ ks+A==
+X-Gm-Message-State: APjAAAVW+VXOLXetT3ZfFyZ4gK22lm/zBcsjjdA5UVO1TMDIl09pjCgA
+ R6sWrMpzUpoSX7oX2Nv/U/3Dow==
+X-Google-Smtp-Source: APXvYqz1OKYwBYcNukMm+r++0i5TeQaeyCP2llM2+/whE/lQTp7h50YIZGOt6RwTlV33gKFBU3jPAw==
+X-Received: by 2002:a1c:1a45:: with SMTP id a66mr821057wma.102.1569340262134; 
+ Tue, 24 Sep 2019 08:51:02 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n18sm455079wmi.20.2019.09.24.08.47.01
+ by smtp.gmail.com with ESMTPSA id g11sm181183wmh.45.2019.09.24.08.51.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 08:47:01 -0700 (PDT)
+ Tue, 24 Sep 2019 08:51:01 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F337A1FF87;
- Tue, 24 Sep 2019 16:47:00 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id E0FFE1FF87;
+ Tue, 24 Sep 2019 16:51:00 +0100 (BST)
 References: <20190923230004.9231-1-richard.henderson@linaro.org>
- <20190923230004.9231-4-richard.henderson@linaro.org>
+ <20190923230004.9231-6-richard.henderson@linaro.org>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 03/16] qemu/compiler.h: Add optimize_away
-In-reply-to: <20190923230004.9231-4-richard.henderson@linaro.org>
-Date: Tue, 24 Sep 2019 16:47:00 +0100
-Message-ID: <874l11bssr.fsf@linaro.org>
+Subject: Re: [PATCH v4 05/16] cputlb: Split out load/store_memop
+In-reply-to: <20190923230004.9231-6-richard.henderson@linaro.org>
+Date: Tue, 24 Sep 2019 16:51:00 +0100
+Message-ID: <871rw5bsm3.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,43 +90,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Use this as a compile-time assert that a particular
-> code path is not reachable.
+> We will shortly be using these more than once.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+<snip>
+>  }
+>
+>  /*
+> @@ -1415,7 +1412,8 @@ load_helper(CPUArchState *env, target_ulong addr, T=
+CGMemOpIdx oi,
+>  static uint64_t full_ldub_mmu(CPUArchState *env, target_ulong addr,
+>                                TCGMemOpIdx oi, uintptr_t retaddr)
+>  {
+> -    return load_helper(env, addr, oi, retaddr, MO_UB, false, full_ldub_m=
+mu);
+> +    return load_helper(env, addr, oi, retaddr, MO_UB, false,
+> +                       full_ldub_mmu);
+
+This is an unrelated change, otherwise:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> ---
->  include/qemu/compiler.h | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+
+>  }
 >
-> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-> index 20780e722d..6604ccea92 100644
-> --- a/include/qemu/compiler.h
-> +++ b/include/qemu/compiler.h
-> @@ -221,4 +221,19 @@
->  #define QEMU_GENERIC9(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC8(x=
-, __VA_ARGS__))
->  #define QEMU_GENERIC10(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC9(=
-x, __VA_ARGS__))
+>  tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong add=
+r,
+> @@ -1530,6 +1528,36 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *=
+env, target_ulong addr,
+>   * Store Helpers
+>   */
 >
-> +/**
-> + * optimize_away()
-> + *
-> + * The compiler, during optimization, is expected to prove that a call
-> + * to this function cannot be reached and remove it.  If the compiler
-> + * supports QEMU_ERROR, this will be reported at compile time; otherwise
-> + * this will be reported at link time, due to the missing symbol.
-> + */
-> +#ifdef __OPTIMIZE__
-> +extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
-> +    optimize_away(void);
-> +#else
-> +#define optimize_away()  g_assert_not_reached()
-> +#endif
+> +static inline void QEMU_ALWAYS_INLINE
+> +store_memop(void *haddr, uint64_t val, MemOp op)
+> +{
+> +    switch (op) {
+> +    case MO_UB:
+> +        stb_p(haddr, val);
+> +        break;
+> +    case MO_BEUW:
+> +        stw_be_p(haddr, val);
+> +        break;
+> +    case MO_LEUW:
+> +        stw_le_p(haddr, val);
+> +        break;
+> +    case MO_BEUL:
+> +        stl_be_p(haddr, val);
+> +        break;
+> +    case MO_LEUL:
+> +        stl_le_p(haddr, val);
+> +        break;
+> +    case MO_BEQ:
+> +        stq_be_p(haddr, val);
+> +        break;
+> +    case MO_LEQ:
+> +        stq_le_p(haddr, val);
+> +        break;
+> +    default:
+> +        optimize_away();
+> +    }
+> +}
 > +
->  #endif /* COMPILER_H */
+>  static inline void QEMU_ALWAYS_INLINE
+>  store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+>               TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
+> @@ -1657,31 +1685,7 @@ store_helper(CPUArchState *env, target_ulong addr,=
+ uint64_t val,
+>
+>   do_aligned_access:
+>      haddr =3D (void *)((uintptr_t)addr + entry->addend);
+> -    switch (op) {
+> -    case MO_UB:
+> -        stb_p(haddr, val);
+> -        break;
+> -    case MO_BEUW:
+> -        stw_be_p(haddr, val);
+> -        break;
+> -    case MO_LEUW:
+> -        stw_le_p(haddr, val);
+> -        break;
+> -    case MO_BEUL:
+> -        stl_be_p(haddr, val);
+> -        break;
+> -    case MO_LEUL:
+> -        stl_le_p(haddr, val);
+> -        break;
+> -    case MO_BEQ:
+> -        stq_be_p(haddr, val);
+> -        break;
+> -    case MO_LEQ:
+> -        stq_le_p(haddr, val);
+> -        break;
+> -    default:
+> -        optimize_away();
+> -    }
+> +    store_memop(haddr, val, op);
+>  }
+>
+>  void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t va=
+l,
 
 
 --
