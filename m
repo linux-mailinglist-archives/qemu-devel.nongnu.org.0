@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE02BD06D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:15:59 +0200 (CEST)
-Received: from localhost ([::1]:48926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD665BD082
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:22:44 +0200 (CEST)
+Received: from localhost ([::1]:49044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCoPu-0001IA-45
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:15:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39135)
+	id 1iCoWR-0008Hw-N6
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60228)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iCoN0-00086S-TV
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:12:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCnhZ-0002Cg-E2
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:30:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iCoMy-0005D8-76
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:12:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41984)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>)
- id 1iCoMx-0005CW-SV; Tue, 24 Sep 2019 13:12:56 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 12DDA81F31;
- Tue, 24 Sep 2019 17:12:55 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-118.rdu2.redhat.com
- [10.10.120.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1EA060852;
- Tue, 24 Sep 2019 17:12:50 +0000 (UTC)
-Subject: Re: [PATCH v1 5/6] riscv/virt: Add the PFlash CFI01 device
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair23@gmail.com>
-References: <cover.1568931866.git.alistair.francis@wdc.com>
- <0a5c141a26fada6d93d06e996a2f24e1b269ec50.1568931866.git.alistair.francis@wdc.com>
- <CAEUhbmVvDKQqQYE-riq=cvSrCe_NMoW_KDsLjh8CVHRUhJvk9A@mail.gmail.com>
- <CAKmqyKOofA3U+8kjMkzQ0sNd1=uwJHq3c9eaLZdoNCb7=e-PAw@mail.gmail.com>
- <CAFEAcA-uFPGf4BiDXH=Om3Df-xXrt7QwjzVF7E3kY4aMWMP4YQ@mail.gmail.com>
- <16bab4bf-b91e-ef0c-2d22-53538f74cfc4@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <102dcf49-2bce-757d-be28-3594b5d280cc@redhat.com>
-Date: Tue, 24 Sep 2019 19:12:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <richard.henderson@linaro.org>) id 1iCnhX-0006WM-Os
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:30:08 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39153)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iCnhX-0006Vc-Ee
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:30:07 -0400
+Received: by mail-pf1-x442.google.com with SMTP id v4so1679129pff.6
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 09:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dcF8WTJf1FdsqtK7JaRa15A8rHmVQlOZFjgElD0eE3c=;
+ b=zqZ9NC9Xc38c9xYG5BzIoDuGSLSc4NTCD5wmcJ3syAEOSesf3jVbkM/BJ5L59GpUVD
+ iZxWFpsPUSeSzAYCAQ1jd32kwZqyRJoO6tbveb5FroftgIytq4snqmC1+b5HaYbAvzsp
+ L/nOo9Key5QodpZc/1Hhys1uetQYgCg264dPHDAzdWgfJpdaQY9Iz+oz0jUj9b5+mCPu
+ otUS/45nd6+EA2s1eyEMxsANeSeZiEcRRI8ri/nqpaXUFsO3aw/QzgiqXAJmY0OuG0Oz
+ t/1W8DajLrBOC6ZXsvPje2NO5JONEfE01hCRhKR5HfjVmIcmRRwEDVGhQIc8+ptKbt4/
+ 5hfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dcF8WTJf1FdsqtK7JaRa15A8rHmVQlOZFjgElD0eE3c=;
+ b=rC7ioGkct4rpRyjwb83ySyYfl3lWhIPglX4DwhLRKpdsXkrIr/DxTxhW4t7tkr10k+
+ ParUR7TAWjNOsQM3tM9LwUgquOa0myCqZdtRwo6cpw3OjNxIMw3ZNKUzoi0BnAZQEKHM
+ fdJ8hX6JDRCMIT4M3stTvIltRVjHAf3/NCYyVdrGF+A7ZLNMPFRTASR7JBJ1cRsaVj7G
+ 15Lf5zHnK7MM3YtpPNkBT8e+3fTSw7cp3RxK50sNAGumVw5mxi6Q8eK6NmiEgSGIiu14
+ kr0RGOv+54k8sxL+AaaIG8eD882vKbJ742AW1TRj7IGGnZ+U6ONDzNzxirv6JuLOUQN0
+ Zjmw==
+X-Gm-Message-State: APjAAAXiTKiOrNmpCwaWyiFi5ReBzb+2NmHlKNmBfgmmIgdxGU9I58dQ
+ Gtr1oX6OOdXNJhK4KnAeiGxutg==
+X-Google-Smtp-Source: APXvYqxkYF/neM1b7MxNLc4sqqTjzltzXLWjA1tFjKhep/c+/a0LY9L6s9z0GgZDd1FHhwsTbYn3vw==
+X-Received: by 2002:a62:e916:: with SMTP id j22mr2866488pfh.210.1569342606374; 
+ Tue, 24 Sep 2019 09:30:06 -0700 (PDT)
+Received: from [172.20.32.216] ([12.206.46.59])
+ by smtp.gmail.com with ESMTPSA id q204sm5751112pfq.176.2019.09.24.09.30.04
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 24 Sep 2019 09:30:05 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PATCH 2/4] Memory: Enable writeback for given
+ memory region
+To: Beata Michalska <beata.michalska@linaro.org>, qemu-devel@nongnu.org
+References: <20190910095610.4546-1-beata.michalska@linaro.org>
+ <20190910095610.4546-3-beata.michalska@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <e5e66d9c-16ee-a700-7608-69ec19c32b47@linaro.org>
+Date: Tue, 24 Sep 2019 09:30:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <16bab4bf-b91e-ef0c-2d22-53538f74cfc4@redhat.com>
+In-Reply-To: <20190910095610.4546-3-beata.michalska@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 24 Sep 2019 17:12:55 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,76 +84,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: peter.maydell@linaro.org, quintela@redhat.com, dgilbert@redhat.com,
+ shameerali.kolothum.thodi@huawei.com, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/24/19 11:32, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 9/23/19 11:46 PM, Peter Maydell wrote:
->> On Fri, 20 Sep 2019 at 23:23, Alistair Francis <alistair23@gmail.com> =
-wrote:
->>> On Thu, Sep 19, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>>> I don't think we should mirror what is used on ARM virt board to
->>>> create 2 flash for sifive_u. For ARM virt, there are 2 flashes becau=
-se
->>>> they need distinguish secure and non-secure. For sifive_u, only one =
-is
->>>> enough.
->>>
->>> I went back and forward about 1 or 2. Two seems more usable as maybe
->>> someone wants to include two pflash files? The Xilinx machine also ha=
-s
->>> two so I'm kind of used to 2, but I'm not really fussed.
->=20
-> The Xilinx machine has 2 because it matches the hardware.
->=20
->> One of the reasons for having 2 on the Arm board (we do this
->> even if we're not supporting secure vs non-secure) is that
->> then you can use one for a fixed read-only BIOS image (backed
->> by a file on the host filesystem shared between all VMs), and
->> one backed by a read-write per-VM file providing permanent
->> storage for BIOS environment variables. Notably UEFI likes to
->> work this way, but the idea applies in theory to other
->> boot loader or BIOSes I guess.
->=20
-> IIRC Laszlo's explanation, the only reason it is that way is because th=
-e
-> pflash_cfi01 model still doesn't implement sector locking. At the OVMF
-> emerged from EDK2, to have a safe ROM vs DATA storage it was decided to
-> use 2 different flashes.
-> When I understood when this config layout started, I suggested Laszlo t=
-o
-> use a real ROM to store the OVMF CODE since it is pointless to do
-> firmware upgrade in virtualized environment, but he said it was too lat=
-e
-> to change the design.
+On 9/10/19 2:56 AM, Beata Michalska wrote:
+> +void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length);
+> +
+> +/* Clear whole block of mem */
+> +#define qemu_ram_block_writeback(rb)    \
+> +    qemu_ram_writeback(rb, 0, rb->used_length)
+> +
 
-Right, at that point I couldn't see how "-bios" *plus* "-pflash" could
-have worked. In chronological order (for OVMF anyway), there was -bios,
-then -pflash (R/W), then (with some QEMU changes) two -pflash flags (R/O
-+ R/W, which OVMF wouldn't tell apart from the single R/W -pflash).
+Inline function, with its typechecking, is preferred.
 
-Thanks
-Laszlo
 
->=20
-> If you don't plan to run UEFI "Capsule Update" on your Virt board, I
-> suggest using memory_region_init_rom() with your firmware CODE, and a
-> parallel/SPI flash for the data VARStore.
->=20
->> I would suggest also checking with Markus that your code
->> for instantiating the flash devices follows the current
->> recommendations so the backing storage can be configured
->> via -blockdev. (This is a fairly recent change from June or
->> so; current-in-master virt and sbsa boards provide an example
->> of doing the right thing, I think.)
->>
->> thanks
->> -- PMM
->>
-
+r~
 
