@@ -2,63 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A900EBCAD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:06:03 +0200 (CEST)
-Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB73EBCADA
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:07:49 +0200 (CEST)
+Received: from localhost ([::1]:46776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmOA-0007JH-07
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:06:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
+	id 1iCmPs-0001WO-7Y
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34503)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nsoffer@redhat.com>) id 1iClBs-0002ds-I0
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:49:17 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iClGS-0008FH-5Q
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:54:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nsoffer@redhat.com>) id 1iClBq-0002UV-96
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:49:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44732)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1iClBp-0002SI-Of
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:49:13 -0400
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D75E9C049E36
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 13:49:11 +0000 (UTC)
-Received: by mail-ot1-f69.google.com with SMTP id y24so1186034otk.15
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:49:11 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1iClGP-00059b-LM
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:53:59 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54233)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iClGP-000594-Em
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:53:57 -0400
+Received: by mail-wm1-x341.google.com with SMTP id i16so184835wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RUHp7JYd4wQ3BQlGDLYgUTpWw1waURP2ZKnZ4+RWTAE=;
+ b=iIEIjxjPQRjdKpL7ob2eV2MK8LWt3Nb/YFfa7IsCUvYdRu+9v4JFBARiqCeW979S9v
+ GfjT+4YAF7f8LMycIzZk1KIzFZ8g8b0AxJLrKzX+i0nA5HeCva6sPtKYEEbB1J3eAGXQ
+ M8WX4ZgY5e7/51d2/cw+qrJ25U7RnXAFBQiu55QiSx6RleqPrSiFBKq7dN/HK0RAxgjS
+ x/xdFqs8ay4z0aho8FpiBwDSd88BPzz4NGbbYjQclGkGbgMELYYodFyMyfo6eSuAlgL8
+ 7z9Oql/1HSAlWSX+Z+07C+ts3JcxhDgC3jNq7hDFG4ZUf4ezfspJczDtttx+dTM0Dz1V
+ 3cWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Yd3R6KSv5z7jZ1WUYszFA0z9StOa+OrPRSmgLR2t9PU=;
- b=hctG46UeJUajcDCNmWwJKgJylnj2cjvrVONrZysqo4+uEzgwtLCNuM7uhE7EICobuj
- VZ4nxNodnJRW8OvHabluTdFc02G3PCZymraylS7P/Jkubv2SttS4gZIZV2G7MTzgINFE
- Yjz7YdWFbWbgESZgcc0NC+jgsF42eIfgNlrptiaT4M2l0K3SmaTa0WVbQ6+jN++gMXiP
- gxPB8t81vNGu49kpCvWJCwFjsVdJThBKTLCGp53E1ppX4GGjftufGPnavf2dNNKLnj2t
- xJZm93n8UlMkHNkovdpfjPSzPNsgTsR2CX91HVIQYkonD2mPi7XDtCbXzMfc0G9317YH
- HnXA==
-X-Gm-Message-State: APjAAAXsw4meq4jXGFatNfSjW2BQK7RROqZY7b55qhULr+QhFFpFsB4T
- UbSu93/M2CR49M8zHo6QWi1+3WlZlh+8AwcH+yufAdRjVg9sLOOkYeh70sj0IzJY8Hu8pGrLr5I
- uxMXjwo8Ny0x6k3RPnVgHOkitN6yEK8s=
-X-Received: by 2002:aca:f456:: with SMTP id s83mr106686oih.156.1569332951330; 
- Tue, 24 Sep 2019 06:49:11 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqylG/KuhqyuxsKHVEQ+dO8HDpKvfugm7aGA5aU3lDU0EAbAg7V4NUAE36y4HiyHrkyfrn6jJoUOS218pVOcf5s=
-X-Received: by 2002:aca:f456:: with SMTP id s83mr106664oih.156.1569332951026; 
- Tue, 24 Sep 2019 06:49:11 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=RUHp7JYd4wQ3BQlGDLYgUTpWw1waURP2ZKnZ4+RWTAE=;
+ b=pJOOcXNCIRRkuaOJtQzEz1IeBr3d3Ch7AzELs3i2rRw7TDanakmH58Ktla03D+0Q/C
+ X8t7QiMk2ExUd1LomFXn9KSioyUKLBPEEMipErAu/Q7127oBKFQwQbt4jASjploNiMKj
+ lqVvRY2voNyM5kttOH9xnF9rAwUc6g5EIy7ZApE466ajatjVS/M5DA8Iw9boxPiG/E5K
+ Y7TUdDNHvULomxG3mkpByTutGva+8duoNF96Ft7LjmMg9DxmF7fN8EdH3Z8JBuvBeePL
+ 9fgNC+KuMcmGBCkLR5RdmZ1knvFE4bc/Zan7vKKt2izr3n8Js52LHowSfcjFY9blorLG
+ JdTg==
+X-Gm-Message-State: APjAAAW6gDiIeZSfARS7TkykjuXYLcHNlFFyxgTXyH8g7xC4U7+D3Fvz
+ oxndonspwFpobB9LkkzXmdbmtA==
+X-Google-Smtp-Source: APXvYqwH/ga7kqntKyTDB8SyinpVbPsL+Sk0kh4Dl8BWsfEr0IlRVw3VOxv57QyZ0isx16XiPkMK6Q==
+X-Received: by 2002:a7b:c108:: with SMTP id w8mr162782wmi.8.1569333235704;
+ Tue, 24 Sep 2019 06:53:55 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v16sm1656883wrt.12.2019.09.24.06.53.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 06:53:55 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 538D51FF87;
+ Tue, 24 Sep 2019 14:53:54 +0100 (BST)
+References: <20190923230004.9231-1-richard.henderson@linaro.org>
+ <20190923230004.9231-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 01/16] exec: Use TARGET_PAGE_BITS_MIN for TLB flags
+In-reply-to: <20190923230004.9231-2-richard.henderson@linaro.org>
+Date: Tue, 24 Sep 2019 14:53:54 +0100
+Message-ID: <87a7atby19.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20190924123933.10607-1-eblake@redhat.com>
- <20190924123933.10607-5-eblake@redhat.com>
-In-Reply-To: <20190924123933.10607-5-eblake@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Tue, 24 Sep 2019 16:49:00 +0300
-Message-ID: <CAMRbyyuwaRPgO0G5Jj8_tFO+rGbMi_F0V3JuQR-0qU3BAEoEJQ@mail.gmail.com>
-Subject: Re: [PULL 4/4] tests: Use iothreads during iotest 223
-To: Eric Blake <eblake@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000014ac9a05934ccdf2"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,177 +82,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000014ac9a05934ccdf2
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 24, 2019 at 4:18 PM Eric Blake <eblake@redhat.com> wrote:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Doing so catches the bugs we just fixed with NBD not properly using
-> correct contexts.
+> These bits do not need to vary with the actual page size
+> used by the guest.
 >
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> Message-Id: <20190920220729.31801-1-eblake@redhat.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->  tests/qemu-iotests/223     | 6 ++++--
->  tests/qemu-iotests/223.out | 1 +
->  2 files changed, 5 insertions(+), 2 deletions(-)
+>  include/exec/cpu-all.h | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 >
-> diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-> index cc48e78ea7dc..2ba3d8124b4f 100755
-> --- a/tests/qemu-iotests/223
-> +++ b/tests/qemu-iotests/223
-> @@ -2,7 +2,7 @@
->  #
->  # Test reading dirty bitmap over NBD
->  #
-> -# Copyright (C) 2018 Red Hat, Inc.
-> +# Copyright (C) 2018-2019 Red Hat, Inc.
->  #
->  # This program is free software; you can redistribute it and/or modify
->  # it under the terms of the GNU General Public License as published by
-> @@ -109,7 +109,7 @@ echo
->  echo "=== End dirty bitmaps, and start serving image over NBD ==="
->  echo
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index d2d443c4f9..e0c8dc540c 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -317,20 +317,24 @@ CPUArchState *cpu_copy(CPUArchState *env);
 >
-> -_launch_qemu 2> >(_filter_nbd)
-> +_launch_qemu -object iothread,id=io0 2> >(_filter_nbd)
+>  #if !defined(CONFIG_USER_ONLY)
 >
-
-But now we will not catch bugs in flows that do not use iothreads.
-
-I think it will be better to run this test twice, one with iothreads, one
-without.
-
- # Intentionally provoke some errors as well, to check error handling
->  silent=
-> @@ -117,6 +117,8 @@ _send_qemu_cmd $QEMU_HANDLE
-> '{"execute":"qmp_capabilities"}' "return"
->  _send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
->    "arguments":{"driver":"qcow2", "node-name":"n",
->      "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
-> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
-> +  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
->  _send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-disable",
->    "arguments":{"node":"n", "name":"b"}}' "return"
->  _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
-> diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-> index 5d00398c11cb..23b34fcd202e 100644
-> --- a/tests/qemu-iotests/223.out
-> +++ b/tests/qemu-iotests/223.out
-> @@ -27,6 +27,7 @@ wrote 2097152/2097152 bytes at offset 2097152
->  {"return": {}}
->  {"return": {}}
->  {"return": {}}
-> +{"return": {}}
->  {"error": {"class": "GenericError", "desc": "NBD server not running"}}
->  {"return": {}}
->  {"error": {"class": "GenericError", "desc": "NBD server already running"}}
-> --
-> 2.21.0
+> -/* Flags stored in the low bits of the TLB virtual address.  These are
+> - * defined so that fast path ram access is all zeros.
+> +/*
+> + * Flags stored in the low bits of the TLB virtual address.
+> + * These are defined so that fast path ram access is all zeros.
+>   * The flags all must be between TARGET_PAGE_BITS and
+>   * maximum address alignment bit.
+> + *
+> + * Use TARGET_PAGE_BITS_MIN so that these bits are constant
+> + * when TARGET_PAGE_BITS_VARY is in effect.
+>   */
+>  /* Zero if TLB entry is valid.  */
+> -#define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS - 1))
+> +#define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS_MIN - 1))
+>  /* Set if TLB entry references a clean RAM page.  The iotlb entry will
+>     contain the page physical address.  */
+> -#define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS - 2))
+> +#define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS_MIN - 2))
+>  /* Set if TLB entry is an IO callback.  */
+> -#define TLB_MMIO            (1 << (TARGET_PAGE_BITS - 3))
+> +#define TLB_MMIO            (1 << (TARGET_PAGE_BITS_MIN - 3))
+>  /* Set if TLB entry contains a watchpoint.  */
+> -#define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS - 4))
+> +#define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS_MIN - 4))
 >
->
->
+>  /* Use this mask to check interception with an alignment mask
+>   * in a TCG backend.
 
---00000000000014ac9a05934ccdf2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small;color:#000000"><span style=3D"color:rgb(34,34,34)">On Tue, Sep=
- 24, 2019 at 4:18 PM Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com">eb=
-lake@redhat.com</a>&gt; wrote:</span><br></div></div><div class=3D"gmail_qu=
-ote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">Doing so catches the=
- bugs we just fixed with NBD not properly using<br>
-correct contexts.<br>
-<br>
-Signed-off-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=
-=3D"_blank">eblake@redhat.com</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20190920220729.31801-1-eblake@redhat.com"=
- target=3D"_blank">20190920220729.31801-1-eblake@redhat.com</a>&gt;<br>
----<br>
-=C2=A0tests/qemu-iotests/223=C2=A0 =C2=A0 =C2=A0| 6 ++++--<br>
-=C2=A0tests/qemu-iotests/223.out | 1 +<br>
-=C2=A02 files changed, 5 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223<br>
-index cc48e78ea7dc..2ba3d8124b4f 100755<br>
---- a/tests/qemu-iotests/223<br>
-+++ b/tests/qemu-iotests/223<br>
-@@ -2,7 +2,7 @@<br>
-=C2=A0#<br>
-=C2=A0# Test reading dirty bitmap over NBD<br>
-=C2=A0#<br>
--# Copyright (C) 2018 Red Hat, Inc.<br>
-+# Copyright (C) 2018-2019 Red Hat, Inc.<br>
-=C2=A0#<br>
-=C2=A0# This program is free software; you can redistribute it and/or modif=
-y<br>
-=C2=A0# it under the terms of the GNU General Public License as published b=
-y<br>
-@@ -109,7 +109,7 @@ echo<br>
-=C2=A0echo &quot;=3D=3D=3D End dirty bitmaps, and start serving image over =
-NBD =3D=3D=3D&quot;<br>
-=C2=A0echo<br>
-<br>
--_launch_qemu 2&gt; &gt;(_filter_nbd)<br>
-+_launch_qemu -object iothread,id=3Dio0 2&gt; &gt;(_filter_nbd)<br></blockq=
-uote><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:sm=
-all;color:rgb(0,0,0)">But now we will not catch bugs in flows that do not u=
-se iothreads.</div><div class=3D"gmail_default" style=3D"font-size:small;co=
-lor:rgb(0,0,0)"><br></div><div class=3D"gmail_default" style=3D"font-size:s=
-mall;color:rgb(0,0,0)">I think it will be better to run this test twice, on=
-e with iothreads, one without.</div></div><div class=3D"gmail_default" styl=
-e=3D"font-size:small;color:rgb(0,0,0)"><br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-=C2=A0# Intentionally provoke some errors as well, to check error handling<=
-br>
-=C2=A0silent=3D<br>
-@@ -117,6 +117,8 @@ _send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&=
-quot;qmp_capabilities&quot;}&#39; &quot;return&quot;<br>
-=C2=A0_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;blockdev-=
-add&quot;,<br>
-=C2=A0 =C2=A0&quot;arguments&quot;:{&quot;driver&quot;:&quot;qcow2&quot;, &=
-quot;node-name&quot;:&quot;n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;file&quot;:{&quot;driver&quot;:&quot;file&quot;, =
-&quot;filename&quot;:&quot;&#39;&quot;$TEST_IMG&quot;&#39;&quot;}}}&#39; &q=
-uot;return&quot;<br>
-+_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;x-blockdev-set=
--iothread&quot;,<br>
-+=C2=A0 &quot;arguments&quot;:{&quot;node-name&quot;:&quot;n&quot;, &quot;i=
-othread&quot;:&quot;io0&quot;}}&#39; &quot;return&quot;<br>
-=C2=A0_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;block-dir=
-ty-bitmap-disable&quot;,<br>
-=C2=A0 =C2=A0&quot;arguments&quot;:{&quot;node&quot;:&quot;n&quot;, &quot;n=
-ame&quot;:&quot;b&quot;}}&#39; &quot;return&quot;<br>
-=C2=A0_send_qemu_cmd $QEMU_HANDLE &#39;{&quot;execute&quot;:&quot;nbd-serve=
-r-add&quot;,<br>
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out<br>
-index 5d00398c11cb..23b34fcd202e 100644<br>
---- a/tests/qemu-iotests/223.out<br>
-+++ b/tests/qemu-iotests/223.out<br>
-@@ -27,6 +27,7 @@ wrote 2097152/2097152 bytes at offset 2097152<br>
-=C2=A0{&quot;return&quot;: {}}<br>
-=C2=A0{&quot;return&quot;: {}}<br>
-=C2=A0{&quot;return&quot;: {}}<br>
-+{&quot;return&quot;: {}}<br>
-=C2=A0{&quot;error&quot;: {&quot;class&quot;: &quot;GenericError&quot;, &qu=
-ot;desc&quot;: &quot;NBD server not running&quot;}}<br>
-=C2=A0{&quot;return&quot;: {}}<br>
-=C2=A0{&quot;error&quot;: {&quot;class&quot;: &quot;GenericError&quot;, &qu=
-ot;desc&quot;: &quot;NBD server already running&quot;}}<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote></div></div>
-
---00000000000014ac9a05934ccdf2--
+--
+Alex Benn=C3=A9e
 
