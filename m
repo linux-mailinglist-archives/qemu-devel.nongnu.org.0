@@ -2,77 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A24BCB66
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:29:56 +0200 (CEST)
-Received: from localhost ([::1]:47136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01146BCB5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:27:30 +0200 (CEST)
+Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmlG-0005ma-AO
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41524)
+	id 1iCmiu-0003KM-9o
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:27:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iClyc-000056-FZ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:39:39 -0400
+ (envelope-from <guoheyi@huawei.com>) id 1iCmf6-0001EB-84
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iClya-0006Wm-Cc
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:39:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42724)
+ (envelope-from <guoheyi@huawei.com>) id 1iCmf4-0006iT-7e
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:31 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2242 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iClya-0006V7-3h
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:39:36 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5DC8A30043E1;
- Tue, 24 Sep 2019 14:39:35 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4FB64503;
- Tue, 24 Sep 2019 14:39:32 +0000 (UTC)
-Subject: Re: [PATCH 01/25] qapi: Tighten QAPISchemaFOO.check() assertions
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-2-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <d71d1b04-42dc-9d9b-d37d-53db2ec867b8@redhat.com>
-Date: Tue, 24 Sep 2019 09:39:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
+ id 1iCmf0-0006fs-PO; Tue, 24 Sep 2019 11:23:27 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 532B4BCC54BC3747BF23;
+ Tue, 24 Sep 2019 23:23:22 +0800 (CST)
+Received: from linux-Bxxcye.huawei.com (10.175.104.222) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 24 Sep 2019 23:23:14 +0800
+From: Heyi Guo <guoheyi@huawei.com>
+To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
+ <linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.cs.columbia.edu>
+Subject: [RFC PATCH 01/12] linux-headers: import arm_sdei.h
+Date: Tue, 24 Sep 2019 23:21:40 +0800
+Message-ID: <1569338511-3572-2-git-send-email-guoheyi@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-2-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="vRUGrVcOAcwi1rNjSk5gDDN1AQJ8ItlG4"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 24 Sep 2019 14:39:35 +0000 (UTC)
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.222]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,93 +52,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ Cornelia Huck <cohuck@redhat.com>, James Morse <james.morse@arm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
+ wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---vRUGrVcOAcwi1rNjSk5gDDN1AQJ8ItlG4
-Content-Type: multipart/mixed; boundary="VcKfzK3hybY64pGZyobMFdXzoyks88FU4";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <d71d1b04-42dc-9d9b-d37d-53db2ec867b8@redhat.com>
-Subject: Re: [PATCH 01/25] qapi: Tighten QAPISchemaFOO.check() assertions
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-2-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-2-armbru@redhat.com>
+Import Linux header file include/uapi/linux/arm_sdei.h from kernel
+v5.3 release.
 
---VcKfzK3hybY64pGZyobMFdXzoyks88FU4
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This is to prepare for qemu SDEI emulation.
 
-On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> When we introduced the QAPISchema intermediate representation (commit
-> ac88219a6c7), we took a shortcut: we left check_exprs() & friends
-> alone instead of moving semantic checks into the
-> QAPISchemaFOO.check().  check_exprs() still checks and reports errors,
-> and the .check() assert check_exprs() did the job.  There are a few
-> gaps, though.
->=20
-> QAPISchemaArrayType.check() neglects to assert the element type is not
-> an array.  Add the assertion.
->=20
-> QAPISchemaObjectTypeVariants.check() neglects to assert the tag member
-> is not optional.  Add the assertion.
->=20
-> It neglects to assert the tag member is not conditional.  Add the
-> assertion.
->=20
-> It neglects to assert we actually have variants.  Add the assertion.
->=20
-> It asserts the variants are object types, but neglects to assert they
-> don't have variants.  Tighten the assertion.
->=20
-> QAPISchemaObjectTypeVariants.check_clash() has the same issue.
-> However, it can run only after .check().  Delete the assertion instead
-> of tightening it.
->=20
-> QAPISchemaAlternateType.check() neglects to assert the branch types
-> don't conflict.  Fixing that isn't trivial, so add just a TODO comment
-> for now.  It'll be resolved later in this series.
+Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Dave Martin <Dave.Martin@arm.com>
+Cc: Marc Zyngier <marc.zyngier@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: James Morse <james.morse@arm.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+---
+ linux-headers/linux/arm_sdei.h | 73 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 linux-headers/linux/arm_sdei.h
 
-I'm guessing you found these by deleting check_exprs() and seeing what
-failed due to inadequate .check()
+diff --git a/linux-headers/linux/arm_sdei.h b/linux-headers/linux/arm_sdei.h
+new file mode 100644
+index 0000000..af0630b
+--- /dev/null
++++ b/linux-headers/linux/arm_sdei.h
+@@ -0,0 +1,73 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/* Copyright (C) 2017 Arm Ltd. */
++#ifndef _UAPI_LINUX_ARM_SDEI_H
++#define _UAPI_LINUX_ARM_SDEI_H
++
++#define SDEI_1_0_FN_BASE			0xC4000020
++#define SDEI_1_0_MASK				0xFFFFFFE0
++#define SDEI_1_0_FN(n)				(SDEI_1_0_FN_BASE + (n))
++
++#define SDEI_1_0_FN_SDEI_VERSION			SDEI_1_0_FN(0x00)
++#define SDEI_1_0_FN_SDEI_EVENT_REGISTER			SDEI_1_0_FN(0x01)
++#define SDEI_1_0_FN_SDEI_EVENT_ENABLE			SDEI_1_0_FN(0x02)
++#define SDEI_1_0_FN_SDEI_EVENT_DISABLE			SDEI_1_0_FN(0x03)
++#define SDEI_1_0_FN_SDEI_EVENT_CONTEXT			SDEI_1_0_FN(0x04)
++#define SDEI_1_0_FN_SDEI_EVENT_COMPLETE			SDEI_1_0_FN(0x05)
++#define SDEI_1_0_FN_SDEI_EVENT_COMPLETE_AND_RESUME	SDEI_1_0_FN(0x06)
++#define SDEI_1_0_FN_SDEI_EVENT_UNREGISTER		SDEI_1_0_FN(0x07)
++#define SDEI_1_0_FN_SDEI_EVENT_STATUS			SDEI_1_0_FN(0x08)
++#define SDEI_1_0_FN_SDEI_EVENT_GET_INFO			SDEI_1_0_FN(0x09)
++#define SDEI_1_0_FN_SDEI_EVENT_ROUTING_SET		SDEI_1_0_FN(0x0A)
++#define SDEI_1_0_FN_SDEI_PE_MASK			SDEI_1_0_FN(0x0B)
++#define SDEI_1_0_FN_SDEI_PE_UNMASK			SDEI_1_0_FN(0x0C)
++#define SDEI_1_0_FN_SDEI_INTERRUPT_BIND			SDEI_1_0_FN(0x0D)
++#define SDEI_1_0_FN_SDEI_INTERRUPT_RELEASE		SDEI_1_0_FN(0x0E)
++#define SDEI_1_0_FN_SDEI_PRIVATE_RESET			SDEI_1_0_FN(0x11)
++#define SDEI_1_0_FN_SDEI_SHARED_RESET			SDEI_1_0_FN(0x12)
++
++#define SDEI_VERSION_MAJOR_SHIFT			48
++#define SDEI_VERSION_MAJOR_MASK				0x7fff
++#define SDEI_VERSION_MINOR_SHIFT			32
++#define SDEI_VERSION_MINOR_MASK				0xffff
++#define SDEI_VERSION_VENDOR_SHIFT			0
++#define SDEI_VERSION_VENDOR_MASK			0xffffffff
++
++#define SDEI_VERSION_MAJOR(x)	(x>>SDEI_VERSION_MAJOR_SHIFT & SDEI_VERSION_MAJOR_MASK)
++#define SDEI_VERSION_MINOR(x)	(x>>SDEI_VERSION_MINOR_SHIFT & SDEI_VERSION_MINOR_MASK)
++#define SDEI_VERSION_VENDOR(x)	(x>>SDEI_VERSION_VENDOR_SHIFT & SDEI_VERSION_VENDOR_MASK)
++
++/* SDEI return values */
++#define SDEI_SUCCESS		0
++#define SDEI_NOT_SUPPORTED	-1
++#define SDEI_INVALID_PARAMETERS	-2
++#define SDEI_DENIED		-3
++#define SDEI_PENDING		-5
++#define SDEI_OUT_OF_RESOURCE	-10
++
++/* EVENT_REGISTER flags */
++#define SDEI_EVENT_REGISTER_RM_ANY	0
++#define SDEI_EVENT_REGISTER_RM_PE	1
++
++/* EVENT_STATUS return value bits */
++#define SDEI_EVENT_STATUS_RUNNING	2
++#define SDEI_EVENT_STATUS_ENABLED	1
++#define SDEI_EVENT_STATUS_REGISTERED	0
++
++/* EVENT_COMPLETE status values */
++#define SDEI_EV_HANDLED	0
++#define SDEI_EV_FAILED	1
++
++/* GET_INFO values */
++#define SDEI_EVENT_INFO_EV_TYPE			0
++#define SDEI_EVENT_INFO_EV_SIGNALED		1
++#define SDEI_EVENT_INFO_EV_PRIORITY		2
++#define SDEI_EVENT_INFO_EV_ROUTING_MODE		3
++#define SDEI_EVENT_INFO_EV_ROUTING_AFF		4
++
++/* and their results */
++#define SDEI_EVENT_TYPE_PRIVATE			0
++#define SDEI_EVENT_TYPE_SHARED			1
++#define SDEI_EVENT_PRIORITY_NORMAL		0
++#define SDEI_EVENT_PRIORITY_CRITICAL		1
++
++#endif /* _UAPI_LINUX_ARM_SDEI_H */
+-- 
+1.8.3.1
 
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  scripts/qapi/common.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---VcKfzK3hybY64pGZyobMFdXzoyks88FU4--
-
---vRUGrVcOAcwi1rNjSk5gDDN1AQJ8ItlG4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KKqMACgkQp6FrSiUn
-Q2oelAf+OVFZA3aCE+6T+4PEeAQNcfTeTzQaZZD/dURBk8fdIg7d0ba03QYi9hTP
-KcWZn41EMzXFi7E4ylb8zjqB3bPoCw7XLZ13F3nmp+cWMN0rMCivB6wLclCZ7Nwc
-m/wxcOJIVMe8RL6qO+ZlOM8OslIbyNdwEvcH6Sepswf2BzZi0scfxrNwHutO/vd/
-vkcK6lMf6Tr242QnaNpOXgdNLt36EMcrSgsBUu71cf0GgCBZcLUj1iZRi6WZQRMU
-UEt62pWJi9CPy8gDBHV7JE21DRmahfoiOdNizICEAkc6eQhs0ABM0ZOWU1DZ8d5T
-K5AIMfFUer+LvNHsKcPWMoz9ODYx9A==
-=Evxl
------END PGP SIGNATURE-----
-
---vRUGrVcOAcwi1rNjSk5gDDN1AQJ8ItlG4--
 
