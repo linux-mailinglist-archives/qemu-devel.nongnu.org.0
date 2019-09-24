@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF631BCBEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:53:46 +0200 (CEST)
-Received: from localhost ([::1]:47508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D691CBCBF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:58:37 +0200 (CEST)
+Received: from localhost ([::1]:47610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCn8L-0005qH-2k
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49223)
+	id 1iCnD1-0001eC-C4
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iCmkJ-0006Ph-1K
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:28:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCmlG-0007Hb-1W
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:29:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iCmkH-0008S7-KP
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:28:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59664)
+ (envelope-from <eblake@redhat.com>) id 1iCmlE-0000Ki-HN
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:29:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35298)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCmkH-0008Rt-FQ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:28:53 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iCml6-0000I2-FI; Tue, 24 Sep 2019 11:29:44 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 70B5E61D25
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:28:52 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id r21so193870wme.5
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:28:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u34+nYWV7mjyL83tYY3SBkBCSHfmr4/0yuzhRqpY+/U=;
- b=C6fT1oSp35sbF4bXTO8SA75/4qrZmOqvaCI73becdokijr1B0YrPoyWCqqoHaZGvr9
- ZdOrDNFuHCPmjlOBIrocyjFQ8Q2gq2o5InrY8yQcfiU34NOpAIxRyT/vOrRX3Prv9bWe
- LYlIR8MUyI0v/8Msx59sD1GqsiTUYOa35bR5456ry48E2jFHZFWDkGa8xZtmTRL9FyTp
- ZTzRJ5lK5I2/t08Eybiu0VdnpYWToVGyuK+QG6z9uApFWMVGvjr4qqoXUQ/+Tvz5SA6S
- 3KZMY3wlHntSaq2o9jOaVKG8PgSy9sDzWqRPM6V2hOGPskvT4qK7QhynEg8EN2EwqIAN
- rYcg==
-X-Gm-Message-State: APjAAAWU2toKRiVkt/A7AN7/B3PKqiAhOcOb1cPK+du/T3YgfQ70xGSr
- 3TsZ85QyjAtMBPvq3K5U2GzU6eorQ1SaXsMa2CF3tzZIIw0FS0ZxM0zayvtjM3i1gzZ3pbXWcAd
- YnH73jaDghMf5ydY=
-X-Received: by 2002:adf:f708:: with SMTP id r8mr2841707wrp.187.1569338930955; 
- Tue, 24 Sep 2019 08:28:50 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzQSUn+XtPrMw8u3vvNWkU9tlKiZ9m/5P70EhI5jPlhgCTC7UmvM2HAjarNvrgcAk7ogV+CWQ==
-X-Received: by 2002:adf:f708:: with SMTP id r8mr2841680wrp.187.1569338930741; 
- Tue, 24 Sep 2019 08:28:50 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id y14sm3130854wrd.84.2019.09.24.08.28.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Sep 2019 08:28:49 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] edk2 build scripts: eliminate python 2 dependency
-To: John Snow <jsnow@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
-References: <20190920083808.21399-1-lersek@redhat.com>
- <364077b0-455a-b65a-dbc8-a8b0409c287e@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <3cfa97be-ab31-ece1-40e0-af6f5b07b574@redhat.com>
-Date: Tue, 24 Sep 2019 17:28:49 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id E0637C069B4B;
+ Tue, 24 Sep 2019 15:29:40 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D57860BFB;
+ Tue, 24 Sep 2019 15:28:53 +0000 (UTC)
+Subject: Re: [RFC v2 0/9] error: auto propagated local_err
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190923161231.22028-1-vsementsov@virtuozzo.com>
+ <d1527fdc-b5e8-093a-9206-6f7ceeece2ac@redhat.com>
+ <84c9e5dd-3e0f-94e1-5da1-2c7baa594bf1@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <22191b09-822a-1f54-dcaa-3726c833805b@redhat.com>
+Date: Tue, 24 Sep 2019 10:28:52 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <364077b0-455a-b65a-dbc8-a8b0409c287e@redhat.com>
+In-Reply-To: <84c9e5dd-3e0f-94e1-5da1-2c7baa594bf1@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Tue, 24 Sep 2019 15:29:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,46 +86,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: "stefanha@redhat.com" <stefanha@redhat.com>,
+ "codyprime@gmail.com" <codyprime@gmail.com>,
+ "jan.kiszka@siemens.com" <jan.kiszka@siemens.com>,
+ "berto@igalia.com" <berto@igalia.com>,
+ "zhang.zhanghailiang@huawei.com" <zhang.zhanghailiang@huawei.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "arikalo@wavecomp.com" <arikalo@wavecomp.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "hpoussin@reactos.org" <hpoussin@reactos.org>,
+ "anthony.perard@citrix.com" <anthony.perard@citrix.com>,
+ "samuel.thibault@ens-lyon.org" <samuel.thibault@ens-lyon.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "green@moxielogic.com" <green@moxielogic.com>,
+ "lvivier@redhat.com" <lvivier@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
+ "pl@kamp.de" <pl@kamp.de>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "b.galvani@gmail.com" <b.galvani@gmail.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "ronniesahlberg@gmail.com" <ronniesahlberg@gmail.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>,
+ "kwolf@redhat.com" <kwolf@redhat.com>, "andrew@aj.id.au" <andrew@aj.id.au>,
+ "crwulff@gmail.com" <crwulff@gmail.com>,
+ "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
+ "michael@walle.cc" <michael@walle.cc>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "sheepdog@lists.wpkg.org" <sheepdog@lists.wpkg.org>,
+ "david@redhat.com" <david@redhat.com>, "palmer@sifive.com" <palmer@sifive.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>, "hare@suse.com" <hare@suse.com>,
+ "sstabellini@kernel.org" <sstabellini@kernel.org>,
+ "arei.gonglei@huawei.com" <arei.gonglei@huawei.com>,
+ "namei.unix@gmail.com" <namei.unix@gmail.com>,
+ "atar4qemu@gmail.com" <atar4qemu@gmail.com>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "amit@kernel.org" <amit@kernel.org>, "sw@weilnetz.de" <sw@weilnetz.de>,
+ "groug@kaod.org" <groug@kaod.org>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "peter.chubb@nicta.com.au" <peter.chubb@nicta.com.au>,
+ "clg@kaod.org" <clg@kaod.org>, "shorne@gmail.com" <shorne@gmail.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>,
+ "pburton@wavecomp.com" <pburton@wavecomp.com>,
+ "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>,
+ "gxt@mprc.pku.edu.cn" <gxt@mprc.pku.edu.cn>, "ari@tuxera.com" <ari@tuxera.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "lersek@redhat.com" <lersek@redhat.com>,
+ "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+ "antonynpavlov@gmail.com" <antonynpavlov@gmail.com>,
+ "dillaman@redhat.com" <dillaman@redhat.com>, "joel@jms.id.au" <joel@jms.id.au>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "integration@gluster.org" <integration@gluster.org>,
+ "rjones@redhat.com" <rjones@redhat.com>,
+ "Andrew.Baumann@microsoft.com" <Andrew.Baumann@microsoft.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "walling@linux.ibm.com" <walling@linux.ibm.com>,
+ Denis Lunev <den@virtuozzo.com>, "mst@redhat.com" <mst@redhat.com>,
+ "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
+ "v.maffione@gmail.com" <v.maffione@gmail.com>, "marex@denx.de" <marex@denx.de>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "alistair@alistair23.me" <alistair@alistair23.me>,
+ "paul.durrant@citrix.com" <paul.durrant@citrix.com>,
+ "pavel.dovgaluk@ispras.ru" <pavel.dovgaluk@ispras.ru>,
+ "g.lettieri@iet.unipi.it" <g.lettieri@iet.unipi.it>,
+ "rizzo@iet.unipi.it" <rizzo@iet.unipi.it>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
+ "pmorel@linux.ibm.com" <pmorel@linux.ibm.com>,
+ "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
+ "jcd@tribudubois.net" <jcd@tribudubois.net>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "stefanb@linux.ibm.com" <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/19 6:06 PM, John Snow wrote:
-> On 9/20/19 4:38 AM, Laszlo Ersek wrote:
->> v1 URL:
->> http://mid.mail-archive.com/20190918171141.15957-1-lersek@redhat.com
->>
->> Updates are noted on each patch.
->>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Cc: John Snow <jsnow@redhat.com>
->> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>
->> Thanks
->> Laszlo
->>
->> Laszlo Ersek (2):
->>   edk2 build scripts: honor external BaseTools flags with
->>     uefi-test-tools
->>   edk2 build scripts: work around TianoCore#1607 without forcing Pytho=
-n
->>     2
->>
->>  roms/Makefile                  |  1 +
->>  roms/edk2-build.sh             |  4 ++--
->>  roms/edk2-funcs.sh             | 17 +++++++++++++++++
->>  tests/uefi-test-tools/Makefile |  5 ++++-
->>  tests/uefi-test-tools/build.sh |  6 ++++--
->>  5 files changed, 28 insertions(+), 5 deletions(-)
->>
->=20
-> Thank you again!
->=20
-> I'm sure we'll find all of the rough spots during the rc process, so I
-> am quite content for now.
->=20
-> Reviewed-by: John Snow <jsnow@redhat.com>
->=20
+On 9/24/19 9:12 AM, Vladimir Sementsov-Ogievskiy wrote:
 
-Thanks, queued on edk2-next.
+>>> 3. What to do with huge auto-generated commit 07? Should I split it
+>>> per-maintainer or per-subsystem, or leave it as-is?
+>>
+>> It's big. I'd split it into multiple patches (and reduce the cc - except
+>> for the cover letter, the rest of the patches can be limited to the
+>> actual maintainer/subsystem affected rather than everyone involved
+>> anywhere else in the series. With the current large cc, anyone that
+>> replies gets several mail bounces about "too many recipients").  It may
+>> be easier to split along directory boundaries than by maintainer
+>> boundaries.  Markus has applied large tree-wide Coccinelle cleanups
+>> before, maybe he has some advice.
+> 
+> 
+> If split by subsystem it would be 200+ patches:
+> git diff --name-only | while read f; do scripts/get_maintainer.pl -f $f --subsystem --no-rolestats 2>/dev/null | grep -v @ | head -1; done | sort | uniq | wc -l
+> 205
+> 
+> 
+> Try to look at larger subsystem:
+> git diff --name-only | while read f; do scripts/get_maintainer.pl -f $f --subsystem --no-rolestats 2>/dev/null | grep -v @ | tail -2 | head -1; done | sort | uniq | wc -l
+> 139
+> 
+> still too many.. Or is it OK?
+
+Hmm - that becomes a tradeoff in length of the series (where individual
+patches may be reviewed fast, but where the overall process may be
+bogged down by sheer length), vs. length of individual emails (where the
+email itself is daunting, but as the review is mechanical and done by
+automation, it becomes a matter of spot-checking if we trust that the
+automation was done correctly).  You can probably group it in fewer
+patches, by joining smaller patches across a couple of subsystems.  It's
+an art form, there's probably several ways to do it that would work, and
+it comes down to a judgment call on how much work you want to do to try
+and reduce other's work in reviewing it.  Maybe even an off-hand split
+of gathering files until you reach about 500 or so lines per diff.  I
+wish I had easier advice on how to tackle this sort of project in the
+way that will get the fastest response time.
+
+
+>>>   vl.c                                          |  13 +-
+>>>   scripts/coccinelle/auto-propagated-errp.cocci |  82 +++++++
+>>>   319 files changed, 2729 insertions(+), 4245 deletions(-)
+>>>   create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
+>>
+>> The diffstat is huge, but promising.
+
+We also learned in reviews of 7/9 that the diffstat here is misleading,
+the number of insertions will definitely be increasing once the
+Coccinelle script is fixed to insert the macro in more functions, but
+hopefully it's still a net reduction in overall lines.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
