@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C726BCDFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:52:19 +0200 (CEST)
-Received: from localhost ([::1]:48408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D94BCE9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:58:43 +0200 (CEST)
+Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCo30-0002sn-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54823)
+	id 1iCo9C-0001zH-Eb
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55591)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCnC4-0002hR-Rn
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:57:38 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCnFQ-0004Ws-5r
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:01:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCnC3-0001M5-Qg
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:57:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46326)
+ (envelope-from <eblake@redhat.com>) id 1iCnFO-0003o7-Id
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:01:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55744)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCnC3-0001LY-Hj
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:57:35 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCnFO-0003lp-6f
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:01:02 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D84223D965;
- Tue, 24 Sep 2019 15:57:34 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 76E7CC057EC0;
+ Tue, 24 Sep 2019 16:01:01 +0000 (UTC)
 Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 776251001B3F;
- Tue, 24 Sep 2019 15:57:26 +0000 (UTC)
-Subject: Re: [PATCH 13/25] qapi: Make check_type()'s array case a bit more
- obvious
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 156DF19C58;
+ Tue, 24 Sep 2019 16:01:00 +0000 (UTC)
+Subject: Re: [PATCH 14/25] qapi: Plumb info to the QAPISchemaMember
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-14-armbru@redhat.com>
+ <20190924132830.15835-15-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -60,18 +59,18 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <a32cb413-94d9-7859-f1b3-35e873fb37fd@redhat.com>
-Date: Tue, 24 Sep 2019 10:57:25 -0500
+Message-ID: <093c45e2-aecc-702b-24dd-447f8525f79a@redhat.com>
+Date: Tue, 24 Sep 2019 11:01:00 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-14-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-15-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="qJWOF28ttSEQmd4cEheZJdKyRnb9erU02"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ boundary="9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 24 Sep 2019 15:57:34 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Tue, 24 Sep 2019 16:01:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,55 +89,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---qJWOF28ttSEQmd4cEheZJdKyRnb9erU02
-Content-Type: multipart/mixed; boundary="CStMt32Lk9ZDviwZIRqXiHdRjgm80bBvp";
+--9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1
+Content-Type: multipart/mixed; boundary="P1hTkhUpxr4mIdqpN2fM5RuHwqT2UrssU";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <a32cb413-94d9-7859-f1b3-35e873fb37fd@redhat.com>
-Subject: Re: [PATCH 13/25] qapi: Make check_type()'s array case a bit more
- obvious
+Message-ID: <093c45e2-aecc-702b-24dd-447f8525f79a@redhat.com>
+Subject: Re: [PATCH 14/25] qapi: Plumb info to the QAPISchemaMember
 References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-14-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-14-armbru@redhat.com>
+ <20190924132830.15835-15-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-15-armbru@redhat.com>
 
---CStMt32Lk9ZDviwZIRqXiHdRjgm80bBvp
+--P1hTkhUpxr4mIdqpN2fM5RuHwqT2UrssU
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> check_type() checks the array's contents, then peels off the array and
-> falls through to the "not array" code without resetting allow_array
-> and allow_dict to False.  Works because the peeled value is a string,
-> and allow_array and allow_dict aren't used then.  Tidy up anyway:
-> recurse instead, defaulting allow_array and allow_dict to False.
+> Future commits will need info in the .check() methods of
+> QAPISchemaMember and its descendants.  Get it there.
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  scripts/qapi/common.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  scripts/qapi/common.py | 76 +++++++++++++++++++++++-------------------=
+
+>  scripts/qapi/events.py |  2 +-
+>  2 files changed, 43 insertions(+), 35 deletions(-)
+>=20
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
-
->=20
-> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-> index 5e708c3b45..07cf72e72c 100644
-> --- a/scripts/qapi/common.py
-> +++ b/scripts/qapi/common.py
-> @@ -794,7 +794,8 @@ def check_type(value, info, source,
->              raise QAPISemError(info,
->                                 "%s: array type must contain single typ=
-e name" %
->                                 source)
-> -        value =3D value[0]
-> +        check_type(value[0], info, source, allow_metas=3Dallow_metas)
-> +        return
-> =20
->      # Check if type name for value is okay
->      if isinstance(value, str):
->=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -146,24 +126,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---CStMt32Lk9ZDviwZIRqXiHdRjgm80bBvp--
+--P1hTkhUpxr4mIdqpN2fM5RuHwqT2UrssU--
 
---qJWOF28ttSEQmd4cEheZJdKyRnb9erU02
+--9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KPOUACgkQp6FrSiUn
-Q2ooNAf6AtNnrFKs5uR1Vez1S47hbcHx5AXbG2O4Se9m1nm1VstdwZJ2rbsLUigk
-t/SmPy069dLLjsK+yFsiUZ4pmTnxWAeFX9Y2zAcVe+Ve27osTQuPNxmGKGR6E5Py
-yIbEEyVHg4bDo8L0RrFoG2Z45ohBINKPutjkSkLpijMaxmlj/xVdi4f/12FvbXxr
-x4PZsO/5eIp+SxWl3pFVI54ww4m7OEiMURssJMpVYE57wrUfTPp4O9o6b+Zt+BtH
-GV171aM2wtoE6VVsF+qutmYE4Z5uQiQx6rSM7yEFKg9bcHTf4e8UElY1GSFJ3GFg
-dKADBkXkOe60jba+2KKuFu51v3LMuQ==
-=g61Z
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KPbwACgkQp6FrSiUn
+Q2rmXAf8DHkKqFtddyn06J9hpTU78JI8bijlWj5wlliYSX1HmmL/Z0dvMmVyvdO5
+RyRol6zq9hmFH5BZb4JWpUX+e7vc6UsNduckC9yMNLqoooZi4wRY7SlkSre/oGIB
+/p/A/LzDZN/y2qg/xdIi71Fe73TFvjNo0qXqZm6twDgvDCBL+BBBmzJdD2U4jfNY
+CVhiUOw2DqR5F7Pnh8TSuwW29l9LNiuZ1kfhZoydBKUNW2qUbVOST9Z1IENw6MM+
+Sn3besh+A0OPofgtiXqEny+8ODSLh6Jnv1oVKdFm0uKTZ5xqoLEGsEql7frtn+UB
+WaS+lbzr8yv52Pz/ZLv/IkamRQv9yQ==
+=Yc6C
 -----END PGP SIGNATURE-----
 
---qJWOF28ttSEQmd4cEheZJdKyRnb9erU02--
+--9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1--
 
