@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEFBBD35C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:12:41 +0200 (CEST)
-Received: from localhost ([::1]:50598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F3BBD36E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:20:01 +0200 (CEST)
+Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrAt-0003Km-UE
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
+	id 1iCrI0-0002XI-P1
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:20:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8A-0000Wb-JM
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8A-0000X6-Vn
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr88-0002rl-TU
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr89-0002s1-3M
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38048)
+Received: from relay.sw.ru ([185.231.240.75]:38052)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr88-0002r3-Km; Tue, 24 Sep 2019 16:09:48 -0400
+ id 1iCr88-0002r6-PV
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:48 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr87-0001Mk-7T; Tue, 24 Sep 2019 23:09:47 +0300
+ id 1iCr87-0001Mk-G8; Tue, 24 Sep 2019 23:09:47 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/25] scripts: add coccinelle script to fix
- error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:42 +0300
-Message-Id: <20190924200902.4703-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 06/25] python: add commit-per-subsystem.py
+Date: Tue, 24 Sep 2019 23:08:43 +0300
+Message-Id: <20190924200902.4703-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
@@ -49,114 +48,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paul Burton <pburton@wavecomp.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jeff Cody <codyprime@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
- Yuval Shaia <yuval.shaia@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, integration@gluster.org,
- David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: vsementsov@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-error_append_hint will not work, if errp == &fatal_error, as program
-will exit before error_append_hint call. Fix this by use of special
-macro ERRP_FUNCTION_BEGIN.
+Add script to automatically commit tree-wide changes per-subsystem.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
+ python/commit-per-subsystem.py | 69 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
+ create mode 100755 python/commit-per-subsystem.py
 
-CC: John Snow <jsnow@redhat.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Max Reitz <mreitz@redhat.com>
-CC: Fam Zheng <fam@euphon.net>
-CC: Jeff Cody <codyprime@gmail.com>
-CC: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Greg Kurz <groug@kaod.org>
-CC: Subbaraya Sundeep <sundeep.lkml@gmail.com>
-CC: Peter Maydell <peter.maydell@linaro.org>
-CC: Paul Burton <pburton@wavecomp.com>
-CC: Aleksandar Rikalo <arikalo@wavecomp.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-CC: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-CC: David Gibson <david@gibson.dropbear.id.au>
-CC: Yuval Shaia <yuval.shaia@oracle.com>
-CC: Cornelia Huck <cohuck@redhat.com>
-CC: Eric Farman <farman@linux.ibm.com>
-CC: Richard Henderson <rth@twiddle.net>
-CC: David Hildenbrand <david@redhat.com>
-CC: Halil Pasic <pasic@linux.ibm.com>
-CC: Christian Borntraeger <borntraeger@de.ibm.com>
-CC: Gerd Hoffmann <kraxel@redhat.com>
-CC: Alex Williamson <alex.williamson@redhat.com>
-CC: Markus Armbruster <armbru@redhat.com>
-CC: Michael Roth <mdroth@linux.vnet.ibm.com>
-CC: Juan Quintela <quintela@redhat.com>
-CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-CC: Eric Blake <eblake@redhat.com>
-CC: Jason Wang <jasowang@redhat.com>
-CC: "Daniel P. Berrangé" <berrange@redhat.com>
-CC: Eduardo Habkost <ehabkost@redhat.com>
-CC: qemu-block@nongnu.org
-CC: qemu-devel@nongnu.org
-CC: integration@gluster.org
-CC: qemu-arm@nongnu.org
-CC: qemu-ppc@nongnu.org
-CC: qemu-s390x@nongnu.org
-
- .../fix-error_append_hint-usage.cocci         | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 scripts/coccinelle/fix-error_append_hint-usage.cocci
-
-diff --git a/scripts/coccinelle/fix-error_append_hint-usage.cocci b/scripts/coccinelle/fix-error_append_hint-usage.cocci
-new file mode 100644
-index 0000000000..327fe6098c
+diff --git a/python/commit-per-subsystem.py b/python/commit-per-subsystem.py
+new file mode 100755
+index 0000000000..d8442d9ea3
 --- /dev/null
-+++ b/scripts/coccinelle/fix-error_append_hint-usage.cocci
-@@ -0,0 +1,25 @@
-+@rule0@
-+// Add invocation to errp-functions
-+identifier fn;
-+@@
++++ b/python/commit-per-subsystem.py
+@@ -0,0 +1,69 @@
++#!/usr/bin/env python3
++#
++# Copyright (c) 2019 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+ fn(..., Error **errp, ...)
-+ {
-++   ERRP_FUNCTION_BEGIN();
-+    <+...
-+    error_append_hint(errp, ...);
-+    ...+>
-+ }
++import subprocess
++import sys
 +
-+@@
-+// Drop doubled invocation
-+identifier rule0.fn;
-+@@
 +
-+ fn(...)
-+{
-+    ERRP_FUNCTION_BEGIN();
-+-   ERRP_FUNCTION_BEGIN();
-+    ...
++def git_add(pattern):
++    subprocess.run(['git', 'add', pattern])
++
++
++def git_commit(msg):
++    subprocess.run(['git', 'commit', '-m', msg], capture_output=True)
++
++
++maintainers = sys.argv[1]
++message = sys.argv[2].strip()
++
++subsystem = None
++
++shortnames = {
++    'Block layer core': 'block',
++    'ARM cores': 'arm',
++    'Network Block Device (NBD)': 'nbd',
++    'Command line option argument parsing': 'cmdline',
++    'Character device backends': 'chardev',
++    'S390 general architecture support': 's390'
 +}
 +
++
++def commit():
++    if subsystem:
++        msg = subsystem
++        if msg in shortnames:
++            msg = shortnames[msg]
++        msg += ': ' + message
++        git_commit(msg)
++
++
++with open(maintainers) as f:
++    for line in f:
++        line = line.rstrip()
++        if not line:
++            continue
++        if len(line) >= 2 and line[1] == ':':
++            if line[0] == 'F' and line[3:] not in ['*', '*/']:
++                git_add(line[3:])
++        else:
++            # new subsystem start
++            commit()
++
++            subsystem = line
++
++commit()
 -- 
 2.21.0
 
