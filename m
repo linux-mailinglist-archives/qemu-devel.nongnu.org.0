@@ -2,88 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0263ABCABA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:00:04 +0200 (CEST)
-Received: from localhost ([::1]:46676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC127BCAA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:51:25 +0200 (CEST)
+Received: from localhost ([::1]:46580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmIM-0002Sn-MI
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:00:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32916)
+	id 1iCmA0-0001mY-2i
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iCl5u-0004jZ-9z
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:43:07 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iCm6u-0007ww-9q
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iCl5t-0008I3-8g
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:43:06 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44443
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1iCm6t-0003zk-0I
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41050)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCl5s-0008H6-Th
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:43:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569332584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=IaAaaiBuNyFnRW+WwVtEeUZj2iRI/cjyZpL4KInS+/0=;
- b=KcPvb3OPmbOymgPCYDsYHhc0oMlV6/gnSQ6n/Mgzng4Tz1SxAcL4nDESfmQ1lrEyF/2RQ2
- 0KxUVqaiI1xAO6xCLckEqgeFnXVxkgCk559Jo4VQlG+yPH0k+zZxdJheygFOCkctI02YcO
- 8wj3FbI77NlqwPqxFYlcfOxUTwK+63I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-aLIDyS95Pby1Y-JtU5WS9g-1; Tue, 24 Sep 2019 09:43:02 -0400
-Received: by mail-wm1-f69.google.com with SMTP id c188so23198wmd.9
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:43:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tCMYsjxij8sNqWPcrfwE0+Wh73+xKTJT1k8/sbZ8AXw=;
- b=l44WN+lmunsYvuPWBtodQN3T/35O/uLaC0P7bLXlWjSAivnKCVO87Ub5nfFj+wHDvf
- EvQH2ebunugBcoT2heA+vTkPAD5WyHpbuPUWtkFjLAUPZDBdAXVssNinmkhNK7zhF7Cs
- WFdJoCwi6LflKoHhn46za/OeWthAfuXikGx4bdoPBWDEeqdULDCRO41QhHFVpNFmwIHL
- H0CEQOfyIo/lqcLeisO1/fXElQTjozhqhb4ssloJQADJ8T1JWZb+RdH0Z/ChXV/F24bi
- eO8uJ5EYSUpxX8dwekGGWO8IcKsF7Y7xLK/2wo8UOsEuZQngnxRkGJCxqO0NGmvw+d0V
- /H7A==
-X-Gm-Message-State: APjAAAWJ9eNNbM4yEb0pd9Arf4qENAWEDiGnPJEmjyvK2j+++C4iFLv8
- lGBEZI/ps3+HJIvXfjBkIqZ/8mDyF93ZNXXPaz9B8Gx40ZLIbMpTlkJ44ixtXEh2/M8xisLKlzt
- /D5LB0fI2qpw8OMw=
-X-Received: by 2002:adf:e607:: with SMTP id p7mr2317969wrm.230.1569332581769; 
- Tue, 24 Sep 2019 06:43:01 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx289zOYsfThGc6IR0e027sEhHxFDyhOEfIl9LBhoL9vO7kgdRqnjkTpzLlm1ZpcWU+kUA5NQ==
-X-Received: by 2002:adf:e607:: with SMTP id p7mr2317942wrm.230.1569332581581; 
- Tue, 24 Sep 2019 06:43:01 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id d28sm3327375wrb.95.2019.09.24.06.43.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Sep 2019 06:43:00 -0700 (PDT)
-Subject: Re: illegal hardware instruction during MIPS-I ELF linux useremulation
-To: Libo Zhou <zhlb29@foxmail.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <tencent_28AAA62B694825C348B1DF49@qq.com>
- <CAFEAcA8+bK0UyUWbXOiutyQZkCMSB_0Be7pJLKONSpA3CV9Pbw@mail.gmail.com>
- <tencent_0084E0586ADE9B2D30176A53@qq.com>
- <tencent_6A42D8651281588C41FEE751@qq.com>
- <tencent_6DB0EBDC4C098868592B8A79@qq.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <b4bc1f35-817d-79a0-df4d-07eaa2fdffe5@redhat.com>
-Date: Tue, 24 Sep 2019 15:42:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <tencent_6DB0EBDC4C098868592B8A79@qq.com>
-Content-Language: en-US
-X-MC-Unique: aLIDyS95Pby1Y-JtU5WS9g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1iCm6s-0003zM-NM; Tue, 24 Sep 2019 10:48:10 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 06A37302246D;
+ Tue, 24 Sep 2019 14:48:10 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8474910013D9;
+ Tue, 24 Sep 2019 14:48:04 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 2/4] kvm: clear dirty bitmaps from all overlapping memslots
+Date: Tue, 24 Sep 2019 10:47:49 -0400
+Message-Id: <20190924144751.24149-3-imammedo@redhat.com>
+In-Reply-To: <20190924144751.24149-1-imammedo@redhat.com>
+References: <20190924144751.24149-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 24 Sep 2019 14:48:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,42 +53,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, peterx@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/19 3:31 PM, Libo Zhou wrote:
->>> I would start by using the QEMU gdbstub to connect a
->>> MIPS-aware gdb. Then when the SIGILL arrives you can see
->>> what instruction the guest program was trying to execute.
->=20
->> Just tried it and found something interesting.
->> I connected gdb-multiarch to QEMU gdbstub. gdb-multiarch's architecture =
-was set to mips:3000 automatically (and Wikipedia says r3k uses MIPS-I).
->=20
->> When I did 'layout asm', and compared the instructions displayed against=
- test.s generated by my mipsel-linux-unknown-gcc, they appeared to be a lit=
-tle bit different.
->=20
->> The 'store word' instruction in test.s is shown as a hex '0x7f......(don=
-'t remember the rest)';
->> 'load word' is shown as '0x5f......';
->> 'load immediate' is seen as 'addi';
->> 'j' as 'jr';
->=20
->> When I single-stepped the instructions, the SIGILL was thrown immediatel=
-y after the first unrecognized 0x7f......, which is supposed to be a store =
-word (sw).
->=20
->> Hence, can I conclude that MIPS-I is not implemented in QEMU out of the =
-box? Or is it possible that my compiler doesn't implement MIPS-I correctly?
->=20
-> More updates about this. I just disassembled the unrecognized hex by hand=
-, and figured out that the store word and load word opcodes are not the sam=
-e as specified in translate.c. While the remaining fields of those unrecogn=
-ized instructions do match with the source and destination registers.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-What is your compiler/assembler versions (on both machines you used)?
+Currently MemoryRegionSection has 1:1 mapping to KVMSlot.
+However next patch will allow splitting MemoryRegionSection into
+several KVMSlot-s, make sure that kvm_physical_log_slot_clear()
+is able to handle such 1:N mapping.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+---
+ accel/kvm/kvm-all.c | 36 ++++++++++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
+
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index e9e6086c09..315a91557f 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -588,8 +588,8 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start, uint6
+      * satisfy the KVM interface requirement.  Firstly, do the start
+      * page alignment on 64 host pages
+      */
+-    bmap_start = (start - mem->start_addr) & KVM_CLEAR_LOG_MASK;
+-    start_delta = start - mem->start_addr - bmap_start;
++    bmap_start = start & KVM_CLEAR_LOG_MASK;
++    start_delta = start - bmap_start;
+     bmap_start /= psize;
+ 
+     /*
+@@ -693,8 +693,8 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
+                                   MemoryRegionSection *section)
+ {
+     KVMState *s = kvm_state;
+-    uint64_t start, size;
+-    KVMSlot *mem = NULL;
++    uint64_t start, size, offset, count;
++    KVMSlot *mem;
+     int ret, i;
+ 
+     if (!s->manual_dirty_log_protect) {
+@@ -712,22 +712,30 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
+ 
+     kvm_slots_lock(kml);
+ 
+-    /* Find any possible slot that covers the section */
+     for (i = 0; i < s->nr_slots; i++) {
+         mem = &kml->slots[i];
+-        if (mem->start_addr <= start &&
+-            start + size <= mem->start_addr + mem->memory_size) {
++        /* Discard slots that are empty or do not overlap the section */
++        if (!mem->memory_size ||
++            mem->start_addr > start + size - 1 ||
++            start > mem->start_addr + mem->memory_size - 1) {
++            continue;
++        }
++
++        if (start >= mem->start_addr) {
++            /* The slot starts before section or is aligned to it.  */
++            offset = start - mem->start_addr;
++            count = MIN(mem->memory_size - offset, size);
++        } else {
++            /* The slot starts after section.  */
++            offset = 0;
++            count = MIN(mem->memory_size, size - (mem->start_addr - start));
++        }
++        ret = kvm_log_clear_one_slot(mem, kml->as_id, offset, count);
++        if (ret < 0) {
+             break;
+         }
+     }
+ 
+-    /*
+-     * We should always find one memslot until this point, otherwise
+-     * there could be something wrong from the upper layer
+-     */
+-    assert(mem && i != s->nr_slots);
+-    ret = kvm_log_clear_one_slot(mem, kml->as_id, start, size);
+-
+     kvm_slots_unlock(kml);
+ 
+     return ret;
+-- 
+2.18.1
 
 
