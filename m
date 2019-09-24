@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CE8BD3AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:36:41 +0200 (CEST)
-Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7D8BD3B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:38:43 +0200 (CEST)
+Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrY8-0003zE-Im
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:36:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43991)
+	id 1iCra6-000759-Il
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44028)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-0000qt-Q2
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8O-0000sd-2X
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8L-0002zy-5Z
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:02 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38106)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-00030c-1o
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38112)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8K-0002sh-Tk
+ id 1iCr8L-0002t7-KO
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr89-0001Mk-Dx; Tue, 24 Sep 2019 23:09:49 +0300
+ id 1iCr89-0001Mk-PQ; Tue, 24 Sep 2019 23:09:49 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/25] USB: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:51 +0300
-Message-Id: <20190924200902.4703-15-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 15/25] VFIO: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:52 +0300
+Message-Id: <20190924200902.4703-16-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>, vsementsov@virtuozzo.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -75,21 +75,50 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/usb/ccid-card-emulated.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/vfio/common.c | 2 ++
+ hw/vfio/pci.c    | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
-index 291e41db8a..9a2ea129dd 100644
---- a/hw/usb/ccid-card-emulated.c
-+++ b/hw/usb/ccid-card-emulated.c
-@@ -488,6 +488,7 @@ static uint32_t parse_enumeration(char *str,
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 3e03c495d8..d08276b1e6 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1437,6 +1437,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
  
- static void emulated_realize(CCIDCardState *base, Error **errp)
+ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     EmulatedState *card = EMULATED_CCID_CARD(base);
-     VCardEmulError ret;
-     const EnumTable *ptable;
+     VFIOGroup *group;
+     char path[32];
+     struct vfio_group_status status = { .argsz = sizeof(status) };
+@@ -1526,6 +1527,7 @@ void vfio_put_group(VFIOGroup *group)
+ int vfio_get_device(VFIOGroup *group, const char *name,
+                     VFIODevice *vbasedev, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     struct vfio_device_info dev_info = { .argsz = sizeof(dev_info) };
+     int ret, fd;
+ 
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index c5e6fe61cb..57208c7075 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2469,6 +2469,7 @@ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
+ 
+ static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     VFIODevice *vbasedev = &vdev->vbasedev;
+     struct vfio_region_info *reg_info;
+     struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info) };
+@@ -2700,6 +2701,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+ 
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+     VFIODevice *vbasedev_iter;
+     VFIOGroup *group;
 -- 
 2.21.0
 
