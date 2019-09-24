@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC00BC839
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:52:21 +0200 (CEST)
-Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BA3BC84E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:56:41 +0200 (CEST)
+Received: from localhost ([::1]:45332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkIl-0007MO-1z
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50494)
+	id 1iCkMx-0003FW-Cm
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50491)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0m-0001J5-Ak
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:49 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0m-0001J4-5e
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0j-0006wn-8I
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38418)
+ (envelope-from <armbru@redhat.com>) id 1iCk0i-0006vv-Os
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42778)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uM-LO
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:41 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006ua-DD
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:40 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 705A9307C820
+ by mx1.redhat.com (Postfix) with ESMTPS id 9ED31307D923
  for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 405A860C63;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 476575C21F;
  Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BE4111138408; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
+ id C39E51136420; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/37] tests/qapi-schema: Cover unknown pragma
-Date: Tue, 24 Sep 2019 14:33:16 +0200
-Message-Id: <20190924123334.30645-20-armbru@redhat.com>
+Subject: [PULL 20/37] tests/qapi-schema: Delete two redundant tests
+Date: Tue, 24 Sep 2019 14:33:17 +0200
+Message-Id: <20190924123334.30645-21-armbru@redhat.com>
 In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
 References: <20190924123334.30645-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,61 +60,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Tests duplicate-key and double-data test the same thing.  The former
+predates the latter, and it has a better name.  Delete the latter, and
+tweak the former's comment.
+
+Tests include-format-err and include-extra-junk test the same thing.
+The former predates the latter, but the latter has a better name and a
+comment.  Delete the former.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190914153506.2151-2-armbru@redhat.com>
+Message-Id: <20190914153506.2151-3-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- tests/Makefile.include                | 1 +
- tests/qapi-schema/pragma-unknown.err  | 1 +
- tests/qapi-schema/pragma-unknown.exit | 1 +
- tests/qapi-schema/pragma-unknown.json | 1 +
- tests/qapi-schema/pragma-unknown.out  | 0
- 5 files changed, 4 insertions(+)
- create mode 100644 tests/qapi-schema/pragma-unknown.err
- create mode 100644 tests/qapi-schema/pragma-unknown.exit
- create mode 100644 tests/qapi-schema/pragma-unknown.json
- create mode 100644 tests/qapi-schema/pragma-unknown.out
+ tests/Makefile.include                    | 2 --
+ tests/qapi-schema/double-data.err         | 1 -
+ tests/qapi-schema/double-data.exit        | 1 -
+ tests/qapi-schema/double-data.json        | 2 --
+ tests/qapi-schema/double-data.out         | 0
+ tests/qapi-schema/duplicate-key.json      | 2 +-
+ tests/qapi-schema/include-format-err.err  | 1 -
+ tests/qapi-schema/include-format-err.exit | 1 -
+ tests/qapi-schema/include-format-err.json | 2 --
+ tests/qapi-schema/include-format-err.out  | 0
+ 10 files changed, 1 insertion(+), 11 deletions(-)
+ delete mode 100644 tests/qapi-schema/double-data.err
+ delete mode 100644 tests/qapi-schema/double-data.exit
+ delete mode 100644 tests/qapi-schema/double-data.json
+ delete mode 100644 tests/qapi-schema/double-data.out
+ delete mode 100644 tests/qapi-schema/include-format-err.err
+ delete mode 100644 tests/qapi-schema/include-format-err.exit
+ delete mode 100644 tests/qapi-schema/include-format-err.json
+ delete mode 100644 tests/qapi-schema/include-format-err.out
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 2c3adb1530..089cc3ea95 100644
+index 089cc3ea95..0c862dbc42 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -427,6 +427,7 @@ qapi-schema +=3D pragma-doc-required-crap.json
- qapi-schema +=3D pragma-extra-junk.json
- qapi-schema +=3D pragma-name-case-whitelist-crap.json
- qapi-schema +=3D pragma-non-dict.json
-+qapi-schema +=3D pragma-unknown.json
- qapi-schema +=3D pragma-returns-whitelist-crap.json
- qapi-schema +=3D qapi-schema-test.json
- qapi-schema +=3D quoted-structural-chars.json
-diff --git a/tests/qapi-schema/pragma-unknown.err b/tests/qapi-schema/pra=
-gma-unknown.err
-new file mode 100644
-index 0000000000..6ef2058316
---- /dev/null
-+++ b/tests/qapi-schema/pragma-unknown.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/pragma-unknown.json:1: Unknown pragma 'no-such-pragma'
-diff --git a/tests/qapi-schema/pragma-unknown.exit b/tests/qapi-schema/pr=
-agma-unknown.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/pragma-unknown.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/pragma-unknown.json b/tests/qapi-schema/pr=
-agma-unknown.json
-new file mode 100644
-index 0000000000..c51bbbb53f
---- /dev/null
-+++ b/tests/qapi-schema/pragma-unknown.json
-@@ -0,0 +1 @@
-+{ 'pragma': { 'no-such-pragma': false } }
-diff --git a/tests/qapi-schema/pragma-unknown.out b/tests/qapi-schema/pra=
-gma-unknown.out
-new file mode 100644
-index 0000000000..e69de29bb2
+@@ -359,7 +359,6 @@ qapi-schema +=3D doc-missing-expr.json
+ qapi-schema +=3D doc-missing-space.json
+ qapi-schema +=3D doc-missing.json
+ qapi-schema +=3D doc-no-symbol.json
+-qapi-schema +=3D double-data.json
+ qapi-schema +=3D double-type.json
+ qapi-schema +=3D duplicate-key.json
+ qapi-schema +=3D empty.json
+@@ -404,7 +403,6 @@ qapi-schema +=3D ident-with-escape.json
+ qapi-schema +=3D include-before-err.json
+ qapi-schema +=3D include-cycle.json
+ qapi-schema +=3D include-extra-junk.json
+-qapi-schema +=3D include-format-err.json
+ qapi-schema +=3D include-nested-err.json
+ qapi-schema +=3D include-no-file.json
+ qapi-schema +=3D include-non-file.json
+diff --git a/tests/qapi-schema/double-data.err b/tests/qapi-schema/double=
+-data.err
+deleted file mode 100644
+index cc765c4ff2..0000000000
+--- a/tests/qapi-schema/double-data.err
++++ /dev/null
+@@ -1 +0,0 @@
+-tests/qapi-schema/double-data.json:2:41: Duplicate key "data"
+diff --git a/tests/qapi-schema/double-data.exit b/tests/qapi-schema/doubl=
+e-data.exit
+deleted file mode 100644
+index d00491fd7e..0000000000
+--- a/tests/qapi-schema/double-data.exit
++++ /dev/null
+@@ -1 +0,0 @@
+-1
+diff --git a/tests/qapi-schema/double-data.json b/tests/qapi-schema/doubl=
+e-data.json
+deleted file mode 100644
+index e76b519538..0000000000
+--- a/tests/qapi-schema/double-data.json
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# we reject an expression with duplicate top-level keys
+-{ 'struct': 'bar', 'data': { }, 'data': { 'string': 'str'} }
+diff --git a/tests/qapi-schema/double-data.out b/tests/qapi-schema/double=
+-data.out
+deleted file mode 100644
+index e69de29bb2..0000000000
+diff --git a/tests/qapi-schema/duplicate-key.json b/tests/qapi-schema/dup=
+licate-key.json
+index 14ac0e8a40..06b55840c9 100644
+--- a/tests/qapi-schema/duplicate-key.json
++++ b/tests/qapi-schema/duplicate-key.json
+@@ -1,3 +1,3 @@
+-# QAPI cannot include the same key more than once in any {}
++# Cannot include the same key more than once in any {}
+ { 'key': 'value',
+   'key': 'value' }
+diff --git a/tests/qapi-schema/include-format-err.err b/tests/qapi-schema=
+/include-format-err.err
+deleted file mode 100644
+index 721ff4eccc..0000000000
+--- a/tests/qapi-schema/include-format-err.err
++++ /dev/null
+@@ -1 +0,0 @@
+-tests/qapi-schema/include-format-err.json:1: Invalid 'include' directive
+diff --git a/tests/qapi-schema/include-format-err.exit b/tests/qapi-schem=
+a/include-format-err.exit
+deleted file mode 100644
+index d00491fd7e..0000000000
+--- a/tests/qapi-schema/include-format-err.exit
++++ /dev/null
+@@ -1 +0,0 @@
+-1
+diff --git a/tests/qapi-schema/include-format-err.json b/tests/qapi-schem=
+a/include-format-err.json
+deleted file mode 100644
+index 44980f026f..0000000000
+--- a/tests/qapi-schema/include-format-err.json
++++ /dev/null
+@@ -1,2 +0,0 @@
+-{ 'include': 'include-simple-sub.json',
+-  'foo': 'bar' }
+diff --git a/tests/qapi-schema/include-format-err.out b/tests/qapi-schema=
+/include-format-err.out
+deleted file mode 100644
+index e69de29bb2..0000000000
 --=20
 2.21.0
 
