@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD2ABC838
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:52:12 +0200 (CEST)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC41DBC83F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:53:49 +0200 (CEST)
+Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkId-0007If-7s
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
+	id 1iCkKC-0000iA-6A
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0l-0001Is-ST
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:49 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0n-0001Jd-LH
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0i-0006vH-G2
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48540)
+ (envelope-from <armbru@redhat.com>) id 1iCk0i-0006vh-MP
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48544)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uA-4D
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uF-9U
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:40 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4C2D7308FFB1
+ by mx1.redhat.com (Postfix) with ESMTPS id 551E63175282
  for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA6AD60852;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F380D60933;
  Tue, 24 Sep 2019 12:33:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 967E11138528; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
+ id A971F11384D8; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/37] qapi: Adjust frontend errors to say enum value,
- not member
-Date: Tue, 24 Sep 2019 14:33:10 +0200
-Message-Id: <20190924123334.30645-14-armbru@redhat.com>
+Subject: [PULL 16/37] docs/devel/qapi-code-gen: Rewrite introduction to schema
+Date: Tue, 24 Sep 2019 14:33:13 +0200
+Message-Id: <20190924123334.30645-17-armbru@redhat.com>
 In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
 References: <20190924123334.30645-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -61,97 +60,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For consistency with docs/devel/qapi-code-gen.txt.
+The introduction to the QAPI schema is somewhat rambling.  Rewrite for
+clarity.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190913201349.24332-12-armbru@redhat.com>
+Message-Id: <20190913201349.24332-15-armbru@redhat.com>
 ---
- scripts/qapi/common.py                  | 11 ++++++++---
- scripts/qapi/events.py                  |  2 +-
- tests/qapi-schema/enum-clash-member.err |  2 +-
- tests/qapi-schema/enum-member-case.err  |  2 +-
- 4 files changed, 11 insertions(+), 6 deletions(-)
+ docs/devel/qapi-code-gen.txt | 107 ++++++++++++++++-------------------
+ 1 file changed, 48 insertions(+), 59 deletions(-)
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 3393a049cc..a538d2f37c 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -1340,7 +1340,7 @@ class QAPISchemaEnumType(QAPISchemaType):
-     def __init__(self, name, info, doc, ifcond, members, prefix):
-         QAPISchemaType.__init__(self, name, info, doc, ifcond)
-         for m in members:
--            assert isinstance(m, QAPISchemaMember)
-+            assert isinstance(m, QAPISchemaEnumMember)
-             m.set_owner(name)
-         assert prefix is None or isinstance(prefix, str)
-         self.members =3D members
-@@ -1551,6 +1551,10 @@ class QAPISchemaMember(object):
-         return "'%s' %s" % (self.name, self._pretty_owner())
+diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+index ac36ed34e3..d7bc79b48b 100644
+--- a/docs/devel/qapi-code-gen.txt
++++ b/docs/devel/qapi-code-gen.txt
+@@ -16,65 +16,54 @@ well as the QEMU Guest Agent (QGA) for communicating =
+with the guest.
+ The remainder of this document uses "Client JSON Protocol" when
+ referring to the wire contents of a QMP or QGA connection.
 =20
-=20
-+class QAPISchemaEnumMember(QAPISchemaMember):
-+    role =3D 'value'
+-To map Client JSON Protocol interfaces to the native C QAPI
+-implementations, a JSON-based schema is used to define types and
+-function signatures, and a set of scripts is used to generate types,
+-signatures, and marshaling/dispatch code. This document will describe
+-how the schemas, scripts, and resulting code are used.
+-
+-
+-=3D=3D QMP/Guest agent schema =3D=3D
+-
+-A QAPI schema file is designed to be loosely based on JSON
+-(http://www.ietf.org/rfc/rfc8259.txt) with changes for quoting style
+-and the use of comments; a QAPI schema file is then parsed by a python
+-code generation program.  A valid QAPI schema consists of a series of
+-top-level expressions, with no commas between them.  Where
+-dictionaries (JSON objects) are used, they are parsed as python
+-OrderedDicts so that ordering is preserved (for predictable layout of
+-generated C structs and parameter lists).  Ordering doesn't matter
+-between top-level expressions or the keys within an expression, but
+-does matter within dictionary values for 'data' and 'returns' members
+-of a single expression.  QAPI schema input is written using 'single
+-quotes' instead of JSON's "double quotes" (in contrast, Client JSON
+-Protocol uses no comments, and while input accepts 'single quotes' as
+-an extension, output is strict JSON using only "double quotes").  As
+-in JSON, trailing commas are not permitted in arrays or dictionaries.
+-Input must be ASCII (although QMP supports full Unicode strings, the
+-QAPI parser does not).  At present, there is no place where a QAPI
+-schema requires the use of JSON numbers or null.
+-
+-
+-=3D=3D=3D Comments =3D=3D=3D
+-
+-Comments are allowed; anything between an unquoted # and the following
+-newline is ignored.
+-
+-
+-=3D=3D=3D Schema overview =3D=3D=3D
+-
+-The schema sets up a series of types, as well as commands and events
+-that will use those types.  Forward references are allowed: the parser
+-scans in two passes, where the first pass learns all type names, and
+-the second validates the schema and generates the code.  This allows
+-the definition of complex structs that can have mutually recursive
+-types, and allows for indefinite nesting of Client JSON Protocol that
+-satisfies the schema.  A type name should not be defined more than
+-once.  It is permissible for the schema to contain additional types
+-not used by any commands or events in the Client JSON Protocol, for
+-the side effect of generated C code used internally.
+-
+-There are eight top-level expressions recognized by the parser:
+-'include', 'pragma', 'command', 'struct', 'enum', 'union',
+-'alternate', and 'event'.  There are several groups of types: simple
+-types (a number of built-in types, such as 'int' and 'str'; as well as
+-enumerations), complex types (structs and two flavors of unions), and
+-alternate types (a choice between other types).  The 'command' and
+-'event' expressions can refer to existing types by name, or list an
+-anonymous type as a dictionary. Listing a type name inside an array
+-refers to a single-dimension array of that type; multi-dimension
+-arrays are not directly supported (although an array of a complex
+-struct that contains an array member is possible).
++To map between Client JSON Protocol interfaces and the native C API,
++we generate C code from a QAPI schema.  This document describes the
++QAPI schema language, and how it gets mapped to the Client JSON
++Protocol and to C.  It additionally provides guidance on maintaining
++Client JSON Protocol compatibility.
 +
 +
- class QAPISchemaFeature(QAPISchemaMember):
-     role =3D 'feature'
++=3D=3D The QAPI schema language =3D=3D
++
++The QAPI schema defines the Client JSON Protocol's commands and
++events, as well as types used by them.  Forward references are
++allowed.
++
++It is permissible for the schema to contain additional types not used
++by any commands or events, for the side effect of generated C code
++used internally.
++
++There are several kinds of types: simple types (a number of built-in
++types, such as 'int' and 'str'; as well as enumerations), arrays,
++complex types (structs and two flavors of unions), and alternate types
++(a choice between other types).
++
++
++=3D=3D=3D Schema syntax =3D=3D=3D
++
++Syntax is loosely based on JSON (http://www.ietf.org/rfc/rfc8259.txt).
++Differences:
++
++* Comments: start with a hash character (#) that is not part of a
++  string, and extend to the end of the line.
++
++* Strings are enclosed in 'single quotes', not "double quotes".
++
++* Strings are restricted to printable ASCII, and escape sequences to
++  just '\\'.
++
++* Numbers are not supported.
++
++A QAPI schema consists of a series of top-level expressions (JSON
++objects).  Code and documentation is generated in schema definition
++order.  Code order should not matter.
++
++The order of keys within JSON objects does not matter unless
++explicitly noted.
++
++There are eight kinds of top-level expressions: 'include', 'pragma',
++'command', 'struct', 'enum', 'union', 'alternate', and 'event'.  These
++are discussed in detail below.
 =20
-@@ -1807,7 +1811,8 @@ class QAPISchema(object):
-         return [QAPISchemaFeature(f['name'], f.get('if')) for f in featu=
-res]
-=20
-     def _make_enum_members(self, values):
--        return [QAPISchemaMember(v['name'], v.get('if')) for v in values=
-]
-+        return [QAPISchemaEnumMember(v['name'], v.get('if'))
-+                for v in values]
-=20
-     def _make_implicit_enum_type(self, name, info, ifcond, values):
-         # See also QAPISchemaObjectTypeMember._pretty_owner()
-@@ -2223,7 +2228,7 @@ const QEnumLookup %(c_name)s_lookup =3D {
-=20
- def gen_enum(name, members, prefix=3DNone):
-     # append automatically generated _MAX value
--    enum_members =3D members + [QAPISchemaMember('_MAX')]
-+    enum_members =3D members + [QAPISchemaEnumMember('_MAX')]
-=20
-     ret =3D mcgen('''
-=20
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index e0abfef7b0..7062553cf3 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -194,7 +194,7 @@ void %(event_emit)s(%(event_enum)s event, QDict *qdic=
-t);
-                                           self._event_emit_name))
-         # Note: we generate the enum member regardless of @ifcond, to
-         # keep the enumeration usable in target-independent code.
--        self._event_enum_members.append(QAPISchemaMember(name))
-+        self._event_enum_members.append(QAPISchemaEnumMember(name))
-=20
-=20
- def gen_events(schema, output_dir, prefix):
-diff --git a/tests/qapi-schema/enum-clash-member.err b/tests/qapi-schema/=
-enum-clash-member.err
-index 5403c78507..8238d2e807 100644
---- a/tests/qapi-schema/enum-clash-member.err
-+++ b/tests/qapi-schema/enum-clash-member.err
-@@ -1 +1 @@
--tests/qapi-schema/enum-clash-member.json:2: 'one_two' (member of MyEnum)=
- collides with 'one-two' (member of MyEnum)
-+tests/qapi-schema/enum-clash-member.json:2: 'one_two' (value of MyEnum) =
-collides with 'one-two' (value of MyEnum)
-diff --git a/tests/qapi-schema/enum-member-case.err b/tests/qapi-schema/e=
-num-member-case.err
-index 3c67a3a067..5d689e92d5 100644
---- a/tests/qapi-schema/enum-member-case.err
-+++ b/tests/qapi-schema/enum-member-case.err
-@@ -1 +1 @@
--tests/qapi-schema/enum-member-case.json:4: 'Value' (member of NoWayThisW=
-illGetWhitelisted) should not use uppercase
-+tests/qapi-schema/enum-member-case.json:4: 'Value' (value of NoWayThisWi=
-llGetWhitelisted) should not use uppercase
+ In the rest of this document, usage lines are given for each
+ expression type, with literal strings written in lower case and
 --=20
 2.21.0
 
