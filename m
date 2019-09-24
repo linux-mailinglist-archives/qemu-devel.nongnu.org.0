@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446D6BCA76
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:43:52 +0200 (CEST)
-Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173A0BCA72
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:42:57 +0200 (CEST)
+Received: from localhost ([::1]:46480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCm2h-0002mS-0S
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:43:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58655)
+	id 1iCm1n-0001n9-2m
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCkrt-00006M-Pk
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:40 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCkrz-0000Cu-FT
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCkrr-0001QE-Tb
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51752)
+ (envelope-from <armbru@redhat.com>) id 1iCkrt-0001Rk-Qc
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33498)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrr-0001Pl-LG
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:35 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrt-0001Qv-Ab
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:37 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DE6AC10C093F;
- Tue, 24 Sep 2019 13:28:34 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8925C116BB22;
+ Tue, 24 Sep 2019 13:28:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D121519C70;
- Tue, 24 Sep 2019 13:28:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BC6219C6A;
+ Tue, 24 Sep 2019 13:28:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5C354113865F; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
+ id 724F611385FD; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/25] qapi: Tighten QAPISchemaFOO.check() assertions
-Date: Tue, 24 Sep 2019 15:28:06 +0200
-Message-Id: <20190924132830.15835-2-armbru@redhat.com>
+Subject: [PATCH 07/25] qapi: Improve reporting of member name clashes
+Date: Tue, 24 Sep 2019 15:28:12 +0200
+Message-Id: <20190924132830.15835-8-armbru@redhat.com>
 In-Reply-To: <20190924132830.15835-1-armbru@redhat.com>
 References: <20190924132830.15835-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Tue, 24 Sep 2019 13:28:34 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.65]); Tue, 24 Sep 2019 13:28:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -61,94 +61,211 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we introduced the QAPISchema intermediate representation (commit
-ac88219a6c7), we took a shortcut: we left check_exprs() & friends
-alone instead of moving semantic checks into the
-QAPISchemaFOO.check().  check_exprs() still checks and reports errors,
-and the .check() assert check_exprs() did the job.  There are a few
-gaps, though.
+We report name clashes like this:
 
-QAPISchemaArrayType.check() neglects to assert the element type is not
-an array.  Add the assertion.
+    struct-base-clash.json: In struct 'Sub':
+    struct-base-clash.json:5: 'name' (member of Sub) collides with 'name'=
+ (member of Base)
 
-QAPISchemaObjectTypeVariants.check() neglects to assert the tag member
-is not optional.  Add the assertion.
+The "(member of Sub)" is redundant with "In struct 'Sub'".  Comes from
+QAPISchemaMember.describe().  Pass info to it, so it can detect the
+redundancy and avoid it.  Result:
 
-It neglects to assert the tag member is not conditional.  Add the
-assertion.
-
-It neglects to assert we actually have variants.  Add the assertion.
-
-It asserts the variants are object types, but neglects to assert they
-don't have variants.  Tighten the assertion.
-
-QAPISchemaObjectTypeVariants.check_clash() has the same issue.
-However, it can run only after .check().  Delete the assertion instead
-of tightening it.
-
-QAPISchemaAlternateType.check() neglects to assert the branch types
-don't conflict.  Fixing that isn't trivial, so add just a TODO comment
-for now.  It'll be resolved later in this series.
+    struct-base-clash.json: In struct 'Sub':
+    struct-base-clash.json:5: member 'name' collides with member 'name' o=
+f type 'Base'
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/common.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ scripts/qapi/common.py                        | 35 ++++++++++++-------
+ tests/qapi-schema/alternate-clash.err         |  2 +-
+ tests/qapi-schema/args-name-clash.err         |  2 +-
+ tests/qapi-schema/enum-clash-member.err       |  2 +-
+ tests/qapi-schema/features-duplicate-name.err |  2 +-
+ tests/qapi-schema/flat-union-bad-base.err     |  2 +-
+ tests/qapi-schema/flat-union-clash-member.err |  2 +-
+ tests/qapi-schema/struct-base-clash-deep.err  |  2 +-
+ tests/qapi-schema/struct-base-clash.err       |  2 +-
+ tests/qapi-schema/union-clash-branches.err    |  2 +-
+ 10 files changed, 31 insertions(+), 22 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index b00caacca3..155b87b825 100644
+index 23f1c8eece..749490c517 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -1362,6 +1362,7 @@ class QAPISchemaArrayType(QAPISchemaType):
-         QAPISchemaType.check(self, schema)
-         self.element_type =3D schema.lookup_type(self._element_type_name=
-)
-         assert self.element_type
-+        assert not isinstance(self.element_type, QAPISchemaArrayType)
-=20
-     @property
-     def ifcond(self):
-@@ -1606,6 +1607,8 @@ class QAPISchemaObjectTypeVariants(object):
-             self.tag_member =3D seen[c_name(self._tag_name)]
-             assert self._tag_name =3D=3D self.tag_member.name
-         assert isinstance(self.tag_member.type, QAPISchemaEnumType)
-+        assert not self.tag_member.optional
-+        assert self.tag_member.ifcond =3D=3D []
-         if self._tag_name:    # flat union
-             # branches that are not explicitly covered get an empty type
-             cases =3D set([v.name for v in self.variants])
-@@ -1615,20 +1618,21 @@ class QAPISchemaObjectTypeVariants(object):
-                                                     m.ifcond)
-                     v.set_owner(self.tag_member.owner)
-                     self.variants.append(v)
-+        assert self.variants
-         for v in self.variants:
-             v.check(schema)
-             # Union names must match enum values; alternate names are
-             # checked separately. Use 'seen' to tell the two apart.
-             if seen:
-                 assert v.name in self.tag_member.type.member_names()
--                assert isinstance(v.type, QAPISchemaObjectType)
-+                assert (isinstance(v.type, QAPISchemaObjectType)
-+                        and not v.type.variants)
-                 v.type.check(schema)
-=20
+@@ -1570,31 +1570,40 @@ class QAPISchemaMember(object):
      def check_clash(self, info, seen):
-         for v in self.variants:
-             # Reset seen map for each variant, since qapi names from one
-             # branch do not affect another branch
--            assert isinstance(v.type, QAPISchemaObjectType)
-             v.type.check_clash(info, dict(seen))
+         cname =3D c_name(self.name)
+         if cname in seen:
+-            raise QAPISemError(info, "%s collides with %s" %
+-                               (self.describe(), seen[cname].describe())=
+)
++            raise QAPISemError(
++                info, "%s collides with %s"
++                % (self.describe(info), seen[cname].describe(info)))
+         seen[cname] =3D self
+=20
+-    def _pretty_defined_in(self):
++    def describe(self, info):
++        role =3D self.role
+         defined_in =3D self.defined_in
++        assert defined_in
++
+         if defined_in.startswith('q_obj_'):
+             # See QAPISchema._make_implicit_object_type() - reverse the
+             # mapping there to create a nice human-readable description
+             defined_in =3D defined_in[6:]
+             if defined_in.endswith('-arg'):
+-                return '(parameter of %s)' % defined_in[:-4]
++                # Implicit type created for a command's dict 'data'
++                assert role =3D=3D 'member'
++                role =3D 'parameter'
+             elif defined_in.endswith('-base'):
+-                return '(base of %s)' % defined_in[:-5]
++                # Implicit type created for a flat union's dict 'base'
++                role =3D 'base ' + role
+             else:
++                # Implicit type created for a simple union's branch
+                 assert defined_in.endswith('-wrapper')
+                 # Unreachable and not implemented
+                 assert False
+-        if defined_in.endswith('Kind'):
++        elif defined_in.endswith('Kind'):
+             # See QAPISchema._make_implicit_enum_type()
+-            return '(branch of %s)' % defined_in[:-4]
+-        return '(%s of %s)' % (self.role, defined_in)
+-
+-    def describe(self):
+-        return "'%s' %s" % (self.name, self._pretty_defined_in())
++            # Implicit enum created for simple union's branches
++            assert role =3D=3D 'value'
++            role =3D 'branch'
++        elif defined_in !=3D info.defn_name:
++            return "%s '%s' of type '%s'" % (role, self.name, defined_in=
+)
++        return "%s '%s'" % (role, self.name)
 =20
 =20
-@@ -1659,6 +1663,7 @@ class QAPISchemaAlternateType(QAPISchemaType):
-         seen =3D {}
-         for v in self.variants.variants:
-             v.check_clash(self.info, seen)
-+            # TODO check conflicting qtypes
-             if self.doc:
-                 self.doc.connect_member(v)
-         if self.doc:
+ class QAPISchemaEnumMember(QAPISchemaMember):
+@@ -1866,7 +1875,7 @@ class QAPISchema(object):
+                 for v in values]
+=20
+     def _make_implicit_enum_type(self, name, info, ifcond, values):
+-        # See also QAPISchemaObjectTypeMember._pretty_defined_in()
++        # See also QAPISchemaObjectTypeMember.describe()
+         name =3D name + 'Kind'   # Use namespace reserved by add_name()
+         self._def_entity(QAPISchemaEnumType(
+             name, info, None, ifcond, self._make_enum_members(values), N=
+one))
+@@ -1882,7 +1891,7 @@ class QAPISchema(object):
+                                    role, members):
+         if not members:
+             return None
+-        # See also QAPISchemaObjectTypeMember._pretty_defined_in()
++        # See also QAPISchemaObjectTypeMember.describe()
+         name =3D 'q_obj_%s-%s' % (name, role)
+         typ =3D self.lookup_entity(name, QAPISchemaObjectType)
+         if typ:
+diff --git a/tests/qapi-schema/alternate-clash.err b/tests/qapi-schema/al=
+ternate-clash.err
+index 426ff6a7c4..73a52d69d1 100644
+--- a/tests/qapi-schema/alternate-clash.err
++++ b/tests/qapi-schema/alternate-clash.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/alternate-clash.json: In alternate 'Alt1':
+-tests/qapi-schema/alternate-clash.json:7: 'a_b' (branch of Alt1) collide=
+s with 'a-b' (branch of Alt1)
++tests/qapi-schema/alternate-clash.json:7: branch 'a_b' collides with bra=
+nch 'a-b'
+diff --git a/tests/qapi-schema/args-name-clash.err b/tests/qapi-schema/ar=
+gs-name-clash.err
+index eeb4e1b4dd..c5916a80fb 100644
+--- a/tests/qapi-schema/args-name-clash.err
++++ b/tests/qapi-schema/args-name-clash.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/args-name-clash.json: In command 'oops':
+-tests/qapi-schema/args-name-clash.json:4: 'a_b' (parameter of oops) coll=
+ides with 'a-b' (parameter of oops)
++tests/qapi-schema/args-name-clash.json:4: parameter 'a_b' collides with =
+parameter 'a-b'
+diff --git a/tests/qapi-schema/enum-clash-member.err b/tests/qapi-schema/=
+enum-clash-member.err
+index 26944f5e06..84e02db82c 100644
+--- a/tests/qapi-schema/enum-clash-member.err
++++ b/tests/qapi-schema/enum-clash-member.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/enum-clash-member.json: In enum 'MyEnum':
+-tests/qapi-schema/enum-clash-member.json:2: 'one_two' (value of MyEnum) =
+collides with 'one-two' (value of MyEnum)
++tests/qapi-schema/enum-clash-member.json:2: value 'one_two' collides wit=
+h value 'one-two'
+diff --git a/tests/qapi-schema/features-duplicate-name.err b/tests/qapi-s=
+chema/features-duplicate-name.err
+index 0ebec8e4b0..a99bbde737 100644
+--- a/tests/qapi-schema/features-duplicate-name.err
++++ b/tests/qapi-schema/features-duplicate-name.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/features-duplicate-name.json: In struct 'FeatureStruct=
+0':
+-tests/qapi-schema/features-duplicate-name.json:1: 'foo' (feature of Feat=
+ureStruct0) collides with 'foo' (feature of FeatureStruct0)
++tests/qapi-schema/features-duplicate-name.json:1: feature 'foo' collides=
+ with feature 'foo'
+diff --git a/tests/qapi-schema/flat-union-bad-base.err b/tests/qapi-schem=
+a/flat-union-bad-base.err
+index ae8adc3947..5da7602c20 100644
+--- a/tests/qapi-schema/flat-union-bad-base.err
++++ b/tests/qapi-schema/flat-union-bad-base.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/flat-union-bad-base.json: In union 'TestUnion':
+-tests/qapi-schema/flat-union-bad-base.json:8: 'string' (member of TestTy=
+peA) collides with 'string' (base of TestUnion)
++tests/qapi-schema/flat-union-bad-base.json:8: member 'string' of type 'T=
+estTypeA' collides with base member 'string'
+diff --git a/tests/qapi-schema/flat-union-clash-member.err b/tests/qapi-s=
+chema/flat-union-clash-member.err
+index 48e939db19..40f10681f8 100644
+--- a/tests/qapi-schema/flat-union-clash-member.err
++++ b/tests/qapi-schema/flat-union-clash-member.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/flat-union-clash-member.json: In union 'TestUnion':
+-tests/qapi-schema/flat-union-clash-member.json:11: 'name' (member of Bra=
+nch1) collides with 'name' (member of Base)
++tests/qapi-schema/flat-union-clash-member.json:11: member 'name' of type=
+ 'Branch1' collides with member 'name' of type 'Base'
+diff --git a/tests/qapi-schema/struct-base-clash-deep.err b/tests/qapi-sc=
+hema/struct-base-clash-deep.err
+index 53e9bb108e..2b12b3c07f 100644
+--- a/tests/qapi-schema/struct-base-clash-deep.err
++++ b/tests/qapi-schema/struct-base-clash-deep.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/struct-base-clash-deep.json: In struct 'Sub':
+-tests/qapi-schema/struct-base-clash-deep.json:10: 'name' (member of Sub)=
+ collides with 'name' (member of Base)
++tests/qapi-schema/struct-base-clash-deep.json:10: member 'name' collides=
+ with member 'name' of type 'Base'
+diff --git a/tests/qapi-schema/struct-base-clash.err b/tests/qapi-schema/=
+struct-base-clash.err
+index bf94eee8b3..8c3ee1c435 100644
+--- a/tests/qapi-schema/struct-base-clash.err
++++ b/tests/qapi-schema/struct-base-clash.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/struct-base-clash.json: In struct 'Sub':
+-tests/qapi-schema/struct-base-clash.json:5: 'name' (member of Sub) colli=
+des with 'name' (member of Base)
++tests/qapi-schema/struct-base-clash.json:5: member 'name' collides with =
+member 'name' of type 'Base'
+diff --git a/tests/qapi-schema/union-clash-branches.err b/tests/qapi-sche=
+ma/union-clash-branches.err
+index 145efebd9f..931399f076 100644
+--- a/tests/qapi-schema/union-clash-branches.err
++++ b/tests/qapi-schema/union-clash-branches.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/union-clash-branches.json: In union 'TestUnion':
+-tests/qapi-schema/union-clash-branches.json:4: 'a_b' (branch of TestUnio=
+n) collides with 'a-b' (branch of TestUnion)
++tests/qapi-schema/union-clash-branches.json:4: branch 'a_b' collides wit=
+h branch 'a-b'
 --=20
 2.21.0
 
