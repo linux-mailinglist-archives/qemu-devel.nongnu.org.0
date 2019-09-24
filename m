@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FD6BC92A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:51:15 +0200 (CEST)
-Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FE7BC93A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:54:05 +0200 (CEST)
+Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClDm-0003UL-Kx
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
+	id 1iClGW-00078w-0Y
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58798)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCks1-0000Ec-9x
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:48 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCks2-0000GL-FD
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCkrw-0001Tx-O2
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41878)
+ (envelope-from <armbru@redhat.com>) id 1iCkry-0001Us-4T
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56527)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrv-0001Sf-SK
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:40 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrx-0001UI-Lp
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:41 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A15633086211;
- Tue, 24 Sep 2019 13:28:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B5127A26675;
+ Tue, 24 Sep 2019 13:28:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C853D6012E;
- Tue, 24 Sep 2019 13:28:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 050E95D9DC;
+ Tue, 24 Sep 2019 13:28:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9995411384DA; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
+ id AE9A01136423; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/25] qapi: Move context-free checking to the proper place
-Date: Tue, 24 Sep 2019 15:28:22 +0200
-Message-Id: <20190924132830.15835-18-armbru@redhat.com>
+Subject: [PATCH 23/25] qapi: Improve reporting of missing documentation comment
+Date: Tue, 24 Sep 2019 15:28:28 +0200
+Message-Id: <20190924132830.15835-24-armbru@redhat.com>
 In-Reply-To: <20190924132830.15835-1-armbru@redhat.com>
 References: <20190924132830.15835-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 24 Sep 2019 13:28:38 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Tue, 24 Sep 2019 13:28:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -61,87 +61,70 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QAPISchemaCommand.check() and QAPISchemaEvent().check() check 'data'
-is present when 'boxed': true.  That's context-free.  Move to
-check_command() and check_event().
-
-Tweak the error message while there.
-
-check_exprs() & friends now check exactly what qapi-code-gen.txt calls
-the second layer of syntax.
+Have check_exprs() check this later, so the error message gains an "in
+definition line".  Tweak the error message.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/common.py                  | 16 ++++++++--------
- tests/qapi-schema/event-boxed-empty.err |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ scripts/qapi/common.py            | 18 ++++++++----------
+ tests/qapi-schema/doc-missing.err |  3 ++-
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index ac4c898e51..7577120f12 100644
+index 018e58bc50..29b75345bb 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -767,10 +767,12 @@ def check_type(value, info, source,
+@@ -925,10 +925,6 @@ def check_exprs(exprs):
+         if 'include' in expr:
+             continue
 =20
- def check_command(expr, info):
-     name =3D expr['command']
-+    args =3D expr.get('data')
-     boxed =3D expr.get('boxed', False)
+-        if not doc and doc_required:
+-            raise QAPISemError(info,
+-                               "definition missing documentation comment=
+")
+-
+         if 'enum' in expr:
+             meta =3D 'enum'
+         elif 'union' in expr:
+@@ -949,9 +945,14 @@ def check_exprs(exprs):
+         info.set_defn(meta, name)
+         check_defn_name_str(name, info, meta)
 =20
--    check_type(expr.get('data'), info,
--               "'data' for command '%s'" % name,
-+    if boxed and args is None:
-+        raise QAPISemError(info, "'boxed': true requires 'data'")
-+    check_type(args, info, "'data' for command '%s'" % name,
-                allow_dict=3Dnot boxed)
-     check_type(expr.get('returns'), info,
-                "'returns' for command '%s'" % name,
-@@ -779,10 +781,12 @@ def check_command(expr, info):
+-        if doc and doc.symbol !=3D name:
+-            raise QAPISemError(
+-                info, "documentation comment is for '%s'" % doc.symbol)
++        if doc:
++            if doc.symbol !=3D name:
++                raise QAPISemError(
++                    info, "documentation comment is for '%s'" % doc.symb=
+ol)
++            doc.check_expr(expr)
++        elif doc_required:
++            raise QAPISemError(info,
++                               "documentation comment required")
 =20
- def check_event(expr, info):
-     name =3D expr['event']
-+    args =3D expr.get('data')
-     boxed =3D expr.get('boxed', False)
+         if meta =3D=3D 'enum':
+             check_keys(expr, info, meta,
+@@ -996,9 +997,6 @@ def check_exprs(exprs):
+         check_if(expr, info)
+         check_flags(expr, info)
 =20
--    check_type(expr.get('data'), info,
--               "'data' for event '%s'" % name,
-+    if boxed and args is None:
-+        raise QAPISemError(info, "'boxed': true requires 'data'")
-+    check_type(args, info, "'data' for event '%s'" % name,
-                allow_dict=3Dnot boxed)
+-        if doc:
+-            doc.check_expr(expr)
+-
+     return exprs
 =20
 =20
-@@ -1691,8 +1695,6 @@ class QAPISchemaCommand(QAPISchemaEntity):
-                     self.info,
-                     "command's 'data' can take %s only with 'boxed': tru=
-e"
-                     % self.arg_type.describe())
--        elif self.boxed:
--            raise QAPISemError(self.info, "use of 'boxed' requires 'data=
-'")
-         if self._ret_type_name:
-             self.ret_type =3D schema.resolve_type(
-                 self._ret_type_name, self.info, "command's 'returns'")
-@@ -1740,8 +1742,6 @@ class QAPISchemaEvent(QAPISchemaEntity):
-                     self.info,
-                     "event's 'data' can take %s only with 'boxed': true"
-                     % self.arg_type.describe())
--        elif self.boxed:
--            raise QAPISemError(self.info, "use of 'boxed' requires 'data=
-'")
-=20
-     def visit(self, visitor):
-         QAPISchemaEntity.visit(self, visitor)
-diff --git a/tests/qapi-schema/event-boxed-empty.err b/tests/qapi-schema/=
-event-boxed-empty.err
-index 9c691b7d97..931c10b036 100644
---- a/tests/qapi-schema/event-boxed-empty.err
-+++ b/tests/qapi-schema/event-boxed-empty.err
-@@ -1,2 +1,2 @@
- tests/qapi-schema/event-boxed-empty.json: In event 'FOO':
--tests/qapi-schema/event-boxed-empty.json:2: use of 'boxed' requires 'dat=
-a'
-+tests/qapi-schema/event-boxed-empty.json:2: 'boxed': true requires 'data=
-'
+diff --git a/tests/qapi-schema/doc-missing.err b/tests/qapi-schema/doc-mi=
+ssing.err
+index 08c827931a..7fbf54ff65 100644
+--- a/tests/qapi-schema/doc-missing.err
++++ b/tests/qapi-schema/doc-missing.err
+@@ -1 +1,2 @@
+-tests/qapi-schema/doc-missing.json:5: definition missing documentation c=
+omment
++tests/qapi-schema/doc-missing.json: In command 'undocumented':
++tests/qapi-schema/doc-missing.json:5: documentation comment required
 --=20
 2.21.0
 
