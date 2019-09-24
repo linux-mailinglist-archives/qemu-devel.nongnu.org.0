@@ -2,44 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E8EBCBDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:52:06 +0200 (CEST)
-Received: from localhost ([::1]:47482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21686BCBEE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:55:07 +0200 (CEST)
+Received: from localhost ([::1]:47562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCn6i-0003Xu-HX
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:52:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42867)
+	id 1iCn9d-0007td-M4
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iCm6w-0007zu-GT
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:16 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCmAM-0003q5-Lu
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:51:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iCm6u-000420-R0
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:48:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37072)
+ (envelope-from <eblake@redhat.com>) id 1iCmAL-0006B3-4x
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:51:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50812)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1iCm6u-00041K-JU; Tue, 24 Sep 2019 10:48:12 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCmAK-0006Ae-Sp
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:51:45 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E4BC33CA03;
- Tue, 24 Sep 2019 14:48:11 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B92B10013D9;
- Tue, 24 Sep 2019 14:48:10 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 3/4] kvm: split too big memory section on several memslots
-Date: Tue, 24 Sep 2019 10:47:50 -0400
-Message-Id: <20190924144751.24149-4-imammedo@redhat.com>
-In-Reply-To: <20190924144751.24149-1-imammedo@redhat.com>
-References: <20190924144751.24149-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ by mx1.redhat.com (Postfix) with ESMTPS id DAF5285550;
+ Tue, 24 Sep 2019 14:51:43 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61C3619C6A;
+ Tue, 24 Sep 2019 14:51:41 +0000 (UTC)
+Subject: Re: [PATCH 03/25] qapi: New QAPISourceInfo, replacing dict
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190924132830.15835-1-armbru@redhat.com>
+ <20190924132830.15835-4-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <4ff086cb-7c96-a25a-be19-d78af40afd9b@redhat.com>
+Date: Tue, 24 Sep 2019 09:51:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190924132830.15835-4-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="I5bCauHbQtKkNrr0cfzlwzbtZp73jQNse"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Tue, 24 Sep 2019 14:48:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Tue, 24 Sep 2019 14:51:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,274 +84,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, peterx@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Max memslot size supported by kvm on s390 is 8Tb,
-move logic of splitting RAM in chunks upto 8T to KVM code.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--I5bCauHbQtKkNrr0cfzlwzbtZp73jQNse
+Content-Type: multipart/mixed; boundary="qAlyguDQa4LijQYLxFKQOl7gNiXVu1Kof";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
+Message-ID: <4ff086cb-7c96-a25a-be19-d78af40afd9b@redhat.com>
+Subject: Re: [PATCH 03/25] qapi: New QAPISourceInfo, replacing dict
+References: <20190924132830.15835-1-armbru@redhat.com>
+ <20190924132830.15835-4-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-4-armbru@redhat.com>
 
-This way it will hide KVM specific restrictions in KVM code
-and won't affect board level design decisions. Which would allow
-us to avoid misusing memory_region_allocate_system_memory() API
-and eventually use a single hostmem backend for guest RAM.
+--qAlyguDQa4LijQYLxFKQOl7gNiXVu1Kof
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v7:
-  * rebase on top of Paolo's series
-     "kvm: clear dirty bitmaps from all overlapping memslots"
-  * use MIN() instead of open coding it
-  * keep KVM_SLOT_MAX_BYTES at original place, and deal with
-    it in the next s390 specific patch
-  * s/slot_size/range_size/ in kvm_physical_log_clear()
-  * use temporary MemoryRegionSection variable and keep
-    original kvm_get_dirty_pages_log_range() untouched
-v6:
-  * KVM's migration code was assuming 1:1 relation between
-    memslot and MemorySection, which becomes not true fo s390x
-    with this patch. As result migration was broken and
-    dirty logging wasn't even started with when a MemorySection
-    was split on several memslots. Amend related KVM dirty
-    log tracking code to account for split MemorySection.
-v5:
-  * move computation 'size -= slot_size' inside of loop body
-          (David Hildenbrand <david@redhat.com>)
-v4:
-  * fix compilation issue
-          (Christian Borntraeger <borntraeger@de.ibm.com>)
-  * advance HVA along with GPA in kvm_set_phys_mem()
-          (Christian Borntraeger <borntraeger@de.ibm.com>)
+On 9/24/19 8:28 AM, Markus Armbruster wrote:
+> We track source locations with a dict of the form
+>=20
+>     {'file': FNAME, 'line': LINENO, parent': PARENT}
 
-patch prepares only KVM side for switching to single RAM memory region
-another patch will take care of  dropping manual RAM partitioning in
-s390 code.
----
- include/sysemu/kvm_int.h |   1 +
- accel/kvm/kvm-all.c      | 124 +++++++++++++++++++++++++--------------
- 2 files changed, 81 insertions(+), 44 deletions(-)
+Missing ' on parent
 
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 72b2d1b3ae..ac2d1f8b56 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -41,4 +41,5 @@ typedef struct KVMMemoryListener {
- void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-                                   AddressSpace *as, int as_id);
- 
-+void kvm_set_max_memslot_size(hwaddr max_slot_size);
- #endif
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 315a91557f..f3848e7e75 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -140,6 +140,7 @@ bool kvm_direct_msi_allowed;
- bool kvm_ioeventfd_any_length_allowed;
- bool kvm_msi_use_devid;
- static bool kvm_immediate_exit;
-+static hwaddr kvm_max_slot_size = ~0;
- 
- static const KVMCapabilityInfo kvm_required_capabilites[] = {
-     KVM_CAP_INFO(USER_MEMORY),
-@@ -437,7 +438,7 @@ static int kvm_slot_update_flags(KVMMemoryListener *kml, KVMSlot *mem,
- static int kvm_section_update_flags(KVMMemoryListener *kml,
-                                     MemoryRegionSection *section)
- {
--    hwaddr start_addr, size;
-+    hwaddr start_addr, size, slot_size;
-     KVMSlot *mem;
-     int ret = 0;
- 
-@@ -448,13 +449,18 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
- 
-     kvm_slots_lock(kml);
- 
--    mem = kvm_lookup_matching_slot(kml, start_addr, size);
--    if (!mem) {
--        /* We don't have a slot if we want to trap every access. */
--        goto out;
--    }
-+    while (size && !ret) {
-+        slot_size = MIN(kvm_max_slot_size, size);
-+        mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-+        if (!mem) {
-+            /* We don't have a slot if we want to trap every access. */
-+            goto out;
-+        }
- 
--    ret = kvm_slot_update_flags(kml, mem, section->mr);
-+        ret = kvm_slot_update_flags(kml, mem, section->mr);
-+        start_addr += slot_size;
-+        size -= slot_size;
-+    }
- 
- out:
-     kvm_slots_unlock(kml);
-@@ -527,11 +533,15 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-     struct kvm_dirty_log d = {};
-     KVMSlot *mem;
-     hwaddr start_addr, size;
-+    hwaddr slot_size, slot_offset = 0;
-     int ret = 0;
- 
-     size = kvm_align_section(section, &start_addr);
--    if (size) {
--        mem = kvm_lookup_matching_slot(kml, start_addr, size);
-+    while (size) {
-+        MemoryRegionSection subsection = *section;
-+
-+        slot_size = MIN(kvm_max_slot_size, size);
-+        mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-         if (!mem) {
-             /* We don't have a slot if we want to trap every access. */
-             goto out;
-@@ -549,11 +559,11 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-          * So for now, let's align to 64 instead of HOST_LONG_BITS here, in
-          * a hope that sizeof(long) won't become >8 any time soon.
-          */
--        size = ALIGN(((mem->memory_size) >> TARGET_PAGE_BITS),
--                     /*HOST_LONG_BITS*/ 64) / 8;
-         if (!mem->dirty_bmap) {
-+            hwaddr bitmap_size = ALIGN(((mem->memory_size) >> TARGET_PAGE_BITS),
-+                                        /*HOST_LONG_BITS*/ 64) / 8;
-             /* Allocate on the first log_sync, once and for all */
--            mem->dirty_bmap = g_malloc0(size);
-+            mem->dirty_bmap = g_malloc0(bitmap_size);
-         }
- 
-         d.dirty_bitmap = mem->dirty_bmap;
-@@ -564,7 +574,13 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-             goto out;
-         }
- 
--        kvm_get_dirty_pages_log_range(section, d.dirty_bitmap);
-+        subsection.offset_within_region += slot_offset;
-+        subsection.size = int128_make64(slot_size);
-+        kvm_get_dirty_pages_log_range(&subsection, d.dirty_bitmap);
-+
-+        slot_offset += slot_size;
-+        start_addr += slot_size;
-+        size -= slot_size;
-     }
- out:
-     return ret;
-@@ -971,6 +987,14 @@ kvm_check_extension_list(KVMState *s, const KVMCapabilityInfo *list)
-     return NULL;
- }
- 
-+void kvm_set_max_memslot_size(hwaddr max_slot_size)
-+{
-+    g_assert(
-+        ROUND_UP(max_slot_size, qemu_real_host_page_size) == max_slot_size
-+    );
-+    kvm_max_slot_size = max_slot_size;
-+}
-+
- static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                              MemoryRegionSection *section, bool add)
- {
-@@ -978,7 +1002,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     int err;
-     MemoryRegion *mr = section->mr;
-     bool writeable = !mr->readonly && !mr->rom_device;
--    hwaddr start_addr, size;
-+    hwaddr start_addr, size, slot_size;
-     void *ram;
- 
-     if (!memory_region_is_ram(mr)) {
-@@ -1003,41 +1027,52 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     kvm_slots_lock(kml);
- 
-     if (!add) {
--        mem = kvm_lookup_matching_slot(kml, start_addr, size);
--        if (!mem) {
--            goto out;
--        }
--        if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
--            kvm_physical_sync_dirty_bitmap(kml, section);
--        }
-+        do {
-+            slot_size = MIN(kvm_max_slot_size, size);
-+            mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-+            if (!mem) {
-+                goto out;
-+            }
-+            if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
-+                kvm_physical_sync_dirty_bitmap(kml, section);
-+            }
- 
--        /* unregister the slot */
--        g_free(mem->dirty_bmap);
--        mem->dirty_bmap = NULL;
--        mem->memory_size = 0;
--        mem->flags = 0;
--        err = kvm_set_user_memory_region(kml, mem, false);
--        if (err) {
--            fprintf(stderr, "%s: error unregistering slot: %s\n",
--                    __func__, strerror(-err));
--            abort();
--        }
-+            /* unregister the slot */
-+            g_free(mem->dirty_bmap);
-+            mem->dirty_bmap = NULL;
-+            mem->memory_size = 0;
-+            mem->flags = 0;
-+            err = kvm_set_user_memory_region(kml, mem, false);
-+            if (err) {
-+                fprintf(stderr, "%s: error unregistering slot: %s\n",
-+                        __func__, strerror(-err));
-+                abort();
-+            }
-+            start_addr += slot_size;
-+            size -= slot_size;
-+        } while (size);
-         goto out;
-     }
- 
-     /* register the new slot */
--    mem = kvm_alloc_slot(kml);
--    mem->memory_size = size;
--    mem->start_addr = start_addr;
--    mem->ram = ram;
--    mem->flags = kvm_mem_flags(mr);
--
--    err = kvm_set_user_memory_region(kml, mem, true);
--    if (err) {
--        fprintf(stderr, "%s: error registering slot: %s\n", __func__,
--                strerror(-err));
--        abort();
--    }
-+    do {
-+        slot_size = MIN(kvm_max_slot_size, size);
-+        mem = kvm_alloc_slot(kml);
-+        mem->memory_size = slot_size;
-+        mem->start_addr = start_addr;
-+        mem->ram = ram;
-+        mem->flags = kvm_mem_flags(mr);
-+
-+        err = kvm_set_user_memory_region(kml, mem, true);
-+        if (err) {
-+            fprintf(stderr, "%s: error registering slot: %s\n", __func__,
-+                    strerror(-err));
-+            abort();
-+        }
-+        start_addr += slot_size;
-+        ram += slot_size;
-+        size -= slot_size;
-+    } while (size);
- 
- out:
-     kvm_slots_unlock(kml);
-@@ -2877,6 +2912,7 @@ static bool kvm_accel_has_memory(MachineState *ms, AddressSpace *as,
- 
-     for (i = 0; i < kvm->nr_as; ++i) {
-         if (kvm->as[i].as == as && kvm->as[i].ml) {
-+            size = MIN(kvm_max_slot_size, size);
-             return NULL != kvm_lookup_matching_slot(kvm->as[i].ml,
-                                                     start_addr, size);
-         }
--- 
-2.18.1
+>=20
+> where PARENT is None for the main file, and the include directive's
+> source location for included files.
+>=20
+> This is servicable enough, but the next commit will add information,
 
+serviceable
+
+> and that's going to come out cleaner if we turn this into a class.  So
+> do that.
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  scripts/qapi/common.py | 69 +++++++++++++++++++++++++-----------------=
+
+>  1 file changed, 41 insertions(+), 28 deletions(-)
+>=20
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--qAlyguDQa4LijQYLxFKQOl7gNiXVu1Kof--
+
+--I5bCauHbQtKkNrr0cfzlwzbtZp73jQNse
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KLXwACgkQp6FrSiUn
+Q2q2FAgAqjxVMnmTtx4OrhAAr6BWrqvjEp4VpSzQLHUBJKm/xocFL58t7VZoFc9k
+2djyD0aj0fMy4J7XOK7a6TiaS4pkR1SQePS9+8Um/HEUp4Oy0AC3n+402+AAURYm
+TzueuteZm6B+QERtIYxgMOtFVtwJTAHa3Y2jeYARsdWw17zZK+kfYu0AQ3ipa6/D
+aE6Og4uc/Zb3jj28wPm1dGrs9skQDyagBbVLkVWZidgTQvHMa+rK7n1umGPwRmGz
+ZL+dFjC5aO71HY9RjSme37x/K06xeyQw4PIl/OtyKELqYvHYZgNVyNIucXrH946k
+bTFQH+nfuewb+TZDs3XrEpZDJfNogg==
+=InqA
+-----END PGP SIGNATURE-----
+
+--I5bCauHbQtKkNrr0cfzlwzbtZp73jQNse--
 
