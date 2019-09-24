@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC41DBC83F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:53:49 +0200 (CEST)
-Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79322BC853
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:58:04 +0200 (CEST)
+Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkKC-0000iA-6A
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50517)
+	id 1iCkOH-0004gj-Pa
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0n-0001Jd-LH
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:52 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0o-0001Kg-O6
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0i-0006vh-MP
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48544)
+ (envelope-from <armbru@redhat.com>) id 1iCk0j-0006xN-Hj
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55480)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uF-9U
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:40 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uJ-MB
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:41 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 551E63175282
+ by mx1.redhat.com (Postfix) with ESMTPS id 5D8C95859E
  for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F380D60933;
- Tue, 24 Sep 2019 12:33:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 080255D9E1;
+ Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A971F11384D8; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
+ id B7AC21138406; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/37] docs/devel/qapi-code-gen: Rewrite introduction to schema
-Date: Tue, 24 Sep 2019 14:33:13 +0200
-Message-Id: <20190924123334.30645-17-armbru@redhat.com>
+Subject: [PULL 18/37] qapi: Tweak code to match docs/devel/qapi-code-gen.txt
+Date: Tue, 24 Sep 2019 14:33:15 +0200
+Message-Id: <20190924123334.30645-19-armbru@redhat.com>
 In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
 References: <20190924123334.30645-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,135 +60,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The introduction to the QAPI schema is somewhat rambling.  Rewrite for
-clarity.
+The previous commit made qapi-code-gen.txt define "(top-level)
+expression" as either "directive" or "definition".  The code still
+uses "expression" when it really means "definition".  Tidy up.
+
+The previous commit made qapi-code-gen.txt use "object" rather than
+"dictionary".  The code still uses "dictionary".  Tidy up.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190913201349.24332-15-armbru@redhat.com>
+Message-Id: <20190913201349.24332-17-armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt | 107 ++++++++++++++++-------------------
- 1 file changed, 48 insertions(+), 59 deletions(-)
+ scripts/qapi/common.py                        | 24 +++++++++----------
+ tests/qapi-schema/args-invalid.err            |  2 +-
+ tests/qapi-schema/doc-missing.err             |  2 +-
+ tests/qapi-schema/doc-no-symbol.err           |  2 +-
+ .../qapi-schema/enum-dict-member-unknown.err  |  2 +-
+ tests/qapi-schema/pragma-non-dict.err         |  2 +-
+ tests/qapi-schema/struct-data-invalid.err     |  2 +-
+ 7 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index ac36ed34e3..d7bc79b48b 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -16,65 +16,54 @@ well as the QEMU Guest Agent (QGA) for communicating =
-with the guest.
- The remainder of this document uses "Client JSON Protocol" when
- referring to the wire contents of a QMP or QGA connection.
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index a538d2f37c..f27860540b 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -103,11 +103,11 @@ class QAPISemError(QAPIError):
 =20
--To map Client JSON Protocol interfaces to the native C QAPI
--implementations, a JSON-based schema is used to define types and
--function signatures, and a set of scripts is used to generate types,
--signatures, and marshaling/dispatch code. This document will describe
--how the schemas, scripts, and resulting code are used.
--
--
--=3D=3D QMP/Guest agent schema =3D=3D
--
--A QAPI schema file is designed to be loosely based on JSON
--(http://www.ietf.org/rfc/rfc8259.txt) with changes for quoting style
--and the use of comments; a QAPI schema file is then parsed by a python
--code generation program.  A valid QAPI schema consists of a series of
--top-level expressions, with no commas between them.  Where
--dictionaries (JSON objects) are used, they are parsed as python
--OrderedDicts so that ordering is preserved (for predictable layout of
--generated C structs and parameter lists).  Ordering doesn't matter
--between top-level expressions or the keys within an expression, but
--does matter within dictionary values for 'data' and 'returns' members
--of a single expression.  QAPI schema input is written using 'single
--quotes' instead of JSON's "double quotes" (in contrast, Client JSON
--Protocol uses no comments, and while input accepts 'single quotes' as
--an extension, output is strict JSON using only "double quotes").  As
--in JSON, trailing commas are not permitted in arrays or dictionaries.
--Input must be ASCII (although QMP supports full Unicode strings, the
--QAPI parser does not).  At present, there is no place where a QAPI
--schema requires the use of JSON numbers or null.
--
--
--=3D=3D=3D Comments =3D=3D=3D
--
--Comments are allowed; anything between an unquoted # and the following
--newline is ignored.
--
--
--=3D=3D=3D Schema overview =3D=3D=3D
--
--The schema sets up a series of types, as well as commands and events
--that will use those types.  Forward references are allowed: the parser
--scans in two passes, where the first pass learns all type names, and
--the second validates the schema and generates the code.  This allows
--the definition of complex structs that can have mutually recursive
--types, and allows for indefinite nesting of Client JSON Protocol that
--satisfies the schema.  A type name should not be defined more than
--once.  It is permissible for the schema to contain additional types
--not used by any commands or events in the Client JSON Protocol, for
--the side effect of generated C code used internally.
--
--There are eight top-level expressions recognized by the parser:
--'include', 'pragma', 'command', 'struct', 'enum', 'union',
--'alternate', and 'event'.  There are several groups of types: simple
--types (a number of built-in types, such as 'int' and 'str'; as well as
--enumerations), complex types (structs and two flavors of unions), and
--alternate types (a choice between other types).  The 'command' and
--'event' expressions can refer to existing types by name, or list an
--anonymous type as a dictionary. Listing a type name inside an array
--refers to a single-dimension array of that type; multi-dimension
--arrays are not directly supported (although an array of a complex
--struct that contains an array member is possible).
-+To map between Client JSON Protocol interfaces and the native C API,
-+we generate C code from a QAPI schema.  This document describes the
-+QAPI schema language, and how it gets mapped to the Client JSON
-+Protocol and to C.  It additionally provides guidance on maintaining
-+Client JSON Protocol compatibility.
-+
-+
-+=3D=3D The QAPI schema language =3D=3D
-+
-+The QAPI schema defines the Client JSON Protocol's commands and
-+events, as well as types used by them.  Forward references are
-+allowed.
-+
-+It is permissible for the schema to contain additional types not used
-+by any commands or events, for the side effect of generated C code
-+used internally.
-+
-+There are several kinds of types: simple types (a number of built-in
-+types, such as 'int' and 'str'; as well as enumerations), arrays,
-+complex types (structs and two flavors of unions), and alternate types
-+(a choice between other types).
-+
-+
-+=3D=3D=3D Schema syntax =3D=3D=3D
-+
-+Syntax is loosely based on JSON (http://www.ietf.org/rfc/rfc8259.txt).
-+Differences:
-+
-+* Comments: start with a hash character (#) that is not part of a
-+  string, and extend to the end of the line.
-+
-+* Strings are enclosed in 'single quotes', not "double quotes".
-+
-+* Strings are restricted to printable ASCII, and escape sequences to
-+  just '\\'.
-+
-+* Numbers are not supported.
-+
-+A QAPI schema consists of a series of top-level expressions (JSON
-+objects).  Code and documentation is generated in schema definition
-+order.  Code order should not matter.
-+
-+The order of keys within JSON objects does not matter unless
-+explicitly noted.
-+
-+There are eight kinds of top-level expressions: 'include', 'pragma',
-+'command', 'struct', 'enum', 'union', 'alternate', and 'event'.  These
-+are discussed in detail below.
+ class QAPIDoc(object):
+     """
+-    A documentation comment block, either expression or free-form
++    A documentation comment block, either definition or free-form
 =20
- In the rest of this document, usage lines are given for each
- expression type, with literal strings written in lower case and
+-    Expression documentation blocks consist of
++    Definition documentation blocks consist of
+=20
+-    * a body section: one line naming the expression, followed by an
++    * a body section: one line naming the definition, followed by an
+       overview (any number of lines)
+=20
+     * argument sections: a description of each argument (for commands
+@@ -200,9 +200,9 @@ class QAPIDoc(object):
+         Process a line of documentation text in the body section.
+=20
+         If this a symbol line and it is the section's first line, this
+-        is an expression documentation block for that symbol.
++        is a definition documentation block for that symbol.
+=20
+-        If it's an expression documentation block, another symbol line
++        If it's a definition documentation block, another symbol line
+         begins the argument section for the argument named by it, and
+         a section tag begins an additional section.  Start that
+         section and append the line to it.
+@@ -220,7 +220,7 @@ class QAPIDoc(object):
+             if not self.symbol:
+                 raise QAPIParseError(self._parser, "Invalid name")
+         elif self.symbol:
+-            # This is an expression documentation block
++            # This is a definition documentation block
+             if name.startswith('@') and name.endswith(':'):
+                 self._append_line =3D self._append_args_line
+                 self._append_args_line(line)
+@@ -428,7 +428,7 @@ class QAPISchemaParser(object):
+                 pragma =3D expr['pragma']
+                 if not isinstance(pragma, dict):
+                     raise QAPISemError(
+-                        info, "Value of 'pragma' must be a dictionary")
++                        info, "Value of 'pragma' must be an object")
+                 for name, value in pragma.items():
+                     self._pragma(name, value, info)
+             else:
+@@ -437,7 +437,7 @@ class QAPISchemaParser(object):
+                 if cur_doc:
+                     if not cur_doc.symbol:
+                         raise QAPISemError(
+-                            cur_doc.info, "Expression documentation requ=
+ired")
++                            cur_doc.info, "Definition documentation requ=
+ired")
+                     expr_elem['doc'] =3D cur_doc
+                 self.exprs.append(expr_elem)
+             cur_doc =3D None
+@@ -789,7 +789,7 @@ def check_type(info, source, value,
+=20
+     if not isinstance(value, OrderedDict):
+         raise QAPISemError(info,
+-                           "%s should be a dictionary or type name" % so=
+urce)
++                           "%s should be an object or type name" % sourc=
+e)
+=20
+     # value is a dictionary, check that each member is okay
+     for (key, arg) in value.items():
+@@ -971,8 +971,8 @@ def check_enum(expr, info):
+                            "Enum '%s' requires a string for 'prefix'" % =
+name)
+=20
+     for member in members:
+-        source =3D "dictionary member of enum '%s'" % name
+-        check_known_keys(info, source, member, ['name'], ['if'])
++        check_known_keys(info, "member of enum '%s'" % name, member,
++                         ['name'], ['if'])
+         check_if(member, info)
+         check_name(info, "Member of enum '%s'" % name, member['name'],
+                    enum_member=3DTrue)
+@@ -1081,7 +1081,7 @@ def check_exprs(exprs):
+=20
+         if not doc and doc_required:
+             raise QAPISemError(info,
+-                               "Expression missing documentation comment=
+")
++                               "Definition missing documentation comment=
+")
+=20
+         if 'enum' in expr:
+             meta =3D 'enum'
+diff --git a/tests/qapi-schema/args-invalid.err b/tests/qapi-schema/args-=
+invalid.err
+index fe1e94975b..bfb2e4133e 100644
+--- a/tests/qapi-schema/args-invalid.err
++++ b/tests/qapi-schema/args-invalid.err
+@@ -1 +1 @@
+-tests/qapi-schema/args-invalid.json:1: 'data' for command 'foo' should b=
+e a dictionary or type name
++tests/qapi-schema/args-invalid.json:1: 'data' for command 'foo' should b=
+e an object or type name
+diff --git a/tests/qapi-schema/doc-missing.err b/tests/qapi-schema/doc-mi=
+ssing.err
+index 7f2f326b30..3a377ddc57 100644
+--- a/tests/qapi-schema/doc-missing.err
++++ b/tests/qapi-schema/doc-missing.err
+@@ -1 +1 @@
+-tests/qapi-schema/doc-missing.json:5: Expression missing documentation c=
+omment
++tests/qapi-schema/doc-missing.json:5: Definition missing documentation c=
+omment
+diff --git a/tests/qapi-schema/doc-no-symbol.err b/tests/qapi-schema/doc-=
+no-symbol.err
+index 75f032a942..212984ff20 100644
+--- a/tests/qapi-schema/doc-no-symbol.err
++++ b/tests/qapi-schema/doc-no-symbol.err
+@@ -1 +1 @@
+-tests/qapi-schema/doc-no-symbol.json:3: Expression documentation require=
+d
++tests/qapi-schema/doc-no-symbol.json:3: Definition documentation require=
+d
+diff --git a/tests/qapi-schema/enum-dict-member-unknown.err b/tests/qapi-=
+schema/enum-dict-member-unknown.err
+index 2aae618be0..7fd9c032bf 100644
+--- a/tests/qapi-schema/enum-dict-member-unknown.err
++++ b/tests/qapi-schema/enum-dict-member-unknown.err
+@@ -1,2 +1,2 @@
+-tests/qapi-schema/enum-dict-member-unknown.json:2: Unknown key 'bad-key'=
+ in dictionary member of enum 'MyEnum'
++tests/qapi-schema/enum-dict-member-unknown.json:2: Unknown key 'bad-key'=
+ in member of enum 'MyEnum'
+ Valid keys are 'if', 'name'.
+diff --git a/tests/qapi-schema/pragma-non-dict.err b/tests/qapi-schema/pr=
+agma-non-dict.err
+index 75bc335aea..b358261050 100644
+--- a/tests/qapi-schema/pragma-non-dict.err
++++ b/tests/qapi-schema/pragma-non-dict.err
+@@ -1 +1 @@
+-tests/qapi-schema/pragma-non-dict.json:3: Value of 'pragma' must be a di=
+ctionary
++tests/qapi-schema/pragma-non-dict.json:3: Value of 'pragma' must be an o=
+bject
+diff --git a/tests/qapi-schema/struct-data-invalid.err b/tests/qapi-schem=
+a/struct-data-invalid.err
+index 6644f4c2ad..4bf5bcc255 100644
+--- a/tests/qapi-schema/struct-data-invalid.err
++++ b/tests/qapi-schema/struct-data-invalid.err
+@@ -1 +1 @@
+-tests/qapi-schema/struct-data-invalid.json:1: 'data' for struct 'foo' sh=
+ould be a dictionary or type name
++tests/qapi-schema/struct-data-invalid.json:1: 'data' for struct 'foo' sh=
+ould be an object or type name
 --=20
 2.21.0
 
