@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7924BD5A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 02:00:37 +0200 (CEST)
-Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D980CBD5B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 02:19:19 +0200 (CEST)
+Received: from localhost ([::1]:44298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCu27-0006Ga-29
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:15:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43831)
+	id 1iCv1a-0004Yr-8F
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 20:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtft-0001tU-Ld
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:50 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCuzu-0003eZ-RR
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:17:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtfs-0003f5-K4
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:49 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:38005)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCuzt-0000pk-K5
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:17:34 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:53720)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCtfs-0003eO-Er
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:48 -0400
-Received: by mail-pl1-f194.google.com with SMTP id w10so1573461plq.5
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:52:48 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iCuzt-0000pa-CA
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:17:33 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id i16so2404559wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 17:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yHt544kKMLTAzXmG0QrhjlZ7h59m1K6L+Zarp5LpcJg=;
- b=kscA1f0L6uoL1sMKfbO0+Q4nVf0JdEYjVH3wf3h72tv+CfVXeht+jgysi+ffD60bP3
- JeBgd4LdnyuZMph60kTwhPesUnQ9ZgfztJF4Z9UtR6Ven1q73C+egAI1/Ehs+nJ/1Xbp
- 9xGt8yEBbdXz12oTSiOAnU+aMaF4xcbwg1KBWJEOG8leq0SaIMzn5tRoXtDVYTX3oeE4
- pA2UoEBuFdbHi2NBgm9KdypVxspW692WaQHzli00haJYkqa62F5ipsY94XkpP6Unsj4I
- 1NP8JpWsqRTCPZ0MHhhFNxvYFuVAAM7hykw9vXbEKZMxqv/gNPLFMB1s1X//Tu4OTVdi
- bh3g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=UWXODm6BuFnMzwN8yk+MOa3eu06k3cObvd4skljNWys=;
+ b=mZMeoeSnF0b6h7yFy9mhE2+V655PPtPKCvPWk1hnNmyOHwPd+BegsW8W8R0caF5whs
+ +N5g5qDXvCTOcEWPhjw5JzM4kC40uxQDbpFSWWMxbV3EvJVRtU9UXa6V1w4G7ev1+2Ok
+ 4lNfSm1G26LE8ul3g4VqWtifSuwr/h8aBXeEki2nv6TmFA9mX1z7FwaAfOhwFHXozFRm
+ YxMPmP966FhJX0pHD2gC+4F2orW6YVFQnVpg08YvwoRmvk+F/mw81pZ5ou/ZNbzyFxHL
+ QZEyQwCdPmxML00V35P4ySXsiIvpdfjMcFaxREWZX+6U5NWPMkqGLlL2VJEDFI8nXIJz
+ v+pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yHt544kKMLTAzXmG0QrhjlZ7h59m1K6L+Zarp5LpcJg=;
- b=pXdjInZgaUatnAbGlKrW/XM1jB3hb2GoFa+ZcvRE4dga0sTh88MtIMAHcOtsAfvYEG
- Xc3aFZQPs0hApyQQZ7O56WoN5sTop8hdsJnErzY8X91/HUwvuFhgY+Ut8eMkyWOKClG6
- ZzQiKbd20PI+wyLgv9XOHIUp6vM50oFKjwAEibmu281iNK7nBMa9fBStHr6LMclF9KZk
- QLJgNODmiBiNkZNGpwSEnOpdm2H1mpga1jtFJwmYiWVTkxdsPCMLQ8fQ3PIkHbIvpppT
- KJNOe51chVC1//MLCC27Yxg8XDECI+aTmmPik/sIoIfXnPNdEBpfepvvCbfktYrI9fS9
- ufDA==
-X-Gm-Message-State: APjAAAWNhYcpMQ3tzwCdW0N4c+QVswNRT2kRCmO1lbzjlG2rDDXuspGT
- lJfQFYcwNznFnTwqlVgjw2Qrvg==
-X-Google-Smtp-Source: APXvYqzySPwdlwkuHB5V8VGPQ0mMYuk+AZcsoAPoKnTbz/yNMcnNXbiBiSC25n2odXgg+iXvlfiHTw==
-X-Received: by 2002:a17:902:b7c3:: with SMTP id
- v3mr5033181plz.139.1569361586558; 
- Tue, 24 Sep 2019 14:46:26 -0700 (PDT)
-Received: from [172.20.32.216] ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id b5sm3730404pfp.38.2019.09.24.14.46.25
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Sep 2019 14:46:25 -0700 (PDT)
-Subject: Re: [PATCH 5/7] target/ppc: change struct PPC_DFP decimal storage
- from uint64[2] to ppc_vsr_t
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
-References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
- <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <a79cc85b-66b2-0ac2-c4bb-1e8d0a63e3ee@linaro.org>
-Date: Tue, 24 Sep 2019 14:46:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UWXODm6BuFnMzwN8yk+MOa3eu06k3cObvd4skljNWys=;
+ b=mppqDVV1cAHR6lvqod4cusx/wdRNS3HOfkpkaw6beiem84HDsd5Am1Om1KD/uHk155
+ tqAwk1urVWlncWkO/2n62Py0OxuVoGrGNElYVVa8+Fat2gtB/wZu0f9RmT62UI5yRMcu
+ hW/2EnGsYyqrU1ejVH3m7BFOt6C5LH3hqJ8uifcUCW64Sch5iF7AQrNEJFUAMUeQl5p0
+ XI71ng2uSIP7WAGlbIKeModk7t1cZL9eNuUoImBbO1lpIa0tlf8OQ/laKgStjf1luM89
+ ft9IsmNKkKqU3Tg/RI4k0Du5/whQOY4iP29DLClNasGc7I+516mtNULmkPTBqrN1QS4M
+ 56fg==
+X-Gm-Message-State: APjAAAWK6yJVILCd2jd3ZHevnf2mQv2T8zf3zkW4rtfeUhV/BYs4xaKF
+ yw7+wSUmTwEzJqD83LKIhnkJFp6ErfA1Xw==
+X-Google-Smtp-Source: APXvYqyNngUDM9McheyRedMPowJ0P2WqyplBJGWSX4d0J3ZcCZs21Qftl11iEv5Z8FYKljUlFzY1uQ==
+X-Received: by 2002:a7b:c92b:: with SMTP id h11mr2698665wml.10.1569360034125; 
+ Tue, 24 Sep 2019 14:20:34 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k24sm4136223wmi.1.2019.09.24.14.20.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 14:20:33 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B41FE1FFB5;
+ Tue, 24 Sep 2019 22:01:09 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 31/33] docker: remove unused debian-sid
+Date: Tue, 24 Sep 2019 22:01:04 +0100
+Message-Id: <20190924210106.27117-32-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
+References: <20190924210106.27117-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.214.194
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,26 +81,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, jsnow@redhat.com,
+ f4bug@amsat.org, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/19 8:35 AM, Mark Cave-Ayland wrote:
-> There are several places in dfp_helper.c that access the decimal number
-> representations in struct PPC_DFP via HI_IDX and LO_IDX defines which are set
-> at the top of dfp_helper.c according to the host endian.
-> 
-> However we can instead switch to using ppc_vsr_t for decimal numbers and then
-> make subsequent use of the existing VsrD() macros to access the correct
-> element regardless of host endian. Note that 64-bit decimals are stored in the
-> LSB of ppc_vsr_t (equivalent to VsrD(1)).
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  target/ppc/dfp_helper.c | 210 +++++++++++++++++++++-------------------
->  1 file changed, 108 insertions(+), 102 deletions(-)
+From: John Snow <jsnow@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+debian-sid is listed as a partial image, so we cannot run tests against it.
+Since it isn't used by any other testable image, remove it for now as it
+is prone to bitrot.
 
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20190923181140.7235-6-jsnow@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/docker/Makefile.include              |  2 +-
+ tests/docker/dockerfiles/debian-sid.docker | 35 ----------------------
+ 2 files changed, 1 insertion(+), 36 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
 
-r~
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 053c418d8cd..180e5439ef9 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -5,7 +5,7 @@
+ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian9 debian10 debian-sid
++DOCKER_PARTIAL_IMAGES := debian9 debian10
+ DOCKER_PARTIAL_IMAGES += debian9-mxe debian-bootstrap
+ DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/dockerfiles/debian-sid.docker
+deleted file mode 100644
+index 2a1bcc33b24..00000000000
+--- a/tests/docker/dockerfiles/debian-sid.docker
++++ /dev/null
+@@ -1,35 +0,0 @@
+-#
+-# Debian Sid Base
+-#
+-# Currently we can build all our guests with cross-compilers in the
+-# latest Debian release (Buster). However new compilers will first
+-# arrive in Sid. However Sid is a rolling distro which may be broken
+-# at any particular time. To try and mitigate this we use Debian's
+-# snapshot archive which provides a "stable" view of what state Sid
+-# was in.
+-#
+-
+-# This must be earlier than the snapshot date we are aiming for
+-FROM debian:sid-20190812-slim
+-
+- # Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
+-ENV DEBIAN_SNAPSHOT_DATE "20190820"
+-RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" /etc/apt/sources.list
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+-
+-# Install common build utilities
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        bison \
+-        build-essential \
+-        ca-certificates \
+-        flex \
+-        git \
+-        pkg-config \
+-        psmisc \
+-        python \
+-        texinfo || { echo "Failed to build - see debian-sid.docker notes"; exit 1; }
+-- 
+2.20.1
+
 
