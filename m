@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BA7BD38C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:27:55 +0200 (CEST)
-Received: from localhost ([::1]:50746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73260BD381
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:24:11 +0200 (CEST)
+Received: from localhost ([::1]:50704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrPe-0003UF-TN
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44077)
+	id 1iCrM2-0007oZ-0b
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:24:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8P-0000uB-AW
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8P-0000uW-D8
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8N-000321-RQ
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8O-00032I-10
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:05 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38168)
+Received: from relay.sw.ru ([185.231.240.75]:38174)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8N-0002ud-D0
+ id 1iCr8N-0002un-G6
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8B-0001Mk-Ry; Tue, 24 Sep 2019 23:09:51 +0300
+ id 1iCr8C-0001Mk-2A; Tue, 24 Sep 2019 23:09:52 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/25] Migration: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:59 +0300
-Message-Id: <20190924200902.4703-23-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 23/25] Sockets: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:09:00 +0300
+Message-Id: <20190924200902.4703-24-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,9 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -76,21 +76,29 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/migration.c | 1 +
- 1 file changed, 1 insertion(+)
+ util/qemu-sockets.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 01863a95f5..031b85e670 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -971,6 +971,7 @@ static bool migrate_caps_check(bool *cap_list,
-                                MigrationCapabilityStatusList *params,
-                                Error **errp)
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 98ff3a1cce..fb21b78369 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -860,6 +860,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
+                              int num,
+                              Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     MigrationCapabilityStatusList *cap;
-     bool old_postcopy_cap;
-     MigrationIncomingState *mis = migration_incoming_get_current();
+     struct sockaddr_un un;
+     int sock, fd;
+     char *pathbuf = NULL;
+@@ -935,6 +936,7 @@ err:
+ 
+ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     struct sockaddr_un un;
+     int sock, rc;
+     size_t pathlen;
 -- 
 2.21.0
 
