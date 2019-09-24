@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2F2BD36A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:17:37 +0200 (CEST)
-Received: from localhost ([::1]:50632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5F3BD36F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:20:03 +0200 (CEST)
+Received: from localhost ([::1]:50656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrFg-0008WP-1e
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43764)
+	id 1iCrI1-0002Xg-PJ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:20:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8C-0000Z2-BI
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:53 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-0000pP-0d
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8A-0002t3-9A
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:51 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38064)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8K-0002zW-Km
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38088)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr89-0002rW-Gx; Tue, 24 Sep 2019 16:09:50 -0400
+ id 1iCr8K-0002sZ-BP
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:00 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr88-0001Mk-1Q; Tue, 24 Sep 2019 23:09:48 +0300
+ id 1iCr88-0001Mk-Th; Tue, 24 Sep 2019 23:09:49 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/25] PowerPC TCG CPUs: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:46 +0300
-Message-Id: <20190924200902.4703-10-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 12/25] PCI: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:49 +0300
+Message-Id: <20190924200902.4703-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -47,9 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, vsementsov@virtuozzo.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -75,68 +75,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/ppc/mac_newworld.c | 1 +
- hw/ppc/spapr.c        | 1 +
- hw/ppc/spapr_pci.c    | 1 +
- target/ppc/kvm.c      | 2 ++
- 4 files changed, 5 insertions(+)
+ hw/pci-bridge/pcie_root_port.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index c5bbcc7433..939fdd258f 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -609,6 +609,7 @@ static char *core99_get_via_config(Object *obj, Error **errp)
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
+index 012c2cb12c..a0aacad711 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -60,6 +60,7 @@ static void rp_reset(DeviceState *qdev)
  
- static void core99_set_via_config(Object *obj, const char *value, Error **errp)
+ static void rp_realize(PCIDevice *d, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     Core99MachineState *cms = CORE99_MACHINE(obj);
- 
-     if (!strcmp(value, "cuda")) {
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 08a2a5a770..d0dd8aaa22 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4330,6 +4330,7 @@ int spapr_get_vcpu_id(PowerPCCPU *cpu)
- 
- void spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp)
- {
-+    ERRP_FUNCTION_BEGIN();
-     SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-     MachineState *ms = MACHINE(spapr);
-     int vcpu_id;
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 7b71ad7c74..172d6689d0 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1817,6 +1817,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
- 
- static void spapr_phb_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_FUNCTION_BEGIN();
-     /* We don't use SPAPR_MACHINE() in order to exit gracefully if the user
-      * tries to add a sPAPR PHB to a non-pseries machine.
-      */
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 8c5b1f25cc..aacfe194e2 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -237,6 +237,7 @@ static int kvm_booke206_tlb_init(PowerPCCPU *cpu)
- #if defined(TARGET_PPC64)
- static void kvm_get_smmu_info(struct kvm_ppc_smmu_info *info, Error **errp)
- {
-+    ERRP_FUNCTION_BEGIN();
-     int ret;
- 
-     assert(kvm_state != NULL);
-@@ -2073,6 +2074,7 @@ int kvmppc_set_smt_threads(int smt)
- 
- void kvmppc_hint_smt_possible(Error **errp)
- {
-+    ERRP_FUNCTION_BEGIN();
-     int i;
-     GString *g;
-     char *s;
+     PCIEPort *p = PCIE_PORT(d);
+     PCIESlot *s = PCIE_SLOT(d);
+     PCIDeviceClass *dc = PCI_DEVICE_GET_CLASS(d);
 -- 
 2.21.0
 
