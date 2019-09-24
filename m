@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818E4BC718
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:46:31 +0200 (CEST)
-Received: from localhost ([::1]:44356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1CBBC71D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:47:36 +0200 (CEST)
+Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCjH3-0007XO-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42475)
+	id 1iCjI7-0008U6-Df
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42533)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iCj2i-0002l5-Au
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:43 -0400
+ (envelope-from <drjones@redhat.com>) id 1iCj2o-0002qt-MO
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iCj2g-0005Rx-4e
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54354)
+ (envelope-from <drjones@redhat.com>) id 1iCj2m-0005UH-Q5
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38726)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1iCj2c-0005Pz-Jw; Tue, 24 Sep 2019 07:31:34 -0400
+ id 1iCj2h-0005SE-Je; Tue, 24 Sep 2019 07:31:39 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DE3798830A;
- Tue, 24 Sep 2019 11:31:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BAF03C054907;
+ Tue, 24 Sep 2019 11:31:38 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B72661F21;
- Tue, 24 Sep 2019 11:31:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A406161F21;
+ Tue, 24 Sep 2019 11:31:36 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v4 7/9] target/arm/kvm: scratch vcpu: Preserve input
- kvm_vcpu_init features
-Date: Tue, 24 Sep 2019 13:31:03 +0200
-Message-Id: <20190924113105.19076-8-drjones@redhat.com>
+Subject: [PATCH v4 9/9] target/arm/kvm: host cpu: Add support for sve<N>
+ properties
+Date: Tue, 24 Sep 2019 13:31:05 +0200
+Message-Id: <20190924113105.19076-10-drjones@redhat.com>
 In-Reply-To: <20190924113105.19076-1-drjones@redhat.com>
 References: <20190924113105.19076-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 24 Sep 2019 11:31:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Tue, 24 Sep 2019 11:31:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -62,119 +62,331 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_arm_create_scratch_host_vcpu() takes a struct kvm_vcpu_init
-parameter. Rather than just using it as an output parameter to
-pass back the preferred target, use it also as an input parameter,
-allowing a caller to pass a selected target if they wish and to
-also pass cpu features. If the caller doesn't want to select a
-target they can pass -1 for the target which indicates they want
-to use the preferred target and have it passed back like before.
+Allow cpu 'host' to enable SVE when it's available, unless the
+user chooses to disable it with the added 'sve=3Doff' cpu property.
+Also give the user the ability to select vector lengths with the
+sve<N> properties. We don't adopt 'max' cpu's other sve property,
+sve-max-vq, because that property is difficult to use with KVM.
+That property assumes all vector lengths in the range from 1 up
+to and including the specified maximum length are supported, but
+there may be optional lengths not supported by the host in that
+range. With KVM one must be more specific when enabling vector
+lengths.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
- target/arm/kvm.c   | 20 +++++++++++++++-----
- target/arm/kvm32.c |  6 +++++-
- target/arm/kvm64.c |  6 +++++-
- 3 files changed, 25 insertions(+), 7 deletions(-)
+ docs/arm-cpu-features.rst | 19 ++++++++++++-------
+ target/arm/cpu.c          |  3 +++
+ target/arm/cpu.h          |  2 ++
+ target/arm/cpu64.c        | 33 +++++++++++++++++----------------
+ target/arm/kvm64.c        | 14 +++++++++++++-
+ tests/arm-cpu-features.c  | 21 +++++++++++----------
+ 6 files changed, 58 insertions(+), 34 deletions(-)
 
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 72569f71236e..7a540d9591f9 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -66,7 +66,7 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *c=
-pus_to_try,
-                                       int *fdarray,
-                                       struct kvm_vcpu_init *init)
- {
--    int ret, kvmfd =3D -1, vmfd =3D -1, cpufd =3D -1;
-+    int ret =3D 0, kvmfd =3D -1, vmfd =3D -1, cpufd =3D -1;
+diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
+index 939366f959cf..0c16eef7c8c2 100644
+--- a/docs/arm-cpu-features.rst
++++ b/docs/arm-cpu-features.rst
+@@ -256,31 +256,36 @@ SVE CPU Property Examples
 =20
-     kvmfd =3D qemu_open("/dev/kvm", O_RDWR);
-     if (kvmfd < 0) {
-@@ -86,7 +86,14 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *=
-cpus_to_try,
-         goto finish;
+      $ qemu-system-aarch64 -M virt -cpu max
+=20
+-  3) Only enable the 128-bit vector length::
++  3) When KVM is enabled, implicitly enable all host CPU supported vecto=
+r
++     lengths with the `host` CPU type::
++
++     $ qemu-system-aarch64 -M virt,accel=3Dkvm -cpu host
++
++  4) Only enable the 128-bit vector length::
+=20
+      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Don
+=20
+-  4) Disable the 256-bit vector length and all larger vector lengths
++  5) Disable the 256-bit vector length and all larger vector lengths
+      since 256 is a power-of-two (this results in only the 128-bit lengt=
+h
+      being enabled)::
+=20
+      $ qemu-system-aarch64 -M virt -cpu max,sve256=3Doff
+=20
+-  5) Enable the 128-bit, 256-bit, and 512-bit vector lengths::
++  6) Enable the 128-bit, 256-bit, and 512-bit vector lengths::
+=20
+      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Don,sve256=3Don,sve5=
+12=3Don
+=20
+-  6) The same as (5), but since the 128-bit and 256-bit vector
++  7) The same as (6), but since the 128-bit and 256-bit vector
+      lengths are required for the 512-bit vector length to be enabled,
+      then allow them to be auto-enabled::
+=20
+      $ qemu-system-aarch64 -M virt -cpu max,sve512=3Don
+=20
+-  7) Do the same as (6), but by first disabling SVE and then re-enabling=
+ it::
++  8) Do the same as (7), but by first disabling SVE and then re-enabling=
+ it::
+=20
+      $ qemu-system-aarch64 -M virt -cpu max,sve=3Doff,sve512=3Don,sve=3D=
+on
+=20
+-  8) Force errors regarding the last vector length::
++  9) Force errors regarding the last vector length::
+=20
+      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Doff
+      $ qemu-system-aarch64 -M virt -cpu max,sve=3Doff,sve128=3Doff,sve=3D=
+on
+@@ -292,5 +297,5 @@ The examples in "SVE CPU Property Examples" exhibit m=
+any ways to select
+ vector lengths which developers may find useful in order to avoid overly
+ verbose command lines.  However, the recommended way to select vector
+ lengths is to explicitly enable each desired length.  Therefore only
+-example's (1), (3), and (5) exhibit recommended uses of the properties.
++example's (1), (4), and (6) exhibit recommended uses of the properties.
+=20
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 522fed95b339..7695ae551218 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2671,6 +2671,9 @@ static void arm_host_initfn(Object *obj)
+     ARMCPU *cpu =3D ARM_CPU(obj);
+=20
+     kvm_arm_set_cpu_features_from_host(cpu);
++    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
++        aarch64_add_sve_properties(obj);
++    }
+     arm_cpu_post_init(obj);
+ }
+=20
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 11162484465a..5b9c3e4cd73d 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -974,11 +974,13 @@ int aarch64_cpu_gdb_write_register(CPUState *cpu, u=
+int8_t *buf, int reg);
+ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
+ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+                            int new_el, bool el0_a64);
++void aarch64_add_sve_properties(Object *obj);
+ #else
+ static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) =
+{ }
+ static inline void aarch64_sve_change_el(CPUARMState *env, int o,
+                                          int n, bool a)
+ { }
++static inline void aarch64_add_sve_properties(Object *obj) { }
+ #endif
+=20
+ #if !defined(CONFIG_TCG)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 18dd5e24ec61..e7cd420faa9d 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -579,6 +579,21 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v,=
+ const char *name,
+     cpu->isar.id_aa64pfr0 =3D t;
+ }
+=20
++void aarch64_add_sve_properties(Object *obj)
++{
++    uint32_t vq;
++
++    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
++                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
++
++    for (vq =3D 1; vq <=3D ARM_MAX_VQ; ++vq) {
++        char name[8];
++        sprintf(name, "sve%d", vq * 128);
++        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
++                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal=
+);
++    }
++}
++
+ /* -cpu max: if KVM is enabled, like -cpu host (best possible with this =
+host);
+  * otherwise, a CPU with as many features enabled as our emulation suppo=
+rts.
+  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+@@ -587,17 +602,11 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v=
+, const char *name,
+ static void aarch64_max_initfn(Object *obj)
+ {
+     ARMCPU *cpu =3D ARM_CPU(obj);
+-    uint32_t vq;
+-    uint64_t t;
+=20
+     if (kvm_enabled()) {
+         kvm_arm_set_cpu_features_from_host(cpu);
+-        if (kvm_arm_sve_supported(CPU(cpu))) {
+-            t =3D cpu->isar.id_aa64pfr0;
+-            t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
+-            cpu->isar.id_aa64pfr0 =3D t;
+-        }
+     } else {
++        uint64_t t;
+         uint32_t u;
+         aarch64_a57_initfn(obj);
+=20
+@@ -697,17 +706,9 @@ static void aarch64_max_initfn(Object *obj)
+ #endif
      }
 =20
--    ret =3D ioctl(vmfd, KVM_ARM_PREFERRED_TARGET, init);
-+    if (init->target =3D=3D -1) {
-+        struct kvm_vcpu_init preferred;
-+
-+        ret =3D ioctl(vmfd, KVM_ARM_PREFERRED_TARGET, &preferred);
-+        if (!ret) {
-+            init->target =3D preferred.target;
-+        }
-+    }
-     if (ret >=3D 0) {
-         ret =3D ioctl(cpufd, KVM_ARM_VCPU_INIT, init);
-         if (ret < 0) {
-@@ -98,10 +105,12 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t=
- *cpus_to_try,
-          * creating one kind of guest CPU which is its preferred
-          * CPU type.
-          */
-+        struct kvm_vcpu_init try;
-+
-         while (*cpus_to_try !=3D QEMU_KVM_ARM_TARGET_NONE) {
--            init->target =3D *cpus_to_try++;
--            memset(init->features, 0, sizeof(init->features));
--            ret =3D ioctl(cpufd, KVM_ARM_VCPU_INIT, init);
-+            try.target =3D *cpus_to_try++;
-+            memcpy(try.features, init->features, sizeof(init->features))=
-;
-+            ret =3D ioctl(cpufd, KVM_ARM_VCPU_INIT, &try);
-             if (ret >=3D 0) {
-                 break;
-             }
-@@ -109,6 +118,7 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t =
-*cpus_to_try,
-         if (ret < 0) {
-             goto err;
-         }
-+        init->target =3D try.target;
-     } else {
-         /* Treat a NULL cpus_to_try argument the same as an empty
-          * list, which means we will fail the call since this must
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index 2451a2d4bbef..32bf8d6757c4 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -53,7 +53,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures =
-*ahcf)
-         QEMU_KVM_ARM_TARGET_CORTEX_A15,
-         QEMU_KVM_ARM_TARGET_NONE
-     };
--    struct kvm_vcpu_init init;
-+    /*
-+     * target =3D -1 informs kvm_arm_create_scratch_host_vcpu()
-+     * to use the preferred target
-+     */
-+    struct kvm_vcpu_init init =3D { .target =3D -1, };
+-    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
+-                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
++    aarch64_add_sve_properties(obj);
+     object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max=
+_vq,
+                         cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal=
+);
+-
+-    for (vq =3D 1; vq <=3D ARM_MAX_VQ; ++vq) {
+-        char name[8];
+-        sprintf(name, "sve%d", vq * 128);
+-        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
+-                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal=
+);
+-    }
+ }
 =20
-     if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) =
-{
-         return false;
+ struct ARMCPUInfo {
 diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index fc62bab8684e..f96649ae0349 100644
+index cff4217a8469..2da366ba113e 100644
 --- a/target/arm/kvm64.c
 +++ b/target/arm/kvm64.c
-@@ -502,7 +502,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeature=
-s *ahcf)
-         KVM_ARM_TARGET_CORTEX_A57,
-         QEMU_KVM_ARM_TARGET_NONE
-     };
--    struct kvm_vcpu_init init;
-+    /*
-+     * target =3D -1 informs kvm_arm_create_scratch_host_vcpu()
-+     * to use the preferred target
-+     */
-+    struct kvm_vcpu_init init =3D { .target =3D -1, };
+@@ -488,7 +488,9 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures=
+ *ahcf)
+      * and then query that CPU for the relevant ID registers.
+      */
+     int fdarray[3];
++    bool sve_supported;
+     uint64_t features =3D 0;
++    uint64_t t;
+     int err;
 =20
-     if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) =
-{
+     /* Old kernels may not know about the PREFERRED_TARGET ioctl: howeve=
+r
+@@ -578,13 +580,23 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatur=
+es *ahcf)
+                               ARM64_SYS_REG(3, 0, 0, 3, 2));
+     }
+=20
++    sve_supported =3D ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM=
+_SVE) > 0;
++
+     kvm_arm_destroy_scratch_host_vcpu(fdarray);
+=20
+     if (err < 0) {
          return false;
+     }
+=20
+-   /* We can assume any KVM supporting CPU is at least a v8
++    /* Add feature bits that can't appear until after VCPU init. */
++    if (sve_supported) {
++        t =3D ahcf->isar.id_aa64pfr0;
++        t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
++        ahcf->isar.id_aa64pfr0 =3D t;
++    }
++
++    /*
++     * We can assume any KVM supporting CPU is at least a v8
+      * with VFPv4+Neon; this in turn implies most of the other
+      * feature bits.
+      */
+diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+index a0129aebf409..4dc067fb5558 100644
+--- a/tests/arm-cpu-features.c
++++ b/tests/arm-cpu-features.c
+@@ -351,7 +351,7 @@ static void sve_tests_sve_off_kvm(const void *data)
+ {
+     QTestState *qts;
+=20
+-    qts =3D qtest_init(MACHINE "-accel kvm -cpu max,sve=3Doff");
++    qts =3D qtest_init(MACHINE "-accel kvm -cpu host,sve=3Doff");
+=20
+     /*
+      * We don't know if this host supports SVE so we don't
+@@ -360,8 +360,8 @@ static void sve_tests_sve_off_kvm(const void *data)
+      * and that using sve<N>=3Doff to explicitly disable vector
+      * lengths is OK too.
+      */
+-    assert_sve_vls(qts, "max", 0, NULL);
+-    assert_sve_vls(qts, "max", 0, "{ 'sve128': false }");
++    assert_sve_vls(qts, "host", 0, NULL);
++    assert_sve_vls(qts, "host", 0, "{ 'sve128': false }");
+=20
+     qtest_quit(qts);
+ }
+@@ -428,8 +428,8 @@ static void test_query_cpu_model_expansion_kvm(const =
+void *data)
+             "We cannot guarantee the CPU type 'cortex-a15' works "
+             "with KVM on this host", NULL);
+=20
+-        assert_has_feature(qts, "max", "sve");
+-        resp =3D do_query_no_props(qts, "max");
++        assert_has_feature(qts, "host", "sve");
++        resp =3D do_query_no_props(qts, "host");
+         kvm_supports_sve =3D resp_get_feature(resp, "sve");
+         vls =3D resp_get_sve_vls(resp);
+         qobject_unref(resp);
+@@ -440,7 +440,7 @@ static void test_query_cpu_model_expansion_kvm(const =
+void *data)
+             sprintf(max_name, "sve%d", max_vq * 128);
+=20
+             /* Enabling a supported length is of course fine. */
+-            assert_sve_vls(qts, "max", vls, "{ %s: true }", max_name);
++            assert_sve_vls(qts, "host", vls, "{ %s: true }", max_name);
+=20
+             /* Get the next supported length smaller than max-vq. */
+             vq =3D 64 - __builtin_clzll(vls & ~BIT(max_vq - 1));
+@@ -449,7 +449,7 @@ static void test_query_cpu_model_expansion_kvm(const =
+void *data)
+                  * We have at least one length smaller than max-vq,
+                  * so we can disable max-vq.
+                  */
+-                assert_sve_vls(qts, "max", (vls & ~BIT(max_vq - 1)),
++                assert_sve_vls(qts, "host", (vls & ~BIT(max_vq - 1)),
+                                "{ %s: false }", max_name);
+=20
+                 /*
+@@ -459,7 +459,7 @@ static void test_query_cpu_model_expansion_kvm(const =
+void *data)
+                  */
+                 sprintf(name, "sve%d", vq * 128);
+                 error =3D g_strdup_printf("cannot disable %s", name);
+-                assert_error(qts, "max", error,
++                assert_error(qts, "host", error,
+                              "{ %s: true, %s: false }",
+                              max_name, name);
+                 g_free(error);
+@@ -472,7 +472,7 @@ static void test_query_cpu_model_expansion_kvm(const =
+void *data)
+             vq =3D __builtin_ffsll(vls);
+             sprintf(name, "sve%d", vq * 128);
+             error =3D g_strdup_printf("cannot disable %s", name);
+-            assert_error(qts, "max", error, "{ %s: false }", name);
++            assert_error(qts, "host", error, "{ %s: false }", name);
+             g_free(error);
+=20
+             /* Get an unsupported length. */
+@@ -484,13 +484,14 @@ static void test_query_cpu_model_expansion_kvm(cons=
+t void *data)
+             if (vq <=3D SVE_MAX_VQ) {
+                 sprintf(name, "sve%d", vq * 128);
+                 error =3D g_strdup_printf("cannot enable %s", name);
+-                assert_error(qts, "max", error, "{ %s: true }", name);
++                assert_error(qts, "host", error, "{ %s: true }", name);
+                 g_free(error);
+             }
+         } else {
+             g_assert(vls =3D=3D 0);
+         }
+     } else {
++        assert_has_not_feature(qts, "host", "sve");
+         assert_error(qts, "host",
+                      "'pmu' feature not supported by KVM on this host",
+                      "{ 'pmu': true }");
 --=20
 2.20.1
 
