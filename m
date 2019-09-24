@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE60BD364
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:15:48 +0200 (CEST)
-Received: from localhost ([::1]:50622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEFBBD35C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:12:41 +0200 (CEST)
+Received: from localhost ([::1]:50598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrDu-0006fY-EK
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:15:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43743)
+	id 1iCrAt-0003Km-UE
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8B-0000XG-0L
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:53 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8A-0000Wb-JM
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr89-0002ru-0V
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr88-0002rl-TU
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38042)
+Received: from relay.sw.ru ([185.231.240.75]:38048)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr88-0002qu-Nm; Tue, 24 Sep 2019 16:09:48 -0400
+ id 1iCr88-0002r3-Km; Tue, 24 Sep 2019 16:09:48 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr86-0001Mk-Qn; Tue, 24 Sep 2019 23:09:46 +0300
+ id 1iCr87-0001Mk-7T; Tue, 24 Sep 2019 23:09:47 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/25] error: auto propagated local_err
-Date: Tue, 24 Sep 2019 23:08:41 +0300
-Message-Id: <20190924200902.4703-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 05/25] scripts: add coccinelle script to fix
+ error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:42 +0300
+Message-Id: <20190924200902.4703-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -74,26 +75,9 @@ Cc: Fam Zheng <fam@euphon.net>, Paul Burton <pburton@wavecomp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is introduced ERRP_FUNCTION_BEGIN macro, to be used at start of
-functions with errp parameter.
-
-It has three goals:
-
-1. Fix issue with error_fatal & error_append_hint: user can't see these
-hints, because exit() happens in error_setg earlier than hint is
-appended. [Reported by Greg Kurz]
-
-2. Fix issue with error_abort & error_propagate: when we wrap
-error_abort by local_err+error_propagate, resulting coredump will
-refer to error_propagate and not to the place where error happened.
-(the macro itself doesn't fix the issue, but it allows to [3.] drop all
-local_err+error_propagate pattern, which will definitely fix the issue)
-[Reported by Kevin Wolf]
-
-3. Drop local_err+error_propagate pattern, which is used to workaround
-void functions with errp parameter, when caller wants to know resulting
-status. (Note: actually these functions could be merely updated to
-return int error code).
+error_append_hint will not work, if errp == &fatal_error, as program
+will exit before error_append_hint call. Fix this by use of special
+macro ERRP_FUNCTION_BEGIN.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
@@ -138,55 +122,41 @@ CC: qemu-arm@nongnu.org
 CC: qemu-ppc@nongnu.org
 CC: qemu-s390x@nongnu.org
 
- include/qapi/error.h | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ .../fix-error_append_hint-usage.cocci         | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 scripts/coccinelle/fix-error_append_hint-usage.cocci
 
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index 9376f59c35..fb41f7a790 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -322,6 +322,41 @@ void error_set_internal(Error **errp,
-                         ErrorClass err_class, const char *fmt, ...)
-     GCC_FMT_ATTR(6, 7);
- 
-+typedef struct ErrorPropagator {
-+    Error *local_err;
-+    Error **errp;
-+} ErrorPropagator;
+diff --git a/scripts/coccinelle/fix-error_append_hint-usage.cocci b/scripts/coccinelle/fix-error_append_hint-usage.cocci
+new file mode 100644
+index 0000000000..327fe6098c
+--- /dev/null
++++ b/scripts/coccinelle/fix-error_append_hint-usage.cocci
+@@ -0,0 +1,25 @@
++@rule0@
++// Add invocation to errp-functions
++identifier fn;
++@@
 +
-+static inline void error_propagator_cleanup(ErrorPropagator *prop)
++ fn(..., Error **errp, ...)
++ {
+++   ERRP_FUNCTION_BEGIN();
++    <+...
++    error_append_hint(errp, ...);
++    ...+>
++ }
++
++@@
++// Drop doubled invocation
++identifier rule0.fn;
++@@
++
++ fn(...)
 +{
-+    error_propagate(prop->errp, prop->local_err);
++    ERRP_FUNCTION_BEGIN();
++-   ERRP_FUNCTION_BEGIN();
++    ...
 +}
 +
-+G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_cleanup);
-+
-+/*
-+ * ERRP_FUNCTION_BEGIN
-+ *
-+ * This macro is created to be the first line of a function with Error **errp
-+ * parameter.
-+ *
-+ * If errp is NULL or points to error_fatal, it is rewritten to point to a
-+ * local Error object, which will be automatically propagated to the original
-+ * errp on function exit (see error_propagator_cleanup).
-+ *
-+ * After invocation of this macro it is always safe to dereference errp
-+ * (as it's not NULL anymore) and to append hints (by error_append_hint)
-+ * (as, if it was error_fatal, we swapped it with a local_error to be
-+ * propagated on cleanup).
-+ *
-+ * Note: we don't wrap the error_abort case, as we want resulting coredump
-+ * to point to the place where the error happened, not to error_propagate.
-+ */
-+#define ERRP_FUNCTION_BEGIN() \
-+g_auto(ErrorPropagator) __auto_errp_prop = {.errp = errp}; \
-+errp = ((errp == NULL || *errp == error_fatal) ? \
-+    &__auto_errp_prop.local_err : errp)
-+
- /*
-  * Special error destination to abort on error.
-  * See error_setg() and error_propagate() for details.
 -- 
 2.21.0
 
