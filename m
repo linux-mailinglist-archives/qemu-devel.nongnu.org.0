@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55553BD382
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:24:45 +0200 (CEST)
-Received: from localhost ([::1]:50714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D54B1BD3A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:33:28 +0200 (CEST)
+Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrMZ-0000Zh-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:24:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
+	id 1iCrV1-00006F-8K
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:33:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8a-000121-He
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:17 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-0000qB-J4
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8Z-00039z-8e
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:16 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38178)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8K-0002zi-PR
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38094)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8X-0002v0-Np; Tue, 24 Sep 2019 16:10:14 -0400
+ id 1iCr8K-0002sb-Hp
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:00 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8C-0001Mk-AA; Tue, 24 Sep 2019 23:09:52 +0300
+ id 1iCr89-0001Mk-70; Tue, 24 Sep 2019 23:09:49 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 24/25] nbd: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:09:01 +0300
-Message-Id: <20190924200902.4703-25-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 13/25] SCSI: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:50 +0300
+Message-Id: <20190924200902.4703-14-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -47,7 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>, qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -73,34 +75,34 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- nbd/client.c | 1 +
- nbd/server.c | 1 +
+ hw/scsi/scsi-disk.c    | 1 +
+ hw/scsi/scsi-generic.c | 1 +
  2 files changed, 2 insertions(+)
 
-diff --git a/nbd/client.c b/nbd/client.c
-index b9dc829175..4d90a26c00 100644
---- a/nbd/client.c
-+++ b/nbd/client.c
-@@ -153,6 +153,7 @@ static int nbd_receive_option_reply(QIOChannel *ioc, uint32_t opt,
- static int nbd_handle_reply_err(QIOChannel *ioc, NBDOptionReply *reply,
-                                 bool strict, Error **errp)
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 915641a0f1..72ac308b6c 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2597,6 +2597,7 @@ static int get_device_type(SCSIDiskState *s)
+ 
+ static void scsi_block_realize(SCSIDevice *dev, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     g_autofree char *msg = NULL;
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
+     AioContext *ctx;
+     int sg_version;
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index e7798ebcd0..e955f4e0a5 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -653,6 +653,7 @@ static void scsi_generic_reset(DeviceState *dev)
  
-     if (!(reply->type & (1 << 31))) {
-diff --git a/nbd/server.c b/nbd/server.c
-index 28c3c8be85..09565ad8dc 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1616,6 +1616,7 @@ void nbd_export_close(NBDExport *exp)
- 
- void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp)
+ static void scsi_generic_realize(SCSIDevice *s, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     if (mode == NBD_SERVER_REMOVE_MODE_HARD || QTAILQ_EMPTY(&exp->clients)) {
-         nbd_export_close(exp);
-         return;
+     int rc;
+     int sg_version;
+     struct sg_scsi_id scsiid;
 -- 
 2.21.0
 
