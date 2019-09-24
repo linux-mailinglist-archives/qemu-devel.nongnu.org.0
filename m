@@ -2,44 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997D5BCA53
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:36:17 +0200 (CEST)
-Received: from localhost ([::1]:46388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58159BCA67
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:39:10 +0200 (CEST)
+Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClvL-000390-Tv
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58542)
+	id 1iCly8-0006hh-EN
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iCkrN-0007z9-Nz
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:09 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCkrt-00006R-SB
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iCkrK-0001Ep-0c
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:05 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:46885 helo=mail.rt-rk.com)
+ (envelope-from <armbru@redhat.com>) id 1iCkrr-0001Q9-TG
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37976)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iCkrG-0001BG-SS
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:00 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 0B2301A1FD2;
- Tue, 24 Sep 2019 15:26:49 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D3E391A1FB9;
- Tue, 24 Sep 2019 15:26:48 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrr-0001Pi-Kz
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:35 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DF0CB86668;
+ Tue, 24 Sep 2019 13:28:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC50D5C219;
+ Tue, 24 Sep 2019 13:28:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 62BC21138661; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] target/mips: msa: Split helpers for
- B<CLR|NEG|SEL>.<B|H|W|D>
-Date: Tue, 24 Sep 2019 15:26:42 +0200
-Message-Id: <1569331602-2586-12-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1569331602-2586-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1569331602-2586-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
+Subject: [PATCH 03/25] qapi: New QAPISourceInfo, replacing dict
+Date: Tue, 24 Sep 2019 15:28:08 +0200
+Message-Id: <20190924132830.15835-4-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-1-armbru@redhat.com>
+References: <20190924132830.15835-1-armbru@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Tue, 24 Sep 2019 13:28:34 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,399 +57,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+We track source locations with a dict of the form
 
-Achieves clearer code and slightly better performance.
+    {'file': FNAME, 'line': LINENO, parent': PARENT}
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+where PARENT is None for the main file, and the include directive's
+source location for included files.
+
+This is servicable enough, but the next commit will add information,
+and that's going to come out cleaner if we turn this into a class.  So
+do that.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- target/mips/helper.h     |  18 +++-
- target/mips/msa_helper.c | 227 ++++++++++++++++++++++++++++++++++++++++++-----
- target/mips/translate.c  |  57 ++++++++++--
- 3 files changed, 267 insertions(+), 35 deletions(-)
+ scripts/qapi/common.py | 69 +++++++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 28 deletions(-)
 
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index 27544a1..1411e0e 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -807,6 +807,21 @@ DEF_HELPER_4(msa_bmnz_v, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_bmz_v, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_bsel_v, void, env, i32, i32, i32)
- 
-+DEF_HELPER_4(msa_bclr_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bclr_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bclr_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bclr_d, void, env, i32, i32, i32)
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index bfb3e8a493..5843f3eeb2 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -13,6 +13,7 @@
+=20
+ from __future__ import print_function
+ from contextlib import contextmanager
++import copy
+ import errno
+ import os
+ import re
+@@ -53,34 +54,50 @@ struct_types =3D {}
+ union_types =3D {}
+ all_names =3D {}
+=20
 +
-+DEF_HELPER_4(msa_bneg_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bneg_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bneg_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bneg_d, void, env, i32, i32, i32)
+ #
+ # Parsing the schema into expressions
+ #
+=20
++class QAPISourceInfo(object):
++    def __init__(self, fname, line, parent):
++        self.fname =3D fname
++        self.line =3D line
++        self.parent =3D parent
+=20
+-def error_path(parent):
+-    res =3D ''
+-    while parent:
+-        res =3D ('In file included from %s:%d:\n' % (parent['file'],
+-                                                   parent['line'])) + re=
+s
+-        parent =3D parent['parent']
+-    return res
++    def next_line(self):
++        info =3D copy.copy(self)
++        info.line +=3D 1
++        return info
 +
-+DEF_HELPER_4(msa_bset_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bset_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bset_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_bset_d, void, env, i32, i32, i32)
++    def loc(self):
++        return '%s:%d' % (self.fname, self.line)
 +
- 
- DEF_HELPER_4(msa_andi_b, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_ori_b, void, env, i32, i32, i32)
-@@ -846,9 +861,6 @@ DEF_HELPER_5(msa_srlri_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_sll_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_sra_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_srl_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_bclr_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_bset_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_bneg_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_binsl_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_binsr_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_addv_df, void, env, i32, i32, i32, i32)
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index eda675a..9e4f275 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -523,7 +523,210 @@ void helper_msa_bsel_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-  * +---------------+----------------------------------------------------------+
-  */
- 
--/* TODO: insert Bit Set group helpers here */
-+static inline int64_t msa_bclr_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    return UNSIGNED(arg1 & (~(1LL << b_arg2)), df);
-+}
++    def include_path(self):
++        ret =3D ''
++        parent =3D self.parent
++        while parent:
++            ret =3D 'In file included from %s:\n' % parent.loc() + ret
++            parent =3D parent.parent
++        return ret
 +
-+void helper_msa_bclr_b(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[1]);
-+    pwd->b[2]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[2]);
-+    pwd->b[3]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[3]);
-+    pwd->b[4]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[4]);
-+    pwd->b[5]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[5]);
-+    pwd->b[6]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[6]);
-+    pwd->b[7]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[7]);
-+    pwd->b[8]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[8]);
-+    pwd->b[9]  = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[9]);
-+    pwd->b[10] = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[10]);
-+    pwd->b[11] = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[11]);
-+    pwd->b[12] = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[12]);
-+    pwd->b[13] = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[13]);
-+    pwd->b[14] = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[14]);
-+    pwd->b[15] = msa_bclr_df(DF_BYTE, pws->b[0],  pwt->b[15]);
-+}
-+
-+void helper_msa_bclr_h(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[1]);
-+    pwd->h[2]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[2]);
-+    pwd->h[3]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[3]);
-+    pwd->h[4]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[4]);
-+    pwd->h[5]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[5]);
-+    pwd->h[6]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[6]);
-+    pwd->h[7]  = msa_bclr_df(DF_HALF, pws->h[0],  pwt->h[7]);
-+}
-+
-+void helper_msa_bclr_w(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_bclr_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_bclr_df(DF_WORD, pws->w[0],  pwt->w[1]);
-+    pwd->w[2]  = msa_bclr_df(DF_WORD, pws->w[0],  pwt->w[2]);
-+    pwd->w[3]  = msa_bclr_df(DF_WORD, pws->w[0],  pwt->w[3]);
-+}
-+
-+void helper_msa_bclr_d(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_bclr_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_bclr_df(DF_DOUBLE, pws->d[0],  pwt->d[1]);
-+}
-+
-+static inline int64_t msa_bneg_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    return UNSIGNED(arg1 ^ (1LL << b_arg2), df);
-+}
-+
-+void helper_msa_bneg_b(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[1]);
-+    pwd->b[2]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[2]);
-+    pwd->b[3]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[3]);
-+    pwd->b[4]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[4]);
-+    pwd->b[5]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[5]);
-+    pwd->b[6]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[6]);
-+    pwd->b[7]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[7]);
-+    pwd->b[8]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[8]);
-+    pwd->b[9]  = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[9]);
-+    pwd->b[10] = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[10]);
-+    pwd->b[11] = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[11]);
-+    pwd->b[12] = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[12]);
-+    pwd->b[13] = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[13]);
-+    pwd->b[14] = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[14]);
-+    pwd->b[15] = msa_bneg_df(DF_BYTE, pws->b[0],  pwt->b[15]);
-+}
-+
-+void helper_msa_bneg_h(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[1]);
-+    pwd->h[2]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[2]);
-+    pwd->h[3]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[3]);
-+    pwd->h[4]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[4]);
-+    pwd->h[5]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[5]);
-+    pwd->h[6]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[6]);
-+    pwd->h[7]  = msa_bneg_df(DF_HALF, pws->h[0],  pwt->h[7]);
-+}
-+
-+void helper_msa_bneg_w(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_bneg_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_bneg_df(DF_WORD, pws->w[0],  pwt->w[1]);
-+    pwd->w[2]  = msa_bneg_df(DF_WORD, pws->w[0],  pwt->w[2]);
-+    pwd->w[3]  = msa_bneg_df(DF_WORD, pws->w[0],  pwt->w[3]);
-+}
-+
-+void helper_msa_bneg_d(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_bneg_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_bneg_df(DF_DOUBLE, pws->d[0],  pwt->d[1]);
-+}
-+
-+static inline int64_t msa_bset_df(uint32_t df, int64_t arg1,
-+        int64_t arg2)
-+{
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    return UNSIGNED(arg1 | (1LL << b_arg2), df);
-+}
-+
-+void helper_msa_bset_b(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[1]);
-+    pwd->b[2]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[2]);
-+    pwd->b[3]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[3]);
-+    pwd->b[4]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[4]);
-+    pwd->b[5]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[5]);
-+    pwd->b[6]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[6]);
-+    pwd->b[7]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[7]);
-+    pwd->b[8]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[8]);
-+    pwd->b[9]  = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[9]);
-+    pwd->b[10] = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[10]);
-+    pwd->b[11] = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[11]);
-+    pwd->b[12] = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[12]);
-+    pwd->b[13] = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[13]);
-+    pwd->b[14] = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[14]);
-+    pwd->b[15] = msa_bset_df(DF_BYTE, pws->b[0],  pwt->b[15]);
-+}
-+
-+void helper_msa_bset_h(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[1]);
-+    pwd->h[2]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[2]);
-+    pwd->h[3]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[3]);
-+    pwd->h[4]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[4]);
-+    pwd->h[5]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[5]);
-+    pwd->h[6]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[6]);
-+    pwd->h[7]  = msa_bset_df(DF_HALF, pws->h[0],  pwt->h[7]);
-+}
-+
-+void helper_msa_bset_w(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_bset_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_bset_df(DF_WORD, pws->w[0],  pwt->w[1]);
-+    pwd->w[2]  = msa_bset_df(DF_WORD, pws->w[0],  pwt->w[2]);
-+    pwd->w[3]  = msa_bset_df(DF_WORD, pws->w[0],  pwt->w[3]);
-+}
-+
-+void helper_msa_bset_d(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_bset_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_bset_df(DF_DOUBLE, pws->d[0],  pwt->d[1]);
-+}
- 
- 
- /*
-@@ -1220,25 +1423,6 @@ static inline int64_t msa_srl_df(uint32_t df, int64_t arg1, int64_t arg2)
-     return u_arg1 >> b_arg2;
- }
- 
--static inline int64_t msa_bclr_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    return UNSIGNED(arg1 & (~(1LL << b_arg2)), df);
--}
--
--static inline int64_t msa_bset_df(uint32_t df, int64_t arg1,
--        int64_t arg2)
--{
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    return UNSIGNED(arg1 | (1LL << b_arg2), df);
--}
--
--static inline int64_t msa_bneg_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    return UNSIGNED(arg1 ^ (1LL << b_arg2), df);
--}
--
- static inline int64_t msa_sat_s_df(uint32_t df, int64_t arg, uint32_t m)
- {
-     return arg < M_MIN_INT(m + 1) ? M_MIN_INT(m + 1) :
-@@ -1734,9 +1918,6 @@ void helper_msa_ ## func ## _df(CPUMIPSState *env, uint32_t df,         \
- MSA_BINOP_DF(sll)
- MSA_BINOP_DF(sra)
- MSA_BINOP_DF(srl)
--MSA_BINOP_DF(bclr)
--MSA_BINOP_DF(bset)
--MSA_BINOP_DF(bneg)
- MSA_BINOP_DF(addv)
- MSA_BINOP_DF(subv)
- MSA_BINOP_DF(max_s)
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 6080c72..1a87f79 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -28418,6 +28418,54 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-             break;
-         }
-         break;
-+    case OPC_BCLR_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_bclr_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_bclr_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_bclr_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_bclr_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-+    case OPC_BNEG_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_bneg_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_bneg_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_bneg_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_bneg_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-+    case OPC_BSET_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_bset_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_bset_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_bset_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_bset_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-     case OPC_SLL_df:
-         gen_helper_msa_sll_df(cpu_env, tdf, twd, tws, twt);
-         break;
-@@ -28487,9 +28535,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_SRLR_df:
-         gen_helper_msa_srlr_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_BCLR_df:
--        gen_helper_msa_bclr_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_MAX_U_df:
-         gen_helper_msa_max_u_df(cpu_env, tdf, twd, tws, twt);
-         break;
-@@ -28505,9 +28550,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_PCKOD_df:
-         gen_helper_msa_pckod_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_BSET_df:
--        gen_helper_msa_bset_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_MIN_S_df:
-         gen_helper_msa_min_s_df(cpu_env, tdf, twd, tws, twt);
-         break;
-@@ -28526,9 +28568,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_ILVL_df:
-         gen_helper_msa_ilvl_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_BNEG_df:
--        gen_helper_msa_bneg_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_MIN_U_df:
-         gen_helper_msa_min_u_df(cpu_env, tdf, twd, tws, twt);
-         break;
--- 
-2.7.4
++    def __str__(self):
++        return self.include_path() + self.loc()
+=20
+=20
+ class QAPIError(Exception):
+-    def __init__(self, fname, line, col, incl_info, msg):
++    def __init__(self, info, col, msg):
+         Exception.__init__(self)
+-        self.fname =3D fname
+-        self.line =3D line
++        self.info =3D info
+         self.col =3D col
+-        self.info =3D incl_info
+         self.msg =3D msg
+=20
+     def __str__(self):
+-        loc =3D '%s:%d' % (self.fname, self.line)
++        loc =3D str(self.info)
+         if self.col is not None:
++            assert self.info.line is not None
+             loc +=3D ':%s' % self.col
+-        return error_path(self.info) + '%s: %s' % (loc, self.msg)
++        return loc + ': ' + self.msg
+=20
+=20
+ class QAPIParseError(QAPIError):
+@@ -91,14 +108,12 @@ class QAPIParseError(QAPIError):
+                 col =3D (col + 7) % 8 + 1
+             else:
+                 col +=3D 1
+-        QAPIError.__init__(self, parser.fname, parser.line, col,
+-                           parser.incl_info, msg)
++        QAPIError.__init__(self, parser.info, col, msg)
+=20
+=20
+ class QAPISemError(QAPIError):
+     def __init__(self, info, msg):
+-        QAPIError.__init__(self, info['file'], info['line'], None,
+-                           info['parent'], msg)
++        QAPIError.__init__(self, info, None, msg)
+=20
+=20
+ class QAPIDoc(object):
+@@ -382,12 +397,11 @@ class QAPISchemaParser(object):
+     def __init__(self, fp, previously_included=3D[], incl_info=3DNone):
+         self.fname =3D fp.name
+         previously_included.append(os.path.abspath(fp.name))
+-        self.incl_info =3D incl_info
+         self.src =3D fp.read()
+         if self.src =3D=3D '' or self.src[-1] !=3D '\n':
+             self.src +=3D '\n'
+         self.cursor =3D 0
+-        self.line =3D 1
++        self.info =3D QAPISourceInfo(self.fname, 1, incl_info)
+         self.line_pos =3D 0
+         self.exprs =3D []
+         self.docs =3D []
+@@ -395,8 +409,7 @@ class QAPISchemaParser(object):
+         cur_doc =3D None
+=20
+         while self.tok is not None:
+-            info =3D {'file': self.fname, 'line': self.line,
+-                    'parent': self.incl_info}
++            info =3D self.info
+             if self.tok =3D=3D '#':
+                 self.reject_expr_doc(cur_doc)
+                 cur_doc =3D self.get_doc(info)
+@@ -456,9 +469,9 @@ class QAPISchemaParser(object):
+         # catch inclusion cycle
+         inf =3D info
+         while inf:
+-            if incl_abs_fname =3D=3D os.path.abspath(inf['file']):
++            if incl_abs_fname =3D=3D os.path.abspath(inf.fname):
+                 raise QAPISemError(info, "Inclusion loop for %s" % inclu=
+de)
+-            inf =3D inf['parent']
++            inf =3D inf.parent
+=20
+         # skip multiple include of the same file
+         if incl_abs_fname in previously_included:
+@@ -552,7 +565,7 @@ class QAPISchemaParser(object):
+                 if self.cursor =3D=3D len(self.src):
+                     self.tok =3D None
+                     return
+-                self.line +=3D 1
++                self.info =3D self.info.next_line()
+                 self.line_pos =3D self.cursor
+             elif not self.tok.isspace():
+                 # Show up to next structural, whitespace or quote
+@@ -1172,7 +1185,7 @@ class QAPISchemaEntity(object):
+     def check(self, schema):
+         assert not self._checked
+         if self.info:
+-            self._module =3D os.path.relpath(self.info['file'],
++            self._module =3D os.path.relpath(self.info.fname,
+                                            os.path.dirname(schema.fname)=
+)
+         self._checked =3D True
+=20
+@@ -1781,9 +1794,9 @@ class QAPISchema(object):
+         include =3D expr['include']
+         assert doc is None
+         main_info =3D info
+-        while main_info['parent']:
+-            main_info =3D main_info['parent']
+-        fname =3D os.path.relpath(include, os.path.dirname(main_info['fi=
+le']))
++        while main_info.parent:
++            main_info =3D main_info.parent
++        fname =3D os.path.relpath(include, os.path.dirname(main_info.fna=
+me))
+         self._def_entity(QAPISchemaInclude(fname, info))
+=20
+     def _def_builtin_type(self, name, json_type, c_type):
+--=20
+2.21.0
 
 
