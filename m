@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7BABCBA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:38:08 +0200 (CEST)
-Received: from localhost ([::1]:47248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80788BCB75
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:33:04 +0200 (CEST)
+Received: from localhost ([::1]:47172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmtD-0005jL-Jh
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48381)
+	id 1iCmoI-000889-M8
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iCmfE-0001QJ-6H
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:41 -0400
+ (envelope-from <guoheyi@huawei.com>) id 1iCmfB-0001M0-AC
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iCmfC-0006o6-KC
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:39 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2176 helo=huawei.com)
+ (envelope-from <guoheyi@huawei.com>) id 1iCmf9-0006lp-8X
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:37 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:46810 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iCmf4-0006hX-Hg; Tue, 24 Sep 2019 11:23:30 -0400
+ id 1iCmf4-0006hW-NK; Tue, 24 Sep 2019 11:23:31 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 89D0CC4FB6F9F57E2490;
+ by Forcepoint Email with ESMTP id 6C35B257579530C63335;
  Tue, 24 Sep 2019 23:23:27 +0800 (CST)
 Received: from linux-Bxxcye.huawei.com (10.175.104.222) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 24 Sep 2019 23:23:20 +0800
+ 14.3.439.0; Tue, 24 Sep 2019 23:23:21 +0800
 From: Heyi Guo <guoheyi@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
  <linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.cs.columbia.edu>
-Subject: [RFC PATCH 09/12] linux-headers/kvm.h: add capability to forward
- hypercall
-Date: Tue, 24 Sep 2019 23:21:48 +0800
-Message-ID: <1569338511-3572-10-git-send-email-guoheyi@huawei.com>
+Subject: [RFC PATCH 10/12] arm/sdei: check KVM cap and enable SDEI
+Date: Tue, 24 Sep 2019 23:21:49 +0800
+Message-ID: <1569338511-3572-11-git-send-email-guoheyi@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
 References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
@@ -41,7 +40,7 @@ Content-Type: text/plain
 X-Originating-IP: [10.175.104.222]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.190
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,25 +53,14 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marc Zyngier <marc.zyngier@arm.com>,
- Cornelia Huck <cohuck@redhat.com>, James Morse <james.morse@arm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
+ James Morse <james.morse@arm.com>, Heyi Guo <guoheyi@huawei.com>,
  wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To keep backward compatibility, we add new KVM capability
-"KVM_CAP_FORWARD_HYPERCALL" to probe whether KVM supports forwarding
-hypercall to userspace.
-
-The capability should be enabled explicitly, for we don't want user
-space application to deal with unexpected hypercall exits. We also use
-an additional argument to pass exception bit mask, to request KVM to
-forward all hypercalls except the classes specified in the bit mask.
-
-Currently only PSCI can be set as exception, so that we can still keep
-consistent with the original PSCI processing flow.
+Check KVM hypercall forward capability and enable it, and set global
+flag "sdei_enabled" to true if everything works well.
 
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
@@ -80,34 +68,66 @@ Cc: Dave Martin <Dave.Martin@arm.com>
 Cc: Marc Zyngier <marc.zyngier@arm.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: James Morse <james.morse@arm.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-headers/linux/kvm.h | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/sdei.c | 17 +++++++++++++++++
+ target/arm/sdei.h |  2 ++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 18892d6..20e8a68 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -711,6 +711,8 @@ struct kvm_enable_cap {
- 	__u8  pad[64];
- };
+diff --git a/target/arm/sdei.c b/target/arm/sdei.c
+index efdb681..000545e 100644
+--- a/target/arm/sdei.c
++++ b/target/arm/sdei.c
+@@ -43,6 +43,7 @@
+ #define TYPE_QEMU_SDEI "qemu_sdei"
+ #define QEMU_SDEI(obj) OBJECT_CHECK(QemuSDEState, (obj), TYPE_QEMU_SDEI)
  
-+#define KVM_CAP_FORWARD_HYPERCALL_EXCL_PSCI (1 << 0)
++bool sdei_enabled;
+ static QemuSDEState *sde_state;
+ 
+ typedef struct QemuSDEIBindNotifyEntry {
+@@ -1465,6 +1466,7 @@ static const VMStateDescription vmstate_sde_state = {
+ static void sdei_initfn(Object *obj)
+ {
+     QemuSDEState *s = QEMU_SDEI(obj);
++    KVMState *kvm = KVM_STATE(current_machine->accelerator);
+ 
+     if (sde_state) {
+         error_report("Only one SDEI dispatcher is allowed!");
+@@ -1474,6 +1476,21 @@ static void sdei_initfn(Object *obj)
+ 
+     qemu_sde_init(s);
+     qemu_register_reset(qemu_sde_reset, s);
 +
- /* for KVM_PPC_GET_PVINFO */
++    if (kvm_check_extension(kvm, KVM_CAP_FORWARD_HYPERCALL)) {
++        int ret;
++        ret = kvm_vm_enable_cap(kvm, KVM_CAP_FORWARD_HYPERCALL, 0,
++                                KVM_CAP_FORWARD_HYPERCALL_EXCL_PSCI);
++        if (ret < 0) {
++            error_report("Enable hypercall forwarding failed: %s",
++                         strerror(-ret));
++            abort();
++        }
++        sdei_enabled = true;
++        info_report("qemu sdei enabled");
++    } else {
++        info_report("KVM does not support forwarding hypercall.");
++    }
+ }
  
- #define KVM_PPC_PVINFO_FLAGS_EV_IDLE   (1<<0)
-@@ -995,6 +997,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_ARM_SVE 170
- #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
- #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
-+#define KVM_CAP_FORWARD_HYPERCALL 174
+ static void qemu_sde_class_init(ObjectClass *klass, void *data)
+diff --git a/target/arm/sdei.h b/target/arm/sdei.h
+index feaaf1a..95e7d8d 100644
+--- a/target/arm/sdei.h
++++ b/target/arm/sdei.h
+@@ -29,6 +29,8 @@
  
- #ifdef KVM_CAP_IRQ_ROUTING
+ #define SDEI_MAX_REQ        SDEI_1_0_FN(0x12)
  
++extern bool sdei_enabled;
++
+ void sdei_handle_request(CPUState *cs, struct kvm_run *run);
+ 
+ /*
 -- 
 1.8.3.1
 
