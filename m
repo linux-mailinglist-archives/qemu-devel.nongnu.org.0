@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54EABD0CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:41:48 +0200 (CEST)
-Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7601ABD0F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 19:52:16 +0200 (CEST)
+Received: from localhost ([::1]:49504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCoot-0000pw-Id
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41934)
+	id 1iCoz1-000719-JD
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 13:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCoak-0004Y7-Hu
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:27:11 -0400
+ (envelope-from <bounces@canonical.com>) id 1iCoxd-0005wn-9r
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:50:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCoaj-0004Va-4T
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:27:10 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46846)
+ (envelope-from <bounces@canonical.com>) id 1iCoxb-0001xV-TO
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:50:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51796)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCoai-0004V8-V1
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:27:09 -0400
-Received: by mail-pf1-x443.google.com with SMTP id q5so1747438pfg.13
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 10:27:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xZ4TF4C/Tida+D1YKtFrpYNWQ2F0Tql897YVpwLBBG4=;
- b=snWMFXN4/5r862BfKdSJgMrQ9o64tg8kg1HBZobrg4zEU5GIhGkg9I4xjumTbZ8wQC
- ruLQpzKxMC6GGNxECN4IVrN+8gG/P8Uw435meTjsG80pyFuLjwIBBtcfiBeBiWGZm+gb
- azdUtQ3DxtEaWnHdGAjOmvSBafD2PxN61Bj2CMLuKEHPKRponyBdtik64g3opoimrHHd
- q1372PwgBvOuCqs8Qgtc2WMKTdgNyxmVFy4CTPv36gZQPluD1SbHoZkr34v/HYXUoXNX
- MBNOPcfJy9eKpLy4mTQVFeceb0iTzixUmpFfdWJ4a6s1+sJiYhC+Trl0+ex9nQuyA9FH
- nG9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xZ4TF4C/Tida+D1YKtFrpYNWQ2F0Tql897YVpwLBBG4=;
- b=kbQeD0HmZb/OL6La9MP/fSV9lDnRwo9G4+8zSlsUjQFg+RnrTUecjiD0I/OF17MnnZ
- frrbQednfu+F91IStCYA0aBE5hC3FgqIPZCX3vyN/9iktYPdSByFFDbPAxRpkbj499SR
- NerZGx2iQul3rIIB7nDJbBZzWIq/oNHHYcG0nk7fLHGJ2X8vo6YhlaP0FmVGeWeJhKZ5
- vwNyQ3Ov48TofgMfbMKuzRxOlSZuMVjBZWepYG+szgjtWvraRSiTyqCTCnttNJJtI3mS
- ErEXHgnxtEdmTG97cj12qr5QELHzKXz/C+I/H8OEnyPAueK0Xno87L8jee5vsHxWkyQg
- Ypew==
-X-Gm-Message-State: APjAAAVGu9B7MbiMI7tu0ddptscbMrrhMMAR1lyczhn2YiZaVG8wDAcN
- ZRlXkgohfwkHsxdDxqZWx8/c8A==
-X-Google-Smtp-Source: APXvYqxzsx3Oh5/C5SKjvP7Lzhq9Px5Dv6cm4mfwHtRdKGfo1f5wJamgG2NauorlaAf7aLsMP4hN9g==
-X-Received: by 2002:a17:90a:1b48:: with SMTP id
- q66mr1201326pjq.79.1569346027667; 
- Tue, 24 Sep 2019 10:27:07 -0700 (PDT)
-Received: from [172.20.32.216] ([12.206.46.59])
- by smtp.gmail.com with ESMTPSA id z13sm3395120pfg.172.2019.09.24.10.27.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Sep 2019 10:27:06 -0700 (PDT)
-Subject: Re: [PATCH v4 03/16] qemu/compiler.h: Add optimize_away
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190923230004.9231-1-richard.henderson@linaro.org>
- <20190923230004.9231-4-richard.henderson@linaro.org>
- <25be3c2f-f686-4ab1-30cb-47b1c83d46cc@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <72ce9681-f7b4-812d-f61f-9b8a42c8c403@linaro.org>
-Date: Tue, 24 Sep 2019 10:27:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iCoxb-0001wZ-Gi
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 13:50:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iCoxZ-0003qx-C6
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 17:50:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5A1F42E8025
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 17:50:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <25be3c2f-f686-4ab1-30cb-47b1c83d46cc@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Sep 2019 17:39:01 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: mingw32 msys windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: avladu pmaydell
+X-Launchpad-Bug-Reporter: Adrian Vladu (avladu)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156932212305.13447.6077258015607645915.malonedeb@gac.canonical.com>
+Message-Id: <156934674145.4662.4121088834821552118.malone@chaenomeles.canonical.com>
+Subject: [Bug 1845185] Re: Cannot build qemu utils (qemu-img.exe, qemu-edid.exe,
+ qemu-io.exe) statically with MSYS64 on Windows because intl and iconv
+ libs are not loaded
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fae7786f9db129e4d9adbaa9eb6e229b98a95270
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,22 +66,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
+Reply-To: Bug 1845185 <1845185@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/19 12:47 AM, David Hildenbrand wrote:
-> On 24.09.19 00:59, Richard Henderson wrote:
->> +/**
->> + * optimize_away()
-> 
-> I would have used the compiler-speak "optimized_out()" instead.
+I think this is probably a bug in the packaging of glib. What does "pkg-
+config --static --libs glib-2.0" say? If it doesn't say that you need to
+add -lintl -liconv to do a static link against glib, then that's a glib
+packaging bug.  If it does say you need those flags, then we have a QEMU
+configure script bug where we're failing to get the link line correct
+(but we should fix it by using pkg-config correctly, not by manually
+adding the libraries to the LIBS variable).
 
-Hmm, that's just a matter of present vs past test.
+I'm not sure how much this applies to Windows, but in general we don't
+support static linking for anything except the linux-user executables,
+largely because so often the libraries we depend on don't ship with
+correct pkg-config data for how to statically link them.
 
-Perhaps, qemu_build_not_reached, to mirror g_assert_not_reached and
-QEMU_BUILD_BUG_ON?
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1845185
 
-r~
+Title:
+  Cannot build qemu utils (qemu-img.exe, qemu-edid.exe, qemu-io.exe)
+  statically with MSYS64 on Windows because intl and iconv libs are not
+  loaded
+
+Status in QEMU:
+  New
+
+Bug description:
+  Using MSYS2 and mingw32 instructions from
+  https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2, I could not
+  statically build the qemu-utils using the latest qemu master branch.
+
+  Steps to reproduce the issue:
+  1. Install MSYS2 on a Windows 10 x64 box
+  2. Install required mingw64 toolchain: pacman -S base-devel mingw-w64-x86=
+_64-toolchain git python mingw-w64-x86_64-glib2 mingw64/mingw-w64-x86_64-gt=
+k3 mingw64/mingw-w64-x86_64-SDL2
+  3. clone qemu
+  4. Run configure for static build for the tools only
+  =C2=A0=C2=A0./configure --disable-user --disable-system --disable-docs --=
+enable-tools  --disable-guest-agent --disable-capstone --disable-sheepdog -=
+-enable-debug --static
+  =C2=A0=C2=A0# I had to remove sheepdog, capstone and guest agent because =
+other errors popped out, but let's not go in the rabbit hole.
+  5. Run 'make -j'. the following errors appeared, signaling that intl lib =
+is not loaded. If I add intl lib, iconv lib needs to be loaded too.
+
+  make: *** [/home/ader1990/qemu/rules.mak:124: qemu-img.exe] Error 1
+  make: *** Waiting for unfinished jobs....
+  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1522): unde=
+fined reference to `libintl_sprintf'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x154f): unde=
+fined reference to `libintl_sprintf'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x157e): unde=
+fined reference to `libintl_sprintf'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15ad): unde=
+fined reference to `libintl_sprintf'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15dc): unde=
+fined reference to `libintl_sprintf'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1622): more=
+ undefined references to `libintl_sprintf' follow
+  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x43): undefi=
+ned reference to `libintl_textdomain'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x52): undefi=
+ned reference to `libintl_gettext'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x203): undef=
+ined reference to `libintl_bindtextdomain'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x21e): undef=
+ined reference to `libintl_bind_textdomain_codeset'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x2c1): undef=
+ined reference to `libintl_dgettext'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x4e1): undef=
+ined reference to `libintl_dcgettext'
+  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x53a): undef=
+ined reference to `libintl_dngettext'
+
+  Patch to fix the issue (added intl and iconv to the libs):
+
+  diff --git a/configure b/configure
+  index 30aad233d1..e2ab8ef026 100755
+  --- a/configure
+  +++ b/configure
+  @@ -920,7 +920,7 @@ if test "$mingw32" =3D "yes" ; then
+  =C2=A0=C2=A0=C2=A0DSOSUF=3D".dll"
+  =C2=A0=C2=A0=C2=A0# MinGW needs -mthreads for TLS and macro _MT.
+  =C2=A0=C2=A0=C2=A0QEMU_CFLAGS=3D"-mthreads $QEMU_CFLAGS"
+  -  LIBS=3D"-lwinmm -lws2_32 -liphlpapi $LIBS"
+  +  LIBS=3D"-lwinmm -lws2_32 -liphlpapi -lintl -liconv $LIBS"
+  =C2=A0=C2=A0=C2=A0write_c_skeleton;
+  =C2=A0=C2=A0=C2=A0if compile_prog "" "-liberty" ; then
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0LIBS=3D"-liberty $LIBS"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1845185/+subscriptions
 
