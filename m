@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4EEBD404
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:05:26 +0200 (CEST)
-Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360D2BD40C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:09:07 +0200 (CEST)
+Received: from localhost ([::1]:51404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrzw-0004uQ-69
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:05:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55591)
+	id 1iCs3V-0000OD-CQ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55605)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw3-0002ZN-4Z
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrw3-0002Zz-Ll
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw0-0004VE-R7
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:22 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35372)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrw1-0004Vk-7J
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:23 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53496)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCrw0-0004SU-DA
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:20 -0400
-Received: by mail-wr1-x443.google.com with SMTP id v8so3622618wrt.2
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:13 -0700 (PDT)
+ id 1iCrw0-0004TH-Ti
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:21 -0400
+Received: by mail-wm1-x331.google.com with SMTP id i16so1872688wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qaJUV8jGxUXRdkCn1OSBrOh+BLwVQ4a81fS54bVOr5k=;
- b=VrsqwyAcpY68lBd7Wf6m4+qAdJlkrLNFQJBhnK614B2vIHOzzZr4IwxAHW0CJ8pF8y
- S63Bpc+O6jKvDHsrPVMkZlYQgwzXQ5ufxC2uM6YoVMsbpacxS9t07LOU6gTOEWzveXSv
- pUY+CZGIbm7MWPyJgtiCUffZYtiBTxI+HxVbHbK3nnoora1TosQzr/oA8F+dFC4/yhkk
- XXPTuEZrx1FQ+pzT2cGI4XZbYXERlXdmR3rbkGwEjuvqPASBgeZR3Qopl/wV1D6RriPK
- IG0BOoC/Ei/TWnLX22c1d6beNgDZKYbBXnQti3WMMkjHO+Mim2+Dk1T7ZSa2HeRA0C+h
- 1hsA==
+ bh=UOwxHWCw5vo47KIS9zU1ApIX4RnyzrGBUBwelWBJL7Y=;
+ b=zDWTNlonuqvkhNbI3OKbzXrhnXFxcA6zSCURe7uzssKINJuDB0BMJHT0032fNTEJ7o
+ qqPKj3OgSLw/yZW792hJAGI0NKCUCFJk3/hSArUXZzGBhb4kMvPu1O4P5lLEVCwTmnin
+ fjV3Kyi4t1NKQgAIY9xCBAZeqIeeTuDbbFa57ZWzFm7soDo+1pvkuHvgbab0oNIZPEds
+ ncNCVIOMycTNJfVRgbRWd4BYrBpEDJvlVUGe75YdWRPhzvpilmT5/iQKmnSLRR46w+r6
+ bxFSLYTC+6TbtWIbuFU4m+6qWezoJ8q2oXwDuprEElQcQ/ZG5YxlqScVHbVflvrdrrIP
+ fKZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qaJUV8jGxUXRdkCn1OSBrOh+BLwVQ4a81fS54bVOr5k=;
- b=gMBeL54tVo2HYwlrp3jqRlPrbteqVmPQwBiQ9ccp4LSRoVoJ/x2fzfmpyKURKZC3MU
- QPCbJJNIEcqZF246Q8OWz1VSplrV6n62FIAcVTLzf74lOCjJyXIbj1toU2IBG+tlOtdE
- jXBecD+FWJQjFA6AOnpOGEwiIAEahaziGmDAoyUSG9/QoalJ88it8UBFeE4jQJ6p75m1
- gJ2/H4leZ6EZ6eT053oCiMCQk0zevpZpsK951RZoUjqidNYeJQ4dZmM/42g0cyZuSeIp
- E4nplHS8YZxyxA97yIymRjkVnuB++3F7y3IHMeudcnwYTssQijEmlXYLPIQhgvsKegRK
- p2MA==
-X-Gm-Message-State: APjAAAXQ95scCnMOvU6IOu4kVbM8aZGpST9mkSP8nZ/hVeMIVbNZJRiv
- J9oPQVEYBGk20jZz8mCCrcwFag==
-X-Google-Smtp-Source: APXvYqwDLUqi593AvPR5nfTYDcNJK6iTc/EK92L8u7WOVrWdTCA8ysnvZZni+Cd+86VSsZx4hQceGw==
-X-Received: by 2002:a5d:4044:: with SMTP id w4mr4930713wrp.281.1569358872583; 
- Tue, 24 Sep 2019 14:01:12 -0700 (PDT)
+ bh=UOwxHWCw5vo47KIS9zU1ApIX4RnyzrGBUBwelWBJL7Y=;
+ b=pJPw5AHse3/1yqsqqCkf/Q545H0qYtv73h6lrJNHppOklXA2XupAYi2S+o/3zJKcJF
+ OX4yU0fiIrmSXabApNNVElHnaDgMj+4kmy8wn1+2iWWYne+ZecAGKqssPumWo6sJ27w+
+ ui1zpon0AeQnfjSAfOlTq4cgYduOtEg4wyDvYGVx3KwEhiDbh8qeoR7VjeYGoC+Qq27I
+ AiverWCnZx0tf0qDuOlGn7BPvexlISLJwuLlVCH41E+/J4w1mWDY5TnyAxbxfXlVUQL+
+ GaKuRlXP3ln4g/CA72wJVK26mDxqRWPRlIAKyyTy+I5WZZ9oLDwJsx3uyHtLDd3lY50w
+ D36w==
+X-Gm-Message-State: APjAAAUArC0qhijC5ANYFr/93Daf5ZSOH2zm6W15Gim7+r6LM7GsH+tY
+ 0/JBCKcAPHz3fdqNc7pqq4vCHLrwHiv/FA==
+X-Google-Smtp-Source: APXvYqwVWfArU3z1pOcax7CaxlkjAFQR5GhnJobr4l1ZhPfW5POBj9DmipakbK1aO1gmW548Tn9DNA==
+X-Received: by 2002:a1c:9ecb:: with SMTP id h194mr2428049wme.35.1569358875847; 
+ Tue, 24 Sep 2019 14:01:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r13sm4426603wrn.0.2019.09.24.14.01.08
+ by smtp.gmail.com with ESMTPSA id b16sm4859565wrh.5.2019.09.24.14.01.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 14:01:10 -0700 (PDT)
+ Tue, 24 Sep 2019 14:01:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4A95C1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 9F78D1FF99;
  Tue, 24 Sep 2019 22:01:07 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 05/33] target/alpha: Write to fpcr_flush_to_zero once
-Date: Tue, 24 Sep 2019 22:00:38 +0100
-Message-Id: <20190924210106.27117-6-alex.bennee@linaro.org>
+Subject: [PATCH  v3 09/33] tests/migration/postcopy: trim migration bandwidth
+Date: Tue, 24 Sep 2019 22:00:42 +0100
+Message-Id: <20190924210106.27117-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
 References: <20190924210106.27117-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, jsnow@redhat.com,
- f4bug@amsat.org, Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, jsnow@redhat.com, f4bug@amsat.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Tidy the computation of the value; no functional change.
+On slow hosts with tcg we were sometimes finding that the migration
+would complete during precopy and never get into the postcopy test.
+Trim back the bandwidth a bit to make that much less likely.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20190921043256.4575-6-richard.henderson@linaro.org>
+Message-Id: <20190923131022.15498-3-dgilbert@redhat.com>
 ---
- target/alpha/helper.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ tests/migration-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index 2f959c65efb..1b3479738b7 100644
---- a/target/alpha/helper.c
-+++ b/target/alpha/helper.c
-@@ -69,14 +69,13 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
-     env->fpcr_exc_enable = ~t & FPCR_STATUS_MASK;
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index 9c62ee5331b..221a33d0834 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -753,7 +753,7 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+      * quickly, but that it doesn't complete precopy even on a slow
+      * machine, so also set the downtime.
+      */
+-    migrate_set_parameter_int(from, "max-bandwidth", 100000000);
++    migrate_set_parameter_int(from, "max-bandwidth", 30000000);
+     migrate_set_parameter_int(from, "downtime-limit", 1);
  
-     env->fpcr_dyn_round = rm_map[(fpcr & FPCR_DYN_MASK) >> FPCR_DYN_SHIFT];
--
--    env->fpcr_flush_to_zero = (fpcr & FPCR_UNFD) && (fpcr & FPCR_UNDZ);
-     env->fp_status.flush_inputs_to_zero = (fpcr & FPCR_DNZ) != 0;
-+
-+    t = (fpcr & FPCR_UNFD) && (fpcr & FPCR_UNDZ);
- #ifdef CONFIG_USER_ONLY
--    if (env->swcr & SWCR_MAP_UMZ) {
--        env->fpcr_flush_to_zero = 1;
--    }
-+    t |= (env->swcr & SWCR_MAP_UMZ) != 0;
- #endif
-+    env->fpcr_flush_to_zero = t;
- }
- 
- uint64_t helper_load_fpcr(CPUAlphaState *env)
+     /* Wait for the first serial output from the source */
 -- 
 2.20.1
 
