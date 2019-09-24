@@ -2,88 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82DEABCAFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:18:04 +0200 (CEST)
-Received: from localhost ([::1]:46914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB49BCAF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:15:11 +0200 (CEST)
+Received: from localhost ([::1]:46860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmZn-0003Ol-3n
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:18:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36715)
+	id 1iCmWz-0007ta-4S
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iClRa-0000bx-HO
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:05:31 -0400
+ (envelope-from <Fan_Yang@sjtu.edu.cn>) id 1iClV2-00049c-Ke
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:09:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iClRY-0003qQ-0Z
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:05:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39921
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <Fan_Yang@sjtu.edu.cn>) id 1iClV0-0005W7-NE
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:09:04 -0400
+Received: from smtp180.sjtu.edu.cn ([202.120.2.180]:57504)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iClRX-0003pr-RT
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:05:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569333927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=qsZFkBCjAg4NRJpBDgNBqwAYIrBs9cL8UQCX2si23RE=;
- b=YQpSYbtLALT2reRAOTfU3RduiEu/GdPLP44YxspEX9pX1Zdy36m4aSt5gCclEJJSQb0cB9
- da9FuPFDxFvPp3D9/UFHTDmhTzzTzGn0VEKW2ZNIvxDqB5Fj5Tx6GvX6EoqxbfQFTND9La
- zzqklAuEUkY8BoBadEaDL5Y1/pdKjCM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-vlRp2KULNrWb0BhM9Vmxjg-1; Tue, 24 Sep 2019 10:05:25 -0400
-Received: by mail-wr1-f69.google.com with SMTP id j3so620365wrn.7
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 07:05:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SPLJnRLkroiJLQOvFWvOrYF8z/53F+MgKQSL9d4wxPk=;
- b=WgQTQ+rHLuxZTffJJjGXJKDgrKUvSKjNZwsmiNlUIAu3hRUzg+Ek4q5w0JgI90syI7
- RVtZSe/wb90Sp0WmcYYUS/c7gDx7YEptBEw4tr3J9cirTCLw6Vv66cI6BRD7HrzYpw7i
- Tcqg20jurAWA4k8aNHqf0zNb7UsMPblC87NE91qySvK4FSFaY95UX60C3ZSjCZJUVvrs
- V4iHX+8AOiFc5rHKpGMaWBiyPIKxsUimGWzih0+qPu+IAYU6gyc6xJf5tEg3bXo7GeDe
- 1FtRH/SMs6XGxatir6HuGJYAFn4ZHiNz42MW9tMSEi2WvexY/OJyWINl+nzRRiUcsmmh
- pnKA==
-X-Gm-Message-State: APjAAAXuz8y2jOEdDPWdLGETjy8ZYdNlHIY9kWk/TnU0rrTXfdpk8wHT
- LuSXpBbtsYIlxGWiLqlzXF1sP7gVIqF6BgZ0JXheUm33t2H4puoZOlTZUNU40VNz1EH/MRSQ5Cm
- n07YSEnHB3vmuZMs=
-X-Received: by 2002:a5d:694e:: with SMTP id r14mr2458772wrw.34.1569333924759; 
- Tue, 24 Sep 2019 07:05:24 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzBwOmY8pOjEwJTG0GQU8tmcP9XUiJI3dCpuqjsVJH32z5rx2evgf7PoHPI0D1O73fzBbepjg==
-X-Received: by 2002:a5d:694e:: with SMTP id r14mr2458751wrw.34.1569333924579; 
- Tue, 24 Sep 2019 07:05:24 -0700 (PDT)
-Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id f186sm126612wmg.21.2019.09.24.07.05.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Sep 2019 07:05:23 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] RTC support for QEMU RISC-V virt machine
-To: Anup Patel <Anup.Patel@wdc.com>, Peter Maydell
- <peter.maydell@linaro.org>, Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-References: <20190924131131.118155-1-anup.patel@wdc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <735d696e-f0dc-cad3-acc3-056cf152cc22@redhat.com>
-Date: Tue, 24 Sep 2019 16:05:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <Fan_Yang@sjtu.edu.cn>)
+ id 1iClV0-0005Df-7Y
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 10:09:02 -0400
+Received: from proxy01.sjtu.edu.cn (unknown [202.112.26.54])
+ by smtp180.sjtu.edu.cn (Postfix) with ESMTPS id 8B48B1008CA20
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 22:08:29 +0800 (CST)
+Received: from localhost (localhost [127.0.0.1])
+ by proxy01.sjtu.edu.cn (Postfix) with ESMTP id 8401B2052028B
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 22:08:29 +0800 (CST)
+X-Virus-Scanned: amavisd-new at proxy01.sjtu.edu.cn
+Received: from proxy01.sjtu.edu.cn ([127.0.0.1])
+ by localhost (proxy01.sjtu.edu.cn [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 69UsR19zBrOp for <qemu-devel@nongnu.org>;
+ Tue, 24 Sep 2019 22:08:29 +0800 (CST)
+Received: from Fans-Air.ipads-lab.se.sjtu.edu.cn (unknown [202.120.40.82])
+ (Authenticated sender: Fan_Yang)
+ by proxy01.sjtu.edu.cn (Postfix) with ESMTPSA id 5BE2E20520278
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 22:08:29 +0800 (CST)
+From: Fan Yang <Fan_Yang@sjtu.edu.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] COLO-compare: Fix incorrect `if` logic
+Date: Tue, 24 Sep 2019 22:08:29 +0800
+Message-ID: <m2y2yd9482.fsf@Fans-Air.ipads-lab.se.sjtu.edu.cn>
 MIME-Version: 1.0
-In-Reply-To: <20190924131131.118155-1-anup.patel@wdc.com>
-Content-Language: en-US
-X-MC-Unique: vlRp2KULNrWb0BhM9Vmxjg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 202.120.2.180
+X-Mailman-Approved-At: Tue, 24 Sep 2019 11:06:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,50 +57,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <Atish.Patra@wdc.com>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Anup,
+'colo_mark_tcp_pkt' should return 'true' when packets are the same, and
+'false' otherwise.  However, it returns 'true' when
+'colo_compare_packet_payload' returns non-zero while
+'colo_compare_packet_payload' is just a 'memcmp'.  The result is that
+COLO-compare reports inconsistent TCP packets when they are actually
+the same.
 
-On 9/24/19 3:11 PM, Anup Patel wrote:
-> This series adds RTC device to QEMU RISC-V virt machine. We have
-> selected Goldfish RTC device model for this. It's a pretty simple
-> synthetic device with few MMIO registers and no dependency external
-> clock. The driver for Goldfish RTC is already available in Linux so
-> we just need to enable it in Kconfig for RISCV and also update Linux
-> defconfigs.
->=20
-> We have tested this series with Linux-5.3 plus defconfig changes
-> available in 'goldfish_rtc_v1' branch of:
-> https://github.com/avpatel/linux.git
->=20
-> Changes since v1:
->  - Removed redundant object properties from Goldfish RTC emulation
->  - Added vmstate for Goldfish RTC
->=20
-> Anup Patel (2):
->   hw: timer: Add Goldfish RTC device
->   riscv: virt: Use Goldfish RTC device
->=20
->  hw/riscv/Kconfig                |   1 +
->  hw/riscv/virt.c                 |  15 ++
->  hw/timer/Kconfig                |   3 +
->  hw/timer/Makefile.objs          |   1 +
->  hw/timer/goldfish_rtc.c         | 278 ++++++++++++++++++++++++++++++++
->  include/hw/riscv/virt.h         |   2 +
->  include/hw/timer/goldfish_rtc.h |  46 ++++++
+Signed-off-by: Fan Yang <Fan_Yang@sjtu.edu.cn>
+---
+ net/colo-compare.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Minor comment, if my ongoing series "Split RTC devices from hw/timer/ to
-hw/rtc/" is accepted, you'd have to rebase this in hw/rtc/goldfish_rtc:
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03334.html
-(no logical change involved).
-
-Regards,
-
-Phil.
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 7489840bde..7ee17f2cf8 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -319,7 +319,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet *spkt,
+     *mark = 0;
+ 
+     if (ppkt->tcp_seq == spkt->tcp_seq && ppkt->seq_end == spkt->seq_end) {
+-        if (colo_compare_packet_payload(ppkt, spkt,
++        if (!colo_compare_packet_payload(ppkt, spkt,
+                                         ppkt->header_size, spkt->header_size,
+                                         ppkt->payload_size)) {
+             *mark = COLO_COMPARE_FREE_SECONDARY | COLO_COMPARE_FREE_PRIMARY;
+@@ -329,7 +329,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet *spkt,
+ 
+     /* one part of secondary packet payload still need to be compared */
+     if (!after(ppkt->seq_end, spkt->seq_end)) {
+-        if (colo_compare_packet_payload(ppkt, spkt,
++        if (!colo_compare_packet_payload(ppkt, spkt,
+                                         ppkt->header_size + ppkt->offset,
+                                         spkt->header_size + spkt->offset,
+                                         ppkt->payload_size - ppkt->offset)) {
+@@ -348,7 +348,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet *spkt,
+         /* primary packet is longer than secondary packet, compare
+          * the same part and mark the primary packet offset
+          */
+-        if (colo_compare_packet_payload(ppkt, spkt,
++        if (!colo_compare_packet_payload(ppkt, spkt,
+                                         ppkt->header_size + ppkt->offset,
+                                         spkt->header_size + spkt->offset,
+                                         spkt->payload_size - spkt->offset)) {
+-- 
+2.17.1
 
 
