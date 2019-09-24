@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC9ABD417
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:13:21 +0200 (CEST)
-Received: from localhost ([::1]:51558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61533BD421
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:19:30 +0200 (CEST)
+Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCs7b-000446-4h
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55606)
+	id 1iCsDY-0001Ps-MD
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55979)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw3-0002a1-L2
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:25 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCryl-0005Ez-Ee
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:04:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw1-0004Vz-Bk
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:23 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35808)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCrw1-0004UM-2i
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:21 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id v8so3623029wrt.2
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ehrUyxIk/TYD5FBHcYxV5NvPpPuPm/qI3SJa6YtXabo=;
- b=ZD1lshxyFozfKyYn9kFEUZcYXEK3XYNK2+he5rjFHKf7OypyPJwmi7gqAOMXKapsEy
- RaDB678kOZIqPVIgxOZpmjnoS9g/mJ3w0ImZcWJvgRwlr8ejSJ+cdCwHRF2g8zSHaotu
- nPCm37KRh6Or97rVPBh9LVKcyJg+X23RUDlB+08D92ulu4LfEmcZxBcEWaY8vxFy3/y4
- dGNEHGierd12rIBO6JWfNOwmBwGemVYj8HMXV5n9Y1wuSj6MbJJGd81WklqaBamHR7fW
- iBK5NpFVIrzHh5lHyTTLAqtzvKGv0fNhtKkl+5w1zREwaFATh32uLzgA2vyWiSLbn5xD
- rJjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ehrUyxIk/TYD5FBHcYxV5NvPpPuPm/qI3SJa6YtXabo=;
- b=Ay/lxIGs/V2Bh/l/YPw9exkxwrXvM6MEEO3BiiY0jcBkT6n04WoXBcViOdoVVA+0RR
- CAzqb8nIuaZZMByD0bK5SSZls0wXZX46Kb+O6Ptn6SnYIvbd4l5FgrXwgOJ9OYF+3uHM
- DtTsZ+T+VrNL44FJkQtclSuwXS69nanYcPYRrixND6JX7n0rS1prCO/sJufHmc6F3PqH
- OCJcFf/qIL7U572WSVVilGwXPPMieaOPRaNHPEuK2SjU6i4dCLi2zIzRkTyR+yvKrKEW
- eBi3gPKoYJlqU084InxYyC6WUExWrbFpTCx8KyVEv6p2bcU3F1b8YpZGPCsvKXuhzkV+
- AP3Q==
-X-Gm-Message-State: APjAAAWesNkG7GLe0oCIF2onLIkLF87dBp2Gpo4JINvl95AovPEFdJkc
- h/HWI7NzaAvP+qNiD3iZpGckXQ==
-X-Google-Smtp-Source: APXvYqxym9SdfJr3PTGx+g191fi0fieLitQoNcLkOvRnoTBTMrk00PpqcZ9QdtIw3B/QGurIPat6AA==
-X-Received: by 2002:a5d:5005:: with SMTP id e5mr4923632wrt.79.1569358879836;
- Tue, 24 Sep 2019 14:01:19 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v20sm1217020wml.26.2019.09.24.14.01.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 14:01:15 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F3CD81FF9D;
- Tue, 24 Sep 2019 22:01:07 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 13/33] tests/docker: fix DOCKER_PARTIAL_IMAGES
-Date: Tue, 24 Sep 2019 22:00:46 +0100
-Message-Id: <20190924210106.27117-14-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
-References: <20190924210106.27117-1-alex.bennee@linaro.org>
+ (envelope-from <eblake@redhat.com>) id 1iCryi-0005B9-RB
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:04:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56774)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iCryf-00059J-Ga; Tue, 24 Sep 2019 17:04:05 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A0FF420FF;
+ Tue, 24 Sep 2019 21:04:04 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 86E58608C0;
+ Tue, 24 Sep 2019 21:04:00 +0000 (UTC)
+Subject: Re: [PATCH v3 18/25] block: Fix error_append_hint usage
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
+ <20190924200902.4703-19-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <94edc340-5cc0-d6ed-67c0-e8030a3bc38a@redhat.com>
+Date: Tue, 24 Sep 2019 16:03:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+In-Reply-To: <20190924200902.4703-19-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="5pRWrNbAXgTTzL09u36fPA27zGLyVo8Oe"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Tue, 24 Sep 2019 21:04:04 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,41 +85,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, jsnow@redhat.com, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ integration@gluster.org, qemu-block@nongnu.org,
+ Jeff Cody <codyprime@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finger trouble in a previous clean-up inadvertently set
-DEBIAN_PARTIAL_IMAGES instead of DOCKER_PARTIAL_IMAGES. Also fix the
-typo to debian-9-mxe.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--5pRWrNbAXgTTzL09u36fPA27zGLyVo8Oe
+Content-Type: multipart/mixed; boundary="ktkysQrLLXPoRIp4hbPyzHt0b3U4GPcb6";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Jeff Cody <codyprime@gmail.com>,
+ Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>,
+ integration@gluster.org, John Snow <jsnow@redhat.com>
+Message-ID: <94edc340-5cc0-d6ed-67c0-e8030a3bc38a@redhat.com>
+Subject: Re: [PATCH v3 18/25] block: Fix error_append_hint usage
+References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
+ <20190924200902.4703-19-vsementsov@virtuozzo.com>
+In-Reply-To: <20190924200902.4703-19-vsementsov@virtuozzo.com>
 
-Fixes: 44d5a8bf5d2
-Signed-off-by: John Snow <jsnow@redhat.com>
-[AJB: merged fix from Message-Id: <20190917185537.25417-1-jsnow@redhat.com>]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
----
- tests/docker/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--ktkysQrLLXPoRIp4hbPyzHt0b3U4GPcb6
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 50a400b573a..3fc7a863e51 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -7,7 +7,7 @@ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
- DOCKER_DEPRECATED_IMAGES := debian
- # we don't run tests on intermediate images (used as base by another image)
- DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian-sid
--DEBIAN_PARTIAL_IMAGES += debian8-mxe debian-9-mxe debian-ports debian-bootstrap
-+DOCKER_PARTIAL_IMAGES += debian8-mxe debian9-mxe debian-ports debian-bootstrap
- DOCKER_IMAGES := $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
- # Use a global constant ccache directory to speed up repetitive builds
--- 
-2.20.1
+On 9/24/19 3:08 PM, Vladimir Sementsov-Ogievskiy wrote:
+> If we want append hint to errp, we must use ERRP_FUNCTION_BEGIN macro.
+> Otherwise hint will not be appended in case of errp =3D=3D &fatal_err
+> (program will exit before error_append_hint() call). Fix such cases.
+>=20
+> This commit (together with its neighbors) was generated by
+>=20
+> git grep -l 'error_append_hint(errp' | while read f; do \
+> spatch --sp-file scripts/coccinelle/fix-error_append_hint-usage.cocci \=
 
+> --in-place $f; done
+>=20
+> and then
+>=20
+> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+>=20
+> (auto-msg was a file with this commit message)
+>=20
+
+Your automation is cool!
+
+> Still, for backporting it may be more comfortable to use only the first=
+
+> command and then do one huge commit.
+>=20
+> Reported-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/backup.c       | 1 +
+>  block/dirty-bitmap.c | 1 +
+>  block/file-posix.c   | 3 +++
+>  block/gluster.c      | 2 ++
+>  block/qcow.c         | 1 +
+>  block/qcow2.c        | 1 +
+>  block/vhdx-log.c     | 1 +
+>  block/vpc.c          | 1 +
+>  8 files changed, 11 insertions(+)
+
+$ git grep -p 'error_append_hint(errp' block/ | grep '\.c=3D' | wc -l
+
+produces 11 hits, very nicely matching up with your patch.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--ktkysQrLLXPoRIp4hbPyzHt0b3U4GPcb6--
+
+--5pRWrNbAXgTTzL09u36fPA27zGLyVo8Oe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KhL8ACgkQp6FrSiUn
+Q2oYiQf8Cb85Lqc+efoQLGZtoEJiCGKs+3TyrkS2VDD3gUoKkccM/iCbz98trc8S
+Hzvqc12Ia7rm/Ik0Kp9sPrda1yP2zhcJfon3n9OqFV62GlYm878uTzgZtYDbjZEv
+Xrd4GDaEEp7GdXpNAbr9Q+lHZf4/86jJRQtIPujS3BxNqqF9SZ4LJS3w6aBhr/Zw
+Ljbb642ai5XM5NdM8EMwPSRyqgOuV/wOAFG+bkE3KiC63FYN2n0St+o+AzW+og2s
+OOe6hBgi2GlQOEHnhrVUSHiu6M3Wpr+NOUG1vDHi93Elqy3sqT+PtDG9oAomuiYV
+gpqcsjzJElmSeUpFtJiheNniisetfw==
+=ORAG
+-----END PGP SIGNATURE-----
+
+--5pRWrNbAXgTTzL09u36fPA27zGLyVo8Oe--
 
