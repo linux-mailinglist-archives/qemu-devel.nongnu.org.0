@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C794CBD598
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:53:52 +0200 (CEST)
-Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677A9BD593
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:50:17 +0200 (CEST)
+Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCu1J-0005Ys-8u
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46800)
+	id 1iCu2y-0006Jy-Tq
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:16:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iCtu1-0002FJ-Qo
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:07:27 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iCtol-0004gG-CW
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:02:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iCtu0-0003AI-Hb
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:07:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47514)
+ (envelope-from <jsnow@redhat.com>) id 1iCtok-0000Xr-B6
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:01:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37990)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iCttx-00037f-C5; Tue, 24 Sep 2019 19:07:21 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iCtod-0000Tn-TH; Tue, 24 Sep 2019 19:01:52 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5D7C57622B;
- Tue, 24 Sep 2019 23:07:18 +0000 (UTC)
-Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA46219C7F;
- Tue, 24 Sep 2019 23:07:12 +0000 (UTC)
-Date: Tue, 24 Sep 2019 15:31:44 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v4 0/2] Allow memory_region_register_iommu_notifier() to
- fail
-Message-ID: <20190924153144.0a656a41@x1.home>
-In-Reply-To: <20190924082517.13724-1-eric.auger@redhat.com>
-References: <20190924082517.13724-1-eric.auger@redhat.com>
-Organization: Red Hat
+ by mx1.redhat.com (Postfix) with ESMTPS id 767B93090FDA;
+ Tue, 24 Sep 2019 23:01:49 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-231.bos.redhat.com [10.18.17.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17FE360852;
+ Tue, 24 Sep 2019 23:01:44 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] dirty-bitmaps: remove deprecated autoload parameter
+Date: Tue, 24 Sep 2019 19:01:42 -0400
+Message-Id: <20190924230143.22551-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 24 Sep 2019 23:07:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 24 Sep 2019 23:01:49 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,87 +52,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, aik@ozlabs.ru, qemu-devel@nongnu.org,
- peterx@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, qemu-block@nongnu.org,
+ libvir-list@redhat.com, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 10:25:15 +0200
-Eric Auger <eric.auger@redhat.com> wrote:
+I'm going to be honest, here. There's actually no real reason to remove
+this now, but we could, so I'm going to.
 
-> This series allows the memory_region_register_iommu_notifier()
-> to fail. As of now, when a MAP notifier is attempted to be
-> registered along with SMMUv3 or AMD IOMMU, we exit in the IOMMU
-> MR notify_flag_changed() callback.
-> 
-> In case of VFIO assigned device hotplug, this could be handled
-> more nicely directly within the VFIO code, simply rejecting
-> the hotplug without exiting. This is what the series achieves
-> by handling the memory_region_register_iommu_notifier() returned
-> value and Error object.
-> 
-> To propagate errors collected during vfio_listener_region_add()
-> we now store the error handle inside the VFIO container instead
-> of a returned value.
-> 
-> The message now is:
-> (QEMU) device_add id=hot0 driver=vfio-pci host=0000:89:00.0 bus=pcie.1
-> {"error": {"class": "GenericError", "desc": "vfio 0000:89:00.0: failed
-> to setup container for group 2: memory listener initialization failed:
-> Region smmuv3-iommu-memory-region-0-6: device 01.00.0 requires iommu MAP
-> notifier which is not currently supported"}}
-> 
-> Best Regards
-> 
-> Eric
-> 
-> This series can be found at:
-> https://github.com/eauger/qemu/tree/v4.1.0_register_iommu_notifier_fail_v4
-> 
-> History:
-> 
-> v3 -> v4:
-> - added Peter's R-b on 2d patch
-> - 1st patch: restore hw_error, remove useless ret assignment, improve
->   DMA host window error message, remove local mr variable
-> 
-> v2 -> v3:
-> - also pass an Error handle (suggested by Peter)
-> 
-> v1 -> v2:
-> - Intel IOMMU now handles the problem differently with machine init done
->   notifier and machine hotplug allowed hook.
-> - use assert(!ret)
-> - message rewording in SMMUv3
-> 
-> Follow-up of "VFIO/SMMUv3: Fail on VFIO/HW nested paging detection"
-> https://patchew.org/QEMU/20190829090141.21821-1-eric.auger@redhat.com/
-> 
-> 
-> Eric Auger (2):
->   vfio: Turn the container error into an Error handle
->   memory: allow memory_region_register_iommu_notifier() to fail
-> 
->  exec.c                        | 10 +++++--
->  hw/arm/smmuv3.c               | 18 ++++++------
->  hw/i386/amd_iommu.c           | 17 +++++++-----
->  hw/i386/intel_iommu.c         |  8 ++++--
->  hw/ppc/spapr_iommu.c          |  8 ++++--
->  hw/vfio/common.c              | 52 +++++++++++++++++++++++------------
->  hw/vfio/spapr.c               |  4 ++-
->  hw/virtio/vhost.c             |  9 ++++--
->  include/exec/memory.h         | 21 ++++++++++----
->  include/hw/vfio/vfio-common.h |  2 +-
->  memory.c                      | 31 +++++++++++++--------
->  11 files changed, 120 insertions(+), 60 deletions(-)
+Also, in terms of the API serving as documentation, it's nicer to not
+pretend this is an option that does anything, so out it goes.
 
-For series,
+This will serve as a little smoke test to see what happens if we
+actually stop dropping features we claimed were deprecated.
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
+John Snow (1):
+  dirty-bitmaps: remove deprecated autoload parameter
 
-Paolo, would this go in through you given the memory API changes and
-greater girth in patch 2/2?  Thanks,
+ qemu-deprecated.texi | 20 +++++++++++++++-----
+ qapi/block-core.json |  6 +-----
+ blockdev.c           |  6 ------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-Alex
+--=20
+2.21.0
+
 
