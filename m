@@ -2,54 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE8DBCC48
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:20:10 +0200 (CEST)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D15ABCC59
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:23:20 +0200 (CEST)
+Received: from localhost ([::1]:47954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCnXt-0006Qr-2A
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53696)
+	id 1iCnax-0001Oz-AZ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iCn7M-0006Hb-KF
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:52:46 -0400
+ (envelope-from <guoheyi@huawei.com>) id 1iCmfE-0001QR-AF
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iCn7K-0006MH-K9
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:52:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59680)
+ (envelope-from <guoheyi@huawei.com>) id 1iCmfB-0006nJ-EI
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:40 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:46766 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>)
- id 1iCn7G-0006In-6g; Tue, 24 Sep 2019 11:52:38 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5C1FC3091786;
- Tue, 24 Sep 2019 15:52:37 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-118.rdu2.redhat.com
- [10.10.120.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E04FD1001B20;
- Tue, 24 Sep 2019 15:52:31 +0000 (UTC)
-Subject: Re: Invalid blob size on NVDIMM hot-add (was: RE: [RFC PATCH 0/4] ARM
- virt: ACPI memory hotplug support)
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>
-References: <5FC3163CFD30C246ABAA99954A238FA83F3FB328@lhreml524-mbs.china.huawei.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a1667b4a-72ac-48da-ab36-be1821757ac5@redhat.com>
-Date: Tue, 24 Sep 2019 17:52:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
+ id 1iCmf4-0006hV-QG; Tue, 24 Sep 2019 11:23:31 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 652C98126B7940A2D8D7;
+ Tue, 24 Sep 2019 23:23:27 +0800 (CST)
+Received: from linux-Bxxcye.huawei.com (10.175.104.222) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 24 Sep 2019 23:23:18 +0800
+From: Heyi Guo <guoheyi@huawei.com>
+To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
+ <linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.cs.columbia.edu>
+Subject: [RFC PATCH 07/12] arm/sdei: override qemu_irq handler when binding
+ interrupt
+Date: Tue, 24 Sep 2019 23:21:46 +0800
+Message-ID: <1569338511-3572-8-git-send-email-guoheyi@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <5FC3163CFD30C246ABAA99954A238FA83F3FB328@lhreml524-mbs.china.huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 24 Sep 2019 15:52:37 +0000 (UTC)
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.222]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,267 +53,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Leif Lindholm \(Linaro address\)" <leif.lindholm@linaro.org>,
- Linuxarm <linuxarm@huawei.com>, Auger Eric <eric.auger@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
+ James Morse <james.morse@arm.com>, Heyi Guo <guoheyi@huawei.com>,
+ wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/20/19 19:04, Shameerali Kolothum Thodi wrote:
-> Hi Laszlo/Igor,
->
-> I spend some time to debug this further as I was rebasing the nvdimm
-> hot-add support patches on top of the ongoing pc-dimm hot add ones.
->
-> Just to refresh the memory:
->
-> https://patchwork.kernel.org/cover/10783589/
->
-> " It is observed that hot adding nvdimm will results in guest reboot
-> failure. EDK2 fails to build the ACPI tables on reboot. Please find
-> below EDK2 log on Guest reboot after nvdimm hot-add,
->
-> ProcessCmdAddChecksum: invalid checksum range in "etc/acpi/tables"
-> OnRootBridgesConnected: InstallAcpiTables: Protocol Error
-> "
->
-> Please find below,
->
->> -----Original Message-----
->> From: Laszlo Ersek [mailto:lersek@redhat.com]
->> Sent: 05 March 2019 12:15
->> To: Igor Mammedov <imammedo@redhat.com>
->> Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>;
->> Auger Eric <eric.auger@redhat.com>; shannon.zhaosl@gmail.com;
->> peter.maydell@linaro.org; qemu-devel@nongnu.org; qemu-arm@nongnu.org;
->> xuwei (O) <xuwei5@huawei.com>; Linuxarm <linuxarm@huawei.com>; Ard
->> Biesheuvel <ard.biesheuvel@linaro.org>; Leif Lindholm (Linaro
->> address) <leif.lindholm@linaro.org>
->> Subject: Re: [RFC PATCH 0/4] ARM virt: ACPI memory hotplug support
->>
->> On 03/01/19 18:39, Igor Mammedov wrote:
->>> On Fri, 1 Mar 2019 14:49:45 +0100
->>> Laszlo Ersek <lersek@redhat.com> wrote:
->>>
->>>> On 02/28/19 15:02, Shameerali Kolothum Thodi wrote:
->>>>
->>>>> Ah..I missed the fact that, firmware indeed sees an update in the
->>>>> blob len here (rounded or not) after reboot. So don't think x86
->>>>> has the same issue and padding is not the right solution as Igor
->>>>> explained in his reply.
->>>>>
->>>>> I will try to debug this further. Any pointers welcome.
->>>>
->>>> How about this.
->>>>
->>>> (1) The firmware looks up the fw_cfg file called "etc/table-loader"
->>>> in the fw_cfg file directory (identified by constant selector key
->>>> 0x0019, FW_CFG_FILE_DIR).
->>>>
->>>> (2) The directory entry, once found, tells the firmware two things
->>>> simultaneously. The selector key, and the size of the blob.
->>>>
->>>> (3) The firmware selects the selector key from step (2).
->>>>
->>>> (4) QEMU regenerates the ACPI payload (as a select callback).
->>>>
->>>> (5) The firmware reads the number of bytes from the fw_cfg blob
->>>> that it learned in step (2).
->>>>
->>>> Here's the problem. As long as QEMU used to perform step (4) only
->>>> for the purpose of refreshing PCI resources in the ACPI payload,
->>>> step (4) wouldn't *resize* the blob.
->>>>
->>>> However, if step (4) enlarges the blob, then the byte count that
->>>> step (5) uses -- from step (2) -- for reading, is obsolete.
->>
->>> I've thought that was a problem with IO based fw_cfg, as reading
->>> size/content were separates steps and that it was solved by DMA
->>> based fw_cfg file read.
->>
->> The DMA backend is not relevant for this question, for two reasons:
->>
->> (a) The question whether the fw_cfg transfer takes places with port
->> IO vs. DMA is hidden from the fw_cfg client code; that code goes
->> through an abstract library API.
->>
->> (b) While the DMA method indeed lets the firmware specify the details
->> of the transfer with one action, the issue is with the number of
->> bytes that the firmware requests (that is, not with *how* the
->> firmware requests the transfer). The firmware has to know the size of
->> the transfer before it can initiate the transfer (regardless of port
->> IO vs. DMA).
->>
->>
->> My question is: assume the firmware item in question is selected, and
->> the QEMU-side select callback runs (regenerating the ACPI payload).
->> Does this action update the blob size in the fw_cfg file directory as
->> well?
->
-> I think it doesn't update the blob size on select callback which is
-> the root cause of this issue. And the reason looks like,
-> qemu_ram_resize() function returns without invoking the callback to
-> update the blob size.
->
-> On boot up, Qemu builds the table and exposes it to guest,
->       virt_acpi_setup()
->         acpi_add_rom_blob()
->           rom_add_blob()
->             rom_set_mr()  --> mr is allocated here and ram_block used_length = HOST_PAGE_ALIGN(blob size);
->             fw_cfg_add_file_callback()
->               fw_cfg_add_bytes_callback() --> This uses the blob size passed into it.
->
-> On select callback path,
->
-> virt_acpi_build_update()
->    acpi_ram_update()
->     memory_region_ram_resize()
->       qemu_ram_resize() -->. Here the newsize gets aligned to HOST_PAGE and callback is only called used_length != newsize.
->
-> https://github.com/qemu/qemu/blob/master/exec.c#L2180
->
-> Debug logs:
-> Initial boot:
-> ##QEMU_DEBUG## rom_add_blob: file etc/acpi/tables size 0x64f7
-> ##QEMU_DEBUG## fw_cfg_add_bytes_callback: key 0x21 len 0x64f7
-> ........
-> ........
-> ###UEFI#### InstallQemuFwCfgTables: "etc/table-loader" has FwCfgItem 0x27 size 0xD00
-> ##QEMU_DEBUG## virt_acpi_build_update:
-> ##QEMU_DEBUG## acpi_ram_update: size 0x64f7
-> ##QEMU_DEBUG## qemu_ram_resize: idstr /rom@etc/acpi/tables used_length  0x7000 newsize 0x7000 --> No callback.
-> .....
-> ######UEFI###### ProcessCmdAllocate: QemuFwCfgFindFile("etc/acpi/tables"): size 0x64F7 --> UEFI get the actual size, which is fine for now.
->
-> Hot-add nvdimms and reboot.
->
-> root@ubuntu:/# reboot
-> .......
-> ........
-> ###UEFI#### InstallQemuFwCfgTables: "etc/table-loader" has FwCfgItem 0x27 size 0xD00
-> ##QEMU_DEBUG## virt_acpi_build_update:
-> ##QEMU_DEBUG## acpi_ram_update: size 0x6667 --> Size changed.
-> ##QEMU_DEBUG## qemu_ram_resize: idstr /rom@etc/acpi/tables used_length  0x7000 newsize 0x7000 --> newsize is still aligned to 0x7000 and no callback to update.
-> ......
-> ######UEFI###### ProcessCmdAllocate: QemuFwCfgFindFile("etc/acpi/tables"): size 0x64F7 -->UEFI still sees the old value and fails.
->
-> This can be fixed by,
->
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c index f3bd45675b..79da3fd35d 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -854,6 +854,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->          build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
->      }
->
-> +    g_array_set_size(tables_blob,
-> +                    TARGET_PAGE_ALIGN(acpi_data_len(tables_blob)));
-> +
->      /* Cleanup memory that's no longer used. */
->      g_array_free(table_offsets, true);
->  }
->
-> But I am not sure this is the best to way fix this issue (Or I am
-> missing something here).
->
-> Please let me know.
+Override qemu_irq handler to support trigger SDEI event transparently
+after guest binds interrupt to SDEI event. We don't have good way to
+get GIC device and to guarantee SDEI device is initialized after GIC,
+so we search GIC in system bus when the first SDEI request happens or
+in VMSTATE post_load().
 
-The above QEMU patch, for virt_acpi_build(), may be necessary, but I
-don't think it is sufficient.
+Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Dave Martin <Dave.Martin@arm.com>
+Cc: Marc Zyngier <marc.zyngier@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: James Morse <james.morse@arm.com>
+---
+ target/arm/sdei.c     | 137 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ target/arm/sdei_int.h |   3 ++
+ 2 files changed, 137 insertions(+), 3 deletions(-)
 
-For the firmware to see the updated (enlarged) blob, two things are
-required:
+diff --git a/target/arm/sdei.c b/target/arm/sdei.c
+index 088ed76..9ceb131 100644
+--- a/target/arm/sdei.c
++++ b/target/arm/sdei.c
+@@ -85,6 +85,24 @@ static void qemu_sde_cpu_init(QemuSDEState *s)
+     }
+ }
+ 
++static int gic_int_to_irq(int num_irq, int intid, int cpu)
++{
++    if (intid >= GIC_INTERNAL) {
++        return intid - GIC_INTERNAL;
++    }
++    return num_irq - GIC_INTERNAL + cpu * GIC_INTERNAL + intid;
++}
++
++static int irq_to_gic_int(int num_irq, int irq, int *cpu)
++{
++    if (irq < num_irq - GIC_INTERNAL) {
++        return irq + GIC_INTERNAL;
++    }
++    irq -= num_irq - GIC_INTERNAL;
++    *cpu = irq / GIC_INTERNAL;
++    return irq % GIC_INTERNAL;
++}
++
+ static inline QemuSDECpu *get_sde_cpu(QemuSDEState *s, CPUState *cs)
+ {
+     assert(cs->cpu_index < s->sdei_max_cpus);
+@@ -381,6 +399,76 @@ static void dispatch_cpu(QemuSDEState *s, CPUState *cs, bool is_critical)
+     }
+ }
+ 
++static void qemu_sdei_irq_handler(void *opaque, int irq, int level)
++{
++    int cpu = 0;
++    irq = irq_to_gic_int(sde_state->num_irq, irq, &cpu);
++    trigger_sdei_by_irq(cpu, irq);
++}
++
++static void override_qemu_irq(QemuSDEState *s, int32_t event, uint32_t intid)
++{
++    qemu_irq irq;
++    QemuSDE *sde;
++    CPUState *cs;
++    int cpu;
++
++    /* SPI */
++    if (intid >= GIC_INTERNAL) {
++        cs = arm_get_cpu_by_id(0);
++        irq = qdev_get_gpio_in(s->gic_dev,
++                               gic_int_to_irq(s->num_irq, intid, 0));
++        if (irq) {
++            qemu_irq_intercept_in(&irq, qemu_sdei_irq_handler, 1);
++        }
++        sde = get_sde_no_check(s, event, cs);
++        sde->irq = irq;
++        put_sde(sde, cs);
++        return;
++    }
++    /* PPI */
++    for (cpu = 0; cpu < s->sdei_max_cpus; cpu++) {
++        cs = arm_get_cpu_by_id(cpu);
++        irq = qdev_get_gpio_in(s->gic_dev,
++                               gic_int_to_irq(s->num_irq, intid, cpu));
++        if (irq) {
++            qemu_irq_intercept_in(&irq, qemu_sdei_irq_handler, 1);
++        }
++        sde = get_sde_no_check(s, event, cs);
++        sde->irq = irq;
++        put_sde(sde, cs);
++    }
++}
++
++static void restore_qemu_irq(QemuSDEState *s, int32_t event, uint32_t intid)
++{
++    QemuSDE *sde;
++    CPUState *cs;
++    int cpu;
++
++    /* SPI */
++    if (intid >= GIC_INTERNAL) {
++        cs = arm_get_cpu_by_id(0);
++        sde = get_sde_no_check(s, event, cs);
++        if (sde->irq) {
++            qemu_irq_remove_intercept(&sde->irq, 1);
++            sde->irq = NULL;
++        }
++        put_sde(sde, cs);
++        return;
++    }
++    /* PPI */
++    for (cpu = 0; cpu < s->sdei_max_cpus; cpu++) {
++        cs = arm_get_cpu_by_id(cpu);
++        sde = get_sde_no_check(s, event, cs);
++        if (sde->irq) {
++            qemu_irq_remove_intercept(&sde->irq, 1);
++            sde->irq = NULL;
++        }
++        put_sde(sde, cs);
++    }
++}
++
+ static int32_t sdei_alloc_event_num(QemuSDEState *s, bool is_critical,
+                                     bool is_shared, int intid)
+ {
+@@ -414,6 +502,7 @@ static int32_t sdei_alloc_event_num(QemuSDEState *s, bool is_critical,
+             sde_props[index].interrupt = intid;
+             sde_props[index].is_shared = is_shared;
+             sde_props[index].is_critical = is_critical;
++            override_qemu_irq(s, event, intid);
+             s->irq_map[intid] = event;
+             qemu_mutex_unlock(&sde_props[index].lock);
+             qemu_mutex_unlock(&s->sdei_interrupt_bind_lock);
+@@ -433,6 +522,7 @@ static int32_t sdei_free_event_num_locked(QemuSDEState *s, QemuSDEProp *prop)
+         goto unlock_return;
+     }
+ 
++    restore_qemu_irq(s, prop->event_id, prop->interrupt);
+     s->irq_map[prop->interrupt] = SDEI_INVALID_EVENT_ID;
+     prop->event_id = SDEI_INVALID_EVENT_ID;
+     prop->interrupt = SDEI_INVALID_INTERRUPT;
+@@ -929,13 +1019,33 @@ static int64_t sdei_event_pe_unmask(QemuSDEState *s, CPUState *cs,
+     return SDEI_SUCCESS;
+ }
+ 
++static int dev_walkerfn(DeviceState *dev, void *opaque)
++{
++    QemuSDEState *s = opaque;
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_ARM_GICV3_COMMON)) {
++        GICv3State *gic = ARM_GICV3_COMMON(dev);
++        s->num_irq = gic->num_irq;
++        s->gic_dev = dev;
++        return -1;
++    }
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_ARM_GIC_COMMON)) {
++        GICState *gic = ARM_GIC_COMMON(dev);
++        s->num_irq = gic->num_irq;
++        s->gic_dev = dev;
++        return -1;
++    }
++    return 0;
++}
++
+ static int64_t sdei_event_interrupt_bind(QemuSDEState *s, CPUState *cs,
+                                          struct kvm_run *run)
+ {
+     uint64_t *args = (uint64_t *)(run->hypercall.args);
+     uint32_t intid = args[1];
+ 
+-    if (intid < GIC_NR_SGIS || intid >= GIC_MAXIRQ) {
++    if (intid < GIC_NR_SGIS || intid >= s->num_irq) {
+         return SDEI_INVALID_PARAMETERS;
+     }
+     return sdei_alloc_event_num(s, false, intid >= 32, intid);
+@@ -1042,6 +1152,17 @@ void sdei_handle_request(CPUState *cs, struct kvm_run *run)
+         return;
+     }
+ 
++    if (!sde_state->gic_dev) {
++        /* Search for ARM GIC device */
++        qbus_walk_children(sysbus_get_default(), dev_walkerfn,
++                           NULL, NULL, NULL, sde_state);
++        if (!sde_state->gic_dev) {
++            error_report("Cannot find ARM GIC device!");
++            run->hypercall.args[0] = SDEI_NOT_SUPPORTED;
++            return;
++        }
++    }
++
+     if (func_id < SDEI_1_0_FN_BASE || func_id > SDEI_MAX_REQ) {
+         error_report("Invalid SDEI function ID: 0x%x", func_id);
+         run->hypercall.args[0] = SDEI_INVALID_PARAMETERS;
+@@ -1198,9 +1319,19 @@ static int qemu_sdei_post_load(void *opaque, int version_id)
+         }
+     }
+ 
++    /* Search for ARM GIC device */
++    qbus_walk_children(sysbus_get_default(), dev_walkerfn,
++                       NULL, NULL, NULL, s);
++    if (!s->gic_dev) {
++        error_report("Cannot find ARM GIC device!");
++        return 0;
++    }
++
+     for (i = 0; i < PRIVATE_SLOT_COUNT + SHARED_SLOT_COUNT; i++) {
+-        if (sde_props[i].interrupt != SDEI_INVALID_INTERRUPT) {
+-            s->irq_map[sde_props[i].interrupt] = sde_props[i].event_id;
++        int intid = sde_props[i].interrupt;
++        if (intid != SDEI_INVALID_INTERRUPT) {
++            s->irq_map[intid] = sde_props[i].event_id;
++            override_qemu_irq(s, sde_props[i].event_id, intid);
+         }
+     }
+ 
+diff --git a/target/arm/sdei_int.h b/target/arm/sdei_int.h
+index 7f69507..3930591 100644
+--- a/target/arm/sdei_int.h
++++ b/target/arm/sdei_int.h
+@@ -63,6 +63,7 @@ typedef struct QemuSDEProp {
+ typedef struct QemuSDE {
+     QemuSDEProp     *prop;
+     CPUState        *target_cpu;
++    qemu_irq        irq;
+     QemuMutex       lock;
+     bool            enabled;
+     bool            running;
+@@ -95,9 +96,11 @@ typedef struct QemuSDECpu {
+ 
+ typedef struct QemuSDEState {
+     DeviceState     parent_obj;
++    DeviceState     *gic_dev;
+     QemuSDEProp     sde_props_state[PRIVATE_SLOT_COUNT + SHARED_SLOT_COUNT];
+     QemuSDECpu      *sde_cpus;
+     int             sdei_max_cpus;
++    int             num_irq;
+     QemuSDE         *shared_sde_array[SHARED_SLOT_COUNT];
+     int32_t         irq_map[GIC_MAXIRQ];
+     QemuMutex       sdei_interrupt_bind_lock;
+-- 
+1.8.3.1
 
-(a) QEMU to update the blob size in the fw_cfg directory entry.
-
-Note: to the firmware, it is totally irrelevant if QEMU updates some
-*other* value or field that reflects the fresh blob size. The only thing
-the firmware can see is the entry in the FW_CFG_FILE_DIR blob.
-
-To illustrate the field I'm referring to, see:
-
-    s->files->f[index].size   = cpu_to_be32(len);
-
-in fw_cfg_add_file_callback().
-
-See also:
-
-            s->files->f[i].size   = cpu_to_be32(len);
-
-in fw_cfg_modify_file().
-
-That "size" field is what the firmware can see.
-
-Note: *all* relevant fw_cfg files must have their "size" fields updated
-in the directory blob (FW_CFG_FILE_DIR). I.e. the requirement applies to
-both the linker-loader script, and to all blobs that are referenced (by
-name) by the commands in the linker-loader script.
-
-
-(b) The firmware to re-read the size from the directory, after selecting
-the key for the sake of ACPI regeneration.
-
-I wrote:
-
->> If it does, then I can work around the problem in the firmware. I can
->> add a re-lookup to the code after the item selection, in order to get
->> the fresh blob size from the fw_cfg file directory. Then we can use
->> that size for the actual transfer.
->>
->> This won't help old firmware on new QEMU, but at least new firmware
->> on old QEMU will not be hurt (the re-fetching of the fw_cfg file
->> directory will come with a small performance penalty, but
->> functionally it will be a no-op).
-
-Thus, the firmware patch in question would be:
-
-| diff --git a/OvmfPkg/AcpiPlatformDxe/QemuFwCfgAcpi.c b/OvmfPkg/AcpiPlatformDxe/QemuFwCfgAcpi.c
-| index bc1a891dbaf1..07f70ffe158a 100644
-| --- a/OvmfPkg/AcpiPlatformDxe/QemuFwCfgAcpi.c
-| +++ b/OvmfPkg/AcpiPlatformDxe/QemuFwCfgAcpi.c
-| @@ -975,6 +975,24 @@ InstallQemuFwCfgTables (
-|    ORDERED_COLLECTION       *SeenPointers;
-|    ORDERED_COLLECTION_ENTRY *SeenPointerEntry, *SeenPointerEntry2;
-|
-| +  Status = QemuFwCfgFindFile ("etc/table-loader", &FwCfgItem, &FwCfgSize);
-| +  if (EFI_ERROR (Status)) {
-| +    return Status;
-| +  }
-| +
-| +  //
-| +  // By selecting "FwCfgItem", ask QEMU to regenerate the ACPI payload, with
-| +  // all PCI devices decoding their resources. Note: further selections
-| +  // of the same key will not repeat the patching.
-| +  //
-| +  EnablePciDecoding (&OriginalPciAttributes, &OriginalPciAttributesCount);
-| +  QemuFwCfgSelectItem (FwCfgItem);
-| +  RestorePciDecoding (OriginalPciAttributes, OriginalPciAttributesCount);
-| +
-| +  //
-| +  // The size of the script may have changed, possibly due to platform devices
-| +  // having been hot-plugged before platform reset. Re-read the size.
-| +  //
-|    Status = QemuFwCfgFindFile ("etc/table-loader", &FwCfgItem, &FwCfgSize);
-|    if (EFI_ERROR (Status)) {
-|      return Status;
-| @@ -989,10 +1007,8 @@ InstallQemuFwCfgTables (
-|    if (LoaderStart == NULL) {
-|      return EFI_OUT_OF_RESOURCES;
-|    }
-| -  EnablePciDecoding (&OriginalPciAttributes, &OriginalPciAttributesCount);
-|    QemuFwCfgSelectItem (FwCfgItem);
-|    QemuFwCfgReadBytes (FwCfgSize, LoaderStart);
-| -  RestorePciDecoding (OriginalPciAttributes, OriginalPciAttributesCount);
-|    LoaderEnd = LoaderStart + FwCfgSize / sizeof *LoaderEntry;
-|
-|    AllocationsRestrictedTo32Bit = NULL;
-
-But, again, this only makes sense if QEMU implements (a).
-
-Thanks
-Laszlo
 
