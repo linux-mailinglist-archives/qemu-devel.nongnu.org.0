@@ -2,63 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7310BC137
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 07:07:30 +0200 (CEST)
-Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D676BC157
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 07:23:56 +0200 (CEST)
+Received: from localhost ([::1]:40888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCd2v-0006xe-Kz
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 01:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52081)
+	id 1iCdIp-0003dw-5n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 01:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53382)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iCczW-0004SW-85
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 01:04:01 -0400
+ (envelope-from <clg@kaod.org>) id 1iCdHv-00030F-7E
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 01:23:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iCczU-0003Yt-VQ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 01:03:57 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:43725)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iCczU-0003Uc-Jl; Tue, 24 Sep 2019 01:03:56 -0400
-Received: by mail-lj1-x244.google.com with SMTP id n14so442514ljj.10;
- Mon, 23 Sep 2019 22:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vMy0hE377EdIQzisWHOHk32ZjceNv6dInUCOb3CZ2FM=;
- b=JU57ynTzcQjD3acUNVuM4fsZi+CtA/cpf5czweTMeIXmUXYjesgHngCqy6WJsNTn5g
- A30v/LEjwZtCLIJAk2SR39AY39bQq4aABP6eepBeITgc/V67lwSYyNPne0jRuTEjXQpC
- mKutqvJVwRLBnSVoY1K8GghkTNOTZBhM92vVxifugKMZH8l/Ms9EUUrp5hTCekUi5wkv
- hNap+Qd3Pbtb/ocxoiVikQLqwdnilmtkmYTgG7CCWnzdkABQJvfWpL3VJg2azzxpzmuy
- e5paspT9u/P1/7a7op99bw5UjqrAKMCshvNQmFegQ/eHT31jvFBEaw6eNS2aFxJHrPR9
- Fx+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vMy0hE377EdIQzisWHOHk32ZjceNv6dInUCOb3CZ2FM=;
- b=bZULb/ws0pMX0+jAcUD0QJSLRqs/kfV7kxQ/j+PW9CBt/fBYT5iPrDsRp8vOq1f2Kx
- bx8j988mOalWmogW6MFDTsKbjTzsijEfIS8dHZw82tDTiWofPrcgffvdiD7DpSbN/I/Q
- ffdOb+SAxtE5x8P8IgGJIIFx6LxyJsfQExWh9avOPUF2mDmaBImT8fBonoXTNChQbLGY
- FvfVGigJqZiXlVscjpfgbRKaVRYjfdDlbrHNESTr1MzQYLxsP1og78QwFxo8oxmvK2Sx
- mfcMv4nRyB1CfUOdwhW20U8l8s181KDcnRDousGHlPMFP5aXetxOD5KMXOKIDdvK1dJ7
- 4g2Q==
-X-Gm-Message-State: APjAAAW5X7heqmlNJg0F2xsVm/2ggL2GFSBpRqPqwiv47nhbWfjoGFUH
- YBoGjAX6oFu0+PdL+tmBFLM8tFlUyeJB4Ruor9s=
-X-Google-Smtp-Source: APXvYqwAXTnHIjwRR6ENN1i0qIqtB+OQPn1AypUIBJgpsDy2S8T4/AZpFw9H0ly/fOPbZQwOa0kFFvt+++1KYbcKkIo=
-X-Received: by 2002:a2e:91c7:: with SMTP id u7mr594338ljg.146.1569301435037;
- Mon, 23 Sep 2019 22:03:55 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1iCdHu-0005eJ-4J
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 01:22:59 -0400
+Received: from 10.mo69.mail-out.ovh.net ([46.105.73.241]:35723)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iCdHt-0005cE-Ug
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 01:22:58 -0400
+Received: from player687.ha.ovh.net (unknown [10.109.146.211])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id D89D969FEB
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 07:22:55 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player687.ha.ovh.net (Postfix) with ESMTPSA id 9E132A1B1964;
+ Tue, 24 Sep 2019 05:22:51 +0000 (UTC)
+Subject: Re: [PATCH 0/4] xics: Eliminate unnecessary class
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org
+References: <20190924045952.11412-1-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <cb87c744-a618-0627-5c2f-8f8e18616f6d@kaod.org>
+Date: Tue, 24 Sep 2019 07:22:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-References: <1569301232-7128-1-git-send-email-guoren@kernel.org>
-In-Reply-To: <1569301232-7128-1-git-send-email-guoren@kernel.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 23 Sep 2019 22:03:27 -0700
-Message-ID: <CAKmqyKO9=FuqsEDbuA_iw3+W8fpcGxudxV76vu2ZucRLeExQUA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Bugfix reserved bits in PTE for RV64
-To: guoren@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+In-Reply-To: <20190924045952.11412-1-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 12118905122849524488
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdelgdelkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.73.241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,48 +57,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Guo Ren <ren_guo@c-sky.com>
+Cc: gkurz@kaod.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 23, 2019 at 10:01 PM <guoren@kernel.org> wrote:
->
-> From: Guo Ren <ren_guo@c-sky.com>
->
-> Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so we
-> need to ignore them. They can not be a part of ppn.
->
-> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
->    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
->    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
->
-> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/cpu_helper.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 87dd6a6..3c5e8f6 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -260,6 +260,7 @@ restart:
->          target_ulong pte = ldl_phys(cs->as, pte_addr);
->  #elif defined(TARGET_RISCV64)
->          target_ulong pte = ldq_phys(cs->as, pte_addr);
-> +        pte = pte << 10 >> 10;
+On 24/09/2019 06:59, David Gibson wrote:
+> The XICS interrupt controller device used to have separate subtypes
+> for the KVM and non-KVM variant of the device.  That was a bad idea,
+> because it leaked information that should be entirely host-side
+> implementation specific to the kinda-sorta guest visible QOM class
+> names.
+> 
+> We eliminated the KVM specific class some time ago, but it's left
+> behind a distinction between the TYPE_ICS_BASE abstract class and
+> TYPE_ICS_SIMPLE subtype which no longer serves any purpose.
+> 
+> This series collapses the two types back into one.
 
-You can just AND with a mask instead of shifting both directions.
+OK. Is it migration compatible ? because this is why we have kept
+this subclass. I am glad we can remove it finally. 
 
-Alistair
+Thanks,
 
->  #endif
->          hwaddr ppn = pte >> PTE_PPN_SHIFT;
->
-> --
-> 2.7.4
->
+C.
+
+    
+> 
+> David Gibson (4):
+>   xics: Eliminate 'reject', 'resend' and 'eoi' class hooks
+>   xics: Merge reset and realize hooks
+>   xics: Rename misleading ics_simple_*() functions
+>   xics: Merge TYPE_ICS_BASE and TYPE_ICS_SIMPLE classes
+> 
+>  hw/intc/trace-events  |  10 +-
+>  hw/intc/xics.c        | 211 ++++++++++++++----------------------------
+>  hw/intc/xics_spapr.c  |  12 +--
+>  hw/ppc/pnv_psi.c      |   6 +-
+>  hw/ppc/spapr_irq.c    |   6 +-
+>  include/hw/ppc/xics.h |  30 +-----
+>  6 files changed, 92 insertions(+), 183 deletions(-)
+> 
+
 
