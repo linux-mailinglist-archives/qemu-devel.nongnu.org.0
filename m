@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C38BD506
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:40:34 +0200 (CEST)
-Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55101BD517
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:49:01 +0200 (CEST)
+Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCsEi-0002ME-PC
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55645)
+	id 1iCtcB-0004Lm-5T
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw4-0002au-L8
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:25 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCs5L-0003V9-3D
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:11:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrw2-0004Wx-Dk
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:24 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41527)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCs58-0007ac-Am
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:58 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34972)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCrw2-0004Vh-1O
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:22 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h7so3622528wrw.8
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:21 -0700 (PDT)
+ id 1iCs58-0007ZY-4i
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:46 -0400
+Received: by mail-wm1-x332.google.com with SMTP id y21so1779094wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:10:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nw6PVinSAUrcIMGIAvVonphLXCK81yYui4fSQKYKk34=;
- b=AXSpLfYcj/xcmzMtw+K4+NWtnz7PgT/2uX1kAYlDKCIwZH1yWEk2PYNhMqSr1sSFJO
- 1povLVEasmA4SzJAJAh6ozR07ELQ9UeDF68pS1UGbGjBiyWPr2sBtI4dFyFHfEYyWJpt
- EmMP+iPPSuqMmueUS+uGpq42H1rAMsqwqgDcr2dSgQQ0bNsbaVnMII1XCuILGbGWWsWO
- AC7tYBxQ53lLHVM1thPeArtuJEWGuXbGaCFEJtO6eZeJBhrQ7jEMS/HiU2imn3Kwa/07
- ClLS/ptniLJE8kT8HkhKflnIDKiah0Bkl3gIrLir1dTSGVZIX9RiYLIuAlDzTzSFz3oK
- ASDg==
+ bh=EQMFVvQQ12r4Rl1Q/VQlrZ01jldIoi/+yP3w6mK03UM=;
+ b=LG2sXDoq7B0YuRp2Zfx+WGnew5uPsIjZxJ4okFOmncKTVtvUXMDftKbrylnLjVHom6
+ ssHeHMFDexuFOz10ndKnHC7NmpGfMFxslhHyBbuZXu17epVfYwH6YPKspNAUsaf0mfUH
+ AS7FcJKpM46xsqBNF92pCzjrtPGAWvasvybSzAo3Ldtb6mK0k0GpD9eeUWnizJhqmszf
+ i8mlKA8xLz1rbNpAPCIq6o2DxBE9EMfqZ43GE0R7UJ5BilyRrJSO70EIOXqX98yHWRza
+ d8isrRTv5TYZXoMAbRrMgrYp/TCXx4gEuL1cRq+49Hgvl8QfWyjog02QikBSgywRQhbP
+ aVHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Nw6PVinSAUrcIMGIAvVonphLXCK81yYui4fSQKYKk34=;
- b=jkMxBspoGGAI3lA05JKRyfe7YAs6Ljr9a+aooWiOBnXR3ncIhaAEI4J+j7wIYuoUEi
- hVS9JL613zo7eP0sjgu1Vxtlr1NflKeb8ZlMcx9OOrUzMEBjIJZaMgEpTcuSL8EVIV+d
- JyKfNgcV8wNq0EP5k6gbU7RI21fb9s0FVtcmhcEKuhbcgbBxy8xrAP1gTRnJ0Ph74kZr
- IvZq6h/3qVoZFQ/cEEUjHrkKK135UiAZ/yxDYgWa0YfytiKT0fvLE+LZdb5So05FeMK5
- CM8WPzpAqQnQS4b0tjzTFb13HrRwbkezG7N4ITLFDJSFnN3MPZ/iIV+h6zylgEEwNTKt
- VKSg==
-X-Gm-Message-State: APjAAAXyuLhAC1urcfepuyY9ymFWai56uwjaUEqc0aEYq0GaXh1Xdq2h
- cr2qhS5ZEB9gPxOoLmLj0nCHeQ==
-X-Google-Smtp-Source: APXvYqyf6oztHkdD+I7LRAQ8MFyV7dwMMo7kCQdpfHqPkGzvX2Zcpfy3b+igeAeY08F3Dc25UdIWkg==
-X-Received: by 2002:adf:fe92:: with SMTP id l18mr4574664wrr.369.1569358880701; 
- Tue, 24 Sep 2019 14:01:20 -0700 (PDT)
+ bh=EQMFVvQQ12r4Rl1Q/VQlrZ01jldIoi/+yP3w6mK03UM=;
+ b=ilbIeuTVeWOQ7toVoxwU/Ft+uL2CZFPyQBWR0weBgkV1EWdOkj2no94R1VTjW2k1E4
+ N6poM88RajeLKxvLgLsWoa9ZcWaiM6RPyC1JE0Zo+BEnXvlMIft+lle4CfqSKAANM/Ha
+ w1LvlTsY9RGeJAQo/0qi7YxYzMxdnw07ulbfN8iPtJGxrC97NntJGNQQalr3fJfH0aO+
+ PFgwjn093qsvMN5QA8PykvZkbauplW0SfNQJQaxyuRSivOWpXeJBtUgw5MmdbkOYAEY7
+ nNGGM5jkpQ6FLYbUi+nCQDEMZTGq6PK7/RlA8KQiysJgSAClTay4SrVDI91mPaqnYdt6
+ uYIQ==
+X-Gm-Message-State: APjAAAVc9HpSsX5lo+oMo5yltsbTV1i4OTEu61uRUyO6IKjuS0GTe3o5
+ 43RHvgaEN5TpNpUb3Sz0W+J9NA==
+X-Google-Smtp-Source: APXvYqxx3QGTXWAKLiAbA/FWQNo+ghnd3yWrYHMQDBIiJKJ8fJf7gVfSiMTjElWtJV7ajnyAwThYzQ==
+X-Received: by 2002:a7b:c44e:: with SMTP id l14mr2524349wmi.54.1569359441555; 
+ Tue, 24 Sep 2019 14:10:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l10sm4654754wrh.20.2019.09.24.14.01.12
+ by smtp.gmail.com with ESMTPSA id y5sm1450072wma.14.2019.09.24.14.10.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 14:01:17 -0700 (PDT)
+ Tue, 24 Sep 2019 14:10:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD5021FF8F;
- Tue, 24 Sep 2019 22:01:08 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 3212D1FFAE;
+ Tue, 24 Sep 2019 22:01:09 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 21/33] tests/tcg: add simple record/replay smoke test for
- aarch64
-Date: Tue, 24 Sep 2019 22:00:54 +0100
-Message-Id: <20190924210106.27117-22-alex.bennee@linaro.org>
+Subject: [PATCH  v3 25/33] tests/docker: Add fedora-win10sdk-cross image
+Date: Tue, 24 Sep 2019 22:00:58 +0100
+Message-Id: <20190924210106.27117-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
 References: <20190924210106.27117-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,59 +81,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, jsnow@redhat.com, f4bug@amsat.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
+ Justin Terry <juterry@microsoft.com>, jsnow@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds two new tests that re-use the memory test to check basic
-record replay functionality is still working. We have to define our
-own runners rather than using the default pattern as we want to change
-the test name but re-use the memory binary.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We declare the test binaries as PHONY as they don't rely exist.
+To build WHPX (Windows Hypervisor) binaries, we need the WHPX
+headers provided by the Windows SDK.
 
-[AJB: A better test would output some sort of timer value or other
-otherwise variable value so we could compare the record and replay
-outputs and ensure they match]
+Add a script that fetches the required MSI/CAB files from the
+latest SDK (currently 10.0.18362.1).
 
+Headers are accessible under /opt/win10sdk/include.
+
+Set the QEMU_CONFIGURE_OPTS environment variable accordingly,
+enabling HAX and WHPX. Due to CPP warnings related to Microsoft
+specific #pragmas, we also need to use the '--disable-werror'
+configure flag.
+
+Cc: Justin Terry <juterry@microsoft.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Message-Id: <20190920113329.16787-3-philmd@redhat.com>
 ---
- tests/tcg/aarch64/Makefile.softmmu-target | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ tests/docker/Makefile.include                 |  2 ++
+ .../dockerfiles/fedora-win10sdk-cross.docker  | 23 ++++++++++++++++
+ tests/docker/dockerfiles/win10sdk-dl.sh       | 27 +++++++++++++++++++
+ 3 files changed, 52 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+ create mode 100755 tests/docker/dockerfiles/win10sdk-dl.sh
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index 4c4aaf61dd3..b4b39579634 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -32,3 +32,24 @@ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 3fc7a863e51..e85e73025ba 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -125,6 +125,8 @@ docker-image-debian-ppc64-cross: docker-image-debian10
+ docker-image-debian-riscv64-cross: docker-image-debian10
+ docker-image-debian-sh4-cross: docker-image-debian10
+ docker-image-debian-sparc64-cross: docker-image-debian10
++docker-image-fedora-win10sdk-cross: docker-image-fedora
++docker-image-fedora-win10sdk-cross: EXTRA_FILES:=$(DOCKER_FILES_DIR)/win10sdk-dl.sh
  
- # Running
- QEMU_OPTS+=-M virt -cpu max -display none -semihosting-config enable=on,target=native,chardev=output -kernel
+ docker-image-travis: NOUSER=1
+ 
+diff --git a/tests/docker/dockerfiles/fedora-win10sdk-cross.docker b/tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+new file mode 100644
+index 00000000000..55ca933d40d
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora-win10sdk-cross.docker
+@@ -0,0 +1,23 @@
++#
++# Docker MinGW64 cross-compiler target with WHPX header installed
++#
++# This docker target builds on the Fedora 30 base image.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++FROM qemu:fedora
 +
-+# Simple Record/Replay Test
-+.PHONY: memory-record
-+run-memory-record: memory-record memory
-+	$(call run-test, $<, \
-+	  $(QEMU) -monitor none -display none \
-+		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
-+		  -icount shift=5$(COMMA)rr=record$(COMMA)rrfile=record.bin \
-+	   	  $(QEMU_OPTS) memory, \
-+	  "$< on $(TARGET_NAME)")
++RUN dnf install -y \
++        cabextract \
++        msitools \
++        wget
 +
-+.PHONY: memory-replay
-+run-memory-replay: memory-replay run-memory-record
-+	$(call run-test, $<, \
-+	  $(QEMU) -monitor none -display none \
-+		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
-+		  -icount shift=5$(COMMA)rr=replay$(COMMA)rrfile=record.bin \
-+	   	  $(QEMU_OPTS) memory, \
-+	  "$< on $(TARGET_NAME)")
++# Install WHPX headers from Windows Software Development Kit:
++# https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk
++ADD win10sdk-dl.sh /usr/local/bin/win10sdk-dl.sh
++RUN /usr/local/bin/win10sdk-dl.sh
 +
-+TESTS+=memory-record memory-replay
++ENV QEMU_CONFIGURE_OPTS ${QEMU_CONFIGURE_OPTS} \
++    --cross-prefix=x86_64-w64-mingw32- \
++    --extra-cflags=-I/opt/win10sdk/include --disable-werror \
++    --enable-hax --enable-whpx
+diff --git a/tests/docker/dockerfiles/win10sdk-dl.sh b/tests/docker/dockerfiles/win10sdk-dl.sh
+new file mode 100755
+index 00000000000..1c35c2a2524
+--- /dev/null
++++ b/tests/docker/dockerfiles/win10sdk-dl.sh
+@@ -0,0 +1,27 @@
++#!/bin/bash
++#
++# Install WHPX headers from Windows Software Development Kit
++# https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++WINDIR=/opt/win10sdk
++mkdir -p ${WINDIR}
++pushd ${WINDIR}
++# Get the bundle base for Windows SDK v10.0.18362.1
++BASE_URL=$(curl --silent --include 'http://go.microsoft.com/fwlink/?prd=11966&pver=1.0&plcid=0x409&clcid=0x409&ar=Windows10&sar=SDK&o1=10.0.18362.1' | sed -nE 's_Location: (.*)/\r_\1_p')/Installers
++# Fetch the MSI containing the headers
++wget --no-verbose ${BASE_URL}/'Windows SDK Desktop Headers x86-x86_en-us.msi'
++while true; do
++    # Fetch all cabinets required by this MSI
++    CAB_NAME=$(msiextract Windows\ SDK\ Desktop\ Headers\ x86-x86_en-us.msi 3>&1 2>&3 3>&-| sed -nE "s_.*Error opening file $PWD/(.*): No such file or directory_\1_p")
++    test -z "${CAB_NAME}" && break
++    wget --no-verbose ${BASE_URL}/${CAB_NAME}
++done
++rm *.{cab,msi}
++mkdir /opt/win10sdk/include
++# Only keep the WHPX headers
++for inc in "${WINDIR}/Program Files/Windows Kits/10/Include/10.0.18362.0/um"/WinHv*; do
++    ln -s "${inc}" /opt/win10sdk/include
++done
++popd > /dev/null
 -- 
 2.20.1
 
