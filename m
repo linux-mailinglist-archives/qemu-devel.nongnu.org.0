@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7D8BD3B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:38:43 +0200 (CEST)
-Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67D2BD39C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:32:33 +0200 (CEST)
+Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCra6-000759-Il
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44028)
+	id 1iCrU8-0007Hz-6z
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8O-0000sd-2X
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:05 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8Z-0000zm-AN
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-00030c-1o
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38112)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8W-000397-G1
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:14 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38136)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8L-0002t7-KO
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
+ id 1iCr8W-0002u5-8q; Tue, 24 Sep 2019 16:10:12 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr89-0001Mk-PQ; Tue, 24 Sep 2019 23:09:49 +0300
+ id 1iCr8A-0001Mk-JZ; Tue, 24 Sep 2019 23:09:50 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/25] VFIO: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:52 +0300
-Message-Id: <20190924200902.4703-16-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 18/25] block: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:55 +0300
+Message-Id: <20190924200902.4703-19-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,8 +47,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, vsementsov@virtuozzo.com,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ Jeff Cody <codyprime@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, integration@gluster.org,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -75,50 +77,136 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/vfio/common.c | 2 ++
- hw/vfio/pci.c    | 2 ++
- 2 files changed, 4 insertions(+)
+ block/backup.c       | 1 +
+ block/dirty-bitmap.c | 1 +
+ block/file-posix.c   | 3 +++
+ block/gluster.c      | 2 ++
+ block/qcow.c         | 1 +
+ block/qcow2.c        | 1 +
+ block/vhdx-log.c     | 1 +
+ block/vpc.c          | 1 +
+ 8 files changed, 11 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 3e03c495d8..d08276b1e6 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1437,6 +1437,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
- 
- VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
+diff --git a/block/backup.c b/block/backup.c
+index 763f0d7ff6..8cb0201833 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -583,6 +583,7 @@ static const BlockJobDriver backup_job_driver = {
+ static int64_t backup_calculate_cluster_size(BlockDriverState *target,
+                                              Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     VFIOGroup *group;
-     char path[32];
-     struct vfio_group_status status = { .argsz = sizeof(status) };
-@@ -1526,6 +1527,7 @@ void vfio_put_group(VFIOGroup *group)
- int vfio_get_device(VFIOGroup *group, const char *name,
-                     VFIODevice *vbasedev, Error **errp)
+     int ret;
+     BlockDriverInfo bdi;
+ 
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 134e0c9a0c..eba47490ea 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -237,6 +237,7 @@ static bool bdrv_dirty_bitmap_recording(BdrvDirtyBitmap *bitmap)
+ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
+                             Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     struct vfio_device_info dev_info = { .argsz = sizeof(dev_info) };
-     int ret, fd;
+     if ((flags & BDRV_BITMAP_BUSY) && bdrv_dirty_bitmap_busy(bitmap)) {
+         error_setg(errp, "Bitmap '%s' is currently in use by another"
+                    " operation and cannot be used", bitmap->name);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index f12c06de2d..46818fe4fc 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -320,6 +320,7 @@ static bool raw_is_io_aligned(int fd, void *buf, size_t len)
  
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index c5e6fe61cb..57208c7075 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2469,6 +2469,7 @@ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
- 
- static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
+ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     VFIODevice *vbasedev = &vdev->vbasedev;
-     struct vfio_region_info *reg_info;
-     struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info) };
-@@ -2700,6 +2701,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
- 
- static void vfio_realize(PCIDevice *pdev, Error **errp)
+     BDRVRawState *s = bs->opaque;
+     char *buf;
+     size_t max_align = MAX(MAX_BLOCKSIZE, getpagesize());
+@@ -817,6 +818,7 @@ static int raw_handle_perm_lock(BlockDriverState *bs,
+                                 uint64_t new_perm, uint64_t new_shared,
+                                 Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
+     BDRVRawState *s = bs->opaque;
+     int ret = 0;
+     Error *local_err = NULL;
+@@ -2232,6 +2234,7 @@ static int64_t raw_get_allocated_file_size(BlockDriverState *bs)
+ static int coroutine_fn
+ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     BlockdevCreateOptionsFile *file_opts;
+     Error *local_err = NULL;
+     int fd;
+diff --git a/block/gluster.c b/block/gluster.c
+index 64028b2cba..7023807326 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -419,6 +419,7 @@ out:
+ static struct glfs *qemu_gluster_glfs_init(BlockdevOptionsGluster *gconf,
+                                            Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     struct glfs *glfs;
+     int ret;
+     int old_errno;
+@@ -694,6 +695,7 @@ static int qemu_gluster_parse(BlockdevOptionsGluster *gconf,
+                               const char *filename,
+                               QDict *options, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     int ret;
+     if (filename) {
+         ret = qemu_gluster_parse_uri(gconf, filename);
+diff --git a/block/qcow.c b/block/qcow.c
+index 5bdf72ba33..33a004350b 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -117,6 +117,7 @@ static QemuOptsList qcow_runtime_opts = {
+ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
+                      Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     BDRVQcowState *s = bs->opaque;
+     unsigned int len, i, shift;
+     int ret;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 4d16393e61..d9aac1186d 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1207,6 +1207,7 @@ static int qcow2_update_options(BlockDriverState *bs, QDict *options,
+ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+                                       int flags, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     BDRVQcow2State *s = bs->opaque;
+     unsigned int len, i;
+     int ret = 0;
+diff --git a/block/vhdx-log.c b/block/vhdx-log.c
+index fdd3a7adc3..24e5efb46c 100644
+--- a/block/vhdx-log.c
++++ b/block/vhdx-log.c
+@@ -748,6 +748,7 @@ exit:
+ int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
+                    Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     int ret = 0;
+     VHDXHeader *hdr;
+     VHDXLogSequence logs = { 0 };
+diff --git a/block/vpc.c b/block/vpc.c
+index 5cd3890780..b12a2d964a 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -971,6 +971,7 @@ static int calculate_rounded_image_size(BlockdevCreateOptionsVpc *vpc_opts,
+ static int coroutine_fn vpc_co_create(BlockdevCreateOptions *opts,
+                                       Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     BlockdevCreateOptionsVpc *vpc_opts;
+     BlockBackend *blk = NULL;
+     BlockDriverState *bs = NULL;
 -- 
 2.21.0
 
