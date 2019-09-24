@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F2CBD500
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:38:47 +0200 (CEST)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5D3BD507
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:40:45 +0200 (CEST)
+Received: from localhost ([::1]:43250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCtSI-0002u0-0x
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
+	id 1iCtUC-0004UT-AU
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56784)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCs5L-0003VB-2j
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:11:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCs5B-0003M3-1C
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCs58-0007aW-4q
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:58 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36938)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCs50-0007Yk-UG
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:48 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37123)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCs57-0007aK-V4
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:46 -0400
-Received: by mail-wr1-x442.google.com with SMTP id i1so3661099wro.4
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:10:45 -0700 (PDT)
+ id 1iCs50-0007YF-M1
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:38 -0400
+Received: by mail-wr1-x435.google.com with SMTP id i1so3660626wro.4
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:10:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=09O1Ly8NFsL8DCLzHd3RHxhmvaQZgOCY++TrLIyuMqA=;
- b=LgV3O78ZmNmcFS8tmPwXrJ9aqbYX1MMDlxZdcFapkm1aB7tK/9nltPoiswwZdRJ5g9
- cgkHT3y6Gt2H9jE1ECZ5u6BVpK0lod5P2XGDN/RK8o465hdRftxEKO9KX+m02Lut0bs3
- vFqlqfY85ygTEXXOoi2UtJeuOkIOXrxaBDUVLOwRLK4sYwOxEGQ/BWiebKgfO2uk7CHF
- f9F+MsHDfi3rDIrHmXNkNe6+AW4diQ1IzOSeJCvlUnOXjSQV1C+ltK/ILMBqKgTK6wtW
- PJNIOOE00Wc1OjOIl8HWrmE/PRYRt/ep9yssAlCTpLXF3I8Y2n8sp5zKpQrJUoYHm/Cw
- VyzA==
+ bh=hyz9bk4RuUadsEQ7ebSCzQj2HLMqLMmwaGBTYzwPdF0=;
+ b=YxM6ebf1DdR7DJ3pffm0GCCUuKVqC0zRX7hyMuAnzsycODo/dkQGOIit0WTQGVdAVQ
+ E8El4M0iXrqfoHxS4q+eNOQ6ql6zgKLb49GgTg9I6GjdKrh9G2KcLGX9pQ/fozQZWS1g
+ fOcjDV7oMgO+KVAPjVkuQ9GlI9BjIWWKi9wjY/yWoRWQYvJUlt6eEWsWeWlUAY901Wrz
+ 3teAf5UhIeshNf/0PP2AO8837/aYOB5smDMcFMxfC5Q/abghNwkxLq136jjwDGBxQoqH
+ E8O0dr4Jp89P7HidCz3dHb9Wh7cHT+bh7ivi112nA7doEwWz9pzq4/JqarOilUU+DitH
+ TEAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=09O1Ly8NFsL8DCLzHd3RHxhmvaQZgOCY++TrLIyuMqA=;
- b=idDKh0QXW39jKddNKw6N5vQEC53FekcqTCcIZlNFZceIwV64BhOwWTCBDWD6Qzyz+L
- fJxQQ8wzr6aPUz3C5uuXFNVc2i1DzvUcC4hob/I36O4iOOfOr8YZzA78Mad0rOTOuiLs
- 6qPgeqY+kULEevQBr0+5PUms4KZ0bAivBxXlc5uU7p6nUnq0Soug/XUwMwVABMYV7uZ6
- IqCPyXaYIB/KnozGdlamEVeJ27sdbYZ11Cwfj2srMDVvPzrFZJP8wfs6BT5kPDKAQv2n
- znAbdW1JgRHtPEbcaine+KK8L3f0DBctsOCRaGGGIbIxrBOD5HvoZg2vikXmx75Xi3de
- Pgyg==
-X-Gm-Message-State: APjAAAVpPiPVHYAQ3F9zINJMNGXlyORNtKxi+KnCpsLs+tdluXa+vU5a
- 0ClNFQwYAJGfozVNcKG6p9P1iA==
-X-Google-Smtp-Source: APXvYqwOvLkLMuGHsEqxBQhmqjinfaH/W/TJwancI0j03bP4N7jQiaiU+lIG6DOmKv274JlkH50u0g==
-X-Received: by 2002:a5d:4708:: with SMTP id y8mr3298080wrq.318.1569359444843; 
- Tue, 24 Sep 2019 14:10:44 -0700 (PDT)
+ bh=hyz9bk4RuUadsEQ7ebSCzQj2HLMqLMmwaGBTYzwPdF0=;
+ b=l04m28fwXrVV9RvNJXJ2n/13xU5DxCOfldzywAhMTpRq+HCGPHxI3daIexhqY8lXOh
+ 7PvQR2nsn9Rx9nPYW331q4vRBp+cdawzIkWkLq7J8NgmygQ/xtBavwle1bNTCNnSCDwI
+ rG0GzW5IlavwJaskSr6EkUi5u3KOmZejxyqdapmvGGsLkP/Q/9s+klhY9uexG3tNXQFy
+ k/k0OSlig9OCVd8j/4oPXnikBIZXHpsSvZ6QB2GHmKTSfPXiwT2ALrgBDPZYUVxngt39
+ WPKPiMhVhkHywF5fSQB1Me6HlaaerRqchgPGSSjTzayTRSSRih7qVgbY+pE8yXnlSbTB
+ UB5w==
+X-Gm-Message-State: APjAAAW4pjoXSlFpIPTxMI9zKENYj+WAZWrMKA+ZdqKVx5ojQsIOrcf7
+ vi+6BIcncvUE9uX1PYV8D/ZSlGXjouo7nA==
+X-Google-Smtp-Source: APXvYqy0kGxDnweU3UbC5QC9Sbk29LCedUOcwQv0ZQKaOvjLayz8LWeIV4x2R5ktwaYseh/PR0efNQ==
+X-Received: by 2002:adf:e390:: with SMTP id e16mr4647234wrm.29.1569359437553; 
+ Tue, 24 Sep 2019 14:10:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a71sm656450wma.43.2019.09.24.14.10.35
+ by smtp.gmail.com with ESMTPSA id a10sm3731588wrm.52.2019.09.24.14.10.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 14:10:41 -0700 (PDT)
+ Tue, 24 Sep 2019 14:10:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E9D7F1FFB8;
- Tue, 24 Sep 2019 22:01:09 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1536E1FF9E;
+ Tue, 24 Sep 2019 22:01:08 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 33/33] tests/docker: remove debian-powerpc-user-cross
-Date: Tue, 24 Sep 2019 22:01:06 +0100
-Message-Id: <20190924210106.27117-34-alex.bennee@linaro.org>
+Subject: [PATCH  v3 14/33] tests/docker: remove python2.7 from debian9-mxe
+Date: Tue, 24 Sep 2019 22:00:47 +0100
+Message-Id: <20190924210106.27117-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
 References: <20190924210106.27117-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,77 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, jsnow@redhat.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, jsnow@redhat.com,
+ f4bug@amsat.org, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Despite our attempts in 4d26c7fef4 to keep this going it still gets in
-the way of "make docker-test-build" completing because of course we
-can't build a modern QEMU with the image. Let's put the thing out of
-it's misery and remove it.
+From: John Snow <jsnow@redhat.com>
 
-People who really care about building on powerpc can still use the
-binfmt_misc support to manually build an image (or just run the build
-from pre this commit).
+When it was based on debian8 which uses python-minimal, it needed this.
+It no longer does.
 
+Goodbye, python2.7.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20190918222546.11696-1-jsnow@redhat.com>
+[AJB: fixed up commit message]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- tests/docker/Makefile.include                 |  9 --------
- .../debian-powerpc-user-cross.docker          | 21 -------------------
- 2 files changed, 30 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/debian-powerpc-user-cross.docker
+ tests/docker/dockerfiles/debian9-mxe.docker | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 180e5439ef9..dcc37093138 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -149,15 +149,6 @@ DOCKER_PARTIAL_IMAGES += fedora-i386-cross fedora-cris-cross
- # work around issues with poorly working multi-arch systems and broken
- # packages.
+diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/dockerfiles/debian9-mxe.docker
+index 7431168dad9..62ff1cecf2d 100644
+--- a/tests/docker/dockerfiles/debian9-mxe.docker
++++ b/tests/docker/dockerfiles/debian9-mxe.docker
+@@ -16,7 +16,6 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C6BF758A33A3A276 &&
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt-get install -y --no-install-recommends \
+-        libpython2.7-stdlib \
+         $(apt-get -s install -y --no-install-recommends gw32.shared-mingw-w64 | egrep "^Inst mxe-x86-64-unknown-" | cut -d\  -f2)
  
--# Jessie is the last supported release for powerpc, but multi-arch is
--# broken so we need a qemu-linux-user for this target
--docker-binfmt-image-debian-powerpc-user: DEB_ARCH = powerpc
--docker-binfmt-image-debian-powerpc-user: DEB_TYPE = jessie
--docker-binfmt-image-debian-powerpc-user: DEB_URL = http://snapshot.debian.org/archive/debian/20180615T211437Z
--docker-binfmt-image-debian-powerpc-user: EXECUTABLE = ${BUILD_DIR}/ppc-linux-user/qemu-ppc
--docker-image-debian-powerpc-user-cross: docker-binfmt-image-debian-powerpc-user
--DOCKER_USER_IMAGES += debian-powerpc-user
--
- # Expand all the pre-requistes for each docker image and test combination
- $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
- 	$(foreach t,$(DOCKER_TESTS) $(DOCKER_TOOLS), \
-diff --git a/tests/docker/dockerfiles/debian-powerpc-user-cross.docker b/tests/docker/dockerfiles/debian-powerpc-user-cross.docker
-deleted file mode 100644
-index 83749b0abb8..00000000000
---- a/tests/docker/dockerfiles/debian-powerpc-user-cross.docker
-+++ /dev/null
-@@ -1,21 +0,0 @@
--#
--# Docker powerpc cross-compiler target for QEMU
--#
--# We can't use current Debian stable cross-compilers to build powerpc
--# as it has been dropped as a release architecture. Using Debian Sid
--# is just far too sketchy a build environment. This leaves us the
--# final option of using linux-user. This image is based of the
--# debootstrapped qemu:debian-powerpc-user but doesn't need any extra
--# magic once it is setup.
--#
--# It can be used to build old versions of QEMU, current versions need
--# newer dependencies than Jessie provides.
--#
--FROM qemu:debian-powerpc-user
--
--RUN echo man-db man-db/auto-update boolean false | debconf-set-selections
--RUN apt-get update && \
--        DEBIAN_FRONTEND=noninteractive apt-get build-dep -yy qemu
--
--ENV QEMU_CONFIGURE_OPTS --disable-werror
--ENV DEF_TARGET_LIST powerpc-softmmu,arm-linux-user,aarch64-linux-user
+-ENV PATH $PATH:/usr/lib/mxe/usr/bin/ 
++ENV PATH $PATH:/usr/lib/mxe/usr/bin/
 -- 
 2.20.1
 
