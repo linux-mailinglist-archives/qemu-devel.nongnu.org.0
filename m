@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D94BCE9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:58:43 +0200 (CEST)
-Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CEDBCE94
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:53:51 +0200 (CEST)
+Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCo9C-0001zH-Eb
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55591)
+	id 1iCo4U-00058b-Bv
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCnFQ-0004Ws-5r
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:01:05 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCnr9-0002Ug-NJ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:40:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCnFO-0003o7-Id
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:01:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55744)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCnFO-0003lp-6f
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:01:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 76E7CC057EC0;
- Tue, 24 Sep 2019 16:01:01 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 156DF19C58;
- Tue, 24 Sep 2019 16:01:00 +0000 (UTC)
-Subject: Re: [PATCH 14/25] qapi: Plumb info to the QAPISchemaMember
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-15-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCnr8-0003qN-Lz
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 12:40:03 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:35886
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iCnr6-0003nZ-1q; Tue, 24 Sep 2019 12:40:00 -0400
+Received: from host86-138-245-63.range86-138.btcentralplus.com
+ ([86.138.245.63] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iCnpE-0007qW-15; Tue, 24 Sep 2019 17:38:04 +0100
+To: Paul Clarke <pc@us.ibm.com>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
+References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
+ <fcc3b597-856f-23bd-bc56-d886f021a2f4@us.ibm.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <093c45e2-aecc-702b-24dd-447f8525f79a@redhat.com>
-Date: Tue, 24 Sep 2019 11:01:00 -0500
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <42934b76-1a54-1bf9-ef29-96d34e6c76c6@ilande.co.uk>
+Date: Tue, 24 Sep 2019 17:37:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-15-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 24 Sep 2019 16:01:01 +0000 (UTC)
+In-Reply-To: <fcc3b597-856f-23bd-bc56-d886f021a2f4@us.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 86.138.245.63
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 0/7] target/ppc: DFP fixes and improvements
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,66 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1
-Content-Type: multipart/mixed; boundary="P1hTkhUpxr4mIdqpN2fM5RuHwqT2UrssU";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <093c45e2-aecc-702b-24dd-447f8525f79a@redhat.com>
-Subject: Re: [PATCH 14/25] qapi: Plumb info to the QAPISchemaMember
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-15-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-15-armbru@redhat.com>
+On 24/09/2019 17:30, Paul Clarke wrote:
 
---P1hTkhUpxr4mIdqpN2fM5RuHwqT2UrssU
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> Mark,
+> 
+> What tree / branch would these patches apply to?  (I've tried qemu master, dgibson master and ppc-for-4.2, or I'm doing something wrong.)
+> 
+> PC
 
-On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> Future commits will need info in the .check() methods of
-> QAPISchemaMember and its descendants.  Get it there.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  scripts/qapi/common.py | 76 +++++++++++++++++++++++-------------------=
+Hi Paul,
 
->  scripts/qapi/events.py |  2 +-
->  2 files changed, 43 insertions(+), 35 deletions(-)
->=20
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I've just checked my local repo and I can confirm they are based on qemu master
+commit 8dc57281b8 "Merge remote-tracking branch
+'remotes/cleber/tags/python-next-pull-request' into staging".
 
 
---P1hTkhUpxr4mIdqpN2fM5RuHwqT2UrssU--
+ATB,
 
---9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KPbwACgkQp6FrSiUn
-Q2rmXAf8DHkKqFtddyn06J9hpTU78JI8bijlWj5wlliYSX1HmmL/Z0dvMmVyvdO5
-RyRol6zq9hmFH5BZb4JWpUX+e7vc6UsNduckC9yMNLqoooZi4wRY7SlkSre/oGIB
-/p/A/LzDZN/y2qg/xdIi71Fe73TFvjNo0qXqZm6twDgvDCBL+BBBmzJdD2U4jfNY
-CVhiUOw2DqR5F7Pnh8TSuwW29l9LNiuZ1kfhZoydBKUNW2qUbVOST9Z1IENw6MM+
-Sn3besh+A0OPofgtiXqEny+8ODSLh6Jnv1oVKdFm0uKTZ5xqoLEGsEql7frtn+UB
-WaS+lbzr8yv52Pz/ZLv/IkamRQv9yQ==
-=Yc6C
------END PGP SIGNATURE-----
-
---9jmwWZmmzsKtm3bxmQZHQpEBusrnQBem1--
+Mark.
 
