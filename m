@@ -2,49 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FDABC980
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:56:49 +0200 (CEST)
-Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F733BC929
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:51:10 +0200 (CEST)
+Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClJ9-00016P-SS
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56249)
+	id 1iClDg-0003Yb-3c
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iCkda-0001xa-Re
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:13:53 -0400
+ (envelope-from <slp@redhat.com>) id 1iCkCF-0002qd-8l
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iCkdY-0003cA-OC
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:13:50 -0400
-Received: from ozlabs.org ([203.11.71.1]:51281)
+ (envelope-from <slp@redhat.com>) id 1iCkCC-0004nk-K1
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58059)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iCkdW-0003aj-UQ; Tue, 24 Sep 2019 09:13:48 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46d1pt758Hz9sDB; Tue, 24 Sep 2019 23:13:42 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569330822;
- bh=MUy62fnC9Q3tdtEumVy6L/w62/D/WbSATekce/C4ToM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VHXwT1x+VwQhCF1Dg/TUh6uXw0C41mRXu704EGKmVCOJkstdoky6NS4NuHhhmuGeY
- TiVhXC0fxk8q8x4DePHSDDdt6LwvNV0KFFgwTgzKYwrUniNfLlD33nFSIbhL4pT9eP
- OlZjkjvtGq8wjQzr3x2hsomxd7H3ThXETola0+rU=
-Date: Tue, 24 Sep 2019 21:41:24 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 4/4] xics: Merge TYPE_ICS_BASE and TYPE_ICS_SIMPLE classes
-Message-ID: <20190924114124.GC17405@umbus>
-References: <20190924045952.11412-1-david@gibson.dropbear.id.au>
- <20190924045952.11412-5-david@gibson.dropbear.id.au>
- <9636ac3a-f0db-7fb8-cb5d-a4a2b83479b5@kaod.org>
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iCkCB-0004iw-Rw
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:45:32 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1051A10CC1F7;
+ Tue, 24 Sep 2019 12:45:27 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3062E60852;
+ Tue, 24 Sep 2019 12:45:11 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 2/8] hw/i386: Factorize e820 related functions
+Date: Tue, 24 Sep 2019 14:44:27 +0200
+Message-Id: <20190924124433.96810-3-slp@redhat.com>
+In-Reply-To: <20190924124433.96810-1-slp@redhat.com>
+References: <20190924124433.96810-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="V88s5gaDVPzZ0KCq"
-Content-Disposition: inline
-In-Reply-To: <9636ac3a-f0db-7fb8-cb5d-a4a2b83479b5@kaod.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Tue, 24 Sep 2019 12:45:27 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,300 +54,318 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gkurz@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Sergio Lopez <slp@redhat.com>, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, lersek@redhat.com, mtosatti@redhat.com, kraxel@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Extract e820 related functions from pc.c, and put them in e820.c, so
+they can be shared with other components.
 
---V88s5gaDVPzZ0KCq
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+---
+ hw/i386/Makefile.objs |  1 +
+ hw/i386/e820.c        | 99 +++++++++++++++++++++++++++++++++++++++++++
+ hw/i386/e820.h        | 11 +++++
+ hw/i386/pc.c          | 66 +----------------------------
+ include/hw/i386/pc.h  | 11 -----
+ target/i386/kvm.c     |  1 +
+ 6 files changed, 114 insertions(+), 75 deletions(-)
+ create mode 100644 hw/i386/e820.c
+ create mode 100644 hw/i386/e820.h
 
-On Tue, Sep 24, 2019 at 07:31:44AM +0200, C=E9dric Le Goater wrote:
-> On 24/09/2019 06:59, David Gibson wrote:
-> > TYPE_ICS_SIMPLE is the only subtype of TYPE_ICS_BASE that's ever
-> > instantiated, and the only one we're ever likely to want.  The
-> > existence of different classes is just a hang over from when we
-> > (misguidedly) had separate subtypes for the KVM and non-KVM version of
-> > the device.
-> >=20
-> > So, collapse the two classes together into just TYPE_ICS.
->=20
->=20
-> Well, I have been maintaining another subclass for the PHB3 MSI=20
-> but it has never been merged and it will require some rework.
-
-Well, if you did do this again, is there an actual need for it to be a
-subclass of ICS_BASE, and not ICS_SIMPLE?  AFAICT the merged ICS class
-should be fine for pnv as well.
-
-> Anyhow the base ICS code is cleaner with that patch and it
-> does not seem to break migration.
->=20
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->=20
->=20
-> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
->=20
-> C.
->=20
->=20
-> > ---
-> >  hw/intc/xics.c        | 57 ++++++++++++++++---------------------------
-> >  hw/ppc/pnv_psi.c      |  2 +-
-> >  hw/ppc/spapr_irq.c    |  4 +--
-> >  include/hw/ppc/xics.h | 17 ++-----------
-> >  4 files changed, 26 insertions(+), 54 deletions(-)
-> >=20
-> > diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> > index 9ae51bbc76..388dbba870 100644
-> > --- a/hw/intc/xics.c
-> > +++ b/hw/intc/xics.c
-> > @@ -555,7 +555,7 @@ static void ics_reset_irq(ICSIRQState *irq)
-> > =20
-> >  static void ics_reset(DeviceState *dev)
-> >  {
-> > -    ICSState *ics =3D ICS_BASE(dev);
-> > +    ICSState *ics =3D ICS(dev);
-> >      int i;
-> >      uint8_t flags[ics->nr_irqs];
-> > =20
-> > @@ -573,7 +573,7 @@ static void ics_reset(DeviceState *dev)
-> >      if (kvm_irqchip_in_kernel()) {
-> >          Error *local_err =3D NULL;
-> > =20
-> > -        ics_set_kvm_state(ICS_BASE(dev), &local_err);
-> > +        ics_set_kvm_state(ICS(dev), &local_err);
-> >          if (local_err) {
-> >              error_report_err(local_err);
-> >          }
-> > @@ -587,7 +587,7 @@ static void ics_reset_handler(void *dev)
-> > =20
-> >  static void ics_realize(DeviceState *dev, Error **errp)
-> >  {
-> > -    ICSState *ics =3D ICS_BASE(dev);
-> > +    ICSState *ics =3D ICS(dev);
-> >      Error *local_err =3D NULL;
-> >      Object *obj;
-> > =20
-> > @@ -609,26 +609,14 @@ static void ics_realize(DeviceState *dev, Error *=
-*errp)
-> >      qemu_register_reset(ics_reset_handler, ics);
-> >  }
-> > =20
-> > -static void ics_simple_class_init(ObjectClass *klass, void *data)
-> > +static void ics_instance_init(Object *obj)
-> >  {
-> > -}
-> > -
-> > -static const TypeInfo ics_simple_info =3D {
-> > -    .name =3D TYPE_ICS_SIMPLE,
-> > -    .parent =3D TYPE_ICS_BASE,
-> > -    .instance_size =3D sizeof(ICSState),
-> > -    .class_init =3D ics_simple_class_init,
-> > -    .class_size =3D sizeof(ICSStateClass),
-> > -};
-> > -
-> > -static void ics_base_instance_init(Object *obj)
-> > -{
-> > -    ICSState *ics =3D ICS_BASE(obj);
-> > +    ICSState *ics =3D ICS(obj);
-> > =20
-> >      ics->offset =3D XICS_IRQ_BASE;
-> >  }
-> > =20
-> > -static int ics_base_pre_save(void *opaque)
-> > +static int ics_pre_save(void *opaque)
-> >  {
-> >      ICSState *ics =3D opaque;
-> > =20
-> > @@ -639,7 +627,7 @@ static int ics_base_pre_save(void *opaque)
-> >      return 0;
-> >  }
-> > =20
-> > -static int ics_base_post_load(void *opaque, int version_id)
-> > +static int ics_post_load(void *opaque, int version_id)
-> >  {
-> >      ICSState *ics =3D opaque;
-> > =20
-> > @@ -657,7 +645,7 @@ static int ics_base_post_load(void *opaque, int ver=
-sion_id)
-> >      return 0;
-> >  }
-> > =20
-> > -static const VMStateDescription vmstate_ics_base_irq =3D {
-> > +static const VMStateDescription vmstate_ics_irq =3D {
-> >      .name =3D "ics/irq",
-> >      .version_id =3D 2,
-> >      .minimum_version_id =3D 1,
-> > @@ -671,46 +659,44 @@ static const VMStateDescription vmstate_ics_base_=
-irq =3D {
-> >      },
-> >  };
-> > =20
-> > -static const VMStateDescription vmstate_ics_base =3D {
-> > +static const VMStateDescription vmstate_ics =3D {
-> >      .name =3D "ics",
-> >      .version_id =3D 1,
-> >      .minimum_version_id =3D 1,
-> > -    .pre_save =3D ics_base_pre_save,
-> > -    .post_load =3D ics_base_post_load,
-> > +    .pre_save =3D ics_pre_save,
-> > +    .post_load =3D ics_post_load,
-> >      .fields =3D (VMStateField[]) {
-> >          /* Sanity check */
-> >          VMSTATE_UINT32_EQUAL(nr_irqs, ICSState, NULL),
-> > =20
-> >          VMSTATE_STRUCT_VARRAY_POINTER_UINT32(irqs, ICSState, nr_irqs,
-> > -                                             vmstate_ics_base_irq,
-> > +                                             vmstate_ics_irq,
-> >                                               ICSIRQState),
-> >          VMSTATE_END_OF_LIST()
-> >      },
-> >  };
-> > =20
-> > -static Property ics_base_properties[] =3D {
-> > +static Property ics_properties[] =3D {
-> >      DEFINE_PROP_UINT32("nr-irqs", ICSState, nr_irqs, 0),
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
-> > =20
-> > -static void ics_base_class_init(ObjectClass *klass, void *data)
-> > +static void ics_class_init(ObjectClass *klass, void *data)
-> >  {
-> >      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> > =20
-> >      dc->realize =3D ics_realize;
-> > -    dc->props =3D ics_base_properties;
-> > +    dc->props =3D ics_properties;
-> >      dc->reset =3D ics_reset;
-> > -    dc->vmsd =3D &vmstate_ics_base;
-> > +    dc->vmsd =3D &vmstate_ics;
-> >  }
-> > =20
-> > -static const TypeInfo ics_base_info =3D {
-> > -    .name =3D TYPE_ICS_BASE,
-> > +static const TypeInfo ics_info =3D {
-> > +    .name =3D TYPE_ICS,
-> >      .parent =3D TYPE_DEVICE,
-> > -    .abstract =3D true,
-> >      .instance_size =3D sizeof(ICSState),
-> > -    .instance_init =3D ics_base_instance_init,
-> > -    .class_init =3D ics_base_class_init,
-> > -    .class_size =3D sizeof(ICSStateClass),
-> > +    .instance_init =3D ics_instance_init,
-> > +    .class_init =3D ics_class_init,
-> >  };
-> > =20
-> >  static const TypeInfo xics_fabric_info =3D {
-> > @@ -749,8 +735,7 @@ void ics_set_irq_type(ICSState *ics, int srcno, boo=
-l lsi)
-> > =20
-> >  static void xics_register_types(void)
-> >  {
-> > -    type_register_static(&ics_simple_info);
-> > -    type_register_static(&ics_base_info);
-> > +    type_register_static(&ics_info);
-> >      type_register_static(&icp_info);
-> >      type_register_static(&xics_fabric_info);
-> >  }
-> > diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-> > index 8ea81e9d8e..a997f16bb4 100644
-> > --- a/hw/ppc/pnv_psi.c
-> > +++ b/hw/ppc/pnv_psi.c
-> > @@ -469,7 +469,7 @@ static void pnv_psi_power8_instance_init(Object *ob=
-j)
-> >      Pnv8Psi *psi8 =3D PNV8_PSI(obj);
-> > =20
-> >      object_initialize_child(obj, "ics-psi",  &psi8->ics, sizeof(psi8->=
-ics),
-> > -                            TYPE_ICS_SIMPLE, &error_abort, NULL);
-> > +                            TYPE_ICS, &error_abort, NULL);
-> >  }
-> > =20
-> >  static const uint8_t irq_to_xivr[] =3D {
-> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > index ac189c5796..6c45d2a3c0 100644
-> > --- a/hw/ppc/spapr_irq.c
-> > +++ b/hw/ppc/spapr_irq.c
-> > @@ -98,7 +98,7 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
-apr, int nr_irqs,
-> >      Object *obj;
-> >      Error *local_err =3D NULL;
-> > =20
-> > -    obj =3D object_new(TYPE_ICS_SIMPLE);
-> > +    obj =3D object_new(TYPE_ICS);
-> >      object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
-> >      object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-> >                                     &error_fatal);
-> > @@ -109,7 +109,7 @@ static void spapr_irq_init_xics(SpaprMachineState *=
-spapr, int nr_irqs,
-> >          return;
-> >      }
-> > =20
-> > -    spapr->ics =3D ICS_BASE(obj);
-> > +    spapr->ics =3D ICS(obj);
-> > =20
-> >      xics_spapr_init(spapr);
-> >  }
-> > diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-> > index 92628e7cab..d8cf206a69 100644
-> > --- a/include/hw/ppc/xics.h
-> > +++ b/include/hw/ppc/xics.h
-> > @@ -89,21 +89,8 @@ struct PnvICPState {
-> >      uint32_t links[3];
-> >  };
-> > =20
-> > -#define TYPE_ICS_BASE "ics-base"
-> > -#define ICS_BASE(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_BASE)
-> > -
-> > -/* Retain ics for sPAPR for migration from existing sPAPR guests */
-> > -#define TYPE_ICS_SIMPLE "ics"
-> > -#define ICS_SIMPLE(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SIMPLE)
-> > -
-> > -#define ICS_BASE_CLASS(klass) \
-> > -     OBJECT_CLASS_CHECK(ICSStateClass, (klass), TYPE_ICS_BASE)
-> > -#define ICS_BASE_GET_CLASS(obj) \
-> > -     OBJECT_GET_CLASS(ICSStateClass, (obj), TYPE_ICS_BASE)
-> > -
-> > -struct ICSStateClass {
-> > -    DeviceClass parent_class;
-> > -};
-> > +#define TYPE_ICS "ics"
-> > +#define ICS(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS)
-> > =20
-> >  struct ICSState {
-> >      /*< private >*/
-> >=20
->=20
-
+diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+index c5f20bbd72..149712db07 100644
+--- a/hw/i386/Makefile.objs
++++ b/hw/i386/Makefile.objs
+@@ -2,6 +2,7 @@ obj-$(CONFIG_KVM) +=3D kvm/
+ obj-y +=3D multiboot.o
+ obj-y +=3D pvh.o
+ obj-y +=3D pc.o
++obj-y +=3D e820.o
+ obj-$(CONFIG_I440FX) +=3D pc_piix.o
+ obj-$(CONFIG_Q35) +=3D pc_q35.o
+ obj-y +=3D fw_cfg.o pc_sysfw.o
+diff --git a/hw/i386/e820.c b/hw/i386/e820.c
+new file mode 100644
+index 0000000000..d5c5c0d528
+--- /dev/null
++++ b/hw/i386/e820.c
+@@ -0,0 +1,99 @@
++/*
++ * Copyright (c) 2003-2004 Fabrice Bellard
++ * Copyright (c) 2019 Red Hat, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
++ * of this software and associated documentation files (the "Software"),=
+ to deal
++ * in the Software without restriction, including without limitation the=
+ rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be includ=
+ed in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "qemu/cutils.h"
++#include "qemu/units.h"
++
++#include "hw/i386/e820.h"
++#include "hw/i386/fw_cfg.h"
++
++#define E820_NR_ENTRIES		16
++
++struct e820_entry {
++    uint64_t address;
++    uint64_t length;
++    uint32_t type;
++} QEMU_PACKED __attribute((__aligned__(4)));
++
++struct e820_table {
++    uint32_t count;
++    struct e820_entry entry[E820_NR_ENTRIES];
++} QEMU_PACKED __attribute((__aligned__(4)));
++
++static struct e820_table e820_reserve;
++static struct e820_entry *e820_table;
++static unsigned e820_entries;
++
++int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
++{
++    int index =3D le32_to_cpu(e820_reserve.count);
++    struct e820_entry *entry;
++
++    if (type !=3D E820_RAM) {
++        /* old FW_CFG_E820_TABLE entry -- reservations only */
++        if (index >=3D E820_NR_ENTRIES) {
++            return -EBUSY;
++        }
++        entry =3D &e820_reserve.entry[index++];
++
++        entry->address =3D cpu_to_le64(address);
++        entry->length =3D cpu_to_le64(length);
++        entry->type =3D cpu_to_le32(type);
++
++        e820_reserve.count =3D cpu_to_le32(index);
++    }
++
++    /* new "etc/e820" file -- include ram too */
++    e820_table =3D g_renew(struct e820_entry, e820_table, e820_entries +=
+ 1);
++    e820_table[e820_entries].address =3D cpu_to_le64(address);
++    e820_table[e820_entries].length =3D cpu_to_le64(length);
++    e820_table[e820_entries].type =3D cpu_to_le32(type);
++    e820_entries++;
++
++    return e820_entries;
++}
++
++int e820_get_num_entries(void)
++{
++    return e820_entries;
++}
++
++bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
+*length)
++{
++    if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
+pe)) {
++        *address =3D le64_to_cpu(e820_table[idx].address);
++        *length =3D le64_to_cpu(e820_table[idx].length);
++        return true;
++    }
++    return false;
++}
++
++void e820_create_fw_entry(FWCfgState *fw_cfg)
++{
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
++                     &e820_reserve, sizeof(e820_reserve));
++    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
++                    sizeof(struct e820_entry) * e820_entries);
++}
+diff --git a/hw/i386/e820.h b/hw/i386/e820.h
+new file mode 100644
+index 0000000000..569d1f0ab5
+--- /dev/null
++++ b/hw/i386/e820.h
+@@ -0,0 +1,11 @@
++/* e820 types */
++#define E820_RAM        1
++#define E820_RESERVED   2
++#define E820_ACPI       3
++#define E820_NVS        4
++#define E820_UNUSABLE   5
++
++int e820_add_entry(uint64_t address, uint64_t length, uint32_t type);
++int e820_get_num_entries(void);
++bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
+*length);
++void e820_create_fw_entry(FWCfgState *fw_cfg);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 10e4ced0c6..3920aa7e85 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -30,6 +30,7 @@
+ #include "hw/i386/apic.h"
+ #include "hw/i386/topology.h"
+ #include "hw/i386/fw_cfg.h"
++#include "hw/i386/e820.h"
+ #include "sysemu/cpus.h"
+ #include "hw/block/fdc.h"
+ #include "hw/ide.h"
+@@ -99,22 +100,6 @@
+ #define DPRINTF(fmt, ...)
+ #endif
+=20
+-#define E820_NR_ENTRIES		16
+-
+-struct e820_entry {
+-    uint64_t address;
+-    uint64_t length;
+-    uint32_t type;
+-} QEMU_PACKED __attribute((__aligned__(4)));
+-
+-struct e820_table {
+-    uint32_t count;
+-    struct e820_entry entry[E820_NR_ENTRIES];
+-} QEMU_PACKED __attribute((__aligned__(4)));
+-
+-static struct e820_table e820_reserve;
+-static struct e820_entry *e820_table;
+-static unsigned e820_entries;
+ struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_MAX};
+=20
+ GlobalProperty pc_compat_4_1[] =3D {};
+@@ -878,50 +863,6 @@ static void handle_a20_line_change(void *opaque, int=
+ irq, int level)
+     x86_cpu_set_a20(cpu, level);
+ }
+=20
+-int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+-{
+-    int index =3D le32_to_cpu(e820_reserve.count);
+-    struct e820_entry *entry;
+-
+-    if (type !=3D E820_RAM) {
+-        /* old FW_CFG_E820_TABLE entry -- reservations only */
+-        if (index >=3D E820_NR_ENTRIES) {
+-            return -EBUSY;
+-        }
+-        entry =3D &e820_reserve.entry[index++];
+-
+-        entry->address =3D cpu_to_le64(address);
+-        entry->length =3D cpu_to_le64(length);
+-        entry->type =3D cpu_to_le32(type);
+-
+-        e820_reserve.count =3D cpu_to_le32(index);
+-    }
+-
+-    /* new "etc/e820" file -- include ram too */
+-    e820_table =3D g_renew(struct e820_entry, e820_table, e820_entries +=
+ 1);
+-    e820_table[e820_entries].address =3D cpu_to_le64(address);
+-    e820_table[e820_entries].length =3D cpu_to_le64(length);
+-    e820_table[e820_entries].type =3D cpu_to_le32(type);
+-    e820_entries++;
+-
+-    return e820_entries;
+-}
+-
+-int e820_get_num_entries(void)
+-{
+-    return e820_entries;
+-}
+-
+-bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
+*length)
+-{
+-    if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
+pe)) {
+-        *address =3D le64_to_cpu(e820_table[idx].address);
+-        *length =3D le64_to_cpu(e820_table[idx].length);
+-        return true;
+-    }
+-    return false;
+-}
+-
+ /* Calculates initial APIC ID for a specific CPU index
+  *
+  * Currently we need to be able to calculate the APIC ID from the CPU in=
+dex
+@@ -1024,10 +965,7 @@ static FWCfgState *bochs_bios_init(AddressSpace *as=
+, PCMachineState *pcms)
+                      acpi_tables, acpi_tables_len);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_overrid=
+e());
+=20
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+-                     &e820_reserve, sizeof(e820_reserve));
+-    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+-                    sizeof(struct e820_entry) * e820_entries);
++    e820_create_fw_entry(fw_cfg);
+=20
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
+     /* allocate memory for the NUMA channel: one (64bit) word for the nu=
+mber
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 19a837889d..062feeb69e 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -291,17 +291,6 @@ void pc_system_firmware_init(PCMachineState *pcms, M=
+emoryRegion *rom_memory);
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        const CPUArchIdList *apic_ids, GArray *entry);
+=20
+-/* e820 types */
+-#define E820_RAM        1
+-#define E820_RESERVED   2
+-#define E820_ACPI       3
+-#define E820_NVS        4
+-#define E820_UNUSABLE   5
+-
+-int e820_add_entry(uint64_t, uint64_t, uint32_t);
+-int e820_get_num_entries(void);
+-bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
+-
+ extern GlobalProperty pc_compat_4_1[];
+ extern const size_t pc_compat_4_1_len;
+=20
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 8023c679ea..8ce56db7d4 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -41,6 +41,7 @@
+ #include "hw/i386/apic-msidef.h"
+ #include "hw/i386/intel_iommu.h"
+ #include "hw/i386/x86-iommu.h"
++#include "hw/i386/e820.h"
+=20
+ #include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.21.0
 
---V88s5gaDVPzZ0KCq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2KAOQACgkQbDjKyiDZ
-s5IW0hAArsbBc7B3fmxXtPPY3KkBSaurZj18FNuXhJVJTQkXeF0DGlwgCfjYOtSn
-Sy2yOHxx6oDfYY5thbUPxH0CYnKcdGIqJ5B7wvOhfXcFE6M6GACWaNpcufGh3wRp
-1LsFfH/FG4Qy1qmSbD/YuUHI/lieCZ2o7MUTBtqH6WlHKCi7dK3Js0j7QkEdj/l8
-qC3ARGoR/OVS+1Dj62yRZ3l5l6YpIG6RKVKgsJyBN8MC/HD3wdR06qVPLO7c2+6G
-De4zd7vP/lHSgbVuZR8ro7XeDI2s3/mgn5iTAxTPoh3CYjDdIwelEqIUnFgr5+5Q
-lwPXIt8O820FQ73o/RJ91aJdmx1/I6/ZhhYCJGo+vsrZTdAy7h75HAFzAINDy0dS
-l+Ltd6tBLoB8G5D2/KkE7YlHtpODEElKCWuX+6V9Mt6HjXysXS768rKsEqc5kvqJ
-4X67GL5Er80PdAG32F37C5xIxVxGgmlmP45aBm59KChh/kanITK/iw+qgKA0gy6R
-VtcnVc2c3kGFymHiRyGezJylUL9JIKfsEnrm+fWguf8ktiqGts5Q31HIYBLv/JEQ
-ugckHoWRw4ZWOs6cifQyUqXxEIHMwIZE5KIllbcBOu5xpTJoL9e4zYcpXBJtTp2N
-gzC6rtWnZel2vp8XTnDJ9VwBYYrD97ebCmSCruyF3UBOEjfY7b8=
-=cAfW
------END PGP SIGNATURE-----
-
---V88s5gaDVPzZ0KCq--
 
