@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C67BCC69
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:26:51 +0200 (CEST)
-Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B28BCC5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:24:14 +0200 (CEST)
+Received: from localhost ([::1]:47960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCneM-00062V-3U
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51261)
+	id 1iCnbo-0002jo-RJ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iCmuZ-0008L5-LB
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:33 -0400
+ (envelope-from <lersek@redhat.com>) id 1iCnAE-0001Xf-Oh
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:55:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iCmuV-0006KB-LI
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36620)
+ (envelope-from <lersek@redhat.com>) id 1iCnAC-0008RR-Ra
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:55:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43028)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iCmuU-0006Gh-7U
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:27 -0400
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <lersek@redhat.com>)
+ id 1iCnAC-0008Pg-Lo; Tue, 24 Sep 2019 11:55:40 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5110F5945E
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:39:25 +0000 (UTC)
-Received: by mail-qk1-f200.google.com with SMTP id o133so2426435qke.4
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:39:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PTQQeXWO5vPTU6tigUaFPHUuGjp5uZ3Hgvq/mbe0/q8=;
- b=IlTvClD5F10+Us7f509Of0kbcdkGyJDl+okeP07lb5ohID6/Q6YMsToJDB3h+ucegs
- RUBdXZOjffSymk0DclpvsMiL5fsXWg3nQsT6xd+zfL1sTreJiuesl5CJZCS12EBrRRuL
- 7jviCnH4OG/uZX7r72Z6aGyrwasDCf43j7RFpQpHQWStOOKySBnzjF+5K1GBy8pNrn4U
- FimoF8EpRYp5K8ipD2G+m50XvtSpx38lk/1EqSAj1Ya4tVC8q33ae+iCo5cs8MKWpTMR
- EhQSyu+DiZbzHpq2W8Q1girQHaImhAhtu/Msjo2SIFtKxJyuS66fh3h2cyimFZCNR+KF
- K7Zw==
-X-Gm-Message-State: APjAAAX0WDFYYnZPwGUfUbWBCEB785ckpdbyMZ1IXHTadZM+rQ5vTOJ1
- BaikgyuklCopBpG9E6GUyp/+jz0LdJYepJQg/Cq63rWEitQSZSDHxV5l9vhMYQOV+BFdAT9Earx
- 7ensc/vcW6jneik8=
-X-Received: by 2002:ac8:342a:: with SMTP id u39mr3465207qtb.7.1569339564619;
- Tue, 24 Sep 2019 08:39:24 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqznlDhsLQpyIFK6nRFjbhudaZrRRV3OOlTnkVZlvYzC4PZu5ddm6L574qRzPyehnZUU6ffx+Q==
-X-Received: by 2002:ac8:342a:: with SMTP id u39mr3465181qtb.7.1569339564339;
- Tue, 24 Sep 2019 08:39:24 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id v5sm1448122qtk.66.2019.09.24.08.39.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 08:39:23 -0700 (PDT)
-Date: Tue, 24 Sep 2019 11:39:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Heyi Guo <guoheyi@huawei.com>
-Subject: Re: [RFC PATCH 01/12] linux-headers: import arm_sdei.h
-Message-ID: <20190924113640-mutt-send-email-mst@kernel.org>
-References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
- <1569338511-3572-2-git-send-email-guoheyi@huawei.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id F1C2118CB8FE;
+ Tue, 24 Sep 2019 15:55:37 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-118.rdu2.redhat.com
+ [10.10.120.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEF98600C8;
+ Tue, 24 Sep 2019 15:55:28 +0000 (UTC)
+Subject: Re: [PATCH] roms: Add a 'make help' target alias
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190920171159.18633-1-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <a0c746cb-c39b-32b4-3635-3e0c6cbd2b14@redhat.com>
+Date: Tue, 24 Sep 2019 17:55:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1569338511-3572-2-git-send-email-guoheyi@huawei.com>
+In-Reply-To: <20190920171159.18633-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Tue, 24 Sep 2019 15:55:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,124 +60,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, qemu-arm@nongnu.org,
- James Morse <james.morse@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- wanghaibin.wang@huawei.com, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: qemu-trivial@nongnu.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 24, 2019 at 11:21:40PM +0800, Heyi Guo wrote:
-> Import Linux header file include/uapi/linux/arm_sdei.h from kernel
-> v5.3 release.
-> 
-> This is to prepare for qemu SDEI emulation.
-> 
-> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Dave Martin <Dave.Martin@arm.com>
-> Cc: Marc Zyngier <marc.zyngier@arm.com>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: James Morse <james.morse@arm.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-
-Some issues with this.  First linux-headers is for linux as a host.
-This is for linux as a guest, so belongs in include/standard-headers.
-
-Second, please add to scripts/update-linux-headers.sh in a 1st patch,
-then add the file in the second patch.
-
-
-
+On 09/20/19 19:11, Philippe Mathieu-Daud=C3=A9 wrote:
+> Various C projects provide a 'make help' target. Our root directory
+> does so. The roms/ directory lacks a such rule, but already displays
+> a help output when the default target is called.
+> Add a 'help' target aliased to the default one, to avoid:
+>=20
+>   $ make -C roms help
+>   make: *** No rule to make target 'help'.  Stop.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  linux-headers/linux/arm_sdei.h | 73 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 linux-headers/linux/arm_sdei.h
-> 
-> diff --git a/linux-headers/linux/arm_sdei.h b/linux-headers/linux/arm_sdei.h
-> new file mode 100644
-> index 0000000..af0630b
-> --- /dev/null
-> +++ b/linux-headers/linux/arm_sdei.h
-> @@ -0,0 +1,73 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/* Copyright (C) 2017 Arm Ltd. */
-> +#ifndef _UAPI_LINUX_ARM_SDEI_H
-> +#define _UAPI_LINUX_ARM_SDEI_H
-> +
-> +#define SDEI_1_0_FN_BASE			0xC4000020
-> +#define SDEI_1_0_MASK				0xFFFFFFE0
-> +#define SDEI_1_0_FN(n)				(SDEI_1_0_FN_BASE + (n))
-> +
-> +#define SDEI_1_0_FN_SDEI_VERSION			SDEI_1_0_FN(0x00)
-> +#define SDEI_1_0_FN_SDEI_EVENT_REGISTER			SDEI_1_0_FN(0x01)
-> +#define SDEI_1_0_FN_SDEI_EVENT_ENABLE			SDEI_1_0_FN(0x02)
-> +#define SDEI_1_0_FN_SDEI_EVENT_DISABLE			SDEI_1_0_FN(0x03)
-> +#define SDEI_1_0_FN_SDEI_EVENT_CONTEXT			SDEI_1_0_FN(0x04)
-> +#define SDEI_1_0_FN_SDEI_EVENT_COMPLETE			SDEI_1_0_FN(0x05)
-> +#define SDEI_1_0_FN_SDEI_EVENT_COMPLETE_AND_RESUME	SDEI_1_0_FN(0x06)
-> +#define SDEI_1_0_FN_SDEI_EVENT_UNREGISTER		SDEI_1_0_FN(0x07)
-> +#define SDEI_1_0_FN_SDEI_EVENT_STATUS			SDEI_1_0_FN(0x08)
-> +#define SDEI_1_0_FN_SDEI_EVENT_GET_INFO			SDEI_1_0_FN(0x09)
-> +#define SDEI_1_0_FN_SDEI_EVENT_ROUTING_SET		SDEI_1_0_FN(0x0A)
-> +#define SDEI_1_0_FN_SDEI_PE_MASK			SDEI_1_0_FN(0x0B)
-> +#define SDEI_1_0_FN_SDEI_PE_UNMASK			SDEI_1_0_FN(0x0C)
-> +#define SDEI_1_0_FN_SDEI_INTERRUPT_BIND			SDEI_1_0_FN(0x0D)
-> +#define SDEI_1_0_FN_SDEI_INTERRUPT_RELEASE		SDEI_1_0_FN(0x0E)
-> +#define SDEI_1_0_FN_SDEI_PRIVATE_RESET			SDEI_1_0_FN(0x11)
-> +#define SDEI_1_0_FN_SDEI_SHARED_RESET			SDEI_1_0_FN(0x12)
-> +
-> +#define SDEI_VERSION_MAJOR_SHIFT			48
-> +#define SDEI_VERSION_MAJOR_MASK				0x7fff
-> +#define SDEI_VERSION_MINOR_SHIFT			32
-> +#define SDEI_VERSION_MINOR_MASK				0xffff
-> +#define SDEI_VERSION_VENDOR_SHIFT			0
-> +#define SDEI_VERSION_VENDOR_MASK			0xffffffff
-> +
-> +#define SDEI_VERSION_MAJOR(x)	(x>>SDEI_VERSION_MAJOR_SHIFT & SDEI_VERSION_MAJOR_MASK)
-> +#define SDEI_VERSION_MINOR(x)	(x>>SDEI_VERSION_MINOR_SHIFT & SDEI_VERSION_MINOR_MASK)
-> +#define SDEI_VERSION_VENDOR(x)	(x>>SDEI_VERSION_VENDOR_SHIFT & SDEI_VERSION_VENDOR_MASK)
-> +
-> +/* SDEI return values */
-> +#define SDEI_SUCCESS		0
-> +#define SDEI_NOT_SUPPORTED	-1
-> +#define SDEI_INVALID_PARAMETERS	-2
-> +#define SDEI_DENIED		-3
-> +#define SDEI_PENDING		-5
-> +#define SDEI_OUT_OF_RESOURCE	-10
-> +
-> +/* EVENT_REGISTER flags */
-> +#define SDEI_EVENT_REGISTER_RM_ANY	0
-> +#define SDEI_EVENT_REGISTER_RM_PE	1
-> +
-> +/* EVENT_STATUS return value bits */
-> +#define SDEI_EVENT_STATUS_RUNNING	2
-> +#define SDEI_EVENT_STATUS_ENABLED	1
-> +#define SDEI_EVENT_STATUS_REGISTERED	0
-> +
-> +/* EVENT_COMPLETE status values */
-> +#define SDEI_EV_HANDLED	0
-> +#define SDEI_EV_FAILED	1
-> +
-> +/* GET_INFO values */
-> +#define SDEI_EVENT_INFO_EV_TYPE			0
-> +#define SDEI_EVENT_INFO_EV_SIGNALED		1
-> +#define SDEI_EVENT_INFO_EV_PRIORITY		2
-> +#define SDEI_EVENT_INFO_EV_ROUTING_MODE		3
-> +#define SDEI_EVENT_INFO_EV_ROUTING_AFF		4
-> +
-> +/* and their results */
-> +#define SDEI_EVENT_TYPE_PRIVATE			0
-> +#define SDEI_EVENT_TYPE_SHARED			1
-> +#define SDEI_EVENT_PRIORITY_NORMAL		0
-> +#define SDEI_EVENT_PRIORITY_CRITICAL		1
-> +
-> +#endif /* _UAPI_LINUX_ARM_SDEI_H */
-> -- 
-> 1.8.3.1
+>  roms/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/roms/Makefile b/roms/Makefile
+> index 6cf07d3b44..3ffd13cc7e 100644
+> --- a/roms/Makefile
+> +++ b/roms/Makefile
+> @@ -51,7 +51,7 @@ SEABIOS_EXTRAVERSION=3D"-prebuilt.qemu.org"
+>  #
+>  EDK2_EFIROM =3D edk2/BaseTools/Source/C/bin/EfiRom
+> =20
+> -default:
+> +default help:
+>  	@echo "nothing is build by default"
+>  	@echo "available build targets:"
+>  	@echo "  bios               -- update bios.bin (seabios)"
+>=20
+
+How about we just print: "help yourself"?
+
+Just kidding. :P
+
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+
+Thanks!
+Laszlo
 
