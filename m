@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB441BD37E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:23:30 +0200 (CEST)
-Received: from localhost ([::1]:50700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B723BD393
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:28:59 +0200 (CEST)
+Received: from localhost ([::1]:50756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrLN-0006k9-8Z
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43757)
+	id 1iCrQg-0004gA-5Q
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:28:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8B-0000YL-Ke
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:53 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8L-0000ox-OC
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr89-0002sl-W1
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:51 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38068)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8K-0002zJ-Aj
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38076)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr89-0002rd-Nn; Tue, 24 Sep 2019 16:09:49 -0400
+ id 1iCr8K-0002s8-3K
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:00 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr88-0001Mk-Aq; Tue, 24 Sep 2019 23:09:48 +0300
+ id 1iCr88-0001Mk-Hi; Tue, 24 Sep 2019 23:09:48 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/25] arm: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:47 +0300
-Message-Id: <20190924200902.4703-11-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 11/25] SmartFusion2: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:48 +0300
+Message-Id: <20190924200902.4703-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,7 +49,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, vsementsov@virtuozzo.com,
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org
+ Greg Kurz <groug@kaod.org>, Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -74,21 +75,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/intc/arm_gicv3_kvm.c | 1 +
+ hw/misc/msf2-sysreg.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 9c7f4ab871..42487fc62b 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -766,6 +766,7 @@ static void vm_change_state_handler(void *opaque, int running,
+diff --git a/hw/misc/msf2-sysreg.c b/hw/misc/msf2-sysreg.c
+index ddc5a30c80..a2f5310fe0 100644
+--- a/hw/misc/msf2-sysreg.c
++++ b/hw/misc/msf2-sysreg.c
+@@ -127,6 +127,7 @@ static Property msf2_sysreg_properties[] = {
  
- static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
+ static void msf2_sysreg_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     GICv3State *s = KVM_ARM_GICV3(dev);
-     KVMARMGICv3Class *kgc = KVM_ARM_GICV3_GET_CLASS(s);
-     bool multiple_redist_region_allowed;
+     MSF2SysregState *s = MSF2_SYSREG(dev);
+ 
+     if ((s->apb0div > 32 || !is_power_of_2(s->apb0div))
 -- 
 2.21.0
 
