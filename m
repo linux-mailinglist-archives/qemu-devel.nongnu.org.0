@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489B7BD32B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 21:56:24 +0200 (CEST)
-Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E39ABD334
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 21:59:56 +0200 (CEST)
+Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCqv9-0005iq-5k
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 15:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36686)
+	id 1iCqyX-0001Rp-Ox
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 15:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCqsH-0003ey-Tg
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:53:26 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCqw3-0007v3-5y
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:57:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCqsG-0004DV-Lt
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:53:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47964)
+ (envelope-from <eblake@redhat.com>) id 1iCqw1-0005B7-C3
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:57:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39280)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCqsG-0004Aa-D5
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:53:24 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCqw1-0005Aq-3M
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:57:17 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A3F3F46288;
- Tue, 24 Sep 2019 19:53:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A95AE1DCD;
+ Tue, 24 Sep 2019 19:57:15 +0000 (UTC)
 Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5841219C58;
- Tue, 24 Sep 2019 19:53:17 +0000 (UTC)
-Subject: Re: [PATCH 24/25] qapi: Improve reporting of redefinition
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DA5F60C44;
+ Tue, 24 Sep 2019 19:57:10 +0000 (UTC)
+Subject: Re: [PATCH 25/25] qapi: Improve source file read error handling
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-25-armbru@redhat.com>
+ <20190924132830.15835-26-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -59,18 +59,18 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <13635346-c92d-cb93-7fee-3a778fc0dc9c@redhat.com>
-Date: Tue, 24 Sep 2019 14:53:17 -0500
+Message-ID: <24b79697-39bb-0154-3d3d-fd98ea8a9d5e@redhat.com>
+Date: Tue, 24 Sep 2019 14:57:09 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-25-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-26-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="H7sB0pe2n4D86TM8v0NvJwV7s3QcAjiu8"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 24 Sep 2019 19:53:23 +0000 (UTC)
+ boundary="kwt2lLNlabmD34QnOtpnt95NLa2lQSDGZ"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Tue, 24 Sep 2019 19:57:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,42 +89,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---H7sB0pe2n4D86TM8v0NvJwV7s3QcAjiu8
-Content-Type: multipart/mixed; boundary="0OCkmYXJfzfJB8wNFBJNRCDgkx5sv68iQ";
+--kwt2lLNlabmD34QnOtpnt95NLa2lQSDGZ
+Content-Type: multipart/mixed; boundary="CHGtsrobdkYZCdI8zntUJQg1oIS3u2Wqg";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <13635346-c92d-cb93-7fee-3a778fc0dc9c@redhat.com>
-Subject: Re: [PATCH 24/25] qapi: Improve reporting of redefinition
+Message-ID: <24b79697-39bb-0154-3d3d-fd98ea8a9d5e@redhat.com>
+Subject: Re: [PATCH 25/25] qapi: Improve source file read error handling
 References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-25-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-25-armbru@redhat.com>
+ <20190924132830.15835-26-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-26-armbru@redhat.com>
 
---0OCkmYXJfzfJB8wNFBJNRCDgkx5sv68iQ
+--CHGtsrobdkYZCdI8zntUJQg1oIS3u2Wqg
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> Point to the previous definition, unless it's a built-in.
+> qap-gen.py crashes when it can't open the main schema file, and when
+
+qapi-gen.py
+
+> it can't read from any schema file.  Lazy.
+>=20
+> Change QAPISchema.__init__() to take a file name instead of a file
+> object.  Move the open code from _include() to __init__(), so it's
+> used for the main schema file, too.
+>=20
+> Move the read into the try for good measure, and rephrase the error
+> message.
+>=20
+> Reporting open or read failure for the main schema file needs a
+> QAPISourceInfo representing "no source".  Make QAPISourceInfo cope
+> with fname=3DNone.
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
+>  scripts/qapi/common.py                | 46 +++++++++++++++------------=
 
->          if other_ent:
-> +            if other_ent.info:
-> +                where =3D QAPIError(other_ent.info, None, "previous de=
-finition")
-> +                raise QAPISemError(
-> +                    ent.info,
-> +                    "'%s' is already defined\n%s" % (ent.name, where))=
-
->              raise QAPISemError(
->                  ent.info, "%s is already defined" % other_ent.describe=
-())
-
-Nice.
+>  tests/qapi-schema/include-no-file.err |  2 +-
+>  2 files changed, 27 insertions(+), 21 deletions(-)
+>=20
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
@@ -134,24 +140,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---0OCkmYXJfzfJB8wNFBJNRCDgkx5sv68iQ--
+--CHGtsrobdkYZCdI8zntUJQg1oIS3u2Wqg--
 
---H7sB0pe2n4D86TM8v0NvJwV7s3QcAjiu8
+--kwt2lLNlabmD34QnOtpnt95NLa2lQSDGZ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KdC0ACgkQp6FrSiUn
-Q2rb9QgAmY0oXggnxiAcGp3aqzYA4VXUXmSagaLuIU7F6sfgYSvAtEnL8jeVPmVX
-GYmrLAVLiX6+gHNVwkmFt4PS0BYkCBSnNulzvlEfjQcRhCWKgA56sI+bEJ2TckUB
-YnvTdpd6+E+yJ319+dwPiPua4WJCBoTpp6FLecaoandBE+3tbl9b1xDsRQybVZA4
-DJCJLqhZGcgZD1IHNx+9iySw7MTC3xwDhzWuwCG1JGRXRNoS2WLncrdkUf1mXDY7
-sWmX0zRSPIklo2FSq/fGZ/bSn7K1hpMBRrr3JL0+eUBJ0opXzEEv0laYJ9tPywIM
-C5dJ2Qn/Iff/t5990eFu0YrDJlnbzA==
-=vFXa
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KdRUACgkQp6FrSiUn
+Q2qhfgf/cA/+6giczr0fTF3AAefbUyJLm9jxOkXjdSJttxzG1/vtbHZ4NFY6Ts9Z
+jDzN1tLUOfvOZwKqMwMOsNvRp0uJtiIfqWmqyhNaxOt3qAAx0596Rvg/g+hHF8Jz
+YeIS6Uh8BDGk7A7ncljlgfDh/7Salh1ohi0qKyfXEoMz6LZ2jjRfvDuX7Cu92+EF
+z9ORUgnktHqxC5c0BmvtHzkJOkavJ3o1liFbbBwZ6gTuCA8rZPR+HoqwQvUjrDN+
+zp+fPq4/16oEIuwLDaRrCyiFCvgnmlMcJERk785Q8FclFOR3btJjjDqpTau6tICm
+wAVsXkL+rYPSi5EKZO3lbClCIq5whg==
+=uZx3
 -----END PGP SIGNATURE-----
 
---H7sB0pe2n4D86TM8v0NvJwV7s3QcAjiu8--
+--kwt2lLNlabmD34QnOtpnt95NLa2lQSDGZ--
 
