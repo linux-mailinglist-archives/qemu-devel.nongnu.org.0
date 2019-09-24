@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E01EBD51C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:53:13 +0200 (CEST)
-Received: from localhost ([::1]:43474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44302BD537
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:04:35 +0200 (CEST)
+Received: from localhost ([::1]:43694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCtgF-0000uC-Fc
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40749)
+	id 1iCtrG-00067c-3l
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtXl-0000k7-7q
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:26 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCtXV-0000Py-KZ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iCtXk-00078x-2a
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:25 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:41931)
+ (envelope-from <richard.henderson@linaro.org>) id 1iCtXU-0006y0-Gl
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:09 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43160)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iCtXj-000785-Sf
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:24 -0400
-Received: by mail-pg1-f193.google.com with SMTP id s1so2057937pgv.8
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:44:23 -0700 (PDT)
+ id 1iCtXU-0006vQ-Am
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:44:08 -0400
+Received: by mail-pg1-f196.google.com with SMTP id v27so2052419pgk.10
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:44:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dQksLTLNEueKsdhcISeGAXpoI0/6/XCEzuXpOzHb6Jc=;
- b=N8o3vKE51uDkZp9XTUUNSf+FVAUHC7XMgSj9AzMRFBd5Z1N0lFAypppB3YtsVC0Ks1
- k1/omHP2CnO6cvLE5pIn6qJT5u6XfnPys5Jv/hCIXG96EBzMFbj51wQV4Pnl50h7C7rx
- WKKJ0wWEf83E/AfkI/mZhapY637B0XwJsp7MtFMYN+es5thYJzJqvy9MNI+eVCd+/fxO
- 2RDOVMU29/cjvlebsp/2YfSGMGnZaXnt699z05c4UIoa1zRK0bwTkefwlW64aVJhV/QW
- BcG/LFt7fHiNWoYWxXB2xBUUtvqvSUl2MMDMSe+ScznY1fzK1A/ioXMI7E6BMmivCY/N
- DfZw==
+ bh=Vpml+l3Q31fmKGJ0erkiNaIc4lx0gBxK0scD23YXKkk=;
+ b=l8y+S+yYiEMf11+XfAqyFE+8Pp7g6pJfQ8ihwk+t/kZ6b2FKqWk5EDaiVnCcWr9XMc
+ bZ4AS9Ef6lx4z5Q+Kf/wBSHvrGMVKKNhgGDE6AXhjLAXE0GRC4wK2MDfGLSXTyp7vxR5
+ 1HYF3pnmltFJGzqWX/n4oQg1yw1P8B3nKT1IT+ciwRf8FNHW6xhn/cEedae4vwlrPdzM
+ so0UPFEdRQ1Ij5rS4ThWqqM34RUeHCh+jQQTq1/WP+GWVfGjBXYfhXi1Ws+O0Uti97Da
+ c6vBmVZxPvQtJ10eDTfn0aT1/YvWcOJ0TEfW/+4eX7pK1Hzufw1qM5TSIxCzLtQjMlm7
+ CFgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dQksLTLNEueKsdhcISeGAXpoI0/6/XCEzuXpOzHb6Jc=;
- b=omLDVMDkTaO6s2lBxjaNU6DCWesxvFOAnI1cgRXWw5nkjN6U6DSHFM/cNForww4NBY
- EQaJBEExmfjb2uGSPjrueh46/XMXSciQkFmzgtPH68T+9AyieExaXVVk0rq5u7J5De/S
- Dk4eTQfGUTOjWg3kJcMs/tGoDALSSXhxhqTxTFoxWKAmlAUS6mUuD/akYvT9o4bmOsGx
- uisy40Ol0mop7yMYDG7VJCmoSWo7SKB/ZJZjZrY4RWOPr6ZyTuOe5u0+01/kEJopHc6S
- 8zdbv3YYWV8/k0K0tRcG8lWoanQNY8xdzrW2FCBgyeFC7Wvip4ZYY2BslMNtqnKenV0c
- Kqqw==
-X-Gm-Message-State: APjAAAUyGxcR2qUN1wxKvx+wdooXc5B7NegzAa4umqrP9F08s1OhIbHl
- /7ByVZBPRrXOzgm/mNvpSJl3tg==
-X-Google-Smtp-Source: APXvYqxwrR7+8quuDxpBiYO6BOCmR/SIq341VEJ5kGz5r0vrsmw/5jGPbjiTfNMtN9oNu6/VdDAQJQ==
-X-Received: by 2002:a17:90a:7d06:: with SMTP id
- g6mr2246220pjl.53.1569361275418; 
- Tue, 24 Sep 2019 14:41:15 -0700 (PDT)
+ bh=Vpml+l3Q31fmKGJ0erkiNaIc4lx0gBxK0scD23YXKkk=;
+ b=mR09QLTZidE9nDmzElTssffLdhU0FjIU6RS6+4epgTGPNLmI/VnLxOs3MJ0J38tQw7
+ OE+XnbTcb2lcIV9V66/sBHZPutladiPT2rbtosJCpcOQJNAOY4Sj86WQFRKKwpZr0GV8
+ jUTnSToZCBdvRu6Ka5MzXS28EsHLIJ/On8mpMxbeqrSClFzWabf+BdFZ/JxRBgQN77ne
+ 5EjN1MaWFAzHyAGm4HlHT7m8L0XUHPxBs7DfAUGtzuM2Ru0A3R+cW3bwas81p1CfJX3d
+ BokyF5VxaYg3p9Rslrq+09Hw40k3Pxcl03eTT5y2vAivQzeuirhIStN0dyljoZ7Awot8
+ o1uw==
+X-Gm-Message-State: APjAAAXVHwg538G3+f3m4+OjfapGwhlNBn9UKa5S+1XKsv0yfnkpEc4P
+ VuprWNpzoGREpYAsEnTPy6m66n6244c=
+X-Google-Smtp-Source: APXvYqw302nrE01PFXpWKXYXcz2Ewt1L+A/zcrvQFGw3qV8Pez8JAKrnyCBYlI5jb+g/etXGAC5RLg==
+X-Received: by 2002:aa7:920d:: with SMTP id 13mr5723152pfo.17.1569361577460;
+ Tue, 24 Sep 2019 14:46:17 -0700 (PDT)
 Received: from [172.20.32.216] ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id v44sm3654171pgn.17.2019.09.24.14.41.13
+ by smtp.gmail.com with ESMTPSA id a8sm3139105pfo.118.2019.09.24.14.46.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Sep 2019 14:41:14 -0700 (PDT)
-Subject: Re: [PATCH 5/7] target/ppc: change struct PPC_DFP decimal storage
- from uint64[2] to ppc_vsr_t
+ Tue, 24 Sep 2019 14:46:16 -0700 (PDT)
+Subject: Re: [PATCH 6/7] target/ppc: use existing VsrD() macro to eliminate
+ HI_IDX and LO_IDX from dfp_helper.c
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
 References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
- <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
+ <20190924153556.27575-7-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <cba6a410-f7d3-9a93-a3da-342e1afacd0c@linaro.org>
-Date: Tue, 24 Sep 2019 14:41:12 -0700
+Message-ID: <8a6dcdda-97b6-16f6-a95b-0c53d1e2d215@linaro.org>
+Date: Tue, 24 Sep 2019 14:46:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20190924153556.27575-7-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.193
+X-Received-From: 209.85.215.196
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,28 +89,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/24/19 8:35 AM, Mark Cave-Ayland wrote:
->  struct PPC_DFP {
->      CPUPPCState *env;
-> -    uint64_t t64[2], a64[2], b64[2];
-> +    ppc_vsr_t vt, va, vb;
+> Switch over all accesses to the decimal numbers held in struct PPC_DFP from
+> using HI_IDX and LO_IDX to using the VsrD() macro instead. Not only does this
+> allow the compiler to ensure that the various dfp_* functions are being passed
+> a ppc_vsr_t rather than an arbitrary uint64_t pointer, but also allows the
+> host endian-specific HI_IDX and LO_IDX to be completely removed from
+> dfp_helper.c.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  target/ppc/dfp_helper.c | 70 ++++++++++++++++++-----------------------
+>  1 file changed, 31 insertions(+), 39 deletions(-)
 
-This I don't think is a good idea.  It's not a vsr_t.
+Ho hum, vs patch 5 that was me not realizing how many different places really
+want to manipulate a 128-bit value.  Do go ahead and keep ppc_vsr_t for now.
 
-I think this step would be clearer with
+It does look like we might be well served by using Int128 at some point, so
+that these operations can expand to int128_t on appropriate hw so that the
+compiler can DTRT with these.
 
-  union {
-    decimal64 d;
-    uint64_t i;
-  } u;
-
-  union {
-    decimal128 d;
-    uint64_t i[2];
-  } u;
-
-in the separate dfp_prepare_decimal{64,128} functions.  Which is basically what
-we have before, only smooshing the a64 and b64 scratch-pads together, and using
-a nice union instead of an ugly cast.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
