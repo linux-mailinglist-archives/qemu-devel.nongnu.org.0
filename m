@@ -2,48 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434C0BC399
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 10:00:14 +0200 (CEST)
-Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68340BC3BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 10:04:25 +0200 (CEST)
+Received: from localhost ([::1]:42284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCfk4-0005d1-IV
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 04:00:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43549)
+	id 1iCfo6-0008Hd-Ut
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 04:04:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43971)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoren@kernel.org>) id 1iCfif-0004z4-OZ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:58:50 -0400
+ (envelope-from <bounces@canonical.com>) id 1iCflP-00075B-Aa
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:01:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoren@kernel.org>) id 1iCfie-0003ju-9P
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:58:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35674)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoren@kernel.org>)
- id 1iCfie-0003jc-4I; Tue, 24 Sep 2019 03:58:44 -0400
-Received: from guoren-Inspiron-7460.lan (unknown [223.93.147.148])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 34E00207FD;
- Tue, 24 Sep 2019 07:58:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1569311923;
- bh=xBBJFJZyvPw2TXI53lVQHlWDrYQbfyT0JcrFKZjyoxk=;
- h=From:To:Cc:Subject:Date:From;
- b=Nh76LfqqMXKTUrc0IhJ7gOxK8e+1ronLrY84lXt1tOzK3IDqYQMtX61sRMBcscy9J
- V+9Pcz1I7IaBrx40sBNfA9nuXfhTTDlQCe0eOpS+EQyOGt9ZceGh0DOXitcEjskMef
- +825zRRvd1JTh4LxTFVXBJuU8hURcCfm3GXnOHw8=
-From: guoren@kernel.org
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH V2] target/riscv: Bugfix reserved bits in PTE for RV64
-Date: Tue, 24 Sep 2019 15:58:22 +0800
-Message-Id: <1569311902-12173-1-git-send-email-guoren@kernel.org>
-X-Mailer: git-send-email 2.7.4
+ (envelope-from <bounces@canonical.com>) id 1iCflN-0004p3-3c
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:01:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37572)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iCflM-0004oK-6C
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 04:01:32 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iCflK-0007Y3-Pk
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:01:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C0CBE2E8025
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:01:30 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Sep 2019 07:50:45 -0000
+From: Thomas Huth <1824704@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: drjs5x th-huth
+X-Launchpad-Bug-Reporter: mustafa (drjs5x)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155524844990.21262.8108456842078597088.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156931144539.27379.15557350803171086406.malone@soybean.canonical.com>
+Subject: [Bug 1824704] Re: -k tr not working after v20171217! turkish keyboard
+ dont working
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fc8f9102fd00d364c967b88e2173a580fdc660b3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 198.145.29.99
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -52,63 +65,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com,
- Guo Ren <ren_guo@c-sky.com>
+Reply-To: Bug 1824704 <1824704@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guo Ren <ren_guo@c-sky.com>
+I meant which version of QEMU is still working for you? Which version
+fails?
 
-Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so we
-need to ignore them. They can not be a part of ppn.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
-   4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-   4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+-- =
 
-Changelog V2:
- - Bugfix pte destroyed cause boot fail
- - Change to AND with a mask instead of shifting both directions
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1824704
 
-Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/cpu_bits.h   | 3 +++
- target/riscv/cpu_helper.c | 3 ++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+Title:
+  -k tr not working after v20171217! turkish keyboard dont working
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index e998348..ae8aa0f 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -470,6 +470,9 @@
- #define PTE_D               0x080 /* Dirty */
- #define PTE_SOFT            0x300 /* Reserved for Software */
- 
-+/* Reserved highest 10 bits in PTE */
-+#define PTE_RESERVED        ((target_ulong)0x3ff << 54)
-+
- /* Page table PPN shift amount */
- #define PTE_PPN_SHIFT       10
- 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 87dd6a6..7a540cc 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -258,10 +258,11 @@ restart:
-         }
- #if defined(TARGET_RISCV32)
-         target_ulong pte = ldl_phys(cs->as, pte_addr);
-+        hwaddr ppn = pte >> PTE_PPN_SHIFT;
- #elif defined(TARGET_RISCV64)
-         target_ulong pte = ldq_phys(cs->as, pte_addr);
-+        hwaddr ppn = (pte & ~PTE_RESERVED) >> PTE_PPN_SHIFT;
- #endif
--        hwaddr ppn = pte >> PTE_PPN_SHIFT;
- 
-         if (!(pte & PTE_V)) {
-             /* Invalid PTE */
--- 
-2.7.4
+Status in QEMU:
+  Incomplete
 
+Bug description:
+  hi qemu
+
+  -k tr not working after v20171217! turkish keyboard dont working
+
+  last working without proplem at v20171217!
+
+  after this version  tr keyboard proplem.
+  freedos  , winpe  ,  linux images   all dont working tr  turkish keyboard.
+
+  example   press key " =C3=A7 "  show " , "
+  example 2 press key " . "  show " =C3=A7 "
+
+  tr keyboard work  always "en-us" kbd.
+  :((((((((
+
+  please fix this critical bug.
+
+  Sincerely
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1824704/+subscriptions
 
