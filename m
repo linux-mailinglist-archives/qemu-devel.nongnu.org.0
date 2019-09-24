@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFCDBCDB3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:49:54 +0200 (CEST)
-Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0A3BCCAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:42:15 +0200 (CEST)
+Received: from localhost ([::1]:48272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCo0e-0001ED-PX
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53177)
+	id 1iCntF-0003D4-Si
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53502)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCn5N-0002a6-7H
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:50:42 -0400
+ (envelope-from <eblake@redhat.com>) id 1iCn6u-0005PD-2J
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:52:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCn5M-000585-4Y
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:50:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52704)
+ (envelope-from <eblake@redhat.com>) id 1iCn6s-00064k-EQ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:52:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41994)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCn5L-00057k-Ru
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:50:40 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCn6s-000647-4N
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:52:14 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 35A133175282;
- Tue, 24 Sep 2019 15:50:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 696233090FD2;
+ Tue, 24 Sep 2019 15:52:13 +0000 (UTC)
 Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7673A5C221;
- Tue, 24 Sep 2019 15:50:31 +0000 (UTC)
-Subject: Re: [PATCH 10/25] qapi: Use check_name_str() where it suffices
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E6CF5C207;
+ Tue, 24 Sep 2019 15:52:10 +0000 (UTC)
+Subject: Re: [PATCH 11/25] qapi: Report invalid '*' prefix like any other
+ invalid name
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-11-armbru@redhat.com>
+ <20190924132830.15835-12-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -59,18 +60,18 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <619b2e38-4020-bce5-5ef9-9afa7141d588@redhat.com>
-Date: Tue, 24 Sep 2019 10:50:30 -0500
+Message-ID: <dae6aeb2-078f-6563-ee6a-afb327cf7690@redhat.com>
+Date: Tue, 24 Sep 2019 10:52:09 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-11-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-12-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="4f0AklghPngNJm28zTaf2sRJYoaAEtTan"
+ boundary="IkAbyoVcNQBP5Y2qPf2pGLti2moXCGPpK"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 24 Sep 2019 15:50:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 24 Sep 2019 15:52:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,33 +90,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4f0AklghPngNJm28zTaf2sRJYoaAEtTan
-Content-Type: multipart/mixed; boundary="sRwhiKDNuTBVlJmkesugjK0cjfvxnBuhR";
+--IkAbyoVcNQBP5Y2qPf2pGLti2moXCGPpK
+Content-Type: multipart/mixed; boundary="8F9cKRi2YGRFDjPXG0PtMTGiqtSv4C84d";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <619b2e38-4020-bce5-5ef9-9afa7141d588@redhat.com>
-Subject: Re: [PATCH 10/25] qapi: Use check_name_str() where it suffices
+Message-ID: <dae6aeb2-078f-6563-ee6a-afb327cf7690@redhat.com>
+Subject: Re: [PATCH 11/25] qapi: Report invalid '*' prefix like any other
+ invalid name
 References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-11-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-11-armbru@redhat.com>
+ <20190924132830.15835-12-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-12-armbru@redhat.com>
 
---sRwhiKDNuTBVlJmkesugjK0cjfvxnBuhR
+--8F9cKRi2YGRFDjPXG0PtMTGiqtSv4C84d
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> Replace check_name() by check_name_str() where the name is known to be
-> a string.
+> The special "does not allow optional name" error is well meant, but
+> confusing in practice.  Drop it.
 >=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  scripts/qapi/common.py | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->=20
-
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
 --=20
@@ -124,24 +122,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---sRwhiKDNuTBVlJmkesugjK0cjfvxnBuhR--
+--8F9cKRi2YGRFDjPXG0PtMTGiqtSv4C84d--
 
---4f0AklghPngNJm28zTaf2sRJYoaAEtTan
+--IkAbyoVcNQBP5Y2qPf2pGLti2moXCGPpK
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KO0cACgkQp6FrSiUn
-Q2or0Af/ZYIlDU9sGtDLISlANy4InqrS7LguKRccAdbzSGPjyTek+mtY6oCHub2v
-CPTEwfWlfdoU2DCkypEQoqxXFzKRaV3C2L36poJWGs0yl52NaiLCjzIEnwKi0kaW
-06Vm7n7fF720ZNWucKE8ZUKr/bk8y4TEjo4SwIpwqREoR5LYU6bqg2/LngUvSZOZ
-JA+y5uykZu4J6lZsuoOcC6j7e86Xj2Vu/toR9e05PxbN0mN4oxlQu+UVFmlcqu6N
-68ZAGMhAOZRRAXkOe47r2pHgpMOKB+98YUo+XKCNLB+b7nW05r7EI4F4FgJ6+dSa
-dFLFkQEvPj6HyaIxXckBxN8G9CPAWw==
-=qND/
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KO6kACgkQp6FrSiUn
+Q2ruHQgAlz2K6R2g6/DaoLBjORnH4MNalW1HP6ufjXZgBI609jhcU0AIrKEvco3e
+XhfLEv+ur7A8sSNu2r/HwfqWKplkxE2PCYHwM4yqFGAIaIW8F+SkzFd9XkbFpVLv
+g0UkxnPXqGl8UrAZEjy85lE7THftutzTrzINate28uzv5CYwu8rAgZ55T5VDMI7P
+xRZMJ8pkLcPtwMW0dtpEN0OCPROM7gUJwusZ7UcnrA3/ylTuNz6VEPMULp6reN4k
+c86fRTJ8PmixHCwGns97exVs2KyoSdDvNLhLJFrjj/T2OPqtJum7jU2yvyPVDIgn
+KnQuCYtCZuIW722j4/Jggx/lz6WdFw==
+=ssWI
 -----END PGP SIGNATURE-----
 
---4f0AklghPngNJm28zTaf2sRJYoaAEtTan--
+--IkAbyoVcNQBP5Y2qPf2pGLti2moXCGPpK--
 
