@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A22BD32D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 21:56:48 +0200 (CEST)
-Received: from localhost ([::1]:50370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC24BD31C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 21:53:21 +0200 (CEST)
+Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCqvW-0006MY-VP
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 15:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35641)
+	id 1iCqsC-0002UB-BX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 15:53:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iCqmz-0007Js-4Y
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:47:57 -0400
+ (envelope-from <crosa@redhat.com>) id 1iCqkV-0005D9-DD
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:45:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iCqmy-0006gY-3G
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:47:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41758)
+ (envelope-from <crosa@redhat.com>) id 1iCqkU-0004TL-5c
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:45:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34008)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iCqmx-0006em-NI
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:47:55 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iCqkT-0004SS-V7
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 15:45:22 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D9B4B8980EF
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 18:29:59 +0000 (UTC)
-Received: from work-vm (ovpn-117-225.ams2.redhat.com [10.36.117.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4333C10013D9;
- Tue, 24 Sep 2019 18:29:56 +0000 (UTC)
-Date: Tue, 24 Sep 2019 19:29:53 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH] migration: Fix postcopy bw for recovery
-Message-ID: <20190924182953.GE2725@work-vm>
-References: <20190906130103.20961-1-peterx@redhat.com>
- <87muetblm7.fsf@dusky.pond.sub.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id D1A44859FB;
+ Tue, 24 Sep 2019 19:45:20 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-121-0.rdu2.redhat.com
+ [10.10.121.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE85761F21;
+ Tue, 24 Sep 2019 19:45:19 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/3] Acceptance tests: introduce utility method for tags
+ unique vals
+Date: Tue, 24 Sep 2019 15:45:00 -0400
+Message-Id: <20190924194501.9303-3-crosa@redhat.com>
+In-Reply-To: <20190924194501.9303-1-crosa@redhat.com>
+References: <20190924194501.9303-1-crosa@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87muetblm7.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Tue, 24 Sep 2019 18:29:59 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Tue, 24 Sep 2019 19:45:20 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,30 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Xiaohui Li <xiaohli@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> migration-tests hangs intermittently for me, and git bisect led me
-> here.  Test script:
-> 
-> i=0; while true; do let i++; echo "= $i ="; MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}  QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64 QTEST_QEMU_IMG=qemu-img tests/migration-test -p /x86_64/migration/postcopy/recovery -k; done
+Currently a test can describe the target architecture binary that it
+should primarily be run with, be setting a single tag value.
 
-Which is fixed by the patch I posted yesterday:
+The same approach is expected to be done with other QEMU aspects to be
+tested, for instance, the machine type and accelerator, so let's
+generalize the logic into a utility method.
 
-migration/postcopy: Recognise the recovery states as 'in_postcopy'
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ tests/acceptance/avocado_qemu/__init__.py | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-Good working finding it using a bisect - it was way too unreliable
-for me to find repeatably.
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
+/avocado_qemu/__init__.py
+index bd41e0443c..02775bafcf 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -54,14 +54,21 @@ def pick_default_qemu_bin(arch=3DNone):
+=20
+=20
+ class Test(avocado.Test):
++    def _get_unique_tag_val(self, tag_name):
++        """
++        Gets a tag value, if unique for a key
++        """
++        vals =3D self.tags.get(tag_name, [])
++        if len(vals) =3D=3D 1:
++            return vals.pop()
++        return None
++
+     def setUp(self):
+         self._vms =3D {}
+-        arches =3D self.tags.get('arch', [])
+-        if len(arches) =3D=3D 1:
+-            arch =3D arches.pop()
+-        else:
+-            arch =3D None
+-        self.arch =3D self.params.get('arch', default=3Darch)
++
++        self.arch =3D self.params.get('arch',
++                                    default=3Dself._get_unique_tag_val('=
+arch'))
++
+         default_qemu_bin =3D pick_default_qemu_bin(arch=3Dself.arch)
+         self.qemu_bin =3D self.params.get('qemu_bin',
+                                         default=3Ddefault_qemu_bin)
+--=20
+2.21.0
 
-The 'Fix postcopy bw for recovery' patch is actually right - it just
-exposes another existing race.
-
-Dave
-
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
