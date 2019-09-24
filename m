@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9ADBC2AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 09:31:39 +0200 (CEST)
-Received: from localhost ([::1]:41890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38999BC2BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 09:34:24 +0200 (CEST)
+Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCfIQ-00028o-E2
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 03:31:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40027)
+	id 1iCfL4-0003Rm-UI
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 03:34:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iCfG8-0000xw-13
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:29:17 -0400
+ (envelope-from <quintela@redhat.com>) id 1iCfJ7-0002yb-8C
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:32:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iCfG6-000374-4M
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:29:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38170)
+ (envelope-from <quintela@redhat.com>) id 1iCfJ6-0004xV-9C
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:32:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60646)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iCfG5-00035z-Rj
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:29:14 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iCfJ6-0004wk-3z
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 03:32:20 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9977FC05AA61;
- Tue, 24 Sep 2019 07:29:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2B47830860B9;
+ Tue, 24 Sep 2019 07:32:17 +0000 (UTC)
 Received: from redhat.com (ovpn-117-109.ams2.redhat.com [10.36.117.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B9955DC1B;
- Tue, 24 Sep 2019 07:29:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B35D86017E;
+ Tue, 24 Sep 2019 07:32:16 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] migration/postcopy: Recognise the recovery states as
- 'in_postcopy'
-In-Reply-To: <20190923174942.12182-1-dgilbert@redhat.com> (David Alan
- Gilbert's message of "Mon, 23 Sep 2019 18:49:42 +0100")
-References: <20190923174942.12182-1-dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: KVM call for 2019-09-24
+In-Reply-To: <87r24exdhu.fsf@trasno.org> (Juan Quintela's message of "Wed, 18
+ Sep 2019 09:36:13 +0200")
+References: <87r24exdhu.fsf@trasno.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Tue, 24 Sep 2019 09:29:07 +0200
-Message-ID: <87impi40fw.fsf@trasno.org>
+Date: Tue, 24 Sep 2019 09:32:14 +0200
+Message-ID: <87ef0640ap.fsf@trasno.org>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 24 Sep 2019 07:29:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Tue, 24 Sep 2019 07:32:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,27 +57,24 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: thuth@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com
+Cc: kvm-devel <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Juan Quintela <quintela@redhat.com> wrote:
+> Hi
 >
-> Various parts of the migration code do different things when they're
-> in postcopy mode; prior to this patch this has been 'postcopy-active'.
-> This patch extends 'in_postcopy' to include 'postcopy-paused' and
-> 'postcopy-recover'.
+> Please, send any topic that you are interested in covering.
 >
-> In particular, when you set the max-postcopy-bandwidth parameter, this
-> only affects the current migration fd if we're 'in_postcopy';
-> this leads to a race in the postcopy recovery test where it increases
-> the speed from 4k/sec to unlimited, but that increase can get ignored
-> if the change is made between the point at which the reconnection
-> happens and it transitions back to active.
+> At the end of Monday I will send an email with the agenda or the
+> cancellation of the call, so hurry up.
 >
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> After discussions on the QEMU Summit, we are going to have always open a
+> KVM call where you can add topics.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Hi
+
+As there are no topics for the agenda, call gets cancelled.
+
+Happy hacking, Juan.
 
