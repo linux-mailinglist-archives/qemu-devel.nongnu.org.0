@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F341BC71A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:46:57 +0200 (CEST)
-Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9BCBC6FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:40:54 +0200 (CEST)
+Received: from localhost ([::1]:44294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCjHT-0007sx-LM
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:46:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42233)
+	id 1iCjBc-000179-QI
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:40:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42241)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1iCj2N-0002P7-HA
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2N-0002PF-04
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1iCj2K-0005HO-RZ
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2K-0005Ha-Vc
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:18 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:17965)
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:17967)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1iCj2K-0005G2-Gu
+ id 1iCj2K-0005Gj-Kd
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=citrix.com; s=securemail; t=1569324677;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cVm1E9SWn59HiRBpcK9hd5UAXK2JM4SVNjHe+W2XCbI=;
- b=INBoDTDBmfqp+z03s1DCgOrKz+D/pyGW6W0MrgjioFc7YmwIHUw2GNLX
- TeQyoEs2GOHKwqE4euMghvv+lQhn5Vj6q3NLrNmNnjts785zIPHnaAo8c
- Yq80av2tn1B8bQcNkFQLlxmT6P7A17jxc4hwTw4Ycqv3PxIjW/gvw67/x o=;
+ bh=4DlM4GRbNaYBiA0hfv5e/nizzIbkDO3SKOfE5q0RfJQ=;
+ b=HC9HkKheUmzAStW/gFErAYnNVhsovCNTvOzvHfVKjV58bTdyDdthW3XR
+ VWp8NpcdWCNS93zwru1XkZnms+O+Cen2F3AJGsIC7TozNGNDiDdTqFd4H
+ Dz6NiFxHHSeswljHNQt+7b7NdV97bhg3VJfl99KK5YRjtT4G8FoOwefam E=;
 Authentication-Results: esa2.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -59,24 +59,24 @@ Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: g1E08A7/TG9MA9xEBIV2QzhKpXyy+CjQC6yimgr4WuSbjTXUzfI/Mtcb+a5KWb/Vw/9sZFZyyN
- GhHZ5A8aPuFPV4BUW7qeE7qKf00OWceeburPZujocYAROIWca+9C+jVEZ0dbJYwG2qczAH/Ewp
- /ryEzvkUonppPXniep5zlonqRt5is266W+cHn/sRf9Eg1M4D8z0xb/o+hAhdzd6f/iiVOXg+w1
- AAkba9mtClJ0YcWWUX1w8SeIbdlUtZ7pfqPuo6HO9gT7TA9/kCgvVKKl09xNcM+vEJUSWsOkvt
- o+k=
+IronPort-SDR: 1XRKyC5jpJskBf3BmVHmqckP+HFJpoLHcRBZj09B9rUkoWyO61tZYq/rjJ1wWmylTj9dpfsT+q
+ 1h0AslIyvDt+/Xh4TEXaZUT9WfjoiJtgZr/AxUi3RFLy/kN5hkZLz2AZZbZLWWAh4nRT5l8q7G
+ p4aaCyoshFtDo6jhq0ZV8eef7SSDWQDhHIn2aVU+hCaPPtBS05J4ol7oydPZ4os4GdI88ga4wV
+ McEUZh2y3mIuGmptqkkncJlMz+e5298KDkDzVsPXfo7Xg/uTm1ARMidzXAJSs13oJd4acjbRTS
+ lis=
 X-SBRS: 2.7
-X-MesageID: 5977601
+X-MesageID: 5977602
 X-Ironport-Server: esa2.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.64,543,1559534400"; 
-   d="scan'208";a="5977601"
+   d="scan'208";a="5977602"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 6/7] xen-block: treat XenbusStateUnknown the same as
- XenbusStateClosed
-Date: Tue, 24 Sep 2019 12:30:25 +0100
-Message-ID: <20190924113026.255634-7-anthony.perard@citrix.com>
+Subject: [PULL 7/7] xen-bus: only set the xen device frontend state if it is
+ missing
+Date: Tue, 24 Sep 2019 12:30:26 +0100
+Message-ID: <20190924113026.255634-8-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190924113026.255634-1-anthony.perard@citrix.com>
 References: <20190924113026.255634-1-anthony.perard@citrix.com>
@@ -101,41 +101,102 @@ Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paul Durrant <paul.durrant@citrix.com>
+From: Mark Syms <mark.syms@citrix.com>
 
-When a frontend gracefully disconnects from an offline backend, it will
-set its own state to XenbusStateClosed. The code in xen-block.c correctly
-deals with this and sets the backend into XenbusStateClosed. Unfortunately
-it is possible for toolstack to actually delete the frontend area
-before the state key has been read, leading to an apparent frontend state
-of XenbusStateUnknown. This prevents the backend state from transitioning
-to XenbusStateClosed and hence leaves it limbo.
+Some toolstack implementations will set the frontend xenstore
+keys to Initialising which will then trigger the in guest PV
+drivers to begin initialising and some implementations will
+then set their state to Closing. If this has occurred then
+device realize must not overwrite the frontend keys as then
+the handshake will stall.
 
-This patch simply treats a frontend state of XenbusStateUnknown the same
-as XenbusStateClosed, which will unblock the backend in these circumstances.
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
 
-Reported-by: Mark Syms <mark.syms@citrix.com>
+Also avoid creating the frontend area if it already exists.
+
 Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190918115702.38959-1-paul.durrant@citrix.com>
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <20190918115745.39006-1-paul.durrant@citrix.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- hw/block/xen-block.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/xen/xen-bus.c | 47 +++++++++++++++++++++++++++++++----------------
+ 1 file changed, 31 insertions(+), 16 deletions(-)
 
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index f77343db60..879fc310a4 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -313,6 +313,7 @@ static void xen_block_frontend_changed(XenDevice *xendev,
-         break;
+diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+index 55c157393d..c2ad22a42d 100644
+--- a/hw/xen/xen-bus.c
++++ b/hw/xen/xen-bus.c
+@@ -857,6 +857,13 @@ static void xen_device_frontend_changed(void *opaque)
+     }
+ }
  
-     case XenbusStateClosed:
-+    case XenbusStateUnknown:
-         xen_block_disconnect(xendev, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
++static bool xen_device_frontend_exists(XenDevice *xendev)
++{
++    enum xenbus_state state;
++
++    return (xen_device_frontend_scanf(xendev, "state", "%u", &state) == 1);
++}
++
+ static void xen_device_frontend_create(XenDevice *xendev, Error **errp)
+ {
+     XenBus *xenbus = XEN_BUS(qdev_get_parent_bus(DEVICE(xendev)));
+@@ -865,19 +872,25 @@ static void xen_device_frontend_create(XenDevice *xendev, Error **errp)
+ 
+     xendev->frontend_path = xen_device_get_frontend_path(xendev);
+ 
+-    perms[0].id = xendev->frontend_id;
+-    perms[0].perms = XS_PERM_NONE;
+-    perms[1].id = xenbus->backend_id;
+-    perms[1].perms = XS_PERM_READ | XS_PERM_WRITE;
++    /*
++     * The frontend area may have already been created by a legacy
++     * toolstack.
++     */
++    if (!xen_device_frontend_exists(xendev)) {
++        perms[0].id = xendev->frontend_id;
++        perms[0].perms = XS_PERM_NONE;
++        perms[1].id = xenbus->backend_id;
++        perms[1].perms = XS_PERM_READ | XS_PERM_WRITE;
+ 
+-    g_assert(xenbus->xsh);
++        g_assert(xenbus->xsh);
+ 
+-    xs_node_create(xenbus->xsh, XBT_NULL, xendev->frontend_path, perms,
+-                   ARRAY_SIZE(perms), &local_err);
+-    if (local_err) {
+-        error_propagate_prepend(errp, local_err,
+-                                "failed to create frontend: ");
+-        return;
++        xs_node_create(xenbus->xsh, XBT_NULL, xendev->frontend_path, perms,
++                       ARRAY_SIZE(perms), &local_err);
++        if (local_err) {
++            error_propagate_prepend(errp, local_err,
++                                    "failed to create frontend: ");
++            return;
++        }
+     }
+ 
+     xendev->frontend_state_watch =
+@@ -1290,12 +1303,14 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
+     xen_device_backend_set_online(xendev, true);
+     xen_device_backend_set_state(xendev, XenbusStateInitWait);
+ 
+-    xen_device_frontend_printf(xendev, "backend", "%s",
+-                               xendev->backend_path);
+-    xen_device_frontend_printf(xendev, "backend-id", "%u",
+-                               xenbus->backend_id);
++    if (!xen_device_frontend_exists(xendev)) {
++        xen_device_frontend_printf(xendev, "backend", "%s",
++                                   xendev->backend_path);
++        xen_device_frontend_printf(xendev, "backend-id", "%u",
++                                   xenbus->backend_id);
+ 
+-    xen_device_frontend_set_state(xendev, XenbusStateInitialising, true);
++        xen_device_frontend_set_state(xendev, XenbusStateInitialising, true);
++    }
+ 
+     xendev->exit.notify = xen_device_exit;
+     qemu_add_exit_notifier(&xendev->exit);
 -- 
 Anthony PERARD
 
