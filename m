@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7F6BCC2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:14:32 +0200 (CEST)
-Received: from localhost ([::1]:47848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88DEBCC3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:19:44 +0200 (CEST)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCnSQ-0000xu-VB
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48165)
+	id 1iCnXT-0005O3-2n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iCmf4-0001A4-BA
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:31 -0400
+ (envelope-from <guoheyi@huawei.com>) id 1iCmfA-0001LN-Pd
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iCmf2-0006i4-S7
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:30 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2243 helo=huawei.com)
+ (envelope-from <guoheyi@huawei.com>) id 1iCmf9-0006lk-2o
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:36 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:46676 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iCmez-0006fv-P1; Tue, 24 Sep 2019 11:23:26 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 4C7D13C505E55FB75118;
- Tue, 24 Sep 2019 23:23:22 +0800 (CST)
+ id 1iCmf4-0006hO-ID; Tue, 24 Sep 2019 11:23:30 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 58A3B3FBB55EA3E76511;
+ Tue, 24 Sep 2019 23:23:27 +0800 (CST)
 Received: from linux-Bxxcye.huawei.com (10.175.104.222) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 24 Sep 2019 23:23:13 +0800
+ 14.3.439.0; Tue, 24 Sep 2019 23:23:16 +0800
 From: Heyi Guo <guoheyi@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
  <linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.cs.columbia.edu>
-Subject: [RFC PATCH 00/12] Add SDEI support for arm64
-Date: Tue, 24 Sep 2019 23:21:39 +0800
-Message-ID: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+Subject: [RFC PATCH 04/12] arm/sdei: add system reset callback
+Date: Tue, 24 Sep 2019 23:21:43 +0800
+Message-ID: <1569338511-3572-5-git-send-email-guoheyi@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.104.222]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,83 +52,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
- James Morse <james.morse@arm.com>, Heyi Guo <guoheyi@huawei.com>,
+Cc: Mark
+ Rutland <mark.rutland@arm.com>, Peter Maydell <peter.maydell@linaro.org>,
+ James Morse <james.morse@arm.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ Jingyi Wang <wangjingyi11@huawei.com>, Heyi Guo <guoheyi@huawei.com>,
  wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As promised, this is the first RFC patch set for arm64 SDEI support.
-Key points:
-- We propose to only support kvm enabled arm64 virtual machines, for
-  non-kvm VMs can emulate EL3 and have Trusted Firmware run on it,
-  which has a builtin SDEI dispatcher.
-- New kvm capability KVM_CAP_FORWARD_HYPERCALL is added to probe if
-  kvm supports forwarding hypercalls, and the capability should be
-  enabled explicitly. PSCI can be set as exception for backward
-  compatibility.
-- We make the dispatcher as a logical device, to save the states
-  during migration or save/restore operation; only one instance is
-  allowed in one VM.
-- We use qemu_irq as the bridge for other qemu modules to switch from
-  irq injection to SDEI event trigger after VM binds the interrupt to
-  SDEI event. We use qemu_irq_intercept_in() to override qemu_irq
-  handler with SDEI event trigger, and a new interface
-  qemu_irq_remove_intercept() is added to restore the handler to
-  default one (i.e. ARM GIC).
+For this is a logical device which is not attached to system bus, we
+cannot use DeviceClass->reset interface directly. Instead we register
+our own reset callback to reset SDEI services when system resets.
 
-More details are in the commit message of each patch.
-
-Basic tests are done by emulating a watchdog timer and triggering SDEI
-event in every 10s.
-
-As this is the first rough RFC, please focus on the interfaces and
-framework first. We can refine the code for several rounds after the
-big things have been determined.
-
-Please give your comments and suggestions.
-
-Thanks,
-HG
-
+Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Signed-off-by: Jingyi Wang <wangjingyi11@huawei.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Dave Martin <Dave.Martin@arm.com>
 Cc: Marc Zyngier <marc.zyngier@arm.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: James Morse <james.morse@arm.com>
+---
+ target/arm/sdei.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-Heyi Guo (12):
-  linux-headers: import arm_sdei.h
-  arm/sdei: add virtual device framework
-  arm/sdei: add support to handle SDEI requests from guest
-  arm/sdei: add system reset callback
-  arm/sdei: add support to trigger event by GIC interrupt ID
-  core/irq: add qemu_irq_remove_intercept interface
-  arm/sdei: override qemu_irq handler when binding interrupt
-  arm/sdei: add support to register interrupt bind notifier
-  linux-headers/kvm.h: add capability to forward hypercall
-  arm/sdei: check KVM cap and enable SDEI
-  arm/kvm: handle guest exit of hypercall
-  virt/acpi: add SDEI table if SDEI is enabled
-
- hw/arm/virt-acpi-build.c       |   16 +
- hw/core/irq.c                  |   11 +
- include/hw/acpi/acpi-defs.h    |    5 +
- include/hw/irq.h               |    8 +-
- linux-headers/linux/arm_sdei.h |   73 ++
- linux-headers/linux/kvm.h      |    3 +
- target/arm/Makefile.objs       |    1 +
- target/arm/kvm.c               |   17 +
- target/arm/sdei.c              | 1518 ++++++++++++++++++++++++++++++++++++++++
- target/arm/sdei.h              |   60 ++
- target/arm/sdei_int.h          |  109 +++
- 11 files changed, 1819 insertions(+), 2 deletions(-)
- create mode 100644 linux-headers/linux/arm_sdei.h
- create mode 100644 target/arm/sdei.c
- create mode 100644 target/arm/sdei.h
- create mode 100644 target/arm/sdei_int.h
-
+diff --git a/target/arm/sdei.c b/target/arm/sdei.c
+index b40fa36..f9a1208 100644
+--- a/target/arm/sdei.c
++++ b/target/arm/sdei.c
+@@ -1083,6 +1083,26 @@ static void qemu_sde_init(QemuSDEState *s)
+     qemu_private_sde_init(s);
+ }
+ 
++static void qemu_sde_reset(void *opaque)
++{
++    int64_t         ret;
++    CPUState        *cs;
++    QemuSDEState    *s = opaque;
++
++    CPU_FOREACH(cs) {
++        QemuSDECpu *sde_cpu = get_sde_cpu(s, cs);
++        sdei_private_reset_common(s, cs, true);
++        sde_cpu->masked = true;
++        sde_cpu->critical_running_event = SDEI_INVALID_EVENT_ID;
++        sde_cpu->normal_running_event = SDEI_INVALID_EVENT_ID;
++    }
++
++    ret = sdei_shared_reset_common(s, first_cpu, true);
++    if (ret) {
++        error_report("SDEI system reset failed: 0x%lx", ret);
++    }
++}
++
+ static int qemu_sdei_pre_save(void *opaque)
+ {
+     QemuSDEState *s = opaque;
+@@ -1235,6 +1255,7 @@ static void sdei_initfn(Object *obj)
+     sde_state = s;
+ 
+     qemu_sde_init(s);
++    qemu_register_reset(qemu_sde_reset, s);
+ }
+ 
+ static void qemu_sde_class_init(ObjectClass *klass, void *data)
 -- 
 1.8.3.1
 
