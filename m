@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55101BD517
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:49:01 +0200 (CEST)
-Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24760BD510
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 00:44:55 +0200 (CEST)
+Received: from localhost ([::1]:43308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCtcB-0004Lm-5T
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56813)
+	id 1iCtYD-0008UQ-4s
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 18:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCs5L-0003V9-3D
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:11:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iCs5G-0003QK-IL
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:11:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCs58-0007ac-Am
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:58 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34972)
+ (envelope-from <alex.bennee@linaro.org>) id 1iCs56-0007aE-Mi
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:54 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39654)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCs58-0007ZY-4i
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:46 -0400
-Received: by mail-wm1-x332.google.com with SMTP id y21so1779094wmi.0
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:10:45 -0700 (PDT)
+ id 1iCs56-0007Zw-G5
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:10:44 -0400
+Received: by mail-wr1-x435.google.com with SMTP id r3so3648220wrj.6
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EQMFVvQQ12r4Rl1Q/VQlrZ01jldIoi/+yP3w6mK03UM=;
- b=LG2sXDoq7B0YuRp2Zfx+WGnew5uPsIjZxJ4okFOmncKTVtvUXMDftKbrylnLjVHom6
- ssHeHMFDexuFOz10ndKnHC7NmpGfMFxslhHyBbuZXu17epVfYwH6YPKspNAUsaf0mfUH
- AS7FcJKpM46xsqBNF92pCzjrtPGAWvasvybSzAo3Ldtb6mK0k0GpD9eeUWnizJhqmszf
- i8mlKA8xLz1rbNpAPCIq6o2DxBE9EMfqZ43GE0R7UJ5BilyRrJSO70EIOXqX98yHWRza
- d8isrRTv5TYZXoMAbRrMgrYp/TCXx4gEuL1cRq+49Hgvl8QfWyjog02QikBSgywRQhbP
- aVHg==
+ bh=PeXbOtrBZF+8O5whsej0UzKUBQHCTeTmZtfTgjX8/9A=;
+ b=IxICYUxPXcggMr8qGX5+yGX3rpelSb40/1xJyrENWeKkyJB/CM5dE6toSqA9pIQLuu
+ QA8oxX0KKJDHaC9ALx42h9hr5fc7+nY2MFGC4CyPRRneGls0xxcwpNpQBlYofnsZzZZT
+ DoSjPG7xZmEX/2OSTjTnuzCI9/De2HAMJljYNKENZ1vDWB+Q5HIvZjR+v/M/LsETSljP
+ Iqj/qDbJqgbi1E9xrcbHAfP92G0et2p+pr30oGUuvfDu6abHmAu+ZOKxmY875VTwJZ7C
+ Bi3SqWZ9XK17A8p9KKRmuYHDUVD40YbAM7CEz01E4cGtTg4fsxFREOJup+cN+7GfE7lc
+ JUgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EQMFVvQQ12r4Rl1Q/VQlrZ01jldIoi/+yP3w6mK03UM=;
- b=ilbIeuTVeWOQ7toVoxwU/Ft+uL2CZFPyQBWR0weBgkV1EWdOkj2no94R1VTjW2k1E4
- N6poM88RajeLKxvLgLsWoa9ZcWaiM6RPyC1JE0Zo+BEnXvlMIft+lle4CfqSKAANM/Ha
- w1LvlTsY9RGeJAQo/0qi7YxYzMxdnw07ulbfN8iPtJGxrC97NntJGNQQalr3fJfH0aO+
- PFgwjn093qsvMN5QA8PykvZkbauplW0SfNQJQaxyuRSivOWpXeJBtUgw5MmdbkOYAEY7
- nNGGM5jkpQ6FLYbUi+nCQDEMZTGq6PK7/RlA8KQiysJgSAClTay4SrVDI91mPaqnYdt6
- uYIQ==
-X-Gm-Message-State: APjAAAVc9HpSsX5lo+oMo5yltsbTV1i4OTEu61uRUyO6IKjuS0GTe3o5
- 43RHvgaEN5TpNpUb3Sz0W+J9NA==
-X-Google-Smtp-Source: APXvYqxx3QGTXWAKLiAbA/FWQNo+ghnd3yWrYHMQDBIiJKJ8fJf7gVfSiMTjElWtJV7ajnyAwThYzQ==
-X-Received: by 2002:a7b:c44e:: with SMTP id l14mr2524349wmi.54.1569359441555; 
- Tue, 24 Sep 2019 14:10:41 -0700 (PDT)
+ bh=PeXbOtrBZF+8O5whsej0UzKUBQHCTeTmZtfTgjX8/9A=;
+ b=cq3vzhuEpoGuJ2mjsLyKjbD12WFzr3O9ItzBk+2ajDugb0B66dms8wRv9WmbsyxpEP
+ ojFZ/1HMPL705eFIo3r+377ChmhukSmfQkcYr7pTd4SxcP5FEmDXAEuXOu68LoThCsNo
+ IdCsLTgpsj7tubDJqAxO2TdrQT3s09+EzPgkj4uOAxdJdD6mA2CoIDhUtWFzhmTrpXe2
+ 3vqX1lDQkjnSUVGBaddcqYVbRWCcZX0aRHBph3F9Tdn5rYrO9Q9/YxrEqKb9S7+6gfYp
+ +GK4HdMswe9MQA6zqMUdUQweLIXiAW3EUEsahXlzSf+4RVFArr81R6Lqed6gqtO6EvVn
+ 7Wvg==
+X-Gm-Message-State: APjAAAW0ArKBR/7uXkGQns5cZ7vIT0Ekiyw80jRmzluQ4WBboxSfVnWD
+ Vu3yUcot0URxEwgmenqrBsJGKg==
+X-Google-Smtp-Source: APXvYqzgDbgQMGaOvtgmqN48PYfnd0Sc/G3LQyWC0VnbjKyXAUHzso2UxLlobJ+eo0A6fCCIFIc0cA==
+X-Received: by 2002:adf:b648:: with SMTP id i8mr4455366wre.372.1569359443311; 
+ Tue, 24 Sep 2019 14:10:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y5sm1450072wma.14.2019.09.24.14.10.33
+ by smtp.gmail.com with ESMTPSA id y13sm5145416wrg.8.2019.09.24.14.10.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 14:10:35 -0700 (PDT)
+ Tue, 24 Sep 2019 14:10:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3212D1FFAE;
+ by zen.linaroharston (Postfix) with ESMTP id 7170F1FF87;
  Tue, 24 Sep 2019 22:01:09 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 25/33] tests/docker: Add fedora-win10sdk-cross image
-Date: Tue, 24 Sep 2019 22:00:58 +0100
-Message-Id: <20190924210106.27117-26-alex.bennee@linaro.org>
+Subject: [PATCH  v3 28/33] docker: removed unused debian8 partial image
+Date: Tue, 24 Sep 2019 22:01:01 +0100
+Message-Id: <20190924210106.27117-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
 References: <20190924210106.27117-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,115 +81,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
- Justin Terry <juterry@microsoft.com>, jsnow@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Fam Zheng <fam@euphon.net>, jsnow@redhat.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: John Snow <jsnow@redhat.com>
 
-To build WHPX (Windows Hypervisor) binaries, we need the WHPX
-headers provided by the Windows SDK.
+debian8 partial base is also not consumed by any image, so remove it.
+For QEMU's development cycle, we only support debian9 (stretch) and
+debian10 (buster).
 
-Add a script that fetches the required MSI/CAB files from the
-latest SDK (currently 10.0.18362.1).
-
-Headers are accessible under /opt/win10sdk/include.
-
-Set the QEMU_CONFIGURE_OPTS environment variable accordingly,
-enabling HAX and WHPX. Due to CPP warnings related to Microsoft
-specific #pragmas, we also need to use the '--disable-werror'
-configure flag.
-
-Cc: Justin Terry <juterry@microsoft.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190923181140.7235-3-jsnow@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20190920113329.16787-3-philmd@redhat.com>
 ---
- tests/docker/Makefile.include                 |  2 ++
- .../dockerfiles/fedora-win10sdk-cross.docker  | 23 ++++++++++++++++
- tests/docker/dockerfiles/win10sdk-dl.sh       | 27 +++++++++++++++++++
- 3 files changed, 52 insertions(+)
- create mode 100644 tests/docker/dockerfiles/fedora-win10sdk-cross.docker
- create mode 100755 tests/docker/dockerfiles/win10sdk-dl.sh
+ tests/docker/Makefile.include           |  2 +-
+ tests/docker/dockerfiles/debian8.docker | 34 -------------------------
+ 2 files changed, 1 insertion(+), 35 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian8.docker
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 3fc7a863e51..e85e73025ba 100644
+index 47d2273f29d..82d5a8a5393 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -125,6 +125,8 @@ docker-image-debian-ppc64-cross: docker-image-debian10
- docker-image-debian-riscv64-cross: docker-image-debian10
- docker-image-debian-sh4-cross: docker-image-debian10
- docker-image-debian-sparc64-cross: docker-image-debian10
-+docker-image-fedora-win10sdk-cross: docker-image-fedora
-+docker-image-fedora-win10sdk-cross: EXTRA_FILES:=$(DOCKER_FILES_DIR)/win10sdk-dl.sh
- 
- docker-image-travis: NOUSER=1
- 
-diff --git a/tests/docker/dockerfiles/fedora-win10sdk-cross.docker b/tests/docker/dockerfiles/fedora-win10sdk-cross.docker
-new file mode 100644
-index 00000000000..55ca933d40d
---- /dev/null
-+++ b/tests/docker/dockerfiles/fedora-win10sdk-cross.docker
-@@ -0,0 +1,23 @@
-+#
-+# Docker MinGW64 cross-compiler target with WHPX header installed
-+#
-+# This docker target builds on the Fedora 30 base image.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+FROM qemu:fedora
-+
-+RUN dnf install -y \
-+        cabextract \
-+        msitools \
-+        wget
-+
-+# Install WHPX headers from Windows Software Development Kit:
-+# https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk
-+ADD win10sdk-dl.sh /usr/local/bin/win10sdk-dl.sh
-+RUN /usr/local/bin/win10sdk-dl.sh
-+
-+ENV QEMU_CONFIGURE_OPTS ${QEMU_CONFIGURE_OPTS} \
-+    --cross-prefix=x86_64-w64-mingw32- \
-+    --extra-cflags=-I/opt/win10sdk/include --disable-werror \
-+    --enable-hax --enable-whpx
-diff --git a/tests/docker/dockerfiles/win10sdk-dl.sh b/tests/docker/dockerfiles/win10sdk-dl.sh
-new file mode 100755
-index 00000000000..1c35c2a2524
---- /dev/null
-+++ b/tests/docker/dockerfiles/win10sdk-dl.sh
-@@ -0,0 +1,27 @@
-+#!/bin/bash
-+#
-+# Install WHPX headers from Windows Software Development Kit
-+# https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+WINDIR=/opt/win10sdk
-+mkdir -p ${WINDIR}
-+pushd ${WINDIR}
-+# Get the bundle base for Windows SDK v10.0.18362.1
-+BASE_URL=$(curl --silent --include 'http://go.microsoft.com/fwlink/?prd=11966&pver=1.0&plcid=0x409&clcid=0x409&ar=Windows10&sar=SDK&o1=10.0.18362.1' | sed -nE 's_Location: (.*)/\r_\1_p')/Installers
-+# Fetch the MSI containing the headers
-+wget --no-verbose ${BASE_URL}/'Windows SDK Desktop Headers x86-x86_en-us.msi'
-+while true; do
-+    # Fetch all cabinets required by this MSI
-+    CAB_NAME=$(msiextract Windows\ SDK\ Desktop\ Headers\ x86-x86_en-us.msi 3>&1 2>&3 3>&-| sed -nE "s_.*Error opening file $PWD/(.*): No such file or directory_\1_p")
-+    test -z "${CAB_NAME}" && break
-+    wget --no-verbose ${BASE_URL}/${CAB_NAME}
-+done
-+rm *.{cab,msi}
-+mkdir /opt/win10sdk/include
-+# Only keep the WHPX headers
-+for inc in "${WINDIR}/Program Files/Windows Kits/10/Include/10.0.18362.0/um"/WinHv*; do
-+    ln -s "${inc}" /opt/win10sdk/include
-+done
-+popd > /dev/null
+@@ -6,7 +6,7 @@ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ DOCKER_DEPRECATED_IMAGES := debian
+ # we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian-sid
++DOCKER_PARTIAL_IMAGES := debian debian9 debian10 debian-sid
+ DOCKER_PARTIAL_IMAGES += debian9-mxe debian-ports debian-bootstrap
+ DOCKER_IMAGES := $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+diff --git a/tests/docker/dockerfiles/debian8.docker b/tests/docker/dockerfiles/debian8.docker
+deleted file mode 100644
+index 1212a85c35b..00000000000
+--- a/tests/docker/dockerfiles/debian8.docker
++++ /dev/null
+@@ -1,34 +0,0 @@
+-#
+-# Docker multiarch cross-compiler target
+-#
+-# This docker target is builds on Debian and Emdebian's cross compiler targets
+-# to build distro with a selection of cross compilers for building test binaries.
+-#
+-# On its own you can't build much but the docker-foo-cross targets
+-# build on top of the base debian image.
+-#
+-FROM debian:jessie-slim
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+-
+-# Setup some basic tools we need
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive apt-get install -yy eatmydata && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        bison \
+-        binutils-multiarch \
+-        build-essential \
+-        ca-certificates \
+-        clang \
+-        curl \
+-        flex \
+-        gettext \
+-        git \
+-        gnupg \
+-        pkg-config \
+-        python-minimal
+-
 -- 
 2.20.1
 
