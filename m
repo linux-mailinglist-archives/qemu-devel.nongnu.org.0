@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DFABCAFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:19:24 +0200 (CEST)
-Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9572DBCAEA
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 17:13:27 +0200 (CEST)
+Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCmb4-0004BD-Rg
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
+	id 1iCmVK-0006ZV-0Z
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 11:13:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iClIj-0002BP-AN
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:56:22 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iClJm-0002zt-3J
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:57:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iClIh-0006kh-Re
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:56:21 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33559)
+ (envelope-from <peter.maydell@linaro.org>) id 1iClJl-0000DJ-06
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:57:25 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34892)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iClIh-0006hP-KB
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:56:19 -0400
-Received: by mail-wr1-x443.google.com with SMTP id b9so2080185wrs.0
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:56:19 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iClJk-0000CX-Q5
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:57:24 -0400
+Received: by mail-oi1-x243.google.com with SMTP id x3so1717719oig.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:57:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=VZ+NFYcRuWNEduMtBKNgZAQq1lD5JOldft0P6C/wMzU=;
- b=JLOOdPoZXsOr8cTE39lQHyLMfEpo3XrOtnRN6F+vWEesbaOgK/E2ZvjY/E3Rd1ARkL
- sz/m97foyulbTwGdsdzuM+XdYmrpYhMOpuayDWIgRXHPwiF1hE74LRhzTPayJU+Fyghb
- RcU9t38YdlJJOgO8fqQoYdW7BZLVQitKxFSThCZxcTwewxupqQn9lEiIsv//qE2ml8nf
- NRmMkuVKxJ5utAhyAV+8BrICbX/NZ2cgfYyFQ18PNuQkp3RVM2Cd/UEZ0IptJE86elqb
- PxGVD9W9pLJX7VGH6Ib1NhQY3sQaW73ZSUvDLuJ4iT+Hn6OOXM/P0u3YVvlDbMg/DAsS
- QEjg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vMmaji/RGvedZuk2RaAUa4vZZdlLr5fEGxEDI7CiFeE=;
+ b=kqMZ+WtnkhbtzhvlhjXwwscfrRXT/w8p9CzN4cOMWKvu1omYxEUFGnwiU2zpMvcNof
+ tqo8b9ZzusPkgOr4vPlOqEkOQCTGKUba1YjVfU41HNOdBPwflhfYjr2VCRGqg+D64tyt
+ AVFqe3KQSLm/1rwq2Rit7zFsTuLfv8fOu8dHtGfBhE9z9iESI2eZZEEGfQ+A6TKZANzI
+ 5AFhZRTPxDmjaeN805mMEAVeqJ5iypxiHSzKzjMELgH6A7Egkj4/hTN3Fs8iQsOvXu0L
+ 5jEClyQpsguDnbqx3AXYQvG619RZmgUemA/a3EFpxBsqYkoGS/CsuBY7HrmjkZnWPwFw
+ 0weQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=VZ+NFYcRuWNEduMtBKNgZAQq1lD5JOldft0P6C/wMzU=;
- b=gBg9/Vd31PuN5mousT3JKHd5i8NRJo2Lk4lbsehKyW0zopOrLZlYRwXuKHNHRt9zbn
- G3WJymaukQP8Wcp7uFREAUND8eRng9oaqeA5VTFhRNIgJhNbnSQ/G4JpPo9Kv99Js9tu
- JhcJGKl2lUDFkAEJ0JQcinVWIuzfdbU3OUdHIGbxUPu/VTAF4GkhH5Ulc3T+M41JXLlO
- daPpqZgcjDHqgxDB4kMe8sFtvsnIFjcbRxX/RuY30drrnJHWz7LMJ0mXdmOIoZtHeaaf
- rdQLY8k5uaoDrV02PWFRlHRWjqpkA7oRp4jkCGnzGzrxqAUJk8hoQ6JsLrEB/vMIpd0b
- zWxw==
-X-Gm-Message-State: APjAAAXIVcX+XTGxgXK/8KuEVrbh1qTLLne1IVca4LcHbosebj94fRhW
- SfFNRfWDqH0YOx6pjKEksWJBJA==
-X-Google-Smtp-Source: APXvYqyPl7rQU0AnOLzJ5gJMXhaosnBt3s/SVSm/zmLlYOgoru0b8jdWBBYGMVru9UfAw1BIyPwd0Q==
-X-Received: by 2002:a5d:430e:: with SMTP id h14mr2394280wrq.18.1569333378338; 
- Tue, 24 Sep 2019 06:56:18 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t18sm32267wmi.44.2019.09.24.06.56.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 06:56:17 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D5A8E1FF87;
- Tue, 24 Sep 2019 14:56:16 +0100 (BST)
-References: <20190923230004.9231-1-richard.henderson@linaro.org>
- <20190923230004.9231-3-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 02/16] cputlb: Disable __always_inline__ without
- optimization
-In-reply-to: <20190923230004.9231-3-richard.henderson@linaro.org>
-Date: Tue, 24 Sep 2019 14:56:16 +0100
-Message-ID: <878sqdbxxb.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vMmaji/RGvedZuk2RaAUa4vZZdlLr5fEGxEDI7CiFeE=;
+ b=dsom2n+XZF/AgUbm9mdyqsZhJ3LljtkfD+3AVqwi9u4EjDBvYw++bxGpBnjsSYY6mY
+ +cV4rYWkfD2myptkGzBwg0fsrfcnlJg1QflOVR34u+6v52cIu+H9CxHIWrB5txUo8mYR
+ kUX1nMu4WWclaSehQ8Cm0ILj84JBLnElZyTBl5zwn7oZvXmNZHecNoKvoFqaMCTYTBPv
+ LJT7mamYMDOfrEJ+XtkoUoXBBbSJcJemMiEcC1o21CYgOt0VvJA2BvocDlXCb7wUFCNX
+ GM7pwDqs2d7s5XagUK9pO4i5xHS9A2mrJvl4Kq+fj5uwbTja6MDk7SIotrKzairNDqZ7
+ Fqww==
+X-Gm-Message-State: APjAAAVfveNy7HmD7de6RYxkGBzY5dcF0z45GhuDK5os/pvG/QFm4UBP
+ /Qqc0QQQ2swqZNtIvTpRBTRiQJN7lzEGi1B+8vLohQ==
+X-Google-Smtp-Source: APXvYqyk8uNERiTw5KlM/VZ2fU3MnQFHMG461Tkz+7/aVpoyCEKM5OREzdXY+E0Rc3W0AF6AZuwb9lcv6b1BpPLazyg=
+X-Received: by 2002:aca:f54d:: with SMTP id t74mr151470oih.170.1569333442752; 
+ Tue, 24 Sep 2019 06:57:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20190924124433.96810-1-slp@redhat.com>
+In-Reply-To: <20190924124433.96810-1-slp@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Sep 2019 14:57:11 +0100
+Message-ID: <CAFEAcA_2-achqUpTk1fDGWXcWPvTTLPvEtL+owNSWuZ5L3p=XA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Introduce the microvm machine type
+To: Sergio Lopez <slp@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,77 +71,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- david@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> This forced inlining can result in missing symbols,
-> which makes a debugging build harder to follow.
+On Tue, 24 Sep 2019 at 14:25, Sergio Lopez <slp@redhat.com> wrote:
 >
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  include/qemu/compiler.h | 11 +++++++++++
->  accel/tcg/cputlb.c      |  4 ++--
->  2 files changed, 13 insertions(+), 2 deletions(-)
+> Microvm is a machine type inspired by both NEMU and Firecracker, and
+> constructed after the machine model implemented by the latter.
 >
-> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-> index 09fc44cca4..20780e722d 100644
-> --- a/include/qemu/compiler.h
-> +++ b/include/qemu/compiler.h
-> @@ -170,6 +170,17 @@
->  # define QEMU_NONSTRING
->  #endif
->
-> +/*
-> + * Forced inlining may be desired to encourage constant propagation
-> + * of function parameters.  However, it can also make debugging harder,
-> + * so disable it for a non-optimizing build.
-> + */
-> +#if defined(__OPTIMIZE__)
-> +#define QEMU_ALWAYS_INLINE  __attribute__((always_inline))
-> +#else
-> +#define QEMU_ALWAYS_INLINE
-> +#endif
-> +
->  /* Implement C11 _Generic via GCC builtins.  Example:
->   *
->   *    QEMU_GENERIC(x, (float, sinf), (long double, sinl), sin) (x)
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index abae79650c..2222b87764 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -1281,7 +1281,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, t=
-arget_ulong addr,
->  typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
->                                  TCGMemOpIdx oi, uintptr_t retaddr);
->
-> -static inline uint64_t __attribute__((always_inline))
-> +static inline uint64_t QEMU_ALWAYS_INLINE
->  load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
->              uintptr_t retaddr, MemOp op, bool code_read,
->              FullLoadHelper *full_load)
-> @@ -1530,7 +1530,7 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *e=
-nv, target_ulong addr,
->   * Store Helpers
->   */
->
-> -static inline void __attribute__((always_inline))
-> +static inline void QEMU_ALWAYS_INLINE
->  store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
->               TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
->  {
+> It's main purpose is providing users a minimalist machine type free
+> from the burden of legacy compatibility, serving as a stepping stone
+> for future projects aiming at improving boot times, reducing the
+> attack surface and slimming down QEMU's footprint.
 
 
---
-Alex Benn=C3=A9e
+>  docs/microvm.txt                 |  78 +++
+
+I'm not sure how close to acceptance this patchset is at the
+moment, so not necessarily something you need to do now,
+but could new documentation in docs/ be in rst format, not
+plain text, please? (Ideally also they should be in the right
+manual subdirectory, but documentation of system emulation
+machines at the moment is still in texinfo format, so we
+don't have a subdir for it yet.)
+
+thanks
+-- PMM
 
