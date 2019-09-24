@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28B7BC70A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:44:13 +0200 (CEST)
-Received: from localhost ([::1]:44334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F341BC71A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 13:46:57 +0200 (CEST)
+Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCjEq-000531-JR
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:44:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42246)
+	id 1iCjHT-0007sx-LM
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 07:46:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42233)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1iCj2N-0002PG-9F
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2N-0002P7-HA
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1iCj2L-0005Hm-3I
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:19 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:17963)
+ (envelope-from <anthony.perard@citrix.com>) id 1iCj2K-0005HO-RZ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:18 -0400
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:17965)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1iCj2K-0005Fj-N1
+ id 1iCj2K-0005G2-Gu
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 07:31:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=citrix.com; s=securemail; t=1569324677;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=P9SYaLQxzBCciKOOzf40aJoGXMhshZ5J2JL9xAcjTUY=;
- b=iWPtT1bBqZ8u1E/uyU1PtPPf5YLF5kjUk60Y7U8c/6l+t1a3DKGOB5GE
- IYDZPp50J11clGX39rT2KA1ZUj1sIXVLgpbTiCkHBmMx3ONMp0OmMMo01
- /ME/4YgEYXdW+tTtgVULu6QEofdx8dssioCNk/C+L1psEAHPXFsdrP9LC Y=;
+ bh=cVm1E9SWn59HiRBpcK9hd5UAXK2JM4SVNjHe+W2XCbI=;
+ b=INBoDTDBmfqp+z03s1DCgOrKz+D/pyGW6W0MrgjioFc7YmwIHUw2GNLX
+ TeQyoEs2GOHKwqE4euMghvv+lQhn5Vj6q3NLrNmNnjts785zIPHnaAo8c
+ Yq80av2tn1B8bQcNkFQLlxmT6P7A17jxc4hwTw4Ycqv3PxIjW/gvw67/x o=;
 Authentication-Results: esa2.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -59,23 +59,24 @@ Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: URWiy5/yxaFyPTXp4iYLclNmeHcuRCSz2phrhjWWfw4Xe/or6xjgAfWSUG8MXt2Luobshqha2f
- 2ngOn5TxhlueLa1j4daypXsFyHOZNWu+RfwOCec+cE6Up2K0whOQG7Z6J7KXIZkx3ULkt4y6Pa
- LL0CTcFspxvV3T7ez9eqYJIK9C1jXjwH1+hklF9NGeQx3wI12wFhVpho6Ve07sKT9O9u+TcY66
- 9vGGGuW9SNYztilyiSIzAoPjg13R965AohbunmZ1az9PuhM67nFeha2y+9V701TGspvsnZYFlS
- qy8=
+IronPort-SDR: g1E08A7/TG9MA9xEBIV2QzhKpXyy+CjQC6yimgr4WuSbjTXUzfI/Mtcb+a5KWb/Vw/9sZFZyyN
+ GhHZ5A8aPuFPV4BUW7qeE7qKf00OWceeburPZujocYAROIWca+9C+jVEZ0dbJYwG2qczAH/Ewp
+ /ryEzvkUonppPXniep5zlonqRt5is266W+cHn/sRf9Eg1M4D8z0xb/o+hAhdzd6f/iiVOXg+w1
+ AAkba9mtClJ0YcWWUX1w8SeIbdlUtZ7pfqPuo6HO9gT7TA9/kCgvVKKl09xNcM+vEJUSWsOkvt
+ o+k=
 X-SBRS: 2.7
-X-MesageID: 5977603
+X-MesageID: 5977601
 X-Ironport-Server: esa2.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.64,543,1559534400"; 
-   d="scan'208";a="5977603"
+   d="scan'208";a="5977601"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 5/7] MAINTAINERS: update my email address
-Date: Tue, 24 Sep 2019 12:30:24 +0100
-Message-ID: <20190924113026.255634-6-anthony.perard@citrix.com>
+Subject: [PULL 6/7] xen-block: treat XenbusStateUnknown the same as
+ XenbusStateClosed
+Date: Tue, 24 Sep 2019 12:30:25 +0100
+Message-ID: <20190924113026.255634-7-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190924113026.255634-1-anthony.perard@citrix.com>
 References: <20190924113026.255634-1-anthony.perard@citrix.com>
@@ -102,29 +103,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Durrant <paul.durrant@citrix.com>
 
-My Citrix email address will expire shortly.
+When a frontend gracefully disconnects from an offline backend, it will
+set its own state to XenbusStateClosed. The code in xen-block.c correctly
+deals with this and sets the backend into XenbusStateClosed. Unfortunately
+it is possible for toolstack to actually delete the frontend area
+before the state key has been read, leading to an apparent frontend state
+of XenbusStateUnknown. This prevents the backend state from transitioning
+to XenbusStateClosed and hence leaves it limbo.
 
+This patch simply treats a frontend state of XenbusStateUnknown the same
+as XenbusStateClosed, which will unblock the backend in these circumstances.
+
+Reported-by: Mark Syms <mark.syms@citrix.com>
 Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20190913122418.848-1-paul.durrant@citrix.com>
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-Id: <20190918115702.38959-1-paul.durrant@citrix.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/xen-block.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1c56d45b16..bd7ee23101 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -406,7 +406,7 @@ Guest CPU Cores (Xen)
- X86 Xen CPUs
- M: Stefano Stabellini <sstabellini@kernel.org>
- M: Anthony Perard <anthony.perard@citrix.com>
--M: Paul Durrant <paul.durrant@citrix.com>
-+M: Paul Durrant <paul@xen.org>
- L: xen-devel@lists.xenproject.org
- S: Supported
- F: */xen*
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index f77343db60..879fc310a4 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -313,6 +313,7 @@ static void xen_block_frontend_changed(XenDevice *xendev,
+         break;
+ 
+     case XenbusStateClosed:
++    case XenbusStateUnknown:
+         xen_block_disconnect(xendev, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
 -- 
 Anthony PERARD
 
