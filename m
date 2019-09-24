@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E9CBC822
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:47:21 +0200 (CEST)
-Received: from localhost ([::1]:45266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28752BC80D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:42:45 +0200 (CEST)
+Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkDw-000300-26
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50518)
+	id 1iCk9T-0007VW-LK
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0n-0001Je-L0
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:52 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0n-0001JA-5w
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0i-0006vP-Jc
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53422)
+ (envelope-from <armbru@redhat.com>) id 1iCk0j-0006wQ-4B
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38420)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uE-4g
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uY-JT
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:40 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 546608AC6F9
+ by mx1.redhat.com (Postfix) with ESMTPS id 8610E306085E
  for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F31BF5C207;
- Tue, 24 Sep 2019 12:33:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 563D910013D9;
+ Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A34B311384AA; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
+ id F12871136426; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/37] docs/devel/qapi-code-gen: Rewrite compatibility
- considerations
-Date: Tue, 24 Sep 2019 14:33:12 +0200
-Message-Id: <20190924123334.30645-16-armbru@redhat.com>
+Subject: [PULL 26/37] qapi: Improve reporting of lexical errors
+Date: Tue, 24 Sep 2019 14:33:23 +0200
+Message-Id: <20190924123334.30645-27-armbru@redhat.com>
 In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
 References: <20190924123334.30645-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -61,160 +60,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have some compatibility advice buried in sections "Enumeration
-types" and "Struct types".  Compatibility is actually about commands
-and events.  It devolves to the types used there.  All kinds of types,
-not just enumerations and structs.
+Show text up to next structural character, whitespace, or quote
+character instead of just the first character.
 
-Replace the existing advice by a new section "Compatibility
-considerations".
+Forgotten quotes now get reported like "Stray 'command'" instead of
+"Stray 'c'".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20190914153506.2151-9-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190913201349.24332-14-armbru@redhat.com>
-[Squash in paragraph on invisible schema changes, as per Eric's review]
 ---
- docs/devel/qapi-code-gen.txt | 99 +++++++++++++++++++++++-------------
- 1 file changed, 64 insertions(+), 35 deletions(-)
+ scripts/qapi/common.py             | 6 +++++-
+ tests/qapi-schema/bad-type-int.err | 2 +-
+ tests/qapi-schema/funny-word.err   | 2 +-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 663ef10a56..ac36ed34e3 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -178,14 +178,11 @@ While the C code starts numbering at 0, it is bette=
-r to use explicit
- comparisons to enum values than implicit comparisons to 0; the C code
- will also include a generated enum member ending in _MAX for tracking
- the size of the enum, useful when using common functions for
--converting between strings and enum values.  Since the wire format
--always passes by name, it is acceptable to reorder or add new
--enumeration members in any location without breaking clients of Client
--JSON Protocol; however, removing enum values would break
--compatibility.  For any struct that has a member that will only contain
--a finite set of string values, using an enum type for that member is
--better than open-coding the member to be type 'str'.
-+converting between strings and enum values.
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index 142ab276ff..b3383b17ef 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -559,7 +559,11 @@ class QAPISchemaParser(object):
+                 self.line +=3D 1
+                 self.line_pos =3D self.cursor
+             elif not self.tok.isspace():
+-                raise QAPIParseError(self, "Stray '%s'" % self.tok)
++                # Show up to next structural, whitespace or quote
++                # character
++                match =3D re.match('[^[\\]{}:,\\s\'"]+',
++                                 self.src[self.cursor-1:])
++                raise QAPIParseError(self, "Stray '%s'" % match.group(0)=
+)
 =20
-+For any struct that has a member that will only contain a finite set
-+of string values, using an enum type for that member is better than
-+open-coding the member to be type 'str'.
-=20
- =3D=3D=3D Struct types =3D=3D=3D
-=20
-@@ -203,34 +200,6 @@ name.  An example of a struct is:
- The use of '*' as a prefix to the name means the member is optional in
- the corresponding JSON protocol usage.
-=20
--The default initialization value of an optional argument should not be c=
-hanged
--between versions of QEMU unless the new default maintains backward
--compatibility to the user-visible behavior of the old default.
--
--With proper documentation, this policy still allows some flexibility; fo=
-r
--example, documenting that a default of 0 picks an optimal buffer size al=
-lows
--one release to declare the optimal size at 512 while another release dec=
-lares
--the optimal size at 4096 - the user-visible behavior is not the bytes us=
-ed by
--the buffer, but the fact that the buffer was optimal size.
--
--On input structures (only mentioned in the 'data' side of a command), ch=
-anging
--from mandatory to optional is safe (older clients will supply the option=
-, and
--newer clients can benefit from the default); changing from optional to
--mandatory is backwards incompatible (older clients may be omitting the o=
-ption,
--and must continue to work).
--
--On output structures (only mentioned in the 'returns' side of a command)=
-,
--changing from mandatory to optional is in general unsafe (older clients =
-may be
--expecting the member, and could crash if it is missing), although it
--can be done if the only way that the optional argument will be omitted
--is when it is triggered by the presence of a new input flag to the
--command that older clients don't know to send.  Changing from optional
--to mandatory is safe.
--
--A structure that is used in both input and output of various commands
--must consider the backwards compatibility constraints of both directions
--of use.
--
- A struct definition can specify another struct as its base.
- In this case, the members of the base type are included as top-level mem=
-bers
- of the new struct's dictionary in the Client JSON Protocol wire
-@@ -1037,6 +1006,66 @@ the names of built-in types.  Clients should exami=
-ne member
- "json-type" instead of hard-coding names of built-in types.
-=20
-=20
-+=3D=3D Compatibility considerations =3D=3D
-+
-+Maintaining backward compatibility at the Client JSON Protocol level
-+while evolving the schema requires some care.  This section is about
-+syntactic compatibility, which is necessary, but not sufficient, for
-+actual compatibility.
-+
-+Clients send commands with argument data, and receive command
-+responses with return data and events with event data.
-+
-+Adding opt-in functionality to the send direction is backwards
-+compatible: adding commands, optional arguments, enumeration values,
-+union and alternate branches; turning an argument type into an
-+alternate of that type; making mandatory arguments optional.  Clients
-+oblivious of the new functionality continue to work.
-+
-+Incompatible changes include removing commands, command arguments,
-+enumeration values, union and alternate branches, adding mandatory
-+command arguments, and making optional arguments mandatory.
-+
-+The specified behavior of an absent optional argument should remain
-+the same.  With proper documentation, this policy still allows some
-+flexibility; for example, when an optional 'buffer-size' argument is
-+specified to default to a sensible buffer size, the actual default
-+value can still be changed.  The specified default behavior is not the
-+exact size of the buffer, only that the default size is sensible.
-+
-+Adding functionality to the receive direction is generally backwards
-+compatible: adding events, adding return and event data members.
-+Clients are expected to ignore the ones they don't know.
-+
-+Removing "unreachable" stuff like events that can't be triggered
-+anymore, optional return or event data members that can't be sent
-+anymore, and return or event data member (enumeration) values that
-+can't be sent anymore makes no difference to clients, except for
-+introspection.  The latter can conceivably confuse clients, so tread
-+carefully.
-+
-+Incompatible changes include removing return and event data members.
-+
-+Any change to a command definition's 'data' or one of the types used
-+there (recursively) needs to consider send direction compatibility.
-+
-+Any change to a command definition's 'return', an event definition's
-+'data', or one of the types used there (recursively) needs to consider
-+receive direction compatibility.
-+
-+Any change to types used in both contexts need to consider both.
-+
-+Members of enumeration types, complex types and alternate types may be
-+reordered freely.  For enumerations and alternate types, this doesn't
-+affect the wire encoding.  For complex types, this might make the
-+implementation emit JSON object members in a different order, which
-+the Client JSON Protocol permits.
-+
-+Since type names are not visible in the Client JSON Protocol, types
-+may be freely renamed.  Even certain refactorings are invisible, such
-+as splitting members from one type into a common base type.
-+
-+
- =3D=3D Code generation =3D=3D
-=20
- The QAPI code generator qapi-gen.py generates code and documentation
+     def get_members(self):
+         expr =3D OrderedDict()
+diff --git a/tests/qapi-schema/bad-type-int.err b/tests/qapi-schema/bad-t=
+ype-int.err
+index 2021fda5d1..9b2c12c1eb 100644
+--- a/tests/qapi-schema/bad-type-int.err
++++ b/tests/qapi-schema/bad-type-int.err
+@@ -1 +1 @@
+-tests/qapi-schema/bad-type-int.json:3:13: Stray '1'
++tests/qapi-schema/bad-type-int.json:3:13: Stray '123'
+diff --git a/tests/qapi-schema/funny-word.err b/tests/qapi-schema/funny-w=
+ord.err
+index 18aedb4a99..af92fe2551 100644
+--- a/tests/qapi-schema/funny-word.err
++++ b/tests/qapi-schema/funny-word.err
+@@ -1 +1 @@
+-tests/qapi-schema/funny-word.json:1:3: Stray 'c'
++tests/qapi-schema/funny-word.json:1:3: Stray 'command'
 --=20
 2.21.0
 
