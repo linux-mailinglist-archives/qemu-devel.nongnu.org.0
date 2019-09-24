@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28752BC80D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:42:45 +0200 (CEST)
-Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DB1BC80B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 14:42:38 +0200 (CEST)
+Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCk9T-0007VW-LK
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
+	id 1iCk9M-0007N0-Rb
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 08:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCk0n-0001JA-5w
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:50 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0o-0001KI-A1
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCk0j-0006wQ-4B
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38420)
+ (envelope-from <armbru@redhat.com>) id 1iCk0k-0006yY-9K
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37046)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0i-0006uY-JT
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:40 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0j-0006wD-Ru
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:42 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8610E306085E
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CAB5610CC1EE
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 563D910013D9;
- Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98265600CC;
+ Tue, 24 Sep 2019 12:33:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F12871136426; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
+ id 185A41136429; Tue, 24 Sep 2019 14:33:35 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/37] qapi: Improve reporting of lexical errors
-Date: Tue, 24 Sep 2019 14:33:23 +0200
-Message-Id: <20190924123334.30645-27-armbru@redhat.com>
+Subject: [PULL 29/37] qapi: Reject blank 'if' conditions in addition to empty
+ ones
+Date: Tue, 24 Sep 2019 14:33:26 +0200
+Message-Id: <20190924123334.30645-30-armbru@redhat.com>
 In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
 References: <20190924123334.30645-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 24 Sep 2019 12:33:39 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Tue, 24 Sep 2019 12:33:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,55 +61,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Show text up to next structural character, whitespace, or quote
-character instead of just the first character.
-
-Forgotten quotes now get reported like "Stray 'command'" instead of
-"Stray 'c'".
+"'if': 'COND'" generates "#if COND".  We reject empty COND because it
+won't compile.  Blank COND won't compile any better, so reject that,
+too.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190914153506.2151-9-armbru@redhat.com>
+Message-Id: <20190914153506.2151-12-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/common.py             | 6 +++++-
- tests/qapi-schema/bad-type-int.err | 2 +-
- tests/qapi-schema/funny-word.err   | 2 +-
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ scripts/qapi/common.py             | 5 +++--
+ tests/qapi-schema/bad-if-list.err  | 2 +-
+ tests/qapi-schema/bad-if-list.json | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 142ab276ff..b3383b17ef 100644
+index a58e904978..2b46164854 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -559,7 +559,11 @@ class QAPISchemaParser(object):
-                 self.line +=3D 1
-                 self.line_pos =3D self.cursor
-             elif not self.tok.isspace():
--                raise QAPIParseError(self, "Stray '%s'" % self.tok)
-+                # Show up to next structural, whitespace or quote
-+                # character
-+                match =3D re.match('[^[\\]{}:,\\s\'"]+',
-+                                 self.src[self.cursor-1:])
-+                raise QAPIParseError(self, "Stray '%s'" % match.group(0)=
-)
+@@ -742,8 +742,9 @@ def check_if(expr, info):
+         if not isinstance(ifcond, str):
+             raise QAPISemError(
+                 info, "'if' condition must be a string or a list of stri=
+ngs")
+-        if ifcond =3D=3D '':
+-            raise QAPISemError(info, "'if' condition '' makes no sense")
++        if ifcond.strip() =3D=3D '':
++            raise QAPISemError(info, "'if' condition '%s' makes no sense=
+"
++                               % ifcond)
 =20
-     def get_members(self):
-         expr =3D OrderedDict()
-diff --git a/tests/qapi-schema/bad-type-int.err b/tests/qapi-schema/bad-t=
-ype-int.err
-index 2021fda5d1..9b2c12c1eb 100644
---- a/tests/qapi-schema/bad-type-int.err
-+++ b/tests/qapi-schema/bad-type-int.err
+     ifcond =3D expr.get('if')
+     if ifcond is None:
+diff --git a/tests/qapi-schema/bad-if-list.err b/tests/qapi-schema/bad-if=
+-list.err
+index 0af6316f78..53af099083 100644
+--- a/tests/qapi-schema/bad-if-list.err
++++ b/tests/qapi-schema/bad-if-list.err
 @@ -1 +1 @@
--tests/qapi-schema/bad-type-int.json:3:13: Stray '1'
-+tests/qapi-schema/bad-type-int.json:3:13: Stray '123'
-diff --git a/tests/qapi-schema/funny-word.err b/tests/qapi-schema/funny-w=
-ord.err
-index 18aedb4a99..af92fe2551 100644
---- a/tests/qapi-schema/funny-word.err
-+++ b/tests/qapi-schema/funny-word.err
-@@ -1 +1 @@
--tests/qapi-schema/funny-word.json:1:3: Stray 'c'
-+tests/qapi-schema/funny-word.json:1:3: Stray 'command'
+-tests/qapi-schema/bad-if-list.json:2: 'if' condition '' makes no sense
++tests/qapi-schema/bad-if-list.json:2: 'if' condition ' ' makes no sense
+diff --git a/tests/qapi-schema/bad-if-list.json b/tests/qapi-schema/bad-i=
+f-list.json
+index 49ced9b9ca..ea3d95bb6b 100644
+--- a/tests/qapi-schema/bad-if-list.json
++++ b/tests/qapi-schema/bad-if-list.json
+@@ -1,3 +1,3 @@
+ # check invalid 'if' content
+ { 'struct': 'TestIfStruct', 'data': { 'foo': 'int' },
+-  'if': ['foo', ''] }
++  'if': ['foo', ' '] }
 --=20
 2.21.0
 
