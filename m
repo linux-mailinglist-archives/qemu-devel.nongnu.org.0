@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F34FBD3BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:44:13 +0200 (CEST)
-Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D335BBD3C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:46:52 +0200 (CEST)
+Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrfP-0003zq-Sx
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
+	id 1iCrhz-0006Hq-PA
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:46:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44097)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8P-0000tv-5Y
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8P-0000vJ-Rl
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8N-00031c-E7
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:04 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38150)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8O-00032a-DA
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:05 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38184)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8M-0002uJ-PT
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
+ id 1iCr8N-0002vB-Ug
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:04 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8B-0001Mk-Ag; Tue, 24 Sep 2019 23:09:51 +0300
+ id 1iCr8C-0001Mk-HJ; Tue, 24 Sep 2019 23:09:52 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/25] cmdline: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:57 +0300
-Message-Id: <20190924200902.4703-21-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 25/25] PVRDMA: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:09:02 +0300
+Message-Id: <20190924200902.4703-26-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -49,7 +49,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
- Markus Armbruster <armbru@redhat.com>
+ Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -75,29 +75,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- util/qemu-option.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/rdma/vmw/pvrdma_main.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 97172b5eaa..7136d83b1d 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -145,6 +145,7 @@ static const QemuOptDesc *find_desc_by_name(const QemuOptDesc *desc,
- void parse_option_size(const char *name, const char *value,
-                        uint64_t *ret, Error **errp)
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+index 3e36e13013..3cc02311bf 100644
+--- a/hw/rdma/vmw/pvrdma_main.c
++++ b/hw/rdma/vmw/pvrdma_main.c
+@@ -592,6 +592,7 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+ 
+ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     uint64_t size;
-     int err;
- 
-@@ -660,6 +661,7 @@ QemuOpts *qemu_opts_find(QemuOptsList *list, const char *id)
- QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
-                            int fail_if_exists, Error **errp)
- {
-+    ERRP_FUNCTION_BEGIN();
-     QemuOpts *opts = NULL;
- 
-     if (id) {
+     int rc = 0;
+     PVRDMADev *dev = PVRDMA_DEV(pdev);
+     Object *memdev_root;
 -- 
 2.21.0
 
