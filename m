@@ -2,47 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21126BCA2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:25:47 +0200 (CEST)
-Received: from localhost ([::1]:46302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDEEBCA1B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 16:21:38 +0200 (CEST)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCllB-0002Ln-OA
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58673)
+	id 1iClhA-000644-SQ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 10:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iCkrv-00007h-1t
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:47 -0400
+ (envelope-from <mst@redhat.com>) id 1iCkra-00088K-41
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iCkrs-0001QZ-2Q
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:61678)
+ (envelope-from <mst@redhat.com>) id 1iCkrZ-0001JE-1N
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57696)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrr-0001Po-Ph
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:35 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iCkrY-0001J4-Q0
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:16 -0400
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1004F335DC;
- Tue, 24 Sep 2019 13:28:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CECDE5C1B2;
- Tue, 24 Sep 2019 13:28:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 59CC8113864E; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 00/25] qapi: Pay back some frontend technical debt
-Date: Tue, 24 Sep 2019 15:28:05 +0200
-Message-Id: <20190924132830.15835-1-armbru@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 1931658
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 13:28:16 +0000 (UTC)
+Received: by mail-qt1-f197.google.com with SMTP id r15so1912684qtn.12
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:28:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0siV7+IiGRtmpsjCKKKrKw8qwzwFcfU/O5o31oDtQNM=;
+ b=hIttuOIJz4ulgCSYNkiD8V+uFu8Fwr12YFlbE9YmewKXDRekkfiJcZIaqqgHutGlvP
+ y2k2odQejG1VJxl68IhgPS0p6Ozne+CXVtyCzprnEgqqh7zQDhXoKX5tb3hjynksvnQ9
+ x5RRNb8f+tRDOLr2VitS+VZuJpNzQlLXpHjauDWqtngiHcSKatgq0WeOnMzGKNZ8qJh0
+ 1eSzn1UPtMpdf5Als0QxCaTq9zJlU6oFnfQ8i52LNsE/7ZH590v+h2zzw0A387WIY6Rd
+ fjRWKiHwbiwwaYW68F2aPG7m8qtkIIDQK5eAdYSJUM4sNCPefarzYcBKuyWg7k6h8Z9H
+ Bumg==
+X-Gm-Message-State: APjAAAU7dGy8HZk+wwOE6iHjlAGv/JMaRf4PEQ+tni2z7t/0m+vvDEMb
+ bib4OaO9zjNzLUK7IMHPn4//arjkqms3QMhowYGtx3p7+gs55WXiAxml8vSMmj5ns2sFTijSo70
+ 7Gh0jm9K+9eQUZsU=
+X-Received: by 2002:a37:af81:: with SMTP id y123mr2346000qke.145.1569331695453; 
+ Tue, 24 Sep 2019 06:28:15 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy8IETc94LHUvszYZmbbVF9ufeHqsjMgwcWGWqmPhUsAF9oomZniLkKp52I24u6LE51VHqlag==
+X-Received: by 2002:a37:af81:: with SMTP id y123mr2345985qke.145.1569331695302; 
+ Tue, 24 Sep 2019 06:28:15 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
+ by smtp.gmail.com with ESMTPSA id z72sm956187qka.115.2019.09.24.06.28.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 06:28:14 -0700 (PDT)
+Date: Tue, 24 Sep 2019 09:28:09 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH v4 8/8] hw/i386: Introduce the microvm machine type
+Message-ID: <20190924092435-mutt-send-email-mst@kernel.org>
+References: <20190924124433.96810-1-slp@redhat.com>
+ <20190924124433.96810-9-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 24 Sep 2019 13:28:35 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190924124433.96810-9-slp@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,236 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: ehabkost@redhat.com, kvm@vger.kernel.org, lersek@redhat.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we introduced the QAPISchema intermediate representation (commit
-ac88219a6c7), we took a shortcut: we left check_exprs() & friends
-alone instead of moving the semantic checks to their proper place.
-Time to finish this job.  Topped off with error message gardening.
+On Tue, Sep 24, 2019 at 02:44:33PM +0200, Sergio Lopez wrote:
+> +static void microvm_fix_kernel_cmdline(MachineState *machine)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(machine);
+> +    BusState *bus;
+> +    BusChild *kid;
+> +    char *cmdline;
+> +
+> +    /*
+> +     * Find MMIO transports with attached devices, and add them to the kernel
+> +     * command line.
+> +     *
+> +     * Yes, this is a hack, but one that heavily improves the UX without
+> +     * introducing any significant issues.
+> +     */
+> +    cmdline = g_strdup(machine->kernel_cmdline);
+> +    bus = sysbus_get_default();
+> +    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+> +        DeviceState *dev = kid->child;
+> +        ObjectClass *class = object_get_class(OBJECT(dev));
+> +
+> +        if (class == object_class_by_name(TYPE_VIRTIO_MMIO)) {
+> +            VirtIOMMIOProxy *mmio = VIRTIO_MMIO(OBJECT(dev));
+> +            VirtioBusState *mmio_virtio_bus = &mmio->bus;
+> +            BusState *mmio_bus = &mmio_virtio_bus->parent_obj;
+> +
+> +            if (!QTAILQ_EMPTY(&mmio_bus->children)) {
+> +                gchar *mmio_cmdline = microvm_get_mmio_cmdline(mmio_bus->name);
+> +                if (mmio_cmdline) {
+> +                    char *newcmd = g_strjoin(NULL, cmdline, mmio_cmdline, NULL);
+> +                    g_free(mmio_cmdline);
+> +                    g_free(cmdline);
+> +                    cmdline = newcmd;
+> +                }
+> +            }
+> +        }
+> +    }
+> +
+> +    fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) + 1);
+> +    fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
+> +}
 
-Based-on: <20190924123334.30645-1-armbru@redhat.com>
+Can we rearrange this somewhat? Maybe the mmio constructor
+would format the device description and add to some list,
+and then microvm would just get stuff from that list
+and add it to kernel command line?
+This way it can also be controlled by a virtio-mmio property, so
+e.g. you can disable it per device if you like.
+In particular, this seems like a handy trick for any machine type
+using mmio.
 
-Markus Armbruster (25):
-  qapi: Tighten QAPISchemaFOO.check() assertions
-  qapi: Rename .owner to .defined_in
-  qapi: New QAPISourceInfo, replacing dict
-  qapi: Prefix frontend errors with an "in definition" line
-  qapi: Clean up member name case checking
-  qapi: Change frontend error messages to start with lower case
-  qapi: Improve reporting of member name clashes
-  qapi: Reorder check_FOO() parameters for consistency
-  qapi: Improve reporting of invalid name errors
-  qapi: Use check_name_str() where it suffices
-  qapi: Report invalid '*' prefix like any other invalid name
-  qapi: Move check for reserved names out of add_name()
-  qapi: Make check_type()'s array case a bit more obvious
-  qapi: Plumb info to the QAPISchemaMember
-  qapi: Inline check_name() into check_union()
-  qapi: Move context-sensitive checking to the proper place
-  qapi: Move context-free checking to the proper place
-  qapi: Improve reporting of invalid 'if' errors
-  qapi: Improve reporting of invalid flags
-  qapi: Improve reporting of missing / unknown definition keys
-  qapi: Avoid redundant definition references in error messages
-  qapi: Eliminate check_keys(), rename check_known_keys()
-  qapi: Improve reporting of missing documentation comment
-  qapi: Improve reporting of redefinition
-  qapi: Improve source file read error handling
-
- qapi/qapi-schema.json                         |    2 +-
- scripts/qapi/common.py                        | 1017 +++++++++--------
- scripts/qapi/events.py                        |    2 +-
- tests/qapi-schema/allow-preconfig-test.err    |    3 +-
- tests/qapi-schema/alternate-any.err           |    3 +-
- tests/qapi-schema/alternate-array.err         |    3 +-
- tests/qapi-schema/alternate-base.err          |    3 +-
- .../alternate-branch-if-invalid.err           |    1 +
- tests/qapi-schema/alternate-clash.err         |    3 +-
- .../alternate-conflict-bool-string.err        |    3 +-
- tests/qapi-schema/alternate-conflict-dict.err |    3 +-
- .../alternate-conflict-enum-bool.err          |    3 +-
- .../alternate-conflict-enum-int.err           |    3 +-
- .../alternate-conflict-num-string.err         |    3 +-
- .../qapi-schema/alternate-conflict-string.err |    3 +-
- tests/qapi-schema/alternate-empty.err         |    3 +-
- tests/qapi-schema/alternate-invalid-dict.err  |    3 +-
- tests/qapi-schema/alternate-nested.err        |    3 +-
- tests/qapi-schema/alternate-unknown.err       |    3 +-
- tests/qapi-schema/args-alternate.err          |    3 +-
- tests/qapi-schema/args-any.err                |    3 +-
- tests/qapi-schema/args-array-empty.err        |    3 +-
- tests/qapi-schema/args-array-unknown.err      |    3 +-
- tests/qapi-schema/args-bad-boxed.err          |    3 +-
- tests/qapi-schema/args-boxed-anon.err         |    3 +-
- tests/qapi-schema/args-boxed-string.err       |    3 +-
- tests/qapi-schema/args-int.err                |    3 +-
- tests/qapi-schema/args-invalid.err            |    3 +-
- tests/qapi-schema/args-member-array-bad.err   |    3 +-
- tests/qapi-schema/args-member-case.err        |    3 +-
- tests/qapi-schema/args-member-case.json       |    2 +-
- tests/qapi-schema/args-member-unknown.err     |    3 +-
- tests/qapi-schema/args-name-clash.err         |    3 +-
- tests/qapi-schema/args-union.err              |    3 +-
- tests/qapi-schema/args-unknown.err            |    3 +-
- tests/qapi-schema/bad-base.err                |    3 +-
- tests/qapi-schema/bad-data.err                |    3 +-
- tests/qapi-schema/bad-ident.err               |    3 +-
- tests/qapi-schema/bad-if-empty-list.err       |    1 +
- tests/qapi-schema/bad-if-empty.err            |    1 +
- tests/qapi-schema/bad-if-list.err             |    1 +
- tests/qapi-schema/bad-if.err                  |    1 +
- tests/qapi-schema/bad-type-bool.err           |    2 +-
- tests/qapi-schema/bad-type-dict.err           |    2 +-
- tests/qapi-schema/bad-type-int.err            |    2 +-
- tests/qapi-schema/base-cycle-direct.err       |    3 +-
- tests/qapi-schema/base-cycle-indirect.err     |    3 +-
- tests/qapi-schema/command-int.err             |    3 +-
- .../qapi-schema/doc-bad-alternate-member.err  |    2 +-
- tests/qapi-schema/doc-bad-command-arg.err     |    2 +-
- tests/qapi-schema/doc-bad-symbol.err          |    3 +-
- tests/qapi-schema/doc-bad-union-member.err    |    2 +-
- tests/qapi-schema/doc-before-include.err      |    2 +-
- tests/qapi-schema/doc-before-pragma.err       |    2 +-
- tests/qapi-schema/doc-duplicated-return.err   |    2 +-
- tests/qapi-schema/doc-duplicated-since.err    |    2 +-
- tests/qapi-schema/doc-empty-arg.err           |    2 +-
- tests/qapi-schema/doc-empty-section.err       |    2 +-
- tests/qapi-schema/doc-empty-symbol.err        |    2 +-
- tests/qapi-schema/doc-invalid-end.err         |    2 +-
- tests/qapi-schema/doc-invalid-end2.err        |    2 +-
- tests/qapi-schema/doc-invalid-start.err       |    2 +-
- tests/qapi-schema/doc-missing-colon.err       |    2 +-
- tests/qapi-schema/doc-missing-expr.err        |    2 +-
- tests/qapi-schema/doc-missing-space.err       |    2 +-
- tests/qapi-schema/doc-missing.err             |    3 +-
- tests/qapi-schema/doc-no-symbol.err           |    2 +-
- tests/qapi-schema/double-type.err             |    3 +-
- tests/qapi-schema/duplicate-key.err           |    2 +-
- tests/qapi-schema/enum-bad-member.err         |    3 +-
- tests/qapi-schema/enum-bad-name.err           |    3 +-
- tests/qapi-schema/enum-bad-prefix.err         |    3 +-
- tests/qapi-schema/enum-clash-member.err       |    3 +-
- .../qapi-schema/enum-dict-member-unknown.err  |    3 +-
- tests/qapi-schema/enum-if-invalid.err         |    1 +
- tests/qapi-schema/enum-int-member.err         |    2 +-
- tests/qapi-schema/enum-member-case.err        |    3 +-
- tests/qapi-schema/enum-missing-data.err       |    3 +-
- tests/qapi-schema/enum-wrong-data.err         |    3 +-
- tests/qapi-schema/escape-outside-string.err   |    2 +-
- tests/qapi-schema/escape-too-big.err          |    1 +
- tests/qapi-schema/event-boxed-empty.err       |    3 +-
- .../qapi-schema/event-member-invalid-dict.err |    3 +-
- tests/qapi-schema/event-nest-struct.err       |    3 +-
- tests/qapi-schema/features-bad-type.err       |    3 +-
- tests/qapi-schema/features-duplicate-name.err |    3 +-
- tests/qapi-schema/features-if-invalid.err     |    1 +
- tests/qapi-schema/features-missing-name.err   |    3 +-
- tests/qapi-schema/features-name-bad-type.err  |    3 +-
- tests/qapi-schema/features-no-list.err        |    3 +-
- tests/qapi-schema/features-unknown-key.err    |    3 +-
- tests/qapi-schema/flat-union-array-branch.err |    3 +-
- tests/qapi-schema/flat-union-bad-base.err     |    3 +-
- .../flat-union-bad-discriminator.err          |    3 +-
- tests/qapi-schema/flat-union-base-any.err     |    3 +-
- tests/qapi-schema/flat-union-base-union.err   |    3 +-
- tests/qapi-schema/flat-union-clash-member.err |    3 +-
- .../flat-union-discriminator-bad-name.err     |    3 +-
- .../flat-union-discriminator-bad-name.json    |    1 -
- tests/qapi-schema/flat-union-empty.err        |    3 +-
- .../flat-union-inline-invalid-dict.err        |    3 +-
- tests/qapi-schema/flat-union-inline.err       |    3 +-
- tests/qapi-schema/flat-union-int-branch.err   |    3 +-
- .../flat-union-invalid-branch-key.err         |    3 +-
- .../flat-union-invalid-discriminator.err      |    3 +-
- .../flat-union-invalid-if-discriminator.err   |    3 +-
- tests/qapi-schema/flat-union-no-base.err      |    3 +-
- .../flat-union-optional-discriminator.err     |    3 +-
- .../flat-union-optional-discriminator.json    |    1 -
- .../flat-union-string-discriminator.err       |    3 +-
- tests/qapi-schema/funny-char.err              |    2 +-
- tests/qapi-schema/funny-word.err              |    2 +-
- tests/qapi-schema/ident-with-escape.err       |    2 +-
- tests/qapi-schema/include-before-err.err      |    2 +-
- tests/qapi-schema/include-cycle.err           |    2 +-
- tests/qapi-schema/include-extra-junk.err      |    2 +-
- tests/qapi-schema/include-nested-err.err      |    2 +-
- tests/qapi-schema/include-no-file.err         |    2 +-
- tests/qapi-schema/include-non-file.err        |    2 +-
- tests/qapi-schema/include-self-cycle.err      |    2 +-
- tests/qapi-schema/leading-comma-list.err      |    2 +-
- tests/qapi-schema/leading-comma-object.err    |    2 +-
- tests/qapi-schema/missing-colon.err           |    2 +-
- tests/qapi-schema/missing-comma-list.err      |    2 +-
- tests/qapi-schema/missing-comma-object.err    |    2 +-
- tests/qapi-schema/missing-type.err            |    2 +-
- .../nested-struct-data-invalid-dict.err       |    3 +-
- tests/qapi-schema/nested-struct-data.err      |    3 +-
- tests/qapi-schema/non-objects.err             |    2 +-
- tests/qapi-schema/oob-test.err                |    3 +-
- .../qapi-schema/pragma-doc-required-crap.err  |    2 +-
- tests/qapi-schema/pragma-extra-junk.err       |    2 +-
- .../pragma-name-case-whitelist-crap.err       |    2 +-
- tests/qapi-schema/pragma-non-dict.err         |    2 +-
- .../pragma-returns-whitelist-crap.err         |    2 +-
- tests/qapi-schema/pragma-unknown.err          |    2 +-
- tests/qapi-schema/quoted-structural-chars.err |    2 +-
- tests/qapi-schema/redefined-builtin.err       |    3 +-
- tests/qapi-schema/redefined-command.err       |    5 +-
- tests/qapi-schema/redefined-event.err         |    5 +-
- tests/qapi-schema/redefined-type.err          |    5 +-
- tests/qapi-schema/reserved-command-q.err      |    3 +-
- tests/qapi-schema/reserved-enum-q.err         |    3 +-
- tests/qapi-schema/reserved-member-has.err     |    3 +-
- tests/qapi-schema/reserved-member-q.err       |    3 +-
- tests/qapi-schema/reserved-member-u.err       |    3 +-
- .../reserved-member-underscore.err            |    3 +-
- tests/qapi-schema/reserved-type-kind.err      |    3 +-
- tests/qapi-schema/reserved-type-list.err      |    3 +-
- tests/qapi-schema/returns-alternate.err       |    3 +-
- tests/qapi-schema/returns-array-bad.err       |    3 +-
- tests/qapi-schema/returns-dict.err            |    3 +-
- tests/qapi-schema/returns-unknown.err         |    3 +-
- tests/qapi-schema/returns-whitelist.err       |    3 +-
- tests/qapi-schema/string-code-point-127.err   |    2 +-
- tests/qapi-schema/string-code-point-31.err    |    2 +-
- tests/qapi-schema/string-control.err          |    1 +
- tests/qapi-schema/string-unclosed.err         |    1 +
- tests/qapi-schema/string-unicode.err          |    1 +
- tests/qapi-schema/struct-base-clash-deep.err  |    3 +-
- tests/qapi-schema/struct-base-clash.err       |    3 +-
- tests/qapi-schema/struct-data-invalid.err     |    3 +-
- .../qapi-schema/struct-member-if-invalid.err  |    1 +
- .../struct-member-invalid-dict.err            |    3 +-
- tests/qapi-schema/struct-member-invalid.err   |    3 +-
- tests/qapi-schema/trailing-comma-list.err     |    2 +-
- tests/qapi-schema/trailing-comma-object.err   |    2 +-
- tests/qapi-schema/type-bypass-bad-gen.err     |    3 +-
- tests/qapi-schema/unclosed-list.err           |    2 +-
- tests/qapi-schema/unclosed-object.err         |    2 +-
- tests/qapi-schema/unclosed-string.err         |    2 +-
- tests/qapi-schema/union-base-empty.err        |    3 +-
- .../union-base-no-discriminator.err           |    3 +-
- tests/qapi-schema/union-branch-case.err       |    3 +-
- tests/qapi-schema/union-branch-case.json      |    4 +-
- tests/qapi-schema/union-branch-if-invalid.err |    1 +
- .../qapi-schema/union-branch-invalid-dict.err |    3 +-
- tests/qapi-schema/union-clash-branches.err    |    3 +-
- tests/qapi-schema/union-empty.err             |    3 +-
- tests/qapi-schema/union-invalid-base.err      |    3 +-
- tests/qapi-schema/union-optional-branch.err   |    3 +-
- tests/qapi-schema/union-unknown.err           |    3 +-
- tests/qapi-schema/union-unknown.json          |    2 +-
- tests/qapi-schema/unknown-escape.err          |    2 +-
- tests/qapi-schema/unknown-expr-key.err        |    3 +-
- 185 files changed, 814 insertions(+), 673 deletions(-)
- create mode 100644 tests/qapi-schema/escape-too-big.err
- create mode 100644 tests/qapi-schema/string-control.err
- create mode 100644 tests/qapi-schema/string-unclosed.err
- create mode 100644 tests/qapi-schema/string-unicode.err
-
---=20
-2.21.0
-
+-- 
+MST
 
