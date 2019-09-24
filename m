@@ -2,73 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD222BC920
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:48:05 +0200 (CEST)
-Received: from localhost ([::1]:45866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7ACBC90E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:43:05 +0200 (CEST)
+Received: from localhost ([::1]:45800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iClAi-00082n-D4
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
+	id 1iCl5s-0003OK-8K
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iCkab-0007Xl-37
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:10:45 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCkrw-000097-62
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iCkaT-0002H6-D7
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:10:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50542)
+ (envelope-from <armbru@redhat.com>) id 1iCkrt-0001RX-PB
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35794)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iCkaT-0002GM-4v
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:10:37 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCkrt-0001Ql-8X
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 09:28:37 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1061BC055673
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 13:10:36 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id 190so926193wme.4
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 06:10:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q0MJSSKSV6Cq9kr0Fbr8b6Bqd4XX1IZh6fNcOtMVgFA=;
- b=K15S5taqfD0zhWV5apIdss3SB5+kLmGTOg3MDnrnYXf23G58VZtIDzKNdHz8I/FTK+
- jO9/ucJeZ9qvCNBoj5uy876xUA3xpAYk57s/k0AVtnGSHljzmbHDSalfsaamXtNdFVyw
- XamZ6YEvIeSxlkU/g0g/yVi+VX9xPhxRyzK6m/P3hUS2dDxOXxNXgFq2J87+ogIVPCcS
- yiWjqu+uT/tWQRIjYpGUqsUf7pNzsRfgso4f4SnfQQWqFUEMCNDC93BVIvnBO7PjQV+Y
- CwAOitTdufBZiWaBWcDN3AyiqPffIPWyjG5pKl0OGHIlew6JieqQjYHwhUjrIk/m3xPf
- 1hBw==
-X-Gm-Message-State: APjAAAVaUpR8nQn1M4/S9s8EJfjBVm2D+qav9d3BgG3M4s95GqZXBd+U
- Be65tSwHnpWDzFIAphaa/cW5XX5qgObw+S3eOCHBfDcCox/wbx8JhYMsO9XT7im9mGNm1jEDZNE
- sVC/dT292ce/2S0o=
-X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr2857062wmi.31.1569330634633;
- Tue, 24 Sep 2019 06:10:34 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwT50WNRh9TiZTaR+GDMyzI/HA/Ucnwa1fcbZCxIjKtaggqpyZFT6A1MN41iIYAAfZYqHmqfA==
-X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr2857028wmi.31.1569330634348;
- Tue, 24 Sep 2019 06:10:34 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
- ([2001:b07:6468:f312:9520:22e6:6416:5c36])
- by smtp.gmail.com with ESMTPSA id j26sm3660988wrd.2.2019.09.24.06.10.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Sep 2019 06:10:33 -0700 (PDT)
-Subject: Re: [PATCH v4 7/8] docs/microvm.txt: document the new microvm machine
- type
-To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
-References: <20190924124433.96810-1-slp@redhat.com>
- <20190924124433.96810-8-slp@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <23a6e891-c3ba-3991-d627-433eb1fe156d@redhat.com>
-Date: Tue, 24 Sep 2019 15:10:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 73DDB3D965;
+ Tue, 24 Sep 2019 13:28:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DF1E60C5E;
+ Tue, 24 Sep 2019 13:28:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7C55211385CB; Tue, 24 Sep 2019 15:28:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 10/25] qapi: Use check_name_str() where it suffices
+Date: Tue, 24 Sep 2019 15:28:15 +0200
+Message-Id: <20190924132830.15835-11-armbru@redhat.com>
+In-Reply-To: <20190924132830.15835-1-armbru@redhat.com>
+References: <20190924132830.15835-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190924124433.96810-8-slp@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Tue, 24 Sep 2019 13:28:36 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,50 +57,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, lersek@redhat.com,
- mtosatti@redhat.com, kraxel@redhat.com, imammedo@redhat.com, philmd@redhat.com,
- rth@twiddle.net
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/09/19 14:44, Sergio Lopez wrote:
-> +Microvm is a machine type inspired by both NEMU and Firecracker, and
-> +constructed after the machine model implemented by the latter.
+Replace check_name() by check_name_str() where the name is known to be
+a string.
 
-I would say it's inspired by Firecracker only.  The NEMU virt machine
-had virtio-pci and ACPI.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/common.py | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-> +It's main purpose is providing users a minimalist machine type free
-> +from the burden of legacy compatibility,
-
-I think this is too strong, especially if you keep the PIC and PIT. :)
-Maybe just "It's a minimalist machine type without PCI support designed
-for short-lived guests".
-
-> +serving as a stepping stone
-> +for future projects aiming at improving boot times, reducing the
-> +attack surface and slimming down QEMU's footprint.
-
-"Microvm also establishes a baseline for benchmarking QEMU and operating
-systems, since it is optimized for both boot time and footprint".
-
-> +The microvm machine type supports the following devices:
-> +
-> + - ISA bus
-> + - i8259 PIC
-> + - LAPIC (implicit if using KVM)
-> + - IOAPIC (defaults to kernel_irqchip_split = true)
-> + - i8254 PIT
-
-Do we need the PIT?  And perhaps the PIC even?
-
-Paolo
-
-> + - MC146818 RTC (optional)
-> + - kvmclock (if using KVM)
-> + - fw_cfg
-> + - One ISA serial port (optional)
-> + - Up to eight virtio-mmio devices (configured by the user)
-> +
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index fdc4379eff..6c870da50b 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -815,8 +815,8 @@ def check_type(value, info, source,
+=20
+     # value is a dictionary, check that each member is okay
+     for (key, arg) in value.items():
+-        check_name(key, info, "member of %s" % source,
+-                   allow_optional=3DTrue, permit_upper=3Dpermit_upper)
++        check_name_str(key, info, "member of %s" % source,
++                       allow_optional=3DTrue, permit_upper=3Dpermit_uppe=
+r)
+         if c_name(key, False) =3D=3D 'u' or c_name(key, False).startswit=
+h('has_'):
+             raise QAPISemError(
+                 info, "member of %s uses reserved name '%s'" % (source, =
+key))
+@@ -919,8 +919,7 @@ def check_union(expr, info):
+         raise QAPISemError(info, "union '%s' has no branches" % name)
+=20
+     for (key, value) in members.items():
+-        check_name(key, info, "member of union '%s'" % name)
+-
++        check_name_str(key, info, "member of union '%s'" % name)
+         check_known_keys(value, info,
+                          "member '%s' of union '%s'" % (key, name),
+                          ['type'], ['if'])
+@@ -950,7 +949,7 @@ def check_alternate(expr, info):
+         raise QAPISemError(info,
+                            "alternate '%s' cannot have empty 'data'" % n=
+ame)
+     for (key, value) in members.items():
+-        check_name(key, info, "member of alternate '%s'" % name)
++        check_name_str(key, info, "member of alternate '%s'" % name)
+         check_known_keys(value, info,
+                          "member '%s' of alternate '%s'" % (key, name),
+                          ['type'], ['if'])
+--=20
+2.21.0
 
 
