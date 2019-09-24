@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5F3BD36F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:20:03 +0200 (CEST)
-Received: from localhost ([::1]:50656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74443BD373
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 22:20:26 +0200 (CEST)
+Received: from localhost ([::1]:50664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCrI1-0002Xg-PJ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:20:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43970)
+	id 1iCrIO-0002we-NX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 16:20:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8M-0000pP-0d
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:03 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8B-0000XH-0R
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iCr8K-0002zW-Km
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:01 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38088)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iCr89-0002sT-Eq
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:09:50 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38058)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr8K-0002sZ-BP
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 16:10:00 -0400
+ id 1iCr89-0002rN-3b; Tue, 24 Sep 2019 16:09:49 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iCr88-0001Mk-Th; Tue, 24 Sep 2019 23:09:49 +0300
+ id 1iCr87-0001Mk-TL; Tue, 24 Sep 2019 23:09:47 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/25] PCI: Fix error_append_hint usage
-Date: Tue, 24 Sep 2019 23:08:49 +0300
-Message-Id: <20190924200902.4703-13-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 08/25] ARM TCG CPUs: Fix error_append_hint usage
+Date: Tue, 24 Sep 2019 23:08:45 +0300
+Message-Id: <20190924200902.4703-9-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924200902.4703-1-vsementsov@virtuozzo.com>
 References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
@@ -48,8 +47,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Greg Kurz <groug@kaod.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, vsementsov@virtuozzo.com,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -75,21 +75,42 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/pci-bridge/pcie_root_port.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/msf2-soc.c | 1 +
+ hw/arm/virt.c     | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-index 012c2cb12c..a0aacad711 100644
---- a/hw/pci-bridge/pcie_root_port.c
-+++ b/hw/pci-bridge/pcie_root_port.c
-@@ -60,6 +60,7 @@ static void rp_reset(DeviceState *qdev)
+diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
+index 008fd9327a..21e4bdfb72 100644
+--- a/hw/arm/msf2-soc.c
++++ b/hw/arm/msf2-soc.c
+@@ -85,6 +85,7 @@ static void m2sxxx_soc_initfn(Object *obj)
  
- static void rp_realize(PCIDevice *d, Error **errp)
+ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
  {
 +    ERRP_FUNCTION_BEGIN();
-     PCIEPort *p = PCIE_PORT(d);
-     PCIESlot *s = PCIE_SLOT(d);
-     PCIDeviceClass *dc = PCI_DEVICE_GET_CLASS(d);
+     MSF2State *s = MSF2_SOC(dev_soc);
+     DeviceState *dev, *armv7m;
+     SysBusDevice *busdev;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index d74538b021..e79a46b0b3 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1793,6 +1793,7 @@ static char *virt_get_gic_version(Object *obj, Error **errp)
+ 
+ static void virt_set_gic_version(Object *obj, const char *value, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+ 
+     if (!strcmp(value, "3")) {
+@@ -1825,6 +1826,7 @@ static char *virt_get_iommu(Object *obj, Error **errp)
+ 
+ static void virt_set_iommu(Object *obj, const char *value, Error **errp)
+ {
++    ERRP_FUNCTION_BEGIN();
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+ 
+     if (!strcmp(value, "smmuv3")) {
 -- 
 2.21.0
 
