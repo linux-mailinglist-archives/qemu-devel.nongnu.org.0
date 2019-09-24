@@ -2,48 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52265BCC41
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:19:52 +0200 (CEST)
-Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20750BCC23
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:11:48 +0200 (CEST)
+Received: from localhost ([::1]:47784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCnXa-0005ji-Tc
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51108)
+	id 1iCnPm-0005ZP-Iw
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50669)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCmuL-0008BL-B4
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:18 -0400
+ (envelope-from <philmd@redhat.com>) id 1iCmr9-0004wU-LA
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:36:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iCmuJ-00069G-Rb
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:17 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:35694
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iCmuJ-0005cM-LX; Tue, 24 Sep 2019 11:39:15 -0400
-Received: from host86-138-245-63.range86-138.btcentralplus.com
- ([86.138.245.63] helo=kentang.home)
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iCmrT-0007WZ-MN; Tue, 24 Sep 2019 16:36:20 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, pc@us.ibm.com,
- david@gibson.dropbear.id.au
-Date: Tue, 24 Sep 2019 16:35:50 +0100
-Message-Id: <20190924153556.27575-2-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
-References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
+ (envelope-from <philmd@redhat.com>) id 1iCmr6-0004av-Uz
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:35:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37820)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iCmr6-0004aO-Ms
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:35:56 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D2ED7356DC
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:35:54 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id o8so223397wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:35:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QHTF5TZ3u6p0eTxztfRkWdp1fMmQkgylQz3ME9vePMM=;
+ b=f5acdy9P/bXYZA2OQrb5S+L4QnZY3vE1Sx1qq2OUD/x1aPpMF3uwUAW1RgL7I3tCtk
+ NF3wigeGaSfRXHz1tN3R1P6mvrcilkaXDJl4kYsgFJeWbWAAFk8JpT5/gUdWqeA8HoKG
+ cDwJ+sazv+GeWIAQ2AsftnR8HbsKGqZhw/LtF4UdNgDkWMGls0WpiMDF0gp61d+eh04H
+ 1qQCKYzA4k02Se8SbH4qRsRtPWIa/f0gwcSeZQr0R9vBAtox/WFmrEE2nx0lgPJo//zw
+ dX7PhLjpOdYgM5XjgxvU6tVCI5Bl2T/B32BKs7fdDUpJjH1Sp2tMvpV5stlzu6mEtwgk
+ ay0g==
+X-Gm-Message-State: APjAAAVAv2ElBUKfZ5PVKy6Uvatf0wNNeM0brIb3XjS6lqcCPj9GcBj9
+ bbbGvT4PW6S5/MGfg9cpcb/j8iuzUJDPDtOs8/XT8vSBZD0TW6LMMDcINvbQjwWqRYWb805NGOi
+ T1OcLz9AkeQr7oM0=
+X-Received: by 2002:a1c:f714:: with SMTP id v20mr746883wmh.55.1569339353642;
+ Tue, 24 Sep 2019 08:35:53 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxGg3+adJOwFP+eM11P3r5a8I5fFFRyteVoe4K7ufjJlzPZ2ZAF6L8Clkji+dh/gdJJBW/dIQ==
+X-Received: by 2002:a1c:f714:: with SMTP id v20mr746869wmh.55.1569339353480;
+ Tue, 24 Sep 2019 08:35:53 -0700 (PDT)
+Received: from [192.168.1.115] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id b22sm353247wmj.36.2019.09.24.08.35.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Sep 2019 08:35:52 -0700 (PDT)
+Subject: Re: [PATCH] COLO-compare: Fix incorrect `if` logic
+To: Fan Yang <Fan_Yang@sjtu.edu.cn>, qemu-devel@nongnu.org,
+ Zhang Chen <chen.zhang@intel.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Jason Wang <jasowang@redhat.com>
+References: <m2y2yd9482.fsf@Fans-Air.ipads-lab.se.sjtu.edu.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <6d23190f-e68a-3000-c288-84f2e0d50b07@redhat.com>
+Date: Tue, 24 Sep 2019 17:35:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.138.245.63
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 1/7] target/ppc: introduce get_dfp{64,128}() helper functions
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+In-Reply-To: <m2y2yd9482.fsf@Fans-Air.ipads-lab.se.sjtu.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,161 +86,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing functions (now incorrectly) assume that the MSB and LSB of DFP
-numbers are stored as consecutive 64-bit words in memory. Instead of accessing
-the DFP numbers directly, introduce get_dfp{64,128}() helper functions to ease
-the switch to the correct representation.
+Hi Fan,
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- target/ppc/dfp_helper.c | 52 ++++++++++++++++++++++++++++++-----------
- 1 file changed, 39 insertions(+), 13 deletions(-)
+you forgot to Cc the maintainers (doing that for you):
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index f102177572..354a4aa877 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -36,6 +36,17 @@
- #define LO_IDX 0
- #endif
- 
-+static void get_dfp64(uint64_t *dst, uint64_t *dfp)
-+{
-+    dst[0] = dfp[0];
-+}
-+
-+static void get_dfp128(uint64_t *dst, uint64_t *dfp)
-+{
-+    dst[0] = dfp[HI_IDX];
-+    dst[1] = dfp[LO_IDX];
-+}
-+
- struct PPC_DFP {
-     CPUPPCState *env;
-     uint64_t t64[2], a64[2], b64[2];
-@@ -129,7 +140,7 @@ static void dfp_prepare_decimal64(struct PPC_DFP *dfp, uint64_t *a,
-     dfp->env = env;
- 
-     if (a) {
--        dfp->a64[0] = *a;
-+        get_dfp64(dfp->a64, a);
-         decimal64ToNumber((decimal64 *)dfp->a64, &dfp->a);
-     } else {
-         dfp->a64[0] = 0;
-@@ -137,7 +148,7 @@ static void dfp_prepare_decimal64(struct PPC_DFP *dfp, uint64_t *a,
-     }
- 
-     if (b) {
--        dfp->b64[0] = *b;
-+        get_dfp64(dfp->b64, b);
-         decimal64ToNumber((decimal64 *)dfp->b64, &dfp->b);
-     } else {
-         dfp->b64[0] = 0;
-@@ -153,8 +164,7 @@ static void dfp_prepare_decimal128(struct PPC_DFP *dfp, uint64_t *a,
-     dfp->env = env;
- 
-     if (a) {
--        dfp->a64[0] = a[HI_IDX];
--        dfp->a64[1] = a[LO_IDX];
-+        get_dfp128(dfp->a64, a);
-         decimal128ToNumber((decimal128 *)dfp->a64, &dfp->a);
-     } else {
-         dfp->a64[0] = dfp->a64[1] = 0;
-@@ -162,8 +172,7 @@ static void dfp_prepare_decimal128(struct PPC_DFP *dfp, uint64_t *a,
-     }
- 
-     if (b) {
--        dfp->b64[0] = b[HI_IDX];
--        dfp->b64[1] = b[LO_IDX];
-+        get_dfp128(dfp->b64, b);
-         decimal128ToNumber((decimal128 *)dfp->b64, &dfp->b);
-     } else {
-         dfp->b64[0] = dfp->b64[1] = 0;
-@@ -617,10 +626,12 @@ uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint64_t *b)         \
- {                                                                        \
-     struct PPC_DFP dfp;                                                  \
-     unsigned k;                                                          \
-+    uint64_t a64;                                                        \
-                                                                          \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                          \
-                                                                          \
--    k = *a & 0x3F;                                                       \
-+    get_dfp64(&a64, a);                                                  \
-+    k = a64 & 0x3F;                                                      \
-                                                                          \
-     if (unlikely(decNumberIsSpecial(&dfp.b))) {                          \
-         dfp.crbf = 1;                                                    \
-@@ -817,11 +828,15 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,            \
-                  uint64_t *b, uint32_t rmc)                             \
- {                                                                       \
-     struct PPC_DFP dfp;                                                 \
--    int32_t ref_sig = *a & 0x3F;                                        \
-+    uint64_t a64;                                                       \
-+    int32_t ref_sig;                                                    \
-     int32_t xmax = ((size) == 64) ? 369 : 6111;                         \
-                                                                         \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                         \
-                                                                         \
-+    get_dfp64(&a64, a);                                                 \
-+    ref_sig = a64 & 0x3f;                                               \
-+                                                                        \
-     _dfp_reround(rmc, ref_sig, xmax, &dfp);                             \
-     decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t,         \
-                               &dfp.context);                            \
-@@ -881,7 +896,12 @@ DFP_HELPER_RINT(drintnq, RINTN_PPs, 128)
- void helper_dctdp(CPUPPCState *env, uint64_t *t, uint64_t *b)
- {
-     struct PPC_DFP dfp;
--    uint32_t b_short = *b;
-+    uint64_t b64;
-+    uint32_t b_short;
-+
-+    get_dfp64(&b64, b);
-+    b_short = (uint32_t)b64;
-+
-     dfp_prepare_decimal64(&dfp, 0, 0, env);
-     decimal32ToNumber((decimal32 *)&b_short, &dfp.t);
-     decimal64FromNumber((decimal64 *)t, &dfp.t, &dfp.context);
-@@ -891,8 +911,10 @@ void helper_dctdp(CPUPPCState *env, uint64_t *t, uint64_t *b)
- void helper_dctqpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
- {
-     struct PPC_DFP dfp;
-+    uint64_t b64;
-     dfp_prepare_decimal128(&dfp, 0, 0, env);
--    decimal64ToNumber((decimal64 *)b, &dfp.t);
-+    get_dfp64(&b64, b);
-+    decimal64ToNumber((decimal64 *)&b64, &dfp.t);
- 
-     dfp_check_for_VXSNAN_and_convert_to_QNaN(&dfp);
-     dfp_set_FPRF_from_FRT(&dfp);
-@@ -940,8 +962,10 @@ void helper_drdpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
- void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)                   \
- {                                                                              \
-     struct PPC_DFP dfp;                                                        \
-+    uint64_t b64;                                                              \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                                \
--    decNumberFromInt64(&dfp.t, (int64_t)(*b));                                 \
-+    get_dfp64(&b64, b);                                                        \
-+    decNumberFromInt64(&dfp.t, (int64_t)b64);                                  \
-     decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, &dfp.context); \
-     CFFIX_PPs(&dfp);                                                           \
-                                                                                \
-@@ -1183,10 +1207,12 @@ static void dfp_set_raw_exp_128(uint64_t *t, uint64_t raw)
- void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a, uint64_t *b) \
- {                                                                         \
-     struct PPC_DFP dfp;                                                   \
--    uint64_t raw_qnan, raw_snan, raw_inf, max_exp;                        \
-+    uint64_t raw_qnan, raw_snan, raw_inf, max_exp, a64;                   \
-     int bias;                                                             \
--    int64_t exp = *((int64_t *)a);                                        \
-+    int64_t exp;                                                          \
-                                                                           \
-+    get_dfp64(&a64, a);                                                   \
-+    exp = (int64_t)a64;                                                   \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                           \
-                                                                           \
-     if ((size) == 64) {                                                   \
--- 
-2.20.1
+./scripts/get_maintainer.pl -f net/colo-compare.c
+Zhang Chen <chen.zhang@intel.com> (supporter:COLO Proxy)
+Li Zhijian <lizhijian@cn.fujitsu.com> (supporter:COLO Proxy)
+Jason Wang <jasowang@redhat.com> (maintainer:Network device ba...)
+qemu-devel@nongnu.org (open list:All patches CC here)
 
+On 9/24/19 4:08 PM, Fan Yang wrote:
+> 'colo_mark_tcp_pkt' should return 'true' when packets are the same, and
+> 'false' otherwise.  However, it returns 'true' when
+> 'colo_compare_packet_payload' returns non-zero while
+> 'colo_compare_packet_payload' is just a 'memcmp'.  The result is that
+> COLO-compare reports inconsistent TCP packets when they are actually
+> the same.
+>=20
+
+Fixes: f449c9e549c
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> Signed-off-by: Fan Yang <Fan_Yang@sjtu.edu.cn>
+> ---
+>  net/colo-compare.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/net/colo-compare.c b/net/colo-compare.c
+> index 7489840bde..7ee17f2cf8 100644
+> --- a/net/colo-compare.c
+> +++ b/net/colo-compare.c
+> @@ -319,7 +319,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet =
+*spkt,
+>      *mark =3D 0;
+> =20
+>      if (ppkt->tcp_seq =3D=3D spkt->tcp_seq && ppkt->seq_end =3D=3D spk=
+t->seq_end) {
+> -        if (colo_compare_packet_payload(ppkt, spkt,
+> +        if (!colo_compare_packet_payload(ppkt, spkt,
+>                                          ppkt->header_size, spkt->heade=
+r_size,
+>                                          ppkt->payload_size)) {
+>              *mark =3D COLO_COMPARE_FREE_SECONDARY | COLO_COMPARE_FREE_=
+PRIMARY;
+> @@ -329,7 +329,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet =
+*spkt,
+> =20
+>      /* one part of secondary packet payload still need to be compared =
+*/
+>      if (!after(ppkt->seq_end, spkt->seq_end)) {
+> -        if (colo_compare_packet_payload(ppkt, spkt,
+> +        if (!colo_compare_packet_payload(ppkt, spkt,
+>                                          ppkt->header_size + ppkt->offs=
+et,
+>                                          spkt->header_size + spkt->offs=
+et,
+>                                          ppkt->payload_size - ppkt->off=
+set)) {
+> @@ -348,7 +348,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet =
+*spkt,
+>          /* primary packet is longer than secondary packet, compare
+>           * the same part and mark the primary packet offset
+>           */
+> -        if (colo_compare_packet_payload(ppkt, spkt,
+> +        if (!colo_compare_packet_payload(ppkt, spkt,
+>                                          ppkt->header_size + ppkt->offs=
+et,
+>                                          spkt->header_size + spkt->offs=
+et,
+>                                          spkt->payload_size - spkt->off=
+set)) {
+>=20
 
