@@ -2,78 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7B9BCC20
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:10:35 +0200 (CEST)
-Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7F6BCC2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:14:32 +0200 (CEST)
+Received: from localhost ([::1]:47848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCnOc-0003n2-Fc
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:10:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47112)
+	id 1iCnSQ-0000xu-VB
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCmZE-0003uU-1w
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:17:29 -0400
+ (envelope-from <guoheyi@huawei.com>) id 1iCmf4-0001A4-BA
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCmZB-0002yJ-0t
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:17:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50511)
+ (envelope-from <guoheyi@huawei.com>) id 1iCmf2-0006i4-S7
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:23:30 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2243 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCmZA-0002y6-OL
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:17:24 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 95F1910C0949;
- Tue, 24 Sep 2019 15:17:23 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B2715D713;
- Tue, 24 Sep 2019 15:17:17 +0000 (UTC)
-Subject: Re: [PATCH 06/25] qapi: Change frontend error messages to start with
- lower case
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-7-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <ab13d1b0-319c-1f57-de17-1718090f0e25@redhat.com>
-Date: Tue, 24 Sep 2019 10:17:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
+ id 1iCmez-0006fv-P1; Tue, 24 Sep 2019 11:23:26 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 4C7D13C505E55FB75118;
+ Tue, 24 Sep 2019 23:23:22 +0800 (CST)
+Received: from linux-Bxxcye.huawei.com (10.175.104.222) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 24 Sep 2019 23:23:13 +0800
+From: Heyi Guo <guoheyi@huawei.com>
+To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
+ <linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.cs.columbia.edu>
+Subject: [RFC PATCH 00/12] Add SDEI support for arm64
+Date: Tue, 24 Sep 2019 23:21:39 +0800
+Message-ID: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-7-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="f7t42RFnQ0kovlYmr60JHTJWmzPXC3Bv5"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Tue, 24 Sep 2019 15:17:23 +0000 (UTC)
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.222]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,140 +50,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
+ James Morse <james.morse@arm.com>, Heyi Guo <guoheyi@huawei.com>,
+ wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---f7t42RFnQ0kovlYmr60JHTJWmzPXC3Bv5
-Content-Type: multipart/mixed; boundary="andyITz8RukCEKGyuXmttpnXhWStfXyhj";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <ab13d1b0-319c-1f57-de17-1718090f0e25@redhat.com>
-Subject: Re: [PATCH 06/25] qapi: Change frontend error messages to start with
- lower case
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-7-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-7-armbru@redhat.com>
+As promised, this is the first RFC patch set for arm64 SDEI support.
+Key points:
+- We propose to only support kvm enabled arm64 virtual machines, for
+  non-kvm VMs can emulate EL3 and have Trusted Firmware run on it,
+  which has a builtin SDEI dispatcher.
+- New kvm capability KVM_CAP_FORWARD_HYPERCALL is added to probe if
+  kvm supports forwarding hypercalls, and the capability should be
+  enabled explicitly. PSCI can be set as exception for backward
+  compatibility.
+- We make the dispatcher as a logical device, to save the states
+  during migration or save/restore operation; only one instance is
+  allowed in one VM.
+- We use qemu_irq as the bridge for other qemu modules to switch from
+  irq injection to SDEI event trigger after VM binds the interrupt to
+  SDEI event. We use qemu_irq_intercept_in() to override qemu_irq
+  handler with SDEI event trigger, and a new interface
+  qemu_irq_remove_intercept() is added to restore the handler to
+  default one (i.e. ARM GIC).
 
---andyITz8RukCEKGyuXmttpnXhWStfXyhj
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+More details are in the commit message of each patch.
 
-On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> Starting error messages with a capital letter complicates things when
-> text can get interpolated both at the beginning and in the middle of
-> an error message.  The next patch will do that.  Switch to lower case
-> to keep it simpler.
->=20
-> For what it's worth, the GNU Coding Standards advise the message
-> "should not begin with a capital letter when it follows a program name
-> and/or file name, because that isn=E2=80=99t the beginning of a sentenc=
-e. (The
-> sentence conceptually starts at the beginning of the line.)"
+Basic tests are done by emulating a watchdog timer and triggering SDEI
+event in every 10s.
 
-We're inconsistent throughout the code base, but this is one place where
-I like the GCS rationale.  Fixing it everywhere may not be worth the
-churn, but fixing it within the subset of the qapi generator is worthwhil=
-e.
+As this is the first rough RFC, please focus on the interfaces and
+framework first. We can refine the code for several rounds after the
+big things have been determined.
 
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  scripts/qapi/common.py                        | 175 +++++++++---------=
+Please give your comments and suggestions.
 
->  tests/qapi-schema/alternate-any.err           |   2 +-
+Thanks,
+HG
 
->  tests/qapi-schema/unknown-expr-key.err        |   2 +-
->  125 files changed, 215 insertions(+), 204 deletions(-)
->  create mode 100644 tests/qapi-schema/escape-too-big.err
->  create mode 100644 tests/qapi-schema/string-control.err
->  create mode 100644 tests/qapi-schema/string-unclosed.err
->  create mode 100644 tests/qapi-schema/string-unicode.err
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Dave Martin <Dave.Martin@arm.com>
+Cc: Marc Zyngier <marc.zyngier@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: James Morse <james.morse@arm.com>
 
-Umm, what's going on here?
+Heyi Guo (12):
+  linux-headers: import arm_sdei.h
+  arm/sdei: add virtual device framework
+  arm/sdei: add support to handle SDEI requests from guest
+  arm/sdei: add system reset callback
+  arm/sdei: add support to trigger event by GIC interrupt ID
+  core/irq: add qemu_irq_remove_intercept interface
+  arm/sdei: override qemu_irq handler when binding interrupt
+  arm/sdei: add support to register interrupt bind notifier
+  linux-headers/kvm.h: add capability to forward hypercall
+  arm/sdei: check KVM cap and enable SDEI
+  arm/kvm: handle guest exit of hypercall
+  virt/acpi: add SDEI table if SDEI is enabled
 
-You'll want to either drop these files (if they were leftovers in your
-working directory from previous points in time), or defer their addition
-to when the corresponding actual tests exist.
+ hw/arm/virt-acpi-build.c       |   16 +
+ hw/core/irq.c                  |   11 +
+ include/hw/acpi/acpi-defs.h    |    5 +
+ include/hw/irq.h               |    8 +-
+ linux-headers/linux/arm_sdei.h |   73 ++
+ linux-headers/linux/kvm.h      |    3 +
+ target/arm/Makefile.objs       |    1 +
+ target/arm/kvm.c               |   17 +
+ target/arm/sdei.c              | 1518 ++++++++++++++++++++++++++++++++++++++++
+ target/arm/sdei.h              |   60 ++
+ target/arm/sdei_int.h          |  109 +++
+ 11 files changed, 1819 insertions(+), 2 deletions(-)
+ create mode 100644 linux-headers/linux/arm_sdei.h
+ create mode 100644 target/arm/sdei.c
+ create mode 100644 target/arm/sdei.h
+ create mode 100644 target/arm/sdei_int.h
 
->      def get_doc(self, info):
->          if self.val !=3D '##':
-> -            raise QAPIParseError(self, "Junk after '##' at start of "
-> -                                 "documentation comment")
-> +            raise QAPIParseError(
-> +                self, "junk after '##' at start of documentation comme=
-nt")
+-- 
+1.8.3.1
 
-Reformatting like this also makes grepping for a particular message easie=
-r.
-
-
-> @@ -868,8 +869,8 @@ def check_union(expr, info):
->          enum_values =3D members.keys()
->          allow_metas =3D ['built-in', 'union', 'alternate', 'struct', '=
-enum']
->          if base is not None:
-> -            raise QAPISemError(info, "Simple union '%s' must not have =
-a base" %
-> -                               name)
-> +            raise QAPISemError(
-> +                info, "simple union '%s' must not have a base" % name)=
-
-> =20
-
-A bit odd that you reformat here to get the second argument all on one
-line...
-
->      # Else, it's a flat union.
->      else:
-> @@ -878,46 +879,47 @@ def check_union(expr, info):
->                     base, allow_dict=3Dname,
->                     allow_metas=3D['struct'])
->          if not base:
-> -            raise QAPISemError(info, "Flat union '%s' must have a base=
-"
-> +            raise QAPISemError(info, "flat union '%s' must have a base=
-"
->                                 % name)
-
-=2E..but not here.  The reformatting is not the primary focus of the
-patch, and doesn't hurt semantically whether or not you do it, but maybe
-it is worth calling out in the commit message the criteria you used for
-deciding when to reformat, and/or make the patch strive for more
-consistency.  I'll leave that up to you; fixing the spurious new files,
-and making your choice of where to place the linebreaks, doesn't affect
-my ability to offer:
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---andyITz8RukCEKGyuXmttpnXhWStfXyhj--
-
---f7t42RFnQ0kovlYmr60JHTJWmzPXC3Bv5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KM30ACgkQp6FrSiUn
-Q2qCkAf+K00zIkmYtRD1o6TORt9rtrTifgTvHJYJtznJyg8h+m+Affy8HNazXymH
-azYp8sub+cKs0MmkDlg++c8pvEpq+vklwXpRdAMnRnxCvZllPmbTDPL6hwydQaDc
-YPDMSpoowyle2iAmIlS/lPv4JODGdKjdd3u1wIVOhR3+AmuVZ7sBqsHn9gmPYAWJ
-hKe/gEdJh0smHKUhin06NT2rtrzJctsVdg4wVx1UkpTUNrx2fmfxsvKWIHQInzso
-9pYXT8meU8anJWUi2UetUY91nRnraKOcTiyfZ3qgjCG+VrmXqm+naU+2uoza7Izx
-jiwNjOxYCx0+9QZYaeiVNuUSybPOHA==
-=2V4d
------END PGP SIGNATURE-----
-
---f7t42RFnQ0kovlYmr60JHTJWmzPXC3Bv5--
 
