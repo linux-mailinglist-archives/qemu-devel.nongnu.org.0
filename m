@@ -2,62 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8633FBC8A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:14:05 +0200 (CEST)
-Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B6CBC89D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 15:11:47 +0200 (CEST)
+Received: from localhost ([::1]:45450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCkdo-0000ws-8J
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38056)
+	id 1iCkbZ-000779-VF
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 09:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iCiTx-0004p5-Bs
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 06:55:49 -0400
+ (envelope-from <armbru@redhat.com>) id 1iCk0k-0001Ia-Ke
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iCiTt-00069O-NQ
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 06:55:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47222)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iCiTt-00068M-EX
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 06:55:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iCiTr-000555-TU
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 10:55:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DD5662E806E
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 10:55:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Sep 2019 10:48:42 -0000
-From: Adrian Vladu <avladu@cloudbasesolutions.com>
+ (envelope-from <armbru@redhat.com>) id 1iCk0h-0006ts-9f
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39886)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iCk0g-0006sS-O5
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 08:33:39 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 08E922A09A1
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 12:33:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A4BA760C80;
+ Tue, 24 Sep 2019 12:33:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7A36811385CB; Tue, 24 Sep 2019 14:33:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avladu
-X-Launchpad-Bug-Reporter: Adrian Vladu (avladu)
-X-Launchpad-Bug-Modifier: Adrian Vladu (avladu)
-Message-Id: <156932212305.13447.6077258015607645915.malonedeb@gac.canonical.com>
-Subject: [Bug 1845185] [NEW] Cannot build qemu utils (qemu-img.exe,
- qemu-edid.exe,
- qemu-io.exe) statically with MSYS2 on Windows because intl and iconv libs are
- not loaded
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 19cc770427a9163f551e3c427de812fff3f6675b
+Subject: [PULL 10/37] qapi: Permit 'boxed' with empty type
+Date: Tue, 24 Sep 2019 14:33:07 +0200
+Message-Id: <20190924123334.30645-11-armbru@redhat.com>
+In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
+References: <20190924123334.30645-1-armbru@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Tue, 24 Sep 2019 12:33:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Tue, 24 Sep 2019 09:10:43 -0400
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,251 +57,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1845185 <1845185@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+We reject empty types with 'boxed': true.  We don't really need that
+to work, but making it work is actually simpler than rejecting it, so
+do that.
 
-Using MSYS2 and mingw32 instructions from
-https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2, I could not
-statically build the qemu-utils using the latest qemu master branch.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20190913201349.24332-9-armbru@redhat.com>
+---
+ tests/test-qmp-cmds.c                   |  4 ++++
+ scripts/qapi/commands.py                |  4 ++--
+ scripts/qapi/common.py                  | 14 ++------------
+ scripts/qapi/events.py                  | 10 +++++-----
+ tests/Makefile.include                  |  1 -
+ tests/qapi-schema/args-boxed-empty.err  |  1 -
+ tests/qapi-schema/args-boxed-empty.exit |  1 -
+ tests/qapi-schema/args-boxed-empty.json |  3 ---
+ tests/qapi-schema/args-boxed-empty.out  |  0
+ tests/qapi-schema/qapi-schema-test.json |  2 ++
+ tests/qapi-schema/qapi-schema-test.out  |  4 ++++
+ 11 files changed, 19 insertions(+), 25 deletions(-)
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.err
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.exit
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.json
+ delete mode 100644 tests/qapi-schema/args-boxed-empty.out
 
-Steps to reproduce the issue:
-1. Install MSYS2 on a Windows 10 x64 box
-2. Install required mingw64 toolchain: pacman -S base-devel mingw-w64-x86_6=
-4-toolchain git python mingw-w64-x86_64-glib2 mingw64/mingw-w64-x86_64-gtk3=
- mingw64/mingw-w64-x86_64-SDL2
-3. clone qemu
-4. Run configure for static build for the tools only
-=C2=A0=C2=A0./configure --disable-user --disable-system --disable-docs --en=
-able-tools  --disable-guest-agent --disable-capstone --disable-sheepdog --e=
-nable-debug --static
-=C2=A0=C2=A0# I had to remove sheepdog, capstone and guest agent because ot=
-her errors popped out, but let's not go in the rabbit hole.
-5. Run 'make -j'. the following errors appeared, signaling that intl lib is=
- not loaded. If I add intl lib, iconv lib needs to be loaded too.
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index ab389f42da..36fdf5b115 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -97,6 +97,10 @@ void qmp_boxed_union(UserDefListUnion *arg, Error **er=
+rp)
+ {
+ }
+=20
++void qmp_boxed_empty(Empty1 *arg, Error **errp)
++{
++}
++
+ __org_qemu_x_Union1 *qmp___org_qemu_x_command(__org_qemu_x_EnumList *a,
+                                               __org_qemu_x_StructList *b=
+,
+                                               __org_qemu_x_Union2 *c,
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index b929e07be4..7e3dd1068a 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -30,7 +30,7 @@ def gen_call(name, arg_type, boxed, ret_type):
+=20
+     argstr =3D ''
+     if boxed:
+-        assert arg_type and not arg_type.is_empty()
++        assert arg_type
+         argstr =3D '&arg, '
+     elif arg_type:
+         assert not arg_type.variants
+@@ -96,7 +96,7 @@ def gen_marshal_decl(name):
+=20
+=20
+ def gen_marshal(name, arg_type, boxed, ret_type):
+-    have_args =3D arg_type and not arg_type.is_empty()
++    have_args =3D boxed or (arg_type and not arg_type.is_empty())
+=20
+     ret =3D mcgen('''
+=20
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index 0fb1d1956a..c5c71287c3 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -1687,12 +1687,7 @@ class QAPISchemaCommand(QAPISchemaEntity):
+             self.arg_type =3D schema.lookup_type(self._arg_type_name)
+             assert isinstance(self.arg_type, QAPISchemaObjectType)
+             self.arg_type.check(schema)
+-            if self.boxed:
+-                if self.arg_type.is_empty():
+-                    raise QAPISemError(self.info,
+-                                       "Cannot use 'boxed' with empty ty=
+pe")
+-            else:
+-                assert not self.arg_type.variants
++            assert not self.arg_type.variants or self.boxed
+         elif self.boxed:
+             raise QAPISemError(self.info, "Use of 'boxed' requires 'data=
+'")
+         if self._ret_type_name:
+@@ -1721,12 +1716,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
+             self.arg_type =3D schema.lookup_type(self._arg_type_name)
+             assert isinstance(self.arg_type, QAPISchemaObjectType)
+             self.arg_type.check(schema)
+-            if self.boxed:
+-                if self.arg_type.is_empty():
+-                    raise QAPISemError(self.info,
+-                                       "Cannot use 'boxed' with empty ty=
+pe")
+-            else:
+-                assert not self.arg_type.variants
++            assert not self.arg_type.variants or self.boxed
+         elif self.boxed:
+             raise QAPISemError(self.info, "Use of 'boxed' requires 'data=
+'")
+=20
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index b732581046..e0abfef7b0 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -65,6 +65,8 @@ def gen_event_send(name, arg_type, boxed, event_enum_na=
+me, event_emit):
+     # practice, we can rename our local variables with a leading _ prefi=
+x,
+     # or split the code into a wrapper function that creates a boxed
+     # 'param' object then calls another to do the real work.
++    have_args =3D boxed or (arg_type and not arg_type.is_empty())
++
+     ret =3D mcgen('''
+=20
+ %(proto)s
+@@ -73,15 +75,13 @@ def gen_event_send(name, arg_type, boxed, event_enum_=
+name, event_emit):
+ ''',
+                 proto=3Dbuild_event_send_proto(name, arg_type, boxed))
+=20
+-    if arg_type and not arg_type.is_empty():
++    if have_args:
+         ret +=3D mcgen('''
+     QObject *obj;
+     Visitor *v;
+ ''')
+         if not boxed:
+             ret +=3D gen_param_var(arg_type)
+-    else:
+-        assert not boxed
+=20
+     ret +=3D mcgen('''
+=20
+@@ -90,7 +90,7 @@ def gen_event_send(name, arg_type, boxed, event_enum_na=
+me, event_emit):
+ ''',
+                  name=3Dname)
+=20
+-    if arg_type and not arg_type.is_empty():
++    if have_args:
+         ret +=3D mcgen('''
+     v =3D qobject_output_visitor_new(&obj);
+ ''')
+@@ -121,7 +121,7 @@ def gen_event_send(name, arg_type, boxed, event_enum_=
+name, event_emit):
+                  event_emit=3Devent_emit,
+                  c_enum=3Dc_enum_const(event_enum_name, name))
+=20
+-    if arg_type and not arg_type.is_empty():
++    if have_args:
+         ret +=3D mcgen('''
+     visit_free(v);
+ ''')
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 8585e7ed26..2c3adb1530 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -311,7 +311,6 @@ qapi-schema +=3D args-array-empty.json
+ qapi-schema +=3D args-array-unknown.json
+ qapi-schema +=3D args-bad-boxed.json
+ qapi-schema +=3D args-boxed-anon.json
+-qapi-schema +=3D args-boxed-empty.json
+ qapi-schema +=3D args-boxed-string.json
+ qapi-schema +=3D args-int.json
+ qapi-schema +=3D args-invalid.json
+diff --git a/tests/qapi-schema/args-boxed-empty.err b/tests/qapi-schema/a=
+rgs-boxed-empty.err
+deleted file mode 100644
+index 039603e85c..0000000000
+--- a/tests/qapi-schema/args-boxed-empty.err
++++ /dev/null
+@@ -1 +0,0 @@
+-tests/qapi-schema/args-boxed-empty.json:3: Cannot use 'boxed' with empty=
+ type
+diff --git a/tests/qapi-schema/args-boxed-empty.exit b/tests/qapi-schema/=
+args-boxed-empty.exit
+deleted file mode 100644
+index d00491fd7e..0000000000
+--- a/tests/qapi-schema/args-boxed-empty.exit
++++ /dev/null
+@@ -1 +0,0 @@
+-1
+diff --git a/tests/qapi-schema/args-boxed-empty.json b/tests/qapi-schema/=
+args-boxed-empty.json
+deleted file mode 100644
+index 52717e065f..0000000000
+--- a/tests/qapi-schema/args-boxed-empty.json
++++ /dev/null
+@@ -1,3 +0,0 @@
+-# 'boxed' requires a non-empty type
+-{ 'struct': 'Empty', 'data': {} }
+-{ 'command': 'foo', 'boxed': true, 'data': 'Empty' }
+diff --git a/tests/qapi-schema/args-boxed-empty.out b/tests/qapi-schema/a=
+rgs-boxed-empty.out
+deleted file mode 100644
+index e69de29bb2..0000000000
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
+qapi-schema-test.json
+index 0fadb4ddd7..e6dbbbd328 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -149,6 +149,7 @@
+ { 'command': 'guest-sync', 'data': { 'arg': 'any' }, 'returns': 'any' }
+ { 'command': 'boxed-struct', 'boxed': true, 'data': 'UserDefZero' }
+ { 'command': 'boxed-union', 'data': 'UserDefListUnion', 'boxed': true }
++{ 'command': 'boxed-empty', 'boxed': true, 'data': 'Empty1' }
+=20
+ # Smoke test on out-of-band and allow-preconfig-test
+ { 'command': 'test-flags-command', 'allow-oob': true, 'allow-preconfig':=
+ true }
+@@ -181,6 +182,7 @@
+   'data': { 'a' : 'EventStructOne', 'b' : 'str', '*c': 'str', '*enum3': =
+'EnumOne' } }
+ { 'event': 'EVENT_E', 'boxed': true, 'data': 'UserDefZero' }
+ { 'event': 'EVENT_F', 'boxed': true, 'data': 'UserDefFlatUnion' }
++{ 'event': 'EVENT_G', 'boxed': true, 'data': 'Empty1' }
+=20
+ # test that we correctly compile downstream extensions, as well as munge
+ # ticklish names
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
+api-schema-test.out
+index 5470a525f5..fb00a21996 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -221,6 +221,8 @@ command boxed-struct UserDefZero -> None
+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
+ command boxed-union UserDefListUnion -> None
+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
++command boxed-empty Empty1 -> None
++   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
+ command test-flags-command None -> None
+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DTrue preconfig=
+=3DTrue
+ object UserDefOptions
+@@ -254,6 +256,8 @@ event EVENT_E UserDefZero
+    boxed=3DTrue
+ event EVENT_F UserDefFlatUnion
+    boxed=3DTrue
++event EVENT_G Empty1
++   boxed=3DTrue
+ enum __org.qemu_x-Enum
+     member __org.qemu_x-value
+ object __org.qemu_x-Base
+--=20
+2.21.0
 
-make: *** [/home/ader1990/qemu/rules.mak:124: qemu-img.exe] Error 1
-make: *** Waiting for unfinished jobs....
-C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1522): undefi=
-ned reference to `libintl_sprintf'
-C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x154f): undefi=
-ned reference to `libintl_sprintf'
-C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x157e): undefi=
-ned reference to `libintl_sprintf'
-C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15ad): undefi=
-ned reference to `libintl_sprintf'
-C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15dc): undefi=
-ned reference to `libintl_sprintf'
-C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1622): more u=
-ndefined references to `libintl_sprintf' follow
-C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x43): undefine=
-d reference to `libintl_textdomain'
-C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x52): undefine=
-d reference to `libintl_gettext'
-C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x203): undefin=
-ed reference to `libintl_bindtextdomain'
-C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x21e): undefin=
-ed reference to `libintl_bind_textdomain_codeset'
-C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x2c1): undefin=
-ed reference to `libintl_dgettext'
-C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x4e1): undefin=
-ed reference to `libintl_dcgettext'
-C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x53a): undefin=
-ed reference to `libintl_dngettext'
-
-Patch to fix the issue (added intl and iconv to the libs):
-
-diff --git a/configure b/configure
-index 30aad233d1..e2ab8ef026 100755
---- a/configure
-+++ b/configure
-@@ -920,7 +920,7 @@ if test "$mingw32" =3D "yes" ; then
-=C2=A0=C2=A0=C2=A0DSOSUF=3D".dll"
-=C2=A0=C2=A0=C2=A0# MinGW needs -mthreads for TLS and macro _MT.
-=C2=A0=C2=A0=C2=A0QEMU_CFLAGS=3D"-mthreads $QEMU_CFLAGS"
--  LIBS=3D"-lwinmm -lws2_32 -liphlpapi $LIBS"
-+  LIBS=3D"-lwinmm -lws2_32 -liphlpapi -lintl -liconv $LIBS"
-=C2=A0=C2=A0=C2=A0write_c_skeleton;
-=C2=A0=C2=A0=C2=A0if compile_prog "" "-liberty" ; then
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0LIBS=3D"-liberty $LIBS"
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Description changed:
-
-  Using MSYS2 and mingw32 instructions from
-  https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2, I could not
-  statically build the qemu-utils using the latest qemu master branch.
-  =
-
-  Steps to reproduce the issue:
-  1. Install MSYS2 on a Windows 10 x64 box
-  2. Install required mingw64 toolchain: pacman -S base-devel mingw-w64-x86=
-_64-toolchain git python mingw-w64-x86_64-glib2 mingw64/mingw-w64-x86_64-gt=
-k3 mingw64/mingw-w64-x86_64-SDL2
-  3. clone qemu
-  4. Run configure for static build for the tools only
--   ./configure --disable-user --disable-system --disable-docs --enable-too=
-ls  --disable-guest-agent --disable-capstone --disable-sheepdog --enable-de=
-bug --static
--   # I had to remove sheepdog, capstone and guest agent because other erro=
-rs popped out, but this not the purpose of this bug report
-- 5. Run 'make -j'. the following errors appeared, signaling that intl lib =
-is not loaded. If I add intl lib, iconv lib need to be loaded too.
-+ =C2=A0=C2=A0./configure --disable-user --disable-system --disable-docs --=
-enable-tools  --disable-guest-agent --disable-capstone --disable-sheepdog -=
--enable-debug --static
-+ =C2=A0=C2=A0# I had to remove sheepdog, capstone and guest agent because =
-other errors popped out, but let's not go in the rabbit hole.
-+ 5. Run 'make -j'. the following errors appeared, signaling that intl lib =
-is not loaded. If I add intl lib, iconv lib needs to be loaded too.
-  =
-
-  make: *** [/home/ader1990/qemu/rules.mak:124: qemu-img.exe] Error 1
-  make: *** Waiting for unfinished jobs....
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1522): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x154f): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x157e): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15ad): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15dc): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1622): more=
- undefined references to `libintl_sprintf' follow
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x43): undefi=
-ned reference to `libintl_textdomain'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x52): undefi=
-ned reference to `libintl_gettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x203): undef=
-ined reference to `libintl_bindtextdomain'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x21e): undef=
-ined reference to `libintl_bind_textdomain_codeset'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x2c1): undef=
-ined reference to `libintl_dgettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x4e1): undef=
-ined reference to `libintl_dcgettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x53a): undef=
-ined reference to `libintl_dngettext'
-  =
-
-- =
-
-  Patch to fix the issue (added intl and iconv to the libs):
-  =
-
-  diff --git a/configure b/configure
-  index 30aad233d1..e2ab8ef026 100755
-  --- a/configure
-  +++ b/configure
-  @@ -920,7 +920,7 @@ if test "$mingw32" =3D "yes" ; then
--    DSOSUF=3D".dll"
--    # MinGW needs -mthreads for TLS and macro _MT.
--    QEMU_CFLAGS=3D"-mthreads $QEMU_CFLAGS"
-+ =C2=A0=C2=A0=C2=A0DSOSUF=3D".dll"
-+ =C2=A0=C2=A0=C2=A0# MinGW needs -mthreads for TLS and macro _MT.
-+ =C2=A0=C2=A0=C2=A0QEMU_CFLAGS=3D"-mthreads $QEMU_CFLAGS"
-  -  LIBS=3D"-lwinmm -lws2_32 -liphlpapi $LIBS"
-  +  LIBS=3D"-lwinmm -lws2_32 -liphlpapi -lintl -liconv $LIBS"
--    write_c_skeleton;
--    if compile_prog "" "-liberty" ; then
--      LIBS=3D"-liberty $LIBS"
-+ =C2=A0=C2=A0=C2=A0write_c_skeleton;
-+ =C2=A0=C2=A0=C2=A0if compile_prog "" "-liberty" ; then
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0LIBS=3D"-liberty $LIBS"
-
-** Summary changed:
-
-- Cannot build qemu utils (qemu-img.exe, qemu-edid.exe, qemu-io.exe) static=
-ally with MSYS2 on Windows
-+ Cannot build qemu utils (qemu-img.exe, qemu-edid.exe, qemu-io.exe) static=
-ally with MSYS2 on Windows because intl and iconv libs are not loaded
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1845185
-
-Title:
-  Cannot build qemu utils (qemu-img.exe, qemu-edid.exe, qemu-io.exe)
-  statically with MSYS2 on Windows because intl and iconv libs are not
-  loaded
-
-Status in QEMU:
-  New
-
-Bug description:
-  Using MSYS2 and mingw32 instructions from
-  https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2, I could not
-  statically build the qemu-utils using the latest qemu master branch.
-
-  Steps to reproduce the issue:
-  1. Install MSYS2 on a Windows 10 x64 box
-  2. Install required mingw64 toolchain: pacman -S base-devel mingw-w64-x86=
-_64-toolchain git python mingw-w64-x86_64-glib2 mingw64/mingw-w64-x86_64-gt=
-k3 mingw64/mingw-w64-x86_64-SDL2
-  3. clone qemu
-  4. Run configure for static build for the tools only
-  =C2=A0=C2=A0./configure --disable-user --disable-system --disable-docs --=
-enable-tools  --disable-guest-agent --disable-capstone --disable-sheepdog -=
--enable-debug --static
-  =C2=A0=C2=A0# I had to remove sheepdog, capstone and guest agent because =
-other errors popped out, but let's not go in the rabbit hole.
-  5. Run 'make -j'. the following errors appeared, signaling that intl lib =
-is not loaded. If I add intl lib, iconv lib needs to be loaded too.
-
-  make: *** [/home/ader1990/qemu/rules.mak:124: qemu-img.exe] Error 1
-  make: *** Waiting for unfinished jobs....
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1522): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x154f): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x157e): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15ad): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15dc): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1622): more=
- undefined references to `libintl_sprintf' follow
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x43): undefi=
-ned reference to `libintl_textdomain'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x52): undefi=
-ned reference to `libintl_gettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x203): undef=
-ined reference to `libintl_bindtextdomain'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x21e): undef=
-ined reference to `libintl_bind_textdomain_codeset'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x2c1): undef=
-ined reference to `libintl_dgettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x4e1): undef=
-ined reference to `libintl_dcgettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x53a): undef=
-ined reference to `libintl_dngettext'
-
-  Patch to fix the issue (added intl and iconv to the libs):
-
-  diff --git a/configure b/configure
-  index 30aad233d1..e2ab8ef026 100755
-  --- a/configure
-  +++ b/configure
-  @@ -920,7 +920,7 @@ if test "$mingw32" =3D "yes" ; then
-  =C2=A0=C2=A0=C2=A0DSOSUF=3D".dll"
-  =C2=A0=C2=A0=C2=A0# MinGW needs -mthreads for TLS and macro _MT.
-  =C2=A0=C2=A0=C2=A0QEMU_CFLAGS=3D"-mthreads $QEMU_CFLAGS"
-  -  LIBS=3D"-lwinmm -lws2_32 -liphlpapi $LIBS"
-  +  LIBS=3D"-lwinmm -lws2_32 -liphlpapi -lintl -liconv $LIBS"
-  =C2=A0=C2=A0=C2=A0write_c_skeleton;
-  =C2=A0=C2=A0=C2=A0if compile_prog "" "-liberty" ; then
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0LIBS=3D"-liberty $LIBS"
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1845185/+subscriptions
 
