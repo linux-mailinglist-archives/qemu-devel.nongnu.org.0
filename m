@@ -2,45 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E59BD59B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 01:54:13 +0200 (CEST)
-Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7924BD5A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 02:00:37 +0200 (CEST)
+Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCudI-0000Ko-RA
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48869)
+	id 1iCu27-0006Ga-29
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 19:15:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iCu1E-000675-Aw
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:14:55 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iCtft-0001tU-Ld
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iCtzt-0006X9-HV
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 19:13:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42420)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iCtzt-0006Wo-Bd; Tue, 24 Sep 2019 19:13:29 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 71BDC307D971;
- Tue, 24 Sep 2019 23:13:28 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-231.bos.redhat.com [10.18.17.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE28E6012C;
- Tue, 24 Sep 2019 23:13:25 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-options.hx: remove stray quote
-Date: Tue, 24 Sep 2019 19:13:25 -0400
-Message-Id: <20190924231325.25444-1-jsnow@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iCtfs-0003f5-K4
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:49 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:38005)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iCtfs-0003eO-Er
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 18:52:48 -0400
+Received: by mail-pl1-f194.google.com with SMTP id w10so1573461plq.5
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yHt544kKMLTAzXmG0QrhjlZ7h59m1K6L+Zarp5LpcJg=;
+ b=kscA1f0L6uoL1sMKfbO0+Q4nVf0JdEYjVH3wf3h72tv+CfVXeht+jgysi+ffD60bP3
+ JeBgd4LdnyuZMph60kTwhPesUnQ9ZgfztJF4Z9UtR6Ven1q73C+egAI1/Ehs+nJ/1Xbp
+ 9xGt8yEBbdXz12oTSiOAnU+aMaF4xcbwg1KBWJEOG8leq0SaIMzn5tRoXtDVYTX3oeE4
+ pA2UoEBuFdbHi2NBgm9KdypVxspW692WaQHzli00haJYkqa62F5ipsY94XkpP6Unsj4I
+ 1NP8JpWsqRTCPZ0MHhhFNxvYFuVAAM7hykw9vXbEKZMxqv/gNPLFMB1s1X//Tu4OTVdi
+ bh3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yHt544kKMLTAzXmG0QrhjlZ7h59m1K6L+Zarp5LpcJg=;
+ b=pXdjInZgaUatnAbGlKrW/XM1jB3hb2GoFa+ZcvRE4dga0sTh88MtIMAHcOtsAfvYEG
+ Xc3aFZQPs0hApyQQZ7O56WoN5sTop8hdsJnErzY8X91/HUwvuFhgY+Ut8eMkyWOKClG6
+ ZzQiKbd20PI+wyLgv9XOHIUp6vM50oFKjwAEibmu281iNK7nBMa9fBStHr6LMclF9KZk
+ QLJgNODmiBiNkZNGpwSEnOpdm2H1mpga1jtFJwmYiWVTkxdsPCMLQ8fQ3PIkHbIvpppT
+ KJNOe51chVC1//MLCC27Yxg8XDECI+aTmmPik/sIoIfXnPNdEBpfepvvCbfktYrI9fS9
+ ufDA==
+X-Gm-Message-State: APjAAAWNhYcpMQ3tzwCdW0N4c+QVswNRT2kRCmO1lbzjlG2rDDXuspGT
+ lJfQFYcwNznFnTwqlVgjw2Qrvg==
+X-Google-Smtp-Source: APXvYqzySPwdlwkuHB5V8VGPQ0mMYuk+AZcsoAPoKnTbz/yNMcnNXbiBiSC25n2odXgg+iXvlfiHTw==
+X-Received: by 2002:a17:902:b7c3:: with SMTP id
+ v3mr5033181plz.139.1569361586558; 
+ Tue, 24 Sep 2019 14:46:26 -0700 (PDT)
+Received: from [172.20.32.216] ([12.157.10.114])
+ by smtp.gmail.com with ESMTPSA id b5sm3730404pfp.38.2019.09.24.14.46.25
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 24 Sep 2019 14:46:25 -0700 (PDT)
+Subject: Re: [PATCH 5/7] target/ppc: change struct PPC_DFP decimal storage
+ from uint64[2] to ppc_vsr_t
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
+References: <20190924153556.27575-1-mark.cave-ayland@ilande.co.uk>
+ <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <a79cc85b-66b2-0ac2-c4bb-1e8d0a63e3ee@linaro.org>
+Date: Tue, 24 Sep 2019 14:46:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 24 Sep 2019 23:13:28 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190924153556.27575-6-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+ [fuzzy]
+X-Received-From: 209.85.214.194
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,30 +86,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- qemu-options.hx | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 9/24/19 8:35 AM, Mark Cave-Ayland wrote:
+> There are several places in dfp_helper.c that access the decimal number
+> representations in struct PPC_DFP via HI_IDX and LO_IDX defines which are set
+> at the top of dfp_helper.c according to the host endian.
+> 
+> However we can instead switch to using ppc_vsr_t for decimal numbers and then
+> make subsequent use of the existing VsrD() macros to access the correct
+> element regardless of host endian. Note that 64-bit decimals are stored in the
+> LSB of ppc_vsr_t (equivalent to VsrD(1)).
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  target/ppc/dfp_helper.c | 210 +++++++++++++++++++++-------------------
+>  1 file changed, 108 insertions(+), 102 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 2a04ca6ac5..629a7b1186 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1192,7 +1192,7 @@ Instead of @option{-fda}, @option{-fdb}, you can us=
-e:
- By default, @var{interface} is "ide" and @var{index} is automatically
- incremented:
- @example
--@value{qemu_system_x86} -drive file=3Da -drive file=3Db"
-+@value{qemu_system_x86} -drive file=3Da -drive file=3Db
- @end example
- is interpreted like:
- @example
---=20
-2.21.0
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+
+r~
 
