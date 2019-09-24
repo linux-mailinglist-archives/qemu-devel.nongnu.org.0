@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2392BD407
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:06:42 +0200 (CEST)
-Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B6CBD403
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 23:05:19 +0200 (CEST)
+Received: from localhost ([::1]:51346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCs1A-0005uz-Qd
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1iCrzp-0004pD-PA
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 17:05:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrvz-0002XE-0c
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrvy-0002XF-Ut
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCrvv-0004T2-3B
+ (envelope-from <alex.bennee@linaro.org>) id 1iCrvw-0004TD-2i
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:18 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38057)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38055)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCrvq-0004Rp-6i
+ id 1iCrvq-0004Ru-6Z
  for qemu-devel@nongnu.org; Tue, 24 Sep 2019 17:01:12 -0400
-Received: by mail-wr1-x444.google.com with SMTP id l11so3630338wrx.5
+Received: by mail-wr1-x441.google.com with SMTP id l11so3630374wrx.5
  for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 14:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n37cEJrol8AD/IZetkBdnc9gLn6k6fFQUH++UO9sxLc=;
- b=naYk8Qqzyhv5aXDAnqXsfstj/X2uRHawlXM83yyVYtLx7UIUUQcckiOPfvD9Ba+EMU
- kmHlQOWeFiGza7bNZFCxB/E/LLkd3oKsJ0gTipsfdnuxEpDRXAiblrRTLMoZbmhkMhit
- CouxbTC8KGqsZ3m0NXPkBJkdMuv93nmYNvDoLBbWxEQZYN6kHDJz3eLsSxuLJ9tTV7wZ
- mhgn8qd0FkpXGzLkPiDyVixV5E/o7VxI3oELr3FMhk+33iCfph3ld2nhuzM0idLzbgOw
- 6wTEzpqohg7eGQhX+NYX26ZprWVFCxX4dJnTVSTgd46Lscn2zK5AfFmCjXLHVAHcXP6C
- WFaA==
+ bh=/xkUA4er3qxVvIJWrvA6CYF5PpbAnHAJvGVcHOa9aSM=;
+ b=c4GaNm6tcl2yLcAnJxhd2m1u+F8q148fzdagCmY0QNv4feVIUw9QcEBpUrSAHA6hsU
+ 0afwlRrj/xlKo+23JzAo04SGeSz/yS1j8EVeqTmM2L0HF8itXCAVS4Qx4Q6UE1w3zzf3
+ TEmgi+pXzreq0B4QKI8ZxCkOLZC3n/g7Rrh8nkAukEQJst80z5wtkiLm+EcNlUwLz3vw
+ wPygkyjxBUWoJoxlYeHZbt2DUdJaBxLn5q1nRyrdiiXbPP1/eYeFpSOejQ/hEu2en3AQ
+ sQAJWEgiLWHC09L4n2LARNCuMHu+m1Zp78Xoec3KgKGcxmAb0LFKzjrzdjAZCnyZjy3Z
+ StZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n37cEJrol8AD/IZetkBdnc9gLn6k6fFQUH++UO9sxLc=;
- b=YZABA/HK+J6y/TovaELqu2x+Xr9hcZn3SJkx0mt/E7EF77cIxKLauyod1n9nDH42EX
- /QFwBOvLHCkLAGRQBU6/5XsTe/PPtMWJCXlSFkx27fhyAA25aNn3LdI3FCt2f/6hHj2d
- fDoiIQE0W/AkTBVbnDkWvqbxabQjkyq6y+8EHPpegkBHgbA7UUsHE4nnt/jz8k1/m6hF
- eoZZEksads2XKXirrPzXzR+I87s2sfc2tz5dtql8ZH2mQrYbLz7sJBaidhgo+DND+5Sw
- 5S5/XxXxbQ9WZlNyMfV29bpG4llSdYIsVJdiYkxTsqSyIX6rZA2RfPm9vl+iutCFBwuN
- 6qQg==
-X-Gm-Message-State: APjAAAUV1dI6GYKiW2YVEEdJx8V5KTWLCrqD8wZVZKH4h/gtO0aEw12G
- DmtvC0j6H/wdYACKKPZRGOvPLA==
-X-Google-Smtp-Source: APXvYqzndSo7WD6Am/1Q1EfTJXEPzK0Fl/tkyGEJKvmZ+44HQJjfBBf70NgGaGynQMxgcMffn2Vlkg==
-X-Received: by 2002:adf:f949:: with SMTP id q9mr4958097wrr.382.1569358868190; 
+ bh=/xkUA4er3qxVvIJWrvA6CYF5PpbAnHAJvGVcHOa9aSM=;
+ b=VqOnPTxdqyRaudarkM0ELWc+LlAMY4mhoCYm6bsZ84DXXktKmRDoGABnhEbsrhZBWj
+ 0cM+w8m1h5NdED8tW6hv4xAIgc9F6LwRwuJjVt5K3XH/QeWjVxfBe9PmvTCnU6bNVyhp
+ 3eicuFVL43lsLXaGjZK/thmcoXg36ayGOgC0hVT80aEuNcKjrxUQgYhwCMGhgCP5zGAu
+ ruIDlVMuE9mfDdW6PdLikG8GMcUlfB0ckr+uVdXLlwaqnOu0bWV/RULLCvnhuZPLgJFZ
+ 4DK57wNpTeWusvKOLMA9bJ0J7030TAk9S2aN04tLJ3v+KHMi+cKnd9D5t7sI8UIJWTf3
+ PvSg==
+X-Gm-Message-State: APjAAAVuQCKlXNqCUqBZHBIr0XADafnrb9zAjpYqoNDidlD7yQvZgCdH
+ yf9sb13kvqaVJm8YCyluQoEiQw==
+X-Google-Smtp-Source: APXvYqyEmJ/JHHYvtpw3KjuSmIurkmGOQ6vwmRyWIMJhBTvXjVgFJL+OMFZtSN+u2wUmuOeUeFMfkg==
+X-Received: by 2002:adf:9cc7:: with SMTP id h7mr4696640wre.193.1569358868771; 
  Tue, 24 Sep 2019 14:01:08 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n2sm955358wmc.1.2019.09.24.14.01.07
+ by smtp.gmail.com with ESMTPSA id y5sm1434588wma.14.2019.09.24.14.01.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 24 Sep 2019 14:01:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EF19F1FF8C;
- Tue, 24 Sep 2019 22:01:06 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0E2A41FF8F;
+ Tue, 24 Sep 2019 22:01:07 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 01/33] target/alpha: Use array for FPCR_DYN conversion
-Date: Tue, 24 Sep 2019 22:00:34 +0100
-Message-Id: <20190924210106.27117-2-alex.bennee@linaro.org>
+Subject: [PATCH  v3 02/33] target/alpha: Fix SWCR_MAP_UMZ
+Date: Tue, 24 Sep 2019 22:00:35 +0100
+Message-Id: <20190924210106.27117-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
 References: <20190924210106.27117-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,58 +89,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is a bit more straight-forward than using a switch statement.
-No functional change.
+We were setting the wrong bit.  The fp_status.flush_to_zero
+setting is overwritten by either the constant 1 or the value
+of fpcr_flush_to_zero depending on bits within an fp insn.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20190921043256.4575-2-richard.henderson@linaro.org>
+Message-Id: <20190921043256.4575-3-richard.henderson@linaro.org>
 ---
- target/alpha/helper.c | 24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ target/alpha/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index 19cda0a2db5..6c1703682e0 100644
+index 6c1703682e0..10602fb3394 100644
 --- a/target/alpha/helper.c
 +++ b/target/alpha/helper.c
-@@ -36,6 +36,13 @@ uint64_t cpu_alpha_load_fpcr(CPUAlphaState *env)
- 
- void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
- {
-+    static const uint8_t rm_map[] = {
-+        [FPCR_DYN_NORMAL >> FPCR_DYN_SHIFT] = float_round_nearest_even,
-+        [FPCR_DYN_CHOPPED >> FPCR_DYN_SHIFT] = float_round_to_zero,
-+        [FPCR_DYN_MINUS >> FPCR_DYN_SHIFT] = float_round_down,
-+        [FPCR_DYN_PLUS >> FPCR_DYN_SHIFT] = float_round_up,
-+    };
-+
-     uint32_t fpcr = val >> 32;
-     uint32_t t = 0;
- 
-@@ -48,22 +55,7 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
-     env->fpcr = fpcr;
-     env->fpcr_exc_enable = ~t & FPCR_STATUS_MASK;
- 
--    switch (fpcr & FPCR_DYN_MASK) {
--    case FPCR_DYN_NORMAL:
--    default:
--        t = float_round_nearest_even;
--        break;
--    case FPCR_DYN_CHOPPED:
--        t = float_round_to_zero;
--        break;
--    case FPCR_DYN_MINUS:
--        t = float_round_down;
--        break;
--    case FPCR_DYN_PLUS:
--        t = float_round_up;
--        break;
--    }
--    env->fpcr_dyn_round = t;
-+    env->fpcr_dyn_round = rm_map[(fpcr & FPCR_DYN_MASK) >> FPCR_DYN_SHIFT];
- 
-     env->fpcr_flush_to_zero = (fpcr & FPCR_UNFD) && (fpcr & FPCR_UNDZ);
-     env->fp_status.flush_inputs_to_zero = (fpcr & FPCR_DNZ) != 0;
+@@ -71,7 +71,7 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
+         env->fp_status.flush_inputs_to_zero = 1;
+     }
+     if (env->swcr & SWCR_MAP_UMZ) {
+-        env->fp_status.flush_to_zero = 1;
++        env->fpcr_flush_to_zero = 1;
+     }
+     env->fpcr_exc_enable &= ~(alpha_ieee_swcr_to_fpcr(env->swcr) >> 32);
+ #endif
 -- 
 2.20.1
 
