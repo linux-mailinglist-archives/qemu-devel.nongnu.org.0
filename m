@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328B2BCC5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:23:43 +0200 (CEST)
-Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C67BCC69
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Sep 2019 18:26:51 +0200 (CEST)
+Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCnbJ-0002DI-GF
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:23:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51071)
+	id 1iCneM-00062V-3U
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 12:26:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iCmuF-00083c-63
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:12 -0400
+ (envelope-from <mst@redhat.com>) id 1iCmuZ-0008L5-LB
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iCmuE-00064K-3K
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40854)
+ (envelope-from <mst@redhat.com>) id 1iCmuV-0006KB-LI
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36620)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iCmuD-00063n-QR
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:10 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iCmuU-0006Gh-7U
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 11:39:27 -0400
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DF81D308404F;
- Tue, 24 Sep 2019 15:39:08 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C1C545D9CA;
- Tue, 24 Sep 2019 15:39:02 +0000 (UTC)
-Subject: Re: [PATCH 07/25] qapi: Improve reporting of member name clashes
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-8-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <c5b42cb1-ecea-4478-49cf-25dc149b717d@redhat.com>
-Date: Tue, 24 Sep 2019 10:38:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 5110F5945E
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 15:39:25 +0000 (UTC)
+Received: by mail-qk1-f200.google.com with SMTP id o133so2426435qke.4
+ for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 08:39:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PTQQeXWO5vPTU6tigUaFPHUuGjp5uZ3Hgvq/mbe0/q8=;
+ b=IlTvClD5F10+Us7f509Of0kbcdkGyJDl+okeP07lb5ohID6/Q6YMsToJDB3h+ucegs
+ RUBdXZOjffSymk0DclpvsMiL5fsXWg3nQsT6xd+zfL1sTreJiuesl5CJZCS12EBrRRuL
+ 7jviCnH4OG/uZX7r72Z6aGyrwasDCf43j7RFpQpHQWStOOKySBnzjF+5K1GBy8pNrn4U
+ FimoF8EpRYp5K8ipD2G+m50XvtSpx38lk/1EqSAj1Ya4tVC8q33ae+iCo5cs8MKWpTMR
+ EhQSyu+DiZbzHpq2W8Q1girQHaImhAhtu/Msjo2SIFtKxJyuS66fh3h2cyimFZCNR+KF
+ K7Zw==
+X-Gm-Message-State: APjAAAX0WDFYYnZPwGUfUbWBCEB785ckpdbyMZ1IXHTadZM+rQ5vTOJ1
+ BaikgyuklCopBpG9E6GUyp/+jz0LdJYepJQg/Cq63rWEitQSZSDHxV5l9vhMYQOV+BFdAT9Earx
+ 7ensc/vcW6jneik8=
+X-Received: by 2002:ac8:342a:: with SMTP id u39mr3465207qtb.7.1569339564619;
+ Tue, 24 Sep 2019 08:39:24 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqznlDhsLQpyIFK6nRFjbhudaZrRRV3OOlTnkVZlvYzC4PZu5ddm6L574qRzPyehnZUU6ffx+Q==
+X-Received: by 2002:ac8:342a:: with SMTP id u39mr3465181qtb.7.1569339564339;
+ Tue, 24 Sep 2019 08:39:24 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
+ by smtp.gmail.com with ESMTPSA id v5sm1448122qtk.66.2019.09.24.08.39.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 08:39:23 -0700 (PDT)
+Date: Tue, 24 Sep 2019 11:39:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Heyi Guo <guoheyi@huawei.com>
+Subject: Re: [RFC PATCH 01/12] linux-headers: import arm_sdei.h
+Message-ID: <20190924113640-mutt-send-email-mst@kernel.org>
+References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+ <1569338511-3572-2-git-send-email-guoheyi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20190924132830.15835-8-armbru@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lyCE85bppkd8jI8sYbSzQkLjO9Td2qqJt"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 24 Sep 2019 15:39:08 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1569338511-3572-2-git-send-email-guoheyi@huawei.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,74 +75,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Dave Martin <Dave.Martin@arm.com>, qemu-arm@nongnu.org,
+ James Morse <james.morse@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ wanghaibin.wang@huawei.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lyCE85bppkd8jI8sYbSzQkLjO9Td2qqJt
-Content-Type: multipart/mixed; boundary="p6i5DpkMZvdEIzVDGAxv4ktLJUTXVHfWw";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, marcandre.lureau@redhat.com
-Message-ID: <c5b42cb1-ecea-4478-49cf-25dc149b717d@redhat.com>
-Subject: Re: [PATCH 07/25] qapi: Improve reporting of member name clashes
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-8-armbru@redhat.com>
-In-Reply-To: <20190924132830.15835-8-armbru@redhat.com>
+On Tue, Sep 24, 2019 at 11:21:40PM +0800, Heyi Guo wrote:
+> Import Linux header file include/uapi/linux/arm_sdei.h from kernel
+> v5.3 release.
+> 
+> This is to prepare for qemu SDEI emulation.
+> 
+> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Dave Martin <Dave.Martin@arm.com>
+> Cc: Marc Zyngier <marc.zyngier@arm.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
 
---p6i5DpkMZvdEIzVDGAxv4ktLJUTXVHfWw
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Some issues with this.  First linux-headers is for linux as a host.
+This is for linux as a guest, so belongs in include/standard-headers.
 
-On 9/24/19 8:28 AM, Markus Armbruster wrote:
-> We report name clashes like this:
->=20
->     struct-base-clash.json: In struct 'Sub':
->     struct-base-clash.json:5: 'name' (member of Sub) collides with 'nam=
-e' (member of Base)
->=20
-> The "(member of Sub)" is redundant with "In struct 'Sub'".  Comes from
-> QAPISchemaMember.describe().  Pass info to it, so it can detect the
-> redundancy and avoid it.  Result:
->=20
->     struct-base-clash.json: In struct 'Sub':
->     struct-base-clash.json:5: member 'name' collides with member 'name'=
- of type 'Base'
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Second, please add to scripts/update-linux-headers.sh in a 1st patch,
+then add the file in the second patch.
+
+
+
 > ---
-
-The resulting error messages are indeed nicer.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---p6i5DpkMZvdEIzVDGAxv4ktLJUTXVHfWw--
-
---lyCE85bppkd8jI8sYbSzQkLjO9Td2qqJt
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2KOJEACgkQp6FrSiUn
-Q2rPXwf/WyUmMhwWQGPR3j056bKaFna4NGm0Jv/DgiAP6M29gPZW0Dtz1Joik9WA
-MLGSPigFRELemcoJY4/S3EICkZSnpdPK1lPfb+K4l/uIbqb2Tc+kTb5w1lqbcJIn
-OFhiuafdZt5f3f33IEfACPrh3LjWjJYJXkpDvKAuN1K0jGfTxZnzcaQqgEUTl6Ty
-1DqLfuB0M6Rn2NGv7fT8MBT+3ezZpmOt0kDo8VvXE/9ArjEvvhsNMu2Wo0+RfuJt
-VbNUTbJZBOAZALlBep+pVKwzFIedUXgqm9fzGB+9TENFmr2lahmp0cYnO2hl7gqm
-ku81pUc7+fUf3LdWAodhpldwZlE20Q==
-=IbQR
------END PGP SIGNATURE-----
-
---lyCE85bppkd8jI8sYbSzQkLjO9Td2qqJt--
+>  linux-headers/linux/arm_sdei.h | 73 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 linux-headers/linux/arm_sdei.h
+> 
+> diff --git a/linux-headers/linux/arm_sdei.h b/linux-headers/linux/arm_sdei.h
+> new file mode 100644
+> index 0000000..af0630b
+> --- /dev/null
+> +++ b/linux-headers/linux/arm_sdei.h
+> @@ -0,0 +1,73 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/* Copyright (C) 2017 Arm Ltd. */
+> +#ifndef _UAPI_LINUX_ARM_SDEI_H
+> +#define _UAPI_LINUX_ARM_SDEI_H
+> +
+> +#define SDEI_1_0_FN_BASE			0xC4000020
+> +#define SDEI_1_0_MASK				0xFFFFFFE0
+> +#define SDEI_1_0_FN(n)				(SDEI_1_0_FN_BASE + (n))
+> +
+> +#define SDEI_1_0_FN_SDEI_VERSION			SDEI_1_0_FN(0x00)
+> +#define SDEI_1_0_FN_SDEI_EVENT_REGISTER			SDEI_1_0_FN(0x01)
+> +#define SDEI_1_0_FN_SDEI_EVENT_ENABLE			SDEI_1_0_FN(0x02)
+> +#define SDEI_1_0_FN_SDEI_EVENT_DISABLE			SDEI_1_0_FN(0x03)
+> +#define SDEI_1_0_FN_SDEI_EVENT_CONTEXT			SDEI_1_0_FN(0x04)
+> +#define SDEI_1_0_FN_SDEI_EVENT_COMPLETE			SDEI_1_0_FN(0x05)
+> +#define SDEI_1_0_FN_SDEI_EVENT_COMPLETE_AND_RESUME	SDEI_1_0_FN(0x06)
+> +#define SDEI_1_0_FN_SDEI_EVENT_UNREGISTER		SDEI_1_0_FN(0x07)
+> +#define SDEI_1_0_FN_SDEI_EVENT_STATUS			SDEI_1_0_FN(0x08)
+> +#define SDEI_1_0_FN_SDEI_EVENT_GET_INFO			SDEI_1_0_FN(0x09)
+> +#define SDEI_1_0_FN_SDEI_EVENT_ROUTING_SET		SDEI_1_0_FN(0x0A)
+> +#define SDEI_1_0_FN_SDEI_PE_MASK			SDEI_1_0_FN(0x0B)
+> +#define SDEI_1_0_FN_SDEI_PE_UNMASK			SDEI_1_0_FN(0x0C)
+> +#define SDEI_1_0_FN_SDEI_INTERRUPT_BIND			SDEI_1_0_FN(0x0D)
+> +#define SDEI_1_0_FN_SDEI_INTERRUPT_RELEASE		SDEI_1_0_FN(0x0E)
+> +#define SDEI_1_0_FN_SDEI_PRIVATE_RESET			SDEI_1_0_FN(0x11)
+> +#define SDEI_1_0_FN_SDEI_SHARED_RESET			SDEI_1_0_FN(0x12)
+> +
+> +#define SDEI_VERSION_MAJOR_SHIFT			48
+> +#define SDEI_VERSION_MAJOR_MASK				0x7fff
+> +#define SDEI_VERSION_MINOR_SHIFT			32
+> +#define SDEI_VERSION_MINOR_MASK				0xffff
+> +#define SDEI_VERSION_VENDOR_SHIFT			0
+> +#define SDEI_VERSION_VENDOR_MASK			0xffffffff
+> +
+> +#define SDEI_VERSION_MAJOR(x)	(x>>SDEI_VERSION_MAJOR_SHIFT & SDEI_VERSION_MAJOR_MASK)
+> +#define SDEI_VERSION_MINOR(x)	(x>>SDEI_VERSION_MINOR_SHIFT & SDEI_VERSION_MINOR_MASK)
+> +#define SDEI_VERSION_VENDOR(x)	(x>>SDEI_VERSION_VENDOR_SHIFT & SDEI_VERSION_VENDOR_MASK)
+> +
+> +/* SDEI return values */
+> +#define SDEI_SUCCESS		0
+> +#define SDEI_NOT_SUPPORTED	-1
+> +#define SDEI_INVALID_PARAMETERS	-2
+> +#define SDEI_DENIED		-3
+> +#define SDEI_PENDING		-5
+> +#define SDEI_OUT_OF_RESOURCE	-10
+> +
+> +/* EVENT_REGISTER flags */
+> +#define SDEI_EVENT_REGISTER_RM_ANY	0
+> +#define SDEI_EVENT_REGISTER_RM_PE	1
+> +
+> +/* EVENT_STATUS return value bits */
+> +#define SDEI_EVENT_STATUS_RUNNING	2
+> +#define SDEI_EVENT_STATUS_ENABLED	1
+> +#define SDEI_EVENT_STATUS_REGISTERED	0
+> +
+> +/* EVENT_COMPLETE status values */
+> +#define SDEI_EV_HANDLED	0
+> +#define SDEI_EV_FAILED	1
+> +
+> +/* GET_INFO values */
+> +#define SDEI_EVENT_INFO_EV_TYPE			0
+> +#define SDEI_EVENT_INFO_EV_SIGNALED		1
+> +#define SDEI_EVENT_INFO_EV_PRIORITY		2
+> +#define SDEI_EVENT_INFO_EV_ROUTING_MODE		3
+> +#define SDEI_EVENT_INFO_EV_ROUTING_AFF		4
+> +
+> +/* and their results */
+> +#define SDEI_EVENT_TYPE_PRIVATE			0
+> +#define SDEI_EVENT_TYPE_SHARED			1
+> +#define SDEI_EVENT_PRIORITY_NORMAL		0
+> +#define SDEI_EVENT_PRIORITY_CRITICAL		1
+> +
+> +#endif /* _UAPI_LINUX_ARM_SDEI_H */
+> -- 
+> 1.8.3.1
 
