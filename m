@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3355BBDCC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:10:40 +0200 (CEST)
-Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD4ABDCD1
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:14:09 +0200 (CEST)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD5Bv-0001uc-2t
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
+	id 1iD5FI-0006I3-Jg
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44913)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <3WEqLXQYKCg05nzrvqt11tyr.p1z3rz7-qr8ry010t07.14t@flex--sameid.bounces.google.com>)
- id 1iD58U-000888-Tm
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:07:08 -0400
+ <3XEqLXQYKChE9r3vzux55x2v.t537v3B-uvCv2454x4B.58x@flex--sameid.bounces.google.com>)
+ id 1iD58d-0008Pu-Ng
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:07:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <3WEqLXQYKCg05nzrvqt11tyr.p1z3rz7-qr8ry010t07.14t@flex--sameid.bounces.google.com>)
- id 1iD58T-0004WF-Fx
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:07:06 -0400
-Received: from mail-ua1-x94a.google.com ([2607:f8b0:4864:20::94a]:39687)
+ <3XEqLXQYKChE9r3vzux55x2v.t537v3B-uvCv2454x4B.58x@flex--sameid.bounces.google.com>)
+ id 1iD58Y-0004dg-KF
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:07:12 -0400
+Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a]:40526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <3WEqLXQYKCg05nzrvqt11tyr.p1z3rz7-qr8ry010t07.14t@flex--sameid.bounces.google.com>)
- id 1iD58T-0004Vo-Bn
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:07:05 -0400
-Received: by mail-ua1-x94a.google.com with SMTP id 93so921436uav.6
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 04:07:05 -0700 (PDT)
+ <3XEqLXQYKChE9r3vzux55x2v.t537v3B-uvCv2454x4B.58x@flex--sameid.bounces.google.com>)
+ id 1iD58Y-0004bR-DG
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:07:10 -0400
+Received: by mail-wm1-x34a.google.com with SMTP id o188so1930292wmo.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 04:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=ntmhuLh/qhZlaDmWWEGtABSx++pJ8zRHlQJB1iBCCeM=;
- b=q/CdKGwK2P4ra3icnbeFpba2duuZbeziNYIlBj+Vfz2LnHK1YCNe5yqzkUQwWLgATF
- uG/jqgQEBJrvKzj3i0g1ixNc6vidFsENKXdJHQOTq27BvZ3zDBIyJQsy4++2BbMWsTNa
- 0YWytQ6Awb1sc7N2hu55ceLKE+VN9TQ6xM88gaqrW0CcgdL5WY7Nxp9ZBngMa7OfjxnD
- gD95B1ZsJayLzazoVyFAccyfJP/niv+1Ejjv46A9njNDgCQA2FacqYJCgc9PhZht5vph
- NVJV3grRPMuMqMtDerVYCL38VzQG3f+RGZdaf9eMfhapjLQUEIf7O0cRrKy6jo5nnxEh
- ZCew==
+ :cc; bh=h+cRgKLkCqTFM58KGRf0r71ieDf+K2XSFGxiiABhRqM=;
+ b=sXBrOHw1PryXcsFrWUn6ZfAPoKJn/f+HCRNukLCAbqLVa9TPa6QWfKODNh0EB6gkja
+ nIfWI2bPP5peuQuHZuJLHrihLLJSvHXXC5Ly5H8x6NAoaPJNj8xyiz3qIS9nnfMlKV13
+ a0L536sPYjmxSB1MzVORXjk1qQJVkeNIufCwksN8X5S77X4i6eMTI7cAM43cq9ZqX4pq
+ aPnxjVbFQ49DGKY0WZOOw5CRVaK4kv+PF54V2r4TPyKv6RRqNW/ty5IVP2sn4ahKyGtc
+ YXXsuYBE0zI27Wzs2Q3QztpXy7gvyU07jVhj0GrQEEyg8JsXMs6I9bkN/7GENTZwSEfR
+ Esig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=ntmhuLh/qhZlaDmWWEGtABSx++pJ8zRHlQJB1iBCCeM=;
- b=uDg0POzC9QtuEOIsFHFIOrkXwianBLVh+uNcezBQgFwoW2Dn163Sk4mAWHBMob/DWy
- UqJF0kK6Ek9TGEQwkq/AAU6Y4Qh+HG2sOmD8oh0eVdXo8PiQA/espuksq71ZQzbeIYGD
- KXpAHTCjuv1KOJexM/GU64JVtMUflmWCS690IB3tiqOCC5Rp0FBiVeo1nbq5LfF4U6/F
- SdoyicETVjo9eqB9ojFoNgVonz0QrEMRQPeoL6J5O669GXz2MjIFH+Uo/iWZkHpBb85G
- 6r80T+daiwvpg2+pMc6+Rs/fdmKfijsTa7bgS0ex8ECphlyQB3DNmTYMxEuwZyhdD0Pi
- jhrQ==
-X-Gm-Message-State: APjAAAVBlexpsqAqFTBk8oxIyvpSY3rYKj1DPH+/Yf2hXDukjOUuB3m7
- iwKn8kPmePuv9FiMYC/9nUeSwOczED7b1KpPfAc9UpvamkMiEthTFpzPeTsPa61iwYePAbG5hOo
- 0RFj5k/0UBAexd+jOV+Xp2OXOnA+dLFkzVDCNcOP9ytBp75wSgbRuqissGyNa
-X-Google-Smtp-Source: APXvYqwaOgOMNGzT7SpCpTtc42b1qzyS0/7xnmjCYyEE0vSlKawb/cT6s0tjvMgul/wpb0gYMJmUMncXhps=
-X-Received: by 2002:a1f:19d8:: with SMTP id 207mr2064708vkz.54.1569409624300; 
- Wed, 25 Sep 2019 04:07:04 -0700 (PDT)
-Date: Wed, 25 Sep 2019 14:06:36 +0300
+ bh=h+cRgKLkCqTFM58KGRf0r71ieDf+K2XSFGxiiABhRqM=;
+ b=VQ3NKzO1vRIljdtl4T7MiMEil/EfRjolYdvqZTJeKGMdOmzbeDRDrAgZHxSTVpt5H7
+ OPcymA5p/b+Z8V7ztWv/nJFXrSzIPvpgdUGBXLWhyh2EKRSAVEVCfgWUXpdEPkBkRBxb
+ bW+Ii/3NGvs59Jx3o0kBkSyIwLDEgPBQsCYGHrNgiApl2s9wVWPcwP4flAW3sCOy6c7M
+ dU0n/IOPk1ZZUxglv4mWQGrG5ilfTP+UiQ/fwMGV/0dXXVu21UUt+OtcMBa95TmwcDsf
+ jczTJOg8PGjvx5Rg9e4Ie//8daHELqIGuUSQdRsFjIvFiC4/vJdTluGfTmgOOaGugqgL
+ 9nBw==
+X-Gm-Message-State: APjAAAVsWwSGm2ryJpWuzsAqAf9T28gHJUQFIrjn4EgaxXiG7Qp3BLUY
+ YzFHXAWMLhh9UnyJbplLoEpKhcYBg/4A4rBqme6OdeAryjzTJiQ8vICUpyqwo/JOR7jnZF0joB0
+ VKC2V7CscxJ3WpkO0CU5IiBTjJ3O2Za6wFzMKjBzAFXK++qvwfbBqK7Sp8bKF
+X-Google-Smtp-Source: APXvYqzDFfJYzGJTaE8CpmUSweSt5xnhDOIaD0TC6fugzWxHfnMzQdl/FZciG8WWkd4OIR2nR9Nv1dASbXI=
+X-Received: by 2002:a05:6000:1281:: with SMTP id
+ f1mr176199wrx.247.1569409628619; 
+ Wed, 25 Sep 2019 04:07:08 -0700 (PDT)
+Date: Wed, 25 Sep 2019 14:06:37 +0300
 In-Reply-To: <20190925110639.100699-1-sameid@google.com>
-Message-Id: <20190925110639.100699-6-sameid@google.com>
+Message-Id: <20190925110639.100699-7-sameid@google.com>
 Mime-Version: 1.0
 References: <20190925110639.100699-1-sameid@google.com>
 X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
-Subject: [PATCH v7 5/8] bootdevice: Gather LCHS from all relevant devices
+Subject: [PATCH v7 6/8] bootdevice: Refactor get_boot_devices_list
 To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::94a
+X-Received-From: 2a00:1450:4864:20::34a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,101 +88,100 @@ From: Sam Eiderman via <qemu-devel@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Relevant devices are:
-    * ide-hd (and ide-cd, ide-drive)
-    * scsi-hd (and scsi-cd, scsi-disk, scsi-block)
-    * virtio-blk-pci
+Move device name construction to a separate function.
 
-We do not call del_boot_device_lchs() for ide-* since we don't need to -
-IDE block devices do not support unplugging.
+We will reuse this function in the following commit to pass logical CHS
+parameters through fw_cfg much like we currently pass bootindex.
 
-Signed-off-by: Sam Eiderman <sameid@google.com>
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- hw/block/virtio-blk.c |  6 ++++++
- hw/ide/qdev.c         |  5 +++++
- hw/scsi/scsi-disk.c   | 12 ++++++++++++
- 3 files changed, 23 insertions(+)
+ bootdevice.c | 61 +++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 34 insertions(+), 27 deletions(-)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 18851601cb..6d8ff34a16 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -1186,6 +1186,11 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-     blk_set_guest_block_size(s->blk, s->conf.conf.logical_block_size);
- 
-     blk_iostatus_enable(s->blk);
-+
-+    add_boot_device_lchs(dev, "/disk@0,0",
-+                         conf->conf.lcyls,
-+                         conf->conf.lheads,
-+                         conf->conf.lsecs);
+diff --git a/bootdevice.c b/bootdevice.c
+index bc5e1c2de4..2b12fb85a4 100644
+--- a/bootdevice.c
++++ b/bootdevice.c
+@@ -202,6 +202,39 @@ DeviceState *get_boot_device(uint32_t position)
+     return res;
  }
  
- static void virtio_blk_device_unrealize(DeviceState *dev, Error **errp)
-@@ -1193,6 +1198,7 @@ static void virtio_blk_device_unrealize(DeviceState *dev, Error **errp)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOBlock *s = VIRTIO_BLK(dev);
- 
-+    del_boot_device_lchs(dev, "/disk@0,0");
-     virtio_blk_data_plane_destroy(s->dataplane);
-     s->dataplane = NULL;
-     qemu_del_vm_change_state_handler(s->change);
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 6dd219944f..2ffd387a73 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -220,6 +220,11 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error **errp)
- 
-     add_boot_device_path(dev->conf.bootindex, &dev->qdev,
-                          dev->unit ? "/disk@1" : "/disk@0");
++static char *get_boot_device_path(DeviceState *dev, bool ignore_suffixes,
++                                  char *suffix)
++{
++    char *devpath = NULL, *s = NULL, *d, *bootpath;
 +
-+    add_boot_device_lchs(&dev->qdev, dev->unit ? "/disk@1" : "/disk@0",
-+                         dev->conf.lcyls,
-+                         dev->conf.lheads,
-+                         dev->conf.lsecs);
- }
- 
- static void ide_dev_get_bootindex(Object *obj, Visitor *v, const char *name,
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 915641a0f1..d19896fe4d 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -35,6 +35,7 @@
- #include "hw/block/block.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/dma.h"
-+#include "sysemu/sysemu.h"
- #include "qemu/cutils.h"
- #include "trace.h"
- 
-@@ -2402,6 +2403,16 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
-     blk_set_guest_block_size(s->qdev.conf.blk, s->qdev.blocksize);
- 
-     blk_iostatus_enable(s->qdev.conf.blk);
++    if (dev) {
++        devpath = qdev_get_fw_dev_path(dev);
++        assert(devpath);
++    }
 +
-+    add_boot_device_lchs(&dev->qdev, NULL,
-+                         dev->conf.lcyls,
-+                         dev->conf.lheads,
-+                         dev->conf.lsecs);
++    if (!ignore_suffixes) {
++        if (dev) {
++            d = qdev_get_own_fw_dev_path_from_handler(dev->parent_bus, dev);
++            if (d) {
++                assert(!suffix);
++                s = d;
++            } else {
++                s = g_strdup(suffix);
++            }
++        } else {
++            s = g_strdup(suffix);
++        }
++    }
++
++    bootpath = g_strdup_printf("%s%s",
++                               devpath ? devpath : "",
++                               s ? s : "");
++    g_free(devpath);
++    g_free(s);
++
++    return bootpath;
 +}
 +
-+static void scsi_unrealize(SCSIDevice *dev, Error **errp)
-+{
-+    del_boot_device_lchs(&dev->qdev, NULL);
- }
+ /*
+  * This function returns null terminated string that consist of new line
+  * separated device paths.
+@@ -218,36 +251,10 @@ char *get_boot_devices_list(size_t *size)
+     bool ignore_suffixes = mc->ignore_boot_device_suffixes;
  
- static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
-@@ -3006,6 +3017,7 @@ static void scsi_hd_class_initfn(ObjectClass *klass, void *data)
-     SCSIDeviceClass *sc = SCSI_DEVICE_CLASS(klass);
+     QTAILQ_FOREACH(i, &fw_boot_order, link) {
+-        char *devpath = NULL,  *suffix = NULL;
+         char *bootpath;
+-        char *d;
+         size_t len;
  
-     sc->realize      = scsi_hd_realize;
-+    sc->unrealize    = scsi_unrealize;
-     sc->alloc_req    = scsi_new_request;
-     sc->unit_attention_reported = scsi_disk_unit_attention_reported;
-     dc->desc = "virtual SCSI disk";
+-        if (i->dev) {
+-            devpath = qdev_get_fw_dev_path(i->dev);
+-            assert(devpath);
+-        }
+-
+-        if (!ignore_suffixes) {
+-            if (i->dev) {
+-                d = qdev_get_own_fw_dev_path_from_handler(i->dev->parent_bus,
+-                                                          i->dev);
+-                if (d) {
+-                    assert(!i->suffix);
+-                    suffix = d;
+-                } else {
+-                    suffix = g_strdup(i->suffix);
+-                }
+-            } else {
+-                suffix = g_strdup(i->suffix);
+-            }
+-        }
+-
+-        bootpath = g_strdup_printf("%s%s",
+-                                   devpath ? devpath : "",
+-                                   suffix ? suffix : "");
+-        g_free(devpath);
+-        g_free(suffix);
++        bootpath = get_boot_device_path(i->dev, ignore_suffixes, i->suffix);
+ 
+         if (total) {
+             list[total-1] = '\n';
 -- 
 2.23.0.351.gc4317032e6-goog
 
