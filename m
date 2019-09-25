@@ -2,58 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB17DBDA69
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 11:03:39 +0200 (CEST)
-Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BF7BDA76
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 11:05:46 +0200 (CEST)
+Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD3D0-0004qx-DJ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 05:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57748)
+	id 1iD3F2-0006qo-Ru
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 05:05:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iD3AO-0003iE-Nd
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:00:58 -0400
+ (envelope-from <dovgaluk@ispras.ru>) id 1iD3CJ-00059a-1b
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:02:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iD3AN-0005f4-GN
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:00:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46319)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1iD3AN-0005df-9f; Wed, 25 Sep 2019 05:00:55 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5436B30A7B83;
- Wed, 25 Sep 2019 09:00:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 177555B69A;
- Wed, 25 Sep 2019 09:00:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9F646113864E; Wed, 25 Sep 2019 11:00:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: [PATCH v1 5/6] riscv/virt: Add the PFlash CFI01 device
-References: <cover.1568931866.git.alistair.francis@wdc.com>
- <0a5c141a26fada6d93d06e996a2f24e1b269ec50.1568931866.git.alistair.francis@wdc.com>
- <CAEUhbmVvDKQqQYE-riq=cvSrCe_NMoW_KDsLjh8CVHRUhJvk9A@mail.gmail.com>
- <CAKmqyKOofA3U+8kjMkzQ0sNd1=uwJHq3c9eaLZdoNCb7=e-PAw@mail.gmail.com>
- <CAFEAcA-uFPGf4BiDXH=Om3Df-xXrt7QwjzVF7E3kY4aMWMP4YQ@mail.gmail.com>
- <CAKmqyKP3T79qVUXftO=0hmhYbD9MKccdvsAcs=_4CQFoNmfucw@mail.gmail.com>
-Date: Wed, 25 Sep 2019 11:00:50 +0200
-In-Reply-To: <CAKmqyKP3T79qVUXftO=0hmhYbD9MKccdvsAcs=_4CQFoNmfucw@mail.gmail.com>
- (Alistair Francis's message of "Tue, 24 Sep 2019 17:54:39 -0700")
-Message-ID: <87a7aszr5p.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iD3CH-0007fL-Je
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:02:54 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:56578)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iD3CH-0007JZ-3d
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:02:53 -0400
+Received: from PASHAISP (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 0C7FF5400C2;
+ Wed, 25 Sep 2019 12:02:49 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: "'Kevin Wolf'" <kwolf@redhat.com>
+References: <20190918093305.GF5207@localhost.localdomain>
+ <001401d56e04$b93c02a0$2bb407e0$@ru>
+ <20190918094436.GG5207@localhost.localdomain>
+ <001501d56e06$bbd7aa30$3386fe90$@ru>
+ <20190919085302.GA10163@localhost.localdomain>
+ <001901d56ec9$620ae260$2620a720$@ru>
+ <20190919112702.GC10163@localhost.localdomain>
+ <001a01d56ee3$4354a530$c9fdef90$@ru>
+ <20190919130005.GF10163@localhost.localdomain>
+ <002401d56f84$83900e40$8ab02ac0$@ru>
+ <20190920100150.GD5458@localhost.localdomain>
+In-Reply-To: <20190920100150.GD5458@localhost.localdomain>
+Subject: RE: [for-4.2 PATCH 3/6] replay: update docs for record/replay with
+ block devices
+Date: Wed, 25 Sep 2019 12:02:46 +0300
+Message-ID: <001601d57380$002b3f20$0081bd60$@ru>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 25 Sep 2019 09:00:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdVvmnB6TEN7ehgJSlyfueQu1o/pZwD5RGrw
+Content-Language: ru
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 83.149.199.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,55 +61,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru, quintela@redhat.com,
+ ciro.santilli@gmail.com, jasowang@redhat.com, crosthwaite.peter@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, alex.bennee@linaro.org,
+ maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
+ boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
+ mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alistair Francis <alistair23@gmail.com> writes:
+> From: Kevin Wolf [mailto:kwolf@redhat.com]
+> Am 20.09.2019 um 09:25 hat Pavel Dovgalyuk geschrieben:
+> > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > Am 19.09.2019 um 14:10 hat Pavel Dovgalyuk geschrieben:
+> > > > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > > > diff --git a/block/block-backend.c b/block/block-backend.c
+> > > > > index 1c605d5444..c57d3d9fdf 100644
+> > > > > --- a/block/block-backend.c
+> > > > > +++ b/block/block-backend.c
+> > > > > @@ -17,6 +17,7 @@
+> > > > >  #include "block/throttle-groups.h"
+> > > > >  #include "hw/qdev-core.h"
+> > > > >  #include "sysemu/blockdev.h"
+> > > > > +#include "sysemu/replay.h"
+> > > > >  #include "sysemu/runstate.h"
+> > > > >  #include "qapi/error.h"
+> > > > >  #include "qapi/qapi-events-block.h"
+> > > > > @@ -808,6 +809,12 @@ void blk_remove_bs(BlockBackend *blk)
+> > > > >  int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+> > > > >  {
+> > > > >      ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+> > > > > +
+> > > > > +    if (replay_mode != REPLAY_MODE_NONE && bs->drv != &bdrv_blkreplay) {
+> > > > > +        error_setg(errp, "Root node must be blkreplay");
+> > > > > +        return -ENOTSUP;
+> > > > > +    }
+> > > >
+> > > > I guess this is opposite direction - bs->drv is bdrv_file.
+> > > > And we should check its parent.
+> > >
+> > > If bs->drv is bdrv_file, you want this to fail because only
+> > > bdrv_blkreplay should be able to be attached to devices.
+> >
+> > There was a regular rr invocation (as described in docs).
+> > And bs->drv always was a pointer to bdrv_file: for original image,
+> > and for temporary snapshot.
+> 
+> Hm, what was the actual command line you used? I can see that you have a
+> separate -drive for the qcow2 file, so I can see how you get an unused
+> BlockBackend for the qcow2 node, but I don't see how it would be a file
+> node.
+> 
+> Anyway, this leaves us two options: Either change the recommended
+> command line to use -blockdev for the qcow2 file so that no BlockBackend
+> is created for it (I think this might be preferable), or restrict the
+> error to when the BlockBackend is used.
 
-> On Mon, Sep 23, 2019 at 2:46 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Fri, 20 Sep 2019 at 23:23, Alistair Francis <alistair23@gmail.com> wrote:
->> > On Thu, Sep 19, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->> > > I don't think we should mirror what is used on ARM virt board to
->> > > create 2 flash for sifive_u. For ARM virt, there are 2 flashes because
->> > > they need distinguish secure and non-secure. For sifive_u, only one is
->> > > enough.
->> >
->> > I went back and forward about 1 or 2. Two seems more usable as maybe
->> > someone wants to include two pflash files? The Xilinx machine also has
->> > two so I'm kind of used to 2, but I'm not really fussed.
->>
->> One of the reasons for having 2 on the Arm board (we do this
->> even if we're not supporting secure vs non-secure) is that
->> then you can use one for a fixed read-only BIOS image (backed
->> by a file on the host filesystem shared between all VMs), and
->> one backed by a read-write per-VM file providing permanent
->> storage for BIOS environment variables. Notably UEFI likes to
->> work this way, but the idea applies in theory to other
->> boot loader or BIOSes I guess.
->
-> This seems like a good reason to have two and there isn't really a
-> disadvantage so I have kept it with two.
+I started playing with -blockdev: added new blockdev for blkreplay and
+constructed the following command line:
 
-Good.
+-blockdev driver=file,filename=disk.img,node-name=hd0
+-blockdev driver=blkreplay,file=hd0,node-name=hd0-rr
+-device virtio-blk-device,drive=hd0-rr
 
-Implementing sector locking would be even better.  I'm not asking you to
-do that work.
+However, I get an error: "Could not open 'disk.img': Permission denied"
+Everything works when I use this file in '-drive' parameter.
+What am I doing wrong?
 
->> I would suggest also checking with Markus that your code
->> for instantiating the flash devices follows the current
->> recommendations so the backing storage can be configured
->> via -blockdev. (This is a fairly recent change from June or
->> so; current-in-master virt and sbsa boards provide an example
->> of doing the right thing, I think.)
->
-> I have updated the code to more closely match the ARM virt machine, so
-> I think I'm doing it correctly.
+Pavel Dovgalyuk
 
-You might want to consider omitting legacy configuration options -drive
-if=pflash and -bios for a simpler interface.
+
 
