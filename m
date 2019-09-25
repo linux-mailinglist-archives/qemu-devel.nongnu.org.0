@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F49BD8A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 08:59:28 +0200 (CEST)
-Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BCCBD8B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:04:54 +0200 (CEST)
+Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1Go-00024Q-Op
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 02:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
+	id 1iD1M3-0007Pd-R3
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iD13l-0008J8-ME
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:45:59 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iD13o-0008LP-6o
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:46:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iD13j-0003Vp-3E
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:45:57 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:56525)
+ (envelope-from <dgibson@ozlabs.org>) id 1iD13m-0003Zg-M8
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:45:59 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55503)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iD13i-0003Sh-CI; Wed, 25 Sep 2019 02:45:55 -0400
+ id 1iD13l-0003Vk-0k; Wed, 25 Sep 2019 02:45:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46dT8p3vxbz9sPq; Wed, 25 Sep 2019 16:45:45 +1000 (AEST)
+ id 46dT8q2m3yz9sQv; Wed, 25 Sep 2019 16:45:46 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569393946;
- bh=MWyjaNqGeiZxSx2ghrsuLbE75RKkfcGeLPbhW/hfzCU=;
+ d=gibson.dropbear.id.au; s=201602; t=1569393947;
+ bh=/zwjFMEAaBULPaD+OgxpT0tmoLDpWE8TI3G+IoxSq1o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JaBn/QlMP4fkzRW2WrKR8m+DwvsHLahByHRQ8vxh+IaxPjisL0E3aRBwJc0cfRaZ2
- QnPquIKfNqHWgvofj9axw5UKuVLSU5H1c/p9KOEe2Ofmf3aC2G3bHh6SN64+Js78gI
- LZjRTqEBCRK97YgfqcBJtFAt8mDqz1h/YpoStKsE=
+ b=Ix3h4CqjzSQUTvJLfRmm5R+2CilzV2Wz1rDiYxdBqxCU0yI/ITPgS+DjUVncPP7Z3
+ hdQH7yXqix8mkuXdZJqNDMBIos1RdSLYFb5+vZIr9UJThYofFvu3buxMF8j+hUC7aq
+ jBH5QMV1+oUBUL4rszng8jrPHwxvId/zBCr12bD4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	clg@kaod.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 13/20] spapr: Eliminate SpaprIrq:get_nodename method
-Date: Wed, 25 Sep 2019 16:45:27 +1000
-Message-Id: <20190925064534.19155-14-david@gibson.dropbear.id.au>
+Subject: [PATCH 14/20] spapr: Remove unhelpful tracepoints from
+ spapr_irq_free_xics()
+Date: Wed, 25 Sep 2019 16:45:28 +1000
+Message-Id: <20190925064534.19155-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190925064534.19155-1-david@gibson.dropbear.id.au>
 References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
@@ -63,133 +64,55 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This method is used to determine the name of the irq backend's node in th=
-e
-device tree, so that we can find its phandle (after SLOF may have modifie=
-d
-it from the phandle we initially gave it).
-
-But, in the two cases the only difference between the node name is the
-presence of a unit address.  Searching for a node name without considerin=
-g
-unit address is standard practice for the device tree, and
-fdt_subnode_offset() will do exactly that.
-
-So, the method is unnecessary.
+These traces contain some useless information (the always-0 source#) and
+have no equivalents for XIVE mode.  For now just remove them, and we can
+put back something more sensible if and when we need it.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_irq.c         | 25 +++----------------------
- include/hw/ppc/spapr_irq.h |  1 -
- 2 files changed, 3 insertions(+), 23 deletions(-)
+ hw/ppc/spapr_irq.c  | 4 ----
+ hw/ppc/trace-events | 4 ----
+ 2 files changed, 8 deletions(-)
 
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 038bfffff4..79167ccc68 100644
+index 79167ccc68..db6755f3ab 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -211,11 +211,6 @@ static void spapr_irq_reset_xics(SpaprMachineState *=
-spapr, Error **errp)
+@@ -140,11 +140,7 @@ static void spapr_irq_free_xics(SpaprMachineState *s=
+papr, int irq, int num)
+     int i;
+=20
+     if (ics_valid_irq(ics, irq)) {
+-        trace_spapr_irq_free(0, irq, num);
+         for (i =3D srcno; i < srcno + num; ++i) {
+-            if (ics_irq_free(ics, i)) {
+-                trace_spapr_irq_free_warn(0, i);
+-            }
+             memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
+         }
      }
- }
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index 96dad767a1..9ea620f23c 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -13,10 +13,6 @@ spapr_pci_msi_retry(unsigned config_addr, unsigned req=
+_num, unsigned max_irqs) "
+ spapr_cas_failed(unsigned long n) "DT diff buffer is too small: %ld byte=
+s"
+ spapr_cas_continue(unsigned long n) "Copy changes to the guest: %ld byte=
+s"
 =20
--static const char *spapr_irq_get_nodename_xics(SpaprMachineState *spapr)
--{
--    return XICS_NODENAME;
--}
+-# spapr_irq.c
+-spapr_irq_free(int src, int irq, int num) "Source#%d, first irq %d, %d i=
+rqs"
+-spapr_irq_free_warn(int src, int irq) "Source#%d, irq %d is already free=
+"
 -
- static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **er=
-rp)
- {
-     if (kvm_enabled()) {
-@@ -237,7 +232,6 @@ SpaprIrq spapr_irq_xics =3D {
-     .post_load   =3D spapr_irq_post_load_xics,
-     .reset       =3D spapr_irq_reset_xics,
-     .set_irq     =3D spapr_irq_set_irq_xics,
--    .get_nodename =3D spapr_irq_get_nodename_xics,
-     .init_kvm    =3D spapr_irq_init_kvm_xics,
- };
-=20
-@@ -362,11 +356,6 @@ static void spapr_irq_set_irq_xive(void *opaque, int=
- irq, int val)
-     }
- }
-=20
--static const char *spapr_irq_get_nodename_xive(SpaprMachineState *spapr)
--{
--    return spapr->xive->nodename;
--}
--
- static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **er=
-rp)
- {
-     if (kvm_enabled()) {
-@@ -393,7 +382,6 @@ SpaprIrq spapr_irq_xive =3D {
-     .post_load   =3D spapr_irq_post_load_xive,
-     .reset       =3D spapr_irq_reset_xive,
-     .set_irq     =3D spapr_irq_set_irq_xive,
--    .get_nodename =3D spapr_irq_get_nodename_xive,
-     .init_kvm    =3D spapr_irq_init_kvm_xive,
- };
-=20
-@@ -538,11 +526,6 @@ static void spapr_irq_set_irq_dual(void *opaque, int=
- irq, int val)
-     spapr_irq_current(spapr)->set_irq(spapr, irq, val);
- }
-=20
--static const char *spapr_irq_get_nodename_dual(SpaprMachineState *spapr)
--{
--    return spapr_irq_current(spapr)->get_nodename(spapr);
--}
--
- /*
-  * Define values in sync with the XIVE and XICS backend
-  */
-@@ -560,7 +543,6 @@ SpaprIrq spapr_irq_dual =3D {
-     .post_load   =3D spapr_irq_post_load_dual,
-     .reset       =3D spapr_irq_reset_dual,
-     .set_irq     =3D spapr_irq_set_irq_dual,
--    .get_nodename =3D spapr_irq_get_nodename_dual,
-     .init_kvm    =3D NULL, /* should not be used */
- };
-=20
-@@ -697,13 +679,13 @@ void spapr_irq_reset(SpaprMachineState *spapr, Erro=
-r **errp)
-=20
- int spapr_irq_get_phandle(SpaprMachineState *spapr, void *fdt, Error **e=
-rrp)
- {
--    const char *nodename =3D spapr->irq->get_nodename(spapr);
-+    const char *nodename =3D "interrupt-controller";
-     int offset, phandle;
-=20
-     offset =3D fdt_subnode_offset(fdt, 0, nodename);
-     if (offset < 0) {
--        error_setg(errp, "Can't find node \"%s\": %s", nodename,
--                   fdt_strerror(offset));
-+        error_setg(errp, "Can't find node \"%s\": %s",
-+                   nodename, fdt_strerror(offset));
-         return -1;
-     }
-=20
-@@ -787,6 +769,5 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-     .post_load   =3D spapr_irq_post_load_xics,
-     .reset       =3D spapr_irq_reset_xics,
-     .set_irq     =3D spapr_irq_set_irq_xics,
--    .get_nodename =3D spapr_irq_get_nodename_xics,
-     .init_kvm    =3D spapr_irq_init_kvm_xics,
- };
-diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index a4e790ef60..9b60378e28 100644
---- a/include/hw/ppc/spapr_irq.h
-+++ b/include/hw/ppc/spapr_irq.h
-@@ -52,7 +52,6 @@ typedef struct SpaprIrq {
-     int (*post_load)(SpaprMachineState *spapr, int version_id);
-     void (*reset)(SpaprMachineState *spapr, Error **errp);
-     void (*set_irq)(void *opaque, int srcno, int val);
--    const char *(*get_nodename)(SpaprMachineState *spapr);
-     void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
- } SpaprIrq;
-=20
+ # spapr_hcall.c
+ spapr_cas_pvr(uint32_t cur_pvr, bool explicit_match, uint32_t new_pvr) "=
+current=3D0x%x, explicit_match=3D%u, new=3D0x%x"
+ spapr_h_resize_hpt_prepare(uint64_t flags, uint64_t shift) "flags=3D0x%"=
+PRIx64", shift=3D%"PRIu64
 --=20
 2.21.0
 
