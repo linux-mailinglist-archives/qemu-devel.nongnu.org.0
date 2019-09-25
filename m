@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5F4BDCB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:07:19 +0200 (CEST)
-Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E31BDCC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:11:15 +0200 (CEST)
+Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD58d-0007Vg-Ta
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44416)
- by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iD56Z-0006ia-Rv
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:05:08 -0400
+	id 1iD5CU-0002cf-6M
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:11:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44745)
+ by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
+ <3Q0qLXQYKCvYqYkcgbemmejc.amkocks-bctcjlmlels.mpe@flex--sameid.bounces.google.com>)
+ id 1iD58E-0007iN-An
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iD56X-0002fx-Qa
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:05:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33008)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iD56X-0002eq-IC
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:05:05 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 10110C058CA4
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:05:04 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id m14so2174111wru.17
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 04:05:03 -0700 (PDT)
+ (envelope-from
+ <3Q0qLXQYKCvYqYkcgbemmejc.amkocks-bctcjlmlels.mpe@flex--sameid.bounces.google.com>)
+ id 1iD58C-0004In-32
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:50 -0400
+Received: from mail-wr1-x44a.google.com ([2a00:1450:4864:20::44a]:52435)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from
+ <3Q0qLXQYKCvYqYkcgbemmejc.amkocks-bctcjlmlels.mpe@flex--sameid.bounces.google.com>)
+ id 1iD58B-0004Fv-Er
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:48 -0400
+Received: by mail-wr1-x44a.google.com with SMTP id t11so2181688wrq.19
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 04:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=orCQdixDAAyB3dFrVRAd6CXGSGxK2QT1UBzb/+co4sE=;
+ b=paDEwZ8RaSHvTA1FBTXBa7E+TeNKMNtOIRkmt8+p8Y2Q/b/3WB2Epy+dDNHRAa0uqD
+ +2IXaxOMVK/mpGVq6Fit9Tx1ec5KSEx98tr5ayLWHuJ341nwSV7OUAJQxY2gqZcRhIG/
+ veHaVnxmz+m/uAxHBCW+4xMMz4/+cvk/bEPk5aJYxfb/H/fjWAJOAWwj5VX5Ig8s5m99
+ xKBTwS+C0j50JfW/WtxshEV/R7yp9jnXJaGKrEEYPODpISkb3MKUFglk6pukznX8q8QI
+ k79QvGMGGvMPwJDsqyuHLZWthCTT0Sy/wUOkCNBTiowJ9wCUmlgccdXPAJ+D6KMr3wWp
+ nHSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=KxRwgO8UaCBnFIEi2sgboQnxhDI72sZg4D5dYSN7E8U=;
- b=Hg+/2au3JEIlQsbc/SxiVR3+WoHj8ul89swvLapAmlk/S1VqSl5lOYSB1TUdN0Iup9
- QddbfR159EnYqfp+8pNT+8xY7dK8oyFl0XJdNYXSMHqghSvi6rVSZc798ag8U/IhIOLq
- oDTNrJeOM7ga3sLpLBeZWwrjBEIgYmaGRWz8kRM1pY4MArYxNOS7rgUfB04a/JRw5Jle
- stbfx7iQj2mvNZ7IMBh9YTKp0mS7jq50qRlcBaeDokx0DL3duYHoegXCYqDPJbMhZAsq
- DFzZkbeWC0ly6iBtuHeif4Y0kZjK7q6f+UpLH1mCb7O+m6n6zda5b55jkArooHjqdIaW
- TknA==
-X-Gm-Message-State: APjAAAW0fancs+gHire/sbz1NAdbqs61TaEQDHw2osM5UXKOVLD5KkFc
- qGvPoflGr67NORBbd1Fj4E+nqjT+TVw66iyywOf1Xsgbot2DVzpJTvHkMZe8Y8PqWZ5sdGWYcSK
- avv0kRYUns+49tjg=
-X-Received: by 2002:a5d:4102:: with SMTP id l2mr9024758wrp.348.1569409502829; 
- Wed, 25 Sep 2019 04:05:02 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxv1RufwRVO2Xz4p1EG14MxB+VuyP/Md0SOkzT/jp9eOLo90iZxFL2+IAwrPoZbDP+pE5YWrg==
-X-Received: by 2002:a5d:4102:: with SMTP id l2mr9024735wrp.348.1569409502623; 
- Wed, 25 Sep 2019 04:05:02 -0700 (PDT)
-Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
- [95.120.215.139])
- by smtp.gmail.com with ESMTPSA id z12sm4092835wmf.27.2019.09.25.04.05.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 04:05:01 -0700 (PDT)
-References: <20190924124433.96810-1-slp@redhat.com>
- <20190924124433.96810-8-slp@redhat.com>
- <23a6e891-c3ba-3991-d627-433eb1fe156d@redhat.com> <87r245rkld.fsf@redhat.com>
- <317e53b1-d658-4b6b-c782-4b2a0dd091b2@redhat.com> <87ftkksr9u.fsf@redhat.com>
- <3fb455f8-13ef-2930-a10d-9cecd6e5931e@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v4 7/8] docs/microvm.txt: document the new microvm machine
- type
-In-reply-to: <3fb455f8-13ef-2930-a10d-9cecd6e5931e@redhat.com>
-Date: Wed, 25 Sep 2019 13:04:59 +0200
-Message-ID: <87blv8skkk.fsf@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=orCQdixDAAyB3dFrVRAd6CXGSGxK2QT1UBzb/+co4sE=;
+ b=W8IZ78zS3N8CuGJKOJm/YzWRpG/UqiFNMKJ1YU8CpKxRK/hdhcQJQ9X+hTE4s9EGVt
+ +OqkVc7xfYSH+U/MhsTsZqkA3eOrReVRPiFJSOdcd3TM5nO6eJ8zXohFY/0ogVysDZ4w
+ Ny7Bt4RrB0w8LOI52vAh7auCOV9r/LH7YrSgOpsh0YlWDVLtnPbAe1MfVCdXyt+++63S
+ 7ZqDje8IEA5HBTCFKXJGhZJimgTSr0PaH9mp7WxGyGidGfmqtYwxOz7cAmQacEltqmyP
+ CQczyZH0xfNhtetdd27DxkxlqPhzmSIuuPQiC9XJfDTAv4nlBO5HybLBudCk53wvXv8+
+ e6kw==
+X-Gm-Message-State: APjAAAWub5PM3lNDsiaRZ9JYKlVEhdHnB97uk4d1RwqZujVbEvvjz3rj
+ 3dHZ7b3zEkOWiMS9kEcBtXRKEVVvgsm/MPcFd3Ou7HhW8+Mdz4CN0i5RvjDnS1NMe/KnB9ly28A
+ Nj2AiHJxC+1meWl0/QojdjqmcSTHclTfxvORHZv5vHEVzMbEEf4xRpGmoYMnS
+X-Google-Smtp-Source: APXvYqw8NZzcsJH75Y+gmcxoqFdhGm/qqceArAyZ++FNUF3eckiW0Xm6xrAFucBgHSXrqcusw5lBQ40NCmI=
+X-Received: by 2002:a5d:63c6:: with SMTP id c6mr8793241wrw.117.1569409603434; 
+ Wed, 25 Sep 2019 04:06:43 -0700 (PDT)
+Date: Wed, 25 Sep 2019 14:06:31 +0300
+Message-Id: <20190925110639.100699-1-sameid@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
+Subject: [PATCH v7 0/8] Add Qemu to SeaBIOS LCHS interface
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::44a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,99 +73,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, lersek@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, kevin@koconnor.net, liran.alon@oracle.com,
+ kraxel@redhat.com, sameid@google.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Sam Eiderman <sameid@google.com>
+From: Sam Eiderman via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+v1:
 
+Non-standard logical geometries break under QEMU.
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will guess - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
 
-> On 25/09/19 10:40, Sergio Lopez wrote:
->>>> We need the PIT for non-KVM accel (if present with KVM and
->>>> kernel_irqchip_split =3D off, it basically becomes a placeholder)
->>> Why?
->>=20
->> Perhaps I'm missing something. Is some other device supposed to be
->> acting as a HW timer while running with TCG acceleration?
->
-> Sure, the LAPIC timer.  I wonder if Linux, however, wants to use the PIT
-> in order to calibrate the LAPIC timer if TSC deadline mode is unavailable.
+In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
+report more than 16 physical heads when moved to an IDE controller, the
+ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
 
-Ah, yes. I was so confused by the nomenclature that I assumed we didn't
-have a userspace implementation of it.
+By supplying the logical geometies directly we are able to support such
+"exotic" disks.
 
-On the other hand, as you suspect, without the PIT Linux does hang in
-TSC calibration with TCG accel.
+We will use fw_cfg to do just that.
 
-A simple option could be adding it only if we're running without KVM.
+v2:
 
->>>> and the PIC for both the PIT and the ISA serial port.
->>>
->>> Can't the ISA serial port work with the IOAPIC?
->>=20
->> Hm... I'm not sure. I wanted to give it a try, but then noticed that
->> multiple places in the code (like hw/intc/apic.c:560) do expect to have
->> an ISA PIC present through the isa_pic global variable.
->>=20
->> I guess we should be able to work around this, but I'm not sure if it's
->> really worth it. What do you think?
->
-> You can add a paragraph saying that in the future the list could be
-> reduced further.  I think that the direction we want to go is to only
-> leave the IOAPIC around (the ISA devices in this respect are no
-> different from the virtio-mmio devices).
->
-> But you're right about isa_pic.  I wonder if it's as easy as this:
->
-> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-> index bce89911dc..5d03e48a19 100644
-> --- a/hw/intc/apic.c
-> +++ b/hw/intc/apic.c
-> @@ -610,7 +610,7 @@ int apic_accept_pic_intr(DeviceState *dev)
->
->      if ((s->apicbase & MSR_IA32_APICBASE_ENABLE) =3D=3D 0 ||
->          (lvt0 & APIC_LVT_MASKED) =3D=3D 0)
-> -        return 1;
-> +        return isa_pic !=3D NULL;
->
->      return 0;
->  }
+Fix missing parenthesis check in
+    "hd-geo-test: Add tests for lchs override"
 
-Yes, that would do the trick. There's another use of it at
-hw/intc/ioapic.c:78, but we should be safe as, at least in the case of
-Linux, DM_EXTINT is only used in check_timer(), which is only called if
-it detects a i8259 PIC.
+v3:
 
-We should probably add an assertion with an informative message, just in
-case.
+* Rename fw_cfg key to "bios-geometry".
+* Remove "extendible" interface.
+* Add cpu_to_le32 fix as Laszlo suggested or big endian hosts
+* Fix last qtest commit - automatic docker tester for some reason does not have qemu-img set
 
-Thanks,
-Sergio.
+v4:
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+* Change fw_cfg interface from mixed textual/binary to textual only
 
------BEGIN PGP SIGNATURE-----
+v5:
 
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2LSdsACgkQ9GknjS8M
-AjWegQ/9EE2PiYv9DBCPjcqLuNsTK5uyafPLtPc7FThRuBiqycTswI/DZ+oVZrZh
-RNxP0g1o603hHzlSF+NqsXbfGMpI0w/6okW1lYYDe9o4yNyUeA1yx9VRGsQXl2+R
-vUYFtcevHW5BJzdKp2Y13z9COsNeO18XtkupAq3mzDaadAoZNNZKKqIP7lC456mJ
-4A7aheIUzwG7vuwQICz7gkyKPlcSrmgSptCob9cY9y9EiCKxpGMIOlqUh89o2QPS
-9QrU3+MwgbK99Olqf4byEaUt0ktrO9kgaLHiST2mYNb4ptU083ucq+M09vyS6oxd
-L9yFVrRs1LXCgyaMzw90Qq0P6liG3/GLMnXRq+itA+ks4NFibbENIVp4gF/1idb8
-X59T8/ond3oGC/2LhYJ2hKJB6LF6kIwfLb+Ia2MVnqwhas9kjDFw0HuuonNOP/k+
-0xB9ln5BD9Zg1ukVbc9vg1I9uT4Gdo1Grhpa1UZEMlJrJLFGVAkGvANRFyYYK3lU
-57x0IHSrbhqwjI8R2GbeKR9N2631+qWqdq6biD2UW3EHgYvH3i+OIMj/8uvCHETl
-IhqCxle7kfxB09WFlgtE7U0gnirp+t7+iBlWDg5soAA2n+zJCfuN9PsZ/PtLE8Sz
-f7nM6pva96rAry+RUYTuLpv9a2Mrwxl/YGmtvc1eAYwIKMe9Pzk=
-=umGR
------END PGP SIGNATURE-----
---=-=-=--
+* Fix line > 80 chars in tests/hd-geo-test.c
+
+v6:
+
+* Small fixes for issues pointed by Max
+* (&conf->conf)->lcyls to conf->conf.lcyls and so on
+* Remove scsi_unrealize from everything other than scsi-hd
+* Add proper include to sysemu.h
+* scsi_device_unrealize() after scsi_device_purge_requests()
+
+v7:
+
+* Adapted last commit (tests) to changes in qtest
+
+Sam Eiderman (8):
+  block: Refactor macros - fix tabbing
+  block: Support providing LCHS from user
+  bootdevice: Add interface to gather LCHS
+  scsi: Propagate unrealize() callback to scsi-hd
+  bootdevice: Gather LCHS from all relevant devices
+  bootdevice: Refactor get_boot_devices_list
+  bootdevice: FW_CFG interface for LCHS values
+  hd-geo-test: Add tests for lchs override
+
+ bootdevice.c             | 148 ++++++++--
+ hw/block/virtio-blk.c    |   6 +
+ hw/ide/qdev.c            |   7 +-
+ hw/nvram/fw_cfg.c        |  14 +-
+ hw/scsi/scsi-bus.c       |  16 ++
+ hw/scsi/scsi-disk.c      |  12 +
+ include/hw/block/block.h |  22 +-
+ include/hw/scsi/scsi.h   |   1 +
+ include/sysemu/sysemu.h  |   4 +
+ tests/Makefile.include   |   2 +-
+ tests/hd-geo-test.c      | 589 +++++++++++++++++++++++++++++++++++++++
+ 11 files changed, 780 insertions(+), 41 deletions(-)
+
+-- 
+2.23.0.351.gc4317032e6-goog
+
 
