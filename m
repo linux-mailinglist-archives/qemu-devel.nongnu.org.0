@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64420BD70A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 06:17:09 +0200 (CEST)
-Received: from localhost ([::1]:45236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4CDBD729
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 06:21:54 +0200 (CEST)
+Received: from localhost ([::1]:45248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCyjk-0005h4-1z
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 00:17:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50418)
+	id 1iCyoL-0007Og-VG
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 00:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50833)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iCyhi-0004na-Su
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:15:04 -0400
+ (envelope-from <jasowang@redhat.com>) id 1iCynJ-0006tT-C8
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:20:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iCyhe-0001KH-9E
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:15:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49968)
+ (envelope-from <jasowang@redhat.com>) id 1iCynH-0002Md-Vq
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:20:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55936)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iCyhe-0001Jf-3S
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:14:58 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iCynH-0002MD-NU
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:20:47 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9B46F18C4290;
- Wed, 25 Sep 2019 04:14:56 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4198D18C891A;
+ Wed, 25 Sep 2019 04:20:46 +0000 (UTC)
 Received: from [10.72.12.148] (ovpn-12-148.pek2.redhat.com [10.72.12.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2ADE5D9CC;
- Wed, 25 Sep 2019 04:14:52 +0000 (UTC)
-Subject: Re: [PATCH v3] vhost-user: save features if the char dev is closed
-To: Adrian Moreno <amorenoz@redhat.com>, qemu-devel@nongnu.org
-References: <20190924162044.11414-1-amorenoz@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6FF9600C8;
+ Wed, 25 Sep 2019 04:20:41 +0000 (UTC)
+Subject: Re: [PATCH] COLO-compare: Fix incorrect `if` logic
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Fan Yang <Fan_Yang@sjtu.edu.cn>, qemu-devel@nongnu.org,
+ Zhang Chen <chen.zhang@intel.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
+References: <m2y2yd9482.fsf@Fans-Air.ipads-lab.se.sjtu.edu.cn>
+ <6d23190f-e68a-3000-c288-84f2e0d50b07@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d4b87491-00da-09ae-ef14-56c3337f530c@redhat.com>
-Date: Wed, 25 Sep 2019 12:14:50 +0800
+Message-ID: <413e09c6-9376-5021-bf69-c3797237ae9d@redhat.com>
+Date: Wed, 25 Sep 2019 12:20:33 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190924162044.11414-1-amorenoz@redhat.com>
+In-Reply-To: <6d23190f-e68a-3000-c288-84f2e0d50b07@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Wed, 25 Sep 2019 04:14:56 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Wed, 25 Sep 2019 04:20:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -59,48 +62,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ddstreet@canonical.com, Pei Zhang <pezhang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2019/9/25 =E4=B8=8A=E5=8D=8812:20, Adrian Moreno wrote:
-> That way the state can be correctly restored when the device is opened
-> again. This might happen if the backend is restarted.
+On 2019/9/24 =E4=B8=8B=E5=8D=8811:35, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Fan,
 >
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1738768
-> Reported-by: Pei Zhang <pezhang@redhat.com>
-> Fixes: 6ab79a20af3a (do not call vhost_net_cleanup() on running net fro=
-m char user event)
-> Cc: ddstreet@canonical.com
-> Cc: Michael S. Tsirkin <mst@redhat.com>
+> you forgot to Cc the maintainers (doing that for you):
 >
-> Signed-off-by: Adrian Moreno <amorenoz@redhat.com>
-> ---
->  net/vhost-user.c | 4 ++++
->  1 file changed, 4 insertions(+)
+> ./scripts/get_maintainer.pl -f net/colo-compare.c
+> Zhang Chen <chen.zhang@intel.com> (supporter:COLO Proxy)
+> Li Zhijian <lizhijian@cn.fujitsu.com> (supporter:COLO Proxy)
+> Jason Wang <jasowang@redhat.com> (maintainer:Network device ba...)
+> qemu-devel@nongnu.org (open list:All patches CC here)
 >
-> diff --git a/net/vhost-user.c b/net/vhost-user.c
-> index 51921de443..014199d600 100644
-> --- a/net/vhost-user.c
-> +++ b/net/vhost-user.c
-> @@ -235,6 +235,10 @@ static void chr_closed_bh(void *opaque)
-> =20
->      s =3D DO_UPCAST(NetVhostUserState, nc, ncs[0]);
-> =20
-> +    if (s->vhost_net) {
-> +        s->acked_features =3D vhost_net_get_acked_features(s->vhost_ne=
-t);
-> +    }
-> +
->      qmp_set_link(name, false, &err);
-> =20
->      qemu_chr_fe_set_handlers(&s->chr, NULL, NULL, net_vhost_user_event=
-,
+> On 9/24/19 4:08 PM, Fan Yang wrote:
+>> 'colo_mark_tcp_pkt' should return 'true' when packets are the same, an=
+d
+>> 'false' otherwise.  However, it returns 'true' when
+>> 'colo_compare_packet_payload' returns non-zero while
+>> 'colo_compare_packet_payload' is just a 'memcmp'.  The result is that
+>> COLO-compare reports inconsistent TCP packets when they are actually
+>> the same.
+>>
+> Fixes: f449c9e549c
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+Applied.
+
+Thanks
 
 
+>
+>> Signed-off-by: Fan Yang <Fan_Yang@sjtu.edu.cn>
+>> ---
+>>  net/colo-compare.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/net/colo-compare.c b/net/colo-compare.c
+>> index 7489840bde..7ee17f2cf8 100644
+>> --- a/net/colo-compare.c
+>> +++ b/net/colo-compare.c
+>> @@ -319,7 +319,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet=
+ *spkt,
+>>      *mark =3D 0;
+>> =20
+>>      if (ppkt->tcp_seq =3D=3D spkt->tcp_seq && ppkt->seq_end =3D=3D sp=
+kt->seq_end) {
+>> -        if (colo_compare_packet_payload(ppkt, spkt,
+>> +        if (!colo_compare_packet_payload(ppkt, spkt,
+>>                                          ppkt->header_size, spkt->head=
+er_size,
+>>                                          ppkt->payload_size)) {
+>>              *mark =3D COLO_COMPARE_FREE_SECONDARY | COLO_COMPARE_FREE=
+_PRIMARY;
+>> @@ -329,7 +329,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet=
+ *spkt,
+>> =20
+>>      /* one part of secondary packet payload still need to be compared=
+ */
+>>      if (!after(ppkt->seq_end, spkt->seq_end)) {
+>> -        if (colo_compare_packet_payload(ppkt, spkt,
+>> +        if (!colo_compare_packet_payload(ppkt, spkt,
+>>                                          ppkt->header_size + ppkt->off=
+set,
+>>                                          spkt->header_size + spkt->off=
+set,
+>>                                          ppkt->payload_size - ppkt->of=
+fset)) {
+>> @@ -348,7 +348,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet=
+ *spkt,
+>>          /* primary packet is longer than secondary packet, compare
+>>           * the same part and mark the primary packet offset
+>>           */
+>> -        if (colo_compare_packet_payload(ppkt, spkt,
+>> +        if (!colo_compare_packet_payload(ppkt, spkt,
+>>                                          ppkt->header_size + ppkt->off=
+set,
+>>                                          spkt->header_size + spkt->off=
+set,
+>>                                          spkt->payload_size - spkt->of=
+fset)) {
+>>
 
