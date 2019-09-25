@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE9DBE6FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:20:35 +0200 (CEST)
-Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC742BE762
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:34:39 +0200 (CEST)
+Received: from localhost ([::1]:57510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDEi6-0005cJ-RV
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:20:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41335)
+	id 1iDEvm-0003hH-M1
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iDEgq-0004dk-Kb
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:19:13 -0400
+ (envelope-from <bounces@canonical.com>) id 1iDEs4-0001nK-KV
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:30:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iDEgW-0007lr-ID
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:18:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39718)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iDEgV-0007k6-GD
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:18:52 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E878D8AC6F5;
- Wed, 25 Sep 2019 21:18:49 +0000 (UTC)
-Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E0345C21F;
- Wed, 25 Sep 2019 21:18:47 +0000 (UTC)
-Subject: Re: [PATCH v4] qga: add command guest-get-devices for reporting
- VirtIO devices
-To: =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
- qemu-devel@nongnu.org
-References: <76c63f3fd5e36dcfdd8fff5158a12c8955130103.1569445431.git.tgolembi@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e8038579-14f2-76fa-60a7-916f58806442@redhat.com>
-Date: Wed, 25 Sep 2019 16:18:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <bounces@canonical.com>) id 1iDEs2-00011m-CN
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:30:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51660)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iDEs0-0000xX-Du
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:30:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iDErw-0003gH-5N
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 21:30:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0C8F02E80CC
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 21:30:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <76c63f3fd5e36dcfdd8fff5158a12c8955130103.1569445431.git.tgolembi@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Wed, 25 Sep 2019 21:18:50 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Sep 2019 21:21:51 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64 testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc mark-cave-ayland philmd
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156711057074.6835.13599471410604217618.malonedeb@soybean.canonical.com>
+Message-Id: <156944651185.13328.13162492211107128618.malone@gac.canonical.com>
+Subject: [Bug 1841990] Re: instruction 'denbcdq' misbehaving
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 53ec0333310f87daf94b66b5bc3fb17ea2b113ae
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,73 +64,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Reply-To: Bug 1841990 <1841990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/19 4:03 PM, Tom=C3=A1=C5=A1 Golembiovsk=C3=BD wrote:
-> Add command for reporting devices on Windows guest. The intent is not s=
-o
-> much to report the devices but more importantly the driver (and its
-> version) that is assigned to the device. This gives caller the
-> information whether VirtIO drivers are installed and/or whether
-> inadequate driver is used on a device (e.g. QXL device with base VGA
-> driver).
->=20
-> Signed-off-by: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
-> ---
+> Did you see the follow up email indicating the typo that I found in
+patch 6?
 
-It's nice to mention here, after the --- separator, how v4 differs from=20
-earlier versions, to let reviewers that saw the earlier version check=20
-the differences.
+I did, then forgot to include it in my build.  I've included that change
+now...
 
+> Does that help any more tests to pass?
 
-> +++ b/qga/qapi-schema.json
-> @@ -1242,3 +1242,35 @@
->   ##
->   { 'command': 'guest-get-osinfo',
->     'returns': 'GuestOSInfo' }
-> +
-> +##
-> +# @GuestDeviceInfo:
-> +#
-> +# @vendor-id: vendor ID
-> +# @device-id: device ID
-> +# @driver-name: name of the associated driver
-> +# @driver-date: driver release date in format YYYY-MM-DD
-> +# @driver-version: driver version
-> +#
-> +# Since: 4.2
-> +##
-> +{ 'struct': 'GuestDeviceInfo',
-> +  'data': {
-> +      'vendor-id': 'uint16',
-> +      'device-id': 'uint16',
-> +      'driver-name': 'str',
-> +      'driver-date': 'str',
-> +      'driver-version': 'str'
-> +      } }
-> +
-> +##
-> +# @guest-get-devices:
-> +#
-> +# Retrieve information about device drivers in Windows guest
-> +#
-> +# Returns: @GuestDeviceInfo
-> +#
-> +# Since: 4.2
-> +##
-> +{ 'command': 'guest-get-devices',
-> +  'returns': ['GuestDeviceInfo'] }
->=20
+I'm down from 22 failures to 8.
 
+-- =
 
-I'm not spotting any obvious problems with the interface itself, but am=20
-not comfortable enough with the rest of the code for a full review.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841990
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Title:
+  instruction 'denbcdq' misbehaving
+
+Status in QEMU:
+  New
+
+Bug description:
+  Instruction 'denbcdq' appears to have no effect.  Test case attached.
+
+  On ppc64le native:
+  --
+  gcc -g -O -mcpu=3Dpower9 bcdcfsq.c test-denbcdq.c -o test-denbcdq
+  $ ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x22080000000000000000000000000000
+  $ ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x22080000000000000000000000000001
+  $ ./test-denbcdq $(seq 0 99)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x22080000000000000000000000000080
+  --
+
+  With "qemu-ppc64le -cpu power9"
+  --
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x0000000000000000000000000000000c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x0000000000000000000000000000001c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq $(seq 100)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x0000000000000000000000000000100c
+  --
+
+  I started looking at the code, but I got confused rather quickly.
+  Could be related to endianness? I think denbcdq arrived on the scene
+  before little-endian was a big deal.  Maybe something to do with
+  utilizing implicit floating-point register pairs...  I don't think the
+  right data is getting to helper_denbcdq, which would point back to the
+  gen_fprp_ptr uses in dfp-impl.inc.c (GEN_DFP_T_FPR_I32_Rc).  (Maybe?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841990/+subscriptions
 
