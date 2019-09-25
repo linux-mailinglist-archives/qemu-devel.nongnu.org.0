@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3603BE0ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:12:00 +0200 (CEST)
-Received: from localhost ([::1]:53430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08929BE0CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:07:27 +0200 (CEST)
+Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD8xT-000130-Cd
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53075)
+	id 1iD8t3-0005Pc-Je
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57518)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iD8OO-0005er-4M
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:35:45 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iD8na-0000Z3-JX
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iD8OM-0001tX-US
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:35:43 -0400
-Received: from 10.mo179.mail-out.ovh.net ([46.105.79.46]:56488)
+ (envelope-from <dgilbert@redhat.com>) id 1iD8nV-0004XU-UQ
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:61288)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD8OM-0001sq-Nu
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:35:42 -0400
-Received: from player786.ha.ovh.net (unknown [10.109.146.82])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 6726614325F
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 16:35:40 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id D5334A4D4480;
- Wed, 25 Sep 2019 14:35:33 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 23/23] aspeed/soc: Add ASPEED Video stub
-Date: Wed, 25 Sep 2019 16:32:48 +0200
-Message-Id: <20190925143248.10000-24-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190925143248.10000-1-clg@kaod.org>
-References: <20190925143248.10000-1-clg@kaod.org>
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iD8nV-0004Wc-9O
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:41 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C8BD7A44ADD;
+ Wed, 25 Sep 2019 15:01:38 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-117-251.ams2.redhat.com
+ [10.36.117.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D94845C21F;
+ Wed, 25 Sep 2019 15:01:32 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
+ marcandre.lureau@redhat.com, richardw.yang@linux.intel.com,
+ alex.benee@linaro.org
+Subject: [PULL 0/9] migration queue
+Date: Wed, 25 Sep 2019 16:01:21 +0100
+Message-Id: <20190925150130.12303-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 8879972568535632657
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedvgdejkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Wed, 25 Sep 2019 15:01:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.79.46
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,95 +57,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- include/hw/arm/aspeed_soc.h | 1 +
- hw/arm/aspeed_ast2600.c     | 5 +++++
- hw/arm/aspeed_soc.c         | 6 ++++++
- 3 files changed, 12 insertions(+)
+The following changes since commit 240ab11fb72049d6373cbbec8d788f8e411a00=
+bc:
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 43478f617879..cccb684a19bb 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -96,6 +96,7 @@ enum {
-     ASPEED_SDMC,
-     ASPEED_SCU,
-     ASPEED_ADC,
-+    ASPEED_VIDEO,
-     ASPEED_SRAM,
-     ASPEED_SDHCI,
-     ASPEED_GPIO,
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index af047463a355..931887ac681f 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -44,6 +44,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
-     [ASPEED_SCU]       =3D 0x1E6E2000,
-     [ASPEED_XDMA]      =3D 0x1E6E7000,
-     [ASPEED_ADC]       =3D 0x1E6E9000,
-+    [ASPEED_VIDEO]     =3D 0x1E700000,
-     [ASPEED_SDHCI]     =3D 0x1E740000,
-     [ASPEED_GPIO]      =3D 0x1E780000,
-     [ASPEED_GPIO_1_8V] =3D 0x1E780800,
-@@ -236,6 +237,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *=
-dev, Error **errp)
-     create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM=
-],
-                                 ASPEED_SOC_IOMEM_SIZE);
-=20
-+    /* Video engine stub */
-+    create_unimplemented_device("aspeed.video", sc->memmap[ASPEED_VIDEO]=
-,
-+                                0x1000);
-+
-     if (s->num_cpus > sc->num_cpus) {
-         warn_report("%s: invalid number of CPUs %d, using default %d",
-                     sc->name, s->num_cpus, sc->num_cpus);
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 6defb143acde..f4fe243458fd 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -34,6 +34,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] =3D {
-     [ASPEED_SDMC]   =3D 0x1E6E0000,
-     [ASPEED_SCU]    =3D 0x1E6E2000,
-     [ASPEED_XDMA]   =3D 0x1E6E7000,
-+    [ASPEED_VIDEO]  =3D 0x1E700000,
-     [ASPEED_ADC]    =3D 0x1E6E9000,
-     [ASPEED_SRAM]   =3D 0x1E720000,
-     [ASPEED_SDHCI]  =3D 0x1E740000,
-@@ -63,6 +64,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] =3D {
-     [ASPEED_SCU]    =3D 0x1E6E2000,
-     [ASPEED_XDMA]   =3D 0x1E6E7000,
-     [ASPEED_ADC]    =3D 0x1E6E9000,
-+    [ASPEED_VIDEO]  =3D 0x1E700000,
-     [ASPEED_SRAM]   =3D 0x1E720000,
-     [ASPEED_SDHCI]  =3D 0x1E740000,
-     [ASPEED_GPIO]   =3D 0x1E780000,
-@@ -231,6 +233,10 @@ static void aspeed_soc_realize(DeviceState *dev, Err=
-or **errp)
-     create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM=
-],
-                                 ASPEED_SOC_IOMEM_SIZE);
-=20
-+    /* Video engine stub */
-+    create_unimplemented_device("aspeed.video", sc->memmap[ASPEED_VIDEO]=
-,
-+                                0x1000);
-+
-     if (s->num_cpus > sc->num_cpus) {
-         warn_report("%s: invalid number of CPUs %d, using default %d",
-                     sc->name, s->num_cpus, sc->num_cpus);
---=20
-2.21.0
+  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190924' i=
+nto staging (2019-09-24 15:36:31 +0100)
 
+are available in the Git repository at:
+
+  git://github.com/dagrh/qemu.git tags/pull-migration-20190925a
+
+for you to fetch changes up to 3748fef9b95a9bc1602f3c4ed2a329d8ef47e63c:
+
+  migration/postcopy: Recognise the recovery states as 'in_postcopy' (201=
+9-09-25 15:51:19 +0100)
+
+----------------------------------------------------------------
+Migration pull 2019-09-25
+
+  me: test fixes from (should stop hangs in postcopy tests).
+  me: An RDMA cleanup hang fix
+  Wei: Tidy ups around postcopy
+  Marc-Andre: mem leak fix
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (5):
+      migration/rdma: Don't moan about disconnects at the end
+      migration/rdma.c: Swap synchronize_rcu for call_rcu
+      tests/migration: Fail on unexpected migration states
+      tests/migration/postcopy: trim migration bandwidth
+      migration/postcopy: Recognise the recovery states as 'in_postcopy'
+
+Marc-Andr=C3=A9 Lureau (1):
+      migration: fix vmdesc leak on vmstate_save() error
+
+Wei Yang (3):
+      migration/postcopy: not necessary to do discard when canonicalizing=
+ bitmap
+      migration/postcopy: unsentmap is not necessary for postcopy
+      migration: remove sent parameter in get_queued_page_not_dirty
+
+ include/exec/ram_addr.h |  6 ----
+ migration/migration.c   |  9 ++++-
+ migration/qjson.h       |  2 ++
+ migration/ram.c         | 94 ++++++++-----------------------------------=
+------
+ migration/rdma.c        | 51 ++++++++++++++++++---------
+ migration/savevm.c      |  3 +-
+ migration/trace-events  |  2 +-
+ tests/migration-test.c  | 25 +++++++++----
+ 8 files changed, 80 insertions(+), 112 deletions(-)
 
