@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68833BE7F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:55:23 +0200 (CEST)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA477BE7F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:53:30 +0200 (CEST)
+Received: from localhost ([::1]:57726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDFFq-0007Gl-7w
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39425)
+	id 1iDFE1-0005VM-TG
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39181)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iDEyG-00071K-CI
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:37:13 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1iDEy7-0006ux-RC
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:37:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iDEyE-00070g-UO
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:37:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33892)
+ (envelope-from <mlevitsk@redhat.com>) id 1iDEy1-0006qW-4t
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:36:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34560)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1iDExy-0006de-GX; Wed, 25 Sep 2019 17:36:55 -0400
+ id 1iDExh-0006f9-Eb; Wed, 25 Sep 2019 17:36:39 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E736D2106;
- Wed, 25 Sep 2019 21:36:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 18B3E85540;
+ Wed, 25 Sep 2019 21:36:33 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E1C319C5B;
- Wed, 25 Sep 2019 21:36:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B2E819C5B;
+ Wed, 25 Sep 2019 21:36:30 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/13] qcrypto-luks: simplify the math used for keyslot
- locations
-Date: Thu, 26 Sep 2019 00:35:25 +0300
-Message-Id: <20190925213527.9117-12-mlevitsk@redhat.com>
+Subject: [PATCH v2 13/13] LUKS: better error message when creating too large
+ files
+Date: Thu, 26 Sep 2019 00:35:27 +0300
+Message-Id: <20190925213527.9117-14-mlevitsk@redhat.com>
 In-Reply-To: <20190925213527.9117-1-mlevitsk@redhat.com>
 References: <20190925213527.9117-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Wed, 25 Sep 2019 21:36:26 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Wed, 25 Sep 2019 21:36:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,118 +65,82 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently if you attampt to create too large file with luks you
+get the following error message:
+
+Formatting 'test.luks', fmt=3Dluks size=3D17592186044416 key-secret=3Dsec=
+0
+qemu-img: test.luks: Could not resize file: File too large
+
+While for raw format the error message is
+qemu-img: test.img: The image size is too large for file format 'raw'
+
+
+The reason for this is that qemu-img checks for errono of the failure,
+and presents the later error when it is -EFBIG
+
+However crypto generic code 'swallows' the errno and replaces it
+with -EIO.
+
+As an attempt to make it better, we can make luks driver,
+detect -EFBIG and in this case present a better error message,
+which is what this patch does
+
+The new error message is:
+
+qemu-img: error creating test.luks: The requested file size is too large
+
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1534898
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- crypto/block-luks.c | 63 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 40 insertions(+), 23 deletions(-)
+ block/crypto.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index 6d4e9eb348..a53d5d1916 100644
---- a/crypto/block-luks.c
-+++ b/crypto/block-luks.c
-@@ -409,6 +409,30 @@ qcrypto_block_luks_essiv_cipher(QCryptoCipherAlgorit=
-hm cipher,
+diff --git a/block/crypto.c b/block/crypto.c
+index 6e822c6e50..19c2ac602c 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -102,10 +102,12 @@ static ssize_t block_crypto_create_init_func(QCrypt=
+oBlock *block,
+                                       Error **errp)
+ {
+     struct BlockCryptoCreateData *data =3D opaque;
++    Error *local_error =3D NULL;
++    int ret;
+=20
+     if (data->size > INT64_MAX || headerlen > INT64_MAX - data->size) {
+-        error_setg(errp, "The requested file size is too large");
+-        return -EFBIG;
++        ret =3D -EFBIG;
++        goto error;
      }
+=20
+     /*
+@@ -115,6 +117,21 @@ static ssize_t block_crypto_create_init_func(QCrypto=
+Block *block,
+      */
+     return blk_truncate(data->blk, data->size + headerlen, data->preallo=
+c,
+                         errp);
++
++    if (ret >=3D 0) {
++        return ret;
++    }
++
++error:
++    if (ret =3D=3D -EFBIG) {
++        /* Replace the error message with a better one */
++        error_free(local_error);
++        error_setg(errp, "The requested file size is too large");
++    } else {
++        error_propagate(errp, local_error);
++    }
++
++    return ret;
  }
 =20
-+/*
-+ * Returns number of sectors needed to store the key material
-+ * given number of anti forensic stripes
-+ */
-+static int
-+qcrypto_block_luks_splitkeylen_sectors(const QCryptoBlockLUKS *luks,
-+                                       unsigned int header_sectors,
-+                                       unsigned int stripes)
-+{
-+    /*
-+     * This calculation doesn't match that shown in the spec,
-+     * but instead follows the cryptsetup implementation.
-+     */
-+
-+    size_t splitkeylen =3D luks->header.master_key_len * stripes;
-+
-+    /* First align the key material size to block size*/
-+    size_t splitkeylen_sectors =3D
-+        DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SIZE);
-+
-+    /* Then also align the key material size to the size of the header *=
-/
-+    return ROUND_UP(splitkeylen_sectors, header_sectors);
-+}
-+
- /*
-  * Stores the main LUKS header, taking care of endianess
-  */
-@@ -1114,7 +1138,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-     QCryptoBlockCreateOptionsLUKS luks_opts;
-     Error *local_err =3D NULL;
-     g_autofree uint8_t *masterkey =3D NULL;
--    size_t splitkeylen =3D 0;
-+    size_t header_sectors;
-+    size_t split_key_sectors;
-     size_t i;
-     g_autofree char *password =3D NULL;
-     const char *cipher_alg;
-@@ -1333,37 +1358,29 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-         goto error;
-     }
 =20
-+    /* start with the sector that follows the header*/
-+    header_sectors =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
-+        QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
-+
-+    split_key_sectors =3D
-+        qcrypto_block_luks_splitkeylen_sectors(luks,
-+                                               header_sectors,
-+                                               QCRYPTO_BLOCK_LUKS_STRIPE=
-S);
-=20
--    /* Although LUKS has multiple key slots, we're just going
--     * to use the first key slot */
--    splitkeylen =3D luks->header.master_key_len * QCRYPTO_BLOCK_LUKS_STR=
-IPES;
-     for (i =3D 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
--        luks->header.key_slots[i].active =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT=
-_DISABLED;
--        luks->header.key_slots[i].stripes =3D QCRYPTO_BLOCK_LUKS_STRIPES=
-;
-+        QCryptoBlockLUKSKeySlot *slot =3D &luks->header.key_slots[i];
-+        slot->active =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED;
-=20
--        /* This calculation doesn't match that shown in the spec,
--         * but instead follows the cryptsetup implementation.
--         */
--        luks->header.key_slots[i].key_offset_sector =3D
--            (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--             QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
--            (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTO=
-R_SIZE),
--                      (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--                       QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) * i);
-+        slot->key_offset_sector =3D header_sectors + i * split_key_secto=
-rs;
-+        slot->stripes =3D QCRYPTO_BLOCK_LUKS_STRIPES;
-     }
-=20
--
-     /* The total size of the LUKS headers is the partition header + key
-      * slot headers, rounded up to the nearest sector, combined with
-      * the size of each master key material region, also rounded up
-      * to the nearest sector */
--    luks->header.payload_offset_sector =3D
--        (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--         QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
--        (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SI=
-ZE),
--                  (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--                   QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) *
--         QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS);
-+    luks->header.payload_offset_sector =3D header_sectors +
-+            QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS * split_key_sectors;
-=20
-     block->sector_size =3D QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
-     block->payload_offset =3D luks->header.payload_offset_sector *
 --=20
 2.17.2
 
