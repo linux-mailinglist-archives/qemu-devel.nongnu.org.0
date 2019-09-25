@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C97BE4AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:35:34 +0200 (CEST)
-Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFB8BE4AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:35:36 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDC8S-0003ZO-CT
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
+	id 1iDC8V-0003Zz-Jn
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:35:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iDC5e-0001Kt-W1
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:32:39 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iDC5g-0001N3-HO
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:32:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iDC5d-0007Xl-Uu
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:32:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58028)
+ (envelope-from <mreitz@redhat.com>) id 1iDC5f-0007aD-HX
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:32:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56318)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iDC5a-0007Qw-K1; Wed, 25 Sep 2019 14:32:34 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iDC5c-0007UB-9u; Wed, 25 Sep 2019 14:32:36 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 53FF018C8931;
- Wed, 25 Sep 2019 18:32:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9D0294ACA5;
+ Wed, 25 Sep 2019 18:32:35 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE8E8608C2;
- Wed, 25 Sep 2019 18:32:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 375D161F24;
+ Wed, 25 Sep 2019 18:32:35 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/3] iotests: Fix 125
-Date: Wed, 25 Sep 2019 20:32:28 +0200
-Message-Id: <20190925183231.11196-1-mreitz@redhat.com>
+Subject: [PATCH 1/3] iotests: Fix 125 for growth_mode = metadata
+Date: Wed, 25 Sep 2019 20:32:29 +0200
+Message-Id: <20190925183231.11196-2-mreitz@redhat.com>
+In-Reply-To: <20190925183231.11196-1-mreitz@redhat.com>
+References: <20190925183231.11196-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Wed, 25 Sep 2019 18:32:33 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Wed, 25 Sep 2019 18:32:35 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -58,42 +59,38 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+If we use growth_mode =3D metadata, it is very much possible that the fil=
+e
+uses more disk space after we have written something to the added area.
+We did indeed want to test for this case, but unfortunately we evidently
+just copied the code from the "Test creation preallocation" section and
+forgot to replace "$create_mode" by "$growth_mode".
 
-iotest 125 is very broken.  It uses qemu-img info=E2=80=99s =E2=80=9Cdisk=
- size=E2=80=9D to
-determine an image=E2=80=99s on-disk size, but it does so in a wrong way:=
- It
-just fetches the first number ([0-9]+), but that isn=E2=80=99t very usefu=
-l
-because qemu-img info emits human-readable values that include units and
-decimal points.
+We never noticed because we only read the first number from qemu-img
+info's "disk size" output -- and that is effectively useless, because
+qemu-img prints a human-readable value (which generally includes a
+decimal point).  That will be fixed in the patch after the next one.
 
-We should ust stat -c %b instead.  That=E2=80=99s done in patch 3.
-Unfortunately, doing so exposed more problems.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/125 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Patch 1 fixes a stupid bug in the test itself that we never noticed
-because of what patch 3 fixes.  (Pull patch 3 before patch 1 and you=E2=80=
-=99ll
-see.)
-
-The other thing is actually a bug in XFS.  Its fallocate()
-implementation rounds up the length independently of the offset, so if
-you try to fallocate an unaligned range, chances are that it might not
-allocate the last block your range touches.  Patch 2 detects that case
-and skips the test then.  (Pull patch 3 before patch 2 and you=E2=80=99ll=
- see
-the test fail on XFS.)
-
-
-Max Reitz (3):
-  iotests: Fix 125 for growth_mode =3D metadata
-  iotests: Disable 125 on broken XFS versions
-  iotests: Use stat -c %b in 125
-
- tests/qemu-iotests/125 | 45 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 42 insertions(+), 3 deletions(-)
-
+diff --git a/tests/qemu-iotests/125 b/tests/qemu-iotests/125
+index dc4b8f5fb9..df328a63a6 100755
+--- a/tests/qemu-iotests/125
++++ b/tests/qemu-iotests/125
+@@ -111,7 +111,7 @@ for GROWTH_SIZE in 16 48 80; do
+                 if [ $file_length_2 -gt $file_length_1 ]; then
+                     echo "ERROR (grow): Image length has grown from $fil=
+e_length_1 to $file_length_2"
+                 fi
+-                if [ $create_mode !=3D metadata ]; then
++                if [ $growth_mode !=3D metadata ]; then
+                     # The host size should not have grown either
+                     if [ $host_size_2 -gt $host_size_1 ]; then
+                         echo "ERROR (grow): Host size has grown from $ho=
+st_size_1 to $host_size_2"
 --=20
 2.21.0
 
