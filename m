@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033B4BDF21
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:38:04 +0200 (CEST)
-Received: from localhost ([::1]:50996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC41BDF2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:40:22 +0200 (CEST)
+Received: from localhost ([::1]:51300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD7UY-0002li-QW
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33737)
+	id 1iD7Wm-0005hS-Kw
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:40:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iD7ET-0001qc-Kz
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:21:26 -0400
+ (envelope-from <mst@redhat.com>) id 1iD7Fd-00036S-F9
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:22:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iD7ES-0007MC-Hq
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:21:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33220)
+ (envelope-from <mst@redhat.com>) id 1iD7Fc-0007in-1q
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:22:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49450)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iD7ES-0007LQ-9O
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:21:24 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD7Fb-0007iK-RB
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:22:35 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 914B189AC0
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 13:21:22 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id f11so2368243wrt.18
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 06:21:22 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id CEC635859E
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 13:22:34 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id m6so5806615qtk.23
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 06:22:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SUp70Nrj21+mwyrLBTShw4ZJTnCciUMQsD0HDQJeGW8=;
- b=bMiBC1sOlOFTILjxVlpVGBBQimvihs21aTNasyZ3wviZhC9Nk3kifd+UiH7/FSCC5X
- V1y/qqTl4UxeJ5etG9mQH4e09uhYCA89A2EW5dItLBqFWN2UkZ+5faAa17XsEx4nt5bP
- siJij4VhW9BDZyP/j0PmKxAj49gkF0aT/ZDA9c0yVIiTsmqyrMnGAOGuH7f408yg5k6h
- p2G6TyHVSGrYpfU2H4/9kC77rF/Ze4ldO8EC5T6Hqe9WywVkCq+3OMaPQK3vKUFaK+94
- QPaES64Z6RAg+4A1PC5NQ2y4liCc7F7aHlCMTonwPGuuEspj9ltk3rRxnq4jbv9R3EeO
- fouA==
-X-Gm-Message-State: APjAAAU5NzW1E+20q7umrQood7zE0Og3Hg1HjoeQ2/qQbi1GOo52M6/M
- Z2ogJrywvD+XBySWNcYvRGGTr+JO9TITRKD3GBvPBNSND4hi+adBF1U6kmufg+recuMXEkk9kym
- 7b38RHcHNT5hLQPY=
-X-Received: by 2002:a5d:6ace:: with SMTP id u14mr10122399wrw.385.1569417681273; 
- Wed, 25 Sep 2019 06:21:21 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwOP/q6UCFEbxDaHKJk57WRqHV3h3LUJDsJGQJGO3ZcmrScnkoRm/qtm1bILc7Zenu+AySmtA==
-X-Received: by 2002:a5d:6ace:: with SMTP id u14mr10122379wrw.385.1569417680976; 
- Wed, 25 Sep 2019 06:21:20 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
- ([2001:b07:6468:f312:9520:22e6:6416:5c36])
- by smtp.gmail.com with ESMTPSA id f66sm5434584wmg.2.2019.09.25.06.21.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Sep 2019 06:21:20 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PATCH v3 0/5] Automatic RCU read unlock
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- ehabkost@redhat.com, berrange@redhat.com, quintela@redhat.com
-References: <20190913102538.24167-1-dgilbert@redhat.com>
- <20190925131324.GG21544@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <a94e7f44-165c-c1c8-f253-f849eaf0a8d0@redhat.com>
-Date: Wed, 25 Sep 2019 15:21:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pnlJfRUOHFXJHHXYrwkBIidYQJoyhof5/8LiUPs5BtI=;
+ b=DuXpSkN9Gg6XcjYOADq4LnNWW+kPcf5kosf8eCZuv/tws7094xYUcXvLJQqEhfNL68
+ AAwRmISDSWUgv2PPFEZ1r5OY8+X5WAEm9W0oKtE7OBj3ya5Cpa52qFLy9UIGBg1Cin11
+ +uFr30MF4YDaLO4ciWIMUlqJmwtfjNre+v4CDlhHTXAu7WKV/Is6mBnyyEmIcvYgyWRL
+ l3SOJeUKsJ4dPS0Qcn/Rp33/yIGgr5cB1xuYhG/2aeMqW5u55uaR9XIZ/PKprIoj6I8w
+ aKydl4eFGvhgqdGdw6THTVIts8Hl5i+kY4Jjsf+SoJmWU24raZTYWggr0P3X24CG1FWy
+ MesQ==
+X-Gm-Message-State: APjAAAWNWzRQVIbhh5WYRU0fM/eXazDGK6W0xrZRS0hzAl/xts+l4tPY
+ 7ss7+2cqeADQ776lJET0n9pJ5JT1VUBR/9EzMrRs43156YldQ1yTUg6pr4dKzU0n9KLeMebIQZ1
+ Y1lfDlHU+0o+H9nA=
+X-Received: by 2002:a0c:8003:: with SMTP id 3mr7066284qva.161.1569417754150;
+ Wed, 25 Sep 2019 06:22:34 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxfvhI9uAiac2Etlkr4MuWFkGKXWJ7+RXgO/YMAue1KzBwN4rmcYi6Uo7Zh4UcPnnSKElkZvg==
+X-Received: by 2002:a0c:8003:: with SMTP id 3mr7066259qva.161.1569417753925;
+ Wed, 25 Sep 2019 06:22:33 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
+ by smtp.gmail.com with ESMTPSA id 200sm3004999qkf.65.2019.09.25.06.22.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Sep 2019 06:22:33 -0700 (PDT)
+Date: Wed, 25 Sep 2019 09:22:28 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] hw/core/loader: Fix possible crash in rom_copy()
+Message-ID: <20190925092212-mutt-send-email-mst@kernel.org>
+References: <20190925130331.27825-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190925131324.GG21544@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190925130331.27825-1-thuth@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -83,55 +75,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mdroth@linux.vnet.ibm.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/09/19 15:13, Dr. David Alan Gilbert wrote:
-> * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
->> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>
->> This patch uses glib's g_auto mechanism to automatically free
->> rcu_read_lock's at the end of the block.  Given that humans
->> have a habit of forgetting an error path somewhere it's
->> best to leave it to the compiler.
+On Wed, Sep 25, 2019 at 03:03:31PM +0200, Thomas Huth wrote:
+> Both, "rom->addr" and "addr" are derived from the binary image
+> that can be loaded with the "-kernel" paramer. The code in
+> rom_copy() then calculates:
 > 
-> I've had to unqueue this - clang doesn't like the apparently unused
-> auto variable; we need to find a way to make that happy.
-
-__attribute__((unused))?
-
-Paolo
-
-> Dave
+>     d = dest + (rom->addr - addr);
 > 
->> v3
->>   Add block-head version of macro
->>   Rename
->>   Add docs
->>   Convert more cases using the block-head version
->>
->> Dr. David Alan Gilbert (5):
->>   rcu: Add automatically released rcu_read_lock variants
->>   migration: Fix missing rcu_read_unlock
->>   migration: Use automatic rcu_read unlock in ram.c
->>   migration: Use automatic rcu_read unlock in rdma.c
->>   rcu: Use automatic rc_read unlock in core memory/exec code
->>
->>  docs/devel/rcu.txt      |  16 +++
->>  exec.c                  | 120 +++++++---------
->>  include/exec/ram_addr.h | 138 +++++++++----------
->>  include/qemu/rcu.h      |  25 ++++
->>  memory.c                |  15 +-
->>  migration/ram.c         | 295 +++++++++++++++++++---------------------
->>  migration/rdma.c        |  57 ++------
->>  7 files changed, 310 insertions(+), 356 deletions(-)
->>
->> -- 
->> 2.21.0
->>
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> and uses "d" as destination in a memcpy() some lines later. Now with
+> bad kernel images, it is possible that rom->addr is smaller than addr,
+> thus "rom->addr - addr" gets negative and the memcpy() then tries to
+> copy contents from the image to a bad memory location. In the best case,
+> this just crashes QEMU, in the worst case, this could maybe be used to
+> inject code from the kernel image into the QEMU binary, so we better fix
+> it with an additional sanity check here.
 > 
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Guangming Liu
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1844635
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+> ---
+>  hw/core/loader.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/core/loader.c b/hw/core/loader.c
+> index 0d60219364..5099f27dc8 100644
+> --- a/hw/core/loader.c
+> +++ b/hw/core/loader.c
+> @@ -1281,7 +1281,7 @@ int rom_copy(uint8_t *dest, hwaddr addr, size_t size)
+>          if (rom->addr + rom->romsize < addr) {
+>              continue;
+>          }
+> -        if (rom->addr > end) {
+> +        if (rom->addr > end || rom->addr < addr) {
+>              break;
+>          }
+>  
+> -- 
+> 2.18.1
 
