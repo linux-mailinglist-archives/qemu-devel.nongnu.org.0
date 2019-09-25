@@ -2,51 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F798BE3B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 19:47:52 +0200 (CEST)
-Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A28FBE440
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:07:31 +0200 (CEST)
+Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDBOI-0004gB-PH
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 13:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
+	id 1iDBhJ-0005IY-T8
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iDBL4-0002zF-Ox
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:44:31 -0400
+ (envelope-from <bounces@canonical.com>) id 1iDBgD-0004sz-TF
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:06:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iDBL3-00038n-GF
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:44:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51046)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iDBL1-00036x-6j; Wed, 25 Sep 2019 13:44:27 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7BE0285539;
- Wed, 25 Sep 2019 17:44:25 +0000 (UTC)
-Received: from localhost (ovpn-116-64.ams2.redhat.com [10.36.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC5961F40;
- Wed, 25 Sep 2019 17:44:16 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] virtio-blk: schedule virtio_notify_config to run on main
- context
-Date: Wed, 25 Sep 2019 18:44:00 +0100
-Message-Id: <20190925174400.8578-3-stefanha@redhat.com>
-In-Reply-To: <20190925174400.8578-1-stefanha@redhat.com>
-References: <20190925174400.8578-1-stefanha@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iDBgC-00058n-PZ
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:06:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40862)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iDBgC-00058L-K5
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:06:20 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iDBgB-0006Dq-7D
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 18:06:19 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 30CF92E80C9
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 18:06:19 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 25 Sep 2019 17:44:25 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Sep 2019 17:51:14 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64 testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc mark-cave-ayland philmd
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156711057074.6835.13599471410604217618.malonedeb@soybean.canonical.com>
+Message-Id: <156943387416.13580.9092178339785906464.malone@gac.canonical.com>
+Subject: [Bug 1841990] Re: instruction 'denbcdq' misbehaving
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3068c715f2047513dcd5df9891648595459b3bca
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,86 +64,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1841990 <1841990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergio Lopez <slp@redhat.com>
+I'm still trying to track down a BE system.  Everything I have which is
+newer than POWER7 is LE, and POWER7 is not sufficient to run the test.
 
-virtio_notify_config() needs to acquire the global mutex, which isn't
-allowed from an iothread, and may lead to a deadlock like this:
+The test suite that produced the problem is from https://github.com
+/open-power-sdk/pveclib.  The good news is that with your (v1) changes,
+275 tests no longer fail.  22 tests still fail, but I bet it is
+different issue(s).
 
- - main thead
-  * Has acquired: qemu_global_mutex.
-  * Is trying the acquire: iothread AioContext lock via
-    AIO_WAIT_WHILE (after aio_poll).
+-- =
 
- - iothread
-  * Has acquired: AioContext lock.
-  * Is trying to acquire: qemu_global_mutex (via
-    virtio_notify_config->prepare_mmio_access).
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841990
 
-If virtio_blk_resize() is called from an iothread, schedule
-virtio_notify_config() to be run in the main context BH.
+Title:
+  instruction 'denbcdq' misbehaving
 
-[Removed unnecessary newline as suggested by Kevin Wolf
-<kwolf@redhat.com>.
---Stefan]
+Status in QEMU:
+  New
 
-Signed-off-by: Sergio Lopez <slp@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-id: 20190916112411.21636-1-slp@redhat.com
-Message-Id: <20190916112411.21636-1-slp@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/block/virtio-blk.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Bug description:
+  Instruction 'denbcdq' appears to have no effect.  Test case attached.
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 18851601cb..ed2ddebd2b 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -16,6 +16,7 @@
- #include "qemu/iov.h"
- #include "qemu/module.h"
- #include "qemu/error-report.h"
-+#include "qemu/main-loop.h"
- #include "trace.h"
- #include "hw/block/block.h"
- #include "hw/qdev-properties.h"
-@@ -1086,11 +1087,24 @@ static int virtio_blk_load_device(VirtIODevice *v=
-dev, QEMUFile *f,
-     return 0;
- }
-=20
-+static void virtio_resize_cb(void *opaque)
-+{
-+    VirtIODevice *vdev =3D opaque;
-+
-+    assert(qemu_get_current_aio_context() =3D=3D qemu_get_aio_context())=
-;
-+    virtio_notify_config(vdev);
-+}
-+
- static void virtio_blk_resize(void *opaque)
- {
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(opaque);
-=20
--    virtio_notify_config(vdev);
-+    /*
-+     * virtio_notify_config() needs to acquire the global mutex,
-+     * so it can't be called from an iothread. Instead, schedule
-+     * it to be run in the main context BH.
-+     */
-+    aio_bh_schedule_oneshot(qemu_get_aio_context(), virtio_resize_cb, vd=
-ev);
- }
-=20
- static const BlockDevOps virtio_block_ops =3D {
---=20
-2.21.0
+  On ppc64le native:
+  --
+  gcc -g -O -mcpu=3Dpower9 bcdcfsq.c test-denbcdq.c -o test-denbcdq
+  $ ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x22080000000000000000000000000000
+  $ ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x22080000000000000000000000000001
+  $ ./test-denbcdq $(seq 0 99)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x22080000000000000000000000000080
+  --
 
+  With "qemu-ppc64le -cpu power9"
+  --
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x0000000000000000000000000000000c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x0000000000000000000000000000001c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq $(seq 100)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x0000000000000000000000000000100c
+  --
+
+  I started looking at the code, but I got confused rather quickly.
+  Could be related to endianness? I think denbcdq arrived on the scene
+  before little-endian was a big deal.  Maybe something to do with
+  utilizing implicit floating-point register pairs...  I don't think the
+  right data is getting to helper_denbcdq, which would point back to the
+  gen_fprp_ptr uses in dfp-impl.inc.c (GEN_DFP_T_FPR_I32_Rc).  (Maybe?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841990/+subscriptions
 
