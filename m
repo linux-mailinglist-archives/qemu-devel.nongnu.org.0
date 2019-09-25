@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B95ABE54D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:03:23 +0200 (CEST)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7A8BE55D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:09:29 +0200 (CEST)
+Received: from localhost ([::1]:56330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDCZN-0001eP-Ky
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
+	id 1iDCfI-00083U-0h
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDCRo-0002mf-Nj
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:55:34 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDCSb-0003Eq-3I
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:56:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDCRm-0004aG-Kc
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:55:32 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:38490
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDCSZ-0005E8-Rc
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:56:20 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:38496
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iDCRm-0003nE-Dy
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:55:30 -0400
+ id 1iDCSZ-0005D9-Ip
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:56:19 -0400
 Received: from host86-138-245-63.range86-138.btcentralplus.com
  ([86.138.245.63] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iDCOu-0005ix-Br; Wed, 25 Sep 2019 19:52:32 +0100
+ id 1iDCQj-0005jh-5O; Wed, 25 Sep 2019 19:54:26 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190923230004.9231-1-richard.henderson@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ <40d681ef-4566-a19b-ee4f-063660dfdc3a@ilande.co.uk>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -56,12 +57,12 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <40d681ef-4566-a19b-ee4f-063660dfdc3a@ilande.co.uk>
-Date: Wed, 25 Sep 2019 19:52:13 +0100
+Message-ID: <9257606e-f41e-11ae-e6e1-6ae840119b8c@ilande.co.uk>
+Date: Wed, 25 Sep 2019 19:54:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190923230004.9231-1-richard.henderson@linaro.org>
+In-Reply-To: <40d681ef-4566-a19b-ee4f-063660dfdc3a@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -88,65 +89,70 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/09/2019 23:59, Richard Henderson wrote:
+On 25/09/2019 19:52, Mark Cave-Ayland wrote:
 
-> Changes since v3:
->   * Don't accidentally include the TARGET_PAGE_BITS_VARY patch set.  ;-)
->   * Remove __has_attribute(__always_inline__).
->   * Use single load/store_memop function instead of separate small wrappers.
->   * Introduce optimize_away to assert the code folds away as expected.
+> On 23/09/2019 23:59, Richard Henderson wrote:
 > 
-> Patches without review:
+>> Changes since v3:
+>>   * Don't accidentally include the TARGET_PAGE_BITS_VARY patch set.  ;-)
+>>   * Remove __has_attribute(__always_inline__).
+>>   * Use single load/store_memop function instead of separate small wrappers.
+>>   * Introduce optimize_away to assert the code folds away as expected.
+>>
+>> Patches without review:
+>>
+>> 0003-qemu-compiler.h-Add-optimize_away.patch
+>> 0004-cputlb-Use-optimize_away-in-load-store_helpers.patch
+>> 0005-cputlb-Split-out-load-store_memop.patch
+>> 0010-cputlb-Partially-inline-memory_region_section_get.patch
+>> 0011-cputlb-Merge-and-move-memory_notdirty_write_-prep.patch
+>> 0012-cputlb-Handle-TLB_NOTDIRTY-in-probe_access.patch
+>>
+>>
+>> r~
+>>
+>>
+>> Richard Henderson (16):
+>>   exec: Use TARGET_PAGE_BITS_MIN for TLB flags
+>>   cputlb: Disable __always_inline__ without optimization
+>>   qemu/compiler.h: Add optimize_away
+>>   cputlb: Use optimize_away in load/store_helpers
+>>   cputlb: Split out load/store_memop
+>>   cputlb: Introduce TLB_BSWAP
+>>   exec: Adjust notdirty tracing
+>>   cputlb: Move ROM handling from I/O path to TLB path
+>>   cputlb: Move NOTDIRTY handling from I/O path to TLB path
+>>   cputlb: Partially inline memory_region_section_get_iotlb
+>>   cputlb: Merge and move memory_notdirty_write_{prepare,complete}
+>>   cputlb: Handle TLB_NOTDIRTY in probe_access
+>>   cputlb: Remove cpu->mem_io_vaddr
+>>   cputlb: Remove tb_invalidate_phys_page_range is_cpu_write_access
+>>   cputlb: Pass retaddr to tb_invalidate_phys_page_fast
+>>   cputlb: Pass retaddr to tb_check_watchpoint
+>>
+>>  accel/tcg/translate-all.h      |   8 +-
+>>  include/exec/cpu-all.h         |  23 ++-
+>>  include/exec/cpu-common.h      |   3 -
+>>  include/exec/exec-all.h        |   6 +-
+>>  include/exec/memory-internal.h |  65 -------
+>>  include/hw/core/cpu.h          |   2 -
+>>  include/qemu/compiler.h        |  26 +++
+>>  accel/tcg/cputlb.c             | 340 +++++++++++++++++++--------------
+>>  accel/tcg/translate-all.c      |  51 +++--
+>>  exec.c                         | 158 +--------------
+>>  hw/core/cpu.c                  |   1 -
+>>  memory.c                       |  20 --
+>>  trace-events                   |   4 +-
+>>  13 files changed, 279 insertions(+), 428 deletions(-)
 > 
-> 0003-qemu-compiler.h-Add-optimize_away.patch
-> 0004-cputlb-Use-optimize_away-in-load-store_helpers.patch
-> 0005-cputlb-Split-out-load-store_memop.patch
-> 0010-cputlb-Partially-inline-memory_region_section_get.patch
-> 0011-cputlb-Merge-and-move-memory_notdirty_write_-prep.patch
-> 0012-cputlb-Handle-TLB_NOTDIRTY-in-probe_access.patch
+> Am I right in thinking that this is now the latest version of the patchset which
+> fixes up the byte swaps in RAM?
 > 
-> 
-> r~
-> 
-> 
-> Richard Henderson (16):
->   exec: Use TARGET_PAGE_BITS_MIN for TLB flags
->   cputlb: Disable __always_inline__ without optimization
->   qemu/compiler.h: Add optimize_away
->   cputlb: Use optimize_away in load/store_helpers
->   cputlb: Split out load/store_memop
->   cputlb: Introduce TLB_BSWAP
->   exec: Adjust notdirty tracing
->   cputlb: Move ROM handling from I/O path to TLB path
->   cputlb: Move NOTDIRTY handling from I/O path to TLB path
->   cputlb: Partially inline memory_region_section_get_iotlb
->   cputlb: Merge and move memory_notdirty_write_{prepare,complete}
->   cputlb: Handle TLB_NOTDIRTY in probe_access
->   cputlb: Remove cpu->mem_io_vaddr
->   cputlb: Remove tb_invalidate_phys_page_range is_cpu_write_access
->   cputlb: Pass retaddr to tb_invalidate_phys_page_fast
->   cputlb: Pass retaddr to tb_check_watchpoint
-> 
->  accel/tcg/translate-all.h      |   8 +-
->  include/exec/cpu-all.h         |  23 ++-
->  include/exec/cpu-common.h      |   3 -
->  include/exec/exec-all.h        |   6 +-
->  include/exec/memory-internal.h |  65 -------
->  include/hw/core/cpu.h          |   2 -
->  include/qemu/compiler.h        |  26 +++
->  accel/tcg/cputlb.c             | 340 +++++++++++++++++++--------------
->  accel/tcg/translate-all.c      |  51 +++--
->  exec.c                         | 158 +--------------
->  hw/core/cpu.c                  |   1 -
->  memory.c                       |  20 --
->  trace-events                   |   4 +-
->  13 files changed, 279 insertions(+), 428 deletions(-)
+> I'm not sure that I can offer much in the way of review, however is there any testing
+> I can do to help out here?
 
-Am I right in thinking that this is now the latest version of the patchset which
-fixes up the byte swaps in RAM?
-
-I'm not sure that I can offer much in the way of review, however is there any testing
-I can do to help out here?
+Ha okay, I've just seen the TCG PR appear in my inbox so I'll assume that everyone is
+happy and everything is working as intended :)
 
 
 ATB,
