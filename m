@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BC3BD5BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 02:28:15 +0200 (CEST)
-Received: from localhost ([::1]:44356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A6ABD5BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 02:27:40 +0200 (CEST)
+Received: from localhost ([::1]:44354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCvAE-0000Eb-1c
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 20:28:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58783)
+	id 1iCv9e-0007rh-UU
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 20:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iCv8e-0007Ts-J3
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:26:37 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iCv8K-0007FI-Nn
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:26:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iCv8c-0004DB-MK
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:26:36 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:37675)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iCv8c-0004Ct-Cx; Tue, 24 Sep 2019 20:26:34 -0400
-Received: by mail-lj1-x241.google.com with SMTP id l21so3744893lje.4;
- Tue, 24 Sep 2019 17:26:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HK1OznEzGlTq61LpVAwuAqDz3yv7Y0o+u0T1oyc3oVU=;
- b=g5EBFYHqIsty2tPByQg3LOnZv6i0SL1ZoOVoWQY3yQzutx1faCi8bMk8KgNqvUgddx
- 6hGu1dN74VfiRbmH22OFLQ/z4TlCbyH75h7bAW9RnkFN3RSkEknSD/c23qobbzaChRV2
- ZQcQnwJxWd4EfLFAeiRv5CmKf47f9kOaGORFOr8DmaAbjunOyvq4oK/R2GDbyBONVk51
- 9iQDb2Veo0/7gM7vRZRAjud94hTCQErx0jl57c7TvVd4/Cvgd1Sv3qK/E/5SG8vpoMU0
- ZDNMhzA+mO0PTShmBjrKBGzyI2yjkPNtoWKxs70KhJ0zi+Pg7TcLljLoTzdtLo7Pc/8b
- QEJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HK1OznEzGlTq61LpVAwuAqDz3yv7Y0o+u0T1oyc3oVU=;
- b=eGaelDrFkn/x0EazMgX/PbDG3CVq6clUcZE8fxKg3J+0irnVwv+mtSO7UI7ktdf2py
- OjUy3fwuHBJNwm2BzOk+5XFk0fcQXRMbYfS3efiN0DoA+SrsKyjfYphnuml2OsxkwHwp
- FH3+1IZ5AD4G6HSilLop1l+wAPgHD2NhVSU3lZJvRlAQpdKx3/5P65UJbA3bakZycGGg
- vcHEMDDwf+R7ITW5oAvAQWVYbahuLy727ObQX/xhhDao6C7qJ1Qh/B1VIt2IAPiUkp11
- f31V0rTs2BAHGF6+jcbq4FVGiua4nWm+6/XbPYNx3nPts6slHaGnD1Ll9HIWlzeBo4Qy
- 2XvA==
-X-Gm-Message-State: APjAAAV9w11U0ZWhxLHDnOC8H2e98nQNrt4IhrhStOyKP0J7XUuyTixQ
- yrdVOOmrsRTcbZYSra58ncC7L92H129IRPPqzXM=
-X-Google-Smtp-Source: APXvYqwAmkq9IBanv/e7bTBddT0Lgx/AMPpwrQUqvIWeAB6vjHqsf4kUfd6o1OWxoy7iIlAOScCQJ+ddETNu6HypRRA=
-X-Received: by 2002:a05:651c:1132:: with SMTP id
- e18mr3889334ljo.33.1569371192878; 
- Tue, 24 Sep 2019 17:26:32 -0700 (PDT)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iCv8J-00049V-HQ
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:26:16 -0400
+Received: from mga11.intel.com ([192.55.52.93]:10643)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1iCv8J-000485-8R
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:26:15 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2019 17:26:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,545,1559545200"; d="scan'208";a="340245699"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga004.jf.intel.com with ESMTP; 24 Sep 2019 17:26:06 -0700
+Date: Wed, 25 Sep 2019 08:25:47 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 1/3] migration/postcopy: not necessary to do discard when
+ canonicalizing bitmap
+Message-ID: <20190925002547.GA19466@richard>
+References: <20190819061843.28642-1-richardw.yang@linux.intel.com>
+ <20190819061843.28642-2-richardw.yang@linux.intel.com>
+ <20190924100208.GA2725@work-vm>
 MIME-Version: 1.0
-References: <1569311902-12173-1-git-send-email-guoren@kernel.org>
- <CAKmqyKMzpTKBT+urX_7qFASqcAd4kkfJmf6LUk-0V=0LOuHLxw@mail.gmail.com>
- <8E7A78A5-5E6F-49A2-89BC-85D2506229C6@c-sky.com>
-In-Reply-To: <8E7A78A5-5E6F-49A2-89BC-85D2506229C6@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 24 Sep 2019 17:21:50 -0700
-Message-ID: <CAKmqyKPAnb1bb+v=+v_jHmA58bRjmUqO9XcZbLyxsUX1udtXBQ@mail.gmail.com>
-Subject: Re: [PATCH V2] target/riscv: Bugfix reserved bits in PTE for RV64
-To: Guo Ren <ren_guo@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190924100208.GA2725@work-vm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::241
+X-Received-From: 192.55.52.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,129 +59,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, guoren@kernel.org,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: pbonzini@redhat.com, quintela@redhat.com,
+ Wei Yang <richardw.yang@linux.intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 24, 2019 at 5:13 PM Guo Ren <ren_guo@c-sky.com> wrote:
+On Tue, Sep 24, 2019 at 11:02:08AM +0100, Dr. David Alan Gilbert wrote:
+>* Wei Yang (richardw.yang@linux.intel.com) wrote:
+>> All pages, either partially sent or partially dirty, will be discarded in
+>> postcopy_send_discard_bm_ram(), since we update the unsentmap to be
+>> unsentmap = unsentmap | dirty in ram_postcopy_send_discard_bitmap().
+>> 
+>> This is not necessary to do discard when canonicalizing bitmap. And by
+>> doing so, we separate the page discard into two individual steps:
+>> 
+>>   * canonicalize bitmap
+>>   * discard page
+>> 
+>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 >
+>Yes, I think when I originally wrote it, the set of pages that was
+>discarded was different; I think it was actually the set of 
+>!unsent & dirty - i.e. only pages that had been sent and then redirtied;
+>it later got reworked to include unsent pages as well - so this lot can
+>be simplified.
 >
-> > =E5=9C=A8 2019=E5=B9=B49=E6=9C=8825=E6=97=A5=EF=BC=8C=E4=B8=8A=E5=8D=88=
-7:33=EF=BC=8CAlistair Francis <alistair23@gmail.com> =E5=86=99=E9=81=93=EF=
-=BC=9A
-> >
-> > On Tue, Sep 24, 2019 at 12:58 AM <guoren@kernel.org> wrote:
-> >>
-> >> From: Guo Ren <ren_guo@c-sky.com>
-> >>
-> >> Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so =
-we
-> >> need to ignore them. They can not be a part of ppn.
-> >>
-> >> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architectu=
-re
-> >>   4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-> >>   4.5 Sv48: Page-Based 48-bit Virtual-Memory System
-> >
-> > Thanks for the patch!
-> >
-> > The spec says "must be zeroed by software for forward compatibility"
-> > so I don't think it's correct for QEMU to zero out the bits.
-> QEMU don=E2=80=99t zero out the bits, QEMU just ignore the bits for ppn.
-
-Yes, from reading the spec that seems to be the correct behaviour.
-
->
-> >
-> > Does this fix a bug you are seeing?
-> Yes, because we try to reuse these bits as attributes.
-
-That isn't really a bug then, the spec says not to do that.
-
->
-> >
-> >>
-> >> Changelog V2:
-> >> - Bugfix pte destroyed cause boot fail
-> >> - Change to AND with a mask instead of shifting both directions
-> >
-> > The changelog shouldn't be in the commit, it should be kept under the
-> > line line below.
-> I just prefer to save them in commit.
-
-Fair, but in QEMU we don't commit the change log in the commit.
-
->
-> >
-> >>
-> >> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-> >> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
-> >> ---
-> >
-> > The change log should go here.
-> OK, but git am we=E2=80=99ll lose them.
->
-> >
-> >> target/riscv/cpu_bits.h   | 3 +++
-> >> target/riscv/cpu_helper.c | 3 ++-
-> >> 2 files changed, 5 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> >> index e998348..ae8aa0f 100644
-> >> --- a/target/riscv/cpu_bits.h
-> >> +++ b/target/riscv/cpu_bits.h
-> >> @@ -470,6 +470,9 @@
-> >> #define PTE_D               0x080 /* Dirty */
-> >> #define PTE_SOFT            0x300 /* Reserved for Software */
-> >>
-> >> +/* Reserved highest 10 bits in PTE */
-> >> +#define PTE_RESERVED        ((target_ulong)0x3ff << 54)
-> >
-> > I think it's just easier to define this as 0xFFC0000000000000ULL and
-> > remove the cast.
-> OK follow your rule, but I still prefer prior.
->
-> >
-> >> +
-> >> /* Page table PPN shift amount */
-> >> #define PTE_PPN_SHIFT       10
-> >>
-> >> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> >> index 87dd6a6..7a540cc 100644
-> >> --- a/target/riscv/cpu_helper.c
-> >> +++ b/target/riscv/cpu_helper.c
-> >> @@ -258,10 +258,11 @@ restart:
-> >>         }
-> >> #if defined(TARGET_RISCV32)
-> >>         target_ulong pte =3D ldl_phys(cs->as, pte_addr);
-> >> +        hwaddr ppn =3D pte >> PTE_PPN_SHIFT;
-> >> #elif defined(TARGET_RISCV64)
-> >>         target_ulong pte =3D ldq_phys(cs->as, pte_addr);
-> >> +        hwaddr ppn =3D (pte & ~PTE_RESERVED) >> PTE_PPN_SHIFT;
-> >> #endif
-> >> -        hwaddr ppn =3D pte >> PTE_PPN_SHIFT;
-> >
-> > You don't have to move this shift
-> En=E2=80=A6 Do you want this: ?
->
-> #if defined(TARGET_RISCV32)
->         target_ulong pte =3D ldl_phys(cs->as, pte_addr);
-> +      hwaddr ppn =3D pte;
-> #elif defined(TARGET_RISCV64)
->          target_ulong pte =3D ldq_phys(cs->as, pte_addr);
-> +       hwaddr ppn =3D (pte & ~PTE_RESERVED);
-> #endif
-> +        ppn =3D ppn >> PTE_PPN_SHIFT;
 >
 
-Yeah, it seems a little cleaner.
+Thanks for your time :-)
 
-Alistair
+>
+>Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
+>> ---
+>>  migration/ram.c | 14 +-------------
+>>  1 file changed, 1 insertion(+), 13 deletions(-)
+>> 
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index 35552c090b..075ddc468c 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -2928,7 +2928,7 @@ static int postcopy_each_ram_send_discard(MigrationState *ms)
+>>  }
+>>  
+>>  /**
+>> - * postcopy_chunk_hostpages_pass: canocalize bitmap in hostpages
+>> + * postcopy_chunk_hostpages_pass: canonicalize bitmap in hostpages
+>>   *
+>>   * Helper for postcopy_chunk_hostpages; it's called twice to
+>>   * canonicalize the two bitmaps, that are similar, but one is
+>> @@ -2991,18 +2991,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
+>>                                                               host_ratio);
+>>              run_start = QEMU_ALIGN_UP(run_start, host_ratio);
+>>  
+>> -            /* Tell the destination to discard this page */
+>> -            if (unsent_pass || !test_bit(fixup_start_addr, unsentmap)) {
+>> -                /* For the unsent_pass we:
+>> -                 *     discard partially sent pages
+>> -                 * For the !unsent_pass (dirty) we:
+>> -                 *     discard partially dirty pages that were sent
+>> -                 *     (any partially sent pages were already discarded
+>> -                 *     by the previous unsent_pass)
+>> -                 */
+>> -                postcopy_discard_send_range(ms, fixup_start_addr, host_ratio);
+>> -            }
+>> -
+>>              /* Clean up the bitmap */
+>>              for (page = fixup_start_addr;
+>>                   page < fixup_start_addr + host_ratio; page++) {
+>> -- 
+>> 2.17.1
+>> 
+>--
+>Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> The pte couldn=E2=80=99t be destroyed, just ppn ignore the RESERVED bits.
->
->
+-- 
+Wei Yang
+Help you, Help me
 
