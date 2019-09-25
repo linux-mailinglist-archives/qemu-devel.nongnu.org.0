@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3570BE54F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:03:59 +0200 (CEST)
-Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150BDBE549
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:01:05 +0200 (CEST)
+Received: from localhost ([::1]:56224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDCZy-0002P0-9x
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:03:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47196)
+	id 1iDCX9-0007tF-Sm
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47244)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCIk-0001u2-LN
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCIm-0001w9-Ci
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCIj-0004OP-F0
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:10 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44244)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCIl-0004QW-0q
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:12 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42028)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDCIj-0004NZ-5J
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:09 -0400
-Received: by mail-pg1-x542.google.com with SMTP id i14so142992pgt.11
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:46:09 -0700 (PDT)
+ id 1iDCIk-0004Pf-RR
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:10 -0400
+Received: by mail-pf1-x443.google.com with SMTP id q12so4145411pff.9
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:46:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yAC6RG3wvhI3H3mXOjF1M8pzwn6maoZxTmCA0mspbiE=;
- b=j8sr21E/7b0HcIha4bK+txI5RcHSDB5hgO/mBCmw9C01jPpwe0EJhDMezWYD1nSHxN
- 45k4cZSLyb5qnB2D2+F4z/1u3LSe5S7AndiUdnxMEKrjyTdlG5tCp/Yrdhf77uk5jpxH
- brqBILK9azxYj9SPKlfbAuFlWRre3WYTw6usQ1/x8Wf2js9amISDTvgZUxXJznwq85mx
- 3/3X1VHHAKMoG0PQJ1WNotV2+YxUYqoxFGSbDBISLaqn9fWWb/QiWkJIiKIKQNwIZetf
- Gsv8xruh1O/yvbYo+zpLlG3FpD42CZsSVvHOasjKL7uNWe/T3G8G3yAmYgwG/zgaGhqG
- 4KXQ==
+ bh=fp+IhM5CQTB4UG88fPA7PY7U/XNGkntrALZi2zvKv3E=;
+ b=faxW6FtGYTuPX1Z9H1uXQIDVHyVZmJo4OpZK6UyixfJ6RjM1HW5/XzQfdNaPeKPIIy
+ CfqjcD7e1eUpJyEeJPYv2PlXER9rzjbbzpiJX6tFkaB48fGhkLoxhLPp6JFW+57vzsfL
+ SuWuJz8nIuvllc/qXQHX95B2mEfUmQxQvUijyL/ASzhZafMQxio7q9CqP5EfkgLPU8GE
+ Ofp3K7H97Y9f4akCJcMiFeSeqhZTjyF6ZZz+IiNgj9VvxRZIIB5XkC9j5kG+h6IEjFne
+ rkw6dgXdr6uPLcxRXg8oDEHTX0Ec2nHOnt3+zfA0QjRJxagY8vf36vHMyp73yn9CE93g
+ +xHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yAC6RG3wvhI3H3mXOjF1M8pzwn6maoZxTmCA0mspbiE=;
- b=FPKYXiX8jjAWTEfVgpx86SA2s7obenYhsCuhV3YO6bhyKgT/sk8WDD1f5cVTLD8uzu
- PkXt+LKaStqKSre88DAq6ANoUbZexrEoJOmVGpeAG2ymIsYtf0CcJx4sz0OAjb9X994j
- btewq79a/N7DRooTw1yO7EJTy8KeLLdNeWmP2ZbWL+7qF9DRNpBJFXU+0mBCGsW9ZR/0
- 50VSHvJy6FXcFzidxX/29yx3Qa2lf67WuoNexnub5rCulGJl8nH+Y/tNgnnAKOaEYxWg
- YnGat2oVLBgKKXaEnKKH6cuYc4eHkgjPgl2nNw0Tx881+uf4C2VFhseSJVXqe54KeSbO
- TDow==
-X-Gm-Message-State: APjAAAXAo/iKgaBfRYYKx51koWpaq4EBD7YrMZkAPIRy4gSkv2oOFCpe
- NwMvkB578fQJo53dmPhEGqq5JUbUcII=
-X-Google-Smtp-Source: APXvYqwgDeLXGIVJEKyWDA3emsnAE4L5EYU7jYmTQdhJyt2r6ogN1aJgqNkv2VzYln/C4Uj9+a/ZJw==
-X-Received: by 2002:a17:90a:b385:: with SMTP id
- e5mr8169741pjr.91.1569437167666; 
- Wed, 25 Sep 2019 11:46:07 -0700 (PDT)
+ bh=fp+IhM5CQTB4UG88fPA7PY7U/XNGkntrALZi2zvKv3E=;
+ b=RC/3bJ0j+Cxhd9idwl4gbUDpYNPpV+Tr2fRjPb/EX1NH4QpoTrJJwi9fHKEoVUegg+
+ MujKxVS/elUKO+eGouHAqz83c4Q9xMfmZPZ3aTO5ntcvRmhLHcHxfR8fpVNkFDavMviv
+ KCtfZMDOS7/XRI28Q9e8mjL7b39k5ZPv/P1NnJc7ijXfVYDCv4xHcQO4ZLhF6clOu2yb
+ i6/Hee3su80rnd+Uz1fBBIkznjBZwZ+s1GFhXb2THtcxJBJW9NLhyewqHA5GXqEOIvG9
+ 42gjQWnlMHyct/a2LwZy7dzF4ql10kM66r7cecgeRNpWDuGrVzpKkhVU+JTiqCmIg5Xx
+ uCtQ==
+X-Gm-Message-State: APjAAAV4LC+dYGH3FbgVB84y5L3rJDCHtL9HbXaKLeqPWv2IBXUWIWgY
+ bDMYkvBPnJ0/O+YJip0f3uk4uRB+Z/Q=
+X-Google-Smtp-Source: APXvYqz+kcm0pkE1lLoP2brG/MKm9p1SIiUp8IP6Ayj57fuEXyGvKB5YIQpUlZaV9ShdLhFUVKRP6w==
+X-Received: by 2002:a17:90a:9ca:: with SMTP id 68mr7989502pjo.66.1569437169030; 
+ Wed, 25 Sep 2019 11:46:09 -0700 (PDT)
 Received: from localhost.localdomain ([12.206.46.61])
- by smtp.gmail.com with ESMTPSA id l24sm6133229pff.151.2019.09.25.11.46.06
+ by smtp.gmail.com with ESMTPSA id l24sm6133229pff.151.2019.09.25.11.46.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 11:46:06 -0700 (PDT)
+ Wed, 25 Sep 2019 11:46:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/16] cputlb: Handle TLB_NOTDIRTY in probe_access
-Date: Wed, 25 Sep 2019 11:45:44 -0700
-Message-Id: <20190925184548.30673-13-richard.henderson@linaro.org>
+Subject: [PULL 13/16] cputlb: Remove cpu->mem_io_vaddr
+Date: Wed, 25 Sep 2019 11:45:45 -0700
+Message-Id: <20190925184548.30673-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190925184548.30673-1-richard.henderson@linaro.org>
 References: <20190925184548.30673-1-richard.henderson@linaro.org>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,54 +82,70 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can use notdirty_write for the write and return a valid host
-pointer for this case.
+With the merge of notdirty handling into store_helper,
+the last user of cpu->mem_io_vaddr was removed.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ include/hw/core/cpu.h | 2 --
+ accel/tcg/cputlb.c    | 2 --
+ hw/core/cpu.c         | 1 -
+ 3 files changed, 5 deletions(-)
 
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index c7cda65c66..031f587e51 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -338,7 +338,6 @@ struct qemu_work_item;
+  * @next_cpu: Next CPU sharing TB cache.
+  * @opaque: User data.
+  * @mem_io_pc: Host Program Counter at which the memory was accessed.
+- * @mem_io_vaddr: Target virtual address at which the memory was accessed.
+  * @kvm_fd: vCPU file descriptor for KVM.
+  * @work_mutex: Lock to prevent multiple access to queued_work_*.
+  * @queued_work_first: First asynchronous work pending.
+@@ -413,7 +412,6 @@ struct CPUState {
+      * we store some rarely used information in the CPU context.
+      */
+     uintptr_t mem_io_pc;
+-    vaddr mem_io_vaddr;
+     /*
+      * This is only needed for the legacy cpu_unassigned_access() hook;
+      * when all targets using it have been converted to use
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 3e91838519..b56e9ddf8c 100644
+index b56e9ddf8c..4b24811ce7 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1168,16 +1168,24 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
-         return NULL;
+@@ -928,7 +928,6 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+         cpu_io_recompile(cpu, retaddr);
      }
  
--    /* Handle watchpoints.  */
--    if (tlb_addr & TLB_WATCHPOINT) {
--        cpu_check_watchpoint(env_cpu(env), addr, size,
--                             env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
--                             wp_access, retaddr);
--    }
-+    if (unlikely(tlb_addr & TLB_FLAGS_MASK)) {
-+        CPUIOTLBEntry *iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
+-    cpu->mem_io_vaddr = addr;
+     cpu->mem_io_access_type = access_type;
  
--    /* Reject I/O access, or other required slow-path.  */
--    if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO | TLB_BSWAP | TLB_DISCARD_WRITE)) {
--        return NULL;
-+        /* Reject I/O access, or other required slow-path.  */
-+        if (tlb_addr & (TLB_MMIO | TLB_BSWAP | TLB_DISCARD_WRITE)) {
-+            return NULL;
-+        }
-+
-+        /* Handle watchpoints.  */
-+        if (tlb_addr & TLB_WATCHPOINT) {
-+            cpu_check_watchpoint(env_cpu(env), addr, size,
-+                                 iotlbentry->attrs, wp_access, retaddr);
-+        }
-+
-+        /* Handle clean RAM pages.  */
-+        if (tlb_addr & TLB_NOTDIRTY) {
-+            notdirty_write(env_cpu(env), addr, size, iotlbentry, retaddr);
-+        }
+     if (mr->global_locking && !qemu_mutex_iothread_locked()) {
+@@ -968,7 +967,6 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+     if (!cpu->can_do_io) {
+         cpu_io_recompile(cpu, retaddr);
      }
+-    cpu->mem_io_vaddr = addr;
+     cpu->mem_io_pc = retaddr;
  
-     return (void *)((uintptr_t)addr + entry->addend);
+     if (mr->global_locking && !qemu_mutex_iothread_locked()) {
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 0035845511..73b1ee34d0 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -261,7 +261,6 @@ static void cpu_common_reset(CPUState *cpu)
+     cpu->interrupt_request = 0;
+     cpu->halted = 0;
+     cpu->mem_io_pc = 0;
+-    cpu->mem_io_vaddr = 0;
+     cpu->icount_extra = 0;
+     atomic_set(&cpu->icount_decr_ptr->u32, 0);
+     cpu->can_do_io = 1;
 -- 
 2.17.1
 
