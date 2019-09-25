@@ -2,48 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC08BDF0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:33:46 +0200 (CEST)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C33BDECE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:20:03 +0200 (CEST)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD7QO-00064y-6h
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58869)
+	id 1iD7D7-0007SU-TP
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iD6n4-0006gJ-0F
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:53:07 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iD6qq-0003bB-WB
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:57:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iD6n2-0004CO-G9
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:53:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57816)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iD6n2-0004C5-7x; Wed, 25 Sep 2019 08:53:04 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5533E31752A4;
- Wed, 25 Sep 2019 12:53:03 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-14.ams2.redhat.com [10.36.117.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85190600C8;
- Wed, 25 Sep 2019 12:53:01 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] s390x/mmu: Convert to non-recursive page table walk
-Date: Wed, 25 Sep 2019 14:52:36 +0200
-Message-Id: <20190925125236.4043-8-david@redhat.com>
-In-Reply-To: <20190925125236.4043-1-david@redhat.com>
-References: <20190925125236.4043-1-david@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iD6qp-0005Ae-BM
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:57:00 -0400
+Received: from mail-eopbgr150135.outbound.protection.outlook.com
+ ([40.107.15.135]:15797 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iD6qo-0005AM-MR; Wed, 25 Sep 2019 08:56:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mIFoO655rCdqIO2d4PyxuCIdDor0oAdJZCiUyRKrnbJx2CDf0wa06I2GFYw0g4TaaYLxmGHV4lC7ek2tSGNfW9RWCX/UZFJNFbUdYaQdfD6Sh8mPP1cmVUl3wrCr07oyvDIDK/7iA6QpwGKQks2X/+tOqQ+Zh5tWl0MoAQtFrmWT0snnA895SQDSqw0OJqlhXAbFI/ZOUGjhLQ+Un2c0cphHNiFOTjPuhwmDwdS0sqYu3lVEdzM+do6xDu1QYf8h3P6T/XaQsUDHF76r2ifKOnXx62ap7KtCyctWiUQbx7Xz78Gs+ld9ufkEU39xQmoI+j64BVRlFgiH+hpDP0zxvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=awfDsFwRMhfEOuE/DETgYhu9TrFG41sMRXRC4vB8LuQ=;
+ b=BmjKpUPr8TSFQ+QOevSJQrx44whyg19vY2AezxI7cDGlz4C+HlBpNnbf49L9bvSgy6n8iG7j68mouw0teZWBOjBFDiuvrhyEgiqOZubOUe+qs8u6cDGvHXFuvWL6w4MQPsrwT4IbKoeGlOdlhIA0nKj2bs20O7ILcad8zcnvNT2U9Pt77T+KrAcQL/EzZzt1g1VXh0K+nJxli56rHlnfmTYOoBUhtPYMd5ABEO5SmmqvY7nKJ1HH28R4pMW0l84CrLuA0aUZpS5SAslahhejPUzJfKGgVHHKlcqvO1BxalojABAZqT8N9tjsqe1EYsWNVPonn8KB1uBx7lZvP9hKIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=awfDsFwRMhfEOuE/DETgYhu9TrFG41sMRXRC4vB8LuQ=;
+ b=wJx2M1RvT0OBlZcWXtyPqGJTXDTliL6DYuDW5wcWPPf7+470ME4ZZPcljdOhXusr7kuv4izQ2Q4eP/VQRiTqEy0eWv673mFgOU7hhZikEiRrMuNTAxejBKWeKU58TN1Ahf/mq6tmViMTv9R3bheVDJDbwpgP+tDoyKjt3nyly0Y=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5497.eurprd08.prod.outlook.com (52.133.240.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.20; Wed, 25 Sep 2019 12:56:56 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Wed, 25 Sep 2019
+ 12:56:55 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH 07/22] blkverify: Implement .bdrv_recurse_can_replace()
+Thread-Topic: [PATCH 07/22] blkverify: Implement .bdrv_recurse_can_replace()
+Thread-Index: AQHVb8i1KdK8X/qXTUulZMXz4xb+tKc8YdaA
+Date: Wed, 25 Sep 2019 12:56:55 +0000
+Message-ID: <02057dd7-ce3a-a5ff-41c3-35a607ea6301@virtuozzo.com>
+References: <20190920152804.12875-1-mreitz@redhat.com>
+ <20190920152804.12875-8-mreitz@redhat.com>
+In-Reply-To: <20190920152804.12875-8-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0401CA0049.eurprd04.prod.outlook.com
+ (2603:10a6:3:19::17) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190925155653006
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 346a83fa-b820-44a5-e4bc-08d741b7d7d9
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB5497; 
+x-ms-traffictypediagnostic: DB8PR08MB5497:
+x-microsoft-antispam-prvs: <DB8PR08MB54977D4B43208DD48D513329C1870@DB8PR08MB5497.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2201;
+x-forefront-prvs: 01713B2841
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(376002)(346002)(366004)(136003)(39850400004)(199004)(189003)(66946007)(66446008)(2616005)(64756008)(476003)(66556008)(66476007)(486006)(26005)(186003)(31686004)(52116002)(76176011)(99286004)(14454004)(478600001)(6436002)(6486002)(6246003)(6512007)(446003)(66066001)(11346002)(256004)(7736002)(305945005)(71200400001)(71190400001)(81156014)(8676002)(81166006)(6116002)(229853002)(4326008)(3846002)(25786009)(2501003)(110136005)(2906002)(54906003)(8936002)(5660300002)(316002)(386003)(102836004)(6506007)(36756003)(86362001)(31696002)(142923001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5497;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: HxYeRI7VuEF3PZtBTeTnSug8xHxta9Amtq458rQWqQ4zAvGHwMAkTXddsFVioMX1hoJN0J7RzgLf5rhxgEE2VV/NyAARBW873Iu/QIO8oYcp5Ca02tymiLhN5Y5TrJ7Z+eUevABCnqBfUr4rzxlX2UyfhmI9bq0zvZ+fQdTKNnicB8rr1rlYEDfadLknlnPWuuU3/yZEt2Cf9NttrfY5QkpkJxXtMBpsk5/lElMDbzWhlMSmAuGIYm1fUu3k4eaWXOT0cXuLl4Z6Yw+a9mI3BqYzmYY2tCJz+C25ALfZkZfhaVEkRKd0ZQbROWGE6rvPOQLo5HGdsNyi3TTr91Z0R5u8l1w1pw0tahyELARHluXs0AFrlNgfngvs/6Gwu6C+FPv3cREY2XKm7Yujb1AM2/UukLZvPzrllEF6XsYnCPs=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D54D9D424545CD4984F12F63F338B171@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Wed, 25 Sep 2019 12:53:03 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 346a83fa-b820-44a5-e4bc-08d741b7d7d9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 12:56:55.3697 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gPyWAxFTMVA0z4zMjHD4JiyaUBdAvUhEV+JFeqm0v8//uY1rkM2byDIZFQ55r4nBH9Ob8DSykD7B8ktqeUWbXGySRVoXzzovId8XP526g5w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5497
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.15.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,305 +111,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A non-recursive implementation allows to make better use of the
-branch predictor, avoids function calls, and makes the implementation of
-new features only for a subset of region table levels easier.
-
-We can now directly compare our implementation to the KVM gaccess
-implementation in arch/s390/kvm/gaccess.c:guest_translate().
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/mmu_helper.c | 212 ++++++++++++++++++++------------------
- 1 file changed, 112 insertions(+), 100 deletions(-)
-
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 9243f04312..3ef40a37a7 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -111,107 +111,16 @@ static inline int read_table_entry(hwaddr gaddr, u=
-int64_t *entry)
-     return 0;
- }
-=20
--/* Decode page table entry (normal 4KB page) */
--static int mmu_translate_pte(CPUS390XState *env, target_ulong vaddr,
--                             uint64_t asc, uint64_t pt_entry,
--                             target_ulong *raddr, int *flags, int rw, bo=
-ol exc)
--{
--    if (pt_entry & PAGE_ENTRY_I) {
--        return PGM_PAGE_TRANS;
--    }
--    if (pt_entry & PAGE_ENTRY_0) {
--        return PGM_TRANS_SPEC;
--    }
--    if (pt_entry & PAGE_ENTRY_P) {
--        *flags &=3D ~PAGE_WRITE;
--    }
--
--    *raddr =3D pt_entry & TARGET_PAGE_MASK;
--    return 0;
--}
--
--/* Decode segment table entry */
--static int mmu_translate_segment(CPUS390XState *env, target_ulong vaddr,
--                                 uint64_t asc, uint64_t st_entry,
--                                 target_ulong *raddr, int *flags, int rw=
-,
--                                 bool exc)
--{
--    uint64_t origin, offs, pt_entry;
--
--    if (st_entry & SEGMENT_ENTRY_P) {
--        *flags &=3D ~PAGE_WRITE;
--    }
--
--    if ((st_entry & SEGMENT_ENTRY_FC) && (env->cregs[0] & CR0_EDAT)) {
--        /* Decode EDAT1 segment frame absolute address (1MB page) */
--        *raddr =3D (st_entry & SEGMENT_ENTRY_SFAA) |
--                 (vaddr & ~SEGMENT_ENTRY_SFAA);
--        return 0;
--    }
--
--    /* Look up 4KB page entry */
--    origin =3D st_entry & SEGMENT_ENTRY_ORIGIN;
--    offs =3D VADDR_PAGE_TX(vaddr) * 8;
--    if (read_table_entry(origin + offs, &pt_entry)) {
--        return PGM_ADDRESSING;
--    }
--    return mmu_translate_pte(env, vaddr, asc, pt_entry, raddr, flags, rw=
-, exc);
--}
--
--/* Decode region table entries */
--static int mmu_translate_region(CPUS390XState *env, target_ulong vaddr,
--                                uint64_t asc, uint64_t entry, int level,
--                                target_ulong *raddr, int *flags, int rw,
--                                bool exc)
--{
--    uint64_t origin, offs, new_entry;
--    const int pchks[4] =3D {
--        PGM_SEGMENT_TRANS, PGM_REG_THIRD_TRANS,
--        PGM_REG_SEC_TRANS, PGM_REG_FIRST_TRANS
--    };
--
--    origin =3D entry & REGION_ENTRY_ORIGIN;
--    offs =3D (vaddr >> (17 + 11 * level / 4)) & 0x3ff8;
--
--    if (read_table_entry(origin + offs, &new_entry)) {
--        return PGM_ADDRESSING;
--    }
--
--    if (new_entry & REGION_ENTRY_I) {
--        return pchks[level / 4];
--    }
--
--    if ((new_entry & REGION_ENTRY_TT) !=3D level) {
--        return PGM_TRANS_SPEC;
--    }
--
--    if (level =3D=3D ASCE_TYPE_SEGMENT) {
--        return mmu_translate_segment(env, vaddr, asc, new_entry, raddr, =
-flags,
--                                     rw, exc);
--    }
--
--    /* Check region table offset and length */
--    offs =3D (vaddr >> (28 + 11 * (level - 4) / 4)) & 3;
--    if (offs < ((new_entry & REGION_ENTRY_TF) >> 6)
--        || offs > (new_entry & REGION_ENTRY_TL)) {
--        return pchks[level / 4 - 1];
--    }
--
--    if ((env->cregs[0] & CR0_EDAT) && (new_entry & REGION_ENTRY_P)) {
--        *flags &=3D ~PAGE_WRITE;
--    }
--
--    /* yet another region */
--    return mmu_translate_region(env, vaddr, asc, new_entry, level - 4,
--                                raddr, flags, rw, exc);
--}
--
- static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
-                               uint64_t asc, uint64_t asce, target_ulong =
-*raddr,
-                               int *flags, int rw, bool exc)
- {
-+    const bool edat1 =3D (env->cregs[0] & CR0_EDAT) &&
-+                       s390_has_feat(S390_FEAT_EDAT);
-     const int asce_tl =3D asce & ASCE_TABLE_LENGTH;
--    int level;
-+    const int asce_p =3D asce & ASCE_PRIVATE_SPACE;
-+    hwaddr gaddr =3D asce & ASCE_ORIGIN;
-+    uint64_t entry;
-=20
-     if (asce & ASCE_REAL_SPACE) {
-         /* direct mapping */
-@@ -219,12 +128,12 @@ static int mmu_translate_asce(CPUS390XState *env, t=
-arget_ulong vaddr,
-         return 0;
-     }
-=20
--    level =3D asce & ASCE_TYPE_MASK;
--    switch (level) {
-+    switch (asce & ASCE_TYPE_MASK) {
-     case ASCE_TYPE_REGION1:
-         if (VADDR_REGION1_TL(vaddr) > asce_tl) {
-             return PGM_REG_FIRST_TRANS;
-         }
-+        gaddr +=3D VADDR_REGION1_TX(vaddr) * 8;
-         break;
-     case ASCE_TYPE_REGION2:
-         if (VADDR_REGION1_TX(vaddr)) {
-@@ -233,6 +142,7 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
-get_ulong vaddr,
-         if (VADDR_REGION2_TL(vaddr) > asce_tl) {
-             return PGM_REG_SEC_TRANS;
-         }
-+        gaddr +=3D VADDR_REGION2_TX(vaddr) * 8;
-         break;
-     case ASCE_TYPE_REGION3:
-         if (VADDR_REGION1_TX(vaddr) || VADDR_REGION2_TX(vaddr)) {
-@@ -241,6 +151,7 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
-get_ulong vaddr,
-         if (VADDR_REGION3_TL(vaddr) > asce_tl) {
-             return PGM_REG_THIRD_TRANS;
-         }
-+        gaddr +=3D VADDR_REGION3_TX(vaddr) * 8;
-         break;
-     case ASCE_TYPE_SEGMENT:
-         if (VADDR_REGION1_TX(vaddr) || VADDR_REGION2_TX(vaddr) ||
-@@ -250,11 +161,112 @@ static int mmu_translate_asce(CPUS390XState *env, =
-target_ulong vaddr,
-         if (VADDR_SEGMENT_TL(vaddr) > asce_tl) {
-             return PGM_SEGMENT_TRANS;
-         }
-+        gaddr +=3D VADDR_SEGMENT_TX(vaddr) * 8;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    switch (asce & ASCE_TYPE_MASK) {
-+    case ASCE_TYPE_REGION1:
-+        if (read_table_entry(gaddr, &entry)) {
-+            return PGM_ADDRESSING;
-+        }
-+        if (entry & REGION_ENTRY_I) {
-+            return PGM_REG_FIRST_TRANS;
-+        }
-+        if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION1) {
-+            return PGM_TRANS_SPEC;
-+        }
-+        if (VADDR_REGION2_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6 ||
-+            VADDR_REGION2_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
-+            return PGM_REG_SEC_TRANS;
-+        }
-+        if (edat1 && (entry & REGION_ENTRY_P)) {
-+            *flags &=3D ~PAGE_WRITE;
-+        }
-+        gaddr =3D (entry & REGION_ENTRY_ORIGIN) + VADDR_REGION2_TX(vaddr=
-) * 8;
-+        /* fall through */
-+    case ASCE_TYPE_REGION2:
-+        if (read_table_entry(gaddr, &entry)) {
-+            return PGM_ADDRESSING;
-+        }
-+        if (entry & REGION_ENTRY_I) {
-+            return PGM_REG_SEC_TRANS;
-+        }
-+        if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION2) {
-+            return PGM_TRANS_SPEC;
-+        }
-+        if (VADDR_REGION3_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6 ||
-+            VADDR_REGION3_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
-+            return PGM_REG_THIRD_TRANS;
-+        }
-+        if (edat1 && (entry & REGION_ENTRY_P)) {
-+            *flags &=3D ~PAGE_WRITE;
-+        }
-+        gaddr =3D (entry & REGION_ENTRY_ORIGIN) + VADDR_REGION3_TX(vaddr=
-) * 8;
-+        /* fall through */
-+    case ASCE_TYPE_REGION3:
-+        if (read_table_entry(gaddr, &entry)) {
-+            return PGM_ADDRESSING;
-+        }
-+        if (entry & REGION_ENTRY_I) {
-+            return PGM_REG_THIRD_TRANS;
-+        }
-+        if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION3) {
-+            return PGM_TRANS_SPEC;
-+        }
-+        if (edat1 && (entry & REGION_ENTRY_P)) {
-+            *flags &=3D ~PAGE_WRITE;
-+        }
-+        if (VADDR_SEGMENT_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6 ||
-+            VADDR_SEGMENT_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
-+            return PGM_SEGMENT_TRANS;
-+        }
-+        gaddr =3D (entry & REGION_ENTRY_ORIGIN) + VADDR_SEGMENT_TX(vaddr=
-) * 8;
-+        /* fall through */
-+    case ASCE_TYPE_SEGMENT:
-+        if (read_table_entry(gaddr, &entry)) {
-+            return PGM_ADDRESSING;
-+        }
-+        if (entry & SEGMENT_ENTRY_I) {
-+            return PGM_SEGMENT_TRANS;
-+        }
-+        if ((entry & SEGMENT_ENTRY_TT) !=3D SEGMENT_ENTRY_TT_SEGMENT) {
-+            return PGM_TRANS_SPEC;
-+        }
-+        if ((entry & SEGMENT_ENTRY_CS) && asce_p) {
-+            return PGM_TRANS_SPEC;
-+        }
-+        if (entry & SEGMENT_ENTRY_P) {
-+            *flags &=3D ~PAGE_WRITE;
-+        }
-+        if (edat1 && (entry & SEGMENT_ENTRY_FC)) {
-+            *raddr =3D (entry & SEGMENT_ENTRY_SFAA) |
-+                     (vaddr & ~SEGMENT_ENTRY_SFAA);
-+            return 0;
-+        }
-+        gaddr =3D (entry & SEGMENT_ENTRY_ORIGIN) + VADDR_PAGE_TX(vaddr) =
-* 8;
-         break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (read_table_entry(gaddr, &entry)) {
-+        return PGM_ADDRESSING;
-+    }
-+    if (entry & PAGE_ENTRY_I) {
-+        return PGM_PAGE_TRANS;
-+    }
-+    if (entry & PAGE_ENTRY_0) {
-+        return PGM_TRANS_SPEC;
-+    }
-+    if (entry & PAGE_ENTRY_P) {
-+        *flags &=3D ~PAGE_WRITE;
-     }
-=20
--    return mmu_translate_region(env, vaddr, asc, asce, level, raddr, fla=
-gs, rw,
--                                exc);
-+    *raddr =3D entry & TARGET_PAGE_MASK;
-+    return 0;
- }
-=20
- static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
---=20
-2.21.0
-
+MjAuMDkuMjAxOSAxODoyNywgTWF4IFJlaXR6IHdyb3RlOg0KPiBTaWduZWQtb2ZmLWJ5OiBNYXgg
+UmVpdHogPG1yZWl0ekByZWRoYXQuY29tPg0KPiAtLS0NCj4gICBibG9jay9ibGt2ZXJpZnkuYyB8
+IDE1ICsrKysrKysrKysrKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCsp
+DQo+IA0KPiBkaWZmIC0tZ2l0IGEvYmxvY2svYmxrdmVyaWZ5LmMgYi9ibG9jay9ibGt2ZXJpZnku
+Yw0KPiBpbmRleCAzMDRiMGExMzY4Li4wYWRkM2FiNDgzIDEwMDY0NA0KPiAtLS0gYS9ibG9jay9i
+bGt2ZXJpZnkuYw0KPiArKysgYi9ibG9jay9ibGt2ZXJpZnkuYw0KPiBAQCAtMjgyLDYgKzI4Miwy
+MCBAQCBzdGF0aWMgYm9vbCBibGt2ZXJpZnlfcmVjdXJzZV9pc19maXJzdF9ub25fZmlsdGVyKEJs
+b2NrRHJpdmVyU3RhdGUgKmJzLA0KPiAgICAgICByZXR1cm4gYmRydl9yZWN1cnNlX2lzX2ZpcnN0
+X25vbl9maWx0ZXIocy0+dGVzdF9maWxlLT5icywgY2FuZGlkYXRlKTsNCj4gICB9DQo+ICAgDQo+
+ICtzdGF0aWMgYm9vbCBibGt2ZXJpZnlfcmVjdXJzZV9jYW5fcmVwbGFjZShCbG9ja0RyaXZlclN0
+YXRlICpicywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEJs
+b2NrRHJpdmVyU3RhdGUgKnRvX3JlcGxhY2UpDQo+ICt7DQo+ICsgICAgQkRSVkJsa3ZlcmlmeVN0
+YXRlICpzID0gYnMtPm9wYXF1ZTsNCj4gKw0KPiArICAgIC8qDQo+ICsgICAgICogYmxrdmVyaWZ5
+IHF1aXRzIHRoZSB3aG9sZSBxZW11IHByb2Nlc3MgaWYgdGhlcmUgaXMgYSBtaXNtYXRjaA0KPiAr
+ICAgICAqIGJldHdlZW4gYnMtPmZpbGUtPmJzIGFuZCBzLT50ZXN0X2ZpbGUtPmJzLiAgVGhlcmVm
+b3JlLCB3ZSBrbm93DQo+ICsgICAgICoga25vdyB0aGF0IGJvdGggbXVzdCBtYXRjaCBicyBhbmQg
+d2UgY2FuIHJlY3Vyc2UgZG93biB0byBlaXRoZXIuDQo+ICsgICAgICovDQo+ICsgICAgcmV0dXJu
+IGJkcnZfcmVjdXJzZV9jYW5fcmVwbGFjZShicy0+ZmlsZS0+YnMsIHRvX3JlcGxhY2UpIHx8DQo+
+ICsgICAgICAgICAgIGJkcnZfcmVjdXJzZV9jYW5fcmVwbGFjZShzLT50ZXN0X2ZpbGUtPmJzLCB0
+b19yZXBsYWNlKTsNCg0KT2ssIG5vdyBJIHVuZGVyc3RhbmQsIHdoYXQgYmRydl9yZWN1cnNlX2Nh
+bl9yZXBsYWNlIGFjdHVhbGx5IGRvZXM6DQoNCkl0IHNlYXJjaGVzIGZvciB0b19yZXBsYWNlIGlu
+IGJzLXJvb3RlZCBzdWJ0cmVlLCBnb2luZyBvbmx5IHRocm91Z2ggZXF1YWwNCmNoaWxkcmVuLi4N
+Cg0KU28sIHdlIGNhbiByZXBsYWNlIEB0b19yZXBsYWNlLCBieSBzb21ldGhpbmcgZXF1YWwgdG8g
+QGJzLCBpZiBAdG9fcmVwbGFjZSBpcw0KaW4gZXF1YWwtc3VidHJlZSBvZiBAYnMuDQoNCkknbGwg
+dHJ5IHRvIGV4cGxhaW4gbXkgbWlzbGVhZGluZzoNCg0KYmRydl9yZWN1cnNlX2Nhbl9yZXBsYWNl
+IGRlY2xhcmF0aW9uIGxvb2tzIGxpa2UgYnMgYW5kIHRvX3JlcGxhY2UgbWF5IGJlIGFic29sdXRl
+bHkNCnVucmVsYXRlZCBub2Rlcy4gU28sIHdoeSBicyBzaG91bGQgZGVjaWRlLCBjYW4gd2UgcmVw
+bGFjZSB0aGUgdW5yZWxhdGVkIHRvX3JlcGxhY2UNCm5vZGUgYnkgc29tZXRoaW5nLi4NCg0KU28s
+IGl0IG1heSBiZSBzaW1wbGVyIHRvIGZvbGxvdywgaWYgaXQgd2FzIGNhbGxlZCBiZHJ2X3JlY3Vy
+c2VfZmlsdGVyZWRfc3VidHJlZSwgb3INCmJkcnZfcmVjdXJzZV90cmFuc3BhcmVudF9zdWJ0cmVl
+Li4NCg0KU3RpbGwsIG5vdyBJIHVuZGVyc3RhbmQsIGFuZCBkb24ndCBjYXJlLiBJdCdzIGJldHRl
+ciBhbnl3YXkgdGhhbiBiZHJ2X3JlY3Vyc2VfaXNfZmlyc3Rfbm9uX2ZpbHRlcg0KDQo+ICt9DQo+
+ICsNCj4gICBzdGF0aWMgdm9pZCBibGt2ZXJpZnlfcmVmcmVzaF9maWxlbmFtZShCbG9ja0RyaXZl
+clN0YXRlICpicykNCj4gICB7DQo+ICAgICAgIEJEUlZCbGt2ZXJpZnlTdGF0ZSAqcyA9IGJzLT5v
+cGFxdWU7DQo+IEBAIC0zMjgsNiArMzQyLDcgQEAgc3RhdGljIEJsb2NrRHJpdmVyIGJkcnZfYmxr
+dmVyaWZ5ID0gew0KPiAgIA0KPiAgICAgICAuaXNfZmlsdGVyICAgICAgICAgICAgICAgICAgICAg
+ICAgPSB0cnVlLA0KPiAgICAgICAuYmRydl9yZWN1cnNlX2lzX2ZpcnN0X25vbl9maWx0ZXIgPSBi
+bGt2ZXJpZnlfcmVjdXJzZV9pc19maXJzdF9ub25fZmlsdGVyLA0KPiArICAgIC5iZHJ2X3JlY3Vy
+c2VfY2FuX3JlcGxhY2UgICAgICAgICA9IGJsa3ZlcmlmeV9yZWN1cnNlX2Nhbl9yZXBsYWNlLA0K
+DQppdCB3aWxsIGJlIG5ldmVyIGNhbGxlZCwgYXMgYmRydl9yZWN1cnNlX2Nhbl9yZXBsYWNlIGhh
+bmRsZXMgZmlsdGVycyBieSBpdHNlbGYuDQoNCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyB2b2lk
+IGJkcnZfYmxrdmVyaWZ5X2luaXQodm9pZCkNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpW
+bGFkaW1pcg0K
 
