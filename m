@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E130BD949
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:44:41 +0200 (CEST)
-Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5273BD94E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:47:07 +0200 (CEST)
+Received: from localhost ([::1]:46624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1ya-0002qA-C5
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45709)
+	id 1iD20v-0004Lo-Ez
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iD1np-0001Na-EI
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:33:34 -0400
+ (envelope-from <clg@kaod.org>) id 1iD1pR-0002lu-9i
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:35:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iD1nm-0002oC-V7
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:33:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52793)
+ (envelope-from <clg@kaod.org>) id 1iD1pP-0003GS-Rz
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:35:12 -0400
+Received: from 2.mo1.mail-out.ovh.net ([178.32.119.250]:36528)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iD1nm-0002nj-NS
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:33:30 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 30FA186668
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:33:29 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id n6so1866032wrm.20
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 00:33:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=CuB2l1l2AW1aA9nML3ymWwi25AU3aMKPJA39BqfZBOA=;
- b=Hu9aVZ5LXJ3hbSJnsy3ToOV+3MGh1MTFQTr6KhHfdZf6hl7oOugKsJZZgVUXmMwzUd
- 6jf1oAWubnPR6JlUIFJv6azkMudclsgd+UVIFrYSzjm1UdCxt/4CcqaQCFORhKXat8Wx
- 7ItCvlgj/gXaohhFG7lTTxvzP+nrFutH9KI9+Agqf7LyemF0IlMXqInQWVU1CQt0/NvJ
- lFRjGjMbTV35Bbq70I9e13RkrxcydoqCSMaNlO8M1uV3wrNYE9rJlSSXm2rSCYezmQaD
- uUV48GTTVGjks7LuyKSbAt8d9G4kOsrgS1d+t172HaUGeiBSPqijgSJeu7kcVdVlq/9Z
- iHKA==
-X-Gm-Message-State: APjAAAW4k+j7lOI+uV+jljeB04MNLkCPJelDIH0keNn8cK0jVEFtyFiV
- XDB0xtJJ4l3Njkntpp1A9BNP3f9tlZRP10JGsF3L/EQ1MnSkH4cqBhj/4whSHHsCDdq5l46uwjQ
- i51cwLuYy8MMNQ6s=
-X-Received: by 2002:a5d:51d2:: with SMTP id n18mr7531922wrv.10.1569396807750; 
- Wed, 25 Sep 2019 00:33:27 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx3TyvI/tukpUJDUD7w//YM87kZq+CXXLiEYXSPShzH6WwxctW/KKDXl2aWRIBMKFShb5sZDg==
-X-Received: by 2002:a5d:51d2:: with SMTP id n18mr7531893wrv.10.1569396807538; 
- Wed, 25 Sep 2019 00:33:27 -0700 (PDT)
-Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
- [95.120.215.139])
- by smtp.gmail.com with ESMTPSA id z9sm5560762wrp.26.2019.09.25.00.33.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 00:33:26 -0700 (PDT)
-References: <20190924124433.96810-1-slp@redhat.com>
- <20190924124433.96810-8-slp@redhat.com>
- <20190925050629.lg5w6vvikxtgddy6@sirius.home.kraxel.org>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 7/8] docs/microvm.txt: document the new microvm machine
- type
-In-reply-to: <20190925050629.lg5w6vvikxtgddy6@sirius.home.kraxel.org>
-Date: Wed, 25 Sep 2019 09:33:12 +0200
-Message-ID: <87impgsudj.fsf@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1pP-0003G6-M8
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:35:11 -0400
+Received: from player714.ha.ovh.net (unknown [10.109.159.90])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 186A71902E1
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:35:08 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player714.ha.ovh.net (Postfix) with ESMTPSA id 148FCA22D947;
+ Wed, 25 Sep 2019 07:34:59 +0000 (UTC)
+Subject: Re: [PATCH 06/20] xics: Create sPAPR specific ICS subtype
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
+ <20190925064534.19155-7-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <77098fa5-a8a6-0cda-7a19-fd13a2d8db29@kaod.org>
+Date: Wed, 25 Sep 2019 09:34:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <20190925064534.19155-7-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 1777795956058065880
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedugdduvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 178.32.119.250
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,63 +60,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, lersek@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+On 25/09/2019 08:45, David Gibson wrote:
+> We create a subtype of TYPE_ICS specifically for sPAPR.  For now all th=
+is
+> does is move the setup of the PAPR specific hcalls and RTAS calls to
+> the realize() function for this, rather than requiring the PAPR code to
+> explicitly call xics_spapr_init().  In future it will have some more
+> function.
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+> ---
+>  hw/intc/xics_spapr.c        | 34 +++++++++++++++++++++++++++++++++-
+>  hw/ppc/spapr_irq.c          |  6 ++----
+>  include/hw/ppc/xics_spapr.h |  4 +++-
+>  3 files changed, 38 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> index 3e9444813a..e6dd004587 100644
+> --- a/hw/intc/xics_spapr.c
+> +++ b/hw/intc/xics_spapr.c
+> @@ -283,8 +283,18 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMach=
+ineState *spapr,
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>  }
+> =20
+> -void xics_spapr_init(SpaprMachineState *spapr)
+> +static void ics_spapr_realize(DeviceState *dev, Error **errp)
+>  {
+> +    ICSState *ics =3D ICS_SPAPR(dev);
+> +    ICSStateClass *icsc =3D ICS_GET_CLASS(ics);
+> +    Error *local_err =3D NULL;
+> +
+> +    icsc->parent_realize(dev, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +
+>      spapr_rtas_register(RTAS_IBM_SET_XIVE, "ibm,set-xive", rtas_set_xi=
+ve);
+>      spapr_rtas_register(RTAS_IBM_GET_XIVE, "ibm,get-xive", rtas_get_xi=
+ve);
+>      spapr_rtas_register(RTAS_IBM_INT_OFF, "ibm,int-off", rtas_int_off)=
+;
+> @@ -319,3 +329,25 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint3=
+2_t nr_servers, void *fdt,
+>      _FDT(fdt_setprop_cell(fdt, node, "linux,phandle", phandle));
+>      _FDT(fdt_setprop_cell(fdt, node, "phandle", phandle));
+>  }
+> +
+> +static void ics_spapr_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    ICSStateClass *isc =3D ICS_CLASS(klass);
+> +
+> +    device_class_set_parent_realize(dc, ics_spapr_realize,
+> +                                    &isc->parent_realize);
+> +}
+> +
+> +static const TypeInfo ics_spapr_info =3D {
+> +    .name =3D TYPE_ICS_SPAPR,
+> +    .parent =3D TYPE_ICS,
+> +    .class_init =3D ics_spapr_class_init,
+> +};
+> +
+> +static void xics_spapr_register_types(void)
+> +{
+> +    type_register_static(&ics_spapr_info);
+> +}
+> +
+> +type_init(xics_spapr_register_types)
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index 6c45d2a3c0..8c26fa2d1e 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -98,7 +98,7 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
+apr, int nr_irqs,
+>      Object *obj;
+>      Error *local_err =3D NULL;
+> =20
+> -    obj =3D object_new(TYPE_ICS);
+> +    obj =3D object_new(TYPE_ICS_SPAPR);
+>      object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort)=
+;
+>      object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
+>                                     &error_fatal);
+> @@ -109,9 +109,7 @@ static void spapr_irq_init_xics(SpaprMachineState *=
+spapr, int nr_irqs,
+>          return;
+>      }
+> =20
+> -    spapr->ics =3D ICS(obj);
+> -
+> -    xics_spapr_init(spapr);
+> +    spapr->ics =3D ICS_SPAPR(obj);
+>  }
+> =20
+>  static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, boo=
+l lsi,
+> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+> index 5dabc9a138..691a6d00f7 100644
+> --- a/include/hw/ppc/xics_spapr.h
+> +++ b/include/hw/ppc/xics_spapr.h
+> @@ -31,11 +31,13 @@
+> =20
+>  #define XICS_NODENAME "interrupt-controller"
+> =20
+> +#define TYPE_ICS_SPAPR "ics-spapr"
+> +#define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
+> +
+>  void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void=
+ *fdt,
+>                     uint32_t phandle);
+>  int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
+>  void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
+>  bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
+> -void xics_spapr_init(SpaprMachineState *spapr);
+> =20
+>  #endif /* XICS_SPAPR_H */
+>=20
 
->   Hi,
->
->> +microvm.kernel-cmdline=bool (Set off to disable adding virtio-mmio devices to the kernel cmdline)
->
-> Hmm, is that the long-term plan?  IMO the virtio-mmio devices should be
-> discoverable somehow.  ACPI, or device-tree, or fw_cfg, or ...
-
-I'd say that depends on the machine type. ARM's virt and vexpress do
-support virtio-mmio devices, adding them to a generated DTB.
-
-For microvm that's simply not worth it. Fiddling with the command line
-achieves the same result without any significant drawbacks, with less
-code and less consumed cycles on both sides.
-
->> +As no current FW is able to boot from a block device using virtio-mmio
->> +as its transport,
->
-> To fix that the firmware must be able to find the virtio-mmio devices.
-
-No FW supports modern virtio-mmio transports anyway. And, from microvm's
-perspective, there's little incentive to change this situation, given
-that it's main use cases (serverless computing and VM-isolated
-containers) will run with an external kernel.
-
-Thanks,
-Sergio.
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2LGDgACgkQ9GknjS8M
-AjUGFA/9En3xpwaRRlk8noOWngoaHWQN83Ugk1tJ6/lQackkpCwakxv+Bhupj9C4
-bdw0Fa7nwIKDfEWx5j/iQH8ig1pyw7qWAlJaZuo09XAW2qkBdIvacyTuIK9z/Xxz
-C2IXRdIY1X90ovNqrZPCX48TtUlGBgCBB8CTMBMktKmA1aqcGahzzHYJE7B24iRo
-onXEy5w3Hss6ln+voTgOvLHtrJ+qBAE92h+UjdICIa748gGWqGI8HjqEIDjMUZfb
-VjxlzR+0U92kOGH6bQmc+inVENltSAlyEC5PuzKUZ8X24VGFae1EHY3nAB9wKtPI
-uxGsqNYJIxliWSwMOEWJzde81b3H30l9dYhxbQKfZri4oOIfr/EG4pAARSKjsZBI
-pZMe9C5eNeCWcfaHA59SHR7Sw4XBdgU+xekL8RR5lCgYz4DYPlVd+1ny6IKcUICV
-aZdY0SYC0eOWVHaAsphjEHf6c+WTQ9CZkC/Wzha8UgGMsL3s0oU6nRcUhIe1LVL/
-Gv75N19Ji+XW2fSRYLi7WMXL7hpgQxWzJ4H8G4ijb88tBtHlGttHlnxtj7g/PIvp
-9w90y+xdK6JXzRYOTwGzN8TSMBmUeEkgUT2EiWCPZNCAZrze0WliEktUBN1g+rsQ
-c74pQhEfC8cAPWMHpGgn1/vsz7K8YOi6KDuoPNpcVOEAkBNcjhs=
-=McNV
------END PGP SIGNATURE-----
---=-=-=--
 
