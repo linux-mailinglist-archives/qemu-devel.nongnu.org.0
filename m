@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D475BD8B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:06:23 +0200 (CEST)
-Received: from localhost ([::1]:46130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902DBBD8C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:09:34 +0200 (CEST)
+Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1NW-0008Lv-0B
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38665)
+	id 1iD1Qb-0003et-B1
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iD13l-0008Ij-BX
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:45:59 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iD13p-0008ME-Uv
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:46:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iD13i-0003VX-Sz
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:45:56 -0400
-Received: from ozlabs.org ([203.11.71.1]:38505)
+ (envelope-from <dgibson@ozlabs.org>) id 1iD13n-0003aA-2K
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:46:00 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:44959)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iD13i-0003So-4m; Wed, 25 Sep 2019 02:45:54 -0400
+ id 1iD13l-0003Vz-FA; Wed, 25 Sep 2019 02:45:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46dT8q0wMzz9sQy; Wed, 25 Sep 2019 16:45:45 +1000 (AEST)
+ id 46dT8q68dNz9sR6; Wed, 25 Sep 2019 16:45:45 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569393947;
- bh=JMryXFCQX+83LWf9xNsxwGC7o+eXObjPgPdxWMajCwM=;
+ bh=gDYidKYz7y8EfQr8lqJklSntW5UscHFQLNhJmsIONnw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BSDM4djYZR4g7tN/9/QLGIFgDpwGsBFGcl0YnnkHKSnlO2L7jW9H8ZmRBTl/Dq8Hv
- cRMq7yEpUV2N76QL8AhLA3WtXuALhNOz7FWb9Ru3N3qoJ8KirYnPdBiL1Os7eM7IX2
- ALDwt5nh9nueMFoNYTJS3sI9jjqfYu6btD4n2Usw=
+ b=A6SGD5dvd/AHAT/8gB92QrM1lX8zuTOduhxkVhidPDvmmuxoE7ZWieZvnpxJeNXeD
+ dVz3Tqn+HkaN4XfIoXVVN4RrBpUspZcBTMrQkwOLNE22CGFmymDgrRJ/jvGDGggcIW
+ caxWhtoYOMGPe1BIFxVTPp3rBpIzeJRbkuXc2cSQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	clg@kaod.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 10/20] spapr: Eliminate nr_irqs parameter to SpaprIrq::init
-Date: Wed, 25 Sep 2019 16:45:24 +1000
-Message-Id: <20190925064534.19155-11-david@gibson.dropbear.id.au>
+Subject: [PATCH 11/20] spapr: Fix indexing of XICS irqs
+Date: Wed, 25 Sep 2019 16:45:25 +1000
+Message-Id: <20190925064534.19155-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190925064534.19155-1-david@gibson.dropbear.id.au>
 References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,110 +63,93 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only reason this parameter was needed was to work around the
-inconsistent meaning of nr_irqs between xics and xive.  Now that we've
-fixed that, we can consistently use the number directly in the SpaprIrq
-configuration.
+spapr global irq numbers are different from the source numbers on the ICS
+when using XICS - they're offset by XICS_IRQ_BASE (0x1000).  But
+spapr_irq_set_irq_xics() was passing through the global irq number to
+the ICS code unmodified.
+
+We only got away with this because of a counteracting bug - we were
+incorrectly adjusting the qemu_irq we returned for a requested global irq
+number.
+
+That approach mostly worked but is very confusing, incorrectly relies on
+the way the qemu_irq array is allocated, and undermines the intention of
+having the global array of qemu_irqs for spapr have a consistent meaning
+regardless of irq backend.
+
+So, fix both set_irq and qemu_irq indexing.  We rename some parameters at
+the same time to make it clear that they are referring to spapr global
+irq numbers.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_irq.c         | 21 ++++++++++-----------
- include/hw/ppc/spapr_irq.h |  2 +-
- 2 files changed, 11 insertions(+), 12 deletions(-)
+ hw/ppc/spapr_irq.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 5190a33e08..300c65be3a 100644
+index 300c65be3a..9a9e486eb5 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -92,8 +92,7 @@ static void spapr_irq_init_kvm(SpaprMachineState *spapr=
-,
-  * XICS IRQ backend.
-  */
-=20
--static void spapr_irq_init_xics(SpaprMachineState *spapr, int nr_xirqs,
--                                Error **errp)
-+static void spapr_irq_init_xics(SpaprMachineState *spapr, Error **errp)
+@@ -153,10 +153,9 @@ static void spapr_irq_free_xics(SpaprMachineState *s=
+papr, int irq, int num)
+ static qemu_irq spapr_qirq_xics(SpaprMachineState *spapr, int irq)
  {
-     Object *obj;
-     Error *local_err =3D NULL;
-@@ -102,7 +101,8 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
-apr, int nr_xirqs,
-     object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
-     object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-                                    &error_fatal);
--    object_property_set_int(obj, nr_xirqs, "nr-irqs",  &error_fatal);
-+    object_property_set_int(obj, spapr->irq->nr_xirqs,
-+                            "nr-irqs",  &error_fatal);
-     object_property_set_bool(obj, true, "realized", &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -256,15 +256,15 @@ SpaprIrq spapr_irq_xics =3D {
- /*
-  * XIVE IRQ backend.
-  */
--static void spapr_irq_init_xive(SpaprMachineState *spapr, int nr_xirqs,
--                                Error **errp)
-+static void spapr_irq_init_xive(SpaprMachineState *spapr, Error **errp)
- {
-     uint32_t nr_servers =3D spapr_max_server_number(spapr);
-     DeviceState *dev;
-     int i;
+     ICSState *ics =3D spapr->ics;
+-    uint32_t srcno =3D irq - ics->offset;
 =20
-     dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
--    qdev_prop_set_uint32(dev, "nr-irqs", nr_xirqs + SPAPR_XIRQ_BASE);
-+    qdev_prop_set_uint32(dev, "nr-irqs",
-+                         spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-     /*
-      * 8 XIVE END structures per CPU. One for each available priority
-      */
-@@ -443,18 +443,17 @@ static SpaprIrq *spapr_irq_current(SpaprMachineStat=
-e *spapr)
-         &spapr_irq_xive : &spapr_irq_xics;
+     if (ics_valid_irq(ics, irq)) {
+-        return spapr->qirqs[srcno];
++        return spapr->qirqs[irq];
+     }
+=20
+     return NULL;
+@@ -204,9 +203,10 @@ static int spapr_irq_post_load_xics(SpaprMachineStat=
+e *spapr, int version_id)
+     return 0;
  }
 =20
--static void spapr_irq_init_dual(SpaprMachineState *spapr, int nr_xirqs,
--                                Error **errp)
-+static void spapr_irq_init_dual(SpaprMachineState *spapr, Error **errp)
+-static void spapr_irq_set_irq_xics(void *opaque, int srcno, int val)
++static void spapr_irq_set_irq_xics(void *opaque, int irq, int val)
  {
-     Error *local_err =3D NULL;
+     SpaprMachineState *spapr =3D opaque;
++    uint32_t srcno =3D irq - spapr->ics->offset;
 =20
--    spapr_irq_xics.init(spapr, spapr_irq_xics.nr_xirqs, &local_err);
-+    spapr_irq_xics.init(spapr, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
+     ics_set_irq(spapr->ics, srcno, val);
+ }
+@@ -377,14 +377,14 @@ static void spapr_irq_reset_xive(SpaprMachineState =
+*spapr, Error **errp)
+     spapr_xive_mmio_set_enabled(spapr->xive, true);
+ }
+=20
+-static void spapr_irq_set_irq_xive(void *opaque, int srcno, int val)
++static void spapr_irq_set_irq_xive(void *opaque, int irq, int val)
+ {
+     SpaprMachineState *spapr =3D opaque;
+=20
+     if (kvm_irqchip_in_kernel()) {
+-        kvmppc_xive_source_set_irq(&spapr->xive->source, srcno, val);
++        kvmppc_xive_source_set_irq(&spapr->xive->source, irq, val);
+     } else {
+-        xive_source_set_irq(&spapr->xive->source, srcno, val);
++        xive_source_set_irq(&spapr->xive->source, irq, val);
      }
+ }
 =20
--    spapr_irq_xive.init(spapr, spapr_irq_xive.nr_xirqs, &local_err);
-+    spapr_irq_xive.init(spapr, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-@@ -683,7 +682,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
-*errp)
-         spapr_irq_msi_init(spapr, spapr->irq->nr_msis);
-     }
+@@ -563,11 +563,11 @@ static void spapr_irq_reset_dual(SpaprMachineState =
+*spapr, Error **errp)
+     spapr_irq_current(spapr)->reset(spapr, errp);
+ }
 =20
--    spapr->irq->init(spapr, spapr->irq->nr_xirqs, errp);
-+    spapr->irq->init(spapr, errp);
+-static void spapr_irq_set_irq_dual(void *opaque, int srcno, int val)
++static void spapr_irq_set_irq_dual(void *opaque, int irq, int val)
+ {
+     SpaprMachineState *spapr =3D opaque;
 =20
-     spapr->qirqs =3D qemu_allocate_irqs(spapr->irq->set_irq, spapr,
-                                       spapr->irq->nr_xirqs + SPAPR_XIRQ_=
-BASE);
-diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index a8f9a2ab11..7e26288fcd 100644
---- a/include/hw/ppc/spapr_irq.h
-+++ b/include/hw/ppc/spapr_irq.h
-@@ -41,7 +41,7 @@ typedef struct SpaprIrq {
-     uint32_t    nr_msis;
-     uint8_t     ov5;
+-    spapr_irq_current(spapr)->set_irq(spapr, srcno, val);
++    spapr_irq_current(spapr)->set_irq(spapr, irq, val);
+ }
 =20
--    void (*init)(SpaprMachineState *spapr, int nr_irqs, Error **errp);
-+    void (*init)(SpaprMachineState *spapr, Error **errp);
-     int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **er=
-rp);
-     void (*free)(SpaprMachineState *spapr, int irq, int num);
-     qemu_irq (*qirq)(SpaprMachineState *spapr, int irq);
+ static const char *spapr_irq_get_nodename_dual(SpaprMachineState *spapr)
 --=20
 2.21.0
 
