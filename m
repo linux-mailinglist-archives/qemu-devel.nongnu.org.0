@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E59BDFFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:28:45 +0200 (CEST)
-Received: from localhost ([::1]:52920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68B2BE054
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:35:49 +0200 (CEST)
+Received: from localhost ([::1]:52978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD8Hc-00083A-3N
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51435)
+	id 1iD8OR-0002y3-Sq
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:35:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iD8Ga-0007WH-Jp
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:27:41 -0400
+ (envelope-from <mst@redhat.com>) id 1iD8J4-0000Xt-DS
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iD8GZ-0005jF-CS
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:27:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34402)
+ (envelope-from <mst@redhat.com>) id 1iD8J3-0006yR-A0
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44125
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD8GZ-0005ir-3i
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:27:39 -0400
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 43C1B3DE04
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 14:27:38 +0000 (UTC)
-Received: by mail-qt1-f200.google.com with SMTP id f15so6068660qth.6
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:27:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD8J3-0006y0-1B
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1569421812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BsejPs8VR4bQ8vSDiQ1D+SsqmkY4XQ6nG+kn2dcwppo=;
+ b=gGRsvirXC0/FDnQLIgBFuh5wuw7a7H+ZJO3tf8dFkCXhlAX+CvDugj6U44hj4aN53kv5Wd
+ 4+mxGTQDiFYPqDmu7rpUW2qRgAgbSwfcv4i05aj4BEJvkbnoROZk5srP87pbK+52WVVtfK
+ jbjBxqC5aHlEPC1dKIrv2GBtJgq0GX8=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-qX-DH7oZNgaOakxlrkycbQ-1; Wed, 25 Sep 2019 10:30:11 -0400
+Received: by mail-qk1-f197.google.com with SMTP id x186so6245388qke.13
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:30:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=M3zbMdw/IGoPpcTit1ivVJq2ZE3+8MBHCLS1O9oaN5E=;
- b=aRwc+WXPAukeELwW+Bqu9GykY09tEGLZDx04U+80g8c+GBtPbgDa5H6SCH99jYPYIR
- 6Q/yl7FuKuNUQwuozMtDIy8bkAp2k3Mg1iJhDkvrBnKWydLv4ws40jj/x5GZapafi4Lr
- jCHhvpvXZm3CcMA6wfqQHpJ5lzI4CM6JndcUC/UFPE9dr1at8ry93i8/Tm62GUwKAwre
- 29Hq2iucaFKvgJGg8Tq3NPbynlyiEr+Oe8UIlDRqbU2M8+3sZRMHZsSQxLQ5sAEwzT5r
- Jjkhy0sDXiDOLJ1HhGGRRBuewEEMawfyY6bAZjcIJ9K+W4Pd7a6gTTsa8RhsEOvk1iDb
- GFMQ==
-X-Gm-Message-State: APjAAAXd0xAaM5uShJjLuSstRTHmpiOKCnzRdpKaz4J8JYJhn8jcpjQG
- 949VCsJwERorUQPNj7Idh2cBAEtfVHddbA19ZaSuR5ASH8n2PZXbpJJMSU60zGtQB44hWoXLrdh
- n2Va+7QO6Yfilys8=
-X-Received: by 2002:ac8:16d9:: with SMTP id y25mr9013680qtk.72.1569421657226; 
- Wed, 25 Sep 2019 07:27:37 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwDdQijDk4h5iUDTCNIZwUeK85dczRY2/4Ksp4A3I9Thgu/4a+qvbyB5vDfRBSa6q5Li7Gx9Q==
-X-Received: by 2002:ac8:16d9:: with SMTP id y25mr9013668qtk.72.1569421657008; 
- Wed, 25 Sep 2019 07:27:37 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=S3oDpkzwFQW/6Qog9stiWy3NOJLymT7tgQynsFt0T0k=;
+ b=HA4Pcn0Y2eij7S7bP1seffRjvl32mviptJ+GUaUja7vzl5RCPbeJyVS2MKOYXHFmRf
+ S1Ln+UbojMcKv2zmMdob6jmUU4lnOW1RLkzR3xMItSZR/GpY6IIXPajSmfoW+6wxQBk0
+ P4QTmaDTEgg7F99UkUva/6ktMjia/K7Td/IHoNDyo++17OZGMeijwPK69+BiIzkdX9sP
+ DQDG+rnjK7HzWSK3U2lRzF3rCb0g4fS+89rSkk4wFgrIyA8YCTOAlcKMyqmLzv9SQWwa
+ 0y1z0sUNv+ySQLxYYCcDGqPNyELzPgPcJwfluvQEOa8sg727THsKkAEBekG6PrSIVzwD
+ Pe2g==
+X-Gm-Message-State: APjAAAWomgju3Do8WGqPNW092x27ji9FjPIPZoUl5AmAd1MCVMPnBQ2U
+ EpObHdkrghIpqLFdKApo3vzlIqQcRMOGIqx1x/c/WsICw/n/76yDkBL36cLJM9ifML9TXNMY+5+
+ 4Ku+WtuHQjwwjhQE=
+X-Received: by 2002:ac8:184:: with SMTP id x4mr9161640qtf.249.1569421810058;
+ Wed, 25 Sep 2019 07:30:10 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzyQXBwBwzP3xoucmn13TBr7t3Tk+CzmN4FmCppaodvKVeZDVNhsDo/rUEN8wNOhbcKhx98QQ==
+X-Received: by 2002:ac8:184:: with SMTP id x4mr9161626qtf.249.1569421809884;
+ Wed, 25 Sep 2019 07:30:09 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id k17sm3090231qtk.7.2019.09.25.07.27.34
+ by smtp.gmail.com with ESMTPSA id m136sm3164665qke.78.2019.09.25.07.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 07:27:36 -0700 (PDT)
-Date: Wed, 25 Sep 2019 10:27:31 -0400
+ Wed, 25 Sep 2019 07:30:09 -0700 (PDT)
+Date: Wed, 25 Sep 2019 10:30:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 0/3] Add virtio-fs (experimental)
-Message-ID: <20190925102657-mutt-send-email-mst@kernel.org>
-References: <20190917160057.11847-1-dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] vhost: fixes
+Message-ID: <20190925142910.26529-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+X-Mailer: git-send-email 2.22.0.678.g13338e74b8
+X-Mutt-Fcc: =sent
+X-MC-Unique: qX-DH7oZNgaOakxlrkycbQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20190917160057.11847-1-dgilbert@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,70 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, vgoyal@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 17, 2019 at 05:00:54PM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Hi,
->   This set of patches adds the core of the virtio-fs support to qemu;
-> it's marked experimental since the kernel patch isn't in yet; but
-> it's nearly there;  the spec has passed the voting stage, and
-> the kernel changes are queued in fuse-next.
+A very quiet cycle. Did I miss a bunch of patches? if so, let me know.
 
+The following changes since commit 240ab11fb72049d6373cbbec8d788f8e411a00bc=
+:
 
-Was going to apply this but turns out headers didn't land in Linux yet.
-Replied on the specific patches.
+  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190924' int=
+o staging (2019-09-24 15:36:31 +0100)
 
->   A future set of patches will add the optional DAX mapping support.
-> 
->   The actual qemu change is pretty minimal, since it's really only
-> a virtio device with some queues.
-> 
-> Some links:
->   Mailing list: https://www.redhat.com/mailman/listinfo/virtio-fs
->   Dev tree: Including filesystem daemon: https://gitlab.com/virtio-fs/qemu
->   kernel:
->          dev world:
->             https://gitlab.com/virtio-fs/linux
->          fuse next:
->            https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/log/?h=for-next
->   virtio spec changes:
->          https://lists.oasis-open.org/archives/virtio-dev/201908/msg00112.html
-> 
-> v3
->   Split the kernel header update out
->     The contents correspond to the fuse-next world+a patch Stefan just
->     sent to make that use the newer 'num_request_queues' name
-> 
->   Update copyright year,
->   Remove the assert in vuf_handle_output
->     the virtio core code sometimes calls it during cleanup if the
->     daemon dies first
->   (I've not changed the comment about guest_notifier_mask/virtio-pci
->    since that's copied in a bunch of virtio code going back ~5 years)
-> 
-> Dr. David Alan Gilbert (3):
->   virtio: Add virito_fs linux headers
->   virtio: add vhost-user-fs base device
->   virtio: add vhost-user-fs-pci device
-> 
->  configure                                   |  13 +
->  hw/virtio/Makefile.objs                     |   2 +
->  hw/virtio/vhost-user-fs-pci.c               |  85 ++++++
->  hw/virtio/vhost-user-fs.c                   | 299 ++++++++++++++++++++
->  include/hw/virtio/vhost-user-fs.h           |  45 +++
->  include/standard-headers/linux/virtio_fs.h  |  41 +++
->  include/standard-headers/linux/virtio_ids.h |   1 +
->  7 files changed, 486 insertions(+)
->  create mode 100644 hw/virtio/vhost-user-fs-pci.c
->  create mode 100644 hw/virtio/vhost-user-fs.c
->  create mode 100644 include/hw/virtio/vhost-user-fs.h
->  create mode 100644 include/standard-headers/linux/virtio_fs.h
-> 
-> -- 
-> 2.21.0
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 3fc4a64cbaed2ddee4c60ddc06740b320e18ab82:
+
+  vhost: Fix memory region section comparison (2019-09-25 10:16:39 -0400)
+
+----------------------------------------------------------------
+vhost: fixes
+
+Misc fixes related to memory region handling.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (3):
+      memory: Align MemoryRegionSections fields
+      memory: Provide an equality function for MemoryRegionSections
+      vhost: Fix memory region section comparison
+
+ include/exec/memory.h | 14 +++++++++++++-
+ hw/virtio/vhost.c     |  9 +++++++--
+ 2 files changed, 20 insertions(+), 3 deletions(-)
+
 
