@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA67BD5B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 02:19:34 +0200 (CEST)
-Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BC3BD5BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 02:28:15 +0200 (CEST)
+Received: from localhost ([::1]:44356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCv1p-0004hc-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 20:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57827)
+	id 1iCvAE-0000Eb-1c
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 20:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iCuyU-0002Ks-Hf
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:16:07 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iCv8e-0007Ts-J3
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:26:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iCuyS-0008HJ-BK
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:16:05 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35513)
+ (envelope-from <alistair23@gmail.com>) id 1iCv8c-0004DB-MK
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:26:36 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:37675)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iCuyS-0008H7-3a
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 20:16:04 -0400
-Received: by mail-wm1-x342.google.com with SMTP id y21so2221518wmi.0
- for <qemu-devel@nongnu.org>; Tue, 24 Sep 2019 17:16:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=0ODopj+No7wKifKkAPpUYP23m+jkzTaNVUbH4b2Bk5U=;
- b=YlxCWLhEUgODUE5StXLN0sfwdZokgFpYk0nhd78oOo3c5cWTIYpfW1ur09o0FdmxSq
- irndlgr9FKO6rb4TCWGe45SQu43Yz5YLGUv3NfuuDhDCQ32Mor6T6RCLgiKuWypzbTRL
- 9p04rxoFn4T+9yiM9hjzSbcM41obmtCAWgZJhGuNZdJdFKRA8E6+MuCFx3yJSKUWv/C+
- WkdW5Q7Z1Dm7JN5CD3O3a7jMRGFoLkYgJadmq7jrGWQM9iMaD9WYu+zMxtxAtkbpL8jb
- IuiOEKbGOTkq7PPTem+f1O86NUSwGx/GRoosDsCzCcwqdGnowsteqHsdXvKHpTjVD7el
- rPbQ==
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iCv8c-0004Ct-Cx; Tue, 24 Sep 2019 20:26:34 -0400
+Received: by mail-lj1-x241.google.com with SMTP id l21so3744893lje.4;
+ Tue, 24 Sep 2019 17:26:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HK1OznEzGlTq61LpVAwuAqDz3yv7Y0o+u0T1oyc3oVU=;
+ b=g5EBFYHqIsty2tPByQg3LOnZv6i0SL1ZoOVoWQY3yQzutx1faCi8bMk8KgNqvUgddx
+ 6hGu1dN74VfiRbmH22OFLQ/z4TlCbyH75h7bAW9RnkFN3RSkEknSD/c23qobbzaChRV2
+ ZQcQnwJxWd4EfLFAeiRv5CmKf47f9kOaGORFOr8DmaAbjunOyvq4oK/R2GDbyBONVk51
+ 9iQDb2Veo0/7gM7vRZRAjud94hTCQErx0jl57c7TvVd4/Cvgd1Sv3qK/E/5SG8vpoMU0
+ ZDNMhzA+mO0PTShmBjrKBGzyI2yjkPNtoWKxs70KhJ0zi+Pg7TcLljLoTzdtLo7Pc/8b
+ QEJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=0ODopj+No7wKifKkAPpUYP23m+jkzTaNVUbH4b2Bk5U=;
- b=WK5SYbRvKmIg3AnuruRSYiT7+ohEQFcjLddaj6Bg40FjxFoT7s+cB5UEkFXLeV7yQD
- 3nXmqr9jQz0qRbH38NeDLMUE0vzunPMiW7rpjSV9sIbuskcbmCH8mbgZfvX9F/Hogn/1
- wpZYgvazmqbx3pXEexSutHOhfg5XF+U4s56esVYA16gOOO0Ssp0S71kDI50Ow2ssh37x
- gvkAzEu5I0jhGPg4hamnPJ4AHUKDoVUf06ZliWuV7S12bsCroZhMI2+YkbP4p+H7eWVZ
- zloiBDMY+3RRD8Ivc5b0r18n0nwKRQ/XlvnCjlDvc7PoRk2dskF832P99IAA6hTd2xPF
- oKdA==
-X-Gm-Message-State: APjAAAWCblEUMMon8uudjnl/HOrIg/fYLu51DsaNavBkGLco65i+GIx1
- gh3kLBnRHVbDsCiQZlXv1n2GQA==
-X-Google-Smtp-Source: APXvYqxg8id2fn7BkNvzI3qxkCG2WaLjG1BBfuRsLvAjc87CFCJgIM9ecipoDqiEsE4e0FYUNWsZWQ==
-X-Received: by 2002:a1c:1fd3:: with SMTP id f202mr3571554wmf.18.1569370562398; 
- Tue, 24 Sep 2019 17:16:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b15sm1918971wmb.28.2019.09.24.17.16.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 17:16:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F16FB1FF87;
- Wed, 25 Sep 2019 01:16:00 +0100 (BST)
-References: <20190923230004.9231-1-richard.henderson@linaro.org>
- <20190923230004.9231-9-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 08/16] cputlb: Move ROM handling from I/O path to TLB
- path
-In-reply-to: <20190923230004.9231-9-richard.henderson@linaro.org>
-Date: Wed, 25 Sep 2019 01:16:00 +0100
-Message-ID: <87v9th9qnz.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HK1OznEzGlTq61LpVAwuAqDz3yv7Y0o+u0T1oyc3oVU=;
+ b=eGaelDrFkn/x0EazMgX/PbDG3CVq6clUcZE8fxKg3J+0irnVwv+mtSO7UI7ktdf2py
+ OjUy3fwuHBJNwm2BzOk+5XFk0fcQXRMbYfS3efiN0DoA+SrsKyjfYphnuml2OsxkwHwp
+ FH3+1IZ5AD4G6HSilLop1l+wAPgHD2NhVSU3lZJvRlAQpdKx3/5P65UJbA3bakZycGGg
+ vcHEMDDwf+R7ITW5oAvAQWVYbahuLy727ObQX/xhhDao6C7qJ1Qh/B1VIt2IAPiUkp11
+ f31V0rTs2BAHGF6+jcbq4FVGiua4nWm+6/XbPYNx3nPts6slHaGnD1Ll9HIWlzeBo4Qy
+ 2XvA==
+X-Gm-Message-State: APjAAAV9w11U0ZWhxLHDnOC8H2e98nQNrt4IhrhStOyKP0J7XUuyTixQ
+ yrdVOOmrsRTcbZYSra58ncC7L92H129IRPPqzXM=
+X-Google-Smtp-Source: APXvYqwAmkq9IBanv/e7bTBddT0Lgx/AMPpwrQUqvIWeAB6vjHqsf4kUfd6o1OWxoy7iIlAOScCQJ+ddETNu6HypRRA=
+X-Received: by 2002:a05:651c:1132:: with SMTP id
+ e18mr3889334ljo.33.1569371192878; 
+ Tue, 24 Sep 2019 17:26:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <1569311902-12173-1-git-send-email-guoren@kernel.org>
+ <CAKmqyKMzpTKBT+urX_7qFASqcAd4kkfJmf6LUk-0V=0LOuHLxw@mail.gmail.com>
+ <8E7A78A5-5E6F-49A2-89BC-85D2506229C6@c-sky.com>
+In-Reply-To: <8E7A78A5-5E6F-49A2-89BC-85D2506229C6@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 24 Sep 2019 17:21:50 -0700
+Message-ID: <CAKmqyKPAnb1bb+v=+v_jHmA58bRjmUqO9XcZbLyxsUX1udtXBQ@mail.gmail.com>
+Subject: Re: [PATCH V2] target/riscv: Bugfix reserved bits in PTE for RV64
+To: Guo Ren <ren_guo@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,210 +75,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- david@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, guoren@kernel.org,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Sep 24, 2019 at 5:13 PM Guo Ren <ren_guo@c-sky.com> wrote:
+>
+>
+> > =E5=9C=A8 2019=E5=B9=B49=E6=9C=8825=E6=97=A5=EF=BC=8C=E4=B8=8A=E5=8D=88=
+7:33=EF=BC=8CAlistair Francis <alistair23@gmail.com> =E5=86=99=E9=81=93=EF=
+=BC=9A
+> >
+> > On Tue, Sep 24, 2019 at 12:58 AM <guoren@kernel.org> wrote:
+> >>
+> >> From: Guo Ren <ren_guo@c-sky.com>
+> >>
+> >> Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so =
+we
+> >> need to ignore them. They can not be a part of ppn.
+> >>
+> >> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architectu=
+re
+> >>   4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+> >>   4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+> >
+> > Thanks for the patch!
+> >
+> > The spec says "must be zeroed by software for forward compatibility"
+> > so I don't think it's correct for QEMU to zero out the bits.
+> QEMU don=E2=80=99t zero out the bits, QEMU just ignore the bits for ppn.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Yes, from reading the spec that seems to be the correct behaviour.
 
-> It does not require going through the whole I/O path
-> in order to discard a write.
 >
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/cpu-all.h    |  5 ++++-
->  include/exec/cpu-common.h |  1 -
->  accel/tcg/cputlb.c        | 35 +++++++++++++++++++--------------
->  exec.c                    | 41 +--------------------------------------
->  4 files changed, 25 insertions(+), 57 deletions(-)
->
-> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index d148bded35..26547cd6dd 100644
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-<snip>
-> @@ -822,16 +821,17 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_=
-ulong vaddr,
->
->      tn.addr_write =3D -1;
->      if (prot & PAGE_WRITE) {
-> -        if ((memory_region_is_ram(section->mr) && section->readonly)
-> -            || memory_region_is_romd(section->mr)) {
-> -            /* Write access calls the I/O callback.  */
-> -            tn.addr_write =3D address | TLB_MMIO;
-> -        } else if (memory_region_is_ram(section->mr)
-> -                   && cpu_physical_memory_is_clean(
-> -                       memory_region_get_ram_addr(section->mr) + xlat)) {
-> -            tn.addr_write =3D address | TLB_NOTDIRTY;
-> -        } else {
-> -            tn.addr_write =3D address;
-> +        tn.addr_write =3D address;
-> +        if (memory_region_is_romd(section->mr)) {
-> +            /* Use the MMIO path so that the device can switch states. */
-> +            tn.addr_write |=3D TLB_MMIO;
-> +        } else if (memory_region_is_ram(section->mr)) {
-> +            if (section->readonly) {
-> +                tn.addr_write |=3D TLB_ROM;
-> +            } else if (cpu_physical_memory_is_clean(
-> +                        memory_region_get_ram_addr(section->mr) + xlat))=
- {
-> +                tn.addr_write |=3D TLB_NOTDIRTY;
-> +            }
+> >
+> > Does this fix a bug you are seeing?
+> Yes, because we try to reuse these bits as attributes.
 
-This reads a bit weird because we are saying romd isn't a ROM but
-something that identifies as RAM can be ROM rather than just a memory
-protected piece of RAM.
+That isn't really a bug then, the spec says not to do that.
 
->          }
->          if (prot & PAGE_WRITE_INV) {
->              tn.addr_write |=3D TLB_INVALID_MASK;
+>
+> >
+> >>
+> >> Changelog V2:
+> >> - Bugfix pte destroyed cause boot fail
+> >> - Change to AND with a mask instead of shifting both directions
+> >
+> > The changelog shouldn't be in the commit, it should be kept under the
+> > line line below.
+> I just prefer to save them in commit.
 
-So at the moment I don't see what the TLB_ROM flag gives us that setting
-TLB_INVALID doesn't - either way we won't make the write to our
-ram-not-ram-rom.
+Fair, but in QEMU we don't commit the change log in the commit.
 
-> @@ -904,7 +904,7 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBE=
-ntry *iotlbentry,
->      mr =3D section->mr;
->      mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
->      cpu->mem_io_pc =3D retaddr;
-> -    if (mr !=3D &io_mem_rom && mr !=3D &io_mem_notdirty && !cpu->can_do_=
-io) {
-> +    if (mr !=3D &io_mem_notdirty && !cpu->can_do_io) {
->          cpu_io_recompile(cpu, retaddr);
->      }
 >
-> @@ -945,7 +945,7 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntr=
-y *iotlbentry,
->      section =3D iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attr=
-s);
->      mr =3D section->mr;
->      mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-> -    if (mr !=3D &io_mem_rom && mr !=3D &io_mem_notdirty && !cpu->can_do_=
-io) {
-> +    if (mr !=3D &io_mem_notdirty && !cpu->can_do_io) {
->          cpu_io_recompile(cpu, retaddr);
->      }
->      cpu->mem_io_vaddr =3D addr;
-> @@ -1125,7 +1125,7 @@ void *probe_access(CPUArchState *env, target_ulong =
-addr, int size,
->      }
+> >
+> >>
+> >> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+> >> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+> >> ---
+> >
+> > The change log should go here.
+> OK, but git am we=E2=80=99ll lose them.
 >
->      /* Reject I/O access, or other required slow-path.  */
-> -    if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO | TLB_BSWAP)) {
-> +    if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO | TLB_BSWAP | TLB_ROM)) {
->          return NULL;
->      }
+> >
+> >> target/riscv/cpu_bits.h   | 3 +++
+> >> target/riscv/cpu_helper.c | 3 ++-
+> >> 2 files changed, 5 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> >> index e998348..ae8aa0f 100644
+> >> --- a/target/riscv/cpu_bits.h
+> >> +++ b/target/riscv/cpu_bits.h
+> >> @@ -470,6 +470,9 @@
+> >> #define PTE_D               0x080 /* Dirty */
+> >> #define PTE_SOFT            0x300 /* Reserved for Software */
+> >>
+> >> +/* Reserved highest 10 bits in PTE */
+> >> +#define PTE_RESERVED        ((target_ulong)0x3ff << 54)
+> >
+> > I think it's just easier to define this as 0xFFC0000000000000ULL and
+> > remove the cast.
+> OK follow your rule, but I still prefer prior.
 >
-> @@ -1613,6 +1613,11 @@ store_helper(CPUArchState *env, target_ulong addr,=
- uint64_t val,
->              return;
->          }
+> >
+> >> +
+> >> /* Page table PPN shift amount */
+> >> #define PTE_PPN_SHIFT       10
+> >>
+> >> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> >> index 87dd6a6..7a540cc 100644
+> >> --- a/target/riscv/cpu_helper.c
+> >> +++ b/target/riscv/cpu_helper.c
+> >> @@ -258,10 +258,11 @@ restart:
+> >>         }
+> >> #if defined(TARGET_RISCV32)
+> >>         target_ulong pte =3D ldl_phys(cs->as, pte_addr);
+> >> +        hwaddr ppn =3D pte >> PTE_PPN_SHIFT;
+> >> #elif defined(TARGET_RISCV64)
+> >>         target_ulong pte =3D ldq_phys(cs->as, pte_addr);
+> >> +        hwaddr ppn =3D (pte & ~PTE_RESERVED) >> PTE_PPN_SHIFT;
+> >> #endif
+> >> -        hwaddr ppn =3D pte >> PTE_PPN_SHIFT;
+> >
+> > You don't have to move this shift
+> En=E2=80=A6 Do you want this: ?
 >
-> +        /* Ignore writes to ROM.  */
-> +        if (unlikely(tlb_addr & TLB_ROM)) {
-> +            return;
-> +        }
-> +
->          haddr =3D (void *)((uintptr_t)addr + entry->addend);
+> #if defined(TARGET_RISCV32)
+>         target_ulong pte =3D ldl_phys(cs->as, pte_addr);
+> +      hwaddr ppn =3D pte;
+> #elif defined(TARGET_RISCV64)
+>          target_ulong pte =3D ldq_phys(cs->as, pte_addr);
+> +       hwaddr ppn =3D (pte & ~PTE_RESERVED);
+> #endif
+> +        ppn =3D ppn >> PTE_PPN_SHIFT;
 >
->          if (unlikely(need_swap)) {
-> diff --git a/exec.c b/exec.c
-> index 5f2587b621..ea8c0b18ac 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -88,7 +88,7 @@ static MemoryRegion *system_io;
->  AddressSpace address_space_io;
->  AddressSpace address_space_memory;
->
-> -MemoryRegion io_mem_rom, io_mem_notdirty;
-> +MemoryRegion io_mem_notdirty;
->  static MemoryRegion io_mem_unassigned;
->  #endif
->
-> @@ -192,7 +192,6 @@ typedef struct subpage_t {
->
->  #define PHYS_SECTION_UNASSIGNED 0
->  #define PHYS_SECTION_NOTDIRTY 1
-> -#define PHYS_SECTION_ROM 2
->
->  static void io_mem_init(void);
->  static void memory_map_init(void);
-> @@ -1475,8 +1474,6 @@ hwaddr memory_region_section_get_iotlb(CPUState *cp=
-u,
->          iotlb =3D memory_region_get_ram_addr(section->mr) + xlat;
->          if (!section->readonly) {
->              iotlb |=3D PHYS_SECTION_NOTDIRTY;
-> -        } else {
-> -            iotlb |=3D PHYS_SECTION_ROM;
->          }
->      } else {
->          AddressSpaceDispatch *d;
-> @@ -3002,38 +2999,6 @@ static uint16_t dummy_section(PhysPageMap *map, Fl=
-atView *fv, MemoryRegion *mr)
->      return phys_section_add(map, &section);
->  }
->
-> -static void readonly_mem_write(void *opaque, hwaddr addr,
-> -                               uint64_t val, unsigned size)
-> -{
-> -    /* Ignore any write to ROM. */
-> -}
-> -
-> -static bool readonly_mem_accepts(void *opaque, hwaddr addr,
-> -                                 unsigned size, bool is_write,
-> -                                 MemTxAttrs attrs)
-> -{
-> -    return is_write;
-> -}
-> -
-> -/* This will only be used for writes, because reads are special cased
-> - * to directly access the underlying host ram.
-> - */
-> -static const MemoryRegionOps readonly_mem_ops =3D {
-> -    .write =3D readonly_mem_write,
-> -    .valid.accepts =3D readonly_mem_accepts,
-> -    .endianness =3D DEVICE_NATIVE_ENDIAN,
-> -    .valid =3D {
-> -        .min_access_size =3D 1,
-> -        .max_access_size =3D 8,
-> -        .unaligned =3D false,
-> -    },
-> -    .impl =3D {
-> -        .min_access_size =3D 1,
-> -        .max_access_size =3D 8,
-> -        .unaligned =3D false,
-> -    },
-> -};
-> -
->  MemoryRegionSection *iotlb_to_section(CPUState *cpu,
->                                        hwaddr index, MemTxAttrs attrs)
->  {
-> @@ -3047,8 +3012,6 @@ MemoryRegionSection *iotlb_to_section(CPUState *cpu,
->
->  static void io_mem_init(void)
->  {
-> -    memory_region_init_io(&io_mem_rom, NULL, &readonly_mem_ops,
-> -                          NULL, NULL, UINT64_MAX);
->      memory_region_init_io(&io_mem_unassigned, NULL, &unassigned_mem_ops,=
- NULL,
->                            NULL, UINT64_MAX);
->
-> @@ -3069,8 +3032,6 @@ AddressSpaceDispatch *address_space_dispatch_new(Fl=
-atView *fv)
->      assert(n =3D=3D PHYS_SECTION_UNASSIGNED);
->      n =3D dummy_section(&d->map, fv, &io_mem_notdirty);
->      assert(n =3D=3D PHYS_SECTION_NOTDIRTY);
-> -    n =3D dummy_section(&d->map, fv, &io_mem_rom);
-> -    assert(n =3D=3D PHYS_SECTION_ROM);
->
->      d->phys_map  =3D (PhysPageEntry) { .ptr =3D PHYS_MAP_NODE_NIL, .skip=
- =3D 1 };
 
+Yeah, it seems a little cleaner.
 
---
-Alex Benn=C3=A9e
+Alistair
+
+> The pte couldn=E2=80=99t be destroyed, just ppn ignore the RESERVED bits.
+>
+>
 
