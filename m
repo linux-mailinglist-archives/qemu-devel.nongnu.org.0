@@ -2,62 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087B0BE1D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:58:18 +0200 (CEST)
-Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D15BE1AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:52:13 +0200 (CEST)
+Received: from localhost ([::1]:54004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD9gF-0006rh-VI
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36387)
+	id 1iD9aO-0007o6-EG
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36955)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoren@kernel.org>) id 1iD9V5-0003mh-FU
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:46:44 -0400
+ (envelope-from <berrange@redhat.com>) id 1iD9Y2-0006Hm-5m
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:49:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoren@kernel.org>) id 1iD9V3-0008Q7-7J
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:46:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56088)
+ (envelope-from <berrange@redhat.com>) id 1iD9Xz-00011c-Br
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:49:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56250)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoren@kernel.org>)
- id 1iD9V3-0008Pq-16; Wed, 25 Sep 2019 11:46:41 -0400
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iD9Xz-00010z-5P
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:49:43 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7309321D7B;
- Wed, 25 Sep 2019 15:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1569426399;
- bh=kS7iHUZBpobHHkcL44QM2SKtkOCrqXA0YtmVeoaDbz8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=YZuaLyr0gKuVE+nchojFLfvvZdxpN/BuNsCashVgn+4u1V7JP5Qa49Hxnmkn3AeI+
- t1CSWuOi7qF/XZNzicpenUYnUN6/B9sY9svroIz8cDJjs1bEn1gec7vEUajXjk6i+z
- ARNmK+9lDiPaQSfAa+qfJh6NSxjoDRX7mfWYu1Kw=
-Received: by mail-wm1-f45.google.com with SMTP id v17so5514794wml.4;
- Wed, 25 Sep 2019 08:46:39 -0700 (PDT)
-X-Gm-Message-State: APjAAAU7iPNRh4bdQeoG9OaFLl1Oz4vVXul3l20GCHZM/s6FdXexLplS
- uiGb855iJFDJ8dioOAYp6KTa/avyxqHWr0DlFn8=
-X-Google-Smtp-Source: APXvYqzQD79Gyu/CB5/9e35reTlojOx2xToFpO0LXgIdXHeIuvTepv5I9M0NzXlcv9175EnCT3+lutzLejICofJEBXo=
-X-Received: by 2002:a05:600c:1103:: with SMTP id
- b3mr8724713wma.3.1569426397979; 
- Wed, 25 Sep 2019 08:46:37 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 771169D1D1
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 15:49:41 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82FEF600C8;
+ Wed, 25 Sep 2019 15:49:40 +0000 (UTC)
+Date: Wed, 25 Sep 2019 16:49:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v3 0/5] Automatic RCU read unlock
+Message-ID: <20190925154938.GC2942@redhat.com>
+References: <20190913102538.24167-1-dgilbert@redhat.com>
+ <20190925131324.GG21544@work-vm>
+ <a94e7f44-165c-c1c8-f253-f849eaf0a8d0@redhat.com>
+ <20190925152858.GE2876@work-vm>
 MIME-Version: 1.0
-References: <1569386895-8726-1-git-send-email-guoren@kernel.org>
- <CAKmqyKMraotFmqMg7MrJC5C4SogGqSaVtHkVYTEgGWK9UnWb5g@mail.gmail.com>
- <CAJF2gTR0o0s_p0H669BRZ86phLtpATwWczczWV8HWw1nc+doFA@mail.gmail.com>
- <CANnJOVFkviip0g1tBHdL6n2B8pMAQxVBC83RTaF4PAE1t+aPew@mail.gmail.com>
-In-Reply-To: <CANnJOVFkviip0g1tBHdL6n2B8pMAQxVBC83RTaF4PAE1t+aPew@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Wed, 25 Sep 2019 23:46:26 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTS=1uaQi7=CXg7f0eh2xb-HcG_sriMtU208VHXnJ4GTvA@mail.gmail.com>
-Message-ID: <CAJF2gTS=1uaQi7=CXg7f0eh2xb-HcG_sriMtU208VHXnJ4GTvA@mail.gmail.com>
-Subject: Re: [PATCH V3] target/riscv: Bugfix reserved bits in PTE for RV64
-To: Jonathan Behrens <fintelia@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190925152858.GE2876@work-vm>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Wed, 25 Sep 2019 15:49:41 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 198.145.29.99
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,69 +60,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- Alistair Francis <alistair23@gmail.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think your thoughts are wrong.
-The specification is very clear: these bits are not part of ppn, not
-part of the translation target address. The current code is against
-the riscv-privilege specification.
+On Wed, Sep 25, 2019 at 04:28:58PM +0100, Dr. David Alan Gilbert wrote:
+> * Paolo Bonzini (pbonzini@redhat.com) wrote:
+> > On 25/09/19 15:13, Dr. David Alan Gilbert wrote:
+> > > * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
+> > >> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > >>
+> > >> This patch uses glib's g_auto mechanism to automatically free
+> > >> rcu_read_lock's at the end of the block.  Given that humans
+> > >> have a habit of forgetting an error path somewhere it's
+> > >> best to leave it to the compiler.
+> > > 
+> > > I've had to unqueue this - clang doesn't like the apparently unused
+> > > auto variable; we need to find a way to make that happy.
+> > 
+> > __attribute__((unused))?
+> 
+> I worry that if I do that, then it'll optimise it out.
 
-On Wed, Sep 25, 2019 at 11:20 PM Jonathan Behrens <fintelia@gmail.com> wrot=
-e:
->
-> Any code whose behavior is changed by this patch is wrong, so it doesn't =
-seem like it matters much whether this is merged or not. Personally I'd lea=
-n towards making sure that attempts to use PTEs with the reserved bit set w=
-ould always fault, rather than wrapping around to low memory and perhaps si=
-lently succeeding.
->
-> Jonathan
->
-> On Wed, Sep 25, 2019 at 8:29 AM Guo Ren <guoren@kernel.org> wrote:
->>
->> On Wed, Sep 25, 2019 at 1:19 PM Alistair Francis <alistair23@gmail.com> =
-wrote:
->> >
->> > On Tue, Sep 24, 2019 at 9:48 PM <guoren@kernel.org> wrote:
->> > >
->> > > From: Guo Ren <ren_guo@c-sky.com>
->> > >
->> > > Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], s=
-o we
->> > > need to ignore them. They can not be a part of ppn.
->> > >
->> > > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architec=
-ture
->> > >    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
->> > >    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
->> >
->> > Hey,
->> >
->> > As I mentioned on patch 2 I don't think this is right. It isn't up to
->> > HW to clear these bits, software should keep them clear.
->>
->> These bits are not part of ppn in spec, so we still need to ignore them =
-for ppn.
->>
->> The patch is reasonable.
->>
->> --
->> Best Regards
->>  Guo Ren
->>
->> ML: https://lore.kernel.org/linux-csky/
->>
+Can you just insert a dummy use of the variable. eg libvirt does
+this by just taking the address of the unused variable and casting
+the result to void.
 
 
---=20
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
