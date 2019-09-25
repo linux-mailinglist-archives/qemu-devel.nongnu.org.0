@@ -2,109 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309C7BD95C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:51:55 +0200 (CEST)
-Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C66BD96B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:57:12 +0200 (CEST)
+Received: from localhost ([::1]:46860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD25Y-0007uQ-VA
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47336)
+	id 1iD2Ah-0005zz-Eh
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iD1zc-0004na-4s
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:45:45 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1iD21m-0006Jv-ND
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:48:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iD1za-0008Sy-Ux
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:45:43 -0400
-Received: from mail-eopbgr00114.outbound.protection.outlook.com
- ([40.107.0.114]:16247 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (envelope-from <borntraeger@de.ibm.com>) id 1iD21l-0001Q0-5w
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:47:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41000)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iD1za-0008ST-Nz
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:45:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fkzF4mfop9EcLZ1IT2YHimKawlKuRAfN4WDuyVY34+MV/3bVIJ1RRqBv0KlYZ04wVabqli+3L1Q3dYCKU/HMZ8mXD4fY3uOUdSCtxVAnxoTGMqA8I68JlKxaRLjxZEZTZNFOd8IfwKoOoKPqolr6NL5CY745xjvhEMCVIhLOLJn8T+6C2szYggBKS/T4a51B6o4x0b3dLztlLn0tw0EgyCDOqhU0rURXQlDMbfzAvObu2a9yJlqwcBKmGLEWE6rCqcYpOe1nnb+lyEkEi5iNL4BXJLcwtDfQOZOwvO00PR8J8rA2JGMwkQvlMZNMlEJist5isCQFRKa5PLm6yi8bpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=apOvD8XuCxkQK2Bv7XJzGZOy5Buc42ryj7WD+D7WsH8=;
- b=jmj4L3J2h82boyNY29pbJ7oQmwbOddoIffIGjXbTO0eQnysdP7KUgI7RjZNy3w74XDfsJE66hpVjGDIeq+tyuQ2dVBeq97IBNgcDEgqzeRTOyMMj+swxLEeyEoxndP7hyTWVXqQ+t32MXXRNvmcY2pRJBWLC7ecwr9kb2QHYc0uNF+x4NR6jABDa/7kNFmNnOIsMQUyiwGG86rfyzJpLetSdM28x9zPwSsEs7Vj/X5CCzHDhw2974DPjPMpwO/bGCUv3D1vfeBCHSENyVtPvyVvrpVAmDq5sOQ77M6Ifolv/xCg9P3/tarTnasaBuTO+qULo9M1RYTdONMIOEfPNMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=apOvD8XuCxkQK2Bv7XJzGZOy5Buc42ryj7WD+D7WsH8=;
- b=WzLmiwIFbENJajhpY1kfSQPvVTeGTa/FMzwe/OHjplv0Hea1lyHoEDD1YelG4sN6mm1anxEOrz4vn0NKHKt9p4S4BN0jNLeMHXIB51ZU95+2KQdIqw1YvWymq5ELjRde2cBB8Zm3DcFwhfRfoKcc0GdXIznLLP69aWLqjlp0TyI=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB4043.eurprd08.prod.outlook.com (20.179.10.29) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.23; Wed, 25 Sep 2019 07:45:41 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Wed, 25 Sep 2019
- 07:45:41 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 02/25] hw/core/loader-fit: fix freeing errp in
- fit_load_fdt
-Thread-Topic: [PATCH v3 02/25] hw/core/loader-fit: fix freeing errp in
- fit_load_fdt
-Thread-Index: AQHVcxQDdiAaxl5+Z0elAgOGbrmRYac7SgeAgAC0NQCAAAYNAA==
-Date: Wed, 25 Sep 2019 07:45:40 +0000
-Message-ID: <86a598fd-fa8f-9081-76a1-821c58eddb00@virtuozzo.com>
-References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
- <20190924200902.4703-3-vsementsov@virtuozzo.com>
- <1f007fe0-d6bb-db19-835f-9cb4043f9b66@redhat.com>
- <5a8a60aa-d394-19eb-a719-9a4068d48a7c@virtuozzo.com>
-In-Reply-To: <5a8a60aa-d394-19eb-a719-9a4068d48a7c@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P189CA0013.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::26)
- To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190925104538459
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 907d78c2-da2d-45c7-d693-08d7418c5cfc
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB4043; 
-x-ms-traffictypediagnostic: DB8PR08MB4043:
-x-microsoft-antispam-prvs: <DB8PR08MB404326D90EF07CF892B3C852C1870@DB8PR08MB4043.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 01713B2841
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(396003)(136003)(366004)(346002)(376002)(189003)(199004)(3846002)(31696002)(229853002)(6116002)(71200400001)(86362001)(71190400001)(478600001)(66556008)(64756008)(66446008)(14454004)(66946007)(8936002)(446003)(25786009)(81166006)(2616005)(8676002)(476003)(6436002)(31686004)(66476007)(11346002)(6486002)(2906002)(5660300002)(256004)(2501003)(76176011)(305945005)(102836004)(386003)(6506007)(36756003)(53546011)(54906003)(81156014)(4326008)(316002)(186003)(110136005)(486006)(66066001)(26005)(52116002)(7736002)(6512007)(6246003)(99286004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4043;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: rHgTEARNNvNXkLTex9dJF3cAcQLdYQJuS3sT1Uf8kBLMDos4VUgWCChLfS5X7UECMPaQwKW1cXBPo010ne38k/HMABQ08oNcyUB58Dqw4JKlu3CX6x37EglgatBSabm2a3lhhWAKi/LJiGS+SsNwypZdL/tz420nQgAVvFWvw0viPR+ro40LrrKtERux++ep1iTDf5BEFHYFeFeRa5ra3ZtcwcNqdiDz0HeO7KhO2RXHpI9QXs9P/0wN8kS84qm9xRuoiUyX+FwHSWCo46t4pWCrYJ7pdxjzQqGSmHj3XHzNQkfYDnPCXRfXbqTgBYqC3afM7Nq0x0HEqb1PdNeLLGvW4Il0RPzXeGm+44KoymiSqecgS56C7w1lwqIfpUqGSf7IRAlMs/KtkEtMLRF3Oxa7yS2u6z7tyCF4AahbXFU=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8E6D2DADFE20B84681DC34F301F3E395@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1iD21k-0001Ly-U0
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:47:57 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8P7gmGR079586
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 03:47:55 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v7mfqfw74-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 03:47:54 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Wed, 25 Sep 2019 08:47:51 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 25 Sep 2019 08:47:48 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8P7lljK49545344
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 25 Sep 2019 07:47:47 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CCCC64C040;
+ Wed, 25 Sep 2019 07:47:47 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 798AB4C046;
+ Wed, 25 Sep 2019 07:47:47 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 25 Sep 2019 07:47:47 +0000 (GMT)
+Subject: Re: [PATCH v7 0/4] s390: stop abusing
+ memory_region_allocate_system_memory()
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20190924144751.24149-1-imammedo@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ syiRa+UVlsKmx1hsEg==
+Date: Wed, 25 Sep 2019 09:47:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 907d78c2-da2d-45c7-d693-08d7418c5cfc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 07:45:40.9176 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IJpcvmoYciS2PNjONBE/gt80z/rslBEKhaGCJsqwz4Wyr0V6Quj+tdE6pQDS2S1RW3nRMo/mohwhmA2l9CONGMoZIkdfDy8d/uDNx4zFAD8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4043
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.114
+In-Reply-To: <20190924144751.24149-1-imammedo@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19092507-0020-0000-0000-000003715158
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19092507-0021-0000-0000-000021C71602
+Message-Id: <4fd575c3-8d7c-2490-d6fd-6db600426f83@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-25_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909250079
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,39 +137,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
- Paul Burton <pburton@wavecomp.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, peterx@redhat.com,
+ qemu-s390x@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjUuMDkuMjAxOSAxMDoyMywgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4g
-MjQuMDkuMjAxOSAyMzozOCwgRXJpYyBCbGFrZSB3cm90ZToNCj4+IE9uIDkvMjQvMTkgMzowOCBQ
-TSwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+PiBmaXRfbG9hZF9mZHQg
-Zm9yZ2V0IHRvIHplcm8gZXJycC4gRml4IGl0Lg0KPj4+DQo+Pj4gU2lnbmVkLW9mZi1ieTogVmxh
-ZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KPj4+
-IFJldmlld2VkLWJ5OiBFcmljIEJsYWtlIDxlYmxha2VAcmVkaGF0LmNvbT4NCj4+PiAtLS0NCj4+
-PiDCoCBody9jb3JlL2xvYWRlci1maXQuYyB8IDEgKw0KPj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2h3L2NvcmUvbG9hZGVyLWZpdC5j
-IGIvaHcvY29yZS9sb2FkZXItZml0LmMNCj4+PiBpbmRleCA5NTNiMTZiYzgyLi4xMWU0ZmFkNTk1
-IDEwMDY0NA0KPj4+IC0tLSBhL2h3L2NvcmUvbG9hZGVyLWZpdC5jDQo+Pj4gKysrIGIvaHcvY29y
-ZS9sb2FkZXItZml0LmMNCj4+PiBAQCAtMjAxLDYgKzIwMSw3IEBAIHN0YXRpYyBpbnQgZml0X2xv
-YWRfZmR0KGNvbnN0IHN0cnVjdCBmaXRfbG9hZGVyICpsZHIsIGNvbnN0IHZvaWQgKml0YiwNCj4+
-PiDCoMKgwqDCoMKgIGlmIChlcnIgPT0gLUVOT0VOVCkgew0KPj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oCBsb2FkX2FkZHIgPSBST1VORF9VUChrZXJuZWxfZW5kLCA2NCAqIEtpQikgKyAoMTAgKiBNaUIp
-Ow0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBlcnJvcl9mcmVlKCplcnJwKTsNCj4+PiArwqDCoMKg
-wqDCoMKgwqAgKmVycnAgPSBOVUxMOw0KPj4NCj4+IEFjdHVhbGx5LCBsZXQncyBkcm9wIG15IFIt
-YiAtIEkgdGhpbmsgd2UgaGF2ZSBhIGJpZ2dlciBidWcgaGVyZS7CoCBXZSBhcmUNCj4+IGJsaW5k
-bHkgZGVyZWZlcmVuY2luZyAqZXJycCBldmVuIGlmIHRoZSBjYWxsZXIgcGFzc2VkIGluIE5VTEwu
-wqAgVGhlDQo+PiBjb3JyZWN0IHdheSB0byB3cml0ZSB0aGlzIGZ1bmN0aW9uIHJlcXVpcmVzIGVp
-dGhlciB0aGUgdXNlIG9mIGxvY2FsX2Vycg0KPj4gb3IgdGhlIGFkZGl0aW9uIG9mIGF1dG8tcHJv
-cGFnYXRpb24uDQo+Pg0KPj4gKEluIHYyLCB5b3Ugc3RpbGwgaGFkIHRoaXMgYnVnIC0geW91ciBh
-ZGRpdGlvbiBvZiBlcnJvcl9mcmVlX2VycnAoZXJycCkNCj4+IHdvdWxkIHN0aWxsIGJsaW5kbHkg
-ZGVyZWZlcmVuY2UgKmVycnAsIHVubGVzcyB5b3UgdHdlYWsgdGhlDQo+PiBpbXBsZW1lbnRhdGlv
-biBvZiBlcnJvcl9mcmVlX2VycnAgdG8gdG9sZXJhdGUgYSBOVUxMIHBvaW50ZXIgaW5wdXQpDQo+
-Pg0KPiANCj4gT29wcywgeW91IGFyZSByaWdodCEgU3RpbGwsIEkgdGhpbmsgaW4gdGhpcyBjYXNl
-IHdlIGNhbg0KPiANCj4gaWYgKGVycnApIHsNCj4gIMKgIGVycm9yX2ZyZWUoKmVycnApOw0KPiAg
-wqAgKmVycnAgPSBOVUxMOw0KPiB9DQo+IA0KDQpIbW0sIHBvc3NpYmx5LCBpdCBzaG91bGQgYmUg
-Y2FsbGVkIG5vdCBlcnJvcl9mcmVlX2VycnAsIGJ1dCBqdXN0IGVycm9yX3Vuc2V0LCB0byBiZQ0K
-Y29ycmVjdCBwYWlyIHRvIGVycm9yX3NldC4NCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1p
-cg0K
+On 24.09.19 16:47, Igor Mammedov wrote:
+> Changelog:
+>   since v6:
+>     - include and rebase on top of
+>        [PATCH 0/2] kvm: clear dirty bitmaps from all overlapping memslots
+>         https://www.mail-archive.com/qemu-devel@nongnu.org/msg646200.html
+>     - minor fixups suggested during v6 review
+>     - more testing incl. hacked x86
+>   since v5:
+>     - [1/2] fix migration that wasn't starting and make sure that KVM part
+>       is able to handle 1:n MemorySection:memslot arrangement
+>   since v3:
+>     - fix compilation issue
+>     - advance HVA along with GPA in kvm_set_phys_mem()
+>   since v2:
+>     - break migration from old QEMU (since 2.12-4.1) for guest with >8TB RAM
+>       and drop migratable aliases patch as was agreed during v2 review
+>     - drop 4.2 machines patch as it's not prerequisite anymore
+>   since v1:
+>     - include 4.2 machines patch for adding compat RAM layout on top
+>     - 2/4 add missing in v1 patch for splitting too big MemorySection on
+>           several memslots
+>     - 3/4 amend code path on alias destruction to ensure that RAMBlock is
+>           cleaned properly
+>     - 4/4 add compat machine code to keep old layout (migration-wise) for
+>           4.1 and older machines 
+> 
+> 
+> While looking into unifying guest RAM allocation to use hostmem backends
+> for initial RAM (especially when -mempath is used) and retiring
+> memory_region_allocate_system_memory() API, leaving only single hostmem backend,
+> I was inspecting how currently it is used by boards and it turns out several
+> boards abuse it by calling the function several times (despite documented contract
+> forbiding it).
+> 
+> s390 is one of such boards where KVM limitation on memslot size got propagated
+> to board design and memory_region_allocate_system_memory() was abused to satisfy
+> KVM requirement for max RAM chunk where memory region alias would suffice.
+> 
+> Unfortunately, memory_region_allocate_system_memory() usage created migration
+> dependency where guest RAM is transferred in migration stream as several RAMBlocks
+> if it's more than KVM_SLOT_MAX_BYTES. During v2 review it was agreed to ignore
+> migration breakage (documenting it in release notes) and leaving only KVM fix.
+> 
+> In order to replace these several RAM chunks with a single memdev and keep it
+> working with KVM memslot size limit, the later was modified to deal with 
+> memory section split on several KVMSlots and manual RAM splitting in s390
+> was replace by single memory_region_allocate_system_memory() call.
+> 
+> Tested:
+>   * s390 with hacked KVM_SLOT_MAX_BYTES = 128Mb
+>       - guest reboot cycle in ping-pong migration
+>   * x86 with hacke max memslot = 128 and manual_dirty_log_protect enabled
+>       - ping-pong migration with workload dirtying RAM around a split area
+> 
+> 
+> 
+> Igor Mammedov (2):
+>   kvm: split too big memory section on several memslots
+>   s390: do not call memory_region_allocate_system_memory() multiple
+>     times
+> 
+> Paolo Bonzini (2):
+>   kvm: extract kvm_log_clear_one_slot
+>   kvm: clear dirty bitmaps from all overlapping memslots
+> 
+>  include/sysemu/kvm_int.h   |   1 +
+>  accel/kvm/kvm-all.c        | 238 +++++++++++++++++++++++--------------
+>  hw/s390x/s390-virtio-ccw.c |  30 +----
+>  target/s390x/kvm.c         |  11 ++
+>  4 files changed, 161 insertions(+), 119 deletions(-)
+> 
+
+Series
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com
+
+
+
+
+FWIW, I think I would like to add something like the following later on.
+
+
+Subject: [PATCH 1/1] s390/kvm: split kvm mem slots at 4TB
+
+Instead of splitting at an unaligned address, we can simply split at
+4TB.
+
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
+ target/s390x/kvm.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index ad2dd14f7e78..611f56f4b5ac 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -126,12 +126,11 @@
+ /*
+  * KVM does only support memory slots up to KVM_MEM_MAX_NR_PAGES pages
+  * as the dirty bitmap must be managed by bitops that take an int as
+- * position indicator. If we have a guest beyond that we will split off
+- * new subregions. The split must happen on a segment boundary (1MB).
++ * position indicator. This would end at an unaligned  address
++ * (0x7fffff00000). As future variants might provide larger pages
++ * and to make all addresses properly aligned, let us split at 4TB.
+  */
+-#define KVM_MEM_MAX_NR_PAGES ((1ULL << 31) - 1)
+-#define SEG_MSK (~0xfffffULL)
+-#define KVM_SLOT_MAX_BYTES ((KVM_MEM_MAX_NR_PAGES * TARGET_PAGE_SIZE) & SEG_MSK)
++#define KVM_SLOT_MAX_BYTES 4096UL*1024*1024*1024
+ 
+ static CPUWatchpoint hw_watchpoint;
+ /*
+-- 
+2.21.0
+
 
