@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CE2BE204
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 18:11:12 +0200 (CEST)
-Received: from localhost ([::1]:54444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE60BE202
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 18:10:55 +0200 (CEST)
+Received: from localhost ([::1]:54438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD9sk-0002Hj-Eg
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 12:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38949)
+	id 1iD9sU-0001jT-Bd
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 12:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39758)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iD9jj-0002d8-RP
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:01:53 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iD9nz-0005vr-P5
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:06:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iD9jh-0005cC-Ta
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:01:51 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40663)
+ (envelope-from <alex.bennee@linaro.org>) id 1iD9nx-0007J1-HZ
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:06:15 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40698)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iD9jh-0005bo-L9
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:01:49 -0400
-Received: by mail-wm1-x341.google.com with SMTP id b24so5549993wmj.5
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:01:48 -0700 (PDT)
+ id 1iD9nx-0007HI-0L
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:06:13 -0400
+Received: by mail-wm1-x343.google.com with SMTP id b24so5566728wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=gDm0a7DR+YHYGtadIwZtQJxiWkOTI/LNC2/7T5owi+w=;
- b=q3AtsZkCWtsc1CPH+NEmTh9S9wS/b7FModuXNLzBM/mLkNlDanF8XmoPyZBa6oiuJk
- kDXrUqfe96WD7FvvkQctapeeMMYhdZn86air24c1NjYjr8bL/aDc4Ju6+eUS9No+jC+M
- nVJcPPYDKPeLQ2fwPhfnL4hBmjlszpRCxt9yhq+FsCU60SrCRJ15BoHsUFmwYocR+csh
- xi87sIbmILpF9JI6mSztzOQzdDg9xdu3vZQTX2STqDUenIizoVdTWBy3yCeZ8IiaJtoy
- inx88STK4Sk2lCvtgtem0sHKpzgBFHVp4+TizB11UKh9ltzZszgoF2jkKe3GSQv4mfyX
- ZgrA==
+ bh=xIr7kGQVFYi8Rx/WrnCQMQN7qigP2h6mkNh+yC2A4dI=;
+ b=W5n8kOVzIg28hRLGXVe3jbT++X1AaoPQtx1z8/hYy8uuUpG4xK21CN7Ek9y0jUHjUc
+ l/VaYPif1n/kFshooE1uA2EKQUr7zGrpzbVrcYPWZTmB5MRGXu36FGeVMnUTXf0wE1j2
+ CR0qJ2YunoHIA6s1Sm+zM6lzheUyV2uXWFmZUyDCNW4tASJUshoqvPntgyptraBsjOD9
+ EVHpBPMUt9J+CzfcY+SYWJ7Go8orSznAGFCCwutppbY7ENmOZ5Gj0m7raS7slRjJBzgA
+ INspldZEunVOP6jgZl7nOdSyfR8E1zmDTtw0ucGXVF9hX9/f3yJ8VZLtYC6JXby1xEPB
+ gliA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=gDm0a7DR+YHYGtadIwZtQJxiWkOTI/LNC2/7T5owi+w=;
- b=Mtip+U4Z7eUrwPvzKQZHM+fpcTHLVTbr7DXtlMXwBc4rsrmCGnL8q9Jx78tCSo+1Gn
- Y4bWWaVcusnibj7+4FlTdPqEbStzp1s2S9Yr+fkdEQ8b8MQXQ4EacsBa5KhevHYaNDBs
- Tfup64fl6GwouFO3wJgYJGHpvDEsGSLSo4Ikckr1ll2lxoqpobou4veyY3x3hW30oW+j
- 9jBLOiq6jmU7IJPEWJcaRhq31BYVty+mZ9QNgmqatslSL65hArWmGfM8AQzg7nEDgPRT
- N7Z+ZAm0gsTjglVySQGxjG01YWDkHkXWLTYOvbDbJ66vUgODAGR/3bWrvtvTH4HLgmuz
- T6cg==
-X-Gm-Message-State: APjAAAVjQ1S9eFemNLu88vT6vDGa1AQugC+0SwDRSFr15frqeHK2I56N
- pIDGVdjjkrrrLPVxpocwRotGTg==
-X-Google-Smtp-Source: APXvYqxKRaL++Mm7gu7CxYfduOp4rUbVTyE4IjI+dOtRMrLYacH8tbJWfj4Sgkj7pNI1QEiiF0So/w==
-X-Received: by 2002:a7b:c252:: with SMTP id b18mr5104129wmj.68.1569427307452; 
- Wed, 25 Sep 2019 09:01:47 -0700 (PDT)
+ bh=xIr7kGQVFYi8Rx/WrnCQMQN7qigP2h6mkNh+yC2A4dI=;
+ b=EPU2/1UrRCuImJMGgeaECZVTxbjVTToJ8oagd/eiJED7lT9v2j42vfjkAOlzRtF0Uc
+ BOi7amsegL3QuNcwbjrTq+BPFjgJtLD3k35QJpbiTo/BBBX775lXQDk7rWh0WMiaXuKJ
+ noI7u8bm2yREhjy5MmrdrNMMJbPqVnpuCXotghnu0Vqa4j1/fhi/27ysoj8DltQ3sL4L
+ qsQ1F55+P/XttE2sDx8VobYzBk8jYqCVxFOkSf2X/6cyoVV8tgwAZfRN5FI3ae6GjMEi
+ xmDyPudVtBMiUQSYI6Y5Z1JKIXETy5WDvkFVgTCESeWNfmDZYFmppb9baQkeDFLY1gUJ
+ SD6g==
+X-Gm-Message-State: APjAAAUGD0kFm75lovFM+OVkR5jgq6dPwuHlb2bLBrDw/eM+vgA9I3sn
+ 06WrYlmJ1bjl935JohMaCZi+oQ==
+X-Google-Smtp-Source: APXvYqzuMVSL+myarsKCRkr8z3GQTqTKhjHpfj0og+J4XErLdPTLwU1mNjMeeybSoLerf3HcGuSKAw==
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr8623480wmk.49.1569427570292; 
+ Wed, 25 Sep 2019 09:06:10 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i5sm4181585wmd.21.2019.09.25.09.01.46
+ by smtp.gmail.com with ESMTPSA id b144sm5988272wmb.3.2019.09.25.09.06.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 09:01:46 -0700 (PDT)
+ Wed, 25 Sep 2019 09:06:09 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B4B6D1FF87;
- Wed, 25 Sep 2019 17:01:45 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id A498A1FF87;
+ Wed, 25 Sep 2019 17:06:08 +0100 (BST)
 References: <20190923230004.9231-1-richard.henderson@linaro.org>
- <20190923230004.9231-9-richard.henderson@linaro.org>
- <87v9th9qnz.fsf@linaro.org>
- <080af734-eccb-16c9-2664-72dd26ff460c@redhat.com>
+ <20190923230004.9231-10-richard.henderson@linaro.org>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v4 08/16] cputlb: Move ROM handling from I/O path to TLB
- path
-In-reply-to: <080af734-eccb-16c9-2664-72dd26ff460c@redhat.com>
-Date: Wed, 25 Sep 2019 17:01:45 +0100
-Message-ID: <87tv909xg6.fsf@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 09/16] cputlb: Move NOTDIRTY handling from I/O path
+ to TLB path
+In-reply-to: <20190923230004.9231-10-richard.henderson@linaro.org>
+Date: Wed, 25 Sep 2019 17:06:08 +0100
+Message-ID: <87sgok9x8v.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,90 +83,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-David Hildenbrand <david@redhat.com> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On 25.09.19 02:16, Alex Benn=C3=A9e wrote:
->>
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>
->>> It does not require going through the whole I/O path
->>> in order to discard a write.
->>>
->>> Reviewed-by: David Hildenbrand <david@redhat.com>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>  include/exec/cpu-all.h    |  5 ++++-
->>>  include/exec/cpu-common.h |  1 -
->>>  accel/tcg/cputlb.c        | 35 +++++++++++++++++++--------------
->>>  exec.c                    | 41 +--------------------------------------
->>>  4 files changed, 25 insertions(+), 57 deletions(-)
->>>
->>> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
->>> index d148bded35..26547cd6dd 100644
->>> --- a/include/exec/cpu-all.h
->>> +++ b/include/exec/cpu-all.h
->> <snip>
->>> @@ -822,16 +821,17 @@ void tlb_set_page_with_attrs(CPUState *cpu, targe=
-t_ulong vaddr,
->>>
->>>      tn.addr_write =3D -1;
->>>      if (prot & PAGE_WRITE) {
->>> -        if ((memory_region_is_ram(section->mr) && section->readonly)
->>> -            || memory_region_is_romd(section->mr)) {
->>> -            /* Write access calls the I/O callback.  */
->>> -            tn.addr_write =3D address | TLB_MMIO;
->>> -        } else if (memory_region_is_ram(section->mr)
->>> -                   && cpu_physical_memory_is_clean(
->>> -                       memory_region_get_ram_addr(section->mr) + xlat)=
-) {
->>> -            tn.addr_write =3D address | TLB_NOTDIRTY;
->>> -        } else {
->>> -            tn.addr_write =3D address;
->>> +        tn.addr_write =3D address;
->>> +        if (memory_region_is_romd(section->mr)) {
->>> +            /* Use the MMIO path so that the device can switch states.=
- */
->>> +            tn.addr_write |=3D TLB_MMIO;
->>> +        } else if (memory_region_is_ram(section->mr)) {
->>> +            if (section->readonly) {
->>> +                tn.addr_write |=3D TLB_ROM;
->>> +            } else if (cpu_physical_memory_is_clean(
->>> +                        memory_region_get_ram_addr(section->mr) + xlat=
-)) {
->>> +                tn.addr_write |=3D TLB_NOTDIRTY;
->>> +            }
->>
->> This reads a bit weird because we are saying romd isn't a ROM but
->> something that identifies as RAM can be ROM rather than just a memory
->> protected piece of RAM.
->>
+> Pages that we want to track for NOTDIRTY are RAM.  We do not
+> really need to go through the I/O path to handle them.
 >
-> I proposed a bunch of alternatives as reply to v3 (e.g.,
-> TLB_DISCARD_WRITES), either Richard missed them or I missed his reply
-> :)
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/exec/cpu-common.h |  2 --
+>  accel/tcg/cputlb.c        | 26 +++++++++++++++++---
+>  exec.c                    | 50 ---------------------------------------
+>  memory.c                  | 16 -------------
+>  4 files changed, 23 insertions(+), 71 deletions(-)
 
-That certainly passes the "does what it says on the tin" test.
+Nice clean-up ;)
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 
 >
->>>          }
->>>          if (prot & PAGE_WRITE_INV) {
->>>              tn.addr_write |=3D TLB_INVALID_MASK;
->>
->> So at the moment I don't see what the TLB_ROM flag gives us that setting
->> TLB_INVALID doesn't - either way we won't make the write to our
->> ram-not-ram-rom.
+> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+> index 1c0e03ddc2..81753bbb34 100644
+> --- a/include/exec/cpu-common.h
+> +++ b/include/exec/cpu-common.h
+> @@ -100,8 +100,6 @@ void qemu_flush_coalesced_mmio_buffer(void);
 >
-> TLB_INVALID will trigger a new MMU translation on every access to fill
-> the TLB. TLB_ROM states that we have a valid entry, but that writes are
-> to be discarded.
+>  void cpu_flush_icache_range(hwaddr start, hwaddr len);
+>
+> -extern struct MemoryRegion io_mem_notdirty;
+> -
+>  typedef int (RAMBlockIterFunc)(RAMBlock *rb, void *opaque);
+>
+>  int qemu_ram_foreach_block(RAMBlockIterFunc func, void *opaque);
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index af9a44a847..05212ff244 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -904,7 +904,7 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBE=
+ntry *iotlbentry,
+>      mr =3D section->mr;
+>      mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+>      cpu->mem_io_pc =3D retaddr;
+> -    if (mr !=3D &io_mem_notdirty && !cpu->can_do_io) {
+> +    if (!cpu->can_do_io) {
+>          cpu_io_recompile(cpu, retaddr);
+>      }
+>
+> @@ -945,7 +945,7 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntr=
+y *iotlbentry,
+>      section =3D iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attr=
+s);
+>      mr =3D section->mr;
+>      mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+> -    if (mr !=3D &io_mem_notdirty && !cpu->can_do_io) {
+> +    if (!cpu->can_do_io) {
+>          cpu_io_recompile(cpu, retaddr);
+>      }
+>      cpu->mem_io_vaddr =3D addr;
+> @@ -1607,7 +1607,7 @@ store_helper(CPUArchState *env, target_ulong addr, =
+uint64_t val,
+>          need_swap =3D size > 1 && (tlb_addr & TLB_BSWAP);
+>
+>          /* Handle I/O access.  */
+> -        if (likely(tlb_addr & (TLB_MMIO | TLB_NOTDIRTY))) {
+> +        if (tlb_addr & TLB_MMIO) {
+>              io_writex(env, iotlbentry, mmu_idx, val, addr, retaddr,
+>                        op ^ (need_swap * MO_BSWAP));
+>              return;
+> @@ -1620,6 +1620,26 @@ store_helper(CPUArchState *env, target_ulong addr,=
+ uint64_t val,
+>
+>          haddr =3D (void *)((uintptr_t)addr + entry->addend);
+>
+> +        /* Handle clean RAM pages.  */
+> +        if (tlb_addr & TLB_NOTDIRTY) {
+> +            NotDirtyInfo ndi;
+> +
+> +            /* We require mem_io_pc in tb_invalidate_phys_page_range.  */
+> +            env_cpu(env)->mem_io_pc =3D retaddr;
+> +
+> +            memory_notdirty_write_prepare(&ndi, env_cpu(env), addr,
+> +                                          addr + iotlbentry->addr, size);
+> +
+> +            if (unlikely(need_swap)) {
+> +                store_memop(haddr, val, op ^ MO_BSWAP);
+> +            } else {
+> +                store_memop(haddr, val, op);
+> +            }
+> +
+> +            memory_notdirty_write_complete(&ndi);
+> +            return;
+> +        }
+> +
+>          if (unlikely(need_swap)) {
+>              store_memop(haddr, val, op ^ MO_BSWAP);
+>          } else {
+> diff --git a/exec.c b/exec.c
+> index ea8c0b18ac..dc7001f115 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -88,7 +88,6 @@ static MemoryRegion *system_io;
+>  AddressSpace address_space_io;
+>  AddressSpace address_space_memory;
+>
+> -MemoryRegion io_mem_notdirty;
+>  static MemoryRegion io_mem_unassigned;
+>  #endif
+>
+> @@ -191,7 +190,6 @@ typedef struct subpage_t {
+>  } subpage_t;
+>
+>  #define PHYS_SECTION_UNASSIGNED 0
+> -#define PHYS_SECTION_NOTDIRTY 1
+>
+>  static void io_mem_init(void);
+>  static void memory_map_init(void);
+> @@ -1472,9 +1470,6 @@ hwaddr memory_region_section_get_iotlb(CPUState *cp=
+u,
+>      if (memory_region_is_ram(section->mr)) {
+>          /* Normal RAM.  */
+>          iotlb =3D memory_region_get_ram_addr(section->mr) + xlat;
+> -        if (!section->readonly) {
+> -            iotlb |=3D PHYS_SECTION_NOTDIRTY;
+> -        }
+>      } else {
+>          AddressSpaceDispatch *d;
+>
+> @@ -2783,42 +2778,6 @@ void memory_notdirty_write_complete(NotDirtyInfo *=
+ndi)
+>      }
+>  }
+>
+> -/* Called within RCU critical section.  */
+> -static void notdirty_mem_write(void *opaque, hwaddr ram_addr,
+> -                               uint64_t val, unsigned size)
+> -{
+> -    NotDirtyInfo ndi;
+> -
+> -    memory_notdirty_write_prepare(&ndi, current_cpu, current_cpu->mem_io=
+_vaddr,
+> -                         ram_addr, size);
+> -
+> -    stn_p(qemu_map_ram_ptr(NULL, ram_addr), size, val);
+> -    memory_notdirty_write_complete(&ndi);
+> -}
+> -
+> -static bool notdirty_mem_accepts(void *opaque, hwaddr addr,
+> -                                 unsigned size, bool is_write,
+> -                                 MemTxAttrs attrs)
+> -{
+> -    return is_write;
+> -}
+> -
+> -static const MemoryRegionOps notdirty_mem_ops =3D {
+> -    .write =3D notdirty_mem_write,
+> -    .valid.accepts =3D notdirty_mem_accepts,
+> -    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> -    .valid =3D {
+> -        .min_access_size =3D 1,
+> -        .max_access_size =3D 8,
+> -        .unaligned =3D false,
+> -    },
+> -    .impl =3D {
+> -        .min_access_size =3D 1,
+> -        .max_access_size =3D 8,
+> -        .unaligned =3D false,
+> -    },
+> -};
+> -
+>  /* Generate a debug exception if a watchpoint has been hit.  */
+>  void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+>                            MemTxAttrs attrs, int flags, uintptr_t ra)
+> @@ -3014,13 +2973,6 @@ static void io_mem_init(void)
+>  {
+>      memory_region_init_io(&io_mem_unassigned, NULL, &unassigned_mem_ops,=
+ NULL,
+>                            NULL, UINT64_MAX);
+> -
+> -    /* io_mem_notdirty calls tb_invalidate_phys_page_fast,
+> -     * which can be called without the iothread mutex.
+> -     */
+> -    memory_region_init_io(&io_mem_notdirty, NULL, &notdirty_mem_ops, NUL=
+L,
+> -                          NULL, UINT64_MAX);
+> -    memory_region_clear_global_locking(&io_mem_notdirty);
+>  }
+>
+>  AddressSpaceDispatch *address_space_dispatch_new(FlatView *fv)
+> @@ -3030,8 +2982,6 @@ AddressSpaceDispatch *address_space_dispatch_new(Fl=
+atView *fv)
+>
+>      n =3D dummy_section(&d->map, fv, &io_mem_unassigned);
+>      assert(n =3D=3D PHYS_SECTION_UNASSIGNED);
+> -    n =3D dummy_section(&d->map, fv, &io_mem_notdirty);
+> -    assert(n =3D=3D PHYS_SECTION_NOTDIRTY);
+>
+>      d->phys_map  =3D (PhysPageEntry) { .ptr =3D PHYS_MAP_NODE_NIL, .skip=
+ =3D 1 };
+>
+> diff --git a/memory.c b/memory.c
+> index 57c44c97db..a99b8c0767 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -434,10 +434,6 @@ static MemTxResult  memory_region_read_accessor(Memo=
+ryRegion *mr,
+>      tmp =3D mr->ops->read(mr->opaque, addr, size);
+>      if (mr->subpage) {
+>          trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp,=
+ size);
+> -    } else if (mr =3D=3D &io_mem_notdirty) {
+> -        /* Accesses to code which has previously been translated into a =
+TB show
+> -         * up in the MMIO path, as accesses to the io_mem_notdirty
+> -         * MemoryRegion. */
+>      } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp,=
+ size);
+> @@ -460,10 +456,6 @@ static MemTxResult memory_region_read_with_attrs_acc=
+essor(MemoryRegion *mr,
+>      r =3D mr->ops->read_with_attrs(mr->opaque, addr, &tmp, size, attrs);
+>      if (mr->subpage) {
+>          trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp,=
+ size);
+> -    } else if (mr =3D=3D &io_mem_notdirty) {
+> -        /* Accesses to code which has previously been translated into a =
+TB show
+> -         * up in the MMIO path, as accesses to the io_mem_notdirty
+> -         * MemoryRegion. */
+>      } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp,=
+ size);
+> @@ -484,10 +476,6 @@ static MemTxResult memory_region_write_accessor(Memo=
+ryRegion *mr,
+>
+>      if (mr->subpage) {
+>          trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp=
+, size);
+> -    } else if (mr =3D=3D &io_mem_notdirty) {
+> -        /* Accesses to code which has previously been translated into a =
+TB show
+> -         * up in the MMIO path, as accesses to the io_mem_notdirty
+> -         * MemoryRegion. */
+>      } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp=
+, size);
+> @@ -508,10 +496,6 @@ static MemTxResult memory_region_write_with_attrs_ac=
+cessor(MemoryRegion *mr,
+>
+>      if (mr->subpage) {
+>          trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp=
+, size);
+> -    } else if (mr =3D=3D &io_mem_notdirty) {
+> -        /* Accesses to code which has previously been translated into a =
+TB show
+> -         * up in the MMIO path, as accesses to the io_mem_notdirty
+> -         * MemoryRegion. */
+>      } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
+>          hwaddr abs_addr =3D memory_region_to_absolute_addr(mr, addr);
+>          trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp=
+, size);
 
-Ahh yes, I didn't notice it because it's hidden in he tlb_hit check.
 
 --
 Alex Benn=C3=A9e
