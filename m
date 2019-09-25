@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206ABBE739
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:32:20 +0200 (CEST)
-Received: from localhost ([::1]:57478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7128BE769
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:34:51 +0200 (CEST)
+Received: from localhost ([::1]:57512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDEtW-0001e5-9f
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55261)
+	id 1iDEvy-0004OF-KS
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iDEqo-0000A1-6O
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:29:31 -0400
+ (envelope-from <eblake@redhat.com>) id 1iDEsu-0002Gv-LQ
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:31:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iDEqn-0008D9-0U
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:29:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44570)
+ (envelope-from <eblake@redhat.com>) id 1iDEsq-0001eR-Qr
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:31:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47642)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iDEqZ-00088l-5R; Wed, 25 Sep 2019 17:29:15 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iDEsh-0001at-Uq; Wed, 25 Sep 2019 17:31:28 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D6C3518CB8EF;
- Wed, 25 Sep 2019 21:29:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8916E3090FC9;
+ Wed, 25 Sep 2019 21:31:26 +0000 (UTC)
 Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2440860F88;
- Wed, 25 Sep 2019 21:29:10 +0000 (UTC)
-Subject: Re: [PATCH 1/3] iotests: Fix 125 for growth_mode = metadata
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33EA01001B00;
+ Wed, 25 Sep 2019 21:31:26 +0000 (UTC)
+Subject: Re: [PATCH 3/3] iotests: Use stat -c %b in 125
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20190925183231.11196-1-mreitz@redhat.com>
- <20190925183231.11196-2-mreitz@redhat.com>
+ <20190925183231.11196-4-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <e672c86d-e553-b6a8-6b1d-8746faa53533@redhat.com>
-Date: Wed, 25 Sep 2019 16:29:09 -0500
+Message-ID: <0930fbf9-a3cb-dd1a-81fe-5c8710ee0c46@redhat.com>
+Date: Wed, 25 Sep 2019 16:31:25 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190925183231.11196-2-mreitz@redhat.com>
+In-Reply-To: <20190925183231.11196-4-mreitz@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Wed, 25 Sep 2019 21:29:12 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Wed, 25 Sep 2019 21:31:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -66,39 +66,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/25/19 1:32 PM, Max Reitz wrote:
-> If we use growth_mode = metadata, it is very much possible that the file
-> uses more disk space after we have written something to the added area.
-> We did indeed want to test for this case, but unfortunately we evidently
-> just copied the code from the "Test creation preallocation" section and
-> forgot to replace "$create_mode" by "$growth_mode".
-> 
-> We never noticed because we only read the first number from qemu-img
-> info's "disk size" output -- and that is effectively useless, because
-> qemu-img prints a human-readable value (which generally includes a
-> decimal point).  That will be fixed in the patch after the next one.
+> 125 should not use qemu-img to get the on-disk image size, because that
+> reports it in a human-readable format that is useless to us.  Just use
+> stat instead (like we do to get the image file length).
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   tests/qemu-iotests/125 | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   tests/qemu-iotests/125 | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
 > diff --git a/tests/qemu-iotests/125 b/tests/qemu-iotests/125
-> index dc4b8f5fb9..df328a63a6 100755
+> index 0ef51f1e21..4e31aa4e5f 100755
 > --- a/tests/qemu-iotests/125
 > +++ b/tests/qemu-iotests/125
-> @@ -111,7 +111,7 @@ for GROWTH_SIZE in 16 48 80; do
->                   if [ $file_length_2 -gt $file_length_1 ]; then
->                       echo "ERROR (grow): Image length has grown from $file_length_1 to $file_length_2"
->                   fi
-> -                if [ $create_mode != metadata ]; then
-> +                if [ $growth_mode != metadata ]; then
->                       # The host size should not have grown either
->                       if [ $host_size_2 -gt $host_size_1 ]; then
->                           echo "ERROR (grow): Host size has grown from $host_size_1 to $host_size_2"
-> 
+> @@ -34,8 +34,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+>   
+>   get_image_size_on_host()
+>   {
+> -    $QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep "disk size" \
+> -        | sed -e 's/^[^0-9]*\([0-9]\+\).*$/\1/'
+> +    echo $(($(stat -c '%b * %B' "$TEST_IMG_FILE")))
+
+Cute use of $(()) around $().
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
