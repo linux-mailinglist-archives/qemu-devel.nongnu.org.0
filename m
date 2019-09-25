@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB05BE5A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:29:34 +0200 (CEST)
-Received: from localhost ([::1]:56616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C61BE5B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:31:48 +0200 (CEST)
+Received: from localhost ([::1]:56644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDCyj-0002jq-Lt
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
+	id 1iDD0t-0004pm-Bt
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38979)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCuc-0000ZU-5A
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 15:25:19 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCk6-0005zD-Mz
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 15:14:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCuZ-0007mX-Rg
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 15:25:17 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34099)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCk5-0006Hy-Qn
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 15:14:26 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39897)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDCuZ-0007j6-1g
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 15:25:15 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b128so4262561pfa.1
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 12:25:14 -0700 (PDT)
+ id 1iDCk5-0006Gi-Jr
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 15:14:25 -0400
+Received: by mail-pg1-x541.google.com with SMTP id o10so438268pgs.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 12:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uWhGlRxEGUuEwP7dYp4Ws9b2G2+gJuMxK/fSRR0SvNo=;
- b=VvCVnWa1xicaBtwQdLb8V5/rNebXzql/jhnLYz9Exp83lNEjg6tBqXvTlrBgMtp0wZ
- NxwgBBcB6O0rEAudux6OGMDU9Vd6+vKU197NNBKfnLwUxOBl/pbBnb3RsehxdGMe3dOA
- JgZtakyVX9Aqt+v+FcHj/Yuu37Zixayc/7fBk7Huj1PMZ4MM1GbHnnOSdH1FEBjTP/72
- bYty17i63rrWBtTn1Z6YYsurfNowHoZqkk/y8gEWogMpvLxB7GQ3HorOBpmKuHM4GYTA
- Bh3e11anDnMLflz3oL8I97TDTpLHMNxNLMaYO8DQ6vh/5+CUWakQw4DfjBkaZvTmcUby
- xl3A==
+ bh=ZCLqbqb0sHL/k0voD4Mwzk84sSLB4zVIQgabDIEKYqY=;
+ b=v+JMLJ4Ni8O6vzGX4xhzi1jNDGmyMYXvChVMrDaNZduIEJeHe1O1yl30qP1NbMKHke
+ E+V/J4kn9mfO8xdCxDOSSYcmysaR03NJEx5jn9JwbWxmFw2yd/RsMszAy6KkH4m4Ufef
+ 3qAZO7dDOuOo0upCJN3XtCbmsnSVKLVsjgtTOJU9ZOzNtviaGhREal+K8tUrnRFz2LFP
+ 2ZY8gJ/5IO52Kcly2PyUajprpc5rrkz4qklaERs4J8vF0Cf61SU3kMz6EYIWVbRIyIg8
+ ky8y94LeC3BFHSJ9ItMeX6GWpeR0tdmYJBSvt6xwIXHTe1AjNMKpOr9Ybkpwu4Tl/sIw
+ 0gmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uWhGlRxEGUuEwP7dYp4Ws9b2G2+gJuMxK/fSRR0SvNo=;
- b=fNY9I3gTux+9PX+asw4HdTsrjYVnvguLIwz1PgTRa+qpnSxU9ZGiC46IGOTkTB2Gj7
- KzgNm/jlIkUKfNkJn+OyvxBPDslmJRei7Q5/jhpoxM9LNYU++z7vuVRBcdRfpomw31ug
- 5DgF3RoFdojQpGt6stuZBrlmPuhbAaG1HkTZYW/ZxeL8CSX9FH31Q61T6CQB+VajI3+o
- eP8jThwqJ0ZjyrU46jYQ+7EB7n9jMPm3fnYSyAFxoiBqb9GP6c+vFebxDfHggATV8yy0
- eRdSC9dzamIJcyhOW8TFkwigBSak5hUe8YhvED2o6MiaRYRmJ/SHq4XhFl5a5+T4o1xR
- kvQw==
-X-Gm-Message-State: APjAAAVRtXrGO4pDvThU+7uu056NsTBL64d8JxBlIN4/Uq3bR1w7eLfY
- GVRdX5te3x159rAIOxIJdT0SyA==
-X-Google-Smtp-Source: APXvYqwKqL2JkeD9WZUlHxx8voYP8NYck6ivdrWN3SxhT5sUbdZDJsrTMxXY76WbWOG4s+NAs2zhEQ==
-X-Received: by 2002:a62:ce45:: with SMTP id y66mr188014pfg.182.1569439513150; 
- Wed, 25 Sep 2019 12:25:13 -0700 (PDT)
+ bh=ZCLqbqb0sHL/k0voD4Mwzk84sSLB4zVIQgabDIEKYqY=;
+ b=oRbnpAcE7Nf7YZmhOmiw5UTMQQVj3wW4GOFPSfGO0ExoH87nJm8sm9L0tNKMyQ32E6
+ kJpYQtIWeg8+o3RiFR8Snoi7DP3DY5XWtX5LZiUktxHahfxxutYSfv+hKFPPDjIYWDjZ
+ hCL10L1atOjIsy400od9kG0nt5poZOgb2TnnnC/nSzgaW97ecAhoxfs2TtUt292xXVgD
+ XEE5ZzFgJglELK5qRzK1GULOkQTPSDdlxOLTVlK+uJCxCzes6F5dXYz/JetH7tMBxG0H
+ mj0RJLoea0k1GoG/785B3zKNm1RCHFsoirCHgxd9Rrl9kRD70wSEY35nKofX3AKERDDo
+ EhKA==
+X-Gm-Message-State: APjAAAXw/+BB6K8jGZekcD3BlhYnBxwHrdWUwAGstmGDNLb9qwtzwYJO
+ 3KLI9P1YoGSlBPCHP0wp6XiXZg==
+X-Google-Smtp-Source: APXvYqz6BsEnq9c489iquvT/ZuYaWiZWat8V1xZp9flGPCUNOXPFzx6aBP76Vb7vkT5FeK5T1xQBwQ==
+X-Received: by 2002:a63:4e44:: with SMTP id o4mr879143pgl.103.1569438864471;
+ Wed, 25 Sep 2019 12:14:24 -0700 (PDT)
 Received: from [172.20.32.216] ([12.206.46.61])
- by smtp.gmail.com with ESMTPSA id k184sm331764pge.57.2019.09.25.12.25.11
+ by smtp.gmail.com with ESMTPSA id f15sm6244913pfd.141.2019.09.25.12.14.22
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 25 Sep 2019 12:25:12 -0700 (PDT)
-Subject: Re: [PATCH v2 4/7] s390x/mmu: Inject PGM_ADDRESSING on boguous table
- addresses
+ Wed, 25 Sep 2019 12:14:23 -0700 (PDT)
+Subject: Re: [PATCH v2 3/7] s390x/mmu: Inject DAT exceptions from a single
+ place
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20190925125236.4043-1-david@redhat.com>
- <20190925125236.4043-5-david@redhat.com>
+ <20190925125236.4043-4-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <f5ebc34d-7cb9-61bf-97f3-4568d20730ba@linaro.org>
-Date: Wed, 25 Sep 2019 12:25:10 -0700
+Message-ID: <081815de-a662-c658-b961-8d775be129fd@linaro.org>
+Date: Wed, 25 Sep 2019 12:14:21 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190925125236.4043-5-david@redhat.com>
+In-Reply-To: <20190925125236.4043-4-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,49 +92,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/25/19 5:52 AM, David Hildenbrand wrote:
-> +static inline int read_table_entry(hwaddr gaddr, uint64_t *entry)
-> +{
-> +    /*
-> +     * According to the PoP, these table addresses are "unpredictably real
-> +     * or absolute". Also, "it is unpredictable whether the address wraps
-> +     * or an addressing exception is recognized".
-> +     *
-> +     * We treat them as absolute addresses and don't wrap them.
-> +     */
-> +    if (unlikely(address_space_read(&address_space_memory, gaddr,
-> +                 MEMTXATTRS_UNSPECIFIED, (uint8_t *)entry, sizeof(*entry)) !=
-> +                 MEMTX_OK)) {
-> +        return -EFAULT;
-> +    }
-> +    *entry = be64_to_cpu(*entry);
-> +    return 0;
-> +}
+> Let's return the PGM from the translation functions on error and inject
+> based on that.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/mmu_helper.c | 63 +++++++++++----------------------------
+>  1 file changed, 17 insertions(+), 46 deletions(-)
 
-Maybe I've been away from the kernel too long, but I don't find returning
--EFAULT helpful.  I would return true/false for success/failure so that...
-
-
-> +    if (read_table_entry(origin + offs, &pt_entry)) {
-> +        return PGM_ADDRESSING;
-> +    }
-
-... this gets written
-
-    if (!read_table_entry(...)) {
-        return PGM_ADDRESSING;
-    }
-
-This statement, to me, reads "If we did not read_table_entry, return an
-addressing exception."
-
-If you *really* want to return non-zero on failure, I would prefer returning
-PGM_ADDRESSING instead of the out-of-context -EFAULT.
-
-> -    new_entry = ldq_phys(cs->as, origin + offs);
-> +    if (read_table_entry(origin + offs, &new_entry)) {
-
-Do you really want to replace cs->as with address_space_memory?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
