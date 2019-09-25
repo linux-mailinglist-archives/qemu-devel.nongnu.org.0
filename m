@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F75BE066
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:40:16 +0200 (CEST)
-Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47437BE052
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:35:43 +0200 (CEST)
+Received: from localhost ([::1]:52982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD8Sk-0000UX-SG
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:40:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51753)
+	id 1iD8OL-00032j-4T
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iD8JE-0000lw-JT
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:25 -0400
+ (envelope-from <mst@redhat.com>) id 1iD8JI-0000pB-Dk
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iD8JD-00075J-HL
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:64681)
+ (envelope-from <mst@redhat.com>) id 1iD8JH-00079j-Ca
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:64205)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD8JD-00073B-9D
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:23 -0400
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD8JH-00079E-7D
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:27 -0400
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7AD2AE252C
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 14:30:21 +0000 (UTC)
-Received: by mail-qt1-f200.google.com with SMTP id x25so6088417qtq.2
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:30:21 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 642E63CA16
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 14:30:26 +0000 (UTC)
+Received: by mail-qt1-f199.google.com with SMTP id s14so6096517qtn.4
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:30:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=zzjcHdlX9leECy0KiDZ5U7TTGK9Vo7rZfBUw1mJW1Qc=;
- b=rbBa/3GsWIMC/7aUGONtbgLQFadxiaLzduhc3O26dsGmsI5MWn2E138d31gSe7/2fJ
- RLZkqvUzCvSQTe6d/xKzdR69HwucD25TODQXulcCIiBiOHzWy9WuUf5NFz9zHTssF3IT
- nFI2VHjNLa+kqhQ6sPZnYMKIGo88TcfBIfPQ7isk97zZE6jGESpGIKnJph5npWRWiy8w
- N/ZJVtdt2mUroBBXE57c9He4I/Mu6wjF3v/1OwA4itdRJHN4h60AGwEiJaqq+H4n0ADp
- IPa4joe5QJv9HcWgqSiHmt6G7jTu/swGeJFqih9cTgNkw2BpDpM3+4TgOmaLHpwNGSK9
- r98g==
-X-Gm-Message-State: APjAAAVEndx/TlQYqp0Ol3JS8Xn+wPbtwynKBivoHuyZDcfO3JhN2MKt
- hoXyRcPhGS/xd5huCW6hSeJmKClZ47e4z/Jx6jMkfJS4Bc/YgQWK/zDCY85getwpGTd46cRRVSk
- aOlH6sDmYBrDBELo=
-X-Received: by 2002:ac8:550d:: with SMTP id j13mr9279501qtq.338.1569421820239; 
- Wed, 25 Sep 2019 07:30:20 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyx/EE3XKTPGcI7WpfI/mwGDrb5YIMHN/GzcFLLYQJ4HAxCrzF9FL+u241QXSIHyJLYr93Bkw==
-X-Received: by 2002:ac8:550d:: with SMTP id j13mr9279480qtq.338.1569421820088; 
- Wed, 25 Sep 2019 07:30:20 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=uAGWvwzL46HoQu7U/Lqqmx3jnRSuW2YUf+t36wOCjwQ=;
+ b=tq2qUgLxaxFY7c1IGaqiUFfCa/iPmCsVLVR0RCleayEV++GmOG0sRngnYKlE7q1WWj
+ oBe9picgKX8S1AjJ7aVrXviilBROCqHQUJkCMB8ZTKsP3hTaktESl86s7U3Y8Oo67lpx
+ hvMYyPLQajpY/xhaxHdLCERtUgXKZ2xB4al76YT8GdckV28VohlahfxcC0EPbvWXMt10
+ y5YHBXS0oiUUwhAtfzg23lFEQ45QBancJCHTOEUlQOJZ3ZgFD3+QnWyt+2MKV09dux1K
+ /Xw00JdDTfqc77O7rPiOQVzPQDp0xhqaAaPgHGKM/VzRtO3utMSieCT5ce06i3aokBgd
+ s2uQ==
+X-Gm-Message-State: APjAAAWO4CL6F+QtYMkHGSHOAwcz2lAUAEPZHU2i2ytoG9B/5BFA1nUc
+ 4eSHWqjekZI0iwT8E5wrBFYpWGFvDhscp78OIozQghXzuTI5QYoSRjJDsj99cMnXAe8zKzj1865
+ NY9WgXzmEFV8VIIk=
+X-Received: by 2002:ae9:eb93:: with SMTP id b141mr3937255qkg.36.1569421825129; 
+ Wed, 25 Sep 2019 07:30:25 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy4U9gYng4oRZOTCoyWYgFdpd1/h0Zv3jm2GT3fYZ4puUPe5fRfi+jPDnWP7ZsXZJ4qsyA1wA==
+X-Received: by 2002:ae9:eb93:: with SMTP id b141mr3937230qkg.36.1569421824907; 
+ Wed, 25 Sep 2019 07:30:24 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id d127sm3074283qke.54.2019.09.25.07.30.17
+ by smtp.gmail.com with ESMTPSA id c185sm3082503qkg.74.2019.09.25.07.30.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 07:30:19 -0700 (PDT)
-Date: Wed, 25 Sep 2019 10:30:15 -0400
+ Wed, 25 Sep 2019 07:30:24 -0700 (PDT)
+Date: Wed, 25 Sep 2019 10:30:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] memory: Provide an equality function for
- MemoryRegionSections
-Message-ID: <20190814175535.2023-3-dgilbert@redhat.com>
+Subject: [PULL 3/3] vhost: Fix memory region section comparison
+Message-ID: <20190814175535.2023-4-dgilbert@redhat.com>
 References: <20190925142910.26529-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20190925142910.26529-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -81,50 +78,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Provide a comparison function that checks all the fields are the same.
+Using memcmp to compare structures wasn't safe,
+as I found out on ARM when I was getting falce miscompares.
 
+Use the helper function for comparing the MRSs.
+
+Fixes: ade6d081fc33948e56e6 ("vhost: Regenerate region list from changed sections list")
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190814175535.2023-3-dgilbert@redhat.com>
+Message-Id: <20190814175535.2023-4-dgilbert@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/exec/memory.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/virtio/vhost.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index a1e6d846cc..6e67043ee0 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -504,6 +504,18 @@ struct MemoryRegionSection {
-     bool nonvolatile;
- };
-=20
-+static inline bool MemoryRegionSection_eq(MemoryRegionSection *a,
-+                                          MemoryRegionSection *b)
-+{
-+    return a->mr =3D=3D b->mr &&
-+           a->fv =3D=3D b->fv &&
-+           a->offset_within_region =3D=3D b->offset_within_region &&
-+           a->offset_within_address_space =3D=3D b->offset_within_addres=
-s_space &&
-+           int128_eq(a->size, b->size) &&
-+           a->readonly =3D=3D b->readonly &&
-+           a->nonvolatile =3D=3D b->nonvolatile;
-+}
-+
- /**
-  * memory_region_init: Initialize a memory region
-  *
---=20
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 34accdf615..2386b511f3 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -451,8 +451,13 @@ static void vhost_commit(MemoryListener *listener)
+         changed = true;
+     } else {
+         /* Same size, lets check the contents */
+-        changed = n_old_sections && memcmp(dev->mem_sections, old_sections,
+-                         n_old_sections * sizeof(old_sections[0])) != 0;
++        for (int i = 0; i < n_old_sections; i++) {
++            if (!MemoryRegionSection_eq(&old_sections[i],
++                                        &dev->mem_sections[i])) {
++                changed = true;
++                break;
++            }
++        }
+     }
+ 
+     trace_vhost_commit(dev->started, changed);
+-- 
 MST
 
 
