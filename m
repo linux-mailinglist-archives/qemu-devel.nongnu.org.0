@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF09BD8B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:06:22 +0200 (CEST)
-Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A55BD8D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:14:07 +0200 (CEST)
+Received: from localhost ([::1]:46246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1NV-0008Mi-Hx
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:06:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38762)
+	id 1iD1Uz-0007RZ-Ck
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iD13o-0008LZ-Ej
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:46:02 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iD16g-0001my-Nq
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:48:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iD13m-0003Yj-6e
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:46:00 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:34569)
+ (envelope-from <dgibson@ozlabs.org>) id 1iD16f-000584-Eb
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:48:58 -0400
+Received: from ozlabs.org ([203.11.71.1]:60443)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iD13l-0003W5-GH; Wed, 25 Sep 2019 02:45:58 -0400
+ id 1iD16e-00056X-Qx; Wed, 25 Sep 2019 02:48:57 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46dT8r29Pyz9sQw; Wed, 25 Sep 2019 16:45:47 +1000 (AEST)
+ id 46dTDQ3rCSz9sPL; Wed, 25 Sep 2019 16:48:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569393948;
- bh=+CQCDXYh8ri/SJjKmt1CqAi9JDyF8I0zA1FgbTJMQ/k=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=T/I/5CtUdsGk73Oy42eAVcv13BCFSR8iJpHTRJU767lwmPov+6pHFI1vQaDAGxh43
- vZoqm2tPKavEYmntKpFxrFuna5ZBeIWkaeGLxrAZkmDeq2H0YmZAH+RJgUOobOUQiW
- LtFimhOH6SbGKt0OqCDLMsj4G9L3JUxgK4UialLQ=
+ d=gibson.dropbear.id.au; s=201602; t=1569394134;
+ bh=yi5gqsyLQSdlFU6Ss2n/OfG6FsIyjJVz6yBGaMlRDhw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qDsfJo6xobHdOuvnKlRYPGjF6+9fmeH1jRQ4YkZZBn4SpGxA7XMQ+xqtU5SeoV68O
+ ii2THUz3G1b4PkkLTxHyHI++GNWPY0fX+9eKbxKfhoBrSVrK8z+3QVWAsWaaaIL3XY
+ pWSxv2Mb8UB+euih6fbAGjOkQu8aeZOQ7g6UlwHg=
+Date: Wed, 25 Sep 2019 16:48:37 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-ppc@nongnu.org,
-	clg@kaod.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 20/20] spapr: Eliminate SpaprIrq::init hook
-Date: Wed, 25 Sep 2019 16:45:34 +1000
-Message-Id: <20190925064534.19155-21-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190925064534.19155-1-david@gibson.dropbear.id.au>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Subject: Re: [PATCH v14 4/7] target/ppc: Build rtas error log upon an MCE
+Message-ID: <20190925064837.GM17405@umbus>
+References: <156879398718.18368.17640174821710157715.stgit@aravinda>
+ <156879435456.18368.1144480383769624512.stgit@aravinda>
+ <20190925013052.GG17405@umbus>
+ <3282d800-46d5-d270-542c-bcf8bd937944@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5fECsWged6836Ycf"
+Content-Disposition: inline
+In-Reply-To: <3282d800-46d5-d270-542c-bcf8bd937944@linux.vnet.ibm.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,279 +58,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org,
+ qemu-ppc@nongnu.org, ganeshgr@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This method is used to set up the interrupt backends for the current
-configuration.  However, this means some confusing redirection between
-the "dual" mode init and the init hooks for xics only and xive only modes=
-.
 
-Since we now have simple flags indicating whether XICS and/or XIVE are
-supported, it's easier to just open code each initialization directly in
-spapr_irq_init().  This will also make some future cleanups simpler.
+--5fECsWged6836Ycf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_irq.c          | 138 ++++++++++++++++--------------------
- include/hw/ppc/spapr_irq.h  |   1 -
- include/hw/ppc/xics_spapr.h |   1 +
- 3 files changed, 63 insertions(+), 77 deletions(-)
+On Wed, Sep 25, 2019 at 11:31:30AM +0530, Aravinda Prasad wrote:
+>=20
+>=20
+> On Wednesday 25 September 2019 07:00 AM, David Gibson wrote:
+> > On Wed, Sep 18, 2019 at 01:42:34PM +0530, Aravinda Prasad wrote:
+> >> Upon a machine check exception (MCE) in a guest address space,
+> >> KVM causes a guest exit to enable QEMU to build and pass the
+> >> error to the guest in the PAPR defined rtas error log format.
+> >>
+> >> This patch builds the rtas error log, copies it to the rtas_addr
+> >> and then invokes the guest registered machine check handler. The
+> >> handler in the guest takes suitable action(s) depending on the type
+> >> and criticality of the error. For example, if an error is
+> >> unrecoverable memory corruption in an application inside the
+> >> guest, then the guest kernel sends a SIGBUS to the application.
+> >> For recoverable errors, the guest performs recovery actions and
+> >> logs the error.
+> >>
+> >> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> >> ---
+> >>  hw/ppc/spapr.c         |   13 +++
+> >>  hw/ppc/spapr_events.c  |  222 +++++++++++++++++++++++++++++++++++++++=
++++++++++
+> >>  hw/ppc/spapr_rtas.c    |   26 ++++++
+> >>  include/hw/ppc/spapr.h |    6 +
+> >>  target/ppc/kvm.c       |    4 +
+> >>  5 files changed, 268 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> >> index 76ed988..9f2e5d2 100644
+> >> --- a/hw/ppc/spapr.c
+> >> +++ b/hw/ppc/spapr.c
+> >> @@ -2930,6 +2930,19 @@ static void spapr_machine_init(MachineState *ma=
+chine)
+> >>          error_report("Could not get size of LPAR rtas '%s'", filename=
+);
+> >>          exit(1);
+> >>      }
+> >> +
+> >> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_ON=
+) {
+> >> +        /*
+> >> +         * Ensure that the rtas image size is less than RTAS_ERROR_LO=
+G_OFFSET
+> >> +         * or else the rtas image will be overwritten with the rtas e=
+rror log
+> >> +         * when a machine check exception is encountered.
+> >> +         */
+> >> +        g_assert(spapr->rtas_size < RTAS_ERROR_LOG_OFFSET);
+> >> +
+> >> +        /* Resize rtas blob to accommodate error log */
+> >> +        spapr->rtas_size =3D RTAS_ERROR_LOG_MAX;
+> >> +    }
+> >> +
+> >=20
+> > I've recently merged into ppc-for-4.2 the change to have SLOF supply
+> > the RTAS blob, rather than qemu.  So this code will need to be updated
+> > accordingly.
+>=20
+> Sure. Will modify it to check if rtas_size is set to RTAS_ERROR_LOG_MAX
+> instead of the assignment.
 
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 073f375ba2..62647dd5a3 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -91,27 +91,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spap=
-r,
- /*
-  * XICS IRQ backend.
-  */
--
--static void spapr_irq_init_xics(SpaprMachineState *spapr, Error **errp)
--{
--    Object *obj;
--    Error *local_err =3D NULL;
--
--    obj =3D object_new(TYPE_ICS_SPAPR);
--    object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
--    object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
--                                   &error_fatal);
--    object_property_set_int(obj, spapr->irq->nr_xirqs,
--                            "nr-irqs",  &error_fatal);
--    object_property_set_bool(obj, true, "realized", &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    spapr->ics =3D ICS_SPAPR(obj);
--}
--
- static void spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool=
- lsi,
-                                  Error **errp)
- {
-@@ -212,7 +191,6 @@ SpaprIrq spapr_irq_xics =3D {
-     .xics        =3D true,
-     .xive        =3D false,
-=20
--    .init        =3D spapr_irq_init_xics,
-     .claim       =3D spapr_irq_claim_xics,
-     .free        =3D spapr_irq_free_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-@@ -227,37 +205,6 @@ SpaprIrq spapr_irq_xics =3D {
- /*
-  * XIVE IRQ backend.
-  */
--static void spapr_irq_init_xive(SpaprMachineState *spapr, Error **errp)
--{
--    uint32_t nr_servers =3D spapr_max_server_number(spapr);
--    DeviceState *dev;
--    int i;
--
--    dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
--    qdev_prop_set_uint32(dev, "nr-irqs",
--                         spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
--    /*
--     * 8 XIVE END structures per CPU. One for each available priority
--     */
--    qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
--    qdev_init_nofail(dev);
--
--    spapr->xive =3D SPAPR_XIVE(dev);
--
--    /* Enable the CPU IPIs */
--    for (i =3D 0; i < nr_servers; ++i) {
--        Error *local_err =3D NULL;
--
--        spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false, &loc=
-al_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return;
--        }
--    }
--
--    spapr_xive_hcall_init(spapr);
--}
--
- static void spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool=
- lsi,
-                                  Error **errp)
- {
-@@ -361,7 +308,6 @@ SpaprIrq spapr_irq_xive =3D {
-     .xics        =3D false,
-     .xive        =3D true,
-=20
--    .init        =3D spapr_irq_init_xive,
-     .claim       =3D spapr_irq_claim_xive,
-     .free        =3D spapr_irq_free_xive,
-     .print_info  =3D spapr_irq_print_info_xive,
-@@ -392,23 +338,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState=
- *spapr)
-         &spapr_irq_xive : &spapr_irq_xics;
- }
-=20
--static void spapr_irq_init_dual(SpaprMachineState *spapr, Error **errp)
--{
--    Error *local_err =3D NULL;
--
--    spapr_irq_xics.init(spapr, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    spapr_irq_xive.init(spapr, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--}
--
- static void spapr_irq_claim_dual(SpaprMachineState *spapr, int irq, bool=
- lsi,
-                                  Error **errp)
- {
-@@ -520,7 +449,6 @@ SpaprIrq spapr_irq_dual =3D {
-     .xics        =3D true,
-     .xive        =3D true,
-=20
--    .init        =3D spapr_irq_init_dual,
-     .claim       =3D spapr_irq_claim_dual,
-     .free        =3D spapr_irq_free_dual,
-     .print_info  =3D spapr_irq_print_info_dual,
-@@ -608,8 +536,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
-*errp)
-=20
-     spapr_irq_check(spapr, &local_err);
-     if (local_err) {
--        error_propagate(errp, local_err);
--        return;
-+        goto out;
-     }
-=20
-     /* Initialize the MSI IRQ allocator. */
-@@ -617,10 +544,70 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
- **errp)
-         spapr_irq_msi_init(spapr, spapr->irq->nr_msis);
-     }
-=20
--    spapr->irq->init(spapr, errp);
-+    if (spapr->irq->xics) {
-+        Object *obj;
-+
-+        obj =3D object_new(TYPE_ICS_SPAPR);
-+        object_property_add_child(OBJECT(spapr), "ics", obj, &local_err)=
-;
-+        if (local_err) {
-+            goto out;
-+        }
-+
-+        object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr)=
-,
-+                                       &local_err);
-+        if (local_err) {
-+            goto out;
-+        }
-+
-+        object_property_set_int(obj, spapr->irq->nr_xirqs, "nr-irqs",
-+                                &local_err);
-+        if (local_err) {
-+            goto out;
-+        }
-+
-+        object_property_set_bool(obj, true, "realized", &local_err);
-+        if (local_err) {
-+            goto out;
-+        }
-+
-+        spapr->ics =3D ICS_SPAPR(obj);
-+    }
-+
-+    if (spapr->irq->xive) {
-+        uint32_t nr_servers =3D spapr_max_server_number(spapr);
-+        DeviceState *dev;
-+        int i;
-+
-+        dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
-+        qdev_prop_set_uint32(dev, "nr-irqs",
-+                             spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-+        /*
-+         * 8 XIVE END structures per CPU. One for each available
-+         * priority
-+         */
-+        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-+        qdev_init_nofail(dev);
-+
-+        spapr->xive =3D SPAPR_XIVE(dev);
-+
-+        /* Enable the CPU IPIs */
-+        for (i =3D 0; i < nr_servers; ++i) {
-+            Error *local_err =3D NULL;
-+
-+            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false, =
-&local_err);
-+            if (local_err) {
-+                goto out;
-+            }
-+        }
-+
-+        spapr_xive_hcall_init(spapr);
-+    }
-=20
-     spapr->qirqs =3D qemu_allocate_irqs(spapr->irq->set_irq, spapr,
-                                       spapr->irq->nr_xirqs + SPAPR_XIRQ_=
-BASE);
-+
-+out:
-+    error_propagate(errp, local_err);
- }
-=20
- void spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error =
-**errp)
-@@ -757,7 +744,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-     .xics        =3D true,
-     .xive        =3D false,
-=20
--    .init        =3D spapr_irq_init_xics,
-     .claim       =3D spapr_irq_claim_xics,
-     .free        =3D spapr_irq_free_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 6816cb0500..fa862c665b 100644
---- a/include/hw/ppc/spapr_irq.h
-+++ b/include/hw/ppc/spapr_irq.h
-@@ -42,7 +42,6 @@ typedef struct SpaprIrq {
-     bool        xics;
-     bool        xive;
-=20
--    void (*init)(SpaprMachineState *spapr, Error **errp);
-     void (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **e=
-rrp);
-     void (*free)(SpaprMachineState *spapr, int irq);
-     void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 691a6d00f7..267984a97b 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -34,6 +34,7 @@
- #define TYPE_ICS_SPAPR "ics-spapr"
- #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-=20
-+void ics_spapr_create(SpaprMachineState *spapr, int nr_xirqs, Error **er=
-rp);
- void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
-fdt,
-                    uint32_t phandle);
- int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
+There is no rtas_size variable now.  You'll need to just trust that
+SLOF has allocated enough room.
+
 --=20
-2.21.0
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--5fECsWged6836Ycf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2LDcMACgkQbDjKyiDZ
+s5KjNBAAr1oUpkqVDcIyVKICnvV8WVgTtR5hahWxTRl4PgXYZtDRd+REo2JW2GKC
+i/w8QK7Gq7/bu2UsHDrVYDFZmERwmy3VpdcY1FvOjamJAmUb/Z3Po2AoHuZeAYb3
+4C223DC6mZfPfyq0P+Gl/ktgrW/ErWRXh+l/xNsrrXgZOCet2gGSqIrg3ze7QFOw
+GlYb3nI4qOFk8h7E0QMGXmmvMmYvk+WG4M5i/l5IMJGuvByw+EplfNyRAcyw3Hjb
+ga0x0aRpJYDIwbpfxp/XU1Dmm7krZnvamQ9bSS4iDmhW9oLZmwW2YFBhAxko5V2B
+lnD14e/T4ljBli46Qm0YRkVu1BU8YJiICcG4bV4GkMgxfy1v1MtjVMGtKccXMXTd
+y4WiyjIHKIIVXgFUzX6H1jUJU+o2O4NTKORJiG5+l1TFJX4ER0oPT/GrbAMMxouf
+nvXk3AeAHleQDf0qR2cfgmr7irKKmCK6WwIDwBmC2H2Fp1kCwWtv/AUae+WVgy8b
+cuHXruJCm+KPNQTgmRQzAZUKcQevsCZl/wXwyvZW5cObZX3w5JzobsndO3cyirSg
+Q5m3O7XFgMY8r/+gVNbyN6c21BvQ+/4pQI58YEPqKu1HGTjjUcCitcELID+F1+YJ
+gsxMCkowTkvK3CJwmdcyKJJGaRrJujXb4hqB5UYk1OxWz77FC/4=
+=fYMo
+-----END PGP SIGNATURE-----
+
+--5fECsWged6836Ycf--
 
