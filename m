@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BD1BE532
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:53:40 +0200 (CEST)
-Received: from localhost ([::1]:56106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A20BE534
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:53:46 +0200 (CEST)
+Received: from localhost ([::1]:56114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDCPz-0008GB-CY
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46915)
+	id 1iDCQ5-0008QJ-EK
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCIV-0001eg-0r
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:45:55 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCIZ-0001h1-2Y
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:45:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCIT-00049n-Th
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:45:54 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44315)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCIY-0004EF-25
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:45:58 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37023)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDCIT-00048s-NO
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:45:53 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id i14so142457pgt.11
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:45:53 -0700 (PDT)
+ id 1iDCIX-0004Dr-TD
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:45:58 -0400
+Received: by mail-pf1-x443.google.com with SMTP id y5so4160998pfo.4
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q6zTCS3a7jbtaH9NaP7Qy7VX+G/mKKsgVF1UpUR0SU0=;
- b=fu9N3v/CyUj/AF1Jqou+Qwav1uyd1l+Fwy4D4qmEZmi33EKs4W3qnvY3yR9jLD0yU4
- veUfrSnFBqm2TZBbmRnZZEm2MPz9c2Ue06agPoeXt2KiXbUAtu28fWtUzuDFBWZsX7Ma
- mJoOPnpKkM6h4ElbPC4fXcS9Kfe7AIXHmbjT5monn04u+UrEcqxodE0sLirLc2dZ0wt6
- j9j6vAGEbVGrkiaqwooATKogVKGaGWMSPKpo3DEFqpzH9zqPL/FoXr9D7TK4ukzRo60h
- cRvESQKVXnq1PvNdtOO8Yw+FiQPZrlf3IrZXyhLKoPs/Q7gKrbGOKjmw5qEamT8AY/Gi
- jlOw==
+ bh=tEvO5tw4/suCh+mwvodKHXWtN16PlVfrxqaiSrTER6g=;
+ b=bbVQHKnFvAbHmLIb7cT7R+nAFllNJtICyzl/XE6Kih9SFhg6LmnrXZHdgDpICNJbHI
+ TloWJcSxR4kNLINaxiblKd1IWStyQ6vI8fJgLp+SFlLzfDaBFlxR7BQlboBeT3JN5dgw
+ TEe/sBHh6MvVT3ckgmtz+x0vtw6KwOqI3RpIqEvt4ZFQdlKLgkmnfRrVAyX44wbVzxDE
+ sLMHT83TWCCkQxDhWBwLFlNEBH/yT0R7BX/tN8NePh90B1SqVe3kF5RlMetgvsFYmA40
+ aYQomumq1WLkPSd7VOt+5zo1UAQ6DKePMRkVX7uJatJXdlge+elD78gKjdJnxn7LoQ3u
+ GHpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q6zTCS3a7jbtaH9NaP7Qy7VX+G/mKKsgVF1UpUR0SU0=;
- b=XbFR4VjM2draCp9Fcx+ACTWZsm8CWMCn0gd+XnXDSgKj87OLyQokuqQJCOBjIrrn00
- hwpcU2eLLGUsVFya3Hj973F9iZVFg6+sDGDbU7Kd219cltHEpob9jXNRqjwwMdFfnI8L
- gZwcaoYZjpNX5pNr37M6DdmzMEEP18SBR2OsW3v3J5A6yN4k69vzDarav+e3vmmKsb/f
- qId3RYxVxUBeICzw6X6e0zjDKav1nodAe8UeHZBQJNBhDS8nnGRGI2IK4dprL/0A8BcU
- rxBOTtbsX85AzRY9WW8z5y30pOF3nrMeeeZAoRBbmX1wnAbAzf8yeIIyUMs/teyDhVQQ
- LlvQ==
-X-Gm-Message-State: APjAAAVFGm3YTyeAiEB/p64oMbJ0801a7xHy/zZYJSszbe0jsegQBoLM
- FuvNNRapEvPFOEKzbqqrGLlCdn1ltJc=
-X-Google-Smtp-Source: APXvYqwBtwq69sWjbmzjoL1SWDwe8DNCHdqT2Pdl0lNd4cGMGXqThZuVW+Demfr6rYEWaDZZt1YtRw==
-X-Received: by 2002:a62:2b51:: with SMTP id r78mr11146723pfr.149.1569437152312; 
- Wed, 25 Sep 2019 11:45:52 -0700 (PDT)
+ bh=tEvO5tw4/suCh+mwvodKHXWtN16PlVfrxqaiSrTER6g=;
+ b=hLLT+9I+4TtVuqGsNnyayjPBHX8zh87nC1MA9P5D64OzgBpnllDrzCkykDchUKOE/O
+ YS9puqkTSfjs/jzBGf9b9S6GT81uDEOU5gzhgjakvHXDLTia77dkJLtWDOc5Hg/uwFRe
+ TPaDi6vNTe8czFjcwDz8hE3irXsvuJswtO3w07x1RpkHijJKug1pkNI6Oz2zNAHNlW+i
+ Fwfo7OP0DlLCTd533pYWon3oYVngB99UoMHmT0COcSPa8lF3CqXW2vYMqJGPEZysi+8U
+ Eg7Iha1MLFDAbeAH+AkhumLF87kgkxcm7wrhOAmO9jrORWTCODmgwmgTY3/lNE5BXoS8
+ Pj+Q==
+X-Gm-Message-State: APjAAAXy3ZXXVXWXmCAdvC/uV+iHTUDYRB9JaK22YdP+sKWl330N6ZVW
+ 0iax10qlN/OQDfMBu6rwQWGghJbHU9w=
+X-Google-Smtp-Source: APXvYqxdmw+2pSxaCnR1PDrhfRmbPNDMuw7gl57iR5Zfc5i8EH9+51EcJ5jdl8pgm0ul59oz1joqRw==
+X-Received: by 2002:a62:7ece:: with SMTP id z197mr18817pfc.78.1569437156411;
+ Wed, 25 Sep 2019 11:45:56 -0700 (PDT)
 Received: from localhost.localdomain ([12.206.46.61])
- by smtp.gmail.com with ESMTPSA id l24sm6133229pff.151.2019.09.25.11.45.51
+ by smtp.gmail.com with ESMTPSA id l24sm6133229pff.151.2019.09.25.11.45.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 11:45:51 -0700 (PDT)
+ Wed, 25 Sep 2019 11:45:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/16] exec: Use TARGET_PAGE_BITS_MIN for TLB flags
-Date: Wed, 25 Sep 2019 11:45:33 -0700
-Message-Id: <20190925184548.30673-2-richard.henderson@linaro.org>
+Subject: [PULL 04/16] cputlb: Use qemu_build_not_reached in load/store_helpers
+Date: Wed, 25 Sep 2019 11:45:36 -0700
+Message-Id: <20190925184548.30673-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190925184548.30673-1-richard.henderson@linaro.org>
 References: <20190925184548.30673-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52d
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,52 +82,38 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These bits do not need to vary with the actual page size
-used by the guest.
+Increase the current runtime assert to a compile-time assert.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ accel/tcg/cputlb.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index d2d443c4f9..e0c8dc540c 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -317,20 +317,24 @@ CPUArchState *cpu_copy(CPUArchState *env);
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 2222b87764..e31378bce3 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1396,7 +1396,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         res = ldq_le_p(haddr);
+         break;
+     default:
+-        g_assert_not_reached();
++        qemu_build_not_reached();
+     }
  
- #if !defined(CONFIG_USER_ONLY)
+     return res;
+@@ -1680,8 +1680,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         stq_le_p(haddr, val);
+         break;
+     default:
+-        g_assert_not_reached();
+-        break;
++        qemu_build_not_reached();
+     }
+ }
  
--/* Flags stored in the low bits of the TLB virtual address.  These are
-- * defined so that fast path ram access is all zeros.
-+/*
-+ * Flags stored in the low bits of the TLB virtual address.
-+ * These are defined so that fast path ram access is all zeros.
-  * The flags all must be between TARGET_PAGE_BITS and
-  * maximum address alignment bit.
-+ *
-+ * Use TARGET_PAGE_BITS_MIN so that these bits are constant
-+ * when TARGET_PAGE_BITS_VARY is in effect.
-  */
- /* Zero if TLB entry is valid.  */
--#define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS - 1))
-+#define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS_MIN - 1))
- /* Set if TLB entry references a clean RAM page.  The iotlb entry will
-    contain the page physical address.  */
--#define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS - 2))
-+#define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS_MIN - 2))
- /* Set if TLB entry is an IO callback.  */
--#define TLB_MMIO            (1 << (TARGET_PAGE_BITS - 3))
-+#define TLB_MMIO            (1 << (TARGET_PAGE_BITS_MIN - 3))
- /* Set if TLB entry contains a watchpoint.  */
--#define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS - 4))
-+#define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS_MIN - 4))
- 
- /* Use this mask to check interception with an alignment mask
-  * in a TCG backend.
 -- 
 2.17.1
 
