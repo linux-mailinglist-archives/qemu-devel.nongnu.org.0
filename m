@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA714BDCD3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:15:09 +0200 (CEST)
-Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0A1BDCBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:10:33 +0200 (CEST)
+Received: from localhost ([::1]:48192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD5GG-00074N-FF
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:15:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44795)
+	id 1iD5Bo-0001nu-IH
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:10:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44829)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <3S0qLXQYKCv4ygskojmuumrk.iuswks0-jk1krtutmt0.uxm@flex--sameid.bounces.google.com>)
- id 1iD58I-0007ou-5H
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:55 -0400
+ <3T0qLXQYKCgQweqimhksskpi.gsquiqy-hiziprsrkry.svk@flex--sameid.bounces.google.com>)
+ id 1iD58M-0007ws-Hp
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <3S0qLXQYKCv4ygskojmuumrk.iuswks0-jk1krtutmt0.uxm@flex--sameid.bounces.google.com>)
- id 1iD58H-0004NG-5l
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:54 -0400
-Received: from mail-wr1-x449.google.com ([2a00:1450:4864:20::449]:34750)
+ <3T0qLXQYKCgQweqimhksskpi.gsquiqy-hiziprsrkry.svk@flex--sameid.bounces.google.com>)
+ id 1iD58L-0004Q9-EP
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:58 -0400
+Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a]:35487)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <3S0qLXQYKCv4ygskojmuumrk.iuswks0-jk1krtutmt0.uxm@flex--sameid.bounces.google.com>)
- id 1iD58H-0004Ma-0d
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:53 -0400
-Received: by mail-wr1-x449.google.com with SMTP id j2so2187942wre.1
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 04:06:52 -0700 (PDT)
+ <3T0qLXQYKCgQweqimhksskpi.gsquiqy-hiziprsrkry.svk@flex--sameid.bounces.google.com>)
+ id 1iD58L-0004PJ-9D
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:06:57 -0400
+Received: by mail-wm1-x34a.google.com with SMTP id k9so1944986wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 04:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=wQfLQEhmK8gGTLXrGitPL7fj5j2zg1DshrzOt/Wj1N8=;
- b=YFyIaGWXPT8GzhIgXk+7H8kjpGkg6WzlWq0c6P359HSXyTuZbcRYM2QRT79snxqqST
- BIhwrE+QoZR6xpFcc19J9ry2QrIqmBGq/8X/G2fR2KGsUSJY6Ezh+41fLm0N2P4870lr
- 65UqFC0cZ70dvEGlg2CfQJDzxsng/NweY4hAkkJJXkb2SZbQJQbSdfOFvfsu07jvb8G1
- KWbPmbN25Uzh5bl0TPZ5fcmXprMU6eIZpn/dOJH59J0zDbcqytE+dY3TOTC3Mda7+ife
- jxWWkREdYctczyl4GtvlvmagCqhP5TlnewB1JPY5cdLmF9qk1dKD0dVbf16jt4dQOtAp
- ZayA==
+ :cc; bh=D4/WwEuQfb0OwGTdHL/wsfMkxNs9t/uthskzigDltsc=;
+ b=CKP+xxBXKbd6sJ6s1kT6DlCCCqq4Hv0YuAOPqLXuI100erdqtHh2+pr+qXBQOPx+bP
+ T+5MjmV7+Dt1qKBWWBjmKZGQ1yIOeC+NmGKG0MH6gxO38rlDJjlLcN8eVoeP9NbXtBfe
+ BWNlQrpCxzIGfayhIwzEQbbB2U9Zanf/N0bB6LOMfA3MKdsZwtY7PrMb5Mi/q2p5eWi4
+ 10h3fWESQ7BIn4KSh6MdZq7Ggxn3k6G0RAkf000HZdlIKoJqTZICbna8HQO5wHCYtiUK
+ swtIpYOw+I9J3sDdG6MZxa3OrCYsv4xNZyx/RQEvcgb6hpIV5OXEuAZ3FAtI+cNlpI8u
+ mUIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=wQfLQEhmK8gGTLXrGitPL7fj5j2zg1DshrzOt/Wj1N8=;
- b=c9akByEI6nVE2XlMhwBYMX972HtY3wuVQnRS6V1XoEgzIzxyMrA3SM924o47Vs2SYF
- TDzmxk6KfrLsdWHQ12FvJbINUCH70ZgqigodQNk1rt8+/iPV7AmLNZZnLMmB3qMX2JAL
- EFgY9/YabGuyMx6rY9Na/u27z5sreitBRnNNtwhPjYx424iNhMXDKfBxNrxDePLvnU4d
- RSzzg4PeRvx4p6rYzxUhcreG6jYsEtdmb4+jqXuc3DtZUvQLivIpLaLyA5mPQM5zYebE
- zJe/KKQVo24oNIwI0nZU2LpEGJGI6t7GXQSuXo26MvRzPNNUz1A1ndJ/vLgLQJqla0Rl
- 0RyA==
-X-Gm-Message-State: APjAAAXX1HATLDka/4U0Uq/iMpnHx6x/1kK54q1maIHfxpKX1Z/9r3p9
- vqIjhUdO9+3v6e1mk7iK1svLjeg7mIBpEc1vcoqT7kR9hsGogIzdM+l5bKTZBGaZ1aqzPcWiaHF
- hzMSTzpEQnc570M4jkIqWgbVumD6rwV6p2JGGdzjMAbU5h5Iiimv3tuWf+Dpa
-X-Google-Smtp-Source: APXvYqwbiy5AcLGpgpOvEX+dSWV45Mq2I7MVpTEbdcZtR6LvUmPTYcrxWYConl0V1VXmAAR5EJ1SPBuLODU=
-X-Received: by 2002:a5d:4742:: with SMTP id o2mr8365092wrs.253.1569409611655; 
- Wed, 25 Sep 2019 04:06:51 -0700 (PDT)
-Date: Wed, 25 Sep 2019 14:06:33 +0300
+ bh=D4/WwEuQfb0OwGTdHL/wsfMkxNs9t/uthskzigDltsc=;
+ b=TOqajF5hC4mXWRj3uONPwFe8r6zKUMYCefkvwtYyTg1tpL53/G4uIe0CuG1SUM+dzu
+ 6AR5/pL11nhxy+BDOToZ3iOMz4qg+3CuEhGjeEhFMVv84gAh66muAJW/0ZiyLB/JaD+P
+ ydtetAUtAx6fKx7ge8qpqvApFfPgCOrwGkhtVLQEtVLM5hqkzRgx/ltXve5lpwNF1QIm
+ PaApAdOdsPrdrT5lQoHq/KW1ijgVptCCA7RVTc4FK+ah2NoePVSiCeTfxejmpeADj6zK
+ 47SRyoIO3BQS5bJmLFeVnV4J6su/qY9x/6R9PwYXzun+PTE1xmyMjT3JO4vnTueokeF4
+ edPg==
+X-Gm-Message-State: APjAAAX7sLER9tuXg1z4WqakjuuP/moBXM0MEIOhrcSA4sXgmBNJ99Sq
+ gSEzo40zJTw2o7UXOTcu7GwBSy4V68fI3ZrSLPVXIPYSeIIOhzQ5TdY9CdnxT6+oGKblg79eC8E
+ BSY5UQATAaBTrONssSKNxBBoDCcgJ+bNnZM5YAOBLKkK1EQ5noQ77Xq+4aGW2
+X-Google-Smtp-Source: APXvYqwP3pUkQht+a8Vbqi9tV8ffJFe2CuKJBedfO3HE6n1nzU5HMGwOD0Id1LbAvmqQg5Jg+utKsXsPrNA=
+X-Received: by 2002:a5d:5229:: with SMTP id i9mr8756866wra.76.1569409615715;
+ Wed, 25 Sep 2019 04:06:55 -0700 (PDT)
+Date: Wed, 25 Sep 2019 14:06:34 +0300
 In-Reply-To: <20190925110639.100699-1-sameid@google.com>
-Message-Id: <20190925110639.100699-3-sameid@google.com>
+Message-Id: <20190925110639.100699-4-sameid@google.com>
 Mime-Version: 1.0
 References: <20190925110639.100699-1-sameid@google.com>
 X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
-Subject: [PATCH v7 2/8] block: Support providing LCHS from user
+Subject: [PATCH v7 3/8] bootdevice: Add interface to gather LCHS
 To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::449
+X-Received-From: 2a00:1450:4864:20::34a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,50 +87,94 @@ From: Sam Eiderman via <qemu-devel@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Add logical geometry variables to BlockConf.
-
-A user can now supply "lcyls", "lheads" & "lsecs" for any HD device
-that supports CHS ("cyls", "heads", "secs").
-
-These devices include:
-    * ide-hd
-    * scsi-hd
-    * virtio-blk-pci
-
-In future commits we will use the provided LCHS and pass it to the BIOS
-through fw_cfg to be supplied using INT13 routines.
+Add an interface to provide direct logical CHS values for boot devices.
+We will use this interface in the next commits.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- include/hw/block/block.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ bootdevice.c            | 55 +++++++++++++++++++++++++++++++++++++++++
+ include/sysemu/sysemu.h |  3 +++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index fd55a30bca..d7246f3862 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -26,6 +26,7 @@ typedef struct BlockConf {
-     uint32_t discard_granularity;
-     /* geometry, not all devices use this */
-     uint32_t cyls, heads, secs;
-+    uint32_t lcyls, lheads, lsecs;
-     OnOffAuto wce;
-     bool share_rw;
-     BlockdevOnError rerror;
-@@ -65,7 +66,10 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
- #define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      \
-     DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  \
-     DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                \
--    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
-+    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0),                  \
-+    DEFINE_PROP_UINT32("lcyls", _state, _conf.lcyls, 0),                \
-+    DEFINE_PROP_UINT32("lheads", _state, _conf.lheads, 0),              \
-+    DEFINE_PROP_UINT32("lsecs", _state, _conf.lsecs, 0)
+diff --git a/bootdevice.c b/bootdevice.c
+index 1d225202f9..bc5e1c2de4 100644
+--- a/bootdevice.c
++++ b/bootdevice.c
+@@ -343,3 +343,58 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
+     /* initialize devices' bootindex property to -1 */
+     object_property_set_int(obj, -1, name, NULL);
+ }
++
++typedef struct FWLCHSEntry FWLCHSEntry;
++
++struct FWLCHSEntry {
++    QTAILQ_ENTRY(FWLCHSEntry) link;
++    DeviceState *dev;
++    char *suffix;
++    uint32_t lcyls;
++    uint32_t lheads;
++    uint32_t lsecs;
++};
++
++static QTAILQ_HEAD(, FWLCHSEntry) fw_lchs =
++    QTAILQ_HEAD_INITIALIZER(fw_lchs);
++
++void add_boot_device_lchs(DeviceState *dev, const char *suffix,
++                          uint32_t lcyls, uint32_t lheads, uint32_t lsecs)
++{
++    FWLCHSEntry *node;
++
++    if (!lcyls && !lheads && !lsecs) {
++        return;
++    }
++
++    assert(dev != NULL || suffix != NULL);
++
++    node = g_malloc0(sizeof(FWLCHSEntry));
++    node->suffix = g_strdup(suffix);
++    node->dev = dev;
++    node->lcyls = lcyls;
++    node->lheads = lheads;
++    node->lsecs = lsecs;
++
++    QTAILQ_INSERT_TAIL(&fw_lchs, node, link);
++}
++
++void del_boot_device_lchs(DeviceState *dev, const char *suffix)
++{
++    FWLCHSEntry *i;
++
++    if (dev == NULL) {
++        return;
++    }
++
++    QTAILQ_FOREACH(i, &fw_lchs, link) {
++        if ((!suffix || !g_strcmp0(i->suffix, suffix)) &&
++             i->dev == dev) {
++            QTAILQ_REMOVE(&fw_lchs, i, link);
++            g_free(i->suffix);
++            g_free(i);
++
++            break;
++        }
++    }
++}
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 44f18eb739..5bc5c79cbc 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -103,6 +103,9 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
+                                    DeviceState *dev, Error **errp);
+ void restore_boot_order(void *opaque);
+ void validate_bootdevices(const char *devices, Error **errp);
++void add_boot_device_lchs(DeviceState *dev, const char *suffix,
++                          uint32_t lcyls, uint32_t lheads, uint32_t lsecs);
++void del_boot_device_lchs(DeviceState *dev, const char *suffix);
  
- #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    \
-     DEFINE_PROP_BLOCKDEV_ON_ERROR("rerror", _state, _conf.rerror,       \
+ /* handler to set the boot_device order for a specific type of MachineClass */
+ typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
 -- 
 2.23.0.351.gc4317032e6-goog
 
