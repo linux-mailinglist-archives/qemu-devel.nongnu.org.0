@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B36BE1DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 18:03:12 +0200 (CEST)
-Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CE2BE204
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 18:11:12 +0200 (CEST)
+Received: from localhost ([::1]:54444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD9kz-0002A4-SF
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 12:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38384)
+	id 1iD9sk-0002Hj-Eg
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 12:11:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fintelia@gmail.com>) id 1iD9gZ-0007hv-Pn
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:58:36 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iD9jj-0002d8-RP
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:01:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fintelia@gmail.com>) id 1iD9gX-0004ea-S3
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:58:35 -0400
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:36207)
+ (envelope-from <alex.bennee@linaro.org>) id 1iD9jh-0005cC-Ta
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:01:51 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40663)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <fintelia@gmail.com>)
- id 1iD9gP-0004Wh-Q8; Wed, 25 Sep 2019 11:58:26 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id x80so4626961lff.3;
- Wed, 25 Sep 2019 08:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LPybhqcg4KYl7tTtB1VIz8o+ZmRqaHgcq/IiuizZPX8=;
- b=sQd0tjG2HMr3X7tN9CZ3ISpFHawJPMemD0F1vvvce8OLc8tlSLmSOt2KEPxajaFAA1
- dMH1IgWt2RrXBytuYA2B7lhABZa3guXBwtMW8uUEXnVhjieFv0xPappdgNWhK0UwkxNs
- 7WPhbmvQsTlJ+6JbXDi/56D2iPU++Z7mw+9mewDHtnuFxtuq/EqsuPhX1z00irygzSNX
- k3RNoKcfdEQDUqillARIE9kiIbcEQVGW06wKVPl6fZ2U4miw/tgfxgB0diMy21whaCHD
- LeVgwKdZ4lvBCTcYtcleuVq9loUVbbG6DXKnixlOFiSM6xY+YOAyWrRMIpe1cl/Hx/Mc
- FHYQ==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iD9jh-0005bo-L9
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 12:01:49 -0400
+Received: by mail-wm1-x341.google.com with SMTP id b24so5549993wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gDm0a7DR+YHYGtadIwZtQJxiWkOTI/LNC2/7T5owi+w=;
+ b=q3AtsZkCWtsc1CPH+NEmTh9S9wS/b7FModuXNLzBM/mLkNlDanF8XmoPyZBa6oiuJk
+ kDXrUqfe96WD7FvvkQctapeeMMYhdZn86air24c1NjYjr8bL/aDc4Ju6+eUS9No+jC+M
+ nVJcPPYDKPeLQ2fwPhfnL4hBmjlszpRCxt9yhq+FsCU60SrCRJ15BoHsUFmwYocR+csh
+ xi87sIbmILpF9JI6mSztzOQzdDg9xdu3vZQTX2STqDUenIizoVdTWBy3yCeZ8IiaJtoy
+ inx88STK4Sk2lCvtgtem0sHKpzgBFHVp4+TizB11UKh9ltzZszgoF2jkKe3GSQv4mfyX
+ ZgrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LPybhqcg4KYl7tTtB1VIz8o+ZmRqaHgcq/IiuizZPX8=;
- b=PCVszIHclculYNNxzztsr3bT9JPGgjcTxy1siq+A+U18lx7McL+c6w9ErlVB8VdLq8
- /o4I2ByuuqSp0yipldJ+F6bvzvLfYJ26VyX/BUupyAtD4HkAFuNY1IM6/gEFKSe3HqON
- mzPGMRt8VZ6wlwzpF4RAVpLKN89obn286pqsGGTbv6GbQSE/RjwKBuS759QDBBAwuDHc
- jci+B4jhe7gvI96x0HUCGa3gMTS5+XXm6cEcVo5whM7ewu5MN2s8RBd+BRQVrAflxooF
- E7a5qgTsj3CW457KPriGc4TTuVXTTI7E8WdcKprXoobCwfCQamUPacSj82zOG2TUnABQ
- C8zg==
-X-Gm-Message-State: APjAAAU8OiLZJriyWP/yQP6cPzR2ObaR2vgF7ICJJoGepqBJ1SVSmKow
- keMtWD3yQte6wxua3n1QdAJXtbP/nOlk/yfdUV0=
-X-Google-Smtp-Source: APXvYqwNsils0i60s7gLgDtteD5RoKACXD80SnQrZgwyF4kYczgoOFQVZ4x34FH0wtJ8CFQWlYAN70CvtlI7m+gml/s=
-X-Received: by 2002:ac2:4427:: with SMTP id w7mr6686285lfl.143.1569427103391; 
- Wed, 25 Sep 2019 08:58:23 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=gDm0a7DR+YHYGtadIwZtQJxiWkOTI/LNC2/7T5owi+w=;
+ b=Mtip+U4Z7eUrwPvzKQZHM+fpcTHLVTbr7DXtlMXwBc4rsrmCGnL8q9Jx78tCSo+1Gn
+ Y4bWWaVcusnibj7+4FlTdPqEbStzp1s2S9Yr+fkdEQ8b8MQXQ4EacsBa5KhevHYaNDBs
+ Tfup64fl6GwouFO3wJgYJGHpvDEsGSLSo4Ikckr1ll2lxoqpobou4veyY3x3hW30oW+j
+ 9jBLOiq6jmU7IJPEWJcaRhq31BYVty+mZ9QNgmqatslSL65hArWmGfM8AQzg7nEDgPRT
+ N7Z+ZAm0gsTjglVySQGxjG01YWDkHkXWLTYOvbDbJ66vUgODAGR/3bWrvtvTH4HLgmuz
+ T6cg==
+X-Gm-Message-State: APjAAAVjQ1S9eFemNLu88vT6vDGa1AQugC+0SwDRSFr15frqeHK2I56N
+ pIDGVdjjkrrrLPVxpocwRotGTg==
+X-Google-Smtp-Source: APXvYqxKRaL++Mm7gu7CxYfduOp4rUbVTyE4IjI+dOtRMrLYacH8tbJWfj4Sgkj7pNI1QEiiF0So/w==
+X-Received: by 2002:a7b:c252:: with SMTP id b18mr5104129wmj.68.1569427307452; 
+ Wed, 25 Sep 2019 09:01:47 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i5sm4181585wmd.21.2019.09.25.09.01.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Sep 2019 09:01:46 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B4B6D1FF87;
+ Wed, 25 Sep 2019 17:01:45 +0100 (BST)
+References: <20190923230004.9231-1-richard.henderson@linaro.org>
+ <20190923230004.9231-9-richard.henderson@linaro.org>
+ <87v9th9qnz.fsf@linaro.org>
+ <080af734-eccb-16c9-2664-72dd26ff460c@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v4 08/16] cputlb: Move ROM handling from I/O path to TLB
+ path
+In-reply-to: <080af734-eccb-16c9-2664-72dd26ff460c@redhat.com>
+Date: Wed, 25 Sep 2019 17:01:45 +0100
+Message-ID: <87tv909xg6.fsf@linaro.org>
 MIME-Version: 1.0
-References: <1569386895-8726-1-git-send-email-guoren@kernel.org>
- <CAKmqyKMraotFmqMg7MrJC5C4SogGqSaVtHkVYTEgGWK9UnWb5g@mail.gmail.com>
- <CAJF2gTR0o0s_p0H669BRZ86phLtpATwWczczWV8HWw1nc+doFA@mail.gmail.com>
- <CANnJOVFkviip0g1tBHdL6n2B8pMAQxVBC83RTaF4PAE1t+aPew@mail.gmail.com>
- <CAJF2gTS=1uaQi7=CXg7f0eh2xb-HcG_sriMtU208VHXnJ4GTvA@mail.gmail.com>
-In-Reply-To: <CAJF2gTS=1uaQi7=CXg7f0eh2xb-HcG_sriMtU208VHXnJ4GTvA@mail.gmail.com>
-From: Jonathan Behrens <fintelia@gmail.com>
-Date: Wed, 25 Sep 2019 11:57:22 -0400
-Message-ID: <CANnJOVFkUAS3mP4y0mu+jCajy9m4hDK389xpZz4wza1t0Bvo_g@mail.gmail.com>
-Subject: Re: [PATCH V3] target/riscv: Bugfix reserved bits in PTE for RV64
-To: Guo Ren <guoren@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::12c
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,27 +85,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: pbonzini@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> The specification is very clear: these bits are not part of ppn, not
-> part of the translation target address. The current code is against
-> the riscv-privilege specification.
 
-If all of the reserved bits are zero then the patch changes nothing.
-Further the only normative mention of the reserved bits in the spec
-says they must be: "Bits 63=E2=80=9354 are reserved for future use and must=
- be
-zeroed by software for forward compatibility." Provided that software
-follows the spec current QEMU will behave properly. For software that
-ignores that directive an sets some of those bits, the spec says
-nothing  about what hardware should do, so both the old an the new
-behavior are fine.
+David Hildenbrand <david@redhat.com> writes:
 
-Jonathan
+> On 25.09.19 02:16, Alex Benn=C3=A9e wrote:
+>>
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>
+>>> It does not require going through the whole I/O path
+>>> in order to discard a write.
+>>>
+>>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>  include/exec/cpu-all.h    |  5 ++++-
+>>>  include/exec/cpu-common.h |  1 -
+>>>  accel/tcg/cputlb.c        | 35 +++++++++++++++++++--------------
+>>>  exec.c                    | 41 +--------------------------------------
+>>>  4 files changed, 25 insertions(+), 57 deletions(-)
+>>>
+>>> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+>>> index d148bded35..26547cd6dd 100644
+>>> --- a/include/exec/cpu-all.h
+>>> +++ b/include/exec/cpu-all.h
+>> <snip>
+>>> @@ -822,16 +821,17 @@ void tlb_set_page_with_attrs(CPUState *cpu, targe=
+t_ulong vaddr,
+>>>
+>>>      tn.addr_write =3D -1;
+>>>      if (prot & PAGE_WRITE) {
+>>> -        if ((memory_region_is_ram(section->mr) && section->readonly)
+>>> -            || memory_region_is_romd(section->mr)) {
+>>> -            /* Write access calls the I/O callback.  */
+>>> -            tn.addr_write =3D address | TLB_MMIO;
+>>> -        } else if (memory_region_is_ram(section->mr)
+>>> -                   && cpu_physical_memory_is_clean(
+>>> -                       memory_region_get_ram_addr(section->mr) + xlat)=
+) {
+>>> -            tn.addr_write =3D address | TLB_NOTDIRTY;
+>>> -        } else {
+>>> -            tn.addr_write =3D address;
+>>> +        tn.addr_write =3D address;
+>>> +        if (memory_region_is_romd(section->mr)) {
+>>> +            /* Use the MMIO path so that the device can switch states.=
+ */
+>>> +            tn.addr_write |=3D TLB_MMIO;
+>>> +        } else if (memory_region_is_ram(section->mr)) {
+>>> +            if (section->readonly) {
+>>> +                tn.addr_write |=3D TLB_ROM;
+>>> +            } else if (cpu_physical_memory_is_clean(
+>>> +                        memory_region_get_ram_addr(section->mr) + xlat=
+)) {
+>>> +                tn.addr_write |=3D TLB_NOTDIRTY;
+>>> +            }
+>>
+>> This reads a bit weird because we are saying romd isn't a ROM but
+>> something that identifies as RAM can be ROM rather than just a memory
+>> protected piece of RAM.
+>>
+>
+> I proposed a bunch of alternatives as reply to v3 (e.g.,
+> TLB_DISCARD_WRITES), either Richard missed them or I missed his reply
+> :)
+
+That certainly passes the "does what it says on the tin" test.
+
+>
+>>>          }
+>>>          if (prot & PAGE_WRITE_INV) {
+>>>              tn.addr_write |=3D TLB_INVALID_MASK;
+>>
+>> So at the moment I don't see what the TLB_ROM flag gives us that setting
+>> TLB_INVALID doesn't - either way we won't make the write to our
+>> ram-not-ram-rom.
+>
+> TLB_INVALID will trigger a new MMU translation on every access to fill
+> the TLB. TLB_ROM states that we have a valid entry, but that writes are
+> to be discarded.
+
+Ahh yes, I didn't notice it because it's hidden in he tlb_hit check.
+
+--
+Alex Benn=C3=A9e
 
