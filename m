@@ -2,51 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A99ABDB7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 11:53:24 +0200 (CEST)
-Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EFFBDB93
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 11:59:45 +0200 (CEST)
+Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD3z9-0002XA-IO
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 05:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35899)
+	id 1iD45I-0004Uy-MW
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 05:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iD3xw-00028e-Kc
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:52:09 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1iD44B-0003tu-55
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:58:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iD3xv-0001pb-Jb
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:52:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53150)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iD3xv-0001nF-E2
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:52:07 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A1D288D0F8;
- Wed, 25 Sep 2019 09:52:06 +0000 (UTC)
-Received: from work-vm (ovpn-117-251.ams2.redhat.com [10.36.117.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A35F06092D;
- Wed, 25 Sep 2019 09:52:05 +0000 (UTC)
-Date: Wed, 25 Sep 2019 10:52:03 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [Qemu-devel] [PATCH 0/3] migration/postcopy: unsentmap is not
- necessary
-Message-ID: <20190925095203.GB21544@work-vm>
-References: <20190819061843.28642-1-richardw.yang@linux.intel.com>
+ (envelope-from <bmeng.cn@gmail.com>) id 1iD44A-0008S3-1g
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 05:58:35 -0400
+Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:42535)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1iD449-0008Rg-SC; Wed, 25 Sep 2019 05:58:34 -0400
+Received: by mail-yw1-xc41.google.com with SMTP id i207so1778482ywc.9;
+ Wed, 25 Sep 2019 02:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8jNHHqTNXkqX0eXwTVH5nEoQRCcUSRmsudoY9Aq7OdE=;
+ b=QN4Mu7G0MZ9Xj5nFz7BtCKzBRB6Y82ADE43Nea1qqG4mT6vkD/bdvbZNbDD+l5/Wsa
+ e4tw/GinEEnX72V3qfiR6gWf0TztZIjKEVqc0tjO3Z1lA8SAXu0C23v7hfbLtuC4+jqb
+ 9ZBYONkAz7jY/LSAdpjax20l0jzdKreELdeLYkvzH87cF3AO3ieULwTbR5ao8EhOP+nG
+ eT8IqHVMTpweECxRjfBSan0oom4o2nh2eM/7x5tXNUCAeAH2T1RhOmzvUNqhTZAJxGOk
+ kvCDy+KNGHor3Tt/Jq9T/hHabHzdInqS0Qn7i0KPD0SGEaCB2bAIm5F8eLph2ZnIrqge
+ SeWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8jNHHqTNXkqX0eXwTVH5nEoQRCcUSRmsudoY9Aq7OdE=;
+ b=oBjxGTCjia5wjHS6jmuvCKtQFJvKZCPpv5vjFJwOI6pfBighHF6hs624syUuqsrOzz
+ 7cEnIyrVS6KbTafkO5wsr6SFIi1JHMYWYiuED8MQfOs0EdlOHTlvzJKilvdgqGoNBNUV
+ fOYegjNUnFqF5kk3nks6gfsP7uMlvYYQrqJz6INBiFJanLPwhAP/XHI+xZlix7LqIzQp
+ +JUIjPyWYIwcm+EUBVu6cbFpXFPv1eMuQi78eolylUBbNJs64GgA1yYb88sgSy7mzBNy
+ FZ/pwoe/w8AUB1OQJ538mq8mA47xvW5DAnK56y1hzMJEYEXpqXYHBbIyttfX2/3tYmpM
+ TrAQ==
+X-Gm-Message-State: APjAAAVJTJOpAZ76dYCyLMriR0p8yCYRY197BJNOKlLuv45pwzo+8n9F
+ rR744ac7fwE0nQgMA7BpkyKvCgk2OrNrB8H8DjI=
+X-Google-Smtp-Source: APXvYqyRekIQ5A1TJXe5qzHxBO04a6IszwOixMsJyV4X2WCUD7xPcNMpz1j3uZZYbJF2/gMq7FJlMol9032wz2VRX7I=
+X-Received: by 2002:a0d:ca03:: with SMTP id m3mr4923560ywd.209.1569405513177; 
+ Wed, 25 Sep 2019 02:58:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190819061843.28642-1-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 25 Sep 2019 09:52:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <1569403262-23523-1-git-send-email-guoren@kernel.org>
+In-Reply-To: <1569403262-23523-1-git-send-email-guoren@kernel.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 25 Sep 2019 17:58:21 +0800
+Message-ID: <CAEUhbmUb=KOBje_X_hnmHz9LFDLyE+eb7iJhGkns2WMAsBRCpQ@mail.gmail.com>
+Subject: Re: [PATCH V4] target/riscv: Ignore reserved bits in PTE for RV64
+To: guoren@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,35 +70,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> Three patches to cleanup postcopy:
-> 
-> [1]: split canonicalize bitmap and discard page
-> [2]: remove unsentmap since it is not necessary
-> [3]: cleanup the get_queued_page_not_dirty
+On Wed, Sep 25, 2019 at 5:21 PM <guoren@kernel.org> wrote:
+>
+> From: Guo Ren <ren_guo@c-sky.com>
+>
+> Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so we
+> need to ignore them. They cannot be a part of ppn.
+>
+> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+>    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+>    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+>
+> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/cpu_bits.h   | 7 +++++++
+>  target/riscv/cpu_helper.c | 2 +-
+>  2 files changed, 8 insertions(+), 1 deletion(-)
+>
+> Changelog V4:
+>  - Change title to Ignore not Bugfix
+>  - Use PTE_PPN_MASK for RV32 and RV64
+>
+> Changelog V3:
+>  - Use UUL define for PTE_RESERVED
+>  - Keep ppn >> PTE_PPN_SHIFT
+>
+> Changelog V2:
+>  - Bugfix pte destroyed cause boot fail
+>  - Change to AND with a mask instead of shifting both directions
+>
 
-Queued
-
-> 
-> Wei Yang (3):
->   migration/postcopy: not necessary to do discard when canonicalizing
->     bitmap
->   migration/postcopy: unsentmap is not necessary for postcopy
->   migration: remove sent parameter in get_queued_page_not_dirty
-> 
->  include/exec/ram_addr.h |  6 ---
->  migration/ram.c         | 94 +++++++----------------------------------
->  migration/trace-events  |  2 +-
->  3 files changed, 16 insertions(+), 86 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
