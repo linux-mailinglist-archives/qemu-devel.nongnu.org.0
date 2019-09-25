@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A95BD91C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:29:04 +0200 (CEST)
-Received: from localhost ([::1]:46368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9420BD8BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:08:05 +0200 (CEST)
+Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1jS-0004n0-F6
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40699)
+	id 1iD1P9-0001sG-OZ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40799)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iD1G7-0003bp-R1
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:44 -0400
+ (envelope-from <clg@kaod.org>) id 1iD1GZ-0004A4-Vo
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:59:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iD1G5-00025Q-Lh
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:43 -0400
-Received: from 9.mo69.mail-out.ovh.net ([46.105.56.78]:33927)
+ (envelope-from <clg@kaod.org>) id 1iD1GY-0002M1-QC
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:59:11 -0400
+Received: from 14.mo6.mail-out.ovh.net ([46.105.56.113]:48074)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1G5-00024Q-G7
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:41 -0400
-Received: from player750.ha.ovh.net (unknown [10.108.57.211])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id 5647E666E2
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 08:58:38 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1GY-0002LD-KG
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:59:10 -0400
+Received: from player779.ha.ovh.net (unknown [10.109.159.132])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id AB2AD1E1153
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 08:59:08 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player750.ha.ovh.net (Postfix) with ESMTPSA id 53258A487BCF;
- Wed, 25 Sep 2019 06:58:27 +0000 (UTC)
-Subject: Re: [PATCH 07/20] spapr: Fold spapr_phb_lsi_qirq() into its single
- caller
+ by player779.ha.ovh.net (Postfix) with ESMTPSA id D8EA8A1778E8;
+ Wed, 25 Sep 2019 06:58:57 +0000 (UTC)
+Subject: Re: [PATCH 08/20] spapr: Replace spapr_vio_qirq() helper with
+ spapr_vio_irq_pulse() helper
 To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-8-david@gibson.dropbear.id.au>
+ <20190925064534.19155-9-david@gibson.dropbear.id.au>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <a184f1aa-0347-7f07-dbc4-8f9e4f7a901c@kaod.org>
-Date: Wed, 25 Sep 2019 08:58:26 +0200
+Message-ID: <fb4b950e-b0c3-3910-4964-836fb1f88301@kaod.org>
+Date: Wed, 25 Sep 2019 08:58:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190925064534.19155-8-david@gibson.dropbear.id.au>
+In-Reply-To: <20190925064534.19155-9-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 1161084281337580504
+X-Ovh-Tracer-Id: 1169810006418099160
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedugdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.56.78
+X-Received-From: 46.105.56.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,58 +69,115 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 25/09/2019 08:45, David Gibson wrote:
-> No point having a two-line helper that's used exactly once, and not lik=
-ely
-> to be used anywhere else in future.
+> Every caller of spapr_vio_qirq() immediately calls qemu_irq_pulse() wit=
+h
+> the result, so we might as well just fold that into the helper.
 >=20
 > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 > ---
->  hw/ppc/spapr_pci.c          | 3 ++-
->  include/hw/pci-host/spapr.h | 7 -------
->  2 files changed, 2 insertions(+), 8 deletions(-)
+>  hw/char/spapr_vty.c        | 3 +--
+>  hw/net/spapr_llan.c        | 3 +--
+>  hw/ppc/spapr_vio.c         | 3 +--
+>  include/hw/ppc/spapr_vio.h | 5 +++--
+>  4 files changed, 6 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 7b71ad7c74..6934d506a7 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -721,9 +721,10 @@ static void pci_spapr_set_irq(void *opaque, int ir=
-q_num, int level)
->       * corresponding qemu_irq.
->       */
->      SpaprPhbState *phb =3D opaque;
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> diff --git a/hw/char/spapr_vty.c b/hw/char/spapr_vty.c
+> index 087c93e4fa..8f4d9fe472 100644
+> --- a/hw/char/spapr_vty.c
+> +++ b/hw/char/spapr_vty.c
+> @@ -5,7 +5,6 @@
+>  #include "cpu.h"
+>  #include "migration/vmstate.h"
+>  #include "chardev/char-fe.h"
+> -#include "hw/irq.h"
+>  #include "hw/ppc/spapr.h"
+>  #include "hw/ppc/spapr_vio.h"
+>  #include "hw/qdev-properties.h"
+> @@ -37,7 +36,7 @@ static void vty_receive(void *opaque, const uint8_t *=
+buf, int size)
 > =20
->      trace_spapr_pci_lsi_set(phb->dtbusname, irq_num, phb->lsi_table[ir=
-q_num].irq);
-> -    qemu_set_irq(spapr_phb_lsi_qirq(phb, irq_num), level);
-> +    qemu_set_irq(spapr_qirq(spapr, phb->lsi_table[irq_num].irq), level=
-);
+>      if ((dev->in =3D=3D dev->out) && size) {
+>          /* toggle line to simulate edge interrupt */
+> -        qemu_irq_pulse(spapr_vio_qirq(&dev->sdev));
+> +        spapr_vio_irq_pulse(&dev->sdev);
+>      }
+>      for (i =3D 0; i < size; i++) {
+>          if (dev->in - dev->out >=3D VTERM_BUFSIZE) {
+> diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
+> index 701e6e1514..3d96884d66 100644
+> --- a/hw/net/spapr_llan.c
+> +++ b/hw/net/spapr_llan.c
+> @@ -27,7 +27,6 @@
+> =20
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+> -#include "hw/irq.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+>  #include "net/net.h"
+> @@ -267,7 +266,7 @@ static ssize_t spapr_vlan_receive(NetClientState *n=
+c, const uint8_t *buf,
+>      }
+> =20
+>      if (sdev->signal_state & 1) {
+> -        qemu_irq_pulse(spapr_vio_qirq(sdev));
+> +        spapr_vio_irq_pulse(sdev);
+>      }
+> =20
+>      return size;
+> diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+> index 0803649658..554de9930d 100644
+> --- a/hw/ppc/spapr_vio.c
+> +++ b/hw/ppc/spapr_vio.c
+> @@ -23,7 +23,6 @@
+>  #include "qemu/error-report.h"
+>  #include "qapi/error.h"
+>  #include "qapi/visitor.h"
+> -#include "hw/irq.h"
+>  #include "qemu/log.h"
+>  #include "hw/loader.h"
+>  #include "elf.h"
+> @@ -294,7 +293,7 @@ int spapr_vio_send_crq(SpaprVioDevice *dev, uint8_t=
+ *crq)
+>      dev->crq.qnext =3D (dev->crq.qnext + 16) % dev->crq.qsize;
+> =20
+>      if (dev->signal_state & 1) {
+> -        qemu_irq_pulse(spapr_vio_qirq(dev));
+> +        spapr_vio_irq_pulse(dev);
+>      }
+> =20
+>      return 0;
+> diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
+> index 875be28cdd..72762ed16b 100644
+> --- a/include/hw/ppc/spapr_vio.h
+> +++ b/include/hw/ppc/spapr_vio.h
+> @@ -24,6 +24,7 @@
+> =20
+>  #include "hw/ppc/spapr.h"
+>  #include "sysemu/dma.h"
+> +#include "hw/irq.h"
+> =20
+>  #define TYPE_VIO_SPAPR_DEVICE "vio-spapr-device"
+>  #define VIO_SPAPR_DEVICE(obj) \
+> @@ -84,11 +85,11 @@ extern SpaprVioDevice *spapr_vio_find_by_reg(SpaprV=
+ioBus *bus, uint32_t reg);
+>  void spapr_dt_vdevice(SpaprVioBus *bus, void *fdt);
+>  extern gchar *spapr_vio_stdout_path(SpaprVioBus *bus);
+> =20
+> -static inline qemu_irq spapr_vio_qirq(SpaprVioDevice *dev)
+> +static inline void spapr_vio_irq_pulse(SpaprVioDevice *dev)
+>  {
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> =20
+> -    return spapr_qirq(spapr, dev->irq);
+> +    qemu_irq_pulse(spapr_qirq(spapr, dev->irq));
 >  }
 > =20
->  static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
-> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-> index abd87605b2..23506f05d9 100644
-> --- a/include/hw/pci-host/spapr.h
-> +++ b/include/hw/pci-host/spapr.h
-> @@ -128,13 +128,6 @@ struct SpaprPhbState {
->  #define SPAPR_PCI_NV2ATSD_WIN_SIZE   (NVGPU_MAX_NUM * NVGPU_MAX_LINKS =
-* \
->                                        64 * KiB)
-> =20
-> -static inline qemu_irq spapr_phb_lsi_qirq(struct SpaprPhbState *phb, i=
-nt pin)
-> -{
-> -    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> -
-> -    return spapr_qirq(spapr, phb->lsi_table[pin].irq);
-> -}
-> -
->  int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
->                   uint32_t nr_msis, int *node_offset);
-> =20
+>  static inline bool spapr_vio_dma_valid(SpaprVioDevice *dev, uint64_t t=
+addr,
 >=20
 
 
