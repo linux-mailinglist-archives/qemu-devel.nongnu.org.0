@@ -2,78 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723AABE3F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 19:57:17 +0200 (CEST)
-Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C97BE4AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:35:34 +0200 (CEST)
+Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDBXQ-0001IN-78
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 13:57:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
+	id 1iDC8S-0003ZO-CT
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDBWD-0000k9-Bo
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:56:02 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iDC5e-0001Kt-W1
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:32:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDBWC-0008Ii-2O
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:56:01 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33228)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDBWB-0008ID-Q5
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:55:59 -0400
-Received: by mail-pg1-x544.google.com with SMTP id i30so296351pgl.0
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 10:55:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=v+syrApcrMsvu4H21xycRc0iR43xVWWnHSl+gyh3/70=;
- b=d3LPthwqPWGUFE27kQoLfKmG6F6IdIldKvLYXYkeWkOxg5rcIIizqfDoHdubkmlA/m
- d41ELaMgm9ZWtxI4g7YL2is3VtnNNhIHQVAGJFCz2h8KkA2NH3x7TxnYV/vKMhgXiIYJ
- NBhiA9RRXWiMKMa3ojZuH+KcFmO7+BuFfRNEF2wxTNAjPXWBiW0u1203gHNw6Up1ZkHT
- O3BaPpoXaZuAOhTbGfCbuIgUWZWA7hlKJqLvmA2JVqWTsRq7UAS3pV+Js43E44+1ekoN
- jhcF2KOvacaPsc1DeWzhBG2rIIQ3H1CzaDc/m/0fwTfKYuj7lMrkDV5VA/6OvVxrvS0t
- Mz0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v+syrApcrMsvu4H21xycRc0iR43xVWWnHSl+gyh3/70=;
- b=TkP/HHjf+SzwKbAH9AV3+WJZaNeXnsGqG0f9CsgsrTIBQgriFrx3JE8C9MIET5dGQ/
- dunm1N0UgYbS6dkQNj9W6HzLZELwxyUJDL2y9tXeySfxe8hG4zyECvb5hdhvfuXV4WCk
- vHylBPzDuRtoi08aCcduIeccl4DB99fwg9FTm2Yyk5m+6fZO8KR+Wm8f0A5P0SIKDqJq
- zogbVmYjUzn6Flkwtum379/Ee2Wm2cJR+2WXXQ7TtyceTtRI/sivzPYYlW+t5z2xDFRu
- je0pg8oORJHEGOzR/ntLkY5Jz90g9Nc8LeTkkgBPlPF4xHp3mqw+ORHRPwBX2TfpbF9d
- NG8A==
-X-Gm-Message-State: APjAAAW7ssLM+3qVgIr8jrWEfovJUuLIEzYpicWfWHTx8CUZQm9Jdx2X
- T8i9fUdHCAJoytSww97ZoXTnPQ==
-X-Google-Smtp-Source: APXvYqxsj7/N9ioPiOsS5x6UV/3CWq2vfET5miBlJ+PrtbVZG8fLNXWrcOmMCoxtZDcgqGShPmjnAg==
-X-Received: by 2002:a63:4a47:: with SMTP id j7mr508157pgl.399.1569434158405;
- Wed, 25 Sep 2019 10:55:58 -0700 (PDT)
-Received: from [172.20.32.216] ([12.206.46.61])
- by smtp.gmail.com with ESMTPSA id v8sm12116827pje.6.2019.09.25.10.55.56
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 25 Sep 2019 10:55:57 -0700 (PDT)
-Subject: Re: [PATCH v4 10/16] cputlb: Partially inline
- memory_region_section_get_iotlb
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190923230004.9231-1-richard.henderson@linaro.org>
- <20190923230004.9231-11-richard.henderson@linaro.org>
- <c61bc143-81d3-5198-fbdd-054777faafe0@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c396f679-d100-2f1e-012e-045ad0976268@linaro.org>
-Date: Wed, 25 Sep 2019 10:55:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <mreitz@redhat.com>) id 1iDC5d-0007Xl-Uu
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:32:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58028)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iDC5a-0007Qw-K1; Wed, 25 Sep 2019 14:32:34 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 53FF018C8931;
+ Wed, 25 Sep 2019 18:32:33 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE8E8608C2;
+ Wed, 25 Sep 2019 18:32:32 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/3] iotests: Fix 125
+Date: Wed, 25 Sep 2019 20:32:28 +0200
+Message-Id: <20190925183231.11196-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c61bc143-81d3-5198-fbdd-054777faafe0@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Wed, 25 Sep 2019 18:32:33 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,59 +53,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/19 12:59 AM, David Hildenbrand wrote:
->> +    is_ram = memory_region_is_ram(section->mr);
->> +    is_romd = memory_region_is_romd(section->mr);
->> +
->> +    if (is_ram || is_romd) {
->> +        /* RAM and ROMD both have associated host memory. */
->>          addend = (uintptr_t)memory_region_get_ram_ptr(section->mr) + xlat;
->> +    } else {
->> +        /* I/O does not; force the host address to NULL. */
->> +        addend = 0;
->> +    }
->> +
->> +    write_address = address;
-> 
-> I guess the only "suboptimal" change is that you now have two checks for
-> "prot & PAGE_WRITE" twice in the case of ram instead of one.
+Hi,
 
-It's a single bit test on a register operand -- as cheap as can be.  If you
-look at the entire code, there *must* be more than one test.  You can rearrange
-the code to choose exactly where those tests are, but you'll have to have them
-somewhere.
+iotest 125 is very broken.  It uses qemu-img info=E2=80=99s =E2=80=9Cdisk=
+ size=E2=80=9D to
+determine an image=E2=80=99s on-disk size, but it does so in a wrong way:=
+ It
+just fetches the first number ([0-9]+), but that isn=E2=80=99t very usefu=
+l
+because qemu-img info emits human-readable values that include units and
+decimal points.
 
->> +        /* I/O or ROMD */
->> +        iotlb = memory_region_section_get_iotlb(cpu, section) + xlat;
->> +        /*
->> +         * Writes to romd devices must go through MMIO to enable write.
->> +         * Reads to romd devices go through the ram_ptr found above,
->> +         * but of course reads to I/O must go through MMIO.
->> +         */
->> +        write_address |= TLB_MMIO;
-> 
-> ... and here you calculate write_address even if probably unused.
+We should ust stat -c %b instead.  That=E2=80=99s done in patch 3.
+Unfortunately, doing so exposed more problems.
 
-Well... while the page might not be writable (but I'd bet that it is -- I/O
-memory is almost never read-only), and therefore write_address is technically
-unused, the variable is practically used in the next line:
+Patch 1 fixes a stupid bug in the test itself that we never noticed
+because of what patch 3 fixes.  (Pull patch 3 before patch 1 and you=E2=80=
+=99ll
+see.)
 
-    if (!is_romd) {
-        address = write_address
-    }
-
-which will compile to a conditional move.
-
-> Can your move the calculation of the write_address completely into the
-> "prot & PAGE_WRITE" case below?
-
-We'd prefer not to, since the code below is within the cpu tlb lock region.
-We'd prefer to keep all of the expensive operations outside that.
+The other thing is actually a bug in XFS.  Its fallocate()
+implementation rounds up the length independently of the offset, so if
+you try to fallocate an unaligned range, chances are that it might not
+allocate the last block your range touches.  Patch 2 detects that case
+and skips the test then.  (Pull patch 3 before patch 2 and you=E2=80=99ll=
+ see
+the test fail on XFS.)
 
 
-r~
+Max Reitz (3):
+  iotests: Fix 125 for growth_mode =3D metadata
+  iotests: Disable 125 on broken XFS versions
+  iotests: Use stat -c %b in 125
+
+ tests/qemu-iotests/125 | 45 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 42 insertions(+), 3 deletions(-)
+
+--=20
+2.21.0
+
 
