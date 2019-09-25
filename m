@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2808FBDE78
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:03:41 +0200 (CEST)
-Received: from localhost ([::1]:49672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD8CBDE9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:11:44 +0200 (CEST)
+Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD6xH-0008RB-UR
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57991)
+	id 1iD754-00005o-Oa
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iD6gq-0001TL-FF
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:46:41 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iD6gq-0001Tg-Qd
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:46:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iD6go-0002Lw-Uu
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iD6gp-0002ME-5q
  for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:46:40 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:56141 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:56142 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iD6go-0002Go-MO
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:46:38 -0400
+ id 1iD6go-0002Gn-N0
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:46:39 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 462C81A23C3;
+ by mail.rt-rk.com (Postfix) with ESMTP id 537DA1A23A9;
  Wed, 25 Sep 2019 14:46:22 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 170EE1A23CF;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 1F4DF1A23E2;
  Wed, 25 Sep 2019 14:46:22 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/20] target/mips: msa: Simplify and move helper for MOVE.V
-Date: Wed, 25 Sep 2019 14:46:11 +0200
-Message-Id: <1569415572-19635-20-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v2 20/20] target/mips: msa: Move helpers for <AND|NOR|OR|XOR>.V
+Date: Wed, 25 Sep 2019 14:46:12 +0200
+Message-Id: <1569415572-19635-21-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1569415572-19635-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1569415572-19635-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -56,90 +56,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Achieves clearer code and slightly better performance.
+Cosmetic reorganization.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/helper.h     |  2 +-
- target/mips/msa_helper.c | 31 +++++++++++++------------------
- 2 files changed, 14 insertions(+), 19 deletions(-)
+ target/mips/helper.h     |  9 +++---
+ target/mips/msa_helper.c | 81 ++++++++++++++++++++++++------------------------
+ 2 files changed, 45 insertions(+), 45 deletions(-)
 
 diff --git a/target/mips/helper.h b/target/mips/helper.h
-index cc216f7..3b1a965 100644
+index 3b1a965..d615c83 100644
 --- a/target/mips/helper.h
 +++ b/target/mips/helper.h
-@@ -887,6 +887,7 @@ DEF_HELPER_4(msa_mod_s_h, void, env, i32, i32, i32)
+@@ -887,6 +887,11 @@ DEF_HELPER_4(msa_mod_s_h, void, env, i32, i32, i32)
  DEF_HELPER_4(msa_mod_s_w, void, env, i32, i32, i32)
  DEF_HELPER_4(msa_mod_s_d, void, env, i32, i32, i32)
  
-+DEF_HELPER_3(msa_move_v, void, env, i32, i32)
++DEF_HELPER_4(msa_and_v, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_nor_v, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_or_v, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_xor_v, void, env, i32, i32, i32)
++
+ DEF_HELPER_3(msa_move_v, void, env, i32, i32)
  
  DEF_HELPER_4(msa_andi_b, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_ori_b, void, env, i32, i32, i32)
-@@ -977,7 +978,6 @@ DEF_HELPER_5(msa_splati_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_insve_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_3(msa_ctcmsa, void, env, tl, i32)
- DEF_HELPER_2(msa_cfcmsa, tl, env, i32)
--DEF_HELPER_3(msa_move_v, void, env, i32, i32)
+@@ -1021,10 +1026,6 @@ DEF_HELPER_5(msa_mulr_q_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_maddr_q_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_msubr_q_df, void, env, i32, i32, i32, i32)
  
- DEF_HELPER_5(msa_fcaf_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_fcun_df, void, env, i32, i32, i32, i32)
+-DEF_HELPER_4(msa_and_v, void, env, i32, i32, i32)
+-DEF_HELPER_4(msa_or_v, void, env, i32, i32, i32)
+-DEF_HELPER_4(msa_nor_v, void, env, i32, i32, i32)
+-DEF_HELPER_4(msa_xor_v, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_fill_df, void, env, i32, i32, i32)
+ 
+ DEF_HELPER_4(msa_copy_s_b, void, env, i32, i32, i32)
 diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index 8ad9d42..cece69b 100644
+index cece69b..e52d74f 100644
 --- a/target/mips/msa_helper.c
 +++ b/target/mips/msa_helper.c
-@@ -1974,7 +1974,19 @@ void helper_msa_mod_u_d(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt
+@@ -1962,7 +1962,46 @@ void helper_msa_mod_u_d(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt
   * +---------------+----------------------------------------------------------+
   */
  
--/* TODO: insert Move group helpers here */
-+static inline void msa_move_v(wr_t *pwd, wr_t *pws)
-+{
-+    pwd->d[0] = pws->d[0];
-+    pwd->d[1] = pws->d[1];
-+}
+-/* TODO: insert Logic group helpers here */
 +
-+void helper_msa_move_v(CPUMIPSState *env, uint32_t wd, uint32_t ws)
++void helper_msa_and_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
 +{
 +    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
 +    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
 +
-+    msa_move_v(pwd, pws);
++    pwd->d[0] = pws->d[0] & pwt->d[0];
++    pwd->d[1] = pws->d[1] & pwt->d[1];
++}
++
++void helper_msa_nor_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0] = ~(pws->d[0] | pwt->d[0]);
++    pwd->d[1] = ~(pws->d[1] | pwt->d[1]);
++}
++
++void helper_msa_or_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0] = pws->d[0] | pwt->d[0];
++    pwd->d[1] = pws->d[1] | pwt->d[1];
++}
++
++void helper_msa_xor_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0] = pws->d[0] ^ pwt->d[0];
++    pwd->d[1] = pws->d[1] ^ pwt->d[1];
 +}
  
  
  /*
-@@ -2031,15 +2043,6 @@ void helper_msa_mod_u_d(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt
- /* TODO: insert Shift group helpers here */
- 
- 
--static inline void msa_move_v(wr_t *pwd, wr_t *pws)
--{
--    uint32_t i;
--
--    for (i = 0; i < DF_ELEMENTS(DF_DOUBLE); i++) {
--        pwd->d[i] = pws->d[i];
--    }
--}
--
- #define MSA_FN_IMM8(FUNC, DEST, OPERATION)                              \
- void helper_msa_ ## FUNC(CPUMIPSState *env, uint32_t wd, uint32_t ws,   \
-         uint32_t i8)                                                    \
-@@ -3826,14 +3829,6 @@ target_ulong helper_msa_cfcmsa(CPUMIPSState *env, uint32_t cs)
-     return 0;
+@@ -2112,46 +2151,6 @@ void helper_msa_shf_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+     msa_move_v(pwd, pwx);
  }
  
--void helper_msa_move_v(CPUMIPSState *env, uint32_t wd, uint32_t ws)
+-void helper_msa_and_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
 -{
 -    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
 -    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
+-    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
 -
--    msa_move_v(pwd, pws);
+-    pwd->d[0] = pws->d[0] & pwt->d[0];
+-    pwd->d[1] = pws->d[1] & pwt->d[1];
 -}
 -
- void helper_msa_fill_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                         uint32_t rs)
+-void helper_msa_or_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
+-{
+-    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
+-    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
+-    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
+-
+-    pwd->d[0] = pws->d[0] | pwt->d[0];
+-    pwd->d[1] = pws->d[1] | pwt->d[1];
+-}
+-
+-void helper_msa_nor_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
+-{
+-    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
+-    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
+-    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
+-
+-    pwd->d[0] = ~(pws->d[0] | pwt->d[0]);
+-    pwd->d[1] = ~(pws->d[1] | pwt->d[1]);
+-}
+-
+-void helper_msa_xor_v(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
+-{
+-    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
+-    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
+-    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
+-
+-    pwd->d[0] = pws->d[0] ^ pwt->d[0];
+-    pwd->d[1] = pws->d[1] ^ pwt->d[1];
+-}
+-
+ static inline int64_t msa_addv_df(uint32_t df, int64_t arg1, int64_t arg2)
  {
+     return arg1 + arg2;
 -- 
 2.7.4
 
