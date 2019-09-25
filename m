@@ -2,94 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129CFBDFA3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:06:03 +0200 (CEST)
-Received: from localhost ([::1]:52466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1174BDF64
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:48:21 +0200 (CEST)
+Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD7vd-0003PN-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47089)
+	id 1iD7eW-0006y3-I4
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39741)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iD7uc-0002rf-73
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:04:59 -0400
+ (envelope-from <eblake@redhat.com>) id 1iD7UK-0003Wu-1U
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:37:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iD7ua-00018l-FN
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:04:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41006)
+ (envelope-from <eblake@redhat.com>) id 1iD7UH-00061c-GE
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:37:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56172)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iD7LK-0002Yn-Hq; Wed, 25 Sep 2019 09:28:30 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iD7UH-000618-2K
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:37:45 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 56094309BF06;
- Wed, 25 Sep 2019 13:28:29 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-109.ams2.redhat.com [10.36.116.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04A5E60BF1;
- Wed, 25 Sep 2019 13:28:24 +0000 (UTC)
-Subject: Re: [PATCH v2 1/7] s390x/mmu: Drop debug logging from MMU code
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190925125236.4043-1-david@redhat.com>
- <20190925125236.4043-2-david@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <a04e04cb-db9d-f488-074f-a0a9cdfc132e@redhat.com>
-Date: Wed, 25 Sep 2019 15:28:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 52FE910A8126
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 13:37:44 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FBB519C7F
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 13:37:44 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/5] NBD patches for 2019-09-24
+Date: Wed, 25 Sep 2019 08:37:35 -0500
+Message-Id: <20190925133740.30401-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190925125236.4043-2-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Wed, 25 Sep 2019 13:28:29 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Wed, 25 Sep 2019 13:37:44 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -104,22 +54,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/09/2019 14.52, David Hildenbrand wrote:
-> Let's get it out of the way to make some further refactorings easier.
-> Personally, I've never used these debug statements at all. And if I had
-> to debug issue, I used plain GDB instead (debug prints are just way too
-> much noise in the MMU). We might want to introduce tracing at some point
-> instead, so we can able selected events on demand.
+The following changes since commit 2f93a3ecdd3bb060bd04f698ccafe66efd9856=
+3a:
 
-... and code that is disabled by default tends to bitrot anyway. Thus
-this sounds like a good idea to me.
+  Merge remote-tracking branch 'remotes/davidhildenbrand/tags/s390x-tcg-2=
+019-09-23' into staging (2019-09-23 15:44:52 +0100)
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+are available in the Git repository at:
+
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2019-09-24-v2
+
+for you to fetch changes up to da5e1169183ca6eb6fb470dc32ed1bfc24d1d406:
+
+  util/qemu-sockets: fix keep_alive handling in inet_connect_saddr (2019-=
+09-25 08:15:44 -0500)
+
+For v2 - add one more patch
+
+----------------------------------------------------------------
+nbd patches for 2019-09-24
+
+- Improved error message for plaintext client of encrypted server
+- Fix various assertions when -object iothread is in use
+- Silence a Coverity error for use-after-free on error path
+
+----------------------------------------------------------------
+Eric Blake (3):
+      nbd/client: Add hint when TLS is missing
+      nbd: Grab aio context lock in more places
+      tests: Use iothreads during iotest 223
+
+Sergio Lopez (1):
+      nbd/server: attach client channel to the export's AioContext
+
+Vladimir Sementsov-Ogievskiy (1):
+      util/qemu-sockets: fix keep_alive handling in inet_connect_saddr
+
+ include/block/nbd.h        |  1 +
+ blockdev-nbd.c             | 14 ++++++++++++--
+ nbd/client.c               |  1 +
+ nbd/server.c               | 27 +++++++++++++++++++++++----
+ util/qemu-sockets.c        |  5 +++--
+ tests/qemu-iotests/223     |  6 ++++--
+ tests/qemu-iotests/223.out |  1 +
+ tests/qemu-iotests/233.out |  2 ++
+ 8 files changed, 47 insertions(+), 10 deletions(-)
+
+--=20
+2.21.0
+
 
