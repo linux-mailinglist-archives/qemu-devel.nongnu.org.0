@@ -2,55 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C5EBD86F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 08:42:34 +0200 (CEST)
-Received: from localhost ([::1]:45962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6243CBD893
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 08:55:00 +0200 (CEST)
+Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD10S-0006yc-HH
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 02:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37371)
+	id 1iD1CU-0005tu-L2
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 02:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38539)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iD0yy-00065V-Mf
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:41:01 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iD13g-0008H2-Po
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:45:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iD0yw-0000yu-3c
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:40:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48486)
+ (envelope-from <dgibson@ozlabs.org>) id 1iD13f-0003SB-M1
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:45:52 -0400
+Received: from ozlabs.org ([203.11.71.1]:36117)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iD0yv-0000yP-UX
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:40:58 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7D36410CBC4B;
- Wed, 25 Sep 2019 06:40:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB71E60C5D;
- Wed, 25 Sep 2019 06:40:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 33549113864E; Wed, 25 Sep 2019 08:40:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 03/25] qapi: New QAPISourceInfo, replacing dict
-References: <20190924132830.15835-1-armbru@redhat.com>
- <20190924132830.15835-4-armbru@redhat.com>
- <d23eb583-4cc2-7d1b-80cc-b79bdc7282c5@redhat.com>
-Date: Wed, 25 Sep 2019 08:40:52 +0200
-In-Reply-To: <d23eb583-4cc2-7d1b-80cc-b79bdc7282c5@redhat.com> (Eric Blake's
- message of "Tue, 24 Sep 2019 14:12:27 -0500")
-Message-ID: <87pnjoev4b.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iD13e-0003Oj-HN; Wed, 25 Sep 2019 02:45:51 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46dT8m2Hv6z9sPL; Wed, 25 Sep 2019 16:45:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1569393944;
+ bh=CypVHYHnjB6CExsc3EkZt1KsaIgGQjWWt6h0wm6GrOA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DtfvuHW5xprbu9kaFoW3gXkVh004TzYVXzxTPI7owDRWXeKyp+Zjo2tCKxMYuk2k/
+ vKNE2zz6TTirV4h0ACtilbLwSwp8CACBKgQDXcd2IphyA0jxKWZUU8BsKid3Cf7Xw8
+ EdRANCXdn/Xa+NEKA/dUtTb/oHvKpmAyr7XyU/Hs=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-ppc@nongnu.org,
+	clg@kaod.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/20] spapr: IRQ subsystem cleanups
+Date: Wed, 25 Sep 2019 16:45:14 +1000
+Message-Id: <20190925064534.19155-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Wed, 25 Sep 2019 06:40:56 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,51 +54,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+This is a first batch of a number of cleanups to the handling of IRQs
+in spapr.  It includes some cleanups to both the XICS and XIVE
+interrupt controller backends, as well as more to the common spapr irq
+handling infrastructure.
 
-> On 9/24/19 8:28 AM, Markus Armbruster wrote:
->> We track source locations with a dict of the form
->> 
->>     {'file': FNAME, 'line': LINENO, parent': PARENT}
->> 
->> where PARENT is None for the main file, and the include directive's
->> source location for included files.
->> 
->> This is servicable enough, but the next commit will add information,
->> and that's going to come out cleaner if we turn this into a class.  So
->> do that.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->
->>  class QAPIError(Exception):
->> -    def __init__(self, fname, line, col, incl_info, msg):
->> +    def __init__(self, info, col, msg):
->>          Exception.__init__(self)
->
-> Unrelated to this patch, but I just noticed
-> https://docs.quantifiedcode.com/python-anti-patterns/ today (in part
-> based on my question on another patch about using 'list.get(key, False)'
-> rather than 'key in list and list[key]').  In particular, I found
-> https://docs.quantifiedcode.com/python-anti-patterns/correctness/missing_argument_to_super.html
-> which recommends using:
->
-> def __init__(...):
->     super(QAPIError, self).__init__()
->
-> (because of Python 2), while other sits state that with python 3, you
-> can further get away with:
->
-> def __init__(...):
->     super().__init(...)
->
-> Should we be switching our code base to use super() in more places,
-> rather than hard-coding the parent class name?
+These are first steps towards even more cleanups that should make the
+"dual" irq model less confusing.
 
-I intend to switch to super() in a future 'bye Python 2' series.
+David Gibson (20):
+  xics: Use incomplete type for XICSFabric
+  xics: Eliminate 'reject', 'resend' and 'eoi' class hooks
+  xics: Rename misleading ics_simple_*() functions
+  xics: Eliminate reset hook
+  xics: Merge TYPE_ICS_BASE and TYPE_ICS_SIMPLE classes
+  xics: Create sPAPR specific ICS subtype
+  spapr: Fold spapr_phb_lsi_qirq() into its single caller
+  spapr: Replace spapr_vio_qirq() helper with spapr_vio_irq_pulse()
+    helper
+  spapr: Clarify and fix handling of nr_irqs
+  spapr: Eliminate nr_irqs parameter to SpaprIrq::init
+  spapr: Fix indexing of XICS irqs
+  spapr: Simplify spapr_qirq() handling
+  spapr: Eliminate SpaprIrq:get_nodename method
+  spapr: Remove unhelpful tracepoints from spapr_irq_free_xics()
+  spapr: Handle freeing of multiple irqs in frontend only
+  spapr, xics, xive: Better use of assert()s on irq claim/free paths
+  spapr: Remove unused return value in claim path
+  xive: Improve irq claim/free path
+  spapr: Use less cryptic representation of which irq backends are
+    supported
+  spapr: Eliminate SpaprIrq::init hook
+
+ hw/char/spapr_vty.c         |   3 +-
+ hw/intc/spapr_xive.c        |  23 ++-
+ hw/intc/trace-events        |  10 +-
+ hw/intc/xics.c              | 210 ++++++++--------------
+ hw/intc/xics_spapr.c        |  46 ++++-
+ hw/net/spapr_llan.c         |   3 +-
+ hw/ppc/pnv_psi.c            |   6 +-
+ hw/ppc/spapr.c              |  15 +-
+ hw/ppc/spapr_hcall.c        |   6 +-
+ hw/ppc/spapr_irq.c          | 342 ++++++++++++++----------------------
+ hw/ppc/spapr_pci.c          |   3 +-
+ hw/ppc/spapr_vio.c          |   3 +-
+ hw/ppc/trace-events         |   4 -
+ include/hw/pci-host/spapr.h |   7 -
+ include/hw/ppc/spapr_irq.h  |  31 ++--
+ include/hw/ppc/spapr_vio.h  |   5 +-
+ include/hw/ppc/spapr_xive.h |   5 +-
+ include/hw/ppc/xics.h       |  31 ++--
+ include/hw/ppc/xics_spapr.h |   5 +-
+ 19 files changed, 320 insertions(+), 438 deletions(-)
+
+--=20
+2.21.0
+
 
