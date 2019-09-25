@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC742BE762
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:34:39 +0200 (CEST)
-Received: from localhost ([::1]:57510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E396BE735
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 23:32:08 +0200 (CEST)
+Received: from localhost ([::1]:57476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDEvm-0003hH-M1
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57783)
+	id 1iDEtH-0001W2-Mt
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 17:32:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54933)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iDEs4-0001nK-KV
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:30:49 -0400
+ (envelope-from <eblake@redhat.com>) id 1iDEqS-0008JV-Ip
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:29:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iDEs2-00011m-CN
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:30:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51660)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iDEs0-0000xX-Du
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:30:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iDErw-0003gH-5N
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 21:30:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0C8F02E80CC
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 21:30:40 +0000 (UTC)
+ (envelope-from <eblake@redhat.com>) id 1iDEqR-000835-D0
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 17:29:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45456)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iDEq9-0007mr-Oa; Wed, 25 Sep 2019 17:28:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 76B00308212F;
+ Wed, 25 Sep 2019 21:28:45 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0717E1001B00;
+ Wed, 25 Sep 2019 21:28:44 +0000 (UTC)
+Subject: Re: [PATCH 2/3] iotests: Disable 125 on broken XFS versions
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190925183231.11196-1-mreitz@redhat.com>
+ <20190925183231.11196-3-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ed2e18dc-1217-7825-aebd-af48e440ef96@redhat.com>
+Date: Wed, 25 Sep 2019 16:28:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Sep 2019 21:21:51 -0000
-From: Paul Clarke <pc@us.ibm.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc64 testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 7-pc mark-cave-ayland philmd
-X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
-X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
-References: <156711057074.6835.13599471410604217618.malonedeb@soybean.canonical.com>
-Message-Id: <156944651185.13328.13162492211107128618.malone@gac.canonical.com>
-Subject: [Bug 1841990] Re: instruction 'denbcdq' misbehaving
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19048";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 53ec0333310f87daf94b66b5bc3fb17ea2b113ae
+In-Reply-To: <20190925183231.11196-3-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Wed, 25 Sep 2019 21:28:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,75 +61,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1841990 <1841990@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Did you see the follow up email indicating the typo that I found in
-patch 6?
+On 9/25/19 1:32 PM, Max Reitz wrote:
+> And by that I mean all XFS versions, as far as I can tell.  All details
+> are in the comment below.
+> 
+> We never noticed this problem because we only read the first number from
+> qemu-img info's "disk size" output -- and that is effectively useless,
+> because qemu-img prints a human-readable value (which generally includes
+> a decimal point).  That will be fixed in the next patch.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   tests/qemu-iotests/125 | 40 ++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 40 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/125 b/tests/qemu-iotests/125
+> index df328a63a6..0ef51f1e21 100755
+> --- a/tests/qemu-iotests/125
+> +++ b/tests/qemu-iotests/125
+> @@ -49,6 +49,46 @@ if [ -z "$TEST_IMG_FILE" ]; then
+>       TEST_IMG_FILE=$TEST_IMG
+>   fi
+>   
+> +# Test whether we are running on a broken XFS version.  There is this
+> +# bug:
+> +
+> +# $ rm -f foo
+> +# $ touch foo
+> +# $ block_size=4096 # Your FS's block size
+> +# $ fallocate -o $((block_size / 2)) -l $block_size foo
+> +# $ LANG=C xfs_bmap foo | grep hole
+> +#         1: [8..15]: hole
+> +#
+> +# The problem is that the XFS driver rounds down the offset and
+> +# rounds up the length to the block size, but independently.
 
-I did, then forgot to include it in my build.  I've included that change
-now...
+Eww. I concur you uncovered a bug.  Have you reported this to xfs folks?
 
-> Does that help any more tests to pass?
+> +
+> +touch "$TEST_IMG_FILE"
+> +# Assuming there is no FS with a block size greater than 64k
+> +fallocate -o 65535 -l 2 "$TEST_IMG_FILE"
+> +len0=$(get_image_size_on_host)
+> +
+> +# Write to something that in theory we have just fallocated
+> +# (Thus, the on-disk size should not increase)
+> +poke_file "$TEST_IMG_FILE" 65536 42
+> +len1=$(get_image_size_on_host)
+> +
+> +if [ $len1 -gt $len0 ]; then
+> +    _notrun "the test filesystem's fallocate() is broken"
+> +fi
+> +
+> +rm -f "$TEST_IMG_FILE"
 
-I'm down from 22 failures to 8.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
--- =
+> +
+>   # Generally, we create some image with or without existing preallocation and
+>   # then resize it. Then we write some data into the image and verify that its
+>   # size does not change if we have used preallocation.
+> 
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1841990
-
-Title:
-  instruction 'denbcdq' misbehaving
-
-Status in QEMU:
-  New
-
-Bug description:
-  Instruction 'denbcdq' appears to have no effect.  Test case attached.
-
-  On ppc64le native:
-  --
-  gcc -g -O -mcpu=3Dpower9 bcdcfsq.c test-denbcdq.c -o test-denbcdq
-  $ ./test-denbcdq
-  0x00000000000000000000000000000000
-  0x0000000000000000000000000000000c
-  0x22080000000000000000000000000000
-  $ ./test-denbcdq 1
-  0x00000000000000000000000000000001
-  0x0000000000000000000000000000001c
-  0x22080000000000000000000000000001
-  $ ./test-denbcdq $(seq 0 99)
-  0x00000000000000000000000000000064
-  0x0000000000000000000000000000100c
-  0x22080000000000000000000000000080
-  --
-
-  With "qemu-ppc64le -cpu power9"
-  --
-  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq
-  0x00000000000000000000000000000000
-  0x0000000000000000000000000000000c
-  0x0000000000000000000000000000000c
-  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq 1
-  0x00000000000000000000000000000001
-  0x0000000000000000000000000000001c
-  0x0000000000000000000000000000001c
-  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq $(seq 100)
-  0x00000000000000000000000000000064
-  0x0000000000000000000000000000100c
-  0x0000000000000000000000000000100c
-  --
-
-  I started looking at the code, but I got confused rather quickly.
-  Could be related to endianness? I think denbcdq arrived on the scene
-  before little-endian was a big deal.  Maybe something to do with
-  utilizing implicit floating-point register pairs...  I don't think the
-  right data is getting to helper_denbcdq, which would point back to the
-  gen_fprp_ptr uses in dfp-impl.inc.c (GEN_DFP_T_FPR_I32_Rc).  (Maybe?)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1841990/+subscriptions
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
