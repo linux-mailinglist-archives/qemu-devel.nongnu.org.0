@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A464BD629
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 03:42:44 +0200 (CEST)
-Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210AABD62B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 03:44:49 +0200 (CEST)
+Received: from localhost ([::1]:44636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCwKJ-0007NF-3r
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 21:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37129)
+	id 1iCwMJ-0001Cd-R9
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 21:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37137)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iCwHb-0005TY-MO
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:39:57 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iCwHc-0005Ta-8x
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:39:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iCwHZ-0003I3-Sf
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:39:55 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34579 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iCwHZ-0003Hx-PF
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:39:56 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:39597)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iCwHY-0003HC-Vk; Tue, 24 Sep 2019 21:39:53 -0400
+ id 1iCwHY-0003HE-Au; Tue, 24 Sep 2019 21:39:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46dLMm5V4Fz9sP3; Wed, 25 Sep 2019 11:39:48 +1000 (AEST)
+ id 46dLMm6k5yz9sPK; Wed, 25 Sep 2019 11:39:48 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569375588;
- bh=vLIdMJoa28jg7ayQKBwl2iYEf8kLES4gg4S0wfVpObo=;
+ bh=i3zCDwIibzfTGEpCtOKReHEqQVg0qD0NAsDsUb4ejr8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZPdttV6ziF0GISKp7Rt9d7d2mpl92F5757A3IWb+2Oy3YPmcd5n/XSs2qu4ST9BD7
- pkf/4/lqTGEmRg6UQuYxJVVX8xUw3J6IF/jK9zRr+pruZN13EHwWPh58HQoNplJrqk
- T+/1Ge9ip4MmhGs3tfSJQUSU3maz7eVTb0t3oBuw=
-Date: Wed, 25 Sep 2019 11:12:00 +1000
+ b=i9+7J8yNBS6ezd0tA0dS/haTPTDCWCklGBUd7gQaJOFhYtsLRVgdO5b335lWTuQaT
+ Ucb2qXr8HlNT+auDe0VKAf7kgt0Hz1WzSnNaTFt1L8Ef3xROy6HoDIDLMHwx+Mlxrs
+ RloFETGjZQjzogDqWtT+nDrLkNf2xpUd0ZRhWotE=
+Date: Wed, 25 Sep 2019 11:30:52 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Subject: Re: [PATCH v14 2/7] ppc: spapr: Introduce FWNMI capability
-Message-ID: <20190925011200.GF17405@umbus>
+Subject: Re: [PATCH v14 4/7] target/ppc: Build rtas error log upon an MCE
+Message-ID: <20190925013052.GG17405@umbus>
 References: <156879398718.18368.17640174821710157715.stgit@aravinda>
- <156879433743.18368.1281417894007921022.stgit@aravinda>
+ <156879435456.18368.1144480383769624512.stgit@aravinda>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HCdXmnRlPgeNBad2"
+ protocol="application/pgp-signature"; boundary="nqkreNcslJAfgyzk"
 Content-Disposition: inline
-In-Reply-To: <156879433743.18368.1281417894007921022.stgit@aravinda>
+In-Reply-To: <156879435456.18368.1144480383769624512.stgit@aravinda>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -62,221 +62,424 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---HCdXmnRlPgeNBad2
+--nqkreNcslJAfgyzk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 01:42:17PM +0530, Aravinda Prasad wrote:
-> Introduce the KVM capability KVM_CAP_PPC_FWNMI so that
-> the KVM causes guest exit with NMI as exit reason
-> when it encounters a machine check exception on the
-> address belonging to a guest. Without this capability
-> enabled, KVM redirects machine check exceptions to
-> guest's 0x200 vector.
+On Wed, Sep 18, 2019 at 01:42:34PM +0530, Aravinda Prasad wrote:
+> Upon a machine check exception (MCE) in a guest address space,
+> KVM causes a guest exit to enable QEMU to build and pass the
+> error to the guest in the PAPR defined rtas error log format.
 >=20
-> This patch also introduces fwnmi-mce capability to
-> deal with the case when a guest with the
-> KVM_CAP_PPC_FWNMI capability enabled is attempted
-> to migrate to a host that does not support this
-> capability.
+> This patch builds the rtas error log, copies it to the rtas_addr
+> and then invokes the guest registered machine check handler. The
+> handler in the guest takes suitable action(s) depending on the type
+> and criticality of the error. For example, if an error is
+> unrecoverable memory corruption in an application inside the
+> guest, then the guest kernel sends a SIGBUS to the application.
+> For recoverable errors, the guest performs recovery actions and
+> logs the error.
 >=20
 > Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-
-Mostly ok, but there's one ugly problem.
-
 > ---
->  hw/ppc/spapr.c         |    1 +
->  hw/ppc/spapr_caps.c    |   29 +++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |    4 +++-
->  target/ppc/kvm.c       |   26 ++++++++++++++++++++++++++
->  target/ppc/kvm_ppc.h   |   12 ++++++++++++
->  5 files changed, 71 insertions(+), 1 deletion(-)
+>  hw/ppc/spapr.c         |   13 +++
+>  hw/ppc/spapr_events.c  |  222 ++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  hw/ppc/spapr_rtas.c    |   26 ++++++
+>  include/hw/ppc/spapr.h |    6 +
+>  target/ppc/kvm.c       |    4 +
+>  5 files changed, 268 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index ea56499..8288e8b 100644
+> index 76ed988..9f2e5d2 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -4487,6 +4487,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_ON;
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
->      spapr_caps_add_properties(smc, &error_abort);
->      smc->irq =3D &spapr_irq_dual;
->      smc->dr_phb_enabled =3D true;
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 481dfd2..c11ff87 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -496,6 +496,25 @@ static void cap_ccf_assist_apply(SpaprMachineState *=
-spapr, uint8_t val,
+> @@ -2930,6 +2930,19 @@ static void spapr_machine_init(MachineState *machi=
+ne)
+>          error_report("Could not get size of LPAR rtas '%s'", filename);
+>          exit(1);
 >      }
->  }
-> =20
-> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
-> +                                Error **errp)
-> +{
-> +    if (!val) {
-> +        return; /* Disabled by default */
+> +
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_ON) {
+> +        /*
+> +         * Ensure that the rtas image size is less than RTAS_ERROR_LOG_O=
+FFSET
+> +         * or else the rtas image will be overwritten with the rtas erro=
+r log
+> +         * when a machine check exception is encountered.
+> +         */
+> +        g_assert(spapr->rtas_size < RTAS_ERROR_LOG_OFFSET);
+> +
+> +        /* Resize rtas blob to accommodate error log */
+> +        spapr->rtas_size =3D RTAS_ERROR_LOG_MAX;
 > +    }
 > +
-> +    if (tcg_enabled()) {
-> +        /*
-> +         * TCG support may not be correct in some conditions (e.g., in c=
-ase
-> +         * of software injected faults like duplicate SLBs).
-> +         */
-> +        warn_report("Firmware Assisted Non-Maskable Interrupts not suppo=
-rted in TCG");
-> +    } else if (kvm_enabled() && !kvmppc_has_cap_ppc_fwnmi()) {
-> +        error_setg(errp,
-> +"Firmware Assisted Non-Maskable Interrupts not supported by KVM, try cap=
--fwnmi-mce=3Doff");
+
+I've recently merged into ppc-for-4.2 the change to have SLOF supply
+the RTAS blob, rather than qemu.  So this code will need to be updated
+accordingly.
+
+>      spapr->rtas_blob =3D g_malloc(spapr->rtas_size);
+>      if (load_image_size(filename, spapr->rtas_blob, spapr->rtas_size) < =
+0) {
+>          error_report("Could not load LPAR rtas '%s'", filename);
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 0ce96b8..ecc3d68 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -214,6 +214,106 @@ struct hp_extended_log {
+>      struct rtas_event_log_v6_hp hp;
+>  } QEMU_PACKED;
+> =20
+> +struct rtas_event_log_v6_mc {
+> +#define RTAS_LOG_V6_SECTION_ID_MC                   0x4D43 /* MC */
+> +    struct rtas_event_log_v6_section_header hdr;
+> +    uint32_t fru_id;
+> +    uint32_t proc_id;
+> +    uint8_t error_type;
+> +#define RTAS_LOG_V6_MC_TYPE_UE                           0
+> +#define RTAS_LOG_V6_MC_TYPE_SLB                          1
+> +#define RTAS_LOG_V6_MC_TYPE_ERAT                         2
+> +#define RTAS_LOG_V6_MC_TYPE_TLB                          4
+> +#define RTAS_LOG_V6_MC_TYPE_D_CACHE                      5
+> +#define RTAS_LOG_V6_MC_TYPE_I_CACHE                      7
+> +    uint8_t sub_err_type;
+> +#define RTAS_LOG_V6_MC_UE_INDETERMINATE                  0
+> +#define RTAS_LOG_V6_MC_UE_IFETCH                         1
+> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH         2
+> +#define RTAS_LOG_V6_MC_UE_LOAD_STORE                     3
+> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE     4
+> +#define RTAS_LOG_V6_MC_SLB_PARITY                        0
+> +#define RTAS_LOG_V6_MC_SLB_MULTIHIT                      1
+> +#define RTAS_LOG_V6_MC_SLB_INDETERMINATE                 2
+> +#define RTAS_LOG_V6_MC_ERAT_PARITY                       1
+> +#define RTAS_LOG_V6_MC_ERAT_MULTIHIT                     2
+> +#define RTAS_LOG_V6_MC_ERAT_INDETERMINATE                3
+> +#define RTAS_LOG_V6_MC_TLB_PARITY                        1
+> +#define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
+> +#define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
+> +    uint8_t reserved_1[6];
+> +    uint64_t effective_address;
+> +    uint64_t logical_address;
+> +} QEMU_PACKED;
+> +
+> +struct mc_extended_log {
+> +    struct rtas_event_log_v6 v6hdr;
+> +    struct rtas_event_log_v6_mc mc;
+> +} QEMU_PACKED;
+> +
+> +struct MC_ierror_table {
+> +    unsigned long srr1_mask;
+> +    unsigned long srr1_value;
+> +    bool nip_valid; /* nip is a valid indicator of faulting address */
+> +    uint8_t error_type;
+> +    uint8_t error_subtype;
+> +    unsigned int initiator;
+> +    unsigned int severity;
+> +};
+> +
+> +static const struct MC_ierror_table mc_ierror_table[] =3D {
+> +{ 0x00000000081c0000, 0x0000000000040000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_IFETCH,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000080000, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x00000000000c0000, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000100000, true,
+> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000140000, true,
+> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000180000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0, 0, 0, 0, 0, 0 } };
+
+For constant tables like this using ARRAY_SIZE() is preferred to
+having sentinal records at the end.
+
+> +
+> +struct MC_derror_table {
+> +    unsigned long dsisr_value;
+> +    bool dar_valid; /* dar is a valid indicator of faulting address */
+> +    uint8_t error_type;
+> +    uint8_t error_subtype;
+> +    unsigned int initiator;
+> +    unsigned int severity;
+> +};
+> +
+> +static const struct MC_derror_table mc_derror_table[] =3D {
+> +{ 0x00008000, false,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_LOAD_STORE,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00004000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000800, true,
+> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000400, true,
+> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000080, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,  /* Before PARIT=
+Y */
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000100, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0, false, 0, 0, 0, 0 } };
+> +
+> +#define SRR1_MC_LOADSTORE(srr1) ((srr1) & PPC_BIT(42))
+> +
+>  typedef enum EventClass {
+>      EVENT_CLASS_INTERNAL_ERRORS     =3D 0,
+>      EVENT_CLASS_EPOW                =3D 1,
+> @@ -622,7 +722,125 @@ void spapr_hotplug_req_remove_by_count_indexed(Spap=
+rDrcType drc_type,
+>                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc=
+_id);
+>  }
+> =20
+> -void spapr_mce_req_event(PowerPCCPU *cpu)
+> +static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+> +                                        struct mc_extended_log *ext_elog)
+> +{
+> +    int i;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    uint32_t summary;
+> +    uint64_t dsisr =3D env->spr[SPR_DSISR];
+> +
+> +    summary =3D RTAS_LOG_VERSION_6 | RTAS_LOG_OPTIONAL_PART_PRESENT;
+> +    if (recovered) {
+> +        summary |=3D RTAS_LOG_DISPOSITION_FULLY_RECOVERED;
+> +    } else {
+> +        summary |=3D RTAS_LOG_DISPOSITION_NOT_RECOVERED;
 > +    }
+> +
+> +    if (SRR1_MC_LOADSTORE(env->spr[SPR_SRR1])) {
+> +        for (i =3D 0; mc_derror_table[i].dsisr_value; i++) {
+> +            if (!(dsisr & mc_derror_table[i].dsisr_value)) {
+> +                continue;
+> +            }
+> +
+> +            ext_elog->mc.error_type =3D mc_derror_table[i].error_type;
+> +            ext_elog->mc.sub_err_type =3D mc_derror_table[i].error_subty=
+pe;
+> +            if (mc_derror_table[i].dar_valid) {
+> +                ext_elog->mc.effective_address =3D cpu_to_be64(env->spr[=
+SPR_DAR]);
+> +            }
+> +
+> +            summary |=3D mc_derror_table[i].initiator
+> +                        | mc_derror_table[i].severity;
+> +
+> +            return summary;
+> +        }
+> +    } else {
+> +        for (i =3D 0; mc_ierror_table[i].srr1_mask; i++) {
+> +            if ((env->spr[SPR_SRR1] & mc_ierror_table[i].srr1_mask) !=3D
+> +                    mc_ierror_table[i].srr1_value) {
+> +                continue;
+> +            }
+> +
+> +            ext_elog->mc.error_type =3D mc_ierror_table[i].error_type;
+> +            ext_elog->mc.sub_err_type =3D mc_ierror_table[i].error_subty=
+pe;
+> +            if (mc_ierror_table[i].nip_valid) {
+> +                ext_elog->mc.effective_address =3D cpu_to_be64(env->nip);
+> +            }
+> +
+> +            summary |=3D mc_ierror_table[i].initiator
+> +                        | mc_ierror_table[i].severity;
+> +
+> +            return summary;
+> +        }
+> +    }
+> +
+> +    summary |=3D RTAS_LOG_INITIATOR_CPU;
+> +    return summary;
 > +}
 > +
->  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
->      [SPAPR_CAP_HTM] =3D {
->          .name =3D "htm",
-> @@ -595,6 +614,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
-=3D {
->          .type =3D "bool",
->          .apply =3D cap_ccf_assist_apply,
->      },
-> +    [SPAPR_CAP_FWNMI_MCE] =3D {
-> +        .name =3D "fwnmi-mce",
-> +        .description =3D "Handle fwnmi machine check exceptions",
-> +        .index =3D SPAPR_CAP_FWNMI_MCE,
-> +        .get =3D spapr_cap_get_bool,
-> +        .set =3D spapr_cap_set_bool,
-> +        .type =3D "bool",
-> +        .apply =3D cap_fwnmi_mce_apply,
-> +    },
->  };
-> =20
->  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-> @@ -734,6 +762,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MA=
-XPAGESIZE);
->  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
->  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
-> =20
->  void spapr_caps_init(SpaprMachineState *spapr)
+> +static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+> +{
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +    CPUState *cs =3D CPU(cpu);
+> +    uint64_t rtas_addr;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> +    target_ulong msr =3D 0;
+> +    struct rtas_error_log log;
+> +    struct mc_extended_log *ext_elog;
+> +    uint32_t summary;
+> +
+> +    /*
+> +     * Properly set bits in MSR before we invoke the handler.
+> +     * SRR0/1, DAR and DSISR are properly set by KVM
+> +     */
+> +    if (!(*pcc->interrupts_big_endian)(cpu)) {
+> +        msr |=3D (1ULL << MSR_LE);
+> +    }
+> +
+> +    if (env->msr & (1ULL << MSR_SF)) {
+> +        msr |=3D (1ULL << MSR_SF);
+> +    }
+> +
+> +    msr |=3D (1ULL << MSR_ME);
+> +
+> +    ext_elog =3D g_malloc0(sizeof(*ext_elog));
+
+g_new0() is preferred for this sort of thing.
+
+> +    summary =3D spapr_mce_get_elog_type(cpu, recovered, ext_elog);
+> +
+> +    log.summary =3D cpu_to_be32(summary);
+> +    log.extended_length =3D cpu_to_be32(sizeof(*ext_elog));
+> +
+> +    spapr_init_v6hdr(&ext_elog->v6hdr);
+> +    ext_elog->mc.hdr.section_id =3D cpu_to_be16(RTAS_LOG_V6_SECTION_ID_M=
+C);
+> +    ext_elog->mc.hdr.section_length =3D
+> +                    cpu_to_be16(sizeof(struct rtas_event_log_v6_mc));
+> +    ext_elog->mc.hdr.section_version =3D 1;
+> +
+> +    /* get rtas addr from fdt */
+> +    rtas_addr =3D spapr_get_rtas_addr();
+> +    if (!rtas_addr) {
+> +        /* Unable to fetch rtas_addr. Hence reset the guest */
+> +        ppc_cpu_do_system_reset(cs);
+> +        g_free(ext_elog);
+> +        return;
+> +    }
+> +
+> +    stq_be_phys(&address_space_memory, rtas_addr + RTAS_ERROR_LOG_OFFSET,
+> +                env->gpr[3]);
+> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+> +                              sizeof(env->gpr[3]), &log, sizeof(log));
+> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+> +                              sizeof(env->gpr[3]) + sizeof(log), ext_elo=
+g,
+> +                              sizeof(*ext_elog));
+> +
+> +    env->gpr[3] =3D rtas_addr + RTAS_ERROR_LOG_OFFSET;
+> +    env->msr =3D msr;
+> +    env->nip =3D spapr->guest_machine_check_addr;
+> +
+> +    g_free(ext_elog);
+> +}
+> +
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
 >  {
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 03111fd..66049ac 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -79,8 +79,10 @@ typedef enum {
->  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
->  /* Count Cache Flush Assist HW Instruction */
->  #define SPAPR_CAP_CCF_ASSIST            0x09
-> +/* FWNMI machine check handling */
-> +#define SPAPR_CAP_FWNMI_MCE             0x0A
->  /* Num Caps */
-> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
-> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+>      CPUState *cs =3D CPU(cpu);
+> @@ -656,6 +874,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu)
+>          }
+>      }
+>      spapr->mc_status =3D cpu->vcpu_id;
+> +
+> +    spapr_mce_dispatch_elog(cpu, recovered);
+>  }
 > =20
->  /*
->   * Capability Values
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 8c5b1f2..8b1ab78 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -85,6 +85,7 @@ static int cap_ppc_safe_indirect_branch;
->  static int cap_ppc_count_cache_flush_assist;
->  static int cap_ppc_nested_kvm_hv;
->  static int cap_large_decr;
-> +static int cap_ppc_fwnmi;
-> =20
->  static uint32_t debug_inst_opcode;
-> =20
-> @@ -2055,6 +2056,26 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mp=
-ic_proxy)
+>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index bee3835..d8fb8a8 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -518,6 +518,32 @@ void spapr_load_rtas(SpaprMachineState *spapr, void =
+*fdt, hwaddr addr)
 >      }
 >  }
 > =20
-> +int kvmppc_set_fwnmi(void)
+> +hwaddr spapr_get_rtas_addr(void)
 > +{
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-> +    CPUState *cs =3D CPU(cpu);
-> +    int ret;
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +    int rtas_node;
+> +    const fdt32_t *rtas_data;
+> +    void *fdt =3D spapr->fdt_blob;
 > +
-> +    ret =3D kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-> +    if (ret) {
-> +        error_report("This KVM version does not support FWNMI");
-> +        return ret;
+> +    /* fetch rtas addr from fdt */
+> +    rtas_node =3D fdt_path_offset(fdt, "/rtas");
+> +    if (rtas_node < 0) {
+> +        return 0;
+> +    }
+> +
+> +    rtas_data =3D fdt_getprop(fdt, rtas_node, "linux,rtas-base", NULL);
+
+Hrm.  Does SLOF actually update the linux,rtas-base property when
+instantiate-rtas is called?
+
+> +    if (!rtas_data) {
+> +        return 0;
 > +    }
 > +
 > +    /*
-> +     * cap_ppc_fwnmi is set when FWNMI is available and enabled in KVM
-> +     * and not just when FWNMI is available in KVM
+> +     * We assume that the OS called RTAS instantiate-rtas, but some other
+> +     * OS might call RTAS instantiate-rtas-64 instead. This fine as of n=
+ow
+> +     * as SLOF only supports 32-bit variant.
 > +     */
-> +    cap_ppc_fwnmi =3D 1;
-
-Using these cap globals is only slighly ugly when they can be
-initialized very early and thereafter remain constant.  However, since
-you're only setting this later (in fact *never* until several patches
-down the series, since kvmppc_set_fwnmi() isn't called), this makes it
-very ugly with this global set at an indeterminite time having effects
-on things the relative order of which is not at all obvious.
-
-I think it would make much more sense to eliminate the cap_ppc_fwnmi
-global, and instead attempt the enable_cap in cap_fwnmi_mce_apply,
-failing the apply if the enable_cap fails.
-
-> +    return ret;
+> +    return (hwaddr)fdt32_to_cpu(*rtas_data);
 > +}
 > +
->  int kvmppc_smt_threads(void)
+>  static void core_rtas_register_types(void)
 >  {
->      return cap_ppc_smt ? cap_ppc_smt : 1;
-> @@ -2355,6 +2376,11 @@ bool kvmppc_has_cap_mmu_hash_v3(void)
->      return cap_mmu_hash_v3;
->  }
+>      spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 99a2966..ffefde7 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -726,6 +726,9 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *=
+fdt, hwaddr addr);
 > =20
-> +bool kvmppc_has_cap_ppc_fwnmi(void)
-> +{
-> +    return cap_ppc_fwnmi;
-> +}
-> +
->  static bool kvmppc_power8_host(void)
->  {
->      bool ret =3D false;
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 98bd7d5..ce5c1f9 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -27,6 +27,8 @@ void kvmppc_enable_h_page_init(void);
->  void kvmppc_set_papr(PowerPCCPU *cpu);
->  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
->  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> +int kvmppc_set_fwnmi(void);
-> +bool kvmppc_has_cap_ppc_fwnmi(void);
->  int kvmppc_smt_threads(void);
->  void kvmppc_hint_smt_possible(Error **errp);
->  int kvmppc_set_smt_threads(int smt);
-> @@ -159,6 +161,16 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU =
-*cpu, int mpic_proxy)
->  {
->  }
+>  #define RTAS_ERROR_LOG_MAX      2048
 > =20
-> +static inline int kvmppc_set_fwnmi(void)
-> +{
-> +    return -1;
-> +}
+> +/* Offset from rtas-base where error log is placed */
+> +#define RTAS_ERROR_LOG_OFFSET       0x30
 > +
-> +static inline bool kvmppc_has_cap_ppc_fwnmi(void)
-> +{
-> +    return false;
-> +}
-> +
->  static inline int kvmppc_smt_threads(void)
+>  #define RTAS_EVENT_SCAN_RATE    1
+> =20
+>  /* This helper should be used to encode interrupt specifiers when the re=
+lated
+> @@ -814,7 +817,7 @@ void spapr_clear_pending_events(SpaprMachineState *sp=
+apr);
+>  int spapr_max_server_number(SpaprMachineState *spapr);
+>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>                        uint64_t pte0, uint64_t pte1);
+> -void spapr_mce_req_event(PowerPCCPU *cpu);
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+> =20
+>  /* DRC callbacks. */
+>  void spapr_core_release(DeviceState *dev);
+> @@ -904,4 +907,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, h=
+waddr pagesize,
+>  #define SPAPR_OV5_XIVE_BOTH     0x80 /* Only to advertise on the platfor=
+m */
+> =20
+>  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+> +hwaddr spapr_get_rtas_addr(void);
+>  #endif /* HW_SPAPR_H */
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 1e2a4f1..e9aa95d 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2818,9 +2818,11 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+> =20
+>  int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
 >  {
->      return 1;
+> +    bool recovered =3D run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
+> +
+>      cpu_synchronize_state(CPU(cpu));
+> =20
+> -    spapr_mce_req_event(cpu);
+> +    spapr_mce_req_event(cpu, recovered);
+> =20
+>      return 0;
+>  }
 >=20
 
 --=20
@@ -285,25 +488,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---HCdXmnRlPgeNBad2
+--nqkreNcslJAfgyzk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2Kvt0ACgkQbDjKyiDZ
-s5Kb4Q//fctXuP2iNc7Pv//bzlEP1P8cTkblugna8DOF+cnLH9T1ovxFZz6jO9P7
-FjMbh7DxvFJKQlYE6VU97t54V+jC1vgtz4JRkCbBxKXeCivIheTUDYnbLyfOp6Ru
-pgYA/XD/jixzNY3g+nZ6LGcuyS8KRv2S6Jt0UHKeYXSc5NI2xMiWzUYe9hWJOCAx
-LLmZtwl6DVQJR6GjbcO7hWV9unuFJc1xjqqyMq5SW8/zt6JH1+5zjaqapuQk1D4s
-OWet5O7gy7APPJi75gwGKrguSBQ8SHGGkbX23jrbMbZ6BHVbkY11buKJtRSrxWYd
-yal9LUznQ9V/Y1Q2CNTchXD3TbY8kOOz8pl28w1v/8jbAYYTXfYwYLyZJUPMrfVq
-dcOB5Z14aKrZzXGkUUYi2m6SCtRqPjNj9dx4lMLSOy2HCZnPCfvAbqRjua0jTzpq
-I/56C6Sp0IEMWPhqGCXHOijwpOb+7GACE4rc7tbXe5BLzwQTFtC/kv53XrulzOpS
-Kdi1IRrXZgcLzLB1VRymGqA2/e9O6MA0aqIdguFlAShkN7CJr1Ps1ljOopm9l1cu
-Vh1Nw77+KizPoNQKEeAbF6S/WEF96ZOWd1RrinXoNhfLtmkOhGIRvhL92e60DppD
-Qu+AO3R/iLUclv8seim+1fOAlIxdoE4Gg/GI5nXlHPWkps/ClnM=
-=IFBW
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2Kw0kACgkQbDjKyiDZ
+s5Jjvw//RunUtsO+9LD3riwkeJBvxcHWqDeEvg5QUwnIFXOU/DbVDJXL3DBo8rzy
++vW1yDl2N9wMYOJTX+gSlnNhEdtAwtpvQBj9yMxOXh47z8DZZ5iLFbpOKxVB+4E/
+IPueVgr9YYbvil0A/I2160oYjDlN9abeoZ0Z+/4FFBQ0VToU7Fcb9Irxdi7f7Xvh
+4WNXAcNV05bgywSv6ADE46VF/Fcarsvfbz4xGcl69qP5T1HFn/NlAPHG0O+E4lvX
+gz097CAXqe9F+3U8ubjDCWLZsUKQcqTLPHc6MHwhKsMSouawaDbbJ6Ztz4vYbAYg
+u/osSJ/gBlBRI6EEWx8q3kDayKNUUo4cOVqxEBYpw4qFUwDdBW2iSmW0jbiaQLCy
+PQ1IXfZDA/Z6OcfrSzMnEMrkFigGcULEXx+l09vIFvPWGhzY5ECeAYpxvD6wwgWy
+7r5lIQLWIdJuwaz39f1jdKvpfa1cblF3FoNrmvNKmrxc6rk+IDK1gC7T0Owjg5ud
+vP7yCObxkx5dpqvU2VPAQv75J6QesHL6nX2WCZ9v1OUzsj4FpZSlChNk4/5Xepu6
+bavgAqspEiUpXJ4veobRQNzQg+uncMOQKOYsQgb2TrAXoj4xHeYk6j2Bv7rDJt1F
+dfsRvLT1A4ftf/HC6Pa3G35zAw4NMt7BiRx5bSCDSo576QA0n3Q=
+=ii1i
 -----END PGP SIGNATURE-----
 
---HCdXmnRlPgeNBad2--
+--nqkreNcslJAfgyzk--
 
