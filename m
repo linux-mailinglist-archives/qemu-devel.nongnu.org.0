@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC50FBD916
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:23:49 +0200 (CEST)
-Received: from localhost ([::1]:46322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A95BD91C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:29:04 +0200 (CEST)
+Received: from localhost ([::1]:46368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1eN-0008DB-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40741)
+	id 1iD1jS-0004n0-F6
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40699)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iD1GE-0003iP-SJ
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:51 -0400
+ (envelope-from <clg@kaod.org>) id 1iD1G7-0003bp-R1
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iD1GD-0002A6-Pz
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:50 -0400
-Resent-Date: Wed, 25 Sep 2019 02:58:50 -0400
-Resent-Message-Id: <E1iD1GD-0002A6-Pz@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21510)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iD1GA-00027Q-4H; Wed, 25 Sep 2019 02:58:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569394700; cv=none; d=zoho.com; s=zohoarc; 
- b=d05H5eQZTfn/gVOC4Wf3VXBQClUQL55Tsdly/85GattlAAHwpF/uqSfiHjFveYZLWObcGPUm9w7QsRA0YymVEG+f+E1AUeLEyIKDLy+oGOD8ri1WKUZyQmN+0CHGkFdsOlFXyCTSjCAkB9RMV/6SP69J0B1rZYZUSg353VqzbUA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569394700;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=OuuvftXiZpEYTEx33ue2LCEfHJMeIVr9mOUMhJPV78Y=; 
- b=byq5MDNSx2YkRS19wMpHq8c0/GRqYQMT2dEWS6vZ+luz2tzWp99LjmkddzQ6BjfzsGgheMfC3UJMMGUPlxOXB3XC1kYYpQtIzU1dUPA1U3eOC7o7I1UY9uHKtv8kVbh6Kb71p2IkIWliek9VZdF9CWw14u3YG69croJifCjaP54=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1569394698476125.88900174032096;
- Tue, 24 Sep 2019 23:58:18 -0700 (PDT)
-Subject: Re: [RFC PATCH 00/12] Add SDEI support for arm64
-In-Reply-To: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
-Message-ID: <156939469669.4188.3839690402456058930@8230166b0665>
+ (envelope-from <clg@kaod.org>) id 1iD1G5-00025Q-Lh
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:43 -0400
+Received: from 9.mo69.mail-out.ovh.net ([46.105.56.78]:33927)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1G5-00024Q-G7
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 02:58:41 -0400
+Received: from player750.ha.ovh.net (unknown [10.108.57.211])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 5647E666E2
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 08:58:38 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player750.ha.ovh.net (Postfix) with ESMTPSA id 53258A487BCF;
+ Wed, 25 Sep 2019 06:58:27 +0000 (UTC)
+Subject: Re: [PATCH 07/20] spapr: Fold spapr_phb_lsi_qirq() into its single
+ caller
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
+ <20190925064534.19155-8-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <a184f1aa-0347-7f07-dbc4-8f9e4f7a901c@kaod.org>
+Date: Wed, 25 Sep 2019 08:58:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: guoheyi@huawei.com
-Date: Tue, 24 Sep 2019 23:58:18 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20190925064534.19155-8-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 1161084281337580504
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedugdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.55
+X-Received-From: 46.105.56.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,32 +61,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mark.rutland@arm.com, peter.maydell@linaro.org, marc.zyngier@arm.com,
- qemu-devel@nongnu.org, Dave.Martin@arm.com, qemu-arm@nongnu.org,
- james.morse@arm.com, guoheyi@huawei.com, wanghaibin.wang@huawei.com,
- kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTY5MzM4NTExLTM1NzItMS1n
-aXQtc2VuZC1lbWFpbC1ndW9oZXlpQGh1YXdlaS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFp
-bGVkIHRoZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
-ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
-ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFr
-ZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0
-LW1pbmd3QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBD
-QyAgICAgIGFhcmNoNjQtc29mdG1tdS9ody9hcm0vdG9zYS5vCiAgQ0MgICAgICBhYXJjaDY0LXNv
-ZnRtbXUvaHcvYXJtL3oyLm8KSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC90bXAvcWVtdS10ZXN0L3Ny
-Yy9ody9hcm0vdmlydC1hY3BpLWJ1aWxkLmM6MzU6Ci90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQv
-YXJtL3NkZWkuaDoyNjoxMDogZmF0YWwgZXJyb3I6IGxpbnV4L2t2bS5oOiBObyBzdWNoIGZpbGUg
-b3IgZGlyZWN0b3J5CiAjaW5jbHVkZSA8bGludXgva3ZtLmg+CiAgICAgICAgICBefn5+fn5+fn5+
-fn5+CmNvbXBpbGF0aW9uIHRlcm1pbmF0ZWQuCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
-dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8xNTY5MzM4NTExLTM1NzItMS1naXQtc2VuZC1lbWFp
-bC1ndW9oZXlpQGh1YXdlaS5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+On 25/09/2019 08:45, David Gibson wrote:
+> No point having a two-line helper that's used exactly once, and not lik=
+ely
+> to be used anywhere else in future.
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+> ---
+>  hw/ppc/spapr_pci.c          | 3 ++-
+>  include/hw/pci-host/spapr.h | 7 -------
+>  2 files changed, 2 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 7b71ad7c74..6934d506a7 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -721,9 +721,10 @@ static void pci_spapr_set_irq(void *opaque, int ir=
+q_num, int level)
+>       * corresponding qemu_irq.
+>       */
+>      SpaprPhbState *phb =3D opaque;
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> =20
+>      trace_spapr_pci_lsi_set(phb->dtbusname, irq_num, phb->lsi_table[ir=
+q_num].irq);
+> -    qemu_set_irq(spapr_phb_lsi_qirq(phb, irq_num), level);
+> +    qemu_set_irq(spapr_qirq(spapr, phb->lsi_table[irq_num].irq), level=
+);
+>  }
+> =20
+>  static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
+> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
+> index abd87605b2..23506f05d9 100644
+> --- a/include/hw/pci-host/spapr.h
+> +++ b/include/hw/pci-host/spapr.h
+> @@ -128,13 +128,6 @@ struct SpaprPhbState {
+>  #define SPAPR_PCI_NV2ATSD_WIN_SIZE   (NVGPU_MAX_NUM * NVGPU_MAX_LINKS =
+* \
+>                                        64 * KiB)
+> =20
+> -static inline qemu_irq spapr_phb_lsi_qirq(struct SpaprPhbState *phb, i=
+nt pin)
+> -{
+> -    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> -
+> -    return spapr_qirq(spapr, phb->lsi_table[pin].irq);
+> -}
+> -
+>  int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
+>                   uint32_t nr_msis, int *node_offset);
+> =20
+>=20
 
 
