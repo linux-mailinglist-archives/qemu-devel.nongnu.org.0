@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121C9BD97F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 10:06:24 +0200 (CEST)
-Received: from localhost ([::1]:46956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F5ABD9AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 10:18:27 +0200 (CEST)
+Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD2Ja-0004Lt-GR
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 04:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50323)
+	id 1iD2VG-0001vF-Eq
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 04:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iD2HW-0003NB-Mp
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 04:04:16 -0400
+ (envelope-from <bounces@canonical.com>) id 1iD2Sz-0001Ku-4R
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 04:16:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iD2HV-0001Pt-1H
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 04:04:14 -0400
-Resent-Date: Wed, 25 Sep 2019 04:04:14 -0400
-Resent-Message-Id: <E1iD2HV-0001Pt-1H@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21441)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iD2HU-0001PM-OP
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 04:04:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569398625; cv=none; d=zoho.com; s=zohoarc; 
- b=nKykV1zZG56lA5r8KPIZH6QxX8lCtFmfQVVmPV1sFwULAtbTs06XzhaEHYDbO3V8I2G/pe13rIOoLnPfRYAKsMK/bpN7TWeKwPsMZz3WIc9b199sM8vNDWTXXEAfXiMSHWw3VU35TGZIfwJ+DKycrSkqBRdmIYJHTYNmtCS2SlA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569398625;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=vKlgi/zFcaK9hy//vZ74VKwxQfCfoTuzNA6/qXTj9x8=; 
- b=ViXcRCLLW5yrUC9cmJA8dng6axeg5yHO/UsIBo/JkfkJmFEVo9vhqfLfCI3OvVEpA3nhZzEFdty14PqVzj85WmCAZ1dN/sylWyS5hsc3+P/VuIoRW/elzvqbFgghLWImME1ZdziFFDh7PyozE0dk+1DoPfMzLPjsS7EhnoJabUA=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1569398623230228.5422738312485;
- Wed, 25 Sep 2019 01:03:43 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Acceptance tests: make better use of machine tags
-In-Reply-To: <20190924194501.9303-1-crosa@redhat.com>
-Message-ID: <156939862178.4188.8041394753771061389@8230166b0665>
+ (envelope-from <bounces@canonical.com>) id 1iD2Sy-0007Pu-0x
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 04:16:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47584)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iD2Sx-0007PG-Rr
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 04:16:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iD2Sv-00074S-Gx
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 08:16:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5B5982E80CB
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 08:16:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: crosa@redhat.com
-Date: Wed, 25 Sep 2019 01:03:43 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Sep 2019 08:07:28 -0000
+From: Thomas Huth <1824704@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: drjs5x kraxel-redhat th-huth
+X-Launchpad-Bug-Reporter: mustafa (drjs5x)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155524844990.21262.8108456842078597088.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156939884851.13736.11653485004392079773.malone@gac.canonical.com>
+Subject: [Bug 1824704] Re: -k tr not working after v20171217! turkish keyboard
+ dont working
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19048";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a25e414cba1760de083af0fc6456161aab436ab4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,82 +66,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ehabkost@redhat.com, arikalo@wavecomp.com, qemu-devel@nongnu.org,
- wainersm@redhat.com, wrampazz@redhat.com, crosa@redhat.com, philmd@redhat.com,
- aurelien@aurel32.net
+Reply-To: Bug 1824704 <1824704@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyNDE5NDUwMS45MzAz
-LTEtY3Jvc2FAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwOTI0MTk0NTAxLjkzMDMtMS1j
-cm9zYUByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCAwLzNdIEFjY2VwdGFuY2UgdGVzdHM6IG1h
-a2UgYmV0dGVyIHVzZSBvZiBtYWNoaW5lIHRhZ3MKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0K
-IyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFt
-Ci4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQ
-VCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmJhMGJhY2YgQWNjZXB0
-YW5jZSBUZXN0czogdXNlIGF2b2NhZG8gdGFncyBmb3IgbWFjaGluZSB0eXBlCjY4ZmY4YTkgQWNj
-ZXB0YW5jZSB0ZXN0czogaW50cm9kdWNlIHV0aWxpdHkgbWV0aG9kIGZvciB0YWdzIHVuaXF1ZSB2
-YWxzCmVhMGY2MmIgQWNjZXB0YW5jZSB0ZXN0IHg4Nl9jcHVfbW9kZWxfdmVyc2lvbnM6IHVzZSBk
-ZWZhdWx0IHZtCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzMgQ2hlY2tpbmcgY29tbWl0IGVhMGY2
-MmIxMzc3OSAoQWNjZXB0YW5jZSB0ZXN0IHg4Nl9jcHVfbW9kZWxfdmVyc2lvbnM6IHVzZSBkZWZh
-dWx0IHZtKQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzQ3OiBGSUxFOiB0ZXN0cy9h
-Y2NlcHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6MjQ4OgorICAgICAgICBzZWxmLnZt
-LmFkZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNlcnZlcix4LWZvcmNlLWZlYXR1cmVzPW9u
-LGNoZWNrPW9mZixlbmZvcmNlPW9mZicpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMK
-IzYxOiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6MjU2
-OgorICAgICAgICBzZWxmLnZtLmFkZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNlcnZlcix4
-LWZvcmNlLWZlYXR1cmVzPW9uLGNoZWNrPW9mZixlbmZvcmNlPW9mZicpCgpFUlJPUjogbGluZSBv
-dmVyIDkwIGNoYXJhY3RlcnMKIzc2OiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4Nl9jcHVfbW9k
-ZWxfdmVyc2lvbnMucHk6MjY1OgorICAgICAgICBzZWxmLnZtLmFkZF9hcmdzKCctY3B1JywgJ0Nh
-c2NhZGVsYWtlLVNlcnZlcix4LWZvcmNlLWZlYXR1cmVzPW9uLGNoZWNrPW9mZixlbmZvcmNlPW9m
-ZiwrYXJjaC1jYXBhYmlsaXRpZXMnKQoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM5
-MDogRklMRTogdGVzdHMvYWNjZXB0YW5jZS94ODZfY3B1X21vZGVsX3ZlcnNpb25zLnB5OjI3MzoK
-KyAgICAgICAgc2VsZi52bS5hZGRfYXJncygnLWNwdScsICdDYXNjYWRlbGFrZS1TZXJ2ZXIseC1m
-b3JjZS1mZWF0dXJlcz1vbixjaGVjaz1vZmYsZW5mb3JjZT1vZmYsLWFyY2gtY2FwYWJpbGl0aWVz
-JykKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTA1OiBGSUxFOiB0ZXN0cy9hY2Nl
-cHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6MjgyOgorICAgICAgICBzZWxmLnZtLmFk
-ZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNlcnZlci12MSx4LWZvcmNlLWZlYXR1cmVzPW9u
-LGNoZWNrPW9mZixlbmZvcmNlPW9mZicpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMK
-IzEyMDogRklMRTogdGVzdHMvYWNjZXB0YW5jZS94ODZfY3B1X21vZGVsX3ZlcnNpb25zLnB5OjI5
-MDoKKyAgICAgICAgc2VsZi52bS5hZGRfYXJncygnLWNwdScsICdDYXNjYWRlbGFrZS1TZXJ2ZXIt
-djIseC1mb3JjZS1mZWF0dXJlcz1vbixjaGVjaz1vZmYsZW5mb3JjZT1vZmYnKQoKRVJST1I6IGxp
-bmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMjM6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UveDg2X2Nw
-dV9tb2RlbF92ZXJzaW9ucy5weToyOTM6CisgICAgICAgICAgICAgICAgICAgICAgICAncGMtaTQ0
-MGZ4LTQuMCArIENhc2NhZGVsYWtlLVNlcnZlci12MiBzaG91bGQgaGF2ZSBhcmNoLWNhcGFiaWxp
-dGllcycpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzEzNjogRklMRTogdGVzdHMv
-YWNjZXB0YW5jZS94ODZfY3B1X21vZGVsX3ZlcnNpb25zLnB5OjI5OToKKyAgICAgICAgc2VsZi52
-bS5hZGRfYXJncygnLWNwdScsICdDYXNjYWRlbGFrZS1TZXJ2ZXItdjEseC1mb3JjZS1mZWF0dXJl
-cz1vbixjaGVjaz1vZmYsZW5mb3JjZT1vZmYsK2FyY2gtY2FwYWJpbGl0aWVzJykKCkVSUk9SOiBs
-aW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTM5OiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4Nl9j
-cHVfbW9kZWxfdmVyc2lvbnMucHk6MzAyOgorICAgICAgICAgICAgICAgICAgICAgICAgJ3BjLWk0
-NDBmeC00LjAgKyBDYXNjYWRlbGFrZS1TZXJ2ZXItdjEsK2FyY2gtY2FwYWJpbGl0aWVzIHNob3Vs
-ZCBoYXZlIGFyY2gtY2FwYWJpbGl0aWVzJykKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVy
-cwojMTUwOiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6
-MzA3OgorICAgICAgICBzZWxmLnZtLmFkZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNlcnZl
-ci12Mix4LWZvcmNlLWZlYXR1cmVzPW9uLGNoZWNrPW9mZixlbmZvcmNlPW9mZiwtYXJjaC1jYXBh
-YmlsaXRpZXMnKQoKdG90YWw6IDEwIGVycm9ycywgMCB3YXJuaW5ncywgMTM0IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDEvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMi8zIENoZWNraW5nIGNv
-bW1pdCA2OGZmOGE5M2Y5Y2QgKEFjY2VwdGFuY2UgdGVzdHM6IGludHJvZHVjZSB1dGlsaXR5IG1l
-dGhvZCBmb3IgdGFncyB1bmlxdWUgdmFscykKMy8zIENoZWNraW5nIGNvbW1pdCBiYTBiYWNmM2Ew
-ZDcgKEFjY2VwdGFuY2UgVGVzdHM6IHVzZSBhdm9jYWRvIHRhZ3MgZm9yIG1hY2hpbmUgdHlwZSkK
-V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzYyOiBGSUxFOiB0ZXN0cy9hY2NlcHRh
-bmNlL2F2b2NhZG9fcWVtdS9fX2luaXRfXy5weTo3MzoKKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIGRlZmF1bHQ9c2VsZi5fZ2V0X3VuaXF1ZV90YWdfdmFsKCdtYWNoaW5l
-JykpCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDM4NiBsaW5lcyBjaGVja2VkCgpQYXRj
-aCAzLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0
-IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUg
-YXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA5MjQxOTQ1MDEuOTMwMy0xLWNyb3NhQHJl
-ZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
-cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
-ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+What does v20171217 refer to? A pre-built binary? Windows? Linux? Mac
+OS? ... sorry, but you have to be a little bit more specific.
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1824704
+
+Title:
+  -k tr not working after v20171217! turkish keyboard dont working
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  hi qemu
+
+  -k tr not working after v20171217! turkish keyboard dont working
+
+  last working without proplem at v20171217!
+
+  after this version  tr keyboard proplem.
+  freedos  , winpe  ,  linux images   all dont working tr  turkish keyboard.
+
+  example   press key " =C3=A7 "  show " , "
+  example 2 press key " . "  show " =C3=A7 "
+
+  tr keyboard work  always "en-us" kbd.
+  :((((((((
+
+  please fix this critical bug.
+
+  Sincerely
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1824704/+subscriptions
 
