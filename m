@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1749BBD5F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 03:02:42 +0200 (CEST)
-Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A92C8BD5F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 03:07:28 +0200 (CEST)
+Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCvhZ-0002IX-4u
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 21:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33911)
+	id 1iCvmB-0005GZ-M2
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 21:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iCvfa-0001YF-I5
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:00:39 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iCvlB-0004fC-Fl
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:06:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iCvfZ-0002Kl-49
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:00:38 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:43621)
+ (envelope-from <alistair23@gmail.com>) id 1iCvl9-0004qS-QF
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:06:25 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:44225)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iCvfW-0002H5-8y; Tue, 24 Sep 2019 21:00:34 -0400
-Received: by mail-lf1-x141.google.com with SMTP id u3so2810788lfl.10;
- Tue, 24 Sep 2019 18:00:34 -0700 (PDT)
+ id 1iCvl6-0004oc-7p; Tue, 24 Sep 2019 21:06:20 -0400
+Received: by mail-lj1-x242.google.com with SMTP id m13so3784994ljj.11;
+ Tue, 24 Sep 2019 18:06:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OsLAdtOJ4d4XRcWVNX29HP2/TvlvaQtk0cleys/zOx4=;
- b=iapIuslDOar4kgK9iNJfswxluQmM7W6VDlA+S7dR3GdwSoStMuYBfa5G9I9kQgGzKz
- JZBsio62aErG1SNcit31Uy35b3xkW3/NOOZpF/4m2VjvtOlTnPsjykoBFBtmMF/nsAec
- YXl8Ms7NZDty2KcQI0seEQeWHy/o76CqiCpmj8f+K5Pjf5LVC13Ctn/AczqiCMGWd6qw
- KSEQyJuPBtB1yb7EDP0cznOUtHVtQz4s0zq9jseho7b572yPAJ8DjY9o75XEKSYuz6wI
- ep5KtrfEUXWLkwucQs3DXYGYt7vMeQ+dKEdtzUG0NKbUhRF5BH+zctrejCZYCzWWhMR5
- kzpw==
+ :cc; bh=yUUIa5Ov6YlwQGXP9ytN25tO/ntGka441s3AW41ZIbY=;
+ b=kTVu+sViOawRNoye69G0ic+AAFlGT/9b8XHUdGaPqwLaCXbSz4n0sTMuo4w/4rEvJ0
+ 9qp0Xd62fZM4WCDsHN/WSPY+uX6meR0TE5xb+TAhW7jThELWoSJhvCB2Onc6YR19865X
+ T1xXQLE0Zc2n/ZbYbTgDTZMgrapJHI8qzIL9qHoBZ4fPPiID9PZ95qGWyReynWcB/pI2
+ tnj2mVfl4mG9XBWZOIEssifta+6daLXyBOwqEf6KTtfMLrEvSIY6B/8H1B5FHrZU23I8
+ HYpLSwhQ5wbd0l7gXXueK0FoEWJh4rx1PpxDL0YAwLP47KV4vEYcwmOpR9Fw4UPnmZCO
+ rA0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OsLAdtOJ4d4XRcWVNX29HP2/TvlvaQtk0cleys/zOx4=;
- b=ahc027xsb9w01V2cKIgqwMi3PdO35e6z0QpVGT4OsKPCAgTfthUMXA2zkfLrEMDiHh
- QTWKj5STq0T+ZAvDLMnUQmDcLVsmnNkFJuc8XbBhYOzy5XRt49CbFbhbB4Ni7CWz/xQh
- KJITkUVV+CWUaHWPEjIsPHe6FzdcyXSBnAYoH1eOxyn0KSTPueHuuHWwQLu8K//woZcy
- lsG6bgVXN0ugVlhIeVtiBSajahksvQUt1wTLzNMdSgM0AcnR+FbSvLGkuqFbz2tOxox2
- oYd5bmeAoOa9X5Vy2r4zX0IKix5iFvHLizlewTcr0FLjecO9ZqTo19Dv2fVq1AHIdUrx
- NCqg==
-X-Gm-Message-State: APjAAAWyD6jomtVsMQuSDYxQmAwfVZpsDjL0tAeMOvqqlnSDvOF5KC77
- 9I1IXMqnLhPbb4DN7y2vDE9Sld6SRPoun81A6Xc=
-X-Google-Smtp-Source: APXvYqycuilbOIFwHcvLzaU7giMAv7YuAF+TkxXbGTWGOoKzMtIm8vpFFXHUeCoUjzlwSH1+9EamvUC0+Fwi2W4oJC4=
-X-Received: by 2002:ac2:5e9e:: with SMTP id b30mr3683371lfq.5.1569373232985;
- Tue, 24 Sep 2019 18:00:32 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=yUUIa5Ov6YlwQGXP9ytN25tO/ntGka441s3AW41ZIbY=;
+ b=LyvhazIGsThEGgzWzCBhMhD1r6mIbzXWZJapevtaD2gHftDSBJjkOffkLorGEalUjV
+ KUAqyYNUuuyEdNcIa6uw2GiH9ln1BwqZNrorlFzgYUeGLW+7spqRvAb6qt3g4vYhn0Gt
+ 5k8xpl6xxtzRDTHGngDUqOUliV9mWh7wgZmTXlGZLzxLWHJkjs4k1oHcmDhAB+KN2XXD
+ L0bArXOujFXWljMhg2IJCvn2I2tt8dNAB3gXfecrmn6XfS5oR2iEww0V6kwMRvU718Ol
+ pAdeoM+iGUbAOtRX9UQLVMtBIHimLeOma4mlopwzRLzz+UgqX8y7VMryXhtpQgAwoNE4
+ 0W1w==
+X-Gm-Message-State: APjAAAVVCEYVoAYug+nh+KMCmIEn23hjDkl+aE5cbustDHFT34pz7HlR
+ wJjOOXnSS7QYZYsNzMeY4NVNijx1+1JB5H+yWAA=
+X-Google-Smtp-Source: APXvYqxfLUwHnwUXw8Lz3jfTPWKPtqWa2qXXSl3h2+miavJhnqIQNAl3NALDwBJcz8/vpAD1dhQq4ZT3e/b/CW1jKd0=
+X-Received: by 2002:a05:651c:1132:: with SMTP id
+ e18mr3976249ljo.33.1569373578718; 
+ Tue, 24 Sep 2019 18:06:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1568931866.git.alistair.francis@wdc.com>
- <0a5c141a26fada6d93d06e996a2f24e1b269ec50.1568931866.git.alistair.francis@wdc.com>
- <CAEUhbmVvDKQqQYE-riq=cvSrCe_NMoW_KDsLjh8CVHRUhJvk9A@mail.gmail.com>
- <CAKmqyKOofA3U+8kjMkzQ0sNd1=uwJHq3c9eaLZdoNCb7=e-PAw@mail.gmail.com>
- <CAFEAcA-uFPGf4BiDXH=Om3Df-xXrt7QwjzVF7E3kY4aMWMP4YQ@mail.gmail.com>
- <16bab4bf-b91e-ef0c-2d22-53538f74cfc4@redhat.com>
-In-Reply-To: <16bab4bf-b91e-ef0c-2d22-53538f74cfc4@redhat.com>
+References: <CAKmqyKP+HNfzh5kCKkGDtfr=pDRwcjL+dUQ79NZEk+jMZ3q=_Q@mail.gmail.com>
+ <mhng-a172dfe8-dd34-427f-89dd-ca65da3145fb@palmer-si-x1e>
+ <CAKmqyKON2=3mO-n3nXwyqN9i-RDOeyrpjxt9JJMSBwyyiEiuow@mail.gmail.com>
+In-Reply-To: <CAKmqyKON2=3mO-n3nXwyqN9i-RDOeyrpjxt9JJMSBwyyiEiuow@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 24 Sep 2019 17:55:50 -0700
-Message-ID: <CAKmqyKNitR4YCLh1y8YThfVZqZj603pat3C=i=86Wx8=SWV3Wg@mail.gmail.com>
-Subject: Re: [PATCH v1 5/6] riscv/virt: Add the PFlash CFI01 device
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Tue, 24 Sep 2019 18:01:36 -0700
+Message-ID: <CAKmqyKPVxkbKkZPg5u+nKiLtNgtf5Na6JgzF3ocrx8wy8+bxJw@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
+To: Palmer Dabbelt <palmer@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::141
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,70 +73,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Palmer Dabbelt <palmer@sifive.com>,
- Markus Armbruster <armbru@redhat.com>,
+Cc: me@carlosedp.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- Laszlo Ersek <lersek@redhat.com>
+ Joel Sing <joel@sing.id.au>, Alistair Francis <Alistair.Francis@wdc.com>,
+ marco@decred.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 24, 2019 at 2:32 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Tue, Sep 24, 2019 at 4:35 PM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> On 9/23/19 11:46 PM, Peter Maydell wrote:
-> > On Fri, 20 Sep 2019 at 23:23, Alistair Francis <alistair23@gmail.com> w=
-rote:
-> >> On Thu, Sep 19, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>> I don't think we should mirror what is used on ARM virt board to
-> >>> create 2 flash for sifive_u. For ARM virt, there are 2 flashes becaus=
-e
-> >>> they need distinguish secure and non-secure. For sifive_u, only one i=
-s
-> >>> enough.
-> >>
-> >> I went back and forward about 1 or 2. Two seems more usable as maybe
-> >> someone wants to include two pflash files? The Xilinx machine also has
-> >> two so I'm kind of used to 2, but I'm not really fussed.
+> On Tue, Sep 24, 2019 at 1:04 PM Palmer Dabbelt <palmer@sifive.com> wrote:
+> >
+> > On Tue, 24 Sep 2019 11:29:25 PDT (-0700), alistair23@gmail.com wrote:
+> > > On Mon, Jun 24, 2019 at 11:21 AM Joel Sing <joel@sing.id.au> wrote:
+> > >>
+> > >> On 19-06-17 16:52:44, Richard Henderson wrote:
+> > >> > On 6/16/19 12:19 PM, Joel Sing wrote:
+> > >> > > +    /*
+> > >> > > +     * Clear the load reservation, since an SC must fail if there is
+> > >> > > +     * an SC to any address, in between an LR and SC pair.
+> > >> > > +     */
+> > >> > > +    tcg_gen_movi_tl(load_res, 0);
+> > >> > > +
+> > >> > >      gen_set_label(l2);
+> > >> >
+> > >> > This clear needs to be moved down below label l2.
+> > >> > Otherwise, with lr / sc / sc, the second sc could succeed in error.
+> > >>
+> > >> Indeed, thanks.
+> > >>
+> > >> > FWIW, other targets have used -1 as the "invalid" load reservation, since the
+> > >> > architecture does not require address 0 to be unmapped.  This should be quite
+> > >> > visible in M-mode with paging disabled and ram at offset 0.  Often, other
+> > >> > targets require alignment for the lr/sc address, though I don't see that for riscv.
+> > >>
+> > >> I've switched to -1 as suggested. Regarding the alignment for reservations, the
+> > >> specification does require this, although I do not recall seeing any enforcement
+> > >> of this by qemu itself.
+> > >>
+> > >> New diff follows.
+> > >>
+> > >> From 8ef31a2ce8ef1cbeee92995a0b2994f480e9bb6d Mon Sep 17 00:00:00 2001
+> > >> From: Joel Sing <joel@sing.id.au>
+> > >> Date: Tue, 25 Jun 2019 02:44:24 +1000
+> > >> Subject: [PATCH] Clear load reservations on qemu riscv target
+> > >>
+> > >> This prevents a load reservation from being placed in one context/process,
+> > >> then being used in another, resulting in an SC succeeding incorrectly and
+> > >> breaking atomics.
+> > >>
+> > >> Signed-off-by: Joel Sing <joel@sing.id.au>
+> > >> ---
+> > >>  target/riscv/cpu.c                      | 1 +
+> > >>  target/riscv/cpu_helper.c               | 9 +++++++++
+> > >>  target/riscv/insn_trans/trans_rva.inc.c | 8 +++++++-
+> > >>  3 files changed, 17 insertions(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > >> index d61bce6d55..e7c8bf48fc 100644
+> > >> --- a/target/riscv/cpu.c
+> > >> +++ b/target/riscv/cpu.c
+> > >> @@ -281,6 +281,7 @@ static void riscv_cpu_reset(CPUState *cs)
+> > >>      env->pc = env->resetvec;
+> > >>  #endif
+> > >>      cs->exception_index = EXCP_NONE;
+> > >> +    env->load_res = -1;
+> > >>      set_default_nan_mode(1, &env->fp_status);
+> > >>  }
+> > >>
+> > >> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > >> index b17f169681..6a07b12e65 100644
+> > >> --- a/target/riscv/cpu_helper.c
+> > >> +++ b/target/riscv/cpu_helper.c
+> > >> @@ -113,6 +113,15 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+> > >>      }
+> > >>      /* tlb_flush is unnecessary as mode is contained in mmu_idx */
+> > >>      env->priv = newpriv;
+> > >> +
+> > >> +    /* Clear the load reservation - otherwise a reservation placed in one
+> > >> +     * context/process can be used by another, resulting in an SC succeeding
+> > >> +     * incorrectly. Version 2.2 of the ISA specification explicitly requires
+> > >> +     * this behaviour, while later revisions say that the kernel "should" use
+> > >> +     * an SC instruction to force the yielding of a load reservation on a
+> > >> +     * preemptive context switch. As a result, do both.
+> > >> +     */
+> > >> +    env->load_res = -1;
+> > >>  }
+> > >>
+> > >>  /* get_physical_address - get the physical address for this virtual address
+> > >> diff --git a/target/riscv/insn_trans/trans_rva.inc.c b/target/riscv/insn_trans/trans_rva.inc.c
+> > >> index f6dbbc065e..fadd88849e 100644
+> > >> --- a/target/riscv/insn_trans/trans_rva.inc.c
+> > >> +++ b/target/riscv/insn_trans/trans_rva.inc.c
+> > >> @@ -61,7 +61,7 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+> > >>
+> > >>      gen_set_label(l1);
+> > >>      /*
+> > >> -     * Address comparion failure.  However, we still need to
+> > >> +     * Address comparison failure.  However, we still need to
+> > >>       * provide the memory barrier implied by AQ/RL.
+> > >>       */
+> > >>      tcg_gen_mb(TCG_MO_ALL + a->aq * TCG_BAR_LDAQ + a->rl * TCG_BAR_STRL);
+> > >> @@ -69,6 +69,12 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+> > >>      gen_set_gpr(a->rd, dat);
+> > >>
+> > >>      gen_set_label(l2);
+> > >> +    /*
+> > >> +     * Clear the load reservation, since an SC must fail if there is
+> > >> +     * an SC to any address, in between an LR and SC pair.
+> > >> +     */
+> > >> +    tcg_gen_movi_tl(load_res, -1);
+> > >> +
+> > >>      tcg_temp_free(dat);
+> > >>      tcg_temp_free(src1);
+> > >>      tcg_temp_free(src2);
+> > >> --
+> > >
+> > > This patch causes boot failures when booting systemd built with musl on RV64.
+> > >
+> > > It could possibly be a musl bug, but I wanted to throw that out here
+> > > first to see what people think.
+> >
+> > Looking at the musl port, I see at least one bug in their atomics jumping out
+> > at me:
+> >
+> > diff --git a/arch/riscv64/atomic_arch.h b/arch/riscv64/atomic_arch.h
+> > index c9765342..41ad4d04 100644
+> > --- a/arch/riscv64/atomic_arch.h
+> > +++ b/arch/riscv64/atomic_arch.h
+> > @@ -14,7 +14,7 @@ static inline int a_cas(volatile int *p, int t, int s)
+> >                 "       sc.w.aqrl %1, %4, (%2)\n"
+> >                 "       bnez %1, 1b\n"
+> >                 "1:"
+> > -               : "=&r"(old), "=r"(tmp)
+> > +               : "=&r"(old), "=&r"(tmp)
+> >                 : "r"(p), "r"(t), "r"(s)
+> >                 : "memory");
+> >         return old;
+> > @@ -31,7 +31,7 @@ static inline void *a_cas_p(volatile void *p, void *t, void *s)
+> >                 "       sc.d.aqrl %1, %4, (%2)\n"
+> >                 "       bnez %1, 1b\n"
+> >                 "1:"
+> > -               : "=&r"(old), "=r"(tmp)
+> > +               : "=&r"(old), "=&r"(tmp)
+> >                 : "r"(p), "r"(t), "r"(s)
+> >                 : "memory");
+> >         return old;
+> >
+> > It's a shot in the dark as to whether that'll fix your bug, but I could at
+> > least see a mechanism for it: before we yielded load reservations on context
+> > switches then that backwards branch would never be taken, so we wouldn't notice
+> > if tmp was allocated into one of the same registers as the inputs.  Even if it
+> > doesn't fix your issue it's still a bug so I'll send the patch out, just LMK so
+> > I can indicate how important the issue is.
 >
-> The Xilinx machine has 2 because it matches the hardware.
->
-> > One of the reasons for having 2 on the Arm board (we do this
-> > even if we're not supporting secure vs non-secure) is that
-> > then you can use one for a fixed read-only BIOS image (backed
-> > by a file on the host filesystem shared between all VMs), and
-> > one backed by a read-write per-VM file providing permanent
-> > storage for BIOS environment variables. Notably UEFI likes to
-> > work this way, but the idea applies in theory to other
-> > boot loader or BIOSes I guess.
->
-> IIRC Laszlo's explanation, the only reason it is that way is because the
-> pflash_cfi01 model still doesn't implement sector locking. At the OVMF
-> emerged from EDK2, to have a safe ROM vs DATA storage it was decided to
-> use 2 different flashes.
-> When I understood when this config layout started, I suggested Laszlo to
-> use a real ROM to store the OVMF CODE since it is pointless to do
-> firmware upgrade in virtualized environment, but he said it was too late
-> to change the design.
->
-> If you don't plan to run UEFI "Capsule Update" on your Virt board, I
-> suggest using memory_region_init_rom() with your firmware CODE, and a
-> parallel/SPI flash for the data VARStore.
+> I haven't had a chance to test this fix yet. The bug was reported by
+> Khem (and other OE people) as it's break musl for RISC-V.
 
-We might run that one day, who knows :)
+I did get a chance to test it. This seems to fix the issue :)
+
+Please send the patch to musl and CC me when you do.
+
+Good catch!
 
 Alistair
 
 >
-> > I would suggest also checking with Markus that your code
-> > for instantiating the flash devices follows the current
-> > recommendations so the backing storage can be configured
-> > via -blockdev. (This is a fairly recent change from June or
-> > so; current-in-master virt and sbsa boards provide an example
-> > of doing the right thing, I think.)
 > >
-> > thanks
-> > -- PMM
+> > This should manifest on hardware, but it looks like we managed to drop that SC
+> > patch.  I'll go send the patch out now...
+>
+> Thanks, do you mind CCing me?
+>
+> Alistair
+>
 > >
+> > >
+> > > Alistair
+> > >
+> > >> 2.21.0
+> > >>
+> > >>
 
