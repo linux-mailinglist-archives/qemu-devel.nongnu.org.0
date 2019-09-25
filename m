@@ -2,48 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468BFBDEEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:26:10 +0200 (CEST)
-Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A053BBDEFC
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:29:11 +0200 (CEST)
+Received: from localhost ([::1]:50082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD7J3-00055K-2D
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32948)
+	id 1iD7Ly-0001T3-2C
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32972)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iD76v-0003JH-6x
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:13:38 -0400
+ (envelope-from <eblake@redhat.com>) id 1iD76y-0003O8-Q5
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:13:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iD76t-0003WY-Ca
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:13:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38484)
+ (envelope-from <eblake@redhat.com>) id 1iD76x-0003kC-Lm
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:13:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44290)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iD76t-0003W5-7H
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:13:35 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iD76x-0003hZ-CZ
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:13:39 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3767931752A4
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 13:13:34 +0000 (UTC)
-Received: from work-vm (ovpn-117-251.ams2.redhat.com [10.36.117.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5EB75D9D3;
- Wed, 25 Sep 2019 13:13:26 +0000 (UTC)
-Date: Wed, 25 Sep 2019 14:13:24 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, ehabkost@redhat.com,
- berrange@redhat.com, quintela@redhat.com
-Subject: Re: [Qemu-devel] [PATCH v3 0/5] Automatic RCU read unlock
-Message-ID: <20190925131324.GG21544@work-vm>
-References: <20190913102538.24167-1-dgilbert@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 9B4E92BFDC;
+ Wed, 25 Sep 2019 13:13:38 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B850A5D9CC;
+ Wed, 25 Sep 2019 13:13:35 +0000 (UTC)
+Subject: Re: [Qemu-devel] [PATCH] util/qemu-sockets: fix keep_alive handling
+ in inet_connect_saddr
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190910075943.12977-1-vsementsov@virtuozzo.com>
+ <20190910080319.GA8215@redhat.com>
+ <0e5b08c2-e823-799a-98e3-06174de8d333@redhat.com>
+ <00357f96-367e-d003-c166-d43083ee60af@virtuozzo.com>
+ <1296f8b0-b1db-3125-1989-47c4eed2b3e9@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <8af559ca-3fd8-2786-4949-3b13a815fcdc@redhat.com>
+Date: Wed, 25 Sep 2019 08:13:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190913102538.24167-1-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <1296f8b0-b1db-3125-1989-47c4eed2b3e9@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="83Ma805ovARfgcPw114ERjl1dfusdWvt3"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Wed, 25 Sep 2019 13:13:34 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Wed, 25 Sep 2019 13:13:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -58,48 +90,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> This patch uses glib's g_auto mechanism to automatically free
-> rcu_read_lock's at the end of the block.  Given that humans
-> have a habit of forgetting an error path somewhere it's
-> best to leave it to the compiler.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--83Ma805ovARfgcPw114ERjl1dfusdWvt3
+Content-Type: multipart/mixed; boundary="9DmFPqP7e7apXaJ31X8PnlSnm5J29xQhZ";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Denis Lunev <den@virtuozzo.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>
+Message-ID: <8af559ca-3fd8-2786-4949-3b13a815fcdc@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] util/qemu-sockets: fix keep_alive handling
+ in inet_connect_saddr
+References: <20190910075943.12977-1-vsementsov@virtuozzo.com>
+ <20190910080319.GA8215@redhat.com>
+ <0e5b08c2-e823-799a-98e3-06174de8d333@redhat.com>
+ <00357f96-367e-d003-c166-d43083ee60af@virtuozzo.com>
+ <1296f8b0-b1db-3125-1989-47c4eed2b3e9@virtuozzo.com>
+In-Reply-To: <1296f8b0-b1db-3125-1989-47c4eed2b3e9@virtuozzo.com>
 
-I've had to unqueue this - clang doesn't like the apparently unused
-auto variable; we need to find a way to make that happy.
+--9DmFPqP7e7apXaJ31X8PnlSnm5J29xQhZ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Dave
+On 9/25/19 6:33 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 11.09.2019 15:08, Vladimir Sementsov-Ogievskiy wrote:
+>> 10.09.2019 16:59, Eric Blake wrote:
+>>> On 9/10/19 3:03 AM, Daniel P. Berrang=C3=A9 wrote:
+>>>> On Tue, Sep 10, 2019 at 10:59:43AM +0300, Vladimir Sementsov-Ogievsk=
+iy wrote:
+>>>>> In "if (saddr->keep_alive) {" we may already be on error path, with=
 
-> v3
->   Add block-head version of macro
->   Rename
->   Add docs
->   Convert more cases using the block-head version
-> 
-> Dr. David Alan Gilbert (5):
->   rcu: Add automatically released rcu_read_lock variants
->   migration: Fix missing rcu_read_unlock
->   migration: Use automatic rcu_read unlock in ram.c
->   migration: Use automatic rcu_read unlock in rdma.c
->   rcu: Use automatic rc_read unlock in core memory/exec code
-> 
->  docs/devel/rcu.txt      |  16 +++
->  exec.c                  | 120 +++++++---------
->  include/exec/ram_addr.h | 138 +++++++++----------
->  include/qemu/rcu.h      |  25 ++++
->  memory.c                |  15 +-
->  migration/ram.c         | 295 +++++++++++++++++++---------------------
->  migration/rdma.c        |  57 ++------
->  7 files changed, 310 insertions(+), 356 deletions(-)
-> 
-> -- 
-> 2.21.0
-> 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>>>>> invalid sock < 0. Fix it by returning error earlier.
+>>>>>
+>>>>> Reported-by: Coverity (CID 1405300)
+>>>>> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.c=
+om>
+>>>>> ---
+>>>>> =C2=A0 util/qemu-sockets.c | 5 +++--
+>>>>> =C2=A0 1 file changed, 3 insertions(+), 2 deletions(-)
+>>>>
+>>>> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>>>
+>>> Thanks.=C2=A0 Will queue through my NBD tree, since that's where the =
+original
+>>> problem was introduced.
+>>>
+>>
+>> Please add when queueing:
+>>
+>> Fixes: aec21d31756cbd
+>>
+>=20
+> Hmm, don't you forget? Don't see it neither in pull request nor in your=
+ branches.
+
+Thanks for catching this.  Fixing now...
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--9DmFPqP7e7apXaJ31X8PnlSnm5J29xQhZ--
+
+--83Ma805ovARfgcPw114ERjl1dfusdWvt3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl2LZ/4ACgkQp6FrSiUn
+Q2rqYgf/X7E89YvgqjQc+NCRYOIaJXPeXuIfE59zFzliLbP2MY9OGfkNuXBbXKOx
+He2Y2QaoMTGYAIF64Ij4BzmE34lSWxG1CBtRTfpeJfSKlu8CEc6I1jvSCagF0idW
+2MUbjLn0QEQ1kEt1KMrKzunveI9an3WmIE2ScB6zsFLgG7fS3GbIDtB6izFQHRXm
+Xd8IjvKyhBbjyk95GHSRj63ZEgdsKULNjf4XVzrtO/svt7W5IhGiukcbOoZTI7Ci
+elnXoZr0AL6P8+ciAJtaqszOo3dVguLJCh58ofCNV72w5cx08dvYr73SXW6lfYNt
+Sp3iQWHH95u/ttY/08gPiVKg7hQo4A==
+=vbmO
+-----END PGP SIGNATURE-----
+
+--83Ma805ovARfgcPw114ERjl1dfusdWvt3--
 
