@@ -2,52 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D30FBE1EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 18:06:38 +0200 (CEST)
-Received: from localhost ([::1]:54274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087B0BE1D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:58:18 +0200 (CEST)
+Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD9oK-0004fp-9W
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 12:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35823)
+	id 1iD9gF-0006rh-VI
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36387)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iD9QO-0008Ij-1W
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:41:54 -0400
+ (envelope-from <guoren@kernel.org>) id 1iD9V5-0003mh-FU
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:46:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iD9QL-0005bP-3R
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:41:51 -0400
-Received: from 10.mo5.mail-out.ovh.net ([46.105.52.148]:51848)
+ (envelope-from <guoren@kernel.org>) id 1iD9V3-0008Q7-7J
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:46:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56088)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iD9QK-0005aw-ND
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:41:48 -0400
-Received: from player786.ha.ovh.net (unknown [10.109.160.40])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 18DE924FF82
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 17:41:46 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 306C4A4E4320;
- Wed, 25 Sep 2019 15:41:41 +0000 (UTC)
-Date: Wed, 25 Sep 2019 17:41:40 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 2/2] spapr/irq: Only claim VALID interrupts at the
- KVM level
-Message-ID: <20190925174140.4dfbaf1f@bahia.lan>
-In-Reply-To: <20190916004432.GG2104@umbus.fritz.box>
-References: <20190911133937.2716-1-clg@kaod.org>
- <20190911133937.2716-3-clg@kaod.org>
- <20190916004432.GG2104@umbus.fritz.box>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <guoren@kernel.org>)
+ id 1iD9V3-0008Pq-16; Wed, 25 Sep 2019 11:46:41 -0400
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7309321D7B;
+ Wed, 25 Sep 2019 15:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1569426399;
+ bh=kS7iHUZBpobHHkcL44QM2SKtkOCrqXA0YtmVeoaDbz8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=YZuaLyr0gKuVE+nchojFLfvvZdxpN/BuNsCashVgn+4u1V7JP5Qa49Hxnmkn3AeI+
+ t1CSWuOi7qF/XZNzicpenUYnUN6/B9sY9svroIz8cDJjs1bEn1gec7vEUajXjk6i+z
+ ARNmK+9lDiPaQSfAa+qfJh6NSxjoDRX7mfWYu1Kw=
+Received: by mail-wm1-f45.google.com with SMTP id v17so5514794wml.4;
+ Wed, 25 Sep 2019 08:46:39 -0700 (PDT)
+X-Gm-Message-State: APjAAAU7iPNRh4bdQeoG9OaFLl1Oz4vVXul3l20GCHZM/s6FdXexLplS
+ uiGb855iJFDJ8dioOAYp6KTa/avyxqHWr0DlFn8=
+X-Google-Smtp-Source: APXvYqzQD79Gyu/CB5/9e35reTlojOx2xToFpO0LXgIdXHeIuvTepv5I9M0NzXlcv9175EnCT3+lutzLejICofJEBXo=
+X-Received: by 2002:a05:600c:1103:: with SMTP id
+ b3mr8724713wma.3.1569426397979; 
+ Wed, 25 Sep 2019 08:46:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/yiSa_L/uGPDhCQgfwuo6fmq"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 9996302324619975142
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedvgdelvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+References: <1569386895-8726-1-git-send-email-guoren@kernel.org>
+ <CAKmqyKMraotFmqMg7MrJC5C4SogGqSaVtHkVYTEgGWK9UnWb5g@mail.gmail.com>
+ <CAJF2gTR0o0s_p0H669BRZ86phLtpATwWczczWV8HWw1nc+doFA@mail.gmail.com>
+ <CANnJOVFkviip0g1tBHdL6n2B8pMAQxVBC83RTaF4PAE1t+aPew@mail.gmail.com>
+In-Reply-To: <CANnJOVFkviip0g1tBHdL6n2B8pMAQxVBC83RTaF4PAE1t+aPew@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Wed, 25 Sep 2019 23:46:26 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTS=1uaQi7=CXg7f0eh2xb-HcG_sriMtU208VHXnJ4GTvA@mail.gmail.com>
+Message-ID: <CAJF2gTS=1uaQi7=CXg7f0eh2xb-HcG_sriMtU208VHXnJ4GTvA@mail.gmail.com>
+Subject: Re: [PATCH V3] target/riscv: Bugfix reserved bits in PTE for RV64
+To: Jonathan Behrens <fintelia@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.52.148
+X-Received-From: 198.145.29.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,190 +69,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/yiSa_L/uGPDhCQgfwuo6fmq
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I think your thoughts are wrong.
+The specification is very clear: these bits are not part of ppn, not
+part of the translation target address. The current code is against
+the riscv-privilege specification.
 
-On Mon, 16 Sep 2019 10:44:32 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> On Wed, Sep 11, 2019 at 03:39:37PM +0200, C=C3=A9dric Le Goater wrote:
-> > A typical pseries VM with 16 vCPUs, one disk, one network adapater
-> > uses less than 100 interrupts but the whole IRQ number space of the
-> > QEMU machine is allocated at reset time and it is 8K wide. This is
-> > wasting a considerable amount of interrupt numbers in the global IRQ
-> > space which has 1M interrupts per socket on a POWER9.
-> >=20
-> > To optimise the HW resources, only request at the KVM level interrupts
-> > which have been claimed by the guest. This will help to increase the
-> > maximum number of VMs per system and also help supporting nested guests
-> > using the XIVE interrupt mode.
-> >=20
-> > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->=20
-> Applied to ppc-for-4.2, thanks.
->=20
-
-While experimenting 4.1->4.2 migration with your irq cleanup series,
-I've hit this:
-
-qemu-system-ppc64: KVM_SET_DEVICE_ATTR failed: Group 3 attr 0x0000000000001=
-300: Invalid argument
-qemu-system-ppc64: error while loading state for instance 0x0 of device 'sp=
-apr'
-qemu-system-ppc64: load of migration failed: Operation not permitted
-
-Failing to restore the source config with EINVAL seems to come from the
-following check in kvmppc_xive_native_set_source_config():
-
-	if (!state->valid)
-		return -EINVAL;
-
-which makes sense since we haven't requested any interrupt yet.
-
-We should hence do it at post load before restoring the source
-config.
-
-I'll send a patch ASAP.
-
-> > ---
-> >  hw/intc/spapr_xive_kvm.c | 29 ++++++++++++++++++++++++++---
-> >  hw/intc/xics_kvm.c       |  8 ++++++++
-> >  2 files changed, 34 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> > index 17af4d19f54e..71b88d7797bc 100644
-> > --- a/hw/intc/spapr_xive_kvm.c
-> > +++ b/hw/intc/spapr_xive_kvm.c
-> > @@ -255,11 +255,16 @@ void kvmppc_xive_source_reset_one(XiveSource *xsr=
-c, int srcno, Error **errp)
-> > =20
-> >  static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
-> >  {
-> > +    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
-> >      int i;
-> > =20
-> >      for (i =3D 0; i < xsrc->nr_irqs; i++) {
-> >          Error *local_err =3D NULL;
-> > =20
-> > +        if (!xive_eas_is_valid(&xive->eat[i])) {
-> > +            continue;
-> > +        }
-> > +
-> >          kvmppc_xive_source_reset_one(xsrc, i, &local_err);
-> >          if (local_err) {
-> >              error_propagate(errp, local_err);
-> > @@ -328,11 +333,18 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int=
- srcno, uint32_t offset,
-> > =20
-> >  static void kvmppc_xive_source_get_state(XiveSource *xsrc)
-> >  {
-> > +    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
-> >      int i;
-> > =20
-> >      for (i =3D 0; i < xsrc->nr_irqs; i++) {
-> > +        uint8_t pq;
-> > +
-> > +        if (!xive_eas_is_valid(&xive->eat[i])) {
-> > +            continue;
-> > +        }
-> > +
-> >          /* Perform a load without side effect to retrieve the PQ bits =
-*/
-> > -        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-> > +        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-> > =20
-> >          /* and save PQ locally */
-> >          xive_source_esb_set(xsrc, i, pq);
-> > @@ -521,9 +533,14 @@ static void kvmppc_xive_change_state_handler(void =
-*opaque, int running,
-> >       */
-> >      if (running) {
-> >          for (i =3D 0; i < xsrc->nr_irqs; i++) {
-> > -            uint8_t pq =3D xive_source_esb_get(xsrc, i);
-> > +            uint8_t pq;
-> >              uint8_t old_pq;
-> > =20
-> > +            if (!xive_eas_is_valid(&xive->eat[i])) {
-> > +                continue;
-> > +            }
-> > +
-> > +            pq =3D xive_source_esb_get(xsrc, i);
-> >              old_pq =3D xive_esb_read(xsrc, i, XIVE_ESB_SET_PQ_00 + (pq=
- << 8));
-> > =20
-> >              /*
-> > @@ -545,7 +562,13 @@ static void kvmppc_xive_change_state_handler(void =
-*opaque, int running,
-> >       * migration is in progress.
-> >       */
-> >      for (i =3D 0; i < xsrc->nr_irqs; i++) {
-> > -        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-> > +        uint8_t pq;
-> > +
-> > +        if (!xive_eas_is_valid(&xive->eat[i])) {
-> > +            continue;
-> > +        }
-> > +
-> > +        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-> > =20
-> >          /*
-> >           * PQ is set to PENDING to possibly catch a triggered
-> > diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-> > index a4d2e876cc5f..ba90d6dc966c 100644
-> > --- a/hw/intc/xics_kvm.c
-> > +++ b/hw/intc/xics_kvm.c
-> > @@ -190,6 +190,10 @@ void ics_get_kvm_state(ICSState *ics)
-> >      for (i =3D 0; i < ics->nr_irqs; i++) {
-> >          ICSIRQState *irq =3D &ics->irqs[i];
-> > =20
-> > +        if (ics_irq_free(ics, i)) {
-> > +            continue;
-> > +        }
-> > +
-> >          kvm_device_access(kernel_xics_fd, KVM_DEV_XICS_GRP_SOURCES,
-> >                            i + ics->offset, &state, false, &error_fatal=
-);
-> > =20
-> > @@ -301,6 +305,10 @@ int ics_set_kvm_state(ICSState *ics, Error **errp)
-> >          Error *local_err =3D NULL;
-> >          int ret;
-> > =20
-> > +        if (ics_irq_free(ics, i)) {
-> > +            continue;
-> > +        }
-> > +
-> >          ret =3D ics_set_kvm_state_one(ics, i, &local_err);
-> >          if (ret < 0) {
-> >              error_propagate(errp, local_err);
->=20
+On Wed, Sep 25, 2019 at 11:20 PM Jonathan Behrens <fintelia@gmail.com> wrot=
+e:
+>
+> Any code whose behavior is changed by this patch is wrong, so it doesn't =
+seem like it matters much whether this is merged or not. Personally I'd lea=
+n towards making sure that attempts to use PTEs with the reserved bit set w=
+ould always fault, rather than wrapping around to low memory and perhaps si=
+lently succeeding.
+>
+> Jonathan
+>
+> On Wed, Sep 25, 2019 at 8:29 AM Guo Ren <guoren@kernel.org> wrote:
+>>
+>> On Wed, Sep 25, 2019 at 1:19 PM Alistair Francis <alistair23@gmail.com> =
+wrote:
+>> >
+>> > On Tue, Sep 24, 2019 at 9:48 PM <guoren@kernel.org> wrote:
+>> > >
+>> > > From: Guo Ren <ren_guo@c-sky.com>
+>> > >
+>> > > Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], s=
+o we
+>> > > need to ignore them. They can not be a part of ppn.
+>> > >
+>> > > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architec=
+ture
+>> > >    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+>> > >    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+>> >
+>> > Hey,
+>> >
+>> > As I mentioned on patch 2 I don't think this is right. It isn't up to
+>> > HW to clear these bits, software should keep them clear.
+>>
+>> These bits are not part of ppn in spec, so we still need to ignore them =
+for ppn.
+>>
+>> The patch is reasonable.
+>>
+>> --
+>> Best Regards
+>>  Guo Ren
+>>
+>> ML: https://lore.kernel.org/linux-csky/
+>>
 
 
---Sig_/yiSa_L/uGPDhCQgfwuo6fmq
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--=20
+Best Regards
+ Guo Ren
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2LirQACgkQcdTV5YIv
-c9b/9w/+O1iaUrtEjeQYiFKeyHrPkMjreNjLr/CpIGXkDrPkbvvBpSh+P3wCsLKq
-Ya/AbBIc/ab+FoIaBnyb+dyP1VFfkDX4kk0eYzJ8/2SrA7ofrpz49Z2auAzT3sho
-RDXTFHUyvM5C2+eScNpNwB6ayvwjOQXEA/foJV4qPFy7j7mQfLiV0GygzGaEnen4
-JoQ3hbsndluIcqW6we4e2PyTcAqObb33HytgKcr/BZgROa+IvqKTSQKI+2Zyq+it
-AtSaYP2tU8q1wFwZY0FvvwHCkTtwLz90HwjhjIMC1E8bMSa0SHwuZNU0E5IPHeil
-HWEqq4wGO5J+umshAdgwdLrl95ZhIjXz6JWLs2bXO7Jq+P0WAjWx5aR8//wwZfVE
-Dy7AedIBXSZknm4dkMVg9KdVNqm0krqB8ihZJizXYYxvDBjl7F7m4kv2pMU6iIfl
-oSxYHhkapGiYMjo2LOVSZbxL6Qu3F6uyI8CdgYfLTPYCU0lzEqYcEBvIWeXh0X4C
-H12ObYCcaVQSveQ/DcAicr+eT2+VUawArXIgs//5KfoFXB+her26Y+1JYt80B7ep
-YgbPCJ73YPB/ZnuE7ULxMLdH7td5Q/zs7pLzX86otPacyBfyGNj1h+PDyInfURqB
-zT9Tk6WwqL87qZxc8jKKKZSAYcqtsq/U6myA3TSAoQIiz34GP7g=
-=HV9S
------END PGP SIGNATURE-----
-
---Sig_/yiSa_L/uGPDhCQgfwuo6fmq--
+ML: https://lore.kernel.org/linux-csky/
 
