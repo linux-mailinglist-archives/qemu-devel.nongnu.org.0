@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9307BE351
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 19:23:08 +0200 (CEST)
-Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98F8BE370
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 19:39:20 +0200 (CEST)
+Received: from localhost ([::1]:55396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDB0N-0001Oh-Rl
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 13:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
+	id 1iDBG3-0000Dc-VE
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 13:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDAu0-0005hJ-SV
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:16:34 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iDBDc-0006y5-9U
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:36:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDAtz-0005M2-JA
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:16:32 -0400
-Received: from 13.mo4.mail-out.ovh.net ([178.33.251.8]:60844)
+ (envelope-from <imammedo@redhat.com>) id 1iDBDb-0007l3-3g
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:36:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40558)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDAtz-0005LG-Cm
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 13:16:31 -0400
-Received: from player789.ha.ovh.net (unknown [10.108.42.5])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 06B3520817F
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 19:16:28 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player789.ha.ovh.net (Postfix) with ESMTPSA id 832DFA2FFFBD;
- Wed, 25 Sep 2019 17:16:18 +0000 (UTC)
-Date: Wed, 25 Sep 2019 19:16:17 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 10/20] spapr: Eliminate nr_irqs parameter to SpaprIrq::init
-Message-ID: <20190925191617.65acbc68@bahia.lan>
-In-Reply-To: <20190925064534.19155-11-david@gibson.dropbear.id.au>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-11-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1iDBDY-0007jY-18; Wed, 25 Sep 2019 13:36:44 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AEBC518C8937;
+ Wed, 25 Sep 2019 17:36:42 +0000 (UTC)
+Received: from Igors-MacBook-Pro (ovpn-112-17.ams2.redhat.com [10.36.112.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C5E71001B07;
+ Wed, 25 Sep 2019 17:36:31 +0000 (UTC)
+Date: Wed, 25 Sep 2019 19:36:28 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH-for-4.2 v11 11/11] tests: Add bios tests to arm/virt
+Message-ID: <20190925193628.2267cfb5@Igors-MacBook-Pro>
+In-Reply-To: <20190925112521-mutt-send-email-mst@kernel.org>
+References: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
+ <20190918130633.4872-12-shameerali.kolothum.thodi@huawei.com>
+ <20190925112521-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 11595643143125309926
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedvgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Wed, 25 Sep 2019 17:36:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.251.8
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,117 +57,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ qemu-devel@nongnu.org, Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ linuxarm@huawei.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ xuwei5@hisilicon.com, eric.auger@redhat.com, sebastien.boeuf@intel.com,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Sep 2019 16:45:24 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+On Wed, 25 Sep 2019 11:26:04 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> The only reason this parameter was needed was to work around the
-> inconsistent meaning of nr_irqs between xics and xive.  Now that we've
-> fixed that, we can consistently use the number directly in the SpaprIrq
-> configuration.
+> On Wed, Sep 18, 2019 at 02:06:33PM +0100, Shameer Kolothum wrote:
+> > This adds numamem and memhp tests for arm/virt platform.
+> > 
+> > Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > v10-->v11
+> > 
+> > Added Igor's R-by.
+> > 
+> > In order to avoid "make check" failure, the files listed in patch #10
+> > has to be added to tests/data/acpi/virt folder before this patch.
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
+> So you can just add empty stubs.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Wouldn't IASL choke on such files?
 
->  hw/ppc/spapr_irq.c         | 21 ++++++++++-----------
->  include/hw/ppc/spapr_irq.h |  2 +-
->  2 files changed, 11 insertions(+), 12 deletions(-)
 > 
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 5190a33e08..300c65be3a 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -92,8 +92,7 @@ static void spapr_irq_init_kvm(SpaprMachineState *spapr,
->   * XICS IRQ backend.
->   */
->  
-> -static void spapr_irq_init_xics(SpaprMachineState *spapr, int nr_xirqs,
-> -                                Error **errp)
-> +static void spapr_irq_init_xics(SpaprMachineState *spapr, Error **errp)
->  {
->      Object *obj;
->      Error *local_err = NULL;
-> @@ -102,7 +101,8 @@ static void spapr_irq_init_xics(SpaprMachineState *spapr, int nr_xirqs,
->      object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
->      object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
->                                     &error_fatal);
-> -    object_property_set_int(obj, nr_xirqs, "nr-irqs",  &error_fatal);
-> +    object_property_set_int(obj, spapr->irq->nr_xirqs,
-> +                            "nr-irqs",  &error_fatal);
->      object_property_set_bool(obj, true, "realized", &local_err);
->      if (local_err) {
->          error_propagate(errp, local_err);
-> @@ -256,15 +256,15 @@ SpaprIrq spapr_irq_xics = {
->  /*
->   * XIVE IRQ backend.
->   */
-> -static void spapr_irq_init_xive(SpaprMachineState *spapr, int nr_xirqs,
-> -                                Error **errp)
-> +static void spapr_irq_init_xive(SpaprMachineState *spapr, Error **errp)
->  {
->      uint32_t nr_servers = spapr_max_server_number(spapr);
->      DeviceState *dev;
->      int i;
->  
->      dev = qdev_create(NULL, TYPE_SPAPR_XIVE);
-> -    qdev_prop_set_uint32(dev, "nr-irqs", nr_xirqs + SPAPR_XIRQ_BASE);
-> +    qdev_prop_set_uint32(dev, "nr-irqs",
-> +                         spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
->      /*
->       * 8 XIVE END structures per CPU. One for each available priority
->       */
-> @@ -443,18 +443,17 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState *spapr)
->          &spapr_irq_xive : &spapr_irq_xics;
->  }
->  
-> -static void spapr_irq_init_dual(SpaprMachineState *spapr, int nr_xirqs,
-> -                                Error **errp)
-> +static void spapr_irq_init_dual(SpaprMachineState *spapr, Error **errp)
->  {
->      Error *local_err = NULL;
->  
-> -    spapr_irq_xics.init(spapr, spapr_irq_xics.nr_xirqs, &local_err);
-> +    spapr_irq_xics.init(spapr, &local_err);
->      if (local_err) {
->          error_propagate(errp, local_err);
->          return;
->      }
->  
-> -    spapr_irq_xive.init(spapr, spapr_irq_xive.nr_xirqs, &local_err);
-> +    spapr_irq_xive.init(spapr, &local_err);
->      if (local_err) {
->          error_propagate(errp, local_err);
->          return;
-> @@ -683,7 +682,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->          spapr_irq_msi_init(spapr, spapr->irq->nr_msis);
->      }
->  
-> -    spapr->irq->init(spapr, spapr->irq->nr_xirqs, errp);
-> +    spapr->irq->init(spapr, errp);
->  
->      spapr->qirqs = qemu_allocate_irqs(spapr->irq->set_irq, spapr,
->                                        spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index a8f9a2ab11..7e26288fcd 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -41,7 +41,7 @@ typedef struct SpaprIrq {
->      uint32_t    nr_msis;
->      uint8_t     ov5;
->  
-> -    void (*init)(SpaprMachineState *spapr, int nr_irqs, Error **errp);
-> +    void (*init)(SpaprMachineState *spapr, Error **errp);
->      int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **errp);
->      void (*free)(SpaprMachineState *spapr, int irq, int num);
->      qemu_irq (*qirq)(SpaprMachineState *spapr, int irq);
+> > ---
+> >  tests/bios-tables-test.c | 49 ++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 49 insertions(+)
+> > 
+> > diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+> > index 9b3d8b0d1b..6d9e2e41b0 100644
+> > --- a/tests/bios-tables-test.c
+> > +++ b/tests/bios-tables-test.c
+> > @@ -870,6 +870,53 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
+> >      test_acpi_tcg_dimm_pxm(MACHINE_PC);
+> >  }
+> >  
+> > +static void test_acpi_virt_tcg_memhp(void)
+> > +{
+> > +    test_data data = {
+> > +        .machine = "virt",
+> > +        .accel = "tcg",
+> > +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
+> > +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
+> > +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
+> > +        .ram_start = 0x40000000ULL,
+> > +        .scan_len = 256ULL * 1024 * 1024,
+> > +    };
+> > +
+> > +    data.variant = ".memhp";
+> > +    test_acpi_one(" -cpu cortex-a57"
+> > +                  " -m 256M,slots=3,maxmem=1G"
+> > +                  " -object memory-backend-ram,id=ram0,size=128M"
+> > +                  " -object memory-backend-ram,id=ram1,size=128M"
+> > +                  " -numa node,memdev=ram0 -numa node,memdev=ram1"
+> > +                  " -numa dist,src=0,dst=1,val=21",
+> > +                  &data);
+> > +
+> > +    free_test_data(&data);
+> > +
+> > +}
+> > +
+> > +static void test_acpi_virt_tcg_numamem(void)
+> > +{
+> > +    test_data data = {
+> > +        .machine = "virt",
+> > +        .accel = "tcg",
+> > +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
+> > +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
+> > +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
+> > +        .ram_start = 0x40000000ULL,
+> > +        .scan_len = 128ULL * 1024 * 1024,
+> > +    };
+> > +
+> > +    data.variant = ".numamem";
+> > +    test_acpi_one(" -cpu cortex-a57"
+> > +                  " -object memory-backend-ram,id=ram0,size=128M"
+> > +                  " -numa node,memdev=ram0",
+> > +                  &data);
+> > +
+> > +    free_test_data(&data);
+> > +
+> > +}
+> > +
+> >  static void test_acpi_virt_tcg(void)
+> >  {
+> >      test_data data = {
+> > @@ -916,6 +963,8 @@ int main(int argc, char *argv[])
+> >          qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+> >      } else if (strcmp(arch, "aarch64") == 0) {
+> >          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+> > +        qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+> > +        qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+> >      }
+> >      ret = g_test_run();
+> >      boot_sector_cleanup(disk);
+> > -- 
+> > 2.17.1
+> > 
+> 
 
 
