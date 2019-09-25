@@ -2,104 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C33BDECE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:20:03 +0200 (CEST)
-Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A45BDF17
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:37:13 +0200 (CEST)
+Received: from localhost ([::1]:50958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD7D7-0007SU-TP
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59183)
+	id 1iD7Tj-0001SX-Rc
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iD6qq-0003bB-WB
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:57:02 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iD6vx-0000Sl-9M
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:02:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iD6qp-0005Ae-BM
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 08:57:00 -0400
-Received: from mail-eopbgr150135.outbound.protection.outlook.com
- ([40.107.15.135]:15797 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iD6qo-0005AM-MR; Wed, 25 Sep 2019 08:56:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mIFoO655rCdqIO2d4PyxuCIdDor0oAdJZCiUyRKrnbJx2CDf0wa06I2GFYw0g4TaaYLxmGHV4lC7ek2tSGNfW9RWCX/UZFJNFbUdYaQdfD6Sh8mPP1cmVUl3wrCr07oyvDIDK/7iA6QpwGKQks2X/+tOqQ+Zh5tWl0MoAQtFrmWT0snnA895SQDSqw0OJqlhXAbFI/ZOUGjhLQ+Un2c0cphHNiFOTjPuhwmDwdS0sqYu3lVEdzM+do6xDu1QYf8h3P6T/XaQsUDHF76r2ifKOnXx62ap7KtCyctWiUQbx7Xz78Gs+ld9ufkEU39xQmoI+j64BVRlFgiH+hpDP0zxvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=awfDsFwRMhfEOuE/DETgYhu9TrFG41sMRXRC4vB8LuQ=;
- b=BmjKpUPr8TSFQ+QOevSJQrx44whyg19vY2AezxI7cDGlz4C+HlBpNnbf49L9bvSgy6n8iG7j68mouw0teZWBOjBFDiuvrhyEgiqOZubOUe+qs8u6cDGvHXFuvWL6w4MQPsrwT4IbKoeGlOdlhIA0nKj2bs20O7ILcad8zcnvNT2U9Pt77T+KrAcQL/EzZzt1g1VXh0K+nJxli56rHlnfmTYOoBUhtPYMd5ABEO5SmmqvY7nKJ1HH28R4pMW0l84CrLuA0aUZpS5SAslahhejPUzJfKGgVHHKlcqvO1BxalojABAZqT8N9tjsqe1EYsWNVPonn8KB1uBx7lZvP9hKIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=awfDsFwRMhfEOuE/DETgYhu9TrFG41sMRXRC4vB8LuQ=;
- b=wJx2M1RvT0OBlZcWXtyPqGJTXDTliL6DYuDW5wcWPPf7+470ME4ZZPcljdOhXusr7kuv4izQ2Q4eP/VQRiTqEy0eWv673mFgOU7hhZikEiRrMuNTAxejBKWeKU58TN1Ahf/mq6tmViMTv9R3bheVDJDbwpgP+tDoyKjt3nyly0Y=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5497.eurprd08.prod.outlook.com (52.133.240.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Wed, 25 Sep 2019 12:56:56 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Wed, 25 Sep 2019
- 12:56:55 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH 07/22] blkverify: Implement .bdrv_recurse_can_replace()
-Thread-Topic: [PATCH 07/22] blkverify: Implement .bdrv_recurse_can_replace()
-Thread-Index: AQHVb8i1KdK8X/qXTUulZMXz4xb+tKc8YdaA
-Date: Wed, 25 Sep 2019 12:56:55 +0000
-Message-ID: <02057dd7-ce3a-a5ff-41c3-35a607ea6301@virtuozzo.com>
-References: <20190920152804.12875-1-mreitz@redhat.com>
- <20190920152804.12875-8-mreitz@redhat.com>
-In-Reply-To: <20190920152804.12875-8-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0401CA0049.eurprd04.prod.outlook.com
- (2603:10a6:3:19::17) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190925155653006
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 346a83fa-b820-44a5-e4bc-08d741b7d7d9
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5497; 
-x-ms-traffictypediagnostic: DB8PR08MB5497:
-x-microsoft-antispam-prvs: <DB8PR08MB54977D4B43208DD48D513329C1870@DB8PR08MB5497.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2201;
-x-forefront-prvs: 01713B2841
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(376002)(346002)(366004)(136003)(39850400004)(199004)(189003)(66946007)(66446008)(2616005)(64756008)(476003)(66556008)(66476007)(486006)(26005)(186003)(31686004)(52116002)(76176011)(99286004)(14454004)(478600001)(6436002)(6486002)(6246003)(6512007)(446003)(66066001)(11346002)(256004)(7736002)(305945005)(71200400001)(71190400001)(81156014)(8676002)(81166006)(6116002)(229853002)(4326008)(3846002)(25786009)(2501003)(110136005)(2906002)(54906003)(8936002)(5660300002)(316002)(386003)(102836004)(6506007)(36756003)(86362001)(31696002)(142923001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5497;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: HxYeRI7VuEF3PZtBTeTnSug8xHxta9Amtq458rQWqQ4zAvGHwMAkTXddsFVioMX1hoJN0J7RzgLf5rhxgEE2VV/NyAARBW873Iu/QIO8oYcp5Ca02tymiLhN5Y5TrJ7Z+eUevABCnqBfUr4rzxlX2UyfhmI9bq0zvZ+fQdTKNnicB8rr1rlYEDfadLknlnPWuuU3/yZEt2Cf9NttrfY5QkpkJxXtMBpsk5/lElMDbzWhlMSmAuGIYm1fUu3k4eaWXOT0cXuLl4Z6Yw+a9mI3BqYzmYY2tCJz+C25ALfZkZfhaVEkRKd0ZQbROWGE6rvPOQLo5HGdsNyi3TTr91Z0R5u8l1w1pw0tahyELARHluXs0AFrlNgfngvs/6Gwu6C+FPv3cREY2XKm7Yujb1AM2/UukLZvPzrllEF6XsYnCPs=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D54D9D424545CD4984F12F63F338B171@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <jsnow@redhat.com>) id 1iD6vv-0006gd-SG
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:02:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37116)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iD6vl-0006ZR-Ka; Wed, 25 Sep 2019 09:02:05 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7EE842106;
+ Wed, 25 Sep 2019 13:02:03 +0000 (UTC)
+Received: from [10.10.123.130] (ovpn-123-130.rdu2.redhat.com [10.10.123.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0BCBC600C8;
+ Wed, 25 Sep 2019 13:01:59 +0000 (UTC)
+Subject: Re: [PATCH 1/1] dirty-bitmaps: remove deprecated autoload parameter
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190924230143.22551-1-jsnow@redhat.com>
+ <20190924230143.22551-2-jsnow@redhat.com>
+ <fe7c69d5-16b7-d834-d490-b630db387d76@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <d54e767c-3ec2-0003-6259-aa43be968ec6@redhat.com>
+Date: Wed, 25 Sep 2019 09:01:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 346a83fa-b820-44a5-e4bc-08d741b7d7d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 12:56:55.3697 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gPyWAxFTMVA0z4zMjHD4JiyaUBdAvUhEV+JFeqm0v8//uY1rkM2byDIZFQ55r4nBH9Ob8DSykD7B8ktqeUWbXGySRVoXzzovId8XP526g5w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5497
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.15.135
+In-Reply-To: <fe7c69d5-16b7-d834-d490-b630db387d76@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Wed, 25 Sep 2019 13:02:03 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,52 +136,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjAuMDkuMjAxOSAxODoyNywgTWF4IFJlaXR6IHdyb3RlOg0KPiBTaWduZWQtb2ZmLWJ5OiBNYXgg
-UmVpdHogPG1yZWl0ekByZWRoYXQuY29tPg0KPiAtLS0NCj4gICBibG9jay9ibGt2ZXJpZnkuYyB8
-IDE1ICsrKysrKysrKysrKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCsp
-DQo+IA0KPiBkaWZmIC0tZ2l0IGEvYmxvY2svYmxrdmVyaWZ5LmMgYi9ibG9jay9ibGt2ZXJpZnku
-Yw0KPiBpbmRleCAzMDRiMGExMzY4Li4wYWRkM2FiNDgzIDEwMDY0NA0KPiAtLS0gYS9ibG9jay9i
-bGt2ZXJpZnkuYw0KPiArKysgYi9ibG9jay9ibGt2ZXJpZnkuYw0KPiBAQCAtMjgyLDYgKzI4Miwy
-MCBAQCBzdGF0aWMgYm9vbCBibGt2ZXJpZnlfcmVjdXJzZV9pc19maXJzdF9ub25fZmlsdGVyKEJs
-b2NrRHJpdmVyU3RhdGUgKmJzLA0KPiAgICAgICByZXR1cm4gYmRydl9yZWN1cnNlX2lzX2ZpcnN0
-X25vbl9maWx0ZXIocy0+dGVzdF9maWxlLT5icywgY2FuZGlkYXRlKTsNCj4gICB9DQo+ICAgDQo+
-ICtzdGF0aWMgYm9vbCBibGt2ZXJpZnlfcmVjdXJzZV9jYW5fcmVwbGFjZShCbG9ja0RyaXZlclN0
-YXRlICpicywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEJs
-b2NrRHJpdmVyU3RhdGUgKnRvX3JlcGxhY2UpDQo+ICt7DQo+ICsgICAgQkRSVkJsa3ZlcmlmeVN0
-YXRlICpzID0gYnMtPm9wYXF1ZTsNCj4gKw0KPiArICAgIC8qDQo+ICsgICAgICogYmxrdmVyaWZ5
-IHF1aXRzIHRoZSB3aG9sZSBxZW11IHByb2Nlc3MgaWYgdGhlcmUgaXMgYSBtaXNtYXRjaA0KPiAr
-ICAgICAqIGJldHdlZW4gYnMtPmZpbGUtPmJzIGFuZCBzLT50ZXN0X2ZpbGUtPmJzLiAgVGhlcmVm
-b3JlLCB3ZSBrbm93DQo+ICsgICAgICoga25vdyB0aGF0IGJvdGggbXVzdCBtYXRjaCBicyBhbmQg
-d2UgY2FuIHJlY3Vyc2UgZG93biB0byBlaXRoZXIuDQo+ICsgICAgICovDQo+ICsgICAgcmV0dXJu
-IGJkcnZfcmVjdXJzZV9jYW5fcmVwbGFjZShicy0+ZmlsZS0+YnMsIHRvX3JlcGxhY2UpIHx8DQo+
-ICsgICAgICAgICAgIGJkcnZfcmVjdXJzZV9jYW5fcmVwbGFjZShzLT50ZXN0X2ZpbGUtPmJzLCB0
-b19yZXBsYWNlKTsNCg0KT2ssIG5vdyBJIHVuZGVyc3RhbmQsIHdoYXQgYmRydl9yZWN1cnNlX2Nh
-bl9yZXBsYWNlIGFjdHVhbGx5IGRvZXM6DQoNCkl0IHNlYXJjaGVzIGZvciB0b19yZXBsYWNlIGlu
-IGJzLXJvb3RlZCBzdWJ0cmVlLCBnb2luZyBvbmx5IHRocm91Z2ggZXF1YWwNCmNoaWxkcmVuLi4N
-Cg0KU28sIHdlIGNhbiByZXBsYWNlIEB0b19yZXBsYWNlLCBieSBzb21ldGhpbmcgZXF1YWwgdG8g
-QGJzLCBpZiBAdG9fcmVwbGFjZSBpcw0KaW4gZXF1YWwtc3VidHJlZSBvZiBAYnMuDQoNCkknbGwg
-dHJ5IHRvIGV4cGxhaW4gbXkgbWlzbGVhZGluZzoNCg0KYmRydl9yZWN1cnNlX2Nhbl9yZXBsYWNl
-IGRlY2xhcmF0aW9uIGxvb2tzIGxpa2UgYnMgYW5kIHRvX3JlcGxhY2UgbWF5IGJlIGFic29sdXRl
-bHkNCnVucmVsYXRlZCBub2Rlcy4gU28sIHdoeSBicyBzaG91bGQgZGVjaWRlLCBjYW4gd2UgcmVw
-bGFjZSB0aGUgdW5yZWxhdGVkIHRvX3JlcGxhY2UNCm5vZGUgYnkgc29tZXRoaW5nLi4NCg0KU28s
-IGl0IG1heSBiZSBzaW1wbGVyIHRvIGZvbGxvdywgaWYgaXQgd2FzIGNhbGxlZCBiZHJ2X3JlY3Vy
-c2VfZmlsdGVyZWRfc3VidHJlZSwgb3INCmJkcnZfcmVjdXJzZV90cmFuc3BhcmVudF9zdWJ0cmVl
-Li4NCg0KU3RpbGwsIG5vdyBJIHVuZGVyc3RhbmQsIGFuZCBkb24ndCBjYXJlLiBJdCdzIGJldHRl
-ciBhbnl3YXkgdGhhbiBiZHJ2X3JlY3Vyc2VfaXNfZmlyc3Rfbm9uX2ZpbHRlcg0KDQo+ICt9DQo+
-ICsNCj4gICBzdGF0aWMgdm9pZCBibGt2ZXJpZnlfcmVmcmVzaF9maWxlbmFtZShCbG9ja0RyaXZl
-clN0YXRlICpicykNCj4gICB7DQo+ICAgICAgIEJEUlZCbGt2ZXJpZnlTdGF0ZSAqcyA9IGJzLT5v
-cGFxdWU7DQo+IEBAIC0zMjgsNiArMzQyLDcgQEAgc3RhdGljIEJsb2NrRHJpdmVyIGJkcnZfYmxr
-dmVyaWZ5ID0gew0KPiAgIA0KPiAgICAgICAuaXNfZmlsdGVyICAgICAgICAgICAgICAgICAgICAg
-ICAgPSB0cnVlLA0KPiAgICAgICAuYmRydl9yZWN1cnNlX2lzX2ZpcnN0X25vbl9maWx0ZXIgPSBi
-bGt2ZXJpZnlfcmVjdXJzZV9pc19maXJzdF9ub25fZmlsdGVyLA0KPiArICAgIC5iZHJ2X3JlY3Vy
-c2VfY2FuX3JlcGxhY2UgICAgICAgICA9IGJsa3ZlcmlmeV9yZWN1cnNlX2Nhbl9yZXBsYWNlLA0K
-DQppdCB3aWxsIGJlIG5ldmVyIGNhbGxlZCwgYXMgYmRydl9yZWN1cnNlX2Nhbl9yZXBsYWNlIGhh
-bmRsZXMgZmlsdGVycyBieSBpdHNlbGYuDQoNCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyB2b2lk
-IGJkcnZfYmxrdmVyaWZ5X2luaXQodm9pZCkNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpW
-bGFkaW1pcg0K
+
+
+On 9/25/19 3:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 25.09.2019 2:01, John Snow wrote:
+>> This parameter has been deprecated since 2.12.0 and is eligible for
+>> removal. Remove this parameter as it is actually completely ignored;
+>> let's not give false hope.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   qemu-deprecated.texi | 20 +++++++++++++++-----
+>>   qapi/block-core.json |  6 +-----
+>>   blockdev.c           |  6 ------
+>>   3 files changed, 16 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+>> index 01245e0b1c..d60246d5d6 100644
+>> --- a/qemu-deprecated.texi
+>> +++ b/qemu-deprecated.texi
+>> @@ -149,11 +149,6 @@ QEMU 4.1 has three options, please migrate to one of these three:
+>>   
+>>   @section QEMU Machine Protocol (QMP) commands
+>>   
+>> -@subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+>> -
+>> -"autoload" parameter is now ignored. All bitmaps are automatically loaded
+>> -from qcow2 images.
+>> -
+>>   @subsection query-block result field dirty-bitmaps[i].status (since 4.0)
+>>   
+>>   The ``status'' field of the ``BlockDirtyInfo'' structure, returned by
+>> @@ -356,3 +351,18 @@ existing CPU models.  Management software that needs runnability
+>>   guarantees must resolve the CPU model aliases using te
+>>   ``alias-of'' field returned by the ``query-cpu-definitions'' QMP
+>>   command.
+>> +
+>> +
+>> +@node Recently removed features
+>> +@appendix Recently removed features
+>> +
+>> +What follows is a record of recently removed, formerly deprecated
+>> +features that serves as a record for users who have encountered
+>> +trouble after a recent upgrade.
+>> +
+>> +@section QEMU Machine Protocol (QMP) commands
+>> +
+>> +@subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+> 
+> Agree with Eric that it should be 4.2 - as this section is about removing
+> 
+
+Yes, shame on me. I spent about three seconds on this patch and should
+have spent four.
+
+>> +
+>> +"autoload" parameter is now ignored. All bitmaps are automatically loaded
+>> +from qcow2 images.
+> 
+> Maybe, rephrase it as s/is now ignored/is now removed (ignored since 2.12.0)/ ,
+> so that this paragraph don't mislead without a context.
+> 
+
+Also a good idea.
+
+'The "autoload" parameter has been ignored since 2.12.0. All bitmaps are
+automatically loaded from qcow2 images.'
+
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> (Yay, deprecation works!)
+> 
+
+Thanks, and I'll get to the rest of your pending bitmap patches and
+cleanups soon.
+
+--js
 
