@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E0ABE539
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:53:50 +0200 (CEST)
-Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B17BE540
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 20:58:09 +0200 (CEST)
+Received: from localhost ([::1]:56178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDCQ8-0008Sz-RX
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47084)
+	id 1iDCUJ-0003iq-Sm
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 14:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCIf-0001oO-Oc
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:07 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCIi-0001s1-OH
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCId-0004He-Vd
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:05 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33890)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDCIg-0004L5-KO
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:08 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:43872)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDCId-0004Gd-Na
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:03 -0400
-Received: by mail-pl1-x644.google.com with SMTP id k7so2337321pll.1
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:46:03 -0700 (PDT)
+ id 1iDCIg-0004K9-BU
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:06 -0400
+Received: by mail-pl1-x636.google.com with SMTP id f21so539567plj.10
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+mSQUtExxffwFsuh/c6IBrL9OKLsUbH86Mr3RPL+odM=;
- b=Lyo7E/xo4ojw1cWW9330esFALB35CrtNQq/UIGkmVZuwWy5wR1ww4D5pKPcWiHq4A1
- kb7UTIGF6Zr8ZyXFKR0ILXpCAKFBiflzLF2B3omXtWT2wD3q7mJsRcKbZG40i0GDNahN
- iVZ62aiOcckyA4e8EXg9C5GN/2yvFul8FXY8hS64giuQssbWycKhpTErXDF3nvM3NAaa
- feOzohU86ckJbrXCpO0XJfSb+/NoRJBrxqCbwgKjVwA8nyd1Jbf5+ajiLLsaU0JSobqk
- nmYaNLyaSpzn79kW/U59aWr8eUuZF8W5PbtuemIpXMcC2bIofhDnwgXdgxCuw4j+xeP0
- gN9A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=thoGiFuad0+sCfOpAMLAT3aKZ6kfKYJYfdagLPNuTGE=;
+ b=obzLGpmus8NXGajsJbBANMPP1Lr9oKl26c9ALC/g3ZVjwdIviv7vHovKTsUKsdr5GX
+ 8UdKcDq2RgoDaJi5E2y8abFH2EtNZf+hGSz5aQOosle62tDMF4+U82BLZ6BlVa5i4r0f
+ symZO6y5FgXpaecoKfYDxWzWdDftRr/NIOsRp9gQTklRBnShR244zyonBxxMv7MQ5cDd
+ d0HczvjrDVGtojvpy9ZMHwd3EgjytwSA8HKUhltokzJOTNkHeWSFXiLzDkMhVIUjgzNE
+ mDAkc7TfHwo+rqDLRwQE15z26wb/wdCqeR8zeEGy2DOPoX3kScAXid2FBmpV6ILNFpMy
+ Pzag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=+mSQUtExxffwFsuh/c6IBrL9OKLsUbH86Mr3RPL+odM=;
- b=aeiqbJR3QQGmXpCWeOCOGdrNzjt1LZ7vk6ivVFpY8LB8wkUT5huLz0N8VWx9np5Ywk
- ZIYJeYnUOhWXZwTPEQM6FSnBZUz6DhwMdya4Pybb46tAh0cAKbg/PTKYFQta2d58/zor
- MKtTJrdg6xxgG4aOv0mA+MmRxqLjMG9D6iZle/M0eUD+xnCa9GezBhkhMqZhf8D3hQ+A
- BmRFMZoQlm9G35i9FVVFPzUE3yHCxHtXCxQ96Z1D5BaAZgAJXnxS9f+2zZkuZyn4s2GE
- A5YYkA7QSMPVFpJdrWFbv+7GeY6t6gkFxYigcCDOoN7XzHhibihrwl6m4E6OshqwPiAy
- YbAA==
-X-Gm-Message-State: APjAAAU0fYdPAs3s1divx5kyEp1tIb+RWmp9c66DhwsSG66sKXBBmFPu
- SxaQpn/w5Fwpe3ofl6Z1h6tsKmGat4o=
-X-Google-Smtp-Source: APXvYqx5gK1ZWZ5UTeBwbS/IxEyO1J80FX4yoBtjBPGpvphLQMa6Sqx6/sV9x1ERHVXySnhDf7vKJw==
-X-Received: by 2002:a17:902:7595:: with SMTP id
- j21mr10377950pll.162.1569437162197; 
- Wed, 25 Sep 2019 11:46:02 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=thoGiFuad0+sCfOpAMLAT3aKZ6kfKYJYfdagLPNuTGE=;
+ b=QNXT1DEbvnS6qi0TjUr4GBNvTLc1E1/cQspOCK/q8bEsZuWPmPl8mf5trv53AUAJES
+ DMqu7qjTfz9xm9CzaSDlleq+YpCgoTKhnLSEScpIN16RdyjIcA/fr0X6Dvr2UtZhFzwZ
+ Cj7JERLIZGquDlAhRytzaWe8NvUNdj8t+mRIp/aWA8Gc437eDBZyWZjwBFKzCYaR2LmI
+ qJOPeYfQLN3rc0rAepl0rsbwhaBdnoAkGsiyJgk1rA1qdQwAhbaHx6qJLsdOq+zswv2V
+ fgJZxh7x5Odk62QX8o24aWit9Z9SKB3o/AdgCYv2CIBH9hiHUxd13GWpfA+nTV4OGFxg
+ kuFQ==
+X-Gm-Message-State: APjAAAWy3zNX3cJdfWKQamWz0DrhEWWCwnVAd4KaD9FO/ewsMlYNnObN
+ BNJAmgFzAOKC4YLjrlj+WFCfAT6+C+w=
+X-Google-Smtp-Source: APXvYqweOdxqYbMAyFMiZtkmB1Z39fMEdDmQ5pRWCERycYL8+SNLT9ifhNSZX+B34Fi+J+NnsnlB2w==
+X-Received: by 2002:a17:902:7296:: with SMTP id
+ d22mr10991369pll.41.1569437165034; 
+ Wed, 25 Sep 2019 11:46:05 -0700 (PDT)
 Received: from localhost.localdomain ([12.206.46.61])
- by smtp.gmail.com with ESMTPSA id l24sm6133229pff.151.2019.09.25.11.46.00
+ by smtp.gmail.com with ESMTPSA id l24sm6133229pff.151.2019.09.25.11.46.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 11:46:01 -0700 (PDT)
+ Wed, 25 Sep 2019 11:46:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/16] cputlb: Move ROM handling from I/O path to TLB path
-Date: Wed, 25 Sep 2019 11:45:40 -0700
-Message-Id: <20190925184548.30673-9-richard.henderson@linaro.org>
+Subject: [PULL 10/16] cputlb: Partially inline memory_region_section_get_iotlb
+Date: Wed, 25 Sep 2019 11:45:42 -0700
+Message-Id: <20190925184548.30673-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190925184548.30673-1-richard.henderson@linaro.org>
 References: <20190925184548.30673-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::636
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,226 +83,188 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It does not require going through the whole I/O path
-in order to discard a write.
+There is only one caller, tlb_set_page_with_attrs.  We cannot
+inline the entire function because the AddressSpaceDispatch
+structure is private to exec.c, and cannot easily be moved to
+include/exec/memory-internal.h.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Compute is_ram and is_romd once within tlb_set_page_with_attrs.
+Fold the number of tests against these predicates.  Compute
+cpu_physical_memory_is_clean outside of the tlb lock region.
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h    |  5 ++++-
- include/exec/cpu-common.h |  1 -
- accel/tcg/cputlb.c        | 36 ++++++++++++++++++++--------------
- exec.c                    | 41 +--------------------------------------
- 4 files changed, 26 insertions(+), 57 deletions(-)
+ include/exec/exec-all.h |  6 +---
+ accel/tcg/cputlb.c      | 68 ++++++++++++++++++++++++++---------------
+ exec.c                  | 22 ++-----------
+ 3 files changed, 47 insertions(+), 49 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index d148bded35..ad9ab85eb3 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -337,12 +337,15 @@ CPUArchState *cpu_copy(CPUArchState *env);
- #define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS_MIN - 4))
- /* Set if TLB entry requires byte swap.  */
- #define TLB_BSWAP           (1 << (TARGET_PAGE_BITS_MIN - 5))
-+/* Set if TLB entry writes ignored.  */
-+#define TLB_DISCARD_WRITE   (1 << (TARGET_PAGE_BITS_MIN - 6))
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 81b02eb2fe..49db07ba0b 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -509,11 +509,7 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
+                                   hwaddr *xlat, hwaddr *plen,
+                                   MemTxAttrs attrs, int *prot);
+ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+-                                       MemoryRegionSection *section,
+-                                       target_ulong vaddr,
+-                                       hwaddr paddr, hwaddr xlat,
+-                                       int prot,
+-                                       target_ulong *address);
++                                       MemoryRegionSection *section);
+ #endif
  
- /* Use this mask to check interception with an alignment mask
-  * in a TCG backend.
-  */
- #define TLB_FLAGS_MASK \
--    (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO | TLB_WATCHPOINT | TLB_BSWAP)
-+    (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO \
-+    | TLB_WATCHPOINT | TLB_BSWAP | TLB_DISCARD_WRITE)
- 
- /**
-  * tlb_hit_page: return true if page aligned @addr is a hit against the
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index f7dbe75fbc..1c0e03ddc2 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -100,7 +100,6 @@ void qemu_flush_coalesced_mmio_buffer(void);
- 
- void cpu_flush_icache_range(hwaddr start, hwaddr len);
- 
--extern struct MemoryRegion io_mem_rom;
- extern struct MemoryRegion io_mem_notdirty;
- 
- typedef int (RAMBlockIterFunc)(RAMBlock *rb, void *opaque);
+ /* vl.c */
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 028eebcb44..404ec57a4e 100644
+index 7e9a0f7ac8..4f118d2cc9 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -577,7 +577,8 @@ static void tlb_reset_dirty_range_locked(CPUTLBEntry *tlb_entry,
- {
-     uintptr_t addr = tlb_entry->addr_write;
+@@ -705,13 +705,14 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     MemoryRegionSection *section;
+     unsigned int index;
+     target_ulong address;
+-    target_ulong code_address;
++    target_ulong write_address;
+     uintptr_t addend;
+     CPUTLBEntry *te, tn;
+     hwaddr iotlb, xlat, sz, paddr_page;
+     target_ulong vaddr_page;
+     int asidx = cpu_asidx_from_attrs(cpu, attrs);
+     int wp_flags;
++    bool is_ram, is_romd;
  
--    if ((addr & (TLB_INVALID_MASK | TLB_MMIO | TLB_NOTDIRTY)) == 0) {
-+    if ((addr & (TLB_INVALID_MASK | TLB_MMIO |
-+                 TLB_DISCARD_WRITE | TLB_NOTDIRTY)) == 0) {
-         addr &= TARGET_PAGE_MASK;
-         addr += tlb_entry->addend;
-         if ((addr - start) < length) {
-@@ -745,7 +746,6 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
-         address |= TLB_MMIO;
-         addend = 0;
-     } else {
--        /* TLB_MMIO for rom/romd handled below */
+     assert_cpu_is_self(cpu);
+ 
+@@ -740,18 +741,46 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     if (attrs.byte_swap) {
+         address |= TLB_BSWAP;
+     }
+-    if (!memory_region_is_ram(section->mr) &&
+-        !memory_region_is_romd(section->mr)) {
+-        /* IO memory case */
+-        address |= TLB_MMIO;
+-        addend = 0;
+-    } else {
++
++    is_ram = memory_region_is_ram(section->mr);
++    is_romd = memory_region_is_romd(section->mr);
++
++    if (is_ram || is_romd) {
++        /* RAM and ROMD both have associated host memory. */
          addend = (uintptr_t)memory_region_get_ram_ptr(section->mr) + xlat;
++    } else {
++        /* I/O does not; force the host address to NULL. */
++        addend = 0;
++    }
++
++    write_address = address;
++    if (is_ram) {
++        iotlb = memory_region_get_ram_addr(section->mr) + xlat;
++        /*
++         * Computing is_clean is expensive; avoid all that unless
++         * the page is actually writable.
++         */
++        if (prot & PAGE_WRITE) {
++            if (section->readonly) {
++                write_address |= TLB_DISCARD_WRITE;
++            } else if (cpu_physical_memory_is_clean(iotlb)) {
++                write_address |= TLB_NOTDIRTY;
++            }
++        }
++    } else {
++        /* I/O or ROMD */
++        iotlb = memory_region_section_get_iotlb(cpu, section) + xlat;
++        /*
++         * Writes to romd devices must go through MMIO to enable write.
++         * Reads to romd devices go through the ram_ptr found above,
++         * but of course reads to I/O must go through MMIO.
++         */
++        write_address |= TLB_MMIO;
++        if (!is_romd) {
++            address = write_address;
++        }
      }
  
-@@ -822,16 +822,17 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+-    code_address = address;
+-    iotlb = memory_region_section_get_iotlb(cpu, section, vaddr_page,
+-                                            paddr_page, xlat, prot, &address);
+     wp_flags = cpu_watchpoint_address_matches(cpu, vaddr_page,
+                                               TARGET_PAGE_SIZE);
+ 
+@@ -791,8 +820,8 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     /*
+      * At this point iotlb contains a physical section number in the lower
+      * TARGET_PAGE_BITS, and either
+-     *  + the ram_addr_t of the page base of the target RAM (if NOTDIRTY or ROM)
+-     *  + the offset within section->mr of the page base (otherwise)
++     *  + the ram_addr_t of the page base of the target RAM (RAM)
++     *  + the offset within section->mr of the page base (I/O, ROMD)
+      * We subtract the vaddr_page (which is page aligned and thus won't
+      * disturb the low bits) to give an offset which can be added to the
+      * (non-page-aligned) vaddr of the eventual memory access to get
+@@ -815,25 +844,14 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     }
+ 
+     if (prot & PAGE_EXEC) {
+-        tn.addr_code = code_address;
++        tn.addr_code = address;
+     } else {
+         tn.addr_code = -1;
+     }
  
      tn.addr_write = -1;
      if (prot & PAGE_WRITE) {
--        if ((memory_region_is_ram(section->mr) && section->readonly)
--            || memory_region_is_romd(section->mr)) {
--            /* Write access calls the I/O callback.  */
--            tn.addr_write = address | TLB_MMIO;
--        } else if (memory_region_is_ram(section->mr)
--                   && cpu_physical_memory_is_clean(
--                       memory_region_get_ram_addr(section->mr) + xlat)) {
--            tn.addr_write = address | TLB_NOTDIRTY;
--        } else {
--            tn.addr_write = address;
-+        tn.addr_write = address;
-+        if (memory_region_is_romd(section->mr)) {
-+            /* Use the MMIO path so that the device can switch states. */
-+            tn.addr_write |= TLB_MMIO;
-+        } else if (memory_region_is_ram(section->mr)) {
-+            if (section->readonly) {
-+                tn.addr_write |= TLB_DISCARD_WRITE;
-+            } else if (cpu_physical_memory_is_clean(
-+                        memory_region_get_ram_addr(section->mr) + xlat)) {
-+                tn.addr_write |= TLB_NOTDIRTY;
-+            }
-         }
+-        tn.addr_write = address;
+-        if (memory_region_is_romd(section->mr)) {
+-            /* Use the MMIO path so that the device can switch states. */
+-            tn.addr_write |= TLB_MMIO;
+-        } else if (memory_region_is_ram(section->mr)) {
+-            if (section->readonly) {
+-                tn.addr_write |= TLB_DISCARD_WRITE;
+-            } else if (cpu_physical_memory_is_clean(
+-                        memory_region_get_ram_addr(section->mr) + xlat)) {
+-                tn.addr_write |= TLB_NOTDIRTY;
+-            }
+-        }
++        tn.addr_write = write_address;
          if (prot & PAGE_WRITE_INV) {
              tn.addr_write |= TLB_INVALID_MASK;
-@@ -904,7 +905,7 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-     cpu->mem_io_pc = retaddr;
--    if (mr != &io_mem_rom && mr != &io_mem_notdirty && !cpu->can_do_io) {
-+    if (mr != &io_mem_notdirty && !cpu->can_do_io) {
-         cpu_io_recompile(cpu, retaddr);
-     }
- 
-@@ -945,7 +946,7 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     section = iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs);
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
--    if (mr != &io_mem_rom && mr != &io_mem_notdirty && !cpu->can_do_io) {
-+    if (mr != &io_mem_notdirty && !cpu->can_do_io) {
-         cpu_io_recompile(cpu, retaddr);
-     }
-     cpu->mem_io_vaddr = addr;
-@@ -1125,7 +1126,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
-     }
- 
-     /* Reject I/O access, or other required slow-path.  */
--    if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO | TLB_BSWAP)) {
-+    if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO | TLB_BSWAP | TLB_DISCARD_WRITE)) {
-         return NULL;
-     }
- 
-@@ -1617,6 +1618,11 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-             return;
          }
- 
-+        /* Ignore writes to ROM.  */
-+        if (unlikely(tlb_addr & TLB_DISCARD_WRITE)) {
-+            return;
-+        }
-+
-         haddr = (void *)((uintptr_t)addr + entry->addend);
- 
-         /*
 diff --git a/exec.c b/exec.c
-index 5f2587b621..ea8c0b18ac 100644
+index dc7001f115..961d7d6497 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -88,7 +88,7 @@ static MemoryRegion *system_io;
- AddressSpace address_space_io;
- AddressSpace address_space_memory;
+@@ -1459,26 +1459,10 @@ bool cpu_physical_memory_snapshot_get_dirty(DirtyBitmapSnapshot *snap,
  
--MemoryRegion io_mem_rom, io_mem_notdirty;
-+MemoryRegion io_mem_notdirty;
- static MemoryRegion io_mem_unassigned;
- #endif
- 
-@@ -192,7 +192,6 @@ typedef struct subpage_t {
- 
- #define PHYS_SECTION_UNASSIGNED 0
- #define PHYS_SECTION_NOTDIRTY 1
--#define PHYS_SECTION_ROM 2
- 
- static void io_mem_init(void);
- static void memory_map_init(void);
-@@ -1475,8 +1474,6 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
-         iotlb = memory_region_get_ram_addr(section->mr) + xlat;
-         if (!section->readonly) {
-             iotlb |= PHYS_SECTION_NOTDIRTY;
--        } else {
--            iotlb |= PHYS_SECTION_ROM;
-         }
-     } else {
-         AddressSpaceDispatch *d;
-@@ -3002,38 +2999,6 @@ static uint16_t dummy_section(PhysPageMap *map, FlatView *fv, MemoryRegion *mr)
-     return phys_section_add(map, &section);
+ /* Called from RCU critical section */
+ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+-                                       MemoryRegionSection *section,
+-                                       target_ulong vaddr,
+-                                       hwaddr paddr, hwaddr xlat,
+-                                       int prot,
+-                                       target_ulong *address)
++                                       MemoryRegionSection *section)
+ {
+-    hwaddr iotlb;
+-
+-    if (memory_region_is_ram(section->mr)) {
+-        /* Normal RAM.  */
+-        iotlb = memory_region_get_ram_addr(section->mr) + xlat;
+-    } else {
+-        AddressSpaceDispatch *d;
+-
+-        d = flatview_to_dispatch(section->fv);
+-        iotlb = section - d->map.sections;
+-        iotlb += xlat;
+-    }
+-
+-    return iotlb;
++    AddressSpaceDispatch *d = flatview_to_dispatch(section->fv);
++    return section - d->map.sections;
  }
- 
--static void readonly_mem_write(void *opaque, hwaddr addr,
--                               uint64_t val, unsigned size)
--{
--    /* Ignore any write to ROM. */
--}
--
--static bool readonly_mem_accepts(void *opaque, hwaddr addr,
--                                 unsigned size, bool is_write,
--                                 MemTxAttrs attrs)
--{
--    return is_write;
--}
--
--/* This will only be used for writes, because reads are special cased
-- * to directly access the underlying host ram.
-- */
--static const MemoryRegionOps readonly_mem_ops = {
--    .write = readonly_mem_write,
--    .valid.accepts = readonly_mem_accepts,
--    .endianness = DEVICE_NATIVE_ENDIAN,
--    .valid = {
--        .min_access_size = 1,
--        .max_access_size = 8,
--        .unaligned = false,
--    },
--    .impl = {
--        .min_access_size = 1,
--        .max_access_size = 8,
--        .unaligned = false,
--    },
--};
--
- MemoryRegionSection *iotlb_to_section(CPUState *cpu,
-                                       hwaddr index, MemTxAttrs attrs)
- {
-@@ -3047,8 +3012,6 @@ MemoryRegionSection *iotlb_to_section(CPUState *cpu,
- 
- static void io_mem_init(void)
- {
--    memory_region_init_io(&io_mem_rom, NULL, &readonly_mem_ops,
--                          NULL, NULL, UINT64_MAX);
-     memory_region_init_io(&io_mem_unassigned, NULL, &unassigned_mem_ops, NULL,
-                           NULL, UINT64_MAX);
- 
-@@ -3069,8 +3032,6 @@ AddressSpaceDispatch *address_space_dispatch_new(FlatView *fv)
-     assert(n == PHYS_SECTION_UNASSIGNED);
-     n = dummy_section(&d->map, fv, &io_mem_notdirty);
-     assert(n == PHYS_SECTION_NOTDIRTY);
--    n = dummy_section(&d->map, fv, &io_mem_rom);
--    assert(n == PHYS_SECTION_ROM);
- 
-     d->phys_map  = (PhysPageEntry) { .ptr = PHYS_MAP_NODE_NIL, .skip = 1 };
+ #endif /* defined(CONFIG_USER_ONLY) */
  
 -- 
 2.17.1
