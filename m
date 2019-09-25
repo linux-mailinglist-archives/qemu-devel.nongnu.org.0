@@ -2,84 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AFEBE16F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:35:50 +0200 (CEST)
-Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E788FBE127
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:21:47 +0200 (CEST)
+Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD9KX-0006G3-0q
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58543)
+	id 1iD96w-0001f9-R1
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iD8tp-0007a9-Mg
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:08:14 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iD8w9-0001dZ-6g
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:10:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iD8to-0006YR-HA
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:08:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34043)
+ (envelope-from <imammedo@redhat.com>) id 1iD8w7-0007JT-0w
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:10:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52780)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iD8to-0006XZ-Cq
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:08:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569424092;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=/Bb2yKVS9GnjYR4U8Dx7CG0Um6Pa+fxPjJJLez580Vs=;
- b=MAOVdhZZaSqAVbXzuKKHBuULlOntMrQ3eimfWHoYbfX9iHsfsyvUm6XZWYLb3COfsemam3
- Xnm0qr3vb9AutAHGyEEfKnet64enroYotzjum/3kC9L2TZGJoPLXPpndDViXsOkYzKA/wa
- fEC9D4t5W/CagcY/wjDYxTVMAwMZHx0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-CUhEYi20NrWxbhPwwZ89uA-1; Wed, 25 Sep 2019 11:08:07 -0400
-Received: by mail-wr1-f71.google.com with SMTP id a4so2504261wrg.8
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 08:08:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Wo8S0ucTgf9Od7exNv6OK8BOXZMOwr4fXqJSYzE4pmM=;
- b=geXRy64q/cHxJRx7rhe96IAu72qEhxs2Rv8uLuAvitkuAo1PAnXPXC9T9vdDrPxFTD
- ybBEIFl6gLEMqOLD1kKv2me3mtPo59W/oxx6p4K87O4mO0XgbSoGOm+MJjwrcggGG+sT
- VSq41BdeKhZCnkXarsklYvoxq+Gi6bNpMIpcXO7JBQzwdsRI/Ms+YFnHNadNmTDULGBv
- kIN8TIXEu7IFM2eIRxDTE6s1Ynd6wtTbpc0V8NzeHUlOc99dYnrknQDOI3kLK40LDKw0
- YhezUT1SsvDodiS4zyKIkQgTGdHWLjZGUun1bsOkf+d/fFjeReC4T9K7PJLUAkfWJvhJ
- +p4A==
-X-Gm-Message-State: APjAAAUEpi1F2c2ZvdsiNQ92NIct9+8IN9hNpcniSLus+PNs+oTezTLq
- 8k+S/aGOwN2+z5D7fKiq6RcpvM/9dwt9wC0Br6p31qtVOLApCARDFeYNevfGI6iHr0YjhGW4xsF
- 1rId/KmaXFjc4v8Y=
-X-Received: by 2002:a7b:c761:: with SMTP id x1mr8431914wmk.47.1569424086016;
- Wed, 25 Sep 2019 08:08:06 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyE1WV4NuRmT1R1R9YHpj9NKm0gW/TWJh+IAxgjddPnxVRzkClET3dGfSGv+78pFiWLr24uYw==
-X-Received: by 2002:a7b:c761:: with SMTP id x1mr8431899wmk.47.1569424085874;
- Wed, 25 Sep 2019 08:08:05 -0700 (PDT)
-Received: from [10.201.33.84] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id d9sm8982723wrc.44.2019.09.25.08.08.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Sep 2019 08:08:05 -0700 (PDT)
-Subject: Re: [PATCH v2 03/20] target/mips: Clean up kvm_mips.h
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1569415572-19635-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1569415572-19635-4-git-send-email-aleksandar.markovic@rt-rk.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <561b9c7a-285a-af10-c1fd-edacd51b3811@redhat.com>
-Date: Wed, 25 Sep 2019 17:08:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1iD8w4-0007Fr-8A; Wed, 25 Sep 2019 11:10:32 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 608E8315C037;
+ Wed, 25 Sep 2019 15:10:30 +0000 (UTC)
+Received: from Igors-MacBook-Pro (ovpn-112-17.ams2.redhat.com [10.36.112.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D503D10027B8;
+ Wed, 25 Sep 2019 15:10:02 +0000 (UTC)
+Date: Wed, 25 Sep 2019 17:09:59 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Subject: Re: [Qemu-devel] [PATCH-for-4.2 v11 09/11] docs/specs: Add ACPI GED
+ documentation
+Message-ID: <20190925170959.399b7302@Igors-MacBook-Pro>
+In-Reply-To: <20190918130633.4872-10-shameerali.kolothum.thodi@huawei.com>
+References: <20190918130633.4872-1-shameerali.kolothum.thodi@huawei.com>
+ <20190918130633.4872-10-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <1569415572-19635-4-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Language: en-US
-X-MC-Unique: CUhEYi20NrWxbhPwwZ89uA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 25 Sep 2019 15:10:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,35 +58,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ shannon.zhaosl@gmail.com, mst@redhat.com, qemu-devel@nongnu.org,
+ xuwei5@hisilicon.com, linuxarm@huawei.com, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, sebastien.boeuf@intel.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/19 2:45 PM, Aleksandar Markovic wrote:
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->=20
-> Mostly fix errors and warnings reported by 'checkpatch.pl -f'.
->=20
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->  target/mips/kvm_mips.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/target/mips/kvm_mips.h b/target/mips/kvm_mips.h
-> index ae957f3..1e40147 100644
-> --- a/target/mips/kvm_mips.h
-> +++ b/target/mips/kvm_mips.h
-> @@ -7,7 +7,7 @@
->   *
->   * Copyright (C) 2012-2014 Imagination Technologies Ltd.
->   * Authors: Sanjay Lal <sanjayl@kymasys.com>
-> -*/
-> + */
-> =20
->  #ifndef KVM_MIPS_H
->  #define KVM_MIPS_H
->=20
+On Wed, 18 Sep 2019 14:06:31 +0100
+Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Documents basic concepts of ACPI Generic Event device(GED)
+> and interface between QEMU and the ACPI BIOS.
+> 
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+> Addressed Peter's comments,
+>  -changed to rst format.
+>  -typo/grammer corrections.
+> ---
+>  docs/specs/acpi_hw_reduced_hotplug.rst | 70 ++++++++++++++++++++++++++
+>  docs/specs/index.rst                   |  1 +
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 docs/specs/acpi_hw_reduced_hotplug.rst
+> 
+> diff --git a/docs/specs/acpi_hw_reduced_hotplug.rst b/docs/specs/acpi_hw_reduced_hotplug.rst
+> new file mode 100644
+> index 0000000000..911a98255b
+> --- /dev/null
+> +++ b/docs/specs/acpi_hw_reduced_hotplug.rst
+> @@ -0,0 +1,70 @@
+> +==================================================
+> +QEMU and ACPI BIOS Generic Event Device interface
+> +==================================================
+> +
+> +The ACPI *Generic Event Device* (GED) is a HW reduced platform
+> +specific device introduced in ACPI v6.1 that handles all platform
+> +events, including the hotplug ones. GED is modelled as a device
+> +in the namespace with a _HID defined to be ACPI0013. This document
+> +describes the interface between QEMU and the ACPI BIOS.
+> +
+> +GED allows HW reduced platforms to handle interrupts in ACPI ASL
+> +statements. It follows a very similar approach to the _EVT method
+> +from GPIO events. All interrupts are listed in  _CRS and the handler
+> +is written in _EVT method. However, the QEMU implementation uses a
+> +single interrupt for the GED device, relying on an IO memory region
+> +to communicate the type of device affected by the interrupt. This way,
+> +we can support up to 32 events with a unique interrupt.
+> +
+> +**Here is an example,**
+> +
+> +::
+> +
+> +   Device (\_SB.GED)
+> +   {
+> +       Name (_HID, "ACPI0013")
+> +       Name (_UID, Zero)
+> +       Name (_CRS, ResourceTemplate ()
+> +       {
+> +           Interrupt (ResourceConsumer, Edge, ActiveHigh, Exclusive, ,, )
+> +           {
+> +               0x00000029,
+> +           }
+> +       })
+> +       OperationRegion (EREG, SystemMemory, 0x09080000, 0x04)
+> +       Field (EREG, DWordAcc, NoLock, WriteAsZeros)
+> +       {
+> +           ESEL,   32
+> +       }
+> +       Method (_EVT, 1, Serialized)
+> +       {
+> +           Local0 = ESEL // ESEL = IO memory region which specifies the
+> +                         // device type.
+> +           If (((Local0 & One) == One))
+> +           {
+> +               MethodEvent1()
+> +           }
+> +           If ((Local0 & 0x2) == 0x2)
+> +           {
+> +               MethodEvent2()
+> +           }
+> +           ...
+> +       }
+> +   }
+> +
+> +GED IO interface (4 byte access)
+> +--------------------------------
+> +**read access:**
+> +
+> +::
+> +
+> +   [0x0-0x3] Event selector bit field (32 bit) set by QEMU.
+> +
+> +    bits:
+> +       0: Memory hotplug event
+> +       1: System power down event
+> +    2-31: Reserved
+> +
+> +**write_access:**
+> +
+> +Nothing is expected to be written into GED IO memory
+> diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+> index 40adb97c5e..984ba44029 100644
+> --- a/docs/specs/index.rst
+> +++ b/docs/specs/index.rst
+> @@ -12,3 +12,4 @@ Contents:
+>  
+>     ppc-xive
+>     ppc-spapr-xive
+> +   acpi_hw_reduced_hotplug
 
 
