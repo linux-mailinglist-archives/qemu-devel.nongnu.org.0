@@ -2,65 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC41BDF2A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 15:40:22 +0200 (CEST)
-Received: from localhost ([::1]:51300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129CFBDFA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:06:03 +0200 (CEST)
+Received: from localhost ([::1]:52466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD7Wm-0005hS-Kw
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 09:40:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
+	id 1iD7vd-0003PN-Rg
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47089)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iD7Fd-00036S-F9
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:22:38 -0400
+ (envelope-from <thuth@redhat.com>) id 1iD7uc-0002rf-73
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:04:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iD7Fc-0007in-1q
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:22:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49450)
+ (envelope-from <thuth@redhat.com>) id 1iD7ua-00018l-FN
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:04:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41006)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD7Fb-0007iK-RB
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 09:22:35 -0400
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iD7LK-0002Yn-Hq; Wed, 25 Sep 2019 09:28:30 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CEC635859E
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 13:22:34 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id m6so5806615qtk.23
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 06:22:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pnlJfRUOHFXJHHXYrwkBIidYQJoyhof5/8LiUPs5BtI=;
- b=DuXpSkN9Gg6XcjYOADq4LnNWW+kPcf5kosf8eCZuv/tws7094xYUcXvLJQqEhfNL68
- AAwRmISDSWUgv2PPFEZ1r5OY8+X5WAEm9W0oKtE7OBj3ya5Cpa52qFLy9UIGBg1Cin11
- +uFr30MF4YDaLO4ciWIMUlqJmwtfjNre+v4CDlhHTXAu7WKV/Is6mBnyyEmIcvYgyWRL
- l3SOJeUKsJ4dPS0Qcn/Rp33/yIGgr5cB1xuYhG/2aeMqW5u55uaR9XIZ/PKprIoj6I8w
- aKydl4eFGvhgqdGdw6THTVIts8Hl5i+kY4Jjsf+SoJmWU24raZTYWggr0P3X24CG1FWy
- MesQ==
-X-Gm-Message-State: APjAAAWNWzRQVIbhh5WYRU0fM/eXazDGK6W0xrZRS0hzAl/xts+l4tPY
- 7ss7+2cqeADQ776lJET0n9pJ5JT1VUBR/9EzMrRs43156YldQ1yTUg6pr4dKzU0n9KLeMebIQZ1
- Y1lfDlHU+0o+H9nA=
-X-Received: by 2002:a0c:8003:: with SMTP id 3mr7066284qva.161.1569417754150;
- Wed, 25 Sep 2019 06:22:34 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxfvhI9uAiac2Etlkr4MuWFkGKXWJ7+RXgO/YMAue1KzBwN4rmcYi6Uo7Zh4UcPnnSKElkZvg==
-X-Received: by 2002:a0c:8003:: with SMTP id 3mr7066259qva.161.1569417753925;
- Wed, 25 Sep 2019 06:22:33 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id 200sm3004999qkf.65.2019.09.25.06.22.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 06:22:33 -0700 (PDT)
-Date: Wed, 25 Sep 2019 09:22:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] hw/core/loader: Fix possible crash in rom_copy()
-Message-ID: <20190925092212-mutt-send-email-mst@kernel.org>
-References: <20190925130331.27825-1-thuth@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 56094309BF06;
+ Wed, 25 Sep 2019 13:28:29 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-109.ams2.redhat.com [10.36.116.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04A5E60BF1;
+ Wed, 25 Sep 2019 13:28:24 +0000 (UTC)
+Subject: Re: [PATCH v2 1/7] s390x/mmu: Drop debug logging from MMU code
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190925125236.4043-1-david@redhat.com>
+ <20190925125236.4043-2-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <a04e04cb-db9d-f488-074f-a0a9cdfc132e@redhat.com>
+Date: Wed, 25 Sep 2019 15:28:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190925130331.27825-1-thuth@redhat.com>
+In-Reply-To: <20190925125236.4043-2-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Wed, 25 Sep 2019 13:28:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -75,50 +104,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 25, 2019 at 03:03:31PM +0200, Thomas Huth wrote:
-> Both, "rom->addr" and "addr" are derived from the binary image
-> that can be loaded with the "-kernel" paramer. The code in
-> rom_copy() then calculates:
-> 
->     d = dest + (rom->addr - addr);
-> 
-> and uses "d" as destination in a memcpy() some lines later. Now with
-> bad kernel images, it is possible that rom->addr is smaller than addr,
-> thus "rom->addr - addr" gets negative and the memcpy() then tries to
-> copy contents from the image to a bad memory location. In the best case,
-> this just crashes QEMU, in the worst case, this could maybe be used to
-> inject code from the kernel image into the QEMU binary, so we better fix
-> it with an additional sanity check here.
-> 
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Guangming Liu
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1844635
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 25/09/2019 14.52, David Hildenbrand wrote:
+> Let's get it out of the way to make some further refactorings easier.
+> Personally, I've never used these debug statements at all. And if I had
+> to debug issue, I used plain GDB instead (debug prints are just way too
+> much noise in the MMU). We might want to introduce tracing at some point
+> instead, so we can able selected events on demand.
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+... and code that is disabled by default tends to bitrot anyway. Thus
+this sounds like a good idea to me.
 
-> ---
->  hw/core/loader.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index 0d60219364..5099f27dc8 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -1281,7 +1281,7 @@ int rom_copy(uint8_t *dest, hwaddr addr, size_t size)
->          if (rom->addr + rom->romsize < addr) {
->              continue;
->          }
-> -        if (rom->addr > end) {
-> +        if (rom->addr > end || rom->addr < addr) {
->              break;
->          }
->  
-> -- 
-> 2.18.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
