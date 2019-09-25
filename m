@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E47BD92D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:34:32 +0200 (CEST)
-Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AC8BD93D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:39:36 +0200 (CEST)
+Received: from localhost ([::1]:46552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1ok-0000rm-3s
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43561)
+	id 1iD1tf-0006QV-5G
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iD1cf-0007lB-DD
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:22:02 -0400
+ (envelope-from <clg@kaod.org>) id 1iD1dg-0000Fb-Lj
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:23:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iD1ce-0007ew-6s
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:22:01 -0400
-Received: from 1.mo7.mail-out.ovh.net ([178.33.45.51]:39854)
+ (envelope-from <clg@kaod.org>) id 1iD1df-0007zd-F1
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:23:04 -0400
+Received: from 3.mo177.mail-out.ovh.net ([46.105.36.172]:52914)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1ce-0007eM-1N
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:22:00 -0400
-Received: from player792.ha.ovh.net (unknown [10.109.160.230])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id C098C134723
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:21:57 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1df-0007yD-8t
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:23:03 -0400
+Received: from player789.ha.ovh.net (unknown [10.109.143.208])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id B9E1610C1E6
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:23:00 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player792.ha.ovh.net (Postfix) with ESMTPSA id 82251A44FC4A;
- Wed, 25 Sep 2019 07:21:47 +0000 (UTC)
-Subject: Re: [PATCH 15/20] spapr: Handle freeing of multiple irqs in frontend
- only
+ by player789.ha.ovh.net (Postfix) with ESMTPSA id 2BDA3A273B93;
+ Wed, 25 Sep 2019 07:22:49 +0000 (UTC)
+Subject: Re: [PATCH 16/20] spapr, xics, xive: Better use of assert()s on irq
+ claim/free paths
 To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-16-david@gibson.dropbear.id.au>
+ <20190925064534.19155-17-david@gibson.dropbear.id.au>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <b52ddf06-f709-7852-c4c6-cf404b6fb1a0@kaod.org>
-Date: Wed, 25 Sep 2019 09:21:46 +0200
+Message-ID: <56f89d62-2cd7-1300-1ad9-b373fccde0e6@kaod.org>
+Date: Wed, 25 Sep 2019 09:22:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190925064534.19155-16-david@gibson.dropbear.id.au>
+In-Reply-To: <20190925064534.19155-17-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 1555149250093943768
+X-Ovh-Tracer-Id: 1572882171449805784
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedugdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedugdduvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.45.51
+X-Received-From: 46.105.36.172
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,114 +69,113 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 25/09/2019 08:45, David Gibson wrote:
-> spapr_irq_free() can be used to free multiple irqs at once. That's usef=
-ul
-> for its callers, but there's no need to make the individual backend hoo=
-ks
-> handle this.  We can loop across the irqs in spapr_irq_free() itself an=
+> The irq claim and free paths for both XICS and XIVE check for some
+> validity conditions.  Some of these represent genuine runtime failures,
+> however others - particularly checking that the basic irq number is in =
+a
+> sane range - could only fail in the case of bugs in the callin code.
+> Therefore use assert()s instead of runtime failures for those.
+>=20
+> In addition the non backend-specific part of the claim/free paths shoul=
 d
-> have the hooks just do one at time.
-
-ok. That was the legacy API. The new one is fine.
-
+> only be used for PAPR external irqs, that is in the range SPAPR_XIRQ_BA=
+SE
+> to the maximum irq number.  Put assert()s for that into the top level
+> dispatchers as well.
 >=20
 > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 > ---
->  hw/ppc/spapr_irq.c         | 27 ++++++++++++---------------
->  include/hw/ppc/spapr_irq.h |  2 +-
->  2 files changed, 13 insertions(+), 16 deletions(-)
+>  hw/intc/spapr_xive.c |  8 ++------
+>  hw/ppc/spapr_irq.c   | 18 ++++++++++--------
+>  2 files changed, 12 insertions(+), 14 deletions(-)
 >=20
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index c1c97192a7..47b5ec0b56 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -532,9 +532,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t=
+ lisn, bool lsi)
+>  {
+>      XiveSource *xsrc =3D &xive->source;
+> =20
+> -    if (lisn >=3D xive->nr_irqs) {
+> -        return false;
+> -    }
+> +    assert(lisn < xive->nr_irqs);
+> =20
+>      /*
+>       * Set default values when allocating an IRQ number
+> @@ -559,9 +557,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t=
+ lisn, bool lsi)
+> =20
+>  bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn)
+>  {
+> -    if (lisn >=3D xive->nr_irqs) {
+> -        return false;
+> -    }
+> +    assert(lisn < xive->nr_irqs);
+> =20
+>      xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
+>      return true;
 > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index db6755f3ab..c40357a985 100644
+> index c40357a985..261d66ba17 100644
 > --- a/hw/ppc/spapr_irq.c
 > +++ b/hw/ppc/spapr_irq.c
-> @@ -133,16 +133,13 @@ static int spapr_irq_claim_xics(SpaprMachineState=
- *spapr, int irq, bool lsi,
->      return 0;
->  }
+> @@ -118,11 +118,7 @@ static int spapr_irq_claim_xics(SpaprMachineState =
+*spapr, int irq, bool lsi,
+>      ICSState *ics =3D spapr->ics;
 > =20
-> -static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq, int=
- num)
-> +static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq)
->  {
+>      assert(ics);
+> -
+> -    if (!ics_valid_irq(ics, irq)) {
+> -        error_setg(errp, "IRQ %d is invalid", irq);
+> -        return -1;
+> -    }
+> +    assert(ics_valid_irq(ics, irq));
+> =20
+>      if (!ics_irq_free(ics, irq - ics->offset)) {
+>          error_setg(errp, "IRQ %d is not free", irq);
+> @@ -138,9 +134,9 @@ static void spapr_irq_free_xics(SpaprMachineState *=
+spapr, int irq)
 >      ICSState *ics =3D spapr->ics;
 >      uint32_t srcno =3D irq - ics->offset;
-> -    int i;
 > =20
->      if (ics_valid_irq(ics, irq)) {
-> -        for (i =3D srcno; i < srcno + num; ++i) {
-> -            memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
-> -        }
-> +        memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
->      }
->  }
-> =20
-> @@ -269,13 +266,9 @@ static int spapr_irq_claim_xive(SpaprMachineState =
-*spapr, int irq, bool lsi,
->      return 0;
->  }
-> =20
-> -static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq, int=
- num)
-> +static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
->  {
-> -    int i;
-> -
-> -    for (i =3D irq; i < irq + num; ++i) {
-> -        spapr_xive_irq_free(spapr->xive, i);
+> -    if (ics_valid_irq(ics, irq)) {
+> -        memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
 > -    }
-> +    spapr_xive_irq_free(spapr->xive, irq);
->  }
-> =20
->  static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
-> @@ -438,10 +431,10 @@ static int spapr_irq_claim_dual(SpaprMachineState=
- *spapr, int irq, bool lsi,
->      return ret;
->  }
-> =20
-> -static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq, int=
- num)
-> +static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq)
->  {
-> -    spapr_irq_xics.free(spapr, irq, num);
-> -    spapr_irq_xive.free(spapr, irq, num);
-> +    spapr_irq_xics.free(spapr, irq);
-> +    spapr_irq_xive.free(spapr, irq);
->  }
-> =20
->  static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monito=
-r *mon)
-> @@ -640,7 +633,11 @@ int spapr_irq_claim(SpaprMachineState *spapr, int =
-irq, bool lsi, Error **errp)
-> =20
->  void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
->  {
-> -    spapr->irq->free(spapr, irq, num);
-> +    int i;
+> +    assert(ics_valid_irq(ics, irq));
 > +
-> +    for (i =3D irq; i < (irq + num); i++) {
-> +        spapr->irq->free(spapr, irq);
-> +    }
+> +    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
 >  }
 > =20
->  qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 9b60378e28..ed88b4599a 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -43,7 +43,7 @@ typedef struct SpaprIrq {
+>  static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monito=
+r *mon)
+> @@ -628,6 +624,9 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
+ **errp)
 > =20
->      void (*init)(SpaprMachineState *spapr, Error **errp);
->      int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **=
-errp);
-> -    void (*free)(SpaprMachineState *spapr, int irq, int num);
-> +    void (*free)(SpaprMachineState *spapr, int irq);
->      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
->      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
->                          void *fdt, uint32_t phandle);
+>  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error=
+ **errp)
+>  {
+> +    assert(irq >=3D SPAPR_XIRQ_BASE);
+> +    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+> +
+>      return spapr->irq->claim(spapr, irq, lsi, errp);
+>  }
+> =20
+> @@ -635,6 +634,9 @@ void spapr_irq_free(SpaprMachineState *spapr, int i=
+rq, int num)
+>  {
+>      int i;
+> =20
+> +    assert(irq >=3D SPAPR_XIRQ_BASE);
+> +    assert((irq+num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+> +
+>      for (i =3D irq; i < (irq + num); i++) {
+>          spapr->irq->free(spapr, irq);
+>      }
 >=20
 
 
