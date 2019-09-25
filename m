@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C58BE555
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:07:02 +0200 (CEST)
-Received: from localhost ([::1]:56304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B95ABE54D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 21:03:23 +0200 (CEST)
+Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDCcv-0005kI-7g
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47309)
+	id 1iDCZN-0001eP-Ky
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 15:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCIs-00020u-6y
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:20 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDCRo-0002mf-Nj
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:55:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDCIq-0004WW-Qv
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:18 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:33710)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDCIo-0004T7-Sb
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:46:16 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q10so4173653pfl.0
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:46:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MGym46ItcVgrFEop1vv6vOBmHP52BveKepQrEUSeRf8=;
- b=F69/UaKN4W2rsE5fVmNSn9hPI1nAh1iHfCIvkiuPnoI6UPuG01lZsNOGl6Ss7X/nEX
- yul8FhTqwAiztkTzCfmc5J72iK/1kLahPqUnS97vFFFalgfzdAAzxGrRra5gdGR6i5t9
- 9VyZr+mcKb8bLFfuO85oYXazdC4r1TA0/DMqx9JfaV9NLdl2TiZRJ3FAmyEcQqfesC6O
- QAOcK63SNaQwWMfKDx4tzgaPt1wX5qgb1yKa20N2KNLcCDynYJOD8V++CozRNSa6erxN
- XWHqRBXgF/yitzcMq+2urThLkeqdZ3ICM4cEKPzNzLtLDJQ0II4RtD8qB0lCXAe5i0vK
- y5pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MGym46ItcVgrFEop1vv6vOBmHP52BveKepQrEUSeRf8=;
- b=iKhEiJIj1HxGDBSYywvuLgRsmI/PCk6Q8yOUM0azHhsXyZk6slqCODoisUMT81poj9
- 2J0zW8hB3ldY+MZJm13OkRKzPBf4rl1sCpNUFRXU+ptLwaBuOj9F2lPVONi7RYnTROeQ
- ahuYwfgKn15+dQd3ygQx7hBGlsH8kb4xltLBTj7RLneMwkl0h4jy8SwEermp7uzu8bxH
- AEN9WWTDUZRLBQKy05r6C5l1f20P8CIl+IRxlMBJP3TFvFuCcAcr+X4UrgriFWh/5xWn
- QPZdtvatlEpZkyRu/KCzmw/V49Hv4vx5aXFIDW6vGxnYXX0qXnfVuxlqFpWoQH1kWqHR
- 6dCQ==
-X-Gm-Message-State: APjAAAWglx0n0sfes5c/JKkWl8vGsNDREFRq5SaYXUMava9MHGSqMazq
- m3K23HpPm/kmV/HohJGmFiqODtzb8aI=
-X-Google-Smtp-Source: APXvYqzCTJsBwhAhcAp2IUcXNQtCHogCjNbiGPKqpL7CBE1uFL7aT3nqfGzrSg1ElCOtKM5Ntv03eQ==
-X-Received: by 2002:a17:90a:264a:: with SMTP id
- l68mr8280471pje.74.1569437172186; 
- Wed, 25 Sep 2019 11:46:12 -0700 (PDT)
-Received: from localhost.localdomain ([12.206.46.61])
- by smtp.gmail.com with ESMTPSA id l24sm6133229pff.151.2019.09.25.11.46.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 11:46:11 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 15/16] cputlb: Pass retaddr to tb_invalidate_phys_page_fast
-Date: Wed, 25 Sep 2019 11:45:47 -0700
-Message-Id: <20190925184548.30673-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190925184548.30673-1-richard.henderson@linaro.org>
-References: <20190925184548.30673-1-richard.henderson@linaro.org>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDCRm-0004aG-Kc
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:55:32 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:38490
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDCRm-0003nE-Dy
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 14:55:30 -0400
+Received: from host86-138-245-63.range86-138.btcentralplus.com
+ ([86.138.245.63] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDCOu-0005ix-Br; Wed, 25 Sep 2019 19:52:32 +0100
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190923230004.9231-1-richard.henderson@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <40d681ef-4566-a19b-ee4f-063660dfdc3a@ilande.co.uk>
+Date: Wed, 25 Sep 2019 19:52:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+In-Reply-To: <20190923230004.9231-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 86.138.245.63
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v4 00/16] Move rom and notdirty handling to cputlb
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,142 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than rely on cpu->mem_io_pc, pass retaddr down directly.
+On 23/09/2019 23:59, Richard Henderson wrote:
 
-Within tb_invalidate_phys_page_range__locked, the is_cpu_write_access
-parameter is non-zero exactly when retaddr would be non-zero, so that
-is a simple replacement.
+> Changes since v3:
+>   * Don't accidentally include the TARGET_PAGE_BITS_VARY patch set.  ;-)
+>   * Remove __has_attribute(__always_inline__).
+>   * Use single load/store_memop function instead of separate small wrappers.
+>   * Introduce optimize_away to assert the code folds away as expected.
+> 
+> Patches without review:
+> 
+> 0003-qemu-compiler.h-Add-optimize_away.patch
+> 0004-cputlb-Use-optimize_away-in-load-store_helpers.patch
+> 0005-cputlb-Split-out-load-store_memop.patch
+> 0010-cputlb-Partially-inline-memory_region_section_get.patch
+> 0011-cputlb-Merge-and-move-memory_notdirty_write_-prep.patch
+> 0012-cputlb-Handle-TLB_NOTDIRTY-in-probe_access.patch
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (16):
+>   exec: Use TARGET_PAGE_BITS_MIN for TLB flags
+>   cputlb: Disable __always_inline__ without optimization
+>   qemu/compiler.h: Add optimize_away
+>   cputlb: Use optimize_away in load/store_helpers
+>   cputlb: Split out load/store_memop
+>   cputlb: Introduce TLB_BSWAP
+>   exec: Adjust notdirty tracing
+>   cputlb: Move ROM handling from I/O path to TLB path
+>   cputlb: Move NOTDIRTY handling from I/O path to TLB path
+>   cputlb: Partially inline memory_region_section_get_iotlb
+>   cputlb: Merge and move memory_notdirty_write_{prepare,complete}
+>   cputlb: Handle TLB_NOTDIRTY in probe_access
+>   cputlb: Remove cpu->mem_io_vaddr
+>   cputlb: Remove tb_invalidate_phys_page_range is_cpu_write_access
+>   cputlb: Pass retaddr to tb_invalidate_phys_page_fast
+>   cputlb: Pass retaddr to tb_check_watchpoint
+> 
+>  accel/tcg/translate-all.h      |   8 +-
+>  include/exec/cpu-all.h         |  23 ++-
+>  include/exec/cpu-common.h      |   3 -
+>  include/exec/exec-all.h        |   6 +-
+>  include/exec/memory-internal.h |  65 -------
+>  include/hw/core/cpu.h          |   2 -
+>  include/qemu/compiler.h        |  26 +++
+>  accel/tcg/cputlb.c             | 340 +++++++++++++++++++--------------
+>  accel/tcg/translate-all.c      |  51 +++--
+>  exec.c                         | 158 +--------------
+>  hw/core/cpu.c                  |   1 -
+>  memory.c                       |  20 --
+>  trace-events                   |   4 +-
+>  13 files changed, 279 insertions(+), 428 deletions(-)
 
-Recognize that current_tb_not_found is true only when mem_io_pc
-(and now retaddr) are also non-zero, so remove a redundant test.
+Am I right in thinking that this is now the latest version of the patchset which
+fixes up the byte swaps in RAM?
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/translate-all.h |  3 ++-
- accel/tcg/cputlb.c        |  6 +-----
- accel/tcg/translate-all.c | 39 +++++++++++++++++++--------------------
- 3 files changed, 22 insertions(+), 26 deletions(-)
+I'm not sure that I can offer much in the way of review, however is there any testing
+I can do to help out here?
 
-diff --git a/accel/tcg/translate-all.h b/accel/tcg/translate-all.h
-index 31f2117188..135c1ea96a 100644
---- a/accel/tcg/translate-all.h
-+++ b/accel/tcg/translate-all.h
-@@ -27,7 +27,8 @@ struct page_collection *page_collection_lock(tb_page_addr_t start,
-                                              tb_page_addr_t end);
- void page_collection_unlock(struct page_collection *set);
- void tb_invalidate_phys_page_fast(struct page_collection *pages,
--                                  tb_page_addr_t start, int len);
-+                                  tb_page_addr_t start, int len,
-+                                  uintptr_t retaddr);
- void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
- void tb_check_watchpoint(CPUState *cpu);
- 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 4b24811ce7..defc8d5929 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1094,11 +1094,7 @@ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
-     if (!cpu_physical_memory_get_dirty_flag(ram_addr, DIRTY_MEMORY_CODE)) {
-         struct page_collection *pages
-             = page_collection_lock(ram_addr, ram_addr + size);
--
--        /* We require mem_io_pc in tb_invalidate_phys_page_range.  */
--        cpu->mem_io_pc = retaddr;
--
--        tb_invalidate_phys_page_fast(pages, ram_addr, size);
-+        tb_invalidate_phys_page_fast(pages, ram_addr, size, retaddr);
-         page_collection_unlock(pages);
-     }
- 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index de4b697163..db77fb221b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1889,7 +1889,7 @@ static void
- tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-                                       PageDesc *p, tb_page_addr_t start,
-                                       tb_page_addr_t end,
--                                      int is_cpu_write_access)
-+                                      uintptr_t retaddr)
- {
-     TranslationBlock *tb;
-     tb_page_addr_t tb_start, tb_end;
-@@ -1897,9 +1897,9 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
- #ifdef TARGET_HAS_PRECISE_SMC
-     CPUState *cpu = current_cpu;
-     CPUArchState *env = NULL;
--    int current_tb_not_found = is_cpu_write_access;
-+    bool current_tb_not_found = retaddr != 0;
-+    bool current_tb_modified = false;
-     TranslationBlock *current_tb = NULL;
--    int current_tb_modified = 0;
-     target_ulong current_pc = 0;
-     target_ulong current_cs_base = 0;
-     uint32_t current_flags = 0;
-@@ -1931,24 +1931,21 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-         if (!(tb_end <= start || tb_start >= end)) {
- #ifdef TARGET_HAS_PRECISE_SMC
-             if (current_tb_not_found) {
--                current_tb_not_found = 0;
--                current_tb = NULL;
--                if (cpu->mem_io_pc) {
--                    /* now we have a real cpu fault */
--                    current_tb = tcg_tb_lookup(cpu->mem_io_pc);
--                }
-+                current_tb_not_found = false;
-+                /* now we have a real cpu fault */
-+                current_tb = tcg_tb_lookup(retaddr);
-             }
-             if (current_tb == tb &&
-                 (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
--                /* If we are modifying the current TB, we must stop
--                its execution. We could be more precise by checking
--                that the modification is after the current PC, but it
--                would require a specialized function to partially
--                restore the CPU state */
--
--                current_tb_modified = 1;
--                cpu_restore_state_from_tb(cpu, current_tb,
--                                          cpu->mem_io_pc, true);
-+                /*
-+                 * If we are modifying the current TB, we must stop
-+                 * its execution. We could be more precise by checking
-+                 * that the modification is after the current PC, but it
-+                 * would require a specialized function to partially
-+                 * restore the CPU state.
-+                 */
-+                current_tb_modified = true;
-+                cpu_restore_state_from_tb(cpu, current_tb, retaddr, true);
-                 cpu_get_tb_cpu_state(env, &current_pc, &current_cs_base,
-                                      &current_flags);
-             }
-@@ -2042,7 +2039,8 @@ void tb_invalidate_phys_range(target_ulong start, target_ulong end)
-  * Call with all @pages in the range [@start, @start + len[ locked.
-  */
- void tb_invalidate_phys_page_fast(struct page_collection *pages,
--                                  tb_page_addr_t start, int len)
-+                                  tb_page_addr_t start, int len,
-+                                  uintptr_t retaddr)
- {
-     PageDesc *p;
- 
-@@ -2069,7 +2067,8 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
-         }
-     } else {
-     do_invalidate:
--        tb_invalidate_phys_page_range__locked(pages, p, start, start + len, 1);
-+        tb_invalidate_phys_page_range__locked(pages, p, start, start + len,
-+                                              retaddr);
-     }
- }
- #else
--- 
-2.17.1
 
+ATB,
+
+Mark.
 
