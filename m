@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08929BE0CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:07:27 +0200 (CEST)
-Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F51FBE131
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 17:23:29 +0200 (CEST)
+Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD8t3-0005Pc-Je
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57518)
+	id 1iD98Z-0003zV-Ts
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 11:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iD8na-0000Z3-JX
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:51 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iD8na-0000Zj-JH
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iD8nV-0004XU-UQ
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:61288)
+ (envelope-from <dgilbert@redhat.com>) id 1iD8nY-0004YC-Jh
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56705)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iD8nV-0004Wc-9O
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:41 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iD8nV-0004XC-RA
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 11:01:43 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C8BD7A44ADD;
- Wed, 25 Sep 2019 15:01:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6CD5B8A1CB9;
+ Wed, 25 Sep 2019 15:01:40 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-251.ams2.redhat.com
  [10.36.117.251])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D94845C21F;
- Wed, 25 Sep 2019 15:01:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 179995C21F;
+ Wed, 25 Sep 2019 15:01:38 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  marcandre.lureau@redhat.com, richardw.yang@linux.intel.com,
  alex.benee@linaro.org
-Subject: [PULL 0/9] migration queue
-Date: Wed, 25 Sep 2019 16:01:21 +0100
-Message-Id: <20190925150130.12303-1-dgilbert@redhat.com>
+Subject: [PULL 1/9] migration: fix vmdesc leak on vmstate_save() error
+Date: Wed, 25 Sep 2019 16:01:22 +0100
+Message-Id: <20190925150130.12303-2-dgilbert@redhat.com>
+In-Reply-To: <20190925150130.12303-1-dgilbert@redhat.com>
+References: <20190925150130.12303-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Wed, 25 Sep 2019 15:01:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.69]); Wed, 25 Sep 2019 15:01:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,56 +62,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-The following changes since commit 240ab11fb72049d6373cbbec8d788f8e411a00=
-bc:
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20190912122514.22504-2-marcandre.lureau@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ migration/qjson.h  | 2 ++
+ migration/savevm.c | 3 +--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190924' i=
-nto staging (2019-09-24 15:36:31 +0100)
+diff --git a/migration/qjson.h b/migration/qjson.h
+index 41664f2d71..1786bb5864 100644
+--- a/migration/qjson.h
++++ b/migration/qjson.h
+@@ -24,4 +24,6 @@ void json_start_object(QJSON *json, const char *name);
+ const char *qjson_get_str(QJSON *json);
+ void qjson_finish(QJSON *json);
+=20
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(QJSON, qjson_destroy)
++
+ #endif /* QEMU_QJSON_H */
+diff --git a/migration/savevm.c b/migration/savevm.c
+index ee06f91d42..bb9462a54d 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1314,7 +1314,7 @@ int qemu_savevm_state_complete_precopy_non_iterable=
+(QEMUFile *f,
+                                                     bool in_postcopy,
+                                                     bool inactivate_disk=
+s)
+ {
+-    QJSON *vmdesc;
++    g_autoptr(QJSON) vmdesc =3D NULL;
+     int vmdesc_len;
+     SaveStateEntry *se;
+     int ret;
+@@ -1375,7 +1375,6 @@ int qemu_savevm_state_complete_precopy_non_iterable=
+(QEMUFile *f,
+         qemu_put_be32(f, vmdesc_len);
+         qemu_put_buffer(f, (uint8_t *)qjson_get_str(vmdesc), vmdesc_len)=
+;
+     }
+-    qjson_destroy(vmdesc);
+=20
+     return 0;
+ }
+--=20
+2.21.0
 
-are available in the Git repository at:
-
-  git://github.com/dagrh/qemu.git tags/pull-migration-20190925a
-
-for you to fetch changes up to 3748fef9b95a9bc1602f3c4ed2a329d8ef47e63c:
-
-  migration/postcopy: Recognise the recovery states as 'in_postcopy' (201=
-9-09-25 15:51:19 +0100)
-
-----------------------------------------------------------------
-Migration pull 2019-09-25
-
-  me: test fixes from (should stop hangs in postcopy tests).
-  me: An RDMA cleanup hang fix
-  Wei: Tidy ups around postcopy
-  Marc-Andre: mem leak fix
-
-----------------------------------------------------------------
-Dr. David Alan Gilbert (5):
-      migration/rdma: Don't moan about disconnects at the end
-      migration/rdma.c: Swap synchronize_rcu for call_rcu
-      tests/migration: Fail on unexpected migration states
-      tests/migration/postcopy: trim migration bandwidth
-      migration/postcopy: Recognise the recovery states as 'in_postcopy'
-
-Marc-Andr=C3=A9 Lureau (1):
-      migration: fix vmdesc leak on vmstate_save() error
-
-Wei Yang (3):
-      migration/postcopy: not necessary to do discard when canonicalizing=
- bitmap
-      migration/postcopy: unsentmap is not necessary for postcopy
-      migration: remove sent parameter in get_queued_page_not_dirty
-
- include/exec/ram_addr.h |  6 ----
- migration/migration.c   |  9 ++++-
- migration/qjson.h       |  2 ++
- migration/ram.c         | 94 ++++++++-----------------------------------=
-------
- migration/rdma.c        | 51 ++++++++++++++++++---------
- migration/savevm.c      |  3 +-
- migration/trace-events  |  2 +-
- tests/migration-test.c  | 25 +++++++++----
- 8 files changed, 80 insertions(+), 112 deletions(-)
 
