@@ -2,55 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4CDBD729
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 06:21:54 +0200 (CEST)
-Received: from localhost ([::1]:45248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96EFABD77D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 06:49:45 +0200 (CEST)
+Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCyoL-0007Og-VG
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 00:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50833)
+	id 1iCzFI-0005gM-6Y
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 00:49:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iCynJ-0006tT-C8
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:20:50 -0400
+ (envelope-from <guoren@kernel.org>) id 1iCzEE-0005Cs-W8
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:48:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iCynH-0002Md-Vq
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:20:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55936)
+ (envelope-from <guoren@kernel.org>) id 1iCzEB-0001lk-Uf
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:48:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36720)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iCynH-0002MD-NU
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 00:20:47 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <guoren@kernel.org>)
+ id 1iCzEB-0001lN-Ob; Wed, 25 Sep 2019 00:48:35 -0400
+Received: from guoren-Inspiron-7460.lan (unknown [223.93.147.148])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4198D18C891A;
- Wed, 25 Sep 2019 04:20:46 +0000 (UTC)
-Received: from [10.72.12.148] (ovpn-12-148.pek2.redhat.com [10.72.12.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6FF9600C8;
- Wed, 25 Sep 2019 04:20:41 +0000 (UTC)
-Subject: Re: [PATCH] COLO-compare: Fix incorrect `if` logic
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Fan Yang <Fan_Yang@sjtu.edu.cn>, qemu-devel@nongnu.org,
- Zhang Chen <chen.zhang@intel.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
-References: <m2y2yd9482.fsf@Fans-Air.ipads-lab.se.sjtu.edu.cn>
- <6d23190f-e68a-3000-c288-84f2e0d50b07@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <413e09c6-9376-5021-bf69-c3797237ae9d@redhat.com>
-Date: Wed, 25 Sep 2019 12:20:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <6d23190f-e68a-3000-c288-84f2e0d50b07@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Wed, 25 Sep 2019 04:20:46 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ by mail.kernel.org (Postfix) with ESMTPSA id 7E6B021A4A;
+ Wed, 25 Sep 2019 04:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1569386914;
+ bh=GMapcb2WUHqhsll7OX2TGMlEII/fxxpk18SPz1OiNHQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=btfWax6XT8Qss02p583ulK8ekt0bfbP9xQn6wnma5yluT6oaT0Agr5n0xdURfPh1r
+ BRqeyhZ78ASME5v1ZVHCF4l+5S4mCPJE/ZDSsLzj57LGgt808LU67C/KP6mwGB/qKM
+ gGnaNWZyGy7qgRhftjQEV5m0oJCF/b2uEnYhGKeQ=
+From: guoren@kernel.org
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH V3] target/riscv: Bugfix reserved bits in PTE for RV64
+Date: Wed, 25 Sep 2019 12:48:15 +0800
+Message-Id: <1569386895-8726-1-git-send-email-guoren@kernel.org>
+X-Mailer: git-send-email 2.7.4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 198.145.29.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,88 +53,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com,
+ Guo Ren <ren_guo@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Guo Ren <ren_guo@c-sky.com>
 
-On 2019/9/24 =E4=B8=8B=E5=8D=8811:35, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi Fan,
->
-> you forgot to Cc the maintainers (doing that for you):
->
-> ./scripts/get_maintainer.pl -f net/colo-compare.c
-> Zhang Chen <chen.zhang@intel.com> (supporter:COLO Proxy)
-> Li Zhijian <lizhijian@cn.fujitsu.com> (supporter:COLO Proxy)
-> Jason Wang <jasowang@redhat.com> (maintainer:Network device ba...)
-> qemu-devel@nongnu.org (open list:All patches CC here)
->
-> On 9/24/19 4:08 PM, Fan Yang wrote:
->> 'colo_mark_tcp_pkt' should return 'true' when packets are the same, an=
-d
->> 'false' otherwise.  However, it returns 'true' when
->> 'colo_compare_packet_payload' returns non-zero while
->> 'colo_compare_packet_payload' is just a 'memcmp'.  The result is that
->> COLO-compare reports inconsistent TCP packets when they are actually
->> the same.
->>
-> Fixes: f449c9e549c
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so we
+need to ignore them. They can not be a part of ppn.
 
+1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+   4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+   4.5 Sv48: Page-Based 48-bit Virtual-Memory System
 
-Applied.
+Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+---
+ target/riscv/cpu_bits.h   | 3 +++
+ target/riscv/cpu_helper.c | 4 +++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+---
+Changelog V3:
+ - Use UUL define for PTE_RESERVED.
+ - Keep ppn >> PTE_PPN_SHIFT 
 
-Thanks
+Changelog V2:
+ - Bugfix pte destroyed cause boot fail
+ - Change to AND with a mask instead of shifting both directions
 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index e998348..cdc62a8 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -470,6 +470,9 @@
+ #define PTE_D               0x080 /* Dirty */
+ #define PTE_SOFT            0x300 /* Reserved for Software */
+ 
++/* Reserved highest 10 bits in PTE */
++#define PTE_RESERVED        0xFFC0000000000000ULL
++
+ /* Page table PPN shift amount */
+ #define PTE_PPN_SHIFT       10
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 87dd6a6..7e04ff5 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -258,10 +258,12 @@ restart:
+         }
+ #if defined(TARGET_RISCV32)
+         target_ulong pte = ldl_phys(cs->as, pte_addr);
++        hwaddr ppn = pte;
+ #elif defined(TARGET_RISCV64)
+         target_ulong pte = ldq_phys(cs->as, pte_addr);
++        hwaddr ppn = pte & ~PTE_RESERVED;
+ #endif
+-        hwaddr ppn = pte >> PTE_PPN_SHIFT;
++        ppn = ppn >> PTE_PPN_SHIFT;
+ 
+         if (!(pte & PTE_V)) {
+             /* Invalid PTE */
+-- 
+2.7.4
 
->
->> Signed-off-by: Fan Yang <Fan_Yang@sjtu.edu.cn>
->> ---
->>  net/colo-compare.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/net/colo-compare.c b/net/colo-compare.c
->> index 7489840bde..7ee17f2cf8 100644
->> --- a/net/colo-compare.c
->> +++ b/net/colo-compare.c
->> @@ -319,7 +319,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet=
- *spkt,
->>      *mark =3D 0;
->> =20
->>      if (ppkt->tcp_seq =3D=3D spkt->tcp_seq && ppkt->seq_end =3D=3D sp=
-kt->seq_end) {
->> -        if (colo_compare_packet_payload(ppkt, spkt,
->> +        if (!colo_compare_packet_payload(ppkt, spkt,
->>                                          ppkt->header_size, spkt->head=
-er_size,
->>                                          ppkt->payload_size)) {
->>              *mark =3D COLO_COMPARE_FREE_SECONDARY | COLO_COMPARE_FREE=
-_PRIMARY;
->> @@ -329,7 +329,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet=
- *spkt,
->> =20
->>      /* one part of secondary packet payload still need to be compared=
- */
->>      if (!after(ppkt->seq_end, spkt->seq_end)) {
->> -        if (colo_compare_packet_payload(ppkt, spkt,
->> +        if (!colo_compare_packet_payload(ppkt, spkt,
->>                                          ppkt->header_size + ppkt->off=
-set,
->>                                          spkt->header_size + spkt->off=
-set,
->>                                          ppkt->payload_size - ppkt->of=
-fset)) {
->> @@ -348,7 +348,7 @@ static bool colo_mark_tcp_pkt(Packet *ppkt, Packet=
- *spkt,
->>          /* primary packet is longer than secondary packet, compare
->>           * the same part and mark the primary packet offset
->>           */
->> -        if (colo_compare_packet_payload(ppkt, spkt,
->> +        if (!colo_compare_packet_payload(ppkt, spkt,
->>                                          ppkt->header_size + ppkt->off=
-set,
->>                                          spkt->header_size + spkt->off=
-set,
->>                                          spkt->payload_size - spkt->of=
-fset)) {
->>
 
