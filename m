@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DC6BD939
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:37:47 +0200 (CEST)
-Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F47BD94D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:46:23 +0200 (CEST)
+Received: from localhost ([::1]:46614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD1rt-0004eY-KR
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44214)
+	id 1iD20E-00046I-0V
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:46:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iD1ge-0003ML-DU
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:26:14 -0400
+ (envelope-from <clg@kaod.org>) id 1iD1j2-0005v0-BA
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:28:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iD1ga-0000Zr-37
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:26:07 -0400
-Received: from 2.mo2.mail-out.ovh.net ([188.165.53.149]:44022)
+ (envelope-from <clg@kaod.org>) id 1iD1j0-0001Jq-KS
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:28:35 -0400
+Received: from 4.mo179.mail-out.ovh.net ([46.105.36.149]:59635)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1gY-0000Z5-JD
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:26:03 -0400
-Received: from player730.ha.ovh.net (unknown [10.108.54.119])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 83D891AE05E
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:25:59 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD1j0-0001JK-Dd
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:28:34 -0400
+Received: from player699.ha.ovh.net (unknown [10.108.35.13])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 1ECEC1437A7
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:28:31 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player730.ha.ovh.net (Postfix) with ESMTPSA id C2A81A121495;
- Wed, 25 Sep 2019 07:25:48 +0000 (UTC)
-Subject: Re: [PATCH 18/20] xive: Improve irq claim/free path
+ by player699.ha.ovh.net (Postfix) with ESMTPSA id 2A5E0A30640D;
+ Wed, 25 Sep 2019 07:28:21 +0000 (UTC)
+Subject: Re: [PATCH 19/20] spapr: Use less cryptic representation of which irq
+ backends are supported
 To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-19-david@gibson.dropbear.id.au>
+ <20190925064534.19155-20-david@gibson.dropbear.id.au>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <3cdde622-4ca0-5edd-6bf7-ceb03895f1f2@kaod.org>
-Date: Wed, 25 Sep 2019 09:25:47 +0200
+Message-ID: <a47713e7-eff1-3cf3-230c-b32d8a700b7a@kaod.org>
+Date: Wed, 25 Sep 2019 09:28:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190925064534.19155-19-david@gibson.dropbear.id.au>
+In-Reply-To: <20190925064534.19155-20-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 1623266193244523480
+X-Ovh-Tracer-Id: 1666050389663255512
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedugdduvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 188.165.53.149
+X-Received-From: 46.105.36.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,136 +69,183 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 25/09/2019 08:45, David Gibson wrote:
-> spapr_xive_irq_claim() returns a bool to indicate if it succeeded.  But
-> most of the callers and one callee use a richer Error * instead.  So us=
-e
-> that instead of a bool return so we can actually pass more informative
-> errors up the stack.
+> SpaprIrq::ov5 stores the value for a particular byte in PAPR option vec=
+tor
+> 5 which indicates whether XICS, XIVE or both interrupt controllers are
+> available.  As usual for PAPR, the encoding is kind of overly complicat=
+ed
+> and confusing (though to be fair there are some backwards compat things=
+ it
+> has to handle).
 >=20
-> In addition it didn't actually check if the irq was already claimed, wh=
-ich
-> is one of the primary purposes of the claim path, so do that.
->=20
-> spapr_xive_irq_free() also returned a bool... which no callers checked,=
- so
-> just drop it.
->=20
+> But to make our internal code clearer, have SpaprIrq encode more direct=
+ly
+> which backends are available as two booleans, and derive the OV5 value =
+from
+> that at the point we need it.
+
+OK. It looks nice.
+=20
 > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/intc/spapr_xive.c        | 17 ++++++++++-------
->  hw/ppc/spapr_irq.c          | 12 ++++++++----
->  include/hw/ppc/spapr_xive.h |  5 +++--
->  3 files changed, 21 insertions(+), 13 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 47b5ec0b56..5a56a58299 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -528,12 +528,18 @@ static void spapr_xive_register_types(void)
-> =20
->  type_init(spapr_xive_register_types)
-> =20
-> -bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t lisn, bool lsi)
-> +void spapr_xive_irq_claim(SpaprXive *xive, uint32_t lisn, bool lsi,
-> +                          Error **errp)
->  {
->      XiveSource *xsrc =3D &xive->source;
-> =20
->      assert(lisn < xive->nr_irqs);
-> =20
-> +    if (be64_to_cpu(xive->eat[lisn].w) & EAS_VALID) {
 
-please use xive_eas_is_valid()
-
-with that change,
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 
-C.=20
-
-> +        error_setg(errp, "IRQ %d is not free", lisn);
-> +        return;
+> ---
+>  hw/ppc/spapr.c             | 15 ++++++++++++---
+>  hw/ppc/spapr_hcall.c       |  6 +++---
+>  hw/ppc/spapr_irq.c         | 12 ++++++++----
+>  include/hw/ppc/spapr_irq.h |  3 ++-
+>  4 files changed, 25 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 3742a8cf06..795f6ab505 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1136,19 +1136,28 @@ static void spapr_dt_ov5_platform_support(Spapr=
+MachineState *spapr, void *fdt,
+>      PowerPCCPU *first_ppc_cpu =3D POWERPC_CPU(first_cpu);
+> =20
+>      char val[2 * 4] =3D {
+> -        23, spapr->irq->ov5, /* Xive mode. */
+> +        23, 0x00, /* XICS / XIVE mode */
+>          24, 0x00, /* Hash/Radix, filled in below. */
+>          25, 0x00, /* Hash options: Segment Tables =3D=3D no, GTSE =3D=3D=
+ no. */
+>          26, 0x40, /* Radix options: GTSE =3D=3D yes. */
+>      };
+> =20
+> +    if (spapr->irq->xics && spapr->irq->xive) {
+> +        val[1] =3D SPAPR_OV5_XIVE_BOTH;
+> +    } else if (spapr->irq->xive) {
+> +        val[1] =3D SPAPR_OV5_XIVE_EXPLOIT;
+> +    } else {
+> +        assert(spapr->irq->xics);
+> +        val[1] =3D SPAPR_OV5_XIVE_LEGACY;
 > +    }
 > +
->      /*
->       * Set default values when allocating an IRQ number
->       */
-> @@ -547,20 +553,17 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32=
-_t lisn, bool lsi)
+>      if (!ppc_check_compat(first_ppc_cpu, CPU_POWERPC_LOGICAL_3_00, 0,
+>                            first_ppc_cpu->compat_pvr)) {
+>          /*
+>           * If we're in a pre POWER9 compat mode then the guest should
+>           * do hash and use the legacy interrupt mode
+>           */
+> -        val[1] =3D 0x00; /* XICS */
+> +        val[1] =3D SPAPR_OV5_XIVE_LEGACY; /* XICS */
+>          val[3] =3D 0x00; /* Hash */
+>      } else if (kvm_enabled()) {
+>          if (kvmppc_has_cap_mmu_radix() && kvmppc_has_cap_mmu_hash_v3()=
+) {
+> @@ -2837,7 +2846,7 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+>      spapr_ovec_set(spapr->ov5, OV5_DRMEM_V2);
 > =20
->          kvmppc_xive_source_reset_one(xsrc, lisn, &local_err);
->          if (local_err) {
-> -            error_report_err(local_err);
-> -            return false;
-> +            error_propagate(errp, local_err);
-> +            return;
->          }
+>      /* advertise XIVE on POWER9 machines */
+> -    if (spapr->irq->ov5 & (SPAPR_OV5_XIVE_EXPLOIT | SPAPR_OV5_XIVE_BOT=
+H)) {
+> +    if (spapr->irq->xive) {
+>          spapr_ovec_set(spapr->ov5, OV5_XIVE_EXPLOIT);
 >      }
-> -
-> -    return true;
->  }
 > =20
-> -bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn)
-> +void spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn)
->  {
->      assert(lisn < xive->nr_irqs);
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 3d3a67149a..140f05c1c6 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1784,13 +1784,13 @@ static target_ulong h_client_architecture_suppo=
+rt(PowerPCCPU *cpu,
+>       * terminate the boot.
+>       */
+>      if (guest_xive) {
+> -        if (spapr->irq->ov5 =3D=3D SPAPR_OV5_XIVE_LEGACY) {
+> +        if (!spapr->irq->xive) {
+>              error_report(
+>  "Guest requested unavailable interrupt mode (XIVE), try the ic-mode=3D=
+xive or ic-mode=3Ddual machine property");
+>              exit(EXIT_FAILURE);
+>          }
+>      } else {
+> -        if (spapr->irq->ov5 =3D=3D SPAPR_OV5_XIVE_EXPLOIT) {
+> +        if (!spapr->irq->xics) {
+>              error_report(
+>  "Guest requested unavailable interrupt mode (XICS), either don't set t=
+he ic-mode machine property or try ic-mode=3Dxics or ic-mode=3Ddual");
+>              exit(EXIT_FAILURE);
+> @@ -1804,7 +1804,7 @@ static target_ulong h_client_architecture_support=
+(PowerPCCPU *cpu,
+>       */
+>      if (!spapr->cas_reboot) {
+>          spapr->cas_reboot =3D spapr_ovec_test(ov5_updates, OV5_XIVE_EX=
+PLOIT)
+> -            && spapr->irq->ov5 & SPAPR_OV5_XIVE_BOTH;
+> +            && spapr->irq->xics && spapr->irq->xive;
+>      }
 > =20
->      xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
-> -    return true;
->  }
-> =20
->  /*
+>      spapr_ovec_cleanup(ov5_updates);
 > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 2673a90604..f53544e45e 100644
+> index f53544e45e..073f375ba2 100644
 > --- a/hw/ppc/spapr_irq.c
 > +++ b/hw/ppc/spapr_irq.c
-> @@ -245,7 +245,13 @@ static void spapr_irq_init_xive(SpaprMachineState =
-*spapr, Error **errp)
+> @@ -209,7 +209,8 @@ static void spapr_irq_init_kvm_xics(SpaprMachineSta=
+te *spapr, Error **errp)
+>  SpaprIrq spapr_irq_xics =3D {
+>      .nr_xirqs    =3D SPAPR_NR_XIRQS,
+>      .nr_msis     =3D SPAPR_NR_MSIS,
+> -    .ov5         =3D SPAPR_OV5_XIVE_LEGACY,
+> +    .xics        =3D true,
+> +    .xive        =3D false,
 > =20
->      /* Enable the CPU IPIs */
->      for (i =3D 0; i < nr_servers; ++i) {
-> -        spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false);
-> +        Error *local_err =3D NULL;
-> +
-> +        spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false, &l=
-ocal_err);
-> +        if (local_err) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
->      }
+>      .init        =3D spapr_irq_init_xics,
+>      .claim       =3D spapr_irq_claim_xics,
+> @@ -357,7 +358,8 @@ static void spapr_irq_init_kvm_xive(SpaprMachineSta=
+te *spapr, Error **errp)
+>  SpaprIrq spapr_irq_xive =3D {
+>      .nr_xirqs    =3D SPAPR_NR_XIRQS,
+>      .nr_msis     =3D SPAPR_NR_MSIS,
+> -    .ov5         =3D SPAPR_OV5_XIVE_EXPLOIT,
+> +    .xics        =3D false,
+> +    .xive        =3D true,
 > =20
->      spapr_xive_hcall_init(spapr);
-> @@ -254,9 +260,7 @@ static void spapr_irq_init_xive(SpaprMachineState *=
-spapr, Error **errp)
->  static void spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bo=
-ol lsi,
->                                   Error **errp)
->  {
-> -    if (!spapr_xive_irq_claim(spapr->xive, irq, lsi)) {
-> -        error_setg(errp, "IRQ %d is invalid", irq);
-> -    }
-> +    spapr_xive_irq_claim(spapr->xive, irq, lsi, errp);
->  }
+>      .init        =3D spapr_irq_init_xive,
+>      .claim       =3D spapr_irq_claim_xive,
+> @@ -515,7 +517,8 @@ static void spapr_irq_set_irq_dual(void *opaque, in=
+t irq, int val)
+>  SpaprIrq spapr_irq_dual =3D {
+>      .nr_xirqs    =3D SPAPR_NR_XIRQS,
+>      .nr_msis     =3D SPAPR_NR_MSIS,
+> -    .ov5         =3D SPAPR_OV5_XIVE_BOTH,
+> +    .xics        =3D true,
+> +    .xive        =3D true,
 > =20
->  static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index bfd40f01d8..69df3793e1 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -54,8 +54,9 @@ typedef struct SpaprXive {
->   */
->  #define SPAPR_XIVE_BLOCK_ID 0x0
+>      .init        =3D spapr_irq_init_dual,
+>      .claim       =3D spapr_irq_claim_dual,
+> @@ -751,7 +754,8 @@ int spapr_irq_find(SpaprMachineState *spapr, int nu=
+m, bool align, Error **errp)
+>  SpaprIrq spapr_irq_xics_legacy =3D {
+>      .nr_xirqs    =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
+>      .nr_msis     =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
+> -    .ov5         =3D SPAPR_OV5_XIVE_LEGACY,
+> +    .xics        =3D true,
+> +    .xive        =3D false,
 > =20
-> -bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t lisn, bool lsi);
-> -bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn);
-> +void spapr_xive_irq_claim(SpaprXive *xive, uint32_t lisn, bool lsi,
-> +                          Error **errp);
-> +void spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn);
->  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
->  int spapr_xive_post_load(SpaprXive *xive, int version_id);
+>      .init        =3D spapr_irq_init_xics,
+>      .claim       =3D spapr_irq_claim_xics,
+> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> index 75279ca137..6816cb0500 100644
+> --- a/include/hw/ppc/spapr_irq.h
+> +++ b/include/hw/ppc/spapr_irq.h
+> @@ -39,7 +39,8 @@ void spapr_irq_msi_free(SpaprMachineState *spapr, int=
+ irq, uint32_t num);
+>  typedef struct SpaprIrq {
+>      uint32_t    nr_xirqs;
+>      uint32_t    nr_msis;
+> -    uint8_t     ov5;
+> +    bool        xics;
+> +    bool        xive;
 > =20
+>      void (*init)(SpaprMachineState *spapr, Error **errp);
+>      void (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error *=
+*errp);
 >=20
 
 
