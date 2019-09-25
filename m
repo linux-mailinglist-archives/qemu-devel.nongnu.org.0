@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1AABE0B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:59:44 +0200 (CEST)
-Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5EC7BE0A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:55:00 +0200 (CEST)
+Received: from localhost ([::1]:53180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD8lb-0006Az-Iz
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:59:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52693)
+	id 1iD8h1-0007fB-7A
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iD8NR-0004Oc-Md
+ (envelope-from <clg@kaod.org>) id 1iD8NS-0004Pe-21
  for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:34:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iD8NP-0001LP-Tp
+ (envelope-from <clg@kaod.org>) id 1iD8NQ-0001Lr-6a
  for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:34:45 -0400
-Received: from 7.mo69.mail-out.ovh.net ([46.105.50.32]:40005)
+Received: from 6.mo6.mail-out.ovh.net ([87.98.177.69]:58388)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD8NM-0001Hn-Bv
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:34:43 -0400
-Received: from player786.ha.ovh.net (unknown [10.108.54.74])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id 2F0BE69C9F
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 16:34:33 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iD8NP-0001KV-TW
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:34:44 -0400
+Received: from player786.ha.ovh.net (unknown [10.109.159.157])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id B05541E2B5A
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 16:34:40 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id AC8B2A4D3FF6;
- Wed, 25 Sep 2019 14:34:26 +0000 (UTC)
+ by player786.ha.ovh.net (Postfix) with ESMTPSA id 2CD9AA4D4097;
+ Wed, 25 Sep 2019 14:34:33 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 13/23] aspeed/smc: Add AST2600 support
-Date: Wed, 25 Sep 2019 16:32:38 +0200
-Message-Id: <20190925143248.10000-14-clg@kaod.org>
+Subject: [PATCH v2 14/23] hw/gpio: Add in AST2600 specific implementation
+Date: Wed, 25 Sep 2019 16:32:39 +0200
+Message-Id: <20190925143248.10000-15-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190925143248.10000-1-clg@kaod.org>
 References: <20190925143248.10000-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 8861113743238794001
+X-Ovh-Tracer-Id: 8863084067828501265
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedvgdejkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.50.32
+X-Received-From: 87.98.177.69
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,237 +56,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Rashmica Gupta <rashmica.g@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AST2600 SoC SMC controller is a SPI only controller now and has a
-few extensions which we will need to take into account when SW
-requires it. This is enough to support u-boot and Linux.
+From: Rashmica Gupta <rashmica.g@gmail.com>
 
+The AST2600 has the same sets of 3.6v gpios as the AST2400 plus an
+addtional two sets of 1.8V gpios.
+
+Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ssi/aspeed_smc.c | 132 ++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 128 insertions(+), 4 deletions(-)
+ hw/gpio/aspeed_gpio.c | 142 ++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 137 insertions(+), 5 deletions(-)
 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 9909135a2cfe..f0c7bbbad302 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -30,6 +30,7 @@
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
-+#include "qemu/units.h"
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index 25fbfec3b84e..196e47c26284 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -169,6 +169,48 @@
+ #define GPIO_3_6V_MEM_SIZE         0x1F0
+ #define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
 =20
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-@@ -50,7 +51,7 @@
- #define   CONF_FLASH_TYPE0     0
- #define      CONF_FLASH_TYPE_NOR   0x0
- #define      CONF_FLASH_TYPE_NAND  0x1
--#define      CONF_FLASH_TYPE_SPI   0x2
-+#define      CONF_FLASH_TYPE_SPI   0x2 /* AST2600 is SPI only */
-=20
- /* CE Control Register */
- #define R_CE_CTRL            (0x04 / 4)
-@@ -71,8 +72,11 @@
-=20
- /* CEx Control Register */
- #define R_CTRL0           (0x10 / 4)
-+#define   CTRL_IO_QPI              (1 << 31)
-+#define   CTRL_IO_QUAD_DATA        (1 << 30)
- #define   CTRL_IO_DUAL_DATA        (1 << 29)
- #define   CTRL_IO_DUAL_ADDR_DATA   (1 << 28) /* Includes dummies */
-+#define   CTRL_IO_QUAD_ADDR_DATA   (1 << 28) /* Includes dummies */
- #define   CTRL_CMD_SHIFT           16
- #define   CTRL_CMD_MASK            0xff
- #define   CTRL_DUMMY_HIGH_SHIFT    14
-@@ -136,7 +140,7 @@
- /* Misc Control Register #2 */
- #define R_TIMINGS         (0x94 / 4)
-=20
--/* SPI controller registers and bits */
-+/* SPI controller registers and bits (AST2400) */
- #define R_SPI_CONF        (0x00 / 4)
- #define   SPI_CONF_ENABLE_W0   0
- #define R_SPI_CTRL0       (0x4 / 4)
-@@ -216,6 +220,35 @@ static uint32_t aspeed_smc_segment_to_reg(const Aspe=
-edSMCState *s,
- static void aspeed_smc_reg_to_segment(const AspeedSMCState *s, uint32_t =
-reg,
-                                       AspeedSegments *seg);
-=20
++/* AST2600 only - 1.8V gpios */
 +/*
-+ * AST2600 definitions
++ * The AST2600 has same 3.6V gpios as the AST2400 (memory offsets 0x0-0x=
+198)
++ * and addtional 1.8V gpios (memory offsets 0x800-0x9D4).
 + */
-+#define ASPEED26_SOC_FMC_FLASH_BASE   0x20000000
-+#define ASPEED26_SOC_SPI_FLASH_BASE   0x30000000
-+#define ASPEED26_SOC_SPI2_FLASH_BASE  0x50000000
++#define GPIO_1_8V_REG_OFFSET          0x800
++#define GPIO_1_8V_ABCD_DATA_VALUE     ((0x800 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_DIRECTION      ((0x804 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_INT_ENABLE     ((0x808 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_INT_SENS_0     ((0x80C - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_INT_SENS_1     ((0x810 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_INT_SENS_2     ((0x814 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_INT_STATUS     ((0x818 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_RESET_TOLERANT ((0x81C - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_DATA_VALUE        ((0x820 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_DIRECTION         ((0x824 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_INT_ENABLE        ((0x828 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_INT_SENS_0        ((0x82C - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_INT_SENS_1        ((0x830 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_INT_SENS_2        ((0x834 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_INT_STATUS        ((0x838 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_RESET_TOLERANT    ((0x83C - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_DEBOUNCE_1     ((0x840 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_DEBOUNCE_2     ((0x844 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_DEBOUNCE_1        ((0x848 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_DEBOUNCE_2        ((0x84C - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_DEBOUNCE_TIME_1     ((0x850 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_DEBOUNCE_TIME_2     ((0x854 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_DEBOUNCE_TIME_3     ((0x858 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_COMMAND_SRC_0  ((0x860 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_COMMAND_SRC_1  ((0x864 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_COMMAND_SRC_0     ((0x868 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_COMMAND_SRC_1     ((0x86C - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_DATA_READ      ((0x8C0 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_DATA_READ         ((0x8C4 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_ABCD_INPUT_MASK     ((0x9D0 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_E_INPUT_MASK        ((0x9D4 - GPIO_1_8V_REG_OFFSET) >>=
+ 2)
++#define GPIO_1_8V_MEM_SIZE            0x9D8
++#define GPIO_1_8V_REG_ARRAY_SIZE      ((GPIO_1_8V_MEM_SIZE - \
++                                      GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_MAX_MEM_SIZE           MAX(GPIO_3_6V_MEM_SIZE, GPIO_1_8V_ME=
+M_SIZE)
 +
-+static const AspeedSegments aspeed_segments_ast2600_fmc[] =3D {
-+    { 0x0, 128 * MiB }, /* start address is readonly */
-+    { 0x0, 0 }, /* disabled */
-+    { 0x0, 0 }, /* disabled */
-+};
-+
-+static const AspeedSegments aspeed_segments_ast2600_spi1[] =3D {
-+    { 0x0, 128 * MiB }, /* start address is readonly */
-+    { 0x0, 0 }, /* disabled */
-+};
-+
-+static const AspeedSegments aspeed_segments_ast2600_spi2[] =3D {
-+    { 0x0, 128 * MiB }, /* start address is readonly */
-+    { 0x0, 0 }, /* disabled */
-+    { 0x0, 0 }, /* disabled */
-+};
-+
-+static uint32_t aspeed_2600_smc_segment_to_reg(const AspeedSMCState *s,
-+                                               const AspeedSegments *seg=
-);
-+static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
-+                                           uint32_t reg, AspeedSegments =
-*seg);
-+
- static const AspeedSMCController controllers[] =3D {
-     {
-         .name              =3D "aspeed.smc-ast2400",
-@@ -311,6 +344,51 @@ static const AspeedSMCController controllers[] =3D {
-         .nregs             =3D ASPEED_SMC_R_MAX,
-         .segment_to_reg    =3D aspeed_smc_segment_to_reg,
-         .reg_to_segment    =3D aspeed_smc_reg_to_segment,
-+    }, {
-+        .name              =3D "aspeed.fmc-ast2600",
-+        .r_conf            =3D R_CONF,
-+        .r_ce_ctrl         =3D R_CE_CTRL,
-+        .r_ctrl0           =3D R_CTRL0,
-+        .r_timings         =3D R_TIMINGS,
-+        .conf_enable_w0    =3D CONF_ENABLE_W0,
-+        .max_slaves        =3D 3,
-+        .segments          =3D aspeed_segments_ast2600_fmc,
-+        .flash_window_base =3D ASPEED26_SOC_FMC_FLASH_BASE,
-+        .flash_window_size =3D 0x10000000,
-+        .has_dma           =3D true,
-+        .nregs             =3D ASPEED_SMC_R_MAX,
-+        .segment_to_reg    =3D aspeed_2600_smc_segment_to_reg,
-+        .reg_to_segment    =3D aspeed_2600_smc_reg_to_segment,
-+    }, {
-+        .name              =3D "aspeed.spi1-ast2600",
-+        .r_conf            =3D R_CONF,
-+        .r_ce_ctrl         =3D R_CE_CTRL,
-+        .r_ctrl0           =3D R_CTRL0,
-+        .r_timings         =3D R_TIMINGS,
-+        .conf_enable_w0    =3D CONF_ENABLE_W0,
-+        .max_slaves        =3D 2,
-+        .segments          =3D aspeed_segments_ast2600_spi1,
-+        .flash_window_base =3D ASPEED26_SOC_SPI_FLASH_BASE,
-+        .flash_window_size =3D 0x10000000,
-+        .has_dma           =3D false,
-+        .nregs             =3D ASPEED_SMC_R_MAX,
-+        .segment_to_reg    =3D aspeed_2600_smc_segment_to_reg,
-+        .reg_to_segment    =3D aspeed_2600_smc_reg_to_segment,
-+    }, {
-+        .name              =3D "aspeed.spi2-ast2600",
-+        .r_conf            =3D R_CONF,
-+        .r_ce_ctrl         =3D R_CE_CTRL,
-+        .r_ctrl0           =3D R_CTRL0,
-+        .r_timings         =3D R_TIMINGS,
-+        .conf_enable_w0    =3D CONF_ENABLE_W0,
-+        .max_slaves        =3D 3,
-+        .segments          =3D aspeed_segments_ast2600_spi2,
-+        .flash_window_base =3D ASPEED26_SOC_SPI2_FLASH_BASE,
-+        .flash_window_size =3D 0x10000000,
-+        .has_dma           =3D false,
-+        .nregs             =3D ASPEED_SMC_R_MAX,
-+        .segment_to_reg    =3D aspeed_2600_smc_segment_to_reg,
-+        .reg_to_segment    =3D aspeed_2600_smc_reg_to_segment,
-     },
+ static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int g=
+pio)
+ {
+     uint32_t falling_edge =3D 0, rising_edge =3D 0;
+@@ -465,6 +507,39 @@ static const AspeedGPIOReg aspeed_3_6v_gpios[GPIO_3_=
+6V_REG_ARRAY_SIZE] =3D {
+     [GPIO_AC_INPUT_MASK] =3D         { 7, gpio_reg_input_mask },
  };
 =20
-@@ -336,6 +414,40 @@ static void aspeed_smc_reg_to_segment(const AspeedSM=
-CState *s,
-     seg->size =3D (((reg >> SEG_END_SHIFT) & SEG_END_MASK) << 23) - seg-=
->addr;
++static const AspeedGPIOReg aspeed_1_8v_gpios[GPIO_1_8V_REG_ARRAY_SIZE] =3D=
+ {
++    /* 1.8V Set ABCD */
++    [GPIO_1_8V_ABCD_DATA_VALUE] =3D     {0, gpio_reg_data_value},
++    [GPIO_1_8V_ABCD_DIRECTION] =3D      {0, gpio_reg_direction},
++    [GPIO_1_8V_ABCD_INT_ENABLE] =3D     {0, gpio_reg_int_enable},
++    [GPIO_1_8V_ABCD_INT_SENS_0] =3D     {0, gpio_reg_int_sens_0},
++    [GPIO_1_8V_ABCD_INT_SENS_1] =3D     {0, gpio_reg_int_sens_1},
++    [GPIO_1_8V_ABCD_INT_SENS_2] =3D     {0, gpio_reg_int_sens_2},
++    [GPIO_1_8V_ABCD_INT_STATUS] =3D     {0, gpio_reg_int_status},
++    [GPIO_1_8V_ABCD_RESET_TOLERANT] =3D {0, gpio_reg_reset_tolerant},
++    [GPIO_1_8V_ABCD_DEBOUNCE_1] =3D     {0, gpio_reg_debounce_1},
++    [GPIO_1_8V_ABCD_DEBOUNCE_2] =3D     {0, gpio_reg_debounce_2},
++    [GPIO_1_8V_ABCD_COMMAND_SRC_0] =3D  {0, gpio_reg_cmd_source_0},
++    [GPIO_1_8V_ABCD_COMMAND_SRC_1] =3D  {0, gpio_reg_cmd_source_1},
++    [GPIO_1_8V_ABCD_DATA_READ] =3D      {0, gpio_reg_data_read},
++    [GPIO_1_8V_ABCD_INPUT_MASK] =3D     {0, gpio_reg_input_mask},
++    /* 1.8V Set E */
++    [GPIO_1_8V_E_DATA_VALUE] =3D     {1, gpio_reg_data_value},
++    [GPIO_1_8V_E_DIRECTION] =3D      {1, gpio_reg_direction},
++    [GPIO_1_8V_E_INT_ENABLE] =3D     {1, gpio_reg_int_enable},
++    [GPIO_1_8V_E_INT_SENS_0] =3D     {1, gpio_reg_int_sens_0},
++    [GPIO_1_8V_E_INT_SENS_1] =3D     {1, gpio_reg_int_sens_1},
++    [GPIO_1_8V_E_INT_SENS_2] =3D     {1, gpio_reg_int_sens_2},
++    [GPIO_1_8V_E_INT_STATUS] =3D     {1, gpio_reg_int_status},
++    [GPIO_1_8V_E_RESET_TOLERANT] =3D {1, gpio_reg_reset_tolerant},
++    [GPIO_1_8V_E_DEBOUNCE_1] =3D     {1, gpio_reg_debounce_1},
++    [GPIO_1_8V_E_DEBOUNCE_2] =3D     {1, gpio_reg_debounce_2},
++    [GPIO_1_8V_E_COMMAND_SRC_0] =3D  {1, gpio_reg_cmd_source_0},
++    [GPIO_1_8V_E_COMMAND_SRC_1] =3D  {1, gpio_reg_cmd_source_1},
++    [GPIO_1_8V_E_DATA_READ] =3D      {1, gpio_reg_data_read},
++    [GPIO_1_8V_E_INPUT_MASK] =3D     {1, gpio_reg_input_mask},
++};
++
+ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t s=
+ize)
+ {
+     AspeedGPIOState *s =3D ASPEED_GPIO(opaque);
+@@ -663,8 +738,11 @@ static void aspeed_gpio_get_pin(Object *obj, Visitor=
+ *v, const char *name,
+     int set_idx, group_idx =3D 0;
+=20
+     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) !=3D 2) {
+-        error_setg(errp, "%s: error reading %s", __func__, name);
+-        return;
++        /* 1.8V gpio */
++        if (sscanf(name, "gpio%3s%1d", group, &pin) !=3D 2) {
++            error_setg(errp, "%s: error reading %s", __func__, name);
++            return;
++        }
+     }
+     set_idx =3D get_set_idx(s, group, &group_idx);
+     if (set_idx =3D=3D -1) {
+@@ -692,8 +770,11 @@ static void aspeed_gpio_set_pin(Object *obj, Visitor=
+ *v, const char *name,
+         return;
+     }
+     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) !=3D 2) {
+-        error_setg(errp, "%s: error reading %s", __func__, name);
+-        return;
++        /* 1.8V gpio */
++        if (sscanf(name, "gpio%3s%1d", group, &pin) !=3D 2) {
++            error_setg(errp, "%s: error reading %s", __func__, name);
++            return;
++        }
+     }
+     set_idx =3D get_set_idx(s, group, &group_idx);
+     if (set_idx =3D=3D -1) {
+@@ -726,6 +807,21 @@ static const GPIOSetProperties ast2500_set_props[] =3D=
+ {
+     [7] =3D {0x000000ff,  0x000000ff,  {"AC"} },
+ };
+=20
++static GPIOSetProperties ast2600_3_6v_set_props[] =3D {
++    [0] =3D {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
++    [1] =3D {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
++    [2] =3D {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
++    [3] =3D {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
++    [4] =3D {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
++    [5] =3D {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
++    [6] =3D {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
++};
++
++static GPIOSetProperties ast2600_1_8v_set_props[] =3D {
++    [0] =3D {0xffffffff,  0xffffffff,  {"18A", "18B", "18C", "18D"} },
++    [1] =3D {0x0000000f,  0x0000000f,  {"18E"} },
++};
++
+ static const MemoryRegionOps aspeed_gpio_ops =3D {
+     .read       =3D aspeed_gpio_read,
+     .write      =3D aspeed_gpio_write,
+@@ -758,7 +854,7 @@ static void aspeed_gpio_realize(DeviceState *dev, Err=
+or **errp)
+     }
+=20
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
+-            TYPE_ASPEED_GPIO, GPIO_3_6V_MEM_SIZE);
++            TYPE_ASPEED_GPIO, GPIO_MAX_MEM_SIZE);
+=20
+     sysbus_init_mmio(sbd, &s->iomem);
+ }
+@@ -851,6 +947,26 @@ static void aspeed_gpio_2500_class_init(ObjectClass =
+*klass, void *data)
+     agc->reg_table =3D aspeed_3_6v_gpios;
  }
 =20
-+/*
-+ * The Segment Registers of the AST2600 have a 1MB unit. The address
-+ * range of a flash SPI slave is encoded with offsets in the overall
-+ * controller window. The previous SoC AST2400 and AST2500 used
-+ * absolute addresses. Only bits [27:20] are relevant and the end
-+ * address is an upper bound limit.
-+ */
-+#define AST2600_SEG_ADDR_MASK 0x0ff00000
-+
-+static uint32_t aspeed_2600_smc_segment_to_reg(const AspeedSMCState *s,
-+                                               const AspeedSegments *seg=
-)
++static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass, void=
+ *data)
 +{
-+    uint32_t reg =3D 0;
++    AspeedGPIOClass *agc =3D ASPEED_GPIO_CLASS(klass);
 +
-+    /* Disabled segments have a nil register */
-+    if (!seg->size) {
-+        return 0;
-+    }
-+
-+    reg |=3D (seg->addr & AST2600_SEG_ADDR_MASK) >> 16; /* start offset =
-*/
-+    reg |=3D (seg->addr + seg->size - 1) & AST2600_SEG_ADDR_MASK; /* end=
- offset */
-+    return reg;
++    agc->props =3D ast2600_3_6v_set_props;
++    agc->nr_gpio_pins =3D 208;
++    agc->nr_gpio_sets =3D 7;
++    agc->reg_table =3D aspeed_3_6v_gpios;
 +}
 +
-+static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
-+                                           uint32_t reg, AspeedSegments =
-*seg)
++static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void=
+ *data)
 +{
-+    uint32_t start_offset =3D (reg << 16) & AST2600_SEG_ADDR_MASK;
-+    uint32_t end_offset =3D reg & AST2600_SEG_ADDR_MASK;
++    AspeedGPIOClass *agc =3D ASPEED_GPIO_CLASS(klass);
 +
-+    seg->addr =3D s->ctrl->flash_window_base + start_offset;
-+    seg->size =3D end_offset + MiB - start_offset;
++    agc->props =3D ast2600_1_8v_set_props;
++    agc->nr_gpio_pins =3D 36;
++    agc->nr_gpio_sets =3D 2;
++    agc->reg_table =3D aspeed_1_8v_gpios;
 +}
 +
- static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
-                                      const AspeedSegments *new,
-                                      int cs)
-@@ -470,8 +582,12 @@ static inline int aspeed_smc_flash_cmd(const AspeedS=
-MCFlash *fl)
-     const AspeedSMCState *s =3D fl->controller;
-     int cmd =3D (s->regs[s->r_ctrl0 + fl->id] >> CTRL_CMD_SHIFT) & CTRL_=
-CMD_MASK;
+ static const TypeInfo aspeed_gpio_info =3D {
+     .name           =3D TYPE_ASPEED_GPIO,
+     .parent         =3D TYPE_SYS_BUS_DEVICE,
+@@ -874,11 +990,27 @@ static const TypeInfo aspeed_gpio_ast2500_info =3D =
+{
+     .instance_init  =3D aspeed_gpio_init,
+ };
 =20
--    /* In read mode, the default SPI command is READ (0x3). In other
--     * modes, the command should necessarily be defined */
-+    /*
-+     * In read mode, the default SPI command is READ (0x3). In other
-+     * modes, the command should necessarily be defined
-+     *
-+     * TODO: add support for READ4 (0x13) on AST2600
-+     */
-     if (aspeed_smc_flash_mode(fl) =3D=3D CTRL_READMODE) {
-         cmd =3D SPI_OP_READ;
-     }
-@@ -787,6 +903,14 @@ static void aspeed_smc_reset(DeviceState *d)
-             s->ctrl->segment_to_reg(s, &s->ctrl->segments[i]);
-     }
-=20
-+    /* HW strapping flash type for the AST2600 controllers  */
-+    if (s->ctrl->segments =3D=3D aspeed_segments_ast2600_fmc) {
-+        /* flash type is fixed to SPI for all */
-+        s->regs[s->r_conf] |=3D (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0=
-);
-+        s->regs[s->r_conf] |=3D (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE1=
-);
-+        s->regs[s->r_conf] |=3D (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE2=
-);
-+    }
++static const TypeInfo aspeed_gpio_ast2600_3_6v_info =3D {
++    .name           =3D TYPE_ASPEED_GPIO "-ast2600",
++    .parent         =3D TYPE_ASPEED_GPIO,
++    .class_init     =3D aspeed_gpio_ast2600_3_6v_class_init,
++    .instance_init  =3D aspeed_gpio_init,
++};
 +
-     /* HW strapping flash type for FMC controllers  */
-     if (s->ctrl->segments =3D=3D aspeed_segments_ast2500_fmc) {
-         /* flash type is fixed to SPI for CE0 and CE1 */
++static const TypeInfo aspeed_gpio_ast2600_1_8v_info =3D {
++    .name           =3D TYPE_ASPEED_GPIO "-ast2600-1_8v",
++    .parent         =3D TYPE_ASPEED_GPIO,
++    .class_init     =3D aspeed_gpio_ast2600_1_8v_class_init,
++    .instance_init  =3D aspeed_gpio_init,
++};
++
+ static void aspeed_gpio_register_types(void)
+ {
+     type_register_static(&aspeed_gpio_info);
+     type_register_static(&aspeed_gpio_ast2400_info);
+     type_register_static(&aspeed_gpio_ast2500_info);
++    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
++    type_register_static(&aspeed_gpio_ast2600_1_8v_info);
+ }
+=20
+ type_init(aspeed_gpio_register_types);
 --=20
 2.21.0
 
