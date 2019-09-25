@@ -2,51 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD40BD960
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:52:35 +0200 (CEST)
-Received: from localhost ([::1]:46722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3978BD96E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 09:59:48 +0200 (CEST)
+Received: from localhost ([::1]:46890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD26D-0008SF-Ao
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47797)
+	id 1iD2DD-0007B1-No
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 03:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iD229-0006d8-Jl
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:48:22 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iD2BN-0006Y9-2m
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:57:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iD228-0002DR-Hd
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:48:21 -0400
-Received: from 4.mo3.mail-out.ovh.net ([178.33.46.10]:55011)
+ (envelope-from <pbonzini@redhat.com>) id 1iD2BK-0007Kk-A1
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:57:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58412)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iD228-00027o-B8
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:48:20 -0400
-Received: from player750.ha.ovh.net (unknown [10.109.146.175])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id 54BCE228FE1
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 09:48:17 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player750.ha.ovh.net (Postfix) with ESMTPSA id 6BD6CA494BAF;
- Wed, 25 Sep 2019 07:48:06 +0000 (UTC)
-Date: Wed, 25 Sep 2019 09:48:04 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 01/20] xics: Use incomplete type for XICSFabric
-Message-ID: <20190925094804.56c6138d@bahia.lan>
-In-Reply-To: <f20d189d-14ea-28e7-741b-68186ea608a8@kaod.org>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-2-david@gibson.dropbear.id.au>
- <f20d189d-14ea-28e7-741b-68186ea608a8@kaod.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iD2BK-0007KY-1E
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 03:57:50 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id ACFEE2A09A7
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:57:48 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id m14so1903009wru.17
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 00:57:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to;
+ bh=BBQ1WGoO/qpGXB8rTiM/z99z3rGQOB6O69irsJbKsnU=;
+ b=S/PI9FD2sZzkO3kt/npWfI49AsfihEvIg/UChRLKuwbu24n43a2xdE6VoSVPGPpy4d
+ LiF/dYgXYphwxf9Jh+7P8CvX2zzvVlGUnwnPjqBQRnZK1ruumMiYFfybL3X0yg2PFLtY
+ cXf73y0WrUUvFXTbRke+ZVtanh1DwGnAyw7APO0ZrBaSLiEAO6/Cm0wT+v9ZPgcL2y3I
+ OeNBIXIRp4w+2LdKLgmkNe0+gZe7FDjtFP9te2t5v61uaPlZDuXa0ThLVUFQX/Wo5rHl
+ LPpCj1GETDtyaDaZhKWe6MuF3rWYT7srLTzdWqYUxQ9lMS2bt/JoIoVhxVYyq8cXl3O4
+ TGPw==
+X-Gm-Message-State: APjAAAXEJBtA4QWqsnsiRAnY6ImrFXQ4na3nyNKdDp+ZcancHXNNp0W5
+ /ioilDiYB+Jh5+aeIx4vgaP3vxB6wTkfdiwDNab6KRzv32FxsIpayzxzED++k9+vpqsPWWKx5dW
+ NYqJd7KPrlrOkaVk=
+X-Received: by 2002:adf:e612:: with SMTP id p18mr7411316wrm.218.1569398267317; 
+ Wed, 25 Sep 2019 00:57:47 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwd4+QLxS9sts/MKqAeE/q13HOjkkPx3B9bGMmHMxIRdr2EEBa0pQkRo+6Kv7Nvkky4+4R+sg==
+X-Received: by 2002:adf:e612:: with SMTP id p18mr7411287wrm.218.1569398267049; 
+ Wed, 25 Sep 2019 00:57:47 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
+ ([2001:b07:6468:f312:9520:22e6:6416:5c36])
+ by smtp.gmail.com with ESMTPSA id y5sm3056418wma.14.2019.09.25.00.57.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Sep 2019 00:57:46 -0700 (PDT)
+Subject: Re: [PATCH v4 7/8] docs/microvm.txt: document the new microvm machine
+ type
+To: Sergio Lopez <slp@redhat.com>
+References: <20190924124433.96810-1-slp@redhat.com>
+ <20190924124433.96810-8-slp@redhat.com>
+ <23a6e891-c3ba-3991-d627-433eb1fe156d@redhat.com> <87r245rkld.fsf@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <317e53b1-d658-4b6b-c782-4b2a0dd091b2@redhat.com>
+Date: Wed, 25 Sep 2019 09:57:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 1999598235154815371
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfedugdduvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+In-Reply-To: <87r245rkld.fsf@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="mDVZVal97fA1LjnG3jStglsB6w8rGOwz9"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.46.10
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,56 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, lersek@redhat.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Sep 2019 08:55:50 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--mDVZVal97fA1LjnG3jStglsB6w8rGOwz9
+Content-Type: multipart/mixed; boundary="9K0MbSTT8fXB0xcZQYs5vcslLqWEvV6qU";
+ protected-headers="v1"
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, imammedo@redhat.com,
+ marcel.apfelbaum@gmail.com, rth@twiddle.net, ehabkost@redhat.com,
+ philmd@redhat.com, lersek@redhat.com, kraxel@redhat.com,
+ mtosatti@redhat.com, kvm@vger.kernel.org
+Message-ID: <317e53b1-d658-4b6b-c782-4b2a0dd091b2@redhat.com>
+Subject: Re: [PATCH v4 7/8] docs/microvm.txt: document the new microvm machine
+ type
+References: <20190924124433.96810-1-slp@redhat.com>
+ <20190924124433.96810-8-slp@redhat.com>
+ <23a6e891-c3ba-3991-d627-433eb1fe156d@redhat.com> <87r245rkld.fsf@redhat.com>
+In-Reply-To: <87r245rkld.fsf@redhat.com>
 
-> On 25/09/2019 08:45, David Gibson wrote:
-> > Interface instances should never be directly dereferenced.  So, the com=
-mon
-> > practice is to make them incomplete types to make sure no-one does that.
-> > XICSFrabric, however, had a dummy type which is less safe.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  include/hw/ppc/xics.h | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >=20
-> > diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-> > index 64a2c8862a..1ae34ce9cd 100644
-> > --- a/include/hw/ppc/xics.h
-> > +++ b/include/hw/ppc/xics.h
-> > @@ -147,9 +147,7 @@ struct ICSIRQState {
-> >      uint8_t flags;
-> >  };
-> > =20
-> > -struct XICSFabric {
-> > -    Object parent;
-> > -};
-> > +typedef struct XICSFabric XICSFabric;
-> > =20
-> >  #define TYPE_XICS_FABRIC "xics-fabric"
-> >  #define XICS_FABRIC(obj)                                     \
-> >=20
->=20
-> you should also change :
->=20
-> #define XICS_FABRIC(obj)                                     \
->     OBJECT_CHECK(XICSFabric, (obj), TYPE_XICS_FABRIC)
->=20
->=20
-> and use INTERFACE_CHECK()
->=20
+--9K0MbSTT8fXB0xcZQYs5vcslLqWEvV6qU
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Yes but I think this deserves a separate patch.
+On 25/09/19 07:49, Sergio Lopez wrote:
+>>> +serving as a stepping stone
+>>> +for future projects aiming at improving boot times, reducing the
+>>> +attack surface and slimming down QEMU's footprint.
+>>
+>> "Microvm also establishes a baseline for benchmarking QEMU and operati=
+ng
+>> systems, since it is optimized for both boot time and footprint".
+>=20
+> Well, I prefer my paragraph, but I'm good with either.
 
-> C.
+You're right my version sort of missed the point.  What about
+s/benchmarking/benchmarking and optimizing/?
 
+>>> +The microvm machine type supports the following devices:
+>>> +
+>>> + - ISA bus
+>>> + - i8259 PIC
+>>> + - LAPIC (implicit if using KVM)
+>>> + - IOAPIC (defaults to kernel_irqchip_split =3D true)
+>>> + - i8254 PIT
+>>
+>> Do we need the PIT?  And perhaps the PIC even?
+>=20
+> We need the PIT for non-KVM accel (if present with KVM and
+> kernel_irqchip_split =3D off, it basically becomes a placeholder)
+
+Why?
+
+> and the
+> PIC for both the PIT and the ISA serial port.
+
+Can't the ISA serial port work with the IOAPIC?
+
+Paolo
+
+
+--9K0MbSTT8fXB0xcZQYs5vcslLqWEvV6qU--
+
+--mDVZVal97fA1LjnG3jStglsB6w8rGOwz9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl2LHfgACgkQv/vSX3jH
+roOpQgf/aiQvLFYTNQI5a6Bco3E6++pojDnNgz29HoMJn52fu5lGxi5AVMra2FjG
+uMSNDat8wB1yUkCIbjMGPmhFf2pcYfRu+AP7iN1ULr4Xg9EEdD1piIJPaKPry8PU
+qdrNFe1TYgZeTrjRaxCedEYl9y9u68y0YnqGGgfXuNz/hGgSrpKj9psBs9V6oJnZ
+QYU26ahyJ5w7SV0BnIK//TkNwhme4XBNwKMjAiicm8hfkY8PwdM6QkHzvyOuKvHn
+50rjvAR+jlaHJiJTbn4Z7+XYrGIZrPq0mYWU3NU0TBk/aOpTRUVRKx3DmJQzM3vI
+s3W5rayLrNXsf14sKp/hfxpwQ1Utlg==
+=dw3J
+-----END PGP SIGNATURE-----
+
+--mDVZVal97fA1LjnG3jStglsB6w8rGOwz9--
 
