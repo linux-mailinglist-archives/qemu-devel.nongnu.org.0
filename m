@@ -2,76 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C6ABDD3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:36:04 +0200 (CEST)
-Received: from localhost ([::1]:48376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC69EBDD66
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 13:48:04 +0200 (CEST)
+Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD5aV-0002si-DX
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:36:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48084)
+	id 1iD5m7-0000LV-Ad
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 07:48:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iD5YS-0001aY-93
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:33:57 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iD5jd-0008C6-MJ
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:45:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iD5YQ-0005fn-NI
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:33:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59240)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iD5YQ-0005fH-Eu
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:33:54 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 879C0356C5
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 11:33:53 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id s19so1870974wmj.0
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 04:33:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bx730Wer+pwc4VBmfSAfJ04BjpCVUv0kzXLIsC10EIQ=;
- b=HyRNI9qC534p0tKP+56Ko1mOEc82NXbWN4Ss1riwJ6/8FwhiVvjQZTnY66YNVGlmWa
- R8g57YqYw9XNXd3gxTjE5XxFt6IBNkEcwRUf9xSsgnMQ6sY6bbScpjjt2Sjz1pkDM3r6
- EkJnQJ4UGJcm5yCBjusjKLqmfmD50R2T/cJJlxi9QFVY13QdT43qtvVhaXwqEpf4m1Tq
- 7fJ29fAhiLWtYiObGWIyngrlvq7juy1mLoVw07DlInQyzJOcGc5D+tK1V3YCkfJm0vgL
- utf4fTpigM4Hn4dYTeji6ickxKvgCNIbfKDaEnHTBQER+0DYIGi1l5/1veOJCvLobgJe
- xcmw==
-X-Gm-Message-State: APjAAAW+YTroqtYazd5FLKzDbqLpfUt7d3jIlynO0abViC0ZNL47fTnM
- 8eHehKnpvAcFfyP+a+ADWLIYzQEuQl/0NBguQzRftLPr1xv5PBRctkx+4NAIcx09MXKSl1em+U0
- R+vIqG3AWx3RlNww=
-X-Received: by 2002:a7b:cb91:: with SMTP id m17mr7199626wmi.151.1569411232342; 
- Wed, 25 Sep 2019 04:33:52 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxVVzdy3sluWBfXThx9vefVXa6Catg/jAgWcYuW4h3xaWL6k4hs4K+rCEuz/1gUkZjmkG355A==
-X-Received: by 2002:a7b:cb91:: with SMTP id m17mr7199588wmi.151.1569411232117; 
- Wed, 25 Sep 2019 04:33:52 -0700 (PDT)
-Received: from [10.201.33.84] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id x6sm4329672wmf.35.2019.09.25.04.33.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Sep 2019 04:33:51 -0700 (PDT)
-Subject: Re: [PATCH v4 0/8] Introduce the microvm machine type
-To: Sergio Lopez <slp@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20190924124433.96810-1-slp@redhat.com>
- <CAFEAcA_2-achqUpTk1fDGWXcWPvTTLPvEtL+owNSWuZ5L3p=XA@mail.gmail.com>
- <87pnjosz3d.fsf@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <2d5d7297-0a02-276b-5482-948321f5a8bc@redhat.com>
-Date: Wed, 25 Sep 2019 13:33:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <87pnjosz3d.fsf@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iD5jc-0002qc-HX
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 07:45:29 -0400
+Received: from mail-db5eur01on0703.outbound.protection.outlook.com
+ ([2a01:111:f400:fe02::703]:37185
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iD5jb-0002pz-PO; Wed, 25 Sep 2019 07:45:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QgqAsv8j3iB5UKnrc5m7B6T6I45cbU5e4PMMmsb5HZH3OUAiPlwMJUdYMtnyD0v0rTzvd2+P8G9qRthO+nkPNYi8G6YQITujwh2E/G/EeGwHFin0t3ZMerJAtiY5VSjDEgkIWxDmMrVkuapuA1Wwkfb7FZqm1gjKqS8z6DEITXLzCWDREnDJRXJVfihu3yWuNQ2EJArSmqK0rP71gt6gZTgV6PghKsLPzQanrslV+xUWHNd1g+RCZhjQmeCoJhS/JtO21ivA3wXfZeyhQFJ9KqBzhlITMoFhGODcQ/QiIGRuzyDFY4bycqOm5zS+SHijY8rCwcNhb3qWLqmasekaFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RJ6uu+OKxktc/rVteoDNcnFi5Nf5ICAl62T39fw1lB4=;
+ b=XH/N+7UnJ445S2+t3zAAYYA5C96FHBhYtSqjKPayVZ+FS59xOqev2WJGpJmVRXUCyPlRh8+JYdIwq1oauu/ZoqOxPLZfdk2Ag6XmZEkdTCKz3TWflSfOrG621z8LgA20jI73GDSggqFPpN99poyJUzXdOzGwAIpGcDYLDBzpcwoeAVXnc0geVn5G7mN3oIU/adaK6tagx06JOCpKGRuEI8iQSIUkc7FaKFhn61di+rariABs+UlJPvy0D5yl5eNGCBSbBZ1hQbWYQYfI4XZZSxIaoWLBAISJpaNic4V3b3J8eWSL55JGH+xxmksMU2ftyR/mzERm5AgiTlPwfuIZeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RJ6uu+OKxktc/rVteoDNcnFi5Nf5ICAl62T39fw1lB4=;
+ b=vK/Tkv7AkrmKgLjSU5D4+nDkwEoX9YYG6AJVR/UCCh4FNLdeAHI/BYhEU16RSkh6XuDIBdFiT9ah54yIt0EDxZQVa4pwg6qRj+mchJ5XT+UemVbCrEa3w8KdflLGB+/uCmTC4Q2Th2s8VhefDpWXivUi6U552B5d+n9rMcoF4vw=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5242.eurprd08.prod.outlook.com (10.255.18.29) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.26; Wed, 25 Sep 2019 11:45:25 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Wed, 25 Sep 2019
+ 11:45:25 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH 01/22] blockdev: Allow external snapshots everywhere
+Thread-Topic: [PATCH 01/22] blockdev: Allow external snapshots everywhere
+Thread-Index: AQHVb8piyCNjVghvNEuKJp3kSoS5SKc8TdUA
+Date: Wed, 25 Sep 2019 11:45:24 +0000
+Message-ID: <7c50e29a-7d41-b186-7777-85bbd4fb8b8b@virtuozzo.com>
+References: <20190920152804.12875-1-mreitz@redhat.com>
+ <20190920152804.12875-2-mreitz@redhat.com>
+In-Reply-To: <20190920152804.12875-2-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0241.eurprd05.prod.outlook.com
+ (2603:10a6:3:fb::17) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190925144520925
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fcb873ed-2e5d-4a5a-5b80-08d741adda88
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB5242; 
+x-ms-traffictypediagnostic: DB8PR08MB5242:
+x-microsoft-antispam-prvs: <DB8PR08MB5242003643FDC394304EACA0C1870@DB8PR08MB5242.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 01713B2841
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(39850400004)(366004)(346002)(136003)(376002)(189003)(199004)(229853002)(256004)(54906003)(110136005)(25786009)(31686004)(486006)(4744005)(2616005)(446003)(11346002)(476003)(86362001)(5660300002)(99286004)(6116002)(76176011)(52116002)(3846002)(36756003)(316002)(386003)(6506007)(102836004)(478600001)(66446008)(2906002)(14454004)(64756008)(66556008)(66476007)(66946007)(71200400001)(26005)(31696002)(8936002)(8676002)(2501003)(186003)(6436002)(6246003)(81156014)(81166006)(66066001)(6486002)(4326008)(7736002)(6512007)(71190400001)(305945005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5242;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: UqyAw1Ka+7wHOsVoT+93sQrKq7YMzHRqJn1VUvckpq0rGxeE9VtzKlicH4tzl83ggZh+ZoXEC6ZI9OY1BLWNFFGk5trDU3RzM2RQGV3HNHKM9bQQ5hpPVX9fv0sT1y8kN/zMczzb73C1XWNn0ZEJrgj46ZXnD00MsUrUkSWpuqdIi4DtkrOpf9UeuzKoMQ6ig59/hCcTPaHtajKOjVX3t8XoWSdFrX0QPVXvlZ5aOTJ6NKSpYL2sLOFAjWnlaZI1SujFrGZsYRv84ZKk1/r2xQPk/jGYX7EUrqaubDEzxpkBKPvZ33SJLiR37gd07wCvfoH0OZd9SZGjIjrfJQo2F7ZZhuz4ftABfNvLHRLDkrCMSrGokHNjbcpaLhAS0KO6d1EhhTfGEAExsGClVnSNUinOx14GKcF8KT2qhGZPq0Y=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5230B25E3514224697200CFD147E66AE@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcb873ed-2e5d-4a5a-5b80-08d741adda88
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 11:45:24.9462 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5TDupKOs54unNnLF5afbir79IiZjfd7OV/lSJg/uwKlZdjHVhUEykH43c82UtNv8BE8gJxV/JKyKLepaRR4BF9jzOuOUQQuGtE7tTAKEYbY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5242
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe02::703
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,40 +112,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/19 7:51 AM, Sergio Lopez wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
->> On Tue, 24 Sep 2019 at 14:25, Sergio Lopez <slp@redhat.com> wrote:
->>>
->>> Microvm is a machine type inspired by both NEMU and Firecracker, and
->>> constructed after the machine model implemented by the latter.
->>>
->>> It's main purpose is providing users a minimalist machine type free
->>> from the burden of legacy compatibility, serving as a stepping stone
->>> for future projects aiming at improving boot times, reducing the
->>> attack surface and slimming down QEMU's footprint.
->>
->>
->>>  docs/microvm.txt                 |  78 +++
->>
->> I'm not sure how close to acceptance this patchset is at the
->> moment, so not necessarily something you need to do now,
->> but could new documentation in docs/ be in rst format, not
->> plain text, please? (Ideally also they should be in the right
->> manual subdirectory, but documentation of system emulation
->> machines at the moment is still in texinfo format, so we
->> don't have a subdir for it yet.)
-> 
-> Sure. What I didn't get is, should I put it in "docs/microvm.rst" or in
-> some other subdirectory?
-
-Should we introduce docs/machines/?
+MjAuMDkuMjAxOSAxODoyNywgTWF4IFJlaXR6IHdyb3RlOg0KPiBUaGVyZSBpcyBubyBnb29kIHJl
+YXNvbiB3aHkgd2Ugd291bGQgYWxsb3cgZXh0ZXJuYWwgc25hcHNob3RzIG9ubHkgb24NCj4gdGhl
+IGZpcnN0IG5vbi1maWx0ZXIgbm9kZSBpbiBhIGNoYWluLiAgUGFyZW50IEJEU3Mgc2hvdWxkIG5v
+dCBjYXJlDQo+IHdoZXRoZXIgdGhlaXIgY2hpbGQgaXMgcmVwbGFjZWQgYnkgYSBzbmFwc2hvdC4g
+IChJZiB0aGV5IGRvIGNhcmUsIHRoZXkNCj4gc2hvdWxkIGFubm91bmNlIHRoYXQgdmlhIGZyZWV6
+aW5nIHRoZSBjaGFpbiwgd2hpY2ggaXMgY2hlY2tlZCBpbg0KPiBiZHJ2X2FwcGVuZCgpIHRocm91
+Z2ggYmRydl9zZXRfYmFja2luZ19oZCgpLikNCj4gDQo+IEJlZm9yZSB3ZSBoYWQgYmRydl9pc19m
+aXJzdF9ub25fZmlsdGVyKCkgaGVyZSAoc2luY2UgMjEyYTVhOGYwOTUpLCB0aGVyZQ0KPiB3YXMg
+YSBzcGVjaWFsIGZ1bmN0aW9uIGJkcnZfY2hlY2tfZXh0X3NuYXBzaG90KCkgdGhhdCBhbGxvd2Vk
+IHNuYXBzaG90cw0KPiBieSBkZWZhdWx0LCBidXQgYmxvY2sgZHJpdmVycyBjb3VsZCBvdmVycmlk
+ZSB0aGlzLiAgT25seSBibGt2ZXJpZnkgZGlkDQo+IHNvLCBob3dldmVyLg0KPiANCj4gSXQgaXMg
+bm90IGNsZWFyIHRvIG1lIHdoeSBibGt2ZXJpZnkgd291bGQgZG8gc287IG1heWJlIGp1c3Qgc28g
+dGhhdCB0aGUNCj4gdGVzdGVlIGJsb2NrIGRyaXZlciB3b3VsZCBub3QgYmUgcmVwbGFjZWQuICBU
+aGUgaW50cm9kdWNpbmcgY29tbWl0DQo+IGY2MTg2ZjQ5ZTJjIGRvZXMgbm90IGV4cGxhaW4gd2h5
+LiAgTWF5YmUgYmVjYXVzZSAwOGIyNGNmZTM3NiB3b3VsZCBoYXZlDQo+IGJlZW4gdGhlIGNvcnJl
+Y3Qgc29sdXRpb24/ICAoV2hpY2ggYWRkcyBhIC5zdXBwb3J0c19iYWNraW5nIGNoZWNrLikNCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IE1heCBSZWl0ejxtcmVpdHpAcmVkaGF0LmNvbT4NCg0KUmV2aWV3
+ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpv
+LmNvbT4NCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
