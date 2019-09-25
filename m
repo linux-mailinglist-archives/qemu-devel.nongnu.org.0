@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77053BD5F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 03:04:29 +0200 (CEST)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21461BD615
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 03:22:16 +0200 (CEST)
+Received: from localhost ([::1]:44536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iCvjI-0003tJ-IN
-	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 21:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34105)
+	id 1iCw0U-0000zs-UY
+	for lists+qemu-devel@lfdr.de; Tue, 24 Sep 2019 21:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ren_guo@c-sky.com>) id 1iCvhr-00035c-TN
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:03:01 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iCvzd-0000aI-3n
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:21:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ren_guo@c-sky.com>) id 1iCvhp-0003Gt-Ee
- for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:02:59 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:56369)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ren_guo@c-sky.com>)
- id 1iCvhp-0003El-1w; Tue, 24 Sep 2019 21:02:57 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.004386386|-1; CH=green;
- DM=CONTINUE|CONTINUE|true|0.532088-0.00754032-0.460371; FP=0|0|0|0|0|-1|-1|-1;
- HT=e02c03302; MF=ren_guo@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
- TI=SMTPD_---.Fb-GL-z_1569373368; 
-Received: from 192.168.123.159(mailfrom:ren_guo@c-sky.com
- fp:SMTPD_---.Fb-GL-z_1569373368)
- by smtp.aliyun-inc.com(10.147.41.138);
- Wed, 25 Sep 2019 09:02:48 +0800
-Subject: Re: [PATCH V2] target/riscv: Bugfix reserved bits in PTE for RV64
-To: Alistair Francis <alistair23@gmail.com>
-References: <1569311902-12173-1-git-send-email-guoren@kernel.org>
- <CAKmqyKMzpTKBT+urX_7qFASqcAd4kkfJmf6LUk-0V=0LOuHLxw@mail.gmail.com>
- <8E7A78A5-5E6F-49A2-89BC-85D2506229C6@c-sky.com>
- <CAKmqyKPAnb1bb+v=+v_jHmA58bRjmUqO9XcZbLyxsUX1udtXBQ@mail.gmail.com>
-From: Guo Ren <ren_guo@c-sky.com>
-Message-ID: <872a2987-1dd5-d9fe-e80a-386eb3d68a23@c-sky.com>
-Date: Wed, 25 Sep 2019 09:02:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <no-reply@patchew.org>) id 1iCvza-000518-Nv
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:21:20 -0400
+Resent-Date: Tue, 24 Sep 2019 21:21:20 -0400
+Resent-Message-Id: <E1iCvza-000518-Nv@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21475)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iCvza-00050v-FX
+ for qemu-devel@nongnu.org; Tue, 24 Sep 2019 21:21:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1569374467; cv=none; d=zoho.com; s=zohoarc; 
+ b=aXSoqDQ+rK8FInNULiKuswVyKUu2Fxliz69CDcUJcXDnmQMwGi5ozluZ0qTWrZF1JpZCySlHyjo60Q1xERNxdIu+gDd4aaN2zx0rb6b5Kr6UyuePTNYYGFNONdL1SU5m5FfX9H6T3NkYh4PJ/ONyPrNG50SiogjyNaB5vwfk5bE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1569374467;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=3rkNY2ZXsLmS/WjTm1Tjm6fUXlKGIws/TN0KbHdtn4s=; 
+ b=R61dyO8FKJCuMWbh2uJ9DPv6C4otVxe6fQGMIKwfcPKM6iFvLiLbwf5IewNlHUh+biYinlSbgypavlrB7FROj74kPvZh795unb7c+WkHHCalEr4cY4ZUoRfJKEpi6lJtAh14zyYX5leuhUi79/z8jhGbkIi23R4dFW/PtqS325Y=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 156937446682221.422686473100043;
+ Tue, 24 Sep 2019 18:21:06 -0700 (PDT)
+Subject: Re: [PULL 00/37] QAPI patches for 2019-09-24
+In-Reply-To: <20190924123334.30645-1-armbru@redhat.com>
+Message-ID: <156937446590.2487.9021468790143367685@8230166b0665>
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKPAnb1bb+v=+v_jHmA58bRjmUqO9XcZbLyxsUX1udtXBQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: armbru@redhat.com
+Date: Tue, 24 Sep 2019 18:21:06 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,130 +62,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, guoren@kernel.org,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2019/9/25 上午8:21, Alistair Francis 写道:
-> On Tue, Sep 24, 2019 at 5:13 PM Guo Ren <ren_guo@c-sky.com> wrote:
->>
->>
->>> 在 2019年9月25日，上午7:33，Alistair Francis <alistair23@gmail.com> 写道：
->>>
->>> On Tue, Sep 24, 2019 at 12:58 AM <guoren@kernel.org> wrote:
->>>>
->>>> From: Guo Ren <ren_guo@c-sky.com>
->>>>
->>>> Highest 10 bits of PTE are reserved in riscv-privileged, ref: [1], so we
->>>> need to ignore them. They can not be a part of ppn.
->>>>
->>>> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
->>>>    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
->>>>    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
->>>
->>> Thanks for the patch!
->>>
->>> The spec says "must be zeroed by software for forward compatibility"
->>> so I don't think it's correct for QEMU to zero out the bits.
->> QEMU don’t zero out the bits, QEMU just ignore the bits for ppn.
-> 
-> Yes, from reading the spec that seems to be the correct behaviour.
-Thank you very much :)
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyNDEyMzMzNC4zMDY0
+NS0xLWFybWJydUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTA5MjQxMjMzMzQuMzA2NDUt
+MS1hcm1icnVAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8zN10gUUFQSSBwYXRjaGVzIGZv
+ciAyMDE5LTA5LTI0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCBy
+ZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2tw
+YXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKU3dpdGNo
+ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo5NGJiNzFhIHFhcGk6IEFzc2VydCAudmlzaXQoKSBh
+bmQgLmNoZWNrX2NsYXNoKCkgcnVuIG9ubHkgYWZ0ZXIgLmNoZWNrKCkKZTIzNTIxMyBxYXBpOiBG
+aXggZXhjZXNzaXZlIFFBUElTY2hlbWFFbnRpdHkuY2hlY2soKSByZWN1cnNpb24KNmFiY2EwZSBx
+YXBpOiBGaXggdG8gLmNoZWNrKCkgZW1wdHkgc3RydWN0cyBqdXN0IG9uY2UKNDc0ZTM3MyBxYXBp
+OiBEZWxldGUgdXNlbGVzcyBjaGVja19leHBycygpIGNvZGUgZm9yIHNpbXBsZSB1bmlvbiBraW5k
+CmU4MDQ2ZGMgcWFwaTogQ2xlYW4gdXAgYXJvdW5kIGNoZWNrX2tub3duX2tleXMoKQplMDQzNDhm
+IHFhcGk6IFNpbXBsaWZ5IGNoZWNrX2tleXMoKQo4OGUwNzVkIHFhcGk6IE5vcm1hbGl6ZSAnaWYn
+IGluIGNoZWNrX2V4cHJzKCksIGxpa2Ugb3RoZXIgc3VnYXIKN2FhN2FlMiBxYXBpOiBGaXggbWlz
+c2luZyAnaWYnIGNoZWNrcyBpbiBzdHJ1Y3QsIHVuaW9uLCBhbHRlcm5hdGUgJ2RhdGEnCjg1Nzkz
+ZTcgcWFwaTogUmVqZWN0IGJsYW5rICdpZicgY29uZGl0aW9ucyBpbiBhZGRpdGlvbiB0byBlbXB0
+eSBvbmVzCmEwZjJiNTcgcWFwaTogRml4IGJyb2tlbiBkaXNjcmltaW5hdG9yIGVycm9yIG1lc3Nh
+Z2VzCjMwMGQyMGMgcWFwaTogUmVtb3ZlIG51bGwgZnJvbSBzY2hlbWEgbGFuZ3VhZ2UKZDdiMzA0
+NCBxYXBpOiBJbXByb3ZlIHJlcG9ydGluZyBvZiBsZXhpY2FsIGVycm9ycwphZTdkM2I5IHFhcGk6
+IFVzZSBxdW90ZXMgbW9yZSBjb25zaXN0ZW50bHkgaW4gZnJvbnRlbmQgZXJyb3IgbWVzc2FnZXMK
+YzM5MGJkMiB0ZXN0cy9xYXBpLXNjaGVtYTogRGVtb25zdHJhdGUgc3Vib3B0aW1hbCBsZXhpY2Fs
+IGVycm9ycwpmYzIwZmRjIHRlc3RzL3FhcGktc2NoZW1hOiBEZW1vbnN0cmF0ZSBpbnN1ZmZpY2ll
+bnQgJ2lmJyBjaGVja2luZwowNmI2ODFiIHRlc3RzL3FhcGktc2NoZW1hOiBEZW1vbnN0cmF0ZSBi
+cm9rZW4gZGlzY3JpbWluYXRvciBlcnJvcnMKZDA0MjI2MCB0ZXN0cy9xYXBpLXNjaGVtYTogRGVt
+b25zdHJhdGUgbWlzbGVhZGluZyBvcHRpb25hbCB0YWcgZXJyb3IKODk3ZDg5MiB0ZXN0cy9xYXBp
+LXNjaGVtYTogRGVsZXRlIHR3byByZWR1bmRhbnQgdGVzdHMKMTEwZDM4YSB0ZXN0cy9xYXBpLXNj
+aGVtYTogQ292ZXIgdW5rbm93biBwcmFnbWEKZDQzZDE1ZSBxYXBpOiBUd2VhayBjb2RlIHRvIG1h
+dGNoIGRvY3MvZGV2ZWwvcWFwaS1jb2RlLWdlbi50eHQKMTI4YjQ3MiBkb2NzL2RldmVsL3FhcGkt
+Y29kZS1nZW46IEltcHJvdmUgUUFQSSBzY2hlbWEgbGFuZ3VhZ2UgZG9jCjA1NjQyMjUgZG9jcy9k
+ZXZlbC9xYXBpLWNvZGUtZ2VuOiBSZXdyaXRlIGludHJvZHVjdGlvbiB0byBzY2hlbWEKNzU5NmUy
+NCBkb2NzL2RldmVsL3FhcGktY29kZS1nZW46IFJld3JpdGUgY29tcGF0aWJpbGl0eSBjb25zaWRl
+cmF0aW9ucwoyZGZiOGU3IGRvY3MvZGV2ZWwvcWFwaS1jb2RlLWdlbjogUmVvcmRlciBzZWN0aW9u
+cyBmb3IgcmVhZGFiaWxpdHkKMDJmN2U1NCBxYXBpOiBBZGp1c3QgZnJvbnRlbmQgZXJyb3JzIHRv
+IHNheSBlbnVtIHZhbHVlLCBub3QgbWVtYmVyCjQzMmQ4YmQgcWFwaTogUGVybWl0IG9taXR0aW5n
+IGFsbCBmbGF0IHVuaW9uIGJyYW5jaGVzCjBkY2M1ZjcgcWFwaTogUGVybWl0IGFsdGVybmF0ZXMg
+d2l0aCBqdXN0IG9uZSBicmFuY2gKZDZlM2ZiZSBxYXBpOiBQZXJtaXQgJ2JveGVkJyB3aXRoIGVt
+cHR5IHR5cGUKODg4NzAzZiBxYXBpOiBEcm9wIHN1cHBvcnQgZm9yIGVzY2FwZSBzZXF1ZW5jZXMg
+b3RoZXIgdGhhbiBcXAowNDQ2ZDYxIHFhcGk6IFJlc3RyaWN0IHN0cmluZ3MgdG8gcHJpbnRhYmxl
+IEFTQ0lJCmIxYjc2NjIgdGVzdHMvcWFwaS1zY2hlbWE6IERlbW9uc3RyYXRlIGJhZCByZXBvcnRp
+bmcgb2YgZnVubnkgY2hhcmFjdGVycwpjMTA2NTM5IGRvY3MvZGV2ZWwvcWFwaS1jb2RlLWdlbjog
+TWlub3Igc3BlY2lmaWNhdGlvbiBmaXhlcwo5ZDU4NWI5IHFhcGk6IERyb3Agc3VwcG9ydCBmb3Ig
+Ym94ZWQgYWx0ZXJuYXRlIGFyZ3VtZW50cwo5M2UyNWJhIHFhcGk6IERyb3AgY2hlY2tfdHlwZSgp
+J3MgcmVkdW5kYW50IHBhcmFtZXRlciBAYWxsb3dfb3B0aW9uYWwKMDUyYjNhNCBzY3JpcHRzL2dp
+dC5vcmRlcmZpbGU6IE1hdGNoIFFBUEkgc2NoZW1hIG1vcmUgcHJlY2lzZWx5CmU0NGVjYjAgbWFr
+ZSBjaGVjay11bml0OiB1c2UgYWZ0ZXIgZnJlZSBpbiB0ZXN0LW9wdHMtdmlzaXRvcgo1Y2YzOGMx
+IHFhcGk6IE1ha2UgdmlzaXRfbmV4dF9saXN0KCkncyBjb21tZW50IGxlc3MgY29uZnVzaW5nCgo9
+PT0gT1VUUFVUIEJFR0lOID09PQoxLzM3IENoZWNraW5nIGNvbW1pdCA1Y2YzOGMxOGQ5YjggKHFh
+cGk6IE1ha2UgdmlzaXRfbmV4dF9saXN0KCkncyBjb21tZW50IGxlc3MgY29uZnVzaW5nKQoyLzM3
+IENoZWNraW5nIGNvbW1pdCBlNDRlY2IwOGM2M2QgKG1ha2UgY2hlY2stdW5pdDogdXNlIGFmdGVy
+IGZyZWUgaW4gdGVzdC1vcHRzLXZpc2l0b3IpCjMvMzcgQ2hlY2tpbmcgY29tbWl0IDA1MmIzYTQ5
+YTJmMyAoc2NyaXB0cy9naXQub3JkZXJmaWxlOiBNYXRjaCBRQVBJIHNjaGVtYSBtb3JlIHByZWNp
+c2VseSkKNC8zNyBDaGVja2luZyBjb21taXQgOTNlMjViYWI3YTIzIChxYXBpOiBEcm9wIGNoZWNr
+X3R5cGUoKSdzIHJlZHVuZGFudCBwYXJhbWV0ZXIgQGFsbG93X29wdGlvbmFsKQo1LzM3IENoZWNr
+aW5nIGNvbW1pdCA5ZDU4NWI5MzM2MzYgKHFhcGk6IERyb3Agc3VwcG9ydCBmb3IgYm94ZWQgYWx0
+ZXJuYXRlIGFyZ3VtZW50cykKNi8zNyBDaGVja2luZyBjb21taXQgYzEwNjUzOTY5NDBmIChkb2Nz
+L2RldmVsL3FhcGktY29kZS1nZW46IE1pbm9yIHNwZWNpZmljYXRpb24gZml4ZXMpCjcvMzcgQ2hl
+Y2tpbmcgY29tbWl0IGIxYjc2NjI3MDhiZiAodGVzdHMvcWFwaS1zY2hlbWE6IERlbW9uc3RyYXRl
+IGJhZCByZXBvcnRpbmcgb2YgZnVubnkgY2hhcmFjdGVycykKOC8zNyBDaGVja2luZyBjb21taXQg
+MDQ0NmQ2MTE0ZWQ3IChxYXBpOiBSZXN0cmljdCBzdHJpbmdzIHRvIHByaW50YWJsZSBBU0NJSSkK
+V0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVS
+UyBuZWVkIHVwZGF0aW5nPwojMTEwOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBJbnZh
+bGlkIFVURi04LCBwYXRjaCBhbmQgY29tbWl0IG1lc3NhZ2Ugc2hvdWxkIGJlIGVuY29kZWQgaW4g
+VVRGLTgKIzEyNzogRklMRTogdGVzdHMvcWFwaS1zY2hlbWEvc3RyaW5nLWNvZGUtcG9pbnQtMTI3
+Lmpzb246MjoKK3sgJ2NvbW1hbmQnOiAn4oymJyB9CiAgICAgICAgICAgICAgIF4KCkVSUk9SOiBJ
+bnZhbGlkIFVURi04LCBwYXRjaCBhbmQgY29tbWl0IG1lc3NhZ2Ugc2hvdWxkIGJlIGVuY29kZWQg
+aW4gVVRGLTgKIzE1MzogRklMRTogdGVzdHMvcWFwaS1zY2hlbWEvc3RyaW5nLWNvZGUtcG9pbnQt
+MzEuanNvbjoyOgoreyAnY29tbWFuZCc6ICfikJ8nIH0KICAgICAgICAgICAgICAgXgoKdG90YWw6
+IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCA3NiBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzM3IGhhcyBz
+dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
+IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
+UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo5LzM3IENoZWNraW5nIGNvbW1pdCA4ODg3MDNmMzExMjMg
+KHFhcGk6IERyb3Agc3VwcG9ydCBmb3IgZXNjYXBlIHNlcXVlbmNlcyBvdGhlciB0aGFuIFxcKQpX
+QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
+IG5lZWQgdXBkYXRpbmc/CiM3NTogCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAg
+ZXJyb3JzLCAxIHdhcm5pbmdzLCA1MyBsaW5lcyBjaGVja2VkCgpQYXRjaCA5LzM3IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCjEwLzM3IENoZWNraW5nIGNvbW1pdCBkNmUzZmJlNGZhOTkgKHFh
+cGk6IFBlcm1pdCAnYm94ZWQnIHdpdGggZW1wdHkgdHlwZSkKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTMx
+OiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
+IDEyOSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8zNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
+ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
+b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
+LgoxMS8zNyBDaGVja2luZyBjb21taXQgMGRjYzVmNzNhMDVmIChxYXBpOiBQZXJtaXQgYWx0ZXJu
+YXRlcyB3aXRoIGp1c3Qgb25lIGJyYW5jaCkKMTIvMzcgQ2hlY2tpbmcgY29tbWl0IDQzMmQ4YmQ1
+OTVkNyAocWFwaTogUGVybWl0IG9taXR0aW5nIGFsbCBmbGF0IHVuaW9uIGJyYW5jaGVzKQoxMy8z
+NyBDaGVja2luZyBjb21taXQgMDJmN2U1NDFmZDc0IChxYXBpOiBBZGp1c3QgZnJvbnRlbmQgZXJy
+b3JzIHRvIHNheSBlbnVtIHZhbHVlLCBub3QgbWVtYmVyKQoxNC8zNyBDaGVja2luZyBjb21taXQg
+MmRmYjhlN2MzNDRiIChkb2NzL2RldmVsL3FhcGktY29kZS1nZW46IFJlb3JkZXIgc2VjdGlvbnMg
+Zm9yIHJlYWRhYmlsaXR5KQoxNS8zNyBDaGVja2luZyBjb21taXQgNzU5NmUyNGYxYmVjIChkb2Nz
+L2RldmVsL3FhcGktY29kZS1nZW46IFJld3JpdGUgY29tcGF0aWJpbGl0eSBjb25zaWRlcmF0aW9u
+cykKMTYvMzcgQ2hlY2tpbmcgY29tbWl0IDA1NjQyMjU3YzBkYiAoZG9jcy9kZXZlbC9xYXBpLWNv
+ZGUtZ2VuOiBSZXdyaXRlIGludHJvZHVjdGlvbiB0byBzY2hlbWEpCjE3LzM3IENoZWNraW5nIGNv
+bW1pdCAxMjhiNDcyNjQ0OGUgKGRvY3MvZGV2ZWwvcWFwaS1jb2RlLWdlbjogSW1wcm92ZSBRQVBJ
+IHNjaGVtYSBsYW5ndWFnZSBkb2MpCjE4LzM3IENoZWNraW5nIGNvbW1pdCBkNDNkMTVlN2Q1NDAg
+KHFhcGk6IFR3ZWFrIGNvZGUgdG8gbWF0Y2ggZG9jcy9kZXZlbC9xYXBpLWNvZGUtZ2VuLnR4dCkK
+MTkvMzcgQ2hlY2tpbmcgY29tbWl0IDExMGQzOGE0YTE5ZiAodGVzdHMvcWFwaS1zY2hlbWE6IENv
+dmVyIHVua25vd24gcHJhZ21hKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxl
+KHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNTogCm5ldyBmaWxlIG1vZGUg
+MTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDEwIGxpbmVzIGNoZWNrZWQKClBh
+dGNoIDE5LzM3IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIwLzM3IENoZWNraW5nIGNvbW1p
+dCA4OTdkODkyZGVkY2YgKHRlc3RzL3FhcGktc2NoZW1hOiBEZWxldGUgdHdvIHJlZHVuZGFudCB0
+ZXN0cykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
+VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNDE6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRv
+dGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjAvMzcg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMjEvMzcgQ2hlY2tpbmcgY29tbWl0IGQwNDIyNjBm
+NTQwNSAodGVzdHMvcWFwaS1zY2hlbWE6IERlbW9uc3RyYXRlIG1pc2xlYWRpbmcgb3B0aW9uYWwg
+dGFnIGVycm9yKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0MTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
+b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDM0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIxLzM3
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIyLzM3IENoZWNraW5nIGNvbW1pdCAwNmI2ODFi
+YzdhYjcgKHRlc3RzL3FhcGktc2NoZW1hOiBEZW1vbnN0cmF0ZSBicm9rZW4gZGlzY3JpbWluYXRv
+ciBlcnJvcnMpCjIzLzM3IENoZWNraW5nIGNvbW1pdCBmYzIwZmRjMDRjNWIgKHRlc3RzL3FhcGkt
+c2NoZW1hOiBEZW1vbnN0cmF0ZSBpbnN1ZmZpY2llbnQgJ2lmJyBjaGVja2luZykKV0FSTklORzog
+YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
+ZGF0aW5nPwojNTM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdh
+cm5pbmdzLCAxMjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjMvMzcgaGFzIHN0eWxlIHByb2JsZW1z
+LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
+dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
+VEFJTkVSUy4KMjQvMzcgQ2hlY2tpbmcgY29tbWl0IGMzOTBiZDIwM2Y2YSAodGVzdHMvcWFwaS1z
+Y2hlbWE6IERlbW9uc3RyYXRlIHN1Ym9wdGltYWwgbGV4aWNhbCBlcnJvcnMpCldBUk5JTkc6IGFk
+ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
+dGluZz8KIzM4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
+aW5ncywgMTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjQvMzcgaGFzIHN0eWxlIHByb2JsZW1zLCBw
+bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
+IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
+TkVSUy4KMjUvMzcgQ2hlY2tpbmcgY29tbWl0IGFlN2QzYjljODQyMSAocWFwaTogVXNlIHF1b3Rl
+cyBtb3JlIGNvbnNpc3RlbnRseSBpbiBmcm9udGVuZCBlcnJvciBtZXNzYWdlcykKV0FSTklORzog
+YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
+ZGF0aW5nPwojMTY0OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgMTQ2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDI1LzM3IGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCjI2LzM3IENoZWNraW5nIGNvbW1pdCBkN2IzMDQ0YWY5MmEgKHFhcGk6IEltcHJv
+dmUgcmVwb3J0aW5nIG9mIGxleGljYWwgZXJyb3JzKQoyNy8zNyBDaGVja2luZyBjb21taXQgMzAw
+ZDIwYzRjZTNjIChxYXBpOiBSZW1vdmUgbnVsbCBmcm9tIHNjaGVtYSBsYW5ndWFnZSkKMjgvMzcg
+Q2hlY2tpbmcgY29tbWl0IGEwZjJiNTcwYTRiOSAocWFwaTogRml4IGJyb2tlbiBkaXNjcmltaW5h
+dG9yIGVycm9yIG1lc3NhZ2VzKQoyOS8zNyBDaGVja2luZyBjb21taXQgODU3OTNlNzlhYzY1IChx
+YXBpOiBSZWplY3QgYmxhbmsgJ2lmJyBjb25kaXRpb25zIGluIGFkZGl0aW9uIHRvIGVtcHR5IG9u
+ZXMpCjMwLzM3IENoZWNraW5nIGNvbW1pdCA3YWE3YWUyNzkxNDEgKHFhcGk6IEZpeCBtaXNzaW5n
+ICdpZicgY2hlY2tzIGluIHN0cnVjdCwgdW5pb24sIGFsdGVybmF0ZSAnZGF0YScpCjMxLzM3IENo
+ZWNraW5nIGNvbW1pdCA4OGUwNzVkMWZjY2IgKHFhcGk6IE5vcm1hbGl6ZSAnaWYnIGluIGNoZWNr
+X2V4cHJzKCksIGxpa2Ugb3RoZXIgc3VnYXIpCjMyLzM3IENoZWNraW5nIGNvbW1pdCBlMDQzNDhm
+MjBlMjggKHFhcGk6IFNpbXBsaWZ5IGNoZWNrX2tleXMoKSkKMzMvMzcgQ2hlY2tpbmcgY29tbWl0
+IGU4MDQ2ZGMyNDM1OCAocWFwaTogQ2xlYW4gdXAgYXJvdW5kIGNoZWNrX2tub3duX2tleXMoKSkK
+MzQvMzcgQ2hlY2tpbmcgY29tbWl0IDQ3NGUzNzM0OWRhMCAocWFwaTogRGVsZXRlIHVzZWxlc3Mg
+Y2hlY2tfZXhwcnMoKSBjb2RlIGZvciBzaW1wbGUgdW5pb24ga2luZCkKMzUvMzcgQ2hlY2tpbmcg
+Y29tbWl0IDZhYmNhMGUyZWQzMyAocWFwaTogRml4IHRvIC5jaGVjaygpIGVtcHR5IHN0cnVjdHMg
+anVzdCBvbmNlKQozNi8zNyBDaGVja2luZyBjb21taXQgZTIzNTIxMzg5MWM5IChxYXBpOiBGaXgg
+ZXhjZXNzaXZlIFFBUElTY2hlbWFFbnRpdHkuY2hlY2soKSByZWN1cnNpb24pCjM3LzM3IENoZWNr
+aW5nIGNvbW1pdCA5NGJiNzFhZGE3ZDcgKHFhcGk6IEFzc2VydCAudmlzaXQoKSBhbmQgLmNoZWNr
+X2NsYXNoKCkgcnVuIG9ubHkgYWZ0ZXIgLmNoZWNrKCkpCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
+dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
+IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwOTI0MTIzMzM0LjMwNjQ1LTEtYXJtYnJ1
+QHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-> 
->>
->>>
->>> Does this fix a bug you are seeing?
->> Yes, because we try to reuse these bits as attributes.
-> 
-> That isn't really a bug then, the spec says not to do that.
-Yes, I'll change the tile that "Ignore reserved bits in PTE for RV64"
-
-> 
->>
->>>
->>>>
->>>> Changelog V2:
->>>> - Bugfix pte destroyed cause boot fail
->>>> - Change to AND with a mask instead of shifting both directions
->>>
->>> The changelog shouldn't be in the commit, it should be kept under the
->>> line line below.
->> I just prefer to save them in commit.
-> 
-> Fair, but in QEMU we don't commit the change log in the commit.
-Ok.
-
-> 
->>
->>>
->>>>
->>>> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
->>>> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
->>>> ---
->>>
->>> The change log should go here.
->> OK, but git am we’ll lose them.
->>
->>>
->>>> target/riscv/cpu_bits.h   | 3 +++
->>>> target/riscv/cpu_helper.c | 3 ++-
->>>> 2 files changed, 5 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
->>>> index e998348..ae8aa0f 100644
->>>> --- a/target/riscv/cpu_bits.h
->>>> +++ b/target/riscv/cpu_bits.h
->>>> @@ -470,6 +470,9 @@
->>>> #define PTE_D               0x080 /* Dirty */
->>>> #define PTE_SOFT            0x300 /* Reserved for Software */
->>>>
->>>> +/* Reserved highest 10 bits in PTE */
->>>> +#define PTE_RESERVED        ((target_ulong)0x3ff << 54)
->>>
->>> I think it's just easier to define this as 0xFFC0000000000000ULL and
->>> remove the cast.
->> OK follow your rule, but I still prefer prior.
->>
->>>
->>>> +
->>>> /* Page table PPN shift amount */
->>>> #define PTE_PPN_SHIFT       10
->>>>
->>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>>> index 87dd6a6..7a540cc 100644
->>>> --- a/target/riscv/cpu_helper.c
->>>> +++ b/target/riscv/cpu_helper.c
->>>> @@ -258,10 +258,11 @@ restart:
->>>>          }
->>>> #if defined(TARGET_RISCV32)
->>>>          target_ulong pte = ldl_phys(cs->as, pte_addr);
->>>> +        hwaddr ppn = pte >> PTE_PPN_SHIFT;
->>>> #elif defined(TARGET_RISCV64)
->>>>          target_ulong pte = ldq_phys(cs->as, pte_addr);
->>>> +        hwaddr ppn = (pte & ~PTE_RESERVED) >> PTE_PPN_SHIFT;
->>>> #endif
->>>> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
->>>
->>> You don't have to move this shift
->> En… Do you want this: ?
->>
->> #if defined(TARGET_RISCV32)
->>          target_ulong pte = ldl_phys(cs->as, pte_addr);
->> +      hwaddr ppn = pte;
->> #elif defined(TARGET_RISCV64)
->>           target_ulong pte = ldq_phys(cs->as, pte_addr);
->> +       hwaddr ppn = (pte & ~PTE_RESERVED);
->> #endif
->> +        ppn = ppn >> PTE_PPN_SHIFT;
->>
-> 
-> Yeah, it seems a little cleaner.
-:)
-
-Best Regards
-  Guo Ren
 
