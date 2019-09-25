@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68B2BE054
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:35:49 +0200 (CEST)
-Received: from localhost ([::1]:52978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3573BE053
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Sep 2019 16:35:45 +0200 (CEST)
+Received: from localhost ([::1]:52980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iD8OR-0002y3-Sq
-	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
+	id 1iD8ON-0002zR-T8
+	for lists+qemu-devel@lfdr.de; Wed, 25 Sep 2019 10:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51725)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iD8J4-0000Xt-DS
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:15 -0400
+ (envelope-from <mst@redhat.com>) id 1iD8J8-0000bu-B2
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iD8J3-0006yR-A0
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44125
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iD8J7-00070j-5p
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:18304)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD8J3-0006y0-1B
- for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569421812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BsejPs8VR4bQ8vSDiQ1D+SsqmkY4XQ6nG+kn2dcwppo=;
- b=gGRsvirXC0/FDnQLIgBFuh5wuw7a7H+ZJO3tf8dFkCXhlAX+CvDugj6U44hj4aN53kv5Wd
- 4+mxGTQDiFYPqDmu7rpUW2qRgAgbSwfcv4i05aj4BEJvkbnoROZk5srP87pbK+52WVVtfK
- jbjBxqC5aHlEPC1dKIrv2GBtJgq0GX8=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-qX-DH7oZNgaOakxlrkycbQ-1; Wed, 25 Sep 2019 10:30:11 -0400
-Received: by mail-qk1-f197.google.com with SMTP id x186so6245388qke.13
- for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:30:11 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iD8J7-00070H-07
+ for qemu-devel@nongnu.org; Wed, 25 Sep 2019 10:30:17 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 34A56C40BF
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 14:30:16 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id x26so6046383qtr.17
+ for <qemu-devel@nongnu.org>; Wed, 25 Sep 2019 07:30:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=S3oDpkzwFQW/6Qog9stiWy3NOJLymT7tgQynsFt0T0k=;
- b=HA4Pcn0Y2eij7S7bP1seffRjvl32mviptJ+GUaUja7vzl5RCPbeJyVS2MKOYXHFmRf
- S1Ln+UbojMcKv2zmMdob6jmUU4lnOW1RLkzR3xMItSZR/GpY6IIXPajSmfoW+6wxQBk0
- P4QTmaDTEgg7F99UkUva/6ktMjia/K7Td/IHoNDyo++17OZGMeijwPK69+BiIzkdX9sP
- DQDG+rnjK7HzWSK3U2lRzF3rCb0g4fS+89rSkk4wFgrIyA8YCTOAlcKMyqmLzv9SQWwa
- 0y1z0sUNv+ySQLxYYCcDGqPNyELzPgPcJwfluvQEOa8sg727THsKkAEBekG6PrSIVzwD
- Pe2g==
-X-Gm-Message-State: APjAAAWomgju3Do8WGqPNW092x27ji9FjPIPZoUl5AmAd1MCVMPnBQ2U
- EpObHdkrghIpqLFdKApo3vzlIqQcRMOGIqx1x/c/WsICw/n/76yDkBL36cLJM9ifML9TXNMY+5+
- 4Ku+WtuHQjwwjhQE=
-X-Received: by 2002:ac8:184:: with SMTP id x4mr9161640qtf.249.1569421810058;
- Wed, 25 Sep 2019 07:30:10 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzyQXBwBwzP3xoucmn13TBr7t3Tk+CzmN4FmCppaodvKVeZDVNhsDo/rUEN8wNOhbcKhx98QQ==
-X-Received: by 2002:ac8:184:: with SMTP id x4mr9161626qtf.249.1569421809884;
- Wed, 25 Sep 2019 07:30:09 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ftfWxM+zsKCiRTl9X7Xq8J1GI2lASFD0yPDy8wdv8aM=;
+ b=qGOSiPxZBmv7uEve6yhmhGj/uVwW7U+3fBydoAMtTlb1FQQf4K2EcUd+ThOCELwLCj
+ 67KUJolIQG9Pk6YYwqvZDc12m3UVJtmSFKqqMvio0tJqDtDf4CaipbF/RgM935p2XtOZ
+ 3paAMBCrZijY8UQk+CYLMqcLA6Yu1sAKnh/bNqBS92rHSIXDmZ5g2ymQVPbx6MRZzWbe
+ DtzVhIaofuUa1E7pOJS6zORpAuSntr4Cht38CzHpy4gUN9Xh1dBY4baEU1h8mK43sspB
+ ufkeLsHngYRBHLBd7/yHCruJLyMaptCfzfbHjtCgtGE3gOQbbUWRkmW1/s5jHGbOzyPt
+ qclQ==
+X-Gm-Message-State: APjAAAVIqPKfShgAvNC0IncCoE7v8bCWBNwjti0UfA+XWVfCmE1VEysZ
+ YtI0lzWG3ArioM5XagqWoe7BRo2xdkxa7lyKILalg8iUyiT94O4yw9PwUtD+8zjyDJeJHbi5bBX
+ qm95Z03xA8pxk77U=
+X-Received: by 2002:a37:a9d1:: with SMTP id s200mr3777864qke.251.1569421815153; 
+ Wed, 25 Sep 2019 07:30:15 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwvOKc0M3yGRz0B3wSIMEA1yoNSoRkFcq1TnWdagveUW8T7GCAuOFNz0B8RapLryygbkI16PA==
+X-Received: by 2002:a37:a9d1:: with SMTP id s200mr3777832qke.251.1569421814953; 
+ Wed, 25 Sep 2019 07:30:14 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id m136sm3164665qke.78.2019.09.25.07.30.07
+ by smtp.gmail.com with ESMTPSA id w34sm4228790qth.84.2019.09.25.07.30.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 07:30:09 -0700 (PDT)
-Date: Wed, 25 Sep 2019 10:30:05 -0400
+ Wed, 25 Sep 2019 07:30:14 -0700 (PDT)
+Date: Wed, 25 Sep 2019 10:30:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] vhost: fixes
-Message-ID: <20190925142910.26529-1-mst@redhat.com>
+Subject: [PULL 1/3] memory: Align MemoryRegionSections fields
+Message-ID: <20190814175535.2023-2-dgilbert@redhat.com>
+References: <20190925142910.26529-1-mst@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190925142910.26529-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
-X-MC-Unique: qX-DH7oZNgaOakxlrkycbQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,41 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A very quiet cycle. Did I miss a bunch of patches? if so, let me know.
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The following changes since commit 240ab11fb72049d6373cbbec8d788f8e411a00bc=
-:
+MemoryRegionSection includes an Int128 'size' field;
+on some platforms the compiler causes an alignment of this to
+a 128bit boundary, leaving 8 bytes of dead space.
+This deadspace can be filled with junk.
 
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190924' int=
-o staging (2019-09-24 15:36:31 +0100)
+Move the size field to the top avoiding unnecessary alignment.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 3fc4a64cbaed2ddee4c60ddc06740b320e18ab82:
-
-  vhost: Fix memory region section comparison (2019-09-25 10:16:39 -0400)
-
-----------------------------------------------------------------
-vhost: fixes
-
-Misc fixes related to memory region handling.
-
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190814175535.2023-2-dgilbert@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/exec/memory.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Dr. David Alan Gilbert (3):
-      memory: Align MemoryRegionSections fields
-      memory: Provide an equality function for MemoryRegionSections
-      vhost: Fix memory region section comparison
-
- include/exec/memory.h | 14 +++++++++++++-
- hw/virtio/vhost.c     |  9 +++++++--
- 2 files changed, 20 insertions(+), 3 deletions(-)
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index a30245c25a..a1e6d846cc 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -495,10 +495,10 @@ static inline FlatView *address_space_to_flatview(A=
+ddressSpace *as)
+  * @nonvolatile: this section is non-volatile
+  */
+ struct MemoryRegionSection {
++    Int128 size;
+     MemoryRegion *mr;
+     FlatView *fv;
+     hwaddr offset_within_region;
+-    Int128 size;
+     hwaddr offset_within_address_space;
+     bool readonly;
+     bool nonvolatile;
+--=20
+MST
 
 
