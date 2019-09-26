@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCEFBF2B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:16:06 +0200 (CEST)
-Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB4BBF2DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:24:02 +0200 (CEST)
+Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDSgn-0004lr-4k
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
+	id 1iDSoT-0003UE-JO
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34985)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iDSdZ-0000n3-6I
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDSkY-0000F0-PP
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:20:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iDSdX-0002Tk-5b
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32862)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iDSdW-0002Pk-Rj
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:43 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 38D56121D
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 12:12:39 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id k184so1092467wmk.1
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 05:12:39 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDSkQ-0002jT-LI
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:19:53 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:37269)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDSkQ-0002hd-BO
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:19:50 -0400
+Received: by mail-oi1-f194.google.com with SMTP id i16so1872574oie.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 05:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+LIyjU/fauJ/2YVhwqNXeTLPr70F0EfwiLzSh4gvJM8=;
+ b=Z4tvI2rb2gKi9t5hWp3PF/3Q8qxZS8TIXGafQmj+/aU0o2zxrOXv/JHac4mSIyrb9k
+ F77gCAhJgjUWa3g4EajxRyY+KccYUlH3LF6IY55vXRkaLyxEwbWWp0oYR+3GTfQGaBne
+ ia+ODevbLxdNW4NohEAMR8ABMyGzRamIF0cEjvvcjr/t7To6xmayn3TRVP+KbXb7Gydq
+ LRa1iG66WPWZ0EJYrt/dFxe5b48YXYna1XCp9xjJl8gK/WvcvPW2/mDd00avcgPpJDJx
+ L42WSvIzMPZAmxHzCO0flSzOQ7QZh4jGG4Hghfp/hS/vqFROJR4zubmHN0CqvD2qy/yP
+ OniQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=wN9I+pQTOykWj2CrD7IK9V1z8ICLlfPqN2VP1BP9wIY=;
- b=m7rtNIoh1Dy1Zicx5T7hjfYEnAJYFeR0HBd7VcVzIuOal/pWsjxTwygmL3R8SclO9s
- kflrgyCpYNOP2N51XfXLlFXRQ3D8otCSMHyuGPeVdvYeOfKxmx8IHDoPXIiFi+gq1MCQ
- NpE8KZ8iu9s3OiWco9ZR+f6sbnHg2ALug8Uq3TPpk5x7+q5UsPmDyW9VDHjZAtCQnB+R
- bnCTplIWwgClJo4LYe1ud5WI4lLYYQSaFc0TY9b2f923l1Y0TZxr5GJwFUFC025Pnb76
- U5ZGzo3uMeFhQUTuaEipIossF8PaUXc/vXpky1diKa/KDC0yhTve/ZwlQnoZkBvRX839
- aSXQ==
-X-Gm-Message-State: APjAAAVPsQEu1lOWI6sOFVfY4iMfHxnOxYb7vB9ExkDOvxY7niApZ3CK
- LZwlvmDCNftU2XiSq4QXT4nu5vTjQy/Qv7dyrAJ4BU58CFsOQMAPbPyO4aYY1pBMNrIZzz7LDZm
- C3pYRkTU4tjuOxtk=
-X-Received: by 2002:adf:f790:: with SMTP id q16mr2649432wrp.164.1569499957911; 
- Thu, 26 Sep 2019 05:12:37 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy8j93qOeT9kouAyo+bvdFtag/p+jF4N3iabs8WR/gC642ne//Z6Besjyuwo9T0IgNq8roODg==
-X-Received: by 2002:adf:f790:: with SMTP id q16mr2649412wrp.164.1569499957694; 
- Thu, 26 Sep 2019 05:12:37 -0700 (PDT)
-Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
- [95.120.215.139])
- by smtp.gmail.com with ESMTPSA id y13sm7051284wrg.8.2019.09.26.05.12.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 05:12:36 -0700 (PDT)
-References: <20190924124433.96810-1-slp@redhat.com>
- <20190924124433.96810-8-slp@redhat.com>
- <23a6e891-c3ba-3991-d627-433eb1fe156d@redhat.com> <87a7ass9ho.fsf@redhat.com>
- <d70d3812-fd84-b248-7965-cae15704e785@redhat.com> <87o8z737am.fsf@redhat.com>
- <92575de9-da44-cac4-5b3d-6b07a7a8ea34@redhat.com> <87k19v2whk.fsf@redhat.com>
- <b02ada95-9853-ff21-cc14-ca0acf48782a@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v4 7/8] docs/microvm.txt: document the new microvm machine
- type
-In-reply-to: <b02ada95-9853-ff21-cc14-ca0acf48782a@redhat.com>
-Date: Thu, 26 Sep 2019 14:12:24 +0200
-Message-ID: <87impf2r4n.fsf@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+LIyjU/fauJ/2YVhwqNXeTLPr70F0EfwiLzSh4gvJM8=;
+ b=maBaJzs3d9NAnEU1XRi2gX6W/tHzBfYX3f/ucH5TcIpZhpehXg0HEmBa6e5PHmuNrh
+ uMv+pqDEJiQzcvaY9+Vz/p9jpETX4037aYihg2b1t9Xmh5TXtfFzXtwEx8n5rrv7K0HI
+ 1ZsN6cnt+HgSqW3rgo5mb48CR/l/rPi11woZN1q9wD0/R/BC5Di6/gLhKR0qcld57GPM
+ cB1xmHc9q27OqhqYAocaAItvR5VK8nTv5Yy2361hk523q21i+KdJYWEijOO3qsOdgNi6
+ JAylvTtSgG6U1mL5CU5Vf9VwYvNRgYYS7RUleJ7ImBzJ7MOX78DwwWhlNK0ttp+zdcCY
+ pm3Q==
+X-Gm-Message-State: APjAAAXsxGuWsUcJW8VfxPdRI8jp4s486lVAfk87ODRqfZGhcjp8AIJT
+ zbn32uf6kK8ihKx3LvT2bvVvkBYGl2PH8gYSd5C9/g==
+X-Google-Smtp-Source: APXvYqy/TfkSFNksF9bLe+Smx1n3gSMFIuBWui4YvW6bXweSiiNFihEzuDBxlbd0DKItex7vCIp8zYDKGhqp65ccz3k=
+X-Received: by 2002:aca:50d8:: with SMTP id e207mr2246798oib.48.1569500326916; 
+ Thu, 26 Sep 2019 05:18:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <20190920200049.27216-1-jsnow@redhat.com>
+ <20190923145057.GC9445@dhcp-17-179.bos.redhat.com>
+ <6ac39e69-4982-dc35-d853-fedbb1c12e1a@redhat.com>
+ <20190923190533.GR5035@habkost.net>
+ <20190924073513.GA2106@redhat.com> <20190925200440.GO8144@habkost.net>
+ <20190926115829.GA18782@redhat.com>
+In-Reply-To: <20190926115829.GA18782@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Sep 2019 13:18:35 +0100
+Message-ID: <CAFEAcA8Jn=er6mRZX+EYTePruTcHpLzVpqpydkERMVA9DdUOag@mail.gmail.com>
+Subject: Re: Debian support lifetime (was Re: [PATCH] docker: move tests from
+ python2 to python3)
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 209.85.167.194
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,57 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, lersek@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-
-
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> On 26/09/19 12:16, Sergio Lopez wrote:
->>> If KVM is in use, the
->>> LAPIC timer frequency is known to be 1 GHz.
->>>
->>> arch/x86/kernel/kvm.c can just set
->>>
->>> 	lapic_timer_period = 1000000000 / HZ;
->>>
->>> and that should disabled LAPIC calibration if TSC deadline is absent.
->> Given that they can only be omitted when an specific set of conditions
->> is met, I think I'm going to make them optional but enabled by default.
+On Thu, 26 Sep 2019 at 12:58, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+> When first wording the lifetimes, I tried to strike a balance between
+> limiting what we have to support, while also not negatively impacting
+> a large number of QEMU developers or users. Since we had never had
+> such support lifetimes declared for QEMU before, I was fairly generous,
+> hence picking the 2 year overlap for LTS distros (Ubuntu, RHEL and
+> SLES).
 >
-> Please do introduce the infrastructure to make them OnOffAuto, and for
-> now make Auto the same as On.  We have time to review that since microvm
-> is not versioned.
+> It is easier to come to a decision when considering a real world tech
+> problem related to the lifetime.
+>
+> The start of this thread was debating Debian / Python support. If we
+> fix the doc to put debian under the short life distro category, we'll
+> have solved the Python problem IIUC.
 
-OK, sounds like a good idea to me.
+I don't think Debian counts as a distro "with frequent, short-lifetime
+releases", though.
 
-Thanks,
-Sergio.
+Stating overall that we don't intend to support distro versions
+that the distro themselves doesn't support ought to be sufficient,
+shouldn't it?
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+In general, my view is that if we bump up against any of these
+support-lifetime limits then we're being too eager to drop
+support for something from QEMU and we should prefer to retain
+support for a while longer. I like and think that it's important
+that QEMU as a project does not live on the bleeding-edge and
+require latest-and-greatest versions of its dependencies to build.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2MqygACgkQ9GknjS8M
-AjX7gBAAuIOhcJCSJRb3fNUsv+ppkFbFvve9QMXGpPDOPxNoUi4xqFkUXgTagi8y
-sIBrbXsFjS0Aj/12Cle8xEuTASy0eSwCrGP1r030YhatqkDNrEhAlyRL6pmj6C2P
-cibVfVQGmdd2CYwibnLuaOY4fQIfVZICbBAPHAPQT+dO6i7z1hN2RmhhsHs5qn2k
-/YL87sTRx3oNC7Qzu5kwMcVLZeKtVKdQEYGcAGxD6++zH5tgz3luzTZyPODPk/Iy
-ZIsqiC211A6jAld63V3bPad0Xv1LNV2HUh1rz+7KXTUMMtR+Awjq5XGg5CY7ri0i
-vJ1kleICMA/Ap4eXrEdJ2CxyCFcanWejNaPnRphdqd2oxOvDnusDwRYBTnEWlCw4
-6TQ3mcxRS29SVpSGmAVSnZqKb3NQ8xVrJkwhNjVxpTe+jZOwR+EnboJ3An91AhZ4
-UaYbTa3gL9ihgkMiC1oYwkC8DHGnGC/0zJHkMeOvKBnLwa0U4aJPJ1jMJ8fQilqR
-aS5utqGbNq4ynlipKoAthhOBk6rIR+n1GMBWiUEK/InC4GMGcdAbYsK6hW07tQMZ
-ZEwwaz8cLOtUMeZVmJT0SvYeK7NRl9BjEndIf4XPD2iYFVWYLWa1p4x4a2V67x8W
-eO+Q6H5KnKqKKAwpyiskPSGnIrgjnVjhVwS/JjxesUE6Dg7UTJA=
-=5cKk
------END PGP SIGNATURE-----
---=-=-=--
+thanks
+-- PMM
 
