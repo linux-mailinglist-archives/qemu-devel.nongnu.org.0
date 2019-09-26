@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D569BECDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 09:50:35 +0200 (CEST)
-Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA0BBECE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 09:55:35 +0200 (CEST)
+Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDOXm-0005Rg-He
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 03:50:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35240)
+	id 1iDOcf-00029z-T8
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 03:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDOWH-0004i2-SJ
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:48:59 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDOZ8-0007qg-UA
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDOWG-0004bU-Gt
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:48:57 -0400
-Received: from 10.mo4.mail-out.ovh.net ([188.165.33.109]:52737)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDOWG-0004af-Au
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:48:56 -0400
-Received: from player692.ha.ovh.net (unknown [10.108.57.211])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 9E06C208BA9
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:48:51 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player692.ha.ovh.net (Postfix) with ESMTPSA id 018D5A1F00EA;
- Thu, 26 Sep 2019 07:48:40 +0000 (UTC)
-Date: Thu, 26 Sep 2019 09:48:39 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 13/20] spapr: Eliminate SpaprIrq:get_nodename method
-Message-ID: <20190926094839.33913bdf@bahia.lan>
-In-Reply-To: <20190925064534.19155-14-david@gibson.dropbear.id.au>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-14-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDOZ5-00075M-KP
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:52 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41805)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDOZ4-00071E-Lr
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:51 -0400
+Received: by mail-oi1-f196.google.com with SMTP id w17so1262659oiw.8
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 00:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=piBZm6c0B9OHu39h13g/t4GeewKYhac1BqjPaJCknOw=;
+ b=UnbxwicJoCt+RX4tEOGBppHUBGSAJRNXpyj3gWj0oaK7EJcKfTSgqmlfn8uLsLbNgq
+ jRORyjsOZBBG0kxWeg17GL/0CfiWml7dh6C6mwpwaYH4TvD/SOvnNqBpz1RkGZTwZBBm
+ ZskEap5x9+crxkENXwueR/hsNRKZyQ9pCRaqzgtAJwGEyazYf4JWU+H2yLOTxbIUaUrF
+ dZFg7hcRd2/8WuULWy7WORvj58P1O47BFxoMt7IeRx1S8hhQEd0x5q+Nz5Ww/H5vID/7
+ Am7bdhL11kJCunGI2jduLzBnuiT8o1pE1bgxvapi/jNUZsbgKvW/ACtquUKlQT3GQKjg
+ k/dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=piBZm6c0B9OHu39h13g/t4GeewKYhac1BqjPaJCknOw=;
+ b=QVd7TzgP96o3RzCylfagplpJ57tlr02qzVP46VB3UNVNt8av3+HOQ5xylEfHmg9ccg
+ J/++jIp1e8YMS4me6sY7cGLfikMBHCiHNJIkbtAaT4yOJ/Op4yS7Bf3oywmJWex0O2az
+ EZTC8mBprKNWXhCnlJC7Wz/FxVNhP11eFBvSXcYJCOKYY1Q36RyXZdj39oSdaJGxCq/R
+ G03K4U87wlmyMHH3NAxjy5+63mbVp2oBYAd23UmOjBixkn9d5djoabGt7MyOn2+OrmXd
+ ayx9ax1PGcMGVqSzrY1iswo0HJiBnCNwAdy/iFMXUMg3znAXR1zl8oykUncx1MNU9NOy
+ SR0Q==
+X-Gm-Message-State: APjAAAUIYrv7LeKxQ+aeMJIGKzMZh9twilcPw9xiekxuzq8pbllwL0H7
+ GZzV9pM61glJpJp0ZxSAbjKs1YF0mUDpGhXieSJnsg==
+X-Google-Smtp-Source: APXvYqxbWijizyJrPpz2AKFW3LQQpjXFZqprBuEWlwQub8z9oY8l3hkBkTX0AgQnhmMosvxD2itTGADbuVM6MWGJ00k=
+X-Received: by 2002:aca:50d8:: with SMTP id e207mr1517628oib.48.1569484248796; 
+ Thu, 26 Sep 2019 00:50:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 7882143774637660646
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeefgdduvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+References: <20190925233013.6449-1-alex.bennee@linaro.org>
+In-Reply-To: <20190925233013.6449-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Sep 2019 08:50:36 +0100
+Message-ID: <CAFEAcA9vb5_Mi_axWpu7269Zg0xMLbiiV80ofLeyDpfws3G4nQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.33.109
+ [fuzzy]
+X-Received-From: 209.85.167.196
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,165 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-ppc@nongnnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Sep 2019 16:45:27 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+On Thu, 26 Sep 2019 at 00:31, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The 32 bit hosts are already a second class citizen especially with
+> support for running 64 bit guests under TCG. We are also limited by
+> testing as actual working 32 bit machines are getting quite rare in
+> developers personal menageries. For TCG supporting newer types like
+> Int128 is a lot harder with 32 bit calling conventions compared to
+> their larger bit sized cousins. Fundamentally address space is the
+> most useful thing for the translator to have even for a 32 bit guest a
+> 32 bit host is quite constrained.
+>
+> As far as I'm aware 32 bit KVM users are even less numerous. Even
+> ILP32 doesn't make much sense given the address space QEMU needs to
+> manage.
 
-> This method is used to determine the name of the irq backend's node in the
-> device tree, so that we can find its phandle (after SLOF may have modified
-> it from the phandle we initially gave it).
-> 
-> But, in the two cases the only difference between the node name is the
-> presence of a unit address.  Searching for a node name without considering
-> unit address is standard practice for the device tree, and
-> fdt_subnode_offset() will do exactly that.
-> 
-> So, the method is unnecessary.
-> 
+For KVM we should wait until the kernel chooses to drop support,
+I think.
 
-So is the XICS_NODENAME macro which was introduced by the same
-commit 743ed566c1d80, and it seems that "interrupt-controller"
-is a well-known string that is used everywhere:
+> @@ -745,19 +744,22 @@ case "$cpu" in
+>    ;;
+>    armv*b|armv*l|arm)
+>      cpu=3D"arm"
+> -    supported_cpu=3D"yes"
+>    ;;
 
-[greg@bahia qemu-spapr]$ git grep -E \"interrupt-controller\"
-hw/arm/virt.c:    qemu_fdt_setprop(vms->fdt, nodename, "interrupt-controller", NULL, 0);
-hw/arm/xlnx-versal-virt.c:    qemu_fdt_setprop(s->fdt, nodename, "interrupt-controller", NULL, 0);
-hw/intc/sh_intc.c:                          "interrupt-controller", 0x100000000ULL);
-hw/intc/spapr_xive.c:    _FDT(fdt_setprop(fdt, node, "interrupt-controller", NULL, 0));
-hw/intc/xics_spapr.c:    _FDT(fdt_setprop(fdt, node, "interrupt-controller", NULL, 0));
-hw/pci/pci.c:    { 0x0800, "Interrupt controller", "interrupt-controller"},
-hw/ppc/e500.c:    qemu_fdt_setprop(fdt, mpic, "interrupt-controller", NULL, 0);
-hw/ppc/pnv.c:    _FDT((fdt_setprop(fdt, offset, "interrupt-controller", NULL, 0)));
-hw/ppc/spapr_events.c:    _FDT((fdt_setprop(fdt, event_sources, "interrupt-controller", NULL, 0)));
-hw/ppc/spapr_irq.c:    const char *nodename = "interrupt-controller";
-hw/ppc/spapr_pci.c:    { PCI_CLASS_SYSTEM_PIC, "interrupt-controller", pic_iface },
-hw/ppc/spapr_vio.c:    _FDT(fdt_setprop(fdt, node, "interrupt-controller", NULL, 0));
-hw/riscv/sifive_u.c:        qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
-hw/riscv/sifive_u.c:    qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-hw/riscv/spike.c:        qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
-hw/riscv/virt.c:        qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
-hw/riscv/virt.c:    qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-include/hw/ppc/spapr.h: * "interrupt-controller" node has its "#interrupt-cells" property set to 2 (ie,
-include/hw/ppc/xics_spapr.h:#define XICS_NODENAME "interrupt-controller"
+I'll leave others to voice opinions about their architectures,
+but I still have 32-bit arm in my test set for builds, and
+I'm pretty sure we have users (raspi users, for a start).
 
-Maybe drop XICS_NODENAME as well while here ?
 
-With or without that,
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/ppc/spapr_irq.c         | 25 +++----------------------
->  include/hw/ppc/spapr_irq.h |  1 -
->  2 files changed, 3 insertions(+), 23 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 038bfffff4..79167ccc68 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -211,11 +211,6 @@ static void spapr_irq_reset_xics(SpaprMachineState *spapr, Error **errp)
->      }
->  }
->  
-> -static const char *spapr_irq_get_nodename_xics(SpaprMachineState *spapr)
-> -{
-> -    return XICS_NODENAME;
-> -}
-> -
->  static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **errp)
->  {
->      if (kvm_enabled()) {
-> @@ -237,7 +232,6 @@ SpaprIrq spapr_irq_xics = {
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
->      .set_irq     = spapr_irq_set_irq_xics,
-> -    .get_nodename = spapr_irq_get_nodename_xics,
->      .init_kvm    = spapr_irq_init_kvm_xics,
->  };
->  
-> @@ -362,11 +356,6 @@ static void spapr_irq_set_irq_xive(void *opaque, int irq, int val)
->      }
->  }
->  
-> -static const char *spapr_irq_get_nodename_xive(SpaprMachineState *spapr)
-> -{
-> -    return spapr->xive->nodename;
-> -}
-> -
->  static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **errp)
->  {
->      if (kvm_enabled()) {
-> @@ -393,7 +382,6 @@ SpaprIrq spapr_irq_xive = {
->      .post_load   = spapr_irq_post_load_xive,
->      .reset       = spapr_irq_reset_xive,
->      .set_irq     = spapr_irq_set_irq_xive,
-> -    .get_nodename = spapr_irq_get_nodename_xive,
->      .init_kvm    = spapr_irq_init_kvm_xive,
->  };
->  
-> @@ -538,11 +526,6 @@ static void spapr_irq_set_irq_dual(void *opaque, int irq, int val)
->      spapr_irq_current(spapr)->set_irq(spapr, irq, val);
->  }
->  
-> -static const char *spapr_irq_get_nodename_dual(SpaprMachineState *spapr)
-> -{
-> -    return spapr_irq_current(spapr)->get_nodename(spapr);
-> -}
-> -
->  /*
->   * Define values in sync with the XIVE and XICS backend
->   */
-> @@ -560,7 +543,6 @@ SpaprIrq spapr_irq_dual = {
->      .post_load   = spapr_irq_post_load_dual,
->      .reset       = spapr_irq_reset_dual,
->      .set_irq     = spapr_irq_set_irq_dual,
-> -    .get_nodename = spapr_irq_get_nodename_dual,
->      .init_kvm    = NULL, /* should not be used */
->  };
->  
-> @@ -697,13 +679,13 @@ void spapr_irq_reset(SpaprMachineState *spapr, Error **errp)
->  
->  int spapr_irq_get_phandle(SpaprMachineState *spapr, void *fdt, Error **errp)
->  {
-> -    const char *nodename = spapr->irq->get_nodename(spapr);
-> +    const char *nodename = "interrupt-controller";
->      int offset, phandle;
->  
->      offset = fdt_subnode_offset(fdt, 0, nodename);
->      if (offset < 0) {
-> -        error_setg(errp, "Can't find node \"%s\": %s", nodename,
-> -                   fdt_strerror(offset));
-> +        error_setg(errp, "Can't find node \"%s\": %s",
-> +                   nodename, fdt_strerror(offset));
->          return -1;
->      }
->  
-> @@ -787,6 +769,5 @@ SpaprIrq spapr_irq_xics_legacy = {
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
->      .set_irq     = spapr_irq_set_irq_xics,
-> -    .get_nodename = spapr_irq_get_nodename_xics,
->      .init_kvm    = spapr_irq_init_kvm_xics,
->  };
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index a4e790ef60..9b60378e28 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -52,7 +52,6 @@ typedef struct SpaprIrq {
->      int (*post_load)(SpaprMachineState *spapr, int version_id);
->      void (*reset)(SpaprMachineState *spapr, Error **errp);
->      void (*set_irq)(void *opaque, int srcno, int val);
-> -    const char *(*get_nodename)(SpaprMachineState *spapr);
->      void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
->  } SpaprIrq;
->  
-
+thanks
+-- PMM
 
