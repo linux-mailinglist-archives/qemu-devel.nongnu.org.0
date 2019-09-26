@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93112BF2C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:18:15 +0200 (CEST)
-Received: from localhost ([::1]:34954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8CB2BF2AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:14:23 +0200 (CEST)
+Received: from localhost ([::1]:34894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDSis-0006t5-LW
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:18:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
+	id 1iDSf8-0001wl-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iDSdF-0000J8-6K
+ (envelope-from <dgibson@ozlabs.org>) id 1iDSdE-0000IR-L9
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iDSdD-0001zb-Hw
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:25 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37131 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iDSdD-0001yZ-89
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:24 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:55635 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iDSdD-0001x3-5r; Thu, 26 Sep 2019 08:12:23 -0400
+ id 1iDSdC-0001wo-Sr; Thu, 26 Sep 2019 08:12:23 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46fDLZ2dnVz9sPS; Thu, 26 Sep 2019 22:11:50 +1000 (AEST)
+ id 46fDLZ41bRz9sPK; Thu, 26 Sep 2019 22:11:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569499910;
- bh=yE0V37b06eUGKiBUMYzOJ/dKwkx/geBtZDc+qRFj9bw=;
+ bh=UDRwOG2f2d5+VMwe3gnwGDaVkVCAwC1ssMXXSOll1Ug=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bqffvw8qO0ye/sNIU6Vuyc5LX+AHZkos/FShFR44Kr4HctG0NB8hdXEUqOyeQiwjq
- v2U341rY8dzH2o1jzAqYMo8PfAw+dAl/lhE6NcCrZgaJfFcZADMWHlWmnXHJ4+6su/
- nJh3ktM9l943wRTelF2nlyoZMpIonwDX3AqVkQ5g=
-Date: Thu, 26 Sep 2019 21:36:20 +1000
+ b=k5LIr3lmEPaqWqerwY4gmYodQ6DZpO/PMemzlQevofdq7GpuP8aFJd7qQQO3WJT3d
+ X4HhzhegFUbbZys9QY+0sB1w6VtuxLAEPujzq1InP/j9Zty9tcc0ZkpoTeSOucz+YK
+ UMyimDquVqQAN3qfN/yzjL1nOjHkTX/8MEnOHueQ=
+Date: Thu, 26 Sep 2019 21:39:22 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 13/20] spapr: Eliminate SpaprIrq:get_nodename method
-Message-ID: <20190926113620.GA17405@umbus>
+Subject: Re: [PATCH 16/20] spapr, xics, xive: Better use of assert()s on irq
+ claim/free paths
+Message-ID: <20190926113922.GB17405@umbus>
 References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-14-david@gibson.dropbear.id.au>
- <20190926094839.33913bdf@bahia.lan>
+ <20190925064534.19155-17-david@gibson.dropbear.id.au>
+ <20190926100841.5c8b779b@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n8BV0TfTmv8nl9Pc"
+ protocol="application/pgp-signature"; boundary="M5PHxtWZRXQUdpfa"
 Content-Disposition: inline
-In-Reply-To: <20190926094839.33913bdf@bahia.lan>
+In-Reply-To: <20190926100841.5c8b779b@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
@@ -65,197 +66,132 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---n8BV0TfTmv8nl9Pc
+--M5PHxtWZRXQUdpfa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 26, 2019 at 09:48:39AM +0200, Greg Kurz wrote:
-> On Wed, 25 Sep 2019 16:45:27 +1000
+On Thu, Sep 26, 2019 at 10:08:41AM +0200, Greg Kurz wrote:
+> On Wed, 25 Sep 2019 16:45:30 +1000
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > This method is used to determine the name of the irq backend's node in =
-the
-> > device tree, so that we can find its phandle (after SLOF may have modif=
-ied
-> > it from the phandle we initially gave it).
+> > The irq claim and free paths for both XICS and XIVE check for some
+> > validity conditions.  Some of these represent genuine runtime failures,
+> > however others - particularly checking that the basic irq number is in a
+> > sane range - could only fail in the case of bugs in the callin code.
+> > Therefore use assert()s instead of runtime failures for those.
 > >=20
-> > But, in the two cases the only difference between the node name is the
-> > presence of a unit address.  Searching for a node name without consider=
-ing
-> > unit address is standard practice for the device tree, and
-> > fdt_subnode_offset() will do exactly that.
+> > In addition the non backend-specific part of the claim/free paths should
+> > only be used for PAPR external irqs, that is in the range SPAPR_XIRQ_BA=
+SE
+> > to the maximum irq number.  Put assert()s for that into the top level
+> > dispatchers as well.
 > >=20
-> > So, the method is unnecessary.
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/intc/spapr_xive.c |  8 ++------
+> >  hw/ppc/spapr_irq.c   | 18 ++++++++++--------
+> >  2 files changed, 12 insertions(+), 14 deletions(-)
 > >=20
+> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > index c1c97192a7..47b5ec0b56 100644
+> > --- a/hw/intc/spapr_xive.c
+> > +++ b/hw/intc/spapr_xive.c
+> > @@ -532,9 +532,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t=
+ lisn, bool lsi)
+> >  {
+> >      XiveSource *xsrc =3D &xive->source;
+> > =20
+> > -    if (lisn >=3D xive->nr_irqs) {
+> > -        return false;
+> > -    }
+> > +    assert(lisn < xive->nr_irqs);
+> > =20
+> >      /*
+> >       * Set default values when allocating an IRQ number
+> > @@ -559,9 +557,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t=
+ lisn, bool lsi)
+> > =20
+> >  bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn)
+> >  {
+> > -    if (lisn >=3D xive->nr_irqs) {
+> > -        return false;
+> > -    }
+> > +    assert(lisn < xive->nr_irqs);
+> > =20
+> >      xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
+> >      return true;
+> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> > index c40357a985..261d66ba17 100644
+> > --- a/hw/ppc/spapr_irq.c
+> > +++ b/hw/ppc/spapr_irq.c
+> > @@ -118,11 +118,7 @@ static int spapr_irq_claim_xics(SpaprMachineState =
+*spapr, int irq, bool lsi,
+> >      ICSState *ics =3D spapr->ics;
+> > =20
+> >      assert(ics);
+> > -
+> > -    if (!ics_valid_irq(ics, irq)) {
+> > -        error_setg(errp, "IRQ %d is invalid", irq);
+> > -        return -1;
+> > -    }
+> > +    assert(ics_valid_irq(ics, irq));
+> > =20
+> >      if (!ics_irq_free(ics, irq - ics->offset)) {
+> >          error_setg(errp, "IRQ %d is not free", irq);
+> > @@ -138,9 +134,9 @@ static void spapr_irq_free_xics(SpaprMachineState *=
+spapr, int irq)
+> >      ICSState *ics =3D spapr->ics;
+> >      uint32_t srcno =3D irq - ics->offset;
+> > =20
+> > -    if (ics_valid_irq(ics, irq)) {
+> > -        memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+> > -    }
+> > +    assert(ics_valid_irq(ics, irq));
+> > +
+> > +    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+> >  }
+> > =20
+> >  static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monito=
+r *mon)
+> > @@ -628,6 +624,9 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
+ **errp)
+> > =20
+> >  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error=
+ **errp)
+> >  {
+> > +    assert(irq >=3D SPAPR_XIRQ_BASE);
+> > +    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+> > +
+> >      return spapr->irq->claim(spapr, irq, lsi, errp);
+> >  }
+> > =20
+> > @@ -635,6 +634,9 @@ void spapr_irq_free(SpaprMachineState *spapr, int i=
+rq, int num)
+> >  {
+> >      int i;
+> > =20
+> > +    assert(irq >=3D SPAPR_XIRQ_BASE);
+> > +    assert((irq+num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
 >=20
-> So is the XICS_NODENAME macro which was introduced by the same
-> commit 743ed566c1d80, and it seems that "interrupt-controller"
-> is a well-known string that is used everywhere:
+> Non surprisingly this makes checkpatch unhappy:
 >=20
-> [greg@bahia qemu-spapr]$ git grep -E \"interrupt-controller\"
-> hw/arm/virt.c:    qemu_fdt_setprop(vms->fdt, nodename, "interrupt-control=
-ler", NULL, 0);
-> hw/arm/xlnx-versal-virt.c:    qemu_fdt_setprop(s->fdt, nodename, "interru=
-pt-controller", NULL, 0);
-> hw/intc/sh_intc.c:                          "interrupt-controller", 0x100=
-000000ULL);
-> hw/intc/spapr_xive.c:    _FDT(fdt_setprop(fdt, node, "interrupt-controlle=
-r", NULL, 0));
-> hw/intc/xics_spapr.c:    _FDT(fdt_setprop(fdt, node, "interrupt-controlle=
-r", NULL, 0));
-> hw/pci/pci.c:    { 0x0800, "Interrupt controller", "interrupt-controller"=
-},
-> hw/ppc/e500.c:    qemu_fdt_setprop(fdt, mpic, "interrupt-controller", NUL=
-L, 0);
-> hw/ppc/pnv.c:    _FDT((fdt_setprop(fdt, offset, "interrupt-controller", N=
-ULL, 0)));
-> hw/ppc/spapr_events.c:    _FDT((fdt_setprop(fdt, event_sources, "interrup=
-t-controller", NULL, 0)));
-> hw/ppc/spapr_irq.c:    const char *nodename =3D "interrupt-controller";
-> hw/ppc/spapr_pci.c:    { PCI_CLASS_SYSTEM_PIC, "interrupt-controller", pi=
-c_iface },
-> hw/ppc/spapr_vio.c:    _FDT(fdt_setprop(fdt, node, "interrupt-controller"=
-, NULL, 0));
-> hw/riscv/sifive_u.c:        qemu_fdt_setprop(fdt, intc, "interrupt-contro=
-ller", NULL, 0);
-> hw/riscv/sifive_u.c:    qemu_fdt_setprop(fdt, nodename, "interrupt-contro=
-ller", NULL, 0);
-> hw/riscv/spike.c:        qemu_fdt_setprop(fdt, intc, "interrupt-controlle=
-r", NULL, 0);
-> hw/riscv/virt.c:        qemu_fdt_setprop(fdt, intc, "interrupt-controller=
-", NULL, 0);
-> hw/riscv/virt.c:    qemu_fdt_setprop(fdt, nodename, "interrupt-controller=
-", NULL, 0);
-> include/hw/ppc/spapr.h: * "interrupt-controller" node has its "#interrupt=
--cells" property set to 2 (ie,
-> include/hw/ppc/xics_spapr.h:#define XICS_NODENAME "interrupt-controller"
->=20
-> Maybe drop XICS_NODENAME as well while here ?
+> ERROR: spaces required around that '+' (ctx:VxV)
+> #91: FILE: hw/ppc/spapr_irq.c:638:
+> +    assert((irq+num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
 
-Fair point, done.
+Oops, fixed.  I hadn't done a checkpatch run yet, since I'm still
+working actively on the series.
 
 >=20
-> With or without that,
+> With that fixed,
 >=20
 > Reviewed-by: Greg Kurz <groug@kaod.org>
 >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/ppc/spapr_irq.c         | 25 +++----------------------
-> >  include/hw/ppc/spapr_irq.h |  1 -
-> >  2 files changed, 3 insertions(+), 23 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > index 038bfffff4..79167ccc68 100644
-> > --- a/hw/ppc/spapr_irq.c
-> > +++ b/hw/ppc/spapr_irq.c
-> > @@ -211,11 +211,6 @@ static void spapr_irq_reset_xics(SpaprMachineState=
- *spapr, Error **errp)
+> > +
+> >      for (i =3D irq; i < (irq + num); i++) {
+> >          spapr->irq->free(spapr, irq);
 > >      }
-> >  }
-> > =20
-> > -static const char *spapr_irq_get_nodename_xics(SpaprMachineState *spap=
-r)
-> > -{
-> > -    return XICS_NODENAME;
-> > -}
-> > -
-> >  static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **=
-errp)
-> >  {
-> >      if (kvm_enabled()) {
-> > @@ -237,7 +232,6 @@ SpaprIrq spapr_irq_xics =3D {
-> >      .post_load   =3D spapr_irq_post_load_xics,
-> >      .reset       =3D spapr_irq_reset_xics,
-> >      .set_irq     =3D spapr_irq_set_irq_xics,
-> > -    .get_nodename =3D spapr_irq_get_nodename_xics,
-> >      .init_kvm    =3D spapr_irq_init_kvm_xics,
-> >  };
-> > =20
-> > @@ -362,11 +356,6 @@ static void spapr_irq_set_irq_xive(void *opaque, i=
-nt irq, int val)
-> >      }
-> >  }
-> > =20
-> > -static const char *spapr_irq_get_nodename_xive(SpaprMachineState *spap=
-r)
-> > -{
-> > -    return spapr->xive->nodename;
-> > -}
-> > -
-> >  static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **=
-errp)
-> >  {
-> >      if (kvm_enabled()) {
-> > @@ -393,7 +382,6 @@ SpaprIrq spapr_irq_xive =3D {
-> >      .post_load   =3D spapr_irq_post_load_xive,
-> >      .reset       =3D spapr_irq_reset_xive,
-> >      .set_irq     =3D spapr_irq_set_irq_xive,
-> > -    .get_nodename =3D spapr_irq_get_nodename_xive,
-> >      .init_kvm    =3D spapr_irq_init_kvm_xive,
-> >  };
-> > =20
-> > @@ -538,11 +526,6 @@ static void spapr_irq_set_irq_dual(void *opaque, i=
-nt irq, int val)
-> >      spapr_irq_current(spapr)->set_irq(spapr, irq, val);
-> >  }
-> > =20
-> > -static const char *spapr_irq_get_nodename_dual(SpaprMachineState *spap=
-r)
-> > -{
-> > -    return spapr_irq_current(spapr)->get_nodename(spapr);
-> > -}
-> > -
-> >  /*
-> >   * Define values in sync with the XIVE and XICS backend
-> >   */
-> > @@ -560,7 +543,6 @@ SpaprIrq spapr_irq_dual =3D {
-> >      .post_load   =3D spapr_irq_post_load_dual,
-> >      .reset       =3D spapr_irq_reset_dual,
-> >      .set_irq     =3D spapr_irq_set_irq_dual,
-> > -    .get_nodename =3D spapr_irq_get_nodename_dual,
-> >      .init_kvm    =3D NULL, /* should not be used */
-> >  };
-> > =20
-> > @@ -697,13 +679,13 @@ void spapr_irq_reset(SpaprMachineState *spapr, Er=
-ror **errp)
-> > =20
-> >  int spapr_irq_get_phandle(SpaprMachineState *spapr, void *fdt, Error *=
-*errp)
-> >  {
-> > -    const char *nodename =3D spapr->irq->get_nodename(spapr);
-> > +    const char *nodename =3D "interrupt-controller";
-> >      int offset, phandle;
-> > =20
-> >      offset =3D fdt_subnode_offset(fdt, 0, nodename);
-> >      if (offset < 0) {
-> > -        error_setg(errp, "Can't find node \"%s\": %s", nodename,
-> > -                   fdt_strerror(offset));
-> > +        error_setg(errp, "Can't find node \"%s\": %s",
-> > +                   nodename, fdt_strerror(offset));
-> >          return -1;
-> >      }
-> > =20
-> > @@ -787,6 +769,5 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-> >      .post_load   =3D spapr_irq_post_load_xics,
-> >      .reset       =3D spapr_irq_reset_xics,
-> >      .set_irq     =3D spapr_irq_set_irq_xics,
-> > -    .get_nodename =3D spapr_irq_get_nodename_xics,
-> >      .init_kvm    =3D spapr_irq_init_kvm_xics,
-> >  };
-> > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> > index a4e790ef60..9b60378e28 100644
-> > --- a/include/hw/ppc/spapr_irq.h
-> > +++ b/include/hw/ppc/spapr_irq.h
-> > @@ -52,7 +52,6 @@ typedef struct SpaprIrq {
-> >      int (*post_load)(SpaprMachineState *spapr, int version_id);
-> >      void (*reset)(SpaprMachineState *spapr, Error **errp);
-> >      void (*set_irq)(void *opaque, int srcno, int val);
-> > -    const char *(*get_nodename)(SpaprMachineState *spapr);
-> >      void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
-> >  } SpaprIrq;
-> > =20
 >=20
 
 --=20
@@ -264,25 +200,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---n8BV0TfTmv8nl9Pc
+--M5PHxtWZRXQUdpfa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2MorQACgkQbDjKyiDZ
-s5KuYBAAjDPnYlY2dBan1AN4x7IKRQScwIX5nRPe/+J9km+N38iLRgcHd31SozWq
-qq5Vp/v3NhI9esowoIFGDuNgn/NEKKTtXRPD8LDYCJkqBcTLEe2DV8PhjZZ6T9cO
-lf4cADxWHKOuvgHs/rz/fdyzt0QxJnMKHCAwKUqnEK7U8p8WrD8X9/Ewfm7w6IaM
-j4y8XzM7jLsgu4fTYvqln+GwHwdcINWJsgT6w/+XiT5YGshIegaBtJ4JQ/61wM77
-DeUW0djmaEM9us9Kygduy3IFIoKkOEmcxvcPFkVl3djleST0VNTInTz7ImdvgHzy
-LlbqIwo2D1reAK8NCma83cfULyR9VoaW28n4W6CUgEBcawooycHND0RoSS8kEVdK
-TPiRfTnZtMZDfA3i66CAaFdYsFe/Pm/6+MD1FOYucqJkP/F3OJZPBo2uU+6kLAE3
-+hXgFVU/AmaCwh59NJiIYVSCi+prDO/za10MUSRoLG8A5jzN3lIQbDzXia8w5Tco
-hRIk7KL828wnRJo25wwYbD8F6WoeVi4iKLbew348mwrffvYbNeqBLsKIMo5c+Vag
-V/b3XGWD9HRME5Nd1KvvvSWd8Z/u65bsUHny4vIHFWA7ZlucHST3z+E1x9msUUS+
-fL05EjLEJNonfYJwKH8SoobHIcGE0SulKWvTb8WdaUM719GJ/Hc=
-=RbeC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2Mo2oACgkQbDjKyiDZ
+s5JSsQ//Xo3iKYfE1YBcsp3/R9ul7gln2SXqpCsh9IKasLsWfRHRmldTNW/v6Ml8
+G75I8vo4kT1aZclNOcol2MBQo78cCTKwQmhJC9qYlhRsEzppYdqywPP+KuHGVtHL
++WOkXcrgd/Xzh3tviD5FVFPl+mfdBiIoa0X5sOCjayibbjGarp4hnNF2zfC6ssac
+NxDRG2eRmJwJ98ALyP6396BtMSK6+nrLVMfC/0NPNpq4r1kgogThEZRQIBpQon/v
+q0+IG3PvcjiexfjoDLKN5C41DBbc3eq8E88khkAnc8z5XE0aqYAWt+c9FJl/TM6u
+vF4n+zF7tD6shNuW6j3Hsl/MM+VhvcEUetMebvL1opCxZAoWtUchn1UGCe3X3j2S
+v9cJ+hqVGFjO/FL+gyKpuz3Zy9RJpv2GpB4ArQg3DpSxLuZrSBtIC53z4GYHbEBk
+cytv92GcjOvzER9LjNdzlMOMLP/jH6Ip/nfg7NzGzUfUv4LArYupLbBTLQ/gMBwe
+FAL5IidL80cHIDSHg31MplF95lQazupo0qEU7zqprZYgeGSAhDwEYUwGefMbJNc8
+fdErJdJMhdv+VoYkdiHceAk8POwh/GA851GuYR0t0Z0HadA/pW154GY8nW7koeZg
+QqYObW43bHV0EK7sc1/jOpLU0hf5TVAnGS2xrRztyUTbAgnzh5I=
+=LY0Y
 -----END PGP SIGNATURE-----
 
---n8BV0TfTmv8nl9Pc--
+--M5PHxtWZRXQUdpfa--
 
