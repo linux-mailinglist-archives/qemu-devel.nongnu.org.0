@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CE2BF916
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:22:16 +0200 (CEST)
-Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3C0BF92B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:28:03 +0200 (CEST)
+Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDYP7-0003qn-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37870)
+	id 1iDYUh-0002wu-OC
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iDYMt-0002L6-Fo
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:19:58 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iDYTK-0002B6-1W
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:26:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iDYMr-0003VZ-NN
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:19:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54810)
+ (envelope-from <jsnow@redhat.com>) id 1iDYTI-0000Jw-Jp
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:26:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50228)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iDYMh-0003Hs-IS; Thu, 26 Sep 2019 14:19:43 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iDYT6-0000Ch-Aq; Thu, 26 Sep 2019 14:26:20 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 613F564D87;
- Thu, 26 Sep 2019 18:19:42 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7B7483082B45;
+ Thu, 26 Sep 2019 18:26:19 +0000 (UTC)
 Received: from [10.18.17.231] (dhcp-17-231.bos.redhat.com [10.18.17.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4206C1000337;
- Thu, 26 Sep 2019 18:19:37 +0000 (UTC)
-Subject: Re: [SeaBIOS] [PATCH v7 8/8] hd-geo-test: Add tests for lchs override
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9646C194B2;
+ Thu, 26 Sep 2019 18:26:11 +0000 (UTC)
+Subject: Re: [SeaBIOS] [PATCH v7 7/8] bootdevice: FW_CFG interface for LCHS
+ values
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Sam Eiderman <sameid@google.com>, qemu-devel@nongnu.org
 References: <20190925110639.100699-1-sameid@google.com>
- <20190925110639.100699-9-sameid@google.com>
- <729ca8ab-fc30-e3c3-1867-0122afbc8a45@redhat.com>
+ <20190925110639.100699-8-sameid@google.com>
+ <ffff9a59-3cbf-8b04-f4e5-8a01dad8d381@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -110,17 +111,17 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <cad6684a-a4d1-03eb-2bf5-e592b174d070@redhat.com>
-Date: Thu, 26 Sep 2019 14:19:36 -0400
+Message-ID: <7dc7b14c-8e89-4851-6d05-d69b1bf36e3e@redhat.com>
+Date: Thu, 26 Sep 2019 14:26:11 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <729ca8ab-fc30-e3c3-1867-0122afbc8a45@redhat.com>
+In-Reply-To: <ffff9a59-3cbf-8b04-f4e5-8a01dad8d381@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 26 Sep 2019 18:19:42 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Thu, 26 Sep 2019 18:26:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -136,262 +137,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, seabios@seabios.org, kraxel@redhat.com,
- qemu-block@nongnu.org, arbel.moshe@oracle.com
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, kraxel@redhat.com, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 9/26/19 6:00 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+On 9/26/19 5:57 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Sam,
+>=20
 > On 9/25/19 1:06 PM, Sam Eiderman wrote:
 >> From: Sam Eiderman <shmuel.eiderman@oracle.com>
 >>
->> Add QTest tests to check the logical geometry override option.
+>> Using fw_cfg, supply logical CHS values directly from QEMU to the BIOS=
+.
 >>
->> The tests in hd-geo-test are out of date - they only test IDE and do n=
-ot
->> test interesting MBRs.
+>> Non-standard logical geometries break under QEMU.
 >>
->> I added a few helper functions which will make adding more tests easie=
-r.
+>> A virtual disk which contains an operating system which depends on
+>> logical geometries (consistent values being reported from BIOS INT13
+>> AH=3D08) will most likely break under QEMU/SeaBIOS if it has non-stand=
+ard
+>> logical geometries - for example 56 SPT (sectors per track).
+>> No matter what QEMU will report - SeaBIOS, for large enough disks - wi=
+ll
+>> use LBA translation, which will report 63 SPT instead.
 >>
->> QTest's fw_cfg helper functions support only legacy fw_cfg, so I had t=
-o
->> read the new fw_cfg layout on my own.
+>> In addition we cannot force SeaBIOS to rely on physical geometries at
+>> all. A virtio-blk-pci virtual disk with 255 phyiscal heads cannot
+>> report more than 16 physical heads when moved to an IDE controller,
+>> since the ATA spec allows a maximum of 16 heads - this is an artifact =
+of
+>> virtualization.
 >>
->> Creating qcow2 disks with specific size and MBR layout is currently
->> unused - we only use a default empty MBR.
+>> By supplying the logical geometries directly we are able to support su=
+ch
+>> "exotic" disks.
+>>
+>> We serialize this information in a similar way to the "bootorder"
+>> interface.
+>> The new fw_cfg entry is "bios-geometry".
 >>
 >> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 >> Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 >> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 >> ---
->>  tests/Makefile.include |   2 +-
->>  tests/hd-geo-test.c    | 589 ++++++++++++++++++++++++++++++++++++++++=
-+
->>  2 files changed, 590 insertions(+), 1 deletion(-)
+>>  bootdevice.c            | 32 ++++++++++++++++++++++++++++++++
+>>  hw/nvram/fw_cfg.c       | 14 +++++++++++---
+>>  include/sysemu/sysemu.h |  1 +
+>>  3 files changed, 44 insertions(+), 3 deletions(-)
 >>
->> diff --git a/tests/Makefile.include b/tests/Makefile.include
->> index 479664f899..a5b92fea6a 100644
->> --- a/tests/Makefile.include
->> +++ b/tests/Makefile.include
->> @@ -780,7 +780,7 @@ tests/ide-test$(EXESUF): tests/ide-test.o $(libqos=
--pc-obj-y)
->>  tests/ahci-test$(EXESUF): tests/ahci-test.o $(libqos-pc-obj-y) qemu-i=
-mg$(EXESUF)
->>  tests/ipmi-kcs-test$(EXESUF): tests/ipmi-kcs-test.o
->>  tests/ipmi-bt-test$(EXESUF): tests/ipmi-bt-test.o
->> -tests/hd-geo-test$(EXESUF): tests/hd-geo-test.o
->> +tests/hd-geo-test$(EXESUF): tests/hd-geo-test.o $(libqos-obj-y)
->>  tests/boot-order-test$(EXESUF): tests/boot-order-test.o $(libqos-obj-=
-y)
->>  tests/boot-serial-test$(EXESUF): tests/boot-serial-test.o $(libqos-ob=
-j-y)
->>  tests/bios-tables-test$(EXESUF): tests/bios-tables-test.o \
->> diff --git a/tests/hd-geo-test.c b/tests/hd-geo-test.c
->> index 62eb624726..458de99c31 100644
->> --- a/tests/hd-geo-test.c
->> +++ b/tests/hd-geo-test.c
->> @@ -17,7 +17,12 @@
->> =20
->>  #include "qemu/osdep.h"
->>  #include "qemu-common.h"
->> +#include "qemu/bswap.h"
->> +#include "qapi/qmp/qlist.h"
->>  #include "libqtest.h"
->> +#include "libqos/fw_cfg.h"
->> +#include "libqos/libqos.h"
->> +#include "standard-headers/linux/qemu_fw_cfg.h"
->> =20
->>  #define ARGV_SIZE 256
->> =20
->> @@ -388,6 +393,575 @@ static void test_ide_drive_cd_0(void)
->>      qtest_quit(qts);
+>> diff --git a/bootdevice.c b/bootdevice.c
+>> index 2b12fb85a4..b034ad7bdc 100644
+>> --- a/bootdevice.c
+>> +++ b/bootdevice.c
+>> @@ -405,3 +405,35 @@ void del_boot_device_lchs(DeviceState *dev, const=
+ char *suffix)
+>>          }
+>>      }
 >>  }
->> =20
->> +typedef struct {
->> +    bool active;
->> +    uint32_t head;
->> +    uint32_t sector;
->> +    uint32_t cyl;
->> +    uint32_t end_head;
->> +    uint32_t end_sector;
->> +    uint32_t end_cyl;
->> +    uint32_t start_sect;
->> +    uint32_t nr_sects;
->> +} MBRpartitions[4];
 >> +
->> +static MBRpartitions empty_mbr =3D { {false, 0, 0, 0, 0, 0, 0, 0, 0},
->> +                                   {false, 0, 0, 0, 0, 0, 0, 0, 0},
->> +                                   {false, 0, 0, 0, 0, 0, 0, 0, 0},
->> +                                   {false, 0, 0, 0, 0, 0, 0, 0, 0} };
->> +
->> +static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sector=
-s)
+>> +/* Serialized as: (device name\0 + lchs struct) x devices */
+>> +char *get_boot_devices_lchs_list(size_t *size)
 >> +{
->> +    const char *template =3D "/tmp/qtest.XXXXXX";
->> +    char *raw_path =3D strdup(template);
->> +    char *qcow2_path =3D strdup(template);
->> +    char cmd[100 + 2 * PATH_MAX];
->> +    uint8_t buf[512];
->> +    int i, ret, fd, offset;
->> +    uint64_t qcow2_size =3D sectors * 512;
->> +    uint8_t status, parttype, head, sector, cyl;
->> +    char *qemu_img_path;
->> +    char *qemu_img_abs_path;
+>> +    FWLCHSEntry *i;
+>> +    size_t total =3D 0;
+>> +    char *list =3D NULL;
 >> +
->> +    offset =3D 0xbe;
+>> +    QTAILQ_FOREACH(i, &fw_lchs, link) {
+>> +        char *bootpath;
+>> +        char *chs_string;
+>> +        size_t len;
 >> +
->> +    for (i =3D 0; i < 4; i++) {
->> +        status =3D mbr[i].active ? 0x80 : 0x00;
->> +        g_assert(mbr[i].head < 256);
->> +        g_assert(mbr[i].sector < 64);
->> +        g_assert(mbr[i].cyl < 1024);
->> +        head =3D mbr[i].head;
->> +        sector =3D mbr[i].sector + ((mbr[i].cyl & 0x300) >> 2);
->> +        cyl =3D mbr[i].cyl & 0xff;
->> +
->> +        buf[offset + 0x0] =3D status;
->> +        buf[offset + 0x1] =3D head;
->> +        buf[offset + 0x2] =3D sector;
->> +        buf[offset + 0x3] =3D cyl;
->> +
->> +        parttype =3D 0;
->> +        g_assert(mbr[i].end_head < 256);
->> +        g_assert(mbr[i].end_sector < 64);
->> +        g_assert(mbr[i].end_cyl < 1024);
->> +        head =3D mbr[i].end_head;
->> +        sector =3D mbr[i].end_sector + ((mbr[i].end_cyl & 0x300) >> 2=
-);
->> +        cyl =3D mbr[i].end_cyl & 0xff;
->> +
->> +        buf[offset + 0x4] =3D parttype;
->> +        buf[offset + 0x5] =3D head;
->> +        buf[offset + 0x6] =3D sector;
->> +        buf[offset + 0x7] =3D cyl;
->> +
->> +        (*(uint32_t *)&buf[offset + 0x8]) =3D cpu_to_le32(mbr[i].star=
-t_sect);
->> +        (*(uint32_t *)&buf[offset + 0xc]) =3D cpu_to_le32(mbr[i].nr_s=
-ects);
->> +
->> +        offset +=3D 0x10;
->> +    }
->> +
->> +    fd =3D mkstemp(raw_path);
->> +    g_assert(fd);
->> +    close(fd);
->> +
->> +    fd =3D open(raw_path, O_WRONLY);
->> +    g_assert(fd >=3D 0);
->> +    ret =3D write(fd, buf, sizeof(buf));
->> +    g_assert(ret =3D=3D sizeof(buf));
->> +    close(fd);
->> +
->> +    fd =3D mkstemp(qcow2_path);
->> +    g_assert(fd);
->> +    close(fd);
->> +
->> +    qemu_img_path =3D getenv("QTEST_QEMU_IMG");
->> +    g_assert(qemu_img_path);
->> +    qemu_img_abs_path =3D realpath(qemu_img_path, NULL);
->> +    g_assert(qemu_img_abs_path);
->> +
->> +    ret =3D snprintf(cmd, sizeof(cmd),
->> +                   "%s convert -f raw -O qcow2 %s %s > /dev/null",
->> +                   qemu_img_abs_path,
->> +                   raw_path, qcow2_path);
->> +    g_assert((0 < ret) && (ret <=3D sizeof(cmd)));
->> +    ret =3D system(cmd);
->> +    g_assert(ret =3D=3D 0);
->> +
->> +    ret =3D snprintf(cmd, sizeof(cmd),
->> +                   "%s resize %s %" PRIu64 " > /dev/null",
->> +                   qemu_img_abs_path,
->> +                   qcow2_path, qcow2_size);
->> +    g_assert((0 < ret) && (ret <=3D sizeof(cmd)));
->> +    ret =3D system(cmd);
->> +    g_assert(ret =3D=3D 0);
->> +
->> +    free(qemu_img_abs_path);
->> +
->> +    unlink(raw_path);
->> +    free(raw_path);
->> +
->> +    return qcow2_path;
->> +}
->> +
->> +struct QemuCfgFile {
->> +    uint32_t  size;        /* file size */
->> +    uint16_t  select;      /* write this to 0x510 to read it */
->> +    uint16_t  reserved;
->> +    char name[56];
->> +};
->> +
->> +static uint16_t find_fw_cfg_file(QFWCFG *fw_cfg,
->> +                                 const char *filename)
->> +{
->> +    struct QemuCfgFile qfile;
->> +    uint32_t count, e;
->> +    uint16_t select;
->> +
->> +    count =3D qfw_cfg_get_u32(fw_cfg, FW_CFG_FILE_DIR);
->> +    count =3D be32_to_cpu(count);
->> +    for (select =3D 0, e =3D 0; e < count; e++) {
->> +        qfw_cfg_read_data(fw_cfg, &qfile, sizeof(qfile));
->> +        if (!strcmp(filename, qfile.name)) {
->> +            select =3D be16_to_cpu(qfile.select);
->> +        }
->> +    }
->> +
->> +    return select;
->> +}
->> +
->> +static void read_fw_cfg_file(QFWCFG *fw_cfg,
->> +                             const char *filename,
->> +                             void *data,
->> +                             size_t len)
->> +{
->> +    uint16_t select =3D find_fw_cfg_file(fw_cfg, filename);
->> +
->> +    g_assert(select);
->> +
->> +    qfw_cfg_get(fw_cfg, select, data, len);
->> +}
->> +
->> +#define BIOS_GEOMETRY_MAX_SIZE 10000
->> +
->> +typedef struct {
->> +    uint32_t c;
->> +    uint32_t h;
->> +    uint32_t s;
->> +} CHS;
->> +
->> +typedef struct {
->> +    const char *dev_path;
->> +    CHS chs;
->> +} CHSResult;
->> +
->> +static void read_bootdevices(QFWCFG *fw_cfg, CHSResult expected[])
->> +{
->> +    char *buf =3D g_malloc0(BIOS_GEOMETRY_MAX_SIZE);
->> +    char *cur;
->> +    GList *results =3D NULL, *cur_result;
->> +    CHSResult *r;
->> +    int i;
->> +    int res;
->> +    bool found;
->> +
->> +    read_fw_cfg_file(fw_cfg, "bios-geometry", buf, BIOS_GEOMETRY_MAX_=
-SIZE);
+>> +        bootpath =3D get_boot_device_path(i->dev, false, i->suffix);
+>> +        chs_string =3D g_strdup_printf("%s %" PRIu32 " %" PRIu32 " %"=
+ PRIu32,
+>> +                                     bootpath, i->lcyls, i->lheads, i=
+->lsecs);
 >=20
-> Oh I'm glad to see the test I requested while reviewing the previous
-> patch! I'll have a look at it, but John 589 LoC I doubt I can do it for
-> Friday.
+> Hmm maybe we can g_free(bootpath) directly here.
 >=20
 
-It's just a test, even so -- we can amend it. There's no real hurry.
+I think it's okay to do it at the bottom of the loop. No real benefit to
+being that eager to free resources in my mind. I expect setup at the top
+of a block and teardown at the bottom of a block.
+
+Trying to do too much in the middle gets messy in my opinion, not that
+it seems to matter here.
+
+>> +
+>> +        if (total) {
+>> +            list[total - 1] =3D '\n';
+>> +        }
+>> +        len =3D strlen(chs_string) + 1;
+>> +        list =3D g_realloc(list, total + len);
+>> +        memcpy(&list[total], chs_string, len);
+>> +        total +=3D len;
+>> +        g_free(chs_string);
+>> +        g_free(bootpath);
+>> +    }
+>> +
+>> +    *size =3D total;
+>> +
+>> +    return list;
+>> +}
+>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+>> index 7dc3ac378e..18aff658c0 100644
+>> --- a/hw/nvram/fw_cfg.c
+>> +++ b/hw/nvram/fw_cfg.c
+>> @@ -920,13 +920,21 @@ void *fw_cfg_modify_file(FWCfgState *s, const ch=
+ar *filename,
+>> =20
+>>  static void fw_cfg_machine_reset(void *opaque)
+>>  {
+>> +    MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
+>> +    FWCfgState *s =3D opaque;
+>>      void *ptr;
+>>      size_t len;
+>> -    FWCfgState *s =3D opaque;
+>> -    char *bootindex =3D get_boot_devices_list(&len);
+>> +    char *buf;
+>> =20
+>> -    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)bootindex, =
+len);
+>> +    buf =3D get_boot_devices_list(&len);
+>> +    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)buf, len);
+>>      g_free(ptr);
+>> +
+>> +    if (!mc->legacy_fw_cfg_order) {
+>> +        buf =3D get_boot_devices_lchs_list(&len);
+>> +        ptr =3D fw_cfg_modify_file(s, "bios-geometry", (uint8_t *)buf=
+, len);
+>=20
+> OK. Can you add a test in tests/fw_cfg-test.c please?
+>=20
+
+:D
+
+>> +        g_free(ptr);
+>> +    }
+>>  }
+>> =20
+>>  static void fw_cfg_machine_ready(struct Notifier *n, void *data)
+>> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+>> index 5bc5c79cbc..80c57fdc4e 100644
+>> --- a/include/sysemu/sysemu.h
+>> +++ b/include/sysemu/sysemu.h
+>> @@ -106,6 +106,7 @@ void validate_bootdevices(const char *devices, Err=
+or **errp);
+>>  void add_boot_device_lchs(DeviceState *dev, const char *suffix,
+>>                            uint32_t lcyls, uint32_t lheads, uint32_t l=
+secs);
+>>  void del_boot_device_lchs(DeviceState *dev, const char *suffix);
+>> +char *get_boot_devices_lchs_list(size_t *size);
+>=20
+> Please add some documentation. At least 'size' must be non-NULL.
+>=20
+
+Sure; but I wasn't going to gate on it because this series went unloved
+for so long. At this point, a follow-up patch is fine.
+
+> Ideally you should add doc for the other functions added in 3/8
+> "bootdevice: Add interface to gather LCHS" too.
+>=20
+
+Same thing here.
+
+> John, what do you think about extracting the *boot_device* functions ou=
+t
+> of "sysemu.h"?
+>=20
+
+Potentially worthwhile; but not critical at the moment. The source tree
+is not the best-organized thing as-is and I don't think it's fair to
+hold this series up for much longer for nice-to-haves, ultimately.
+
+More targeted improvements might avoid the "whose responsibility is it
+to stage this?" hot potato we played with this one; so I'd rather have
+smaller follow-up patches handled by the respective maintainers.
+
+> Thanks,
+>=20
+> Phil.
+>=20
+Thanks for the reviews :)
 
 --js
 
