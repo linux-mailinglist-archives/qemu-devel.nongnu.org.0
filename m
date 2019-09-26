@@ -2,72 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB4BBF2DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:24:02 +0200 (CEST)
-Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C95BF2DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:23:26 +0200 (CEST)
+Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDSoT-0003UE-JO
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34985)
+	id 1iDSnr-0002t8-A2
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:23:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDSkY-0000F0-PP
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:20:01 -0400
+ (envelope-from <thuth@redhat.com>) id 1iDSkj-0000WL-4v
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:20:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDSkQ-0002jT-LI
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:19:53 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37269)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDSkQ-0002hd-BO
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:19:50 -0400
-Received: by mail-oi1-f194.google.com with SMTP id i16so1872574oie.4
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 05:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+LIyjU/fauJ/2YVhwqNXeTLPr70F0EfwiLzSh4gvJM8=;
- b=Z4tvI2rb2gKi9t5hWp3PF/3Q8qxZS8TIXGafQmj+/aU0o2zxrOXv/JHac4mSIyrb9k
- F77gCAhJgjUWa3g4EajxRyY+KccYUlH3LF6IY55vXRkaLyxEwbWWp0oYR+3GTfQGaBne
- ia+ODevbLxdNW4NohEAMR8ABMyGzRamIF0cEjvvcjr/t7To6xmayn3TRVP+KbXb7Gydq
- LRa1iG66WPWZ0EJYrt/dFxe5b48YXYna1XCp9xjJl8gK/WvcvPW2/mDd00avcgPpJDJx
- L42WSvIzMPZAmxHzCO0flSzOQ7QZh4jGG4Hghfp/hS/vqFROJR4zubmHN0CqvD2qy/yP
- OniQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+LIyjU/fauJ/2YVhwqNXeTLPr70F0EfwiLzSh4gvJM8=;
- b=maBaJzs3d9NAnEU1XRi2gX6W/tHzBfYX3f/ucH5TcIpZhpehXg0HEmBa6e5PHmuNrh
- uMv+pqDEJiQzcvaY9+Vz/p9jpETX4037aYihg2b1t9Xmh5TXtfFzXtwEx8n5rrv7K0HI
- 1ZsN6cnt+HgSqW3rgo5mb48CR/l/rPi11woZN1q9wD0/R/BC5Di6/gLhKR0qcld57GPM
- cB1xmHc9q27OqhqYAocaAItvR5VK8nTv5Yy2361hk523q21i+KdJYWEijOO3qsOdgNi6
- JAylvTtSgG6U1mL5CU5Vf9VwYvNRgYYS7RUleJ7ImBzJ7MOX78DwwWhlNK0ttp+zdcCY
- pm3Q==
-X-Gm-Message-State: APjAAAXsxGuWsUcJW8VfxPdRI8jp4s486lVAfk87ODRqfZGhcjp8AIJT
- zbn32uf6kK8ihKx3LvT2bvVvkBYGl2PH8gYSd5C9/g==
-X-Google-Smtp-Source: APXvYqy/TfkSFNksF9bLe+Smx1n3gSMFIuBWui4YvW6bXweSiiNFihEzuDBxlbd0DKItex7vCIp8zYDKGhqp65ccz3k=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr2246798oib.48.1569500326916; 
- Thu, 26 Sep 2019 05:18:46 -0700 (PDT)
+ (envelope-from <thuth@redhat.com>) id 1iDSkg-00030C-B5
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:20:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32829)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iDSkg-0002yP-2Z; Thu, 26 Sep 2019 08:20:06 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AEB603082131;
+ Thu, 26 Sep 2019 12:20:03 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-127.ams2.redhat.com [10.36.116.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02DC11001DC0;
+ Thu, 26 Sep 2019 12:20:01 +0000 (UTC)
+Subject: Re: [PATCH v1 2/2] s390x: Fix SCLP return code when buffer too small
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <1569497622-12496-1-git-send-email-imbrenda@linux.ibm.com>
+ <1569497622-12496-3-git-send-email-imbrenda@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <fe2b8d81-f3b9-a752-b6b5-172686780341@redhat.com>
+Date: Thu, 26 Sep 2019 14:20:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20190920200049.27216-1-jsnow@redhat.com>
- <20190923145057.GC9445@dhcp-17-179.bos.redhat.com>
- <6ac39e69-4982-dc35-d853-fedbb1c12e1a@redhat.com>
- <20190923190533.GR5035@habkost.net>
- <20190924073513.GA2106@redhat.com> <20190925200440.GO8144@habkost.net>
- <20190926115829.GA18782@redhat.com>
-In-Reply-To: <20190926115829.GA18782@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Sep 2019 13:18:35 +0100
-Message-ID: <CAFEAcA8Jn=er6mRZX+EYTePruTcHpLzVpqpydkERMVA9DdUOag@mail.gmail.com>
-Subject: Re: Debian support lifetime (was Re: [PATCH] docker: move tests from
- python2 to python3)
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1569497622-12496-3-git-send-email-imbrenda@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Thu, 26 Sep 2019 12:20:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.167.194
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,45 +105,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: borntraeger@de.ibm.com, cohuck@redhat.com, frankja@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Sep 2019 at 12:58, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
-> When first wording the lifetimes, I tried to strike a balance between
-> limiting what we have to support, while also not negatively impacting
-> a large number of QEMU developers or users. Since we had never had
-> such support lifetimes declared for QEMU before, I was fairly generous,
-> hence picking the 2 year overlap for LTS distros (Ubuntu, RHEL and
-> SLES).
->
-> It is easier to come to a decision when considering a real world tech
-> problem related to the lifetime.
->
-> The start of this thread was debating Debian / Python support. If we
-> fix the doc to put debian under the short life distro category, we'll
-> have solved the Python problem IIUC.
+On 26/09/2019 13.33, Claudio Imbrenda wrote:
+> Return the correct error code when the SCCB buffer is too small to
+> contain all of the output, for the Read SCP Information and
+> Read CPU Information commands.
+> 
+> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+> ---
+>  hw/s390x/sclp.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+> index 76feac8..8f7fe1c 100644
+> --- a/hw/s390x/sclp.c
+> +++ b/hw/s390x/sclp.c
+> @@ -68,6 +68,11 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+>  
+>      read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
+>  
+> +    if (sccb->h.length < (sizeof(ReadInfo) + cpu_count * sizeof(CPUEntry))) {
 
-I don't think Debian counts as a distro "with frequent, short-lifetime
-releases", though.
+Don't you need a cpu16_to_cpu() around sccb->h.length?
 
-Stating overall that we don't intend to support distro versions
-that the distro themselves doesn't support ought to be sufficient,
-shouldn't it?
+> +        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+> +        return;
+> +    }
+> +
+>      /* Configuration Characteristic (Extension) */
+>      s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR,
+>                           read_info->conf_char);
+> @@ -118,6 +123,11 @@ static void sclp_read_cpu_info(SCLPDevice *sclp, SCCB *sccb)
+>      cpu_info->offset_configured = cpu_to_be16(offsetof(ReadCpuInfo, entries));
+>      cpu_info->nr_standby = cpu_to_be16(0);
+>  
+> +    if (sccb->h.length < (sizeof(ReadCpuInfo) + cpu_count * sizeof(CPUEntry))) {
 
-In general, my view is that if we bump up against any of these
-support-lifetime limits then we're being too eager to drop
-support for something from QEMU and we should prefer to retain
-support for a while longer. I like and think that it's important
-that QEMU as a project does not live on the bleeding-edge and
-require latest-and-greatest versions of its dependencies to build.
+dito?
 
-thanks
--- PMM
+> +        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+> +        return;
+> +    }
+> +
+>      /* The standby offset is 16-byte for each CPU */
+>      cpu_info->offset_standby = cpu_to_be16(cpu_info->offset_configured
+>          + cpu_info->nr_configured*sizeof(CPUEntry));
+> 
+
+ Thomas
 
