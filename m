@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982F8BF8A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:04:39 +0200 (CEST)
-Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0279BF8F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:14:27 +0200 (CEST)
+Received: from localhost ([::1]:42090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDY84-0003S1-JI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60006)
+	id 1iDYHa-0004Zs-Aw
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1iDXkY-0008Id-EP
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:40:19 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iDXgb-0004u5-6Q
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:36:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1iDXkR-0002CV-37
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:40:15 -0400
-Received: from mga05.intel.com ([192.55.52.43]:51787)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1iDXkQ-00023r-0n
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:40:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2019 10:40:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,552,1559545200"; d="scan'208";a="194208449"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by orsmga006.jf.intel.com with ESMTP; 26 Sep 2019 10:40:05 -0700
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 26 Sep 2019 10:40:05 -0700
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 26 Sep 2019 10:40:04 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 26 Sep 2019 10:40:04 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.113]) by
- SHSMSX101.ccr.corp.intel.com ([169.254.1.92]) with mapi id 14.03.0439.000;
- Fri, 27 Sep 2019 01:40:03 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v5 2/4] tests/test-replication.c: Add test for ignoring
- requests after failover
-Thread-Topic: [PATCH v5 2/4] tests/test-replication.c: Add test for ignoring
- requests after failover
-Thread-Index: AQHVa/qhYqqFivT2Tkmj/wvfs4Rj+6c+SXUA
-Date: Thu, 26 Sep 2019 17:40:03 +0000
-Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D780627E731@shsmsx102.ccr.corp.intel.com>
-References: <cover.1568574478.git.lukasstraub2@web.de>
- <e3f1e1ec5b2bd2ce2c9a6c7669284a3fc2fdbaaa.1568574478.git.lukasstraub2@web.de>
-In-Reply-To: <e3f1e1ec5b2bd2ce2c9a6c7669284a3fc2fdbaaa.1568574478.git.lukasstraub2@web.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjBlY2EzOGUtOGU5ZS00NGVlLThiZjgtZGEzNjgyNjc2OTRhIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoia0h0OGFuQzkwY3VwTFR3dU1DSiszVGY3eXQ1alVSUjUxSUNBVjhLaTcxa3Vyd3NjYWlCMk1EbytzbnJqOGl3QSJ9
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iDXgZ-0003Bx-Ff
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:36:12 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43456)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iDXgZ-0003Au-8l; Thu, 26 Sep 2019 13:36:11 -0400
+Received: by mail-wr1-f68.google.com with SMTP id q17so3427826wrx.10;
+ Thu, 26 Sep 2019 10:36:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9Z2jS7j2Q+UZz1eGlkTvwz28s1PK4ipN7g47nz7DXm4=;
+ b=rmchfyellb1V8WNuVkKdIvfHSf/UUoCi2kMuM6NQrmsHqEHMjBcNdfjTt+S1aIb15h
+ tjCbrcWk+sTTfsFX/F5kS3TLqDrBE4NSGCJvgs1VYnSSWIuTCibg4LWPQywFWIpjqYzz
+ mV0TN4rqhQsa4csXVmYE5NpkpLOGGOWciDoKW8ZsJNvGKlZZL0glkiHXME9i/sPL+Ccw
+ 0yAyu7HTMyUcFMbTWFOiS8OvCgrAFcjJ2aer+tnfcfe1nmLZBVwg3PwBnJBxmv4nXd1b
+ Lu98O2L1vSq9fxQG7jBOzi3bRMMRrqd1lYnIb8IGSydXFektTD2vra1I+pAQe6Iqlv34
+ C5QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=9Z2jS7j2Q+UZz1eGlkTvwz28s1PK4ipN7g47nz7DXm4=;
+ b=slBX12eHxVSAA6ZArtxv61ouBD1EiIZy8hu2/4duK+ioqAvHIDSEZu0diPQ5CzbFVx
+ nle0zLQGWvr41k1x71ovS8amrRGt+OFVDBi+rE4/767V6kpskqBTs++xrwLB+x920+eY
+ DmyyPaC/LExGHIrY50E2sjnhzR2p+XzeloqA+4YOSFEA5pq6rOQzilj3DwEht0qgFpVC
+ MyYOF7ZpGsGuh/XLPBiX/tAdmEnMIzwX6iDAwFDdya74DxYflTlEesYyEJwz8gtrSnJa
+ OQ+o4ANulSuOVfnA+bDT/jdOYdxKD4orCTG+py6VPCrI/pf73ZIAk1kFW3JgG8CR040a
+ xSOA==
+X-Gm-Message-State: APjAAAWtmPds7JYGnpBWUq+D69haS/N+rg25Z+uFwmPkUcrUBpAVc5DK
+ 6zF3+cbzAY/R59rjZCYHqn5wqfjiGDw=
+X-Google-Smtp-Source: APXvYqyGwPO0hdhmCWqnJ/ZUf20VFsl/PotcP315LfahabILnQBejdS7DBfRSotbZIYlDocbSayY2g==
+X-Received: by 2002:adf:e48a:: with SMTP id i10mr3831085wrm.311.1569519309986; 
+ Thu, 26 Sep 2019 10:35:09 -0700 (PDT)
+Received: from x1w.redhat.com (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id b186sm9918980wmd.16.2019.09.26.10.35.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Sep 2019 10:35:09 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 18/19] tests/boot_linux_console: Boot Linux and run few
+ commands on raspi3
+Date: Thu, 26 Sep 2019 19:34:26 +0200
+Message-Id: <20190926173428.10713-19-f4bug@amsat.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190926173428.10713-1-f4bug@amsat.org>
+References: <20190926173428.10713-1-f4bug@amsat.org>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.43
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,119 +82,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Esteban Bosse <estebanbosse@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a test which boots Linux and run basic commands using the serial
+port console.
 
-> -----Original Message-----
-> From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Monday, September 16, 2019 3:20 AM
-> To: qemu-devel <qemu-devel@nongnu.org>
-> Cc: Zhang, Chen <chen.zhang@intel.com>; Jason Wang
-> <jasowang@redhat.com>; Wen Congyang <wencongyang2@huawei.com>;
-> Xie Changlong <xiechanglong.d@gmail.com>; kwolf@redhat.com;
-> mreitz@redhat.com
-> Subject: [PATCH v5 2/4] tests/test-replication.c: Add test for ignoring
-> requests after failover
->=20
-> This simulates the case that happens when we resume COLO after failover.
->=20
+The kernel image is built by the Debian project:
+https://wiki.debian.org/RaspberryPi
 
-It looks change the title to "Add test for secondary node continuous backup=
-" is better.
+The DeviceTree blob comes from the official Raspberry Pi project:
+https://www.raspberrypi.org/
 
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
->  tests/test-replication.c | 52
-> ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
->=20
-> diff --git a/tests/test-replication.c b/tests/test-replication.c index
-> f085d1993a..5addfc2227 100644
-> --- a/tests/test-replication.c
-> +++ b/tests/test-replication.c
-> @@ -489,6 +489,56 @@ static void test_secondary_stop(void)
->      teardown_secondary();
->  }
->=20
-> +static void test_secondary_failover_then_ignore_requests(void)
+The cpio image used comes from the linux-build-test project:
+https://github.com/groeck/linux-build-test
 
-Same as title, I think change to "test_secondary_continuous_backup" is more=
- clear.
+This test can be run using:
 
-Thanks
-Zhang Chen
+  $ avocado run --show=console,app run -t machine:raspi3 tests/acceptance
+  console: [    0.000000] Linux version 4.14.0-3-arm64 (debian-kernel@lists.debian.org) (gcc version 7.2.0 (Debian 7.2.0-18)) #1 SMP Debian 4.14.12-2 (2018-01-06)
+  console: [    0.000000] Boot CPU: AArch64 Processor [410fd034]
+  console: [    0.000000] Machine model: Raspberry Pi 3 Model B
+  console: [    0.000000] earlycon: pl11 at MMIO 0x000000003f201000 (options '')
+  console: [    0.000000] bootconsole [pl11] enabled
+  [...]
+  console: Starting network: OK
+  console: Found console ttyAMA0
+  console: Boot successful.
+  console: / # cat /proc/cpuinfo
+  console: processor      : 0
+  console: BogoMIPS       : 125.00
+  console: r      : 0x41
+  console: CPU architecture: 8
+  console: CPU variant
+  console: : 0x0
+  console: CPU part       : 0xd03
+  console: CPU revision   : 4
+  console: / # uname -a
+  console: Linux buildroot 4.14.0-3-arm64 #1 SMP Debian 4.14.12-2 (2018-01-06) aarch64 GNU/Linux
+  console: reboot
+  console: / # reboot
+  console: / # Found console ttyAMA0
+  console: Stopping network: OK
+  console: Saving random seed... done.
+  console: Stopping logging: OK
+  console: umount: devtmpfs busy - remounted read-only
+  console: umount: can't unmount /: Invalid argument
+  console: The system is going down NOW!
+  console: Sent SIGTERM to all processes
+  console: Sent SIGKILL to all processes
+  console: Requesting system reboot
+  console: kvm: exiting hardware virtualization
+  console: reboot: Restarting system
+  PASS (11.08 s)
 
-> +{
-> +    BlockBackend *top_blk, *local_blk;
-> +    Error *local_err =3D NULL;
-> +
-> +    top_blk =3D start_secondary();
-> +    replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* write 0x22 to s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
-> +    local_blk =3D blk_by_name(S_LOCAL_DISK_ID);
-> +    test_blk_write(local_blk, 0x22, IMG_SIZE / 2, IMG_SIZE / 2, false);
-> +
-> +    /* replication will backup s_local_disk to s_hidden_disk */
-> +    test_blk_read(top_blk, 0x11, IMG_SIZE / 2,
-> +                  IMG_SIZE / 2, 0, IMG_SIZE, false);
-> +
-> +    /* write 0x33 to s_active_disk (0, IMG_SIZE / 2) */
-> +    test_blk_write(top_blk, 0x33, 0, IMG_SIZE / 2, false);
-> +
-> +    /* do failover (active commit) */
-> +    replication_stop_all(true, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* it should ignore all requests from now on */
-> +
-> +    /* start after failover */
-> +    replication_start_all(REPLICATION_MODE_PRIMARY, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* checkpoint */
-> +    replication_do_checkpoint_all(&local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* stop */
-> +    replication_stop_all(true, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* read from s_local_disk (0, IMG_SIZE / 2) */
-> +    test_blk_read(top_blk, 0x33, 0, IMG_SIZE / 2,
-> +                  0, IMG_SIZE / 2, false);
-> +
-> +
-> +    /* read from s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
-> +    test_blk_read(top_blk, 0x22, IMG_SIZE / 2,
-> +                  IMG_SIZE / 2, 0, IMG_SIZE, false);
-> +
-> +    teardown_secondary();
-> +}
-> +
->  static void test_secondary_do_checkpoint(void)
->  {
->      BlockBackend *top_blk, *local_blk;
-> @@ -584,6 +634,8 @@ int main(int argc, char **argv)
->      g_test_add_func("/replication/secondary/write", test_secondary_write=
-);
->      g_test_add_func("/replication/secondary/start", test_secondary_start=
-);
->      g_test_add_func("/replication/secondary/stop",  test_secondary_stop)=
-;
-> +
-> g_test_add_func("/replication/secondary/failover_then_ignore_requests",
-> +                    test_secondary_failover_then_ignore_requests);
->      g_test_add_func("/replication/secondary/do_checkpoint",
->                      test_secondary_do_checkpoint);
->      g_test_add_func("/replication/secondary/get_error_all",
-> --
-> 2.20.1
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+some chars are scrambled on the console...
+---
+ tests/acceptance/boot_linux_console.py | 47 ++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 33e8f6c635..2a1a23763e 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -363,6 +363,53 @@ class BootLinuxConsole(Test):
+         """
+         self.do_test_arm_raspi2(1)
+ 
++    def test_arm_raspi3_initrd_uart0(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:raspi3
++        """
++        deb_url = ('https://snapshot.debian.org/archive/debian/'
++                   '20180106T174014Z/pool/main/l/linux/'
++                   'linux-image-4.14.0-3-arm64_4.14.12-2_arm64.deb')
++        deb_hash = 'e71c995de57921921895c1162baea5df527d1c6b'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinuz-4.14.0-3-arm64')
++
++        dtb_url = ('https://github.com/raspberrypi/firmware/raw/'
++                   '1.20180313/boot/bcm2710-rpi-3-b.dtb')
++        dtb_hash = 'eb14d67133401ef2f93523be7341456d38bfc077'
++        dtb_path = self.fetch_asset(dtb_url, asset_hash=dtb_hash)
++
++        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
++                      '9b6b392ea7bc15f0d6632328d429d31c9c6273da/rootfs/'
++                      'arm64/rootfs.cpio.gz')
++        initrd_hash = '6fd05324f17bb950196b5ad9d3a0fa996339f4cd'
++        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++        initrd_path = self.workdir + "rootfs.cpio"
++        gunzip(initrd_path_gz, initrd_path)
++
++        self.vm.set_machine('raspi3')
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'earlycon=pl011,0x3f201000 console=ttyAMA0 ' +
++                               'panic=-1 noreboot')
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path,
++                         '-initrd', initrd_path,
++                         '-append', kernel_command_line,
++                         '-no-reboot')
++        self.vm.launch()
++
++        self.wait_for_console_pattern('Boot successful.')
++
++        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
++                                               'BogoMIPS')
++        self.exec_command_and_wait_for_pattern('uname -a',
++                                               'Debian')
++        self.exec_command_and_wait_for_pattern('reboot',
++                                               'reboot: Restarting system')
++
+     def test_s390x_s390_ccw_virtio(self):
+         """
+         :avocado: tags=arch:s390x
+-- 
+2.20.1
 
 
