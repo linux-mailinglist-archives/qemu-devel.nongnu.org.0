@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1D9BF6D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:36:23 +0200 (CEST)
-Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1281EBF6C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:31:21 +0200 (CEST)
+Received: from localhost ([::1]:40686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDWkd-0001gZ-Il
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41004)
+	id 1iDWfn-0004UG-NS
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWby-0002T5-HI
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:23 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDWc1-0002Wb-L5
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWbw-0004a8-0B
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:21 -0400
-Received: from mail-pg1-f170.google.com ([209.85.215.170]:40893)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDWc0-0004cr-5W
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:25 -0400
+Received: from mail-pf1-f174.google.com ([209.85.210.174]:36987)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDWbv-0004Zn-Rl
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:19 -0400
-Received: by mail-pg1-f170.google.com with SMTP id w10so1833954pgj.7
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:19 -0700 (PDT)
+ id 1iDWc0-0004c9-0f
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:24 -0400
+Received: by mail-pf1-f174.google.com with SMTP id y5so2136786pfo.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=gWWGSTfYrzYkzLZawcn3q2Ja4PFRns9a4fWpQZIcwHM=;
- b=qyhgjTF1LMsMlb4y37zkYiM7/3hiKYWsPijb6POezQWq59JYNgT8Xw9H12sTTR6+EI
- mLhPJWtNs9TcrUeOy59707FyfDqsFd6l/UKP+4HrUCHTRrk1e1o7BoI1mgTHojH4nFZo
- CpXaH8DC6ByIxUJ1Xsh49cFHLeC2T2ulvXm6zZ+4ZWkCw0X3BAKcDKMKU1bc7tk+8Ulj
- eP00CqnN9neET8mz4XlpQgR6jsKQWOQ1ODCGgr/N5/Npqwnp99muoD29bbgfjKAy4kP/
- +0TzTCvQATHwOf+bbr7O+RFb/oOn/brrlR+5Nop38rLzsBQjzb3K//2CApjTqGG61sHO
- eCnA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=W0jcE++wD2TJpXHODYvTUeOTJfY0O+5q0kOFaZ7p0Ak=;
+ b=uYqXsYGW6HKpwCpBRpflGlgaI8XL6LAzbEomevBFF0uvUXcVJ7Zbtr8rvAEQeiXphT
+ WQPzFrLvhwvguTEvsNQNkcsZFa/5gJJRnnH65roeHSjwQlzeBt7UcmvUyI5O7Oo2JN0H
+ R0gAxWjn4WuNojbKaC0XamnLNfUhEHYaFsZbg6mlrtDGaShUSn2MOEGIB9kS99oH6702
+ GufdPCmw/HjTp3UAYJ5+PjMtw46I0Ala539HRmmrVd9VPd5U6hr8zZe2YYnhHzhWWhu3
+ 9EtaP8g3dD0ARWd4NAk+nDcTUfGqwinmt0Mo+pnDuUyQ+UZmg+BX6hGslB1xxk3uIDrD
+ QjXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=gWWGSTfYrzYkzLZawcn3q2Ja4PFRns9a4fWpQZIcwHM=;
- b=nTSkNU0f6UQmC7l7LR429IdCwbZC3grBe6BXdbJMfwB8YvBBEWRbSMp37zM9TO9vk4
- cHILdCV+yrmFl7WFJrFrUYG2igqXB9rfKJZlvqbO7RARODdsS6wqz2b7GdH2fcMndreM
- WPju3rMdEiR3iUD5AvAPZbwD9jOJ/KNk43DGh84V6Ca+rW8l8f2rjNK00F2PVvxA63fz
- sKk3qzo+Zyw42gmRm6prsCL8l/jMZXphb3WHLK11mFkMj/MZJoDrVLa77pL0/Vaso0TP
- 57EQF2UeL/wb2bpEUOeR7eYN7sOSk5ZkLF88ebS4/CGGRtA9auz9zvWhnGtm5tWVSEAZ
- i4eA==
-X-Gm-Message-State: APjAAAV0tgs5DQWCpdEDwK8yUzkqSUr8BZPB+UTbCu7RzQaH7Hfi4gZi
- BFrCh6NLMYju9v18cT7lIBR07W5U0hg=
-X-Google-Smtp-Source: APXvYqwxT1bzMmo4EKFWhcdr6xTtbe/we8gdaLLggYqVPBY+Ao7gcKrx4e1xfREoKWxcuO6gljtIYQ==
-X-Received: by 2002:a63:1a5a:: with SMTP id a26mr4314274pgm.178.1569515178114; 
- Thu, 26 Sep 2019 09:26:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=W0jcE++wD2TJpXHODYvTUeOTJfY0O+5q0kOFaZ7p0Ak=;
+ b=KTFa0frLBAFWkIXAgezJ0Sc6qDE1+kINiYgGCOcdZOQ/+hBNA4mu6DZem5ujdwKCUS
+ f9nVkHYEHdStGku4k+pKdhJnh1EDvXOSSE/DM2fgV2CD3LojzZmgI5CG5Apn5mgdjn9T
+ HvOiOIi/7YVs0IS6/RwmEjFT+yGqhkRP1CQ/bhJHmkf6jlTIxPDGQBbsdFV4PDl5psNF
+ 5YQVUi+Pg6KH9yvcjHn6soq6R605iibCam2VhTrsJ/9zzkMt2SHcACjsptL05cOuNWZc
+ 2TIbGxivir0QQ+D606xJvg7dWQB4OSGBHY+3b2AweYEAALIRqLiojC+RXlDaxm54sVrE
+ Q/3A==
+X-Gm-Message-State: APjAAAWF9BzDW/LTTOm5ZQvvW8citxbpEwLjTLyaKauMp3JFZgmW2uM6
+ 2qeGbHCzZIvWi2dC3GMmZPlAGG/0LwY=
+X-Google-Smtp-Source: APXvYqzHZpgbJuTsSmNO+bCKTjmXGMlX13H/3Wjyp5a24ci/p3vqkDAPwAaIn84YcPuICQSihi0/dg==
+X-Received: by 2002:a17:90a:6788:: with SMTP id
+ o8mr4483294pjj.19.1569515182617; 
+ Thu, 26 Sep 2019 09:26:22 -0700 (PDT)
 Received: from localhost.localdomain ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.16
+ by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 09:26:17 -0700 (PDT)
+ Thu, 26 Sep 2019 09:26:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/18] target/s390: Use tcg unwinding for ilen
-Date: Thu, 26 Sep 2019 09:25:57 -0700
-Message-Id: <20190926162615.31168-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 03/18] target/s390x: Remove ilen parameter from
+ tcg_s390_program_interrupt
+Date: Thu, 26 Sep 2019 09:26:00 -0700
+Message-Id: <20190926162615.31168-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190926162615.31168-1-richard.henderson@linaro.org>
+References: <20190926162615.31168-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.170
+X-Received-From: 209.85.210.174
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,61 +80,92 @@ Cc: qemu-s390x@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David's cleanup of some of the mmu code reminded me of an old branch
-that I have laying around.  His new code allowed me to finish this
-idea up to completely transition away from ILEN_AUTO.
+Since we begin the operation with an unwind, we have the proper
+value of ilen immediately available.
 
-V1 was posted back in 2017:
-   https://lists.gnu.org/archive/html/qemu-devel/2017-07/msg07607.html
-V2 was posted back in April:
-   https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg00063.html
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/s390x/tcg_s390x.h   | 4 ++--
+ target/s390x/excp_helper.c | 8 ++++----
+ target/s390x/interrupt.c   | 2 +-
+ target/s390x/tcg-stub.c    | 4 ++--
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-Based-on: <20190925125236.4043-1-david@redhat.com> \
-  ("s390x/mmu: DAT translation rewrite")
-
-
-r~
-
-
-Richard Henderson (18):
-  target/s390x: Truncate 32-bit psw_addr before creating TB
-  target/s390x: Add ilen to unwind data
-  target/s390x: Remove ilen parameter from tcg_s390_program_interrupt
-  target/s390x: Remove ilen parameter from s390_program_interrupt
-  target/s390x: Use tcg_s390_program_interrupt in TCG helpers
-  target/s390x: Push trigger_pgm_exception lower in s390_cpu_tlb_fill
-  target/s390x: Handle tec in s390_cpu_tlb_fill
-  target/s390: Return exception from mmu_translate_real
-  target/s390x: Remove exc argument to mmu_translate_asce
-  target/s390: Return exception from mmu_translate
-  target/s390: Return exception from translate_pages
-  target/s390x: Remove fail variable from s390_cpu_tlb_fill
-  target/s390x: Simplify helper_lra
-  target/s390x: Rely on unwinding in s390_cpu_tlb_fill
-  target/s390x: Rely on unwinding in s390_cpu_virt_mem_rw
-  target/s390x: Remove ILEN_AUTO
-  target/s390x: Remove ilen argument from trigger_access_exception
-  target/s390x: Remove ilen argument from trigger_pgm_exception
-
- target/s390x/cpu.h           | 35 ++++++++++++++-------
- target/s390x/internal.h      |  6 ++--
- target/s390x/tcg_s390x.h     |  4 +--
- hw/s390x/s390-pci-inst.c     | 58 +++++++++++++++++-----------------
- target/s390x/cc_helper.c     |  4 +--
- target/s390x/crypto_helper.c |  7 ++---
- target/s390x/diag.c          | 14 ++++-----
- target/s390x/excp_helper.c   | 60 ++++++++++++++++-------------------
- target/s390x/fpu_helper.c    |  6 ++--
- target/s390x/int_helper.c    | 15 ++++-----
- target/s390x/interrupt.c     |  9 +++---
- target/s390x/ioinst.c        | 40 +++++++++++------------
- target/s390x/mem_helper.c    | 61 +++++++++++++++++-------------------
- target/s390x/misc_helper.c   | 27 ++++++----------
- target/s390x/mmu_helper.c    | 60 +++++++++++++++--------------------
- target/s390x/tcg-stub.c      |  4 +--
- target/s390x/translate.c     | 27 ++++++++++------
- 17 files changed, 214 insertions(+), 223 deletions(-)
-
+diff --git a/target/s390x/tcg_s390x.h b/target/s390x/tcg_s390x.h
+index 2813f9d48e..2f54ccb027 100644
+--- a/target/s390x/tcg_s390x.h
++++ b/target/s390x/tcg_s390x.h
+@@ -14,8 +14,8 @@
+ #define TCG_S390X_H
+ 
+ void tcg_s390_tod_updated(CPUState *cs, run_on_cpu_data opaque);
+-void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+-                                              int ilen, uintptr_t ra);
++void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
++                                              uint32_t code, uintptr_t ra);
+ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t dxc,
+                                            uintptr_t ra);
+ void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_t vxc,
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 892f659d5a..681a9c59e1 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -34,15 +34,15 @@
+ #include "hw/boards.h"
+ #endif
+ 
+-void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+-                                              int ilen, uintptr_t ra)
++void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
++                                              uint32_t code, uintptr_t ra)
+ {
+     CPUState *cs = env_cpu(env);
+ 
+     cpu_restore_state(cs, ra, true);
+     qemu_log_mask(CPU_LOG_INT, "program interrupt at %#" PRIx64 "\n",
+                   env->psw.addr);
+-    trigger_pgm_exception(env, code, ilen);
++    trigger_pgm_exception(env, code, ILEN_UNWIND);
+     cpu_loop_exit(cs);
+ }
+ 
+@@ -60,7 +60,7 @@ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t dxc,
+     if (env->cregs[0] & CR0_AFP) {
+         env->fpc = deposit32(env->fpc, 8, 8, dxc);
+     }
+-    tcg_s390_program_interrupt(env, PGM_DATA, ILEN_AUTO, ra);
++    tcg_s390_program_interrupt(env, PGM_DATA, ra);
+ }
+ 
+ void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_t vxc,
+diff --git a/target/s390x/interrupt.c b/target/s390x/interrupt.c
+index 30a9fb8852..b798e2ecbe 100644
+--- a/target/s390x/interrupt.c
++++ b/target/s390x/interrupt.c
+@@ -40,7 +40,7 @@ void s390_program_interrupt(CPUS390XState *env, uint32_t code, int ilen,
+     if (kvm_enabled()) {
+         kvm_s390_program_interrupt(env_archcpu(env), code);
+     } else if (tcg_enabled()) {
+-        tcg_s390_program_interrupt(env, code, ilen, ra);
++        tcg_s390_program_interrupt(env, code, ra);
+     } else {
+         g_assert_not_reached();
+     }
+diff --git a/target/s390x/tcg-stub.c b/target/s390x/tcg-stub.c
+index 32adb7276a..d22c898802 100644
+--- a/target/s390x/tcg-stub.c
++++ b/target/s390x/tcg-stub.c
+@@ -18,8 +18,8 @@
+ void tcg_s390_tod_updated(CPUState *cs, run_on_cpu_data opaque)
+ {
+ }
+-void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+-                                              int ilen, uintptr_t ra)
++void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
++                                              uint32_t code, uintptr_t ra)
+ {
+     g_assert_not_reached();
+ }
 -- 
 2.17.1
 
