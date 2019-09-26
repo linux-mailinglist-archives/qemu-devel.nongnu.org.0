@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818F4BF9D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:09:23 +0200 (CEST)
-Received: from localhost ([::1]:43132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C52BF9B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:00:50 +0200 (CEST)
+Received: from localhost ([::1]:43005 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDZ8j-0001E3-RZ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45496)
+	id 1iDZ0S-0000ly-FG
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYmC-0002Ke-5b
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:05 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYm8-0002Ic-OB
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYmA-00055x-EC
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:03 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54859)
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYm6-00050f-Nb
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:00 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37045)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iDYmA-0004zf-5u
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:02 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id p7so3925537wmp.4
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:45:58 -0700 (PDT)
+ id 1iDYm4-0004xX-BP
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:45:56 -0400
+Received: by mail-wr1-x430.google.com with SMTP id i1so3928063wro.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:45:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w8is8rZhnjRu4cXABpaM/yIcdELm1IUron9MLQsKwM4=;
- b=WSO0GSTuHTeoFoV9WlkJgDPWjdjdhredHUKommUnQE1Q3kngFzTIllUCbW1CcYn+/7
- CPwpzzKOppnWwoeBeWyarEAmEAgqiP2/eOK2nTcrcHWEu5brnoWilSaRd2WpKlYQyxiJ
- NfzWe8oJC4ddpnPOsFzm5yCFTwpS4+x+hpzA5oWkXdbVTPh72W3M3SiidgGusL/ozElo
- yF0BhOvQ5RHX2sstKi2Daq47Fwv2xuvkxg1K1VXggEGLWzuXL4JOejKpw2IqK+hcnR8S
- yD/2EVxWYQbrR3C4wUo6GU5YINRmC6sngX/7kcc6yfrLNmL8ZiSzLiFrca4w0RBNBsbN
- /fxQ==
+ bh=frj9YaghIiluWKTjZzqpfYiPrz4BwfSWHXhAc0MSyw0=;
+ b=eh0KQihDu/SN238kRpVdDI2lIM0ozqdqR5TTpZXh/cpFDlsgRg+Sib7El7MkH5yRXG
+ tVVKR/A0l54iimTonMwSEB+MpxoseVVDMogY1JEaaXyu/FN+DB7AcWLZQRMc9CXHQnf2
+ oT92uz1PaF036gN6BQe1wWGVF4wHv7dpb8NsKmHRhjujX1OCwoYWLQKfwb7oBJJ+wj5s
+ xz2Z/T7bgB2PwY7x6svmEaPCmIwmswyFPNFz9ysai8rVyCuGVPU9l48bP2T9GdsJ5WvJ
+ OMJv6xzBi3cNGT9zuB0XZpuGxmP7PiiLBdM1f1ZVCF3eJ9LOII2a0wWHHYSjcArazbIo
+ hDww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w8is8rZhnjRu4cXABpaM/yIcdELm1IUron9MLQsKwM4=;
- b=JBdNvXtLFllLajS2EL9i2dLynFK8UkSyEUaAm2YgYbNa/qVWhTYf4iTao9dKz6WDQg
- yhy9GLpdVy42aJbJ9l3/vBIaosM3GqRKZA2D5B4nDBeGpXHLRlKyhrvk34lJ7TOYt77o
- BNlEkqTrXZsw8poa3sscRbSe6GwxTGC3mvTLG6LM7pkEeds05jqscJf092mG7WMEu/rS
- BWGUFySU0RsE/xtt3VUC9WZq4XCCPdyTapl4+5NJ2B08/SbwgGxys7zPyhc7o5sQ9V1W
- QISwndkyY0h/Nn7cFEdP/y/36nKYsdaERrZalnZDb1uq+MC28pirjpdRPIgoOBGn4/w0
- 3Nxw==
-X-Gm-Message-State: APjAAAVgd/ABVCwzaLxvdWce6WS5ASuJCSG2TuPuvrQKiiWnIcMRV1vQ
- qMEe2eP0t45Dp8v8C5Yz73nWmA==
-X-Google-Smtp-Source: APXvYqzOWDixjFNIbLIIQV5HitEbykHMCKUrH2mq0u0wcAvrSaTKfaCvfsWMGtWlwXsO3HwOxwPG+A==
-X-Received: by 2002:a05:600c:c2:: with SMTP id u2mr3899752wmm.37.1569523557498; 
- Thu, 26 Sep 2019 11:45:57 -0700 (PDT)
+ bh=frj9YaghIiluWKTjZzqpfYiPrz4BwfSWHXhAc0MSyw0=;
+ b=ff1LeJcxEtTcyIZbyIcUGYt5J8bnaqxQsqZnoif8HPnf4dLnDl9LIordHTUQlkV6po
+ RCJ6dhcVh4VsxOWoRkEFQF5OQU9dZU+XLFanAYEtzaMWvFM6LCrHtJK/pYdjFULcAIo5
+ abSwvuruUC6GZ71/9NhQt7CYL0TMx931ovvn2PRdG5m9wL9pF/SA/73u/WRdC/scqVel
+ 8Zh2bFYCPG5561Wk9xl8xRkiBA0B9QczAwuzDUDA1HNgIFogaYJMSUqXi6tR//ee8DTp
+ Js0uVeUAgVEIiRPhZ1/bMStBquKTqvIsGYECjSqmBlI7CKdgRlgY9kxLQp8EENXUXaA9
+ 2dOA==
+X-Gm-Message-State: APjAAAVUIwLT63TUsxaI+/nSw6A5xhtFQOUXujtFY0/xu1se4uukTti5
+ QSM8O245I6ZoRFuXzsWFhQK3nw==
+X-Google-Smtp-Source: APXvYqyT95i+sMBh+NkN5W4mRiVG/9PQzPodmlnVHWhmZOuOQeGvELRnVNU8z69A3q+V/GYXns+xNw==
+X-Received: by 2002:a5d:6b49:: with SMTP id x9mr4473243wrw.80.1569523554932;
+ Thu, 26 Sep 2019 11:45:54 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e30sm165916wra.48.2019.09.26.11.45.51
+ by smtp.gmail.com with ESMTPSA id h125sm5938706wmf.31.2019.09.26.11.45.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 26 Sep 2019 11:45:52 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 830401FFAE;
+ by zen.linaroharston (Postfix) with ESMTP id B730E1FFB1;
  Thu, 26 Sep 2019 19:35:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 25/28] docker: remove unused debian-ports
-Date: Thu, 26 Sep 2019 19:35:50 +0100
-Message-Id: <20190926183553.13895-26-alex.bennee@linaro.org>
+Subject: [PULL 27/28] docker: move tests from python2 to python3
+Date: Thu, 26 Sep 2019 19:35:52 +0100
+Message-Id: <20190926183553.13895-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
 References: <20190926183553.13895-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,80 +81,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-debian-ports is listed as a partial image, so we cannot run tests against it.
-Since it isn't used by any other testable image, remove it for now as it
-is prone to bitrot.
+As part of the push to drop python2 support, replace any explicit python2
+dependencies with python3 versions.
+
+For centos, python2 still exists as an implicit dependency, but by adding
+python3 we will be able to build even if the configure script begins to
+require python 3.5+.
+
+Tested with centos7, fedora, ubuntu, ubuntu1804, and debian 9 (amd64).
+Tested under a custom configure script that requires Python 3.5+.
+
+the travis dockerfile is also moved to using python3, which was tested
+by running `make docker-test-build@travis`, which I hope is sufficient.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190923181140.7235-5-jsnow@redhat.com>
+Message-Id: <20190923181140.7235-7-jsnow@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index a19341e326..df73def340 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -6,7 +6,7 @@ DOCKER_SUFFIX := .docker
- DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
- # we don't run tests on intermediate images (used as base by another image)
- DOCKER_PARTIAL_IMAGES := debian9 debian10 debian-sid
--DOCKER_PARTIAL_IMAGES += debian9-mxe debian-ports debian-bootstrap
-+DOCKER_PARTIAL_IMAGES += debian9-mxe debian-bootstrap
- DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
- # Use a global constant ccache directory to speed up repetitive builds
-diff --git a/tests/docker/dockerfiles/debian-ports.docker b/tests/docker/dockerfiles/debian-ports.docker
-deleted file mode 100644
-index 61bc3f2993..0000000000
---- a/tests/docker/dockerfiles/debian-ports.docker
-+++ /dev/null
-@@ -1,36 +0,0 @@
--#
--# Docker multiarch cross-compiler target
--#
--# This docker target is builds on Debian Ports cross compiler targets
--# to build distro with a selection of cross compilers for building test binaries.
--#
--# On its own you can't build much but the docker-foo-cross targets
--# build on top of the base debian image.
--#
--FROM debian:unstable
+diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+index e0b9d7dbe9..953637065c 100644
+--- a/tests/docker/dockerfiles/centos7.docker
++++ b/tests/docker/dockerfiles/centos7.docker
+@@ -25,6 +25,7 @@ ENV PACKAGES \
+     nettle-devel \
+     perl-Test-Harness \
+     pixman-devel \
++    python3 \
+     SDL-devel \
+     spice-glib-devel \
+     spice-server-devel \
+@@ -34,4 +35,3 @@ ENV PACKAGES \
+     zlib-devel
+ RUN yum install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
 -
--MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
--
--RUN echo "deb [arch=amd64] http://deb.debian.org/debian unstable main" > /etc/apt/sources.list
--
--# Duplicate deb line as deb-src
--RUN cat /etc/apt/sources.list | sed -ne "s/^deb\ \(\[.*\]\ \)\?\(.*\)/deb-src \2/p" >> /etc/apt/sources.list
--
--# Setup some basic tools we need
--RUN apt-get update && \
--    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt-get install -y --no-install-recommends \
--        bison \
--        build-essential \
--        ca-certificates \
--        clang \
--        debian-ports-archive-keyring \
--        flex \
--        gettext \
--        git \
--        pkg-config \
--        psmisc \
+diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+index b9c2e2e531..e6f93f65ee 100644
+--- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
++++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+@@ -18,7 +18,7 @@ RUN apt-get update && \
+         flex \
+         gettext \
+         git \
+-        python-minimal
++        python3-minimal
+ 
+ ENV CPU_LIST csp dc232b dc233c
+ ENV TOOLCHAIN_RELEASE 2018.02
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 30a78813f2..dad498b52e 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -26,7 +26,7 @@ RUN apt update && \
+         git \
+         pkg-config \
+         psmisc \
 -        python \
--        texinfo \
--        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
++        python3 \
+         python3-sphinx \
+         texinfo \
+         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
+index b36f1d4ed8..8cbd742bb5 100644
+--- a/tests/docker/dockerfiles/debian9.docker
++++ b/tests/docker/dockerfiles/debian9.docker
+@@ -26,7 +26,7 @@ RUN apt update && \
+         git \
+         pkg-config \
+         psmisc \
+-        python \
++        python3 \
+         python3-sphinx \
+         texinfo \
+         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+diff --git a/tests/docker/dockerfiles/travis.docker b/tests/docker/dockerfiles/travis.docker
+index e72dc85ca7..ea14da29d9 100644
+--- a/tests/docker/dockerfiles/travis.docker
++++ b/tests/docker/dockerfiles/travis.docker
+@@ -5,7 +5,7 @@ ENV LC_ALL en_US.UTF-8
+ RUN sed -i "s/# deb-src/deb-src/" /etc/apt/sources.list
+ RUN apt-get update
+ RUN apt-get -y build-dep qemu
+-RUN apt-get -y install device-tree-compiler python2.7 python-yaml dh-autoreconf gdb strace lsof net-tools gcovr
++RUN apt-get -y install device-tree-compiler python3 python3-yaml dh-autoreconf gdb strace lsof net-tools gcovr
+ # Travis tools require PhantomJS / Neo4j / Maven accessible
+ # in their PATH (QEMU build won't access them).
+ ENV PATH /usr/local/phantomjs/bin:/usr/local/phantomjs:/usr/local/neo4j-3.2.7/bin:/usr/local/maven-3.5.2/bin:/usr/local/cmake-3.9.2/bin:/usr/local/clang-5.0.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index a4f601395c..f486492224 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -60,7 +60,7 @@ ENV PACKAGES flex bison \
+     libvte-2.91-dev \
+     libxen-dev \
+     make \
+-    python-yaml \
++    python3-yaml \
+     python3-sphinx \
+     sparse \
+     texinfo \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 883f9bcf31..3cc4f492c4 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -47,7 +47,7 @@ ENV PACKAGES flex bison \
+     libvte-2.91-dev \
+     libxen-dev \
+     make \
+-    python-yaml \
++    python3-yaml \
+     python3-sphinx \
+     sparse \
+     texinfo \
 -- 
 2.20.1
 
