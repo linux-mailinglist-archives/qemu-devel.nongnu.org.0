@@ -2,54 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919E9BEF37
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:05:44 +0200 (CEST)
-Received: from localhost ([::1]:33206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31A5BEF70
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:19:55 +0200 (CEST)
+Received: from localhost ([::1]:33322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDQed-0000D0-JW
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
+	id 1iDQsM-0005x3-0i
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iDQcu-0007Zm-9g
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:03:57 -0400
+ (envelope-from <david@redhat.com>) id 1iDQpE-0004GG-Jp
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iDQct-0006kM-59
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:03:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41434)
+ (envelope-from <david@redhat.com>) id 1iDQpA-0007fK-VZ
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52850)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iDQcs-0006kD-VU
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:03:55 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iDQpA-0007eG-Q9; Thu, 26 Sep 2019 06:16:36 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 26CAFC00A167;
- Thu, 26 Sep 2019 10:03:54 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD5CF60BE0;
- Thu, 26 Sep 2019 10:03:52 +0000 (UTC)
-Message-ID: <a1997ec01e04140193c099c50105f8527848b868.camel@redhat.com>
-Subject: Re: Questions about the real mode in kvm/qemu
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Li Qiang <liq3ea@gmail.com>
-Date: Thu, 26 Sep 2019 13:03:51 +0300
-In-Reply-To: <4a8d36ed-4a3b-fd12-303d-fc1ee50b2980@redhat.com>
-References: <CAKXe6SJfZt8WcA43Vsh0=GT=jBedcAOUx9DNGZ4Bsvi10oCkog@mail.gmail.com>
- <644968ffb11c11fd580e96c1e67932501a633fe4.camel@redhat.com>
- <CAKXe6SK+cEytTtgKHw8KXY=jY4xv=27GBu55hTbTmbRyTPsfxg@mail.gmail.com>
- <3d3f3a0e6e796260348c66e69e859e1901501ee8.camel@redhat.com>
- <23789310-35fb-8c93-44f4-532bcd34007d@redhat.com>
- <7c019f3a5236daaa79e67467f64cde212ad05f35.camel@redhat.com>
- <4ed0f9ca-6cd1-fd8e-9abd-4098f85c7f9d@redhat.com>
- <f8a138f8c00df4886045d6771415336a7e43b887.camel@redhat.com>
- <4a8d36ed-4a3b-fd12-303d-fc1ee50b2980@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ by mx1.redhat.com (Postfix) with ESMTPS id EA5BE316D76A;
+ Thu, 26 Sep 2019 10:16:32 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-65.ams2.redhat.com [10.36.116.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1C2A60920;
+ Thu, 26 Sep 2019 10:16:28 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/5] s390x/mmu: Implement more facilities
+Date: Thu, 26 Sep 2019 12:16:22 +0200
+Message-Id: <20190926101627.23376-1-david@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Thu, 26 Sep 2019 10:03:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 26 Sep 2019 10:16:33 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -64,42 +53,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu Developers <qemu-devel@nongnu.org>, Avi Kivity <avi.kivity@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2019-09-26 at 12:00 +0200, Paolo Bonzini wrote:
-> On 26/09/19 11:41, Maxim Levitsky wrote:
-> > > Thinking more about it, I suppose that saves memory (the same EPT page
-> > > tables can now be used independent of guest CR0.PG), at the cost of
-> > > making TLB misses a little slower.
-> > 
-> > Don't really understand what you mean. 
-> > Isn't this always the case that EPT and guest paging
-> > are independent (at least when no nesting is involved)?
-> 
-> There are two possibilities:
-> 
-> 1) emulate CR0.PG=0 with EPT + identity page
-> 
-> - advantage: the EPT pages will be reused once the guest sets CR0.PG=1
-> 
-> - disadvantage: TLB misses have to walk two levels of page tables
-> 
-> 2) emulate CR0.PG=0 with EPT disabled.  Similar to ept=0, CR3 will point
-> to PAE page tables that do the HVA->GPA transition.
-> 
-> - advantage: faster TLB misses
-> 
-> - disadvantage: need to build separate page tables for CR0.PG=1 (EPT
-> format) and CR0.PG=0 (PAE format), need to "waste" 4k of GPA space for
-> the identity map
-Thanks for the explanation!
+This is the follow up of:
+    [PATCH-for-4.2 v1 0/9] s390x: MMU changes and extensions
+Without the general MMU rework. It's based on:
+    [PATCH v2 0/7] s390x/mmu: DAT translation rewrite
 
-Best regards,
-	Maxim Levitsky
+This series adds adds EDAT2 MMU support, and implements/indicates related
+facilities (ESOP-1, ESOP-2, IEP, ...) for TCG. The QEMU CPU model is
+updated.
 
+IEP under QEMU TCG seems to work just fine, when eabling it via the "max"
+CPU model - via kvm unit tests:
+    t460s: ~/git/kvm-unit-tests master $ ./s390x-run s390x/iep.elf -cpu m=
+ax
+    [...]
+    PASS: iep: iep protection: Program interrupt: expected(4) =3D=3D rece=
+ived(4)
+    SUMMARY: 1 tests
 
+    EXIT: STATUS=3D1
 
+Changes since "[PATCH-for-4.2 v1 0/9] s390x: MMU changes and extensions":
+- "s390x/mmu: Add EDAT2 translation support"
+-- Fix vaddr offset within 2GB page
+- "s390x/mmu: Implement ESOP-2 and ..."
+-- Squashed two patches as requested.
+-- Also set ilen to "2" in case of MMU_INST_FETCH on mmu_translate_real
+- "s390x/mmu: Implement Instruction-Execution-Protection Facility"
+-- Make sure s390_cpu_get_phys_page_debug() doesn't choke on IEP
+- "s390x/cpumodel: Add new TCG features to QEMU cpu model"
+-- Add comment "features introduced after the z13"
+
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+
+David Hildenbrand (5):
+  s390x/mmu: Add EDAT2 translation support
+  s390x/mmu: Implement ESOP-2 and
+    access-exception-fetch/store-indication facility
+  s390x/mmu: Implement Instruction-Execution-Protection Facility
+  s390x/cpumodel: Prepare for changes of QEMU model
+  s390x/cpumodel: Add new TCG features to QEMU cpu model
+
+ hw/s390x/s390-virtio-ccw.c  |  2 ++
+ target/s390x/cpu.h          |  1 +
+ target/s390x/gen-features.c | 11 +++++++++-
+ target/s390x/helper.c       |  6 +++++-
+ target/s390x/mmu_helper.c   | 42 +++++++++++++++++++++++++++++++++++--
+ 5 files changed, 58 insertions(+), 4 deletions(-)
+
+--=20
+2.21.0
 
 
