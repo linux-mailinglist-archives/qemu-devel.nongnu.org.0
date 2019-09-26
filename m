@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670E0BF732
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:55:40 +0200 (CEST)
-Received: from localhost ([::1]:41082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D47BF729
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:52:41 +0200 (CEST)
+Received: from localhost ([::1]:41018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDX3K-0006FO-Lk
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:55:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41246)
+	id 1iDX0S-0001Lr-Dx
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWcE-0002fd-19
+ (envelope-from <richard.henderson@linaro.org>) id 1iDWcF-0002hm-4L
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWc9-0004kW-0V
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:36 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:42963)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDWcD-0004o2-9x
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:38 -0400
+Received: from mail-pf1-f169.google.com ([209.85.210.169]:43432)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDWc8-0004j2-Md
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:32 -0400
-Received: by mail-pg1-f194.google.com with SMTP id z12so1826290pgp.9
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:32 -0700 (PDT)
+ id 1iDWcD-0004mQ-0p
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:37 -0400
+Received: by mail-pf1-f169.google.com with SMTP id a2so2111523pfo.10
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=cUqChLJA+fIshq8B7yRM6YeWhj6qyz75SemmNRFWmr4=;
- b=rAgFxqVqZkBEYMLrS1NZUjgw3larVh6yAuqyxZiEHcOPodACYtRiLpN0PeD3jbglMO
- yKXd69Qr8Tb6zpUUf4qZ5J4ib9QBQRjmzmKUlwaZZ2p/A3PhfJA1pODnvuLkgHdTnLKB
- HKqbjs3KwMqCUYy7mf2gGAtlrGm7WZ3mxqtWYhij3t+6qyi+F1+od60FQnsAW+BqFEjQ
- K1zBvwF6Z3/3yk6gCSIisJ2kF3KVnS7MiDq0CdJiG9zsbm94EAnHJbtt4gk6duOIvPQn
- hVCQeEfDz/9UCkkyWN0qTT5jmL7662f19B/v1BgyQk8KWUR4+3Gx2jGj+VVKVLNFvhUf
- v21Q==
+ bh=4k4lvT04oMAR1JlrF0Tsj3jcXJHGRIvEwhrMLXeNKHo=;
+ b=jJk+sjyckdNb41zkRDY8tc/T8TxEHGRCkRo+tC/9PPylmD80SbU9XLU2VBAf9M+zFJ
+ f1IPgj3urdHXsEyxiG1y44UWcRRbVtFrIWDswtzrfqEdjnJl7FYT3KeoWxKl4KNC+Ef+
+ aDSKO70yRiCyX6oyKf7plSNs5Go3KXAIGFW+MqGvQ8L49uRpQ8e10v0ZfR0eg+GEhv/F
+ 18lAgJAmWhWsBltrkEFrqYZTxqt7j/FBbWBjdc8AgdZ/jJIo9geCHZKYNK+bvZwr8l94
+ HAFatT4dHpFRqM6w3/DnwpR08rmQuOm0gK3oGSAt6lA4hBJPUT0mXK3j8u/+zxGICtf5
+ k66A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=cUqChLJA+fIshq8B7yRM6YeWhj6qyz75SemmNRFWmr4=;
- b=SVAFoIU8bmDzd5nTf76w6y2Soe/QCU4eHaKfaZ2NKcVzSqi6Z2wGeB/Q8NrUdrZNQ9
- Iw+8EB++W/sfSVZ3elnzWkFeWw4RNk6RUI2l2VraiLAVBhv+rzAjNMXfoM+0IjrncixJ
- E3YGcImXQqcYvWrtGtT/TQ3IREkJtwD7A3umqGY/SGZeGIbhivwC6uDkmS0thUCubs9N
- WBvSiFXyL0AYZ9hZ1vcpSc4wFbNN0QAl7Bt4WXbPQJhuhoMVDbvuuzXL1cMBmAzRflKV
- RPBIiQPIIxoOvC/eccozgabQSjjNT8Yt9dMaLrN4irxg5R1C0lZM5NWomuRwxV3QemYo
- vsug==
-X-Gm-Message-State: APjAAAUKqzUbE9fqGrTbBZaIDn3188N443cxxisO9F+XRlAi5PrEnKI+
- DTw01Tn0vdElOHtlMl4MY9dfHLlpHfo=
-X-Google-Smtp-Source: APXvYqwI0trFvWUVqEEwz24Ij11aL319SF80w/mYVphiwhMzMP0sTpV7WeCOu/vG12Yf0yYTPvYghA==
-X-Received: by 2002:a63:7556:: with SMTP id f22mr4327140pgn.222.1569515190896; 
- Thu, 26 Sep 2019 09:26:30 -0700 (PDT)
+ bh=4k4lvT04oMAR1JlrF0Tsj3jcXJHGRIvEwhrMLXeNKHo=;
+ b=ZCDkSlmTbP4EVws8494Q+SWIhO95D7Eqxv8P98/qFDlWGDgljcfjSnf4C2nV72LkQ0
+ 7ujo2ZkC+rm8vGhZp5hTNGoGQ6ZjQTNtY+gXprPfD4ZUELRoaHBmJruiZ+J6HeM9QMlg
+ Xo7KCbjNiZ02UZPPYzJ6ylYMaKLmeiDBP6aGhW5tCNwom5P/rUj/NYW8ekJhJG4EV98N
+ hzghqCdiYfH4DyDe+LrFBa7rLCh5VQkickaBvxsJD4O7AdSgy6/nA/lTaZ/AS1w1x9rG
+ HO1Wcop1B0zn3KAJcw+2+RCKUlvs/cNi+HqH9ctXTKm8PGNo6rw4n7ICjoUoPKqaq+to
+ m9jQ==
+X-Gm-Message-State: APjAAAUtTgiv8olhIfy24vH6D1l7DKXdU0oNksW9ITR88/JM2t1wlrOP
+ YkbtzTQ9dCGL3JmM4LPlb+rtjGB527k=
+X-Google-Smtp-Source: APXvYqxZhkpO+/zPuBl8Ag5yb0wBKfRADQRdjoIajYs5kBjbYes1/hf9zVUeKQWXhHqXJXshU33amw==
+X-Received: by 2002:a17:90a:e290:: with SMTP id
+ d16mr4579073pjz.86.1569515194863; 
+ Thu, 26 Sep 2019 09:26:34 -0700 (PDT)
 Received: from localhost.localdomain ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.29
+ by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 09:26:30 -0700 (PDT)
+ Thu, 26 Sep 2019 09:26:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/18] target/s390x: Remove exc argument to
- mmu_translate_asce
-Date: Thu, 26 Sep 2019 09:26:06 -0700
-Message-Id: <20190926162615.31168-10-richard.henderson@linaro.org>
+Subject: [PATCH v3 12/18] target/s390x: Remove fail variable from
+ s390_cpu_tlb_fill
+Date: Thu, 26 Sep 2019 09:26:09 -0700
+Message-Id: <20190926162615.31168-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190926162615.31168-1-richard.henderson@linaro.org>
 References: <20190926162615.31168-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.194
+X-Received-From: 209.85.210.169
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,36 +80,80 @@ Cc: qemu-s390x@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that mmu_translate_asce returns the exception instead of
-raising it, the argument is unused.
+Now that excp always contains a real exception number, we can
+use that instead of a separate fail variable.  This allows a
+redundant test to be removed.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/mmu_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/s390x/excp_helper.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index b783c62bd7..ed6570db62 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -113,7 +113,7 @@ static inline int read_table_entry(hwaddr gaddr, uint64_t *entry)
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 6a0728b65f..98a1ee8317 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -127,7 +127,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     CPUS390XState *env = &cpu->env;
+     target_ulong vaddr, raddr;
+     uint64_t asc, tec;
+-    int prot, fail, excp;
++    int prot, excp;
  
- static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
-                               uint64_t asc, uint64_t asce, target_ulong *raddr,
--                              int *flags, int rw, bool exc)
-+                              int *flags, int rw)
- {
-     const bool edat1 = (env->cregs[0] & CR0_EDAT) &&
-                        s390_has_feat(S390_FEAT_EDAT);
-@@ -402,7 +402,7 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+     qemu_log_mask(CPU_LOG_MMU, "%s: addr 0x%" VADDR_PRIx " rw %d mmu_idx %d\n",
+                   __func__, address, access_type, mmu_idx);
+@@ -141,20 +141,18 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             vaddr &= 0x7fffffff;
+         }
+         excp = mmu_translate(env, vaddr, access_type, asc, &raddr, &prot, &tec);
+-        fail = excp;
+     } else if (mmu_idx == MMU_REAL_IDX) {
+         /* 31-Bit mode */
+         if (!(env->psw.mask & PSW_MASK_64)) {
+             vaddr &= 0x7fffffff;
+         }
+         excp = mmu_translate_real(env, vaddr, access_type, &raddr, &prot, &tec);
+-        fail = excp;
+     } else {
+         g_assert_not_reached();
      }
  
-     /* perform the DAT translation */
--    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw, exc);
-+    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw);
-     if (unlikely(r)) {
-         if (exc) {
-             trigger_access_exception(env, r, ilen, tec);
+     /* check out of RAM access */
+-    if (!fail &&
++    if (!excp &&
+         !address_space_access_valid(&address_space_memory, raddr,
+                                     TARGET_PAGE_SIZE, access_type,
+                                     MEMTXATTRS_UNSPECIFIED)) {
+@@ -163,10 +161,9 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       __func__, (uint64_t)raddr, (uint64_t)ram_size);
+         excp = PGM_ADDRESSING;
+         tec = 0; /* unused */
+-        fail = 1;
+     }
+ 
+-    if (!fail) {
++    if (!excp) {
+         qemu_log_mask(CPU_LOG_MMU,
+                       "%s: set tlb %" PRIx64 " -> %" PRIx64 " (%x)\n",
+                       __func__, (uint64_t)vaddr, (uint64_t)raddr, prot);
+@@ -178,13 +175,11 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         return false;
+     }
+ 
+-    if (excp) {
+-        if (excp != PGM_ADDRESSING) {
+-            stq_phys(env_cpu(env)->as,
+-                     env->psa + offsetof(LowCore, trans_exc_code), tec);
+-        }
+-        trigger_pgm_exception(env, excp, ILEN_AUTO);
++    if (excp != PGM_ADDRESSING) {
++        stq_phys(env_cpu(env)->as,
++                 env->psa + offsetof(LowCore, trans_exc_code), tec);
+     }
++    trigger_pgm_exception(env, excp, ILEN_AUTO);
+     cpu_restore_state(cs, retaddr, true);
+ 
+     /*
 -- 
 2.17.1
 
