@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A61BF7CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 19:44:05 +0200 (CEST)
-Received: from localhost ([::1]:41810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D485BF7B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 19:40:54 +0200 (CEST)
+Received: from localhost ([::1]:41772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDXoB-00020O-NO
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 13:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58837)
+	id 1iDXl6-0007Pf-IE
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 13:40:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXgC-0004Nm-Q5
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:50 -0400
+ id 1iDXgE-0004Q7-BR
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXgB-0002qt-5M
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:48 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33788)
+ id 1iDXgC-0002rx-Vm
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:50 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36490)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXgA-0002qV-Tm; Thu, 26 Sep 2019 13:35:47 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b9so3740463wrs.0;
- Thu, 26 Sep 2019 10:35:46 -0700 (PDT)
+ id 1iDXgC-0002rP-OA; Thu, 26 Sep 2019 13:35:48 -0400
+Received: by mail-wr1-f65.google.com with SMTP id y19so3731578wrd.3;
+ Thu, 26 Sep 2019 10:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0nYrEyIE8Ksn++8Q6sjUUjo6us9YPYxfJ0rmZNlZ6VA=;
- b=Zf4hUEytuT66Vk8Q/kLrnqWhVUdYRPo5txTb0r2vrCAptQk/xn1csbclZAYGxstLYP
- YLwqU5rG0W+Ww2cBreX8g5mYQjnOaSpCCMiwtoJIYVawHVI+XX/ntBfjt/790Uvli0Zp
- dHaYgYYhqWCS31UiNzTAVDH0N0x+UdopVoNa6cX6xvwAVJv2BUB2gZu4tK2q0e7IJ+Q4
- lFdEv6Kzyu4Os4ttvuqEcwoXhg4PWE81f4pvhng0sLcYzH77Djdom9qF8rsFhv/1BpCp
- hFA5ky1wXzqvxG+ozWVBGkpoaXRjL/eUQiL6OLfQXFjPk/zEKgl0DP2biBge+tbxb3g4
- WqQQ==
+ bh=dVltp39xedbrgwUOXng2QOxtQsY5AQIYkr6iGsnYDUQ=;
+ b=T3nW2W361fb7P5FZGKelLc273F0cI5MaxE/REmvYNSaMrzoFNlRHj3S1cNoZcF92c1
+ mYhbUaqJFMbpz9DTf3ugarlinTeRjT+JgjGt3z4LEP1ff6nV3L4awGG5HiXXkrEvSwo2
+ BXr4ISCsNNULgUqo6QsEL6WKtpmyGjP92O8oeuhAi0Qn63gr1e72pGXWCIIhmBIb3C1H
+ RWbFA6oIteF8PYAKKKtf/rGXia7ASsrjOjm/v4Afzu1AN3KHfvw6Lw42Z5WLa02YNRE8
+ PLJV6aW5o5YAio8C/iNuL9gz8kW9WODmnJtJ5BoNGPEP/6BHwyB3+LzeafQecjSuoaz/
+ endg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0nYrEyIE8Ksn++8Q6sjUUjo6us9YPYxfJ0rmZNlZ6VA=;
- b=lbWvouvlMx8sAJOGrcJOdKcVhK112fBEsBZEF7s/m4UotAMxEKEoiHOY9SdbkwMHF5
- X6YfgWi8a16RXxg+bNebh1zzqlWGbdhBt/VKjKSdygtlOWnWHMmyYAVLd6acQZ+CSmMp
- V/s2x8YZj5S23i6oKVwpURAXygifcD/FeKmTR1VT0iWcwPqcZg5LAVhZA+/L36bG5BMq
- xxTLi3zJ1di+daB3Xodwo9+Q+K1sw4WgN5vzg8EeHdpuYfTyXGdT8go203wgeAu1MCac
- L103OX9cH9waR9VPd3fpd5bjSWE/B5jqugTvQtot8dQG89IEBu0E/rYFDPNvXSBrHS+L
- jDWA==
-X-Gm-Message-State: APjAAAVQL1BSqSShk7Ls30UAnn18SZdscYMK7IE0s6VJSTHXgpvqDlL4
- 2ak+Tsm83LjhdaE7/8o0+nZFTaP1ioo=
-X-Google-Smtp-Source: APXvYqxxaLT1w5lIln4IJ9CMskeEmmTd7HqbS80bDrPUp0A3ZHMbm7PhjTcOw2DxraJwYG8kbIwETA==
-X-Received: by 2002:a5d:5642:: with SMTP id j2mr3980873wrw.345.1569519285785; 
- Thu, 26 Sep 2019 10:34:45 -0700 (PDT)
+ bh=dVltp39xedbrgwUOXng2QOxtQsY5AQIYkr6iGsnYDUQ=;
+ b=gzr7Hf/yWX3bOBbRH8fI1uLu1dBnkRwgmiFjujZWVMSBDU53/Ht0NSJY7G2GZ1NRT1
+ yLZvLhzvdobCHByRfGPs0hCmX02Tvo8JCD0qD4rRxoKxgGYcoLQpIRnCt8f0OYdM0uac
+ e/3DfE7eLCR1NhzQu8hquLkfj3VV8FhafHSGq/HJ2a+MUIe2KZsHteik9blgyprGurMB
+ E7XqzTAlL3CLQZS3X3DsQG1LwoooWSUEpUrxQGci1BB8MiCr9/3WKKPYwMlTFwlqn5WY
+ oudpOsthO1LFk9UhThH8vnaeg8rQGtxlHJ/AelTWWg10f8CFRS4PnHcjLMXB9t2jcaPr
+ ea1w==
+X-Gm-Message-State: APjAAAUA8PivrQspkxyjeU6OKRHpiZWqFf3IqcwS/+SNWcfJHR83CoEd
+ dX2Fb5hzqgNRMEHVME1GE2EtBzoJLLg=
+X-Google-Smtp-Source: APXvYqxJMeRJndPfiMPXmJdb+S2LWH51uPBCOJlbrLtKCy6882NxelxmqSMpmRoQhYwX9ZIpg7R2fQ==
+X-Received: by 2002:adf:eb42:: with SMTP id u2mr3917973wrn.307.1569519287489; 
+ Thu, 26 Sep 2019 10:34:47 -0700 (PDT)
 Received: from x1w.redhat.com (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id b186sm9918980wmd.16.2019.09.26.10.34.44
+ by smtp.gmail.com with ESMTPSA id b186sm9918980wmd.16.2019.09.26.10.34.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 10:34:45 -0700 (PDT)
+ Thu, 26 Sep 2019 10:34:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/19] hw/char/bcm2835_aux: Add trace events
-Date: Thu, 26 Sep 2019 19:34:14 +0200
-Message-Id: <20190926173428.10713-7-f4bug@amsat.org>
+Subject: [PATCH 07/19] hw/misc/bcm2835_mbox: Add trace events
+Date: Thu, 26 Sep 2019 19:34:15 +0200
+Message-Id: <20190926173428.10713-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926173428.10713-1-f4bug@amsat.org>
 References: <20190926173428.10713-1-f4bug@amsat.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.66
+X-Received-From: 209.85.221.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,170 +98,92 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The BCM2835 AUX UART is compatible with the 16650 model, when
-the registers belong the the 16650 block, use its trace events,
-else use bcm2835_aux_read/write.
+Add trace events for read/write accesses and IRQ.
+
+Properties are structures used for the ARM particular MBOX.
+Since one call in bcm2835_property.c concerns the mbox block,
+name this trace event in the same bcm2835_mbox* namespace.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/bcm2835_aux.c | 55 +++++++++++++++++++++++++++++++------------
- hw/char/trace-events  |  4 ++++
- 2 files changed, 44 insertions(+), 15 deletions(-)
+ hw/misc/bcm2835_mbox.c     | 5 +++++
+ hw/misc/bcm2835_property.c | 2 ++
+ hw/misc/trace-events       | 6 ++++++
+ 3 files changed, 13 insertions(+)
 
-diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
-index a6fc1bf152..b26a255630 100644
---- a/hw/char/bcm2835_aux.c
-+++ b/hw/char/bcm2835_aux.c
-@@ -27,6 +27,7 @@
+diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
+index 77285624c9..77d2d80706 100644
+--- a/hw/misc/bcm2835_mbox.c
++++ b/hw/misc/bcm2835_mbox.c
+@@ -15,6 +15,7 @@
  #include "migration/vmstate.h"
  #include "qemu/log.h"
  #include "qemu/module.h"
 +#include "trace.h"
  
- #define AUX_IRQ         0x0
- #define AUX_ENABLES     0x4
-@@ -62,17 +63,24 @@ static void bcm2835_aux_update(BCM2835AuxState *s)
-     qemu_set_irq(s->irq, s->iir != 0);
- }
- 
-+static bool is_16650(hwaddr offset)
-+{
-+    return offset >= AUX_MU_IO_REG && offset < AUX_MU_CNTL_REG;
-+}
-+
- static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
- {
-     BCM2835AuxState *s = opaque;
--    uint32_t c, res;
-+    uint32_t c, res = 0;
- 
-     switch (offset) {
-     case AUX_IRQ:
--        return s->iir != 0;
-+        res = s->iir != 0;
-+        break;
- 
-     case AUX_ENABLES:
--        return 1; /* mini UART permanently enabled */
-+        res = 1; /* mini UART permanently enabled */
-+        break;
- 
-     case AUX_MU_IO_REG:
-         /* "DLAB bit set means access baudrate register" is NYI */
-@@ -85,11 +93,13 @@ static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
+ #define MAIL0_PEEK   0x90
+ #define MAIL0_SENDER 0x94
+@@ -123,6 +124,7 @@ static void bcm2835_mbox_update(BCM2835MboxState *s)
+             set = true;
          }
-         qemu_chr_fe_accept_input(&s->chr);
-         bcm2835_aux_update(s);
--        return c;
-+        res = c;
-+        break;
- 
-     case AUX_MU_IER_REG:
-         /* "DLAB bit set means access baudrate register" is NYI */
--        return 0xc0 | s->ier; /* FIFO enables always read 1 */
-+        res = 0xc0 | s->ier; /* FIFO enables always read 1 */
-+        break;
- 
-     case AUX_MU_IIR_REG:
-         res = 0xc0; /* FIFO enables */
-@@ -105,33 +115,34 @@ static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
-         if (s->iir == 0) {
-             res |= 0x1;
-         }
--        return res;
-+        break;
- 
-     case AUX_MU_LCR_REG:
-         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_LCR_REG unsupported\n", __func__);
--        return 0;
-+        break;
- 
-     case AUX_MU_MCR_REG:
-         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_MCR_REG unsupported\n", __func__);
--        return 0;
-+        break;
- 
-     case AUX_MU_LSR_REG:
-         res = 0x60; /* tx idle, empty */
-         if (s->read_count != 0) {
-             res |= 0x1;
-         }
--        return res;
-+        break;
- 
-     case AUX_MU_MSR_REG:
-         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_MSR_REG unsupported\n", __func__);
--        return 0;
-+        break;
- 
-     case AUX_MU_SCRATCH:
-         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_SCRATCH unsupported\n", __func__);
--        return 0;
-+        break;
- 
-     case AUX_MU_CNTL_REG:
--        return 0x3; /* tx, rx enabled */
-+        res = 0x3; /* tx, rx enabled */
-+        break;
- 
-     case AUX_MU_STAT_REG:
-         res = 0x30e; /* space in the output buffer, empty tx fifo, idle tx/rx */
-@@ -140,17 +151,25 @@ static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
-             assert(s->read_count < BCM2835_AUX_RX_FIFO_LEN);
-             res |= ((uint32_t)s->read_count) << 16; /* rx fifo fill level */
-         }
--        return res;
-+        break;
- 
-     case AUX_MU_BAUD_REG:
-         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_BAUD_REG unsupported\n", __func__);
--        return 0;
-+        break;
- 
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-                       __func__, offset);
--        return 0;
-+        break;
      }
-+
-+    if (is_16650(offset)) {
-+        trace_serial_ioport_read((offset & 0x1f) >> 2, res);
-+    } else {
-+        trace_bcm2835_aux_read(offset, res);
-+    }
-+
-+    return res;
++    trace_bcm2835_mbox_irq(set);
+     qemu_set_irq(s->arm_irq, set);
  }
  
- static void bcm2835_aux_write(void *opaque, hwaddr offset, uint64_t value,
-@@ -159,6 +178,12 @@ static void bcm2835_aux_write(void *opaque, hwaddr offset, uint64_t value,
-     BCM2835AuxState *s = opaque;
-     unsigned char ch;
+@@ -178,8 +180,10 @@ static uint64_t bcm2835_mbox_read(void *opaque, hwaddr offset, unsigned size)
+     default:
+         qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx"\n",
+                       __func__, offset);
++        trace_bcm2835_mbox_read(size, offset, res);
+         return 0;
+     }
++    trace_bcm2835_mbox_read(size, offset, res);
  
-+    if (is_16650(offset)) {
-+        trace_serial_ioport_write((offset & 0x1f) >> 2, value);
-+    } else {
-+        trace_bcm2835_aux_write(offset, value);
-+    }
-+
+     bcm2835_mbox_update(s);
+ 
+@@ -195,6 +199,7 @@ static void bcm2835_mbox_write(void *opaque, hwaddr offset,
+ 
+     offset &= 0xff;
+ 
++    trace_bcm2835_mbox_write(size, offset, value);
      switch (offset) {
-     case AUX_ENABLES:
-         if (value != 1) {
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 2ce7f2f998..a7d477ab1e 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -1,5 +1,9 @@
- # See docs/devel/tracing.txt for syntax documentation.
+     case MAIL0_SENDER:
+         break;
+diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+index 43a5465c5d..0eea2e20f7 100644
+--- a/hw/misc/bcm2835_property.c
++++ b/hw/misc/bcm2835_property.c
+@@ -13,6 +13,7 @@
+ #include "sysemu/dma.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "trace.h"
  
-+# bcm2835_aux.c
-+bcm2835_aux_read(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" value 0x%x"
-+bcm2835_aux_write(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" value 0x%x"
+ /* https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface */
+ 
+@@ -283,6 +284,7 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
+             break;
+         }
+ 
++        trace_bcm2835_mbox_property(tag, bufsize, resplen);
+         if (tag == 0) {
+             break;
+         }
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 74276225f8..1deb1d08c1 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -143,3 +143,9 @@ armsse_mhu_write(uint64_t offset, uint64_t data, unsigned size) "SSE-200 MHU wri
+ 
+ # aspeed_xdma.c
+ aspeed_xdma_write(uint64_t offset, uint64_t data) "XDMA write: offset 0x%" PRIx64 " data 0x%" PRIx64
 +
- # parallel.c
- parallel_ioport_read(const char *desc, uint16_t addr, uint8_t value) "read [%s] addr 0x%02x val 0x%02x"
- parallel_ioport_write(const char *desc, uint16_t addr, uint8_t value) "write [%s] addr 0x%02x val 0x%02x"
++# bcm2835_mbox.c
++bcm2835_mbox_write(unsigned int size, uint64_t addr, uint64_t value) "mbox write sz:%u addr:0x%"PRIx64" data:0x%"PRIx64
++bcm2835_mbox_read(unsigned int size, uint64_t addr, uint64_t value) "mbox read sz:%u addr:0x%"PRIx64" data:0x%"PRIx64
++bcm2835_mbox_irq(unsigned level) "mbox irq:ARM level:%u"
++bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "mbox property tag:0x%08x in_sz:%u out_sz:%zu"
 -- 
 2.20.1
 
