@@ -2,69 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E9DBF6A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:25:58 +0200 (CEST)
-Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF847BF6D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:37:48 +0200 (CEST)
+Received: from localhost ([::1]:40790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDWaY-0008DY-OZ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37487)
+	id 1iDWm3-0003ML-9K
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1iDWPO-0004Z2-Du
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:14:23 -0400
+ (envelope-from <qi1.zhang@intel.com>) id 1iDMoa-0002do-BI
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 01:59:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1iDWPK-00043L-GQ
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:14:19 -0400
-Received: from mga18.intel.com ([134.134.136.126]:57787)
+ (envelope-from <qi1.zhang@intel.com>) id 1iDMoX-0001d0-VL
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 01:59:42 -0400
+Received: from mga12.intel.com ([192.55.52.136]:6144)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1iDWPK-0003t4-9X
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:14:18 -0400
+ (Exim 4.71) (envelope-from <qi1.zhang@intel.com>) id 1iDMoX-0001OC-NB
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 01:59:41 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2019 09:13:49 -0700
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2019 22:59:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,552,1559545200"; d="scan'208";a="219454024"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by fmsmga002.fm.intel.com with ESMTP; 26 Sep 2019 09:13:49 -0700
-Received: from fmsmsx161.amr.corp.intel.com (10.18.125.9) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 26 Sep 2019 09:13:48 -0700
-Received: from shsmsx153.ccr.corp.intel.com (10.239.6.53) by
- FMSMSX161.amr.corp.intel.com (10.18.125.9) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 26 Sep 2019 09:13:48 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.113]) by
- SHSMSX153.ccr.corp.intel.com ([169.254.12.235]) with mapi id 14.03.0439.000;
- Fri, 27 Sep 2019 00:13:46 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v5 0/4] colo: Add support for continuous replication
-Thread-Topic: [PATCH v5 0/4] colo: Add support for continuous replication
-Thread-Index: AQHVa/qgNl0a22l5hkOomUt8zU/K3ac9q5sAgACGoAA=
-Date: Thu, 26 Sep 2019 16:13:46 +0000
-Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D780627E4F5@shsmsx102.ccr.corp.intel.com>
-References: <cover.1568574478.git.lukasstraub2@web.de>
- <20190926180956.731f3c6f@luklap>
-In-Reply-To: <20190926180956.731f3c6f@luklap>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNGIwMzQ3NDktMmU2Yi00ZjY3LTg4NmItY2RhNWYyOWY1NGJmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiajZaV0oyRUFMWFwvS3pHOFpLSUQxc0k5WjBIa1BhQTYxUDRWNmxsUFNua2RmOUc5TEhSSkoxNGlWdWp2bFlzeWEifQ==
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-IronPort-AV: E=Sophos;i="5.64,550,1559545200"; d="scan'208";a="189900932"
+Received: from a23004-02.sh.intel.com ([10.239.9.19])
+ by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2019 22:59:31 -0700
+From: qi1.zhang@intel.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] intel_iommu: TM field should not be in reserved bits
+Date: Thu, 26 Sep 2019 13:49:22 +0800
+Message-Id: <20190926054922.21110-1-qi1.zhang@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.126
+X-Received-From: 192.55.52.136
+X-Mailman-Approved-At: Thu, 26 Sep 2019 12:31:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,94 +52,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: qi1.zhang@intel.com, ehabkost@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: "Zhang, Qi" <qi1.zhang@intel.com>
 
-> -----Original Message-----
-> From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Friday, September 27, 2019 12:10 AM
-> To: qemu-devel <qemu-devel@nongnu.org>
-> Cc: Zhang, Chen <chen.zhang@intel.com>; Jason Wang
-> <jasowang@redhat.com>; Wen Congyang <wencongyang2@huawei.com>;
-> Xie Changlong <xiechanglong.d@gmail.com>; kwolf@redhat.com;
-> mreitz@redhat.com
-> Subject: Re: [PATCH v5 0/4] colo: Add support for continuous replication
->=20
-> On Sun, 15 Sep 2019 21:19:50 +0200
-> Lukas Straub <lukasstraub2@web.de> wrote:
->=20
-> > Hello Everyone,
-> > These Patches add support for continuous replication to colo. This
-> > means that after the Primary fails and the Secondary did a failover,
-> > the Secondary can then become Primary and resume replication to a new
-> Secondary.
-> >
-> > On a side note, I wrote a Pacemaker Resource Agent for colo which I
-> > will post when its ready.
-> > I have to say it's quite fun to randomly kill a Node, wait for resync
-> > and repeat and see how the VM stays alive all the time. :)
-> >
-> > Regards,
-> > Lukas Straub
-> >
-> > v5:
-> >  - change syntax for the position=3D parameter
-> >  - fix spelling mistake
-> >
-> > v4:
-> >  - fix checkpatch.pl warnings
-> >
-> > v3:
-> >  - add test for replication changes
-> >  - check if the filter to be inserted before/behind belongs to the
-> > same interface
-> >  - fix the error message for the position=3D parameter
-> >  - rename term "after" -> "behind" and variable "insert_before" ->
-> "insert_before_flag"
-> >  - document the quorum node on the secondary side
-> >  - simplify quorum parameters in documentation
-> >  - remove trailing spaces in documentation
-> >  - clarify the testing procedure in documentation
-> >
-> > v2:
-> >  - fix email formating
-> >  - fix checkpatch.pl warnings
-> >  - fix patchew error
-> >  - clearer commit messages
-> >
-> >
-> > Lukas Straub (4):
-> >   block/replication.c: Ignore requests after failover
-> >   tests/test-replication.c: Add test for ignoring requests after
-> >     failover
-> >   net/filter.c: Add Options to insert filters anywhere in the filter
-> >     list
-> >   colo: Update Documentation for continuous replication
-> >
-> >  block/replication.c        |  38 ++++++-
-> >  docs/COLO-FT.txt           | 212 +++++++++++++++++++++++++++----------
-> >  docs/block-replication.txt |  28 +++--
-> >  include/net/filter.h       |   2 +
-> >  net/filter.c               |  92 +++++++++++++++-
-> >  qemu-options.hx            |  10 +-
-> >  tests/test-replication.c   |  52 +++++++++
-> >  7 files changed, 358 insertions(+), 76 deletions(-)
-> >
->=20
-> Hello Everyone,
-> Ping.
+When dt is supported, TM field should not be Reserved(0).
 
-Sorry for slow reply, I'm reviewing~
+Refer to VT-d Spec 9.8
 
-Thanks
-Zhang Chen
+Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
+Signed-off-by: Qi, Yadong <yadong.qi@intel.com>
+---
+ hw/i386/intel_iommu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
->=20
-> Regards,
-> Lukas Straub
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index f1de8fdb75..2696ceeb9d 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3567,6 +3567,13 @@ static void vtd_init(IntelIOMMUState *s)
+ 
+     if (x86_iommu->dt_supported) {
+         s->ecap |= VTD_ECAP_DT;
++        vtd_paging_entry_rsvd_field[1] &= ~(1ULL << 62);
++        vtd_paging_entry_rsvd_field[2] &= ~(1ULL << 62);
++        vtd_paging_entry_rsvd_field[3] &= ~(1ULL << 62);
++
++        vtd_paging_entry_rsvd_field[5] &= ~(1ULL << 62);
++        vtd_paging_entry_rsvd_field[6] &= ~(1ULL << 62);
++        vtd_paging_entry_rsvd_field[7] &= ~(1ULL << 62);
+     }
+ 
+     if (x86_iommu->pt_supported) {
+-- 
+2.20.1
+
 
