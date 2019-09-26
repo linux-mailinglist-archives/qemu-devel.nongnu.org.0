@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CB2BF2AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:14:23 +0200 (CEST)
-Received: from localhost ([::1]:34894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCEFBF2B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 14:16:06 +0200 (CEST)
+Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDSf8-0001wl-Cu
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:14:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33631)
+	id 1iDSgn-0004lr-4k
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 08:16:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iDSdE-0000IR-L9
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:26 -0400
+ (envelope-from <slp@redhat.com>) id 1iDSdZ-0000n3-6I
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iDSdD-0001yZ-89
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:24 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55635 helo=ozlabs.org)
+ (envelope-from <slp@redhat.com>) id 1iDSdX-0002Tk-5b
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32862)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iDSdC-0001wo-Sr; Thu, 26 Sep 2019 08:12:23 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46fDLZ41bRz9sPK; Thu, 26 Sep 2019 22:11:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569499910;
- bh=UDRwOG2f2d5+VMwe3gnwGDaVkVCAwC1ssMXXSOll1Ug=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k5LIr3lmEPaqWqerwY4gmYodQ6DZpO/PMemzlQevofdq7GpuP8aFJd7qQQO3WJT3d
- X4HhzhegFUbbZys9QY+0sB1w6VtuxLAEPujzq1InP/j9Zty9tcc0ZkpoTeSOucz+YK
- UMyimDquVqQAN3qfN/yzjL1nOjHkTX/8MEnOHueQ=
-Date: Thu, 26 Sep 2019 21:39:22 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 16/20] spapr, xics, xive: Better use of assert()s on irq
- claim/free paths
-Message-ID: <20190926113922.GB17405@umbus>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-17-david@gibson.dropbear.id.au>
- <20190926100841.5c8b779b@bahia.lan>
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iDSdW-0002Pk-Rj
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 08:12:43 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 38D56121D
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 12:12:39 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id k184so1092467wmk.1
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 05:12:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version;
+ bh=wN9I+pQTOykWj2CrD7IK9V1z8ICLlfPqN2VP1BP9wIY=;
+ b=m7rtNIoh1Dy1Zicx5T7hjfYEnAJYFeR0HBd7VcVzIuOal/pWsjxTwygmL3R8SclO9s
+ kflrgyCpYNOP2N51XfXLlFXRQ3D8otCSMHyuGPeVdvYeOfKxmx8IHDoPXIiFi+gq1MCQ
+ NpE8KZ8iu9s3OiWco9ZR+f6sbnHg2ALug8Uq3TPpk5x7+q5UsPmDyW9VDHjZAtCQnB+R
+ bnCTplIWwgClJo4LYe1ud5WI4lLYYQSaFc0TY9b2f923l1Y0TZxr5GJwFUFC025Pnb76
+ U5ZGzo3uMeFhQUTuaEipIossF8PaUXc/vXpky1diKa/KDC0yhTve/ZwlQnoZkBvRX839
+ aSXQ==
+X-Gm-Message-State: APjAAAVPsQEu1lOWI6sOFVfY4iMfHxnOxYb7vB9ExkDOvxY7niApZ3CK
+ LZwlvmDCNftU2XiSq4QXT4nu5vTjQy/Qv7dyrAJ4BU58CFsOQMAPbPyO4aYY1pBMNrIZzz7LDZm
+ C3pYRkTU4tjuOxtk=
+X-Received: by 2002:adf:f790:: with SMTP id q16mr2649432wrp.164.1569499957911; 
+ Thu, 26 Sep 2019 05:12:37 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy8j93qOeT9kouAyo+bvdFtag/p+jF4N3iabs8WR/gC642ne//Z6Besjyuwo9T0IgNq8roODg==
+X-Received: by 2002:adf:f790:: with SMTP id q16mr2649412wrp.164.1569499957694; 
+ Thu, 26 Sep 2019 05:12:37 -0700 (PDT)
+Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
+ [95.120.215.139])
+ by smtp.gmail.com with ESMTPSA id y13sm7051284wrg.8.2019.09.26.05.12.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Sep 2019 05:12:36 -0700 (PDT)
+References: <20190924124433.96810-1-slp@redhat.com>
+ <20190924124433.96810-8-slp@redhat.com>
+ <23a6e891-c3ba-3991-d627-433eb1fe156d@redhat.com> <87a7ass9ho.fsf@redhat.com>
+ <d70d3812-fd84-b248-7965-cae15704e785@redhat.com> <87o8z737am.fsf@redhat.com>
+ <92575de9-da44-cac4-5b3d-6b07a7a8ea34@redhat.com> <87k19v2whk.fsf@redhat.com>
+ <b02ada95-9853-ff21-cc14-ca0acf48782a@redhat.com>
+User-agent: mu4e 1.2.0; emacs 26.2
+From: Sergio Lopez <slp@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v4 7/8] docs/microvm.txt: document the new microvm machine
+ type
+In-reply-to: <b02ada95-9853-ff21-cc14-ca0acf48782a@redhat.com>
+Date: Thu, 26 Sep 2019 14:12:24 +0200
+Message-ID: <87impf2r4n.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="M5PHxtWZRXQUdpfa"
-Content-Disposition: inline
-In-Reply-To: <20190926100841.5c8b779b@bahia.lan>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,168 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, lersek@redhat.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--=-=-=
+Content-Type: text/plain
 
---M5PHxtWZRXQUdpfa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 26, 2019 at 10:08:41AM +0200, Greg Kurz wrote:
-> On Wed, 25 Sep 2019 16:45:30 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > The irq claim and free paths for both XICS and XIVE check for some
-> > validity conditions.  Some of these represent genuine runtime failures,
-> > however others - particularly checking that the basic irq number is in a
-> > sane range - could only fail in the case of bugs in the callin code.
-> > Therefore use assert()s instead of runtime failures for those.
-> >=20
-> > In addition the non backend-specific part of the claim/free paths should
-> > only be used for PAPR external irqs, that is in the range SPAPR_XIRQ_BA=
-SE
-> > to the maximum irq number.  Put assert()s for that into the top level
-> > dispatchers as well.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/intc/spapr_xive.c |  8 ++------
-> >  hw/ppc/spapr_irq.c   | 18 ++++++++++--------
-> >  2 files changed, 12 insertions(+), 14 deletions(-)
-> >=20
-> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> > index c1c97192a7..47b5ec0b56 100644
-> > --- a/hw/intc/spapr_xive.c
-> > +++ b/hw/intc/spapr_xive.c
-> > @@ -532,9 +532,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t=
- lisn, bool lsi)
-> >  {
-> >      XiveSource *xsrc =3D &xive->source;
-> > =20
-> > -    if (lisn >=3D xive->nr_irqs) {
-> > -        return false;
-> > -    }
-> > +    assert(lisn < xive->nr_irqs);
-> > =20
-> >      /*
-> >       * Set default values when allocating an IRQ number
-> > @@ -559,9 +557,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t=
- lisn, bool lsi)
-> > =20
-> >  bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn)
-> >  {
-> > -    if (lisn >=3D xive->nr_irqs) {
-> > -        return false;
-> > -    }
-> > +    assert(lisn < xive->nr_irqs);
-> > =20
-> >      xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
-> >      return true;
-> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > index c40357a985..261d66ba17 100644
-> > --- a/hw/ppc/spapr_irq.c
-> > +++ b/hw/ppc/spapr_irq.c
-> > @@ -118,11 +118,7 @@ static int spapr_irq_claim_xics(SpaprMachineState =
-*spapr, int irq, bool lsi,
-> >      ICSState *ics =3D spapr->ics;
-> > =20
-> >      assert(ics);
-> > -
-> > -    if (!ics_valid_irq(ics, irq)) {
-> > -        error_setg(errp, "IRQ %d is invalid", irq);
-> > -        return -1;
-> > -    }
-> > +    assert(ics_valid_irq(ics, irq));
-> > =20
-> >      if (!ics_irq_free(ics, irq - ics->offset)) {
-> >          error_setg(errp, "IRQ %d is not free", irq);
-> > @@ -138,9 +134,9 @@ static void spapr_irq_free_xics(SpaprMachineState *=
-spapr, int irq)
-> >      ICSState *ics =3D spapr->ics;
-> >      uint32_t srcno =3D irq - ics->offset;
-> > =20
-> > -    if (ics_valid_irq(ics, irq)) {
-> > -        memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
-> > -    }
-> > +    assert(ics_valid_irq(ics, irq));
-> > +
-> > +    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
-> >  }
-> > =20
-> >  static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monito=
-r *mon)
-> > @@ -628,6 +624,9 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
- **errp)
-> > =20
-> >  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error=
- **errp)
-> >  {
-> > +    assert(irq >=3D SPAPR_XIRQ_BASE);
-> > +    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-> > +
-> >      return spapr->irq->claim(spapr, irq, lsi, errp);
-> >  }
-> > =20
-> > @@ -635,6 +634,9 @@ void spapr_irq_free(SpaprMachineState *spapr, int i=
-rq, int num)
-> >  {
-> >      int i;
-> > =20
-> > +    assert(irq >=3D SPAPR_XIRQ_BASE);
-> > +    assert((irq+num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
->=20
-> Non surprisingly this makes checkpatch unhappy:
->=20
-> ERROR: spaces required around that '+' (ctx:VxV)
-> #91: FILE: hw/ppc/spapr_irq.c:638:
-> +    assert((irq+num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Oops, fixed.  I hadn't done a checkpatch run yet, since I'm still
-working actively on the series.
+> On 26/09/19 12:16, Sergio Lopez wrote:
+>>> If KVM is in use, the
+>>> LAPIC timer frequency is known to be 1 GHz.
+>>>
+>>> arch/x86/kernel/kvm.c can just set
+>>>
+>>> 	lapic_timer_period = 1000000000 / HZ;
+>>>
+>>> and that should disabled LAPIC calibration if TSC deadline is absent.
+>> Given that they can only be omitted when an specific set of conditions
+>> is met, I think I'm going to make them optional but enabled by default.
+>
+> Please do introduce the infrastructure to make them OnOffAuto, and for
+> now make Auto the same as On.  We have time to review that since microvm
+> is not versioned.
 
->=20
-> With that fixed,
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
-> > +
-> >      for (i =3D irq; i < (irq + num); i++) {
-> >          spapr->irq->free(spapr, irq);
-> >      }
->=20
+OK, sounds like a good idea to me.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks,
+Sergio.
 
---M5PHxtWZRXQUdpfa
+--=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2Mo2oACgkQbDjKyiDZ
-s5JSsQ//Xo3iKYfE1YBcsp3/R9ul7gln2SXqpCsh9IKasLsWfRHRmldTNW/v6Ml8
-G75I8vo4kT1aZclNOcol2MBQo78cCTKwQmhJC9qYlhRsEzppYdqywPP+KuHGVtHL
-+WOkXcrgd/Xzh3tviD5FVFPl+mfdBiIoa0X5sOCjayibbjGarp4hnNF2zfC6ssac
-NxDRG2eRmJwJ98ALyP6396BtMSK6+nrLVMfC/0NPNpq4r1kgogThEZRQIBpQon/v
-q0+IG3PvcjiexfjoDLKN5C41DBbc3eq8E88khkAnc8z5XE0aqYAWt+c9FJl/TM6u
-vF4n+zF7tD6shNuW6j3Hsl/MM+VhvcEUetMebvL1opCxZAoWtUchn1UGCe3X3j2S
-v9cJ+hqVGFjO/FL+gyKpuz3Zy9RJpv2GpB4ArQg3DpSxLuZrSBtIC53z4GYHbEBk
-cytv92GcjOvzER9LjNdzlMOMLP/jH6Ip/nfg7NzGzUfUv4LArYupLbBTLQ/gMBwe
-FAL5IidL80cHIDSHg31MplF95lQazupo0qEU7zqprZYgeGSAhDwEYUwGefMbJNc8
-fdErJdJMhdv+VoYkdiHceAk8POwh/GA851GuYR0t0Z0HadA/pW154GY8nW7koeZg
-QqYObW43bHV0EK7sc1/jOpLU0hf5TVAnGS2xrRztyUTbAgnzh5I=
-=LY0Y
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2MqygACgkQ9GknjS8M
+AjX7gBAAuIOhcJCSJRb3fNUsv+ppkFbFvve9QMXGpPDOPxNoUi4xqFkUXgTagi8y
+sIBrbXsFjS0Aj/12Cle8xEuTASy0eSwCrGP1r030YhatqkDNrEhAlyRL6pmj6C2P
+cibVfVQGmdd2CYwibnLuaOY4fQIfVZICbBAPHAPQT+dO6i7z1hN2RmhhsHs5qn2k
+/YL87sTRx3oNC7Qzu5kwMcVLZeKtVKdQEYGcAGxD6++zH5tgz3luzTZyPODPk/Iy
+ZIsqiC211A6jAld63V3bPad0Xv1LNV2HUh1rz+7KXTUMMtR+Awjq5XGg5CY7ri0i
+vJ1kleICMA/Ap4eXrEdJ2CxyCFcanWejNaPnRphdqd2oxOvDnusDwRYBTnEWlCw4
+6TQ3mcxRS29SVpSGmAVSnZqKb3NQ8xVrJkwhNjVxpTe+jZOwR+EnboJ3An91AhZ4
+UaYbTa3gL9ihgkMiC1oYwkC8DHGnGC/0zJHkMeOvKBnLwa0U4aJPJ1jMJ8fQilqR
+aS5utqGbNq4ynlipKoAthhOBk6rIR+n1GMBWiUEK/InC4GMGcdAbYsK6hW07tQMZ
+ZEwwaz8cLOtUMeZVmJT0SvYeK7NRl9BjEndIf4XPD2iYFVWYLWa1p4x4a2V67x8W
+eO+Q6H5KnKqKKAwpyiskPSGnIrgjnVjhVwS/JjxesUE6Dg7UTJA=
+=5cKk
 -----END PGP SIGNATURE-----
-
---M5PHxtWZRXQUdpfa--
+--=-=-=--
 
