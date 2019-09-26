@@ -2,49 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF0EBF617
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:42:26 +0200 (CEST)
-Received: from localhost ([::1]:39606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3587BF624
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:45:42 +0200 (CEST)
+Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDVuS-0000Yk-9U
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52908)
+	id 1iDVxd-0002lN-1h
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:45:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iDVY4-0003bA-8c
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:19:17 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDVhL-0007FR-NK
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:28:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iDVY1-0004yr-9v
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:19:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33982)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iDVXx-0004vd-37; Thu, 26 Sep 2019 11:19:09 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D80AE10DCC9D;
- Thu, 26 Sep 2019 15:18:59 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E7A15D6B0;
- Thu, 26 Sep 2019 15:18:52 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] hw/misc/vmcoreinfo: Convert reset handler to DeviceReset
-Date: Thu, 26 Sep 2019 17:17:33 +0200
-Message-Id: <20190926151733.25349-12-philmd@redhat.com>
-In-Reply-To: <20190926151733.25349-1-philmd@redhat.com>
-References: <20190926151733.25349-1-philmd@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iDVhK-0000UC-Fb
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:28:51 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40492)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iDVhK-0000Tt-AP
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:28:50 -0400
+Received: by mail-wr1-f68.google.com with SMTP id l3so3261448wru.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 08:28:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=mGjZ/f9Mfy06GuCl82Qx4t10JpZXeUei72SAbH8i5R4=;
+ b=bBoa/YDobD4tiLpD2vW6YeSaFyylmDnEb2FOowokVRyIo5LoTO1lnmIWYJIWiisxBG
+ FrH1bREpo6g09q7ECInHqCswA9o7gJk3pP7Pz3nXvoKBgwUbvouVvQNKLeLKZhAXH0/R
+ T0JqcjvOaRhfYmC5hTL8/TJg4C8iJKWRgLYpzlMWGn0dVCmelFilBwfl0UOdWh3pwh1Y
+ BkRdz7QTdlgjlq7jTCiooAolm9lJQANGUedadDjelHkcIwyz3f5FOF99nPuC36j8FXpz
+ a6eMkczaXfkShPejzgJ+H3+HQDG2zbDDPgsFAFHUK0f09Tcr7KveDTRvE/xsnQuD6VAY
+ O4ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=mGjZ/f9Mfy06GuCl82Qx4t10JpZXeUei72SAbH8i5R4=;
+ b=XAWS3bkeECCEMa41AYSmrsxQs0XeKRMiwgJktOZ9fphmwjzHuqJK6Vavep0IIldIo4
+ dWZ2JzYGh2VolCIFFDwx1K4CjgjOJM2q2Wpb/QtwgGdN13dyWfi4oLCFaDtyxhI7QtVD
+ koIE2U9rySsrXG6B3o5lIUw7X120/DOuFTxQhQ3UNQRIL89EoxdHhOJgE6zlbbL7n3zo
+ PgVL3vnqfaW42EE9viRNxybk81YCPUyWKb8KORGA0z+sy6px95TMDXpe8FnRDM8pIygY
+ cTwAlGyBx50Pgslx9lVwWH+SlYOBxHPAFne0oS9kcv17OTfkmEYF2wEOCaGXdudabEFN
+ 3Zcg==
+X-Gm-Message-State: APjAAAUF0Iju5YIr3rHApTO7cHt/G/dcvaa39OnCYN4XQpzYBfmyjv8P
+ 99l2x2AbDR3lzpPphw9q7RaZgw==
+X-Google-Smtp-Source: APXvYqw4M7neN9JKLkd7H0+xTNQm30uMgCYtMFbSRdwTlRR7lvWxtdKcgqDqplVIT/8vpkNQpxPhwg==
+X-Received: by 2002:adf:f708:: with SMTP id r8mr3377598wrp.187.1569511669203; 
+ Thu, 26 Sep 2019 08:27:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b186sm9232360wmd.16.2019.09.26.08.27.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Sep 2019 08:27:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D86A11FF87;
+ Thu, 26 Sep 2019 16:27:47 +0100 (BST)
+References: <20190925233013.6449-1-alex.bennee@linaro.org>
+ <CAFEAcA9vb5_Mi_axWpu7269Zg0xMLbiiV80ofLeyDpfws3G4nQ@mail.gmail.com>
+ <20190926125817.GB19660@redhat.com>
+ <ea6b671a-0c05-d880-3b9f-62a4f8626ec1@de.ibm.com>
+ <19efe3ee-a532-cf66-a5a7-03a7c053737c@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
+In-reply-to: <19efe3ee-a532-cf66-a5a7-03a7c053737c@redhat.com>
+Date: Thu, 26 Sep 2019 16:27:47 +0100
+Message-ID: <87d0fn9ix8.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Thu, 26 Sep 2019 15:18:59 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 209.85.221.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,64 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Daniel_P=2E?= =?utf-8?Q?_Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc@nongnu.org, "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the reset handler into a proper Device reset method.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/misc/vmcoreinfo.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Thomas Huth <thuth@redhat.com> writes:
 
-diff --git a/hw/misc/vmcoreinfo.c b/hw/misc/vmcoreinfo.c
-index 326a3ce8f4..a1c4847cdf 100644
---- a/hw/misc/vmcoreinfo.c
-+++ b/hw/misc/vmcoreinfo.c
-@@ -13,7 +13,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
--#include "sysemu/reset.h"
- #include "hw/nvram/fw_cfg.h"
- #include "migration/vmstate.h"
- #include "hw/misc/vmcoreinfo.h"
-@@ -26,7 +25,7 @@ static void fw_cfg_vmci_write(void *dev, off_t offset, =
-size_t len)
-         && s->vmcoreinfo.guest_format !=3D FW_CFG_VMCOREINFO_FORMAT_NONE=
-;
- }
-=20
--static void vmcoreinfo_reset(void *dev)
-+static void vmcoreinfo_reset(DeviceState *dev)
- {
-     VMCoreInfoState *s =3D VMCOREINFO(dev);
-=20
-@@ -61,7 +60,6 @@ static void vmcoreinfo_realize(DeviceState *dev, Error =
-**errp)
-                              NULL, fw_cfg_vmci_write, s,
-                              &s->vmcoreinfo, sizeof(s->vmcoreinfo), fals=
-e);
-=20
--    qemu_register_reset(vmcoreinfo_reset, dev);
-     vmcoreinfo_state =3D s;
- }
-=20
-@@ -84,6 +82,7 @@ static void vmcoreinfo_device_class_init(ObjectClass *k=
-lass, void *data)
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-     dc->vmsd =3D &vmstate_vmcoreinfo;
-+    dc->reset =3D vmcoreinfo_reset;
-     dc->realize =3D vmcoreinfo_realize;
-     dc->hotpluggable =3D false;
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
---=20
-2.20.1
+> On 26/09/2019 15.46, Christian Borntraeger wrote:
+>>
+>>
+>> On 26.09.19 14:58, Daniel P. Berrang=C3=A9 wrote:
+>>> On Thu, Sep 26, 2019 at 08:50:36AM +0100, Peter Maydell wrote:
+>>>> On Thu, 26 Sep 2019 at 00:31, Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>>>>>
+>>>>> The 32 bit hosts are already a second class citizen especially with
+>>>>> support for running 64 bit guests under TCG. We are also limited by
+>>>>> testing as actual working 32 bit machines are getting quite rare in
+>>>>> developers personal menageries. For TCG supporting newer types like
+>>>>> Int128 is a lot harder with 32 bit calling conventions compared to
+>>>>> their larger bit sized cousins. Fundamentally address space is the
+>>>>> most useful thing for the translator to have even for a 32 bit guest a
+>>>>> 32 bit host is quite constrained.
+>>>>>
+>>>>> As far as I'm aware 32 bit KVM users are even less numerous. Even
+>>>>> ILP32 doesn't make much sense given the address space QEMU needs to
+>>>>> manage.
+>>>>
+>>>> For KVM we should wait until the kernel chooses to drop support,
+>>>> I think.
+>>>
+>>> What if the kernel is waiting for QEMU to drop support too ;-P
+>>
+>> For what its worth on kvm/s390 we never cared about implementing
+>> 32 bit.
+>
+> Looking at tcg/s390/tcg-target.inc.c :
+>
+> ...
+> /* We only support generating code for 64-bit mode.  */
+> #if TCG_TARGET_REG_BITS !=3D 64
+> #error "unsupported code generation mode"
+> #endif
+> ...
+>
+> ... it seems to me that TCG does not support 32-bit on s390 either. I
+> think we can remove s390 (32-bit) from the list completely?
 
+It's the same for riscv32 I think.
+
+>
+>  Thomas
+
+
+--
+Alex Benn=C3=A9e
 
