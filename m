@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D02BF716
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:47:22 +0200 (CEST)
-Received: from localhost ([::1]:40944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E74BF6DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:42:12 +0200 (CEST)
+Received: from localhost ([::1]:40860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDWvI-0004Jr-71
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41426)
+	id 1iDWqJ-0007mU-4h
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:42:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41513)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWcH-0002kQ-S2
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:43 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDWcK-0002nf-1Z
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWcF-0004q3-4X
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:41 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:32858)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDWcI-0004ss-Kr
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:43 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:35478)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDWcE-0004oq-Tu
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:39 -0400
-Received: by mail-pg1-f193.google.com with SMTP id i30so1868896pgl.0
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:38 -0700 (PDT)
+ id 1iDWcI-0004s9-EC
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:42 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 205so2145531pfw.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BgDvG9Al3WPKQz7RdZ0r1UKiV65zPVQZj9u9agDKhUI=;
- b=drGvDfZb6YF/SSjGyBem6M9wPyEtLuKKsTfnqEZW829cy7+5yUob548Xe+a7ASM3Rf
- ttTJQcpBtqNrUBFj4KDGXBzTsF+o3ANLHINy49AGl88Gy1W0H3UOuDyIciME6fkCLAv/
- aRQ8/r7wGef2Bv49+bxlfCnwRrRG6GhwIopXx2aMzd/F41jBDV3ap0cvsJbDbqitYRMb
- yGZhuplPQl8h7Z0BNJZ66Pqn0pEuVMuhXzxdzXQmiEdAXII2HkXuCERa+CBbnW/JeWBQ
- Jp1x1B2JA2s7Xq0y4ZeXgKXfgS6UKsuDYdRrac7pfh+xTdFFiTKVg9nS6QlvBKR3M3F0
- yLAw==
+ bh=8blXRqcbFbTzejzjElPQzOmrEhdRtWtBUHSTiMchkDQ=;
+ b=BZ5YQquK8X6lz7nhreQWrs1k3IxNPZv0U19B3cH71OjWHgYQqz9twCd9FekBkwb1lV
+ YSVlN4BPR6Dh2geSQlrSTNg6Aaw3MyAoYTEVxZE2xHfwchxFgbPMS0pryPRNFDhnRJDE
+ 3ljJL3NBBzDkaiXWDZxRB/peJCagVmefn6A+Cgs7u+61MuyixUoUKLMYkBU1/Y98mbbi
+ jC3goPzuMX7O+shqhagS0HX/8fz0S/YdRueV1UC5ToHXBGat07X6qelwi8tLiYmREMys
+ FpjHaUWJ5KFk0Veoxh5CmGcTU70LyDKGfsVOqTjPiGKaWH/OZ/Su/JcSotisgMZm5tiw
+ 0lDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=BgDvG9Al3WPKQz7RdZ0r1UKiV65zPVQZj9u9agDKhUI=;
- b=enTWbEAV/oIDxdB+usAEibI1qkl092g9wH2nRIBzVeoPeGt3dGZdi2WwN4Pxp4Mnrs
- 4AXEsJrd+TOL7TwNQd1d8GkLN/KACKQ3V6XVN37WN/c83ahG76JVnABFS5JzAHghXAmQ
- tD/W1XyYmBX4bHr0/hzcEgHJLQLmqf4OOh8g86RLKgrK1ltVqLZa7qGmeN4PDU9LJy0O
- ckE9fCniDFYRf77YGhzqNgQjGKpP3ZYxMxOJgAaY8LkZ/CO3SMQK/TqQLdhPNSzLJ0f/
- kXRcov42AUrckuH2qmkK+MaQbvL/kEhCm7gn1q8m8HeviBeWgMTuSbvqpnKbsWIX+N7Y
- R3zQ==
-X-Gm-Message-State: APjAAAVXJn6Bey9F+fDAxgaIHjMd7LeLT3v+3/PLgRQPYnJ/FLx2DWTT
- lBJ57uSQ57G/L5CidzKCK+HKSRUx8iY=
-X-Google-Smtp-Source: APXvYqyJ3PehV41h4PGJtbPAbIOJ5pSNE0wxOYdlSeJSm7xx3rRvtndh67YWksxXAvepMI3jqAZr/Q==
-X-Received: by 2002:a62:e917:: with SMTP id j23mr4667444pfh.50.1569515197306; 
- Thu, 26 Sep 2019 09:26:37 -0700 (PDT)
+ bh=8blXRqcbFbTzejzjElPQzOmrEhdRtWtBUHSTiMchkDQ=;
+ b=aRkTuBLVntM0J2lAX4LdOM6ZUKTTktZAA75ogLKgVpEOn2pprBGFgKA4hkv1IH8W9R
+ kFJWnDU7YHrKzcLUn4YZ0xK31WbMETlOQ3FQZVQYypjbQnoAAT3ezuEDCsozDiFzt1Yx
+ VYFjt2nm5Y5zWai7t6/+sPU0dWGAb1J4J0U5dyXWKmLKhz4ox7zdsY2RQi8b2SStyU4T
+ HNLvRTQ6FZFzhe0c1Gh7EzwRtjKjcFQRlfhqG+0+x4vTApMz/ooAPC02q+gbEMa+96lh
+ 43KLKrufnq28i2WEfhpq5wQ05yM/sT/efEQsHV6UcXgt5DvWdQToZe8smZQ6ttYUr8dV
+ lhPQ==
+X-Gm-Message-State: APjAAAXMwwx2hIGEr26V8eBXPAofzADFLBG05CzIkiW9ao9tc9AL4FDB
+ xJL8fWfO8WhViSyf0NZ23b9khTOMO/g=
+X-Google-Smtp-Source: APXvYqwTjpNncAnu4Qz4qpAsshcwkEIKuj8BTduiWHwBTtYYPIby64LgT9ecYHf0xjOaHPG7tB00Hg==
+X-Received: by 2002:aa7:8e55:: with SMTP id d21mr4495837pfr.241.1569515200991; 
+ Thu, 26 Sep 2019 09:26:40 -0700 (PDT)
 Received: from localhost.localdomain ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.36
+ by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 09:26:36 -0700 (PDT)
+ Thu, 26 Sep 2019 09:26:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/18] target/s390x: Rely on unwinding in s390_cpu_tlb_fill
-Date: Thu, 26 Sep 2019 09:26:11 -0700
-Message-Id: <20190926162615.31168-15-richard.henderson@linaro.org>
+Subject: [PATCH v3 17/18] target/s390x: Remove ilen argument from
+ trigger_access_exception
+Date: Thu, 26 Sep 2019 09:26:14 -0700
+Message-Id: <20190926162615.31168-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190926162615.31168-1-richard.henderson@linaro.org>
 References: <20190926162615.31168-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.193
+X-Received-From: 209.85.210.195
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,63 +79,45 @@ Cc: qemu-s390x@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently set ilen to AUTO, then overwrite that during
-unwinding, then overwrite that for the code access case.
-
-This can be simplified to setting ilen to our arbitrary
-value for the (undefined) code access case, then rely on
-unwinding to overwrite that with the correct value for
-the data access case.
+The single caller passes ILEN_UNWIND; pass that along to
+trigger_pgm_exception directly.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/excp_helper.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ target/s390x/mmu_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 98a1ee8317..8ce992e639 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -96,7 +96,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index bf7fddb056..e6c3139c57 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -33,7 +33,7 @@
+ #define FS_WRITE 0x400
+ 
+ static void trigger_access_exception(CPUS390XState *env, uint32_t type,
+-                                     uint32_t ilen, uint64_t tec)
++                                     uint64_t tec)
  {
-     S390CPU *cpu = S390_CPU(cs);
+     S390CPU *cpu = env_archcpu(env);
  
--    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING, ILEN_AUTO);
-+    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING, ILEN_UNWIND);
-     /* On real machines this value is dropped into LowMem.  Since this
-        is userland, simply put this someplace that cpu_loop can find it.  */
-     cpu->env.__excp_addr = address;
-@@ -179,24 +179,15 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         stq_phys(env_cpu(env)->as,
-                  env->psa + offsetof(LowCore, trans_exc_code), tec);
+@@ -44,7 +44,7 @@ static void trigger_access_exception(CPUS390XState *env, uint32_t type,
+         if (type != PGM_ADDRESSING) {
+             stq_phys(cs->as, env->psa + offsetof(LowCore, trans_exc_code), tec);
+         }
+-        trigger_pgm_exception(env, type, ilen);
++        trigger_pgm_exception(env, type, ILEN_UNWIND);
      }
--    trigger_pgm_exception(env, excp, ILEN_AUTO);
--    cpu_restore_state(cs, retaddr, true);
- 
-     /*
--     * The ILC value for code accesses is undefined.  The important
--     * thing here is to *not* leave env->int_pgm_ilen set to ILEN_AUTO,
--     * which would cause do_program_interrupt to attempt to read from
--     * env->psw.addr again.  C.f. the condition in trigger_page_fault,
--     * but is not universally applied.
--     *
--     * ??? If we remove ILEN_AUTO, by moving the computation of ILEN
--     * into cpu_restore_state, then we may remove this entirely.
-+     * For data accesses, ILEN will be filled in from the unwind info,
-+     * within cpu_loop_exit_restore.  For code accesses, retaddr == 0,
-+     * and so unwinding will not occur.  However, ILEN is also undefined
-+     * for that case -- we choose to set ILEN = 2.
-      */
--    if (access_type == MMU_INST_FETCH) {
--        env->int_pgm_ilen = 2;
--    }
--
--    cpu_loop_exit(cs);
-+    trigger_pgm_exception(env, excp, 2);
-+    cpu_loop_exit_restore(cs, retaddr);
  }
  
- static void do_program_interrupt(CPUS390XState *env)
+@@ -482,7 +482,7 @@ int s390_cpu_virt_mem_rw(S390CPU *cpu, vaddr laddr, uint8_t ar, void *hostbuf,
+ 
+     ret = translate_pages(cpu, laddr, nr_pages, pages, is_write, &tec);
+     if (ret) {
+-        trigger_access_exception(&cpu->env, ret, ILEN_UNWIND, tec);
++        trigger_access_exception(&cpu->env, ret, tec);
+     } else if (hostbuf != NULL) {
+         /* Copy data by stepping through the area page by page */
+         for (i = 0; i < nr_pages; i++) {
 -- 
 2.17.1
 
