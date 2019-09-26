@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F8ABEFD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:42:15 +0200 (CEST)
-Received: from localhost ([::1]:33652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDA9BF00C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:49:09 +0200 (CEST)
+Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDRDy-00057L-Ih
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38478)
+	id 1iDRKe-0002ta-GK
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDQyj-0006gG-0c
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:26:31 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iDQz9-0006yV-16
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:26:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDQyg-00074K-6R
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:26:28 -0400
-Received: from relay.sw.ru ([185.231.240.75]:54284)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iDQz6-0007TM-EF
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:26:54 -0400
+Received: from relay.sw.ru ([185.231.240.75]:54274)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDQyb-0006vT-EE; Thu, 26 Sep 2019 06:26:21 -0400
+ id 1iDQyv-0006vU-KA; Thu, 26 Sep 2019 06:26:42 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDQyY-0003nC-Cg; Thu, 26 Sep 2019 13:26:18 +0300
+ id 1iDQyY-0003nC-GD; Thu, 26 Sep 2019 13:26:18 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v14 12/14] block: move in-flight requests handling from backup
- to block-copy
-Date: Thu, 26 Sep 2019 13:26:12 +0300
-Message-Id: <20190926102614.28999-13-vsementsov@virtuozzo.com>
+Subject: [PATCH v14 13/14] block: introduce backup-top filter driver
+Date: Thu, 26 Sep 2019 13:26:13 +0300
+Message-Id: <20190926102614.28999-14-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190926102614.28999-1-vsementsov@virtuozzo.com>
 References: <20190926102614.28999-1-vsementsov@virtuozzo.com>
@@ -54,223 +53,327 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, wencongyang2@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move synchronization mechanism to block-copy, to be able to use one
-block-copy instance from backup job and backup-top filter in parallel.
+Backup-top filter caches write operations and does copy-before-write
+operations.
+
+The driver will be used in backup instead of write-notifiers.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block-copy.h |  8 ++++++
- block/backup.c             | 52 --------------------------------------
- block/block-copy.c         | 43 +++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+), 52 deletions(-)
+ block/backup-top.h  |  37 +++++++
+ block/backup-top.c  | 244 ++++++++++++++++++++++++++++++++++++++++++++
+ block/Makefile.objs |   2 +
+ 3 files changed, 283 insertions(+)
+ create mode 100644 block/backup-top.h
+ create mode 100644 block/backup-top.c
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 54f90d0c9a..962f91056a 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -17,6 +17,13 @@
- 
- #include "block/block.h"
- 
-+typedef struct BlockCopyInFlightReq {
-+    int64_t start_byte;
-+    int64_t end_byte;
-+    QLIST_ENTRY(BlockCopyInFlightReq) list;
-+    CoQueue wait_queue; /* coroutines blocked on this request */
-+} BlockCopyInFlightReq;
+diff --git a/block/backup-top.h b/block/backup-top.h
+new file mode 100644
+index 0000000000..67de7a9133
+--- /dev/null
++++ b/block/backup-top.h
+@@ -0,0 +1,37 @@
++/*
++ * backup-top filter driver
++ *
++ * The driver performs Copy-Before-Write (CBW) operation: it is injected above
++ * some node, and before each write it copies _old_ data to the target node.
++ *
++ * Copyright (c) 2018-2019 Virtuozzo International GmbH.
++ *
++ * Author:
++ *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <http://www.gnu.org/licenses/>.
++ */
 +
- typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
- typedef void (*ProgressResetCallbackFunc)(void *opaque);
- typedef struct BlockCopyState {
-@@ -27,6 +34,7 @@ typedef struct BlockCopyState {
-     bool use_copy_range;
-     int64_t copy_range_size;
-     uint64_t len;
-+    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
- 
-     BdrvRequestFlags write_flags;
- 
-diff --git a/block/backup.c b/block/backup.c
-index 4613b8c88d..d918836f1d 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -29,13 +29,6 @@
- 
- #define BACKUP_CLUSTER_SIZE_DEFAULT (1 << 16)
- 
--typedef struct CowRequest {
--    int64_t start_byte;
--    int64_t end_byte;
--    QLIST_ENTRY(CowRequest) list;
--    CoQueue wait_queue; /* coroutines blocked on this request */
--} CowRequest;
--
- typedef struct BackupBlockJob {
-     BlockJob common;
-     BlockDriverState *source_bs;
-@@ -51,50 +44,12 @@ typedef struct BackupBlockJob {
-     uint64_t bytes_read;
-     int64_t cluster_size;
-     NotifierWithReturn before_write;
--    QLIST_HEAD(, CowRequest) inflight_reqs;
- 
-     BlockCopyState *bcs;
- } BackupBlockJob;
- 
- static const BlockJobDriver backup_job_driver;
- 
--/* See if in-flight requests overlap and wait for them to complete */
--static void coroutine_fn wait_for_overlapping_requests(BackupBlockJob *job,
--                                                       int64_t start,
--                                                       int64_t end)
--{
--    CowRequest *req;
--    bool retry;
--
--    do {
--        retry = false;
--        QLIST_FOREACH(req, &job->inflight_reqs, list) {
--            if (end > req->start_byte && start < req->end_byte) {
--                qemu_co_queue_wait(&req->wait_queue, NULL);
--                retry = true;
--                break;
--            }
--        }
--    } while (retry);
--}
--
--/* Keep track of an in-flight request */
--static void cow_request_begin(CowRequest *req, BackupBlockJob *job,
--                              int64_t start, int64_t end)
--{
--    req->start_byte = start;
--    req->end_byte = end;
--    qemu_co_queue_init(&req->wait_queue);
--    QLIST_INSERT_HEAD(&job->inflight_reqs, req, list);
--}
--
--/* Forget about a completed request */
--static void cow_request_end(CowRequest *req)
--{
--    QLIST_REMOVE(req, list);
--    qemu_co_queue_restart_all(&req->wait_queue);
--}
--
- static void backup_progress_bytes_callback(int64_t bytes, void *opaque)
- {
-     BackupBlockJob *s = opaque;
-@@ -116,7 +71,6 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-                                       bool *error_is_read,
-                                       bool is_write_notifier)
- {
--    CowRequest cow_request;
-     int ret = 0;
-     int64_t start, end; /* bytes */
- 
-@@ -127,14 +81,9 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
- 
-     trace_backup_do_cow_enter(job, start, offset, bytes);
- 
--    wait_for_overlapping_requests(job, start, end);
--    cow_request_begin(&cow_request, job, start, end);
--
-     ret = block_copy(job->bcs, start, end - start, error_is_read,
-                      is_write_notifier);
- 
--    cow_request_end(&cow_request);
--
-     trace_backup_do_cow_return(job, offset, bytes, ret);
- 
-     qemu_co_rwlock_unlock(&job->flush_rwlock);
-@@ -316,7 +265,6 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
-     BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
-     int ret = 0;
- 
--    QLIST_INIT(&s->inflight_reqs);
-     qemu_co_rwlock_init(&s->flush_rwlock);
- 
-     backup_init_copy_bitmap(s);
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 3fc9152853..61e5ea5f46 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -19,6 +19,41 @@
- #include "block/block-copy.h"
- #include "sysemu/block-backend.h"
- 
-+static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
-+                                                       int64_t start,
-+                                                       int64_t end)
++#ifndef BACKUP_TOP_H
++#define BACKUP_TOP_H
++
++#include "block/block_int.h"
++
++BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
++                                         const char *filter_node_name,
++                                         Error **errp);
++void bdrv_backup_top_set_bcs(BlockDriverState *bs, BlockCopyState *copy_state);
++void bdrv_backup_top_drop(BlockDriverState *bs);
++
++#endif /* BACKUP_TOP_H */
+diff --git a/block/backup-top.c b/block/backup-top.c
+new file mode 100644
+index 0000000000..0991b64759
+--- /dev/null
++++ b/block/backup-top.c
+@@ -0,0 +1,244 @@
++/*
++ * backup-top filter driver
++ *
++ * The driver performs Copy-Before-Write (CBW) operation: it is injected above
++ * some node, and before each write it copies _old_ data to the target node.
++ *
++ * Copyright (c) 2018-2019 Virtuozzo International GmbH.
++ *
++ * Author:
++ *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++
++#include "sysemu/block-backend.h"
++#include "qemu/cutils.h"
++#include "qapi/error.h"
++#include "block/block_int.h"
++#include "block/qdict.h"
++#include "block/block-copy.h"
++
++#include "block/backup-top.h"
++
++typedef struct BDRVBackupTopState {
++    BlockCopyState *bcs;
++    bool active;
++} BDRVBackupTopState;
++
++static coroutine_fn int backup_top_co_preadv(
++        BlockDriverState *bs, uint64_t offset, uint64_t bytes,
++        QEMUIOVector *qiov, int flags)
 +{
-+    BlockCopyInFlightReq *req;
-+    bool waited;
++    return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
++}
 +
-+    do {
-+        waited = false;
-+        QLIST_FOREACH(req, &s->inflight_reqs, list) {
-+            if (end > req->start_byte && start < req->end_byte) {
-+                qemu_co_queue_wait(&req->wait_queue, NULL);
-+                waited = true;
-+                break;
-+            }
++static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t offset,
++                                       uint64_t bytes)
++{
++    /*
++     * Here we'd like to use block_copy(), but it needs some additional
++     * synchronization mechanism to prevent intersecting guest writes during
++     * copy operation. The will appear in further commit (it should be done
++     * together with moving backup to using of backup-top and to the same
++     * synchronization mechanism), and for now it is a TODO.
++     */
++
++    abort();
++}
++
++static int coroutine_fn backup_top_co_pdiscard(BlockDriverState *bs,
++                                               int64_t offset, int bytes)
++{
++    int ret = backup_top_cbw(bs, offset, bytes);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return bdrv_co_pdiscard(bs->backing, offset, bytes);
++}
++
++static int coroutine_fn backup_top_co_pwrite_zeroes(BlockDriverState *bs,
++        int64_t offset, int bytes, BdrvRequestFlags flags)
++{
++    int ret = backup_top_cbw(bs, offset, bytes);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return bdrv_co_pwrite_zeroes(bs->backing, offset, bytes, flags);
++}
++
++static coroutine_fn int backup_top_co_pwritev(BlockDriverState *bs,
++                                              uint64_t offset,
++                                              uint64_t bytes,
++                                              QEMUIOVector *qiov, int flags)
++{
++    if (!(flags & BDRV_REQ_WRITE_UNCHANGED)) {
++        int ret = backup_top_cbw(bs, offset, bytes);
++        if (ret < 0) {
++            return ret;
 +        }
-+    } while (waited);
++    }
++
++    return bdrv_co_pwritev(bs->backing, offset, bytes, qiov, flags);
 +}
 +
-+static void block_copy_inflight_req_begin(BlockCopyState *s,
-+                                          BlockCopyInFlightReq *req,
-+                                          int64_t start, int64_t end)
++static int coroutine_fn backup_top_co_flush(BlockDriverState *bs)
 +{
-+    req->start_byte = start;
-+    req->end_byte = end;
-+    qemu_co_queue_init(&req->wait_queue);
-+    QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
++    if (!bs->backing) {
++        return 0;
++    }
++
++    return bdrv_co_flush(bs->backing->bs);
 +}
 +
-+static void coroutine_fn block_copy_inflight_req_end(BlockCopyInFlightReq *req)
++static void backup_top_refresh_filename(BlockDriverState *bs)
 +{
-+    QLIST_REMOVE(req, list);
-+    qemu_co_queue_restart_all(&req->wait_queue);
++    if (bs->backing == NULL) {
++        /*
++         * we can be here after failed bdrv_attach_child in
++         * bdrv_set_backing_hd
++         */
++        return;
++    }
++    pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
++            bs->backing->bs->filename);
 +}
 +
- void block_copy_state_free(BlockCopyState *s)
- {
-     if (!s) {
-@@ -79,6 +114,8 @@ BlockCopyState *block_copy_state_new(
-     s->use_copy_range =
-         !(write_flags & BDRV_REQ_WRITE_COMPRESSED) && s->copy_range_size > 0;
- 
-+    QLIST_INIT(&s->inflight_reqs);
++static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
++                                  const BdrvChildRole *role,
++                                  BlockReopenQueue *reopen_queue,
++                                  uint64_t perm, uint64_t shared,
++                                  uint64_t *nperm, uint64_t *nshared)
++{
++    BDRVBackupTopState *s = bs->opaque;
 +
-     /*
-      * We just allow aio context change on our block backends. block_copy() user
-      * (now it's only backup) is responsible for source and target being in same
-@@ -266,6 +303,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
-     int64_t end = bytes + start; /* bytes */
-     void *bounce_buffer = NULL;
-     int64_t status_bytes;
-+    BlockCopyInFlightReq req;
- 
-     /*
-      * block_copy() user is responsible for keeping source and target in same
-@@ -276,6 +314,9 @@ int coroutine_fn block_copy(BlockCopyState *s,
-     assert(QEMU_IS_ALIGNED(start, s->cluster_size));
-     assert(QEMU_IS_ALIGNED(end, s->cluster_size));
- 
-+    block_copy_wait_inflight_reqs(s, start, bytes);
-+    block_copy_inflight_req_begin(s, &req, start, end);
++    if (!s->active) {
++        /*
++         * The filter node may be in process of bdrv_append(), which firstly do
++         * bdrv_set_backing_hd() and then bdrv_replace_node(). This means that
++         * we can't unshare BLK_PERM_WRITE during bdrv_append() operation. So,
++         * let's require nothing during bdrv_append() and refresh permissions
++         * after it (see bdrv_backup_top_append()).
++         */
++        *nperm = 0;
++        *nshared = BLK_PERM_ALL;
++        return;
++    }
 +
-     while (start < end) {
-         int64_t dirty_end;
- 
-@@ -329,5 +370,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
-         qemu_vfree(bounce_buffer);
-     }
- 
-+    block_copy_inflight_req_end(&req);
++    bdrv_filter_default_perms(bs, c, role, reopen_queue, perm, shared,
++                              nperm, nshared);
 +
-     return ret;
- }
++    *nshared &= ~BLK_PERM_WRITE;
++}
++
++BlockDriver bdrv_backup_top_filter = {
++    .format_name = "backup-top",
++    .instance_size = sizeof(BDRVBackupTopState),
++
++    .bdrv_co_preadv             = backup_top_co_preadv,
++    .bdrv_co_pwritev            = backup_top_co_pwritev,
++    .bdrv_co_pwrite_zeroes      = backup_top_co_pwrite_zeroes,
++    .bdrv_co_pdiscard           = backup_top_co_pdiscard,
++    .bdrv_co_flush              = backup_top_co_flush,
++
++    .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
++
++    .bdrv_refresh_filename      = backup_top_refresh_filename,
++
++    .bdrv_child_perm            = backup_top_child_perm,
++
++    .is_filter = true,
++};
++
++BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
++                                         const char *filter_node_name,
++                                         Error **errp)
++{
++    Error *local_err = NULL;
++    BDRVBackupTopState *state;
++    BlockDriverState *top = bdrv_new_open_driver(&bdrv_backup_top_filter,
++                                                 filter_node_name,
++                                                 BDRV_O_RDWR, errp);
++
++    if (!top) {
++        return NULL;
++    }
++
++    top->total_sectors = source->total_sectors;
++    top->opaque = state = g_new0(BDRVBackupTopState, 1);
++
++    bdrv_drained_begin(source);
++
++    bdrv_ref(top);
++    bdrv_append(top, source, &local_err);
++    if (local_err) {
++        error_prepend(&local_err, "Cannot append backup-top filter: ");
++    } else {
++        /*
++         * bdrv_append() finished successfully, now we can require permissions
++         * we want.
++         */
++        state->active = true;
++        bdrv_child_refresh_perms(top, top->backing, &local_err);
++        if (local_err) {
++            state->active = false;
++            bdrv_backup_top_drop(top);
++            error_prepend(&local_err,
++                          "Cannot set permissions for backup-top filter: ");
++        }
++    }
++
++    bdrv_drained_end(source);
++
++    if (local_err) {
++        bdrv_unref(top);
++        error_propagate(errp, local_err);
++        return NULL;
++    }
++
++    return top;
++}
++
++void bdrv_backup_top_set_bcs(BlockDriverState *bs, BlockCopyState *copy_state)
++{
++    BDRVBackupTopState *s = bs->opaque;
++
++    assert(blk_bs(copy_state->source) == bs->backing->bs);
++    s->bcs = copy_state;
++}
++
++void bdrv_backup_top_drop(BlockDriverState *bs)
++{
++    BDRVBackupTopState *s = bs->opaque;
++    AioContext *aio_context = bdrv_get_aio_context(bs);
++
++    aio_context_acquire(aio_context);
++
++    bdrv_drained_begin(bs);
++
++    s->active = false;
++    bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
++    bdrv_replace_node(bs, backing_bs(bs), &error_abort);
++    bdrv_set_backing_hd(bs, NULL, &error_abort);
++
++    bdrv_drained_end(bs);
++
++    bdrv_unref(bs);
++
++    aio_context_release(aio_context);
++}
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index 0b5c635fb2..6f348c56c9 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -41,6 +41,8 @@ block-obj-y += block-copy.o
+ 
+ block-obj-y += crypto.o
+ 
++block-obj-y += backup-top.o
++
+ common-obj-y += stream.o
+ 
+ nfs.o-libs         := $(LIBNFS_LIBS)
 -- 
 2.21.0
 
