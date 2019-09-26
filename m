@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E4CBF98C
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:48:16 +0200 (CEST)
-Received: from localhost ([::1]:42804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8352BF9A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:53:08 +0200 (CEST)
+Received: from localhost ([::1]:42864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDYoJ-0002up-20
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42217)
+	id 1iDYt1-0008RW-92
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42009)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYcc-00080k-BQ
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:11 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYcV-0007tt-71
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYca-0006a7-Pl
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:09 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53215)
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYcS-0006Pq-V7
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:03 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55344)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iDYca-0006WW-6x
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:08 -0400
-Received: by mail-wm1-x332.google.com with SMTP id r19so3898051wmh.2
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:36:06 -0700 (PDT)
+ id 1iDYcS-0006Oz-NE
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:00 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id a6so3882713wma.5
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IkSkbE2A8XNFwDDaVkK81Wt34q5E4KR6a0fcYuaVex0=;
- b=RU3a81IQYYoyIHolhR+CyykgRz/LW3oFX2LqINlnq2NSapCcmhjkc65Xva1t29sh/j
- 708bXv5jRkb438J1OnD5aBGHkjVhKPTIDfoQTISPlQF6g/XlhoClUtarU1ulLzhXlQTZ
- DxgGiakFLHgqYChXFX1gP5GoA01A/W95SnZeJsdb2kKt1yxB6rt369eiSxtm/IHYXgUM
- uZbf6QHA5efyBwulr7Do6EjibgaSz7tRwzsy2KCy0L2l7KMDG9SPm8lISOpB024XNsro
- uzpkm3BKJ2MJlsql3EvGyEU3PVv5aKjNNeD2RO49It9TAJUtsCiFmUFkB9RsQRF0iDsT
- 7OCQ==
+ bh=i0QkvpolJsshCsGgdChMl33I7vxXQro3P2qj7QMswZM=;
+ b=QCb0TpPLkbNs1+QxQ5OqqwBgFiXWiARZjlN2eQlc3fnBrVs/X/q3UEp6HiNvLamm+m
+ tc9nlMH7VI1XJAwk2UZdycXlft7wEMty9OoiTtiPRmDu64SUvqhZbPsuvi2su/ByV6MW
+ HFxvVko7eQHeQZsG4irKL3wVyyDegFg5K0Whb0rj9mO+Dk9VTYdpL+55TdO77qB5RaJm
+ ddtN9vLAJO23fQgi41osV1CjkEcujdKpPKQgjgQT8CoEFwUNhwVeRySy+yevx/PcNd8Y
+ CQeGjThZ3sozLFB4F9ydjqsYYCW8oKfsXU37VceuP/XfqHiEunR/k/l6U8MFeAkdy28N
+ kTuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IkSkbE2A8XNFwDDaVkK81Wt34q5E4KR6a0fcYuaVex0=;
- b=qUS6JX41vHgmoQ+XLjA1pPOYnm2TW8nPMfbobkPWFmpK1JgzaMdYVPZMieQ5gwwF4A
- EPNS57wS8Db5e9ma+vBd60IbpmDhTBCdfXqevUo9XPU5OvHW2TZKGZmKy7BAj1NwPyKY
- hZnSseyT61uDcEFPueumlJes2nPP0Kxaa7mx447lKkyOkEqqFc5BuwnrA2qxE0rAbBbe
- kMTNzffvnhEpcrvyBciwCMQxmm8wEoXj5GsGdo8j3Aa7NmuvR3mI2MJXn0Pd7P9jga9G
- beLEPkdO1XHb77Yw1NmUd6Z7yL+TKGq1AWLNvxFDiarScjQqbLvZ+ZXZT22nls7c3Acp
- qmAQ==
-X-Gm-Message-State: APjAAAWjN34dm9ApHiSh5GslAzFPRJAYxkqwY6hO0AL8tcfx6wPJ7Kaj
- EMcWAWE+fgTT+D1KbBaDeV7voA==
-X-Google-Smtp-Source: APXvYqxcoyh1zq1bBYZv8/hsOk6eFAiKkr6ub8fSgnEFuy9cgKdWR9qKrdvtBAyMCLtadTTjBA8nBw==
-X-Received: by 2002:a1c:c104:: with SMTP id r4mr4452937wmf.64.1569522965436;
- Thu, 26 Sep 2019 11:36:05 -0700 (PDT)
+ bh=i0QkvpolJsshCsGgdChMl33I7vxXQro3P2qj7QMswZM=;
+ b=W30nQoUSG3T5+zzzpn5thRYJA7Bz6E86H3rxo5e83PA75hdqKoKTstqShB/v4BpAsu
+ FJnDRNrzPwroS47D/TkcO2CFPXUltZVBG+hT91HfxWZak2+oCRmDRoM4k0Coc4cbxQnr
+ BjZwcCamR60M6VsbTDuXrQ5okHK2WIJEYOcazOAx63+GetbCI8NJAzNhfqYPinsuyshY
+ 72kFQk6QLSDmZcyOHRUz0rZlP9Sr52rrMxB9fdrIBw0e4n2LfQSHX4UHdy0krSR/o5nA
+ Qb1zPvu6cPdlbptM8tDwKbEeRY3BRJhb0GPg3u/IPxDEA3Q5DTh4SIa9GMSo6Nql+ZwJ
+ BmmA==
+X-Gm-Message-State: APjAAAVc7DBxK2RcSpEggJzKx1gw5WEpxkryJlTvGQhl2o7NgnrYZiOP
+ MbOyalXPOyCuBCPjlnPQXsYFkA==
+X-Google-Smtp-Source: APXvYqyoiAm1s+ekYU4pciXdOgKFaZWZVVQB7F9/fkv5DaS1GFlaDSVKUg3AIk8gDATNUldKaqt3mQ==
+X-Received: by 2002:a7b:c758:: with SMTP id w24mr3816061wmk.148.1569522959493; 
+ Thu, 26 Sep 2019 11:35:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 207sm5781787wme.17.2019.09.26.11.35.58
+ by smtp.gmail.com with ESMTPSA id p7sm4650225wma.34.2019.09.26.11.35.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 11:36:02 -0700 (PDT)
+ Thu, 26 Sep 2019 11:35:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 535381FF9D;
- Thu, 26 Sep 2019 19:35:54 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id B76021FF93;
+ Thu, 26 Sep 2019 19:35:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/28] podman: fix command invocation
-Date: Thu, 26 Sep 2019 19:35:38 +0100
-Message-Id: <20190926183553.13895-14-alex.bennee@linaro.org>
+Subject: [PULL 06/28] target/alpha: Mask IOV exception with INV for user-only
+Date: Thu, 26 Sep 2019 19:35:31 +0100
+Message-Id: <20190926183553.13895-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
 References: <20190926183553.13895-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,39 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Oops; there's no argv here.
+The kernel masks the integer overflow exception with the
+software invalid exception mask.  Include IOV in the set
+of exception bits masked by fpcr_exc_enable.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190913193821.17756-1-jsnow@redhat.com>
+Fixes the new float_convs test.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190921043256.4575-7-richard.henderson@linaro.org>
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 3112892fdf..31d8adf836 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -332,7 +332,7 @@ class Docker(object):
-             cmd = [ "-u", str(uid) ] + cmd
-             # podman requires a bit more fiddling
-             if self._command[0] == "podman":
--                argv.insert(0, '--userns=keep-id')
-+                cmd.insert(0, '--userns=keep-id')
+diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+index 1b3479738b..55d7274d94 100644
+--- a/target/alpha/helper.c
++++ b/target/alpha/helper.c
+@@ -58,6 +58,13 @@ void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
+      */
+     uint32_t soft_fpcr = alpha_ieee_swcr_to_fpcr(env->swcr) >> 32;
+     fpcr |= soft_fpcr & (FPCR_STATUS_MASK | FPCR_DNZ);
++
++    /*
++     * The IOV exception is disabled by the kernel with SWCR_TRAP_ENABLE_INV,
++     * which got mapped by alpha_ieee_swcr_to_fpcr to FPCR_INVD.
++     * Add FPCR_IOV to fpcr_exc_enable so that it is handled identically.
++     */
++    t |= CONVERT_BIT(soft_fpcr, FPCR_INVD, FPCR_IOV);
+ #endif
  
-         ret = self._do_check(["run", "--label",
-                              "com.qemu.instance.uuid=" + label] + cmd,
+     t |= CONVERT_BIT(fpcr, FPCR_INED, FPCR_INE);
 -- 
 2.20.1
 
