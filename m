@@ -2,127 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A30BBF9E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:15:56 +0200 (CEST)
-Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192E6BF9FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:22:55 +0200 (CEST)
+Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDZF4-0000qw-Or
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48237)
+	id 1iDZLp-00017E-Nn
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iDZ16-0003TU-Nz
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 15:01:30 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYmB-0002K6-Kl
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iDZ14-0000cs-II
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 15:01:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49541)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iDZ0x-0000aQ-Q3; Thu, 26 Sep 2019 15:01:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C20B7309DEE2;
- Thu, 26 Sep 2019 19:01:18 +0000 (UTC)
-Received: from [10.18.17.231] (dhcp-17-231.bos.redhat.com [10.18.17.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E285A5C220;
- Thu, 26 Sep 2019 19:01:17 +0000 (UTC)
-Subject: Re: [PATCH v3 0/3] proper locking on bitmap add/remove paths
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190920082543.23444-1-vsementsov@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d3ad51d9-9e11-6f08-caf1-9c189315d4ac@redhat.com>
-Date: Thu, 26 Sep 2019 15:01:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYmA-00055h-7R
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:03 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40012)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iDYm8-0004zY-Je
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:01 -0400
+Received: by mail-wr1-x435.google.com with SMTP id l3so3907584wru.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:45:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5fLMKoxAcnX8/4qyqjfQR0D8xnH/RRawEKHgUpx30II=;
+ b=mFbldVZuWlLD2GhEZUegG2+QpAlQSTFI3gTYfJ6AN/D+s2wKarl7ABAXqPagx9vK51
+ VAZTqBpOw9uqqtZksfwUKs6Tc5spRBmo9V6JXwfEWGK6cNkULePFYI7RJ2/NmvH2zXLG
+ F9XsFrWHcz0JQRa4NdzFhpIwY412Oblkafuz9kMBSs+lyNJ4InX7a2x7763IC3O62Qzs
+ 31B4c8vAym5l61RdXAnSl+nZN/O9E3SlS5hXEbuoFMyZn03AEE+G8sPxWGzd6ZB7AEyt
+ xvoQD/hD/3ciIEcj+TxXJ1aYYoz8DwzhCvJYckAtDLvEufBPHBThUapb6FPsV5iiLz2C
+ aIKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5fLMKoxAcnX8/4qyqjfQR0D8xnH/RRawEKHgUpx30II=;
+ b=BHF7GKADQ8TnFbqwYsyzPCPcNBTobr+801MGSvLj5cjNV0DXT6dI2YWuBazHmoNa8a
+ OGInPH/8zQGMR0Iyx+UJQ1uwAMQsL1zwxVGQRunaIyqcd2dSy05uMQJqYgIrY48CJnS3
+ +WUC1g1QLUxegMHkL/sUonISG/hoxUBuGhAYbOoi/BpcnA9HlcgpoqUIJDqaBh8xxiAy
+ cDvAwV5M21ThjGUy+UV11V7PtMWbrd5CzZvjsP7SSrS1TFWPKw2h1mNw1EwnPiaI6kgP
+ hHwKPlx/sK9/Wfgr7k4oz8h3TX6J7RnZgvN2AS5NZrHfbHyBFxben166iUzGJexsPt3J
+ 2dkg==
+X-Gm-Message-State: APjAAAVx8QZ1xyEt96LXvt1fESng/d8EUv8UnCeGqs6mC35sWPXaqA8W
+ mFqpo+u5FnzFw2xpS7GEX5zdNg==
+X-Google-Smtp-Source: APXvYqxaFE0PR+uncVL23TJnaZMutVhYw2oLRH8g9RTMpItkS5MebF5f+j1V61PiTwoPXtyYqKuU3A==
+X-Received: by 2002:adf:ebd0:: with SMTP id v16mr3954377wrn.352.1569523557012; 
+ Thu, 26 Sep 2019 11:45:57 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i8sm113014wrw.36.2019.09.26.11.45.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Sep 2019 11:45:52 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2B9461FFAA;
+ Thu, 26 Sep 2019 19:35:55 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 21/28] target/i386: Fix broken build with WHPX enabled
+Date: Thu, 26 Sep 2019 19:35:46 +0100
+Message-Id: <20190926183553.13895-22-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
+References: <20190926183553.13895-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190920082543.23444-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 26 Sep 2019 19:01:18 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,42 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Ilias Maratos <i.maratos@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+The WHPX build is broken since commit 12e9493df92 which removed the
+"hw/boards.h" where MachineState is declared:
 
-On 9/20/19 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> We need to lock qcow2 mutex on accessing in-image metadata, especially
-> on updating this metadata. Let's implement it.
-> 
-> v3:
-> 01: add John's r-b
-> 02: - fix bdrv_remove_persistent_dirty_bitmap return value
->     - drop extra zeroing of ret in qcow2_remove_persistent_dirty_bitmap
-> 03: add John's r-b
-> 
-> Vladimir Sementsov-Ogievskiy (3):
->   block: move bdrv_can_store_new_dirty_bitmap to block/dirty-bitmap.c
->   block/dirty-bitmap: return int from
->     bdrv_remove_persistent_dirty_bitmap
->   block/qcow2: proper locking on bitmap add/remove paths
-> 
->  block/qcow2.h                |  14 ++---
->  include/block/block_int.h    |  14 ++---
->  include/block/dirty-bitmap.h |   5 +-
->  block.c                      |  22 -------
->  block/dirty-bitmap.c         | 119 +++++++++++++++++++++++++++++++++--
->  block/qcow2-bitmap.c         |  36 +++++++----
->  block/qcow2.c                |   5 +-
->  blockdev.c                   |  28 +++------
->  8 files changed, 163 insertions(+), 80 deletions(-)
-> 
+  $ ./configure \
+     --enable-hax --enable-whpx
 
-I'll take this; I imagine the return signatures are going to change
-again with your error propagation series, though ...?
+  $ make x86_64-softmmu/all
+  [...]
+    CC      x86_64-softmmu/target/i386/whpx-all.o
+  target/i386/whpx-all.c: In function 'whpx_accel_init':
+  target/i386/whpx-all.c:1378:25: error: dereferencing pointer to
+  incomplete type 'MachineState' {aka 'struct MachineState'}
+       whpx->mem_quota = ms->ram_size;
+                           ^~
+  make[1]: *** [rules.mak:69: target/i386/whpx-all.o] Error 1
+    CC      x86_64-softmmu/trace/generated-helpers.o
+  make[1]: Target 'all' not remade because of errors.
+  make: *** [Makefile:471: x86_64-softmmu/all] Error 2
+
+Restore this header, partially reverting commit 12e9493df92.
+
+Fixes: 12e9493df92
+Reported-by: Ilias Maratos <i.maratos@gmail.com>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20190920113329.16787-2-philmd@redhat.com>
+
+diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+index 0c15241ae4..def0c28480 100644
+--- a/target/i386/whpx-all.c
++++ b/target/i386/whpx-all.c
+@@ -18,6 +18,7 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/runstate.h"
+ #include "qemu/main-loop.h"
++#include "hw/boards.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "migration/blocker.h"
+-- 
+2.20.1
+
 
