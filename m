@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADF8BF90B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:17:59 +0200 (CEST)
-Received: from localhost ([::1]:42120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7804BF919
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:23:19 +0200 (CEST)
+Received: from localhost ([::1]:42208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDYKz-0007Tc-Ui
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36098)
+	id 1iDYQA-0005kk-Qh
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYAy-0000Dy-3h
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:07:37 -0400
+ (envelope-from <bounces@canonical.com>) id 1iDXq5-0006jc-Jl
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:46:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYAw-0003TT-PQ
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:07:35 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:40202
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iDYAr-0003Lb-KC; Thu, 26 Sep 2019 14:07:29 -0400
-Received: from host86-138-245-63.range86-138.btcentralplus.com
- ([86.138.245.63] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iDY8m-0001Nr-Is; Thu, 26 Sep 2019 19:05:22 +0100
-To: qemu-devel <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <bf30baf5-4d75-dc6f-c30a-57b80714999b@ilande.co.uk>
-Date: Thu, 26 Sep 2019 19:04:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <bounces@canonical.com>) id 1iDXq4-0004e2-Dp
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:46:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35892)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iDXq4-0004aP-6i
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:46:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iDXq2-0006I0-HZ
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 17:45:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 546242E80CD
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 17:45:58 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.138.245.63
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: target/ppc: bug in optimised vsl/vsr implementation?
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Sep 2019 17:31:55 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64 testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc mark-cave-ayland philmd
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156711057074.6835.13599471410604217618.malonedeb@soybean.canonical.com>
+Message-Id: <156951911579.20055.10823307681863726816.malone@wampee.canonical.com>
+Subject: [Bug 1841990] Re: instruction 'denbcdq' misbehaving
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19056";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 66436ba3e9154b342b2042ae1107974f434fd7ce
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,55 +64,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefan.brankovic@rt-rk.com, Paul Clarke <pc@us.ibm.com>
+Reply-To: Bug 1841990 <1841990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As part of the investigation into the DFP number issue reported at
-https://bugs.launchpad.net/qemu/+bug/1841990 it appears that there may also be a bug
-introduced by the new optimised vsl/vsr implementation:
+Reverted 4e6d0920e7547e6af4bbac5ffe9adfe6ea621822, and those 'vsl/vsr'
+tests now succeed.
 
-commit 4e6d0920e7547e6af4bbac5ffe9adfe6ea621822
-Author: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-Date: Mon Jul 15 16:22:48 2019 +0200
+-- =
 
-    target/ppc: Optimize emulation of vsl and vsr instructions
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841990
 
-    Optimization of altivec instructions vsl and vsr(Vector Shift Left/Rigt).
-    Perform shift operation (left and right respectively) on 128 bit value of
-    register vA by value specified in bits 125-127 of register vB. Lowest 3
-    bits in each byte element of register vB must be identical or result is
-    undefined.
+Title:
+  instruction 'denbcdq' misbehaving
 
-    For vsl instruction, the first step is bits 125-127 of register vB have
-    to be saved in variable sh. Then, the highest sh bits of the lower
-    doubleword element of register vA are saved in variable shifted,
-    in order not to lose those bits when shift operation is performed on
-    the lower doubleword element of register vA, which is the next
-    step. After shifting the lower doubleword element shift operation
-    is performed on higher doubleword element of vA, with replacement of
-    the lowest sh bits(that are now 0) with bits saved in shifted.
+Status in QEMU:
+  New
 
-    For vsr instruction, firstly, the bits 125-127 of register vB have
-    to be saved in variable sh. Then, the lowest sh bits of the higher
-    doubleword element of register vA are saved in variable shifted,
-    in odred not to lose those bits when the shift operation is
-    performed on the higher doubleword element of register vA, which is
-    the next step. After shifting higher doubleword element, shift operation
-    is performed on lower doubleword element of vA, with replacement of
-    highest sh bits(that are now 0) with bits saved in shifted.
+Bug description:
+  Instruction 'denbcdq' appears to have no effect.  Test case attached.
 
-    Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-    Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-    Message-Id: <1563200574-11098-3-git-send-email-stefan.brankovic@rt-rk.com>
-    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+  On ppc64le native:
+  --
+  gcc -g -O -mcpu=3Dpower9 bcdcfsq.c test-denbcdq.c -o test-denbcdq
+  $ ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x22080000000000000000000000000000
+  $ ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x22080000000000000000000000000001
+  $ ./test-denbcdq $(seq 0 99)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x22080000000000000000000000000080
+  --
 
+  With "qemu-ppc64le -cpu power9"
+  --
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x0000000000000000000000000000000c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x0000000000000000000000000000001c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq $(seq 100)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x0000000000000000000000000000100c
+  --
 
-Reverting 4e6d0920e7547e6af4bbac5ffe9adfe6ea621822 allows the test case in the bug
-report to pass once again. Stefan, are you able to take a look at this?
+  I started looking at the code, but I got confused rather quickly.
+  Could be related to endianness? I think denbcdq arrived on the scene
+  before little-endian was a big deal.  Maybe something to do with
+  utilizing implicit floating-point register pairs...  I don't think the
+  right data is getting to helper_denbcdq, which would point back to the
+  gen_fprp_ptr uses in dfp-impl.inc.c (GEN_DFP_T_FPR_I32_Rc).  (Maybe?)
 
-
-ATB,
-
-Mark.
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841990/+subscriptions
 
