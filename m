@@ -2,74 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB68BF9CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:05:59 +0200 (CEST)
-Received: from localhost ([::1]:43104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7ED3BF9BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:03:18 +0200 (CEST)
+Received: from localhost ([::1]:43026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDZ5S-0006cZ-II
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45453)
+	id 1iDZ2q-0003L0-TX
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:03:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYmA-0002J9-Ll
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:04 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyz-0000gP-0U
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:59:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYm8-00054J-NX
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:02 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52262)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iDYm7-0004yg-F8
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:00 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id r19so3926440wmh.2
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:45:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DIbRZNB2IeiasAwENXw7mP/WxZPMKvvc+tM2dt1EMvY=;
- b=P6JG+FAVt/gknZx/yNWNDa4b4+hlxzLOWmWf8SNV7GCOe0/j6Ny6rc1C6F0kJ2NJM+
- KYIkEGtv01T1uwOL7r0xJzB0fo4PfOu7/pXaasdAtoGJo7JalCg1MK+HYJEns5kv6CUv
- OAiTvbl58kpL8nULkXpebAofm7+wVWsI4urb4YPJn1Jy58E44n7mll3unc2nejT3WJ8C
- KKPymbu+VPrxQh8/THe/1/UvQzNSkM/ja6Z3OhNdMkPpkvYUx7FUJdTI+sJM7NlBrnm+
- mO/KKSMgVr8smLUdQPOFPN+gjHuh6rK7MKdbUtTgVE8kg4ufXKZBLBSLWj11nsXNuyat
- UQlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DIbRZNB2IeiasAwENXw7mP/WxZPMKvvc+tM2dt1EMvY=;
- b=UxuJhegQQRPoBQ8G/pJfjOT2PEVpDwth3kFV7xFgckZWJMCrAd9o78jG+/TTbj29pZ
- 8/L3Z5Yjn6wuf0jvUg45y3A0xr0qYdcMqc/ZXs1v60EPYmQW1Z12V3syM1ZUOY9NMn1q
- LoQCG+pylswKrQE2f9MXpjKaES/33dDln70rzE8iE942YCZ7eCuHL732gwdfRsesHRC1
- ENPY62Vu3BSOizrBpBd4Hj/xyvr8vcNnyBk51G0u85DylIkOAFpRnivclwuyKlWBPdPV
- UgEGHy7y2QVy+Eg2c40snns6UZY0C0nWX3nsTHIwzEANMrlTL9/xhXIz/50IWwEt/ldh
- CxDQ==
-X-Gm-Message-State: APjAAAW+CPCsnlb69TNOWz9Q7IGopz0tyAOXK6qkBEwbvzJZ8FXKsANt
- 87LrIjJpPZ5wb2jrzEaXJZ6o2Aewu/+iHw==
-X-Google-Smtp-Source: APXvYqy1k046A/hTvtFjRnMkVV0nCC8oLRP9/Gu5MlxzflDfzrwN5G58C7M22mjEDRpxyOdtA7oFKg==
-X-Received: by 2002:a7b:c451:: with SMTP id l17mr3769453wmi.61.1569523555678; 
- Thu, 26 Sep 2019 11:45:55 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f3sm95538wrq.53.2019.09.26.11.45.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 11:45:52 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CE4B61FFB3;
- Thu, 26 Sep 2019 19:35:55 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 28/28] tests/docker: remove debian-powerpc-user-cross
-Date: Thu, 26 Sep 2019 19:35:53 +0100
-Message-Id: <20190926183553.13895-29-alex.bennee@linaro.org>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyx-0007x2-Gg
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:59:16 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:40356
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDYyx-0007AO-Ad; Thu, 26 Sep 2019 14:59:15 -0400
+Received: from host86-138-245-63.range86-138.btcentralplus.com
+ ([86.138.245.63] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDYyD-0001em-7a; Thu, 26 Sep 2019 19:58:29 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, pc@us.ibm.com,
+ david@gibson.dropbear.id.au
+Date: Thu, 26 Sep 2019 19:57:54 +0100
+Message-Id: <20190926185801.11176-1-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
-References: <20190926183553.13895-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-SA-Exim-Connect-IP: 86.138.245.63
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v2 0/7] target/ppc: DFP fixes and improvements
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,75 +53,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Despite our attempts in 4d26c7fef4 to keep this going it still gets in
-the way of "make docker-test-build" completing because of course we
-can't build a modern QEMU with the image. Let's put the thing out of
-its misery and remove it.
+This patchset fixes the DFP issue reported at https://bugs.launchpad.net/qemu/+bug/1841990
+caused by the change in FP register storage in commit ef96e3ae96 "target/ppc:
+move FP and VMX registers into aligned vsr register array" along with some
+further tidy-up/improvements.
 
-People who really care about building on powerpc can still use the
-binfmt_misc support to manually build an image (or just run the build
-from pre this commit).
+Patches 1 and 2 introduce get/set helper functions for reading and writing
+DFP even-odd register pairs (rather than accessing the register pointers
+directly) which then leads to the real fix in patch 3.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Following on from this patches 4 to 6 change the struct PPC_DFP internal
+decimal representation from uint64[2] to ppc_vsr_t which enables us to use
+the existing VsrD() macro to access the correct elements regardless of host
+endian and remove the explicit HI_IDX and LO_IDX references.
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 02cd5eeabc..89c56a3a88 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -147,15 +147,6 @@ DOCKER_PARTIAL_IMAGES += fedora-i386-cross fedora-cris-cross
- # work around issues with poorly working multi-arch systems and broken
- # packages.
- 
--# Jessie is the last supported release for powerpc, but multi-arch is
--# broken so we need a qemu-linux-user for this target
--docker-binfmt-image-debian-powerpc-user: DEB_ARCH = powerpc
--docker-binfmt-image-debian-powerpc-user: DEB_TYPE = jessie
--docker-binfmt-image-debian-powerpc-user: DEB_URL = http://snapshot.debian.org/archive/debian/20180615T211437Z
--docker-binfmt-image-debian-powerpc-user: EXECUTABLE = ${BUILD_DIR}/ppc-linux-user/qemu-ppc
--docker-image-debian-powerpc-user-cross: docker-binfmt-image-debian-powerpc-user
--DOCKER_USER_IMAGES += debian-powerpc-user
--
- # Expand all the pre-requistes for each docker image and test combination
- $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
- 	$(foreach t,$(DOCKER_TESTS) $(DOCKER_TOOLS), \
-diff --git a/tests/docker/dockerfiles/debian-powerpc-user-cross.docker b/tests/docker/dockerfiles/debian-powerpc-user-cross.docker
-deleted file mode 100644
-index 83749b0abb..0000000000
---- a/tests/docker/dockerfiles/debian-powerpc-user-cross.docker
-+++ /dev/null
-@@ -1,21 +0,0 @@
--#
--# Docker powerpc cross-compiler target for QEMU
--#
--# We can't use current Debian stable cross-compilers to build powerpc
--# as it has been dropped as a release architecture. Using Debian Sid
--# is just far too sketchy a build environment. This leaves us the
--# final option of using linux-user. This image is based of the
--# debootstrapped qemu:debian-powerpc-user but doesn't need any extra
--# magic once it is setup.
--#
--# It can be used to build old versions of QEMU, current versions need
--# newer dependencies than Jessie provides.
--#
--FROM qemu:debian-powerpc-user
--
--RUN echo man-db man-db/auto-update boolean false | debconf-set-selections
--RUN apt-get update && \
--        DEBIAN_FRONTEND=noninteractive apt-get build-dep -yy qemu
--
--ENV QEMU_CONFIGURE_OPTS --disable-werror
--ENV DEF_TARGET_LIST powerpc-softmmu,arm-linux-user,aarch64-linux-user
+Finally patch 7 simplifies the calls to set_dfp{64,128}() in DFP macros
+which can now be generated directly by the preprocessor rather than requiring
+an explicit if() statement.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+v2:
+- Rebase onto master
+- Fix typo in dfp_set_sign_128()
+- Add R-b tags from Richard
+
+
+Mark Cave-Ayland (7):
+  target/ppc: introduce get_dfp{64,128}() helper functions
+  target/ppc: introduce set_dfp{64,128}() helper functions
+  target/ppc: update {get,set}_dfp{64,128}() helper functions to
+    read/write DFP numbers correctly
+  target/ppc: introduce dfp_finalize_decimal{64,128}() helper functions
+  target/ppc: change struct PPC_DFP decimal storage from uint64[2] to
+    ppc_vsr_t
+  target/ppc: use existing VsrD() macro to eliminate HI_IDX and LO_IDX
+    from dfp_helper.c
+  target/ppc: remove unnecessary if() around calls to set_dfp{64,128}()
+    in DFP macros
+
+ target/ppc/cpu.h        |   1 +
+ target/ppc/dfp_helper.c | 384 ++++++++++++++++++++--------------------
+ target/ppc/helper.h     |   2 +-
+ 3 files changed, 193 insertions(+), 194 deletions(-)
+
 -- 
 2.20.1
 
