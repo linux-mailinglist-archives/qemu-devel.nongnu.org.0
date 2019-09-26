@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9D7BECE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 09:55:31 +0200 (CEST)
-Received: from localhost ([::1]:60530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A910ABECF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 09:56:39 +0200 (CEST)
+Received: from localhost ([::1]:60568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDOcb-00027z-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 03:55:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36201)
+	id 1iDOdi-0004hQ-K9
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 03:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDOa5-0000JT-2q
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:52:54 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1iDObh-0002Pe-K6
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:54:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDOa3-0007ob-O2
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:52:53 -0400
-Received: from 10.mo4.mail-out.ovh.net ([188.165.33.109]:39717)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDOa3-0007nG-Ic
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:52:51 -0400
-Received: from player787.ha.ovh.net (unknown [10.108.35.223])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id E120D2025D8
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:52:47 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player787.ha.ovh.net (Postfix) with ESMTPSA id C3D17A58BDDA;
- Thu, 26 Sep 2019 07:52:37 +0000 (UTC)
-Date: Thu, 26 Sep 2019 09:52:35 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 15/20] spapr: Handle freeing of multiple irqs in
- frontend only
-Message-ID: <20190926095235.221fcc2a@bahia.lan>
-In-Reply-To: <20190925064534.19155-16-david@gibson.dropbear.id.au>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-16-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <liq3ea@gmail.com>) id 1iDObf-0000Oh-GM
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:54:32 -0400
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:40856)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1iDObc-0000Na-BO
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:54:31 -0400
+Received: by mail-ot1-f50.google.com with SMTP id y39so1178440ota.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 00:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=Iggeq//X0jv7dmcGtymgccOrzRD6DKDwHyhDLoujCdM=;
+ b=c6aJbJkPyZqIdCMRvjwz1D2SHTqNgKBQux9Q8pesXWBiXcw3ryZFlnDXQkEeosiTtj
+ np/EtDnp4zLJcEfL5zC0A/Q1UaLu1ONiU3qmqL0Du6DGU6TB6re5u4qa/6RxwnfPx24z
+ fcH6/8GEFODFe9crIpPlLJg1KAOnZOkVPzx41n7z4j8wB+snCoTiGUNb8FgI8ESwBtHu
+ gBlEujAEIm4wb0W5xKhoDcNrUtUaWaxoCEOpodrcFz3LDyNfAb4nDpuq4G6NJDyrBI+3
+ R03a86Hosl39eYuMEyhGZY/RtPNW5GQdfx9Rodmhqa+GePWttrpVDgVfAmV8DSzobMal
+ AyoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=Iggeq//X0jv7dmcGtymgccOrzRD6DKDwHyhDLoujCdM=;
+ b=M0BBIGX/gO8oxtkK861VoNa4NU+9n4pvLD9L7njhalB6MY3+zl1BOSh0RwhXSb3Evf
+ Wo2a8xgEKP9lKuuDsx4xdAXiAtAAr11DSwzDnboQhfp5sthI6XI3ZypfmTHlI/Yv+agz
+ UxfPYsqq0VP22zWMzYbgTJQPk4OOyo86gghX7LZ5lxoy8hpCc3CD9qn2oezB5/OVv8Fu
+ XDzET4fwFKYX07kuCLe/ckEC2a15cFmL8/aXYBtP/VOr90926dTMzQHezPxge6AF5//D
+ 49eG7YRTV/l9G/Q+jKiLm8x6PHTf1gydJ76/YFlTVLVYfltAy2L7YLS7BR+Q+7aamUNk
+ kzxg==
+X-Gm-Message-State: APjAAAXMLPlOv9li2OmvpmeS+Z4yP/3kXCvI7f6r8rdgZgkh27RrLW0Z
+ C9sKzrtyRXxS3jw9nKCmFo7bS6mfE0vAIgr29xs=
+X-Google-Smtp-Source: APXvYqxTJjooUWua44mCxW2MWfeYERPuTfCGDY6DGKQ7WjVhZZuuAFx+R51g6nmd0TnWl/RVjXr3tsnU7BF1vEPWZLo=
+X-Received: by 2002:a9d:821:: with SMTP id 30mr123244oty.194.1569484406498;
+ Thu, 26 Sep 2019 00:53:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 7948571870367422950
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeefgdduvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 26 Sep 2019 15:52:50 +0800
+Message-ID: <CAKXe6SJfZt8WcA43Vsh0=GT=jBedcAOUx9DNGZ4Bsvi10oCkog@mail.gmail.com>
+Subject: Questions about the real mode in kvm/qemu
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000087a9f905937010c3"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.33.109
+ [fuzzy]
+X-Received-From: 209.85.210.50
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,109 +68,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Sep 2019 16:45:29 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+--00000000000087a9f905937010c3
+Content-Type: text/plain; charset="UTF-8"
 
-> spapr_irq_free() can be used to free multiple irqs at once. That's useful
-> for its callers, but there's no need to make the individual backend hooks
-> handle this.  We can loop across the irqs in spapr_irq_free() itself and
-> have the hooks just do one at time.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
+Hi Paolo and all,
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+There are some question about the emulation for real mode in kvm/qemu. For
+all the
+question I suppose the 'unstrict guest' is not enabled.
 
->  hw/ppc/spapr_irq.c         | 27 ++++++++++++---------------
->  include/hw/ppc/spapr_irq.h |  2 +-
->  2 files changed, 13 insertions(+), 16 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index db6755f3ab..c40357a985 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -133,16 +133,13 @@ static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool lsi,
->      return 0;
->  }
->  
-> -static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq, int num)
-> +static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq)
->  {
->      ICSState *ics = spapr->ics;
->      uint32_t srcno = irq - ics->offset;
-> -    int i;
->  
->      if (ics_valid_irq(ics, irq)) {
-> -        for (i = srcno; i < srcno + num; ++i) {
-> -            memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
-> -        }
-> +        memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
->      }
->  }
->  
-> @@ -269,13 +266,9 @@ static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool lsi,
->      return 0;
->  }
->  
-> -static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq, int num)
-> +static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
->  {
-> -    int i;
-> -
-> -    for (i = irq; i < irq + num; ++i) {
-> -        spapr_xive_irq_free(spapr->xive, i);
-> -    }
-> +    spapr_xive_irq_free(spapr->xive, irq);
->  }
->  
->  static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
-> @@ -438,10 +431,10 @@ static int spapr_irq_claim_dual(SpaprMachineState *spapr, int irq, bool lsi,
->      return ret;
->  }
->  
-> -static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq, int num)
-> +static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq)
->  {
-> -    spapr_irq_xics.free(spapr, irq, num);
-> -    spapr_irq_xive.free(spapr, irq, num);
-> +    spapr_irq_xics.free(spapr, irq);
-> +    spapr_irq_xive.free(spapr, irq);
->  }
->  
->  static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor *mon)
-> @@ -640,7 +633,11 @@ int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error **errp)
->  
->  void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
->  {
-> -    spapr->irq->free(spapr, irq, num);
-> +    int i;
-> +
-> +    for (i = irq; i < (irq + num); i++) {
-> +        spapr->irq->free(spapr, irq);
-> +    }
->  }
->  
->  qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 9b60378e28..ed88b4599a 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -43,7 +43,7 @@ typedef struct SpaprIrq {
->  
->      void (*init)(SpaprMachineState *spapr, Error **errp);
->      int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **errp);
-> -    void (*free)(SpaprMachineState *spapr, int irq, int num);
-> +    void (*free)(SpaprMachineState *spapr, int irq);
->      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
->      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
->                          void *fdt, uint32_t phandle);
+1. how the protected mode CPU emulate the real mode? It seems it uses vm86,
+however, vm86 is not available in x86_64 CPU? So what's the
+'to_vmx(vcpu)->rmode.vm86_active' here vm86 means?
 
+2. Does the guest's real mode code run directly in native CPU? It seems
+'vmx->emulation_required' is also be false, it the vmx_vcpu_run will do a
+switch to guest.
+
+3. How the EPT work in guest real mode? The EPT is for GVA->GPA->HPA,
+however there is no GVA, seems the identity mapping does something. But
+there also some confusion for me. For example the real mode uses CS*4 + IP
+to address the code.  Who does this calculation? In the kernel emulator?
+
+Thanks,
+Li Qiang
+
+--00000000000087a9f905937010c3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Paolo and all,<div><br></div><div>There are some questi=
+on about the emulation for real mode in kvm/qemu. For all the=C2=A0</div><d=
+iv>question I suppose the &#39;unstrict guest&#39; is not enabled.=C2=A0</d=
+iv><div><br></div><div>1. how the protected mode CPU emulate the real mode?=
+ It seems it uses vm86, however, vm86 is not available in x86_64 CPU? So wh=
+at&#39;s the &#39;to_vmx(vcpu)-&gt;rmode.vm86_active&#39; here vm86 means?<=
+/div><div><br></div><div>2. Does the guest&#39;s real mode code run directl=
+y in native CPU? It seems &#39;vmx-&gt;emulation_required&#39; is also be f=
+alse, it the vmx_vcpu_run will do a switch to guest.</div><div><br></div><d=
+iv>3. How the EPT work in guest real mode? The EPT is for GVA-&gt;GPA-&gt;H=
+PA, however there is no GVA, seems the identity mapping does something. But=
+ there also some confusion for me. For example the real mode uses CS*4=C2=
+=A0+ IP to address the code.=C2=A0 Who does this calculation? In the kernel=
+ emulator?=C2=A0</div><div><br></div><div>Thanks,</div><div>Li Qiang</div><=
+/div>
+
+--00000000000087a9f905937010c3--
 
