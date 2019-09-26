@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA17BF68A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:18:57 +0200 (CEST)
-Received: from localhost ([::1]:40368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1196CBF6AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:27:27 +0200 (CEST)
+Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDWTn-0006iQ-1p
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
+	id 1iDWc0-0001eS-Ul
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:27:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iDWJl-0005lZ-4z
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:08:34 -0400
+ (envelope-from <bounces@canonical.com>) id 1iDWR8-0006Wf-74
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:16:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iDWJh-0000IN-ID
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:08:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46964)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iDWJd-0000CY-P3
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:08:27 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2DC60641C2
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 16:08:21 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id j3so1137829wrn.7
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:08:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Sx5hJqMQQg2czYlHAJzjOIZHYucu3iDAFw2zgjDZzQM=;
- b=m7EX2bneshadXdrqtNXYHVvBY6b6H4jYV1uQUzfqMF8bbzzjZpPSiL7l4knTEDKZaJ
- mTLlB0zfKhZi2Y3unOBx5YaJrWxW1xT7N1jkzD0bmmNAZqB/mRMCirkWrf3ttGB5pJAC
- STzMcjfOt8PRE3T4jbYq0hG/JBf98nHsJ0gnXYNmGQe4PKb1t6vrOJ069DIRzLytKUYq
- PMVRb7ZC2iijaLE4+inp9J2EXETnTKeUVQgeaHsWHe98OPl+H3aCtP9OEO5u6u4k8qNO
- UkDkh+l/UpqNsFkRiilUHA2PCQCwkc6X3D+7z/eTVd9dRxSjeA4ygEP/imoD2SXHaX85
- 3ejw==
-X-Gm-Message-State: APjAAAVjK64kJPWuFKZvVcVpgpjl3k/PSJzXAP1UO1+lwGaB8rTGpXYh
- t+F3rZ91KuovqBBdE+4/v4c3va6HnnrLkP/r0GoNbbnk/RrkcFsjjHRB8MyREyVOh+Pck2sO6cF
- uZfBgReUG2A8MJTw=
-X-Received: by 2002:a05:600c:2246:: with SMTP id
- a6mr3755826wmm.95.1569514099934; 
- Thu, 26 Sep 2019 09:08:19 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw69Q7837oljcWWt7PTbm47vIXPJFGM6jFj+60BgveH6OBGrAAY5kHx0x5VfXDXaeMkNq+q2g==
-X-Received: by 2002:a05:600c:2246:: with SMTP id
- a6mr3755807wmm.95.1569514099706; 
- Thu, 26 Sep 2019 09:08:19 -0700 (PDT)
-Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id a71sm3928752wme.11.2019.09.26.09.08.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Sep 2019 09:08:19 -0700 (PDT)
-Subject: Re: [PATCH v3 29/33] docker: remove 'deprecated' image definitions
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20190924210106.27117-1-alex.bennee@linaro.org>
- <20190924210106.27117-30-alex.bennee@linaro.org>
- <95fcc08f-d2f1-edf7-0203-d867d297ac9f@redhat.com> <87ftkk9ch0.fsf@linaro.org>
- <a3afe1d8-b621-ba0c-58c3-d049d6eac665@redhat.com> <87a7ar9h8i.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <9c1f380e-8dce-db8c-a229-0029fc509e48@redhat.com>
-Date: Thu, 26 Sep 2019 18:08:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <bounces@canonical.com>) id 1iDWR6-0005Ou-RQ
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:16:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49006)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iDWR6-0005Mg-Le
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:16:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iDWR2-00058y-4O
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 16:16:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 749FF2E818D
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 16:16:00 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87a7ar9h8i.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Sep 2019 16:00:45 -0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64 testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc mark-cave-ayland philmd
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
+References: <156711057074.6835.13599471410604217618.malonedeb@soybean.canonical.com>
+Message-Id: <156951364519.19582.47657564321527870.malone@wampee.canonical.com>
+Subject: [Bug 1841990] Re: instruction 'denbcdq' misbehaving
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19056";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: cb03eee1bab620acad134b56651b11af95f36644
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,128 +64,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, jsnow@redhat.com, qemu-devel@nongnu.org,
- f4bug@amsat.org
+Reply-To: Bug 1841990 <1841990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/19 6:04 PM, Alex Benn=C3=A9e wrote:
->=20
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->=20
->> Hi Alex,
->>
->> On 9/26/19 1:34 AM, Alex Benn=C3=A9e wrote:
->>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>>> On 9/24/19 11:01 PM, Alex Benn=C3=A9e wrote:
->>>>> From: John Snow <jsnow@redhat.com>
->>>>>
->>>>> There isn't a debian.dockerfile anymore,
->>>>> so perform some ghost-busting.
->>>>
->>>> Won't we deprecate other images in the future?
->>>
->>> Sure but we can just drop them from dockerfiles. It's not like we
->>> allowed people to use them as we filtered them out.
->>
->> This patch isn't about removing a deprecated image, but about removing
->> the handy DOCKER_DEPRECATED_IMAGES variable used to start a deprecatio=
-n
->> process.
->=20
-> But it wasn't really doing anything. Because adding the image to
-> DOCKER_DEPRECATED_IMAGES had the same effect as using
-> DOCKER_PARTIAL_IMAGES. You couldn't invoke the test from make and it wa=
-s
-> dropped out from the dependencies for the do-X-on-all image rules. As i=
-t
-> was also hidden from the help you might as well just delete the thing
-> all together.
->=20
->> Fam remembered once we should respect the QEMU deprecation policy even
->> with docker images, because there might be users relying on them, so w=
-e
->> want to give them time to adapt. I can not find a thread on the list, =
-so
->> we might have discussed that over IRC. The related commits are:
->>
->> $ git show bcaf457786c
->>
->>     docker: do not display deprecated images in 'make docker' help
->>
->>     the 'debian' base image is deprecated since 3e11974988d8
->>
->> $ git show 3e11974988d8
->>
->>     docker: warn users to use newer debian8/debian9 base image
->>
->>     to stay backward incompatible.
->>
->> I'd rather keep the DOCKER_DEPRECATED_IMAGES variable empty, maybe wit=
-h
->> a comment describing why it exists. What do you think?
->=20
-> I think deprecations are better handled by a noisy warning in the
-> dockerfile than the silent suppression of their existence by the make
-> system.
+Right so this looks like a different bug: if you look at helper_bcdadd()
+and helper_bcdsub() in target/ppc/int_helper.c then you can see the
+problem straight away: the code is accessing the elements of ppc_avr_t
+without directly without using the VsrX() macros which correct for host
+endian.
 
-Yes, fair enough. Thanks for keeping explaining ;)
+Fortunately the fix is really easy - replace the direct access with the
+relevant VsrX() macro from target/ppc/cpu.h instead. It does look as if
+there are several places in the BCD code that need fixing up though.
 
-Acked-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+The first thing to fix is the #define BCD_DIG_BYTE around line 2055: the
+VsrX() macro offsets are in "big-endian" format to match the ISA
+specification so VsrD(0) is the MSB and VsrD(1) is the LSB, which means
+that during the conversion you generally want the index from within the
+#if defined(HOST_WORDS_BIGENDIAN) ... #endif section.
 
->>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>> Message-Id: <20190923181140.7235-4-jsnow@redhat.com>
->>>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>>> ---
->>>>>  tests/docker/Makefile.include | 7 +++----
->>>>>  1 file changed, 3 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.=
-include
->>>>> index 82d5a8a5393..fd6f470fbf8 100644
->>>>> --- a/tests/docker/Makefile.include
->>>>> +++ b/tests/docker/Makefile.include
->>>>> @@ -4,11 +4,10 @@
->>>>>
->>>>>  DOCKER_SUFFIX :=3D .docker
->>>>>  DOCKER_FILES_DIR :=3D $(SRC_PATH)/tests/docker/dockerfiles
->>>>> -DOCKER_DEPRECATED_IMAGES :=3D debian
->>>>>  # we don't run tests on intermediate images (used as base by anoth=
-er image)
->>>>> -DOCKER_PARTIAL_IMAGES :=3D debian debian9 debian10 debian-sid
->>>>> +DOCKER_PARTIAL_IMAGES :=3D debian9 debian10 debian-sid
->>>>>  DOCKER_PARTIAL_IMAGES +=3D debian9-mxe debian-ports debian-bootstr=
-ap
->>>>> -DOCKER_IMAGES :=3D $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort=
- $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
->>>>> +DOCKER_IMAGES :=3D $(sort $(notdir $(basename $(wildcard $(DOCKER_=
-FILES_DIR)/*.docker))))
->>>>>  DOCKER_TARGETS :=3D $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
->>>>>  # Use a global constant ccache directory to speed up repetitive bu=
-ilds
->>>>>  DOCKER_CCACHE_DIR :=3D $$HOME/.cache/qemu-docker-ccache
->>>>> @@ -160,7 +159,7 @@ docker-image-debian-powerpc-user-cross: docker-=
-binfmt-image-debian-powerpc-user
->>>>>  DOCKER_USER_IMAGES +=3D debian-powerpc-user
->>>>>
->>>>>  # Expand all the pre-requistes for each docker image and test comb=
-ination
->>>>> -$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)=
- $(DOCKER_DEPRECATED_IMAGES)), \
->>>>> +$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)=
-), \
->>>>>  	$(foreach t,$(DOCKER_TESTS) $(DOCKER_TOOLS), \
->>>>>  		$(eval .PHONY: docker-$t@$i) \
->>>>>  		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
->>>>>
->>>
->>>
->>> --
->>> Alex Benn=C3=A9e
->>>
->=20
->=20
-> --
-> Alex Benn=C3=A9e
->=20
+Given that the VsrX() macros invert the array index according to host
+endian then you can completely remove everything between #if
+defined(HOST_WORDS_BIGENDIAN) ... #endif and replace it with simply:
+
+    #define BCD_DIG_BYTE(n) (15 - ((n) / 2))
+
+Then as an example in the bcd_get_sgn() function below you can change
+the switch from:
+
+    switch (bcd->u8[BCD_DIG_BYTE(0)] & 0xF)
+
+to:
+
+    switch (bcd->VsrB(BCD_DIG_BYTE(0)) & 0xF)
+
+etc. and repeat for the remaining bcd helpers down to helper_vsbox()
+around line 2766. Note it seems the last few bcd helpers have a #if
+defined(HOST_WORDS_BIGENDIAN) ... #endif section towards the start that
+might a bit of thought, however once they are written in terms of the
+VsrX() macros then everything will "just work" regardless of host
+endian.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841990
+
+Title:
+  instruction 'denbcdq' misbehaving
+
+Status in QEMU:
+  New
+
+Bug description:
+  Instruction 'denbcdq' appears to have no effect.  Test case attached.
+
+  On ppc64le native:
+  --
+  gcc -g -O -mcpu=3Dpower9 bcdcfsq.c test-denbcdq.c -o test-denbcdq
+  $ ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x22080000000000000000000000000000
+  $ ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x22080000000000000000000000000001
+  $ ./test-denbcdq $(seq 0 99)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x22080000000000000000000000000080
+  --
+
+  With "qemu-ppc64le -cpu power9"
+  --
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x0000000000000000000000000000000c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x0000000000000000000000000000001c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq $(seq 100)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x0000000000000000000000000000100c
+  --
+
+  I started looking at the code, but I got confused rather quickly.
+  Could be related to endianness? I think denbcdq arrived on the scene
+  before little-endian was a big deal.  Maybe something to do with
+  utilizing implicit floating-point register pairs...  I don't think the
+  right data is getting to helper_denbcdq, which would point back to the
+  gen_fprp_ptr uses in dfp-impl.inc.c (GEN_DFP_T_FPR_I32_Rc).  (Maybe?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841990/+subscriptions
 
