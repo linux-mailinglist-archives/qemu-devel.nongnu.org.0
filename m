@@ -2,129 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7B6BF9F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:18:41 +0200 (CEST)
-Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8867ABF9EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:16:16 +0200 (CEST)
+Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDZHj-0003ve-8l
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46978)
+	id 1iDZFO-00014C-Jd
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47675)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iDYun-000404-Ae
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:54:58 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyz-0000gp-5R
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:59:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iDYul-0003gb-Tx
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:54:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41146)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iDYue-0003by-P1; Thu, 26 Sep 2019 14:54:50 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 689BE18CB910;
- Thu, 26 Sep 2019 18:54:46 +0000 (UTC)
-Received: from [10.18.17.231] (dhcp-17-231.bos.redhat.com [10.18.17.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99EEB60933;
- Thu, 26 Sep 2019 18:54:42 +0000 (UTC)
-Subject: Re: [Qemu-devel] [PATCH 4/4] block/dirty-bitmap: refactor
- bdrv_dirty_bitmap_next
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190916141911.5255-1-vsementsov@virtuozzo.com>
- <20190916141911.5255-5-vsementsov@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <b099f898-1d0f-d9b3-f8fb-c354f5a3fc50@redhat.com>
-Date: Thu, 26 Sep 2019 14:54:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyx-0007x9-Jr
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:59:17 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:40360
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDYyx-0007AS-DQ; Thu, 26 Sep 2019 14:59:15 -0400
+Received: from host86-138-245-63.range86-138.btcentralplus.com
+ ([86.138.245.63] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDYyD-0001em-Us; Thu, 26 Sep 2019 19:58:30 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, pc@us.ibm.com,
+ david@gibson.dropbear.id.au
+Date: Thu, 26 Sep 2019 19:57:55 +0100
+Message-Id: <20190926185801.11176-2-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190926185801.11176-1-mark.cave-ayland@ilande.co.uk>
+References: <20190926185801.11176-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <20190916141911.5255-5-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 26 Sep 2019 18:54:46 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.138.245.63
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v2 1/7] target/ppc: introduce get_dfp{64,
+ 128}() helper functions
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,140 +56,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, quintela@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com, den@openvz.org,
- mreitz@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The existing functions (now incorrectly) assume that the MSB and LSB of DFP
+numbers are stored as consecutive 64-bit words in memory. Instead of accessing
+the DFP numbers directly, introduce get_dfp{64,128}() helper functions to ease
+the switch to the correct representation.
 
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/dfp_helper.c | 52 ++++++++++++++++++++++++++++++-----------
+ 1 file changed, 39 insertions(+), 13 deletions(-)
 
-On 9/16/19 10:19 AM, Vladimir Sementsov-Ogievskiy wrote:
-> bdrv_dirty_bitmap_next is always used in same pattern. So, split it
-> into _next and _first, instead of combining two functions into one and
-> add FOR_EACH_DIRTY_BITMAP macro.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/dirty-bitmap.h   |  9 +++++++--
->  block.c                        |  4 +---
->  block/dirty-bitmap.c           | 11 +++++++----
->  block/qcow2-bitmap.c           |  8 ++------
->  migration/block-dirty-bitmap.c |  4 +---
->  5 files changed, 18 insertions(+), 18 deletions(-)
+diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+index f102177572..354a4aa877 100644
+--- a/target/ppc/dfp_helper.c
++++ b/target/ppc/dfp_helper.c
+@@ -36,6 +36,17 @@
+ #define LO_IDX 0
+ #endif
+ 
++static void get_dfp64(uint64_t *dst, uint64_t *dfp)
++{
++    dst[0] = dfp[0];
++}
++
++static void get_dfp128(uint64_t *dst, uint64_t *dfp)
++{
++    dst[0] = dfp[HI_IDX];
++    dst[1] = dfp[LO_IDX];
++}
++
+ struct PPC_DFP {
+     CPUPPCState *env;
+     uint64_t t64[2], a64[2], b64[2];
+@@ -129,7 +140,7 @@ static void dfp_prepare_decimal64(struct PPC_DFP *dfp, uint64_t *a,
+     dfp->env = env;
+ 
+     if (a) {
+-        dfp->a64[0] = *a;
++        get_dfp64(dfp->a64, a);
+         decimal64ToNumber((decimal64 *)dfp->a64, &dfp->a);
+     } else {
+         dfp->a64[0] = 0;
+@@ -137,7 +148,7 @@ static void dfp_prepare_decimal64(struct PPC_DFP *dfp, uint64_t *a,
+     }
+ 
+     if (b) {
+-        dfp->b64[0] = *b;
++        get_dfp64(dfp->b64, b);
+         decimal64ToNumber((decimal64 *)dfp->b64, &dfp->b);
+     } else {
+         dfp->b64[0] = 0;
+@@ -153,8 +164,7 @@ static void dfp_prepare_decimal128(struct PPC_DFP *dfp, uint64_t *a,
+     dfp->env = env;
+ 
+     if (a) {
+-        dfp->a64[0] = a[HI_IDX];
+-        dfp->a64[1] = a[LO_IDX];
++        get_dfp128(dfp->a64, a);
+         decimal128ToNumber((decimal128 *)dfp->a64, &dfp->a);
+     } else {
+         dfp->a64[0] = dfp->a64[1] = 0;
+@@ -162,8 +172,7 @@ static void dfp_prepare_decimal128(struct PPC_DFP *dfp, uint64_t *a,
+     }
+ 
+     if (b) {
+-        dfp->b64[0] = b[HI_IDX];
+-        dfp->b64[1] = b[LO_IDX];
++        get_dfp128(dfp->b64, b);
+         decimal128ToNumber((decimal128 *)dfp->b64, &dfp->b);
+     } else {
+         dfp->b64[0] = dfp->b64[1] = 0;
+@@ -617,10 +626,12 @@ uint32_t helper_##op(CPUPPCState *env, uint64_t *a, uint64_t *b)         \
+ {                                                                        \
+     struct PPC_DFP dfp;                                                  \
+     unsigned k;                                                          \
++    uint64_t a64;                                                        \
+                                                                          \
+     dfp_prepare_decimal##size(&dfp, 0, b, env);                          \
+                                                                          \
+-    k = *a & 0x3F;                                                       \
++    get_dfp64(&a64, a);                                                  \
++    k = a64 & 0x3F;                                                      \
+                                                                          \
+     if (unlikely(decNumberIsSpecial(&dfp.b))) {                          \
+         dfp.crbf = 1;                                                    \
+@@ -817,11 +828,15 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,            \
+                  uint64_t *b, uint32_t rmc)                             \
+ {                                                                       \
+     struct PPC_DFP dfp;                                                 \
+-    int32_t ref_sig = *a & 0x3F;                                        \
++    uint64_t a64;                                                       \
++    int32_t ref_sig;                                                    \
+     int32_t xmax = ((size) == 64) ? 369 : 6111;                         \
+                                                                         \
+     dfp_prepare_decimal##size(&dfp, 0, b, env);                         \
+                                                                         \
++    get_dfp64(&a64, a);                                                 \
++    ref_sig = a64 & 0x3f;                                               \
++                                                                        \
+     _dfp_reround(rmc, ref_sig, xmax, &dfp);                             \
+     decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t,         \
+                               &dfp.context);                            \
+@@ -881,7 +896,12 @@ DFP_HELPER_RINT(drintnq, RINTN_PPs, 128)
+ void helper_dctdp(CPUPPCState *env, uint64_t *t, uint64_t *b)
+ {
+     struct PPC_DFP dfp;
+-    uint32_t b_short = *b;
++    uint64_t b64;
++    uint32_t b_short;
++
++    get_dfp64(&b64, b);
++    b_short = (uint32_t)b64;
++
+     dfp_prepare_decimal64(&dfp, 0, 0, env);
+     decimal32ToNumber((decimal32 *)&b_short, &dfp.t);
+     decimal64FromNumber((decimal64 *)t, &dfp.t, &dfp.context);
+@@ -891,8 +911,10 @@ void helper_dctdp(CPUPPCState *env, uint64_t *t, uint64_t *b)
+ void helper_dctqpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+ {
+     struct PPC_DFP dfp;
++    uint64_t b64;
+     dfp_prepare_decimal128(&dfp, 0, 0, env);
+-    decimal64ToNumber((decimal64 *)b, &dfp.t);
++    get_dfp64(&b64, b);
++    decimal64ToNumber((decimal64 *)&b64, &dfp.t);
+ 
+     dfp_check_for_VXSNAN_and_convert_to_QNaN(&dfp);
+     dfp_set_FPRF_from_FRT(&dfp);
+@@ -940,8 +962,10 @@ void helper_drdpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)                   \
+ {                                                                              \
+     struct PPC_DFP dfp;                                                        \
++    uint64_t b64;                                                              \
+     dfp_prepare_decimal##size(&dfp, 0, b, env);                                \
+-    decNumberFromInt64(&dfp.t, (int64_t)(*b));                                 \
++    get_dfp64(&b64, b);                                                        \
++    decNumberFromInt64(&dfp.t, (int64_t)b64);                                  \
+     decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, &dfp.context); \
+     CFFIX_PPs(&dfp);                                                           \
+                                                                                \
+@@ -1183,10 +1207,12 @@ static void dfp_set_raw_exp_128(uint64_t *t, uint64_t raw)
+ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a, uint64_t *b) \
+ {                                                                         \
+     struct PPC_DFP dfp;                                                   \
+-    uint64_t raw_qnan, raw_snan, raw_inf, max_exp;                        \
++    uint64_t raw_qnan, raw_snan, raw_inf, max_exp, a64;                   \
+     int bias;                                                             \
+-    int64_t exp = *((int64_t *)a);                                        \
++    int64_t exp;                                                          \
+                                                                           \
++    get_dfp64(&a64, a);                                                   \
++    exp = (int64_t)a64;                                                   \
+     dfp_prepare_decimal##size(&dfp, 0, b, env);                           \
+                                                                           \
+     if ((size) == 64) {                                                   \
+-- 
+2.20.1
 
-I'm not as sure that this is an improvement.
-
-> 
-> diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-> index 4c58d922e4..89e52db7ec 100644
-> --- a/include/block/dirty-bitmap.h
-> +++ b/include/block/dirty-bitmap.h
-> @@ -97,8 +97,13 @@ bool bdrv_dirty_bitmap_get_autoload(const BdrvDirtyBitmap *bitmap);
->  bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap);
->  bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap);
->  bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs);
-> -BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
-> -                                        BdrvDirtyBitmap *bitmap);
-> +
-> +BdrvDirtyBitmap *bdrv_dirty_bitmap_first(BlockDriverState *bs);
-> +BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BdrvDirtyBitmap *bitmap);
-> +#define FOR_EACH_DIRTY_BITMAP(bs, bitmap) \
-> +for (bitmap = bdrv_dirty_bitmap_first(bs); bitmap; \
-> +     bitmap = bdrv_dirty_bitmap_next(bitmap))
-> +
->  char *bdrv_dirty_bitmap_sha256(const BdrvDirtyBitmap *bitmap, Error **errp);
->  int64_t bdrv_dirty_bitmap_next_zero(BdrvDirtyBitmap *bitmap, uint64_t offset,
->                                      uint64_t bytes);
-> diff --git a/block.c b/block.c
-> index 5944124845..96c2c5ae2d 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -5363,9 +5363,7 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
->          }
->      }
->  
-> -    for (bm = bdrv_dirty_bitmap_next(bs, NULL); bm;
-> -         bm = bdrv_dirty_bitmap_next(bs, bm))
-> -    {
-> +    FOR_EACH_DIRTY_BITMAP(bs, bm) {
->          bdrv_dirty_bitmap_skip_store(bm, false);
->      }
-
-... and I kind of prefer loops with explicit function calls more than I
-like macro-loops.
-
->  
-> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-> index 76a8e59e61..e2df82af01 100644
-> --- a/block/dirty-bitmap.c
-> +++ b/block/dirty-bitmap.c
-> @@ -742,11 +742,14 @@ bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs)
->      return false;
->  }
->  
-> -BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
-> -                                        BdrvDirtyBitmap *bitmap)
-> +BdrvDirtyBitmap *bdrv_dirty_bitmap_first(BlockDriverState *bs)
->  {
-> -    return bitmap == NULL ? QLIST_FIRST(&bs->dirty_bitmaps) :
-> -                            QLIST_NEXT(bitmap, list);
-> +    return QLIST_FIRST(&bs->dirty_bitmaps);
-> +}
-> +
-> +BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BdrvDirtyBitmap *bitmap)
-> +{
-> +    return QLIST_NEXT(bitmap, list);
->  }
->  
->  char *bdrv_dirty_bitmap_sha256(const BdrvDirtyBitmap *bitmap, Error **errp)
-> diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-> index 6d795a2255..73ebd2ff6a 100644
-> --- a/block/qcow2-bitmap.c
-> +++ b/block/qcow2-bitmap.c
-> @@ -1480,9 +1480,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
->      }
->  
->      /* check constraints and names */
-> -    for (bitmap = bdrv_dirty_bitmap_next(bs, NULL); bitmap != NULL;
-> -         bitmap = bdrv_dirty_bitmap_next(bs, bitmap))
-> -    {
-> +    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
->          const char *name = bdrv_dirty_bitmap_name(bitmap);
->          uint32_t granularity = bdrv_dirty_bitmap_granularity(bitmap);
->          Qcow2Bitmap *bm;
-> @@ -1602,9 +1600,7 @@ int qcow2_reopen_bitmaps_ro(BlockDriverState *bs, Error **errp)
->          return -EINVAL;
->      }
->  
-> -    for (bitmap = bdrv_dirty_bitmap_next(bs, NULL); bitmap != NULL;
-> -         bitmap = bdrv_dirty_bitmap_next(bs, bitmap))
-> -    {
-> +    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
->          if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
->              bdrv_dirty_bitmap_set_readonly(bitmap, true);
->          }
-> diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-> index 793f249aa5..7eafface61 100644
-> --- a/migration/block-dirty-bitmap.c
-> +++ b/migration/block-dirty-bitmap.c
-> @@ -283,9 +283,7 @@ static int init_dirty_bitmap_migration(void)
->      for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
->          const char *name = bdrv_get_device_or_node_name(bs);
->  
-> -        for (bitmap = bdrv_dirty_bitmap_next(bs, NULL); bitmap;
-> -             bitmap = bdrv_dirty_bitmap_next(bs, bitmap))
-> -        {
-> +        FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
->              if (!bdrv_dirty_bitmap_name(bitmap)) {
->                  continue;
->              }
-> 
-
-Well, I guess explicit first and next functions is harder to mess up,
-anyway.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
-(Any other thoughts?)
 
