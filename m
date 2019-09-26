@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286B0BF731
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:55:37 +0200 (CEST)
-Received: from localhost ([::1]:41078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A63BF733
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:56:37 +0200 (CEST)
+Received: from localhost ([::1]:41092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDX3F-000639-0h
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41490)
+	id 1iDX4G-0007dm-Et
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46028)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWcJ-0002mP-59
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:44 -0400
+ (envelope-from <bounces@canonical.com>) id 1iDWyT-0000ac-7W
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWcH-0004rr-Dp
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:42 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:43921)
+ (envelope-from <bounces@canonical.com>) id 1iDWyR-0002fa-ST
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54424)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDWcH-0004rK-7c
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:41 -0400
-Received: by mail-pf1-f196.google.com with SMTP id a2so2111639pfo.10
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=jrvKbjfU1dFIu8+98+zhi34QV271t8gxz4iMHGKRMxY=;
- b=DlwvgVBMjYyJV7gzhvmmTzrKx50D0/XPtcd/euRD4gb25N/dXLiE53+IXVaKki187z
- Y8J2+MTS7X6HmB4m5BWCacNzPNs6ph2AmFdDgZA16jIzBKGg0zw9EeS7NF3jnZmD0OTz
- T5pwB0P6rsge989Cfi3l55cBlvptjIjWeYvSne9fL7uLG5CTCCbApRUyAvQZ9cS7rkVe
- HqXVZQxq3ZCJVvLET3gHD8RPqOUX2Hgc3z6fLPgLfirJSnJZcsbuj2sMf2sA/HUSk1TB
- 6TMqVcUGKL2tgEXzpiHuW/nyEYKg5UNQpmrJDLWnRCVlaNo3z28tzGEWIbhCFfgeFvb+
- VaSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=jrvKbjfU1dFIu8+98+zhi34QV271t8gxz4iMHGKRMxY=;
- b=EbMgeR2KITaztSa/r/0hqMeiiGmqkv8u/BjnWFz7xBzHx5Uum/8dQreV1dVHQP9/Jn
- KQWURRcze/44leF4VaN3RZ4WnrYEAUa0R8LfYKrwNDQeUMOEcSp32Y7apjEgMhutCN96
- iURTrRViH8sCYINQj7kMabN5sDKy8uoiPsM7MP40kwzmF9KpZD11Jf8xs0pMLkEvyZTS
- +HJ9y1rxMBDo603jbBjlA2dk3a7ziR/1U1bdSTlQnFBQsDwIX2DBHOyt1og3PjPbgaGP
- uOebHsuLYqhMWCu1PLJJ8ZpNJdF187esmlMrS/XvifrTJvIKuK13iHlmD6BktrldW82w
- bDDA==
-X-Gm-Message-State: APjAAAX3tAReYKlZoYgabEWjYoRKzX4gCC0BEXF1losYEcEL2M+GRjhg
- 5RSPblxo/qJSHiddccmBu/i0ijGWDM0=
-X-Google-Smtp-Source: APXvYqw1+Zf8tr9uvm298CxH2wAH1YLP8gS1cRbHbj4n6m41eFw8f+T6ZtGaVofhJ4ppq1gZw7FK6A==
-X-Received: by 2002:a62:5441:: with SMTP id i62mr4779630pfb.49.1569515199840; 
- Thu, 26 Sep 2019 09:26:39 -0700 (PDT)
-Received: from localhost.localdomain ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 09:26:38 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iDWyR-0002aW-KX
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:50:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iDWyO-0000Ql-La
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 16:50:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8B8EA2E80CC
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 16:50:32 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Sep 2019 16:43:34 -0000
+From: Paul Clarke <pc@us.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/18] target/s390x: Remove ILEN_AUTO
-Date: Thu, 26 Sep 2019 09:26:13 -0700
-Message-Id: <20190926162615.31168-17-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190926162615.31168-1-richard.henderson@linaro.org>
-References: <20190926162615.31168-1-richard.henderson@linaro.org>
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64 testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc mark-cave-ayland philmd
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156711057074.6835.13599471410604217618.malonedeb@soybean.canonical.com>
+Message-Id: <156951621519.15514.7309979133355448827.malone@gac.canonical.com>
+Subject: [Bug 1841990] Re: instruction 'denbcdq' misbehaving
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19056";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1e7dfaafbeb58fe85a6e20f130b1e919c5a5f869
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.196
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,46 +64,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, david@redhat.com
+Reply-To: Bug 1841990 <1841990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This setting is no longer used.
+The final failure is 'vsr' acting incorrectly, with basically the same
+issue as 'vsl'.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/cpu.h         | 2 --
- target/s390x/excp_helper.c | 3 ---
- 2 files changed, 5 deletions(-)
+-- =
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index a5eab491cd..fc941c7d76 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -816,8 +816,6 @@ void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
-                        uint32_t io_int_parm, uint32_t io_int_word);
- /* instruction length set by unwind info */
- #define ILEN_UNWIND                 0
--/* automatically detect the instruction length */
--#define ILEN_AUTO                   0xff
- #define RA_IGNORED                  0
- void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
- /* service interrupts are floating therefore we must not pass an cpustate */
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 8ce992e639..c252e9a7d8 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -196,9 +196,6 @@ static void do_program_interrupt(CPUS390XState *env)
-     LowCore *lowcore;
-     int ilen = env->int_pgm_ilen;
- 
--    if (ilen == ILEN_AUTO) {
--        ilen = get_ilen(cpu_ldub_code(env, env->psw.addr));
--    }
-     assert(ilen == 2 || ilen == 4 || ilen == 6);
- 
-     switch (env->int_pgm_code) {
--- 
-2.17.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841990
 
+Title:
+  instruction 'denbcdq' misbehaving
+
+Status in QEMU:
+  New
+
+Bug description:
+  Instruction 'denbcdq' appears to have no effect.  Test case attached.
+
+  On ppc64le native:
+  --
+  gcc -g -O -mcpu=3Dpower9 bcdcfsq.c test-denbcdq.c -o test-denbcdq
+  $ ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x22080000000000000000000000000000
+  $ ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x22080000000000000000000000000001
+  $ ./test-denbcdq $(seq 0 99)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x22080000000000000000000000000080
+  --
+
+  With "qemu-ppc64le -cpu power9"
+  --
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x0000000000000000000000000000000c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x0000000000000000000000000000001c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq $(seq 100)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x0000000000000000000000000000100c
+  --
+
+  I started looking at the code, but I got confused rather quickly.
+  Could be related to endianness? I think denbcdq arrived on the scene
+  before little-endian was a big deal.  Maybe something to do with
+  utilizing implicit floating-point register pairs...  I don't think the
+  right data is getting to helper_denbcdq, which would point back to the
+  gen_fprp_ptr uses in dfp-impl.inc.c (GEN_DFP_T_FPR_I32_Rc).  (Maybe?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841990/+subscriptions
 
