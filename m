@@ -2,102 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEBABF64D
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:57:11 +0200 (CEST)
-Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66616BF63E
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:52:30 +0200 (CEST)
+Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDW8j-0008Hc-BT
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
+	id 1iDW4A-00020b-Qr
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDVuj-0002Ds-92
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:42:44 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDVgl-0006OJ-HN
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:28:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDVuf-0008FC-59
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:42:38 -0400
-Received: from mail-eopbgr140093.outbound.protection.outlook.com
- ([40.107.14.93]:5350 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDUWj-0003Mv-Qp; Thu, 26 Sep 2019 10:13:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k15SkHMEh+mDZHjvHd5NhwBaqpAZci/tFMVBGVPPcVXVbz5Y8ZjpwmZPeo9rb9OPvPyBxY0xVK808lEwcaRTilzHRB77nrdiloe0lIswTYpqPzZcams3ysjMQLYb1Kn1SxAHalNBuVXznOK7L5p7ykBDVj8sGjTJmW7j7lKyS/drST1WmK/ncFHChw8twA1pDVkB5lGwNlSkRxPTFQ4M7+h+hWq4jHyW8n/ogOZ5o2Xp3LsyalfIKCvM3+J0zLwQqTpSwwOLxdYdDedfc6OW3PmzQo4BmURl7nuHaZgM/w5ebm7FlQig1dTkTVMkCT+Z1KxdvrQD9FyjRbfpQA7i+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pkDA4wifgGHfZJ0jQ10pi88jMmITbaAAEt078Ch21Lg=;
- b=RZV+Dh01XZdyLlpUhYnsKf9ufNsx34xDO8m/2C6C0FiwForVetsbYB5K56/fU+A4kfTSymwTXxdyCjimi+x9coDGOck+vghdv9+U15AgjFWmZu97yjgGct3TBun3bVOkCAINrw/SxHrcKo0YSaV9qMY3A0ywu3pUGeTuyB0FzN/M6waubZ5f8QGif6PVANGDVTOcdlXr69znpz9FotoN8zPWeMyiPINnXGPbttOL6nPIVDrm2SCr12byNxIW6vFiNsoNgTwai+vaP64KL/APnBe4CbGeyo7Rznc9OCVjMr6+UGYtwXz0mvQthfAuiCNbDOvGJ9HaE4YAYZy8yPPCbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pkDA4wifgGHfZJ0jQ10pi88jMmITbaAAEt078Ch21Lg=;
- b=g9pZ8ooJIOqqczohQQmwjM09I4lOhVwIG5GClLNj/qD+Y6XwixrpdDBrXJBmrkEfZf/omQGfP5wCIbiQYRJem/E8G21xu5OenXCOUQf92c7h164yY1FMIFOID9fTFUlqRzfNrKLlaNUNbHdxrPHr84HMY8yVF79IKgizRKCfAyM=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5466.eurprd08.prod.outlook.com (52.133.242.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.15; Thu, 26 Sep 2019 14:13:45 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Thu, 26 Sep 2019
- 14:13:45 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH 19/22] iotests: Use self.image_len in TestRepairQuorum
-Thread-Topic: [PATCH 19/22] iotests: Use self.image_len in TestRepairQuorum
-Thread-Index: AQHVb84YpwYV+MD+RU64z+o6LExA/Kc+CZkA
-Date: Thu, 26 Sep 2019 14:13:45 +0000
-Message-ID: <18a0f40d-7253-58a1-21e6-fb5a466f7e11@virtuozzo.com>
-References: <20190920152804.12875-1-mreitz@redhat.com>
- <20190920152804.12875-20-mreitz@redhat.com>
-In-Reply-To: <20190920152804.12875-20-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P191CA0019.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::29)
- To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190926171344070
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bae02021-7da3-4070-c432-08d7428bbe4e
-x-ms-traffictypediagnostic: DB8PR08MB5466:
-x-microsoft-antispam-prvs: <DB8PR08MB54667A8F419BD5EEABA30690C1860@DB8PR08MB5466.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2150;
-x-forefront-prvs: 0172F0EF77
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(376002)(136003)(346002)(39850400004)(396003)(189003)(199004)(31696002)(6506007)(486006)(256004)(76176011)(2501003)(14444005)(6486002)(478600001)(14454004)(6436002)(2616005)(31686004)(476003)(99286004)(71200400001)(66446008)(66556008)(7736002)(5660300002)(305945005)(102836004)(66946007)(386003)(64756008)(66476007)(25786009)(52116002)(2906002)(26005)(4326008)(446003)(36756003)(66066001)(71190400001)(186003)(11346002)(6512007)(54906003)(6246003)(229853002)(316002)(110136005)(6116002)(3846002)(81166006)(81156014)(8676002)(8936002)(86362001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5466;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YfZm7DtL91PmXzXitFYWZS0iWySe0igSLPRp17EEbnM4mDRp08Cz3AlGKpQyO42KIG3A0UxQH7SfB+A1uf9ijystbROsMxx2D9xr4QRu3/yloj1kT5faJu5mpoidboug5RYRYlFbG4KwRhRPIfv4EzY+mgZ/xd9GFPrITefXAg2um3CS19wSxzf5eGnDOoLbifLNFE08meV3K8SEulLsVj7R0xne/wgA8Yyz6JTo659OGAX9x+RBYRCJI4ZQJQl5e7AHiD64le0yfNo/7LyC6IwOFvR0/Og48m2fiMGsEm15RRgYus00UTMrHqV/VrRZ+tbuqe+QrQ3vRlp+FaSY41rle/kXd4/gn3AL0y9DnRUdgh5EYE6w+8AZgT8iF5w4bBZGIbNJoio2mXsXRrMJYhNltCWobL6aO6RZ6Z5O/Io=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D49791D70DB3FB42A19AF0200A148F53@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <alex.bennee@linaro.org>) id 1iDVgj-0000Gp-TG
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:28:15 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53079)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iDVgj-0000Fd-O6
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:28:13 -0400
+Received: by mail-wm1-f68.google.com with SMTP id r19so3275487wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 08:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4wK0RZCTcEazdzPAKObyHDNw9KgRIqAnCbP1QCI6pJU=;
+ b=NPHz2nzhMFscJMnlOomR8c3ft92PoUYNDLe8y/JGVm22q+5V+VOSruw2e+uGYhF3nF
+ Q+m0g+MKRGrp1nGO0tjC/gj0WGRn6t8kTvidVZwRGY+YSaarz5NFYD0REQyybzelyYkN
+ xwRIBLujNfEDY0dWkC3ezTPY3fdWfwO1WzWmIH5lKqJqxMGIlCAkmRQjQW7RU9s2gL6G
+ BRuAt7O2wjle5tPUpxj4N6A+I3aM0z2tcLmC+4xbT0a8KDpIVNJB9nTMqbv+uEaU+4hA
+ JiYlOyMUmXc67TOoauoROMO/WPmklP1XM3EPg1oV844aHK3MR/N5fFtJdcNsz0JLLex0
+ uhmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4wK0RZCTcEazdzPAKObyHDNw9KgRIqAnCbP1QCI6pJU=;
+ b=c00KXJqstSHjxYwcX/fx/p4UNv/FMx2AU43Kd3zJzx9+AExSNPkQHZ+wJCSHfZqyjM
+ qGabZBoxI6k202M/zvBIUKTlTdvGCk/73KfWjNKqag7qwZKIry1TQsz/2+9eCT151FmM
+ NsLoHF0KvYQayIKn8lRkR8LKExlGiqqY6G/ZUzfptrSzc27xmI7WMDpl43CWkC8XlZbi
+ 8nNrYpdDrqsnISvJwRaTIs8CloC7NySVgDKX0AoSFBaKkTmo+2Nr7bt4PCYICzdarVoM
+ meETdhnYV5U7Aej04wjjJlDSm1ibvCN6rV7xzZDsFJ6eL+m6f0394piM8SuCz+nV83PY
+ H/dQ==
+X-Gm-Message-State: APjAAAWENNmnPcOkfHbKt1O2tHgcLWAnUCUVr8QsBRmBgXKz5gVwFsOj
+ Hrhvo11E54eYsvN/aeiY2CsvTg==
+X-Google-Smtp-Source: APXvYqxbq9iIGB4kbgtDZPGi+PeG7zmAJHODiExH79+6Vw46D7HyhQbrgN7XqZmyrzprF5VzuH28DA==
+X-Received: by 2002:a1c:980e:: with SMTP id a14mr3315727wme.99.1569511630427; 
+ Thu, 26 Sep 2019 08:27:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q192sm5033836wme.23.2019.09.26.08.27.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Sep 2019 08:27:09 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D81D21FF87;
+ Thu, 26 Sep 2019 16:27:08 +0100 (BST)
+References: <20190925233013.6449-1-alex.bennee@linaro.org>
+ <0a2c56da-173e-2abd-de76-e38a649e8f25@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
+In-reply-to: <0a2c56da-173e-2abd-de76-e38a649e8f25@redhat.com>
+Date: Thu, 26 Sep 2019 16:27:08 +0100
+Message-ID: <87ef039iyb.fsf@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bae02021-7da3-4070-c432-08d7428bbe4e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2019 14:13:45.8765 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: psGuKazXTwWDPmU/zX0EaukfE7K7QDCKDCHL8rmrfy2pIjOztfmL6ZVUsPzJyZsRejBDn6xzyXaNmzLT5NY2fiNo4GfYyEhBe5GjHGHjveI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5466
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.14.93
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,34 +82,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, qemu-discuss@nongnu.org, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjAuMDkuMjAxOSAxODoyOCwgTWF4IFJlaXR6IHdyb3RlOg0KPiAwNDEncyBUZXN0UmVwYWlyUXVv
-cnVtIGhhcyBpdHMgb3duIGltYWdlX2xlbiwgbm8gbmVlZCB0byByZWZlciB0bw0KPiBUZXN0U2lu
-Z2xlRHJpdmUuICAoVGhpcyBwYXRjaCBhbGxvd3MgdW5jb21tZW50aW5nIFRlc3RTaW5nbGVEcml2
-ZSB0bw0KDQp5b3UgbWVhbiBjb21tZW50aW5nDQoNCj4gc3BlZWQgdXAgMDQxIGR1cmluZyB0ZXN0
-IHRlc3RpbmcuKQ0KDQp3ZSBkZWZpbml0ZWx5IHdhbnQgYSB3YXkgdG8gcnVuIGEgc3Vic2V0IG9m
-IHRlc3QgY2FzZXMuDQoNCkkgdXN1YWxseSBkbyBzL2RlZiB0ZXN0L2RlZiBudGVzdC8sIGFuZCB0
-aGVuIHNldCBuZWVkZWQgdGVzdC1jYXNlIGJhY2sgdG8NCidkZWYgdGVzdCcNCg0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgdGVz
-dHMvcWVtdS1pb3Rlc3RzLzA0MSB8IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90ZXN0cy9xZW11LWlvdGVz
-dHMvMDQxIGIvdGVzdHMvcWVtdS1pb3Rlc3RzLzA0MQ0KPiBpbmRleCBjYTEyNmRlM2ZmLi4yMGFl
-OTc1MGI3IDEwMDc1NQ0KPiAtLS0gYS90ZXN0cy9xZW11LWlvdGVzdHMvMDQxDQo+ICsrKyBiL3Rl
-c3RzL3FlbXUtaW90ZXN0cy8wNDENCj4gQEAgLTg4MCw3ICs4ODAsNyBAQCBjbGFzcyBUZXN0UmVw
-YWlyUXVvcnVtKGlvdGVzdHMuUU1QVGVzdENhc2UpOg0KPiAgICAgICAgICAgIyBBZGQgZWFjaCBp
-bmRpdmlkdWFsIHF1b3J1bSBpbWFnZXMNCj4gICAgICAgICAgIGZvciBpIGluIHNlbGYuSU1BR0VT
-Og0KPiAgICAgICAgICAgICAgIHFlbXVfaW1nKCdjcmVhdGUnLCAnLWYnLCBpb3Rlc3RzLmltZ2Zt
-dCwgaSwNCj4gLSAgICAgICAgICAgICAgICAgICAgIHN0cihUZXN0U2luZ2xlRHJpdmUuaW1hZ2Vf
-bGVuKSkNCj4gKyAgICAgICAgICAgICAgICAgICAgIHN0cihzZWxmLmltYWdlX2xlbikpDQoNCnll
-cywgc2VlbXMgVGVzdFNpbmdsZURyaXZlLmltYWdlX2xlbiBpcyBhIGNvcHktcGFzdGluZyBtaXN0
-YWtlIGhlcmUuLg0KDQo+ICAgICAgICAgICAgICAgIyBBc3NpZ24gYSBub2RlIG5hbWUgdG8gZWFj
-aCBxdW9ydW0gaW1hZ2UgaW4gb3JkZXIgdG8gbWFuaXB1bGF0ZQ0KPiAgICAgICAgICAgICAgICMg
-dGhlbQ0KPiAgICAgICAgICAgICAgIG9wdHMgPSAibm9kZS1uYW1lPWltZyVpIiAlIHNlbGYuSU1B
-R0VTLmluZGV4KGkpDQo+IA0KDQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dp
-ZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQoNCi0tIA0KQmVzdCByZWdhcmRzLA0K
-VmxhZGltaXINCg==
+
+Thomas Huth <thuth@redhat.com> writes:
+
+> On 26/09/2019 01.30, Alex Benn=C3=A9e wrote:
+>> The 32 bit hosts are already a second class citizen especially with
+>> support for running 64 bit guests under TCG. We are also limited by
+>> testing as actual working 32 bit machines are getting quite rare in
+>> developers personal menageries. For TCG supporting newer types like
+>> Int128 is a lot harder with 32 bit calling conventions compared to
+>> their larger bit sized cousins. Fundamentally address space is the
+>> most useful thing for the translator to have even for a 32 bit guest a
+>> 32 bit host is quite constrained.
+>>
+>> As far as I'm aware 32 bit KVM users are even less numerous. Even
+>> ILP32 doesn't make much sense given the address space QEMU needs to
+>> manage.
+>>
+>> Lets mark these machines as deprecated so we can have the wailing and
+>> gnashing of teeth now and look to actually dropping the support in a
+>> couple of cycles.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  configure | 24 +++++++++++++-----------
+>>  1 file changed, 13 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/configure b/configure
+>> index 542f6aea3f..776fd460b5 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -728,7 +728,7 @@ ARCH=3D
+>>  # Normalise host CPU name and set ARCH.
+>>  # Note that this case should only have supported host CPUs, not guests.
+>>  case "$cpu" in
+>> -  ppc|ppc64|s390|s390x|sparc64|x32|riscv32|riscv64)
+>> +  ppc64|s390|s390x|sparc64|riscv64)
+>
+> I think you can also remove "s390". "s390" is the 32-bit variant,
+> "s390x" is the 64-bit variant.
+>
+>>      supported_cpu=3D"yes"
+>>    ;;
+>>    ppc64le)
+>> @@ -737,7 +737,6 @@ case "$cpu" in
+>>    ;;
+>>    i386|i486|i586|i686|i86pc|BePC)
+>>      cpu=3D"i386"
+>> -    supported_cpu=3D"yes"
+>>    ;;
+>>    x86_64|amd64)
+>>      cpu=3D"x86_64"
+>> @@ -745,19 +744,22 @@ case "$cpu" in
+>>    ;;
+>>    armv*b|armv*l|arm)
+>>      cpu=3D"arm"
+>> -    supported_cpu=3D"yes"
+>>    ;;
+>>    aarch64)
+>>      cpu=3D"aarch64"
+>>      supported_cpu=3D"yes"
+>>    ;;
+>> -  mips*)
+>> +  mips64*)
+>>      cpu=3D"mips"
+>>      supported_cpu=3D"yes"
+>>    ;;
+>> +  mips*)
+>> +    cpu=3D"mips"
+>> +  ;;
+>>    sparc|sun4[cdmuv])
+>>      cpu=3D"sparc"
+>> -    supported_cpu=3D"yes"
+>> +  ;;
+>> +  x32|riscv32)
+>
+> You forgot to add "ppc" (and "s390") here.
+>
+>>    ;;
+>>    *)
+>>      # This will result in either an error or falling back to TCI later
+>> @@ -6438,12 +6440,12 @@ if test "$supported_cpu" =3D "no"; then
+>>      echo "WARNING: SUPPORT FOR THIS HOST CPU WILL GO AWAY IN FUTURE REL=
+EASES!"
+>>      echo
+>>      echo "CPU host architecture $cpu support is not currently maintaine=
+d."
+>> -    echo "The QEMU project intends to remove support for this host CPU =
+in"
+>> -    echo "a future release if nobody volunteers to maintain it and to"
+>> -    echo "provide a build host for our continuous integration setup."
+>> -    echo "configure has succeeded and you can continue to build, but"
+>> -    echo "if you care about QEMU on this platform you should contact"
+>> -    echo "us upstream at qemu-devel@nongnu.org."
+>> +    echo "The QEMU project intends to remove support for all 32 bit hos=
+t"
+>> +    echo "CPUs in a future release. 64 bit hosts will need a volunteer"
+>> +    echo "to maintain it and to provide a build host for our continuous"
+>> +    echo "integration setup. configure has succeeded and you can contin=
+ue"
+>> +    echo "to build, but if you care about QEMU on this platform you"
+>> +    echo "should contact us upstream at qemu-devel@nongnu.org."
+>>  fi
+>>
+>>  if test "$supported_os" =3D "no"; then
+>
+> In case this gets accepted, we also might want to deprecate the
+> qemu-system-i386, qemu-system-arm and qemu-system-ppc targets, since
+> they are AFAIK just a subset of qemu-system-x86_64, qemu-system-aarch64
+> and qemu-system-ppc64. But that's likely something for a later patch, I
+> think.
+
+Yes this is purely for the host side. I'm not intending to deprecate any
+guest support.
+
+>
+>  Thomas
+
+
+--
+Alex Benn=C3=A9e
 
