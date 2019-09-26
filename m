@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55476BEDC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 10:49:04 +0200 (CEST)
-Received: from localhost ([::1]:60917 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81131BEDE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 10:55:57 +0200 (CEST)
+Received: from localhost ([::1]:60942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDPSR-0004UO-4b
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 04:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47768)
+	id 1iDPZ6-0008CL-Gy
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 04:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50633)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iDPRK-0003iQ-Ex
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:47:55 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1iDPXr-0007Be-0c
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:54:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iDPRG-000296-JC
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:47:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48908)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iDPRG-00028D-DH
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:47:50 -0400
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 81AD581F0D
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 08:47:48 +0000 (UTC)
-Received: by mail-qk1-f197.google.com with SMTP id s14so1664155qkg.12
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 01:47:48 -0700 (PDT)
+ (envelope-from <liq3ea@gmail.com>) id 1iDPXp-00051y-Hj
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:54:38 -0400
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:40680)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1iDPXp-0004yr-CJ
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:54:37 -0400
+Received: by mail-oi1-f180.google.com with SMTP id k9so1402856oib.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 01:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qfv/i+bCwppofdihLoTAQ+/SWH0U07D0r0CcVNuEpao=;
+ b=GFztCMDHR3waKbC+dQKQdmvQ0ONOnJmKeATblmB9eIQntXh4V8+2LaV1sBZio9c+S9
+ mACir6sdOQAAYLCjbUdlaEKuGVhqP/hOWgEPtvDnnacfzKpEZCwg8PHKVIF1aqGBMW1Q
+ iCVGLH5Hyx+dAHVkTjXsAmU2yCnl2aCwhdV90TjdQ8/y/PMh0163TkY/dPVe7x79ADXD
+ pMLogoM6VbkP8sHud3778511tjIsMYqiXgvTxASH13tgvbc+183mUB8sWM8oaUqxuxQ0
+ rspp/9U1R4LH19814AvaqfYaCXnMJca2qckyOm2qrDqRlZjt7X/UASsvX+4zmmqBGxzH
+ j7wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qN8DKH0Qj9aTOxgZFOd+HotsB/I8m2mbDLUExkTjj6A=;
- b=pesfM/Y7t+9981uZaS9AKpHz064C0CrRXTd7fU6mciZhJ21DzFUZXCJfDg+KZG0QCB
- o8KwHlWymGTVr6+SNtI0weEMGFiQYlDjOUFTsIB8NVShqnhgOBL5D68FREHZlYZpz8Xs
- efnQwx3O+UMnl5QgZyhW/Ke9TXRPi9LdLXyGLiJojS1nPsy3RiWx5vK0atjLWGT5FMP1
- MNGjB9vZKeLnXNZbvPtpJAS0Jt6SbwLOuSZEqPFxmcbxu0kMoLcAVT7WKw7uzlBzjwz4
- W1RRZ+iza7V2hhW2DCtyuPi/mXKWmG10hAqh3OgdbOHTbJuI/TcINy1b/kjKu+0EZx7s
- NjXw==
-X-Gm-Message-State: APjAAAUkmy0GiotP7fRYiamKOioeb/tdm8Pqb2V9s2DqiLiuSeOKTSty
- XYdAdJVc0HeXTRVS9zBc+JnZQ6iruFOxHmNem+WlPUcKgnvswFO7DIpvwG9hOtQmtofBEl4sKk+
- KdvQ4IVVRdw/JZSw=
-X-Received: by 2002:ac8:65c5:: with SMTP id t5mr2658024qto.217.1569487667886; 
- Thu, 26 Sep 2019 01:47:47 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy5KlEzlFo8B34rztYktxG2RCKivLSfZFiiJvq6mpwly4I9cgN3Ljyx6pResMNdDIDw2Pbj0w==
-X-Received: by 2002:ac8:65c5:: with SMTP id t5mr2657964qto.217.1569487666752; 
- Thu, 26 Sep 2019 01:47:46 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id x15sm634641qkh.44.2019.09.26.01.47.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 01:47:45 -0700 (PDT)
-Date: Thu, 26 Sep 2019 04:47:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qi1.zhang@intel.com
-Subject: Re: [PATCH] intel_iommu: TM field should not be in reserved bits
-Message-ID: <20190926044114-mutt-send-email-mst@kernel.org>
-References: <20190926054922.21110-1-qi1.zhang@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qfv/i+bCwppofdihLoTAQ+/SWH0U07D0r0CcVNuEpao=;
+ b=XBtjxi6boomXWjYNFlDKQC+dQ40qs5Y6Ux0XMF6XJTWRxxC/IY5NDIx2Z2eEPs1vhQ
+ dvugv2YccumclmC9luWVl3Vz0ZdMzM5WLeUNO0ZMOjnMI1Xe6SOPVsgCj5JVEvck+qsV
+ bx6z+5tvQ5uNnWIwafyR8zWVFtMl8NMuIFoGnmRuswfcSpfgLhOdEzootEAHiP/MYsMh
+ CsNyWw4Ce/26jSnqIy+x/zEozpsIL1ZoLY4CFX3ppAq4X2yfv5tfYvHKzM7Xr6lGHOoD
+ nsOSE/rcpfxXPfxtqPrc5mHH1idZh+0hD9ONNIPZrTJPKVIGBTxFnxmgOAz4ZXUyF5ac
+ eXkQ==
+X-Gm-Message-State: APjAAAV940ByyyZoGoF69wO9JL2nS6n4owW0GN8m+UUxqRF1GAZXtzuJ
+ 49FfTb4hJM2jdDE+kEZnf90OTDVZSmGHrnvFgn4=
+X-Google-Smtp-Source: APXvYqwsMSswAOFR2dMfZYnJZNBx87UX2TC3D+ranPgrKYTVjFpB5P91KTWDda/WK8qPU2iNwOF2ooXBRXYXcbbnYSM=
+X-Received: by 2002:aca:5e45:: with SMTP id s66mr1710855oib.150.1569488015638; 
+ Thu, 26 Sep 2019 01:53:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190926054922.21110-1-qi1.zhang@intel.com>
+References: <CAKXe6SJfZt8WcA43Vsh0=GT=jBedcAOUx9DNGZ4Bsvi10oCkog@mail.gmail.com>
+ <644968ffb11c11fd580e96c1e67932501a633fe4.camel@redhat.com>
+In-Reply-To: <644968ffb11c11fd580e96c1e67932501a633fe4.camel@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 26 Sep 2019 16:52:59 +0800
+Message-ID: <CAKXe6SK+cEytTtgKHw8KXY=jY4xv=27GBu55hTbTmbRyTPsfxg@mail.gmail.com>
+Subject: Re: Questions about the real mode in kvm/qemu
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a6c499059370e780"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 209.85.167.180
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,50 +71,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- rth@twiddle.net
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 26, 2019 at 01:49:22PM +0800, qi1.zhang@intel.com wrote:
-> From: "Zhang, Qi" <qi1.zhang@intel.com>
-> 
-> When dt is supported, TM field should not be Reserved(0).
-> 
-> Refer to VT-d Spec 9.8
-> 
-> Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
-> Signed-off-by: Qi, Yadong <yadong.qi@intel.com>
-> ---
->  hw/i386/intel_iommu.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index f1de8fdb75..2696ceeb9d 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3567,6 +3567,13 @@ static void vtd_init(IntelIOMMUState *s)
->  
->      if (x86_iommu->dt_supported) {
->          s->ecap |= VTD_ECAP_DT;
-> +        vtd_paging_entry_rsvd_field[1] &= ~(1ULL << 62);
-> +        vtd_paging_entry_rsvd_field[2] &= ~(1ULL << 62);
-> +        vtd_paging_entry_rsvd_field[3] &= ~(1ULL << 62);
-> +
-> +        vtd_paging_entry_rsvd_field[5] &= ~(1ULL << 62);
-> +        vtd_paging_entry_rsvd_field[6] &= ~(1ULL << 62);
-> +        vtd_paging_entry_rsvd_field[7] &= ~(1ULL << 62);
+--000000000000a6c499059370e780
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a macro for this value, please.
+Maxim Levitsky <mlevitsk@redhat.com> =E4=BA=8E2019=E5=B9=B49=E6=9C=8826=E6=
+=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=884:31=E5=86=99=E9=81=93=EF=BC=9A
+
+> On Thu, 2019-09-26 at 15:52 +0800, Li Qiang wrote:
+> > Hi Paolo and all,
+> >
+> > There are some question about the emulation for real mode in kvm/qemu.
+> For all the
+> > question I suppose the 'unstrict guest' is not enabled.
+> >
+> > 1. how the protected mode CPU emulate the real mode? It seems it uses
+> vm86, however, vm86 is not available in x86_64 CPU? So what's the
+> 'to_vmx(vcpu)->rmode.vm86_active' here vm86 means?
+> >
+>
+>
+Hi Maxim,
+
+Thanks for your kind reply.
 
 
-And I think it's cleaner to pass dt_supported flag
-to VTD_SPTE_PAGE_LX_RSVD_MASK and VTD_SPTE_LPAGE_LX_RSVD_MASK,
-rather than set bits then clear them selectively.
 
->      }
->  
->      if (x86_iommu->pt_supported) {
-> -- 
-> 2.20.1
+> As far as I know it, modern intel's cpus support so called unrestricted
+> guest mode, which allows guest to be basically in any mode,
+>
+
+Right, but I also want to know the secret when the 'unstrict guest' is
+disabled. So I suppose the 'unstrict guest' is  not enabled for these
+questions.
+
+
+> as long as EPT paging is used (that is guest can be in real mode with
+> no paging, but EPT has to be enabled).
+> The 'vm86_active' is probably lefover support for cpus that don't support
+> EPT and/or the unrestricted guest mode,
+> where KVM tried to use the good old vm86 mode to
+> for real mode virtualization.
+>
+>
+> > 2. Does the guest's real mode code run directly in native CPU? It seems
+> 'vmx->emulation_required' is also be false, it the vmx_vcpu_run will do a
+> switch to guest.
+>
+> Same as above
+>
+> >
+> > 3. How the EPT work in guest real mode? The EPT is for GVA->GPA->HPA,
+> however there is no GVA, seems the identity mapping does something. But
+> there also some confusion for me. For example the real
+> > mode uses CS*4 + IP to address the code.  Who does this calculation? In
+> the kernel emulator?
+>
+> EPT sits underneath the guest's paging mode, which in case of real mode i=
+s
+> 1:1 mapping.
+>
+
+It seems when the 'unstrict guest' is enabled, there is no identity mapping
+table.
+
+Thanks,
+Li Qiang
+
+
+
+> Thus CS<<4 + IP would be the guest physical address and it will be looked
+> up in the EPT to translate to the real physical address.
+>
+>
+>
+> Best regards,
+>         Maxim Levitsky
+>
+>
+
+--000000000000a6c499059370e780
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Maxim Levitsky &lt;<a href=3D"mailto:=
+mlevitsk@redhat.com">mlevitsk@redhat.com</a>&gt; =E4=BA=8E2019=E5=B9=B49=E6=
+=9C=8826=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=884:31=E5=86=99=E9=81=
+=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
+Thu, 2019-09-26 at 15:52 +0800, Li Qiang wrote:<br>
+&gt; Hi Paolo and all,<br>
+&gt; <br>
+&gt; There are some question about the emulation for real mode in kvm/qemu.=
+ For all the <br>
+&gt; question I suppose the &#39;unstrict guest&#39; is not enabled. <br>
+&gt; <br>
+&gt; 1. how the protected mode CPU emulate the real mode? It seems it uses =
+vm86, however, vm86 is not available in x86_64 CPU? So what&#39;s the &#39;=
+to_vmx(vcpu)-&gt;rmode.vm86_active&#39; here vm86 means?<br>
+&gt; <br>
+<br></blockquote><div><br></div><div>Hi Maxim,</div><div><br></div><div>Tha=
+nks for your kind reply.</div><div><br></div><div>=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
+As far as I know it, modern intel&#39;s cpus support so called unrestricted=
+ guest mode, which allows guest to be basically in any mode,<br></blockquot=
+e><div><br></div><div>Right, but I also want to know the secret when the &#=
+39;unstrict guest&#39; is disabled. So I suppose the &#39;unstrict guest&#3=
+9; is=C2=A0 not enabled for these questions.</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+as long as EPT paging is used (that is guest can be in real mode with<br>
+no paging, but EPT has to be enabled).<br>
+The &#39;vm86_active&#39; is probably lefover support for cpus that don&#39=
+;t support EPT and/or the unrestricted guest mode,<br>
+where KVM tried to use the good old vm86 mode to<br>
+for real mode virtualization.<br>
+<br>
+<br>
+&gt; 2. Does the guest&#39;s real mode code run directly in native CPU? It =
+seems &#39;vmx-&gt;emulation_required&#39; is also be false, it the vmx_vcp=
+u_run will do a switch to guest.<br>
+<br>
+Same as above<br>
+<br>
+&gt; <br>
+&gt; 3. How the EPT work in guest real mode? The EPT is for GVA-&gt;GPA-&gt=
+;HPA, however there is no GVA, seems the identity mapping does something. B=
+ut there also some confusion for me. For example the real<br>
+&gt; mode uses CS*4 + IP to address the code.=C2=A0 Who does this calculati=
+on? In the kernel emulator? <br>
+<br>
+EPT sits underneath the guest&#39;s paging mode, which in case of real mode=
+ is 1:1 mapping.<br></blockquote><div><br></div><div>It seems when the &#39=
+;unstrict guest&#39; is enabled, there is no identity mapping table.</div><=
+div><br></div><div>Thanks,</div><div>Li Qiang</div><div><br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Thus CS&lt;&lt;4 + IP would be the guest physical address and it will be lo=
+oked up in the EPT to translate to the real physical address.<br>
+<br>
+<br>
+<br>
+Best regards,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Maxim Levitsky<br>
+<br>
+</blockquote></div></div>
+
+--000000000000a6c499059370e780--
 
