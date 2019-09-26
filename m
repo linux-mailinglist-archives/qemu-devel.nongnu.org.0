@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ED3BF9BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:03:18 +0200 (CEST)
-Received: from localhost ([::1]:43026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D2FBF9CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:07:56 +0200 (CEST)
+Received: from localhost ([::1]:43116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDZ2q-0003L0-TX
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47670)
+	id 1iDZ7J-00084g-OK
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47669)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyz-0000gP-0U
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyy-0000gM-VP
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:59:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyx-0007x2-Gg
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDYyx-0007wp-4r
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:59:16 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:40356
+Received: from mail.ilande.co.uk ([46.43.2.167]:40366
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iDYyx-0007AO-Ad; Thu, 26 Sep 2019 14:59:15 -0400
+ id 1iDYyw-0007Cv-SP; Thu, 26 Sep 2019 14:59:15 -0400
 Received: from host86-138-245-63.range86-138.btcentralplus.com
  ([86.138.245.63] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iDYyD-0001em-7a; Thu, 26 Sep 2019 19:58:29 +0100
+ id 1iDYyE-0001em-Km; Thu, 26 Sep 2019 19:58:31 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, pc@us.ibm.com,
  david@gibson.dropbear.id.au
-Date: Thu, 26 Sep 2019 19:57:54 +0100
-Message-Id: <20190926185801.11176-1-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 26 Sep 2019 19:57:56 +0100
+Message-Id: <20190926185801.11176-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190926185801.11176-1-mark.cave-ayland@ilande.co.uk>
+References: <20190926185801.11176-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.138.245.63
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 0/7] target/ppc: DFP fixes and improvements
+Subject: [PATCH v2 2/7] target/ppc: introduce set_dfp{64,
+ 128}() helper functions
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -56,50 +59,263 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset fixes the DFP issue reported at https://bugs.launchpad.net/qemu/+bug/1841990
-caused by the change in FP register storage in commit ef96e3ae96 "target/ppc:
-move FP and VMX registers into aligned vsr register array" along with some
-further tidy-up/improvements.
-
-Patches 1 and 2 introduce get/set helper functions for reading and writing
-DFP even-odd register pairs (rather than accessing the register pointers
-directly) which then leads to the real fix in patch 3.
-
-Following on from this patches 4 to 6 change the struct PPC_DFP internal
-decimal representation from uint64[2] to ppc_vsr_t which enables us to use
-the existing VsrD() macro to access the correct elements regardless of host
-endian and remove the explicit HI_IDX and LO_IDX references.
-
-Finally patch 7 simplifies the calls to set_dfp{64,128}() in DFP macros
-which can now be generated directly by the preprocessor rather than requiring
-an explicit if() statement.
+The existing functions (now incorrectly) assume that the MSB and LSB of DFP
+numbers are stored as consecutive 64-bit words in memory. Instead of accessing
+the DFP numbers directly, introduce set_dfp{64,128}() helper functions to ease
+the switch to the correct representation.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/dfp_helper.c | 90 ++++++++++++++++++++++-------------------
+ 1 file changed, 48 insertions(+), 42 deletions(-)
 
-v2:
-- Rebase onto master
-- Fix typo in dfp_set_sign_128()
-- Add R-b tags from Richard
-
-
-Mark Cave-Ayland (7):
-  target/ppc: introduce get_dfp{64,128}() helper functions
-  target/ppc: introduce set_dfp{64,128}() helper functions
-  target/ppc: update {get,set}_dfp{64,128}() helper functions to
-    read/write DFP numbers correctly
-  target/ppc: introduce dfp_finalize_decimal{64,128}() helper functions
-  target/ppc: change struct PPC_DFP decimal storage from uint64[2] to
-    ppc_vsr_t
-  target/ppc: use existing VsrD() macro to eliminate HI_IDX and LO_IDX
-    from dfp_helper.c
-  target/ppc: remove unnecessary if() around calls to set_dfp{64,128}()
-    in DFP macros
-
- target/ppc/cpu.h        |   1 +
- target/ppc/dfp_helper.c | 384 ++++++++++++++++++++--------------------
- target/ppc/helper.h     |   2 +-
- 3 files changed, 193 insertions(+), 194 deletions(-)
-
+diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+index 354a4aa877..cb98780d20 100644
+--- a/target/ppc/dfp_helper.c
++++ b/target/ppc/dfp_helper.c
+@@ -47,6 +47,17 @@ static void get_dfp128(uint64_t *dst, uint64_t *dfp)
+     dst[1] = dfp[LO_IDX];
+ }
+ 
++static void set_dfp64(uint64_t *dfp, uint64_t *src)
++{
++    dfp[0] = src[0];
++}
++
++static void set_dfp128(uint64_t *dfp, uint64_t *src)
++{
++    dfp[0] = src[HI_IDX];
++    dfp[1] = src[LO_IDX];
++}
++
+ struct PPC_DFP {
+     CPUPPCState *env;
+     uint64_t t64[2], a64[2], b64[2];
+@@ -413,10 +424,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a, uint64_t *b)      \
+     decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, &dfp.context); \
+     postprocs(&dfp);                                                           \
+     if (size == 64) {                                                          \
+-        t[0] = dfp.t64[0];                                                     \
++        set_dfp64(t, dfp.t64);                                                 \
+     } else if (size == 128) {                                                  \
+-        t[0] = dfp.t64[HI_IDX];                                                \
+-        t[1] = dfp.t64[LO_IDX];                                                \
++        set_dfp128(t, dfp.t64);                                                \
+     }                                                                          \
+ }
+ 
+@@ -735,10 +745,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b,            \
+     QUA_PPs(&dfp);                                                      \
+                                                                         \
+     if (size == 64) {                                                   \
+-        t[0] = dfp.t64[0];                                              \
++        set_dfp64(t, dfp.t64);                                          \
+     } else if (size == 128) {                                           \
+-        t[0] = dfp.t64[HI_IDX];                                         \
+-        t[1] = dfp.t64[LO_IDX];                                         \
++        set_dfp128(t, dfp.t64);                                         \
+     }                                                                   \
+ }
+ 
+@@ -759,10 +768,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,            \
+     QUA_PPs(&dfp);                                                      \
+                                                                         \
+     if (size == 64) {                                                   \
+-        t[0] = dfp.t64[0];                                              \
++        set_dfp64(t, dfp.t64);                                          \
+     } else if (size == 128) {                                           \
+-        t[0] = dfp.t64[HI_IDX];                                         \
+-        t[1] = dfp.t64[LO_IDX];                                         \
++        set_dfp128(t, dfp.t64);                                         \
+     }                                                                   \
+ }
+ 
+@@ -843,10 +851,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,            \
+     QUA_PPs(&dfp);                                                      \
+                                                                         \
+     if (size == 64) {                                                   \
+-        t[0] = dfp.t64[0];                                              \
++        set_dfp64(t, dfp.t64);                                          \
+     } else if (size == 128) {                                           \
+-        t[0] = dfp.t64[HI_IDX];                                         \
+-        t[1] = dfp.t64[LO_IDX];                                         \
++        set_dfp128(t, dfp.t64);                                         \
+     }                                                                   \
+ }
+ 
+@@ -867,10 +874,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b,                   \
+     postprocs(&dfp);                                                           \
+                                                                                \
+     if (size == 64) {                                                          \
+-        t[0] = dfp.t64[0];                                                     \
++        set_dfp64(t, dfp.t64);                                                 \
+     } else if (size == 128) {                                                  \
+-        t[0] = dfp.t64[HI_IDX];                                                \
+-        t[1] = dfp.t64[LO_IDX];                                                \
++        set_dfp128(t, dfp.t64);                                                \
+     }                                                                          \
+ }
+ 
+@@ -904,7 +910,8 @@ void helper_dctdp(CPUPPCState *env, uint64_t *t, uint64_t *b)
+ 
+     dfp_prepare_decimal64(&dfp, 0, 0, env);
+     decimal32ToNumber((decimal32 *)&b_short, &dfp.t);
+-    decimal64FromNumber((decimal64 *)t, &dfp.t, &dfp.context);
++    decimal64FromNumber((decimal64 *)&dfp.t64, &dfp.t, &dfp.context);
++    set_dfp64(t, dfp.t64);
+     dfp_set_FPRF_from_FRT(&dfp);
+ }
+ 
+@@ -920,14 +927,14 @@ void helper_dctqpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+     dfp_set_FPRF_from_FRT(&dfp);
+ 
+     decimal128FromNumber((decimal128 *)&dfp.t64, &dfp.t, &dfp.context);
+-    t[0] = dfp.t64[HI_IDX];
+-    t[1] = dfp.t64[LO_IDX];
++    set_dfp128(t, dfp.t64);
+ }
+ 
+ void helper_drsp(CPUPPCState *env, uint64_t *t, uint64_t *b)
+ {
+     struct PPC_DFP dfp;
+     uint32_t t_short = 0;
++    uint64_t t64;
+     dfp_prepare_decimal64(&dfp, 0, b, env);
+     decimal32FromNumber((decimal32 *)&t_short, &dfp.b, &dfp.context);
+     decimal32ToNumber((decimal32 *)&t_short, &dfp.t);
+@@ -937,7 +944,8 @@ void helper_drsp(CPUPPCState *env, uint64_t *t, uint64_t *b)
+     dfp_check_for_UX(&dfp);
+     dfp_check_for_XX(&dfp);
+ 
+-    *t = t_short;
++    t64 = (uint64_t)t_short;
++    set_dfp64(t, &t64);
+ }
+ 
+ void helper_drdpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+@@ -953,9 +961,9 @@ void helper_drdpq(CPUPPCState *env, uint64_t *t, uint64_t *b)
+     dfp_check_for_UX(&dfp);
+     dfp_check_for_XX(&dfp);
+ 
++    dfp.t64[0] = dfp.t64[1] = 0;
+     decimal64FromNumber((decimal64 *)dfp.t64, &dfp.t, &dfp.context);
+-    t[0] = dfp.t64[0];
+-    t[1] = 0;
++    set_dfp128(t, dfp.t64);
+ }
+ 
+ #define DFP_HELPER_CFFIX(op, size)                                             \
+@@ -970,10 +978,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)                   \
+     CFFIX_PPs(&dfp);                                                           \
+                                                                                \
+     if (size == 64) {                                                          \
+-        t[0] = dfp.t64[0];                                                     \
++        set_dfp64(t, dfp.t64);                                                 \
+     } else if (size == 128) {                                                  \
+-        t[0] = dfp.t64[HI_IDX];                                                \
+-        t[1] = dfp.t64[LO_IDX];                                                \
++        set_dfp128(t, dfp.t64);                                                \
+     }                                                                          \
+ }
+ 
+@@ -1016,7 +1023,7 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)                  \
+         }                                                                     \
+     }                                                                         \
+                                                                               \
+-    *t = dfp.t64[0];                                                          \
++    set_dfp64(t, dfp.t64);                                                    \
+ }
+ 
+ DFP_HELPER_CTFIX(dctfix, 64)
+@@ -1078,10 +1085,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b, uint32_t sp) \
+     }                                                                     \
+                                                                           \
+     if (size == 64) {                                                     \
+-        t[0] = dfp.t64[0];                                                \
++        set_dfp64(t, dfp.t64);                                            \
+     } else if (size == 128) {                                             \
+-        t[0] = dfp.t64[HI_IDX];                                           \
+-        t[1] = dfp.t64[LO_IDX];                                           \
++        set_dfp128(t, dfp.t64);                                           \
+     }                                                                     \
+ }
+ 
+@@ -1150,10 +1156,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b, uint32_t s)     \
+                               &dfp.context);                                 \
+     dfp_set_FPRF_from_FRT(&dfp);                                             \
+     if ((size) == 64) {                                                      \
+-        t[0] = dfp.t64[0];                                                   \
++        set_dfp64(t, dfp.t64);                                               \
+     } else if ((size) == 128) {                                              \
+-        t[0] = dfp.t64[HI_IDX];                                              \
+-        t[1] = dfp.t64[LO_IDX];                                              \
++        set_dfp128(t, dfp.t64);                                              \
+     }                                                                        \
+ }
+ 
+@@ -1164,27 +1169,30 @@ DFP_HELPER_ENBCD(denbcdq, 128)
+ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *b)   \
+ {                                                              \
+     struct PPC_DFP dfp;                                        \
++    uint64_t t64;                                              \
+                                                                \
+     dfp_prepare_decimal##size(&dfp, 0, b, env);                \
+                                                                \
+     if (unlikely(decNumberIsSpecial(&dfp.b))) {                \
+         if (decNumberIsInfinite(&dfp.b)) {                     \
+-            *t = -1;                                           \
++            t64 = -1;                                          \
+         } else if (decNumberIsSNaN(&dfp.b)) {                  \
+-            *t = -3;                                           \
++            t64 = -3;                                          \
+         } else if (decNumberIsQNaN(&dfp.b)) {                  \
+-            *t = -2;                                           \
++            t64 = -2;                                          \
+         } else {                                               \
+             assert(0);                                         \
+         }                                                      \
++        set_dfp64(t, &t64);                                    \
+     } else {                                                   \
+         if ((size) == 64) {                                    \
+-            *t = dfp.b.exponent + 398;                         \
++            t64 = dfp.b.exponent + 398;                        \
+         } else if ((size) == 128) {                            \
+-            *t = dfp.b.exponent + 6176;                        \
++            t64 = dfp.b.exponent + 6176;                       \
+         } else {                                               \
+             assert(0);                                         \
+         }                                                      \
++        set_dfp64(t, &t64);                                    \
+     }                                                          \
+ }
+ 
+@@ -1251,10 +1259,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a, uint64_t *b) \
+                                   &dfp.context);                          \
+     }                                                                     \
+     if (size == 64) {                                                     \
+-        t[0] = dfp.t64[0];                                                \
++        set_dfp64(t, dfp.t64);                                            \
+     } else if (size == 128) {                                             \
+-        t[0] = dfp.t64[HI_IDX];                                           \
+-        t[1] = dfp.t64[LO_IDX];                                           \
++        set_dfp128(t, dfp.t64);                                           \
+     }                                                                     \
+ }
+ 
+@@ -1344,10 +1351,9 @@ void helper_##op(CPUPPCState *env, uint64_t *t, uint64_t *a,        \
+     }                                                               \
+                                                                     \
+     if ((size) == 64) {                                             \
+-        t[0] = dfp.t64[0];                                          \
++        set_dfp64(t, dfp.t64);                                      \
+     } else {                                                        \
+-        t[0] = dfp.t64[HI_IDX];                                     \
+-        t[1] = dfp.t64[LO_IDX];                                     \
++        set_dfp128(t, dfp.t64);                                     \
+     }                                                               \
+ }
+ 
 -- 
 2.20.1
 
