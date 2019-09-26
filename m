@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA7DBEF71
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:19:56 +0200 (CEST)
-Received: from localhost ([::1]:33324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60843BEF79
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:22:25 +0200 (CEST)
+Received: from localhost ([::1]:33374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDQsN-00060i-8G
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36099)
+	id 1iDQum-0001IZ-EQ
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:22:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDQpG-0004GY-IJ
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:43 -0400
+ (envelope-from <david@redhat.com>) id 1iDQpE-0004GJ-WB
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDQpF-0007hp-CW
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60282)
+ (envelope-from <david@redhat.com>) id 1iDQpC-0007fw-3N
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52676)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDQpF-0007hM-4J; Thu, 26 Sep 2019 06:16:41 -0400
+ id 1iDQpB-0007f0-UX; Thu, 26 Sep 2019 06:16:38 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 58E863082131;
- Thu, 26 Sep 2019 10:16:40 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 11CF33090FC9;
+ Thu, 26 Sep 2019 10:16:36 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-65.ams2.redhat.com [10.36.116.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80D6860A9F;
- Thu, 26 Sep 2019 10:16:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3FFD060A9F;
+ Thu, 26 Sep 2019 10:16:33 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/5] s390x/mmu: Implement Instruction-Execution-Protection
- Facility
-Date: Thu, 26 Sep 2019 12:16:25 +0200
-Message-Id: <20190926101627.23376-4-david@redhat.com>
+Subject: [PATCH v1 1/5] s390x/mmu: Add EDAT2 translation support
+Date: Thu, 26 Sep 2019 12:16:23 +0200
+Message-Id: <20190926101627.23376-2-david@redhat.com>
 In-Reply-To: <20190926101627.23376-1-david@redhat.com>
 References: <20190926101627.23376-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 26 Sep 2019 10:16:40 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Thu, 26 Sep 2019 10:16:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -64,121 +63,48 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IEP support in the mmu is fairly easy. Set the right permissions for TLB
-entries and properly report an exception.
+This only adds basic support to the DAT translation, but no EDAT2 support
+for TCG. E.g., the gdbstub under kvm uses this function, too, to
+translate virtual addresses.
 
-Make sure to handle EDAT-2 by setting bit 56/60/61 of the TEID (TEC) to
-the right values.
-
-Let's keep s390_cpu_get_phys_page_debug() working even if IEP is
-active. Switch MMU_DATA_LOAD - this has no other effects any more as the
-ASC to be used is now fully selected outside of mmu_translate().
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cpu.h        |  1 +
- target/s390x/helper.c     |  6 +++++-
- target/s390x/mmu_helper.c | 21 +++++++++++++++++++++
- 3 files changed, 27 insertions(+), 1 deletion(-)
+ target/s390x/mmu_helper.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 690b94c8ea..6eb7c07013 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -315,6 +315,7 @@ extern const VMStateDescription vmstate_s390_cpu;
- #define CR0_EDAT                0x0000000000800000ULL
- #define CR0_AFP                 0x0000000000040000ULL
- #define CR0_VECTOR              0x0000000000020000ULL
-+#define CR0_IEP                 0x0000000000100000ULL
- #define CR0_EMERGENCY_SIGNAL_SC 0x0000000000004000ULL
- #define CR0_EXTERNAL_CALL_SC    0x0000000000002000ULL
- #define CR0_CKC_SC              0x0000000000000800ULL
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index 948c0398d4..bf503b56ee 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -63,7 +63,11 @@ hwaddr s390_cpu_get_phys_page_debug(CPUState *cs, vadd=
-r vaddr)
-         asc =3D PSW_ASC_PRIMARY;
-     }
-=20
--    if (mmu_translate(env, vaddr, MMU_INST_FETCH, asc, &raddr, &prot, fa=
-lse)) {
-+    /*
-+     * We want to read code even if IEP is active. Use MMU_DATA_LOAD ins=
-tead
-+     * of MMU_INST_FETCH.
-+     */
-+    if (mmu_translate(env, vaddr, MMU_DATA_LOAD, asc, &raddr, &prot, fal=
-se)) {
-         return -1;
-     }
-     return raddr;
 diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 8abc5d31d8..ff8b077f82 100644
+index 6b34c4c7b4..54f54137ec 100644
 --- a/target/s390x/mmu_helper.c
 +++ b/target/s390x/mmu_helper.c
-@@ -121,6 +121,8 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
+@@ -120,6 +120,7 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
 get_ulong vaddr,
+ {
      const bool edat1 =3D (env->cregs[0] & CR0_EDAT) &&
                         s390_has_feat(S390_FEAT_EDAT);
-     const bool edat2 =3D edat1 && s390_has_feat(S390_FEAT_EDAT_2);
-+    const bool iep =3D (env->cregs[0] & CR0_IEP) &&
-+                     s390_has_feat(S390_FEAT_INSTRUCTION_EXEC_PROT);
++    const bool edat2 =3D edat1 && s390_has_feat(S390_FEAT_EDAT_2);
      const int asce_tl =3D asce & ASCE_TABLE_LENGTH;
      const int asce_p =3D asce & ASCE_PRIVATE_SPACE;
      hwaddr gaddr =3D asce & ASCE_ORIGIN;
-@@ -227,6 +229,9 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
-get_ulong vaddr,
-             *flags &=3D ~PAGE_WRITE;
+@@ -219,9 +220,17 @@ static int mmu_translate_asce(CPUS390XState *env, ta=
+rget_ulong vaddr,
+         if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION3) {
+             return PGM_TRANS_SPEC;
          }
-         if (edat2 && (entry & REGION3_ENTRY_FC)) {
-+            if (iep && (entry & REGION3_ENTRY_IEP)) {
-+                *flags &=3D ~PAGE_EXEC;
-+            }
-             *raddr =3D (entry & REGION3_ENTRY_RFAA) |
-                      (vaddr & REGION3_ENTRY_RFAA);
-             return 0;
-@@ -254,6 +259,9 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
-get_ulong vaddr,
-             *flags &=3D ~PAGE_WRITE;
-         }
-         if (edat1 && (entry & SEGMENT_ENTRY_FC)) {
-+            if (iep && (entry & SEGMENT_ENTRY_IEP)) {
-+                *flags &=3D ~PAGE_EXEC;
-+            }
-             *raddr =3D (entry & SEGMENT_ENTRY_SFAA) |
-                      (vaddr & ~SEGMENT_ENTRY_SFAA);
-             return 0;
-@@ -276,6 +284,9 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
-get_ulong vaddr,
-     if (entry & PAGE_ENTRY_P) {
-         *flags &=3D ~PAGE_WRITE;
-     }
-+    if (iep && (entry & PAGE_ENTRY_IEP)) {
-+        *flags &=3D ~PAGE_EXEC;
-+    }
-=20
-     *raddr =3D entry & TARGET_PAGE_MASK;
-     return 0;
-@@ -434,6 +445,16 @@ int mmu_translate(CPUS390XState *env, target_ulong v=
-addr, int rw, uint64_t asc,
-         return -1;
-     }
-=20
-+    /* check for Instruction-Execution-Protection */
-+    if (unlikely(rw =3D=3D MMU_INST_FETCH && !(*flags & PAGE_EXEC))) {
-+        if (exc) {
-+            /* IEP sets bit 56 and 61 */
-+            tec |=3D 0x84;
-+            trigger_access_exception(env, PGM_PROTECTION, ilen, tec);
++        if (edat2 && (entry & REGION3_ENTRY_CR) && asce_p) {
++            return PGM_TRANS_SPEC;
 +        }
-+        return -1;
-+    }
-+
- nodat:
-     /* Convert real address -> absolute address */
-     *raddr =3D mmu_real2abs(env, *raddr);
+         if (edat1 && (entry & REGION_ENTRY_P)) {
+             *flags &=3D ~PAGE_WRITE;
+         }
++        if (edat2 && (entry & REGION3_ENTRY_FC)) {
++            *raddr =3D (entry & REGION3_ENTRY_RFAA) |
++                     (vaddr & REGION3_ENTRY_RFAA);
++            return 0;
++        }
+         if (VADDR_SEGMENT_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6 ||
+             VADDR_SEGMENT_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
+             return PGM_SEGMENT_TRANS;
 --=20
 2.21.0
 
