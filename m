@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80BDBED74
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 10:33:54 +0200 (CEST)
-Received: from localhost ([::1]:60802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2776BED84
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 10:36:13 +0200 (CEST)
+Received: from localhost ([::1]:60820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDPDj-00007y-Tp
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 04:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42461)
+	id 1iDPG0-0002DH-FS
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 04:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42924)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iDP8y-0006SB-FX
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:28:57 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1iDPB3-0007zQ-5k
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:31:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iDP8x-0002dq-Ho
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:28:56 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:33460)
+ (envelope-from <joel.stan@gmail.com>) id 1iDPB2-0004eG-5f
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 04:31:05 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:41328)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iDP8u-0002a9-Hz; Thu, 26 Sep 2019 04:28:52 -0400
-Received: by mail-qk1-f194.google.com with SMTP id x134so1073989qkb.0;
- Thu, 26 Sep 2019 01:28:52 -0700 (PDT)
+ id 1iDPAy-0004ax-HG; Thu, 26 Sep 2019 04:31:00 -0400
+Received: by mail-qk1-f194.google.com with SMTP id p10so1039775qkg.8;
+ Thu, 26 Sep 2019 01:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=ymrNiC5w603Iw3ATUuk8joiOvUnP3ZGUHJC7aBcSH4A=;
- b=Q3HfUSs79fQsgKOOVnS4X3qnZ6LNxrzs4AXWJnRrerSzmd50VPtwdBFnvpFkUn+XL3
- Cg5aafmN1azVRr1NvMrkcGlXJbK26eQtkQAi+Hn6y3jOFMS1aoQlmnQ7ZkQlNSn97C1M
- vmbZK/iLhgx8/fWXwaRhkS0vaKgxc1UhqMRiM=
+ bh=cg2ut29QP6u7q8oVmEl3m422EvhLFg+tMxF6PP1oBiY=;
+ b=T91wRr4AEZJFUe4X88uhzhUp8VeYkVsoSFegtWzltCWPMaXi7jl3KuMY+MqAfMuHh+
+ hANp+0XE23eEpYl0Km4xSWTeVHAeLF2OWiXEGroUpOntlbyNx/96TnBD4DIFo5Gs8Kd6
+ 5SGoD8bcxZlgF9h/ERHsvERIgLJBtLA+Qiu6w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=ymrNiC5w603Iw3ATUuk8joiOvUnP3ZGUHJC7aBcSH4A=;
- b=Ut5vsERWTldGD/bKrhi1fWRBYr0V+CfcWIj6DbButOPHle4qY0JccNTrQnHIU4go62
- e/GlFU3MRPgsrtLTL3qHv1aWr/+RvNZev/Q7I+C/GLB30zajxp8emu8uOn015/3IJVGh
- v9U+LCyOqk5Pnc3XjOxUSZ50rrze+Dtum9bwDAI8VgvCgF7m8eR3hJ7Z4K+4sFHihOeW
- /FBMzVoIShTHiTjxbUmYJFFqrgIif9Rvrk+C/oGWIkVRHyYeXhC3uGJCWtxPlO5Uy+th
- /O3+Nhgnr3QWR3mOQyC1AYR6wPCrnEFcPmup0WKFBhuSYq038x1tbbRg8oDM8Qh7zxBM
- DN0A==
-X-Gm-Message-State: APjAAAVHvNTz2AjZxq5BPj7Rv+rZpxCvthsKghDBnXGP5JySW24XqTZL
- nQb7eGOtNL/JnGPNJIL4UJRBGoAOHvPUWfBB0l4=
-X-Google-Smtp-Source: APXvYqy7MDh5KVt/WyzvxPADbvX+4RsVhiITLgqDAVqXzpCh9hdnMc8UprEvXFPFBiJqRB1KDl8VBVDvoeTmFv6g6wA=
-X-Received: by 2002:a37:4a54:: with SMTP id x81mr2068824qka.292.1569486471882; 
- Thu, 26 Sep 2019 01:27:51 -0700 (PDT)
+ bh=cg2ut29QP6u7q8oVmEl3m422EvhLFg+tMxF6PP1oBiY=;
+ b=a171S9rvpvVSAQHd9qJQ/gTM8P8Rm/LPs+SuQhhv3xuStHjGm4dYlyYbC6W0qG4k8G
+ Lq/ddCre8uFZinHVUgRnurkrSp8oFA/IMapCxwvDz/FRsH4+Xp12ONHiItWd/z9d3RkN
+ 839Y3NvojXnLKkml4PrOxIc2gieWZbE3/25mBrLUcR4a77Maa2e72JZdCrDGN6k1y4fR
+ GeB9o5T596N5vaEjIMW4HNVUR319x4f9Aat7hBi8koWPqD3nM7rVLywk8zGBjJoR5dfO
+ LqX8V38y2S9oifco6ZkqsH3zqNmoj8Z2cBcVpXrElhii3KIOWqN+LWLMx99JKshPG03d
+ gEjA==
+X-Gm-Message-State: APjAAAXCprS5fa12z65f4uJHjusJW0SE7UPswXuI+uXg2+Av7LzWD5QT
+ 77MUvHj6dzdjh0/uwXkI/Ox1Ji623xClRA0ZkuY=
+X-Google-Smtp-Source: APXvYqzcHZrSrHvGD93jGxOvUS62g4Qf16uNfuqo6DrCGHl9QKJkfipwvFKKVce+Ybo7zCxkhMCCWQr6hUVBQMStuhs=
+X-Received: by 2002:a37:f61e:: with SMTP id y30mr2064158qkj.208.1569486597084; 
+ Thu, 26 Sep 2019 01:29:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190925143248.10000-1-clg@kaod.org>
- <20190925143248.10000-3-clg@kaod.org>
-In-Reply-To: <20190925143248.10000-3-clg@kaod.org>
+ <20190925143248.10000-5-clg@kaod.org>
+In-Reply-To: <20190925143248.10000-5-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 26 Sep 2019 08:27:40 +0000
-Message-ID: <CACPK8Xf=59gpxwEQTkdTuHGuhNePsmw8gDHKw5tD2FBThsp2fw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/23] hw/sd/aspeed_sdhci: New device
+Date: Thu, 26 Sep 2019 08:29:45 +0000
+Message-ID: <CACPK8Xet=D0bu1w_AxdGoK90LuDF9CU=GJjDy6Zu4SC24068ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/23] aspeed/timer: Introduce an object class per SoC
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,31 +71,16 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>, Eddie James <eajames@linux.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 25 Sep 2019 at 14:33, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> From: Eddie James <eajames@linux.ibm.com>
+> The most important changes will be on the register range 0x34 - 0x3C
+> memops. Introduce class read/write operations to handle the
+> differences between SoCs.
 >
-> The Aspeed SOCs have two SD/MMC controllers. Add a device that
-> encapsulates both of these controllers and models the Aspeed-specific
-> registers and behavior.
->
-> Tested by reading from mmcblk0 in Linux:
-> qemu-system-arm -machine romulus-bmc -nographic \
->  -drive file=3Dflash-romulus,format=3Draw,if=3Dmtd \
->  -device sd-card,drive=3Dsd0 -drive file=3D_tmp/kernel,format=3Draw,if=3D=
-sd,id=3Dsd0
->
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> [clg: - changed the controller MMIO window size to 0x1000
->       - moved the MMIO mapping of the SDHCI slots at the SoC level
->       - merged code to add SD drives on the SD buses at the machine level=
- ]
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
