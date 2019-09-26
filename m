@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848A2BF7E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 19:48:48 +0200 (CEST)
-Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A61BF7CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 19:44:05 +0200 (CEST)
+Received: from localhost ([::1]:41810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDXsg-0007Qo-RL
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 13:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58809)
+	id 1iDXoB-00020O-NO
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 13:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXgB-0004M8-AV
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:48 -0400
+ id 1iDXgC-0004Nm-Q5
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXg9-0002qH-OQ
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:47 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38862)
+ id 1iDXgB-0002qt-5M
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:48 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33788)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXg9-0002p0-Fi; Thu, 26 Sep 2019 13:35:45 -0400
-Received: by mail-wr1-f66.google.com with SMTP id w12so3030319wro.5;
- Thu, 26 Sep 2019 10:35:45 -0700 (PDT)
+ id 1iDXgA-0002qV-Tm; Thu, 26 Sep 2019 13:35:47 -0400
+Received: by mail-wr1-f66.google.com with SMTP id b9so3740463wrs.0;
+ Thu, 26 Sep 2019 10:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/8xcNneZ2/qvbDmM1OKk4z67N/LkpAUXIQ5kG5a96Wc=;
- b=TwNnoiFM7EJNzS+NQNIFxuyhk4QbIaOBCgsNgCY6waK+qwWJlJraWMcsPvYzeW4IqD
- 1yKNf9NU/5tX/ObAztYMZmC7Tvz+/Rl+Pf3fcIEO+px0//XWxod1vKlJOcy9VeFin6v2
- 9t5pL2izNG7VKmrT4eTh5mc/ryQoFzwImMYxGkEKmB79ZpN6mckyBeXNr/qWgwO8csyj
- RDV3Le1Xf0UlEYk0S2nBdGJVB0PkSRC6wPM7nHQaj8DXtMXtFKfiGD7yUTdmAXgXcrHL
- HC2hpb4T7RS1x/nHomNmtHoBTVMA/PyTNHS1AcO0jmKI7tImXBAEdtE5TAYwDqy2iS1S
- sClQ==
+ bh=0nYrEyIE8Ksn++8Q6sjUUjo6us9YPYxfJ0rmZNlZ6VA=;
+ b=Zf4hUEytuT66Vk8Q/kLrnqWhVUdYRPo5txTb0r2vrCAptQk/xn1csbclZAYGxstLYP
+ YLwqU5rG0W+Ww2cBreX8g5mYQjnOaSpCCMiwtoJIYVawHVI+XX/ntBfjt/790Uvli0Zp
+ dHaYgYYhqWCS31UiNzTAVDH0N0x+UdopVoNa6cX6xvwAVJv2BUB2gZu4tK2q0e7IJ+Q4
+ lFdEv6Kzyu4Os4ttvuqEcwoXhg4PWE81f4pvhng0sLcYzH77Djdom9qF8rsFhv/1BpCp
+ hFA5ky1wXzqvxG+ozWVBGkpoaXRjL/eUQiL6OLfQXFjPk/zEKgl0DP2biBge+tbxb3g4
+ WqQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/8xcNneZ2/qvbDmM1OKk4z67N/LkpAUXIQ5kG5a96Wc=;
- b=X+yxSt0O3Sr2nW5eV62merqIaJqh/xmItm6fyDorxRZ3EH1Mz8BzXhwUg5bRvCkxSh
- NYjZvDBayT96OjHm2aOpl+nLD/4rMWWSFfgpOMsvrs6ZwpSe5wcuhkUZlRmrOwMR9VYy
- VBkWKoXjOmgRnJeTuz2KPvgt65Zob1JRm3SZBV+14JrJkXvwAzmqSJEKQik4mMiGQdpT
- rt0n6SuIz4nOQE+iPNPGA/vnKyw99RHRbiYHTnFr63qBTtSpI68eCJsG/D9pkBmY1lbW
- y5ece+TtpuAuAVxEjbw0qH0soXbhi6EbbDi29ve4Gfh0ckYqKQIZ3i2i4qna2P4nLlNw
- QEyg==
-X-Gm-Message-State: APjAAAV3epPCqnY2GarO+x3zxSo1CbS+oVEL2sv8UQ2wlfFeMFHyaBqp
- gOO9cPApFrPzEJdbW87iDI0Y6pDBQ6c=
-X-Google-Smtp-Source: APXvYqwRla+cPsLh/Qgqpz/qU/JFJJLJe2vqqDTqnFwTn5ku946P2NzbzWXSpZ6TM0QuYc6tJwM9HQ==
-X-Received: by 2002:adf:ce05:: with SMTP id p5mr2398368wrn.48.1569519284264;
- Thu, 26 Sep 2019 10:34:44 -0700 (PDT)
+ bh=0nYrEyIE8Ksn++8Q6sjUUjo6us9YPYxfJ0rmZNlZ6VA=;
+ b=lbWvouvlMx8sAJOGrcJOdKcVhK112fBEsBZEF7s/m4UotAMxEKEoiHOY9SdbkwMHF5
+ X6YfgWi8a16RXxg+bNebh1zzqlWGbdhBt/VKjKSdygtlOWnWHMmyYAVLd6acQZ+CSmMp
+ V/s2x8YZj5S23i6oKVwpURAXygifcD/FeKmTR1VT0iWcwPqcZg5LAVhZA+/L36bG5BMq
+ xxTLi3zJ1di+daB3Xodwo9+Q+K1sw4WgN5vzg8EeHdpuYfTyXGdT8go203wgeAu1MCac
+ L103OX9cH9waR9VPd3fpd5bjSWE/B5jqugTvQtot8dQG89IEBu0E/rYFDPNvXSBrHS+L
+ jDWA==
+X-Gm-Message-State: APjAAAVQL1BSqSShk7Ls30UAnn18SZdscYMK7IE0s6VJSTHXgpvqDlL4
+ 2ak+Tsm83LjhdaE7/8o0+nZFTaP1ioo=
+X-Google-Smtp-Source: APXvYqxxaLT1w5lIln4IJ9CMskeEmmTd7HqbS80bDrPUp0A3ZHMbm7PhjTcOw2DxraJwYG8kbIwETA==
+X-Received: by 2002:a5d:5642:: with SMTP id j2mr3980873wrw.345.1569519285785; 
+ Thu, 26 Sep 2019 10:34:45 -0700 (PDT)
 Received: from x1w.redhat.com (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id b186sm9918980wmd.16.2019.09.26.10.34.42
+ by smtp.gmail.com with ESMTPSA id b186sm9918980wmd.16.2019.09.26.10.34.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 10:34:43 -0700 (PDT)
+ Thu, 26 Sep 2019 10:34:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/19] hw/arm/bcm2835: Add various unimplemented peripherals
-Date: Thu, 26 Sep 2019 19:34:13 +0200
-Message-Id: <20190926173428.10713-6-f4bug@amsat.org>
+Subject: [PATCH 06/19] hw/char/bcm2835_aux: Add trace events
+Date: Thu, 26 Sep 2019 19:34:14 +0200
+Message-Id: <20190926173428.10713-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926173428.10713-1-f4bug@amsat.org>
 References: <20190926173428.10713-1-f4bug@amsat.org>
@@ -98,138 +98,170 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Base addresses and sizes taken from the "BCM2835 ARM Peripherals"
-datasheet from February 06 2012:
-https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
+The BCM2835 AUX UART is compatible with the 16650 model, when
+the registers belong the the 16650 block, use its trace events,
+else use bcm2835_aux_read/write.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/bcm2835_peripherals.c         | 31 ++++++++++++++++++++++++++++
- include/hw/arm/bcm2835_peripherals.h | 15 ++++++++++++++
- include/hw/arm/raspi_platform.h      |  8 +++++++
- 3 files changed, 54 insertions(+)
+ hw/char/bcm2835_aux.c | 55 +++++++++++++++++++++++++++++++------------
+ hw/char/trace-events  |  4 ++++
+ 2 files changed, 44 insertions(+), 15 deletions(-)
 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 1bd2ff41d5..fdcf616c56 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -22,6 +22,20 @@
- /* Capabilities for SD controller: no DMA, high-speed, default clocks etc. */
- #define BCM2835_SDHC_CAPAREG 0x52134b4
+diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
+index a6fc1bf152..b26a255630 100644
+--- a/hw/char/bcm2835_aux.c
++++ b/hw/char/bcm2835_aux.c
+@@ -27,6 +27,7 @@
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "trace.h"
  
-+static void create_unimp(BCM2835PeripheralState *ps,
-+                         UnimplementedDeviceState *uds,
-+                         const char *name, hwaddr ofs, hwaddr size)
-+{
-+    sysbus_init_child_obj(OBJECT(ps), name, uds,
-+                          sizeof(UnimplementedDeviceState),
-+                          TYPE_UNIMPLEMENTED_DEVICE);
-+    qdev_prop_set_string(DEVICE(uds), "name", name);
-+    qdev_prop_set_uint64(DEVICE(uds), "size", size);
-+    object_property_set_bool(OBJECT(uds), true, "realized", &error_fatal);
-+    memory_region_add_subregion_overlap(&ps->peri_mr, ofs,
-+                    sysbus_mmio_get_region(SYS_BUS_DEVICE(uds), 0), -1000);
-+}
-+
- static void bcm2835_peripherals_init(Object *obj)
- {
-     BCM2835PeripheralState *s = BCM2835_PERIPHERALS(obj);
-@@ -323,6 +337,23 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-         error_propagate(errp, err);
-         return;
-     }
-+
-+    create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
-+    create_unimp(s, &s->systmr, "bcm2835-systimer", ST_OFFSET, 0x20);
-+    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
-+    create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-+    create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
-+    create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
-+    create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
-+    create_unimp(s, &s->bscsl, "bcm2835-spis", BSC_SL_OFFSET, 0x100);
-+    create_unimp(s, &s->i2c[0], "bcm2835-i2c0", BSC0_OFFSET, 0x20);
-+    create_unimp(s, &s->i2c[1], "bcm2835-i2c1", BSC1_OFFSET, 0x20);
-+    create_unimp(s, &s->i2c[2], "bcm2835-i2c2", BSC2_OFFSET, 0x20);
-+    create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
-+    create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
-+    create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
-+    create_unimp(s, &s->dwc2, "dwc-usb2", USB_OTG_OFFSET, 0x1000);
-+    create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
+ #define AUX_IRQ         0x0
+ #define AUX_ENABLES     0x4
+@@ -62,17 +63,24 @@ static void bcm2835_aux_update(BCM2835AuxState *s)
+     qemu_set_irq(s->irq, s->iir != 0);
  }
  
- static void bcm2835_peripherals_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index 6b17f6a382..62a4c7b559 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -23,6 +23,7 @@
- #include "hw/sd/sdhci.h"
- #include "hw/sd/bcm2835_sdhost.h"
- #include "hw/gpio/bcm2835_gpio.h"
-+#include "hw/misc/unimp.h"
++static bool is_16650(hwaddr offset)
++{
++    return offset >= AUX_MU_IO_REG && offset < AUX_MU_CNTL_REG;
++}
++
+ static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     BCM2835AuxState *s = opaque;
+-    uint32_t c, res;
++    uint32_t c, res = 0;
  
- #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
- #define BCM2835_PERIPHERALS(obj) \
-@@ -37,6 +38,10 @@ typedef struct BCM2835PeripheralState {
-     MemoryRegion ram_alias[4];
-     qemu_irq irq, fiq;
+     switch (offset) {
+     case AUX_IRQ:
+-        return s->iir != 0;
++        res = s->iir != 0;
++        break;
  
-+    UnimplementedDeviceState systmr;
-+    UnimplementedDeviceState armtmr;
-+    UnimplementedDeviceState cprman;
-+    UnimplementedDeviceState a2w;
-     PL011State uart0;
-     BCM2835AuxState aux;
-     BCM2835FBState fb;
-@@ -48,6 +53,16 @@ typedef struct BCM2835PeripheralState {
-     SDHCIState sdhci;
-     BCM2835SDHostState sdhost;
-     BCM2835GpioState gpio;
-+    UnimplementedDeviceState i2s;
-+    UnimplementedDeviceState spi[1];
-+    UnimplementedDeviceState i2c[3];
-+    UnimplementedDeviceState otp;
-+    UnimplementedDeviceState dbus;
-+    UnimplementedDeviceState ave0;
-+    UnimplementedDeviceState bscsl;
-+    UnimplementedDeviceState smi;
-+    UnimplementedDeviceState dwc2;
-+    UnimplementedDeviceState sdramc;
- } BCM2835PeripheralState;
+     case AUX_ENABLES:
+-        return 1; /* mini UART permanently enabled */
++        res = 1; /* mini UART permanently enabled */
++        break;
  
- #endif /* BCM2835_PERIPHERALS_H */
-diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
-index 66969fac5d..cdcbca943f 100644
---- a/include/hw/arm/raspi_platform.h
-+++ b/include/hw/arm/raspi_platform.h
-@@ -38,6 +38,8 @@
-                                                       * Doorbells & Mailboxes */
- #define CPRMAN_OFFSET           0x100000 /* Power Management, Watchdog */
- #define CM_OFFSET               0x101000 /* Clock Management */
-+#define A2W_OFFSET              0x102000 /* Reset controller */
-+#define AVS_OFFSET              0x103000 /* Audio Video Standard */
- #define RNG_OFFSET              0x104000
- #define GPIO_OFFSET             0x200000
- #define UART0_OFFSET            0x201000
-@@ -45,11 +47,17 @@
- #define I2S_OFFSET              0x203000
- #define SPI0_OFFSET             0x204000
- #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
-+#define OTP_OFFSET              0x20f000
-+#define BSC_SL_OFFSET           0x214000 /* SPI slave */
- #define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
- #define EMMC1_OFFSET            0x300000
- #define SMI_OFFSET              0x600000
- #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
-+#define BSC2_OFFSET             0x805000 /* BSC2 I2C/TWI */
-+#define DBUS_OFFSET             0x900000
-+#define AVE0_OFFSET             0x910000
- #define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller */
-+#define SDRAMC_OFFSET           0xe00000
- #define DMA15_OFFSET            0xE05000 /* DMA controller, channel 15 */
+     case AUX_MU_IO_REG:
+         /* "DLAB bit set means access baudrate register" is NYI */
+@@ -85,11 +93,13 @@ static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
+         }
+         qemu_chr_fe_accept_input(&s->chr);
+         bcm2835_aux_update(s);
+-        return c;
++        res = c;
++        break;
  
- /* GPU interrupts */
+     case AUX_MU_IER_REG:
+         /* "DLAB bit set means access baudrate register" is NYI */
+-        return 0xc0 | s->ier; /* FIFO enables always read 1 */
++        res = 0xc0 | s->ier; /* FIFO enables always read 1 */
++        break;
+ 
+     case AUX_MU_IIR_REG:
+         res = 0xc0; /* FIFO enables */
+@@ -105,33 +115,34 @@ static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
+         if (s->iir == 0) {
+             res |= 0x1;
+         }
+-        return res;
++        break;
+ 
+     case AUX_MU_LCR_REG:
+         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_LCR_REG unsupported\n", __func__);
+-        return 0;
++        break;
+ 
+     case AUX_MU_MCR_REG:
+         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_MCR_REG unsupported\n", __func__);
+-        return 0;
++        break;
+ 
+     case AUX_MU_LSR_REG:
+         res = 0x60; /* tx idle, empty */
+         if (s->read_count != 0) {
+             res |= 0x1;
+         }
+-        return res;
++        break;
+ 
+     case AUX_MU_MSR_REG:
+         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_MSR_REG unsupported\n", __func__);
+-        return 0;
++        break;
+ 
+     case AUX_MU_SCRATCH:
+         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_SCRATCH unsupported\n", __func__);
+-        return 0;
++        break;
+ 
+     case AUX_MU_CNTL_REG:
+-        return 0x3; /* tx, rx enabled */
++        res = 0x3; /* tx, rx enabled */
++        break;
+ 
+     case AUX_MU_STAT_REG:
+         res = 0x30e; /* space in the output buffer, empty tx fifo, idle tx/rx */
+@@ -140,17 +151,25 @@ static uint64_t bcm2835_aux_read(void *opaque, hwaddr offset, unsigned size)
+             assert(s->read_count < BCM2835_AUX_RX_FIFO_LEN);
+             res |= ((uint32_t)s->read_count) << 16; /* rx fifo fill level */
+         }
+-        return res;
++        break;
+ 
+     case AUX_MU_BAUD_REG:
+         qemu_log_mask(LOG_UNIMP, "%s: AUX_MU_BAUD_REG unsupported\n", __func__);
+-        return 0;
++        break;
+ 
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
+                       __func__, offset);
+-        return 0;
++        break;
+     }
++
++    if (is_16650(offset)) {
++        trace_serial_ioport_read((offset & 0x1f) >> 2, res);
++    } else {
++        trace_bcm2835_aux_read(offset, res);
++    }
++
++    return res;
+ }
+ 
+ static void bcm2835_aux_write(void *opaque, hwaddr offset, uint64_t value,
+@@ -159,6 +178,12 @@ static void bcm2835_aux_write(void *opaque, hwaddr offset, uint64_t value,
+     BCM2835AuxState *s = opaque;
+     unsigned char ch;
+ 
++    if (is_16650(offset)) {
++        trace_serial_ioport_write((offset & 0x1f) >> 2, value);
++    } else {
++        trace_bcm2835_aux_write(offset, value);
++    }
++
+     switch (offset) {
+     case AUX_ENABLES:
+         if (value != 1) {
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 2ce7f2f998..a7d477ab1e 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -1,5 +1,9 @@
+ # See docs/devel/tracing.txt for syntax documentation.
+ 
++# bcm2835_aux.c
++bcm2835_aux_read(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" value 0x%x"
++bcm2835_aux_write(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" value 0x%x"
++
+ # parallel.c
+ parallel_ioport_read(const char *desc, uint16_t addr, uint8_t value) "read [%s] addr 0x%02x val 0x%02x"
+ parallel_ioport_write(const char *desc, uint16_t addr, uint8_t value) "write [%s] addr 0x%02x val 0x%02x"
 -- 
 2.20.1
 
