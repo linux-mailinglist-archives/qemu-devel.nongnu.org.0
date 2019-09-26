@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E74BF6DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:42:12 +0200 (CEST)
-Received: from localhost ([::1]:40860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBB6BF742
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:59:51 +0200 (CEST)
+Received: from localhost ([::1]:41138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDWqJ-0007mU-4h
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:42:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41513)
+	id 1iDX7N-0002Wd-Jq
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWcK-0002nf-1Z
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1iDWfh-0006KO-5l
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:31:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDWcI-0004ss-Kr
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:43 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:35478)
+ (envelope-from <bounces@canonical.com>) id 1iDWfb-0006dc-4T
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:31:11 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51792)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDWcI-0004s9-EC
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:27:42 -0400
-Received: by mail-pf1-f195.google.com with SMTP id 205so2145531pfw.2
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:27:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8blXRqcbFbTzejzjElPQzOmrEhdRtWtBUHSTiMchkDQ=;
- b=BZ5YQquK8X6lz7nhreQWrs1k3IxNPZv0U19B3cH71OjWHgYQqz9twCd9FekBkwb1lV
- YSVlN4BPR6Dh2geSQlrSTNg6Aaw3MyAoYTEVxZE2xHfwchxFgbPMS0pryPRNFDhnRJDE
- 3ljJL3NBBzDkaiXWDZxRB/peJCagVmefn6A+Cgs7u+61MuyixUoUKLMYkBU1/Y98mbbi
- jC3goPzuMX7O+shqhagS0HX/8fz0S/YdRueV1UC5ToHXBGat07X6qelwi8tLiYmREMys
- FpjHaUWJ5KFk0Veoxh5CmGcTU70LyDKGfsVOqTjPiGKaWH/OZ/Su/JcSotisgMZm5tiw
- 0lDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=8blXRqcbFbTzejzjElPQzOmrEhdRtWtBUHSTiMchkDQ=;
- b=aRkTuBLVntM0J2lAX4LdOM6ZUKTTktZAA75ogLKgVpEOn2pprBGFgKA4hkv1IH8W9R
- kFJWnDU7YHrKzcLUn4YZ0xK31WbMETlOQ3FQZVQYypjbQnoAAT3ezuEDCsozDiFzt1Yx
- VYFjt2nm5Y5zWai7t6/+sPU0dWGAb1J4J0U5dyXWKmLKhz4ox7zdsY2RQi8b2SStyU4T
- HNLvRTQ6FZFzhe0c1Gh7EzwRtjKjcFQRlfhqG+0+x4vTApMz/ooAPC02q+gbEMa+96lh
- 43KLKrufnq28i2WEfhpq5wQ05yM/sT/efEQsHV6UcXgt5DvWdQToZe8smZQ6ttYUr8dV
- lhPQ==
-X-Gm-Message-State: APjAAAXMwwx2hIGEr26V8eBXPAofzADFLBG05CzIkiW9ao9tc9AL4FDB
- xJL8fWfO8WhViSyf0NZ23b9khTOMO/g=
-X-Google-Smtp-Source: APXvYqwTjpNncAnu4Qz4qpAsshcwkEIKuj8BTduiWHwBTtYYPIby64LgT9ecYHf0xjOaHPG7tB00Hg==
-X-Received: by 2002:aa7:8e55:: with SMTP id d21mr4495837pfr.241.1569515200991; 
- Thu, 26 Sep 2019 09:26:40 -0700 (PDT)
-Received: from localhost.localdomain ([12.157.10.114])
- by smtp.gmail.com with ESMTPSA id 64sm4453169pfx.31.2019.09.26.09.26.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 09:26:40 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iDWfa-0006Y2-IU
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:31:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iDWfP-0007DL-1y
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 16:30:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 03AD22E80CB
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 16:30:55 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Sep 2019 16:23:06 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/18] target/s390x: Remove ilen argument from
- trigger_access_exception
-Date: Thu, 26 Sep 2019 09:26:14 -0700
-Message-Id: <20190926162615.31168-18-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190926162615.31168-1-richard.henderson@linaro.org>
-References: <20190926162615.31168-1-richard.henderson@linaro.org>
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor pmaydell rtos.pharos
+X-Launchpad-Bug-Reporter: RTOS Pharos (rtos.pharos)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <152947435461.1911.16896504402050089205.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156951498637.20009.8100501858973091594.malone@wampee.canonical.com>
+Subject: [Bug 1777777] Re: arm9 clock pending (SP804)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19056";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 439285a25a8a10b751cc8c8bb920c2c670f09558
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.195
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,50 +63,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, david@redhat.com
+Reply-To: Bug 1777777 <1777777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The single caller passes ILEN_UNWIND; pass that along to
-trigger_pgm_exception directly.
+Thanks for the repro case. Preliminary analysis: I added some
+tracepoints to the sp804 code, and you're right that the value of the
+interrupt status register isn't always correct:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/mmu_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+A normal attempt to read the clock looks like this:
 
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index bf7fddb056..e6c3139c57 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -33,7 +33,7 @@
- #define FS_WRITE 0x400
- 
- static void trigger_access_exception(CPUS390XState *env, uint32_t type,
--                                     uint32_t ilen, uint64_t tec)
-+                                     uint64_t tec)
- {
-     S390CPU *cpu = env_archcpu(env);
- 
-@@ -44,7 +44,7 @@ static void trigger_access_exception(CPUS390XState *env, uint32_t type,
-         if (type != PGM_ADDRESSING) {
-             stq_phys(cs->as, env->psa + offsetof(LowCore, trans_exc_code), tec);
-         }
--        trigger_pgm_exception(env, type, ilen);
-+        trigger_pgm_exception(env, type, ILEN_UNWIND);
-     }
- }
- 
-@@ -482,7 +482,7 @@ int s390_cpu_virt_mem_rw(S390CPU *cpu, vaddr laddr, uint8_t ar, void *hostbuf,
- 
-     ret = translate_pages(cpu, laddr, nr_pages, pages, is_write, &tec);
-     if (ret) {
--        trigger_access_exception(&cpu->env, ret, ILEN_UNWIND, tec);
-+        trigger_access_exception(&cpu->env, ret, tec);
-     } else if (hostbuf != NULL) {
-         /* Copy data by stepping through the area page by page */
-         for (i = 0; i < nr_pages; i++) {
--- 
-2.17.1
+Taking exception 2 [SVC]
+...from EL0 to EL1
+...with ESR 0x11/0x4600000b
+AArch32 mode switch from svc to sys PC 0x12010
+AArch32 mode switch from sys to svc PC 0x12018
+32696@1569513406.450378:sp804_read addr 0x00000004 value 0x00000681
+32696@1569513406.450384:sp804_read addr 0x00000014 value 0x00000000
+Exception return from AArch32 svc to usr PC 0x10ff0
 
+Sometimes we might read the clock when it's exactly got down to 0 (this is =
+more likely on QEMU than on real h/w for internal reasons of our implementa=
+tion):
+Taking exception 2 [SVC]
+...from EL0 to EL1
+...with ESR 0x11/0x4600000b
+AArch32 mode switch from svc to sys PC 0x12010
+AArch32 mode switch from sys to svc PC 0x12018
+32696@1569513406.452273:sp804_read addr 0x00000004 value 0x00000000
+32696@1569513406.452279:sp804_read addr 0x00000014 value 0x00000000
+Exception return from AArch32 svc to usr PC 0x10ff0
+
+A correct handling of the rollover looks like this (we read the counter,
+which is rolled over, and the interrupt-status, which is 1, which causes
+us to reread the counter; once we're done the IRQ handler itself runs):
+
+4003@1569514474.944756:sp804_read addr 0x00000004 value 0x0000c29d
+4001@1569514474.944761:sp804_arm_timer_update level 1
+4003@1569514474.944797:sp804_read addr 0x00000014 value 0x00000001
+4003@1569514474.944828:sp804_read addr 0x00000004 value 0x0000c255
+Taking exception 5 [IRQ]
+...from EL1 to EL1
+...with ESR 0x11/0x4600000b
+AArch32 mode switch from irq to svc PC 0x2a5e4
+4003@1569514474.944943:sp804_read addr 0x00000014 value 0x00000001
+4003@1569514474.944957:sp804_read addr 0x00000034 value 0x00000000
+4003@1569514474.944962:sp804_read addr 0x00000014 value 0x00000001
+4003@1569514474.944965:sp804_write addr 0x0000000c value 0x00000000
+4003@1569514474.944966:sp804_arm_timer_update level 0
+4003@1569514474.944969:sp804_read addr 0x00000034 value 0x00000000
+AArch32 mode switch from svc to irq PC 0x2a718
+Exception return from AArch32 irq to svc PC 0x2a3bc
+Exception return from AArch32 svc to usr PC 0x10ff0
+
+But sometimes we get this, where we read the rolled-over counter value
+but the interrupt-status register is still 0:
+
+Taking exception 2 [SVC]
+...from EL0 to EL1
+...with ESR 0x11/0x4600000b
+AArch32 mode switch from svc to sys PC 0x12010
+AArch32 mode switch from sys to svc PC 0x12018
+4003@1569514475.794690:sp804_read addr 0x00000004 value 0x0000c2df
+4003@1569514475.794698:sp804_read addr 0x00000014 value 0x00000000
+4001@1569514475.794703:sp804_arm_timer_update level 1
+Exception return from AArch32 svc to usr PC 0x10ff0
+Taking exception 5 [IRQ]
+...from EL0 to EL1
+...with ESR 0x11/0x4600000b
+AArch32 mode switch from irq to svc PC 0x2a5e4
+4003@1569514475.794768:sp804_read addr 0x00000014 value 0x00000001
+4003@1569514475.794937:sp804_read addr 0x00000034 value 0x00000000
+4003@1569514475.794944:sp804_read addr 0x00000014 value 0x00000001
+4003@1569514475.794947:sp804_write addr 0x0000000c value 0x00000000
+4003@1569514475.794949:sp804_arm_timer_update level 0
+4003@1569514475.794952:sp804_read addr 0x00000034 value 0x00000000
+AArch32 mode switch from svc to irq PC 0x2a718
+Exception return from AArch32 irq to usr PC 0x10ff0
+
+
+This happens because the sp804 uses a QEMU timer abstraction "ptimer".
+The ptimer updates its internal state when a raw QEMU timer expires and
+calls the ptimer_tick() function. From this point on, a guest read of
+the counter value will get the rolled-over value, because the sp804
+implements this as a simple ptimer_get_count(). However, the ptimer
+doesn't immediately call the sp804's arm_timer_tick() function (which is
+where we update the interrupt-status flag and arrange for an IRQ to be
+delivered) -- it just schedules that to happen later via a QEMU "bottom
+half handler". Unfortunately it's possible for the guest CPU to run
+between when the ptimer's ptimer_tick() happens and when the bottom-
+half-handler is triggered, which means that the guest can see this
+incorrectly out-of-sync state from the sp804 device.
+
+I'm not currently sure how best to fix this.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1777777
+
+Title:
+  arm9 clock pending (SP804)
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello all,
+
+  I'm using the versatilepb board and the timer Interrupt Mask Status
+  register (offset 0x14 of the SP804) does not seem to be working
+  properly on the latest qemu-2.12. I tried on the 2.5 (i believe this
+  is the mainstream version that comes with Linux) and it works
+  perfectly.
+
+  What happens is that the pending bit does not seem to be set in some
+  scenarios. In my case, I see the timer value decreasing to 0 and then
+  being reset to the reload value and neither does the interrupt is
+  triggered nor the pending bit is set.
+
+  I believe this is a matter of timing since in the "long" run the
+  system eventually catches up (after a few microseconds).
+
+  Thank you
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1777777/+subscriptions
 
