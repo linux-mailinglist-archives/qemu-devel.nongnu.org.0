@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFDABF9C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:05:03 +0200 (CEST)
-Received: from localhost ([::1]:43090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818F4BF9D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:09:23 +0200 (CEST)
+Received: from localhost ([::1]:43132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDZ4X-0005JH-6F
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:05:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45491)
+	id 1iDZ8j-0001E3-RZ
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYmB-0002KO-RT
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:04 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYmC-0002Ke-5b
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYmA-000567-HO
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYmA-00055x-EC
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:03 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52266)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54859)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iDYmA-00051C-8C
+ id 1iDYmA-0004zf-5u
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:46:02 -0400
-Received: by mail-wm1-x333.google.com with SMTP id r19so3926555wmh.2
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:45:59 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id p7so3925537wmp.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E0qQiftCyspeHjUyRAr2Q8QfbtfNGsp+y3+oeT7EpBU=;
- b=dG78deXcRnOZCK8zqV5bfi6ahzli5tGVAdNdf/NwQWqEfCCoGzcs5X54Q6BICUZKQN
- ZC1+Ib8nQm8hQetdDtWctTjIddERwZeF2SaNMR6ERHrCkkD5yK6Cv0LTdYo2cIoHYyY8
- znFo5vX/UqohgQWywFljnGs4uNhzkXLQzt5AFqsSxX1QgKByt4guDtXw9lpllllbI4SG
- ziLClRbaZwdznl9HUFlSqpBGYrn0WE0jlxLs685K+8mBAcGuCu7OIcM9xtrD5N8qRSrM
- QgxM+6Yj9kCJxG0CQI9biqQeF4HY0n88VUmUBsc0qO15nbEvcv5ogWf+/Xqa6BexxOvX
- kb9w==
+ bh=w8is8rZhnjRu4cXABpaM/yIcdELm1IUron9MLQsKwM4=;
+ b=WSO0GSTuHTeoFoV9WlkJgDPWjdjdhredHUKommUnQE1Q3kngFzTIllUCbW1CcYn+/7
+ CPwpzzKOppnWwoeBeWyarEAmEAgqiP2/eOK2nTcrcHWEu5brnoWilSaRd2WpKlYQyxiJ
+ NfzWe8oJC4ddpnPOsFzm5yCFTwpS4+x+hpzA5oWkXdbVTPh72W3M3SiidgGusL/ozElo
+ yF0BhOvQ5RHX2sstKi2Daq47Fwv2xuvkxg1K1VXggEGLWzuXL4JOejKpw2IqK+hcnR8S
+ yD/2EVxWYQbrR3C4wUo6GU5YINRmC6sngX/7kcc6yfrLNmL8ZiSzLiFrca4w0RBNBsbN
+ /fxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E0qQiftCyspeHjUyRAr2Q8QfbtfNGsp+y3+oeT7EpBU=;
- b=Ba8mOfHarjiW7XzXtS0vxiFTq+rneGHWf/XPDZ3lOm5zgPaKOwnV3SSUJg6InuT5Xz
- aSrtAKkeJU54v336ivNuokigbiWiRpdhPtf5V8rTrZTcXfVbkrOjyxer3wienXenHxCk
- lZToYT3S6PEa7hPFiGRSQ/BhZGVoqMX8Mp4RcAq6F9XWS5UOdGESCXk08rTs35UWezS4
- 8oMh8uyoCFh+fZfe47NHTbLerWtyuBkYQ8spJqCfVgke2zSLlphzqeXjA0b7HC/ulFuA
- 6zTULMqhy8H2nZ2TJLN3iu0p4GNcgJHNuqzUSgWpJmIidF/VVfseJRTt8pyEKe1GWQmj
- 3aHQ==
-X-Gm-Message-State: APjAAAVV2jtOKvvPgzHH2poLs6ksa//cbEYSs6e8vKM6AsjnqQx7R44w
- aW1ic+mi9PHkN70Vmwpc8Um4h7gJzVygUg==
-X-Google-Smtp-Source: APXvYqyLS8KDH2aJOfux7/j0f30uxWQGvYphw9bLRIy/UPmcVAgZWuVioa5T++AB0PeuPdVoRWBO4w==
-X-Received: by 2002:a1c:5411:: with SMTP id i17mr4138265wmb.170.1569523558343; 
- Thu, 26 Sep 2019 11:45:58 -0700 (PDT)
+ bh=w8is8rZhnjRu4cXABpaM/yIcdELm1IUron9MLQsKwM4=;
+ b=JBdNvXtLFllLajS2EL9i2dLynFK8UkSyEUaAm2YgYbNa/qVWhTYf4iTao9dKz6WDQg
+ yhy9GLpdVy42aJbJ9l3/vBIaosM3GqRKZA2D5B4nDBeGpXHLRlKyhrvk34lJ7TOYt77o
+ BNlEkqTrXZsw8poa3sscRbSe6GwxTGC3mvTLG6LM7pkEeds05jqscJf092mG7WMEu/rS
+ BWGUFySU0RsE/xtt3VUC9WZq4XCCPdyTapl4+5NJ2B08/SbwgGxys7zPyhc7o5sQ9V1W
+ QISwndkyY0h/Nn7cFEdP/y/36nKYsdaERrZalnZDb1uq+MC28pirjpdRPIgoOBGn4/w0
+ 3Nxw==
+X-Gm-Message-State: APjAAAVgd/ABVCwzaLxvdWce6WS5ASuJCSG2TuPuvrQKiiWnIcMRV1vQ
+ qMEe2eP0t45Dp8v8C5Yz73nWmA==
+X-Google-Smtp-Source: APXvYqzOWDixjFNIbLIIQV5HitEbykHMCKUrH2mq0u0wcAvrSaTKfaCvfsWMGtWlwXsO3HwOxwPG+A==
+X-Received: by 2002:a05:600c:c2:: with SMTP id u2mr3899752wmm.37.1569523557498; 
+ Thu, 26 Sep 2019 11:45:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a3sm4886981wmc.3.2019.09.26.11.45.51
+ by smtp.gmail.com with ESMTPSA id e30sm165916wra.48.2019.09.26.11.45.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 26 Sep 2019 11:45:52 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 81E161FF9F;
- Thu, 26 Sep 2019 19:35:54 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 830401FFAE;
+ Thu, 26 Sep 2019 19:35:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/28] tests/tcg: re-enable linux-test for ppc64abi32
-Date: Thu, 26 Sep 2019 19:35:40 +0100
-Message-Id: <20190926183553.13895-16-alex.bennee@linaro.org>
+Subject: [PULL 25/28] docker: remove unused debian-ports
+Date: Thu, 26 Sep 2019 19:35:50 +0100
+Message-Id: <20190926183553.13895-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
 References: <20190926183553.13895-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,47 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have fixed the signal delivary bug we can remove this horrible
-hack from the system.
+From: John Snow <jsnow@redhat.com>
 
-Cc: Richard Henderson <richard.henderson@linaro.org>
+debian-ports is listed as a partial image, so we cannot run tests against it.
+Since it isn't used by any other testable image, remove it for now as it
+is prone to bitrot.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20190923181140.7235-5-jsnow@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 6b1e30e2fe..657a04f802 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -12,14 +12,6 @@ VPATH 		+= $(MULTIARCH_SRC)
- MULTIARCH_SRCS   =$(notdir $(wildcard $(MULTIARCH_SRC)/*.c))
- MULTIARCH_TESTS  =$(MULTIARCH_SRCS:.c=)
- 
--# FIXME: ppc64abi32 linux-test seems to have issues but the other basic tests work
--ifeq ($(TARGET_NAME),ppc64abi32)
--BROKEN_TESTS = linux-test
--endif
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index a19341e326..df73def340 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -6,7 +6,7 @@ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+ DOCKER_PARTIAL_IMAGES := debian9 debian10 debian-sid
+-DOCKER_PARTIAL_IMAGES += debian9-mxe debian-ports debian-bootstrap
++DOCKER_PARTIAL_IMAGES += debian9-mxe debian-bootstrap
+ DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+diff --git a/tests/docker/dockerfiles/debian-ports.docker b/tests/docker/dockerfiles/debian-ports.docker
+deleted file mode 100644
+index 61bc3f2993..0000000000
+--- a/tests/docker/dockerfiles/debian-ports.docker
++++ /dev/null
+@@ -1,36 +0,0 @@
+-#
+-# Docker multiarch cross-compiler target
+-#
+-# This docker target is builds on Debian Ports cross compiler targets
+-# to build distro with a selection of cross compilers for building test binaries.
+-#
+-# On its own you can't build much but the docker-foo-cross targets
+-# build on top of the base debian image.
+-#
+-FROM debian:unstable
 -
--# Update TESTS
--TESTS		+= $(filter-out $(BROKEN_TESTS), $(MULTIARCH_TESTS))
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
 -
- #
- # The following are any additional rules needed to build things
- #
-@@ -39,3 +31,6 @@ run-test-mmap: test-mmap
- run-test-mmap-%: test-mmap
- 	$(call run-test, test-mmap-$*, $(QEMU) -p $* $<,\
- 		"$< ($* byte pages) on $(TARGET_NAME)")
-+
-+# Update TESTS
-+TESTS += $(MULTIARCH_TESTS)
+-RUN echo "deb [arch=amd64] http://deb.debian.org/debian unstable main" > /etc/apt/sources.list
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed -ne "s/^deb\ \(\[.*\]\ \)\?\(.*\)/deb-src \2/p" >> /etc/apt/sources.list
+-
+-# Setup some basic tools we need
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        bison \
+-        build-essential \
+-        ca-certificates \
+-        clang \
+-        debian-ports-archive-keyring \
+-        flex \
+-        gettext \
+-        git \
+-        pkg-config \
+-        psmisc \
+-        python \
+-        texinfo \
+-        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
 -- 
 2.20.1
 
