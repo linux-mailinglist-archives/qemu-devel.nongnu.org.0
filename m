@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3311BF9A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:53:08 +0200 (CEST)
-Received: from localhost ([::1]:42860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A43BF9C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:05:50 +0200 (CEST)
+Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDYt1-0008Pa-Gz
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
+	id 1iDZ5I-0006HZ-K5
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:05:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42222)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYm3-0002Hz-56
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:45:56 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYcc-00080r-Ei
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYlz-0004vX-E2
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:45:54 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41794)
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYca-0006aB-Pv
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:10 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53207)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iDYlz-0004uW-6e
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:45:51 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h7so3627872wrw.8
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:45:51 -0700 (PDT)
+ id 1iDYca-0006YG-6x
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:08 -0400
+Received: by mail-wm1-x329.google.com with SMTP id r19so3898139wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+z/2TFSiIsPQhsLoIn7FTSMT/krf74rbncYhReyhJi0=;
- b=XRYtg5RW/vIUpcGzGpyZUJn7S+8soIU7DbuFFuZB9eaNibP0JCqsNQLXZ6FYuFKfeb
- +gcg86lisEgkoTigWyuJkFRcl6lYvu/ALjhgkKAJYMGSDgKyc7ouuIZCZaFKCIRZc/tH
- fqbrVsVZzewIj7br69D9wTEo3sPem4iJDJcwxGpb0jg8+tSYzCOHmI3+RzcTz9zHFejH
- LqxVPp4yRo8RFEOphCsLa4t2J5Wola85VaKDzW6aSXCuFHljyj00JCe55OeeSyykK3sR
- GR37onz34/cdAaBCj1bVnccUJgUrn2QaZj+C1cjsN+ValinuoXT9dC2xPwjXvinQV1HM
- b6Dw==
+ bh=JQLOnxshFGL3OAqcNMrUvWbdHoJ5YAKAymtlNtOWkFE=;
+ b=RKD2KLpKzZVFTnslherogIkd2ERCCG9oXG3mp7kl7Gd5O7oh4POdy5sZiyBRAoKxi2
+ tZ0QEB1AEd4GjnjlGEC9+c558gYqznivIE2YTlmaP/VCAicB082Alp8YTqv6BSKSJ945
+ S472a8xtEHQWz+67MSdN+gSI5fGMj0wfz9wBKvxUCZx0fO/f/gDKx88bz8duxlQyqIV6
+ /4JMAGnUQeD3HJ4UuAbc/uN/JQjg8P+rBqSpBjPtrdDykHfIqE4/4HANmpjcGpRkShuY
+ B/Qne2HAjmidmFiD8Dmcabl1Zu+jLTIma+MwaPx68eTVHPxKCS68BbNAFPKMeJZfaOLP
+ MBRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+z/2TFSiIsPQhsLoIn7FTSMT/krf74rbncYhReyhJi0=;
- b=ZDna1Flpa/AXV5rA4QkRcWSLCxDokr6ayzvtcyQtD7rXsXAIuCPP4awkelI5fHO30V
- b3X/35I3SHJhSPl1Rf/Bk6I/5DL4d5Ql+x95+x6032mxWhOosYu+my0gXX0rcMDjLHiZ
- fWzYaOxIPhj5JyTxnk74+kbTa6mej25hFoBSgMtvYtBQLeCa+xTZIu8P24lBYmGw1Dxe
- SuuIgBgRWxx7p3P9Bha4keZwWhmlSFyYlMe0fvtvLBiPXzxTQ6pIxzr1SMa3K7OvpxEA
- iQtwdydgE+/K2Y9ibhRQi+2zuYybZ1R/aHEuD0b/Q4Prk5q1bjhZTHa+/+T5kjWAdX4v
- QfuA==
-X-Gm-Message-State: APjAAAWR9lPaDjYx7aSIRTV3w868Jfo/+FGgOV65t+DwAOwZEg0uvyjQ
- /A0Q0nUyAtb/XQ4yvY41e3ESPA==
-X-Google-Smtp-Source: APXvYqyi6nCfWPyVFJjH9GQd0q+ckbY2acvHD6mgQAAoCW+JD4g/434CfYufpLSxP/LwW3dFP2wyDA==
-X-Received: by 2002:a5d:6ac8:: with SMTP id u8mr4146378wrw.104.1569523549437; 
- Thu, 26 Sep 2019 11:45:49 -0700 (PDT)
+ bh=JQLOnxshFGL3OAqcNMrUvWbdHoJ5YAKAymtlNtOWkFE=;
+ b=YVoMB93eExE/B0fBpM8OVg/hq1YlkfUY8AQY0xVc3EdLWjYWNHJMu5NqF965TuFhaJ
+ KKFMU9WXqX59zqo4M/zogUSUzT1yiM3VNtkcVw8YcSZn+5NB4qBA7h0ICyC0fuwdFdb2
+ jgVszj4bhZj9LMY326uSRyQ0xZSwAvdjZBc1jU9LsfrtWMyGR3ITyrWIPrcW9QrBnBaQ
+ tNzhjxyme6bsxOtg2EEMb/39h++Je/gt3XHn55kovX0Rx7e5cUOC2yFNagJT4QeENlGx
+ Jlg9tRD6mPYqcsu3R3GyAhbXMMRc2OAEEXSA1uhTERa49pc5pdczWfKcVo+ca1kxDkuu
+ joAA==
+X-Gm-Message-State: APjAAAW7T/BG3oBBwiiPk2GIUf8WnIB5l5rRNlTKPt4GBQ+Pnq53RQlj
+ 3mVYabcvypMPowEw0UL23NV+7Q==
+X-Google-Smtp-Source: APXvYqyuymRYPV/H+A1BCGJdv2TDx9RiJawk7/2bN2ddE5r8274gItjVH4V4UJmuax/Ml6g3Qx36vg==
+X-Received: by 2002:a05:600c:2219:: with SMTP id
+ z25mr3953203wml.109.1569522966899; 
+ Thu, 26 Sep 2019 11:36:06 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y186sm8522528wmb.41.2019.09.26.11.45.48
+ by smtp.gmail.com with ESMTPSA id k9sm132257wrd.7.2019.09.26.11.35.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 11:45:48 -0700 (PDT)
+ Thu, 26 Sep 2019 11:36:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 999931FFAF;
- Thu, 26 Sep 2019 19:35:55 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 3CF451FF9C;
+ Thu, 26 Sep 2019 19:35:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 26/28] docker: remove unused debian-sid
-Date: Thu, 26 Sep 2019 19:35:51 +0100
-Message-Id: <20190926183553.13895-27-alex.bennee@linaro.org>
+Subject: [PULL 12/28] tests/docker: reduce scary warnings by cleaning up clean
+ up
+Date: Thu, 26 Sep 2019 19:35:37 +0100
+Message-Id: <20190926183553.13895-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
 References: <20190926183553.13895-1-alex.bennee@linaro.org>
@@ -69,7 +71,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,78 +84,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+There was in the clean-up code caused by attempting to inspect images
+which finished before we got there. Clean up the clean up code by:
 
-debian-sid is listed as a partial image, so we cannot run tests against it.
-Since it isn't used by any other testable image, remove it for now as it
-is prone to bitrot.
+  - only track the one instance at a time
+  - use --filter for docker ps instead of doing it by hand
+  - just call docker rm -f to be done with it
+  - use uuid.uuid4() for a random uid
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190923181140.7235-6-jsnow@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index df73def340..02cd5eeabc 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -5,7 +5,7 @@
- DOCKER_SUFFIX := .docker
- DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
- # we don't run tests on intermediate images (used as base by another image)
--DOCKER_PARTIAL_IMAGES := debian9 debian10 debian-sid
-+DOCKER_PARTIAL_IMAGES := debian9 debian10
- DOCKER_PARTIAL_IMAGES += debian9-mxe debian-bootstrap
- DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
-diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/dockerfiles/debian-sid.docker
-deleted file mode 100644
-index 2a1bcc33b2..0000000000
---- a/tests/docker/dockerfiles/debian-sid.docker
-+++ /dev/null
-@@ -1,35 +0,0 @@
--#
--# Debian Sid Base
--#
--# Currently we can build all our guests with cross-compilers in the
--# latest Debian release (Buster). However new compilers will first
--# arrive in Sid. However Sid is a rolling distro which may be broken
--# at any particular time. To try and mitigate this we use Debian's
--# snapshot archive which provides a "stable" view of what state Sid
--# was in.
--#
--
--# This must be earlier than the snapshot date we are aiming for
--FROM debian:sid-20190812-slim
--
-- # Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
--ENV DEBIAN_SNAPSHOT_DATE "20190820"
--RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" /etc/apt/sources.list
--
--# Duplicate deb line as deb-src
--RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
--
--# Install common build utilities
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt install -y --no-install-recommends \
--        bison \
--        build-essential \
--        ca-certificates \
--        flex \
--        git \
--        pkg-config \
--        psmisc \
--        python \
--        texinfo || { echo "Failed to build - see debian-sid.docker notes"; exit 1; }
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 29613afd48..3112892fdf 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -215,7 +215,7 @@ class Docker(object):
+     """ Running Docker commands """
+     def __init__(self):
+         self._command = _guess_engine_command()
+-        self._instances = []
++        self._instance = None
+         atexit.register(self._kill_instances)
+         signal.signal(signal.SIGTERM, self._kill_instances)
+         signal.signal(signal.SIGHUP, self._kill_instances)
+@@ -234,21 +234,19 @@ class Docker(object):
+         cmd = ["ps", "-q"]
+         if not only_active:
+             cmd.append("-a")
++
++        filter = "--filter=label=com.qemu.instance.uuid"
++        if only_known:
++            if self._instance:
++                filter += "=%s" % (self._instance)
++            else:
++                # no point trying to kill, we finished
++                return
++
++        print("filter=%s" % (filter))
++        cmd.append(filter)
+         for i in self._output(cmd).split():
+-            resp = self._output(["inspect", i])
+-            labels = json.loads(resp)[0]["Config"]["Labels"]
+-            active = json.loads(resp)[0]["State"]["Running"]
+-            if not labels:
+-                continue
+-            instance_uuid = labels.get("com.qemu.instance.uuid", None)
+-            if not instance_uuid:
+-                continue
+-            if only_known and instance_uuid not in self._instances:
+-                continue
+-            print("Terminating", i)
+-            if active:
+-                self._do(["kill", i])
+-            self._do(["rm", i])
++            self._do(["rm", "-f", i])
+ 
+     def clean(self):
+         self._do_kill_instances(False, False)
+@@ -325,9 +323,9 @@ class Docker(object):
+         return checksum == _text_checksum(_dockerfile_preprocess(dockerfile))
+ 
+     def run(self, cmd, keep, quiet, as_user=False):
+-        label = uuid.uuid1().hex
++        label = uuid.uuid4().hex
+         if not keep:
+-            self._instances.append(label)
++            self._instance = label
+ 
+         if as_user:
+             uid = os.getuid()
+@@ -340,7 +338,7 @@ class Docker(object):
+                              "com.qemu.instance.uuid=" + label] + cmd,
+                              quiet=quiet)
+         if not keep:
+-            self._instances.remove(label)
++            self._instance = None
+         return ret
+ 
+     def command(self, cmd, argv, quiet):
 -- 
 2.20.1
 
