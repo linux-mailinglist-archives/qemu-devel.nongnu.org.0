@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88458BF955
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:39:57 +0200 (CEST)
-Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AFC7BF975
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 20:43:56 +0200 (CEST)
+Received: from localhost ([::1]:42636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDYgG-0001LO-4r
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42076)
+	id 1iDYk6-0005rt-Gj
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 14:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYcX-0007wH-0u
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:07 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYcR-0007rw-Md
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYcV-0006St-Hv
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:04 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45608)
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYcP-0006M8-Lb
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:35:59 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36894)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iDYcV-0006RT-3p
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:03 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id r5so3585730wrm.12
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:36:03 -0700 (PDT)
+ id 1iDYcP-0006Ko-Cl
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:35:57 -0400
+Received: by mail-wm1-x333.google.com with SMTP id f22so3635129wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OAMnWz+3//G4B1uXoGsmYYeOSQ2vtmWEKTjtuJNZZeY=;
- b=XxWlGVT+bLrM1sSCEqs+9QEwu56urPwXDUzQoinGHdbc+493cX+yzWtRQxeiztJNQL
- n5BI7HPlyLHlLS+7Q3R5xN9doBRAAgwNMkoqUa9zvoN06NLIA/gN+kAcORP8oO6MgwKt
- DvsFwSHdlnUOtwbB7Uo1T1IqSk0A9ZkuzVU0NFqNWBCJXsvK7OpePSAtqw+oNR8ZEcvk
- WPRZGXFe6go4r/iMC1ZW2Jke6d5QynsWG3np0Y/4UgxbkK+TXB7Zou1Pcsteco16S/ty
- 8n8vE7VC5ZuQKkRXogopnZOTDmNia2EcPAlN+Hpt9l6yR7BuBGDUk5q6rV28Sn4FHCoF
- XCUg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NU6Z1UPCFOZjXjm4lnhTzfvXddIQ+qF4YX/RL1WrFx8=;
+ b=u2gm+hiRlwLdPREvzHv3xSJCU2T7qqWqPG+6xzGkmwyfSpVp/Naldg7d0qwZM2f6q2
+ SYjlauqTbhFXtvLeWf1VS24nu4YCbqma/w1ECGk01Sm/2Psx8PHtH/9MTnh+hMeU/ZY5
+ h1BWo87Ut0/lqwAvaqYoZaEPUTnKsSQJnqp/AFnRzrd+2kepjeanwwvwW+d9twYL2U5u
+ ebXsyPcSGl/6AuOl67cIetswsgAMGg7fUI8edJz/anE3oueqvbfoV/IJrc8iDnWnXAgK
+ O6vk4umnz49XBaZDkFnMxTJfSaXOfDfHI3/3Q0sApdUb+lVA3Mx3z+p63pP4LRhCyELu
+ nyRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OAMnWz+3//G4B1uXoGsmYYeOSQ2vtmWEKTjtuJNZZeY=;
- b=NFxrlai9ZRArv+8bto9FqJYRB/S4YZu08K/BcycLGWx2U0ObgfzHP4znAFqyIVmUxa
- C4TMOBsEfBCu9z/yedaAWeeMJR1Y8kVk2o8EqKgv83AQvh3ZbgARhfCbHsLxKCDNNmdi
- U0GNSn72V1gwgMb29JV++JfkdktebMcK+HtrBhw4XKNtfJQeqTQngDMQittNDRC6nNng
- dXP39q183aWbwnBcr/geYdqBikT+EPzrpf0RvIFPL3vRJpoBZNDKpvDKEDDjGTLDUIAK
- M0ABDf/ImneI5w124McCCqJbZaz/YaoWhJE5LyXsarouU5yXAg4FkaJ9irKgjysFDi1O
- 2EPg==
-X-Gm-Message-State: APjAAAWHmXGk1RIaC+84MnHJrJEq+iDsVdqAyZRvXmth66/5PpPQM1L7
- +pR9unj/cSaSAH/HIfHVSKoo+Q==
-X-Google-Smtp-Source: APXvYqzo1d8fRAtoTmUB04L+E7+LjWi0RqTOkxqHC2+FRYUBDI+WDyCR2l5m52/lazqc6mJc29x5tA==
-X-Received: by 2002:a5d:6306:: with SMTP id i6mr4372250wru.323.1569522961957; 
- Thu, 26 Sep 2019 11:36:01 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NU6Z1UPCFOZjXjm4lnhTzfvXddIQ+qF4YX/RL1WrFx8=;
+ b=cRPT0fKcFf8VbV3U04jmqQ/UMeInjbe6gJ7UxyFPnrxKTMa7sFlnfPyZYbuACA4Rv9
+ LFGgYeMYxV3XMOPFzbI9Zw2F6OC5d61hKB1sReJ5AbmUeUMtqSFQ2KwmpjsLeieZUSlK
+ nxtnP+pyNSeDdBD34ARC7uNh4tnzgXMEJ/LyMqjt/CD95tbV8TbCxpeZrOyjeGQre3xm
+ siG4+sp7WIOo6Cr76S4xTbLIlEW+BHVaC+t+gkHm6i5cHA1mMytOYs9x+VdKjU042Fas
+ 9dJdWs1mzBlGHrOefARpBp5yweTrLGPD/nw+cw09YvOgn2Zp567QSNHNpkUOF8truJnl
+ 8AGA==
+X-Gm-Message-State: APjAAAWO2meRVCDYCkLUYXkht4uBTWMFXHfy8OTg2/NSxA37QsTgwByM
+ bGOnWnJ/I0LickQHG8tksOaEWQ==
+X-Google-Smtp-Source: APXvYqxrlr57/pvzPiLkU4/X3OzNbocdLwnWUaLAgtk26YoQGXaBlbsqw+jjIlK6SyKG1w2tuezRug==
+X-Received: by 2002:a7b:caa9:: with SMTP id r9mr4394723wml.14.1569522956118;
+ Thu, 26 Sep 2019 11:35:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r2sm5053204wma.1.2019.09.26.11.35.56
+ by smtp.gmail.com with ESMTPSA id q66sm6666331wme.39.2019.09.26.11.35.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 11:35:57 -0700 (PDT)
+ Thu, 26 Sep 2019 11:35:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F14E31FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 3BE611FF87;
  Thu, 26 Sep 2019 19:35:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/28] tests/docker: add sanitizers back to clang build
-Date: Thu, 26 Sep 2019 19:35:34 +0100
-Message-Id: <20190926183553.13895-10-alex.bennee@linaro.org>
+Subject: [PULL 00/28] testing updates (docker,podman,tcg,alpha)
+Date: Thu, 26 Sep 2019 19:35:25 +0100
+Message-Id: <20190926183553.13895-1-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
-References: <20190926183553.13895-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,40 +79,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+The following changes since commit eb13d1cf4a0478fc29f80abfbac8209479325f35:
 
-Fedora23 is but a distant twinkle. The sanitizer works again, and even
-if not, we have --enable-sanitizers now.
+  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20190925a' into staging (2019-09-26 14:23:58 +0100)
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190912014442.5757-1-jsnow@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+are available in the Git repository at:
 
-diff --git a/tests/docker/test-clang b/tests/docker/test-clang
-index 324e341cea..db9e6970b7 100755
---- a/tests/docker/test-clang
-+++ b/tests/docker/test-clang
-@@ -17,11 +17,7 @@ requires clang
- 
- cd "$BUILD_DIR"
- 
--OPTS="--cxx=clang++ --cc=clang --host-cc=clang"
--# -fsanitize=undefined is broken on Fedora 23, skip it for now
--# See also: https://bugzilla.redhat.com/show_bug.cgi?id=1263834
--#OPTS="$OPTS --extra-cflags=-fsanitize=undefined \
--    #--extra-cflags=-fno-sanitize=float-divide-by-zero"
-+OPTS="--cxx=clang++ --cc=clang --host-cc=clang --enable-sanitizers"
- build_qemu $OPTS
- check_qemu
- install_qemu
--- 
+  https://github.com/stsquad/qemu.git tags/pull-testing-next-260919-1
+
+for you to fetch changes up to 80394ccf216da9ff48f23b9b8dab65ef809b7870:
+
+  tests/docker: remove debian-powerpc-user-cross (2019-09-26 19:00:53 +0100)
+
+----------------------------------------------------------------
+Testing updates plus alpha FP fixes:
+
+  - fix alpha handling of FtoI overflow
+  - various docker cleanups
+  - fix docker.py cleanup race
+  - fix podman invocation
+  - tests/tcg: add float and record/replay tests
+  - remove unused docker images
+  - expand documentation for check-tcg
+
+----------------------------------------------------------------
+Alex Bennée (11):
+      target/ppc: fix signal delivery for ppc64abi32
+      tests/docker: fix DOCKER_PARTIAL_IMAGES
+      tests/docker: reduce scary warnings by cleaning up clean up
+      tests/tcg: clean-up some comments after the de-tangling
+      tests/tcg: re-enable linux-test for ppc64abi32
+      tests/tcg: add float_madds test to multiarch
+      tests/tcg: add generic version of float_convs
+      tests/tcg: add simple record/replay smoke test for aarch64
+      configure: preserve PKG_CONFIG for subdir builds
+      docs/devel: add "check-tcg" to testing.rst
+      tests/docker: remove debian-powerpc-user-cross
+
+John Snow (9):
+      tests/docker: add sanitizers back to clang build
+      tests/docker: remove python2.7 from debian9-mxe
+      podman: fix command invocation
+      docker: remove debian8-mxe definitions
+      docker: remove unused debian8 partial image
+      docker: remove 'deprecated' image definitions
+      docker: remove unused debian-ports
+      docker: remove unused debian-sid
+      docker: move tests from python2 to python3
+
+Philippe Mathieu-Daudé (1):
+      target/i386: Fix broken build with WHPX enabled
+
+Richard Henderson (7):
+      target/alpha: Use array for FPCR_DYN conversion
+      target/alpha: Fix SWCR_MAP_UMZ
+      target/alpha: Fix SWCR_TRAP_ENABLE_MASK
+      target/alpha: Handle SWCR_MAP_DMZ earlier
+      target/alpha: Write to fpcr_flush_to_zero once
+      target/alpha: Mask IOV exception with INV for user-only
+      target/alpha: Tidy helper_fp_exc_raise_s
+
+ Makefile                                           |   6 +-
+ configure                                          |   1 +
+ docs/devel/testing.rst                             |  76 ++
+ linux-user/ppc/signal.c                            |   4 +-
+ target/alpha/fpu_helper.c                          |  15 +-
+ target/alpha/helper.c                              |  64 +-
+ target/i386/whpx-all.c                             |   1 +
+ tests/docker/Makefile.include                      |  18 +-
+ tests/docker/docker.py                             |  36 +-
+ tests/docker/dockerfiles/centos7.docker            |   2 +-
+ tests/docker/dockerfiles/debian-ports.docker       |  36 -
+ .../dockerfiles/debian-powerpc-user-cross.docker   |  21 -
+ tests/docker/dockerfiles/debian-sid.docker         |  35 -
+ .../docker/dockerfiles/debian-xtensa-cross.docker  |   2 +-
+ tests/docker/dockerfiles/debian10.docker           |   2 +-
+ tests/docker/dockerfiles/debian8.docker            |  34 -
+ tests/docker/dockerfiles/debian9-mxe.docker        |   3 +-
+ tests/docker/dockerfiles/debian9.docker            |   2 +-
+ tests/docker/dockerfiles/travis.docker             |   2 +-
+ tests/docker/dockerfiles/ubuntu.docker             |   2 +-
+ tests/docker/dockerfiles/ubuntu1804.docker         |   2 +-
+ tests/docker/test-clang                            |   6 +-
+ tests/tcg/Makefile.target                          |  16 +-
+ tests/tcg/aarch64/Makefile.softmmu-target          |  21 +
+ tests/tcg/aarch64/Makefile.target                  |   3 +-
+ tests/tcg/aarch64/float_convs.ref                  | 748 ++++++++++++++++++++
+ tests/tcg/aarch64/float_madds.ref                  | 768 +++++++++++++++++++++
+ tests/tcg/arm/Makefile.target                      |  16 +-
+ tests/tcg/arm/float_convs.ref                      | 748 ++++++++++++++++++++
+ tests/tcg/arm/float_madds.ref                      | 768 +++++++++++++++++++++
+ tests/tcg/multiarch/Makefile.target                |  23 +-
+ tests/tcg/multiarch/float_convs.c                  | 105 +++
+ tests/tcg/multiarch/float_helpers.c                | 230 ++++++
+ tests/tcg/multiarch/float_helpers.h                |  26 +
+ tests/tcg/multiarch/float_madds.c                  | 103 +++
+ 35 files changed, 3709 insertions(+), 236 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-ports.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-powerpc-user-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
+ delete mode 100644 tests/docker/dockerfiles/debian8.docker
+ create mode 100755 tests/tcg/aarch64/float_convs.ref
+ create mode 100644 tests/tcg/aarch64/float_madds.ref
+ create mode 100644 tests/tcg/arm/float_convs.ref
+ create mode 100644 tests/tcg/arm/float_madds.ref
+ create mode 100644 tests/tcg/multiarch/float_convs.c
+ create mode 100644 tests/tcg/multiarch/float_helpers.c
+ create mode 100644 tests/tcg/multiarch/float_helpers.h
+ create mode 100644 tests/tcg/multiarch/float_madds.c
+
+--
 2.20.1
 
 
