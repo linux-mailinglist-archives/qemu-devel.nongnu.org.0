@@ -2,49 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93117BF61C
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:44:02 +0200 (CEST)
-Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAEBABF64D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:57:11 +0200 (CEST)
+Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDVw1-0001nX-5X
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
+	id 1iDW8j-0008Hc-BT
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDVs6-0008Hi-Tj
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:40:02 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iDVuj-0002Ds-92
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:42:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDVs3-0006jR-NU
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:39:57 -0400
-Received: from 6.mo2.mail-out.ovh.net ([87.98.165.38]:55291)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDVs3-0006eY-GW
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:39:55 -0400
-Received: from player731.ha.ovh.net (unknown [10.109.159.139])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 06AA81AB9CE
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 17:39:48 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player731.ha.ovh.net (Postfix) with ESMTPSA id DEEE2A17647A;
- Thu, 26 Sep 2019 15:39:38 +0000 (UTC)
-Date: Thu, 26 Sep 2019 17:39:37 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 20/20] spapr: Eliminate SpaprIrq::init hook
-Message-ID: <20190926173937.302ec223@bahia.lan>
-In-Reply-To: <20190925064534.19155-21-david@gibson.dropbear.id.au>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-21-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iDVuf-0008FC-59
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:42:38 -0400
+Received: from mail-eopbgr140093.outbound.protection.outlook.com
+ ([40.107.14.93]:5350 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iDUWj-0003Mv-Qp; Thu, 26 Sep 2019 10:13:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k15SkHMEh+mDZHjvHd5NhwBaqpAZci/tFMVBGVPPcVXVbz5Y8ZjpwmZPeo9rb9OPvPyBxY0xVK808lEwcaRTilzHRB77nrdiloe0lIswTYpqPzZcams3ysjMQLYb1Kn1SxAHalNBuVXznOK7L5p7ykBDVj8sGjTJmW7j7lKyS/drST1WmK/ncFHChw8twA1pDVkB5lGwNlSkRxPTFQ4M7+h+hWq4jHyW8n/ogOZ5o2Xp3LsyalfIKCvM3+J0zLwQqTpSwwOLxdYdDedfc6OW3PmzQo4BmURl7nuHaZgM/w5ebm7FlQig1dTkTVMkCT+Z1KxdvrQD9FyjRbfpQA7i+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pkDA4wifgGHfZJ0jQ10pi88jMmITbaAAEt078Ch21Lg=;
+ b=RZV+Dh01XZdyLlpUhYnsKf9ufNsx34xDO8m/2C6C0FiwForVetsbYB5K56/fU+A4kfTSymwTXxdyCjimi+x9coDGOck+vghdv9+U15AgjFWmZu97yjgGct3TBun3bVOkCAINrw/SxHrcKo0YSaV9qMY3A0ywu3pUGeTuyB0FzN/M6waubZ5f8QGif6PVANGDVTOcdlXr69znpz9FotoN8zPWeMyiPINnXGPbttOL6nPIVDrm2SCr12byNxIW6vFiNsoNgTwai+vaP64KL/APnBe4CbGeyo7Rznc9OCVjMr6+UGYtwXz0mvQthfAuiCNbDOvGJ9HaE4YAYZy8yPPCbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pkDA4wifgGHfZJ0jQ10pi88jMmITbaAAEt078Ch21Lg=;
+ b=g9pZ8ooJIOqqczohQQmwjM09I4lOhVwIG5GClLNj/qD+Y6XwixrpdDBrXJBmrkEfZf/omQGfP5wCIbiQYRJem/E8G21xu5OenXCOUQf92c7h164yY1FMIFOID9fTFUlqRzfNrKLlaNUNbHdxrPHr84HMY8yVF79IKgizRKCfAyM=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5466.eurprd08.prod.outlook.com (52.133.242.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.15; Thu, 26 Sep 2019 14:13:45 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2284.023; Thu, 26 Sep 2019
+ 14:13:45 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH 19/22] iotests: Use self.image_len in TestRepairQuorum
+Thread-Topic: [PATCH 19/22] iotests: Use self.image_len in TestRepairQuorum
+Thread-Index: AQHVb84YpwYV+MD+RU64z+o6LExA/Kc+CZkA
+Date: Thu, 26 Sep 2019 14:13:45 +0000
+Message-ID: <18a0f40d-7253-58a1-21e6-fb5a466f7e11@virtuozzo.com>
+References: <20190920152804.12875-1-mreitz@redhat.com>
+ <20190920152804.12875-20-mreitz@redhat.com>
+In-Reply-To: <20190920152804.12875-20-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P191CA0019.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::29)
+ To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190926171344070
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bae02021-7da3-4070-c432-08d7428bbe4e
+x-ms-traffictypediagnostic: DB8PR08MB5466:
+x-microsoft-antispam-prvs: <DB8PR08MB54667A8F419BD5EEABA30690C1860@DB8PR08MB5466.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2150;
+x-forefront-prvs: 0172F0EF77
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(376002)(136003)(346002)(39850400004)(396003)(189003)(199004)(31696002)(6506007)(486006)(256004)(76176011)(2501003)(14444005)(6486002)(478600001)(14454004)(6436002)(2616005)(31686004)(476003)(99286004)(71200400001)(66446008)(66556008)(7736002)(5660300002)(305945005)(102836004)(66946007)(386003)(64756008)(66476007)(25786009)(52116002)(2906002)(26005)(4326008)(446003)(36756003)(66066001)(71190400001)(186003)(11346002)(6512007)(54906003)(6246003)(229853002)(316002)(110136005)(6116002)(3846002)(81166006)(81156014)(8676002)(8936002)(86362001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5466;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YfZm7DtL91PmXzXitFYWZS0iWySe0igSLPRp17EEbnM4mDRp08Cz3AlGKpQyO42KIG3A0UxQH7SfB+A1uf9ijystbROsMxx2D9xr4QRu3/yloj1kT5faJu5mpoidboug5RYRYlFbG4KwRhRPIfv4EzY+mgZ/xd9GFPrITefXAg2um3CS19wSxzf5eGnDOoLbifLNFE08meV3K8SEulLsVj7R0xne/wgA8Yyz6JTo659OGAX9x+RBYRCJI4ZQJQl5e7AHiD64le0yfNo/7LyC6IwOFvR0/Og48m2fiMGsEm15RRgYus00UTMrHqV/VrRZ+tbuqe+QrQ3vRlp+FaSY41rle/kXd4/gn3AL0y9DnRUdgh5EYE6w+8AZgT8iF5w4bBZGIbNJoio2mXsXRrMJYhNltCWobL6aO6RZ6Z5O/Io=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D49791D70DB3FB42A19AF0200A148F53@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 15835782191209421286
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeggdeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.165.38
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bae02021-7da3-4070-c432-08d7428bbe4e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2019 14:13:45.8765 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: psGuKazXTwWDPmU/zX0EaukfE7K7QDCKDCHL8rmrfy2pIjOztfmL6ZVUsPzJyZsRejBDn6xzyXaNmzLT5NY2fiNo4GfYyEhBe5GjHGHjveI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5466
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.14.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,266 +109,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Sep 2019 16:45:34 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> This method is used to set up the interrupt backends for the current
-> configuration.  However, this means some confusing redirection between
-> the "dual" mode init and the init hooks for xics only and xive only modes.
-> 
-> Since we now have simple flags indicating whether XICS and/or XIVE are
-> supported, it's easier to just open code each initialization directly in
-> spapr_irq_init().  This will also make some future cleanups simpler.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/ppc/spapr_irq.c          | 138 ++++++++++++++++--------------------
->  include/hw/ppc/spapr_irq.h  |   1 -
->  include/hw/ppc/xics_spapr.h |   1 +
->  3 files changed, 63 insertions(+), 77 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 073f375ba2..62647dd5a3 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -91,27 +91,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spapr,
->  /*
->   * XICS IRQ backend.
->   */
-> -
-> -static void spapr_irq_init_xics(SpaprMachineState *spapr, Error **errp)
-> -{
-> -    Object *obj;
-> -    Error *local_err = NULL;
-> -
-> -    obj = object_new(TYPE_ICS_SPAPR);
-> -    object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
-> -    object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-> -                                   &error_fatal);
-> -    object_property_set_int(obj, spapr->irq->nr_xirqs,
-> -                            "nr-irqs",  &error_fatal);
-> -    object_property_set_bool(obj, true, "realized", &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> -
-> -    spapr->ics = ICS_SPAPR(obj);
-> -}
-> -
->  static void spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool lsi,
->                                   Error **errp)
->  {
-> @@ -212,7 +191,6 @@ SpaprIrq spapr_irq_xics = {
->      .xics        = true,
->      .xive        = false,
->  
-> -    .init        = spapr_irq_init_xics,
->      .claim       = spapr_irq_claim_xics,
->      .free        = spapr_irq_free_xics,
->      .print_info  = spapr_irq_print_info_xics,
-> @@ -227,37 +205,6 @@ SpaprIrq spapr_irq_xics = {
->  /*
->   * XIVE IRQ backend.
->   */
-> -static void spapr_irq_init_xive(SpaprMachineState *spapr, Error **errp)
-> -{
-> -    uint32_t nr_servers = spapr_max_server_number(spapr);
-> -    DeviceState *dev;
-> -    int i;
-> -
-> -    dev = qdev_create(NULL, TYPE_SPAPR_XIVE);
-> -    qdev_prop_set_uint32(dev, "nr-irqs",
-> -                         spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-> -    /*
-> -     * 8 XIVE END structures per CPU. One for each available priority
-> -     */
-> -    qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> -    qdev_init_nofail(dev);
-> -
-> -    spapr->xive = SPAPR_XIVE(dev);
-> -
-> -    /* Enable the CPU IPIs */
-> -    for (i = 0; i < nr_servers; ++i) {
-> -        Error *local_err = NULL;
-> -
-> -        spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false, &local_err);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -            return;
-> -        }
-> -    }
-> -
-> -    spapr_xive_hcall_init(spapr);
-> -}
-> -
->  static void spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool lsi,
->                                   Error **errp)
->  {
-> @@ -361,7 +308,6 @@ SpaprIrq spapr_irq_xive = {
->      .xics        = false,
->      .xive        = true,
->  
-> -    .init        = spapr_irq_init_xive,
->      .claim       = spapr_irq_claim_xive,
->      .free        = spapr_irq_free_xive,
->      .print_info  = spapr_irq_print_info_xive,
-> @@ -392,23 +338,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState *spapr)
->          &spapr_irq_xive : &spapr_irq_xics;
->  }
->  
-> -static void spapr_irq_init_dual(SpaprMachineState *spapr, Error **errp)
-> -{
-> -    Error *local_err = NULL;
-> -
-> -    spapr_irq_xics.init(spapr, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> -
-> -    spapr_irq_xive.init(spapr, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> -}
-> -
->  static void spapr_irq_claim_dual(SpaprMachineState *spapr, int irq, bool lsi,
->                                   Error **errp)
->  {
-> @@ -520,7 +449,6 @@ SpaprIrq spapr_irq_dual = {
->      .xics        = true,
->      .xive        = true,
->  
-> -    .init        = spapr_irq_init_dual,
->      .claim       = spapr_irq_claim_dual,
->      .free        = spapr_irq_free_dual,
->      .print_info  = spapr_irq_print_info_dual,
-> @@ -608,8 +536,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->  
->      spapr_irq_check(spapr, &local_err);
->      if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> +        goto out;
->      }
->  
->      /* Initialize the MSI IRQ allocator. */
-> @@ -617,10 +544,70 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->          spapr_irq_msi_init(spapr, spapr->irq->nr_msis);
->      }
->  
-> -    spapr->irq->init(spapr, errp);
-> +    if (spapr->irq->xics) {
-> +        Object *obj;
-> +
-> +        obj = object_new(TYPE_ICS_SPAPR);
-> +        object_property_add_child(OBJECT(spapr), "ics", obj, &local_err);
-> +        if (local_err) {
-> +            goto out;
-> +        }
-> +
-> +        object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-> +                                       &local_err);
-> +        if (local_err) {
-> +            goto out;
-> +        }
-> +
-> +        object_property_set_int(obj, spapr->irq->nr_xirqs, "nr-irqs",
-> +                                &local_err);
-> +        if (local_err) {
-> +            goto out;
-> +        }
-> +
-> +        object_property_set_bool(obj, true, "realized", &local_err);
-> +        if (local_err) {
-> +            goto out;
-> +        }
-> +
-> +        spapr->ics = ICS_SPAPR(obj);
-> +    }
-> +
-> +    if (spapr->irq->xive) {
-> +        uint32_t nr_servers = spapr_max_server_number(spapr);
-> +        DeviceState *dev;
-> +        int i;
-> +
-> +        dev = qdev_create(NULL, TYPE_SPAPR_XIVE);
-> +        qdev_prop_set_uint32(dev, "nr-irqs",
-> +                             spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-> +        /*
-> +         * 8 XIVE END structures per CPU. One for each available
-> +         * priority
-> +         */
-> +        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> +        qdev_init_nofail(dev);
-> +
-> +        spapr->xive = SPAPR_XIVE(dev);
-> +
-> +        /* Enable the CPU IPIs */
-> +        for (i = 0; i < nr_servers; ++i) {
-> +            Error *local_err = NULL;
-> +
-> +            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false, &local_err);
-> +            if (local_err) {
-> +                goto out;
-> +            }
-> +        }
-> +
-> +        spapr_xive_hcall_init(spapr);
-> +    }
->  
->      spapr->qirqs = qemu_allocate_irqs(spapr->irq->set_irq, spapr,
->                                        spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-> +
-> +out:
-> +    error_propagate(errp, local_err);
->  }
->  
->  void spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error **errp)
-> @@ -757,7 +744,6 @@ SpaprIrq spapr_irq_xics_legacy = {
->      .xics        = true,
->      .xive        = false,
->  
-> -    .init        = spapr_irq_init_xics,
->      .claim       = spapr_irq_claim_xics,
->      .free        = spapr_irq_free_xics,
->      .print_info  = spapr_irq_print_info_xics,
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 6816cb0500..fa862c665b 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -42,7 +42,6 @@ typedef struct SpaprIrq {
->      bool        xics;
->      bool        xive;
->  
-> -    void (*init)(SpaprMachineState *spapr, Error **errp);
->      void (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **errp);
->      void (*free)(SpaprMachineState *spapr, int irq);
->      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
-> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> index 691a6d00f7..267984a97b 100644
-> --- a/include/hw/ppc/xics_spapr.h
-> +++ b/include/hw/ppc/xics_spapr.h
-> @@ -34,6 +34,7 @@
->  #define TYPE_ICS_SPAPR "ics-spapr"
->  #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
->  
-> +void ics_spapr_create(SpaprMachineState *spapr, int nr_xirqs, Error **errp);
->  void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
->                     uint32_t phandle);
->  int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
-
+MjAuMDkuMjAxOSAxODoyOCwgTWF4IFJlaXR6IHdyb3RlOg0KPiAwNDEncyBUZXN0UmVwYWlyUXVv
+cnVtIGhhcyBpdHMgb3duIGltYWdlX2xlbiwgbm8gbmVlZCB0byByZWZlciB0bw0KPiBUZXN0U2lu
+Z2xlRHJpdmUuICAoVGhpcyBwYXRjaCBhbGxvd3MgdW5jb21tZW50aW5nIFRlc3RTaW5nbGVEcml2
+ZSB0bw0KDQp5b3UgbWVhbiBjb21tZW50aW5nDQoNCj4gc3BlZWQgdXAgMDQxIGR1cmluZyB0ZXN0
+IHRlc3RpbmcuKQ0KDQp3ZSBkZWZpbml0ZWx5IHdhbnQgYSB3YXkgdG8gcnVuIGEgc3Vic2V0IG9m
+IHRlc3QgY2FzZXMuDQoNCkkgdXN1YWxseSBkbyBzL2RlZiB0ZXN0L2RlZiBudGVzdC8sIGFuZCB0
+aGVuIHNldCBuZWVkZWQgdGVzdC1jYXNlIGJhY2sgdG8NCidkZWYgdGVzdCcNCg0KPiANCj4gU2ln
+bmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgdGVz
+dHMvcWVtdS1pb3Rlc3RzLzA0MSB8IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90ZXN0cy9xZW11LWlvdGVz
+dHMvMDQxIGIvdGVzdHMvcWVtdS1pb3Rlc3RzLzA0MQ0KPiBpbmRleCBjYTEyNmRlM2ZmLi4yMGFl
+OTc1MGI3IDEwMDc1NQ0KPiAtLS0gYS90ZXN0cy9xZW11LWlvdGVzdHMvMDQxDQo+ICsrKyBiL3Rl
+c3RzL3FlbXUtaW90ZXN0cy8wNDENCj4gQEAgLTg4MCw3ICs4ODAsNyBAQCBjbGFzcyBUZXN0UmVw
+YWlyUXVvcnVtKGlvdGVzdHMuUU1QVGVzdENhc2UpOg0KPiAgICAgICAgICAgIyBBZGQgZWFjaCBp
+bmRpdmlkdWFsIHF1b3J1bSBpbWFnZXMNCj4gICAgICAgICAgIGZvciBpIGluIHNlbGYuSU1BR0VT
+Og0KPiAgICAgICAgICAgICAgIHFlbXVfaW1nKCdjcmVhdGUnLCAnLWYnLCBpb3Rlc3RzLmltZ2Zt
+dCwgaSwNCj4gLSAgICAgICAgICAgICAgICAgICAgIHN0cihUZXN0U2luZ2xlRHJpdmUuaW1hZ2Vf
+bGVuKSkNCj4gKyAgICAgICAgICAgICAgICAgICAgIHN0cihzZWxmLmltYWdlX2xlbikpDQoNCnll
+cywgc2VlbXMgVGVzdFNpbmdsZURyaXZlLmltYWdlX2xlbiBpcyBhIGNvcHktcGFzdGluZyBtaXN0
+YWtlIGhlcmUuLg0KDQo+ICAgICAgICAgICAgICAgIyBBc3NpZ24gYSBub2RlIG5hbWUgdG8gZWFj
+aCBxdW9ydW0gaW1hZ2UgaW4gb3JkZXIgdG8gbWFuaXB1bGF0ZQ0KPiAgICAgICAgICAgICAgICMg
+dGhlbQ0KPiAgICAgICAgICAgICAgIG9wdHMgPSAibm9kZS1uYW1lPWltZyVpIiAlIHNlbGYuSU1B
+R0VTLmluZGV4KGkpDQo+IA0KDQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dp
+ZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQoNCi0tIA0KQmVzdCByZWdhcmRzLA0K
+VmxhZGltaXINCg==
 
