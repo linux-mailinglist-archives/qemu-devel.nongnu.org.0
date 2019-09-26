@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA0BBECE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 09:55:35 +0200 (CEST)
-Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7076ABECE1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 09:52:01 +0200 (CEST)
+Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDOcf-00029z-T8
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 03:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35978)
+	id 1iDOZE-0007dJ-Cj
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 03:52:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDOZ8-0007qg-UA
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:55 -0400
+ (envelope-from <groug@kaod.org>) id 1iDOYH-0006jX-I1
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDOZ5-00075M-KP
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:52 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41805)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDOZ4-00071E-Lr
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:51 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w17so1262659oiw.8
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 00:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=piBZm6c0B9OHu39h13g/t4GeewKYhac1BqjPaJCknOw=;
- b=UnbxwicJoCt+RX4tEOGBppHUBGSAJRNXpyj3gWj0oaK7EJcKfTSgqmlfn8uLsLbNgq
- jRORyjsOZBBG0kxWeg17GL/0CfiWml7dh6C6mwpwaYH4TvD/SOvnNqBpz1RkGZTwZBBm
- ZskEap5x9+crxkENXwueR/hsNRKZyQ9pCRaqzgtAJwGEyazYf4JWU+H2yLOTxbIUaUrF
- dZFg7hcRd2/8WuULWy7WORvj58P1O47BFxoMt7IeRx1S8hhQEd0x5q+Nz5Ww/H5vID/7
- Am7bdhL11kJCunGI2jduLzBnuiT8o1pE1bgxvapi/jNUZsbgKvW/ACtquUKlQT3GQKjg
- k/dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=piBZm6c0B9OHu39h13g/t4GeewKYhac1BqjPaJCknOw=;
- b=QVd7TzgP96o3RzCylfagplpJ57tlr02qzVP46VB3UNVNt8av3+HOQ5xylEfHmg9ccg
- J/++jIp1e8YMS4me6sY7cGLfikMBHCiHNJIkbtAaT4yOJ/Op4yS7Bf3oywmJWex0O2az
- EZTC8mBprKNWXhCnlJC7Wz/FxVNhP11eFBvSXcYJCOKYY1Q36RyXZdj39oSdaJGxCq/R
- G03K4U87wlmyMHH3NAxjy5+63mbVp2oBYAd23UmOjBixkn9d5djoabGt7MyOn2+OrmXd
- ayx9ax1PGcMGVqSzrY1iswo0HJiBnCNwAdy/iFMXUMg3znAXR1zl8oykUncx1MNU9NOy
- SR0Q==
-X-Gm-Message-State: APjAAAUIYrv7LeKxQ+aeMJIGKzMZh9twilcPw9xiekxuzq8pbllwL0H7
- GZzV9pM61glJpJp0ZxSAbjKs1YF0mUDpGhXieSJnsg==
-X-Google-Smtp-Source: APXvYqxbWijizyJrPpz2AKFW3LQQpjXFZqprBuEWlwQub8z9oY8l3hkBkTX0AgQnhmMosvxD2itTGADbuVM6MWGJ00k=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr1517628oib.48.1569484248796; 
- Thu, 26 Sep 2019 00:50:48 -0700 (PDT)
+ (envelope-from <groug@kaod.org>) id 1iDOYG-0006QG-J6
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:01 -0400
+Received: from 11.mo5.mail-out.ovh.net ([46.105.47.167]:58387)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDOYG-0006MD-E3
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 03:51:00 -0400
+Received: from player714.ha.ovh.net (unknown [10.109.159.248])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 9357A24F47D
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 09:50:54 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player714.ha.ovh.net (Postfix) with ESMTPSA id 3D7D8A2F1281;
+ Thu, 26 Sep 2019 07:50:43 +0000 (UTC)
+Date: Thu, 26 Sep 2019 09:50:42 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 14/20] spapr: Remove unhelpful tracepoints from
+ spapr_irq_free_xics()
+Message-ID: <20190926095042.77084134@bahia.lan>
+In-Reply-To: <20190925064534.19155-15-david@gibson.dropbear.id.au>
+References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
+ <20190925064534.19155-15-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20190925233013.6449-1-alex.bennee@linaro.org>
-In-Reply-To: <20190925233013.6449-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Sep 2019 08:50:36 +0100
-Message-ID: <CAFEAcA9vb5_Mi_axWpu7269Zg0xMLbiiV80ofLeyDpfws3G4nQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 7916765198695307750
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeefgdduvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.196
+X-Received-From: 46.105.47.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,45 +57,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- qemu-discuss <qemu-discuss@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, qemu-ppc@nongnnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ clg@kaod.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Sep 2019 at 00:31, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The 32 bit hosts are already a second class citizen especially with
-> support for running 64 bit guests under TCG. We are also limited by
-> testing as actual working 32 bit machines are getting quite rare in
-> developers personal menageries. For TCG supporting newer types like
-> Int128 is a lot harder with 32 bit calling conventions compared to
-> their larger bit sized cousins. Fundamentally address space is the
-> most useful thing for the translator to have even for a 32 bit guest a
-> 32 bit host is quite constrained.
->
-> As far as I'm aware 32 bit KVM users are even less numerous. Even
-> ILP32 doesn't make much sense given the address space QEMU needs to
-> manage.
+On Wed, 25 Sep 2019 16:45:28 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-For KVM we should wait until the kernel chooses to drop support,
-I think.
+> These traces contain some useless information (the always-0 source#) and
+> have no equivalents for XIVE mode.  For now just remove them, and we can
+> put back something more sensible if and when we need it.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
 
-> @@ -745,19 +744,22 @@ case "$cpu" in
->    ;;
->    armv*b|armv*l|arm)
->      cpu=3D"arm"
-> -    supported_cpu=3D"yes"
->    ;;
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-I'll leave others to voice opinions about their architectures,
-but I still have 32-bit arm in my test set for builds, and
-I'm pretty sure we have users (raspi users, for a start).
+>  hw/ppc/spapr_irq.c  | 4 ----
+>  hw/ppc/trace-events | 4 ----
+>  2 files changed, 8 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index 79167ccc68..db6755f3ab 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -140,11 +140,7 @@ static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq, int num)
+>      int i;
+>  
+>      if (ics_valid_irq(ics, irq)) {
+> -        trace_spapr_irq_free(0, irq, num);
+>          for (i = srcno; i < srcno + num; ++i) {
+> -            if (ics_irq_free(ics, i)) {
+> -                trace_spapr_irq_free_warn(0, i);
+> -            }
+>              memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
+>          }
+>      }
+> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+> index 96dad767a1..9ea620f23c 100644
+> --- a/hw/ppc/trace-events
+> +++ b/hw/ppc/trace-events
+> @@ -13,10 +13,6 @@ spapr_pci_msi_retry(unsigned config_addr, unsigned req_num, unsigned max_irqs) "
+>  spapr_cas_failed(unsigned long n) "DT diff buffer is too small: %ld bytes"
+>  spapr_cas_continue(unsigned long n) "Copy changes to the guest: %ld bytes"
+>  
+> -# spapr_irq.c
+> -spapr_irq_free(int src, int irq, int num) "Source#%d, first irq %d, %d irqs"
+> -spapr_irq_free_warn(int src, int irq) "Source#%d, irq %d is already free"
+> -
+>  # spapr_hcall.c
+>  spapr_cas_pvr(uint32_t cur_pvr, bool explicit_match, uint32_t new_pvr) "current=0x%x, explicit_match=%u, new=0x%x"
+>  spapr_h_resize_hpt_prepare(uint64_t flags, uint64_t shift) "flags=0x%"PRIx64", shift=%"PRIu64
 
-
-thanks
--- PMM
 
