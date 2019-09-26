@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31A5BEF70
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:19:55 +0200 (CEST)
-Received: from localhost ([::1]:33322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC763BEF6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 12:19:51 +0200 (CEST)
+Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDQsM-0005x3-0i
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
+	id 1iDQsF-0005uj-KK
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 06:19:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDQpE-0004GG-Jp
+ (envelope-from <david@redhat.com>) id 1iDQpE-0004GL-I0
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDQpA-0007fK-VZ
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52850)
+ (envelope-from <david@redhat.com>) id 1iDQpD-0007ga-6B
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 06:16:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52874)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDQpA-0007eG-Q9; Thu, 26 Sep 2019 06:16:36 -0400
+ id 1iDQpD-0007g9-0k; Thu, 26 Sep 2019 06:16:39 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EA5BE316D76A;
- Thu, 26 Sep 2019 10:16:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 366E3301A3AE;
+ Thu, 26 Sep 2019 10:16:38 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-65.ams2.redhat.com [10.36.116.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1C2A60920;
- Thu, 26 Sep 2019 10:16:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BD2C60920;
+ Thu, 26 Sep 2019 10:16:36 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/5] s390x/mmu: Implement more facilities
-Date: Thu, 26 Sep 2019 12:16:22 +0200
-Message-Id: <20190926101627.23376-1-david@redhat.com>
+Subject: [PATCH v1 2/5] s390x/mmu: Implement ESOP-2 and
+ access-exception-fetch/store-indication facility
+Date: Thu, 26 Sep 2019 12:16:24 +0200
+Message-Id: <20190926101627.23376-3-david@redhat.com>
+In-Reply-To: <20190926101627.23376-1-david@redhat.com>
+References: <20190926101627.23376-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 26 Sep 2019 10:16:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 26 Sep 2019 10:16:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -55,60 +58,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
  David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the follow up of:
-    [PATCH-for-4.2 v1 0/9] s390x: MMU changes and extensions
-Without the general MMU rework. It's based on:
-    [PATCH v2 0/7] s390x/mmu: DAT translation rewrite
+We already implement ESOP-1. For ESOP-2, we only have to indicate all
+protection exceptions properly. Due to EDAT-1, we already indicate DAT
+exceptions properly. We don't trigger KCP/ALCP/IEP exceptions yet.
 
-This series adds adds EDAT2 MMU support, and implements/indicates related
-facilities (ESOP-1, ESOP-2, IEP, ...) for TCG. The QEMU CPU model is
-updated.
+So all we have to do is set the TEID (TEC) to the right values
+(bit 56, 60, 61) in case of LAP.
 
-IEP under QEMU TCG seems to work just fine, when eabling it via the "max"
-CPU model - via kvm unit tests:
-    t460s: ~/git/kvm-unit-tests master $ ./s390x-run s390x/iep.elf -cpu m=
-ax
-    [...]
-    PASS: iep: iep protection: Program interrupt: expected(4) =3D=3D rece=
-ived(4)
-    SUMMARY: 1 tests
+We don't have any side-effects (e.g., no guarded-storage facility),
+therefore, bit 64 of the TEID (TEC) is always 0.
 
-    EXIT: STATUS=3D1
+We always have to indicate whether it is a fetch or a store for all acces=
+s
+exceptions. This is only missing for LAP exceptions.
 
-Changes since "[PATCH-for-4.2 v1 0/9] s390x: MMU changes and extensions":
-- "s390x/mmu: Add EDAT2 translation support"
--- Fix vaddr offset within 2GB page
-- "s390x/mmu: Implement ESOP-2 and ..."
--- Squashed two patches as requested.
--- Also set ilen to "2" in case of MMU_INST_FETCH on mmu_translate_real
-- "s390x/mmu: Implement Instruction-Execution-Protection Facility"
--- Make sure s390_cpu_get_phys_page_debug() doesn't choke on IEP
-- "s390x/cpumodel: Add new TCG features to QEMU cpu model"
--- Add comment "features introduced after the z13"
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/mmu_helper.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-
-David Hildenbrand (5):
-  s390x/mmu: Add EDAT2 translation support
-  s390x/mmu: Implement ESOP-2 and
-    access-exception-fetch/store-indication facility
-  s390x/mmu: Implement Instruction-Execution-Protection Facility
-  s390x/cpumodel: Prepare for changes of QEMU model
-  s390x/cpumodel: Add new TCG features to QEMU cpu model
-
- hw/s390x/s390-virtio-ccw.c  |  2 ++
- target/s390x/cpu.h          |  1 +
- target/s390x/gen-features.c | 11 +++++++++-
- target/s390x/helper.c       |  6 +++++-
- target/s390x/mmu_helper.c   | 42 +++++++++++++++++++++++++++++++++++--
- 5 files changed, 58 insertions(+), 4 deletions(-)
-
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index 54f54137ec..8abc5d31d8 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -384,7 +384,9 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
+ddr, int rw, uint64_t asc,
+         *flags |=3D PAGE_WRITE_INV;
+         if (is_low_address(vaddr) && rw =3D=3D MMU_DATA_STORE) {
+             if (exc) {
+-                trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO,=
+ 0);
++                /* LAP sets bit 56 */
++                tec |=3D 0x80;
++                trigger_access_exception(env, PGM_PROTECTION, ilen, tec)=
+;
+             }
+             return -EACCES;
+         }
+@@ -540,6 +542,10 @@ void s390_cpu_virt_mem_handle_exc(S390CPU *cpu, uint=
+ptr_t ra)
+ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+                        target_ulong *addr, int *flags)
+ {
++    /* Code accesses have an undefined ilc, let's use 2 bytes. */
++    const int ilen =3D (rw =3D=3D MMU_INST_FETCH) ? 2 : ILEN_AUTO;
++    uint64_t tec =3D (raddr & TARGET_PAGE_MASK) |
++                   (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ);
+     const bool lowprot_enabled =3D env->cregs[0] & CR0_LOWPROT;
+=20
+     *flags =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+@@ -547,7 +553,9 @@ int mmu_translate_real(CPUS390XState *env, target_ulo=
+ng raddr, int rw,
+         /* see comment in mmu_translate() how this works */
+         *flags |=3D PAGE_WRITE_INV;
+         if (is_low_address(raddr) && rw =3D=3D MMU_DATA_STORE) {
+-            trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO, 0);
++            /* LAP sets bit 56 */
++            tec |=3D 0x80;
++            trigger_access_exception(env, PGM_PROTECTION, ilen, tec);
+             return -EACCES;
+         }
+     }
 --=20
 2.21.0
 
