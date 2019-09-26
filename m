@@ -2,45 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF847BF6D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:37:48 +0200 (CEST)
-Received: from localhost ([::1]:40790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D5DBF6C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 18:32:28 +0200 (CEST)
+Received: from localhost ([::1]:40694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDWm3-0003ML-9K
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40982)
+	id 1iDWgt-0004zU-5c
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 12:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qi1.zhang@intel.com>) id 1iDMoa-0002do-BI
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 01:59:45 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iDWS4-0007Vh-0X
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:17:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qi1.zhang@intel.com>) id 1iDMoX-0001d0-VL
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 01:59:42 -0400
-Received: from mga12.intel.com ([192.55.52.136]:6144)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qi1.zhang@intel.com>) id 1iDMoX-0001OC-NB
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 01:59:41 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2019 22:59:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,550,1559545200"; d="scan'208";a="189900932"
-Received: from a23004-02.sh.intel.com ([10.239.9.19])
- by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2019 22:59:31 -0700
-From: qi1.zhang@intel.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] intel_iommu: TM field should not be in reserved bits
-Date: Thu, 26 Sep 2019 13:49:22 +0800
-Message-Id: <20190926054922.21110-1-qi1.zhang@intel.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <alistair23@gmail.com>) id 1iDWS2-0005vC-Jm
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 12:17:07 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41364)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iDWS2-0005u2-Co; Thu, 26 Sep 2019 12:17:06 -0400
+Received: by mail-lj1-f194.google.com with SMTP id f5so2784669ljg.8;
+ Thu, 26 Sep 2019 09:17:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uqsguunlShpqJNqDpG6lT6Vkk/vUY2GxbBa3kyTdV2Q=;
+ b=l2pYd1AkoxmHr7LHM4VVfFpuHI0MY5Uv5wtL1RSWoNnWPKicoIU7khFPfKHu/0hs+4
+ cY05pyOOlCBsH+nACIq9802l+7N4pkXHL9EZPkByVdiIOi+z597Gq+BL1q3t8xyLmvuG
+ Xxp7GdQOflqcZE6qoUHTWbgGCDbnucRmXtyCFueYnZAM5cr/dUsGLLdIA+TvtJ4NocF6
+ T+Xk8bnuXUVR/5dMTDPRk9vnE1zMo/o4yhGtfa3co5fEPdiqw60oJhoYsVE/wxWSte80
+ 0m1Wtv1y4HMgtyQ9mfpgc9QRF2c9RIZU01q/9jiuZ0GMqI7mDc2m0PqoRJ7Ev6y7W0Ch
+ 1EyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uqsguunlShpqJNqDpG6lT6Vkk/vUY2GxbBa3kyTdV2Q=;
+ b=AWrmLH0Kyz1ZYkxlZE8syfJ+dKPgbiIidM20xvTXPj+Ry62ixZtoiWLYQyEzinHeZn
+ NPKZFNJj+diBwCxWvAVsprmKxetbZHyOwulPLu5Nk7Dc+oQzvU2hq69URuPl0wMaIN50
+ 2ltFJdy7WEV3LOcr0x9SiQac/3sPV6AA6/B5gjz7nwbhyshBorweMfR55OcYWIqUWu9U
+ F38NEyHlFfrCD5C1aaQ1z9ZKa/3rnCBqa0MqFXmtHPh4dq4MuqyFMpavF1BTkw1owhvX
+ USV3csdbWtv+XfH0OeY9fjFb11DQV0LAMXWaU/VeIAKOiCSRkoGyBT/5w3RhWD+3mqVd
+ klfw==
+X-Gm-Message-State: APjAAAW4HNmdbAWnL7FtSbkoDcJgm2lFeP/gIBfeSt2a0bhbAqwh9Hx4
+ B7fvMryCeOU3JRLGAr48GIMc3QdOzWCgylKkaLk=
+X-Google-Smtp-Source: APXvYqwkHW3JOaT++fWR+7HZQXosIMjUu9HNmt0jS9yHUo48urz3VedxfHaMj56jBuxlb9yiRCeqDKZxg5C4MPtRfP4=
+X-Received: by 2002:a2e:890c:: with SMTP id d12mr3249154lji.85.1569514563687; 
+ Thu, 26 Sep 2019 09:16:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.136
-X-Mailman-Approved-At: Thu, 26 Sep 2019 12:31:53 -0400
+References: <20190925233013.6449-1-alex.bennee@linaro.org>
+ <CAFEAcA9vb5_Mi_axWpu7269Zg0xMLbiiV80ofLeyDpfws3G4nQ@mail.gmail.com>
+ <20190926125817.GB19660@redhat.com>
+ <ea6b671a-0c05-d880-3b9f-62a4f8626ec1@de.ibm.com>
+ <19efe3ee-a532-cf66-a5a7-03a7c053737c@redhat.com> <87d0fn9ix8.fsf@linaro.org>
+In-Reply-To: <87d0fn9ix8.fsf@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 26 Sep 2019 09:11:17 -0700
+Message-ID: <CAKmqyKOSyhd5zv0hOa_THCX8g1fxN69NXWxCw0m+=TA+8h0Wug@mail.gmail.com>
+Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.208.194
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,42 +76,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qi1.zhang@intel.com, ehabkost@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Zhang, Qi" <qi1.zhang@intel.com>
+On Thu, Sep 26, 2019 at 8:41 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+>
+> Thomas Huth <thuth@redhat.com> writes:
+>
+> > On 26/09/2019 15.46, Christian Borntraeger wrote:
+> >>
+> >>
+> >> On 26.09.19 14:58, Daniel P. Berrang=C3=A9 wrote:
+> >>> On Thu, Sep 26, 2019 at 08:50:36AM +0100, Peter Maydell wrote:
+> >>>> On Thu, 26 Sep 2019 at 00:31, Alex Benn=C3=A9e <alex.bennee@linaro.o=
+rg> wrote:
+> >>>>>
+> >>>>> The 32 bit hosts are already a second class citizen especially with
+> >>>>> support for running 64 bit guests under TCG. We are also limited by
+> >>>>> testing as actual working 32 bit machines are getting quite rare in
+> >>>>> developers personal menageries. For TCG supporting newer types like
+> >>>>> Int128 is a lot harder with 32 bit calling conventions compared to
+> >>>>> their larger bit sized cousins. Fundamentally address space is the
+> >>>>> most useful thing for the translator to have even for a 32 bit gues=
+t a
+> >>>>> 32 bit host is quite constrained.
+> >>>>>
+> >>>>> As far as I'm aware 32 bit KVM users are even less numerous. Even
+> >>>>> ILP32 doesn't make much sense given the address space QEMU needs to
+> >>>>> manage.
+> >>>>
+> >>>> For KVM we should wait until the kernel chooses to drop support,
+> >>>> I think.
+> >>>
+> >>> What if the kernel is waiting for QEMU to drop support too ;-P
+> >>
+> >> For what its worth on kvm/s390 we never cared about implementing
+> >> 32 bit.
+> >
+> > Looking at tcg/s390/tcg-target.inc.c :
+> >
+> > ...
+> > /* We only support generating code for 64-bit mode.  */
+> > #if TCG_TARGET_REG_BITS !=3D 64
+> > #error "unsupported code generation mode"
+> > #endif
+> > ...
+> >
+> > ... it seems to me that TCG does not support 32-bit on s390 either. I
+> > think we can remove s390 (32-bit) from the list completely?
+>
+> It's the same for riscv32 I think.
 
-When dt is supported, TM field should not be Reserved(0).
+I think riscv32 host *should* work, although I don't think it was ever test=
+ed.
 
-Refer to VT-d Spec 9.8
+Considering that we have enough trouble keeping the riscv32 kernel
+booting it's probably ok to drop it from QEMU.
 
-Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
-Signed-off-by: Qi, Yadong <yadong.qi@intel.com>
----
- hw/i386/intel_iommu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Alistair
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index f1de8fdb75..2696ceeb9d 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3567,6 +3567,13 @@ static void vtd_init(IntelIOMMUState *s)
- 
-     if (x86_iommu->dt_supported) {
-         s->ecap |= VTD_ECAP_DT;
-+        vtd_paging_entry_rsvd_field[1] &= ~(1ULL << 62);
-+        vtd_paging_entry_rsvd_field[2] &= ~(1ULL << 62);
-+        vtd_paging_entry_rsvd_field[3] &= ~(1ULL << 62);
-+
-+        vtd_paging_entry_rsvd_field[5] &= ~(1ULL << 62);
-+        vtd_paging_entry_rsvd_field[6] &= ~(1ULL << 62);
-+        vtd_paging_entry_rsvd_field[7] &= ~(1ULL << 62);
-     }
- 
-     if (x86_iommu->pt_supported) {
--- 
-2.20.1
-
+>
+> >
+> >  Thomas
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
