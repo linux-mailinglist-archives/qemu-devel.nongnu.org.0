@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A43BF9C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:05:50 +0200 (CEST)
-Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B293BF9B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 21:00:38 +0200 (CEST)
+Received: from localhost ([::1]:42998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDZ5I-0006HZ-K5
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42222)
+	id 1iDZ0G-0000d8-Du
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 15:00:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42218)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYcc-00080r-Ei
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYcc-00080l-BG
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iDYca-0006aB-Pv
+ (envelope-from <alex.bennee@linaro.org>) id 1iDYca-0006Zi-Iz
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:10 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53207)
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55343)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iDYca-0006YG-6x
+ id 1iDYca-0006XP-3E
  for qemu-devel@nongnu.org; Thu, 26 Sep 2019 14:36:08 -0400
-Received: by mail-wm1-x329.google.com with SMTP id r19so3898139wmh.2
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:36:08 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id a6so3883032wma.5
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 11:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JQLOnxshFGL3OAqcNMrUvWbdHoJ5YAKAymtlNtOWkFE=;
- b=RKD2KLpKzZVFTnslherogIkd2ERCCG9oXG3mp7kl7Gd5O7oh4POdy5sZiyBRAoKxi2
- tZ0QEB1AEd4GjnjlGEC9+c558gYqznivIE2YTlmaP/VCAicB082Alp8YTqv6BSKSJ945
- S472a8xtEHQWz+67MSdN+gSI5fGMj0wfz9wBKvxUCZx0fO/f/gDKx88bz8duxlQyqIV6
- /4JMAGnUQeD3HJ4UuAbc/uN/JQjg8P+rBqSpBjPtrdDykHfIqE4/4HANmpjcGpRkShuY
- B/Qne2HAjmidmFiD8Dmcabl1Zu+jLTIma+MwaPx68eTVHPxKCS68BbNAFPKMeJZfaOLP
- MBRQ==
+ bh=qPbJ0Vyzpo4m5HrZGcWq1sJdvODZz8Jza37b7xYvbEE=;
+ b=RhyjzEvfbSGzBrwVuOhC3bNsPYl04wD+efnOjC+UBr2r8ZBWrIRqFFOV2ry+HGZTbC
+ fRJEwMA/IJFUYrKcG5lvIp394T/vIVhI0fMro6qHUUk+4gsz62kW5r66SdYOwOO+6609
+ LXefKrnrcBqO4qHzwPmbjtPkFcBX/jeng4bHfoUMABzxnSo3zkKmjH5Zazj6uuylOYxU
+ R8/IUxZpz3m292s/4ukpc51SgOmEiETjvrAkV8WfoQbekz1f7IgvlRdtlOYQ2UDuTyhe
+ xQNutj+A3DEfC5fN6r7SBe6evyPHEo4WamYTI8oJnuETjps0xd77g9Q7q/J8bOm1IDqn
+ f37A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JQLOnxshFGL3OAqcNMrUvWbdHoJ5YAKAymtlNtOWkFE=;
- b=YVoMB93eExE/B0fBpM8OVg/hq1YlkfUY8AQY0xVc3EdLWjYWNHJMu5NqF965TuFhaJ
- KKFMU9WXqX59zqo4M/zogUSUzT1yiM3VNtkcVw8YcSZn+5NB4qBA7h0ICyC0fuwdFdb2
- jgVszj4bhZj9LMY326uSRyQ0xZSwAvdjZBc1jU9LsfrtWMyGR3ITyrWIPrcW9QrBnBaQ
- tNzhjxyme6bsxOtg2EEMb/39h++Je/gt3XHn55kovX0Rx7e5cUOC2yFNagJT4QeENlGx
- Jlg9tRD6mPYqcsu3R3GyAhbXMMRc2OAEEXSA1uhTERa49pc5pdczWfKcVo+ca1kxDkuu
- joAA==
-X-Gm-Message-State: APjAAAW7T/BG3oBBwiiPk2GIUf8WnIB5l5rRNlTKPt4GBQ+Pnq53RQlj
- 3mVYabcvypMPowEw0UL23NV+7Q==
-X-Google-Smtp-Source: APXvYqyuymRYPV/H+A1BCGJdv2TDx9RiJawk7/2bN2ddE5r8274gItjVH4V4UJmuax/Ml6g3Qx36vg==
-X-Received: by 2002:a05:600c:2219:: with SMTP id
- z25mr3953203wml.109.1569522966899; 
+ bh=qPbJ0Vyzpo4m5HrZGcWq1sJdvODZz8Jza37b7xYvbEE=;
+ b=ZLr1OuEMTbY+KmHRw0fp/AlRWn7Th/+6if+G2PhcGmUHrT5H47EW7u8uUrP8wv/+il
+ ObsFjeMs1jO2KRM2HXd3ojVEoRNBDGe6pyqlDD/enEBRCom4IZNhWoqYJc4XzpQOREBq
+ tiTGUhy5HNqD2NFg7l61Y5rUEFWL5f9whtr9KOR95T+ceobJgTyFyZ3KuCtdg9uakmsp
+ HBcvYNvjhLxhk3ZmspYBTFCmsKahu9EluN0Xw2eZikb8HKFp8x0F0clqxI54/wKeik/G
+ k1MLTdX3DSjSesBwHEL+0FEyUp7ede5Z0Z/Of9tEX5llgQEblTU4aSF2Uv3uklSRbViH
+ Lh/Q==
+X-Gm-Message-State: APjAAAU4IYUvsC7JkvrI0alYezvH5Fv6k4Tvz7LjJPHO1GwHyBzJtFUi
+ 6eUCeObPKDCmJ5dI48rkHB8Pfg==
+X-Google-Smtp-Source: APXvYqzSRHyENBAgFfqMfVk7h4NMVzXExWAvCqXwMSDx3JJ34GjZ/hnLhQw4sIurl8sS/OH/Rvj4yA==
+X-Received: by 2002:a05:600c:c2:: with SMTP id u2mr3873832wmm.37.1569522966349; 
  Thu, 26 Sep 2019 11:36:06 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k9sm132257wrd.7.2019.09.26.11.35.57
+ by smtp.gmail.com with ESMTPSA id h63sm5689480wmf.15.2019.09.26.11.35.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 11:36:00 -0700 (PDT)
+ Thu, 26 Sep 2019 11:36:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3CF451FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 6C0B51FF9E;
  Thu, 26 Sep 2019 19:35:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/28] tests/docker: reduce scary warnings by cleaning up clean
- up
-Date: Thu, 26 Sep 2019 19:35:37 +0100
-Message-Id: <20190926183553.13895-13-alex.bennee@linaro.org>
+Subject: [PULL 14/28] tests/tcg: clean-up some comments after the de-tangling
+Date: Thu, 26 Sep 2019 19:35:39 +0100
+Message-Id: <20190926183553.13895-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
 References: <20190926183553.13895-1-alex.bennee@linaro.org>
@@ -71,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,92 +81,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There was in the clean-up code caused by attempting to inspect images
-which finished before we got there. Clean up the clean up code by:
-
-  - only track the one instance at a time
-  - use --filter for docker ps instead of doing it by hand
-  - just call docker rm -f to be done with it
-  - use uuid.uuid4() for a random uid
+These were missed in the recent de-tangling so have been updated to be
+more actuate. I've also built up ARM_TESTS in a manner similar to
+AARCH64_TESTS for better consistency.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 29613afd48..3112892fdf 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -215,7 +215,7 @@ class Docker(object):
-     """ Running Docker commands """
-     def __init__(self):
-         self._command = _guess_engine_command()
--        self._instances = []
-+        self._instance = None
-         atexit.register(self._kill_instances)
-         signal.signal(signal.SIGTERM, self._kill_instances)
-         signal.signal(signal.SIGHUP, self._kill_instances)
-@@ -234,21 +234,19 @@ class Docker(object):
-         cmd = ["ps", "-q"]
-         if not only_active:
-             cmd.append("-a")
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 8808beaf74..679eb56bd3 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -74,8 +74,11 @@ TIMEOUT=15
+ endif
+ 
+ ifdef CONFIG_USER_ONLY
+-# The order we include is important. We include multiarch, base arch
+-# and finally arch if it's not the same as base arch.
++# The order we include is important. We include multiarch first and
++# then the target. If there are common tests shared between
++# sub-targets (e.g. ARM & AArch64) then it is up to
++# $(TARGET_NAME)/Makefile.target to include the common parent
++# architecture in its VPATH.
+ -include $(SRC_PATH)/tests/tcg/multiarch/Makefile.target
+ -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.target
+ 
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index e763dd9da3..9758f89f90 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -8,7 +8,7 @@ VPATH 		+= $(ARM_SRC)
+ AARCH64_SRC=$(SRC_PATH)/tests/tcg/aarch64
+ VPATH 		+= $(AARCH64_SRC)
+ 
+-# we don't build any other ARM test
++# Float-convert Tests
+ AARCH64_TESTS=fcvt
+ 
+ fcvt: LDFLAGS+=-lm
+@@ -17,6 +17,7 @@ run-fcvt: fcvt
+ 	$(call run-test,$<,$(QEMU) $<, "$< on $(TARGET_NAME)")
+ 	$(call diff-out,$<,$(AARCH64_SRC)/fcvt.ref)
+ 
++# Pauth Tests
+ AARCH64_TESTS += pauth-1 pauth-2
+ run-pauth-%: QEMU_OPTS += -cpu max
+ 
+diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
+index aa4e4e3782..7347d3d0ad 100644
+--- a/tests/tcg/arm/Makefile.target
++++ b/tests/tcg/arm/Makefile.target
+@@ -8,25 +8,26 @@ ARM_SRC=$(SRC_PATH)/tests/tcg/arm
+ # Set search path for all sources
+ VPATH 		+= $(ARM_SRC)
+ 
+-ARM_TESTS=hello-arm test-arm-iwmmxt
+-
+-TESTS += $(ARM_TESTS) fcvt
+-
++# Basic Hello World
++ARM_TESTS = hello-arm
+ hello-arm: CFLAGS+=-marm -ffreestanding
+ hello-arm: LDFLAGS+=-nostdlib
+ 
++# IWMXT floating point extensions
++ARM_TESTS += test-arm-iwmmxt
+ test-arm-iwmmxt: CFLAGS+=-marm -march=iwmmxt -mabi=aapcs -mfpu=fpv4-sp-d16
+ test-arm-iwmmxt: test-arm-iwmmxt.S
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+-ifeq ($(TARGET_NAME), arm)
++# Float-convert Tests
++ARM_TESTS += fcvt
+ fcvt: LDFLAGS+=-lm
+ # fcvt: CFLAGS+=-march=armv8.2-a+fp16 -mfpu=neon-fp-armv8
+-
+ run-fcvt: fcvt
+ 	$(call run-test,fcvt,$(QEMU) $<,"$< on $(TARGET_NAME)")
+ 	$(call diff-out,fcvt,$(ARM_SRC)/fcvt.ref)
+-endif
 +
-+        filter = "--filter=label=com.qemu.instance.uuid"
-+        if only_known:
-+            if self._instance:
-+                filter += "=%s" % (self._instance)
-+            else:
-+                # no point trying to kill, we finished
-+                return
-+
-+        print("filter=%s" % (filter))
-+        cmd.append(filter)
-         for i in self._output(cmd).split():
--            resp = self._output(["inspect", i])
--            labels = json.loads(resp)[0]["Config"]["Labels"]
--            active = json.loads(resp)[0]["State"]["Running"]
--            if not labels:
--                continue
--            instance_uuid = labels.get("com.qemu.instance.uuid", None)
--            if not instance_uuid:
--                continue
--            if only_known and instance_uuid not in self._instances:
--                continue
--            print("Terminating", i)
--            if active:
--                self._do(["kill", i])
--            self._do(["rm", i])
-+            self._do(["rm", "-f", i])
++TESTS += $(ARM_TESTS)
  
-     def clean(self):
-         self._do_kill_instances(False, False)
-@@ -325,9 +323,9 @@ class Docker(object):
-         return checksum == _text_checksum(_dockerfile_preprocess(dockerfile))
- 
-     def run(self, cmd, keep, quiet, as_user=False):
--        label = uuid.uuid1().hex
-+        label = uuid.uuid4().hex
-         if not keep:
--            self._instances.append(label)
-+            self._instance = label
- 
-         if as_user:
-             uid = os.getuid()
-@@ -340,7 +338,7 @@ class Docker(object):
-                              "com.qemu.instance.uuid=" + label] + cmd,
-                              quiet=quiet)
-         if not keep:
--            self._instances.remove(label)
-+            self._instance = None
-         return ret
- 
-     def command(self, cmd, argv, quiet):
+ # On ARM Linux only supports 4k pages
+ EXTRA_RUNS+=run-test-mmap-4096
 -- 
 2.20.1
 
