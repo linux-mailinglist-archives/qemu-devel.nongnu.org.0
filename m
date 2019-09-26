@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D485BF7B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 19:40:54 +0200 (CEST)
-Received: from localhost ([::1]:41772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D61BF7CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 19:45:40 +0200 (CEST)
+Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDXl6-0007Pf-IE
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 13:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58863)
+	id 1iDXph-0003bK-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 13:45:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXgE-0004Q7-BR
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:51 -0400
+ id 1iDXgH-0004Th-D6
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXgC-0002rx-Vm
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:50 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36490)
+ id 1iDXgG-0002uJ-0N
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 13:35:53 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32772)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iDXgC-0002rP-OA; Thu, 26 Sep 2019 13:35:48 -0400
-Received: by mail-wr1-f65.google.com with SMTP id y19so3731578wrd.3;
- Thu, 26 Sep 2019 10:35:48 -0700 (PDT)
+ id 1iDXgF-0002tD-PG; Thu, 26 Sep 2019 13:35:51 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b9so3740735wrs.0;
+ Thu, 26 Sep 2019 10:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dVltp39xedbrgwUOXng2QOxtQsY5AQIYkr6iGsnYDUQ=;
- b=T3nW2W361fb7P5FZGKelLc273F0cI5MaxE/REmvYNSaMrzoFNlRHj3S1cNoZcF92c1
- mYhbUaqJFMbpz9DTf3ugarlinTeRjT+JgjGt3z4LEP1ff6nV3L4awGG5HiXXkrEvSwo2
- BXr4ISCsNNULgUqo6QsEL6WKtpmyGjP92O8oeuhAi0Qn63gr1e72pGXWCIIhmBIb3C1H
- RWbFA6oIteF8PYAKKKtf/rGXia7ASsrjOjm/v4Afzu1AN3KHfvw6Lw42Z5WLa02YNRE8
- PLJV6aW5o5YAio8C/iNuL9gz8kW9WODmnJtJ5BoNGPEP/6BHwyB3+LzeafQecjSuoaz/
- endg==
+ bh=dMBRiTpLuqyI3tuVBy2ZLm7Wzg1GaNHi9g5XPWVyXlc=;
+ b=Jmzr0cepOGPkBtav/ifREcbjSkztyj4oaLOjlFggGH84IjFxe/y9BRADm2t992Zbtp
+ +NeizxJcxR49MK4ex7iSxdoaOpm7vkRbbSh2zm1IjeBmBW/lNZZCQrpNX+aeEsey2mBP
+ XiTea//MnVQCeKZQz58jllVa2TyyFfnfNHAdvtlFYHzzY094lob4KdWRmuNEFIRc/dAp
+ IEbSsXmy9RjE7ZEUDcEUgSNkNyR+O5S6jJcl5JyQOpWVzROXv01o+E4LQFvvgt+kTUHm
+ +gZXiraEGRl1D/ykjZv+Up+ePPJPnHUpbCdUeE5JHW5mC/FrUnrvr0Hmw2l2D2Ib1VDM
+ CxIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dVltp39xedbrgwUOXng2QOxtQsY5AQIYkr6iGsnYDUQ=;
- b=gzr7Hf/yWX3bOBbRH8fI1uLu1dBnkRwgmiFjujZWVMSBDU53/Ht0NSJY7G2GZ1NRT1
- yLZvLhzvdobCHByRfGPs0hCmX02Tvo8JCD0qD4rRxoKxgGYcoLQpIRnCt8f0OYdM0uac
- e/3DfE7eLCR1NhzQu8hquLkfj3VV8FhafHSGq/HJ2a+MUIe2KZsHteik9blgyprGurMB
- E7XqzTAlL3CLQZS3X3DsQG1LwoooWSUEpUrxQGci1BB8MiCr9/3WKKPYwMlTFwlqn5WY
- oudpOsthO1LFk9UhThH8vnaeg8rQGtxlHJ/AelTWWg10f8CFRS4PnHcjLMXB9t2jcaPr
- ea1w==
-X-Gm-Message-State: APjAAAUA8PivrQspkxyjeU6OKRHpiZWqFf3IqcwS/+SNWcfJHR83CoEd
- dX2Fb5hzqgNRMEHVME1GE2EtBzoJLLg=
-X-Google-Smtp-Source: APXvYqxJMeRJndPfiMPXmJdb+S2LWH51uPBCOJlbrLtKCy6882NxelxmqSMpmRoQhYwX9ZIpg7R2fQ==
-X-Received: by 2002:adf:eb42:: with SMTP id u2mr3917973wrn.307.1569519287489; 
- Thu, 26 Sep 2019 10:34:47 -0700 (PDT)
+ bh=dMBRiTpLuqyI3tuVBy2ZLm7Wzg1GaNHi9g5XPWVyXlc=;
+ b=WojbChAH54DryaO3EwaJPmFTOHxcWa5mq7WSM6rgZji30R+D1EmdjtHPNgYn7JNc2y
+ 4mXbCGzAB53P5yB3PaX1US9MuzlWQrvzlNQ15CKCzg+FnaA7GiWAGlpVvLKmd7mU/dyj
+ 1GsfdpXjbq0nxhxoYHzMDExixjUgpRBz6iRlJEQEKgfsC7zlGqTqqskSzfBEmnN9qZ2l
+ AT60SmrqEmhZp716h7UYk8G3p3pMPTNS8dXjLWLLzeo/KcJuzOQkg9P6qc3nLZ/rLmrZ
+ T4Me/TD5Dvu5S9R+kFgSEMbf/Ze4skcILfGcYvDNycwu0X1waGHYQ/DlPx0G+0gq6/S5
+ 3/YQ==
+X-Gm-Message-State: APjAAAU4y8IKzf+ks3gGB1jVL3pAKyGvhUwMWhBLwAHvhXjDgbqi8rf6
+ PuXNITtxkzLDi2Abr9WcCepahkzsPNk=
+X-Google-Smtp-Source: APXvYqxeuWYYg9hX3pE803WJPHi40gPn283dlsa22r7adI30TKyVLYiJIztv6j7iQzBAvCQ2vhtBwg==
+X-Received: by 2002:adf:dc4b:: with SMTP id m11mr4217967wrj.269.1569519290674; 
+ Thu, 26 Sep 2019 10:34:50 -0700 (PDT)
 Received: from x1w.redhat.com (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id b186sm9918980wmd.16.2019.09.26.10.34.45
+ by smtp.gmail.com with ESMTPSA id b186sm9918980wmd.16.2019.09.26.10.34.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 10:34:46 -0700 (PDT)
+ Thu, 26 Sep 2019 10:34:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/19] hw/misc/bcm2835_mbox: Add trace events
-Date: Thu, 26 Sep 2019 19:34:15 +0200
-Message-Id: <20190926173428.10713-8-f4bug@amsat.org>
+Subject: [PATCH 09/19] hw/arm/bcm2835_peripherals: Use the thermal sensor block
+Date: Thu, 26 Sep 2019 19:34:17 +0200
+Message-Id: <20190926173428.10713-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190926173428.10713-1-f4bug@amsat.org>
 References: <20190926173428.10713-1-f4bug@amsat.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.65
+X-Received-From: 209.85.221.67
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,92 +98,78 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add trace events for read/write accesses and IRQ.
-
-Properties are structures used for the ARM particular MBOX.
-Since one call in bcm2835_property.c concerns the mbox block,
-name this trace event in the same bcm2835_mbox* namespace.
+Map the thermal sensor in the BCM2835 block.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/bcm2835_mbox.c     | 5 +++++
- hw/misc/bcm2835_property.c | 2 ++
- hw/misc/trace-events       | 6 ++++++
- 3 files changed, 13 insertions(+)
+ hw/arm/bcm2835_peripherals.c         | 13 +++++++++++++
+ include/hw/arm/bcm2835_peripherals.h |  2 ++
+ include/hw/arm/raspi_platform.h      |  1 +
+ 3 files changed, 16 insertions(+)
 
-diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
-index 77285624c9..77d2d80706 100644
---- a/hw/misc/bcm2835_mbox.c
-+++ b/hw/misc/bcm2835_mbox.c
-@@ -15,6 +15,7 @@
- #include "migration/vmstate.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "trace.h"
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index fdcf616c56..70bf927a02 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -111,6 +111,10 @@ static void bcm2835_peripherals_init(Object *obj)
+     object_property_add_const_link(OBJECT(&s->dma), "dma-mr",
+                                    OBJECT(&s->gpu_bus_mr), &error_abort);
  
- #define MAIL0_PEEK   0x90
- #define MAIL0_SENDER 0x94
-@@ -123,6 +124,7 @@ static void bcm2835_mbox_update(BCM2835MboxState *s)
-             set = true;
-         }
-     }
-+    trace_bcm2835_mbox_irq(set);
-     qemu_set_irq(s->arm_irq, set);
- }
- 
-@@ -178,8 +180,10 @@ static uint64_t bcm2835_mbox_read(void *opaque, hwaddr offset, unsigned size)
-     default:
-         qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx"\n",
-                       __func__, offset);
-+        trace_bcm2835_mbox_read(size, offset, res);
-         return 0;
-     }
-+    trace_bcm2835_mbox_read(size, offset, res);
- 
-     bcm2835_mbox_update(s);
- 
-@@ -195,6 +199,7 @@ static void bcm2835_mbox_write(void *opaque, hwaddr offset,
- 
-     offset &= 0xff;
- 
-+    trace_bcm2835_mbox_write(size, offset, value);
-     switch (offset) {
-     case MAIL0_SENDER:
-         break;
-diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-index 43a5465c5d..0eea2e20f7 100644
---- a/hw/misc/bcm2835_property.c
-+++ b/hw/misc/bcm2835_property.c
-@@ -13,6 +13,7 @@
- #include "sysemu/dma.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "trace.h"
- 
- /* https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface */
- 
-@@ -283,6 +284,7 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
-             break;
-         }
- 
-+        trace_bcm2835_mbox_property(tag, bufsize, resplen);
-         if (tag == 0) {
-             break;
-         }
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 74276225f8..1deb1d08c1 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -143,3 +143,9 @@ armsse_mhu_write(uint64_t offset, uint64_t data, unsigned size) "SSE-200 MHU wri
- 
- # aspeed_xdma.c
- aspeed_xdma_write(uint64_t offset, uint64_t data) "XDMA write: offset 0x%" PRIx64 " data 0x%" PRIx64
++    /* Thermal */
++    sysbus_init_child_obj(obj, "thermal", &s->thermal, sizeof(s->thermal),
++                          TYPE_BCM2835_THERMAL);
 +
-+# bcm2835_mbox.c
-+bcm2835_mbox_write(unsigned int size, uint64_t addr, uint64_t value) "mbox write sz:%u addr:0x%"PRIx64" data:0x%"PRIx64
-+bcm2835_mbox_read(unsigned int size, uint64_t addr, uint64_t value) "mbox read sz:%u addr:0x%"PRIx64" data:0x%"PRIx64
-+bcm2835_mbox_irq(unsigned level) "mbox irq:ARM level:%u"
-+bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "mbox property tag:0x%08x in_sz:%u out_sz:%zu"
+     /* GPIO */
+     sysbus_init_child_obj(obj, "gpio", &s->gpio, sizeof(s->gpio),
+                           TYPE_BCM2835_GPIO);
+@@ -321,6 +325,15 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+                                                   INTERRUPT_DMA0 + n));
+     }
+ 
++    /* THERMAL */
++    object_property_set_bool(OBJECT(&s->thermal), true, "realized", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++    memory_region_add_subregion(&s->peri_mr, THERMAL_OFFSET,
++                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->thermal), 0));
++
+     /* GPIO */
+     object_property_set_bool(OBJECT(&s->gpio), true, "realized", &err);
+     if (err) {
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+index 62a4c7b559..be7ad9b499 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -20,6 +20,7 @@
+ #include "hw/misc/bcm2835_property.h"
+ #include "hw/misc/bcm2835_rng.h"
+ #include "hw/misc/bcm2835_mbox.h"
++#include "hw/misc/bcm2835_thermal.h"
+ #include "hw/sd/sdhci.h"
+ #include "hw/sd/bcm2835_sdhost.h"
+ #include "hw/gpio/bcm2835_gpio.h"
+@@ -53,6 +54,7 @@ typedef struct BCM2835PeripheralState {
+     SDHCIState sdhci;
+     BCM2835SDHostState sdhost;
+     BCM2835GpioState gpio;
++    Bcm2835ThermalState thermal;
+     UnimplementedDeviceState i2s;
+     UnimplementedDeviceState spi[1];
+     UnimplementedDeviceState i2c[3];
+diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
+index cdcbca943f..61b04a1bd4 100644
+--- a/include/hw/arm/raspi_platform.h
++++ b/include/hw/arm/raspi_platform.h
+@@ -48,6 +48,7 @@
+ #define SPI0_OFFSET             0x204000
+ #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
+ #define OTP_OFFSET              0x20f000
++#define THERMAL_OFFSET          0x212000
+ #define BSC_SL_OFFSET           0x214000 /* SPI slave */
+ #define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
+ #define EMMC1_OFFSET            0x300000
 -- 
 2.20.1
 
