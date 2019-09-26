@@ -2,52 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05458BF645
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:54:26 +0200 (CEST)
-Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CF1BF64E
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 17:57:26 +0200 (CEST)
+Received: from localhost ([::1]:39920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDW63-0004IR-TI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56822)
+	id 1iDW8z-00009e-4H
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 11:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59236)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDVoJ-00059d-Cw
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:36:05 -0400
+ (envelope-from <philmd@redhat.com>) id 1iDVyi-0005fv-Tb
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:46:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDVoF-00041t-LD
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:36:01 -0400
-Received: from 3.mo173.mail-out.ovh.net ([46.105.34.1]:59732)
+ (envelope-from <philmd@redhat.com>) id 1iDVyg-00027A-GU
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:46:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25076
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDVoF-0003ve-FM
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:35:59 -0400
-Received: from player693.ha.ovh.net (unknown [10.109.146.50])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id AE2E811A8B2
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 17:35:53 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player693.ha.ovh.net (Postfix) with ESMTPSA id 28655A3FE141;
- Thu, 26 Sep 2019 15:35:41 +0000 (UTC)
-Date: Thu, 26 Sep 2019 17:35:39 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 20/20] spapr: Eliminate SpaprIrq::init hook
-Message-ID: <20190926173539.4a07d419@bahia.lan>
-In-Reply-To: <92ce15dd-f7f9-3d2b-4226-9693bd9cfd65@kaod.org>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-21-david@gibson.dropbear.id.au>
- <1b74c0fc-b318-df5a-d66d-fe59ae562d70@kaod.org>
- <20190926011336.GS17405@umbus>
- <92ce15dd-f7f9-3d2b-4226-9693bd9cfd65@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iDVyf-00025l-83
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 11:46:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1569512803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=p38RHuHiAhJzu1eXf58t+Tzf+ExjvrEimUGYhmagwlU=;
+ b=Cu2GyEQRhXSK+YVL2SDFgS68Pt3xBqUbT48fqJwz5mgefjYiEZeYYEDsVEmuf0GG6wqW4Y
+ x+uJuJMgTjXiXjkrGmLrNCmJFuUx2Omb5BJ4bI2VVC/f68QDCafiqLET+2/QexpeSsckYB
+ b1nY5ssiX0u+ypHSnFD2DHRphZV8wpM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-r-Ecg--AP-uHKbnOOcXZaA-1; Thu, 26 Sep 2019 11:46:40 -0400
+Received: by mail-wr1-f69.google.com with SMTP id j3so1112859wrn.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 08:46:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oY7yT3amDi6IeriWDluI3BY6J+7rlZ38FY/VaUOHlxM=;
+ b=jG4uC4Um8Kem1GceCOIQNkURR30fMO5sBQPjMYo6uxVOG4HFB1AE785Ne3k2f+81mI
+ CH/0fLs6zEbOiJ2qFnVbnYY3pZsxvuroV9Qw3ueBmhg8Mg6uTXYdfw1tX7SnRY5qV1jY
+ 0RNRFXmIti8R/6WWfzdsdEJoChJIIYN9W8oRlTL8SVWiBo2qkQTqytm6JDSQYlg3oX7M
+ jkgT02+z0RlM8z6AjvIK2+6Kq7I2ZtFiBmDDDOqWdB6DwHRSc5Jh1duRchAtfo8CIGGi
+ iE5zlFe/5NvvLYnfXDwcsSMre1FXiaIXUaXslvDJ4rgKsxlvIo6vTqBkYvn2ytbfmB+7
+ UZxA==
+X-Gm-Message-State: APjAAAXzc8X3cYCIUvUS8p7MQxFo7pyZbiWb0b2Yh69cjbxk4GuyUuci
+ HzdPiAAJ6e7pPs5HODbCA/9BLcFOd1I9DS+g5SUzviFw0FIdIxVNt9lFwgPUH1DxZ1IU/hob4F5
+ 3IjqUtblebc48NA0=
+X-Received: by 2002:a1c:9ecb:: with SMTP id h194mr3402612wme.35.1569512799784; 
+ Thu, 26 Sep 2019 08:46:39 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwhuUrGnI1fF8NdDMbOLGYW/BWEHAygRtuDJ0e3VwL2XSX6mGsk12XH8cpTtnp7OdJfLwZGDA==
+X-Received: by 2002:a1c:9ecb:: with SMTP id h194mr3402598wme.35.1569512799594; 
+ Thu, 26 Sep 2019 08:46:39 -0700 (PDT)
+Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id y12sm3382411wrn.74.2019.09.26.08.46.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Sep 2019 08:46:38 -0700 (PDT)
+Subject: Re: illegal hardware instruction during MIPS-I ELF linux useremulation
+To: Libo Zhou <zhlb29@foxmail.com>,
+ "Peter&#38;nbsp;Maydell" <peter.maydell@linaro.org>
+References: <tencent_5D6D8ED31E83C5675AB8AA3C@qq.com>
+ <c722d11e-e0ff-8a91-d8f3-ee0a31f1df33@redhat.com>
+ <tencent_7AB3CDCC529EAE38265539A9@qq.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <66b6b01d-f2b9-7715-982d-ae8106e40dc7@redhat.com>
+Date: Thu, 26 Sep 2019 17:46:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <tencent_7AB3CDCC529EAE38265539A9@qq.com>
+Content-Language: en-US
+X-MC-Unique: r-Ecg--AP-uHKbnOOcXZaA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 15769635571495049611
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeggdeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.34.1
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,136 +94,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Aleksandar&#38; nbsp;
+ Markovic" <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Sep 2019 09:05:56 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-
-> >>> +    if (spapr->irq->xive) {
-> >>> +        uint32_t nr_servers =3D spapr_max_server_number(spapr);
-> >>> +        DeviceState *dev;
-> >>> +        int i;
-> >>> +
-> >>> +        dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
-> >>> +        qdev_prop_set_uint32(dev, "nr-irqs",
-> >>> +                             spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-> >>> +        /*
-> >>> +         * 8 XIVE END structures per CPU. One for each available
-> >>> +         * priority
-> >>> +         */
-> >>> +        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> >>> +        qdev_init_nofail(dev);
-> >>> +
-> >>> +        spapr->xive =3D SPAPR_XIVE(dev);
-> >>> +
-> >>> +        /* Enable the CPU IPIs */
-> >>> +        for (i =3D 0; i < nr_servers; ++i) {
-> >>> +            Error *local_err =3D NULL;
-> >>> +
-> >>> +            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, fal=
-se, &local_err);
-> >>> +            if (local_err) {
-> >>> +                goto out;
-> >>> +            }
-> >>> +        }
-> >>
-> >> We could move the IPI claim part in the realize routine of SPAPR_XIVE.
-> >=20
-> > Yeah, I know.  I thought about this, but there's a slight complication
-> > in that the XIVE part doesn't know nr_servers directly.  There's
-> > several possible ways to handle that, but I wasn't 100% happy with any
-> > that I came up with yet.
+On 9/26/19 4:31 PM, Libo Zhou wrote:
+>> If you look at the mips_defs[] array in
+>> target/mips/translate_init.inc.c, the older ISA implemented is MIPS-II:
 >=20
-> The "nr-ends" property was inappropriate, "nr-servers" would have been
-> better and we would have hidden the calculation of ENDs 'nr_servers << 3'
-> in the realize routine of SpaprXive.=20
+>> $ git grep .insn_flags target/mips/translate_init.inc.c
+>> translate_init.inc.c:75:        .insn_flags =3D CPU_MIPS32,
+>> translate_init.inc.c:97:        .insn_flags =3D CPU_MIPS32 | ASE_MIPS16,
+>> translate_init.inc.c:117:        .insn_flags =3D CPU_MIPS32,
+>> translate_init.inc.c:137:        .insn_flags =3D CPU_MIPS32 | ASE_MIPS16=
+,
+>> translate_init.inc.c:158:        .insn_flags =3D CPU_MIPS32R2,
+>> translate_init.inc.c:179:        .insn_flags =3D CPU_MIPS32R2 | ASE_MIPS=
+16,
+>> translate_init.inc.c:201:        .insn_flags =3D CPU_MIPS32R2 | ASE_MIPS=
+16,
+>> translate_init.inc.c:223:        .insn_flags =3D CPU_MIPS32R2 | ASE_MIPS=
+16 | ASE_DSP,
+>> translate_init.inc.c:249:        .insn_flags =3D CPU_MIPS32R2 | ASE_MIPS=
+16,
+>> translate_init.inc.c:297:        .insn_flags =3D CPU_MIPS32R2 | ASE_MIPS=
+16 | ASE_DSP | ASE_MT,
+>> translate_init.inc.c:323:        .insn_flags =3D CPU_MIPS32R2 | ASE_MIPS=
+16 | ASE_DSP | ASE_DSP_R2,
+>> translate_init.inc.c:343:        .insn_flags =3D CPU_MIPS32R2 | ASE_MICR=
+OMIPS,
+>> translate_init.inc.c:364:        .insn_flags =3D CPU_MIPS32R2 | ASE_MICR=
+OMIPS,
+>> translate_init.inc.c:410:        .insn_flags =3D CPU_MIPS32R5 | ASE_MSA,
+>> translate_init.inc.c:449:        .insn_flags =3D CPU_MIPS32R6 | ASE_MICR=
+OMIPS,
+>> translate_init.inc.c:488:        .insn_flags =3D CPU_NANOMIPS32 | ASE_DS=
+P | ASE_DSP_R2 | ASE_DSP_R3 |
+>> translate_init.inc.c:511:        .insn_flags =3D CPU_MIPS3,
+>> translate_init.inc.c:531:        .insn_flags =3D CPU_VR54XX,
+>> translate_init.inc.c:552:        .insn_flags =3D CPU_MIPS64,
+>> translate_init.inc.c:578:        .insn_flags =3D CPU_MIPS64,
+>> translate_init.inc.c:607:        .insn_flags =3D CPU_MIPS64 | ASE_MIPS3D=
+,
+>> translate_init.inc.c:636:        .insn_flags =3D CPU_MIPS64R2 | ASE_MIPS=
+3D,
+>> translate_init.inc.c:657:        .insn_flags =3D CPU_MIPS64R2,
+>> translate_init.inc.c:681:        .insn_flags =3D CPU_MIPS64R2,
+>> translate_init.inc.c:721:        .insn_flags =3D CPU_MIPS64R6 | ASE_MSA,
+>> translate_init.inc.c:761:        .insn_flags =3D CPU_MIPS64R6 | ASE_MSA,
+>> translate_init.inc.c:781:        .insn_flags =3D CPU_LOONGSON2E,
+>> translate_init.inc.c:801:        .insn_flags =3D CPU_LOONGSON2F,
+>> translate_init.inc.c:830:        .insn_flags =3D CPU_MIPS64R2 | ASE_DSP =
+| ASE_DSP_R2,
 >=20
-
-Yeah it would make sense to have nr_servers within the sPAPR XIVE object,
-so that we don't have to pass it when building the FDT node. Same stands
-for XICS actually.
-
-And as part of my current work to reduce HW VP consumption, I also need
-nr_servers to pass it to the KVM device.
-
-> I don't think we can change that without breaking migration though :/
+>> So currently there is no MIPS-I only CPU.
+>> Note that the code got written with MIPS32 in mind, and implementing
+>> MIPS-I requires a considerable amount of change in the codebase.
 >=20
-
-Hmm... why ? The QOM property is just an interface, it doesn't change the
-state. In the end we migrate the same number of XiveEND objects.
-
-> C.
+> Hi Philippe,
 >=20
-> >>
-> >>> +        spapr_xive_hcall_init(spapr);
-> >>
-> >> This also.
-> >=20
-> > Right.
-> >=20
-> >> It can be done later one.
-> >=20
-> > That's my intention.
-> >=20
-> >>
-> >> C.
-> >>
-> >>> +    }
-> >>> =20
-> >>>      spapr->qirqs =3D qemu_allocate_irqs(spapr->irq->set_irq, spapr,
-> >>>                                        spapr->irq->nr_xirqs + SPAPR_X=
-IRQ_BASE);
-> >>> +
-> >>> +out:
-> >>> +    error_propagate(errp, local_err);
-> >>>  }
-> >>> =20
-> >>>  void spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Er=
-ror **errp)
-> >>> @@ -757,7 +744,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-> >>>      .xics        =3D true,
-> >>>      .xive        =3D false,
-> >>> =20
-> >>> -    .init        =3D spapr_irq_init_xics,
-> >>>      .claim       =3D spapr_irq_claim_xics,
-> >>>      .free        =3D spapr_irq_free_xics,
-> >>>      .print_info  =3D spapr_irq_print_info_xics,
-> >>> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> >>> index 6816cb0500..fa862c665b 100644
-> >>> --- a/include/hw/ppc/spapr_irq.h
-> >>> +++ b/include/hw/ppc/spapr_irq.h
-> >>> @@ -42,7 +42,6 @@ typedef struct SpaprIrq {
-> >>>      bool        xics;
-> >>>      bool        xive;
-> >>> =20
-> >>> -    void (*init)(SpaprMachineState *spapr, Error **errp);
-> >>>      void (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error=
- **errp);
-> >>>      void (*free)(SpaprMachineState *spapr, int irq);
-> >>>      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
-> >>> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> >>> index 691a6d00f7..267984a97b 100644
-> >>> --- a/include/hw/ppc/xics_spapr.h
-> >>> +++ b/include/hw/ppc/xics_spapr.h
-> >>> @@ -34,6 +34,7 @@
-> >>>  #define TYPE_ICS_SPAPR "ics-spapr"
-> >>>  #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-> >>> =20
-> >>> +void ics_spapr_create(SpaprMachineState *spapr, int nr_xirqs, Error =
-**errp);
-> >>>  void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, vo=
-id *fdt,
-> >>>                     uint32_t phandle);
-> >>>  int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
-> >>>
-> >>
-> >=20
+> I just figured out what the problem was. The custom compiler I used just =
+modified the opcode fields of sw and lw instructions of MIPS, so QEMU didn'=
+t recognize them out of the box.
+> I just added the support in decode_opc function in translate.c, and I als=
+o added my own CPU model in translate_init.inc.c. However, the illegal inst=
+ruction exception is still there.
 >=20
+> I am suspecting that the way I added my own CPU model in translate_init.i=
+nc.c is wrong. Below is what I added:
+> ...
+> +{
+> +    .name =3D "MyCPU",
+> +    .insn_flags =3D CPU_MIPS1 | INSN_MYCPU,
+> +},
+> ...
+> I just need to simulate it's instruction set in linux user emulation, I d=
+idn't include CP0* items in the list. Is this good enough to add a new CPU =
+model?
+
+Something like that might be acceptable for linux-user.
+You should at least set CP0_PRid/Config0/Status_mask.
+
+Look at this patch where Aleksandar accepted the R5900 CPU:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Ded4f49ba9bb56
+
+Can you share what is your CPU?
 
 
