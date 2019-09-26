@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D24BF1D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 13:36:20 +0200 (CEST)
-Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226CEBF1CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Sep 2019 13:36:12 +0200 (CEST)
+Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDS4J-0001Va-Kx
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 07:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
+	id 1iDS49-0001H5-J3
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 07:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imbrenda@linux.ibm.com>) id 1iDS2D-0007xO-UT
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 07:34:11 -0400
+ (envelope-from <imbrenda@linux.ibm.com>) id 1iDS22-0007jU-HC
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 07:34:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imbrenda@linux.ibm.com>) id 1iDS2D-0007zu-46
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 07:34:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11018)
+ (envelope-from <imbrenda@linux.ibm.com>) id 1iDS20-0007nV-5z
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 07:33:57 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23128
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <imbrenda@linux.ibm.com>)
- id 1iDS2C-0007jN-HH
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 07:34:09 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ id 1iDS20-0007jh-1S
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 07:33:56 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8QBW1E2144845
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 07:33:48 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v8um5jvd9-1
+ x8QBWFxj029729
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 07:33:49 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v8ur5tc8k-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 07:33:47 -0400
+ for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 07:33:49 -0400
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <imbrenda@linux.ibm.com>;
- Thu, 26 Sep 2019 12:33:45 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Thu, 26 Sep 2019 12:33:48 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
  Thu, 26 Sep 2019 12:33:44 +0100
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8QBXgfN47710366
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8QBXhBl50397318
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 26 Sep 2019 11:33:42 GMT
+ Thu, 26 Sep 2019 11:33:43 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C84C64C046;
- Thu, 26 Sep 2019 11:33:42 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1FDEA4C044;
+ Thu, 26 Sep 2019 11:33:43 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 81B374C04A;
+ by IMSVA (Postfix) with ESMTP id D755B4C040;
  Thu, 26 Sep 2019 11:33:42 +0000 (GMT)
 Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.39])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Thu, 26 Sep 2019 11:33:42 +0000 (GMT)
 From: Claudio Imbrenda <imbrenda@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v1 0/2] s390x: SCLP error cleanup
-Date: Thu, 26 Sep 2019 13:33:40 +0200
+Subject: [PATCH v1 1/2] s390x: Add sclp boundary check and fix error priority
+Date: Thu, 26 Sep 2019 13:33:41 +0200
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1569497622-12496-1-git-send-email-imbrenda@linux.ibm.com>
+References: <1569497622-12496-1-git-send-email-imbrenda@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19092611-0020-0000-0000-00000371F1AA
+x-cbid: 19092611-0028-0000-0000-000003A2DE34
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19092611-0021-0000-0000-000021C7BCC3
-Message-Id: <1569497622-12496-1-git-send-email-imbrenda@linux.ibm.com>
+x-cbparentid: 19092611-0029-0000-0000-00002464FBA7
+Message-Id: <1569497622-12496-2-git-send-email-imbrenda@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-26_05:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=891 adultscore=0 classifier=spam adjust=0 reason=mlx
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1909260111
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,18 +92,74 @@ Cc: borntraeger@de.ibm.com, cohuck@redhat.com, frankja@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SCLP doesn't report a lot of errors like it should do, let's fix that.
+From: Janosch Frank <frankja@linux.ibm.com>
 
-Janosch Frank (1):
-  s390x: Add sclp boundary check and fix error priority
+* All sclp codes need to be checked for page boundary violations.
+* Requests over 4k are not a spec exception.
+* Invalid command checking has to be done before the boundary check.
 
-Claudio Imbrenda (1):
-  s390x: Fix SCLP return code when buffer too small
-
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+---
  hw/s390x/event-facility.c |  3 ---
- hw/s390x/sclp.c           | 35 ++++++++++++++++++++++++++++++++---
- 2 files changed, 32 insertions(+), 6 deletions(-)
+ hw/s390x/sclp.c           | 25 ++++++++++++++++++++++---
+ 2 files changed, 22 insertions(+), 6 deletions(-)
 
+diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+index 797ecbb..6620569 100644
+--- a/hw/s390x/event-facility.c
++++ b/hw/s390x/event-facility.c
+@@ -377,9 +377,6 @@ static void command_handler(SCLPEventFacility *ef, SCCB *sccb, uint64_t code)
+     case SCLP_CMD_WRITE_EVENT_MASK:
+         write_event_mask(ef, sccb);
+         break;
+-    default:
+-        sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
+-        break;
+     }
+ }
+ 
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index fac7c3b..76feac8 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -213,14 +213,33 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+     cpu_physical_memory_read(sccb, &work_sccb, sccb_len);
+ 
+     /* Valid sccb sizes */
+-    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader) ||
+-        be16_to_cpu(work_sccb.h.length) > SCCB_SIZE) {
++    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
+         r = -PGM_SPECIFICATION;
+         goto out;
+     }
+ 
+-    sclp_c->execute(sclp, &work_sccb, code);
++    switch (code & SCLP_CMD_CODE_MASK) {
++    case SCLP_CMDW_READ_SCP_INFO:
++    case SCLP_CMDW_READ_SCP_INFO_FORCED:
++    case SCLP_CMDW_READ_CPU_INFO:
++    case SCLP_CMDW_CONFIGURE_IOA:
++    case SCLP_CMDW_DECONFIGURE_IOA:
++    case SCLP_CMD_READ_EVENT_DATA:
++    case SCLP_CMD_WRITE_EVENT_DATA:
++    case SCLP_CMD_WRITE_EVENT_MASK:
++        break;
++    default:
++        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
++        goto out_write;
++    }
+ 
++    if ((sccb + work_sccb.h.length) > ((sccb & PAGE_MASK) + PAGE_SIZE)) {
++        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
++        goto out_write;
++    }
++
++    sclp_c->execute(sclp, &work_sccb, code);
++out_write:
+     cpu_physical_memory_write(sccb, &work_sccb,
+                               be16_to_cpu(work_sccb.h.length));
+ 
 -- 
 2.7.4
 
