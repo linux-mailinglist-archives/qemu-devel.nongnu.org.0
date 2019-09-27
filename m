@@ -2,64 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0013CC0A5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:32:27 +0200 (CEST)
-Received: from localhost ([::1]:54706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC7DC0A83
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:40:31 +0200 (CEST)
+Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDu6U-0005Ew-GB
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:32:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
+	id 1iDuEH-0006VM-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:40:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iDu27-00035V-Tz
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 13:27:56 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1iDsfq-00046T-GW
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:00:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iDu26-0006yR-HP
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 13:27:55 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:37974)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iDu26-0006xF-AG; Fri, 27 Sep 2019 13:27:54 -0400
-Received: by mail-lj1-x241.google.com with SMTP id b20so3272980ljj.5;
- Fri, 27 Sep 2019 10:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IfJzy4terBGPP4bGKhDOLeEhWY8WGZfQa1k269F/Qrg=;
- b=JDsbod88Crk5LQPX4x6Ptn4G632nabUk2tPlPfalQb2N+++57kDwOgYbESsFF7k+ra
- DPNmYALl0slm+A9tGmDEdpI4nK1ArninINzF6Jfg3LNN22r0dcjiFnY7K3uOqGidLQ6w
- npANfmOxBUzGZbmTEqLd5QIB5HSBQDVdIqb5IwHbgpwsJJBi+cjUFnIDHlRzAQsOJkIF
- ZlrdgbZJ3jMk+JOBwdnYpIpN9TGi82g/XWysOSTIUFz8a01j8Oid+6J3FR7QhEyu5BRw
- B8WB9t+v/Q8V5jN8t3ZYBxxTJJZacVAnh3VYiuaAVULoXHSnIlexYPJ8ELzzWbNazlxK
- L2hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IfJzy4terBGPP4bGKhDOLeEhWY8WGZfQa1k269F/Qrg=;
- b=JACq39eo7jTjK6so9tJtat2RtGy5JE+eDNtj5wM4EceW/YKWGazIGNPApb/ALyOmSC
- zHWMBjMcQPbioSzbD12w001a4HcGdX1RtIW9rGkXZYY5gNWIfQKRJBq4ADzxEWlkmTSM
- gcpRfX0SDtajwVhj7a6J/7EawIq4J6hrgCabZgrrnS8NbFd1XFfrX1+yPfPzfExZY8oB
- 34OoU0HCf4hfOIVuUaO1VijmwdvwMopVqGJ4hQbI5sIpCAjhqhHVEujynTl8zDUe0Vat
- t0pS9yHo+0LqSRjCXYNw/jfa3KjoUZ2/VSvfcZw1G4qJ8m93/vmlIRpluvnITWE0Pq1c
- JNsA==
-X-Gm-Message-State: APjAAAVZn3GAtJQBUpYsJhcbziHAbBY7I9GXlDSYRFzWcn9EvJZ1/NHl
- YouqxgcePNbX3xlj2ZU5wFVbCllAyranvE3PoWY=
-X-Google-Smtp-Source: APXvYqyESdFzyiszcyAvTXZckAayxMr6m1ldKkURIYDynORRu+ze/7iZJ9jeZ0xS1fvdHD823oZRNSJTxbloa5Ra3fM=
-X-Received: by 2002:a2e:90d9:: with SMTP id o25mr395611ljg.94.1569605272888;
- Fri, 27 Sep 2019 10:27:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <ab8f108eceb973aaee565bb1fe347fcf8c788f5b.1569545120.git.alistair.francis@wdc.com>
- <960d9622-8241-efe7-cee6-1d4a1307fbc0@linaro.org>
-In-Reply-To: <960d9622-8241-efe7-cee6-1d4a1307fbc0@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 27 Sep 2019 10:23:06 -0700
-Message-ID: <CAKmqyKP90UDcS4moAYvLVN2q+aZ_cqGwY2fEgfX8dCjsHW1Tfg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] target/riscv: Print CPU and privledge in disas
-To: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <mlevitsk@redhat.com>) id 1iDsfp-0003a8-Dw
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:00:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40450)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1iDsfi-0003SH-O0; Fri, 27 Sep 2019 12:00:42 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EC7D5308A968;
+ Fri, 27 Sep 2019 16:00:38 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 939792618A;
+ Fri, 27 Sep 2019 16:00:31 +0000 (UTC)
+Message-ID: <91f8e3a583d6b0626ecaba4a24d164e1a212c050.camel@redhat.com>
+Subject: Re: [PATCH v2 01/13] block-crypto: misc refactoring
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Date: Fri, 27 Sep 2019 19:00:30 +0300
+In-Reply-To: <20190927101535.GE20911@redhat.com>
+References: <20190925213527.9117-1-mlevitsk@redhat.com>
+ <20190925213527.9117-2-mlevitsk@redhat.com>
+ <20190927101535.GE20911@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::241
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 27 Sep 2019 16:00:39 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,68 +58,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 27, 2019 at 10:18 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/26/19 5:45 PM, Alistair Francis wrote:
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On Fri, 2019-09-27 at 11:15 +0100, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Sep 26, 2019 at 12:35:15AM +0300, Maxim Levitsky wrote:
+> > * rename the write_func to create_write_func,
+> >   and init_func to create_init_func
+> >   this is  preparation for other write_func that will
+> >   be used to update the encryption keys.
+> >=20
+> > No functional changes
+> >=20
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > > ---
-> >  target/riscv/translate.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index adeddb85f6..537af0003e 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -810,7 +810,14 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-> >
-> >  static void riscv_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-> >  {
-> > +#ifndef CONFIG_USER_ONLY
-> > +    RISCVCPU *rvcpu = RISCV_CPU(cpu);
-> > +    CPURISCVState *env = &rvcpu->env;
-> > +#endif
-> >      qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
-> > +#ifndef CONFIG_USER_ONLY
-> > +    qemu_log("CPU: %d; priv: "TARGET_FMT_ld"\n", cpu->cpu_index, env->priv);
-> > +#endif
-> >      log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
+> >  block/crypto.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/block/crypto.c b/block/crypto.c
+> > index 7eb698774e..6e822c6e50 100644
+> > --- a/block/crypto.c
+> > +++ b/block/crypto.c
+> > @@ -78,7 +78,7 @@ struct BlockCryptoCreateData {
+> >  };
+> > =20
+> > =20
+> > -static ssize_t block_crypto_write_func(QCryptoBlock *block,
+> > +static ssize_t block_crypto_create_write_func(QCryptoBlock *block,
+> >                                         size_t offset,
+> >                                         const uint8_t *buf,
+> >                                         size_t buflen,
+>=20
+> The parameters need re-indenting when you change this name.
+
+I am just blind thats all :-(
+I checked all the patches for the indention and still missed it :-(
+Will do of course.
+
+Best regards,
+	Maxim Levitsky
+
+
+>=20
+> > @@ -96,8 +96,7 @@ static ssize_t block_crypto_write_func(QCryptoBlock=
+ *block,
+> >      return ret;
 > >  }
->
-> I'm curious about the motivation here.
->
-> In particular, what difference does it make what cpu the TB is generated for?
-> It would seem like the more relevant place to look for this is with -d cpu or
-> -d exec where the TB is actually executed, which could well be multiple cpus.
+> > =20
+> > -
+> > -static ssize_t block_crypto_init_func(QCryptoBlock *block,
+> > +static ssize_t block_crypto_create_init_func(QCryptoBlock *block,
+> >                                        size_t headerlen,
+> >                                        void *opaque,
+> >                                        Error **errp)
+>=20
+> And here
+>=20
+> I dropped this one from the pull request, so please bundle it into your
+> other luks series
+>=20
+> Regards,
+> Daniel
 
-The main reason is that the sifive_u machine now has two RISC-V
-clusters so it's useful to see what is happening on each CPU. -d cpu
-and -d exec are much more difficult to comprehend so aren't always as
-useful.
 
->
-> As for env->priv... is there really anything in the input assembly that depends
-> on the privilege?  Or conversely, why priv and not all of the other bits that
-> are in tb_flags?  And are you placing that here in -d in_asm because are always
-> also using either -d op or -d op_opt, and it somehow looks better to have this
-> at the top?
-
-I think it's just clearer to see what privileged mode the instructions
-were generated for, it helps with debugging boot issues. Again it
-comes back to the other options being difficult to comprehend, in_asm
-I find is the clearest to understand (although it has lots of
-limitations).
-
-Alistair
-
->
->
-> r~
 
