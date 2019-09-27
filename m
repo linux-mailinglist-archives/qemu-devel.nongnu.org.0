@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA2EC06AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:51:36 +0200 (CEST)
-Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC0BC06E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:03:24 +0200 (CEST)
+Received: from localhost ([::1]:51176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqek-0004F4-A6
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58557)
+	id 1iDqqB-0007e6-8I
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDpy4-0007aR-PI
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:07:29 -0400
+ (envelope-from <berrange@redhat.com>) id 1iDpuz-0005OR-MR
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDpy3-0005GR-6n
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:07:28 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41609)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDpy3-0005G9-28
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:07:27 -0400
-Received: by mail-oi1-x243.google.com with SMTP id w17so5111659oiw.8
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HLTVzSrf+tbOprGdeY1EjMH96uf7xbbND9M4/9Ikjn4=;
- b=Rd+Gqi3/pPuFt7kwr0q0RraaxEG267+jQaryTZLaqgIJViiinTjMjBtAnC/J0hmZhA
- 6pxNNfgUpdIu3htRSsgYBbjxF3tkNHSLkWNYrbdeBqHIYiKKTfSQjn3aP3+wRt4ajjUv
- m3kPTQV24J5ce+aDb9Q5hLUEWd7dPRxa92WLkbfkgCpYIE91b58MQkFLgLuTwXFmhvSb
- HR60wxBOxB/n5XWJQiksaXzY6VneQ3IHGRybKKkQhEBhjJz9+9PZm2K1Ey+soOW7CG5/
- VeNs/3lD8tudN1+mn820BvYQ80h3M0qy+o6busz/ml7l8yXrlBkPICrP8pzqfvCfvxaO
- Hn2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HLTVzSrf+tbOprGdeY1EjMH96uf7xbbND9M4/9Ikjn4=;
- b=rz4/61SqdkjzU9GuN27BBRfrr1ORXa1ySBFL+/ijO1d7iORk9tNmLcr16koLSgJCVa
- 2l/jAF+mx30SlCIpFGeWA+Q5CKMuplM7eyO0tbbNYI5ssQWDgZbdcUKVGdela1A9XJ0D
- o7iCyR486qj8y3I1QAIfSyDA4gjDg2zwtYZ9NPKlYJwI4diPP5w16auW5NcJLq6wYCvP
- 6N4bKnJjEXXVe43fmcTNjSZBfp1vnhN1DM0XxFqXYP8NFeCK8WktDwAR4l3edxuJ5MCu
- dNkjip/RttVklagoj7EEBIHg7K3WEaAwPX6UZ77avh1So+ZS6c4762oL60RO/HdRaxxd
- D+Lw==
-X-Gm-Message-State: APjAAAUJXSzjZsp7b6Ht4mSeZFsmu/FZulTxkcs+8STzmTxFICsNy2eN
- dPUUBZKSBLVHz32R7aia049knETFumv8MoID3YTfIA==
-X-Google-Smtp-Source: APXvYqyoFOWi5vdyYPAovY+C9UEwY4lb1Y8ASGUje2FU7MtBHTEVihasNfnDXXkhoDyk1IVtY15H14QbxO/lmXRVG6o=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr6573765oib.48.1569589645543; 
- Fri, 27 Sep 2019 06:07:25 -0700 (PDT)
+ (envelope-from <berrange@redhat.com>) id 1iDpuy-0004Kr-FQ
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42764)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iDpuy-0004Jo-7A
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:16 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4CEBB1056FB8
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:59:36 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-55.ams2.redhat.com
+ [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AA7E6060D;
+ Fri, 27 Sep 2019 09:59:34 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 04/11] qcrypto-luks: pass keyslot index rather that pointer to
+ the keyslot
+Date: Fri, 27 Sep 2019 10:59:19 +0100
+Message-Id: <20190927095926.22230-5-berrange@redhat.com>
+In-Reply-To: <20190927095926.22230-1-berrange@redhat.com>
+References: <20190927095926.22230-1-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20190821163341.16309-1-damien.hedde@greensocs.com>
- <20190821163341.16309-3-damien.hedde@greensocs.com>
- <20190911080642.GC13785@umbus.fritz.box>
- <1a3b4d7b-77a9-46af-e6f4-dc7b3ba13b4f@greensocs.com>
- <20190918091135.GA22790@umbus.fritz.box>
- <f482912f-9541-f90c-bd80-5c95322e670d@greensocs.com>
-In-Reply-To: <f482912f-9541-f90c-bd80-5c95322e670d@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Sep 2019 14:07:14 +0100
-Message-ID: <CAFEAcA8pja6bOh4vwqWco=1ZtqR0mJFUuZT+WjJwYuA5AZZuQg@mail.gmail.com>
-Subject: Re: [PATCH v4 02/10] hw/core: create Resettable QOM interface
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Fri, 27 Sep 2019 09:59:36 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,41 +58,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 12:21, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
-> Hi All,
->
-> Do you think I should respin with the sugestions made by David so far ?
->
-> + reset type removal
-> + s/init/enter/ for the phases terminology
-> + handling of parent changes during reset
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-My takes:
- * I think we should keep the reset type. Among other things,
-   we probably want a reset type for "PCI bus reset" and
-   "SCSI bus reset", when we come to conversion of those
- * I don't have an opinion about the phase names
- * I think we should look at what we're doing for dynamic
-   changes of the reset tree. This falls into two parts,
-   both of which have come up in this thread:
-    - hotplug, ie what state should a hotplugged device
-      get set up to if it's plugged into a bus that's
-      currently in reset
-    - the modification of the qbus tree during reset,
-      like the raspi sd card thing
-   These feel related to me, so maybe handling the first
-   gives a better answer to handling the second ?
+Another minor refactoring
 
-thanks
--- PMM
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+ crypto/block-luks.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index 9e59a791a6..b759cc8d19 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -410,7 +410,7 @@ qcrypto_block_luks_essiv_cipher(QCryptoCipherAlgorith=
+m cipher,
+  */
+ static int
+ qcrypto_block_luks_load_key(QCryptoBlock *block,
+-                            QCryptoBlockLUKSKeySlot *slot,
++                            size_t slot_idx,
+                             const char *password,
+                             QCryptoCipherAlgorithm cipheralg,
+                             QCryptoCipherMode ciphermode,
+@@ -424,6 +424,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+                             Error **errp)
+ {
+     QCryptoBlockLUKS *luks =3D block->opaque;
++    const QCryptoBlockLUKSKeySlot *slot =3D &luks->header.key_slots[slot=
+_idx];
+     g_autofree uint8_t *splitkey =3D NULL;
+     size_t splitkeylen;
+     g_autofree uint8_t *possiblekey =3D NULL;
+@@ -580,13 +581,12 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
+                             void *opaque,
+                             Error **errp)
+ {
+-    QCryptoBlockLUKS *luks =3D block->opaque;
+     size_t i;
+     int rv;
+=20
+     for (i =3D 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+         rv =3D qcrypto_block_luks_load_key(block,
+-                                         &luks->header.key_slots[i],
++                                         i,
+                                          password,
+                                          cipheralg,
+                                          ciphermode,
+--=20
+2.21.0
+
 
