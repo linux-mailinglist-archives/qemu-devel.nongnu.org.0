@@ -2,69 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76069BFF4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:42:07 +0200 (CEST)
-Received: from localhost ([::1]:47008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5776EBFF64
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:50:10 +0200 (CEST)
+Received: from localhost ([::1]:47068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDjx7-0007Zd-JK
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:42:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51506)
+	id 1iDk4v-0006HH-5v
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:50:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iDjSV-0002hn-Bx
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:10:29 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iDjes-0007Bb-P4
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iDjSS-0006DX-Qh
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:10:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40246)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iDjSS-00064Q-Gr
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:10:24 -0400
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 545202A09B1
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:10:22 +0000 (UTC)
-Received: by mail-pg1-f199.google.com with SMTP id h189so2938383pgc.4
- for <qemu-devel@nongnu.org>; Thu, 26 Sep 2019 23:10:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Q3VcwwfIJDnhtPHgtff591ka965pgfBVQAYecX/DSPM=;
- b=bgMXK4hmiqZwFfued2FcHen9qhcta/DO35iE5x4777VSd6kGt17qdpt4XRGTCFmi7D
- +t16ojfA7ApbtRMgfPNlPCWaJiZthlAVFKf12JM5WtWRWL0eubRcCKSnfx+KOJqy+Y4t
- eQ1yX8Sr1Whaj2Pp/uKlone2U6mXAY/DISUeWwMvUzsn1PgVDckkzQSXGdtrGBMpGyHv
- g1QfH7dYIHsWQ+ZjKcL3Jw/CKtfD1Jpq/x+7jkVO5Xxuhix8o8c8YCthpo+SmNwytI8u
- In2O9vlChRqkUXBRqcxCBCu4w2UPhdrRcLZRM0eeASiPV2MrJ1qZvejd1GrEbs9WQFAh
- 2KiQ==
-X-Gm-Message-State: APjAAAXowHhbHmwtwQl2qZawEZ7UyLh8PlYMXcr7chKthS/94/N5foF1
- 9RD/hk/2gTfJI4OtkBb/qG/59B4bV/hkcoKrH8XsExCvq+HJwMH1JNn1s6r+R+1CYC1eKhfV/eR
- 8H4GBpQ5cUNQ7hVo=
-X-Received: by 2002:a62:834c:: with SMTP id h73mr2232327pfe.183.1569564621760; 
- Thu, 26 Sep 2019 23:10:21 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwxmWyNdTjyyHgRfYVtbh/6+ftP0BxAdeEEiRcU55u20E9bPvDaUIQkSuipslo6yZOxZQG0Zw==
-X-Received: by 2002:a62:834c:: with SMTP id h73mr2232314pfe.183.1569564621514; 
- Thu, 26 Sep 2019 23:10:21 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id p68sm1981376pfp.9.2019.09.26.23.10.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2019 23:10:20 -0700 (PDT)
-Date: Fri, 27 Sep 2019 14:10:11 +0800
-From: Peter Xu <peterx@redhat.com>
-To: qi1.zhang@intel.com
-Subject: Re: [PATCH V2] intel_iommu: TM field should not be in reserved bits
-Message-ID: <20190927061011.GB9412@xz-x1>
-References: <20190927045838.2968-1-qi1.zhang@intel.com>
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iDjeq-00044g-U9
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:14 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:59362)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iDjeq-0003nV-KH
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:12 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 354EA6CCF8;
+ Fri, 27 Sep 2019 15:23:09 +0900 (JST)
+Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
+ [222.8.5.235])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id D9DD0240085;
+ Fri, 27 Sep 2019 15:23:07 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v25 00/22] Add RX archtecture support
+Date: Fri, 27 Sep 2019 15:22:40 +0900
+Message-Id: <20190927062302.110144-1-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190927045838.2968-1-qi1.zhang@intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.14
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,120 +51,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, rth@twiddle.net, mst@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com
+Cc: peter.maydell@linaro.org, imammedo@redhat.com, richard.henderson@linaro.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 27, 2019 at 12:58:38PM +0800, qi1.zhang@intel.com wrote:
-> From: "Zhang, Qi" <qi1.zhang@intel.com>
-> 
-> When dt is supported, TM field should not be Reserved(0).
-> 
-> Refer to VT-d Spec 9.8
-> 
-> Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
-> Signed-off-by: Qi, Yadong <yadong.qi@intel.com>
-> ---
->  hw/i386/intel_iommu.c          | 12 ++++++------
->  hw/i386/intel_iommu_internal.h | 25 +++++++++++++++++++------
->  2 files changed, 25 insertions(+), 12 deletions(-)
-> ---
-> Changelog V2:
->  move dt_supported flag to VTD_SPTE_PAGE_LX_RSVD_MASK and VTD_SPTE_LPAGE_LX_RSVD_MASK
-> 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index f1de8fdb75..35222cf55c 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3548,13 +3548,13 @@ static void vtd_init(IntelIOMMUState *s)
->       * Rsvd field masks for spte
->       */
->      vtd_paging_entry_rsvd_field[0] = ~0ULL;
-> -    vtd_paging_entry_rsvd_field[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[3] = VTD_SPTE_PAGE_L3_RSVD_MASK(s->aw_bits);
-> +    vtd_paging_entry_rsvd_field[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[3] = VTD_SPTE_PAGE_L3_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
->      vtd_paging_entry_rsvd_field[4] = VTD_SPTE_PAGE_L4_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[5] = VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[6] = VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[7] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits);
-> +    vtd_paging_entry_rsvd_field[5] = VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[6] = VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[7] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
->      vtd_paging_entry_rsvd_field[8] = VTD_SPTE_LPAGE_L4_RSVD_MASK(s->aw_bits);
+Hello.
+This patch series is added Renesas RX target emulation.
 
-Should this TM bit only affects leaves?  Say, entry 1 (4K), 5 (2M), 6
-(1G).  While this reminded me that I'm totally confused on why we have
-had entry 7, 8 after all...  Are they really used?
+Changes for v24.
+Add note for qapi/machine.json.
+Added Acked-by for 6/22.
+git rebase master.
 
->  
->      if (x86_iommu_ir_supported(x86_iommu)) {
-> diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-> index c1235a7063..01f1aa6c86 100644
-> --- a/hw/i386/intel_iommu_internal.h
-> +++ b/hw/i386/intel_iommu_internal.h
-> @@ -387,19 +387,31 @@ typedef union VTDInvDesc VTDInvDesc;
->  #define VTD_INV_DESC_DEVICE_IOTLB_RSVD_LO 0xffff0000ffe0fff8
->  
->  /* Rsvd field masks for spte */
-> -#define VTD_SPTE_PAGE_L1_RSVD_MASK(aw) \
-> +#define VTD_SPTE_PAGE_L1_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
+Changes for v23.
+Follow master changes.
 
-This seems strange too in that ~VTD_HAW_MASK(aw) probably covered bits
-63-48 for aw==48 case so it should already cover VTD_SL_TM?
+Changes for v22.
+Added some include.
 
-Meanwhile when I'm reading the spec I see at least bits 61-52 ignored
-rather than reserved.
+Changes for v21.
+rebase latest master.
+Remove unneeded hmp_info_tlb.
 
-Thanks,
+Chanegs for v20.
+Reorderd patches.
+Squashed v19 changes.
 
-> -#define VTD_SPTE_PAGE_L2_RSVD_MASK(aw) \
-> +#define VTD_SPTE_PAGE_L2_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_PAGE_L3_RSVD_MASK(aw) \
-> +#define VTD_SPTE_PAGE_L3_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
->  #define VTD_SPTE_PAGE_L4_RSVD_MASK(aw) \
->          (0x880ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_LPAGE_L1_RSVD_MASK(aw) \
-> +#define VTD_SPTE_LPAGE_L1_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_LPAGE_L2_RSVD_MASK(aw) \
-> +#define VTD_SPTE_LPAGE_L2_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x1ff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x1ff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_LPAGE_L3_RSVD_MASK(aw) \
-> +#define VTD_SPTE_LPAGE_L3_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x3ffff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x3ffff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
->  #define VTD_SPTE_LPAGE_L4_RSVD_MASK(aw) \
->          (0x880ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> @@ -506,5 +518,6 @@ typedef struct VTDRootEntry VTDRootEntry;
->  #define VTD_SL_W                    (1ULL << 1)
->  #define VTD_SL_PT_BASE_ADDR_MASK(aw) (~(VTD_PAGE_SIZE - 1) & VTD_HAW_MASK(aw))
->  #define VTD_SL_IGN_COM              0xbff0000000000000ULL
-> +#define VTD_SL_TM                   (1ULL << 62)
->  
->  #endif
-> -- 
-> 2.20.1
-> 
-> 
+Changes for v19.
+Follow tcg changes.
+Cleanup cpu.c.
+simplify rx_cpu_class_by_name and rx_load_image move to rx-virt.
 
--- 
-Peter Xu
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190912
+
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
+
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTre=
+e)
+
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/registerfields.h: Add 8bit and 16bit register macros
+  hw/rx: Restrict the RX62N microcontroller to the RX62N CPU core
+  BootLinuxConsoleTest: Test the RX-Virt machine
+
+Richard Henderson (7):
+  target/rx: Disassemble rx_index_addr into a string
+  target/rx: Replace operand with prt_ldmi in disassembler
+  target/rx: Use prt_ldmi for XCHG_mr disassembly
+  target/rx: Emit all disassembly in one prt()
+  target/rx: Collect all bytes during disassembly
+  target/rx: Dump bytes for each insn during disassembly
+  hw/rx: Honor -accel qtest
+
+Yoshinori Sato (12):
+  MAINTAINERS: Add RX
+  qemu/bitops.h: Add extract8 and extract16
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  Add rx-softmmu
+  qapi/machine.json: Add RX cpu.
+
+ configure                              |    8 +
+ default-configs/rx-softmmu.mak         |    3 +
+ qapi/machine.json                      |    3 +-
+ include/disas/dis-asm.h                |    5 +
+ include/exec/poison.h                  |    1 +
+ include/hw/char/renesas_sci.h          |   45 +
+ include/hw/intc/rx_icu.h               |   56 +
+ include/hw/registerfields.h            |   32 +-
+ include/hw/rx/rx.h                     |    7 +
+ include/hw/rx/rx62n.h                  |   91 +
+ include/hw/timer/renesas_cmt.h         |   38 +
+ include/hw/timer/renesas_tmr.h         |   53 +
+ include/qemu/bitops.h                  |   38 +
+ include/sysemu/arch_init.h             |    1 +
+ target/rx/cpu-param.h                  |   31 +
+ target/rx/cpu-qom.h                    |   42 +
+ target/rx/cpu.h                        |  181 ++
+ target/rx/helper.h                     |   31 +
+ arch_init.c                            |    2 +
+ hw/char/renesas_sci.c                  |  343 ++++
+ hw/intc/rx_icu.c                       |  379 ++++
+ hw/rx/rx-virt.c                        |  135 ++
+ hw/rx/rx62n.c                          |  247 +++
+ hw/timer/renesas_cmt.c                 |  278 +++
+ hw/timer/renesas_tmr.c                 |  458 +++++
+ target/rx/cpu.c                        |  217 +++
+ target/rx/disas.c                      | 1446 ++++++++++++++
+ target/rx/gdbstub.c                    |  112 ++
+ target/rx/helper.c                     |  149 ++
+ target/rx/op_helper.c                  |  470 +++++
+ target/rx/translate.c                  | 2432 ++++++++++++++++++++++++
+ tests/machine-none-test.c              |    1 +
+ MAINTAINERS                            |   19 +
+ hw/Kconfig                             |    1 +
+ hw/char/Kconfig                        |    3 +
+ hw/char/Makefile.objs                  |    1 +
+ hw/intc/Kconfig                        |    3 +
+ hw/intc/Makefile.objs                  |    1 +
+ hw/rx/Kconfig                          |   14 +
+ hw/rx/Makefile.objs                    |    2 +
+ hw/timer/Kconfig                       |    6 +
+ hw/timer/Makefile.objs                 |    3 +
+ target/rx/Makefile.objs                |   11 +
+ target/rx/insns.decode                 |  621 ++++++
+ tests/acceptance/boot_linux_console.py |   46 +
+ 45 files changed, 8064 insertions(+), 2 deletions(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu-param.h
+ create mode 100644 target/rx/cpu-qom.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
+
+--=20
+2.20.1
+
 
