@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5060EBFEC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 07:58:51 +0200 (CEST)
-Received: from localhost ([::1]:46612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1ABBFEBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 07:57:20 +0200 (CEST)
+Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDjHF-00067o-Rv
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 01:58:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47473)
+	id 1iDjFn-0004YC-1W
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 01:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47454)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iDj9R-0006lH-Sx
+ (envelope-from <dgibson@ozlabs.org>) id 1iDj9R-0006l9-Dj
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:50:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iDj9P-0004zz-V6
+ (envelope-from <dgibson@ozlabs.org>) id 1iDj9P-0004zk-OV
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:50:45 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:57889)
+Received: from ozlabs.org ([203.11.71.1]:50385)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iDj9P-0004xN-Cv; Fri, 27 Sep 2019 01:50:43 -0400
+ id 1iDj9P-0004xJ-At; Fri, 27 Sep 2019 01:50:43 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46fgrC6lJdz9sPv; Fri, 27 Sep 2019 15:50:35 +1000 (AEST)
+ id 46fgrD1BB3z9sPq; Fri, 27 Sep 2019 15:50:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569563435;
- bh=+kW0QJ9WFPokOHK293duqEKWJlrMXHUWQHUQHc+RdFY=;
+ d=gibson.dropbear.id.au; s=201602; t=1569563436;
+ bh=/5Nm5thvXI+EGLou5HdDANHewnIqufQSVd7kPKxk82w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UyWzkljfoQ7h9IBsWcS1QQqIv44EgwnVtdOSAHqSIBBRjHcafRIvzhMF8HLpY5BlD
- 85DouIiHOGW1PMCZVxehsENWOYtHlxWQ6fyPxfu9CLCDKP5onlw9QNtuOqFGetU3LI
- fggDQ42Y+nWhnoQUNODEwMl9QjnatQq4mErRotJA=
+ b=ovt0pWrBwnI3mV7NwZg5QgVSpYfxH3zH6VabNJmn4pk6Xlm5oEqFSn/61ZxdFy3HX
+ T1O2wuaWps3tk/eJ92dZ8PuIj/mWR7mtBTuULcxsC6G9UCyijJiq4S9ZvQlW3KUkB2
+ hNN3c4ygYjR64Y2paTpVE5mu0arlgkUEvL2tLqOc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	clg@kaod.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 04/33] xics: Eliminate reset hook
-Date: Fri, 27 Sep 2019 15:49:59 +1000
-Message-Id: <20190927055028.11493-5-david@gibson.dropbear.id.au>
+Subject: [PATCH v2 07/33] spapr: Fold spapr_phb_lsi_qirq() into its single
+ caller
+Date: Fri, 27 Sep 2019 15:50:02 +1000
+Message-Id: <20190927055028.11493-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190927055028.11493-1-david@gibson.dropbear.id.au>
 References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,143 +65,57 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently TYPE_XICS_BASE and TYPE_XICS_SIMPLE have their own reset method=
-s,
-using the standard technique for having the subtype call the supertype's
-methods before doing its own thing.
-
-But TYPE_XICS_SIMPLE is the only subtype of TYPE_XICS_BASE ever
-instantiated, so there's no point having the split here.  Merge them
-together into just an ics_reset() function.
+No point having a two-line helper that's used exactly once, and not likel=
+y
+to be used anywhere else in future.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/intc/xics.c        | 57 ++++++++++++++++++-------------------------
- include/hw/ppc/xics.h |  1 -
- 2 files changed, 24 insertions(+), 34 deletions(-)
+ hw/ppc/spapr_pci.c          | 3 ++-
+ include/hw/pci-host/spapr.h | 7 -------
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index 310dc72b46..82e6f09259 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -547,11 +547,28 @@ static void ics_eoi(ICSState *ics, uint32_t nr)
-     }
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 7b71ad7c74..6934d506a7 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -721,9 +721,10 @@ static void pci_spapr_set_irq(void *opaque, int irq_=
+num, int level)
+      * corresponding qemu_irq.
+      */
+     SpaprPhbState *phb =3D opaque;
++    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+=20
+     trace_spapr_pci_lsi_set(phb->dtbusname, irq_num, phb->lsi_table[irq_=
+num].irq);
+-    qemu_set_irq(spapr_phb_lsi_qirq(phb, irq_num), level);
++    qemu_set_irq(spapr_qirq(spapr, phb->lsi_table[irq_num].irq), level);
  }
 =20
--static void ics_simple_reset(DeviceState *dev)
-+static void ics_reset_irq(ICSIRQState *irq)
- {
--    ICSStateClass *icsc =3D ICS_BASE_GET_CLASS(dev);
-+    irq->priority =3D 0xff;
-+    irq->saved_priority =3D 0xff;
-+}
+ static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
+diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
+index abd87605b2..23506f05d9 100644
+--- a/include/hw/pci-host/spapr.h
++++ b/include/hw/pci-host/spapr.h
+@@ -128,13 +128,6 @@ struct SpaprPhbState {
+ #define SPAPR_PCI_NV2ATSD_WIN_SIZE   (NVGPU_MAX_NUM * NVGPU_MAX_LINKS * =
+\
+                                       64 * KiB)
 =20
--    icsc->parent_reset(dev);
-+static void ics_reset(DeviceState *dev)
-+{
-+    ICSState *ics =3D ICS_BASE(dev);
-+    int i;
-+    uint8_t flags[ics->nr_irqs];
-+
-+    for (i =3D 0; i < ics->nr_irqs; i++) {
-+        flags[i] =3D ics->irqs[i].flags;
-+    }
-+
-+    memset(ics->irqs, 0, sizeof(ICSIRQState) * ics->nr_irqs);
-+
-+    for (i =3D 0; i < ics->nr_irqs; i++) {
-+        ics_reset_irq(ics->irqs + i);
-+        ics->irqs[i].flags =3D flags[i];
-+    }
-=20
-     if (kvm_irqchip_in_kernel()) {
-         Error *local_err =3D NULL;
-@@ -563,9 +580,9 @@ static void ics_simple_reset(DeviceState *dev)
-     }
- }
-=20
--static void ics_simple_reset_handler(void *dev)
-+static void ics_reset_handler(void *dev)
- {
--    ics_simple_reset(dev);
-+    ics_reset(dev);
- }
-=20
- static void ics_simple_realize(DeviceState *dev, Error **errp)
-@@ -580,7 +597,7 @@ static void ics_simple_realize(DeviceState *dev, Erro=
-r **errp)
-         return;
-     }
-=20
--    qemu_register_reset(ics_simple_reset_handler, ics);
-+    qemu_register_reset(ics_reset_handler, ics);
- }
-=20
- static void ics_simple_class_init(ObjectClass *klass, void *data)
-@@ -590,8 +607,6 @@ static void ics_simple_class_init(ObjectClass *klass,=
- void *data)
-=20
-     device_class_set_parent_realize(dc, ics_simple_realize,
-                                     &isc->parent_realize);
--    device_class_set_parent_reset(dc, ics_simple_reset,
--                                  &isc->parent_reset);
- }
-=20
- static const TypeInfo ics_simple_info =3D {
-@@ -602,30 +617,6 @@ static const TypeInfo ics_simple_info =3D {
-     .class_size =3D sizeof(ICSStateClass),
- };
-=20
--static void ics_reset_irq(ICSIRQState *irq)
+-static inline qemu_irq spapr_phb_lsi_qirq(struct SpaprPhbState *phb, int=
+ pin)
 -{
--    irq->priority =3D 0xff;
--    irq->saved_priority =3D 0xff;
+-    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+-
+-    return spapr_qirq(spapr, phb->lsi_table[pin].irq);
 -}
 -
--static void ics_base_reset(DeviceState *dev)
--{
--    ICSState *ics =3D ICS_BASE(dev);
--    int i;
--    uint8_t flags[ics->nr_irqs];
--
--    for (i =3D 0; i < ics->nr_irqs; i++) {
--        flags[i] =3D ics->irqs[i].flags;
--    }
--
--    memset(ics->irqs, 0, sizeof(ICSIRQState) * ics->nr_irqs);
--
--    for (i =3D 0; i < ics->nr_irqs; i++) {
--        ics_reset_irq(ics->irqs + i);
--        ics->irqs[i].flags =3D flags[i];
--    }
--}
--
- static void ics_base_realize(DeviceState *dev, Error **errp)
- {
-     ICSState *ics =3D ICS_BASE(dev);
-@@ -726,7 +717,7 @@ static void ics_base_class_init(ObjectClass *klass, v=
-oid *data)
+ int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
+                  uint32_t nr_msis, int *node_offset);
 =20
-     dc->realize =3D ics_base_realize;
-     dc->props =3D ics_base_properties;
--    dc->reset =3D ics_base_reset;
-+    dc->reset =3D ics_reset;
-     dc->vmsd =3D &vmstate_ics_base;
- }
-=20
-diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-index 8874bad328..7efd49c02c 100644
---- a/include/hw/ppc/xics.h
-+++ b/include/hw/ppc/xics.h
-@@ -105,7 +105,6 @@ struct ICSStateClass {
-     DeviceClass parent_class;
-=20
-     DeviceRealize parent_realize;
--    DeviceReset parent_reset;
- };
-=20
- struct ICSState {
 --=20
 2.21.0
 
