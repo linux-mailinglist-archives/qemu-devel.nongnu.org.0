@@ -2,48 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC810C06DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:01:45 +0200 (CEST)
-Received: from localhost ([::1]:51160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7146AC06FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:07:40 +0200 (CEST)
+Received: from localhost ([::1]:51290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqoa-0005r0-KX
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33027)
+	id 1iDquI-0003O9-V4
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iDq6o-0006ZQ-NH
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:16:33 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDpzd-00007X-Fc
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:09:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iDq6k-0007Ww-J4
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:16:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39486)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1iDq6U-0007UN-OK; Fri, 27 Sep 2019 09:16:10 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5AB74C0578F8;
- Fri, 27 Sep 2019 10:11:58 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-112-55.ams2.redhat.com
- [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C47AD6012C;
- Fri, 27 Sep 2019 10:11:56 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: fix I/O test for hosts defaulting to LUKSv2
-Date: Fri, 27 Sep 2019 11:11:55 +0100
-Message-Id: <20190927101155.25896-1-berrange@redhat.com>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iDpzb-0005cF-5t
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:09:04 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:41968
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDpz8-0005Tb-FT; Fri, 27 Sep 2019 09:08:34 -0400
+Received: from host86-138-245-63.range86-138.btcentralplus.com
+ ([86.138.245.63] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iDnhu-0005eZ-JE; Fri, 27 Sep 2019 11:42:40 +0100
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190925233013.6449-1-alex.bennee@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <573abf48-b616-47d4-0296-cc0b4ad9e1f2@ilande.co.uk>
+Date: Fri, 27 Sep 2019 11:42:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 27 Sep 2019 10:11:58 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190925233013.6449-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.138.245.63
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,366 +84,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-discuss@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some distros are now defaulting to LUKS version 2 which QEMU cannot
-process. For our I/O test that validates interoperability between the
-kernel/cryptsetup and QEMU, we need to explicitly ask for version 1
-of the LUKS format.
+On 26/09/2019 00:30, Alex Bennée wrote:
 
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- tests/qemu-iotests/149     |  2 +-
- tests/qemu-iotests/149.out | 44 +++++++++++++++++++-------------------
- 2 files changed, 23 insertions(+), 23 deletions(-)
+> The 32 bit hosts are already a second class citizen especially with
+> support for running 64 bit guests under TCG. We are also limited by
+> testing as actual working 32 bit machines are getting quite rare in
+> developers personal menageries. For TCG supporting newer types like
+> Int128 is a lot harder with 32 bit calling conventions compared to
+> their larger bit sized cousins. Fundamentally address space is the
+> most useful thing for the translator to have even for a 32 bit guest a
+> 32 bit host is quite constrained.
+> 
+> As far as I'm aware 32 bit KVM users are even less numerous. Even
+> ILP32 doesn't make much sense given the address space QEMU needs to
+> manage.
+> 
+> Lets mark these machines as deprecated so we can have the wailing and
+> gnashing of teeth now and look to actually dropping the support in a
+> couple of cycles.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  configure | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 542f6aea3f..776fd460b5 100755
+> --- a/configure
+> +++ b/configure
+> @@ -728,7 +728,7 @@ ARCH=
+>  # Normalise host CPU name and set ARCH.
+>  # Note that this case should only have supported host CPUs, not guests.
+>  case "$cpu" in
+> -  ppc|ppc64|s390|s390x|sparc64|x32|riscv32|riscv64)
+> +  ppc64|s390|s390x|sparc64|riscv64)
+>      supported_cpu="yes"
+>    ;;
+>    ppc64le)
+> @@ -737,7 +737,6 @@ case "$cpu" in
+>    ;;
+>    i386|i486|i586|i686|i86pc|BePC)
+>      cpu="i386"
+> -    supported_cpu="yes"
+>    ;;
+>    x86_64|amd64)
+>      cpu="x86_64"
+> @@ -745,19 +744,22 @@ case "$cpu" in
+>    ;;
+>    armv*b|armv*l|arm)
+>      cpu="arm"
+> -    supported_cpu="yes"
+>    ;;
+>    aarch64)
+>      cpu="aarch64"
+>      supported_cpu="yes"
+>    ;;
+> -  mips*)
+> +  mips64*)
+>      cpu="mips"
+>      supported_cpu="yes"
+>    ;;
+> +  mips*)
+> +    cpu="mips"
+> +  ;;
+>    sparc|sun4[cdmuv])
+>      cpu="sparc"
+> -    supported_cpu="yes"
+> +  ;;
+> +  x32|riscv32)
+>    ;;
+>    *)
+>      # This will result in either an error or falling back to TCI later
+> @@ -6438,12 +6440,12 @@ if test "$supported_cpu" = "no"; then
+>      echo "WARNING: SUPPORT FOR THIS HOST CPU WILL GO AWAY IN FUTURE RELEASES!"
+>      echo
+>      echo "CPU host architecture $cpu support is not currently maintained."
+> -    echo "The QEMU project intends to remove support for this host CPU in"
+> -    echo "a future release if nobody volunteers to maintain it and to"
+> -    echo "provide a build host for our continuous integration setup."
+> -    echo "configure has succeeded and you can continue to build, but"
+> -    echo "if you care about QEMU on this platform you should contact"
+> -    echo "us upstream at qemu-devel@nongnu.org."
+> +    echo "The QEMU project intends to remove support for all 32 bit host"
+> +    echo "CPUs in a future release. 64 bit hosts will need a volunteer"
+> +    echo "to maintain it and to provide a build host for our continuous"
+> +    echo "integration setup. configure has succeeded and you can continue"
+> +    echo "to build, but if you care about QEMU on this platform you"
+> +    echo "should contact us upstream at qemu-devel@nongnu.org."
+>  fi
+>  
+>  if test "$supported_os" = "no"; then
 
-diff --git a/tests/qemu-iotests/149 b/tests/qemu-iotests/149
-index 4f363f295f..8ab42e94c6 100755
---- a/tests/qemu-iotests/149
-+++ b/tests/qemu-iotests/149
-@@ -153,7 +153,7 @@ def cryptsetup_format(config):
-=20
-     (password, slot) =3D config.first_password()
-=20
--    args =3D ["luksFormat"]
-+    args =3D ["luksFormat", "--type", "luks1"]
-     cipher =3D config.cipher + "-" + config.mode + "-" + config.ivgen
-     if config.ivgen_hash is not None:
-         cipher =3D cipher + ":" + config.ivgen_hash
-diff --git a/tests/qemu-iotests/149.out b/tests/qemu-iotests/149.out
-index 1407ce6dad..6877ab6c4a 100644
---- a/tests/qemu-iotests/149.out
-+++ b/tests/qemu-iotests/149.out
-@@ -2,7 +2,7 @@
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 512=
- --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes-2=
-56-xts-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_D=
-IR/luks-aes-256-xts-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha1.im=
-g qiotest-145-aes-256-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -122,7 +122,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha1.img
- # Create image
- truncate TEST_DIR/luks-twofish-256-xts-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher twofish-xts-plain64 --key-size=
- 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-t=
-wofish-256-xts-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher twofish-xts-plain=
-64 --key-size 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TE=
-ST_DIR/luks-twofish-256-xts-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-twofish-256-xts-plain64-sha=
-1.img qiotest-145-twofish-256-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -242,7 +242,7 @@ unlink TEST_DIR/luks-twofish-256-xts-plain64-sha1.img
- # Create image
- truncate TEST_DIR/luks-serpent-256-xts-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher serpent-xts-plain64 --key-size=
- 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-s=
-erpent-256-xts-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher serpent-xts-plain=
-64 --key-size 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TE=
-ST_DIR/luks-serpent-256-xts-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-256-xts-plain64-sha=
-1.img qiotest-145-serpent-256-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -362,7 +362,7 @@ unlink TEST_DIR/luks-serpent-256-xts-plain64-sha1.img
- # Create image
- truncate TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher cast5-cbc-plain64 --key-size 1=
-28 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-cas=
-t5-128-cbc-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher cast5-cbc-plain64=
- --key-size 128 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST=
-_DIR/luks-cast5-128-cbc-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-cast5-128-cbc-plain64-sha1.=
-img qiotest-145-cast5-128-cbc-plain64-sha1
- # Write test pattern 0xa7
-@@ -483,7 +483,7 @@ Skipping cast6-256-xts-plain64-sha1 in blacklist
- # Create image
- truncate TEST_DIR/luks-aes-256-cbc-plain-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-cbc-plain --key-size 256 -=
--hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes-256=
--cbc-plain-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-cbc-plain --k=
-ey-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR=
-/luks-aes-256-cbc-plain-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain-sha1.img =
-qiotest-145-aes-256-cbc-plain-sha1
- # Write test pattern 0xa7
-@@ -603,7 +603,7 @@ unlink TEST_DIR/luks-aes-256-cbc-plain-sha1.img
- # Create image
- truncate TEST_DIR/luks-aes-256-cbc-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-cbc-plain64 --key-size 256=
- --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes-2=
-56-cbc-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-cbc-plain64 -=
--key-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_D=
-IR/luks-aes-256-cbc-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain64-sha1.im=
-g qiotest-145-aes-256-cbc-plain64-sha1
- # Write test pattern 0xa7
-@@ -723,7 +723,7 @@ unlink TEST_DIR/luks-aes-256-cbc-plain64-sha1.img
- # Create image
- truncate TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img --size 4194304M=
-B
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-cbc-essiv:sha256 --key-siz=
-e 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-=
-aes-256-cbc-essiv-sha256-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-cbc-essiv:sha=
-256 --key-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 T=
-EST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-essiv-sha256-sh=
-a1.img qiotest-145-aes-256-cbc-essiv-sha256-sha1
- # Write test pattern 0xa7
-@@ -843,7 +843,7 @@ unlink TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.im=
-g
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img --size 4194304M=
-B
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-essiv:sha256 --key-siz=
-e 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-=
-aes-256-xts-essiv-sha256-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-essiv:sha=
-256 --key-size 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 T=
-EST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-essiv-sha256-sh=
-a1.img qiotest-145-aes-256-xts-essiv-sha256-sha1
- # Write test pattern 0xa7
-@@ -963,7 +963,7 @@ unlink TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.im=
-g
- # Create image
- truncate TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img --size 419430=
-4MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 256=
- --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes-1=
-28-xts-plain64-sha256-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_D=
-IR/luks-aes-128-xts-plain64-sha256-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-128-xts-plain64-sha256-=
-sha1.img qiotest-145-aes-128-xts-plain64-sha256-sha1
- # Write test pattern 0xa7
-@@ -1083,7 +1083,7 @@ unlink TEST_DIR/luks-aes-128-xts-plain64-sha256-sha=
-1.img
- # Create image
- truncate TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img --size 419430=
-4MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 384=
- --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes-1=
-92-xts-plain64-sha256-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 384 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_D=
-IR/luks-aes-192-xts-plain64-sha256-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-192-xts-plain64-sha256-=
-sha1.img qiotest-145-aes-192-xts-plain64-sha256-sha1
- # Write test pattern 0xa7
-@@ -1203,7 +1203,7 @@ unlink TEST_DIR/luks-aes-192-xts-plain64-sha256-sha=
-1.img
- # Create image
- truncate TEST_DIR/luks-twofish-128-xts-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher twofish-xts-plain64 --key-size=
- 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-t=
-wofish-128-xts-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher twofish-xts-plain=
-64 --key-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TE=
-ST_DIR/luks-twofish-128-xts-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-twofish-128-xts-plain64-sha=
-1.img qiotest-145-twofish-128-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -1324,7 +1324,7 @@ Skipping twofish-192-xts-plain64-sha1 in blacklist
- # Create image
- truncate TEST_DIR/luks-serpent-128-xts-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher serpent-xts-plain64 --key-size=
- 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-s=
-erpent-128-xts-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher serpent-xts-plain=
-64 --key-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TE=
-ST_DIR/luks-serpent-128-xts-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-128-xts-plain64-sha=
-1.img qiotest-145-serpent-128-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -1444,7 +1444,7 @@ unlink TEST_DIR/luks-serpent-128-xts-plain64-sha1.i=
-mg
- # Create image
- truncate TEST_DIR/luks-serpent-192-xts-plain64-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher serpent-xts-plain64 --key-size=
- 384 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-s=
-erpent-192-xts-plain64-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher serpent-xts-plain=
-64 --key-size 384 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TE=
-ST_DIR/luks-serpent-192-xts-plain64-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-192-xts-plain64-sha=
-1.img qiotest-145-serpent-192-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -1566,7 +1566,7 @@ Skipping cast6-192-xts-plain64-sha1 in blacklist
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain64-sha224.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 512=
- --hash sha224 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes=
--256-xts-plain64-sha224.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 512 --hash sha224 --key-slot 0 --key-file - --iter-time 10 TEST=
-_DIR/luks-aes-256-xts-plain64-sha224.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha224.=
-img qiotest-145-aes-256-xts-plain64-sha224
- # Write test pattern 0xa7
-@@ -1686,7 +1686,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha224.img
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain64-sha256.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 512=
- --hash sha256 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes=
--256-xts-plain64-sha256.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 512 --hash sha256 --key-slot 0 --key-file - --iter-time 10 TEST=
-_DIR/luks-aes-256-xts-plain64-sha256.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha256.=
-img qiotest-145-aes-256-xts-plain64-sha256
- # Write test pattern 0xa7
-@@ -1806,7 +1806,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha256.img
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain64-sha384.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 512=
- --hash sha384 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes=
--256-xts-plain64-sha384.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 512 --hash sha384 --key-slot 0 --key-file - --iter-time 10 TEST=
-_DIR/luks-aes-256-xts-plain64-sha384.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha384.=
-img qiotest-145-aes-256-xts-plain64-sha384
- # Write test pattern 0xa7
-@@ -1926,7 +1926,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha384.img
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain64-sha512.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 512=
- --hash sha512 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes=
--256-xts-plain64-sha512.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 512 --hash sha512 --key-slot 0 --key-file - --iter-time 10 TEST=
-_DIR/luks-aes-256-xts-plain64-sha512.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha512.=
-img qiotest-145-aes-256-xts-plain64-sha512
- # Write test pattern 0xa7
-@@ -2046,7 +2046,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha512.img
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img --size 4194304M=
-B
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain64 --key-size 512=
- --hash ripemd160 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-=
-aes-256-xts-plain64-ripemd160.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 -=
--key-size 512 --hash ripemd160 --key-slot 0 --key-file - --iter-time 10 T=
-EST_DIR/luks-aes-256-xts-plain64-ripemd160.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-ripemd1=
-60.img qiotest-145-aes-256-xts-plain64-ripemd160
- # Write test pattern 0xa7
-@@ -2166,7 +2166,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-ripemd160.=
-img
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain-sha1-pwslot3.img --size 4194304=
-MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain --key-size 512 -=
--hash sha1 --key-slot 3 --key-file - --iter-time 10 TEST_DIR/luks-aes-256=
--xts-plain-sha1-pwslot3.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain --k=
-ey-size 512 --hash sha1 --key-slot 3 --key-file - --iter-time 10 TEST_DIR=
-/luks-aes-256-xts-plain-sha1-pwslot3.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain-sha1-pwsl=
-ot3.img qiotest-145-aes-256-xts-plain-sha1-pwslot3
- # Write test pattern 0xa7
-@@ -2226,7 +2226,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain-sha1-pwslot3=
-.img
- # Create image
- truncate TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img --size 4194=
-304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-xts-plain --key-size 512 -=
--hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-aes-256=
--xts-plain-sha1-pwallslots.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain --k=
-ey-size 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR=
-/luks-aes-256-xts-plain-sha1-pwallslots.img
- # Add password slot 1
- sudo cryptsetup -q -v luksAddKey TEST_DIR/luks-aes-256-xts-plain-sha1-pw=
-allslots.img --key-slot 1 --key-file - --iter-time 10 TEST_DIR/passwd.txt
- # Add password slot 2
-@@ -2360,7 +2360,7 @@ unlink TEST_DIR/luks-aes-256-xts-plain-sha1-pwallsl=
-ots.img
- # Create image
- truncate TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img --size 4194304MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-cbc-essiv:sha256 --key-siz=
-e 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luks-=
-aes-256-cbc-essiv-auto-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-cbc-essiv:sha=
-256 --key-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 T=
-EST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1=
-.img qiotest-145-aes-256-cbc-essiv-auto-sha1
- # Write test pattern 0xa7
-@@ -2480,7 +2480,7 @@ unlink TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.im=
-g
- # Create image
- truncate TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img --size 419430=
-4MB
- # Format image
--sudo cryptsetup -q -v luksFormat --cipher aes-cbc-plain64:sha256 --key-s=
-ize 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10 TEST_DIR/luk=
-s-aes-256-cbc-plain64-sha256-sha1.img
-+sudo cryptsetup -q -v luksFormat --type luks1 --cipher aes-cbc-plain64:s=
-ha256 --key-size 256 --hash sha1 --key-slot 0 --key-file - --iter-time 10=
- TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain64-sha256-=
-sha1.img qiotest-145-aes-256-cbc-plain64-sha256-sha1
- # Write test pattern 0xa7
---=20
-2.21.0
+FWIW I still use my Mac Mini G4 (with KVM) to help debug bits of TCG for
+qemu-system-ppc and so I would certainly miss this for bits of my Mac work.
 
+Is it possible to reach a compromise based on host/target i.e. allow 32-bit hosts to
+only run targets up to 32-bits? I'd only ever want to use qemu-system-ppc on the Mac
+Mini for testing: for qemu-system-ppc64 it is clearly much quicker just to use the
+nearest x86 box.
+
+
+ATB,
+
+Mark.
 
