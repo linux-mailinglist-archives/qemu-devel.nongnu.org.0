@@ -2,45 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A52C0707
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:10:21 +0200 (CEST)
-Received: from localhost ([::1]:51346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183A2C070B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:11:32 +0200 (CEST)
+Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqwu-0006uA-Fm
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:10:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60371)
+	id 1iDqy2-0008LK-Dt
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35417)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1iDq3L-0003Up-C4
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:12:57 -0400
+ (envelope-from <groeck7@gmail.com>) id 1iDqG8-0007aY-Et
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:26:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1iDq3J-0006ZV-Tt
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:12:55 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:52054 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Aleksandar.Markovic@rt-rk.com>)
- id 1iDq3J-0006P0-ID
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:12:53 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 3E2241A1FB1;
- Fri, 27 Sep 2019 15:11:42 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: by mail.rt-rk.com (Postfix, from userid 492)
- id C2EDF1A23F3; Fri, 27 Sep 2019 15:11:04 +0200 (CEST)
-in-reply-to: <CAFEAcA-ougCHbdHG3fuyfqqhXLNE6KgRZ4kmn8eTPhGBhTz5Lw@mail.gmail.com>
-to: "Peter Maydell" <peter.maydell@linaro.org>
-from: "Aleksandar Markovic" <Aleksandar.Markovic@rt-rk.com>
-message-id: <47e6-5d8e0a80-19-52027780@183847874>
-subject: =?utf-8?q?Re=3A?==?utf-8?q?_=5BPATCH?= v2 =?utf-8?q?01=2F20=5D?=
- =?utf-8?q?_target=2Fmips=3A?= Clean up =?utf-8?q?helper=2Ec?=
-X-Forward: 127.0.0.1
-date: Fri, 27 Sep 2019 15:11:04 +0200
+ (envelope-from <groeck7@gmail.com>) id 1iDqG7-00012a-Aq
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:26:08 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45129)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1iDqG7-00012W-58; Fri, 27 Sep 2019 09:26:07 -0400
+Received: by mail-pf1-x442.google.com with SMTP id y72so1581835pfb.12;
+ Fri, 27 Sep 2019 06:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=TzPly1HOOP5ZxOVgZNGoYgvsj1Jnu09Ez2nIhgHlkY8=;
+ b=L8Edi8jPOfq2NbZlINTGOHDgfJyjJIFAI0nrKtzA6iGx5qYKUMti0M25LvSOnNbN4l
+ OM0naoRLzCuuz+zd0sp4/SzoW8ThYeAkfz/Qcifhbkg+zeAf5eLmkuK6MKwkPNPgY8uN
+ QLPyZvLxTdjqCUU7QoVN1L+/HbWwX0jlzDRKQZSVEjCxy627dNVcsn2dIMev11PpNDsP
+ uygFZN7Y9gGP5BpOSy1jfeb/tZxSN7HUKJzJkzpiqGUeM2Fzcr4DvpfsmBRagxFwwXLP
+ GU+e1Eu8fzZnMofGeVof73xUnkzr/dbO5dK/uZZzIH0MC6CK3akiIoyRCdEB4J16P5Kj
+ dT9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=TzPly1HOOP5ZxOVgZNGoYgvsj1Jnu09Ez2nIhgHlkY8=;
+ b=twWtxuFP0aG9Tdg0gm14nTRwZAxouQB99+QYCF/beTm2qj+tXdtgNDAxbXyH3MFIgZ
+ IJKQDhOs3ULBLGlnJGZeNswjPw8y1Dbrvg0y4rwkiPqRVZxOOT7o3/rbXbnLbImAYnT3
+ SKSEaRCVxUZL8rLLNDSgaM8zO4N+CT5cPlvDlssr0xkwGhFNKDy1hmTuM2KYjLn3oYqS
+ ka3eKT8TQxcqIInok9LbtSFUhnN5ipkCU4AgSUG0sJRJ+PqVAwEhYZ2A021+0Tqwt3L+
+ 5/qzpgiuFo0Mb8CI2c4HdiJtFvuP7ETRU/Z9b+glEDvAsTBt0dyCxYt5ep+ScXc+C89A
+ VLoQ==
+X-Gm-Message-State: APjAAAX4Q/XKwU19VF708pumFaGwgtYDdiE9ijSR9/rbam48jJ1wQWs1
+ cqlBsQPBEOcDfPOsr1zih4s=
+X-Google-Smtp-Source: APXvYqwcBNT6wz0SymG2SWs8UsfrdYXH7KWpEqDSy2cs2h2hc5olPQw4Gno3/UQ1orULSMWr603PMA==
+X-Received: by 2002:a63:5745:: with SMTP id h5mr9518090pgm.268.1569590765893; 
+ Fri, 27 Sep 2019 06:26:05 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id f6sm4488541pga.50.2019.09.27.06.26.03
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 27 Sep 2019 06:26:04 -0700 (PDT)
+Date: Fri, 27 Sep 2019 06:26:02 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: bzt <bztemail@gmail.com>
+Subject: Re: [PATCH 14/19] python/qemu/machine: Allow to use other serial
+ consoles than default
+Message-ID: <20190927132602.GA19931@roeck-us.net>
+References: <20190926173428.10713-1-f4bug@amsat.org>
+ <20190926173428.10713-15-f4bug@amsat.org>
+ <CADYoBw11iiK=+O-mGYS5Xp85zVhezOXXXr-wKV_xCg07ZYuzVw@mail.gmail.com>
 MIME-Version: 1.0
-content-type: multipart/alternative;
- boundary="----=_=-_OpenGroupware_org_NGMime-18406-1569589864.738690-7------"
-User-Agent: SOGoMail 2.3.10
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADYoBw11iiK=+O-mGYS5Xp85zVhezOXXXr-wKV_xCg07ZYuzVw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,95 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Cheng Xiang <ext-cheng.xiang@here.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Esteban Bosse <estebanbosse@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_=-_OpenGroupware_org_NGMime-18406-1569589864.738690-7------
-content-type: text/plain; charset=utf-8
-content-length: 1482
-content-transfer-encoding: quoted-printable
+On Fri, Sep 27, 2019 at 02:54:10PM +0200, bzt wrote:
+> Hi,
+> 
+> On 9/26/19, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+> > Currently we are limited to use the first serial console available.
+> 
+> I'm not so sure. Right now it works like this:
+> 
+> qemu -serial stdio
+> Connects the VM's UART0 (PL011) serial console to the host terminal
+> 
+> qemu -serial null -serial stdio
+> Connects the VM's UART1 (AUX) serial console to the host terminal
+> 
+> I think this is simple and good, please don't remove this option. If
+> your commit does not influence these cli args, I'm not against it.
+> 
+Agreed. I am using that mechanism (raspi3 uses the second console,
+not pl011) in my scripts. Please don't take it away.
 
-
--------- Original Message --------
-Subject: Re: [PATCH v2 01/20] target/mips: Clean up helper.c
-Date: Friday, September 27, 2019 14:22 CEST
-From: Peter Maydell <peter.maydell@linaro.org>
-
-
-=C2=A0On Fri, 27 Sep 2019 at 13:03, Markus Armbruster <armbru@redhat.co=
-m> wrote:
->
-> Aleksandar, your message is hard to read, because you sent Content-Ty=
-pe:
-> multipart/alternative, and both the test/html and the test/plain
-> alternative ride roughshot over the quoted text's line structure.
-> Quoted patches become unreadable garbage. Please check your e-mail
-> setup.
-
-Note that among the recent changes to the mailing list config to
-handle DMARC/DKIM signed emails better is one where we no longer let th=
-e
-list server try to fix up multipart/alternative or html emails into
-plain text. This is because we want to have the mailing list server
-never edit emails, in case they're signed and editing would cause
-DMARC/DKIM failures. So it's possible that an email sending config
-that previously produced acceptable emails on the list receipient/archi=
-ve
-end might no longer do so.
-
-thanks
--- PMM
-=C2=A0=3Dgdkqvtcx5dxczmgpum5xioxr7j51bqm0k8vosjpa-tcq@mail.gmail.com>OK=
-, my case belongs to "used to work before" group. I used GMail Android =
-app to send this particular mail, and have been using that app for seve=
-ral months without problema. I am going to find an alternative way of s=
-ending mails to the list.
-
-I am sorry for any incovenience I caused.
-
-Aleksandar
-
-
-=C2=A0
-
-------=_=-_OpenGroupware_org_NGMime-18406-1569589864.738690-7------
-content-type: text/html; charset=utf-8
-content-length: 1953
-content-transfer-encoding: quoted-printable
-
-<html>-------- Original Message --------<br />Subject: Re: [PATCH v2 01=
-/20] target/mips: Clean up helper.c<br />Date: Friday, September 27, 20=
-19 14:22 CEST<br />From: Peter Maydell &lt;peter.maydell@linaro.org&gt;=
-<br /><cal1e-=3Dgdkqvtcx5dxczmgpum5xioxr7j51bqm0k8vosjpa-tcq@mail.gmail=
-.com><br /><br />&nbsp;<blockquote type=3D"cite" cite=3D"CAFEAcA-ougCHb=
-dHG3fuyfqqhXLNE6KgRZ4kmn8eTPhGBhTz5Lw@mail.gmail.com">On Fri, 27 Sep 20=
-19 at 13:03, Markus Armbruster &lt;armbru@redhat.com&gt; wrote:<br />&g=
-t;<br />&gt; Aleksandar, your message is hard to read, because you sent=
- Content-Type:<br />&gt; multipart/alternative, and both the test/html =
-and the test/plain<br />&gt; alternative ride roughshot over the quoted=
- text&#39;s line structure.<br />&gt; Quoted patches become unreadable =
-garbage. Please check your e-mail<br />&gt; setup.<br /><br />Note that=
- among the recent changes to the mailing list config to<br />handle DMA=
-RC/DKIM signed emails better is one where we no longer let the<br />lis=
-t server try to fix up multipart/alternative or html emails into<br />p=
-lain text. This is because we want to have the mailing list server<br /=
->never edit emails, in case they&#39;re signed and editing would cause<=
-br />DMARC/DKIM failures. So it&#39;s possible that an email sending co=
-nfig<br />that previously produced acceptable emails on the list receip=
-ient/archive<br />end might no longer do so.<br /><br />thanks<br />-- =
-PMM<br />&nbsp;</blockquote></cal1e-=3Dgdkqvtcx5dxczmgpum5xioxr7j51bqm0=
-k8vosjpa-tcq@mail.gmail.com>OK, my case belongs to &quot;used to work b=
-efore&quot; group. I used GMail Android app to send this particular mai=
-l, and have been using that app for several months without problema. I =
-am going to find an alternative way of sending mails to the list.<br />=
-<br />I am sorry for any incovenience I caused.<br /><br />Aleksandar<b=
-r /><br /><br />&nbsp;</html>
-
-------=_=-_OpenGroupware_org_NGMime-18406-1569589864.738690-7--------
-
+Guenter
 
