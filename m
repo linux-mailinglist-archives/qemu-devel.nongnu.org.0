@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35201C08AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:35:24 +0200 (CEST)
-Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE41C08C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:41:21 +0200 (CEST)
+Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDsHC-0002F1-7s
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48049)
+	id 1iDsMx-0008Nb-SA
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:41:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDrDW-0003dW-1S
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:27:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDqfy-0007Kk-2a
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:52:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDrDU-0004wv-6O
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:27:29 -0400
-Received: from 6.mo177.mail-out.ovh.net ([46.105.51.249]:39122)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDrDU-0004wO-0Y
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:27:28 -0400
-Received: from player737.ha.ovh.net (unknown [10.109.143.145])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 9B8C310C7B6
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 16:27:24 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player737.ha.ovh.net (Postfix) with ESMTPSA id 384B6E1118A;
- Fri, 27 Sep 2019 14:27:13 +0000 (UTC)
-Date: Fri, 27 Sep 2019 16:27:12 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 24/33] spapr, xics, xive: Move set_irq from SpaprIrq
- to SpaprInterruptController
-Message-ID: <20190927162712.049286e1@bahia.lan>
-In-Reply-To: <20190927055028.11493-25-david@gibson.dropbear.id.au>
-References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
- <20190927055028.11493-25-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDqfw-0007LG-Sx
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:52:49 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37584)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDqfw-0007L2-Nd
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:52:48 -0400
+Received: by mail-oi1-x243.google.com with SMTP id i16so5251972oie.4
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iFxNGnMHc2gomfgmq3P5pPVF/whBRHuAE9BOwskh+hw=;
+ b=IjA3JX7DIDleqxnLELS8jcb70/pCkCrV8JkN1Ujn0/mWiHUW3RvIqdY4HcEep0++BG
+ YGl4jCRTQPFF28EfOQA+7S77rOPQdfUOQHdFmCKtJypx64IU3yejdn239QJ+9Q6rjbP5
+ yDGJuCayFT7mG48tgi1AfoHRnMDXn+BY1fxa6jbMyaohEDzEJEN+A/YGkH1PIfZS46OF
+ qU42Rco7BMGWTSjQrIlqoz3xo13kfDZxorWn5ArIvfBq+XUJKytRgI7jjgkTXLYg4Y5+
+ ZOyKiqaazsNpUpX1ADbw4IsT9wGelYM03c9eubnJUp9rryKzCD0E4PtwoMBaBC6yTRq2
+ d1qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iFxNGnMHc2gomfgmq3P5pPVF/whBRHuAE9BOwskh+hw=;
+ b=kOofJRomc67wwn+hFDECvHT1kyQ3GJa2xS/391gCwRfOTLAEbyyxcaTEPC4AYthr5e
+ JjErtxbgrohHjRt+zyq/dBtS5kxowRJ4qcCHMq1CYIcQWdKkjO+L5sMKsLLfXKHWKq90
+ 7rt2IIn0FGvhJ9lIm69rG0DwZPsSiCOFblIcQmnLaHn0uTpqztet2XziN+trGbCjjFi9
+ OEQD0X2rfxNVJYsm5BhX5dKUQ+KVW6CbvAg8SiNX6GmMo3a2xIylO94Q9/sNb+yXQ3oB
+ Lw+Nj57nGUOKEpzL+0sOLEEKPSvgpknUgq6T4QgDvd/ukT7orDjjkHAHdydl1ZEtl+Sw
+ yx9A==
+X-Gm-Message-State: APjAAAVfo5PNCMeBLmHjevtkxyYYmwwCdXKUh/OgxZztmwXBqBkuuMd+
+ MGMCCdMzNkvBmpI//Jaga/pv4bdKn2EO8Gmhcal7+b4bq3g=
+X-Google-Smtp-Source: APXvYqwDPDt9mPIQ92kcFMheHLiVAE6j+R5/tVPxT/BCrfwQuGh+8a2VyWm41yGTCgfowLbEzf3hPx1IFLNiyck5dRc=
+X-Received: by 2002:aca:50d8:: with SMTP id e207mr6111829oib.48.1569581165430; 
+ Fri, 27 Sep 2019 03:46:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2039004731314444774
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdejhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.51.249
+References: <20190923131108.21459-1-philmd@redhat.com>
+In-Reply-To: <20190923131108.21459-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Sep 2019 11:45:54 +0100
+Message-ID: <CAFEAcA9V9LXQMDxE-QFCECJou9-7x-F8XDTCKSo9SkGT_oenuQ@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/arm/boot: Use the IEC binary prefix definitions
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,242 +73,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Sep 2019 15:50:19 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> This method depends only on the active irq controller.  Now that we've
-> formalized the notion of active controller we can dispatch directly through
-> that, rather than dispatching via SpaprIrq with the dual version having
-> to do a second conditional dispatch.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+On Mon, 23 Sep 2019 at 14:11, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> IEC binary prefixes ease code review: the unit is explicit.
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/intc/spapr_xive.c       | 12 +++++++++++
->  hw/intc/xics_spapr.c       |  9 +++++++++
->  hw/ppc/spapr_irq.c         | 41 ++++++++++----------------------------
->  include/hw/ppc/spapr_irq.h |  4 +++-
->  4 files changed, 34 insertions(+), 32 deletions(-)
-> 
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index ff1a175b44..52d5e71793 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -553,6 +553,17 @@ static int spapr_xive_cpu_intc_create(SpaprInterruptController *intc,
->      return 0;
->  }
->  
-> +static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, int val)
-> +{
-> +    SpaprXive *xive = SPAPR_XIVE(intc);
-> +
-> +    if (kvm_irqchip_in_kernel()) {
-> +        kvmppc_xive_source_set_irq(&xive->source, irq, val);
-> +    } else {
-> +        xive_source_set_irq(&xive->source, irq, val);
-> +    }
-> +}
-> +
->  static void spapr_xive_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -574,6 +585,7 @@ static void spapr_xive_class_init(ObjectClass *klass, void *data)
->      sicc->cpu_intc_create = spapr_xive_cpu_intc_create;
->      sicc->claim_irq = spapr_xive_claim_irq;
->      sicc->free_irq = spapr_xive_free_irq;
-> +    sicc->set_irq = spapr_xive_set_irq;
->  }
->  
->  static const TypeInfo spapr_xive_info = {
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index 224fe1efcd..02372697f6 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -373,6 +373,14 @@ static void xics_spapr_free_irq(SpaprInterruptController *intc, int irq)
->      memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
->  }
->  
-> +static void xics_spapr_set_irq(SpaprInterruptController *intc, int irq, int val)
-> +{
-> +    ICSState *ics = ICS_SPAPR(intc);
-> +    uint32_t srcno = irq - ics->offset;
-> +
-> +    ics_set_irq(ics, srcno, val);
+> v2: Use 4*GiB in arm_load_dtb (sgarzare)
 
-And we have:
 
-void ics_set_irq(void *opaque, int srcno, int val)
-{
-    ICSState *ics = (ICSState *)opaque;
 
-    if (kvm_irqchip_in_kernel()) {
-        ics_kvm_set_irq(ics, srcno, val);
-        return;
-    }
+Applied to target-arm.next, thanks.
 
-    if (ics->irqs[srcno].flags & XICS_FLAGS_IRQ_LSI) {
-        ics_set_irq_lsi(ics, srcno, val);
-    } else {
-        ics_set_irq_msi(ics, srcno, val);
-    }
-}
-
-The kvm_irqchip_in_kernel() block would fit better in xics_spapr_set_irq(),
-like it is already the case for XIVE. Maybe do it now while here ?
-
-Anyway,
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> +}
-> +
->  static void ics_spapr_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -384,6 +392,7 @@ static void ics_spapr_class_init(ObjectClass *klass, void *data)
->      sicc->cpu_intc_create = xics_spapr_cpu_intc_create;
->      sicc->claim_irq = xics_spapr_claim_irq;
->      sicc->free_irq = xics_spapr_free_irq;
-> +    sicc->set_irq = xics_spapr_set_irq;
->  }
->  
->  static const TypeInfo ics_spapr_info = {
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index dfa875b7cd..4922062908 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -123,14 +123,6 @@ static int spapr_irq_post_load_xics(SpaprMachineState *spapr, int version_id)
->      return 0;
->  }
->  
-> -static void spapr_irq_set_irq_xics(void *opaque, int irq, int val)
-> -{
-> -    SpaprMachineState *spapr = opaque;
-> -    uint32_t srcno = irq - spapr->ics->offset;
-> -
-> -    ics_set_irq(spapr->ics, srcno, val);
-> -}
-> -
->  static void spapr_irq_reset_xics(SpaprMachineState *spapr, Error **errp)
->  {
->      Error *local_err = NULL;
-> @@ -159,7 +151,6 @@ SpaprIrq spapr_irq_xics = {
->      .dt_populate = spapr_dt_xics,
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
-> -    .set_irq     = spapr_irq_set_irq_xics,
->      .init_kvm    = spapr_irq_init_kvm_xics,
->  };
->  
-> @@ -208,17 +199,6 @@ static void spapr_irq_reset_xive(SpaprMachineState *spapr, Error **errp)
->      spapr_xive_mmio_set_enabled(spapr->xive, true);
->  }
->  
-> -static void spapr_irq_set_irq_xive(void *opaque, int irq, int val)
-> -{
-> -    SpaprMachineState *spapr = opaque;
-> -
-> -    if (kvm_irqchip_in_kernel()) {
-> -        kvmppc_xive_source_set_irq(&spapr->xive->source, irq, val);
-> -    } else {
-> -        xive_source_set_irq(&spapr->xive->source, irq, val);
-> -    }
-> -}
-> -
->  static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **errp)
->  {
->      if (kvm_enabled()) {
-> @@ -236,7 +216,6 @@ SpaprIrq spapr_irq_xive = {
->      .dt_populate = spapr_dt_xive,
->      .post_load   = spapr_irq_post_load_xive,
->      .reset       = spapr_irq_reset_xive,
-> -    .set_irq     = spapr_irq_set_irq_xive,
->      .init_kvm    = spapr_irq_init_kvm_xive,
->  };
->  
-> @@ -316,13 +295,6 @@ static void spapr_irq_reset_dual(SpaprMachineState *spapr, Error **errp)
->      spapr_irq_current(spapr)->reset(spapr, errp);
->  }
->  
-> -static void spapr_irq_set_irq_dual(void *opaque, int irq, int val)
-> -{
-> -    SpaprMachineState *spapr = opaque;
-> -
-> -    spapr_irq_current(spapr)->set_irq(spapr, irq, val);
-> -}
-> -
->  /*
->   * Define values in sync with the XIVE and XICS backend
->   */
-> @@ -336,7 +308,6 @@ SpaprIrq spapr_irq_dual = {
->      .dt_populate = spapr_irq_dt_populate_dual,
->      .post_load   = spapr_irq_post_load_dual,
->      .reset       = spapr_irq_reset_dual,
-> -    .set_irq     = spapr_irq_set_irq_dual,
->      .init_kvm    = NULL, /* should not be used */
->  };
->  
-> @@ -422,6 +393,15 @@ int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
->      return 0;
->  }
->  
-> +static void spapr_set_irq(void *opaque, int irq, int level)
-> +{
-> +    SpaprMachineState *spapr = SPAPR_MACHINE(opaque);
-> +    SpaprInterruptControllerClass *sicc
-> +        = SPAPR_INTC_GET_CLASS(spapr->active_intc);
-> +
-> +    sicc->set_irq(spapr->active_intc, irq, level);
-> +}
-> +
->  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->  {
->      MachineState *machine = MACHINE(spapr);
-> @@ -510,7 +490,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->          spapr_xive_hcall_init(spapr);
->      }
->  
-> -    spapr->qirqs = qemu_allocate_irqs(spapr->irq->set_irq, spapr,
-> +    spapr->qirqs = qemu_allocate_irqs(spapr_set_irq, spapr,
->                                        spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
->  
->  out:
-> @@ -744,7 +724,6 @@ SpaprIrq spapr_irq_xics_legacy = {
->      .dt_populate = spapr_dt_xics,
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
-> -    .set_irq     = spapr_irq_set_irq_xics,
->      .init_kvm    = spapr_irq_init_kvm_xics,
->  };
->  
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 3102d152b2..8286a9aa63 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -56,6 +56,9 @@ typedef struct SpaprInterruptControllerClass {
->      int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
->                       Error **errp);
->      void (*free_irq)(SpaprInterruptController *intc, int irq);
-> +
-> +    /* These methods should only be called on the active intc */
-> +    void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
->  } SpaprInterruptControllerClass;
->  
->  void spapr_irq_update_active_intc(SpaprMachineState *spapr);
-> @@ -83,7 +86,6 @@ typedef struct SpaprIrq {
->                          void *fdt, uint32_t phandle);
->      int (*post_load)(SpaprMachineState *spapr, int version_id);
->      void (*reset)(SpaprMachineState *spapr, Error **errp);
-> -    void (*set_irq)(void *opaque, int srcno, int val);
->      void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
->  } SpaprIrq;
->  
-
+-- PMM
 
