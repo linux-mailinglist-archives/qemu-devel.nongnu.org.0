@@ -2,40 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3BBC06D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:00:11 +0200 (CEST)
-Received: from localhost ([::1]:51136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA2EC06AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:51:36 +0200 (CEST)
+Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqn3-00052P-Ov
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:00:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34675)
+	id 1iDqek-0004F4-A6
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:51:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58557)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqD4-0003ur-CT
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:59 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDpy4-0007aR-PI
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:07:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqD2-0000Ri-0R
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:57 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49752)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDqCw-0000IU-Pd; Fri, 27 Sep 2019 09:22:50 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDpHx-0003za-Nm; Fri, 27 Sep 2019 15:23:57 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 2/9] block: reverse order for reopen commits
-Date: Fri, 27 Sep 2019 15:23:48 +0300
-Message-Id: <20190927122355.7344-3-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190927122355.7344-1-vsementsov@virtuozzo.com>
-References: <20190927122355.7344-1-vsementsov@virtuozzo.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iDpy3-0005GR-6n
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:07:28 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41609)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDpy3-0005G9-28
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:07:27 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w17so5111659oiw.8
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:07:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HLTVzSrf+tbOprGdeY1EjMH96uf7xbbND9M4/9Ikjn4=;
+ b=Rd+Gqi3/pPuFt7kwr0q0RraaxEG267+jQaryTZLaqgIJViiinTjMjBtAnC/J0hmZhA
+ 6pxNNfgUpdIu3htRSsgYBbjxF3tkNHSLkWNYrbdeBqHIYiKKTfSQjn3aP3+wRt4ajjUv
+ m3kPTQV24J5ce+aDb9Q5hLUEWd7dPRxa92WLkbfkgCpYIE91b58MQkFLgLuTwXFmhvSb
+ HR60wxBOxB/n5XWJQiksaXzY6VneQ3IHGRybKKkQhEBhjJz9+9PZm2K1Ey+soOW7CG5/
+ VeNs/3lD8tudN1+mn820BvYQ80h3M0qy+o6busz/ml7l8yXrlBkPICrP8pzqfvCfvxaO
+ Hn2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HLTVzSrf+tbOprGdeY1EjMH96uf7xbbND9M4/9Ikjn4=;
+ b=rz4/61SqdkjzU9GuN27BBRfrr1ORXa1ySBFL+/ijO1d7iORk9tNmLcr16koLSgJCVa
+ 2l/jAF+mx30SlCIpFGeWA+Q5CKMuplM7eyO0tbbNYI5ssQWDgZbdcUKVGdela1A9XJ0D
+ o7iCyR486qj8y3I1QAIfSyDA4gjDg2zwtYZ9NPKlYJwI4diPP5w16auW5NcJLq6wYCvP
+ 6N4bKnJjEXXVe43fmcTNjSZBfp1vnhN1DM0XxFqXYP8NFeCK8WktDwAR4l3edxuJ5MCu
+ dNkjip/RttVklagoj7EEBIHg7K3WEaAwPX6UZ77avh1So+ZS6c4762oL60RO/HdRaxxd
+ D+Lw==
+X-Gm-Message-State: APjAAAUJXSzjZsp7b6Ht4mSeZFsmu/FZulTxkcs+8STzmTxFICsNy2eN
+ dPUUBZKSBLVHz32R7aia049knETFumv8MoID3YTfIA==
+X-Google-Smtp-Source: APXvYqyoFOWi5vdyYPAovY+C9UEwY4lb1Y8ASGUje2FU7MtBHTEVihasNfnDXXkhoDyk1IVtY15H14QbxO/lmXRVG6o=
+X-Received: by 2002:aca:50d8:: with SMTP id e207mr6573765oib.48.1569589645543; 
+ Fri, 27 Sep 2019 06:07:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+References: <20190821163341.16309-1-damien.hedde@greensocs.com>
+ <20190821163341.16309-3-damien.hedde@greensocs.com>
+ <20190911080642.GC13785@umbus.fritz.box>
+ <1a3b4d7b-77a9-46af-e6f4-dc7b3ba13b4f@greensocs.com>
+ <20190918091135.GA22790@umbus.fritz.box>
+ <f482912f-9541-f90c-bd80-5c95322e670d@greensocs.com>
+In-Reply-To: <f482912f-9541-f90c-bd80-5c95322e670d@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Sep 2019 14:07:14 +0100
+Message-ID: <CAFEAcA8pja6bOh4vwqWco=1ZtqR0mJFUuZT+WjJwYuA5AZZuQg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/10] hw/core: create Resettable QOM interface
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,49 +76,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's needed to fix reopening qcow2 with bitmaps to RW. Currently it
-can't work, as qcow2 needs write access to file child, to mark bitmaps
-in-image with IN_USE flag. But usually children goes after parents in
-reopen queue and file child is still RO on qcow2 reopen commit. Reverse
-reopen order to fix it.
+On Tue, 24 Sep 2019 at 12:21, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+> Hi All,
+>
+> Do you think I should respin with the sugestions made by David so far ?
+>
+> + reset type removal
+> + s/init/enter/ for the phases terminology
+> + handling of parent changes during reset
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Max Reitz <mreitz@redhat.com>
-Acked-by: John Snow <jsnow@redhat.com>
----
- block.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+My takes:
+ * I think we should keep the reset type. Among other things,
+   we probably want a reset type for "PCI bus reset" and
+   "SCSI bus reset", when we come to conversion of those
+ * I don't have an opinion about the phase names
+ * I think we should look at what we're doing for dynamic
+   changes of the reset tree. This falls into two parts,
+   both of which have come up in this thread:
+    - hotplug, ie what state should a hotplugged device
+      get set up to if it's plugged into a bus that's
+      currently in reset
+    - the modification of the qbus tree during reset,
+      like the raspi sd card thing
+   These feel related to me, so maybe handling the first
+   gives a better answer to handling the second ?
 
-diff --git a/block.c b/block.c
-index 6a3b33f1ec..a2de16c8c7 100644
---- a/block.c
-+++ b/block.c
-@@ -3486,10 +3486,16 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
-         bs_entry->perms_checked = true;
-     }
- 
--    /* If we reach this point, we have success and just need to apply the
--     * changes
-+    /*
-+     * If we reach this point, we have success and just need to apply the
-+     * changes.
-+     *
-+     * Reverse order is used to comfort qcow2 driver: on commit it need to write
-+     * IN_USE flag to the image, to mark bitmaps in the image as invalid. But
-+     * children are usually goes after parents in reopen-queue, so go from last
-+     * to first element.
-      */
--    QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
-+    QTAILQ_FOREACH_REVERSE(bs_entry, bs_queue, entry) {
-         bdrv_reopen_commit(&bs_entry->state);
-     }
- 
--- 
-2.21.0
-
+thanks
+-- PMM
 
