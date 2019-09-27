@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDAFC07D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:45:18 +0200 (CEST)
-Received: from localhost ([::1]:51878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09CF2C07C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:40:45 +0200 (CEST)
+Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrUj-0003FG-FJ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:45:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39813)
+	id 1iDrQJ-0007TD-CD
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iDqa7-0001C1-CC
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:52 -0400
+ (envelope-from <armbru@redhat.com>) id 1iDqa7-0001Bi-5D
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iDqa4-00061h-SN
+ (envelope-from <armbru@redhat.com>) id 1iDqa4-00061c-Rp
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48466)
+Received: from mx1.redhat.com ([209.132.183.28]:31390)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa4-000616-In
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa4-000618-Iv
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:44 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C6B737FDFE;
+ by mx1.redhat.com (Postfix) with ESMTPS id CC77C2BFDC;
  Fri, 27 Sep 2019 13:46:43 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D719510001BC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB5A31000232;
  Fri, 27 Sep 2019 13:46:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 668971138660; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
+ id 69EB41138661; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/26] qapi: Rename .owner to .defined_in
-Date: Fri, 27 Sep 2019 15:46:15 +0200
-Message-Id: <20190927134639.4284-3-armbru@redhat.com>
+Subject: [PATCH v2 03/26] qapi: New QAPISourceInfo, replacing dict
+Date: Fri, 27 Sep 2019 15:46:16 +0200
+Message-Id: <20190927134639.4284-4-armbru@redhat.com>
 In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
 References: <20190927134639.4284-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 27 Sep 2019 13:46:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Fri, 27 Sep 2019 13:46:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,173 +62,188 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QAPISchemaMember.owner is the name of the defining entity.  That's a
-confusing name when an object type inherits members from a base type.
-Rename it to .defined_in.  Rename .set_owner() and ._pretty_owner() to
-match.
+We track source locations with a dict of the form
+
+    {'file': FNAME, 'line': LINENO, 'parent': PARENT}
+
+where PARENT is None for the main file, and the include directive's
+source location for included files.
+
+This is serviceable enough, but the next commit will add information,
+and that's going to come out cleaner if we turn this into a class.  So
+do that.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/common.py | 61 +++++++++++++++++++++---------------------
- 1 file changed, 31 insertions(+), 30 deletions(-)
+ scripts/qapi/common.py | 69 +++++++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 28 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 155b87b825..bfb3e8a493 100644
+index bfb3e8a493..5843f3eeb2 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -1319,7 +1319,7 @@ class QAPISchemaEnumType(QAPISchemaType):
-         QAPISchemaType.__init__(self, name, info, doc, ifcond)
-         for m in members:
-             assert isinstance(m, QAPISchemaEnumMember)
--            m.set_owner(name)
-+            m.set_defined_in(name)
-         assert prefix is None or isinstance(prefix, str)
-         self.members =3D members
-         self.prefix =3D prefix
-@@ -1405,13 +1405,13 @@ class QAPISchemaObjectType(QAPISchemaType):
-         assert base is None or isinstance(base, str)
-         for m in local_members:
-             assert isinstance(m, QAPISchemaObjectTypeMember)
--            m.set_owner(name)
-+            m.set_defined_in(name)
-         if variants is not None:
-             assert isinstance(variants, QAPISchemaObjectTypeVariants)
--            variants.set_owner(name)
-+            variants.set_defined_in(name)
-         for f in features:
-             assert isinstance(f, QAPISchemaFeature)
--            f.set_owner(name)
-+            f.set_defined_in(name)
-         self._base_name =3D base
-         self.base =3D None
-         self.local_members =3D local_members
-@@ -1521,15 +1521,16 @@ class QAPISchemaMember(object):
-         assert isinstance(name, str)
-         self.name =3D name
-         self.ifcond =3D ifcond or []
--        self.owner =3D None
-+        self.defined_in =3D None
+@@ -13,6 +13,7 @@
 =20
--    def set_owner(self, name):
--        assert not self.owner
--        self.owner =3D name
-+    def set_defined_in(self, name):
-+        assert not self.defined_in
-+        self.defined_in =3D name
+ from __future__ import print_function
+ from contextlib import contextmanager
++import copy
+ import errno
+ import os
+ import re
+@@ -53,34 +54,50 @@ struct_types =3D {}
+ union_types =3D {}
+ all_names =3D {}
 =20
-     def check_clash(self, info, seen):
-         cname =3D c_name(self.name)
--        if cname.lower() !=3D cname and self.owner not in name_case_whit=
-elist:
-+        if (cname.lower() !=3D cname
-+                and self.defined_in not in name_case_whitelist):
-             raise QAPISemError(info,
-                                "%s should not use uppercase" % self.desc=
-ribe())
-         if cname in seen:
-@@ -1537,27 +1538,27 @@ class QAPISchemaMember(object):
-                                (self.describe(), seen[cname].describe())=
-)
-         seen[cname] =3D self
++
+ #
+ # Parsing the schema into expressions
+ #
 =20
--    def _pretty_owner(self):
--        owner =3D self.owner
--        if owner.startswith('q_obj_'):
-+    def _pretty_defined_in(self):
-+        defined_in =3D self.defined_in
-+        if defined_in.startswith('q_obj_'):
-             # See QAPISchema._make_implicit_object_type() - reverse the
-             # mapping there to create a nice human-readable description
--            owner =3D owner[6:]
--            if owner.endswith('-arg'):
--                return '(parameter of %s)' % owner[:-4]
--            elif owner.endswith('-base'):
--                return '(base of %s)' % owner[:-5]
-+            defined_in =3D defined_in[6:]
-+            if defined_in.endswith('-arg'):
-+                return '(parameter of %s)' % defined_in[:-4]
-+            elif defined_in.endswith('-base'):
-+                return '(base of %s)' % defined_in[:-5]
++class QAPISourceInfo(object):
++    def __init__(self, fname, line, parent):
++        self.fname =3D fname
++        self.line =3D line
++        self.parent =3D parent
+=20
+-def error_path(parent):
+-    res =3D ''
+-    while parent:
+-        res =3D ('In file included from %s:%d:\n' % (parent['file'],
+-                                                   parent['line'])) + re=
+s
+-        parent =3D parent['parent']
+-    return res
++    def next_line(self):
++        info =3D copy.copy(self)
++        info.line +=3D 1
++        return info
++
++    def loc(self):
++        return '%s:%d' % (self.fname, self.line)
++
++    def include_path(self):
++        ret =3D ''
++        parent =3D self.parent
++        while parent:
++            ret =3D 'In file included from %s:\n' % parent.loc() + ret
++            parent =3D parent.parent
++        return ret
++
++    def __str__(self):
++        return self.include_path() + self.loc()
+=20
+=20
+ class QAPIError(Exception):
+-    def __init__(self, fname, line, col, incl_info, msg):
++    def __init__(self, info, col, msg):
+         Exception.__init__(self)
+-        self.fname =3D fname
+-        self.line =3D line
++        self.info =3D info
+         self.col =3D col
+-        self.info =3D incl_info
+         self.msg =3D msg
+=20
+     def __str__(self):
+-        loc =3D '%s:%d' % (self.fname, self.line)
++        loc =3D str(self.info)
+         if self.col is not None:
++            assert self.info.line is not None
+             loc +=3D ':%s' % self.col
+-        return error_path(self.info) + '%s: %s' % (loc, self.msg)
++        return loc + ': ' + self.msg
+=20
+=20
+ class QAPIParseError(QAPIError):
+@@ -91,14 +108,12 @@ class QAPIParseError(QAPIError):
+                 col =3D (col + 7) % 8 + 1
              else:
--                assert owner.endswith('-wrapper')
-+                assert defined_in.endswith('-wrapper')
-                 # Unreachable and not implemented
-                 assert False
--        if owner.endswith('Kind'):
-+        if defined_in.endswith('Kind'):
-             # See QAPISchema._make_implicit_enum_type()
--            return '(branch of %s)' % owner[:-4]
--        return '(%s of %s)' % (self.role, owner)
-+            return '(branch of %s)' % defined_in[:-4]
-+        return '(%s of %s)' % (self.role, defined_in)
-=20
-     def describe(self):
--        return "'%s' %s" % (self.name, self._pretty_owner())
-+        return "'%s' %s" % (self.name, self._pretty_defined_in())
+                 col +=3D 1
+-        QAPIError.__init__(self, parser.fname, parser.line, col,
+-                           parser.incl_info, msg)
++        QAPIError.__init__(self, parser.info, col, msg)
 =20
 =20
- class QAPISchemaEnumMember(QAPISchemaMember):
-@@ -1578,7 +1579,7 @@ class QAPISchemaObjectTypeMember(QAPISchemaMember):
-         self.optional =3D optional
+ class QAPISemError(QAPIError):
+     def __init__(self, info, msg):
+-        QAPIError.__init__(self, info['file'], info['line'], None,
+-                           info['parent'], msg)
++        QAPIError.__init__(self, info, None, msg)
 =20
+=20
+ class QAPIDoc(object):
+@@ -382,12 +397,11 @@ class QAPISchemaParser(object):
+     def __init__(self, fp, previously_included=3D[], incl_info=3DNone):
+         self.fname =3D fp.name
+         previously_included.append(os.path.abspath(fp.name))
+-        self.incl_info =3D incl_info
+         self.src =3D fp.read()
+         if self.src =3D=3D '' or self.src[-1] !=3D '\n':
+             self.src +=3D '\n'
+         self.cursor =3D 0
+-        self.line =3D 1
++        self.info =3D QAPISourceInfo(self.fname, 1, incl_info)
+         self.line_pos =3D 0
+         self.exprs =3D []
+         self.docs =3D []
+@@ -395,8 +409,7 @@ class QAPISchemaParser(object):
+         cur_doc =3D None
+=20
+         while self.tok is not None:
+-            info =3D {'file': self.fname, 'line': self.line,
+-                    'parent': self.incl_info}
++            info =3D self.info
+             if self.tok =3D=3D '#':
+                 self.reject_expr_doc(cur_doc)
+                 cur_doc =3D self.get_doc(info)
+@@ -456,9 +469,9 @@ class QAPISchemaParser(object):
+         # catch inclusion cycle
+         inf =3D info
+         while inf:
+-            if incl_abs_fname =3D=3D os.path.abspath(inf['file']):
++            if incl_abs_fname =3D=3D os.path.abspath(inf.fname):
+                 raise QAPISemError(info, "Inclusion loop for %s" % inclu=
+de)
+-            inf =3D inf['parent']
++            inf =3D inf.parent
+=20
+         # skip multiple include of the same file
+         if incl_abs_fname in previously_included:
+@@ -552,7 +565,7 @@ class QAPISchemaParser(object):
+                 if self.cursor =3D=3D len(self.src):
+                     self.tok =3D None
+                     return
+-                self.line +=3D 1
++                self.info =3D self.info.next_line()
+                 self.line_pos =3D self.cursor
+             elif not self.tok.isspace():
+                 # Show up to next structural, whitespace or quote
+@@ -1172,7 +1185,7 @@ class QAPISchemaEntity(object):
      def check(self, schema):
--        assert self.owner
-+        assert self.defined_in
-         self.type =3D schema.lookup_type(self._type_name)
-         assert self.type
+         assert not self._checked
+         if self.info:
+-            self._module =3D os.path.relpath(self.info['file'],
++            self._module =3D os.path.relpath(self.info.fname,
+                                            os.path.dirname(schema.fname)=
+)
+         self._checked =3D True
 =20
-@@ -1598,9 +1599,9 @@ class QAPISchemaObjectTypeVariants(object):
-         self.tag_member =3D tag_member
-         self.variants =3D variants
+@@ -1781,9 +1794,9 @@ class QAPISchema(object):
+         include =3D expr['include']
+         assert doc is None
+         main_info =3D info
+-        while main_info['parent']:
+-            main_info =3D main_info['parent']
+-        fname =3D os.path.relpath(include, os.path.dirname(main_info['fi=
+le']))
++        while main_info.parent:
++            main_info =3D main_info.parent
++        fname =3D os.path.relpath(include, os.path.dirname(main_info.fna=
+me))
+         self._def_entity(QAPISchemaInclude(fname, info))
 =20
--    def set_owner(self, name):
-+    def set_defined_in(self, name):
-         for v in self.variants:
--            v.set_owner(name)
-+            v.set_defined_in(name)
-=20
-     def check(self, schema, seen):
-         if not self.tag_member:    # flat union
-@@ -1616,7 +1617,7 @@ class QAPISchemaObjectTypeVariants(object):
-                 if m.name not in cases:
-                     v =3D QAPISchemaObjectTypeVariant(m.name, 'q_empty',
-                                                     m.ifcond)
--                    v.set_owner(self.tag_member.owner)
-+                    v.set_defined_in(self.tag_member.defined_in)
-                     self.variants.append(v)
-         assert self.variants
-         for v in self.variants:
-@@ -1648,8 +1649,8 @@ class QAPISchemaAlternateType(QAPISchemaType):
-         QAPISchemaType.__init__(self, name, info, doc, ifcond)
-         assert isinstance(variants, QAPISchemaObjectTypeVariants)
-         assert variants.tag_member
--        variants.set_owner(name)
--        variants.tag_member.set_owner(self.name)
-+        variants.set_defined_in(name)
-+        variants.tag_member.set_defined_in(self.name)
-         self.variants =3D variants
-=20
-     def check(self, schema):
-@@ -1829,7 +1830,7 @@ class QAPISchema(object):
-                 for v in values]
-=20
-     def _make_implicit_enum_type(self, name, info, ifcond, values):
--        # See also QAPISchemaObjectTypeMember._pretty_owner()
-+        # See also QAPISchemaObjectTypeMember._pretty_defined_in()
-         name =3D name + 'Kind'   # Use namespace reserved by add_name()
-         self._def_entity(QAPISchemaEnumType(
-             name, info, None, ifcond, self._make_enum_members(values), N=
-one))
-@@ -1845,7 +1846,7 @@ class QAPISchema(object):
-                                    role, members):
-         if not members:
-             return None
--        # See also QAPISchemaObjectTypeMember._pretty_owner()
-+        # See also QAPISchemaObjectTypeMember._pretty_defined_in()
-         name =3D 'q_obj_%s-%s' % (name, role)
-         typ =3D self.lookup_entity(name, QAPISchemaObjectType)
-         if typ:
+     def _def_builtin_type(self, name, json_type, c_type):
 --=20
 2.21.0
 
