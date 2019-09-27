@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03E7C02AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:50:58 +0200 (CEST)
-Received: from localhost ([::1]:49026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01020C02CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:59:55 +0200 (CEST)
+Received: from localhost ([::1]:49112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDmtt-0001L9-GN
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33553)
+	id 1iDn2Y-0003yN-0m
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:59:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33598)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iDmmZ-0003gR-KN
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:25 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iDmmc-0003lU-Ot
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iDmmY-00081Y-9l
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35236)
+ (envelope-from <mreitz@redhat.com>) id 1iDmmb-00086D-Em
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54346)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iDmmV-0007tX-Ij; Fri, 27 Sep 2019 05:43:19 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1iDmmX-0007zN-Rf; Fri, 27 Sep 2019 05:43:21 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C297E4FCD9;
- Fri, 27 Sep 2019 09:43:18 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 19B9B3099F56;
+ Fri, 27 Sep 2019 09:43:21 +0000 (UTC)
 Received: from localhost (ovpn-204-76.brq.redhat.com [10.40.204.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BA03600C6;
- Fri, 27 Sep 2019 09:43:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A68095C21A;
+ Fri, 27 Sep 2019 09:43:20 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 14/18] iotests: Make 110 work with data_file
-Date: Fri, 27 Sep 2019 11:42:38 +0200
-Message-Id: <20190927094242.11152-15-mreitz@redhat.com>
+Subject: [PATCH 15/18] iotests: Make 137 work with data_file
+Date: Fri, 27 Sep 2019 11:42:39 +0200
+Message-Id: <20190927094242.11152-16-mreitz@redhat.com>
 In-Reply-To: <20190927094242.11152-1-mreitz@redhat.com>
 References: <20190927094242.11152-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 27 Sep 2019 09:43:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 27 Sep 2019 09:43:21 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,84 +60,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only difference is that the json:{} filename of the image looks
-different.  We actually do not care about that filename in this test, we
-are only interested in (1) that there is a json:{} filename, and (2)
-whether the backing filename can be constructed.
+When using an external data file, there are no refcounts for data
+clusters.  We thus have to adjust the corruption test in this patch to
+not be based around a data cluster allocation, but the L2 table
+allocation (L2 tables are still refcounted with external data files).
 
-So just filter out the json:{} data, thus making this test pass both
-with and without data_file.
+Doing so means this test works both with and without external data
+files.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/110     | 7 +++++--
- tests/qemu-iotests/110.out | 4 ++--
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/137     | 10 ++++++----
+ tests/qemu-iotests/137.out |  4 +---
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
-index f78df0e6e1..34459dcd60 100755
---- a/tests/qemu-iotests/110
-+++ b/tests/qemu-iotests/110
-@@ -67,6 +67,7 @@ echo
- # Across blkdebug without a config file, you cannot reconstruct filename=
-s, so
- # qemu is incapable of knowing the directory of the top image from the f=
-ilename
- # alone. However, using bdrv_dirname(), it should still work.
-+# (Filter out the json:{} filename so this test works with external data=
- files)
- TEST_IMG=3D"json:{
-     'driver': '$IMGFMT',
-     'file': {
-@@ -82,7 +83,8 @@ TEST_IMG=3D"json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info | grep -v 'backing file format'
-+}" _img_info | _filter_img_info | grep -v 'backing file format' \
-+    | sed -e 's#^image: json:.*#image: json:{ /* filtered */ }#'
+diff --git a/tests/qemu-iotests/137 b/tests/qemu-iotests/137
+index 6cf2997577..dd3484205e 100755
+--- a/tests/qemu-iotests/137
++++ b/tests/qemu-iotests/137
+@@ -138,14 +138,16 @@ $QEMU_IO \
+     "$TEST_IMG" 2>&1 | _filter_qemu_io
 =20
- echo
- echo '=3D=3D=3D Backing name is always relative to the backed image =3D=3D=
-=3D'
-@@ -114,7 +116,8 @@ TEST_IMG=3D"json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info | grep -v 'backing file format'
-+}" _img_info | _filter_img_info | grep -v 'backing file format' \
-+    | sed -e 's#^image: json:.*#image: json:{ /* filtered */ }#'
+ # The dirty bit must not be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++# (Filter the external data file bit)
++$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features \
++    | sed -e 's/0x4/0x0/'
 =20
-=20
- # success, all done
-diff --git a/tests/qemu-iotests/110.out b/tests/qemu-iotests/110.out
-index f60b26390e..f835553a99 100644
---- a/tests/qemu-iotests/110.out
-+++ b/tests/qemu-iotests/110.out
-@@ -11,7 +11,7 @@ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IM=
-GFMT.base)
-=20
- =3D=3D=3D Non-reconstructable filename =3D=3D=3D
-=20
--image: json:{"driver": "IMGFMT", "file": {"set-state.0.event": "read_aio=
-", "image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driver"=
-: "blkdebug", "set-state.0.new_state": 42}}
-+image: json:{ /* filtered */ }
- file format: IMGFMT
- virtual size: 64 MiB (67108864 bytes)
- backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGFMT.base)
-@@ -22,7 +22,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D671=
-08864 backing_file=3Dt.IMGFMT.b
-=20
- =3D=3D=3D Nodes without a common directory =3D=3D=3D
-=20
--image: json:{"driver": "IMGFMT", "file": {"children": [{"driver": "file"=
-, "filename": "TEST_DIR/t.IMGFMT"}, {"driver": "file", "filename": "TEST_=
-DIR/t.IMGFMT.copy"}], "driver": "quorum", "vote-threshold": 1}}
-+image: json:{ /* filtered */ }
- file format: IMGFMT
- virtual size: 64 MiB (67108864 bytes)
- backing file: t.IMGFMT.base (cannot determine actual path)
+ # Similarly we can test whether corruption detection has been enabled:
+-# Create L1/L2, overwrite first entry in refcount block, allocate someth=
+ing.
++# Create L1, overwrite refcounts, force allocation of L2 by writing
++# data.
+ # Disabling the checks should fail, so the corruption must be detected.
+ _make_test_img 64M
+-$QEMU_IO -c "write 0 64k" "$TEST_IMG" | _filter_qemu_io
+-poke_file "$TEST_IMG" "$((0x20000))" "\x00\x00"
++poke_file "$TEST_IMG" "$((0x20000))" "\x00\x00\x00\x00\x00\x00\x00\x00"
+ $QEMU_IO \
+     -c "reopen -o overlap-check=3Dnone,lazy-refcounts=3D42" \
+     -c "write 64k 64k" \
+diff --git a/tests/qemu-iotests/137.out b/tests/qemu-iotests/137.out
+index 1c6569eb2c..bd5f76d604 100644
+--- a/tests/qemu-iotests/137.out
++++ b/tests/qemu-iotests/137.out
+@@ -38,9 +38,7 @@ wrote 512/512 bytes at offset 0
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_=
+IO}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS =
+"$@" )
+ incompatible_features     0x0
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
+-wrote 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ qemu-io: Parameter 'lazy-refcounts' expects 'on' or 'off'
+-qcow2: Marking image as corrupt: Preventing invalid write on metadata (o=
+verlaps with qcow2_header); further corruption events will be suppressed
++qcow2: Marking image as corrupt: Preventing invalid allocation of L2 tab=
+le at offset 0; further corruption events will be suppressed
+ write failed: Input/output error
+ *** done
 --=20
 2.21.0
 
