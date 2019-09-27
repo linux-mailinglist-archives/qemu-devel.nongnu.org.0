@@ -2,56 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D0DBFF26
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:32:12 +0200 (CEST)
-Received: from localhost ([::1]:46910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E40BFF2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:37:09 +0200 (CEST)
+Received: from localhost ([::1]:46956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDjnW-0004tP-TS
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48185)
+	id 1iDjsJ-0001sV-Uk
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:37:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iDjAE-00082Q-Di
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:51:35 -0400
+ (envelope-from <bounces@canonical.com>) id 1iDjPS-0007ON-DL
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:07:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iDjAC-0006Ok-6D
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:51:34 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:49659)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iDjAB-0006K8-Q7; Fri, 27 Sep 2019 01:51:32 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46fgsC3KtJz9sPY; Fri, 27 Sep 2019 15:51:27 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569563487;
- bh=zBvjfVZR9kT89//ygMqCXGAqVDWJYCxH7bM+2sUku6w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GXx9IGEiFh/0pPs+LgyjWTg3r6bhmZiWtZOgz/WlySvq3YGfq0+C9gb0bGAXfX503
- 7H5tsAhXFHPBeRJAYXEdhGwp9PPOflIpfjj5XAKAiq+jgO0VzQGzWzNC9lv43E6sva
- JNLNGKF2z/ji603AEBWPpsICHcwlwH74546vOVK0=
-Date: Fri, 27 Sep 2019 15:51:04 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 20/20] spapr: Eliminate SpaprIrq::init hook
-Message-ID: <20190927055104.GG17405@umbus>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-21-david@gibson.dropbear.id.au>
- <1b74c0fc-b318-df5a-d66d-fe59ae562d70@kaod.org>
- <20190926011336.GS17405@umbus>
- <92ce15dd-f7f9-3d2b-4226-9693bd9cfd65@kaod.org>
- <20190926173539.4a07d419@bahia.lan>
+ (envelope-from <bounces@canonical.com>) id 1iDjPR-00006z-3c
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:07:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37264)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iDjPQ-0008V8-U6
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:07:17 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iDjPP-0007Vb-C2
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:07:15 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 453B92E80CB
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:07:15 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oxour8c+zPVguRmP"
-Content-Disposition: inline
-In-Reply-To: <20190926173539.4a07d419@bahia.lan>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Sep 2019 06:01:07 -0000
+From: RTOS Pharos <1777777@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor pmaydell rtos.pharos
+X-Launchpad-Bug-Reporter: RTOS Pharos (rtos.pharos)
+X-Launchpad-Bug-Modifier: RTOS Pharos (rtos.pharos)
+References: <152947435461.1911.16896504402050089205.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156956406824.19697.12036542530355749063.malone@wampee.canonical.com>
+Subject: [Bug 1777777] Re: arm9 clock pending (SP804)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19056";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6d688f809bb3a6beacefe81db3f0e317f927361c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,108 +65,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Reply-To: Bug 1777777 <1777777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thank you for checking this issue.
 
---oxour8c+zPVguRmP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I looked at the ptimer code, like you said. Just one question: isn't this u=
+sed by other hw as well?
+Maybe this problem is more general...
 
-On Thu, Sep 26, 2019 at 05:35:39PM +0200, Greg Kurz wrote:
-> On Thu, 26 Sep 2019 09:05:56 +0200
-> C=E9dric Le Goater <clg@kaod.org> wrote:
->=20
-> > >>> +    if (spapr->irq->xive) {
-> > >>> +        uint32_t nr_servers =3D spapr_max_server_number(spapr);
-> > >>> +        DeviceState *dev;
-> > >>> +        int i;
-> > >>> +
-> > >>> +        dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
-> > >>> +        qdev_prop_set_uint32(dev, "nr-irqs",
-> > >>> +                             spapr->irq->nr_xirqs + SPAPR_XIRQ_BAS=
-E);
-> > >>> +        /*
-> > >>> +         * 8 XIVE END structures per CPU. One for each available
-> > >>> +         * priority
-> > >>> +         */
-> > >>> +        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> > >>> +        qdev_init_nofail(dev);
-> > >>> +
-> > >>> +        spapr->xive =3D SPAPR_XIVE(dev);
-> > >>> +
-> > >>> +        /* Enable the CPU IPIs */
-> > >>> +        for (i =3D 0; i < nr_servers; ++i) {
-> > >>> +            Error *local_err =3D NULL;
-> > >>> +
-> > >>> +            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, f=
-alse, &local_err);
-> > >>> +            if (local_err) {
-> > >>> +                goto out;
-> > >>> +            }
-> > >>> +        }
-> > >>
-> > >> We could move the IPI claim part in the realize routine of SPAPR_XIV=
-E.
-> > >=20
-> > > Yeah, I know.  I thought about this, but there's a slight complication
-> > > in that the XIVE part doesn't know nr_servers directly.  There's
-> > > several possible ways to handle that, but I wasn't 100% happy with any
-> > > that I came up with yet.
-> >=20
-> > The "nr-ends" property was inappropriate, "nr-servers" would have been
-> > better and we would have hidden the calculation of ENDs 'nr_servers << =
-3'
-> > in the realize routine of SpaprXive.=20
-> >=20
->=20
-> Yeah it would make sense to have nr_servers within the sPAPR XIVE object,
-> so that we don't have to pass it when building the FDT node. Same stands
-> for XICS actually.
->=20
-> And as part of my current work to reduce HW VP consumption, I also need
-> nr_servers to pass it to the KVM device.
->=20
-> > I don't think we can change that without breaking migration though :/
-> >=20
->=20
-> Hmm... why ? The QOM property is just an interface, it doesn't change the
-> state. In the end we migrate the same number of XiveEND objects.
+I also tried (basically) the same example on a aarch64 (raspberry pi3),
+and I don't find any problems there. Maybe could be helpful to look how
+this problem is solved there.
 
-Yeah, I think it can probably be done.  I don't really have the energy
-left to sort it out for the time being, maybe one day.
+Just trying to help
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+-- =
 
---oxour8c+zPVguRmP
-Content-Type: application/pgp-signature; name="signature.asc"
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1777777
 
------BEGIN PGP SIGNATURE-----
+Title:
+  arm9 clock pending (SP804)
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2No0cACgkQbDjKyiDZ
-s5IN2BAAhBdpn1Z7qOk3pScrgqah23xpK+tfs9OiOBdliTZOOlkxq6+golhUgX2F
-f7cEn03B56CWSS6eomM/yzLhkFl/24b2f2LUnUYI/7iapwJ/zsQRDapyfSJkbGui
-bs4jJC5znTWG597YgDoo3BpDv2zRkhajUwWsmvDhh2bUdhlJm54/7MKvosUd3+m6
-aH8d2yJPHibYMca7NUi7fVSTfP0VIwBIT1OL/agmXn3Z5ih7zrED8Js1pH8V7foD
-1EIiu6HoGQmw2aGEd2Brs0+qFY7O6elxbnWS/zInLLIstmv56Q6FfEc5PccTohW+
-vPXFiQMT53yB5t7K2RV8j0QQ4dTRfUU6UlzCsb4732T5iUl9HpVLpG+Ha/Uzhui9
-Xs6rw5PpqQtPGlFfXFXB98+ujAX7pbuMDKXkyy/FH02SxEhr9Tk90NeFYI01CSeE
-hf9cC2rrIg7Itk/KpRqr3SDFPLmuM9/lkC51Rtq8+0hTCFC7cQBfN+7XRKrQSvTO
-1wX/bRgCC/WDFx98L0vdsfHfqV0aLXxnZaqfS3LJmSZ3oRy9Ot45sS4jHNYgq9qR
-wD9FDoaMhhsc/60TSPQa6dMZUQBnyxm/Lj7HOqSO2SGCFQHdO4/ytYxIkXKdd1X2
-Yo9B8lvl9Po1xLUmS3685ZTDS3wUWmBG9Iatth8LgifOwwm913g=
-=UvyF
------END PGP SIGNATURE-----
+Status in QEMU:
+  Confirmed
 
---oxour8c+zPVguRmP--
+Bug description:
+  Hello all,
+
+  I'm using the versatilepb board and the timer Interrupt Mask Status
+  register (offset 0x14 of the SP804) does not seem to be working
+  properly on the latest qemu-2.12. I tried on the 2.5 (i believe this
+  is the mainstream version that comes with Linux) and it works
+  perfectly.
+
+  What happens is that the pending bit does not seem to be set in some
+  scenarios. In my case, I see the timer value decreasing to 0 and then
+  being reset to the reload value and neither does the interrupt is
+  triggered nor the pending bit is set.
+
+  I believe this is a matter of timing since in the "long" run the
+  system eventually catches up (after a few microseconds).
+
+  Thank you
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1777777/+subscriptions
 
