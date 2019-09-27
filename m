@@ -2,129 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D944C09DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:55:16 +0200 (CEST)
-Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1EDC09D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:52:49 +0200 (CEST)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtWU-00012m-Lh
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
+	id 1iDtU7-0006zM-Qc
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iDrIs-0000ac-Nl
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:33:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSU-0002Pz-PI
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iDrIq-00069i-73
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:33:02 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42290)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iDrIp-00069L-Pl
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:32:59 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8REVx0g060293
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:32:51 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v8w272356-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:32:48 -0400
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Fri, 27 Sep 2019 15:32:41 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 27 Sep 2019 15:32:38 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8REWb5852887720
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Sep 2019 14:32:37 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 213B942049;
- Fri, 27 Sep 2019 14:32:37 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AB5BA42042;
- Fri, 27 Sep 2019 14:32:36 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 27 Sep 2019 14:32:36 +0000 (GMT)
-Subject: Re: [PATCH] s390: PCI: fix IOMMU region init
-To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com
-References: <1569507036-15314-1-git-send-email-mjrosato@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- syiRa+UVlsKmx1hsEg==
-Date: Fri, 27 Sep 2019 16:32:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSQ-00086W-IJ
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:42:57 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36706)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDrSQ-000863-6u
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:42:54 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y19so3150280wrd.3
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=dG6U5xvfHaHpDk3CXCVLs61xrDsnr9EUS5qAtKh629M=;
+ b=ZWHHWkoNl/6QmjUJ5PiVhzRxbuGU6F1cPKqH10z13Oy6O17oR+JMfUgcJpqb9xAa7p
+ j+L/NXINfDMEnRdbdcB/EdpFClrlYkLIjOdXLFWdMD+goxcsuHXaHwC8cDTb4goDfPRZ
+ yHLrKhU+g2njFYBd4sxZUcch2Uf1u2dJPUJw1MzIliOxsNg9ECPB6RBibb1OmZROnN6/
+ 0S8nSpO3YNRNADxhkPTJTR9MhytPVbgcXaO6/OAKWKmuFd5iyc7gVma1Tll+NMDlvlrN
+ gfImr7MqnhDpdueOp0ObJFKuXy5Nbhsc8lNZoraS517+JFo7utTjEPzPqyXnunCg47ts
+ garA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dG6U5xvfHaHpDk3CXCVLs61xrDsnr9EUS5qAtKh629M=;
+ b=RsEns9J+vfBJG5PmYxacLIQri7LXXmNc9XWy5bvghKd6O93qo5BOjyQIu2wNFfRE8o
+ E/hVrVCh9NnhhILa54NGXXCRSya1s39YbEz3gzL4l5uNMIXSLhnMOnmbxIlOgF4nA17H
+ rptl8ShDTeprkkXiw262R/X30jWRdL/Dwimz3O98Rx1IsSi9VVMwG4gG8qYhCl+NOWNk
+ wNt6RNyqishsZR4mc6/PEZNL3bpb6CgODK7g6Fifm1l9TU0JOvuUYJriuHtEQkgvWcsV
+ /DbiMqYtDnTBQnZSRjUtzXXNUg5RWvz3v3hPoXVsF7lf9bLtjjnAIHZtdtejYwMHdBPw
+ eAIQ==
+X-Gm-Message-State: APjAAAWU+b+Mk7VD2vUHYhcfRFyil1iqVgxPT9niEXuIgUZsuSKx+VrR
+ 7+R9/EKKDB8yzkpxQkS13fWfecaDkX/++A==
+X-Google-Smtp-Source: APXvYqyEnG2Rx8or0d9M/cKOrQdUUEyVpoqGGBnFaYLawQFAqj1vTxdhXt4H1sWnWb7HRpak2jADYw==
+X-Received: by 2002:a7b:c3c6:: with SMTP id t6mr7468216wmj.5.1569595372629;
+ Fri, 27 Sep 2019 07:42:52 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Sep 2019 07:42:52 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 1/9] target/arm: fix CBAR register for AArch64 CPUs
+Date: Fri, 27 Sep 2019 15:42:41 +0100
+Message-Id: <20190927144249.29999-2-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
+References: <20190927144249.29999-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1569507036-15314-1-git-send-email-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19092714-0012-0000-0000-0000035156E5
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19092714-0013-0000-0000-0000218BF2C6
-Message-Id: <ef3ad1a5-2513-35ed-fb12-50643b09c68e@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-27_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909270136
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,54 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: walling@linux.ibm.com, fiuczy@linux.ibm.com, pmorel@linux.ibm.com,
- david@redhat.com, stzi@linux.ibm.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, qemu-s390x@nongnu.org, thuth@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Luc Michel <luc.michel@greensocs.com>
 
+For AArch64 CPUs with a CBAR register, we have two views for it:
+  - in AArch64 state, the CBAR_EL1 register (S3_1_C15_C3_0), returns the
+    full 64 bits CBAR value
+  - in AArch32 state, the CBAR register (cp15, opc1=1, CRn=15, CRm=3, opc2=0)
+    returns a 32 bits view such that:
+      CBAR = CBAR_EL1[31:18] 0..0 CBAR_EL1[43:32]
 
-On 26.09.19 16:10, Matthew Rosato wrote:
-> The fix in dbe9cf606c shrinks the IOMMU memory region to a size
-> that seems reasonable on the surface, however is actually too
-> small as it is based against a 0-mapped address space.  This
-> causes breakage with small guests as they can overrun the IOMMU window.
-> 
-> Let's go back to the prior method of initializing iommu for now.
-> 
-> Fixes: dbe9cf606c ("s390x/pci: Set the iommu region size mpcifc request")
-> Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-> Reported-by: Stefan Zimmerman <stzi@linux.ibm.com>
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->  hw/s390x/s390-pci-bus.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-> index 963a41c..2d2f4a7 100644
-> --- a/hw/s390x/s390-pci-bus.c
-> +++ b/hw/s390x/s390-pci-bus.c
-> @@ -695,10 +695,15 @@ static const MemoryRegionOps s390_msi_ctrl_ops = {
->  
->  void s390_pci_iommu_enable(S390PCIIOMMU *iommu)
->  {
-> +    /*
-> +     * The iommu region is initialized against a 0-mapped address space,
-> +     * so the smallest IOMMU region we can define runs from 0 to the end
-> +     * of the PCI address space.
-> +     */
->      char *name = g_strdup_printf("iommu-s390-%04x", iommu->pbdev->uid);
->      memory_region_init_iommu(&iommu->iommu_mr, sizeof(iommu->iommu_mr),
->                               TYPE_S390_IOMMU_MEMORY_REGION, OBJECT(&iommu->mr),
-> -                             name, iommu->pal - iommu->pba + 1);
-> +                             name, iommu->pal + 1);
->      iommu->enabled = true;
->      memory_region_add_subregion(&iommu->mr, 0, MEMORY_REGION(&iommu->iommu_mr));
->      g_free(name);
-> 
-#
+This commit fixes the current implementation where:
+  - CBAR_EL1 was returning the 32 bits view instead of the full 64 bits
+    value,
+  - CBAR was returning a truncated 32 bits version of the full 64 bits
+    one, instead of the 32 bits view
+  - CBAR was declared as cp15, opc1=4, CRn=15, CRm=0, opc2=0, which is
+    the CBAR register found in the ARMv7 Cortex-Ax CPUs, but not in
+    ARMv8 CPUs.
 
-Thanks applied. 
+Signed-off-by: Luc Michel <luc.michel@greensocs.com>
+Message-id: 20190912110103.1417887-1-luc.michel@greensocs.com
+[PMM: Added a comment about the two different kinds of CBAR]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/helper.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 507026c9154..bc1130d989d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6733,6 +6733,19 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     }
+ 
+     if (arm_feature(env, ARM_FEATURE_CBAR)) {
++        /*
++         * CBAR is IMPDEF, but common on Arm Cortex-A implementations.
++         * There are two flavours:
++         *  (1) older 32-bit only cores have a simple 32-bit CBAR
++         *  (2) 64-bit cores have a 64-bit CBAR visible to AArch64, plus a
++         *      32-bit register visible to AArch32 at a different encoding
++         *      to the "flavour 1" register and with the bits rearranged to
++         *      be able to squash a 64-bit address into the 32-bit view.
++         * We distinguish the two via the ARM_FEATURE_AARCH64 flag, but
++         * in future if we support AArch32-only configs of some of the
++         * AArch64 cores we might need to add a specific feature flag
++         * to indicate cores with "flavour 2" CBAR.
++         */
+         if (arm_feature(env, ARM_FEATURE_AARCH64)) {
+             /* 32 bit view is [31:18] 0...0 [43:32]. */
+             uint32_t cbar32 = (extract64(cpu->reset_cbar, 18, 14) << 18)
+@@ -6740,12 +6753,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             ARMCPRegInfo cbar_reginfo[] = {
+                 { .name = "CBAR",
+                   .type = ARM_CP_CONST,
+-                  .cp = 15, .crn = 15, .crm = 0, .opc1 = 4, .opc2 = 0,
+-                  .access = PL1_R, .resetvalue = cpu->reset_cbar },
++                  .cp = 15, .crn = 15, .crm = 3, .opc1 = 1, .opc2 = 0,
++                  .access = PL1_R, .resetvalue = cbar32 },
+                 { .name = "CBAR_EL1", .state = ARM_CP_STATE_AA64,
+                   .type = ARM_CP_CONST,
+                   .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 3, .opc2 = 0,
+-                  .access = PL1_R, .resetvalue = cbar32 },
++                  .access = PL1_R, .resetvalue = cpu->reset_cbar },
+                 REGINFO_SENTINEL
+             };
+             /* We don't implement a r/w 64 bit CBAR currently */
+-- 
+2.20.1
 
 
