@@ -2,66 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5359C07AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:35:03 +0200 (CEST)
-Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31276C07BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:38:59 +0200 (CEST)
+Received: from localhost ([::1]:51764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrKn-0000kP-GT
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36709)
+	id 1iDrOb-0005gR-H6
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDqN6-0005Ap-MM
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:21 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iDqNH-0005Lf-QZ
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDqN5-0001xB-6W
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:20 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36795)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDqN5-0001x4-0g
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:19 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k20so5206847oih.3
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:33:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XpRff2jEEJjun5C2nBwnEy0mpg4KSV3BL/CHwT484IE=;
- b=qcFWW4Gw2Z1hHz2R8mU/7PNImqDSLwQyb9YokkDvkIFBQGNra8ryGJ0Mu/u0rqwqLc
- 9NMqnwwG/iPr9oGSWsYCfiQOvZoZOLQcIx37TenROPvMxcIlNLsszFebmz/ISrP1I002
- nNKTwl7k6+zZBC90PoaDCvyHQ5jsc8CZImfI/O+2g6UWFgnUHjMBN9edyv10srOnB0aB
- zWVJKjFkmhJ7UTofs8uuCyw7EBlDbXtoflkBUeseFk0Qp/QkuOJsFy6S2GmeIhPT50fR
- Imoh+XTDM1Uf1uKnWGcunaRpKbyBqhJWOUtLXAK8/mbTyTnfmhOR3Xdn1DX+1qi6udvt
- 1+og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XpRff2jEEJjun5C2nBwnEy0mpg4KSV3BL/CHwT484IE=;
- b=q9lETtwq8Md39b5G42ZSw/gw6iWMFVpihjz9RuCpXQm7VOX2PkJKBPJbxsurVxOAxo
- Sh63Fu2Up2FI0/oHCmJ9Np3OZpAlbU55+Hs8Awq0BV1IiI3jpnNfTNUzHyS/O0TV3V70
- eUCQ9RP667/WZpdeSTBKDkggLNPJnQBkhV6dOxnP0Im50NVoY7HRWu+HzNOohZRmaSOz
- C1haKs5bsDbnrmtCk7p5VEvzIgA4jxG6KBjmkIdAiWJDyhvspKeQChRqMGISzjuy6jD1
- f/RMwNTqjf/zzTL5sSaY0Ze9FyGmhrjz250oVQyHiK2xBJuPIoPUpLjt2SxlkxO6d4rG
- IPtw==
-X-Gm-Message-State: APjAAAXEC6Tu4ZRsytIsFgzpoDyFLyuXWsp38dxsYm3xRBRhb5ZU7ne8
- CeNwrAV06/ZXUYLONDPHWMk3mUIt7KkqZ8HJfN1QPg==
-X-Google-Smtp-Source: APXvYqzq1Mf0Cwsntez7S0gT5ElVn+nWXKGzokuwMctHq6cA/F3Ytm0RCygkiV1cnVmxGAYhvxowxpAmouCw/rKpz6k=
-X-Received: by 2002:aca:b48a:: with SMTP id d132mr7301167oif.98.1569591198389; 
- Fri, 27 Sep 2019 06:33:18 -0700 (PDT)
+ (envelope-from <imammedo@redhat.com>) id 1iDqNG-0001yB-EG
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59244)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1iDqNG-0001xz-5K; Fri, 27 Sep 2019 09:33:30 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A7BC13082137;
+ Fri, 27 Sep 2019 13:33:28 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FD875C220;
+ Fri, 27 Sep 2019 13:33:21 +0000 (UTC)
+Date: Fri, 27 Sep 2019 15:33:20 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v7 4/4] s390: do not call
+ memory_region_allocate_system_memory() multiple times
+Message-ID: <20190927153320.2edc683c@redhat.com>
+In-Reply-To: <20190925235235.GV28074@xz-x1>
+References: <20190924144751.24149-1-imammedo@redhat.com>
+ <20190924144751.24149-5-imammedo@redhat.com>
+ <20190925032700.GI28074@xz-x1> <20190925135105.6e5f249a@redhat.com>
+ <20190925235235.GV28074@xz-x1>
 MIME-Version: 1.0
-References: <20190906083152.25716-1-zhengxiang9@huawei.com>
- <20190906083152.25716-6-zhengxiang9@huawei.com>
-In-Reply-To: <20190906083152.25716-6-zhengxiang9@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Sep 2019 14:33:07 +0100
-Message-ID: <CAFEAcA-xc2XUq2Kwa1cK=4sAMq8B-2jUFAmxiGOQbmRCp-+UmQ@mail.gmail.com>
-Subject: Re: [PATCH v18 5/6] target-arm: kvm64: inject synchronous External
- Abort
-To: Xiang Zheng <zhengxiang9@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 27 Sep 2019 13:33:28 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,112 +60,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- James Morse <james.morse@arm.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Sep 2019 at 09:33, Xiang Zheng <zhengxiang9@huawei.com> wrote:
->
-> From: Dongjiu Geng <gengdongjiu@huawei.com>
->
-> Introduce kvm_inject_arm_sea() function in which we will setup the type
-> of exception and the syndrome information in order to inject a virtual
-> synchronous external abort. When switching to guest, it will jump to the
-> synchronous external abort vector table entry.
->
-> The ESR_ELx.DFSC is set to synchronous external abort(0x10), and
-> ESR_ELx.FnV is set to not valid(0x1), which will tell guest that FAR is
-> not valid and hold an UNKNOWN value. These values will be set to KVM
-> register structures through KVM_SET_ONE_REG IOCTL.
->
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+On Thu, 26 Sep 2019 07:52:35 +0800
+Peter Xu <peterx@redhat.com> wrote:
 
-> +/* Inject synchronous external abort */
-> +static void kvm_inject_arm_sea(CPUState *c)
+> On Wed, Sep 25, 2019 at 01:51:05PM +0200, Igor Mammedov wrote:
+> > On Wed, 25 Sep 2019 11:27:00 +0800
+> > Peter Xu <peterx@redhat.com> wrote:
+> >   
+> > > On Tue, Sep 24, 2019 at 10:47:51AM -0400, Igor Mammedov wrote:  
+> > > > s390 was trying to solve limited KVM memslot size issue by abusing
+> > > > memory_region_allocate_system_memory(), which breaks API contract
+> > > > where the function might be called only once.
+> > > > 
+> > > > Beside an invalid use of API, the approach also introduced migration
+> > > > issue, since RAM chunks for each KVM_SLOT_MAX_BYTES are transferred in
+> > > > migration stream as separate RAMBlocks.
+> > > > 
+> > > > After discussion [1], it was agreed to break migration from older
+> > > > QEMU for guest with RAM >8Tb (as it was relatively new (since 2.12)
+> > > > and considered to be not actually used downstream).
+> > > > Migration should keep working for guests with less than 8TB and for
+> > > > more than 8TB with QEMU 4.2 and newer binary.
+> > > > In case user tries to migrate more than 8TB guest, between incompatible
+> > > > QEMU versions, migration should fail gracefully due to non-exiting
+> > > > RAMBlock ID or RAMBlock size mismatch.
+> > > > 
+> > > > Taking in account above and that now KVM code is able to split too
+> > > > big MemorySection into several memslots, partially revert commit
+> > > >  (bb223055b s390-ccw-virtio: allow for systems larger that 7.999TB)
+> > > > and use kvm_set_max_memslot_size() to set KVMSlot size to
+> > > > KVM_SLOT_MAX_BYTES.
+> > > > 
+> > > > 1) [PATCH RFC v2 4/4] s390: do not call  memory_region_allocate_system_memory() multiple times
+> > > > 
+> > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>    
+> > > 
+> > > Acked-by: Peter Xu <peterx@redhat.com>
+> > > 
+> > > IMHO it would be good to at least mention bb223055b9 in the commit
+> > > message even if not with a "Fixed:" tag.  May be amended during commit
+> > > if anyone prefers.  
+> > 
+> > /me confused, bb223055b9 is mentioned in commit message  
+> 
+> I'm sorry, I overlooked that.
+> 
+> >    
+> > > Also, this only applies the split limitation to s390.  Would that be a
+> > > good thing to some other archs as well?  
+> > 
+> > Don't we have the similar bitmap size issue in KVM for other archs?  
+> 
+> Yes I thought we had.  So I feel like it would be good to also allow
+> other archs to support >8TB mem as well.  Thanks,
+Another question, Is there another archs with that much RAM that are
+available/used in real life (if not I'd wait for demand to arise first)?
 
-This will cause a compilation failure at this point in
-the patch series, because the compiler will complain about
-a static function which is defined but never used.
-To avoid breaking bisection, we need to put the definition
-of the function in the same patch where it's used.
+If we are to generalize it to other targets, then instead of using
+arbitrary memslot max size per target, we could just hardcode or get
+from KVM, max supported size of bitmap and use that to calculate
+kvm_max_slot_size depending on target page size.
 
-> +{
-> +    ARMCPU *cpu = ARM_CPU(c);
-> +    CPUARMState *env = &cpu->env;
-> +    CPUClass *cc = CPU_GET_CLASS(c);
-> +    uint32_t esr;
-> +    bool same_el;
-> +
-> +    /**
-> +     * Set the exception type to synchronous data abort
-> +     * and the target exception Level to EL1.
-> +     */
+Then there wouldn't be need for having machine specific code
+to care about it and pick/set arbitrary values.
 
-This comment doesn't really tell us anything that's not obvious
-from the two lines of code that it's commenting on:
-
-> +    c->exception_index = EXCP_DATA_ABORT;
-> +    env->exception.target_el = 1;
-> +
-> +    /*
-> +     * Set the DFSC to synchronous external abort and set FnV to not valid,
-> +     * this will tell guest the FAR_ELx is UNKNOWN for this abort.
-> +     */
-> +
-> +    /* This exception comes from lower or current exception level. */
-
-This comment too is stating the obvious I think.
-
-> +    same_el = arm_current_el(env) == env->exception.target_el;
-> +    esr = syn_data_abort_no_iss(same_el, 1, 0, 0, 0, 0, 0x10);
-> +
-> +    env->exception.syndrome = esr;
-> +
-> +    /**
-
-There's a stray second '*' in this comment-start.
-
-
-> +     * The vcpu thread already hold BQL, so no need hold again when
-> +     * calling do_interrupt
-
-I think this requirement would be better placed as a
-comment at the top of the function noting that callers
-must hold the iothread lock.
-
-> +     */
-> +    cc->do_interrupt(c);
-> +}
-> +
->  #define AARCH64_CORE_REG(x)   (KVM_REG_ARM64 | KVM_REG_SIZE_U64 | \
->                   KVM_REG_ARM_CORE | KVM_REG_ARM_CORE_REG(x))
->
-> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-> index 5feb312941..499672ebbc 100644
-> --- a/target/arm/tlb_helper.c
-> +++ b/target/arm/tlb_helper.c
-> @@ -33,7 +33,7 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
->       * ISV field.
->       */
->      if (!(template_syn & ARM_EL_ISV) || target_el != 2 || s1ptw) {
-> -        syn = syn_data_abort_no_iss(same_el,
-> +        syn = syn_data_abort_no_iss(same_el, 0,
->                                      ea, 0, s1ptw, is_write, fsc);
->      } else {
->          /*
-> --
-> 2.19.1
-
-thanks
--- PMM
+Another aspect to think about if we are to enable it for
+other targets is memslot accounting. It doesn't affect s390
+but other targets that support memory hotplug now assume 1:1
+relation between memoryregion:memslot, which currently holds
+true but would need to amended in case split is enabled there.
 
