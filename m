@@ -2,41 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B990C07D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:45:22 +0200 (CEST)
-Received: from localhost ([::1]:51880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8768C07C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:43:33 +0200 (CEST)
+Received: from localhost ([::1]:51804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrUm-0003Fs-9w
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:45:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
+	id 1iDrT2-0001Qj-5H
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:43:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36773)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCu-0003lr-Nm
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:50 -0400
+ (envelope-from <imbrenda@linux.ibm.com>) id 1iDqNL-0005Pg-6G
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCt-0000Pb-9c
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:48 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49752)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDqCq-0000IU-Ay; Fri, 27 Sep 2019 09:22:44 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDpHz-0003za-91; Fri, 27 Sep 2019 15:23:59 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 8/9] block/qcow2-bitmap: fix and improve
- qcow2_reopen_bitmaps_rw
-Date: Fri, 27 Sep 2019 15:23:54 +0300
-Message-Id: <20190927122355.7344-9-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190927122355.7344-1-vsementsov@virtuozzo.com>
-References: <20190927122355.7344-1-vsementsov@virtuozzo.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <imbrenda@linux.ibm.com>) id 1iDqNJ-0001yn-Qy
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:34 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51182
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1iDqNJ-0001yK-MZ
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:33 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8RDWdAT124804
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:33:30 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2v9jsrhkrk-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:33:30 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <imbrenda@linux.ibm.com>;
+ Fri, 27 Sep 2019 14:33:29 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 27 Sep 2019 14:33:25 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8RDXOoK46989332
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Sep 2019 13:33:24 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 425A04203F;
+ Fri, 27 Sep 2019 13:33:24 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF17D42041;
+ Fri, 27 Sep 2019 13:33:23 +0000 (GMT)
+Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.39])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Fri, 27 Sep 2019 13:33:23 +0000 (GMT)
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v2 0/4] s390x: SCLP error cleanup
+Date: Fri, 27 Sep 2019 15:33:19 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19092713-0012-0000-0000-0000035152B6
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19092713-0013-0000-0000-0000218BEE5A
+Message-Id: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-27_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=951 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909270127
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,139 +86,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: frankja@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Correct check for write access to file child, and in correct place
-  (only if we want to write).
-- Support reopen rw -> rw (which will be used in following commit),
-  for example, !bdrv_dirty_bitmap_readonly() is not a corruption if
-  bitmap is marked IN_USE in the image.
-- Consider unexpected bitmap as a corruption and check other
-  combinations of in-image and in-RAM bitmaps.
+SCLP doesn't report a lot of errors like it should do, let's fix that.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/qcow2-bitmap.c | 77 +++++++++++++++++++++++++++++++++-----------
- 1 file changed, 58 insertions(+), 19 deletions(-)
+Changes v1 to v2:
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index a636dc50ca..6335d85244 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1108,18 +1108,14 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
-     Qcow2BitmapList *bm_list;
-     Qcow2Bitmap *bm;
-     GSList *ro_dirty_bitmaps = NULL;
--    int ret = 0;
-+    int ret = -EINVAL;
-+    bool need_header_update = false;
- 
-     if (s->nb_bitmaps == 0) {
-         /* No bitmaps - nothing to do */
-         return 0;
-     }
- 
--    if (!can_write(bs)) {
--        error_setg(errp, "Can't write to the image on reopening bitmaps rw");
--        return -EINVAL;
--    }
--
-     bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
-                                s->bitmap_directory_size, errp);
-     if (bm_list == NULL) {
-@@ -1128,32 +1124,75 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
- 
-     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
-         BdrvDirtyBitmap *bitmap = bdrv_find_dirty_bitmap(bs, bm->name);
--        if (bitmap == NULL) {
--            continue;
--        }
- 
--        if (!bdrv_dirty_bitmap_readonly(bitmap)) {
--            error_setg(errp, "Bitmap %s was loaded prior to rw-reopen, but was "
--                       "not marked as readonly. This is a bug, something went "
--                       "wrong. All of the bitmaps may be corrupted", bm->name);
--            ret = -EINVAL;
-+        if (!bitmap) {
-+            error_setg(errp, "Unexpected bitmap '%s' in image '%s'",
-+                       bm->name, bs->filename);
-             goto out;
-         }
- 
--        bm->flags |= BME_FLAG_IN_USE;
--        ro_dirty_bitmaps = g_slist_append(ro_dirty_bitmaps, bitmap);
-+        if (!(bm->flags & BME_FLAG_IN_USE)) {
-+            if (!bdrv_dirty_bitmap_readonly(bitmap)) {
-+                error_setg(errp, "Corruption: bitmap '%s' is not marked IN_USE "
-+                           "in the image '%s' and not marked readonly in RAM",
-+                           bm->name, bs->filename);
-+                goto out;
-+            }
-+            if (bdrv_dirty_bitmap_inconsistent(bitmap)) {
-+                error_setg(errp, "Corruption: bitmap '%s' is inconsistent but "
-+                           "is not marked IN_USE in the image '%s'", bm->name,
-+                           bs->filename);
-+                goto out;
-+            }
-+
-+            bm->flags |= BME_FLAG_IN_USE;
-+            need_header_update = true;
-+        } else {
-+            /*
-+             * What if flags already has BME_FLAG_IN_USE ?
-+             *
-+             * 1. if we are reopening RW -> RW it's OK, of course.
-+             * 2. if we are reopening RO -> RW:
-+             *   2.1 if @bitmap is inconsistent, it's OK. It means that it was
-+             *       inconsistent (IN_USE) when we loaded it
-+             *   2.2 if @bitmap is not inconsistent. This seems to be impossible
-+             *       and implies third party interaction. Let's error-out for
-+             *       safety.
-+             */
-+            if (bdrv_dirty_bitmap_readonly(bitmap) &&
-+                !bdrv_dirty_bitmap_inconsistent(bitmap))
-+            {
-+                error_setg(errp, "Corruption: bitmap '%s' is marked IN_USE "
-+                           "in the image '%s' but it is readonly and "
-+                           "consistent in RAM",
-+                           bm->name, bs->filename);
-+                goto out;
-+            }
-+        }
-+
-+        if (bdrv_dirty_bitmap_readonly(bitmap)) {
-+            ro_dirty_bitmaps = g_slist_append(ro_dirty_bitmaps, bitmap);
-+        }
-     }
- 
--    if (ro_dirty_bitmaps != NULL) {
-+    if (need_header_update) {
-+        if (!can_write(bs->file->bs) || !(bs->file->perm & BLK_PERM_WRITE)) {
-+            error_setg(errp, "Failed to reopen bitmaps rw: no write access "
-+                       "the protocol file");
-+            goto out;
-+        }
-+
-         /* in_use flags must be updated */
-         ret = update_ext_header_and_dir_in_place(bs, bm_list);
-         if (ret < 0) {
--            error_setg_errno(errp, -ret, "Can't update bitmap directory");
-+            error_setg_errno(errp, -ret, "Cannot update bitmap directory");
-             goto out;
-         }
--        g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-     }
- 
-+    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-+    ret = 0;
-+
- out:
-     g_slist_free(ro_dirty_bitmaps);
-     bitmap_list_free(bm_list);
+* added a few missing be16_to_cpu
+* split first patch into three smaller patches
+
+Claudio Imbrenda (1):
+  s390x: Fix SCLP return code when buffer too small
+
+Janosch Frank (3):
+  s390x: sclp: refactor invalid command check
+  s390x: sclp: boundary check
+  s390x: sclp: fix error handling for oversize control blocks
+
+ hw/s390x/event-facility.c |  3 ---
+ hw/s390x/sclp.c           | 37 ++++++++++++++++++++++++++++++++++---
+ 2 files changed, 34 insertions(+), 6 deletions(-)
+
 -- 
-2.21.0
+2.7.4
 
 
