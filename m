@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87605C071A
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:14:57 +0200 (CEST)
-Received: from localhost ([::1]:51412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8338EC0709
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:10:27 +0200 (CEST)
+Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDr1L-0005dA-Tm
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35987)
+	id 1iDqx0-00075i-1b
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDqJe-00026I-Ej
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:29:47 -0400
+ (envelope-from <david@redhat.com>) id 1iDqLy-0004Pz-4B
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:32:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDqJd-0001Qs-4X
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:29:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55710)
+ (envelope-from <david@redhat.com>) id 1iDqLv-0001nN-Vc
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:32:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDqJc-0001Ql-Rb; Fri, 27 Sep 2019 09:29:45 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iDqLv-0001nI-NK; Fri, 27 Sep 2019 09:32:07 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5232A3090FE8;
- Fri, 27 Sep 2019 11:02:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CAAAA18C37B;
+ Fri, 27 Sep 2019 11:04:10 +0000 (UTC)
 Received: from [10.36.116.169] (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 635115D9C3;
- Fri, 27 Sep 2019 11:02:47 +0000 (UTC)
-Subject: Re: [PATCH v3 14/18] target/s390x: Rely on unwinding in
- s390_cpu_tlb_fill
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEDFE60BE2;
+ Fri, 27 Sep 2019 11:04:09 +0000 (UTC)
+Subject: Re: [PATCH v3 15/18] target/s390x: Rely on unwinding in
+ s390_cpu_virt_mem_rw
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190926162615.31168-1-richard.henderson@linaro.org>
- <20190926162615.31168-15-richard.henderson@linaro.org>
+ <20190926162615.31168-16-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -80,18 +80,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <f3277035-17b8-59a6-e4ae-7b1a95ea0c84@redhat.com>
-Date: Fri, 27 Sep 2019 13:02:46 +0200
+Message-ID: <cf20b4e6-af8b-1a11-9a99-f8e8b14be205@redhat.com>
+Date: Fri, 27 Sep 2019 13:04:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190926162615.31168-15-richard.henderson@linaro.org>
+In-Reply-To: <20190926162615.31168-16-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 27 Sep 2019 11:02:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Fri, 27 Sep 2019 11:04:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -111,73 +111,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 26.09.19 18:26, Richard Henderson wrote:
-> We currently set ilen to AUTO, then overwrite that during
-> unwinding, then overwrite that for the code access case.
-> 
-> This can be simplified to setting ilen to our arbitrary
-> value for the (undefined) code access case, then rely on
-> unwinding to overwrite that with the correct value for
-> the data access case.
+> For TCG, we will always call s390_cpu_virt_mem_handle_exc,
+> which will go through the unwinder to set ILEN.  For KVM,
+> we do not go through do_program_interrupt, so this argument
+> is unused.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/s390x/excp_helper.c | 23 +++++++----------------
->  1 file changed, 7 insertions(+), 16 deletions(-)
+>  target/s390x/mmu_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-> index 98a1ee8317..8ce992e639 100644
-> --- a/target/s390x/excp_helper.c
-> +++ b/target/s390x/excp_helper.c
-> @@ -96,7 +96,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->  {
->      S390CPU *cpu = S390_CPU(cs);
+> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+> index 5ecd9ee87e..bf7fddb056 100644
+> --- a/target/s390x/mmu_helper.c
+> +++ b/target/s390x/mmu_helper.c
+> @@ -482,7 +482,7 @@ int s390_cpu_virt_mem_rw(S390CPU *cpu, vaddr laddr, uint8_t ar, void *hostbuf,
 >  
-> -    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING, ILEN_AUTO);
-> +    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING, ILEN_UNWIND);
-
-Hmm, we always trigger a pgm exceptions, meaning we set
-cs->exception_index even if we have probe = true. Confused by that.
-
->      /* On real machines this value is dropped into LowMem.  Since this
->         is userland, simply put this someplace that cpu_loop can find it.  */
->      cpu->env.__excp_addr = address;
-> @@ -179,24 +179,15 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->          stq_phys(env_cpu(env)->as,
->                   env->psa + offsetof(LowCore, trans_exc_code), tec);
->      }
-> -    trigger_pgm_exception(env, excp, ILEN_AUTO);
-> -    cpu_restore_state(cs, retaddr, true);
->  
->      /*
-> -     * The ILC value for code accesses is undefined.  The important
-> -     * thing here is to *not* leave env->int_pgm_ilen set to ILEN_AUTO,
-> -     * which would cause do_program_interrupt to attempt to read from
-> -     * env->psw.addr again.  C.f. the condition in trigger_page_fault,
-> -     * but is not universally applied.
-> -     *
-> -     * ??? If we remove ILEN_AUTO, by moving the computation of ILEN
-> -     * into cpu_restore_state, then we may remove this entirely.
-> +     * For data accesses, ILEN will be filled in from the unwind info,
-> +     * within cpu_loop_exit_restore.  For code accesses, retaddr == 0,
-> +     * and so unwinding will not occur.  However, ILEN is also undefined
-> +     * for that case -- we choose to set ILEN = 2.
->       */
-> -    if (access_type == MMU_INST_FETCH) {
-> -        env->int_pgm_ilen = 2;
-> -    }
-> -
-> -    cpu_loop_exit(cs);
-> +    trigger_pgm_exception(env, excp, 2);
-
-I wonder if it is still worth setting this only conditionally. Most
-probably not.
-
-> +    cpu_loop_exit_restore(cs, retaddr);
->  }
->  
->  static void do_program_interrupt(CPUS390XState *env)
+>      ret = translate_pages(cpu, laddr, nr_pages, pages, is_write, &tec);
+>      if (ret) {
+> -        trigger_access_exception(&cpu->env, ret, ILEN_AUTO, tec);
+> +        trigger_access_exception(&cpu->env, ret, ILEN_UNWIND, tec);
+>      } else if (hostbuf != NULL) {
+>          /* Copy data by stepping through the area page by page */
+>          for (i = 0; i < nr_pages; i++) {
 > 
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
 
