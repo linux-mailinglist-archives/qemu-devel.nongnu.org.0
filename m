@@ -2,96 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3935AC088B
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:26:50 +0200 (CEST)
-Received: from localhost ([::1]:52398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8C0C089C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:29:56 +0200 (CEST)
+Received: from localhost ([::1]:52422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDs8u-0002UI-Kn
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39020)
+	id 1iDsBv-0005XZ-Fb
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDqWN-0005yj-JR
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:42:56 -0400
+ (envelope-from <armbru@redhat.com>) id 1iDqaF-0001Kq-Ri
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:47:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDqWM-0005Nn-Ih
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:42:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52584)
+ (envelope-from <armbru@redhat.com>) id 1iDqa8-00065P-V6
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42272)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDqWM-0005NZ-7T; Fri, 27 Sep 2019 09:42:54 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa8-00063w-Gb
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:48 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 61EB53018ED0;
- Fri, 27 Sep 2019 13:42:53 +0000 (UTC)
-Received: from [10.36.116.169] (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0AD5600C6;
- Fri, 27 Sep 2019 13:42:51 +0000 (UTC)
-Subject: Re: [PATCH v2 2/4] s390x: sclp: boundary check
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
- <1569591203-15258-3-git-send-email-imbrenda@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <b074d8fe-8dc8-0f13-5789-0ede689ce874@redhat.com>
-Date: Fri, 27 Sep 2019 15:42:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 4001430224A8;
+ Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B42C93DA6;
+ Fri, 27 Sep 2019 13:46:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 713B011386A7; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 05/26] qapi: Clean up member name case checking
+Date: Fri, 27 Sep 2019 15:46:18 +0200
+Message-Id: <20190927134639.4284-6-armbru@redhat.com>
+In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
+References: <20190927134639.4284-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1569591203-15258-3-git-send-email-imbrenda@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 27 Sep 2019 13:42:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -106,45 +58,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pasic@linux.ibm.com, borntraeger@de.ibm.com, cohuck@redhat.com,
- frankja@linux.ibm.com, rth@twiddle.net
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.09.19 15:33, Claudio Imbrenda wrote:
-> From: Janosch Frank <frankja@linux.ibm.com>
-> 
-> All sclp codes need to be checked for page boundary violations.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
-> ---
->  hw/s390x/sclp.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-> index 95ebfe7..73244c9 100644
-> --- a/hw/s390x/sclp.c
-> +++ b/hw/s390x/sclp.c
-> @@ -234,6 +234,11 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
->          goto out_write;
->      }
->  
-> +    if ((sccb + be16_to_cpu(work_sccb.h.length)) > ((sccb & PAGE_MASK) + PAGE_SIZE)) {
-> +        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
-> +        goto out_write;
-> +    }
-> +
->      sclp_c->execute(sclp, &work_sccb, code);
->  out_write:
->      cpu_physical_memory_write(sccb, &work_sccb,
-> 
+QAPISchemaMember.check_clash() checks for member names that map to the
+same c_name().  Takes care of rejecting duplicate names.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+It also checks a naming rule: no uppercase in member names.  That's a
+rather odd place to do it.  Enforcing naming rules is
+check_name_str()'s job.
 
--- 
+qapi-code-gen.txt specifies the name case rule applies to the name as
+it appears in the schema.  check_clash() checks c_name(name) instead.
+No difference, as c_name() leaves alone case, but unclean.
 
-Thanks,
+Move the name case check into check_name_str(), less the c_name().
+New argument @permit_upper suppresses it.  Pass permit_upper=3DTrue for
+definitions (which are not members), and when the member's owner is
+whitelisted with pragma name-case-whitelist.
 
-David / dhildenb
+Bonus: name-case-whitelist now applies to a union's inline base, too.
+Update qapi/qapi-schema.json pragma to whitelist union CpuInfo instead
+of CpuInfo's implicit base type's name q_obj_CpuInfo-base.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ qapi/qapi-schema.json                    |  2 +-
+ scripts/qapi/common.py                   | 25 +++++++++++++-----------
+ tests/qapi-schema/args-member-case.err   |  2 +-
+ tests/qapi-schema/args-member-case.json  |  2 +-
+ tests/qapi-schema/enum-member-case.err   |  2 +-
+ tests/qapi-schema/union-branch-case.err  |  4 ++--
+ tests/qapi-schema/union-branch-case.json |  4 ++--
+ 7 files changed, 22 insertions(+), 19 deletions(-)
+
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 920b03b0aa..9751b11f8f 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -71,7 +71,7 @@
+         'QapiErrorClass',           # all members, visible through error=
+s
+         'UuidInfo',                 # UUID, visible through query-uuid
+         'X86CPURegister32',         # all members, visible indirectly th=
+rough qom-get
+-        'q_obj_CpuInfo-base'        # CPU, visible through query-cpu
++        'CpuInfo'                   # CPU, visible through query-cpu
+     ] } }
+=20
+ # Documentation generated with qapi-gen.py is in source order, with
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index f0e7d5ad34..ed4bff4479 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -704,8 +704,8 @@ valid_name =3D re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
+                         '[a-zA-Z][a-zA-Z0-9_-]*$')
+=20
+=20
+-def check_name(info, source, name, allow_optional=3DFalse,
+-               enum_member=3DFalse):
++def check_name(info, source, name,
++               allow_optional=3DFalse, enum_member=3DFalse, permit_upper=
+=3DFalse):
+     global valid_name
+     membername =3D name
+=20
+@@ -725,11 +725,14 @@ def check_name(info, source, name, allow_optional=3D=
+False,
+     if not valid_name.match(membername) or \
+        c_name(membername, False).startswith('q_'):
+         raise QAPISemError(info, "%s uses invalid name '%s'" % (source, =
+name))
++    if not permit_upper and name.lower() !=3D name:
++        raise QAPISemError(
++            info, "%s uses uppercase in name '%s'" % (source, name))
+=20
+=20
+ def add_name(name, info, meta):
+     global all_names
+-    check_name(info, "'%s'" % meta, name)
++    check_name(info, "'%s'" % meta, name, permit_upper=3DTrue)
+     # FIXME should reject names that differ only in '_' vs. '.'
+     # vs. '-', because they're liable to clash in generated C.
+     if name in all_names:
+@@ -797,10 +800,12 @@ def check_type(info, source, value,
+         raise QAPISemError(info,
+                            "%s should be an object or type name" % sourc=
+e)
+=20
++    permit_upper =3D allow_dict in name_case_whitelist
++
+     # value is a dictionary, check that each member is okay
+     for (key, arg) in value.items():
+         check_name(info, "Member of %s" % source, key,
+-                   allow_optional=3DTrue)
++                   allow_optional=3DTrue, permit_upper=3Dpermit_upper)
+         if c_name(key, False) =3D=3D 'u' or c_name(key, False).startswit=
+h('has_'):
+             raise QAPISemError(info, "Member of %s uses reserved name '%=
+s'"
+                                % (source, key))
+@@ -870,7 +875,7 @@ def check_union(expr, info):
+     else:
+         # The object must have a string or dictionary 'base'.
+         check_type(info, "'base' for union '%s'" % name,
+-                   base, allow_dict=3DTrue,
++                   base, allow_dict=3Dname,
+                    allow_metas=3D['struct'])
+         if not base:
+             raise QAPISemError(info, "Flat union '%s' must have a base"
+@@ -982,13 +987,15 @@ def check_enum(expr, info):
+         raise QAPISemError(info,
+                            "Enum '%s' requires a string for 'prefix'" % =
+name)
+=20
++    permit_upper =3D name in name_case_whitelist
++
+     for member in members:
+         check_known_keys(info, "member of enum '%s'" % name, member,
+                          ['name'], ['if'])
+         check_if(member, info)
+         normalize_if(member)
+         check_name(info, "Member of enum '%s'" % name, member['name'],
+-                   enum_member=3DTrue)
++                   enum_member=3DTrue, permit_upper=3Dpermit_upper)
+=20
+=20
+ def check_struct(expr, info):
+@@ -997,7 +1004,7 @@ def check_struct(expr, info):
+     features =3D expr.get('features')
+=20
+     check_type(info, "'data' for struct '%s'" % name, members,
+-               allow_dict=3DTrue)
++               allow_dict=3Dname)
+     check_type(info, "'base' for struct '%s'" % name, expr.get('base'),
+                allow_metas=3D['struct'])
+=20
+@@ -1555,10 +1562,6 @@ class QAPISchemaMember(object):
+=20
+     def check_clash(self, info, seen):
+         cname =3D c_name(self.name)
+-        if (cname.lower() !=3D cname
+-                and self.defined_in not in name_case_whitelist):
+-            raise QAPISemError(info,
+-                               "%s should not use uppercase" % self.desc=
+ribe())
+         if cname in seen:
+             raise QAPISemError(info, "%s collides with %s" %
+                                (self.describe(), seen[cname].describe())=
+)
+diff --git a/tests/qapi-schema/args-member-case.err b/tests/qapi-schema/a=
+rgs-member-case.err
+index 725ba16192..da183957b2 100644
+--- a/tests/qapi-schema/args-member-case.err
++++ b/tests/qapi-schema/args-member-case.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/args-member-case.json: In command 'no-way-this-will-ge=
+t-whitelisted':
+-tests/qapi-schema/args-member-case.json:2: 'Arg' (parameter of no-way-th=
+is-will-get-whitelisted) should not use uppercase
++tests/qapi-schema/args-member-case.json:2: Member of 'data' for command =
+'no-way-this-will-get-whitelisted' uses uppercase in name 'Arg'
+diff --git a/tests/qapi-schema/args-member-case.json b/tests/qapi-schema/=
+args-member-case.json
+index 93439bee8b..e27c603548 100644
+--- a/tests/qapi-schema/args-member-case.json
++++ b/tests/qapi-schema/args-member-case.json
+@@ -1,2 +1,2 @@
+-# Member names should be 'lower-case' unless the struct/command is white=
+listed
++# Member names should be 'lower-case' unless the struct is whitelisted
+ { 'command': 'no-way-this-will-get-whitelisted', 'data': { 'Arg': 'int' =
+} }
+diff --git a/tests/qapi-schema/enum-member-case.err b/tests/qapi-schema/e=
+num-member-case.err
+index f6c872d3bf..8f2007c86f 100644
+--- a/tests/qapi-schema/enum-member-case.err
++++ b/tests/qapi-schema/enum-member-case.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/enum-member-case.json: In enum 'NoWayThisWillGetWhitel=
+isted':
+-tests/qapi-schema/enum-member-case.json:4: 'Value' (value of NoWayThisWi=
+llGetWhitelisted) should not use uppercase
++tests/qapi-schema/enum-member-case.json:4: Member of enum 'NoWayThisWill=
+GetWhitelisted' uses uppercase in name 'Value'
+diff --git a/tests/qapi-schema/union-branch-case.err b/tests/qapi-schema/=
+union-branch-case.err
+index 8e81a2d0b6..09313d7f83 100644
+--- a/tests/qapi-schema/union-branch-case.err
++++ b/tests/qapi-schema/union-branch-case.err
+@@ -1,2 +1,2 @@
+-tests/qapi-schema/union-branch-case.json: In union 'NoWayThisWillGetWhit=
+elisted':
+-tests/qapi-schema/union-branch-case.json:2: 'Branch' (branch of NoWayThi=
+sWillGetWhitelisted) should not use uppercase
++tests/qapi-schema/union-branch-case.json: In union 'Uni':
++tests/qapi-schema/union-branch-case.json:2: Member of union 'Uni' uses u=
+ppercase in name 'Branch'
+diff --git a/tests/qapi-schema/union-branch-case.json b/tests/qapi-schema=
+/union-branch-case.json
+index e6565dc3b3..b7894b75d6 100644
+--- a/tests/qapi-schema/union-branch-case.json
++++ b/tests/qapi-schema/union-branch-case.json
+@@ -1,2 +1,2 @@
+-# Branch names should be 'lower-case' unless the union is whitelisted
+-{ 'union': 'NoWayThisWillGetWhitelisted', 'data': { 'Branch': 'int' } }
++# Branch names should be 'lower-case'
++{ 'union': 'Uni', 'data': { 'Branch': 'int' } }
+--=20
+2.21.0
+
 
