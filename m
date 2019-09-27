@@ -2,51 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3249CC09D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:49:49 +0200 (CEST)
-Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6B7C09C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:42:27 +0200 (CEST)
+Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtRD-0004FP-5d
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48786)
+	id 1iDtK5-000752-8E
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:42:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDrHT-0007hc-0e
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:37 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1iDrMa-0004wH-QF
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:36:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDrHQ-0005sX-Vj
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:34 -0400
-Received: from 8.mo177.mail-out.ovh.net ([46.105.61.98]:37901)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDrHQ-0005rs-5O
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:32 -0400
-Received: from player774.ha.ovh.net (unknown [10.109.143.238])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 6599A10C73E
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 16:31:29 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player774.ha.ovh.net (Postfix) with ESMTPSA id 0FF7DA4F3DD0;
- Fri, 27 Sep 2019 14:31:17 +0000 (UTC)
-Date: Fri, 27 Sep 2019 16:31:16 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 25/33] spapr, xics, xive: Move print_info from
- SpaprIrq to SpaprInterruptController
-Message-ID: <20190927163116.061b7d9a@bahia.lan>
-In-Reply-To: <20190927055028.11493-26-david@gibson.dropbear.id.au>
-References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
- <20190927055028.11493-26-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <borntraeger@de.ibm.com>) id 1iDrMY-0006pK-V1
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:36:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24886)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1iDrMY-0006pC-Fq
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:36:50 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8REW0DY138198
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:36:48 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v9k97asyt-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:36:48 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Fri, 27 Sep 2019 15:36:46 +0100
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 27 Sep 2019 15:36:44 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x8REaESH37945732
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Sep 2019 14:36:14 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 29F7E52065;
+ Fri, 27 Sep 2019 14:36:42 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C8FFB5205A;
+ Fri, 27 Sep 2019 14:36:41 +0000 (GMT)
+Subject: Re: [PATCH v2 3/4] s390x: sclp: fix error handling for oversize
+ control blocks
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
+ <1569591203-15258-4-git-send-email-imbrenda@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ syiRa+UVlsKmx1hsEg==
+Date: Fri, 27 Sep 2019 16:36:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <1569591203-15258-4-git-send-email-imbrenda@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2107684626380790246
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.61.98
+X-TM-AS-GCONF: 00
+x-cbid: 19092714-0020-0000-0000-0000037254DD
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19092714-0021-0000-0000-000021C8264C
+Message-Id: <ce5149a0-d0c7-67ef-850e-b15a09bae830@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-27_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909270136
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,236 +136,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: pasic@linux.ibm.com, cohuck@redhat.com, david@redhat.com,
+ frankja@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Sep 2019 15:50:20 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> This method depends only on the active irq controller.  Now that we've
-> formalized the notion of active controller we can dispatch directly
-> through that, rather than dispatching via SpaprIrq with the dual
-> version having to do a second conditional dispatch.
+On 27.09.19 15:33, Claudio Imbrenda wrote:
+> From: Janosch Frank <frankja@linux.ibm.com>
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Requests over 4k are not a spec exception.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
 > ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/intc/spapr_xive.c       | 15 +++++++++++++
->  hw/intc/xics_spapr.c       | 15 +++++++++++++
->  hw/ppc/spapr.c             |  2 +-
->  hw/ppc/spapr_irq.c         | 44 +++++++-------------------------------
->  include/hw/ppc/spapr_irq.h |  2 +-
->  5 files changed, 40 insertions(+), 38 deletions(-)
+>  hw/s390x/sclp.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 52d5e71793..700ec5c9c1 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -564,6 +564,20 @@ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, int val)
+> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+> index 73244c9..abb6e50 100644
+> --- a/hw/s390x/sclp.c
+> +++ b/hw/s390x/sclp.c
+> @@ -213,8 +213,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+>      cpu_physical_memory_read(sccb, &work_sccb, sccb_len);
+>  
+>      /* Valid sccb sizes */
+> -    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader) ||
+> -        be16_to_cpu(work_sccb.h.length) > SCCB_SIZE) {
+> +    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
+>          r = -PGM_SPECIFICATION;
+>          goto out;
 >      }
->  }
->  
-> +static void spapr_xive_print_info(SpaprInterruptController *intc, Monitor *mon)
-> +{
-> +    SpaprXive *xive = SPAPR_XIVE(intc);
-> +    CPUState *cs;
-> +
-> +    CPU_FOREACH(cs) {
-> +        PowerPCCPU *cpu = POWERPC_CPU(cs);
-> +
-> +        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
-> +    }
-> +
-> +    spapr_xive_pic_print_info(xive, mon);
-> +}
-> +
->  static void spapr_xive_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -586,6 +600,7 @@ static void spapr_xive_class_init(ObjectClass *klass, void *data)
->      sicc->claim_irq = spapr_xive_claim_irq;
->      sicc->free_irq = spapr_xive_free_irq;
->      sicc->set_irq = spapr_xive_set_irq;
-> +    sicc->print_info = spapr_xive_print_info;
->  }
->  
->  static const TypeInfo spapr_xive_info = {
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index 02372697f6..415defe394 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -381,6 +381,20 @@ static void xics_spapr_set_irq(SpaprInterruptController *intc, int irq, int val)
->      ics_set_irq(ics, srcno, val);
->  }
->  
-> +static void xics_spapr_print_info(SpaprInterruptController *intc, Monitor *mon)
-> +{
-> +    ICSState *ics = ICS_SPAPR(intc);
-> +    CPUState *cs;
-> +
-> +    CPU_FOREACH(cs) {
-> +        PowerPCCPU *cpu = POWERPC_CPU(cs);
-> +
-> +        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
-> +    }
-> +
-> +    ics_pic_print_info(ics, mon);
-> +}
-> +
->  static void ics_spapr_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -393,6 +407,7 @@ static void ics_spapr_class_init(ObjectClass *klass, void *data)
->      sicc->claim_irq = xics_spapr_claim_irq;
->      sicc->free_irq = xics_spapr_free_irq;
->      sicc->set_irq = xics_spapr_set_irq;
-> +    sicc->print_info = xics_spapr_print_info;
->  }
->  
->  static const TypeInfo ics_spapr_info = {
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 795f6ab505..7e04746db1 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4341,7 +4341,7 @@ static void spapr_pic_print_info(InterruptStatsProvider *obj,
->  {
->      SpaprMachineState *spapr = SPAPR_MACHINE(obj);
->  
-> -    spapr->irq->print_info(spapr, mon);
-> +    spapr_irq_print_info(spapr, mon);
->      monitor_printf(mon, "irqchip: %s\n",
->                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
->  }
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 4922062908..be20bbf3cf 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -98,19 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spapr,
->   * XICS IRQ backend.
->   */
->  
-> -static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor *mon)
-> -{
-> -    CPUState *cs;
-> -
-> -    CPU_FOREACH(cs) {
-> -        PowerPCCPU *cpu = POWERPC_CPU(cs);
-> -
-> -        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
-> -    }
-> -
-> -    ics_pic_print_info(spapr->ics, mon);
-> -}
-> -
->  static int spapr_irq_post_load_xics(SpaprMachineState *spapr, int version_id)
->  {
->      if (!kvm_irqchip_in_kernel()) {
-> @@ -147,7 +134,6 @@ SpaprIrq spapr_irq_xics = {
->      .xics        = true,
->      .xive        = false,
->  
-> -    .print_info  = spapr_irq_print_info_xics,
->      .dt_populate = spapr_dt_xics,
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
-> @@ -158,20 +144,6 @@ SpaprIrq spapr_irq_xics = {
->   * XIVE IRQ backend.
->   */
->  
-> -static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
-> -                                      Monitor *mon)
-> -{
-> -    CPUState *cs;
-> -
-> -    CPU_FOREACH(cs) {
-> -        PowerPCCPU *cpu = POWERPC_CPU(cs);
-> -
-> -        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
-> -    }
-> -
-> -    spapr_xive_pic_print_info(spapr->xive, mon);
-> -}
-> -
->  static int spapr_irq_post_load_xive(SpaprMachineState *spapr, int version_id)
->  {
->      return spapr_xive_post_load(spapr->xive, version_id);
-> @@ -212,7 +184,6 @@ SpaprIrq spapr_irq_xive = {
->      .xics        = false,
->      .xive        = true,
->  
-> -    .print_info  = spapr_irq_print_info_xive,
->      .dt_populate = spapr_dt_xive,
->      .post_load   = spapr_irq_post_load_xive,
->      .reset       = spapr_irq_reset_xive,
-> @@ -238,11 +209,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState *spapr)
->          &spapr_irq_xive : &spapr_irq_xics;
->  }
->  
-> -static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor *mon)
-> -{
-> -    spapr_irq_current(spapr)->print_info(spapr, mon);
-> -}
-> -
->  static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
->                                         uint32_t nr_servers, void *fdt,
->                                         uint32_t phandle)
-> @@ -304,7 +270,6 @@ SpaprIrq spapr_irq_dual = {
->      .xics        = true,
->      .xive        = true,
->  
-> -    .print_info  = spapr_irq_print_info_dual,
->      .dt_populate = spapr_irq_dt_populate_dual,
->      .post_load   = spapr_irq_post_load_dual,
->      .reset       = spapr_irq_reset_dual,
-> @@ -402,6 +367,14 @@ static void spapr_set_irq(void *opaque, int irq, int level)
->      sicc->set_irq(spapr->active_intc, irq, level);
->  }
->  
-> +void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon)
-> +{
-> +    SpaprInterruptControllerClass *sicc
-> +        = SPAPR_INTC_GET_CLASS(spapr->active_intc);
-> +
-> +    sicc->print_info(spapr->active_intc, mon);
-> +}
-> +
->  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->  {
->      MachineState *machine = MACHINE(spapr);
-> @@ -720,7 +693,6 @@ SpaprIrq spapr_irq_xics_legacy = {
->      .xics        = true,
->      .xive        = false,
->  
-> -    .print_info  = spapr_irq_print_info_xics,
->      .dt_populate = spapr_dt_xics,
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 8286a9aa63..2ade580992 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -59,6 +59,7 @@ typedef struct SpaprInterruptControllerClass {
->  
->      /* These methods should only be called on the active intc */
->      void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
-> +    void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
->  } SpaprInterruptControllerClass;
->  
->  void spapr_irq_update_active_intc(SpaprMachineState *spapr);
-> @@ -81,7 +82,6 @@ typedef struct SpaprIrq {
->      bool        xics;
->      bool        xive;
->  
-> -    void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
->      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
->                          void *fdt, uint32_t phandle);
->      int (*post_load)(SpaprMachineState *spapr, int version_id);
+> 
+
+Thanks applied.
 
 
