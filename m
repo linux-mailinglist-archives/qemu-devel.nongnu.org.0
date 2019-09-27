@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A7FC0680
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:40:29 +0200 (CEST)
-Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51A7C0690
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:44:00 +0200 (CEST)
+Received: from localhost ([::1]:50794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqTz-00028J-1p
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:40:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58715)
+	id 1iDqXP-0005vQ-A7
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDpyk-00086Z-Jl
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:08:12 -0400
+ (envelope-from <david@redhat.com>) id 1iDq1K-0001aC-LE
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:10:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDpyi-0005Oi-IR
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:08:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49934)
+ (envelope-from <david@redhat.com>) id 1iDq1J-00067G-Bu
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:10:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51182)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDpyg-0005O8-6n; Fri, 27 Sep 2019 09:08:06 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iDq1J-00066b-2b; Fri, 27 Sep 2019 09:10:49 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0C10110C0925;
- Fri, 27 Sep 2019 10:41:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3EF1F300BEAC;
+ Fri, 27 Sep 2019 10:42:39 +0000 (UTC)
 Received: from [10.36.116.169] (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D1065D9C3;
- Fri, 27 Sep 2019 10:41:47 +0000 (UTC)
-Subject: Re: [PATCH v3 06/18] target/s390x: Push trigger_pgm_exception lower
- in s390_cpu_tlb_fill
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65FD760BE2;
+ Fri, 27 Sep 2019 10:42:38 +0000 (UTC)
+Subject: Re: [PATCH v3 07/18] target/s390x: Handle tec in s390_cpu_tlb_fill
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190926162615.31168-1-richard.henderson@linaro.org>
- <20190926162615.31168-7-richard.henderson@linaro.org>
+ <20190926162615.31168-8-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -80,18 +79,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <f36fdf6d-d9fe-3c7c-ffb4-03ed2e4a592a@redhat.com>
-Date: Fri, 27 Sep 2019 12:41:46 +0200
+Message-ID: <306619b3-40c8-bad5-b986-0f467aaf5ef8@redhat.com>
+Date: Fri, 27 Sep 2019 12:42:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190926162615.31168-7-richard.henderson@linaro.org>
+In-Reply-To: <20190926162615.31168-8-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 27 Sep 2019 10:41:48 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Fri, 27 Sep 2019 10:42:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -111,65 +110,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 26.09.19 18:26, Richard Henderson wrote:
-> Delay triggering an exception until the end, after we have
-> determined ultimate success or failure, and also taken into
-> account whether this is a non-faulting probe.
+> As a step toward moving all excption handling out of mmu_translate,
+> copy handling of the LowCore tec value from trigger_access_exception
+> into s390_cpu_tlb_fill.  So far this new plumbing isn't used.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/s390x/excp_helper.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  target/s390x/excp_helper.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
 > diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-> index dbff772d34..552098be5f 100644
+> index 552098be5f..ab2ed47fef 100644
 > --- a/target/s390x/excp_helper.c
 > +++ b/target/s390x/excp_helper.c
-> @@ -127,7 +127,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> @@ -126,7 +126,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      S390CPU *cpu = S390_CPU(cs);
 >      CPUS390XState *env = &cpu->env;
 >      target_ulong vaddr, raddr;
->      uint64_t asc;
-> -    int prot, fail;
-> +    int prot, fail, excp;
+> -    uint64_t asc;
+> +    uint64_t asc, tec;
+>      int prot, fail, excp;
 >  
 >      qemu_log_mask(CPU_LOG_MMU, "%s: addr 0x%" VADDR_PRIx " rw %d mmu_idx %d\n",
->                    __func__, address, access_type, mmu_idx);
-> @@ -141,12 +141,14 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->              vaddr &= 0x7fffffff;
->          }
->          fail = mmu_translate(env, vaddr, access_type, asc, &raddr, &prot, true);
-> +        excp = 0; /* exception already raised */
->      } else if (mmu_idx == MMU_REAL_IDX) {
->          /* 31-Bit mode */
->          if (!(env->psw.mask & PSW_MASK_64)) {
->              vaddr &= 0x7fffffff;
->          }
->          fail = mmu_translate_real(env, vaddr, access_type, &raddr, &prot);
-> +        excp = 0; /* exception already raised */
->      } else {
->          g_assert_not_reached();
->      }
-> @@ -159,7 +161,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->          qemu_log_mask(CPU_LOG_MMU,
+> @@ -162,6 +162,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
 >                        "%s: raddr %" PRIx64 " > ram_size %" PRIx64 "\n",
 >                        __func__, (uint64_t)raddr, (uint64_t)ram_size);
-> -        trigger_pgm_exception(env, PGM_ADDRESSING, ILEN_AUTO);
-> +        excp = PGM_ADDRESSING;
+>          excp = PGM_ADDRESSING;
+> +        tec = 0; /* unused */
 >          fail = 1;
 >      }
 >  
-> @@ -175,6 +177,9 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->          return false;
+> @@ -178,6 +179,10 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
 >      }
 >  
-> +    if (excp) {
-> +        trigger_pgm_exception(env, excp, ILEN_AUTO);
-> +    }
+>      if (excp) {
+> +        if (excp != PGM_ADDRESSING) {
+> +            stq_phys(env_cpu(env)->as,
+> +                     env->psa + offsetof(LowCore, trans_exc_code), tec);
+> +        }
+>          trigger_pgm_exception(env, excp, ILEN_AUTO);
+>      }
 >      cpu_restore_state(cs, retaddr, true);
->  
->      /*
 > 
 
-Depends on what's going to follow next, but the change itself
+Again, depends on what's going to follow next, but I have a rough idea
+already :)
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
