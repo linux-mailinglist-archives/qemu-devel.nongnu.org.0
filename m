@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BD4BFEE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:11:50 +0200 (CEST)
-Received: from localhost ([::1]:46732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DA4BFEFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:18:59 +0200 (CEST)
+Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDjTp-0002s9-Ix
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47913)
+	id 1iDjaj-00007H-GD
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iDj9r-0007Rd-FZ
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:51:12 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iDj9r-0007Ri-GT
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:51:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iDj9p-0005cc-Ue
+ (envelope-from <dgibson@ozlabs.org>) id 1iDj9p-0005cw-VT
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:51:11 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:33769)
+Received: from ozlabs.org ([203.11.71.1]:32993)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iDj9p-00054V-IE; Fri, 27 Sep 2019 01:51:09 -0400
+ id 1iDj9p-00054k-Ip; Fri, 27 Sep 2019 01:51:09 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46fgrG3hpTz9sRX; Fri, 27 Sep 2019 15:50:38 +1000 (AEST)
+ id 46fgrG4f7qz9sRV; Fri, 27 Sep 2019 15:50:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569563438;
- bh=DaESRgTnjgKs5sywaS+B2hMhnsRQEX5S28opMi7LN+Y=;
+ bh=DH9d448OE2kHDHXoVlCBVZWLBPcI0v9MdoT1GgXMWIk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LBbEHevzWHGKgInj/zlOFlsm/uBjbfEEUhLDIkVqpu9JRXomKkQPFCRX6Wexb4VAS
- fspWHq0yEmTfEZ575wG7YzshJX64kAvMYutUJLh8Jno+InIfGuONTZmhvvDg8TCnH5
- 2lcvY7YCT6zyfwwtsdZZJwjbpnmqVPgE7IRXA8sQ=
+ b=XG3q1zaoU8bbp1D33kUlS4JMlNhFdcxaU1a8qUvGTYoA067KUHBPdLhXo8uDnkVeK
+ nZ9CMtGUJgv+IeNZb+62yW8SLj0w+qjv2pq1oS7ft0MsFFVia6oFUM1O+29oQwAZvb
+ KqwxhCphgHRs7EfME8CgLqwBqC3cXxak6/p+zizs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	clg@kaod.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 24/33] spapr, xics,
- xive: Move set_irq from SpaprIrq to SpaprInterruptController
-Date: Fri, 27 Sep 2019 15:50:19 +1000
-Message-Id: <20190927055028.11493-25-david@gibson.dropbear.id.au>
+Subject: [PATCH v2 25/33] spapr, xics,
+ xive: Move print_info from SpaprIrq to SpaprInterruptController
+Date: Fri, 27 Sep 2019 15:50:20 +1000
+Message-Id: <20190927055028.11493-26-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190927055028.11493-1-david@gibson.dropbear.id.au>
 References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,219 +65,236 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This method depends only on the active irq controller.  Now that we've
-formalized the notion of active controller we can dispatch directly throu=
-gh
-that, rather than dispatching via SpaprIrq with the dual version having
-to do a second conditional dispatch.
+formalized the notion of active controller we can dispatch directly
+through that, rather than dispatching via SpaprIrq with the dual
+version having to do a second conditional dispatch.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive.c       | 12 +++++++++++
- hw/intc/xics_spapr.c       |  9 +++++++++
- hw/ppc/spapr_irq.c         | 41 ++++++++++----------------------------
- include/hw/ppc/spapr_irq.h |  4 +++-
- 4 files changed, 34 insertions(+), 32 deletions(-)
+ hw/intc/spapr_xive.c       | 15 +++++++++++++
+ hw/intc/xics_spapr.c       | 15 +++++++++++++
+ hw/ppc/spapr.c             |  2 +-
+ hw/ppc/spapr_irq.c         | 44 +++++++-------------------------------
+ include/hw/ppc/spapr_irq.h |  2 +-
+ 5 files changed, 40 insertions(+), 38 deletions(-)
 
 diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index ff1a175b44..52d5e71793 100644
+index 52d5e71793..700ec5c9c1 100644
 --- a/hw/intc/spapr_xive.c
 +++ b/hw/intc/spapr_xive.c
-@@ -553,6 +553,17 @@ static int spapr_xive_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
-     return 0;
+@@ -564,6 +564,20 @@ static void spapr_xive_set_irq(SpaprInterruptControl=
+ler *intc, int irq, int val)
+     }
  }
 =20
-+static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
-int val)
++static void spapr_xive_print_info(SpaprInterruptController *intc, Monito=
+r *mon)
 +{
 +    SpaprXive *xive =3D SPAPR_XIVE(intc);
++    CPUState *cs;
 +
-+    if (kvm_irqchip_in_kernel()) {
-+        kvmppc_xive_source_set_irq(&xive->source, irq, val);
-+    } else {
-+        xive_source_set_irq(&xive->source, irq, val);
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++
++        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
 +    }
++
++    spapr_xive_pic_print_info(xive, mon);
 +}
 +
  static void spapr_xive_class_init(ObjectClass *klass, void *data)
  {
      DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -574,6 +585,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+@@ -586,6 +600,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
  void *data)
-     sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
      sicc->claim_irq =3D spapr_xive_claim_irq;
      sicc->free_irq =3D spapr_xive_free_irq;
-+    sicc->set_irq =3D spapr_xive_set_irq;
+     sicc->set_irq =3D spapr_xive_set_irq;
++    sicc->print_info =3D spapr_xive_print_info;
  }
 =20
  static const TypeInfo spapr_xive_info =3D {
 diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 224fe1efcd..02372697f6 100644
+index 02372697f6..415defe394 100644
 --- a/hw/intc/xics_spapr.c
 +++ b/hw/intc/xics_spapr.c
-@@ -373,6 +373,14 @@ static void xics_spapr_free_irq(SpaprInterruptContro=
-ller *intc, int irq)
-     memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+@@ -381,6 +381,20 @@ static void xics_spapr_set_irq(SpaprInterruptControl=
+ler *intc, int irq, int val)
+     ics_set_irq(ics, srcno, val);
  }
 =20
-+static void xics_spapr_set_irq(SpaprInterruptController *intc, int irq, =
-int val)
++static void xics_spapr_print_info(SpaprInterruptController *intc, Monito=
+r *mon)
 +{
 +    ICSState *ics =3D ICS_SPAPR(intc);
-+    uint32_t srcno =3D irq - ics->offset;
++    CPUState *cs;
 +
-+    ics_set_irq(ics, srcno, val);
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++
++        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
++    }
++
++    ics_pic_print_info(ics, mon);
 +}
 +
  static void ics_spapr_class_init(ObjectClass *klass, void *data)
  {
      DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -384,6 +392,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
+@@ -393,6 +407,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
 void *data)
-     sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
      sicc->claim_irq =3D xics_spapr_claim_irq;
      sicc->free_irq =3D xics_spapr_free_irq;
-+    sicc->set_irq =3D xics_spapr_set_irq;
+     sicc->set_irq =3D xics_spapr_set_irq;
++    sicc->print_info =3D xics_spapr_print_info;
  }
 =20
  static const TypeInfo ics_spapr_info =3D {
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 795f6ab505..7e04746db1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4341,7 +4341,7 @@ static void spapr_pic_print_info(InterruptStatsProv=
+ider *obj,
+ {
+     SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
+=20
+-    spapr->irq->print_info(spapr, mon);
++    spapr_irq_print_info(spapr, mon);
+     monitor_printf(mon, "irqchip: %s\n",
+                    kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
+ }
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index dfa875b7cd..4922062908 100644
+index 4922062908..be20bbf3cf 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -123,14 +123,6 @@ static int spapr_irq_post_load_xics(SpaprMachineStat=
-e *spapr, int version_id)
-     return 0;
- }
+@@ -98,19 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spap=
+r,
+  * XICS IRQ backend.
+  */
 =20
--static void spapr_irq_set_irq_xics(void *opaque, int irq, int val)
+-static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor =
+*mon)
 -{
--    SpaprMachineState *spapr =3D opaque;
--    uint32_t srcno =3D irq - spapr->ics->offset;
+-    CPUState *cs;
 -
--    ics_set_irq(spapr->ics, srcno, val);
+-    CPU_FOREACH(cs) {
+-        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-
+-        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
+-    }
+-
+-    ics_pic_print_info(spapr->ics, mon);
 -}
 -
- static void spapr_irq_reset_xics(SpaprMachineState *spapr, Error **errp)
+ static int spapr_irq_post_load_xics(SpaprMachineState *spapr, int versio=
+n_id)
  {
-     Error *local_err =3D NULL;
-@@ -159,7 +151,6 @@ SpaprIrq spapr_irq_xics =3D {
+     if (!kvm_irqchip_in_kernel()) {
+@@ -147,7 +134,6 @@ SpaprIrq spapr_irq_xics =3D {
+     .xics        =3D true,
+     .xive        =3D false,
+=20
+-    .print_info  =3D spapr_irq_print_info_xics,
      .dt_populate =3D spapr_dt_xics,
      .post_load   =3D spapr_irq_post_load_xics,
      .reset       =3D spapr_irq_reset_xics,
--    .set_irq     =3D spapr_irq_set_irq_xics,
-     .init_kvm    =3D spapr_irq_init_kvm_xics,
- };
+@@ -158,20 +144,6 @@ SpaprIrq spapr_irq_xics =3D {
+  * XIVE IRQ backend.
+  */
 =20
-@@ -208,17 +199,6 @@ static void spapr_irq_reset_xive(SpaprMachineState *=
-spapr, Error **errp)
-     spapr_xive_mmio_set_enabled(spapr->xive, true);
- }
-=20
--static void spapr_irq_set_irq_xive(void *opaque, int irq, int val)
+-static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
+-                                      Monitor *mon)
 -{
--    SpaprMachineState *spapr =3D opaque;
+-    CPUState *cs;
 -
--    if (kvm_irqchip_in_kernel()) {
--        kvmppc_xive_source_set_irq(&spapr->xive->source, irq, val);
--    } else {
--        xive_source_set_irq(&spapr->xive->source, irq, val);
+-    CPU_FOREACH(cs) {
+-        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-
+-        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
 -    }
+-
+-    spapr_xive_pic_print_info(spapr->xive, mon);
 -}
 -
- static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **er=
-rp)
+ static int spapr_irq_post_load_xive(SpaprMachineState *spapr, int versio=
+n_id)
  {
-     if (kvm_enabled()) {
-@@ -236,7 +216,6 @@ SpaprIrq spapr_irq_xive =3D {
+     return spapr_xive_post_load(spapr->xive, version_id);
+@@ -212,7 +184,6 @@ SpaprIrq spapr_irq_xive =3D {
+     .xics        =3D false,
+     .xive        =3D true,
+=20
+-    .print_info  =3D spapr_irq_print_info_xive,
      .dt_populate =3D spapr_dt_xive,
      .post_load   =3D spapr_irq_post_load_xive,
      .reset       =3D spapr_irq_reset_xive,
--    .set_irq     =3D spapr_irq_set_irq_xive,
-     .init_kvm    =3D spapr_irq_init_kvm_xive,
- };
-=20
-@@ -316,13 +295,6 @@ static void spapr_irq_reset_dual(SpaprMachineState *=
-spapr, Error **errp)
-     spapr_irq_current(spapr)->reset(spapr, errp);
+@@ -238,11 +209,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState=
+ *spapr)
+         &spapr_irq_xive : &spapr_irq_xics;
  }
 =20
--static void spapr_irq_set_irq_dual(void *opaque, int irq, int val)
+-static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor =
+*mon)
 -{
--    SpaprMachineState *spapr =3D opaque;
--
--    spapr_irq_current(spapr)->set_irq(spapr, irq, val);
+-    spapr_irq_current(spapr)->print_info(spapr, mon);
 -}
 -
- /*
-  * Define values in sync with the XIVE and XICS backend
-  */
-@@ -336,7 +308,6 @@ SpaprIrq spapr_irq_dual =3D {
+ static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
+                                        uint32_t nr_servers, void *fdt,
+                                        uint32_t phandle)
+@@ -304,7 +270,6 @@ SpaprIrq spapr_irq_dual =3D {
+     .xics        =3D true,
+     .xive        =3D true,
+=20
+-    .print_info  =3D spapr_irq_print_info_dual,
      .dt_populate =3D spapr_irq_dt_populate_dual,
      .post_load   =3D spapr_irq_post_load_dual,
      .reset       =3D spapr_irq_reset_dual,
--    .set_irq     =3D spapr_irq_set_irq_dual,
-     .init_kvm    =3D NULL, /* should not be used */
- };
-=20
-@@ -422,6 +393,15 @@ int spapr_irq_cpu_intc_create(SpaprMachineState *spa=
-pr,
-     return 0;
+@@ -402,6 +367,14 @@ static void spapr_set_irq(void *opaque, int irq, int=
+ level)
+     sicc->set_irq(spapr->active_intc, irq, level);
  }
 =20
-+static void spapr_set_irq(void *opaque, int irq, int level)
++void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon)
 +{
-+    SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
 +    SpaprInterruptControllerClass *sicc
 +        =3D SPAPR_INTC_GET_CLASS(spapr->active_intc);
 +
-+    sicc->set_irq(spapr->active_intc, irq, level);
++    sicc->print_info(spapr->active_intc, mon);
 +}
 +
  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
  {
      MachineState *machine =3D MACHINE(spapr);
-@@ -510,7 +490,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
-*errp)
-         spapr_xive_hcall_init(spapr);
-     }
+@@ -720,7 +693,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+     .xics        =3D true,
+     .xive        =3D false,
 =20
--    spapr->qirqs =3D qemu_allocate_irqs(spapr->irq->set_irq, spapr,
-+    spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
-                                       spapr->irq->nr_xirqs + SPAPR_XIRQ_=
-BASE);
-=20
- out:
-@@ -744,7 +724,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+-    .print_info  =3D spapr_irq_print_info_xics,
      .dt_populate =3D spapr_dt_xics,
      .post_load   =3D spapr_irq_post_load_xics,
      .reset       =3D spapr_irq_reset_xics,
--    .set_irq     =3D spapr_irq_set_irq_xics,
-     .init_kvm    =3D spapr_irq_init_kvm_xics,
- };
-=20
 diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 3102d152b2..8286a9aa63 100644
+index 8286a9aa63..2ade580992 100644
 --- a/include/hw/ppc/spapr_irq.h
 +++ b/include/hw/ppc/spapr_irq.h
-@@ -56,6 +56,9 @@ typedef struct SpaprInterruptControllerClass {
-     int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
-                      Error **errp);
-     void (*free_irq)(SpaprInterruptController *intc, int irq);
-+
-+    /* These methods should only be called on the active intc */
-+    void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
+@@ -59,6 +59,7 @@ typedef struct SpaprInterruptControllerClass {
+=20
+     /* These methods should only be called on the active intc */
+     void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
++    void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
  } SpaprInterruptControllerClass;
 =20
  void spapr_irq_update_active_intc(SpaprMachineState *spapr);
-@@ -83,7 +86,6 @@ typedef struct SpaprIrq {
+@@ -81,7 +82,6 @@ typedef struct SpaprIrq {
+     bool        xics;
+     bool        xive;
+=20
+-    void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
+     void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
                          void *fdt, uint32_t phandle);
      int (*post_load)(SpaprMachineState *spapr, int version_id);
-     void (*reset)(SpaprMachineState *spapr, Error **errp);
--    void (*set_irq)(void *opaque, int srcno, int val);
-     void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
- } SpaprIrq;
-=20
 --=20
 2.21.0
 
