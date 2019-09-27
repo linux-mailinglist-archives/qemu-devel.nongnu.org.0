@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECC6C08C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:41:11 +0200 (CEST)
-Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98503C08DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:46:51 +0200 (CEST)
+Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDsMo-0008FF-3O
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48664)
+	id 1iDsSH-0004mE-VK
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:46:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iDrH5-0007OH-SI
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:13 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1iDrKq-0002w2-Fl
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:35:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iDrH4-0005nV-9Q
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55954)
+ (envelope-from <borntraeger@de.ibm.com>) id 1iDrKo-0006Ss-VX
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:35:04 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34912
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iDrH4-0005n7-08
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:10 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8REU0F5131298
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:31:07 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v9ky08qej-1
+ id 1iDrKo-0006Si-M7
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:35:02 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8REW0n2022089
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:35:01 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2v9kk2t05r-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:31:07 -0400
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:35:00 -0400
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Fri, 27 Sep 2019 15:31:05 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Fri, 27 Sep 2019 15:34:59 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 27 Sep 2019 15:31:01 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id x8REV0xU45351386
+ Fri, 27 Sep 2019 15:34:56 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8REYtGQ36569188
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Sep 2019 14:31:00 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 144A642045;
- Fri, 27 Sep 2019 14:31:00 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D4E5F4204C;
- Fri, 27 Sep 2019 14:30:59 +0000 (GMT)
+ Fri, 27 Sep 2019 14:34:55 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2810E5204E;
+ Fri, 27 Sep 2019 14:34:55 +0000 (GMT)
 Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 27 Sep 2019 14:30:59 +0000 (GMT)
-Subject: Re: [PATCH] MAINTAINERS: Update S390 PCI Maintainer
-To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com
-References: <1569590461-12562-1-git-send-email-mjrosato@linux.ibm.com>
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id CA83552054;
+ Fri, 27 Sep 2019 14:34:54 +0000 (GMT)
+Subject: Re: [PATCH v2 1/4] s390x: sclp: refactor invalid command check
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
+ <1569591203-15258-2-git-send-email-imbrenda@linux.ibm.com>
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
@@ -102,19 +102,19 @@ Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
  RGIN40QWFVlZvkKIEkzlzqpAyGaRLhXJPv/6tpoQaCQQoSAc5Z9kM/wEd9e2zMeojcWjUXgg
  oWj8A/wY4UXExGBu+UCzzP/6sQRpBiPFgmqPTytrDo/gsUGqjOudLiHQcMU+uunULYQxVghC
  syiRa+UVlsKmx1hsEg==
-Date: Fri, 27 Sep 2019 16:30:59 +0200
+Date: Fri, 27 Sep 2019 16:34:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1569590461-12562-1-git-send-email-mjrosato@linux.ibm.com>
+In-Reply-To: <1569591203-15258-2-git-send-email-imbrenda@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19092714-0028-0000-0000-000003A341DC
+x-cbid: 19092714-4275-0000-0000-0000036BD09C
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19092714-0029-0000-0000-00002465643F
-Message-Id: <7c3800dc-cc5a-c9c9-8edc-2d05370e315a@de.ibm.com>
+x-cbparentid: 19092714-4276-0000-0000-0000387E5314
+Message-Id: <8cb8b36c-af52-f65e-2828-c2ab9d3de8bd@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-27_06:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -122,9 +122,9 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909270135
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909270136
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,35 +136,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, walling@linux.ibm.com, qemu-devel@nongnu.org
+Cc: pasic@linux.ibm.com, cohuck@redhat.com, david@redhat.com,
+ frankja@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 27.09.19 15:21, Matthew Rosato wrote:
-> As discussed previously with Collin, I will take over maintaining
-> s390 pci.
+On 27.09.19 15:33, Claudio Imbrenda wrote:
+> From: Janosch Frank <frankja@linux.ibm.com>
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> Invalid command checking has to be done before the boundary check,
+> refactoring it now allows to insert the boundary check at the correct
+> place later.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
 > ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/s390x/event-facility.c |  3 ---
+>  hw/s390x/sclp.c           | 17 ++++++++++++++++-
+>  2 files changed, 16 insertions(+), 4 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index bd7ee23..21264ea 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1206,7 +1206,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
->  L: qemu-s390x@nongnu.org
+> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+> index 797ecbb..6620569 100644
+> --- a/hw/s390x/event-facility.c
+> +++ b/hw/s390x/event-facility.c
+> @@ -377,9 +377,6 @@ static void command_handler(SCLPEventFacility *ef, SCCB *sccb, uint64_t code)
+>      case SCLP_CMD_WRITE_EVENT_MASK:
+>          write_event_mask(ef, sccb);
+>          break;
+> -    default:
+> -        sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
+> -        break;
+>      }
+>  }
 >  
->  S390 PCI
-> -M: Collin Walling <walling@linux.ibm.com>
-> +M: Matthew Rosato <mjrosato@linux.ibm.com>
->  S: Supported
->  F: hw/s390x/s390-pci*
->  L: qemu-s390x@nongnu.org
-> 
+> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+> index fac7c3b..95ebfe7 100644
+> --- a/hw/s390x/sclp.c
+> +++ b/hw/s390x/sclp.c
+> @@ -219,8 +219,23 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+>          goto out;
+>      }
+>  
+> -    sclp_c->execute(sclp, &work_sccb, code);
+> +    switch (code & SCLP_CMD_CODE_MASK) {
+> +    case SCLP_CMDW_READ_SCP_INFO:
+> +    case SCLP_CMDW_READ_SCP_INFO_FORCED:
+> +    case SCLP_CMDW_READ_CPU_INFO:
+> +    case SCLP_CMDW_CONFIGURE_IOA:
+> +    case SCLP_CMDW_DECONFIGURE_IOA:
+> +    case SCLP_CMD_READ_EVENT_DATA:
+> +    case SCLP_CMD_WRITE_EVENT_DATA:
+> +    case SCLP_CMD_WRITE_EVENT_MASK:
+> +        break;
+> +    default:
+> +        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
+> +        goto out_write;
+> +    }
+>  
+> +    sclp_c->execute(sclp, &work_sccb, code);
+> +out_write:
+>      cpu_physical_memory_write(sccb, &work_sccb,
+>                                be16_to_cpu(work_sccb.h.length));
+>  
 
 Thanks applied.
 
