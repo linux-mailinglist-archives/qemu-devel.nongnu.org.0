@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C5DC06E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:04:06 +0200 (CEST)
-Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A5EC070C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:11:39 +0200 (CEST)
+Received: from localhost ([::1]:51354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqqp-0007vd-SE
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
+	id 1iDqy9-0008UZ-Lm
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34013)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mjrosato@linux.ibm.com>) id 1iDqBO-0002ZJ-IR
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:21:16 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDqA1-0001uF-K6
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mjrosato@linux.ibm.com>) id 1iDqBN-00009c-6B
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:21:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20248)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
- id 1iDqBM-00009G-LG; Fri, 27 Sep 2019 09:21:13 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8RDEo7Y035753; Fri, 27 Sep 2019 09:21:10 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v9ft8yp0j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Sep 2019 09:21:09 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8RDF1AZ036924;
- Fri, 27 Sep 2019 09:21:07 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v9ft8ynyx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Sep 2019 09:21:07 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8RDK2uR018439;
- Fri, 27 Sep 2019 13:21:06 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 2v5bg86ax0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Sep 2019 13:21:06 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8RDL2uq52560344
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Sep 2019 13:21:03 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D16026A05D;
- Fri, 27 Sep 2019 13:21:02 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 387086A04D;
- Fri, 27 Sep 2019 13:21:02 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.85.182.236])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 27 Sep 2019 13:21:02 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: cohuck@redhat.com
-Subject: [PATCH] MAINTAINERS: Update S390 PCI Maintainer
-Date: Fri, 27 Sep 2019 09:21:01 -0400
-Message-Id: <1569590461-12562-1-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-27_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=886 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909270123
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+ (envelope-from <peter.maydell@linaro.org>) id 1iDq9x-0008MO-HQ
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:49 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39926)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDq9x-0008M6-35
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:45 -0400
+Received: by mail-ot1-x341.google.com with SMTP id s22so2189375otr.6
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=lhhVvlH+/VJBwGrSQq1aOjhSEBry1BKWGVPTjkraBTk=;
+ b=aGJJ6ov7MPh3STpS/AnZ6RjW7ulyZzZsOOyGHrXFPTCl8cqh275GKzTdmKrohOUtzJ
+ oJhwtEmfiSByGr8NY0wSxeUuqrk3TiA6PFmzMsiK6ixcDgAjK4ArXlBud+eyJkrhcWZ2
+ OIS3vRIq/G9p5BUFV/lNGtUOuQB1Txl/FlH9xBP7MnzO485ce82M2QoQmW3obgCuxZNj
+ PSOIRSGT6kNATR2pAI/ZGZ61tYF/BNSPy964jIPsANycDiEoS953dMas8BOjUath+XAQ
+ TVrhmIca91wA2o6kzd/M19hsLBC2XjCW/3nWF6bHvWb5xVkGCzCH/EX5QktGhm7+OfJs
+ x/pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=lhhVvlH+/VJBwGrSQq1aOjhSEBry1BKWGVPTjkraBTk=;
+ b=Z1Zd2qWOPeG1/BnwwkNUgfH9Z07GFhSal9OlUqdrskNsPLd2YikqkthwVikRMJ96bh
+ 8b4jgM83SJ/S5YtKOhXUZWl4rOvQhBpRof8Nkm0wjeSy/1vYeOYAlviA1n11LNBJba0e
+ ++ROU3cdTx3WrICkoy13TnYh2KFE40haCPF9lmavbLRffjORsw9E4arXTLr+beCNtLhS
+ SUVsYoKSy/xoDlXK/tMI090KCjL0d5WZHFctgVMG4rkJAgsGLawo8MtCnrjVsU66hSzy
+ xcx055aMuLo+90XJJshDhLIT9BqwxaVBEnGpZuoNGLis7sjv7tJkxx0Bw8KgRybrire0
+ rgkg==
+X-Gm-Message-State: APjAAAXFkdEevs2P/m3pNf59eFtOBwARC0Xrv4ZvPuEwnzraYs6zUEpr
+ Pj1WpJtdC8/xHa1FJeLn82COgKIGKW0PM7DNFxzEiaADxHE=
+X-Google-Smtp-Source: APXvYqxQpF+81bM32LME7i6Qi3EiRem8Qlk83aNMumGVMmywl0eXTX9jUCem3F2YyhrHoMsNBgUOdcn1YwT8jtxtdSA=
+X-Received: by 2002:a9d:5e11:: with SMTP id d17mr2539183oti.135.1569578494862; 
+ Fri, 27 Sep 2019 03:01:34 -0700 (PDT)
+MIME-Version: 1.0
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Sep 2019 11:01:23 +0100
+Message-ID: <CAFEAcA8HGEdHs74-m3Wa7RHU_ZE5g9kEidP-9Z69zhsMkCPRZQ@mail.gmail.com>
+Subject: ptimer use of bottom-half handlers
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,33 +68,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, walling@linux.ibm.com,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As discussed previously with Collin, I will take over maintaining
-s390 pci.
+Investigating https://bugs.launchpad.net/qemu/+bug/1777777 I
+found what seems to be a design flaw in the ptimer code.
 
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The ptimer API is basically a down-counter (with a lot of bells
+and whistles), with functions to do things like "read current count"
+and "write current count". When the counter hits zero it typically
+reloads, and the ptimer code notifies a callback function in the
+device that's using ptimer. In the current implementation this
+is done using a QEMU bottom-half handler, so ptimer_trigger()
+calls replay_bh_schedule_event() on a QEMUBH that it was passed
+by the device when it was initialized. The comment says this is
+"to avoid reentrancy issues". That's a bit vague, but I assume the
+idea is to avoid the code of the device's 'triggered' callback
+being called from within eg ptimer_set_count(), because the
+device might be in the middle of changing multiple parts of the
+ptimer's state, its own state might not be consistent, etc.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bd7ee23..21264ea 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1206,7 +1206,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
- 
- S390 PCI
--M: Collin Walling <walling@linux.ibm.com>
-+M: Matthew Rosato <mjrosato@linux.ibm.com>
- S: Supported
- F: hw/s390x/s390-pci*
- L: qemu-s390x@nongnu.org
--- 
-1.8.3.1
+Unfortunately, use of the bottom-half mechanism might have worked
+back when the ptimer was first written, but these days we don't
+run the iothread in lockstep with a single vcpu thread, so you
+can get races, like:
 
+ * the QEMU timer ptimer uses calls the ptimer_tick() function
+ * ptimer code updates its own state for the counter rollover,
+   and schedules the bottom-half handler to run
+ * the vcpu thread executes guest code that does "read the counter
+   value", which calls ptimer_get_count() and gets the new
+   rolled-over value
+ * the vcpu thread executes guest code that does "read an
+   interrupt-pending register", which looks at a bit of state
+   that's updated by the device's bottom-half handler, and
+   incorrectly gets a value indicating "no rollover happened"
+ * ...then the bottom-half handler runs and the device code
+   updates its interrupt state, but too late.
+
+I'm not sure what the best fix here is, but it's hard to see
+how we can really continue to use bottom-half handlers here.
+
+Possibilities I thought of:
+ (1) make ptimer_trigger() just directly call the device's
+     callback function. We'd need to audit all the devices
+     to fix them up to handle the cases where the callback
+     gets called while the device is in the middle of
+     reconfiguring the timer.
+ (2) call the device's callback function directly when the
+     ptimer triggers from the QEMU timer expiry. But for
+     the case of "a call to ptimer_set_count() etc caused
+     the timer to trigger", don't call the callback, instead
+     return a boolean from those functions which tells the
+     caller that the timer triggered, and they need to deal
+     with it (by calling their callback function when they've
+     finished messing with the timer).
+
+In either case we would need to gradually convert all (~30)
+of the devices currently using ptimer over to use the new
+mechanism, which in all cases would require some examination
+and modification of the timer code to deal with the new
+semantics. (I'm thinking of a patch series structure along
+the lines of "patch 1 renames ptimer_init to ptimer_init_bh,
+patch 2 introduces new ptimer_init function with new
+semantics, patches 3..n change one device at a time,
+patch n+1 deletes the now-unused ptimer_init_bh".)
+
+I think overall I favour option 2, which is a bit more
+syntactically invasive in terms of changing API signatures etc,
+but semantically easier to reason about (because the
+callback-function in the device is still not called when
+the device might be partway through doing an update to
+the ptimer state that changes multiple parameters of the
+ptimer).
+
+Is there another cleverer fix that I haven't thought of?
+
+thanks
+-- PMM
 
