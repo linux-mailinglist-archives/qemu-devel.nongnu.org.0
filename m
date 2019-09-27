@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B3AC0980
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:22:12 +0200 (CEST)
-Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7BDC09AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:37:40 +0200 (CEST)
+Received: from localhost ([::1]:53388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDt0U-0005wC-L4
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58598)
+	id 1iDtFR-0002lu-G2
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:37:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDs4p-0007rS-4q
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:22:36 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSd-0002UY-9A
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDs4n-0002th-5l
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:22:34 -0400
-Received: from 11.mo4.mail-out.ovh.net ([46.105.34.195]:47800)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDs4m-0002t1-Ur
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:22:33 -0400
-Received: from player687.ha.ovh.net (unknown [10.109.159.48])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 18FAD208D75
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 17:22:28 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player687.ha.ovh.net (Postfix) with ESMTPSA id 48404A482132;
- Fri, 27 Sep 2019 15:22:17 +0000 (UTC)
-Date: Fri, 27 Sep 2019 17:22:16 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 32/33] spapr: Move SpaprIrq::nr_xirqs to
- SpaprMachineClass
-Message-ID: <20190927172216.7249f34d@bahia.lan>
-In-Reply-To: <20190927055028.11493-33-david@gibson.dropbear.id.au>
-References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
- <20190927055028.11493-33-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSa-00088z-Hl
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:07 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45045)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDrSa-00087m-26
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:04 -0400
+Received: by mail-wr1-x442.google.com with SMTP id i18so3101968wru.11
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:43:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=tg04vn7yvauAGcqWHSm/m+dscKKQD3PSH2AqCWQBvX8=;
+ b=HywYgJiQU4R1DCM9kzSzmmqXMqRNIyzh+W3kSs/gCx5uj1QAyhTbRwcwXyBViPsLN2
+ qZUurYOorCRYUnpcfrvjgF0iYsOzy1kI3NCDqpOBDxYhSicGKmHOD4j65/FqEAvgQUGo
+ gHOw1daUEFtj1wdEdJxLsctUmk7veccf4fOX4W5VpAVct1zKcCh6CfA/9WDNesfmpi9k
+ W/mLPGu7QYitK+cCHClqEkrGJH0KMfZcg7agjUJ1N7ykokUAuIQkvd+Y6ADMCBqxd4Lu
+ VDD7RKvL8JdQvNAHN2V8lfD4wAJxVykViQKGQMBgtqfsvrXrPFVCqIRbc0+NYe9ovI+s
+ 9qXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tg04vn7yvauAGcqWHSm/m+dscKKQD3PSH2AqCWQBvX8=;
+ b=GygqKyIoDiEh0IEjxhaQx7z7/mjjRpDsyYVDB1WRq4ZczJ4bApfSltLT3bs76NpZ+v
+ rSivXlotUfZb79j19fTFlbUviZZ2vxcEmiF+WwpY/COGXBZAb2iWZ4gKYfktMI22CuoL
+ SuAUWbxg28y2jKvK9y/t8/9H50Seexp4My+mFXhqYPwBWWXOVAL0ZWeDM448olySyA7z
+ /XYj3LRMBIsW/f4hpz7FrO3gjDE0hoxRMxaL+4Xiq0ST39H5sARLStsaO6SI/Qtmidpl
+ Iw//N3+8/jVtz7xVuGRmFOtMtEuAxfXutsPCM+hf+C+vKrTU7wbstJKrxn9o0niiM5hz
+ vx0Q==
+X-Gm-Message-State: APjAAAULJvwaXHpKKLMzXeRWXVH+SQ3tfw1dYF40R05+bZCPU8L/U273
+ gWdmIviwL9N8k1apwhmURb3voBwaUbf1Vw==
+X-Google-Smtp-Source: APXvYqzUDauMZEpML/GWZVmvoUg480iInGvKebe3WOgjhsK+UnJUHMs6T1/1b12ZLq4Vhn8k4y9y/Q==
+X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr7161069wme.22.1569595379455; 
+ Fri, 27 Sep 2019 07:42:59 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.58
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Sep 2019 07:42:58 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 8/9] hw/arm/boot.c: Set NSACR.{CP11,CP10} for NS kernel boots
+Date: Fri, 27 Sep 2019 15:42:48 +0100
+Message-Id: <20190927144249.29999-9-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
+References: <20190927144249.29999-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2968998055657249254
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.34.195
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,228 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Sep 2019 15:50:27 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+If we're booting a Linux kernel directly into Non-Secure
+state on a CPU which has Secure state, then make sure we
+set the NSACR CP11 and CP10 bits, so that Non-Secure is allowed
+to access the FPU. Otherwise an AArch32 kernel will UNDEF as
+soon as it tries to use the FPU.
 
-> For the benefit of peripheral device allocation, the number of available
-> irqs really wants to be the same on a given machine type version,
-> regardless of what irq backends we are using.  That's the case now, but
-> only because we make sure the different SpaprIrq instances have the same
-> value except for the special legacy one.
-> 
-> Since this really only depends on machine type version, move the value to
-> SpaprMachineClass instead of SpaprIrq.  This also puts the code to set it
-> to the lower value on old machine types right next to setting
-> legacy_irq_allocation, which needs to go hand in hand.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/ppc/spapr.c             |  2 ++
->  hw/ppc/spapr_irq.c         | 33 ++++++++++++++++-----------------
->  include/hw/ppc/spapr.h     |  1 +
->  include/hw/ppc/spapr_irq.h |  1 -
->  4 files changed, 19 insertions(+), 18 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 34b693beba..7113249c89 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4513,6 +4513,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
->      smc->irq = &spapr_irq_dual;
->      smc->dr_phb_enabled = true;
->      smc->linux_pci_probe = true;
-> +    smc->nr_xirqs = SPAPR_NR_XIRQS;
+It used to not matter that we didn't do this until commit
+fc1120a7f5f2d4b6, where we implemented actually honouring
+these NSACR bits.
 
-This is the last user of SPAPR_NR_XIRQS.
+The problem only exists for CPUs where EL3 is AArch32; the
+equivalent AArch64 trap bits are in CPTR_EL3 and are "0 to
+not trap, 1 to trap", so the reset value of the register
+permits NS access, unlike NSACR.
 
-$ git grep SPAPR_NR_XIRQS
-hw/ppc/spapr.c:    smc->nr_xirqs = SPAPR_NR_XIRQS;
-include/hw/ppc/spapr_irq.h:#define SPAPR_NR_XIRQS       0x1000
+Fixes: fc1120a7f5
+Fixes: https://bugs.launchpad.net/qemu/+bug/1844597
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20190920174039.3916-1-peter.maydell@linaro.org
+---
+ hw/arm/boot.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Maybe open-code it here, like you already do for SPAPR_IRQ_XICS_LEGACY_NR_XIRQS
-below.
-
-With or without that fixed.
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  }
->  
->  static const TypeInfo spapr_machine_info = {
-> @@ -4648,6 +4649,7 @@ static void spapr_machine_3_0_class_options(MachineClass *mc)
->      compat_props_add(mc->compat_props, hw_compat_3_0, hw_compat_3_0_len);
->  
->      smc->legacy_irq_allocation = true;
-> +    smc->nr_xirqs = 0x400;
->      smc->irq = &spapr_irq_xics_legacy;
->  }
->  
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 799755c811..f76f30f54b 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -106,7 +106,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptController *, Error **),
->   */
->  
->  SpaprIrq spapr_irq_xics = {
-> -    .nr_xirqs    = SPAPR_NR_XIRQS,
->      .xics        = true,
->      .xive        = false,
->  };
-> @@ -116,7 +115,6 @@ SpaprIrq spapr_irq_xics = {
->   */
->  
->  SpaprIrq spapr_irq_xive = {
-> -    .nr_xirqs    = SPAPR_NR_XIRQS,
->      .xics        = false,
->      .xive        = true,
->  };
-> @@ -134,7 +132,6 @@ SpaprIrq spapr_irq_xive = {
->   * Define values in sync with the XIVE and XICS backend
->   */
->  SpaprIrq spapr_irq_dual = {
-> -    .nr_xirqs    = SPAPR_NR_XIRQS,
->      .xics        = true,
->      .xive        = true,
->  };
-> @@ -249,16 +246,19 @@ void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
->  
->  uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
->  {
-> -    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-> -        return spapr->irq->nr_xirqs;
-> +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-> +
-> +    if (smc->legacy_irq_allocation) {
-> +        return smc->nr_xirqs;
->      } else {
-> -        return SPAPR_XIRQ_BASE + spapr->irq->nr_xirqs - SPAPR_IRQ_MSI;
-> +        return SPAPR_XIRQ_BASE + smc->nr_xirqs - SPAPR_IRQ_MSI;
->      }
->  }
->  
->  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->  {
->      MachineState *machine = MACHINE(spapr);
-> +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
->      Error *local_err = NULL;
->  
->      if (machine_kernel_irqchip_split(machine)) {
-> @@ -295,8 +295,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->              goto out;
->          }
->  
-> -        object_property_set_int(obj, spapr->irq->nr_xirqs, "nr-irqs",
-> -                                &local_err);
-> +        object_property_set_int(obj, smc->nr_xirqs, "nr-irqs", &local_err);
->          if (local_err) {
->              goto out;
->          }
-> @@ -315,8 +314,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->          int i;
->  
->          dev = qdev_create(NULL, TYPE_SPAPR_XIVE);
-> -        qdev_prop_set_uint32(dev, "nr-irqs",
-> -                             spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-> +        qdev_prop_set_uint32(dev, "nr-irqs", smc->nr_xirqs + SPAPR_XIRQ_BASE);
->          /*
->           * 8 XIVE END structures per CPU. One for each available
->           * priority
-> @@ -343,7 +341,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->      }
->  
->      spapr->qirqs = qemu_allocate_irqs(spapr_set_irq, spapr,
-> -                                      spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-> +                                      smc->nr_xirqs + SPAPR_XIRQ_BASE);
->  
->  out:
->      error_propagate(errp, local_err);
-> @@ -351,10 +349,11 @@ out:
->  
->  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error **errp)
->  {
-> +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
->      int rc;
->  
->      assert(irq >= SPAPR_XIRQ_BASE);
-> -    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-> +    assert(irq < (smc->nr_xirqs + SPAPR_XIRQ_BASE));
->  
->      if (spapr->xive) {
->          SpaprInterruptControllerClass *sicc = SPAPR_INTC_GET_CLASS(spapr->xive);
-> @@ -379,10 +378,11 @@ int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error **errp)
->  
->  void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
->  {
-> +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
->      int i;
->  
->      assert(irq >= SPAPR_XIRQ_BASE);
-> -    assert((irq + num) <= (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-> +    assert((irq + num) <= (smc->nr_xirqs + SPAPR_XIRQ_BASE));
->  
->      for (i = irq; i < (irq + num); i++) {
->          if (spapr->xive) {
-> @@ -402,6 +402,8 @@ void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
->  
->  qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
->  {
-> +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-> +
->      /*
->       * This interface is basically for VIO and PHB devices to find the
->       * right qemu_irq to manipulate, so we only allow access to the
-> @@ -410,7 +412,7 @@ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
->       * interfaces, we can change this if we need to in future.
->       */
->      assert(irq >= SPAPR_XIRQ_BASE);
-> -    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-> +    assert(irq < (smc->nr_xirqs + SPAPR_XIRQ_BASE));
->  
->      if (spapr->ics) {
->          assert(ics_valid_irq(spapr->ics, irq));
-> @@ -563,10 +565,7 @@ int spapr_irq_find(SpaprMachineState *spapr, int num, bool align, Error **errp)
->      return first + ics->offset;
->  }
->  
-> -#define SPAPR_IRQ_XICS_LEGACY_NR_XIRQS     0x400
-> -
->  SpaprIrq spapr_irq_xics_legacy = {
-> -    .nr_xirqs    = SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
->      .xics        = true,
->      .xive        = false,
->  };
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 763da757f0..623e8e3f93 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -119,6 +119,7 @@ struct SpaprMachineClass {
->      bool use_ohci_by_default;  /* use USB-OHCI instead of XHCI */
->      bool pre_2_10_has_unused_icps;
->      bool legacy_irq_allocation;
-> +    uint32_t nr_xirqs;
->      bool broken_host_serial_model; /* present real host info to the guest */
->      bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
->      bool linux_pci_probe;
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 308bfcefd1..73d8beda39 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -77,7 +77,6 @@ int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool align,
->  void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num);
->  
->  typedef struct SpaprIrq {
-> -    uint32_t    nr_xirqs;
->      bool        xics;
->      bool        xive;
->  } SpaprIrq;
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index bf97ef3e339..25422660545 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -754,6 +754,8 @@ static void do_cpu_reset(void *opaque)
+                     (cs != first_cpu || !info->secure_board_setup)) {
+                     /* Linux expects non-secure state */
+                     env->cp15.scr_el3 |= SCR_NS;
++                    /* Set NSACR.{CP11,CP10} so NS can access the FPU */
++                    env->cp15.nsacr |= 3 << 10;
+                 }
+             }
+ 
+-- 
+2.20.1
 
 
