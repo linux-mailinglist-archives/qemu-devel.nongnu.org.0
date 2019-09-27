@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D9BC09CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:47:20 +0200 (CEST)
-Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8C0C09BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:42:16 +0200 (CEST)
+Received: from localhost ([::1]:53464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtOo-0002c4-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
+	id 1iDtJv-0006vb-7F
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51277)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSR-0002Md-Rc
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:42:59 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSg-0002Wy-Os
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSP-00086A-Qk
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:42:55 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46578)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSd-00089u-7P
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:09 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35097)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDrSP-00085z-E5
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:42:53 -0400
-Received: by mail-wr1-x441.google.com with SMTP id o18so3091266wrv.13
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:42:53 -0700 (PDT)
+ id 1iDrSb-00087x-5j
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:05 -0400
+Received: by mail-wr1-x442.google.com with SMTP id v8so3153945wrt.2
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dsSUNhhqen/wPXXXfC/6F7Zoc+EhhtXera2UzcFSLEw=;
- b=y7ujYAKiYPpytEKqujsBCX1zMQJOLMYhDIVDJcZuOoFSp8IytHvIFUUoWVrt/OE3yl
- n1TPjhdufYd/9ZxQjLInlxLcFjuuEc2O94BhIWNS3ZhKQYeBI6hMOfSuoVkkZd3uHr8O
- 1HQC6wfw7K3lkvk0TR5f5unUca04csWFs8gsyeXEzpOUcC3chVIkyjpVw0T2a6O8hb59
- L11njisSfZA2BR7YTGA0yYKQnnsFUPAU8GzkDBxAj0KVepngL+7+/OZ+OO71mPW/yMG8
- i3R62Mnp1t31Zd5jdTY1r0/kJO/J5QGBl2jKWCROkC6GfX75E9oajzXgWm5yFlU70bVr
- Di0Q==
+ bh=Nfr1PbQT0Jo9Bvco8Z/MdDyJj7lbe3iyjg+htmYoZyk=;
+ b=lvZ7kUgPYDeisfp8Kul6oDEt308mX3gDVEeShL3OAvE0ikqkAM78ZqzEOwcS8/2q1V
+ H3/UuVhse+sKqC+yTesLgflqc5LaZAqxufUUoUJXiOCOb3QCuDC9SZIx8LLGcInOIv+J
+ Gj96fSNInS+C96wNiBLHOFgSm5wdaUZmKbTDmsr2eXmgbnSPErKL86fJtigojUkXQHJg
+ GCAxW9HgiD2jVeDV/BJCkFv2BLDjHxYSiaXx2/nwRovyKU1Yh1C1F4EiPu8RvR7Ly1AR
+ se98U++rYmN/OcikJVbGTYsohB8JdhNJ91bhrtdT8bp6RYw6OY0IcRRgKoPiYyUY2C1J
+ DDhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dsSUNhhqen/wPXXXfC/6F7Zoc+EhhtXera2UzcFSLEw=;
- b=HptbtPvgl0CZ/D2Jkk9aZ4JC0VbdoCKygxyE0m8UgWqBgvbR91eOnCY0oTUajj0Znz
- wZ+QSTuGG3Z1FJbjqtHWo2YyM86ytZV5CIeZE8YmhBmEvFQhGLqjItrCuMydCx4gafEk
- GGu4otmeFkNCbW2jc+VKUEVp5ePFGqsuJFAw8AFde2q7HTgKCzRbjwe1ukqXdyw6/JL3
- qSkRz6Evp//Xo2wbL315PF5ZCvDRVnBcefFxQGpS/AWEa2x+9vn5FSU0tniF1F+zVZnD
- mRHacdLufRQXY1ltQAjcAIiV5kPDWYIuZXt3Z/sv4JYBcJqbq1CGEC005Yx00HxDNoa0
- UoRg==
-X-Gm-Message-State: APjAAAXZOixSh6bu7YkOY/3h2YG/HN/uaFM0XPpzZ0GIBGRnN8jnmdDI
- f1JxKgDH+vB0NWC/+evfBhU4JEV/ifZ60g==
-X-Google-Smtp-Source: APXvYqzmM1JwtR916r3JcnQpL9M8yXs2O5SWAoEez2bIkef0xSH9RC6Ops6Q9ermYy/liAWD2fwM7w==
-X-Received: by 2002:a05:600c:22d9:: with SMTP id
- 25mr7064813wmg.133.1569595371711; 
- Fri, 27 Sep 2019 07:42:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Nfr1PbQT0Jo9Bvco8Z/MdDyJj7lbe3iyjg+htmYoZyk=;
+ b=eGVVZlqFz0Qi/EV20wTzX3i9knh0II3o2kuwsHAVNjZf2Xfaw/I0acDX33vbo7SrSg
+ jfSoIW3iUw2+ofls+p2paKZSu2vyN5gZG03+iGem/trmuGiFhQJ6Py8gTuldzyjVIK8L
+ fn2aIiw7DkLCyA1yO2b9m0pl3BUYlpjoO/3RmAL36AlOHzUtvLM1LpSmfU/TFnXl1sTi
+ iLZp+P3WG2UIbiYPKRziV7vye8e6WQPlanLkpod2Hxj4SaGcHZ/fvqFWLh6Avz27NkhN
+ hFd9kORhxJi4FS1KXe3KHDcy80AdZ+Sy8fVF/rQjNFJzv+U9nN+IzeqfruJcLcwH5Wfx
+ 4H1g==
+X-Gm-Message-State: APjAAAWhY4/cxBjBefcosu8Drv8lBJ+jAYXBzu1xft3y7UshJziOyP+o
+ rF/beBHgNXR8sNHJcdW5GvJr9MTX1GwAKw==
+X-Google-Smtp-Source: APXvYqzOSanJqfFoC3rXuZ4CzXmYdQ7qNdQZaqAo32D33UouQyfeVUaCrsKTr/UWYld91qNTo14BwA==
+X-Received: by 2002:a1c:2144:: with SMTP id h65mr7924062wmh.114.1569595380311; 
+ Fri, 27 Sep 2019 07:43:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.50
+ by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 07:42:51 -0700 (PDT)
+ Fri, 27 Sep 2019 07:42:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] target-arm queue
-Date: Fri, 27 Sep 2019 15:42:40 +0100
-Message-Id: <20190927144249.29999-1-peter.maydell@linaro.org>
+Subject: [PULL 9/9] hw/arm/boot: Use the IEC binary prefix definitions
+Date: Fri, 27 Sep 2019 15:42:49 +0100
+Message-Id: <20190927144249.29999-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
+References: <20190927144249.29999-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,62 +82,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-target-arm queue: nothing major here, but no point
-sitting on them waiting for more stuff to come along.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-thanks
--- PMM
+IEC binary prefixes ease code review: the unit is explicit.
 
-The following changes since commit 1329132d28bf14b9508f7a1f04a2c63422bc3f99:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190923131108.21459-1-philmd@redhat.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/boot.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-09-26 16:14:03 +0100)
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 25422660545..c264864c11d 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -575,7 +575,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+         goto fail;
+     }
+ 
+-    if (scells < 2 && binfo->ram_size >= (1ULL << 32)) {
++    if (scells < 2 && binfo->ram_size >= 4 * GiB) {
+         /* This is user error so deserves a friendlier error message
+          * than the failure of setprop_sized_cells would provide
+          */
+@@ -1097,7 +1097,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+      * we might still make a bad choice here.
+      */
+     info->initrd_start = info->loader_start +
+-        MIN(info->ram_size / 2, 128 * 1024 * 1024);
++        MIN(info->ram_size / 2, 128 * MiB);
+     if (image_high_addr) {
+         info->initrd_start = MAX(info->initrd_start, image_high_addr);
+     }
+@@ -1157,13 +1157,13 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+                  *
+                  * Let's play safe and prealign it to 2MB to give us some space.
+                  */
+-                align = 2 * 1024 * 1024;
++                align = 2 * MiB;
+             } else {
+                 /*
+                  * Some 32bit kernels will trash anything in the 4K page the
+                  * initrd ends in, so make sure the DTB isn't caught up in that.
+                  */
+-                align = 4096;
++                align = 4 * KiB;
+             }
+ 
+             /* Place the DTB after the initrd in memory with alignment. */
+@@ -1180,7 +1180,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+                 info->loader_start + KERNEL_ARGS_ADDR;
+             fixupcontext[FIXUP_ARGPTR_HI] =
+                 (info->loader_start + KERNEL_ARGS_ADDR) >> 32;
+-            if (info->ram_size >= (1ULL << 32)) {
++            if (info->ram_size >= 4 * GiB) {
+                 error_report("RAM size must be less than 4GB to boot"
+                              " Linux kernel using ATAGS (try passing a device tree"
+                              " using -dtb)");
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190927
-
-for you to fetch changes up to e4e34855e658b78ecac50a651cc847662ff02cfd:
-
-  hw/arm/boot: Use the IEC binary prefix definitions (2019-09-27 11:44:39 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Fix the CBAR register implementation for Cortex-A53,
-   Cortex-A57, Cortex-A72
- * Fix direct booting of Linux kernels on emulated CPUs
-   which have an AArch32 EL3 (incorrect NSACR settings
-   meant they could not access the FPU)
- * semihosting cleanup: do more work at translate time
-   and less work at runtime
-
-----------------------------------------------------------------
-Alex Bennée (6):
-      tests/tcg: clean-up some comments after the de-tangling
-      target/arm: handle M-profile semihosting at translate time
-      target/arm: handle A-profile semihosting at translate time
-      target/arm: remove run time semihosting checks
-      target/arm: remove run-time semihosting checks for linux-user
-      tests/tcg: add linux-user semihosting smoke test for ARM
-
-Luc Michel (1):
-      target/arm: fix CBAR register for AArch64 CPUs
-
-Peter Maydell (1):
-      hw/arm/boot.c: Set NSACR.{CP11,CP10} for NS kernel boots
-
-Philippe Mathieu-Daudé (1):
-      hw/arm/boot: Use the IEC binary prefix definitions
-
- tests/tcg/Makefile.target         |   7 ++-
- tests/tcg/aarch64/Makefile.target |   8 ++-
- tests/tcg/arm/Makefile.target     |  20 ++++---
- linux-user/arm/target_syscall.h   |   3 -
- hw/arm/boot.c                     |  12 ++--
- linux-user/arm/cpu_loop.c         |   3 -
- target/arm/helper.c               | 115 +++++++++++++-------------------------
- target/arm/m_helper.c             |  18 ++----
- target/arm/translate.c            |  30 ++++++++--
- tests/tcg/arm/semihosting.c       |  45 +++++++++++++++
- 10 files changed, 146 insertions(+), 115 deletions(-)
- create mode 100644 tests/tcg/arm/semihosting.c
 
