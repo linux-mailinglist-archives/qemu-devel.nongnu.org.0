@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A07C0988
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:25:29 +0200 (CEST)
-Received: from localhost ([::1]:53178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D977CC0996
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:29:40 +0200 (CEST)
+Received: from localhost ([::1]:53234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDt3g-0001Fe-3w
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:25:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45675)
+	id 1iDt7j-0005c2-BH
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:29:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46537)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDqzU-0004Q8-Ej
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:13:01 -0400
+ (envelope-from <crosa@redhat.com>) id 1iDr43-000118-6h
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:17:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDqzP-0002al-5g
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:13:00 -0400
-Received: from 7.mo177.mail-out.ovh.net ([46.105.61.149]:40601)
+ (envelope-from <crosa@redhat.com>) id 1iDr42-0003Sp-4u
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:17:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47604)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDqzO-0002aO-Uj
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:12:55 -0400
-Received: from player773.ha.ovh.net (unknown [10.108.54.141])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 613AB10C761
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 16:12:52 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player773.ha.ovh.net (Postfix) with ESMTPSA id 1E1E8A517807;
- Fri, 27 Sep 2019 14:12:41 +0000 (UTC)
-Date: Fri, 27 Sep 2019 16:12:40 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 20/20] spapr: Eliminate SpaprIrq::init hook
-Message-ID: <20190927161240.69f63705@bahia.lan>
-In-Reply-To: <20190926173937.302ec223@bahia.lan>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-21-david@gibson.dropbear.id.au>
- <20190926173937.302ec223@bahia.lan>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>)
+ id 1iDr3x-0003Nu-NG; Fri, 27 Sep 2019 10:17:37 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7560E3090FC9;
+ Fri, 27 Sep 2019 14:17:32 +0000 (UTC)
+Received: from dhcp-17-179.bos.redhat.com (dhcp-17-179.bos.redhat.com
+ [10.18.17.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E93960BE2;
+ Fri, 27 Sep 2019 14:17:31 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/4] qemu-iotests: remove forceful execution success from
+ library files
+Date: Fri, 27 Sep 2019 10:17:26 -0400
+Message-Id: <20190927141728.7137-3-crosa@redhat.com>
+In-Reply-To: <20190927141728.7137-1-crosa@redhat.com>
+References: <20190927141728.7137-1-crosa@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 1793277080510372326
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 27 Sep 2019 14:17:32 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.61.149
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,55 +57,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Sep 2019 17:39:37 +0200
-Greg Kurz <groug@kaod.org> wrote:
+Should not be necessary on files that are not executed standalone.
 
-> On Wed, 25 Sep 2019 16:45:34 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
-> 
-> > This method is used to set up the interrupt backends for the current
-> > configuration.  However, this means some confusing redirection between
-> > the "dual" mode init and the init hooks for xics only and xive only modes.
-> > 
-> > Since we now have simple flags indicating whether XICS and/or XIVE are
-> > supported, it's easier to just open code each initialization directly in
-> > spapr_irq_init().  This will also make some future cleanups simpler.
-> > 
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> 
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ tests/qemu-iotests/common.config | 3 ---
+ tests/qemu-iotests/common.filter | 3 ---
+ tests/qemu-iotests/common.rc     | 3 ---
+ 3 files changed, 9 deletions(-)
 
-Just one nit...
-
-> >  hw/ppc/spapr_irq.c          | 138 ++++++++++++++++--------------------
-> >  include/hw/ppc/spapr_irq.h  |   1 -
-> >  include/hw/ppc/xics_spapr.h |   1 +
-[...]
-> > diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> > index 691a6d00f7..267984a97b 100644
-> > --- a/include/hw/ppc/xics_spapr.h
-> > +++ b/include/hw/ppc/xics_spapr.h
-> > @@ -34,6 +34,7 @@
-> >  #define TYPE_ICS_SPAPR "ics-spapr"
-> >  #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-> >  
-> > +void ics_spapr_create(SpaprMachineState *spapr, int nr_xirqs, Error **errp);
-
-... this looks like a leftover.
-
-> >  void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
-> >                     uint32_t phandle);
-> >  int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
-> 
+diff --git a/tests/qemu-iotests/common.config b/tests/qemu-iotests/common=
+.config
+index 6956d38d4c..0a24d960ff 100644
+--- a/tests/qemu-iotests/common.config
++++ b/tests/qemu-iotests/common.config
+@@ -34,6 +34,3 @@ _optstr_add()
+         echo "$2"
+     fi
+ }
+-
+-# make sure this script returns success
+-true
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common=
+.filter
+index 043c62c10c..55db15865a 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -221,6 +221,3 @@ _filter_qmp_empty_return()
+ {
+     grep -v '{"return": {}}'
+ }
+-
+-# make sure this script returns success
+-true
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 19bddacf11..d7e6456086 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -600,6 +600,3 @@ _require_drivers()
+         fi
+     done
+ }
+-
+-# make sure this script returns success
+-true
+--=20
+2.21.0
 
 
