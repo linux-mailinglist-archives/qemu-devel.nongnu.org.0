@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8626DC0808
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:54:25 +0200 (CEST)
-Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70DBC083A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:02:45 +0200 (CEST)
+Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrdY-0003MH-20
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39991)
+	id 1iDrlb-000378-PL
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37720)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iDqaE-0001Iw-JT
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:47:01 -0400
+ (envelope-from <berrange@redhat.com>) id 1iDqRX-0001Pf-Kv
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:37:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iDqa9-00065g-4r
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34688)
+ (envelope-from <berrange@redhat.com>) id 1iDqRW-00039B-7B
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:37:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58614)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa8-00063x-K0
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:48 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iDqRV-00038U-UF
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:37:54 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3FD0B3083394;
- Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D86223D8E;
- Fri, 27 Sep 2019 13:46:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B951A1136426; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 60276898104
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:59:47 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-55.ams2.redhat.com
+ [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2464F60923;
+ Fri, 27 Sep 2019 09:59:45 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 26/26] qapi: Improve source file read error handling
-Date: Fri, 27 Sep 2019 15:46:39 +0200
-Message-Id: <20190927134639.4284-27-armbru@redhat.com>
-In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
-References: <20190927134639.4284-1-armbru@redhat.com>
+Subject: [PULL 10/11] qcrypto-luks: simplify the math used for keyslot
+ locations
+Date: Fri, 27 Sep 2019 10:59:25 +0100
+Message-Id: <20190927095926.22230-11-berrange@redhat.com>
+In-Reply-To: <20190927095926.22230-1-berrange@redhat.com>
+References: <20190927095926.22230-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Fri, 27 Sep 2019 09:59:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -58,133 +58,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qapi-gen.py crashes when it can't open the main schema file, and when
-it can't read from any schema file.  Lazy.
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Change QAPISchema.__init__() to take a file name instead of a file
-object.  Move the open code from _include() to __init__(), so it's
-used for the main schema file, too.
-
-Move the read into the try for good measure, and rephrase the error
-message.
-
-Reporting open or read failure for the main schema file needs a
-QAPISourceInfo representing "no source".  Make QAPISourceInfo cope
-with fname=3DNone.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- scripts/qapi/common.py                | 46 +++++++++++++++------------
- tests/qapi-schema/include-no-file.err |  2 +-
- 2 files changed, 27 insertions(+), 21 deletions(-)
+ crypto/block-luks.c | 63 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 40 insertions(+), 23 deletions(-)
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index a74cd957d4..d6e00c80ea 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -53,7 +53,12 @@ class QAPISourceInfo(object):
-         return info
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index 6d4e9eb348..a53d5d1916 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -409,6 +409,30 @@ qcrypto_block_luks_essiv_cipher(QCryptoCipherAlgorit=
+hm cipher,
+     }
+ }
 =20
-     def loc(self):
--        return '%s:%d' % (self.fname, self.line)
-+        if self.fname is None:
-+            return sys.argv[0]
-+        ret =3D self.fname
-+        if self.line is not None:
-+            ret +=3D ':%d' % self.line
-+        return ret
-=20
-     def in_defn(self):
-         if self.defn_name:
-@@ -383,14 +388,26 @@ class QAPIDoc(object):
-=20
- class QAPISchemaParser(object):
-=20
--    def __init__(self, fp, previously_included=3D[], incl_info=3DNone):
--        self.fname =3D fp.name
--        previously_included.append(os.path.abspath(fp.name))
--        self.src =3D fp.read()
-+    def __init__(self, fname, previously_included=3D[], incl_info=3DNone=
-):
-+        previously_included.append(os.path.abspath(fname))
++/*
++ * Returns number of sectors needed to store the key material
++ * given number of anti forensic stripes
++ */
++static int
++qcrypto_block_luks_splitkeylen_sectors(const QCryptoBlockLUKS *luks,
++                                       unsigned int header_sectors,
++                                       unsigned int stripes)
++{
++    /*
++     * This calculation doesn't match that shown in the spec,
++     * but instead follows the cryptsetup implementation.
++     */
 +
-+        try:
-+            if sys.version_info[0] >=3D 3:
-+                fp =3D open(fname, 'r', encoding=3D'utf-8')
-+            else:
-+                fp =3D open(fname, 'r')
-+            self.src =3D fp.read()
-+        except IOError as e:
-+            raise QAPISemError(incl_info or QAPISourceInfo(None, None, N=
-one),
-+                               "can't read %s file '%s': %s"
-+                               % ("include" if incl_info else "schema",
-+                                  fname,
-+                                  e.strerror))
++    size_t splitkeylen =3D luks->header.master_key_len * stripes;
 +
-         if self.src =3D=3D '' or self.src[-1] !=3D '\n':
-             self.src +=3D '\n'
-         self.cursor =3D 0
--        self.info =3D QAPISourceInfo(self.fname, 1, incl_info)
-+        self.info =3D QAPISourceInfo(fname, 1, incl_info)
-         self.line_pos =3D 0
-         self.exprs =3D []
-         self.docs =3D []
-@@ -414,7 +431,7 @@ class QAPISchemaParser(object):
-                 if not isinstance(include, str):
-                     raise QAPISemError(info,
-                                        "value of 'include' must be a str=
-ing")
--                incl_fname =3D os.path.join(os.path.dirname(self.fname),
-+                incl_fname =3D os.path.join(os.path.dirname(fname),
-                                           include)
-                 self.exprs.append({'expr': {'include': incl_fname},
-                                    'info': info})
-@@ -466,14 +483,7 @@ class QAPISchemaParser(object):
-         if incl_abs_fname in previously_included:
-             return None
++    /* First align the key material size to block size*/
++    size_t splitkeylen_sectors =3D
++        DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SIZE);
++
++    /* Then also align the key material size to the size of the header *=
+/
++    return ROUND_UP(splitkeylen_sectors, header_sectors);
++}
++
+ /*
+  * Stores the main LUKS header, taking care of endianess
+  */
+@@ -1114,7 +1138,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     QCryptoBlockCreateOptionsLUKS luks_opts;
+     Error *local_err =3D NULL;
+     g_autofree uint8_t *masterkey =3D NULL;
+-    size_t splitkeylen =3D 0;
++    size_t header_sectors;
++    size_t split_key_sectors;
+     size_t i;
+     g_autofree char *password =3D NULL;
+     const char *cipher_alg;
+@@ -1333,37 +1358,29 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+         goto error;
+     }
 =20
--        try:
--            if sys.version_info[0] >=3D 3:
--                fobj =3D open(incl_fname, 'r', encoding=3D'utf-8')
--            else:
--                fobj =3D open(incl_fname, 'r')
--        except IOError as e:
--            raise QAPISemError(info, "%s: %s" % (e.strerror, incl_fname)=
-)
--        return QAPISchemaParser(fobj, previously_included, info)
-+        return QAPISchemaParser(incl_fname, previously_included, info)
++    /* start with the sector that follows the header*/
++    header_sectors =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
++        QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
++
++    split_key_sectors =3D
++        qcrypto_block_luks_splitkeylen_sectors(luks,
++                                               header_sectors,
++                                               QCRYPTO_BLOCK_LUKS_STRIPE=
+S);
 =20
-     def _pragma(self, name, value, info):
-         global doc_required, returns_whitelist, name_case_whitelist
-@@ -1734,11 +1744,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
- class QAPISchema(object):
-     def __init__(self, fname):
-         self.fname =3D fname
--        if sys.version_info[0] >=3D 3:
--            f =3D open(fname, 'r', encoding=3D'utf-8')
--        else:
--            f =3D open(fname, 'r')
--        parser =3D QAPISchemaParser(f)
-+        parser =3D QAPISchemaParser(fname)
-         exprs =3D check_exprs(parser.exprs)
-         self.docs =3D parser.docs
-         self._entity_list =3D []
-diff --git a/tests/qapi-schema/include-no-file.err b/tests/qapi-schema/in=
-clude-no-file.err
-index e42bcf4bc1..0a6c6bb4a9 100644
---- a/tests/qapi-schema/include-no-file.err
-+++ b/tests/qapi-schema/include-no-file.err
-@@ -1 +1 @@
--tests/qapi-schema/include-no-file.json:1: No such file or directory: tes=
-ts/qapi-schema/include-no-file-sub.json
-+tests/qapi-schema/include-no-file.json:1: can't read include file 'tests=
-/qapi-schema/include-no-file-sub.json': No such file or directory
+-    /* Although LUKS has multiple key slots, we're just going
+-     * to use the first key slot */
+-    splitkeylen =3D luks->header.master_key_len * QCRYPTO_BLOCK_LUKS_STR=
+IPES;
+     for (i =3D 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+-        luks->header.key_slots[i].active =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT=
+_DISABLED;
+-        luks->header.key_slots[i].stripes =3D QCRYPTO_BLOCK_LUKS_STRIPES=
+;
++        QCryptoBlockLUKSKeySlot *slot =3D &luks->header.key_slots[i];
++        slot->active =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED;
+=20
+-        /* This calculation doesn't match that shown in the spec,
+-         * but instead follows the cryptsetup implementation.
+-         */
+-        luks->header.key_slots[i].key_offset_sector =3D
+-            (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
+-             QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
+-            (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTO=
+R_SIZE),
+-                      (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
+-                       QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) * i);
++        slot->key_offset_sector =3D header_sectors + i * split_key_secto=
+rs;
++        slot->stripes =3D QCRYPTO_BLOCK_LUKS_STRIPES;
+     }
+=20
+-
+     /* The total size of the LUKS headers is the partition header + key
+      * slot headers, rounded up to the nearest sector, combined with
+      * the size of each master key material region, also rounded up
+      * to the nearest sector */
+-    luks->header.payload_offset_sector =3D
+-        (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
+-         QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
+-        (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SI=
+ZE),
+-                  (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
+-                   QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) *
+-         QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS);
++    luks->header.payload_offset_sector =3D header_sectors +
++            QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS * split_key_sectors;
+=20
+     block->sector_size =3D QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
+     block->payload_offset =3D luks->header.payload_offset_sector *
 --=20
 2.21.0
 
