@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6CFC07C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:41:12 +0200 (CEST)
-Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B990C07D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:45:22 +0200 (CEST)
+Received: from localhost ([::1]:51880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrQk-0007bV-LA
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34564)
+	id 1iDrUm-0003Fs-9w
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:45:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCr-0003ho-Dy
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:46 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCu-0003lr-Nm
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCq-0000P5-60
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:45 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCt-0000Pb-9c
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:48 -0400
 Received: from relay.sw.ru ([185.231.240.75]:49752)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDqCn-0000IU-5b; Fri, 27 Sep 2019 09:22:41 -0400
+ id 1iDqCq-0000IU-Ay; Fri, 27 Sep 2019 09:22:44 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDpHy-0003za-06; Fri, 27 Sep 2019 15:23:58 +0300
+ id 1iDpHz-0003za-91; Fri, 27 Sep 2019 15:23:59 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 3/9] iotests: add test-case to 165 to test reopening qcow2
- bitmaps to RW
-Date: Fri, 27 Sep 2019 15:23:49 +0300
-Message-Id: <20190927122355.7344-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 8/9] block/qcow2-bitmap: fix and improve
+ qcow2_reopen_bitmaps_rw
+Date: Fri, 27 Sep 2019 15:23:54 +0300
+Message-Id: <20190927122355.7344-9-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190927122355.7344-1-vsementsov@virtuozzo.com>
 References: <20190927122355.7344-1-vsementsov@virtuozzo.com>
@@ -53,104 +53,133 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reopening bitmaps to RW was broken prior to previous commit. Check that
-it works now.
+- Correct check for write access to file child, and in correct place
+  (only if we want to write).
+- Support reopen rw -> rw (which will be used in following commit),
+  for example, !bdrv_dirty_bitmap_readonly() is not a corruption if
+  bitmap is marked IN_USE in the image.
+- Consider unexpected bitmap as a corruption and check other
+  combinations of in-image and in-RAM bitmaps.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/165     | 57 ++++++++++++++++++++++++++++++++++++--
- tests/qemu-iotests/165.out |  4 +--
- 2 files changed, 57 insertions(+), 4 deletions(-)
+ block/qcow2-bitmap.c | 77 +++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 58 insertions(+), 19 deletions(-)
 
-diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
-index 5650dc7c87..951ea011a2 100755
---- a/tests/qemu-iotests/165
-+++ b/tests/qemu-iotests/165
-@@ -43,10 +43,10 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
-         os.remove(disk)
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index a636dc50ca..6335d85244 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1108,18 +1108,14 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
+     Qcow2BitmapList *bm_list;
+     Qcow2Bitmap *bm;
+     GSList *ro_dirty_bitmaps = NULL;
+-    int ret = 0;
++    int ret = -EINVAL;
++    bool need_header_update = false;
  
-     def mkVm(self):
--        return iotests.VM().add_drive(disk)
-+        return iotests.VM().add_drive(disk, opts='node-name=node0')
+     if (s->nb_bitmaps == 0) {
+         /* No bitmaps - nothing to do */
+         return 0;
+     }
  
-     def mkVmRo(self):
--        return iotests.VM().add_drive(disk, opts='readonly=on')
-+        return iotests.VM().add_drive(disk, opts='readonly=on,node-name=node0')
+-    if (!can_write(bs)) {
+-        error_setg(errp, "Can't write to the image on reopening bitmaps rw");
+-        return -EINVAL;
+-    }
+-
+     bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
+                                s->bitmap_directory_size, errp);
+     if (bm_list == NULL) {
+@@ -1128,32 +1124,75 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
  
-     def getSha256(self):
-         result = self.vm.qmp('x-debug-block-dirty-bitmap-sha256',
-@@ -102,6 +102,59 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
+     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
+         BdrvDirtyBitmap *bitmap = bdrv_find_dirty_bitmap(bs, bm->name);
+-        if (bitmap == NULL) {
+-            continue;
+-        }
  
-         self.vm.shutdown()
+-        if (!bdrv_dirty_bitmap_readonly(bitmap)) {
+-            error_setg(errp, "Bitmap %s was loaded prior to rw-reopen, but was "
+-                       "not marked as readonly. This is a bug, something went "
+-                       "wrong. All of the bitmaps may be corrupted", bm->name);
+-            ret = -EINVAL;
++        if (!bitmap) {
++            error_setg(errp, "Unexpected bitmap '%s' in image '%s'",
++                       bm->name, bs->filename);
+             goto out;
+         }
  
-+    def test_reopen_rw(self):
-+        self.vm = self.mkVm()
-+        self.vm.launch()
-+        self.qmpAddBitmap()
+-        bm->flags |= BME_FLAG_IN_USE;
+-        ro_dirty_bitmaps = g_slist_append(ro_dirty_bitmaps, bitmap);
++        if (!(bm->flags & BME_FLAG_IN_USE)) {
++            if (!bdrv_dirty_bitmap_readonly(bitmap)) {
++                error_setg(errp, "Corruption: bitmap '%s' is not marked IN_USE "
++                           "in the image '%s' and not marked readonly in RAM",
++                           bm->name, bs->filename);
++                goto out;
++            }
++            if (bdrv_dirty_bitmap_inconsistent(bitmap)) {
++                error_setg(errp, "Corruption: bitmap '%s' is inconsistent but "
++                           "is not marked IN_USE in the image '%s'", bm->name,
++                           bs->filename);
++                goto out;
++            }
 +
-+        # Calculate hashes
++            bm->flags |= BME_FLAG_IN_USE;
++            need_header_update = true;
++        } else {
++            /*
++             * What if flags already has BME_FLAG_IN_USE ?
++             *
++             * 1. if we are reopening RW -> RW it's OK, of course.
++             * 2. if we are reopening RO -> RW:
++             *   2.1 if @bitmap is inconsistent, it's OK. It means that it was
++             *       inconsistent (IN_USE) when we loaded it
++             *   2.2 if @bitmap is not inconsistent. This seems to be impossible
++             *       and implies third party interaction. Let's error-out for
++             *       safety.
++             */
++            if (bdrv_dirty_bitmap_readonly(bitmap) &&
++                !bdrv_dirty_bitmap_inconsistent(bitmap))
++            {
++                error_setg(errp, "Corruption: bitmap '%s' is marked IN_USE "
++                           "in the image '%s' but it is readonly and "
++                           "consistent in RAM",
++                           bm->name, bs->filename);
++                goto out;
++            }
++        }
 +
-+        self.writeRegions(regions1)
-+        sha256_1 = self.getSha256()
-+
-+        self.writeRegions(regions2)
-+        sha256_2 = self.getSha256()
-+        assert sha256_1 != sha256_2 # Otherwise, it's not very interesting.
-+
-+        result = self.vm.qmp('block-dirty-bitmap-clear', node='drive0',
-+                             name='bitmap0')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Start with regions1
-+
-+        self.writeRegions(regions1)
-+        assert sha256_1 == self.getSha256()
-+
-+        self.vm.shutdown()
-+
-+        self.vm = self.mkVmRo()
-+        self.vm.launch()
-+
-+        assert sha256_1 == self.getSha256()
-+
-+        # Check that we are in RO mode and can't modify bitmap.
-+        self.writeRegions(regions2)
-+        assert sha256_1 == self.getSha256()
-+
-+        # Reopen to RW
-+        result = self.vm.qmp('x-blockdev-reopen', **{
-+            'node-name': 'node0',
-+            'driver': iotests.imgfmt,
-+            'file': {
-+                'driver': 'file',
-+                'filename': disk
-+            },
-+            'read-only': False
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Check that bitmap is reopened to RW and we can write to it.
-+        self.writeRegions(regions2)
-+        assert sha256_2 == self.getSha256()
-+
-+        self.vm.shutdown()
-+
-+
- if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2'],
-                  supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/165.out b/tests/qemu-iotests/165.out
-index ae1213e6f8..fbc63e62f8 100644
---- a/tests/qemu-iotests/165.out
-+++ b/tests/qemu-iotests/165.out
-@@ -1,5 +1,5 @@
--.
-+..
- ----------------------------------------------------------------------
--Ran 1 tests
-+Ran 2 tests
++        if (bdrv_dirty_bitmap_readonly(bitmap)) {
++            ro_dirty_bitmaps = g_slist_append(ro_dirty_bitmaps, bitmap);
++        }
+     }
  
- OK
+-    if (ro_dirty_bitmaps != NULL) {
++    if (need_header_update) {
++        if (!can_write(bs->file->bs) || !(bs->file->perm & BLK_PERM_WRITE)) {
++            error_setg(errp, "Failed to reopen bitmaps rw: no write access "
++                       "the protocol file");
++            goto out;
++        }
++
+         /* in_use flags must be updated */
+         ret = update_ext_header_and_dir_in_place(bs, bm_list);
+         if (ret < 0) {
+-            error_setg_errno(errp, -ret, "Can't update bitmap directory");
++            error_setg_errno(errp, -ret, "Cannot update bitmap directory");
+             goto out;
+         }
+-        g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
+     }
+ 
++    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
++    ret = 0;
++
+ out:
+     g_slist_free(ro_dirty_bitmaps);
+     bitmap_list_free(bm_list);
 -- 
 2.21.0
 
