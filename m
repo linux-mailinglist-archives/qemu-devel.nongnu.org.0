@@ -2,61 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A5EC070C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:11:39 +0200 (CEST)
-Received: from localhost ([::1]:51354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87527C0718
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:14:43 +0200 (CEST)
+Received: from localhost ([::1]:51408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqy9-0008UZ-Lm
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:11:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34013)
+	id 1iDr17-0005MW-O9
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:14:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDqA1-0001uF-K6
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:52 -0400
+ (envelope-from <berrange@redhat.com>) id 1iDqBM-0002XE-FL
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:21:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDq9x-0008MO-HQ
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:49 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39926)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDq9x-0008M6-35
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:45 -0400
-Received: by mail-ot1-x341.google.com with SMTP id s22so2189375otr.6
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:19:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=lhhVvlH+/VJBwGrSQq1aOjhSEBry1BKWGVPTjkraBTk=;
- b=aGJJ6ov7MPh3STpS/AnZ6RjW7ulyZzZsOOyGHrXFPTCl8cqh275GKzTdmKrohOUtzJ
- oJhwtEmfiSByGr8NY0wSxeUuqrk3TiA6PFmzMsiK6ixcDgAjK4ArXlBud+eyJkrhcWZ2
- OIS3vRIq/G9p5BUFV/lNGtUOuQB1Txl/FlH9xBP7MnzO485ce82M2QoQmW3obgCuxZNj
- PSOIRSGT6kNATR2pAI/ZGZ61tYF/BNSPy964jIPsANycDiEoS953dMas8BOjUath+XAQ
- TVrhmIca91wA2o6kzd/M19hsLBC2XjCW/3nWF6bHvWb5xVkGCzCH/EX5QktGhm7+OfJs
- x/pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=lhhVvlH+/VJBwGrSQq1aOjhSEBry1BKWGVPTjkraBTk=;
- b=Z1Zd2qWOPeG1/BnwwkNUgfH9Z07GFhSal9OlUqdrskNsPLd2YikqkthwVikRMJ96bh
- 8b4jgM83SJ/S5YtKOhXUZWl4rOvQhBpRof8Nkm0wjeSy/1vYeOYAlviA1n11LNBJba0e
- ++ROU3cdTx3WrICkoy13TnYh2KFE40haCPF9lmavbLRffjORsw9E4arXTLr+beCNtLhS
- SUVsYoKSy/xoDlXK/tMI090KCjL0d5WZHFctgVMG4rkJAgsGLawo8MtCnrjVsU66hSzy
- xcx055aMuLo+90XJJshDhLIT9BqwxaVBEnGpZuoNGLis7sjv7tJkxx0Bw8KgRybrire0
- rgkg==
-X-Gm-Message-State: APjAAAXFkdEevs2P/m3pNf59eFtOBwARC0Xrv4ZvPuEwnzraYs6zUEpr
- Pj1WpJtdC8/xHa1FJeLn82COgKIGKW0PM7DNFxzEiaADxHE=
-X-Google-Smtp-Source: APXvYqxQpF+81bM32LME7i6Qi3EiRem8Qlk83aNMumGVMmywl0eXTX9jUCem3F2YyhrHoMsNBgUOdcn1YwT8jtxtdSA=
-X-Received: by 2002:a9d:5e11:: with SMTP id d17mr2539183oti.135.1569578494862; 
- Fri, 27 Sep 2019 03:01:34 -0700 (PDT)
+ (envelope-from <berrange@redhat.com>) id 1iDqBK-000090-6w
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:21:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50912)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>)
+ id 1iDqBF-000083-U4; Fri, 27 Sep 2019 09:21:06 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 22B92A44ADC;
+ Fri, 27 Sep 2019 10:15:44 +0000 (UTC)
+Received: from redhat.com (ovpn-112-55.ams2.redhat.com [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B0BF60BF3;
+ Fri, 27 Sep 2019 10:15:38 +0000 (UTC)
+Date: Fri, 27 Sep 2019 11:15:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v2 01/13] block-crypto: misc refactoring
+Message-ID: <20190927101535.GE20911@redhat.com>
+References: <20190925213527.9117-1-mlevitsk@redhat.com>
+ <20190925213527.9117-2-mlevitsk@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Sep 2019 11:01:23 +0100
-Message-ID: <CAFEAcA8HGEdHs74-m3Wa7RHU_ZE5g9kEidP-9Z69zhsMkCPRZQ@mail.gmail.com>
-Subject: ptimer use of bottom-half handlers
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190925213527.9117-2-mlevitsk@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 27 Sep 2019 10:15:44 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,84 +59,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Investigating https://bugs.launchpad.net/qemu/+bug/1777777 I
-found what seems to be a design flaw in the ptimer code.
+On Thu, Sep 26, 2019 at 12:35:15AM +0300, Maxim Levitsky wrote:
+> * rename the write_func to create_write_func,
+>   and init_func to create_init_func
+>   this is  preparation for other write_func that will
+>   be used to update the encryption keys.
+>=20
+> No functional changes
+>=20
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  block/crypto.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/block/crypto.c b/block/crypto.c
+> index 7eb698774e..6e822c6e50 100644
+> --- a/block/crypto.c
+> +++ b/block/crypto.c
+> @@ -78,7 +78,7 @@ struct BlockCryptoCreateData {
+>  };
+> =20
+> =20
+> -static ssize_t block_crypto_write_func(QCryptoBlock *block,
+> +static ssize_t block_crypto_create_write_func(QCryptoBlock *block,
+>                                         size_t offset,
+>                                         const uint8_t *buf,
+>                                         size_t buflen,
 
-The ptimer API is basically a down-counter (with a lot of bells
-and whistles), with functions to do things like "read current count"
-and "write current count". When the counter hits zero it typically
-reloads, and the ptimer code notifies a callback function in the
-device that's using ptimer. In the current implementation this
-is done using a QEMU bottom-half handler, so ptimer_trigger()
-calls replay_bh_schedule_event() on a QEMUBH that it was passed
-by the device when it was initialized. The comment says this is
-"to avoid reentrancy issues". That's a bit vague, but I assume the
-idea is to avoid the code of the device's 'triggered' callback
-being called from within eg ptimer_set_count(), because the
-device might be in the middle of changing multiple parts of the
-ptimer's state, its own state might not be consistent, etc.
+The parameters need re-indenting when you change this name.
 
-Unfortunately, use of the bottom-half mechanism might have worked
-back when the ptimer was first written, but these days we don't
-run the iothread in lockstep with a single vcpu thread, so you
-can get races, like:
+> @@ -96,8 +96,7 @@ static ssize_t block_crypto_write_func(QCryptoBlock *=
+block,
+>      return ret;
+>  }
+> =20
+> -
+> -static ssize_t block_crypto_init_func(QCryptoBlock *block,
+> +static ssize_t block_crypto_create_init_func(QCryptoBlock *block,
+>                                        size_t headerlen,
+>                                        void *opaque,
+>                                        Error **errp)
 
- * the QEMU timer ptimer uses calls the ptimer_tick() function
- * ptimer code updates its own state for the counter rollover,
-   and schedules the bottom-half handler to run
- * the vcpu thread executes guest code that does "read the counter
-   value", which calls ptimer_get_count() and gets the new
-   rolled-over value
- * the vcpu thread executes guest code that does "read an
-   interrupt-pending register", which looks at a bit of state
-   that's updated by the device's bottom-half handler, and
-   incorrectly gets a value indicating "no rollover happened"
- * ...then the bottom-half handler runs and the device code
-   updates its interrupt state, but too late.
+And here
 
-I'm not sure what the best fix here is, but it's hard to see
-how we can really continue to use bottom-half handlers here.
+I dropped this one from the pull request, so please bundle it into your
+other luks series
 
-Possibilities I thought of:
- (1) make ptimer_trigger() just directly call the device's
-     callback function. We'd need to audit all the devices
-     to fix them up to handle the cases where the callback
-     gets called while the device is in the middle of
-     reconfiguring the timer.
- (2) call the device's callback function directly when the
-     ptimer triggers from the QEMU timer expiry. But for
-     the case of "a call to ptimer_set_count() etc caused
-     the timer to trigger", don't call the callback, instead
-     return a boolean from those functions which tells the
-     caller that the timer triggered, and they need to deal
-     with it (by calling their callback function when they've
-     finished messing with the timer).
-
-In either case we would need to gradually convert all (~30)
-of the devices currently using ptimer over to use the new
-mechanism, which in all cases would require some examination
-and modification of the timer code to deal with the new
-semantics. (I'm thinking of a patch series structure along
-the lines of "patch 1 renames ptimer_init to ptimer_init_bh,
-patch 2 introduces new ptimer_init function with new
-semantics, patches 3..n change one device at a time,
-patch n+1 deletes the now-unused ptimer_init_bh".)
-
-I think overall I favour option 2, which is a bit more
-syntactically invasive in terms of changing API signatures etc,
-but semantically easier to reason about (because the
-callback-function in the device is still not called when
-the device might be partway through doing an update to
-the ptimer state that changes multiple parameters of the
-ptimer).
-
-Is there another cleverer fix that I haven't thought of?
-
-thanks
--- PMM
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
