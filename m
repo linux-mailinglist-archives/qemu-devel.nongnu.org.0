@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518CFC026E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:35:57 +0200 (CEST)
-Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B47C026C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:35:47 +0200 (CEST)
+Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDmfM-0005MN-5E
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:35:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
+	id 1iDmfB-00057v-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iDmZY-0001zs-On
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:29:57 -0400
+ (envelope-from <peterx@redhat.com>) id 1iDmcC-0003XG-Ul
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:32:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iDmZX-0005TD-Cc
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:29:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47080)
+ (envelope-from <peterx@redhat.com>) id 1iDmc9-0001gn-VJ
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:32:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53344)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iDmZR-0005K1-AN; Fri, 27 Sep 2019 05:29:51 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iDmc8-0001dm-E7
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:32:37 -0400
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1F9943082135;
- Fri, 27 Sep 2019 09:29:47 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-76.brq.redhat.com
- [10.40.204.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 257F660A9F;
- Fri, 27 Sep 2019 09:29:45 +0000 (UTC)
-Subject: Re: [PATCH 0/3] iotests: Fix 125
-To: qemu-block@nongnu.org
-References: <20190925183231.11196-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <db32c2d6-ff45-f651-bc90-ef3d4c79d5eb@redhat.com>
-Date: Fri, 27 Sep 2019 11:29:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 0B2465313A
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:32:35 +0000 (UTC)
+Received: by mail-pf1-f199.google.com with SMTP id 194so1521936pfu.3
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 02:32:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=zPpXJBsgXCdgZO86UPMdugD/7JfMMFe/AjIloYQYWug=;
+ b=k62ijUYUyIGdPQfmWVPrBsSupSl3Qy5PQYqCLAA6LhjIyMUFn1GdjvtRX50KyNUTfV
+ B+2Qz/eY8E6Kgbo7aYc8Jq09U7Nj8pqimqCx73LdcBFvjzzW8nqM5nzLyALXhCHXRh2y
+ kXmxPv2PDQElS98lSDIzMeJ7tmnGx6tU5YnWAPmecqDF6jMKoilAGPjDyC5wWtL0rWc4
+ 8X8n10m/e1UcTddMWWYKfTCcCKcLK+7dwSAr/0j1xmqueDTqVQWUVomz0hgljm4rkdMR
+ R+xjFAdHYViJHiNGzKvFgRwkNFLLrrPgyBastbhlQ2G/sUi58Ys1rlZqMUkle3VMUV1J
+ AXnA==
+X-Gm-Message-State: APjAAAUVSb63bA0emZAzEqlzePtqNRl0ExgDYRb8IVc/JVHoEY3eV3IU
+ 0HRhJvTz1IGsfpA0W2ftD/exxe7RdkiDAbUk0Rqod75E0AcRPa9R7EL6ey/8FP6MmyoXGRU7nhX
+ dd/FBNwSy4t1XC/M=
+X-Received: by 2002:a17:90a:2086:: with SMTP id
+ f6mr8816434pjg.104.1569576753574; 
+ Fri, 27 Sep 2019 02:32:33 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyz3UiS5nvzuqeXSjJLmzd6fvm7V8YIpGiFRgwCXq9rx7oE8mStrFQV/OYbUISEQGV2S24AaA==
+X-Received: by 2002:a17:90a:2086:: with SMTP id
+ f6mr8816410pjg.104.1569576753307; 
+ Fri, 27 Sep 2019 02:32:33 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id b5sm4182873pgb.68.2019.09.27.02.32.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Sep 2019 02:32:32 -0700 (PDT)
+Date: Fri, 27 Sep 2019 17:32:23 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Zhang, Qi1" <qi1.zhang@intel.com>
+Subject: Re: [PATCH V2] intel_iommu: TM field should not be in reserved bits
+Message-ID: <20190927093223.GC9412@xz-x1>
+References: <20190927045838.2968-1-qi1.zhang@intel.com>
+ <20190927061011.GB9412@xz-x1>
+ <215440059103624D9AD9D1DCACBF45DD3E84E270@shsmsx102.ccr.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190925183231.11196-1-mreitz@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0Au30nqWPGHVCDKGsCrm6OPoE3nUSnJu8"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 27 Sep 2019 09:29:47 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <215440059103624D9AD9D1DCACBF45DD3E84E270@shsmsx102.ccr.corp.intel.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -84,88 +80,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Qi,
+ Yadong" <yadong.qi@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0Au30nqWPGHVCDKGsCrm6OPoE3nUSnJu8
-Content-Type: multipart/mixed; boundary="apIE46xiOL6RubfR92I2iWCky5Kw9Sbsi"
+On Fri, Sep 27, 2019 at 08:03:21AM +0000, Zhang, Qi1 wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Peter Xu <peterx@redhat.com>
+> > Sent: Friday, September 27, 2019 2:10 PM
+> > To: Zhang, Qi1 <qi1.zhang@intel.com>
+> > Cc: qemu-devel@nongnu.org; ehabkost@redhat.com; mst@redhat.com;
+> > pbonzini@redhat.com; rth@twiddle.net
+> > Subject: Re: [PATCH V2] intel_iommu: TM field should not be in reserved bits
+> > 
+> > On Fri, Sep 27, 2019 at 12:58:38PM +0800, qi1.zhang@intel.com wrote:
+> > > From: "Zhang, Qi" <qi1.zhang@intel.com>
+> > >
+> > > When dt is supported, TM field should not be Reserved(0).
+> > >
+> > > Refer to VT-d Spec 9.8
+> > >
+> > > Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
+> > > Signed-off-by: Qi, Yadong <yadong.qi@intel.com>
+> > > ---
+> > >  hw/i386/intel_iommu.c          | 12 ++++++------
+> > >  hw/i386/intel_iommu_internal.h | 25 +++++++++++++++++++------
+> > >  2 files changed, 25 insertions(+), 12 deletions(-)
+> > > ---
+> > > Changelog V2:
+> > >  move dt_supported flag to VTD_SPTE_PAGE_LX_RSVD_MASK and
+> > > VTD_SPTE_LPAGE_LX_RSVD_MASK
+> > >
+> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c index
+> > > f1de8fdb75..35222cf55c 100644
+> > > --- a/hw/i386/intel_iommu.c
+> > > +++ b/hw/i386/intel_iommu.c
+> > > @@ -3548,13 +3548,13 @@ static void vtd_init(IntelIOMMUState *s)
+> > >       * Rsvd field masks for spte
+> > >       */
+> > >      vtd_paging_entry_rsvd_field[0] = ~0ULL;
+> > > -    vtd_paging_entry_rsvd_field[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s-
+> > >aw_bits);
+> > > -    vtd_paging_entry_rsvd_field[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s-
+> > >aw_bits);
+> > > -    vtd_paging_entry_rsvd_field[3] = VTD_SPTE_PAGE_L3_RSVD_MASK(s-
+> > >aw_bits);
+> > > +    vtd_paging_entry_rsvd_field[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s-
+> > >aw_bits, x86_iommu->dt_supported);
+> > > +    vtd_paging_entry_rsvd_field[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s-
+> > >aw_bits, x86_iommu->dt_supported);
+> > > +    vtd_paging_entry_rsvd_field[3] =
+> > > + VTD_SPTE_PAGE_L3_RSVD_MASK(s->aw_bits, x86_iommu-
+> > >dt_supported);
+> > >      vtd_paging_entry_rsvd_field[4] = VTD_SPTE_PAGE_L4_RSVD_MASK(s-
+> > >aw_bits);
+> > > -    vtd_paging_entry_rsvd_field[5] = VTD_SPTE_LPAGE_L1_RSVD_MASK(s-
+> > >aw_bits);
+> > > -    vtd_paging_entry_rsvd_field[6] = VTD_SPTE_LPAGE_L2_RSVD_MASK(s-
+> > >aw_bits);
+> > > -    vtd_paging_entry_rsvd_field[7] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s-
+> > >aw_bits);
+> > > +    vtd_paging_entry_rsvd_field[5] =
+> > VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits, x86_iommu-
+> > >dt_supported);
+> > > +    vtd_paging_entry_rsvd_field[6] =
+> > VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits, x86_iommu-
+> > >dt_supported);
+> > > +    vtd_paging_entry_rsvd_field[7] =
+> > > + VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits, x86_iommu-
+> > >dt_supported);
+> > >      vtd_paging_entry_rsvd_field[8] =
+> > > VTD_SPTE_LPAGE_L4_RSVD_MASK(s->aw_bits);
+> > 
+> > Should this TM bit only affects leaves?  Say, entry 1 (4K), 5 (2M), 6 (1G).
+> > While this reminded me that I'm totally confused on why we have had entry
+> > 7, 8 after all...  Are they really used?
+> Yes. TM bit only affects. To this array, index 1, 5,6,7 may be leaf. Will update a new patchset for it.
 
---apIE46xiOL6RubfR92I2iWCky5Kw9Sbsi
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Could I ask why index 7 may be leaf?
 
-On 25.09.19 20:32, Max Reitz wrote:
-> Hi,
->=20
-> iotest 125 is very broken.  It uses qemu-img info=E2=80=99s =E2=80=9Cdi=
-sk size=E2=80=9D to
-> determine an image=E2=80=99s on-disk size, but it does so in a wrong wa=
-y: It
-> just fetches the first number ([0-9]+), but that isn=E2=80=99t very use=
-ful
-> because qemu-img info emits human-readable values that include units an=
-d
-> decimal points.
->=20
-> We should ust stat -c %b instead.  That=E2=80=99s done in patch 3.
-> Unfortunately, doing so exposed more problems.
->=20
-> Patch 1 fixes a stupid bug in the test itself that we never noticed
-> because of what patch 3 fixes.  (Pull patch 3 before patch 1 and you=E2=
-=80=99ll
-> see.)
->=20
-> The other thing is actually a bug in XFS.  Its fallocate()
-> implementation rounds up the length independently of the offset, so if
-> you try to fallocate an unaligned range, chances are that it might not
-> allocate the last block your range touches.  Patch 2 detects that case
-> and skips the test then.  (Pull patch 3 before patch 2 and you=E2=80=99=
-ll see
-> the test fail on XFS.)
->=20
->=20
-> Max Reitz (3):
->   iotests: Fix 125 for growth_mode =3D metadata
->   iotests: Disable 125 on broken XFS versions
->   iotests: Use stat -c %b in 125
->=20
->  tests/qemu-iotests/125 | 45 +++++++++++++++++++++++++++++++++++++++---=
+> > 
+> > >
+> > >      if (x86_iommu_ir_supported(x86_iommu)) { diff --git
+> > > a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+> > > index c1235a7063..01f1aa6c86 100644
+> > > --- a/hw/i386/intel_iommu_internal.h
+> > > +++ b/hw/i386/intel_iommu_internal.h
+> > > @@ -387,19 +387,31 @@ typedef union VTDInvDesc VTDInvDesc;  #define
+> > > VTD_INV_DESC_DEVICE_IOTLB_RSVD_LO 0xffff0000ffe0fff8
+> > >
+> > >  /* Rsvd field masks for spte */
+> > > -#define VTD_SPTE_PAGE_L1_RSVD_MASK(aw) \
+> > > +#define VTD_SPTE_PAGE_L1_RSVD_MASK(aw, dt_supported) \
+> > > +        dt_supported? \
+> > > +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM |
+> > VTD_SL_TM))
+> > > +: \
+> > >          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
+> > 
+> > This seems strange too in that ~VTD_HAW_MASK(aw) probably covered bits
+> > 63-48 for aw==48 case so it should already cover VTD_SL_TM?
+> VTD_SL_IGN_COM 0xbff0000000000000ULL, TM field is cleared by ~ VTD_SL_IGN_COM
+> > 
+> > Meanwhile when I'm reading the spec I see at least bits 61-52 ignored rather
+> > than reserved.
+> Yes. Bit 61~52 is ignored. Such as the index 5 of this array is 0xfff8000000800.
 
->  1 file changed, 42 insertions(+), 3 deletions(-)
+Oops, my poor eye obviously didn't see that the "~" operator is
+applied over the whole (VTD_HAW_MASK(aw) | VTD_SL_IGN_COM)... :)
 
-Thanks for the review, applied to my block branch:
+Btw, you should only touch up the macros that are leaves here.
+Non-leaves should still keep that bit as reserved.
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+Thanks,
 
-
-And for the record, I=E2=80=99ve sent a patch to the XFS driver:
-
-https://www.spinics.net/lists/linux-xfs/msg32174.html
-
-Max
-
-
---apIE46xiOL6RubfR92I2iWCky5Kw9Sbsi--
-
---0Au30nqWPGHVCDKGsCrm6OPoE3nUSnJu8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2N1ogACgkQ9AfbAGHV
-z0AqTAf+Ihe/tOdjQ3/b/weEI+sZ/ejqRKa28aI5Mcw67uaxzpEcT2teAXTZq2Cc
-8KI3AtIAj7aN91x928K/CWK5JMivsqBYc8oIPdVLC+yihEE5P11sga8ON5IEA368
-vsH8Jksk3bWDkjDWA1bnbQrVJu/zmXt5XmODM+Agui30Na74nOQ0/MQvNAkdMcwF
-6CGfgpm/N6NA3K1GiDEYXZkS8RZNUmX9qQf/j4riW6cq08DB6/olsfjLNjXVEnxl
-IYzgONEtBh5FQVnhkZ0V6j7k/+ASs/caExSLlWC9UHdSzXzhT2c26gzu0sghPBZN
-m2mxGhdGDsVwS5oHSB/PfP4XlyoZjg==
-=hg/5
------END PGP SIGNATURE-----
-
---0Au30nqWPGHVCDKGsCrm6OPoE3nUSnJu8--
+-- 
+Peter Xu
 
