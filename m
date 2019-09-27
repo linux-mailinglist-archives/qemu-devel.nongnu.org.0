@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E31C0D64
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 23:42:50 +0200 (CEST)
-Received: from localhost ([::1]:57782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8333AC0DA6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 23:52:05 +0200 (CEST)
+Received: from localhost ([::1]:57836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDy0l-0001Jo-PV
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 17:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34152)
+	id 1iDy9k-0006w5-2o
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 17:52:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iDxxu-0000Sk-3r
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:39:51 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iDy1P-0002x8-AG
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:43:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iDxxr-00027F-MT
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:39:49 -0400
-Resent-Date: Fri, 27 Sep 2019 17:39:49 -0400
-Resent-Message-Id: <E1iDxxr-00027F-MT@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21472)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iDxxr-00025d-E9
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:39:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569620363; cv=none; d=zoho.com; s=zohoarc; 
- b=eIK8oH5PinLB8oWwxdpRxg17OhXZdkA406dhs/pFYbHexIfcApoRKJKtA4/9r7jSxU5eWgJt+pn2uX7fUA7WsMJy94XqhVe4CgoeF2pJ/yvPCszxgVmjCPqG5TGVVl45Kj7hy1xQmjkrGNQKtw46Z2kpZ1QdCFQarWIwX9OTOME=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569620363;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=Oyw1sinns5cevZER0LCBIuWgKgWp3IIGBDDRz1Aylr0=; 
- b=ee8jXhrh+qEtkTgM2bTTuZ6O+kOI6870SIbaLNobMC2OjXYlk6eNV9AzCfziu3OhgBwLxnZv8bFBLOgD8+tlJ4ATw122OHYwtTvXv9Gg2GGT4GMQ0Wplxp2I54QZRMoEkDr5AC7i3aUMPzJc2phY9KXSLleMXnkI+rxQs/E2dk0=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1569620361739954.6723141713212;
- Fri, 27 Sep 2019 14:39:21 -0700 (PDT)
-Subject: Re: [PATCH v25 00/22] Add RX archtecture support
-In-Reply-To: <20190927062302.110144-1-ysato@users.sourceforge.jp>
-Message-ID: <156962036039.27524.4914925998240635505@8230166b0665>
+ (envelope-from <alistair23@gmail.com>) id 1iDy1N-00060E-5S
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:43:27 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33243)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iDy1M-0005yh-NZ; Fri, 27 Sep 2019 17:43:24 -0400
+Received: by mail-lj1-x242.google.com with SMTP id a22so3906633ljd.0;
+ Fri, 27 Sep 2019 14:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Z3z2HJgtQRyIS4euPZSz8ASTQEQCVryL16ycqUnflPw=;
+ b=HSCa2Zgh3JXvYXQ9jzo1JGDOnRbDrBcm6DTlsC9pHobFxgumNJOj2C2lbElJbxtMKk
+ ImUjp8UgjfL8Plqn9ARocJ56YgGV81zQ01+m8CPMqIOx91EzuTF52XDdR58mZbaVv5mj
+ 5jHnyrdN9F6vPitNI2K3C3GEEIOW7ivb8/i/X3cNAWAdfdWUMvfq/h1VLEQiOJj/T2ic
+ QYw8rBzIp1S17bssKfC4/v5cVWXQ/oDbsUxoXkNksTp6mYwELAAWQuN2dNSpXfEKj5cf
+ MVVxvNn2/rN0+Ra4t8qjtZhVaz/GOQd71gYCI0eeDqxYCMSCMC8HlnLQWrYzMzwxWWq/
+ Q7IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Z3z2HJgtQRyIS4euPZSz8ASTQEQCVryL16ycqUnflPw=;
+ b=H0ataQ+jpJ8WzwnFxPDM04vs2tdry/DAloP44L0ewzHSntQ7UbmftuH4DkFfI5EA9n
+ gKOaG9HmcZFwMFqjq/KOSykBZlbeEjVcEyIFjBuhwmOc9H0iS7Wut1iN72z2kPfUueE/
+ Rjn5G4iwaHqBtGkibEAb/+BiIhqBDykbRuKcQqIQfdHwFdx2FiDxuTvFZcinTWm8+YIS
+ 9CBCZWFnWXeqO919l8FmoU9/S/kVufh8xyW2tkJUjCA2bjDUDsZ+/YB+GNe2QbqgDM0i
+ STeOaLXJ+tw+rXTMqoyTybp1iYJov50qRFwYhVaCTXl5SwiNNQ3EBihQDhXGs8thNesS
+ e8ig==
+X-Gm-Message-State: APjAAAXSlDYXnIXaQqFwA7RcoxUQ0zJ0fpx761Sf0WiUkN4Ne07ZdPjp
+ LN2kt7bJeL4MG3O48rdYqu06kkX6MMyj2Scpc00=
+X-Google-Smtp-Source: APXvYqychEopiXHGb+HjBrDuWH9HVQ/+04lbY2tpnbFmteoP9JUNeXPLDcr4OQQ57QU3Gzu1jLxpEbhreqQs7FfZC+4=
+X-Received: by 2002:a2e:3902:: with SMTP id g2mr4450813lja.196.1569620603159; 
+ Fri, 27 Sep 2019 14:43:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ysato@users.sourceforge.jp
-Date: Fri, 27 Sep 2019 14:39:21 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+References: <20190926173428.10713-1-f4bug@amsat.org>
+ <20190926173428.10713-4-f4bug@amsat.org>
+In-Reply-To: <20190926173428.10713-4-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 27 Sep 2019 14:38:36 -0700
+Message-ID: <CAKmqyKOOo5nRSiSHWXKUMLR_pMbZexzY_N3a014tbZNgEgoTGQ@mail.gmail.com>
+Subject: Re: [PATCH 03/19] hw/arm/bcm2835_peripherals: Name various address
+ spaces
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,141 +74,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyNzA2MjMwMi4xMTAx
-NDQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwOTI3MDYy
-MzAyLjExMDE0NC0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwClN1YmplY3Q6IFtQQVRDSCB2
-MjUgMDAvMjJdIEFkZCBSWCBhcmNodGVjdHVyZSBzdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVH
-SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
-IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
-c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
-VCBTQ1JJUFQgRU5EID09PQoKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoyNGY0ZDU0
-IHFhcGkvbWFjaGluZS5qc29uOiBBZGQgUlggY3B1Lgo3ZTNlMTdmIEJvb3RMaW51eENvbnNvbGVU
-ZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUKZjUzOGZkYSBBZGQgcngtc29mdG1tdQoxOWY1
-MTRhIGh3L3J4OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9jb250cm9sbGVyIHRvIHRoZSBSWDYy
-TiBDUFUgY29yZQo1YWZmYWFkIGh3L3J4OiBIb25vciAtYWNjZWwgcXRlc3QKNjdkMjM1MSBody9y
-eDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24KNDBjODhkZSBody9jaGFyOiBSWDYyTiBz
-ZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkKZjg0MzFkZiBody90aW1lcjogUlg2
-Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcwo2MWE2NTc1IGh3L2ludGM6IFJYNjJOIGludGVycnVw
-dCBjb250cm9sbGVyIChJQ1VhKQpiODVmNTJkIHRhcmdldC9yeDogRHVtcCBieXRlcyBmb3IgZWFj
-aCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseQpjMTAyMDQ1IHRhcmdldC9yeDogQ29sbGVjdCBhbGwg
-Ynl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5CmYzYTA2YzEgdGFyZ2V0L3J4OiBFbWl0IGFsbCBkaXNh
-c3NlbWJseSBpbiBvbmUgcHJ0KCkKMDUzMzdiYyB0YXJnZXQvcng6IFVzZSBwcnRfbGRtaSBmb3Ig
-WENIR19tciBkaXNhc3NlbWJseQo3NTg5NWQ1IHRhcmdldC9yeDogUmVwbGFjZSBvcGVyYW5kIHdp
-dGggcHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyCmRmMDllODMgdGFyZ2V0L3J4OiBEaXNhc3NlbWJs
-ZSByeF9pbmRleF9hZGRyIGludG8gYSBzdHJpbmcKNjg4N2JmMyB0YXJnZXQvcng6IFJYIGRpc2Fz
-c2VtYmxlcgo3NGU1YmQwIHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24KMjE4YjNkNSB0YXJnZXQv
-cng6IFRDRyBoZWxwZXIKMDhlOTBlYyB0YXJnZXQvcng6IFRDRyB0cmFuc2xhdGlvbgpjZmY4Yjkz
-IGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAxNmJpdCByZWdpc3RlciBtYWNyb3MK
-ZDg4YzUwNiBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNgphMjQzYmU1
-IE1BSU5UQUlORVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjIgQ2hlY2tpbmcg
-Y29tbWl0IGEyNDNiZTU0MDM0YyAoTUFJTlRBSU5FUlM6IEFkZCBSWCkKMi8yMiBDaGVja2luZyBj
-b21taXQgZDg4YzUwNjJjODIyIChxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJh
-Y3QxNikKMy8yMiBDaGVja2luZyBjb21taXQgY2ZmOGI5M2QxNjMxIChody9yZWdpc3RlcmZpZWxk
-cy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFjcm9zKQpVc2Ugb2YgdW5pbml0aWFs
-aXplZCB2YWx1ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBzdHJpbmcgYXQgLi9zY3JpcHRzL2No
-ZWNrcGF0Y2gucGwgbGluZSAyNDg0LgpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3RhdGVt
-ZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzI3OiBGSUxFOiBp
-bmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVmaW5lIFJFRzgocmVnLCBhZGRyKSAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVu
-dW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9IChhZGRyKSB9OwoKRVJST1I6IE1h
-Y3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIGEgZG8g
-LSB3aGlsZSBsb29wCiMzMTogRklMRTogaW5jbHVkZS9ody9yZWdpc3RlcmZpZWxkcy5oOjI5Ogor
-I2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMjIHJlZyA9IChhZGRyKSB9OyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICBlbnVtIHsgUl8gIyMg
-cmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA1NiBsaW5l
-cyBjaGVja2VkCgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo0LzIyIENo
-ZWNraW5nIGNvbW1pdCAwOGU5MGVjMWUyZmYgKHRhcmdldC9yeDogVENHIHRyYW5zbGF0aW9uKQpX
-QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
-IG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
-cnMsIDEgd2FybmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8yMiBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1pdCAyMThiM2Q1MTkzNDIgKHRhcmdl
-dC9yeDogVENHIGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
-KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjE6IApuZXcgZmlsZSBtb2RlIDEw
-MDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2NTAgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzIyIENoZWNraW5nIGNvbW1pdCA3
-NGU1YmQwZGFjZDkgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24pCldBUk5JTkc6IGFkZGVkLCBt
-b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
-IzM4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
-NTg4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-Ny8yMiBDaGVja2luZyBjb21taXQgNjg4N2JmMzA3ZTYyICh0YXJnZXQvcng6IFJYIGRpc2Fzc2Vt
-YmxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
-VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6
-IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMjIgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2luZyBjb21taXQgZGYwOWU4MzkzYjky
-ICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2FkZHIgaW50byBhIHN0cmluZykKOS8y
-MiBDaGVja2luZyBjb21taXQgNzU4OTVkNTRiYWQ3ICh0YXJnZXQvcng6IFJlcGxhY2Ugb3BlcmFu
-ZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAvMjIgQ2hlY2tpbmcgY29tbWl0IDA1
-MzM3YmNjYjdiZiAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1i
-bHkpCjExLzIyIENoZWNraW5nIGNvbW1pdCBmM2EwNmMxM2NhYTYgKHRhcmdldC9yeDogRW1pdCBh
-bGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBDaGVja2luZyBjb21taXQgYzEwMjA0
-NTA5N2RjICh0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJseSkK
-MTMvMjIgQ2hlY2tpbmcgY29tbWl0IGI4NWY1MmQzYjAxZCAodGFyZ2V0L3J4OiBEdW1wIGJ5dGVz
-IGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQoxNC8yMiBDaGVja2luZyBjb21taXQg
-NjFhNjU3NTBkNGE4IChody9pbnRjOiBSWDYyTiBpbnRlcnJ1cHQgY29udHJvbGxlciAoSUNVYSkp
-CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
-UlMgbmVlZCB1cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVy
-cm9ycywgMSB3YXJuaW5ncywgNDQ1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE0LzIyIGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNvbW1pdCBmODQzMWRmYmZkMzEgKGh3
-L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVzKQpXQVJOSU5HOiBhZGRlZCwgbW92
-ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1
-MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDg0
-NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgox
-Ni8yMiBDaGVja2luZyBjb21taXQgNDBjODhkZWVkMDhkIChody9jaGFyOiBSWDYyTiBzZXJpYWwg
-Y29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQzOiAKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDAxIGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE3LzIyIENo
-ZWNraW5nIGNvbW1pdCA2N2QyMzUxNjljZDIgKGh3L3J4OiBSWCBUYXJnZXQgaGFyZHdhcmUgZGVm
-aW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
-QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90
-YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0ODAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTcvMjIg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTgvMjIgQ2hlY2tpbmcgY29tbWl0IDVhZmZhYWQz
-NWI2ZSAoaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdCkKMTkvMjIgQ2hlY2tpbmcgY29tbWl0IDE5
-ZjUxNGExMWI4OSAoaHcvcng6IFJlc3RyaWN0IHRoZSBSWDYyTiBtaWNyb2NvbnRyb2xsZXIgdG8g
-dGhlIFJYNjJOIENQVSBjb3JlKQoyMC8yMiBDaGVja2luZyBjb21taXQgZjUzOGZkYTJiOTg4IChB
-ZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwg
-ZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTk6IApuZXcgZmlsZSBtb2RlIDEwMDY0
-NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1OSBsaW5lcyBjaGVja2VkCgpQYXRjaCAy
-MC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
-ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
-IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyMS8yMiBDaGVja2luZyBjb21taXQgN2Uz
-ZTE3ZmVjNDZhIChCb290TGludXhDb25zb2xlVGVzdDogVGVzdCB0aGUgUlgtVmlydCBtYWNoaW5l
-KQoyMi8yMiBDaGVja2luZyBjb21taXQgMjRmNGQ1NDdiODBlIChxYXBpL21hY2hpbmUuanNvbjog
-QWRkIFJYIGNwdS4pCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
-IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
-Zy9sb2dzLzIwMTkwOTI3MDYyMzAyLjExMDE0NC0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpw
-L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
-dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
-ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Thu, Sep 26, 2019 at 10:36 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> Various address spaces from the BCM2835 are reported as
+> 'anonymous' in memory tree:
+>
+>   (qemu) info mtree
+>
+>   address-space: anonymous
+>     0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
+>       0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
+>       0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
+>
+>   address-space: anonymous
+>     0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+>       0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peri=
+pherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+>       0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>
+>   [...]
+>
+> Since the address_space_init() function takes a 'name' argument,
+> set it to correctly describe each address space:
+>
+>   (qemu) info mtree
+>
+>   address-space: bcm2835-mbox-memory
+>     0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
+>       0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
+>       0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
+>
+>   address-space: bcm2835-fb-memory
+>     0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+>       0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peri=
+pherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+>       0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>
+>   address-space: bcm2835-property-memory
+>     0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+>       0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peri=
+pherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+>       0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>
+>   address-space: bcm2835-dma-memory
+>     0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+>       0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peri=
+pherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+>       0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>       00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-=
+ram-alias[*] @ram 0000000000000000-000000003fffffff
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  hw/display/bcm2835_fb.c    | 2 +-
+>  hw/dma/bcm2835_dma.c       | 2 +-
+>  hw/misc/bcm2835_mbox.c     | 2 +-
+>  hw/misc/bcm2835_property.c | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+> index 8f856878cd..85aaa54330 100644
+> --- a/hw/display/bcm2835_fb.c
+> +++ b/hw/display/bcm2835_fb.c
+> @@ -425,7 +425,7 @@ static void bcm2835_fb_realize(DeviceState *dev, Erro=
+r **errp)
+>      s->initial_config.base =3D s->vcram_base + BCM2835_FB_OFFSET;
+>
+>      s->dma_mr =3D MEMORY_REGION(obj);
+> -    address_space_init(&s->dma_as, s->dma_mr, NULL);
+> +    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_FB "-memory")=
+;
+>
+>      bcm2835_fb_reset(dev);
+>
+> diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
+> index 6acc2b644e..1e458d7fba 100644
+> --- a/hw/dma/bcm2835_dma.c
+> +++ b/hw/dma/bcm2835_dma.c
+> @@ -383,7 +383,7 @@ static void bcm2835_dma_realize(DeviceState *dev, Err=
+or **errp)
+>      }
+>
+>      s->dma_mr =3D MEMORY_REGION(obj);
+> -    address_space_init(&s->dma_as, s->dma_mr, NULL);
+> +    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_DMA "-memory"=
+);
+>
+>      bcm2835_dma_reset(dev);
+>  }
+> diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
+> index 7690b9afaf..77285624c9 100644
+> --- a/hw/misc/bcm2835_mbox.c
+> +++ b/hw/misc/bcm2835_mbox.c
+> @@ -311,7 +311,7 @@ static void bcm2835_mbox_realize(DeviceState *dev, Er=
+ror **errp)
+>      }
+>
+>      s->mbox_mr =3D MEMORY_REGION(obj);
+> -    address_space_init(&s->mbox_as, s->mbox_mr, NULL);
+> +    address_space_init(&s->mbox_as, s->mbox_mr, TYPE_BCM2835_MBOX "-memo=
+ry");
+>      bcm2835_mbox_reset(dev);
+>  }
+>
+> diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+> index 0a1a3eb5d9..43a5465c5d 100644
+> --- a/hw/misc/bcm2835_property.c
+> +++ b/hw/misc/bcm2835_property.c
+> @@ -407,7 +407,7 @@ static void bcm2835_property_realize(DeviceState *dev=
+, Error **errp)
+>      }
+>
+>      s->dma_mr =3D MEMORY_REGION(obj);
+> -    address_space_init(&s->dma_as, s->dma_mr, NULL);
+> +    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_PROPERTY "-me=
+mory");
+>
+>      /* TODO: connect to MAC address of USB NIC device, once we emulate i=
+t */
+>      qemu_macaddr_default_if_unset(&s->macaddr);
+> --
+> 2.20.1
+>
+>
 
