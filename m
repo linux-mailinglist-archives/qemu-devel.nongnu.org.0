@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183A2C070B
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:11:32 +0200 (CEST)
-Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CADC0727
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:19:54 +0200 (CEST)
+Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqy2-0008LK-Dt
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35417)
+	id 1iDr68-0001pm-8Q
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1iDqG8-0007aY-Et
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:26:09 -0400
+ (envelope-from <imbrenda@linux.ibm.com>) id 1iDqNL-0005Q6-C7
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1iDqG7-00012a-Aq
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:26:08 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45129)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1iDqG7-00012W-58; Fri, 27 Sep 2019 09:26:07 -0400
-Received: by mail-pf1-x442.google.com with SMTP id y72so1581835pfb.12;
- Fri, 27 Sep 2019 06:26:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=TzPly1HOOP5ZxOVgZNGoYgvsj1Jnu09Ez2nIhgHlkY8=;
- b=L8Edi8jPOfq2NbZlINTGOHDgfJyjJIFAI0nrKtzA6iGx5qYKUMti0M25LvSOnNbN4l
- OM0naoRLzCuuz+zd0sp4/SzoW8ThYeAkfz/Qcifhbkg+zeAf5eLmkuK6MKwkPNPgY8uN
- QLPyZvLxTdjqCUU7QoVN1L+/HbWwX0jlzDRKQZSVEjCxy627dNVcsn2dIMev11PpNDsP
- uygFZN7Y9gGP5BpOSy1jfeb/tZxSN7HUKJzJkzpiqGUeM2Fzcr4DvpfsmBRagxFwwXLP
- GU+e1Eu8fzZnMofGeVof73xUnkzr/dbO5dK/uZZzIH0MC6CK3akiIoyRCdEB4J16P5Kj
- dT9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=TzPly1HOOP5ZxOVgZNGoYgvsj1Jnu09Ez2nIhgHlkY8=;
- b=twWtxuFP0aG9Tdg0gm14nTRwZAxouQB99+QYCF/beTm2qj+tXdtgNDAxbXyH3MFIgZ
- IJKQDhOs3ULBLGlnJGZeNswjPw8y1Dbrvg0y4rwkiPqRVZxOOT7o3/rbXbnLbImAYnT3
- SKSEaRCVxUZL8rLLNDSgaM8zO4N+CT5cPlvDlssr0xkwGhFNKDy1hmTuM2KYjLn3oYqS
- ka3eKT8TQxcqIInok9LbtSFUhnN5ipkCU4AgSUG0sJRJ+PqVAwEhYZ2A021+0Tqwt3L+
- 5/qzpgiuFo0Mb8CI2c4HdiJtFvuP7ETRU/Z9b+glEDvAsTBt0dyCxYt5ep+ScXc+C89A
- VLoQ==
-X-Gm-Message-State: APjAAAX4Q/XKwU19VF708pumFaGwgtYDdiE9ijSR9/rbam48jJ1wQWs1
- cqlBsQPBEOcDfPOsr1zih4s=
-X-Google-Smtp-Source: APXvYqwcBNT6wz0SymG2SWs8UsfrdYXH7KWpEqDSy2cs2h2hc5olPQw4Gno3/UQ1orULSMWr603PMA==
-X-Received: by 2002:a63:5745:: with SMTP id h5mr9518090pgm.268.1569590765893; 
- Fri, 27 Sep 2019 06:26:05 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id f6sm4488541pga.50.2019.09.27.06.26.03
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 27 Sep 2019 06:26:04 -0700 (PDT)
-Date: Fri, 27 Sep 2019 06:26:02 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: bzt <bztemail@gmail.com>
-Subject: Re: [PATCH 14/19] python/qemu/machine: Allow to use other serial
- consoles than default
-Message-ID: <20190927132602.GA19931@roeck-us.net>
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-15-f4bug@amsat.org>
- <CADYoBw11iiK=+O-mGYS5Xp85zVhezOXXXr-wKV_xCg07ZYuzVw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADYoBw11iiK=+O-mGYS5Xp85zVhezOXXXr-wKV_xCg07ZYuzVw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+ (envelope-from <imbrenda@linux.ibm.com>) id 1iDqNK-0001z7-61
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18656)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1iDqNJ-0001yV-V2
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:34 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8RDWdK3118344
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:33:32 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v9ge5phub-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:33:32 -0400
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <imbrenda@linux.ibm.com>;
+ Fri, 27 Sep 2019 14:33:30 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 27 Sep 2019 14:33:27 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8RDXPYC38142084
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Sep 2019 13:33:26 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D49DC4204B;
+ Fri, 27 Sep 2019 13:33:25 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8207042042;
+ Fri, 27 Sep 2019 13:33:25 +0000 (GMT)
+Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.39])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Fri, 27 Sep 2019 13:33:25 +0000 (GMT)
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v2 4/4] s390x: Fix SCLP return code when buffer too small
+Date: Fri, 27 Sep 2019 15:33:23 +0200
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
+References: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 19092713-0016-0000-0000-000002B1533E
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19092713-0017-0000-0000-0000331225B0
+Message-Id: <1569591203-15258-5-git-send-email-imbrenda@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-27_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909270127
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,40 +87,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Cheng Xiang <ext-cheng.xiang@here.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Esteban Bosse <estebanbosse@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>
+Cc: frankja@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 27, 2019 at 02:54:10PM +0200, bzt wrote:
-> Hi,
-> 
-> On 9/26/19, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
-> > Currently we are limited to use the first serial console available.
-> 
-> I'm not so sure. Right now it works like this:
-> 
-> qemu -serial stdio
-> Connects the VM's UART0 (PL011) serial console to the host terminal
-> 
-> qemu -serial null -serial stdio
-> Connects the VM's UART1 (AUX) serial console to the host terminal
-> 
-> I think this is simple and good, please don't remove this option. If
-> your commit does not influence these cli args, I'm not against it.
-> 
-Agreed. I am using that mechanism (raspi3 uses the second console,
-not pl011) in my scripts. Please don't take it away.
+Return the correct error code when the SCCB buffer is too small to
+contain all of the output, for the Read SCP Information and
+Read CPU Information commands.
 
-Guenter
+Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+---
+ hw/s390x/sclp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index abb6e50..f57ce7b 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -68,6 +68,12 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+ 
+     read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
+ 
++    if (be16_to_cpu(sccb->h.length) <
++            (sizeof(ReadInfo) + cpu_count * sizeof(CPUEntry))) {
++        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
++        return;
++    }
++
+     /* Configuration Characteristic (Extension) */
+     s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR,
+                          read_info->conf_char);
+@@ -118,6 +124,12 @@ static void sclp_read_cpu_info(SCLPDevice *sclp, SCCB *sccb)
+     cpu_info->offset_configured = cpu_to_be16(offsetof(ReadCpuInfo, entries));
+     cpu_info->nr_standby = cpu_to_be16(0);
+ 
++    if (be16_to_cpu(sccb->h.length) <
++            (sizeof(ReadCpuInfo) + cpu_count * sizeof(CPUEntry))) {
++        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
++        return;
++    }
++
+     /* The standby offset is 16-byte for each CPU */
+     cpu_info->offset_standby = cpu_to_be16(cpu_info->offset_configured
+         + cpu_info->nr_configured*sizeof(CPUEntry));
+-- 
+2.7.4
+
 
