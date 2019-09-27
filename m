@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0ECC07BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:40:15 +0200 (CEST)
-Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D18C07B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:36:54 +0200 (CEST)
+Received: from localhost ([::1]:51734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrPq-0006vd-2Z
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:40:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37399)
+	id 1iDrMb-0003dz-2O
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDqQ5-0000DA-Sd
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:36:26 -0400
+ (envelope-from <armbru@redhat.com>) id 1iDqa6-0001B2-58
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDqQ4-0002WJ-Ma
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:36:25 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:32770)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDqQ4-0002Vl-HE
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:36:24 -0400
-Received: by mail-oi1-x241.google.com with SMTP id e18so5231506oii.0
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=de4z7S5G5ywrflGEuHK1OtY+IITfylTTQb5PJNGEdBU=;
- b=lbeMf565pLoufeNuekBKI9IMx2xyAR/3x6uARDrd7eVvc1NwmOsWqWHZorEpGiVwe5
- AcJXpmvG4ZjaDOEYfqAOE7oq2eWnJrfKnwjQ9xI7k+3mqJA+9aoWDvrriwcCgUlTw/XK
- Lpzz2mttxF9RtdeDgpKIBqeLknSoy85uzuD+R2y5Hg513AKnNPoHPFP43aKSnYIPm1mB
- hOVV+Fo3vPA5seKsJ3yXFmxKIItwZygumQqTY2MlhvIodTdJxpjJrZasNNeobAQ/X3B3
- J3Hd6RqzFT2UceRnYCFQvfgNt//8hrRkT6/yd4+htc4u5cNPQsGZvF9C4UQQc+C8NH+k
- vbAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=de4z7S5G5ywrflGEuHK1OtY+IITfylTTQb5PJNGEdBU=;
- b=R1X121jZDb8c5AVCIZEmgAJL36+bc2mdIbBrqjVJWxXIjzrt6sttWWYtdhy6mhW4Ee
- +F/s9gInAUxC8IpP1Sy5+Q7Xr8oVOfMkf/EEqNPQmu1e37Z/DtW/m3UpM0LL6pE3+g2O
- XK/q4VkSpeAlpE4etCRvSIxqbVsQaHJ8M1XdNBVW6ygpmI1ZQ7ilGGujCwho5X+39dtm
- 4Vi9goPvP9RoLh8cktzahO+yrJXv76jGhGfLpBddkGIah35jiDs4pH7Q3b39Cx4TQFVs
- zfDliH4C8Dfwz3jTc6jFPiroZOXY7yttWUgpuBlND9Q+oWnMid0PC65XCu6wfvTLqBfA
- UW7A==
-X-Gm-Message-State: APjAAAWZIMiAW4RBes4NKGPwNkus0EBUZKF1xNGQUO5Wqrl+fVXrxqKS
- 9ZNfBI6FRByOPckGyGexuwE2pdVkwX64/O39tY7kIw==
-X-Google-Smtp-Source: APXvYqy4ky17opgRO5mHCiPr8wMqlG0dt2fv++y6B2toW7+Cw9tsh8crJSKsa55GPm1AGRvMB8MArrxafY/EeiUoTWU=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr6686737oib.48.1569591383575; 
- Fri, 27 Sep 2019 06:36:23 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1iDqa4-00061Q-Ge
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59182)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa4-000612-7M
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:44 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 702C310DCC94;
+ Fri, 27 Sep 2019 13:46:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D47D260BE2;
+ Fri, 27 Sep 2019 13:46:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 63806113865F; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 01/26] qapi: Tighten QAPISchemaFOO.check() assertions
+Date: Fri, 27 Sep 2019 15:46:14 +0200
+Message-Id: <20190927134639.4284-2-armbru@redhat.com>
+In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
+References: <20190927134639.4284-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-15-f4bug@amsat.org>
- <CADYoBw11iiK=+O-mGYS5Xp85zVhezOXXXr-wKV_xCg07ZYuzVw@mail.gmail.com>
- <20190927132602.GA19931@roeck-us.net>
-In-Reply-To: <20190927132602.GA19931@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Sep 2019 14:36:12 +0100
-Message-ID: <CAFEAcA8KcJzCNU1iLjiteEKhLsw9jeDyyqXurv0fuvSmLAEF0A@mail.gmail.com>
-Subject: Re: [PATCH 14/19] python/qemu/machine: Allow to use other serial
- consoles than default
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Fri, 27 Sep 2019 13:46:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,51 +58,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cheng Xiang <ext-cheng.xiang@here.com>, bzt <bztemail@gmail.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Esteban Bosse <estebanbosse@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Sep 2019 at 14:26, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On Fri, Sep 27, 2019 at 02:54:10PM +0200, bzt wrote:
-> > Hi,
-> >
-> > On 9/26/19, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-> > > Currently we are limited to use the first serial console available.
-> >
-> > I'm not so sure. Right now it works like this:
-> >
-> > qemu -serial stdio
-> > Connects the VM's UART0 (PL011) serial console to the host terminal
-> >
-> > qemu -serial null -serial stdio
-> > Connects the VM's UART1 (AUX) serial console to the host terminal
-> >
-> > I think this is simple and good, please don't remove this option. If
-> > your commit does not influence these cli args, I'm not against it.
-> >
-> Agreed. I am using that mechanism (raspi3 uses the second console,
-> not pl011) in my scripts. Please don't take it away.
+When we introduced the QAPISchema intermediate representation (commit
+ac88219a6c7), we took a shortcut: we left check_exprs() & friends
+alone instead of moving semantic checks into the
+QAPISchemaFOO.check().  check_exprs() still checks and reports errors,
+and the .check() assert check_exprs() did the job.  There are a few
+gaps, though.
 
-This patch is changing our python infrastructure that invokes
-QEMU, not QEMU itself. What Philippe's message means is
-"currently our code for running QEMU as part of tests like
-this is limited to using the first serial console; this doesn't
-work for raspi because we want to use the second (aux) console;
-so make the test infrastructure able to handle machines like this."
+QAPISchemaArrayType.check() neglects to assert the element type is not
+an array.  Add the assertion.
 
-thanks
--- PMM
+QAPISchemaObjectTypeVariants.check() neglects to assert the tag member
+is not optional.  Add the assertion.
+
+It neglects to assert the tag member is not conditional.  Add the
+assertion.
+
+It neglects to assert we actually have variants.  Add the assertion.
+
+It asserts the variants are object types, but neglects to assert they
+don't have variants.  Tighten the assertion.
+
+QAPISchemaObjectTypeVariants.check_clash() has the same issue.
+However, it can run only after .check().  Delete the assertion instead
+of tightening it.
+
+QAPISchemaAlternateType.check() neglects to assert the branch types
+don't conflict.  Fixing that isn't trivial, so add just a TODO comment
+for now.  It'll be resolved later in this series.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ scripts/qapi/common.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index b00caacca3..155b87b825 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -1362,6 +1362,7 @@ class QAPISchemaArrayType(QAPISchemaType):
+         QAPISchemaType.check(self, schema)
+         self.element_type =3D schema.lookup_type(self._element_type_name=
+)
+         assert self.element_type
++        assert not isinstance(self.element_type, QAPISchemaArrayType)
+=20
+     @property
+     def ifcond(self):
+@@ -1606,6 +1607,8 @@ class QAPISchemaObjectTypeVariants(object):
+             self.tag_member =3D seen[c_name(self._tag_name)]
+             assert self._tag_name =3D=3D self.tag_member.name
+         assert isinstance(self.tag_member.type, QAPISchemaEnumType)
++        assert not self.tag_member.optional
++        assert self.tag_member.ifcond =3D=3D []
+         if self._tag_name:    # flat union
+             # branches that are not explicitly covered get an empty type
+             cases =3D set([v.name for v in self.variants])
+@@ -1615,20 +1618,21 @@ class QAPISchemaObjectTypeVariants(object):
+                                                     m.ifcond)
+                     v.set_owner(self.tag_member.owner)
+                     self.variants.append(v)
++        assert self.variants
+         for v in self.variants:
+             v.check(schema)
+             # Union names must match enum values; alternate names are
+             # checked separately. Use 'seen' to tell the two apart.
+             if seen:
+                 assert v.name in self.tag_member.type.member_names()
+-                assert isinstance(v.type, QAPISchemaObjectType)
++                assert (isinstance(v.type, QAPISchemaObjectType)
++                        and not v.type.variants)
+                 v.type.check(schema)
+=20
+     def check_clash(self, info, seen):
+         for v in self.variants:
+             # Reset seen map for each variant, since qapi names from one
+             # branch do not affect another branch
+-            assert isinstance(v.type, QAPISchemaObjectType)
+             v.type.check_clash(info, dict(seen))
+=20
+=20
+@@ -1659,6 +1663,7 @@ class QAPISchemaAlternateType(QAPISchemaType):
+         seen =3D {}
+         for v in self.variants.variants:
+             v.check_clash(self.info, seen)
++            # TODO check conflicting qtypes
+             if self.doc:
+                 self.doc.connect_member(v)
+         if self.doc:
+--=20
+2.21.0
+
 
