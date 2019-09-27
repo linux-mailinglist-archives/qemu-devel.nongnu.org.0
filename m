@@ -2,99 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8338EC0709
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:10:27 +0200 (CEST)
-Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8490FC0716
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:13:52 +0200 (CEST)
+Received: from localhost ([::1]:51404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqx0-00075i-1b
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
+	id 1iDr0J-000435-9X
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDqLy-0004Pz-4B
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:32:11 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iDq3v-0003x0-NN
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:13:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDqLv-0001nN-Vc
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:32:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35212)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDqLv-0001nI-NK; Fri, 27 Sep 2019 09:32:07 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CAAAA18C37B;
- Fri, 27 Sep 2019 11:04:10 +0000 (UTC)
-Received: from [10.36.116.169] (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEDFE60BE2;
- Fri, 27 Sep 2019 11:04:09 +0000 (UTC)
-Subject: Re: [PATCH v3 15/18] target/s390x: Rely on unwinding in
- s390_cpu_virt_mem_rw
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190926162615.31168-1-richard.henderson@linaro.org>
- <20190926162615.31168-16-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwX4EEwECACgFAljj9eoCGwMFCQlmAYAGCwkI
- BwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEE3eEPcA/4Na5IIP/3T/FIQMxIfNzZshIq687qgG
- 8UbspuE/YSUDdv7r5szYTK6KPTlqN8NAcSfheywbuYD9A4ZeSBWD3/NAVUdrCaRP2IvFyELj
- xoMvfJccbq45BxzgEspg/bVahNbyuBpLBVjVWwRtFCUEXkyazksSv8pdTMAs9IucChvFmmq3
- jJ2vlaz9lYt/lxN246fIVceckPMiUveimngvXZw21VOAhfQ+/sofXF8JCFv2mFcBDoa7eYob
- s0FLpmqFaeNRHAlzMWgSsP80qx5nWWEvRLdKWi533N2vC/EyunN3HcBwVrXH4hxRBMco3jvM
- m8VKLKao9wKj82qSivUnkPIwsAGNPdFoPbgghCQiBjBe6A75Z2xHFrzo7t1jg7nQfIyNC7ez
- MZBJ59sqA9EDMEJPlLNIeJmqslXPjmMFnE7Mby/+335WJYDulsRybN+W5rLT5aMvhC6x6POK
- z55fMNKrMASCzBJum2Fwjf/VnuGRYkhKCqqZ8gJ3OvmR50tInDV2jZ1DQgc3i550T5JDpToh
- dPBxZocIhzg+MBSRDXcJmHOx/7nQm3iQ6iLuwmXsRC6f5FbFefk9EjuTKcLMvBsEx+2DEx0E
- UnmJ4hVg7u1PQ+2Oy+Lh/opK/BDiqlQ8Pz2jiXv5xkECvr/3Sv59hlOCZMOaiLTTjtOIU7Tq
- 7ut6OL64oAq+zsFNBFXLn5EBEADn1959INH2cwYJv0tsxf5MUCghCj/CA/lc/LMthqQ773ga
- uB9mN+F1rE9cyyXb6jyOGn+GUjMbnq1o121Vm0+neKHUCBtHyseBfDXHA6m4B3mUTWo13nid
- 0e4AM71r0DS8+KYh6zvweLX/LL5kQS9GQeT+QNroXcC1NzWbitts6TZ+IrPOwT1hfB4WNC+X
- 2n4AzDqp3+ILiVST2DT4VBc11Gz6jijpC/KI5Al8ZDhRwG47LUiuQmt3yqrmN63V9wzaPhC+
- xbwIsNZlLUvuRnmBPkTJwwrFRZvwu5GPHNndBjVpAfaSTOfppyKBTccu2AXJXWAE1Xjh6GOC
- 8mlFjZwLxWFqdPHR1n2aPVgoiTLk34LR/bXO+e0GpzFXT7enwyvFFFyAS0Nk1q/7EChPcbRb
- hJqEBpRNZemxmg55zC3GLvgLKd5A09MOM2BrMea+l0FUR+PuTenh2YmnmLRTro6eZ/qYwWkC
- u8FFIw4pT0OUDMyLgi+GI1aMpVogTZJ70FgV0pUAlpmrzk/bLbRkF3TwgucpyPtcpmQtTkWS
- gDS50QG9DR/1As3LLLcNkwJBZzBG6PWbvcOyrwMQUF1nl4SSPV0LLH63+BrrHasfJzxKXzqg
- rW28CTAE2x8qi7e/6M/+XXhrsMYG+uaViM7n2je3qKe7ofum3s4vq7oFCPsOgwARAQABwsFl
- BBgBAgAPBQJVy5+RAhsMBQkJZgGAAAoJEE3eEPcA/4NagOsP/jPoIBb/iXVbM+fmSHOjEshl
- KMwEl/m5iLj3iHnHPVLBUWrXPdS7iQijJA/VLxjnFknhaS60hkUNWexDMxVVP/6lbOrs4bDZ
- NEWDMktAeqJaFtxackPszlcpRVkAs6Msn9tu8hlvB517pyUgvuD7ZS9gGOMmYwFQDyytpepo
- YApVV00P0u3AaE0Cj/o71STqGJKZxcVhPaZ+LR+UCBZOyKfEyq+ZN311VpOJZ1IvTExf+S/5
- lqnciDtbO3I4Wq0ArLX1gs1q1XlXLaVaA3yVqeC8E7kOchDNinD3hJS4OX0e1gdsx/e6COvy
- qNg5aL5n0Kl4fcVqM0LdIhsubVs4eiNCa5XMSYpXmVi3HAuFyg9dN+x8thSwI836FoMASwOl
- C7tHsTjnSGufB+D7F7ZBT61BffNBBIm1KdMxcxqLUVXpBQHHlGkbwI+3Ye+nE6HmZH7IwLwV
- W+Ajl7oYF+jeKaH4DZFtgLYGLtZ1LDwKPjX7VAsa4Yx7S5+EBAaZGxK510MjIx6SGrZWBrrV
- TEvdV00F2MnQoeXKzD7O4WFbL55hhyGgfWTHwZ457iN9SgYi1JLPqWkZB0JRXIEtjd4JEQcx
- +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <cf20b4e6-af8b-1a11-9a99-f8e8b14be205@redhat.com>
-Date: Fri, 27 Sep 2019 13:04:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iDq3t-0006cl-Kj
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:13:31 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:34602)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iDq3t-0006cc-F2
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:13:29 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id 83so5162701oii.1
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=ufqWhA1xptL5MvMRMB0CrtCoAeUgmM7mm7ovkYrPNPw=;
+ b=EBUBYcopA2ADdGQ4xtYTiXpTm9coWHxDQjov+D4cZ1aacm5J36sIlbWzvG59TB5Qgo
+ 2W6rXtSRRrVldM7GnLOnrb8FA0EGh9WUjVuO8RnUWLnsUIPugQRtD0mH3PfwaMcImJ3Z
+ y6dee8W9s1LkhWSGwlCjads5TUvxGI8DAXbt4vmPWGVcDkXkaDW7OCJCDn2Df+VkGHdF
+ xjM8AeDtF7uYRcAwSf7Ea73FpOFqjqmilQky4u8SM0IIuqiefRMiV2QuFSbdqELS9CCz
+ y3D174MFUu+eAyxLQQn3z2LwKD3joWQlmvL8Qp2Ae/iUEK+aAsIQ1OFooR28DYjUfwwc
+ O1mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=ufqWhA1xptL5MvMRMB0CrtCoAeUgmM7mm7ovkYrPNPw=;
+ b=aFM4Tn8/tSzqSFgX0nWe3MmJZWyq+z8b78HLaay771+fHFhZQ0VMEVpLXsEsZvT1nY
+ cDggWiHtrjkKbXnPZaCX7UxgG/NeBijjSxFaulb5pBPEHNSzgewN6th739cSkOG5UUia
+ q8KgDJiCpfR9Y6ZFK5IRtFf1W27ztCtz0VYu6bapC3kBipS0dYJ7BmTb6KP+/lxa4GFt
+ F+Z1gDLGQdb/obHbcQgR0HI4sTwyHeNfG/Ofx1R+DGT3sBBFUS/kYEi8QHub3VXK/bxc
+ UqIFhiJruUppoC19dmz0JWDQIX1udY8YwqARjey98vanYpFoQ0ChOMBP/pOFSpum+DTa
+ P6gg==
+X-Gm-Message-State: APjAAAUohgYLhBP3pajdmm9BrVhqwxMhMPRvwydyGa9GkLlMSgsCSbNF
+ IvgGbgPOQyoXX4wFdo/s6yHOMzLNUzzZJ4qr7VDv/A==
+X-Google-Smtp-Source: APXvYqwe0qfXc4LILaYm2ceS61M6xTmmBMzk4smrUNL2ltVQb6q+xFD1OOko/b+V3AcPjpKEl6pDHP/id9na/+ULKeg=
+X-Received: by 2002:aca:c505:: with SMTP id v5mr6492878oif.79.1569586409214;
+ Fri, 27 Sep 2019 05:13:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190926162615.31168-16-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 27 Sep 2019 11:04:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Fri, 27 Sep 2019 05:13:28
+ -0700 (PDT)
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Fri, 27 Sep 2019 05:13:28
+ -0700 (PDT)
+In-Reply-To: <CAL1e-=ibwvMWj3T8iPAyDqhsRTnxUZPxhos6BaVoOtbTWO9WPg@mail.gmail.com>
+References: <20190629130017.2973-1-richard.henderson@linaro.org>
+ <5746cc58-c132-ef29-6ff4-da07c6086dac@ilande.co.uk>
+ <3fe632b7-e83c-9b26-9338-1d7a9c881e0d@linaro.org>
+ <CABLmASFUnBnn2DZidKFAiaMb7gExYttgvEv12uce9EPi6NL9Qw@mail.gmail.com>
+ <f1eeb1de-a6e7-bb83-3501-705382da4b14@ilande.co.uk>
+ <CAL1e-=gtgzRHzZyX9r69_zB5-v-ThYeuxBameoF12TBs59M95w@mail.gmail.com>
+ <db28c297-290b-3641-d87a-67fde65312a8@ilande.co.uk>
+ <CAL1e-=ibwvMWj3T8iPAyDqhsRTnxUZPxhos6BaVoOtbTWO9WPg@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 27 Sep 2019 14:13:28 +0200
+Message-ID: <CAL1e-=hKo4q4Xox+E4niQoq5sJRNoZ7m9POkZ4sbu7t+DK0ojA@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH v6 00/16] tcg/ppc: Add vector opcodes
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: multipart/alternative; boundary="0000000000005d996e059387d0de"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,41 +82,341 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.09.19 18:26, Richard Henderson wrote:
-> For TCG, we will always call s390_cpu_virt_mem_handle_exc,
-> which will go through the unwinder to set ILEN.  For KVM,
-> we do not go through do_program_interrupt, so this argument
-> is unused.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/s390x/mmu_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-> index 5ecd9ee87e..bf7fddb056 100644
-> --- a/target/s390x/mmu_helper.c
-> +++ b/target/s390x/mmu_helper.c
-> @@ -482,7 +482,7 @@ int s390_cpu_virt_mem_rw(S390CPU *cpu, vaddr laddr, uint8_t ar, void *hostbuf,
->  
->      ret = translate_pages(cpu, laddr, nr_pages, pages, is_write, &tec);
->      if (ret) {
-> -        trigger_access_exception(&cpu->env, ret, ILEN_AUTO, tec);
-> +        trigger_access_exception(&cpu->env, ret, ILEN_UNWIND, tec);
->      } else if (hostbuf != NULL) {
->          /* Copy data by stepping through the area page by page */
->          for (i = 0; i < nr_pages; i++) {
-> 
+--0000000000005d996e059387d0de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+ping
 
--- 
+05.09.2019. 13.43, "Aleksandar Markovic" <aleksandar.m.mail@gmail.com> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+>
+> ping for Richard
+>
+> 03.09.2019. 20.34, "Mark Cave-Ayland" <mark.cave-ayland@ilande.co.uk> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >
+> > On 03/09/2019 18:37, Aleksandar Markovic wrote:
+> >
+> > > On Tue, Sep 3, 2019 at 7:05 PM Mark Cave-Ayland <
+> > > mark.cave-ayland@ilande.co.uk> wrote:
+> > >
+> > >> On 01/07/2019 19:34, Howard Spoelstra wrote:
+> > >>
+> > >>> On Mon, Jul 1, 2019 at 12:30 PM Richard Henderson <
+> > >>> richard.henderson@linaro.org> wrote:
+> > >>>
+> > >>>> On 6/30/19 7:58 PM, Mark Cave-Ayland wrote:
+> > >>>>> I don't have space for a full set of images on the G4, however
+I've
+> > >>>> tried boot tests
+> > >>>>> on installer CDs for MacOS 9, OS X 10.2, Linux and HelenOS and it
+looks
+> > >>>> good here.
+> > >>>>>
+> > >>>>> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+[PPC32]
+> > >>>>
+> > >>>> Thanks!
+> > >>>>
+> > >>>> Hi
+> > >>>
+> > >>> I just compiled the v6 set applied to current master on my G5,
+Ubuntu 16.
+> > >>> command line:
+> > >>> ./qemu-system-ppc -L pc-bios -boot c m 512 -M mac99,via=3Dpmu \
+> > >>> -netdev user,id=3Dnet1 -device sungem,netdev=3Dnet1 \
+> > >>> -drive file=3D10.3.img,format=3Draw,media=3Ddisk \
+> > >>>
+> > >>> With no specific cpu set, Mac OS 9.2 hard disk image and 9.2 iso do
+not
+> > >> get
+> > >>> to the desktop, they just hang while still in the openbios window.
+They
+> > >>> need -cpu G4 on the command line to get to the desktop.
+> > >>>
+> > >>> OSX 10.3 installed image boots to desktop.
+> > >>> OSX 10.3 iso boots to installer
+> > >>> OSX 10.4 installed image boots to desktop.
+> > >>> OSX 10.4 iso boot to installer
+> > >>> OSX 10.5 installed image boots to desktop.
+> > >>> OSX 10.5 iso boots to installer
+> > >>>
+> > >>> So there seems to be a difference between hosts: If ran on a G4 hos=
+t
+> > >> there
+> > >>> is no need to add -cpu G4 to run Mac OS 9.x, while there is when
+ran on a
+> > >>> G5 host.
+> > >>
+> > >> Are there any outstanding issues with this patchset now, or is it
+ready to
+> > >> be merged?
+> > >> I'm really looking forward to seeing the improved performance when
+testing
+> > >> QEMU on my
+> > >> Mac Mini :)
+> > >>
+> > >>
+> > > Howard pointed to some illogical quirks of command line:
+> > >
+> > >> If ran on a G4 host there is no need to add -cpu G4 to run Mac OS
+9.x,
+> > >> while there is when ran on a G5 host.
+> > >
+> > > I am not sure if Howard says that this is a consequence of this serie=
+s
+> > > though.
+> >
+> > No, that has been an existing issue for a long time :)
+> >
+> > > Overall, I think this is a very good series - however, I had a number
+of
+> > > minor
+> > > objections to multiple patches, that don't affect (or affect in a
+minimal
+> > > way)
+> > > provided functionality - those objections are not addressed, nor
+properly
+> > > discussed - but I do think they should be addressed in order to get
+the
+> > > series
+> > > in a better shape before upstreaming.
+> >
+> > I've had a quick look at some of your review comments, and certainly I
+can see how
+> > the earlier revisions have benefited from your feedback. There has been
+a lot of
+> > positive discussion, and Richard has taken the time to respond and
+update the
+> > patchset over several weeks to its latest revision.
+> >
+> > AFAICT the only remaining issue is that related to the ISA flags, but
+to me this
+> > isn't something that should prevent the patchset being merged. I can
+certainly see
+> > how the current flags implementation may not be considered technically
+correct, but
+> > then from your comments I don't see that it would be something that
+would be
+> > particularly difficult to change at a later date either.
+> >
+> > The things that are important to me are i) is the patchset functionally
+correct and
+> > ii) is it understandable and maintainable. I would say that the first
+point is
+> > clearly true (both myself and Howard have spent a lot of time testing
+it), and given
+> > that I had to delve into these patches to fix the R2 register issue on
+32-bit PPC
+> > then I can confirm that the contents of the patches were a reasonably
+accurate
+> > representation of the changes described within. And that's from someone
+like me who
+> > is mostly still a TCG beginner :)
+> >
+> > From a slightly more selfish position as the PPC Mac machine
+maintainer, these
+> > patches make a significant difference to me in that they reduce the
+MacOS boot times
+> > during everyday testing. Now for someone like myself who works on QEMU
+as a hobby
+> > outside of family life and a full time job, those few minutes are
+really important to
+> > me and soon add up really quickly during testing.
+> >
+> > I would really like these patches to be merged soon, since the worst
+thing that can
+> > happen is that the patchset ends up bit-rotting and then all the time
+and effort put
+> > into writing, testing and reviewing the patches by Richard, Howard,
+David, myself and
+> > indeed your review time will all end up going to waste.
+> >
+> >
+> > ATB,
+> >
+> > Mark.
+> >
 
-Thanks,
+--0000000000005d996e059387d0de
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-David / dhildenb
+<p dir=3D"ltr">ping</p>
+<p dir=3D"ltr">05.09.2019. 13.43, &quot;Aleksandar Markovic&quot; &lt;<a hr=
+ef=3D"mailto:aleksandar.m.mail@gmail.com">aleksandar.m.mail@gmail.com</a>&g=
+t; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br=
+>
+&gt;<br>
+&gt;<br>
+&gt; ping for Richard<br>
+&gt;<br>
+&gt; 03.09.2019. 20.34, &quot;Mark Cave-Ayland&quot; &lt;<a href=3D"mailto:=
+mark.cave-ayland@ilande.co.uk">mark.cave-ayland@ilande.co.uk</a>&gt; =D1=98=
+=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt; &gt;<br>
+&gt; &gt; On 03/09/2019 18:37, Aleksandar Markovic wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; On Tue, Sep 3, 2019 at 7:05 PM Mark Cave-Ayland &lt;<br>
+&gt; &gt; &gt; <a href=3D"mailto:mark.cave-ayland@ilande.co.uk">mark.cave-a=
+yland@ilande.co.uk</a>&gt; wrote:<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;&gt; On 01/07/2019 19:34, Howard Spoelstra wrote:<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt; On Mon, Jul 1, 2019 at 12:30 PM Richard Henderson &l=
+t;<br>
+&gt; &gt; &gt;&gt;&gt; <a href=3D"mailto:richard.henderson@linaro.org">rich=
+ard.henderson@linaro.org</a>&gt; wrote:<br>
+&gt; &gt; &gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt;&gt; On 6/30/19 7:58 PM, Mark Cave-Ayland wrote:<br>
+&gt; &gt; &gt;&gt;&gt;&gt;&gt; I don&#39;t have space for a full set of ima=
+ges on the G4, however I&#39;ve<br>
+&gt; &gt; &gt;&gt;&gt;&gt; tried boot tests<br>
+&gt; &gt; &gt;&gt;&gt;&gt;&gt; on installer CDs for MacOS 9, OS X 10.2, Lin=
+ux and HelenOS and it looks<br>
+&gt; &gt; &gt;&gt;&gt;&gt; good here.<br>
+&gt; &gt; &gt;&gt;&gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt;&gt;&gt; Tested-by: Mark Cave-Ayland &lt;<a href=3D"m=
+ailto:mark.cave-ayland@ilande.co.uk">mark.cave-ayland@ilande.co.uk</a>&gt; =
+[PPC32]<br>
+&gt; &gt; &gt;&gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt;&gt; Thanks!<br>
+&gt; &gt; &gt;&gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt;&gt; Hi<br>
+&gt; &gt; &gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt; I just compiled the v6 set applied to current master=
+ on my G5, Ubuntu 16.<br>
+&gt; &gt; &gt;&gt;&gt; command line:<br>
+&gt; &gt; &gt;&gt;&gt; ./qemu-system-ppc -L pc-bios -boot c m 512 -M mac99,=
+via=3Dpmu \<br>
+&gt; &gt; &gt;&gt;&gt; -netdev user,id=3Dnet1 -device sungem,netdev=3Dnet1 =
+\<br>
+&gt; &gt; &gt;&gt;&gt; -drive file=3D10.3.img,format=3Draw,media=3Ddisk \<b=
+r>
+&gt; &gt; &gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt; With no specific cpu set, Mac OS 9.2 hard disk image=
+ and 9.2 iso do not<br>
+&gt; &gt; &gt;&gt; get<br>
+&gt; &gt; &gt;&gt;&gt; to the desktop, they just hang while still in the op=
+enbios window. They<br>
+&gt; &gt; &gt;&gt;&gt; need -cpu G4 on the command line to get to the deskt=
+op.<br>
+&gt; &gt; &gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt; OSX 10.3 installed image boots to desktop.<br>
+&gt; &gt; &gt;&gt;&gt; OSX 10.3 iso boots to installer<br>
+&gt; &gt; &gt;&gt;&gt; OSX 10.4 installed image boots to desktop.<br>
+&gt; &gt; &gt;&gt;&gt; OSX 10.4 iso boot to installer<br>
+&gt; &gt; &gt;&gt;&gt; OSX 10.5 installed image boots to desktop.<br>
+&gt; &gt; &gt;&gt;&gt; OSX 10.5 iso boots to installer<br>
+&gt; &gt; &gt;&gt;&gt;<br>
+&gt; &gt; &gt;&gt;&gt; So there seems to be a difference between hosts: If =
+ran on a G4 host<br>
+&gt; &gt; &gt;&gt; there<br>
+&gt; &gt; &gt;&gt;&gt; is no need to add -cpu G4 to run Mac OS 9.x, while t=
+here is when ran on a<br>
+&gt; &gt; &gt;&gt;&gt; G5 host.<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; Are there any outstanding issues with this patchset now,=
+ or is it ready to<br>
+&gt; &gt; &gt;&gt; be merged?<br>
+&gt; &gt; &gt;&gt; I&#39;m really looking forward to seeing the improved pe=
+rformance when testing<br>
+&gt; &gt; &gt;&gt; QEMU on my<br>
+&gt; &gt; &gt;&gt; Mac Mini :)<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; Howard pointed to some illogical quirks of command line:<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;&gt; If ran on a G4 host there is no need to add -cpu G4 to r=
+un Mac OS 9.x,<br>
+&gt; &gt; &gt;&gt; while there is when ran on a G5 host.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; I am not sure if Howard says that this is a consequence of t=
+his series<br>
+&gt; &gt; &gt; though.<br>
+&gt; &gt;<br>
+&gt; &gt; No, that has been an existing issue for a long time :)<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; Overall, I think this is a very good series - however, I had=
+ a number of<br>
+&gt; &gt; &gt; minor<br>
+&gt; &gt; &gt; objections to multiple patches, that don&#39;t affect (or af=
+fect in a minimal<br>
+&gt; &gt; &gt; way)<br>
+&gt; &gt; &gt; provided functionality - those objections are not addressed,=
+ nor properly<br>
+&gt; &gt; &gt; discussed - but I do think they should be addressed in order=
+ to get the<br>
+&gt; &gt; &gt; series<br>
+&gt; &gt; &gt; in a better shape before upstreaming.<br>
+&gt; &gt;<br>
+&gt; &gt; I&#39;ve had a quick look at some of your review comments, and ce=
+rtainly I can see how<br>
+&gt; &gt; the earlier revisions have benefited from your feedback. There ha=
+s been a lot of<br>
+&gt; &gt; positive discussion, and Richard has taken the time to respond an=
+d update the<br>
+&gt; &gt; patchset over several weeks to its latest revision.<br>
+&gt; &gt;<br>
+&gt; &gt; AFAICT the only remaining issue is that related to the ISA flags,=
+ but to me this<br>
+&gt; &gt; isn&#39;t something that should prevent the patchset being merged=
+. I can certainly see<br>
+&gt; &gt; how the current flags implementation may not be considered techni=
+cally correct, but<br>
+&gt; &gt; then from your comments I don&#39;t see that it would be somethin=
+g that would be<br>
+&gt; &gt; particularly difficult to change at a later date either.<br>
+&gt; &gt;<br>
+&gt; &gt; The things that are important to me are i) is the patchset functi=
+onally correct and<br>
+&gt; &gt; ii) is it understandable and maintainable. I would say that the f=
+irst point is<br>
+&gt; &gt; clearly true (both myself and Howard have spent a lot of time tes=
+ting it), and given<br>
+&gt; &gt; that I had to delve into these patches to fix the R2 register iss=
+ue on 32-bit PPC<br>
+&gt; &gt; then I can confirm that the contents of the patches were a reason=
+ably accurate<br>
+&gt; &gt; representation of the changes described within. And that&#39;s fr=
+om someone like me who<br>
+&gt; &gt; is mostly still a TCG beginner :)<br>
+&gt; &gt;<br>
+&gt; &gt; From a slightly more selfish position as the PPC Mac machine main=
+tainer, these<br>
+&gt; &gt; patches make a significant difference to me in that they reduce t=
+he MacOS boot times<br>
+&gt; &gt; during everyday testing. Now for someone like myself who works on=
+ QEMU as a hobby<br>
+&gt; &gt; outside of family life and a full time job, those few minutes are=
+ really important to<br>
+&gt; &gt; me and soon add up really quickly during testing.<br>
+&gt; &gt;<br>
+&gt; &gt; I would really like these patches to be merged soon, since the wo=
+rst thing that can<br>
+&gt; &gt; happen is that the patchset ends up bit-rotting and then all the =
+time and effort put<br>
+&gt; &gt; into writing, testing and reviewing the patches by Richard, Howar=
+d, David, myself and<br>
+&gt; &gt; indeed your review time will all end up going to waste.<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; ATB,<br>
+&gt; &gt;<br>
+&gt; &gt; Mark.<br>
+&gt; &gt;<br>
+</p>
+
+--0000000000005d996e059387d0de--
 
