@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8F9C074F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:26:31 +0200 (CEST)
-Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8669BC0781
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:28:09 +0200 (CEST)
+Received: from localhost ([::1]:51634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrCX-00016t-L6
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:26:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36833)
+	id 1iDrE7-0002zA-Ra
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:28:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imbrenda@linux.ibm.com>) id 1iDqNO-0005Sg-5X
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:39 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iDqWP-00061v-Qe
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:42:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imbrenda@linux.ibm.com>) id 1iDqNN-00020O-3C
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19962)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imbrenda@linux.ibm.com>)
- id 1iDqNM-00020G-SB
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:37 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8RDWYXd134149
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:33:36 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2v9j7rjw7a-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:33:35 -0400
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <imbrenda@linux.ibm.com>;
- Fri, 27 Sep 2019 14:33:31 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 27 Sep 2019 14:33:27 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8RDXPNa52625442
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Sep 2019 13:33:25 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6803D42041;
- Fri, 27 Sep 2019 13:33:25 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F9FC4204B;
- Fri, 27 Sep 2019 13:33:25 +0000 (GMT)
-Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.39])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Fri, 27 Sep 2019 13:33:25 +0000 (GMT)
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v2 3/4] s390x: sclp: fix error handling for oversize control
- blocks
-Date: Fri, 27 Sep 2019 15:33:22 +0200
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
-References: <1569591203-15258-1-git-send-email-imbrenda@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19092713-0020-0000-0000-00000372509A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19092713-0021-0000-0000-000021C821B3
-Message-Id: <1569591203-15258-4-git-send-email-imbrenda@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-27_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909270127
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iDqWN-0005OB-S4
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:42:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:18791)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1iDqWN-0005O0-JN
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:42:55 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CEAE4A44AC7
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 13:42:54 +0000 (UTC)
+Received: from localhost (ovpn-112-38.ams2.redhat.com [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AEB3194B6;
+ Fri, 27 Sep 2019 13:42:50 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 3/7] docs: start a document to describe D-Bus usage
+Date: Fri, 27 Sep 2019 17:42:20 +0400
+Message-Id: <20190927134224.14550-4-marcandre.lureau@redhat.com>
+In-Reply-To: <20190927134224.14550-1-marcandre.lureau@redhat.com>
+References: <20190927134224.14550-1-marcandre.lureau@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 27 Sep 2019 13:42:54 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,36 +57,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frankja@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, rth@twiddle.net
+Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
+ dgilbert@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Janosch Frank <frankja@linux.ibm.com>
-
-Requests over 4k are not a spec exception.
-
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/s390x/sclp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ MAINTAINERS            |  5 +++
+ docs/interop/dbus.rst  | 99 ++++++++++++++++++++++++++++++++++++++++++
+ docs/interop/index.rst |  1 +
+ 3 files changed, 105 insertions(+)
+ create mode 100644 docs/interop/dbus.rst
 
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 73244c9..abb6e50 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -213,8 +213,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
-     cpu_physical_memory_read(sccb, &work_sccb, sccb_len);
- 
-     /* Valid sccb sizes */
--    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader) ||
--        be16_to_cpu(work_sccb.h.length) > SCCB_SIZE) {
-+    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
-         r = -PGM_SPECIFICATION;
-         goto out;
-     }
--- 
-2.7.4
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b97fdd80d0..219a76f0a1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2157,6 +2157,11 @@ F: tests/migration-test.c
+ F: docs/devel/migration.rst
+ F: qapi/migration.json
+=20
++D-Bus
++M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++S: Maintained
++F: docs/interop/dbus.rst
++
+ Seccomp
+ M: Eduardo Otubo <otubo@redhat.com>
+ S: Supported
+diff --git a/docs/interop/dbus.rst b/docs/interop/dbus.rst
+new file mode 100644
+index 0000000000..3d760e4882
+--- /dev/null
++++ b/docs/interop/dbus.rst
+@@ -0,0 +1,99 @@
++=3D=3D=3D=3D=3D
++D-Bus
++=3D=3D=3D=3D=3D
++
++Introduction
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++QEMU may be running with various helper processes involved:
++ - vhost-user* processes (gpu, virtfs, input, etc...)
++ - TPM emulation (or other devices)
++ - user networking (slirp)
++ - network services (DHCP/DNS, samba/ftp etc)
++ - background tasks (compression, streaming etc)
++ - client UI
++ - admin & cli
++
++Having several processes allows stricter security rules, as well as
++greater modularity.
++
++While QEMU itself uses QMP as primary IPC (and Spice/VNC for remote
++display), D-Bus is the de facto IPC of choice on Unix systems. The
++wire format is machine friendly, good bindings exist for various
++languages, and there are various tools available.
++
++Using a bus, helper processes can discover and communicate with each
++other easily, without going through QEMU. The bus topology is also
++easier to apprehend and debug than a mesh. However, it is wise to
++consider the security aspects of it.
++
++Security
++=3D=3D=3D=3D=3D=3D=3D=3D
++
++A QEMU D-Bus bus should be private to a single VM. Thus, only
++cooperative tasks are running on the same bus to serve the VM.
++
++D-Bus, the protocol and standard, doesn't have mechanisms to enforce
++security between peers once the connection is established. Peers may
++have additional mechanisms to enforce security rules, based for
++example on UNIX credentials. However, because the daemon has
++controlled who can send/recv messages to who, doesn't magically make
++this secure. The semantics of the actual methods implemented using
++D-Bus are just as critical. Peers need to carefully validate any
++information they received from a peer with a different trust level.
++
++dbus-daemon policy
++------------------
++
++dbus-daemon can enforce various policies based on the UID/GID of the
++processes that are connected to it. It is thus a good idea to run
++helpers as different UID from QEMU and set appropriate policies.
++
++Depending on the use case, you may choose different scenarios:
++
++ - Everything the same UID
++
++   - Convenient for developers
++   - Improved reliability - crash of one part doens't take
++     out entire VM
++   - No security benefit over traditional QEMU
++
++ - Two UIDs, one for QEMU, one for dbus & helpers
++
++   - Moderately improved security isolation
++
++ - Many UIDs, one for QEMU one for dbus and one for each helpers
++
++   - Best security isolation
++   - Complex to manager distinct UIDs needed for each VM
++
++For example, to allow only ``qemu`` user to talk to ``qemu-helper``
++``org.qemu.Helper1`` service, a dbus-daemon policy may contain:
++
++.. code:: xml
++
++  <policy user=3D"qemu">
++     <allow send_destination=3D"org.qemu.Helper1"/>
++     <allow receive_sender=3D"org.qemu.Helper1"/>
++  </policy>
++
++  <policy user=3D"qemu-helper">
++     <allow own=3D"org.qemu.Helper1"/>
++  </policy>
++
++
++dbus-daemon can also perfom SELinux checks based on the security
++context of the source and the target. For example, ``virtiofs_t``
++could be allowed to send a message to ``svirt_t``, but ``virtiofs_t``
++wouldn't be allowed to send a message to ``virtiofs_t``.
++
++See dbus-daemon man page for details.
++
++Guidelines
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++When implementing new D-Bus interfaces, it is recommended to follow
++the "D-Bus API Design Guidelines":
++https://dbus.freedesktop.org/doc/dbus-api-design.html
++
++The "org.qemu.*" prefix is reserved for the QEMU project.
+diff --git a/docs/interop/index.rst b/docs/interop/index.rst
+index 3e33fb5933..ded134ea75 100644
+--- a/docs/interop/index.rst
++++ b/docs/interop/index.rst
+@@ -13,6 +13,7 @@ Contents:
+    :maxdepth: 2
+=20
+    bitmaps
++   dbus
+    live-block-operations
+    pr-helper
+    qemu-ga
+--=20
+2.23.0
 
 
