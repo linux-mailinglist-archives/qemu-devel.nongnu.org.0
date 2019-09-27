@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7CDC097F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:21:21 +0200 (CEST)
-Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A7AC0995
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:29:40 +0200 (CEST)
+Received: from localhost ([::1]:53230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDsze-0004wU-P6
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51196)
+	id 1iDt7i-0005Km-0V
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51253)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSb-0002SA-3Q
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSd-0002Ua-A5
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSY-00088L-LC
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:03 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36022)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSb-00089R-EN
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:07 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35316)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDrSW-000878-3r
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:01 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id y19so3150692wrd.3
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:42:57 -0700 (PDT)
+ id 1iDrSZ-00087M-Sj
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:05 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v8so3153654wrt.2
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JKlJ3zQyg/agT15Rk69c8I3/U6JgvjvxcZfaHQAKKCs=;
- b=w2fzxg1K4jgq/Ta3in1K3PNzRbFh1hqXkVaGI4H5r5JyyQdmhmNkmVr8Sf5lG7eqMD
- e2O89+NemKk1PxSA3TLREsBeRrPRkPOcwikB0faJC+BVl0qtXw5kXA14z+MpTCSyQWRu
- 7r3dWIx4udXaJ9gw15OE6XTkyksTT1jkt6i+ZfcVy0BkXyoypkn/lDwCQh2kx95WwQg3
- 8zDPCSG3vl0idVZRg4CO2VeDb20V6NkxOXXykQXMtfgelPR8pAEPIw2ir3S0N82jmnha
- pq7gu7TFCsJXPpNF6uiaTr0sMsgmoMY57pMimb/NF8cQ2I6H9CKunSzq8JXODMhlJDf5
- Oq0w==
+ bh=K5D482SdubcI8oAEapAROne6mJkYVKrkCojoFwsjKIQ=;
+ b=GcPNAYMIcc68un/BPgssz275ihFb1S4y3xo6CG+/9b6QwnPnKHG3PnR67AO/cOYw5Z
+ jj+IGKcZwkeFPQzY7mCQS+zZowezahb7u9dwFcpAuSAOsrH9zt0xeqMUMsDzF6KcevdN
+ VMfnbm7L16srkp+p1sQLXf6fLa8zvInMqe1m/veA+5Ih/4qoINtCNimYDE/BGN1hhJW4
+ uv7ClzSEdgClegQMf3u2AgNTymwrrKqHmr0huJpxUcGJ+qpbk0YpOoa/+Yj+okDxLgC9
+ ACM6XTH4tRoHDJZKwEinAN6c1cOaXQyyXKuu14VitgH+1c0NTg6aDrNzAfMnJnQVH8l4
+ fGNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JKlJ3zQyg/agT15Rk69c8I3/U6JgvjvxcZfaHQAKKCs=;
- b=Ktnx7rzkA1aYvmS98DayI49v2/U4nLgS2JGBQc94zw4TzzcPr0krv8LWonWNgYoAYy
- MUvrF3oXgXRaErGjwZTRbxb7gdw+JcDrrMwoYmNWZsEABL6dWyXL8MNk0rnuM5k2eiM0
- eh413i81mY4GetGXAcYhAsGC/grvXyik+i7+pAqJFwyiBSb37tb0QOYUvVrLeAd/jg1V
- nIqBCxXQyrRcwzzYg62FxJmM+C5TeHG1X9n6bzxJRZ40z0Pb4vU4FveWxdSDqbrXNzSr
- PYvXArijobPzbyNszhK+5wtdMasVALmcanpVYvHDX66UExawnAoEWh4Dqbis5u3n7QIW
- QyWQ==
-X-Gm-Message-State: APjAAAX1F1gnA7Oa4H7L1m0ApMbdg/emblNuVDbHtisjMFwYprOlo/f4
- YPv5AeeAw77RXbbKaUM1yJDm2Loz9xrwcw==
-X-Google-Smtp-Source: APXvYqzLU4RCs8p6erASAEMyPqlVlThuOCXW3SjVQnb8Z3Quqmaivo3qM9eYbAGWhUMtTcov0/z4zg==
-X-Received: by 2002:adf:f649:: with SMTP id x9mr3226235wrp.163.1569595376573; 
- Fri, 27 Sep 2019 07:42:56 -0700 (PDT)
+ bh=K5D482SdubcI8oAEapAROne6mJkYVKrkCojoFwsjKIQ=;
+ b=oEy2oI8vbFrq6lCLAvHsztU+t4vi02ePZWxIBemhB+YEUbywpsJH0rcxNxE8pfBb8I
+ jVkgfb0cB+OU81CMcxjGo9lITrejb46uU97xVwEq1JQkHT3BxejJXhqjapi1t910wGv/
+ fCYkfQqZNircmaG6HBiLNgWb/i60GGHwuDkyBln3Ba/a3NGbwnL8ELZVpoAc/fBjoNkM
+ bYCi0jVyMYsKu2tE4pOtrzEkPwECvayKTUk8B95juFDHCKsqtcY7pyrs2fhokuGrG/D6
+ iMZIf2L8IVvoBQ46+kdcq2+qRYgEf5C/dz7PoGmuI1kYarLzH3/ua7RVgNpAlWFQo+Yj
+ 4Ggw==
+X-Gm-Message-State: APjAAAUK/9Uv6zDtcaYCqCGhTiLHgxsDXe2k6pGFDn4lOZptFkJYea2n
+ DtKBGAO+vMwrrjXa+gj3NVBl5YKvOWlwEg==
+X-Google-Smtp-Source: APXvYqx4MTSQoFQz1dWiSZTkjxA0Xwg9M/MjcY6X6T6v5GGdmHpCmdW0TPpZi5FAqSOnYIt/Vh+a2A==
+X-Received: by 2002:a1c:7704:: with SMTP id t4mr7586741wmi.133.1569595377601; 
+ Fri, 27 Sep 2019 07:42:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.55
+ by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 07:42:55 -0700 (PDT)
+ Fri, 27 Sep 2019 07:42:56 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/9] target/arm: remove run time semihosting checks
-Date: Fri, 27 Sep 2019 15:42:45 +0100
-Message-Id: <20190927144249.29999-6-peter.maydell@linaro.org>
+Subject: [PULL 6/9] target/arm: remove run-time semihosting checks for
+ linux-user
+Date: Fri, 27 Sep 2019 15:42:46 +0100
+Message-Id: <20190927144249.29999-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
 References: <20190927144249.29999-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,146 +85,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-Now we do all our checking and use a common EXCP_SEMIHOST for
-semihosting operations we can make helper code a lot simpler.
+Now we do all our checking at translate time we can make cpu_loop a
+little bit simpler. We also introduce a simple linux-user semihosting
+test case to defend the functionality. The out-of-tree softmmu based
+semihosting tests are still more comprehensive.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190913151845.12582-5-alex.bennee@linaro.org
+Message-id: 20190913151845.12582-6-alex.bennee@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 96 +++++++++++----------------------------------
- 1 file changed, 22 insertions(+), 74 deletions(-)
+ linux-user/arm/target_syscall.h | 3 ---
+ linux-user/arm/cpu_loop.c       | 3 ---
+ 2 files changed, 6 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index bc1130d989d..0d9a2d2ab74 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8352,88 +8352,32 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-                   new_el, env->pc, pstate_read(env));
- }
+diff --git a/linux-user/arm/target_syscall.h b/linux-user/arm/target_syscall.h
+index afc0772e194..f85cbdaf56f 100644
+--- a/linux-user/arm/target_syscall.h
++++ b/linux-user/arm/target_syscall.h
+@@ -18,9 +18,6 @@ struct target_pt_regs {
+ #define ARM_NR_set_tls	  (ARM_NR_BASE + 5)
+ #define ARM_NR_get_tls    (ARM_NR_BASE + 6)
  
--static inline bool check_for_semihosting(CPUState *cs)
--{
-+/*
-+ * Do semihosting call and set the appropriate return value. All the
-+ * permission and validity checks have been done at translate time.
-+ *
-+ * We only see semihosting exceptions in TCG only as they are not
-+ * trapped to the hypervisor in KVM.
-+ */
- #ifdef CONFIG_TCG
--    /* Check whether this exception is a semihosting call; if so
--     * then handle it and return true; otherwise return false.
--     */
-+static void handle_semihosting(CPUState *cs)
-+{
-     ARMCPU *cpu = ARM_CPU(cs);
-     CPUARMState *env = &cpu->env;
- 
-     if (is_a64(env)) {
--        if (cs->exception_index == EXCP_SEMIHOST) {
--            /* This is always the 64-bit semihosting exception.
--             * The "is this usermode" and "is semihosting enabled"
--             * checks have been done at translate time.
--             */
--            qemu_log_mask(CPU_LOG_INT,
--                          "...handling as semihosting call 0x%" PRIx64 "\n",
--                          env->xregs[0]);
--            env->xregs[0] = do_arm_semihosting(env);
--            return true;
--        }
--        return false;
-+        qemu_log_mask(CPU_LOG_INT,
-+                      "...handling as semihosting call 0x%" PRIx64 "\n",
-+                      env->xregs[0]);
-+        env->xregs[0] = do_arm_semihosting(env);
-     } else {
--        uint32_t imm;
+-#define ARM_NR_semihosting	  0x123456
+-#define ARM_NR_thumb_semihosting  0xAB
 -
--        /* Only intercept calls from privileged modes, to provide some
--         * semblance of security.
--         */
--        if (cs->exception_index != EXCP_SEMIHOST &&
--            (!semihosting_enabled() ||
--             ((env->uncached_cpsr & CPSR_M) == ARM_CPU_MODE_USR))) {
--            return false;
--        }
--
--        switch (cs->exception_index) {
--        case EXCP_SEMIHOST:
--            /* This is always a semihosting call; the "is this usermode"
--             * and "is semihosting enabled" checks have been done at
--             * translate time.
--             */
--            break;
--        case EXCP_SWI:
--            /* Check for semihosting interrupt.  */
--            if (env->thumb) {
--                imm = arm_lduw_code(env, env->regs[15] - 2, arm_sctlr_b(env))
--                    & 0xff;
--                if (imm == 0xab) {
--                    break;
--                }
--            } else {
--                imm = arm_ldl_code(env, env->regs[15] - 4, arm_sctlr_b(env))
--                    & 0xffffff;
--                if (imm == 0x123456) {
--                    break;
--                }
--            }
--            return false;
--        case EXCP_BKPT:
--            /* See if this is a semihosting syscall.  */
--            if (env->thumb) {
--                imm = arm_lduw_code(env, env->regs[15], arm_sctlr_b(env))
--                    & 0xff;
--                if (imm == 0xab) {
--                    env->regs[15] += 2;
--                    break;
--                }
--            }
--            return false;
--        default:
--            return false;
--        }
--
-         qemu_log_mask(CPU_LOG_INT,
-                       "...handling as semihosting call 0x%x\n",
-                       env->regs[0]);
-         env->regs[0] = do_arm_semihosting(env);
--        return true;
-     }
--#else
--    return false;
--#endif
- }
-+#endif
+ #if defined(TARGET_WORDS_BIGENDIAN)
+ #define UNAME_MACHINE "armv5teb"
+ #else
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index 8d65de5b9f4..e28c45cd4ab 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -325,9 +325,6 @@ void cpu_loop(CPUARMState *env)
  
- /* Handle a CPU exception for A and R profile CPUs.
-  * Do any appropriate logging, handle PSCI calls, and then hand off
-@@ -8464,13 +8408,17 @@ void arm_cpu_do_interrupt(CPUState *cs)
-         return;
-     }
- 
--    /* Semihosting semantics depend on the register width of the
--     * code that caused the exception, not the target exception level,
--     * so must be handled here.
-+    /*
-+     * Semihosting semantics depend on the register width of the code
-+     * that caused the exception, not the target exception level, so
-+     * must be handled here.
-      */
--    if (check_for_semihosting(cs)) {
-+#ifdef CONFIG_TCG
-+    if (cs->exception_index == EXCP_SEMIHOST) {
-+        handle_semihosting(cs);
-         return;
-     }
-+#endif
- 
-     /* Hooks may change global state so BQL should be held, also the
-      * BQL needs to be held for any modification of
+                 if (n == ARM_NR_cacheflush) {
+                     /* nop */
+-                } else if (n == ARM_NR_semihosting
+-                           || n == ARM_NR_thumb_semihosting) {
+-                    env->regs[0] = do_arm_semihosting (env);
+                 } else if (n == 0 || n >= ARM_SYSCALL_BASE || env->thumb) {
+                     /* linux syscall */
+                     if (env->thumb || n == 0) {
 -- 
 2.20.1
 
