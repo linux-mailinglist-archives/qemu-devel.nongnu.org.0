@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93EF9C063A
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:22:56 +0200 (CEST)
-Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621A5C0669
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:36:58 +0200 (CEST)
+Received: from localhost ([::1]:50606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqD0-0002dw-Vj
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:22:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55841)
+	id 1iDqQa-0007HS-8K
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:36:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iDprR-0003BH-I5
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:00:39 -0400
+ (envelope-from <berrange@redhat.com>) id 1iDpui-00058d-5m
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iDprN-0003Pv-QN
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:00:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51096)
+ (envelope-from <berrange@redhat.com>) id 1iDpue-000494-Qk
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:64418)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1iDprB-0003LL-M1; Fri, 27 Sep 2019 09:00:21 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iDpuc-00046m-Rl
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:56 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1466730BC58E;
- Fri, 27 Sep 2019 13:00:20 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 914AF60606;
- Fri, 27 Sep 2019 13:00:10 +0000 (UTC)
-Date: Fri, 27 Sep 2019 15:00:08 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH v4 5/9] target/arm/kvm64: Add kvm_arch_get/put_sve
-Message-ID: <20190927130008.lh3t2tz26cknvvmf@kamzik.brq.redhat.com>
-References: <20190924113105.19076-1-drjones@redhat.com>
- <20190924113105.19076-6-drjones@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id ADDDABCD24
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:59:34 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-55.ams2.redhat.com
+ [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E75860A9F;
+ Fri, 27 Sep 2019 09:59:32 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 03/11] qcrypto-luks: simplify masterkey and masterkey length
+Date: Fri, 27 Sep 2019 10:59:18 +0100
+Message-Id: <20190927095926.22230-4-berrange@redhat.com>
+In-Reply-To: <20190927095926.22230-1-berrange@redhat.com>
+References: <20190927095926.22230-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190924113105.19076-6-drjones@redhat.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 27 Sep 2019 13:00:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Fri, 27 Sep 2019 09:59:34 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -58,165 +57,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
- eric.auger@redhat.com, imammedo@redhat.com, alex.bennee@linaro.org,
- Dave.Martin@arm.com
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 24, 2019 at 01:31:01PM +0200, Andrew Jones wrote:
-> These are the SVE equivalents to kvm_arch_get/put_fpsimd. Note, the
-> swabbing is different than it is for fpsmid because the vector format
-> is a little-endian stream of words.
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/kvm64.c | 137 +++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 133 insertions(+), 4 deletions(-)
->
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-It looks like I need to add the below changes to this patch as well,
-since FPSR and FPCR are still in use with SVE.
+Let the caller allocate masterkey
+Always use master key len from the header
 
-Thanks,
-drew
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+ crypto/block-luks.c | 44 +++++++++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
-
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 2da366ba113e..be31e56a1ab0 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -854,10 +854,8 @@ int kvm_arm_cpreg_level(uint64_t regidx)
- 
- static int kvm_arch_put_fpsimd(CPUState *cs)
- {
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
-+    CPUARMState *env = &ARM_CPU(cs)->env;
-     struct kvm_one_reg reg;
--    uint32_t fpr;
-     int i, ret;
- 
-     for (i = 0; i < 32; i++) {
-@@ -875,22 +873,6 @@ static int kvm_arch_put_fpsimd(CPUState *cs)
-         }
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index 25f8a9f1c4..9e59a791a6 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -419,7 +419,6 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+                             QCryptoCipherAlgorithm ivcipheralg,
+                             QCryptoHashAlgorithm ivhash,
+                             uint8_t *masterkey,
+-                            size_t masterkeylen,
+                             QCryptoBlockReadFunc readfunc,
+                             void *opaque,
+                             Error **errp)
+@@ -438,9 +437,9 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+         return 0;
      }
- 
--    reg.addr = (uintptr_t)(&fpr);
--    fpr = vfp_get_fpsr(env);
--    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
--    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
--    if (ret) {
--        return ret;
--    }
+=20
+-    splitkeylen =3D masterkeylen * slot->stripes;
++    splitkeylen =3D luks->header.master_key_len * slot->stripes;
+     splitkey =3D g_new0(uint8_t, splitkeylen);
+-    possiblekey =3D g_new0(uint8_t, masterkeylen);
++    possiblekey =3D g_new0(uint8_t, luks->header.master_key_len);
+=20
+     /*
+      * The user password is used to generate a (possible)
+@@ -453,7 +452,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+                        (const uint8_t *)password, strlen(password),
+                        slot->salt, QCRYPTO_BLOCK_LUKS_SALT_LEN,
+                        slot->iterations,
+-                       possiblekey, masterkeylen,
++                       possiblekey, luks->header.master_key_len,
+                        errp) < 0) {
+         return -1;
+     }
+@@ -478,7 +477,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+     /* Setup the cipher/ivgen that we'll use to try to decrypt
+      * the split master key material */
+     cipher =3D qcrypto_cipher_new(cipheralg, ciphermode,
+-                                possiblekey, masterkeylen,
++                                possiblekey, luks->header.master_key_len=
+,
+                                 errp);
+     if (!cipher) {
+         return -1;
+@@ -489,7 +488,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+     ivgen =3D qcrypto_ivgen_new(ivalg,
+                               ivcipheralg,
+                               ivhash,
+-                              possiblekey, masterkeylen,
++                              possiblekey, luks->header.master_key_len,
+                               errp);
+     if (!ivgen) {
+         return -1;
+@@ -519,7 +518,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+      * it back together to get the actual master key.
+      */
+     if (qcrypto_afsplit_decode(hash,
+-                               masterkeylen,
++                               luks->header.master_key_len,
+                                slot->stripes,
+                                splitkey,
+                                masterkey,
+@@ -537,11 +536,13 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+      * header
+      */
+     if (qcrypto_pbkdf2(hash,
+-                       masterkey, masterkeylen,
++                       masterkey,
++                       luks->header.master_key_len,
+                        luks->header.master_key_salt,
+                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
+                        luks->header.master_key_iterations,
+-                       keydigest, G_N_ELEMENTS(keydigest),
++                       keydigest,
++                       G_N_ELEMENTS(keydigest),
+                        errp) < 0) {
+         return -1;
+     }
+@@ -574,8 +575,7 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
+                             QCryptoIVGenAlgorithm ivalg,
+                             QCryptoCipherAlgorithm ivcipheralg,
+                             QCryptoHashAlgorithm ivhash,
+-                            uint8_t **masterkey,
+-                            size_t *masterkeylen,
++                            uint8_t *masterkey,
+                             QCryptoBlockReadFunc readfunc,
+                             void *opaque,
+                             Error **errp)
+@@ -584,9 +584,6 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
+     size_t i;
+     int rv;
+=20
+-    *masterkey =3D g_new0(uint8_t, luks->header.master_key_len);
+-    *masterkeylen =3D luks->header.master_key_len;
 -
--    reg.addr = (uintptr_t)(&fpr);
--    fpr = vfp_get_fpcr(env);
--    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
--    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
--    if (ret) {
--        return ret;
--    }
--
-     return 0;
+     for (i =3D 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+         rv =3D qcrypto_block_luks_load_key(block,
+                                          &luks->header.key_slots[i],
+@@ -597,8 +594,7 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
+                                          ivalg,
+                                          ivcipheralg,
+                                          ivhash,
+-                                         *masterkey,
+-                                         *masterkeylen,
++                                         masterkey,
+                                          readfunc,
+                                          opaque,
+                                          errp);
+@@ -613,9 +609,6 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
+     error_setg(errp, "Invalid password, cannot unlock any keyslot");
+=20
+  error:
+-    g_free(*masterkey);
+-    *masterkey =3D NULL;
+-    *masterkeylen =3D 0;
+     return -1;
  }
- 
-@@ -970,6 +952,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
- {
-     struct kvm_one_reg reg;
-     uint64_t val;
-+    uint32_t fpr;
-     int i, ret;
-     unsigned int el;
- 
-@@ -1069,6 +1052,22 @@ int kvm_arch_put_registers(CPUState *cs, int level)
-         return ret;
-     }
- 
-+    reg.addr = (uintptr_t)(&fpr);
-+    fpr = vfp_get_fpsr(env);
-+    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
-+    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-+    if (ret) {
-+        return ret;
-+    }
+=20
+@@ -636,7 +629,6 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+     size_t i;
+     ssize_t rv;
+     g_autofree uint8_t *masterkey =3D NULL;
+-    size_t masterkeylen;
+     char *ivgen_name, *ivhash_name;
+     QCryptoCipherMode ciphermode;
+     QCryptoCipherAlgorithm cipheralg;
+@@ -802,6 +794,9 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+         /* Try to find which key slot our password is valid for
+          * and unlock the master key from that slot.
+          */
 +
-+    reg.addr = (uintptr_t)(&fpr);
-+    fpr = vfp_get_fpcr(env);
-+    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
-+    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-+    if (ret) {
-+        return ret;
-+    }
++        masterkey =3D g_new0(uint8_t, luks->header.master_key_len);
 +
-     ret = kvm_put_vcpu_events(cpu);
-     if (ret) {
-         return ret;
-@@ -1087,10 +1086,8 @@ int kvm_arch_put_registers(CPUState *cs, int level)
- 
- static int kvm_arch_get_fpsimd(CPUState *cs)
- {
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
-+    CPUARMState *env = &ARM_CPU(cs)->env;
-     struct kvm_one_reg reg;
--    uint32_t fpr;
-     int i, ret;
- 
-     for (i = 0; i < 32; i++) {
-@@ -1108,22 +1105,6 @@ static int kvm_arch_get_fpsimd(CPUState *cs)
+         if (qcrypto_block_luks_find_key(block,
+                                         password,
+                                         cipheralg, ciphermode,
+@@ -809,7 +804,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+                                         ivalg,
+                                         ivcipheralg,
+                                         ivhash,
+-                                        &masterkey, &masterkeylen,
++                                        masterkey,
+                                         readfunc, opaque,
+                                         errp) < 0) {
+             ret =3D -EACCES;
+@@ -825,7 +820,8 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+         block->ivgen =3D qcrypto_ivgen_new(ivalg,
+                                          ivcipheralg,
+                                          ivhash,
+-                                         masterkey, masterkeylen,
++                                         masterkey,
++                                         luks->header.master_key_len,
+                                          errp);
+         if (!block->ivgen) {
+             ret =3D -ENOTSUP;
+@@ -833,7 +829,9 @@ qcrypto_block_luks_open(QCryptoBlock *block,
          }
-     }
- 
--    reg.addr = (uintptr_t)(&fpr);
--    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
--    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
--    if (ret) {
--        return ret;
--    }
--    vfp_set_fpsr(env, fpr);
--
--    reg.addr = (uintptr_t)(&fpr);
--    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
--    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
--    if (ret) {
--        return ret;
--    }
--    vfp_set_fpcr(env, fpr);
--
-     return 0;
- }
- 
-@@ -1180,6 +1161,7 @@ int kvm_arch_get_registers(CPUState *cs)
-     struct kvm_one_reg reg;
-     uint64_t val;
-     unsigned int el;
-+    uint32_t fpr;
-     int i, ret;
- 
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -1278,6 +1260,22 @@ int kvm_arch_get_registers(CPUState *cs)
-         return ret;
-     }
- 
-+    reg.addr = (uintptr_t)(&fpr);
-+    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
-+    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
-+    if (ret) {
-+        return ret;
-+    }
-+    vfp_set_fpsr(env, fpr);
-+
-+    reg.addr = (uintptr_t)(&fpr);
-+    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
-+    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
-+    if (ret) {
-+        return ret;
-+    }
-+    vfp_set_fpcr(env, fpr);
-+
-     ret = kvm_get_vcpu_events(cpu);
-     if (ret) {
-         return ret;
+=20
+         ret =3D qcrypto_block_init_cipher(block, cipheralg, ciphermode,
+-                                        masterkey, masterkeylen, n_threa=
+ds,
++                                        masterkey,
++                                        luks->header.master_key_len,
++                                        n_threads,
+                                         errp);
+         if (ret < 0) {
+             ret =3D -ENOTSUP;
+--=20
+2.21.0
+
 
