@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B65BFC84
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 02:51:50 +0200 (CEST)
-Received: from localhost ([::1]:45706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC3ABFC8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 02:57:53 +0200 (CEST)
+Received: from localhost ([::1]:45810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDeU8-0000Xf-I2
-	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 20:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49316)
+	id 1iDea0-0000KW-Hv
+	for lists+qemu-devel@lfdr.de; Thu, 26 Sep 2019 20:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=1662a5b7b=alistair.francis@wdc.com>)
- id 1iDeRJ-00071N-BY
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 20:48:55 -0400
+ id 1iDeRN-00074w-6d
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 20:48:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=1662a5b7b=alistair.francis@wdc.com>)
- id 1iDeRG-0008S2-L2
- for qemu-devel@nongnu.org; Thu, 26 Sep 2019 20:48:53 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:12537)
+ id 1iDeRL-0008Vu-ML
+ for qemu-devel@nongnu.org; Thu, 26 Sep 2019 20:48:57 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:49446)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=1662a5b7b=alistair.francis@wdc.com>)
- id 1iDeRG-0008JB-8W; Thu, 26 Sep 2019 20:48:50 -0400
+ id 1iDeRL-0008Tk-Ck; Thu, 26 Sep 2019 20:48:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1569545330; x=1601081330;
+ t=1569545335; x=1601081335;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Vlv8jQm3wKK4DZJjww99om+ANcA80EJzz7CM7x+XWj4=;
- b=du4oiZeHgwoi4gZy413k5timSm++H13jH4Pm7ZLYcc9efHtJMg1CBNfD
- 84qxsfZ8/ikMQpunYcJdcOckn8nXiMOT0qjFePov7WGm6sat1CzopMQ0I
- f9YNX56JopfvhSozFr6+VgK3J9O/qPwxUIYOzwGKQJSRbDYMRDNSeddFn
- 3BT9j35oc3KwBorGDPlP8KyIomVLMmU9bCAq7cV2jsykr7EE61qD6FBbq
- fOd4nVtbBNfSYenGZTd7COiwsxIFYwZOS1JVhuIYp005OG78OA4OvW/0+
- JpA/nxa8yA/MMeJbTbsoN1wwqEexqYQZcsZemCgf0jQ3a/mDQ0fAaJ0gr A==;
-IronPort-SDR: RQwiBJmxmyodr/PU+7G3fqJzpDIfJGv4+q9tSUtL3kmG4lcR5gzgSAxFwOi8X7d3utm5I2u9A/
- QCP8SjTt9JoRSSor1LewkvuSCbEE5xIbHMbuEnm96aIksfEyKtJIGMFxjd/tYgw6+oZJ1HcVDU
- j8D4RJnYtqXrJWA2uYazXKjiUMUO0aePfsrQzmfWH27bSEOt3KXzwM8K6GG0tk5+XoqVfri+fv
- EDNj7Q2CoxPwMZS9UyOZrnDwRLBjM4EC9d07BJqb7ft5nKrOCpX1ikYDh/qoqMI2GVfQT8fXSJ
- fpE=
-X-IronPort-AV: E=Sophos;i="5.64,553,1559491200"; d="scan'208";a="119225551"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Sep 2019 08:48:49 +0800
-IronPort-SDR: Jqzx55lkpRGymF235yvP3XH0YPc5TFcEVzQHccbam0WOomiuzWGCDs4DLccAyJDPZ6Oa1VmX48
- O6XO8g2UHcPLbqFKM4MfZwHXoy6KLeuNCsQNM5ue7JsAcME5jWqnp2oC2H6sJJoYt0gKDPWqin
- /6h1ySiYv3Aye+ZORNRZVO/DeqiORvMTcrmjWfyCTjGevdiAH/6LeJ1okbIgW3FBrhsf0bFQ/W
- D0ntLpLMDMqW//9t/IN1PFgBMa066vHf4y5SGBwDiWr2RbutK8PD5iKqrQR91rGr/DlmK5IYSN
- lOiU+a7s0BjRew9F+x1D5EQm
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2019 17:45:04 -0700
-IronPort-SDR: NfcGtkJs7u89PC/CSEgSIDFPpMxLB99qOmty5VtKGO1AOgeqMei+n9hi4JD0jKsoWhr3u8HPAi
- g4i/tZ2eOUFGLLuF8dxLz3NKM/nTySrJZ9RIaoOvFwwLk6Raq6CBeAVdZjvshb8ax5qOG6xi79
- /b8sLCxhNTLghWSFvOq00ROIgwEZKAno9ZWJPQDQayT4REG7PTBETo1kO0yqDHFOspDAdl4CBq
- sRnmCGXIZc6YoUNMUuoesXdjqzNJ+Wleb+6yyeh2KXmCgklUtq0sYNrhjhg3jxqg1C0ZSvUsmw
- 5jw=
+ bh=osDHEAXClaZ6mredChAvHiJiJSFIw/RBOyE8dcpXHzI=;
+ b=Rlz1bISlsFCppJnl38TpOud1Szhu9z8AXSyZFRrez8gdijOFv6Qn88je
+ ioEroC8lxfQX4BQrLJ7I1LYwPNMyIPodwUMXkbQd2O0+drJc/A0LH4r+v
+ lYMA2G6AwtQVAglWVlTJVWDEaXXcb5z8nRB93qslKftPkqV2SWbRs3gvD
+ 7yNFzyrZz9jMEn6jkGI8XUgZmD2pgnrT2FDawSVjWEl9A5/72VUOp9laX
+ x2vmgKegSUfLohWxww/hLt+LgjQ9SuLTFS7xSr7eAS4JfnTpdtzy1PmTL
+ xp4d5n3buCU7k/qEn8LmvsFnQTc+xt7phP8TYyOpDAxsB5Hzit0iiNrGv g==;
+IronPort-SDR: rhF/IrZ+yFxLF3NeUjc9oCPf8UcU4rjdFWYUSxWqZ1kdg7F2pjuaMpcPy2eH1HhJc+aroCcMnP
+ JVnCjKrN6M2KPf6xXznKmypq0aAKMzL/YT09vody+fSzthhs6XfzpWiIzQoM7mSuqjmvZ0bgeF
+ gFHJyiVD1MD2TeZ1m3MbbmZYmVB+OKn3pR5LM05QyFCmj5zIR8vp4xHHx/A+JYqynZwNxsmW6/
+ 21w6P5YVlpksbuQx3A7ScE4h7nZKwPzDPYiXUozmdmp3Hn+C3P8G8X5d7iwxRwNJMEgR/T/rPq
+ qF0=
+X-IronPort-AV: E=Sophos;i="5.64,553,1559491200"; d="scan'208";a="120012193"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 27 Sep 2019 08:48:52 +0800
+IronPort-SDR: 7xouPCupfsNKMwu4hXZZ4hT4+c4WPZtbKYtWP/96ATMvV81G7ft9QJWJt33YCxRAWtkIjAwcHT
+ 0xLSzlZl7esO95vXhs3cJuvBN6haSh8NwBVvVfQABxU9lWvEM0+sgs41ZGFS/WUAbIrcHrNbOH
+ NtmMul7iQiazaL0JTTazwqATG4HEsHLcpZYy4FCCTI/Md8Ugx0s292bKiMmFwPyvPGDQmkGYKg
+ LuZqdi5rK799jQy7B14ZKKIfHKhgTuf7/seIo9DgCSAJvh2yrOkVw5UiAwYwp2UzT/6bbDfs0n
+ dvwaaRIaoP2GehnwlURM3ppS
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2019 17:45:12 -0700
+IronPort-SDR: Vn3NwHD6/OL5e5vWXMlId+OU9e2HOFXFYD7E2/QakIfEr5AMXHFg6m8KygVJvTqEzMyLmRsv/X
+ /iCN+ikzL89ea24M2cjp34Ci9x0xLHAiWAAiwWpB3hplhi2pgDTARsaXPUbB46vjnfcrxTSp5A
+ FkEXYZADx81vVstpf0brVKyUf+se3vScYpbT6p4Lg3OTwTKhQpl8idH0OKrbH2U9V1ayF8fexn
+ 4/ZUEZLfiJkrC3gRAz+d0kxju5Euz4y+2d4OOVp2zPKq13q4R28lJ4ymcvv0hKq6sFo4ke7VKO
+ UQA=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip01.wdc.com with ESMTP; 26 Sep 2019 17:48:50 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 26 Sep 2019 17:48:52 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 5/7] riscv/virt: Manually define the machine
-Date: Thu, 26 Sep 2019 17:44:31 -0700
-Message-Id: <737cb09136e20293c82da7b07eb2020cc7bb99a2.1569545046.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 6/7] riscv/virt: Add the PFlash CFI01 device
+Date: Thu, 26 Sep 2019 17:44:33 -0700
+Message-Id: <c890a46c575894db0d06c2efeb7083f2f3b240a2.1569545046.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1569545046.git.alistair.francis@wdc.com>
 References: <cover.1569545046.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.154.42
+X-Received-From: 216.71.153.144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,93 +88,186 @@ Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using the DEFINE_MACHINE() macro to define the machine let's
-do it manually. This allows us to use the machine object to create
-RISCVVirtState. This is required to add children and aliases to the
-machine.
-
-This patch is no functional change.
+Add the CFI01 PFlash to the RISC-V virt board. This is the same PFlash
+from the ARM Virt board and the implementation is based on the ARM Virt
+board. This allows users to specify flash files from the command line.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/virt.c         | 30 ++++++++++++++++++++++++------
- include/hw/riscv/virt.h |  7 ++++++-
- 2 files changed, 30 insertions(+), 7 deletions(-)
+ hw/riscv/Kconfig        |  1 +
+ hw/riscv/virt.c         | 86 +++++++++++++++++++++++++++++++++++++++++
+ include/hw/riscv/virt.h |  3 ++
+ 3 files changed, 90 insertions(+)
 
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index fb19b2df3a..b12660b9f8 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -36,4 +36,5 @@ config RISCV_VIRT
+     select SERIAL
+     select VIRTIO_MMIO
+     select PCI_EXPRESS_GENERIC_BRIDGE
++    select PFLASH_CFI01
+     select SIFIVE
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index d36f5625ec..e4dcbadcb5 100644
+index e4dcbadcb5..ad29e14d5f 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -362,8 +362,7 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
- static void riscv_virt_board_init(MachineState *machine)
+@@ -26,6 +26,7 @@
+ #include "hw/boards.h"
+ #include "hw/loader.h"
+ #include "hw/sysbus.h"
++#include "hw/qdev-properties.h"
+ #include "hw/char/serial.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+@@ -61,12 +62,77 @@ static const struct MemmapEntry {
+     [VIRT_PLIC] =        {  0xc000000,     0x4000000 },
+     [VIRT_UART0] =       { 0x10000000,         0x100 },
+     [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
++    [VIRT_FLASH] =       { 0x20000000,     0x2000000 },
+     [VIRT_DRAM] =        { 0x80000000,           0x0 },
+     [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
+     [VIRT_PCIE_PIO] =    { 0x03000000,    0x00010000 },
+     [VIRT_PCIE_ECAM] =   { 0x30000000,    0x10000000 },
+ };
+ 
++#define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
++
++static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
++                                       const char *name,
++                                       const char *alias_prop_name)
++{
++    /*
++     * Create a single flash device.  We use the same parameters as
++     * the flash devices on the ARM virt board.
++     */
++    DeviceState *dev = qdev_create(NULL, TYPE_PFLASH_CFI01);
++
++    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
++    qdev_prop_set_uint8(dev, "width", 4);
++    qdev_prop_set_uint8(dev, "device-width", 2);
++    qdev_prop_set_bit(dev, "big-endian", false);
++    qdev_prop_set_uint16(dev, "id0", 0x89);
++    qdev_prop_set_uint16(dev, "id1", 0x18);
++    qdev_prop_set_uint16(dev, "id2", 0x00);
++    qdev_prop_set_uint16(dev, "id3", 0x00);
++    qdev_prop_set_string(dev, "name", name);
++
++    object_property_add_child(OBJECT(s), name, OBJECT(dev),
++                              &error_abort);
++    object_property_add_alias(OBJECT(s), alias_prop_name,
++                              OBJECT(dev), "drive", &error_abort);
++
++    return PFLASH_CFI01(dev);
++}
++
++static void virt_flash_create(RISCVVirtState *s)
++{
++    s->flash[0] = virt_flash_create1(s, "virt.flash0", "pflash0");
++    s->flash[1] = virt_flash_create1(s, "virt.flash1", "pflash1");
++}
++
++static void virt_flash_map1(PFlashCFI01 *flash,
++                            hwaddr base, hwaddr size,
++                            MemoryRegion *sysmem)
++{
++    DeviceState *dev = DEVICE(flash);
++
++    assert(size % VIRT_FLASH_SECTOR_SIZE == 0);
++    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
++    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
++    qdev_init_nofail(dev);
++
++    memory_region_add_subregion(sysmem, base,
++                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev),
++                                                       0));
++}
++
++static void virt_flash_map(RISCVVirtState *s,
++                           MemoryRegion *sysmem)
++{
++    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
++    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
++
++    virt_flash_map1(s->flash[0], flashbase, flashsize,
++                    sysmem);
++    virt_flash_map1(s->flash[1], flashbase + flashsize, flashsize,
++                    sysmem);
++}
++
+ static void create_pcie_irq_map(void *fdt, char *nodename,
+                                 uint32_t plic_phandle)
  {
-     const struct MemmapEntry *memmap = virt_memmap;
--
--    RISCVVirtState *s = g_new0(RISCVVirtState, 1);
-+    RISCVVirtState *s = RISCV_VIRT_MACHINE(machine);
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-@@ -499,12 +498,31 @@ static void riscv_virt_board_init(MachineState *machine)
+@@ -121,6 +187,8 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+     char *nodename;
+     uint32_t plic_phandle, phandle = 1;
+     int i;
++    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
++    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
+ 
+     fdt = s->fdt = create_device_tree(&s->fdt_size);
+     if (!fdt) {
+@@ -316,6 +384,15 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+     }
+     g_free(nodename);
++
++    nodename = g_strdup_printf("/flash@%" PRIx64, flashbase);
++    qemu_fdt_add_subnode(s->fdt, nodename);
++    qemu_fdt_setprop_string(s->fdt, nodename, "compatible", "cfi-flash");
++    qemu_fdt_setprop_sized_cells(s->fdt, nodename, "reg",
++                                 2, flashbase, 2, flashsize,
++                                 2, flashbase + flashsize, 2, flashsize);
++    qemu_fdt_setprop_cell(s->fdt, nodename, "bank-width", 4);
++    g_free(nodename);
+ }
+ 
+ 
+@@ -495,6 +572,15 @@ static void riscv_virt_board_init(MachineState *machine)
+         0, qdev_get_gpio_in(DEVICE(s->plic), UART0_IRQ), 399193,
+         serial_hd(0), DEVICE_LITTLE_ENDIAN);
+ 
++    virt_flash_create(s);
++
++    for (i = 0; i < ARRAY_SIZE(s->flash); i++) {
++        /* Map legacy -drive if=pflash to machine properties */
++        pflash_cfi01_legacy_drive(s->flash[i],
++                                  drive_get(IF_PFLASH, 0, i));
++    }
++    virt_flash_map(s, system_memory);
++
      g_free(plic_hart_config);
  }
  
--static void riscv_virt_board_machine_init(MachineClass *mc)
-+static void riscv_virt_machine_instance_init(Object *obj)
- {
--    mc->desc = "RISC-V VirtIO Board (Privileged ISA v1.10)";
-+}
-+
-+static void riscv_virt_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->desc = "RISC-V VirtIO board";
-     mc->init = riscv_virt_board_init;
--    mc->max_cpus = 8; /* hardcoded limit in BBL */
-+    mc->max_cpus = 8;
-     mc->default_cpu_type = VIRT_CPU;
- }
- 
--DEFINE_MACHINE("virt", riscv_virt_board_machine_init)
-+static const TypeInfo riscv_virt_machine_typeinfo = {
-+    .name       = MACHINE_TYPE_NAME("virt"),
-+    .parent     = TYPE_MACHINE,
-+    .class_init = riscv_virt_machine_class_init,
-+    .instance_init = riscv_virt_machine_instance_init,
-+    .instance_size = sizeof(RISCVVirtState),
-+};
-+
-+static void riscv_virt_machine_init_register_types(void)
-+{
-+    type_register_static(&riscv_virt_machine_typeinfo);
-+}
-+
-+type_init(riscv_virt_machine_init_register_types)
 diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 6e5fbe5d3b..ffcdcc6dcc 100644
+index ffcdcc6dcc..8630f84592 100644
 --- a/include/hw/riscv/virt.h
 +++ b/include/hw/riscv/virt.h
-@@ -22,13 +22,18 @@
+@@ -21,6 +21,7 @@
+ 
  #include "hw/riscv/riscv_hart.h"
  #include "hw/sysbus.h"
++#include "hw/block/flash.h"
  
-+#define TYPE_RISCV_VIRT_MACHINE MACHINE_TYPE_NAME("virt")
-+#define RISCV_VIRT_MACHINE(obj) \
-+    OBJECT_CHECK(RISCVVirtState, (obj), TYPE_RISCV_VIRT_MACHINE)
-+
- typedef struct {
-     /*< private >*/
--    SysBusDevice parent_obj;
-+    MachineState parent;
- 
+ #define TYPE_RISCV_VIRT_MACHINE MACHINE_TYPE_NAME("virt")
+ #define RISCV_VIRT_MACHINE(obj) \
+@@ -33,6 +34,7 @@ typedef struct {
      /*< public >*/
      RISCVHartArrayState soc;
      DeviceState *plic;
-+
++    PFlashCFI01 *flash[2];
+ 
      void *fdt;
      int fdt_size;
- } RISCVVirtState;
+@@ -46,6 +48,7 @@ enum {
+     VIRT_PLIC,
+     VIRT_UART0,
+     VIRT_VIRTIO,
++    VIRT_FLASH,
+     VIRT_DRAM,
+     VIRT_PCIE_MMIO,
+     VIRT_PCIE_PIO,
 -- 
 2.23.0
 
