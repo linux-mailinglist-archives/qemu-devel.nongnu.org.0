@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D89EC09F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:04:01 +0200 (CEST)
-Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373E1C09FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:08:12 +0200 (CEST)
+Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtex-0000wf-Vy
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46464)
+	id 1iDtj0-0004yO-FV
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:08:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46951)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iDtDY-0002Ry-AK
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:35:41 -0400
+ (envelope-from <eblake@redhat.com>) id 1iDtFu-0004Vt-1O
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:38:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iDtDV-0000Jw-Of
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:35:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53742)
+ (envelope-from <eblake@redhat.com>) id 1iDtFs-0002FH-0i
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:38:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55060)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1iDtDL-0007cO-Hd; Fri, 27 Sep 2019 12:35:28 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iDtFk-0001ac-K8; Fri, 27 Sep 2019 12:37:56 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F257E30BBE89;
- Fri, 27 Sep 2019 16:35:24 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07A06646A1;
- Fri, 27 Sep 2019 16:35:19 +0000 (UTC)
-Message-ID: <e00e9b05d0d4f7c1a33c06a5fbd2d32320394b07.camel@redhat.com>
-Subject: Re: [PATCH] tests: fix I/O test for hosts defaulting to LUKSv2
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Eric Blake <eblake@redhat.com>, "Daniel P." =?ISO-8859-1?Q?Berrang=E9?=
- <berrange@redhat.com>, qemu-devel@nongnu.org
-Date: Fri, 27 Sep 2019 19:35:17 +0300
-In-Reply-To: <666c1338-e5c4-3cba-cb89-651755baa065@redhat.com>
-References: <20190927101155.25896-1-berrange@redhat.com>
- <666c1338-e5c4-3cba-cb89-651755baa065@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 27 Sep 2019 16:35:25 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ by mx1.redhat.com (Postfix) with ESMTPS id 4F8A28A1CA4;
+ Fri, 27 Sep 2019 16:37:53 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAD355D9C3;
+ Fri, 27 Sep 2019 16:37:52 +0000 (UTC)
+Subject: Re: [PATCH 1/4] qemu-iotests: remove bash shebang from library files
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20190927141728.7137-1-crosa@redhat.com>
+ <20190927141728.7137-2-crosa@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <7ce7f9b7-a79e-21c5-18e2-f7f2ec85e575@redhat.com>
+Date: Fri, 27 Sep 2019 11:37:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
+MIME-Version: 1.0
+In-Reply-To: <20190927141728.7137-2-crosa@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Fri, 27 Sep 2019 16:37:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -59,88 +62,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2019-09-27 at 10:26 -0500, Eric Blake wrote:
-> On 9/27/19 5:11 AM, Daniel P. Berrang=C3=A9 wrote:
-> > Some distros are now defaulting to LUKS version 2 which QEMU cannot
-> > process. For our I/O test that validates interoperability between the
-> > kernel/cryptsetup and QEMU, we need to explicitly ask for version 1
-> > of the LUKS format.
-> >=20
->=20
-> Ultimately, it would be nice to get LUKS 2 support in qemu too, but=20
-> that's a much bigger job.  This is fine for now.
->=20
-> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > ---
-> >   tests/qemu-iotests/149     |  2 +-
-> >   tests/qemu-iotests/149.out | 44 +++++++++++++++++++----------------=
----
-> >   2 files changed, 23 insertions(+), 23 deletions(-)
-> >=20
-> > diff --git a/tests/qemu-iotests/149 b/tests/qemu-iotests/149
-> > index 4f363f295f..8ab42e94c6 100755
-> > --- a/tests/qemu-iotests/149
-> > +++ b/tests/qemu-iotests/149
-> > @@ -153,7 +153,7 @@ def cryptsetup_format(config):
-> >  =20
-> >       (password, slot) =3D config.first_password()
-> >  =20
-> > -    args =3D ["luksFormat"]
-> > +    args =3D ["luksFormat", "--type", "luks1"]
->=20
-> On Fedora 29, 'cryptsetup --help | grep -A1 type' shows:
->    -M, --type=3DSTRING               Type of device metadata: luks, pla=
-in,
->                                    loopaes, tcrypt
->=20
-> but that is just 'luks', not 'luks1'.
->=20
-> On CentOS 6 (yeah, I know, not relevenant to qemu any more), --type is=20
-> unsupported.  But I didn't check our other range of supported systems.=20
-> My point, however, is whether this patch needs to be conditionalized=20
-> based on what cryptsetup actually supports.
->=20
-> I could not quickly determine if there is some sort of safe no-op=20
-> 'cryptsetup --type=3DFOO action /safe/device' that can be used to tell =
-if=20
-> --type=3DFOO is recognized.
->=20
-> Otherwise, this makes sense to me.
->=20
+On 9/27/19 9:17 AM, Cleber Rosa wrote:
+> Due to not being able to find a reason to have shebangs on files that
+> are not executable.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   tests/qemu-iotests/common.config  | 2 --
+>   tests/qemu-iotests/common.filter  | 2 --
+>   tests/qemu-iotests/common.nbd     | 1 -
+>   tests/qemu-iotests/common.pattern | 2 --
+>   tests/qemu-iotests/common.qemu    | 2 --
+>   tests/qemu-iotests/common.rc      | 2 --
+>   tests/qemu-iotests/common.tls     | 2 --
+>   7 files changed, 13 deletions(-)
+> 
 
-I just tested this on Fedora 28, here it works,
+Loss of the shebang changes the mode in which emacs opens the files 
+(from Shell-script[bash] to Conf[space] in my case).  I agree that a #! 
+comment is not appropriate for a file that is not executable as a 
+standalone file, but it becomes harder to edit the file correctly unless 
+we replace it with some other way of letting editors realize that the 
+contents of each file is still meant to be consumed by bash.
 
+Something like this would work:
 
-I also see the same message:
+# hey emacs, this file will be sourced by bash: -*- sh -*-
 
-[mlevitsk@maximlenovopc ~/USERSPACE/qemu/src/tests/qemu-iotests]$cryptset=
-up --help | grep -A1 type
-  -M, --type=3DSTRING                     Type of device metadata: luks, =
-plain,
-                                        loopaes, tcrypt
---
-	open <device> [--type <type>] [<name>] - open device as mapping <name>
-	close <name> - close device (remove mapping)
-
-
-I guess the documentation was not updated?
-
-I tested both by running the iotest 149, and by doing manually:
-
-dd if=3D/dev/zero bs=3D4K count=3D1000 of=3D./test
-cryptsetup -q -v luksFormat --type luks1 --cipher aes-xts-plain64 --key-s=
-ize 512 --hash sha1 --key-slot 0 --key-file - --iter-time 10 ./test
-
-
-Tested-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-
-Best regards,
-	Maxim Levitsky
-
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
