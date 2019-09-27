@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011DDC02B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:54:33 +0200 (CEST)
-Received: from localhost ([::1]:49060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03E7C02AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:50:58 +0200 (CEST)
+Received: from localhost ([::1]:49026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDmxL-00061s-1o
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33513)
+	id 1iDmtt-0001L9-GN
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:50:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iDmmW-0003cA-P3
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:21 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iDmmZ-0003gR-KN
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iDmmV-0007vk-Cg
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49294)
+ (envelope-from <mreitz@redhat.com>) id 1iDmmY-00081Y-9l
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35236)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iDmmT-0007pZ-6D; Fri, 27 Sep 2019 05:43:17 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iDmmV-0007tX-Ij; Fri, 27 Sep 2019 05:43:19 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 72A633082A8D;
- Fri, 27 Sep 2019 09:43:16 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C297E4FCD9;
+ Fri, 27 Sep 2019 09:43:18 +0000 (UTC)
 Received: from localhost (ovpn-204-76.brq.redhat.com [10.40.204.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C3AB60BE2;
- Fri, 27 Sep 2019 09:43:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BA03600C6;
+ Fri, 27 Sep 2019 09:43:18 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 13/18] iotests: Make 091 work with data_file
-Date: Fri, 27 Sep 2019 11:42:37 +0200
-Message-Id: <20190927094242.11152-14-mreitz@redhat.com>
+Subject: [PATCH 14/18] iotests: Make 110 work with data_file
+Date: Fri, 27 Sep 2019 11:42:38 +0200
+Message-Id: <20190927094242.11152-15-mreitz@redhat.com>
 In-Reply-To: <20190927094242.11152-1-mreitz@redhat.com>
 References: <20190927094242.11152-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 27 Sep 2019 09:43:16 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Fri, 27 Sep 2019 09:43:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,44 +60,84 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The image end offset as reported by qemu-img check is different when
-using an external data file; we do not care about its value here, so we
-can just filter it.
+The only difference is that the json:{} filename of the image looks
+different.  We actually do not care about that filename in this test, we
+are only interested in (1) that there is a json:{} filename, and (2)
+whether the backing filename can be constructed.
+
+So just filter out the json:{} data, thus making this test pass both
+with and without data_file.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/091     | 3 ++-
- tests/qemu-iotests/091.out | 1 -
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/110     | 7 +++++--
+ tests/qemu-iotests/110.out | 4 ++--
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
-index f4b44659ae..7536ca4607 100755
---- a/tests/qemu-iotests/091
-+++ b/tests/qemu-iotests/091
-@@ -101,7 +101,8 @@ echo "Check image pattern"
- ${QEMU_IO} -c "read -P 0x22 0 4M" "${TEST_IMG}" | _filter_testdir | _fil=
-ter_qemu_io
+diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
+index f78df0e6e1..34459dcd60 100755
+--- a/tests/qemu-iotests/110
++++ b/tests/qemu-iotests/110
+@@ -67,6 +67,7 @@ echo
+ # Across blkdebug without a config file, you cannot reconstruct filename=
+s, so
+ # qemu is incapable of knowing the directory of the top image from the f=
+ilename
+ # alone. However, using bdrv_dirname(), it should still work.
++# (Filter out the json:{} filename so this test works with external data=
+ files)
+ TEST_IMG=3D"json:{
+     'driver': '$IMGFMT',
+     'file': {
+@@ -82,7 +83,8 @@ TEST_IMG=3D"json:{
+             }
+         ]
+     }
+-}" _img_info | _filter_img_info | grep -v 'backing file format'
++}" _img_info | _filter_img_info | grep -v 'backing file format' \
++    | sed -e 's#^image: json:.*#image: json:{ /* filtered */ }#'
 =20
- echo "Running 'qemu-img check -r all \$TEST_IMG'"
--"${QEMU_IMG}" check -r all "${TEST_IMG}" 2>&1 | _filter_testdir | _filte=
-r_qemu
-+"${QEMU_IMG}" check -r all "${TEST_IMG}" 2>&1 | _filter_testdir | _filte=
-r_qemu \
-+    | sed '/Image end offset/d'
+ echo
+ echo '=3D=3D=3D Backing name is always relative to the backed image =3D=3D=
+=3D'
+@@ -114,7 +116,8 @@ TEST_IMG=3D"json:{
+             }
+         ]
+     }
+-}" _img_info | _filter_img_info | grep -v 'backing file format'
++}" _img_info | _filter_img_info | grep -v 'backing file format' \
++    | sed -e 's#^image: json:.*#image: json:{ /* filtered */ }#'
 =20
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/091.out b/tests/qemu-iotests/091.out
-index 5017f8c2d9..343fac69e0 100644
---- a/tests/qemu-iotests/091.out
-+++ b/tests/qemu-iotests/091.out
-@@ -24,5 +24,4 @@ read 4194304/4194304 bytes at offset 0
- Running 'qemu-img check -r all $TEST_IMG'
- No errors were found on the image.
- 80/16384 =3D 0.49% allocated, 0.00% fragmented, 0.00% compressed cluster=
-s
--Image end offset: 5570560
- *** done
+=20
+ # success, all done
+diff --git a/tests/qemu-iotests/110.out b/tests/qemu-iotests/110.out
+index f60b26390e..f835553a99 100644
+--- a/tests/qemu-iotests/110.out
++++ b/tests/qemu-iotests/110.out
+@@ -11,7 +11,7 @@ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IM=
+GFMT.base)
+=20
+ =3D=3D=3D Non-reconstructable filename =3D=3D=3D
+=20
+-image: json:{"driver": "IMGFMT", "file": {"set-state.0.event": "read_aio=
+", "image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driver"=
+: "blkdebug", "set-state.0.new_state": 42}}
++image: json:{ /* filtered */ }
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
+ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGFMT.base)
+@@ -22,7 +22,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D671=
+08864 backing_file=3Dt.IMGFMT.b
+=20
+ =3D=3D=3D Nodes without a common directory =3D=3D=3D
+=20
+-image: json:{"driver": "IMGFMT", "file": {"children": [{"driver": "file"=
+, "filename": "TEST_DIR/t.IMGFMT"}, {"driver": "file", "filename": "TEST_=
+DIR/t.IMGFMT.copy"}], "driver": "quorum", "vote-threshold": 1}}
++image: json:{ /* filtered */ }
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
+ backing file: t.IMGFMT.base (cannot determine actual path)
 --=20
 2.21.0
 
