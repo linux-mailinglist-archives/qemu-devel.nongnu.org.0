@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F90C0A86
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:42:55 +0200 (CEST)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2DAC0A98
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:51:17 +0200 (CEST)
+Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDuGb-00082a-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58837)
+	id 1iDuOi-0005dB-IR
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:51:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDuEG-0006z1-26
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 13:40:29 -0400
+ (envelope-from <eblake@redhat.com>) id 1iDtPz-0004rE-8q
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:48:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDuEE-0006Jj-Mi
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 13:40:27 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:46333)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDuED-0006He-Vx
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 13:40:26 -0400
-Received: by mail-pf1-x430.google.com with SMTP id q5so1966257pfg.13
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:40:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nkJn1fxu5RKUPf8wS2PwKkwn8IyODpibc0Y6hd8vVPU=;
- b=wwxpVGxAbcxyN+CWb/85c55Y4xFdq8gL8QxYczFKbGPFcdWdZBUOYczxFATIvsN/Fn
- CkPurxzgKd6KaoDhoACzPX8143UcZ//L+QL1c9Wp6yub0NJAP2wlNTtyt1SBWFdOGSWH
- 9ow9ckAPyqVaCXQzFGYxb9hIhbM4Uavlz5Qi84uuu0R5R+8k2xtqdkTdYG5QhGkk+Yf+
- x2XzcNN6RJgB8sI6wxFvBLvIYIFwRfho8CZDfevZV4dPoG9vK/5jLaA+KT6LzRjwtK7l
- XjCV2D+RklRCmMi3qDd0twV6XOycXnWS0rTlXP2oyiFZ4PH5EX0vJh2s7GTX6xhAVhPZ
- 682w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nkJn1fxu5RKUPf8wS2PwKkwn8IyODpibc0Y6hd8vVPU=;
- b=dpQqdYRCcgjMATymK4UZUVupIOmc9qStRSlKxqFyZiY6cIDY8MOgwwNQHjdtboXSTF
- kumi3PwQYYeD6SIvnJOgV+7FBgHjDDGi81OmLlLf3cKxND+ZTIahJRsY01UM7h5rOpYU
- /+I6YStudbzs5cweHSTbeVszDuu6CxqhFy3Hk8ocSwRWh2z/etU/a+MFn5U3lTm9eqNA
- 4zxPKSbmm4Od3Cn6+J3k9M6SMkGEcXvTv6p9EjCYIdP+kcklBkXdDQa/zBVFM7ZNKmey
- 9xBPCFOPDnU74bAyy7QRt3f8mmPZiaKm5gDAvAb7m5C4FNe7tTNkkuElf+QNuiHwZdvr
- tAtg==
-X-Gm-Message-State: APjAAAVLjdQRNEU2b9oKCARnyVePQCI0589ScqOcrASHorwJbISFS/tT
- f+lA6hBD3ZVh0r0naVcHwAn7Kw==
-X-Google-Smtp-Source: APXvYqyJ7OfHuXLfB2gOWqAdhpeulCXfHPBq6Dn/pokEFne/MkrVK1D4qyeU5/UAWUNKhoPc9agc9w==
-X-Received: by 2002:aa7:96a9:: with SMTP id g9mr5679928pfk.16.1569606022726;
- Fri, 27 Sep 2019 10:40:22 -0700 (PDT)
-Received: from [172.20.32.216] ([12.157.10.118])
- by smtp.gmail.com with ESMTPSA id r186sm3116373pfr.40.2019.09.27.10.40.21
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 27 Sep 2019 10:40:21 -0700 (PDT)
-Subject: Re: ptimer use of bottom-half handlers
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA8HGEdHs74-m3Wa7RHU_ZE5g9kEidP-9Z69zhsMkCPRZQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <40ec672d-b6a0-9b3b-f619-331b2fac05c2@linaro.org>
-Date: Fri, 27 Sep 2019 10:40:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <eblake@redhat.com>) id 1iDtPv-0007A2-MB
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:48:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40848)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iDtPV-0004Lk-11; Fri, 27 Sep 2019 12:48:01 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 236C4C0578F8;
+ Fri, 27 Sep 2019 16:47:55 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8710E60BE2;
+ Fri, 27 Sep 2019 16:47:54 +0000 (UTC)
+Subject: Re: [PATCH 3/4] qemu-iotests: 044: pass is actually a noop, so remove
+ it
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20190927141728.7137-1-crosa@redhat.com>
+ <20190927141728.7137-4-crosa@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <69741a7b-fd4b-3f94-eb83-a7a147d6d937@redhat.com>
+Date: Fri, 27 Sep 2019 11:47:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8HGEdHs74-m3Wa7RHU_ZE5g9kEidP-9Z69zhsMkCPRZQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190927141728.7137-4-crosa@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::430
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 27 Sep 2019 16:47:55 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,43 +62,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/19 3:01 AM, Peter Maydell wrote:
->  (2) call the device's callback function directly when the
->      ptimer triggers from the QEMU timer expiry. But for
->      the case of "a call to ptimer_set_count() etc caused
->      the timer to trigger", don't call the callback, instead
->      return a boolean from those functions which tells the
->      caller that the timer triggered, and they need to deal
->      with it (by calling their callback function when they've
->      finished messing with the timer).
-...
-> I think overall I favour option 2, which is a bit more
-> syntactically invasive in terms of changing API signatures etc,
-> but semantically easier to reason about (because the
-> callback-function in the device is still not called when
-> the device might be partway through doing an update to
-> the ptimer state that changes multiple parameters of the
-> ptimer).
+On 9/27/19 9:17 AM, Cleber Rosa wrote:
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   tests/qemu-iotests/044 | 3 ---
+>   1 file changed, 3 deletions(-)
+
+It's useful when there is nothing else, but here we definitely have 
+something else.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 > 
-> Is there another cleverer fix that I haven't thought of?
+> diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+> index 05ea1f49c5..eb42df0fe1 100755
+> --- a/tests/qemu-iotests/044
+> +++ b/tests/qemu-iotests/044
+> @@ -105,17 +105,14 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
+>       def setUp(self):
+>           qemu_img('create', '-f', iotests.imgfmt, '-o', 'cluster_size=512', test_img, '16G')
+>           self.preallocate(test_img)
+> -        pass
+>   
+>   
+>       def tearDown(self):
+>           os.remove(test_img)
+> -        pass
+>   
+>       def test_grow_refcount_table(self):
+>           qemu_io('-c', 'write 3800M 1M', test_img)
+>           qemu_img_verbose('check' , test_img)
+> -        pass
+>   
+>   if __name__ == '__main__':
+>       iotests.main(supported_fmts=['qcow2'],
+> 
 
-If "other things" are being changed along with ptimer_set_count, then is the
-boolean result of ptimer_set_count necessarily still relevant after the "other
-things"?
-
-Can we record the set of things to be done within a
-ptimer_transaction_{begin,commit}() pair and then invoke the callback (if
-necessary) when committing?  Is it even easy to see the set of "other things"
-that would need to be wrapped?
-
-I think I need a bit of time understanding the use cases in hw/timer/ before
-being able to suggest anything more definite...
-
-
-r~
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
