@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60E3C0621
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:16:15 +0200 (CEST)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35D4C0610
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:12:14 +0200 (CEST)
+Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDq6Y-0004kW-JJ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:16:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55202)
+	id 1iDq2e-0001gM-Uh
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDpqh-0002KK-56
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:59:54 -0400
+ (envelope-from <david@redhat.com>) id 1iDpk3-0002zg-WC
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:53:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDpqd-0002zA-8m
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:59:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51938)
+ (envelope-from <david@redhat.com>) id 1iDpk1-0001QN-Gq
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:52:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39890)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDpqc-0002x3-4k; Fri, 27 Sep 2019 08:59:46 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iDpk1-0001PO-7d; Fri, 27 Sep 2019 08:52:57 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 519C518C428C;
- Fri, 27 Sep 2019 11:05:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 590CF89810A;
+ Fri, 27 Sep 2019 12:47:15 +0000 (UTC)
 Received: from [10.36.116.169] (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7500A4510;
- Fri, 27 Sep 2019 11:05:38 +0000 (UTC)
-Subject: Re: [PATCH v3 18/18] target/s390x: Remove ilen argument from
- trigger_pgm_exception
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B97F5D6A7;
+ Fri, 27 Sep 2019 12:47:14 +0000 (UTC)
+Subject: Re: [PATCH v3 08/18] target/s390: Return exception from
+ mmu_translate_real
+From: David Hildenbrand <david@redhat.com>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190926162615.31168-1-richard.henderson@linaro.org>
- <20190926162615.31168-19-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
+ <20190926162615.31168-9-richard.henderson@linaro.org>
+ <73b5d922-a7b1-ac62-3195-f0e35a6478b3@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -80,18 +81,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <b6ea753b-af08-5432-5b11-c9da57cfee5d@redhat.com>
-Date: Fri, 27 Sep 2019 13:05:37 +0200
+Message-ID: <02b2eb7b-3726-6cbc-e0a8-cc98f7675274@redhat.com>
+Date: Fri, 27 Sep 2019 14:47:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190926162615.31168-19-richard.henderson@linaro.org>
+In-Reply-To: <73b5d922-a7b1-ac62-3195-f0e35a6478b3@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 27 Sep 2019 11:05:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.67]); Fri, 27 Sep 2019 12:47:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -110,103 +111,86 @@ Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.09.19 18:26, Richard Henderson wrote:
-> All but one caller passes ILEN_UNWIND, which is not stored.
-> For the one use case in s390_cpu_tlb_fill, set int_pgm_ilen
-> directly, simply to avoid the assert within do_program_interrupt.
+On 27.09.19 12:44, David Hildenbrand wrote:
+> On 26.09.19 18:26, Richard Henderson wrote:
+>> Do not raise the exception directly within mmu_translate_real,
+>> but pass it back so that caller may do so.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  target/s390x/internal.h    | 2 +-
+>>  target/s390x/excp_helper.c | 4 ++--
+>>  target/s390x/mmu_helper.c  | 8 ++++----
+>>  3 files changed, 7 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+>> index c243fa725b..c4388aaf23 100644
+>> --- a/target/s390x/internal.h
+>> +++ b/target/s390x/internal.h
+>> @@ -362,7 +362,7 @@ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
+>>  int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+>>                    target_ulong *raddr, int *flags, bool exc);
+>>  int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+>> -                       target_ulong *addr, int *flags);
+>> +                       target_ulong *addr, int *flags, uint64_t *tec);
+>>  
+>>  
+>>  /* misc_helper.c */
+>> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+>> index ab2ed47fef..906b87c071 100644
+>> --- a/target/s390x/excp_helper.c
+>> +++ b/target/s390x/excp_helper.c
+>> @@ -147,8 +147,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>>          if (!(env->psw.mask & PSW_MASK_64)) {
+>>              vaddr &= 0x7fffffff;
+>>          }
+>> -        fail = mmu_translate_real(env, vaddr, access_type, &raddr, &prot);
+>> -        excp = 0; /* exception already raised */
+>> +        excp = mmu_translate_real(env, vaddr, access_type, &raddr, &prot, &tec);
+>> +        fail = excp;
+>>      } else {
+>>          g_assert_not_reached();
+>>      }
+>> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+>> index 3ef40a37a7..b783c62bd7 100644
+>> --- a/target/s390x/mmu_helper.c
+>> +++ b/target/s390x/mmu_helper.c
+>> @@ -523,10 +523,10 @@ void s390_cpu_virt_mem_handle_exc(S390CPU *cpu, uintptr_t ra)
+>>   * @param rw     0 = read, 1 = write, 2 = code fetch
+>>   * @param addr   the translated address is stored to this pointer
+>>   * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this pointer
+>> - * @return       0 if the translation was successful, < 0 if a fault occurred
+>> + * @return       0 = success, != 0, the exception to raise
+>>   */
+>>  int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+>> -                       target_ulong *addr, int *flags)
+>> +                       target_ulong *addr, int *flags, uint64_t *tec)
+>>  {
+>>      const bool lowprot_enabled = env->cregs[0] & CR0_LOWPROT;
+>>  
+>> @@ -535,8 +535,8 @@ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+>>          /* see comment in mmu_translate() how this works */
+>>          *flags |= PAGE_WRITE_INV;
+>>          if (is_low_address(raddr) && rw == MMU_DATA_STORE) {
+>> -            trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO, 0);
+>> -            return -EACCES;
+>> +            *tec = 0;
+>> +            return PGM_PROTECTION;
+>>          }
+>>      }
+>>  
+>>
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/s390x/internal.h    | 2 +-
->  target/s390x/excp_helper.c | 7 ++++---
->  target/s390x/interrupt.c   | 7 ++-----
->  target/s390x/mmu_helper.c  | 2 +-
->  4 files changed, 8 insertions(+), 10 deletions(-)
+> Note that
 > 
-> diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-> index c993c3ef40..d37816104d 100644
-> --- a/target/s390x/internal.h
-> +++ b/target/s390x/internal.h
-> @@ -317,7 +317,7 @@ void cpu_unmap_lowcore(LowCore *lowcore);
->  
->  
->  /* interrupt.c */
-> -void trigger_pgm_exception(CPUS390XState *env, uint32_t code, uint32_t ilen);
-> +void trigger_pgm_exception(CPUS390XState *env, uint32_t code);
->  void cpu_inject_clock_comparator(S390CPU *cpu);
->  void cpu_inject_cpu_timer(S390CPU *cpu);
->  void cpu_inject_emergency_signal(S390CPU *cpu, uint16_t src_cpu_addr);
-> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-> index c252e9a7d8..e70c20d363 100644
-> --- a/target/s390x/excp_helper.c
-> +++ b/target/s390x/excp_helper.c
-> @@ -42,7 +42,7 @@ void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
->      cpu_restore_state(cs, ra, true);
->      qemu_log_mask(CPU_LOG_INT, "program interrupt at %#" PRIx64 "\n",
->                    env->psw.addr);
-> -    trigger_pgm_exception(env, code, ILEN_UNWIND);
-> +    trigger_pgm_exception(env, code);
->      cpu_loop_exit(cs);
->  }
->  
-> @@ -96,7 +96,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->  {
->      S390CPU *cpu = S390_CPU(cs);
->  
-> -    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING, ILEN_UNWIND);
-> +    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING);
->      /* On real machines this value is dropped into LowMem.  Since this
->         is userland, simply put this someplace that cpu_loop can find it.  */
->      cpu->env.__excp_addr = address;
-> @@ -186,7 +186,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->       * and so unwinding will not occur.  However, ILEN is also undefined
->       * for that case -- we choose to set ILEN = 2.
->       */
-> -    trigger_pgm_exception(env, excp, 2);
-> +    env->int_pgm_ilen = 2;
-> +    trigger_pgm_exception(env, excp);
->      cpu_loop_exit_restore(cs, retaddr);
->  }
->  
-> diff --git a/target/s390x/interrupt.c b/target/s390x/interrupt.c
-> index 2b71e03914..4cdbbc8849 100644
-> --- a/target/s390x/interrupt.c
-> +++ b/target/s390x/interrupt.c
-> @@ -22,16 +22,13 @@
->  #endif
->  
->  /* Ensure to exit the TB after this call! */
-> -void trigger_pgm_exception(CPUS390XState *env, uint32_t code, uint32_t ilen)
-> +void trigger_pgm_exception(CPUS390XState *env, uint32_t code)
->  {
->      CPUState *cs = env_cpu(env);
->  
->      cs->exception_index = EXCP_PGM;
->      env->int_pgm_code = code;
-> -    /* If ILEN_UNWIND, int_pgm_ilen already has the correct value.  */
-> -    if (ilen != ILEN_UNWIND) {
-> -        env->int_pgm_ilen = ilen;
-> -    }
-> +    /* env->int_pgm_ilen is already set, or will be set during unwinding */
->  }
->  
->  void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra)
-> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-> index e6c3139c57..ba02d33e86 100644
-> --- a/target/s390x/mmu_helper.c
-> +++ b/target/s390x/mmu_helper.c
-> @@ -44,7 +44,7 @@ static void trigger_access_exception(CPUS390XState *env, uint32_t type,
->          if (type != PGM_ADDRESSING) {
->              stq_phys(cs->as, env->psa + offsetof(LowCore, trans_exc_code), tec);
->          }
-> -        trigger_pgm_exception(env, type, ILEN_UNWIND);
-> +        trigger_pgm_exception(env, type);
->      }
->  }
->  
+> [PATCH v1 2/5] s390x/mmu: Implement ESOP-2 and
+> access-exception-fetch/store-indication facility
 > 
+> also messes with the tec (which is okay), but also with the ILEN on
+> instruction fetches.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+I'll drop the ilen change from that patch, now that I figured out how it
+works :)
 
 -- 
 
