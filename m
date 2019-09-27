@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57013C0CCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 22:46:39 +0200 (CEST)
-Received: from localhost ([::1]:57404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E08BC0CE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 22:52:47 +0200 (CEST)
+Received: from localhost ([::1]:57422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDx8Q-0004Yj-AS
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 16:46:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54263)
+	id 1iDxEM-0007sP-3S
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 16:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iDx6d-0003kv-Tt
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:44:49 -0400
+ (envelope-from <estebanbosse@gmail.com>) id 1iDxDJ-0007Hv-PW
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:51:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iDx6c-00039d-7B
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:44:47 -0400
-Resent-Date: Fri, 27 Sep 2019 16:44:47 -0400
-Resent-Message-Id: <E1iDx6c-00039d-7B@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21552)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iDx6c-00039I-0P
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:44:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569617067; cv=none; d=zoho.com; s=zohoarc; 
- b=g1LXs+dJpx8rY7zhB1NRlRD2OeWLLWqSfitO4/sTdDszgC4iCBwDocU/FVlWRnbtSI6mxxVKws56Wl9TYK75tGApWWOXKcOG8LvgK/lzk0lqc/fsfnPc9XOZ/45ZlHBcmiEDMIXzTyGf0ZM1Hcf3BuyuKYH3s/Ejo83eVT4hC3M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569617067;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=8/4C6S05Nt3cDBAs3WXZF/DIl+H63kIVLv2VdunhSxg=; 
- b=eR1joMoLyUZ/GemslE88FswKZZ5jZkqQ1rTyKQsgSrlqBCARedOdnNcVYs7WGJ7A/sF+IuR/3w8viqoGiY1vr48gZc2xTXAsX9glaE9H7ef4fSY6yFMjw8Wb9G35XfGZ3YxYUJ2fgIfT6XEX7CRZtI7fFkk5vmeLE3WAINTKfuI=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1569617065395724.0098594541859;
- Fri, 27 Sep 2019 13:44:25 -0700 (PDT)
-Subject: Re: [PATCH V2] intel_iommu: TM field should not be in reserved bits
-In-Reply-To: <20190927045838.2968-1-qi1.zhang@intel.com>
-Message-ID: <156961706401.27524.9579172239216591794@8230166b0665>
+ (envelope-from <estebanbosse@gmail.com>) id 1iDxDI-0006c4-CG
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:51:41 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:36741)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
+ id 1iDxDI-0006bT-3W; Fri, 27 Sep 2019 16:51:40 -0400
+Received: by mail-ed1-x541.google.com with SMTP id h2so3498894edn.3;
+ Fri, 27 Sep 2019 13:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p+nDA86jMH4Pq7MzS8/vEaBEc7PBFlKlGTqXWHL8JeE=;
+ b=jIqLeI6lIwmqbhiuWlMlLdpLKkrDTt+F8TF+IwhJFm0Z7YSUtJiUMMHYYF9dhRySAG
+ MC7EyuLY1Ce08/LkfvNecX49gy04w/PweKE5YIXKhhPRb/Op6oprLjAacKzzBgSYM+NQ
+ GPFX9qH3Nciy4cY+T64us0ZBNRQs+i3m5/OocaV6besBuM0Z/8X22aylmraT8MztbviR
+ a9RB9kydlfF9aF8rPEqn9nCoiPEBwfThwcSpA59+t8ORgIl1VDKZ6EaGjsawA4DTZJVV
+ g6kbYcjfeMQvLWDaD/pIvXFguTIsXnZJ2f/vPmds6Ax96EZedtYbGuqg1UwyLcxN54OA
+ z8og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p+nDA86jMH4Pq7MzS8/vEaBEc7PBFlKlGTqXWHL8JeE=;
+ b=BTXj6FW8wAQVOACD1Mc4k2j84VjhUqlTep3rN4LAG/LeoZoU2b0bs4eF2GLrNjv3vU
+ 771c85C20f4Jz8Nq+im27M2SUeNuKPZXUMdhc4Yxzbkp8vuU2435j89XOyTuqWW8L81f
+ 19ctseSbY5wRgZsKv+JRcH8sycORiVRjlGlRhs+T0+x7A+NKBHNL5L1a8IKKCV36QTjW
+ dmkMiBXF7qVGNabt0zqZgyI/3OH3tOy3FaaBE/UmNCXSslmm5CSEz6kxd32Dujj9dFgq
+ 19GXI/YfvQwYLZHVdfA1RlrMm8arbLz0gM1i4mQwkmxedALVbovu/ND97QZj5QdDA/d/
+ LsrQ==
+X-Gm-Message-State: APjAAAUisQOyrx77UOBSMPc1Yzq8V+CQ688GeSUiuYMtivZZxPeFDiBQ
+ SAi3pHErSRu6fdXJlURmGsSAgFZ/O57ChyIc0Ms=
+X-Google-Smtp-Source: APXvYqwrKzyGEs2RbGw/1aOaOMZPeKY01A9+AFogMYxpMffA7864rT3V/vTBnKnzczt39KWqrCpsTr3Sv9tcn9Xwbl0=
+X-Received: by 2002:a17:906:19d3:: with SMTP id
+ h19mr9729195ejd.121.1569617498537; 
+ Fri, 27 Sep 2019 13:51:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qi1.zhang@intel.com
-Date: Fri, 27 Sep 2019 13:44:25 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.55
+References: <20190904171315.8354-1-f4bug@amsat.org>
+ <20190904171315.8354-4-f4bug@amsat.org>
+In-Reply-To: <20190904171315.8354-4-f4bug@amsat.org>
+From: Esteban Bosse <estebanbosse@gmail.com>
+Date: Fri, 27 Sep 2019 22:51:27 +0200
+Message-ID: <CAGbAg_AcaPU4w175KgDU5Nm9FC=9OBLEL+3cM01EqtMpD3YNfg@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/14] hw/misc/bcm2835_property: Handle the 'domain
+ state' property
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000006f03d805938f0d19"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,67 +73,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qi1.zhang@intel.com, ehabkost@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyNzA0NTgzOC4yOTY4
-LTEtcWkxLnpoYW5nQGludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
-IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
-Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwOTI3MDQ1ODM4LjI5Njgt
-MS1xaTEuemhhbmdAaW50ZWwuY29tClN1YmplY3Q6IFtQQVRDSCBWMl0gaW50ZWxfaW9tbXU6IFRN
-IGZpZWxkIHNob3VsZCBub3QgYmUgaW4gcmVzZXJ2ZWQgYml0cwoKPT09IFRFU1QgU0NSSVBUIEJF
-R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
-aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
-U1QgU0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNGNkNTA1
-YiBpbnRlbF9pb21tdTogVE0gZmllbGQgc2hvdWxkIG5vdCBiZSBpbiByZXNlcnZlZCBiaXRzCgo9
-PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzI2OiBG
-SUxFOiBody9pMzg2L2ludGVsX2lvbW11LmM6MzU1MToKKyAgICB2dGRfcGFnaW5nX2VudHJ5X3Jz
-dmRfZmllbGRbMV0gPSBWVERfU1BURV9QQUdFX0wxX1JTVkRfTUFTSyhzLT5hd19iaXRzLCB4ODZf
-aW9tbXUtPmR0X3N1cHBvcnRlZCk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzI3
-OiBGSUxFOiBody9pMzg2L2ludGVsX2lvbW11LmM6MzU1MjoKKyAgICB2dGRfcGFnaW5nX2VudHJ5
-X3JzdmRfZmllbGRbMl0gPSBWVERfU1BURV9QQUdFX0wyX1JTVkRfTUFTSyhzLT5hd19iaXRzLCB4
-ODZfaW9tbXUtPmR0X3N1cHBvcnRlZCk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMK
-IzI4OiBGSUxFOiBody9pMzg2L2ludGVsX2lvbW11LmM6MzU1MzoKKyAgICB2dGRfcGFnaW5nX2Vu
-dHJ5X3JzdmRfZmllbGRbM10gPSBWVERfU1BURV9QQUdFX0wzX1JTVkRfTUFTSyhzLT5hd19iaXRz
-LCB4ODZfaW9tbXUtPmR0X3N1cHBvcnRlZCk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3Rl
-cnMKIzMzOiBGSUxFOiBody9pMzg2L2ludGVsX2lvbW11LmM6MzU1NToKKyAgICB2dGRfcGFnaW5n
-X2VudHJ5X3JzdmRfZmllbGRbNV0gPSBWVERfU1BURV9MUEFHRV9MMV9SU1ZEX01BU0socy0+YXdf
-Yml0cywgeDg2X2lvbW11LT5kdF9zdXBwb3J0ZWQpOwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFy
-YWN0ZXJzCiMzNDogRklMRTogaHcvaTM4Ni9pbnRlbF9pb21tdS5jOjM1NTY6CisgICAgdnRkX3Bh
-Z2luZ19lbnRyeV9yc3ZkX2ZpZWxkWzZdID0gVlREX1NQVEVfTFBBR0VfTDJfUlNWRF9NQVNLKHMt
-PmF3X2JpdHMsIHg4Nl9pb21tdS0+ZHRfc3VwcG9ydGVkKTsKCkVSUk9SOiBsaW5lIG92ZXIgOTAg
-Y2hhcmFjdGVycwojMzU6IEZJTEU6IGh3L2kzODYvaW50ZWxfaW9tbXUuYzozNTU3OgorICAgIHZ0
-ZF9wYWdpbmdfZW50cnlfcnN2ZF9maWVsZFs3XSA9IFZURF9TUFRFX0xQQUdFX0wzX1JTVkRfTUFT
-SyhzLT5hd19iaXRzLCB4ODZfaW9tbXUtPmR0X3N1cHBvcnRlZCk7CgpFUlJPUjogc3BhY2VzIHJl
-cXVpcmVkIGFyb3VuZCB0aGF0ICc/JyAoY3R4OlZ4RSkKIzQ5OiBGSUxFOiBody9pMzg2L2ludGVs
-X2lvbW11X2ludGVybmFsLmg6MzkxOgorICAgICAgICBkdF9zdXBwb3J0ZWQ/IFwKICAgICAgICAg
-ICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnPycgKGN0
-eDpWeEUpCiM1NDogRklMRTogaHcvaTM4Ni9pbnRlbF9pb21tdV9pbnRlcm5hbC5oOjM5NToKKyAg
-ICAgICAgZHRfc3VwcG9ydGVkPyBcCiAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFj
-ZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJz8nIChjdHg6VnhFKQojNTk6IEZJTEU6IGh3L2kzODYv
-aW50ZWxfaW9tbXVfaW50ZXJuYWwuaDozOTk6CisgICAgICAgIGR0X3N1cHBvcnRlZD8gXAogICAg
-ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc/
-JyAoY3R4OlZ4RSkKIzY2OiBGSUxFOiBody9pMzg2L2ludGVsX2lvbW11X2ludGVybmFsLmg6NDA1
-OgorICAgICAgICBkdF9zdXBwb3J0ZWQ/IFwKICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6
-IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnPycgKGN0eDpWeEUpCiM3MTogRklMRTogaHcv
-aTM4Ni9pbnRlbF9pb21tdV9pbnRlcm5hbC5oOjQwOToKKyAgICAgICAgZHRfc3VwcG9ydGVkPyBc
-CiAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
-YXQgJz8nIChjdHg6VnhFKQojNzY6IEZJTEU6IGh3L2kzODYvaW50ZWxfaW9tbXVfaW50ZXJuYWwu
-aDo0MTM6CisgICAgICAgIGR0X3N1cHBvcnRlZD8gXAogICAgICAgICAgICAgICAgICAgICBeCgp0
-b3RhbDogMTIgZXJyb3JzLCAwIHdhcm5pbmdzLCA2MiBsaW5lcyBjaGVja2VkCgpDb21taXQgNGNk
-NTA1YjgzY2FjIChpbnRlbF9pb21tdTogVE0gZmllbGQgc2hvdWxkIG5vdCBiZSBpbiByZXNlcnZl
-ZCBiaXRzKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRl
-c3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJs
-ZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDkyNzA0NTgzOC4yOTY4LTEtcWkxLnpo
-YW5nQGludGVsLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
-IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
-XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+--0000000000006f03d805938f0d19
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Searching this property in the kernel, I found a lot of properties not
+implemented.
+https://github.com/raspberrypi/linux/blob/rpi-4.19.y/include/soc/bcm2835/ra=
+spberrypi-firmware.h#L41
+Are the properties only added when they are necessaries for the standard
+kernel use?
+
+Reviewed-by: EstebanB
+
+El mi=C3=A9., 4 sept. 2019 a las 19:13, Philippe Mathieu-Daud=C3=A9 (<f4bug=
+@amsat.org>)
+escribi=C3=B3:
+
+> The kernel is happy with this change, so we don't need
+> to do anything more sophisticated.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/misc/bcm2835_property.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+> index 399f0d9dd5..d8eb28f267 100644
+> --- a/hw/misc/bcm2835_property.c
+> +++ b/hw/misc/bcm2835_property.c
+> @@ -127,6 +127,14 @@ static void
+> bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
+>              resplen =3D 8;
+>              break;
+>
+> +        case 0x00030030: /* Get domain state */
+> +            qemu_log_mask(LOG_UNIMP,
+> +                          "bcm2835_property: 0x%08x get domain state
+> NYI\n",
+> +                          tag);
+> +            /* FIXME returning uninitialized memory */
+> +            resplen =3D 8;
+> +            break;
+> +
+>          case 0x00038002: /* Set clock rate */
+>          case 0x00038004: /* Set max clock rate */
+>          case 0x00038007: /* Set min clock rate */
+> --
+> 2.20.1
+>
+>
+
+--0000000000006f03d805938f0d19
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Searching this property in the kernel, I found a lot of pr=
+operties=C2=A0not implemented.=C2=A0<a href=3D"https://github.com/raspberry=
+pi/linux/blob/rpi-4.19.y/include/soc/bcm2835/raspberrypi-firmware.h#L41">ht=
+tps://github.com/raspberrypi/linux/blob/rpi-4.19.y/include/soc/bcm2835/rasp=
+berrypi-firmware.h#L41</a><br>Are the properties only added when they are n=
+ecessaries for the standard kernel use?<br><br>Reviewed-by: EstebanB<br></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">El =
+mi=C3=A9., 4 sept. 2019 a las 19:13, Philippe Mathieu-Daud=C3=A9 (&lt;<a hr=
+ef=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;) escribi=C3=B3:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">The kernel is happy w=
+ith this change, so we don&#39;t need<br>
+to do anything more sophisticated.<br>
+<br>
+Reviewed-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" =
+target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+---<br>
+=C2=A0hw/misc/bcm2835_property.c | 8 ++++++++<br>
+=C2=A01 file changed, 8 insertions(+)<br>
+<br>
+diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c<br>
+index 399f0d9dd5..d8eb28f267 100644<br>
+--- a/hw/misc/bcm2835_property.c<br>
++++ b/hw/misc/bcm2835_property.c<br>
+@@ -127,6 +127,14 @@ static void bcm2835_property_mbox_push(BCM2835Property=
+State *s, uint32_t value)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0resplen =3D 8;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x00030030: /* Get domain state */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_UNIMP,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;bcm2835_property: 0x%08x get domain state NYI\n&quo=
+t;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 tag);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* FIXME returning uninitialized=
+ memory */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 resplen =3D 8;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x00038002: /* Set clock rate */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x00038004: /* Set max clock rate */=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x00038007: /* Set min clock rate */=
+<br>
+-- <br>
+2.20.1<br>
+<br>
+</blockquote></div>
+
+--0000000000006f03d805938f0d19--
 
