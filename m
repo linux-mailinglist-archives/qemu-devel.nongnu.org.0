@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D09C07ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:50:21 +0200 (CEST)
-Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8626DC0808
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:54:25 +0200 (CEST)
+Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrZa-00078z-Kq
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:50:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40031)
+	id 1iDrdY-0003MH-20
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iDqaF-0001Kt-Rq
+ (envelope-from <armbru@redhat.com>) id 1iDqaE-0001Iw-JT
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:47:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iDqa9-00066S-Qm
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54020)
+ (envelope-from <armbru@redhat.com>) id 1iDqa9-00065g-4r
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34688)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa9-00064P-Cr
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:49 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa8-00063x-K0
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:48 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E12093018ED0;
+ by mx1.redhat.com (Postfix) with ESMTPS id 3FD0B3083394;
  Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15A045D6B0;
- Fri, 27 Sep 2019 13:46:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D86223D8E;
+ Fri, 27 Sep 2019 13:46:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7FAD811385A7; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
+ id B951A1136426; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/26] qapi: Improve reporting of invalid name errors
-Date: Fri, 27 Sep 2019 15:46:22 +0200
-Message-Id: <20190927134639.4284-10-armbru@redhat.com>
+Subject: [PATCH v2 26/26] qapi: Improve source file read error handling
+Date: Fri, 27 Sep 2019 15:46:39 +0200
+Message-Id: <20190927134639.4284-27-armbru@redhat.com>
 In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
 References: <20190927134639.4284-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,158 +62,129 @@ Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split check_name() into check_name_is_str() and check_name_str(), keep
-check_name() as a wrapper.
+qapi-gen.py crashes when it can't open the main schema file, and when
+it can't read from any schema file.  Lazy.
 
-Move add_name()'s call into its caller check_exprs(), and inline.
+Change QAPISchema.__init__() to take a file name instead of a file
+object.  Move the open code from _include() to __init__(), so it's
+used for the main schema file, too.
 
-This permits delaying check_name_str() there, so its error message
-gains an "in definition" line.
+Move the read into the try for good measure, and rephrase the error
+message.
+
+Reporting open or read failure for the main schema file needs a
+QAPISourceInfo representing "no source".  Make QAPISourceInfo cope
+with fname=3DNone.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/common.py                   | 20 ++++++++++++++++----
- tests/qapi-schema/bad-ident.err          |  1 +
- tests/qapi-schema/command-int.err        |  1 +
- tests/qapi-schema/redefined-builtin.err  |  1 +
- tests/qapi-schema/redefined-command.err  |  1 +
- tests/qapi-schema/redefined-event.err    |  1 +
- tests/qapi-schema/redefined-type.err     |  1 +
- tests/qapi-schema/reserved-command-q.err |  1 +
- tests/qapi-schema/reserved-type-kind.err |  1 +
- tests/qapi-schema/reserved-type-list.err |  1 +
- 10 files changed, 25 insertions(+), 4 deletions(-)
+ scripts/qapi/common.py                | 46 +++++++++++++++------------
+ tests/qapi-schema/include-no-file.err |  2 +-
+ 2 files changed, 27 insertions(+), 21 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index c909821560..6f35cd131e 100644
+index a74cd957d4..d6e00c80ea 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -708,11 +708,22 @@ valid_name =3D re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
+@@ -53,7 +53,12 @@ class QAPISourceInfo(object):
+         return info
 =20
- def check_name(name, info, source,
-                allow_optional=3DFalse, enum_member=3DFalse, permit_upper=
-=3DFalse):
-+    check_name_is_str(name, info, source)
-+    check_name_str(name, info, source,
-+                   allow_optional, enum_member, permit_upper)
-+
-+
-+def check_name_is_str(name, info, source):
-+    if not isinstance(name, str):
-+        raise QAPISemError(info, "%s requires a string name" % source)
-+
-+
-+def check_name_str(name, info, source,
-+                   allow_optional=3DFalse, enum_member=3DFalse,
-+                   permit_upper=3DFalse):
-     global valid_name
-     membername =3D name
+     def loc(self):
+-        return '%s:%d' % (self.fname, self.line)
++        if self.fname is None:
++            return sys.argv[0]
++        ret =3D self.fname
++        if self.line is not None:
++            ret +=3D ':%d' % self.line
++        return ret
 =20
--    if not isinstance(name, str):
--        raise QAPISemError(info, "%s requires a string name" % source)
-     if name.startswith('*'):
-         membername =3D name[1:]
-         if not allow_optional:
-@@ -734,7 +745,6 @@ def check_name(name, info, source,
+     def in_defn(self):
+         if self.defn_name:
+@@ -383,14 +388,26 @@ class QAPIDoc(object):
 =20
- def add_name(name, info, meta):
-     global all_names
--    check_name(name, info, "'%s'" % meta, permit_upper=3DTrue)
-     # FIXME should reject names that differ only in '_' vs. '.'
-     # vs. '-', because they're liable to clash in generated C.
-     if name in all_names:
-@@ -1153,8 +1163,10 @@ def check_exprs(exprs):
-             raise QAPISemError(info, "expression is missing metatype")
-         normalize_if(expr)
-         name =3D expr[meta]
--        add_name(name, info, meta)
-+        check_name_is_str(name, info, "'%s'" % meta)
-         info.set_defn(meta, name)
-+        check_name_str(name, info, "'%s'" % meta, permit_upper=3DTrue)
-+        add_name(name, info, meta)
-         if doc and doc.symbol !=3D name:
-             raise QAPISemError(
-                 info,
-diff --git a/tests/qapi-schema/bad-ident.err b/tests/qapi-schema/bad-iden=
-t.err
-index c4190602b5..6878889854 100644
---- a/tests/qapi-schema/bad-ident.err
-+++ b/tests/qapi-schema/bad-ident.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-ident.json: In struct '*oops':
- tests/qapi-schema/bad-ident.json:2: 'struct' does not allow optional nam=
-e '*oops'
-diff --git a/tests/qapi-schema/command-int.err b/tests/qapi-schema/comman=
-d-int.err
-index 0f9300679b..56b45bf656 100644
---- a/tests/qapi-schema/command-int.err
-+++ b/tests/qapi-schema/command-int.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/command-int.json: In command 'int':
- tests/qapi-schema/command-int.json:2: built-in 'int' is already defined
-diff --git a/tests/qapi-schema/redefined-builtin.err b/tests/qapi-schema/=
-redefined-builtin.err
-index b2757225c4..67775fdb41 100644
---- a/tests/qapi-schema/redefined-builtin.err
-+++ b/tests/qapi-schema/redefined-builtin.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/redefined-builtin.json: In struct 'size':
- tests/qapi-schema/redefined-builtin.json:2: built-in 'size' is already d=
-efined
-diff --git a/tests/qapi-schema/redefined-command.err b/tests/qapi-schema/=
-redefined-command.err
-index 82ae256e63..b77a05d354 100644
---- a/tests/qapi-schema/redefined-command.err
-+++ b/tests/qapi-schema/redefined-command.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/redefined-command.json: In command 'foo':
- tests/qapi-schema/redefined-command.json:3: command 'foo' is already def=
-ined
-diff --git a/tests/qapi-schema/redefined-event.err b/tests/qapi-schema/re=
-defined-event.err
-index 35429cb481..fd02d38157 100644
---- a/tests/qapi-schema/redefined-event.err
-+++ b/tests/qapi-schema/redefined-event.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/redefined-event.json: In event 'EVENT_A':
- tests/qapi-schema/redefined-event.json:3: event 'EVENT_A' is already def=
-ined
-diff --git a/tests/qapi-schema/redefined-type.err b/tests/qapi-schema/red=
-efined-type.err
-index 06ea78c478..89acc82c2d 100644
---- a/tests/qapi-schema/redefined-type.err
-+++ b/tests/qapi-schema/redefined-type.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/redefined-type.json: In enum 'foo':
- tests/qapi-schema/redefined-type.json:3: struct 'foo' is already defined
-diff --git a/tests/qapi-schema/reserved-command-q.err b/tests/qapi-schema=
-/reserved-command-q.err
-index f939e044eb..0844e14b26 100644
---- a/tests/qapi-schema/reserved-command-q.err
-+++ b/tests/qapi-schema/reserved-command-q.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/reserved-command-q.json: In command 'q-unix':
- tests/qapi-schema/reserved-command-q.json:5: 'command' uses invalid name=
- 'q-unix'
-diff --git a/tests/qapi-schema/reserved-type-kind.err b/tests/qapi-schema=
-/reserved-type-kind.err
-index 0a38efaad8..8d21479000 100644
---- a/tests/qapi-schema/reserved-type-kind.err
-+++ b/tests/qapi-schema/reserved-type-kind.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/reserved-type-kind.json: In enum 'UnionKind':
- tests/qapi-schema/reserved-type-kind.json:2: enum 'UnionKind' should not=
- end in 'Kind'
-diff --git a/tests/qapi-schema/reserved-type-list.err b/tests/qapi-schema=
-/reserved-type-list.err
-index 4510fa6d90..2bdd7d8a06 100644
---- a/tests/qapi-schema/reserved-type-list.err
-+++ b/tests/qapi-schema/reserved-type-list.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/reserved-type-list.json: In struct 'FooList':
- tests/qapi-schema/reserved-type-list.json:5: struct 'FooList' should not=
- end in 'List'
+ class QAPISchemaParser(object):
+=20
+-    def __init__(self, fp, previously_included=3D[], incl_info=3DNone):
+-        self.fname =3D fp.name
+-        previously_included.append(os.path.abspath(fp.name))
+-        self.src =3D fp.read()
++    def __init__(self, fname, previously_included=3D[], incl_info=3DNone=
+):
++        previously_included.append(os.path.abspath(fname))
++
++        try:
++            if sys.version_info[0] >=3D 3:
++                fp =3D open(fname, 'r', encoding=3D'utf-8')
++            else:
++                fp =3D open(fname, 'r')
++            self.src =3D fp.read()
++        except IOError as e:
++            raise QAPISemError(incl_info or QAPISourceInfo(None, None, N=
+one),
++                               "can't read %s file '%s': %s"
++                               % ("include" if incl_info else "schema",
++                                  fname,
++                                  e.strerror))
++
+         if self.src =3D=3D '' or self.src[-1] !=3D '\n':
+             self.src +=3D '\n'
+         self.cursor =3D 0
+-        self.info =3D QAPISourceInfo(self.fname, 1, incl_info)
++        self.info =3D QAPISourceInfo(fname, 1, incl_info)
+         self.line_pos =3D 0
+         self.exprs =3D []
+         self.docs =3D []
+@@ -414,7 +431,7 @@ class QAPISchemaParser(object):
+                 if not isinstance(include, str):
+                     raise QAPISemError(info,
+                                        "value of 'include' must be a str=
+ing")
+-                incl_fname =3D os.path.join(os.path.dirname(self.fname),
++                incl_fname =3D os.path.join(os.path.dirname(fname),
+                                           include)
+                 self.exprs.append({'expr': {'include': incl_fname},
+                                    'info': info})
+@@ -466,14 +483,7 @@ class QAPISchemaParser(object):
+         if incl_abs_fname in previously_included:
+             return None
+=20
+-        try:
+-            if sys.version_info[0] >=3D 3:
+-                fobj =3D open(incl_fname, 'r', encoding=3D'utf-8')
+-            else:
+-                fobj =3D open(incl_fname, 'r')
+-        except IOError as e:
+-            raise QAPISemError(info, "%s: %s" % (e.strerror, incl_fname)=
+)
+-        return QAPISchemaParser(fobj, previously_included, info)
++        return QAPISchemaParser(incl_fname, previously_included, info)
+=20
+     def _pragma(self, name, value, info):
+         global doc_required, returns_whitelist, name_case_whitelist
+@@ -1734,11 +1744,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
+ class QAPISchema(object):
+     def __init__(self, fname):
+         self.fname =3D fname
+-        if sys.version_info[0] >=3D 3:
+-            f =3D open(fname, 'r', encoding=3D'utf-8')
+-        else:
+-            f =3D open(fname, 'r')
+-        parser =3D QAPISchemaParser(f)
++        parser =3D QAPISchemaParser(fname)
+         exprs =3D check_exprs(parser.exprs)
+         self.docs =3D parser.docs
+         self._entity_list =3D []
+diff --git a/tests/qapi-schema/include-no-file.err b/tests/qapi-schema/in=
+clude-no-file.err
+index e42bcf4bc1..0a6c6bb4a9 100644
+--- a/tests/qapi-schema/include-no-file.err
++++ b/tests/qapi-schema/include-no-file.err
+@@ -1 +1 @@
+-tests/qapi-schema/include-no-file.json:1: No such file or directory: tes=
+ts/qapi-schema/include-no-file-sub.json
++tests/qapi-schema/include-no-file.json:1: can't read include file 'tests=
+/qapi-schema/include-no-file-sub.json': No such file or directory
 --=20
 2.21.0
 
