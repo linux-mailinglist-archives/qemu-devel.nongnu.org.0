@@ -2,41 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91249C07B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:37:04 +0200 (CEST)
-Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5359C07AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:35:03 +0200 (CEST)
+Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrMk-0003nl-DZ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:37:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34551)
+	id 1iDrKn-0000kP-GT
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:35:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36709)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCp-0003fl-WC
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDqN6-0005Ap-MM
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iDqCn-0000N6-VX
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:22:43 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49752)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDqCj-0000IU-MZ; Fri, 27 Sep 2019 09:22:37 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iDpHz-0003za-25; Fri, 27 Sep 2019 15:23:59 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 7/9] iotests: add test 260 to check bitmap life after
- snapshot + commit
-Date: Fri, 27 Sep 2019 15:23:53 +0300
-Message-Id: <20190927122355.7344-8-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190927122355.7344-1-vsementsov@virtuozzo.com>
-References: <20190927122355.7344-1-vsementsov@virtuozzo.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iDqN5-0001xB-6W
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:20 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36795)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDqN5-0001x4-0g
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:33:19 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k20so5206847oih.3
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XpRff2jEEJjun5C2nBwnEy0mpg4KSV3BL/CHwT484IE=;
+ b=qcFWW4Gw2Z1hHz2R8mU/7PNImqDSLwQyb9YokkDvkIFBQGNra8ryGJ0Mu/u0rqwqLc
+ 9NMqnwwG/iPr9oGSWsYCfiQOvZoZOLQcIx37TenROPvMxcIlNLsszFebmz/ISrP1I002
+ nNKTwl7k6+zZBC90PoaDCvyHQ5jsc8CZImfI/O+2g6UWFgnUHjMBN9edyv10srOnB0aB
+ zWVJKjFkmhJ7UTofs8uuCyw7EBlDbXtoflkBUeseFk0Qp/QkuOJsFy6S2GmeIhPT50fR
+ Imoh+XTDM1Uf1uKnWGcunaRpKbyBqhJWOUtLXAK8/mbTyTnfmhOR3Xdn1DX+1qi6udvt
+ 1+og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XpRff2jEEJjun5C2nBwnEy0mpg4KSV3BL/CHwT484IE=;
+ b=q9lETtwq8Md39b5G42ZSw/gw6iWMFVpihjz9RuCpXQm7VOX2PkJKBPJbxsurVxOAxo
+ Sh63Fu2Up2FI0/oHCmJ9Np3OZpAlbU55+Hs8Awq0BV1IiI3jpnNfTNUzHyS/O0TV3V70
+ eUCQ9RP667/WZpdeSTBKDkggLNPJnQBkhV6dOxnP0Im50NVoY7HRWu+HzNOohZRmaSOz
+ C1haKs5bsDbnrmtCk7p5VEvzIgA4jxG6KBjmkIdAiWJDyhvspKeQChRqMGISzjuy6jD1
+ f/RMwNTqjf/zzTL5sSaY0Ze9FyGmhrjz250oVQyHiK2xBJuPIoPUpLjt2SxlkxO6d4rG
+ IPtw==
+X-Gm-Message-State: APjAAAXEC6Tu4ZRsytIsFgzpoDyFLyuXWsp38dxsYm3xRBRhb5ZU7ne8
+ CeNwrAV06/ZXUYLONDPHWMk3mUIt7KkqZ8HJfN1QPg==
+X-Google-Smtp-Source: APXvYqzq1Mf0Cwsntez7S0gT5ElVn+nWXKGzokuwMctHq6cA/F3Ytm0RCygkiV1cnVmxGAYhvxowxpAmouCw/rKpz6k=
+X-Received: by 2002:aca:b48a:: with SMTP id d132mr7301167oif.98.1569591198389; 
+ Fri, 27 Sep 2019 06:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+References: <20190906083152.25716-1-zhengxiang9@huawei.com>
+ <20190906083152.25716-6-zhengxiang9@huawei.com>
+In-Reply-To: <20190906083152.25716-6-zhengxiang9@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Sep 2019 14:33:07 +0100
+Message-ID: <CAFEAcA-xc2XUq2Kwa1cK=4sAMq8B-2jUFAmxiGOQbmRCp-+UmQ@mail.gmail.com>
+Subject: Re: [PATCH v18 5/6] target-arm: kvm64: inject synchronous External
+ Abort
+To: Xiang Zheng <zhengxiang9@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,186 +73,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ James Morse <james.morse@arm.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/260     | 89 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/260.out | 52 ++++++++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 142 insertions(+)
- create mode 100755 tests/qemu-iotests/260
- create mode 100644 tests/qemu-iotests/260.out
+On Fri, 6 Sep 2019 at 09:33, Xiang Zheng <zhengxiang9@huawei.com> wrote:
+>
+> From: Dongjiu Geng <gengdongjiu@huawei.com>
+>
+> Introduce kvm_inject_arm_sea() function in which we will setup the type
+> of exception and the syndrome information in order to inject a virtual
+> synchronous external abort. When switching to guest, it will jump to the
+> synchronous external abort vector table entry.
+>
+> The ESR_ELx.DFSC is set to synchronous external abort(0x10), and
+> ESR_ELx.FnV is set to not valid(0x1), which will tell guest that FAR is
+> not valid and hold an UNKNOWN value. These values will be set to KVM
+> register structures through KVM_SET_ONE_REG IOCTL.
+>
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
 
-diff --git a/tests/qemu-iotests/260 b/tests/qemu-iotests/260
-new file mode 100755
-index 0000000000..4f6082c9d2
---- /dev/null
-+++ b/tests/qemu-iotests/260
-@@ -0,0 +1,89 @@
-+#!/usr/bin/env python
-+#
-+# Tests for temporary external snapshot when we have bitmaps.
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+from iotests import qemu_img_create, file_path, log, filter_qmp_event
-+
-+iotests.verify_image_format(supported_fmts=['qcow2'])
-+
-+base, top = file_path('base', 'top')
-+size = 64 * 1024 * 3
-+
-+
-+def print_bitmap(msg, vm):
-+    result = vm.qmp('query-block')['return'][0]
-+    if 'dirty-bitmaps' in result:
-+        bitmap = result['dirty-bitmaps'][0]
-+        log('{}: name={} dirty-clusters={}'.format(msg, bitmap['name'],
-+            bitmap['count'] // 64 // 1024))
-+    else:
-+        log(msg + ': not found')
-+
-+
-+def test(persistent, restart):
-+    assert persistent or not restart
-+    log("\nTestcase {}persistent {} restart\n".format(
-+            '' if persistent else 'non-', 'with' if restart else 'without'))
-+
-+    qemu_img_create('-f', iotests.imgfmt, base, str(size))
-+
-+    vm = iotests.VM().add_drive(base)
-+    vm.launch()
-+
-+    vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap0',
-+               persistent=persistent)
-+    vm.hmp_qemu_io('drive0', 'write 0 64K')
-+    print_bitmap('initial bitmap', vm)
-+
-+    vm.qmp_log('blockdev-snapshot-sync', device='drive0', snapshot_file=top,
-+               format=iotests.imgfmt, filters=[iotests.filter_qmp_testfiles])
-+    vm.hmp_qemu_io('drive0', 'write 64K 512')
-+    print_bitmap('check that no bitmaps are in snapshot', vm)
-+
-+    if restart:
-+        log("... Restart ...")
-+        vm.shutdown()
-+        vm = iotests.VM().add_drive(top)
-+        vm.launch()
-+
-+    vm.qmp_log('block-commit', device='drive0', top=top,
-+               filters=[iotests.filter_qmp_testfiles])
-+    ev = vm.events_wait((('BLOCK_JOB_READY', None),
-+                         ('BLOCK_JOB_COMPLETED', None)))
-+    log(filter_qmp_event(ev))
-+    if (ev['event'] == 'BLOCK_JOB_COMPLETED'):
-+        vm.shutdown()
-+        log(vm.get_log())
-+        exit()
-+
-+    vm.qmp_log('block-job-complete', device='drive0')
-+    ev = vm.event_wait('BLOCK_JOB_COMPLETED')
-+    log(filter_qmp_event(ev))
-+    print_bitmap('check bitmap after commit', vm)
-+
-+    vm.hmp_qemu_io('drive0', 'write 128K 64K')
-+    print_bitmap('check updated bitmap', vm)
-+
-+    vm.shutdown()
-+
-+
-+test(persistent=False, restart=False)
-+test(persistent=True, restart=False)
-+test(persistent=True, restart=True)
-diff --git a/tests/qemu-iotests/260.out b/tests/qemu-iotests/260.out
-new file mode 100644
-index 0000000000..2f0d98d036
---- /dev/null
-+++ b/tests/qemu-iotests/260.out
-@@ -0,0 +1,52 @@
-+
-+Testcase non-persistent without restart
-+
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0", "persistent": false}}
-+{"return": {}}
-+initial bitmap: name=bitmap0 dirty-clusters=1
-+{"execute": "blockdev-snapshot-sync", "arguments": {"device": "drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+check that no bitmaps are in snapshot: not found
-+{"execute": "block-commit", "arguments": {"device": "drive0", "top": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+check bitmap after commit: name=bitmap0 dirty-clusters=2
-+check updated bitmap: name=bitmap0 dirty-clusters=3
-+
-+Testcase persistent without restart
-+
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0", "persistent": true}}
-+{"return": {}}
-+initial bitmap: name=bitmap0 dirty-clusters=1
-+{"execute": "blockdev-snapshot-sync", "arguments": {"device": "drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+check that no bitmaps are in snapshot: not found
-+{"execute": "block-commit", "arguments": {"device": "drive0", "top": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+check bitmap after commit: name=bitmap0 dirty-clusters=2
-+check updated bitmap: name=bitmap0 dirty-clusters=3
-+
-+Testcase persistent with restart
-+
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0", "persistent": true}}
-+{"return": {}}
-+initial bitmap: name=bitmap0 dirty-clusters=1
-+{"execute": "blockdev-snapshot-sync", "arguments": {"device": "drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+check that no bitmaps are in snapshot: not found
-+... Restart ...
-+{"execute": "block-commit", "arguments": {"device": "drive0", "top": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+check bitmap after commit: name=bitmap0 dirty-clusters=2
-+check updated bitmap: name=bitmap0 dirty-clusters=3
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 5d3da937e4..5ed068220e 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -273,6 +273,7 @@
- 256 rw quick
- 257 rw
- 258 rw quick
-+260 rw auto quick
- 262 rw quick migration
- 263 rw quick
- 265 rw auto quick
--- 
-2.21.0
+> +/* Inject synchronous external abort */
+> +static void kvm_inject_arm_sea(CPUState *c)
 
+This will cause a compilation failure at this point in
+the patch series, because the compiler will complain about
+a static function which is defined but never used.
+To avoid breaking bisection, we need to put the definition
+of the function in the same patch where it's used.
+
+> +{
+> +    ARMCPU *cpu = ARM_CPU(c);
+> +    CPUARMState *env = &cpu->env;
+> +    CPUClass *cc = CPU_GET_CLASS(c);
+> +    uint32_t esr;
+> +    bool same_el;
+> +
+> +    /**
+> +     * Set the exception type to synchronous data abort
+> +     * and the target exception Level to EL1.
+> +     */
+
+This comment doesn't really tell us anything that's not obvious
+from the two lines of code that it's commenting on:
+
+> +    c->exception_index = EXCP_DATA_ABORT;
+> +    env->exception.target_el = 1;
+> +
+> +    /*
+> +     * Set the DFSC to synchronous external abort and set FnV to not valid,
+> +     * this will tell guest the FAR_ELx is UNKNOWN for this abort.
+> +     */
+> +
+> +    /* This exception comes from lower or current exception level. */
+
+This comment too is stating the obvious I think.
+
+> +    same_el = arm_current_el(env) == env->exception.target_el;
+> +    esr = syn_data_abort_no_iss(same_el, 1, 0, 0, 0, 0, 0x10);
+> +
+> +    env->exception.syndrome = esr;
+> +
+> +    /**
+
+There's a stray second '*' in this comment-start.
+
+
+> +     * The vcpu thread already hold BQL, so no need hold again when
+> +     * calling do_interrupt
+
+I think this requirement would be better placed as a
+comment at the top of the function noting that callers
+must hold the iothread lock.
+
+> +     */
+> +    cc->do_interrupt(c);
+> +}
+> +
+>  #define AARCH64_CORE_REG(x)   (KVM_REG_ARM64 | KVM_REG_SIZE_U64 | \
+>                   KVM_REG_ARM_CORE | KVM_REG_ARM_CORE_REG(x))
+>
+> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+> index 5feb312941..499672ebbc 100644
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -33,7 +33,7 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
+>       * ISV field.
+>       */
+>      if (!(template_syn & ARM_EL_ISV) || target_el != 2 || s1ptw) {
+> -        syn = syn_data_abort_no_iss(same_el,
+> +        syn = syn_data_abort_no_iss(same_el, 0,
+>                                      ea, 0, s1ptw, is_write, fsc);
+>      } else {
+>          /*
+> --
+> 2.19.1
+
+thanks
+-- PMM
 
